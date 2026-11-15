@@ -17,7 +17,7 @@ UnkFunc *gWhPrintFunction;
 
 void InitWhWork(WhWork *work) {
     gWhWork = work;
-    work->mState = 0;
+    work->mState = WH_STATE_STOP;
     gWhWork->mUnk_13a8 = 0;
     gWhWork->mWepKeyCallback = NULL;
     gWhWork->mUnk_13b0 = 0;
@@ -34,7 +34,7 @@ void SetWhState(u32 newState) {
 }
 
 void SetWhErrorCode(s32 errorCode) {
-    if ((u32) (gWhWork->mState - 9) > 1) {
+    if ((u32) (gWhWork->mState - WH_STATE_ERROR) > WH_STATE_FAILED - WH_STATE_ERROR) {
         gWhWork->mUnk_54 = errorCode;
     }
 }
@@ -42,11 +42,11 @@ void SetWhErrorCode(s32 errorCode) {
 BOOL SetWhParentParameter(void) {
     s32 result;
 
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_SetParentParameter(SetWhParentParameterCallback, (ParentParameter *) gWhWork);
     if (result != 2) {
         SetWhErrorCode(result);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return FALSE;
     }
     return TRUE;
@@ -55,15 +55,15 @@ BOOL SetWhParentParameter(void) {
 void SetWhParentParameterCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return;
     }
     if (gWhWork->mWepKeyCallback != NULL) {
         if (SetWhWepKey() == FALSE) {
-            SetWhState(9);
+            SetWhState(WH_STATE_ERROR);
         }
     } else if (StartWhParent() == FALSE) {
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
     }
 }
 
@@ -71,12 +71,12 @@ BOOL SetWhWepKey(void) {
     u32 wepMode;
     s32 result;
 
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     wepMode = gWhWork->mWepKeyCallback(gWhWork->mWepKey, gWhWork);
     result = WM_SetWEPKey(SetWhWepKeyCallback, wepMode, gWhWork->mWepKey);
     if (result != 2) {
         SetWhErrorCode(result);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return FALSE;
     }
     return TRUE;
@@ -85,10 +85,10 @@ BOOL SetWhWepKey(void) {
 void SetWhWepKeyCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
     } else {
         if (StartWhParent() == FALSE) {
-            SetWhState(9);
+            SetWhState(WH_STATE_ERROR);
         }
     }
 }
@@ -96,7 +96,7 @@ void SetWhWepKeyCallback(WirelessMessage *event) {
 BOOL StartWhParent(void) {
     s32 result;
 
-    if ((u32) (gWhWork->mState - 4) <= 2) {
+    if ((u32) (gWhWork->mState - WH_STATE_CONNECTED) <= WH_STATE_KEY_SHARING - WH_STATE_CONNECTED) {
         return TRUE;
     }
     result = WM_StartParent(StartWhParentCallback);
@@ -116,11 +116,11 @@ void StartWhParentCallback(WirelessMessage *event) {
     aidBit = 1 << event->mLength;
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return;
     }
     switch (event->mReplyState) {
-        case 7:
+        case WIRELESS_STATE_LINKED:
             if (gWhPrintFunction != NULL) {
                 gWhPrintFunction(0x08000000, "StartParent - new child (aid %x) connected\n", event->mLength);
             }
@@ -130,23 +130,23 @@ void StartWhParentCallback(WirelessMessage *event) {
                     return;
                 }
                 SetWhErrorCode(result);
-                SetWhState(9);
+                SetWhState(WH_STATE_ERROR);
                 return;
             }
             gWhWork->mConnectedMask = gWhWork->mConnectedMask | aidBit;
             return;
-        case 9:
+        case WIRELESS_STATE_UNLINKED:
             if (gWhPrintFunction != NULL) {
                 gWhPrintFunction(0x08000000, "StartParent - child (aid %x) disconnected\n", event->mLength);
             }
             gWhWork->mConnectedMask = gWhWork->mConnectedMask & ~aidBit;
             return;
-        case 0:
+        case WIRELESS_STATE_SESSION_START:
             if (StartWhMP() == FALSE) {
-                SetWhState(9);
+                SetWhState(WH_STATE_ERROR);
             }
             return;
-        case 2:
+        case WIRELESS_STATE_FORWARD_UNLESS_RESETTING:
             return;
         default:
             if (gWhPrintFunction != NULL) {
@@ -159,10 +159,10 @@ void StartWhParentCallback(WirelessMessage *event) {
 BOOL StartWhMP(void) {
     s32 result;
 
-    if ((u32) (gWhWork->mState - 4) <= 2) {
+    if ((u32) (gWhWork->mState - WH_STATE_CONNECTED) <= WH_STATE_KEY_SHARING - WH_STATE_CONNECTED) {
         return TRUE;
     }
-    SetWhState(4);
+    SetWhState(WH_STATE_CONNECTED);
     result = WM_StartMPEx(StartWhMPCallback, gWhWork->mReceiveBuffer, gWhWork->mReceiveBufferSize, gWhWork->mSendBuffer,
                           gWhWork->mSendBufferSize, 1, 0, 0, 0, 0, 0);
     if (result != 2) {
@@ -177,41 +177,41 @@ void StartWhMPCallback(WirelessMessage *event) {
 
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return;
     }
     switch (event->mState) {
-        case 0xa:
+        case WIRELESS_STATE_EXCHANGE_BEGUN:
             if (gWhWork->mConnectMode == WIRELESS_CONNECT_MODE_KEY_SHARING) {
-                if (gWhWork->mState == 4) {
+                if (gWhWork->mState == WH_STATE_CONNECTED) {
                     if (StartWhKeySharing() != FALSE) {
                         return;
                     }
                     if (gWhPrintFunction != NULL) {
                         gWhPrintFunction(0x08000000, gWhStartKeySharingFailedText);
                     }
-                    SetWhState(9);
+                    SetWhState(WH_STATE_ERROR);
                     return;
                 }
-                if (gWhWork->mState == 6) {
+                if (gWhWork->mState == WH_STATE_KEY_SHARING) {
                     return;
                 }
             } else if (gWhWork->mConnectMode == WIRELESS_CONNECT_MODE_DATA_SHARING) {
                 result = WM_StartDataSharing(&gWhWork->mDataSharingInfo, 0xd, 7, 0x44, 1);
                 if (result != 0) {
                     SetWhErrorCode(result);
-                    SetWhState(9);
+                    SetWhState(WH_STATE_ERROR);
                     return;
                 }
-                SetWhState(5);
+                SetWhState(WH_STATE_DATA_SHARING);
                 return;
             }
-            SetWhState(4);
+            SetWhState(WH_STATE_CONNECTED);
             return;
-        case 0xb:
+        case WIRELESS_STATE_EXCHANGE_PASS_RECV_BUFFER:
             break;
-        case 0xc:
-        case 0xd:
+        case WIRELESS_STATE_EXCHANGE_IGNORED_FIRST:
+        case WIRELESS_STATE_EXCHANGE_IGNORED_SECOND:
         default:
             if (gWhPrintFunction != NULL) {
                 gWhPrintFunction(0x08000000, gWhIndicateStateFormat, event->mState);
@@ -223,7 +223,7 @@ void StartWhMPCallback(WirelessMessage *event) {
 BOOL StartWhKeySharing(void) {
     s32 result;
 
-    SetWhState(6);
+    SetWhState(WH_STATE_KEY_SHARING);
     result = WM_StartKeySharing(&gWhWork->mKeySharingBuf, 0xd);
     if (result != 2) {
         SetWhErrorCode(result);
@@ -243,7 +243,7 @@ BOOL EndWhKeySharing(void) {
 
 BOOL EndWhMP(void) {
     s32 result;
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_EndMP(EndWhMPCallback);
     if (result != 2) {
         SetWhErrorCode(result);
@@ -277,17 +277,17 @@ void EndWhParentCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
     } else {
-        SetWhState(1);
+        SetWhState(WH_STATE_IDLE);
     }
 }
 
 BOOL EndActiveWhKeySharing(void) {
     s32 result;
 
-    if (gWhWork->mState != 6) {
+    if (gWhWork->mState != WH_STATE_KEY_SHARING) {
         return FALSE;
     }
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_EndKeySharing(&gWhWork->mKeySharingBuf);
     if (result != 2) {
         SetWhErrorCode(result);
@@ -298,7 +298,7 @@ BOOL EndActiveWhKeySharing(void) {
 
 BOOL EndWhMPBeforeDisconnect(void) {
     s32 result;
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_EndMP(EndWhMPBeforeDisconnectCallback);
     if (result != 2) {
         SetWhErrorCode(result);
@@ -313,7 +313,7 @@ void EndWhMPBeforeDisconnectCallback(WirelessMessage *event) {
         FinalizeWh();
     } else {
         if (DisconnectWh() == FALSE) {
-            SetWhState(9);
+            SetWhState(WH_STATE_ERROR);
         }
     }
 }
@@ -321,7 +321,7 @@ void EndWhMPBeforeDisconnectCallback(WirelessMessage *event) {
 BOOL DisconnectWh(void) {
     s32 result;
 
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_Disconnect(DisconnectWhCallback, 0);
     if (result != 2) {
         SetWhErrorCode(result);
@@ -335,13 +335,13 @@ void DisconnectWhCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
     } else {
-        SetWhState(1);
+        SetWhState(WH_STATE_IDLE);
     }
 }
 
 BOOL StartWhReset(void) {
     s32 result;
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_Reset(StartWhResetCallback);
     if (result != 2) {
         SetWhErrorCode(result);
@@ -352,19 +352,19 @@ BOOL StartWhReset(void) {
 
 void StartWhResetCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         SetWhErrorCode(event->mResultCode);
     } else {
-        SetWhState(1);
+        SetWhState(WH_STATE_IDLE);
     }
 }
 
 void EndWhCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
-        SetWhState(10);
+        SetWhState(WH_STATE_FAILED);
         return;
     }
-    SetWhState(0);
+    SetWhState(WH_STATE_STOP);
 }
 
 void SetWhGgid(u32 ggid) {
