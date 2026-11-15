@@ -42,7 +42,7 @@ void InitCrab(Crab *crab) {
     InitGroupFollower(&crab->mFollower, crab->mMapObject.mCourseMapRow, 0);
 }
 
-static inline u32 CrabNextRandomBelow(RandomState64 *random, u32 limit) {
+static inline u16 CrabNextRandomBelow(RandomState64 *random, u32 limit) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     if (limit == 0) {
         return random->mValue >> 32;
@@ -77,13 +77,13 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(sideDirection.z, 0x1800);
     } else {
         mapObjectRandom = GetMapObjectRandom();
-        valueZ = (u16) CrabNextRandomBelow(mapObjectRandom, 0x10000);
+        valueZ = CrabNextRandomBelow(mapObjectRandom, 0x10000);
         valueX = FX_CosIdx((u16) valueZ);
         valueX = MUL_FIXED12_NO_ROUND(valueX, 0x1800);
         crab->mMapObject.mPosStep.x = valueX;
         crab->mMapObject.mPosStep.z = valueX;
         mapObjectRandom = GetMapObjectRandom();
-        if ((u16) CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
+        if (CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = 0x71c;
         } else {
             crab->mRotateZAnglePerFrame = 0xf8e4;
