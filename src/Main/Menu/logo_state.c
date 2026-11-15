@@ -13,15 +13,23 @@
 #pragma section MAIN_TEXT begin
 
 StateCallbacks gLogoStateTable[12] = {
-    {EnterLogoState0, UpdateLogoState0}, {EnterLogoState1Nop, UpdateLogoState1}, {EnterLogoState2, UpdateLogoState2},
-    {EnterLogoState3, UpdateLogoState3}, {EnterLogoState4, UpdateLogoState4},    {EnterLogoState5, UpdateLogoState5},
-    {EnterLogoState6, UpdateLogoState6}, {EnterLogoState7, UpdateLogoState7},    {EnterLogoState8Nop, UpdateLogoState8},
-    {EnterLogoState9, UpdateLogoState9}, {EnterLogoState10, UpdateLogoState10},  {NULL, NULL},
+    {EnterLogoReadBackup, UpdateLogoReadBackup},
+    {EnterLogoWaitBackupReadNop, UpdateLogoWaitBackupRead},
+    {EnterLogoResetNotice, UpdateLogoResetNotice},
+    {EnterLogoResetFailedBlocks, UpdateLogoResetFailedBlocks},
+    {EnterLogoResetFailedBlocksDone, UpdateLogoResetFailedBlocksDone},
+    {EnterLogoAskResetBackup, UpdateLogoAskResetBackup},
+    {EnterLogoResetBackup, UpdateLogoResetBackup},
+    {EnterLogoResetBackupDone, UpdateLogoResetBackupDone},
+    {EnterLogoCheckDwcInitNop, UpdateLogoCheckDwcInit},
+    {EnterLogoDwcNoticeFirst, UpdateLogoDwcNoticeFirst},
+    {EnterLogoDwcNoticeSecond, UpdateLogoDwcNoticeSecond},
+    {NULL, NULL},
 };
 
 #pragma section MAIN_TEXT end
 
-void UpdateLogoState8(void *stateObject) {
+void UpdateLogoCheckDwcInit(void *stateObject) {
     StateMachine *stateMachine;
     if (gDwcInitResult == 3) {
         stateMachine = &gLogoScene->mStateMachine;
@@ -34,13 +42,13 @@ void UpdateLogoState8(void *stateObject) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState9(void *stateObject) {
+void EnterLogoDwcNoticeFirst(void *stateObject) {
     void *message;
     message = GetBmgEntry(gLogoScene->mCommonMessages, 137);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 6));
 }
 
-void UpdateLogoState9(void *stateObject) {
+void UpdateLogoDwcNoticeFirst(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -54,13 +62,13 @@ void UpdateLogoState9(void *stateObject) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState10(void *stateObject) {
+void EnterLogoDwcNoticeSecond(void *stateObject) {
     void *message;
     message = GetBmgEntry(gLogoScene->mCommonMessages, 138);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
 }
 
-void UpdateLogoState10(void *stateObject) {
+void UpdateLogoDwcNoticeSecond(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();

@@ -23,12 +23,12 @@ typedef struct LogoScene {
     /* 2c */ union {
         s32 mUnk_2c;
         struct {
-// Set to 1 when A, B, X, Y, L and R are held together in state 0, and stays set.
+// Set to 1 when A, B, X, Y, L and R are held together in ReadBackup, and stays set.
             s32 mResetBackupRequested : 1;
             u32 mUnk_2c_1 : 1;
         };
     };
-    /* 30 */ s32 mState0Frames;
+    /* 30 */ s32 mReadBackupFrames;
     /* 34 */ s32 mSubTextFrames;
     /* 38 */ Bmg *mCommonMessages;
 } LogoScene;

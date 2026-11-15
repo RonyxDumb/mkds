@@ -18,18 +18,18 @@ typedef enum LogoState {
     LOGO_STATE_END = 11, // the scene asks for the next scene
 } LogoState;
 
-extern const char gLogoState5CommonBmgFileName[];
+extern const char gLogoCommonBmgFileName[];
 
-void UpdateLogoState7(void *stateObject);
-void EnterLogoState7(void *stateObject);
-void UpdateLogoState6(void *stateObject);
-void EnterLogoState6(void *stateObject);
-void UpdateLogoState5(void *stateObject);
-void EnterLogoState5(void *stateObject);
-void UpdateLogoState4(void *stateObject);
-void EnterLogoState4(void *stateObject);
-void UpdateLogoState3(void *stateObject);
-void EnterLogoState3(void *stateObject);
-void UpdateLogoState2(void *stateObject);
-void EnterLogoState2(void *stateObject);
-void UpdateLogoState1(void *stateObject);
+void UpdateLogoResetBackupDone(void *stateObject);
+void EnterLogoResetBackupDone(void *stateObject);
+void UpdateLogoResetBackup(void *stateObject);
+void EnterLogoResetBackup(void *stateObject);
+void UpdateLogoAskResetBackup(void *stateObject);
+void EnterLogoAskResetBackup(void *stateObject);
+void UpdateLogoResetFailedBlocksDone(void *stateObject);
+void EnterLogoResetFailedBlocksDone(void *stateObject);
+void UpdateLogoResetFailedBlocks(void *stateObject);
+void EnterLogoResetFailedBlocks(void *stateObject);
+void UpdateLogoResetNotice(void *stateObject);
+void EnterLogoResetNotice(void *stateObject);
+void UpdateLogoWaitBackupRead(void *stateObject);

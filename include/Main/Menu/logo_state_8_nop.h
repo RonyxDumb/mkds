@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void EnterLogoState8Nop(void *stateObject);
+void EnterLogoCheckDwcInitNop(void *stateObject);

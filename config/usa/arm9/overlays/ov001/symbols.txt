@@ -1339,7 +1339,7 @@ gEmblemTemplateCursorVerticalMoves kind:data(byte[348]) addr:0x021a738c
 gEmblemTemplateCursorHorizontalMoves kind:data(byte[348]) addr:0x021a74e8
 gMissionRunBossIconCellIndices kind:data(byte[14]) addr:0x021a7644
 gMissionRunBossIconPaletteIndices kind:data(byte[14]) addr:0x021a7654
-gLogoState5CommonBmgFileName kind:data(byte[11]) addr:0x021a7680 ambiguous
+gLogoCommonBmgFileName kind:data(byte[11]) addr:0x021a7680 ambiguous
 gLogoMainBgPaletteFileName kind:data(byte[25]) addr:0x021a768c ambiguous
 gLogoMainBgCharsFileName kind:data(byte[25]) addr:0x021a76a8 ambiguous
 gLogoMainBgScreenMapFileName kind:data(byte[23]) addr:0x021a76c4 ambiguous

@@ -69,7 +69,7 @@ void InitLogoScene(void *heap) {
                           gLogoSubBgScreenMapFileName);
     InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
     gLogoScene->mResetBackupRequested = 0;
-    gLogoScene->mState0Frames = 0;
+    gLogoScene->mReadBackupFrames = 0;
     gLogoScene->mCommonMessages = FindFileInLoadedArchives(gLogoSceneCommonBmgFileName);
     arg.mUseTxtSystem = TRUE;
     arg.mTxtSystemFont = GetFontByIndex(1);
@@ -111,7 +111,7 @@ void WriteLogoSceneRegisters(void) {
     s32 frames;
     brightness = 0;
     WriteSceneTextRegisters();
-    frames = gLogoScene->mState0Frames;
+    frames = gLogoScene->mReadBackupFrames;
     if (frames > 90) {
         brightness = (-(frames - 90) * 16) / 30;
     }
@@ -127,16 +127,16 @@ void UpdateLogoScene(SceneNumbers *sceneNumbers) {
     AdvanceSceneText();
 }
 
-void EnterLogoState0(void *stateObject) {
+void EnterLogoReadBackup(void *stateObject) {
     StartReadBackupFirstBlockAndRecords();
     gLogoScene->mUnk_2c_1 = 0;
 }
 
-void UpdateLogoState0(void *stateObject) {
+void UpdateLogoReadBackup(void *stateObject) {
     s32 slotIndex;
     StateMachine *stateMachine;
-    gLogoScene->mState0Frames = gLogoScene->mState0Frames + 1;
-    if (gLogoScene->mState0Frames > 120) {
+    gLogoScene->mReadBackupFrames = gLogoScene->mReadBackupFrames + 1;
+    if (gLogoScene->mReadBackupFrames > 120) {
         stateMachine = &gLogoScene->mStateMachine;
         stateMachine->mNextState = LOGO_STATE_WAIT_BACKUP_READ;
         stateMachine->mNextStateRequested = 1;
