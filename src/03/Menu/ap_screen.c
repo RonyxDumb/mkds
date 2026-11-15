@@ -156,7 +156,7 @@ void UpdateApInput(void) {
     do {
         touchPressed = IsTouchPressedInRect((const Rect *) rect);
         if (touchPressed != 0) {
-            SetButtonResultIfNone((u8) 1);
+            SetButtonResultIfNone(1);
             gApSelectedIndex = (s8) rectIndex;
             PlaceApSelection();
             return;
@@ -166,12 +166,12 @@ void UpdateApInput(void) {
     } while (rectIndex < 7);
     keysPressed = AreKeysPressed(1);
     if (keysPressed != 0) {
-        SetButtonResultIfNone((u8) 1);
+        SetButtonResultIfNone(1);
         return;
     }
     keysPressed = AreKeysPressed(2);
     if (keysPressed != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
         return;
     }
     keysPressed = AreKeysPressedOrRepeated(0x40);

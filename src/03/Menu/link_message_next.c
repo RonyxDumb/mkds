@@ -19,7 +19,7 @@ void UpdateLinkMessageNextInput(void) {
     int allKeysPressed;
     allKeysPressed = AreKeysPressed(1);
     if (allKeysPressed != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 

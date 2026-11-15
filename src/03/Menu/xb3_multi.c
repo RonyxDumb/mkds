@@ -125,11 +125,11 @@ void UpdateXb3MultiInput(void) {
     int keysPressed;
     keysPressed = AreKeysPressed(1);
     if (keysPressed != 0) {
-        SetButtonResultIfNone((u8) 1);
+        SetButtonResultIfNone(1);
     }
     keysPressed = AreKeysPressed(2);
     if (keysPressed != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 

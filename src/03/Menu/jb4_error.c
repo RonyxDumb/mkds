@@ -220,7 +220,7 @@ void UpdateJb4ErrorInput(void) {
     int keysPressed;
     keysPressed = AreKeysPressed(1);
     if (keysPressed != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 

@@ -120,11 +120,11 @@ void UpdateYb5MultiInput(void) {
     int allKeysPressed;
     allKeysPressed = AreKeysPressed(1);
     if (allKeysPressed != 0) {
-        SetButtonResultIfNone((u8) 1);
+        SetButtonResultIfNone(1);
     }
     allKeysPressed = AreKeysPressed(2);
     if (allKeysPressed != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 

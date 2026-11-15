@@ -20,7 +20,7 @@ void UpdateJb5InfoInput(void) {
     int allKeysPressed;
     allKeysPressed = AreKeysPressed(2);
     if (allKeysPressed != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 

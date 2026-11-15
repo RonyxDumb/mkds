@@ -176,7 +176,7 @@ void UpdateApScanInput(void) {
     keysPressed = AreKeysPressed(2);
     if (keysPressed != 0) {
         StopSoundSeq();
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 

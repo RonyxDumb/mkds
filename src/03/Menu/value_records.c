@@ -130,12 +130,12 @@ void UpdateValueRecordsInput(void) {
     int checkResult;
     checkResult = AreKeysDown(2);
     if (checkResult != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
         return;
     }
     checkResult = ValueRecordsPAD_DetectFold();
     if (checkResult != 0) {
-        SetButtonResultIfNone((u8) 0);
+        SetButtonResultIfNone(0);
     }
 }
 
