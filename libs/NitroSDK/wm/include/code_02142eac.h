@@ -177,7 +177,7 @@ typedef struct WMArm9Buf {
     /* 004 */ struct WMStatus *mStatusArea;
     /* 008 */ u32 mIndBuf;
     // Command request area; the command functions fill it in and WMi_SendCommand copies it for a command with no words.
-    /* 00c */ u16 *mRequestArea;
+    /* 00c */ void *mRequestArea;
     // Message area for replies; WmReceiveFifo does not mark it free after handling.
     /* 010 */ WirelessMessage *mMessageArea;
     /* 014 */ u16 mDmaNo;

@@ -447,7 +447,7 @@ s32 WM_StartScan(WirelessMessageCallback callback, ScanParam *param) {
         return 6;
     }
     WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_SEARCH, callback);
-    request = (StartScanRequest *) WMi_GetSystemWork()->mRequestArea;
+    request = WMi_GetSystemWork()->mRequestArea;
     request->mApiid = WIRELESS_REQUEST_BEGIN_SEARCH;
     request->mChannel = param->mChannel;
     request->mScanBuf = param->mScanBuf;
@@ -498,7 +498,7 @@ s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param) {
         }
     }
     WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS, callback);
-    request = (StartScanExRequest *) WMi_GetSystemWork()->mRequestArea;
+    request = WMi_GetSystemWork()->mRequestArea;
     request->mApiid = WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS;
     request->mChannelList = param->mChannelList;
     request->mScanBuf = param->mScanBuf;
@@ -546,7 +546,7 @@ s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, 
     }
     DC_StoreRange(pInfo, pInfo[0] * 2);
     WMi_SetCallbackTable(WIRELESS_REQUEST_ENTER_HOST, callback);
-    request = (StartConnectExRequest *) WMi_GetSystemWork()->mRequestArea;
+    request = WMi_GetSystemWork()->mRequestArea;
     request->mApiid = WIRELESS_REQUEST_ENTER_HOST;
     request->mPInfo = pInfo;
     if (ssid != 0) {
