@@ -281,6 +281,9 @@ typedef struct SharingSendRecord {
     /* 07 */ u8 mUnk_07;
 } SharingSendRecord;
 
+// ChildEntry.mAid of a child that is not connected.
+#define CHILD_ENTRY_NO_AID 0xffff
+
 // 8-byte entries from 0x44 of ConnectionWork.
 typedef struct ChildEntry {
     /* 00 */ u8 mBytes[6];

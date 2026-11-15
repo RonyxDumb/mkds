@@ -467,7 +467,7 @@ void ResetConnectionData(void) {
     s32 targetByteIndex;
 
     for (childIndex = 0; childIndex < 7; childIndex++) {
-        gConnectionWork->mChildren.mEntries[childIndex].mAid = 0xffff;
+        gConnectionWork->mChildren.mEntries[childIndex].mAid = CHILD_ENTRY_NO_AID;
         bytes = gConnectionWork->mChildren.mEntries[childIndex].mBytes;
         for (innerIndex = 0; innerIndex < 6; innerIndex++) {
             bytes[innerIndex] = 0;

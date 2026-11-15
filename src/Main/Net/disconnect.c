@@ -137,7 +137,7 @@ void Disconnect(void) {
         case CONNECTION_MODE_PARENT:
             for (childIndex = 0, child = children->mEntries; childIndex < children->mChildCount;
                  childIndex++, child++) {
-                if (child->mAid != 0xffff) {
+                if (child->mAid != CHILD_ENTRY_NO_AID) {
                     gConnectionWork->mChildren.mDisconnectingIndex = childIndex;
                     gConnectionWork->mStep = CONNECTION_STEP_LEAVING;
                     gConnectionWork->mRequestPending = 1;
@@ -380,10 +380,10 @@ void RemoveChild(u32 aid) {
     ChildList *children;
 
     children = &gConnectionWork->mChildren;
-    if (children->mEntries[aid - 1].mAid == 0xffff) {
+    if (children->mEntries[aid - 1].mAid == CHILD_ENTRY_NO_AID) {
         return;
     }
-    children->mEntries[aid - 1].mAid = 0xffff;
+    children->mEntries[aid - 1].mAid = CHILD_ENTRY_NO_AID;
     children->mChildCount -= 1;
     RemoveChildrenInMask(1 << aid);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
