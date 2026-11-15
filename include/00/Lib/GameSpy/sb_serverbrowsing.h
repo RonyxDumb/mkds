@@ -27,7 +27,7 @@ struct MatchingServerList;
 
 unsigned int ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, unsigned int async,
                                        unsigned int disconnectOnComplete, u8 *basicFields, unsigned int numBasicFields,
-                                       unsigned int serverFilter, unsigned int maxServers);
+                                       const char *serverFilter, unsigned int maxServers);
 
 u32 ServerBrowserGetMyPublicIPAddr(MatchingServerList *matchingServerList);
 void ServerBrowserSortA(MatchingServerList *matchingServerList, unsigned int ascending, const char *sortField,
@@ -40,14 +40,14 @@ s32 ServerBrowserThink(struct MatchingServerList *matchingServerList);
 void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, SbServer *server);
 s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port,
                                                  u32 cookie);
-s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port, u8 *data,
+s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port, void *data,
                                       s32 dataLength);
 s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async, u32 disconnectOnComplete,
                               u8 *basicFields, s32 numBasicFields, const char *serverFilter, u32 updateOptions,
                               u32 maxServers);
 void ServerBrowserFree(MatchingServerList *matchingServerList);
-MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName,
-                                      const char *queryFromKey, u32 queryFromVersion, u32 maxUpdates, u32 queryVersion,
-                                      s32 lanBrowse, UnkFunc *callback, u32 instance);
+MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName, const char *queryFromKey,
+                                      u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
+                                      UnkFunc *callback, u32 instance);
 void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList);
 void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList);

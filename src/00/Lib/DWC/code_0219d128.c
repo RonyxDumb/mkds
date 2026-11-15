@@ -30,7 +30,7 @@ WiFiBuddySync *gWiFiBuddySync = NULL;
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.
-void DWC_SetBuddyFriendCallback(void *callback, void *param) {
+void DWC_SetBuddyFriendCallback(UnkFunc *callback, void *param) {
     if (gWiFiBuddySync != NULL) {
         gWiFiBuddySync->mBuddyChangedCallback = callback;
         gWiFiBuddySync->mBuddyChangedCallbackArg = param;
@@ -165,11 +165,11 @@ void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg) {
     }
 }
 
-u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param) {
+u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
     int compareResult;
-    compareResult = strcmp((const char *) (arg[2]), "I have authorized your request to add me to your list");
+    compareResult = strcmp(arg->mUnk_08, "I have authorized your request to add me to your list");
     if (compareResult == 0) {
-        GpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
+        GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback_RecvAuthMessage, 0);
         return 1;
     }
     return 0;
@@ -250,8 +250,7 @@ u32 DWCi_SetGPStatus(s32 status, void *statusString, void *locationString) {
 void DWCi_CallBuddyFriendCallback(s32 index) {
     GpBuddyStatus buddyStatus;
     if (gWiFiBuddySync->mBuddyChangedCallback != NULL && gWiFiBuddySync->mState != 1) {
-        ((void (*)(s32, void *)) gWiFiBuddySync->mBuddyChangedCallback)(index,
-                                                                        gWiFiBuddySync->mBuddyChangedCallbackArg);
+        gWiFiBuddySync->mBuddyChangedCallback(index, gWiFiBuddySync->mBuddyChangedCallbackArg);
     }
     if (gWiFiBuddySync->mBuddyStatusCallback != NULL) {
         WiFiBuddySync *wiFiBuddySync;

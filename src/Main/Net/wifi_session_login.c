@@ -167,7 +167,7 @@ u32 UpdateWiFiSessionLogin(void) {
                                        WiFiSessionEntryMergedCallback, NULL) == 0) {
                 gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             }
-            DWC_SetBuddyFriendCallback((void *) BuddyChangedCallback, NULL);
+            DWC_SetBuddyFriendCallback(BuddyChangedCallback, NULL);
             gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_UPDATE_BUDDIES;
             break;
         case WIFI_LOGIN_STEP_LOGIN_FAILED:

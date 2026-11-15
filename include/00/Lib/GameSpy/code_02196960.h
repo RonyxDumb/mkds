@@ -45,7 +45,7 @@ void ProcessPlayerAuth(s8 *buf, s32 len);
 s32 FindRequest(s32 reqType, s32 ownId, s32 profileId);
 const s8 *FindFinal(const s8 *buff, s32 len);
 u32 SocketReadable(u32 socket);
-void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u8 *data, s32 len, UnkFunc *callback,
+void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len, UnkFunc *callback,
                           s32 instance, s32 kvset);
 void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 instance);
 void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
@@ -64,7 +64,8 @@ extern char gStatsServerHostname[];
 
 void InternalInit(void);
 BOOL PersistThink(void);
-void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, u32 valueString, u32 callback, u32 instance);
+void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString, UnkFunc *callback,
+                           u32 instance);
 void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText, UnkFunc *callback,
                                   s32 instance);
 s8 *GetChallenge(s8 *game);

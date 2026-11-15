@@ -26,7 +26,7 @@ u32 DWCi_GetFriendListIndex(u32 profileId);
 int DWCi_GetProfileIDFromList(int index);
 s32 DWCi_GetFriendListLen(void);
 void DWCi_GPRecvBuddyStatusCallback(struct GpConnection *connection, s32 *arg);
-u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, u32 *arg, u32 param);
+u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, BuddyMessageData *arg, u32 param);
 void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg);
 void DWCi_StopFriendProcess(s32 error, s32 errorCode);
 void DWCi_FriendProcess(void);

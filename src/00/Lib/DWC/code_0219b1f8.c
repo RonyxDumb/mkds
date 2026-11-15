@@ -746,7 +746,7 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
     WiFiConnection *wiFiConnection;
 
     message = arg->mUnk_08;
-    if (DWCi_GPRecvBuddyAuthCallback(connection, (u32 *) arg, param) == 0) {
+    if (DWCi_GPRecvBuddyAuthCallback(connection, arg, param) == 0) {
         if (memcmp(message, "GPCM", strlen("GPCM")) == 0) {
             message += strlen("GPCM");
             versionLength = strchr(message, 0x76) - message;

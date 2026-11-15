@@ -271,9 +271,9 @@ static char gUnusedOrderPad35[35] = {1};
 static char gUnusedOrderPad49[49] = {1};
 static char gUnusedOrderPad8[8] = {1};
 
-void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, u32 valueString, u32 callback, u32 instance) {
-    SetPersistDataHelper(ownId, profileId, type, index, (const u8 *) valueString,
-                         strlen((const char *) valueString) + 1, (UnkFunc *) callback, instance, 1);
+void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString, UnkFunc *callback,
+                           u32 instance) {
+    SetPersistDataHelper(ownId, profileId, type, index, valueString, strlen(valueString) + 1, callback, instance, 1);
 }
 
 BOOL PersistThink(void) {
@@ -535,7 +535,7 @@ void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 
     }
 }
 
-void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u8 *data, s32 len, UnkFunc *callback,
+void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len, UnkFunc *callback,
                           s32 instance, s32 kvset) {
     char replyFormat[] = "\xC\x1\xA\x1E\x15\x7\x28\x1D\x0\x1\x1\x24\x75\x16\x33\x1A\x11\x1A\x4\x24\x2C\x4D\x1\x24\x34"
                          "\x1B\x1\xE\x0\x1B\x28\x64\x14\x34\xE\xE\xC\x57\xB\x36\x9\xA\x10\x1D\x55\xC\x39\x14\x35\x1C\x8"

@@ -1242,7 +1242,7 @@ u32 DWCi_SBUpdateAsync(u32 profileId) {
     ServerBrowserClear(gWiFiMatching->mServerList);
     for (loopIndex = 0; loopIndex < 5; loopIndex++) {
         updateResult =
-            ServerBrowserLimitUpdateA(gWiFiMatching->mServerList, 1, 0, fieldIds, fieldCount, (u32) filterText, 0x10);
+            ServerBrowserLimitUpdateA(gWiFiMatching->mServerList, 1, 0, fieldIds, fieldCount, filterText, 0x10);
         if (updateResult == 0 || updateResult != 2) {
             break;
         }
@@ -1410,7 +1410,7 @@ u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 v
     header.mProfileId = gWiFiMatching->mOwnProfileId;
     for (attempt = 0; attempt < 5; attempt++) {
         sendResult = ServerBrowserSendMessageToServerA(gWiFiMatching->mServerList, gt2AddressToString(address, 0, 0),
-                                                       port, (u8 *) &header, header.mValuesSize + 0x14);
+                                                       port, &header, header.mValuesSize + 0x14);
         if (sendResult == 0 || sendResult != 2) {
             break;
         }
@@ -3477,7 +3477,7 @@ void DWCi_QR2NatnegCallback(u32 cookie) {
 
 void DWCi_QR2ClientMsgCallback(const void *data, u32 len) {
     MatchingReceiveHeader header;
-    u8 body[0x80];
+    u32 body[0x20];
     u32 offset;
     offset = 0;
     if (len >= 0x14) {
@@ -3490,8 +3490,8 @@ void DWCi_QR2ClientMsgCallback(const void *data, u32 len) {
                 break;
             }
             MI_CpuCopy8(data + 0x14, body, header.mValuesSize);
-            if (DWCi_ProcessRecvMatchCommand(header.mCommand, header.mProfileId, header.mAddress, header.mPort,
-                                             (u32 *) body, header.mValuesSize >> 2) == 0) {
+            if (DWCi_ProcessRecvMatchCommand(header.mCommand, header.mProfileId, header.mAddress, header.mPort, body,
+                                             header.mValuesSize >> 2) == 0) {
                 break;
             }
             offset += header.mValuesSize + 0x14;

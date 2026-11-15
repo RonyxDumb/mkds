@@ -71,7 +71,7 @@ typedef struct WiFiBuddySync {
     // Set by DWC_SetBuddyFriendCallback (declared void *, called as void (*)(s32, void *)). Called by
     // DWCi_CallBuddyFriendCallback with (list index, arg) after a GP reply set an entry's profile id, unless a sync is
     // running (mState 1). The one caller passes BuddyChangedCallback.
-    /* 44 */ void *mBuddyChangedCallback;
+    /* 44 */ UnkFunc *mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
     /* 4c */ void (*mSaveCallback)(s32 a, s32 b, u32 c);
     /* 50 */ u32 mUnk_50;
@@ -80,4 +80,4 @@ typedef struct WiFiBuddySync {
 // Written by DWCi_FriendInit and cleared by DWCi_ShutdownFriend, the release half.
 extern WiFiBuddySync *gWiFiBuddySync;
 
-void DWC_SetBuddyFriendCallback(void *callback, void *param);
+void DWC_SetBuddyFriendCallback(UnkFunc *callback, void *param);

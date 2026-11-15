@@ -122,9 +122,9 @@ void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerLi
     }
 }
 
-MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName,
-                                      const char *queryFromKey, u32 queryFromVersion, u32 maxUpdates, u32 queryVersion,
-                                      s32 lanBrowse, UnkFunc *callback, u32 instance) {
+MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName, const char *queryFromKey,
+                                      u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
+                                      UnkFunc *callback, u32 instance) {
     MatchingServerList *matchingServerList;
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return NULL;
@@ -136,8 +136,8 @@ MatchingServerList *ServerBrowserNewA(const char *targetName, const char *source
     matchingServerList->mBrowserCallback = callback;
     matchingServerList->mBrowserInstance = instance;
     matchingServerList->mDontUpdate = 0;
-    SbServerListInit(&matchingServerList->mList, targetName, sourceName, queryFromKey, queryFromVersion,
-                     lanBrowse, ListCallback, matchingServerList);
+    SbServerListInit(&matchingServerList->mList, targetName, sourceName, queryFromKey, queryFromVersion, lanBrowse,
+                     ListCallback, matchingServerList);
     SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse, EngineCallback,
                       matchingServerList);
     return matchingServerList;
@@ -181,16 +181,16 @@ s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async,
 }
 
 u32 ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u32 async, u32 disconnectOnComplete,
-                              u8 *basicFields, u32 numBasicFields, u32 serverFilter, u32 maxServers) {
+                              u8 *basicFields, u32 numBasicFields, const char *serverFilter, u32 maxServers) {
     u32 fieldCount = numBasicFields;
-    u32 filter = serverFilter;
+    const char *filter = serverFilter;
     u32 limit = maxServers;
     u32 result = ServerBrowserBeginUpdate2(matchingServerList, async, disconnectOnComplete, basicFields, fieldCount,
-                                           (const char *) filter, 0x80u, limit);
+                                           filter, 0x80u, limit);
     return result;
 }
 
-s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port, u8 *data,
+s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port, void *data,
                                       s32 dataLength) {
     u32 publicIp = inet_addr(ipText);
     return SBSendMessageToServer(&matchingServerList->mList, publicIp, ((port >> 8) & 0xff) | ((port << 8) & 0xff00),

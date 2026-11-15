@@ -147,10 +147,10 @@ void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated) {
     }
     gWiFiBuddySync->mProfileId = profileId;
     OS_SNPrintf(keyValues, 0x40, "\\dwc_name\\%s", gWiFiBuddySync->mPlayerName);
-    DWCi_SetPersistDataValuesAsync(gWiFiBuddySync->mProfileId, 3, (u32) keyValues, 0x80000001);
+    DWCi_SetPersistDataValuesAsync(gWiFiBuddySync->mProfileId, 3, keyValues, 0x80000001);
 }
 
-void DWCi_SetPersistDataValuesAsync(u32 profileId, u32 type, u32 valueString, u32 param) {
+void DWCi_SetPersistDataValuesAsync(u32 profileId, u32 type, const char *valueString, u32 param) {
     DWCi_AddPersCallbackLevel();
-    SetPersistDataValuesA(0, profileId, type, 0, valueString, (u32) &BuddySyncStatsSaveCallback, param);
+    SetPersistDataValuesA(0, profileId, type, 0, valueString, BuddySyncStatsSaveCallback, param);
 }
