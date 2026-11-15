@@ -5,6 +5,12 @@
 #include "Main/Menu/data_02175000.h"
 #include "Main/MapObjects/data_0217a000.h"
 
+// DispCap.mBlendFactor: full blend, and the change per frame while it grows (the weight of the captured frame
+// rises) or falls.
+#define DISP_CAP_BLEND_FACTOR_FULL TO_FIXED12(1)
+#define DISP_CAP_BLEND_FACTOR_RISE_STEP FIXED12_RATIO(1, 10)
+#define DISP_CAP_BLEND_FACTOR_FALL_STEP 0x802
+
 enum {
     DISP_CAP_MODE_OFF,
     DISP_CAP_MODE_BANK_TOGGLE,

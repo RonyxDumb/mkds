@@ -89,7 +89,7 @@ void InitDispCap(void *heap) {
     }
     gDispCap->mFlags = 0;
     gDispCap->mBlendMin = 0;
-    gDispCap->mBlendFactor = 0x1000;
+    gDispCap->mBlendFactor = DISP_CAP_BLEND_FACTOR_FULL;
     gDispCap->mMode = DISP_CAP_MODE_OFF;
     if (gWvrState.mState == BANK_SHARE_ACTIVE) {
         gDispCap->mMode = DISP_CAP_MODE_OFF;
@@ -228,17 +228,17 @@ void AdvanceDispCapBlend(s32 prevMenuOpen) {
         if (gDispCap->mBlendFactor <= 0) {
             return;
         }
-        gDispCap->mBlendFactor -= 0x802;
+        gDispCap->mBlendFactor -= DISP_CAP_BLEND_FACTOR_FALL_STEP;
         if (gDispCap->mBlendFactor < 0) {
             gDispCap->mBlendFactor = 0;
         }
     } else {
-        if (gDispCap->mBlendFactor >= 0x1000) {
+        if (gDispCap->mBlendFactor >= DISP_CAP_BLEND_FACTOR_FULL) {
             return;
         }
-        gDispCap->mBlendFactor = gDispCap->mBlendFactor + 0x19a;
-        if (gDispCap->mBlendFactor > 0x1000) {
-            gDispCap->mBlendFactor = 0x1000;
+        gDispCap->mBlendFactor = gDispCap->mBlendFactor + DISP_CAP_BLEND_FACTOR_RISE_STEP;
+        if (gDispCap->mBlendFactor > DISP_CAP_BLEND_FACTOR_FULL) {
+            gDispCap->mBlendFactor = DISP_CAP_BLEND_FACTOR_FULL;
         }
     }
 }
@@ -269,7 +269,7 @@ void StartDispCapBlend(u8 blendMin) {
         return;
     }
     gDispCap->mFlags |= 2;
-    gDispCap->mBlendFactor = 0x1000;
+    gDispCap->mBlendFactor = DISP_CAP_BLEND_FACTOR_FULL;
     gDispCap->mBlendMin = blendMin;
 }
 
