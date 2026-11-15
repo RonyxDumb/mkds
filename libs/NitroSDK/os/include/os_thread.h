@@ -7,13 +7,13 @@
 
 // Priorities of the two threads the system sets up itself.
 enum {
-    OS_THREAD_PRIORITY_LAUNCHER = 0x10,
-    OS_THREAD_PRIORITY_IDLE = 0x20,
+    THREAD_PRIORITY_LAUNCHER = 0x10,
+    THREAD_PRIORITY_IDLE = 0x20,
 };
 
 // Check words written at the two ends of a stack; a changed word means the stack overflowed.
-#define OS_STACK_CHECK_BOTTOM 0xfddb597d
-#define OS_STACK_CHECK_TOP 0x7bf9dd5b
+#define STACK_CHECK_BOTTOM 0xfddb597d
+#define STACK_CHECK_TOP 0x7bf9dd5b
 
 // The thread control block. The threads are linked through OSThread.mNext from OSi_ThreadInfo.mListHead in increasing
 // OSThread.mPriority; OS_CreateThread sets one up.
