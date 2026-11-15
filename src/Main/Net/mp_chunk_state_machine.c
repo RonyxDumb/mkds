@@ -22,7 +22,7 @@
 #include "code_0214d018.h"
 #include "Main/Net/mp_link.h"
 
-StateCallbacks gMPStateTable[23] = {{EnterMPState0, UpdateMPState0},
+StateCallbacks gMPStateTable[MP_STATE_COUNT] = {{EnterMPState0, UpdateMPState0},
                                     {NULL, UpdateMPState1},
                                     {EnterMPState2, UpdateMPState2},
                                     {EnterMPState3, UpdateMPState3},
@@ -111,7 +111,7 @@ void ProcessMPChunk(u8 *chunk) {
     switch (chunk[1]) {
         case 0xff:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_CHILD) {
-                MPChunkRequestMPState(9);
+                MPChunkRequestMPState(MP_STATE_SEND_ALL_RECORDS);
             }
             break;
         case 0xfe:
@@ -124,7 +124,7 @@ void ProcessMPChunk(u8 *chunk) {
                 BIT_SET(gConnectionWork->mRecordReceivedMask, playerIndex);
                 if (gConnectionWork->mChildren.mChildMask ==
                     (gConnectionWork->mChildren.mChildMask & gConnectionWork->mRecordReceivedMask)) {
-                    MPChunkRequestMPState(10);
+                    MPChunkRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
                 }
             }
             break;
@@ -153,7 +153,7 @@ void ProcessMPChunk(u8 *chunk) {
                 (gConnectionWork->mExpectedRecordMask & gConnectionWork->mRecordReceivedMask)) {
                 ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
-                    MPChunkRequestMPState(10);
+                    MPChunkRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
                 }
             }
         }
@@ -178,7 +178,7 @@ void InitMPStateMachine(void) {
     ConnectionWork *connectionWork;
     u32 connectionMode;
 
-    InitStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine, gMPStateTable, 0x17, NULL);
+    InitStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine, gMPStateTable, MP_STATE_COUNT, NULL);
     gConnectionWork->mPlayerSendIndex = 0;
     gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;
     gConnectionWork->mMPStateMachine.mChunkSendFlags = 0;

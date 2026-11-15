@@ -40,7 +40,7 @@ void RequestMPState15AfterCombine(void) {
     MPStateMachine *stateMachine;
     CombineParticipantBits();
     stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = 0xf;
+    stateMachine->mStateMachine.mNextState = MP_STATE_READY;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -90,7 +90,7 @@ void UpdateMPState6(void) {
         if (QueueMPDataHalfwordAndWord(MP_MESSAGE_GROUP_SEND_MASK, gConnectionWork->mChildren.mChildMask,
                                        gConnectionWork->mGroupSendMask) != FALSE) {
             stateMachine = &gConnectionWork->mMPStateMachine;
-            stateMachine->mStateMachine.mNextState = 1;
+            stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_ROM_ARCHIVE;
             stateMachine->mStateMachine.mNextStateRequested = 1;
         }
     }
@@ -111,7 +111,7 @@ void UpdateMPState3(void) {
     result = AdvanceMainAndMenuDLArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 4;
+        stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_SOUND_DATA;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -152,7 +152,7 @@ void UpdateMPState1(void) {
         }
     }
     if (shouldRequestState != FALSE) {
-        MPStatesRequestMPState(2);
+        MPStatesRequestMPState(MP_STATE_LOAD_OVERLAY);
     }
 }
 
@@ -168,7 +168,7 @@ void UpdateMPState2(void) {
             CreateOverlayFrmHeap();
             InitArchiveBuffersOnOverlayHeap();
         }
-        MPStatesRequestMPState(3);
+        MPStatesRequestMPState(MP_STATE_LOAD_DL_ARCHIVES);
     }
 }
 
@@ -188,7 +188,7 @@ void UpdateMPState4(void) {
     result = AdvanceSyncedCallback(LoadSndDataFromFileCallback);
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0xc;
+        stateMachine->mStateMachine.mNextState = MP_STATE_START_DATA_SHARING;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -227,7 +227,7 @@ void UpdateMPState7(void) {
                 gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
                 break;
             case CONNECTION_STEP_STARTING_EXCHANGE:
-                MPStatesRequestMPState(8);
+                MPStatesRequestMPState(MP_STATE_EXCHANGE_OWN_RECORDS);
                 break;
             default:
                 SetRequestErrorCode(CONNECTION_ERROR_MP_FAILED);
@@ -312,7 +312,7 @@ void UpdateMPState8(void) {
         receivedMask = work->mRecordReceivedMask;
         if (expectedMask == (expectedMask & receivedMask)) {
             if (QueueMPChunk(0xfe, NULL, (u8) (receivedMask | 1), 0, receivedMask) != FALSE) {
-                MPStatesRequestMPState(9);
+                MPStatesRequestMPState(MP_STATE_SEND_ALL_RECORDS);
             }
         } else {
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
@@ -387,7 +387,7 @@ void UpdateMPState9(void) {
         gConnectionWork->mMPStateMachine.mEntryWaitFrames++;
         if (gConnectionWork->mMPStateMachine.mEntryWaitFrames > waitLimit) {
             gConnectionWork->mRecordReceivedMask = gConnectionWork->mChildren.mChildMask;
-            MPStatesRequestMPState(10);
+            MPStatesRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
         }
     }
 }
@@ -414,7 +414,7 @@ void UpdateMPState10(void) {
                 StartRomArchiveSend();
                 break;
             case CONNECTION_STEP_ROM_ARCHIVE_SEND:
-                MPStatesRequestMPState(6);
+                MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
                 break;
         }
     }
@@ -443,14 +443,14 @@ void UpdateMPState11(void) {
                 gConnectionWork->mPlayerSendIndex++;
             }
             if (gConnectionWork->mPlayerSendIndex >= 8) {
-                MPStatesRequestMPState(6);
+                MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
             }
             break;
         case CONNECTION_MODE_CHILD:
             playerIndex = gConnectionWork->mRecordReceivedMask;
             receivedMask = gConnectionWork->mNamesStoredMask;
             if (playerIndex == (playerIndex & receivedMask)) {
-                MPStatesRequestMPState(6);
+                MPStatesRequestMPState(MP_STATE_SEND_GROUP_SEND_MASK);
             }
             break;
     }
@@ -488,7 +488,7 @@ void UpdateMPState12(void) {
             break;
         case CONNECTION_STEP_STARTING_SHARING:
             gConnectionWork->mState = CONNECTION_STATE_SYNC_WAIT;
-            MPStatesRequestMPState(5);
+            MPStatesRequestMPState(MP_STATE_SEND_PARTICIPANT_MASK);
             break;
     }
 }
@@ -511,10 +511,10 @@ void UpdateMPState13(void) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
         if (gConnectionWork->mChildren.mChildMask ==
             (gConnectionWork->mChildren.mChildMask & gConnectionWork->mBitsReceivedMask)) {
-            MPStatesRequestMPState(0xe);
+            MPStatesRequestMPState(MP_STATE_SEND_PLAYER_BITS);
         }
     } else if (gConnectionWork->mBitsReceivedMask != 0) {
-        MPStatesRequestMPState(0xe);
+        MPStatesRequestMPState(MP_STATE_SEND_PLAYER_BITS);
     } else {
         if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
             ownIndex = gConnectionWork->mOwnIndex;
@@ -545,11 +545,11 @@ void UpdateMPState14(void) {
             gConnectionWork->mPlayerSendIndex += 1;
         }
         if (gConnectionWork->mPlayerSendIndex > 8) {
-            MPStatesRequestMPState(0xb);
+            MPStatesRequestMPState(MP_STATE_SEND_PLAYER_NAMES);
         }
     } else if (gConnectionWork->mRecordReceivedMask ==
                (gConnectionWork->mRecordReceivedMask & gConnectionWork->mBitsReceivedMask)) {
-        MPStatesRequestMPState(0xb);
+        MPStatesRequestMPState(MP_STATE_SEND_PLAYER_NAMES);
     }
 }
 #pragma thumb off

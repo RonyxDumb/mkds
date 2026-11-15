@@ -13,6 +13,7 @@
 #include "Main/Net/disconnect.h"
 #include "Main/Graphics/disp_cap.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Net/mp_chunk_state_machine.h"
 
 #pragma thumb on
 
@@ -209,7 +210,7 @@ void RequestMPState16(void *courseId, void *mode) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = 0x10;
+    stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_RACE_ARCHIVES;
     stateMachine->mStateMachine.mNextStateRequested = 1;
     gConnectionWork->mCourseId = courseId;
     gConnectionWork->mMode = mode;
@@ -225,7 +226,7 @@ void RequestMPState18(void) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = 0x12;
+    stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_RESULT_ARCHIVES;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -235,7 +236,7 @@ void RequestMPState21(void) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     stateMachine = &gConnectionWork->mMPStateMachine;
-    stateMachine->mStateMachine.mNextState = 0x15;
+    stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_MENU_ARCHIVES;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
@@ -278,7 +279,7 @@ void UpdateMPState16(void) {
     result = AdvanceRaceArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0x11;
+        stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_COURSE_SOUND;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -315,7 +316,7 @@ void UpdateMPState17(void) {
     result = AdvanceSyncedCallback(LoadCourseSoundSetCallback);
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0x14;
+        stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_REQUEST_DONE;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -336,7 +337,7 @@ void UpdateMPState20(void) {
     MPStateMachine *stateMachine;
     if (gConnectionWork->mRequestPending == 0) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0xf;
+        stateMachine->mStateMachine.mNextState = MP_STATE_READY;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }

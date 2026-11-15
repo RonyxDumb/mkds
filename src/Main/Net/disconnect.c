@@ -29,6 +29,7 @@
 #include "code_021445e0.h"
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
+#include "Main/Net/mp_chunk_state_machine.h"
 
 QueueMPDataToPortParams gMPDataToPortParams = {QueueMPDataToPortCallback, 0, {0, 0}, 0xf, 2, {0, 0}};
 
@@ -426,7 +427,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
                 gConnectionWork->mGroupSendMask = message->mWord;
             }
-            MPDataRequestMPState(1);
+            MPDataRequestMPState(MP_STATE_WAIT_ROM_ARCHIVE);
             break;
         case MP_MESSAGE_PLAYER_NAME:
             switch (gConnectionWork->mState) {

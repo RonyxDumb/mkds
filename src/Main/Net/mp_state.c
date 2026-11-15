@@ -6,6 +6,7 @@
 
 #include "Main/Net/mp_state_machine.h"
 #include "Main/Sound/sound_set_load.h"
+#include "Main/Net/mp_chunk_state_machine.h"
 
 #pragma thumb on
 
@@ -27,7 +28,7 @@ void UpdateMPState21(void) {
     result = AdvanceMenuDLArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0x14;
+        stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_REQUEST_DONE;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -50,7 +51,7 @@ void UpdateMPState18(void) {
     result = AdvanceResultDLArchives();
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0x13;
+        stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_RESULT_SOUND;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -81,7 +82,7 @@ void UpdateMPState19(void) {
     result = AdvanceSyncedCallback(LoadResultSceneSoundSetCallback);
     if (result == 1) {
         stateMachine = &gConnectionWork->mMPStateMachine;
-        stateMachine->mStateMachine.mNextState = 0xf;
+        stateMachine->mStateMachine.mNextState = MP_STATE_READY;
         stateMachine->mStateMachine.mNextStateRequested = 1;
     }
 }

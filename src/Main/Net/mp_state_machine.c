@@ -4,6 +4,7 @@
 #include "Main/Net/mp.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/MapObjects/data_0217a000.h"
+#include "Main/Net/mp_chunk_state_machine.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -55,7 +56,7 @@ BOOL AdvanceMPStateMachine(void) {
             SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
         }
     }
-    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == 0xf) {
+    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == MP_STATE_READY) {
         finished = TRUE;
     }
     return finished;

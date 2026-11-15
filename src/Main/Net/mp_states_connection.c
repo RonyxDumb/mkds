@@ -8,6 +8,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "os_tick.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/Net/mp_chunk_state_machine.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -134,7 +135,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
             SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
         }
     }
-    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == 0xf) {
+    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == MP_STATE_READY) {
         finished = TRUE;
     }
     return finished;
@@ -152,7 +153,7 @@ void UpdateMPState0(void) {
         return;
     }
     if (MPStatesGetConnectionMode() != CONNECTION_MODE_PARENT) {
-        MPStatesRequestMPState(0x16);
+        MPStatesRequestMPState(MP_STATE_CHILD_DELAY);
         return;
     }
     switch (gConnectionWork->mStep) {
@@ -161,7 +162,7 @@ void UpdateMPState0(void) {
             SetEntry(0);
             return;
         case CONNECTION_STEP_REGISTERING_ENTRY:
-            MPStatesRequestMPState(7);
+            MPStatesRequestMPState(MP_STATE_START_EXCHANGE);
             break;
     }
 }
@@ -182,7 +183,7 @@ void EnterMPState22(void) {
 void UpdateMPState22(void) {
     gConnectionWork->mMPStateMachine.mDelayTimer = gConnectionWork->mMPStateMachine.mDelayTimer - 1;
     if (gConnectionWork->mMPStateMachine.mDelayTimer < 0) {
-        MPStatesRequestMPState(7);
+        MPStatesRequestMPState(MP_STATE_START_EXCHANGE);
     }
 }
 
