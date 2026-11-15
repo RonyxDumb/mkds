@@ -12,5 +12,5 @@ void SetParticipantMask(u8 mask) {
     u32 maskWord = mask;
     gConnectionWork->mParticipantMask = maskWord;
     RefreshParticipantTables();
-    RequestMPState15AfterCombine();
+    RequestMPReadyAfterCombine();
 }

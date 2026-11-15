@@ -354,14 +354,14 @@ static inline void SetGroupSendMaskIfMultibootSetup(u8 groupSendMask) {
 
 static inline void RemoveChildrenInMask(u16 removeMask) {
     u16 childIndex;
-    u32 isInState9;
+    u32 isSyncedRace;
 
     for (childIndex = 0; childIndex < 8; childIndex++) {
         if (BIT_IS_SET(removeMask, childIndex)) {
-            isInState9 = gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE ? 1 : 0;
+            isSyncedRace = gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE ? 1 : 0;
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
                 BIT_CLEAR(gConnectionWork->mChildren.mChildMask, childIndex);
-                if (isInState9 != 0) {
+                if (isSyncedRace != 0) {
                     BIT_SET(gConnectionWork->mRemovedChildMask, childIndex);
                 }
             }
@@ -421,7 +421,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
         case MP_MESSAGE_PARTICIPANT_MASK:
             gConnectionWork->mParticipantMask = message->mWord;
             RefreshParticipantTables();
-            RequestMPState15AfterCombine();
+            RequestMPReadyAfterCombine();
             break;
         case MP_MESSAGE_GROUP_SEND_MASK:
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {

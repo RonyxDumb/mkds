@@ -32,6 +32,6 @@ void UpdateMPLoadDlArchives(void *stateObject);
 void EnterMPLoadDlArchives(void *stateObject);
 void UpdateMPSendGroupSendMask(void *stateObject);
 void UpdateMPSendParticipantMask(void *stateObject);
-void RequestMPState15AfterCombine(void);
+void RequestMPReadyAfterCombine(void);
 
 extern QueueMPDataToPortParams gQueueMPChunkParams;

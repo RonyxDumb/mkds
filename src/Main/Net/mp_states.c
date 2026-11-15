@@ -36,7 +36,7 @@ QueueMPDataToPortParams gQueueMPChunkParams = {QueueMPChunkCallback, 0x16c, {0, 
 
 #pragma thumb on
 
-void RequestMPState15AfterCombine(void) {
+void RequestMPReadyAfterCombine(void) {
     MPStateMachine *stateMachine;
     CombineParticipantBits();
     stateMachine = &gConnectionWork->mMPStateMachine;
