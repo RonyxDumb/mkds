@@ -20,8 +20,8 @@ typedef struct WiFiConnectionLost {
 void RegisterWiFiConnectionLostCallbacks(void);
 void WriteWiFiConnectionLostRegistersNop(void);
 void AdvanceWiFiConnectionLost(void);
-void AdvanceWiFiConnectionLostState1(void);
-void AdvanceWiFiConnectionLostState0(void);
+void AdvanceWiFiConnectionLostWaitFadeIn(void);
+void AdvanceWiFiConnectionLostWaitFadeOut(void);
 void ClearWiFiConnectionLostPointer(void);
 void InitWiFiConnectionLost(void *heap);
 

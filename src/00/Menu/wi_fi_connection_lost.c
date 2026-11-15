@@ -32,7 +32,7 @@ void ClearWiFiConnectionLostPointer(void) {
     gWiFiConnectionLost = NULL;
 }
 
-void AdvanceWiFiConnectionLostState0(void) {
+void AdvanceWiFiConnectionLostWaitFadeOut(void) {
     u32 total;
     BackupFirstBlock *firstBlock;
     s8 otherKartCount;
@@ -69,7 +69,7 @@ void AdvanceWiFiConnectionLostState0(void) {
     }
 }
 
-void AdvanceWiFiConnectionLostState1(void) {
+void AdvanceWiFiConnectionLostWaitFadeIn(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -82,10 +82,10 @@ void AdvanceWiFiConnectionLost(void) {
     gWiFiConnectionLost->mState = gWiFiConnectionLost->mNextState;
     switch (gWiFiConnectionLost->mState) {
         case WIFI_CONNECTION_LOST_STATE_WAIT_FADE_OUT:
-            AdvanceWiFiConnectionLostState0();
+            AdvanceWiFiConnectionLostWaitFadeOut();
             break;
         case WIFI_CONNECTION_LOST_STATE_WAIT_FADE_IN:
-            AdvanceWiFiConnectionLostState1();
+            AdvanceWiFiConnectionLostWaitFadeIn();
             break;
     }
 }
