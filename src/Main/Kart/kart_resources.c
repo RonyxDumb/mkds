@@ -69,31 +69,31 @@ void InitKartMapObjectResponses(void) {
         switch (responseIndex) {
             case 0:
                 *responseSlot = CollideKartWithMapObjectResponse0;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 2:
                 *responseSlot = CollideKartWithMapObjectResponse2;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 3:
                 *responseSlot = CollideKartWithMapObjectResponse3;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 4:
                 *responseSlot = CollideKartWithMapObjectResponse4;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 5:
                 *responseSlot = CollideKartWithMapObjectResponse5;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 6:
                 *responseSlot = CollideKartWithMapObjectResponse6;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 7:
                 *responseSlot = CollideKartWithMapObjectResponse7;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 9:
                 *responseSlot = CollideKartWithMapObjectResponse9;
@@ -109,23 +109,23 @@ void InitKartMapObjectResponses(void) {
                 break;
             case 11:
                 *responseSlot = CollideKartWithMapObjectResponse11;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 12:
                 *responseSlot = CollideKartWithMapObjectResponse12;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 13:
                 *responseSlot = CollideKartWithMapObjectResponse13;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             case 14:
                 *responseSlot = CollideKartWithMapObjectResponse14;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
             default:
                 *responseSlot = CollideKartWithMapObjectNoResponse;
-                *secondResponseSlot = MapObjectResponseReturnArgument;
+                *secondResponseSlot = MapObjectResponseNop;
                 break;
         }
     }

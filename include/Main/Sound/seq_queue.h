@@ -42,7 +42,7 @@ void SetSeqVariableEnabled(u32 slot, u32 enabled);
 
 u32 *ResetThunderShrinkSoundCounter(void);
 
-unsigned int KartThunderShrinkNop();
+void KartThunderShrinkNop(void);
 
 void SetThunderShrinkSoundFlag(u32 enabled);
 void SetTeresaSoundFlag(u32 enabled, u32 isSelectedEntry);

@@ -210,9 +210,7 @@ void UpdateSecondHandState0(SecondHand *secondHand) {
     }
 }
 
-u32 SecondHandState1ReturnArgument(u32 value) {
-    return value;
-}
+void SecondHandState1Nop(SecondHand *secondHand) {}
 
 void UpdateSecondHandState1(SecondHand *secondHand) {
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle + secondHand->mAnglePerFrame;
@@ -240,9 +238,7 @@ void UpdateSecondHandState2(SecondHand *secondHand) {
     }
 }
 
-u32 SecondHandState3ReturnArgument(u32 value) {
-    return value;
-}
+void SecondHandState3Nop(SecondHand *secondHand) {}
 
 void UpdateSecondHandState3(SecondHand *secondHand) {
     if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mPauseFrameCount) {

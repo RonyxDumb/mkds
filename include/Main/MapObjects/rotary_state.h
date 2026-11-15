@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-unsigned int RotaryState3ReturnArgument(unsigned int value);
-
 typedef struct Rotary Rotary;
+
+void RotaryState3Nop(Rotary *object);
 
 void UpdateRotaryState2(Rotary *object);
 
@@ -12,7 +12,7 @@ void EnterRotaryState2(Rotary *object);
 
 void UpdateRotaryState1(Rotary *object);
 
-unsigned int RotaryState1ReturnArgument(unsigned int value);
+void RotaryState1Nop(Rotary *object);
 
 void UpdateRotaryState0(Rotary *object);
 

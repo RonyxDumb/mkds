@@ -61,9 +61,9 @@ const MapObjectKindDescriptor gSecondHandKindDescriptor = {0,
 #pragma thumb on
 
 StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandState0, UpdateSecondHandState0},
-                                           {(UnkFunc *) SecondHandState1ReturnArgument, UpdateSecondHandState1},
+                                           {SecondHandState1Nop, UpdateSecondHandState1},
                                            {EnterSecondHandState2, UpdateSecondHandState2},
-                                           {(UnkFunc *) SecondHandState3ReturnArgument, UpdateSecondHandState3}};
+                                           {SecondHandState3Nop, UpdateSecondHandState3}};
 
 void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);

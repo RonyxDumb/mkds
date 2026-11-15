@@ -68,8 +68,8 @@
 
 const Vec3 gItemBombState2StartScale = {0x1000, 0x1000, 0x1000};
 const u16 gItemBombDisabledFlag = 1;
-StateCallbacks gItemBombStateTable[4] = {{(UnkFunc *) ItemBombState0ReturnArgument, UpdateItemBombState0},
-                                         {(UnkFunc *) ItemBombState1ReturnArgument, UpdateItemBombState1},
+StateCallbacks gItemBombStateTable[4] = {{ItemBombState0Nop, UpdateItemBombState0},
+                                         {ItemBombState1Nop, UpdateItemBombState1},
                                          {EnterItemBombState2, UpdateItemBombState2},
                                          {NULL, NULL}};
 const u16 gItemBombSkipListCallbackFlag = 8;
@@ -123,9 +123,7 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     return bomb->mIsThrown;
 }
 
-u32 ItemBombState0ReturnArgument(u32 value) {
-    return value;
-}
+void ItemBombState0Nop(ItemBomb *bomb) {}
 
 void UpdateItemBombState0(ItemBomb *bomb) {
     u32 collisionHitLink;
@@ -156,9 +154,7 @@ void UpdateItemBombState0(ItemBomb *bomb) {
     bomb->mStateMachine.mNextStateRequested = 1;
 }
 
-u32 ItemBombState1ReturnArgument(u32 value) {
-    return value;
-}
+void ItemBombState1Nop(ItemBomb *bomb) {}
 
 void UpdateItemBombState1(ItemBomb *bomb) {
     u32 flags;

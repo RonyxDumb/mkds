@@ -10,11 +10,11 @@
 #include "Main/Menu/title_table_draw.h"
 
 TitleStateHandlers gTitleStateHandlers[7] = {
-    {(UnkFunc *) TitleState0ReturnArgument, (void (*)(s32)) UpdateTitleState0},
+    {TitleState0Nop, (void (*)(s32)) UpdateTitleState0},
     {(UnkFunc *) TitleState1ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState1},
     {(UnkFunc *) TitleState2ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState2},
     {(UnkFunc *) TitleState3ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState3},
     {(UnkFunc *) TitleState4ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState4},
     {TitleState5Nop, (void (*)(s32)) UpdateTitleState5},
-    {(UnkFunc *) TitleState6ReturnArgument, (void (*)(s32)) UpdateTitleState6},
+    {TitleState6Nop, (void (*)(s32)) UpdateTitleState6},
 };

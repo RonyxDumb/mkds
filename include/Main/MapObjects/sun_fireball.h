@@ -41,7 +41,7 @@ MapObjectList *CreateSunFireballUpdateList(void);
 MapObjectKindData *CreateSunFireballKindData(void);
 void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball);
 
-unsigned int SunFireballInitReturnArgument(unsigned int value);
+void SunFireballInitNop(void);
 
 typedef struct ItemObject ItemObject;
 

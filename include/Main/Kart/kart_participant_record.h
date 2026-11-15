@@ -78,7 +78,7 @@ void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction);
 void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, MapObject *mapObject);
 void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction);
 
-unsigned int MapObjectResponseReturnArgument(unsigned int value);
+void MapObjectResponseNop(void);
 
 s32 CollideKartWithMapObjectNoResponse(Kart *kart, s32 *outValue);
 

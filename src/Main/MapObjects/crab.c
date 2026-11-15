@@ -143,9 +143,7 @@ void CreateCrabAndCrabHand(void *mapObjectList) {
     SetMapObjectModelPolygonId(gCrabHand, 0x3f);
 }
 
-u32 CrabSetupDrawReturnArgument(u32 value) {
-    return value;
-}
+void CrabSetupDrawNop(void) {}
 
 void DrawCrab(void *mapObjectList, Crab *crab) {
     s32 commandParam;
@@ -362,7 +360,7 @@ MapObjectKindData *CreateCrabKindData(void) {
 }
 
 MapObjectList *CreateCrabDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, CrabSetupDrawReturnArgument);
+    return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, CrabSetupDrawNop);
 }
 
 MapObjectList *CreateCrabUpdateList(void) {

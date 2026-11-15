@@ -4,9 +4,7 @@
 
 #pragma thumb on
 
-u32 TitleState6ReturnArgument(u32 value) {
-    return value;
-}
+void TitleState6Nop(void) {}
 
 void UpdateTitleState6(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != 0) {

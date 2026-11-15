@@ -102,9 +102,7 @@ void CreateSanboHAndSanboB(void *mapObjectList) {
     SetMapObjectModelPolygonId(gSanboB, 0x3f);
 }
 
-u32 SanboSetupDrawReturnArgument(u32 value) {
-    return value;
-}
+void SanboSetupDrawNop(void) {}
 
 void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
     s32 pieceIndex;
@@ -410,7 +408,7 @@ MapObjectKindData *CreateSanboKindData(void) {
 }
 
 MapObjectList *CreateSanboDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSanboHAndSanboB, DrawSanbo, SanboSetupDrawReturnArgument);
+    return CreateMapObjectDrawList2(CreateSanboHAndSanboB, DrawSanbo, SanboSetupDrawNop);
 }
 
 MapObjectList *CreateSanboUpdateList(void) {

@@ -21,7 +21,7 @@
 
 SceneCallbacks gEmblemSceneCallbacks = {InitEmblemScene,
                                         UpdateEmblemScene,
-                                        (void (*)()) EmblemSceneReturnArgument,
+                                        EmblemSceneNop,
                                         WriteEmblemSceneRegistersCallback,
                                         NULL,
                                         NULL,
@@ -132,9 +132,7 @@ void InitEmblemScene(void) {
     InitEmblemAndAdvanceKartList();
 }
 
-u32 EmblemSceneReturnArgument(u32 value) {
-    return value;
-}
+void EmblemSceneNop(void) {}
 
 void WriteEmblemSceneRegistersCallback(void) {
     AdvanceEmblemDisplayWrapper();

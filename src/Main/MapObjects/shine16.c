@@ -73,7 +73,7 @@ void InitShine16(MapObject *mapObject) {
     ParkMapObject(mapObject);
     mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 0xb, &mapObject->mPos);
-    SetShine16TrackParamsReturnArgument(&mapObject->mSound->mSoundSource);
+    SetShine16TrackParamsNop(&mapObject->mSound->mSoundSource);
     mapObject->mFarDistanceSquared = gSoundFalloffs[0xb].mFarDistanceSquared;
 }
 

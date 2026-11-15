@@ -104,9 +104,7 @@ void UpdateDram(u32 unused, Dram *dram) {
     AdvanceStateMachine(&dram->mMapObject.mStateMachine);
 }
 
-u32 DramState0ReturnArgument(u32 value) {
-    return value;
-}
+void DramState0Nop(Dram *dram) {}
 
 void UpdateDramState0(Dram *dram) {
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mDelayFrameCount) {
@@ -128,9 +126,7 @@ void UpdateDramState2(Dram *dram) {
     }
 }
 
-u32 DramState3ReturnArgument(u32 value) {
-    return value;
-}
+void DramState3Nop(Dram *dram) {}
 
 void UpdateDramState3(Dram *dram) {
     dram->mAngleX += dram->mAnglePerFrame;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int MenuScreen27ReturnArgument(unsigned int value);
+void MenuScreen27Nop(void);

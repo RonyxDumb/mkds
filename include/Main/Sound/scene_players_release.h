@@ -17,7 +17,7 @@ typedef struct ScenePlayers ScenePlayers;
 
 void ReleaseScenePlayers(ScenePlayers *scenePlayers, s32 unused);
 
-unsigned int ScenePlayersReturnArgument(ScenePlayers *scenePlayers);
+void ScenePlayersNop(ScenePlayers *scenePlayers);
 
 void StartScenePlayersForScene(ScenePlayers *scenePlayers);
 void StartScenePlayersForRace(ScenePlayers *scenePlayers);

@@ -51,7 +51,7 @@ typedef struct Kart Kart;
 void UpdateSecondHandState3(SecondHand *secondHand);
 s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8 *response);
 
-unsigned int SecondHandState3ReturnArgument(unsigned int value);
+void SecondHandState3Nop(SecondHand *secondHand);
 
 void UpdateSecondHandState2(SecondHand *secondHand);
 
@@ -59,7 +59,7 @@ void EnterSecondHandState2(SecondHand *secondHand);
 
 void UpdateSecondHandState1(SecondHand *secondHand);
 
-unsigned int SecondHandState1ReturnArgument(unsigned int value);
+void SecondHandState1Nop(SecondHand *secondHand);
 
 void UpdateSecondHandState0(SecondHand *secondHand);
 

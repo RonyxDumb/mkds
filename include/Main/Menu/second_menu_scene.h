@@ -28,8 +28,8 @@ void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int pla
 void RefreshRaceSetupKartCounts(s32 entryCount);
 void CreateRaceSetupObjects(void *heap);
 s32 RunSecondMenuScene(void *sceneNumbers);
-unsigned int SecondMenuUpdateReturnArgument(unsigned int value);
-unsigned int SecondMenuAfterUpdateReturnArgument(unsigned int value);
+void SecondMenuUpdateNop(void);
+void SecondMenuAfterUpdateNop(void);
 void SetNextRaceByModeWrapper(void);
 void InitSecondMenuScene(void);
 void AdvanceStateMachine(StateMachine *stateMachine);

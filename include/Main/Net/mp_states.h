@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/MapObjects/data_02165000.h"
 
-unsigned int EnterMPState15ReturnArgument(unsigned int value);
+void EnterMPState15Nop(void);
 void UpdateMPState14(void);
 void EnterMPState14(void);
 void UpdateMPState13(void);

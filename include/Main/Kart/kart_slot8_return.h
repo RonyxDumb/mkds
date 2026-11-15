@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-unsigned int KartSlot8ReturnArgument(unsigned int value);
+struct Kart;
+
+void KartSlot8Nop(struct Kart *kart);

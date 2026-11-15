@@ -46,7 +46,7 @@ s32 CrabFX_MulInline(s32 value, s32 factor);
 s16 CrabFX_SinIdx(s32 angle);
 void InitCrabObjects(MapObjectList *mapObjectList);
 void DrawCrab(void *mapObjectList, Crab *crab);
-unsigned int CrabSetupDrawReturnArgument(unsigned int value);
+void CrabSetupDrawNop(void);
 u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *hitFlag, u8 *passedValue);
 u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *hitFlag, u8 *passedValue);
 void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity);

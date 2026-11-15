@@ -62,9 +62,9 @@ const MapObjectKindDescriptor gKoopaBlockKindDescriptor = {0,
                                                            NULL,
                                                            {NULL, NULL, NULL, NULL}};
 
-StateCallbacks gKoopaBlockStateTable[3] = {{(UnkFunc *) KoopaBlockState0ReturnArgument, UpdateKoopaBlockState0},
+StateCallbacks gKoopaBlockStateTable[3] = {{KoopaBlockState0Nop, UpdateKoopaBlockState0},
                                            {EnterKoopaBlockState1, UpdateKoopaBlockState1},
-                                           {(UnkFunc *) KoopaBlockState2ReturnArgument, UpdateKoopaBlockState2}};
+                                           {KoopaBlockState2Nop, UpdateKoopaBlockState2}};
 
 #pragma thumb off
 

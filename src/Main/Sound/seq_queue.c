@@ -621,9 +621,7 @@ void SetTeresaSoundFlag(u32 enabled, u32 isSelectedEntry) {
     }
 }
 
-u32 KartThunderShrinkNop(u32 value) {
-    return value;
-}
+void KartThunderShrinkNop(void) {}
 
 u32 *ResetThunderShrinkSoundCounter(void) {
     gThunderShrinkSoundCounter = 0;

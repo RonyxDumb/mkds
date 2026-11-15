@@ -22,9 +22,9 @@
 #include "Main/Scene/display_settings_descs.h"
 
 SceneCallbacks gSecondMenuSceneCallbacks = {InitSecondMenuScene,
-                                            (void (*)()) SecondMenuUpdateReturnArgument,
+                                            SecondMenuUpdateNop,
                                             SetNextRaceByModeWrapper,
-                                            (void (*)()) SecondMenuAfterUpdateReturnArgument,
+                                            SecondMenuAfterUpdateNop,
                                             NULL,
                                             NULL,
                                             0xa,
@@ -71,13 +71,9 @@ void SetNextRaceByModeWrapper(void) {
     SetNextRaceByMode();
 }
 
-u32 SecondMenuAfterUpdateReturnArgument(u32 value) {
-    return value;
-}
+void SecondMenuAfterUpdateNop(void) {}
 
-u32 SecondMenuUpdateReturnArgument(u32 value) {
-    return value;
-}
+void SecondMenuUpdateNop(void) {}
 
 s32 RunSecondMenuScene(void *sceneNumbers) {
     SceneCallbacks callbacks = gSecondMenuSceneCallbacks;

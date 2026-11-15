@@ -297,9 +297,7 @@ void DrawStemSets(void) {
     }
 }
 
-u32 ReturnArgument(u32 value) {
-    return value;
-}
+void Nop(void) {}
 
 void SetStemSet(s32 setIndex) {
     if (setIndex == STEM_SET_NONE) {

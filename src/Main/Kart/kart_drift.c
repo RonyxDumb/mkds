@@ -88,9 +88,9 @@ void (*gKartDefaultSlotFunctions[9])(Kart *a) = {InitKartResources,
                                                  NULL,
                                                  ResetKartToRespawnPoint,
                                                  ResetKartToStartPlacement,
-                                                 (void (*)(Kart *a)) KartSlot8ReturnArgument};
+                                                 KartSlot8Nop};
 Vec3 gParticipantRecordHeadingAxis = {0, 0x1000, 0};
-void (*gKartStateFunctions[8])(struct Kart *) = {(void (*)(struct Kart *)) KartState0ReturnArgument,
+void (*gKartStateFunctions[8])(struct Kart *) = {KartState0Nop,
                                                  AdvanceKartState1And2,
                                                  AdvanceKartState1And2,
                                                  AdvanceKartState3,

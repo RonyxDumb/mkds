@@ -29,9 +29,7 @@
 #include "code_02147cd8.h"
 #include "Main/Race/race_progress_rank.h"
 
-u32 IronBallReturnArgument(u32 value) {
-    return value;
-}
+void IronBallNop(void) {}
 
 void DrawIronBallShadow(void *mapObjectList, IronBall *ironBall, u32 unused, u32 alpha) {
     u32 shadowAlphaCap;
@@ -334,7 +332,7 @@ MapObjectKindData *CreateIronBallKindData(void) {
 }
 
 MapObjectList *CreateIronBallShadowDrawList(void) {
-    return CreateMapObjectDrawList1(IronBallReturnArgument, DrawIronBallShadow, NULL);
+    return CreateMapObjectDrawList1(IronBallNop, DrawIronBallShadow, NULL);
 }
 
 MapObjectList *CreateIronBallDrawList(void) {

@@ -448,7 +448,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     if (kindInfo->mKeepsAdvanceAtEnd == 0) {
         item->mAdvance = AdvanceItemObjectFadeOut;
     }
-    item->mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) ItemObjectBounceReturnArgument;
+    item->mBounce = ItemObjectBounceNop;
     if (item->mNormal.y != 0) {
         Vec3 *normal = &item->mNormal;
 
@@ -610,9 +610,7 @@ void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, 
     }
 }
 
-u32 ItemObjectBounceReturnArgument(u32 value) {
-    return value;
-}
+void ItemObjectBounceNop(ItemObject *item, Vec3 *a, Vec3 *b) {}
 
 void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     s32 fallSpeed;

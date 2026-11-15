@@ -71,11 +71,11 @@ void UpdateItemBombState2(ItemBomb *bomb);
 void EnterItemBombState2(ItemBomb *bomb);
 void UpdateItemBombState1(ItemBomb *bomb);
 
-unsigned int ItemBombState1ReturnArgument(unsigned int value);
+void ItemBombState1Nop(ItemBomb *bomb);
 
 void UpdateItemBombState0(ItemBomb *bomb);
 
-unsigned int ItemBombState0ReturnArgument(unsigned int value);
+void ItemBombState0Nop(ItemBomb *bomb);
 
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb);
 

@@ -15,7 +15,7 @@ MapObjectList *CreateSanboDrawList(void);
 
 MapObjectKindData *CreateSanboKindData(void);
 
-unsigned int SanboSetupDrawReturnArgument(unsigned int value);
+void SanboSetupDrawNop(void);
 
 extern const u16 gSanboHitFlag;
 extern const u16 gSanboSecondHitFlag;

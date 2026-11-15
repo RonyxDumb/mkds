@@ -176,9 +176,7 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
                 &koopaBlock->mCollisionMapObject.mCollisionData.mCenterPos);
 }
 
-u32 KoopaBlockState0ReturnArgument(u32 value) {
-    return value;
-}
+void KoopaBlockState0Nop(KoopaBlock *koopaBlock) {}
 
 void UpdateKoopaBlockState0(KoopaBlock *koopaBlock) {
     GroupFollower *follower = &koopaBlock->mFollower;
@@ -236,6 +234,4 @@ void UpdateKoopaBlockState1(KoopaBlock *koopaBlock) {
     }
 }
 
-u32 KoopaBlockState2ReturnArgument(u32 value) {
-    return value;
-}
+void KoopaBlockState2Nop(KoopaBlock *koopaBlock) {}

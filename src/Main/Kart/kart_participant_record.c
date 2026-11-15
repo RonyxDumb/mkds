@@ -1031,7 +1031,7 @@ void StartKartStar(Kart *kart) {
         StartKartStarSeq();
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
-        StandingsReturnArgument(kart->mIndex);
+        StandingsNop(kart->mIndex);
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
         kart->mParticipantRecordData->mEventToggleFlags ^= 0x2000;
@@ -1899,9 +1899,7 @@ s32 CollideKartWithMapObjectNoResponse(Kart *kart, s32 *outValue) {
     return 0;
 }
 
-u32 MapObjectResponseReturnArgument(u32 value) {
-    return value;
-}
+void MapObjectResponseNop(void) {}
 
 void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
     s32 canStart;

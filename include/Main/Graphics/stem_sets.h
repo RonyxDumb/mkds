@@ -28,7 +28,7 @@ void StartTimedQuad(TimedQuad *timedQuad);
 
 void SetStemSet(s32 setIndex);
 
-unsigned int ReturnArgument(unsigned int value);
+void Nop(void);
 
 extern struct StemSets *gStemSets;
 

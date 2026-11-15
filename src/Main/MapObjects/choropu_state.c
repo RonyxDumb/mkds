@@ -85,7 +85,7 @@ StateCallbacks gChoropuStateTable[8] = {{EnterChoropuState0, UpdateChoropuState0
                                         {EnterChoropuState4, UpdateChoropuState4},
                                         {EnterChoropuState5, UpdateChoropuState5},
                                         {EnterChoropuState6, UpdateChoropuState6},
-                                        {(UnkFunc *) ChoropuState7ReturnArgument, UpdateChoropuState7}};
+                                        {ChoropuState7Nop, UpdateChoropuState7}};
 
 void SetupDrawChoropuShadow(void) {
     u32 unused;
@@ -222,9 +222,7 @@ void UpdateChoropuState6(Choropu *choropu) {
     }
 }
 
-u32 ChoropuState7ReturnArgument(u32 value) {
-    return value;
-}
+void ChoropuState7Nop(Choropu *choropu) {}
 
 void UpdateChoropuState7(Choropu *choropu) {
     choropu->mMapObject.mPosStep.y -= 0x266;

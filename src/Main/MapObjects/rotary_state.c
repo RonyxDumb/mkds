@@ -17,9 +17,7 @@ void UpdateRotaryState0(Rotary *object) {
     }
 }
 
-u32 RotaryState1ReturnArgument(u32 value) {
-    return value;
-}
+void RotaryState1Nop(Rotary *object) {}
 
 void UpdateRotaryState1(Rotary *object) {
     object->mCollisionMapObject.mMapObject.mAngle =
@@ -48,6 +46,4 @@ void UpdateRotaryState2(Rotary *object) {
     }
 }
 
-u32 RotaryState3ReturnArgument(u32 value) {
-    return value;
-}
+void RotaryState3Nop(Rotary *object) {}

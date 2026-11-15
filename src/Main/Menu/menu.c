@@ -105,9 +105,9 @@ ScreenCallbacks gMenuScreenCallbacks[0x1e] = {
     {WriteSelectCupMScreenRegisters, (void (*)(u32)) UpdateSelectCupM},
     {WriteTimeAttackCupCourseRegisters, (void (*)(u32)) UpdateTimeAttackSelectCupCourse},
     {WriteSelectGhostScreenRegisters, (void (*)(u32)) UpdateSelectGhost},
-    {(void (*)(void)) MenuScreen27ReturnArgument, (void (*)(u32)) RequestTitleScene},
-    {(void (*)(void)) MenuScreen28ReturnArgument, (void (*)(u32)) RequestGhostScene},
-    {(void (*)(void)) MenuScreen29ReturnArgument, (void (*)(u32)) RequestRaceOrWLMenuScene},
+    {MenuScreen27Nop, (void (*)(u32)) RequestTitleScene},
+    {MenuScreen28Nop, (void (*)(u32)) RequestGhostScene},
+    {MenuScreen29Nop, (void (*)(u32)) RequestRaceOrWLMenuScene},
 };
 
 struct MenuScene *gMenuScene;

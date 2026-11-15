@@ -60,7 +60,7 @@ MapObjectKindData *CreateIronBallKindData(void);
 void UpdateIronBall(void *mapObjectList, IronBall *ironBall); /* kind 0x1b0 only */
 void InitIronBallObjects(MapObjectList *mapObjectList);
 void DrawIronBallShadow(void *mapObjectList, IronBall *ironBall, u32 unused, u32 alpha);
-unsigned int IronBallReturnArgument(unsigned int value);
+void IronBallNop(void);
 
 extern const u16 gIronBallInitThirdFlag;
 extern const u16 gIronBallInitSecondFlag;

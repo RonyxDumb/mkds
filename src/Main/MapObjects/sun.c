@@ -72,9 +72,7 @@ void CreateSunAndSunLOD(void *mapObjectList) {
     SetMapObjectModelPolygonId(gSun, AllocPolygonId());
 }
 
-u32 SunSetupDrawReturnArgument(u32 value) {
-    return value;
-}
+void SunSetupDrawNop(void) {}
 
 void DrawSun(void *mapObjectList, Sun *sun) {
     s32 gxParam;
@@ -269,7 +267,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
 }
 
 MapObjectList *CreateSunDrawList(void) {
-    return CreateMapObjectDrawList1(CreateSunAndSunLOD, DrawSun, SunSetupDrawReturnArgument);
+    return CreateMapObjectDrawList1(CreateSunAndSunLOD, DrawSun, SunSetupDrawNop);
 }
 
 MapObjectList *CreateSunUpdateList(void) {

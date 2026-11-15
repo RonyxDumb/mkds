@@ -733,9 +733,7 @@ s32 *EnterJgState0(void) {
     return &gJgSnapUntilPushFlip;
 }
 
-u32 JgState0ReturnArgument(u32 value) {
-    return value;
-}
+void JgState0Nop(void) {}
 
 void EnterJgState1(void) {
     ModelAnimation *animation;

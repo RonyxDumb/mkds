@@ -19,7 +19,7 @@ typedef struct SceneNumbers SceneNumbers;
 s32 RunEmblemScene(void *sceneNumbers);
 void UpdateEmblemScene(SceneNumbers *sceneNumbers);
 void WriteEmblemSceneRegistersCallback(void);
-unsigned int EmblemSceneReturnArgument(unsigned int value);
+void EmblemSceneNop(void);
 // Calls StopWvrAndWait, ResetInputSlots and InitEmblem through InitEmblemAndAdvanceKartList (InitEmblem also
 // calls InitEmblemChoises).
 void InitEmblemScene(void);

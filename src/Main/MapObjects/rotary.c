@@ -34,9 +34,9 @@
 #pragma thumb off
 
 StateCallbacks gRotaryStateTable[4] = {{EnterRotaryState0, UpdateRotaryState0},
-                                       {(UnkFunc *) RotaryState1ReturnArgument, UpdateRotaryState1},
+                                       {RotaryState1Nop, UpdateRotaryState1},
                                        {EnterRotaryState2, UpdateRotaryState2},
-                                       {(UnkFunc *) RotaryState3ReturnArgument, UpdateRotaryState3}};
+                                       {RotaryState3Nop, UpdateRotaryState3}};
 const RotaryKindInfo gRotaryTestCylinderKindInfo = {0, 0x12b000, 0x32000, 0, 0x165, 1, 0x177};
 const RotaryKindInfo gRotaryRoomKindInfo = {1, 0x1d8000, 0x19000, 3, 0x800, 1, 0x16a};
 const RotaryKindInfo gRotaryGearBlackKindInfo = {1, 0x12c000, 0x32000, 1, 0x800, 1, 0x177};

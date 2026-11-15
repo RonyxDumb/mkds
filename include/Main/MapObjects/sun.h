@@ -2,7 +2,7 @@
 #include "types.h"
 #include "01/MapObjects/data_0209bc74.h"
 
-unsigned int SunSetupDrawReturnArgument(unsigned int value);
+void SunSetupDrawNop(void);
 
 void CreateSunAndSunLOD(void *mapObjectList);
 

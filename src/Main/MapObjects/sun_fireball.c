@@ -91,9 +91,7 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
     return passedOnValue;
 }
 
-u32 SunFireballInitReturnArgument(u32 value) {
-    return value;
-}
+void SunFireballInitNop(void) {}
 
 static inline u32 SunFireballNextRandomU32(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
@@ -231,7 +229,7 @@ MapObjectKindData *CreateSunFireballKindData(void) {
 }
 
 MapObjectList *CreateSunFireballUpdateList(void) {
-    return CreateMapObjectUpdateList(&SunFireballInitReturnArgument, &UpdateSunFireball, NULL);
+    return CreateMapObjectUpdateList(&SunFireballInitNop, &UpdateSunFireball, NULL);
 }
 
 void StartSunFireball(Vec3 *startPos, Vec3 *direction) {

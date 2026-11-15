@@ -11,7 +11,7 @@ void UpdateChoropuState7(Choropu *choropu);
 u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 
-unsigned int ChoropuState7ReturnArgument(unsigned int value);
+void ChoropuState7Nop(Choropu *choropu);
 
 typedef struct Choropu Choropu;
 

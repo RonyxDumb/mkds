@@ -57,7 +57,7 @@ void MoveKartTowardLastRank(u16 kartIndex);
 void MoveKartTowardFirstRank(u16 kartIndex);
 u16 GetBattleItemRank(s32 kartIndex);
 void ClearStandingsHitSeenFromKart(s32 kartIndex);
-unsigned int StandingsReturnArgument(unsigned int value);
+void StandingsNop(s32 entryIndex);
 
 BOOL IsKartLastByBalloonOrShineCount(u16 kartIndex);
 BOOL IsKartEliminated(int kartIndex);

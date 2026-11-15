@@ -49,9 +49,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
     gSoundSourceCountThisPass[0] = 0;
 }
 
-u32 SoundReturnArgument(u32 value) {
-    return value;
-}
+void SoundNop(u32 address) {}
 
 // The sound pass: list 0 sources get volume and pan every call, list 1 sources in turns over four calls.
 void UpdateSoundSources(void) {

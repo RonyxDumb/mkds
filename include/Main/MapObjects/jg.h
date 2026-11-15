@@ -16,7 +16,7 @@ void UpdateJgState2(void);
 void EnterJgState2(void);
 void UpdateJgState1(void);
 void EnterJgState1(void);
-unsigned int JgState0ReturnArgument(unsigned int value);
+void JgState0Nop(void);
 void UpdateJgPosition(void);
 void ComputeJgMatrixAndInverse(void);
 void DrawJg(void);

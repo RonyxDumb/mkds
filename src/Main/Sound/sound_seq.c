@@ -888,7 +888,7 @@ void StartSceneSounds(void) {
     }
     ResetRaceEndSeqState();
     gRaceSoundKind = 0;
-    SoundReturnArgumentWrapper((u32) &gRaceSoundKind);
+    SoundNopWrapper((u32) &gRaceSoundKind);
     flag = 0;
     gPlayerVolumeFade.mVolume = 0;
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0x7f;
@@ -1497,7 +1497,7 @@ void StopSceneSounds(void) {
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
     gPlayerVolumeFade.mRaceStarted = 0;
-    ScenePlayersReturnArgument(&gScenePlayers);
+    ScenePlayersNop(&gScenePlayers);
     SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_FADED_OUT);
     for (slotIndex = 0; slotIndex < 12; slotIndex++) {
         NNS_SndPlayerStopSeq(gSndHandleSlots + slotIndex, GetSoundFadeSteps());

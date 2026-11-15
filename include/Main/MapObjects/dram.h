@@ -44,7 +44,7 @@ void EnterDramState4(Dram *dram);
 
 void UpdateDramState3(Dram *dram);
 
-unsigned int DramState3ReturnArgument(unsigned int value);
+void DramState3Nop(Dram *dram);
 
 void UpdateDramState2(Dram *dram);
 
@@ -52,7 +52,7 @@ void EnterDramState2(Dram *dram);
 
 void UpdateDramState0(Dram *dram);
 
-unsigned int DramState0ReturnArgument(unsigned int value);
+void DramState0Nop(Dram *dram);
 
 void UpdateDram(u32 unused,
                 Dram *dram); /* the whole per-object step; the group also has a pre-step, PickDramAngleChoices */

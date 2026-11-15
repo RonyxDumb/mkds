@@ -4,5 +4,5 @@
 
 typedef struct SoundSource SoundSource;
 
-void SetShine16TrackParamsReturnArgument(SoundSource *soundSource);
-unsigned int Shine16TrackParamsReturnArgument(unsigned int value);
+void SetShine16TrackParamsNop(SoundSource *soundSource);
+void Shine16TrackParamsNop(void *a, void *b, void *c);

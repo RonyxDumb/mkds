@@ -243,9 +243,7 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
     gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~0xff00;
 }
 
-u32 StandingsReturnArgument(u32 value) {
-    return value;
-}
+void StandingsNop(s32 entryIndex) {}
 
 void ClearStandingsHitSeenFromKart(s32 kartIndex) {
     s32 otherKartIndex;

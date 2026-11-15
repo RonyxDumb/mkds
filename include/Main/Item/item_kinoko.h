@@ -112,7 +112,7 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR);
 
 void AdvanceItemKouraR(ItemKouraR *kouraR);
 
-unsigned int ItemObjectBounceReturnArgument(unsigned int value);
+void ItemObjectBounceNop(ItemObject *item, Vec3 *a, Vec3 *b);
 
 typedef struct ItemObject ItemObject;
 

@@ -2,8 +2,6 @@
 
 #pragma thumb on
 
-u32 MenuScreen27ReturnArgument(u32 value) {
-    return value;
-}
+void MenuScreen27Nop(void) {}
 
 #pragma thumb off

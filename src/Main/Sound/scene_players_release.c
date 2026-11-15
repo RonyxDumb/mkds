@@ -58,9 +58,7 @@ void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps) {
     NNS_SndPlayerStopSeq(&scenePlayers->mSeqPlayer, fadeSteps);
 }
 
-u32 ScenePlayersReturnArgument(ScenePlayers *scenePlayers) {
-    return (u32) scenePlayers;
-}
+void ScenePlayersNop(ScenePlayers *scenePlayers) {}
 
 void ReleaseScenePlayers(ScenePlayers *scenePlayers, s32 unused) {
     ReleaseAllSoundSources();

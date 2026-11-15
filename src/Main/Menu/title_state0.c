@@ -6,9 +6,7 @@
 
 #pragma thumb on
 
-u32 TitleState0ReturnArgument(u32 value) {
-    return value;
-}
+void TitleState0Nop(void) {}
 
 void UpdateTitleState0(void) {
     int stateFrames;

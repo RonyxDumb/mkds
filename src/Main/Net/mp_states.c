@@ -556,8 +556,6 @@ void UpdateMPState14(void) {
 
 #pragma thumb on
 
-u32 EnterMPState15ReturnArgument(u32 value) {
-    return value;
-}
+void EnterMPState15Nop(void) {}
 
 #pragma thumb off

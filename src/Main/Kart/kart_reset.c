@@ -285,7 +285,8 @@ void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, P
     }
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         ResetCameraBehind(position, &kart->mHeadingQuaternion);
-        ReturnArgument(((u32(*)(void)) ResetCameraHalfFovAngle)());
+        ResetCameraHalfFovAngle();
+        Nop();
         SetCameraHeightHold(0);
     }
 }
