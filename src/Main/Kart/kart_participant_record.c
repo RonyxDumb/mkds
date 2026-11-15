@@ -184,7 +184,7 @@ void StartKartSpin(Kart *kart, int spinCount, int skipSound) {
     } else if (kart->mTurnRatio < 0) {
         direction = -1;
     }
-    kart->mYRotationAnglePerFrame = 0x750;
+    kart->mYRotationAnglePerFrame = KART_SPIN_ANGLE_PER_FRAME;
     kart->mYRotationAnglePerFrame = kart->mYRotationAnglePerFrame * direction;
     kart->mYRotationAngle = 0;
     kart->mYRotationAngleSum = 0;
@@ -208,7 +208,7 @@ void AdvanceKartSpin(Kart *kart) {
         return;
     }
     kart->mDriveFlags |= KART_DRIVE_STATE_END_TIMER | KART_DRIVE_INPUT_LOCKED;
-    kart->mStateEndTimer = 0xa;
+    kart->mStateEndTimer = KART_SPIN_END_LOCK_FRAMES;
     kart->mState = KART_STATE_NORMAL;
     kart->mEffectFlags &= ~(KART_EFFECT_TUMBLING | KART_EFFECT_Y_SPIN);
     kart->mDriveFlags &= ~KART_DRIVE_HIT_STATE;
@@ -255,7 +255,7 @@ void StartKartLaunchDoubleFlip(Kart *kart) {
     }
     kart->mState = KART_STATE_LAUNCH_DOUBLE_FLIP;
     kart->mEffectFlags |= KART_EFFECT_TUMBLING;
-    kart->mVerticalSpeed = 0x6000;
+    kart->mVerticalSpeed = KART_LAUNCH_FLIP_VERTICAL_SPEED;
     kart->mRotationAngleSum = 0;
     kart->mRotationAngle = 0;
     kart->mRotationAnglePerFrame = KART_LAUNCH_FLIP_ANGLE_PER_FRAME;
@@ -303,7 +303,7 @@ void AdvanceKartLaunchDoubleFlip(Kart *kart) {
             kart->mRotationAngle = 0;
         }
         if (kart->mMotionFlags & KART_MOTION_LANDED) {
-            if (kart->mRotationAngleSum < 0x13000) {
+            if (kart->mRotationAngleSum < KART_LAUNCH_FLIP_LANDING_ROTATION_LIMIT) {
                 kart->mVerticalSpeed += 0x1800;
             }
         }
@@ -328,7 +328,7 @@ void AdvanceKartLaunchDoubleFlip(Kart *kart) {
     }
     QuaternionNormalize(&kart->mRotationQuaternion, &kart->mRotationQuaternion);
     if (!(kart->mEffectFlags & KART_EFFECT_LAUNCH_ENDING)) {
-        if ((u32) kart->mLaunchFrames > 2 &&
+        if ((u32) kart->mLaunchFrames > KART_LAUNCH_FLIP_END_MIN_FRAMES &&
             (kart->mLaunchStartY >= kart->mPos.y || (kart->mMotionFlags & KART_MOTION_ON_GROUND))) {
             if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 SetCameraHeightHold(0);
@@ -336,7 +336,7 @@ void AdvanceKartLaunchDoubleFlip(Kart *kart) {
             if (kart->mRotationEndFrames != 0) {
                 return;
             }
-            kart->mCollisionStepFrames = 0x46;
+            kart->mCollisionStepFrames = KART_LAUNCH_FLIP_COLLISION_STEP_FRAMES;
             value = kart->mRotationEndFrames;
             kart->mDriveFlags |= KART_DRIVE_STATE_END_TIMER | KART_DRIVE_INPUT_LOCKED;
             kart->mStateEndTimer = value;
@@ -347,7 +347,7 @@ void AdvanceKartLaunchDoubleFlip(Kart *kart) {
         return;
     }
     kart->mRotationEndFrames++;
-    if (kart->mRotationEndFrames < 0x1e) {
+    if (kart->mRotationEndFrames < KART_LAUNCH_FLIP_ROTATION_END_FRAMES) {
         return;
     }
     kart->mState = KART_STATE_NORMAL;
@@ -585,7 +585,7 @@ void StartKartPushFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
     }
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
         kart->mParticipantRecordData->mPushDirection = *pushDirection;
-        kart->mParticipantRecordData->mStartedStateKind = 4;
+        kart->mParticipantRecordData->mStartedStateKind = KART_STATE_PUSH_FLIP;
     }
 }
 
@@ -617,7 +617,7 @@ void AdvanceKartPushFlip(Kart *kart) {
         kart->mEffectFlags &= ~KART_EFFECT_TUMBLING;
     }
     kart->mRotationEndFrames++;
-    if (kart->mRotationEndFrames < 0x1e) {
+    if (kart->mRotationEndFrames < KART_PUSH_FLIP_ROTATION_END_FRAMES) {
         return;
     }
     kart->mState = KART_STATE_NORMAL;
@@ -695,7 +695,7 @@ s32 StartKartPushDoubleFlip(Kart *kart, const Vec3 *pushDirection, s32 record) {
         }
         if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
             kart->mParticipantRecordData->mPushDirection = *pushDirection;
-            kart->mParticipantRecordData->mStartedStateKind = 5;
+            kart->mParticipantRecordData->mStartedStateKind = KART_STATE_PUSH_DOUBLE_FLIP;
         }
     }
     return 1;
@@ -734,7 +734,7 @@ void AdvanceKartPushDoubleFlip(Kart *kart) {
         kart->mEffectFlags &= ~KART_EFFECT_TUMBLING;
     }
     kart->mRotationEndFrames++;
-    if (kart->mRotationEndFrames < 10) {
+    if (kart->mRotationEndFrames < KART_PUSH_DOUBLE_FLIP_ROTATION_END_FRAMES) {
         return;
     }
     kart->mState = KART_STATE_NORMAL;
@@ -793,7 +793,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
         itemEffect->mThunderShrinkFrameIndex = itemEffect->mThunderShrinkFrameIndex + 1;
-        if (itemEffect->mThunderShrinkFrameIndex >= 0x19) {
+        if (itemEffect->mThunderShrinkFrameIndex >= KART_SCALE_RESTORE_STEPS) {
             kart->mScaleBase.x = TO_FIXED12(1);
             kart->mScaleBase.y = TO_FIXED12(1);
             kart->mScaleBase.z = TO_FIXED12(1);
@@ -804,7 +804,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (itemEffect->mThunderShrinkFrameIndex > 0x19) {
+            if (itemEffect->mThunderShrinkFrameIndex > KART_SCALE_RESTORE_STEPS) {
                 kart->mEffectFlags &= ~KART_EFFECT_THUNDER_SHRINK;
                 if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
                     kart->mShrinkFactor = TO_FIXED12(1);
@@ -866,7 +866,7 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
         return FALSE;
     }
     effectState->mScaleTableIndex = 0;
-    effectState->mScaleEffectTimer = 0x258;
+    effectState->mScaleEffectTimer = KART_SCALE_EFFECT_FRAMES;
     kart->mScaleFactor.x = TO_FIXED12(1);
     kart->mScaleFactor.y = TO_FIXED12(1);
     kart->mScaleFactor.z = TO_FIXED12(1);
@@ -899,7 +899,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
         effectState->mScaleTableIndex++;
-        if (effectState->mScaleTableIndex >= 0x19) {
+        if (effectState->mScaleTableIndex >= KART_SCALE_RESTORE_STEPS) {
             kart->mUnk_398 = TO_FIXED12(1);
             kart->mScaleYFactor = TO_FIXED12(1);
             kart->mScaleFactor.x = TO_FIXED12(1);
@@ -909,7 +909,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (effectState->mScaleTableIndex > 0x19) {
+            if (effectState->mScaleTableIndex > KART_SCALE_RESTORE_STEPS) {
                 kart->mEffectFlags &= ~KART_EFFECT_SCALE_TABLE;
                 if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
                     kart->mShrinkFactor = TO_FIXED12(1);
@@ -932,7 +932,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         return;
     }
     effectState->mScaleEffectTimer--;
-    if (effectState->mScaleEffectTimer == 0x1c2) {
+    if (effectState->mScaleEffectTimer == KART_SCALE_EFFECT_DRIVE_FLAG_CLEAR_TIMER) {
         kart->mDriveFlags &= ~KART_DRIVE_SCALE_TABLE_EFFECT;
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             ResetCameraHalfFovAngleGoal();
@@ -1094,9 +1094,9 @@ void StartKartTeresa(Kart *kart) {
     if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
         kart->mEntryFlags |= KART_ENTRY_TRANSLUCENT;
     } else {
-        effectState->mTeresaToggleDivisor = 2;
+        effectState->mTeresaToggleDivisor = KART_TERESA_START_TOGGLE_DIVISOR;
         effectState->mTeresaStepFrames = 0;
-        effectState->mTeresaStepLimit = 10;
+        effectState->mTeresaStepLimit = KART_TERESA_START_STEP_LIMIT;
         effectState->mTeresaToggleFrames = 0;
         effectState->mTeresaDivisorStep = 1;
     }
@@ -1120,7 +1120,7 @@ void AdvanceKartTeresa(Kart *kart) {
     }
     effectState = &kart->mItemEffectData;
     if (!(kartBits & KART_ENTRY_SELECTED)) {
-        if (effectState->mTeresaToggleFrames < 0x50) {
+        if (effectState->mTeresaToggleFrames < KART_TERESA_TOGGLE_END_FRAMES) {
             effectState->mTeresaToggleFrames++;
             effectState->mTeresaStepFrames++;
             if (effectState->mTeresaStepFrames > effectState->mTeresaStepLimit) {
@@ -1133,11 +1133,11 @@ void AdvanceKartTeresa(Kart *kart) {
             } else {
                 kart->mEntryFlags |= KART_ENTRY_NOT_DRAWN;
             }
-            if (effectState->mTeresaToggleFrames >= 0x50) {
+            if (effectState->mTeresaToggleFrames >= KART_TERESA_TOGGLE_END_FRAMES) {
                 kart->mEntryFlags |= KART_ENTRY_NOT_DRAWN;
             }
         }
-        if (effectState->mTeresaFrames == 0x172) {
+        if (effectState->mTeresaFrames == KART_TERESA_DIVISOR_TURN_FRAMES) {
             effectState->mTeresaDivisorStep = -1;
             effectState->mTeresaToggleFrames = 0;
         }
@@ -1506,7 +1506,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         bitsPointer = &kart->mEntryFlags;
         currentBits = *bitsPointer;
         if ((currentBits & 0x800006) == 0 && winnerDecidedAndEndReached == FALSE && (currentBits & 0x40000) != 0) {
-            if (kart->mFramesSinceRemovalOrReset >= 0xb9) {
+            if (kart->mFramesSinceRemovalOrReset >= KART_BATTLE_RESPAWN_FRAMES) {
                 *bitsPointer = *bitsPointer | KART_ENTRY_BATTLE_RESPAWNED;
                 RespawnKartAndToggleEventFlag(kart);
                 collisionCenter = gRaceSetup->mMode == MODE_WIFI ? &kart->mPointAlongUp : &kart->mCollisionCenter;
@@ -2482,13 +2482,13 @@ void StartKartRaceEnd(Kart *kart) {
     if (kart->mIndex == raceSetup->mEntryIndex) {
         value = GetRaceEndResultKind();
         switch (value) {
-            case 0:
+            case RACE_END_RESULT_BEST:
                 soundOffset = 9;
                 break;
-            case 1:
+            case RACE_END_RESULT_WON:
                 soundOffset = 0xa;
                 break;
-            case 2:
+            case RACE_END_RESULT_LOST:
                 soundOffset = 0xb;
                 break;
         }
@@ -2843,11 +2843,11 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
         StartKartLaunchDoubleFlip(kart);
         startedState = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 4) != 0) != ((recordFlags & 4) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_SPIN_SINGLE) != 0) != ((recordFlags & KART_EVENT_SPIN_SINGLE) != 0)) {
         StartKartSpin(kart, 1, 0);
         startedState = 1;
     }
-    if (((kart->mParticipantRecordData->mAppliedFlags & 8) != 0) != ((recordFlags & 8) != 0)) {
+    if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_SPIN_DOUBLE) != 0) != ((recordFlags & KART_EVENT_SPIN_DOUBLE) != 0)) {
         StartKartSpin(kart, 2, 0);
         startedState = 1;
     }
