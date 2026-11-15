@@ -49,18 +49,18 @@ JgKindFileNames gJgKindFileNames[4] = {{NULL, NULL, NULL},
                                        {NULL, NULL, NULL},
                                        {gJgReverseNsbmdName, NULL, gJgReverseNsbmaName},
                                        {gJgFlagNsbmdName, gJgFlagNsbcaName, NULL}};
-StateCallbacks gJgStateTable[7] = {{(StateCallback) EnterJgState0, JgState0Nop},
-                                   {EnterJgState1, UpdateJgState1},
-                                   {EnterJgState2, UpdateJgState2},
-                                   {EnterJgState3, UpdateJgState3},
-                                   {EnterJgState4, UpdateJgState4},
-                                   {EnterJgState5, UpdateJgState5},
-                                   {EnterJgState6, UpdateJgState6}};
+StateCallbacks gJgStateTable[7] = {{(StateCallback) EnterJgOff, JgOffNop},
+                                   {EnterJgReverse, UpdateJgReverse},
+                                   {EnterJgLap, UpdateJgLap},
+                                   {EnterJgFlag, UpdateJgFlag},
+                                   {EnterJgFollowKart, UpdateJgFollowKart},
+                                   {EnterJgLeave, UpdateJgLeave},
+                                   {EnterJgArrive, UpdateJgArrive}};
 Vec3 **gAttractorPositions;
 u16 *gAttractorStrengths;
 struct MapObjectList *gAttractorUpdateList;
 
-void SetJgState4(void) {
+void SetJgFollowKart(void) {
     u32 raceKindValue;
     u32 raceKind;
     u32 staffRollKind;
@@ -78,7 +78,7 @@ void SetJgState4(void) {
 }
 
 #pragma thumb off
-void SetJgState4Countdown(void) {
+void SetJgFollowKartCountdown(void) {
     if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         gJgStateCounter = 0x14;
     }
@@ -138,7 +138,7 @@ void InitJg(void) {
     flag = TRUE;
     gJgInView = flag;
     gJgNearKart = flag;
-    gJgState1AngleActive = 0;
+    gJgReverseAngleActive = 0;
     if (gCourseMap->mSettings->mStartSideFlipped != 0) {
         flag = FALSE;
     }
@@ -185,14 +185,14 @@ void InitJg(void) {
     }
     switch (gRaceSetup->mEngineIndex) {
         case ENGINE_CLASS_SLOW:
-            gJgState2FrameCount = 0x50;
+            gJgLapFrameCount = 0x50;
             break;
         case ENGINE_CLASS_MEDIUM:
-            gJgState2FrameCount = 0x3c;
+            gJgLapFrameCount = 0x3c;
             break;
         case ENGINE_CLASS_FAST:
         default:
-            gJgState2FrameCount = 0x2d;
+            gJgLapFrameCount = 0x2d;
             break;
     }
     gJgSoundStartParams.mSoundId = 0x101;

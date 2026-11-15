@@ -121,7 +121,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         if (kart->mSinkFrames > 0x41) {
             kart->mDriveFlags &= ~(KART_DRIVE_SINKING | KART_DRIVE_OBJECTS_SKIP);
             if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-                SetJgState4Countdown();
+                SetJgFollowKartCountdown();
             }
         } else {
             kart->mPos.y -= 0x19a;

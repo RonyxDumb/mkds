@@ -235,7 +235,7 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
         }
     }
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mRespawnFrames == KART_RESPAWN_FOLLOW_KART_FRAME) {
-        SetJgState4();
+        SetJgFollowKart();
     } else if (kart->mRespawnFrames > KART_RESPAWN_END_FRAME) {
         RespawnKartAndToggleEventFlag(kart);
         finished = TRUE;

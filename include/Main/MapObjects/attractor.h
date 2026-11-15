@@ -175,7 +175,7 @@ typedef struct JgKindRow {
     /* 0c */ NsbmdModel *mLapModel;
 } JgKindRow;
 
-// Filled in by InitJg; UpdateJgState1 stores GetHorizontalCameraDistanceSquared's return value
+// Filled in by InitJg; UpdateJgReverse stores GetHorizontalCameraDistanceSquared's return value
 // at 0x0c and hands it to StartSndHandleSound.
 extern SoundStartParams gJgSoundStartParams;
 extern JgKindRow gJgKindRows[];
@@ -191,8 +191,8 @@ MapObjectKindData *CreateAttractorKindData(void);
 void CreateJg(void);
 void InitJg(void);
 void ReleaseJg(void);
-void SetJgState4Countdown(void);
-void SetJgState4(void);
+void SetJgFollowKartCountdown(void);
+void SetJgFollowKart(void);
 
 Vec3 *GetAttractorPosition(u16 index);
 
