@@ -112,7 +112,7 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
         len++;
     }
     wordIndex++;
-    if (ctx->mBufferLen >= 0x38) {
+    if (ctx->mBufferLen >= DGT_HASH2_LENGTH_OFFSET) {
         for (; wordIndex < 16; wordIndex++) {
             blockWords[wordIndex] = 0;
         }
