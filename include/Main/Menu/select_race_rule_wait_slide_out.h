@@ -7,16 +7,16 @@ void SlideOutSelectRaceRuleWait(void);
 
 void PlaceSelectRaceRuleWait(void);
 
-void AdvanceSelectRaceRuleWaitState0(void);
-void AdvanceSelectRaceRuleWaitState2(void);
+void AdvanceSelectRaceRuleWaitSlideIn(void);
+void AdvanceSelectRaceRuleWaitSlideOut(void);
 void AdvanceSelectRaceRuleWait(void);
 void SlideInSelectRaceRuleWait(void);
 
 void ClearSelectRaceRuleWaitPointer(void);
 
-void RequestSelectRaceRuleWaitState0(void);
-void RequestSelectRaceRuleWaitState1(void);
-void RequestSelectRaceRuleWaitState2(void);
+void RequestSelectRaceRuleWaitSlideIn(void);
+void RequestSelectRaceRuleWaitRest(void);
+void RequestSelectRaceRuleWaitSlideOut(void);
 void InitSelectRaceRuleWait(void *heap, void *oamList);
 
 void LocateAndQueueSelectRaceRuleWait(void);

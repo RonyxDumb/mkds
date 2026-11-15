@@ -56,7 +56,7 @@ void LocateAndQueueSelectRaceRuleWait(void) {
 
 #pragma thumb on
 
-void RequestSelectRaceRuleWaitState0(void) {
+void RequestSelectRaceRuleWaitSlideIn(void) {
     u16 cellEntryCount;
 
     gSelectRaceRuleWait->mNextState = SELECT_RACE_RULE_WAIT_SLIDE_IN;
@@ -66,12 +66,12 @@ void RequestSelectRaceRuleWaitState0(void) {
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = 0xc0;
 }
 
-void RequestSelectRaceRuleWaitState1(void) {
+void RequestSelectRaceRuleWaitRest(void) {
     gSelectRaceRuleWait->mNextState = SELECT_RACE_RULE_WAIT_REST;
     gSelectRaceRuleWait->mStateFrames = 0;
 }
 
-void RequestSelectRaceRuleWaitState2(void) {
+void RequestSelectRaceRuleWaitSlideOut(void) {
     u16 cellEntryCount;
 
     gSelectRaceRuleWait->mNextState = SELECT_RACE_RULE_WAIT_SLIDE_OUT;
@@ -107,8 +107,8 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     }
     gSelectRaceRuleWait->mTable[0x2a].mVisible = 1;
     CreateWait(heap, gSelectRaceRuleWait->mNcer, gSelectRaceRuleWait->mBncl, 0x2a, 0xe, 1);
-    RequestSelectRaceRuleWaitState0();
-    RequestSelectRaceRuleWaitState1();
+    RequestSelectRaceRuleWaitSlideIn();
+    RequestSelectRaceRuleWaitRest();
     AdvanceSelectRaceRuleWait();
 }
 
@@ -125,7 +125,7 @@ void ClearSelectRaceRuleWaitPointer(void) {
 
 #pragma thumb on
 
-void AdvanceSelectRaceRuleWaitState0(void) {
+void AdvanceSelectRaceRuleWaitSlideIn(void) {
     u16 cellEntryCount;
     s16 offsetY;
 
@@ -135,11 +135,11 @@ void AdvanceSelectRaceRuleWaitState0(void) {
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= 10) {
-        RequestSelectRaceRuleWaitState1();
+        RequestSelectRaceRuleWaitRest();
     }
 }
 
-void AdvanceSelectRaceRuleWaitState2(void) {
+void AdvanceSelectRaceRuleWaitSlideOut(void) {
     u16 cellEntryCount;
     s16 offsetY;
 
@@ -149,7 +149,7 @@ void AdvanceSelectRaceRuleWaitState2(void) {
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= 10) {
-        RequestSelectRaceRuleWaitState1();
+        RequestSelectRaceRuleWaitRest();
     }
 }
 
@@ -157,12 +157,12 @@ void AdvanceSelectRaceRuleWait(void) {
     gSelectRaceRuleWait->mState = gSelectRaceRuleWait->mNextState;
     switch (gSelectRaceRuleWait->mState) {
         case SELECT_RACE_RULE_WAIT_SLIDE_IN:
-            AdvanceSelectRaceRuleWaitState0();
+            AdvanceSelectRaceRuleWaitSlideIn();
             break;
         case SELECT_RACE_RULE_WAIT_REST:
             break;
         case SELECT_RACE_RULE_WAIT_SLIDE_OUT:
-            AdvanceSelectRaceRuleWaitState2();
+            AdvanceSelectRaceRuleWaitSlideOut();
             break;
     }
     AdvanceWait();
@@ -171,7 +171,7 @@ void AdvanceSelectRaceRuleWait(void) {
 }
 
 void SlideInSelectRaceRuleWait(void) {
-    RequestSelectRaceRuleWaitState0();
+    RequestSelectRaceRuleWaitSlideIn();
 }
 
 #pragma thumb off
@@ -179,8 +179,8 @@ void SlideInSelectRaceRuleWait(void) {
 #pragma thumb on
 
 void PlaceSelectRaceRuleWait(void) {
-    RequestSelectRaceRuleWaitState2();
-    RequestSelectRaceRuleWaitState1();
+    RequestSelectRaceRuleWaitSlideOut();
+    RequestSelectRaceRuleWaitRest();
 }
 
 #pragma thumb off
@@ -188,6 +188,6 @@ void PlaceSelectRaceRuleWait(void) {
 #pragma thumb on
 void SlideOutSelectRaceRuleWait(void) {
     u32 unused;
-    RequestSelectRaceRuleWaitState2();
+    RequestSelectRaceRuleWaitSlideOut();
 }
 #pragma thumb off
