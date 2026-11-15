@@ -470,5 +470,6 @@ void SetupItemObjectFromData(ItemObject *item) {
     if (hasCollisionSlot != FALSE) {
         return;
     }
-    item->mCollisionSlotIndex = CreateCollisionSlot(&item->mPos, item->mRadius + 0xa000, 0x4000, item);
+    item->mCollisionSlotIndex =
+        CreateCollisionSlot(&item->mPos, item->mRadius + 0xa000, COLLISION_SLOT_FLAG_ITEM_OBJECT, item);
 }

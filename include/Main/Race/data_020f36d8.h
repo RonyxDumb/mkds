@@ -96,6 +96,16 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OBJECT_OLD_FRAMES 0x12c
 
 // Bits of ItemObject.mFlags. The low 12 bits are events of the current frame: UpdateItemObject clears them first.
+// Frames of ItemObject.mFramesSinceCourseHit and mFramesSinceReset that count as recent; the frames
+// ItemObject.mCourseReleaseTimer runs for after a course hit on a resting object and on any other object; the bits of
+// ItemObject.mDistanceSquaredAndFlags the view test sets when the object is outside the view; the object age after
+// which an excluded owner is free again (once it has a course hit, and without waiting for one).
+#define ITEM_OBJECT_RECENT_HIT_FRAMES 5
+#define ITEM_OBJECT_RESTING_RELEASE_FRAMES 0xb4
+#define ITEM_OBJECT_COURSE_RELEASE_FRAMES 2
+#define ITEM_OBJECT_VIEW_TEST_OUTSIDE_BITS 3
+#define ITEM_OBJECT_EXCLUDED_AFTER_HIT_AGE_FRAMES 4
+#define ITEM_OBJECT_EXCLUDED_AGE_FRAMES 0x1e
 // Fade-out (ITEM_OBJECT_FLAG_FADING_OUT) began this frame.
 #define ITEM_OBJECT_FLAG_FADE_OUT_STARTED 0x1
 // The release timer (ITEM_OBJECT_FLAG_RELEASING) began this frame.

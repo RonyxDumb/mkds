@@ -305,7 +305,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 }
             }
             if (kindData->mShapeKind != MAP_OBJECT_SHAPE_NONE) {
-                slotFlags = 0x2000;
+                slotFlags = COLLISION_SLOT_FLAG_MAP_OBJECT;
                 if (kindData->mPosStepMode == 0) {
                     slotFlags |= gCollisionSlotPosStepFlag;
                 }

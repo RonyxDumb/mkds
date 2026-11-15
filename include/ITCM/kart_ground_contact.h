@@ -17,6 +17,16 @@ typedef struct JointScaleCommand {
     /* 03 */ u8 mOptionFlags;
 } JointScaleCommand;
 
+// Frames in the air after which the kart counts as airborne for a long time (KART_MOTION_AIRBORNE_LONG, the air tilt),
+// and collision step frames a kart that holds still needs before its tilt freezes.
+#define KART_AIRBORNE_LONG_FRAMES 5
+#define KART_STILL_HOLD_STEP_FRAMES 100
+// Tilt of the kart nose during a hop: the start value, the limit past which it falls back, and the value it falls back
+// to.
+#define KART_HOP_TILT_START 0x9c4
+#define KART_HOP_TILT_LIMIT 0x6a4
+#define KART_HOP_TILT_RESET 0x352
+
 void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
 void texmtxCalc_flagRS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
 void texmtxCalc_flagR_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);

@@ -189,7 +189,8 @@ void AdvanceKartByVelocity(Kart *kart) {
     VEC_Add(&kart->mVelocity, &kart->mCollisionPushVelocity, &kart->mVelocity);
     kart->mVelocity.y += kart->mVerticalSpeed;
     VEC_MultAdd(kart->mAttractorPullSpeed, &kart->mAttractorPullDirection, &kart->mVelocity, &kart->mVelocity);
-    if (!(kart->mMotionFlags & KART_MOTION_ON_GROUND) && kart->mAirborneFrames > 5 && kart->mVelocity.y < -0x6000) {
+    if (!(kart->mMotionFlags & KART_MOTION_ON_GROUND) && kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES &&
+        kart->mVelocity.y < -0x6000) {
         kart->mVelocity.y = -0x6000;
     }
     VEC_Add(&kart->mVelocity, &kart->mPrevPrevHitVelocity, &kart->mVelocity);

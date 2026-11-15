@@ -1524,14 +1524,15 @@ void CreateItemObjectCollisionSlot(ItemObject *item) {
     if (item->mCollisionSlotIndex != -1) {
         return;
     }
-    item->mCollisionSlotIndex = CreateCollisionSlot(&item->mPos, item->mRadius + 0xa000, 0x4000, item);
+    item->mCollisionSlotIndex =
+        CreateCollisionSlot(&item->mPos, item->mRadius + 0xa000, COLLISION_SLOT_FLAG_ITEM_OBJECT, item);
 }
 
 void CreateItemObjectCollisionSlotExact(ItemObject *item) {
     if (item->mCollisionSlotIndex != -1) {
         return;
     }
-    item->mCollisionSlotIndex = CreateCollisionSlot(&item->mPos, item->mRadius, 0x4000, item);
+    item->mCollisionSlotIndex = CreateCollisionSlot(&item->mPos, item->mRadius, COLLISION_SLOT_FLAG_ITEM_OBJECT, item);
 }
 
 #pragma thumb on

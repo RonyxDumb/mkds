@@ -162,7 +162,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
     if (dot >= 0xe66) {
         if (kart->mMotionFlags & KART_MOTION_STILL_HOLD) {
             if (kart->mCollisionHitLink->mObject == NULL && kart->mPointMotion.x == 0 && kart->mPointMotion.y == 0 &&
-                kart->mPointMotion.z == 0 && kart->mCollisionStepFrames > 100) {
+                kart->mPointMotion.z == 0 && kart->mCollisionStepFrames > KART_STILL_HOLD_STEP_FRAMES) {
                 kart->mQuaternionBlendFactor = 0;
                 return;
             }
@@ -190,7 +190,7 @@ void UpdateKartAirborne(Kart *kart) {
         return;
     }
     kart->mAirborneFrames = kart->mAirborneFrames + 1;
-    if (kart->mAirborneFrames > 5) {
+    if (kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES) {
         kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_AIRBORNE_LONG;
     }
 }
@@ -200,7 +200,7 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     u32 value;
 
     kart->mVelocityScaleFactor = TO_FIXED12(1);
-    if (kart->mAirborneFrames > 5) {
+    if (kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
@@ -213,9 +213,9 @@ void AdvanceKartOrientation(Kart *kart, Vec3 *direction) {
     QuaternionMultiply(&kart->mTiltQuaternion, &kart->mHeadingQuaternion, &kart->mCombinedQuaternion);
     if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         if (kart->mHopSpeed > 0) {
-            kart->mHopTiltAngle = 0x9c4 - (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 500);
-            if (kart->mHopTiltAngle > 0x6a4) {
-                kart->mHopTiltAngle = 0x352;
+            kart->mHopTiltAngle = KART_HOP_TILT_START - (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 500);
+            if (kart->mHopTiltAngle > KART_HOP_TILT_LIMIT) {
+                kart->mHopTiltAngle = KART_HOP_TILT_RESET;
             }
         } else {
             kart->mHopTiltAngle = 0;
@@ -393,7 +393,7 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
         }
         NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mScaleEx0, 3);
     }
-    if (!(jntAnmResult->mFlag & 2)) {
+    if (!(jntAnmResult->mFlag & NNS_G3D_JNTANM_RESULTFLAG_ROT_ZERO)) {
         if (translationPending) {
             NNS_G3dGeBufferOP_N(0x19, &jntAnmResult->mRot, 0xc);
         } else {
@@ -432,14 +432,14 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
     }
     if (optionFlags & 1) {
         nodeIndex = command->mParentId;
-        jntAnmResult->mFlag |= 0x20;
+        jntAnmResult->mFlag |= NNS_G3D_JNTANM_RESULTFLAG_MAYA_SSC;
         if (NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] & (1 << (nodeIndex & 0x1f))) {
-            jntAnmResult->mFlag |= 8;
+            jntAnmResult->mFlag |= NNS_G3D_JNTANM_RESULTFLAG_SCALEEX0_ONE;
         } else {
             jntAnmResult->mScaleEx0 = NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale;
         }
     }
-    jntAnmResult->mFlag |= 0x10;
+    jntAnmResult->mFlag |= NNS_G3D_JNTANM_RESULTFLAG_SCALEEX1_ONE;
 }
 
 void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {

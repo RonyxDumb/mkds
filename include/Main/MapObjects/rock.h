@@ -18,6 +18,8 @@
 #define FOUND_COLLISION_SLOT_CAPACITY 0x80
 
 // Bits of CollisionSlot.mFlags that the map object code sets or tests.
+#define COLLISION_SLOT_FLAG_MAP_OBJECT 0x2000 // CreateCollisionSlot flags of a map object slot
+#define COLLISION_SLOT_FLAG_ITEM_OBJECT 0x4000 // and of an item object slot
 #define COLLISION_SLOT_FLAG_RADIUS_CHANGED 0x100
 #define COLLISION_SLOT_FLAG_DISABLED 0x200 // the searches skip the slot
 #define COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE 0x400 // SetCollisionSlotRadius also sets the radius changed bit
