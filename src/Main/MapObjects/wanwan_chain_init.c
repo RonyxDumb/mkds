@@ -21,7 +21,7 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     chain->mModelScale = *modelScale;
     chain->mMinYOffset = MUL_FIXED12_NO_ROUND(value, modelScale->y);
     segmentCount = pointCount - 1;
-    chain->mStepFraction = FIXED12_ONE / segmentCount;
+    chain->mStepFraction = FIXED12_UNIT / segmentCount;
     chain->mLinkLength = MUL_FIXED12_NO_ROUND(length, 0x119a) / segmentCount;
     chain->mLinkLengthSquared = (s64) chain->mLinkLength * chain->mLinkLength;
     SetWanwanChainPointsEvenly(chain, start, end);

@@ -95,9 +95,9 @@ void InitPakkun(Pakkun *pakkun) {
                32 << 4) >>
         16;
     pakkun->mBodyStretchActive = TRUE;
-    pakkun->mBodyStretch = FIXED12_ONE;
+    pakkun->mBodyStretch = FIXED12_UNIT;
     pakkun->mBodyStretchSpeed = 0;
-    pakkun->mHeadScale = FIXED12_ONE;
+    pakkun->mHeadScale = FIXED12_UNIT;
     pakkun->mHeadScaleSpeed = 0;
     pakkun->mHeadHeight = PAKKUN_HEAD_HEIGHT;
     for (followerIndex = 0; followerIndex < 7; followerIndex++) {
@@ -256,7 +256,7 @@ void DrawPakkunBody(void *mapObjectList, Pakkun *pakkun) {
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&pakkun->mMapObject.mPos), 12);
     scale[0] = sideScale;
-    scale[1] = firstValue + secondValue - FIXED12_ONE;
+    scale[1] = firstValue + secondValue - FIXED12_UNIT;
     scale[2] = sideScale;
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
     NNS_G3dGeBufferOP_N(0x1b, &pakkun->mMapObject.mScale, 3);
@@ -279,7 +279,7 @@ void InitPakkunObjects(void) {
             frame = TO_FIXED12(GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) - 0.5f;
         }
         pakkun->mMouthFrame = 0;
-        pakkun->mMouthFrameStep = FIXED12_ONE;
+        pakkun->mMouthFrameStep = FIXED12_UNIT;
         pakkun->mMouthLoopFrame = 0;
         pakkun->mMouthEndFrame = frame;
         pakkun->mHeadPitch = -0xa4;
@@ -330,7 +330,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             if (pakkun->mTimer-- <= 0) {
                 pakkun->mTimer = 0;
                 if (pakkun->mBodyStretch >= PAKKUN_BODY_STRETCH_SETTLE) {
-                    pakkun->mBodyStretch = FIXED12_ONE;
+                    pakkun->mBodyStretch = FIXED12_UNIT;
                     pakkun->mBodyStretchActive = FALSE;
                     pakkun->mHeadScaleSpeed = PAKKUN_HEAD_SCALE_SPEED_START;
                     pakkun->mState = PAKKUN_STATE_GROW_HEAD;
@@ -351,8 +351,8 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
         case PAKKUN_STATE_SPIT:
             pakkun->mHeadScale = pakkun->mHeadScale + pakkun->mHeadScaleSpeed;
             pakkun->mHeadScaleSpeed = pakkun->mHeadScaleSpeed - 8;
-            if (pakkun->mHeadScale <= FIXED12_ONE) {
-                pakkun->mHeadScale = FIXED12_ONE;
+            if (pakkun->mHeadScale <= FIXED12_UNIT) {
+                pakkun->mHeadScale = FIXED12_UNIT;
                 pakkun->mBodyStretchActive = TRUE;
             }
             pakkun->mMouthFrame = pakkun->mMouthFrame + pakkun->mMouthFrameStep;
@@ -393,11 +393,11 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
     if (pakkun->mBodyStretchActive != FALSE) {
         pakkun->mBodyStretch = pakkun->mBodyStretch + pakkun->mBodyStretchSpeed;
         pakkun->mBodyStretchSpeed = pakkun->mBodyStretchSpeed + 4;
-        if (pakkun->mBodyStretch >= FIXED12_ONE) {
+        if (pakkun->mBodyStretch >= FIXED12_UNIT) {
             pakkun->mBodyStretchSpeed = -0x52;
         }
     }
-    firstOffset = MUL_FIXED12_NO_ROUND(pakkun->mBodyStretch + pakkun->mHeadScale - FIXED12_ONE, 0x2f000);
+    firstOffset = MUL_FIXED12_NO_ROUND(pakkun->mBodyStretch + pakkun->mHeadScale - FIXED12_UNIT, 0x2f000);
     secondOffset = MUL_FIXED12_NO_ROUND(pakkun->mHeadScale, 0x17000);
     pakkun->mHeadHeight = firstOffset + secondOffset;
 }

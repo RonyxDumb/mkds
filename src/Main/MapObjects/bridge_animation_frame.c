@@ -107,8 +107,8 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
     if (bridge->mSwingAngle >= ANGLE_QUARTER_TURN &&
         bridge->mSwingAngle < bridge->mSwingAnglePerFrame + ANGLE_QUARTER_TURN) {
         bridge->mPauseTimer = bridge->mPeakPauseFrameCount;
-    } else if (bridge->mSwingAngle >= ANGLE_THREE_QUARTER_TURN &&
-               bridge->mSwingAngle < bridge->mSwingAnglePerFrame + ANGLE_THREE_QUARTER_TURN) {
+    } else if (bridge->mSwingAngle >= ANGLE_MINUS_QUARTER_TURN &&
+               bridge->mSwingAngle < bridge->mSwingAnglePerFrame + ANGLE_MINUS_QUARTER_TURN) {
         bridge->mPauseTimer = bridge->mTroughPauseFrameCount;
     }
     angle = 0x10000 - bridge->mAngleX;

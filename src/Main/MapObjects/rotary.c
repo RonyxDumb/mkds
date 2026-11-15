@@ -225,7 +225,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     }
     object->mCollisionMapObject.mMapObject.mAngle = 0;
     if (object->mRampFrameCount != 0) {
-        object->mSpeedFractionPerFrame = FIXED12_ONE / object->mRampFrameCount;
+        object->mSpeedFractionPerFrame = FIXED12_UNIT / object->mRampFrameCount;
     } else {
         object->mSpeedFractionPerFrame = 0;
     }

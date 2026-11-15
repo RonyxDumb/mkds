@@ -135,7 +135,7 @@ void UpdateWater(Water *water) {
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
             water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHeightAnglePerFrame;
-            if (water->mHeightAngle > ANGLE_THREE_QUARTER_TURN - 1) {
+            if (water->mHeightAngle > ANGLE_MINUS_QUARTER_TURN - 1) {
                 water->mState = WATER_STATE_HOLD_BOTTOM;
                 water->mHoldFrames = 0;
                 water->mHoldAngleStep = water->mHeightAnglePerFrame;

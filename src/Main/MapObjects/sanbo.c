@@ -167,7 +167,7 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                     NNS_G3dGeBufferOP_N(0x1a, &pieceRotateZMatrix, 9);
                 }
                 drawScale = sanbo->mPieces[pieceIndex].mDrawScale;
-                if (drawScale < FIXED12_ONE) {
+                if (drawScale < FIXED12_UNIT) {
                     pieceScaleVector[0] = drawScale;
                     pieceScaleVector[1] = drawScale;
                     pieceScaleVector[2] = 0;
@@ -192,7 +192,7 @@ void DrawSanbo(void *mapObjectList, Sanbo *sanbo) {
                 stackedTranslation[1] = (pieceIndex * 0x14000 + 0xa000) >> 4;
                 NNS_G3dGeBufferOP_N(0x1c, stackedTranslation, 3);
                 drawScale = sanbo->mPieces[pieceIndex].mDrawScale;
-                if (drawScale < FIXED12_ONE) {
+                if (drawScale < FIXED12_UNIT) {
                     stackedScaleVector[0] = drawScale;
                     stackedScaleVector[1] = drawScale;
                     stackedScaleVector[2] = 0;
@@ -230,7 +230,7 @@ void InitSanboObjects(MapObjectList *mapObjectList) {
             sanbo->mPieces[pieceIndex].mWobbleAmplitudePerFrame = 0;
             sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = SANBO_WOBBLE_ANGLE_PER_FRAME;
             sanbo->mPieces[pieceIndex].mWobbleAnglePerFrameDelta = 0;
-            sanbo->mPieces[pieceIndex].mDrawScale = FIXED12_ONE;
+            sanbo->mPieces[pieceIndex].mDrawScale = FIXED12_UNIT;
             sanbo->mPieces[pieceIndex].mRotateZAngle = 0;
             sanbo->mPieces[pieceIndex].mWobbleDelayTimer = pieceIndex * 0x14;
         }
@@ -343,7 +343,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             if (sanbo->mPieces[0].mWobbleAngle <= ANGLE_HALF_TURN) {
                 return;
             }
-            if (sanbo->mPieces[0].mWobbleAngle >= ANGLE_THREE_QUARTER_TURN) {
+            if (sanbo->mPieces[0].mWobbleAngle >= ANGLE_MINUS_QUARTER_TURN) {
                 return;
             }
             soundStartParams.mSoundId = SANBO_WOBBLE_SOUND_ID;
@@ -392,10 +392,10 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
         case SANBO_STATE_REGROWING:
             sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale =
                 sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale + 0xcd;
-            if (sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale < FIXED12_ONE) {
+            if (sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale < FIXED12_UNIT) {
                 return;
             }
-            sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale = FIXED12_ONE;
+            sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale = FIXED12_UNIT;
             sanbo->mPieceCount = sanbo->mPieceCount + 1;
             if (sanbo->mPieceCount > SANBO_PIECE_COUNT) {
                 sanbo->mPieceCount = SANBO_PIECE_COUNT;

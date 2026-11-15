@@ -58,7 +58,7 @@ typedef struct MapObjectKindData {
 #define MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX 0x44c000
 
 // View test kind of a grpconf row from which on the kind uses two view planes.
-#define MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE 2
+#define MAP_OBJECT_VIEW_TEST_KIND_PLANE_PAIR 2
 
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f

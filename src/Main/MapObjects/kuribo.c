@@ -60,7 +60,8 @@ void EnterKuriboWalkPath(void *stateObject) {
 void UpdateKuriboWalkPath(void *stateObject) {
     Kuribo *kuribo = stateObject;
     if (kuribo->mFrameIndex >= KURIBO_WALK_QUARTER_FRAMES &&
-        (kuribo->mFrameIndex < KURIBO_WALK_HALF_FRAMES || kuribo->mFrameIndex >= KURIBO_WALK_THREE_QUARTER_FRAMES)) {
+        (kuribo->mFrameIndex < KURIBO_WALK_HALF_FRAMES ||
+         kuribo->mFrameIndex >= KURIBO_WALK_LAST_QUARTER_START_FRAMES)) {
         AdvanceGroupFollower(&kuribo->mFollower);
     }
     GetGroupFollowerCurvePosition(&kuribo->mFollower, &kuribo->mMapObject.mPos);
@@ -93,7 +94,8 @@ void UpdateKuriboFallToSurface(void *stateObject) {
     Vec3 correction;
     Vec3 surfaceNormal;
     if (kuribo->mFrameIndex < KURIBO_WALK_QUARTER_FRAMES ||
-        (kuribo->mFrameIndex >= KURIBO_WALK_HALF_FRAMES && kuribo->mFrameIndex < KURIBO_WALK_THREE_QUARTER_FRAMES)) {
+        (kuribo->mFrameIndex >= KURIBO_WALK_HALF_FRAMES &&
+         kuribo->mFrameIndex < KURIBO_WALK_LAST_QUARTER_START_FRAMES)) {
         if (kuribo->mFrameIndex == 0 || kuribo->mFrameIndex == KURIBO_WALK_HALF_FRAMES) {
             kuribo->mToggleCountdown--;
             if (kuribo->mToggleCountdown < 0) {
@@ -295,7 +297,7 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
 }
 
 void ResetKuriboForItemBomb(Kuribo *kuribo) {
-    kuribo->mOrientationBlendAmount = FIXED12_ONE;
+    kuribo->mOrientationBlendAmount = FIXED12_UNIT;
     kuribo->mOrientation = gKuriboBombResetOrientation;
     kuribo->mTargetOrientation = gKuriboBombResetTargetOrientation;
     SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);
