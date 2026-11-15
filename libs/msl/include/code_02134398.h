@@ -17,6 +17,26 @@ typedef enum FileWideMode {
     FILE_WIDE_MODE_POSITIVE = 2,
 } FileWideMode;
 
+// FILE.mWriteMode bits: the stream may be read, the stream may be written.
+#define FILE_MODE_READ 0x1
+#define FILE_MODE_WRITE 0x2
+
+// FILE.mBufferMode values: flush after every write, flush at a newline, flush when the buffer is full.
+#define FILE_BUFFER_MODE_NONE 0
+#define FILE_BUFFER_MODE_LINE 1
+#define FILE_BUFFER_MODE_FULL 2
+
+// FILE.mKind values: not usable, and the kind whose writes call NopWriteHook first.
+#define FILE_KIND_NONE 0
+#define FILE_KIND_WITH_WRITE_HOOK 2
+
+// FILE.mWriteState values: nothing pending, writing, reading; fflush treats every state from the third on
+// as reading.
+#define FILE_STATE_IDLE 0
+#define FILE_STATE_WRITING 1
+#define FILE_STATE_READING 2
+#define FILE_STATE_READING_EXTRA_FIRST 3
+
 // 0x4c bytes. Bit fields of the words at 0x04 and 0x08 are read and written by fwide, FwriteBody and
 // fflush; FileFlushBuffer calls mWriteFunc with mWriteFuncFirstArg, mBuffer, &mBufferRemaining and mWriteFuncLastArg.
 typedef struct FILE {

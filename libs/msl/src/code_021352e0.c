@@ -37,7 +37,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
     int widthArg;
 
     parsed.mPadKind = FORMAT_PAD_SPACES;
-    parsed.mSignKind = 0;
+    parsed.mSignKind = FORMAT_SIGN_NONE;
     parsed.mHasDot = 0;
     parsed.mHash = 0;
     parsed.mArgKind = FORMAT_ARG_DEFAULT;
@@ -57,11 +57,11 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
                 parsed.mPadKind = FORMAT_PAD_LEFT_ALIGN;
                 break;
             case '+':
-                parsed.mSignKind = 1;
+                parsed.mSignKind = FORMAT_SIGN_PLUS;
                 break;
             case ' ':
-                if (parsed.mSignKind != 1) {
-                    parsed.mSignKind = 2;
+                if (parsed.mSignKind != FORMAT_SIGN_PLUS) {
+                    parsed.mSignKind = FORMAT_SIGN_SPACE;
                 }
                 break;
             case '#':
@@ -96,7 +96,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             currentChar = *++cursor;
         }
     }
-    if (parsed.mMinLength > 0x1fd) {
+    if (parsed.mMinLength > FORMAT_MAX_LENGTH) {
         parsed.mSpecChar = FORMAT_SPEC_INVALID;
         *buf = parsed;
         return cursor + 1;
@@ -311,7 +311,7 @@ char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
             prec -= 2;
         }
     }
-    if (prec + (end - cursor) > 0x1fd) {
+    if (prec + (end - cursor) > FORMAT_MAX_LENGTH) {
         return 0;
     }
     while (cnt < prec) {
@@ -324,9 +324,9 @@ char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
     }
     if (neg != 0) {
         *--cursor = '-';
-    } else if (sign == 1) {
+    } else if (sign == FORMAT_SIGN_PLUS) {
         *--cursor = '+';
-    } else if (sign == 2) {
+    } else if (sign == FORMAT_SIGN_SPACE) {
         *--cursor = ' ';
     }
     return cursor;
@@ -405,7 +405,7 @@ char *FormatInt64(u64 value, char *end, FormatSpec spec) {
             precision -= 2;
         }
     }
-    if (precision + (end - cursor) > 0x1fd) {
+    if (precision + (end - cursor) > FORMAT_MAX_LENGTH) {
         return 0;
     }
     while (count < precision) {
@@ -418,9 +418,9 @@ char *FormatInt64(u64 value, char *end, FormatSpec spec) {
     }
     if (neg != 0) {
         *--cursor = '-';
-    } else if (flag == 1) {
+    } else if (flag == FORMAT_SIGN_PLUS) {
         *--cursor = '+';
-    } else if (flag == 2) {
+    } else if (flag == FORMAT_SIGN_SPACE) {
         *--cursor = ' ';
     }
     return cursor;
@@ -447,11 +447,11 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
     conv = spec.mSpecChar;
     alt = spec.mHash;
     signKind = spec.mSignKind;
-    if (precision > 0x1fd) {
+    if (precision > FORMAT_MAX_LENGTH) {
         return 0;
     }
     digitOptions.mUnk_00 = 0;
-    digitOptions.mDigitCount = 0x20;
+    digitOptions.mDigitCount = DIGIT_RECORD_MAX_DIGITS;
     DoubleToDigitChars(&digitOptions, value, &digits);
     if (0.0 == fabs(value)) {
         cursor = buf - 6;
@@ -495,7 +495,7 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
         return cursor;
     }
     exponentSpec.mPadKind = FORMAT_PAD_SPACES;
-    exponentSpec.mSignKind = 1;
+    exponentSpec.mSignKind = FORMAT_SIGN_PLUS;
     exponentSpec.mHasDot = 0;
     exponentSpec.mHash = 0;
     exponentSpec.mArgKind = FORMAT_ARG_DEFAULT;
@@ -552,9 +552,9 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
     *--cursor = '0';
     if (digits.mNegative != 0) {
         *--cursor = '-';
-    } else if (signKind == 1) {
+    } else if (signKind == FORMAT_SIGN_PLUS) {
         *--cursor = '+';
-    } else if (signKind == 2) {
+    } else if (signKind == FORMAT_SIGN_SPACE) {
         *--cursor = ' ';
     }
     return cursor;
@@ -639,7 +639,7 @@ char *FormatDouble(double value, char *buf, FormatSpec spec) {
     alt = spec.mHash;
     signKind = spec.mSignKind;
     digitOptions.mUnk_00 = 0;
-    digitOptions.mDigitCount = 0x20;
+    digitOptions.mDigitCount = DIGIT_RECORD_MAX_DIGITS;
     DoubleToDigitChars(&digitOptions, value, &record);
     tail = record.mDigits + record.mDigitCount;
     while (record.mDigitCount > 1 && *--tail == '0') {
@@ -737,7 +737,7 @@ char *FormatDouble(double value, char *buf, FormatSpec spec) {
             cursor[-1] = exponentSign;
             cursor -= 2;
             *cursor = conv;
-            if (precision + (buf - cursor) > 0x1fd) {
+            if (precision + (buf - cursor) > FORMAT_MAX_LENGTH) {
                 return 0;
             }
             if (record.mDigitCount < precision + 1) {
@@ -756,9 +756,9 @@ char *FormatDouble(double value, char *buf, FormatSpec spec) {
             *--cursor = record.mDigits[0];
             if (record.mNegative) {
                 *--cursor = '-';
-            } else if (signKind == 1) {
+            } else if (signKind == FORMAT_SIGN_PLUS) {
                 *--cursor = '+';
-            } else if (signKind == 2) {
+            } else if (signKind == FORMAT_SIGN_SPACE) {
                 *--cursor = ' ';
             }
             break;
@@ -782,7 +782,7 @@ char *FormatDouble(double value, char *buf, FormatSpec spec) {
             if (intDigits < 0) {
                 intDigits = 0;
             }
-            if (intDigits + fracDigits > 0x1fd) {
+            if (intDigits + fracDigits > FORMAT_MAX_LENGTH) {
                 return 0;
             }
             source = record.mDigits + record.mDigitCount;
@@ -810,9 +810,9 @@ char *FormatDouble(double value, char *buf, FormatSpec spec) {
             }
             if (record.mNegative) {
                 *--cursor = '-';
-            } else if (signKind == 1) {
+            } else if (signKind == FORMAT_SIGN_PLUS) {
                 *--cursor = '+';
-            } else if (signKind == 2) {
+            } else if (signKind == FORMAT_SIGN_SPACE) {
                 *--cursor = ' ';
             }
             break;

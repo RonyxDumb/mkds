@@ -246,16 +246,16 @@ void DoubleToDigits(DigitRecord *out, double value) {
         return;
     }
     classifyCopy1 = value;
-    switch (((u32 *) &classifyCopy1)[1] & 0x7ff00000) {
-        case 0x7ff00000:
-            if ((((u32 *) &classifyCopy1)[1] & 0xfffff) || ((u32 *) &classifyCopy1)[0]) {
+    switch (((u32 *) &classifyCopy1)[1] & DOUBLE_EXPONENT_MASK) {
+        case DOUBLE_EXPONENT_MASK:
+            if ((((u32 *) &classifyCopy1)[1] & DOUBLE_HIGH_MANTISSA_MASK) || ((u32 *) &classifyCopy1)[0]) {
                 fpClass = 1;
             } else {
                 fpClass = 2;
             }
             break;
         case 0:
-            if ((((u32 *) &classifyCopy1)[1] & 0xfffff) || ((u32 *) &classifyCopy1)[0]) {
+            if ((((u32 *) &classifyCopy1)[1] & DOUBLE_HIGH_MANTISSA_MASK) || ((u32 *) &classifyCopy1)[0]) {
                 fpClass = 5;
             } else {
                 fpClass = 3;
@@ -270,16 +270,16 @@ void DoubleToDigits(DigitRecord *out, double value) {
         out->mExponent = 0;
         out->mDigitCount = 1;
         classifyCopy2 = value;
-        switch (((u32 *) &classifyCopy2)[1] & 0x7ff00000) {
-            case 0x7ff00000:
-                if ((((u32 *) &classifyCopy2)[1] & 0xfffff) || ((u32 *) &classifyCopy2)[0]) {
+        switch (((u32 *) &classifyCopy2)[1] & DOUBLE_EXPONENT_MASK) {
+            case DOUBLE_EXPONENT_MASK:
+                if ((((u32 *) &classifyCopy2)[1] & DOUBLE_HIGH_MANTISSA_MASK) || ((u32 *) &classifyCopy2)[0]) {
                     fpClass = 1;
                 } else {
                     fpClass = 2;
                 }
                 break;
             case 0:
-                if ((((u32 *) &classifyCopy2)[1] & 0xfffff) || ((u32 *) &classifyCopy2)[0]) {
+                if ((((u32 *) &classifyCopy2)[1] & DOUBLE_HIGH_MANTISSA_MASK) || ((u32 *) &classifyCopy2)[0]) {
                     fpClass = 5;
                 } else {
                     fpClass = 3;
@@ -415,16 +415,16 @@ double DigitCharsToDouble(const DigitRecord *record) {
     }
     result = ldexp(result, exponent5);
     resultUnion.value = result;
-    switch (resultUnion.words[1] & 0x7ff00000) {
-        case 0x7ff00000:
-            if ((resultUnion.words[1] & 0xfffff) || resultUnion.words[0]) {
+    switch (resultUnion.words[1] & DOUBLE_EXPONENT_MASK) {
+        case DOUBLE_EXPONENT_MASK:
+            if ((resultUnion.words[1] & DOUBLE_HIGH_MANTISSA_MASK) || resultUnion.words[0]) {
                 fpClass = 1;
             } else {
                 fpClass = 2;
             }
             break;
         case 0:
-            if ((resultUnion.words[1] & 0xfffff) || resultUnion.words[0]) {
+            if ((resultUnion.words[1] & DOUBLE_HIGH_MANTISSA_MASK) || resultUnion.words[0]) {
                 fpClass = 5;
             } else {
                 fpClass = 3;
@@ -449,16 +449,16 @@ double DigitCharsToDouble(const DigitRecord *record) {
             if (searchUp) {
                 (*neighborBits)++;
                 neighborUnion.value = neighbor;
-                switch (neighborUnion.words[1] & 0x7ff00000) {
-                    case 0x7ff00000:
-                        if ((neighborUnion.words[1] & 0xfffff) || neighborUnion.words[0]) {
+                switch (neighborUnion.words[1] & DOUBLE_EXPONENT_MASK) {
+                    case DOUBLE_EXPONENT_MASK:
+                        if ((neighborUnion.words[1] & DOUBLE_HIGH_MANTISSA_MASK) || neighborUnion.words[0]) {
                             fpClass = 1;
                         } else {
                             fpClass = 2;
                         }
                         break;
                     case 0:
-                        if ((neighborUnion.words[1] & 0xfffff) || neighborUnion.words[0]) {
+                        if ((neighborUnion.words[1] & DOUBLE_HIGH_MANTISSA_MASK) || neighborUnion.words[0]) {
                             fpClass = 5;
                         } else {
                             fpClass = 3;
@@ -513,16 +513,16 @@ double pow(double base, double power) {
 
 // Classifies the exponent field of value as 1 to 5.
 static inline int __fpclassifyd(double value) {
-    int exponentBits = *((int *) &value + 1) & 0x7ff00000;
+    int exponentBits = *((int *) &value + 1) & DOUBLE_EXPONENT_MASK;
 
     switch (exponentBits) {
-        case 0x7ff00000:
-            if ((*((int *) &value + 1) & 0xfffff) != 0 || *(int *) &value != 0) {
+        case DOUBLE_EXPONENT_MASK:
+            if ((*((int *) &value + 1) & DOUBLE_HIGH_MANTISSA_MASK) != 0 || *(int *) &value != 0) {
                 return 1;
             }
             return 2;
         case 0:
-            if ((*((int *) &value + 1) & 0xfffff) != 0 || *(int *) &value != 0) {
+            if ((*((int *) &value + 1) & DOUBLE_HIGH_MANTISSA_MASK) != 0 || *(int *) &value != 0) {
                 return 5;
             }
             return 3;
@@ -541,14 +541,14 @@ double ldexp(double value, int exponentDelta) {
     }
     highWord = *((int *) &value + 1);
     lowWord = *(int *) &value;
-    exponentField = (highWord & 0x7ff00000) >> 20;
+    exponentField = (highWord & DOUBLE_EXPONENT_MASK) >> 20;
     if (exponentField == 0) {
         if ((lowWord | (highWord & 0x7fffffff)) == 0) {
             return value;
         }
         value *= 18014398509481984.0;
         highWord = *((int *) &value + 1);
-        exponentField = ((highWord & 0x7ff00000) >> 20) - 54;
+        exponentField = ((highWord & DOUBLE_EXPONENT_MASK) >> 20) - 54;
         if (exponentDelta < -50000) {
             return 1e-300 * value;
         }
@@ -585,7 +585,7 @@ double frexp(double value, int *exponentOut) {
     lowWord = *(int *) &value;
     absHigh = highWord & 0x7fffffff;
     *exponentOut = 0;
-    if (absHigh >= 0x7ff00000 || (absHigh | lowWord) == 0) {
+    if (absHigh >= DOUBLE_EXPONENT_MASK || (absHigh | lowWord) == 0) {
         return value;
     }
     if (absHigh < 0x100000) {
@@ -631,7 +631,8 @@ double PowBody(double base, double power) {
     if ((ib | lb) == 0) {
         return 1.0;
     }
-    if (ia > 0x7ff00000 || (ia == 0x7ff00000 && la != 0) || ib > 0x7ff00000 || (ib == 0x7ff00000 && lb != 0)) {
+    if (ia > DOUBLE_EXPONENT_MASK || (ia == DOUBLE_EXPONENT_MASK && la != 0) || ib > DOUBLE_EXPONENT_MASK ||
+        (ib == DOUBLE_EXPONENT_MASK && lb != 0)) {
         return base + power;
     }
 
@@ -656,7 +657,7 @@ double PowBody(double base, double power) {
     }
 
     if (lb == 0) {
-        if (ib == 0x7ff00000) {
+        if (ib == DOUBLE_EXPONENT_MASK) {
             if (((ia - 0x3ff00000) | la) == 0) {
                 return power - power;
             } else if (ia >= 0x3ff00000) {
@@ -685,7 +686,7 @@ double PowBody(double base, double power) {
     baseCopy = base;
     absBase = fabs(baseCopy);
     if (la == 0) {
-        if (ia == 0x7ff00000 || ia == 0 || ia == 0x3ff00000) {
+        if (ia == DOUBLE_EXPONENT_MASK || ia == 0 || ia == 0x3ff00000) {
             result = absBase;
             if (hb < 0) {
                 result = 1.0 / result;

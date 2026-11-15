@@ -2,6 +2,13 @@
 
 #include "types.h"
 
+// Most digits a DigitRecord holds.
+#define DIGIT_RECORD_MAX_DIGITS 32
+
+// High word of a double: the exponent bits (all set for infinity and NaN) and the top mantissa bits.
+#define DOUBLE_EXPONENT_MASK 0x7ff00000
+#define DOUBLE_HIGH_MANTISSA_MASK 0xfffff
+
 // 0x26 bytes. Filled by DoubleToDigitChars (which caps mDigitCount at 32) and DigitsFromString (at most 32 bytes);
 // mDigitCount counts the bytes used in mDigits. Read by FormatRoundDigitChars, FormatWideRoundDigitChars and
 // DigitCharsToDouble (DigitCharsToDouble copies it as a whole).
@@ -10,7 +17,7 @@ typedef struct DigitRecord {
     /* 01 */ u8 mUnk_01;
     /* 02 */ s16 mExponent;
     /* 04 */ u8 mDigitCount;
-    /* 05 */ char mDigits[32];
+    /* 05 */ char mDigits[DIGIT_RECORD_MAX_DIGITS];
 } DigitRecord;
 
 // First argument of DoubleToDigitChars (reads mDigitCount).

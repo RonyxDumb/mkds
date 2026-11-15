@@ -26,7 +26,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
     int matched;
 
     parsed.mPadKind = FORMAT_WIDE_PAD_SPACES;
-    parsed.mSignKind = 0;
+    parsed.mSignKind = FORMAT_WIDE_SIGN_NONE;
     parsed.mHasDot = 0;
     parsed.mHash = 0;
     parsed.mArgKind = FORMAT_WIDE_ARG_DEFAULT;
@@ -46,11 +46,11 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
                 parsed.mPadKind = FORMAT_WIDE_PAD_LEFT_ALIGN;
                 break;
             case '+':
-                parsed.mSignKind = 1;
+                parsed.mSignKind = FORMAT_WIDE_SIGN_PLUS;
                 break;
             case ' ':
-                if (parsed.mSignKind != 1) {
-                    parsed.mSignKind = 2;
+                if (parsed.mSignKind != FORMAT_WIDE_SIGN_PLUS) {
+                    parsed.mSignKind = FORMAT_WIDE_SIGN_SPACE;
                 }
                 break;
             case '#':
@@ -84,7 +84,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
             ch = *++cursor;
         }
     }
-    if (parsed.mMinLength > 0x1fd) {
+    if (parsed.mMinLength > FORMAT_WIDE_MAX_LENGTH) {
         parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
         *specOut = parsed;
         return cursor + 1;
@@ -282,7 +282,7 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
             precision -= 2;
         }
     }
-    if (precision + (end - cursor) > 0x1fd) {
+    if (precision + (end - cursor) > FORMAT_WIDE_MAX_LENGTH) {
         return 0;
     }
     while (negative < precision) {
@@ -295,9 +295,9 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
     }
     if (count != 0) {
         *--cursor = '-';
-    } else if (signKind == 1) {
+    } else if (signKind == FORMAT_WIDE_SIGN_PLUS) {
         *--cursor = '+';
-    } else if (signKind == 2) {
+    } else if (signKind == FORMAT_WIDE_SIGN_SPACE) {
         *--cursor = ' ';
     }
     return cursor;
@@ -384,7 +384,7 @@ u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
             precision -= 2;
         }
     }
-    if (precision + (end - cursor) > 0x1fd) {
+    if (precision + (end - cursor) > FORMAT_WIDE_MAX_LENGTH) {
         return 0;
     }
     while (negative < precision) {
@@ -397,9 +397,9 @@ u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
     }
     if (count != 0) {
         *--cursor = '-';
-    } else if (signKind == 1) {
+    } else if (signKind == FORMAT_WIDE_SIGN_PLUS) {
         *--cursor = '+';
-    } else if (signKind == 2) {
+    } else if (signKind == FORMAT_WIDE_SIGN_SPACE) {
         *--cursor = ' ';
     }
     return cursor;
@@ -487,7 +487,7 @@ u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec) {
         return 0;
     }
     digitOptions.mUnk_00 = 0;
-    digitOptions.mDigitCount = 0x20;
+    digitOptions.mDigitCount = DIGIT_RECORD_MAX_DIGITS;
     DoubleToDigitChars(&digitOptions, value, &record);
     cursor = record.mDigits + record.mDigitCount;
     while (record.mDigitCount > 1 && *--cursor == '0') {
@@ -586,9 +586,9 @@ u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec) {
             *--cursor = record.mDigits[0];
             if (record.mNegative != 0) {
                 *--cursor = '-';
-            } else if (signKind == 1) {
+            } else if (signKind == FORMAT_WIDE_SIGN_PLUS) {
                 *--cursor = '+';
-            } else if (signKind == 2) {
+            } else if (signKind == FORMAT_WIDE_SIGN_SPACE) {
                 *--cursor = ' ';
             }
             break;
@@ -635,9 +635,9 @@ u16 *FormatWideDouble(double value, u16 *end, FormatWideSpec spec) {
             }
             if (record.mNegative != 0) {
                 *--cursor = '-';
-            } else if (signKind == 1) {
+            } else if (signKind == FORMAT_WIDE_SIGN_PLUS) {
                 *--cursor = '+';
-            } else if (signKind == 2) {
+            } else if (signKind == FORMAT_WIDE_SIGN_SPACE) {
                 *--cursor = ' ';
             }
             break;

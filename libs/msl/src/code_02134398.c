@@ -390,20 +390,20 @@ int fflush(FILE *stream) {
     if (stream == 0) {
         return FflushAll();
     }
-    if (stream->mFailed != 0 || stream->mKind == 0) {
+    if (stream->mFailed != 0 || stream->mKind == FILE_KIND_NONE) {
         return -1;
     }
-    if (stream->mWriteMode == 1) {
+    if (stream->mWriteMode == FILE_MODE_READ) {
         return 0;
     }
-    if (stream->mWriteState >= 3) {
-        stream->mWriteState = 2;
+    if (stream->mWriteState >= FILE_STATE_READING_EXTRA_FIRST) {
+        stream->mWriteState = FILE_STATE_READING;
     }
-    if (stream->mWriteState == 2) {
+    if (stream->mWriteState == FILE_STATE_READING) {
         stream->mBufferRemaining = 0;
     }
-    if (stream->mWriteState != 1) {
-        stream->mWriteState = 0;
+    if (stream->mWriteState != FILE_STATE_WRITING) {
+        stream->mWriteState = FILE_STATE_IDLE;
         return 0;
     }
     if (FileFlushBuffer(stream, 0) != 0) {
@@ -411,7 +411,7 @@ int fflush(FILE *stream) {
         stream->mBufferRemaining = 0;
         return -1;
     }
-    stream->mWriteState = 0;
+    stream->mWriteState = FILE_STATE_IDLE;
     stream->mPosition = 0;
     stream->mBufferRemaining = 0;
     return 0;
@@ -470,23 +470,23 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
         fwide(stream, -1);
     }
     remaining = itemSize * itemCount;
-    if (remaining == 0 || stream->mFailed != 0 || stream->mKind == 0) {
+    if (remaining == 0 || stream->mFailed != 0 || stream->mKind == FILE_KIND_NONE) {
         return 0;
     }
-    if (stream->mKind == 2) {
+    if (stream->mKind == FILE_KIND_WITH_WRITE_HOOK) {
         NopWriteHook();
     }
     bufferedMode = 1;
     if (stream->mNoNewlineConversion != 0) {
-        if (stream->mBufferMode != 2 && stream->mBufferMode != 1) {
+        if (stream->mBufferMode != FILE_BUFFER_MODE_FULL && stream->mBufferMode != FILE_BUFFER_MODE_LINE) {
             bufferedMode = 0;
         }
     }
-    if (stream->mWriteState == 0 && (stream->mWriteMode & 2) != 0) {
-        stream->mWriteState = 1;
+    if (stream->mWriteState == FILE_STATE_IDLE && (stream->mWriteMode & FILE_MODE_WRITE) != 0) {
+        stream->mWriteState = FILE_STATE_WRITING;
         FileResetBuffer(stream);
     }
-    if (stream->mWriteState != 1) {
+    if (stream->mWriteState != FILE_STATE_WRITING) {
         stream->mFailed = 1;
         stream->mBufferRemaining = 0;
         return 0;
@@ -501,7 +501,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
             if (chunk > remaining) {
                 chunk = remaining;
             }
-            if (stream->mBufferMode == 1 && chunk != 0) {
+            if (stream->mBufferMode == FILE_BUFFER_MODE_LINE && chunk != 0) {
                 newlinePos = MemChrBackward(data, newlineChar, chunk);
                 if (newlinePos != 0) {
                     chunk = newlinePos + 1 - data;
@@ -514,7 +514,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
                 stream->mBufferNext += chunk;
                 stream->mBufferRemaining -= chunk;
             }
-            if (stream->mBufferRemaining == 0 || newlinePos != 0 || stream->mBufferMode == 0) {
+            if (stream->mBufferRemaining == 0 || newlinePos != 0 || stream->mBufferMode == FILE_BUFFER_MODE_NONE) {
                 if (FileFlushBuffer(stream, 0) != 0) {
                     stream->mFailed = 1;
                     remaining = 0;
@@ -542,7 +542,7 @@ u32 FwriteBody(const char *data, u32 itemSize, u32 itemCount, FILE *stream) {
         FileResetBuffer(stream);
         stream->mBufferRemaining = 0;
     }
-    if (stream->mBufferMode != 2) {
+    if (stream->mBufferMode != FILE_BUFFER_MODE_FULL) {
         stream->mBufferRemaining = 0;
     }
     return written / itemSize;
@@ -610,7 +610,7 @@ int FflushAll(void) {
     index = 1;
     stream = gStdioFiles;
     do {
-        if (stream->mKind != 0) {
+        if (stream->mKind != FILE_KIND_NONE) {
             if (fflush(stream) != 0) {
                 result = -1;
             }

@@ -520,7 +520,7 @@ int ScanStringSourceOp(void *context, int character, int operation) {
 
     source = context;
     switch (operation) {
-        case 0:
+        case SCAN_OP_READ:
             text = source->mNextChar;
             ch = *text;
             if (ch == 0) {
@@ -529,14 +529,14 @@ int ScanStringSourceOp(void *context, int character, int operation) {
             }
             source->mNextChar = text + 1;
             return ch;
-        case 1:
+        case SCAN_OP_UNREAD:
             if (source->mAtEnd == 0) {
                 source->mNextChar--;
             } else {
                 source->mAtEnd = 0;
             }
             return character;
-        case 2:
+        case SCAN_OP_AT_END:
             return source->mAtEnd;
         default:
             return 0;
