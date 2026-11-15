@@ -70,7 +70,7 @@ void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object) {
         localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
         object->mEffectDelayFrames = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32) +
                                      PERIODIC_EFFECT_DELAY_MIN;
-        if (!(object->mMapObject.mFlags & 0x12)) {
+        if (!(object->mMapObject.mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN)) {
             StartEffect(0x435, &object->mMapObject.mPos);
         }
     }
@@ -95,7 +95,7 @@ void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
         case CAMERA_EFFECT_STATE_START:
             object->mCameraEffectState = CAMERA_EFFECT_STATE_FOLLOW;
             switch (object->mMapObject.mCourseMapRow->mSettings[0]) {
-                case 0:
+                case CAMERA_EFFECT_KIND_AT_CAMERA:
                     StartEffect(0x400, &effectPosition);
                     StartEffect(0x3ff, &effectPosition);
                     StartEffect(0x402, &effectPosition);
@@ -110,9 +110,9 @@ void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
                     StartEffect(0x40b, &effectPosition);
                     object->mEffectHandle = StartEffect(0x42f, &camera->mPos);
                     break;
-                case 1:
+                case CAMERA_EFFECT_KIND_NONE:
                     break;
-                case 2:
+                case CAMERA_EFFECT_KIND_AHEAD_OF_CAMERA:
                     StartEffect(0x43c, &effectPosition);
                     StartEffect(0x439, &effectPosition);
                     StartEffect(0x43a, &effectPosition);
@@ -128,12 +128,12 @@ void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
             break;
         case CAMERA_EFFECT_STATE_FOLLOW:
             switch (object->mMapObject.mCourseMapRow->mSettings[0]) {
-                case 0:
+                case CAMERA_EFFECT_KIND_AT_CAMERA:
                     PlaceEffect(object->mEffectHandle, &camera->mPos);
                     break;
-                case 1:
+                case CAMERA_EFFECT_KIND_NONE:
                     break;
-                case 2:
+                case CAMERA_EFFECT_KIND_AHEAD_OF_CAMERA:
                     ComputePointAheadOfCamera(object, camera, &effectPosition);
                     PlaceEffect(object->mEffectHandle, &effectPosition);
                     break;
