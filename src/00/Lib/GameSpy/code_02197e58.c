@@ -202,7 +202,7 @@ BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 latency) {
     return TRUE;
 }
 
-BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, s32 message, void *len, s32 reliable) {
+BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable) {
     Gt2Filter *filter;
     if (connection == NULL) {
         AssertionFailed("connection", "gt2Callback.c", NULL, 0x101);
@@ -214,9 +214,9 @@ BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, s32 message
     if (filter == NULL) {
         return TRUE;
     }
-    if (len == NULL || message == 0) {
-        message = 0;
-        len = NULL;
+    if (len == 0 || message == NULL) {
+        message = NULL;
+        len = 0;
     }
     connection->mCallbackLevel++;
     connection->mSocket->mRunningCallbackCount++;

@@ -10,8 +10,8 @@ typedef void (*Gt2DumpCallback)(struct Gt2Socket *socket, struct Gt2Connection *
                                 u32 reset, int message, int len);
 // Called with the socket, the address and port, the message and its length; returns whether it handled the message.
 typedef u32 (*Gt2UnmatchedDataCallback)(struct Gt2Socket *socket, s32 address, s32 port, void *message, s32 len);
-// Send and receive filters are called with their arguments in different orders, so the type is left unprototyped.
-typedef u32 (*Gt2FilterCallback)();
+// Called with the connection, the filter index, the message, its length and the reliable flag.
+typedef u32 (*Gt2FilterCallback)(struct Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable);
 
 typedef struct Gt2ConnectionCallbacks {
     /* 00 */ void (*mResultCallback)(struct Gt2Connection *a, int b, void *c, int d);
@@ -113,7 +113,7 @@ BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection
 u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, u32 port, u32 reset, int message,
                      int len, int send);
 BOOL gti2ReceiveFilterCallback(Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable);
-BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, s32 message, void *len, s32 reliable);
+BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable);
 BOOL gti2ClosedCallback(Gt2Connection *connection, void *reason);
 BOOL gti2SocketErrorCallback(Gt2Socket *socket);
 void gti2ConnectionCleanup(Gt2Connection *connection);

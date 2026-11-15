@@ -80,7 +80,7 @@ void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
     if (connection->mState == GT2_CONNECTION_CONNECTED) {
         gti2MessageCheck((const char **) &message, &len);
         if (DarrayGetCount(connection->mSendFilters) != 0) {
-            gti2SendFilterCallback(connection, 0, (s32) message, (void *) len, reliable);
+            gti2SendFilterCallback(connection, 0, message, len, reliable);
             return;
         }
         gti2Send(connection, message, len, reliable);
