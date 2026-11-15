@@ -44,7 +44,7 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
         return;
     }
     switch (result & 0xff) {
-        case 0:
+        case TP_REPLY_STATUS_SUCCESS:
             switch (tpCommand) {
                 case TP_REQUEST_COMMAND_SAMPLING:
                     spiTpRaw.halfs[0] = SYSTEM_WORK->mTouchPanel[0];
@@ -67,13 +67,13 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
                 gTouchPanelState.mCallback(tpCommand, TP_RESULT_SUCCESS, 0);
             }
             return;
-        case 4:
+        case TP_REPLY_STATUS_EXCLUSIVE:
             callbackResult = TP_RESULT_EXCLUSIVE;
             break;
-        case 2:
+        case TP_REPLY_STATUS_INVALID_PARAMETER:
             callbackResult = TP_RESULT_INVALID_PARAMETER;
             break;
-        case 3:
+        case TP_REPLY_STATUS_ILLEGAL_STATUS:
             callbackResult = TP_RESULT_ILLEGAL_STATUS;
             break;
         default:
@@ -245,14 +245,14 @@ void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData *samplin
     }
     if ((ok & 0xff) == 0) {
         OS_RestoreInterrupts(enabled);
-        gTouchPanelState.mErrorFlags |= 2;
+        gTouchPanelState.mErrorFlags |= TP_FLAG_AUTO_ON;
         callback = gTouchPanelState.mCallback;
         if (callback != 0) {
             callback(TP_REQUEST_COMMAND_AUTO_ON, TP_RESULT_PXI_BUSY, 0);
         }
     } else {
-        gTouchPanelState.mBusyFlags |= 2;
-        gTouchPanelState.mErrorFlags &= ~2;
+        gTouchPanelState.mBusyFlags |= TP_FLAG_AUTO_ON;
+        gTouchPanelState.mErrorFlags &= ~TP_FLAG_AUTO_ON;
         OS_RestoreInterrupts(enabled);
     }
 }
@@ -267,14 +267,14 @@ void TP_RequestAutoSamplingStopAsync(void) {
     ok = PXI_SendWordByFifo(6, 0x3000200, 0) >= 0;
     if ((ok & 0xff) == 0) {
         OS_RestoreInterrupts(enabled);
-        gTouchPanelState.mErrorFlags |= 4;
+        gTouchPanelState.mErrorFlags |= TP_FLAG_AUTO_OFF;
         callback = gTouchPanelState.mCallback;
         if (callback != 0) {
             callback(TP_REQUEST_COMMAND_AUTO_OFF, TP_RESULT_PXI_BUSY, 0);
         }
     } else {
-        gTouchPanelState.mBusyFlags |= 4;
-        gTouchPanelState.mErrorFlags &= ~4;
+        gTouchPanelState.mBusyFlags |= TP_FLAG_AUTO_OFF;
+        gTouchPanelState.mErrorFlags &= ~TP_FLAG_AUTO_OFF;
         OS_RestoreInterrupts(enabled);
     }
 }
@@ -361,16 +361,16 @@ void TP_GetCalibratedPoint(TPData *disp, const TPData *raw) {
     disp->mX = (((u64) (raw->mX << 2) - calibration->mX0) * calibration->mXDotSizeInv) >> 22;
     if ((s16) disp->mX < 0) {
         disp->mX = 0;
-    } else if ((s16) disp->mX > 0xff) {
-        disp->mX = 0xff;
+    } else if ((s16) disp->mX > TP_SCREEN_MAX_X) {
+        disp->mX = TP_SCREEN_MAX_X;
     }
     disp->mY = (((u64) (raw->mY << 2) - calibration->mY0) * calibration->mYDotSizeInv) >> 22;
     if ((s16) disp->mY < 0) {
         disp->mY = 0;
         return;
     }
-    if ((s16) disp->mY > 0xbf) {
-        disp->mY = 0xbf;
+    if ((s16) disp->mY > TP_SCREEN_MAX_Y) {
+        disp->mY = TP_SCREEN_MAX_Y;
     }
 }
 

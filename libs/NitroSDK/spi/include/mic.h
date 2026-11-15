@@ -13,6 +13,19 @@ typedef enum MICResult {
     MIC_RESULT_MAX
 } MICResult;
 
+// Status byte of a reply from the other processor; any other value is MIC_RESULT_FATAL_ERROR.
+enum {
+    MIC_REPLY_STATUS_SUCCESS = 0,
+    MIC_REPLY_STATUS_INVALID_COMMAND,
+    MIC_REPLY_STATUS_ILLEGAL_PARAMETER,
+    MIC_REPLY_STATUS_ILLEGAL_STATUS,
+    MIC_REPLY_STATUS_BUSY,
+};
+
+// The sampling buffer and its size must be multiples of 32; the rate is at least 0x400.
+#define MIC_BUFFER_ALIGNMENT_MASK 0x1f
+#define MIC_MIN_SAMPLING_RATE 0x400
+
 typedef enum MICSamplingType {
     MIC_SAMPLING_TYPE_8BIT = 0,
     MIC_SAMPLING_TYPE_12BIT,

@@ -210,14 +210,14 @@ u32 PMi_SetLEDAsync(u32 status, PMCallback callback, void *arg) {
     u32 utilityCommand;
 
     switch (status) {
-        case 1:
-            utilityCommand = 1;
+        case PM_LED_STATUS_ON:
+            utilityCommand = PM_UTILITY_LED_ON;
             break;
-        case 3:
-            utilityCommand = 2;
+        case PM_LED_STATUS_BLINK_FAST:
+            utilityCommand = PM_UTILITY_LED_BLINK_FAST;
             break;
-        case 2:
-            utilityCommand = 3;
+        case PM_LED_STATUS_BLINK_SLOW:
+            utilityCommand = PM_UTILITY_LED_BLINK_SLOW;
             break;
         default:
             utilityCommand = 0;
@@ -413,7 +413,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
         if (lcdPower == 1) {
             PMi_SetLCDPower(1, 1, 1, 0);
         } else {
-            PMi_SetLED(1);
+            PMi_SetLED(PM_LED_STATUS_ON);
         }
         reg_GX_DISPCNT = savedMainDispCnt;
         reg_GXS_DB_DISPCNT = savedSubDispCnt;

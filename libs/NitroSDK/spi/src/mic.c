@@ -29,17 +29,17 @@ MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback call
     u32 size;
     u8 flags;
 
-    if (((u32) param->mBuffer & 0x1f) != 0) {
+    if (((u32) param->mBuffer & MIC_BUFFER_ALIGNMENT_MASK) != 0) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     size = param->mSize;
-    if ((size & 0x1f) != 0) {
+    if ((size & MIC_BUFFER_ALIGNMENT_MASK) != 0) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     if (size == 0) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
-    if (param->mRate < 0x400) {
+    if (param->mRate < MIC_MIN_SAMPLING_RATE) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     switch (param->mType) {
@@ -138,19 +138,19 @@ void MicCommonCallback(u32 tag, u32 data, BOOL err) {
     status = data & 0xff;
     pxiCommand = (data & 0x7f00) >> 8;
     switch (status) {
-        case 0:
+        case MIC_REPLY_STATUS_SUCCESS:
             result = MIC_RESULT_SUCCESS;
             break;
-        case 1:
+        case MIC_REPLY_STATUS_INVALID_COMMAND:
             result = MIC_RESULT_INVALID_COMMAND;
             break;
-        case 2:
+        case MIC_REPLY_STATUS_ILLEGAL_PARAMETER:
             result = MIC_RESULT_ILLEGAL_PARAMETER;
             break;
-        case 3:
+        case MIC_REPLY_STATUS_ILLEGAL_STATUS:
             result = MIC_RESULT_ILLEGAL_STATUS;
             break;
-        case 4:
+        case MIC_REPLY_STATUS_BUSY:
             result = MIC_RESULT_BUSY;
             break;
         default:
