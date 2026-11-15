@@ -203,6 +203,16 @@ enum {
     MAP_OBJECT_ANGLE_SPIN_POSITIVE,
 };
 
+// Values of mMoveAngleMode: how mMoveAngle changes. It stays, copies mAngle, or turns toward or away from
+// mMoveAnglePoint (or sideways to it) by mMoveAnglePerCall.
+enum {
+    MAP_OBJECT_MOVE_ANGLE_KEEP,
+    MAP_OBJECT_MOVE_ANGLE_FOLLOW_ANGLE,
+    MAP_OBJECT_MOVE_ANGLE_TURN_TO_POINT,
+    MAP_OBJECT_MOVE_ANGLE_TURN_FROM_POINT,
+    MAP_OBJECT_MOVE_ANGLE_TURN_SIDEWAYS,
+};
+
 // Values of mKartResponse: the index into the kart's collision response table (gCollideKartWithMapObjectResponses).
 enum {
     KART_MAP_OBJECT_RESPONSE_NONE = 0,
