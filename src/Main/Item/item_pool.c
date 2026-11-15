@@ -700,7 +700,8 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
     if ((kartItems->mKart->mEntryFlags & KART_ENTRY_WIFI_PEER) != 0) {
         return;
     }
-    if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
+    if ((u32) (kartItems->mKart->mItemEffect - KART_ITEM_EFFECT_TERESA) <=
+        KART_ITEM_EFFECT_KILLER - KART_ITEM_EFFECT_TERESA) {
         return;
     }
     if (isMode5 && kartItems->mActiveItem != ITEM_INFO_NONE) {
@@ -728,7 +729,8 @@ void StartKartItemObjectCountdowns(KartItems *kartItems) {
 }
 
 void StartKartItemInUseOneCountdown(KartItems *kartItems) {
-    if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
+    if ((u32) (kartItems->mKart->mItemEffect - KART_ITEM_EFFECT_TERESA) <=
+        KART_ITEM_EFFECT_KILLER - KART_ITEM_EFFECT_TERESA) {
         return;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {

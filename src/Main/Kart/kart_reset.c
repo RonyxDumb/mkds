@@ -529,7 +529,7 @@ void ResetKart(Kart *kart) {
     kart->mUnk_344 = 0;
     kart->mLaunchStartY = kart->mPos.y;
     kart->mLaunchFrames = 0;
-    kart->mDriftCharge = 0;
+    kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTowardTurnCounter = NULL;
@@ -1112,7 +1112,7 @@ void ResetKartMotionState(Kart *kart, s32 flag) {
     kart->mMotionFlags &=
         ~(KART_MOTION_DRIFT_ARMED | KART_MOTION_HOPPING | KART_MOTION_DRIFTING | KART_MOTION_HOP_STEER);
     kart->mTurnDirection = 0;
-    kart->mDriftCharge = 0;
+    kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;

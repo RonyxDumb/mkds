@@ -635,7 +635,7 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         }
     }
     if (chargeRollPassed != FALSE) {
-        SetKartDriftCharge(kart, 3);
+        SetKartDriftCharge(kart, KART_DRIFT_CHARGE_LEVEL_3);
     }
     kartAi->mSideOffset = gKartAiZeroSideOffset;
     kartAi->mSideOffsetRatio = 0;

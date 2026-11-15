@@ -497,7 +497,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         normalVelocity.x = MUL_FIXED12_NO_ROUND(contactNormal->x, dotValue);
         normalVelocity.y = MUL_FIXED12_NO_ROUND(contactNormal->y, dotValue);
         normalVelocity.z = MUL_FIXED12_NO_ROUND(contactNormal->z, dotValue);
-        kart->mDriftCharge = 0;
+        kart->mDriftCharge = KART_DRIFT_CHARGE_NONE;
         kart->mRightTurnCount = 0;
         kart->mLeftTurnCount = kart->mRightTurnCount;
         kart->mTurnCountTimer = 0;
