@@ -19,7 +19,7 @@ typedef struct ScanStringSource {
 // bad start. STOPPED and VALID group them.
 #define SCAN_INT_STATE_READ_SIGN 0x1
 #define SCAN_INT_STATE_AFTER_SIGN 0x2
-#define SCAN_INT_STATE_AFTER_ZERO 0x4
+#define SCAN_INT_STATE_CHECK_RADIX_MARK 0x4
 #define SCAN_INT_STATE_FIRST_DIGIT 0x8
 #define SCAN_INT_STATE_DIGITS 0x10
 #define SCAN_INT_STATE_ENDED 0x20

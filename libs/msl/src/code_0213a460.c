@@ -78,14 +78,14 @@ u32 ScanInt32(int base, int maxChars, ScanReadCharFunc readChar, ScanStringSourc
                 break;
             case SCAN_INT_STATE_AFTER_SIGN:
                 if ((base == 0 || base == 16) && currentChar == '0') {
-                    st = SCAN_INT_STATE_AFTER_ZERO;
+                    st = SCAN_INT_STATE_CHECK_RADIX_MARK;
                     consumed++;
                     currentChar = readChar(source, 0, 0);
                 } else {
                     st = SCAN_INT_STATE_FIRST_DIGIT;
                 }
                 break;
-            case SCAN_INT_STATE_AFTER_ZERO:
+            case SCAN_INT_STATE_CHECK_RADIX_MARK:
                 if (currentChar == 'X' || currentChar == 'x') {
                     base = 16;
                     st = SCAN_INT_STATE_FIRST_DIGIT;
@@ -191,14 +191,14 @@ u64 ScanInt64(int base, int maxChars, ScanReadCharFunc readChar, void *source, i
                 break;
             case SCAN_INT_STATE_AFTER_SIGN:
                 if ((base == 0 || base == 16) && currentChar == '0') {
-                    st = SCAN_INT_STATE_AFTER_ZERO;
+                    st = SCAN_INT_STATE_CHECK_RADIX_MARK;
                     consumed++;
                     currentChar = readChar(source, 0, 0);
                 } else {
                     st = SCAN_INT_STATE_FIRST_DIGIT;
                 }
                 break;
-            case SCAN_INT_STATE_AFTER_ZERO:
+            case SCAN_INT_STATE_CHECK_RADIX_MARK:
                 if (currentChar == 'X' || currentChar == 'x') {
                     base = 16;
                     st = SCAN_INT_STATE_FIRST_DIGIT;
