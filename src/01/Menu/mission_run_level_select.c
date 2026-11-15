@@ -285,7 +285,7 @@ void ResetMissionRunLVsel(void) {
     }
 }
 
-void RequestMissionRunLVselState1(void) {
+void RequestMissionRunLVselSlideIn(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SLIDE_IN;
     gMissionRunLVsel->mStateFrames = 0;
     if (GetPreviousMenuScreenNumber() == SCREEN_MISSION_RUN_MSSEL) {
@@ -295,20 +295,20 @@ void RequestMissionRunLVselState1(void) {
     }
 }
 
-void RequestMissionRunLVselState2(void) {
+void RequestMissionRunLVselWaitSelectReturn(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunLVsel->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
 // Requests the select state: stores mNextState and zeroes mStateFrames; the next AdvanceMissionRunLVsel call copies
-// it to mState and runs AdvanceMissionRunLVselState3.
-void RequestMissionRunLVselState3(void) {
+// it to mState and runs AdvanceMissionRunLVselSelect.
+void RequestMissionRunLVselSelect(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SELECT;
     gMissionRunLVsel->mStateFrames = 0;
 }
 
-void RequestMissionRunLVselState4(void) {
+void RequestMissionRunLVselHoldChosen(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN;
     gMissionRunLVsel->mStateFrames = 0;
     gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
@@ -316,7 +316,7 @@ void RequestMissionRunLVselState4(void) {
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-void RequestMissionRunLVselState5(void) {
+void RequestMissionRunLVselSlideOut(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SLIDE_OUT;
     gMissionRunLVsel->mStateFrames = 0;
     switch (gMissionRunLVsel->mResult) {
@@ -400,16 +400,16 @@ void ReleaseMissionRunLVsel(void) {
     gMissionRunLVsel = NULL;
 }
 
-void AdvanceMissionRunLVselState0(void) {
+void AdvanceMissionRunLVselWaitFade(void) {
     int fadesClear;
     StartSceneSeqIfIdle();
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestMissionRunLVselState1();
+        RequestMissionRunLVselSlideIn();
     }
 }
 
-void AdvanceMissionRunLVselState1(void) {
+void AdvanceMissionRunLVselSlideIn(void) {
     s32 levelIndex;
     s32 cellIndex;
     s32 layoutCount;
@@ -429,20 +429,20 @@ void AdvanceMissionRunLVselState1(void) {
             .mOffsetX = offsetX;
     }
     if (gMissionRunLVsel->mStateFrames >= 10) {
-        RequestMissionRunLVselState2();
+        RequestMissionRunLVselWaitSelectReturn();
     }
 }
 
-void AdvanceMissionRunLVselState2(void) {
+void AdvanceMissionRunLVselWaitSelectReturn(void) {
     int returnState2NoRequest;
     StartSceneSeqIfIdle();
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
-        RequestMissionRunLVselState3();
+        RequestMissionRunLVselSelect();
     }
 }
 
-void AdvanceMissionRunLVselState3(void) {
+void AdvanceMissionRunLVselSelect(void) {
     u32 touchedRect = -1;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL touchBegan;
@@ -480,7 +480,7 @@ void AdvanceMissionRunLVselState3(void) {
         }
     }
     SetSelectReturnSoundId(0xe);
-    RequestMissionRunLVselState5();
+    RequestMissionRunLVselSlideOut();
     gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_BACK;
     RequestSelectReturnPressWithSound(0);
@@ -491,7 +491,7 @@ next:
         if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
             gMissionRunLVsel->mIndex = targetIndex;
             gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = 5;
-            RequestMissionRunLVselState4();
+            RequestMissionRunLVselHoldChosen();
         } else {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
@@ -499,7 +499,7 @@ next:
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = 5;
-        RequestMissionRunLVselState4();
+        RequestMissionRunLVselHoldChosen();
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -541,17 +541,17 @@ next:
     }
 }
 
-void AdvanceMissionRunLVselState4(void) {
+void AdvanceMissionRunLVselHoldChosen(void) {
     gMissionRunLVsel->mStateFrames = gMissionRunLVsel->mStateFrames + 1;
     StartSceneSeqIfIdle();
     if (gMissionRunLVsel->mStateFrames >= 5) {
-        RequestMissionRunLVselState5();
+        RequestMissionRunLVselSlideOut();
         gMissionRunLVsel->mSlideOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN;
     }
 }
 
-void AdvanceMissionRunLVselState5(void) {
+void AdvanceMissionRunLVselSlideOut(void) {
     s32 levelIndex;
     s32 cellIndex;
     s32 layoutCount;
@@ -575,22 +575,22 @@ s32 AdvanceMissionRunLVsel(void) {
     gMissionRunLVsel->mState = gMissionRunLVsel->mNextState;
     switch (gMissionRunLVsel->mState) {
         case MISSION_RUN_LVSEL_STATE_WAIT_FADE:
-            AdvanceMissionRunLVselState0();
+            AdvanceMissionRunLVselWaitFade();
             break;
         case MISSION_RUN_LVSEL_STATE_SLIDE_IN:
-            AdvanceMissionRunLVselState1();
+            AdvanceMissionRunLVselSlideIn();
             break;
         case MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN:
-            AdvanceMissionRunLVselState2();
+            AdvanceMissionRunLVselWaitSelectReturn();
             break;
         case MISSION_RUN_LVSEL_STATE_SELECT:
-            AdvanceMissionRunLVselState3();
+            AdvanceMissionRunLVselSelect();
             break;
         case MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN:
-            AdvanceMissionRunLVselState4();
+            AdvanceMissionRunLVselHoldChosen();
             break;
         case MISSION_RUN_LVSEL_STATE_SLIDE_OUT:
-            AdvanceMissionRunLVselState5();
+            AdvanceMissionRunLVselSlideOut();
             break;
     }
     UpdateMissionRunLVselHighlight();
