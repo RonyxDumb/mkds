@@ -259,7 +259,7 @@ void DWC_ProcessFriendsMatch(void) {
     }
 }
 
-// Also stores a and b into the login object (mLogin.mPlayerName / mReserved).
+// Also stores playerName and reserved into the login object (mLogin.mPlayerName / mReserved).
 void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32 callbackArg) {
     if (DWCi_IsError() == 0) {
         if (gWiFiConnection->mState == WIFI_CONNECTION_IDLE) {

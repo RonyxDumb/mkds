@@ -198,7 +198,7 @@ void UpdateChoropuLeap(void *stateObject) {
     }
 }
 
-// Same body as EnterChoropuWaitStart; this is the enter slot of the 5.
+// Same body as EnterChoropuWaitStart; this is the enter slot of the repeat wait.
 void EnterChoropuWaitRepeat(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;

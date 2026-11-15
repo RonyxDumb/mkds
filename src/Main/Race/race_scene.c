@@ -348,7 +348,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 }
                 if (connectionActive != 0) {
                     if (gStartupWork->mMultiSimple != 0) {
-                        MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
+                        nextScene = SCENE_WL_MENU;
                         gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                     } else {
                         nextScene = SCENE_MENU_1;
@@ -386,7 +386,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         if (gStartupWork->mMultiSimple == 0) {
                             nextScene = SCENE_RACE;
                         } else {
-                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
+                            nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RACE;
                         }
                     } else {
@@ -396,7 +396,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         if (gStartupWork->mMultiSimple == 0) {
                             nextScene = SCENE_MENU_1;
                         } else {
-                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
+                            nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                         }
                     }
@@ -415,7 +415,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         if (gStartupWork->mMultiSimple == 0) {
                             nextScene = SCENE_RACE;
                         } else {
-                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
+                            nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RACE;
                         }
                     } else {
@@ -425,7 +425,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         if (gStartupWork->mMultiSimple == 0) {
                             nextScene = SCENE_MENU_1;
                         } else {
-                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
+                            nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                         }
                     }
@@ -447,7 +447,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 case MODE_BATTLE:
                 case MODE_VS:
                     if (gStartupWork->mMultiSimple != 0) {
-                        MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
+                        nextScene = SCENE_WL_MENU;
                         gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RESULT;
                     } else {
                         nextScene = SCENE_RESULT;
