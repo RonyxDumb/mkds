@@ -19,6 +19,16 @@
 // Frames of the cell slide that follows a change of the shown index; mIndexChangeTimer counts down from this.
 #define MENU_INDEX_CHANGE_FRAMES 7
 
+// Frames the page arrow of the record screens moves after it was pressed; mOffsetTimers counts down from this.
+#define RECORD_PAGE_ARROW_FRAMES 6
+// Steps of the slide in and out of the record screens; mStateFrames counts them.
+#define RECORD_SLIDE_STEPS 10
+// mStateFrames at which the sub screen cells 24 and 25 of the versus record screen change: AdvanceRecordVSSlideInSub
+// shows 24 and hides 25, the two slide outs hide both, AdvanceRecordVSSubSlideIn shows 24 and hides 25 again.
+#define RECORD_VS_SUB_SLIDE_IN_SWAP_STEP 4
+#define RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP 6
+#define RECORD_VS_SUB_RESLIDE_SWAP_STEP 2
+
 typedef struct OSMessageQueue OSMessageQueue;
 
 // Three words derived from a halfword.

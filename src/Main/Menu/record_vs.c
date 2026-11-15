@@ -97,7 +97,7 @@ void AdvanceRecordVSSlideInMain(void) {
     s32 labelIndex;
     s16 offset;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, -192, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
@@ -124,7 +124,7 @@ void AdvanceRecordVSSlideInMain(void) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
             offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSSlideInSubAndRefreshPage();
     }
 }
@@ -135,7 +135,7 @@ void AdvanceRecordVSSlideInSub(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -150,10 +150,10 @@ void AdvanceRecordVSSlideInSub(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSWaitReturnButton();
     }
-    if (gRecordVS->mStateFrames == 4) {
+    if (gRecordVS->mStateFrames == RECORD_VS_SUB_SLIDE_IN_SWAP_STEP) {
         gRecordVS->mRecordVSSTable[24].mVisible = 1;
         gRecordVS->mRecordVSSTable[25].mVisible = 0;
     }
@@ -263,7 +263,7 @@ handlePageButtons:
             return;
         }
         gRecordVS->mPageDecrement = RECORD_VS_PAGE_DECREMENT;
-        gRecordVS->mOffsetTimers[0] = 6;
+        gRecordVS->mOffsetTimers[0] = RECORD_PAGE_ARROW_FRAMES;
         gRecordVS->mPageDecrementRepeat = TRUE;
         RequestRecordVSPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -279,7 +279,7 @@ handlePageButtons:
             return;
         }
         gRecordVS->mPageDecrement = RECORD_VS_PAGE_INCREMENT;
-        gRecordVS->mOffsetTimers[1] = 6;
+        gRecordVS->mOffsetTimers[1] = RECORD_PAGE_ARROW_FRAMES;
         gRecordVS->mPageIncrementRepeat = TRUE;
         RequestRecordVSPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -348,7 +348,7 @@ void AdvanceRecordVSPageSlideOut(void) {
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
-    offset = InterpolateS16(1, 0, endOffset, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, 0, endOffset, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetX = offset;
@@ -378,7 +378,7 @@ void AdvanceRecordVSPageSlideOut(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSPageSlideInAndChangePage();
     }
 }
@@ -406,7 +406,7 @@ void AdvanceRecordVSPageSlideIn(void) {
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
     transientBase = gRecordVS->mRecordVSMTransientBncl->mCount;
     subBase = gRecordVS->mRecordVSSBncl->mCount;
-    offset = InterpolateS16(1, startOffset, 0, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, startOffset, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetX = offset;
@@ -436,7 +436,7 @@ void AdvanceRecordVSPageSlideIn(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[objectRowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSBrowse();
     }
 }
@@ -446,7 +446,7 @@ void AdvanceRecordVSSubSlideOut(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -461,10 +461,10 @@ void AdvanceRecordVSSubSlideOut(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSMainSlideOut();
     }
-    if (gRecordVS->mStateFrames == 6) {
+    if (gRecordVS->mStateFrames == RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP) {
         gRecordVS->mRecordVSSTable[24].mVisible = 0;
         gRecordVS->mRecordVSSTable[25].mVisible = 0;
     }
@@ -480,7 +480,7 @@ void AdvanceRecordVSMainSlideOut(void) {
         SetRecordNextScene(12);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, 0, -192, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
     mainBase = gRecordVS->mRecordVSMBncl->mCount;
@@ -507,7 +507,7 @@ void AdvanceRecordVSMainSlideOut(void) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[labelIndex]].mOffsetY =
             offset;
     }
-    if (gRecordVS->mStateFrames >= 10 && gRecordVS->mNextScreen != RECORD_SCREEN_OUTSIDE) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS && gRecordVS->mNextScreen != RECORD_SCREEN_OUTSIDE) {
         RequestRecordScreen(gRecordVS->mNextScreen);
     }
 }
@@ -522,7 +522,7 @@ void AdvanceRecordVSPressButton(void) {
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSSubSlideOutRequestScreen();
     }
 }
@@ -532,7 +532,7 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, 0, 0x100, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -547,10 +547,10 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordScreen(gRecordVS->mNextScreen);
     }
-    if (gRecordVS->mStateFrames == 6) {
+    if (gRecordVS->mStateFrames == RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP) {
         gRecordVS->mRecordVSSTable[24].mVisible = 0;
         gRecordVS->mRecordVSSTable[25].mVisible = 0;
     }
@@ -562,7 +562,7 @@ void AdvanceRecordVSSubSlideIn(void) {
     u16 subBase;
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, 10);
+    offset = InterpolateS16(1, 0x100, 0, gRecordVS->mStateFrames, RECORD_SLIDE_STEPS);
     subBase = gRecordVS->mRecordVSSBncl->mCount;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
@@ -577,10 +577,10 @@ void AdvanceRecordVSSubSlideIn(void) {
         gRecordVS->mRecordVSSTable[gRecordVSFlaggedObjectIndices[rowIndex]].mOffsetX = offset;
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
-    if (gRecordVS->mStateFrames >= 10) {
+    if (gRecordVS->mStateFrames >= RECORD_SLIDE_STEPS) {
         RequestRecordVSBrowse();
     }
-    if (gRecordVS->mStateFrames == 2) {
+    if (gRecordVS->mStateFrames == RECORD_VS_SUB_RESLIDE_SWAP_STEP) {
         gRecordVS->mRecordVSSTable[24].mVisible = 1;
         gRecordVS->mRecordVSSTable[25].mVisible = 0;
     }
@@ -829,7 +829,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     gRecordScene->mPrevScene = previousScene;
     gRecordScene->mNextScene = -1;
     gRecordScene->mNextScreen = RECORD_SCREEN_NONE;
-    gRecordScene->mRegistersTimer = 2;
+    gRecordScene->mRegistersTimer = RECORD_REGISTERS_DELAY_FRAMES;
     if (gRecordScene->mPrevScene == SCENE_WIFI_MENU) {
         gRecordScene->mPrevScreen = RECORD_SCREEN_OUTSIDE;
         gRecordScene->mScreen = RECORD_SCREEN_VS;
@@ -889,7 +889,7 @@ void AdvanceRecordScene(void) {
         gRecordScene->mPrevScreen = gRecordScene->mScreen;
         gRecordScene->mScreen = gRecordScene->mNextScreen;
         gRecordScene->mNextScreen = RECORD_SCREEN_NONE;
-        gRecordScene->mRegistersTimer = 2;
+        gRecordScene->mRegistersTimer = RECORD_REGISTERS_DELAY_FRAMES;
         gRecordScene->mScreenCallbacks.mInit(gRecordScene->mStateHeap);
     }
     gRecordScene->mScreenCallbacks.mAdvance();
