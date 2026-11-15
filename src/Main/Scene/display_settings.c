@@ -557,7 +557,7 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
 }
 
 // Enum-typed parameters of the inlines below: their values are read before the register.
-typedef enum { UNK_02037ABC_ARG_0 } Unk02037abc_Arg;
+typedef enum { DISPLAY_REGISTER_FIELD_0 } DisplayRegisterField;
 
 // Calls MIi_CpuClearFast with the value read from a volatile copy.
 static inline void DisplayFillMemoryFast(u32 fillValue, void *destination, u32 size) {
@@ -576,23 +576,23 @@ static inline void SetBg01PriorityAndMosaic(vu16 *cntReg, Bg01Cnt *cnt) {
 }
 
 // Sets bits 4, 20 and 21 of the word register r.
-static inline void SetDispcntObjVRamModeChar(vu32 *reg, Unk02037abc_Arg bits) {
+static inline void SetDispcntObjVRamModeChar(vu32 *reg, DisplayRegisterField bits) {
     *reg = (*reg & 0xffcfffef) | bits;
 }
 
 // Sets bits 5, 6 and 22 of the word at 0x04000000.
-static inline void DisplayGX_SetOBJVRamModeBmp(Unk02037abc_Arg bits) {
+static inline void DisplayGX_SetOBJVRamModeBmp(DisplayRegisterField bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffbfff9f) | bits;
 }
 
 // Sets bits 5 and 6 of the word at 0x04001000.
-static inline void DisplayGXS_SetOBJVRamModeBmp(Unk02037abc_Arg bits) {
+static inline void DisplayGXS_SetOBJVRamModeBmp(DisplayRegisterField bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x60) | bits;
 }
 
 // Keeps bits 0, 1 and 6 of the halfword register cntReg and sets the rest from five values.
-static inline void SetBg01Control(vu16 *cntReg, Unk02037abc_Arg val14, Unk02037abc_Arg val7, Unk02037abc_Arg val8,
-                                  Unk02037abc_Arg val2, Unk02037abc_Arg val13) {
+static inline void SetBg01Control(vu16 *cntReg, DisplayRegisterField val14, DisplayRegisterField val7,
+                                  DisplayRegisterField val8, DisplayRegisterField val2, DisplayRegisterField val13) {
     *cntReg = (*cntReg & 0x43) | (val14 << 14) | (val7 << 7) | (val8 << 8) | (val2 << 2) | (val13 << 13);
 }
 
@@ -671,34 +671,34 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
             G2Bg0OfsWrite(0);
         } else {
             reg_G2_BG0OFS = 0;
-            SetBg01Control(&reg_G2_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                           (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                           (Unk02037abc_Arg) cnt->mBgCntVal13);
+            SetBg01Control(&reg_G2_BG0CNT, (DisplayRegisterField) cnt->mBgCntVal14,
+                           (DisplayRegisterField) cnt->mBgCntVal7, (DisplayRegisterField) cnt->mBgCntVal8,
+                           (DisplayRegisterField) cnt->mBgCntVal2, (DisplayRegisterField) cnt->mBgCntVal13);
         }
     }
     if (settings->mSubDisplayMask & GX_PLANEMASK_BG0) {
         reg_G2S_DB_BG0OFS = 0;
         cnt = &settings->mSubBgRecords.mBg0;
         SetBg01PriorityAndMosaic(&reg_G2S_DB_BG0CNT, cnt);
-        SetBg01Control(&reg_G2S_DB_BG0CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                       (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                       (Unk02037abc_Arg) cnt->mBgCntVal13);
+        SetBg01Control(&reg_G2S_DB_BG0CNT, (DisplayRegisterField) cnt->mBgCntVal14,
+                       (DisplayRegisterField) cnt->mBgCntVal7, (DisplayRegisterField) cnt->mBgCntVal8,
+                       (DisplayRegisterField) cnt->mBgCntVal2, (DisplayRegisterField) cnt->mBgCntVal13);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_BG1) {
         reg_G2_BG1OFS = 0;
         cnt = &settings->mMainBgRecords.mBg1;
         SetBg01PriorityAndMosaic(&reg_G2_BG1CNT, cnt);
-        SetBg01Control(&reg_G2_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                       (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                       (Unk02037abc_Arg) cnt->mBgCntVal13);
+        SetBg01Control(&reg_G2_BG1CNT, (DisplayRegisterField) cnt->mBgCntVal14, (DisplayRegisterField) cnt->mBgCntVal7,
+                       (DisplayRegisterField) cnt->mBgCntVal8, (DisplayRegisterField) cnt->mBgCntVal2,
+                       (DisplayRegisterField) cnt->mBgCntVal13);
     }
     if (settings->mSubDisplayMask & GX_PLANEMASK_BG1) {
         reg_G2S_DB_BG1OFS = 0;
         cnt = &settings->mSubBgRecords.mBg1;
         SetBg01PriorityAndMosaic(&reg_G2S_DB_BG1CNT, cnt);
-        SetBg01Control(&reg_G2S_DB_BG1CNT, (Unk02037abc_Arg) cnt->mBgCntVal14, (Unk02037abc_Arg) cnt->mBgCntVal7,
-                       (Unk02037abc_Arg) cnt->mBgCntVal8, (Unk02037abc_Arg) cnt->mBgCntVal2,
-                       (Unk02037abc_Arg) cnt->mBgCntVal13);
+        SetBg01Control(&reg_G2S_DB_BG1CNT, (DisplayRegisterField) cnt->mBgCntVal14,
+                       (DisplayRegisterField) cnt->mBgCntVal7, (DisplayRegisterField) cnt->mBgCntVal8,
+                       (DisplayRegisterField) cnt->mBgCntVal2, (DisplayRegisterField) cnt->mBgCntVal13);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_BG2) {
         ApplyBg2Cnt(&settings->mMainBgRecords.mBg2, 1);
@@ -713,12 +713,12 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
         ApplyBg3Cnt(&settings->mSubBgRecords.mBg3, 0);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_OBJ) {
-        SetDispcntObjVRamModeChar(&reg_GX_DISPCNT, (Unk02037abc_Arg) settings->mMainBgRecords.mObjVRamModeChar);
-        DisplayGX_SetOBJVRamModeBmp((Unk02037abc_Arg) settings->mMainBgRecords.mObjVRamModeBmp);
+        SetDispcntObjVRamModeChar(&reg_GX_DISPCNT, (DisplayRegisterField) settings->mMainBgRecords.mObjVRamModeChar);
+        DisplayGX_SetOBJVRamModeBmp((DisplayRegisterField) settings->mMainBgRecords.mObjVRamModeBmp);
     }
     if (settings->mSubDisplayMask & GX_PLANEMASK_OBJ) {
-        SetDispcntObjVRamModeChar(&reg_GXS_DB_DISPCNT, (Unk02037abc_Arg) settings->mSubBgRecords.mObjVRamModeChar);
-        DisplayGXS_SetOBJVRamModeBmp((Unk02037abc_Arg) settings->mSubBgRecords.mObjVRamModeBmp);
+        SetDispcntObjVRamModeChar(&reg_GXS_DB_DISPCNT, (DisplayRegisterField) settings->mSubBgRecords.mObjVRamModeChar);
+        DisplayGXS_SetOBJVRamModeBmp((DisplayRegisterField) settings->mSubBgRecords.mObjVRamModeBmp);
     }
     reg_GX_POWCNT |= 0x8000;
 }
