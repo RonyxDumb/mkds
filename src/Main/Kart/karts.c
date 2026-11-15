@@ -272,7 +272,7 @@ BOOL IsKartRemovedWrapper(u16 kartIndex) {
     return IsKartRemoved(&gKarts[kartIndex]);
 }
 
-void StartKartRaceEndWrapper(s32 kartIndex) {
+void StartKartRaceEndWrapper(u16 kartIndex) {
     StartKartRaceEnd(&gKarts[kartIndex]);
 }
 

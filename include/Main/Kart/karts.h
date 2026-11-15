@@ -174,7 +174,7 @@ void SetKartKind3ShapeListMask(s32 kartIndex);
 
 unsigned int GetKartForwardSpeedRatio(void);
 
-void StartKartRaceEndWrapper(s32 kartIndex);
+void StartKartRaceEndWrapper(u16 kartIndex);
 
 // Whether this is a mission run on a course with a shape of kind 2.
 unsigned int IsMissionRunWithKind2Shapes(void);

@@ -245,7 +245,7 @@ void AdvanceMissionRunEnd(void) {
                 return;
             }
             FinishKartAtMissionRunEnd(GetKart(entryIndex));
-            StartKartRaceEndWrapper((u16) entryIndex);
+            StartKartRaceEndWrapper(entryIndex);
             StartRaceEndSeq(0);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                 FinishStandings();
