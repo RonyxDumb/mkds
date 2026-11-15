@@ -166,9 +166,9 @@ void OS_InitThread(void) {
     if (stackSize <= 0) {
         stackTop = (u8 *) 0x27e00e0 - stackSize;
     } else {
-        stackTop = (u8 *) &OSi_IrqThreadQueue + 0x3f80 - (u32) SDK_IRQ_STACKSIZE - stackSize;
+        stackTop = DTCM_THREAD_STACK_END - (u32) SDK_IRQ_STACKSIZE - stackSize;
     }
-    stackBottom = (u8 *) &OSi_IrqThreadQueue + 0x3f80 - (u32) SDK_IRQ_STACKSIZE;
+    stackBottom = DTCM_THREAD_STACK_END - (u32) SDK_IRQ_STACKSIZE;
     OSi_LauncherThread.mStackBottom = stackBottom;
     OSi_LauncherThread.mStackTop = stackTop;
     OSi_LauncherThread.mStackWarningOffset = 0;
