@@ -153,7 +153,7 @@ void InitRecordGpx(void *heap) {
         anyFlagSet |= IsRecordGpxCupBackupFlagSet(index);
     }
     if (anyFlagSet == 0) {
-        gRecordGpx->mBg3OffsetY = 16;
+        gRecordGpx->mBg3OffsetY = RECORD_GPX_NO_CUP_BG3_OFFSET_Y;
     }
     gRecordGpx->mZeroBuffer = HeapAlloc(heap, RECORD_GPX_MAP_STRIP_BYTES);
     zero = 0;
@@ -177,8 +177,9 @@ void ReleaseRecordGpx(void) {
 
 void AdvanceRecordGpxBgSlideIn(void) {
     gRecordGpx->mStateFrames++;
-    gRecordGpx->mBg0Offset = InterpolateS16(1, -192, 0, gRecordGpx->mStateFrames, 10);
-    if (gRecordGpx->mStateFrames >= 10) {
+    gRecordGpx->mBg0Offset =
+        InterpolateS16(1, -RECORD_GPX_BG0_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+    if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordGpxCellsSlideInAndSetup();
     }
 }
@@ -192,7 +193,7 @@ void AdvanceRecordGpxCellsSlideIn(void) {
 
     AdvanceRecordGpxOffsetTimers();
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, 0x100, 0, gRecordGpx->mStateFrames, 10);
+    offsetX = InterpolateS16(1, RECORD_GPX_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -218,7 +219,7 @@ void AdvanceRecordGpxCellsSlideIn(void) {
             gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
-    if (gRecordGpx->mStateFrames >= 10) {
+    if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordGpxSelect();
     }
 }
@@ -289,7 +290,7 @@ next:
         (touchBeganRect == 0 && gRecordGpx->mLeftRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
-        gRecordGpx->mOffsetTimers[0] = 6;
+        gRecordGpx->mOffsetTimers[0] = RECORD_GPX_OFFSET_TIMER_FRAMES;
         gRecordGpx->mLeftRepeat = TRUE;
         RequestRecordGpxPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -299,7 +300,7 @@ next:
         (touchBeganRect == 1 && gRecordGpx->mRightRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
-        gRecordGpx->mOffsetTimers[1] = 6;
+        gRecordGpx->mOffsetTimers[1] = RECORD_GPX_OFFSET_TIMER_FRAMES;
         gRecordGpx->mRightRepeat = TRUE;
         RequestRecordGpxPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -317,14 +318,14 @@ void AdvanceRecordGpxPageSlideOut(void) {
     AdvanceRecordGpxOffsetTimers();
     switch (gRecordGpx->mIndexMoveDirection) {
         case RECORD_INDEX_MOVE_NEXT:
-            targetOffsetX = -256;
+            targetOffsetX = -RECORD_GPX_SLIDE_DISTANCE;
             break;
         case RECORD_INDEX_MOVE_PREVIOUS:
-            targetOffsetX = 0x100;
+            targetOffsetX = RECORD_GPX_SLIDE_DISTANCE;
             break;
     }
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordGpx->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -348,7 +349,7 @@ void AdvanceRecordGpxPageSlideOut(void) {
             gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
-    if (gRecordGpx->mStateFrames >= 10) {
+    if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordGpxPageSlideInAndMoveIndex();
     }
 }
@@ -364,14 +365,14 @@ void AdvanceRecordGpxPageSlideIn(void) {
     AdvanceRecordGpxOffsetTimers();
     switch (gRecordGpx->mIndexMoveDirection) {
         case RECORD_INDEX_MOVE_NEXT:
-            startOffsetX = 0x100;
+            startOffsetX = RECORD_GPX_SLIDE_DISTANCE;
             break;
         case RECORD_INDEX_MOVE_PREVIOUS:
-            startOffsetX = -256;
+            startOffsetX = -RECORD_GPX_SLIDE_DISTANCE;
             break;
     }
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, startOffsetX, 0, gRecordGpx->mStateFrames, 10);
+    offsetX = InterpolateS16(1, startOffsetX, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -395,7 +396,7 @@ void AdvanceRecordGpxPageSlideIn(void) {
             gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
-    if (gRecordGpx->mStateFrames >= 10) {
+    if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordGpxSelect();
     }
 }
@@ -408,7 +409,7 @@ void AdvanceRecordGpxCellsSlideOut(void) {
     s32 subLayoutCount;
 
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 0x100, gRecordGpx->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, RECORD_GPX_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -434,15 +435,16 @@ void AdvanceRecordGpxCellsSlideOut(void) {
             gRecordGpx->mRecordGpxSTable[gRecordGpxCharacterKartCellIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
-    if (gRecordGpx->mStateFrames >= 10) {
+    if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordGpxBgSlideOut();
     }
 }
 
 void AdvanceRecordGpxBgSlideOut(void) {
     gRecordGpx->mStateFrames++;
-    gRecordGpx->mBg0Offset = InterpolateS16(1, 0, -192, gRecordGpx->mStateFrames, 10);
-    if (gRecordGpx->mStateFrames >= 10) {
+    gRecordGpx->mBg0Offset =
+        InterpolateS16(1, 0, -RECORD_GPX_BG0_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+    if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordScreen(gRecordGpx->mNextScreen);
     }
 }

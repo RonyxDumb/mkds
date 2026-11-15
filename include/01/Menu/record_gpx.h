@@ -74,6 +74,18 @@ enum {
 #define RECORD_GPX_MAP_STRIP_OFFSET 0x3c6
 #define RECORD_GPX_MAP_STRIP_BYTES 0x134
 
+// Frames of each slide of the screen (cells, pages and the BG0 layer); the cells travel RECORD_GPX_SLIDE_DISTANCE
+// sideways, the BG0 layer RECORD_GPX_BG0_SLIDE_DISTANCE.
+#define RECORD_GPX_SLIDE_FRAMES 10
+#define RECORD_GPX_SLIDE_DISTANCE 256
+#define RECORD_GPX_BG0_SLIDE_DISTANCE 192
+
+// RecordGpx.mBg3OffsetY while no cup flag of the backup is set.
+#define RECORD_GPX_NO_CUP_BG3_OFFSET_Y 16
+
+// Frames the cells of a row shift after a left or right press (RecordGpx.mOffsetTimers count them down).
+#define RECORD_GPX_OFFSET_TIMER_FRAMES 6
+
 // Object behind gRecordGpx.
 typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
