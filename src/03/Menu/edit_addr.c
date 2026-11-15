@@ -349,7 +349,7 @@ void UpdateEditAddrResult(void) {
 void ReleaseEditAddr(void) {
     int secondaryPair[1];
     HideSubScreenMessage();
-    DeleteOamEntry((u32 *) (u32) (gEditAddr->mOamEntry));
+    DeleteOamEntry(gEditAddr->mOamEntry);
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&"char/ybObjMain.ncl.l", &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);

@@ -31,7 +31,7 @@ void CreateLinkLevel(int row) {
 void ReleaseLinkLevel(void) {
     if (gLinkLevel != NULL) {
         RemoveTaskEntryWrapper(0, gLinkLevel->mTask);
-        DeleteOamEntry((u32 *) gLinkLevel->mOamEntry);
+        DeleteOamEntry(gLinkLevel->mOamEntry);
         FreeExpHeapBlockAndClearPointer(&gLinkLevel);
     }
 }

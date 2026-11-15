@@ -202,7 +202,7 @@ void UpdateOptMenuFadeOut(void) {
 void UpdateOptMenuRelease(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 &&
         IsSlideButtonsNotSlidingOut() != 0) {
-        DeleteOamEntry((u32 *) gOptMenuOamEntry);
+        DeleteOamEntry(gOptMenuOamEntry);
         ReleaseSelectionObjectSlots();
         HideSubScreenMessage();
         DeleteLoadedFile(gYbBgOption1Ncl);

@@ -25,11 +25,11 @@ OamEntry *CreateOamEntry(int screen, u8 *source) {
     return entry;
 }
 
-void DeleteOamEntry(u32 *entry) {
+void DeleteOamEntry(OamEntry *entry) {
     OamBuffers *buffers;
     s32 screen = 0;
 
-    *entry = (*entry & 0xc1fffcff) | 0x200;
+    entry->mAttr01 = (entry->mAttr01 & 0xc1fffcff) | 0x200;
     buffers = gOamBuffers;
     if ((u32) entry >= (u32) buffers + 0x400) {
         screen = 1;

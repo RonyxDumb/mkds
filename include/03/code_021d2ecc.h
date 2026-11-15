@@ -5,6 +5,6 @@
 
 void *CreateNodeList(void);
 OamEntry *GetOamBufferEntry(int screen, int index);
-void DeleteOamEntry(u32 *entry);
+void DeleteOamEntry(OamEntry *entry);
 OamEntry *CreateOamEntry(int screen, u8 *source);
 void ReleaseOamBuffers(void);

@@ -417,10 +417,10 @@ void UpdateApListRelease(void) {
     RemoveTaskEntryWrapper(1, gApList->mBgOffsetTask);
     for (rowIndex = 0; rowIndex < 5; rowIndex++) {
         if (gApList->mRowLeftOamEntries[rowIndex] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mRowLeftOamEntries[rowIndex]);
+            DeleteOamEntry(gApList->mRowLeftOamEntries[rowIndex]);
         }
         if (gApList->mRowRightOamEntries[rowIndex] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mRowRightOamEntries[rowIndex]);
+            DeleteOamEntry(gApList->mRowRightOamEntries[rowIndex]);
         }
     }
     ReleaseBgTextCanvas(gApList->mTextCanvas);

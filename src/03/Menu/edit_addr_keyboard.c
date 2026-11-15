@@ -612,12 +612,12 @@ void ReleaseEditAddrKeyboard(u32 task) {
     } while (index < 2);
     index = 0;
     do {
-        DeleteOamEntry((u32 *) gEditAddrKeyboard->mExtraKeys[index]);
+        DeleteOamEntry(gEditAddrKeyboard->mExtraKeys[index]);
         index = index + 1;
     } while (index < 2);
     index = 0;
     do {
-        DeleteOamEntry((u32 *) gEditAddrKeyboard->mDigitKeys[index]);
+        DeleteOamEntry(gEditAddrKeyboard->mDigitKeys[index]);
         index = index + 1;
     } while (index < 10);
     FreeExpHeapBlockAndClearPointer(&gEditAddrKeyboard);

@@ -461,10 +461,10 @@ void UpdateJb3ListRelease(void) {
     RemoveTaskEntryWrapper(0, gJb3List->mIdTimerTask);
     RemoveTaskEntryWrapper(1, gJb3List->mBgOffsetTask);
     for (index = 0; index < 7; index++) {
-        DeleteOamEntry((u32 *) gJb3List->mCellOamEntries[index]);
+        DeleteOamEntry(gJb3List->mCellOamEntries[index]);
     }
     if (gJb3List->mSetTypeOamEntry != NULL) {
-        DeleteOamEntry((u32 *) gJb3List->mSetTypeOamEntry);
+        DeleteOamEntry(gJb3List->mSetTypeOamEntry);
     }
     ReleaseScrollBar();
     ReleaseBgTextCanvasOfScreen(0);

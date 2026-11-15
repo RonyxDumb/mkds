@@ -247,7 +247,7 @@ void CreateAnimatedIcon(int index) {
 
 void ReleaseAnimatedIcon(void) {
     RemoveTaskEntryWrapper(1, gAnimatedIcon->mTask);
-    DeleteOamEntry((u32 *) gAnimatedIcon->mOamEntry);
+    DeleteOamEntry(gAnimatedIcon->mOamEntry);
     FreeExpHeapBlockAndClearPointer(&gAnimatedIcon);
 }
 

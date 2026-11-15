@@ -259,7 +259,7 @@ void UpdateEditRelease(void) {
     s32 secondaryPairFirst;
     int secondaryPairSecond[1];
     HideSubScreenMessage();
-    DeleteOamEntry((u32 *) (u32) gEdit->mOamEntry);
+    DeleteOamEntry(gEdit->mOamEntry);
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&"char/ybObjMain.ncl.l", &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);

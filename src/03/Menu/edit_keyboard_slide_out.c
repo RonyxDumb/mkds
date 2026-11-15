@@ -96,10 +96,10 @@ void ReleaseEditKeyboard(u32 task) {
         DeleteOamRange(gEditKeyboard->mRow4Keys[index]);
     }
     for (index = 0; index < 4; index++) {
-        DeleteOamEntry((u32 *) gEditKeyboard->mExtraKeys[index]);
+        DeleteOamEntry(gEditKeyboard->mExtraKeys[index]);
     }
     for (index = 0; index < 0x2f; index++) {
-        DeleteOamEntry((u32 *) gEditKeyboard->mKeys[index]);
+        DeleteOamEntry(gEditKeyboard->mKeys[index]);
     }
     FreeExpHeapBlockAndClearPointer(&gEditKeyboard);
 }
