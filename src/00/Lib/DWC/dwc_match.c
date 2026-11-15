@@ -267,12 +267,11 @@ u32 DWCi_QR2Startup(u32 profileId) {
     attempt = 0;
     do {
         wiFiMatching = gWiFiMatching;
-        initResult = qr2_init_socketA(
-            &gWiFiMatching->mQr2, GetSocketDescriptor(*wiFiMatching->mConnectionSocket),
-            GetSocketPort(*wiFiMatching->mConnectionSocket), wiFiMatching->mGameName, wiFiMatching->mSecretKey, 1, 1,
-            (QueryServerKeyFunc) DWCi_QR2ServerKeyCallback, (QueryPlayerTeamKeyFunc) DWCi_QR2PlayerKeyCallback,
-            (QueryPlayerTeamKeyFunc) DWCi_QR2TeamKeyCallback, (QueryKeyListFunc) DWCi_QR2KeyListCallback,
-            (QueryCountFunc) DWCi_QR2CountCallback, (QueryErrorFunc) DWCi_QR2AddErrorCallback, NULL);
+        initResult = qr2_init_socketA(&gWiFiMatching->mQr2, GetSocketDescriptor(*wiFiMatching->mConnectionSocket),
+                                      GetSocketPort(*wiFiMatching->mConnectionSocket), wiFiMatching->mGameName,
+                                      wiFiMatching->mSecretKey, 1, 1, DWCi_QR2ServerKeyCallback,
+                                      DWCi_QR2PlayerKeyCallback, DWCi_QR2TeamKeyCallback, DWCi_QR2KeyListCallback,
+                                      DWCi_QR2CountCallback, DWCi_QR2AddErrorCallback, NULL);
         if (initResult == 0) {
             break;
         }
@@ -3367,7 +3366,7 @@ BOOL DWCi_EvaluateServers(s32 sort) {
     return TRUE;
 }
 
-void DWCi_QR2ServerKeyCallback(s32 keyId, QueryBuffer *buffer, void *userdata) {
+void DWCi_QR2ServerKeyCallback(u8 keyId, QueryBuffer *buffer, void *userData) {
     s32 index;
     switch (keyId) {
         case NUMPLAYERS_KEY:
@@ -3402,9 +3401,9 @@ void DWCi_QR2ServerKeyCallback(s32 keyId, QueryBuffer *buffer, void *userdata) {
     }
 }
 
-void DWCi_QR2PlayerKeyCallback(void) {}
+void DWCi_QR2PlayerKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *userData) {}
 
-void DWCi_QR2TeamKeyCallback(void) {}
+void DWCi_QR2TeamKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *userData) {}
 
 void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata) {
     s32 keyIndex;
@@ -3434,12 +3433,12 @@ void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata
     }
 }
 
-s32 DWCi_QR2CountCallback(void) {
+s32 DWCi_QR2CountCallback(s32 keyType, void *userData) {
     return 0;
 }
 
-u32 DWCi_QR2AddErrorCallback(u32 error) {
-    return DWCi_HandleQR2Error(error);
+void DWCi_QR2AddErrorCallback(s32 errorType, const u8 *message, void *userData) {
+    DWCi_HandleQR2Error(errorType);
 }
 
 void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData) {

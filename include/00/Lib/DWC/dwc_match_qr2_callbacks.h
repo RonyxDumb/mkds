@@ -4,11 +4,11 @@
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/code_021a3a18.h"
 
-u32 DWCi_QR2AddErrorCallback(u32 error);
-s32 DWCi_QR2CountCallback(void);
+void DWCi_QR2AddErrorCallback(s32 errorType, const u8 *message, void *userData);
+s32 DWCi_QR2CountCallback(s32 keyType, void *userData);
 void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata);
-void DWCi_QR2TeamKeyCallback(void);
-void DWCi_QR2PlayerKeyCallback(void);
+void DWCi_QR2TeamKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *userData);
+void DWCi_QR2PlayerKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *userData);
 
 // Key ids of the matching server's query reports: the reserved ids of the reporter, then the ids of this matching
 // code, then the game's own keys from DWC_QR2_GAME_KEY_START on (there are DWC_QR2_GAME_RESERVED_KEYS of them).
