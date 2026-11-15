@@ -36,8 +36,8 @@ typedef struct SOCLConfig {
     /* 0c */ u32 mGatewayIp;
     /* 10 */ u32 mDnsFirstIp;
     /* 14 */ u32 mDnsSecondIp;
-    /* 18 */ void *(*mAlloc)(u32 param_1);
-    /* 1c */ void (*mFree)(void *param_1);
+    /* 18 */ void *(*mAlloc)(u32 size);
+    /* 1c */ void (*mFree)(void *block);
     /* 20 */ s32 mCmdPacketMax;
     /* 24 */ s32 mLanBufLen;
     /* 28 */ void *mLanBuf;
@@ -48,8 +48,8 @@ typedef struct SOCLConfig {
 
 typedef struct CPSConfig {
     /* 00 */ s32 mMode;
-    /* 04 */ void *(*mAlloc)(u32 param_1);
-    /* 08 */ void (*mFree)(void *param_1);
+    /* 04 */ void *(*mAlloc)(u32 size);
+    /* 08 */ void (*mFree)(void *block);
     /* 0c */ void (*mDhcpCallback)(void);
     /* 10 */ u32 (*mLinkIsOn)(void);
     /* 14 */ u64 mRandomSeed;

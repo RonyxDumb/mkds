@@ -7,8 +7,8 @@ typedef struct SOCLSocket SOCLSocket;
 
 extern u8 gIpConflict;
 extern u32 CPSNoIpReason;
-extern u8 *(*CPSiAlloc)(u32 param_1);
-extern void (*CPSiFree)(void *param_1);
+extern u8 *(*CPSiAlloc)(u32 size);
+extern void (*CPSiFree)(void *block);
 
 extern void (*gScavengerCallback)(void);
 
