@@ -332,7 +332,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
         }
     }
     SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostSend->mInfoFileSets.mCellFileSets[2]);
-    SetupInterpolation(&gTimeAttackGhostSend->mInterpolation, 3, 10, -0xc0, 0);
+    SetupInterpolation(&gTimeAttackGhostSend->mInterpolation, INTERPOLATION_STATE_AT_START, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     SendLedPatternWireless();
     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_FADE;
@@ -385,13 +385,13 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                     PrintSelectedGhostSendRecord();
                     SetupGhostSendMainText();
                     RequestSelectReturnState1();
-                    SetInterpolationStateIfOpposite(&gTimeAttackGhostSend->mInterpolation, 0);
+                    SetInterpolationStateIfOpposite(&gTimeAttackGhostSend->mInterpolation, INTERPOLATION_STATE_RISING);
                     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_SLIDE_IN;
                 }
             }
             break;
         case TIME_ATTACK_GHOST_SEND_STATE_SLIDE_IN:
-            if (gTimeAttackGhostSend->mInterpolation.mState == 1) {
+            if (gTimeAttackGhostSend->mInterpolation.mState == INTERPOLATION_STATE_AT_END) {
                 gTimeAttackGhostSend->mUnk_0b4 = 0;
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_PICK_GHOST;
             } else {
