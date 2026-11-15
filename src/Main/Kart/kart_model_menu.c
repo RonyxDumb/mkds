@@ -177,7 +177,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
     SetupCamera(gEntryCamera);
     gEntryCamera->mFollowedKartIndex = followedKartIndex;
     gEntryCamera->mCourseMapCamera = NULL;
-    gEntryCamera->mFrustumShift = 0;
+    gEntryCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
     gEntryCamera->mKind = CAMERA_KIND_ENTRY;
     if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
         gEntryCamera->mCourseMapCamera = gCourseMap->mCameras;
@@ -261,7 +261,7 @@ void CreateFirstChainCamera(void) {
     SetupCamera(gFirstChainCamera);
     gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
     gFirstChainCamera->mKind = CAMERA_KIND_CHAIN;
-    gFirstChainCamera->mFrustumShift = 0;
+    gFirstChainCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
     if (gFirstChainCamera->mCourseMapCamera == NULL) {
         gRaceProgress->mCameraChainEnded = 1;
         return;
@@ -346,7 +346,7 @@ void SetupCamera(Camera *camera) {
     camera->mEntryUpdateHold = 0;
     camera->mEntryUpdateDisabled = FALSE;
     camera->mKind8EntryRunning = FALSE;
-    camera->mFrustumShift = 0;
+    camera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
     camera->mKind = CAMERA_KIND_CHASE;
     camera->mPosGoalKartOffset = zero;
     camera->mPosGoalCollisionOffset = zero;
@@ -362,7 +362,7 @@ void SetupCamera(Camera *camera) {
     camera->mUnk_20c = 0;
     camera->mUnk_20e = 0;
     camera->mUnk_224 = 0;
-    camera->mKartMoveScale = 0x1000;
+    camera->mKartMoveScale = TO_FIXED12(1);
 }
 
 void RefreshCameraProjection(Camera *camera) {
@@ -386,13 +386,13 @@ void RefreshCameraProjection(Camera *camera) {
     top = camera->mFrustumTop;
     bottom = camera->mFrustumBottom;
     switch (camera->mFrustumShift) {
-        case 1:
+        case CAMERA_FRUSTUM_SHIFT_UP:
             top <<= 1;
             bottom = -top;
             camera->mFrustumTop = MUL_FIXED12_NO_ROUND(top, gCameraFrustumShiftScale + 0x1000);
             camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(top, gCameraFrustumShiftScale);
             break;
-        case 2:
+        case CAMERA_FRUSTUM_SHIFT_DOWN:
             bottom <<= 1;
             top = -bottom;
             camera->mFrustumBottom = MUL_FIXED12_NO_ROUND(bottom, gCameraFrustumShiftScale + 0x1000);

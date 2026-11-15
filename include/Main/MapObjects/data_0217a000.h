@@ -1227,6 +1227,10 @@ struct Kind7CameraEntry;
 #define CAMERA_KIND_ENTRY 1
 #define CAMERA_KIND_CHAIN 2
 #define CAMERA_KIND_ENTRY_SEQUENCE 3
+// Values of Camera.mFrustumShift: the frustum window stays centered, or moves up or down.
+#define CAMERA_FRUSTUM_SHIFT_NONE 0
+#define CAMERA_FRUSTUM_SHIFT_UP 1
+#define CAMERA_FRUSTUM_SHIFT_DOWN 2
 
 typedef struct Camera {
     /* 000 */ Vec3 mUp;

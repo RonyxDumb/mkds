@@ -121,7 +121,7 @@ void SetupCameraBehindKart(void) {
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = gCameraVec3UnitY;
     chaseCamera->mPrevPos = chaseCamera->mPos;
-    chaseCamera->mKartMoveScale = 0x1000;
+    chaseCamera->mKartMoveScale = TO_FIXED12(1);
     gChaseCamera->mHeightHold = 0;
     UpdateViewFrustum(&chaseCamera->mViewMatrix);
     RequestViewTestRefresh();
@@ -619,15 +619,15 @@ static inline void SetNextCourseMapCamera(Camera *camera) {
 MtxFx43 *UpdateChainCameraPair(void) {
     if (gSecondChainCamera->mCourseMapCamera != NULL) {
         if (gSecondChainCamera->mCourseMapCamera->mKind == COURSE_MAP_CAMERA_KIND_CHAIN_PAIR) {
-            gFirstChainCamera->mFrustumShift = 1;
-            gSecondChainCamera->mFrustumShift = 2;
+            gFirstChainCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_UP;
+            gSecondChainCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_DOWN;
         } else {
-            gSecondChainCamera->mFrustumShift = 0;
+            gSecondChainCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
             gFirstChainCamera->mFrustumShift = gSecondChainCamera->mFrustumShift;
         }
     }
     UpdateCameraEntry(gFirstChainCamera);
-    if (gSecondChainCamera->mFrustumShift == 2) {
+    if (gSecondChainCamera->mFrustumShift == CAMERA_FRUSTUM_SHIFT_DOWN) {
         gSecondChainCamera->mHalfFovPairFirst = gFirstChainCamera->mHalfFovPairFirst;
         gSecondChainCamera->mHalfFovPairSecond = gFirstChainCamera->mHalfFovPairSecond;
         gSecondChainCamera->mPos = gFirstChainCamera->mPos;
@@ -668,7 +668,7 @@ void UpdateCameraEntry(Camera *camera) {
     if (camera != gFirstChainCamera) {
         return;
     }
-    if (camera->mFrustumShift != 1) {
+    if (camera->mFrustumShift != CAMERA_FRUSTUM_SHIFT_UP) {
         return;
     }
     SetNextCourseMapCamera(gSecondChainCamera);
@@ -1107,7 +1107,7 @@ void ResetCameraBehind(const Vec3 *kartPos, void *quaternion) {
     chaseCamera->mPos.y = chaseCamera->mPos.y + gFollowHeight;
     chaseCamera->mBaseUp = gCameraVec3UnitY;
     chaseCamera->mPrevPos = chaseCamera->mPos;
-    chaseCamera->mKartMoveScale = 0x1000;
+    chaseCamera->mKartMoveScale = TO_FIXED12(1);
     gChaseCamera->mHeightHold = 0;
     UpdateViewFrustum(&chaseCamera->mViewMatrix);
     RequestViewTestRefresh();
