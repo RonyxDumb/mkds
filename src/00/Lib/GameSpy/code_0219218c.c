@@ -54,33 +54,33 @@ u32 GpiUnpackDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 
 }
 
 void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg) {
-    if (cache->mUnk_00[0] != NULL) {
-        GpiCopyString(arg->mNick, cache->mUnk_00[0], 0x1f);
+    if (cache->mNick != NULL) {
+        GpiCopyString(arg->mNick, cache->mNick, 0x1f);
     } else {
         arg->mNick[0] = 0;
     }
-    if (cache->mUnk_00[1] != NULL) {
-        GpiCopyString(arg->mUniquenick, cache->mUnk_00[1], 0x15);
+    if (cache->mUniquenick != NULL) {
+        GpiCopyString(arg->mUniquenick, cache->mUniquenick, 0x15);
     } else {
         arg->mUniquenick[0] = 0;
     }
-    if (cache->mUnk_00[2] != NULL) {
-        GpiCopyString(arg->mEmail, cache->mUnk_00[2], 0x33);
+    if (cache->mEmail != NULL) {
+        GpiCopyString(arg->mEmail, cache->mEmail, 0x33);
     } else {
         arg->mEmail[0] = 0;
     }
-    if (cache->mUnk_00[3] != NULL) {
-        GpiCopyString(arg->mFirstname, cache->mUnk_00[3], 0x1f);
+    if (cache->mFirstname != NULL) {
+        GpiCopyString(arg->mFirstname, cache->mFirstname, 0x1f);
     } else {
         arg->mFirstname[0] = 0;
     }
-    if (cache->mUnk_00[4] != NULL) {
-        GpiCopyString(arg->mLastname, cache->mUnk_00[4], 0x1f);
+    if (cache->mLastname != NULL) {
+        GpiCopyString(arg->mLastname, cache->mLastname, 0x1f);
     } else {
         arg->mLastname[0] = 0;
     }
-    if (cache->mUnk_00[5] != NULL) {
-        GpiCopyString(arg->mHomepage, cache->mUnk_00[5], 0x4c);
+    if (cache->mHomepage != NULL) {
+        GpiCopyString(arg->mHomepage, cache->mHomepage, 0x4c);
     } else {
         arg->mHomepage[0] = 0;
     }
@@ -112,15 +112,15 @@ void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg) {
     arg->mBirthyear = cache->mBirthyear;
     arg->mSex = cache->mSex;
     arg->mPmask = cache->mPmask;
-    arg->mPic = cache->mUnk_cc[0];
-    arg->mOccupationid = cache->mUnk_cc[1];
-    arg->mIndustryid = cache->mUnk_cc[2];
-    arg->mIncomeid = cache->mUnk_cc[3];
-    arg->mMarriedid = cache->mUnk_cc[4];
-    arg->mChildcount = cache->mUnk_cc[5];
-    arg->mInterests1 = cache->mUnk_cc[6];
-    arg->mOwnership1 = cache->mUnk_cc[7];
-    arg->mConntypeid = cache->mUnk_cc[8];
+    arg->mPic = cache->mPic;
+    arg->mOccupationid = cache->mOccupationid;
+    arg->mIndustryid = cache->mIndustryid;
+    arg->mIncomeid = cache->mIncomeid;
+    arg->mMarriedid = cache->mMarriedid;
+    arg->mChildcount = cache->mChildcount;
+    arg->mInterests1 = cache->mInterests1;
+    arg->mOwnership1 = cache->mOwnership1;
+    arg->mConntypeid = cache->mConntypeid;
 }
 
 s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input) {
@@ -162,35 +162,35 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
     {
         GPIInfoCache infoRecord = {0};
         char aimHandleBuf[0x4c];
-        infoRecord.mUnk_00[0] = nickText;
-        infoRecord.mUnk_00[1] = uniqueNickText;
-        infoRecord.mUnk_00[2] = mailText;
-        infoRecord.mUnk_00[3] = givenName;
-        infoRecord.mUnk_00[4] = familyName;
-        infoRecord.mUnk_00[5] = aimHandleBuf;
+        infoRecord.mNick = nickText;
+        infoRecord.mUniquenick = uniqueNickText;
+        infoRecord.mEmail = mailText;
+        infoRecord.mFirstname = givenName;
+        infoRecord.mLastname = familyName;
+        infoRecord.mHomepage = aimHandleBuf;
         infoRecord.mAimName = webPage;
-        if (GpiGetValue(input, "\\nick\\", infoRecord.mUnk_00[0], 0x1f) == FALSE) {
-            infoRecord.mUnk_00[0][0] = 0;
+        if (GpiGetValue(input, "\\nick\\", infoRecord.mNick, 0x1f) == FALSE) {
+            infoRecord.mNick[0] = 0;
         }
-        if (GpiGetValue(input, "\\uniquenick\\", infoRecord.mUnk_00[1], 0x15) == FALSE) {
-            infoRecord.mUnk_00[1][0] = 0;
+        if (GpiGetValue(input, "\\uniquenick\\", infoRecord.mUniquenick, 0x15) == FALSE) {
+            infoRecord.mUniquenick[0] = 0;
         }
-        if (GpiGetValue(input, "\\email\\", infoRecord.mUnk_00[2], 0x33) == FALSE) {
-            infoRecord.mUnk_00[2][0] = 0;
+        if (GpiGetValue(input, "\\email\\", infoRecord.mEmail, 0x33) == FALSE) {
+            infoRecord.mEmail[0] = 0;
         }
-        if (GpiGetValue(input, "\\firstname\\", infoRecord.mUnk_00[3], 0x1f) == FALSE) {
-            infoRecord.mUnk_00[3][0] = 0;
+        if (GpiGetValue(input, "\\firstname\\", infoRecord.mFirstname, 0x1f) == FALSE) {
+            infoRecord.mFirstname[0] = 0;
         }
-        if (GpiGetValue(input, "\\lastname\\", infoRecord.mUnk_00[4], 0x1f) == FALSE) {
-            infoRecord.mUnk_00[4][0] = 0;
+        if (GpiGetValue(input, "\\lastname\\", infoRecord.mLastname, 0x1f) == FALSE) {
+            infoRecord.mLastname[0] = 0;
         }
         if (GpiGetValue(input, "\\icquin\\", buffer, 0x40) == FALSE) {
             infoRecord.mIcquin = -1;
         } else {
             infoRecord.mIcquin = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, "\\homepage\\", infoRecord.mUnk_00[5], 0x4c) == FALSE) {
-            infoRecord.mUnk_00[5][0] = 0;
+        if (GpiGetValue(input, "\\homepage\\", infoRecord.mHomepage, 0x4c) == FALSE) {
+            infoRecord.mHomepage[0] = 0;
         }
         if (GpiGetValue(input, "\\zipcode\\", infoRecord.mZipcode, 0xb) == FALSE) {
             infoRecord.mZipcode[0] = 0;
@@ -240,49 +240,49 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             infoRecord.mAimName[0] = 0;
         }
         if (GpiGetValue(input, "\\pic\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[0] = 0;
+            infoRecord.mPic = 0;
         } else {
-            infoRecord.mUnk_cc[0] = StrtolBase10(buffer);
+            infoRecord.mPic = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\occ\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[1] = 0;
+            infoRecord.mOccupationid = 0;
         } else {
-            infoRecord.mUnk_cc[1] = StrtolBase10(buffer);
+            infoRecord.mOccupationid = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\ind\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[2] = 0;
+            infoRecord.mIndustryid = 0;
         } else {
-            infoRecord.mUnk_cc[2] = StrtolBase10(buffer);
+            infoRecord.mIndustryid = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\inc\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[3] = 0;
+            infoRecord.mIncomeid = 0;
         } else {
-            infoRecord.mUnk_cc[3] = StrtolBase10(buffer);
+            infoRecord.mIncomeid = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\mar\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[4] = 0;
+            infoRecord.mMarriedid = 0;
         } else {
-            infoRecord.mUnk_cc[4] = StrtolBase10(buffer);
+            infoRecord.mMarriedid = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\chc\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[5] = 0;
+            infoRecord.mChildcount = 0;
         } else {
-            infoRecord.mUnk_cc[5] = StrtolBase10(buffer);
+            infoRecord.mChildcount = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\i1\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[6] = 0;
+            infoRecord.mInterests1 = 0;
         } else {
-            infoRecord.mUnk_cc[6] = StrtolBase10(buffer);
+            infoRecord.mInterests1 = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\o1\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[7] = 0;
+            infoRecord.mOwnership1 = 0;
         } else {
-            infoRecord.mUnk_cc[7] = StrtolBase10(buffer);
+            infoRecord.mOwnership1 = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\conn\\", buffer, 0x40) == FALSE) {
-            infoRecord.mUnk_cc[8] = 0;
+            infoRecord.mConntypeid = 0;
         } else {
-            infoRecord.mUnk_cc[8] = StrtolBase10(buffer);
+            infoRecord.mConntypeid = StrtolBase10(buffer);
         }
         if (GpiGetValue(input, "\\sig\\", buffer, 0x40) == FALSE) {
             GpiSetError(connection, 1, "Unexpected data was received from the server.");
@@ -884,12 +884,12 @@ u32 gpiSetInfoCache(GpConnection *connection, GpiProfile *profile, GPIInfoCache 
     profile->mCache = DWCi_GsMalloc(0xf0);
     if (profile->mCache != NULL) {
         *profile->mCache = *cache;
-        profile->mCache->mUnk_00[0] = goastrdup(cache->mUnk_00[0]);
-        profile->mCache->mUnk_00[1] = goastrdup(cache->mUnk_00[1]);
-        profile->mCache->mUnk_00[2] = goastrdup(cache->mUnk_00[2]);
-        profile->mCache->mUnk_00[3] = goastrdup(cache->mUnk_00[3]);
-        profile->mCache->mUnk_00[4] = goastrdup(cache->mUnk_00[4]);
-        profile->mCache->mUnk_00[5] = goastrdup(cache->mUnk_00[5]);
+        profile->mCache->mNick = goastrdup(cache->mNick);
+        profile->mCache->mUniquenick = goastrdup(cache->mUniquenick);
+        profile->mCache->mEmail = goastrdup(cache->mEmail);
+        profile->mCache->mFirstname = goastrdup(cache->mFirstname);
+        profile->mCache->mLastname = goastrdup(cache->mLastname);
+        profile->mCache->mHomepage = goastrdup(cache->mHomepage);
         profile->mCache->mAimName = goastrdup(cache->mAimName);
     }
     if (profile->mCache != NULL) {

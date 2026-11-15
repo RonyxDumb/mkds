@@ -11,7 +11,12 @@ enum {
 // Values read from the text, as built by GpiProcessInfoOperation on its stack. The pointers at 0x00 to 0x14 point to
 // buffers of its own; 0x1c, 0x27 and 0x34 are arrays inside.
 typedef struct GPIInfoCache {
-    /* 00 */ char *mUnk_00[6];
+    /* 00 */ char *mNick;
+    /* 04 */ char *mUniquenick;
+    /* 08 */ char *mEmail;
+    /* 0c */ char *mFirstname;
+    /* 10 */ char *mLastname;
+    /* 14 */ char *mHomepage;
     /* 18 */ s32 mIcquin;
     /* 1c */ char mZipcode[0xb];
     /* 27 */ char mCountrycode[3];
@@ -25,7 +30,15 @@ typedef struct GPIInfoCache {
     /* c0 */ s32 mSex;
     /* c4 */ s32 mPmask;
     /* c8 */ char *mAimName;
-    /* cc */ s32 mUnk_cc[9];
+    /* cc */ s32 mPic;
+    /* d0 */ s32 mOccupationid;
+    /* d4 */ s32 mIndustryid;
+    /* d8 */ s32 mIncomeid;
+    /* dc */ s32 mMarriedid;
+    /* e0 */ s32 mChildcount;
+    /* e4 */ s32 mInterests1;
+    /* e8 */ s32 mOwnership1;
+    /* ec */ s32 mConntypeid;
 } GPIInfoCache;
 
 // Copy of GPIInfoCache made by gpiInfoCacheToArg, 0x204 bytes.

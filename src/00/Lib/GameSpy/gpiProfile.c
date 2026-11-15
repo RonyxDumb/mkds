@@ -12,8 +12,8 @@ s32 gpiCheckProfileForUser(GpConnection *connection, GpiProfile *profile, void *
     int difference;
     GPIInfoCache *cache;
     cache = profile->mCache;
-    if (((cache != NULL) && (difference = strcmp(data->mNick, cache->mUnk_00[0]), difference == 0)) &&
-        (difference = strcmp(data->mEmail, cache->mUnk_00[2]), difference == 0)) {
+    if (((cache != NULL) && (difference = strcmp(data->mNick, cache->mNick), difference == 0)) &&
+        (difference = strcmp(data->mEmail, cache->mEmail), difference == 0)) {
         *data->mProfile = profile;
         data->mFound = TRUE;
         return 0;

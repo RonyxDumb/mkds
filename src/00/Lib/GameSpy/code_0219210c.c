@@ -4,18 +4,18 @@
 
 void gpiFreeInfoCache(GpiProfile *profile) {
     if (profile->mCache != NULL) {
-        DWCi_GsFree(profile->mCache->mUnk_00[0]);
-        profile->mCache->mUnk_00[0] = NULL;
-        DWCi_GsFree(profile->mCache->mUnk_00[1]);
-        profile->mCache->mUnk_00[1] = NULL;
-        DWCi_GsFree(profile->mCache->mUnk_00[2]);
-        profile->mCache->mUnk_00[2] = NULL;
-        DWCi_GsFree(profile->mCache->mUnk_00[3]);
-        profile->mCache->mUnk_00[3] = NULL;
-        DWCi_GsFree(profile->mCache->mUnk_00[4]);
-        profile->mCache->mUnk_00[4] = NULL;
-        DWCi_GsFree(profile->mCache->mUnk_00[5]);
-        profile->mCache->mUnk_00[5] = NULL;
+        DWCi_GsFree(profile->mCache->mNick);
+        profile->mCache->mNick = NULL;
+        DWCi_GsFree(profile->mCache->mUniquenick);
+        profile->mCache->mUniquenick = NULL;
+        DWCi_GsFree(profile->mCache->mEmail);
+        profile->mCache->mEmail = NULL;
+        DWCi_GsFree(profile->mCache->mFirstname);
+        profile->mCache->mFirstname = NULL;
+        DWCi_GsFree(profile->mCache->mLastname);
+        profile->mCache->mLastname = NULL;
+        DWCi_GsFree(profile->mCache->mHomepage);
+        profile->mCache->mHomepage = NULL;
         DWCi_GsFree(profile->mCache->mAimName);
         profile->mCache->mAimName = NULL;
         DWCi_GsFree(profile->mCache);
