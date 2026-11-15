@@ -1073,12 +1073,12 @@ u32 GetRomArchiveState(void) {
 
 u32 SetRomArchiveGroupSendMask(u32 value) {
     u32 interruptState = value;
-    u32 valueWithoutBit0;
+    u32 maskWithoutParent;
     u32 savedValue;
     savedValue = interruptState;
     interruptState = OS_DisableInterrupts();
-    valueWithoutBit0 = (savedValue) & ~(1u);
-    gRomArchiveTransfer.mParentView.mGroupSendMask = valueWithoutBit0;
+    maskWithoutParent = (savedValue) & ~(1u);
+    gRomArchiveTransfer.mParentView.mGroupSendMask = maskWithoutParent;
     interruptState = OS_RestoreInterrupts(interruptState);
     return interruptState;
 }

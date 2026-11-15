@@ -30,7 +30,7 @@ void AdvanceSelectRaceRuleState1(void);
 void AdvanceSelectRaceRuleState0(void);
 
 void ReleaseSelectRaceRule(void);
-void InitSelectRaceRule(void *parentHeap, s32 unusedArg1, void *oamList, s32 mode);
+void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode);
 void RequestSelectRaceRuleState8(void);
 void RequestSelectRaceRuleState7(void);
 void RequestSelectRaceRuleState6(void);

@@ -78,9 +78,9 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     s32 drawScale;
     u32 distanceSquared;
     s32 scaleFactor;
-    s32 commandValue0;
-    s32 commandValue1;
-    s32 commandValue2;
+    s32 restoreIndex;
+    s32 listRestoreIndex;
+    s32 popCount;
     MtxFx33 rotateZMatrix;
     MtxFx33 listRotateZMatrix;
     s32 drawScaleVector[3];
@@ -115,8 +115,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawPos = balloon->mMapObject.mPos;
             balloon->mDrawScale = TO_FIXED12(1);
         }
-        commandValue0 = 0x1e;
-        NNS_G3dGeBufferOP_N(0x14, &commandValue0, 1);
+        restoreIndex = 0x1e;
+        NNS_G3dGeBufferOP_N(0x14, &restoreIndex, 1);
         NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
         if (balloon->mMapObject.mAngle != 0) {
             MTX_RotZ33_(&rotateZMatrix, COS_OF_ANGLE(balloon->mMapObject.mAngle),
@@ -154,8 +154,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawPos = balloon->mTargetPos;
             balloon->mDrawScale = TO_FIXED12(1);
         }
-        commandValue1 = 0x1e;
-        NNS_G3dGeBufferOP_N(0x14, &commandValue1, 1);
+        listRestoreIndex = 0x1e;
+        NNS_G3dGeBufferOP_N(0x14, &listRestoreIndex, 1);
         NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&balloon->mDrawPos), 12);
         drawScale = balloon->mDrawScale;
         listDrawScaleVector[0] = drawScale;
@@ -183,8 +183,8 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
             SetMapObjectModelNsbtpFrameIndex(gBalloon, listBalloon->mNsbtpFrameIndex);
             DrawMapObjectModel(mapObjectList, gBalloon, balloon);
-            commandValue2 = 1;
-            NNS_G3dGeBufferOP_N(0x12, &commandValue2, 1);
+            popCount = 1;
+            NNS_G3dGeBufferOP_N(0x12, &popCount, 1);
         }
     }
 }

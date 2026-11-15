@@ -1459,7 +1459,7 @@ void RequestSelectRaceRuleState8(void) {
     gSelectRaceRule->mStateFrames = 0;
 }
 
-void InitSelectRaceRule(void *parentHeap, s32 unusedArg1, void *oamList, s32 mode) {
+void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) {
     void *heap;
     s32 rowIndex;
     s32 columnIndex;

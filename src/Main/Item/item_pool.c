@@ -493,7 +493,7 @@ void UpdateItemPool(ItemPool *pool) {
     s32 objectIndex;
     s32 frameMod8;
     s32 pendingUpdateCount;
-    s32 hasFlag8000;
+    s32 hasPendingCatchUp;
     s32 distanceSquared;
     s32 shiftedCount;
     s32 orderEndIndex;
@@ -533,9 +533,9 @@ void UpdateItemPool(ItemPool *pool) {
                 objectIndex--;
             }
         } else {
-            hasFlag8000 = object->mPendingUpdateCount & 0x8000;
+            hasPendingCatchUp = object->mPendingUpdateCount & 0x8000;
             updateCount = 1;
-            if (hasFlag8000 != 0) {
+            if (hasPendingCatchUp != 0) {
                 min = 0x5f592e1;
                 object->mPendingUpdateCount &= ~0x8000;
                 updateCount += pendingUpdateCount;
@@ -554,7 +554,7 @@ void UpdateItemPool(ItemPool *pool) {
                     objectIndex--;
                     break;
                 }
-                if (hasFlag8000 != 0) {
+                if (hasPendingCatchUp != 0) {
                     objectPos = object->mPosPointer;
                     kartIndex = object->mOwnerKartIndexAndFlags & ~0xff00;
                     kart = GetKart(kartIndex);

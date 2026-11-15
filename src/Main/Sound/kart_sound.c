@@ -145,7 +145,7 @@ s32 AdvanceKartSoundPitch(KartSound *soundRecord, s32 pitch, s32 aboveSpeedLimit
 
 void UpdateKartSound(Kart *kart) {
     KartSound *soundRecord;
-    s32 kartFlag2Set;
+    s32 accelHeld;
     s32 pitch;
     s32 value;
     s32 targetPitch;
@@ -156,18 +156,18 @@ void UpdateKartSound(Kart *kart) {
 
     soundRecord = &kart->mSound;
     kartFlags = kart->mDriveFlags;
-    kartFlag2Set = (kartFlags & KART_DRIVE_ACCEL_HELD) != 0 ? 1 : 0;
+    accelHeld = (kartFlags & KART_DRIVE_ACCEL_HELD) != 0 ? 1 : 0;
     pitch = (kartFlags & KART_DRIVE_BRAKE_HELD) != 0 ? 1 : 0;
     if ((kart->mEffectFlags & KART_EFFECT_KILLER) != 0) {
         soundRecord->mPitch = 0x6c0000;
         soundRecord->mTargetPitch = 0x6c0000;
         soundRecord->mPitchPerCall = 0;
-        if (kartFlag2Set != 0) {
+        if (accelHeld != 0) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mKeyAHighRatioSoundId;
         } else {
             soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
-        soundRecord->mPrevKeyADown = kartFlag2Set;
+        soundRecord->mPrevKeyADown = accelHeld;
         soundRecord->mVolume = KART_SOUND_VOLUME_PITCHED_NO_ACCEL;
         StartSoundWhileRequested(&kart->mSoundSource, 0xfc, KART_SOUND_VOLUME_MAX, 0);
         return;
@@ -178,7 +178,7 @@ void UpdateKartSound(Kart *kart) {
     if (gSceneSoundState.mRaceState == 0) {
         value = kart->mRevLevel;
         if (value > 0xcd && gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
-            if (kartFlag2Set != 0) {
+            if (accelHeld != 0) {
                 if ((kart->mEffectFlags & KART_EFFECT_HEADING_SWING) != 0) {
                     targetPitch = 0;
                 } else {
@@ -206,7 +206,7 @@ void UpdateKartSound(Kart *kart) {
             pitch = -1;
         }
         soundRecord->mPitch = pitch;
-        soundRecord->mPrevKeyADown = kartFlag2Set;
+        soundRecord->mPrevKeyADown = accelHeld;
         return;
     }
     baseSpeedLimit = kart->mPhysicalParam->mBaseSpeedLimit;
@@ -221,7 +221,7 @@ void UpdateKartSound(Kart *kart) {
         soundRecord->mVolume = gSurfaceSoundVolumeByRatio[(kart->mVelocityLengthRatio >> 8) & 0xff];
         AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) StartKartSurfaceSoundWithPitch, kart, (s32) soundRecord);
-    } else if (kartFlag2Set != 0 || (pitch != 0 && kart->mForwardSpeed < 0)) {
+    } else if (accelHeld != 0 || (pitch != 0 && kart->mForwardSpeed < 0)) {
         if (aboveSpeedLimit != 0) {
             targetPitch = MUL_FIXED12_ROUNDED(value, soundRecord->mPitchPerSpeedOverLimit) + 0x580000;
         } else {
@@ -254,7 +254,7 @@ void UpdateKartSound(Kart *kart) {
                         (void (*)(void *, int)) StartKartSound, kart, (s32) soundRecord);
     }
     soundRecord->mPitch = pitch;
-    soundRecord->mPrevKeyADown = kartFlag2Set;
+    soundRecord->mPrevKeyADown = accelHeld;
 }
 
 void StartSoundVolumeFromFractionIfTwo(SoundSource *soundSource, u16 soundId, s32 fraction, s32 value) {

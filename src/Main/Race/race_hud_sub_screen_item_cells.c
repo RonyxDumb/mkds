@@ -442,10 +442,10 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
     s32 drawOrderIndex;
     s32 priority;
     s32 translucent2;
-    u16 rotationSlot;
+    u16 firstPassRotationSlot;
     u16 angle;
     s32 minDrawValue;
-    u16 rotationSlot2;
+    u16 priorityPassRotationSlot;
     s32 screenX;
     s32 screenY;
 
@@ -458,7 +458,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                     if (gRaceHudSubScreenKarts->mSpriteHidden[kartIndex] == 0) {
                         if (gRaceHudSubScreenKarts->mScale[kartIndex].y != 0x1000 ||
                             gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
-                            rotationSlot = AllocOamMatrixIndex(oamBuffer);
+                            firstPassRotationSlot = AllocOamMatrixIndex(oamBuffer);
                             Matrix2x2RotationReciprocalScale(&rotationMatrix,
                                                              gRaceHudSubScreenKarts->mScale[kartIndex].y,
                                                              gRaceHudSubScreenKarts->mAngle[kartIndex]);
@@ -470,11 +470,11 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                             AddRaceHudSubScreenCellOams(oamBuffer, cell, &rotationMatrix,
                                                         gRaceHudSubScreenKarts->mScreenPos[kartIndex].mFirst,
                                                         gRaceHudSubScreenKarts->mScreenPos[kartIndex].mSecond,
-                                                        rotationSlot, translucent != 0 ? 1 : -1, -1);
-                            oamBuffer->mMatrices[rotationSlot].mPA = rotationMatrix.mElements[0] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mPB = rotationMatrix.mElements[1] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mPC = rotationMatrix.mElements[2] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mPD = rotationMatrix.mElements[3] >> 4;
+                                                        firstPassRotationSlot, translucent != 0 ? 1 : -1, -1);
+                            oamBuffer->mMatrices[firstPassRotationSlot].mPA = rotationMatrix.mElements[0] >> 4;
+                            oamBuffer->mMatrices[firstPassRotationSlot].mPB = rotationMatrix.mElements[1] >> 4;
+                            oamBuffer->mMatrices[firstPassRotationSlot].mPC = rotationMatrix.mElements[2] >> 4;
+                            oamBuffer->mMatrices[firstPassRotationSlot].mPD = rotationMatrix.mElements[3] >> 4;
                         } else {
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);
@@ -508,7 +508,7 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                         translucent2 = gRaceHudSubScreenKarts->mXlu[kartIndex];
                         if (gRaceHudSubScreenKarts->mScale[kartIndex].y != 0x1000 ||
                             gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
-                            rotationSlot2 = AllocOamMatrixIndex(oamBuffer);
+                            priorityPassRotationSlot = AllocOamMatrixIndex(oamBuffer);
                             if (gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] != 0) {
                                 angle =
                                     gRaceHudSubScreenKarts->mAngle[kartIndex] + GetSubScreenAngleAndClearScrollTimer();
@@ -523,11 +523,11 @@ void DrawRaceHudSubScreenKarts(RaceHudOamBuffer *oamBuffer) {
                                 cell = GetRaceSNcerEntry(kartIndex);
                             }
                             AddRaceHudSubScreenCellOams(oamBuffer, cell, &rotationMatrix2, screenX, screenY,
-                                                        rotationSlot2, translucent2 != 0 ? 1 : -1, priority);
-                            oamBuffer->mMatrices[rotationSlot2].mPA = rotationMatrix2.mElements[0] >> 4;
-                            oamBuffer->mMatrices[rotationSlot2].mPB = rotationMatrix2.mElements[1] >> 4;
-                            oamBuffer->mMatrices[rotationSlot2].mPC = rotationMatrix2.mElements[2] >> 4;
-                            oamBuffer->mMatrices[rotationSlot2].mPD = rotationMatrix2.mElements[3] >> 4;
+                                                        priorityPassRotationSlot, translucent2 != 0 ? 1 : -1, priority);
+                            oamBuffer->mMatrices[priorityPassRotationSlot].mPA = rotationMatrix2.mElements[0] >> 4;
+                            oamBuffer->mMatrices[priorityPassRotationSlot].mPB = rotationMatrix2.mElements[1] >> 4;
+                            oamBuffer->mMatrices[priorityPassRotationSlot].mPC = rotationMatrix2.mElements[2] >> 4;
+                            oamBuffer->mMatrices[priorityPassRotationSlot].mPD = rotationMatrix2.mElements[3] >> 4;
                         } else {
                             if (GetKartItemEffect((u16) kartIndex) == 3) {
                                 cell = GetRaceSNcerEntry(0x10);

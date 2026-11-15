@@ -23,8 +23,7 @@ typedef struct InputSlot InputSlot;
 
 extern u32 gCupCourseIds[];
 
-void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 colorForValue1, s32 colorForValue2,
-                      PixelSetFunc *pixelSetFunc);
+void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 textColor, s32 outlineColor, PixelSetFunc *pixelSetFunc);
 void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);
 void RenderKartEntryName(u32 entryIndex);
 void DrawTextOnCanvas(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text);

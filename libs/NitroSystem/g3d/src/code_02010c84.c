@@ -438,8 +438,8 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
     u32 texMode;
     u32 texCoord;
     u32 vecMode;
-    u32 texMode2;
-    u32 vecMode2;
+    u32 texModeAfterNormal;
+    u32 vecModeAtEnd;
     MtxFx43 nrm;
     u32 timing;
     u8 *texMtx;
@@ -499,8 +499,8 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             vecMode = 2;
             NNS_G3dGeBufferOP_N(0x10, &vecMode, 1);
             NNS_G3dGetCurrentMtx(0, &nrm);
-            texMode2 = 3;
-            NNS_G3dGeBufferOP_N(0x10, &texMode2, 1);
+            texModeAfterNormal = 3;
+            NNS_G3dGeBufferOP_N(0x10, &texModeAfterNormal, 1);
             if (NNS_G3dGlb.mFlag & 1) {
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
@@ -512,8 +512,8 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
             }
         }
-        vecMode2 = 2;
-        NNS_G3dGeBufferOP_N(0x10, &vecMode2, 1);
+        vecModeAtEnd = 2;
+        NNS_G3dGeBufferOP_N(0x10, &vecModeAtEnd, 1);
     }
     state->mC += 3;
 }

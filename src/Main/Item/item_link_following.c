@@ -232,13 +232,13 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     Vec3 wallNormal;
     Vec3 prevPos;
     s32 value;
-    BOOL hasFlag40000000;
+    BOOL onBoostSurface;
     s32 alongNormal;
 
     segmentPoints = &follower->mSegmentPoints;
     pos = &follower->mDirectedItemObject.mItemObject.mPos;
     velocity = &follower->mDirectedItemObject.mItemObject.mVelocity;
-    hasFlag40000000 = (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) != 0;
+    onBoostSurface = (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) != 0;
     targetSpeed -= follower->mDirectedItemObject.mSpeed;
     follower->mDirectedItemObject.mSpeed =
         follower->mDirectedItemObject.mSpeed + MUL_FIXED12_NO_ROUND(targetSpeed, speedEase);
@@ -249,7 +249,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
             PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
         } while (PushSegmentPoint(segmentPoints, follower->mTargetLink.mLink->mPointPos) != 0);
     }
-    if (hasFlag40000000) {
+    if (onBoostSurface) {
         prevPos = *pos;
         GetSegmentProgressPoint(&segmentPoints->mSegmentProgress, pos);
         velocity->y = 0;

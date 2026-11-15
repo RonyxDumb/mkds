@@ -292,9 +292,9 @@ void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
 }
 
-void SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1) {
-    settings->mG3xParams->mSwapBit0 = swapBit0;
-    settings->mG3xParams->mSwapBit1 = swapBit1;
+void SetG3xSwapBits(DisplaySettings *settings, u32 sortMode, u32 bufferMode) {
+    settings->mG3xParams->mSwapBit0 = sortMode;
+    settings->mG3xParams->mSwapBit1 = bufferMode;
 }
 
 void SetSubObjVRamModeBmp(DisplaySettings *settings, u32 value) {

@@ -329,7 +329,7 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     } while ((charCode = font->mCbCharSpliter(&readPointer)) != 0);
 }
 
-void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 unusedArg4) {
+void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 formattedCapacity) {
     s32 length;
     s32 tagSize;
     u16 *writePointer;

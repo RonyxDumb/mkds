@@ -342,15 +342,15 @@ void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *cou
 void UpdateMapObjectSoundSource(MapObject *object) {
     MapObjectSound *sound;
     BOOL resultIsFalse;
-    BOOL hasSoundBit0;
+    BOOL isSoundSourceEnabled;
 
     sound = object->mSound;
     if ((object->mFlags & 2) == 0) {
         sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
         resultIsFalse = (IsMapObjectOutOfRange(object) == FALSE);
-        hasSoundBit0 = (sound->mSoundSource.mSourceFlags & 1) != 0;
+        isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & 1) != 0;
         if (resultIsFalse != FALSE) {
-            if (hasSoundBit0 != FALSE) {
+            if (isSoundSourceEnabled != FALSE) {
                 goto ret;
             }
             goto call;
@@ -359,7 +359,7 @@ void UpdateMapObjectSoundSource(MapObject *object) {
         if (resultIsFalse != FALSE) {
             return;
         }
-        if (hasSoundBit0 == FALSE) {
+        if (isSoundSourceEnabled == FALSE) {
             return;
         }
     call:

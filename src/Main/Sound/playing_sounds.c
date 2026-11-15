@@ -28,7 +28,7 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     PlayingSound *sound;
     PlayingSound *removedSound;
     u32 value;
-    u32 hadBit8;
+    u32 wasRequestedAgain;
 
     value = 0;
     if (gSoundModeHolder.mSoundsEnabled == 0) {
@@ -61,11 +61,11 @@ void ExpireWhileRequestedSounds(SoundSource *source) {
     }
     sound = source->mPlayingSounds.mHead;
     while (sound != NULL) {
-        hadBit8 = (sound->mFlags & 8) != 0;
+        wasRequestedAgain = (sound->mFlags & 8) != 0;
         sound->mFlags &= ~8;
         if (sound->mSeqPlayer != NULL) {
             if (sound->mFlags & 4) {
-                if (hadBit8 == 0) {
+                if (wasRequestedAgain == 0) {
                     removedSound = sound;
                     sound = NNS_FndGetNextListObject(&source->mPlayingSounds, sound);
                     NNS_SndPlayerStopSeq(&removedSound->mSeqPlayer, 0);

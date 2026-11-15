@@ -196,13 +196,13 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 goto label_int;
             case 'X':
                 hexChar = 0x37;
-                goto label_16;
+                goto labelHex;
             case 'p':
                 flag |= 4;
                 precision = 8;
-                goto label_16;
+                goto labelHex;
             case 'x':
-                goto label_16;
+                goto labelHex;
             case 'c':
                 if (precision >= 0) {
                     goto label_copy;
@@ -267,7 +267,7 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 string_put_string(&str, specStart, fmt - specStart);
                 continue;
         }
-    label_16:
+    labelHex:
         radix = 16;
         flag |= 0x1000;
     label_int:

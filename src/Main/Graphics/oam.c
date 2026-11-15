@@ -419,8 +419,7 @@ void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value) {
     pixels[(pixelX + pixelY * 64) / 8] = halfword | (value << shift);
 }
 
-void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 colorForValue1, s32 colorForValue2,
-                      PixelSetFunc *pixelSetFunc) {
+void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 textColor, s32 outlineColor, PixelSetFunc *pixelSetFunc) {
     s32 tileIndex;
     s32 rowHalfIndex;
     s32 nibbleIndex;
@@ -443,11 +442,11 @@ void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 colorForValue1, s3
                         break;
                     case 1:
                         pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + nibbleIndex, tileRow * 8 + rowInTile,
-                                     colorForValue1);
+                                     textColor);
                         break;
                     case 2:
                         pixelSetFunc(dest, tileColumn * 8 + halfOfRow * 4 + nibbleIndex, tileRow * 8 + rowInTile,
-                                     colorForValue2);
+                                     outlineColor);
                         break;
                 }
             }

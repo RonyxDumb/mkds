@@ -980,7 +980,7 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
                 goto smallest;
             }
             depthAxis2 = distanceAxis2 > 0 ? distanceAxis2 : -distanceAxis2;
-            goto call_8;
+            goto hitAxisZ;
         }
         if (regionFlags & 0x80) {
             signedDepthAxis1 = (object->mCollisionData.mHalfSizeY + sphereRadius) - distanceAxis1;
@@ -988,10 +988,10 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
             signedDepthAxis1 = -(object->mCollisionData.mHalfSizeY + sphereRadius) - distanceAxis1;
         }
         if (!(regionFlags & 0x1)) {
-            goto call_80_8;
+            goto hitEdgeYZ;
         }
         depthAxis1 = signedDepthAxis1 > 0 ? signedDepthAxis1 : -signedDepthAxis1;
-        goto call_80;
+        goto hitAxisY;
     }
     if (regionFlags & 0x800) {
         signedDepthAxis0 = (object->mCollisionData.mHalfSizeX + sphereRadius) - distanceAxis0;
@@ -1000,28 +1000,28 @@ BOOL ComputeSphereHitOnCollisionBox(CollisionMapObject *object, Vec3 *sphereCent
     }
     if (regionFlags & 0x10) {
         if (!(regionFlags & 0x1)) {
-            goto call_8_800;
+            goto hitEdgeZX;
         }
         depthAxis0 = signedDepthAxis0 > 0 ? signedDepthAxis0 : -signedDepthAxis0;
     } else {
         if (!(regionFlags & 0x1)) {
             goto rest;
         }
-        goto call_800_80;
+        goto hitEdgeXY;
     }
-call_800:
+hitAxisX:
     AddCollisionHitOneAxis(sphereRadius, signedDepthAxis0, depthAxis0, regionFlags, 0x800, outFlags,
                            object->mCollisionData.mAxis0Flag, object, sphereCenter,
                            &object->mMapObject.mMatrix.mRows[0], firstHitRecord, secondHitRecord, lowestOffset,
                            pointMotion, angleChange);
     return TRUE;
-call_80:
+hitAxisY:
     AddCollisionHitOneAxis(sphereRadius, signedDepthAxis1, depthAxis1, regionFlags, 0x80, outFlags,
                            object->mCollisionData.mHitFlagWords.x, object, sphereCenter,
                            &object->mMapObject.mMatrix.mRows[1], firstHitRecord, secondHitRecord, lowestOffset,
                            pointMotion, angleChange);
     return TRUE;
-call_8:
+hitAxisZ:
     AddCollisionHitOneAxis(sphereRadius, distanceAxis2, depthAxis2, regionFlags, 8, outFlags,
                            object->mCollisionData.mHitFlagWords.y, object, sphereCenter,
                            &object->mMapObject.mMatrix.mRows[2], firstHitRecord, secondHitRecord, lowestOffset,
@@ -1030,15 +1030,15 @@ call_8:
 smallest:
     if (depthAxis0 < depthAxis2) {
         if (depthAxis0 < depthAxis1) {
-            goto call_800;
+            goto hitAxisX;
         }
-        goto call_80;
+        goto hitAxisY;
     }
     if (depthAxis2 < depthAxis1) {
-        goto call_8;
+        goto hitAxisZ;
     }
-    goto call_80;
-call_800_80:
+    goto hitAxisY;
+hitEdgeXY:
     if (regionFlags & 0x800) {
         distanceAxis0 = distanceAxis0 - object->mCollisionData.mHalfSizeX;
     } else {
@@ -1054,7 +1054,7 @@ call_800_80:
                                   object, sphereCenter, &object->mMapObject.mMatrix.mRows[0],
                                   &object->mMapObject.mMatrix.mRows[1], firstHitRecord, secondHitRecord, lowestOffset,
                                   pointMotion, angleChange);
-call_80_8:
+hitEdgeYZ:
     if (regionFlags & 0x80) {
         distanceAxis1 = distanceAxis1 - object->mCollisionData.mHalfSizeY;
     } else {
@@ -1070,7 +1070,7 @@ call_80_8:
                                   object->mCollisionData.mHitFlagWords.y, object, sphereCenter,
                                   &object->mMapObject.mMatrix.mRows[1], &object->mMapObject.mMatrix.mRows[2],
                                   firstHitRecord, secondHitRecord, lowestOffset, pointMotion, angleChange);
-call_8_800:
+hitEdgeZX:
     if (regionFlags & 0x8) {
         distanceAxis2 = distanceAxis2 - object->mCollisionData.mPositiveHalfSizeZ;
     } else {

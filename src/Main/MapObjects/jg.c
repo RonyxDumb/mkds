@@ -334,7 +334,8 @@ void UpdateJg(void) {
 
 // Draws the cloud, gJgMain and the model gJgKind selects; counts gJgAlpha up to 0x1f while visible.
 void DrawJg(void) {
-    s32 commandArg1, commandArg2, commandArg3, commandArg4, commandArg5, commandArg6, commandArg7, commandArg8;
+    s32 modeProjection, modePositionVector, restoreIndex, popCount, noPopCount, modeProjectionEnd, popCountEnd,
+        modePositionVectorEnd;
     MtxFx33 rotation;
     Vec3 smallScale, tableOffset, baseScale, tableScale, mainOffset, mirrorScale1, mirrorScale2;
     BOOL sentOpening;
@@ -382,19 +383,19 @@ void DrawJg(void) {
         lapModel->mPolygonAttributes |= gJgAlpha << 16;
     }
     if (gJgSnapActive != 0) {
-        commandArg1 = 0;
-        NNS_G3dGeBufferOP_N(0x10, &commandArg1, 1);
+        modeProjection = 0;
+        NNS_G3dGeBufferOP_N(0x10, &modeProjection, 1);
         NNS_G3dGeBufferOP_N(0x11, NULL, 0);
         smallScale.x = 0x19a;
         smallScale.y = 0x19a;
         smallScale.z = 0x19a;
         NNS_G3dGeBufferOP_N(0x1b, &smallScale, 3);
-        commandArg2 = 2;
-        NNS_G3dGeBufferOP_N(0x10, &commandArg2, 1);
+        modePositionVector = 2;
+        NNS_G3dGeBufferOP_N(0x10, &modePositionVector, 1);
         sentOpening = TRUE;
     }
-    commandArg3 = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &commandArg3, 1);
+    restoreIndex = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &restoreIndex, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&gJgEasedPos), 0xc);
     tableOffset.y = gJgCloudOffsetYTable[gJgTableIndex];
     tableOffset.x = 0;
@@ -413,8 +414,8 @@ void DrawJg(void) {
     NNS_G3dGeBufferOP_N(0x1b, &tableScale, 3);
     QueueNsbmdModelMaterial(&gJgCloud);
     DrawNsbmdModelWithMaxAlpha(&gJgCloud, NULL, 0, 0x1f);
-    commandArg4 = 1;
-    NNS_G3dGeBufferOP_N(0x12, &commandArg4, 1);
+    popCount = 1;
+    NNS_G3dGeBufferOP_N(0x12, &popCount, 1);
     mainOffset.x = 0;
     mainOffset.y = 0;
     mainOffset.z = 0xa4;
@@ -425,8 +426,8 @@ void DrawJg(void) {
     DrawNsbmdModelWithMaxAlpha(&gJgMain, NULL, 0, 0x1f);
     if (kindModel != NULL) {
         if (gJgKind == JG_KIND_FLAG) {
-            commandArg5 = 0;
-            NNS_G3dGeBufferOP_N(0x12, &commandArg5, 1);
+            noPopCount = 0;
+            NNS_G3dGeBufferOP_N(0x12, &noPopCount, 1);
             NNS_G3dDraw(&kindModel->mRenderObj);
         } else {
             NNS_G3dGeBufferOP_N(0x1c, &gJgModelOffset, 3);
@@ -451,12 +452,12 @@ void DrawJg(void) {
         DrawNsbmdModelWithMaxAlpha(lapModel, NULL, 0, 0x1f);
     }
     if (sentOpening != FALSE) {
-        commandArg6 = 0;
-        NNS_G3dGeBufferOP_N(0x10, &commandArg6, 1);
-        commandArg7 = 1;
-        NNS_G3dGeBufferOP_N(0x12, &commandArg7, 1);
-        commandArg8 = 2;
-        NNS_G3dGeBufferOP_N(0x10, &commandArg8, 1);
+        modeProjectionEnd = 0;
+        NNS_G3dGeBufferOP_N(0x10, &modeProjectionEnd, 1);
+        popCountEnd = 1;
+        NNS_G3dGeBufferOP_N(0x12, &popCountEnd, 1);
+        modePositionVectorEnd = 2;
+        NNS_G3dGeBufferOP_N(0x10, &modePositionVectorEnd, 1);
     }
     goto done;
 reset:

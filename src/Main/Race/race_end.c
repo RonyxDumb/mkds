@@ -120,7 +120,7 @@ void SetCupWinningTeamFromRecords(void) {
     RaceSetup *raceSetup = gRaceSetup;
     s32 firstTeamScore;
     s32 secondTeamScore;
-    BOOL isRuleKind1OrBattle;
+    BOOL isWinCountOrBattle;
     u16 kartIndex;
     CourseTeamResult *firstTeamRecord;
 
@@ -134,11 +134,11 @@ void SetCupWinningTeamFromRecords(void) {
         firstTeamScore = firstTeamRecord->mTotalPoints;
     }
     raceSetup = gRaceSetup;
-    isRuleKind1OrBattle = TRUE;
+    isWinCountOrBattle = TRUE;
     if (raceSetup->mRuleKind != RULE_KIND_WIN_COUNT && raceSetup->mMode != MODE_BATTLE) {
-        isRuleKind1OrBattle = FALSE;
+        isWinCountOrBattle = FALSE;
     }
-    if (isRuleKind1OrBattle) {
+    if (isWinCountOrBattle) {
         secondTeamScore = RaceEndGetCourseTeamResult(1)->mWinCount;
     } else {
         secondTeamScore = RaceEndGetCourseTeamResults()->mTeams[1].mTotalPoints;

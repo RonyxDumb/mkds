@@ -83,7 +83,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     s32 useKind;
     s32 itemInfoIndex;
     void (*useHook)(struct ItemInUse *, struct HeldItem *);
-    BOOL isMode5;
+    BOOL isWiFi;
     ItemObject **objects;
     s32 objectCount;
     ItemObject *object;
@@ -93,7 +93,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
 
     itemInfoIndex = heldItem->mItemInfoIndex;
     useKind = gItemInfos[itemInfoIndex].mUseKind;
-    isMode5 = gRaceSetup->mMode == MODE_WIFI;
+    isWiFi = gRaceSetup->mMode == MODE_WIFI;
     if (heldItem->mUsesTimer != 0) {
         if (heldItem->mTimer > heldItem->mUseTimerLimit) {
             return;
@@ -101,7 +101,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     }
     startFunc = gItemInUseStartTable[useKind];
     useHook = gItemInfos[itemInfoIndex].mUseHook;
-    if (!isMode5) {
+    if (!isWiFi) {
         StartRaceRankListItemInUse(itemInUse->mKartIndex, itemInfoIndex, heldItem->mObjectCount);
     }
     if (useKind == ITEM_USE_KIND_HOOK_ONLY) {
