@@ -107,20 +107,20 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         callbackArg->mUnk_08 = NULL;
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS) {
         listArg = data->mArg;
-        for (entryIndex = 0; entryIndex < listArg->mUnk_38; entryIndex++) {
-            DWCi_GsFree(listArg->mUnk_3c[entryIndex]);
-            listArg->mUnk_3c[entryIndex] = NULL;
+        for (entryIndex = 0; entryIndex < listArg->mNickCount; entryIndex++) {
+            DWCi_GsFree(listArg->mNicknames[entryIndex]);
+            listArg->mNicknames[entryIndex] = NULL;
             DWCi_GsFree(listArg->mUnk_40[entryIndex]);
             listArg->mUnk_40[entryIndex] = NULL;
         }
-        DWCi_GsFree(listArg->mUnk_3c);
-        listArg->mUnk_3c = NULL;
+        DWCi_GsFree(listArg->mNicknames);
+        listArg->mNicknames = NULL;
         DWCi_GsFree(listArg->mUnk_40);
         listArg->mUnk_40 = NULL;
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST) {
         callbackArg = data->mArg;
-        DWCi_GsFree(callbackArg->mUnk_0c);
-        callbackArg->mUnk_0c = NULL;
+        DWCi_GsFree(callbackArg->mMatchList);
+        callbackArg->mMatchList = NULL;
     } else if (data->mType == 7) {
         callbackArg = data->mArg;
         if (callbackArg->mTransferMessage != NULL) {
@@ -135,7 +135,7 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         }
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS) {
         CallbackArgData *arrayArg = data->mArg;
-        for (entryIndex = 0; entryIndex < arrayArg->mUnk_04; entryIndex++) {
+        for (entryIndex = 0; entryIndex < arrayArg->mSuggestedNickCount; entryIndex++) {
             DWCi_GsFree(arrayArg->mUnk_08[entryIndex]);
             arrayArg->mUnk_08[entryIndex] = NULL;
         }

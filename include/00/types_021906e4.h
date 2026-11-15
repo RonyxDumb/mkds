@@ -26,13 +26,13 @@ typedef struct GpiCallback {
 // Data behind GpiQueuedCallback.mArg: the members freed depend on the value at 0x0c.
 typedef struct CallbackArgData {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 mSuggestedNickCount;
     /* 08 */ void **mUnk_08;
-    /* 0c */ void *mUnk_0c;
+    /* 0c */ void *mMatchList;
     /* 10 */ void *mTransferMessage;
     /* 14 */ u8 mUnk_14[0x24];
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ void **mUnk_3c;
+    /* 38 */ s32 mNickCount;
+    /* 3c */ void **mNicknames;
     /* 40 */ void **mUnk_40;
 } CallbackArgData;
 
