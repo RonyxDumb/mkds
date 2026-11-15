@@ -189,7 +189,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
             value = 0x15d;
         }
         waterSurfacePos.y = kart->mPos.y - GetHeightAboveWaterOrEfct(kart->mPos.y);
-        StartWaterEfctKind2Effects(&waterSurfacePos, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
+        StartKartWaterSplashEffects(&waterSurfacePos, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
         kart->mEffectFlags |= KART_EFFECT_WATER_FALL;
         StartSound(&kart->mSoundSource, value, 0x7f, 0);
         kart->mGravity = 0;
@@ -217,7 +217,7 @@ void ApplyKartWaterDepth(Kart *kart) {
             GetHeightAboveWaterOrEfct(kart->mPrevPos.y) > -0xa000 && kart->mVelocity.y < -0x2000) {
             waterSurfacePoint = kart->mPos;
             waterSurfacePoint.y = kart->mPos.y - heightAboveWater;
-            StartWaterEfctKind2Effects(&waterSurfacePoint, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
+            StartKartWaterSplashEffects(&waterSurfacePoint, (kart->mEntryFlags & KART_ENTRY_SELECTED) != 0);
             flag = FALSE;
         }
         if (flag != FALSE) {

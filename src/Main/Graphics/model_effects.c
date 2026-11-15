@@ -57,13 +57,13 @@ ModelEffectKind gModelEffectKinds[5] = {
      1,
      0,
      0,
-     (void (*)(ModelEffect *, s32)) StartWaterEfctKind4,
+     (void (*)(ModelEffect *, s32)) StartDonketuWaterSplashModel,
      UpdateWaterEfctKinds,
      0xb8,
      {NULL, NULL, NULL, NULL}}};
-s32 gKind2EffectsCreated;
+s32 gKartWaterSplashCreated;
 ModelEffects *gModelEffects;
-s32 gKind2EffectIds[2];
+s32 gKartWaterSplashEffectIds[2];
 
 void UpdatePosStrip(PosStrip *posStrip) {
     PosStripPoint *point;
@@ -264,7 +264,7 @@ void SetupWaterEfctKindRow(ModelEffectKind *kindRow, s32 objectCount) {
     void *waterEfctNsbmaFile;
 
     waterEfctNsbmdFile = GetWaterEfctNsbmdFile();
-    gKind2EffectsCreated = 0;
+    gKartWaterSplashCreated = 0;
     if (waterEfctNsbmdFile != 0) {
         waterEfctNsbcaFile = GetWaterEfctNsbcaFile();
         waterEfctNsbmaFile = GetWaterEfctNsbmaFile();
@@ -283,8 +283,8 @@ void SetupWaterEfctKindRow(ModelEffectKind *kindRow, s32 objectCount) {
         kindRow->mObjectCount = 0;
         kindRow->mUseNsbca = FALSE;
         kindRow->mUseNsbma = FALSE;
-        gKind2EffectIds[0] = -1;
-        gKind2EffectIds[1] = -1;
+        gKartWaterSplashEffectIds[0] = -1;
+        gKartWaterSplashEffectIds[1] = -1;
     }
 }
 
@@ -385,7 +385,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
         AddResFileEntry(&kindRow->mResFileEntry, modelFile, modelFile);
     }
     if (kind == 2) {
-        gKind2EffectsCreated = 1;
+        gKartWaterSplashCreated = 1;
     }
     modelSet = NNS_G3dGetMdlSet(modelFile);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &modelSet->mDict, modelSet->mDict.mOfsEntry);
@@ -404,11 +404,11 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
             }
             if (kind == 2) {
                 if (FROM_FIXED12(GetModelAnimationFrameCountFixed(modelEffect->mAnimations[0])) == 0x20) {
-                    gKind2EffectIds[0] = 0x37;
-                    gKind2EffectIds[1] = 0x38;
+                    gKartWaterSplashEffectIds[0] = 0x37;
+                    gKartWaterSplashEffectIds[1] = 0x38;
                 } else {
-                    gKind2EffectIds[0] = 0x39;
-                    gKind2EffectIds[1] = -1;
+                    gKartWaterSplashEffectIds[0] = 0x39;
+                    gKartWaterSplashEffectIds[1] = -1;
                 }
             }
         }
@@ -473,7 +473,7 @@ void StartKartWaterSplashModel(ModelEffect *modelEffect) {
     }
 }
 
-void StartWaterEfctKind4(ModelEffect *modelEffect) {
+void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
     modelEffect->mScale.x = 0x3d9a;
     modelEffect->mScale.y = 0x3d9a;
     modelEffect->mScale.z = 0x3d9a;
@@ -546,8 +546,8 @@ void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
     AdvanceModelAnimation(modelEffect->mAnimations[2]);
 }
 
-// Starts a kind 2 object at position when startModel is set, then the particle effects of gKind2EffectIds.
-void StartWaterEfctKind2Effects(const Vec3 *position, s32 startModel) {
+// Starts a kind 2 object at position when startModel is set, then the particle effects of gKartWaterSplashEffectIds.
+void StartKartWaterSplashEffects(const Vec3 *position, s32 startModel) {
     ModelEffect *modelEffect;
     u16 effectIndex;
 
@@ -574,8 +574,8 @@ void StartWaterEfctKind2Effects(const Vec3 *position, s32 startModel) {
         }
     }
     do {
-        if (gKind2EffectIds[effectIndex] >= 0) {
-            StartEffect(gKind2EffectIds[effectIndex], position);
+        if (gKartWaterSplashEffectIds[effectIndex] >= 0) {
+            StartEffect(gKartWaterSplashEffectIds[effectIndex], position);
         }
         effectIndex++;
     } while (effectIndex < 2);

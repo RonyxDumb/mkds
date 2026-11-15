@@ -40,13 +40,13 @@ typedef struct ModelEffect {
     /* b4 */ s32 mVisible;
 } ModelEffect;
 
-void StartWaterEfctKind2Effects(const Vec3 *position, s32 startModel);
+void StartKartWaterSplashEffects(const Vec3 *position, s32 startModel);
 void UpdateModelEffectBombcore2(ModelEffect *modelEffect);
 void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects);
 void UpdateModelEffectBkWave(ModelEffect *modelEffect);
 void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects);
 void UpdateWaterEfctKinds(ModelEffect *modelEffect);
-void StartWaterEfctKind4(ModelEffect *modelEffect);
+void StartDonketuWaterSplashModel(ModelEffect *modelEffect);
 void StartKartWaterSplashModel(ModelEffect *modelEffect);
 void UpdateModelEffectBombcore(ModelEffect *modelEffect);
 void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects);
@@ -64,8 +64,8 @@ void DrawPosStripQuad(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosS
                       PosStripTexture *posStripTexture);
 void UpdatePosStrip(PosStrip *posStrip);
 
-extern s32 gKind2EffectsCreated;
-extern s32 gKind2EffectIds[2];
+extern s32 gKartWaterSplashCreated;
+extern s32 gKartWaterSplashEffectIds[2];
 extern struct ModelEffects *gModelEffects;
 
 extern ModelEffectKind gModelEffectKinds[5];

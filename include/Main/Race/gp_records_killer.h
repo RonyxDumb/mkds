@@ -85,7 +85,7 @@ extern const KartAiItemUseEntry *gBattleHeldItemEntries;
 extern void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gUseItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-// Particle effect ids StartWaterEfctKind2Effects starts with a kind 2 object; -1 marks an unused entry.
+// Particle effect ids StartKartWaterSplashEffects starts with a kind 2 object; -1 marks an unused entry.
 extern const KartAiItemUseEntry *gBattleItemInUseEntries;
 extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
