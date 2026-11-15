@@ -3,19 +3,6 @@
 #include "types.h"
 #include "03/Menu/jb2_menu.h"
 
-// Bytes moved as one value.
-typedef struct Bytes21 {
-    /* 00 */ u8 mUnk_00[0x15];
-} Bytes21;
-
-typedef struct Bytes22 {
-    /* 00 */ u8 mUnk_00[0x16];
-} Bytes22;
-
-typedef struct Bytes23 {
-    /* 00 */ u8 mUnk_00[0x17];
-} Bytes23;
-
 // Four bytes moved as one value.
 typedef struct WayPaletteRows {
     /* 0 */ u8 mRowIndices[4];
