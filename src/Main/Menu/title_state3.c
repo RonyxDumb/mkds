@@ -31,10 +31,10 @@ void UpdateTitleSlideOut(void) {
         }
     } else {
         for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
-            titleTable[entryIndex].mOffsetX = 0xf8;
+            titleTable[entryIndex].mOffsetX = TITLE_OFFSCREEN_X;
         }
         for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
-            titleTable[entryIndex + subBase].mOffsetX = 0xf8;
+            titleTable[entryIndex + subBase].mOffsetX = TITLE_OFFSCREEN_X;
         }
         if (HasPlayerName() != 0) {
             SetTitleState(gTitleScene->mNextState, 8);

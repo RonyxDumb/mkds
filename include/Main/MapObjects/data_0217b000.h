@@ -505,6 +505,10 @@ enum {
     TITLE_ENTRY_RECORD,
 };
 
+// x offset of the title cells while they are off screen, and the TitleScene.mNextState that names no state.
+#define TITLE_OFFSCREEN_X 0xf8
+#define TITLE_NEXT_STATE_NONE 8
+
 // TitleScene.mState, in the order of gTitleStateHandlers.
 #define TITLE_STATE_BLEND_IN 0
 #define TITLE_STATE_SLIDE_IN 1

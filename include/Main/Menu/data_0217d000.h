@@ -583,6 +583,10 @@ typedef enum SelectRaceRuleWaitState {
     SELECT_RACE_RULE_WAIT_SLIDE_OUT = 2,
 } SelectRaceRuleWaitState;
 
+// y offset of the wait cells while they are off screen, and steps of the slide; mStateFrames counts them.
+#define SELECT_RACE_RULE_WAIT_OFFSCREEN_Y 0xc0
+#define SELECT_RACE_RULE_WAIT_SLIDE_STEPS 10
+
 // Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
 typedef struct SelectRaceRuleWait {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
@@ -657,6 +661,9 @@ enum {
     SELECT_CUP_M_STATE_SCROLL_DOWN,
     SELECT_CUP_M_STATE_SCROLL_UP,
 };
+
+// Steps of the scroll of the cup list; mStateFrames counts them.
+#define SELECT_CUP_M_SCROLL_STEPS 10
 
 typedef struct SelectCupM {
     /* 00 */ struct NNSG2dCellDataBank *mMainNcer;

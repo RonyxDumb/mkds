@@ -321,7 +321,7 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     random->mIncrement = RANDOM_STATE64_INCREMENT;
     gWiFiVSCourseSelect->mPlayerCount = GetSessionKartCount();
     gWiFiVSCourseSelect->mEntryIndex = GetRaceSetupCopyEntryIndex();
-    gWiFiVSCourseSelect->mTimer = 0x4b0;
+    gWiFiVSCourseSelect->mTimer = WIFI_VS_COURSE_SELECT_TIMER_FRAMES;
     gWiFiVSCourseSelect->mSubOffsetY = -0xc0;
     for (index = 0; index < 4; index++) {
         gWiFiVSCourseSelect->mShownCourseIds[index] = 0;
@@ -438,7 +438,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS:
             gWiFiVSCourseSelect->mStateFrames++;
-            if (gWiFiVSCourseSelect->mStateFrames > 0x3c) {
+            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_HOLD_FRAMES) {
                 StartFadeToFadedPositiveOneScreen(0x3c, 1);
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS;
                 gWiFiVSCourseSelect->mStateFrames = 0;
@@ -447,7 +447,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS:
             gWiFiVSCourseSelect->mStateFrames++;
-            if (gWiFiVSCourseSelect->mStateFrames <= 0x3c) {
+            if (gWiFiVSCourseSelect->mStateFrames <= WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES) {
                 SetWiFiVSCourseSelectRowsOffsetY();
             } else {
                 StartFadeToClearOneScreen(10, 1);
@@ -458,7 +458,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_HOLD_COURSE:
             gWiFiVSCourseSelect->mStateFrames++;
-            if (gWiFiVSCourseSelect->mStateFrames > 0x3c) {
+            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_HOLD_FRAMES) {
                 StartFadeToFadedNegative(10);
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_IN;
                 gWiFiVSCourseSelect->mStateFrames = 0;
@@ -466,7 +466,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_FADE_IN:
             gWiFiVSCourseSelect->mStateFrames++;
-            if (gWiFiVSCourseSelect->mStateFrames > 10) {
+            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES) {
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_DONE;
                 gWiFiVSCourseSelect->mStateFrames = 0;
             }

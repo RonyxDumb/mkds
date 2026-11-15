@@ -199,7 +199,7 @@ s32 AdvanceSelectRaceRule(void) {
             SetPlayerEntryListUseTeams(0);
             break;
         case 1:
-        case 2:
+        case SELECT_RACE_RULE_TEAMS_PLAYER_PICKS:
             SetPlayerEntryListUseTeams(1);
             break;
     }

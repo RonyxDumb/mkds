@@ -105,7 +105,7 @@ void UpdateLogoResetFailedBlocks(void *stateObject) {
     if (IsTxtSystemOpenNoCloseRequest() == 0) {
         return;
     }
-    if (gLogoScene->mSubTextFrames > 90) {
+    if (gLogoScene->mSubTextFrames > LOGO_SUB_TEXT_FRAMES) {
         stateMachine = &gLogoScene->mStateMachine;
         stateMachine->mNextState = LOGO_STATE_RESET_FAILED_BLOCKS_DONE;
         stateMachine->mNextStateRequested = 1;
@@ -202,7 +202,7 @@ void UpdateLogoResetBackup(void *stateObject) {
         if (IsTxtSystemOpenNoCloseRequest() == 0) {
             return;
         }
-        if (gLogoScene->mSubTextFrames > 90) {
+        if (gLogoScene->mSubTextFrames > LOGO_SUB_TEXT_FRAMES) {
             stateMachine = &gLogoScene->mStateMachine;
             stateMachine->mNextState = LOGO_STATE_RESET_BACKUP_DONE;
             stateMachine->mNextStateRequested = 1;

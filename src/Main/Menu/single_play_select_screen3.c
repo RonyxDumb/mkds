@@ -25,11 +25,11 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
     if (inputEnabled != 0) {
         value = GetMenuInputSlot();
         if (MenuGetNewBits(value, PAD_KEY_A)) {
-            SwitchMenuScreen(3, 0x1f);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_PRESS, SCREEN_NONE);
             StartMenuSound(5);
             gMenuScene->mSinglePlaySelectStartedOnSelected = TRUE;
         } else if (MenuGetNewBits(value, PAD_KEY_B)) {
-            SwitchMenuScreen(2, 0x1b);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT, 0x1b);
             RequestSelectReturnPressWithSound(1);
         } else if (GetNewOrRepeatBits(value, PAD_KEY_UP)) {
             menu = gMenuScene;
@@ -50,10 +50,10 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
                     menu->mSinglePlaySelectStartedOnSelected = TRUE;
                 }
                 gMenuScene->mSinglePlaySelectModeIndex = touchedIndex;
-                SwitchMenuScreen(3, 0x1f);
+                SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_PRESS, SCREEN_NONE);
                 StartMenuSound(5);
             } else if (IsSelectReturnShownNoRequestAndInRect(pairX, value)) {
-                SwitchMenuScreen(2, 0x1b);
+                SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT, 0x1b);
                 RequestSelectReturnPressWithSound(1);
             }
         }
@@ -90,7 +90,7 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
     } else {
         mainCells->mOffsetY = -0x28;
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
-            subCells[cellIndex].mOffsetX = 0xf0;
+            subCells[cellIndex].mOffsetX = SINGLE_PLAY_SELECT_OFFSCREEN_X;
         }
         SwitchMenuScreen(GetNextMenuScreenNumber(), 0x1f);
     }
@@ -114,7 +114,8 @@ void UpdateSinglePlaySelectMenuScreen3(void) {
     framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
     gMenuScene->mSinglePlaySelectModePressOffset = GetSelectedPressOffset(framesSinceSwitch);
     if (framesSinceSwitch >= 10) {
-        SwitchMenuScreen(2, nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][0]);
+        SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT,
+                         nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][0]);
         ResetRaceSetupCopy();
         GetRaceSetupCopy()->mMode = nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][1];
     }

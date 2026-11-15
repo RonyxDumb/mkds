@@ -6,6 +6,12 @@
 // behind gMenuScene) and the number GetPreviousMenuScreenNumber returns for the previous screen. The screens that
 // InitCurrentMenuScreen and ReleasePreviousMenuScreen start and release are named after their Init class and the race
 // mode whose entry path leads to them (RaceSetup.mMode, set up in menu.c).
+// The single play mode select, in four steps: the cells slide in, the mode is chosen, the cells slide out (to the screen
+// of the chosen mode, or on leaving), a chosen mode is pressed.
+#define SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN 0
+#define SCREEN_SINGLE_PLAY_SELECT_CHOOSE 1
+#define SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT 2
+#define SCREEN_SINGLE_PLAY_SELECT_PRESS 3
 // InitSelectEngine / ReleaseSelectEngine.
 // No screen: the value of the previous, current and next screen number when no screen is open.
 #define SCREEN_NONE 0x1f

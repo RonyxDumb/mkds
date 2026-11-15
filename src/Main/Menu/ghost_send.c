@@ -1,4 +1,5 @@
 #include "Main/Menu/ghost_send.h"
+#include "Main/Net/mp_states_connection.h"
 #include "Main/Menu/menu_entry_kind.h"
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
 #include "Main/Graphics/cell_file_set.h"
@@ -452,7 +453,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                     RequestSelectReturnSlideIn();
                     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_CHILD;
                     break;
-                case 2:
+                case MP_STATE_ADVANCE_OWN_INDEX_LOST:
                     break;
             }
             break;

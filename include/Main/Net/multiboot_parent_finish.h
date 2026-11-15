@@ -15,6 +15,10 @@ typedef struct Bg1Files {
     /* 08 */ Nscr *mScreenMap;
 } Bg1Files;
 
+// Frames the logo scene waits for the backup read and shows its sub text before it goes on.
+#define LOGO_READ_BACKUP_FRAMES 120
+#define LOGO_SUB_TEXT_FRAMES 90
+
 // Object behind gLogoScene.
 typedef struct LogoScene {
     /* 00 */ Bg1Files mMainBg;

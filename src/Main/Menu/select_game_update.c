@@ -38,7 +38,7 @@ void UpdateSelectGame(void) {
             }
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(0, SCREEN_NONE);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_LEAVE:
             SwitchMenuScreen(0x1b, SCREEN_NONE);

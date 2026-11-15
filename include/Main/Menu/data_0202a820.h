@@ -27,6 +27,13 @@ enum {
     WIFI_VS_COURSE_SELECT_STATE_DONE = 7,
 };
 
+// Frames the course select runs before it picks by itself, frames the picks and the chosen course are held, frames the
+// rows fade out, frames the fade in runs.
+#define WIFI_VS_COURSE_SELECT_TIMER_FRAMES 0x4b0
+#define WIFI_VS_COURSE_SELECT_HOLD_FRAMES 0x3c
+#define WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES 0x3c
+#define WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES 10
+
 // Object behind gWiFiVSCourseSelect, 0x158 bytes (InitWiFiVSCourseSelect allocates it).
 typedef struct WiFiVSCourseSelect {
     /* 000 */ ScreenMapFileSet mWiFiVSCourseSelectMBAndSBParts[2];

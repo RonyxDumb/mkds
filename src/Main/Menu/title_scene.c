@@ -69,7 +69,7 @@ u32 ShouldEndReplayRace(void) {
     if (entryIndex == -1) {
         return 0;
     }
-    if (gRaceProgress->mHeader.mClockMinute >= 7) {
+    if (gRaceProgress->mHeader.mClockMinute >= REPLAY_END_CLOCK_MINUTE) {
         return 1;
     }
     if (IsKeyRecordingPlaybackNearBufferEnd(&gInputSlots[entryIndex].mKeyRecording) != FALSE) {
@@ -133,10 +133,10 @@ void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotG
                 sizeof(slotGhost->mKeyRecordingBuffer));
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
         MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, slotGhost->mEmblem, sizeof(slotGhost->mEmblem));
-        slotGhost->mHead.mUnk_08 |= 2;
+        slotGhost->mHead.mHasEmblem = 1;
     } else {
         MI_CpuFill8(slotGhost->mEmblem, 0, sizeof(slotGhost->mEmblem));
-        slotGhost->mHead.mUnk_08 &= ~2;
+        slotGhost->mHead.mHasEmblem = 0;
     }
     slotGhost->mHead.mLowestGrandPrixRecordValue = GetLowestGrandPrixRecordValue();
 }

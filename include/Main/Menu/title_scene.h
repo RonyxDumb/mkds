@@ -4,6 +4,9 @@
 #include "code_0214d93c.h" // RTCTime
 #include "Main/Menu/data_02175000.h"
 
+// A replay race ends once the race clock reaches this minute.
+#define REPLAY_END_CLOCK_MINUTE 7
+
 typedef struct Vec3 Vec3;
 
 typedef struct SceneNumbers SceneNumbers;

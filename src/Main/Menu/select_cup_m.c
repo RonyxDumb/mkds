@@ -475,10 +475,11 @@ s32 AdvanceSelectCupM(void) {
     } else {
         AdvanceSelectRaceRuleWait();
     }
-    if (gSelectCupM->mState == SELECT_CUP_M_STATE_SCROLL_DOWN && gSelectCupM->mStateFrames > 0xa) {
+    if (gSelectCupM->mState == SELECT_CUP_M_STATE_SCROLL_DOWN &&
+        gSelectCupM->mStateFrames > SELECT_CUP_M_SCROLL_STEPS) {
         return 1;
     }
-    if (gSelectCupM->mState == SELECT_CUP_M_STATE_SCROLL_UP && gSelectCupM->mStateFrames > 0xa) {
+    if (gSelectCupM->mState == SELECT_CUP_M_STATE_SCROLL_UP && gSelectCupM->mStateFrames > SELECT_CUP_M_SCROLL_STEPS) {
         return 2;
     }
     return 0;

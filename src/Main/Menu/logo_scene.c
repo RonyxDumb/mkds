@@ -136,7 +136,7 @@ void UpdateLogoReadBackup(void *stateObject) {
     s32 slotIndex;
     StateMachine *stateMachine;
     gLogoScene->mReadBackupFrames = gLogoScene->mReadBackupFrames + 1;
-    if (gLogoScene->mReadBackupFrames > 120) {
+    if (gLogoScene->mReadBackupFrames > LOGO_READ_BACKUP_FRAMES) {
         stateMachine = &gLogoScene->mStateMachine;
         stateMachine->mNextState = LOGO_STATE_WAIT_BACKUP_READ;
         stateMachine->mNextStateRequested = 1;

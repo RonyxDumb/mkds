@@ -129,7 +129,7 @@ void CreateTitleScene(void) {
     gTitleScene->mPrevState = TITLE_STATE_BLEND_IN;
     gTitleScene->mState = TITLE_STATE_BLEND_IN;
     // Past the end of the 7-entry state table.
-    gTitleScene->mNextState = 8;
+    gTitleScene->mNextState = TITLE_NEXT_STATE_NONE;
     gTitleScene->mNoInputFrames = 0;
     gTitleScene->mBlendDone = GetTitleBlendDone() != 0;
     gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;

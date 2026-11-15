@@ -44,7 +44,7 @@ void UpdateVsSelectCharacter(void) {
             SwitchMenuScreen(SCREEN_SELECT_KART_VS, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_BACK:
-            SwitchMenuScreen(0, SCREEN_NONE);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             break;
         case SELECT_CHARACTER_RESULT_TIME_UP:
             SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_VS, SCREEN_NONE);
@@ -163,7 +163,7 @@ void UpdateVsSelectCupGrid(void) {
             break;
         case MENU_SCREEN_RESULT_LEAVE:
             if (VsSelectCupGetConnectionKind() == 0) {
-                SwitchMenuScreen(0, SCREEN_NONE);
+                SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             }

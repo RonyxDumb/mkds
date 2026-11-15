@@ -1037,7 +1037,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                         }
                     }
                     break;
-                case 2:
+                case MP_STATE_ADVANCE_OWN_INDEX_LOST:
                     break;
             }
             if (previousSelectedIndex != gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex) {

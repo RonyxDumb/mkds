@@ -67,12 +67,13 @@ void UpdateSinglePlaySelectSubCells(void) {
     for (cellIndex = 10; cellIndex <= 14; cellIndex++) {
         subCells[cellIndex].mVisible = 0;
     }
-    if (GetMenuScreenNumber() != 3 || gMenuScene->mSinglePlaySelectStartedOnSelected == FALSE ||
+    if (GetMenuScreenNumber() != SCREEN_SINGLE_PLAY_SELECT_PRESS ||
+        gMenuScene->mSinglePlaySelectStartedOnSelected == FALSE ||
         GetFramesSinceMenuScreenSwitch() >= 5) {
         subCells[selectedIndex + 5].mVisible = 0;
         subCells[selectedIndex + 10].mVisible = 1;
     }
-    if (gMenuScene->mScreenNumber == 3) {
+    if (gMenuScene->mScreenNumber == SCREEN_SINGLE_PLAY_SELECT_PRESS) {
         subCells[selectedIndex].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
         subCells[selectedIndex + 5].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
         subCells[selectedIndex + 10].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
@@ -126,7 +127,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = 0;
         }
-        SwitchMenuScreen(1, 0x1f);
+        SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_CHOOSE, SCREEN_NONE);
         SetSelectReturnSoundId(0xf);
         gMenuScene->mSinglePlaySelectStartedOnSelected = FALSE;
     }

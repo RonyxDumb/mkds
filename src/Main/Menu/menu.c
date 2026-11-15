@@ -411,7 +411,7 @@ void InitMenu(void) {
     InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
     switch (GetMenuEntryKind()) {
         case MENU_ENTRY_FIRST_SCREEN:
-            SwitchMenuScreen(0, SCREEN_NONE);
+            SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             SetRaceSetupRequested(1);
             break;
         case MENU_ENTRY_CHARACTER_SELECT:
