@@ -49,10 +49,10 @@ void WriteSelectGhostScreenRegisters(void) {
 
 void UpdateSelectGhost(void) {
     switch (AdvanceSelectGhost()) {
-        case 1:
+        case SELECT_GHOST_RESULT_CHOSEN:
             SwitchMenuScreen(29, 0x1f);
             break;
-        case 2:
+        case SELECT_GHOST_RESULT_RETURN:
             SwitchMenuScreen(25, 0x1f);
             break;
     }

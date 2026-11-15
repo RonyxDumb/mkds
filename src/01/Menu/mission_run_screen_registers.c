@@ -17,6 +17,7 @@
 #include "code_02148950.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
+#include "01/unk_021a9000.h"
 
 #pragma optimize_for_size on
 
@@ -96,18 +97,18 @@ void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
 
 void UpdateTimeAttackTopMenu(void) {
     switch (AdvanceTimeAttackTopMenu()) {
-        case 1:
+        case TIME_ATTACK_TOP_RESULT_TIME_TRIALS:
             SwitchMenuScreen(0x15, 0x1f);
             break;
-        case 2:
+        case TIME_ATTACK_TOP_RESULT_SEND_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
             SetGhostSceneInitialCallbacksIndex(0);
             break;
-        case 3:
+        case TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
             SetGhostSceneInitialCallbacksIndex(1);
             break;
-        case 4:
+        case TIME_ATTACK_TOP_RESULT_RETURN:
             SwitchMenuScreen(0, 0x1f);
             break;
     }
