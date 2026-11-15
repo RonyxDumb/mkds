@@ -191,7 +191,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
     rankBehind = rankAhead =
         GetKartRank((u16) ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                                ? (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                               : 8));
+                               : ITEM_NO_KART_INDEX));
     if (teresa->mPicksAheadFirst != FALSE) {
         raceProgress = gRaceProgress;
         kartItems = gKartItems;
@@ -286,7 +286,7 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
     kartCount = raceSetup->mKartCount;
     skippedKartIndex = (u16) ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                                   ? (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                                  : 8);
+                                  : ITEM_NO_KART_INDEX);
     if (rowIndex >= endIndex) {
         return;
     }
@@ -389,7 +389,7 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
             teresa->mActsLocally != FALSE) {
             teresa->mFollowEnded = TRUE;
             AddItemDataItemIdAndBytes(ITEM_OBJECT_KIND_TERESA, teresa->mItemObject.mId, ITEM_TERESA_PACKET_STATE,
-                                      (u8) teresa->mStateMachine.mState);
+                                      teresa->mStateMachine.mState & 0xff);
         } else {
             teresa->mFollowEnded = TRUE;
         }
@@ -609,7 +609,7 @@ void EnterItemTeresaWaitPickedKart(void *stateObject) {
     }
     PickItemTeresaKartByRank(teresa, -1);
     AddItemDataItemIdAndBytes(ITEM_OBJECT_KIND_TERESA, teresa->mItemObject.mId, ITEM_TERESA_PACKET_PICKED_KART,
-                              (u8) teresa->mPickedKartIndex);
+                              teresa->mPickedKartIndex & 0xff);
     teresa->mPendingPickedKartIndex = teresa->mPickedKartIndex;
     teresa->mActsLocally = FALSE;
 }
@@ -648,7 +648,7 @@ void EnterItemTeresaFadeInAtPicked(void *stateObject) {
             if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
                 ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
             } else {
-                ownerKartIndex = 8;
+                ownerKartIndex = ITEM_NO_KART_INDEX;
             }
             pickFunction(teresa, GetCurrentEntry(ownerKartIndex)->mPlayer.mTeamIndex);
             if (teresa->mPickedKartIndex == ITEM_TERESA_NO_KART) {
@@ -713,7 +713,7 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     if (teresa->mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
         teresa->mItemInfoIndex = heldItem->mItemInfoIndex;
         teresa->mItemCount = heldItem->mObjectCount;
-        ResetParticipantHeldItem(((u8 *) gParticipantKartMap)[(u8) teresa->mPickedKartIndex]);
+        ResetParticipantHeldItem(((u8 *) gParticipantKartMap)[teresa->mPickedKartIndex & 0xff]);
     } else {
         RemoveHeldItem(heldItem, &teresa->mItemInfoIndex, &teresa->mItemCount);
     }
@@ -758,7 +758,7 @@ void UpdateItemTeresaFadeInAtPicked(void *stateObject) {
                         teresa->mItemObjectKind = ITEM_TERESA_KIND_TOOK_NOTHING;
                     } else {
                         teresa->mItemObjectKind = gItemInfos[teresa->mItemInfoIndex].mObjectKind;
-                        ResetParticipantHeldItem(((u8 *) gParticipantKartMap)[(u8) teresa->mPickedKartIndex]);
+                        ResetParticipantHeldItem(((u8 *) gParticipantKartMap)[teresa->mPickedKartIndex & 0xff]);
                     }
                     teresa->mItemModelAlpha = 0;
                     receivedItem = TRUE;
@@ -808,7 +808,7 @@ void UpdateItemTeresaTakeItem(void *stateObject) {
     }
     teresa->mOffsetVelocityX = MUL_FIXED12_NO_ROUND(teresa->mOffsetVelocityX, 0xf85);
     teresa->mOffsetVelocityZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetVelocityZ, 0xf85);
-    if (teresa->mStateMachine.mStateFrames == ITEM_TERESA_TAKE_ITEM_FRAME) {
+    if (teresa->mStateMachine.mStateFrames == ITEM_TERESA_DIP_START_FRAME) {
         if (teresa->mOffsetAccelerationY == 0) {
             teresa->mOffsetAccelerationY = ITEM_TERESA_TAKE_DROP_ACCELERATION;
             teresa->mStartOffsetVelocityY = teresa->mOffsetVelocityY;
@@ -897,7 +897,7 @@ void EnterItemTeresaFadeInAtOwner(void *stateObject) {
     if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
-        ownerKartIndex = 8;
+        ownerKartIndex = ITEM_NO_KART_INDEX;
     }
     ownerKartItems = GetKartItems(ownerKartIndex);
     teresa->mKart = ownerKartItems->mKart;
@@ -947,7 +947,7 @@ void UpdateItemTeresaFadeInAtOwner(void *stateObject) {
     if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
-        ownerKartIndex = 8;
+        ownerKartIndex = ITEM_NO_KART_INDEX;
     }
     ownerKartItems = GetKartItems(ownerKartIndex);
     if (teresa->mActsLocally != FALSE && ownerKartItems->mActiveItem != ITEM_INFO_TERESA &&
@@ -990,7 +990,7 @@ void UpdateItemTeresaFadeInAtOwner(void *stateObject) {
                 ownerKartItems->mActiveItem = ITEM_INFO_NONE;
                 if (teresa->mItemInfoIndex != ITEM_INFO_NONE) {
                     if (teresa->mActsLocally == FALSE) {
-                        SetParticipantHeldItem(((u8 *) gParticipantKartMap)[(u8) ownerKartItems->mKartIndex],
+                        SetParticipantHeldItem(((u8 *) gParticipantKartMap)[ownerKartItems->mKartIndex & 0xff],
                                                teresa->mItemInfoIndex, teresa->mItemCount);
                     } else {
                         SetHeldItemWithCount(&ownerKartItems->mHeldItem, teresa->mItemInfoIndex, teresa->mItemCount);
@@ -1068,7 +1068,7 @@ void UpdateItemTeresaFadeOutEnd(void *stateObject) {
             if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
                 ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
             } else {
-                ownerKartIndex = 8;
+                ownerKartIndex = ITEM_NO_KART_INDEX;
             }
             ((void (*)(s32 itemInfoIndex, s32 amount, s32 ownerKartIndex)) RemoveReservedItemObjects)(
                 teresa->mItemInfoIndex, teresa->mItemCount, (u16) ownerKartIndex);
@@ -1100,7 +1100,7 @@ void ResetItemTeresaOwnerActiveItem(ItemTeresa *teresa) {
     if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
-        ownerKartIndex = 8;
+        ownerKartIndex = ITEM_NO_KART_INDEX;
     }
     ownerKartItems = GetKartItems(ownerKartIndex);
     if (ownerKartItems->mActiveItem != ITEM_INFO_TERESA) {
@@ -1131,7 +1131,7 @@ void InitItemTeresaFromData(ItemTeresa *teresa) {
     if ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         ownerKartIndex = (u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
-        ownerKartIndex = 8;
+        ownerKartIndex = ITEM_NO_KART_INDEX;
     }
     SetActiveItem(GetKartItems(ownerKartIndex), 0x10);
 }
@@ -1203,32 +1203,33 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
             itemModelAlpha = 1;
         }
         NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-        itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
-        itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | ((u16) itemModelAlpha << 16);
+        itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+        itemModel->mPolygonAttributes =
+            itemModel->mPolygonAttributes | ((u16) itemModelAlpha << POLYGON_ATTR_ALPHA_SHIFT);
         QueueNsbmdModelMaterial(itemModel);
         index = 0;
         itemModel->mFrameIndex = 0;
         while (index < itemCount) {
             NNS_G3dGeBufferOP_N(0x1c, &gItemTeresaItemOffsets[itemCount == 2 ? 1 - index : index + 1], 3);
             polygonId = AllocPolygonIdWrapping();
-            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x3f000000;
-            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | (polygonId << 24);
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~POLYGON_ATTR_ID_MASK;
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | (polygonId << POLYGON_ATTR_ID_SHIFT);
             DrawNsbmdModelWithMaxAlpha(itemModel, &teresa->mItemObject.mPos, 1, 0x1f);
             index++;
         }
         secondCommandParam = 1;
         NNS_G3dGeBufferOP_N(0x12, &secondCommandParam, 1);
         if (itemModelAlpha != 0x1f) {
-            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~0x1f0000;
-            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | 0x1f0000;
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+            itemModel->mPolygonAttributes = itemModel->mPolygonAttributes | POLYGON_ATTR_ALPHA_MASK;
         }
     }
     polygonId = AllocPolygonIdWrapping();
-    model->mPolygonAttributes = model->mPolygonAttributes & ~0x3f000000;
-    model->mPolygonAttributes = model->mPolygonAttributes | (polygonId << 24);
+    model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ID_MASK;
+    model->mPolygonAttributes = model->mPolygonAttributes | (polygonId << POLYGON_ATTR_ID_SHIFT);
     drawAlpha = teresa->mItemObject.mAlpha;
-    model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
-    model->mPolygonAttributes = model->mPolygonAttributes | (drawAlpha << 16);
+    model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+    model->mPolygonAttributes = model->mPolygonAttributes | (drawAlpha << POLYGON_ATTR_ALPHA_SHIFT);
     DrawItemModelAtObjectPos(&teresa->mItemObject, model);
 }
 

@@ -16,14 +16,15 @@
 #define ITEM_GESSO_HALF_SCALE 0x800
 
 // Steps of the gItemGessoSteps table, by what the code does at them: the table has ITEM_GESSO_STEP_COUNT rows. Step 2
-// and the last step fade the ink out; step 4 has the plain scale; ITEM_GESSO_STEP_SPREAD and ITEM_GESSO_STEP_HALF_SCALE
-// set their own target scales; no sound plays when step 0xe starts.
+// and the last step fade the ink out; step 4 has the plain scale; SPREAD and HALF_SCALE set their own target scales;
+// the step after HALF_SCALE plays no start sound; a removed kart jumps to HALF_SCALE.
 #define ITEM_GESSO_STEP_COUNT 0x11
 #define ITEM_GESSO_STEP_FADES_OUT_FIRST 2
 #define ITEM_GESSO_STEP_PLAIN_SCALE 4
 #define ITEM_GESSO_STEP_SPREAD 0xc
 #define ITEM_GESSO_STEP_HALF_SCALE 0xd
-#define ITEM_GESSO_STEP_AFTER_HALF_SCALE 0xe
+// The step after ITEM_GESSO_STEP_HALF_SCALE: its start plays no sound.
+#define ITEM_GESSO_STEP_NO_SOUND 0xe
 #define ITEM_GESSO_STEP_FADES_OUT_LAST 0x10
 // ItemGesso.mShear is kept within plus and minus this.
 #define ITEM_GESSO_SHEAR_LIMIT 0x266

@@ -182,12 +182,12 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     ClearItemKouraWKartItemsAndAngle(item);
     if (gRaceProgress->mRaceDone != 0) {
         item->mRank = 1;
-        item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
+        item->mRankKartIndex = gRaceProgress->mKartAtRank[(item->mRank & 0xff) - 1];
     } else {
-        item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
+        item->mRankKartIndex = gRaceProgress->mKartAtRank[(item->mRank & 0xff) - 1];
         while (IsKartEnded(item->mRankKartIndex) != 0 && item->mRank < (u32) gRaceSetup->mKartCount) {
             item->mRank++;
-            item->mRankKartIndex = gRaceProgress->mKartAtRank[(u8) item->mRank - 1];
+            item->mRankKartIndex = gRaceProgress->mKartAtRank[(item->mRank & 0xff) - 1];
         }
     }
     item->mLift = ITEM_KOURA_W_START_LIFT;
@@ -435,7 +435,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
                            ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject
                                         .mOwnerKartIndexAndFlags &
                                     ~ITEM_OWNER_FLAGS_MASK)
-                           : 8) ||
+                           : ITEM_NO_KART_INDEX) ||
             IsKartRemoved(GetKart(item->mRankKartIndex)) != 0) {
             item->mRankTargetSkipped = 1;
         } else {
@@ -1185,7 +1185,7 @@ static inline s32 IsItemObjectHitKart(ItemObject *item, Kart *kart) {
     }
     if (kart->mIndex != (u16) (!(item->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER)
                                    ? (u16) (item->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                                   : 8)) {
+                                   : ITEM_NO_KART_INDEX)) {
         return 1;
     }
     if (item->mVelocity.x != 0 || item->mVelocity.y != 0 || item->mVelocity.z != 0 || kart->mForwardSpeed != 0) {
@@ -1282,7 +1282,7 @@ void *StartItemObjectOrZero(s32 kind, u16 kartIndex, void *pos, void *normal) {
     pool->mReservedCount++;
     StartItemObject(&gItemPools[item->mKind], item);
     SetItemObjectPlacement(item, pos, normal, 0, 0);
-    if (kartIndex == 8) {
+    if (kartIndex == ITEM_NO_KART_INDEX) {
         item->mOwnerKartIndexAndFlags |= gItemObjectNoOwnerBit;
     }
     return item;
@@ -1303,7 +1303,7 @@ static inline ItemObject *CourseMapStartItemObjectOrZero(s32 kind, u16 kartIndex
     pool->mReservedCount++;
     StartItemObject(&gItemPools[item->mKind], item);
     SetItemObjectPlacement(item, pos, normal, 0, 0);
-    if (kartIndex == 8) {
+    if (kartIndex == ITEM_NO_KART_INDEX) {
         item->mOwnerKartIndexAndFlags |= gItemObjectNoOwnerBit;
     }
     return item;

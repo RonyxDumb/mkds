@@ -170,9 +170,9 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
                   ITEM_OWNER_NO_OWNER)
                     ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
                              ~ITEM_OWNER_FLAGS_MASK)
-                    : 8;
-            if (ownerKartIndex >= 8) {
-                targetKartIndex = 8;
+                    : ITEM_NO_KART_INDEX;
+            if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
+                targetKartIndex = ITEM_NO_KART_INDEX;
             } else {
                 rankAhead = GetKartRank(ownerKartIndex) - 1;
                 if (rankAhead < 1) {
@@ -252,7 +252,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_KART_ITEMS_TARGET_FRAMES) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_SINGLE_KART_TEST_FRAMES) {
         if (TrySetItemKouraRKartItemsByFrame(kouraR, 0) == 0) {
             return;
         }
@@ -296,9 +296,9 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
           ITEM_OWNER_NO_OWNER)
             ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
                      ~ITEM_OWNER_FLAGS_MASK)
-            : 8;
-    if (ownerKartIndex >= 8) {
-        targetKartIndex = 8;
+            : ITEM_NO_KART_INDEX;
+    if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
+        targetKartIndex = ITEM_NO_KART_INDEX;
     } else {
         rankAhead = GetKartRank(ownerKartIndex) - 1;
         if (rankAhead < 1) {
@@ -317,13 +317,13 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_SEEK_LIMIT_FRAMES) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_FOLLOW_LINK_LIMIT_FRAMES) {
         SetItemObjectDirectionFromVelocity(kouraR);
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
         kouraR->mStateMachine.mNextStateRequested = 1;
         return;
     }
-    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_KART_ITEMS_TARGET_FRAMES) {
+    if (kouraR->mStateMachine.mStateFrames > ITEM_KOURA_R_SINGLE_KART_TEST_FRAMES) {
         if (TrySetItemKouraRKartItemsByFrame(kouraR, 1) == 0) {
             return;
         }
@@ -474,7 +474,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
     kartItems = kouraR->mKartItems;
     otherOwnerIndex = !(other->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER)
                           ? (u16) (other->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                          : 8;
+                          : ITEM_NO_KART_INDEX;
     if (kartItems == NULL) {
         return;
     }
@@ -547,9 +547,9 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
                   ITEM_OWNER_NO_OWNER)
                     ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
                              ~ITEM_OWNER_FLAGS_MASK)
-                    : 8;
-            if (ownerKartIndex >= 8) {
-                targetKartIndex = 8;
+                    : ITEM_NO_KART_INDEX;
+            if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
+                targetKartIndex = ITEM_NO_KART_INDEX;
             } else {
                 rank = GetKartRank(ownerKartIndex);
                 rankAhead = rank - 1;

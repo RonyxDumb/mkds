@@ -49,8 +49,8 @@ NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureN
     modelFile = FindItemFile(modelName);
     animationFile = FindItemFile(animationName);
     InitNsbmdModel(model, modelFile, animationFile, 0);
-    model->mPolygonAttributes &= 0xc0ffffff;
-    model->mPolygonAttributes |= 0x04000000;
+    model->mPolygonAttributes &= ~POLYGON_ATTR_ID_MASK;
+    model->mPolygonAttributes |= ITEM_MODEL_POLYGON_ID << POLYGON_ATTR_ID_SHIFT;
     model->mPolygonAttributes &= ~0xf;
     model->mPolygonAttributes |= 0x2;
     model->mSpecEmi &= 0x8000ffff;

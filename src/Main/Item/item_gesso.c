@@ -149,7 +149,7 @@ BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
         fadesOut = FALSE;
     }
     gesso->mFadesOut = fadesOut;
-    if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != ITEM_GESSO_STEP_AFTER_HALF_SCALE &&
+    if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != ITEM_GESSO_STEP_NO_SOUND &&
         gesso->mVisible != FALSE) {
         StartEntryKartSound(gesso->mKart, 0xf1);
     }
@@ -193,7 +193,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     if ((gesso->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
         kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
-        kartIndex = 8;
+        kartIndex = ITEM_NO_KART_INDEX;
     }
     gesso->mVisible = entryIndex == (u16) kartIndex;
     FreeItemObjectCollisionSlot(&gesso->mItemObject);
@@ -365,16 +365,16 @@ void DrawItemGesso(ItemGesso *gesso, s32 unusedSecond, NsbmdModel *model) {
     scale.y = MUL_FIXED12_NO_ROUND(scale.y, scaleFactor);
     value = gesso->mItemObject.mAlpha;
     if (value != 0x1f) {
-        model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
-        model->mPolygonAttributes = model->mPolygonAttributes | ((u16) value << 16);
+        model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+        model->mPolygonAttributes = model->mPolygonAttributes | ((u16) value << POLYGON_ATTR_ALPHA_SHIFT);
     }
     QueueNsbmdModelMaterial(model);
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, &matrix, &scale, 0, 0x1f);
     if (gesso->mItemObject.mAlpha == ITEM_OBJECT_ALPHA_OPAQUE) {
         return;
     }
-    model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;
-    model->mPolygonAttributes = model->mPolygonAttributes | 0x1f0000;
+    model->mPolygonAttributes = model->mPolygonAttributes & ~POLYGON_ATTR_ALPHA_MASK;
+    model->mPolygonAttributes = model->mPolygonAttributes | POLYGON_ATTR_ALPHA_MASK;
 }
 
 void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {

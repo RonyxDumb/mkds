@@ -26,12 +26,12 @@ typedef enum ItemKouraRState {
     ITEM_KOURA_R_STATE_GLIDE_TO_KART_VELOCITY = 6, // moves with the velocity added toward the kart
 } ItemKouraRState;
 
-// Frames after the throw before a red shell in the seek state takes the nearest kart as its target.
+// State frames of the seek-after-throw and follow-link states of a red shell: after the first it tests every kart for
+// the nearest one it can target; after the second it tests only the kart whose index is the race frame modulo 8.
 #define ITEM_KOURA_R_NEAREST_TARGET_FRAMES 4
-// Frames after the throw before it takes the target the thrower's kart items give.
-#define ITEM_KOURA_R_KART_ITEMS_TARGET_FRAMES 0x10
-// Frames of the seek state after which the shell flies straight (30 seconds).
-#define ITEM_KOURA_R_SEEK_LIMIT_FRAMES 0x708
+#define ITEM_KOURA_R_SINGLE_KART_TEST_FRAMES 0x10
+// State frames of the follow-link state after which the shell flies straight (30 seconds).
+#define ITEM_KOURA_R_FOLLOW_LINK_LIMIT_FRAMES 0x708
 // Frames of the close-in state in which the shell hits the kart once it is within one and a half radii.
 #define ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES 0x14
 // An object that is not held plays the target kart sound only while its age is below this (2 seconds).

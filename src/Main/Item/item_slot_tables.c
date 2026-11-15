@@ -269,7 +269,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
             slot->mSlotFrames++;
             mode = gRaceSetup->mMode;
             if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
-                value = (u8) kartItems->mKartIndex;
+                value = kartItems->mKartIndex & 0xff;
                 if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[value]) == 0) {
                     value = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[value]);
                     if (IsItemInfoObjectCountFree(value) != FALSE) {

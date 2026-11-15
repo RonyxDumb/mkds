@@ -34,6 +34,13 @@ typedef struct PendulumObject {
     /* 10c */ BOOL mLastHitRadial;
 } PendulumObject;
 
+// Fields of NsbmdModel.mPolygonAttributes (the polygon attribute word of the geometry engine): the alpha, from 0 to its
+// all-ones maximum (opaque), and the polygon id.
+#define POLYGON_ATTR_ALPHA_SHIFT 16
+#define POLYGON_ATTR_ALPHA_MASK 0x1f0000
+#define POLYGON_ATTR_ID_SHIFT 24
+#define POLYGON_ATTR_ID_MASK 0x3f000000
+
 // Allocated by CreateNsbmdModel and CreateItemModel, filled in by FillNsbmdModel, 0x2c bytes.
 typedef struct NsbmdModel {
     /* 00 */ u8 *mDisplayList;

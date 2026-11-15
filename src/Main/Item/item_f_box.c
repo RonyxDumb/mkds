@@ -477,7 +477,7 @@ u8 *AddItemDataSizedByKind(u32 kind) {
     u32 dataSize;
     s32 available;
 
-    dataSize = (u8) gItemKinds[kind].mDataSize;
+    dataSize = gItemKinds[kind].mDataSize & 0xff;
     gItemDataBuffer[0] = GetRaceUpdateFrames();
     available = gWiFiRaceSync->mUnusedItemDataBytes;
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {

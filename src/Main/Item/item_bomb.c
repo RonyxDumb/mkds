@@ -251,7 +251,7 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
     skippedKartIndex =
         (bomb->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
             ? (u16) (bomb->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-            : 8;
+            : ITEM_NO_KART_INDEX;
     if (candidateKartIndex == skippedKartIndex) {
         return;
     }

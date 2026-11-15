@@ -289,7 +289,7 @@ found:
     } else if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
         value = (u16) ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                            ? (u16) (object->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                           : 8);
+                           : ITEM_NO_KART_INDEX);
         if (value != 8) {
             StartKartSeqArcSoundOffset7(GetKart(value));
         }

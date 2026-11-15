@@ -8,7 +8,7 @@
 
 // Message kinds of the item data a Wi-Fi race sends (AddItemData, ProcessItemPoolMessage): the start of an object with
 // its kind's data, the start with the generic copy (0x12 bytes), an event of an object (ITEM_EVENT_*; 3 bytes), and the
-// kart an object follows.
+// kart an object follows (also the selector packets of the Boo, ITEM_TERESA_PACKET_*).
 #define ITEM_DATA_MESSAGE_START 0
 #define ITEM_DATA_MESSAGE_START_GENERIC 1
 #define ITEM_DATA_MESSAGE_EVENT 2

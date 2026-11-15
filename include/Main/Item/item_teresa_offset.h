@@ -31,9 +31,10 @@ typedef struct ItemTeresa ItemTeresa;
 // Points of the path the Boo follows when it took nothing, and the index it starts from.
 #define ITEM_TERESA_PATH_POINT_COUNT 11
 #define ITEM_TERESA_PATH_START_INDEX 3
-// State frames: the frame of the take-item state at which the item is taken, the frames of the fade-in at the picked
-// kart after which a Boo without a picked kart gives up, and the frames the Boo may stall waiting for the taken item.
-#define ITEM_TERESA_TAKE_ITEM_FRAME 0x12
+// State frames: the frame of the take-item state at which the dip (drop and rise of the offset) starts, the frames of
+// the fade-in at the picked kart after which a Boo without a picked kart gives up, and the frames the Boo may stall
+// waiting for the taken item.
+#define ITEM_TERESA_DIP_START_FRAME 0x12
 #define ITEM_TERESA_NO_PICK_LIMIT_FRAMES 0x6e
 #define ITEM_TERESA_STALL_LIMIT_FRAMES 0x3c
 // ItemTeresa.mOffsetAccelerationY after the item was taken, going down and then going up.

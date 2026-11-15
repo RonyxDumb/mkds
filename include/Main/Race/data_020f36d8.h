@@ -52,6 +52,11 @@ typedef struct ItemPointLinkRef {
     /* 04 */ s32 mNextLinksUsed;
 } ItemPointLinkRef;
 
+// Polygon ids of the item models: the id the models of the pool objects start with, and the id from the object at index
+// ItemPool.mActiveCount on (DrawItemPoolModels).
+#define ITEM_MODEL_POLYGON_ID 4
+#define ITEM_MODEL_POLYGON_ID_BEYOND_ACTIVE 3
+
 // Number of positions in SegmentPoints (a ring).
 #define SEGMENT_POINT_COUNT 4
 

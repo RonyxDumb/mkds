@@ -456,8 +456,8 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     takenCount = pool->mTakenCount;
     activeCount = pool->mActiveCount;
     QueueNsbmdModelMaterial(model);
-    model->mPolygonAttributes &= ~0x3f000000;
-    model->mPolygonAttributes |= 0x4000000;
+    model->mPolygonAttributes &= ~POLYGON_ATTR_ID_MASK;
+    model->mPolygonAttributes |= ITEM_MODEL_POLYGON_ID << POLYGON_ATTR_ID_SHIFT;
     for (objectIndex = 0; objectIndex < takenCount; objectIndex++) {
         object = pool->mObjects[objectIndex];
         if ((object->mFlags & ITEM_OBJECT_FLAG_OUT_OF_VIEW) != 0) {
@@ -469,12 +469,12 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             SendLight01Color(&object->mColorBlend.mColor);
         }
         if ((alpha = object->mAlpha) != 0x1f) {
-            model->mPolygonAttributes &= ~0x1f0000;
-            model->mPolygonAttributes |= (u16) alpha << 16;
+            model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+            model->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
         }
         if (objectIndex == activeCount) {
-            model->mPolygonAttributes &= ~0x3f000000;
-            model->mPolygonAttributes |= 0x3000000;
+            model->mPolygonAttributes &= ~POLYGON_ATTR_ID_MASK;
+            model->mPolygonAttributes |= ITEM_MODEL_POLYGON_ID_BEYOND_ACTIVE << POLYGON_ATTR_ID_SHIFT;
         }
         if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
             object->mTransformMtx.mRows[2] = *viewAxis;
@@ -501,8 +501,8 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
         }
         DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
         if ((alpha = object->mAlpha) != 0x1f) {
-            model->mPolygonAttributes &= ~0x1f0000;
-            model->mPolygonAttributes |= 0x1f0000;
+            model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+            model->mPolygonAttributes |= POLYGON_ATTR_ALPHA_MASK;
         }
     }
 }
@@ -532,8 +532,8 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     void *matrix;
 
     if ((alpha = object->mAlpha) != 0x1f) {
-        model->mPolygonAttributes &= ~0x1f0000;
-        model->mPolygonAttributes |= (u16) alpha << 16;
+        model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+        model->mPolygonAttributes |= (u16) alpha << POLYGON_ATTR_ALPHA_SHIFT;
     }
     QueueNsbmdModelMaterial(model);
     if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
@@ -561,7 +561,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     }
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, matrix, &object->mScale, 0, 0x1f);
     if ((alpha = object->mAlpha) != 0x1f) {
-        model->mPolygonAttributes &= ~0x1f0000;
-        model->mPolygonAttributes |= 0x1f0000;
+        model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+        model->mPolygonAttributes |= POLYGON_ATTR_ALPHA_MASK;
     }
 }

@@ -297,8 +297,8 @@ void UpdateOrthoQuads(void) {
         return;
     }
     model = gOrthoQuadUseCreamEffect != 0 ? &gOrthoQuadCreamEffect : &gOrthoQuadGesoSumi;
-    model->mPolygonAttr = model->mPolygonAttr & ~0x1f0000;
-    model->mPolygonAttr = model->mPolygonAttr | (alpha << 16);
+    model->mPolygonAttr = model->mPolygonAttr & ~POLYGON_ATTR_ALPHA_MASK;
+    model->mPolygonAttr = model->mPolygonAttr | (alpha << POLYGON_ATTR_ALPHA_SHIFT);
 }
 
 void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
@@ -331,7 +331,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     do {
         OrthoQuad *quad = &gOrthoQuads[quadIndex];
 
-        reg_G3_POLYGON_ATTR = model->mPolygonAttr | (gOrthoQuadFirstPolygonId + quadIndex) << 24;
+        reg_G3_POLYGON_ATTR = model->mPolygonAttr | (gOrthoQuadFirstPolygonId + quadIndex) << POLYGON_ATTR_ID_SHIFT;
         reg_G3_BEGIN_VTXS = 1;
         reg_G3_TEXCOORD = 0;
         reg_G3_VTX_16 = quad->mCorners[0].mWord;
@@ -507,13 +507,13 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     if (gOrthoQuadUseCreamEffect != 0) {
         gOrthoQuadHoldFrameCount = 0x96;
         gOrthoQuadMoveStartFrameCount = 0x1e;
-        gOrthoQuadCreamEffect.mPolygonAttr &= ~0x1f0000;
-        gOrthoQuadCreamEffect.mPolygonAttr |= 0x1f0000;
+        gOrthoQuadCreamEffect.mPolygonAttr &= ~POLYGON_ATTR_ALPHA_MASK;
+        gOrthoQuadCreamEffect.mPolygonAttr |= POLYGON_ATTR_ALPHA_MASK;
     } else {
         gOrthoQuadHoldFrameCount = 0x184;
         gOrthoQuadMoveStartFrameCount = 0x2d;
-        gOrthoQuadGesoSumi.mPolygonAttr &= ~0x1f0000;
-        gOrthoQuadGesoSumi.mPolygonAttr |= 0x1f0000;
+        gOrthoQuadGesoSumi.mPolygonAttr &= ~POLYGON_ATTR_ALPHA_MASK;
+        gOrthoQuadGesoSumi.mPolygonAttr |= POLYGON_ATTR_ALPHA_MASK;
     }
 }
 
@@ -685,7 +685,7 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
 
     quadModel->mModel = model;
     quadModel->mPolygonAttr = 0x51f80c0;
-    quadModel->mPolygonAttr = quadModel->mPolygonAttr & 0xc0ffffff;
+    quadModel->mPolygonAttr = quadModel->mPolygonAttr & ~POLYGON_ATTR_ID_MASK;
     quadModel->mTeximageParam = *model->mTexImageParams;
     quadModel->mPlttBase = *model->mTexPlttBases;
     quadModel->mDifAmb = model->mDiffAmb;
@@ -710,7 +710,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
 
     ownerIndex = (u16) ((gesso->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                             ? (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                            : 8);
+                            : ITEM_NO_KART_INDEX);
     entryIndex = gRaceSetup->mEntryIndex;
     if (gRaceSetup->mMode == MODE_BATTLE) {
         kartCount = gRaceSetup->mKartCount;
