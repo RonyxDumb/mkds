@@ -62,7 +62,7 @@ void CopyItemTeresaData(void *cursor, ItemTeresa *teresa, void *toData);
 void ResetItemTeresaOwnerActiveItem(ItemTeresa *teresa);
 void UpdateItemTeresaFadeOutEnd(void *stateObject);
 
-unsigned int EnterItemTeresaFadeOutEnd(unsigned int value);
+void EnterItemTeresaFadeOutEnd(void *stateObject);
 
 void UpdateItemTeresaFadeInAtOwner(void *stateObject);
 void EnterItemTeresaFadeInAtOwner(void *stateObject);

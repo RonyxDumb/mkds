@@ -28,11 +28,11 @@ u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *
 u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void ResetKuriboForItemBomb(Kuribo *kuribo);
 
-unsigned int EnterKuriboFlatWait(unsigned int value);
+void EnterKuriboFlatWait(void *stateObject);
 
 void UpdateKuriboShrink(void *stateObject);
 
-unsigned int EnterKuriboShrink(unsigned int value);
+void EnterKuriboShrink(void *stateObject);
 
 void UpdateKuriboStretch(void *stateObject);
 

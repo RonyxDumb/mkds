@@ -98,7 +98,7 @@ StateCallbacks gItemTeresaStateTable[7] = {{EnterItemTeresaFadeOutAtOwner, Updat
                                            {EnterItemTeresaTakeItem, UpdateItemTeresaTakeItem},
                                            {EnterItemTeresaWaitDelay, UpdateItemTeresaWaitDelay},
                                            {EnterItemTeresaFadeInAtOwner, UpdateItemTeresaFadeInAtOwner},
-                                           {(StateCallback) EnterItemTeresaFadeOutEnd, UpdateItemTeresaFadeOutEnd}};
+                                           {EnterItemTeresaFadeOutEnd, UpdateItemTeresaFadeOutEnd}};
 
 void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
@@ -1041,9 +1041,7 @@ skip:
     }
 }
 
-u32 EnterItemTeresaFadeOutEnd(u32 value) {
-    return value;
-}
+void EnterItemTeresaFadeOutEnd(void *stateObject) {}
 
 void UpdateItemTeresaFadeOutEnd(void *stateObject) {
     ItemTeresa *teresa = stateObject;
