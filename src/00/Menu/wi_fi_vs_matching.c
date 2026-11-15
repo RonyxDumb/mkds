@@ -274,7 +274,7 @@ void PrintWiFiVSMatchingNoOpponents(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState0(void) {
+void AdvanceWiFiVSMatchingSlideIn(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     gWiFiVSMatching->mOffset = InterpolateS16(1, 0x100, 0, gWiFiVSMatching->mStateFrames, 10);
@@ -297,7 +297,7 @@ void AdvanceWiFiVSMatchingState0(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState1(void) {
+void AdvanceWiFiVSMatchingWaitMatching(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
@@ -467,7 +467,7 @@ void AdvanceWiFiVSMatchingState1(void) {
     gWiFiVSMatching->mShownEntryCount = sh;
 }
 
-void AdvanceWiFiVSMatchingState2(void) {
+void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
     s32 frame = gWiFiVSMatching->mStateFrames;
     u16 angle = (frame << 16) / 0x14;
     s32 scale = ((0x13 - frame) * 0xf33) / 0x14 + 0xcd;
@@ -508,7 +508,7 @@ void AdvanceWiFiVSMatchingState2(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState3(void) {
+void AdvanceWiFiVSMatchingWaitPlayerListText(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (gWiFiVSMatching->mStateFrames >= 0x28) {
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER;
@@ -528,7 +528,7 @@ u8 gWiFiVSMatchingEmblemScalePercents[40] = {
     0x82, 0x7d, 0x78, 0x73, 0x6e, 0x69, 0x64, 0x64, 0x64, 0x64, 0x64, 0x64,
 };
 
-void AdvanceWiFiVSMatchingState4(void) {
+void AdvanceWiFiVSMatchingScaleInOther(void) {
     s32 frame;
     s32 totalFrame;
     s32 emblemFrame;
@@ -589,7 +589,7 @@ void AdvanceWiFiVSMatchingState4(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState5(void) {
+void AdvanceWiFiVSMatchingPauseBetweenOthers(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (gWiFiVSMatching->mStateFrames >= 0x50) {
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER;
@@ -598,7 +598,7 @@ void AdvanceWiFiVSMatchingState5(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState8(void) {
+void AdvanceWiFiVSMatchingWaitResultShown(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     // mUnk_30 is 1 to 3 here and indexes the table from 1.
     if (gWiFiVSMatching->mStateFrames >= (gWiFiVSMatchingResultWaitFrames - 1)[gWiFiVSMatching->mOtherCount]) {
@@ -613,7 +613,7 @@ void AdvanceWiFiVSMatchingState8(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState9(void) {
+void AdvanceWiFiVSMatchingWaitNoOpponentsBack(void) {
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
     u16 hasPair;
@@ -648,7 +648,7 @@ void AdvanceWiFiVSMatchingState9(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState10(void) {
+void AdvanceWiFiVSMatchingSlideOut(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     gWiFiVSMatching->mOffset = InterpolateS16(1, 0, 0x100, gWiFiVSMatching->mStateFrames, 10);
     if (gWiFiVSMatching->mStateFrames >= 10) {
@@ -666,7 +666,7 @@ void AdvanceWiFiVSMatchingState10(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingState11(void) {
+void AdvanceWiFiVSMatchingWaitFadeOut(void) {
     if (AreBrightnessFadesFaded() != 0) {
         if (IsTxtSystemClosedNoOpenRequest() != 0) {
             RequestWiFiState(gWiFiVSMatching->mPendingWiFiState);
@@ -747,34 +747,34 @@ void AdvanceWiFiVSMatching(void) {
     gWiFiVSMatching->mState = gWiFiVSMatching->mNextState;
     switch (gWiFiVSMatching->mState) {
         case WIFI_VS_MATCHING_STATE_SLIDE_IN:
-            AdvanceWiFiVSMatchingState0();
+            AdvanceWiFiVSMatchingSlideIn();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_MATCHING:
-            AdvanceWiFiVSMatchingState1();
+            AdvanceWiFiVSMatchingWaitMatching();
             break;
         case WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN:
-            AdvanceWiFiVSMatchingState2();
+            AdvanceWiFiVSMatchingEmblemScaleIn();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_PLAYER_LIST_TEXT:
-            AdvanceWiFiVSMatchingState3();
+            AdvanceWiFiVSMatchingWaitPlayerListText();
             break;
         case WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER:
-            AdvanceWiFiVSMatchingState4();
+            AdvanceWiFiVSMatchingScaleInOther();
             break;
         case WIFI_VS_MATCHING_STATE_PAUSE_BETWEEN_OTHERS:
-            AdvanceWiFiVSMatchingState5();
+            AdvanceWiFiVSMatchingPauseBetweenOthers();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_RESULT_SHOWN:
-            AdvanceWiFiVSMatchingState8();
+            AdvanceWiFiVSMatchingWaitResultShown();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_NO_OPPONENTS_BACK:
-            AdvanceWiFiVSMatchingState9();
+            AdvanceWiFiVSMatchingWaitNoOpponentsBack();
             break;
         case WIFI_VS_MATCHING_STATE_SLIDE_OUT:
-            AdvanceWiFiVSMatchingState10();
+            AdvanceWiFiVSMatchingSlideOut();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT:
-            AdvanceWiFiVSMatchingState11();
+            AdvanceWiFiVSMatchingWaitFadeOut();
             break;
     }
     UpdateWiFiVSMatchingOffsets();
