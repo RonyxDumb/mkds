@@ -8,7 +8,7 @@
 
 void PackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
     if (timeRecord->mFilled != 0) {
-        MI_CpuCopy8(timeRecord->mName, packedCourseTimeRecord->mName, 0x14);
+        MI_CpuCopy8(timeRecord->mName, packedCourseTimeRecord->mName, sizeof(packedCourseTimeRecord->mName));
         packedCourseTimeRecord->mFilled = 1;
         packedCourseTimeRecord->mCharacterIndex = timeRecord->mCharacterIndex;
         packedCourseTimeRecord->mKartIndex = timeRecord->mKartIndex;
@@ -39,7 +39,7 @@ void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord) 
 
 void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
     if (packedCourseTimeRecord->mFilled != 0) {
-        MI_CpuCopy8(packedCourseTimeRecord->mName, timeRecord->mName, 0x14);
+        MI_CpuCopy8(packedCourseTimeRecord->mName, timeRecord->mName, sizeof(timeRecord->mName));
         timeRecord->mCharacterIndex = packedCourseTimeRecord->mCharacterIndex;
         timeRecord->mKartIndex = packedCourseTimeRecord->mKartIndex;
         timeRecord->mMinute = packedCourseTimeRecord->mMinute;
@@ -71,7 +71,7 @@ BOOL GetCourseTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) 
 
 void PackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
     if (timeRecord->mFilled != 0) {
-        MI_CpuCopy8(timeRecord->mName, packedGrandPrixRecord->mName, 0x14);
+        MI_CpuCopy8(timeRecord->mName, packedGrandPrixRecord->mName, sizeof(packedGrandPrixRecord->mName));
         packedGrandPrixRecord->mFilled = 1;
         packedGrandPrixRecord->mCharacterIndex = timeRecord->mCharacterIndex;
         packedGrandPrixRecord->mKartIndex = timeRecord->mKartIndex;

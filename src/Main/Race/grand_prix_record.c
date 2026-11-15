@@ -62,7 +62,7 @@ void FillGrandPrixRecord(TimeRecord *record) {
     record->mMinute = 0;
     record->mSecond = 0;
     record->mMillisecond = 0;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, record->mName, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, record->mName, sizeof(record->mName));
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         SumTimes(record, &gMenuShared->mCourseTimes[courseIndex], record);
     }

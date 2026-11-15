@@ -16,7 +16,7 @@ void SetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
 
 void UnpackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
     if (packedGrandPrixRecord->mFilled != 0) {
-        MI_CpuCopy8(packedGrandPrixRecord->mName, timeRecord->mName, 0x14);
+        MI_CpuCopy8(packedGrandPrixRecord->mName, timeRecord->mName, sizeof(timeRecord->mName));
         timeRecord->mCharacterIndex = packedGrandPrixRecord->mCharacterIndex;
         timeRecord->mKartIndex = packedGrandPrixRecord->mKartIndex;
         timeRecord->mMinute = packedGrandPrixRecord->mMinute;

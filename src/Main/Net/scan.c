@@ -118,7 +118,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         slot->mLanguageIndex = languageIndex;
         slot->mMultiBoot = 0;
         slot->mHasGhost = isGhost;
-        MI_CpuCopy8(gameInfo, slot->mName, 0x14);
+        MI_CpuCopy8(gameInfo, slot->mName, sizeof(slot->mName));
         SetScanGhostInfo(entryIndex, gameInfo);
     } else {
         s32 gameChildCount;
@@ -139,7 +139,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         slot->mLanguageIndex = gameLanguageIndex;
         slot->mMultiBoot = 0;
         slot->mHasGhost = isGhost;
-        MI_CpuCopy8(gameInfo, slot->mName, 0x14);
+        MI_CpuCopy8(gameInfo, slot->mName, sizeof(slot->mName));
     }
 }
 
@@ -210,7 +210,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 chosenSlot->mLanguageIndex = LANGUAGE_UNSUFFIXED;
                 chosenSlot->mMultiBoot = 1;
                 chosenSlot->mHasGhost = 0;
-                MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, 0x14);
+                MI_CpuCopy8(nameInfo->mName, chosenSlot->mName, sizeof(chosenSlot->mName));
                 gConnectionWork->mRememberedScanKeyHeld = 0;
             } else if (userGameInfo->mKind == 9) {
                 if (chosenSlot->mInUse != 0) {

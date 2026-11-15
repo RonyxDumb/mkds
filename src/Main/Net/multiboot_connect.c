@@ -169,7 +169,7 @@ void StartMultiBootParent(void) {
     user.mNameLength = 10;
     user.mFavoriteColor = gStartupWork->mFavoriteColor;
     user.mPlayerNo = 8;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, user.mName, sizeof(user.mName));
     gConnectionWork->mParentTgid = ComputeParentTgid(1);
     if (MB_Init(gConnectionWork->mMultiBootWork, &user, 0x25, gConnectionWork->mParentTgid, 2) != 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
@@ -193,7 +193,7 @@ void SetupScanConnect(void) {
     userInfo.mFavoriteColor = gStartupWork->mFavoriteColor;
     userInfo.mNameLength = 10;
     userInfo.mPlayerNo = 9;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mName, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, userInfo.mName, sizeof(userInfo.mName));
     gConnectionWork->mScanEntryIndex = -1;
     InitScanConnectWork(gConnectionWork->mMultiBootWork, &userInfo);
     SetScanConnectStateCallback(ScanConnectStateCallback);

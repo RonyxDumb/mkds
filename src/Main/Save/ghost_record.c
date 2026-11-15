@@ -112,7 +112,7 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
 }
 
 void FillPlayerRecord(PlayerRecord *a) {
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, a->mName, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, a->mName, sizeof(a->mName));
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
         a->mHasEmblem = 1;
         MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);

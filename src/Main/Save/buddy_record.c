@@ -195,7 +195,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
         combinedRecord.mResultCounts[1][1] = combinedRecord.mResultCounts[1][1] + mergedRecord.mResultCounts[1][1];
         combinedRecord.mResultCounts[2][0] = combinedRecord.mResultCounts[2][0] + mergedRecord.mResultCounts[2][0];
         combinedRecord.mResultCounts[2][1] = combinedRecord.mResultCounts[2][1] + mergedRecord.mResultCounts[2][1];
-        MI_CpuCopy8(mergedRecord.mName, combinedRecord.mName, 0x14);
+        MI_CpuCopy8(mergedRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
         combinedRecord.mYear = mergedRecord.mYear;
         combinedRecord.mMonth = mergedRecord.mMonth;
         combinedRecord.mDay = mergedRecord.mDay;
@@ -207,7 +207,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
         combinedRecord.mResultCounts[1][1] = combinedRecord.mResultCounts[1][1] + keptRecord.mResultCounts[1][1];
         combinedRecord.mResultCounts[2][0] = combinedRecord.mResultCounts[2][0] + keptRecord.mResultCounts[2][0];
         combinedRecord.mResultCounts[2][1] = combinedRecord.mResultCounts[2][1] + mergedRecord.mResultCounts[2][1];
-        MI_CpuCopy8(keptRecord.mName, combinedRecord.mName, 0x14);
+        MI_CpuCopy8(keptRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
         combinedRecord.mYear = keptRecord.mYear;
         combinedRecord.mMonth = keptRecord.mMonth;
         combinedRecord.mDay = keptRecord.mDay;

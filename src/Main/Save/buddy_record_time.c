@@ -184,7 +184,8 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
         ResetBuddyRecord(&buddyRecord);
     }
     if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName != NULL) {
-        MI_CpuCopy8(gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName, buddyRecord.mName, 0x14);
+        MI_CpuCopy8(gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mName, buddyRecord.mName,
+                    sizeof(buddyRecord.mName));
     }
     switch (matchKind) {
         case 0:

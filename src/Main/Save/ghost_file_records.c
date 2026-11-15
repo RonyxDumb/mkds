@@ -228,7 +228,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     } else {
         buddyRecord.mNotYetBuddy = 0;
     }
-    MI_CpuCopy8(name, buddyRecord.mName, 0x14);
+    MI_CpuCopy8(name, buddyRecord.mName, sizeof(buddyRecord.mName));
     buddyRecord.mHasEmblem = hasEmblem != 0;
     buddyRecord.mFilled = 1;
     SetBuddyRecord(slot, &buddyRecord);

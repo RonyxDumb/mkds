@@ -539,7 +539,7 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     MPPlayerNameMessage message;
 
     message.mKind = MP_MESSAGE_PLAYER_NAME;
-    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[playerIndex], message.mName, 0x14);
+    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[playerIndex], message.mName, sizeof(message.mName));
     message.mPlayerIndex = playerIndex;
     if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
         message.mConnectedMask = gConnectionWork->mChildren.mChildMask | 1;
