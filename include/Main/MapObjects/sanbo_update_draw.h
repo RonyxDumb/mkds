@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/sanbo_pieces.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObjectList
 
 void UpdateSanbo(void *mapObjectList, Sanbo *sanbo); /* skipped for objects with mFlags & 4 (parked pool objects) */

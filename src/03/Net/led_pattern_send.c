@@ -1,6 +1,6 @@
 #include "03/Net/led_pattern_send.h"
 #include "03/Net/led_pattern_send_if_different.h"
-#include "pm.h"
+#include "power_management_commands.h"
 
 void SendLedPatternWirelessIfDifferent(void) {
     int result;

@@ -1,7 +1,7 @@
 #include "00/Lib/GameSpy/socket_calls.h"
 
 #include "00/Lib/DWC/connection_error_strings.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 #include "print_memory_functions.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/CPS/socket_status_resolve.h"
@@ -14,7 +14,7 @@
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/NitroWiFi/socket_objects.h"
 #include "00/Lib/NitroWiFi/socket_shutdown_all.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "narrow_string_functions.h"
 #include "decimal_digit_arith.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
@@ -24,7 +24,7 @@
 #include "00/Lib/GameSpy/send_buffer.h"
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "00/Lib/GameSpy/reply_parse.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "text_to_number.h"
 
 static char *aliases = NULL;

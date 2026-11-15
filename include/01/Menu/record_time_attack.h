@@ -7,7 +7,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/select_return.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "sound_archive_load_result.h"
 #include "Main/Save/buddy_record.h"

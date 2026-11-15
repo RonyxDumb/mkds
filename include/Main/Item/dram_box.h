@@ -3,7 +3,7 @@
 #include "types.h"
 #include "model_material_set.h" // MtxFx33
 #include "Main/Item/held_item.h" // BouncingItemObject
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/MapObjects/dram.h"
 #include "Main/Item/item_object_throw.h"

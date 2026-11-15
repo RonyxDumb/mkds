@@ -10,7 +10,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
 

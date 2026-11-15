@@ -3,7 +3,7 @@
 #include "Main/Sound/mic_auto_sampling.h"
 #include "Main/Sound/mic_buffer_sleep.h"
 #include "Main/Sound/mic_init.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/System/input_slots.h"
 #include "Main/Race/race_setup_block.h"
 #include "Main/Graphics/oam.h"

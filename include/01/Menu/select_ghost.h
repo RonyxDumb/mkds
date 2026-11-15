@@ -7,7 +7,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/cup_mark.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "sound_archive_load_result.h"
 
@@ -84,10 +84,10 @@ typedef struct SelectGhost {
 #include "Main/Graphics/oam.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"
-#include "frameheap.h"
-#include "os_thread.h"
+#include "heap_frame_allocator.h"
+#include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "pm.h"
+#include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
 void WriteSelectGhostRegisters(void);

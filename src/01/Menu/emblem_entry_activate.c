@@ -2,7 +2,7 @@
 #include "01/MapObjects/lld.h"
 #include "Main/Menu/keyboard_keys.h"
 #include "Main/Sound/sound_system.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "01/Menu/emblem_grid.h"
 #include "01/Menu/emblem_screen_upload.h"
 #include "01/Menu/emblem_state_and_lld.h"

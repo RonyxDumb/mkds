@@ -6,7 +6,7 @@
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "model_material_set.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
@@ -20,7 +20,7 @@
 #include "03/Net/essid_packet_steps.h"
 #include "Main/System/heap_call.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "g2d_Animation.h"
+#include "sprite_animation_control.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
 EmblemGrid *gEmblemGrid;

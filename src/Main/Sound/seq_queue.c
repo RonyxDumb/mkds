@@ -2,9 +2,9 @@
 #include "Main/Sound/sound_start.h"
 
 #include "Main/Menu/menu_screens_work.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"

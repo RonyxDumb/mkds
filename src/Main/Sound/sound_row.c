@@ -9,7 +9,7 @@
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Menu/select_race_rule_state.h"
 
 const SoundRow gSoundRowTable[53] = {{2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE},

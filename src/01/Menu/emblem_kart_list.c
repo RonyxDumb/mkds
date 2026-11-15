@@ -3,7 +3,7 @@
 #include "01/Menu/emblem_state_and_lld.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Kart/kart_model_menu.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 void AdvanceEmblemKartList(void) {
     int kartListNumber;

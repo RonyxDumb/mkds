@@ -1,7 +1,7 @@
 #include "model_texture_bind.h"
 
 #include "reset_interrupt_enable.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 #include "model_draw_blend.h"
 #include "animation_lookup.h"
 #include "vector_math.h"

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/System/tasks.h"
-#include "player.h"
+#include "sound_player_control.h"
 
 typedef struct NNSSndArc NNSSndArc;
 

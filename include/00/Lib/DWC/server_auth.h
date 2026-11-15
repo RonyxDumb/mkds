@@ -13,9 +13,9 @@ typedef struct DWCHttpParseResult {
     /* 08 */ s32 mCount;
 } DWCHttpParseResult;
 
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "00/Lib/DWC/dwc_auth_http_params.h"
-#include "dwc_backup.h"
+#include "wifi_settings_nvram_backup.h"
 #include "00/Lib/CPS/socket_status_resolve.h"
 #include "00/types_021a998c.h"
 
@@ -137,7 +137,7 @@ typedef struct AuthFirstPostValues {
     /* 1b */ char mPassword[4];
 } AuthFirstPostValues;
 
-#include "00/Lib/CPS/network.h"
+#include "00/Lib/CPS/ip_stack.h"
 
 extern DWCAuth *gAuth;
 extern DWCWiFiInfo gAuthWiFiInfo;

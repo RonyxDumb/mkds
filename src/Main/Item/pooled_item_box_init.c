@@ -4,7 +4,7 @@
 #include "Main/MapObjects/item_box.h"
 
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
@@ -14,7 +14,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/Scene/run_scenes.h"
 #include "Main/Item/item_in_use.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
@@ -26,7 +26,7 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Item/pooled_item_box.h"
 
 const MapObjectKindDescriptor gPooledItemBoxKindDescriptor = {0,

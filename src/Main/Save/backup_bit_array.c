@@ -4,14 +4,14 @@
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"
-#include "frameheap.h"
-#include "os_thread.h"
+#include "heap_frame_allocator.h"
+#include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "pm.h"
+#include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "cpu_copy_fill.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on

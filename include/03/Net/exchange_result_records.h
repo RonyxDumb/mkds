@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "00/Lib/NitroWiFi/wireless_connection_config.h"
 #include "00/Lib/NitroWiFi/wireless_connection_options.h"

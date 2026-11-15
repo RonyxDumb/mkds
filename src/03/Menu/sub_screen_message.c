@@ -5,7 +5,7 @@
 #include "03/Graphics/text_canvas.h"
 
 #include "03/Menu/wifi_menu_tables.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "registers.h"
 #include "03/Menu/main_menu.h"
 

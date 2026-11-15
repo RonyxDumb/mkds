@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "mic.h" // MICAutoParam
-#include "gfd_LinkedListPlttVramMan.h"
-#include "gfd_LinkedListTexVramMan.h"
+#include "microphone_sampling.h" // MICAutoParam
+#include "linked_palette_vram_alloc.h"
+#include "linked_texture_vram_alloc.h"
 
 // gMicSampleAnalysisMode: how strict the amplitude and interval limits are (the loose mode has the lowest amplitude
 // limits, the strict mode also has lower limits on the interval counts).

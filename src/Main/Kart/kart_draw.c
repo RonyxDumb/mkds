@@ -10,7 +10,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/light_color.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "vector_math.h"
 
 void SetKartSoundDistanceSquaredAndChange(Kart *kart) {

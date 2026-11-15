@@ -2,7 +2,7 @@
 #include "00/Lib/DWC/access_point_search.h"
 #include "00/Lib/NitroWiFi/dns_resolver_setting.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 
 u32 GetIPAddress(ACWORK *work) {
     if (SOC_GetHostID() != 0) {

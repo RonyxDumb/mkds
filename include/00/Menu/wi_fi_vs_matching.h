@@ -31,9 +31,9 @@ void InitWiFiVSMatching(void *heap);
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "cpu_copy_clear_16.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
-#include "gfd_VramTransferManager.h"
+#include "vram_transfer_queue.h"
 
 extern MenuShared *gMenuShared;
 extern u8 gWiFiVSMatchingTotalScalePercents[30];

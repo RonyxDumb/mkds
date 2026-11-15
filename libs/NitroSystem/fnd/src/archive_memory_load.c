@@ -1,5 +1,5 @@
 #include "archive_memory_load.h"
-#include "fs_file.h"
+#include "file_handle_setup.h"
 #include "file_open_read.h"
 #include "narrow_string_functions.h"
 

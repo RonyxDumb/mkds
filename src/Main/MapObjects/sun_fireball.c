@@ -1,9 +1,9 @@
 #include "Main/MapObjects/sun_fireball.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/Course/course_map_group_entry.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 
 #include "Main/Graphics/emitters.h"

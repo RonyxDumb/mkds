@@ -7,7 +7,7 @@
 #include "Main/Item/item_pool.h"
 #include "Main/Item/held_item.h"
 #include "Main/Item/dram_box.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "cpu_copy_fill.h"
 #include "Main/Item/item_slot_tables.h"
 #include "Main/Item/pooled_item_box_init.h"

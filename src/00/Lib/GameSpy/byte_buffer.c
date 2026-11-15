@@ -1,6 +1,6 @@
 #include "00/Lib/GameSpy/byte_buffer.h"
 #include "00/Lib/GameSpy/connection_close.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
 #include "print_memory_functions.h"
 #include "scan_text_random.h"

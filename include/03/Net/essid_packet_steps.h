@@ -5,7 +5,7 @@
 #include "03/Net/value_records_request_status.h"
 #include "cpu_copy_clear_16.h"
 #include "alarm_timer.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "thread_mutex_types.h"
 
 // One socket to poll: its descriptor, the events asked for and the events found.

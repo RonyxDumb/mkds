@@ -62,7 +62,7 @@ typedef struct WiFiTopMenu {
 #include "00/Menu/wi_fi_state_machine.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "g2d_NAN_load.h"
+#include "animation_data_unpack.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/result_archive_path.h"
 

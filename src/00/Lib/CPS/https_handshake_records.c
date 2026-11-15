@@ -2,13 +2,13 @@
 
 #include "00/Lib/CPS/md5_internal_hash.h"
 #include "00/Lib/CPS/sha1_start.h"
-#include "00/Lib/CPS/network.h"
+#include "00/Lib/CPS/ip_stack.h"
 #include "00/types_021a998c.h"
 #include "00/types_021ab5e4.h"
 #include "00/Lib/CPS/cps_globals.h"
 #include "cpu_copy_fill.h"
 #include "00/Lib/CPS/sha1_update.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "00/Lib/CPS/sha1_digest_result.h"
 #include "reset_interrupt_enable.h"
 #include "00/Lib/CPS/big_integer_power_and_rc4.h"
@@ -21,8 +21,8 @@
 #include "clock_chip_access.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "mb_data.h"
-#include "os_tick.h"
-#include "convert.h"
+#include "tick_counter.h"
+#include "date_time_to_seconds.h"
 
 u8 gRandomByteStateMixed;
 u32 gNewEntryIdCount;

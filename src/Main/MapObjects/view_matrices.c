@@ -9,9 +9,9 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/view_matrix_setters.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/Kart/kart_drift.h"
-#include "fx_mtx43.h"
+#include "matrix_4x3_basic.h"
 #include "vector_math.h"
 
 MtxFx43 *gViewRotatedMatrix;

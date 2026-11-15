@@ -3,8 +3,8 @@
 #include "Main/System/heap.h"
 #include "00/Lib/NitroWiFi/wcm_search_defaults.h"
 #include "Main/Scene/display_settings.h"
-#include "g2.h"
-#include "gx_load2d.h"
+#include "display_blend_affine_setup.h"
+#include "vram_load_2d_graphics.h"
 
 #include "00/Menu/wi_fi_state_machine.h"
 #include "00/Lib/wifi_library_globals.h"

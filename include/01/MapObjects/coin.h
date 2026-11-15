@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/segment_group_collision.h"
 
@@ -74,10 +74,10 @@ typedef struct Coin {
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "01/MapObjects/map_object_model_animation_load.h"
 #include "Main/Sound/sound_handle_pool.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"

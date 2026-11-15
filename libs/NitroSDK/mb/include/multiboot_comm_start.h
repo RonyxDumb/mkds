@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "mb_parent.h"
+#include "multiboot_parent_state_machine.h"
 #include "wireless_power_mp.h"
 #include "multiboot_mode_constants.h"
 

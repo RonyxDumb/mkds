@@ -10,7 +10,7 @@
 #include "interrupt_control.h"
 #include "arena_cache_init.h"
 #include "reset_interrupt_enable.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "cpu_copy_fill.h"
 
 struct ObjCharRanges *gObjCharRanges;

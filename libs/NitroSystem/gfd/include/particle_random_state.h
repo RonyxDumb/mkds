@@ -1,8 +1,8 @@
 #pragma once
 #include "types.h"
-#include "gfd_LinkedListPlttVramMan.h"
-#include "mic.h" // MICAutoParam
-#include "gfd_LinkedListTexVramMan.h"
+#include "linked_palette_vram_alloc.h"
+#include "microphone_sampling.h" // MICAutoParam
+#include "linked_texture_vram_alloc.h"
 
 typedef struct GxCommandBuffer GxCommandBuffer;
 

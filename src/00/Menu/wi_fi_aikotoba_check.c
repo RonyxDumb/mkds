@@ -1,6 +1,6 @@
 #include "00/Menu/wi_fi_aikotoba_check.h"
 #include "00/Lib/NitroWiFi/wcm_search_defaults.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 #include "00/Menu/wi_fi_state_machine.h"
 #include "00/Menu/wi_fi_aikotoba.h"

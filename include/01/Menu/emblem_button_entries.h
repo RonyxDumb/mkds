@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "g2d_Animation.h"
+#include "sprite_animation_control.h"
 
 // Object that the per-entry update callbacks around AdvanceEmblemButtonHold work on.
 typedef struct LldEntry {

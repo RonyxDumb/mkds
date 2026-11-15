@@ -9,7 +9,7 @@
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "00/Lib/GameSpy/reply_parse.h"
 #include "00/Lib/GameSpy/error_set.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
 #include "print_memory_functions.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "dwc_account.h" // DWCAccFriendData
+#include "friend_data_account_fields.h" // DWCAccFriendData
 
 
 s32 AddBuddyFromFriendKey(const void *keyString, void *name);

@@ -1,8 +1,8 @@
 #include "Main/MapObjects/shine_balloon.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/Course/course_map_group_entry.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Race/standings_balloons.h"
 

@@ -11,7 +11,7 @@
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "01/Menu/record_gpx_grade_text.h"
 #include "sound_archive_load_result.h"
 #include "Main/System/result_archive_path.h"

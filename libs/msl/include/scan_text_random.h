@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "print_memory_functions.h"
-#include "output_effect.h" // CallbackInfo
+#include "capture_output_effect.h" // CallbackInfo
 
 void srand(u32 seed);
 

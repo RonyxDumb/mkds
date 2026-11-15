@@ -336,24 +336,24 @@ src/00/Lib/GameSpy/stream_cipher.c:
     .text       start:0x0218a6e8 end:0x0218a8e4
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/sb_queryengine.c:
+src/00/Lib/GameSpy/server_query_engine.c:
     complete
     .text       start:0x0218a8e4 end:0x0218aec8
     .data       start:0x021b2140 end:0x021b2164
 
-src/00/Lib/GameSpy/sb_server.c:
+src/00/Lib/GameSpy/server_record.c:
     complete
     .text       start:0x0218aec8 end:0x0218b424
     .data       start:0x021b2164 end:0x021b21a8
     .bss        start:0x021b4cd4 end:0x021b4ce0
 
-src/00/Lib/GameSpy/sb_serverbrowsing.c:
+src/00/Lib/GameSpy/server_browser.c:
     complete
     .text       start:0x0218b424 end:0x0218b8b0
     .data       start:0x021b21a8 end:0x021b21ac
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/sb_serverlist.c:
+src/00/Lib/GameSpy/server_list.c:
     complete
     .text       start:0x0218b8b0 end:0x0218d454
     .data       start:0x021b21ac end:0x021b2270
@@ -416,7 +416,7 @@ src/00/Lib/GameSpy/connection_update.c:
     .data       start:0x021b24e8 end:0x021b26d8
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/gpi.c:
+src/00/Lib/GameSpy/presence_connection.c:
     complete
     .text       start:0x0218f7c4 end:0x0218f92c
     .data       start:0x021b26d8 end:0x021b26fc
@@ -485,7 +485,7 @@ src/00/Lib/GameSpy/profile_find_by_buddy.c:
     .text       start:0x021947d4 end:0x021947f4
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/gpiProfile.c:
+src/00/Lib/GameSpy/profile_for_each.c:
     complete
     .text       start:0x021947f4 end:0x021948c4
 
@@ -564,7 +564,7 @@ src/00/Lib/GameSpy/connection_close.c:
     .data       start:0x021b3f10 end:0x021b3f4c
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/gt2Connection.c:
+src/00/Lib/GameSpy/connection_lifecycle.c:
     complete
     .text       start:0x02198550 end:0x02198848
 
@@ -575,7 +575,7 @@ src/00/Lib/GameSpy/socket_accessors.c:
     .data       start:0x021b3f4c end:0x021b3f64
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/gt2Main.c:
+src/00/Lib/GameSpy/connection_accept_reject.c:
     complete
     .text       start:0x021988b4 end:0x02198a58
 
@@ -586,7 +586,7 @@ src/00/Lib/GameSpy/reliable_messages.c:
     .data       start:0x021b3f64 end:0x021b3f88
 
 // provisional: file name and boundaries
-src/00/Lib/GameSpy/gt2Socket.c:
+src/00/Lib/GameSpy/connection_table.c:
     complete
     .text       start:0x0219a010 end:0x0219a5e8
 
@@ -596,7 +596,7 @@ src/00/Lib/GameSpy/message_check.c:
     .text       start:0x0219a5e8 end:0x0219a620
     .data       start:0x021b3f88 end:0x021b3f8c
 
-src/00/Lib/GameSpy/gt2Utility.c:
+src/00/Lib/GameSpy/address_text_convert.c:
     complete
     .text       start:0x0219a620 end:0x0219a7b0
     .data       start:0x021b3f8c end:0x021b3fcc
@@ -662,13 +662,13 @@ src/00/Lib/DWC/buddy_friend_list.c:
     .bss        start:0x021b5624 end:0x021b5628
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/dwc_friend.c:
+src/00/Lib/DWC/friend_status.c:
     complete
     .text       start:0x0219d914 end:0x0219da88
     .data       start:0x021b4070 end:0x021b4078
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/dwc_match.c:
+src/00/Lib/DWC/matchmaking.c:
     complete
     .text       start:0x0219da88 end:0x021a2c98
     .data       start:0x021b4078 end:0x021b41b0
@@ -689,13 +689,13 @@ src/00/Lib/DWC/reliable_send.c:
     .bss        start:0x021b5d94 end:0x021b5dac
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/dwc_memfunc.c:
+src/00/Lib/DWC/memory_allocator.c:
     complete
     .text       start:0x021a3634 end:0x021a3724
     .bss        start:0x021b5dac end:0x021b5db4
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/dwc_connectinet.c:
+src/00/Lib/DWC/internet_connection.c:
     complete
     .text       start:0x021a3724 end:0x021a39e4
     .data       start:0x021b41c0 end:0x021b422c
@@ -732,13 +732,13 @@ src/00/Lib/NitroWiFi/access_point_list.c:
     .text       start:0x021a6668 end:0x021a68d4
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/cpsif.c:
+src/00/Lib/NitroWiFi/dcf_send_receive.c:
     complete
     .text       start:0x021a68d4 end:0x021a6bd4
     .bss        start:0x021b5f14 end:0x021b5f40
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/util.c:
+src/00/Lib/NitroWiFi/rssi_link_level.c:
     complete
     .text       start:0x021a6bd4 end:0x021a6ce8
     .bss        start:0x021b5f40 end:0x021b5f54
@@ -749,7 +749,7 @@ src/00/Lib/NitroWiFi/link_status.c:
     .text       start:0x021a6ce8 end:0x021a6d28
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/socl_startup.c:
+src/00/Lib/NitroWiFi/socket_library_startup.c:
     complete
     .text       start:0x021a6d28 end:0x021a6ee4
     .bss        start:0x021b5f54 end:0x021b5f98
@@ -872,7 +872,7 @@ src/00/Lib/CPS/md5_begin.c:
     .text       start:0x021acebc end:0x021acec4
 
 // provisional: file name and boundaries
-src/00/Lib/CPS/network.c:
+src/00/Lib/CPS/ip_stack.c:
     complete
     .text       start:0x021acec4 end:0x021b058c
     .data       start:0x021b4be4 end:0x021b4c20

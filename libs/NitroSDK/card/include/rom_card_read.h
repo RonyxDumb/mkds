@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 
 // Callback of a card or backup transfer; it is called with the argument stored beside it.
 typedef void (*CARDCallback)(void *arg);

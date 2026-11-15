@@ -5,7 +5,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "g2d_Animation.h"
+#include "sprite_animation_control.h"
 
 // RaceGoalTimes.mRecordCycleFrame counts this many frames; mCellIndexAdd steps through three cell sets, one per
 // quarter (the second set twice), while a new record is shown. The sets start at offsets 0, 0xd and 0x1a.

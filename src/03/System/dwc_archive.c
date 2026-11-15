@@ -5,7 +5,7 @@
 #include "03/System/pointer_stack_delete.h"
 #include "03/System/pointer_stack.h"
 #include "03/System/exp_heap.h"
-#include "fs_file.h"
+#include "file_handle_setup.h"
 #include "file_open_read.h"
 #include "string.h"
 #include "print_memory_functions.h"
@@ -14,9 +14,9 @@
 #include "reset_interrupt_enable.h"
 #include "03/System/pointer_stack_filled.h"
 #include "03/Graphics/hl_nsc_names.h"
-#include "os_spinLock.h"
-#include "os_printf.h"
-#include "card_common.h"
+#include "lock_word_and_bus_ownership.h"
+#include "formatted_text_to_buffer.h"
+#include "card_enable_and_lock.h"
 
 DwcArchive *gDwcArchive;
 

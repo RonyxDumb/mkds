@@ -1,5 +1,5 @@
 #include "00/Lib/NitroWiFi/link_status.h"
-#include "00/Lib/NitroWiFi/cpsif.h"
+#include "00/Lib/NitroWiFi/dcf_send_receive.h"
 
 u32 SOCL_LinkIsOn(void) {
     u8 *mac;

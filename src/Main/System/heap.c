@@ -1,7 +1,7 @@
 #include "Main/System/heap.h"
 #include "expanded_heap_head.h"
-#include "frameheap.h"
-#include "heapcommon.h"
+#include "heap_frame_allocator.h"
+#include "heap_list_common_head.h"
 #include "reset_interrupt_enable.h"
 
 void *HeapAlloc(void *heap, u32 size) {

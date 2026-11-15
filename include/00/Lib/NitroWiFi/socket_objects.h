@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 
 // Bits of SOCLSocket.mStatusFlags.
 #define SOCL_STATUS_CREATE 0x0001

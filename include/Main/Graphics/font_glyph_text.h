@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "g2d_CharCanvas.h" // NNSG2dGlyph
+#include "char_canvas_text_draw.h" // NNSG2dGlyph
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 typedef struct NNSG2dFont NNSG2dFont;
 

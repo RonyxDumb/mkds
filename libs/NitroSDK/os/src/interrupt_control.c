@@ -1,6 +1,6 @@
 #include "interrupt_control.h"
 #include "bios_calls.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "overlay_id_symbols.h"
 #include "registers.h"
 

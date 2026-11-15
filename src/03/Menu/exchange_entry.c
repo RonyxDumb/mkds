@@ -13,7 +13,7 @@
 #include "03/System/application.h"
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "03/Menu/exchange_key_update.h"
 #include "03/System/task_input.h"
 #include "03/Menu/record_saved.h"
@@ -21,7 +21,7 @@
 #include "03/Sound/sound_seq.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Graphics/dispcnt_window.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 
 u8 gXb4MultiNscName3[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};

@@ -1,7 +1,7 @@
 #include "scan_text_random.h"
 
 #include "print_memory_functions.h"
-#include "output_effect.h"
+#include "capture_output_effect.h"
 
 #pragma avoid_byte all
 

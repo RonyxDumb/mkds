@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "multiboot_game_entry.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "mb_data.h"
 #include "reset_interrupt_enable.h"
 #include "Main/Net/mp_link.h"

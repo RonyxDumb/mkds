@@ -13,7 +13,7 @@
 #include "Main/Race/race_setup.h"
 #include "Main/Graphics/time_format.h"
 #include "Main/Menu/select_return.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Race/mission_table_value.h"

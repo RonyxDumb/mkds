@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/view_matrix_setters.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/System/backup_net_camera_work.h" // Camera
 #include "Main/Item/item_objects_and_race_progress.h"

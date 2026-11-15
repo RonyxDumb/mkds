@@ -1,7 +1,7 @@
 #include "03/Graphics/vram_bank_settings.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "cpu_copy_fill.h"
-#include "pm.h"
+#include "power_management_commands.h"
 #include "vram_bank_assign.h"
 #include "registers.h"
 

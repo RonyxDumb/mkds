@@ -3,7 +3,7 @@
 #include "types.h"
 
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "g2d_NAN_load.h" // NNSG2dCellDataBank
+#include "animation_data_unpack.h" // NNSG2dCellDataBank
 
 // A character graphics file: its row and column counts and its tile data.
 typedef struct Ncgr {

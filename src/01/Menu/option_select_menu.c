@@ -17,7 +17,7 @@
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "vram_bank_assign.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "registers.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"

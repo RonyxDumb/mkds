@@ -2,7 +2,7 @@
 #include "03/Net/exchange_essid.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Net/exchange_result_records.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "print_memory_functions.h"
 
 u8 gReceivedTextNonEmpty;

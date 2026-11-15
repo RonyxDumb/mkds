@@ -6,7 +6,7 @@
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "pm.h"
+#include "power_management_commands.h"
 
 void InitSceneSoundSetPlayer(s32 seqId) {
     if (gStartupWork->mSoundSetPlayerInitialized) {

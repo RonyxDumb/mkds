@@ -1,5 +1,5 @@
 #include "00/Lib/DWC/ssid_wep_decode.h"
-#include "hash1.h"
+#include "digest_stream_hash.h"
 #include "signed_int_divide.h"
 #include "cpu_copy_fill.h"
 

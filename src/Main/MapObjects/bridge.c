@@ -9,7 +9,7 @@
 
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
@@ -24,7 +24,7 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"

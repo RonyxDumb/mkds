@@ -7,7 +7,7 @@
 #include "00/Lib/GameSpy/info_cache_free.h"
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "00/Lib/GameSpy/reply_parse.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
 #include "print_memory_functions.h"
 #include "text_to_number.h"

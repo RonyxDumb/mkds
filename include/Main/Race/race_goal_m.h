@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "g2d_Animation.h"
+#include "sprite_animation_control.h"
 
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"

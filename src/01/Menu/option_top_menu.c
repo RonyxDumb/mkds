@@ -1,5 +1,5 @@
 #include "01/Menu/option_top_menu.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "registers.h"
 
 #include "01/Menu/option_nickname_scenes.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "g2d_Animation.h"
+#include "sprite_animation_control.h"
 
 typedef struct NNSG2dCellDataWithBR NNSG2dCellDataWithBR;
 

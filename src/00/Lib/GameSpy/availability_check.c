@@ -1,5 +1,5 @@
 #include "00/Lib/GameSpy/availability_check.h"
-#include "00/Lib/GameSpy/sb_serverlist.h"
+#include "00/Lib/GameSpy/server_list.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/login_connect.h"
@@ -8,7 +8,7 @@
 #include "string.h"
 #include "print_memory_functions.h"
 #include "narrow_string_functions.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 
 #pragma opt_propagation off
 

@@ -24,7 +24,7 @@
 #include "03/Graphics/oam_range_entry.h"
 #include "03/Graphics/oam_buffer_entries.h"
 #include "wireless_power_mp.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "03/Graphics/hl_nsc_names.h"
 #include "registers.h"
 #include "03/Menu/edit_keyboard_create.h"

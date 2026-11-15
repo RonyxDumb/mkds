@@ -12,7 +12,7 @@
 #include "Main/Menu/select_cup_course.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Race/ghost_record_set.h"
-#include "gx.h"
+#include "fixed_point_graphics_setup.h"
 #include "vram_bank_assign.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"

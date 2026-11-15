@@ -4,10 +4,10 @@
 #include "program_exit.h"
 #include "thread_mutex_types.h"
 #include "Main/Net/wbt_os_thread_globals.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "mb_data.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_archive_load.h"
 
 RaiseHandlerFunc gRaiseHandlers[7];

@@ -7,7 +7,7 @@
 #include "00/Lib/DWC/access_point_state.h"
 #include "00/Lib/DWC/search_list_build.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 #include "narrow_string_functions.h"
 #include "cpu_copy_fill.h"
 

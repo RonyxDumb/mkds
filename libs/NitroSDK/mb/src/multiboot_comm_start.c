@@ -3,7 +3,7 @@
 #include "wireless_power_mp.h"
 #include "multiboot_mode_constants.h"
 #include "multiboot_send_data.h"
-#include "mb_parent.h"
+#include "multiboot_parent_state_machine.h"
 #include "dma_copy_fill_wait.h"
 #include "multiboot_data_pieces.h"
 #include "reset_interrupt_enable.h"

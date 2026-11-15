@@ -9,7 +9,7 @@
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/System/task_input.h"
 #include "reset_interrupt_enable.h"
-#include "pm.h"
+#include "power_management_commands.h"
 
 void UpdateYb5MultiNextButtonsIn(void) {
     if (GetButtonResult() != -2) {

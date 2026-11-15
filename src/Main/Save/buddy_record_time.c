@@ -14,7 +14,7 @@
 #include "Main/Race/standings_balloons.h"
 #include "Main/Net/player_record.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "00/Menu/wi_fi_vs_matching.h"

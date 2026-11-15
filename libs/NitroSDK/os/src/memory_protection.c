@@ -1,5 +1,5 @@
 #include "memory_protection.h"
-#include "os_exception.h"
+#include "exception_context_display.h"
 #include "exception_state.h"
 
 // clang-format off

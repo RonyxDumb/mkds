@@ -1,10 +1,10 @@
 #include "alarm_timer.h"
 
 #include "interrupt_control.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 #include "reset_interrupt_enable.h"
 #include "exception_state.h"
-#include "os_timer.h"
+#include "timer_reserved_flag.h"
 
 u16 gAlarmInitialized;
 OSiAlarmQueue gAlarmList;

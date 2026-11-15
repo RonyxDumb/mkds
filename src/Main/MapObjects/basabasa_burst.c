@@ -10,7 +10,7 @@
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "vector_math.h"
 #include "fixed_arctangent.h"
 #include "Main/Race/race_setup_input.h"

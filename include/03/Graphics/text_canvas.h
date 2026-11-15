@@ -9,7 +9,7 @@ void DrawCanvasText(BgTextCanvas *canvas, unsigned int xPos, unsigned int yPos, 
                     void *text);
 
 #include "Main/Graphics/text_canvas.h"
-#include "g2d_CharCanvas.h"
+#include "char_canvas_text_draw.h"
 
 // 0x38-byte object; InitBgTextCanvas sets it up.
 typedef struct BgTextCanvas {
@@ -53,7 +53,7 @@ typedef struct TextCanvases {
 
 #include "03/Graphics/nce_oam.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "g2d_NSC_load.h"
+#include "screen_data_unpack.h"
 #include "font_glyph_layout.h"
 
 extern const u16 gBgTextCanvasCharOffsets[2];

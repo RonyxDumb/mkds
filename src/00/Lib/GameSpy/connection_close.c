@@ -1,12 +1,12 @@
 #include "00/Lib/GameSpy/connection_close.h"
 
 #include "00/Lib/GameSpy/dynamic_array.h"
-#include "00/Lib/GameSpy/gt2Socket.h"
+#include "00/Lib/GameSpy/connection_table.h"
 #include "print_memory_functions.h"
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "00/Lib/GameSpy/reliable_messages.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 
 void gti2CloseConnection(Gt2Connection *connection, int hard) {
     if (hard != 0) {

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/Menu/menu_screens_work.h" // SeqPlayerControl
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -13,7 +13,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObjectSound
 
 // The last readings of one sequence variable: its value, the previous value and the frames since it changed.

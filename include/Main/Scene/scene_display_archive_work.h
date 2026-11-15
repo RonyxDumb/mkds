@@ -3,10 +3,10 @@
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h" // NNSFndArchive
 #include "Main/System/input_slots.h" // InputSlot
-#include "frameheap.h" // NNSiFndHeapHead
-#include "os_thread.h"
+#include "heap_frame_allocator.h" // NNSiFndHeapHead
+#include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
-#include "pm.h" // PMSleepCallbackInfo
+#include "power_management_commands.h" // PMSleepCallbackInfo
 #include "Main/Sound/sound_seq.h" // SoundSetPlayer
 
 // Values of StartupWork.mLanguageIndex and of the language field of the owner info; they match the file name suffixes

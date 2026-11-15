@@ -4,7 +4,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/wait_load.h"
 #include "Main/Menu/select_cup_name_files.h"
-#include "gfd_VramTransferManager.h"
+#include "vram_transfer_queue.h"
 #include "Main/Menu/select_race_rule_state.h"
 
 #pragma thumb on

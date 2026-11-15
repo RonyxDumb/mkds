@@ -5,7 +5,7 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "Main/Menu/keyboard_char_tables.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "vector_math.h"
 #include "Main/MapObjects/chandelier.h"
 #include "Main/MapObjects/bound.h"

@@ -3,7 +3,7 @@
 #include "types.h"
 
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 
 // 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; SetDrawListSlot

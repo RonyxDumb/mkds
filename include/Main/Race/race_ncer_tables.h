@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "g2d_Animation.h" // NNSG2dCellDataWithBR
+#include "sprite_animation_control.h" // NNSG2dCellDataWithBR
 
 // Cells of race_m.NCER (mRaceMNcerEntries) that the item display picks: the box behind the item without teams and for
 // each team, the empty item and the slot frame, then one cell per item as LookupRaceMNcerIndex maps them.

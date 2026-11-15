@@ -2,9 +2,9 @@
 
 #include "Main/Menu/kart_icon_row.h"
 #include "Main/Menu/menu_screens_work.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -16,7 +16,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/select_cup_name_files.h"
-#include "gfd_VramTransferManager.h"
+#include "vram_transfer_queue.h"
 
 char *gCommonCupMarkNcerName = "common/cup_mark.nce.ncer";
 const u16 gCupMarkBnclIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};

@@ -1,7 +1,7 @@
 #include "Main/Menu/menu_entry_kind.h"
 #include "registers.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "Main/Menu/menu_shared_clear.h"
 
 void SetMenuEntryKind(u32 entryKind) {

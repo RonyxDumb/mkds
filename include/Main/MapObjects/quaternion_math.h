@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "model_material_set.h" // MtxFx43
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 
 typedef struct GroupFollowerWithSpeeds GroupFollowerWithSpeeds;
 typedef struct SegmentProgress SegmentProgress;

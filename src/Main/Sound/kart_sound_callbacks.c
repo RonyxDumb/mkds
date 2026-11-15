@@ -4,7 +4,7 @@
 #include "Main/Sound/kart_surface_sound.h"
 #include "Main/Sound/kart_sound_queue.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
     if (kart->mEntryFlags & KART_ENTRY_GHOST) {

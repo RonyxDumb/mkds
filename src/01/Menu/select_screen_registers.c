@@ -7,7 +7,7 @@
 #include "01/Menu/mission_run_screen_registers.h"
 #include "01/Menu/select_ghost.h"
 #include "01/Menu/select_engine.h"
-#include "gx.h"
+#include "fixed_point_graphics_setup.h"
 #include "vram_bank_assign.h"
 #include "registers.h"
 #include "Main/Menu/select_kart_data.h"

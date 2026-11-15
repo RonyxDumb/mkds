@@ -1,5 +1,5 @@
 #include "multiboot_parent_desc.h"
-#include "mb_gameinfo.h"
+#include "multiboot_game_info_beacon.h"
 #include "reset_interrupt_enable.h"
 #include "cpu_copy_fill.h"
 

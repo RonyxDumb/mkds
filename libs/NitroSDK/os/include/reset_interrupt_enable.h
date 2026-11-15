@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "cartridge_slot_access.h"
-#include "os_spinLock.h"
+#include "lock_word_and_bus_ownership.h"
 #include "arena_cache_init.h"
 #include "rom_card_read.h"
 #include "clock_chip_access.h"

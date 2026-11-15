@@ -7,10 +7,10 @@
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"
-#include "frameheap.h"
-#include "os_thread.h"
+#include "heap_frame_allocator.h"
+#include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "pm.h"
+#include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // ResFileEntry
@@ -22,15 +22,15 @@
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "ITCM/sphere_collision.h" // CourseCollision
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "01/MapObjects/map_object_model.h" // MapObjectModel
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/Menu/menu_screens_work.h" // NNSG2dCharCanvas
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"

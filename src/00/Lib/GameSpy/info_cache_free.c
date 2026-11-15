@@ -1,6 +1,6 @@
 #include "00/Lib/GameSpy/info_cache_free.h"
 #include "00/Lib/GameSpy/login_connect.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 
 void gpiFreeInfoCache(GpiProfile *profile) {
     if (profile->mCache != NULL) {

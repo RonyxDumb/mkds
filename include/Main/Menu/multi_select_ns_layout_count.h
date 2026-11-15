@@ -94,9 +94,9 @@ typedef struct SceneNumbers SceneNumbers;
 #include "Main/System/heap_call.h"
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
-#include "g2d_CellTransferManager.h"
+#include "cell_transfer_state.h"
 #include "Main/Menu/wl_menu_scene.h"
 
 void WriteMultiSelectMemberRegisters(void);

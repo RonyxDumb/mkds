@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/Course/course_color_blend.h" // CourseColorBlend
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Graphics/model_animation.h" // ModelAnimation

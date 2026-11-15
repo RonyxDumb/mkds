@@ -6,7 +6,7 @@
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "font_glyph_layout.h"
 #include "Main/Menu/title_state_handlers.h"

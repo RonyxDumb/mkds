@@ -8,7 +8,7 @@
 
 #include "03/Graphics/message_pool.h"
 #include "03/System/application.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "arena_cache_init.h"
 #include "narrow_string_functions.h"
 #include "03/Menu/main_menu.h"

@@ -2,7 +2,7 @@
 #include "01/Menu/select_visible_plane.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_cup_grid.h"
-#include "gx.h"
+#include "fixed_point_graphics_setup.h"
 #include "vram_bank_assign.h"
 
 void WriteSelectCupGridScreenRegisters(void) {

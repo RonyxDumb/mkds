@@ -1,7 +1,7 @@
 #include "Main/Graphics/chars_block.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "cpu_copy_clear_16.h"
 #include "font_glyph_layout.h"

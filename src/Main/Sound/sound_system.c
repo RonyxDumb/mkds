@@ -2,10 +2,10 @@
 
 #include "Main/Sound/scene_players_release.h"
 #include "Main/Sound/sound_mode_restore.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -16,7 +16,7 @@
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "sound_archive_load_result.h"
-#include "output_effect.h"
+#include "capture_output_effect.h"
 #include "sound_system_main.h"
 #include "Main/Sound/sound_set_load.h"
 

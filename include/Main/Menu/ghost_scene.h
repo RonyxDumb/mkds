@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 
 typedef struct GhostInfoFileSets GhostInfoFileSets;

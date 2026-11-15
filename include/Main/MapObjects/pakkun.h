@@ -4,7 +4,7 @@
 #include "Main/MapObjects/pakkun_spit.h"
 #include "01/MapObjects/map_object_model.h" // MapObjectModel
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/MapObjects/map_object_kind_update_list.h"
 

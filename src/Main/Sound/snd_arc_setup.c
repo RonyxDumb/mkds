@@ -3,7 +3,7 @@
 #include "file_command_handlers.h"
 #include "file_open_read.h"
 #include "sound_archive_load.h"
-#include "fs_file.h"
+#include "file_handle_setup.h"
 #include "Main/Sound/sound_set_load.h"
 
 u32 SetupSndArcFromFile(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, u32 symbolLoadFlag) {

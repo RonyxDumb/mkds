@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 // A rectangle given by its position and its right and bottom edges.
 typedef struct Rect {

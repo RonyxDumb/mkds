@@ -4,10 +4,10 @@
 #include "multiboot_file_register.h"
 #include "multiboot_checksum.h"
 #include "cpu_copy_clear_16.h"
-#include "wm_etc.h"
+#include "wireless_beacon_wep_settings.h"
 #include "file_open_read.h"
-#include "fs_file.h"
-#include "mb_gameinfo.h"
+#include "file_handle_setup.h"
+#include "multiboot_game_info_beacon.h"
 
 // Entry of the list that mbss walks (the lists are chained through mNext). MB_GetGameInfoRecvList returns one;
 // the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.

@@ -1,6 +1,6 @@
 #include "sound_sleep.h"
-#include "snd_interface.h"
-#include "snd_command.h"
+#include "sound_command_requests.h"
+#include "sound_command_queue.h"
 #include "sound_capture_effect.h"
 
 // Sleep callback: stops the capture and the sound timers and waits for the sound commands to finish.

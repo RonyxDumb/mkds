@@ -1,10 +1,10 @@
 #include "font_glyph_layout.h"
 
-#include "snd_bank.h"
+#include "sound_bank_wave_archive.h"
 #include "font_file_parse.h"
 #include "Main/Menu/menu_label_cell_rows.h"
 #include "Main/Graphics/cell_file_set.h"
-#include "g2d_CharCanvas.h"
+#include "char_canvas_text_draw.h"
 #include "Main/Graphics/layout_entry_angle.h" // OamAttrEntry
 
 void NNS_G2dMapScrToCharText(u16 *scnBase, s32 areaWidth, s32 areaHeight, s32 areaLeft, s32 areaTop, s32 scnWidth,

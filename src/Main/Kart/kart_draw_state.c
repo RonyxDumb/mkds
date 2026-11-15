@@ -11,7 +11,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_pool.h"
 #include "model_material_set.h"
-#include "fx_mtx43.h"
+#include "matrix_4x3_basic.h"
 #include "Main/Race/kart.h"
 #include "vector_math.h"
 #include "Main/System/init_after_startup.h"

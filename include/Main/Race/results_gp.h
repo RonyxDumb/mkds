@@ -12,9 +12,9 @@
 #include "font_glyph_layout.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Menu/multi_select_member_group.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
-#include "g2d_CellTransferManager.h"
+#include "cell_transfer_state.h"
 
 typedef struct SceneNumbers SceneNumbers;
 

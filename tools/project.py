@@ -82,11 +82,11 @@ PATH_COMPILERS = {
     "libs/": "1.2/base",  # verified: library code in main (docs/compiler.md, Libraries); sp2, sp2p3 identical
     # verified: four ov000 files whose switches end in `add pc, r0` (docs/compiler.md, Game code)
     "src/00/Lib/CPS/https_handshake_records.c": "1.2/sp2p3",
-    "src/00/Lib/CPS/network.c": "1.2/sp2p3",
+    "src/00/Lib/CPS/ip_stack.c": "1.2/sp2p3",
 }
 # Flags from CC_FLAGS that sources under these paths must not get.
 PATH_DROP_FLAGS = {
-    "libs/": ["-char unsigned"],  # verified: libs/NitroSDK/os/src/os_printf.c matches with plain char only signed
+    "libs/": ["-char unsigned"],  # verified: libs/NitroSDK/os/src/formatted_text_to_buffer.c matches with plain char only signed
     "libs/msl/": [],  # verified: libs/msl/src/narrow_string_functions.c matches with plain char only unsigned
     "src/00/Lib/GameSpy/": ["-str noreuse"],
     "src/00/Lib/DWC/": ["-str noreuse"],

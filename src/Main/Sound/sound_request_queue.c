@@ -2,7 +2,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Sound/sound_set_load.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load.h"
 
 void InitSoundHandlePool(SoundHandlePool *pool, void *entries, s32 count, s32 entrySize) {

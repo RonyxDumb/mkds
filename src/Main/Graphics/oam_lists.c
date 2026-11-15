@@ -1,5 +1,5 @@
 #include "Main/Graphics/oam_lists.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "arena_cache_init.h"
 #include "dma_copy_fill_wait.h"
 

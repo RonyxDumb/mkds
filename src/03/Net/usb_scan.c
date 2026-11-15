@@ -11,7 +11,7 @@
 #include "cpu_copy_fill.h"
 #include "03/System/tasks.h"
 #include "03/System/exp_heap.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 #include "registers.h"
 #include "03/Menu/menu_pair_objects_slide_in.h"
 

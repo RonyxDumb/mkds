@@ -2,7 +2,7 @@
 #include "Main/Save/backup_access.h"
 #include "Main/Save/backup_read_copies.h"
 #include "arena_cache_init.h"
-#include "card_common.h"
+#include "card_enable_and_lock.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
 

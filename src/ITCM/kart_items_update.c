@@ -12,7 +12,7 @@
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "vector_math.h"
 
 void UpdateKartItems(KartItems *kartItems) {

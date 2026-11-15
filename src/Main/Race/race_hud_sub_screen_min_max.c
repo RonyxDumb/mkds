@@ -2,7 +2,7 @@
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "wide_string_functions.h"
 
 // Object not known yet; it only sets the order of the tables below

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 // Minutes, seconds and milliseconds summed part by part (seconds and milliseconds can pass 59 and 999).
 typedef struct MinuteSecondMillisecondTotal {

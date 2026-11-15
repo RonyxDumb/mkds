@@ -10,7 +10,7 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/System/task_input.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "03/Menu/wifi_menu_tables.h"
 
 #include "03/Menu/message_box.h"

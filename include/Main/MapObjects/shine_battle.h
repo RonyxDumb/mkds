@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Race/standings_balloons.h"
 #include "Main/MapObjects/sanbo_pieces.h"
@@ -16,7 +16,7 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 #define SHINE_BATTLE_START_FRAMES 0x5a

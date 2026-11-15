@@ -5,15 +5,15 @@
 #include "texture_vram_load.h"
 #include "geometry_engine_setup.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
-#include "kernel.h"
+#include "render_object_resources.h"
 #include "texture_key_release.h"
 #include "texture_key_set.h"
 #include "texture_required_size.h"
-#include "res_struct_accessor.h"
+#include "model_set_resource_lookup.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "registers.h"
-#include "fx_mtx44.h"
-#include "gfd_FrameTexVramMan.h"
+#include "matrix_4x4_basic.h"
+#include "frame_texture_vram_alloc.h"
 
 u32 gPrjMapTexImageParamCommand[2] = {0x2a, 0};
 u32 gEnvMapTexImageParamCommand[2] = {0x2a, 0};

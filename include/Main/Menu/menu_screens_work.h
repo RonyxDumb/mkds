@@ -1,8 +1,8 @@
 #pragma once
 #include "types.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h" // NNSSndPlayer
-#include "stream.h" // NNSSndStrmChannel
+#include "sound_stream_control.h" // NNSSndStrmChannel
 #include "sound_capture_effect.h" // CaptureParam, EffectInfo
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry

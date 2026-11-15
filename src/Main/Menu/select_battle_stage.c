@@ -4,7 +4,7 @@
 #include "Main/Menu/battle_stage_entry.h"
 #include "01/Menu/select_battle_stage_screen.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

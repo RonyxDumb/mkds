@@ -1,7 +1,7 @@
 #include "Main/Race/grand_prix_next_course.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Race/race_setup_input.h"
 
 void SetNextGrandPrixCourse(void) {

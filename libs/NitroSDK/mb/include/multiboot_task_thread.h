@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "wireless_power_mp.h"
 
 // 0x10-byte object MBi_SetTask links by the bits above bit 0 of its member 4, in increasing order.

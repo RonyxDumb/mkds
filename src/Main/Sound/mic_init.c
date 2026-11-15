@@ -1,8 +1,8 @@
 #include "Main/Sound/mic_init.h"
 
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -11,8 +11,8 @@
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/mic_sample_analysis.h"
-#include "mic.h"
-#include "pm.h"
+#include "microphone_sampling.h"
+#include "power_management_commands.h"
 #include "Main/Sound/mic_buffer_sleep.h"
 
 u32 gMicInitialized;

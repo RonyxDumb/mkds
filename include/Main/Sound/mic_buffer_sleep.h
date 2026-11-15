@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "mic.h" // MICAutoParam
+#include "microphone_sampling.h" // MICAutoParam
 
 typedef struct MicBuffer MicBuffer;
 

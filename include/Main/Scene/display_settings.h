@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "gx.h"
+#include "fixed_point_graphics_setup.h"
 
 // Values of Bg23Cnt.mMode, the kind of background 2 or 3: a tile map, an affine map, an affine map without a
 // character base, a 256-colour bitmap, a direct-colour bitmap. NONE leaves the register alone (large bitmap mode).

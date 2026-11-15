@@ -5,7 +5,7 @@
 #include "Main/Race/race_goal_s_finish.h"
 #include "Main/System/low_byte.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "00/Menu/wi_fi_vs_setting.h"

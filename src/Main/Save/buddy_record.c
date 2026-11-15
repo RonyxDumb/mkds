@@ -9,10 +9,10 @@
 #include "Main/Save/buddy_record_reset.h"
 #include "Main/Save/buddy_records_write.h"
 #include "Main/Save/buddy_record_time.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "cpu_copy_fill.h"
 #include "00/Menu/wi_fi_vs_matching.h"
-#include "00/Lib/DWC/dwc_friend.h"
+#include "00/Lib/DWC/friend_status.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
 

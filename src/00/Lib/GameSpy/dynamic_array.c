@@ -4,7 +4,7 @@
 #include "string.h"
 #include "print_memory_functions.h"
 #include "00/Lib/DWC/connection_error_strings.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "quick_sort.h"
 
 void DarrayCallElemCallback(void *arrayArg, s32 index) {

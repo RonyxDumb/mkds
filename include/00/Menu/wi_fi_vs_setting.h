@@ -16,7 +16,7 @@ void AdvanceWiFiVSSetting(void);
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 #include "Main/Menu/second_menu_scene.h" // StateMachine
-#include "dwc_account.h" // DWCAccFriendData
+#include "friend_data_account_fields.h" // DWCAccFriendData
 
 enum {
     WIFI_VS_SETTING_STATE_WAIT_FADE_IN,
@@ -509,8 +509,8 @@ void AdvanceWiFiVSMatching(void);
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "cpu_copy_clear_16.h"
-#include "player.h"
-#include "gfd_VramTransferManager.h"
+#include "sound_player_control.h"
+#include "vram_transfer_queue.h"
 
 void WriteWiFiVSSettingRegisters(void);
 void AdvanceWiFiVSSettingIndexTimers(void);

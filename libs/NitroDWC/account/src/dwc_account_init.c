@@ -1,6 +1,6 @@
 #include "dwc_account_init.h"
 #include "wifi_id_auth.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "startup_entry.h"
 #include "build_info_layout.h"
 #include "Main/Save/nvram_new_wifi_info.h"

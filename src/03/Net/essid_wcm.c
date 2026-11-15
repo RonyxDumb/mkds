@@ -10,11 +10,11 @@
 #include "00/Lib/DWC/socket_config.h"
 #include "signed_int_divide.h"
 #include "clock_chip_access.h"
-#include "00/Lib/CPS/network.h"
+#include "00/Lib/CPS/ip_stack.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
 #include "00/Lib/CPS/cps_globals.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "03/Net/poll_entry.h"
 
 u32 gEssidSearchOption;

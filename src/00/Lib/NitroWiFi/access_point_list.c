@@ -4,8 +4,8 @@
 #include "reset_interrupt_enable.h"
 #include "cpu_copy_fill.h"
 #include "unsigned_int_divide.h"
-#include "os_thread.h"
-#include "crt0.h"
+#include "thread_scheduler.h"
+#include "startup_clear_and_decompress.h"
 
 void WcmCpsifUnlockMutexInIRQ(OSMutex *mutex) {
     if (mutex->mHolder == (struct OSThread *) OS_IrqHandler) {

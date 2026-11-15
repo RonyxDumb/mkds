@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "particle_instance.h" // ParticleEmitter
 #include "model_material_set.h" // MtxFx43

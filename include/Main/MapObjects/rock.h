@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/MapObjects/koopa_block_hit_link.h"
 #include "Main/Item/item_objects_and_race_progress.h"

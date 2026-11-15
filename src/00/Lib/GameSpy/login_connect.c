@@ -1,7 +1,7 @@
 #include "00/Lib/GameSpy/login_connect_close.h"
 
 #include "00/Lib/GameSpy/operation_queue.h"
-#include "00/Lib/GameSpy/gpiProfile.h"
+#include "00/Lib/GameSpy/profile_for_each.h"
 #include "00/Lib/GameSpy/random_seed.h"
 #include "00/Lib/GameSpy/connect_operation.h"
 #include "00/Lib/GameSpy/error_set.h"
@@ -12,7 +12,7 @@
 #include "string.h"
 #include "print_memory_functions.h"
 #include "00/Lib/GameSpy/profile_empty_check.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/GameSpy/error_message_set.h"
 #include "narrow_string_functions.h"
 #include "text_to_number.h"
@@ -25,7 +25,7 @@
 #include "signed_int_divide.h"
 #include "00/Lib/GameSpy/peer_connection.h"
 #include "00/Lib/GameSpy/callback_queue.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "00/Lib/GameSpy/availability_check.h"
 
 char gConnectionManagerName[0x40] = "gpcm.gs.nintendowifi.net";

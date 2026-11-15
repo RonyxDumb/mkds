@@ -1,6 +1,6 @@
 #include "animation_object_calc.h"
 #include "animation_lookup.h"
-#include "res_struct_accessor_anm.h"
+#include "texture_pattern_anim_lookup.h"
 #include "vector_math.h"
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"

@@ -10,7 +10,7 @@
 #include "01/Menu/option_nickname_scenes.h"
 #include "01/Menu/record_gpx_grade_text.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"

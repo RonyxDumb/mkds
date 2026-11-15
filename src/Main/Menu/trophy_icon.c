@@ -6,11 +6,11 @@
 #include "Main/Menu/back_screen_keyboard_tables.h"
 #include "Main/System/stdio_files.h"
 #include "print_memory_functions.h"
-#include "output_effect.h"
+#include "capture_output_effect.h"
 #include "Main/Menu/menu_screens_work.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -18,7 +18,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
-#include "gfd_VramTransferManager.h"
+#include "vram_transfer_queue.h"
 
 char *gTrophyIconNcerName = "common/trophy_icon.nce.ncer";
 char *gTrophyIconBnclName = "common/trophy_icon.bncl";

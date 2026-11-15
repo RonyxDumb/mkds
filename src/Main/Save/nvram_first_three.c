@@ -1,6 +1,6 @@
 #include "Main/Save/nvram_first_three.h"
 #include "overlay_section_symbols.h"
-#include "dwc_backup.h"
+#include "wifi_settings_nvram_backup.h"
 
 #pragma thumb on
 

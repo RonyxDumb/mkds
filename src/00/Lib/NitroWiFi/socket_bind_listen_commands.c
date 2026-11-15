@@ -1,5 +1,5 @@
 #include "00/Lib/NitroWiFi/socket_bind_listen_commands.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "00/Lib/DWC/socket_config.h"
 
 #include "00/Lib/NitroWiFi/socl_startup_commands.h"
@@ -7,11 +7,11 @@
 #include "00/Lib/NitroWiFi/socket_command_packet.h"
 #include "00/Lib/NitroWiFi/link_status.h"
 #include "00/Lib/NitroWiFi/access_point_list.h"
-#include "00/Lib/NitroWiFi/cpsif.h"
+#include "00/Lib/NitroWiFi/dcf_send_receive.h"
 #include "00/Lib/NitroWiFi/socket_create_call.h"
 #include "00/Lib/NitroWiFi/dns_resolver_setting.h"
-#include "00/Lib/CPS/network.h"
-#include "os_thread.h"
+#include "00/Lib/CPS/ip_stack.h"
+#include "thread_scheduler.h"
 #include "cpu_copy_fill.h"
 #include "00/Lib/CPS/cps_globals.h"
 #include "00/Lib/CPS/https_session_upkeep.h"
@@ -36,8 +36,8 @@
 #include "00/Lib/NitroWiFi/socket_validity.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/query_reporting.h"
-#include "os_printf.h"
-#include "std_string.h"
+#include "formatted_text_to_buffer.h"
+#include "string_copy_zero_fill.h"
 #include "00/Lib/NitroWiFi/socket_api_calls.h"
 
 void *SOCLiCommandPackets;

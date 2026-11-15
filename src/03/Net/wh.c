@@ -1,6 +1,6 @@
 #include "03/Net/wh.h"
 
-#include "wm_etc.h"
+#include "wireless_beacon_wep_settings.h"
 #include "03/Menu/wifi_menu_strings.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "wireless_data_sharing.h"

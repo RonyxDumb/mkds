@@ -1,10 +1,10 @@
 #include "vram_bank_assign.h"
 
 #include "Main/Net/wbt_os_thread_globals.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "mb_data.h"
 #include "overlay_section_symbols.h"
-#include "os_spinLock.h"
+#include "lock_word_and_bus_ownership.h"
 #include "reset_interrupt_enable.h"
 #include "dma_copy_fill_wait.h"
 #include "00/Lib/DWC/access_point_manager.h"

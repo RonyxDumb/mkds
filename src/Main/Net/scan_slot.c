@@ -1,6 +1,6 @@
 #include "Main/Net/scan_slot.h"
 #include "Main/Race/race_keys.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/packet_port.h"
 #include "Main/System/backup_net_camera_work.h"

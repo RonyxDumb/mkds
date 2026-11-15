@@ -6,7 +6,7 @@
 #include "00/Lib/NitroWiFi/wcm_search_defaults.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "print_memory_functions.h"
-#include "hash1.h"
+#include "digest_stream_hash.h"
 
 const s8 gUrlSafeEncodeing[3] = {0x2d, 0x5f, 0x3d};
 const s8 gAlternateEncoding[3] = {0x5b, 0x5d, 0x5f};

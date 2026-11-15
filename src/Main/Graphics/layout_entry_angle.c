@@ -2,17 +2,17 @@
 #include "Main/System/heap.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "arena_cache_init.h"
-#include "g2d_NOB_load.h"
+#include "cell_data_unpack.h"
 #include "font_glyph_layout.h"
 #include "Main/Graphics/text_draw.h"
-#include "gfd_VramTransferManager.h"
-#include "os_thread.h"
+#include "vram_transfer_queue.h"
+#include "thread_scheduler.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "g2d_CharCanvas.h"
-#include "fx_mtx22.h"
+#include "char_canvas_text_draw.h"
+#include "matrix_2x2_basic.h"
 #include "Main/Menu/back_screen_keyboard_tables.h"
 #include "vector_math.h"
-#include "gx.h"
+#include "fixed_point_graphics_setup.h"
 
 const u8 gOamShapeSizeCharBlocks[3][4] = {{1, 4, 0x10, 0x40}, {2, 4, 8, 0x20}, {2, 4, 8, 0x20}};
 

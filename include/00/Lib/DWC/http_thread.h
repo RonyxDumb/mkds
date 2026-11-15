@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 
 #include "00/Lib/DWC/server_auth.h"
 #include "00/Lib/DWC/ca_info_globalsign_root.h"

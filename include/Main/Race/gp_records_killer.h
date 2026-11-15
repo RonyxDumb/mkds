@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Kart/point_link_cursor_advance.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectList, MapObjectKindData

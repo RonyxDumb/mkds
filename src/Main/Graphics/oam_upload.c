@@ -1,7 +1,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Graphics/oam_upload.h"
 #include "arena_cache_init.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 #pragma thumb on
 

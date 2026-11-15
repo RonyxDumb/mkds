@@ -1,5 +1,5 @@
 #include "sound_channel_volume.h"
-#include "snd_main.h"
+#include "sound_init_and_mutex.h"
 #include "unk_02152000_data.h"
 
 const s16 gVolumeDecibelTable[128] = {

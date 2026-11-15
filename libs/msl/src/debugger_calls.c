@@ -3,7 +3,7 @@
 #include "debugger_calls.h"
 #include "overlay_loader.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_archive_load.h"
 
 u32 gFloatStatus;

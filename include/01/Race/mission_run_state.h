@@ -8,7 +8,7 @@
 #include "Main/MapObjects/balloon.h" // Balloon
 
 #include "01/Menu/menu_screen_states_and_file_names.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_drift.h"

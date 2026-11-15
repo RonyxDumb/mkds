@@ -4,7 +4,7 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "interrupt_control.h"
 #include "reset_interrupt_enable.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "registers.h"
 #include "03/System/rect.h"
 #include "03/types_021d299c.h"

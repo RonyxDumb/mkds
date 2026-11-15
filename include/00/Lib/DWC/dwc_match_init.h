@@ -1,13 +1,13 @@
 #pragma once
 
 #include "types.h"
-#include "os_printf.h"
-#include "os_tick.h"
+#include "formatted_text_to_buffer.h"
+#include "tick_counter.h"
 #include "string.h"
 #include "print_memory_functions.h"
 #include "text_to_number.h"
 #include "cpu_copy_fill.h"
-#include "00/Lib/GameSpy/sb_serverlist.h"
+#include "00/Lib/GameSpy/server_list.h"
 #include "00/Lib/GameSpy/socket_accessors.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/DWC/error_state.h"
@@ -42,4 +42,4 @@ u32 DWCi_QR2Startup(u32 profileId);
 void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, Gt2Socket **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount);
 
-#include "00/Lib/DWC/dwc_connectinet.h"
+#include "00/Lib/DWC/internet_connection.h"

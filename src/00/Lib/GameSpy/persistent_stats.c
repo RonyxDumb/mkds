@@ -2,7 +2,7 @@
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/md5_base64_encode.h"
 #include "00/Lib/GameSpy/socket_calls.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
 #include "print_memory_functions.h"
 #include "narrow_string_functions.h"
@@ -12,7 +12,7 @@
 #include "text_to_number.h"
 #include "00/Lib/GameSpy/query_reporting.h"
 #include "quick_sort.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 
 typedef struct CdKeyTooLongText {
     /* 00 */ s8 mUnk_00[0x1d];

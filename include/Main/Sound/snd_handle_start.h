@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "player.h"
+#include "sound_player_control.h"
 
 typedef struct SoundStartParams SoundStartParams;
 

@@ -8,7 +8,7 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/System/exp_heap.h"
 #include "03/System/tasks.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "registers.h"
 #include "03/Graphics/oam_range_set.h"
 #include "03/Graphics/nce_file.h"

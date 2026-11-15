@@ -11,7 +11,7 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/scroll_bar.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 #include "03/System/application.h"
 #include "03/Graphics/text_canvas.h"

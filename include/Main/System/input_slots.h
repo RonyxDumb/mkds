@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "tp.h" // TPData
+#include "touch_panel_sampling.h" // TPData
 
 #define PAD_KEY_B 0x2
 

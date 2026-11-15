@@ -1,5 +1,5 @@
 #include "Main/Sound/playing_sound_handle_reset.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "Main/Sound/sound_source_list.h"
 
 void ResetPlayingSoundHandle(PlayingSound *sound) {

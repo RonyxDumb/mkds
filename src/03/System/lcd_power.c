@@ -1,6 +1,6 @@
 #include "03/System/lcd_power.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "pm.h"
+#include "power_management_commands.h"
 
 u8 gLcdOff;
 

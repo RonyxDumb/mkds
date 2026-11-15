@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 typedef struct GhostRecordHead GhostRecordHead;
 typedef struct PlayerRecord PlayerRecord;

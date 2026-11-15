@@ -9,9 +9,9 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
-#include "g2d_CellTransferManager.h"
+#include "cell_transfer_state.h"
 #include "registers.h"
 #include "Main/Menu/multi_select_ns.h"
 

@@ -6,7 +6,7 @@
 #include "Main/System/heap.h"
 #include "Main/Graphics/back_screen.h"
 #include "Main/Menu/message_screen.h"
-#include "gx_bgcnt.h"
+#include "bg_screen_char_pointers.h"
 #include "cpu_copy_fill.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"

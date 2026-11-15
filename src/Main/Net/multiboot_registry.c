@@ -4,7 +4,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "mb_fileinfo.h"
+#include "multiboot_segment_read.h"
 #include "Main/Net/game_registry_data.h"
 
 #pragma thumb on

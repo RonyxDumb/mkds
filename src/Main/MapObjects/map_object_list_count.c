@@ -1,5 +1,5 @@
 #include "Main/MapObjects/map_object_list_count.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 
 #pragma thumb on

@@ -8,7 +8,7 @@
 #include "Main/Graphics/model_animation_loop_mode.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"

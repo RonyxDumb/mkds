@@ -7,7 +7,7 @@
 #include "Main/Menu/txt_system.h"
 #include "Main/Save/backup_first_block_write_wrapper.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "02/overlay_heap_buffers.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Save/ghost_record_file.h"

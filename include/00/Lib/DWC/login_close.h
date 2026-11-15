@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
 // Values of WiFiLogin.mState; see the comment of the struct.

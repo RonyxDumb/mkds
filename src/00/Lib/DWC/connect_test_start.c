@@ -3,7 +3,7 @@
 #include "00/Lib/DWC/socket_config.h"
 #include "00/Lib/CPS/cps_globals.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 
 u32 ConnectTestStart(ACWORK *work) {
     ACHOLD *hold;

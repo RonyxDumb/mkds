@@ -12,7 +12,7 @@
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 void UpdateExchangeEntryMessageResult(void) {
     int messageAnswer;

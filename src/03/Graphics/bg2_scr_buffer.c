@@ -1,7 +1,7 @@
 #include "03/Graphics/bg2_scr_buffer.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "arena_cache_init.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 #include "03/System/tasks.h"
 #include "03/Menu/wifi_menu_shared.h"

@@ -1,9 +1,9 @@
 #include "Main/Sound/mic_sample_analysis.h"
 #include "arena_cache_init.h"
-#include "gfd_LinkedListPlttVramMan.h"
-#include "mic.h"
-#include "gfd_LinkedListTexVramMan.h"
-#include "os_thread.h"
+#include "linked_palette_vram_alloc.h"
+#include "microphone_sampling.h"
+#include "linked_texture_vram_alloc.h"
+#include "thread_scheduler.h"
 
 u32 ClampMicSample(u32 rawSample) {
     u32 sample = rawSample;

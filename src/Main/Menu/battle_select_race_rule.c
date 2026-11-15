@@ -4,7 +4,7 @@
 #include "Main/Menu/select_race_rule.h"
 #include "Main/Menu/select_race_rule_multi_simple.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

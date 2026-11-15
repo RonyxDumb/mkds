@@ -8,7 +8,7 @@
 #include "types.h"
 #include "00/Lib/NitroWiFi/wireless_connection_control.h"
 #include "00/Lib/DWC/data_transport.h"
-#include "00/Lib/DWC/dwc_connectinet.h"
+#include "00/Lib/DWC/internet_connection.h"
 #include "wireless_power_mp.h" // ScanExParam
 #include "alarm_timer.h"
 #include "00/Lib/NitroWiFi/socket_objects.h"

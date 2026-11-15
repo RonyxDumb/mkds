@@ -1,7 +1,7 @@
 #include "Main/System/input_slot_repeat.h"
 #include "Main/System/input_slots.h"
 #include "Main/System/input_keys.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 
 void ResetInputSlot(InputSlot *slot) {
     slot->mPressedBits = 0x0u;

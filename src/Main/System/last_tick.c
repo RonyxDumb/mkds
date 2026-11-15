@@ -1,6 +1,6 @@
 #include "Main/System/last_tick.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "os_tick.h"
+#include "tick_counter.h"
 
 u64 gLastTick;
 

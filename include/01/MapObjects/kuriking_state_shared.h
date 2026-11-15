@@ -16,7 +16,7 @@
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
@@ -41,7 +41,7 @@
 #include "01/MapObjects/map_object_model_load.h"
 #include "01/MapObjects/map_object_model_animation_load.h"
 #include "Main/Race/standings_balloons.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 void StartKurikingChaseKartState(MissionRunMapObject *mapObject);
 void GrowKuriking(MissionRunMapObject *mapObject);

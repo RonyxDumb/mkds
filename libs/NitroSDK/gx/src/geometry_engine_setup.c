@@ -1,5 +1,5 @@
 #include "geometry_engine_setup.h"
-#include "g3x.h"
+#include "geometry_render_state.h"
 #include "vector_math.h"
 #include "Main/Kart/kart_drift.h"
 #include "cpu_copy_fill.h"

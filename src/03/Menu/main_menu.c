@@ -8,10 +8,10 @@
 #include "03/System/application.h"
 #include "03/Graphics/message_pool.h"
 #include "03/Menu/main_menu_fade_in.h"
-#include "dwc_backup.h"
+#include "wifi_settings_nvram_backup.h"
 #include "03/Net/ap_entries.h"
 #include "03/Graphics/dispcnt_window.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "03/Menu/edit_keyboard.h"
 #include "registers.h"
 #include "03/Menu/main_menu_first_screen.h"
@@ -27,7 +27,7 @@
 #include "03/System/alloc_exp_heap_block.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/System/exp_heap.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "reset_interrupt_enable.h"
 
 MessageFile *gMessages;

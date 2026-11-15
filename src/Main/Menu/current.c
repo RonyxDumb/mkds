@@ -1,7 +1,7 @@
 #include "Main/Menu/current.h"
 
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 u32 GetCurrentCharacterIndex(u32 entryIndex) {
     return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;

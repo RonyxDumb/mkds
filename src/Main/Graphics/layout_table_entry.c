@@ -1,11 +1,11 @@
 #include "Main/Graphics/layout_table_entry.h"
-#include "fx_mtx22.h"
+#include "matrix_2x2_basic.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam_matrix_count.h"
 #include "Main/Graphics/oam_upload.h"
 #include "Main/Graphics/cell_layout.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "g2d_NOB_load.h"
+#include "cell_data_unpack.h"
 #include "cell_animation.h"
 
 #pragma thumb on

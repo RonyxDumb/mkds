@@ -16,7 +16,7 @@
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "01/Menu/select_ghost.h"
 #include "Main/System/result_archive_path.h"

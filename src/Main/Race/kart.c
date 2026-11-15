@@ -4,7 +4,7 @@
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "model_material_set.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"

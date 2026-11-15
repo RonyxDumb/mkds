@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "pm.h" // PMSleepCallbackInfo
+#include "power_management_commands.h" // PMSleepCallbackInfo
 
 void NNS_SndSetMonoFlag(BOOL mono);
 

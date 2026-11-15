@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Item/item_object_fade_out.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_object_reset_collide.h"
 

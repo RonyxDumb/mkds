@@ -18,7 +18,7 @@
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Graphics/hl_scr.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "03/Graphics/bg2_scr_buffer.h"
 #include "03/Menu/menu_pair_objects.h"
 #include "registers.h"

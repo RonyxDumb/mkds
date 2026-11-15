@@ -1,6 +1,6 @@
 #include "Main/Net/scan_connect_callbacks.h"
 #include "Main/Net/wbt_os_thread_globals.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "mb_data.h"
 #include "reset_interrupt_enable.h"
 #include "Main/Net/mp_link.h"

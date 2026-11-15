@@ -3,7 +3,7 @@
 #include "registers.h"
 #include "03/System/exp_heap.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/System/tasks.h"
 #include "vector_math.h"

@@ -1,7 +1,7 @@
 #include "file_command_handlers.h"
 
-#include "fs_file.h"
-#include "os_thread.h"
+#include "file_handle_setup.h"
+#include "thread_scheduler.h"
 #include "reset_interrupt_enable.h"
 #include "cpu_copy_fill.h"
 

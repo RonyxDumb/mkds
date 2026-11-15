@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader
+#include "screen_data_unpack.h" // NNSG2dBinaryFileHeader
 #include "font_glyph_layout.h" // NNSG2dFontInformation
 
 // Bit reader: a pointer to the next byte, the number of unread bits of the current byte at 4 and the byte at 5.

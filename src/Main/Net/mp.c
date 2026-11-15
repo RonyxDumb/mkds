@@ -7,7 +7,7 @@
 
 #include "Main/Sound/sound_set_load.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "fs_file.h"
+#include "file_handle_setup.h"
 #include "cpu_copy_fill.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Net/disconnect.h"

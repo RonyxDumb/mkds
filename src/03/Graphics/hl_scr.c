@@ -5,9 +5,9 @@
 #include "03/Menu/menu_pair_loading.h"
 
 #include "03/System/tasks.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "arena_cache_init.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "cpu_copy_fill.h"
 #include "03/System/exp_heap.h"
 #include "03/Graphics/hl_nsc_names.h"

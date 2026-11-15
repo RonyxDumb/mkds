@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "animation_object_calc.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "alarm_timer.h"
 
 typedef struct NNSG3dGlb NNSG3dGlb;

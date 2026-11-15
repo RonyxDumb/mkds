@@ -2,7 +2,7 @@
 #include "Main/System/input_slots.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Kart/kart_drift.h"

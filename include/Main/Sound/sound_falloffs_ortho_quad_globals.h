@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h" // MtxFx44
 #include "Main/Graphics/ortho_quad_corners.h"

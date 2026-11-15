@@ -2,7 +2,7 @@
 
 #include "Main/Race/results_by_mode.h"
 #include "Main/System/heap.h"
-#include "fs_file.h"
+#include "file_handle_setup.h"
 #include "Main/System/heap_call.h"
 #include "Main/Net/slot_result_sync_halfword.h"
 #include "Main/Net/slot_result_pending.h"
@@ -14,7 +14,7 @@
 #include "file_open_read.h"
 #include "overlay_loader.h"
 #include "expanded_heap_head.h"
-#include "frameheap.h"
+#include "heap_frame_allocator.h"
 #include "Main/Save/ghost_record_file.h"
 
 SceneCallbacks gResultSceneCallbacks = {

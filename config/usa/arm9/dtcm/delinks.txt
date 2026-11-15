@@ -5,7 +5,7 @@ libs/NitroSDK/os/src/os_irqThreadQueue.c:
     complete
     .data       start:0x027e0000 end:0x027e0008
 
-libs/NitroSDK/os/src/os_irqTable.c:
+libs/NitroSDK/os/src/irq_handler_table.c:
     complete
     .data       start:0x027e0008 end:0x027e0060
 

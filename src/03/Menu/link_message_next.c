@@ -9,8 +9,8 @@
 #include "03/System/task_input.h"
 #include "03/Menu/wifi_menu_strings.h"
 #include "reset_interrupt_enable.h"
-#include "gx_load2d.h"
-#include "pm.h"
+#include "vram_load_2d_graphics.h"
+#include "power_management_commands.h"
 
 u8 gYb5MultiNscName3[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x35, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};

@@ -19,7 +19,7 @@
 #include "Main/Graphics/layout_rect_table.h"
 #include "registers.h"
 #include "vram_bank_assign.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "01/Menu/record_gpx_grade_text.h"
 #include "Main/System/result_archive_path.h"

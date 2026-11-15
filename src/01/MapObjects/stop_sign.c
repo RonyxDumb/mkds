@@ -2,9 +2,9 @@
 
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/Course/course_map_group_entry.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Item/item_koura_w.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"

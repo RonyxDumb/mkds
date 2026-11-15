@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 #include "Main/Race/mission_file_row.h" // MissionFileRow
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 typedef struct MicBuffer MicBuffer;
 

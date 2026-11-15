@@ -1,9 +1,9 @@
 #include "mutex_message_queue.h"
 
-#include "cp_context.h"
-#include "os_spinLock.h"
+#include "coprocessor_context_save.h"
+#include "lock_word_and_bus_ownership.h"
 #include "thread_mutex_types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "reset_interrupt_enable.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "mb_data.h"

@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Sound/sound_distance_squared_change.h" // SoundStartParams
-#include "player.h"
+#include "sound_player_control.h"
 
 // Sound ids of the course sound objects: the bank sound, the chain camera sound of the cross course, and the first and
 // second part sounds of the cross and mario courses (mFirstPart and mSecondPart).

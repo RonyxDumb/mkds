@@ -14,7 +14,7 @@
 #include "Main/Graphics/time_format.h"
 #include "Main/Menu/select_return.h"
 #include "Main/System/input_slots.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "registers.h"

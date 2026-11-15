@@ -12,7 +12,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Kart/karts.h"
 

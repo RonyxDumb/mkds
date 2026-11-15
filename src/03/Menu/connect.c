@@ -2,7 +2,7 @@
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 
 #include "03/System/exp_heap.h"
 #include "00/Lib/DWC/access_point_alloc.h"

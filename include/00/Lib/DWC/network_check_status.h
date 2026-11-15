@@ -3,13 +3,13 @@
 #include "types.h"
 #include "reset_interrupt_enable.h"
 #include "00/Lib/DWC/dwc_auth_http_params.h"
-#include "dwc_backup.h"
+#include "wifi_settings_nvram_backup.h"
 #include "wifi_id_auth.h"
 #include "00/Lib/DWC/http_header_build.h"
-#include "00/Lib/CPS/network.h"
-#include "00/Lib/NitroWiFi/util.h"
+#include "00/Lib/CPS/ip_stack.h"
+#include "00/Lib/NitroWiFi/rssi_link_level.h"
 #include "00/Lib/DWC/shop_access_point_key.h"
-#include "00/Lib/NitroWiFi/cpsif.h"
+#include "00/Lib/NitroWiFi/dcf_send_receive.h"
 #include "00/Lib/DWC/server_auth.h"
 #include "00/Lib/DWC/network_check_control.h"
 
@@ -37,7 +37,7 @@ typedef struct DWCAuthResult {
     /* 177 */ char mChallenge[0x4d];
 } DWCAuthResult;
 
-#include "os_thread.h"
+#include "thread_scheduler.h"
 
 
 u32 DWC_Netcheck_GetReturnCode(void);

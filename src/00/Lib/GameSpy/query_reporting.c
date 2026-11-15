@@ -1,7 +1,7 @@
 #include "00/Lib/GameSpy/query_reporting.h"
 
 #include "00/Lib/GameSpy/socket_calls.h"
-#include "00/Lib/DWC/dwc_connectinet.h"
+#include "00/Lib/DWC/internet_connection.h"
 #include "00/Lib/CPS/socket_status_resolve.h"
 #include "00/Lib/NitroWiFi/socket_api_prototypes.h"
 #include "00/Lib/wifi_library_globals.h"
@@ -12,8 +12,8 @@
 #include "00/Lib/GameSpy/query_key_register.h"
 #include "scan_text_random.h"
 #include "narrow_string_functions.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/DWC/memory_allocator.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 
 NatnegMagic gNatnegMagicBytes = {{0xfd, 0xfc, 0x1e, 0x66, 0x6a, 0xb2}};
 QueryRecord gStaticQr2Rec = {-1};

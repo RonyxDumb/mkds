@@ -12,7 +12,7 @@
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "vector_math.h"
 
 #include "Main/MapObjects/rotary.h"

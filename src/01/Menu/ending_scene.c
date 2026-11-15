@@ -6,7 +6,7 @@
 #include "Main/Scene/display_settings.h"
 #include "Main/Graphics/oam_upload.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
 

@@ -1,11 +1,11 @@
 #include "Main/MapObjects/crab.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "vector_math.h"
 #include "Main/Course/course_map_group_entry.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Item/item_objects_and_race_progress.h" // ItemObject
 #include "Main/MapObjects/map_object_park.h"

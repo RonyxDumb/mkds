@@ -3,7 +3,7 @@
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/application.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "gx_load2d.h"
+#include "vram_load_2d_graphics.h"
 #include "03/Menu/sub_screen_message.h"
 #include "03/Menu/jb3_list.h"
 #include "03/Menu/way_ap_setup.h"

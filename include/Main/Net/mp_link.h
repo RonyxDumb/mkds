@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "mb_gameinfo.h"
+#include "multiboot_game_info_beacon.h"
 #include "Main/System/backup_net_camera_work.h"
 
 // Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.

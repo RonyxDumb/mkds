@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 
 // Record of 0x54 bytes: four positions, then words at 0x30 and 0x34.
 typedef struct Segment {

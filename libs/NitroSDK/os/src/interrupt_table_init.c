@@ -1,5 +1,5 @@
 #include "interrupt_table_init.h"
-#include "os_irqHandler.h"
+#include "irq_wait_handler.h"
 
 // Empties the queue of threads waiting for an interrupt.
 void OS_InitIrqTable(void) {

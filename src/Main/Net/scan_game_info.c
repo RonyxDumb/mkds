@@ -1,7 +1,7 @@
 #include "Main/Net/scan_game_info.h"
 #include "arena_cache_init.h"
 #include "cpu_copy_fill.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 
 s32 IsScanBlockGameInfoMatch(WMBssDesc *bssDesc) {
     // volatile only so that userGameInfo[0] is read again for the second compare

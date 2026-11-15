@@ -8,7 +8,7 @@
 #include "Main/Save/buddy_record_reset.h"
 #include "Main/Save/backup_first_block.h"
 #include "Main/Save/buddy_record_time.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
 #include "cpu_copy_fill.h"

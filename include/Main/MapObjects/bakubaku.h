@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "fx_mtx33.h"
+#include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "thread_mutex_types.h"
 
-#include "os_irqHandler.h"
+#include "irq_wait_handler.h"
 
 // Start of the data TCM, and the interrupt check word at 0x3ff8 from it.
 #define HW_DTCM 0x027e0000

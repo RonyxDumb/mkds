@@ -4,7 +4,7 @@
 #include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "overlay_loader.h" // FSOverlayInfo, FSFile
 #include "sound_archive_load.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "wireless_power_mp.h" // ScanExParam, ScanParam, ParentParameter
 #include "wireless_data_sharing.h" // WMDataSharingInfo, WMDataSet
 #include "vector_math.h" // Vec3s16
@@ -17,10 +17,10 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "file_command_handlers.h"
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
-#include "dwc_account.h" // DWCAccFriendData, DWCAccUserData
+#include "friend_data_account_fields.h" // DWCAccFriendData, DWCAccUserData
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Net/wifi_race_sync_advance.h" // WiFiRaceSyncPacket
 
 // Values of BackupFirstBlock.mSoundMode.

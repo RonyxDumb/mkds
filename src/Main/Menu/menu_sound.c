@@ -1,7 +1,7 @@
 #include "Main/Menu/menu_sound.h"
 
 #include "Main/System/input_slots.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "Main/Sound/sound_system.h"
 

@@ -1,8 +1,8 @@
 #include "friend_user_data.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "dwc_account_init.h"
 #include "Main/Net/friend_data_player_id.h"
-#include "hash2.h"
+#include "digest_hmac_overlay_hash.h"
 
 #pragma thumb on
 

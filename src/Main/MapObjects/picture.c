@@ -9,7 +9,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"

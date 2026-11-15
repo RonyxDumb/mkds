@@ -3,7 +3,7 @@
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"

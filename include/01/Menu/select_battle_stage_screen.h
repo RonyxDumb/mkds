@@ -40,10 +40,10 @@ extern const u8 gSelectBattleStageSTableIndices[6][3];
 #include "Main/Menu/select_return.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"
-#include "frameheap.h"
-#include "os_thread.h"
+#include "heap_frame_allocator.h"
+#include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "pm.h"
+#include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
 extern const u8 gSelectBattleStageNegatedYCells[1];

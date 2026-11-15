@@ -13,9 +13,9 @@
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/presence_api.h"
 #include "00/Lib/wifi_library_globals.h"
-#include "os_printf.h"
+#include "formatted_text_to_buffer.h"
 #include "narrow_string_functions.h"
-#include "dwc_account.h"
+#include "friend_data_account_fields.h"
 #include "friend_user_data.h"
 #include "Main/Net/friend_data_from_profile.h"
 

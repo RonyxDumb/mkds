@@ -10,9 +10,9 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/multi_select_member_group.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
-#include "g2d_CellTransferManager.h"
+#include "cell_transfer_state.h"
 #include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
 
 s32 FindSlotGhostForCourse(s32 courseId);

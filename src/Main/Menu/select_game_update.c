@@ -3,7 +3,7 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Race/race_setup_block.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
-#include "gx.h"
+#include "fixed_point_graphics_setup.h"
 #include "vram_bank_assign.h"
 #include "Main/Race/race_setup.h"
 

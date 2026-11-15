@@ -3,7 +3,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"

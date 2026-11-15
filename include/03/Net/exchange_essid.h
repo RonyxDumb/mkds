@@ -48,7 +48,7 @@ typedef struct WepKey16 {
 #include "03/Net/exchange_result_records.h"
 #include "00/Lib/DWC/socket_config.h"
 #include "03/Menu/wifi_menu_tables.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 
 // UDP port the exchange packets are sent to and received on.

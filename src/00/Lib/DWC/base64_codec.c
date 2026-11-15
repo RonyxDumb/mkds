@@ -4,7 +4,7 @@
 #include "00/Lib/DWC/http_thread.h"
 #include "00/Lib/DWC/access_point_alloc.h"
 #include "00/Lib/wifi_library_globals.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "signed_int_divide.h"
 #include "unsigned_int_divide.h"
 #include "narrow_string_functions.h"

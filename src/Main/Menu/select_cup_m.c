@@ -10,7 +10,7 @@
 #include "Main/Menu/select_cup_name_files.h"
 #include "Main/System/stdio_files.h"
 #include "print_memory_functions.h"
-#include "output_effect.h"
+#include "capture_output_effect.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Race/race_setup.h"
@@ -20,9 +20,9 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "vram_bank_assign.h"
 #include "Main/Menu/menu_screens_work.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_player_type.h"
-#include "stream.h"
+#include "sound_stream_control.h"
 #include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
@@ -30,7 +30,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
-#include "gfd_VramTransferManager.h"
+#include "vram_transfer_queue.h"
 
 const u32 gSelectCupMCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13},
                                         {0x22, 0x1a, 0x20, 0x1d}, {0xa, 0xb, 0xd, 0xe},     {0x23, 0x10, 0xc, 9},

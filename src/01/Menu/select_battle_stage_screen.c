@@ -11,7 +11,7 @@
 #include "Main/Menu/kart_icon.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "g2.h"
+#include "display_blend_affine_setup.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"

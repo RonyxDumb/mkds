@@ -59,7 +59,7 @@ enum {
 typedef struct HttpsState HttpsState;
 
 #include "00/Lib/wifi_library_globals.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "mb_data.h"
 
 typedef struct CPSSoc CPSSoc;
@@ -103,7 +103,7 @@ typedef struct HttpsState HttpsState;
 
 typedef struct HttpsEntry HttpsEntry;
 
-#include "00/Lib/CPS/network.h"
+#include "00/Lib/CPS/ip_stack.h"
 #include "00/Lib/CPS/cps_network_state.h"
 #include "00/Lib/CPS/big_integer_power_and_rc4.h"
 #include "00/types_021ab5e4.h"

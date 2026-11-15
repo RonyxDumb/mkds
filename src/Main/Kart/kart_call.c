@@ -7,8 +7,8 @@
 #include "model_material_set.h"
 #include "model_draw_blend.h"
 #include "animation_lookup.h"
-#include "fx_mtx33.h"
-#include "fx_mtx43.h"
+#include "matrix_3x3_basic.h"
+#include "matrix_4x3_basic.h"
 #include "vector_math.h"
 
 const Vec3 gCourseModelDrawScale = {0x1000, 0x1000, 0x1000};

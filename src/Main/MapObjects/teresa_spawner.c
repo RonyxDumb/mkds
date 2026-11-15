@@ -11,7 +11,7 @@
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"

@@ -2,15 +2,15 @@
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "Main/Graphics/palette_blend.h"
 #include "arena_cache_init.h"
 #include "cell_animation.h"
 #include "dma_copy_fill_wait.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/file_in_loaded.h"
-#include "g2d_NOB_load.h"
-#include "gx_load2d.h"
+#include "cell_data_unpack.h"
+#include "vram_load_2d_graphics.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "registers.h"
 

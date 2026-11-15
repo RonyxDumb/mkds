@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_archive_load.h"
 
 typedef enum NNSSndArcLoadResult {

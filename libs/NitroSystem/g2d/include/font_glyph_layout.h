@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "snd_bank.h"
+#include "sound_bank_wave_archive.h"
 
 // 3 bytes: NNSi_G2dFontGetStringWidth adds the first two, or reads the third.
 typedef struct NNSG2dCharWidths {
@@ -86,7 +86,7 @@ typedef struct NNSG2dTextRect {
     /* 04 */ s32 mHeight;
 } NNSG2dTextRect;
 
-#include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader
+#include "screen_data_unpack.h" // NNSG2dBinaryFileHeader
 
 void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, NNSG2dFont *pFont, s32 hSpace, s32 vSpace, u8 *txt);
 s32 NNSi_G2dFontGetTextHeight(NNSG2dFont *pFont, s32 vSpace, u8 *txt);

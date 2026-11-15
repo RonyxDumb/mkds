@@ -7,7 +7,7 @@
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/DWC/buddy_request_callbacks.h"
 #include "00/Lib/DWC/buddy_friend_list.h"
-#include "00/Lib/GameSpy/gt2Main.h"
+#include "00/Lib/GameSpy/connection_accept_reject.h"
 #include "00/Lib/DWC/friends_match_session.h"
 
 // Address and byte-swapped port of a peer, built by DWCi_ProcessRecvMatchCommand for DWCi_NNCompletedCallback.

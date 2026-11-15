@@ -20,10 +20,10 @@
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
-#include "g2d_CellTransferManager.h"
-#include "gfd_VramTransferManager.h"
+#include "cell_transfer_state.h"
+#include "vram_transfer_queue.h"
 #include "cpu_copy_fill.h"
 
 const u16 gMultiSelectNSRowCellIndices[2][3] = {{4, 2, 0}, {5, 3, 1}};

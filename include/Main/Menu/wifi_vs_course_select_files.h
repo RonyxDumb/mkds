@@ -9,9 +9,9 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/multi_select_member_group.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/Save/buddy_record_time.h"
-#include "g2d_CellTransferManager.h"
+#include "cell_transfer_state.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Menu/wifi_vs_course_select.h"
 

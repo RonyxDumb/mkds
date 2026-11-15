@@ -13,7 +13,7 @@
 #include "model_material_set.h" // MtxFx43
 #include "vector_math.h" // Vec3s16
 #include "fixed_arctangent.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange

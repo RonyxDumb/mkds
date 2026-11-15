@@ -1,6 +1,6 @@
 #include "Main/Race/race_hud_sub_screen_bg3.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 
 void GetRaceHudSubScreenBg3MinMax(IntPair *outMin, IntPair *outMax) {
     int courseId;

@@ -1,14 +1,14 @@
 #include "sound_system_main.h"
-#include "snd_interface.h"
-#include "snd_main.h"
-#include "snd_command.h"
+#include "sound_command_requests.h"
+#include "sound_init_and_mutex.h"
+#include "sound_command_queue.h"
 #include "sound_sleep.h"
-#include "player.h"
+#include "sound_player_control.h"
 #include "sound_capture_effect.h"
-#include "sndarc_stream.h"
-#include "pm.h"
+#include "sound_archive_stream.h"
+#include "power_management_commands.h"
 #include "sound_archive_load.h"
-#include "resource_mgr.h"
+#include "sound_channel_alarm_lock.h"
 
 PMSleepCallbackInfo sPostSleepCallback;
 PMSleepCallbackInfo sPreSleepCallback;

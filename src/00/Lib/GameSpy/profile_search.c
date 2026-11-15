@@ -2,7 +2,7 @@
 #include "00/Lib/GameSpy/buddy_messages.h"
 
 #include "00/Lib/GameSpy/error_message_set.h"
-#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/memory_allocator.h"
 #include "string.h"
 #include "print_memory_functions.h"
 #include "03/Net/essid_packet_steps.h"
@@ -27,7 +27,7 @@
 #include "scan_text_random.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/callback_queue.h"
-#include "00/Lib/NitroWiFi/socl_startup.h"
+#include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "00/Lib/GameSpy/availability_check.h"
 
 char gSearchManagerName[0x40] = "gpsp.gs.nintendowifi.net";

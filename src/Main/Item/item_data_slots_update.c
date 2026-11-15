@@ -4,7 +4,7 @@
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_f_box.h"
 #include "Main/Race/race_setup_block.h"
-#include "tp.h"
+#include "touch_panel_sampling.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "cpu_copy_fill.h"

@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "os_thread.h"
+#include "thread_scheduler.h"
 #include "mb_data.h"
 #include "Main/Net/wbt_block_transfer.h"
 
