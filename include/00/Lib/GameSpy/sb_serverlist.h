@@ -80,7 +80,7 @@ int SBServerListFindServerByIP(SbServerList *serverList, int publicIp, int publi
 int SBServerListFindServer(SbServerList *serverList, SbServer *server);
 void SBServerListAppendServer(SbServerList *serverList, SbServer *server);
 void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind);
-s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry);
-s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry);
+s32 StrNoCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry);
+s32 StrCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry);
 
 extern char *gSBOverrideMasterServer;

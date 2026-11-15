@@ -4,10 +4,11 @@
 #include "00/unk_021b4000.h"
 
 typedef struct SOCSockAddrIn SOCSockAddrIn;
+typedef struct SbServer SbServer;
 
 
-s32 FloatKeyCompare(u32 *entry1, u32 *entry2);
-s32 IntKeyCompare(u32 *entry1, u32 *entry2);
+s32 FloatKeyCompare(SbServer **entry1, SbServer **entry2);
+s32 IntKeyCompare(SbServer **entry1, SbServer **entry2);
 s32 GSIAvailableCheckThink(void);
 BOOL HandlePacket(const s8 *packet, s32 len, SOCSockAddrIn *address, u32 *disabledservices);
 void GSIStartAvailableCheckA(const char *gamename);

@@ -50,12 +50,12 @@
 
 char *gSBOverrideMasterServer;
 
-s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
+s32 StrCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
     char *firstValue;
     char *secondValue;
     s32 result;
-    firstValue = SbServerGetValue((SbServer *) *firstEntry, gSortServerList->mSortKey, "");
-    secondValue = SbServerGetValue((SbServer *) *secondEntry, gSortServerList->mSortKey, "");
+    firstValue = SbServerGetValue(*firstEntry, gSortServerList->mSortKey, "");
+    secondValue = SbServerGetValue(*secondEntry, gSortServerList->mSortKey, "");
     result = strcmp(firstValue, secondValue);
     if (gSortServerList->mSortAscending == 0) {
         result = -result;
@@ -63,12 +63,12 @@ s32 StrCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
     return result;
 }
 
-s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
+s32 StrNoCaseKeyCompare(SbServer **firstEntry, SbServer **secondEntry) {
     char *firstValue;
     char *secondValue;
     s32 result;
-    firstValue = SbServerGetValue((SbServer *) *firstEntry, gSortServerList->mSortKey, "");
-    secondValue = SbServerGetValue((SbServer *) *secondEntry, gSortServerList->mSortKey, "");
+    firstValue = SbServerGetValue(*firstEntry, gSortServerList->mSortKey, "");
+    secondValue = SbServerGetValue(*secondEntry, gSortServerList->mSortKey, "");
     result = CompareStringsMapped(firstValue, secondValue);
     if (gSortServerList->mSortAscending == 0) {
         result = -result;
@@ -77,7 +77,7 @@ s32 StrNoCaseKeyCompare(u32 *firstEntry, u32 *secondEntry) {
 }
 
 void SBServerListSort(SbServerList *serverList, s32 ascending, const char *sortField, u32 compareKind) {
-    s32 (*comparator)(u32 *, u32 *);
+    s32 (*comparator)(SbServer **, SbServer **);
     switch (compareKind) {
         case 0:
             comparator = IntKeyCompare;

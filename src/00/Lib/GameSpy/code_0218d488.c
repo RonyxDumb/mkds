@@ -123,31 +123,31 @@ s32 GSIAvailableCheckThink(void) {
     return 0;
 }
 
-s32 IntKeyCompare(u32 *entry1, u32 *entry2) {
-    u32 firstServer;
-    u32 secondServer;
+s32 IntKeyCompare(SbServer **entry1, SbServer **entry2) {
+    SbServer *firstServer;
+    SbServer *secondServer;
     s32 firstValue;
     s32 diff;
     firstServer = *entry1;
     secondServer = *entry2;
-    firstValue = SbServerGetInt((SbServer *) firstServer, gSortServerList->mSortKey, 0);
-    diff = firstValue - SbServerGetInt((SbServer *) secondServer, gSortServerList->mSortKey, 0);
+    firstValue = SbServerGetInt(firstServer, gSortServerList->mSortKey, 0);
+    diff = firstValue - SbServerGetInt(secondServer, gSortServerList->mSortKey, 0);
     if (gSortServerList->mSortAscending == 0) {
         diff = -diff;
     }
     return diff;
 }
 
-s32 FloatKeyCompare(u32 *entry1, u32 *entry2) {
-    u32 firstServer;
-    u32 secondServer;
+s32 FloatKeyCompare(SbServer **entry1, SbServer **entry2) {
+    SbServer *firstServer;
+    SbServer *secondServer;
     double firstValue;
     double secondValue;
     double difference;
     firstServer = *entry1;
     secondServer = *entry2;
-    firstValue = SbServerGetDouble((SbServer *) firstServer, gSortServerList->mSortKey, 0);
-    secondValue = SbServerGetDouble((SbServer *) secondServer, gSortServerList->mSortKey, 0);
+    firstValue = SbServerGetDouble(firstServer, gSortServerList->mSortKey, 0);
+    secondValue = SbServerGetDouble(secondServer, gSortServerList->mSortKey, 0);
     difference = firstValue - secondValue;
     if (gSortServerList->mSortAscending == 0) {
         difference = 0 - difference;
