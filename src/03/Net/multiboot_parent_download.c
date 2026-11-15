@@ -27,7 +27,7 @@ u16 *gMultiBootMaskPointers[6];
 
 void InitMultiBootParent(u8 *object) {
     gMultiBootParent = (MultiBootParent *) object;
-    InitWhWork((WhWork *) (object + 0x1b160));
+    InitWhWork(&gMultiBootParent->mWhWork);
     gMultiBootParent->mCommWorkPointer = NULL;
     gMultiBootParent->mFileBuffer = NULL;
 }

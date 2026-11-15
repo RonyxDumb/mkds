@@ -603,7 +603,7 @@ BOOL StartExchangeReturnToIdle(void) {
     return 1;
 }
 
-s32 CopyExchangeScanRecords(u8 *output, s32 maxCount) {
+s32 CopyExchangeScanRecords(RawEntry *output, s32 maxCount) {
     s32 count;
     s32 recordIndex;
 
@@ -616,9 +616,9 @@ s32 CopyExchangeScanRecords(u8 *output, s32 maxCount) {
                 if (recordIndex >= maxCount) {
                     break;
                 }
-                MIi_CpuCopy32(WCM_PointApList(recordIndex), output, 0xc0);
+                MIi_CpuCopy32(WCM_PointApList(recordIndex), output, sizeof(RawEntry));
                 recordIndex++;
-                output += 0xc0;
+                output++;
             } while (recordIndex < count);
         }
     }
@@ -1169,7 +1169,7 @@ s32 SearchEntriesAndStoreEntryWithNewlyClearedBit4(void) {
                         waiting = FALSE;
                         break;
                     case 5:
-                        collected = CopyExchangeScanRecords((u8 *) gRawEntries, gEntryCountMax);
+                        collected = CopyExchangeScanRecords(gRawEntries, gEntryCountMax);
                         if (collected > result) {
                             result = collected;
                             OS_CancelAlarm(&alarm);

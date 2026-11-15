@@ -9,9 +9,9 @@
 #include "code_02142eac.h"
 
 char *gWhStateNames[10] = {
-    gWhStateStopName,         gWhStateIdleName,          gWhStateScanningName,      gWhStateBusyName,
-    gWhStateConnectedName,    gWhStateDataSharingName,   gWhStateKeySharingName,    gWhStateMeasureChannelName,
-    gWhStateConnectFailName,  gWhStateErrorName,
+    gWhStateStopName,        gWhStateIdleName,        gWhStateScanningName,   gWhStateBusyName,
+    gWhStateConnectedName,   gWhStateDataSharingName, gWhStateKeySharingName, gWhStateMeasureChannelName,
+    gWhStateConnectFailName, gWhStateErrorName,
 };
 char gWhStateMeasureChannelName[36] = "DWCi_MOV_WH_SYSSTATE_MEASURECHANNEL";
 char gWhStateConnectFailName[34] = "DWCi_MOV_WH_SYSSTATE_CONNECT_FAIL";
@@ -114,7 +114,7 @@ u16 DecideWhChannel(void) {
         OS_Terminate();
     }
     SetWhState(WH_STATE_IDLE);
-    channel = PickWhChannel((u32) (gWhWork->mLowestBusyChannelMask));
+    channel = PickWhChannel(gWhWork->mLowestBusyChannelMask);
     workAddress = &gWhWork;
     gWhWork->mDecidedChannel = channel;
     if (gWhPrintFunction != NULL) {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/Net/wh.h"
 
 // One 0x1e-byte record of MultiBootParent.
 typedef struct MultiBootChildRecord {
@@ -28,6 +29,8 @@ struct MultiBootParent {
     /* 10040 */ u8 mCommWork[0xb100];
     /* 1b140 */ void *mCommWorkPointer;
     /* 1b144 */ void *mFileBuffer;
+    /* 1b148 */ u8 mUnk_1b148[0x18];
+    /* 1b160 */ WhWork mWhWork;
 };
 
 #include "03/unk_021da000.h"

@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef struct RawEntry RawEntry;
+
 typedef struct OamEntry OamEntry;
 
 // 0xc bytes allocated by CreateAnimatedIcon.
@@ -23,7 +25,7 @@ BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option);
 BOOL CleanupExchangeWcm(void);
 BOOL DisconnectExchange(void);
 BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option);
-s32 CopyExchangeScanRecords(u8 *output, s32 maxCount);
+s32 CopyExchangeScanRecords(RawEntry *output, s32 maxCount);
 BOOL StartExchangeReturnToIdle(void);
 void ExchangeWcmNotifyCallback(WcmNoticeHead *message);
 void AdvanceAnimatedIcon(void);
