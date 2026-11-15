@@ -9,6 +9,7 @@
 #include "Main/MapObjects/data_0217a000.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Race/data_021759c0.h"
+#include "Main/MapObjects/map_object_park.h"
 
 const u8 gDefaultParentParameter[64] = {0, 0, 0,    0, 0, 0, 0, 0, 0x25, 0, 0,    0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0,
                                         0, 0, 0xc8, 0, 0, 0, 0, 0, 0,    0, 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -189,7 +190,7 @@ void FillParentParameter(s32 flag) {
         }
         seconds = (hour * 0x3c + time.mMinute) * 0x3c + time.mSecond;
         generatorState = OS_GetTickLo() | seconds << 16;
-        generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
+        generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
         highWord = generatorState >> 32;
         parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     }
@@ -228,7 +229,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     }
     seconds = (hour * 0x3c + time.mMinute) * 0x3c + time.mSecond;
     generatorState = OS_GetTickLo() | seconds << 16;
-    generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
+    generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
     highWord = generatorState >> 32;
     parentParameter->mTgid = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     parentParameter->mChannel = gConnectionWork->mParentChannel;

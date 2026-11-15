@@ -565,7 +565,7 @@ u16 ComputeParentTgid(u32 unusedValue) {
     }
     seconds = (hour * 0x3c + time.mMinute) * 0x3c + time.mSecond;
     generatorState = OS_GetTickLo() | seconds << 16;
-    generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
+    generatorState = generatorState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
     highWord = generatorState >> 32;
     return (u16) (highWord * 0x10000 >> 32) | 0x8000;
 }

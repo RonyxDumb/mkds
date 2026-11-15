@@ -9,6 +9,7 @@
 #include "os_tick.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/Net/mp_chunk_state_machine.h"
+#include "Main/MapObjects/map_object_park.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -173,7 +174,7 @@ void EnterMPState22(void) {
     randomState = (u32) OS_GetTick() << 8;
     randomState = (u32) randomState & ~(u32) (randomState >> 32);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        randomState = randomState * 0x5d588b656c078965ull + 0x269ec3;
+        randomState = randomState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
         gConnectionWork->mMPStateMachine.mDelayTimer = (u16) (((randomState >> 32) * 0xb4) >> 32) + 0x78;
     } else {
         gConnectionWork->mMPStateMachine.mDelayTimer = 0xb4;
