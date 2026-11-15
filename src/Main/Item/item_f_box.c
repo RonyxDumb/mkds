@@ -21,7 +21,7 @@
 #include "Main/Item/item_f_box_park.h"
 #include "Main/Save/ghost_record_file.h"
 
-const u16 gItemBombExcludedUntilCourseHitBit = 0x2000;
+const u16 gItemBombExcludedUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 const u8 gItemBombVec3UnitY[12] = {0, 0, 0, 0, 0, 0x10, 0, 0, 0, 0, 0, 0};
 const ItemInfo gItemInfoFBox = {1, 1, 7, 1, 0, 2, NULL};
 const ItemInfo gItemInfoKouraGThree = {1, 0, 0, 3, 0, 4, NULL};
@@ -100,7 +100,7 @@ u8 *CopyItemFBoxData(u8 *cursor, ItemFBox *fbox, void *toData) {
 void InitItemFBoxFromData(ItemFBox *fbox) {
     SetupItemObjectFromData(&fbox->mBouncingItemObject.mItemObject);
     StartItemObjectBouncing(&fbox->mBouncingItemObject, 0);
-    if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x10000000) == 0) {
+    if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA) == 0) {
         return;
     }
     if (fbox->mThrownForward == 0) {
@@ -155,7 +155,7 @@ void LoadItemDataFlagBit(s32 word, s32 *flag) {
 }
 
 s32 ComputeItemObjectId(ItemObject *item) {
-    return (s16) (((s16) (u16) (item->mOwnerKartIndexAndFlags & ~0xff00) << 4) | item->mPoolIndex);
+    return (s16) (((s16) (u16) (item->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK) << 4) | item->mPoolIndex);
 }
 
 static inline u8 *CopyItemShiftedByteInline(u8 *cursor, volatile s32 *value, void *toData, s32 shift) {

@@ -45,7 +45,8 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
     if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCreationNumber & 1) ==
         GetRaceUpdateFramesMod2()) {
         kart = item->mKartItems->mKart;
-        if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x20000)) {
+        if (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
+              ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT)) {
             if (IsKartNotNormal(kart) != FALSE) {
                 speed >>= 1;
             }
@@ -66,7 +67,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
             offset.x = MUL_FIXED12_NO_ROUND(offset.x, speed);
             offset.y = MUL_FIXED12_NO_ROUND(offset.y, speed);
             offset.z = MUL_FIXED12_NO_ROUND(offset.z, speed);
-            if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
+            if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
                 if (value < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
                     item->mNearKartFrames = item->mNearKartFrames + 1;
                     if (item->mNearKartFrames > 0x5a) {
@@ -114,7 +115,8 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
                           firstNormal.z == item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal.z);
             if (sameNormal == FALSE) {
                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal = firstNormal;
-                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x100;
+                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |=
+                    ITEM_OBJECT_FLAG_NORMAL_CHANGED;
             }
         }
         if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_WALL) {
@@ -158,8 +160,9 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
 
     kart = GetKart(kartIndex);
     ownerIndex =
-        !(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
-            ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
+        !(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER)
+            ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
+                     ~ITEM_OWNER_FLAGS_MASK)
             : 8;
     kartRank = GetKartRank(kartIndex);
     if (ownerIndex < 8 && checkRank != 0) {
@@ -200,7 +203,7 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
     if (FROM_FIXED12(dot) * FROM_FIXED12(dot) > 0x9c4) {
         return 0;
     }
-    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) {
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA) {
         return 0;
     }
     item->mKartItems = &gKartItems[kartIndex];

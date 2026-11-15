@@ -189,7 +189,8 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     kartItems = &(gKartItems)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
     if (kartItems->mItemLink.mLink != item->mLinkFollowingItemObject.mTargetLink.mLink) {
-        shortRange = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||
+        shortRange = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
+                       ITEM_OBJECT_FLAG_ON_BOOST_SURFACE) ||
                       (kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE))
                          ? 1
                          : 0;
@@ -206,7 +207,7 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
             return FALSE;
         }
     }
-    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x10000000) {
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA) {
         return FALSE;
     }
     item->mKartItems = kartItems;

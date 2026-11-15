@@ -116,7 +116,7 @@ void StartItemKouraGSound(void *kouraParam, s32 unused) {
     ItemKouraG *koura;
 
     koura = kouraParam;
-    if (!(koura->mDirectedItemObject.mItemObject.mFlags & 0x400000)) {
+    if (!(koura->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE)) {
         return;
     }
     AdvanceSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange,
@@ -145,7 +145,7 @@ void AdvanceItemKouraG(ItemKouraG *koura) {
         koura->mDirectedItemObject.mHitsRemaining = 0;
     }
     AdvanceItemObjectMotion(&koura->mDirectedItemObject, 0x84cd);
-    if (koura->mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (koura->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     AddSoundRequest(&gSoundRequestQueues[5],

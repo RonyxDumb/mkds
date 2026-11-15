@@ -708,8 +708,8 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
     u32 ownerRank;
     u16 kartIndex;
 
-    ownerIndex = (u16) ((gesso->mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0
-                            ? (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
+    ownerIndex = (u16) ((gesso->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
+                            ? (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
                             : 8);
     entryIndex = gRaceSetup->mEntryIndex;
     if (gRaceSetup->mMode == MODE_BATTLE) {

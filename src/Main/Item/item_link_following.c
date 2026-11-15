@@ -164,19 +164,20 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
 
     AdvanceItemObjectMotion(&follower->mDirectedItemObject, targetSpeed);
     if (follower->mDirectedItemObject.mPushOutMode != 0 &&
-        (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
-        value = GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00))
-                    ->mDrawMatrixPos.y +
-                0x1e000;
+        (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) != 0) {
+        value =
+            GetKart((u16) (follower->mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK))
+                ->mDrawMatrixPos.y +
+            0x1e000;
         if (follower->mDirectedItemObject.mItemObject.mPos.y < value) {
             follower->mDirectedItemObject.mItemObject.mPos.y = value;
         }
     }
-    if (follower->mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     if (follower->mDirectedItemObject.mPushOutMode == 0) {
-        if (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) {
+        if (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) {
             return;
         }
     }
@@ -187,7 +188,7 @@ void SteerLinkFollowingItemToLink(LinkFollowingItemObject *follower, s32 targetS
         PickNextItemPointLink(&follower->mPreviousLink, &follower->mTargetLink, targetKartIndex, flag);
     }
     VEC_Subtract(follower->mTargetLink.mLink->mPointPos, &follower->mDirectedItemObject.mItemObject.mPos, &toLink);
-    if (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) {
+    if (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_ON_BOOST_SURFACE) {
         scalar = VEC_DotProduct(surfaceDirection, &toLink);
         toLink.x -= MUL_FIXED12_NO_ROUND(surfaceDirection->x, scalar);
         toLink.y -= MUL_FIXED12_NO_ROUND(surfaceDirection->y, scalar);
@@ -238,7 +239,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     segmentPoints = &follower->mSegmentPoints;
     pos = &follower->mDirectedItemObject.mItemObject.mPos;
     velocity = &follower->mDirectedItemObject.mItemObject.mVelocity;
-    onBoostSurface = (follower->mDirectedItemObject.mItemObject.mFlags & 0x40000000) != 0;
+    onBoostSurface = (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_ON_BOOST_SURFACE) != 0;
     targetSpeed -= follower->mDirectedItemObject.mSpeed;
     follower->mDirectedItemObject.mSpeed =
         follower->mDirectedItemObject.mSpeed + MUL_FIXED12_NO_ROUND(targetSpeed, speedEase);
@@ -262,7 +263,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         }
     } else {
         if (follower->mDirectedItemObject.mPushOutMode != 0 &&
-            (follower->mDirectedItemObject.mItemObject.mFlags & 0x20000) != 0) {
+            (follower->mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) != 0) {
             vector.y = pos->y;
             GetSegmentProgressPointXzLinearY(&segmentPoints->mSegmentProgress, pos);
             if (pos->y < vector.y) {
@@ -297,7 +298,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
                         : 0;
             if (value == 0) {
                 follower->mDirectedItemObject.mItemObject.mNormal = hitNormal;
-                follower->mDirectedItemObject.mItemObject.mFlags |= 0x100;
+                follower->mDirectedItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_NORMAL_CHANGED;
             }
         }
         if ((follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_WALL) != 0 &&
@@ -338,7 +339,8 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
             }
             return;
         }
-        if (follower->mDirectedItemObject.mItemObject.mFlags & 0x40020000) {
+        if (follower->mDirectedItemObject.mItemObject.mFlags &
+            (ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT | ITEM_OBJECT_FLAG_ON_BOOST_SURFACE)) {
             if (follower->mDirectedItemObject.mPushOutMode == 0) {
                 return;
             }

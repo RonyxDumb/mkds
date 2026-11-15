@@ -166,7 +166,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     camera = GetChaseCamera();
     StartGessoBlockTimer(0);
     if (entryIndex < 0) {
-        kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~0xff00);
+        kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
         kartIndex = entryIndex;
     }
@@ -178,7 +178,7 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     VEC_Subtract(&gesso->mItemObject.mPos, &camera->mPos, &gesso->mViewOffset);
     MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mAxes, &gesso->mViewOffset);
     if (fromData != 0) {
-        if (gesso->mItemObject.mFlags & 0x10000000) {
+        if (gesso->mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA) {
             SetupNextItemGessoStep(gesso);
             gesso->mStepTimer = gesso->mStepTimer - 1;
         }
@@ -189,8 +189,8 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     gesso->mVelocityY = gesso->mTargetVelocityY;
     gesso->mScaleX = gesso->mTargetScaleX;
     gesso->mScaleYAndApproachRate.x = gesso->mTargetScaleY;
-    if ((gesso->mItemObject.mOwnerKartIndexAndFlags & 0x8000) == 0) {
-        kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~0xff00);
+    if ((gesso->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0) {
+        kartIndex = (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK);
     } else {
         kartIndex = 8;
     }

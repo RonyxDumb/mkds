@@ -147,10 +147,10 @@ void AdvanceItemBanana(ItemBanana *banana) {
         AdvanceBouncingItem(&banana->mBouncingItemObject, 0x2e1, 0xf85, 0, &collisionHitLink);
     }
     flags = banana->mBouncingItemObject.mItemObject.mFlags;
-    if ((flags & 8) == 0) {
+    if ((flags & ITEM_OBJECT_FLAG_LANDED) == 0) {
         return;
     }
-    if (flags & 3) {
+    if (flags & (ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_RELEASE_STARTED)) {
         return;
     }
     if (banana->mThrowForward != 0) {
@@ -182,7 +182,7 @@ void *CopyItemBananaData(void *buffer, ItemBanana *banana, void *toBuffer) {
 void InitItemBananaFromData(ItemBanana *banana) {
     SetupItemObjectFromData(&banana->mBouncingItemObject.mItemObject);
     StartItemObjectBouncing(&banana->mBouncingItemObject, 0);
-    if ((banana->mBouncingItemObject.mItemObject.mFlags & 0x10000000) == 0) {
+    if ((banana->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA) == 0) {
         return;
     }
     if (banana->mThrowForward == 0) {

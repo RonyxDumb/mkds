@@ -55,7 +55,7 @@ const u16 gKartItemsStartUseBit = 0x40;
 const u16 gKartItemsThrowForwardBit = 0x10;
 const u16 gItemInUseAdvancedBit = 0x100;
 const u16 gKartItemsEndUseBit = 0x80;
-const u16 gItemObjectKouraRTargetedBit = 0x1000;
+const u16 gItemObjectKouraRTargetedBit = ITEM_OWNER_KOURA_R_TARGETED;
 ItemKind *gItemKinds;
 
 // Hands out count objects from the pool, releasing the first active one while the pool is too full.
@@ -141,7 +141,7 @@ found:
         objects[pool->mActiveCount] = object;
     }
     pool->mActiveCount = pool->mActiveCount + 1;
-    object->mFlags |= 0x2000;
+    object->mFlags |= ITEM_OBJECT_FLAG_ACTIVE;
     kind = pool->mKind;
     itemKind = gItemKinds + kind;
     if (itemKind->mRadius != 0) {
@@ -196,20 +196,20 @@ void RoundTripItemObjectData(ItemObject *object) {
 
     data = NULL;
     kind = object->mKind;
-    if ((object->mOwnerKartIndexAndFlags & 0xf00) != 0) {
+    if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_PENDING_MASK) != 0) {
         data = CopyItemObjectDataAndAdd(data, object, 1);
         CopyItemObjectDataAndAdd(data, object, 0);
         SetupItemObjectFromDataWrapper(object);
-        if (object->mOwnerKartIndexAndFlags & 0x800) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_FADE_OUT_PENDING) {
             ReplayPendingFadeOut(object);
         }
-        if (object->mOwnerKartIndexAndFlags & 0x400) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_CALLBACK_FADE_OUT_PENDING) {
             ReplayPendingNoCallbackFadeOut(object);
         }
-        if (object->mOwnerKartIndexAndFlags & 0x200) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_RELEASE_TIMER_PENDING) {
             StartItemObjectReleaseTimer(object);
         }
-        if (object->mOwnerKartIndexAndFlags & 0x100) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_RELEASE_PENDING) {
             StartItemObjectRelease(object);
         }
     } else {
@@ -218,7 +218,7 @@ void RoundTripItemObjectData(ItemObject *object) {
         copyData(data, object, 0);
         gItemKinds[kind].mInitFromData(object);
     }
-    object->mFlags |= 0x20000000;
+    object->mFlags |= ITEM_OBJECT_FLAG_DATA_SET_UP;
 }
 
 void StartItemObjectFromData(ItemPool *pool, s32 frameDifference, void *data, s32 useGenericCopy) {
@@ -255,7 +255,7 @@ found:
         objects[pool->mActiveCount] = object;
     }
     pool->mActiveCount = pool->mActiveCount + 1;
-    object->mFlags |= 0x2000;
+    object->mFlags |= ITEM_OBJECT_FLAG_ACTIVE;
     kind = pool->mKind;
     if (gItemKinds[kind].mRadius != 0) {
         CreateItemObjectCollisionSlot(object);
@@ -272,24 +272,24 @@ found:
         initFunc = gItemKinds[kind].mInitFromData;
     }
     initFunc(object);
-    object->mFlags |= 0x20000000;
+    object->mFlags |= ITEM_OBJECT_FLAG_DATA_SET_UP;
     if (useGenericCopy != 0) {
-        if (object->mOwnerKartIndexAndFlags & 0x800) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_FADE_OUT_PENDING) {
             ReplayPendingFadeOut(object);
         }
-        if (object->mOwnerKartIndexAndFlags & 0x400) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_CALLBACK_FADE_OUT_PENDING) {
             ReplayPendingNoCallbackFadeOut(object);
         }
-        if (object->mOwnerKartIndexAndFlags & 0x200) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_RELEASE_TIMER_PENDING) {
             StartItemObjectReleaseTimer(object);
         }
-        if (object->mOwnerKartIndexAndFlags & 0x100) {
+        if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_RELEASE_PENDING) {
             StartItemObjectRelease(object);
         }
-    } else if ((object->mOwnerKartIndexAndFlags & 0x1000) == 0) {
-        value =
-            (u16) ((object->mOwnerKartIndexAndFlags & 0x8000) == 0 ? (u16) (object->mOwnerKartIndexAndFlags & ~0xff00)
-                                                                   : 8);
+    } else if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
+        value = (u16) ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
+                           ? (u16) (object->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
+                           : 8);
         if (value != 8) {
             StartKartSeqArcSoundOffset7(GetKart(value));
         }
@@ -453,7 +453,7 @@ void OrderItemPoolObjectsForRelease(ItemObject **objects, s32 pairIndex, s32 end
     do {
         previous = objects[pairIndex - 1];
         current = objects[pairIndex];
-        if ((previous->mFlags & 0x180000) != 0) {
+        if ((previous->mFlags & ITEM_OBJECT_FLAGS_ENDING) != 0) {
             goto next;
         }
         if (IsItemObjectOldAndResting(previous) != 0) {
@@ -556,7 +556,7 @@ void UpdateItemPool(ItemPool *pool) {
                 }
                 if (hasPendingCatchUp != 0) {
                     objectPos = object->mPosPointer;
-                    kartIndex = object->mOwnerKartIndexAndFlags & ~0xff00;
+                    kartIndex = object->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK;
                     kart = GetKart(kartIndex);
                     kartPos = &kart->mDrawMatrixPos;
                     distanceSquared = FROM_FIXED12(kartPos->x - objectPos->x) * FROM_FIXED12(kartPos->x - objectPos->x);
@@ -795,7 +795,7 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
     SetItemObjectPlacement(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mCourseColorBlend,
                            GetKartCourseHitAttributeBit(kart));
     if ((kart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
-        object->mFlags |= 0x40000000;
+        object->mFlags |= ITEM_OBJECT_FLAG_ON_BOOST_SURFACE;
     }
 }
 
@@ -845,7 +845,7 @@ void InitKartItems(KartItems *kartItems, u16 kartIndex) {
 void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
     StartItemObject(&gItemPools[object->mKind], object);
     CopyKartPlacementToItemObject(itemInUse->mKartItems, object);
-    object->mFlags &= ~0x1000;
+    object->mFlags &= ~ITEM_OBJECT_FLAG_IN_USE;
 }
 
 // Takes the last object out of the record, starts it and runs its kind's Init; the argument says whether to call
@@ -868,11 +868,11 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
     object->mDistanceSquaredAndFlags = gItemKinds[object->mKind].mViewTest(
         object->mPosPointer, object->mRadius << 1, gItemKinds[object->mKind].mDrawDistance,
         gItemKinds[object->mKind].mFarDistanceSquared, 0x1f);
-    if (object->mFlags & 0x400000) {
+    if (object->mFlags & ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE) {
         UpdateItemObjectSoundSource(object);
     }
     advanceFunc = gItemKinds[object->mKind].mAdvance;
-    if ((object->mFlags & 0x180000) == 0) {
+    if ((object->mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         object->mAdvance = advanceFunc;
     }
     if (callKart != 0) {
@@ -1024,7 +1024,7 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
     AdvanceItemInUseOne(itemInUse);
-    if ((object->mFlags & 0x1000) != 0) {
+    if ((object->mFlags & ITEM_OBJECT_FLAG_IN_USE) != 0) {
         direction.x = ((s64) inUseAlias->mBehindDirection.x << 13) >> 12;
         direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
         direction.z = ((s64) inUseAlias->mBehindDirection.z << 13) >> 12;

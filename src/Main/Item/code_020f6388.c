@@ -73,11 +73,11 @@ const u8 gItemHitTypes[196] = {2, 2, 2, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 2, 2, 2, 2
                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 2, 0, 1, 0, 2, 0, 0, 0, 2,
                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2};
-const u16 gItemObjectReleasePendingBit = 0x100;
-const u16 gItemObjectFadeOutPendingBit = 0x800;
-const u16 gItemObjectReleaseTimerPendingBit = 0x200;
-const u16 gItemObjectLaunchNoOwnerBit = 0x8000;
-const u16 gItemObjectNoCallbackFadeOutPendingBit = 0x400;
+const u16 gItemObjectReleasePendingBit = ITEM_OWNER_RELEASE_PENDING;
+const u16 gItemObjectFadeOutPendingBit = ITEM_OWNER_FADE_OUT_PENDING;
+const u16 gItemObjectReleaseTimerPendingBit = ITEM_OWNER_RELEASE_TIMER_PENDING;
+const u16 gItemObjectLaunchNoOwnerBit = ITEM_OWNER_NO_OWNER;
+const u16 gItemObjectNoCallbackFadeOutPendingBit = ITEM_OWNER_NO_CALLBACK_FADE_OUT_PENDING;
 
 u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam) {
     ItemObject *item = itemParam;
@@ -91,7 +91,7 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     s64 distanceSquared;
     s32 angle;
 
-    if (item->mFlags & 0x2000000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_DEFLECTED) {
         if (LENGTH_SQUARED(*normal) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(normal, normal);
         }
@@ -106,8 +106,8 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     if (distanceSquared >= (s64) item->mRadius * item->mRadius) {
         return;
     }
-    item->mFlags |= 0x4000000;
-    if (item->mFlags & 0x2000000) {
+    item->mFlags |= ITEM_OBJECT_FLAG_HIT_THIS_STEP;
+    if (item->mFlags & ITEM_OBJECT_FLAG_DEFLECTED) {
         return;
     }
     if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
@@ -120,7 +120,7 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
     item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);
     item->mVelocity.x = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.x, 0x14cd);
-    item->mFlags |= 0x2000000;
+    item->mFlags |= ITEM_OBJECT_FLAG_DEFLECTED;
 }
 
 void StartItemObjectSoundOnSource(ItemObject *item, s32 soundId) {
@@ -155,27 +155,27 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
     s32 radius;
     void (*soundCallback)(ItemObject *, s32);
 
-    if (item->mFlags & 0x80000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) {
         return;
     }
     soundId = mapObject ? mapObject->mKindData->mCollideItemObjectSoundId : -1;
     switch (hitType) {
         case 1:
-            if (item->mFlags & 0x1000) {
+            if (item->mFlags & ITEM_OBJECT_FLAG_IN_USE) {
                 break;
             }
             VEC_Subtract(&item->mPrevPos, otherPos, &offset);
-            if (!(item->mFlags & 0x8000) && (item->mFlags & 0x1000000)) {
+            if (!(item->mFlags & ITEM_OBJECT_FLAG_RESTING) && (item->mFlags & ITEM_OBJECT_FLAG_BOUNCED_BEFORE)) {
                 DeflectItemObjectRandomly(item, otherPos, &offset);
                 break;
             }
-            item->mFlags |= 0x4000000;
+            item->mFlags |= ITEM_OBJECT_FLAG_HIT_THIS_STEP;
             if (Vec3DotUnrounded(&item->mVelocity, &offset) <= 0) {
                 if (LENGTH_SQUARED(offset) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
                 }
                 item->mBounce(item, otherVelocity, &offset);
-                if (item->mFlags & 0x8000) {
+                if (item->mFlags & ITEM_OBJECT_FLAG_RESTING) {
                     break;
                 }
                 radius = item->mRadius;
@@ -189,7 +189,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
                 break;
             }
-            if (item->mFlags & 0x8000) {
+            if (item->mFlags & ITEM_OBJECT_FLAG_RESTING) {
                 break;
             }
             radius = item->mRadius;
@@ -207,8 +207,9 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
             item->mPos.z = otherPos->z + MUL_FIXED12_NO_ROUND(radius, offset.z);
             break;
         case 2:
-            if (item->mFlags & 0x1000) {
-                RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~0xff00)->mItemInUse, item);
+            if (item->mFlags & ITEM_OBJECT_FLAG_IN_USE) {
+                RemoveItemInUseObject(&GetKartItems(item->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)->mItemInUse,
+                                      item);
             }
             value = 0;
             if (SQUARE_SUM3(otherVelocity->x, otherVelocity->y, otherVelocity->z) >=
@@ -231,7 +232,7 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
                 push.z = MUL_FIXED12_NO_ROUND(direction.z, 0x1800);
                 ApplyItemObjectPush(item, otherPos, &push, &direction);
             }
-            if (soundId == -1 || (item->mFlags & 0x8000000)) {
+            if (soundId == -1 || (item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
                 FadeOutUsedUpItemObject(item, 1);
             } else {
                 value = item->mKind;
@@ -244,7 +245,8 @@ void ApplyItemObjectHitType(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, 
     if (soundId == -1) {
         return;
     }
-    soundCallback = (item->mFlags & 0x400000) ? StartItemObjectSoundOnSource : StartItemObjectSoundIfNear;
+    soundCallback =
+        (item->mFlags & ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE) ? StartItemObjectSoundOnSource : StartItemObjectSoundIfNear;
     soundCallback(item, soundId);
 }
 
@@ -252,27 +254,29 @@ void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
     BOOL started;
     enum { KIND_FIRST } kind;
 
-    if (!(item->mFlags & 0x8000000)) {
-        if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-            if (item->mOwnerKartIndexAndFlags & 0xf00) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
+        if ((item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) && !(item->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) &&
+            !(item->mFlags & ITEM_OBJECT_FLAG_DATA_SET_UP)) {
+            if (item->mOwnerKartIndexAndFlags & ITEM_OWNER_PENDING_MASK) {
                 return;
             }
             item->mOwnerKartIndexAndFlags |= gItemObjectReleaseTimerPendingBit;
             item->mAdvance = NULL;
             return;
         }
-        if (item->mFlags & 0x180000) {
+        if (item->mFlags & ITEM_OBJECT_FLAGS_ENDING) {
             return;
         }
         kind = item->mKind;
-        if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
+        if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceItemObjectReleaseTimer;
         }
-        item->mFlags |= 0x100002;
+        item->mFlags |= ITEM_OBJECT_FLAG_RELEASE_STARTED | ITEM_OBJECT_FLAG_RELEASING;
         return;
     }
-    if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mOwnerKartIndexAndFlags & 0xf00) {
+    if ((item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) && !(item->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) &&
+        !(item->mFlags & ITEM_OBJECT_FLAG_DATA_SET_UP)) {
+        if (item->mOwnerKartIndexAndFlags & ITEM_OWNER_PENDING_MASK) {
             started = FALSE;
         } else {
             item->mOwnerKartIndexAndFlags |= gItemObjectReleaseTimerPendingBit;
@@ -280,14 +284,14 @@ void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
             started = TRUE;
         }
     } else {
-        if (item->mFlags & 0x180000) {
+        if (item->mFlags & ITEM_OBJECT_FLAGS_ENDING) {
             started = FALSE;
         } else {
             kind = item->mKind;
-            if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
+            if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
                 item->mAdvance = AdvanceItemObjectReleaseTimer;
             }
-            item->mFlags |= 0x100002;
+            item->mFlags |= ITEM_OBJECT_FLAG_RELEASE_STARTED | ITEM_OBJECT_FLAG_RELEASING;
             started = TRUE;
         }
     }
@@ -303,18 +307,18 @@ void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
 void StartItemObjectReleaseTimer(ItemObject *item) {
     enum { KIND_FIRST } kind;
 
-    if (item->mFlags & 0x180000) {
+    if (item->mFlags & ITEM_OBJECT_FLAGS_ENDING) {
         return;
     }
     kind = item->mKind;
-    if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & 0x180000)) {
+    if (gItemKinds[kind].mKeepsAdvanceAtEnd == 0 && !(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
         item->mAdvance = AdvanceItemObjectReleaseTimer;
     }
-    item->mFlags |= 0x100002;
+    item->mFlags |= ITEM_OBJECT_FLAG_RELEASE_STARTED | ITEM_OBJECT_FLAG_RELEASING;
 }
 
 void AdvanceItemObjectReleaseTimer(ItemObject *item) {
-    if (item->mFlags & 0x8000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_RESTING) {
         AdvanceRestingItemObject(item);
     }
     item->mAlpha--;
@@ -330,26 +334,28 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
 void StartItemObjectReleaseSynced(ItemObject *item, s32 sendEvent) {
     BOOL started;
 
-    if (!(item->mFlags & 0x8000000)) {
-        if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-            if (item->mOwnerKartIndexAndFlags & 0xf00) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
+        if ((item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) && !(item->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) &&
+            !(item->mFlags & ITEM_OBJECT_FLAG_DATA_SET_UP)) {
+            if (item->mOwnerKartIndexAndFlags & ITEM_OWNER_PENDING_MASK) {
                 return;
             }
             item->mOwnerKartIndexAndFlags |= gItemObjectReleasePendingBit;
             item->mAdvance = NULL;
             return;
         }
-        if (item->mFlags & 0x180000) {
+        if (item->mFlags & ITEM_OBJECT_FLAGS_ENDING) {
             return;
         }
-        if (!(item->mFlags & 0x180000)) {
+        if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = ReleaseItemObjectToItsPool;
         }
-        item->mFlags |= 0x100002;
+        item->mFlags |= ITEM_OBJECT_FLAG_RELEASE_STARTED | ITEM_OBJECT_FLAG_RELEASING;
         return;
     }
-    if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mOwnerKartIndexAndFlags & 0xf00) {
+    if ((item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) && !(item->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) &&
+        !(item->mFlags & ITEM_OBJECT_FLAG_DATA_SET_UP)) {
+        if (item->mOwnerKartIndexAndFlags & ITEM_OWNER_PENDING_MASK) {
             started = FALSE;
         } else {
             item->mOwnerKartIndexAndFlags |= gItemObjectReleasePendingBit;
@@ -357,13 +363,13 @@ void StartItemObjectReleaseSynced(ItemObject *item, s32 sendEvent) {
             started = TRUE;
         }
     } else {
-        if (item->mFlags & 0x180000) {
+        if (item->mFlags & ITEM_OBJECT_FLAGS_ENDING) {
             started = FALSE;
         } else {
-            if (!(item->mFlags & 0x180000)) {
+            if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
                 item->mAdvance = ReleaseItemObjectToItsPool;
             }
-            item->mFlags |= 0x100002;
+            item->mFlags |= ITEM_OBJECT_FLAG_RELEASE_STARTED | ITEM_OBJECT_FLAG_RELEASING;
             started = TRUE;
         }
     }
@@ -377,13 +383,13 @@ void StartItemObjectReleaseSynced(ItemObject *item, s32 sendEvent) {
 }
 
 void StartItemObjectRelease(ItemObject *item) {
-    if (item->mFlags & 0x180000) {
+    if (item->mFlags & ITEM_OBJECT_FLAGS_ENDING) {
         return;
     }
-    if (!(item->mFlags & 0x180000)) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
         item->mAdvance = ReleaseItemObjectToItsPool;
     }
-    item->mFlags |= 0x100002;
+    item->mFlags |= ITEM_OBJECT_FLAG_RELEASE_STARTED | ITEM_OBJECT_FLAG_RELEASING;
 }
 
 void ReleaseItemObjectToItsPool(ItemObject *item) {
@@ -402,12 +408,12 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
     s32 value;
     enum { KIND_FIRST } kind;
 
-    if (item->mFlags & 0x80000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) {
         return 2;
     }
-    if (skipPending == 0 && (item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) &&
-        !(item->mFlags & 0x20000000)) {
-        if (item->mOwnerKartIndexAndFlags & 0xf00) {
+    if (skipPending == 0 && (item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) &&
+        !(item->mFlags & ITEM_OBJECT_FLAG_FROM_DATA) && !(item->mFlags & ITEM_OBJECT_FLAG_DATA_SET_UP)) {
+        if (item->mOwnerKartIndexAndFlags & ITEM_OWNER_PENDING_MASK) {
             return 2;
         }
         if (variant == 0) {
@@ -436,7 +442,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
         item->mCoursePointOrParams.y = 0x266;
     } else {
         item->mCoursePointOrParams.y = 0x333;
-        if (!(item->mFlags & 0x8000)) {
+        if (!(item->mFlags & ITEM_OBJECT_FLAG_RESTING)) {
             item->mCoursePointOrParams.y += MUL_FIXED12_NO_ROUND(VEC_Mag(velocity), 0x15c);
             if (item->mCoursePointOrParams.y > 0x5c3) {
                 item->mCoursePointOrParams.y = 0x5c3;
@@ -457,7 +463,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
             VEC_MultAdd(0x3000 - value, normal, velocity, velocity);
         }
     }
-    item->mFlags |= 0x80001;
+    item->mFlags |= ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_FADING_OUT;
     FreeItemObjectCollisionSlot(item);
     value = Vec3DotUnrounded(velocity, GetViewTransposeMatrixAxis0());
     if (value > 1) {
@@ -471,7 +477,7 @@ s32 StartItemObjectFadeOut(ItemObject *item, s32 variant, s32 skipPending) {
 void FadeOutEndedItemObject(ItemObject *item, s32 sendEvent) {
     s32 result;
 
-    if (!(item->mFlags & 0x8000000)) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
         StartItemObjectFadeOut(item, 0, 0);
         return;
     }
@@ -492,7 +498,7 @@ void ReplayPendingFadeOut(ItemObject *item) {
 void FadeOutItemObjectNoCallback(ItemObject *item, s32 sendEvent) {
     s32 result;
 
-    if (!(item->mFlags & 0x8000000)) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
         StartItemObjectFadeOut(item, 1, 0);
         return;
     }
@@ -522,7 +528,7 @@ void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
     if (result != 0) {
         return;
     }
-    if (!(item->mFlags & 0x8000000)) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
         return;
     }
     if (sendEvent == 0) {
@@ -546,7 +552,7 @@ void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
     if (result != 0) {
         return;
     }
-    if (!(item->mFlags & 0x8000000)) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
         return;
     }
     if (sendEvent == 0) {
@@ -564,7 +570,7 @@ void AdvanceItemObjectFadeOut(ItemObject *item) {
     Vec3CrossUnrounded(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
     VEC_MultAdd(item->mCoursePointOrParams.x != 0 ? item->mCoursePointOrParams.y : -item->mCoursePointOrParams.y,
                 &direction, &item->mNormal, &item->mNormal);
-    item->mFlags |= 0x80;
+    item->mFlags |= ITEM_OBJECT_FLAG_KEEP_NORMAL;
     item->mVelocity.y -= 0x400;
     VEC_Add(&item->mPos, &item->mVelocity, &item->mPos);
     item->mAlpha--;
@@ -591,7 +597,7 @@ void ApplyItemObjectPush(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, 
     if (lengthSquared >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&away, &away);
     }
-    if (item->mFlags & 0x8000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_RESTING) {
         VEC_MultAdd(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);
         push = gItemPushVector;
         push->x = MUL_FIXED12_NO_ROUND(away.x, 0xccd);
@@ -625,10 +631,10 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     } else {
         item->mHitLinkTimer = 0;
     }
-    item->mFlags |= 0x8000;
+    item->mFlags |= ITEM_OBJECT_FLAG_RESTING;
     kind = *(vs32 *) &item->mKind;
     if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
-        if (!(item->mFlags & 0x180000)) {
+        if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceRestingItemObject;
         }
     }
@@ -662,7 +668,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
         }
         if (item->mCollisionHitLink->mObject->mCollisionData.mTracksNormal != FALSE) {
             if (item->mNormal.y < 0xff4) {
-                item->mFlags |= 0x80;
+                item->mFlags |= ITEM_OBJECT_FLAG_KEEP_NORMAL;
             }
         }
         VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
@@ -690,7 +696,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
             VEC_Subtract(&item->mPos, &item->mPrevPos, &item->mVelocity);
         }
     } else {
-        if (!(item->mFlags & 0x40)) {
+        if (!(item->mFlags & ITEM_OBJECT_FLAG_SCALE_CHANGED)) {
             return;
         }
         VEC_MultAdd(item->mCourseRadius, &item->mNormal, &item->mCoursePointOrParams, &item->mPos);
@@ -728,10 +734,10 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
     velocity = &item->mVelocity;
     kind = *(vs32 *) &item->mKind;
     startsFalling = gItemKinds[kind].mStartsFalling;
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK || (item->mFlags & 0x8000000)) {
+    if (gRaceSetup->mMode == MODE_TIME_ATTACK || (item->mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
         startsFalling = 0;
     }
-    item->mFlags |= 0x4000;
+    item->mFlags |= ITEM_OBJECT_FLAG_LAUNCHED;
     item->mOwnerKartIndexAndFlags |= gItemObjectLaunchNoOwnerBit;
     dot = VEC_DotProduct(normal, velocity);
     velocity->x -= MUL_FIXED12_NO_ROUND(normal->x, dot);
@@ -752,13 +758,14 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
         VEC_MultAdd(pushStrength * 0x14cd, &away, velocity, velocity);
     }
     if (startsFalling != 0) {
-        if (!(item->mFlags & 0x180000)) {
+        if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceFallingItemObject;
         }
         item->mBounce = FallingBounceItemObject;
-        item->mFlags &= ~0x7000000;
+        item->mFlags &=
+            ~(ITEM_OBJECT_FLAG_BOUNCED_BEFORE | ITEM_OBJECT_FLAG_DEFLECTED | ITEM_OBJECT_FLAG_HIT_THIS_STEP);
     } else {
-        item->mFlags &= ~0x4000;
+        item->mFlags &= ~ITEM_OBJECT_FLAG_LAUNCHED;
         FadeOutItemObjectNoCallback(item, 1);
     }
 }
@@ -766,16 +773,16 @@ void LaunchItemObjectFromPos(ItemObject *itemParam, s32 pushStrength, Vec3 *from
 void StartFallingItemObject(ItemObject *item) {
     u32 kind;
 
-    item->mFlags &= ~0x8000;
-    item->mFlags |= 0x4000;
+    item->mFlags &= ~ITEM_OBJECT_FLAG_RESTING;
+    item->mFlags |= ITEM_OBJECT_FLAG_LAUNCHED;
     kind = *(vs32 *) &item->mKind;
     if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
-        if (!(item->mFlags & 0x180000)) {
+        if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceFallingItemObject;
         }
     }
     item->mBounce = FallingBounceItemObject;
-    item->mFlags &= ~0x7000000;
+    item->mFlags &= ~(ITEM_OBJECT_FLAG_BOUNCED_BEFORE | ITEM_OBJECT_FLAG_DEFLECTED | ITEM_OBJECT_FLAG_HIT_THIS_STEP);
 }
 
 void AdvanceFallingItemObject(ItemObject *item) {
@@ -800,7 +807,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
             LandItemObjectIfOnGround(item, pos, velocity, 0x385, &groundNormal);
         }
         if (item->mCollisionBits & COURSE_HIT_WALL) {
-            item->mFlags |= 0x20;
+            item->mFlags |= ITEM_OBJECT_FLAG_HIT_WALL;
             BounceItemVelocityOffSurface(velocity, &bounceNormal);
             if (TryFadeOutDeflectedItemObject(item, &bounceNormal) != FALSE) {
                 return;
@@ -811,17 +818,17 @@ void AdvanceFallingItemObject(ItemObject *item) {
             return;
         }
     }
-    item->mFlags &= ~0x4000000;
+    item->mFlags &= ~ITEM_OBJECT_FLAG_HIT_THIS_STEP;
     if (!(item->mCollisionBits & COURSE_HIT_GROUND)) {
         velocity->y -= 0x385;
         if (velocity->y < -0xa000) {
             velocity->y = -0xa000;
         }
     }
-    if (!(item->mFlags & 8)) {
+    if (!(item->mFlags & ITEM_OBJECT_FLAG_LANDED)) {
         return;
     }
-    if (item->mFlags & 3) {
+    if (item->mFlags & (ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_RELEASE_STARTED)) {
         return;
     }
     StartRestingItemObject(item, &collisionHitLink);
@@ -829,10 +836,10 @@ void AdvanceFallingItemObject(ItemObject *item) {
 
 void FallingBounceItemObject(ItemObject *item, Vec3 *otherVelocity, Vec3 *normal) {
     BounceItemVelocityOffSurface(&item->mVelocity, normal);
-    if (item->mFlags & 0x1000000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_BOUNCED_BEFORE) {
         return;
     }
-    item->mFlags |= 0x1000000;
+    item->mFlags |= ITEM_OBJECT_FLAG_BOUNCED_BEFORE;
     item->mCoursePointOrParams.x = 0;
     item->mCoursePointOrParams.y = 0;
     item->mCoursePointOrParams.z = 0;

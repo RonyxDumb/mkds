@@ -24,7 +24,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gItemObjectPendingUpdateBit = 0x8000;
+const u16 gItemObjectPendingUpdateBit = ITEM_OWNER_NO_OWNER;
 const ItemSpreadRow gItemSpreadRows[3] = {{{{0x1000, 0}, {0, 0}, {0, 0}}},
                                           {{{-2048, 0xddb}, {-2048, -3547}, {0, 0}}},
                                           {{{0x1000, 0}, {-2048, 0xddb}, {-2048, -3547}}}};
@@ -755,7 +755,8 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     }
     item->mBouncesRemaining = bounceCount;
     item->mItemObject.mBounce = BounceItemObject;
-    item->mItemObject.mFlags &= ~0x7000000;
+    item->mItemObject.mFlags &=
+        ~(ITEM_OBJECT_FLAG_BOUNCED_BEFORE | ITEM_OBJECT_FLAG_DEFLECTED | ITEM_OBJECT_FLAG_HIT_THIS_STEP);
     if (!kartOnBoostSurface) {
         return;
     }
@@ -782,7 +783,8 @@ void InitBouncingItem(BouncingItemObject *item, s32 bounceCount, Vec3 *velocity)
     }
     item->mBouncesRemaining = bounceCount;
     item->mItemObject.mBounce = BounceItemObject;
-    item->mItemObject.mFlags &= ~0x7000000;
+    item->mItemObject.mFlags &=
+        ~(ITEM_OBJECT_FLAG_BOUNCED_BEFORE | ITEM_OBJECT_FLAG_DEFLECTED | ITEM_OBJECT_FLAG_HIT_THIS_STEP);
 }
 
 // One step: moves by the velocity and reflects it at a surface while bounces are left.
@@ -811,7 +813,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             if (value <= 0) {
                 LandItemObjectIfOnGround(&item->mItemObject, pos, velocity, gravity, &hitNormal);
             } else {
-                item->mItemObject.mFlags |= 0x10;
+                item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_BOUNCED;
                 value = VEC_DotProduct(&hitNormal, velocity);
                 offset.x = MUL_FIXED12_NO_ROUND(hitNormal.x, value);
                 offset.y = MUL_FIXED12_NO_ROUND(hitNormal.y, value);
@@ -827,19 +829,19 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             }
         }
         if (item->mItemObject.mCollisionBits & COURSE_HIT_WALL) {
-            item->mItemObject.mFlags |= 0x20;
+            item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_HIT_WALL;
             BounceItemVelocityOffSurface(velocity, &wallNormal);
             if (TryFadeOutDeflectedItemObject(&item->mItemObject, &wallNormal) != FALSE) {
                 return;
             }
-            item->mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
+            item->mItemObject.mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
         }
         if (item->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
             FadeOutItemObjectNoCallback(&item->mItemObject, 1);
             return;
         }
     }
-    item->mItemObject.mFlags &= ~0x4000000;
+    item->mItemObject.mFlags &= ~ITEM_OBJECT_FLAG_HIT_THIS_STEP;
     if (item->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
         return;
     }
@@ -852,10 +854,10 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
 // Hit handler of bouncing items: reflects the velocity about the surface normal.
 void BounceItemObject(ItemObject *item, Vec3 *unused, Vec3 *awayDirection) {
     BounceItemVelocityOffSurface(&item->mVelocity, awayDirection);
-    if (item->mFlags & 0x1000000) {
+    if (item->mFlags & ITEM_OBJECT_FLAG_BOUNCED_BEFORE) {
         return;
     }
-    item->mFlags |= 0x1000000;
+    item->mFlags |= ITEM_OBJECT_FLAG_BOUNCED_BEFORE;
     item->mCoursePointOrParams.x = 0;
     item->mCoursePointOrParams.y = 0;
     item->mCoursePointOrParams.z = 0;

@@ -209,7 +209,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                          hitNormal.z == object->mItemObject.mNormal.z;
             if (sameNormal == FALSE) {
                 object->mItemObject.mNormal = hitNormal;
-                object->mItemObject.mFlags |= 0x100;
+                object->mItemObject.mFlags |= ITEM_OBJECT_FLAG_NORMAL_CHANGED;
                 if (onBoostSurface != 0) {
                     value = VEC_DotProduct(&hitNormal, &object->mSurfaceDirection);
                     object->mSurfaceDirection.x =
@@ -241,9 +241,9 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                 unusedOut.y = 0;
                 DeflectItemObjectAndStartSound(object, &unusedOut, NULL);
             }
-            object->mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
+            object->mItemObject.mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
             if (object->mHasHitLimit != FALSE) {
-                object->mItemObject.mFlags |= 0x20;
+                object->mItemObject.mFlags |= ITEM_OBJECT_FLAG_HIT_WALL;
                 object->mHitsRemaining -= 1;
             }
         }
@@ -285,7 +285,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     value = velocityAlias->y;
     if (value > 0) {
         velocityAlias->y -= 0x6b8;
-        if (!(object->mItemObject.mFlags & 0x20000)) {
+        if (!(object->mItemObject.mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT)) {
             return;
         }
         value = velocityAlias->y;
@@ -299,7 +299,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
         if (velocityAlias->y >= -0xa000) {
             return;
         }
-        if (object->mItemObject.mFlags & 0x20000) {
+        if (object->mItemObject.mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) {
             velocityAlias->y = -0xa000;
         }
     }
@@ -315,7 +315,7 @@ void ApplyItemObjectGravity(void *objectParam) {
     verticalSpeed = velocity->y;
     if (verticalSpeed > 0) {
         velocity->y -= 0x6b8;
-        if (!(object->mFlags & 0x20000)) {
+        if (!(object->mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT)) {
             return;
         }
         verticalSpeed = velocity->y;
@@ -329,7 +329,7 @@ void ApplyItemObjectGravity(void *objectParam) {
         if (velocity->y >= -0xa000) {
             return;
         }
-        if (object->mFlags & 0x20000) {
+        if (object->mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) {
             velocity->y = -0xa000;
         }
     }
@@ -351,7 +351,7 @@ void ApplyItemObjectGravityWithGroundPull(ItemObject *object) {
     verticalSpeed = velocity->y;
     if (verticalSpeed > 0) {
         velocity->y -= 0x6b8;
-        if (!(object->mFlags & 0x20000)) {
+        if (!(object->mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT)) {
             return;
         }
         verticalSpeed = velocity->y;
@@ -365,7 +365,7 @@ void ApplyItemObjectGravityWithGroundPull(ItemObject *object) {
         if (velocity->y >= -0xa000) {
             return;
         }
-        if (object->mFlags & 0x20000) {
+        if (object->mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT) {
             velocity->y = -0xa000;
         }
     }

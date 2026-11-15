@@ -49,7 +49,7 @@ struct MapObject **gPooledMapObjects;
 s32 gPooledMapObjectCount;
 struct CourseMapRow gPooledMapObjectRow;
 
-const u16 gBouncingItemBoxUntilCourseHitBit = 0x2000;
+const u16 gBouncingItemBoxUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 
 const ItemInfo gItemInfoKiller = {1, 1, 0xd, 1, 0, 0, StartItemKiller};
 
@@ -168,13 +168,13 @@ void StartBouncingItemBox(BouncingItemBox *box) {
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 1;
     }
-    if ((box->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+    if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         box->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
     }
 }
 
 void ReleaseBouncingItemBox(BouncingItemBox *box) {
-    u16 kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
+    u16 kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK;
     if ((s32) gBouncingItemBoxTimers[kartIndex] > 0) {
         gBouncingItemBoxTimerRunning[kartIndex] = 1;
     }
@@ -183,18 +183,19 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
 
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *kart) {
     StartItemSlotAndEffects(&box->mBouncingItemObject.mItemObject.mPos, kart, 0,
-                            (box->mBouncingItemObject.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
+                            (box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_OUT_OF_VIEW) ? 1 : 0, 0);
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = 0x666;
     ResetPooledMapObject(box->mPooledMapObject);
-    box->mKartIsEntry =
-        (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00) == gRaceSetup->mEntryIndex;
+    box->mKartIsEntry = (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK) ==
+                        gRaceSetup->mEntryIndex;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = 2;
     }
-    SetBouncingItemBoxTimer(box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00, 0x258);
+    SetBouncingItemBoxTimer(box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK,
+                            0x258);
 }
 
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
@@ -250,15 +251,15 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     s32 scaleRatio;
     s32 kartIsEntry;
     ItemBox *mapObject;
-    if ((box->mBouncingItemObject.mItemObject.mFlags & 0x180000) != 0) {
-        if ((box->mBouncingItemObject.mItemObject.mFlags & 0x80000) != 0) {
+    if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) != 0) {
+        if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADING_OUT) != 0) {
             AdvanceItemObjectFadeOut(&box->mBouncingItemObject.mItemObject);
-        } else if ((box->mBouncingItemObject.mItemObject.mFlags & 0x100000) != 0) {
+        } else if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_RELEASING) != 0) {
             AdvanceItemObjectReleaseTimer(&box->mBouncingItemObject.mItemObject);
         }
-    } else if ((box->mBouncingItemObject.mItemObject.mFlags & 0x8000) != 0) {
+    } else if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_RESTING) != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE) {
-            kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00;
+            kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK;
             framesLeft = gBouncingItemBoxTimers[kartIndex] - 0x3c;
             if (framesLeft < box->mBouncingItemObject.mItemObject.mAlpha) {
                 box->mBouncingItemObject.mItemObject.mAlpha = framesLeft;
@@ -274,7 +275,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
             gBouncingItemBoxTimers[kartIndex]--;
         }
         AdvanceRestingItemObject(&box->mBouncingItemObject.mItemObject);
-    } else if ((box->mBouncingItemObject.mItemObject.mFlags & 0x4000) != 0) {
+    } else if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LAUNCHED) != 0) {
         AdvanceFallingItemObject(&box->mBouncingItemObject.mItemObject);
     } else {
         if (box->mThrownForward != 0) {
@@ -282,8 +283,9 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
         } else {
             AdvanceBouncingItem(&box->mBouncingItemObject, 0x2e1, 0xf85, 0, &buf);
         }
-        if ((box->mBouncingItemObject.mItemObject.mFlags & 8) != 0 &&
-            (box->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
+        if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LANDED) != 0 &&
+            (box->mBouncingItemObject.mItemObject.mFlags &
+             (ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_RELEASE_STARTED)) == 0) {
             if (box->mThrownForward != 0) {
                 box->mBouncingItemObject.mItemObject.mVelocity.y <<= 1;
             }

@@ -65,6 +65,88 @@ extern SegmentProgress gJgSegmentProgress;
 // ItemObject.mAlpha of a fully opaque item (the polygon alpha has five bits).
 #define ITEM_OBJECT_ALPHA_OPAQUE 0x1f
 
+// Bits of ItemObject.mFlags. The low 12 bits are events of the current frame: UpdateItemObject clears them at its start.
+// Fade-out (ITEM_OBJECT_FLAG_FADING_OUT) began this frame.
+#define ITEM_OBJECT_FLAG_FADE_OUT_STARTED 0x1
+// The release timer (ITEM_OBJECT_FLAG_RELEASING) began this frame.
+#define ITEM_OBJECT_FLAG_RELEASE_STARTED 0x2
+// The object was returned to its pool; UpdateItemObject then stops.
+#define ITEM_OBJECT_FLAG_RELEASED 0x4
+// A falling object touched the ground this frame.
+#define ITEM_OBJECT_FLAG_LANDED 0x8
+// A bouncing object bounced off the ground this frame.
+#define ITEM_OBJECT_FLAG_BOUNCED 0x10
+// A thrown or falling object hit a wall this frame.
+#define ITEM_OBJECT_FLAG_HIT_WALL 0x20
+// The scale (and with it the radii) was changed this frame.
+#define ITEM_OBJECT_FLAG_SCALE_CHANGED 0x40
+// The normal was set by code; UpdateItemObject then does not blend it back toward up.
+#define ITEM_OBJECT_FLAG_KEEP_NORMAL 0x80
+// A ground hit replaced the normal this frame.
+#define ITEM_OBJECT_FLAG_NORMAL_CHANGED 0x100
+// The object is held in a kart's ItemInUse.
+#define ITEM_OBJECT_FLAG_IN_USE 0x1000
+// The object was taken from its pool and is running.
+#define ITEM_OBJECT_FLAG_ACTIVE 0x2000
+// Set when the object is launched or starts falling; stays set while it rests.
+#define ITEM_OBJECT_FLAG_LAUNCHED 0x4000
+// The object rests on the course.
+#define ITEM_OBJECT_FLAG_RESTING 0x8000
+// The view test of the object failed.
+#define ITEM_OBJECT_FLAG_OUT_OF_VIEW 0x10000
+// No ground hit in the last 5 frames (ItemObject.mFramesSinceCourseHit).
+#define ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT 0x20000
+// Set while ItemObject.mFramesSinceReset is below 5; a held object takes it from the kart course hit attribute bit.
+#define ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE 0x40000
+// Fade-out is running.
+#define ITEM_OBJECT_FLAG_FADING_OUT 0x80000
+// The release timer is running.
+#define ITEM_OBJECT_FLAG_RELEASING 0x100000
+// Fade-out or release has begun.
+#define ITEM_OBJECT_FLAGS_ENDING 0x180000
+// The object is hit-tested even when the entry kart is far from the tested kart.
+#define ITEM_OBJECT_FLAG_HITS_FAR_KARTS 0x200000
+// The object owns a sound source (ItemObject.mSoundSource).
+#define ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE 0x400000
+// The scale is not grown or swung by UpdateItemObject.
+#define ITEM_OBJECT_FLAG_FIXED_SCALE 0x800000
+// A hit bounced the object once; the next hit deflects it in a random direction.
+#define ITEM_OBJECT_FLAG_BOUNCED_BEFORE 0x1000000
+// The object was deflected in a random direction.
+#define ITEM_OBJECT_FLAG_DEFLECTED 0x2000000
+// The object was hit during the current step.
+#define ITEM_OBJECT_FLAG_HIT_THIS_STEP 0x4000000
+// The object was created in a Wi-Fi race (ResetItemObject, MODE_WIFI): its changes are sent as item events.
+#define ITEM_OBJECT_FLAG_WIFI_RACE 0x8000000
+// The object was created from received data (ResetItemObjectFromData).
+#define ITEM_OBJECT_FLAG_FROM_DATA 0x10000000
+// The object was set up from data (RoundTripItemObjectData, StartItemObjectFromData).
+#define ITEM_OBJECT_FLAG_DATA_SET_UP 0x20000000
+// The object is on a boost surface (COURSE_HIT_BOOST_SURFACE).
+#define ITEM_OBJECT_FLAG_ON_BOOST_SURFACE 0x40000000
+
+// Bits of ItemObject.mOwnerKartIndexAndFlags; the low byte is the owner kart index.
+// Release is waiting to be replayed after setup from data.
+#define ITEM_OWNER_RELEASE_PENDING 0x100
+// Release timer is waiting to be replayed.
+#define ITEM_OWNER_RELEASE_TIMER_PENDING 0x200
+// Fade-out without callback is waiting to be replayed.
+#define ITEM_OWNER_NO_CALLBACK_FADE_OUT_PENDING 0x400
+// Fade-out is waiting to be replayed.
+#define ITEM_OWNER_FADE_OUT_PENDING 0x800
+// Any of the four pending bits.
+#define ITEM_OWNER_PENDING_MASK 0xf00
+// A red shell has this object as its target.
+#define ITEM_OWNER_KOURA_R_TARGETED 0x1000
+// Together with ITEM_OWNER_EXCLUDED: the owner stays excluded until the object hits the course.
+#define ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT 0x2000
+// The owner kart is not hit by the object; cleared after 30 frames or at the first course hit.
+#define ITEM_OWNER_EXCLUDED 0x4000
+// The owner index is not valid (the owner reads as kart 8).
+#define ITEM_OWNER_NO_OWNER 0x8000
+// All the flag bits above; clearing them leaves the owner kart index.
+#define ITEM_OWNER_FLAGS_MASK 0xff00
+
 // Element returned through gItemPools: the first 0x12c bytes that every pool object shares; the per-kind objects
 // embed it as their first member and run from 0x12c (kinds 4, 6 and 13) to 0x31c bytes. One is also embedded in
 // MapObjects at 0x18c.

@@ -148,7 +148,7 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
         SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
                                    itemInUse->mKartScaleFactorTimesBase.y);
         object->mKartLightColor = kartModelHalfwords;
-        object->mFlags |= 0x1000;
+        object->mFlags |= ITEM_OBJECT_FLAG_IN_USE;
     }
 }
 
@@ -171,7 +171,7 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     s32 objectHitType;
     s32 otherHitType;
 
-    if ((other->mFlags & 0x1000) != 0) {
+    if ((other->mFlags & ITEM_OBJECT_FLAG_IN_USE) != 0) {
         if (object->mCreationNumber > other->mCreationNumber) {
             return;
         }
@@ -217,18 +217,18 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         if (itemInUse->mObjectStartFramesLeft == 0) {
             object->mNormal = itemInUse->mKartOrientation.mRows[1];
             if (object->mNormal.y < 0xff4) {
-                object->mFlags |= 0x80;
+                object->mFlags |= ITEM_OBJECT_FLAG_KEEP_NORMAL;
             }
         }
         if (courseHitAttributeBit != 0) {
-            object->mFlags |= 0x40000;
+            object->mFlags |= ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE;
         } else {
-            object->mFlags &= ~0x40000;
+            object->mFlags &= ~ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE;
         }
         if (outOfView != 0) {
-            object->mFlags |= 0x10000;
+            object->mFlags |= ITEM_OBJECT_FLAG_OUT_OF_VIEW;
         } else {
-            object->mFlags &= ~0x10000;
+            object->mFlags &= ~ITEM_OBJECT_FLAG_OUT_OF_VIEW;
         }
     }
     for (reverseIndex = objectCount - 1; reverseIndex >= 0; reverseIndex--) {
@@ -249,8 +249,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
-                if ((other->mOwnerKartIndexAndFlags & 0x4000) != 0 &&
-                    itemInUse->mKartIndex == (u16) (other->mOwnerKartIndexAndFlags & ~0xff00)) {
+                if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED) != 0 &&
+                    itemInUse->mKartIndex == (u16) (other->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)) {
                     continue;
                 }
                 CollideItemObjects(object, other);
@@ -418,7 +418,7 @@ void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
 }
 
 void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
-    if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
+    if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
         object->mTransformMtx.mRows[2] = *viewAxis;
         Vec3CrossUnrounded(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
         if ((s64) object->mTransformMtx.mRows[0].x * object->mTransformMtx.mRows[0].x +
@@ -460,10 +460,10 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     model->mPolygonAttributes |= 0x4000000;
     for (objectIndex = 0; objectIndex < takenCount; objectIndex++) {
         object = pool->mObjects[objectIndex];
-        if ((object->mFlags & 0x10000) != 0) {
+        if ((object->mFlags & ITEM_OBJECT_FLAG_OUT_OF_VIEW) != 0) {
             continue;
         }
-        if ((object->mFlags & 0x1000) != 0) {
+        if ((object->mFlags & ITEM_OBJECT_FLAG_IN_USE) != 0) {
             SendLight01Color(object->mKartLightColor);
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
@@ -476,7 +476,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             model->mPolygonAttributes &= ~0x3f000000;
             model->mPolygonAttributes |= 0x3000000;
         }
-        if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
+        if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
             object->mTransformMtx.mRows[2] = *viewAxis;
             Vec3CrossUnrounded(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
             if ((s64) object->mTransformMtx.mRows[0].x * object->mTransformMtx.mRows[0].x +
@@ -515,10 +515,10 @@ void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCall
     takenCount = pool->mTakenCount;
     for (objectIndex = 0; objectIndex < takenCount; objectIndex++) {
         object = pool->mObjects[objectIndex];
-        if ((object->mFlags & 0x10000) != 0) {
+        if ((object->mFlags & ITEM_OBJECT_FLAG_OUT_OF_VIEW) != 0) {
             continue;
         }
-        if ((object->mFlags & 0x1000) != 0) {
+        if ((object->mFlags & ITEM_OBJECT_FLAG_IN_USE) != 0) {
             SendLight01Color(object->mKartLightColor);
         } else {
             SendLight01Color(&object->mColorBlend.mColor);
@@ -536,7 +536,7 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         model->mPolygonAttributes |= (u16) alpha << 16;
     }
     QueueNsbmdModelMaterial(model);
-    if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
+    if (object->mNormal.y < 0xfae || (object->mFlags & ITEM_OBJECT_FLAG_KEEP_NORMAL) != 0) {
         object->mTransformMtx.mRows[2] = *viewAxis;
         Vec3CrossUnrounded(&object->mNormal, &object->mTransformMtx.mRows[2], &object->mTransformMtx.mRows[0]);
         if ((s64) object->mTransformMtx.mRows[0].x * object->mTransformMtx.mRows[0].x +

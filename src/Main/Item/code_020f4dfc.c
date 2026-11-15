@@ -67,7 +67,7 @@
 #include "Main/Item/code_020f4dfc.h"
 #include "Main/Item/code_020f50b4.h"
 
-const u16 gItemKinokoNoOwnerBit = 0x8000;
+const u16 gItemKinokoNoOwnerBit = ITEM_OWNER_NO_OWNER;
 
 const ItemInfo gItemInfoKinoko = {1, 1, 3, 1, 0, 0, StartItemKinokoBoost};
 
@@ -152,15 +152,16 @@ void AdvanceBouncingItemKinoko(ItemKinoko *kinoko) {
     u32 collisionHitLink;
 
     AdvanceBouncingItem(&kinoko->mBouncingItemObject, 0x385, 0xff8, 0x733, &collisionHitLink);
-    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 8) == 0) {
+    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LANDED) == 0) {
         return;
     }
-    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 3) != 0) {
+    if ((kinoko->mBouncingItemObject.mItemObject.mFlags &
+         (ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_RELEASE_STARTED)) != 0) {
         return;
     }
     StopSound(&kinoko->mBouncingItemObject.mItemObject.mSoundSource, 0xda);
     StartRestingItemObject(&kinoko->mBouncingItemObject.mItemObject, &collisionHitLink);
-    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         kinoko->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceRestingItemKinoko;
     }
 }
@@ -173,7 +174,7 @@ ItemKinoko *StartItemKinokoOrZero(void) {
     if (kinoko == NULL) {
         return NULL;
     }
-    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         kinoko->mBouncingItemObject.mItemObject.mAdvance = NULL;
     }
     FreeItemObjectCollisionSlot(&kinoko->mBouncingItemObject.mItemObject);
@@ -188,7 +189,7 @@ void ShowItemKinokoAt(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos) {
     SetCourseColorBlendColor(&kinoko->mBouncingItemObject.mItemObject.mColorBlend, 1);
     if (normal != NULL) {
         kinoko->mBouncingItemObject.mItemObject.mNormal = *normal;
-        kinoko->mBouncingItemObject.mItemObject.mFlags |= 0x80;
+        kinoko->mBouncingItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_KEEP_NORMAL;
     }
     if (pos == NULL) {
         return;
@@ -207,7 +208,7 @@ void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer) {
     CreateItemObjectCollisionSlot(&kinoko->mBouncingItemObject.mItemObject);
     StartItemObjectSoundSource(&kinoko->mBouncingItemObject.mItemObject);
     InitBouncingItem(&kinoko->mBouncingItemObject, 0, velocity);
-    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+    if ((kinoko->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         kinoko->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemKinoko;
     }
     kinoko->mTimer = timer;

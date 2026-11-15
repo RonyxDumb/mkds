@@ -39,7 +39,7 @@
 #include "Main/Sound/data_0216c000.h"
 
 const u16 gMissionRunBoxMapObjectFlag = 1;
-const u16 gItemObjectExcludedUntilCourseHitBit = 0x2000;
+const u16 gItemObjectExcludedUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 const MapObjectKindDescriptor gMissionRunBoxKindDescriptor = {
     0,    {0, 0}, 0x144, InitMissionRunBoxMapObject, CreateMissionRunBoxKindData, NULL, NULL,
     NULL, NULL,   NULL,  {NULL, NULL, NULL, NULL}};
@@ -143,7 +143,8 @@ void SetItemFBoxPushedDrawMatrix(ItemFBox *fbox, MtxFx43 *out) {
     s32 scaledX, scaledZ;
     Vec3 *position;
 
-    if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x80000) && GetChoisesSOpenDuringRace() == 0) {
+    if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADING_OUT) &&
+        GetChoisesSOpenDuringRace() == 0) {
         s32 row0Dot, row2Dot;
 
         row0Dot = DOT2_FIXED12(fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[0].x, fbox->mPushDirection.x,
@@ -252,15 +253,15 @@ u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
 void AdvanceItemFBox(ItemFBox *fbox) {
     s32 unusedOutput;
 
-    if (fbox->mBouncingItemObject.mItemObject.mFlags & 0x180000) {
-        if (fbox->mBouncingItemObject.mItemObject.mFlags & 0x80000) {
+    if (fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) {
+        if (fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADING_OUT) {
             AdvanceItemObjectFadeOut(&fbox->mBouncingItemObject.mItemObject);
-        } else if (fbox->mBouncingItemObject.mItemObject.mFlags & 0x100000) {
+        } else if (fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_RELEASING) {
             AdvanceItemObjectReleaseTimer(&fbox->mBouncingItemObject.mItemObject);
         }
-    } else if (fbox->mBouncingItemObject.mItemObject.mFlags & 0x8000) {
+    } else if (fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_RESTING) {
         AdvanceRestingItemObject(&fbox->mBouncingItemObject.mItemObject);
-    } else if (fbox->mBouncingItemObject.mItemObject.mFlags & 0x4000) {
+    } else if (fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LAUNCHED) {
         AdvanceFallingItemObject(&fbox->mBouncingItemObject.mItemObject);
     } else {
         if (fbox->mThrownForward != 0) {
@@ -268,8 +269,9 @@ void AdvanceItemFBox(ItemFBox *fbox) {
         } else {
             AdvanceBouncingItem(&fbox->mBouncingItemObject, 0x2e1, 0xf85, 0, (u32 *) &unusedOutput);
         }
-        if ((fbox->mBouncingItemObject.mItemObject.mFlags & 8) &&
-            (fbox->mBouncingItemObject.mItemObject.mFlags & 3) == 0) {
+        if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LANDED) &&
+            (fbox->mBouncingItemObject.mItemObject.mFlags &
+             (ITEM_OBJECT_FLAG_FADE_OUT_STARTED | ITEM_OBJECT_FLAG_RELEASE_STARTED)) == 0) {
             if (fbox->mThrownForward != 0) {
                 fbox->mBouncingItemObject.mItemObject.mVelocity.y *= 2;
             }
@@ -289,7 +291,7 @@ s32 ItemFBoxFadeOutCallback(ItemFBox *fbox) {
         Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mPushDirection);
     }
     fbox->mPooledMapObject->mShadowMode = 2;
-    if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+    if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         fbox->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }
     return 2;
@@ -311,7 +313,7 @@ void SetupItemFBoxAfterLaunch(ItemFBox *fbox) {
                        &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mRows[2]);
     MTX_Concat33(&gItemFBoxRotation, &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes,
                  &fbox->mBouncingItemObject.mItemObject.mTransformMtx.mAxes);
-    if ((fbox->mBouncingItemObject.mItemObject.mFlags & 0x180000) == 0) {
+    if ((fbox->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         fbox->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
     }
 }

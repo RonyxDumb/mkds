@@ -67,7 +67,7 @@
 #include "Main/Item/code_020f5324.h"
 #include "Main/System/init_after_startup.h"
 
-const u16 gItemBananaUntilCourseHitBit = 0x2000;
+const u16 gItemBananaUntilCourseHitBit = ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT;
 
 StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRStraight},
                                            {NULL, UpdateItemKouraRStraight},
@@ -126,7 +126,8 @@ void StartItemKouraRSound(void *kouraParam, s32 unused) {
     ItemKouraR *kouraR;
 
     kouraR = kouraParam;
-    if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x400000)) {
+    if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
+          ITEM_OBJECT_FLAG_HAS_SOUND_SOURCE)) {
         return;
     }
     AdvanceSoundDistanceSquaredChange(
@@ -165,9 +166,10 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
         kouraR->mThrowForward = 1;
         if (gRaceSetup->mMode != MODE_BATTLE && itemInUse->mKartItems->mItemLink.mLink != NULL) {
             ownerKartIndex =
-                !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
+                !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
+                  ITEM_OWNER_NO_OWNER)
                     ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
-                             ~0xff00)
+                             ~ITEM_OWNER_FLAGS_MASK)
                     : 8;
             if (ownerKartIndex >= 8) {
                 targetKartIndex = 8;
@@ -189,10 +191,10 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
             kouraR->mLinkFollowingItemObject.mPreviousLink.mLink = NULL;
             kouraR->mLinkFollowingItemObject.mPreviousLink.mNextLinksUsed = 1;
         }
-        kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x200000;
+        kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_HITS_FAR_KARTS;
     }
     ResetItemKouraRKartItems(kouraR);
-    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000) {
+    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT_FLAGGED;
         kouraR->mStateMachine.mNextStateRequested = 1;
     }
@@ -206,7 +208,7 @@ void AdvanceItemKouraR(ItemKouraR *kouraR) {
 void UpdateItemKouraRStraight(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0x8800);
-    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     AddSoundRequest(&gSoundRequestQueues[5],
@@ -240,13 +242,14 @@ void RequestItemKouraRHomingForKart(ItemKouraR *kouraR, u32 kartIndex) {
 void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0x8800);
-    if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
+    if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
+          ITEM_OBJECT_FLAG_FADE_OUT_STARTED)) {
         AddSoundRequest(&gSoundRequestQueues[5],
                         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                             ~0xc000001f,
                         StartItemKouraRSound, kouraR, 0);
     }
-    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 0x10) {
@@ -255,7 +258,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
         }
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
-        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
+        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
         AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
@@ -268,7 +271,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
         }
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
-        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
+        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
         AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
@@ -289,8 +292,10 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     u16 rankAhead;
 
     ownerKartIndex =
-        !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
-            ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & ~0xff00)
+        !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
+          ITEM_OWNER_NO_OWNER)
+            ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
+                     ~ITEM_OWNER_FLAGS_MASK)
             : 8;
     if (ownerKartIndex >= 8) {
         targetKartIndex = 8;
@@ -302,13 +307,14 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
         targetKartIndex = GetKartAtRank(rankAhead);
     }
     AdvanceLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0xd000, 0x29, targetKartIndex, 0);
-    if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1)) {
+    if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
+          ITEM_OBJECT_FLAG_FADE_OUT_STARTED)) {
         AddSoundRequest(&gSoundRequestQueues[5],
                         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                             ~0xc000001f,
                         StartItemKouraRSound, kouraR, 0);
     }
-    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 0x708) {
@@ -323,7 +329,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
         }
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
-        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
+        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
         AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
@@ -336,7 +342,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
         }
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_HOMING;
         kouraR->mStateMachine.mNextStateRequested = 1;
-        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x8000000)) {
+        if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
         AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
@@ -375,14 +381,14 @@ void UpdateItemKouraRHoming(void *stateObject) {
         kouraR->mStateMachine.mNextStateRequested = 1;
     } else {
         value = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags;
-        if (value & 0x10000000) {
+        if (value & ITEM_OBJECT_FLAG_FROM_DATA) {
             if (kartBits & KART_ENTRY_SELECTED) {
                 value = SteerItemKouraRToKart(kouraR, 0x5333, 0x19a, 1);
             } else {
                 value = SteerItemKouraRToKart(kouraR, 0x4b33, 0x19a, 0);
             }
         } else {
-            value = SteerItemKouraRToKart(kouraR, 0x4800, 0x19a, (value & 0x8000000) == 0);
+            value = SteerItemKouraRToKart(kouraR, 0x4800, 0x19a, (value & ITEM_OBJECT_FLAG_WIFI_RACE) == 0);
         }
         if (value != 0) {
             AddItemKouraRTowardKartToVelocity(kouraR);
@@ -392,7 +398,7 @@ void UpdateItemKouraRHoming(void *stateObject) {
             kouraR->mLinkFollowingItemObject.mPreviousLink.mNextLinksUsed = 1;
         }
     }
-    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     AddSoundRequest(&gSoundRequestQueues[5],
@@ -418,7 +424,8 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
     } else {
         SteerItemKouraRToKart(kouraR, 0x10000, 0x333, 0);
     }
-    if ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) == 0) {
+    if ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) ==
+        0) {
         AddSoundRequest(&gSoundRequestQueues[5],
                         kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags &
                             ~0xc000001f,
@@ -440,7 +447,7 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
 void UpdateItemKouraRGlideToKartVelocity(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0xc000);
-    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
+    if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
         return;
     }
     AddSoundRequest(&gSoundRequestQueues[5],
@@ -465,7 +472,9 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         return;
     }
     kartItems = kouraR->mKartItems;
-    otherOwnerIndex = !(other->mOwnerKartIndexAndFlags & 0x8000) ? (u16) (other->mOwnerKartIndexAndFlags & ~0xff00) : 8;
+    otherOwnerIndex = !(other->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER)
+                          ? (u16) (other->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
+                          : 8;
     if (kartItems == NULL) {
         return;
     }
@@ -474,11 +483,11 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         return;
     }
     otherFlags = other->mFlags;
-    if ((otherFlags & 0x1000) == 0) {
-        if ((otherFlags & 0x2000) == 0) {
+    if ((otherFlags & ITEM_OBJECT_FLAG_IN_USE) == 0) {
+        if ((otherFlags & ITEM_OBJECT_FLAG_ACTIVE) == 0) {
             return;
         }
-        if ((other->mOwnerKartIndexAndFlags & 0x1000) == 0) {
+        if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
             return;
         }
         if (other->mAgeFrames >= 0x78) {
@@ -534,9 +543,10 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
             kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_FOLLOW_LINK;
             kouraR->mStateMachine.mNextStateRequested = 1;
             ownerKartIndex =
-                !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags & 0x8000)
+                !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
+                  ITEM_OWNER_NO_OWNER)
                     ? (u16) (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
-                             ~0xff00)
+                             ~ITEM_OWNER_FLAGS_MASK)
                     : 8;
             if (ownerKartIndex >= 8) {
                 targetKartIndex = 8;
@@ -555,7 +565,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
             kouraR->mStateMachine.mNextStateRequested = 1;
             InitItemObjectMotion(kouraR, 0, kouraR->mReverse, 0);
         }
-        kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x200000;
+        kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_HITS_FAR_KARTS;
     } else {
         kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_STRAIGHT;
         kouraR->mStateMachine.mNextStateRequested = 1;
