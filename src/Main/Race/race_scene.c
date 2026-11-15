@@ -321,14 +321,14 @@ void SetPickedValue(u32 pickedValue) {
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    gMenuShared->mMenuEntryKind = 0;
+    gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_DEFAULT;
     nextScene = -1;
     switch (pickedValue) {
-        case 10:
+        case CHOISES_S_PICK_STAFF_CREDITS:
             SetupStaffRollRace(0);
-            nextScene = 2;
+            nextScene = SCENE_RACE;
             break;
-        case 9:
+        case CHOISES_S_PICK_QUIT:
             if (gRaceSetup->mMode != MODE_WIFI) {
                 u32 connectionMode;
                 u32 connectionActive;
@@ -347,124 +347,124 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 }
                 if (connectionActive != 0) {
                     if (gStartupWork->mMultiSimple != 0) {
-                        nextScene = 6;
+                        MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
                         gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                     } else {
-                        nextScene = 1;
+                        nextScene = SCENE_MENU_1;
                     }
-                    gMenuShared->mMenuEntryKind = 4;
+                    gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CONNECTED;
                     gMenuShared->mRaceSetupRequested = 1;
                 } else {
-                    nextScene = 0;
+                    nextScene = SCENE_TITLE;
                 }
                 if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
                     TimeAttackNextSceneNop();
                 }
             } else {
-                nextScene = 0xc;
-                gMenuShared->mWiFiMenuStartKind = 0;
+                nextScene = SCENE_WIFI_MENU;
+                gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_TOP_MENU;
             }
             break;
-        case 1:
-        case 3:
-            nextScene = 2;
+        case CHOISES_S_PICK_RETRY:
+        case CHOISES_S_PICK_RESTART:
+            nextScene = SCENE_RACE;
             gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
             break;
-        case 8:
-            nextScene = 2;
-            gRaceSetup->mNextHeader.mRaceKind = nextScene;
+        case CHOISES_S_PICK_REPLAY:
+            nextScene = SCENE_RACE;
+            gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_REPLAY;
             break;
-        case 2:
+        case CHOISES_S_PICK_NEXT:
             switch (gRaceSetup->mMode) {
                 case MODE_GRAND_PRIX:
                     SetNextGrandPrixCourse();
-                    nextScene = 2;
+                    nextScene = SCENE_RACE;
                     break;
                 case MODE_VS:
                     if (AdvanceToNextCourseWrapper() != 0) {
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = 2;
+                            nextScene = SCENE_RACE;
                         } else {
-                            nextScene = 6;
+                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RACE;
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
-                            gMenuShared->mMenuEntryKind = 2;
+                            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_COURSE;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = 1;
+                            nextScene = SCENE_MENU_1;
                         } else {
-                            nextScene = 6;
+                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                         }
                     }
                     break;
                 case MODE_WIFI:
                     if (CopyCourseIdAndAdvanceCourseNumber() != FALSE) {
-                        nextScene = 0xc;
-                        gMenuShared->mWiFiMenuStartKind = 3;
+                        nextScene = SCENE_WIFI_MENU;
+                        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_COURSE_SELECT;
                     } else {
-                        nextScene = 0xa;
-                        gMenuShared->mWiFiMenuStartKind = 2;
+                        nextScene = SCENE_RESULT;
+                        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_SELECT_CHARACTER;
                     }
                     break;
                 case MODE_BATTLE:
                     if (AdvanceToNextBattleCourse() != 0) {
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = 2;
+                            nextScene = SCENE_RACE;
                         } else {
-                            nextScene = 6;
+                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RACE;
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
-                            gMenuShared->mMenuEntryKind = 2;
+                            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_COURSE;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = 1;
+                            nextScene = SCENE_MENU_1;
                         } else {
-                            nextScene = 6;
+                            MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                         }
                     }
                     break;
             }
             break;
-        case 7:
+        case CHOISES_S_PICK_NEXT_LAST:
             switch (gRaceSetup->mMode) {
                 case MODE_GRAND_PRIX:
                     if (CopyEntryResultAndSetupAwardRace() != FALSE) {
-                        nextScene = 2;
+                        nextScene = SCENE_RACE;
                     } else {
-                        nextScene = 0xa;
+                        nextScene = SCENE_RESULT;
                     }
                     break;
                 case MODE_MISSION_RUN:
-                    nextScene = 0;
+                    nextScene = SCENE_TITLE;
                     break;
                 case MODE_BATTLE:
                 case MODE_VS:
                     if (gStartupWork->mMultiSimple != 0) {
-                        nextScene = 6;
+                        MENU_ENTRY_KIND_CHANGE_CHARACTERS = 6;
                         gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RESULT;
                     } else {
-                        nextScene = 0xa;
+                        nextScene = SCENE_RESULT;
                     }
                     break;
             }
             break;
-        case 5:
-            nextScene = 1;
-            gMenuShared->mMenuEntryKind = nextScene;
+        case CHOISES_S_PICK_CHANGE_CHARACTERS:
+            nextScene = SCENE_MENU_1;
+            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_CHARACTERS;
             break;
-        case 4:
-            gMenuShared->mMenuEntryKind = 2;
-            nextScene = 1;
+        case CHOISES_S_PICK_CHANGE_COURSE:
+            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_COURSE;
+            nextScene = SCENE_MENU_1;
             break;
-        case 6:
-            gMenuShared->mMenuEntryKind = 3;
-            nextScene = 1;
+        case CHOISES_S_PICK_SELECT_MISSION:
+            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_SELECT_MISSION;
+            nextScene = SCENE_MENU_1;
             break;
     }
     if (nextScene != -1) {

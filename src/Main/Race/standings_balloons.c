@@ -95,11 +95,11 @@ void StartKartMicInflate(u16 kartIndex) {
     if (IsKartNotNormalOrFlagged(GetKart(kartIndex)) != FALSE) {
         return;
     }
-    gStandings->mKarts[kartIndex].mMicInflateTimer = 10;
+    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_FRAMES;
 }
 
 void StopKartMicInflate(int kartIndex) {
-    gStandings->mKarts[kartIndex].mMicInflateTimer = 0xffffffff;
+    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_NONE;
 }
 
 s32 GetKartMicInflateTimer(u16 kartIndex) {
@@ -323,7 +323,7 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
         }
     }
     kartCount = gRaceSetup->mKartCount;
-    gStandings->mLowestBalloonOrShineCount = 0xffff;
+    gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
     for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
         count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
@@ -361,7 +361,7 @@ void MoveKartTowardLastRank(u16 kartIndex) {
         }
     }
     kartCount = gRaceSetup->mKartCount;
-    gStandings->mLowestBalloonOrShineCount = 0xffff;
+    gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
     for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
         count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
@@ -442,7 +442,7 @@ found:
         if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);
         }
-        gStandings->mEndTimer = 0x5a;
+        gStandings->mEndTimer = STANDINGS_END_FRAMES;
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         entryIndex = gRaceSetup->mEntryIndex;
         if (gStandings->mWinnerTeamId == entryIndex) {
@@ -760,10 +760,10 @@ void InitStandings(void) {
         if (kartIndex < gRaceSetup->mKartCount) {
             switch (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex) {
                 case 0:
-                    kartStanding->mTeamId = 1;
+                    kartStanding->mTeamId = STANDINGS_TEAM_ID_FIRST_TEAM;
                     break;
                 case 1:
-                    kartStanding->mTeamId = 3;
+                    kartStanding->mTeamId = STANDINGS_TEAM_ID_SECOND_TEAM;
                     break;
                 default:
                     kartStanding->mTeamId = kartIndex;
@@ -842,7 +842,7 @@ void UpdateStandings(void) {
                 if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & PAD_KEY_SELECT) != 0) {
                     gStandings->mKarts[kartIndex].mSelectKeyInflate = 1;
                 } else if (gInputSlots[kart->mEntryIndex].mPair.mMicOverThreshold[0] != 0) {
-                    gStandings->mKarts[kartIndex].mMicInflateTimer = 10;
+                    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_FRAMES;
                 }
             }
             if (gStandings->mKartHitCallback != NULL) {
@@ -919,12 +919,12 @@ void InitDistanceSound(DistanceSound *mapObject) {
 
     courseId = gRaceSetup->mCourseId;
     if (courseId == COURSE_ID_MANSION) {
-        mapObject->mSoundId = 0x121;
+        mapObject->mSoundId = DISTANCE_SOUND_ID_MANSION;
     } else if (courseId == COURSE_ID_BEACH) {
-        mapObject->mSoundId = 0x111;
-        mapObject->mSecondSoundId = 0x10a;
+        mapObject->mSoundId = DISTANCE_SOUND_ID_BEACH;
+        mapObject->mSecondSoundId = DISTANCE_SOUND_ID_BEACH_SECOND;
     } else {
-        mapObject->mSoundId = 0x20d;
+        mapObject->mSoundId = DISTANCE_SOUND_ID_DEFAULT;
     }
 }
 
@@ -940,19 +940,19 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
          objectIndex < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
         if (gRaceSetup->mCourseId == COURSE_ID_MANSION) {
-            mapObject->mRadius = 0xa28;
+            mapObject->mRadius = DISTANCE_SOUND_RADIUS_WIDE;
             mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x73a000;
             mapObject->mCenterY = mapObject->mMapObject.mPos.y;
             mapObject->mCenterZ = mapObject->mMapObject.mPos.z - 0x1400000;
             mapObject->mDistanceLevelInverted = TRUE;
         } else if (gRaceSetup->mCourseId == COURSE_ID_BEACH) {
-            mapObject->mRadius = 0x546;
+            mapObject->mRadius = DISTANCE_SOUND_RADIUS_BEACH;
             mapObject->mCenterX = mapObject->mMapObject.mPos.x + 0x28a000;
             mapObject->mCenterY = mapObject->mMapObject.mPos.y;
             mapObject->mCenterZ = mapObject->mMapObject.mPos.z - 0x32000;
             mapObject->mDistanceLevelInverted = FALSE;
         } else {
-            mapObject->mRadius = 0xa28;
+            mapObject->mRadius = DISTANCE_SOUND_RADIUS_WIDE;
             mapObject->mCenterX = mapObject->mMapObject.mPos.x;
             mapObject->mCenterY = mapObject->mMapObject.mPos.y;
             mapObject->mCenterZ = mapObject->mMapObject.mPos.z;
@@ -961,7 +961,7 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
         randomState = &gRaceProgress->mLocalRandom;
         randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
         mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x258;
-        mapObject->mDistanceVolumeFixed12 = 0x7f000;
+        mapObject->mDistanceVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
         randomState = &gRaceProgress->mLocalRandom;
         randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
         mapObject->mDistanceLevelTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0xf) >> 32);
@@ -982,7 +982,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
     s64 distanceSquared;
 
     if (mapObject->mDistanceLevelTimer-- <= 0) {
-        mapObject->mDistanceLevelTimer = 0xf;
+        mapObject->mDistanceLevelTimer = DISTANCE_SOUND_LEVEL_FRAMES;
         radius = mapObject->mRadius;
         halfRadius = radius / 2;
         kart = GetKart((u16) gRaceSetup->mEntryIndex);
@@ -1002,11 +1002,11 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
         }
     }
     if (mapObject->mDistanceLevel > 1) {
-        mapObject->mDistanceVolumeFixed12 = 0x7f001;
+        mapObject->mDistanceVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX) + 1;
     } else if (mapObject->mDistanceLevel > 0) {
         mapObject->mDistanceVolumeFixed12 = mapObject->mDistanceVolumeFixed12 + 0x4000;
-        if (mapObject->mDistanceVolumeFixed12 > 0x7f000) {
-            mapObject->mDistanceVolumeFixed12 = 0x7f000;
+        if (mapObject->mDistanceVolumeFixed12 > TO_FIXED12(SOUND_VOLUME_MAX)) {
+            mapObject->mDistanceVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
         }
     } else {
         mapObject->mDistanceVolumeFixed12 = mapObject->mDistanceVolumeFixed12 - 0x4000;
@@ -1019,9 +1019,9 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
             if (*GetSndHandleSlot(8) != NULL) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 mapObject->mSoundVolumeFixed12 =
-                    mapObject->mSoundVolumeFixed12 - MUL_FIXED12_NO_ROUND(kart->mVelocityLengthRatio, 0x1000);
-                if (mapObject->mSoundVolumeFixed12 < 0xc000) {
-                    mapObject->mSoundVolumeFixed12 = 0xc000;
+                    mapObject->mSoundVolumeFixed12 - MUL_FIXED12_NO_ROUND(kart->mVelocityLengthRatio, TO_FIXED12(1));
+                if (mapObject->mSoundVolumeFixed12 < DISTANCE_SOUND_VOLUME_MIN) {
+                    mapObject->mSoundVolumeFixed12 = DISTANCE_SOUND_VOLUME_MIN;
                 }
             } else if (mapObject->mSoundTimer-- <= 0) {
                 sndHandleSlot = GetSndHandleSlot(8);
@@ -1033,7 +1033,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
                 randomState = &gRaceProgress->mLocalRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
-                mapObject->mSoundVolumeFixed12 = 0x7f000;
+                mapObject->mSoundVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
             }
         } else if (mapObject->mSoundTimer > 0) {
             mapObject->mSoundTimer = mapObject->mSoundTimer - 1;

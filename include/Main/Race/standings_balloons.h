@@ -115,3 +115,23 @@ void SetStandingsKartBalloons(KartBalloons *kartBalloons);
 extern const u32 gShineBattleTimeLimits[4];
 // The Standings object, allocated by InitStandings in modes 2 and 4.
 extern Standings *gStandings;
+
+// Frames Standings.mKarts[].mMicInflateTimer is set to, and its value while the kart does not inflate (all bits set).
+#define STANDINGS_MIC_INFLATE_FRAMES 10
+#define STANDINGS_MIC_INFLATE_NONE 0xffffffff
+// Standings.mLowestBalloonOrShineCount before any kart was counted, and the frames mEndTimer waits when a battle ends.
+#define STANDINGS_LOWEST_COUNT_START 0xffff
+#define STANDINGS_END_FRAMES 0x5a
+// KartStanding.mTeamId of the first and the second battle team (a kart without a team uses its kart index).
+#define STANDINGS_TEAM_ID_FIRST_TEAM 1
+#define STANDINGS_TEAM_ID_SECOND_TEAM 3
+// Distance sound of a course: the sound ids and the radius of the area it covers, the frames between distance level
+// checks, and the volume limits (fixed-point volume 0 to SOUND_VOLUME_MAX).
+#define DISTANCE_SOUND_ID_MANSION 0x121
+#define DISTANCE_SOUND_ID_BEACH 0x111
+#define DISTANCE_SOUND_ID_BEACH_SECOND 0x10a
+#define DISTANCE_SOUND_ID_DEFAULT 0x20d
+#define DISTANCE_SOUND_RADIUS_WIDE 0xa28
+#define DISTANCE_SOUND_RADIUS_BEACH 0x546
+#define DISTANCE_SOUND_LEVEL_FRAMES 0xf
+#define DISTANCE_SOUND_VOLUME_MIN 0xc000

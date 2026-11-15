@@ -688,27 +688,27 @@ void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *ou
 
     *outCharacterIndex = gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
     switch (*outCharacterIndex) {
-        case 0:
-        case 2:
-        case 8:
-        case 10:
-        case 11:
+        case CHARACTER_MARIO:
+        case CHARACTER_KINOPIO:
+        case CHARACTER_KARON:
+        case CHARACTER_WALUIGI:
+        case CHARACTER_ROBO:
             *outPaletteIndex = 7;
             break;
-        case 1:
-        case 3:
-        case 9:
+        case CHARACTER_DONKEY:
+        case CHARACTER_KOOPA:
+        case CHARACTER_DAISY:
             *outPaletteIndex = 8;
             break;
-        case 4:
-        case 5:
+        case CHARACTER_PEACH:
+        case CHARACTER_WARIO:
             *outPaletteIndex = 9;
             break;
-        case 6:
-        case 7:
+        case CHARACTER_YOSHI:
+        case CHARACTER_LUIGI:
             *outPaletteIndex = 10;
             break;
-        case 12:
+        case CHARACTER_HEYHO:
             shuffledIndex = gMenuShared->mShuffledIndices[entryIndex];
             *outCharacterIndex = shuffledIndex % 4 + 12;
             if (shuffledIndex < 4) {
@@ -732,27 +732,27 @@ void GetTimeRecordCharacterAndPalette(s32 recordIndex, s32 *outCharacterIndex, s
         return;
     }
     switch (*outCharacterIndex) {
-        case 0:
-        case 2:
-        case 8:
-        case 10:
-        case 11:
+        case CHARACTER_MARIO:
+        case CHARACTER_KINOPIO:
+        case CHARACTER_KARON:
+        case CHARACTER_WALUIGI:
+        case CHARACTER_ROBO:
             *outPaletteIndex = 7;
             break;
-        case 1:
-        case 3:
-        case 9:
+        case CHARACTER_DONKEY:
+        case CHARACTER_KOOPA:
+        case CHARACTER_DAISY:
             *outPaletteIndex = 8;
             break;
-        case 4:
-        case 5:
+        case CHARACTER_PEACH:
+        case CHARACTER_WARIO:
             *outPaletteIndex = 9;
             break;
-        case 6:
-        case 7:
+        case CHARACTER_YOSHI:
+        case CHARACTER_LUIGI:
             *outPaletteIndex = 10;
             break;
-        case 12:
+        case CHARACTER_HEYHO:
             break;
     }
 }
