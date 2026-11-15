@@ -661,8 +661,8 @@ asm void OS_IrqHandler_ThreadSwitch(void) {
     ldr ip, =OSi_IrqThreadQueue
     ldr ip, [ip, #0x0]
     cmp ip, #0x0
-    beq L_01ff80a8
-L_01ff8070:
+    beq L_CheckRescheduleFlag
+L_WakeQueuedThreads:
     str r2, [ip, #0x64]
     str r3, [ip, #0x78]
     str r3, [ip, #0x7c]
@@ -670,14 +670,14 @@ L_01ff8070:
     str r3, [ip, #0x80]
     mov ip, r0
     cmp ip, #0x0
-    bne L_01ff8070
+    bne L_WakeQueuedThreads
     ldr ip, =OSi_IrqThreadQueue
     str r3, [ip, #0x0]
     str r3, [ip, #0x4]
     ldr ip, =OSi_ThreadInfo
     mov r1, #0x1
     strh r1, [ip, #0x0]
-L_01ff80a8:
+L_CheckRescheduleFlag:
     ldr ip, =OSi_ThreadInfo
     ldrh r1, [ip, #0x0]
     cmp r1, #0x0
@@ -688,30 +688,30 @@ L_01ff80a8:
     msr cpsr_c, r3
     add r2, ip, #0x8
     ldr r1, [r2, #0x0]
-L_01ff80d0:
+L_FindRunnableThread:
     cmp r1, #0x0
     ldrneh r0, [r1, #0x64]
     cmpne r0, #0x1
     ldrne r1, [r1, #0x68]
-    bne L_01ff80d0
+    bne L_FindRunnableThread
     cmp r1, #0x0
-    bne L_01ff80f8
-L_01ff80ec:
+    bne L_CheckThreadChanged
+L_KeepCurrentThread:
     mov r3, #0x92
     msr cpsr_c, r3
     ldr pc, [sp], #0x4
-L_01ff80f8:
+L_CheckThreadChanged:
     ldr r0, [ip, #0x4]
     cmp r1, r0
-    beq L_01ff80ec
+    beq L_KeepCurrentThread
     ldr r3, [ip, #0xc]
     cmp r3, #0x0
-    beq L_01ff8120
+    beq L_SaveRunningContext
     stmdb sp!, {r0, r1, ip}
     mov lr, pc
     bx r3
     ldmia sp!, {r0, r1, ip}
-L_01ff8120:
+L_SaveRunningContext:
     str r1, [ip, #0x4]
     mrs r2, spsr
     str r2, [r0, #0x0]!
