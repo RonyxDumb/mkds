@@ -3,13 +3,13 @@
 #include "types.h"
 #include "01/code_02188950.h"
 
-// Values of mHandShape and mHandOrder. On a hand: 0 to 3 are the collision shapes set by SetIwanteNoneCollision to
-// SetIwanteHitReactionCollision. During the walk the two hands alternate between 1 and 2 (3 stays bare).
-// On the object the hands follow: 4 and 5 name the hand that is currently the first or second one.
+// Values of mHandShape and mHandOrder. A hand's mHandShape is the collision shape set by SetIwanteNoneCollision to
+// SetIwanteHitReactionCollision. mHandOrder uses 4 and 5 for the hand that is currently the second or first one.
 enum {
     IWANTE_HAND_SHAPE_NONE,
     IWANTE_HAND_SHAPE_WALK_A,
     IWANTE_HAND_SHAPE_WALK_B,
+    IWANTE_HAND_SHAPE_HIT_REACTION,
     IWANTE_HAND_SECOND = 4,
     IWANTE_HAND_FIRST,
 };

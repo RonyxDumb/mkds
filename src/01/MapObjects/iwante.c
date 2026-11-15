@@ -247,7 +247,7 @@ void SetIwanteWalkBCollision(MissionRunMapObject *mapObject) {
 }
 
 void SetIwanteHitReactionCollision(MissionRunMapObject *mapObject) {
-    mapObject->mHandShape = 3;
+    mapObject->mHandShape = IWANTE_HAND_SHAPE_HIT_REACTION;
     SetItemCollisionCallback(mapObject, &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0, 0x00028000u, 0xfffd1000u, 0x00002000u, 0x0001b99au, 0x00028000u,
                                          0x0002f000u, 0x00002000u);
