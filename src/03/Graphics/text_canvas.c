@@ -90,7 +90,7 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     u32 areaWidth = gBgTextCanvasSizes[screen * 2];
     vu16 *bgControl;
     u32 screenBase;
-    u8 *font;
+    NNSG2dFont *font;
 
     canvas->mChars = AllocExpHeapBlock((areaWidth * areaHeight) << 5, 0x20);
     if (screen == 1) {
@@ -103,7 +103,7 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
         *bgControl = (*bgControl & 0x43) | 0xc00;
     }
     NNS_G2dCharCanvasInitForBG(canvas, canvas->mChars, areaWidth, areaHeight, 4);
-    font = (u8 *) gTextCanvases->mFonts + fontIndex * 12;
+    font = &gTextCanvases->mFonts[fontIndex];
     canvas->mTextCanvas.mCharCanvas = canvas;
     canvas->mTextCanvas.mFont = font;
     canvas->mTextCanvas.mCharSpacing = 1;
