@@ -104,10 +104,10 @@ void LocateAndQueueMissionRunLVsel(void) {
     LocateNcgr2(&missionRunLVselSNcgr, FindSceneFile(gMissionRunLVselSNcgrName));
     LocateNcer(&gMissionRunLVsel->mMissionRunLVselSNcer, FindSceneFile(gMissionRunLVselSNcerName));
     LocateNclr(&missionRunLVselSONclr, FindSceneFile(gMissionRunLVselSONclrName));
-    gMissionRunLVsel->mVramTransferBuffer = HeapAlloc(gMissionRunLVsel->mHeap, 0x800);
+    gMissionRunLVsel->mVramTransferBuffer = HeapAlloc(gMissionRunLVsel->mHeap, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(4, 0, missionRunLVselMBNcgr->mData, missionRunLVselMBNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(8, 0, missionRunLVselMNscr->mData, missionRunLVselMNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunLVsel->mVramTransferBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunLVsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, missionRunLVselMBNclr->mData, 0x40);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, missionRunLVselSNcgr->mData, missionRunLVselSNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, missionRunLVselSONclr->mData, missionRunLVselSONclr->mDataSize);

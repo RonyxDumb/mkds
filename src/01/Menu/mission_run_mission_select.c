@@ -130,7 +130,7 @@ void LocateAndQueueMissionRunMSsel(void) {
     LocateNclr(&missionRunMSselMBPalette, FindSceneFile(gMissionRunMSselMBNclrName));
     LocateNscr(&missionRunMSselMWScreenMap, FindSceneFile(gMissionRunMSselMWNscrName));
     LocateNscr(&missionRunMSselMScreenMap, FindSceneFile(gMissionRunMSselMNscrName));
-    gMissionRunMSsel->mVramTransferBuffer = HeapAlloc(gMissionRunMSsel->mHeap, 0x800);
+    gMissionRunMSsel->mVramTransferBuffer = HeapAlloc(gMissionRunMSsel->mHeap, SECOND_SCREEN_MAP_BYTES);
     gMissionRunMSsel->mMissionRunMSselMBncl = FindSceneFile(gMissionRunMSselMBnclName);
     gMissionRunMSsel->mMissionRunMSselMBnll = FindSceneFile(gMissionRunMSselMBnllName);
     LocateNcgr2(&missionRunMSselMChars, FindSceneFile(gMissionRunMSselMNcgrName));
@@ -146,11 +146,11 @@ void LocateAndQueueMissionRunMSsel(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, missionRunMSselMBChars->mData, missionRunMSselMBChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, missionRunMSselMBPalette->mData, 0x40);
     NNS_GfdRegisterNewVramTransferTask(8, 0, missionRunMSselMWScreenMap->mData, missionRunMSselMWScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunMSsel->mVramTransferBuffer, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x1000, gMissionRunMSsel->mVramTransferBuffer, 0x800);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x1800, gMissionRunMSsel->mVramTransferBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunMSsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x1000, gMissionRunMSsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x1800, gMissionRunMSsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(9, 0, missionRunMSselMScreenMap->mData, missionRunMSselMScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(9, 0x800, gMissionRunMSsel->mVramTransferBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(9, 0x800, gMissionRunMSsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, missionRunMSselMChars->mData, missionRunMSselMChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, missionRunMSselMOPalette->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
@@ -944,7 +944,7 @@ void AdvanceMissionRunMSselSlideOut(void) {
         }
     }
     if (gMissionRunMSsel->mStateFrames == 5) {
-        NNS_GfdRegisterNewVramTransferTask(9, 0, gMissionRunMSsel->mVramTransferBuffer, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gMissionRunMSsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
     }
 }
 

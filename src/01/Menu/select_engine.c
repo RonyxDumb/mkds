@@ -95,7 +95,7 @@ void LocateAndQueueSelectEngine(void) {
     LocateNcgr(&selectEngineMBChars, FindSceneFile(gSelectEngineMBNcgrName));
     LocateNclr(&selectEngineMBPalette, FindSceneFile(gSelectEngineMBNclrName));
     LocateNscr(&selectEngineMScreenMap, FindSceneFile(gSelectEngineMNscrName));
-    gSelectEngine->mVramTransferBuffer = HeapAlloc(gSelectEngine->mHeap, 0x800);
+    gSelectEngine->mVramTransferBuffer = HeapAlloc(gSelectEngine->mHeap, SECOND_SCREEN_MAP_BYTES);
     gSelectEngine->mSelectEngineMBncl = FindSceneFile(gSelectEngineMBnclName);
     LocateNcgr2(&selectEngineMChars, FindSceneFile(gSelectEngineMNcgrName));
     LocateNcer(&gSelectEngine->mSelectEngineMNcer, FindSceneFile(gSelectEngineMNcerName));
@@ -114,7 +114,7 @@ void LocateAndQueueSelectEngine(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, selectEngineMBChars->mData, selectEngineMBChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectEngineMBPalette->mData, 0x100);
     NNS_GfdRegisterNewVramTransferTask(8, 0, selectEngineMScreenMap->mData, selectEngineMScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mVramTransferBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectEngine->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectEngineMChars->mData, selectEngineMChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectEngineMOPalette->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);

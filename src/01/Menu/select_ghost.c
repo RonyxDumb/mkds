@@ -82,7 +82,7 @@ void LocateAndQueueSelectGhost(void) {
     LocateNcgr(&selectGhostSBNcgr, FindSceneFile(gSelectGhostSBNcgrName));
     LocateNscr(&selectGhostSNscr, FindSceneFile(gSelectGhostSNscrName));
     LocateNclr(&selectGhostSBNclr, FindSceneFile(gSelectGhostSBNclrName));
-    gSelectGhost->mSecondScreenMapBuffer = HeapAlloc(gSelectGhost->mHeap, 0x800);
+    gSelectGhost->mSecondScreenMapBuffer = HeapAlloc(gSelectGhost->mHeap, SECOND_SCREEN_MAP_BYTES);
     gSelectGhost->mSelectCupCourseTaMBncl = FindSceneFile(gSelectCupCourseTaMBnclName);
     gSelectGhost->mSelectCupCourseTaMBnll = FindSceneFile(gSelectCupCourseTaMBnllName);
     LocateNcer(&gSelectGhost->mSelectCupCourseMNcer, FindSceneFile(gSelectCupCourseMNcerName));
@@ -99,7 +99,7 @@ void LocateAndQueueSelectGhost(void) {
     NNS_GfdRegisterNewVramTransferTask(0x17, 0, selectGhostSBNcgr->mData, selectGhostSBNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0, selectGhostSBNclr->mData, 0x20);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, selectGhostSNscr->mData, selectGhostSNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mSecondScreenMapBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectGhostSONcgr->mData, selectGhostSONcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData,
                                        gSelectGhost->mSelectGhostSONclr->mDataSize);

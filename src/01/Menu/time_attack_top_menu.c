@@ -61,7 +61,7 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     LocateNcgr(&mbNcgr, FindSceneFile(gTimeAttackTopMenuMBNcgrName));
     LocateNclr(&mbNclr, FindSceneFile(gTimeAttackTopMenuMBNclrName));
     LocateNscr(&mNscr, FindSceneFile(gTimeAttackTopMenuMNscrName));
-    gTimeAttackTopMenu->mSecondScreenMapBuffer = HeapAlloc(gTimeAttackTopMenu->mHeap, 0x800);
+    gTimeAttackTopMenu->mSecondScreenMapBuffer = HeapAlloc(gTimeAttackTopMenu->mHeap, SECOND_SCREEN_MAP_BYTES);
     gTimeAttackTopMenu->mTimeAttackTopMenuSBncl = FindSceneFile(gTimeAttackTopMenuSBnclName);
     gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl = FindSceneFile(gTimeAttackTopMenuSBnblName);
     LocateNcgr2(&sNcgr, FindSceneFile(gTimeAttackTopMenuSNcgrName));
@@ -70,7 +70,7 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, mbNcgr->mData, mbNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, mbNclr->mData, 0x20);
     NNS_GfdRegisterNewVramTransferTask(8, 0, &mNscr->mData, mNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gTimeAttackTopMenu->mSecondScreenMapBuffer, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gTimeAttackTopMenu->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, sNcgr->mData, sNcgr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, soNclr->mData, soNclr->mDataSize);
 }
