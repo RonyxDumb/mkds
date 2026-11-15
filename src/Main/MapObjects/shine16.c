@@ -71,7 +71,7 @@ MapObjectModel *gShine16;
 const u16 gShine16ShadowAngles[4] = {0, 0xe38, 0x1c71, 0};
 void InitShine16(MapObject *mapObject) {
     ParkMapObject(mapObject);
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mSound->mSoundSource, 0xb, &mapObject->mPos);
     SetShine16TrackParamsNop(&mapObject->mSound->mSoundSource);
     mapObject->mFarDistanceSquared = gSoundFalloffs[0xb].mFarDistanceSquared;

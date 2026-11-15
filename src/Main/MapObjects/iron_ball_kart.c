@@ -77,7 +77,7 @@ void InitIronBall(IronBall *ironBall) {
     Vec3 scale = gIronBallInitialScale;
 
     SetMapObjectScale(&ironBall->mMapObject, &scale);
-    ironBall->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    ironBall->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&ironBall->mMapObject.mSound->mSoundSource, 10, &ironBall->mMapObject.mPos);
     ironBall->mMapObject.mFarDistanceSquared = gSoundFalloffs[10].mFarDistanceSquared;
     ironBall->mSoundOffKind3ShapeListMask =

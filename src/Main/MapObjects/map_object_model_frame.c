@@ -71,7 +71,7 @@ MapObjectModel *CreateMapObjectModelAnimated(MapObjectList *mapObjectList, const
         mapObjectList->mPassOrPosStepMode = MAP_OBJECT_LIST_PASS_FIRST;
     }
     mapObjectModel->mNsbmdFile = FindCourseMapObjFile(name);
-    mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Nsbmd));
     InitNsbmd(mapObjectModel->mAnimatedModel, mapObjectModel->mNsbmdFile);
     SetNsbmdEmiAll(mapObjectModel->mAnimatedModel, 0x294a);
     SetNsbmdLightEnableFlagAll(mapObjectModel->mAnimatedModel, 2);
@@ -123,7 +123,7 @@ MapObjectModel *CreateMapObjectModelShadow(MapObjectList *mapObjectList, const c
     if (mapObjectList != NULL) {
         mapObjectList->mPassOrPosStepMode = MAP_OBJECT_LIST_PASS_FIRST;
     }
-    mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
+    mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ShadowModel));
     InitShadowModel(mapObjectModel->mShadowModel, courseMapObjFile, 0x3f);
     mapObjectModel->mScale = gMapObjectModelFrameShadowScale;
     return mapObjectModel;
@@ -141,7 +141,7 @@ MapObjectModel *CreateMapObjectModelNsbmd(MapObjectList *mapObjectList, const ch
     if (mapObjectList != NULL) {
         mapObjectList->mPassOrPosStepMode = MAP_OBJECT_LIST_PASS_SECOND;
     }
-    mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(NsbmdModel));
     InitNsbmdModel(mapObjectModel->mNsbmdModel, courseMapObjFile, NULL, 0);
     nsbmdModel = mapObjectModel->mNsbmdModel;
     nsbmdModel->mSpecEmi &= 0x8000ffff;
@@ -169,7 +169,7 @@ MapObjectModel *CreateMapObjectModelNsbmdNsbtp(MapObjectList *mapObjectList, con
     if (mapObjectList != NULL) {
         mapObjectList->mPassOrPosStepMode = MAP_OBJECT_LIST_PASS_SECOND;
     }
-    mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    mapObjectModel->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(NsbmdModel));
     InitNsbmdModel(mapObjectModel->mNsbmdModel, modelFile, animationFile, 0);
     nsbmdModel = mapObjectModel->mNsbmdModel;
     nsbmdModel->mSpecEmi &= 0x8000ffff;

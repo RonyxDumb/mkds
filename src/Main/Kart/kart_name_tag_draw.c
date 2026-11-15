@@ -161,7 +161,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
 }
 
 void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap) {
-    kartObject->mTexPlttEntries = HeapAlloc(heap, 0x90);
+    kartObject->mTexPlttEntries = HeapAlloc(heap, sizeof(KartNameTagTexPlttEntries));
     kartObject->mPos = gKartNameTagInitialPos;
     kartObject->mKartIndex = kartIndex;
     kartObject->mTexPlttEntries->mEntries[0] = gKartNameTagEmblemTexPltt;

@@ -21,7 +21,7 @@ void StartMicInput(void *heap) {
     if (gTouchMicInput->mMicAutoSampling != 0) {
         return;
     }
-    gTouchMicInput->mMicBuffer = HeapAllocAligned(heap, 0x420, 0x20);
+    gTouchMicInput->mMicBuffer = HeapAllocAligned(heap, sizeof(MicBuffer), 0x20);
     SetupMicAutoSampling(gTouchMicInput->mMicBuffer);
     StartMicAutoSampling(gTouchMicInput->mMicBuffer);
     gTouchMicInput->mMicAutoSampling = 1;
