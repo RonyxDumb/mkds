@@ -98,7 +98,7 @@ void ResetItemGesso(ItemGesso *gesso) {
         gesso->mOrthoQuadCounts[quadIndex] = 0;
     }
     gesso->mStepIndex = -1;
-    gesso->mItemObject.mAlpha = 0x1f;
+    gesso->mItemObject.mAlpha = ITEM_OBJECT_ALPHA_OPAQUE;
     gesso->mShear = 0;
     gesso->mEnded = FALSE;
 }
@@ -268,10 +268,10 @@ void AdvanceItemGesso(ItemGesso *gesso) {
         gesso->mVisible = FALSE;
     }
     value = gesso->mVelocityX;
-    if (gesso->mItemObject.mAlpha < 0x1f && gesso->mFadesOut == 0 && gesso->mVisible != FALSE) {
+    if (gesso->mItemObject.mAlpha < ITEM_OBJECT_ALPHA_OPAQUE && gesso->mFadesOut == 0 && gesso->mVisible != FALSE) {
         gesso->mItemObject.mAlpha = gesso->mItemObject.mAlpha + 7;
-        if (gesso->mItemObject.mAlpha > 0x1f) {
-            gesso->mItemObject.mAlpha = 0x1f;
+        if (gesso->mItemObject.mAlpha > ITEM_OBJECT_ALPHA_OPAQUE) {
+            gesso->mItemObject.mAlpha = ITEM_OBJECT_ALPHA_OPAQUE;
         }
     }
     gesso->mStepTimer = gesso->mStepTimer - 1;
@@ -369,7 +369,7 @@ void DrawItemGesso(ItemGesso *gesso, s32 unusedArg2, NsbmdModel *model) {
     }
     QueueNsbmdModelMaterial(model);
     DrawNsbmdModelWithMatrixAndMaxAlpha(model, &matrix, &scale, 0, 0x1f);
-    if (gesso->mItemObject.mAlpha == 0x1f) {
+    if (gesso->mItemObject.mAlpha == ITEM_OBJECT_ALPHA_OPAQUE) {
         return;
     }
     model->mPolygonAttributes = model->mPolygonAttributes & ~0x1f0000;

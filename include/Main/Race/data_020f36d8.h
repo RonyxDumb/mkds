@@ -56,6 +56,9 @@ typedef struct {
 
 extern SegmentProgress gJgSegmentProgress;
 
+// ItemObject.mAlpha of a fully opaque item (the polygon alpha has five bits).
+#define ITEM_OBJECT_ALPHA_OPAQUE 0x1f
+
 // Element returned through gItemPools: the first 0x12c bytes that every pool object shares; the per-kind objects
 // embed it as their first member and run from 0x12c (kinds 4, 6 and 13) to 0x31c bytes. One is also embedded in
 // MapObjects at 0x18c.
