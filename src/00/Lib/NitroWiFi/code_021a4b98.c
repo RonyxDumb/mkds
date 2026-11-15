@@ -527,7 +527,7 @@ s32 WCM_TerminateAsync(void) {
         wmStatus = WMi_GetStatusAddress();
         DC_InvalidateRange(wmStatus, 2);
         switch (wmStatus->mState) {
-            case 0:
+            case WIRELESS_UNIT_STATE_DISABLED:
                 result = WM_Finish();
                 if (result == WIRELESS_RESULT_SUCCEEDED) {
                     WcmSetPhase(WIFI_LINK_PHASE_STOPPED);
@@ -536,10 +536,10 @@ s32 WCM_TerminateAsync(void) {
                     return 0;
                 }
                 break;
-            case 1:
+            case WIRELESS_UNIT_STATE_ENABLED:
                 result = WM_Disable(WcmWmcbCommon);
                 break;
-            case 2:
+            case WIRELESS_UNIT_STATE_POWERED_ON:
                 result = WM_PowerOff(WcmWmcbCommon);
                 break;
             default:
@@ -767,7 +767,8 @@ void WcmWmReset(void) {
 }
 
 void WcmWmcbIndication(WirelessMessage *callback) {
-    if (callback->mResultCode == WIRELESS_RESULT_PIPE_ERROR && callback->mState == 0x16 && callback->mPort == 0x25) {
+    if (callback->mResultCode == WIRELESS_RESULT_PIPE_ERROR && callback->mState == WIRELESS_STATE_EVENT_FATAL &&
+        callback->mPort == 0x25) {
         switch (gWcmWork->mPhase) {
             case WIFI_LINK_PHASE_CONNECTING:
                 WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
@@ -905,7 +906,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
             switch (gWcmWork->mPhase) {
                 case WIFI_LINK_PHASE_SEARCHING:
                     gWcmWork->mNotifyId = WIFI_NOTIFY_SEARCH_FOUND;
-                    if (callback->mState == 5) {
+                    if (callback->mState == WIRELESS_STATE_HOST_SIGHTED) {
                         DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
                         for (index = 0; index < callback->mBssDescCount; index++) {
                             WCMi_EntryApList((WMBssDesc *) callback->mBssDesc[index], callback->mLinkLevel[index]);
@@ -989,8 +990,8 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
     switch (callback->mErrcode) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mState) {
-                case 8:
-                case 9:
+                case WIRELESS_STATE_CHILD_NO_ACTION:
+                case WIRELESS_STATE_UNLINKED:
                     switch (gWcmWork->mPhase - WIFI_LINK_PHASE_CONNECTING) {
                         case WIFI_LINK_PHASE_DISCONNECTING - WIFI_LINK_PHASE_CONNECTING:
                             gWcmWork->mAuthId = 0;
@@ -1007,7 +1008,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                             break;
                     }
                     break;
-                case 7:
+                case WIRELESS_STATE_LINKED:
                     if (gWcmWork->mPhase == WIFI_LINK_PHASE_ABORT_PENDING) {
                         WcmSetPhase(WIFI_LINK_PHASE_CONNECTING);
                         WcmWmReset();
@@ -1033,7 +1034,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     }
                     WcmWmReset();
                     return;
-                case 6:
+                case WIRELESS_STATE_CHILD_SESSION_START:
                     break;
                 default:
                     WcmSetPhase(WIFI_LINK_PHASE_FAILED);
@@ -1094,7 +1095,7 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
     switch (callback->mResultCode) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mState) {
-                case 0xe:
+                case WIRELESS_STATE_DCF_RUNNING:
                     if (gWcmWork->mPhase == WIFI_LINK_PHASE_ABORT_PENDING) {
                         WcmSetPhase(WIFI_LINK_PHASE_CONNECTING);
                         WcmWmReset();
@@ -1103,7 +1104,7 @@ void WcmWmcbStartDCF(WirelessMessage *callback) {
                     WcmSetPhase(WIFI_LINK_PHASE_CONNECTED);
                     WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x85d);
                     return;
-                case 0xf:
+                case WIRELESS_STATE_DCF_FRAME_RECEIVED:
                     WCMi_ShelterRssi(((u16 *) callback->mRecvBuf)[7] >> 8);
                     DC_InvalidateRange(callback->mRecvBuf, 0x620);
                     WCMi_CpsifRecvCallback(callback->mRecvBuf);
