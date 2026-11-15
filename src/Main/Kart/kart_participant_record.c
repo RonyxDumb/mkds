@@ -2613,7 +2613,7 @@ void AdvanceParticipantKartRecords(Kart *kart) {
         kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_ON_GROUND;
     }
     if ((kart->mParticipantRecordData->mRecordBits & 0x20) != 0) {
-        kart->mBoostTimer = 3;
+        kart->mBoostTimer = KART_RECORDED_BOOST_FRAMES;
         kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_BOOST;
     } else {
         kart->mBoostTimer = 0;

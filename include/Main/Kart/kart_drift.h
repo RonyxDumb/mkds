@@ -457,6 +457,8 @@ enum {
 #define KART_SURFACE_GROUP_BOOST_A 8
 #define KART_SURFACE_GROUP_BOOST_B 0xb
 #define KART_SURFACE_BOOST_FRAMES 60
+// Kart.mBoostTimer of a kart that replays a recorded boost bit.
+#define KART_RECORDED_BOOST_FRAMES 3
 
 // Kart.mRotationAnglePerFrame at the start of the launch double flip (it falls by the decay factor each frame down to
 // the minimum) and at the start of the flip.
