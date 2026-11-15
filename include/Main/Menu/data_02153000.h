@@ -29,7 +29,8 @@ typedef struct SelectCharacterRowCellIndices {
 // 8-byte entries at 0x90 of SelectCharacter, filled from gSelectCharacterRows.
 typedef struct SelectCharacterRow {
     /* 00 */ s32 mCharacterIndex;
-    /* 04 */ s32 mNameLayoutEntryIndex;
+    /* 04 */ s16 mNameLayoutEntryIndex;
+    /* 06 */ u8 mUnk_06[2];
 } SelectCharacterRow;
 
 // 4-byte entries of the table at gSoundRowTable.

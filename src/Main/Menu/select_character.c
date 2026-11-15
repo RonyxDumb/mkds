@@ -533,10 +533,10 @@ void QueueSelectCharacterNameChars(void) {
     selectCharacter = gSelectCharacter;
     if (selectCharacter->mUsePlayerEntryList == FALSE) {
         nameParts = &selectCharacter->mGpNameMParts;
-        QueueCellChars(*(s16 *) &selectCharacter->mRows[selectCharacter->mTableIndex].mNameLayoutEntryIndex,
+        QueueCellChars(selectCharacter->mRows[selectCharacter->mTableIndex].mNameLayoutEntryIndex,
                        nameParts->mCells, selectCharacter->mGpNameMParts.mChars, nameParts->mCellLayout, 0, 2,
                        selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
-        QueueCellChars(*(s16 *) &gSelectCharacter->mRows[gSelectCharacter->mTableIndex].mNameLayoutEntryIndex,
+        QueueCellChars(gSelectCharacter->mRows[gSelectCharacter->mTableIndex].mNameLayoutEntryIndex,
                        nameParts->mCells, selectCharacter->mGpNameMParts.mChars, nameParts->mCellLayout, 0, 1,
                        selectCharacter->mGpMParts.mCells, selectCharacter->mGpMParts.mCellLayout);
     }
