@@ -15,6 +15,22 @@ enum {
     WIRELESS_CONNECT_MODE_DATA_SHARING = 4,
 };
 
+// Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when a call that
+// starts the next step fails.
+enum {
+    WH_STATE_STOP,
+    WH_STATE_IDLE,
+    WH_STATE_SCANNING,
+    WH_STATE_BUSY,
+    WH_STATE_CONNECTED,
+    WH_STATE_DATA_SHARING,
+    WH_STATE_KEY_SHARING,
+    WH_STATE_MEASURE_CHANNEL,
+    WH_STATE_CONNECT_FAIL,
+    WH_STATE_ERROR,
+    WH_STATE_FAILED,
+};
+
 typedef struct WhWork {
     /* 0000 */ void *mUserGameInfo;
     /* 0004 */ u16 mUserGameInfoLength;

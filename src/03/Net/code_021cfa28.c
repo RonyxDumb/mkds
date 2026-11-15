@@ -36,16 +36,16 @@ BOOL StartWhChannelSearch(void) {
     gWhWork->mRandomSeed = gWhWork->mRandomSeed * 0x10dcd + 0x3039;
     gWhWork->mDecidedChannel = 0;
     gWhWork->mLowestBusyRatio = 0x65;
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = MeasureNextWhChannel(1);
     if (result == 0x18) {
         SetWhErrorCode(0x18);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return FALSE;
     }
     if (result != 2) {
         SetWhErrorCode(result);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return FALSE;
     }
     return TRUE;
@@ -55,12 +55,12 @@ u32 MeasureNextWhChannel(u16 channel) {
     u16 allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0x8000) {
         SetWhErrorCode(3);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return 3;
     }
     if (allowedChannels == 0) {
         SetWhErrorCode(0x16);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return 0x18;
     }
     while (((1 << (channel - 1)) & allowedChannels) == 0) {
@@ -79,7 +79,7 @@ void StartWhMeasureChannelCallback(WirelessMessage *event) {
 
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return;
     }
     if (gWhPrintFunction != NULL) {
@@ -95,11 +95,11 @@ void StartWhMeasureChannelCallback(WirelessMessage *event) {
     }
     result = MeasureNextWhChannel(channel + 1);
     if (result == 0x18) {
-        SetWhState(7);
+        SetWhState(WH_STATE_MEASURE_CHANNEL);
         return;
     }
     if (result != 2) {
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
     }
 }
 
@@ -110,10 +110,10 @@ int StartWhMeasureChannel(Unk021425e8Func callback, u16 channel) {
 u16 DecideWhChannel(void) {
     WhWork **workAddress;
     u16 channel;
-    if (gWhWork->mState != 7) {
+    if (gWhWork->mState != WH_STATE_MEASURE_CHANNEL) {
         OS_Terminate();
     }
-    SetWhState(1);
+    SetWhState(WH_STATE_IDLE);
     channel = PickWhChannel((u32) (gWhWork->mLowestBusyChannelMask));
     workAddress = &gWhWork;
     gWhWork->mDecidedChannel = channel;
@@ -174,18 +174,18 @@ BOOL ClearWhAndInitialize(void) {
 
 void WhIndicationCallback(WirelessMessage *event) {
     if (event->mResultCode == 8) {
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         OS_Terminate();
     }
 }
 
 BOOL StartWhInitialize(void) {
     s32 result;
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_Initialize(gWhWork->mWmSystemBuffer, StartWhInitializeCallback, 2);
     if (result != 2) {
         SetWhErrorCode(result);
-        SetWhState(10);
+        SetWhState(WH_STATE_FAILED);
         return FALSE;
     }
     return TRUE;
@@ -194,20 +194,20 @@ BOOL StartWhInitialize(void) {
 void StartWhInitializeCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(10);
+        SetWhState(WH_STATE_FAILED);
     } else {
         s32 result = WM_SetIndCallback(WhIndicationCallback);
         if (result != 0) {
             SetWhErrorCode(result);
-            SetWhState(10);
+            SetWhState(WH_STATE_FAILED);
         } else {
-            SetWhState(1);
+            SetWhState(WH_STATE_IDLE);
         }
     }
 }
 
 BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
-    if (gWhWork->mState != 1) {
+    if (gWhWork->mState != WH_STATE_IDLE) {
         OS_Terminate();
     }
     gWhWork->mReceiveBufferSize = 0x180;
@@ -219,7 +219,7 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
         gWhPrintFunction(0x08000000, "send buffer size = %d\n", gWhWork->mSendBufferSize);
     }
     gWhWork->mConnectMode = mode;
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     gWhWork->mTgid = tgid;
     gWhWork->mChannel = channel;
     gWhWork->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
@@ -273,13 +273,13 @@ void StartWhResetOrFail(void) {
     int result;
     result = StartWhReset();
     if (result == 0) {
-        SetWhState(10);
+        SetWhState(WH_STATE_FAILED);
     }
 }
 
 void FinalizeWh(void) {
     s32 state = gWhWork->mState;
-    if (state == 1) {
+    if (state == WH_STATE_IDLE) {
         if (gWhPrintFunction != NULL) {
             gWhPrintFunction(0x08000000, "already DWCi_MOV_WH_SYSSTATE_IDLE\n");
         }
@@ -288,12 +288,13 @@ void FinalizeWh(void) {
     if (gWhPrintFunction != NULL) {
         gWhPrintFunction(0x08000000, "DWCi_MOV_WH_Finalize, state = %d\n", state);
     }
-    if (gWhWork->mState != 6 && gWhWork->mState != 5 && gWhWork->mState != 4) {
-        SetWhState(3);
+    if (gWhWork->mState != WH_STATE_KEY_SHARING && gWhWork->mState != WH_STATE_DATA_SHARING &&
+        gWhWork->mState != WH_STATE_CONNECTED) {
+        SetWhState(WH_STATE_BUSY);
         StartWhResetOrFail();
         return;
     }
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     switch (gWhWork->mConnectMode) {
         case WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING:
             if (EndActiveWhKeySharing() == FALSE) {
@@ -322,13 +323,13 @@ void FinalizeWh(void) {
 
 BOOL EndWh(void) {
     int result;
-    if (gWhWork->mState != 1) {
+    if (gWhWork->mState != WH_STATE_IDLE) {
         OS_Terminate();
     }
-    SetWhState(3);
+    SetWhState(WH_STATE_BUSY);
     result = WM_End(EndWhCallback);
     if (result != 2) {
-        SetWhState(9);
+        SetWhState(WH_STATE_ERROR);
         return 0;
     }
     return 1;
