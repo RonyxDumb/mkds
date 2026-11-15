@@ -2,9 +2,7 @@
 
 #include "types.h"
 
-// Seven decimal digits of a time (SplitTimeDigits): minutes tens and ones, seconds tens and ones, milliseconds
-// hundreds, tens and ones. Embedded in the race timer object, the time difference and the digit object of
-// code_020cffd0.c; code_020c5dd8.c also fills all seven with 0xb (blank) for a missing time.
+// The seven decimal digits of a time (minutes, seconds, milliseconds); 0xb is a blank digit.
 typedef struct TimeDigits {
     /* 00 */ s32 mDigits[7];
 } TimeDigits;

@@ -146,6 +146,7 @@ typedef struct MissionRecordBlock {
 #define GHOST_HEAD_FILLED_BIT 1
 #define GHOST_HEAD_EMBLEM_BIT 2
 
+// The head of a ghost record: character, kart, course, date, time, name, lap times and flags.
 typedef struct GhostRecordHead {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ union {
@@ -264,6 +265,7 @@ typedef struct EmblemBlockData {
 #define BACKUP_READ_STATUS_BLOCKS_FAILED 3
 #define BACKUP_READ_STATUS_BAD_PREFIX 4
 
+// The backup save buffers: a pointer to each record block, the read status and the failed block bits.
 typedef struct BackupBuffers {
     /* 00 */ BackupFirstBlock *mFirstBlock;
     /* 04 */ EmblemRecord *mEmblemRecord;
@@ -765,6 +767,7 @@ enum {
 #define MP_CHUNK_PACKET_BYTES 0x16c
 #define MP_CHUNK_FLAGS_PER_SLOT 0x12
 
+// The wireless connection work: its mode, state, scan and parent parameters, buffers and child list.
 typedef struct ConnectionWork {
     /* 0000 */ u32 mConnectionMode;
     /* 0004 */ s32 mState;
@@ -1265,10 +1268,7 @@ typedef struct WiFiRaceSync {
     /* 75c */ u16 mFlags;
 } WiFiRaceSync;
 
-// Per-run state of the race scene, one record behind gRace (0x48 bytes, allocated by InitRace on the scene heap and
-// never cleared at the end of the scene): frame counters (mUpdateFrames and three phases derived from it), toon-table
-// cycle, fog/fade switch, kind flags derived from gRaceSetup.mRaceKind (also live in the demo and credits kinds 3 to
-// 6), a light vector. Not the race setup (gRaceSetup), not the karts.
+// The per-run state of the race scene (gRace): frame counters, toon table cycle, fog fade, kind flags, light vector.
 typedef struct Race {
     // 1 once the race has started, else 0: StartRace sets it when UpdateRaceStartSequence reaches its frame 180, and
     // InitRace sets it at once for the kinds 5 and 6 of RaceSetup.mRaceKind, which have no countdown; IsRaceStarted
@@ -1355,6 +1355,7 @@ struct SequenceCameraEntry;
 #define CAMERA_FRUSTUM_SHIFT_UP 1
 #define CAMERA_FRUSTUM_SHIFT_DOWN 2
 
+// A race camera: its orientation, position, view matrix, field of view, frustum and distance values.
 typedef struct Camera {
     /* 000 */ Vec3 mUp;
     // baseUp x forward, perpendicular to mUp and mForward. Sign not fixed (left or right is not shown); not updated
@@ -1542,6 +1543,7 @@ typedef struct HeyhoPalette {
 // Object behind gKartModels (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.
 struct KartModelsEntry;
 
+// The kart models (gKartModels): the per-kart entries, course colors, palettes and the killer item model.
 typedef struct KartModels {
     // Array of the per-kart model entries (0xb4 bytes each), allocated by InitKartModels with mKartCount elements;
     // Kart.mKartModelsEntry points into it.
@@ -1666,9 +1668,7 @@ typedef struct KartEffectPair {
     };
 } KartEffectPair;
 
-// Effect objects of one Kart: the current effect with its id, and further effect objects with the points they are
-// placed at. One record per Kart in gKartEffects, indexed by Kart.mIndex. 0x58-byte entries of the table behind
-// gKartEffects; the pointers at 0x0c and 0x20 to 0x30 hold objects returned by StartEffect.
+// The effect objects of one Kart (gKartEffects, by Kart.mIndex): the current effect and further effects with points.
 typedef struct KartEffects {
     // Id of the effect in mCurrentEffect, -1 when there is none.
     /* 00 */ s32 mCurrentEffectId;
@@ -1730,6 +1730,7 @@ typedef struct KartAiParamRow {
 // KartAiShared.mPointsGapKind: the best non-CPU kart is 5 or more points behind the best CPU kart (Grand Prix, two
 // listed CPU karts).
 #define KART_AI_POINTS_GAP_NON_CPU_BEHIND 0
+// The kart AI's shared ranking: karts by rank, CPU and non-CPU karts, points gaps and the random generator.
 typedef struct KartAiShared {
     /* 000 */ s32 mRaceProgressScaled[8];
     // Kart index at rank n + 1, -1 when no kart has that rank.

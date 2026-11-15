@@ -3,9 +3,7 @@
 #include "types.h"
 #include "Main/System/input_slots.h"
 
-// Byte stream at gKeyStream: mUnk_00 to mUnk_04 bound the buffer, mUnk_08 is the position, mUnk_0c the highest
-// position written, mUnk_14 the element size, mUnk_18 the mask of bits ReadKeyBitsFromStream and WriteKeyBitsToStream
-// move.
+// A byte stream of pad key bits (gKeyStream): buffer bounds, position, highest position written, element size and mask.
 typedef struct KeyStream {
     /* 00 */ u8 *mStart;
     /* 04 */ u8 *mEnd;

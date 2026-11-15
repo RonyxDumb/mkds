@@ -126,9 +126,7 @@ typedef struct BlockTransferEntry {
 #define BLOCK_TRANSFER_USER_DATA_MAX_BYTES 9
 #define BLOCK_TRANSFER_BLOCK_INFO_BYTES 0x28
 
-// Tail of a WBTCommand from 0x14, which the kinds of request fill in different ways;
-// mUserDataWord is its first word; mArchiveParentViewEntry and mArchiveMessage are RomArchive views of the user data
-// and of the prepare-send arm.
+// The tail of a WBTCommand, filled in differently by each kind of request.
 typedef union WBTCommandData {
     struct {
         s16 mNumOfList;

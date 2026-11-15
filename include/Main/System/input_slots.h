@@ -56,6 +56,7 @@
 // Slots of gInputSlots that the code addresses through a constant, named after the source kind each one gets.
 typedef enum InputSlotIndex { INPUT_SLOT_PAD_OR_PARTICIPANT = 8, INPUT_SLOT_PAD_AND_TOUCH = 9 } InputSlotIndex;
 
+// The recorded key pairs (bits, repeat count) and their byte count.
 typedef struct KeyRecordingBuffer {
     /* 000 */ u32 mPairByteCount;
     /* 004 */ u8 mPairs[0xdc8];
@@ -178,34 +179,37 @@ typedef struct InputSlot {
 
 extern InputSlot gInputSlots[10];
 
-// Views of gInputSlots. The pair, cleared-bits and halfword views
-// are arrays of slots (the element stride is still 0x5c) that start at one member of slot 0, so each view type has that
-// member first; the other two are the bytes of slots 7 and 8 from one member on.
+// Views of gInputSlots: arrays of slots (stride 0x5c) that start at one member of slot 0, or bytes of slots 7 and 8.
 typedef struct InputSlotAtClearedBits {
     /* 00 */ u16 mClearedBits;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtClearedBits;
 
+// A view of gInputSlots that starts at the pair x member.
 typedef struct InputSlotAtPairX {
     /* 00 */ u16 mPairX;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtPairX;
 
+// A view of gInputSlots that starts at the pair y member.
 typedef struct InputSlotAtPairY {
     /* 00 */ u16 mPairY;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtPairY;
 
+// A view of gInputSlots that starts at the has-pair flag.
 typedef struct InputSlotAtHasPair {
     /* 00 */ u16 mHasPair;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtHasPair;
 
+// A view of gInputSlots that starts at the previous has-pair flag.
 typedef struct InputSlotAtPrevHasPair {
     /* 00 */ u16 mPrevHasPair;
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtPrevHasPair;
 
+// A view of gInputSlots that starts at the no-pair count.
 typedef struct InputSlotAtNoPairCount {
     /* 00 */ u16 mNoPairCount;
     /* 02 */ u8 mRest[0x5a];
