@@ -34,51 +34,51 @@ void ReadBackupFirstBlockAndRecords(void) {
     }
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         if (gBackupAccess->mErrorCode == BACKUP_ERROR_BAD_PREFIX) {
-            gBackupBuffers->mFailedBlockBits = 0xffff;
-            gBackupBuffers->mReadStatus = 4;
+            gBackupBuffers->mFailedBlockBits = BACKUP_FAILED_ALL;
+            gBackupBuffers->mReadStatus = BACKUP_READ_STATUS_BAD_PREFIX;
             ClearBackupBusy();
             return;
         }
-        failedBlockBits |= 1;
+        failedBlockBits |= BACKUP_FAILED_FIRST_BLOCK;
     }
     ReadBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
-        failedBlockBits |= 2;
+        failedBlockBits |= BACKUP_FAILED_EMBLEM_RECORD;
     }
     ReadBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
-        failedBlockBits |= 4;
+        failedBlockBits |= BACKUP_FAILED_GRAND_PRIX_RECORD;
     }
     ReadBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
-        failedBlockBits |= 8;
+        failedBlockBits |= BACKUP_FAILED_COURSE_TIME_RECORD;
     }
     ReadBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
-        failedBlockBits |= 0x10;
+        failedBlockBits |= BACKUP_FAILED_MISSION_RECORD;
     }
     ReadBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
-        failedBlockBits |= 0x20;
+        failedBlockBits |= BACKUP_FAILED_BUDDY_RECORD;
     }
     if (gBackupBuffers->mReadStatus == 0) {
         if (failedBlockBits != 0) {
-            gBackupBuffers->mReadStatus = 3;
+            gBackupBuffers->mReadStatus = BACKUP_READ_STATUS_BLOCKS_FAILED;
         } else {
             gBackupBuffers->mReadStatus = 0;
         }
@@ -97,35 +97,35 @@ void StartReadBackupFirstBlockAndRecords(void) {
 }
 
 void ResetFailedBackupBlocks(void) {
-    if (gBackupBuffers->mFailedBlockBits & 2) {
+    if (gBackupBuffers->mFailedBlockBits & BACKUP_FAILED_EMBLEM_RECORD) {
         ClearEmblemRecord();
         WriteBackupEmblemRecord(gBackupBuffers->mEmblemRecord);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (gBackupBuffers->mFailedBlockBits & 4) {
+    if (gBackupBuffers->mFailedBlockBits & BACKUP_FAILED_GRAND_PRIX_RECORD) {
         ClearGrandPrixRecordBlock();
         WriteBackupGrandPrixRecordBlock(gBackupBuffers->mGrandPrixRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (gBackupBuffers->mFailedBlockBits & 8) {
+    if (gBackupBuffers->mFailedBlockBits & BACKUP_FAILED_COURSE_TIME_RECORD) {
         ClearCourseTimeRecordBlock();
         WriteBackupCourseTimeRecordBlock(gBackupBuffers->mCourseTimeRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (gBackupBuffers->mFailedBlockBits & 0x10) {
+    if (gBackupBuffers->mFailedBlockBits & BACKUP_FAILED_MISSION_RECORD) {
         ClearMissionRecordBlock();
         WriteBackupMissionRecordBlock(gBackupBuffers->mMissionRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (gBackupBuffers->mFailedBlockBits & 0x20) {
+    if (gBackupBuffers->mFailedBlockBits & BACKUP_FAILED_BUDDY_RECORD) {
         ClearBuddyRecordBlock();
         WriteBackupBuddyRecordBlock(gBackupBuffers->mBuddyRecordBlock);
         if (gBackupAccess->mBackupEnabled != 0) {

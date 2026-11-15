@@ -166,7 +166,7 @@ void FinishBackupRead(void *arg) {
     UnlockBackup();
     gBackupAccess->mCommandRunning = 0;
     switch (resultCode) {
-        case 0:
+        case CARD_RESULT_SUCCESS:
             DC_StoreRange(gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
             if (gBackupAccess->mReadHasPrefix != 0) {
                 readWords = gBackupAccess->mReadDestination + 2;
@@ -189,15 +189,15 @@ void FinishBackupRead(void *arg) {
                 }
             }
             break;
-        case 1:
-        case 4:
-        case 6:
+        case CARD_RESULT_FAILURE:
+        case CARD_RESULT_TIMEOUT:
+        case CARD_RESULT_NO_RESPONSE:
             result = BACKUP_ERROR_UNAVAILABLE;
             break;
-        case 2:
-        case 3:
-        case 5:
-        case 7:
+        case CARD_RESULT_INVALID_PARAM:
+        case CARD_RESULT_UNSUPPORTED:
+        case CARD_RESULT_ERROR:
+        case CARD_RESULT_CANCELED:
         default:
             result = BACKUP_ERROR_ACCESS_FAILED;
             break;

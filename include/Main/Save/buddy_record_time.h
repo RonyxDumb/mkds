@@ -23,6 +23,17 @@ static inline u8 GetTimeRecordChar(u8 charIndex) {
     return gTimeRecordCharTable[charIndex];
 }
 
+// Third argument of AddBuddyRecordResult: the row of BuddyRecord.mResultCounts the result goes into.
+#define BUDDY_RECORD_MATCH_VS 0
+#define BUDDY_RECORD_MATCH_BATTLE 1
+#define BUDDY_RECORD_MATCH_WIFI_RACE 2
+// Courses at the start of a Wi-Fi race series (RaceSetup.mCourseNumber 1 to this) that add no buddy record.
+#define WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT 3
+// The latest date the oldest-record search can see, as year, month and day.
+#define BUDDY_RECORD_LATEST_YEAR 100
+#define BUDDY_RECORD_LATEST_MONTH 12
+#define BUDDY_RECORD_LATEST_DAY 31
+
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut);
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord);
 void SetRaceResultRecords(void);

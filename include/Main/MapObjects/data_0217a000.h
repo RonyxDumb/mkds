@@ -142,6 +142,10 @@ typedef struct MissionRecordBlock {
 } MissionRecordBlock;
 
 // The first 0x30 bytes of a ghost record.
+// Bits of GhostRecordHead.mUnk_08 (the members mFilled and mHasEmblem as masks).
+#define GHOST_HEAD_FILLED_BIT 1
+#define GHOST_HEAD_EMBLEM_BIT 2
+
 typedef struct GhostRecordHead {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ union {
@@ -243,6 +247,22 @@ typedef struct EmblemBlockData {
     /* 008 */ u8 mEmblems[5][0x200];
     /* a08 */ u8 mUnk_a08[0xf8];
 } EmblemBlockData;
+
+// BackupBuffers.mFailedBlockBits: one bit per block whose read failed (the first block, the records), and every bit
+// set when the save has no valid prefix.
+#define BACKUP_FAILED_FIRST_BLOCK 0x1
+#define BACKUP_FAILED_EMBLEM_RECORD 0x2
+#define BACKUP_FAILED_GRAND_PRIX_RECORD 0x4
+#define BACKUP_FAILED_COURSE_TIME_RECORD 0x8
+#define BACKUP_FAILED_MISSION_RECORD 0x10
+#define BACKUP_FAILED_BUDDY_RECORD 0x20
+#define BACKUP_FAILED_ALL 0xffff
+// BackupFirstBlock.mElo of a fresh save.
+#define BACKUP_ELO_INITIAL 0x1388
+// BackupBuffers.mReadStatus: every block read, some block failed, the save has no valid prefix.
+#define BACKUP_READ_STATUS_OK 0
+#define BACKUP_READ_STATUS_BLOCKS_FAILED 3
+#define BACKUP_READ_STATUS_BAD_PREFIX 4
 
 typedef struct BackupBuffers {
     /* 00 */ BackupFirstBlock *mFirstBlock;

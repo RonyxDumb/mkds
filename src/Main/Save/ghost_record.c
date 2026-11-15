@@ -24,7 +24,7 @@ void WriteSlotGhostRecord(u8 index, SlotGhostRecord *source) {
     int slotBit;
     SlotGhostRecord *destination;
     destination = gBackupBuffers->mSlotGhostRecords[0];
-    source->mHead.mUnk_08 = source->mHead.mUnk_08 & 0xfffffffe | 1;
+    source->mHead.mUnk_08 = source->mHead.mUnk_08 & ~GHOST_HEAD_FILLED_BIT | GHOST_HEAD_FILLED_BIT;
     MI_CpuCopy8(source, destination, (0x00001000u));
     WriteBackupSlotGhost(index, destination);
     slotBit = IsSlotGhostBitSet(index);
@@ -82,13 +82,13 @@ s32 GetGhostLapTimeByIndex(s32 ghostRecordIndex, s32 lapNumber, MinuteSecondMill
 
     result = 0;
     switch (ghostRecordIndex) {
-        case 0:
+        case GHOST_RECORD_INDEX_COURSE:
             result = GetGhostLapTime(&gBackupBuffers->mCourseGhostRecord->mHead, lapNumber, lapTime);
             break;
-        case 1:
+        case GHOST_RECORD_INDEX_FIRST_SLOT:
             result = GetGhostLapTime(&gBackupBuffers->mSlotGhostRecords[0]->mHead, lapNumber, lapTime);
             break;
-        case 2:
+        case GHOST_RECORD_INDEX_SECOND_SLOT:
             break;
     }
     return result;
@@ -99,13 +99,13 @@ s32 GetGhostFinishTimeByIndex(s32 ghostRecordIndex, MinuteSecondMillisecondTime 
 
     result = 0;
     switch (ghostRecordIndex) {
-        case 0:
+        case GHOST_RECORD_INDEX_COURSE:
             result = GetGhostFinishTime(&gBackupBuffers->mCourseGhostRecord->mHead, finishTime);
             break;
-        case 1:
+        case GHOST_RECORD_INDEX_FIRST_SLOT:
             result = GetGhostFinishTime(&gBackupBuffers->mSlotGhostRecords[0]->mHead, finishTime);
             break;
-        case 2:
+        case GHOST_RECORD_INDEX_SECOND_SLOT:
             break;
     }
     return result;

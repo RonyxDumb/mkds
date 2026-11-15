@@ -345,7 +345,7 @@ void RunMessageScreen(void) {
             waitDone = TRUE;
             sleepAllowed = gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF;
         }
-        if (sleepAllowed != 0 && ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15)) {
+        if (sleepAllowed != 0 && ((SYSTEM_WORK->mButtonXY & SYSTEM_BUTTON_XY_CLOSED) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
         }
         screenResult = UpdateMessageScreen();

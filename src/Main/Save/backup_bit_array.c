@@ -64,7 +64,7 @@ void ResetBackupFirstBlock(s32 copyOwnerName) {
     gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
     gBackupBuffers->mFirstBlock->mEmblemOff = 0;
     gBackupBuffers->mFirstBlock->mLocateFriendOff = 0;
-    gBackupBuffers->mFirstBlock->mElo = 0x1388;
+    gBackupBuffers->mFirstBlock->mElo = BACKUP_ELO_INITIAL;
     SetSecretMessageFlagsWrapper();
     DWC_CreateUserData(&gBackupBuffers->mFirstBlock->mUserData, 0x414d434a);
 }

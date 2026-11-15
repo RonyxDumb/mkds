@@ -188,15 +188,15 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
                     sizeof(buddyRecord.mName));
     }
     switch (matchKind) {
-        case 0:
+        case BUDDY_RECORD_MATCH_VS:
             firstCount = &buddyRecord.mResultCounts[0][0];
             secondCount = &buddyRecord.mResultCounts[0][1];
             break;
-        case 1:
+        case BUDDY_RECORD_MATCH_BATTLE:
             firstCount = &buddyRecord.mResultCounts[1][0];
             secondCount = &buddyRecord.mResultCounts[1][1];
             break;
-        case 2:
+        case BUDDY_RECORD_MATCH_WIFI_RACE:
             firstCount = &buddyRecord.mResultCounts[2][0];
             secondCount = &buddyRecord.mResultCounts[2][1];
             break;
@@ -293,7 +293,7 @@ void AddVSBuddyRecordResults(void) {
         if ((gConnectionWork->mGroupSendMask &
              (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==
             0) {
-            AddBuddyRecordResult(entryIndex, date, 0, outcome);
+            AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_VS, outcome);
         }
         if (outcome == 0) {
             if (firstTotal < gResultTotalMax) {
@@ -362,7 +362,7 @@ void AddBattleBuddyRecordResults(void) {
         if ((gConnectionWork->mGroupSendMask &
              (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==
             0) {
-            AddBuddyRecordResult(entryIndex, date, 1, outcome);
+            AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_BATTLE, outcome);
         }
         if (outcome == 0) {
             if (firstTotal < gResultTotalMax) {
@@ -432,7 +432,7 @@ void AddShineBattleBuddyRecordResults(void) {
         if ((gConnectionWork->mGroupSendMask &
              (1 << gConnectionWork->mParticipantIndexByPos[gConnectionWork->mParticipantIndexByPos[entryIndex]])) ==
             0) {
-            AddBuddyRecordResult(entryIndex, date, 1, outcome);
+            AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_BATTLE, outcome);
         }
         if (outcome == 0) {
             if (firstTotal < gResultTotalMax) {
@@ -483,7 +483,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
     firstTotal = gBackupBuffers->mFirstBlock->mTotals[4];
     secondTotal = gBackupBuffers->mFirstBlock->mTotals[5];
     UpdateParticipantElos();
-    if (gRaceSetup->mCourseNumber <= 3) {
+    if (gRaceSetup->mCourseNumber <= WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT) {
         return;
     }
     if (gRaceProgress->mRaceDone == 0) {
@@ -521,7 +521,7 @@ void AddWiFiRaceBuddyRecordResults(void) {
             if (ownPoints == GetCupKartTotalPoints(entryIndex)) {
                 outcome = 2;
             }
-            AddBuddyRecordResult(entryIndex, date, 2, outcome);
+            AddBuddyRecordResult(entryIndex, date, BUDDY_RECORD_MATCH_WIFI_RACE, outcome);
             if (outcome == 0) {
                 if (firstTotal < gResultTotalMax) {
                     firstTotal++;
@@ -558,7 +558,7 @@ void SetRaceResultRecords(void) {
                         break;
                 }
                 break;
-            case 5:
+            case MODE_WIFI:
                 AddWiFiRaceBuddyRecordResults();
                 break;
         }

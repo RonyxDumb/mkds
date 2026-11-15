@@ -1025,7 +1025,7 @@ void RequestMPWaitRaceArchivesForNextRace(void) {
 }
 
 static inline void ReadPadKeysAndUpdateTouchMic(void) {
-    if ((SYSTEM_WORK->mButtonXY & 0x8000) >> 15) {
+    if ((SYSTEM_WORK->mButtonXY & SYSTEM_BUTTON_XY_CLOSED) >> 15) {
         gInputState->mPadKeys = 0;
     } else {
         gInputState->mPadKeys = ((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff;

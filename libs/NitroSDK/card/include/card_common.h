@@ -8,6 +8,18 @@ void CARD_LockBackup(u16 lockId);
 void CARD_UnlockRom(u16 lockId);
 void CARD_LockRom(u16 lockId);
 
+// Values CARD_GetResultCode returns.
+typedef enum CARDResult {
+    CARD_RESULT_SUCCESS = 0,
+    CARD_RESULT_FAILURE,
+    CARD_RESULT_INVALID_PARAM,
+    CARD_RESULT_UNSUPPORTED,
+    CARD_RESULT_TIMEOUT,
+    CARD_RESULT_ERROR,
+    CARD_RESULT_NO_RESPONSE,
+    CARD_RESULT_CANCELED
+} CARDResult;
+
 u32 CARD_GetResultCode(void);
 int CARDi_TryWaitAsync(void);
 int CARDi_WaitAsync(void);

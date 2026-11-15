@@ -48,6 +48,9 @@ typedef struct NvramUserInfo {
     /* 7c */ u8 mUnk_7c[0x84];
 } NvramUserInfo;
 
+// OSSystemWork.mButtonXY bit that is set while the console is closed; the sleep wait and the pad readers test it.
+#define SYSTEM_BUTTON_XY_CLOSED 0x8000
+
 // The shared memory block at 0x027ffc00 that both processors read and write.
 typedef struct OSSystemWork {
     /* 000 */ u8 mUnk_000[0x30];
@@ -66,7 +69,7 @@ typedef struct OSSystemWork {
     /* 394 */ u16 mMicSamplingData;
     /* 396 */ u16 mWmCallbackControl;
     /* 398 */ u8 mUnk_398[0x10];
-    // Bit 15 is set while the console is closed; the sleep wait and the pad readers test it.
+    // Bit 15 (SYSTEM_BUTTON_XY_CLOSED) is set while the console is closed.
     /* 3a8 */ vu16 mButtonXY;
     /* 3aa */ u16 mTouchPanel[2];
     /* 3ae */ u8 mUnk_3ae[2];

@@ -1,4 +1,5 @@
 #include "Main/Save/ghost_file_records.h"
+#include "Main/Save/buddy_record_time.h"
 #include "Main/Save/ghost_file_path.h"
 #include "Main/Race/grand_prix_record.h"
 #include "Main/Menu/title_scene.h"
@@ -193,9 +194,9 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     }
     oldestIndex = -1;
     if (slotIndex == -1) {
-        oldestDate.mYear = 100;
-        oldestDate.mMonth = 12;
-        oldestDate.mDay = 31;
+        oldestDate.mYear = BUDDY_RECORD_LATEST_YEAR;
+        oldestDate.mMonth = BUDDY_RECORD_LATEST_MONTH;
+        oldestDate.mDay = BUDDY_RECORD_LATEST_DAY;
         for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;
