@@ -509,7 +509,7 @@ enum {
 #define TITLE_STATE_SLIDE_OUT 3
 // The pressed entry moves for 10 frames, then the table slides out.
 #define TITLE_STATE_SELECT_PRESS 4
-#define TITLE_STATE_NOP 5
+#define TITLE_STATE_LEAVE 5
 #define TITLE_STATE_REQUEST_NICKNAME_SCENE 6
 
 // 0x8bc bytes.

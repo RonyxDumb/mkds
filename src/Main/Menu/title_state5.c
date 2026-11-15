@@ -7,7 +7,7 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState5(SceneNumbers *sceneNumbers) {
+void UpdateTitleLeave(SceneNumbers *sceneNumbers) {
     s16 nextScenes[5] = {SCENE_MENU_1, SCENE_WL_MENU, SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD};
 
     if (sceneNumbers != NULL) {

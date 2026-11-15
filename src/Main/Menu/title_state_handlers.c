@@ -15,6 +15,6 @@ TitleStateHandlers gTitleStateHandlers[7] = {
     {(void (*)(void)) TitleState2ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState2},
     {(void (*)(void)) TitleState3ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState3},
     {(void (*)(void)) TitleState4ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState4},
-    {TitleState5Nop, (void (*)(s32)) UpdateTitleState5},
+    {TitleState5Nop, (void (*)(s32)) UpdateTitleLeave},
     {TitleState6Nop, (void (*)(s32)) UpdateTitleState6},
 };

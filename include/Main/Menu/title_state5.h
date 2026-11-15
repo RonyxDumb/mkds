@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Scene/menu_scene.h" // SceneNumbers
 
-void UpdateTitleState5(SceneNumbers *sceneNumbers);
+void UpdateTitleLeave(SceneNumbers *sceneNumbers);
