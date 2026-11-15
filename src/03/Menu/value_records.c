@@ -28,7 +28,7 @@
 #include "03/Net/ap_entries.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/Net/exchange_wcm_state.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "registers.h"
 
 u8 gValueRecordsShowNext;

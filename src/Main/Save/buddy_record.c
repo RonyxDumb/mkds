@@ -10,7 +10,7 @@
 #include "Main/Save/buddy_records_write.h"
 #include "Main/Save/buddy_record_time.h"
 #include "dwc_account.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "00/Lib/DWC/dwc_friend.h"
 #include "Main/Net/wifi_session.h"

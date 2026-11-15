@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43
-#include "code_021479b4.h" // MtxFx44
+#include "model_material_set.h" // MtxFx43
+#include "matrix44_concat.h" // MtxFx44
 
 void MTX_Identity44_(MtxFx44 *dst);
 void MTX_Copy44To43_(const MtxFx44 *src, MtxFx43 *dst);

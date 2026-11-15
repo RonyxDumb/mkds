@@ -1,6 +1,6 @@
 #include "mi_init.h"
-#include "code_0214c778.h"
-#include "code_0214c768.h"
+#include "dma_copy_fill_wait.h"
+#include "wram_bank_select.h"
 
 void MI_Init(void) {
     MI_SetWramBank(3);

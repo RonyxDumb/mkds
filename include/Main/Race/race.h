@@ -8,7 +8,7 @@ typedef struct Camera Camera;
 typedef struct Race Race;
 
 
-#include "code_02012b30.h" // MtxFx43
+#include "model_material_set.h" // MtxFx43
 
 
 u32 GetGhostRecordCourseId(GhostRecordHead *ghostRecord);

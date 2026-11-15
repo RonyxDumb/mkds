@@ -9,7 +9,7 @@
 #include "Main/Menu/select_return.h"
 #include "player.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/Save/buddy_record.h"
 
 enum {
@@ -162,7 +162,7 @@ extern const u16 gRecordTAttCharacterKartCellIndices[5][2];
 #include "Main/Menu/kart_icon.h"
 #include "Main/Menu/record_scene.h"
 
-#include "code_021458c4.h"
+#include "rom_card_read.h"
 
 extern BackupAccess *gBackupAccess;
 extern const s32 gRecordTAttCourseIds[RECORD_TATT_COURSE_COUNT];

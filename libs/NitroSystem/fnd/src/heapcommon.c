@@ -1,6 +1,6 @@
 #include "heapcommon.h"
-#include "code_020172d0.h"
-#include "code_0201750c.h"
+#include "linked_list_ops.h"
+#include "linked_list_init.h"
 
 u32 gHeapListInitialized;
 NNSFndList gHeapList;

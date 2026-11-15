@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43, NNSG3dResShpData
+#include "model_material_set.h" // MtxFx43, NNSG3dResShpData
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/Kart/shadow_model.h" // ShadowModel
 

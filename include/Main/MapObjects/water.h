@@ -5,7 +5,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Course/course_map_group_entry.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
-#include "code_02012b30.h" // MtxFx43
+#include "model_material_set.h" // MtxFx43
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"

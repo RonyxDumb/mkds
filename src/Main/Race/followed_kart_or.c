@@ -1,11 +1,11 @@
 #include "Main/Race/followed_kart_or.h"
 #include "os_thread.h"
 #include "Main/Race/kart_highest_lap.h"
-#include "code_0200eddc.h"
-#include "code_02021f6c.h"
+#include "arena_cache_init.h"
+#include "graphic_resource_unpack.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
@@ -13,7 +13,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "g2d_NOB_load.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Race/kart.h"
 
 u16 GetFollowedKartOrEntryIndex(void) {

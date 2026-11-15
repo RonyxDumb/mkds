@@ -1,4 +1,4 @@
-#include "code_0200c914.h"
+#include "interrupt_control.h"
 
 OSIrqFunction OS_IRQTable[22] = {
     OS_IrqDummy,

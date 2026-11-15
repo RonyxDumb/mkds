@@ -1,8 +1,8 @@
 #include "03/Graphics/vram_bank_settings.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "pm.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "registers.h"
 
 u32 gSavedBankSettings[13];

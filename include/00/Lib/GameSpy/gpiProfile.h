@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/code_021947e4.h"
+#include "00/Lib/GameSpy/profile_empty_check.h"
 
 typedef struct GpiProfileSearch {
     /* 00 */ u32 mKey;

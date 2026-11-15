@@ -4,7 +4,7 @@
 #include "Main/Race/cup_records.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "00/Lib/DWC/code_0219b1f8.h"
+#include "00/Lib/DWC/friends_match_session.h"
 #include "Main/Race/kart.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"

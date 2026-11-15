@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/code_0218f960.h"
+#include "00/Lib/GameSpy/buddy_messages.h"
 
 typedef struct WiFiMatching WiFiMatching;
 typedef struct SbServer SbServer;

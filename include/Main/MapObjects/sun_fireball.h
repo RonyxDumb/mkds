@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
 #include "fx_mtx33.h"
-#include "code_0201c528.h" // ParticleEmitter
+#include "particle_instance.h" // ParticleEmitter
 #include "Main/MapObjects/attractor.h" // MapObject
 
 #define SUN_FIREBALL_LONG_LIFE_FRAMES 0x2a

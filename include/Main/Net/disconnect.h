@@ -56,14 +56,14 @@ typedef struct MPPlayerNameMessage {
 #include "Main/Kart/kart_effect_param_tables.h" // QueueMPDataToPortParams
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "code_02142eac.h" // WirelessMessage
+#include "wireless_power_mp.h" // WirelessMessage
 #include "Main/Kart/kart_effect_param_tables.h"
 
 typedef struct PlayerRecord PlayerRecord;

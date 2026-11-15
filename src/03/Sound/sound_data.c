@@ -6,9 +6,9 @@
 #include "03/System/dwc_archive.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/tasks.h"
-#include "code_0212ba34.h"
-#include "code_0212d214.h"
-#include "code_0212df7c.h"
+#include "sound_system_main.h"
+#include "sound_archive_load.h"
+#include "sound_archive_load_result.h"
 
 u8 gSoundDataSdatName[23] = {0x73, 0x6f, 0x75, 0x6e, 0x64, 0x2f, 0x73, 0x6f, 0x75, 0x6e, 0x64, 0x5f,
                              0x64, 0x61, 0x74, 0x61, 0x2e, 0x73, 0x64, 0x61, 0x74, 0x2e, 0x6c};

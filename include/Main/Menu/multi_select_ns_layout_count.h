@@ -92,7 +92,7 @@ typedef struct SceneNumbers SceneNumbers;
 
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/heap_call.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"

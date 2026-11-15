@@ -499,16 +499,16 @@ void AdvanceWiFiVSMatching(void);
 
 #include "Main/Menu/player_entry_list.h"
 #include "Main/Menu/message_screen.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/Scene/display_settings.h"
 
 #include "00/Scene/wi_fi_menu_scene.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Menu/wi_fi_state_machine.h"
-#include "00/Lib/DWC/code_0219b1f8.h"
+#include "00/Lib/DWC/friends_match_session.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 #include "player.h"
 #include "gfd_VramTransferManager.h"
 

@@ -4,14 +4,14 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "player.h"
-#include "code_0212c7a0.h"
+#include "sound_player_type.h"
 #include "stream.h"
-#include "code_0212c9d4.h"
+#include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 void StartSoundOutputEffect(u32 type);
 void ChangeSoundOutputEffect(s32 type);

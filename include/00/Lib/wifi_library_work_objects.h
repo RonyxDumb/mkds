@@ -1,18 +1,18 @@
 #pragma once
 
-#include "00/Lib/DWC/code_0219b1f8.h"
-#include "00/Lib/DWC/code_0219c384.h"
-#include "00/Lib/DWC/code_0219c93c.h"
-#include "00/Lib/DWC/code_0219d934.h"
+#include "00/Lib/DWC/friends_match_session.h"
+#include "00/Lib/DWC/error_state.h"
+#include "00/Lib/DWC/login_close.h"
+#include "00/Lib/DWC/buddy_friend_callback.h"
 #include "00/Lib/DWC/dwc_match_work.h"
 #include "types.h"
-#include "00/Lib/NitroWiFi/code_021a4b98.h"
-#include "00/Lib/DWC/code_021a2ccc.h"
+#include "00/Lib/NitroWiFi/wireless_connection_control.h"
+#include "00/Lib/DWC/data_transport.h"
 #include "00/Lib/DWC/dwc_connectinet.h"
-#include "code_02142eac.h" // ScanExParam
-#include "code_0200f790.h"
-#include "00/Lib/NitroWiFi/code_021a6fa8.h"
-#include "code_0200e77c.h"
+#include "wireless_power_mp.h" // ScanExParam
+#include "alarm_timer.h"
+#include "00/Lib/NitroWiFi/socket_objects.h"
+#include "thread_mutex_types.h"
 
 // One element of the table at gLocalIpList.
 typedef struct SOCInAddr {

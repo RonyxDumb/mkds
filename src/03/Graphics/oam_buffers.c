@@ -5,10 +5,10 @@
 #include "03/System/exp_heap.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/System/tasks.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "03/Graphics/node_list_delete.h"
 #include "03/Graphics/node_list_link.h"
-#include "code_0200c914.h"
+#include "interrupt_control.h"
 
 struct OamBuffers *gOamBuffers;
 

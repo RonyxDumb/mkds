@@ -1,6 +1,6 @@
 #include "Main/Graphics/font_glyph_index.h"
-#include "code_02022aa8.h"
-#include "code_0214cfe4.h"
+#include "font_glyph_layout.h"
+#include "cpu_copy_clear_16.h"
 
 void FillHalfwords(void *destination, u16 value, s32 size) {
     volatile u16 valueCopy = value;

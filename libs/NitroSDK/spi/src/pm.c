@@ -1,9 +1,9 @@
 #include "pm.h"
-#include "code_0200fc8c.h"
-#include "code_0200c4a4.h"
-#include "code_0200c914.h"
-#include "code_0200edc0.h"
-#include "code_0214d5b8.h"
+#include "reset_interrupt_enable.h"
+#include "cartridge_slot_access.h"
+#include "interrupt_control.h"
+#include "mutex_init_decl.h"
+#include "arm_fifo_messaging.h"
 #include "registers.h"
 
 u16 gPowerInitialized;

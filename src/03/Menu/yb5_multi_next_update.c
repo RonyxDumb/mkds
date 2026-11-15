@@ -8,7 +8,7 @@
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/System/task_input.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "pm.h"
 
 void UpdateYb5MultiNextButtonsIn(void) {

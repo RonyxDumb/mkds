@@ -4,11 +4,11 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "player.h"
-#include "code_0212d214.h"
-#include "code_021479b4.h"
+#include "sound_archive_load.h"
+#include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/sound_source_list.h"
-#include "code_020172d0.h"
+#include "linked_list_ops.h"
 
 const u16 gSurfaceSoundColumnIndices[24][8] = {{0, 3, 4, 1, 0xa, 9, 0xc, 0xe},
                                                {5, 3, 7, 8, 9, 0x13, 0x13, 0x13},

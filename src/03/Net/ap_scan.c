@@ -1,12 +1,12 @@
 #include "03/Net/ap_scan.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "string.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 
 #include "03/types_021da26c.h"
 #include "03/Net/ap_scan_callback.h"
-#include "code_02142eac.h"
-#include "code_0214cfe4.h"
+#include "wireless_power_mp.h"
+#include "cpu_copy_clear_16.h"
 #include "03/System/exp_heap.h"
 #include "03/Menu/wifi_menu_shared.h"
 

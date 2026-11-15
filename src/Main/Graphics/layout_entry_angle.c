@@ -1,9 +1,9 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "g2d_NOB_load.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/text_draw.h"
 #include "gfd_VramTransferManager.h"
 #include "os_thread.h"
@@ -11,7 +11,7 @@
 #include "g2d_CharCanvas.h"
 #include "fx_mtx22.h"
 #include "Main/Menu/back_screen_keyboard_tables.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "gx.h"
 
 const u8 gOamShapeSizeCharBlocks[3][4] = {{1, 4, 0x10, 0x40}, {2, 4, 8, 0x20}, {2, 4, 8, 0x20}};

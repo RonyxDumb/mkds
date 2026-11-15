@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 #include "output_effect.h" // CallbackInfo
 
 extern CallbackInfo sCallbackInfo;

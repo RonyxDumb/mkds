@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 
 // 12-byte entries of the table at gMemberGroupLabelMessageRows.

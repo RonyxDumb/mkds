@@ -1,12 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx22, NNSG3dResMatData
+#include "model_material_set.h" // MtxFx22, NNSG3dResMatData
 #include "Main/Kart/kart_effect_param_tables.h" // BattleKartAiParams
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
@@ -14,7 +14,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // ResFileEntry
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/System/time_digits.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudOamBuffer
 #include "Main/Race/race_goal_s_sb.h" // PaletteAndChars
@@ -29,16 +29,16 @@
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/Menu/menu_screens_work.h" // NNSG2dCharCanvas
 #include "player.h"
-#include "code_0212c7a0.h"
+#include "sound_player_type.h"
 #include "stream.h"
-#include "code_0212c9d4.h"
+#include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Graphics/text_canvas.h"
 #include "Main/Graphics/oam_lists.h"
 #include "Main/Graphics/stem_set_array.h" // StemSet
-#include "code_0214a748.h" // MtxFx44
+#include "geometry_engine_setup.h" // MtxFx44
 
 struct RandomState64;
 struct MapObjects;

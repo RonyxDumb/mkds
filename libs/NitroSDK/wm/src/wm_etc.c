@@ -1,9 +1,9 @@
 #include "wm_etc.h"
-#include "code_0200eddc.h"
-#include "code_021445e0.h"
+#include "arena_cache_init.h"
+#include "wireless_data_sharing.h"
 #include "os_thread.h"
 #include "wm_system.h"
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 
 u8 tmpUserGameInfoBuf[0x80];
 

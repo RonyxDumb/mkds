@@ -1,13 +1,13 @@
 #pragma once
 
 #include "types.h"
-#include "code_020091fc.h"
+#include "multiboot_game_entry.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "Main/Net/mp_link.h"
-#include "code_0200c0d8.h"
-#include "code_02142eac.h"
+#include "multiboot_data_pieces.h"
+#include "wireless_power_mp.h"
 
 void QueueStateMessage(void);
 void ReceivePortMessage(WirelessMessage *info);

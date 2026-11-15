@@ -1,7 +1,7 @@
 #include "Main/Graphics/oam_lists.h"
 #include "os_thread.h"
-#include "code_0200eddc.h"
-#include "code_0214c778.h"
+#include "arena_cache_init.h"
+#include "dma_copy_fill_wait.h"
 
 #pragma optimize_for_size on
 

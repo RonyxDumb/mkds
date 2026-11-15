@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0201c528.h"
+#include "particle_instance.h"
 
 typedef struct KartTurnEffects KartTurnEffects;
 

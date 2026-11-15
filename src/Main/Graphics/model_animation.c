@@ -2,12 +2,12 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/model_animation_loop.h"
-#include "code_020109c4.h"
-#include "code_02010c84.h"
+#include "render_object_animation_link.h"
+#include "model_draw_blend.h"
 
 #include "Main/Graphics/model_animation_looping.h"
-#include "code_02013740.h"
-#include "code_02013bdc.h"
+#include "animation_lookup.h"
+#include "animation_object_calc.h"
 
 const AnmFrameCountGetter gAnmFrameCountGetters[5] = {JointGetAnmObjFrameCount, TexSrtGetAnmObjFrameCount,
                                                       TexPatGetAnmObjFrameCount, VisGetAnmObjFrameCount,

@@ -15,7 +15,7 @@ typedef struct RockDrawList {
 } RockDrawList;
 
 #include "Main/MapObjects/rock.h" // EmitterParams, RockObject
-#include "code_0201c528.h"
+#include "particle_instance.h"
 #include "Main/Kart/shadow_model.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/MapObjects/quaternion_math.h"

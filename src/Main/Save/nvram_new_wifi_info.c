@@ -1,6 +1,6 @@
 #include "Main/Save/nvram_new_wifi_info.h"
 #include "dwc_backup.h"
-#include "code_02151fc4.h"
+#include "wifi_id_info.h"
 
 #pragma thumb on
 

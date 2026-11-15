@@ -1,16 +1,16 @@
 #include "dwc_account.h"
-#include "code_02152ac8.h"
-#include "data_02152000.h"
-#include "code_020205b0.h"
+#include "dwc_account_init.h"
+#include "wifi_id_forward.h"
+#include "crc_checksum.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
 #include "os_printf.h"
-#include "code_0214d018.h"
-#include "code_021519d4.h"
+#include "cpu_copy_fill.h"
+#include "wifi_id_auth.h"
 #include "Main/Net/friend_data_player_id.h"
 #include "os_tick.h"
-#include "code_02000b44.h"
+#include "startup_entry.h"
 
 #pragma thumb on
 

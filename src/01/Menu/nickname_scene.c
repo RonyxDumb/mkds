@@ -11,7 +11,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Save/backup_first_block_write_wrapper.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
 
 NicknameScene *gNicknameScene;

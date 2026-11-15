@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/code_02197e58.h"
+#include "00/Lib/GameSpy/connection_close.h"
 
 void gt2CloseAllConnectionsHard(Gt2Socket *socket);
 void gti2CloseAllConnectionsHardMap(Gt2Connection **elem);

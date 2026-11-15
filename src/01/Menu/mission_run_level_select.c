@@ -7,7 +7,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "01/Menu/menu_screen_work_structs.h"
 #include "registers.h"

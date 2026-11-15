@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0214d93c.h" // RTCTime
+#include "clock_chip_access.h" // RTCTime
 #include "Main/Scene/scene_display_archive_work.h"
 
 // A replay race ends once the race clock reaches this minute.

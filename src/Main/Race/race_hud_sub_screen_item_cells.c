@@ -5,7 +5,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
@@ -23,8 +23,8 @@
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/map_objects_get.h"
 #include "Main/MapObjects/pooled_tail_count.h"
-#include "code_020222ec.h"
-#include "code_02148538.h"
+#include "cell_animation.h"
+#include "fixed_arctangent.h"
 #include "Main/System/heap.h"
 #include "Main/Kart/shadow_model_draw.h"
 #include "Main/Race/race_hud_sub_screen_mode.h"
@@ -37,7 +37,7 @@
 #include "Main/Item/kart_items_collision_hits.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/karts.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Race/race_hud_sub_screen_item_box_cells.h"
 
 s32 gRaceHudSubScreenItemPoolIndices[10] = {0, 1, 2, 3, 4, 5, 9, 7, 8, 11};

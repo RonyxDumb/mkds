@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx33
+#include "model_material_set.h" // MtxFx33
 #include "Main/Item/held_item.h" // BouncingItemObject
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"

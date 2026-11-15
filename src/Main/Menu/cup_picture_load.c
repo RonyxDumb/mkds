@@ -6,7 +6,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/archive_slots.h"
 #include "Main/Race/followed_kart_or.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 #include "Main/Menu/menu_screen_callbacks.h"
 #include "Main/Menu/cup_picture.h"
 

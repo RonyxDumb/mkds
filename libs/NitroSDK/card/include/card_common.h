@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_021458c4.h"
+#include "rom_card_read.h"
 
 void CARD_UnlockBackup(u16 lockId);
 void CARD_LockBackup(u16 lockId);

@@ -1,8 +1,8 @@
 #include "01/Menu/select_cup_grid_update.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "01/Menu/select_cup_grid_flags.h"
-#include "code_02012b30.h"
-#include "code_0212d214.h"
+#include "model_material_set.h"
+#include "sound_archive_load.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Menu/select_cup_grid.h"
 

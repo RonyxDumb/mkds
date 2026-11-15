@@ -5,14 +5,14 @@
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/MapObjects/pendulum.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "fx_mtx33.h"
 #include "Main/Kart/kart_drift.h"
 #include "fx_mtx43.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 MtxFx43 *gViewRotatedMatrix;
 MtxFx43 *gTranslationMatrix;

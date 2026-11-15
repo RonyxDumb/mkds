@@ -14,7 +14,7 @@
 #include "03/System/task_input.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Graphics/message_pool.h"
-#include "code_0213c9f8.h"
+#include "wide_print.h"
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Menu/slide_buttons.h"
 #include "03/Menu/main_menu.h"

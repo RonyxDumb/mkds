@@ -1,7 +1,7 @@
 #include "Main/Save/backup_write_copies.h"
 #include "Main/Save/backup_access.h"
 #include "Main/Save/backup_read_copies.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"

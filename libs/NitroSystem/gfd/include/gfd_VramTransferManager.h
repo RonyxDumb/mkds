@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02016638.h" // NNSGfdVramTransferTask
+#include "transfer_task_types.h" // NNSGfdVramTransferTask
 
 // First argument of NNS_GfdRegisterNewVramTransferTask: where the data goes, one per transfer function.
 typedef enum VramTransferType {

@@ -12,7 +12,7 @@
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "01/Menu/emblem_and_boss_icon_tables.h"
 #include "01/Menu/emblem_cursor.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 
 void AdvanceEmblemGridScreen(void) {
     s32 touchedEntry;

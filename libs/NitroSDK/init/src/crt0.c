@@ -1,6 +1,6 @@
 #include "crt0.h"
-#include "code_02000a58.h"
-#include "unk_02000000.h"
+#include "autoload_callback.h"
+#include "build_info_layout.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
 
 asm void _start(void) {

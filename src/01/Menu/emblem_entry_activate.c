@@ -7,7 +7,7 @@
 #include "01/Menu/emblem_screen_upload.h"
 #include "01/Menu/emblem_state_and_lld.h"
 #include "01/Menu/menu_screen_work_structs.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 
 void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
     s32 templateByteSize;

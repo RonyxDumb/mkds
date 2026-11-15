@@ -2,7 +2,7 @@
 #include "fx_mtx33.h"
 
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Course/course_map_group_entry.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"

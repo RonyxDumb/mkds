@@ -5,7 +5,7 @@
 #include "os_thread.h"
 #include "Main/Menu/emblem_choises_shown.h"
 #include "Main/Sound/race_end_seq.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "gx.h"
 #include "g2.h"
 #include "gx_load2d.h"

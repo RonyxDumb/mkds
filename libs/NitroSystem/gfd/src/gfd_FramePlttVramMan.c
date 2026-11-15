@@ -1,6 +1,6 @@
 #include "gfd_FramePlttVramMan.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "data_02173000.h"
+#include "particle_random_state.h"
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"

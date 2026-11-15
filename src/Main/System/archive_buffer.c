@@ -1,14 +1,14 @@
 #include "Main/System/archive_buffer.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "code_0200eddc.h"
-#include "code_0214d018.h"
+#include "arena_cache_init.h"
+#include "cpu_copy_fill.h"
 
 #pragma thumb on
 

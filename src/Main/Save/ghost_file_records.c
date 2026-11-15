@@ -11,9 +11,9 @@
 #include "dwc_account.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "Main/System/backup_net_camera_work.h" // GhostListEntry
-#include "code_021522a0.h"
+#include "friend_user_data.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
 

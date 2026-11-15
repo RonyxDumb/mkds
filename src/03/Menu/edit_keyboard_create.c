@@ -13,7 +13,7 @@
 #include "03/Graphics/oam_range.h"
 #include "03/Graphics/nce_file.h"
 #include "03/Graphics/oam_range_entry.h"
-#include "code_02142eac.h"
+#include "wireless_power_mp.h"
 
 const u16 gEditKeyboardKeyPositionsThird[15][2] = {
     {0xb5, 0x7d}, {0xc7, 0x7d}, {0xd9, 0x7d}, {0xeb, 0x7d}, {0x2d, 0x93}, {0x3f, 0x93}, {0x51, 0x93}, {0x63, 0x93},

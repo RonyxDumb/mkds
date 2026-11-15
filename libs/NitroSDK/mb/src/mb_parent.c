@@ -1,13 +1,13 @@
 #include "mb_parent.h"
-#include "code_0200fc8c.h"
-#include "code_020091fc.h"
-#include "code_0214d018.h"
-#include "code_02008908.h"
-#include "code_0200c0d8.h"
+#include "reset_interrupt_enable.h"
+#include "multiboot_game_entry.h"
+#include "cpu_copy_fill.h"
+#include "multiboot_block_header_end.h"
+#include "multiboot_data_pieces.h"
 #include "mb_data.h"
-#include "code_02007ec4.h"
-#include "code_0214cfe4.h"
-#include "code_02009928.h"
+#include "multiboot_file_register.h"
+#include "cpu_copy_clear_16.h"
+#include "multiboot_comm_start.h"
 
 u8 prev_fid = 0xff;
 

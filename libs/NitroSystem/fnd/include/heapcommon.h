@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 // NNSiFndHeapHead.mSignature values, the ASCII tags "EXPH" and "FRMH" of the two heap types.
 #define HEAP_SIGNATURE_EXP_HEAP 0x45585048

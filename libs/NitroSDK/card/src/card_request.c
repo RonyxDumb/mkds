@@ -1,7 +1,7 @@
 #include "card_request.h"
 #include "os_thread.h"
 #include "card_common.h"
-#include "code_021458c4.h"
+#include "rom_card_read.h"
 
 // Tag 11 callback: when a reply arrives, clears the request bit of CARDiCommon.mFlag and wakes CARDiCommon.mCurTh.
 void CARDi_OnFifoRecv(u32 tag, u32 data, u32 err) {

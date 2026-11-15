@@ -3,7 +3,7 @@
 #include "Main/Menu/single_play_select_screen3.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "gx.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "gx_load2d.h"
 #include "registers.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"

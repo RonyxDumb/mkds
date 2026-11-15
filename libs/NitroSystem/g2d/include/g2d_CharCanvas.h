@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "Main/Graphics/text_canvas.h" // TextCanvas
-#include "code_02022aa8.h" // NNSG2dFont
-#include "code_020245a4.h" // NNSiG2dBitReader
+#include "font_glyph_layout.h" // NNSG2dFont
+#include "font_file_parse.h" // NNSiG2dBitReader
 
 // Two pointers, passed by address to the function at 0x14 of NNSG2dCharCanvas.
 typedef struct NNSG2dGlyph {

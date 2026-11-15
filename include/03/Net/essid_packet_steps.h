@@ -3,10 +3,10 @@
 #include "types.h"
 #include "03/Net/poll_entry.h"
 #include "03/Net/value_records_request_status.h"
-#include "code_0214cfe4.h"
-#include "code_0200f790.h"
+#include "cpu_copy_clear_16.h"
+#include "alarm_timer.h"
 #include "os_thread.h"
-#include "code_0200e77c.h"
+#include "thread_mutex_types.h"
 
 // One socket to poll: its descriptor, the events asked for and the events found.
 typedef struct PollEntry {
@@ -226,7 +226,7 @@ typedef struct ItemContainerView {
     };
 } ItemContainerView;
 
-#include "00/Lib/DWC/code_0218a064.h"
+#include "00/Lib/DWC/socket_config.h"
 
 extern SOCConfig gEssidSocketConfig;
 extern u8 gItemTypesToFind[2];

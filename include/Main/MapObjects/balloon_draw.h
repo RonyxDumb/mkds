@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/balloon.h" // Balloon
-#include "code_0201c528.h" // ParticleEmitter
+#include "particle_instance.h" // ParticleEmitter
 #include "Main/Kart/kart_name_tags.h"
 #include "01/MapObjects/map_object_model.h"
 

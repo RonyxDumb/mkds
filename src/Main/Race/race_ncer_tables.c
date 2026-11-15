@@ -19,7 +19,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
@@ -30,10 +30,10 @@
 #include "os_thread.h"
 #include "Main/Graphics/message_index.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "g2d_NOB_load.h"
 #include "g2d_CharCanvas.h"
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 #include "Main/Menu/menu_shared_clear.h"
 
 struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;

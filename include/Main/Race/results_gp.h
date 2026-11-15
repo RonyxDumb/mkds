@@ -9,7 +9,7 @@
 #include "Main/Menu/menu.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Menu/multi_select_member_group.h"
 #include "tp.h"

@@ -14,7 +14,7 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/Sound/start_sound_from_params.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/sound_if_kart_star_or.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"

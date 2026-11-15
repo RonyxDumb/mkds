@@ -6,7 +6,7 @@
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/System/task_input.h"
 #include "03/System/rect.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 
 const u16 gEditKeyboardExtraKeySizes[1][2] = {{0x1b, 0x12}};

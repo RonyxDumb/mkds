@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02013740.h"
+#include "animation_lookup.h"
 
 typedef struct NNSG3dResMdlSet NNSG3dResMdlSet;
 

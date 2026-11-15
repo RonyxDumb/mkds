@@ -11,7 +11,7 @@
 #include "Main/Net/scan.h"
 #include "Main/Net/connection.h"
 #include "Main/Net/mp_chunk_state_machine.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "Main/Menu/select_race_rule_state.h"
 
 #pragma thumb on

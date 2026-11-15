@@ -1,7 +1,7 @@
 #include "card_common.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "os_thread.h"
-#include "code_021458c4.h"
+#include "rom_card_read.h"
 #include "os_spinLock.h"
 
 CARDiCommon gAccessState;

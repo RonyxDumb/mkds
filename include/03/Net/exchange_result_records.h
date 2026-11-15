@@ -3,9 +3,9 @@
 #include "types.h"
 #include "os_thread.h"
 #include "03/Menu/wifi_menu_tables.h"
-#include "00/Lib/NitroWiFi/code_021a574c.h"
-#include "00/Lib/NitroWiFi/code_021a5b3c.h"
-#include "00/Lib/DWC/code_02188de4.h"
+#include "00/Lib/NitroWiFi/wireless_connection_config.h"
+#include "00/Lib/NitroWiFi/wireless_connection_options.h"
+#include "00/Lib/DWC/access_point_wep_key.h"
 
 // Six bytes moved as one value.
 typedef struct MacAddress {

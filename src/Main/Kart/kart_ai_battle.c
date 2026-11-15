@@ -21,7 +21,7 @@
 #include "Main/MapObjects/balloon_draw.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
@@ -34,7 +34,7 @@
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "Main/System/input_slots.h"
 #include "frameheap.h"
 #include "os_thread.h"
@@ -47,8 +47,8 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Item/kart_items_collision_hits.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "code_02147cd8.h"
-#include "code_02148538.h"
+#include "vector_math.h"
+#include "fixed_arctangent.h"
 #include "Main/Kart/karts.h"
 
 const Vec3 gBattleKartAiZeroVector = {0, 0, 0};

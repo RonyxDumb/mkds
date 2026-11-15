@@ -2,20 +2,20 @@
 
 #include "types.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
-#include "code_02004dc0.h" // FSOverlayInfo, FSFile
-#include "code_0212d214.h"
+#include "overlay_loader.h" // FSOverlayInfo, FSFile
+#include "sound_archive_load.h"
 #include "os_thread.h"
-#include "code_02142eac.h" // ScanExParam, ScanParam, ParentParameter
-#include "code_021445e0.h" // WMDataSharingInfo, WMDataSet
-#include "code_02147cd8.h" // Vec3s16
-#include "code_0214a748.h" // MtxFx44
-#include "code_02012b30.h" // MtxFx43
+#include "wireless_power_mp.h" // ScanExParam, ScanParam, ParentParameter
+#include "wireless_data_sharing.h" // WMDataSharingInfo, WMDataSet
+#include "vector_math.h" // Vec3s16
+#include "geometry_engine_setup.h" // MtxFx44
+#include "model_material_set.h" // MtxFx43
 #include "Main/Net/wbt_requests.h"
 #include "Main/Kart/point_link_cursor.h" // PosCurve
 #include "Main/Kart/shadow_model.h" // ShadowModel
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/Graphics/model_animation.h" // ModelAnimation
-#include "code_02003024.h"
+#include "file_command_handlers.h"
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
 #include "dwc_account.h" // DWCAccFriendData, DWCAccUserData
 #include "Main/Menu/second_menu_scene.h" // StateMachine

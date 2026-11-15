@@ -17,7 +17,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
@@ -26,11 +26,11 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/result_archive_path.h"
 #include "g2d_NAN_load.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "g2d_Animation.h"
-#include "code_020222ec.h"
+#include "cell_animation.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     s16 *box;

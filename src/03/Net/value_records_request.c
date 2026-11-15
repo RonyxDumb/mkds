@@ -6,9 +6,9 @@
 #include "03/System/exp_heap.h"
 #include "03/Net/value_records_request_alloc.h"
 #include "03/Menu/wifi_menu_tables.h"
-#include "code_0200fc8c.h"
-#include "code_0214cfe4.h"
-#include "code_0214d018.h"
+#include "reset_interrupt_enable.h"
+#include "cpu_copy_clear_16.h"
+#include "cpu_copy_fill.h"
 
 const u8 gNintendoDsItemBytes[12] = {0x4e, 0x49, 0x4e, 0x54, 0x45, 0x4e, 0x44, 0x4f, 0x2d, 0x44, 0x53, 0};
 u8 gValueRecordsRequestSucceeded;

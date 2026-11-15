@@ -11,7 +11,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "g2.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "registers.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 

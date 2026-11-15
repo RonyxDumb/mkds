@@ -55,8 +55,8 @@ typedef struct CourseMapCamera {
     /* 4b */ u8 mShakeKind;
 } CourseMapCamera;
 
-#include "code_02012b30.h" // MtxFx43
-#include "code_021479b4.h"
+#include "model_material_set.h" // MtxFx43
+#include "matrix44_concat.h"
 
 
 void UpdateCameraWobble(Camera *camera);

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/System/backup_net_camera_work.h" // ScanSlot
-#include "code_02142eac.h" // WirelessMessage
+#include "wireless_power_mp.h" // WirelessMessage
 
 void SetGameInfo(void);
 void StartDataSharing(void);

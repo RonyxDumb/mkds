@@ -1,18 +1,18 @@
 #pragma once
 
 #include "types.h"
-#include "code_0200ad00.h"
-#include "code_0200fc8c.h"
-#include "code_0200aeb4.h"
+#include "multiboot_mode_constants.h"
+#include "reset_interrupt_enable.h"
+#include "multiboot_task_thread.h"
 #include "mb_gameinfo.h"
 #include "mb_data.h"
-#include "code_02003024.h"
+#include "file_command_handlers.h"
 #include "fs_file.h"
-#include "code_02003be0.h"
-#include "code_02008908.h"
-#include "code_0200c0d8.h"
-#include "code_02009928.h"
-#include "code_02142eac.h"
+#include "file_open_read.h"
+#include "multiboot_block_header_end.h"
+#include "multiboot_data_pieces.h"
+#include "multiboot_comm_start.h"
+#include "wireless_power_mp.h"
 
 struct SegmentBuffer;
 

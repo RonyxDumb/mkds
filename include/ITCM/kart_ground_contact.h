@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02010c84.h" // NNSG3dJntAnmResult, NNSG3dMatAnmResult, MtxFx44
+#include "model_draw_blend.h" // NNSG3dJntAnmResult, NNSG3dMatAnmResult, MtxFx44
 
 typedef struct Kart Kart;
 

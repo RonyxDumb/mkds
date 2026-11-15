@@ -5,14 +5,14 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "tp.h"
-#include "code_020222ec.h"
+#include "cell_animation.h"
 #include "Main/Graphics/font_and_player_character.h"
 
 struct DownloadScreenFiles *gDownloadScreenFiles;

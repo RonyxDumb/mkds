@@ -1,7 +1,7 @@
 #pragma once
 
 #include "03/Net/exchange_wcm_state.h"
-#include "code_020091fc.h"
+#include "multiboot_game_entry.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/System/application.h"
 #include "03/Menu/jb5_move.h"
@@ -10,7 +10,7 @@
 #include "03/Graphics/nce_oam.h" // OamRange
 #include "03/System/pointer_stack_create.h"
 #include "03/Graphics/blend_brightness_fade.h"
-#include "code_02003024.h" // FSArchive
+#include "file_command_handlers.h" // FSArchive
 #include "03/Menu/slide_buttons.h"
 #include "03/Graphics/message_pool.h"
 #include "03/Net/child_wait_session_object.h"

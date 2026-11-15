@@ -15,14 +15,14 @@
 #include "Main/Net/participant_bits.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "code_020176c0.h"
-#include "code_0214d018.h"
+#include "expanded_heap_head.h"
+#include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
 
 #pragma opt_rebuildconditionals off

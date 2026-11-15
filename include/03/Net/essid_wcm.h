@@ -3,9 +3,9 @@
 #include "types.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/wifi_library_work_objects.h"
-#include "00/Lib/NitroWiFi/code_021a574c.h"
-#include "00/Lib/NitroWiFi/code_021a5b3c.h"
-#include "00/Lib/DWC/code_02188de4.h"
+#include "00/Lib/NitroWiFi/wireless_connection_config.h"
+#include "00/Lib/NitroWiFi/wireless_connection_options.h"
+#include "00/Lib/DWC/access_point_wep_key.h"
 
 typedef s32 EssidEventCallback();
 

@@ -27,7 +27,7 @@
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "pm.h"
@@ -35,7 +35,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Sound/sound_distance_squared_change.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 MapObjectModel *gBasabasa;
 

@@ -3,7 +3,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
@@ -38,7 +38,7 @@
 #include "Main/Graphics/light_color.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Item/item_pool.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Item/item_link_following.h"
 
 void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,

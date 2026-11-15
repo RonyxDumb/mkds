@@ -1,7 +1,7 @@
 #include "snd_main.h"
 
-#include "code_0200e77c.h"
-#include "code_0200edc0.h"
+#include "thread_mutex_types.h"
+#include "mutex_init_decl.h"
 #include "snd_command.h"
 #include "snd_work.h"
 

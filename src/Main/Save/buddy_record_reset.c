@@ -1,6 +1,6 @@
 #include "Main/Save/buddy_record_reset.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 #pragma thumb on
 // Sets a buddy record to empty: counts zero, date year 0 month 1 day 1, no name, flags clear.

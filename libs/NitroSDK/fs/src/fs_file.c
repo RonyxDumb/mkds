@@ -1,5 +1,5 @@
 #include "fs_file.h"
-#include "code_02004dc0.h"
+#include "overlay_loader.h"
 
 // Returns whether FS_Init has run.
 u32 FS_IsAvailable(void) {

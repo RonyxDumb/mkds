@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212f788.h" // NNSSndFader
+#include "sound_fader.h" // NNSSndFader
 
 // Values of mSeqType: no sequence yet, or one from the sequence archive.
 #define SOUND_SEQ_TYPE_NONE 0
@@ -42,7 +42,7 @@ typedef struct NNSSndSeqPlayer {
     /* 42 */ u8 mPad3[2];
 } NNSSndSeqPlayer;
 
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 // Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on mHeapStorage,
 // mPlayerNo the index of the sPlayer element whose heap list receives it.
@@ -54,7 +54,7 @@ typedef struct NNSSndPlayerHeap {
     /* 14 */ u8 mHeapStorage[1];
 } NNSSndPlayerHeap;
 
-#include "code_0212c7a0.h" // NNSSndPlayer
+#include "sound_player_type.h" // NNSSndPlayer
 
 typedef struct SNDBankData SNDBankData;
 

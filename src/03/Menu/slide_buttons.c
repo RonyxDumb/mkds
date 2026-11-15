@@ -11,7 +11,7 @@
 #include "03/System/tasks.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/System/exp_heap.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "03/Graphics/oam_buffer_entries.h"
 
 const u8 gAnimatedIconPalettes[3] = {0xe, 4, 5};

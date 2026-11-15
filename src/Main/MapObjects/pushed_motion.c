@@ -3,7 +3,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/kart_drift.h"
 
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 const Vec3 gPushedMotionFallbackDirection = {0x1000, 0, 0};
 const Vec3 gVec3UnitX = {0x1000, 0, 0};

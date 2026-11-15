@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx22
+#include "model_material_set.h" // MtxFx22
 #include "g2d_CharCanvas.h" // NNSG2dCharCanvas
 #include "g2d_NAN_load.h" // NNSG2dCellDataBank
 #include "g2d_Animation.h" // NNSG2dCellDataWithBR, NNSG2dCellOAMAttrData

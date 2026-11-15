@@ -1,13 +1,13 @@
 #include "mb_fileinfo.h"
-#include "code_0200fc8c.h"
-#include "code_02000a58.h"
-#include "code_0200aea8.h"
-#include "code_02003024.h"
-#include "code_02003be0.h"
+#include "reset_interrupt_enable.h"
+#include "autoload_callback.h"
+#include "multiboot_cache_init.h"
+#include "file_command_handlers.h"
+#include "file_open_read.h"
 #include "fs_file.h"
-#include "code_0200eddc.h"
-#include "code_0214d018.h"
-#include "code_021458c4.h"
+#include "arena_cache_init.h"
+#include "cpu_copy_fill.h"
+#include "rom_card_read.h"
 
 const u32 mbi_seg_header_default[6] = {0x4000, 0x1000, 0x7000, 0x1000, 0, 0};
 u32 *mbi_seg_header = (u32 *) mbi_seg_header_default;

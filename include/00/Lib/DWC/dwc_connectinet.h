@@ -33,7 +33,7 @@ typedef struct DWCInetControl {
     /* 0a */ u16 mPowerMode;
 } DWCInetControl;
 
-#include "00/Lib/GameSpy/code_021a3a18.h"
+#include "00/Lib/GameSpy/query_reporting.h"
 
 u32 DWCi_CheckDisconnected(void);
 BOOL DWC_CleanupInetAsync(void);

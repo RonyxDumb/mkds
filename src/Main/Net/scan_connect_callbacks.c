@@ -2,9 +2,9 @@
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "Main/Net/mp_link.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 #pragma thumb on
 

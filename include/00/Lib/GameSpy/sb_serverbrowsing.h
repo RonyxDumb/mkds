@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/sb_queryengine.h"
-#include "00/Lib/GameSpy/code_0218dd8c.h"
+#include "00/Lib/GameSpy/hash_table.h"
 
 typedef struct SbServerList SbServerList;
 typedef struct SbServer SbServer;

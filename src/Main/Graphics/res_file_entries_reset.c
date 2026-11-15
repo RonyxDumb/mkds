@@ -1,6 +1,6 @@
 #include "Main/Graphics/res_file_entries_reset.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "code_0201750c.h"
+#include "linked_list_init.h"
 
 NNSFndList gResFileEntries;
 

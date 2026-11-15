@@ -10,7 +10,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
@@ -27,7 +27,7 @@
 #include "Main/Race/race_nclr_ncgr.h"
 #include "Main/Race/race_ncer_tables.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 
 RaceHudSubScreenCells *gRaceHudSubScreenIwanteCells;
 

@@ -1,6 +1,6 @@
 #include "Main/Net/scan_game_info.h"
-#include "code_0200eddc.h"
-#include "code_0214d018.h"
+#include "arena_cache_init.h"
+#include "cpu_copy_fill.h"
 #include "os_thread.h"
 
 s32 IsScanBlockGameInfoMatch(WMBssDesc *bssDesc) {

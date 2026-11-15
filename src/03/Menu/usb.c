@@ -9,7 +9,7 @@
 #include "gx_load2d.h"
 #include "03/Menu/message_box.h"
 #include "03/System/application.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Menu/slide_buttons.h"
 #include "03/Menu/sub_screen_message.h"
@@ -24,8 +24,8 @@
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/dwc_archive.h"
 #include "03/Graphics/hl_scr.h"
-#include "code_0200fc8c.h"
-#include "code_0214cfe4.h"
+#include "reset_interrupt_enable.h"
+#include "cpu_copy_clear_16.h"
 
 u8 gUsbExitKind;
 

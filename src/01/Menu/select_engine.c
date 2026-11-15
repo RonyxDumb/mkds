@@ -15,7 +15,7 @@
 #include "Main/Menu/select_return.h"
 #include "Main/System/input_slots.h"
 #include "player.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "registers.h"
 #include "00/Menu/wi_fi_vs_setting.h"

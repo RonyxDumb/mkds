@@ -2,7 +2,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
@@ -18,7 +18,7 @@
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/System/init_after_startup.h"
 
 const Vec3 gGroupPathZeroLengthUp = {0, 0x1000, 0};

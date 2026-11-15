@@ -1,12 +1,12 @@
 #include "wvr.h"
 #include "os_spinLock.h"
-#include "code_0200fc8c.h"
-#include "data_02173000.h"
+#include "reset_interrupt_enable.h"
+#include "particle_random_state.h"
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"
-#include "code_0214d5b8.h"
-#include "code_0200fe74.h"
+#include "arm_fifo_messaging.h"
+#include "model_texture_bind.h"
 
 void (*wvrCallback)(u32, s32) = 0;
 u32 wvrArg = 0;

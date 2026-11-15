@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-#include "code_02142eac.h" // WirelessMessage
+#include "wireless_power_mp.h" // WirelessMessage
 
 void ClearRequestPending(WirelessMessage *event);

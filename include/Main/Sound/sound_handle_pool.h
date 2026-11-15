@@ -3,7 +3,7 @@
 #include "types.h"
 #include "player.h"
 #include "Main/Sound/sound_seq.h" // SoundHandlePool
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 NNSSndSeqPlayer **GetSndHandleSlot(unsigned int index);
 NNSSndSeqPlayer **GetSecondSndHandleSlot(void);

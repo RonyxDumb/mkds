@@ -1,9 +1,9 @@
 #include "expheap.h"
-#include "code_02017ea0.h"
-#include "code_02017e70.h"
-#include "code_020176c0.h"
-#include "code_02134398.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "heap_block_list.h"
+#include "heap_block_head.h"
+#include "expanded_heap_head.h"
+#include "print_memory_functions.h"
+#include "00/Lib/DWC/access_point_manager.h"
 
 void GetRegionOfMBlock(NNSiMemRegion *region, NNSiFndExpHeapMBlockHead *block) {
     region->mStart = (u8 *) block - (u16) ((block->mAttribute >> 8) & 0x7f);

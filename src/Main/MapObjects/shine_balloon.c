@@ -21,7 +21,7 @@
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 

@@ -6,7 +6,7 @@
 #include "Main/Sound/sound_set_load.h"
 #include "Main/Sound/seq_row.h"
 #include "Main/Menu/menu_label_cell_rows.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"

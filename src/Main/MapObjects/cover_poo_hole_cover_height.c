@@ -15,8 +15,8 @@
 #include "Main/Sound/start_sound_from_params.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "player.h"
-#include "code_0212d214.h"
-#include "code_021479b4.h"
+#include "sound_archive_load.h"
+#include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
@@ -25,7 +25,7 @@
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "01/Race/mission_run_state.h"
 
 u32 SetFlipperAltWaitTimerByIndex(u32 flipperIndex) {

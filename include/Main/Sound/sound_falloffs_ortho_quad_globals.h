@@ -1,8 +1,8 @@
 #pragma once
 #include "types.h"
 #include "player.h"
-#include "code_0212d214.h"
-#include "code_021479b4.h" // MtxFx44
+#include "sound_archive_load.h"
+#include "matrix44_concat.h" // MtxFx44
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"

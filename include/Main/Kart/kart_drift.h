@@ -10,11 +10,11 @@
 
 #include "types.h"
 #include "Main/System/wvr_state.h"
-#include "code_02012b30.h" // MtxFx43
-#include "code_02147cd8.h" // Vec3s16
-#include "code_02148538.h"
+#include "model_material_set.h" // MtxFx43
+#include "vector_math.h" // Vec3s16
+#include "fixed_arctangent.h"
 #include "tp.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 #include "Main/Kart/point_link_cursor_advance.h" // KartKillerCursor

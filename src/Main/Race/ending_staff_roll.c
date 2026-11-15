@@ -4,9 +4,9 @@
 
 #include "os_thread.h"
 #include "Main/Graphics/palette_blend.h"
-#include "code_0200eddc.h"
-#include "code_020222ec.h"
-#include "code_0214c778.h"
+#include "arena_cache_init.h"
+#include "cell_animation.h"
+#include "dma_copy_fill_wait.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/file_in_loaded.h"
 #include "g2d_NOB_load.h"

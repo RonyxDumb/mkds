@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h" // NNSFndArchive
+#include "archive_memory_load.h" // NNSFndArchive
 #include "Main/System/input_slots.h" // InputSlot
 #include "frameheap.h" // NNSiFndHeapHead
 #include "os_thread.h"

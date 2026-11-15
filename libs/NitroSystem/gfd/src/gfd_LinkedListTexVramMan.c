@@ -4,7 +4,7 @@
 #include "gfdi_LinkedListVramMan_Common.h"
 #include "gfd_FrameTexVramMan.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "data_02173000.h"
+#include "particle_random_state.h"
 #include "mic.h"
 
 NNS_GfdLnkTexVramManager gTexVramManager;

@@ -20,13 +20,13 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/System/exp_heap.h"
 #include "03/Graphics/oam_buffer_entries.h"
-#include "code_0213a460.h"
-#include "code_0214d018.h"
+#include "text_to_number.h"
+#include "cpu_copy_fill.h"
 #include "03/System/dwc_archive.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/Graphics/nce_file.h"
 #include "string.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 
 const u16 gEditAddrCharSize[2] = {0xb, 0x10};
 const u8 gEditAddrCharX[12] = {0x31, 0x3d, 0x49, 0x5a, 0x66, 0x72, 0x83, 0x8f, 0x9b, 0xac, 0xb8, 0xc4};

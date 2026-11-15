@@ -1,6 +1,6 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Graphics/oam_upload.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "gx_load2d.h"
 
 #pragma thumb on

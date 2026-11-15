@@ -28,7 +28,7 @@ void SbServerListInit(SbServerList *slist, const char *targetName, const char *s
 
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/sb_queryengine.h"
-#include "00/Lib/GameSpy/code_0218dd8c.h"
+#include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/sb_server.h"
 #include "00/Lib/GameSpy/sb_serverbrowsing.h"
 

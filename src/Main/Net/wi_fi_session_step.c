@@ -1,7 +1,7 @@
 #include "Main/Net/wi_fi_session_step.h"
-#include "00/Lib/DWC/code_0219b1f8.h"
-#include "00/Lib/DWC/code_021a2ccc.h"
-#include "00/Lib/DWC/code_021a3264.h"
+#include "00/Lib/DWC/friends_match_session.h"
+#include "00/Lib/DWC/data_transport.h"
+#include "00/Lib/DWC/reliable_send.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/wifi_session_karts.h"
@@ -11,7 +11,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
 #include "os_tick.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
 
 // Sets the session up for a WiFiSessionSetup mode: the first resets masks, records and picks and starts at the first

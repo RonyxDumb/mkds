@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "00/Lib/DWC/ca_info.h"
-#include "00/Lib/CPS/code_021ab6d4.h"
-#include "00/Lib/CPS/code_021abca0.h"
+#include "00/Lib/CPS/md5_internal_hash.h"
+#include "00/Lib/CPS/sha1_update.h"
 
 typedef struct HttpsEntry HttpsEntry;
 typedef struct CPSPrivateKey CPSPrivateKey;

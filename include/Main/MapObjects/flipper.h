@@ -4,8 +4,8 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
-#include "code_0201c528.h" // ParticleEmitter
-#include "code_02012b30.h" // MtxFx43
+#include "particle_instance.h" // ParticleEmitter
+#include "model_material_set.h" // MtxFx43
 #include "01/MapObjects/map_object_model.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 

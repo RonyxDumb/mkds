@@ -22,7 +22,7 @@ typedef struct {
 } OrthoQuadModel;
 
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "code_021479b4.h"
+#include "matrix44_concat.h"
 
 // The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
 // GesoSumi: the screen overlay the Gesso item starts for a hit kart.

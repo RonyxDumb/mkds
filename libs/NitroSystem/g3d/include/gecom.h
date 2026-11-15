@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02010c84.h"
+#include "model_draw_blend.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 

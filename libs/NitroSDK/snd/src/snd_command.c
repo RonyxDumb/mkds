@@ -1,9 +1,9 @@
 #include "snd_command.h"
-#include "code_0200eddc.h"
-#include "code_0200fc8c.h"
+#include "arena_cache_init.h"
+#include "reset_interrupt_enable.h"
 #include "os_thread.h"
-#include "code_0200e77c.h"
-#include "code_0214d5b8.h"
+#include "thread_mutex_types.h"
+#include "arm_fifo_messaging.h"
 #include "snd_work.h"
 #include "registers.h"
 

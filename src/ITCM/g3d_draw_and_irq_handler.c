@@ -1,8 +1,8 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "unk_02152000_data.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "data_02170000.h"
-#include "data_02173000.h"
+#include "exception_state.h"
+#include "particle_random_state.h"
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"
@@ -11,15 +11,15 @@
 #include "os_thread.h"
 #include "mb_data.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // NNSG3dRenderObj
-#include "code_0200c914.h"
-#include "code_02010c84.h"
-#include "code_0214c778.h"
+#include "interrupt_control.h"
+#include "model_draw_blend.h"
+#include "dma_copy_fill_wait.h"
 #include "cp_context.h"
 #include "registers.h"
 #include "gecom.h"
-#include "code_02148950.h"
-#include "code_02013bdc.h"
-#include "code_02012b30.h"
+#include "vram_bank_assign.h"
+#include "animation_object_calc.h"
+#include "model_material_set.h"
 
 void NNS_G3dGeSetBuffer(GxCommandBuffer *commandBuffer) {
     if (NNS_G3dGeBuffer == 0) {

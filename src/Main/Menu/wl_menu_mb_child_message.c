@@ -8,7 +8,7 @@
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/locate_bmg_sections.h"
@@ -21,10 +21,10 @@
 #include "os_thread.h"
 #include "Main/Sound/seq_zero_loop_wrapper.h"
 #include "Main/System/key_recording_buffer.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "g2d_CharCanvas.h"
 #include "gx_bgcnt.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "Main/Menu/time_attack_ghost_get_scan.h"
 
 #pragma thumb on

@@ -1,12 +1,12 @@
 #include "00/Lib/GameSpy/gt2Utility.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h"
+#include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 #include "00/Lib/wifi_library_work_objects.h"
-#include "00/Lib/NitroWiFi/code_021a8aa8.h"
-#include "code_02139f70.h"
-#include "code_0213a460.h"
+#include "00/Lib/NitroWiFi/socket_api_prototypes.h"
+#include "narrow_string_functions.h"
+#include "text_to_number.h"
 #include "00/Lib/NitroWiFi/socl_startup.h"
 
 char *gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {

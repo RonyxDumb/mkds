@@ -58,4 +58,4 @@ void LoadFontAndPlayerCharacterData(void);
 void ClearFontAndPlayerCharacterTables(void);
 
 #include "Main/Race/followed_kart_outside_box.h"
-#include "code_02022aa8.h" // NNSG2dFont
+#include "font_glyph_layout.h" // NNSG2dFont

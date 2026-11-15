@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/Net/essid_packet_steps.h"
-#include "code_0200e77c.h"
+#include "thread_mutex_types.h"
 #include "03/Net/exchange_result_records.h"
 
 extern MaskCodeEntry gMaskCodeTable[12];

@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43
-#include "code_0201c528.h" // ParticleEmitter
+#include "model_material_set.h" // MtxFx43
+#include "particle_instance.h" // ParticleEmitter
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/MapObjects/teresa.h" // TeresaWobble

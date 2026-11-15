@@ -29,7 +29,7 @@
 #include "Main/MapObjects/sanbo_init.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/Kart/karts.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 MapObjectModel *gSanboH;
 MapObjectModel *gSanboB;

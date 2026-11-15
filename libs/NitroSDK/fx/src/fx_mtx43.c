@@ -1,7 +1,7 @@
 #include "fx_mtx43.h"
 #include "fx_mtx33.h"
-#include "code_02147cd8.h"
-#include "code_0214d018.h"
+#include "vector_math.h"
+#include "cpu_copy_fill.h"
 
 void MTX_ScaleApply43(const MtxFx43 *src, MtxFx43 *dst, s32 scaleX, s32 scaleY, s32 scaleZ) {
     MTX_ScaleApply33(&src->mAxes, &dst->mAxes, scaleX, scaleY, scaleZ);

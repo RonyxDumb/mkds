@@ -1,13 +1,13 @@
 #include "03/Graphics/bg2_scr_buffer.h"
 #include "os_thread.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "gx_load2d.h"
 
 #include "03/System/tasks.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 #include "03/System/exp_heap.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 struct Bg2ScrBuffer *gBg2ScrBuffer;
 BgPaletteCopyRequest gBgPaletteCopyRequest;

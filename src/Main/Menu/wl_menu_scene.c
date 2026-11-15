@@ -8,7 +8,7 @@
 #include "Main/Menu/multi_select_ns_layout_count.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Graphics/layout_entry_angle.h"

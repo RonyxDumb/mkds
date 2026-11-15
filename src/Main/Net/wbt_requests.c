@@ -6,8 +6,8 @@
 #include "os_thread.h"
 #include "mb_data.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "code_0200fc8c.h"
-#include "code_0214d018.h"
+#include "reset_interrupt_enable.h"
+#include "cpu_copy_fill.h"
 
 u32 gOwnIndex = 0xffffffff;
 s32 gLastReplyIndex = 1;

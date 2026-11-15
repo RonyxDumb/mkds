@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h" // ScanParam
+#include "wireless_power_mp.h" // ScanParam
 
 // Three words that MBi_SetChildMPMaxSize sets up.
 typedef struct PieceSizes {

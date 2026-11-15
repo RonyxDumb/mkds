@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_020184e4.h"
+#include "particle_behaviors.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Kart/kart_palette_stem_tables.h"
 

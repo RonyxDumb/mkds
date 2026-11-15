@@ -21,7 +21,7 @@
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
@@ -29,7 +29,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "fx_mtx33.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 void AdvanceKartByVelocity(Kart *kart) {
     s32 easeFactor;

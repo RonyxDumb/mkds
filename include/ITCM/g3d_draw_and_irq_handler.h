@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "00/Lib/DWC/access_point_manager.h"
 
 typedef struct NNSG3dResShpData NNSG3dResShpData;
 typedef struct NNSG3dResMatData NNSG3dResMatData;

@@ -3,7 +3,7 @@
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Net/exchange_result_records.h"
 #include "os_thread.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 
 u8 gReceivedTextNonEmpty;
 u8 *gExchangeSearchAddress;

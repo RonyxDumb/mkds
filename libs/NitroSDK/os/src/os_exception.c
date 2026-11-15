@@ -1,9 +1,9 @@
 #include "os_exception.h"
 #include "registers.h"
-#include "code_0200c914.h"
-#include "code_0200f328.h"
-#include "data_02170000.h"
-#include "code_0200e77c.h"
+#include "interrupt_control.h"
+#include "memory_protection.h"
+#include "exception_state.h"
+#include "thread_mutex_types.h"
 
 asm void OSi_GetAndDisplayContext(u32 exinfo) {
     stmfd sp!, {lr}

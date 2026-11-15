@@ -1,6 +1,6 @@
 #include "01/Menu/mission_run_mission_select.h"
 
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "types.h"
 #include "01/Menu/menu_screen_work_structs.h"
@@ -17,8 +17,8 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Race/mission_table_value.h"
-#include "code_0212df7c.h"
-#include "code_02148950.h"
+#include "sound_archive_load_result.h"
+#include "vram_bank_assign.h"
 #include "registers.h"
 #include "01/Menu/select_engine.h"
 #include "01/MapObjects/periodic_effect.h"

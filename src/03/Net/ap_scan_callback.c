@@ -3,16 +3,16 @@
 #include "03/Graphics/oam_range_set.h"
 #include "03/Graphics/oam_range.h"
 #include "03/Menu/wifi_menu_shared.h"
-#include "code_0200fc8c.h"
-#include "code_02142eac.h"
+#include "reset_interrupt_enable.h"
+#include "wireless_power_mp.h"
 #include "03/Net/ap_scan.h"
 #include "03/System/rect.h"
 #include "03/System/exp_heap.h"
 #include "03/System/tasks.h"
 #include "string.h"
-#include "code_02134398.h"
-#include "code_0214d018.h"
-#include "code_0200eddc.h"
+#include "print_memory_functions.h"
+#include "cpu_copy_fill.h"
+#include "arena_cache_init.h"
 
 const u8 gOtherElementPrefix[4] = {0, 0x50, 0xf2, 1};
 const u8 gApScanEmptyBssid[6] = {0, 0, 0, 0, 0, 0};

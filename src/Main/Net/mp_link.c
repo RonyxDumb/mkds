@@ -1,16 +1,16 @@
 #include "Main/Net/mp_link.h"
 
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "Main/Net/scan_connect_callbacks.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "code_020091fc.h"
+#include "multiboot_game_entry.h"
 #include "mb_gameinfo.h"
-#include "code_0200eddc.h"
-#include "code_0214d018.h"
-#include "code_02009908.h"
-#include "code_0200c0d8.h"
+#include "arena_cache_init.h"
+#include "cpu_copy_fill.h"
+#include "multiboot_scan_lock.h"
+#include "multiboot_data_pieces.h"
 #include "03/Net/essid_packet_steps.h"
 
 const u8 gDefaultScanBssid[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};

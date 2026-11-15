@@ -7,7 +7,7 @@
 #include "Main/MapObjects/woodbox.h"
 #include "Main/MapObjects/group_follower.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
@@ -16,7 +16,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 #include "Main/Graphics/font_and_player_character.h"
 
 BOOL DoesMapObjectRespondToItemObject(MapObject *mapObject, ItemObject *itemObject) {

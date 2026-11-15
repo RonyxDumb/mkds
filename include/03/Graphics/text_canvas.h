@@ -54,7 +54,7 @@ typedef struct TextCanvases {
 #include "03/Graphics/nce_oam.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "g2d_NSC_load.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 
 extern const u16 gBgTextCanvasCharOffsets[2];
 extern const u16 gBgTextCanvasSizes[4];

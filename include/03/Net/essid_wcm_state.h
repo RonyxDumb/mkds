@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/NitroWiFi/code_021a574c.h"
-#include "00/Lib/DWC/code_02188de4.h"
-#include "code_02142eac.h"
+#include "00/Lib/NitroWiFi/wireless_connection_config.h"
+#include "00/Lib/DWC/access_point_wep_key.h"
+#include "wireless_power_mp.h"
 
 extern u32 gEssidSearchOption;
 extern u32 gEssidConnectOption;

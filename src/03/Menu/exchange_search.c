@@ -13,7 +13,7 @@
 #include "03/Menu/wifi_menu_strings.h"
 #include "gx_load2d.h"
 #include "03/Menu/exchange_result.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Graphics/dispcnt_window.h"

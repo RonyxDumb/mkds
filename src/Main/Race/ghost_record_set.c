@@ -13,18 +13,18 @@
 #include "Main/Save/ghost_file_records_create.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "player.h"
-#include "code_0212c7a0.h"
+#include "sound_player_type.h"
 #include "stream.h"
-#include "code_0212c9d4.h"
+#include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
-#include "code_0214cfe4.h"
-#include "code_0214d018.h"
+#include "cpu_copy_clear_16.h"
+#include "cpu_copy_fill.h"
 
 GhostRecordSet *gGhostRecordSet;
 

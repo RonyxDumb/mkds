@@ -13,7 +13,7 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "player.h"
 #include "01/Menu/record_gpx_grade_text.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"

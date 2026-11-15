@@ -16,11 +16,11 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/message_box.h"
 #include "03/System/tasks.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Menu/sub_screen_message.h"
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 
 const Rect gJb5MoveTextRect = {8, 0x35, 0xf8, 0x51};
 u8 gJb5MoveNscName[18] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x6a, 0x62, 0x35, 0x4d,

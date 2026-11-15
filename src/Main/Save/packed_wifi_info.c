@@ -1,5 +1,5 @@
 #include "Main/Save/packed_wifi_info.h"
-#include "data_02180000.h"
+#include "overlay_section_symbols.h"
 
 #pragma thumb on
 

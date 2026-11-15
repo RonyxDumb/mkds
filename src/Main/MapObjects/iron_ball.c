@@ -12,7 +12,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 #include "01/MapObjects/periodic_effect.h"
-#include "code_02148538.h"
+#include "fixed_arctangent.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/map_object_matrix.h"
 #include "Main/MapObjects/segment_curve.h"
@@ -26,7 +26,7 @@
 #include "Main/MapObjects/shadow_position_raised.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Race/race_progress_rank.h"
 
 void IronBallNop(void) {}

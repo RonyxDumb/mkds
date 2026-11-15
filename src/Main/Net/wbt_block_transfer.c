@@ -3,8 +3,8 @@
 #include "Main/Net/mark_chunk_received.h"
 #include "Main/Net/wbt_requests.h"
 #include "Main/Net/request_id.h"
-#include "code_02133048.h"
-#include "code_0214d018.h"
+#include "signed_int_divide.h"
+#include "cpu_copy_fill.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 
 u32 wbt_initialize_flag;

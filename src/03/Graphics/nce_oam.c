@@ -3,8 +3,8 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Graphics/oam_buffer_entries.h"
 #include "03/System/dwc_archive.h"
-#include "code_0214cfe4.h"
-#include "code_0214d018.h"
+#include "cpu_copy_clear_16.h"
+#include "cpu_copy_fill.h"
 #include "03/Graphics/oam_range.h"
 #include "03/Graphics/oam_range_entry.h"
 #include "03/System/pointer_stack.h"
@@ -14,8 +14,8 @@
 #include "03/Graphics/oam_buffers.h"
 #include "03/Graphics/node_list_link.h"
 #include "03/Graphics/node_list_delete.h"
-#include "code_0200c914.h"
-#include "code_0200fc8c.h"
+#include "interrupt_control.h"
+#include "reset_interrupt_enable.h"
 #include "03/Graphics/oam_range_set.h"
 
 OamRanges *gOamRanges;

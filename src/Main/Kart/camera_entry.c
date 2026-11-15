@@ -2,7 +2,7 @@
 #include "Main/System/wvr_state.h"
 #include "Main/Race/race.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Kart/camera.h"
 
 u32 GetCameraEntryChanged(void) {

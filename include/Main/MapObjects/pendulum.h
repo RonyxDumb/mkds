@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02013bdc.h"
+#include "animation_object_calc.h"
 #include "Main/MapObjects/quaternion_math.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/send_obj_shadow.h"

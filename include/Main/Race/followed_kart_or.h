@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx22
+#include "model_material_set.h" // MtxFx22
 #include "Main/Graphics/font_and_player_character.h" // Nscr, Ncgr, Nclr
 #include "g2d_NAN_load.h" // NNSG2dCellDataBank
 #include "g2d_NSC_load.h" // NNSG2dBinaryFileHeader

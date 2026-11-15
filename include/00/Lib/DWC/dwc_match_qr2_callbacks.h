@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h"
-#include "00/Lib/GameSpy/code_021a3a18.h"
+#include "00/Lib/GameSpy/socket_calls.h"
+#include "00/Lib/GameSpy/query_reporting.h"
 
 void DWCi_QR2AddErrorCallback(s32 errorType, const u8 *message, void *userData);
 s32 DWCi_QR2CountCallback(s32 keyType, void *userData);

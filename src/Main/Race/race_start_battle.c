@@ -7,7 +7,7 @@
 #include "Main/Race/race_goal_times.h"
 #include "Main/Race/race_ncer_entry_getters.h"
 #include "g2d_Animation.h"
-#include "code_020222ec.h"
+#include "cell_animation.h"
 #include "registers.h"
 #include "Main/Menu/select_race_rule_state.h"
 

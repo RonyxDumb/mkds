@@ -3,7 +3,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "os_tick.h"
-#include "code_0202056c.h"
+#include "bit_count.h"
 
 #pragma thumb on
 

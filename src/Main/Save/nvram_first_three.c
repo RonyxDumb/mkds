@@ -1,5 +1,5 @@
 #include "Main/Save/nvram_first_three.h"
-#include "data_02180000.h"
+#include "overlay_section_symbols.h"
 #include "dwc_backup.h"
 
 #pragma thumb on

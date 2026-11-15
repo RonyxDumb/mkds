@@ -1,12 +1,12 @@
 #include "00/Lib/GameSpy/sb_queryengine.h"
 #include "00/Lib/GameSpy/sb_serverlist.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h"
+#include "00/Lib/GameSpy/socket_calls.h"
 #include "03/Net/exchange_essid.h"
 #include "00/Lib/wifi_library_globals.h"
-#include "00/Lib/GameSpy/code_021a4b84.h"
-#include "code_02139f70.h"
-#include "00/Lib/GameSpy/code_021a3a18.h"
-#include "00/Lib/GameSpy/code_0218d488.h"
+#include "00/Lib/GameSpy/query_key_register.h"
+#include "narrow_string_functions.h"
+#include "00/Lib/GameSpy/query_reporting.h"
+#include "00/Lib/GameSpy/availability_check.h"
 
 void FIFOAddRear(SBServerFIFO *fifo, SbServer *server) {
     if (fifo->mLast != NULL) {

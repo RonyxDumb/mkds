@@ -7,7 +7,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "os_tick.h"
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 
 // One reading, 8 bytes: x, y, touched flag and validity. The values from the other processor are raw;
 // TP_GetCalibratedPoint converts x and y to screen coordinates.

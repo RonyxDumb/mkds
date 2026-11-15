@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h"
+#include "wireless_power_mp.h"
 
 // Values of ApScanEntry.mCapaLevel: no privacy bit, the privacy bit, or the privacy bit plus a security element in the
 // beacon.

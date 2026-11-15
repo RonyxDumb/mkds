@@ -7,8 +7,8 @@
 #include "Main/Net/block.h"
 #include "Main/Net/scan_ghost_info.h"
 #include "Main/Scene/run_scenes.h"
-#include "code_0200eddc.h"
-#include "code_0214d018.h"
+#include "arena_cache_init.h"
+#include "cpu_copy_fill.h"
 #include "Main/Menu/select_race_rule_state.h"
 
 #pragma opt_rebuildconditionals off

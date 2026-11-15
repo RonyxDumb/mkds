@@ -14,10 +14,10 @@
 #include "g2.h"
 #include "registers.h"
 #include "03/Net/essid_packet_steps.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "code_02009928.h"
+#include "multiboot_comm_start.h"
 #include "03/Net/multiboot_parent_download.h"
 #include "03/Menu/main_menu.h"
 

@@ -1,7 +1,7 @@
 #include "g3imm.h"
 #include "registers.h"
 #include "gxasm.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 // Sends the load 4x4 matrix command and the 16 words of mtx to the geometry FIFO.
 void G3_LoadMtx44(const void *mtx) {

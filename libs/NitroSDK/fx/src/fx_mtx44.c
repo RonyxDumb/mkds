@@ -1,5 +1,5 @@
 #include "fx_mtx44.h"
-#include "code_021479b4.h"
+#include "matrix44_concat.h"
 
 void MTX_Concat44(const MtxFx44 *lhs, const MtxFx44 *rhs, MtxFx44 *product) {
     MtxFx44 scratch;

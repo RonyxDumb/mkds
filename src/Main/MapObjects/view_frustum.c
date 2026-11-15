@@ -35,7 +35,7 @@
 #include "Main/MapObjects/view_matrix_queue.h"
 #include "Main/MapObjects/koopa_block.h"
 #include "Main/System/heap_call.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/map_object_create.h"

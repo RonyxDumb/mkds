@@ -6,7 +6,7 @@
 #include "03/Menu/selection_objects.h"
 #include "03/System/application.h"
 #include "03/Menu/opt_menu.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/Graphics/blend_brightness_fade_slots.h"

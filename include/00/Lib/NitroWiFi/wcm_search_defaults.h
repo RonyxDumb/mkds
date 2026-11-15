@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/DWC/code_0218a064.h"
+#include "00/Lib/DWC/socket_config.h"
 
 // Objects whose layout isn't known yet.
 extern const u32 gAcSearchChannel[];

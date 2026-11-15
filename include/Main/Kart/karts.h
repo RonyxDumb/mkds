@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // NNSG3dResMdl
+#include "model_material_set.h" // NNSG3dResMdl
 
 void LoadKartAndCharacterFiles(void);
 

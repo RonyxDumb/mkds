@@ -1,9 +1,9 @@
 #include "card_pullOut.h"
 #include "registers.h"
-#include "code_0200fc8c.h"
-#include "code_0214d5b8.h"
+#include "reset_interrupt_enable.h"
+#include "arm_fifo_messaging.h"
 #include "pm.h"
-#include "code_0200007e.h"
+#include "bios_calls.h"
 
 CARDPulledOutCallback gRemovalCallback;
 u32 gRemovalSeen;

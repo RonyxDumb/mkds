@@ -1,8 +1,8 @@
 #include "tp.h"
 
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "registers.h"
-#include "code_0214d5b8.h"
+#include "arm_fifo_messaging.h"
 
 u16 gTouchPanelInitialized;
 TouchPanelState gTouchPanelState;

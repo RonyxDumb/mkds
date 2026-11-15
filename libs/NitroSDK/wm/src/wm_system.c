@@ -1,17 +1,17 @@
 #include "wm_system.h"
 
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "os_thread.h"
-#include "code_0200fc8c.h"
-#include "code_0214cfe4.h"
-#include "code_0214d018.h"
+#include "reset_interrupt_enable.h"
+#include "cpu_copy_clear_16.h"
+#include "cpu_copy_fill.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
 #include "stream.h"
-#include "code_0212d214.h"
-#include "code_02142eac.h"
-#include "code_0200e77c.h"
-#include "code_0214c778.h"
-#include "code_0214d5b8.h"
+#include "sound_archive_load.h"
+#include "wireless_power_mp.h"
+#include "thread_mutex_types.h"
+#include "dma_copy_fill_wait.h"
+#include "arm_fifo_messaging.h"
 
 struct WMPortRecvCallback gPortCallbackEvent;
 u8 fifoBuf[10][0x100];

@@ -1,5 +1,5 @@
 #include "os_timer.h"
-#include "data_02170000.h"
+#include "exception_state.h"
 
 u16 OSi_TimerReserved;
 

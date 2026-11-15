@@ -1,5 +1,5 @@
 #include "Main/Sound/mic_sample_analysis.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"

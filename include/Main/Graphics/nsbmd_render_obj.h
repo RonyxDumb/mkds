@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "code_02010804.h"
-#include "code_02010c84.h" // NNSG3dRenderObj
-#include "code_02012b30.h" // NNSG3dResFileHeader, NNSG3dResMdl
-#include "code_0212d214.h"
+#include "texture_resource_type.h"
+#include "model_draw_blend.h" // NNSG3dRenderObj
+#include "model_material_set.h" // NNSG3dResFileHeader, NNSG3dResMdl
+#include "sound_archive_load.h"
 
 typedef struct MtxFx43 MtxFx43;
 

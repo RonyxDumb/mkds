@@ -1,7 +1,7 @@
 #include "snd_work.h"
 
 #include "snd_command.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "os_thread.h"
 
 SNDSharedWork *SNDi_SharedWork;

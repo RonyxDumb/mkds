@@ -1,5 +1,5 @@
 #include "mi_uncomp_stream.h"
-#include "code_0214d564.h"
+#include "uncompress_contexts.h"
 
 void MI_InitUncompContextLZ(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header) {
     context->mDestp = dest;

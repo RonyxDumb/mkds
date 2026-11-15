@@ -8,7 +8,7 @@
 #include "01/Menu/select_ghost.h"
 #include "01/Menu/select_engine.h"
 #include "gx.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "registers.h"
 #include "Main/Menu/select_kart_data.h"
 

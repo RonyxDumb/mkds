@@ -15,7 +15,7 @@
 #include "Main/Kart/shadow_model.h"
 #include "Main/MapObjects/pendulum.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 
 // Frames of the Kuribo walk cycle and its quarters.
 #define KURIBO_WALK_QUARTER_FRAMES 0xa

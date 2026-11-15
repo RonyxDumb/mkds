@@ -8,7 +8,7 @@
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/Sound/sound_start.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {

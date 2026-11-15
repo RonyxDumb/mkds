@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "Main/Menu/menu_screens_work.h"
 
 // Rectangle of the ScreenMap behind one row, with the top bits it is filled with plain and highlighted.

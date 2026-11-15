@@ -9,7 +9,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 #include "Main/MapObjects/map_object_kind_update_list.h" // MAP_OBJECT_KIND_ROTARY_GEAR
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/MapObjects/quaternion_math.h" // Quaternion
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "Main/Graphics/nsbmd_render_obj.h"

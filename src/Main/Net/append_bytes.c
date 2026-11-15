@@ -2,7 +2,7 @@
 #include "Main/Net/wbt_requests.h"
 #include "Main/Net/wbt_block_transfer.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 u32 gLastSentBlockId = 0xffffffff;
 s32 gLastSentChunkIndex = -1;

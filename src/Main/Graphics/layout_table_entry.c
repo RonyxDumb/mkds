@@ -6,7 +6,7 @@
 #include "Main/Graphics/cell_layout.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2d_NOB_load.h"
-#include "code_020222ec.h"
+#include "cell_animation.h"
 
 #pragma thumb on
 

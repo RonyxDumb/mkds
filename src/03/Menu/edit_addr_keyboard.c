@@ -4,7 +4,7 @@
 #include "03/System/exp_heap.h"
 #include "03/Graphics/oam_buffer_entries.h"
 #include "03/Menu/edit_keyboard.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Graphics/oam_range_set.h"
 #include "03/Graphics/oam_range_entry.h"

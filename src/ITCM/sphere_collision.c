@@ -11,7 +11,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "registers.h"
 #include "Main/MapObjects/sphere_collision_data.h"
 #include "Main/MapObjects/course_collision_data.h"

@@ -1,11 +1,11 @@
 #include "Main/Kart/kart_model_path.h"
 
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 #include "Main/Kart/kart_palette_stem_tables.h"
 #include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"

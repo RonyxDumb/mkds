@@ -17,14 +17,14 @@
 #include "tp.h"
 #include "01/Race/mission_run_state.h"
 #include "fx_mtx33.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/quaternion_math.h"
 #include "Main/MapObjects/group_paths.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "code_02148538.h"
+#include "fixed_arctangent.h"
 #include "registers.h"
-#include "code_0201c528.h"
+#include "particle_instance.h"
 #include "Main/MapObjects/rock_kind_data.h"
 
 #pragma thumb on

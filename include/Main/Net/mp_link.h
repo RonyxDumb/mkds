@@ -18,7 +18,7 @@ typedef struct ScanErrorArgs {
     /* 02 */ u16 mResultCode;
 } ScanErrorArgs;
 
-#include "code_02142eac.h"
+#include "wireless_power_mp.h"
 
 // ScanConnectWork.mState; the child steps through the parent's messages.
 typedef enum ScanConnectState {

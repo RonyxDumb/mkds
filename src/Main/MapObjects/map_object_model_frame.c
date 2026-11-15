@@ -17,8 +17,8 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "code_020109c4.h"
-#include "code_02012b30.h"
+#include "render_object_animation_link.h"
+#include "model_material_set.h"
 
 #pragma thumb on
 const Vec3 gMapObjectModelFrameShadowScale = {0x1000, 0x1000, 0x1000};

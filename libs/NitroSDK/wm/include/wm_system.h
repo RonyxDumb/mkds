@@ -1,11 +1,11 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h"
-#include "code_021445e0.h"
+#include "wireless_power_mp.h"
+#include "wireless_data_sharing.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
 #include "stream.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 WMStatus *WMi_GetStatusAddress(void);
 void WmClearFifoRecvFlag(void);

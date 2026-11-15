@@ -8,7 +8,7 @@
 #include "gx_load2d.h"
 #include "Main/System/input_slots.h"
 #include "player.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/locate_bmg_sections.h"

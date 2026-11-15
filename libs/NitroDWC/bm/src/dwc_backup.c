@@ -1,15 +1,15 @@
 #include "dwc_backup.h"
-#include "code_020205b0.h"
-#include "code_0214d018.h"
-#include "code_0200fc8c.h"
-#include "data_02180000.h"
-#include "code_0200eddc.h"
-#include "code_0214d5b8.h"
+#include "crc_checksum.h"
+#include "cpu_copy_fill.h"
+#include "reset_interrupt_enable.h"
+#include "overlay_section_symbols.h"
+#include "arena_cache_init.h"
+#include "arm_fifo_messaging.h"
 #include "os_tick.h"
 #include "string.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 #include "os_thread.h"
-#include "code_0200007e.h"
+#include "bios_calls.h"
 
 u16 nv_result = 0;
 u32 gNvramEntriesOffset = 0;

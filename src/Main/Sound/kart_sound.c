@@ -8,7 +8,7 @@
 #include "Main/Sound/playing_sounds.h"
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Menu/menu_label_cell_rows.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
@@ -24,14 +24,14 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "Main/Sound/surface_sound_ids.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 u32 gPitchRiseAboveLimitDivisor = 0x19000;
 u32 gPitchRiseDivisor = 0x8000;

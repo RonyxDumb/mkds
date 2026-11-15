@@ -1,8 +1,8 @@
 #include "os_irqHandler.h"
-#include "code_0200c914.h"
+#include "interrupt_control.h"
 #include "os_thread.h"
-#include "code_0200fc8c.h"
-#include "code_0200007e.h"
+#include "reset_interrupt_enable.h"
+#include "bios_calls.h"
 
 // The start of the data TCM up to the interrupt check word.
 typedef struct IrqCheckView {

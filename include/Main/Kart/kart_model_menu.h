@@ -4,7 +4,7 @@
 #include "Main/System/backup_net_camera_work.h" // Camera, KartModelMenuData
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Kart/camera.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Kart/karts.h"
 #include "Main/Kart/character_animation.h"
 #include "Main/Graphics/font_and_player_character.h"

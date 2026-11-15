@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "fx_mtx33.h"
-#include "code_0201c528.h" // ParticleInstance
+#include "particle_instance.h" // ParticleInstance
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 

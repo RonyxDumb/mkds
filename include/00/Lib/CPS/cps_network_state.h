@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/CPS/code_021a88a8.h"
+#include "00/Lib/CPS/socket_status_resolve.h"
 
 typedef struct CPSArpCache {
     /* 00 */ u32 mIp;

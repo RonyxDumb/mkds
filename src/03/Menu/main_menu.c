@@ -28,7 +28,7 @@
 #include "03/Graphics/text_canvas.h"
 #include "03/System/exp_heap.h"
 #include "os_thread.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 
 MessageFile *gMessages;
 

@@ -3,7 +3,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/rock.h"
 
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/attractor_distance_flag.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"

@@ -6,9 +6,9 @@
 
 #include "03/System/tasks.h"
 #include "os_thread.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "gx_load2d.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "03/System/exp_heap.h"
 #include "03/Graphics/hl_nsc_names.h"
 #include "03/System/application.h"

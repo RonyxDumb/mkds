@@ -5,7 +5,7 @@
 #include "Main/Course/course_color_blend.h" // CourseColorBlend
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
@@ -14,7 +14,7 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Kart/kart_drift.h"
 #include "fx_mtx33.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64

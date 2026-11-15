@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43
+#include "model_material_set.h" // MtxFx43
 
 MtxFx43 *SetTranslationMatrixPos(Vec3 *position);
 MtxFx43 *SetViewAxis2MatrixPos(Vec3 *position);

@@ -10,7 +10,7 @@
 #include "Main/System/heap.h"
 #include "player.h"
 #include "01/Menu/emblem_and_boss_icon_tables.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 
 const char *gMissionRunBossIconSNcgrName = "mr/Mission_run_BOSS_icon_s.nce.ncgr";
 const char *gMissionRunBossIconSNcerName = "mr/Mission_run_BOSS_icon_s.nce.ncer";

@@ -11,7 +11,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/message_screen.h"
 #include "Main/Net/player_record.h"
-#include "code_0200007e.h"
+#include "bios_calls.h"
 #include "Main/Sound/scene_sound_set.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
@@ -27,7 +27,7 @@
 #include "gx.h"
 #include "Main/System/input_keys.h"
 #include "registers.h"
-#include "code_0200fe74.h"
+#include "model_texture_bind.h"
 #include "Main/System/startup.h"
 #include "Main/Save/ghost_record_file.h"
 

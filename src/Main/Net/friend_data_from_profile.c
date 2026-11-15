@@ -1,6 +1,6 @@
 #include "Main/Net/friend_data_from_profile.h"
 #include "dwc_account.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 #pragma thumb on
 

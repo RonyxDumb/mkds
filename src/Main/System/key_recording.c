@@ -8,7 +8,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "Main/System/input_slots.h"
 #include "frameheap.h"
 #include "os_thread.h"
@@ -18,7 +18,7 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "01/Menu/emblem_cursor.h"
 #include "Main/System/heap_call.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 
 SceneCallbacks gEmblemSceneCallbacks = {InitEmblemScene,
                                         UpdateEmblemScene,

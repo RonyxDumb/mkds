@@ -15,7 +15,7 @@
 #include "01/Menu/option_states.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Save/backup_first_block_write_wrapper.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "g2.h"
 #include "registers.h"

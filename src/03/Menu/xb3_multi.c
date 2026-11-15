@@ -13,7 +13,7 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Menu/slide_buttons.h"
 #include "03/System/application.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "03/Sound/sound_seq.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Menu/sub_screen_message.h"

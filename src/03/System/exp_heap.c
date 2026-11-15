@@ -1,9 +1,9 @@
 #include "03/System/exp_heap.h"
 
-#include "code_0200c914.h"
-#include "code_0200fc8c.h"
-#include "code_020176c0.h"
-#include "code_0214d018.h"
+#include "interrupt_control.h"
+#include "reset_interrupt_enable.h"
+#include "expanded_heap_head.h"
+#include "cpu_copy_fill.h"
 
 NNSiFndHeapHead *gExpHeap;
 

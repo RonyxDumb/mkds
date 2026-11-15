@@ -25,7 +25,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/earthen_pipe.h"
 #include "Main/MapObjects/group_item_box_kind_descriptor.h"
 

@@ -19,7 +19,7 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
@@ -32,7 +32,7 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "fx_mtx43.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/group_item_box.h"
 #include "Main/MapObjects/vehicle_kind_descriptor.h"
 

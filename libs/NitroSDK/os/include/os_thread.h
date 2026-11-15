@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-#include "code_0200e77c.h"
-#include "code_0200f790.h"
+#include "thread_mutex_types.h"
+#include "alarm_timer.h"
 
 // Priorities of the two threads the system sets up itself.
 enum {

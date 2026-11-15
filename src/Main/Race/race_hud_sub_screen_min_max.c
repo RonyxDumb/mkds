@@ -3,7 +3,7 @@
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "code_0213ecf8.h"
+#include "wide_string_functions.h"
 
 // Object not known yet; it only sets the order of the tables below
 const u8 gRaceHudSubScreenMinMaxOrderPad[1] = {1};

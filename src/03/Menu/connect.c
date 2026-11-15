@@ -5,8 +5,8 @@
 #include "gx_load2d.h"
 
 #include "03/System/exp_heap.h"
-#include "00/Lib/DWC/code_02188694.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "00/Lib/DWC/access_point_alloc.h"
+#include "00/Lib/DWC/access_point_manager.h"
 #include "03/Net/exchange_wcm_state.h"
 #include "03/System/application.h"
 #include "03/Menu/jb4_error.h"
@@ -20,13 +20,13 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/System/tasks.h"
 #include "Main/Save/packed_wifi_info.h"
-#include "code_0214d018.h"
-#include "code_0200fc8c.h"
+#include "cpu_copy_fill.h"
+#include "reset_interrupt_enable.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Menu/sub_screen_message.h"
 #include "03/Graphics/hl_scr.h"
 #include "03/Menu/link_level.h"
-#include "00/Lib/DWC/code_02188ec0.h"
+#include "00/Lib/DWC/access_point_power_mode.h"
 
 const DWCACConfig gConnectParamsTemplate = {
     (void *(*) ()) ConnectAllocExpHeapBlockWrapper, ConnectFreeExpHeapBlockWrapper, 3, 1, 0, 0};

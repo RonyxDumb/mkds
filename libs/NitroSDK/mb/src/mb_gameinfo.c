@@ -1,9 +1,9 @@
 #include "mb_gameinfo.h"
-#include "code_020091fc.h"
-#include "code_02003024.h"
-#include "code_0214d018.h"
-#include "code_02009908.h"
-#include "code_0214cfe4.h"
+#include "multiboot_game_entry.h"
+#include "file_command_handlers.h"
+#include "cpu_copy_fill.h"
+#include "multiboot_scan_lock.h"
+#include "cpu_copy_clear_16.h"
 
 GameInfoList mbss;
 MbBeaconRecvStatus mbrs;

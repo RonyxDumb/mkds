@@ -1,7 +1,7 @@
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "03/Net/essid_packet_steps.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 
 void *(*gAllocFunc)(u32, u32, s32);
 void (*gFreeFunc)(u32, void *, u32);

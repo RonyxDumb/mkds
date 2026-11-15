@@ -1,14 +1,14 @@
 #include "00/Lib/GameSpy/gpi.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h"
-#include "00/Lib/GameSpy/code_0218e8d4.h"
-#include "00/Lib/GameSpy/code_021948f8.h"
-#include "00/Lib/GameSpy/code_02196594.h"
+#include "00/Lib/GameSpy/socket_calls.h"
+#include "00/Lib/GameSpy/presence_api.h"
+#include "00/Lib/GameSpy/profile_list.h"
+#include "00/Lib/GameSpy/reply_parse.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
-#include "code_021384cc.h"
+#include "scan_text_random.h"
 #include "string.h"
-#include "code_02134398.h"
-#include "00/Lib/GameSpy/code_0218dd8c.h"
-#include "00/Lib/GameSpy/code_02190ff8.h"
+#include "print_memory_functions.h"
+#include "00/Lib/GameSpy/hash_table.h"
+#include "00/Lib/GameSpy/login_connect_close.h"
 
 u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
     GpConnection newConnection;

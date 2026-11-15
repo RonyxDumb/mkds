@@ -1,6 +1,6 @@
 #include "g2d_Animation.h"
-#include "code_020222ec.h"
-#include "code_02134398.h"
+#include "cell_animation.h"
+#include "print_memory_functions.h"
 
 NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(NNSG2dCellAnimation *pAnimCtrl) {
     return (NNSG2dAnimDataSRT *) pAnimCtrl->mPCurrent->mPContent;

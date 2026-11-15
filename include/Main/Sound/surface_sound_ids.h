@@ -13,7 +13,7 @@ typedef struct SurfaceSoundIdRow {
     /* 0 */ void *mIdArrays[8];
 } SurfaceSoundIdRow;
 
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 // Addressed at the byte offset NNSFndList.mLinkOffset of the pointer passed to RemoveListObject.
 typedef struct ListObjectLink {

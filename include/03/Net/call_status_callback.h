@@ -2,11 +2,11 @@
 
 #include "types.h"
 #include "03/Net/exchange_essid.h"
-#include "00/Lib/DWC/code_02188de4.h"
-#include "code_02142eac.h"
+#include "00/Lib/DWC/access_point_wep_key.h"
+#include "wireless_power_mp.h"
 #include "03/Net/exchange_result_records.h"
-#include "00/Lib/NitroWiFi/code_021a574c.h"
-#include "code_0200e77c.h"
+#include "00/Lib/NitroWiFi/wireless_connection_config.h"
+#include "thread_mutex_types.h"
 
 extern u8 gReceivedTextNonEmpty;
 extern u8 *gExchangeSearchAddress;

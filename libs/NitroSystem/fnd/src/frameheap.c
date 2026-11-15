@@ -1,6 +1,6 @@
 #include "frameheap.h"
-#include "code_02134398.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "print_memory_functions.h"
+#include "00/Lib/DWC/access_point_manager.h"
 
 // Sets up a frame heap over startAddress to endAddress with nothing allocated.
 NNSiFndHeapHead *InitFrameHeap(void *startAddress, void *endAddress, u16 optFlag) {

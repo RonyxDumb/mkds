@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/System/tasks.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "00/Lib/DWC/access_point_manager.h"
 
 void ConnectFreeExpHeapBlockWrapper(void *unused, void *block);
 u32 ConnectAllocExpHeapBlockWrapper(u32 unused, u32 size);

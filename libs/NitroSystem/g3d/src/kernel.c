@@ -1,11 +1,11 @@
 #include "kernel.h"
-#include "code_020109c4.h"
-#include "code_020109ac.h"
-#include "code_02010998.h"
-#include "code_020108bc.h"
+#include "render_object_animation_link.h"
+#include "texture_required_size.h"
+#include "texture_key_set.h"
+#include "texture_vram_load.h"
 #include "gx_load3d.h"
-#include "code_02010878.h"
-#include "code_02010804.h"
+#include "texture_key_release.h"
+#include "texture_resource_type.h"
 
 void addLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {
     NNSG3dAnmObj *prev;

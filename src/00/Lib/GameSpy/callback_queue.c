@@ -1,0 +1,200 @@
+#include "00/Lib/GameSpy/callback_queue.h"
+#include "00/Lib/GameSpy/profile_empty_check.h"
+#include "00/Lib/GameSpy/socket_calls.h"
+#include "00/Lib/GameSpy/error_message_set.h"
+#include "00/Lib/GameSpy/reply_parse.h"
+#include "00/Lib/DWC/dwc_memfunc.h"
+#include "00/Lib/DWC/connection_error_strings.h"
+#include "string.h"
+#include "print_memory_functions.h"
+
+#include "00/Lib/GameSpy/send_buffer.h"
+#include "narrow_string_functions.h"
+#include "text_to_number.h"
+#include "00/Lib/GameSpy/profile_list.h"
+#include "00/Lib/GameSpy/md5_base64_encode.h"
+#include "00/Lib/GameSpy/connect_operation.h"
+#include "00/Lib/GameSpy/unique_nick_transfer.h"
+#include "00/Lib/GameSpy/login_connect_close.h"
+#include "00/Lib/GameSpy/profile_info.h"
+#include "00/Lib/GameSpy/dynamic_array.h"
+#include "00/Lib/GameSpy/buddy_messages.h"
+#include "00/Lib/GameSpy/profile_search.h"
+#include "00/Lib/GameSpy/peer_connection.h"
+#include "00/Lib/GameSpy/gpiProfile.h"
+
+void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
+    GpiConnection *iconnection;
+    GpiCallback errorCallback;
+    ErrorData *errorArg;
+
+    iconnection = connection->mGpiConnection;
+    if (iconnection == NULL) {
+        AssertionFailed("iconnection != NULL", "gpiCallback.c", NULL, 0x23);
+    }
+    if (result == 0) {
+        AssertionFailed("result != GP_NO_ERROR", "gpiCallback.c", NULL, 0x24);
+    }
+    if (fatal != 1 && fatal != 0) {
+        AssertionFailed("(fatal == GP_FATAL) || (fatal == GP_NON_FATAL)", "gpiCallback.c", NULL, 0x25);
+    }
+    if (fatal == 1) {
+        iconnection->mFatal = TRUE;
+    }
+    errorCallback = iconnection->mCallbacks[0];
+    if (errorCallback.mCallback != NULL) {
+        errorArg = DWCi_GsMalloc(0x10);
+        if (errorArg != NULL) {
+            errorArg->mResult = result;
+            errorArg->mFatal = fatal;
+            errorArg->mErrorCode = iconnection->mErrorNumber;
+            errorArg->mErrorString = iconnection;
+        }
+        GpiQueueCallback(connection, errorCallback, errorArg, NULL, PROFILE_CALLBACK_TYPE_ERROR);
+    }
+}
+
+u32 GpiQueueCallback(GpConnection *connection, GpiCallback callback, void *arg, GpiOperation *operation, s32 type) {
+    GpiConnection *gpState;
+    GpiQueuedCallback *queued;
+
+    gpState = connection->mGpiConnection;
+    queued = DWCi_GsMalloc(0x18);
+    if (queued == NULL) {
+        GpiSetErrorMessage(connection, "Out of memory.");
+        return 1;
+    }
+    queued->mCallback = callback;
+    queued->mArg = arg;
+    if (operation != NULL) {
+        queued->mOperationId = operation->mId;
+    } else {
+        queued->mOperationId = 0;
+    }
+    queued->mType = type;
+    queued->mNext = NULL;
+    if (gpState->mCallbackQueueHead == NULL) {
+        gpState->mCallbackQueueHead = queued;
+    }
+    if (gpState->mCallbackQueueTail != NULL) {
+        gpState->mCallbackQueueTail->mNext = queued;
+    }
+    gpState->mCallbackQueueTail = queued;
+    return 0;
+}
+
+void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
+    CallbackArgData *callbackArg;
+    CallbackArgData *listArg;
+    s32 entryIndex;
+
+    if (data->mCallback.mCallback == NULL) {
+        AssertionFailed("data->callback.callback != NULL", "gpiCallback.c", NULL, 0x6e);
+    }
+    if (data->mArg == NULL) {
+        AssertionFailed("data->arg != NULL", "gpiCallback.c", NULL, 0x6f);
+    }
+    data->mCallback.mCallback(connection, data->mArg, data->mCallback.mParam);
+    if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT) {
+        callbackArg = data->mArg;
+        DWCi_GsFree(callbackArg->mUnk_08);
+        callbackArg = data->mArg;
+        callbackArg->mUnk_08 = NULL;
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS) {
+        listArg = data->mArg;
+        for (entryIndex = 0; entryIndex < listArg->mNickCount; entryIndex++) {
+            DWCi_GsFree(listArg->mNicknames[entryIndex]);
+            listArg->mNicknames[entryIndex] = NULL;
+            DWCi_GsFree(listArg->mUniquenicks[entryIndex]);
+            listArg->mUniquenicks[entryIndex] = NULL;
+        }
+        DWCi_GsFree(listArg->mNicknames);
+        listArg->mNicknames = NULL;
+        DWCi_GsFree(listArg->mUniquenicks);
+        listArg->mUniquenicks = NULL;
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST) {
+        callbackArg = data->mArg;
+        DWCi_GsFree(callbackArg->mMatchList);
+        callbackArg->mMatchList = NULL;
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_TRANSFER_MESSAGE) {
+        callbackArg = data->mArg;
+        if (callbackArg->mTransferMessage != NULL) {
+            DWCi_GsFree(callbackArg->mTransferMessage);
+            callbackArg->mTransferMessage = NULL;
+        }
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_OTHERS_PROFILES_IF_SET) {
+        callbackArg = data->mArg;
+        if (callbackArg->mUnk_08 != NULL) {
+            DWCi_GsFree(callbackArg->mUnk_08);
+            callbackArg->mUnk_08 = NULL;
+        }
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS) {
+        CallbackArgData *arrayArg = data->mArg;
+        for (entryIndex = 0; entryIndex < arrayArg->mSuggestedNickCount; entryIndex++) {
+            DWCi_GsFree(arrayArg->mUnk_08[entryIndex]);
+            arrayArg->mUnk_08[entryIndex] = NULL;
+        }
+        DWCi_GsFree(arrayArg->mUnk_08);
+        arrayArg->mUnk_08 = NULL;
+    }
+    DWCi_GsFree(data->mArg);
+    data->mArg = NULL;
+    DWCi_GsFree(data);
+}
+
+u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
+    GpiConnection *gpState;
+    GpiQueuedCallback *queueHead;
+    GpiQueuedCallback *queueTail;
+    GpiQueuedCallback *previousKept;
+    GpiQueuedCallback *current;
+
+    gpState = connection->mGpiConnection;
+    if (operationId != 0) {
+        queueHead = gpState->mCallbackQueueHead;
+        queueTail = gpState->mCallbackQueueTail;
+        previousKept = NULL;
+        gpState->mCallbackQueueHead = NULL;
+        gpState->mCallbackQueueTail = NULL;
+        current = queueHead;
+        if (current != NULL) {
+            do {
+                GpiQueuedCallback *next = current->mNext;
+                if (current->mOperationId == operationId || current->mType == PROFILE_CALLBACK_TYPE_ERROR) {
+                    if (previousKept != NULL) {
+                        previousKept->mNext = next;
+                    } else {
+                        queueHead = next;
+                    }
+                    if (queueTail == current) {
+                        queueTail = previousKept;
+                    }
+                    GpiCallAndFreeCallback(connection, current);
+                } else {
+                    previousKept = current;
+                }
+                current = next;
+            } while (current != NULL);
+        }
+        if (gpState->mCallbackQueueHead != NULL) {
+            gpState->mCallbackQueueTail->mNext = queueHead;
+            gpState->mCallbackQueueTail = queueTail;
+        } else {
+            gpState->mCallbackQueueHead = queueHead;
+            gpState->mCallbackQueueTail = queueTail;
+        }
+        return 0;
+    }
+    current = gpState->mCallbackQueueHead;
+    while (current != NULL) {
+        gpState->mCallbackQueueHead = NULL;
+        gpState->mCallbackQueueTail = NULL;
+        while (current != NULL) {
+            queueHead = current->mNext;
+            GpiCallAndFreeCallback(connection, current);
+            current = queueHead;
+        }
+        current = gpState->mCallbackQueueHead;
+    }
+    return 0;
+}

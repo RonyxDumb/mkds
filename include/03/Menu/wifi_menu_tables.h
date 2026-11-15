@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "03/types_021d299c.h"
-#include "00/Lib/DWC/code_02188720.h"
-#include "00/Lib/DWC/code_0218a064.h"
+#include "00/Lib/DWC/access_point_manager.h"
+#include "00/Lib/DWC/socket_config.h"
 
 typedef struct Rect Rect;
 

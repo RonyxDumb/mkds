@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43
-#include "code_02010c84.h" // NNSG3dRS
+#include "model_material_set.h" // MtxFx43
+#include "model_draw_blend.h" // NNSG3dRS
 #include "01/MapObjects/mission_run_map_object.h"
 #include "01/MapObjects/hanachan_move_and_followers.h"
 

@@ -13,7 +13,7 @@
 #include "Main/System/input_slots.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "player.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Save/ghost_record_file.h"

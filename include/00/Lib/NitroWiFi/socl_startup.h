@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h" // SOCHostEnt
+#include "00/Lib/GameSpy/socket_calls.h" // SOCHostEnt
 #include "00/Lib/wifi_library_work_objects.h"
-#include "00/Lib/NitroWiFi/code_021a6fa8.h"
+#include "00/Lib/NitroWiFi/socket_objects.h"
 
 void SOCLi_DhcpTimeout(void);
 void SOCLi_TrashSocket(void);

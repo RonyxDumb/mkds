@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43
+#include "model_material_set.h" // MtxFx43
 
 void MTX_Identity33_(MtxFx33 *dst);
 void MTX_Copy33To43_(const MtxFx33 *src, MtxFx43 *dst);

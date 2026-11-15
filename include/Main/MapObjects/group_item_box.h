@@ -7,7 +7,7 @@
 #include "Main/MapObjects/earthen_pipe_create.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/Item/item_koura_w.h"
-#include "code_0201c528.h" // ParticleEmitter
+#include "particle_instance.h" // ParticleEmitter
 #include "Main/Menu/second_menu_scene.h"
 
 // Object of at least 0xf4 bytes, made by CreateMapObject and filled in by InitMkdEfBubble.

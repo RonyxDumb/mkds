@@ -1,7 +1,7 @@
 #include "hash2.h"
 
-#include "code_0214d018.h"
-#include "code_02150e1c.h"
+#include "cpu_copy_fill.h"
+#include "digest_hash_block.h"
 
 s32 sMonthStartDay[12] = {0, 0x1f, 0x3b, 0x5a, 0x78, 0x97, 0xb5, 0xd4, 0xf3, 0x111, 0x130, 0x14e};
 void (*DGTi_Hash2ProcessMessageBlockFunc)(DGTHash2Context *ctx, u8 *source, int length) = DGTi_hash2_arm4_small;

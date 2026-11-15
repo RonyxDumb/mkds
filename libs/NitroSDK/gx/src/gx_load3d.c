@@ -1,13 +1,13 @@
 #include "gx_load3d.h"
-#include "code_0214c778.h"
-#include "code_02148950.h"
+#include "dma_copy_fill_wait.h"
+#include "vram_bank_assign.h"
 #include "gx_bgcnt.h"
-#include "code_0214d018.h"
+#include "cpu_copy_fill.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "data_02180000.h"
+#include "overlay_section_symbols.h"
 
 u32 gTextureLoadFirstBase = 0;
 u32 gTextureLoadFirstSize = 0;

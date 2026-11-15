@@ -8,7 +8,7 @@
 #include "03/Graphics/dispcnt_window.h"
 #include "03/System/task_input.h"
 #include "03/Menu/wifi_menu_strings.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "gx_load2d.h"
 #include "pm.h"
 

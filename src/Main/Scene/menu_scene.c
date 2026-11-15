@@ -7,7 +7,7 @@
 #include "Main/Scene/scene_connection.h"
 #include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"
@@ -34,13 +34,13 @@
 #include "Main/Race/race_scene_callbacks.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "player.h"
-#include "code_0212d214.h"
-#include "code_021479b4.h"
+#include "sound_archive_load.h"
+#include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "01/Menu/ending_scene.h"
-#include "code_020176c0.h"
+#include "expanded_heap_head.h"
 
 SceneCallbacks gMenuSceneCallbacks = {
     InitMenuScene, UpdateMenuScene, ReleaseMenuScene, WriteMenuSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};

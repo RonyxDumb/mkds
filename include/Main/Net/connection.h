@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h" // WirelessMessage, WirelessMessageCallback
+#include "wireless_power_mp.h" // WirelessMessage, WirelessMessageCallback
 
 void StartParentCallback(WirelessMessage *event);
 void StartParent(WirelessMessageCallback callback);

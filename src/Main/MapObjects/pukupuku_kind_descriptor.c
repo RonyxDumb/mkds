@@ -14,7 +14,7 @@
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "fx_mtx33.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/MapObjects/rotary.h"
 #include "Main/MapObjects/bridge.h"
 

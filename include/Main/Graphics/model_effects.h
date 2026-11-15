@@ -1,15 +1,15 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43, NNSG3dResFileHeader
+#include "model_material_set.h" // MtxFx43, NNSG3dResFileHeader
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Graphics/model_animation.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Kart/kart_ai_item_throw.h"
 #include "Main/Graphics/model_effect_kinds.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"

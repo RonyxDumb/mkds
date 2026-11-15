@@ -1,5 +1,5 @@
 #include "Main/Net/connect_non_multiboot.h"
-#include "code_0200007e.h"
+#include "bios_calls.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/packet_port.h"

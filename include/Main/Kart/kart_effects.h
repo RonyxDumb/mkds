@@ -41,7 +41,7 @@ typedef struct KartSurfaceEffectRow {
 } KartSurfaceEffectRow;
 
 #include "Main/System/backup_net_camera_work.h"
-#include "code_0201c528.h"
+#include "particle_instance.h"
 #include "Main/Kart/kart_palette_stem_tables.h"
 
 void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position);

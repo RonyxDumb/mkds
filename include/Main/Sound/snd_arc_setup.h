@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_set_load.h" // SndFileIdList
 
 typedef struct NNSSndHeap NNSSndHeap;

@@ -1,12 +1,12 @@
 #include "gfd_VramTransferManager.h"
-#include "code_02016638.h"
-#include "code_0200eddc.h"
+#include "transfer_task_types.h"
+#include "arena_cache_init.h"
 #include "gx_load2d.h"
 #include "gx_load3d.h"
-#include "code_0201661c.h"
-#include "code_020165d8.h"
-#include "code_020165b8.h"
-#include "code_02016574.h"
+#include "transfer_queue_reset.h"
+#include "transfer_queue_push.h"
+#include "transfer_queue_peek.h"
+#include "transfer_queue_pop.h"
 
 u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *queue, u32 index) {
     return (index + 1) % queue->mLengthOfArray;

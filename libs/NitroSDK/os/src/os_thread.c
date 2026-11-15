@@ -3,16 +3,16 @@
 
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "mb_data.h"
-#include "code_0200fc8c.h"
-#include "code_0200e77c.h"
-#include "code_0200f790.h"
-#include "code_0200c914.h"
-#include "code_0200e688.h"
-#include "data_02170000.h"
-#include "data_00000000.h"
-#include "data_00002000.h"
-#include "00/Lib/DWC/code_02188720.h"
-#include "code_0200e6ec.h"
+#include "reset_interrupt_enable.h"
+#include "thread_mutex_types.h"
+#include "alarm_timer.h"
+#include "interrupt_control.h"
+#include "thread_context_init.h"
+#include "exception_state.h"
+#include "overlay_id_symbols.h"
+#include "system_stack_size.h"
+#include "00/Lib/DWC/access_point_manager.h"
+#include "mutex_message_queue.h"
 
 u32 OSi_StackForDestructor;
 void (*OSi_SystemCallbackInSwitchThread)(OSThread *, OSThread *);

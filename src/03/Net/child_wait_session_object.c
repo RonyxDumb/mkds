@@ -3,14 +3,14 @@
 
 #include "03/System/exp_heap.h"
 #include "03/System/tasks.h"
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 #include "03/System/application.h"
 #include "03/Graphics/message_pool.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/sub_screen_message.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "03/Menu/main_menu.h"
 
 ChildWaitParams gChildWaitParams = {"dwc:/move/child.srl",  NULL,  NULL, "dwc:/move/banner.char",

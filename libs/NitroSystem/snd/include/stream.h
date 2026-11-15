@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "code_02003024.h" // FSFile
-#include "code_0212f788.h" // NNSSndFader
+#include "file_command_handlers.h" // FSFile
+#include "sound_fader.h" // NNSSndFader
 #include "pm.h" // PMSleepCallbackInfo
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 
 // 0x5c bytes: a stream. mActiveFlag is set while it is set up, mStartFlag while its timers run.
 typedef void (*NNSSndStrmCallback)(s32 status, s32 numChannels, void *buffer[], u32 len, u32 format, void *arg);

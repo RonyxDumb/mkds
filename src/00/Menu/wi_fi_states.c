@@ -32,7 +32,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/locate_bmg_sections.h"

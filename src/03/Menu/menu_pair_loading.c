@@ -9,8 +9,8 @@
 #include "03/Graphics/message_pool.h"
 #include "03/System/application.h"
 #include "os_thread.h"
-#include "code_0200eddc.h"
-#include "code_02139f70.h"
+#include "arena_cache_init.h"
+#include "narrow_string_functions.h"
 #include "03/Menu/main_menu.h"
 
 const u8 gLanguagePathLetters[6] = {0x6a, 0x65, 0x66, 0x67, 0x69, 0x73};

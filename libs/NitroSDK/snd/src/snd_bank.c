@@ -1,5 +1,5 @@
 #include "snd_bank.h"
-#include "code_0200eddc.h"
+#include "arena_cache_init.h"
 #include "os_thread.h"
 #include "snd_main.h"
 

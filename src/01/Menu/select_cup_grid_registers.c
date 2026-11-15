@@ -3,7 +3,7 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_cup_grid.h"
 #include "gx.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 
 void WriteSelectCupGridScreenRegisters(void) {
     int screenChanged;

@@ -151,7 +151,7 @@ typedef struct RecordGpx {
 #include "Main/Menu/select_return.h"
 #include "player.h"
 
-#include "code_0214cfe4.h"
+#include "cpu_copy_clear_16.h"
 #include "Main/System/result_archive_path.h"
 
 extern RecordGpx *gRecordGpx;

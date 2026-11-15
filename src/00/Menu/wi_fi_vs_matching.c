@@ -1,6 +1,6 @@
 #include "00/Menu/wi_fi_vs_matching.h"
 
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "registers.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam.h"

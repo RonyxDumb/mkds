@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "code_02012b30.h" // MtxFx43
+#include "model_material_set.h" // MtxFx43
 #include "Main/System/backup_net_camera_work.h"
-#include "code_021479b4.h"
+#include "matrix44_concat.h"
 
 // 0x24-byte entry: the word at 0x00 and the halfword at 0x08 are tested by DrawKartNameTagTexture and
 // UploadTextureAndPalette, the words at 0x1c and 0x20 are passed to the function given to DrawKartNameTagTexture.

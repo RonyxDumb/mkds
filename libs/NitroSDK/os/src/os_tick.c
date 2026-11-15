@@ -1,7 +1,7 @@
 #include "os_tick.h"
-#include "code_0200c914.h"
-#include "code_0200fc8c.h"
-#include "data_02170000.h"
+#include "interrupt_control.h"
+#include "reset_interrupt_enable.h"
+#include "exception_state.h"
 #include "os_timer.h"
 #include "registers.h"
 

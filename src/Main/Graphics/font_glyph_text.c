@@ -8,7 +8,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Menu/title_state_handlers.h"
 
 const s16 gFrameOffsets[6] = {2, 4, 8, 4, 2, 0};

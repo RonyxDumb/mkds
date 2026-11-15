@@ -3,7 +3,7 @@
 #include "types.h"
 
 #include "Main/Sound/surface_sound_ids.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 // Object of AdvanceSoundDistanceSquaredChange: a value at 0x00, the previous value at 0x04, their difference at 0x08
 // and a shift at 0x0c; 0x1c bytes in all.

@@ -3,9 +3,9 @@
 #include "03/System/exp_heap.h"
 #include "03/System/pointer_stack_filled.h"
 #include "03/System/pointer_stack_delete.h"
-#include "code_0200c914.h"
-#include "code_0200fc8c.h"
-#include "code_02147cd8.h"
+#include "interrupt_control.h"
+#include "reset_interrupt_enable.h"
+#include "vector_math.h"
 
 PointerStack *CreatePointerStack(u32 count) {
     PointerStack *list = AllocExpHeapBlock((count + 1) * 4 + 8, 4);

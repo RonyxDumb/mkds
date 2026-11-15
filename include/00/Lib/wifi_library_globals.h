@@ -2,17 +2,17 @@
 
 #include "00/Menu/wi_fi_state_machine.h"
 #include "00/Lib/CPS/network.h"
-#include "00/Lib/DWC/code_02186d04.h"
-#include "00/Lib/DWC/code_02187484.h"
-#include "00/Lib/DWC/code_02188008.h"
-#include "00/Lib/DWC/code_02188ec0.h"
-#include "00/Lib/DWC/code_021884d8.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h"
-#include "00/Lib/GameSpy/code_021a3a18.h"
-#include "00/Lib/GameSpy/code_0218a71c.h"
+#include "00/Lib/DWC/http_thread.h"
+#include "00/Lib/DWC/network_check_status.h"
+#include "00/Lib/DWC/network_check_control.h"
+#include "00/Lib/DWC/access_point_power_mode.h"
+#include "00/Lib/DWC/access_point_state.h"
+#include "00/Lib/GameSpy/socket_calls.h"
+#include "00/Lib/GameSpy/query_reporting.h"
+#include "00/Lib/GameSpy/stream_cipher.h"
 
 #include "types.h"
-#include "00/Lib/NitroWiFi/code_021a6fa8.h"
+#include "00/Lib/NitroWiFi/socket_objects.h"
 
 // Settings SOCLi_GetSizeSocket reads and SOCLi_InitSocket applies.
 typedef struct SOCLSocketParam {

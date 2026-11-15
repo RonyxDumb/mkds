@@ -1,10 +1,10 @@
 #include "00/Lib/GameSpy/gpiProfile.h"
-#include "code_02139f70.h"
-#include "00/Lib/GameSpy/code_0218f960.h"
+#include "narrow_string_functions.h"
+#include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/DWC/connection_error_strings.h"
-#include "code_02134398.h"
-#include "00/Lib/GameSpy/code_0218dd8c.h"
-#include "00/Lib/GameSpy/code_02192d64.h"
+#include "print_memory_functions.h"
+#include "00/Lib/GameSpy/hash_table.h"
+#include "00/Lib/GameSpy/profile_info.h"
 
 s32 gpiCheckProfileForUser(GpConnection *connection, GpiProfile *profile, void *userData) {
     GPIFindProfileByUserData *data = userData;

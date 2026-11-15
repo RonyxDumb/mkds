@@ -1,7 +1,7 @@
 #include "Main/Sound/sound_handle_pool.h"
 
 #include "Main/Sound/sound_set_load.h"
-#include "code_0212d214.h"
+#include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Sound/sound_request_queue.h"
@@ -9,19 +9,19 @@
 #include "tp.h"
 #include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "player.h"
-#include "code_021479b4.h"
+#include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Menu/menu_screens_work.h"
-#include "code_0212c7a0.h"
+#include "sound_player_type.h"
 #include "stream.h"
-#include "code_0212c9d4.h"
+#include "sound_capture_effect.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Sound/sound_seq.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 
 void StartMissionRunCountSeq(s32 count, s32 countLimit) {
     u32 value;

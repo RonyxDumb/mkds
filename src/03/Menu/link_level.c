@@ -7,7 +7,7 @@
 #include "03/Graphics/oam_range_set.h"
 #include "03/Graphics/oam_range.h"
 #include "03/Graphics/oam_buffer_entries.h"
-#include "code_02142eac.h"
+#include "wireless_power_mp.h"
 #include "registers.h"
 
 const u16 gLinkLevelPosition[2] = {0xe5, 0x26};

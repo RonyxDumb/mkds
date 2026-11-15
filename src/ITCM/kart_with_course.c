@@ -12,7 +12,7 @@
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "code_02012b30.h"
+#include "model_material_set.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
@@ -23,7 +23,7 @@
 #include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Item/kart_items_collision_hits.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_resources.h"
 

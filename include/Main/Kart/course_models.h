@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "code_02147cd8.h" // Vec3s16
+#include "vector_math.h" // Vec3s16
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "Main/Kart/kart_participant_record.h" // ParticipantKartRecord
 #include "Main/Graphics/model_animation.h" // ModelAnimation

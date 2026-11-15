@@ -1,8 +1,8 @@
 #include "Main/Sound/snd_arc_setup.h"
 
-#include "code_02003024.h"
-#include "code_02003be0.h"
-#include "code_0212d214.h"
+#include "file_command_handlers.h"
+#include "file_open_read.h"
+#include "sound_archive_load.h"
 #include "fs_file.h"
 #include "Main/Sound/sound_set_load.h"
 

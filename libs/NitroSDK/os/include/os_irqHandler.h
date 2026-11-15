@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0200e77c.h"
+#include "thread_mutex_types.h"
 
 // Threads sleeping until an interrupt flag is set.
 extern OSThreadQueue OSi_IrqThreadQueue;

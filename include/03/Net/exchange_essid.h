@@ -46,10 +46,10 @@ typedef struct WepKey16 {
 } WepKey16;
 
 #include "03/Net/exchange_result_records.h"
-#include "00/Lib/DWC/code_0218a064.h"
+#include "00/Lib/DWC/socket_config.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "os_thread.h"
-#include "00/Lib/GameSpy/code_0218e2dc.h"
+#include "00/Lib/GameSpy/socket_calls.h"
 
 // UDP port the exchange packets are sent to and received on.
 #define EXCHANGE_SOCKET_PORT 0x1e6

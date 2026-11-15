@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "code_0200e77c.h"
-#include "code_02142eac.h"
+#include "thread_mutex_types.h"
+#include "wireless_power_mp.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/NitroWiFi/util.h"
 

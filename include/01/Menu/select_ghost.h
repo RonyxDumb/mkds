@@ -9,7 +9,7 @@
 #include "Main/Menu/cup_mark.h"
 #include "player.h"
 #include "Main/Graphics/layout_rect_table.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 
 // Values of SelectGhost.mResult: how the screen is being left (the ghost records are read for CHOSEN).
 enum {
@@ -83,7 +83,7 @@ typedef struct SelectGhost {
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Scene/display_settings.h"
-#include "code_020182c0.h"
+#include "archive_memory_load.h"
 #include "frameheap.h"
 #include "os_thread.h"
 #include "Main/MapObjects/map_object_park.h"

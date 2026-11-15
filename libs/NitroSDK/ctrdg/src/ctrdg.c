@@ -1,6 +1,6 @@
 #include "ctrdg.h"
-#include "code_0214d5b8.h"
-#include "code_0200007e.h"
+#include "arm_fifo_messaging.h"
+#include "bios_calls.h"
 
 #pragma thumb on
 

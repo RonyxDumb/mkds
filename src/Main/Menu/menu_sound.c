@@ -2,7 +2,7 @@
 
 #include "Main/System/input_slots.h"
 #include "player.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "Main/Sound/sound_system.h"
 
 u32 MenuStartSeqArc(u32 seqIndex, u32 seqArcNo) {

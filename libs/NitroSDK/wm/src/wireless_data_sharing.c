@@ -1,0 +1,498 @@
+#include "wireless_data_sharing.h"
+#include "arena_cache_init.h"
+#include "reset_interrupt_enable.h"
+#include "os_thread.h"
+#include "wm_system.h"
+#include "wireless_power_mp.h"
+#include "cpu_copy_clear_16.h"
+#include "bit_count.h"
+#include "cpu_copy_fill.h"
+
+// Starts key sharing on port: data sharing of 2 bytes per station for all stations in double mode.
+int WM_StartKeySharing(WMDataSharingInfo *buf, u16 port) {
+    return WM_StartDataSharing(buf, port, 0xffff, 2, 1);
+}
+
+// Ends key sharing.
+int WM_EndKeySharing(WMDataSharingInfo *buf) {
+    return WM_EndDataSharing(buf);
+}
+
+// Starts sharing dataLength bytes per station on port between the stations in aidBitmap, using dsInfo as the work area.
+// The parent sends the first data sets itself; a child waits for them.
+int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 dataLength, BOOL doubleMode) {
+    u32 readyMembers;
+    u32 ownIndex;
+    WMStatus *status;
+    int result;
+    int index;
+    u16 mask;
+    u32 count;
+    WMDataSet *block;
+
+    readyMembers = 1;
+    status = WMi_GetSystemWork()->mStatusArea;
+    result = WMi_CheckStateEx(2, 9, 10);
+    if (result != 0) {
+        return result;
+    }
+    DC_InvalidateRange(&status->mMpFlag, 4);
+    if (status->mMpFlag == 0) {
+        return 3;
+    }
+    if (dsInfo == 0) {
+        return 6;
+    }
+    if (port >= 16) {
+        return 6;
+    }
+    if (aidBitmap == 0) {
+        return 6;
+    }
+    DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+    ownIndex = status->mOwnMemberIndex;
+    if (ownIndex == 0) {
+        DC_InvalidateRange(&status->mMpReadyBitmap, 2);
+        readyMembers = status->mMpReadyBitmap;
+    }
+    MemFillWordsByBlock_inline(dsInfo, 0x820);
+    dsInfo->mWriteIndex = 0;
+    dsInfo->mSendIndex = 0;
+    dsInfo->mReadIndex = 0;
+    dsInfo->mMemberDataSize = dataLength;
+    dsInfo->mPort = port;
+    dsInfo->mMemberMask = 0;
+    dsInfo->mDoubleMode = doubleMode != 0;
+    mask = aidBitmap | (1 << ownIndex);
+    dsInfo->mMemberMask = mask;
+    count = CountSetBits(mask);
+    dsInfo->mStationNumber = count;
+    dsInfo->mDataSetLength = dataLength * count;
+    if (dsInfo->mDataSetLength > WIRELESS_DATA_SHARING_MAX_SET_LENGTH) {
+        dsInfo->mMemberMask = 0;
+        return 6;
+    }
+    dsInfo->mDataSetLength += 4;
+    dsInfo->mStatus = DATA_SHARING_STATUS_RUNNING;
+    if (ownIndex == 0) {
+        for (index = 0; index < 4; index++) {
+            dsInfo->mDs[index].mAidBitmap = dsInfo->mMemberMask & (readyMembers | 1);
+        }
+        WM_SetPortCallback(port, WmDataSharingReceiveCallback_Parent, dsInfo);
+        block = dsInfo->mDs;
+        for (index = 0; index < (dsInfo->mDoubleMode == 1 ? 2 : 1); block++, index++) {
+            dsInfo->mWriteIndex = (dsInfo->mWriteIndex + 1) & 3;
+            result = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, block, dsInfo->mDataSetLength,
+                                          dsInfo->mMemberMask & readyMembers, dsInfo->mPort, 1);
+            if (result == 7) {
+                dsInfo->mSeqNum[index] = WIRELESS_SEQ_NO_NONE;
+                dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
+            } else if (result != 0 && result != 2) {
+                dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
+                return 1;
+            }
+        }
+    } else {
+        dsInfo->mSendIndex = WIRELESS_DATA_SHARING_RING_LAST_INDEX;
+        WM_SetPortCallback(port, WmDataSharingReceiveCallback_Child, dsInfo);
+    }
+    return 0;
+}
+
+// Ends data sharing and removes the port callback; returns 3 when dsInfo is not running data sharing.
+int WM_EndDataSharing(WMDataSharingInfo *dsInfo) {
+    WMArm9Buf *work;
+    WirelessPortCallback registered;
+    int result;
+
+    work = WMi_GetSystemWork();
+    result = WMi_CheckStateEx(2, 9, 10);
+    if (result != 0) {
+        return result;
+    }
+    if (dsInfo == 0) {
+        return 6;
+    }
+    if (dsInfo->mMemberMask == 0 ||
+        ((registered = work->mPortCallbacks[dsInfo->mPort]) != WmDataSharingReceiveCallback_Parent &&
+         registered != WmDataSharingReceiveCallback_Child)) {
+        return 3;
+    }
+    WM_SetPortCallback(dsInfo->mPort, 0, 0);
+    dsInfo->mMemberMask = 0;
+    dsInfo->mStatus = DATA_SHARING_STATUS_STOPPED;
+    return 0;
+}
+
+// Takes the next complete data set of all stations into receiveData and sends sendData for the next round. Returns 0
+// when a data set was delivered, 5 when there is none yet and 1 after a send failure.
+int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *receiveData) {
+    int late;
+    int result;
+    WMStatus *status;
+    u32 readyMembers;
+    u32 mode;
+    int delivered;
+    u32 ownIndex;
+    int sendOwn;
+    int sendResult;
+    u16 previous;
+    u8 *outgoing;
+
+    status = WMi_GetSystemWork()->mStatusArea;
+    result = WMi_CheckStateEx(2, 9, 10);
+    if (result != 0) {
+        return result;
+    }
+    DC_InvalidateRange(&status->mMpFlag, 4);
+    if (status->mMpFlag == 0) {
+        return 3;
+    }
+    if (dsInfo == 0) {
+        return 6;
+    }
+    if (sendData == 0) {
+        return 6;
+    }
+    if (receiveData == 0) {
+        return 6;
+    }
+    DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+    ownIndex = status->mOwnMemberIndex;
+    if (ownIndex == 0) {
+        DC_InvalidateRange(&status->mMpReadyBitmap, 2);
+        readyMembers = status->mMpReadyBitmap;
+    }
+    mode = dsInfo->mStatus;
+    if (mode == DATA_SHARING_STATUS_FAILED) {
+        return 1;
+    }
+    if (mode != DATA_SHARING_STATUS_RUNNING) {
+        if (mode != DATA_SHARING_STATUS_RETRY_SEND) {
+            return 3;
+        }
+    }
+    result = 5;
+    if (ownIndex == 0) {
+        delivered = 0;
+        late = 0;
+        if (mode == DATA_SHARING_STATUS_RETRY_SEND) {
+            dsInfo->mStatus = DATA_SHARING_STATUS_RUNNING;
+            previous = (dsInfo->mWriteIndex + 3) & 3;
+            sendResult =
+                WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, &dsInfo->mDs[previous],
+                                     dsInfo->mDataSetLength, dsInfo->mMemberMask & readyMembers, dsInfo->mPort, 1);
+            if (sendResult == 7) {
+                dsInfo->mSeqNum[previous] = 0xffff;
+                dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
+            } else if (sendResult != 0) {
+                if (sendResult != 2) {
+                    dsInfo->mStatus = result;
+                    return 1;
+                }
+            }
+        }
+        if (dsInfo->mReadIndex != dsInfo->mSendIndex) {
+            dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap |= 1;
+            MIi_CpuCopy16(&dsInfo->mDs[dsInfo->mReadIndex], receiveData, 0x200);
+            dsInfo->mCurrentSeqNum = dsInfo->mSeqNum[dsInfo->mReadIndex];
+            dsInfo->mReadIndex = (dsInfo->mReadIndex + 1) & 3;
+            delivered = 1;
+            result = 0;
+            if (dsInfo->mDoubleMode == 0 && readyMembers != 0 && dsInfo->mDs[dsInfo->mWriteIndex].mAidBitmap == 1) {
+                late = delivered;
+            } else {
+                late = 0;
+            }
+        }
+        WmDataSharingSendDataSet(dsInfo, 0);
+        if (delivered != 0) {
+            WmDataSharingReceiveData(dsInfo, 0, sendData);
+            if (dsInfo->mDoubleMode == 0) {
+                WmDataSharingSendDataSet(dsInfo, late);
+            }
+        }
+    } else {
+        sendOwn = 0;
+        if (mode == DATA_SHARING_STATUS_RETRY_SEND) {
+            dsInfo->mStatus = DATA_SHARING_STATUS_RUNNING;
+            sendOwn = 1;
+        } else if (dsInfo->mReadIndex != dsInfo->mWriteIndex) {
+            if ((dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap & 1) == 0) {
+                dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap |= 1;
+            } else {
+                MIi_CpuCopy16(&dsInfo->mDs[dsInfo->mReadIndex], receiveData, 0x200);
+                dsInfo->mCurrentSeqNum = dsInfo->mSeqNum[dsInfo->mReadIndex];
+                dsInfo->mReadIndex = (dsInfo->mReadIndex + 1) & 3;
+                sendOwn = 1;
+                result = 0;
+            }
+        }
+        if (sendOwn != 0) {
+            outgoing = &dsInfo->mDs[dsInfo->mSendIndex].mData[0x1c];
+            MIi_CpuCopy16(sendData, outgoing, dsInfo->mMemberDataSize);
+            sendResult = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, outgoing, dsInfo->mMemberDataSize,
+                                              dsInfo->mMemberMask, dsInfo->mPort, 1);
+            dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
+            if (sendResult != 2) {
+                if (sendResult != 0) {
+                    dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
+                    result = 1;
+                }
+            }
+        }
+    }
+    return result;
+}
+
+// Send result callback of the data sharing sends: records the sequence number on success and the retry or error state
+// otherwise.
+void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
+    WMArm9Buf *work;
+    WMStatus *status;
+    WMDataSharingInfo *share;
+    WirelessPortCallback registered;
+    u32 code;
+    u32 ownIndex;
+
+    work = WMi_GetSystemWork();
+    status = work->mStatusArea;
+    registered = work->mPortCallbacks[callback->mPort];
+    share = work->mPortCallbackArgs[callback->mPort];
+    if (registered != WmDataSharingReceiveCallback_Parent && registered != WmDataSharingReceiveCallback_Child) {
+        return;
+    }
+    if (share == 0) {
+        return;
+    }
+    if (share != callback->mDataSharingInfo) {
+        return;
+    }
+    DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+    code = callback->mResultCode;
+    ownIndex = status->mOwnMemberIndex;
+    if (code == 0) {
+        if (ownIndex != 0) {
+            return;
+        }
+        share->mSeqNum[share->mSendIndex] = callback->mSeqNo >> 1;
+        share->mSendIndex = (share->mSendIndex + 1) & 3;
+        return;
+    }
+    if (code == 10) {
+        if (ownIndex != 0) {
+            share->mSendIndex = (share->mSendIndex + 3) & 3;
+        }
+        share->mStatus = DATA_SHARING_STATUS_RETRY_SEND;
+        return;
+    }
+    share->mStatus = DATA_SHARING_STATUS_FAILED;
+}
+
+// Port callback of a parent: sends the next data set when a link comes up (7), a child's data arrived (0x15) or a
+// link is lost (9).
+void WmDataSharingReceiveCallback_Parent(void *portMessage) {
+    PortCallbackMessage *callback = portMessage;
+    WMDataSharingInfo *share;
+    u32 enabled;
+    enum { SHARE_BIT_NONE } bit;
+    u32 member;
+    u32 current;
+    u32 mask;
+    u16 next;
+
+    share = callback->mArg;
+    if (share == 0) {
+        return;
+    }
+    if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
+        switch (callback->mState) {
+            case WIRELESS_STATE_PORT_DATA_ARRIVED:
+                WmDataSharingReceiveData(share, callback->mAid, callback->mData);
+                WmDataSharingSendDataSet(share, 0);
+                return;
+            case WIRELESS_STATE_LINKED:
+                WmDataSharingSendDataSet(share, 0);
+                return;
+            case WIRELESS_STATE_UNLINKED:
+                member = callback->mAid;
+                bit = 1;
+                enabled = OS_DisableInterrupts();
+                current = share->mWriteIndex;
+                mask = ~(bit << member);
+                share->mDs[current].mAidBitmap &= mask;
+                if (share->mDoubleMode == 1) {
+                    next = (current + 1) & 3;
+                    share->mDs[next].mAidBitmap &= mask;
+                }
+                OS_RestoreInterrupts(enabled);
+                WmDataSharingSendDataSet(share, 0);
+                if (share->mDoubleMode == 1) {
+                    WmDataSharingSendDataSet(share, 0);
+                }
+                return;
+        }
+    } else {
+        share->mStatus = DATA_SHARING_STATUS_FAILED;
+    }
+}
+
+// Port callback of a child: stores the data set the parent sent (0x15) as the next one to read.
+void WmDataSharingReceiveCallback_Child(void *portMessage) {
+    PortCallbackMessage *callback = portMessage;
+    WMStatus *status;
+    WMDataSharingInfo *share;
+    u32 size;
+    u32 blockMask;
+    u32 ownIndex;
+    u16 *data;
+
+    status = WMi_GetSystemWork()->mStatusArea;
+    share = callback->mArg;
+    if (share == 0) {
+        return;
+    }
+    if (callback->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
+        if (callback->mState == WIRELESS_STATE_LINKED) {
+            return;
+        }
+        if (callback->mState == WIRELESS_STATE_UNLINKED) {
+            return;
+        }
+        if (callback->mState != WIRELESS_STATE_PORT_DATA_ARRIVED) {
+            return;
+        }
+        data = callback->mData;
+        blockMask = *data;
+        size = callback->mLength;
+        DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+        ownIndex = status->mOwnMemberIndex;
+        if (size != share->mDataSetLength) {
+            if (size > 0x200) {
+                size = 0x200;
+            }
+        }
+        if (size < 4) {
+            return;
+        }
+        if ((blockMask & (1 << ownIndex)) == 0) {
+            return;
+        }
+        MIi_CpuCopy16(data, &share->mDs[share->mWriteIndex], size);
+        share->mSeqNum[share->mWriteIndex] = callback->mSeqNo >> 1;
+        share->mWriteIndex = (share->mWriteIndex + 1) & 3;
+    } else {
+        share->mStatus = DATA_SHARING_STATUS_FAILED;
+    }
+}
+
+// Stores the data of station aid (zero when data is NULL) in the current data set and marks the station as arrived.
+void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u32 aid, const void *data) {
+    u32 mask;
+    u16 block;
+    u32 enabled;
+    u8 *target;
+    volatile u16 zero;
+
+    mask = (u16) (1 << aid);
+    if ((dsInfo->mMemberMask & mask) == 0) {
+        return;
+    }
+    block = dsInfo->mWriteIndex;
+    if ((mask & dsInfo->mDs[block].mAidBitmap) == 0) {
+        if (dsInfo->mDoubleMode != 1) {
+            return;
+        }
+        block = (block + 1) & 3;
+        if ((mask & dsInfo->mDs[block].mAidBitmap) == 0) {
+            return;
+        }
+    }
+    target = WmGetSharedDataAddress(dsInfo, dsInfo->mMemberMask, dsInfo->mDs[block].mData, aid);
+    if (data != 0) {
+        MIi_CpuCopy16(data, target, dsInfo->mMemberDataSize);
+    } else {
+        zero = 0;
+        MIi_CpuClear16(zero, target, dsInfo->mMemberDataSize);
+    }
+    enabled = OS_DisableInterrupts();
+    dsInfo->mDs[block].mAidBitmap &= ~mask;
+    dsInfo->mDs[block].mArrivedMembers |= mask;
+    OS_RestoreInterrupts(enabled);
+}
+
+// When the current data set is complete, makes the next one current and sends the finished one to the other stations.
+void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
+    u32 enabled;
+    u16 done;
+    u32 ready;
+    WMStatus *status;
+    u16 next;
+    u16 ahead;
+    int result;
+    volatile u16 zero;
+
+    status = WMi_GetSystemWork()->mStatusArea;
+    enabled = OS_DisableInterrupts();
+    if (dsInfo->mDs[dsInfo->mWriteIndex].mAidBitmap == 0) {
+        DC_InvalidateRange(&status->mMpReadyBitmap, 2);
+        done = dsInfo->mWriteIndex;
+        ready = status->mMpReadyBitmap;
+        next = (done + 1) & 3;
+        if (dsInfo->mDoubleMode == 1) {
+            ahead = (next + 1) & 3;
+        } else {
+            ahead = next;
+        }
+        zero = 0;
+        MIi_CpuClear16(zero, &dsInfo->mDs[ahead], 0x200);
+        dsInfo->mDs[ahead].mAidBitmap = dsInfo->mMemberMask & (ready | 1);
+        dsInfo->mWriteIndex = next;
+        dsInfo->mDs[done].mAidBitmap = dsInfo->mMemberMask;
+        if (delayed == 1) {
+            dsInfo->mDs[done].mAidBitmap &= ~1;
+        }
+        OS_RestoreInterrupts(enabled);
+        result = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, &dsInfo->mDs[done], dsInfo->mDataSetLength,
+                                      dsInfo->mMemberMask & ready, dsInfo->mPort, 1);
+        if (result == 7) {
+            dsInfo->mSeqNum[done] = 0xffff;
+            dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
+        } else if (result != 0) {
+            if (result != 2) {
+                dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
+            }
+        }
+    } else {
+        OS_RestoreInterrupts(enabled);
+    }
+}
+
+// Returns the data of station aid in receiveData, or NULL when the station has no data in it.
+u8 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u32 aid) {
+    u32 mask;
+    u32 held;
+    u32 arrived;
+
+    arrived = receiveData->mArrivedMembers;
+    mask = 1 << aid;
+    held = receiveData->mAidBitmap;
+    if (dsInfo == 0) {
+        return 0;
+    }
+    if (receiveData == 0) {
+        return 0;
+    }
+    if ((held & mask) == 0) {
+        return 0;
+    }
+    if ((arrived & mask) == 0) {
+        return 0;
+    }
+    return WmGetSharedDataAddress(dsInfo, held, receiveData->mData, aid);
+}
+
+// Returns the data of station aid in receiveBuf: the data of the stations in aidBitmap that come before it are skipped.
+u8 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u8 *receiveBuf, u32 aid) {
+    return receiveBuf + dsInfo->mMemberDataSize * CountSetBits(aidBitmap & ((1 << aid) - 1));
+}

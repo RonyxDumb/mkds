@@ -6,8 +6,8 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/System/backup_net_camera_work.h"
-#include "00/Lib/DWC/code_0219b1f8.h"
-#include "code_0214d018.h"
+#include "00/Lib/DWC/friends_match_session.h"
+#include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
 
 // Lowers the rank by one for each better-ranked kart whose participant dropped out of the race.

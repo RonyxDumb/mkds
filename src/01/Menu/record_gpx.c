@@ -9,7 +9,7 @@
 #include "Main/Graphics/time_format.h"
 #include "Main/Menu/kart_icon.h"
 #include "Main/Menu/cup_mark.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"

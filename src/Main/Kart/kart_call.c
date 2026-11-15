@@ -4,12 +4,12 @@
 #include "Main/Kart/karts.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "code_02012b30.h"
-#include "code_02010c84.h"
-#include "code_02013740.h"
+#include "model_material_set.h"
+#include "model_draw_blend.h"
+#include "animation_lookup.h"
 #include "fx_mtx33.h"
 #include "fx_mtx43.h"
-#include "code_02147cd8.h"
+#include "vector_math.h"
 
 const Vec3 gCourseModelDrawScale = {0x1000, 0x1000, 0x1000};
 const u32 gKillerItemNodeName[4] = {0x6c6c694b, 0x74497265, 0x6d65, 0};

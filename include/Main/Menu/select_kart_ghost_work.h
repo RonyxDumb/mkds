@@ -4,7 +4,7 @@
 #include "Main/System/interpolation_value.h" // Interpolation
 #include "Main/System/heap_call.h" // HeapCall
 #include "Main/Menu/menu_label_cell_rows.h" // SelectCharacterRow
-#include "code_02022aa8.h"
+#include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Graphics/font_and_player_character.h" // Ncgr, Nscr, Nclr
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry, LayoutEntryTable

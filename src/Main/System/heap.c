@@ -1,8 +1,8 @@
 #include "Main/System/heap.h"
-#include "code_020176c0.h"
+#include "expanded_heap_head.h"
 #include "frameheap.h"
 #include "heapcommon.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 
 void *HeapAlloc(void *heap, u32 size) {
     NNSiFndHeapHead *heapHead = heap;

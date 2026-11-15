@@ -9,9 +9,9 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "os_tick.h"
-#include "code_02133048.h"
-#include "code_021329f8.h"
-#include "code_0214d93c.h"
+#include "signed_int_divide.h"
+#include "float_subtract.h"
+#include "clock_chip_access.h"
 #include "Main/Race/race_setup_input.h"
 
 #pragma thumb on

@@ -1,13 +1,13 @@
 #include "output_effect.h"
-#include "code_0200eddc.h"
-#include "code_0200fc8c.h"
+#include "arena_cache_init.h"
+#include "reset_interrupt_enable.h"
 #include "snd_interface.h"
 #include "os_thread.h"
-#include "code_0214cfe4.h"
-#include "code_0212c9d4.h"
-#include "code_0214d018.h"
+#include "cpu_copy_clear_16.h"
+#include "sound_capture_effect.h"
+#include "cpu_copy_fill.h"
 #include "Main/System/stdio_files.h"
-#include "code_02134398.h"
+#include "print_memory_functions.h"
 
 CallbackInfo sCallbackInfo = {-1};
 

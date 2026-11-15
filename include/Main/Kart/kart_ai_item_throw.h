@@ -28,7 +28,7 @@ typedef struct PosStrip {
 typedef struct PosStripPoint PosStripPoint;
 typedef struct PosStrip PosStrip;
 
-#include "code_02012b30.h" // MtxFx43
+#include "model_material_set.h" // MtxFx43
 #include "Main/Graphics/model_effect_kinds.h"
 
 typedef struct KartAiItemUse KartAiItemUse;

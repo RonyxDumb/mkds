@@ -1,9 +1,9 @@
 #include "os_spinLock.h"
-#include "code_0200007e.h"
+#include "bios_calls.h"
 #include "os_thread.h"
-#include "code_0200fc8c.h"
+#include "reset_interrupt_enable.h"
 #include "registers.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "00/Lib/DWC/access_point_manager.h"
 
 s32 gLockInitialized;
 

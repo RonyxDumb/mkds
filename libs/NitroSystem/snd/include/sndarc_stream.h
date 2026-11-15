@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212d214.h"
-#include "code_0200e77c.h"
+#include "sound_archive_load.h"
+#include "thread_mutex_types.h"
 
 // Element of a command list (links at 0): the stream player the command belongs to.
 typedef struct LoadCommand {

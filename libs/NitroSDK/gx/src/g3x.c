@@ -1,12 +1,12 @@
 #include "g3x.h"
-#include "code_0214cfe4.h"
-#include "code_0214c778.h"
+#include "cpu_copy_clear_16.h"
+#include "dma_copy_fill_wait.h"
 #include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "00/Lib/DWC/code_02188720.h"
+#include "00/Lib/DWC/access_point_manager.h"
 #include "registers.h"
-#include "code_02148950.h"
+#include "vram_bank_assign.h"
 
 void G3X_SetToonTable(const u16 *toonTable) {
     MIi_CpuCopy16(toonTable, (void *) 0x4000380, 0x40);

@@ -1,10 +1,10 @@
 #include "gecom.h"
-#include "data_02173000.h"
+#include "particle_random_state.h"
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"
 #include "ITCM/g3d_texture_matrix.h"
-#include "code_02015eb8.h"
+#include "vram_alloc_wrappers.h"
 #include "ITCM/kart_ground_contact.h"
 
 void (*NNS_G3dSendTexSRT_FuncArray[4])(NNSG3dMatAnmResult *) = {NNSi_G3dSendTexSRTMaya, NULL, NULL, NULL};

@@ -17,7 +17,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "player.h"
-#include "code_0212df7c.h"
+#include "sound_archive_load_result.h"
 #include "01/Menu/select_ghost.h"
 #include "Main/System/result_archive_path.h"
 #include "registers.h"

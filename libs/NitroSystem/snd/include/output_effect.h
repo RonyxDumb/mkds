@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "code_0212c9d4.h" // NNSSndCaptureCallback
+#include "sound_capture_effect.h" // NNSSndCaptureCallback
 
 struct CallbackInfo;
 

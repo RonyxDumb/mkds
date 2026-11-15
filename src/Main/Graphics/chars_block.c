@@ -3,8 +3,8 @@
 #include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "code_0214cfe4.h"
-#include "code_02022aa8.h"
+#include "cpu_copy_clear_16.h"
+#include "font_glyph_layout.h"
 #include "Main/Menu/menu_shared_clear.h"
 
 void InitFontIfLoaded(void *font, void *fontData) {
