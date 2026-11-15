@@ -14,6 +14,7 @@ typedef struct SocketAddress SocketAddress;
 typedef struct PacketTag PacketTag;
 typedef struct SendPacketScratch SendPacketScratch;
 
+// The byte table permuted by key bytes and xored with data: its two indices, the table and its entry count.
 typedef struct KeyStreamState {
     /* 00 */ u32 mIndex;
     /* 04 */ u32 mSwapIndex;
@@ -21,12 +22,14 @@ typedef struct KeyStreamState {
     /* 0c */ u32 mTableCount;
 } KeyStreamState;
 
+// A payload record: its length, two key bytes and the bytes.
 typedef struct PayloadRecord {
     /* 00 */ u16 mLength;
     /* 02 */ u8 mKeyPrefix[2];
     /* 04 */ u8 mBytes[1];
 } PayloadRecord;
 
+// The header of a packet: its kind, payload length, flags, payload check byte, magic byte and tag.
 typedef struct PacketHeader {
     /* 00 */ u16 mNonzeroWord;
     /* 02 */ u16 mUnk_02;
@@ -40,6 +43,7 @@ typedef struct PacketHeader {
     /* 10 */ u8 mTag[8];
 } PacketHeader;
 
+// One item of an outgoing packet: its type, length, offset of the next item and value bytes.
 typedef struct OutgoingPacketItem {
     /* 00 */ s8 mType;
     /* 01 */ u8 mUnk_01;
@@ -48,12 +52,14 @@ typedef struct OutgoingPacketItem {
     /* 06 */ u8 mValue[1];
 } OutgoingPacketItem;
 
+// A container of packet items: its length and the items.
 typedef struct ItemContainer {
     /* 00 */ u8 mUnk_00;
     /* 02 */ u16 mLength;
     /* 04 */ u8 mItems[1];
 } ItemContainer;
 
+// The packet header values read from or written to a packet: payload check byte, length, flags and tag.
 typedef struct PacketFieldValues {
     /* 00 */ s8 mPayloadCrc;
     /* 02 */ s16 mPayloadLength;
@@ -115,6 +121,7 @@ enum {
 // Type of the item CopyFirstItemValueIfSlotBytes copies.
 #define SLOT_BYTES_ITEM 0x70
 
+// One item of a packet payload: its type, length, offset of the next item and value bytes.
 typedef struct PacketItem {
     /* 00 */ u8 mType;
     /* 02 */ u16 mLength;
@@ -122,6 +129,7 @@ typedef struct PacketItem {
     /* 06 */ u8 mValue[1];
 } PacketItem;
 
+// A record with one value: its value length, string and value bytes.
 typedef struct SingleValueRecord {
     /* 00 */ u8 pad_00[4];
     /* 04 */ u32 mValueLength;
@@ -129,6 +137,7 @@ typedef struct SingleValueRecord {
     /* 30 */ u8 mValue[0x40];
 } SingleValueRecord;
 
+// A record with four values: its value length, string and four 0x40-byte values.
 typedef struct FourValueRecord {
     /* 000 */ u8 pad_000[4];
     /* 004 */ u32 mValueLength;
@@ -136,6 +145,7 @@ typedef struct FourValueRecord {
     /* 030 */ u8 mWepKeys[4][0x40];
 } FourValueRecord;
 
+// The parsed items of a packet: two four-value records and two single-value records.
 typedef struct ParsedItems {
     /* 000 */ u8 pad_000[8];
     /* 008 */ FourValueRecord mFourValueRecord0;
@@ -150,6 +160,7 @@ typedef struct EssidMelcoRequest EssidMelcoRequest;
 typedef struct PacketTag PacketTag;
 typedef struct PacketBuffer PacketBuffer;
 
+// A packet: its kind, payload length, flags, payload check byte, tag and payload bytes.
 typedef struct Packet {
     /* 00 */ u16 mNonzeroWord;
     /* 02 */ u8 pad_02[4];

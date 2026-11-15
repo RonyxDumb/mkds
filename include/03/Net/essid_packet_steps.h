@@ -8,6 +8,7 @@
 #include "os_thread.h"
 #include "code_0200e77c.h"
 
+// One socket to poll: its descriptor, the events asked for and the events found.
 typedef struct PollEntry {
     /* 00 */ s32 mDescriptor;
     /* 04 */ u16 mAskedBits;
@@ -69,6 +70,7 @@ enum {
 #define ESSID_REQUEST_FIRST_DESTINATION_ADDRESS 0xc0a80b01
 #define ESSID_PACKET_MAGIC_BYTE 0x11
 
+// A value records request: the wanted record mask, the item, retry and timeout settings and the found records.
 typedef struct ValueRecordsRequest {
     /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
     /* 002 */ ValueRecordsRequestItem mItem;
@@ -82,6 +84,7 @@ typedef struct ValueRecordsRequest {
     /* 117 */ u8 mRecordBytes[0x154];
 } ValueRecordsRequest;
 
+// The state of a value records request: the item bytes, wanted and found record masks and the address and mask.
 typedef struct RequestState {
     /* 00 */ u8 *mItemBytes;
     /* 04 */ u32 mItemLength;
@@ -96,6 +99,7 @@ typedef struct RequestState {
 
 typedef struct RawEntry RawEntry;
 
+// A found network entry: its name, channel, address, codes, beacon period and mode.
 typedef struct EssidEntry {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
@@ -108,12 +112,13 @@ typedef struct EssidEntry {
     /* 50 */ u32 mMode;
 } EssidEntry;
 
+// A list of found network entries: the count and the entries.
 typedef struct EssidEntryList {
     /* 00 */ s32 mCount;
     /* 04 */ EssidEntry mEntries[1];
 } EssidEntryList;
 
-/* Search request handed to RunEssidMelcoRequest. */
+// A search request: the network name, whether to use a shared key and the bytes to search with.
 typedef struct EssidMelcoRequest {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
@@ -122,6 +127,7 @@ typedef struct EssidMelcoRequest {
     /* 2c */ u8 mMelcoBytes[0x10];
 } EssidMelcoRequest;
 
+// A mask paired with a code.
 typedef struct MaskCodeEntry {
     u16 mMask;
     u8 mCode;
@@ -139,33 +145,39 @@ typedef struct MaskCodeEntry {
 #define MELCO_LENGTH_KIND_WEP_KEY_13_BYTES 2
 #define MELCO_LENGTH_KIND_WEP_KEY_16_BYTES 3
 
+// The key bytes of a search request and the kind of their length.
 typedef struct MelcoBlock {
     /* 00 */ u8 mLengthKind;
     /* 01 */ u8 mUnk_01;
     /* 02 */ u8 mMelcoBytes[0x5e];
 } MelcoBlock;
 
+// How many times to retry and how many milliseconds to wait between tries.
 typedef struct RetryLimit {
     /* 0 */ s16 mCount;
     /* 2 */ s16 mDelayMs;
 } RetryLimit;
 
+// How long to wait: seconds and microseconds.
 typedef struct WaitTimeout {
     /* 0 */ s32 mSeconds;
     /* 4 */ s32 mMicroseconds;
 } WaitTimeout;
 
+// The tag of a packet: six bytes and a sequence number.
 typedef struct PacketTag {
     /* 0 */ u8 mBytes[6];
     /* 6 */ u16 mSequence;
 } PacketTag;
 
+// The addresses used when sending a packet: the destination address and the own address.
 typedef struct SendPacketScratch {
     /* 00 */ u32 mDestinationAddress;
     /* 04 */ u8 pad_04[0xc];
     /* 10 */ u32 mOwnAddress;
 } SendPacketScratch;
 
+// A received packet buffer: the socket descriptor, the received length and the packet bytes.
 typedef struct PacketBuffer {
     /* 00 */ s32 mDescriptor;
     /* 04 */ u32 mReceivedLength; // stored byte-swapped; never read
