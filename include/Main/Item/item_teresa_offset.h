@@ -51,6 +51,9 @@ void UpdateItemTeresaState4(ItemTeresa *teresa);
 void EnterItemTeresaState4(ItemTeresa *teresa);
 void UpdateItemTeresaState3(ItemTeresa *teresa);
 
+// ItemTeresa.mPickedKartIndex while no kart is picked (one past the last kart index).
+#define ITEM_TERESA_NO_KART 8
+
 // Object of item kind 11, element of gItemPools[11].
 typedef struct ItemTeresa {
     /* 000 */ ItemObject mItemObject;

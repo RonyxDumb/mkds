@@ -113,7 +113,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
     teresa->mFollowsPath = 0;
     teresa->mItemObjectKind = ITEM_TERESA_KIND_EMPTY;
     InitStateMachine(&teresa->mStateMachine, stateTable, 7, teresa);
-    teresa->mPickedKartIndex = 8;
+    teresa->mPickedKartIndex = ITEM_TERESA_NO_KART;
     teresa->mFollowEnded = 0;
     FreeItemObjectCollisionSlot(&teresa->mItemObject);
     teresa->mActsLocally = 0;
@@ -642,7 +642,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
                 ownerKartIndex = 8;
             }
             pickFunction(teresa, GetCurrentEntry(ownerKartIndex)->mPlayer.mTeamIndex);
-            if (teresa->mPickedKartIndex == 8) {
+            if (teresa->mPickedKartIndex == ITEM_TERESA_NO_KART) {
                 pickFunction(teresa, -1);
             }
         } else {
@@ -653,7 +653,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mItemObject.mPos = teresa->mItemObject.mDrawPos;
         teresa->mItemObject.mPosPointer = &teresa->mItemObject.mPos;
     }
-    if (teresa->mPickedKartIndex < 8) {
+    if (teresa->mPickedKartIndex < ITEM_TERESA_NO_KART) {
         teresa->mKart = GetKart(teresa->mPickedKartIndex);
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
@@ -717,7 +717,7 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     u32 framesLeft;
     BOOL receivedItem;
 
-    if (teresa->mPickedKartIndex == 8) {
+    if (teresa->mPickedKartIndex == ITEM_TERESA_NO_KART) {
         if (teresa->mStateMachine.mStateFrames > 0x6e) {
             teresa->mItemObjectKind = ITEM_TERESA_KIND_TOOK_NOTHING;
             teresa->mStateMachine.mNextState = (teresa->mItemObject.mFlags & 0x8000000)
