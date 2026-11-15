@@ -1332,7 +1332,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
     SetHeapGroupId(1);
     Init3dEngine();
     NNS_G3dGeUseFastDma(0);
-    gStartupWork->mUnk_1c &= ~8;
+    gStartupWork->mUnk_1c &= ~STARTUP_FLAG_FAST_DMA;
     InitLnkVramManagers(heap);
     ResetResFileEntries();
     SetKartModelPathPrefix(1);
@@ -1358,7 +1358,7 @@ void InitKartModelMenuWithKartList(void *heap) {
     SetHeapGroupId(1);
     Init3dEngine();
     NNS_G3dGeUseFastDma(0);
-    gStartupWork->mUnk_1c &= ~8;
+    gStartupWork->mUnk_1c &= ~STARTUP_FLAG_FAST_DMA;
     InitLnkVramManagers(heap);
     ResetResFileEntries();
     SetKartModelPathPrefix(1);

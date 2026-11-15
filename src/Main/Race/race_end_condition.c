@@ -323,7 +323,7 @@ void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished) {
         raceProgressKart->mFinishTimeMs =
             (finishTime->mMinute * 0x3c + finishTime->mSecond) * 1000 + finishTime->mMillisecond;
     } else if (gRaceSetup->mMode != MODE_WIFI) {
-        raceProgressKart->mFinishTimeMs = 0x5b8d80;
+        raceProgressKart->mFinishTimeMs = RACE_FINISH_TIME_NONE_MS;
     }
     mode = gRaceSetup->mMode;
     if (mode == MODE_GRAND_PRIX || mode == MODE_MISSION_RUN) {

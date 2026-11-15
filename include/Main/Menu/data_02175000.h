@@ -68,6 +68,9 @@ typedef struct StartupWork {
     /* 78 */ s32 mUnk_78;
 } StartupWork;
 
+// Bit of StartupWork.mUnk_1c: set while the 3D engine uses fast DMA (NNS_G3dGeUseFastDma(1)), cleared with it.
+#define STARTUP_FLAG_FAST_DMA 8
+
 // The callbacks of one scene (0x20 bytes). RunScene copies it to mSceneCallbacks and calls mInit
 // once, then mUpdate and the unnamed slot 0x0c every frame, then mRelease once. 0x0c is the second
 // per-frame slot (it runs after mUpdate in the same pass and mostly copies the two 2D lists). 0x10

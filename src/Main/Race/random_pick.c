@@ -138,16 +138,16 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
         checkId = -1;
         if (character != 0xc) {
             switch (character) {
-                case 8:
+                case CHARACTER_KARON:
                     checkId = 0x14;
                     break;
-                case 9:
+                case CHARACTER_DAISY:
                     checkId = 0x15;
                     break;
-                case 10:
+                case CHARACTER_WALUIGI:
                     checkId = 0x16;
                     break;
-                case 11:
+                case CHARACTER_ROBO:
                     checkId = 0x17;
                     break;
             }

@@ -242,7 +242,7 @@ void AdvanceMissionRunEnd(void) {
             if (IsEntryKartNormalOrNotMissionRun() != 0) {
                 gRaceProgress->mFramesSinceFailure++;
             }
-            if (gRaceProgress->mFramesSinceFailure <= 0x3c) {
+            if (gRaceProgress->mFramesSinceFailure <= RACE_FAILURE_WAIT_FRAMES) {
                 return;
             }
             FinishKartAtMissionRunEnd(GetKart(entryIndex));

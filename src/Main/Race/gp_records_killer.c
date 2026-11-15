@@ -504,7 +504,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
             isPastOrNearLink = IsWithinPointLinkDistance(&kartKillerCursor->mPointLinkCursor, &position);
         }
     }
-    kart->mForwardSpeed = 0xa800;
+    kart->mForwardSpeed = KART_KILLER_STAFF_FORWARD_SPEED;
     kart->mSpeedLimitGoal = kart->mForwardSpeed;
     kart->mSpeedLimit = kart->mSpeedLimitGoal;
     if (isPastOrNearLink != 0) {
@@ -567,11 +567,11 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
     kart = GetKart(kartKillerCursor->mKillerKartIndex);
     if ((kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) != 0) {
         isCounting = TRUE;
-        kartKillerCursor->mEndCountHoldTimer = 5;
+        kartKillerCursor->mEndCountHoldTimer = KART_KILLER_END_HOLD_FRAMES;
     }
     if (isCounting != FALSE) {
         kartKillerCursor->mEndCount = kartKillerCursor->mEndCount + 1;
-        if (kartKillerCursor->mEndCount >= 0x78) {
+        if (kartKillerCursor->mEndCount >= KART_KILLER_END_COUNT_FRAMES) {
             kartKillerCursor->mEndCount = 0;
             limitReached = TRUE;
         }

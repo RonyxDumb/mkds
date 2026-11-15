@@ -35,3 +35,6 @@ void FinishRemainingRaceProgressKarts(void);
 // Versus by the counts of finished and removed karts; mission run when RaceSetup.mMissionKind is
 // MISSION_KIND_LAPS_FIRST_PLACE and a kart has finished; changes nothing.
 s32 IsRaceEndConditionMet(void);
+
+// RaceProgressKart.mFinishTimeMs of a kart that did not finish: 100 minutes.
+#define RACE_FINISH_TIME_NONE_MS 0x5b8d80

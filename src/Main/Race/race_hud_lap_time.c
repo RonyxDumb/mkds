@@ -44,9 +44,9 @@ s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMilli
         difference->mSecond = seconds;
         difference->mMillisecond = milliseconds;
     } else {
-        difference->mMinute = 99;
-        difference->mSecond = 59;
-        difference->mMillisecond = 999;
+        difference->mMinute = RACE_HUD_LAP_TIME_MAX_MINUTE;
+        difference->mSecond = RACE_HUD_LAP_TIME_MAX_SECOND;
+        difference->mMillisecond = RACE_HUD_LAP_TIME_MAX_MILLISECOND;
     }
     return firstNotLess;
 }

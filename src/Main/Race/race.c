@@ -283,7 +283,7 @@ void Init3dEngine(void) {
     NNS_G3dGlbInit();
     NNS_G3dGeReleaseBuffer();
     NNS_G3dGeUseFastDma(1);
-    gStartupWork->mUnk_1c |= 8;
+    gStartupWork->mUnk_1c |= STARTUP_FLAG_FAST_DMA;
     NNS_G3dGlbLightVector(0, 0, -0x1000, 0);
     NNS_G3dGlbLightVector(1, 0x93d, 0x93d, 0x93d);
     NNS_G3dGlbLightVector(2, 0, -0x1000, 0);
@@ -388,7 +388,7 @@ void UpdateRace(void) {
         if (gRace->mUpdateFramesUnlimited == FALSE) {
             if (gRace->mUpdateFramesLimitReached == FALSE) {
                 gRace->mUpdateFrames++;
-                if ((u32) gRace->mUpdateFrames >= 128) {
+                if ((u32) gRace->mUpdateFrames >= RACE_WIFI_UPDATE_FRAMES_LIMIT) {
                     gRace->mUpdateFramesLimitReached = TRUE;
                 }
             }

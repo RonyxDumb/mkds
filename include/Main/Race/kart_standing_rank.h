@@ -17,3 +17,6 @@ void AdvanceMissionRunEnd(void);
 BOOL ShouldFinishBattle(void);
 void UpdateBattleKartStatuses(void);
 void FinishRaceProgress(void);
+
+// Frames after a mission run failure before the entry kart is ended.
+#define RACE_FAILURE_WAIT_FRAMES 0x3c
