@@ -48,7 +48,7 @@ void InitOptionTopMenu(void *heap) {
     gOptionTopMenu->mOptionMessages = FindSceneFile("option.bmg");
     gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     if (GetOptionPrevState() == 1) {
-        gOptionTopMenu->mBg0Offset = 0x32;
+        gOptionTopMenu->mBg0Offset = OPTION_TOP_BG0_SLIDE_DISTANCE;
     } else {
         gOptionTopMenu->mBg0Offset = 0;
     }
@@ -62,10 +62,11 @@ void InitOptionTopMenu(void *heap) {
     for (index = 0; index < 3; index++) {
         for (cellIndex = 0; cellIndex < gOptionTopMenuOffsetCellCounts[index]; cellIndex++) {
             if (index == 1) {
-                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[index][cellIndex]].mOffsetX = 250;
+                gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[index][cellIndex]].mOffsetX =
+                    OPTION_TOP_SLIDE_DISTANCE;
             } else {
                 gOptionTopMenu->mOptionTopMenuSTable[gOptionTopMenuOffsetTableIndices[index][cellIndex]].mOffsetX =
-                    -250;
+                    -OPTION_TOP_SLIDE_DISTANCE;
             }
         }
     }
@@ -112,7 +113,7 @@ void AdvanceOptionTopMenuSlideIn(void) {
     s32 cellIndex;
 
     gOptionTopMenu->mStateFrames++;
-    amount = InterpolateS16(1, 250, 0, gOptionTopMenu->mStateFrames, 10);
+    amount = InterpolateS16(1, OPTION_TOP_SLIDE_DISTANCE, 0, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
             if (rowIndex == 1) {
@@ -125,9 +126,10 @@ void AdvanceOptionTopMenuSlideIn(void) {
         }
     }
     if (GetOptionPrevState() == 1 && gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA) {
-        gOptionTopMenu->mBg0Offset = InterpolateS16(1, 50, 0, gOptionTopMenu->mStateFrames, 10);
+        gOptionTopMenu->mBg0Offset =
+            InterpolateS16(1, OPTION_TOP_BG0_SLIDE_DISTANCE, 0, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     }
-    if (gOptionTopMenu->mStateFrames >= 10) {
+    if (gOptionTopMenu->mStateFrames >= OPTION_TOP_SLIDE_FRAMES) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_SELECT_RETURN;
         gOptionTopMenu->mStateFrames = 0;
         RequestSelectReturnSlideIn();
@@ -235,13 +237,13 @@ void AdvanceOptionTopMenuInput(void) {
 
 void AdvanceOptionTopMenuPress(void) {
     gOptionTopMenu->mStateFrames++;
-    if (gOptionTopMenu->mStateFrames >= 10) {
+    if (gOptionTopMenu->mStateFrames >= OPTION_TOP_PRESS_FRAMES) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
         gOptionTopMenu->mStateFrames = 0;
         if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
             RequestSelectReturnSlideOut();
         }
-    } else if (gOptionTopMenu->mStateFrames >= 5) {
+    } else if (gOptionTopMenu->mStateFrames >= OPTION_TOP_HIGHLIGHT_FRAME) {
         gOptionTopMenu->mHighlightVisible = TRUE;
     }
 }
@@ -255,10 +257,10 @@ void AdvanceOptionTopMenuSlideOut(void) {
         RequestOptionNextScene(0);
     }
     gOptionTopMenu->mStateFrames++;
-    if (gOptionTopMenu->mStateFrames <= 10) {
-        amount = InterpolateS16(1, 0, 250, gOptionTopMenu->mStateFrames, 10);
+    if (gOptionTopMenu->mStateFrames <= OPTION_TOP_SLIDE_FRAMES) {
+        amount = InterpolateS16(1, 0, OPTION_TOP_SLIDE_DISTANCE, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     } else {
-        amount = 250;
+        amount = OPTION_TOP_SLIDE_DISTANCE;
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
@@ -272,9 +274,10 @@ void AdvanceOptionTopMenuSlideOut(void) {
         }
     }
     if (gOptionTopMenu->mNextOptionState == OPTION_STATE_SELECT_MENU) {
-        gOptionTopMenu->mBg0Offset = InterpolateS16(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
+        gOptionTopMenu->mBg0Offset =
+            InterpolateS16(1, 0, OPTION_TOP_BG0_SLIDE_DISTANCE, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     }
-    if (gOptionTopMenu->mStateFrames >= 10 &&
+    if (gOptionTopMenu->mStateFrames >= OPTION_TOP_SLIDE_FRAMES &&
         (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnHiddenNoRequest() != 0) &&
         GetOptionNextScene() == -1) {
         if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
