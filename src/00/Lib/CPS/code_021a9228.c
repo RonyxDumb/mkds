@@ -227,7 +227,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
     }
     tagKind = tag & 0x1f;
     switch (tagKind) {
-        case 2:
+        case ASN1_TAG_INTEGER:
             if (httpsState->mCaptureValues != 0) {
                 if (index == 0) {
                     while (*cursor == 0) {
@@ -235,13 +235,13 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                         length--;
                     }
                     switch (mode) {
-                        case 0:
+                        case TAGGED_ITEM_MODE_KEEP_VALUES:
                             if (length <= 0x100) {
                                 MI_CpuCopy8(cursor, httpsState->mFirstValue, length);
                                 httpsState->mFirstValueLength = length;
                             }
                             break;
-                        case 2:
+                        case TAGGED_ITEM_MODE_PUBLIC_KEY:
                             httpsState->mItemRecord.mModulusLen = length;
                             httpsState->mItemRecord.mModulus = cursor;
                             break;
@@ -252,13 +252,13 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                         length--;
                     }
                     switch (mode) {
-                        case 0:
+                        case TAGGED_ITEM_MODE_KEEP_VALUES:
                             if (length <= 8) {
                                 MI_CpuCopy8(cursor, httpsState->mSecondValue, length);
                                 httpsState->mSecondValueLength = length;
                             }
                             break;
-                        case 2:
+                        case TAGGED_ITEM_MODE_PUBLIC_KEY:
                             httpsState->mItemRecord.mExponentLen = length;
                             httpsState->mItemRecord.mExponent = cursor;
                             break;
@@ -267,8 +267,8 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             }
             cursor += length;
             break;
-        case 3:
-            if (depth == 1 && mode != 2) {
+        case ASN1_TAG_BIT_STRING:
+            if (depth == 1 && mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
                 httpsState->mCheckedBytes = cursor + 1;
                 httpsState->mCheckedBytesLength = length - 1;
             }
@@ -282,7 +282,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                 cursor += length;
             }
             break;
-        case 6:
+        case ASN1_TAG_OBJECT_IDENTIFIER:
             failed = 0;
             prefixCursor = gTaggedItemPrefixes;
             itemStart = cursor;
@@ -290,21 +290,21 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                 prefix = *prefixCursor;
                 if (memcmp(itemStart, prefix, strlen(prefix)) == 0) {
                     switch (failed) {
-                        case 1:
-                        case 2:
-                            if (mode == 0) {
+                        case TAGGED_ITEM_RSA_ENCRYPTION:
+                        case TAGGED_ITEM_RSA_ALGORITHM:
+                            if (mode == TAGGED_ITEM_MODE_KEEP_VALUES) {
                                 httpsState->mTaggedItemPrefixIndex = failed;
                             }
                             httpsState->mCaptureValues = failed;
                             break;
-                        case 3:
-                        case 4:
-                            if (mode != 2) {
+                        case TAGGED_ITEM_MD5_WITH_RSA:
+                        case TAGGED_ITEM_SHA1_WITH_RSA:
+                            if (mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
                                 httpsState->mDigestKind = failed;
                             }
                             break;
-                        case 5:
-                            if (mode != 2) {
+                        case TAGGED_ITEM_COMMON_NAME:
+                            if (mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
                                 httpsState->mCopyNextText = failed;
                             }
                             break;
@@ -316,14 +316,14 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             } while (failed < 6);
             cursor += length;
             break;
-        case 0xc:
-        case 0x13:
-        case 0x14:
-        case 0x16:
-            if (mode != 2) {
+        case ASN1_TAG_UTF8_STRING:
+        case ASN1_TAG_PRINTABLE_STRING:
+        case ASN1_TAG_T61_STRING:
+        case ASN1_TAG_IA5_STRING:
+            if (mode != TAGGED_ITEM_MODE_PUBLIC_KEY) {
                 if (httpsState->mDatesSeen != 0) {
                     AppendCommaSeparatedText(httpsState->mCommaSeparatedText, (const s8 *) cursor, length);
-                    if (httpsState->mCopyNextText == 5 && length <= 0x4f) {
+                    if (httpsState->mCopyNextText == TAGGED_ITEM_COMMON_NAME && length <= 0x4f) {
                         MI_CpuCopy8(cursor, httpsState->mHostPattern, length);
                         httpsState->mHostPattern[length] = 0;
                     }
@@ -334,8 +334,8 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             httpsState->mCopyNextText = 0;
             cursor += length;
             break;
-        case 0x17:
-        case 0x18:
+        case ASN1_TAG_UTC_TIME:
+        case ASN1_TAG_GENERALIZED_TIME:
             if (mode != 2) {
                 date = ParseDateText(cursor, tagKind);
                 if (index == 0) {
@@ -351,7 +351,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
             cursor += length;
             httpsState->mDatesSeen = 1;
             break;
-        case 0x10:
+        case ASN1_TAG_SEQUENCE:
             if (depth == 0 && index == 0 && mode != 2) {
                 httpsState->mDigestStart = cursor;
             }
@@ -370,7 +370,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                 httpsState->mDigestEnd = cursor;
             }
             break;
-        case 0x11:
+        case ASN1_TAG_SET:
             itemEnd = cursor + length;
             if (cursor < itemEnd) {
                 do {
@@ -479,19 +479,19 @@ u32 ComputeParsedItemCheckFlags(HttpsState *httpsState) {
         return flags;
     }
     switch (httpsState->mDigestKind) {
-        case 3:
+        case TAGGED_ITEM_MD5_WITH_RSA:
             scratchHash16 = &httpsState->mScratchHash16;
             CPSi_md5_init(scratchHash16);
             CPSi_md5_calc(scratchHash16, httpsState->mDigestStart, httpsState->mDigestEnd - httpsState->mDigestStart);
             CPSi_md5_result(scratchHash16, httpsState->mRangeDigest);
-            httpsState->mRangeDigestLength = 0x10;
+            httpsState->mRangeDigestLength = MD5_DIGEST_SIZE;
             break;
-        case 4:
+        case TAGGED_ITEM_SHA1_WITH_RSA:
             scratchHash20 = &httpsState->mScratchHash20;
             CPSi_sha1_init(scratchHash20);
             CPSi_sha1_calc(scratchHash20, httpsState->mDigestStart, httpsState->mDigestEnd - httpsState->mDigestStart);
             CPSi_sha1_result(scratchHash20, httpsState->mRangeDigest);
-            httpsState->mRangeDigestLength = 0x14;
+            httpsState->mRangeDigestLength = SHA1_DIGEST_SIZE;
             break;
         default:
             flags |= 3;
@@ -1146,46 +1146,46 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
             return httpsState->mSetupState;
         }
         if (((u8) (httpsState->mSetupState + (0x100 - HTTPS_SETUP_CIPHER_RECORD_RECEIVED)) <= 1 &&
-             recordType != 0x15) ||
-            (recordType == 0x15 && length > 7)) {
+             recordType != TLS_CONTENT_ALERT) ||
+            (recordType == TLS_CONTENT_ALERT && length > 7)) {
             length = XorReceivedRecordWithKeyStreamAndCheckDigest(httpsState, record);
         }
-        body = record + 5;
-        length -= 5;
+        body = record + TLS_RECORD_HEADER_SIZE;
+        length -= TLS_RECORD_HEADER_SIZE;
         switch (recordType) {
-            case 0x14:
+            case TLS_CONTENT_CHANGE_CIPHER_SPEC:
                 MI_CpuFill8(httpsState->mReceiveRecordCount, 0, 8);
                 httpsState->mSetupState = HTTPS_SETUP_CIPHER_RECORD_RECEIVED;
                 break;
-            case 0x15:
+            case TLS_CONTENT_ALERT:
                 if (body[0] == 2) {
                     httpsState->mSetupState = HTTPS_SETUP_FAILED;
                 }
                 break;
-            case 0x16:
+            case TLS_CONTENT_HANDSHAKE:
                 do {
                     messageType = body[0];
                     messageLength = body[3] + ((body[1] << 16) + (body[2] << 8));
                     body += 4;
                     switch (messageType) {
-                        case 1:
+                        case TLS_HANDSHAKE_CLIENT_HELLO:
                             if (httpsState->mReceivesOfferRecord != 0 && httpsState->mSetupState == HTTPS_SETUP_START) {
                                 ParseOfferMessage(httpsState, body);
                             }
                             break;
-                        case 0x10:
+                        case TLS_HANDSHAKE_CLIENT_KEY_EXCHANGE:
                             rcv_client_key_exchange(httpsState, body);
                             break;
-                        case 2:
+                        case TLS_HANDSHAKE_SERVER_HELLO:
                             ParseAnswerMessage(httpsState, body);
                             break;
-                        case 0xb:
+                        case TLS_HANDSHAKE_CERTIFICATE:
                             ParseAndCheckItemListMessage(httpsState, body);
                             break;
-                        case 0xe:
+                        case TLS_HANDSHAKE_SERVER_HELLO_DONE:
                             httpsState->mSetupState = HTTPS_SETUP_REPLY_END_RECEIVED;
                             break;
-                        case 0x14:
+                        case TLS_HANDSHAKE_FINISHED:
                             CheckMessageDigestsAndSetState(httpsState, body);
                             break;
                         default:
@@ -1201,10 +1201,10 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                     }
                 } while (httpsState->mSetupState != HTTPS_SETUP_FAILED);
                 break;
-            case 0x17:
+            case TLS_CONTENT_APPLICATION_DATA:
                 httpsState->mReceivedBlock = record;
-                httpsState->mReceivedBlockOffset = 5;
-                httpsState->mReceivedBlockEnd = length + 5;
+                httpsState->mReceivedBlockOffset = TLS_RECORD_HEADER_SIZE;
+                httpsState->mReceivedBlockEnd = length + TLS_RECORD_HEADER_SIZE;
                 return httpsState->mSetupState;
         }
         CPSiFree(record);

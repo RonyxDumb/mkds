@@ -3,6 +3,59 @@
 #include "types.h"
 #include "00/code_021a88a8.h"
 
+// Tags of the items the certificate reader walks through (the type bits of the tag byte).
+enum {
+    ASN1_TAG_INTEGER = 0x02,
+    ASN1_TAG_BIT_STRING = 0x03,
+    ASN1_TAG_OBJECT_IDENTIFIER = 0x06,
+    ASN1_TAG_UTF8_STRING = 0x0c,
+    ASN1_TAG_SEQUENCE = 0x10,
+    ASN1_TAG_SET = 0x11,
+    ASN1_TAG_PRINTABLE_STRING = 0x13,
+    ASN1_TAG_T61_STRING = 0x14,
+    ASN1_TAG_IA5_STRING = 0x16,
+    ASN1_TAG_UTC_TIME = 0x17,
+    ASN1_TAG_GENERALIZED_TIME = 0x18,
+};
+
+// Values of the mode argument of ParseTaggedItem: what is kept while walking the certificate.
+enum {
+    TAGGED_ITEM_MODE_KEEP_VALUES = 0,
+    TAGGED_ITEM_MODE_PUBLIC_KEY = 2,
+};
+
+// Positions in gTaggedItemPrefixes, the object identifiers the walk looks for.
+enum {
+    TAGGED_ITEM_NONE,
+    TAGGED_ITEM_RSA_ENCRYPTION,
+    TAGGED_ITEM_RSA_ALGORITHM,
+    TAGGED_ITEM_MD5_WITH_RSA,
+    TAGGED_ITEM_SHA1_WITH_RSA,
+    TAGGED_ITEM_COMMON_NAME,
+};
+
+// Content types of a record, the types of the handshake messages inside a handshake record, the length of the record
+// header, and the digest sizes in bytes.
+enum {
+    TLS_CONTENT_CHANGE_CIPHER_SPEC = 0x14,
+    TLS_CONTENT_ALERT = 0x15,
+    TLS_CONTENT_HANDSHAKE = 0x16,
+    TLS_CONTENT_APPLICATION_DATA = 0x17,
+};
+
+enum {
+    TLS_HANDSHAKE_CLIENT_HELLO = 1,
+    TLS_HANDSHAKE_SERVER_HELLO = 2,
+    TLS_HANDSHAKE_CERTIFICATE = 0x0b,
+    TLS_HANDSHAKE_SERVER_HELLO_DONE = 0x0e,
+    TLS_HANDSHAKE_CLIENT_KEY_EXCHANGE = 0x10,
+    TLS_HANDSHAKE_FINISHED = 0x14,
+};
+
+#define TLS_RECORD_HEADER_SIZE 5
+#define MD5_DIGEST_SIZE 0x10
+#define SHA1_DIGEST_SIZE 0x14
+
 typedef struct HttpsState HttpsState;
 
 #include "00/unk_021b4000.h"
