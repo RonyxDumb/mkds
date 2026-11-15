@@ -49,21 +49,21 @@ u32 MB_CommResponseRequest(u32 child, u32 pairIndex) {
     u32 expectedValue;
     savedInterrupts = OS_DisableInterrupts();
     switch (pairIndex) {
-        case MB_RESPONSE_REFUSE:
+        case MULTIBOOT_RESPONSE_REFUSE:
             expectedValue = MULTIBOOT_PARENT_CHILD_REQUESTED;
-            newValue = MB_CHILD_REQUEST_REFUSE;
+            newValue = MULTIBOOT_CHILD_REQUEST_REFUSE;
             break;
-        case MB_RESPONSE_ACCEPT:
+        case MULTIBOOT_RESPONSE_ACCEPT:
             expectedValue = MULTIBOOT_PARENT_CHILD_REQUESTED;
-            newValue = MB_CHILD_REQUEST_ACCEPT;
+            newValue = MULTIBOOT_CHILD_REQUEST_ACCEPT;
             break;
-        case MB_RESPONSE_DOWNLOAD:
+        case MULTIBOOT_RESPONSE_SEND:
             expectedValue = MULTIBOOT_PARENT_CHILD_WAITING;
-            newValue = MB_CHILD_REQUEST_DOWNLOAD;
+            newValue = MULTIBOOT_CHILD_REQUEST_DOWNLOAD;
             break;
-        case MB_RESPONSE_BOOT:
+        case MULTIBOOT_RESPONSE_BOOT:
             expectedValue = MULTIBOOT_PARENT_DOWNLOAD_DONE;
-            newValue = MB_CHILD_REQUEST_BOOT;
+            newValue = MULTIBOOT_CHILD_REQUEST_BOOT;
             break;
         default:
             OS_RestoreInterrupts(savedInterrupts);
@@ -104,16 +104,16 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
     void (*callback)(u32, u32, void *);
     childBit = 0;
     switch (eventCode) {
-        case MB_PARENT_EVENT_PARENT_STARTED:
+        case MULTIBOOT_PARENT_EVENT_PARENT_STARTED:
             MBi_CommChangeParentState(0, MULTIBOOT_PARENT_STARTED, eventData);
             break;
-        case MB_PARENT_EVENT_CHILD_CONNECTED:
+        case MULTIBOOT_PARENT_EVENT_CHILD_CONNECTED:
             aid = eventData->mLength;
             if (aid != 0 && aid < 16) {
                 MBi_CommChangeParentState(aid, MULTIBOOT_PARENT_CHILD_CONNECTED, eventData);
             }
             break;
-        case MB_PARENT_EVENT_CHILD_DISCONNECTED:
+        case MULTIBOOT_PARENT_EVENT_CHILD_DISCONNECTED:
             aid = eventData->mLength;
             if (aid != 0 && aid < 16) {
                 mbc->mChildversion[eventData->mLength - 1] = 0;
@@ -145,15 +145,15 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 mbc->mPCommState[eventData->mLength - 1] = 0;
             }
             break;
-        case MB_PARENT_EVENT_ENDED:
+        case MULTIBOOT_PARENT_EVENT_ENDED:
             break;
-        case MB_PARENT_EVENT_MP_DATA_RECEIVED:
+        case MULTIBOOT_PARENT_EVENT_MP_DATA_RECEIVED:
             MBi_CommParentRecvData((WMMpRecvHeader *) eventData);
             break;
-        case MB_PARENT_EVENT_MP_SEND_READY:
+        case MULTIBOOT_PARENT_EVENT_MP_SEND_READY:
             MBi_CommParentSendData();
             break;
-        case MB_PARENT_EVENT_BEACON_DUE:
+        case MULTIBOOT_PARENT_EVENT_BEACON_DUE:
             slotIndex = 0;
             childBit = 0;
             do {
@@ -176,7 +176,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 MB_SendGameInfoBeacon(ggid, tgid, MBi_GetAttribute());
             }
             break;
-        case MB_PARENT_EVENT_ERROR:
+        case MULTIBOOT_PARENT_EVENT_ERROR:
             switch (eventData->mResultCode) {
                 case WIRELESS_RESULT_REFUSED:
                 case WIRELESS_RESULT_SWITCHED_OFF:
@@ -192,7 +192,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                     break;
             }
             break;
-        case MB_PARENT_EVENT_REQUEST_FAILED:
+        case MULTIBOOT_PARENT_EVENT_REQUEST_FAILED:
             switch (eventData->mCommand) {
                 case WIRELESS_REQUEST_POWER_UP_STACK:
                 case WIRELESS_REQUEST_CONFIGURE_HOST:
@@ -214,7 +214,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
             }
             break;
     }
-    if (eventCode == MB_PARENT_EVENT_ENDED) {
+    if (eventCode == MULTIBOOT_PARENT_EVENT_ENDED) {
         callback = mbc->mCallback;
         MemFillWordsByBlock_inline(mbc, 0x7d00);
         mbc = NULL;
@@ -261,7 +261,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 if (entryIndex >= 16 || (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mEntryUsed == 0 ||
                     mbc->mChildggid[arrayIndex] !=
                         (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameReg->mGgid) {
-                    mbc->mReq2child[arrayIndex] = MB_CHILD_REQUEST_REFUSE;
+                    mbc->mReq2child[arrayIndex] = MULTIBOOT_CHILD_REQUEST_REFUSE;
                 } else {
                     bitIndex = 0;
                     do {
@@ -272,13 +272,13 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                         bitIndex++;
                     } while (bitIndex < 16);
                     if (bitCount >= (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameReg->mMaxPlayerNum) {
-                        mbc->mReq2child[arrayIndex] = MB_CHILD_REQUEST_NONE;
+                        mbc->mReq2child[arrayIndex] = MULTIBOOT_CHILD_REQUEST_NONE;
                         MBi_CommChangeParentState(child, MULTIBOOT_PARENT_ENTRY_FULL, NULL);
                         return;
                     }
                 }
                 switch (mbc->mReq2child[arrayIndex]) {
-                    case MB_CHILD_REQUEST_ACCEPT:
+                    case MULTIBOOT_CHILD_REQUEST_ACCEPT:
                         if ((mbc->mChildEntryBmp & (1U << child)) != 0) {
                             return;
                         }
@@ -287,11 +287,11 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                         mbc->mChildEntryIndex[child - 1] = entryIndex;
                         (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp |= 1 << child;
                         (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= 1 << child;
-                        mbc->mReq2child[arrayIndex] = MB_CHILD_REQUEST_NONE;
+                        mbc->mReq2child[arrayIndex] = MULTIBOOT_CHILD_REQUEST_NONE;
                         MBi_CommChangeParentState(child, MULTIBOOT_PARENT_CHILD_ENTERED, NULL);
                         break;
-                    case MB_CHILD_REQUEST_REFUSE:
-                        (OFFSET_PTR(MB_CommPWork, mbc, arrayIndex * 2))->mReq2child[0] = MB_CHILD_REQUEST_NONE;
+                    case MULTIBOOT_CHILD_REQUEST_REFUSE:
+                        (OFFSET_PTR(MB_CommPWork, mbc, arrayIndex * 2))->mReq2child[0] = MULTIBOOT_CHILD_REQUEST_NONE;
                         MBi_CommChangeParentState(child, MULTIBOOT_PARENT_CHILD_REFUSED, NULL);
                         break;
                 }
@@ -301,11 +301,11 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
             if (childValue == MULTIBOOT_PARENT_CHILD_ENTERED) {
                 MBi_CommChangeParentState(child, MULTIBOOT_PARENT_CHILD_WAITING, NULL);
             } else if (childValue == MULTIBOOT_PARENT_CHILD_WAITING) {
-                if (mbc->mReq2child[arrayIndex] == MB_CHILD_REQUEST_DOWNLOAD) {
+                if (mbc->mReq2child[arrayIndex] == MULTIBOOT_CHILD_REQUEST_DOWNLOAD) {
                     entryIndex = mbc->mChildEntryIndex[arrayIndex];
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp |= 1 << child;
                     (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mCurrentb = 0;
-                    mbc->mReq2child[arrayIndex] = MB_CHILD_REQUEST_NONE;
+                    mbc->mReq2child[arrayIndex] = MULTIBOOT_CHILD_REQUEST_NONE;
                     MBi_CommChangeParentState(child, MULTIBOOT_PARENT_DOWNLOAD_STARTED, NULL);
                 }
             }
@@ -327,8 +327,8 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                     MBi_CommChangeParentState(child, MULTIBOOT_PARENT_DOWNLOAD_DONE, NULL);
                 }
             } else if (childValue == MULTIBOOT_PARENT_DOWNLOAD_DONE) {
-                if (mbc->mReq2child[arrayIndex] == MB_CHILD_REQUEST_BOOT) {
-                    (OFFSET_PTR(MB_CommPWork, mbc, arrayIndex * 2))->mReq2child[0] = MB_CHILD_REQUEST_NONE;
+                if (mbc->mReq2child[arrayIndex] == MULTIBOOT_CHILD_REQUEST_BOOT) {
+                    (OFFSET_PTR(MB_CommPWork, mbc, arrayIndex * 2))->mReq2child[0] = MULTIBOOT_CHILD_REQUEST_NONE;
                     MBi_CommChangeParentState(child, MULTIBOOT_PARENT_BOOT_ACKED, NULL);
                 }
             }

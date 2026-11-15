@@ -39,11 +39,11 @@ void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *re
     volatile u16 clearValue;
     clearValue = 0;
     MIi_CpuClear16(clearValue, entry, 0x4c0);
-    entry->mDataAttr = MB_DATA_ATTR_FIXED_WITH_ICON;
+    entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON;
     value = MBi_ReadIconInfo(params->mIconCharPathp, entry->mIcon, 1) == 0;
     iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, entry->mIcon, 0) == 0;
     if ((value | iconPaletteMissing) != 0) {
-        entry->mDataAttr = MB_DATA_ATTR_FIXED_NO_ICON;
+        entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_NO_ICON;
         MemFillWordsByBlock_inline(entry, 0x220);
     }
     entry->mGgid = params->mGgid;
@@ -194,11 +194,11 @@ void MBi_InitSendFixedBeacon(void) {
     GameInfoEntry *entry;
     if (mbss.mState == GAME_INFO_SEND_STATE_INIT_FIXED) {
         entry = mbss.mCurrent;
-        if (entry->mDataAttr == MB_DATA_ATTR_FIXED_WITH_ICON) {
-            mbss.mFlagmentMaxNum = MB_FIXED_BLOCK_COUNT_WITH_ICON;
+        if (entry->mDataAttr == MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON) {
+            mbss.mFlagmentMaxNum = MULTIBOOT_FIXED_BLOCK_COUNT_WITH_ICON;
             mbss.mSrcp = (u8 *) entry;
         } else {
-            mbss.mFlagmentMaxNum = MB_FIXED_BLOCK_COUNT_NO_ICON;
+            mbss.mFlagmentMaxNum = MULTIBOOT_FIXED_BLOCK_COUNT_NO_ICON;
             mbss.mSrcp = entry->mParent;
         }
         mbss.mState = GAME_INFO_SEND_STATE_SEND_FIXED;
@@ -212,13 +212,13 @@ void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr) {
     volatile u16 clearValue;
     dataEnd = &mbss.mCurrent->mNowPlayerNum;
     source = mbss.mSrcp;
-    if (source + MB_GAME_INFO_BLOCK_SIZE <= dataEnd) {
-        gGameInfoBlock.mSize = MB_GAME_INFO_BLOCK_SIZE;
+    if (source + MULTIBOOT_GAME_INFO_BLOCK_SIZE <= dataEnd) {
+        gGameInfoBlock.mSize = MULTIBOOT_GAME_INFO_BLOCK_SIZE;
     } else {
         gGameInfoBlock.mSize = dataEnd - source;
         clearValue = 0;
         MIi_CpuClear16(clearValue, (u8 *) &gGameInfoBlock.mHalf0e + gGameInfoBlock.mSize,
-                       MB_GAME_INFO_BLOCK_SIZE - gGameInfoBlock.mSize);
+                       MULTIBOOT_GAME_INFO_BLOCK_SIZE - gGameInfoBlock.mSize);
     }
     MIi_CpuCopy16(mbss.mSrcp, &gGameInfoBlock.mHalf0e, gGameInfoBlock.mSize);
     gGameInfoBlock.mByte0a = mbss.mFlagmentNo;
@@ -234,7 +234,7 @@ void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr) {
     gGameInfoBlock.mChecksum = MBi_calc_cksum(&gGameInfoBlock.mChecksum, 0x68);
     mbss.mFlagmentNo++;
     if (mbss.mFlagmentNo < mbss.mFlagmentMaxNum) {
-        mbss.mSrcp += MB_GAME_INFO_BLOCK_SIZE;
+        mbss.mSrcp += MULTIBOOT_GAME_INFO_BLOCK_SIZE;
     } else {
         mbss.mState = GAME_INFO_SEND_STATE_INIT_VOLATILE;
     }
@@ -260,7 +260,7 @@ void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
     if (mbss.mSeqNoVolat != mbss.mCurrent->mSeqNoVolat) {
         MBi_InitSendVolatBeacon();
     }
-    gGameInfoBlock.mDataAttr = MB_DATA_ATTR_VOLATILE;
+    gGameInfoBlock.mDataAttr = MULTIBOOT_DATA_ATTR_VOLATILE;
     entry = mbss.mCurrent;
     gGameInfoBlock.mSeqNoFixed = entry->mSeqNoFixed;
     gGameInfoBlock.mSeqNoVolat = mbss.mSeqNoVolat;
@@ -457,7 +457,7 @@ void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value) {
             stopFollowing = 1;
         } else if (value == 0) {
             mbrsp->mNotFoundLockTargetCount++;
-            if (mbrsp->mNotFoundLockTargetCount > MB_LOCK_NOT_FOUND_LIMIT) {
+            if (mbrsp->mNotFoundLockTargetCount > MULTIBOOT_LOCK_NOT_FOUND_LIMIT) {
                 stopFollowing = 1;
             }
         } else {
@@ -478,7 +478,7 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
     entry = &mbrsp->mEntries[entryIndex];
     if (entry->mLastSequence == gReceivedGameInfo->mSequence) {
         entry->mSequenceRepeats++;
-        if (entry->mSequenceRepeats > MB_SEQUENCE_REPEAT_LIMIT) {
+        if (entry->mSequenceRepeats > MULTIBOOT_SEQUENCE_REPEAT_LIMIT) {
             entry->mTimer = 0;
             MBi_InvalidateGameInfoBssID(entry->mScanBuffer.mBssid);
             return;
@@ -487,12 +487,12 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
         entry->mSequenceRepeats = 0;
     }
     entry->mLastSequence = gReceivedGameInfo->mSequence;
-    entry->mTimer = MB_GAME_INFO_LIFETIME;
+    entry->mTimer = MULTIBOOT_GAME_INFO_LIFETIME;
     entry->mGgid = gReceivedGameInfo->mGgid;
     entry->mFileNo = gReceivedGameInfo->mFileNo;
     entry->mLinkLevel = value;
     MBi_SetSSIDToBssDesc(&entry->mScanBuffer, entry->mGgid);
-    if (gReceivedGameInfo->mDataAttr == MB_DATA_ATTR_VOLATILE) {
+    if (gReceivedGameInfo->mDataAttr == MULTIBOOT_DATA_ATTR_VOLATILE) {
         MBi_RecvVolatBeacon(entryIndex);
     } else {
         MBi_RecvFixedBeacon(entryIndex);
@@ -561,13 +561,13 @@ void MBi_RecvFixedBeacon(u32 entryIndex) {
         (entry->mGetFlagmentFlag & (1 << gReceivedGameInfo->mByte0a)) != 0) {
         return;
     }
-    if (gReceivedGameInfo->mDataAttr == MB_DATA_ATTR_FIXED_WITH_ICON) {
+    if (gReceivedGameInfo->mDataAttr == MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON) {
         destination = (u8 *) entry;
     } else {
         destination = entry->mFixedNoIcon;
     }
     gameInfo = gReceivedGameInfo;
-    destination += gameInfo->mByte0a * MB_GAME_INFO_BLOCK_SIZE;
+    destination += gameInfo->mByte0a * MULTIBOOT_GAME_INFO_BLOCK_SIZE;
     byteCount = gameInfo->mByteCount;
     if (destination + byteCount > dataEnd) {
         return;
@@ -631,9 +631,9 @@ void MBi_LockScanTarget(u32 entryIndex) {
         if (gSetBssidCallback != NULL) {
             gSetBssidCallback(mbrsp->mEntries[entryIndex].mScanBuffer.mBssid);
         }
-        mbrsp->mScanCountUnit = MB_LOCKED_SCAN_COUNT_UNIT;
+        mbrsp->mScanCountUnit = MULTIBOOT_LOCKED_SCAN_COUNT_UNIT;
         mbrsp->mNowScanTargetFlag = 1 << entryIndex;
-        mbrsp->mNowLockTimeCount = MB_LOCK_TIME_COUNT;
+        mbrsp->mNowLockTimeCount = MULTIBOOT_LOCK_TIME_COUNT;
     }
 }
 

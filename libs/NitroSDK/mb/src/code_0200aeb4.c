@@ -15,7 +15,7 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMax
     if (MB_FakeGetParentBssDesc(entryIndex, scanBlock) == 0) {
         return 0;
     }
-    scanBlock->mGameInfoLength = MB_BEACON_GAME_INFO_LENGTH;
+    scanBlock->mGameInfoLength = MULTIBOOT_BEACON_GAME_INFO_LENGTH;
     scanBlock->mGameInfo.mUserGameInfoLength = 0;
     scanBlock->mGameInfo.mParentMaxSize = parentMaxSize;
     scanBlock->mGameInfo.mChildMaxSize = childMaxSize;

@@ -11,8 +11,8 @@ PieceSizes gPieceSizes;
 
 void MBi_SetChildMPMaxSize(s32 packetSize) {
     gPieceSizes.mPieceSize = packetSize - 2;
-    gPieceSizes.mPieceCount = MB_CHILD_MP_BUFFER_SIZE / gPieceSizes.mPieceSize;
-    gPieceSizes.mBufSize = MB_CHILD_MP_BUFFER_SIZE;
+    gPieceSizes.mPieceCount = MULTIBOOT_CHILD_MP_BUFFER_SIZE / gPieceSizes.mPieceSize;
+    gPieceSizes.mBufSize = MULTIBOOT_CHILD_MP_BUFFER_SIZE;
 }
 
 #pragma thumb off

@@ -12,14 +12,14 @@ enum {
 
 // Parent set-up values: data bytes sent and received per MP exchange, children allowed, the beacon period base and
 // the longest time spent on a channel while scanning.
-#define MB_PARENT_SEND_DATA_SIZE 0x100
-#define MB_PARENT_RECEIVE_DATA_SIZE 8
-#define MB_MAX_CHILDREN 0xf
-#define MB_BEACON_PERIOD_BASE 0xc8
-#define MB_SCAN_MAX_CHANNEL_TIME 0xc8
+#define MULTIBOOT_PARENT_SEND_DATA_SIZE 0x100
+#define MULTIBOOT_PARENT_RECEIVE_DATA_SIZE 8
+#define MULTIBOOT_MAX_CHILDREN 0xf
+#define MULTIBOOT_BEACON_PERIOD_BASE 0xc8
+#define MULTIBOOT_SCAN_MAX_CHANNEL_TIME 0xc8
 
 // Bytes of the game info the beacon of a multiboot parent carries.
-#define MB_BEACON_GAME_INFO_LENGTH 0x10
+#define MULTIBOOT_BEACON_GAME_INFO_LENGTH 0x10
 
 // 0x180-byte entries from 0x600 of MBiParam.
 typedef struct ScanEntry {

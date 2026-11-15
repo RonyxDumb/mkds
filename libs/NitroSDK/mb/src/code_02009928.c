@@ -359,7 +359,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 gScanParams.mChannel = 1;
             }
             if (gScanParams.mMaxChannelTime == 0) {
-                gScanParams.mMaxChannelTime = MB_SCAN_MAX_CHANNEL_TIME;
+                gScanParams.mMaxChannelTime = MULTIBOOT_SCAN_MAX_CHANNEL_TIME;
             }
             gScanParams.mBssid[0] = 0xff;
             gScanParams.mBssid[1] = 0xff;
@@ -603,8 +603,8 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     if (user->mNameLength < MB_USER_NAME_LENGTH) {
         parentWork->mUser.mName[user->mNameLength] = 0;
     }
-    wirelessWork->mSendDataSize = MB_PARENT_SEND_DATA_SIZE;
-    wirelessWork->mReceiveDataSize = MB_PARENT_RECEIVE_DATA_SIZE;
+    wirelessWork->mSendDataSize = MULTIBOOT_PARENT_SEND_DATA_SIZE;
+    wirelessWork->mReceiveDataSize = MULTIBOOT_PARENT_RECEIVE_DATA_SIZE;
     wirelessWork->mSendBufferSize = 0;
     wirelessWork->mReceiveBufferSize = 0;
     wirelessWork->mContSend = 1;
@@ -615,8 +615,8 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     wirelessWork->mKsFlag = 0;
     wirelessWork->mGgid = ggid;
     wirelessWork->mTgid = tgid;
-    wirelessWork->mBeaconPeriod = MBi_GetBeaconPeriodDispersion() + MB_BEACON_PERIOD_BASE;
-    wirelessWork->mMaxChildren = MB_MAX_CHILDREN;
+    wirelessWork->mBeaconPeriod = MBi_GetBeaconPeriodDispersion() + MULTIBOOT_BEACON_PERIOD_BASE;
+    wirelessWork->mMaxChildren = MULTIBOOT_MAX_CHILDREN;
     wirelessWork->mDataQueued = 0;
     wirelessWork->mMbIsStarted = 0;
     parentWork->mIsMbInitialized = 1;
@@ -655,7 +655,7 @@ u32 MB_SetParentCommParam(u32 sendDataSize, u32 maxChildren) {
     }
     gWirelessWork->mMaxChildren = maxChildren;
     gWirelessWork->mSendDataSize = sendDataSize;
-    gWirelessWork->mReceiveDataSize = MB_PARENT_RECEIVE_DATA_SIZE;
+    gWirelessWork->mReceiveDataSize = MULTIBOOT_PARENT_RECEIVE_DATA_SIZE;
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
