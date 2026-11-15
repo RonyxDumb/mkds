@@ -92,7 +92,7 @@ s32 StoreMacAddressAndBuildKey(u8 *key, void *unused);
 unsigned int GetMacAddress(void *address);
 s32 BuildExchangePacketKind2(u8 *packet);
 s32 ReadExchangePacketPayloadOfKind(const u8 *packet, u32 kind, u8 *output, const void *key);
-BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, s32 *item5Flag);
+BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, u32 *item5Flag);
 s32 BuildSingleItemBody(u8 *out, u32 type, const void *value, u32 length);
 u8 *AppendItem(u8 *out, u32 type, const void *value, u32 length);
 s32 BuildExchangePacket(u8 *packet, u32 kind, u8 *body, u32 length, const void *key);

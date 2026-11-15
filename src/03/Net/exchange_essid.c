@@ -1412,7 +1412,7 @@ typedef struct Kind2Values {
     /* 2 */ Bytes7 mSevenBytes;
 } Kind2Values;
 
-BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, s32 *item5Flag) {
+BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, u32 *item5Flag) {
     u32 item1Value;
     u32 item2Value;
     s32 item5Value;
@@ -1820,7 +1820,7 @@ s32 RunExchange(void) {
                 peerAddress.mLength = sizeof(SocketAddress);
                 StoreMacAddressAndBuildKey(gFirstKey, &peerAddress);
                 if (SOC_RecvFrom(descriptor, gPacketBuffer, 0x800, 4, &peerAddress) > 0) {
-                    if (ParseAndCheckExchangePacketKind1(gPacketBuffer, (s32 *) &gKind1Item5Flag) != FALSE) {
+                    if (ParseAndCheckExchangePacketKind1(gPacketBuffer, &gKind1Item5Flag) != FALSE) {
                         gTimeoutAtMs = GetTickMilliseconds() + 30000;
                         gExchangeState = 5;
                         gExchangeStatus = EXCHANGE_STATUS_FIRST_PACKET_ACCEPTED;
