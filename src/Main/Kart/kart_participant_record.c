@@ -483,7 +483,7 @@ void AdvanceKartState3(Kart *kart) {
     }
 }
 
-BOOL TryStartKartState4(Kart *kart, MapObject *mapObject) {
+BOOL TryStartKartPushFlipFromMapObject(Kart *kart, MapObject *mapObject) {
     Vec3 pushDirection;
     Vec3 offset;
     Vec3 cross;
@@ -1964,7 +1964,7 @@ void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction) {
 }
 
 void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, MapObject *mapObject) {
-    if (TryStartKartState4(kart, mapObject) == FALSE) {
+    if (TryStartKartPushFlipFromMapObject(kart, mapObject) == FALSE) {
         return;
     }
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {

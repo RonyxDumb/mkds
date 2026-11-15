@@ -127,7 +127,7 @@ void AdvanceKartState5(Kart *kart);
 s32 StartKartState5(Kart *kart, const Vec3 *pushDirection, s32 record);
 void AdvanceKartState4(Kart *kart);
 void StartKartState4(Kart *kart, const Vec3 *pushDirection, s32 record);
-BOOL TryStartKartState4(Kart *kart, MapObject *mapObject);
+BOOL TryStartKartPushFlipFromMapObject(Kart *kart, MapObject *mapObject);
 void AdvanceKartState3(Kart *kart);
 void StartKartFlip(Kart *kart);
 BOOL TryStartKartState3(Kart *kart);
