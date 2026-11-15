@@ -208,16 +208,16 @@ void PrintRecordVSEraseShownRecord(void) {
 
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     if (GetRecordFriendKeyText(firstRecordIndex + gRecordVSErase->mShownIndex, friendKeyText)) {
-        gRecordVSErase->mTransientDrawn = 1;
+        gRecordVSErase->mTransientDrawn = RECORD_VS_ERASE_VIEW_TRANSIENT;
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, gRecordVSErase->mRecordVSM03Nscr->mData,
                                            gRecordVSErase->mRecordVSM03Nscr->mDataSize);
     } else {
-        gRecordVSErase->mTransientDrawn = 0;
+        gRecordVSErase->mTransientDrawn = RECORD_VS_ERASE_VIEW_RECORD;
         NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_BG1_MAP, 0, gRecordVSErase->mRecordVSM02Nscr->mData,
                                            gRecordVSErase->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVSErase->mTransientDrawn) {
-        case 0:
+        case RECORD_VS_ERASE_VIEW_RECORD:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
             PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVSErase->mRecordVSMBnll, text,
                                                gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
@@ -262,7 +262,7 @@ void PrintRecordVSEraseShownRecord(void) {
                 0x13, GetCellCharIndex(3, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMBncl) << 5,
                 gRecordVSErase->mEmblemConverted, 0x200);
             break;
-        case 1:
+        case RECORD_VS_ERASE_VIEW_TRANSIENT:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
             PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVSErase->mRecordVSMTransientBnll, text,
                                                gRecordVSErase->mRecordVSMTransientBncl,
@@ -586,7 +586,7 @@ void InitRecordVSErase(void *heap) {
     gRecordVSErase->mPageDecrement = RECORD_VS_ERASE_PAGE_INCREMENT;
     gRecordVSErase->mIndexChangeTimer = 0;
     gRecordVSErase->mShownIndex = gRecordVSErase->mIndex;
-    gRecordVSErase->mTransientDrawn = 0;
+    gRecordVSErase->mTransientDrawn = RECORD_VS_ERASE_VIEW_RECORD;
     gRecordVSErase->mErased = 0;
     gRecordVSErase->mPageDecrementRepeat = FALSE;
     gRecordVSErase->mPageIncrementRepeat = FALSE;
@@ -1265,11 +1265,11 @@ void AdvanceRecordVSErase(void) {
     }
     UpdateRecordVSEraseRows();
     switch (gRecordVSErase->mTransientDrawn) {
-        case 0:
+        case RECORD_VS_ERASE_VIEW_RECORD:
             DrawLayoutTable(gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMNcer,
                             gRecordVSErase->mRecordVSMBnll, GetRecordMainOam(), gRecordVSErase->mRecordVSMTable);
             break;
-        case 1:
+        case RECORD_VS_ERASE_VIEW_TRANSIENT:
             DrawLayoutTable(gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMNcer,
                             gRecordVSErase->mRecordVSMTransientBnll, GetRecordMainOam(),
                             gRecordVSErase->mRecordVSMTransientTable);

@@ -106,6 +106,13 @@ enum {
     RECORD_VS_ERASE_PAGE_DECREMENT,
 };
 
+// Values of RecordVSErase.mTransientDrawn: the layout drawn for the shown record; TRANSIENT when the record has a
+// friend key text.
+enum {
+    RECORD_VS_ERASE_VIEW_RECORD,
+    RECORD_VS_ERASE_VIEW_TRANSIENT,
+};
+
 typedef struct RecordVSErase {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;
@@ -123,7 +130,7 @@ typedef struct RecordVSErase {
     /* 34 */ struct LayoutEntryTable *mRecordVSSEraseBnbl;
     /* 38 */ struct LayoutEntryTable *mRecordVSSEraseBnll;
     /* 3c */ LayoutTableEntry *mRecordVSSEraseTable;
-    /* 40 */ s32 mTransientDrawn;
+    /* 40 */ s32 mTransientDrawn; /* RECORD_VS_ERASE_VIEW_* */
     /* 44 */ struct Bmg *mCommonMessages;
     /* 48 */ struct Bmg *mRecordMessages;
     /* 4c */ void *mSecondScreenMapBuffer;
