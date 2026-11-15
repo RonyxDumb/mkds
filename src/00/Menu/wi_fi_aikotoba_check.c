@@ -122,7 +122,7 @@ void UpdateWiFiAikotobaCheckOffsets(void) {
     }
 }
 
-void AdvanceWiFiAikotobaCheckState0(void) {
+void AdvanceWiFiAikotobaCheckSlideIn(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
     gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0x50, 0, gWiFiAikotobaCheck->mStateFrames, 15);
     if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemOpenNoCloseRequest() != 0) {
@@ -131,7 +131,7 @@ void AdvanceWiFiAikotobaCheckState0(void) {
     }
 }
 
-void AdvanceWiFiAikotobaCheckState1(void) {
+void AdvanceWiFiAikotobaCheckWaitInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
@@ -159,7 +159,7 @@ void AdvanceWiFiAikotobaCheckState1(void) {
     RequestTxtSystemClose();
 }
 
-void AdvanceWiFiAikotobaCheckState2(void) {
+void AdvanceWiFiAikotobaCheckSlideOut(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
     gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0, 0x50, gWiFiAikotobaCheck->mStateFrames, 15);
     if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemClosedNoOpenRequest() != 0 &&
@@ -174,13 +174,13 @@ void AdvanceWiFiAikotobaCheck(void) {
     gWiFiAikotobaCheck->mState = gWiFiAikotobaCheck->mNextState;
     switch (gWiFiAikotobaCheck->mState) {
         case WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN:
-            AdvanceWiFiAikotobaCheckState0();
+            AdvanceWiFiAikotobaCheckSlideIn();
             break;
         case WIFI_AIKOTOBA_CHECK_STATE_WAIT_INPUT:
-            AdvanceWiFiAikotobaCheckState1();
+            AdvanceWiFiAikotobaCheckWaitInput();
             break;
         case WIFI_AIKOTOBA_CHECK_STATE_SLIDE_OUT:
-            AdvanceWiFiAikotobaCheckState2();
+            AdvanceWiFiAikotobaCheckSlideOut();
             break;
     }
     UpdateWiFiAikotobaCheckOffsets();

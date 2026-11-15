@@ -43,9 +43,9 @@ typedef struct WiFiAikotobaCheck {
 void RegisterWiFiAikotobaCheckCallbacks(void);
 void WriteWiFiAikotobaCheckRegistersNop(void);
 void AdvanceWiFiAikotobaCheck(void);
-void AdvanceWiFiAikotobaCheckState2(void);
-void AdvanceWiFiAikotobaCheckState1(void);
-void AdvanceWiFiAikotobaCheckState0(void);
+void AdvanceWiFiAikotobaCheckSlideOut(void);
+void AdvanceWiFiAikotobaCheckWaitInput(void);
+void AdvanceWiFiAikotobaCheckSlideIn(void);
 void UpdateWiFiAikotobaCheckOffsets(void);
 void LocateAndUploadWiFiAikotobaCheck(void);
 void ClearWiFiAikotobaCheckPointer(void);
