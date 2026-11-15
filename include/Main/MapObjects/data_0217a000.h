@@ -442,13 +442,10 @@ typedef struct ScanStateView {
 
 // 8-byte entries behind member 0xc of DataSharing.
 typedef struct SharingReceiveRecord {
-    /* 00 */ union {
-        u8 mUnk_00[6];
-        struct {
-            u16 mPadKeys;
-            u16 mTouchPoint;
-        };
-    };
+    /* 00 */ u16 mPadKeys;
+    /* 02 */ u16 mTouchPoint;
+    /* 04 */ u8 mLeftParticipantMask;
+    /* 05 */ u8 mSendByte;
     /* 06 */ union {
         u8 mUnk_06;
         struct {

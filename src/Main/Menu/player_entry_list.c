@@ -510,8 +510,7 @@ void AdvancePlayerEntryList(void) {
                 for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
                     if (gConnectionWork->mState == CONNECTION_STATE_SYNCED &&
                         (gConnectionWork->mParticipantMask & (1 << GetParticipantIndexByPos(entryIndex))) != 0) {
-                        counter =
-                            gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(entryIndex)].mUnk_00[5];
+                        counter = gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(entryIndex)].mSendByte;
                     } else {
                         counter = 0;
                     }
