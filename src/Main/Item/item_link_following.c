@@ -285,7 +285,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         } else {
             VEC_Add(&vector, pos, pos);
         }
-        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x1e34ef) {
+        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
             value = VEC_DotProduct(&hitNormal, velocity);
             velocity->x -= MUL_FIXED12_NO_ROUND(hitNormal.x, value);
             velocity->y -= MUL_FIXED12_NO_ROUND(hitNormal.y, value);
@@ -300,7 +300,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
                 follower->mDirectedItemObject.mItemObject.mFlags |= 0x100;
             }
         }
-        if ((follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x214300) != 0 &&
+        if ((follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_WALL) != 0 &&
             follower->mDirectedItemObject.mHasHitLimit != FALSE) {
             value = VEC_DotProduct(&wallNormal, velocity);
             vector.x = MUL_FIXED12_NO_ROUND(wallNormal.x, value);
@@ -316,7 +316,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
             FadeOutUsedUpItemObject(&follower->mDirectedItemObject.mItemObject, 1);
             return;
         }
-        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & 0x8000) {
+        if (follower->mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
             if (follower->mDirectedItemObject.mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
                 FadeOutItemObjectNoCallback(&follower->mDirectedItemObject.mItemObject, 1);
                 return;

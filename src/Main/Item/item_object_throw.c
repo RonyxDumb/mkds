@@ -182,7 +182,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
     Vec3 *pos;
     Vec3 *velocity;
     Vec3 *direction;
-    s32 flag80000;
+    s32 onBoostSurface;
     s32 value;
     BOOL sameNormal;
     Vec3 *velocityAlias;
@@ -196,7 +196,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                                 object->mCollisionQueryFlags, object->mItemObject.mCollisionSlotIndex, &pushOut,
                                 &hitNormal, &unusedOut, &object->mItemObject.mCollisionBits, NULL, NULL, NULL, NULL);
     if (value != 0) {
-        flag80000 = object->mItemObject.mCollisionBits & 0x80000;
+        onBoostSurface = object->mItemObject.mCollisionBits & COURSE_HIT_BOOST_SURFACE;
         if (object->mPushOutMode != 0) {
             if (pushOut.y > 0) {
                 pos->y += pushOut.y;
@@ -204,13 +204,13 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
         } else {
             VEC_Add(&pushOut, pos, pos);
         }
-        if (object->mItemObject.mCollisionBits & 0x1e34ef) {
+        if (object->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
             sameNormal = hitNormal.x == object->mItemObject.mNormal.x && hitNormal.y == object->mItemObject.mNormal.y &&
                          hitNormal.z == object->mItemObject.mNormal.z;
             if (sameNormal == FALSE) {
                 object->mItemObject.mNormal = hitNormal;
                 object->mItemObject.mFlags |= 0x100;
-                if (flag80000 != 0) {
+                if (onBoostSurface != 0) {
                     value = VEC_DotProduct(&hitNormal, &object->mSurfaceDirection);
                     object->mSurfaceDirection.x =
                         (s32) (object->mSurfaceDirection.x - MUL_FIXED12_NO_ROUND(hitNormal.x, value));
@@ -229,12 +229,12 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                 Vec3CrossUnrounded(&object->mSurfaceDirection, &hitNormal, &object->mSideDirection);
             }
         }
-        if (object->mItemObject.mCollisionBits & 0x214300) {
+        if (object->mItemObject.mCollisionBits & COURSE_HIT_WALL) {
             if (object->mPushOutMode != 0) {
                 pos->x += pushOut.x;
                 pos->z += pushOut.z;
             }
-            if (flag80000 != 0) {
+            if (onBoostSurface != 0) {
                 VEC_Subtract(&unusedOut, &object->mItemObject.mNormal, &unusedOut);
                 DeflectItemObjectAlongSurfaceAndStartSound(object, &unusedOut);
             } else {
@@ -251,9 +251,9 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
         velocity->x = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.x, value);
         velocity->y = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.y, value);
         velocity->z = MUL_FIXED12_NO_ROUND(object->mSurfaceDirection.z, value);
-        if (object->mItemObject.mCollisionBits & 0x1e34ef) {
+        if (object->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
             pushOut.y = pos->y - object->mItemObject.mPrevPos.y;
-            if (pushOut.y > 0x5000 && flag80000 == 0) {
+            if (pushOut.y > 0x5000 && onBoostSurface == 0) {
                 pushOut.y = 0x5000;
             }
             if (pushOut.y > velocity->y) {
@@ -267,14 +267,15 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             FadeOutUsedUpItemObject(&object->mItemObject, 1);
             return;
         }
-        if ((object->mItemObject.mCollisionBits & 0x8000) && object->mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
+        if ((object->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) &&
+            object->mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
             FadeOutItemObjectNoCallback(&object->mItemObject, 1);
             return;
         }
     }
     object->mSpeed += MUL_FIXED12_NO_ROUND(targetSpeed - object->mSpeed, 0x29);
     velocityAlias = &object->mItemObject.mVelocity;
-    if (object->mItemObject.mCollisionBits & 0x1e34ef) {
+    if (object->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
         normalPart.x = object->mItemObject.mNormal.x >> 2;
         normalPart.y = object->mItemObject.mNormal.y >> 2;
         normalPart.z = object->mItemObject.mNormal.z >> 2;
@@ -340,7 +341,7 @@ void ApplyItemObjectGravityWithGroundPull(ItemObject *object) {
     s32 verticalSpeed;
 
     velocity = &object->mVelocity;
-    if (object->mCollisionBits & 0x1e34ef) {
+    if (object->mCollisionBits & COURSE_HIT_GROUND) {
         normalPart.x = object->mNormal.x >> 2;
         normalPart.y = object->mNormal.y >> 2;
         normalPart.z = object->mNormal.z >> 2;

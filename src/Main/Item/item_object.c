@@ -288,7 +288,7 @@ void LandItemObjectIfOnGround(ItemObject *item, Vec3 *pos, Vec3 *velocity, s32 m
 
     CollideSphereWithCourse(&lowerPos, pos, 0, item->mCourseRadius >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL,
                             NULL, &collisionBits, NULL, NULL, NULL, NULL);
-    if ((collisionBits & 0x1e34ef) != 0 || (item->mCollisionBits & 0x80000) != 0) {
+    if ((collisionBits & COURSE_HIT_GROUND) != 0 || (item->mCollisionBits & COURSE_HIT_BOOST_SURFACE) != 0) {
         if ((item->mFlags & 0x4000000) != 0) {
             return;
         }

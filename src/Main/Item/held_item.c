@@ -805,7 +805,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
                                 item->mItemObject.mCollisionSlotIndex, &offset, &hitNormal, &wallNormal,
                                 &item->mItemObject.mCollisionBits, NULL, NULL, NULL, collisionHitLink) != 0) {
         VEC_Add(&offset, pos, pos);
-        if (item->mItemObject.mCollisionBits & 0x1e34ef) {
+        if (item->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
             value = item->mBouncesRemaining;
             item->mBouncesRemaining = value - 1;
             if (value <= 0) {
@@ -826,7 +826,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
                 item->mItemObject.mNormal = hitNormal;
             }
         }
-        if (item->mItemObject.mCollisionBits & 0x214300) {
+        if (item->mItemObject.mCollisionBits & COURSE_HIT_WALL) {
             item->mItemObject.mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &wallNormal);
             if (TryFadeOutDeflectedItemObject(&item->mItemObject, &wallNormal) != FALSE) {
@@ -834,13 +834,13 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             }
             item->mItemObject.mOwnerKartIndexAndFlags &= ~0x4000;
         }
-        if (item->mItemObject.mCollisionBits & 0x8000) {
+        if (item->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
             FadeOutItemObjectNoCallback(&item->mItemObject, 1);
             return;
         }
     }
     item->mItemObject.mFlags &= ~0x4000000;
-    if (item->mItemObject.mCollisionBits & 0x1e34ef) {
+    if (item->mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
         return;
     }
     velocity->y -= gravity;

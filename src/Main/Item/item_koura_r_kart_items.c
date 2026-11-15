@@ -104,7 +104,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
                                 &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits, NULL,
                                 NULL, NULL, NULL) != 0) {
         VEC_Add(&offset, pos, pos);
-        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x1e34ef) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_GROUND) {
             value = VEC_DotProduct(&firstNormal, velocity);
             velocity->x = velocity->x - MUL_FIXED12_NO_ROUND(firstNormal.x, value);
             velocity->y = velocity->y - MUL_FIXED12_NO_ROUND(firstNormal.y, value);
@@ -117,7 +117,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x100;
             }
         }
-        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x214300) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_WALL) {
             if (item->mLinkFollowingItemObject.mDirectedItemObject.mPushOutMode == 0 && flag != 0) {
                 value = VEC_DotProduct(&secondNormal, velocity);
                 offset.x = MUL_FIXED12_NO_ROUND(secondNormal.x, value);
@@ -134,7 +134,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
                 return FALSE;
             }
         }
-        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & 0x8000) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
             FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
             return FALSE;
         }

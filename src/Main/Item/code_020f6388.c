@@ -682,7 +682,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 item->mVelocity.z = 0;
                 FadeOutUsedUpItemObject(item, 1);
             }
-            if (!(item->mCollisionBits & 0x8000)) {
+            if (!(item->mCollisionBits & COURSE_HIT_FADES_ITEMS)) {
                 return;
             }
             FadeOutItemObjectNoCallback(item, 1);
@@ -796,23 +796,23 @@ void AdvanceFallingItemObject(ItemObject *item) {
                                 &groundNormal, &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL,
                                 &collisionHitLink) != 0) {
         VEC_Add(&pushOut, pos, pos);
-        if (item->mCollisionBits & 0x1e34ef) {
+        if (item->mCollisionBits & COURSE_HIT_GROUND) {
             LandItemObjectIfOnGround(item, pos, velocity, 0x385, &groundNormal);
         }
-        if (item->mCollisionBits & 0x214300) {
+        if (item->mCollisionBits & COURSE_HIT_WALL) {
             item->mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &bounceNormal);
             if (TryFadeOutDeflectedItemObject(item, &bounceNormal) != FALSE) {
                 return;
             }
         }
-        if (item->mCollisionBits & 0x8000) {
+        if (item->mCollisionBits & COURSE_HIT_FADES_ITEMS) {
             FadeOutItemObjectNoCallback(item, 1);
             return;
         }
     }
     item->mFlags &= ~0x4000000;
-    if (!(item->mCollisionBits & 0x1e34ef)) {
+    if (!(item->mCollisionBits & COURSE_HIT_GROUND)) {
         velocity->y -= 0x385;
         if (velocity->y < -0xa000) {
             velocity->y = -0xa000;
