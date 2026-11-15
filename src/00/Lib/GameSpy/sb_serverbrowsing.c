@@ -124,7 +124,7 @@ void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerLi
 
 MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName, const char *queryFromKey,
                                       u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
-                                      UnkFunc *callback, u32 instance) {
+                                      SBBrowserCallback callback, u32 instance) {
     MatchingServerList *matchingServerList;
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return NULL;
@@ -137,9 +137,9 @@ MatchingServerList *ServerBrowserNewA(const char *targetName, const char *source
     matchingServerList->mBrowserInstance = instance;
     matchingServerList->mDontUpdate = 0;
     SbServerListInit(&matchingServerList->mList, targetName, sourceName, queryFromKey, queryFromVersion, lanBrowse,
-                     ListCallback, matchingServerList);
-    SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse, EngineCallback,
-                      matchingServerList);
+                     (SbServerListCallback) ListCallback, matchingServerList);
+    SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse,
+                      (SBEngineCallback) EngineCallback, matchingServerList);
     return matchingServerList;
 }
 

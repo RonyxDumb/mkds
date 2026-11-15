@@ -5,11 +5,19 @@
 struct Gt2Socket;
 struct Gt2Connection;
 
+// Called with the socket, the connection, the address and port, the reset flag, the message and its length.
+typedef void (*Gt2DumpCallback)(struct Gt2Socket *socket, struct Gt2Connection *connection, u32 address, u32 port,
+                                u32 reset, int message, int len);
+// Called with the socket, the address and port, the message and its length; returns whether it handled the message.
+typedef u32 (*Gt2UnmatchedDataCallback)(struct Gt2Socket *socket, s32 address, s32 port, void *message, s32 len);
+// Send and receive filters are called with their arguments in different orders, so the type is left unprototyped.
+typedef u32 (*Gt2FilterCallback)();
+
 typedef struct Gt2ConnectionCallbacks {
     /* 00 */ void (*mResultCallback)(struct Gt2Connection *a, int b, void *c, int d);
     /* 04 */ void (*mDataCallback)(struct Gt2Connection *a, void *b, int c, int d);
     /* 08 */ void (*mClosedCallback)(struct Gt2Connection *a, void *b);
-    /* 0c */ UnkWordFunc *mElapsedTimeCallback;
+    /* 0c */ void (*mElapsedTimeCallback)(struct Gt2Connection *connection, u32 latency);
 } Gt2ConnectionCallbacks;
 
 // Object with the callbacks that the functions of this file call.
@@ -26,17 +34,17 @@ typedef struct Gt2Socket {
     /* 20 */ void (*mIncomingConnectionCallback)(struct Gt2Socket *a, struct Gt2Connection *b, int c, int d, int e,
                                                  const u8 *f, int g);
     /* 24 */ void (*mSocketErrorCallback)(struct Gt2Socket *a);
-    /* 28 */ UnkWordFunc *mSentCallback;
-    /* 2c */ UnkWordFunc *mReceiveDumpCallback;
-    /* 30 */ UnkWordFunc *mUnmatchedDataCallback;
-    /* 34 */ UnkWordFunc *mUnk_34;
+    /* 28 */ Gt2DumpCallback mSentCallback;
+    /* 2c */ Gt2DumpCallback mReceiveDumpCallback;
+    /* 30 */ Gt2UnmatchedDataCallback mUnmatchedDataCallback;
+    /* 34 */ u32 mUnk_34;
     /* 38 */ u32 mSendBufferSize;
     /* 3c */ u32 mIncomingBufferSize;
     /* 40 */ u8 mUnk_40[4];
 } Gt2Socket;
 
 typedef struct Gt2Filter {
-    /* 00 */ UnkWordFunc *mCallback;
+    /* 00 */ Gt2FilterCallback mCallback;
 } Gt2Filter;
 
 typedef struct Gt2Buffer {

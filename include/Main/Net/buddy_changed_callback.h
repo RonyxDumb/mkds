@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void BuddyChangedCallback(void);
+void BuddyChangedCallback(s32 index, void *arg);

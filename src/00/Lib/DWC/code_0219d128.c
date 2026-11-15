@@ -30,7 +30,7 @@ WiFiBuddySync *gWiFiBuddySync = NULL;
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.
-void DWC_SetBuddyFriendCallback(UnkFunc *callback, void *param) {
+void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param) {
     if (gWiFiBuddySync != NULL) {
         gWiFiBuddySync->mBuddyChangedCallback = callback;
         gWiFiBuddySync->mBuddyChangedCallbackArg = param;

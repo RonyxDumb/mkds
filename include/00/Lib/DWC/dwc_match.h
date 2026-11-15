@@ -22,8 +22,8 @@ typedef struct MatchingReceiveHeader {
     /* 10 */ u32 mProfileId;
 } MatchingReceiveHeader;
 
-void DWCi_QR2ClientMsgCallback(const void *data, u32 len);
-void DWCi_QR2NatnegCallback(u32 cookie);
+void DWCi_QR2ClientMsgCallback(const void *data, u32 len, void *userData);
+void DWCi_QR2NatnegCallback(u32 cookie, void *userData);
 u32 DWCi_SendCancelMatchSynCommand(u32 profileId, u32 command);
 void DWCi_ShutdownMatch(void);
 void DWCi_StopMatching(s32 isServer, s32 isSelf);

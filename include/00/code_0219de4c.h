@@ -35,6 +35,7 @@ enum {
 // WiFiVSMatching, the VS screen.
 typedef struct Gt2Socket Gt2Socket;
 typedef s32 MatchEvalFunc();
+typedef void (*DWCMatchedCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
 
 typedef struct WiFiMatching {
     /* 000 */ struct GpConnection *mGpConnection;
@@ -131,7 +132,7 @@ typedef struct WiFiMatching {
     /* 444 */ u64 mLastCommandTime;
     // Set by DWCi_SetMatchCommonParam; called with (error kind or 0, 0 or 1, ..., mResultCallbackArg), among others by
     // DWCi_StopMatching.
-    /* 44c */ UnkFunc *mResultCallback;
+    /* 44c */ DWCMatchedCallback mResultCallback;
     /* 450 */ u32 mResultCallbackArg;
     /* 454 */ void (*mNewParticipantCallback)(u32 a, u32 b);
     /* 458 */ u32 mNewParticipantCallbackArg;

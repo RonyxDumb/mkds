@@ -13,6 +13,8 @@ void QueueNextQueries(SBQueryEngine *engine);
 
 struct SBQueryEngine;
 
+typedef void (*SBEngineCallback)(void *engine, s32 reason, SbServer *server, void *instance);
+
 // 0x24 bytes allocated by SBAllocServer.
 typedef struct SbServer {
     /* 00 */ u32 mPublicIp;
@@ -43,7 +45,7 @@ typedef struct SBQueryEngine {
     /* 28 */ u32 mMyPublicIp;
     /* 2c */ u8 mServerKeys[0x14];
     /* 40 */ s32 mNumServerKeys;
-    /* 44 */ UnkFunc *mListCallback;
+    /* 44 */ SBEngineCallback mListCallback;
     /* 48 */ void *mInstance;
 } SBQueryEngine;
 
@@ -71,8 +73,8 @@ void SBQueryEngineSetPublicIP(MatchingServerList *matchingServerList, u32 public
 typedef struct SbServer SbServer;
 typedef struct SBQueryEngine SBQueryEngine;
 
-void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse, UnkFunc *callback,
-                       void *instance);
+void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse,
+                       SBEngineCallback callback, void *instance);
 void QEStartQuery(SBQueryEngine *engine, SbServer *server);
 
 typedef struct SBServerFIFO SBServerFIFO;

@@ -265,7 +265,7 @@ static inline void CopyUnalignedWord(UnalignedWord *destination, UnalignedWord *
 }
 
 void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
-                      u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance) {
+                      u32 queryFromVersion, s32 lanBrowse, SbServerListCallback callback, void *instance) {
     if (slist == NULL) {
         AssertionFailed("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
     }

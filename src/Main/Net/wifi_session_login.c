@@ -183,7 +183,7 @@ u32 UpdateWiFiSessionLogin(void) {
     return 0;
 }
 
-void WiFiSessionLoginCallback(s32 result) {
+void WiFiSessionLoginCallback(s32 result, u32 profileId, u32 arg) {
     if (result == 0) {
         if (DWCi_Acc_IsDirty(&gWiFiSession->mUserData) != 0) {
             DWCi_Acc_ClearDirty(&gWiFiSession->mUserData);

@@ -13,9 +13,13 @@ BOOL gpiCheckForBuddy(void *unused, GpiProfile *entry, GpiProfileSearch *search)
 typedef struct GpConnection GpConnection;
 
 // Argument block of the walk over the list at 0x428: the object, the function to call and its argument.
+// Called with the connection, the profile and the user data; the stored functions type the first two differently, so it
+// is left unprototyped.
+typedef void (*GpiProfileMapFunc)();
+
 typedef struct GPIProfileMapData {
     /* 00 */ GpConnection *mConnection;
-    /* 04 */ void *mFunc;
+    /* 04 */ GpiProfileMapFunc mFunc;
     /* 08 */ void *mData;
 } GPIProfileMapData;
 

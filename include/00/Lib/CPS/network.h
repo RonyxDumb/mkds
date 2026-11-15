@@ -265,7 +265,7 @@ u16 invert_checksum(u16 sum);
 u32 calc_checksum_do(const void *buffer, u32 length, u32 sum);
 void CPS_SetThreadPriority(s32 priority);
 void CPS_Cleanup(void);
-void CPS_SetScavengerCallback(UnkFunc *callback);
+void CPS_SetScavengerCallback(void (*callback)(void));
 s32 CPS_CalmDown(void);
 void CPS_Startup(CPSConfig *config);
 BOOL default_link_is_on(void);

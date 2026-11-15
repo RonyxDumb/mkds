@@ -138,7 +138,7 @@ void DWCi_GPGetInfoCallback_RecvAuthMessage(GpConnection *connection, GetInfoRep
     }
 }
 
-void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated) {
+void BuddySyncStatsAuthCallback(u32 localId, u32 profileId, u32 authenticated, const void *data, u32 instance) {
     char keyValues[0x40];
     DWCi_SubPersCallbackLevel();
     if (authenticated == 0 || localId != 0) {

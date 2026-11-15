@@ -197,7 +197,7 @@ s32 CPS_CalmDown(void) {
     return isTerminated;
 }
 
-void CPS_SetScavengerCallback(UnkFunc *callback) {
+void CPS_SetScavengerCallback(void (*callback)(void)) {
     u32 callbackAddress = (u32) callback;
     u32 slotAddress;
     slotAddress = (u32) &gScavengerCallback;

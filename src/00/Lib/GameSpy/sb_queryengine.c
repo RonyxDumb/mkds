@@ -123,8 +123,8 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     }
 }
 
-void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse, UnkFunc *callback,
-                       void *instance) {
+void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse,
+                       SBEngineCallback callback, void *instance) {
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return;
     }

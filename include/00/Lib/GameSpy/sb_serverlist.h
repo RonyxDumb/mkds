@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/unk_021b4000.h"
 
 typedef struct SbServerList SbServerList;
 typedef struct SbServer SbServer;
@@ -23,7 +24,7 @@ typedef struct UnalignedWord {
 } UnalignedWord;
 
 void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
-                      u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance);
+                      u32 queryFromVersion, s32 lanBrowse, SbServerListCallback callback, void *instance);
 
 #include "00/unk_021b4000.h"
 #include "00/Lib/GameSpy/sb_queryengine.h"

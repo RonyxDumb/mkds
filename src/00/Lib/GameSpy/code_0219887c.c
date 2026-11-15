@@ -15,7 +15,7 @@ u32 GetSocketDescriptor(Gt2Socket *socket) {
     return socket->mDescriptor;
 }
 
-void SetUnmatchedDataCallback(Gt2Socket *socket, UnkWordFunc *callback) {
+void SetUnmatchedDataCallback(Gt2Socket *socket, Gt2UnmatchedDataCallback callback) {
     socket->mUnmatchedDataCallback = callback;
 }
 

@@ -39,6 +39,9 @@ typedef void (*QueryKeyListFunc)(s32 a, MatchingKeyIds *b, void *c);
 typedef s32 (*QueryCountFunc)(s32 a, void *b);
 typedef void (*QueryErrorFunc)(s32 a, const u8 *b, void *c);
 typedef void (*QueryPublicAddressFunc)(u32 a, u16 b, void *c);
+typedef void (*QueryNatnegFunc)(u32 cookie, void *userData);
+typedef void (*QueryClientMessageFunc)(const void *data, u32 len, void *userData);
+typedef void (*QueryCdkeyFunc)(s8 *query, s32 len, void *sender);
 
 // 0x110 bytes; qr2_init_socketA fills it, gCurrentQr2Rec points at the one in use.
 typedef struct QueryRecord {
@@ -52,8 +55,8 @@ typedef struct QueryRecord {
     /* 094 */ QueryKeyListFunc mKeyListCallback;
     /* 098 */ QueryCountFunc mPlayerTeamCountCallback;
     /* 09c */ QueryErrorFunc mAddErrorCallback;
-    /* 0a0 */ UnkFunc *mNatnegCallback;
-    /* 0a4 */ UnkFunc *mClientMessageCallback;
+    /* 0a0 */ QueryNatnegFunc mNatnegCallback;
+    /* 0a4 */ QueryClientMessageFunc mClientMessageCallback;
     /* 0a8 */ QueryPublicAddressFunc mPublicAddressCallback;
     /* 0ac */ u32 mLastHeartbeat;
     /* 0b0 */ u32 mLastKeepalive;
@@ -64,7 +67,7 @@ typedef struct QueryRecord {
     /* 0c4 */ BOOL mReadSocket;
     /* 0c8 */ s32 mNatNegotiate;
     /* 0cc */ SOCSockAddrIn mHbAddr;
-    /* 0d4 */ UnkFunc *mCdkeyProcess;
+    /* 0d4 */ QueryCdkeyFunc mCdkeyProcess;
     /* 0d8 */ s32 mClientMessageKeys[10];
     /* 100 */ s32 mCurMessageKey;
     /* 104 */ u32 mPublicIp;
@@ -113,5 +116,5 @@ void qr2_check_send_heartbeat(QueryRecord *qrec);
 void qr2_check_queries(QueryRecord *qrec);
 void qr2_think(QueryRecord *qrec);
 void qr2_register_publicaddress_callback(QueryRecord *qrec, QueryPublicAddressFunc pacallback);
-void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback);
-void qr2_register_natneg_callback(QueryRecord *qrec, UnkFunc *nncallback);
+void qr2_register_clientmessage_callback(QueryRecord *qrec, QueryClientMessageFunc cmcallback);
+void qr2_register_natneg_callback(QueryRecord *qrec, QueryNatnegFunc nncallback);

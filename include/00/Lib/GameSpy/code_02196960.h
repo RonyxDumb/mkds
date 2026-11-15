@@ -6,10 +6,14 @@ typedef struct SOCHostEnt SOCHostEnt;
 
 // Entry of the list behind gServerReqs, appended by AddRequestCallback; the function at 0x18 takes the arguments of the
 // entry's type.
+typedef void (*ServerReqAuthCallback)(u32 localId, u32 profileId, u32 authenticated, const void *data, u32 instance);
+typedef void (*ServerReqSaveCallback)(u32 localId, u32 profileId, s32 type, u32 index, s32 success, u32 modified,
+                                      u32 instance);
+
 typedef union ServerReqCallback {
-    void (*mAuthCallback)(u32 a, u32 b, s32 c, const u8 *d, u32 e);
+    ServerReqAuthCallback mAuthCallback;
     void (*mDataCallback)(u32 a, u32 b, u32 c, u32 d, s32 e, s32 f, const u8 *g, s32 h, u32 i);
-    void (*mSaveCallback)(u32 a, u32 b, u32 c, u32 d, s32 e, s32 f, u32 g);
+    ServerReqSaveCallback mSaveCallback;
     void (*mProfileCallback)(u32 a, u32 b, s32 c, u32 d);
 } ServerReqCallback;
 
@@ -45,10 +49,10 @@ void ProcessPlayerAuth(s8 *buf, s32 len);
 s32 FindRequest(s32 reqType, s32 ownId, s32 profileId);
 const s8 *FindFinal(const s8 *buff, s32 len);
 u32 SocketReadable(u32 socket);
-void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len, UnkFunc *callback,
-                          s32 instance, s32 kvset);
-void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 instance);
-void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
+void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len,
+                          ServerReqSaveCallback callback, s32 instance, s32 kvset);
+void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, ServerReqAuthCallback callback, s32 instance);
+void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, void *callback,
                         s32 instance);
 BOOL ResolveStatsHostAddress(const char *host, u32 port, u8 *saddr, SOCHostEnt **savehent);
 const char *value_for_key_safe(const s8 *text, const char *key);
@@ -64,10 +68,10 @@ extern char gStatsServerHostname[];
 
 void InternalInit(void);
 BOOL PersistThink(void);
-void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString, UnkFunc *callback,
-                           u32 instance);
-void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText, UnkFunc *callback,
-                                  s32 instance);
+void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString,
+                           ServerReqSaveCallback callback, u32 instance);
+void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText,
+                                  ServerReqAuthCallback callback, s32 instance);
 s8 *GetChallenge(s8 *game);
 void GstatsClose(void);
 s32 GstatsConnect(s32 gameport);

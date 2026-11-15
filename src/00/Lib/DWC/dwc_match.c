@@ -306,8 +306,8 @@ u32 DWCi_QR2Startup(u32 profileId) {
 }
 
 // Starts a filter search (mode 0) and keeps the caller's filter text for the server list filter.
-void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, UnkFunc *matchedCallback, u32 matchedParam,
-                                MatchEvalFunc *evalCallback, u32 evalParam) {
+void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedCallback matchedCallback,
+                                u32 matchedParam, MatchEvalFunc *evalCallback, u32 evalParam) {
     char filterText[0x100];
     s32 filterRoom;
     if (gMatchingFilterText != NULL) {
@@ -325,7 +325,8 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, UnkFunc *ma
         MI_CpuCopy8(addFilter, gMatchingFilterText, filterRoom);
         *((u8 *) gMatchingFilterText + filterRoom - 1) = 0;
     }
-    ((void (*)(u32, u32, UnkFunc *, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback, matchedParam);
+    ((void (*)(u32, u32, DWCMatchedCallback, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback,
+                                                                             matchedParam);
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
     gWiFiMatching->mState = WIFI_MATCH_STATE_LIST_FIRST_UPDATE;
@@ -348,11 +349,12 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, UnkFunc *ma
 
 // Starts a buddy search (mode 1) over a list of buddy entry indices.
 void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
-                                UnkFunc *matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
+                                DWCMatchedCallback matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
                                 u32 evalParam) {
     char numDigits[12];
     u8 keyValueStr[0x24];
-    ((void (*)(u32, u32, UnkFunc *, u32)) DWCi_SetMatchCommonParam)(1, numEntry, matchedCallback, matchedParam);
+    ((void (*)(u32, u32, DWCMatchedCallback, u32)) DWCi_SetMatchCommonParam)(1, numEntry, matchedCallback,
+                                                                             matchedParam);
     gWiFiMatching->mDistantFriend = distantFriend != 0 ? 1 : 0;
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
@@ -1157,7 +1159,7 @@ void DWCi_ResetMatchParam(s32 level) {
 }
 
 // Sets mode, second value and result callback for a new search and registers the key names 0x32 to 0x36.
-void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, UnkFunc *matchedCallback, u32 matchedParam) {
+void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedCallback matchedCallback, u32 matchedParam) {
     WiFiMatching **v1;
     DWCi_ResetMatchParam(0);
     v1 = &gWiFiMatching;
@@ -3210,7 +3212,7 @@ u32 ReportMatchingConnectResult(u32 result) {
     return result;
 }
 
-void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server) {
+void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server, u32 instance) {
     s32 serverIndex;
     SbServer *listedServer;
     s32 serverProfileId;
@@ -3456,7 +3458,7 @@ void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData) {
     gWiFiMatching->mOwnPort = port;
 }
 
-void DWCi_QR2NatnegCallback(u32 cookie) {
+void DWCi_QR2NatnegCallback(u32 cookie, void *userData) {
     if (gWiFiMatching->mState == WIFI_MATCH_STATE_CONNECTED) {
         gWiFiMatching->mState = WIFI_MATCH_STATE_NEGOTIATE_CLIENT;
     } else if (gWiFiMatching->mState != WIFI_MATCH_STATE_NEGOTIATE_CLIENT &&
@@ -3475,7 +3477,7 @@ void DWCi_QR2NatnegCallback(u32 cookie) {
     }
 }
 
-void DWCi_QR2ClientMsgCallback(const void *data, u32 len) {
+void DWCi_QR2ClientMsgCallback(const void *data, u32 len, void *userData) {
     MatchingReceiveHeader header;
     u32 body[0x20];
     u32 offset;

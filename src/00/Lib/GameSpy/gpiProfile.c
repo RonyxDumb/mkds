@@ -34,7 +34,7 @@ s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char 
 }
 
 void gpiProfileMapCallback(u32 profile, u32 *mapData) {
-    (*(UnkFunc *) mapData[1])(*mapData, profile, mapData[2]);
+    ((GpiProfileMapFunc) mapData[1])(*mapData, profile, mapData[2]);
 }
 
 BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *callback, void *userData) {

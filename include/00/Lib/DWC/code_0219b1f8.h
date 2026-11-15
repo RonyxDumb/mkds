@@ -32,6 +32,8 @@ enum {
     WIFI_CONNECTION_MATCHED = 6,
 };
 
+typedef void (*DWCLoginCallback)(s32 error, u32 profileId, u32 arg);
+
 typedef struct WiFiConnection {
     // Gt2Socket * (declared void *): created by DWCi_GT2Startup when the login succeeds (called from
     // code_0219c3e4.c), closed by DWC_ShutdownFriendsMatch or by the socket's own callback DWCi_GT2SocketErrorCallback,
@@ -89,7 +91,7 @@ typedef struct WiFiConnection {
     /* 58 */ char *mUnk_58;
     // Set by DWC_LoginAsync; DWCi_LoginCallback calls it with (result, profile id, mLoginCallbackArg) on success and
     // on failure.
-    /* 5c */ void (*mLoginCallback)(s32 param_1);
+    /* 5c */ DWCLoginCallback mLoginCallback;
     /* 60 */ u32 mLoginCallbackArg;
     // Set by DWC_UpdateServersAsync; DWCi_UpdateServersCallback calls it with (result, changed flag,
     // mBuddySyncCallbackArg) when the sync ends or fails.
@@ -132,7 +134,7 @@ extern WiFiConnection *gWiFiConnection;
 extern void *stGt2ConnectionList[32];
 
 void DWCi_GPErrorCallback(u32 connection, int arg);
-void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index);
+void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
 void DWCi_UpdateServersCallback(u32 error, u32 isChanged);
 void DWCi_LoginCallback(int error, u32 profileId);
 u32 ReportWiFiSocketResult(u32 result);
@@ -161,7 +163,7 @@ void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32
                                void *matchedCallback, void *matchedParam, MatchEvalFunc *evalCallback, u32 evalParam);
 void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallback, void *matchedParam,
                                MatchEvalFunc *evalCallback, u32 evalParam);
-void DWC_LoginAsync(u32 playerName, u32 reserved, void (*callback)(s32 playerName), u32 callbackArg);
+void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32 callbackArg);
 void DWC_ProcessFriendsMatch(void);
 void DWCs_ForceShutdown(void);
 u32 UpdateInetConnection(void);

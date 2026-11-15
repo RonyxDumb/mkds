@@ -11,6 +11,8 @@ typedef struct MatchingServerList MatchingServerList;
 
 // Object of 0x638 bytes ServerBrowserNewA allocates. SBEngineCleanup passes 0x20 to closesocket and
 // the addresses of 0x14 and 0x08 to FIFOClear.
+typedef void (*SBBrowserCallback)(MatchingServerList *list, s32 event, SbServer *server, u32 instance);
+
 typedef struct MatchingServerList {
     /* 000 */ SBQueryEngine mEngine;
     /* 04c */ SbServerList mList;
@@ -19,7 +21,7 @@ typedef struct MatchingServerList {
     /* 628 */ u32 mTriggerIp;
     /* 62c */ u16 mTriggerPort;
     /* 62e */ u8 mUnk_62e[2];
-    /* 630 */ UnkFunc *mBrowserCallback;
+    /* 630 */ SBBrowserCallback mBrowserCallback;
     /* 634 */ u32 mBrowserInstance;
 } MatchingServerList;
 
@@ -48,6 +50,6 @@ s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async,
 void ServerBrowserFree(MatchingServerList *matchingServerList);
 MatchingServerList *ServerBrowserNewA(const char *targetName, const char *sourceName, const char *queryFromKey,
                                       u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
-                                      UnkFunc *callback, u32 instance);
+                                      SBBrowserCallback callback, u32 instance);
 void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList);
 void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList);

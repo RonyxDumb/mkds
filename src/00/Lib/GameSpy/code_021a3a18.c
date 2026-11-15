@@ -96,14 +96,14 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
     return 3;
 }
 
-void qr2_register_natneg_callback(QueryRecord *qrec, UnkFunc *nncallback) {
+void qr2_register_natneg_callback(QueryRecord *qrec, QueryNatnegFunc nncallback) {
     if (qrec == NULL) {
         qrec = gCurrentQr2Rec;
     }
     qrec->mNatnegCallback = nncallback;
 }
 
-void qr2_register_clientmessage_callback(QueryRecord *qrec, UnkFunc *cmcallback) {
+void qr2_register_clientmessage_callback(QueryRecord *qrec, QueryClientMessageFunc cmcallback) {
     if (qrec == NULL) {
         qrec = gCurrentQr2Rec;
     }
@@ -693,7 +693,7 @@ void qr_process_client_message(QueryRecord *qrec, u8 *buf, s32 len) {
                 qrec->mUserData);
         }
     } else if (qrec->mClientMessageCallback != NULL) {
-        qrec->mClientMessageCallback((s8 *) buf, len, qrec->mUserData);
+        qrec->mClientMessageCallback(buf, len, qrec->mUserData);
     }
 }
 

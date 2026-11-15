@@ -260,7 +260,7 @@ void DWC_ProcessFriendsMatch(void) {
 }
 
 // Also stores a and b into the login object (mLogin.mUnk_10 / mUnk_14).
-void DWC_LoginAsync(u32 playerName, u32 reserved, void (*callback)(s32 playerName), u32 callbackArg) {
+void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32 callbackArg) {
     if (DWCi_IsError() == 0) {
         if (gWiFiConnection->mState == WIFI_CONNECTION_IDLE) {
             gWiFiConnection->mLoginCallback = callback;
@@ -465,7 +465,7 @@ s32 DWCi_GT2Startup(void) {
         return result;
     }
     gt2Listen(gWiFiConnection->mSocket, DWCi_GT2ConnectAttemptCallback);
-    SetUnmatchedDataCallback(gWiFiConnection->mSocket, (UnkWordFunc *) DWCi_GT2UnrecognizedMessageCallback);
+    SetUnmatchedDataCallback(gWiFiConnection->mSocket, (Gt2UnmatchedDataCallback) DWCi_GT2UnrecognizedMessageCallback);
     return result;
 }
 
@@ -671,7 +671,7 @@ u32 ReportWiFiSocketResult(u32 result) {
 // Called by the login object with (0, profile id) on success and (code, 0) on failure; passes the result on to
 // mLoginCallback.
 void DWCi_LoginCallback(int error, u32 profileId) {
-    UnkFunc *callback;
+    DWCLoginCallback callback;
     if (error == 0) {
         gWiFiConnection->mProfileId = profileId;
         DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
@@ -694,7 +694,7 @@ void DWCi_UpdateServersCallback(u32 error, u32 isChanged) {
 // the own position / mOwnIndex among the participants; result 0 with a flag sets LOGGED_IN when no search is running;
 // every result rebuilds mParticipantMask and then calls mMatchingCallback (modes 0 and 1) or the unset mode 2/3
 // callback.
-void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index) {
+void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg) {
     s32 participantIndex;
     WiFiConnection *wiFiConnection;
 

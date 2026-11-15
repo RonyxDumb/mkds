@@ -64,6 +64,15 @@ enum {
     SERVER_LIST_PARSE_DONE = 5,
 };
 
+typedef struct SbServer SbServer;
+typedef struct SbServerList SbServerList;
+
+typedef void (*SbServerListCallback)(SbServerList *list, s32 reason, SbServer *server, void *instance);
+typedef void (*SbMaploopCallback)(SbServerList *list, SbServer *server, u32 rotationTime, s32 mapCount, u8 **mapNames,
+                                  void *instance);
+typedef void (*SbPlayerSearchCallback)(SbServerList *list, u8 *name, u32 ipAddress, u16 netPort, u32 lastSeenTime,
+                                       u8 *gameName, void *instance);
+
 typedef struct SbServerList {
     /* 000 */ s32 mState;
     /* 004 */ struct Darray *mServers;
@@ -77,9 +86,9 @@ typedef struct SbServerList {
     /* 084 */ char *mPopularValues[0xff];
     /* 480 */ s32 mNumPopularValues;
     /* 484 */ s32 mExpectedElements;
-    /* 488 */ UnkFunc *mCallback;
-    /* 48c */ UnkFunc *mMaploopCallback;
-    /* 490 */ UnkFunc *mPlayerSearchCallback;
+    /* 488 */ SbServerListCallback mCallback;
+    /* 48c */ SbMaploopCallback mMaploopCallback;
+    /* 490 */ SbPlayerSearchCallback mPlayerSearchCallback;
     /* 494 */ void *mInstance;
     /* 498 */ const char *mSortKey;
     /* 49c */ s32 mSortAscending;

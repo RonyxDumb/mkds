@@ -260,7 +260,7 @@ BOOL gti2ReceiveFilterCallback(Gt2Connection *connection, s32 filterId, void *me
 
 u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, u32 port, u32 reset, int message,
                      int len, int send) {
-    UnkWordFunc *callback;
+    Gt2DumpCallback callback;
     if (socket == NULL) {
         AssertionFailed("socket", "gt2Callback.c", NULL, 0x160);
     }

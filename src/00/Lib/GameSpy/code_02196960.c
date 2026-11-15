@@ -253,8 +253,8 @@ static char gUnusedOrderPad34[34] = {1};
 static char gUnusedOrderPad41[41] = {1};
 static char gUnusedOrderPad56[56] = {1};
 
-void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText, UnkFunc *callback,
-                                  s32 instance) {
+void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *responseText,
+                                  ServerReqAuthCallback callback, s32 instance) {
     char replyFormat[] = "\xC\x13\x1A\x1E\xD\x13\x28\x1D\x11\x1D\x11\x10\x24\x1D\x04\x0F\x0B\x3F\x51\x32\x2C\x1A\x00"
                          "\x0B\x20\x2E\x4A\x19\x39\x0F\x1D\x25\x2C\x4D\x01";
     s8 data[0x100];
@@ -271,8 +271,8 @@ static char gUnusedOrderPad35[35] = {1};
 static char gUnusedOrderPad49[49] = {1};
 static char gUnusedOrderPad8[8] = {1};
 
-void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString, UnkFunc *callback,
-                           u32 instance) {
+void SetPersistDataValuesA(u32 ownId, u32 profileId, u32 type, u32 index, const char *valueString,
+                           ServerReqSaveCallback callback, u32 instance) {
     SetPersistDataHelper(ownId, profileId, type, index, valueString, strlen(valueString) + 1, callback, instance, 1);
 }
 
@@ -501,7 +501,7 @@ BOOL ResolveStatsHostAddress(const char *host, u32 port, u8 *saddr, SOCHostEnt *
     return TRUE;
 }
 
-void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
+void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, void *callback,
                         s32 instance) {
     ServerReq req;
     req.mCallback.mAuthCallback = callback;
@@ -517,7 +517,7 @@ void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32
     DarrayAppend(gServerReqs, &req);
 }
 
-void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 instance) {
+void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, ServerReqAuthCallback callback, s32 instance) {
     s32 sentBytes = 0;
     char errorBytes[] = "\x13\x1D\x1\x4\x0\x0\x0\x28\x1F\x6\x45\x34\x3F\x1\x1B";
     if (gSock != -1) {
@@ -535,8 +535,8 @@ void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 
     }
 }
 
-void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len, UnkFunc *callback,
-                          s32 instance, s32 kvset) {
+void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const void *data, s32 len,
+                          ServerReqSaveCallback callback, s32 instance, s32 kvset) {
     char replyFormat[] = "\xC\x1\xA\x1E\x15\x7\x28\x1D\x0\x1\x1\x24\x75\x16\x33\x1A\x11\x1A\x4\x24\x2C\x4D\x1\x24\x34"
                          "\x1B\x1\xE\x0\x1B\x28\x64\x14\x34\xE\xE\xC\x57\xB\x36\x9\xA\x10\x1D\x55\xC\x39\x14\x35\x1C\x8"
                          "\x1E\xD\x3F\x51\x25\x2C\xC\x4\xC\x31\x2E";
