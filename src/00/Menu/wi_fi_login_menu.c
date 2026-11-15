@@ -111,7 +111,7 @@ s32 LookupWiFiLoginErrorMessageIndex(s32 errorCode, s32 pageIndex, s32 *pageCoun
     return rowMessageIndices[rowIndex][pageIndex];
 }
 
-void AdvanceWiFiLoginMenuState0(void) {
+void AdvanceWiFiLoginMenuStart(void) {
     if (IsUserDataFriendKeyZero() != FALSE) {
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO;
         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1c),
@@ -131,7 +131,7 @@ void AdvanceWiFiLoginMenuState0(void) {
                                  GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
 }
 
-void AdvanceWiFiLoginMenuState1(void) {
+void AdvanceWiFiLoginMenuAskLoginAfterInfo(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -168,7 +168,7 @@ void AdvanceWiFiLoginMenuState1(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState2(void) {
+void AdvanceWiFiLoginMenuSetupNotice(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -181,7 +181,7 @@ void AdvanceWiFiLoginMenuState2(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState3(void) {
+void AdvanceWiFiLoginMenuAskSetup(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -217,7 +217,7 @@ void AdvanceWiFiLoginMenuState3(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState4(void) {
+void AdvanceWiFiLoginMenuConfirmSetup(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -254,7 +254,7 @@ void AdvanceWiFiLoginMenuState4(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState5(void) {
+void AdvanceWiFiLoginMenuShowLoggedIn(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -285,7 +285,7 @@ void AdvanceWiFiLoginMenuState5(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState6(void) {
+void AdvanceWiFiLoginMenuAskLogin(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -304,7 +304,7 @@ void AdvanceWiFiLoginMenuState6(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState7(void) {
+void AdvanceWiFiLoginMenuWaitLogin(void) {
     s32 pageCount;
     s32 messageIndex;
     if (IsTxtSystemClosedNoOpenRequest() != 0) {
@@ -347,7 +347,7 @@ void AdvanceWiFiLoginMenuState7(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState8(void) {
+void AdvanceWiFiLoginMenuErrorMessages(void) {
     vu16 zero;
     s32 pageCount;
     u16 errorCodeText[10];
@@ -376,7 +376,7 @@ void AdvanceWiFiLoginMenuState8(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuState9(void) {
+void AdvanceWiFiLoginMenuErrorCode(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
@@ -412,34 +412,34 @@ void AdvanceWiFiLoginMenu(void) {
     gWiFiLoginMenu->mState = gWiFiLoginMenu->mNextState;
     switch (gWiFiLoginMenu->mState) {
         case WIFI_LOGIN_STATE_START:
-            AdvanceWiFiLoginMenuState0();
+            AdvanceWiFiLoginMenuStart();
             break;
         case WIFI_LOGIN_STATE_ASK_LOGIN_AFTER_INFO:
-            AdvanceWiFiLoginMenuState1();
+            AdvanceWiFiLoginMenuAskLoginAfterInfo();
             break;
         case WIFI_LOGIN_STATE_SETUP_NOTICE:
-            AdvanceWiFiLoginMenuState2();
+            AdvanceWiFiLoginMenuSetupNotice();
             break;
         case WIFI_LOGIN_STATE_ASK_SETUP:
-            AdvanceWiFiLoginMenuState3();
+            AdvanceWiFiLoginMenuAskSetup();
             break;
         case WIFI_LOGIN_STATE_CONFIRM_SETUP:
-            AdvanceWiFiLoginMenuState4();
+            AdvanceWiFiLoginMenuConfirmSetup();
             break;
         case WIFI_LOGIN_STATE_SHOW_LOGGED_IN:
-            AdvanceWiFiLoginMenuState5();
+            AdvanceWiFiLoginMenuShowLoggedIn();
             break;
         case WIFI_LOGIN_STATE_ASK_LOGIN:
-            AdvanceWiFiLoginMenuState6();
+            AdvanceWiFiLoginMenuAskLogin();
             break;
         case WIFI_LOGIN_STATE_WAIT_LOGIN:
-            AdvanceWiFiLoginMenuState7();
+            AdvanceWiFiLoginMenuWaitLogin();
             break;
         case WIFI_LOGIN_STATE_ERROR_MESSAGES:
-            AdvanceWiFiLoginMenuState8();
+            AdvanceWiFiLoginMenuErrorMessages();
             break;
         case WIFI_LOGIN_STATE_ERROR_CODE:
-            AdvanceWiFiLoginMenuState9();
+            AdvanceWiFiLoginMenuErrorCode();
             break;
     }
 }
