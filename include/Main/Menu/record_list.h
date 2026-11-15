@@ -4,18 +4,18 @@
 #include "Main/Menu/data_0217d000.h"
 
 void AdvanceRecordVSIndexChange(void);
-void RequestRecordVSState0(void);
-void RequestRecordVSState1(void);
-void RequestRecordVSState2AndRefreshPage(void);
-void RequestRecordVSState3(void);
-void RequestRecordVSState4(void);
-void RequestRecordVSState5(void);
-void RequestRecordVSState6AndChangePage(void);
-void RequestRecordVSState7(void);
-void RequestRecordVSState8(void);
-void RequestRecordVSState9(void);
-void RequestRecordVSState10(void);
-void RequestRecordVSState11AndRefreshPage(void);
+void RequestRecordVSWaitFade(void);
+void RequestRecordVSSlideInMain(void);
+void RequestRecordVSSlideInSubAndRefreshPage(void);
+void RequestRecordVSWaitReturnButton(void);
+void RequestRecordVSBrowse(void);
+void RequestRecordVSPageSlideOut(void);
+void RequestRecordVSPageSlideInAndChangePage(void);
+void RequestRecordVSSubSlideOut(void);
+void RequestRecordVSMainSlideOut(void);
+void RequestRecordVSPressButton(void);
+void RequestRecordVSSubSlideOutRequestScreen(void);
+void RequestRecordVSSubSlideInAndRefreshPage(void);
 void InitRecordVS(void *heap);
 void ReleaseRecordVS(void);
 

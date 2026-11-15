@@ -618,7 +618,7 @@ void AdvanceRecordVSIndexChange(void) {
     }
 }
 
-void RequestRecordVSState0(void) {
+void RequestRecordVSWaitFade(void) {
     s32 rowIndex;
     u16 transientBase;
     u16 subBase;
@@ -676,39 +676,39 @@ void RequestRecordVSState0(void) {
     }
 }
 
-void RequestRecordVSState1(void) {
+void RequestRecordVSSlideInMain(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_SLIDE_IN_MAIN;
     gRecordVS->mStateFrames = 0;
     PrintRecordVSShownRecord();
 }
 
-void RequestRecordVSState2AndRefreshPage(void) {
+void RequestRecordVSSlideInSubAndRefreshPage(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_SLIDE_IN_SUB;
     gRecordVS->mStateFrames = 0;
     RefreshRecordVSPage();
 }
 
-void RequestRecordVSState3(void) {
+void RequestRecordVSWaitReturnButton(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_WAIT_RETURN_BUTTON;
     gRecordVS->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
-// Requests state 4: stores mNextState = 4 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
-// and runs AdvanceRecordVSState4.
-void RequestRecordVSState4(void) {
+// Requests the browse state: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
+// and runs that state's handler.
+void RequestRecordVSBrowse(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_BROWSE;
     gRecordVS->mStateFrames = 0;
 }
 
-// Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
-// and runs AdvanceRecordVSState5.
-void RequestRecordVSState5(void) {
+// Requests the page slide out: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
+// and runs that state's handler.
+void RequestRecordVSPageSlideOut(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_PAGE_SLIDE_OUT;
     gRecordVS->mStateFrames = 0;
 }
 
-void RequestRecordVSState6AndChangePage(void) {
+void RequestRecordVSPageSlideInAndChangePage(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_PAGE_SLIDE_IN;
     gRecordVS->mStateFrames = 0;
     switch (gRecordVS->mPageDecrement) {
@@ -722,14 +722,14 @@ void RequestRecordVSState6AndChangePage(void) {
     RefreshRecordVSPage();
 }
 
-// Requests state 7: stores mNextState = 7 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
-// and runs AdvanceRecordVSState7.
-void RequestRecordVSState7(void) {
+// Requests the sub slide out: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
+// and runs that state's handler.
+void RequestRecordVSSubSlideOut(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_OUT;
     gRecordVS->mStateFrames = 0;
 }
 
-void RequestRecordVSState8(void) {
+void RequestRecordVSMainSlideOut(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mNextState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
@@ -756,20 +756,20 @@ void RequestRecordVSState8(void) {
     WriteBackupBuddyRecords();
 }
 
-void RequestRecordVSState9(void) {
+void RequestRecordVSPressButton(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_PRESS_BUTTON;
     gRecordVS->mStateFrames = 0;
     gRecordVS->mRecordVSSTable[25].mVisible = 1;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
 }
 
-void RequestRecordVSState10(void) {
+void RequestRecordVSSubSlideOutRequestScreen(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_OUT_REQUEST_SCREEN;
     gRecordVS->mStateFrames = 0;
     RequestSelectReturnSlideOut();
 }
 
-void RequestRecordVSState11AndRefreshPage(void) {
+void RequestRecordVSSubSlideInAndRefreshPage(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_IN;
@@ -904,10 +904,10 @@ void InitRecordVS(void *heap) {
     if (GetRecordPrevScreen() == RECORD_SCREEN_VS_ERASE) {
         if (GetRecordCount() != 0) {
             gRecordVS->mState = RECORD_VS_STATE_SUB_SLIDE_IN;
-            RequestRecordVSState11AndRefreshPage();
+            RequestRecordVSSubSlideInAndRefreshPage();
         } else {
             gRecordVS->mState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
-            RequestRecordVSState8();
+            RequestRecordVSMainSlideOut();
             if (GetRecordPrevScene() == 12) {
                 gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
             } else {
@@ -916,7 +916,7 @@ void InitRecordVS(void *heap) {
         }
     } else {
         gRecordVS->mState = RECORD_VS_STATE_WAIT_FADE;
-        RequestRecordVSState0();
+        RequestRecordVSWaitFade();
         ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
     }
     gRecordVS->mRecordVSSTable[24].mVisible = 0;

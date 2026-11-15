@@ -81,7 +81,7 @@ void AdvanceRecordVSState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestRecordVSState1();
+        RequestRecordVSSlideInMain();
     }
 }
 
@@ -124,7 +124,7 @@ void AdvanceRecordVSState1(void) {
             offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState2AndRefreshPage();
+        RequestRecordVSSlideInSubAndRefreshPage();
     }
 }
 
@@ -150,7 +150,7 @@ void AdvanceRecordVSState2(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState3();
+        RequestRecordVSWaitReturnButton();
     }
     if (gRecordVS->mStateFrames == 4) {
         gRecordVS->mRecordVSSTable[24].mVisible = 1;
@@ -166,7 +166,7 @@ void AdvanceRecordVSState3(void) {
     int selectReturnState2NoRequest;
     selectReturnState2NoRequest = IsSelectReturnShownNoRequest();
     if (selectReturnState2NoRequest != 0) {
-        RequestRecordVSState4();
+        RequestRecordVSBrowse();
     }
 }
 
@@ -242,7 +242,7 @@ void AdvanceRecordVSState4(void) {
     if (IsRecordVSIndexChangeRunning() != 0) {
         return;
     }
-    RequestRecordVSState7();
+    RequestRecordVSSubSlideOut();
     if (GetRecordPrevScene() == 12) {
         gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
         RequestSelectReturnPressWithSound(1);
@@ -264,7 +264,7 @@ handlePageButtons:
         gRecordVS->mPageDecrement = RECORD_VS_PAGE_DECREMENT;
         gRecordVS->mOffsetTimers[0] = 6;
         gRecordVS->mPageDecrementRepeat = TRUE;
-        RequestRecordVSState5();
+        RequestRecordVSPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
@@ -280,7 +280,7 @@ handlePageButtons:
         gRecordVS->mPageDecrement = RECORD_VS_PAGE_INCREMENT;
         gRecordVS->mOffsetTimers[1] = 6;
         gRecordVS->mPageIncrementRepeat = TRUE;
-        RequestRecordVSState5();
+        RequestRecordVSPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
         return;
     }
@@ -307,7 +307,7 @@ handlePageButtons:
         return;
     }
     if (pressedRectIndex == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {
-        RequestRecordVSState9();
+        RequestRecordVSPressButton();
         gRecordVS->mNextScreen = RECORD_SCREEN_VS_ERASE;
         return;
     }
@@ -378,7 +378,7 @@ void AdvanceRecordVSState5(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState6AndChangePage();
+        RequestRecordVSPageSlideInAndChangePage();
     }
 }
 
@@ -436,7 +436,7 @@ void AdvanceRecordVSState6(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[objectRowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState4();
+        RequestRecordVSBrowse();
     }
 }
 
@@ -461,7 +461,7 @@ void AdvanceRecordVSState7(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState8();
+        RequestRecordVSMainSlideOut();
     }
     if (gRecordVS->mStateFrames == 6) {
         gRecordVS->mRecordVSSTable[24].mVisible = 0;
@@ -522,7 +522,7 @@ void AdvanceRecordVSState9(void) {
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[subBase + 5].mOffsetX = offset;
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState10();
+        RequestRecordVSSubSlideOutRequestScreen();
     }
 }
 
@@ -577,7 +577,7 @@ void AdvanceRecordVSState11(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[rowIndex]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordVSState4();
+        RequestRecordVSBrowse();
     }
     if (gRecordVS->mStateFrames == 2) {
         gRecordVS->mRecordVSSTable[24].mVisible = 1;
