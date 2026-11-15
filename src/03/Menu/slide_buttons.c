@@ -108,7 +108,7 @@ void SetSlideButtonsY(s32 yPosition) {
 }
 
 void AdvanceSlideButtonsIn(TaskEntry *task) {
-    u32 xPosition;
+    s32 xPosition;
     s32 yPosition;
 
     GetOamRangeEntryPosition(gSlideButtons->mSlideRange, 0, &xPosition, &yPosition);
@@ -167,7 +167,7 @@ void AdvanceButtonTouch(void) {
 }
 
 void AdvanceSlideButtonsOut(TaskEntry *task) {
-    u32 stackValue;
+    s32 stackValue;
     int yPosition;
     GetOamRangeEntryPosition(gSlideButtons->mSlideRange, 0, &stackValue, &yPosition);
     yPosition = yPosition + 4;

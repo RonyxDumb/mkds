@@ -253,7 +253,7 @@ void SetOamRangePriority(OamRange *range, s32 index, u32 priority) {
     }
 }
 
-void GetOamRangeEntryPosition(OamRange *range, int index, u32 *xPos, s32 *yPos) {
+void GetOamRangeEntryPosition(OamRange *range, int index, s32 *xPos, s32 *yPos) {
     OamEntry *entries;
 
     entries = range->mEntries;

@@ -92,7 +92,7 @@ void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[0], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[0], 0, &xPos, &yPos);
     xPos += 8;
     if (xPos < gMenuPairObjectPositions[0].mX || xPos > 0x100) {
         for (objectIndex = 0; objectIndex < 5; objectIndex++) {
@@ -113,7 +113,7 @@ void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[1], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[1], 0, &xPos, &yPos);
     xPos += 8;
     if (xPos < gMenuPairObjectPositions[1].mX || xPos > 0x100) {
         for (objectIndex = 1; objectIndex < 5; objectIndex++) {
@@ -134,7 +134,7 @@ void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[2], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[2], 0, &xPos, &yPos);
     xPos += 8;
     if (xPos < gMenuPairObjectPositions[2].mX || xPos > 0x100) {
         for (objectIndex = 2; objectIndex < 5; objectIndex++) {
@@ -155,7 +155,7 @@ void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[3], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[3], 0, &xPos, &yPos);
     xPos += 8;
     if (xPos < gMenuPairObjectPositions[3].mX || xPos > 0x100) {
         for (objectIndex = 3; objectIndex < 5; objectIndex++) {
@@ -176,7 +176,7 @@ void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[4], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[4], 0, &xPos, &yPos);
     xPos += 8;
     if (xPos < gMenuPairObjectPositions[4].mX || xPos > 0x100) {
         for (objectIndex = 4; objectIndex < 5; objectIndex++) {
@@ -227,7 +227,7 @@ void AdvanceMenuPairObjectSlideOut4(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[4], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[4], 0, &xPos, &yPos);
     xPos -= 8;
     if (xPos > gMenuPairObjectPositions[3].mX) {
         for (objectIndex = 4; objectIndex < 5; objectIndex++) {
@@ -248,7 +248,7 @@ void AdvanceMenuPairObjectSlideOut3(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[3], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[3], 0, &xPos, &yPos);
     xPos -= 8;
     if (xPos > gMenuPairObjectPositions[2].mX) {
         for (objectIndex = 3; objectIndex < 5; objectIndex++) {
@@ -269,7 +269,7 @@ void AdvanceMenuPairObjectSlideOut2(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[2], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[2], 0, &xPos, &yPos);
     xPos -= 8;
     if (xPos > gMenuPairObjectPositions[1].mX) {
         for (objectIndex = 2; objectIndex < 5; objectIndex++) {
@@ -290,7 +290,7 @@ void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[1], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[1], 0, &xPos, &yPos);
     xPos -= 8;
     if (xPos > gMenuPairObjectPositions[0].mX) {
         for (objectIndex = 1; objectIndex < 5; objectIndex++) {
@@ -311,7 +311,7 @@ void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
-    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[0], 0, (u32 *) &xPos, &yPos);
+    GetOamRangeEntryPosition(gMenuPairObjects->mObjects[0], 0, &xPos, &yPos);
     xPos -= 8;
     for (objectIndex = 0; objectIndex < 5; objectIndex++) {
         SetOamRangePosition(gMenuPairObjects->mObjects[objectIndex], -1, xPos,

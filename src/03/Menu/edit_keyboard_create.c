@@ -185,7 +185,7 @@ void AdvanceEditKeyboardSlideInRow3(TaskEntry *task) {
 }
 
 void AdvanceEditKeyboardSlideInRow4(TaskEntry *task) {
-    u32 xPos;
+    s32 xPos;
     s32 yPos;
     GetOamRangeEntryPosition(gEditKeyboard->mRow4Keys[0], 0, &xPos, &yPos);
     yPos -= 12;

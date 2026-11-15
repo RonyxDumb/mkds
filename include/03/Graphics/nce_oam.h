@@ -19,7 +19,7 @@ typedef struct OamRange {
     /* 0c */ u8 mEntryCount;
 } OamRange;
 
-void GetOamRangeEntryPosition(OamRange *range, int index, u32 *xPos, s32 *yPos);
+void GetOamRangeEntryPosition(OamRange *range, int index, s32 *xPos, s32 *yPos);
 
 extern struct OamRanges *gOamRanges;
 extern struct NceImage *gNceFiles[2];

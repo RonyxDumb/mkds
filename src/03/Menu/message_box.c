@@ -66,7 +66,7 @@ void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry) {
 }
 
 void AdvanceMessageBoxSlideIn(u32 task) {
-    u32 xPos;
+    s32 xPos;
     s32 yPos;
 
     GetOamRangeEntryPosition(gMessageBox->mBox, 0, &xPos, &yPos);
@@ -163,7 +163,7 @@ void PlaceMessageBox(s32 yPos) {
 void ClipOamRangeAboveY(OamRange *range, s32 minY) {
     s32 entryCount;
     s32 entryIndex;
-    u32 xPos;
+    s32 xPos;
     s32 yPos;
     s32 effect;
 
@@ -197,7 +197,7 @@ void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry) {
 }
 
 void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry) {
-    u32 xPos;
+    s32 xPos;
     s32 yPos;
 
     GetOamRangeEntryPosition(gMessageBox->mBox, 0, &xPos, &yPos);
