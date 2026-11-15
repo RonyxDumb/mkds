@@ -604,7 +604,7 @@ void InitCryptKey(SbServerList *serverList, s8 *serverBytes, s32 length) {
         serverList->mChallenge[targetIndex] =
             serverList->mChallenge[targetIndex] ^ (s8) (serverList->mChallenge[sourceIndex] ^ serverBytes[index]);
     }
-    GOACryptInit((GOACryptState *) serverList->mCryptKey, (const u8 *) serverList->mChallenge, 8);
+    GOACryptInit(&serverList->mCryptKey, (const u8 *) serverList->mChallenge, 8);
 }
 
 s32 ServerSizeForFlags(u32 flags) {
@@ -908,7 +908,7 @@ s32 ProcessMainListData(SbServerList *serverList) {
             serverList->mParseState = SERVER_LIST_PARSE_ADDRESS;
             data += headerEnd;
             length -= headerEnd;
-            GOADecrypt(serverList->mCryptKey, data, length);
+            GOADecrypt(&serverList->mCryptKey, data, length);
         case SERVER_LIST_PARSE_ADDRESS:
             if (length < 6) {
                 break;
@@ -1334,7 +1334,7 @@ s32 ProcessIncomingData(SbServerList *serverList) {
     error = 0;
     if (serverList->mState == SERVER_LIST_STATE_AD_HOC ||
         serverList->mParseState > SERVER_LIST_PARSE_CIPHER_KEY) {
-        GOADecrypt(serverList->mCryptKey, serverList->mInBuffer + oldLength, serverList->mInBufferLength - oldLength);
+        GOADecrypt(&serverList->mCryptKey, serverList->mInBuffer + oldLength, serverList->mInBufferLength - oldLength);
     }
     if (serverList->mState == SERVER_LIST_STATE_RECEIVING_LIST) {
         error = ProcessMainListData(serverList);

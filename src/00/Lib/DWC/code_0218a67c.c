@@ -10,13 +10,13 @@
 
 u8 gShopSsidPrefix[9] = {0x4e, 0x44, 0x57, 0x43, 0x53, 0x48, 0x41, 0x50, 0};
 
-void GOADecrypt(u8 *state, u8 *data, int length) {
+void GOADecrypt(GOACryptState *state, u8 *data, int length) {
     u8 decrypted;
     int index;
     index = 0;
     if (0 < length) {
         do {
-            decrypted = GOADecryptByte((GOACryptState *) state, data[index]);
+            decrypted = GOADecryptByte(state, data[index]);
             data[index] = decrypted;
             index = index + 1;
         } while (index < length);

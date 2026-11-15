@@ -9,6 +9,7 @@
 #include "00/Lib/DWC/code_021884d8.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/code_021a3a18.h"
+#include "00/Lib/GameSpy/code_0218a71c.h"
 
 #include "types.h"
 #include "00/code_021a6fa8.h"
@@ -90,7 +91,8 @@ typedef struct SbServerList {
     /* 4b0 */ s32 mSocket;
     /* 4b4 */ u32 mLanStartTime;
     /* 4b8 */ u32 mFromGameVersion;
-    /* 4bc */ u8 mCryptKey[0x108];
+    /* 4bc */ GOACryptState mCryptKey;
+    /* 5c1 */ u8 mUnk_5c1[3];
     /* 5c4 */ u32 mQueryOptions;
     /* 5c8 */ s32 mParseState;
     /* 5cc */ s32 mLanAdapterOverride;
