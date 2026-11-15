@@ -80,7 +80,7 @@ typedef struct WiFiMessageLayer {
 typedef struct DWCTransportHeader {
     /* 00 */ u32 mSize;
     /* 04 */ u16 mType;
-    /* 06 */ u8 mMagicStrings[2];
+    /* 06 */ char mMagicStrings[2];
 } DWCTransportHeader;
 
 // Points at WiFiConnection.mMessageLayer: set by DWCi_InitTransport, set to NULL by DWCi_ShutdownTransport

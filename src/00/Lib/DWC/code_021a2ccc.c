@@ -45,7 +45,7 @@ void DWC_SetUserRecvCallback(void (*callback)(u32, void *, u32)) {
 }
 
 void DWCs_EncodeHeader(DWCTransportHeader *header, u16 type, u32 size) {
-    strncpy((char *) header->mMagicStrings, gDwcMagicStrings, 2);
+    strncpy(header->mMagicStrings, gDwcMagicStrings, 2);
     header->mType = type;
     header->mSize = size;
 }

@@ -1192,7 +1192,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             if (length != 0) {
                 interruptState = OS_DisableInterrupts();
                 MI_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & 0xf0) / 4,
-                            (u8 *) socket->mReceiveBuffer + socket->mReceiveBufferLength, length);
+                            socket->mReceiveBuffer + socket->mReceiveBufferLength, length);
                 socket->mReceiveBufferLength += length;
                 socket->mAckNo += length;
                 OS_RestoreInterrupts(interruptState);
