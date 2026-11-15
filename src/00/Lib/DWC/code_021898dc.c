@@ -176,8 +176,8 @@ u32 SearchAround2ndLap(ACWORK *work) {
 
 u32 SearchDifferChannel(ACWORK *work) {
     if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
-        work->mSearchList[work->mSearchListNo].mUnk_00_lo == 1) {
-        work->mSearchList[work->mSearchListNo].mUnk_00_lo = 0;
+        work->mSearchList[work->mSearchListNo].mBeaconReceived == 1) {
+        work->mSearchList[work->mSearchListNo].mBeaconReceived = 0;
         work->mSearchListNo++;
         if (work->mSearchListNum <= work->mSearchListNo) {
             work->mSearchListNo = 0;
@@ -192,8 +192,8 @@ u32 SearchDifferChannel(ACWORK *work) {
 
 u32 SearchStealth(ACWORK *work) {
     if ((OS_GetTick() - work->mTimeOut) * 64 / 0x82ea >= 0x96 ||
-        work->mSearchList[work->mSearchListNo].mUnk_00_lo == 1) {
-        work->mSearchList[work->mSearchListNo].mUnk_00_lo = 0;
+        work->mSearchList[work->mSearchListNo].mBeaconReceived == 1) {
+        work->mSearchList[work->mSearchListNo].mBeaconReceived = 0;
         work->mSearchListNo++;
         if (work->mSearchListNum == work->mSearchListNo) {
             work->mCount++;

@@ -30,7 +30,7 @@ enum {
 
 // Entries of 0x24 bytes at 0x300 of ACWORK.
 typedef struct ACSL {
-    /* 00 */ u8 mUnk_00_lo : 4;
+    /* 00 */ u8 mBeaconReceived : 4;
     /* 00 */ u8 mDuplicateMatch : 4;
     /* 01 */ u8 mApType;
     /* 02 */ u8 mChannel;

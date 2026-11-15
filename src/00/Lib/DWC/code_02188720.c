@@ -73,7 +73,7 @@ void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
         case 5:
             type = CompareList(bssdesc, 1, work->mSearchList + work->mSearchListNo);
             if (type >= 0) {
-                work->mSearchList[work->mSearchListNo].mUnk_00_lo = 1;
+                work->mSearchList[work->mSearchListNo].mBeaconReceived = 1;
             }
             break;
         default:
