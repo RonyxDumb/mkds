@@ -49,7 +49,7 @@ static inline s32 RaceProgressKartIsConnectionActive(ConnectionWork *connectionW
     return result;
 }
 
-static inline void func_0203d568_b_inline(void) {
+static inline void ReplaceDisconnectedHumansWithCpu(void) {
     u16 entryIndex;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != 10 &&
@@ -64,7 +64,7 @@ static inline void func_0203d568_b_inline(void) {
     }
 }
 
-static inline s32 func_0203d568_c_inline(void) {
+static inline s32 RaceProgressKartIsBackupBusy(void) {
     s32 busy;
     if (gBackupBuffers->mBusy == 0) {
         busy = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
@@ -91,7 +91,7 @@ static inline u16 GetCheckpointRouteIndex(u16 checkpoint) {
     return 0;
 }
 
-static inline s16 func_0203df74_b_inline(RaceProgressKart *kart, s32 *outProgress, Vec3 *position) {
+static inline s16 FindKartCheckpoint(RaceProgressKart *kart, s32 *outProgress, Vec3 *position) {
     u16 routeIndex;
     u16 checkpoint;
     u16 lo;
@@ -111,7 +111,7 @@ static inline s16 func_0203df74_b_inline(RaceProgressKart *kart, s32 *outProgres
     return -1;
 }
 
-static inline s32 func_0203df74_c_inline(CourseMapRoute *route, u16 checkpoint, s32 progress) {
+static inline s32 ComputeRouteLapProgress(CourseMapRoute *route, u16 checkpoint, s32 progress) {
     s32 routeProgress;
     s32 value;
 
@@ -279,7 +279,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
             }
         }
         if (foundCheckpoint == -1) {
-            foundCheckpoint = func_0203df74_b_inline(kart, &checkpointProgress, position);
+            foundCheckpoint = FindKartCheckpoint(kart, &checkpointProgress, position);
         }
         if (foundCheckpoint == -1) {
             return;
@@ -287,7 +287,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
         routeIndex = GetCheckpointRouteIndex(foundCheckpoint);
     }
     route = &gCourseMap->mCheckpointRoutes[routeIndex];
-    lapProgress = func_0203df74_c_inline(route, foundCheckpoint, checkpointProgress);
+    lapProgress = ComputeRouteLapProgress(route, foundCheckpoint, checkpointProgress);
     value = 0;
     if (foundCheckpoint != -1) {
         if (gCourseMap->mNumberedCheckpointCount >= 1) {
@@ -299,7 +299,7 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
             EnterRaceProgressKartCheckpoint(kart, foundCheckpoint);
         } else {
             checkpointProgress = kart->mCheckpointProgress;
-            lapProgress = func_0203df74_c_inline(route, kart->mCheckpoint, checkpointProgress);
+            lapProgress = ComputeRouteLapProgress(route, kart->mCheckpoint, checkpointProgress);
         }
     }
     kart->mCheckpointProgress = checkpointProgress;
@@ -504,7 +504,7 @@ void StopRaceInput(void) {
     enum { INPUT_SLOT_INDEX_FIRST } inputSlotIndex;
 
     SetReadRaceKeys(0);
-    if (func_0203d568_c_inline() != 0) {
+    if (RaceProgressKartIsBackupBusy() != 0) {
         WaitThreadFunctionsDone();
         if (gBackupAccess->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
@@ -512,13 +512,13 @@ void StopRaceInput(void) {
     }
     switch (gRaceSetup->mMode) {
         case MODE_VS:
-            func_0203d568_b_inline();
+            ReplaceDisconnectedHumansWithCpu();
             break;
         case MODE_MISSION_RUN:
             ClearShapeMapObjectCountListPointer();
             break;
         case MODE_BATTLE:
-            func_0203d568_b_inline();
+            ReplaceDisconnectedHumansWithCpu();
             break;
     }
     for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {

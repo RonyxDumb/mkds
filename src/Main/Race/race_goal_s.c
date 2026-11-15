@@ -30,7 +30,7 @@
 #include "Main/Save/ghost_record_file.h"
 
 // Object not known yet; it only sets the order of the tables below
-u8 data_020c214c_pad[12];
+u8 gRaceGoalSOrderPad[12];
 
 void WriteRaceGoalSRowTiles(s32 row, s32 style) {
     IntPair spans[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};

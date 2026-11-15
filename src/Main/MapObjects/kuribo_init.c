@@ -42,7 +42,7 @@
 #include "Main/MapObjects/dossun.h"
 
 // Object not known yet; it only sets the order of the tables below
-u8 data_020da414_pad = 0;
+u8 gKuriboOrderPad = 0;
 const MapObjectKindDescriptor gKuriboKindDescriptor = {0,
                                                    {0, 0},
                                                    0x108,

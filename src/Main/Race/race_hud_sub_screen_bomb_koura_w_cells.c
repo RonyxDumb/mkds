@@ -39,7 +39,7 @@ void InitRaceHudSubScreenBgColors(void) {
     gRaceHudSubScreenBgColors = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
 }
 
-u8 data_020cfca4_pad[24];
+u8 gRaceHudSubScreenBgColorsOrderPad[24];
 
 void CopyRaceHudSubScreenBgColors(void) {
     s32 rowIndex;

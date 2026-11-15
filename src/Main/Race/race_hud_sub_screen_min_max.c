@@ -6,7 +6,7 @@
 #include "code_0213ecf8.h"
 
 // Object not known yet; it only sets the order of the tables below
-const u8 data_020b6a18_pad[1] = {1};
+const u8 gRaceHudSubScreenMinMaxOrderPad[1] = {1};
 
 // Copies the name of row rowIndex (0 is the player of current entry 0, otherwise course record rowIndex - 1) into
 // nameOut; the whole 10 characters when copyFullLength is non-zero, else only as many as fit the width.
