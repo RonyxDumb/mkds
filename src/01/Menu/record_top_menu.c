@@ -128,67 +128,67 @@ void ResetRecordTopMenu(void) {
 }
 
 // Requests state 1 for the next update.
-void RequestRecordTopMenuState1(void) {
+void RequestRecordTopMenuSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 // Requests state 2 for the next update.
-void RequestRecordTopMenuState2(void) {
+void RequestRecordTopMenuRowsSettle(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SETTLE;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-void RequestRecordTopMenuState3(void) {
+void RequestRecordTopMenuWaitSelectReturn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN;
     gRecordTopMenu->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
 
 // Requests state 4 for the next update.
-void RequestRecordTopMenuState4(void) {
+void RequestRecordTopMenuInput(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-void RequestRecordTopMenuState5(void) {
+void RequestRecordTopMenuRowPress(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROW_PRESS;
     gRecordTopMenu->mStateFrames = 0;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 6 for the next update.
-void RequestRecordTopMenuState6(void) {
+void RequestRecordTopMenuSlideOut(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
 // Requests state 7 for the next update.
-void RequestRecordTopMenuState7(void) {
+void RequestRecordTopMenuRowsSlideOut(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-void RequestRecordTopMenuState8(void) {
+void RequestRecordTopMenuWaitMessageOpen(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN;
     gRecordTopMenu->mStateFrames = 0;
     SetupTxtSystemSubText(GetBmgEntry(gRecordTopMenu->mUnk_20, 0x76));
 }
 
-void RequestRecordTopMenuState9(void) {
+void RequestRecordTopMenuMessageInput(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_MESSAGE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
 }
 
-void RequestRecordTopMenuState10(void) {
+void RequestRecordTopMenuWaitMessageClose(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_CLOSE;
     gRecordTopMenu->mStateFrames = 0;
     RequestTxtSystemClose();
 }
 
 // Requests state 11 for the next update.
-void RequestRecordTopMenuState11(void) {
+void RequestRecordTopMenuRowsSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
 }
@@ -339,15 +339,15 @@ void ReleaseRecordTopMenu(void) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (subDisplayBits << 8);
 }
 
-void AdvanceRecordTopMenuState0(void) {
+void AdvanceRecordTopMenuWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestRecordTopMenuState1();
+        RequestRecordTopMenuSlideIn();
     }
 }
 
-void AdvanceRecordTopMenuState1(void) {
+void AdvanceRecordTopMenuSlideIn(void) {
     s16 offsetX;
     s32 rowIndex;
     s32 labelIndex;
@@ -379,11 +379,11 @@ void AdvanceRecordTopMenuState1(void) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
-        RequestRecordTopMenuState2();
+        RequestRecordTopMenuRowsSettle();
     }
 }
 
-void AdvanceRecordTopMenuState2(void) {
+void AdvanceRecordTopMenuRowsSettle(void) {
     s16 offsetX;
     s32 rowIndex;
 
@@ -396,19 +396,19 @@ void AdvanceRecordTopMenuState2(void) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
-        RequestRecordTopMenuState3();
+        RequestRecordTopMenuWaitSelectReturn();
     }
 }
 
-void AdvanceRecordTopMenuState3(void) {
+void AdvanceRecordTopMenuWaitSelectReturn(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
-        RequestRecordTopMenuState4();
+        RequestRecordTopMenuInput();
     }
 }
 
-void AdvanceRecordTopMenuState4(void) {
+void AdvanceRecordTopMenuInput(void) {
     InputSlotIndex slotIndex;
     u16 keyBPressed;
     BOOL touchBegan;
@@ -451,7 +451,7 @@ void AdvanceRecordTopMenuState4(void) {
         }
     }
     SetSelectReturnSoundId(15);
-    RequestRecordTopMenuState6();
+    RequestRecordTopMenuSlideOut();
     gRecordTopMenu->mRecordScreen = RECORD_SCREEN_START;
     RequestSelectReturnPressWithSound(1);
     return;
@@ -467,13 +467,13 @@ skip:
                 gRecordTopMenu->mIndex = rowIndex;
                 SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
             }
-            RequestRecordTopMenuState5();
+            RequestRecordTopMenuRowPress();
         }
     } else {
         keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
         if (keyBPressed != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
-            RequestRecordTopMenuState5();
+            RequestRecordTopMenuRowPress();
         } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             DecrementRecordTopMenuIndex();
@@ -486,7 +486,7 @@ skip:
     }
 }
 
-void AdvanceRecordTopMenuState5(void) {
+void AdvanceRecordTopMenuRowPress(void) {
     s16 offsetX;
 
     gRecordTopMenu->mStateFrames++;
@@ -500,15 +500,15 @@ void AdvanceRecordTopMenuState5(void) {
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
         if (gRecordTopMenu->mIndex == 2 && GetRecordCount() == 0) {
-            RequestRecordTopMenuState7();
+            RequestRecordTopMenuRowsSlideOut();
             return;
         }
         gRecordTopMenu->mRecordScreen = gRecordTopMenuRowRecordScreens[gRecordTopMenu->mIndex];
-        RequestRecordTopMenuState6();
+        RequestRecordTopMenuSlideOut();
     }
 }
 
-void AdvanceRecordTopMenuState6(void) {
+void AdvanceRecordTopMenuSlideOut(void) {
     s16 offsetX;
     s32 rowIndex;
     s32 labelIndex;
@@ -547,7 +547,7 @@ void AdvanceRecordTopMenuState6(void) {
     }
 }
 
-void AdvanceRecordTopMenuState7(void) {
+void AdvanceRecordTopMenuRowsSlideOut(void) {
     s16 offsetX;
     s32 rowIndex;
 
@@ -560,19 +560,19 @@ void AdvanceRecordTopMenuState7(void) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
-        RequestRecordTopMenuState8();
+        RequestRecordTopMenuWaitMessageOpen();
     }
 }
 
-void AdvanceRecordTopMenuState8(void) {
+void AdvanceRecordTopMenuWaitMessageOpen(void) {
     int txtSystemNoCloseRequest;
     txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (txtSystemNoCloseRequest != 0) {
-        RequestRecordTopMenuState9();
+        RequestRecordTopMenuMessageInput();
     }
 }
 
-void AdvanceRecordTopMenuState9(void) {
+void AdvanceRecordTopMenuMessageInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u16 keyBPressed;
     BOOL touchBegan;
@@ -598,19 +598,19 @@ void AdvanceRecordTopMenuState9(void) {
             return;
         }
     }
-    RequestRecordTopMenuState10();
+    RequestRecordTopMenuWaitMessageClose();
     RequestSelectReturnPressWithSound(0);
 }
 
-void AdvanceRecordTopMenuState10(void) {
+void AdvanceRecordTopMenuWaitMessageClose(void) {
     int txtSystemNoOpenRequest;
     txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (txtSystemNoOpenRequest != 0) {
-        RequestRecordTopMenuState11();
+        RequestRecordTopMenuRowsSlideIn();
     }
 }
 
-void AdvanceRecordTopMenuState11(void) {
+void AdvanceRecordTopMenuRowsSlideIn(void) {
     s32 rowIndex;
     s16 offsetX;
     gRecordTopMenu->mStateFrames++;
@@ -622,7 +622,7 @@ void AdvanceRecordTopMenuState11(void) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mOffsetX = offsetX;
     }
     if (gRecordTopMenu->mStateFrames >= 10) {
-        RequestRecordTopMenuState3();
+        RequestRecordTopMenuWaitSelectReturn();
     }
 }
 
@@ -631,40 +631,40 @@ void AdvanceRecordTopMenu(void) {
     gRecordTopMenu->mState = gRecordTopMenu->mNextState;
     switch (gRecordTopMenu->mState) {
         case RECORD_TOP_MENU_STATE_WAIT_FADE:
-            AdvanceRecordTopMenuState0();
+            AdvanceRecordTopMenuWaitFade();
             break;
         case RECORD_TOP_MENU_STATE_SLIDE_IN:
-            AdvanceRecordTopMenuState1();
+            AdvanceRecordTopMenuSlideIn();
             break;
         case RECORD_TOP_MENU_STATE_ROWS_SETTLE:
-            AdvanceRecordTopMenuState2();
+            AdvanceRecordTopMenuRowsSettle();
             break;
         case RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN:
-            AdvanceRecordTopMenuState3();
+            AdvanceRecordTopMenuWaitSelectReturn();
             break;
         case RECORD_TOP_MENU_STATE_INPUT:
-            AdvanceRecordTopMenuState4();
+            AdvanceRecordTopMenuInput();
             break;
         case RECORD_TOP_MENU_STATE_ROW_PRESS:
-            AdvanceRecordTopMenuState5();
+            AdvanceRecordTopMenuRowPress();
             break;
         case RECORD_TOP_MENU_STATE_SLIDE_OUT:
-            AdvanceRecordTopMenuState6();
+            AdvanceRecordTopMenuSlideOut();
             break;
         case RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT:
-            AdvanceRecordTopMenuState7();
+            AdvanceRecordTopMenuRowsSlideOut();
             break;
         case RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN:
-            AdvanceRecordTopMenuState8();
+            AdvanceRecordTopMenuWaitMessageOpen();
             break;
         case RECORD_TOP_MENU_STATE_MESSAGE_INPUT:
-            AdvanceRecordTopMenuState9();
+            AdvanceRecordTopMenuMessageInput();
             break;
         case RECORD_TOP_MENU_STATE_WAIT_MESSAGE_CLOSE:
-            AdvanceRecordTopMenuState10();
+            AdvanceRecordTopMenuWaitMessageClose();
             break;
         case RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN:
-            AdvanceRecordTopMenuState11();
+            AdvanceRecordTopMenuRowsSlideIn();
             break;
     }
     recordTopMenu = gRecordTopMenu;
