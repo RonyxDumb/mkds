@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/DWC/code_0218973c.h"
 #include "00/Lib/DWC/code_021894e4.h"
 #include "00/Lib/DWC/code_021898dc.h"
@@ -22,31 +23,31 @@ u32 DWCi_AC_ConnectRetryAP(void) {
     u32 nextPhase;
 
     work = DWCi_AC_GetMemPtr(0x10);
-    nextPhase = 9;
+    nextPhase = AC_PHASE_CONNECT_RETRY;
     switch (WCM_GetPhase()) {
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             nextPhase = work->mPhaseBak;
             if (work->mDuplicateFlag == 1) {
                 work->mFindList[work->mConnectNo].mState = 0;
-                nextPhase = 7;
-            } else if (nextPhase >= 3 && nextPhase <= 5) {
+                nextPhase = AC_PHASE_CONNECT_START;
+            } else if (nextPhase >= AC_PHASE_SEARCH_AROUND && nextPhase <= AC_PHASE_SEARCH_HIDDEN) {
                 DWCi_AC_SearchReStart(nextPhase);
             }
             break;
-        case 6:
+        case WIFI_LINK_PHASE_SEARCHING:
             WCM_EndSearchAsync();
             break;
-        case 9:
+        case WIFI_LINK_PHASE_CONNECTED:
             WCM_DisconnectAsync();
             break;
-        case 12:
+        case WIFI_LINK_PHASE_ABORT_PENDING:
             WCM_TerminateAsync();
             DWCi_AC_SetError(4);
-            nextPhase = 0x11;
+            nextPhase = AC_PHASE_ERROR;
             break;
-        case 11:
+        case WIFI_LINK_PHASE_FAILED:
             DWCi_AC_SetError(0);
-            nextPhase = 0x11;
+            nextPhase = AC_PHASE_ERROR;
             break;
     }
     return nextPhase;
@@ -60,14 +61,14 @@ u8 DWCi_AC_MakeSearchList(u32 type) {
     clearValue = 0;
     MIi_CpuClear32(clearValue, work->mSearchList, 0x144);
     switch (type) {
-        case 0:
+        case AC_SEARCH_LIST_AROUND:
             work->mSearchListNum = MakeAroundList(work);
             break;
-        case 1:
+        case AC_SEARCH_LIST_OTHER_CHANNELS:
             work->mSearchListNum =
                 MakeDifferChannelList(work->mFindListNum, work->mFindList, work->mSearchList, work->mBssDesc);
             break;
-        case 2:
+        case AC_SEARCH_LIST_HIDDEN:
             work->mSearchListNum = MakeStealthList(work);
             break;
     }

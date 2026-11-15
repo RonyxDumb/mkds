@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/DWC/code_02188ee0.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "00/Lib/DWC/code_02188de4.h"
@@ -12,24 +13,24 @@
 
 s32 DisConnectAP(void) {
     switch (WCM_GetPhase()) {
-        case 0:
+        case WIFI_LINK_PHASE_NONE:
             return 1;
-        case 1:
+        case WIFI_LINK_PHASE_STOPPED:
             WCM_Finish();
             break;
-        case 3:
+        case WIFI_LINK_PHASE_READY:
             WCM_CleanupAsync();
             break;
-        case 6:
+        case WIFI_LINK_PHASE_SEARCHING:
             WCM_EndSearchAsync();
             break;
-        case 9:
+        case WIFI_LINK_PHASE_CONNECTED:
             WCM_DisconnectAsync();
             break;
-        case 12:
+        case WIFI_LINK_PHASE_ABORT_PENDING:
             WCM_TerminateAsync();
             break;
-        case 11:
+        case WIFI_LINK_PHASE_FAILED:
             DWCi_AC_SetError(0);
             return -1;
     }
@@ -53,10 +54,10 @@ u32 DWCi_AC_ConnectAP(void) {
     phase = DWCi_AC_GetPhase();
     work = DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
-        case 7:
+        case AC_PHASE_CONNECT_START:
             phase = ConnectStart(work);
             break;
-        case 8:
+        case AC_PHASE_CONNECT_AP:
             phase = ConnectAP(work);
             break;
     }
@@ -88,7 +89,7 @@ u32 ConnectStart(ACWORK *work) {
     }
     work->mCount = 0;
     work->mConnectResult = AUTO_CONNECT_RESULT_NONE;
-    return 8;
+    return AC_PHASE_CONNECT_AP;
 }
 
 u32 ConnectAP(ACWORK *work) {
@@ -98,13 +99,13 @@ u32 ConnectAP(ACWORK *work) {
 
     connPhase = WCM_GetPhase();
     bssDesc = &work->mBssDesc[work->mConnectNo];
-    if (connPhase == 3) {
+    if (connPhase == WIFI_LINK_PHASE_READY) {
         powerMode = GetPowerMode(work);
         work->mCount++;
         if (work->mCount > 3) {
             work->mCount = 0;
             work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_FAILED;
-            return 9;
+            return AC_PHASE_CONNECT_RETRY;
         }
         if (work->mCount != 1) {
             if (work->mConnectResult == AUTO_CONNECT_RESULT_RETRY_AUTH_FALLBACK) {
@@ -112,20 +113,20 @@ u32 ConnectAP(ACWORK *work) {
             } else if (work->mConnectResult == AUTO_CONNECT_RESULT_ERROR_51100) {
                 work->mCount = 0;
                 work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
-                return 9;
+                return AC_PHASE_CONNECT_RETRY;
             } else if (work->mConnectResult == AUTO_CONNECT_RESULT_ERROR_51200) {
                 work->mCount = 0;
                 work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51200;
-                return 9;
+                return AC_PHASE_CONNECT_RETRY;
             }
         }
         WCM_ConnectAsync(bssDesc, &work->mWepKey, powerMode | GetAuthMode(work));
-    } else if (connPhase == 9) {
+    } else if (connPhase == WIFI_LINK_PHASE_CONNECTED) {
         work->mCount = 0;
         work->mTimeOut = OS_GetTick();
-        return 10;
+        return AC_PHASE_TEST_START;
     }
-    return 8;
+    return AC_PHASE_CONNECT_AP;
 }
 
 u8 GetConnectType(ACWORK *work) {

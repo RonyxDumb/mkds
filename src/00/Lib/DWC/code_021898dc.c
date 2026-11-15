@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/DWC/code_021898dc.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "00/unk_021b4000.h"
@@ -48,21 +49,21 @@ u8 DWCi_AC_Start(void) {
 
     wcmPhase = WCM_GetPhase();
     work = DWCi_AC_GetMemPtr(0x10);
-    if (wcmPhase == 1) {
+    if (wcmPhase == WIFI_LINK_PHASE_STOPPED) {
         config.mDmaNo = work->mDmaNo;
         config.mPbdBuffer = NULL;
         config.mNbdBuffer = 0;
         config.mNbdMode = 0;
-        DWCi_AC_MakeSearchList(0);
+        DWCi_AC_MakeSearchList(AC_SEARCH_LIST_AROUND);
         result = WCM_StartupAsync(&config, (void (*)(WCMNotice *)) DWCi_AC_CallBackWCM);
         if (result == 1 || result >= 4) {
             DWCi_AC_SetError(1);
-            return 0x11;
+            return AC_PHASE_ERROR;
         }
     } else {
-        return 1;
+        return AC_PHASE_START;
     }
-    return 2;
+    return AC_PHASE_STARTING_UP;
 }
 
 u32 DWCi_AC_SearchAP(void) {
@@ -130,16 +131,16 @@ void DWCi_AC_SearchReStart(u32 phase) {
 
     work = DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
-        case 3:
+        case AC_PHASE_SEARCH_AROUND:
             work->mTimeOut = OS_GetTick();
             ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
             break;
-        case 4:
+        case AC_PHASE_SEARCH_LISTED_CHANNELS:
             work->mTimeOut = OS_GetTick();
             ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
                       work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
             break;
-        case 5:
+        case AC_PHASE_SEARCH_HIDDEN:
             work->mTimeOut = OS_GetTick();
             ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
             break;
@@ -169,7 +170,7 @@ u32 SearchAround(ACWORK *work) {
 u32 SearchAround2ndLap(ACWORK *work) {
     work->mCount = 0;
     work->mAroundCount = work->mAroundCount + 1;
-    DWCi_AC_MakeSearchList(0);
+    DWCi_AC_MakeSearchList(AC_SEARCH_LIST_AROUND);
     work->mSearchChannel = 1;
     return 3;
 }
@@ -212,27 +213,27 @@ u32 SearchStealth(ACWORK *work) {
 
 u32 NextSearchCheck(ACWORK *work, u32 phase) {
     switch (phase) {
-        case 3:
+        case AC_PHASE_SEARCH_AROUND:
             if (work->mFindListNum != 0 || work->mStealthChannel != 0) {
-                if (DWCi_AC_MakeSearchList(1) != 0) {
-                    phase = 4;
+                if (DWCi_AC_MakeSearchList(AC_SEARCH_LIST_OTHER_CHANNELS) != 0) {
+                    phase = AC_PHASE_SEARCH_LISTED_CHANNELS;
                 } else {
                     phase = CheckStartStealthSearch(work);
                 }
             } else if (work->mAroundCount < 1) {
                 phase = SearchAround2ndLap(work);
             } else {
-                phase = 6;
+                phase = AC_PHASE_SEARCH_DONE;
             }
             break;
-        case 4:
+        case AC_PHASE_SEARCH_LISTED_CHANNELS:
             phase = CheckStartStealthSearch(work);
             break;
-        case 5:
+        case AC_PHASE_SEARCH_HIDDEN:
             if (work->mAroundCount < 1) {
                 phase = SearchAround2ndLap(work);
             } else {
-                phase = 6;
+                phase = AC_PHASE_SEARCH_DONE;
             }
             break;
     }

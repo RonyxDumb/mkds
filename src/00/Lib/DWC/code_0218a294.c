@@ -1,3 +1,4 @@
+#include "00/Lib/NitroWiFi/code_021a4b98.h"
 #include "00/Lib/DWC/code_0218a294.h"
 #include "00/Lib/DWC/code_02188ec0.h"
 #include "00/code_02187484.h"
@@ -18,41 +19,41 @@ u32 DWCi_AC_ConnectTest(void) {
 
     phase = DWCi_AC_GetPhase();
     work = DWCi_AC_GetMemPtr(0x10);
-    if (WCM_GetPhase() == 9) {
+    if (WCM_GetPhase() == WIFI_LINK_PHASE_CONNECTED) {
         switch (phase) {
-            case 10:
+            case AC_PHASE_TEST_START:
                 phase = ConnectTestStart(work);
                 break;
-            case 12:
+            case AC_PHASE_TEST_GET_IP:
                 phase = GetIPAddress(work);
                 break;
-            case 13:
+            case AC_PHASE_TEST_CREATE:
                 phase = ConnectTestCreate();
                 break;
-            case 14:
+            case AC_PHASE_TEST_PROCESS:
                 phase = ConnectTestProcess(work);
                 break;
-            case 15:
+            case AC_PHASE_TEST_END:
                 phase = ConnectTestEnd(work);
                 break;
-            case 11:
+            case AC_PHASE_TEST_RETRY:
                 phase = ConnectTestRetry();
                 break;
         }
     } else {
         switch (phase) {
-            case 15:
+            case AC_PHASE_TEST_END:
                 phase = ConnectTestEnd(work);
                 break;
-            case 11:
+            case AC_PHASE_TEST_RETRY:
                 phase = ConnectTestRetry();
                 break;
-            case 14:
+            case AC_PHASE_TEST_PROCESS:
                 DWC_Netcheck_Abort();
                 DWC_Netcheck_Destroy();
             default:
                 work->mFindList[work->mConnectNo].mState = 2;
-                phase = 0xb;
+                phase = AC_PHASE_TEST_RETRY;
         }
     }
     return phase;

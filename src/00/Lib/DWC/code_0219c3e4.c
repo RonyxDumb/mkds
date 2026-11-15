@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/code_0219c3e4.h"
 
 #include "00/code_0219c954.h"
@@ -128,19 +129,19 @@ s32 ReportWiFiLoginGpResult(s32 result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case GP_MEMORY_ERROR:
             errorKind = 0xb;
             errorCode = -1;
             break;
-        case 2:
+        case GP_PARAMETER_ERROR:
             errorKind = 0xb;
             errorCode = -2;
             break;
-        case 3:
+        case GP_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case 4:
+        case GP_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;

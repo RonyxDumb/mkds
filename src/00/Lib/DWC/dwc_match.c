@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/dwc_match.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
 #include "00/code_0219eaf4.h"
@@ -3024,19 +3025,19 @@ u32 ReportMatchingGpResult(u32 result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case GP_MEMORY_ERROR:
             dwcCategory = 11;
             detailCode = -1;
             break;
-        case 2:
+        case GP_PARAMETER_ERROR:
             dwcCategory = 11;
             detailCode = -2;
             break;
-        case 3:
+        case GP_NETWORK_ERROR:
             dwcCategory = 6;
             detailCode = -10;
             break;
-        case 4:
+        case GP_SERVER_ERROR:
             dwcCategory = 6;
             detailCode = -20;
             break;
@@ -3052,27 +3053,27 @@ u32 DWCi_HandleSBError(u32 result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case sbe_socketerror:
             kind = 6;
             detail = -50;
             break;
-        case 2:
+        case sbe_dnserror:
             kind = 6;
             detail = -30;
             break;
-        case 3:
+        case sbe_connecterror:
             kind = 6;
             detail = -20;
             break;
-        case 4:
+        case sbe_dataerror:
             kind = 6;
             detail = -40;
             break;
-        case 5:
+        case sbe_allocerror:
             kind = 11;
             detail = -1;
             break;
-        case 6:
+        case sbe_paramerror:
             kind = 11;
             detail = -2;
             break;
@@ -3088,23 +3089,23 @@ u32 DWCi_HandleQR2Error(u32 error) {
         return 0;
     }
     switch (error) {
-        case 1:
+        case e_qrwsockerror:
             kind = 6;
             detail = -50;
             break;
-        case 2:
+        case e_qrbinderror:
             kind = 6;
             detail = -60;
             break;
-        case 3:
+        case e_qrdnserror:
             kind = 6;
             detail = -30;
             break;
-        case 4:
+        case e_qrconnerror:
             kind = 6;
             detail = -80;
             break;
-        case 5:
+        case e_qrnochallengeerror:
             kind = 6;
             detail = -20;
             break;
@@ -3133,15 +3134,15 @@ s32 DWCi_HandleNNError(s32 error) {
         return 0;
     }
     switch (error) {
-        case 1:
+        case ne_allocerror:
             kind = 11;
             detail = -1;
             break;
-        case 2:
+        case ne_socketerror:
             kind = 6;
             detail = -50;
             break;
-        case 3:
+        case ne_dnserror:
             kind = 6;
             detail = -30;
             break;
@@ -3157,9 +3158,9 @@ s32 DWCi_HandleNNResult(s32 result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case nr_deadbeatpartner:
             return 1;
-        case 2:
+        case nr_inittimeout:
             return 2;
         default:
             dwcError = DWC_ERROR_NETWORK;
@@ -3179,29 +3180,29 @@ u32 ReportMatchingConnectResult(u32 result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case GT2OutOfMemory:
             dwcCategory = 11;
             detailCode = -1;
             break;
-        case 2:
-        case 5:
+        case GT2Rejected:
+        case GT2DuplicateAddress:
             dwcCategory = 0;
             detailCode = 0;
             result = 0;
             break;
-        case 3:
+        case GT2NetworkError:
             dwcCategory = 6;
             detailCode = -10;
             break;
-        case 4:
+        case GT2AddressError:
             dwcCategory = 6;
             detailCode = -30;
             break;
-        case 6:
+        case GT2TimedOut:
             dwcCategory = 6;
             detailCode = -70;
             break;
-        case 7:
+        case GT2NegotiationError:
             dwcCategory = 6;
             detailCode = -80;
             break;

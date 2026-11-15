@@ -61,7 +61,7 @@ void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
     hold->mBeaconReceived = 1;
     phase = DWCi_AC_GetPhase();
     switch (phase) {
-        case 3:
+        case AC_PHASE_SEARCH_AROUND:
             if (bssdesc->mSsidLength == 0 || bssdesc->mSsid[0] == 0) {
                 DWCi_AC_SetStealthChannel(bssdesc->mChannel);
             } else if (bssdesc->mSsidLength == 1 || bssdesc->mSsid[0] == 0x20) {
@@ -71,8 +71,8 @@ void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
                 type = CompareList(bssdesc, work->mSearchListNum, work->mSearchList);
             }
             break;
-        case 4:
-        case 5:
+        case AC_PHASE_SEARCH_LISTED_CHANNELS:
+        case AC_PHASE_SEARCH_HIDDEN:
             type = CompareList(bssdesc, 1, work->mSearchList + work->mSearchListNo);
             if (type >= 0) {
                 work->mSearchList[work->mSearchListNo].mBeaconReceived = 1;
@@ -251,7 +251,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     hold = gAcHold;
     hold->mAlloc = config->mAlloc;
     hold->mFree = config->mFree;
-    hold->mPhase = 1;
+    hold->mPhase = AC_PHASE_START;
     hold->mEndSequence = 1;
     hold->mAllocState = 1;
     gAcWork = DWCi_AC_Alloc(0x10, 0xd18);

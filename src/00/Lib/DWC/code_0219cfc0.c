@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/code_0219cfc0.h"
 #include "00/unk_021b5000.h"
 #include "00/Lib/DWC/code_0219c3e4.h"
@@ -39,19 +40,19 @@ int ReportBuddySyncGpResult(int result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case GP_MEMORY_ERROR:
             errorKind = 11;
             errorCode = -1;
             break;
-        case 2:
+        case GP_PARAMETER_ERROR:
             errorKind = 11;
             errorCode = -2;
             break;
-        case 3:
+        case GP_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case 4:
+        case GP_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -69,23 +70,23 @@ int DWCi_HandlePersError(int error) {
         return 0;
     }
     switch (error) {
-        case 1:
+        case GE_NOSOCKET:
             errorKind = 6;
             detail = -50;
             break;
-        case 2:
+        case GE_NODNS:
             errorKind = 6;
             detail = -30;
             break;
-        case 3:
+        case GE_NOCONNECT:
             errorKind = 6;
             detail = -20;
             break;
-        case 5:
+        case GE_DATAERROR:
             errorKind = 6;
             detail = -40;
             break;
-        case 7:
+        case GE_TIMEDOUT:
             errorKind = 6;
             detail = -70;
             break;

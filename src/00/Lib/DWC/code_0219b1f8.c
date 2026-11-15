@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/code_0219b000.h"
 #include "00/code_0219c954.h"
@@ -191,7 +192,7 @@ void DWC_ProcessFriendsMatch(void) {
     switch (gWiFiConnection->mState) {
         case WIFI_CONNECTION_GP_SETUP:
             switch (GSIAvailableCheckThink()) {
-                case 1:
+                case GSIACAvailable:
                     if (ReportWiFiGpResult(GpInitialize(&gWiFiConnection->mGpConnection,
                                                         gWiFiConnection->mLogin.mProductId, 0)) != 0) {
                         return;
@@ -219,10 +220,10 @@ void DWC_ProcessFriendsMatch(void) {
                     DWCi_SetState(WIFI_CONNECTION_LOGIN);
                     DWCi_LoginAsync();
                     break;
-                case 2:
+                case GSIACUnavailable:
                     DWCi_StopLogin(3, -20110);
                     return;
-                case 3:
+                case GSIACTemporarilyUnavailable:
                     DWCi_StopLogin(4, -20101);
                     return;
             }
@@ -584,19 +585,19 @@ int ReportWiFiGpResult(int result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case GP_MEMORY_ERROR:
             errorKind = 0xb;
             errorCode = -1;
             break;
-        case 2:
+        case GP_PARAMETER_ERROR:
             errorKind = 0xb;
             errorCode = -2;
             break;
-        case 3:
+        case GP_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case 4:
+        case GP_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -635,29 +636,29 @@ u32 ReportWiFiSocketResult(u32 result) {
         return 0;
     }
     switch (result) {
-        case 1:
+        case GT2OutOfMemory:
             errorKind = 0xb;
             errorCode = -1;
             break;
-        case 2:
-        case 5:
+        case GT2Rejected:
+        case GT2DuplicateAddress:
             errorKind = 0;
             errorCode = 0;
             result = 0;
             break;
-        case 3:
+        case GT2NetworkError:
             errorKind = 6;
             errorCode = -10;
             break;
-        case 4:
+        case GT2AddressError:
             errorKind = 6;
             errorCode = -30;
             break;
-        case 6:
+        case GT2TimedOut:
             errorKind = 6;
             errorCode = -70;
             break;
-        case 7:
+        case GT2NegotiationError:
             errorKind = 6;
             errorCode = -80;
             break;
@@ -793,16 +794,16 @@ void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
         return;
     }
     switch (reason) {
-        case 0:
-        case 1:
+        case GT2LocalClose:
+        case GT2RemoteClose:
             kind = 0;
             break;
-        case 2:
-        case 3:
+        case GT2CommunicationError:
+        case GT2SocketError:
             kind = 6;
             detail = -0x1db0;
             break;
-        case 4:
+        case GT2NotEnoughMemory:
             kind = 0xb;
             detail = -0x1db1;
             break;
