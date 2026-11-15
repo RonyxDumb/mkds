@@ -33,10 +33,10 @@
 
 #pragma thumb off
 
-StateCallbacks gRotaryStateTable[4] = {{EnterRotaryState0, UpdateRotaryState0},
-                                       {RotaryState1Nop, UpdateRotaryState1},
-                                       {EnterRotaryState2, UpdateRotaryState2},
-                                       {RotaryState3Nop, UpdateRotaryState3}};
+StateCallbacks gRotaryStateTable[4] = {{EnterRotaryRampUp, UpdateRotaryRampUp},
+                                       {RotarySteadyNop, UpdateRotarySteady},
+                                       {EnterRotarySlowDown, UpdateRotarySlowDown},
+                                       {RotaryPauseNop, UpdateRotaryPause}};
 const RotaryKindInfo gRotaryTestCylinderKindInfo = {0, 0x12b000, 0x32000, 0, 0x165, 1, 0x177};
 const RotaryKindInfo gRotaryRoomKindInfo = {1, 0x1d8000, 0x19000, 3, 0x800, 1, 0x16a};
 const RotaryKindInfo gRotaryGearBlackKindInfo = {1, 0x12c000, 0x32000, 1, 0x800, 1, 0x177};
@@ -78,7 +78,7 @@ const MapObjectKindDescriptor gRotaryBridgeKindDescriptor = {0,
                                                    0,
                                                    CreateRotaryUpdateList};
 
-void UpdateRotaryState3(void *stateObject) {
+void UpdateRotaryPause(void *stateObject) {
     Rotary *object = stateObject;
     if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
         object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;

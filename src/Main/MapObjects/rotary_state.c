@@ -2,12 +2,12 @@
 
 #include "Main/MapObjects/choropu.h"
 
-void EnterRotaryState0(void *stateObject) {
+void EnterRotaryRampUp(void *stateObject) {
     Rotary *object = stateObject;
     object->mSpeedFraction = 0x0u;
 }
 
-void UpdateRotaryState0(void *stateObject) {
+void UpdateRotaryRampUp(void *stateObject) {
     Rotary *object = stateObject;
     object->mSpeedFraction = object->mSpeedFraction + object->mSpeedFractionPerFrame;
     object->mCollisionMapObject.mMapObject.mAngle =
@@ -19,9 +19,9 @@ void UpdateRotaryState0(void *stateObject) {
     }
 }
 
-void RotaryState1Nop(void *stateObject) {}
+void RotarySteadyNop(void *stateObject) {}
 
-void UpdateRotaryState1(void *stateObject) {
+void UpdateRotarySteady(void *stateObject) {
     Rotary *object = stateObject;
     object->mCollisionMapObject.mMapObject.mAngle =
         object->mCollisionMapObject.mMapObject.mAngle + object->mAnglePerFrame;
@@ -33,12 +33,12 @@ void UpdateRotaryState1(void *stateObject) {
     }
 }
 
-void EnterRotaryState2(void *stateObject) {
+void EnterRotarySlowDown(void *stateObject) {
     Rotary *object = stateObject;
     object->mSpeedFraction = 0x1000u;
 }
 
-void UpdateRotaryState2(void *stateObject) {
+void UpdateRotarySlowDown(void *stateObject) {
     Rotary *object = stateObject;
     object->mSpeedFraction = object->mSpeedFraction - object->mSpeedFractionPerFrame;
     object->mCollisionMapObject.mMapObject.mAngle =
@@ -51,4 +51,4 @@ void UpdateRotaryState2(void *stateObject) {
     }
 }
 
-void RotaryState3Nop(void *stateObject) {}
+void RotaryPauseNop(void *stateObject) {}
