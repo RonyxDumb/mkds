@@ -1,4 +1,5 @@
 #include "Main/Race/race_progress_kart.h"
+#include "Main/Menu/wl_menu_kind.h"
 #include "Main/System/heap.h"
 #include "Main/Race/race_end_condition.h"
 #include "Main/Race/race_checkpoint_progress.h"
@@ -53,7 +54,7 @@ static inline void ReplaceDisconnectedHumansWithCpu(void) {
     u16 entryIndex;
 
     if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != 10 &&
-        (GetNextSceneNumber() != 6 || gMenuShared->mWLMenuKind != 2) &&
+        (GetNextSceneNumber() != 6 || gMenuShared->mWLMenuKind != WL_MENU_KIND_TO_RESULT) &&
         RaceProgressKartIsConnectionActive(gConnectionWork) != 0) {
         for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
             if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&

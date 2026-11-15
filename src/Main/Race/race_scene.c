@@ -1,4 +1,5 @@
 #include "Main/Race/race_scene.h"
+#include "Main/Menu/wl_menu_kind.h"
 
 #include "Main/Scene/menu_scene.h"
 #include "Main/Menu/data_02175628.h"
@@ -347,7 +348,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 if (connectionActive != 0) {
                     if (gStartupWork->mMultiSimple != 0) {
                         nextScene = 6;
-                        gMenuShared->mWLMenuKind = 3;
+                        gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                     } else {
                         nextScene = 1;
                     }
@@ -385,7 +386,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
-                            gMenuShared->mWLMenuKind = 1;
+                            gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RACE;
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
@@ -395,7 +396,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
-                            gMenuShared->mWLMenuKind = 3;
+                            gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                         }
                     }
                     break;
@@ -414,7 +415,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
-                            gMenuShared->mWLMenuKind = 1;
+                            gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RACE;
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
@@ -424,7 +425,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
-                            gMenuShared->mWLMenuKind = 3;
+                            gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                         }
                     }
                     break;
@@ -446,7 +447,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                 case MODE_VS:
                     if (gStartupWork->mMultiSimple != 0) {
                         nextScene = 6;
-                        gMenuShared->mWLMenuKind = 2;
+                        gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_RESULT;
                     } else {
                         nextScene = 0xa;
                     }

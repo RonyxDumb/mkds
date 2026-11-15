@@ -77,22 +77,22 @@ void InitWLMenuScene(void *heap) {
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (GetWLMenuKind()) {
-        case 0:
+        case WL_MENU_KIND_JOIN_GROUP:
             gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0
                                                          ? WL_MENU_CALLBACKS_MB_CHILD_MESSAGE
                                                          : WL_MENU_CALLBACKS_MEMBER_GROUP;
             InitWLMenuResetRaceSetup(heap);
             ResetConnection();
             break;
-        case 1:
+        case WL_MENU_KIND_TO_RACE:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RACE;
             InitWLMenuRequestMPWaitRaceArchives(heap);
             break;
-        case 2:
+        case WL_MENU_KIND_TO_RESULT:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RESULT;
             InitWLMenuRequestMPWaitResultArchives(heap);
             break;
-        case 3:
+        case WL_MENU_KIND_TO_MENU:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_MENU;
             InitWLMenuRequestMPWaitMenuArchives(heap);
             break;

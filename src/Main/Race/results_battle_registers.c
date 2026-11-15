@@ -1,4 +1,5 @@
 #include "Main/Race/results_battle_registers.h"
+#include "Main/Menu/wl_menu_kind.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/Race/cup_records.h"
 #include "Main/System/low_byte.h"
@@ -1045,7 +1046,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
                                 if (gStartupWork->mMultiSimple != 0) {
-                                    gMenuShared->mWLMenuKind = 3;
+                                    gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                                     gMenuShared->mMenuEntryKind = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 6;
