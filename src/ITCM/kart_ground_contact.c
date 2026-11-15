@@ -176,8 +176,8 @@ void AdvanceKartQuaternionBlendFactor(Kart *kart, const Vec3 *direction) {
     }
 }
 
-// Counts mAirborneFrames, also clears mUnk_234, sets or clears KART_MOTION_AIRBORNE_LONG and stores mLastGroundY. Not
-// run while the kart is below y = 0.
+// Counts mAirborneFrames, also clears mAirTiltAngle, sets or clears KART_MOTION_AIRBORNE_LONG and stores mLastGroundY.
+// Not run while the kart is below y = 0.
 void UpdateKartAirborne(Kart *kart) {
     if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
         kart->mAirborneFrames = 0;

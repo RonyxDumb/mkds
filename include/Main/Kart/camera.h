@@ -98,8 +98,8 @@ void UpdateCameraPosCurve(Camera *camera, s32 paramPerFrame);
 void UpdateStaffRollCameraAndLight(Camera *camera);
 // Entry kinds 5 and 6 (the angle entries of CourseMapCamera.mKind): puts the Camera around the followed Kart from the
 // entry's angles (mUnk_18.x, mUnk_18.y, mUnk_24.x, mUnk_24.y: degrees converted to 0x10000 per turn) and distance
-// (mUnk_18.z), lowers the position and look-at by the Kart's mUnk_2bc, pushes mPos out of walls except in modes 2 and 4
-// of gRaceSetup.mMode, then updates the view.
+// (mUnk_18.z), lowers the position and look-at by the Kart's mHopHeight, pushes mPos out of walls except in modes 2 and
+// 4 of gRaceSetup.mMode, then updates the view.
 void UpdateCameraAngleEntry(Camera *camera);
 // Entry kind 1: moves mPos along the entry's curve (UpdateCameraPosCurve), points mLookAt at the followed Kart (raised
 // by 0x6000; when gRaceSetup.mRaceKind is 5 the Kart comes from the entry's mUnk_24.z and the raise from its
@@ -107,8 +107,8 @@ void UpdateCameraAngleEntry(Camera *camera);
 void UpdateCameraPosCurveLookAtKart(Camera *camera);
 // Does nothing while mCourseMapCamera is NULL. Otherwise runs the entry (UpdateCameraByEntryKind), counts
 // mCourseMapCameraFrames and, when it reaches the entry's mFrameCount, starts the entry at mNextIndex (sets
-// gRaceProgress.mUnk_4d0 when there is none). For gFirstChainCamera with mFrustumShift 1 it also starts the next entry
-// of gSecondChainCamera. UpdateRace reaches it once a frame, only while gRace.mUseChainCameras is non-zero.
+// gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift 1 it also starts the
+// next entry of gSecondChainCamera. UpdateRace reaches it once a frame, only while gRace.mUseChainCameras is non-zero.
 void UpdateCameraEntry(Camera *camera);
 // Steps gFirstChainCamera (UpdateCameraEntry), updates its view, stores it in gCurrentChainCamera and returns its view
 // matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 4.
@@ -146,7 +146,7 @@ void StartEntryCameraAngleStart(void);
 void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward);
 // Tests the camera's path from mPrevPos to mPos against the course collision. On a hit it sets mPosGoalCollisionOffset
 // and mCollisionOffsetLengthGoal or moves mPos out directly; it always eases mCollisionOffsetLength toward its goal.
-// Also sets mUnk_254, mUnk_258 and mUnk_25c and clears gChaseCameraUnusedWord.
+// Also sets mCollisionState, mCollisionActive and mCollisionLatch and clears gChaseCameraUnusedWord.
 void UpdateChaseCameraCollision(Camera *camera, Kart *kart, Vec3 *forward);
 // One frame of the chase camera (gChaseCamera) following Kart b: eases the field of view, the look-at, the position
 // goal and the position toward the Kart, then runs the collision test and the wobble. With KART_ENTRY_REMOVED set in

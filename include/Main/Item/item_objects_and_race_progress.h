@@ -340,7 +340,7 @@ typedef struct RaceProgressScoreTerms {
     /* 20 */ s32 mRespawnScore;
 } RaceProgressScoreTerms;
 
-// 8-byte entries from 0x1c of the object behind RaceProgress.mUnk_4c8.
+// 8-byte entries from 0x1c of the object behind RaceProgress.mRankTimeGpFile.
 typedef struct RankTimeGpEntry {
     /* 00 */ u8 mCourseId;
     /* 01 */ u8 mUnk_01;

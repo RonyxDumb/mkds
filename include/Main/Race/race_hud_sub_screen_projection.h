@@ -110,7 +110,7 @@ typedef struct {
     /* 10 */ s16 mValues[4];
 } CourseMapPoint;
 
-// 0x30-byte entries of the table at CourseMap.mUnk_bc (ResetBattlePointLinkCursorNear searches it).
+// 0x30-byte entries of the table at CourseMap.mFirstBattlePointLink (ResetBattlePointLinkCursorNear searches it).
 typedef struct PointLink {
     /* 00 */ struct PointLink *mLinks[3];
     /* 0c */ struct PointLink *mUnk_0c;

@@ -25,7 +25,7 @@ u32 IsKartTurnEffectsActive(Kart *kart);
 s32 ApplyKartSurfaceKind10(Kart *kart);
 // Surface kind 19 (entry 19 of gKartSurfaceFunctions): unless mSurfaceGroup is already 0xb and KART_MOTION_STATE_RESET
 // is clear in mMotionFlags it runs StartKartBoost and, for the selected kart, calls StartSound with 0x1b9; otherwise it
-// sets mUnk_238 to 0x3c. Then it sets KART_DRIVE_BOOST_SURFACE_HELD and KART_DRIVE_ON_BOOST_SURFACE in mDriveFlags,
+// sets mBoostTimer to 0x3c. Then it sets KART_DRIVE_BOOST_SURFACE_HELD and KART_DRIVE_ON_BOOST_SURFACE in mDriveFlags,
 // runs StopKartCurrentEffects and returns surface group 0xb.
 s32 ApplyKartSurfaceBoostHeld(Kart *kart);
 // Surface kind 17 (entry 17 of gKartSurfaceFunctions): passes the entry that gKartSurfaceKind17Effects gives for
@@ -46,7 +46,7 @@ s32 ApplyKartSurfaceBoostWithSpeedFloor(Kart *kart);
 s32 ApplyKartSurfaceJumpPad(Kart *kart);
 // Surface kind 7 (entry 7 of gKartSurfaceFunctions): unless mSurfaceGroup is already 8 and KART_MOTION_STATE_RESET is
 // clear in mMotionFlags it runs StartKartBoost and, for the selected kart with mSurfaceVariant above 0, calls
-// StartSound with the id that gKartSurfaceSoundIds gives for mSurfaceVariant minus 1; otherwise it sets mUnk_238 to
+// StartSound with the id that gKartSurfaceSoundIds gives for mSurfaceVariant minus 1; otherwise it sets mBoostTimer to
 // 0x3c. Then it runs StopKartCurrentEffects and returns surface group 8.
 s32 ApplyKartSurfaceBoost(Kart *kart);
 // Surface kind 6 (entry 6 of gKartSurfaceFunctions): passes the entry that gKartSurfaceKind6Effects gives for
@@ -70,21 +70,22 @@ s32 ApplyKartSurfaceKind1(Kart *kart);
 s32 ApplyKartSurfaceKind20(Kart *kart);
 s32 ApplyKartSurfaceStopEffects(Kart *kart);
 // Collision response 11 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
-// for the kart and the map object): when TryStartKartScaleTableEffect holds for the kart, mUnk_44c of the kart is not
-// the object and the kart is the selected kart, increments the counter of the record GetEntryKartCounters returns.
-// Stores 0 through the second parameter and returns 0.
+// for the kart and the map object): when TryStartKartScaleTableEffect holds for the kart, mScaleEffectMapObject of the
+// kart is not the object and the kart is the selected kart, increments the counter of the record GetEntryKartCounters
+// returns. Stores 0 through the second parameter and returns 0.
 s32 CollideKartWithMapObjectResponse11(Kart *kart, s32 *output, s32 mapObject);
 // Collision response 14 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
 // for the kart and the map object): stores 0xc through the second parameter, clears the boost bits of mDriveFlags
-// (BOOST, RACE_START_BOOST, MINI_TURBO, KINOKO_BOOST, ITEM_BOOST), zeroes mUnk_238, the mUnk_00 member of mUnk_538 and
-// mUnk_23c, for the selected kart calls ResetCameraHalfFovAngleGoal unless KART_EFFECT_KILLER in mEffectFlags or
-// KART_DRIVE_SCALE_TABLE_EFFECT in mDriveFlags is set and then runs StopDispCapBlend, then runs TrySpinKart with 1 and,
-// when that succeeds, StartKartSpinFollowEffect with the kart index. Returns 5.
+// (BOOST, RACE_START_BOOST, MINI_TURBO, KINOKO_BOOST, ITEM_BOOST), zeroes mBoostTimer, the mKinokoBoostTimer member of
+// mItemEffectData and mMiniTurboTimer, for the selected kart calls ResetCameraHalfFovAngleGoal unless
+// KART_EFFECT_KILLER in mEffectFlags or KART_DRIVE_SCALE_TABLE_EFFECT in mDriveFlags is set and then runs
+// StopDispCapBlend, then runs TrySpinKart with 1 and, when that succeeds, StartKartSpinFollowEffect with the kart
+// index. Returns 5.
 s32 CollideKartWithMapObjectResponse14(Kart *kart, s32 *output);
 // Collision response 13 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
 // for the kart and the map object): stores 0xc through the second parameter, clears the boost bits of mDriveFlags
-// (BOOST, RACE_START_BOOST, MINI_TURBO, KINOKO_BOOST, ITEM_BOOST), zeroes mUnk_238, the mUnk_00 member of mUnk_538 and
-// mUnk_23c, for the selected kart calls ResetCameraHalfFovAngleGoal unless KART_EFFECT_KILLER in mEffectFlags or
-// KART_DRIVE_SCALE_TABLE_EFFECT in mDriveFlags is set and then runs StopDispCapBlend, and sets mForwardSpeed to 0.
-// Returns 5.
+// (BOOST, RACE_START_BOOST, MINI_TURBO, KINOKO_BOOST, ITEM_BOOST), zeroes mBoostTimer, the mKinokoBoostTimer member of
+// mItemEffectData and mMiniTurboTimer, for the selected kart calls ResetCameraHalfFovAngleGoal unless
+// KART_EFFECT_KILLER in mEffectFlags or KART_DRIVE_SCALE_TABLE_EFFECT in mDriveFlags is set and then runs
+// StopDispCapBlend, and sets mForwardSpeed to 0. Returns 5.
 s32 CollideKartWithMapObjectResponse13(Kart *kart, s32 *output);

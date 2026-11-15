@@ -716,7 +716,7 @@ typedef struct Kart {
     // ApplyKartContact, 0 at reset.
     /* 386 */ s16 mHeadingAnglePerFrame;
     // Angle that follows mTurnDirection: eased toward 11000 or -11000, changed by the turn input and cut back to 0 on
-    // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in AdvanceKartByVelocity.
+    // the ground; it is the angle of the rotation of mForward about mGroundNormal in AdvanceKartByVelocity.
     /* 388 */ s16 mTurnAngle;
     /* 38a */ s16 mDriftHeadingAnglePerFrame;
     /* 38c */ s32 mSpeedLimitHitFactor;

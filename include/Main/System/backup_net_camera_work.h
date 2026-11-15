@@ -1407,7 +1407,7 @@ typedef struct Camera {
     /* 0e4 */ s32 mLookAtLowering;
     /* 0e8 */ s32 mFollowDistanceScale;
     /* 0ec */ s32 mUnk_0ec;
-    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceSetup.mUnk_044.
+    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceSetup.mMissionRunBits.
     /* 0f0 */ s32 mFollowDirectionSign;
     /* 0f4 */ Vec3 mShakeLookAtOffsetGoal;
     /* 100 */ Vec3 mShakePosOffsetGoal;
@@ -1424,7 +1424,7 @@ typedef struct Camera {
     /* 140 */ BOOL mWobbling;
     /* 144 */ s32 mFactor;
     /* 148 */ s32 mWobbleAmplitude;
-    // Added to mUnk_144 each frame, times mWobbleDirection.
+    // Added to mFactor each frame, times mWobbleDirection.
     /* 14c */ s32 mWobblePerFrame;
     /* 150 */ s16 mWobbleDirection;
     /* 152 */ u8 mUnk_152[0x2];
@@ -1437,8 +1437,8 @@ typedef struct Camera {
     // Eased toward 0, or toward +-0x19000 (sign of Kart.mTurnDirection) while KART_MOTION_DRIFTING is set in
     // Kart.mMotionFlags.
     /* 16c */ s32 mPosGoalKartOffsetScale;
-    // Length of the push-out vector while the push is in state 1 of mUnk_254, else 0; mCollisionOffsetLength eases
-    // toward it.
+    // Length of the push-out vector while the push is in state 1 of mCollisionState, else 0; mCollisionOffsetLength
+    // eases toward it.
     /* 170 */ s32 mCollisionOffsetLengthGoal;
     // Eased mCollisionOffsetLengthGoal; times 3 it shortens the follow distance and raises the position goal
     // (UpdateChaseCameraPos).

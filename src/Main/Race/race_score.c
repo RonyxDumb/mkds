@@ -116,7 +116,7 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
     scoreTerms->mRespawnScore = entryKartCounters->mRespawnCount * -rankTimeGpFile->mRespawnPoints;
 }
 
-// Sum of the nine score terms (also saved in gRaceProgress.mUnk_500), clamped to -9999..9999; 0 unless kart a is the
+// Sum of the nine score terms (also saved in gRaceProgress.mScoreTerms), clamped to -9999..9999; 0 unless kart a is the
 // local entry in Grand Prix or Mission Run.
 s16 ComputeRaceProgressKartScore(s32 kartIndex) {
     RaceProgressScoreTerms scoreTerms;

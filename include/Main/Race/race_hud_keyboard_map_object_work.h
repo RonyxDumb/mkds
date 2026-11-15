@@ -126,9 +126,8 @@ typedef struct RaceHudSubScreenBgColors {
 typedef struct RaceMNumberPair {
     // Copy of gRaceSetup.mCourseNumber taken in InitRaceMNumberPair.
     /* 00 */ s32 mCourseNumber;
-    // Number of courses of the run: 4 in mode 5, gRaceSetup.mUnk_3d8 in mode 3 with mUnk_1c == 2, else 0 (not
-    // drawn). mUnk_3d8 has another meaning (score threshold) in mode 2 and for mUnk_1c == 1; this member never copies
-    // that one.
+    // Number of courses of the run: 4 in a Wi-Fi race, gRaceSetup.mCourseCount in a VS race with the race count
+    // rule, else 0 (not drawn).
     /* 04 */ s32 mCourseCount;
     /* 08 */ MtxFx22 mScaleMatrix;
     /* 18 */ MtxFx22 *mCellMatrix;
