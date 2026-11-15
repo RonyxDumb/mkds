@@ -20,6 +20,18 @@ enum {
     OPTION_SELECT_ROW_OK,
 };
 
+// Values of OptionSelectMenu.mState and mNextState, in the order of AdvanceOptionSelectMenu's cases: the entries slide
+// in, the screen waits for input, the entries slide out; OK_PRESSED_DELAY runs after the OK entry is chosen;
+// WAIT_BACKUP waits for the message to finish and the backup write to end.
+enum {
+    OPTION_SELECT_STATE_SLIDE_IN,
+    OPTION_SELECT_STATE_SLIDE_IN_BG2,
+    OPTION_SELECT_STATE_WAIT_INPUT,
+    OPTION_SELECT_STATE_OK_PRESSED_DELAY,
+    OPTION_SELECT_STATE_SLIDE_OUT,
+    OPTION_SELECT_STATE_WAIT_BACKUP,
+};
+
 // Object behind gOptionSelectMenu.
 typedef struct OptionSelectMenu {
     /* 00 */ s32 mState;

@@ -89,8 +89,8 @@ void InitOptionSelectMenu(void *heap) {
 
     gOptionSelectMenu = HeapAlloc(heap, 0x90);
     gOptionSelectMenu->mHeap = heap;
-    gOptionSelectMenu->mState = 0;
-    gOptionSelectMenu->mNextState = 0;
+    gOptionSelectMenu->mState = OPTION_SELECT_STATE_SLIDE_IN;
+    gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN;
     gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
     gOptionSelectMenu->mStateFrames = 0;
     gOptionSelectMenu->mHighlightVisible = TRUE;
@@ -244,7 +244,7 @@ void AdvanceOptionSelectMenuState0(void) {
         }
     }
     if (gOptionSelectMenu->mStateFrames >= 10) {
-        gOptionSelectMenu->mNextState = 1;
+        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN_BG2;
         gOptionSelectMenu->mStateFrames = 0;
     }
 }
@@ -253,7 +253,7 @@ void AdvanceOptionSelectMenuState1(void) {
     gOptionSelectMenu->mStateFrames++;
     gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnState1Bg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
-        gOptionSelectMenu->mNextState = 2;
+        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_WAIT_INPUT;
         gOptionSelectMenu->mStateFrames = 0;
     }
 }
@@ -300,7 +300,7 @@ void AdvanceOptionSelectMenuState2(void) {
         if (touchBegan != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
                                        gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) != FALSE) {
         L1:
-            gOptionSelectMenu->mNextState = 4;
+            gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
             gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
                 gOptionSelectMenu->mRowValues[rowIndex] = gOptionSelectMenu->mSavedRowValues[rowIndex];
@@ -321,7 +321,7 @@ void AdvanceOptionSelectMenuState2(void) {
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) {
             gOptionSelectMenu->mHighlightVisible = FALSE;
         }
-        gOptionSelectMenu->mNextState = 3;
+        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_OK_PRESSED_DELAY;
         gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_OK;
         gOptionSelectMenu->mOkChosen = TRUE;
@@ -409,7 +409,7 @@ end:
 void AdvanceOptionSelectMenuState3(void) {
     gOptionSelectMenu->mStateFrames++;
     if (gOptionSelectMenu->mStateFrames >= 10) {
-        gOptionSelectMenu->mNextState = 4;
+        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
         gOptionSelectMenu->mStateFrames = 0;
     } else if (gOptionSelectMenu->mStateFrames >= 5) {
         gOptionSelectMenu->mHighlightVisible = TRUE;
@@ -444,7 +444,7 @@ void AdvanceOptionSelectMenuState4(void) {
                 text = GetBmgEntry(gOptionSelectMenu->mOptionMessages, 0x10);
                 buttonText = GetBmgEntry(gOptionSelectMenu->mCommonMessages, 4);
                 SetupTxtSystemSubTextButton(text, buttonText);
-                gOptionSelectMenu->mNextState = 5;
+                gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_WAIT_BACKUP;
                 gOptionSelectMenu->mStateFrames = 0;
                 RequestSelectReturnState4();
             } else {
@@ -600,22 +600,22 @@ void AdvanceOptionSelectMenu(void) {
 
     gOptionSelectMenu->mState = gOptionSelectMenu->mNextState;
     switch (gOptionSelectMenu->mState) {
-        case 0:
+        case OPTION_SELECT_STATE_SLIDE_IN:
             AdvanceOptionSelectMenuState0();
             break;
-        case 1:
+        case OPTION_SELECT_STATE_SLIDE_IN_BG2:
             AdvanceOptionSelectMenuState1();
             break;
-        case 2:
+        case OPTION_SELECT_STATE_WAIT_INPUT:
             AdvanceOptionSelectMenuState2();
             break;
-        case 3:
+        case OPTION_SELECT_STATE_OK_PRESSED_DELAY:
             AdvanceOptionSelectMenuState3();
             break;
-        case 4:
+        case OPTION_SELECT_STATE_SLIDE_OUT:
             AdvanceOptionSelectMenuState4();
             break;
-        case 5:
+        case OPTION_SELECT_STATE_WAIT_BACKUP:
             AdvanceOptionSelectMenuState5();
             break;
     }
