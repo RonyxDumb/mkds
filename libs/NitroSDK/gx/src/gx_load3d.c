@@ -128,18 +128,18 @@ void GX_BeginLoadClearImage(void) {
     u32 mask = GX_ResetBankForClearImage();
     gClearImageLoadBankMask = mask;
     switch (mask) {
-        case GX_VRAM_BANK_B:
-        case GX_VRAM_BANK_A | GX_VRAM_BANK_B:
+        case VRAM_BANK_B:
+        case VRAM_BANK_A | VRAM_BANK_B:
             gClearImageLoadBase = (u8 *) 0x6800000;
             break;
-        case GX_VRAM_BANK_D:
-        case GX_VRAM_BANK_C | GX_VRAM_BANK_D:
+        case VRAM_BANK_D:
+        case VRAM_BANK_C | VRAM_BANK_D:
             gClearImageLoadBase = (u8 *) 0x6840000;
             break;
-        case GX_VRAM_BANK_A:
+        case VRAM_BANK_A:
             gClearImageLoadBase = (u8 *) 0x67e0000;
             break;
-        case GX_VRAM_BANK_C:
+        case VRAM_BANK_C:
             gClearImageLoadBase = (u8 *) 0x6820000;
             break;
     }

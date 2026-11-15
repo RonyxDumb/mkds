@@ -13,15 +13,15 @@ typedef enum { GX_BGMODE_0, GX_BGMODE_1, GX_BGMODE_2, GX_BGMODE_3, GX_BGMODE_4, 
 
 // One bit per VRAM bank (A to I) in the bank masks of GX_SetBankFor... and GX_ResetBankFor...
 enum {
-    GX_VRAM_BANK_A = 0x1,
-    GX_VRAM_BANK_B = 0x2,
-    GX_VRAM_BANK_C = 0x4,
-    GX_VRAM_BANK_D = 0x8,
-    GX_VRAM_BANK_E = 0x10,
-    GX_VRAM_BANK_F = 0x20,
-    GX_VRAM_BANK_G = 0x40,
-    GX_VRAM_BANK_H = 0x80,
-    GX_VRAM_BANK_I = 0x100
+    VRAM_BANK_A = 0x1,
+    VRAM_BANK_B = 0x2,
+    VRAM_BANK_C = 0x4,
+    VRAM_BANK_D = 0x8,
+    VRAM_BANK_E = 0x10,
+    VRAM_BANK_F = 0x20,
+    VRAM_BANK_G = 0x40,
+    VRAM_BANK_H = 0x80,
+    VRAM_BANK_I = 0x100
 };
 
 // Plane bits of the display register (DisplaySettings.mMainDisplayMask / mSubDisplayMask).
