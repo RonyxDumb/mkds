@@ -278,10 +278,10 @@ void ResetMissionRunLVsel(void) {
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         for (cellIndex = 0; cellIndex < 11; cellIndex++) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][cellIndex]]
-                .mOffsetX = 0x100;
+                .mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         }
         gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
-            .mOffsetX = 0x100;
+            .mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     }
 }
 
