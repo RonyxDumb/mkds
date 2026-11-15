@@ -13,6 +13,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_mode.h"
 #include "Main/Race/data_021759c0.h"
 #include "tp.h"
 #include "Main/Sound/sound_set_load.h"
@@ -103,15 +104,15 @@ s32 GetRaceEndResultKind(void) {
         case MODE_GRAND_PRIX:
         case MODE_WIFI:
             switch (gSeqRowState.mFinishResult) {
-                case 0:
+                case FINISH_RESULT_WON:
                     if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
                         candidateKind = 0;
                     } else {
                         candidateKind = 1;
                     }
                     break;
-                case 1:
-                case 2:
+                case FINISH_RESULT_NEITHER:
+                case FINISH_RESULT_LOST:
                     candidateKind = 2;
                     break;
             }
@@ -119,18 +120,18 @@ s32 GetRaceEndResultKind(void) {
             break;
         case MODE_VS:
             if (raceSetup->mRuleKind == 1) {
-                resultKind = (gSeqRowState.mFinishResult == 0) ? 0 : 2;
+                resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
             } else {
                 switch (gSeqRowState.mFinishResult) {
-                    case 0:
+                    case FINISH_RESULT_WON:
                         if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
                             candidateKind = 0;
                         } else {
                             candidateKind = 1;
                         }
                         break;
-                    case 1:
-                    case 2:
+                    case FINISH_RESULT_NEITHER:
+                    case FINISH_RESULT_LOST:
                         candidateKind = 2;
                         break;
                 }
@@ -138,13 +139,13 @@ s32 GetRaceEndResultKind(void) {
             }
             break;
         case MODE_MISSION_RUN:
-            resultKind = (gSeqRowState.mFinishResult == 0) ? 0 : 2;
+            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
             break;
         case MODE_BATTLE:
-            resultKind = (gSeqRowState.mFinishResult == 0) ? 0 : 2;
+            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 0 : 2;
             break;
         case MODE_TIME_ATTACK:
-            resultKind = (gSeqRowState.mFinishResult == 0) ? 1 : 2;
+            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? 1 : 2;
             if (resultKind == IsRaceNewRecordTaFinishRecordFirst()) {
                 resultKind = 0;
             }
@@ -165,7 +166,7 @@ void StartRaceEndSeq(s32 unused) {
     if (value != RACE_KIND_REPLAY && value != RACE_KIND_NORMAL) {
         return;
     }
-    if (gSoundModeHolder.mMode != 2) {
+    if (gSoundModeHolder.mMode != SCENE_SOUND_MODE_PLAYING) {
         return;
     }
     EndRaceSounds();

@@ -188,11 +188,20 @@ typedef struct SoundModeHolder {
     /* 18 */ NNSSndSeqPlayer **mKartStarSeqPlayer;
 } SoundModeHolder;
 
+// Values of SeqRowState.mFinishResult: the selected kart ends the race with the won flag, with neither flag, or with
+// the lost flag.
+enum {
+    FINISH_RESULT_WON,
+    FINISH_RESULT_NEITHER,
+    FINISH_RESULT_LOST
+};
+
 // Object at gSeqRowState (0x10 bytes); mUnk_08 points to a row of six words.
 typedef struct SeqRowState {
     /* 00 */ s32 mLoadedIndex;
     /* 04 */ NNSSndHeap *mSeqHeap;
     /* 08 */ u32 *mSeqRow;
+    // FINISH_RESULT_*
     /* 0c */ u32 mFinishResult;
 } SeqRowState;
 
