@@ -21,7 +21,7 @@ StateCallbacks gLogoStateTable[12] = {
 
 #pragma section MAIN_TEXT end
 
-void UpdateLogoState8(void) {
+void UpdateLogoState8(void *stateObject) {
     StateMachine *stateMachine;
     if (gDwcInitResult == 3) {
         stateMachine = &gLogoScene->mStateMachine;
@@ -34,13 +34,13 @@ void UpdateLogoState8(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState9(void) {
+void EnterLogoState9(void *stateObject) {
     void *message;
     message = GetBmgEntry(gLogoScene->mCommonMessages, 137);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 6));
 }
 
-void UpdateLogoState9(void) {
+void UpdateLogoState9(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -54,13 +54,13 @@ void UpdateLogoState9(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState10(void) {
+void EnterLogoState10(void *stateObject) {
     void *message;
     message = GetBmgEntry(gLogoScene->mCommonMessages, 138);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
 }
 
-void UpdateLogoState10(void) {
+void UpdateLogoState10(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();

@@ -28,21 +28,21 @@ s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firs
 
 u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8 *response);
 
-void UpdatePukupukuState3(Pukupuku *pukupuku);
+void UpdatePukupukuState3(void *stateObject);
 
-void EnterPukupukuState3(Pukupuku *pukupuku);
+void EnterPukupukuState3(void *stateObject);
 
-void UpdatePukupukuState2(Pukupuku *pukupuku);
+void UpdatePukupukuState2(void *stateObject);
 
-void EnterPukupukuState2(Pukupuku *pukupuku);
+void EnterPukupukuState2(void *stateObject);
 
-void UpdatePukupukuState1(Pukupuku *pukupuku);
+void UpdatePukupukuState1(void *stateObject);
 
-void EnterPukupukuState1(Pukupuku *pukupuku);
+void EnterPukupukuState1(void *stateObject);
 
-void UpdatePukupukuState0(Pukupuku *pukupuku);
+void UpdatePukupukuState0(void *stateObject);
 
-void EnterPukupukuState0(Pukupuku *pukupuku);
+void EnterPukupukuState0(void *stateObject);
 
 void UpdatePukupuku(u32 unused, Pukupuku *pukupuku);
 

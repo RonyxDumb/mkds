@@ -61,7 +61,7 @@ static inline void MPStatesRequestMPState(u16 nextState) {
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-void UpdateMPState5(void) {
+void UpdateMPState5(void *stateObject) {
     u8 participantMask;
     u16 waitFrames;
 
@@ -82,7 +82,7 @@ void UpdateMPState5(void) {
     }
 }
 
-void UpdateMPState6(void) {
+void UpdateMPState6(void *stateObject) {
     MPStateMachine *stateMachine;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT &&
@@ -96,7 +96,7 @@ void UpdateMPState6(void) {
     }
 }
 
-void EnterMPState3(void) {
+void EnterMPState3(void *stateObject) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
 }
@@ -105,7 +105,7 @@ void EnterMPState3(void) {
 
 #pragma thumb on
 
-void UpdateMPState3(void) {
+void UpdateMPState3(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceMainAndMenuDLArchives();
@@ -120,7 +120,7 @@ void UpdateMPState3(void) {
 
 #pragma thumb on
 
-void UpdateMPState1(void) {
+void UpdateMPState1(void *stateObject) {
     BOOL shouldRequestState;
     BOOL isModeAllowed;
     BOOL isMultiBootSetup;
@@ -156,13 +156,13 @@ void UpdateMPState1(void) {
     }
 }
 
-void EnterMPState2(void) {
+void EnterMPState2(void *stateObject) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         StartLoadOverlay(OVERLAY_SLOT_OV002);
     }
 }
 
-void UpdateMPState2(void) {
+void UpdateMPState2(void *stateObject) {
     if (TryFinishOverlayLoad() != 0) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             CreateOverlayFrmHeap();
@@ -172,7 +172,7 @@ void UpdateMPState2(void) {
     }
 }
 
-void EnterMPState4(void) {
+void EnterMPState4(void *stateObject) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
@@ -182,7 +182,7 @@ void EnterMPState4(void) {
 
 #pragma thumb on
 
-void UpdateMPState4(void) {
+void UpdateMPState4(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadSndDataFromFileCallback);
@@ -198,7 +198,7 @@ void UpdateMPState4(void) {
 #pragma thumb on
 
 // Clears the per-slot flags of received chunks: 0x12 per slot for the parent, 2 for a child.
-void EnterMPState7(void) {
+void EnterMPState7(void *stateObject) {
     s32 slot;
     u32 flagIndex;
     u32 flagCount;
@@ -220,7 +220,7 @@ void EnterMPState7(void) {
     gConnectionWork->mRecordReceivedMask = 0;
 }
 
-void UpdateMPState7(void) {
+void UpdateMPState7(void *stateObject) {
     if (gConnectionWork->mRequestPending == 0) {
         switch (gConnectionWork->mStep) {
             case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
@@ -236,7 +236,7 @@ void UpdateMPState7(void) {
     }
 }
 
-void EnterMPState8(void) {
+void EnterMPState8(void *stateObject) {
     u16 ownIndex;
 
     ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
@@ -297,7 +297,7 @@ BOOL GetEntryChunk(u8 *entry, s32 chunkIndex, s32 chunkSize, u8 **outChunk, u16 
 }
 
 // Child: queues its own entry chunk by chunk, again and again. Parent: waits for the children's entries.
-void UpdateMPState8(void) {
+void UpdateMPState8(void *stateObject) {
     ConnectionWork *work;
     u32 expectedMask;
     u8 receivedMask;
@@ -341,7 +341,7 @@ void UpdateMPState8(void) {
     }
 }
 
-void EnterMPState9(void) {
+void EnterMPState9(void *stateObject) {
     gConnectionWork->mState = CONNECTION_STATE_ENTRY_EXCHANGE;
     gConnectionWork->mMPStateMachine.mEntryWaitFrames = 0;
     gConnectionWork->mRecordReceivedMask = 0;
@@ -350,7 +350,7 @@ void EnterMPState9(void) {
 }
 
 // Parent: queues the entries of all slots to the children, chunk by chunk, until the wait ends.
-void UpdateMPState9(void) {
+void UpdateMPState9(void *stateObject) {
     u32 slotDone;
     u8 chunkIndex;
     u8 slot;
@@ -392,7 +392,7 @@ void UpdateMPState9(void) {
     }
 }
 
-void EnterMPState10(void) {
+void EnterMPState10(void *stateObject) {
     u8 slot;
 
     WM_SetPortCallback(14, NULL, NULL);
@@ -407,7 +407,7 @@ void EnterMPState10(void) {
     }
 }
 
-void UpdateMPState10(void) {
+void UpdateMPState10(void *stateObject) {
     if (gConnectionWork->mRequestPending == 0) {
         switch (gConnectionWork->mStep) {
             case CONNECTION_STEP_STARTING_EXCHANGE:
@@ -420,12 +420,12 @@ void UpdateMPState10(void) {
     }
 }
 
-void EnterMPState11(void) {
+void EnterMPState11(void *stateObject) {
     gConnectionWork->mPlayerSendIndex = 0;
     gConnectionWork->mNamesStoredMask = 0;
 }
 
-void UpdateMPState11(void) {
+void UpdateMPState11(void *stateObject) {
     u8 playerIndex;
     u8 receivedMask;
     u32 receivedBit;
@@ -460,7 +460,7 @@ void UpdateMPState11(void) {
 
 #pragma thumb on
 
-void EnterMPState12(void) {
+void EnterMPState12(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
@@ -476,7 +476,7 @@ void EnterMPState12(void) {
 
 #pragma thumb on
 
-void UpdateMPState12(void) {
+void UpdateMPState12(void *stateObject) {
     if (gConnectionWork->mRequestPending != 0) {
         return;
     }
@@ -493,7 +493,7 @@ void UpdateMPState12(void) {
     }
 }
 
-void EnterMPState13(void) {
+void EnterMPState13(void *stateObject) {
     s32 ownIndex;
 
     gConnectionWork->mBitsReceivedMask = 0;
@@ -506,7 +506,7 @@ void EnterMPState13(void) {
     gConnectionWork->mRecordReceivedMask |= 1;
 }
 
-void UpdateMPState13(void) {
+void UpdateMPState13(void *stateObject) {
     s32 ownIndex;
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
@@ -528,14 +528,14 @@ void UpdateMPState13(void) {
 #pragma thumb off
 
 #pragma thumb on
-void EnterMPState14(void) {
+void EnterMPState14(void *stateObject) {
     gConnectionWork->mPlayerSendIndex = 0;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void UpdateMPState14(void) {
+void UpdateMPState14(void *stateObject) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
         if ((gConnectionWork->mRecordReceivedMask & (1 << gConnectionWork->mPlayerSendIndex)) != 0) {
             if (QueueMPDataPlayerBits(gConnectionWork->mPlayerSendIndex, gConnectionWork->mChildren.mChildMask) !=
@@ -557,6 +557,6 @@ void UpdateMPState14(void) {
 
 #pragma thumb on
 
-void EnterMPState15Nop(void) {}
+void EnterMPState15Nop(void *stateObject) {}
 
 #pragma thumb off

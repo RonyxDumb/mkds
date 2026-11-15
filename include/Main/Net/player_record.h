@@ -2,20 +2,20 @@
 
 #include "types.h"
 
-void UpdateWiFiSessionState6Nop(void);
+void UpdateWiFiSessionState6Nop(void *stateObject);
 
-void UpdateWiFiSessionState5(void);
+void UpdateWiFiSessionState5(void *stateObject);
 
-void EnterWiFiSessionState5(void);
-void UpdateWiFiSessionState4(void);
+void EnterWiFiSessionState5(void *stateObject);
+void UpdateWiFiSessionState4(void *stateObject);
 
-void EnterWiFiSessionState4Nop(void);
+void EnterWiFiSessionState4Nop(void *stateObject);
 
 void AdvanceWiFiSessionOnIrq(void);
-void EnterWiFiSessionState1(void);
-void UpdateWiFiSessionState1(void);
-void EnterWiFiSessionState3(void);
-void UpdateWiFiSessionState3(void);
+void EnterWiFiSessionState1(void *stateObject);
+void UpdateWiFiSessionState1(void *stateObject);
+void EnterWiFiSessionState3(void *stateObject);
+void UpdateWiFiSessionState3(void *stateObject);
 
 u8 GetPlayerRecordLowestGrandPrixValue(int index);
 void SetPlayerRecordElo(int index, s16 elo);

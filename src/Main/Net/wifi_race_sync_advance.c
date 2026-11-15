@@ -183,7 +183,7 @@ void AdvanceWiFiRaceSyncFrames(void) {
     }
 }
 
-void EnterWiFiRaceSyncState1(void) {
+void EnterWiFiRaceSyncState1(void *stateObject) {
     u8 participant;
     s32 *probeCopy;
     WiFiRaceSync *sync;
@@ -216,7 +216,7 @@ void EnterWiFiRaceSyncState1(void) {
     gWiFiRaceSync->mFlags &= ~0x10;
 }
 
-void UpdateWiFiRaceSyncState1(void) {
+void UpdateWiFiRaceSyncState1(void *stateObject) {
     u16 participant;
     u8 mask;
     u16 sendParticipantIndex;
@@ -276,7 +276,7 @@ void UpdateWiFiRaceSyncState1(void) {
     }
 }
 
-void EnterWiFiRaceSyncState2(void) {
+void EnterWiFiRaceSyncState2(void *stateObject) {
     s32 participant;
     WiFiRaceSync *sync;
     u8 sampleCount;
@@ -332,7 +332,7 @@ void SendWiFiRaceSyncReady(u32 participant) {
     }
 }
 
-void UpdateWiFiRaceSyncState2(void) {
+void UpdateWiFiRaceSyncState2(void *stateObject) {
     WiFiRaceSync *sync;
     u8 participant;
     WiFiRaceSyncRecord *payload;
@@ -360,7 +360,7 @@ void UpdateWiFiRaceSyncState2(void) {
     CallWithNextWiFiRaceSyncParticipant(sync->mSendParticipantIndex, SendWiFiRaceSyncReady);
 }
 
-void EnterWiFiRaceSyncState3(void) {
+void EnterWiFiRaceSyncState3(void *stateObject) {
     gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_COUNTDOWN_TIME;
     gWiFiRaceSync->mCountdownSendIndex = 0;
 }
@@ -378,7 +378,7 @@ void SendWiFiRaceSyncCountdown(u32 participant) {
     }
 }
 
-void UpdateWiFiRaceSyncState3(void) {
+void UpdateWiFiRaceSyncState3(void *stateObject) {
     WiFiRaceSync *sync;
 
     gWiFiRaceSync->mCountdownTimer = gWiFiRaceSync->mCountdownTimer - 1;
@@ -392,7 +392,7 @@ void UpdateWiFiRaceSyncState3(void) {
     CallWithNextWiFiRaceSyncParticipant(gWiFiRaceSync->mCountdownSendIndex, SendWiFiRaceSyncCountdown);
 }
 
-void EnterWiFiRaceSyncState4(void) {
+void EnterWiFiRaceSyncState4(void *stateObject) {
     u8 participant;
 
     gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | 2;
@@ -634,7 +634,7 @@ void UpdateWiFiRaceSyncRanks(void) {
     }
 }
 
-void UpdateWiFiRaceSyncState4(void) {
+void UpdateWiFiRaceSyncState4(void *stateObject) {
     u16 recordSize;
     u32 progressWord;
     WiFiRaceSync *sync;
@@ -690,7 +690,7 @@ void UpdateWiFiRaceSyncState4(void) {
     }
 }
 
-void EnterWiFiRaceSyncState5(void) {
+void EnterWiFiRaceSyncState5(void *stateObject) {
     gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
 }
 
@@ -759,7 +759,7 @@ void UpdateWiFiRaceSyncSharedState(void) {
     }
 }
 
-void UpdateWiFiRaceSyncState5(void) {
+void UpdateWiFiRaceSyncState5(void *stateObject) {
     u16 recordSize;
     WiFiRaceSync *sync;
     WiFiRaceSyncSendBuffer *sendBuffer;

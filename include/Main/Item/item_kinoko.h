@@ -76,10 +76,10 @@ BOOL RequestItemKouraRState5IfFar(void *kouraParam, s32 kartIndex);
 void InitItemKouraRFromData(ItemKouraR *kouraR);
 void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer);
 void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam);
-void UpdateItemKouraRState6(ItemKouraR *kouraR);
-void UpdateItemKouraRState5(ItemKouraR *kouraR);
-void UpdateItemKouraRState4(ItemKouraR *kouraR);
-void EnterItemKouraRState4(ItemKouraR *kouraR);
+void UpdateItemKouraRState6(void *stateObject);
+void UpdateItemKouraRState5(void *stateObject);
+void UpdateItemKouraRState4(void *stateObject);
+void EnterItemKouraRState4(void *stateObject);
 s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR);
 void DeflectItemKouraROnHit(ItemKouraR *kouraR, Vec3 *otherVelocity, Vec3 *normal);
 void StartItemKouraRSound(void *kouraParam, s32 unused);
@@ -100,15 +100,15 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink);
 
 typedef struct ItemKouraR ItemKouraR;
 
-void UpdateItemKouraRState3(ItemKouraR *kouraR);
+void UpdateItemKouraRState3(void *stateObject);
 
-void EnterItemKouraRState3(ItemKouraR *kouraR);
+void EnterItemKouraRState3(void *stateObject);
 
-void UpdateItemKouraRState2(ItemKouraR *kouraR);
+void UpdateItemKouraRState2(void *stateObject);
 
 void RequestItemKouraRState4ForKart(ItemKouraR *kouraR, u32 kartIndex);
 
-void UpdateItemKouraRState0And1(ItemKouraR *kouraR);
+void UpdateItemKouraRState0And1(void *stateObject);
 
 void AdvanceItemKouraR(ItemKouraR *kouraR);
 

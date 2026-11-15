@@ -133,7 +133,8 @@ void UpdatePukupuku(u32 unused, Pukupuku *pukupuku) {
     AdvanceStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine);
 }
 
-void EnterPukupukuState0(Pukupuku *pukupuku) {
+void EnterPukupukuState0(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMotion.mAngle = 0x0u;
 }
 
@@ -146,7 +147,8 @@ static inline u32 PukupukuNextRandomBelow(RandomState64 *random, u32 range) {
     }
 }
 
-void UpdatePukupukuState0(Pukupuku *pukupuku) {
+void UpdatePukupukuState0(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     s32 groundY;
 
     pukupuku->mPushedObject.mMapObject.mPosStep.y -= 0x385;
@@ -221,12 +223,14 @@ void UpdatePukupukuState0(Pukupuku *pukupuku) {
     }
 }
 
-void EnterPukupukuState1(Pukupuku *pukupuku) {
+void EnterPukupukuState1(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mFlags =
         (((pukupuku->mPushedObject.mMapObject.mFlags)) | ((gPukupukuPushedFlag)));
 }
 
-void UpdatePukupukuState1(Pukupuku *pukupuku) {
+void UpdatePukupukuState1(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     if (AdvancePushedMotion(&pukupuku->mPushedObject) == FALSE) {
         return;
     }
@@ -238,19 +242,22 @@ void UpdatePukupukuState1(Pukupuku *pukupuku) {
     ParkMapObject(&pukupuku->mPushedObject.mMapObject);
 }
 
-void EnterPukupukuState2(Pukupuku *pukupuku) {
+void EnterPukupukuState2(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuState2Flag;
     pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuState2SecondFlag;
 }
 
-void UpdatePukupukuState2(Pukupuku *pukupuku) {
+void UpdatePukupukuState2(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     if (pukupuku->mPushedObject.mMapObject.mStateMachine.mStateFrames > 0x12c) {
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 3;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterPukupukuState3(Pukupuku *pukupuku) {
+void EnterPukupukuState3(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mPos.x = pukupuku->mInitialPos.x;
     pukupuku->mPushedObject.mMapObject.mPos.z = pukupuku->mInitialPos.z;
     pukupuku->mPushedObject.mMapObject.mPosStep.x = 0x0u;
@@ -262,7 +269,8 @@ void EnterPukupukuState3(Pukupuku *pukupuku) {
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x1u));
 }
 
-void UpdatePukupukuState3(Pukupuku *pukupuku) {
+void UpdatePukupukuState3(void *stateObject) {
+    Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mPos.y =
         pukupuku->mPushedObject.mMapObject.mPos.y + pukupuku->mPushedObject.mMapObject.mPosStep.y;
     if (pukupuku->mPushedObject.mMapObject.mPos.y > pukupuku->mInitialPos.y) {

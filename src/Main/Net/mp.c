@@ -261,7 +261,7 @@ u32 AdvanceRaceArchives(void) {
 
 #pragma thumb on
 
-void EnterMPState16(void) {
+void EnterMPState16(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
@@ -273,7 +273,7 @@ void EnterMPState16(void) {
     }
 }
 
-void UpdateMPState16(void) {
+void UpdateMPState16(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceRaceArchives();
@@ -300,7 +300,7 @@ void LoadCourseSoundSetCallback(void) {
     }
 }
 
-void EnterMPState17(void) {
+void EnterMPState17(void *stateObject) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
@@ -310,7 +310,7 @@ void EnterMPState17(void) {
 
 #pragma thumb on
 
-void UpdateMPState17(void) {
+void UpdateMPState17(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadCourseSoundSetCallback);
@@ -321,7 +321,7 @@ void UpdateMPState17(void) {
     }
 }
 
-void EnterMPState20(void) {
+void EnterMPState20(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
@@ -333,7 +333,7 @@ void EnterMPState20(void) {
     }
 }
 
-void UpdateMPState20(void) {
+void UpdateMPState20(void *stateObject) {
     MPStateMachine *stateMachine;
     if (gConnectionWork->mRequestPending == 0) {
         stateMachine = &gConnectionWork->mMPStateMachine;

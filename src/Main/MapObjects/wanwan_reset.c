@@ -97,7 +97,8 @@ static inline s64 WanwanXzLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
-void UpdateWanwanState5(Wanwan *wanwan) {
+void UpdateWanwanState5(void *stateObject) {
+    Wanwan *wanwan = stateObject;
     wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x;
     wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z;
     AdvanceGroupFollowerWithSpeeds(&wanwan->mFollower);

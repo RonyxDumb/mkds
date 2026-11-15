@@ -179,7 +179,8 @@ void UpdateMkdEfBubble(void *unused, MkdEfBubbleObject *bubble) {
     PlaceEffect(bubble->mSecondEffect, &bubble->mMapObject.mPos);
 }
 
-void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
+void EnterMkdEfBubbleState0(void *stateObject) {
+    MkdEfBubbleObject *bubble = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
     BOOL effectMissing;
@@ -219,7 +220,8 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
     bubble->mEffectMissing = effectMissing;
 }
 
-void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
+void UpdateMkdEfBubbleState0(void *stateObject) {
+    MkdEfBubbleObject *bubble = stateObject;
     if (bubble->mMapObject.mPosStep.y < 0x1333) {
         if (bubble->mMapObject.mPosStep.y <= -0x1333) {
             bubble->mAngleZ = 0x8000;

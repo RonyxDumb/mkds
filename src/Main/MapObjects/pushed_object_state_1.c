@@ -9,14 +9,16 @@
 
 const u8 gPushedObjectState1Flag[2] = {1, 0};
 
-void EnterPushedObjectState1(MapObject *object) {
+void EnterPushedObjectState1(void *stateObject) {
+    MapObject *object = stateObject;
     u16 newSlot;
     object->mFlags = object->mFlags | (*(u16 *) &gPushedObjectState1Flag);
     newSlot = FreeCollisionSlot(object->mCollisionSlotIndex);
     object->mCollisionSlotIndex = newSlot;
 }
 
-void UpdatePushedObjectState1(PushedObject *object) {
+void UpdatePushedObjectState1(void *stateObject) {
+    PushedObject *object = stateObject;
     if (object->mMotion.mAngleIncreasing) {
         object->mMotion.mAngle = object->mMotion.mAngle + object->mMotion.mAngleStep;
     } else {
@@ -30,8 +32,8 @@ void UpdatePushedObjectState1(PushedObject *object) {
     }
 }
 
-void EnterPushedObjectState2(u32 objectAddress) {
-    u32 object = objectAddress;
+void EnterPushedObjectState2(void *stateObject) {
+    void *object = stateObject;
     u32 unusedValue;
-    ParkMapObject((void *) object);
+    ParkMapObject(object);
 }

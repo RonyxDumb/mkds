@@ -358,7 +358,8 @@ void AdvanceItemKouraW(ItemKouraW *item) {
 
 #pragma thumb off
 
-void UpdateItemKouraWState0(ItemKouraW *item) {
+void UpdateItemKouraWState0(void *stateObject) {
+    ItemKouraW *item = stateObject;
     AdvanceItemObjectMotion((DirectedItemObject *) item, 0xd000);
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
         return;
@@ -384,7 +385,8 @@ static inline Vec3 *GetItemKouraWNormalOrNull(ItemKouraW *item) {
     return NULL;
 }
 
-void UpdateItemKouraWState1(ItemKouraW *item) {
+void UpdateItemKouraWState1(void *stateObject) {
+    ItemKouraW *item = stateObject;
     u16 rank;
     s32 value;
     s32 entry;
@@ -498,7 +500,8 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
     item->mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterItemKouraWState3(ItemKouraW *item) {
+void EnterItemKouraWState3(void *stateObject) {
+    ItemKouraW *item = stateObject;
     item->mSpeed = VEC_Mag(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     item->mRadiusOrEaseFactor = TO_FIXED12(30);
     if (item->mKartItems->mKartIndex == gRaceSetup->mEntryIndex) {
@@ -506,7 +509,8 @@ void EnterItemKouraWState3(ItemKouraW *item) {
     }
 }
 
-void UpdateItemKouraWState3(ItemKouraW *item) {
+void UpdateItemKouraWState3(void *stateObject) {
+    ItemKouraW *item = stateObject;
     s32 gain;
     void *normal;
     Kart *kart;
@@ -542,7 +546,8 @@ void UpdateItemKouraWState3(ItemKouraW *item) {
                                 normal);
 }
 
-void UpdateItemKouraWState2(ItemKouraW *item) {
+void UpdateItemKouraWState2(void *stateObject) {
+    ItemKouraW *item = stateObject;
     s32 index;
     void *normal;
     ItemPointLink *link;
@@ -579,7 +584,8 @@ void UpdateItemKouraWState2(ItemKouraW *item) {
     }
 }
 
-void EnterItemKouraWState4(ItemKouraW *item) {
+void EnterItemKouraWState4(void *stateObject) {
+    ItemKouraW *item = stateObject;
     item->mBobAmplitudeOrGain = TO_FIXED12(5);
     item->mAngleStep = 0x3e8;
     VEC_Subtract(&item->mToTarget, &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
@@ -593,7 +599,8 @@ void EnterItemKouraWState4(ItemKouraW *item) {
     }
 }
 
-void UpdateItemKouraWState4(ItemKouraW *item) {
+void UpdateItemKouraWState4(void *stateObject) {
+    ItemKouraW *item = stateObject;
     Vec3 direction;
     void *normal;
 
@@ -643,7 +650,8 @@ void UpdateItemKouraWState4(ItemKouraW *item) {
     item->mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterItemKouraWState5(ItemKouraW *item) {
+void EnterItemKouraWState5(void *stateObject) {
+    ItemKouraW *item = stateObject;
     enum { KIND_FIRST } kind;
 
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer ==
@@ -663,7 +671,8 @@ void EnterItemKouraWState5(ItemKouraW *item) {
     item->mRadiusOrEaseFactor = FIXED12_RATIO(7, 20);
 }
 
-void UpdateItemKouraWState5(ItemKouraW *item) {
+void UpdateItemKouraWState5(void *stateObject) {
+    ItemKouraW *item = stateObject;
     Vec3 targetDirection;
     Vec3 *normal;
     s32 directionX;
@@ -700,7 +709,8 @@ void UpdateItemKouraWState5(ItemKouraW *item) {
     UpdateItemKouraWOrientation(item, &item->mEasedDirection, 0, normal);
 }
 
-void EnterItemKouraWState6(ItemKouraW *item) {
+void EnterItemKouraWState6(void *stateObject) {
+    ItemKouraW *item = stateObject;
     enum { KIND_FIRST } kind;
 
     item->mLift = 0x28000;
@@ -710,7 +720,8 @@ void EnterItemKouraWState6(ItemKouraW *item) {
     CreateItemObjectCollisionSlotExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
 }
 
-void UpdateItemKouraWState6(ItemKouraW *item) {
+void UpdateItemKouraWState6(void *stateObject) {
+    ItemKouraW *item = stateObject;
     s32 grew;
     Vec3 hitOffset;
 
@@ -752,7 +763,8 @@ void UpdateItemKouraWState6(ItemKouraW *item) {
     }
 }
 
-void EnterItemKouraWState7(ItemKouraW *item) {
+void EnterItemKouraWState7(void *stateObject) {
+    ItemKouraW *item = stateObject;
     NNSSndSeqPlayer **sndHandle;
     struct ModelEffect *effect;
     Vec3 *effectScale;
@@ -787,7 +799,8 @@ void EnterItemKouraWState7(ItemKouraW *item) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemKouraWState7(ItemKouraW *item) {
+void UpdateItemKouraWState7(void *stateObject) {
+    ItemKouraW *item = stateObject;
     u32 stateFrames;
 
     stateFrames = item->mStateMachine.mStateFrames;

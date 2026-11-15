@@ -10,9 +10,9 @@ typedef struct ItemObject ItemObject;
 typedef struct Kart Kart;
 typedef struct Kuribo Kuribo;
 
-void UpdateKuriboState4(Kuribo *kuribo);
-void EnterKuriboState5(Kuribo *kuribo);
-void UpdateKuriboState5(Kuribo *kuribo);
+void UpdateKuriboState4(void *stateObject);
+void EnterKuriboState5(void *stateObject);
+void UpdateKuriboState5(void *stateObject);
 void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector);
 u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
@@ -20,21 +20,21 @@ void ResetKuriboForItemBomb(Kuribo *kuribo);
 
 unsigned int EnterKuriboState4(unsigned int value);
 
-void UpdateKuriboState3(Kuribo *kuribo);
+void UpdateKuriboState3(void *stateObject);
 
 unsigned int EnterKuriboState3(unsigned int value);
 
-void UpdateKuriboState2(Kuribo *kuribo);
+void UpdateKuriboState2(void *stateObject);
 
-void EnterKuriboState2(Kuribo *kuribo);
+void EnterKuriboState2(void *stateObject);
 
-void UpdateKuriboState1(Kuribo *kuribo);
+void UpdateKuriboState1(void *stateObject);
 
-void EnterKuriboState1(Kuribo *kuribo);
+void EnterKuriboState1(void *stateObject);
 
-void UpdateKuriboState0(Kuribo *kuribo);
+void UpdateKuriboState0(void *stateObject);
 
-void EnterKuriboState0(Kuribo *kuribo);
+void EnterKuriboState0(void *stateObject);
 
 extern StateCallbacks gKuriboStateTable[6];
 extern const struct Quaternion gKuriboBombResetOrientation;

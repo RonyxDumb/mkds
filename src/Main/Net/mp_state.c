@@ -10,7 +10,7 @@
 
 #pragma thumb on
 
-void EnterMPState21(void) {
+void EnterMPState21(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
@@ -22,7 +22,7 @@ void EnterMPState21(void) {
     }
 }
 
-void UpdateMPState21(void) {
+void UpdateMPState21(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceMenuDLArchives();
@@ -33,7 +33,7 @@ void UpdateMPState21(void) {
     }
 }
 
-void EnterMPState18(void) {
+void EnterMPState18(void *stateObject) {
     int connectionMode;
     if (gConnectionWork == NULL) {
         connectionMode = CONNECTION_MODE_NONE;
@@ -45,7 +45,7 @@ void EnterMPState18(void) {
     }
 }
 
-void UpdateMPState18(void) {
+void UpdateMPState18(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceResultDLArchives();
@@ -60,7 +60,7 @@ void UpdateMPState18(void) {
 
 #pragma thumb on
 
-void EnterMPState19(void) {
+void EnterMPState19(void *stateObject) {
     gConnectionWork->mSyncState = CONNECTION_SYNC_START;
     gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
     gConnectionWork->mCallbackFailed = 0;
@@ -76,7 +76,7 @@ void LoadResultSceneSoundSetCallback(void) {
 
 #pragma thumb on
 
-void UpdateMPState19(void) {
+void UpdateMPState19(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceSyncedCallback(LoadResultSceneSoundSetCallback);

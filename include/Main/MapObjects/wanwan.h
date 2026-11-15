@@ -63,14 +63,14 @@ extern const WanwanKindData gWanwanKindData;
 extern MapObjectList *gWanwanUpdateList;
 extern WanwanDrawList *gWanwanDrawList;
 
-void EnterWanwanState5(Wanwan *wanwan);
-void UpdateWanwanState4Nop(Wanwan *wanwan);
-void UpdateWanwanState2(Wanwan *wanwan);
-void EnterWanwanState2(Wanwan *wanwan);
-void UpdateWanwanState1(Wanwan *wanwan);
-void EnterWanwanState1(Wanwan *wanwan);
-void UpdateWanwanState0(Wanwan *wanwan);
-void EnterWanwanState0(Wanwan *wanwan);
+void EnterWanwanState5(void *stateObject);
+void UpdateWanwanState4Nop(void *stateObject);
+void UpdateWanwanState2(void *stateObject);
+void EnterWanwanState2(void *stateObject);
+void UpdateWanwanState1(void *stateObject);
+void EnterWanwanState1(void *stateObject);
+void UpdateWanwanState0(void *stateObject);
+void EnterWanwanState0(void *stateObject);
 u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
@@ -79,7 +79,7 @@ MapObjectList *CreateWanwanUpdateList(void);
 WanwanDrawList *CreateWanwanDrawList(void);
 WanwanKindData *CreateWanwanKindData(void);
 
-void EnterWanwanState4(Wanwan *wanwan);
+void EnterWanwanState4(void *stateObject);
 
 // Object of kinds 0x196 (with chain post kind 0x197) and 0x1a5 (mUnk_fc is 0 or 1) of Wanwan; UpdateWanwanState3,
 // UpdateWanwanState2 and the functions after it up to CreateWanwanKindData: vectors at 0x04, 0x10 and 0xa0, ring of
@@ -115,6 +115,6 @@ typedef struct Wanwan {
     /* 200 */ Vec3 mForward;
 } Wanwan;
 
-void UpdateWanwanState3(Wanwan *wanwan);
+void UpdateWanwanState3(void *stateObject);
 
-void EnterWanwanState3(Wanwan *wanwan);
+void EnterWanwanState3(void *stateObject);

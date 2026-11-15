@@ -4,16 +4,16 @@
 
 typedef struct Rotary Rotary;
 
-void RotaryState3Nop(Rotary *object);
+void RotaryState3Nop(void *stateObject);
 
-void UpdateRotaryState2(Rotary *object);
+void UpdateRotaryState2(void *stateObject);
 
-void EnterRotaryState2(Rotary *object);
+void EnterRotaryState2(void *stateObject);
 
-void UpdateRotaryState1(Rotary *object);
+void UpdateRotaryState1(void *stateObject);
 
-void RotaryState1Nop(Rotary *object);
+void RotaryState1Nop(void *stateObject);
 
-void UpdateRotaryState0(Rotary *object);
+void UpdateRotaryState0(void *stateObject);
 
-void EnterRotaryState0(Rotary *object);
+void EnterRotaryState0(void *stateObject);

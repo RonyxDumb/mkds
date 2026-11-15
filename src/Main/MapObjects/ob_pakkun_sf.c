@@ -196,11 +196,13 @@ void UpdateSecondHand(u32 unused, SecondHand *secondHand) {
     Matrix3x3FromQuaternion(&secondHand->mMapObject.mMatrix.mAxes, &secondHand->mRotationQuaternion);
 }
 
-void EnterSecondHandState0(SecondHand *secondHand) {
+void EnterSecondHandState0(void *stateObject) {
+    SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = 0x0u;
 }
 
-void UpdateSecondHandState0(SecondHand *secondHand) {
+void UpdateSecondHandState0(void *stateObject) {
+    SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = secondHand->mSpeedFraction + secondHand->mSpeedFractionPerFrame;
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle +
                                     (s16) MUL_FIXED12_NO_ROUND(secondHand->mSpeedFraction, secondHand->mAnglePerFrame);
@@ -210,9 +212,10 @@ void UpdateSecondHandState0(SecondHand *secondHand) {
     }
 }
 
-void SecondHandState1Nop(SecondHand *secondHand) {}
+void SecondHandState1Nop(void *stateObject) {}
 
-void UpdateSecondHandState1(SecondHand *secondHand) {
+void UpdateSecondHandState1(void *stateObject) {
+    SecondHand *secondHand = stateObject;
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle + secondHand->mAnglePerFrame;
     if (secondHand->mSteadyFrameCount == 0) {
         return;
@@ -223,11 +226,13 @@ void UpdateSecondHandState1(SecondHand *secondHand) {
     }
 }
 
-void EnterSecondHandState2(SecondHand *secondHand) {
+void EnterSecondHandState2(void *stateObject) {
+    SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = 0x4000u;
 }
 
-void UpdateSecondHandState2(SecondHand *secondHand) {
+void UpdateSecondHandState2(void *stateObject) {
+    SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = secondHand->mSpeedFraction - secondHand->mSpeedFractionPerFrame;
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle +
                                     (s16) MUL_FIXED12_NO_ROUND(secondHand->mSpeedFraction, secondHand->mAnglePerFrame);
@@ -238,9 +243,10 @@ void UpdateSecondHandState2(SecondHand *secondHand) {
     }
 }
 
-void SecondHandState3Nop(SecondHand *secondHand) {}
+void SecondHandState3Nop(void *stateObject) {}
 
-void UpdateSecondHandState3(SecondHand *secondHand) {
+void UpdateSecondHandState3(void *stateObject) {
+    SecondHand *secondHand = stateObject;
     if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mPauseFrameCount) {
         secondHand->mMapObject.mStateMachine.mNextState = 0;
         secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;

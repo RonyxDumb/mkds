@@ -7,7 +7,7 @@
 #include "01/Menu/code_02196d58.h"
 #include "Main/Save/ghost_record_file.h"
 
-void UpdateLogoState1(void) {
+void UpdateLogoState1(void *stateObject) {
     s32 commandBusy;
     StateMachine *stateMachine;
     s32 readStatus;
@@ -55,13 +55,13 @@ void UpdateLogoState1(void) {
     }
 }
 
-void EnterLogoState2(void) {
+void EnterLogoState2(void *stateObject) {
     void *message;
     message = GetBmgEntry(gLogoScene->mCommonMessages, 125);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
 }
 
-void UpdateLogoState2(void) {
+void UpdateLogoState2(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -75,7 +75,7 @@ void UpdateLogoState2(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState3(void) {
+void EnterLogoState3(void *stateObject) {
     void *message;
     StartResetFailedBackupBlocks();
     message = GetBmgEntry(gLogoScene->mCommonMessages, 126);
@@ -83,7 +83,7 @@ void EnterLogoState3(void) {
     gLogoScene->mSubTextFrames = 0;
 }
 
-void UpdateLogoState3(void) {
+void UpdateLogoState3(void *stateObject) {
     s32 commandBusy;
     StateMachine *stateMachine;
     gLogoScene->mSubTextFrames = gLogoScene->mSubTextFrames + 1;
@@ -112,14 +112,14 @@ void UpdateLogoState3(void) {
     }
 }
 
-void EnterLogoState4(void) {
+void EnterLogoState4(void *stateObject) {
     void *message;
     SetTxtSystemOpenSoundId(33);
     message = GetBmgEntry(gLogoScene->mCommonMessages, 128);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
 }
 
-void UpdateLogoState4(void) {
+void UpdateLogoState4(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         SetTxtSystemOpenSoundId(35);
@@ -134,7 +134,7 @@ void UpdateLogoState4(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState5(void) {
+void EnterLogoState5(void *stateObject) {
     void *commonMessages;
     void *message;
     void *firstButtonMessage;
@@ -146,7 +146,7 @@ void EnterLogoState5(void) {
     SetupTxtSystemSubTextTwoButtons(message, firstButtonMessage, secondButtonMessage, 1);
 }
 
-void UpdateLogoState5(void) {
+void UpdateLogoState5(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -166,7 +166,7 @@ void UpdateLogoState5(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState6(void) {
+void EnterLogoState6(void *stateObject) {
     void *message;
     ResetBackupAndStartWrite();
     if (gLogoScene->mResetBackupRequested == 0) {
@@ -177,7 +177,7 @@ void EnterLogoState6(void) {
     gLogoScene->mSubTextFrames = 0;
 }
 
-void UpdateLogoState6(void) {
+void UpdateLogoState6(void *stateObject) {
     LogoScene *scene;
     s32 commandBusy;
     StateMachine *stateMachine;
@@ -225,14 +225,14 @@ void UpdateLogoState6(void) {
     }
 }
 
-void EnterLogoState7(void) {
+void EnterLogoState7(void *stateObject) {
     void *message;
     SetTxtSystemOpenSoundId(33);
     message = GetBmgEntry(gLogoScene->mCommonMessages, 127);
     SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
 }
 
-void UpdateLogoState7(void) {
+void UpdateLogoState7(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         SetTxtSystemOpenSoundId(35);

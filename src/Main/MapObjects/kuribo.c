@@ -51,12 +51,14 @@ StateCallbacks gKuriboStateTable[6] = {{EnterKuriboState0, UpdateKuriboState0},
 const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
 const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
 
-void EnterKuriboState0(Kuribo *kuribo) {
+void EnterKuriboState0(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
     kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
-void UpdateKuriboState0(Kuribo *kuribo) {
+void UpdateKuriboState0(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     if (kuribo->mFrameIndex >= 0xa && (kuribo->mFrameIndex < 0x14 || kuribo->mFrameIndex >= 0x1e)) {
         AdvanceGroupFollower(&kuribo->mFollower);
     }
@@ -77,12 +79,14 @@ void UpdateKuriboState0(Kuribo *kuribo) {
     }
 }
 
-void EnterKuriboState1(Kuribo *kuribo) {
+void EnterKuriboState1(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
     kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
-void UpdateKuriboState1(Kuribo *kuribo) {
+void UpdateKuriboState1(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     u32 surfaceFlags;
     Vec3 probePos;
     Vec3 correction;
@@ -116,11 +120,13 @@ void UpdateKuriboState1(Kuribo *kuribo) {
     }
 }
 
-void EnterKuriboState2(Kuribo *kuribo) {
+void EnterKuriboState2(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     kuribo->mMapObject.mFlags = (((kuribo->mMapObject.mFlags)) | ((gKuriboFlag)));
 }
 
-void UpdateKuriboState2(Kuribo *kuribo) {
+void UpdateKuriboState2(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
     if (kuribo->mScaleFactorY > 0x1800) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SHRINK;
@@ -132,7 +138,8 @@ u32 EnterKuriboState3(u32 value) {
     return value;
 }
 
-void UpdateKuriboState3(Kuribo *kuribo) {
+void UpdateKuriboState3(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, KURIBO_SCALE_SHRINK_FACTOR);
     if (kuribo->mScaleFactorY < 0x333) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_FLAT_WAIT;
@@ -144,7 +151,8 @@ u32 EnterKuriboState4(u32 value) {
     return value;
 }
 
-void UpdateKuriboState4(Kuribo *kuribo) {
+void UpdateKuriboState4(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     if (kuribo->mReturnsAfterWait != 0) {
         if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x12c) {
             kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SPRING_BACK;
@@ -158,7 +166,8 @@ void UpdateKuriboState4(Kuribo *kuribo) {
     }
 }
 
-void EnterKuriboState5(Kuribo *kuribo) {
+void EnterKuriboState5(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
     if ((kuribo->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
@@ -179,7 +188,8 @@ void EnterKuriboState5(Kuribo *kuribo) {
     kuribo->mScaleFactorYSpeed = 0;
 }
 
-void UpdateKuriboState5(Kuribo *kuribo) {
+void UpdateKuriboState5(void *stateObject) {
+    Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorYSpeed +=
         MUL_FIXED12_NO_ROUND(KURIBO_SCALE_FACTOR_Y_REST - kuribo->mScaleFactorY, KURIBO_SCALE_SPRING_STIFFNESS);
     kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, KURIBO_SCALE_DAMPING);

@@ -67,15 +67,15 @@ void AdvanceItemBomb(ItemBomb *bomb);
 void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *pooledMapObject);
 void ClampItemBombTimerByDistance(ItemBomb *bomb);
 void AdvanceItemBombNearestKart(ItemBomb *bomb);
-void UpdateItemBombState2(ItemBomb *bomb);
-void EnterItemBombState2(ItemBomb *bomb);
-void UpdateItemBombState1(ItemBomb *bomb);
+void UpdateItemBombState2(void *stateObject);
+void EnterItemBombState2(void *stateObject);
+void UpdateItemBombState1(void *stateObject);
 
-void ItemBombState1Nop(ItemBomb *bomb);
+void ItemBombState1Nop(void *stateObject);
 
-void UpdateItemBombState0(ItemBomb *bomb);
+void UpdateItemBombState0(void *stateObject);
 
-void ItemBombState0Nop(ItemBomb *bomb);
+void ItemBombState0Nop(void *stateObject);
 
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb);
 

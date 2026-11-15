@@ -127,12 +127,12 @@ void UpdateLogoScene(SceneNumbers *sceneNumbers) {
     AdvanceSceneText();
 }
 
-void EnterLogoState0(void) {
+void EnterLogoState0(void *stateObject) {
     StartReadBackupFirstBlockAndRecords();
     gLogoScene->mUnk_2c_1 = 0;
 }
 
-void UpdateLogoState0(void) {
+void UpdateLogoState0(void *stateObject) {
     s32 slotIndex;
     StateMachine *stateMachine;
     gLogoScene->mState0Frames = gLogoScene->mState0Frames + 1;

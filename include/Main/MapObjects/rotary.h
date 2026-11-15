@@ -13,7 +13,7 @@ typedef struct Rotary Rotary;
 typedef struct BridgeDrawList BridgeDrawList;
 typedef struct Bridge Bridge;
 
-void UpdateRotaryState3(Rotary *object);
+void UpdateRotaryState3(void *stateObject);
 void DrawAllKind203MapObjects(void *viewMatrix);
 BOOL IsRotaryKind(s32 kind);
 void CreateRotary(BridgeDrawList *list);

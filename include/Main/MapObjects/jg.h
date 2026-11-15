@@ -4,19 +4,19 @@
 
 typedef struct ModelAnimation ModelAnimation;
 
-void UpdateJgState6(void);
-void EnterJgState6(void);
-void UpdateJgState5(void);
-void EnterJgState5(void);
-void UpdateJgState4(void);
-void EnterJgState4(void);
-void UpdateJgState3(void);
-void EnterJgState3(void);
-void UpdateJgState2(void);
-void EnterJgState2(void);
-void UpdateJgState1(void);
-void EnterJgState1(void);
-void JgState0Nop(void);
+void UpdateJgState6(void *stateObject);
+void EnterJgState6(void *stateObject);
+void UpdateJgState5(void *stateObject);
+void EnterJgState5(void *stateObject);
+void UpdateJgState4(void *stateObject);
+void EnterJgState4(void *stateObject);
+void UpdateJgState3(void *stateObject);
+void EnterJgState3(void *stateObject);
+void UpdateJgState2(void *stateObject);
+void EnterJgState2(void *stateObject);
+void UpdateJgState1(void *stateObject);
+void EnterJgState1(void *stateObject);
+void JgState0Nop(void *stateObject);
 void UpdateJgPosition(void);
 void ComputeJgMatrixAndInverse(void);
 void DrawJg(void);

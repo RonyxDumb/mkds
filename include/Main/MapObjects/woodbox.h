@@ -52,14 +52,14 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow);
 void ClearWoodbox1Pointer(MapObjectList *list);
 u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response);
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
-void UpdateWoodbox1State3(Woodbox1 *woodbox);
-void UpdateWoodbox1State2(Woodbox1 *woodbox);
-void EnterWoodbox1State2(Woodbox1 *woodbox);
+void UpdateWoodbox1State3(void *stateObject);
+void UpdateWoodbox1State2(void *stateObject);
+void EnterWoodbox1State2(void *stateObject);
 // Landing test of the box: when it is below the ground and falling, lifts it, reverses and scales its fall speed and
 // returns TRUE.
 BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox);
-void UpdateWoodbox1State1(Woodbox1 *woodbox);
-void EnterWoodbox1State1(Woodbox1 *woodbox);
+void UpdateWoodbox1State1(void *stateObject);
+void EnterWoodbox1State1(void *stateObject);
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox);
 

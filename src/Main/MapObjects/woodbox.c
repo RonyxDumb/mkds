@@ -166,7 +166,8 @@ void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {
     AdvanceStateMachine(&woodbox->mMapObject.mStateMachine);
 }
 
-void EnterWoodbox1State0(Woodbox1 *woodbox) {
+void EnterWoodbox1State0(void *stateObject) {
+    Woodbox1 *woodbox = stateObject;
     Quaternion rotation;
     Vec3 *velocity;
 
@@ -228,7 +229,8 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     LaunchItemObjectFromPos(itemObject, 2, &woodbox->mMapObject.mPos, velocity, &woodbox->mGroundUp);
 }
 
-void EnterWoodbox1State1(Woodbox1 *woodbox) {
+void EnterWoodbox1State1(void *stateObject) {
+    Woodbox1 *woodbox = stateObject;
     woodbox->mMapObject.mFlags |= gWoodbox1Flag;
     woodbox->mMapObject.mFlags |= gWoodbox1SecondFlag;
     woodbox->mMapObject.mFlags |= gWoodbox1ThirdFlag;
@@ -236,7 +238,8 @@ void EnterWoodbox1State1(Woodbox1 *woodbox) {
 
 #pragma thumb off
 
-void UpdateWoodbox1State1(Woodbox1 *woodbox) {
+void UpdateWoodbox1State1(void *stateObject) {
+    Woodbox1 *woodbox = stateObject;
     if (woodbox->mMapObject.mStateMachine.mStateFrames < 900) {
         return;
     }
@@ -297,7 +300,8 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     return FALSE;
 }
 
-void EnterWoodbox1State2(Woodbox1 *woodbox) {
+void EnterWoodbox1State2(void *stateObject) {
+    Woodbox1 *woodbox = stateObject;
     Quaternion rotation;
     u32 frameCount;
     u16 headingOffset;
@@ -329,7 +333,8 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
 }
 
-void UpdateWoodbox1State2(Woodbox1 *woodbox) {
+void UpdateWoodbox1State2(void *stateObject) {
+    Woodbox1 *woodbox = stateObject;
     if (BounceWoodbox1OffGround(woodbox) != FALSE) {
         woodbox->mMapObject.mStateMachine.mNextState = 3;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -339,7 +344,8 @@ void UpdateWoodbox1State2(Woodbox1 *woodbox) {
     VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mMapObject.mPos);
 }
 
-void UpdateWoodbox1State3(Woodbox1 *woodbox) {
+void UpdateWoodbox1State3(void *stateObject) {
+    Woodbox1 *woodbox = stateObject;
     Quaternion rotation;
     s32 headingOffset;
 

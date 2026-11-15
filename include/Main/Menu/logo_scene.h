@@ -13,8 +13,8 @@ extern const char gLogoSubBgCharsFileName[];
 extern const char gLogoSubBgScreenMapFileName[];
 extern const char gLogoSceneCommonBmgFileName[];
 
-void UpdateLogoState0(void);
-void EnterLogoState0(void);
+void UpdateLogoState0(void *stateObject);
+void EnterLogoState0(void *stateObject);
 void UpdateLogoScene(SceneNumbers *sceneNumbers);
 void WriteLogoSceneRegisters(void);
 void ApplySavedSoundMode(void);

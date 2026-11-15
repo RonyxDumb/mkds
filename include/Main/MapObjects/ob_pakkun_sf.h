@@ -48,22 +48,22 @@ unsigned int CollideItemObjectWithSecondHand(unsigned int secondHand, unsigned i
 typedef struct SecondHand SecondHand;
 typedef struct Kart Kart;
 
-void UpdateSecondHandState3(SecondHand *secondHand);
+void UpdateSecondHandState3(void *stateObject);
 s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8 *response);
 
-void SecondHandState3Nop(SecondHand *secondHand);
+void SecondHandState3Nop(void *stateObject);
 
-void UpdateSecondHandState2(SecondHand *secondHand);
+void UpdateSecondHandState2(void *stateObject);
 
-void EnterSecondHandState2(SecondHand *secondHand);
+void EnterSecondHandState2(void *stateObject);
 
-void UpdateSecondHandState1(SecondHand *secondHand);
+void UpdateSecondHandState1(void *stateObject);
 
-void SecondHandState1Nop(SecondHand *secondHand);
+void SecondHandState1Nop(void *stateObject);
 
-void UpdateSecondHandState0(SecondHand *secondHand);
+void UpdateSecondHandState0(void *stateObject);
 
-void EnterSecondHandState0(SecondHand *secondHand);
+void EnterSecondHandState0(void *stateObject);
 
 typedef struct ObPakkunSf ObPakkunSf;
 

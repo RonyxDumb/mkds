@@ -733,9 +733,9 @@ s32 *EnterJgState0(void) {
     return &gJgSnapUntilPushFlip;
 }
 
-void JgState0Nop(void) {}
+void JgState0Nop(void *stateObject) {}
 
-void EnterJgState1(void) {
+void EnterJgState1(void *stateObject) {
     ModelAnimation *animation;
     s32 rotatedZ;
 
@@ -797,7 +797,7 @@ void EnterJgState1(void) {
     gJgState1AngleActive = 0;
 }
 
-void UpdateJgState1(void) {
+void UpdateJgState1(void *stateObject) {
     ModelAnimation *animation;
     s32 angle;
     u32 frame;
@@ -863,7 +863,7 @@ void UpdateJgState1(void) {
     SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
 }
 
-void EnterJgState2(void) {
+void EnterJgState2(void *stateObject) {
     Vec3 targetOffset;
 
     if (gJgHighestLap != gJgFinalLap) {
@@ -875,7 +875,7 @@ void EnterJgState2(void) {
     MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
 }
 
-void UpdateJgState2(void) {
+void UpdateJgState2(void *stateObject) {
     Vec3 targetOffset;
 
     targetOffset = gJgLapOffset;
@@ -886,7 +886,7 @@ void UpdateJgState2(void) {
     }
 }
 
-void EnterJgState3(void) {
+void EnterJgState3(void *stateObject) {
     gJgPointPointers[0] = &gJgPoints[7];
     gJgPointPointers[1] = gJgPoints;
     gJgPointPointers[2] = &gJgPoints[1];
@@ -896,7 +896,7 @@ void EnterJgState3(void) {
     AdvanceJgPointsAndSetTarget(&gJgKind3Offset, &gJgKind3EndScale, &gJgKind3StartScale);
 }
 
-void UpdateJgState3(void) {
+void UpdateJgState3(void *stateObject) {
     AdvanceJgPointsAndSetTarget(&gJgKind3Offset, &gJgKind3EndScale, &gJgKind3StartScale);
     if ((gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         return;
@@ -904,7 +904,7 @@ void UpdateJgState3(void) {
     SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
 }
 
-void EnterJgState4(void) {
+void EnterJgState4(void *stateObject) {
     ModelAnimation *animation;
     NNSSndSeqPlayer **seqPlayer;
     MtxFx43 *matrix;
@@ -975,7 +975,7 @@ void EnterJgState4(void) {
     NNS_SndArcPlayerStartSeqArc(seqPlayer, 0, 0x102);
 }
 
-void UpdateJgState4(void) {
+void UpdateJgState4(void *stateObject) {
     MtxFx43 *matrix;
 
     if (gJgStateCounter == 0) {
@@ -993,7 +993,7 @@ void UpdateJgState4(void) {
     }
 }
 
-void EnterJgState5(void) {
+void EnterJgState5(void *stateObject) {
     s32 initialSpeed;
 
     gJgVisible = 1;
@@ -1006,7 +1006,7 @@ void EnterJgState5(void) {
     gJgState5Speed = initialSpeed;
 }
 
-void UpdateJgState5(void) {
+void UpdateJgState5(void *stateObject) {
     s32 acceleration;
 
     MTX_MultVec43(&gJgState5LocalTargetPos, &gJgMatrix, &gJgTargetPos);
@@ -1028,7 +1028,7 @@ void UpdateJgState5(void) {
     SetStateMachineState(&gJgStateMachine, JG_STATE_OFF);
 }
 
-void EnterJgState6(void) {
+void EnterJgState6(void *stateObject) {
     ModelAnimation *animation;
     s32 step;
     s32 heightOffset;
@@ -1081,7 +1081,7 @@ void EnterJgState6(void) {
 }
 
 // Lowers the target from above; when the height reaches 0 it picks LAP (kinds 0, 1), FLAG (kind 3) or LEAVE.
-void UpdateJgState6(void) {
+void UpdateJgState6(void *stateObject) {
     s32 clampedStep;
     s32 heightOffset;
 

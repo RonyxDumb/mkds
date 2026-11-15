@@ -78,7 +78,8 @@ const MapObjectKindDescriptor gRotaryBridgeKindDescriptor = {0,
                                                    0,
                                                    CreateRotaryUpdateList};
 
-void UpdateRotaryState3(Rotary *object) {
+void UpdateRotaryState3(void *stateObject) {
+    Rotary *object = stateObject;
     if (object->mCollisionMapObject.mMapObject.mStateMachine.mStateFrames > object->mPauseFrameCount) {
         object->mCollisionMapObject.mMapObject.mStateMachine.mNextState = ROTARY_STATE_RAMP_UP;
         object->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;

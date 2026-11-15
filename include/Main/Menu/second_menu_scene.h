@@ -3,9 +3,8 @@
 #include "types.h"
 #include "Main/Menu/data_02175000.h"
 
-// The state functions take the state machine object (a different type for each machine), so the type is left
-// unprototyped.
-typedef void (*StateCallback)();
+// Called with the object of the state machine; each state function reads it as the type of its machine.
+typedef void (*StateCallback)(void *stateObject);
 
 // Pair of callbacks at an element of the table behind the first word of StateMachine.
 typedef struct StateCallbacks {

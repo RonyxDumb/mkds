@@ -142,14 +142,14 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     return finished;
 }
 
-void EnterMPState0(void) {
+void EnterMPState0(void *stateObject) {
     u16 ownIndex;
 
     ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
     FillPlayerRecord(&gConnectionWork->mPlayerRecords[ownIndex]);
 }
 
-void UpdateMPState0(void) {
+void UpdateMPState0(void *stateObject) {
     if (gConnectionWork->mRequestPending != 0) {
         return;
     }
@@ -168,7 +168,7 @@ void UpdateMPState0(void) {
     }
 }
 
-void EnterMPState22(void) {
+void EnterMPState22(void *stateObject) {
     u64 randomState;
 
     randomState = (u32) OS_GetTick() << 8;
@@ -181,14 +181,14 @@ void EnterMPState22(void) {
     }
 }
 
-void UpdateMPState22(void) {
+void UpdateMPState22(void *stateObject) {
     gConnectionWork->mMPStateMachine.mDelayTimer = gConnectionWork->mMPStateMachine.mDelayTimer - 1;
     if (gConnectionWork->mMPStateMachine.mDelayTimer < 0) {
         MPStatesRequestMPState(MP_STATE_START_EXCHANGE);
     }
 }
 
-void EnterMPState5(void) {
+void EnterMPState5(void *stateObject) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
         gConnectionWork->mParticipantMask = gConnectionWork->mChildren.mChildMask | 1;
     }

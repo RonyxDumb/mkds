@@ -123,9 +123,10 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     return bomb->mIsThrown;
 }
 
-void ItemBombState0Nop(ItemBomb *bomb) {}
+void ItemBombState0Nop(void *stateObject) {}
 
-void UpdateItemBombState0(ItemBomb *bomb) {
+void UpdateItemBombState0(void *stateObject) {
+    ItemBomb *bomb = stateObject;
     u32 collisionHitLink;
 
     if (bomb->mIsThrown != 0) {
@@ -154,9 +155,10 @@ void UpdateItemBombState0(ItemBomb *bomb) {
     bomb->mStateMachine.mNextStateRequested = 1;
 }
 
-void ItemBombState1Nop(ItemBomb *bomb) {}
+void ItemBombState1Nop(void *stateObject) {}
 
-void UpdateItemBombState1(ItemBomb *bomb) {
+void UpdateItemBombState1(void *stateObject) {
+    ItemBomb *bomb = stateObject;
     u32 flags;
 
     flags = bomb->mBouncingItemObject.mItemObject.mFlags;
@@ -171,7 +173,8 @@ void UpdateItemBombState1(ItemBomb *bomb) {
     }
 }
 
-void EnterItemBombState2(ItemBomb *bomb) {
+void EnterItemBombState2(void *stateObject) {
+    ItemBomb *bomb = stateObject;
     NNSSndSeqPlayer **seqPlayerPointer;
     ModelEffect *modelEffect;
 
@@ -206,7 +209,8 @@ void EnterItemBombState2(ItemBomb *bomb) {
     StartCameraWobbleAtDistance(bomb->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemBombState2(ItemBomb *bomb) {
+void UpdateItemBombState2(void *stateObject) {
+    ItemBomb *bomb = stateObject;
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;

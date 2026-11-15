@@ -10,7 +10,7 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/attractor.h"
 
-void UpdateKoopaBlockState2(KoopaBlock *koopaBlock);
+void UpdateKoopaBlockState2(void *stateObject);
 void DrawAllKoopaBlocks(void *viewMatrix);
 BOOL IsKoopaBlockKind(u32 kind);
 s32 GetKoopaBlockProgress(KoopaBlock *koopaBlock);
@@ -24,8 +24,8 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
 void AdvanceMkdEfBubbleAnimation(void);
 void UpdateMkdEfBubble(void *unused,
                        MkdEfBubbleObject *bubble); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble);
-void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble);
+void EnterMkdEfBubbleState0(void *stateObject);
+void UpdateMkdEfBubbleState0(void *stateObject);
 
 extern StateCallbacks gKoopaBlockStateTable[3];
 

@@ -5,8 +5,8 @@
 
 extern StateCallbacks gLogoStateTable[12];
 
-void UpdateLogoState10(void);
-void EnterLogoState10(void);
-void UpdateLogoState9(void);
-void EnterLogoState9(void);
-void UpdateLogoState8(void);
+void UpdateLogoState10(void *stateObject);
+void EnterLogoState10(void *stateObject);
+void UpdateLogoState9(void *stateObject);
+void EnterLogoState9(void *stateObject);
+void UpdateLogoState8(void *stateObject);

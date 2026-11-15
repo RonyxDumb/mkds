@@ -176,9 +176,10 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
                 &koopaBlock->mCollisionMapObject.mCollisionData.mCenterPos);
 }
 
-void KoopaBlockState0Nop(KoopaBlock *koopaBlock) {}
+void KoopaBlockState0Nop(void *stateObject) {}
 
-void UpdateKoopaBlockState0(KoopaBlock *koopaBlock) {
+void UpdateKoopaBlockState0(void *stateObject) {
+    KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower = &koopaBlock->mFollower;
     s32 progress = GetGroupFollowerProgress(follower);
     s32 angle = (u16) (((s64) progress << 18) >> 12);
@@ -198,7 +199,8 @@ void UpdateKoopaBlockState0(KoopaBlock *koopaBlock) {
     }
 }
 
-void EnterKoopaBlockState1(KoopaBlock *koopaBlock) {
+void EnterKoopaBlockState1(void *stateObject) {
+    KoopaBlock *koopaBlock = stateObject;
     s32 speed = koopaBlock->mFollowSpeed;
 
     koopaBlock->mFollower.mSpeed = speed;
@@ -206,7 +208,8 @@ void EnterKoopaBlockState1(KoopaBlock *koopaBlock) {
         speed, koopaBlock->mFollower.mPath->mSegments[koopaBlock->mFollower.mSegmentIndex].mInverseProgressLength);
 }
 
-void UpdateKoopaBlockState1(KoopaBlock *koopaBlock) {
+void UpdateKoopaBlockState1(void *stateObject) {
+    KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower = &koopaBlock->mFollower;
 
     if (follower->mToEntry->mValue == 0) {
@@ -234,4 +237,4 @@ void UpdateKoopaBlockState1(KoopaBlock *koopaBlock) {
     }
 }
 
-void KoopaBlockState2Nop(KoopaBlock *koopaBlock) {}
+void KoopaBlockState2Nop(void *stateObject) {}

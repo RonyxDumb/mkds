@@ -20,16 +20,16 @@ typedef enum LogoState {
 
 extern const char gLogoState5CommonBmgFileName[];
 
-void UpdateLogoState7(void);
-void EnterLogoState7(void);
-void UpdateLogoState6(void);
-void EnterLogoState6(void);
-void UpdateLogoState5(void);
-void EnterLogoState5(void);
-void UpdateLogoState4(void);
-void EnterLogoState4(void);
-void UpdateLogoState3(void);
-void EnterLogoState3(void);
-void UpdateLogoState2(void);
-void EnterLogoState2(void);
-void UpdateLogoState1(void);
+void UpdateLogoState7(void *stateObject);
+void EnterLogoState7(void *stateObject);
+void UpdateLogoState6(void *stateObject);
+void EnterLogoState6(void *stateObject);
+void UpdateLogoState5(void *stateObject);
+void EnterLogoState5(void *stateObject);
+void UpdateLogoState4(void *stateObject);
+void EnterLogoState4(void *stateObject);
+void UpdateLogoState3(void *stateObject);
+void EnterLogoState3(void *stateObject);
+void UpdateLogoState2(void *stateObject);
+void EnterLogoState2(void *stateObject);
+void UpdateLogoState1(void *stateObject);

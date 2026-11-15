@@ -441,7 +441,8 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     teresa->mOffsetZ = delta[2] + (s32) teresa->mOffsetZ;
 }
 
-void EnterItemTeresaState0(ItemTeresa *teresa) {
+void EnterItemTeresaState0(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     teresa->mKart = GetKart((u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~0xff00));
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
     teresa->mKartVelocity = teresa->mKart->mVelocity;
@@ -574,7 +575,8 @@ s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 ne
     return stateFrames;
 }
 
-void UpdateItemTeresaState0(ItemTeresa *teresa) {
+void UpdateItemTeresaState0(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     AdvanceItemTeresaFadeOut(teresa, 0,
                              (teresa->mItemObject.mFlags & 0x8000000) ? ITEM_TERESA_STATE_WAIT_PICKED_KART
                                                                       : ITEM_TERESA_STATE_FADE_IN_AT_PICKED);
@@ -597,7 +599,8 @@ void UpdateItemTeresaState0(ItemTeresa *teresa) {
     }
 }
 
-void EnterItemTeresaState1(ItemTeresa *teresa) {
+void EnterItemTeresaState1(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     if (teresa->mActsLocally == FALSE) {
         return;
     }
@@ -607,7 +610,8 @@ void EnterItemTeresaState1(ItemTeresa *teresa) {
     teresa->mActsLocally = FALSE;
 }
 
-void UpdateItemTeresaState1(ItemTeresa *teresa) {
+void UpdateItemTeresaState1(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     s32 stateFrames;
 
     if (teresa->mPendingPickedKartIndex == 0xffffffff) {
@@ -623,7 +627,8 @@ void UpdateItemTeresaState1(ItemTeresa *teresa) {
     teresa->mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterItemTeresaState2(ItemTeresa *teresa) {
+void EnterItemTeresaState2(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     s32 *offset;
     Camera *camera;
     RaceSetup *raceSetup;
@@ -713,7 +718,8 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     return gItemInfos[itemInfoIndex].mObjectKind;
 }
 
-void UpdateItemTeresaState2(ItemTeresa *teresa) {
+void UpdateItemTeresaState2(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     u32 framesLeft;
     BOOL receivedItem;
 
@@ -785,11 +791,13 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
     }
 }
 
-void EnterItemTeresaState3(ItemTeresa *teresa) {
+void EnterItemTeresaState3(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     teresa->mOffsetAccelerationY = 0x0u;
 }
 
-void UpdateItemTeresaState3(ItemTeresa *teresa) {
+void UpdateItemTeresaState3(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     if (teresa->mItemModelAlpha < 0x1f) {
         teresa->mItemModelAlpha += 5;
     }
@@ -846,12 +854,14 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
     }
 }
 
-void EnterItemTeresaState4(ItemTeresa *teresa) {
+void EnterItemTeresaState4(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     teresa->mDelayTimer = ((teresa->mItemObject.mFlags & 0x10000000) ? 0xf : 0) - teresa->mDelayTimer;
     teresa->mActsLocally = FALSE;
 }
 
-void UpdateItemTeresaState4(ItemTeresa *teresa) {
+void UpdateItemTeresaState4(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     teresa->mDelayTimer--;
     if (teresa->mDelayTimer >= 0) {
         return;
@@ -872,7 +882,8 @@ void RestoreItemTeresaPosPointer(ItemTeresa *teresa) {
     }
 }
 
-void EnterItemTeresaState5(ItemTeresa *teresa) {
+void EnterItemTeresaState5(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     int ownerKartIndex;
     KartItems *ownerKartItems;
     void (*positionFunction)(ItemTeresa *);
@@ -917,7 +928,8 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
     positionFunction(teresa);
 }
 
-void UpdateItemTeresaState5(ItemTeresa *teresa) {
+void UpdateItemTeresaState5(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     s32 ownerKartIndex;
     KartItems *ownerKartItems;
     u32 framesLeft;
@@ -1026,7 +1038,8 @@ u32 EnterItemTeresaState6(u32 value) {
     return value;
 }
 
-void UpdateItemTeresaState6(ItemTeresa *teresa) {
+void UpdateItemTeresaState6(void *stateObject) {
+    ItemTeresa *teresa = stateObject;
     BOOL hasItem;
     s32 ownerKartIndex;
 

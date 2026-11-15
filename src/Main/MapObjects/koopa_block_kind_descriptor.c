@@ -68,7 +68,8 @@ StateCallbacks gKoopaBlockStateTable[3] = {{KoopaBlockState0Nop, UpdateKoopaBloc
 
 #pragma thumb off
 
-void UpdateKoopaBlockState2(KoopaBlock *koopaBlock) {
+void UpdateKoopaBlockState2(void *stateObject) {
+    KoopaBlock *koopaBlock = stateObject;
     GroupFollower *follower;
     s32 progress;
     s32 speed;

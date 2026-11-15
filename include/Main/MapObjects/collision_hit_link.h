@@ -4,9 +4,9 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/MapObjects/data_02158000.h"
 
-void KoopaBlockState2Nop(KoopaBlock *koopaBlock);
+void KoopaBlockState2Nop(void *stateObject);
 
-void KoopaBlockState0Nop(KoopaBlock *koopaBlock);
+void KoopaBlockState0Nop(void *stateObject);
 
 extern const MapObjectList gKoopaBlockUpdateListData;
 extern const MapObjectDrawList gKoopaBlockDrawListData;
