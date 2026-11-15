@@ -445,7 +445,8 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             if ((gConnectionWork->mBitsReceivedMask & (1 << message->mBitsPlayerIndex)) != 0) {
                 return;
             }
-            MI_CpuCopy8(message->mBitsOrName, gConnectionWork->mPlayerRecords[message->mBitsPlayerIndex].mBits, 4);
+            MI_CpuCopy8(message->mBitsOrName, gConnectionWork->mPlayerRecords[message->mBitsPlayerIndex].mBits,
+                        sizeof(gConnectionWork->mPlayerRecords[message->mBitsPlayerIndex].mBits));
             gConnectionWork->mBitsReceivedMask |= 1 << message->mBitsPlayerIndex;
             break;
         case MP_MESSAGE_REMOVE_CHILDREN:
@@ -562,7 +563,7 @@ BOOL QueueMPDataPlayerBits(u8 playerIndex, u16 destBitmap) {
     MPPlayerBitsMessage message;
 
     message.mKind = MP_MESSAGE_PLAYER_BITS;
-    MI_CpuCopy8(gConnectionWork->mPlayerRecords[playerIndex].mBits, message.mBits, 4);
+    MI_CpuCopy8(gConnectionWork->mPlayerRecords[playerIndex].mBits, message.mBits, sizeof(message.mBits));
     message.mPlayerIndex = playerIndex;
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) == 0) {
         return FALSE;

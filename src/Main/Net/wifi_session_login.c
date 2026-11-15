@@ -109,7 +109,7 @@ void SetupWiFiSessionLogin(void) {
     MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
     MI_CpuFill8(&gWiFiSession->mConnection, 0, 0xe24);
     if (CheckUserDataValidConsole() != 0) {
-        MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mUserData, &gWiFiSession->mUserData, 0x40);
+        MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mUserData, &gWiFiSession->mUserData, sizeof(gWiFiSession->mUserData));
     } else {
         DWC_CreateUserData(&gWiFiSession->mUserData, 0x414d434a);
     }
@@ -187,7 +187,8 @@ void WiFiSessionLoginCallback(s32 result) {
     if (result == 0) {
         if (DWCi_Acc_IsDirty(&gWiFiSession->mUserData) != 0) {
             DWCi_Acc_ClearDirty(&gWiFiSession->mUserData);
-            MI_CpuCopy8(&gWiFiSession->mUserData, &gBackupBuffers->mFirstBlock->mUserData, 0x40);
+            MI_CpuCopy8(&gWiFiSession->mUserData, &gBackupBuffers->mFirstBlock->mUserData,
+                        sizeof(gBackupBuffers->mFirstBlock->mUserData));
             WriteBackupFirstBlockWrapper();
         }
         gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_BACKUP;

@@ -612,7 +612,8 @@ void StartParentCallback(WirelessMessage *event) {
                 break;
             case WIRELESS_STATE_SESSION_START:
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
-                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits, 4);
+                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits,
+                            sizeof(gConnectionWork->mPlayerRecords[0].mBits));
                 seed = 0;
                 role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
                 switch (role) {

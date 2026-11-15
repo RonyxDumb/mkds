@@ -115,12 +115,12 @@ void FillPlayerRecord(PlayerRecord *a) {
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, a->mName, sizeof(a->mName));
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
         a->mHasEmblem = 1;
-        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, a->mEmblem, 0x200);
+        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, a->mEmblem, sizeof(a->mEmblem));
     } else {
         a->mHasEmblem = 0;
         MI_CpuFill8(a->mEmblem, 0, 0x200);
     }
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, a->mBits, 4);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, a->mBits, sizeof(a->mBits));
     a->mRegion = gStartupWork->mRegion;
     a->mLanguageIndex = gStartupWork->mLanguageIndex;
     a->mElo = gBackupBuffers->mFirstBlock->mElo;

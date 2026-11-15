@@ -501,7 +501,8 @@ void EnterMPState13(void) {
     if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
         ownIndex = gConnectionWork->mOwnIndex;
     }
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, gConnectionWork->mPlayerRecords[(u16) ownIndex].mBits, 4);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, gConnectionWork->mPlayerRecords[(u16) ownIndex].mBits,
+                sizeof(gConnectionWork->mPlayerRecords[(u16) ownIndex].mBits));
     gConnectionWork->mRecordReceivedMask |= 1;
 }
 

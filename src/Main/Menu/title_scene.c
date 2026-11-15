@@ -129,9 +129,10 @@ void GetClockTimeOrZero(RTCTime *time) {
 
 void CopyCourseGhostToSlotGhost(GhostRecord *courseGhost, SlotGhostRecord *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
-    MI_CpuCopy8(courseGhost->mKeyRecordingBuffer, slotGhost->mKeyRecordingBuffer, 0xdcc);
+    MI_CpuCopy8(courseGhost->mKeyRecordingBuffer, slotGhost->mKeyRecordingBuffer,
+                sizeof(slotGhost->mKeyRecordingBuffer));
     if (gBackupBuffers->mEmblemRecord->mFilled != 0 && gBackupBuffers->mFirstBlock->mEmblemOff == 0) {
-        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, slotGhost->mEmblem, 0x200);
+        MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, slotGhost->mEmblem, sizeof(slotGhost->mEmblem));
         slotGhost->mHead.mUnk_08 |= 2;
     } else {
         MI_CpuFill8(slotGhost->mEmblem, 0, 0x200);
