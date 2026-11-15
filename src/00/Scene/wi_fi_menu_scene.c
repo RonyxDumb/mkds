@@ -18,12 +18,12 @@
 #include "Main/System/heap.h"
 #include "Main/Kart/karts.h"
 
-u8 *gWiFiMenuOamLists;
+OamEntryList *gWiFiMenuOamLists;
 
 void InitWiFiMenuScene(s16 *sceneNumbers) {
     void *heap;
     heap = GetHeap(GetCurrentHeapCall());
-    gWiFiMenuOamLists = HeapAlloc(heap, 0x808);
+    gWiFiMenuOamLists = HeapAlloc(heap, 2 * sizeof(OamEntryList));
     InitWiFiStates(heap, *sceneNumbers);
 }
 
@@ -35,13 +35,13 @@ void ReleaseWiFiMenuScene(void) {
 void WriteWiFiMenuSceneRegisters(void) {
     AdvanceKartModelMenuLoad();
     WriteWiFiStatesRegisters();
-    UploadOamLists(gWiFiMenuOamLists, gWiFiMenuOamLists + 0x404);
+    UploadOamLists(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
 }
 
 void UpdateWiFiMenuScene(SceneNumbers *sceneNumbers) {
-    ClearOamListCounts(gWiFiMenuOamLists, gWiFiMenuOamLists + 0x404);
+    ClearOamListCounts(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
     AdvanceWiFiStates();
-    HideUnusedOams(gWiFiMenuOamLists, gWiFiMenuOamLists + 0x404);
+    HideUnusedOams(gWiFiMenuOamLists, gWiFiMenuOamLists + 1);
     if (sceneNumbers != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {
@@ -64,5 +64,5 @@ void *GetWiFiMenuMainOamList(void) {
 }
 
 void *GetWiFiMenuSubOamList(void) {
-    return gWiFiMenuOamLists + 0x404;
+    return gWiFiMenuOamLists + 1;
 }

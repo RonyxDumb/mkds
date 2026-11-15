@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Graphics/oam_lists.h"
 
 typedef struct SceneNumbers SceneNumbers;
 
@@ -16,4 +17,4 @@ void WriteWiFiMenuSceneRegisters(void);
 void ReleaseWiFiMenuScene(void);
 void InitWiFiMenuScene(s16 *sceneNumbers);
 
-extern u8 *gWiFiMenuOamLists;
+extern OamEntryList *gWiFiMenuOamLists;
