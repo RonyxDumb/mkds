@@ -19,7 +19,7 @@ int gti2Send(Gt2Connection *connection, u8 *message, int len, int reliable);
 BOOL gti2ResendMessage(Gt2Connection *connection, GTI2OutgoingBufferMessage *message);
 BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port);
 int gti2SendClosed(Gt2Connection *connection);
-u32 gti2SendPong(u32 connection, u32 message, u32 len);
+u32 gti2SendPong(Gt2Connection *connection, u8 *message, u32 len);
 BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber);
 BOOL gti2SendAck(Gt2Connection *connection);
 BOOL gti2SendAppUnreliable(Gt2Connection *connection, u8 *message, int len);
@@ -48,7 +48,7 @@ u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len);
 
 typedef struct Gt2Connection Gt2Connection;
 
-u32 gti2HandlePing(Gt2Connection *connection, u32 message, u32 len);
+u32 gti2HandlePing(Gt2Connection *connection, u8 *message, u32 len);
 
 typedef struct Gt2Connection Gt2Connection;
 

@@ -31,7 +31,7 @@
 #include "00/code_02196000.h"
 #include "00/Lib/GameSpy/code_02193b88.h"
 
-u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year) {
+u32 GpiUnpackDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 *year) {
     int isValid;
     u32 unpackedDay;
     u32 unpackedMonth;
@@ -216,8 +216,8 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
             infoRecord.mBirthmonth = 0;
             infoRecord.mBirthyear = 0;
         } else {
-            result = GpiUnpackDate((u32 *) connection, StrtolBase10(buffer), &infoRecord.mBirthday,
-                                   &infoRecord.mBirthmonth, &infoRecord.mBirthyear);
+            result = GpiUnpackDate(connection, StrtolBase10(buffer), &infoRecord.mBirthday, &infoRecord.mBirthmonth,
+                                   &infoRecord.mBirthyear);
             if (result != 0) {
                 return result;
             }
@@ -857,8 +857,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         }
         GpiRemoveOperation(connection, pendingOp);
     } else {
-        result =
-            GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &pendingOp, blocking, callback, param);
+        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &pendingOp, blocking, callback, param);
         if (result != 0) {
             return result;
         }

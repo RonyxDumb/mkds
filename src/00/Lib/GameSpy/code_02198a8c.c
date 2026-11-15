@@ -540,13 +540,14 @@ u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
     return 1;
 }
 
-u32 gti2HandlePing(Gt2Connection *connection, u32 message, u32 len) {
-    u32 sendResult = (u32) connection;
-    u32 pingMessage = message;
+u32 gti2HandlePing(Gt2Connection *connection, u8 *message, u32 len) {
+    Gt2Connection *pingConnection = connection;
+    u8 *pingMessage = message;
     u32 pingLength = len;
+    u32 sendResult;
     u32 sendPongFunction;
     sendPongFunction = (u32) &gti2SendPong;
-    sendResult = gti2SendPong(sendResult, pingMessage, pingLength);
+    sendResult = gti2SendPong(pingConnection, pingMessage, pingLength);
     return sendResult;
 }
 
@@ -597,7 +598,7 @@ u32 gti2HandleUnreliableMessage(Gt2Connection *connection, u32 type, u8 *message
             return 0;
         }
     } else if (type == 0x66) {
-        if (gti2HandlePing(connection, (u32) message, len) == 0) {
+        if (gti2HandlePing(connection, message, len) == 0) {
             return 0;
         }
     } else if (type == 0x67) {
@@ -1022,15 +1023,16 @@ BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber) {
     return TRUE;
 }
 
-u32 gti2SendPong(u32 connection, u32 message, u32 len) {
-    u32 sendResult = connection;
-    u32 messageAddress = message;
+u32 gti2SendPong(Gt2Connection *connection, u8 *message, u32 len) {
+    Gt2Connection *sendConnection = connection;
+    u8 *messageAddress = message;
     u32 length = len;
+    u32 sendResult;
     u32 pongType;
     pongType = 103u;
-    *(u8 *) ((messageAddress) + 2u) = pongType;
+    messageAddress[2] = pongType;
     pongType = (u32) &SendConnectionBytes;
-    sendResult = SendConnectionBytes((Gt2Connection *) sendResult, (u8 *) messageAddress, length);
+    sendResult = SendConnectionBytes(sendConnection, messageAddress, length);
     return sendResult;
 }
 

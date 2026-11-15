@@ -70,4 +70,4 @@ typedef struct GetInfoReply {
 u32 GpiWriteUpdateBuffers(GpConnection *connection, GpiBuffer *buffer);
 s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, const char *input);
 void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg);
-u32 GpiUnpackDate(u32 *connection, s32 date, u32 *day, u32 *month, u32 *year);
+u32 GpiUnpackDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 *year);

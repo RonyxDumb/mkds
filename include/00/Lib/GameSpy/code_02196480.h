@@ -8,6 +8,8 @@
 #include "00/code_02190000.h"
 #include "00/code_02193000.h"
 
+typedef struct GpiTransferId GpiTransferId;
 
-s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *peer, s32 result, const char *msg);
+s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, GpiPeer *peer, s32 result,
+                         const char *msg);
 s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operation, const char *input);

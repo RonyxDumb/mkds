@@ -42,11 +42,11 @@ char gSearchManagerName[0x40] = "gpsp.gs.nintendowifi.net";
 void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
                               s32 len) {
     char value[0x40];
-    s32 transferKey[3];
+    GpiTransferId transferKey;
 
     if (GpiGetValue(headers, "\\xfer\\", value, 0x40) != FALSE) {
-        if (sscanf(value, "%d %u %u", &transferKey[0], &transferKey[1], &transferKey[2]) == 3) {
-            gpiSendTransferReply(connection, transferKey, peer, 2, NULL);
+        if (sscanf(value, "%d %u %u", &transferKey.mProfileId, &transferKey.mCount, &transferKey.mTime) == 3) {
+            gpiSendTransferReply(connection, &transferKey, peer, 2, NULL);
         }
     }
 }
@@ -131,21 +131,21 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     return FALSE;
 }
 
-int GpiStartSearchOperation(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback, u32 param) {
+int GpiStartSearchOperation(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback,
+                            u32 param) {
     int result;
     GpiOperation *pendingOp;
     connection->mGpiConnection->mSearchCount = connection->mGpiConnection->mSearchCount + 1;
     result = GpiCreateOperation(connection, PROFILE_OPERATION_SEARCH, data, &pendingOp, blocking, callback, param);
     if (((result == 0) && (result = GpiOpenSearchSocket(connection, pendingOp), result == 0)) &&
-        ((pendingOp->mBlocking == 0 ||
-          (result = GpiUpdateConnection(connection, pendingOp->mId), result == 0)))) {
+        ((pendingOp->mBlocking == 0 || (result = GpiUpdateConnection(connection, pendingOp->mId), result == 0)))) {
         result = 0;
     }
     return result;
 }
 
 int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                         int icquin, int skip, u32 blocking, GpiCallbackFn callback, u32 param) {
+                     int icquin, int skip, u32 blocking, GpiCallbackFn callback, u32 param) {
     int result;
     GPISearchData *data;
     if ((((((nick == NULL) || (*nick == 0)) && ((email == NULL || (*email == 0)))) &&
@@ -393,8 +393,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             return result;
                         }
                         if (strcmp(key, "bsrdone") == 0) {
-                            result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -416,8 +415,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             matchDone = FALSE;
                             do {
                                 savedPos = readPos;
-                                result =
-                                    GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                                result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                                 if (result != 0) {
                                     return result;
                                 }
@@ -449,10 +447,10 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     }
                     if (previousMore == PROFILE_SEARCH_MORE_CONTINUE &&
                         response.mMore == PROFILE_SEARCH_MORE_CONTINUE) {
-                        result = gpiProfileSearch(
-                            connection, data->mNick, data->mUniquenick, data->mEmail, data->mFirstname, data->mLastname,
-                            data->mIcquin, response.mNumMatches + data->mSkip, operation->mBlocking,
-                            operation->mCallback.mCallback, operation->mCallback.mParam);
+                        result = gpiProfileSearch(connection, data->mNick, data->mUniquenick, data->mEmail,
+                                                  data->mFirstname, data->mLastname, data->mIcquin,
+                                                  response.mNumMatches + data->mSkip, operation->mBlocking,
+                                                  operation->mCallback.mCallback, operation->mCallback.mParam);
                         if (result != 0) {
                             return result;
                         }
@@ -512,8 +510,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         isDone = FALSE;
                         do {
-                            result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -575,8 +572,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u4->mNumMatches = 0;
                         u4->mMatches = NULL;
                         do {
-                            result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -721,8 +717,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         isDone = FALSE;
                         do {
-                            result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -804,8 +799,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         isDone = FALSE;
                         do {
-                            result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }

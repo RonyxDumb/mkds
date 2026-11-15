@@ -29,10 +29,10 @@ typedef struct GpConnection GpConnection;
 typedef struct GPIFindProfileByUserData {
     /* 00 */ const char *mNick;
     /* 04 */ const char *mEmail;
-    /* 08 */ void **mProfile;
+    /* 08 */ GpiProfile **mProfile;
     /* 0c */ BOOL mFound;
 } GPIFindProfileByUserData;
 
-s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char *email, void **profile);
+s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char *email, GpiProfile **profile);
 
 u32 gpiCheckProfileForUser(u32 connection, int profile, GPIFindProfileByUserData *data);

@@ -60,14 +60,15 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     return 0;
 }
 
-s32 gpiSendTransferReply(GpConnection *connection, s32 *transferID, GpiPeer *peer, s32 result, const char *msg) {
+s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, GpiPeer *peer, s32 result,
+                         const char *msg) {
     char buffer[0x24];
     s32 stepResult;
 
     if (msg == NULL) {
         msg = "";
     }
-    stepResult = GpiPeerSendXfer(connection, peer, 0xc9, (GpiTransferId *) transferID);
+    stepResult = GpiPeerSendXfer(connection, peer, 0xc9, transferID);
     if (stepResult != 0) {
         return stepResult;
     }

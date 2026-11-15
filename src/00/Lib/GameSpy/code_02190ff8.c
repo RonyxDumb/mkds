@@ -35,7 +35,7 @@
 
 char gConnectionManagerName[0x40] = "gpcm.gs.nintendowifi.net";
 
-void randomString(s8 *buffer, s32 numChars) {
+void randomString(char *buffer, s32 numChars) {
     s32 index;
 
     for (index = 0; index < numChars; index++) {
@@ -174,8 +174,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     if (cdkey != NULL) {
         GpiCopyString((char *) data->mCdkey, cdkey, 0x41);
     }
-    result = GpiCreateOperation(connection, PROFILE_OPERATION_CONNECT, data, &pendingOp, blocking,
-                                callback, param);
+    result = GpiCreateOperation(connection, PROFILE_OPERATION_CONNECT, data, &pendingOp, blocking, callback, param);
     if (result != 0) {
         return result;
     }
@@ -206,7 +205,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
     u16 port;
 
     gpState = connection->mGpiConnection;
-    randomString((s8 *) data->mUserChallenge, 0x20);
+    randomString(data->mUserChallenge, 0x20);
     if (data->mPartnerChallenge[0] != 0) {
         passwordPtr = data->mPartnerChallenge;
     } else {
@@ -225,7 +224,7 @@ u32 GpiWriteLogin(GpConnection *connection, GPIConnectData *data) {
             data->mUserChallenge, data, data->mPasswordHash);
     MD5Digest(buffer, strlen(buffer), response);
     if (gpState->mInfoCaching != 0) {
-        gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, (void **) &profileRec);
+        gpiFindProfileByUser(connection, gpState->mNick, gpState->mEmail, &profileRec);
         if (profileRec != NULL) {
             gpState->mUserId = profileRec->mUserId;
             gpState->mProfileId = profileRec->mProfileId;
@@ -551,8 +550,7 @@ void GpiCloseConnection(GpConnection *connection, s32 tellServer) {
             GpiAppendBufferNumber(connection, &gpState->mOutputBuffer, gpState->mSesskey);
             GpiAppendBufferString(connection, &gpState->mOutputBuffer, "\\final\\");
         }
-        GpiSendBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &socketGone, 1,
-                      (const s8 *) "CM");
+        GpiSendBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &socketGone, 1, (const s8 *) "CM");
         if (gpState->mConnectSocket != -1) {
             shutdown(gpState->mConnectSocket, 2);
             closesocket(gpState->mConnectSocket);
