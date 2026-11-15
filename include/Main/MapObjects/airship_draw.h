@@ -19,7 +19,7 @@ typedef struct Airship {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mModelHeightOffset;
     /* a4 */ s32 mPathSpeed;
-    /* a8 */ s16 mWobbleAngle;
+    /* a8 */ u16 mWobbleAngle;
     /* aa */ u8 mUnk_aa[2];
     /* ac */ s32 mWobbleOffset;
     /* b0 */ s32 mWobbleOffsetDelta;

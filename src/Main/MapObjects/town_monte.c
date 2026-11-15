@@ -76,10 +76,10 @@ static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
 static inline void AdvanceAirshipWobble(Airship *airship) {
     s32 nextValue;
 
-    airship->mWobbleAngle = (u16) airship->mWobbleAngle + airship->mWobbleAnglePerFrame;
+    airship->mWobbleAngle = airship->mWobbleAngle + airship->mWobbleAnglePerFrame;
     airship->mWobbleOffsetDelta =
         airship->mWobbleMid +
-        AirshipFX_MulInline(airship->mWobbleAmplitude / 2, 0x1000 - AirshipFX_CosIdx((u16) airship->mWobbleAngle)) -
+        AirshipFX_MulInline(airship->mWobbleAmplitude / 2, 0x1000 - AirshipFX_CosIdx(airship->mWobbleAngle)) -
         airship->mWobbleOffset;
     airship->mWobbleOffset += airship->mWobbleOffsetDelta;
     if (airship->mWobbleAmplitude > 0) {
