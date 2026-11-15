@@ -1611,7 +1611,7 @@ void CPS_SocBind(int ownPort, u16 remotePort, int remoteAddress) {
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (remoteAddress == 0x7f000001) {
-            remoteAddress = *(s32 *) &CPSMyIp;
+            remoteAddress = CPSMyIp;
         }
         socket->mRemotePortBound = remotePort;
         socket->mRemotePort = socket->mRemotePortBound;

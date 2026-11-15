@@ -80,14 +80,14 @@ s32 StopExchange(void) {
 
 u32 GetExchangeStatus(u32 *output) {
     int now;
-    *output = *(u32 *) &gExchangeStatus;
+    *output = gExchangeStatus;
     if ((gTimeoutAtMs) == -1) {
         output[1] = 0xffffffff;
     } else {
         now = GetTickMilliseconds();
         output[1] = (gTimeoutAtMs) -now;
     }
-    output[2] = *(u32 *) &gExchangeResultCode;
+    output[2] = gExchangeResultCode;
     return 1;
 }
 

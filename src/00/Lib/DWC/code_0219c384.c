@@ -20,7 +20,7 @@ void DWC_ClearError(void) {
 }
 
 u32 DWCi_IsError(void) {
-    if ((*(s32 *) &stDwcLastError) != 0) {
+    if (stDwcLastError != 0) {
         return 1;
     }
     return 0;

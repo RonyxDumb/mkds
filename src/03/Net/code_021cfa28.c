@@ -117,9 +117,8 @@ u16 DecideWhChannel(void) {
     channel = PickWhChannel((u32) (gWhWork->mLowestBusyChannelMask));
     workAddress = &gWhWork;
     gWhWork->mDecidedChannel = channel;
-    if ((UnkFunc *) (*(u32 *) &gWhPrintFunction) != NULL) {
-        (*(UnkFunc *) (*(u32 *) &gWhPrintFunction))((0x08000000u), (u32) "decided channel = %d\n",
-                                                    (*workAddress)->mDecidedChannel);
+    if (gWhPrintFunction != NULL) {
+        gWhPrintFunction(0x08000000, "decided channel = %d\n", (*workAddress)->mDecidedChannel);
     }
     return gWhWork->mDecidedChannel;
 }

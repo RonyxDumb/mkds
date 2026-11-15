@@ -30,11 +30,9 @@
 #include "03/code_021b7ba8.h"
 #include "03/Net/code_021ba124.h"
 
-u32 AllocSocketMemory(u32 name, int size);
-void FreeSocketMemory(u32 name, u32 pointer);
 SOCConfig gEssidSocketConfig = {{0, 0, 0, 1},
                                 (SocketAllocFn) AllocSocketMemory,
-                                (SocketFreeFn) FreeSocketMemory,
+                                FreeSocketMemory,
                                 0,
                                 0,
                                 0,
@@ -1629,17 +1627,17 @@ void SwapBufferHalves(u8 *buffer, u32 size, u8 *scratch) {
     CopyBytes(buffer, scratch, size);
 }
 
-u32 AllocSocketMemory(u32 name, int size) {
-    u32 memory;
+void *AllocSocketMemory(u32 name, int size) {
+    void *memory;
     if (0 < size) {
-        memory = (*(UnkWordFunc *) (*(u32 *) &gEssidAllocFunction))(size);
+        memory = gEssidAllocFunction(size);
         return memory;
     }
-    return 0;
+    return NULL;
 }
 
-void FreeSocketMemory(u32 name, u32 pointer) {
-    (*(UnkFunc *) (*(u32 *) &gEssidFreeFunction))(pointer);
+void FreeSocketMemory(u32 name, void *pointer, u32 size) {
+    gEssidFreeFunction(pointer);
 }
 
 s32 StartSocketsWithAddress(u32 address, u32 mask, u32 router) {
