@@ -415,7 +415,7 @@ void InitKartEmblemPointers(void) {
         } else {
             emblemTex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mEmblemData;
             LoadNclrData(&nclr, GetKartModelFile("emblem_s_b.NCLR"));
-            emblemPltt = (u8 *) nclr->mData;
+            emblemPltt = nclr->mBytes;
             gKartNameTags->mEmblemTex[kartIndex] = emblemTex;
             gKartNameTags->mEmblemPltt[kartIndex] = emblemPltt;
         }

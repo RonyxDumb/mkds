@@ -14,7 +14,10 @@ typedef struct Ncgr {
     /* 0002 */ u16 mColumnCount;
     /* 0004 */ u8 mUnk_04[0xc];
     /* 0010 */ u32 mDataSize;
-    /* 0014 */ u16 *mData;
+    union {
+        /* 0014 */ u16 *mData;
+        u8 *mBytes;
+    };
 } Ncgr;
 
 typedef struct Nscr {
@@ -27,7 +30,10 @@ typedef struct Nclr {
     /* 0000 */ u8 mUnk_00[4];
     /* 0004 */ s32 mUnk_04;
     /* 0008 */ u32 mDataSize;
-    /* 000c */ u16 *mData;
+    union {
+        /* 000c */ u16 *mData;
+        u8 *mBytes;
+    };
 } Nclr;
 
 // One stack word whose address the functions above store different pointer types through.

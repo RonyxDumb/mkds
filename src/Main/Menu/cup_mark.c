@@ -118,7 +118,7 @@ void QueueCupMark(u32 cupMarkIndex, NNSG2dCellDataBank *cells, LayoutEntryTable 
     cupMark = gCupMark;
     QueueCellChars(id, cupMark->mNcer, cupMark->mNcgr, cupMark->mBncl, queueSelector, destIndex, cells, cellLayout);
     cupMark = gCupMark;
-    dst = (u8 *) cupMark->mNclr->mData;
+    dst = cupMark->mNclr->mBytes;
     paletteIndex = GetCellPaletteIndex(id, cupMark->mNcer, cupMark->mBncl);
     NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5, dst + (paletteIndex << 5), 32);
 }

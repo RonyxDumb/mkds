@@ -83,7 +83,7 @@ void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLay
     QueueCellChars(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl,
                    queueSelector, destIndex, cells, cellLayout);
     NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5,
-                                       (u8 *) gTrophyIcon->mNclr->mData + gTrophyIconNclrStarts[paletteIndex] * 0x20,
+                                       gTrophyIcon->mNclr->mBytes + gTrophyIconNclrStarts[paletteIndex] * 0x20,
                                        0x20);
 }
 

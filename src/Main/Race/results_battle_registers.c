@@ -506,7 +506,7 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
         }
         cellPaletteIndex = GetCellPaletteIndex(cellIndex, cellFileSet->mCells, cellFileSet->mCellLayout);
         shuffledIndex = gMenuShared->mShuffledIndices[entryIndex];
-        paletteBlock = shuffledIndex * 0x20 + (u8 *) palette->mData;
+        paletteBlock = shuffledIndex * 0x20 + palette->mBytes;
         if (cellFileSetIndex == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
                                                0x20);

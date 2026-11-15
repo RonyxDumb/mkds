@@ -172,7 +172,7 @@ void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
         charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
-        charsSource = (u8 *) chars->mData + ((sourceAttr2 & 0x3ff) << 5);
+        charsSource = chars->mBytes + ((sourceAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
@@ -193,7 +193,7 @@ void QueueCellCharsAndCopyPalettes(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
             runLength++;
         } else if (runLength > 0) {
             runStart <<= 5;
-            paletteSource = (u8 *) palette->mData + runStart;
+            paletteSource = palette->mBytes + runStart;
             runBytes = runLength << 5;
             if (queueSelector == 0) {
                 NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, runStart, paletteSource,
@@ -238,7 +238,7 @@ void QueueCellChars(u32 index, NNSG2dCellDataBank *cells, Ncgr *chars, LayoutEnt
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
         charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
-        charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
+        charsSource = chars->mBytes + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
@@ -282,7 +282,7 @@ void QueueCellCharsAndFirstPalette(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
         oamSize = (((u32) oamEntry->mAttr1 << 16) & 0xc0000000) >> 30;
         oamShape = ((u32) cellData->mPOamAttrArray[oamIndex].mAttr0 & 0xc000) >> 14;
         charBytes = (&gOamShapeSizeCharBlocks[0][oamSize])[oamShape * 4] << 5;
-        charsSource = (u8 *) chars->mData + ((oamEntry->mAttr2 & 0x3ff) << 5);
+        charsSource = chars->mBytes + ((oamEntry->mAttr2 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, destCharOffset, charsSource,
@@ -293,7 +293,7 @@ void QueueCellCharsAndFirstPalette(u32 index, NNSG2dCellDataBank *cells, Ncgr *c
         }
     }
     destPaletteOffset = (((u32) destCellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12) << 5;
-    paletteSource = (u8 *) palette->mData + ((((u32) cellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12) << 5);
+    paletteSource = palette->mBytes + ((((u32) cellData->mPOamAttrArray->mAttr2 & 0xf000) >> 12) << 5);
     if (queueSelector == 0) {
         queueCommand = 0xe;
     } else {

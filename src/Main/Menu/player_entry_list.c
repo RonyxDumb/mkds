@@ -421,7 +421,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                                        gPlayerEntryList->mParts.mChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
-                                       (u8 *) fileSet->mPalette->mData + 0x1c0, 0x40);
+                                       fileSet->mPalette->mBytes + 0x1c0, 0x40);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
