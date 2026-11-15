@@ -76,11 +76,11 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         } else {
             remaining = 0;
         }
-        if (remaining >= 0x70) {
+        if (remaining >= sizeof(MBiCacheList)) {
             rangeTable = (MBiCacheList *) writePos;
-            MBi_InitCache((u32) writePos);
-            writePos += 0x70;
-            remaining -= 0x70;
+            MBi_InitCache(rangeTable);
+            writePos += sizeof(MBiCacheList);
+            remaining -= sizeof(MBiCacheList);
             MBi_AttachCacheBuffer(rangeTable, 0, 0x160, (u8 *) header, 3);
             arcBytes = (s8 *) activeFile->mArc;
             nameLength = 0;

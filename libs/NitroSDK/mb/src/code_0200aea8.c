@@ -2,13 +2,13 @@
 #include "code_0214d018.h"
 
 #pragma thumb on
-void MBi_InitCache(u32 table) {
-    u32 address = table;
+void MBi_InitCache(MBiCacheList *table) {
+    MBiCacheList *address = table;
     u32 fillValue;
     u32 byteCount;
     u32 unusedValue;
     fillValue = 0u;
-    byteCount = 112u;
-    MI_CpuFill8((void *) address, fillValue, byteCount);
+    byteCount = sizeof(MBiCacheList);
+    MI_CpuFill8(address, fillValue, byteCount);
 }
 #pragma thumb off
