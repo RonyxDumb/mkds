@@ -12,4 +12,4 @@ u16 TitleGetInputSlotNewBits(InputSlot *slot, u32 mask);
 
 unsigned int GetTitleInputSlot(void);
 
-u32 TitleState2ReturnArgumentWrapper(u32 value);
+u32 TitleMenuInputReturnArgumentWrapper(u32 value);

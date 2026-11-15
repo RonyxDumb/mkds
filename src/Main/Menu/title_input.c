@@ -5,7 +5,7 @@
 #include "Main/System/init_after_startup.h"
 
 #pragma thumb on
-u32 TitleState2ReturnArgumentWrapper(u32 value) {
+u32 TitleMenuInputReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }
 #pragma thumb off
