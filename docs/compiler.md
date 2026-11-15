@@ -27,7 +27,7 @@ what it shows and the command that reruns it on every installed build
 - b56 reaches a field it reads and writes back through an address computed once (`add rX, rY, #imm`, then
   `ldr`/`str` through rX), a shape base never emits; in the disassembly of main's game code that shape appears only
   once (`StartKartRespawnWait`) in about 5,500 functions (read with a scanner that isn't in the repository).
-- ARM: a multiply-heavy function (`UpdateKuriboState2`, 0x58 bytes, `arm_long_multiply.c`) matches on 1.2 b56 to sp2p3
+- ARM: a multiply-heavy function (`UpdateKuriboStretch`, 0x58 bytes, `arm_long_multiply.c`) matches on 1.2 b56 to sp2p3
   and on no 2.0 build at any `-proc`; in the disassembly, every ARM game function returns through
   `ldm {.., lr}; bx lr`, never `ldm {.., pc}`, which 1.2 sp3/sp4 emit under `-proc arm946e`. DSP multiplies (`smulbb`,
   `smlabb`) in game code need `-proc arm946e`.

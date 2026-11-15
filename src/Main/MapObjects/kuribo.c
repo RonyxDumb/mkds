@@ -41,23 +41,23 @@
 #include "Main/MapObjects/dossun.h"
 #include "Main/MapObjects/dossun_kind_descriptor.h"
 
-StateCallbacks gKuriboStateTable[6] = {{EnterKuriboState0, UpdateKuriboState0},
-                                       {EnterKuriboState1, UpdateKuriboState1},
-                                       {EnterKuriboState2, UpdateKuriboState2},
-                                       {(StateCallback) EnterKuriboState3, UpdateKuriboState3},
-                                       {(StateCallback) EnterKuriboState4, UpdateKuriboState4},
-                                       {EnterKuriboState5, UpdateKuriboState5}};
+StateCallbacks gKuriboStateTable[6] = {{EnterKuriboWalkPath, UpdateKuriboWalkPath},
+                                       {EnterKuriboFallToSurface, UpdateKuriboFallToSurface},
+                                       {EnterKuriboStretch, UpdateKuriboStretch},
+                                       {(StateCallback) EnterKuriboShrink, UpdateKuriboShrink},
+                                       {(StateCallback) EnterKuriboFlatWait, UpdateKuriboFlatWait},
+                                       {EnterKuriboSpringBack, UpdateKuriboSpringBack}};
 
 const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
 const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
 
-void EnterKuriboState0(void *stateObject) {
+void EnterKuriboWalkPath(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
     kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
-void UpdateKuriboState0(void *stateObject) {
+void UpdateKuriboWalkPath(void *stateObject) {
     Kuribo *kuribo = stateObject;
     if (kuribo->mFrameIndex >= 0xa && (kuribo->mFrameIndex < 0x14 || kuribo->mFrameIndex >= 0x1e)) {
         AdvanceGroupFollower(&kuribo->mFollower);
@@ -79,13 +79,13 @@ void UpdateKuriboState0(void *stateObject) {
     }
 }
 
-void EnterKuriboState1(void *stateObject) {
+void EnterKuriboFallToSurface(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
     kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
-void UpdateKuriboState1(void *stateObject) {
+void UpdateKuriboFallToSurface(void *stateObject) {
     Kuribo *kuribo = stateObject;
     u32 surfaceFlags;
     Vec3 probePos;
@@ -120,12 +120,12 @@ void UpdateKuriboState1(void *stateObject) {
     }
 }
 
-void EnterKuriboState2(void *stateObject) {
+void EnterKuriboStretch(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mMapObject.mFlags = (((kuribo->mMapObject.mFlags)) | ((gKuriboFlag)));
 }
 
-void UpdateKuriboState2(void *stateObject) {
+void UpdateKuriboStretch(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
     if (kuribo->mScaleFactorY > 0x1800) {
@@ -134,11 +134,11 @@ void UpdateKuriboState2(void *stateObject) {
     }
 }
 
-u32 EnterKuriboState3(u32 value) {
+u32 EnterKuriboShrink(u32 value) {
     return value;
 }
 
-void UpdateKuriboState3(void *stateObject) {
+void UpdateKuriboShrink(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, KURIBO_SCALE_SHRINK_FACTOR);
     if (kuribo->mScaleFactorY < 0x333) {
@@ -147,11 +147,11 @@ void UpdateKuriboState3(void *stateObject) {
     }
 }
 
-u32 EnterKuriboState4(u32 value) {
+u32 EnterKuriboFlatWait(u32 value) {
     return value;
 }
 
-void UpdateKuriboState4(void *stateObject) {
+void UpdateKuriboFlatWait(void *stateObject) {
     Kuribo *kuribo = stateObject;
     if (kuribo->mReturnsAfterWait != 0) {
         if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x12c) {
@@ -166,7 +166,7 @@ void UpdateKuriboState4(void *stateObject) {
     }
 }
 
-void EnterKuriboState5(void *stateObject) {
+void EnterKuriboSpringBack(void *stateObject) {
     Kuribo *kuribo = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
@@ -188,7 +188,7 @@ void EnterKuriboState5(void *stateObject) {
     kuribo->mScaleFactorYSpeed = 0;
 }
 
-void UpdateKuriboState5(void *stateObject) {
+void UpdateKuriboSpringBack(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorYSpeed +=
         MUL_FIXED12_NO_ROUND(KURIBO_SCALE_FACTOR_Y_REST - kuribo->mScaleFactorY, KURIBO_SCALE_SPRING_STIFFNESS);
