@@ -17,6 +17,21 @@ typedef struct KartModelMenuView KartModelMenuView;
 
 // Value of the kart and character indexes of a menu slot or view that shows nothing.
 #define KART_MODEL_MENU_NONE (-1)
+// Last kart index the kart model menu cycles through; the yaw angle it rests at; the frames a timed spin stop waits; the
+// tilt limits and the scale floor of the view.
+#define KART_MODEL_MENU_LAST_KART_INDEX 0x23
+#define KART_MODEL_MENU_REST_YAW 0xeaab
+#define KART_MODEL_MENU_SPIN_STOP_FRAMES 0x3c
+#define KART_MODEL_MENU_TILT_DOWN_MAX 0x1b58
+#define KART_MODEL_MENU_TILT_UP_MAX 0x1388
+#define KART_MODEL_MENU_SCALE_MIN 0x800
+
+// Sets of material colours of SetKartModelMaterialColors: the course colours, the bright set of the menu models, the
+// dark grey set, and the dark set with an emissive colour (no caller).
+#define KART_MODEL_COLORS_COURSE 0
+#define KART_MODEL_COLORS_MENU 1
+#define KART_MODEL_COLORS_DARK 2
+#define KART_MODEL_COLORS_DARK_EMISSIVE 3
 
 // Kart indexes whose body palette is replaced by gSpecialKartFirstPalette and gSpecialKartSecondPalette.
 #define KART_INDEX_SPECIAL_FIRST 0x22

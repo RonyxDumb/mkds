@@ -224,9 +224,9 @@ void UpdateChaseCamera(Camera *camera, Kart *kart) {
     upStep.z = MUL_FIXED12_NO_ROUND(upStep.z, 0x800);
     VEC_Add(&camera->mBaseUp, &upStep, &camera->mBaseUp);
     if (camera->mHeightHold != 0) {
-        camera->mLookAtHeight = camera->mLookAtHeight - 0x1000;
-        if (camera->mLookAtHeight < 0x5000) {
-            camera->mLookAtHeight = 0x5000;
+        camera->mLookAtHeight = camera->mLookAtHeight - TO_FIXED12(1);
+        if (camera->mLookAtHeight < CAMERA_LOOK_AT_HEIGHT_MIN) {
+            camera->mLookAtHeight = CAMERA_LOOK_AT_HEIGHT_MIN;
         }
         if (camera->mHeldHeightEasing == FALSE && kart->mPos.y > camera->mHeldHeight) {
             camera->mHeldHeightEasing = TRUE;
@@ -468,7 +468,7 @@ BOOL TryUpdateEntryCamera(Camera *camera) {
             return TRUE;
         }
         camera->mAngleStartFrames = camera->mAngleStartFrames + 1;
-        if (camera->mAngleStartFrames >= 300) {
+        if (camera->mAngleStartFrames >= CAMERA_ANGLE_START_FRAMES) {
             camera->mAngleStartRunning = FALSE;
         }
     }
@@ -552,8 +552,8 @@ void UpdateCameraByEntryKind(Camera *camera) {
         camera->mHalfFovPairFirst = firstStart + MUL_FIXED12_NO_ROUND(firstDelta, fovBlend);
         camera->mHalfFovPairSecond = secondStart + secondOffset;
         camera->mFovBlend += blendCamera->mFovBlendPerFrame;
-        if (camera->mFovBlend > 0x1000) {
-            camera->mFovBlend = 0x1000;
+        if (camera->mFovBlend > TO_FIXED12(1)) {
+            camera->mFovBlend = TO_FIXED12(1);
         }
     } else {
         camera->mHalfFovPairFirst = courseMapCamera->mHalfFovPairFirst;
@@ -795,7 +795,7 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
     if (GetRaceUpdateFrames() < courseMapCamera->mFrameCount) {
         camera->mLookAt = newLookAt;
         camera->mPos = newPos;
-    } else if (camera->mFactor < 0x1000) {
+    } else if (camera->mFactor < TO_FIXED12(1)) {
         camera->mLookAt = newLookAt;
         camera->mPos = newPos;
         camera->mFactor = camera->mFactor + 0x52;
@@ -832,8 +832,8 @@ void UpdateStaffRollCameraAndLight(Camera *camera) {
         camera->mHalfFovPairFirst = firstStart + MUL_FIXED12_NO_ROUND(firstDelta, fovBlend);
         camera->mHalfFovPairSecond = secondStart + secondOffset;
         camera->mFovBlend += courseMapCamera->mFovBlendPerFrame;
-        if (camera->mFovBlend > 0x1000) {
-            camera->mFovBlend = 0x1000;
+        if (camera->mFovBlend > TO_FIXED12(1)) {
+            camera->mFovBlend = TO_FIXED12(1);
         }
     } else {
         camera->mHalfFovPairFirst = courseMapCamera->mHalfFovPairFirst;
@@ -868,8 +868,8 @@ void UpdateCameraPosCurve(Camera *camera, s32 paramPerFrame) {
         value = Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
     }
     camera->mPosCurve.mParam += paramPerFrame;
-    if (camera->mPosCurve.mParam >= 0x1000) {
-        camera->mPosCurve.mParam = 0x1000;
+    if (camera->mPosCurve.mParam >= TO_FIXED12(1)) {
+        camera->mPosCurve.mParam = TO_FIXED12(1);
     }
     value = MUL_FIXED12_NO_ROUND(camera->mPosCurve.mParam, value);
     offset.x = MUL_FIXED12_NO_ROUND(direction.x, value);
@@ -906,8 +906,8 @@ void UpdateCameraLookAtBlend(Camera *camera) {
         camera->mLookAt.y = startY + scaledDeltaY;
         camera->mLookAt.z = startZ + scaledDeltaZ;
         camera->mLookAtBlend += courseMapCamera->mLookAtBlendPerFrame;
-        if (camera->mLookAtBlend > 0x1000) {
-            camera->mLookAtBlend = 0x1000;
+        if (camera->mLookAtBlend > TO_FIXED12(1)) {
+            camera->mLookAtBlend = TO_FIXED12(1);
         }
     } else {
         camera->mLookAt.x = courseMapCamera->mLookAtStartOrParams.x;
@@ -1136,9 +1136,9 @@ void StartCameraWobble(s32 baseAmplitude, u32 distance, s32 scale) {
     chaseCamera->mWobbleAmplitude = amplitude;
     chaseCamera->mWobbling = TRUE;
     chaseCamera->mFactor = 0;
-    chaseCamera->mWobblePerFrame = 0x800;
+    chaseCamera->mWobblePerFrame = FIXED12_RATIO(1, 2);
     chaseCamera->mWobbleDirection = 1;
-    chaseCamera->mWobbleDecay = 0xe66;
+    chaseCamera->mWobbleDecay = FIXED12_RATIO(9, 10);
     chaseCamera->mWobbleOffset = 0;
 }
 
@@ -1159,12 +1159,12 @@ void UpdateCameraWobble(Camera *camera) {
     }
     camera->mFactor = camera->mFactor + camera->mWobblePerFrame * camera->mWobbleDirection;
     factor = camera->mFactor;
-    if (factor > 0x1000) {
+    if (factor > TO_FIXED12(1)) {
         camera->mWobbleDirection *= -1;
-        camera->mFactor = 0x2000 - camera->mFactor;
-    } else if (factor < -0x1000) {
+        camera->mFactor = TO_FIXED12(2) - camera->mFactor;
+    } else if (factor < -TO_FIXED12(1)) {
         camera->mWobbleDirection *= -1;
-        camera->mFactor = -0x2000 - camera->mFactor;
+        camera->mFactor = -TO_FIXED12(2) - camera->mFactor;
     }
     camera->mWobbleAmplitude = MUL_FIXED12_NO_ROUND(camera->mWobbleAmplitude, camera->mWobbleDecay);
     camera->mWobbleAmplitude = camera->mWobbleAmplitude - 0x14;

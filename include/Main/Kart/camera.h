@@ -185,3 +185,7 @@ extern Camera *gCurrentChainCamera;
 extern Camera *gFirstChainCamera;
 
 extern MtxFx44 gProjectionMatrix;
+
+// Camera.mLookAtHeight never falls below this while the height hold lowers it; the frames the camera angle start runs.
+#define CAMERA_LOOK_AT_HEIGHT_MIN 0x5000
+#define CAMERA_ANGLE_START_FRAMES 300

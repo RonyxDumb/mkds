@@ -340,16 +340,16 @@ void StartKartStarModels(Kart *kart) {
         NNS_G3dRenderObjRemoveAnmObj(&firstModel->mRenderObj, faceAnimation->mAnmObjs[0]);
         modelsEntry->mFaceAnimationRemoved = TRUE;
     }
-    SetKartModelMaterialColors(resMdl, 2);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_DARK);
     resMdl = modelsEntry->mModels[1]->mResMdl;
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
     NNS_G3dReleaseMdlTex(resMdl);
-    SetKartModelMaterialColors(resMdl, 2);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_DARK);
     if (modelsEntry->mModels[2] != NULL) {
         resMdl = modelsEntry->mModels[2]->mResMdl;
         NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
         NNS_G3dReleaseMdlTex(resMdl);
-        SetKartModelMaterialColors(resMdl, 2);
+        SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_DARK);
     }
     modelsEntry->mStarModelsSet = TRUE;
 }

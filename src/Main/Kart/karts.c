@@ -465,7 +465,7 @@ void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet) {
     u32 specColor;
     u32 emiColor;
     switch (colorSet) {
-        case 0: {
+        case KART_MODEL_COLORS_COURSE: {
             u16 *courseColors = gKartModels->mCourseColors;
             diffColor = courseColors[0];
             ambColor = courseColors[1];
@@ -473,20 +473,20 @@ void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet) {
             emiColor = courseColors[3];
             break;
         }
-        case 2:
+        case KART_MODEL_COLORS_DARK:
             ambColor = 0;
             specColor = 0;
             emiColor = 0;
             diffColor = 0x2108;
             break;
-        case 3:
+        case KART_MODEL_COLORS_DARK_EMISSIVE:
             ambColor = 0;
             specColor = 0;
             diffColor = 0x2108;
             emiColor = 0x4210;
             break;
-        case 1:
-            diffColor = 0x7fff;
+        case KART_MODEL_COLORS_MENU:
+            diffColor = COLOR15_WHITE;
             ambColor = 0x14a5;
             emiColor = 0x2108;
             specColor = 0;
@@ -980,7 +980,7 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
     kartModelsEntry->mModels[0] = HeapAlloc(heap, sizeof(*kartModelsEntry->mModels[0]));
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[0], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[0], 3);
-    SetKartModelMaterialColors(mdl, 0);
+    SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_COURSE);
     if (pNameUsed != 0) {
         animationIndex = 0;
         hasFirstAnimation = FALSE;
@@ -1025,7 +1025,7 @@ void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
     kartModelsEntry->mModels[1] = HeapAlloc(heap, sizeof(*kartModelsEntry->mModels[1]));
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[1], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[1], 3);
-    SetKartModelMaterialColors(mdl, 0);
+    SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_COURSE);
     if (pNameUsed != 0) {
         tireMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
                                                        (const u32 *) gKartTireMaterialName);
@@ -1157,7 +1157,7 @@ void CreateTire(KartModelsEntry *kartModelsEntry, void *heap) {
     kartModelsEntry->mModels[2] = HeapAlloc(heap, sizeof(*kartModelsEntry->mModels[2]));
     mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[2], nsbmdFile, nsbtxFile);
     SetNsbmdPolygonIdAll(kartModelsEntry->mModels[2], 3);
-    SetKartModelMaterialColors(mdl, 0);
+    SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_COURSE);
 }
 
 void CreateKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
@@ -1178,7 +1178,7 @@ void CreateKillerItem(void *heap) {
     NNSG3dResFileHeader *nsbtxFile = FindKartModelFile("character/common/KillerItem.nsbtx");
     void *shadowNsbmdFile = GetKartModelFile("character/common/KillerItem_s.nsbmd");
     void *nsbcaFile;
-    SetKartModelMaterialColors(InitNsbmdWithTextureInfoCopy(heap, &gKartModels->mKillerItem, nsbmdFile, nsbtxFile), 0);
+    SetKartModelMaterialColors(InitNsbmdWithTextureInfoCopy(heap, &gKartModels->mKillerItem, nsbmdFile, nsbtxFile), KART_MODEL_COLORS_COURSE);
     SetNsbmdPolygonIdAll(&gKartModels->mKillerItem, 3);
     nsbcaFile = GetKartModelFile("character/common/KillerItem.nsbca");
     InitModelAnimation(0, &gKartModels->mKillerItemNsbca, &gKartModels->mKillerItem, 1, heap, nsbmdFile);
@@ -1216,7 +1216,7 @@ void CreateKartModelMenuCharacter(void *heap, Nsbmd *nsbmd, void *animation, NNS
     void *jointAnimation;
     mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
     SetNsbmdPolygonIdAll(nsbmd, 3);
-    SetKartModelMaterialColors(mdl, 1);
+    SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_MENU);
     InitModelAnimation(0, animation, nsbmd, 1, heap, NULL);
     jointAnimation = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(animationFile), 0);
     loopFlag = GetCharacterAnimationLoopFlag(2);
@@ -1229,7 +1229,7 @@ void CreateKartModelMenuKart(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
     u32 tireMaterialIndex;
     mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
     SetNsbmdPolygonIdAll(nsbmd, 3);
-    SetKartModelMaterialColors(mdl, 1);
+    SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_MENU);
     tireMaterialIndex = NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat)->mDict,
                                                    (const u32 *) gTireModelMaterialName);
     NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
@@ -1239,7 +1239,7 @@ void CreateKartModelMenuTire(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3
     NNSG3dResMdl *mdl;
     mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
     SetNsbmdPolygonIdAll(nsbmd, 3);
-    SetKartModelMaterialColors(mdl, 1);
+    SetKartModelMaterialColors(mdl, KART_MODEL_COLORS_MENU);
 }
 
 #pragma thumb off
@@ -1286,8 +1286,8 @@ void InitKartModelMenuView(KartModelMenuView *view, int flag) {
     bg0Offset = 0;
     view->mCharacterIndex = KART_MODEL_MENU_NONE;
     view->mKartIndex = KART_MODEL_MENU_NONE;
-    view->mScale = 0x1000;
-    view->mYawAngle = 0xeaab;
+    view->mScale = TO_FIXED12(1);
+    view->mYawAngle = KART_MODEL_MENU_REST_YAW;
     view->mSpinAngle = view->mYawAngle;
     view->mTiltAngle = 0;
     view->mUnk_0c = 0;
@@ -1682,10 +1682,10 @@ void AdvanceKartModelMenu(s32 mirrorMode) {
     if (gKartModelMenu->mShownSlotIndex >= 0) {
         shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
         if (gKartModelMenu->mSpinStopped != 0 || gKartModelMenu->mSpinStopTimed != FALSE) {
-            AdvanceAngleToward(&view->mSpinAngle, 0xeaab, gKartModelMenuSpinStep);
+            AdvanceAngleToward(&view->mSpinAngle, KART_MODEL_MENU_REST_YAW, gKartModelMenuSpinStep);
             if (gKartModelMenu->mSpinStopped == 0 && gKartModelMenu->mSpinStopTimed != FALSE) {
                 gKartModelMenu->mSpinStopFrames++;
-                if (gKartModelMenu->mSpinStopFrames > 0x3c) {
+                if (gKartModelMenu->mSpinStopFrames > KART_MODEL_MENU_SPIN_STOP_FRAMES) {
                     gKartModelMenu->mSpinStopTimed = FALSE;
                 }
             }
@@ -1732,7 +1732,7 @@ void AdvanceKartModelMenuInput(void) {
             changed = value;
             do {
                 gKartModelMenu->mKartIndex++;
-                if (gKartModelMenu->mKartIndex > 0x23) {
+                if (gKartModelMenu->mKartIndex > KART_MODEL_MENU_LAST_KART_INDEX) {
                     gKartModelMenu->mKartIndex = value;
                 }
                 if (FindKartModelMenuCharacter(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
@@ -1751,7 +1751,7 @@ void AdvanceKartModelMenuInput(void) {
             do {
                 gKartModelMenu->mKartIndex--;
                 if (gKartModelMenu->mKartIndex < 0) {
-                    gKartModelMenu->mKartIndex = 0x23;
+                    gKartModelMenu->mKartIndex = KART_MODEL_MENU_LAST_KART_INDEX;
                 }
                 if (FindKartModelMenuCharacter(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
@@ -1782,15 +1782,15 @@ void AdvanceKartModelMenuInput(void) {
     buttons = gInputSlots[inputSlot].mBits;
     if ((u16) (buttons & PAD_KEY_DOWN) != 0) {
         view->mTiltAngle += 0x1c2;
-        if (view->mTiltAngle > 0x1b58) {
-            view->mTiltAngle = 0x1b58;
+        if (view->mTiltAngle > KART_MODEL_MENU_TILT_DOWN_MAX) {
+            view->mTiltAngle = KART_MODEL_MENU_TILT_DOWN_MAX;
         } else {
             changed = 1;
         }
     } else if ((u16) (buttons & PAD_KEY_UP) != 0) {
         view->mTiltAngle -= 0x1c2;
-        if (view->mTiltAngle < -0x1388) {
-            view->mTiltAngle = -0x1388;
+        if (view->mTiltAngle < -KART_MODEL_MENU_TILT_UP_MAX) {
+            view->mTiltAngle = -KART_MODEL_MENU_TILT_UP_MAX;
         } else {
             changed = 1;
         }
@@ -1813,8 +1813,8 @@ void AdvanceKartModelMenuInput(void) {
         buttons = gInputSlots[inputSlot].mBits;
         if ((u16) (buttons & PAD_KEY_B) != 0) {
             view->mScale -= 0x7b;
-            if (view->mScale < 0x800) {
-                view->mScale = 0x800;
+            if (view->mScale < KART_MODEL_MENU_SCALE_MIN) {
+                view->mScale = KART_MODEL_MENU_SCALE_MIN;
             } else {
                 scaleInputKind = 1;
             }
