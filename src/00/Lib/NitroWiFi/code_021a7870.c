@@ -456,12 +456,12 @@ s32 SOCL_WriteTo(u32 socketHandle, void *buffer, u32 length, u16 remotePort, u32
         OS_LockMutex(&outPipe->mCommandPipe.mInUse);
         isBlocking = TRUE;
     }
-    result = SOCLi_WriteBuffer(sockObj, buffer, length, remotePort, (u16 *) peerAddr, isBlocking);
+    result = SOCLi_WriteBuffer(sockObj, buffer, length, remotePort, peerAddr, isBlocking);
     OS_UnlockMutex(&outPipe->mCommandPipe.mInUse);
     return result;
 }
 
-s32 SOCLi_WriteBuffer(SOCLSocket *socket, u8 *buffer, s32 length, u16 remotePort, u16 *peerAddr, s32 isBlocking) {
+s32 SOCLi_WriteBuffer(SOCLSocket *socket, u8 *buffer, s32 length, u16 remotePort, u32 peerAddr, s32 isBlocking) {
     s32 chunkLimit;
     s32 copiedLength;
     s32 writeLength;
@@ -538,7 +538,7 @@ s32 SOCLi_GetWriteBufferFreeSize(SOCLSocket *socket) {
     return freeSize;
 }
 
-s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u16 *peerAddr,
+s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringIn, u16 remotePort, u32 peerAddr,
                            s32 isBlocking) {
     SOCLiSocketSendCommandPipe *outPipe = socket->mSendBlock;
     SOCLiCommandWrite *writePacket;
@@ -578,7 +578,7 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
             socket->mCpsLocalPort = socket->mLocalPort;
         }
         writePacket->mLocalPort = socket->mLocalPort;
-        if (socket->mRemoteIp == NULL || peerAddr != NULL) {
+        if (socket->mRemoteIp == 0 || peerAddr != 0) {
             writePacket->mRemoteIp = peerAddr;
             writePacket->mRemotePort = remotePort;
         } else {
@@ -586,7 +586,7 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
             writePacket->mRemotePort = socket->mRemotePort;
         }
     } else {
-        writePacket->mRemoteIp = NULL;
+        writePacket->mRemoteIp = 0;
     }
     if (SOCLi_ExecCommandPacketInSendPipe(outPipe->mExeSocket, writePacket) != 0) {
         length = 0;
@@ -604,8 +604,8 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
     s32 sendCapacity;
     s32 chunkLength;
     if (SOCL_SocketIsTCP(sockObj) == 0 || (sockObj->mStatusFlags & 4) != 0) {
-        if (command->mRemoteIp != NULL) {
-            CPS_SocBind(command->mLocalPort, command->mRemotePort, (s32) command->mRemoteIp);
+        if (command->mRemoteIp != 0) {
+            CPS_SocBind(command->mLocalPort, command->mRemotePort, command->mRemoteIp);
         }
         if (SOCL_SocketIsTCP(sockObj) != 0) {
             headerSize = 0x36;
@@ -659,7 +659,7 @@ s32 SOCLi_MemCpy(const void *destination, s32 capacity, SOCLiCommandWrite *comma
     return firstLength + secondLength;
 }
 
-s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u32 *peerAddr, u32 flags) {
+s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u32 *peerAddr, u32 flags) {
     volatile SOCLSocket *volatileSocket;
     SOCLSocket *sockObj = (SOCLSocket *) socketHandle;
     SOCLiSocketRecvCommandPipe *inPipe;
@@ -695,7 +695,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u32 remotePort, u3
     } else {
         OS_LockMutex(&inPipe->mCommandPipe.mInUse);
     }
-    value = SOCLi_ReadAndConsumeBuffer(sockObj, buffer, length, (u16 *) remotePort, peerAddr, value, flags);
+    value = SOCLi_ReadAndConsumeBuffer(sockObj, buffer, length, remotePort, peerAddr, value, flags);
     OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
     return value;
 }

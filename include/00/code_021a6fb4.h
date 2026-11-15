@@ -19,8 +19,11 @@ typedef struct SOCLiCommandPacket {
     /* 0e */ u8 mUnk_0e[2];
     /* 10 */ u16 mLocalPort;
     /* 12 */ u16 mRemotePort;
-// Bind command: the remote IP address; listen-accept command: pointer to the caller's remote port output.
-    /* 14 */ u16 *mUnk_14;
+    // Bind command: the remote IP address; listen-accept command: pointer to the caller's remote port output.
+    /* 14 */ union {
+        u32 mRemoteIp;
+        u16 *mRemotePortOut;
+    };
     /* 18 */ u32 *mRemoteIpOut;
     /* 1c */ u32 mUnk_1c;
     /* 20 */ u8 mUnk_20[0xc];

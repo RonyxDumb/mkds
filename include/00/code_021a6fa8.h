@@ -90,7 +90,7 @@ typedef struct SOCLSocket {
     /* 73 */ s8 mFlagMode;
     /* 74 */ u16 mLocalPort;
     /* 76 */ u16 mRemotePort;
-    /* 78 */ u16 *mRemoteIp;
+    /* 78 */ u32 mRemoteIp;
     /* 7c */ struct SOCLSocket *mNext;
     // First byte behind the socket header, where SOCLi_InitSocket lays out the blocks: the receive block when a receive
     // buffer is asked for, otherwise the send block.

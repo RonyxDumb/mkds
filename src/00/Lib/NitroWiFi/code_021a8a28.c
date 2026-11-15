@@ -83,11 +83,11 @@ s32 SOC_Connect(SOCLSocket *socket, SOCSockAddrIn *sockAddr) {
     u32 hostAddress =
         ((networkAddress << 24) & 0xff000000) |
         (((networkAddress << 8) & 0xff0000) | (((networkAddress >> 24) & 0xff) | ((networkAddress >> 8) & 0xff00)));
-    return SOCL_Connect(socket, port, (u16 *) hostAddress);
+    return SOCL_Connect(socket, port, hostAddress);
 }
 
 s32 SOC_Recv(s32 sockObj, void *buffer, s32 length, s32 flags) {
-    u32 noPort = ((0x0u) + (0x0u));
+    u16 *noPort = NULL;
     u32 result = SOCL_ReadFrom(sockObj, buffer, length, noPort, 0x0u, flags);
     return result;
 }
@@ -96,7 +96,7 @@ s32 SOC_RecvFrom(s32 sockObj, void *buffer, s32 length, s32 flags, void *sockFro
     SOCSockAddrIn *addr;
     u16 netPort;
     u32 remoteIp;
-    s32 result = SOCL_ReadFrom(sockObj, buffer, length, (u32) &netPort, &remoteIp, flags);
+    s32 result = SOCL_ReadFrom(sockObj, buffer, length, &netPort, &remoteIp, flags);
     if (result >= 0 && sockFrom != NULL) {
         addr = sockFrom;
         addr->mPort = ((netPort >> 8) & 0xff) | ((netPort << 8) & 0xff00);

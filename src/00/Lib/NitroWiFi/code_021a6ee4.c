@@ -75,7 +75,7 @@ s32 SOCL_Bind(SOCLSocket *socket, u16 ownPort) {
     return 0;
 }
 
-s32 SOCL_Connect(SOCLSocket *socket, u16 remotePort, u16 *peerAddr) {
+s32 SOCL_Connect(SOCLSocket *socket, u16 remotePort, u32 peerAddr) {
     s32 result;
     BOOL condition;
     volatile SOCLSocket *volatileSocket = socket;
@@ -129,7 +129,7 @@ s32 SOCLi_ExecBindCommand(SOCLSocket *socket) {
     }
     cmdPacket->mLocalPort = socket->mLocalPort;
     cmdPacket->mRemotePort = socket->mRemotePort;
-    cmdPacket->mUnk_14 = socket->mRemoteIp;
+    cmdPacket->mRemoteIp = socket->mRemoteIp;
     socket->mStatusFlags |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, cmdPacket);
 }
@@ -143,7 +143,7 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     connectResult = 0;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mCommandPipe.mInUse);
-    CPS_SocBind(packet->mLocalPort, packet->mRemotePort, (s32) packet->mUnk_14);
+    CPS_SocBind(packet->mLocalPort, packet->mRemotePort, packet->mRemoteIp);
     inPipe->mConsumed = 0;
     if (packet->mFlagMode == SOCKET_MODE_STREAM || packet->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         connectResult = CPS_TcpConnect();
@@ -263,7 +263,7 @@ s32 SOCL_ListenAccept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) 
     }
     cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ListenAcceptCallBack, socket, socket->mFlagBlock);
     cmdPacket->mLocalPort = socket->mLocalPort;
-    cmdPacket->mUnk_14 = remotePortOut;
+    cmdPacket->mRemotePortOut = remotePortOut;
     cmdPacket->mRemoteIpOut = remoteIpOut;
     socket->mStatusFlags |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, cmdPacket);
@@ -283,7 +283,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     CPS_TcpListen();
     inPipe->mConsumed = 0;
     peerAddr = CPS_SocWho(&remotePort, &ownAddr);
-    *packet->mUnk_14 = remotePort;
+    *packet->mRemotePortOut = remotePort;
     *packet->mRemoteIpOut = peerAddr;
     sockObj->mStatusFlags |= 4;
     OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);

@@ -909,7 +909,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                     if (callback->mState == WIRELESS_STATE_HOST_SIGHTED) {
                         DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
                         for (index = 0; index < callback->mBssDescCount; index++) {
-                            WCMi_EntryApList((WMBssDesc *) callback->mBssDesc[index], callback->mLinkLevel[index]);
+                            WCMi_EntryApList(callback->mBssDesc[index], callback->mLinkLevel[index]);
                             WcmNotifyEx(WIFI_NOTIFY_SEARCH_FOUND, WIFI_REPORT_SUCCEEDED, callback->mBssDesc[index],
                                         (u32) callback, 0x70b);
                         }
@@ -1017,8 +1017,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     authId = callback->mUnk_0a;
                     if (authId >= 1 && authId <= 0x7d7) {
                         gWcmWork->mAuthId = authId;
-                        result =
-                            WM_StartDCF(WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
+                        result = WM_StartDCF(WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
                         switch (result) {
                             case WIRELESS_CALL_QUEUED:
                                 return;
