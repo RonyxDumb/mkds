@@ -2,8 +2,8 @@
 #include "Main/Scene/run_scenes.h"
 #include "Main/Sound/sound_distance_change.h"
 #include "Main/Sound/kart_surface_sound.h"
-#include "Main/Sound/code_0210ab48.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Sound/kart_sound_queue.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 
 void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {

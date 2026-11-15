@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_0219eac8.h"
-#include "00/unk_021b5000.h"
-#include "00/code_0219de4c.h"
+#include "00/Lib/DWC/dwc_match_keys.h"
+#include "00/Lib/wifi_library_work_objects.h"
+#include "00/Lib/DWC/dwc_match_work.h"
 
 typedef struct PeerAddress PeerAddress;
 

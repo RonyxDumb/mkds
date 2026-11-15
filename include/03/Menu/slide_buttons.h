@@ -3,7 +3,7 @@
 #include "types.h"
 #include "03/Graphics/nce_oam.h"
 #include "03/System/tasks.h"
-#include "03/code_021be610.h"
+#include "03/Net/exchange_wcm_state.h"
 
 // Frames the slide buttons wait before they take touch input, and frames the button reset waits.
 #define SLIDE_BUTTONS_WAIT_FRAMES 4

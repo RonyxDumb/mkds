@@ -1,6 +1,6 @@
 #include "Main/Race/race_hud_sub_screen_mode.h"
 #include "Main/Kart/karts.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 
 u32 RaceHudSubScreenGetCurrentMode(void) {

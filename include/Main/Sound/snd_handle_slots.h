@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217c000.h"
+#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 
 void StopSndHandleSlots7To11(void);
 

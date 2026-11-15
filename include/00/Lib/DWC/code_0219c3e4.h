@@ -2,14 +2,12 @@
 
 #include "types.h"
 #include "00/Lib/GameSpy/code_0218f960.h"
-#include "00/code_02194000.h"
 #include "00/Lib/GameSpy/code_0218e8d4.h"
 #include "00/Lib/GameSpy/code_02193b88.h"
 
-#include "00/code_02192d64.h"
+#include "00/Lib/GameSpy/code_02192d64.h"
 
-#include "00/code_0219c000.h"
-#include "00/code_0219c93c.h"
+#include "00/Lib/DWC/code_0219c93c.h"
 
 u32 DWCi_CheckLogin(void);
 void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 param);

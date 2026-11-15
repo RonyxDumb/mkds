@@ -4,11 +4,11 @@
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/update_list_slot.h"
-#include "Main/MapObjects/code_020ec1fc.h"
+#include "Main/MapObjects/woodbox1_kind_data.h"
 #include "Main/MapObjects/pushed_motion.h"
 #include "Main/MapObjects/pushed_object_states_init.h"
 #include "code_02147cd8.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 const MapObjectList gWanwanChainUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateWanwanChain,
                                                   NULL, 0, NULL,   0,    NULL};

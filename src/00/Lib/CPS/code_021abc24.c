@@ -1,7 +1,7 @@
 #include "00/Lib/CPS/code_021abc24.h"
 #include "00/Lib/CPS/code_021abca0.h"
 #include "00/Lib/CPS/code_021ac37c.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 
 // The zero padding is byte 1 on.
 u8 gSha1PaddingBytes[0x40] = {0x80};

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_02142eac.h"
 #include "code_021445e0.h"
-#include "Main/Net/data_0217e000.h"
+#include "Main/System/runtime_locks_stdio_buffers.h"
 #include "stream.h"
 #include "code_0212d214.h"
 

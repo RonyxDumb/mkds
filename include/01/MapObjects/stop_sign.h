@@ -1,7 +1,6 @@
 #pragma once
 
 #include "types.h"
-#include "ITCM/code_01ff9000.h"
 
 typedef struct StopSignObject {
     /* 00 */ u8 mUnk_00[4];
@@ -19,20 +18,20 @@ typedef struct StopSignObject {
 #include "01/Menu/emblem_input.h"
 #include "01/MapObjects/iwante.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "01/code_02188950.h"
-#include "01/code_0219b250.h"
+#include "01/MapObjects/mission_run_map_object.h"
+#include "01/MapObjects/map_object_model_animation_load.h"
 #include "Main/MapObjects/map_object_matrix.h"
-#include "Main/Race/code_020b1dbc.h"
+#include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "code_02012b30.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Kart/code_0207a880.h"
+#include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 
-#include "01/code_0218b9b4.h"
+#include "01/MapObjects/kuriking_state_shared.h"
 
 MapObjectList *CreateStopSignDrawList(void);
 MapObjectKindData *CreateStopSignKindData(void);

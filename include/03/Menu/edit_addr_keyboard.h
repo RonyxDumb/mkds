@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/unk_021d5f00.h"
+#include "03/Menu/edit_keyboard_row_counts.h"
 
 typedef struct OamEntry OamEntry;
 typedef struct OamRange OamRange;

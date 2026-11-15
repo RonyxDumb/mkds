@@ -1,7 +1,7 @@
 #include "Main/System/thread_function_queue_init.h"
 #include "Main/System/heap.h"
 #include "Main/System/thread_function_queue.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "os_thread.h"
 #include "Main/Save/ghost_record_file.h"
 

@@ -2,7 +2,7 @@
 #include "Main/System/heap.h"
 
 #include "Main/System/heap_call.h"
-#include "Main/Kart/code_0207a000.h"
+#include "Main/Kart/shadow_model_draw.h"
 
 const u32 gWoodbox1HitFlag = 0x40000000;
 

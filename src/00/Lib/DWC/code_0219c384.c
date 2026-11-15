@@ -1,6 +1,6 @@
 #include "00/Lib/DWC/code_0219c384.h"
 
-#include "00/unk_021b5000.h"
+#include "00/Lib/wifi_library_work_objects.h"
 
 s32 stDwcErrorCode;
 s32 stDwcLastError;

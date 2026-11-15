@@ -1,5 +1,5 @@
 #include "00/Lib/DWC/code_0218a0f4.h"
-#include "00/code_021a8aa8.h"
+#include "00/Lib/NitroWiFi/code_021a8aa8.h"
 
 s32 ConnectTestRetry(void) {
     s32 result = SOC_Cleanup();

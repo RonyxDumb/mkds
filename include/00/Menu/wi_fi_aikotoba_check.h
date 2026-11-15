@@ -39,7 +39,7 @@ typedef struct WiFiAikotobaCheck {
     /* 50 */ void *mCommonMessages;
 } WiFiAikotobaCheck;
 
-#include "00/code_02180608.h"
+#include "00/Menu/wi_fi_state_machine.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/result_archive_path.h"
 

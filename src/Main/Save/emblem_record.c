@@ -1,5 +1,5 @@
 #include "Main/Save/emblem_record.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "code_0214d018.h"
 #include "Main/Save/ghost_record_file.h"
 

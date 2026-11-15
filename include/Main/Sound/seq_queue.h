@@ -3,7 +3,7 @@
 #include "types.h"
 #include "player.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/Menu/data_0217d000.h" // SeqPlayerControl
+#include "Main/Menu/menu_screens_work.h" // SeqPlayerControl
 #include "code_0212c7a0.h"
 #include "stream.h"
 #include "code_0212c9d4.h"

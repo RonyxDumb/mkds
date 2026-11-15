@@ -13,7 +13,7 @@
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/Menu/data_0202a820.h"
+#include "Main/Menu/wifi_vs_course_select.h"
 
 void LoadWiFiVSCourseSelectFiles(void);
 

@@ -2,8 +2,8 @@
 #include "Main/Race/gp_records_killer.h"
 
 #include "Main/MapObjects/sound_if_kart_star_or.h"
-#include "Main/MapObjects/data_02156000.h"
-#include "Main/Kart/code_0208fd8c.h"
+#include "Main/Menu/keyboard_cursor_targets.h"
+#include "Main/Kart/kart_ai_item_use.h"
 
 void InitSman(MapObject *mapObject) {
     mapObject->mFlags = (((mapObject->mFlags)) | ((gSmanInitMapObjectFlag)));

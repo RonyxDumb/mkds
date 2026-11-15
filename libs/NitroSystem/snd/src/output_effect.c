@@ -6,7 +6,7 @@
 #include "code_0214cfe4.h"
 #include "code_0212c9d4.h"
 #include "code_0214d018.h"
-#include "Main/Menu/data_0216e000.h"
+#include "Main/System/stdio_files.h"
 #include "code_02134398.h"
 
 CallbackInfo sCallbackInfo = {-1};

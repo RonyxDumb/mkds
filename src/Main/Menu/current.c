@@ -1,6 +1,6 @@
 #include "Main/Menu/current.h"
 
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 
 u32 GetCurrentCharacterIndex(u32 entryIndex) {

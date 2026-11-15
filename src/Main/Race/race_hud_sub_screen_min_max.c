@@ -1,7 +1,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "code_0213ecf8.h"
 

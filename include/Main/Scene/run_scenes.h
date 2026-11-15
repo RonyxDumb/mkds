@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 
 // Never returns: loops RunScenes, taking the group from gRunScenesState +4. First scene 9 (6 when the
 // word at 0x027ffc40 is 2). Body of the main thread (InitAndRunScenesForever).

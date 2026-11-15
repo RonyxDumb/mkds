@@ -4,7 +4,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Menu/txt_system.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 #include "Main/Save/ghost_record_file.h"
 
 void UpdateLogoWaitBackupRead(void *stateObject) {

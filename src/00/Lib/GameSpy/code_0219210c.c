@@ -1,5 +1,5 @@
 #include "00/Lib/GameSpy/code_0219210c.h"
-#include "00/code_021919ac.h"
+#include "00/Lib/GameSpy/code_021919ac.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 
 void gpiFreeInfoCache(GpiProfile *profile) {

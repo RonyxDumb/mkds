@@ -5,14 +5,8 @@
 #include "player.h"
 #include "01/Menu/emblem_grid.h"
 #include "01/Menu/emblem_screen_upload.h"
-#include "01/code_021a5140.h"
-#include "01/unk_021ca000.h"
-#include "01/code_02181000.h"
-#include "01/code_02184000.h"
-#include "01/code_02185000.h"
-#include "01/code_021a4000.h"
-#include "01/code_021a5000.h"
-#include "01/code_021a6000.h"
+#include "01/Menu/emblem_state_and_lld.h"
+#include "01/Menu/menu_screen_work_structs.h"
 #include "code_0212df7c.h"
 
 void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {

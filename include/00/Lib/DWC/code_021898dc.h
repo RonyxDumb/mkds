@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "00/Lib/DWC/code_02188ec0.h"
-#include "00/code_021a574c.h"
-#include "00/code_021a5b3c.h"
+#include "00/Lib/NitroWiFi/code_021a574c.h"
+#include "00/Lib/NitroWiFi/code_021a5b3c.h"
 
 u32 SearchEndCheck(ACWORK *object, u32 phase);
 u32 NextSearchCheck(ACWORK *object, u32 phase);

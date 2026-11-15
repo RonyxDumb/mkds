@@ -5,7 +5,7 @@
 #include "mb_data.h"
 #include "code_02009928.h"
 
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_0214d018.h"
 #include "mb_parent.h"
 #include "fs_file.h"

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/MapObjects/pendulum.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 // Target scales (1.12 fixed point) of an ItemGesso step: taller than wide when the target velocity Y is above 0, wider
 // than tall otherwise, a larger spread and a half size at two steps near the end.

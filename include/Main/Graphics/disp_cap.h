@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
-#include "Main/Menu/data_02175000.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Scene/scene_display_archive_work.h"
+#include "Main/System/backup_net_camera_work.h"
 
 // DispCap.mBlendFactor: full blend, and the change per frame while it grows (the weight of the captured frame
 // rises) or falls.

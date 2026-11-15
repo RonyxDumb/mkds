@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021c2530.h"
+#include "03/Graphics/message_pool.h"
 
 typedef struct MessageFile {
     /* 00 */ u32 *mOffsets;

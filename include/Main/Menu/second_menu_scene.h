@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 
 // Called with the object of the state machine; each state function reads it as the type of its machine.
 typedef void (*StateCallback)(void *stateObject);

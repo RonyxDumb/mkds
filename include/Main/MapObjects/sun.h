@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define SUN_WAIT_AT_PATH_POINT_FRAMES 5
 #define SUN_SHOOT_FIREBALLS_FRAMES 0x1e

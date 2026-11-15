@@ -1,7 +1,7 @@
 #include "Main/Item/item_model.h"
-#include "Main/MapObjects/code_020e66e4.h"
+#include "Main/MapObjects/nsbmd_model_draw_variants.h"
 
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_link_following.h"
 
 void DrawItemModelAtObjectPos(ItemObject *item, NsbmdModel *model) {

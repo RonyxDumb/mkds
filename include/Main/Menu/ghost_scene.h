@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "tp.h"
-#include "Main/Menu/data_02174000.h"
+#include "Main/Menu/select_kart_ghost_work.h"
 
 typedef struct GhostInfoFileSets GhostInfoFileSets;
 typedef struct GhostRecord GhostRecord;

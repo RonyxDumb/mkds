@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021cd2e0.h"
+#include "03/Net/ap_entries.h"
 
 s32 ParseHexDigit(u32 value);
 

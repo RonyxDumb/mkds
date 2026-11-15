@@ -4,9 +4,9 @@
 #include "00/Lib/GameSpy/code_0219887c.h" // Gt2Connection
 #include "00/Lib/GameSpy/code_0219b1d4.h" // NatTraversalEntry
 #include "00/Lib/GameSpy/code_0218f960.h" // BuddyMessageData
-#include "00/code_0219c93c.h"
-#include "00/code_0219d934.h"
-#include "00/code_0219de4c.h"
+#include "00/Lib/DWC/code_0219c93c.h"
+#include "00/Lib/DWC/code_0219d934.h"
+#include "00/Lib/DWC/dwc_match_work.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
 
 typedef struct GpConnection GpConnection;

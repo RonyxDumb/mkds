@@ -59,8 +59,8 @@ typedef struct WiFiTopMenu {
     /* 3c */ void *mCommonMessages;
 } WiFiTopMenu;
 
-#include "00/code_02180608.h"
-#include "00/unk_021b4000.h"
+#include "00/Menu/wi_fi_state_machine.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "g2d_NAN_load.h"
 #include "Main/Graphics/font_and_player_character.h"

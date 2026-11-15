@@ -2,8 +2,8 @@
 #include "Main/System/heap.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Graphics/effects.h"
-#include "Main/MapObjects/data_0217b000.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "code_02147cd8.h"
 

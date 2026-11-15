@@ -4,7 +4,7 @@
 #include "Main/MapObjects/rock.h"
 
 #include "code_02147cd8.h"
-#include "Main/MapObjects/data_02159000.h"
+#include "Main/MapObjects/attractor_distance_flag.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
 #include "Main/MapObjects/attractor.h"
 

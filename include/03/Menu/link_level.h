@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/System/tasks.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 void UpdateLinkLevel(TaskEntry *task, void *arg);
 void ReleaseLinkLevel(void);

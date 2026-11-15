@@ -6,7 +6,7 @@
 #include "Main/Net/mp_states_connection.h"
 
 #include "Main/Sound/sound_set_load.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "fs_file.h"
 #include "code_0214d018.h"
 #include "Main/System/result_archive_path.h"

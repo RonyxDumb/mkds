@@ -1,15 +1,14 @@
 #include "03/Net/ap_scan.h"
-#include "03/unk_021d6000.h"
+#include "03/Menu/wifi_menu_tables.h"
 #include "string.h"
 #include "code_02134398.h"
-#include "03/code_021cd000.h"
 
 #include "03/types_021da26c.h"
 #include "03/Net/ap_scan_callback.h"
 #include "code_02142eac.h"
 #include "code_0214cfe4.h"
 #include "03/System/exp_heap.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 const ScanExParam gApScanParamTemplate = {
     NULL,

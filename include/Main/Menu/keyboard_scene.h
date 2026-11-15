@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "01/Menu/option_nickname_scenes.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
@@ -10,7 +10,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 

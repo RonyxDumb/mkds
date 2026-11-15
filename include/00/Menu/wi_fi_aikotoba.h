@@ -48,7 +48,7 @@ typedef struct WiFiAikotoba {
     /* 3c */ struct Bmg *mCommonMessages;
 } WiFiAikotoba;
 
-#include "00/code_02180608.h"
+#include "00/Menu/wi_fi_state_machine.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/result_archive_path.h"
 

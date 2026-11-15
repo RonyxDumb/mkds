@@ -1,13 +1,13 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02188950.h"
+#include "01/MapObjects/mission_run_map_object.h"
 
 typedef struct Kart Kart;
 typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct MapObjectList MapObjectList;
 
-#include "01/code_0218b9b4.h"
+#include "01/MapObjects/kuriking_state_shared.h"
 #include "Main/Sound/sound_source_list.h"
 
 // Values of MissionRunMapObject.mFollowerIndex: the follower's place behind the leader; the distances and the frame

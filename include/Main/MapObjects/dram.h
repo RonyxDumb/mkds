@@ -4,7 +4,7 @@
 
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/map_object_draw_list_flags.h" // MapObjectDrawList
 
 // Dram state machine states, in the order of gDramStateTable.
 #define DRAM_STATE_WAIT_DELAY 0

@@ -2,10 +2,10 @@
 
 #include "types.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "01/Menu/record_time_attack_requests.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Graphics/scene_text_init.h"
 #include "01/Menu/option_select_menu.h"
 #include "Main/Graphics/scene_text.h"

@@ -1,7 +1,7 @@
 #include "crt0.h"
 #include "code_02000a58.h"
 #include "unk_02000000.h"
-#include "ITCM/code_01ff8000.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 
 asm void _start(void) {
     mov ip, #0x4000000

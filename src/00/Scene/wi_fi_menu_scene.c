@@ -1,9 +1,9 @@
 #include "00/Scene/wi_fi_menu_scene.h"
 
-#include "00/code_02180814.h"
-#include "00/unk_021b4000.h"
-#include "00/code_02180608.h"
-#include "Main/Menu/data_02175000.h"
+#include "00/Menu/wi_fi_states_release.h"
+#include "00/Lib/wifi_library_globals.h"
+#include "00/Menu/wi_fi_state_machine.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"

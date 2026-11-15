@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectKindData
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 #include "Main/MapObjects/airship_draw.h" // Airship
 
 // Values of TownMonte.mSoundId that InitTownMonteObjects picks from the animation frame.

@@ -4,7 +4,7 @@
 #include "code_0200eddc.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 
 const u16 gCrcXorValue = 0x1021;
 

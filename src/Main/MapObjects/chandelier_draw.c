@@ -1,7 +1,7 @@
 #include "Main/MapObjects/chandelier_draw.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "Main/MapObjects/data_0217b000.h"
-#include "ITCM/code_01ff8000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 #include "Main/MapObjects/chandelier.h"
 
 void DrawChandelier(void *mapObjectList, Chandelier *chandelier) {

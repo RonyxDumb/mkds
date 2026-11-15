@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 void UpdateApScanMessageClose(void);
 void UpdateApScanMessageResult(void);

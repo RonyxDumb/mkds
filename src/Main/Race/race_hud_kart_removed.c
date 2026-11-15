@@ -1,7 +1,7 @@
 #include "Main/Race/race_hud_kart_removed.h"
-#include "Main/Race/code_020b1dbc.h"
-#include "Main/MapObjects/data_0217b000.h"
-#include "Main/Race/code_020b1cf4.h"
+#include "Main/Race/race_hud_sub_screen_frames.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/Race/race_hud_accessors.h"
 #include "Main/Race/race_hud_draw.h"
 
 s32 GetRaceHudUpdateFrames(void) {

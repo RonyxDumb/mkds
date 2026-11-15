@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
-#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
-#include "Main/Sound/data_0210b000.h" // SoundStartParams
+#include "Main/MapObjects/quaternion_math.h" // Quaternion
+#include "Main/Sound/sound_distance_squared_change.h" // SoundStartParams
 #include "Main/MapObjects/wanwan.h" // Wanwan
 #include "Main/Kart/shadow_model.h"
 #include "Main/Graphics/nsbmd_render_obj.h"

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 
@@ -18,7 +18,7 @@ typedef struct RockDrawList {
 #include "code_0201c528.h"
 #include "Main/Kart/shadow_model.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
-#include "Main/MapObjects/code_020d6dc0.h"
+#include "Main/MapObjects/quaternion_math.h"
 
 void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params);
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha);

@@ -7,10 +7,10 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Sound/map_start_sound_full_volume.h"
-#include "Main/MapObjects/data_0217c000.h"
+#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "player.h"
 #include "code_021479b4.h"
-#include "Main/Item/code_021035ac.h"
+#include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/map_object_sound_counter_state.h"
 

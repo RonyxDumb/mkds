@@ -10,7 +10,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "g2d_CharCanvas.h"
 #include "fx_mtx22.h"
-#include "Main/Menu/data_0215d000.h"
+#include "Main/Menu/back_screen_keyboard_tables.h"
 #include "code_02147cd8.h"
 #include "gx.h"
 

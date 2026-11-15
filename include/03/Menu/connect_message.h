@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/unk_021d7000.h"
+#include "03/Menu/wifi_menu_strings.h"
 
 void UpdateConnectMessageFadeIn(void);
 

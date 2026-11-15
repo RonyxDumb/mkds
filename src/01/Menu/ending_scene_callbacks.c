@@ -1,13 +1,11 @@
 #include "01/Menu/ending_scene_callbacks.h"
 #include "01/Menu/ending_scene.h"
 
-#include "01/code_0219e000.h"
-#include "01/code_0219f000.h"
-#include "01/unk_021a6000.h"
+#include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "01/Menu/mission_run_mission_select.h"
-#include "01/unk_021ca000.h"
+#include "01/Menu/menu_screen_work_structs.h"
 
 void *gEndingSceneUnusedBlock;
 

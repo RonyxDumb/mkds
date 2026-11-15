@@ -7,14 +7,13 @@
 #include "types.h"
 #include "Main/MapObjects/balloon.h" // Balloon
 
-#include "01/code_02181000.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 #include "tp.h"
 #include "Main/System/heap_call.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Race/data_020f36d8.h"
-#include "01/code_02188950.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "01/MapObjects/mission_run_map_object.h"
 #include "Main/Race/standings_balloons.h"
 
 void AddMissionRunPendingCountUpFromBoss(s32 stepCount);

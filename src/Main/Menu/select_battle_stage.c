@@ -3,7 +3,7 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/battle_stage_entry.h"
 #include "01/Menu/select_battle_stage_screen.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 
 #pragma optimize_for_size on

@@ -1,7 +1,7 @@
 #include "00/Menu/wi_fi_select_character.h"
 
-#include "00/code_02180608.h"
-#include "00/unk_021b4000.h"
+#include "00/Menu/wi_fi_state_machine.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "Main/Menu/select_character.h"
 #include "Main/System/heap.h"
 #include "Main/Net/wifi_connection_lost.h"

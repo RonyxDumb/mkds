@@ -3,10 +3,8 @@
 #include "code_02133048.h"
 #include "string.h"
 #include "code_02134398.h"
-#include "00/unk_021b2000.h"
+#include "00/Lib/DWC/connection_error_strings.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
-#include "00/code_0218d000.h"
-#include "00/code_021a3000.h"
 #include "code_021382a8.h"
 
 void DarrayCallElemCallback(void *arrayArg, s32 index) {

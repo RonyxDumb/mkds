@@ -2,10 +2,10 @@
 #include "00/Lib/DWC/code_0218973c.h"
 #include "00/Lib/DWC/code_021894e4.h"
 #include "00/Lib/DWC/code_021898dc.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/DWC/code_021884d8.h"
 #include "00/Lib/DWC/code_02188ee0.h"
-#include "00/unk_021b0000.h"
+#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
 #include "code_0214d018.h"
 
 const u32 gAcSearchChannel[13] = {0x8002, 0x8004, 0x8008, 0x8010, 0x8020, 0x8040, 0x8080,

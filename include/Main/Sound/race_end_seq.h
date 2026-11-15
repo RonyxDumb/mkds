@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 
 // Results of GetRaceEndResultKind, which picks the race end seq: best (first place, or a new record in time attack),
 // won without being best, and lost.

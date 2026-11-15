@@ -2,7 +2,7 @@
 #include "Main/Menu/title_state2.h"
 #include "Main/Menu/title_state_frames.h"
 #include "Main/Graphics/layout_entry_angle.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Menu/title_state0.h"
 #include "Main/Graphics/layout_table_entry.h"
 

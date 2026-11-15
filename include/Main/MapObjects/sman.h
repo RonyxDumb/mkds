@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define SMAN_COME_BACK_FRAMES 10
 

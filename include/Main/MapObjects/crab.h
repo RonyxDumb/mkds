@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "Main/MapObjects/teresa.h"
-#include "Main/MapObjects/code_020e005c.h"
+#include "Main/MapObjects/segment_group_collision.h"
 #include "Main/MapObjects/attractor.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define CRAB_ROTATE_Z_ANGLE_PER_FRAME 0x71c
 #define CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK 0xf8e4

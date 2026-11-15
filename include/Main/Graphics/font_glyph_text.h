@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "g2d_CharCanvas.h" // NNSG2dGlyph
-#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "tp.h"
 
 typedef struct NNSG2dFont NNSG2dFont;

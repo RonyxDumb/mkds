@@ -16,8 +16,8 @@ typedef struct CourseMapRow {
 } CourseMapRow;
 
 #include "Main/Item/item_link_following.h"
-#include "Main/Race/data_020f36d8.h"
-#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 
 // Values of ItemKouraW's state machine states, in the order of gItemKouraWStateTable.
 enum {
@@ -103,7 +103,7 @@ typedef struct ItemKouraW ItemKouraW;
 
 #include "Main/Item/item_object_throw.h"
 
-#include "Main/Item/code_020f6be8.h"
+#include "Main/Item/item_object_fade_out.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/Kart/kart_drift.h"
 

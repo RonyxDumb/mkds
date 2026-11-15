@@ -8,7 +8,7 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/Item/item_koura_w.h" // CourseMapRow
-#include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
 
 struct ItemFBox;
 

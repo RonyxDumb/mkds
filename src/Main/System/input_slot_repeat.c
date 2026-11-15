@@ -1,5 +1,5 @@
 #include "Main/System/input_slot_repeat.h"
-#include "Main/Menu/data_02175628.h"
+#include "Main/System/input_slots.h"
 #include "Main/System/input_keys.h"
 #include "os_tick.h"
 

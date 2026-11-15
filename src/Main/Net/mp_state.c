@@ -2,7 +2,7 @@
 #include "Main/Net/scan.h"
 #include "Main/Net/mp_states_connection.h"
 #include "code_0212d214.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 
 #include "Main/Net/mp_state_machine.h"
 #include "Main/Sound/sound_set_load.h"

@@ -1,7 +1,7 @@
 #include "00/Lib/CPS/code_021ab6d4.h"
 
 #include "00/Lib/CPS/code_021abc04.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "code_0214d018.h"
 
 u8 gMd5PaddingBytes[64] = {

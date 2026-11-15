@@ -4,10 +4,10 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Race/standings_balloons.h"
-#include "Main/MapObjects/data_020a7000.h"
+#include "Main/MapObjects/sanbo_pieces.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"

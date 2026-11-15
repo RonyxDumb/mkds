@@ -3,7 +3,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Race/race_start_sequence.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"

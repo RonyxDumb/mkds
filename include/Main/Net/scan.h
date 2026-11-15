@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217a000.h" // ScanSlot
+#include "Main/System/backup_net_camera_work.h" // ScanSlot
 #include "code_02142eac.h" // WirelessMessage
 
 void SetGameInfo(void);

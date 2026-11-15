@@ -1,6 +1,5 @@
 #include "code_02015eb8.h"
-#include "ITCM/code_01ff8000.h"
-#include "ITCM/code_01ff9000.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 
 u32 AllocPlttVram_(u32 szByte, BOOL b4Pltt, u32 opt) {
     return 0;

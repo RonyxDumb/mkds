@@ -1,8 +1,8 @@
 #include "Main/Save/backup_command.h"
 #include "Main/Save/backup_enabled.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 #include "Main/Save/ghost_record_file.h"
 
 #pragma optimize_for_size on

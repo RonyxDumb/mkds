@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 // Sounds of the picture animations, started at fixed frames of the model animation.
 #define PICTURE_MAIN_FRAMES_SOUND_ID 0x116

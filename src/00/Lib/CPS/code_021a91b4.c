@@ -1,5 +1,5 @@
 #include "00/Lib/CPS/code_021a91b4.h"
-#include "00/unk_021b6000.h"
+#include "00/Lib/CPS/cps_globals.h"
 #include "03/Net/essid_packet_steps.h"
 #include "code_0214d018.h"
 #include "00/Lib/CPS/code_021a9228.h"

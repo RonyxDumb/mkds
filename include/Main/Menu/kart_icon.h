@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_0215c000.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/kart_icon_row.h"
+#include "Main/Menu/menu_screens_work.h"
 
 typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 

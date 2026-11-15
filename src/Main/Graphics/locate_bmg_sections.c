@@ -1,6 +1,6 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Graphics/oam.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 struct BmgBodySection *gBmgBodySection;
 struct BmgEntryOffsetSection *gBmgEntryOffsetSection;

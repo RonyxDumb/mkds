@@ -1,6 +1,6 @@
 #include "Main/Menu/wl_menu_bg.h"
 #include "Main/Scene/display_settings.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
 #include "os_thread.h"

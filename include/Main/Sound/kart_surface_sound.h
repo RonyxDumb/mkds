@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Sound/code_0210ab48.h"
+#include "Main/Sound/kart_sound_queue.h"
 
 typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
 

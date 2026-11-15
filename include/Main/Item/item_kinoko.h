@@ -66,11 +66,11 @@ typedef struct ItemKouraG {
     /* 16c */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
 } ItemKouraG;
 
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_pool.h"
 #include "Main/Item/item_object_throw.h"
-#include "Main/MapObjects/code_020e005c.h"
-#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/MapObjects/segment_group_collision.h"
+#include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 
 void StartNextHeldItemObject(HeldItem *heldItem);
 void InitHeldItem(HeldItem *heldItem, KartItems *kartItems);

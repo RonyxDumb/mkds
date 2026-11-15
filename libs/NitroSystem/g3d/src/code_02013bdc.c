@@ -5,9 +5,9 @@
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 #include "unk_02152000_data.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "data_02170000.h"
-#include "ITCM/code_01ff8000.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 #include "code_02010c84.h"
 
 void (*NNS_G3dFuncSbcTable[32])(NNSG3dRS *, u32) = {NNSi_G3dFuncSbc_NOP,

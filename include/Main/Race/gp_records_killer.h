@@ -1,12 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "tp.h"
-#include "Main/Kart/code_02080b1c.h"
+#include "Main/Kart/point_link_cursor_advance.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Kart/code_0208fd8c.h"
+#include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectList, MapObjectKindData
 
 // Values of Sman.mState: at rest, the top part goes up and down, wait with the top low, both parts come back.

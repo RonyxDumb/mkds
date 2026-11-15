@@ -4,7 +4,7 @@
 #include "Main/MapObjects/attractor.h" // MapObjectList
 #include "fx_mtx33.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "Main/MapObjects/code_020d6dc0.h"
+#include "Main/MapObjects/quaternion_math.h"
 
 #define WANWAN_HIT_FRAMES 0x78
 #define WANWAN_ROAM_START_FRAMES 0x40

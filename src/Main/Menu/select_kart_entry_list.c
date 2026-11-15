@@ -3,7 +3,7 @@
 #include "Main/Graphics/cell_layout_entry.h"
 #include "Main/Menu/select_kart_data.h"
 #include "Main/Save/buddy_record_time.h"
-#include "Main/Menu/data_02174000.h"
+#include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
 #include "code_02022aa8.h"

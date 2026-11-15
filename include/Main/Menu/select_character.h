@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02153000.h"
-#include "Main/Menu/data_02174000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
+#include "Main/Menu/select_kart_ghost_work.h"
 
 typedef struct Interpolation Interpolation;
 

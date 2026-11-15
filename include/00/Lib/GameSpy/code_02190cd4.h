@@ -3,8 +3,6 @@
 #include "types.h"
 #include "00/Lib/GameSpy/code_0218f960.h"
 #include "00/Lib/GameSpy/code_021965a0.h"
-#include "00/code_02193000.h"
-#include "00/code_021a3000.h"
 #include "00/Lib/GameSpy/code_021906e4.h"
 
 u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId);

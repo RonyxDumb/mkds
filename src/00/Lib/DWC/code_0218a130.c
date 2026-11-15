@@ -1,9 +1,8 @@
 #include "00/Lib/DWC/code_0218a130.h"
 #include "00/Lib/DWC/code_02188ec0.h"
-#include "00/code_02187484.h"
-#include "00/code_02188000.h"
+#include "00/Lib/DWC/code_02187484.h"
 #include "00/Lib/DWC/code_021884d8.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/DWC/code_02189350.h"
 
 u32 ConnectTestProcess(ACWORK *work) {

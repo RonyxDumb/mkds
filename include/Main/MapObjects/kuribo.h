@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/MapObjects/code_020d6dc0.h"
+#include "Main/MapObjects/quaternion_math.h"
 
 #define KURIBO_ORIENTATION_BLEND_AMOUNT_MAX 0xb4
 #define KURIBO_STRETCH_SCALE_Y_MAX 0x1800

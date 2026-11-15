@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021919ac.h"
+#include "00/Lib/GameSpy/code_021919ac.h"
 
 // Which profile field gpiSetInfos and gpiSetInfoi set (the argument "info").
 enum {

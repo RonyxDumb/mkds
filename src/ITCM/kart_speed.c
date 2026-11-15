@@ -1,10 +1,8 @@
 #include "ITCM/kart_speed.h"
 #include "ITCM/kart_motion.h"
-#include "ITCM/code_01ffc000.h"
 #include "ITCM/collision_slots.h"
-#include "ITCM/code_01ffd000.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/MapObjects/data_02154000.h"
+#include "Main/Kart/kart_scale_surface_tables.h"
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/Kart/kart_reset.h"
 

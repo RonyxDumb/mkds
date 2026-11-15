@@ -3,23 +3,23 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
 #include "code_02012b30.h" // MtxFx43
 #include "Main/MapObjects/segment_curve.h"
-#include "Main/Race/code_020b1dbc.h"
+#include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Kart/code_0207a880.h"
+#include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_koura_w.h"
 
 struct MtxFx43;
-#include "Main/MapObjects/code_020d6dc0.h"
-#include "Main/MapObjects/code_020e6b58.h"
+#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/view_matrix_setters.h"
 
 #define WATER_HEIGHT_ANGLE_PER_FRAME 0x10000
 

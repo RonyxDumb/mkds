@@ -21,7 +21,7 @@ typedef struct {
     /* 1c */ u32 mTexSizeS;
 } OrthoQuadModel;
 
-#include "Main/Item/code_021035ac.h"
+#include "Main/Graphics/ortho_quad_corners.h"
 #include "code_021479b4.h"
 
 // The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.

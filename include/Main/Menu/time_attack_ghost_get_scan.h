@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02174000.h" // GhostRecordInfo
+#include "Main/Menu/select_kart_ghost_work.h" // GhostRecordInfo
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
 #include "code_02022aa8.h"

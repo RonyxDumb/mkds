@@ -1,7 +1,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/System/archive_slot_loaded.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 struct NNSG2dCellDataBank *gPlayerCharacterNcer[2];
 struct Nclr *gPlayerCharacterNclr[2];

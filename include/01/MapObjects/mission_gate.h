@@ -7,7 +7,7 @@ typedef struct Kart Kart;
 typedef struct MapObjectList MapObjectList;
 typedef struct MapObjectModel MapObjectModel;
 
-#include "01/code_0218b9b4.h"
+#include "01/MapObjects/kuriking_state_shared.h"
 
 // First course setting the two side objects of a mission gate are created with.
 #define MISSION_GATE_SIDE_OBJECT_SETTING 0x12

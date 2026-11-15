@@ -1,5 +1,5 @@
 #include "03/Graphics/vram_bank_settings.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_0214d018.h"
 #include "pm.h"
 #include "code_02148950.h"

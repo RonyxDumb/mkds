@@ -6,7 +6,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "code_0201c528.h" // ParticleEmitter
 #include "code_02012b30.h" // MtxFx43
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
 #define FLIPPER_ALT_WAIT_FRAMES 0xaa

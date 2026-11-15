@@ -40,8 +40,8 @@ struct UsbScan {
 
 typedef struct WMStartScanExCallback WMStartScanExCallback;
 
-#include "03/unk_021da000.h"
-#include "03/unk_021d6000.h"
+#include "03/Menu/wifi_menu_shared.h"
+#include "03/Menu/wifi_menu_tables.h"
 
 void CheckUsbScanEntries(WMStartScanExCallback *scanResult);
 void StoreUsbScanEntries(WMStartScanExCallback *scanResult);

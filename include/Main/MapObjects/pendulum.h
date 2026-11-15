@@ -2,11 +2,11 @@
 
 #include "types.h"
 #include "code_02013bdc.h"
-#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
+#include "Main/MapObjects/quaternion_math.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"
-#include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Graphics/model_animation.h"
 #include "Main/Kart/shadow_model.h"

@@ -1,9 +1,8 @@
 #include "03/Net/usb_scan.h"
 #include "03/Net/ap_scan_callback.h"
-#include "03/unk_021d6000.h"
+#include "03/Menu/wifi_menu_tables.h"
 
-#include "03/code_021ce000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_02142eac.h"
 #include "string.h"
 #include "code_02134398.h"
@@ -14,7 +13,7 @@
 #include "03/System/exp_heap.h"
 #include "os_tick.h"
 #include "registers.h"
-#include "03/code_021ce110.h"
+#include "03/Menu/menu_pair_objects_slide_in.h"
 
 const u8 gUsbScanEmptyBssid[6] = {0, 0, 0, 0, 0, 0};
 const u8 gUsbSsidPrefix[9] = {0x4e, 0x57, 0x43, 0x55, 0x53, 0x42, 0x41, 0x50, 0};

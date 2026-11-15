@@ -9,9 +9,9 @@
 #include "Main/Race/gp_records_killer.h"
 
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 #include "Main/Save/ghost_file_records_create.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 #include "player.h"
 #include "code_0212c7a0.h"
 #include "stream.h"
@@ -22,7 +22,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/MapObjects/data_0217a000.h" // GhostRecordHead, GhostListEntry
+#include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
 

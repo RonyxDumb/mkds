@@ -4,8 +4,8 @@
 #include "Main/Sound/mic_buffer_sleep.h"
 #include "Main/Sound/mic_init.h"
 #include "tp.h"
-#include "Main/Menu/data_02175628.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/System/input_slots.h"
+#include "Main/Race/race_setup_block.h"
 #include "Main/Graphics/oam.h"
 
 void StartTouchAutoSampling(void) {

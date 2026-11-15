@@ -2,11 +2,11 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "code_02147cd8.h"
 #include "code_0201c528.h"
 #include "Main/Kart/karts.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Kart/kart_effects.h"
 
 void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {

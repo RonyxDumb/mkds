@@ -1,8 +1,7 @@
 #include "03/System/task_input.h"
-#include "03/code_021d2d50.h"
+#include "03/System/task_input_init.h"
 #include "03/System/exp_heap.h"
-#include "03/code_021d3000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"
 #include "tp.h"
@@ -10,7 +9,6 @@
 #include "03/System/rect.h"
 #include "03/types_021d299c.h"
 #include "code_02147cd8.h"
-#include "03/code_021d2c78.h"
 
 u8 gTouchRepeatFrames;
 KeyTouchInput *gKeyTouchInput;

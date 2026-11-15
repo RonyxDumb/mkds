@@ -2,11 +2,11 @@
 
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "fx_mtx33.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 #include "tp.h"
 #include "Main/MapObjects/bound.h"
-#include "Main/MapObjects/data_0217b000.h"
-#include "ITCM/code_01ff8000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 
 const u16 gPakkunSpitDisabledFlag = 1;
 const u32 gPakkunSpitSkipSoundFlag = 0x40000000;

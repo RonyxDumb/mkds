@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 
 // Fade frames of the staff roll and the award scene (SceneCallbacks.mFadeToClearFrameCount, mFadeToFadedFrameCount).
 #define STAFF_ROLL_FADE_TO_FADED_FRAMES 0x78

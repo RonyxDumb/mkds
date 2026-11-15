@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 
 void WriteSelectCupGridRegisters(void);
 void SetCupFromSelectCupGrid(void);

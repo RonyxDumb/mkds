@@ -5,7 +5,7 @@
 #include "code_0200fc8c.h"
 #include "code_0214cfe4.h"
 #include "code_0214d018.h"
-#include "Main/Net/data_0217e000.h"
+#include "Main/System/runtime_locks_stdio_buffers.h"
 #include "stream.h"
 #include "code_0212d214.h"
 #include "code_02142eac.h"

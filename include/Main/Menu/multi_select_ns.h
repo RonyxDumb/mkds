@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
 #include "Main/Menu/wl_menu_scene.h"
 #include "Main/Menu/multi_select_member_group.h"
 

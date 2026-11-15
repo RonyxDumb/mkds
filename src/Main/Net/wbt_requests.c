@@ -2,10 +2,10 @@
 
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/request_id.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 

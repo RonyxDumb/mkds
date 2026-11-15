@@ -5,7 +5,7 @@
 #include "os_thread.h"
 #include "code_0214d018.h"
 #include "code_0214d93c.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "mb_data.h"
 
 u32 tgid_bak = 0x10000;

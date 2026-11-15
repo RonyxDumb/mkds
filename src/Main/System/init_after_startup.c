@@ -17,7 +17,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Menu/message_screen.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "code_0200e77c.h"
 #include "code_0214d93c.h"

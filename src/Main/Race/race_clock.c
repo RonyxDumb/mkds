@@ -1,9 +1,9 @@
 #include "Main/Race/race_clock.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race_keys.h"
 #include "Main/System/key_recording_read.h"
 #include "Main/System/key_recording_start.h"
-#include "Main/Menu/data_02175628.h"
+#include "Main/System/input_slots.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 

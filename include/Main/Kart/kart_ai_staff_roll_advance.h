@@ -2,8 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_ai_battle.h"
-#include "Main/Kart/data_02090000.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 typedef struct KartAi KartAi;
 

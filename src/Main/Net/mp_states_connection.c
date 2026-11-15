@@ -5,7 +5,7 @@
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan.h"
 #include "Main/Menu/select_race_rule_state.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "os_tick.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/Net/mp_chunk_state_machine.h"

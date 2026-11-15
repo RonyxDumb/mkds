@@ -8,12 +8,12 @@
 #include "Main/Race/results_gp.h"
 #include "Main/Graphics/oam_lists.h"
 #include "Main/Menu/message_screen.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "g2.h"
 #include "code_0214d018.h"
 #include "registers.h"
-#include "Main/Menu/data_02174000.h"
+#include "Main/Menu/select_kart_ghost_work.h"
 
 struct ResultScene *gResultScene;
 

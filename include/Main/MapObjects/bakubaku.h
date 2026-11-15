@@ -4,9 +4,9 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define BAKUBAKU_WAIT_TO_RESET_FRAMES 0x708
 

@@ -8,10 +8,10 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Menu/select_return.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

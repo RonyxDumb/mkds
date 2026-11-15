@@ -1,7 +1,6 @@
 #include "01/Menu/emblem_screen_upload.h"
 #include "01/MapObjects/lld.h"
-#include "01/code_021a5140.h"
-#include "01/code_02185000.h"
+#include "01/Menu/emblem_state_and_lld.h"
 #include "01/Menu/emblem_grid.h"
 #include "os_thread.h"
 #include "Main/Menu/emblem_choises_shown.h"
@@ -10,7 +9,7 @@
 #include "gx.h"
 #include "g2.h"
 #include "gx_load2d.h"
-#include "01/unk_021a6000.h"
+#include "01/MapObjects/mission_run_map_object_flags.h"
 #include "01/Menu/emblem_cursor.h"
 #include "registers.h"
 

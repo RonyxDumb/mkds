@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_02188950.h"
+#include "01/MapObjects/mission_run_map_object.h"
 
 // Values of mHandShape and mHandOrder. A hand's mHandShape is the collision shape set by SetIwanteNoneCollision to
 // SetIwanteHitReactionCollision. mHandOrder uses 4 and 5 for the hand that is currently the second or first one.
@@ -20,19 +20,14 @@ typedef struct ItemObject ItemObject;
 #include "01/MapObjects/map_object_animation.h"
 
 #include "01/callees_0219b000.h"
-#include "01/code_02185000.h"
-#include "01/code_02186000.h"
-#include "01/code_02187000.h"
-#include "01/code_02188000.h"
-#include "01/code_02188260.h"
-#include "01/code_02188da4.h"
-#include "01/code_02188e24.h"
-#include "01/code_02190000.h"
+#include "01/MapObjects/mission_run_hit_count.h"
+#include "01/MapObjects/mission_run_state_callbacks.h"
+#include "01/MapObjects/mission_run_frame_callbacks.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
@@ -41,18 +36,15 @@ typedef struct ItemObject ItemObject;
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "01/code_02188158.h"
-#include "01/code_02191000.h"
-#include "01/code_02192000.h"
-#include "01/code_02187bfc.h"
+#include "01/MapObjects/mission_run_range_and_collision_callbacks.h"
+#include "01/MapObjects/item_bomb_throw_or_release.h"
 #include "01/Race/race_hud_king_cells.h"
-#include "01/code_02188484.h"
-#include "01/code_0218f000.h"
-#include "01/unk_021a6000.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "01/MapObjects/mission_run_collision_shadow_offsets.h"
+#include "01/MapObjects/mission_run_map_object_flags.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
 
-#include "01/code_0218b9b4.h"
+#include "01/MapObjects/kuriking_state_shared.h"
 #include "Main/Sound/sound_source_list.h"
 
 extern MapObjectKindDescriptor gIwanteHandsKindDescriptor;

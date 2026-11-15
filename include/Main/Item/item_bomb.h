@@ -4,7 +4,7 @@
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Item/held_item.h" // BouncingItemObject
 #include "Main/MapObjects/pendulum.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_object_throw.h"
 

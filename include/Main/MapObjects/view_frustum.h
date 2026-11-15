@@ -2,12 +2,12 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/MapObjects/code_020e6b58.h"
+#include "Main/MapObjects/view_matrix_setters.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_0217a000.h" // Camera
-#include "Main/Race/data_020f36d8.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/System/backup_net_camera_work.h" // Camera
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 typedef struct MapObject MapObject;
 

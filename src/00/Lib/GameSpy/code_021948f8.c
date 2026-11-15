@@ -1,6 +1,5 @@
 #include "00/Lib/GameSpy/code_021948f8.h"
 #include "00/Lib/GameSpy/code_02193634.h"
-#include "00/code_02190000.h"
 #include "code_02139f70.h"
 #include "00/Lib/GameSpy/code_021906e4.h"
 #include "00/Lib/GameSpy/code_021965a0.h"
@@ -11,9 +10,7 @@
 #include "00/Lib/GameSpy/code_02196590.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
 #include "code_02134398.h"
-#include "00/code_02196000.h"
-#include "00/code_0218d000.h"
-#include "00/unk_021b2000.h"
+#include "00/Lib/DWC/connection_error_strings.h"
 #include "00/Lib/GameSpy/code_0218dd8c.h"
 #include "00/Lib/GameSpy/code_02190cd4.h"
 

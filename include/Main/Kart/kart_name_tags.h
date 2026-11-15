@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_02012b30.h" // MtxFx43
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "code_021479b4.h"
 
 // 0x24-byte entry: the word at 0x00 and the halfword at 0x08 are tested by DrawKartNameTagTexture and

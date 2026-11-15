@@ -1,7 +1,7 @@
 #include "Main/Menu/select_game_update.h"
 #include "Main/Menu/select_game.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "Main/Menu/battle_gx_set_visible_plane.h"
 #include "gx.h"
 #include "code_02148950.h"

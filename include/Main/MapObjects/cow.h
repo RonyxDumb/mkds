@@ -4,7 +4,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 // Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.
 typedef struct Kanoke64 {

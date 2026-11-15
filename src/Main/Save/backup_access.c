@@ -2,16 +2,16 @@
 #include "Main/Menu/wl_menu_scene.h"
 #include "Main/System/heap_call.h"
 #include "Main/Net/slot_result_sync.h"
-#include "Main/MapObjects/data_02154000.h"
+#include "Main/Kart/kart_scale_surface_tables.h"
 #include "os_spinLock.h"
 #include "os_tick.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 #include "Main/Scene/scene_connection.h"
 #include "Main/Save/backup_write_copies.h"
-#include "Main/Menu/data_02175000.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Scene/scene_display_archive_work.h"
+#include "Main/System/backup_net_camera_work.h"
 
 const u32 gBackupXorKeys11[11] = {0xc0a2cfb9, 0xfca4f59a, 0xd87e2588, 0xb615dd30, 0xeacc91ee, 0xb6a8f95d,
                                   0x7bd8b080, 0xcec11555, 0x59cef8ce, 0xfff88db3, 0xa867f2a3};

@@ -1,7 +1,7 @@
 #include "Main/Menu/title_state5.h"
 #include "Main/Menu/title_state4.h"
 #include "Main/Sound/sound_seq.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/result_archive_path.h"
 
 #pragma optimize_for_size on

@@ -4,7 +4,7 @@
 #include "Main/Menu/second_menu_scene.h" // StateMachine
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 s32 GetTeresaOffsetYDivisor(void);
 

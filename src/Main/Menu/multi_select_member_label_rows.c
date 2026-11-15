@@ -1,4 +1,4 @@
-#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
 
 const MultiSelectMemberCycleStep gMultiSelectMemberCycleSteps[4] = {{0, 0x10}, {1, 6}, {2, 6}, {1, 6}};
 const u16 gMultiSelectMemberCountCellIndices[8] = {4, 5, 6, 7, 8, 9, 0xa, 0xb};

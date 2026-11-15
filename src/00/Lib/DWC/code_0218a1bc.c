@@ -1,7 +1,7 @@
 #include "00/Lib/DWC/code_0218a1bc.h"
 #include "00/Lib/DWC/code_021898dc.h"
-#include "00/code_021a8878.h"
-#include "00/code_021a8aa8.h"
+#include "00/Lib/NitroWiFi/code_021a8878.h"
+#include "00/Lib/NitroWiFi/code_021a8aa8.h"
 #include "os_tick.h"
 
 u32 GetIPAddress(ACWORK *work) {

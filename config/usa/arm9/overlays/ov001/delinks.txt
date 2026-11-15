@@ -214,7 +214,7 @@ src/01/Menu/record_gpx.c:
     .bss        start:0x021a9bb8 end:0x021a9bbc
 
 // provisional: file name and boundaries
-src/01/Menu/code_02194a30.c:
+src/01/Menu/record_gpx_cell_tables.c:
     complete
     .text       start:0x02194a30 end:0x021956bc
     .rodata     start:0x021a6664 end:0x021a67a0
@@ -227,7 +227,7 @@ src/01/Menu/record_time_attack.c:
     .data       start:0x021a82a4 end:0x021a82dc
     .bss        start:0x021a9bbc end:0x021a9bc0
 
-src/01/Menu/code_02196d58.c:
+src/01/Menu/record_time_attack_requests.c:
     complete
     .text       start:0x02196d58 end:0x02197b14
     .rodata     start:0x021a681c end:0x021a69e0

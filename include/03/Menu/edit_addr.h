@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021c6764.h"
+#include "03/Menu/edit_text.h"
 
 typedef struct BgTextCanvas BgTextCanvas;
 typedef struct OamEntry OamEntry;

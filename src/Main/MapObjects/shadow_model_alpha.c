@@ -1,5 +1,5 @@
 #include "Main/MapObjects/shadow_model_alpha.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 #include "Main/MapObjects/view_frustum.h"
 
 void DrawShadowModelWithMaxAlpha(ShadowModel *model, int maxAlpha) {

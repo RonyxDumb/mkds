@@ -27,17 +27,16 @@ typedef struct MissionGateObject {
     /* 0ac */ s32 mState;
 } MissionGateObject;
 
-#include "01/code_0219b250.h"
+#include "01/MapObjects/map_object_model_animation_load.h"
 #include "01/Race/mission_run_state.h"
-#include "ITCM/code_01ff9000.h"
-#include "Main/Race/code_020b1dbc.h"
+#include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "code_02012b30.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Kart/code_0207a880.h"
+#include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/MapObjects/map_object_matrix.h"
 #include "Main/MapObjects/map_object_model_frame.h"
@@ -50,9 +49,8 @@ void StartEffectWithRotatedDirection(MissionRunMapObject *mapObject, int offsetX
 void StartEffectInSlot(MissionRunMapObject *mapObject, s32 effectIndex, s32 offsetX, s32 offsetY, s32 offsetZ,
                        u32 effectId, s32 timer);
 
-#include "01/code_02188950.h"
+#include "01/MapObjects/mission_run_map_object.h"
 #include "Main/Kart/kart_drift.h"
-#include "01/code_02187000.h"
 
 #include "Main/MapObjects/map_object_kind_update_list.h"
 

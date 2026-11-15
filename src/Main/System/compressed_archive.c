@@ -1,5 +1,5 @@
 #include "Main/System/compressed_archive.h"
-#include "Main/Race/data_02169000.h"
+#include "Main/Race/race_hud_cell_group_functions.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 
 u32 gCompressedArchive[1251] __attribute__((aligned(32))) = {

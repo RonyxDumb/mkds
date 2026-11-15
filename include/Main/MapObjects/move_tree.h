@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 #include "Main/MapObjects/bakubaku.h" // MoveTree
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define MOVE_TREE_KART_HIT_FRAMES 30
 #define MOVE_TREE_HIT_FRAME_STEP 2

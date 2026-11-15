@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_0214d93c.h" // RTCTime
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 
 // A replay race ends once the race clock reaches this minute.
 #define REPLAY_END_CLOCK_MINUTE 7

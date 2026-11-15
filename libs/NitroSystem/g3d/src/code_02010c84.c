@@ -1,7 +1,7 @@
 #include "code_02010c84.h"
 
 #include "fx_mtx43.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "data_02170000.h"
 #include "00/Lib/DWC/code_02188720.h"
 #include "code_02012b30.h"
@@ -10,8 +10,7 @@
 #include "code_021479b4.h"
 #include "g3imm.h"
 #include "code_0214a748.h"
-#include "ITCM/code_01ff8000.h"
-#include "ITCM/code_01ff9000.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 #include "registers.h"
 #include "fx_mtx44.h"
 #include "code_02013bdc.h"

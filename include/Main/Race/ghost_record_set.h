@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217a000.h" // GhostRecordHead, GhostListEntry
-#include "Main/Menu/data_0217d000.h"
+#include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
+#include "Main/Menu/menu_screens_work.h"
 #include "player.h"
 #include "code_0212c7a0.h"
 #include "stream.h"

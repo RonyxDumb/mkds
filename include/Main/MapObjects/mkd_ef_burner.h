@@ -2,9 +2,9 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 #define MKD_EF_BURNER_KART_HIT_FRAMES 0x1f

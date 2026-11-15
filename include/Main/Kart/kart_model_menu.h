@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217a000.h" // Camera, KartModelMenuData
+#include "Main/System/backup_net_camera_work.h" // Camera, KartModelMenuData
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Kart/camera.h"
 #include "code_02012b30.h"

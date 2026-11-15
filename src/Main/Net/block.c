@@ -2,8 +2,8 @@
 #include "Main/Net/wbt_requests.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/scan.h"
-#include "Main/MapObjects/data_02154000.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/Kart/kart_scale_surface_tables.h"
+#include "Main/System/backup_net_camera_work.h"
 
 const u8 gGhostBlockInfo[32] = {0x4e, 0x69, 0x74, 0x72, 0x6f, 0x4b, 0x61, 0x72, 0x74, 0x20, 0x47,
                                 0x68, 0x6f, 0x73, 0x74, 0x20, 0x44, 0x61, 0x74, 0x61, 0x20, 0x54,

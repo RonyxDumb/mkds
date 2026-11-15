@@ -1,6 +1,6 @@
 #include "ITCM/kart_gravity.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"

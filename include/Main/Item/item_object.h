@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Item/code_020f6be8.h"
+#include "Main/Item/item_object_fade_out.h"
 #include "Main/Sound/sound_source_list.h"
 
 BOOL TryFadeOutDeflectedItemObject(ItemObject *item, Vec3 *normal);

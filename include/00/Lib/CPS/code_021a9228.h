@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_021a88a8.h"
+#include "00/Lib/CPS/code_021a88a8.h"
 
 // Tags of the items the certificate reader walks through (the type bits of the tag byte).
 enum {
@@ -58,7 +58,7 @@ enum {
 
 typedef struct HttpsState HttpsState;
 
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
 
@@ -104,7 +104,7 @@ typedef struct HttpsState HttpsState;
 typedef struct HttpsEntry HttpsEntry;
 
 #include "00/Lib/CPS/network.h"
-#include "00/unk_021b6380.h"
+#include "00/Lib/CPS/cps_network_state.h"
 #include "00/Lib/CPS/code_021ac3e4.h"
 #include "00/types_021ab5e4.h"
 

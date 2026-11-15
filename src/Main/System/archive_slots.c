@@ -1,8 +1,8 @@
 #include "Main/System/archive_slots.h"
 #include "Main/System/heap.h"
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
@@ -11,7 +11,7 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 
 #include "os_printf.h"
 #include "code_02003be0.h"
@@ -21,7 +21,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/System/archive_buffer.h"
 #include "Main/Menu/select_race_rule_state.h"
-#include "Main/Race/data_02164000.h"
+#include "Main/Race/race_scene_callbacks.h"
 #include "Main/System/result_archive_path.h"
 
 

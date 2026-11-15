@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_0202bb80.h"
+#include "Main/Menu/player_entry_layout_rows.h"
 
 void RequestPlayerEntryListSetup(void);
 void SetPlayerEntryListShowAllEntries(s32 showAll);

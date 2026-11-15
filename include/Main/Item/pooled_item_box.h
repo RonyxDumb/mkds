@@ -6,7 +6,7 @@
 #include "Main/Item/item_object_throw.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/held_item.h"
-#include "Main/Race/data_020f36d8.h" // ItemKind, ItemInfo
+#include "Main/Item/item_objects_and_race_progress.h" // ItemKind, ItemInfo
 #include "Main/MapObjects/attractor.h"
 #include "Main/Item/item_koura_w.h"
 

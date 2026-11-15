@@ -1,6 +1,6 @@
 #include "Main/Graphics/model_animation_looping.h"
 #include "Main/Graphics/model_animation.h"
-#include "Main/Graphics/data_02087000.h"
+#include "Main/Graphics/model_animation_loop_modes.h"
 
 const Vec3 gKartNameTagInitialPos = {0, 0, 0};
 

@@ -14,9 +14,9 @@ typedef struct DWCHttpParseResult {
 } DWCHttpParseResult;
 
 #include "os_thread.h"
-#include "00/unk_021b1000.h"
+#include "00/Lib/DWC/dwc_auth_http_params.h"
 #include "dwc_backup.h"
-#include "00/code_021a88a8.h"
+#include "00/Lib/CPS/code_021a88a8.h"
 #include "00/types_021a998c.h"
 
 // Growing buffer: mStart is its start, mCursor the write position, mEnd the end and mSize the size.
@@ -71,7 +71,7 @@ u32 GrowHttpBuffer(Http *http, HttpBuffer *httpBuffer, int addedSize);
 void FreeHttpBuffer(Http *http, HttpBuffer *httpBuffer);
 u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 
-#include "00/code_02186d04.h"
+#include "00/Lib/DWC/code_02186d04.h"
 
 // Written into DWCAuth at 0x1cc; mUnk_24 and mUnk_28 allocate and release the 0x13e0 bytes of the object and the
 // buffers.

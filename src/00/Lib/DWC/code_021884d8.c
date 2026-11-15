@@ -1,6 +1,6 @@
 #include "00/Lib/DWC/code_021884d8.h"
 
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/DWC/code_02188008.h"
 
 void DWCi_AC_FreeAll(void) {

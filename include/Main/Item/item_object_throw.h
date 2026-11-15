@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Item/item_in_use.h"
 
 typedef struct ItemInUse ItemInUse;

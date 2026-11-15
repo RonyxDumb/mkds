@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/System/tasks.h"
-#include "03/code_021cdbd0.h"
+#include "03/Sound/sound_seq.h"
 
 void UpdateSound(TaskEntry *task, void *arg);
 

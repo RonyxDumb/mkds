@@ -3,7 +3,7 @@
 #include "types.h"
 #include "code_0200e77c.h"
 #include "code_02142eac.h"
-#include "00/unk_021b5000.h"
+#include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/NitroWiFi/util.h"
 
 BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);

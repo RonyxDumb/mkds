@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021c6764.h"
+#include "03/Menu/edit_text.h"
 
 void UpdateEditInvalidMessageClose(void);
 void UpdateEditInvalidMessageResult(void);

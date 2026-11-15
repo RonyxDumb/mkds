@@ -3,7 +3,7 @@
 #include "os_thread.h"
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/packet_port.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Net/block.h"
 #include "Main/Net/scan_ghost_info.h"
 #include "Main/Scene/run_scenes.h"

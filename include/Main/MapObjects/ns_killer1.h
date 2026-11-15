@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 #include "Main/Sound/sound_source_list.h"
 
 #define NS_KILLER1_SPEED 0x2000

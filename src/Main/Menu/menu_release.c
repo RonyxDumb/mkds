@@ -9,7 +9,7 @@
 #include "Main/Graphics/scene_text_init.h"
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/picks_holder.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 #pragma thumb on
 #pragma optimize_for_size on

@@ -50,7 +50,7 @@ typedef struct MPPlayerNameMessage {
     /* 17 */ u8 mConnectedMask;
 } MPPlayerNameMessage;
 
-#include "Main/MapObjects/data_02165000.h" // QueueMPDataToPortParams
+#include "Main/Kart/kart_effect_param_tables.h" // QueueMPDataToPortParams
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
@@ -61,7 +61,7 @@ typedef struct MPPlayerNameMessage {
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "code_02142eac.h" // WirelessMessage
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 
 typedef struct PlayerRecord PlayerRecord;
 

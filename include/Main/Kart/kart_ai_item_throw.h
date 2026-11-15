@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 // One point of a strip: its height, the frames since it was added and its position (the position shifted right by 4).
 typedef struct PosStripPoint {
@@ -29,7 +29,7 @@ typedef struct PosStripPoint PosStripPoint;
 typedef struct PosStrip PosStrip;
 
 #include "code_02012b30.h" // MtxFx43
-#include "Main/MapObjects/data_02166000.h"
+#include "Main/Graphics/model_effect_kinds.h"
 
 typedef struct KartAiItemUse KartAiItemUse;
 

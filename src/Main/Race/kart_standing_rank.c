@@ -7,7 +7,7 @@
 #include "Main/Race/race_keys.h"
 #include "Main/Race/cup_records.h"
 #include "Main/Scene/run_scenes.h"
-#include "Main/Kart/code_0207a000.h"
+#include "Main/Kart/shadow_model_draw.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Race/race_end.h"
 #include "Main/Sound/race_end_seq.h"

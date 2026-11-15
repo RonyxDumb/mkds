@@ -1,6 +1,6 @@
 #include "Main/Net/scan_selected_entry.h"
 #include "Main/Net/scan_slot.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 
 #pragma thumb on
 

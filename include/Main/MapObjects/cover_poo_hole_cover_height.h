@@ -84,7 +84,7 @@ typedef struct CoverPooHole {
 } CoverPooHole;
 
 #include "Main/Kart/kart_drift.h" // Kart
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define COVER_POO_HOLE_HIT_COVER_SPEED 0x4000
 #define COVER_POO_HOLE_HIT_POO_SPEED 0x1333

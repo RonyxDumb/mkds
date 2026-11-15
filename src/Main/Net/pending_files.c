@@ -3,7 +3,7 @@
 #include "code_02003be0.h"
 #include "fs_file.h"
 #include "Main/System/thread_function_queue.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "code_0214d018.h"
 #include "Main/Net/child_block_transfer.h"
 #include "Main/Net/parent_block_transfer.h"

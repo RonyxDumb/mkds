@@ -5,7 +5,7 @@
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/mp_link.h"
 #include "Main/Net/packet_port.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Net/block.h"
 #include "Main/Net/scan_ghost_info.h"
 #include "Main/Net/request_pending.h"
@@ -17,7 +17,7 @@
 #include "code_0214d018.h"
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Save/ghost_record_file.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 
 static inline u32 ScanGetConnectionMode(void) {
     if (gConnectionWork == NULL) {

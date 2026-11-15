@@ -2,7 +2,7 @@
 #include "code_0200fc8c.h"
 #include "Main/System/input_slot_repeat.h"
 #include "Main/Race/race_keys.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"

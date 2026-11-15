@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Graphics/scene_text_init.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 
 // Entries of common.bmg that the Keyboard screen shows, named after their text.
 typedef enum KeyboardMessage {

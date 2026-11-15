@@ -4,9 +4,9 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/Kart/kart_drift.h" // Kart
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
-#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
-#include "01/MapObjects/data_0209bc74.h"
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
+#include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
+#include "01/MapObjects/map_object_model.h"
 
 #define NS_KILLER2_PARK_WAIT_FRAMES 0x78
 #define NS_KILLER2_PARK_TIMER_LIMIT 0x24e

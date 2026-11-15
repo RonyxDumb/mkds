@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Net/data_0205b000.h"
+#include "Main/Net/elo_change_row.h"
 #include "Main/Menu/second_menu_scene.h"
 
 void AdvanceWiFiRaceSync(void);

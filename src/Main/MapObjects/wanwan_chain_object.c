@@ -6,7 +6,7 @@
 #include "Main/Item/item_in_use.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
@@ -16,8 +16,8 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/pendulum.h"
-#include "Main/MapObjects/code_020e6a74.h"
-#include "Main/MapObjects/code_020e6b58.h"
+#include "Main/MapObjects/view_matrix_queue.h"
+#include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
@@ -26,7 +26,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/result_archive_path.h"
 #include "code_02147cd8.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/wanwan_chain.h"
 
 const MapObjectKindDescriptor gWanwanChainKindDescriptor = {0,

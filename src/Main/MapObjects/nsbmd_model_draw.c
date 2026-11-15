@@ -1,6 +1,6 @@
 #include "Main/MapObjects/nsbmd_model_draw.h"
 #include "Main/System/heap.h"
-#include "Main/MapObjects/code_020e66e4.h"
+#include "Main/MapObjects/nsbmd_model_draw_variants.h"
 
 #include "Main/System/heap_call.h"
 

@@ -4,7 +4,7 @@
 #include "fx_mtx33.h"
 #include "code_0201c528.h" // ParticleInstance
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 
 // Object up to 0xd4 bytes: the shared part, an GroupFollower at 0xa0, then three words and a pointer.
 typedef struct PakkunSpit {

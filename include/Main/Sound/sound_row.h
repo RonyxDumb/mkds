@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
 
 // Sound ids GetSceneSoundRowIndex writes into the row of a mission run: the sequence of the garden mission and of a
 // mission that counts pending objects, the first bank by mission, and the second bank every one of them with a bank

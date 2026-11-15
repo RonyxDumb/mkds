@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/MapObjects/pendulum.h"
 
 typedef struct PushedObject PushedObject;

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Sound/data_0210b000.h" // SoundStartParams
+#include "Main/Sound/sound_distance_squared_change.h" // SoundStartParams
 #include "player.h"
 
 // Sound ids of the course sound objects: the bank sound, the chain camera sound of the cross course, and the first and

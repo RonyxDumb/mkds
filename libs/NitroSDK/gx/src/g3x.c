@@ -1,7 +1,7 @@
 #include "g3x.h"
 #include "code_0214cfe4.h"
 #include "code_0214c778.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
 #include "00/Lib/DWC/code_02188720.h"

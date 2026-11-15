@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Item/data_027e0000.h"
+#include "Main/Item/kart_items_collision_hits.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/kart_drift.h"
 
 // Message kinds of the item data a Wi-Fi race sends (AddItemData, ProcessItemPoolMessage): the start of an object with

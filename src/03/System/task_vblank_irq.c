@@ -1,6 +1,5 @@
 #include "03/System/task_vblank_irq.h"
-#include "03/code_021d3000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_0200c914.h"
 #include "code_0200fc8c.h"
 #include "registers.h"

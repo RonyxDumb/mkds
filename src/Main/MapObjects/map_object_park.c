@@ -1,12 +1,12 @@
 #include "Main/MapObjects/map_object_park.h"
 
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/rock.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "Main/Race/data_020f36d8.h"
-#include "Main/MapObjects/data_02156000.h"
-#include "Main/Kart/code_0208fd8c.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Menu/keyboard_cursor_targets.h"
+#include "Main/Kart/kart_ai_item_use.h"
 #include "Main/System/init_after_startup.h"
 
 struct RandomState64 *gMapObjectRandom;

@@ -1,7 +1,7 @@
 #include "Main/Item/pooled_map_object.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/earthen_pipe_create.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 
 void ParkPooledMapObject(ItemBox *pooledMapObject) {

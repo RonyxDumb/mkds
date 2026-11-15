@@ -1,6 +1,5 @@
 #include "00/Lib/GameSpy/code_0219887c.h"
 #include "00/Lib/GameSpy/code_02197e58.h"
-#include "00/unk_021b3000.h"
 #include "code_02134398.h"
 
 u16 GetSocketPort(Gt2Socket *socket) {

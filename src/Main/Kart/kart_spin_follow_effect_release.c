@@ -1,11 +1,11 @@
 #include "Main/Kart/kart_spin_follow_effect_release.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_effects.h"
-#include "Main/MapObjects/data_02155000.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Kart/kart_palette_stem_tables.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/effects.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 
 void StartKartSpinSideEffects(s32 kartIndex) {

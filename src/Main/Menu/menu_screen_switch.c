@@ -1,6 +1,6 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/single_play_select_screen3.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 #pragma thumb on
 

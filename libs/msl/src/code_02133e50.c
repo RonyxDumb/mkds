@@ -5,10 +5,10 @@
 #include "code_02134890.h"
 #include "code_02139e20.h"
 #include "code_0200e77c.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
-#include "Main/Net/data_0217e000.h"
+#include "Main/System/runtime_locks_stdio_buffers.h"
 #include "stream.h"
 #include "code_0212d214.h"
 

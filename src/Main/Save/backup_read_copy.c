@@ -1,6 +1,6 @@
 #include "Main/Save/backup_read_copy.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 #include "code_0214d018.h"
 
 #pragma thumb on

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "tp.h"
 
 // First argument of FormatDate.

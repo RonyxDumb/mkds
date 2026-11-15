@@ -12,7 +12,7 @@ typedef union ModeAndFlags {
 
 extern void (*gUpdateFunction)(void);
 
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 extern ModeAndFlags gModeAndFlags;
 extern s32 gMenuPairs[4];

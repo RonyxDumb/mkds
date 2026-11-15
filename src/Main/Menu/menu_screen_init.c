@@ -23,7 +23,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/multi_select_member_group.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"

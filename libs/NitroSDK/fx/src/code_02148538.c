@@ -1,6 +1,6 @@
 #include "code_02148538.h"
 #include "code_02147cd8.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 
 const s16 FX_AtanTable_[129] = {
     0,    32,   64,   96,   128,  160,  192,  224,  256,  288,  319,  351,  383,  415,  446,  478,  509,

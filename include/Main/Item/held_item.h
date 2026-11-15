@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_object_throw.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 // Element of gItemPools[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that AdvanceBouncingItem,
 // InitBouncingItem and ThrowBouncingItem use after the shared part.

@@ -1,9 +1,8 @@
 #include "01/Menu/option_states.h"
 
-#include "01/code_02193000.h"
 #include "01/Menu/option_hensyu_menu.h"
 #include "01/Menu/option_embrem_select.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/back_screen.h"
 #include "Main/Menu/message_screen.h"

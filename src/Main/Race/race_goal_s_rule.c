@@ -1,7 +1,7 @@
 #include "Main/Race/race_goal_s_rule.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 BOOL IsRaceGoalSRuleCourseCountReached(void) {
     u32 courseCountReached = gRaceGoalS->mCourseCountReached;

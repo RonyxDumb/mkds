@@ -3,9 +3,9 @@
 #include "Main/Sound/sound_request_queue.h"
 #include "Main/Sound/sound_system.h"
 #include "Main/Sound/seq_queue.h"
-#include "Main/Sound/data_0216c000.h"
+#include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "pm.h"
 
 void InitSceneSoundSetPlayer(s32 seqId) {

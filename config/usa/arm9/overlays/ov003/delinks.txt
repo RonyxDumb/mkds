@@ -12,14 +12,14 @@ src/03/Net/essid_packet_steps.c:
     .bss        start:0x021d7c00 end:0x021d89cc
 
 // provisional: file name and boundaries
-src/03/Net/code_021ba124.c:
+src/03/Net/essid_wifi_session.c:
     complete
     .text       start:0x021ba124 end:0x021ba7d8
     .data       start:0x021d6828 end:0x021d686c
     .bss        start:0x021d89cc end:0x021d8b40
 
 // provisional: file name and boundaries
-src/03/Net/code_021ba7d8.c:
+src/03/Net/essid_wcm.c:
     complete
     .text       start:0x021ba7d8 end:0x021baffc
     .bss        start:0x021d8b40 end:0x021d8b90
@@ -372,7 +372,7 @@ src/03/Menu/ap_screen.c:
     .bss        start:0x021da1f0 end:0x021da1f8
 
 // provisional: file name and boundaries
-src/03/Menu/code_021cb2a0.c:
+src/03/Menu/way_select.c:
     complete
     .text       start:0x021cb2a0 end:0x021cb898
     .rodata     start:0x021d6538 end:0x021d65e0
@@ -497,7 +497,7 @@ src/03/Net/multiboot_parent_download.c:
     .bss        start:0x021da248 end:0x021da264
 
 // provisional: file name and boundaries
-src/03/Net/code_021cfa28.c:
+src/03/Net/wh_session.c:
     complete
     .text       start:0x021cfa28 end:0x021d00cc
     .data       start:0x021d782c end:0x021d7ab8

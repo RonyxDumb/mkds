@@ -1,6 +1,6 @@
 #include "Main/MapObjects/does_map_object.h"
 
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_m_number_pair.h"
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
@@ -14,7 +14,7 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "code_02134398.h"
 #include "Main/Graphics/font_and_player_character.h"

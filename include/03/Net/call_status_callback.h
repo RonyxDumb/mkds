@@ -4,8 +4,8 @@
 #include "03/Net/exchange_essid.h"
 #include "00/Lib/DWC/code_02188de4.h"
 #include "code_02142eac.h"
-#include "03/unk_021d8000.h"
-#include "00/code_021a574c.h"
+#include "03/Net/exchange_result_records.h"
+#include "00/Lib/NitroWiFi/code_021a574c.h"
 #include "code_0200e77c.h"
 
 extern u8 gReceivedTextNonEmpty;

@@ -7,7 +7,7 @@
 #include "Main/Kart/shadow_model.h" // ShadowModel
 #include "Main/Course/course_color_blend.h" // CourseColorBlend
 #include "Main/MapObjects/pendulum.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Graphics/model_animation.h"
 
 #define KART_TIRE_COUNT 4

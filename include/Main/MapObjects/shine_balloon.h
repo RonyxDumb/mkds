@@ -4,7 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED 0x19
 #define SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED 8

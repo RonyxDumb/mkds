@@ -6,7 +6,7 @@
 #include "code_02148950.h"
 #include "gx_load2d.h"
 #include "registers.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Menu/select_return.h"

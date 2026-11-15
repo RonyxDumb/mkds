@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/MapObjects/choropu.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/map_object_draw_list_flags.h" // MapObjectDrawList
 
 #define CHOROPU_HOLD_TOP_FRAMES 0x14
 #define CHOROPU_KART_RESPONSE_FALL_SPIN 2

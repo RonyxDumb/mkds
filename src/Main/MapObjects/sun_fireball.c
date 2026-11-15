@@ -1,8 +1,8 @@
 #include "Main/MapObjects/sun_fireball.h"
-#include "Main/MapObjects/data_0217c000.h"
+#include "Main/Sound/sound_falloffs_ortho_quad_globals.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "fx_mtx33.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 #include "tp.h"
 #include "Main/MapObjects/bound.h"
 
@@ -13,11 +13,11 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
-#include "Main/Sound/code_0210b760.h"
+#include "Main/Sound/start_sound_from_params.h"
 #include "code_02147cd8.h"
 #include "Main/MapObjects/sound_if_kart_star_or.h"
-#include "Main/MapObjects/data_02156000.h"
-#include "Main/Kart/code_0208fd8c.h"
+#include "Main/Menu/keyboard_cursor_targets.h"
+#include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/fireball2.h"
 
 const u32 gSunFireballSkipSoundFlag = 0x40000000;

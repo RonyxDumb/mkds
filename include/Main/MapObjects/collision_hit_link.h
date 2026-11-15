@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
 
 #define KOOPA_BLOCK_SOUND_ID 0x17e
 

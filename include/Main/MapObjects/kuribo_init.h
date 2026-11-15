@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/quaternion_math.h" // Quaternion
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 
 typedef struct CourseMapRow CourseMapRow;
 

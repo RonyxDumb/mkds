@@ -1,6 +1,6 @@
 #include "Main/Graphics/chars_block.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "code_0214cfe4.h"

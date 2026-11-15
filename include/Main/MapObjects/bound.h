@@ -3,8 +3,8 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
-#include "01/MapObjects/data_0209bc74.h"
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
+#include "01/MapObjects/map_object_model.h"
 
 #define BOUND_KART_HIT_FRAMES 0x1f
 #define BOUND_PATH_SPEED 0x3000

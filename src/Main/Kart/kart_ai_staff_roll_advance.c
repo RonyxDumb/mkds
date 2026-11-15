@@ -1,18 +1,13 @@
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Kart/kart_ai_battle.h"
 #include "Main/Kart/point_link_cursor.h"
-#include "Main/Kart/code_0207e654.h"
+#include "Main/Kart/kart_ai_follow.h"
 #include "Main/Course/course_map_shapes.h"
-#include "Main/Kart/data_0207b000.h"
-#include "Main/Kart/data_0207d000.h"
-#include "Main/Race/data_020f36d8.h"
-#include "Main/MapObjects/data_0207e000.h"
-#include "Main/MapObjects/data_0207f000.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/karts.h"
 #include "Main/Kart/kart_ai_item_clear.h"
 #include "Main/Kart/use_item.h"
-#include "Main/Kart/data_02090000.h"
 
 s32 (*gKartAiIsLinkRequestedCallback)();
 void (*gKartAiAdvanceCallback)(struct KartAi *kartAi);

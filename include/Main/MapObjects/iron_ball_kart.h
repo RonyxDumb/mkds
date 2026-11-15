@@ -2,10 +2,10 @@
 
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/MapObjects/iron_ball.h" // IronBall
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 void DrawIronBall(void *mapObjectList, IronBall *ironBall);
 void SetupDrawIronBall(void *mapObjectList);

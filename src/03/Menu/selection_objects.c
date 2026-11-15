@@ -1,11 +1,9 @@
 #include "03/Menu/selection_objects.h"
-#include "03/code_021d1790.h"
-#include "03/code_021d197c.h"
-#include "03/unk_021d5000.h"
+#include "03/Graphics/oam_range_set.h"
+#include "03/Graphics/oam_range.h"
 
-#include "03/code_021d1000.h"
 #include "03/System/exp_heap.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 const u8 gSelectionPairImages[8] = {0xa, 0xb, 4, 5, 2, 3, 0xc, 0xd};
 OamRange **gSelectionObjects;

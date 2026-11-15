@@ -8,8 +8,7 @@ typedef struct EmblemGridPoint {
     /* 01 */ u8 mY;
 } EmblemGridPoint;
 
-#include "01/code_02181000.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 
 s32 FillEmblemGridRegion(s32 startX, s32 startY, s32 newValue);
 s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value);

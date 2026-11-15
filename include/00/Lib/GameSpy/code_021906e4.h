@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "00/Lib/GameSpy/code_0218f960.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/code_021965a0.h"
 
 u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u32 *bytesSentOut, s32 discardSent,

@@ -1,11 +1,10 @@
 #include "03/Menu/sub_screen_message.h"
 #include "03/Graphics/messages.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Graphics/text_canvas.h"
-#include "03/unk_021d5000.h"
 
-#include "03/unk_021d6000.h"
+#include "03/Menu/wifi_menu_tables.h"
 #include "gx_load2d.h"
 #include "registers.h"
 #include "03/Menu/main_menu.h"

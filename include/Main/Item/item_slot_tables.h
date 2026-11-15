@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Item/code_020f6be8.h"
+#include "Main/Item/item_object_fade_out.h"
 
 // A weight table parsed from "Item/ItemSlotList.dat": mRowCount rows of 18 halfwords (one weight per item) plus one end
 // row of 0xffff. Three globals: gItemSlotHumanGhostPeerTable, gItemSlotCpuTable (row = the kart's rank) and

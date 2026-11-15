@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02175000.h" // SceneCallbacks
+#include "Main/Scene/scene_display_archive_work.h" // SceneCallbacks
 
 typedef struct SlotResultSyncState SlotResultSyncState;
 typedef struct SceneNumbers SceneNumbers;

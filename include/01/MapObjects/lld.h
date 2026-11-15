@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "01/code_021a5140.h"
-#include "01/code_021a59cc.h"
-#include "01/code_02188950.h" // MissionRunMapObject
+#include "01/Menu/emblem_state_and_lld.h"
+#include "01/Menu/emblem_button_entries.h"
+#include "01/MapObjects/mission_run_map_object.h" // MissionRunMapObject
 
 // Data that CreateLld gets for the name it is given.
 typedef struct LldRecord {

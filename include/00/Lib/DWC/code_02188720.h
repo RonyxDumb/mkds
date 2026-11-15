@@ -1,12 +1,12 @@
 #pragma once
 
 #include "types.h"
-#include "00/code_02187484.h"
+#include "00/Lib/DWC/code_02187484.h"
 #include "00/Lib/DWC/code_02188008.h"
 #include "00/Lib/DWC/code_02188ec0.h"
 #include "00/Lib/DWC/code_021884d8.h"
 #include "code_0214d018.h"
-#include "00/code_021a5b3c.h"
+#include "00/Lib/NitroWiFi/code_021a5b3c.h"
 #include "00/Lib/DWC/code_0218973c.h"
 #include "00/Lib/DWC/code_0218a294.h"
 #include "00/Lib/DWC/code_021898dc.h"

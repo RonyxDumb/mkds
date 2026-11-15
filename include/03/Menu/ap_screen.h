@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "03/unk_021da000.h"
-#include "03/unk_021d6000.h"
+#include "03/Menu/wifi_menu_shared.h"
+#include "03/Menu/wifi_menu_tables.h"
 #include "03/types_021d299c.h"
 #include "03/Menu/jb2_menu.h"
 

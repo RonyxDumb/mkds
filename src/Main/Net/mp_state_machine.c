@@ -3,7 +3,7 @@
 #include "Main/Net/disconnect.h"
 #include "Main/Net/mp.h"
 #include "Main/Menu/select_race_rule_state.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Net/mp_chunk_state_machine.h"
 
 #pragma opt_rebuildconditionals off

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/attractor.h" // MapObjectKindData
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define SANBO_SOUND_FRAMES 0x14
 #define SANBO_FAST_WOBBLE_FRAMES 0x3c

@@ -3,7 +3,7 @@
 #include "gfd_LinkedListPlttVramMan.h"
 #include "mic.h"
 #include "gfd_LinkedListTexVramMan.h"
-#include "ITCM/code_01ff9320.h"
+#include "ITCM/g3d_texture_matrix.h"
 #include "code_02015eb8.h"
 #include "ITCM/kart_ground_contact.h"
 

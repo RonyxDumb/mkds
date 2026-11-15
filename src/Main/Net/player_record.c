@@ -7,7 +7,7 @@
 #include "Main/Net/wifi_session.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "00/unk_021b5000.h"
+#include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
 #include "Main/Save/ghost_record_file.h"
 

@@ -61,7 +61,7 @@ struct MultiBootParent {
     /* 1b160 */ WhWork mWhWork;
 };
 
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_02142eac.h"
 #include "code_020091fc.h"
 

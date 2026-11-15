@@ -3,7 +3,7 @@
 #include "00/Lib/CPS/code_021acc68.h"
 #include "00/Lib/CPS/code_021acc8c.h"
 #include "00/Lib/CPS/code_021acec8.h"
-#include "00/unk_021b6000.h"
+#include "00/Lib/CPS/cps_globals.h"
 #include "code_021329f8.h"
 #include "string.h"
 #include "code_02134398.h"

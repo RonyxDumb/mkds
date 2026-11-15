@@ -5,8 +5,8 @@
 typedef struct Segment Segment;
 typedef struct CourseMapEntryGroup CourseMapEntryGroup;
 
-#include "Main/MapObjects/data_0217b000.h"
-#include "Main/MapObjects/code_020e005c.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/MapObjects/segment_group_collision.h"
 
 void InitGroupFollowerForGroup(GroupFollower *follower, u16 groupIndex, int speed);
 void InitGroupPaths(void);

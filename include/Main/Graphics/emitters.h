@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "code_020184e4.h"
-#include "Main/MapObjects/data_0217b000.h"
-#include "Main/MapObjects/data_02155000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/Kart/kart_palette_stem_tables.h"
 
 // The Stadium course emitters: six directions, the six emitters now running, and the countdown to the next round.
 typedef struct StadiumEmitters {

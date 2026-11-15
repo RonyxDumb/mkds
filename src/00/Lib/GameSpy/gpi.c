@@ -4,7 +4,6 @@
 #include "00/Lib/GameSpy/code_021948f8.h"
 #include "00/Lib/GameSpy/code_02196594.h"
 #include "00/Lib/DWC/dwc_memfunc.h"
-#include "00/unk_021b23b0.h"
 #include "code_021384cc.h"
 #include "string.h"
 #include "code_02134398.h"

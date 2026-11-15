@@ -1,7 +1,7 @@
 #include "Main/Net/append_bytes.h"
 #include "Main/Net/wbt_requests.h"
 #include "Main/Net/wbt_block_transfer.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "code_0214d018.h"
 
 u32 gLastSentBlockId = 0xffffffff;

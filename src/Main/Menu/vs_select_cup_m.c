@@ -6,7 +6,7 @@
 #include "Main/Menu/select_kart_data.h"
 #include "Main/Menu/select_race_rule.h"
 #include "Main/Race/race_setup.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Menu/select_cup_grid.h"
 #include "00/Menu/wi_fi_vs_setting.h"
@@ -16,7 +16,7 @@
 #include "Main/Menu/select_cup_m.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "Main/Race/race_hud_sub_screen_rain_star_cells.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on

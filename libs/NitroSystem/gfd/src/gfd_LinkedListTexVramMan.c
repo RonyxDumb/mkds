@@ -3,7 +3,7 @@
 
 #include "gfdi_LinkedListVramMan_Common.h"
 #include "gfd_FrameTexVramMan.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "data_02173000.h"
 #include "mic.h"
 

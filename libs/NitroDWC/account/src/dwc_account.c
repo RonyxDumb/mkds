@@ -2,7 +2,7 @@
 #include "code_02152ac8.h"
 #include "data_02152000.h"
 #include "code_020205b0.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
 #include "os_printf.h"

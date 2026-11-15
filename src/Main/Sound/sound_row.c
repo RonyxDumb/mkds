@@ -5,10 +5,10 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/sound_set_load.h"
 #include "Main/Sound/seq_row.h"
-#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Menu/select_race_rule_state.h"
 

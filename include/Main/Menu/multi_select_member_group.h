@@ -77,8 +77,8 @@ typedef struct MultiSelectMemberGroup {
 typedef struct SceneNumbers SceneNumbers;
 
 #include "Main/Graphics/font_and_player_character.h" // Ncgr, Nclr
-#include "Main/Menu/data_02153000.h"
-#include "Main/Menu/data_02163000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
+#include "Main/Menu/label_palette_indices.h"
 #include "Main/Menu/wl_menu_scene.h"
 
 // Values of MultiSelectNS.mState: the panel slides in, waits for a choice, the choice is shown for 5 frames, the panel

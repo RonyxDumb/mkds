@@ -3,8 +3,8 @@
 #include "types.h"
 #include "03/System/tasks.h"
 #include "03/types_021d299c.h"
-#include "03/unk_021d7000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_strings.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 typedef struct Rect Rect;
 

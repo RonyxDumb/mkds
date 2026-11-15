@@ -3,8 +3,8 @@
 #include "types.h"
 #include "03/Menu/scroll_bar.h"
 #include "03/types_021da26c.h"
-#include "03/unk_021d6000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_tables.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_02142eac.h"
 
 typedef struct WMStartScanExCallback {

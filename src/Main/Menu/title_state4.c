@@ -5,7 +5,7 @@
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"
 #include "Main/Graphics/oam.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/menu_shared_clear.h"
 

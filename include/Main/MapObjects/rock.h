@@ -3,9 +3,9 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/code_020e01f0.h"
-#include "Main/Race/data_020f36d8.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/MapObjects/koopa_block_hit_link.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 

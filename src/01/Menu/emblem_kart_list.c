@@ -1,8 +1,7 @@
 #include "01/Menu/emblem_kart_list.h"
 #include "01/MapObjects/lld.h"
-#include "01/code_021a5140.h"
-#include "01/code_02185000.h"
-#include "01/unk_021a6000.h"
+#include "01/Menu/emblem_state_and_lld.h"
+#include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Kart/kart_model_menu.h"
 #include "gx_load2d.h"
 

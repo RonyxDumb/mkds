@@ -4,7 +4,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/Kart/kart_drift.h" // Kart
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define BASABASA_DRAW_ANGLE_OFFSET_LIMIT 0x1fe0
 #define BASABASA_DRAW_ANGLE_SPEED_STEP 0x3c

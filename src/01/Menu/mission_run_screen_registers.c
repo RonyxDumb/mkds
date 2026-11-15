@@ -1,10 +1,9 @@
 #include "01/Menu/mission_run_screen_registers.h"
 #include "01/Menu/select_screen_registers.h"
 #include "01/MapObjects/map_object_animation.h"
-#include "01/code_0219e000.h"
 #include "01/Menu/mission_run_level_select.h"
 #include "01/Menu/mission_run_mission_select.h"
-#include "01/unk_021ca000.h"
+#include "01/Menu/menu_screen_work_structs.h"
 #include "01/Menu/time_attack_top_menu.h"
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_kart_data.h"
@@ -17,7 +16,7 @@
 #include "code_02148950.h"
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 
 #pragma optimize_for_size on
 

@@ -39,9 +39,9 @@ typedef struct KartSurfaceEffectRow {
     /* 1c */ s32 mVelocityFactorIndex;
 } KartSurfaceEffectRow;
 
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "code_0201c528.h"
-#include "Main/MapObjects/data_02155000.h"
+#include "Main/Kart/kart_palette_stem_tables.h"
 
 void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position);
 void StartKartKillerEffect(s32 kartIndex);

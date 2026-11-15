@@ -1,15 +1,13 @@
 #include "01/MapObjects/stop_sign.h"
 
-#include "01/code_02192000.h"
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "01/code_02193000.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 #include "fx_mtx33.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 #include "tp.h"
 #include "Main/MapObjects/bound.h"
 #include "Main/Item/item_koura_w.h"
-#include "ITCM/code_01ff8000.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 #include "code_02147cd8.h"
 
 MapObjectKindDescriptor gStopSignKindDescriptor = {

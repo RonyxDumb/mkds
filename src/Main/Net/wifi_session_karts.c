@@ -1,9 +1,7 @@
 #include "Main/Net/wifi_session_karts.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "00/code_0219b000.h"
 #include "00/Lib/DWC/code_0219b1f8.h"
-#include "00/code_021a2000.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
 #include "Main/Net/wifi_session.h"
 

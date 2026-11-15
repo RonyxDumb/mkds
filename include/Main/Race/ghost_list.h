@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02174000.h"
+#include "Main/Menu/select_kart_ghost_work.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
 #include "code_02022aa8.h"
@@ -13,7 +13,7 @@
 #include "tp.h"
 #include "Main/Save/buddy_record_time.h"
 #include "g2d_CellTransferManager.h"
-#include "Main/MapObjects/data_0217a000.h" // GhostRecordHead, GhostListEntry
+#include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
 
 s32 FindSlotGhostForCourse(s32 courseId);
 s32 FindUnfilledGhostSlot(void);

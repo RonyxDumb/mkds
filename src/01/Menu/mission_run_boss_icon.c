@@ -1,17 +1,15 @@
 #include "01/Menu/mission_run_boss_icon.h"
 
 #include "types.h"
-#include "01/code_021a5140.h"
-#include "01/code_02184000.h"
-#include "01/code_02185000.h"
+#include "01/Menu/emblem_state_and_lld.h"
 #include "01/Menu/emblem_grid.h"
 #include "01/Graphics/clear_chars_and_screen_map.h"
-#include "01/unk_021ca000.h"
+#include "01/Menu/menu_screen_work_structs.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/heap.h"
 #include "player.h"
-#include "01/unk_021a7000.h"
+#include "01/Menu/emblem_and_boss_icon_tables.h"
 #include "code_0212df7c.h"
 
 const char *gMissionRunBossIconSNcgrName = "mr/Mission_run_BOSS_icon_s.nce.ncgr";

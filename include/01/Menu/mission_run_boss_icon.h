@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "01/unk_021ca000.h"
+#include "01/Menu/menu_screen_work_structs.h"
 
 void QueueMissionRunBossIcon(s16 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
                              u16 paletteSlot, s32 queueSelector);

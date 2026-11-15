@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/code_020e005c.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/MapObjects/segment_group_collision.h"
+#include "Main/Course/course_map_group_entry.h"
 
 // Object of 0x38 bytes whose first 0x24 bytes are an GroupFollower (AdvanceGroupFollowerWithSpeeds,
 // SetupGroupFollowerWithSpeeds, ReverseGroupFollower).

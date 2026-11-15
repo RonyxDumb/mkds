@@ -1,7 +1,7 @@
 #include "Main/Race/race_progress_rule.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/System/init_after_startup.h"
 
 u32 RaceProgressGetCurrentKartCount(void) {

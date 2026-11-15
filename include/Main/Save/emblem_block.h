@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Scene/run_scene_connection.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Menu/record_list.h"
 
 // Five emblems of the saved data: the index of the block (emblem number / 5, -1 for none) and the saved block.

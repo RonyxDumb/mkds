@@ -5,7 +5,7 @@
 #include "Main/Net/request_id.h"
 #include "code_02133048.h"
 #include "code_0214d018.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 
 u32 wbt_initialize_flag;
 

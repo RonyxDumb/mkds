@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudSubScreenCellGroupFunctions
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 

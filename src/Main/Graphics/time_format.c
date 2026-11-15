@@ -1,7 +1,7 @@
 #include "Main/Graphics/time_format.h"
 
 #include "Main/Graphics/text_draw.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"

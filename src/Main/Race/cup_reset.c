@@ -1,6 +1,6 @@
 #include "Main/Race/cup_reset.h"
 #include "Main/Race/cup_records.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 
 void ResetCupToFirstCourse(void) {

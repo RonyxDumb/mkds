@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/MapObjects/wanwan.h"
 #include "Main/MapObjects/wanwan_chain_init.h"
-#include "Main/MapObjects/code_020e66e4.h"
+#include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
 // Object of InitWanwanChainObject: a vector at 0x04, a vector at 0x1c, a word at 0x68, the Wanwan it was set up from at

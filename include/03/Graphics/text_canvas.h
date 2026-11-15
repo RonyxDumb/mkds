@@ -8,7 +8,7 @@ typedef struct BgTextCanvas BgTextCanvas;
 void DrawCanvasText(BgTextCanvas *canvas, unsigned int xPos, unsigned int yPos, unsigned int color, unsigned int flags,
                     void *text);
 
-#include "Main/Menu/data_02180728.h"
+#include "Main/Graphics/text_canvas.h"
 #include "g2d_CharCanvas.h"
 
 // 0x38-byte object; InitBgTextCanvas sets it up.
@@ -19,7 +19,7 @@ typedef struct BgTextCanvas {
     /* 34 */ TaskEntry *mUploadTask;
 } BgTextCanvas;
 
-#include "03/code_021d1d88.h"
+#include "03/System/pointer_stack_create.h"
 
 void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32 height, u32 color, u32 flags,
                         void *text);
@@ -50,7 +50,7 @@ typedef struct TextCanvases {
 } TextCanvases;
 
 #include "03/Graphics/nce_oam.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "g2d_NSC_load.h"
 #include "code_02022aa8.h"
 

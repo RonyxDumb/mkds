@@ -2,7 +2,7 @@
 
 #include "snd_bank.h"
 #include "code_020245a4.h"
-#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "g2d_CharCanvas.h"
 #include "Main/Graphics/layout_entry_angle.h" // OamAttrEntry

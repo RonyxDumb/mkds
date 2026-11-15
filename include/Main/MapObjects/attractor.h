@@ -4,8 +4,8 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Menu/second_menu_scene.h" // StateMachine
-#include "Main/MapObjects/code_020e005c.h"
-#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
+#include "Main/MapObjects/segment_group_collision.h"
+#include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 
 #define JG_GOAL_FRAME_INDEX 2
 

@@ -1,8 +1,8 @@
 #include "00/Lib/DWC/code_021894e4.h"
 
 #include "00/Lib/DWC/code_02188ec0.h"
-#include "00/unk_021b0000.h"
-#include "00/unk_021b2000.h"
+#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/DWC/connection_error_strings.h"
 #include "code_0214d018.h"
 #include "code_02139f70.h"
 

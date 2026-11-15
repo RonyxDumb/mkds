@@ -1,5 +1,5 @@
 #include "Main/Save/ghost_file_path.h"
-#include "Main/Race/data_02164000.h"
+#include "Main/Race/race_scene_callbacks.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"

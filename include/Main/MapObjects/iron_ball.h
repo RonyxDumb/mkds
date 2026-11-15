@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/code_020e005c.h"
+#include "Main/MapObjects/segment_group_collision.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 
 // IronBall.mState: waits for its start (timer or lap), counts mStartDelayFrames down, then rolls along the path.

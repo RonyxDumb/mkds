@@ -4,7 +4,7 @@
 #include "os_thread.h"
 #include "Main/Net/rom_archive.h"
 #include "Main/Menu/select_race_rule_state.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
@@ -18,7 +18,7 @@
 #include "code_02133458.h"
 #include "card_common.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 
 u8 gRomArchiveName[] = "rom";
 FileReadThread gFileReadThread;

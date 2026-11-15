@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Main/Kart/camera.h"
-#include "Main/Kart/code_0207a104.h"
+#include "Main/Kart/kart_course_colors.h"
 #include "Main/Graphics/disp_cap.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Kart/kart_name_tags.h"
 #include "Main/Sound/kart_full_volume_sort.h"
 #include "Main/Sound/kart_sound.h" // KartSound
@@ -16,8 +16,8 @@
 #include "tp.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
-#include "Main/Kart/code_02080b1c.h" // KartKillerCursor
+#include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
+#include "Main/Kart/point_link_cursor_advance.h" // KartKillerCursor
 
 struct KartAi;
 
@@ -853,14 +853,14 @@ void SetEffectScaleFromKart(ParticleEmitter *emitter, Kart *kart);
 void StartEffectWithCallback(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
 int TryTurnKartAtLowSpeed(Kart *kart);
 void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn);
-#include "Main/Sound/code_0210ab48.h"
+#include "Main/Sound/kart_sound_queue.h"
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue gSoundRequestQueues[7];
 #include "Main/Sound/sound_request_queue.h"
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);
-#include "Main/Item/code_021035ac.h"
+#include "Main/Graphics/ortho_quad_corners.h"
 BOOL TrySpinKart(Kart *kart, int rotationCount, int skipSound);
 BOOL TryStartKartState(Kart *kart, KartState newState);
 void AdvanceKartDrift(Kart *kart);
@@ -868,8 +868,8 @@ void GetKartForward(const Kart *kart, Vec3 *forward);
 void GetKartUp(const Kart *kart, Vec3 *upDirection);
 
 #include "Main/Kart/character_animation.h"
-#include "Main/Kart/code_02079c0c.h"
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_model_color_blend.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 
 typedef struct Kart Kart;
 

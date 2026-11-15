@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02175628.h"
+#include "Main/System/input_slots.h"
 
 // Byte stream at gKeyStream: mUnk_00 to mUnk_04 bound the buffer, mUnk_08 is the position, mUnk_0c the highest
 // position written, mUnk_14 the element size, mUnk_18 the mask of bits ReadKeyBitsFromStream and WriteKeyBitsToStream

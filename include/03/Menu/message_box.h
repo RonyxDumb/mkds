@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "03/unk_021d7000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_strings.h"
+#include "03/Menu/wifi_menu_shared.h"
 
 typedef struct TaskEntry TaskEntry;
 

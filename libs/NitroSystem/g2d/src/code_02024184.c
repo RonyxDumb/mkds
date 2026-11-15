@@ -1,6 +1,6 @@
 #include "g2d_CharCanvas.h"
 #include "code_0214d018.h"
-#include "Main/Menu/data_02153000.h"
+#include "Main/Menu/menu_label_cell_rows.h"
 #include "code_02022aa8.h"
 #include "Main/Graphics/cell_file_set.h"
 

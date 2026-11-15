@@ -6,7 +6,7 @@
 #include "Main/MapObjects/wanwan_chain.h"
 #include "Main/Item/item_koura_w.h" // CourseMapRow
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
 
 #define ITEM_BOX_SHADOW_MODE_REFRESH_FAILED 2
 

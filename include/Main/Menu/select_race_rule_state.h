@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "code_0200fc8c.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 
 // Rectangle of the ScreenMap behind one row, with the top bits it is filled with plain and highlighted.
 typedef struct SelectRaceRuleNscrRect {

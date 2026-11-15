@@ -1,7 +1,7 @@
 #include "00/Menu/wi_fi_vs_course_select.h"
 #include "Main/System/heap.h"
 
-#include "00/code_02180608.h"
+#include "00/Menu/wi_fi_state_machine.h"
 #include "Main/Menu/wifi_vs_course_select_files.h"
 #include "Main/System/interpolation_value.h"
 #include "Main/System/heap_call.h"
@@ -16,7 +16,7 @@
 #include "g2d_CellTransferManager.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "00/Menu/wi_fi_vs_matching.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "Main/Save/ghost_file_records.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/wifi_connection_lost.h"

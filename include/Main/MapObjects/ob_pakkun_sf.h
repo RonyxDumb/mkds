@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/code_020d6dc0.h" // Quaternion
+#include "Main/MapObjects/quaternion_math.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList, MapObjectKindData
-#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/map_object_draw_list_flags.h" // MapObjectDrawList
 #include "Main/MapObjects/pushed_motion.h" // PushedObject
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Graphics/nsbmd_render_obj.h"

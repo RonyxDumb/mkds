@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217b200.h"
+#include "Main/MapObjects/trophy_work.h"
 
 #define TROPHY_WOBBLE_AMPLITUDE 0xaab
 #define TROPHY_WOBBLE_ANGLE_PER_FRAME 0x36

@@ -5,8 +5,8 @@
 #include "Main/Item/item_in_use.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/data_02158000.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
@@ -17,7 +17,7 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/pukupuku_init.h"
 #include "Main/MapObjects/pushed_motion.h"
-#include "Main/MapObjects/data_02158000.h"
+#include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/MapObjects/pendulum.h"
 
 #define PUKUPUKU_WAIT_FRAMES 0x12c

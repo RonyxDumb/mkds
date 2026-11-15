@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverlapSearch);
 // As StartDmaTransferAndChannel0Dummy but the interrupt state is not touched (the caller has interrupts disabled),

@@ -206,7 +206,7 @@ extern void (*gDhcpCallback)(void);
 typedef struct CPSFragTable CPSFragTable;
 typedef struct CPSConfig CPSConfig;
 
-#include "00/code_021a78a4.h"
+#include "00/Lib/NitroWiFi/code_021a78a4.h"
 
 extern u32 gIcmpEchoReplyEnabled;
 extern u32 gHelperThreadsPriority;

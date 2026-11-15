@@ -1,6 +1,6 @@
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/MapObjects/water.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 
 void GetSegmentCurvePosStepXz(Segment *segment, s32 fraction, s32 scale, Vec3 *firstResult, Vec3 *secondResult) {
     s32 firstWeight0;

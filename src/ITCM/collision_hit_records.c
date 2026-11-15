@@ -1,4 +1,4 @@
-#include "Main/Item/data_027e0000.h"
+#include "Main/Item/kart_items_collision_hits.h"
 
 #pragma explicit_zero_data on
 s32 gCollisionHitCount = 0;

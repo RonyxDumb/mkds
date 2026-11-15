@@ -147,11 +147,9 @@ typedef struct RecordGpx {
 #include "01/Menu/option_states.h"
 #include "01/Menu/option_top_menu.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
+#include "01/Menu/record_time_attack_requests.h"
 #include "Main/Menu/select_return.h"
 #include "player.h"
-#include "01/code_02194000.h"
-#include "01/code_0219e000.h"
 
 #include "code_0214cfe4.h"
 #include "Main/System/result_archive_path.h"

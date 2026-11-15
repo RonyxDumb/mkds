@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/MapObjects/code_020e005c.h"
+#include "Main/MapObjects/segment_group_collision.h"
 
 enum {
     COIN_STATE_RESTING,
@@ -59,15 +59,13 @@ typedef struct Coin {
 } Coin;
 
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "01/code_02182000.h"
 #include "01/Race/mission_run_state.h"
-#include "01/unk_021a6000.h"
-#include "ITCM/code_01ffd000.h"
+#include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/effects.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
@@ -77,19 +75,18 @@ typedef struct Coin {
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 #include "tp.h"
-#include "01/code_0219b250.h"
-#include "ITCM/code_01ff9000.h"
+#include "01/MapObjects/map_object_model_animation_load.h"
 #include "Main/Sound/sound_handle_pool.h"
 #include "player.h"
 #include "code_0212df7c.h"
-#include "01/unk_021a9000.h"
-#include "Main/Race/code_020b1dbc.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
+#include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "code_02012b30.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Kart/code_0207a880.h"
+#include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 
 #include "Main/MapObjects/map_object_kind_update_list.h"
@@ -118,7 +115,7 @@ void StartCoinRiseOverKart(Coin *coin, Kart *kart);
 
 #include "01/Menu/select_ghost.h"
 #include "Main/Kart/kart_effects.h"
-#include "01/code_0218b9b4.h"
+#include "01/MapObjects/kuriking_state_shared.h"
 
 extern MapObjectKindDescriptor gCoinKindDescriptor;
 extern const u16 gCoinShadowRotationAngles[3];

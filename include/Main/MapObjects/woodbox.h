@@ -3,9 +3,9 @@
 #include "types.h"
 #include "Main/Kart/shadow_model.h" // ShadowModel
 #include "Main/Graphics/nsbmd_render_obj.h" // Nsbmd
-#include "Main/MapObjects/code_020ebef8.h" // Woodbox1
+#include "Main/MapObjects/woodbox1_state.h" // Woodbox1
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/MapObjects/code_020ec1fc.h"
+#include "Main/MapObjects/woodbox1_kind_data.h"
 
 #define WOODBOX1_BROKEN_FRAMES 900
 #define WOODBOX1_SETTLE_FRAMES 90

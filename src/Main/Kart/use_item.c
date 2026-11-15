@@ -1,7 +1,7 @@
 #include "Main/Kart/use_item.h"
 #include "Main/Item/item_pool.h"
-#include "Main/Item/data_027e0000.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Item/kart_items_collision_hits.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/gp_records_killer.h"
 
 void AdvanceBattleItemBitRequests(KartAiItemUse *itemUse, KartAi *kartAi) {

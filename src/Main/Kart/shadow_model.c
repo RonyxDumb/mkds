@@ -1,5 +1,5 @@
 #include "Main/Kart/shadow_model.h"
-#include "Main/MapObjects/data_02155000.h"
+#include "Main/Kart/kart_palette_stem_tables.h"
 #include "Main/Graphics/nsbmd_draw.h"
 
 const Vec3 gKartModelMenuReferenceAxis = {0x1000, 0, 0};

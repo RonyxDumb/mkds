@@ -2,15 +2,14 @@
 
 #include "Main/MapObjects/view_frustum.h"
 #include "ITCM/collision_slots.h"
-#include "ITCM/code_01ffd000.h"
 #include "Main/MapObjects/woodbox.h"
 #include "Main/MapObjects/group_follower.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/does_map_object.h"
 #include "Main/MapObjects/map_object_sound.h"
 #include "Main/MapObjects/while_requested_full_volume_wrapper.h"
@@ -19,7 +18,7 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object.h"
 #include "Main/MapObjects/water.h"
-#include "Main/MapObjects/data_020d2000.h"
+#include "Main/MapObjects/map_objects_work.h"
 
 #pragma thumb on
 

@@ -1,7 +1,7 @@
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "code_02010c84.h"
-#include "ITCM/code_01ff8000.h"
+#include "ITCM/g3d_draw_and_irq_handler.h"
 
 void (*const gNsbmdDrawFunctions[2])(void *object) = {(void (*)(void *)) DrawRenderObjWrapper,
                                                               (void (*)(void *)) DrawNsbmd1Mat1Shp};

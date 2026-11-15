@@ -7,7 +7,7 @@ typedef struct ItemObject ItemObject;
 typedef struct MapObjectList MapObjectList;
 typedef struct Kart Kart;
 
-#include "01/code_0218b9b4.h"
+#include "01/MapObjects/kuriking_state_shared.h"
 
 // Values of MissionRunMapObject.mMoveStage of King Teresa while it moves to its group entry: 0 is no stage, and the
 // stages use the first, second and third set of speed and turn parameters.

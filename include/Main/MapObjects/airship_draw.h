@@ -3,9 +3,9 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/MapObjects/code_020e005c.h" // GroupFollower
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 #include "Main/Item/item_koura_w.h" // CourseMapRow
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define AIRSHIP_WOBBLE_AMPLITUDE 0x50000
 #define AIRSHIP_WOBBLE_ANGLE_PER_FRAME 0xb6

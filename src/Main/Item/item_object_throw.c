@@ -1,7 +1,6 @@
 #include "Main/Item/item_object_throw.h"
 
-#include "Main/Item/code_020f6be8.h"
-#include "ITCM/code_01ffd000.h"
+#include "Main/Item/item_object_fade_out.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Sound/sound_start.h"

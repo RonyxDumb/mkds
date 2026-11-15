@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "code_02022aa8.h"
 
 // Layout numbers of SelectKeyboardLayout and Keyboard.mLayout, named after the files each layout loads.

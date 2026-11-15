@@ -3,7 +3,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Net/disconnect.h"
 #include "Main/Net/participant_get_connection.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "code_0214d018.h"
 
 #pragma thumb on

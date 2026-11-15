@@ -1,6 +1,6 @@
 #include "Main/MapObjects/pushed_motion.h"
-#include "Main/MapObjects/code_020d6dc0.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/MapObjects/quaternion_math.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/kart_drift.h"
 
 #include "code_02147cd8.h"

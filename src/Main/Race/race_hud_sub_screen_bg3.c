@@ -1,5 +1,5 @@
 #include "Main/Race/race_hud_sub_screen_bg3.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 
 void GetRaceHudSubScreenBg3MinMax(IntPair *outMin, IntPair *outMax) {

@@ -1,10 +1,10 @@
 #include "03/Graphics/blend_brightness_fade.h"
-#include "03/code_021d1f70.h"
+#include "03/Graphics/blend_brightness_fade_slots.h"
 #include "registers.h"
 #include "03/System/exp_heap.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "g2.h"
-#include "03/code_021d1dd0.h"
+#include "03/Graphics/blend_brightness_fade_start.h"
 #include "03/System/tasks.h"
 #include "code_02147cd8.h"
 

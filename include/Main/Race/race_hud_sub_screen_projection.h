@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Course/code_02042044.h"
+#include "Main/Course/course_map_group_entry.h"
 #include "Main/Kart/camera.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 // Values of CourseMap.mVersion that change the file layout.
 #define COURSE_MAP_VERSION_KEYED_PLACEMENTS 0x1f
@@ -451,7 +451,7 @@ static inline CourseMapCamera *GetCourseMapCamera(u16 cameraIndex) {
     return &gCourseMap->mCameras[cameraIndex];
 }
 
-#include "Main/Menu/data_02175628.h"
+#include "Main/System/input_slots.h"
 
 extern u16 GetPadInputSlot(void);
 s32 MulFixed12NoRound(s32 multiplicand, s32 multiplier);

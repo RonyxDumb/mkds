@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "01/unk_021a9000.h"
-#include "Main/Menu/data_02175628.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
+#include "Main/System/input_slots.h"
 #include "Main/Scene/display_settings.h" // DisplaySettings
 #include "Main/Scene/run_scene_connection.h" // SceneNumbers
 

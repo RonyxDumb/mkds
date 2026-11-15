@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/data_020f36d8.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Menu/data_02175628.h"
+#include "Main/System/input_slots.h"
 
 
 void InitAfterStartup(void);

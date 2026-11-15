@@ -1,6 +1,6 @@
 #include "Main/Race/grand_prix_next_course.h"
-#include "Main/MapObjects/data_02154000.h"
-#include "Main/Race/data_021759c0.h"
+#include "Main/Kart/kart_scale_surface_tables.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
 #include "Main/Race/race_setup_input.h"
 

@@ -4,7 +4,7 @@
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/choropu.h"
-#include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
+#include "Main/MapObjects/map_object_draw_list_flags.h" // MapObjectDrawList
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/pendulum.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Kart/code_0207a000.h"
+#include "Main/Kart/shadow_model_draw.h"
 
 typedef struct ShadowModel ShadowModel;
 

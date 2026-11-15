@@ -3,11 +3,11 @@
 #include "Main/System/heap.h"
 #include "Main/System/thread_function_queue_run.h"
 #include "Main/Race/race_start_battle.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/archive_slots.h"
 #include "Main/Race/followed_kart_or.h"
 #include "code_02134398.h"
-#include "Main/Menu/data_0216a000.h"
+#include "Main/Menu/menu_screen_callbacks.h"
 #include "Main/Menu/cup_picture.h"
 
 struct CupPicture *gCupPicture;

@@ -1,14 +1,12 @@
 #include "03/Graphics/messages.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "03/code_021c2530.h"
+#include "03/Graphics/message_pool.h"
 #include "03/System/pointer_stack.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "03/System/dwc_archive.h"
-#include "03/unk_021d5000.h"
 #include "03/Menu/menu_pair_loading.h"
-#include "03/code_021d1000.h"
 #include "03/System/exp_heap.h"
-#include "03/code_021d1d60.h"
+#include "03/System/pointer_stack_filled.h"
 
 MessagesPool *gMessagesPool;
 

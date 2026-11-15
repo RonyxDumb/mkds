@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_0215d000.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/back_screen_keyboard_tables.h"
+#include "Main/Menu/menu_screens_work.h"
 
 void SetTxtSystemOpenSoundId(unsigned int soundId);
 

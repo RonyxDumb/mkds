@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02180728.h"
+#include "Main/Graphics/text_canvas.h"
 #include "Main/Menu/wl_menu_scene.h"
 #include "Main/Scene/run_scene_connection.h"
 

@@ -2,7 +2,7 @@
 
 #include "code_0200fc8c.h"
 #include "code_020172d0.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 #include "player.h"
 #include "code_0212c7a0.h"
 #include "stream.h"
@@ -16,7 +16,7 @@
 #include "code_02003be0.h"
 #include "code_0200e77c.h"
 #include "code_0212f788.h"
-#include "Main/Net/data_0217e000.h"
+#include "Main/System/runtime_locks_stdio_buffers.h"
 #include "unk_02152000_data.h"
 #include "code_020218f4.h"
 

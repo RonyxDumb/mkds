@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021be610.h"
+#include "03/Net/exchange_wcm_state.h"
 #include "03/Menu/exchange_status_record.h"
 
 typedef struct ExchangeResult ExchangeResult;
@@ -43,9 +43,9 @@ typedef struct WepKey16 {
     /* 0 */ u8 mBytes[16];
 } WepKey16;
 
-#include "03/unk_021d8000.h"
+#include "03/Net/exchange_result_records.h"
 #include "00/Lib/DWC/code_0218a064.h"
-#include "03/unk_021d6000.h"
+#include "03/Menu/wifi_menu_tables.h"
 #include "os_thread.h"
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 

@@ -1,6 +1,6 @@
 #include "Main/Menu/title_blend.h"
 #include "Main/Menu/title_bg.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

@@ -1,19 +1,16 @@
 #include "03/Graphics/hl_scr.h"
-#include "03/code_021bf000.h"
 #include "03/Net/essid_packet_steps.h"
-#include "03/code_021cd2e0.h"
+#include "03/Net/ap_entries.h"
 #include "03/System/dwc_archive.h"
-#include "03/unk_021d5000.h"
 #include "03/Menu/menu_pair_loading.h"
 
 #include "03/System/tasks.h"
 #include "os_thread.h"
 #include "code_0200eddc.h"
 #include "gx_load2d.h"
-#include "03/code_021d1000.h"
 #include "code_0214d018.h"
 #include "03/System/exp_heap.h"
-#include "03/unk_021d67d8.h"
+#include "03/Graphics/hl_nsc_names.h"
 #include "03/System/application.h"
 
 void *gHlNscNames[20] = {

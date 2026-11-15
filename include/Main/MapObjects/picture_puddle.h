@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 // Values of Picture.mState: IDLE does nothing, WAIT counts mWaitFrames down, PLAY steps the animation and plays its
 // sounds.

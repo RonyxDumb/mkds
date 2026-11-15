@@ -1,7 +1,7 @@
 #include "Main/Menu/cup_mark.h"
 
-#include "Main/Menu/data_0215c000.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/kart_icon_row.h"
+#include "Main/Menu/menu_screens_work.h"
 #include "player.h"
 #include "code_0212c7a0.h"
 #include "stream.h"
@@ -15,7 +15,7 @@
 #include "Main/System/heap.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Menu/data_0216d000.h"
+#include "Main/Menu/select_cup_name_files.h"
 #include "gfd_VramTransferManager.h"
 
 char *gCommonCupMarkNcerName = "common/cup_mark.nce.ncer";

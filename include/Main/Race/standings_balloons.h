@@ -3,8 +3,8 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject
-#include "Main/Race/data_020f36d8.h" // ItemObject
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Item/item_objects_and_race_progress.h" // ItemObject
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/MapObjects/shine16.h" // KartBalloons
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
@@ -26,14 +26,14 @@ typedef struct DistanceSound {
     /* c8 */ s32 mSoundTimer;
 } DistanceSound;
 
-#include "Main/Race/code_020b1dbc.h"
+#include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Race/race_hud_sub_screen_course_id.h"
 #include "code_02012b30.h"
 #include "tp.h"
 #include "Main/Race/followed_kart_or.h"
 #include "Main/Race/race_hud_sub_screen_min_max.h"
-#include "Main/Kart/code_0207a880.h"
+#include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h" // CourseMapPoint
 
 MapObjectList *CreateDistanceSoundUpdateList(void);

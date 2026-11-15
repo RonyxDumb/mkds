@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/unk_021b4000.h"
+#include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/sb_queryengine.h"
 #include "00/Lib/GameSpy/code_0218dd8c.h"
 

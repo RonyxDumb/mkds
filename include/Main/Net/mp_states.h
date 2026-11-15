@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 
 void EnterMPReadyNop(void *stateObject);
 void UpdateMPSendPlayerBits(void *stateObject);

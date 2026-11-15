@@ -1,6 +1,6 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/archive_slots.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 
 #pragma thumb on
 

@@ -8,7 +8,7 @@
 #include "card_common.h"
 #include "card_request.h"
 #include "unk_02000000.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "mb_data.h"
 #include "code_0200c914.h"
 #include "code_0214c778.h"

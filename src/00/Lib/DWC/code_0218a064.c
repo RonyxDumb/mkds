@@ -2,7 +2,7 @@
 #include "00/Lib/DWC/code_021884d8.h"
 #include "00/Lib/DWC/code_021898dc.h"
 #include "00/Lib/DWC/code_0218a018.h"
-#include "00/unk_021b0000.h"
+#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
 #include "code_0214d018.h"
 
 const SOCConfig gAcSocConfig = {{0, 0, 0, 1},

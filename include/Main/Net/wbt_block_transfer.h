@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02175000.h" // RomArchiveParentViewEntry, RomArchiveMessage
+#include "Main/Scene/scene_display_archive_work.h" // RomArchiveParentViewEntry, RomArchiveMessage
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"

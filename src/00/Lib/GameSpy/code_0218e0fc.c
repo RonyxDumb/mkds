@@ -3,8 +3,8 @@
 #include "00/Lib/CPS/code_021acee0.h"
 #include "00/Lib/CPS/code_021acee8.h"
 #include "00/Lib/CPS/code_021acef0.h"
-#include "00/unk_021b0000.h"
-#include "00/unk_021b2000.h"
+#include "00/Lib/NitroWiFi/wcm_search_defaults.h"
+#include "00/Lib/DWC/connection_error_strings.h"
 #include "code_02134398.h"
 #include "hash1.h"
 

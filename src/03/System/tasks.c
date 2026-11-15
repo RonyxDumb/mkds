@@ -1,18 +1,16 @@
 #include "03/System/tasks.h"
 #include "03/System/pointer_stack.h"
-#include "03/code_021d1d60.h"
-#include "03/code_021d3000.h"
+#include "03/System/pointer_stack_filled.h"
 
 #include "03/System/exp_heap.h"
-#include "03/code_021d1000.h"
-#include "03/unk_021da000.h"
-#include "03/code_021d2e68.h"
+#include "03/Menu/wifi_menu_shared.h"
+#include "03/Graphics/node_list_link.h"
 #include "code_0200c914.h"
-#include "03/code_021d1d4c.h"
-#include "03/code_021d2eb8.h"
+#include "03/System/pointer_stack_delete.h"
+#include "03/Graphics/node_list_delete.h"
 #include "03/Graphics/oam_buffers.h"
-#include "03/code_021d2ecc.h"
-#include "03/unk_021d6000.h"
+#include "03/Graphics/oam_buffer_entries.h"
+#include "03/Menu/wifi_menu_tables.h"
 
 const u8 gTaskListCapacities[2] = {0x80, 0x20};
 struct TaskList *gTaskLists;

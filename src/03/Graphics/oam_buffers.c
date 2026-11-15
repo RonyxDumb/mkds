@@ -1,14 +1,13 @@
 #include "03/Graphics/oam_buffers.h"
-#include "03/code_021d2ecc.h"
+#include "03/Graphics/oam_buffer_entries.h"
 #include "03/System/pointer_stack.h"
 #include "03/Graphics/obj_char_ranges.h"
 #include "03/System/exp_heap.h"
-#include "03/code_021d1000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "03/System/tasks.h"
 #include "code_0214d018.h"
-#include "03/code_021d2eb8.h"
-#include "03/code_021d2e68.h"
+#include "03/Graphics/node_list_delete.h"
+#include "03/Graphics/node_list_link.h"
 #include "code_0200c914.h"
 
 struct OamBuffers *gOamBuffers;

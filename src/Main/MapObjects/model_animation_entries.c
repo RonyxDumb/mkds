@@ -2,7 +2,7 @@
 #include "Main/Graphics/model_animation.h"
 
 #include "Main/System/heap_call.h"
-#include "Main/MapObjects/code_020ec1fc.h"
+#include "Main/MapObjects/woodbox1_kind_data.h"
 #include "Main/MapObjects/woodbox.h"
 
 const Vec3 gJgMatrixRow1Source = {0, 0x1000, 0};

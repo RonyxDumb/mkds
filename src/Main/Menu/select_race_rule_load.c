@@ -3,7 +3,7 @@
 #include "Main/System/result_archive_path.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Menu/wait_load.h"
-#include "Main/Menu/data_0216d000.h"
+#include "Main/Menu/select_cup_name_files.h"
 #include "gfd_VramTransferManager.h"
 #include "Main/Menu/select_race_rule_state.h"
 

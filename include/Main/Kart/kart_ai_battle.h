@@ -3,9 +3,9 @@
 #include "types.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Kart/kart_effects_ahead.h"
-#include "Main/Kart/code_0208fd8c.h"
-#include "Main/Kart/code_02080cd0.h"
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_ai_item_use.h"
+#include "Main/Kart/kart_point_link_effects.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 
 typedef struct MapObject MapObject;
 

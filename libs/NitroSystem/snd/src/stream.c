@@ -5,7 +5,7 @@
 #include "code_0212d214.h"
 #include "code_020172d0.h"
 #include "resource_mgr.h"
-#include "Main/Menu/data_0217d000.h"
+#include "Main/Menu/menu_screens_work.h"
 #include "player.h"
 #include "code_0212c7a0.h"
 #include "code_0212c9d4.h"

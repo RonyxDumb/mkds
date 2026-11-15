@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Menu/data_02175628.h"
+#include "Main/System/input_slots.h"
 
 typedef struct TextCanvas TextCanvas;
 

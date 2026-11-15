@@ -1,6 +1,6 @@
 #include "Main/System/shared_object_pointers.h"
-#include "Main/Race/data_021759c0.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Race/race_setup_block.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "01/Menu/record_time_attack.h"
 
 BackupAccess *gBackupAccess;

@@ -1,5 +1,5 @@
 #include "gfd_FrameTexVramMan.h"
-#include "Main/Kart/data_02161000.h"
+#include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "code_02015eb8.h"
 
 s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32) = FreeTexVram_;

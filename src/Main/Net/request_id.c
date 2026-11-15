@@ -1,6 +1,6 @@
 #include "Main/Net/request_id.h"
 #include "mb_parent.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
 

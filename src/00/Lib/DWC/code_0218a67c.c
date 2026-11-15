@@ -1,9 +1,8 @@
 #include "00/Lib/DWC/code_0218a67c.h"
-#include "00/code_0218a000.h"
 
 #include "00/Lib/DWC/code_0218a350.h"
 #include "00/Lib/GameSpy/code_0218a71c.h"
-#include "00/unk_021b2000.h"
+#include "00/Lib/DWC/connection_error_strings.h"
 #include "string.h"
 #include "code_02134398.h"
 #include "code_0214d018.h"

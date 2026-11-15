@@ -1,5 +1,5 @@
 #include "Main/Net/scan_connect_callbacks.h"
-#include "Main/Net/data_0216f000.h"
+#include "Main/Net/wbt_os_thread_globals.h"
 #include "os_thread.h"
 #include "mb_data.h"
 #include "code_0200fc8c.h"

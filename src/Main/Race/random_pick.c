@@ -1,7 +1,7 @@
 #include "Main/Race/random_pick.h"
 #include "Main/Save/buddy_record_time.h"
 #include "Main/MapObjects/map_object_park.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "os_tick.h"
 #include "code_0202056c.h"
 

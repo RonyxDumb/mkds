@@ -1,9 +1,8 @@
 #include "03/Net/wh.h"
 
-#include "03/code_021d0000.h"
 #include "wm_etc.h"
-#include "03/unk_021d7000.h"
-#include "03/unk_021da000.h"
+#include "03/Menu/wifi_menu_strings.h"
+#include "03/Menu/wifi_menu_shared.h"
 #include "code_021445e0.h"
 #include "code_0200fc8c.h"
 #include "code_02142eac.h"

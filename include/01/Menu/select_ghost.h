@@ -74,14 +74,13 @@ typedef struct SelectGhost {
     /* 6c */ s32 mResult;
 } SelectGhost;
 
-#include "01/code_0219c000.h"
 #include "Main/Menu/select_return.h"
 #include "01/Menu/record_time_attack.h"
-#include "01/Menu/code_02196d58.h"
-#include "01/unk_021a9000.h"
+#include "01/Menu/record_time_attack_requests.h"
+#include "01/Menu/menu_screen_states_and_file_names.h"
 #include "00/Menu/wi_fi_vs_setting.h"
-#include "01/unk_021a8000.h"
-#include "01/unk_021a6000.h"
+#include "01/Menu/record_gpx_grade_text.h"
+#include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"

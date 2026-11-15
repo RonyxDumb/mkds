@@ -9,9 +9,7 @@
 #include "00/Lib/GameSpy/code_0218e2dc.h"
 #include "00/Lib/GameSpy/code_0218d818.h"
 #include "00/Lib/GameSpy/code_02197e58.h"
-#include "00/code_0218d000.h"
-#include "00/code_021a3000.h"
-#include "00/unk_021b2000.h"
+#include "00/Lib/DWC/connection_error_strings.h"
 
 int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
     int result = gti2NewSocketConnection(socket, connection, address, port);

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h"
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define TERESA_ALPHA_FIXED12_MIN 0x2000
 #define TERESA_NEVER_FRAMES 0xffff

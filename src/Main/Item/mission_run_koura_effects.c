@@ -1,10 +1,10 @@
 #include "Main/Item/mission_run_koura_effects.h"
 #include "Main/Graphics/effects.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
-#include "Main/Race/data_021759c0.h"
+#include "Main/Race/race_setup_block.h"
 #include "tp.h"
-#include "Main/Item/code_020f6be8.h"
+#include "Main/Item/item_object_fade_out.h"
 
 void StartMissionRunKouraEffects(ItemObject *itemParam) {
     ItemObject *item = itemParam;

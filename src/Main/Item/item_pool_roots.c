@@ -1,5 +1,5 @@
-#include "Main/Item/data_027e0000.h"
-#include "Main/Race/data_020f36d8.h"
+#include "Main/Item/kart_items_collision_hits.h"
+#include "Main/Item/item_objects_and_race_progress.h"
 
 #pragma explicit_zero_data on
 u16 gKartItemsCount = 0;

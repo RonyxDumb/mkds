@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Race/data_021759c0.h" // MinuteSecondMillisecondTime
+#include "Main/Race/race_setup_block.h" // MinuteSecondMillisecondTime
 #include "tp.h"
 
 // Minutes, seconds and milliseconds summed part by part (seconds and milliseconds can pass 59 and 999).

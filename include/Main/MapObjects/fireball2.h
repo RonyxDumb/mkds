@@ -4,7 +4,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "fx_mtx33.h"
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
-#include "01/MapObjects/data_0209bc74.h"
+#include "01/MapObjects/map_object_model.h"
 
 #define FIREBALL2_KART_HIT_FRAMES 0xb
 #define FIREBALL2_ROW_ANGLE_SPACING 0x10000

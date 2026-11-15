@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "03/code_021b7ba8.h"
-#include "03/code_021c1f34.h"
+#include "03/Net/poll_entry.h"
+#include "03/Net/value_records_request_status.h"
 #include "code_0214cfe4.h"
 #include "code_0200f790.h"
 #include "os_thread.h"
@@ -194,10 +194,9 @@ void FillEssidEntryListFromRecord(EssidEntryList *list, RawEntry *src, s32 count
 void SetRecordEssidFromRequest(EssidMelcoRequest *request, RawEntry *rec);
 void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst);
 
-#include "03/code_021b7000.h"
-#include "03/unk_021d8000.h"
-#include "03/code_021b7bb4.h"
-#include "03/code_021ba818.h"
+#include "03/Net/exchange_result_records.h"
+#include "03/Net/essid_packet_socket.h"
+#include "03/Net/essid_wcm.h"
 
 // Item whose payload starts with the chain of its sub-items.
 typedef struct ItemContainerView {

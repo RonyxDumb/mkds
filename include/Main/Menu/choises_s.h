@@ -1,9 +1,9 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Menu/data_02180728.h"
+#include "Main/Graphics/text_canvas.h"
 
 // Values of ChoisesS.mPickedValue and of the list entries: the entry's label on the screen, in the order of the
 // message table in GetChoisesSValueMessage. 0 as a pick means nothing was picked; CHOISES_S_PICK_NEXT_LAST is the

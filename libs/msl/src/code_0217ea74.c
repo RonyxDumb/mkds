@@ -1,4 +1,4 @@
-#include "Main/Net/data_0217e000.h"
+#include "Main/System/runtime_locks_stdio_buffers.h"
 
 u8 gStdinBuffer[0x100];
 u8 gStdoutBuffer[0x100];

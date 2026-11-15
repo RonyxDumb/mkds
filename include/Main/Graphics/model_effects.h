@@ -6,7 +6,7 @@
 #include "Main/Graphics/model_animation.h"
 #include "code_0212d214.h"
 #include "Main/Kart/kart_ai_item_throw.h"
-#include "Main/MapObjects/data_02166000.h"
+#include "Main/Graphics/model_effect_kinds.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
@@ -16,8 +16,8 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "Main/Sound/data_0210b000.h"
-#include "Main/MapObjects/data_0217b000.h"
+#include "Main/Sound/sound_distance_squared_change.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
 
 // Frames of the bombcore effect: the frame the particle effect starts on, and the frame the effect ends on.
 #define MODEL_EFFECT_BOMBCORE_PARTICLE_FRAME 0x26

@@ -6,9 +6,9 @@
 #include "Main/System/heap_call.h"
 #include "os_irqHandler.h"
 #include "os_thread.h"
-#include "Main/MapObjects/data_02165000.h"
+#include "Main/Kart/kart_effect_param_tables.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/Menu/data_02175000.h"
+#include "Main/Scene/scene_display_archive_work.h"
 #include "Main/Scene/display_settings.h"
 #include "code_020182c0.h"
 #include "frameheap.h"
@@ -16,7 +16,7 @@
 #include "pm.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
-#include "Main/MapObjects/data_0217a000.h"
+#include "Main/System/backup_net_camera_work.h"
 #include "Main/Save/ghost_record_file.h"
 
 SceneCallbacks gLogoSceneCallbacks = {InitLogoSceneCallback,
