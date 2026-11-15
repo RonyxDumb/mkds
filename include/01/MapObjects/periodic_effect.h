@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/attractor.h"
 
 typedef struct Camera Camera;
 
@@ -20,13 +21,7 @@ enum {
 };
 
 typedef struct EffectMapObject {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mFlags;
-    /* 04 */ Vec3 mPos;
-    /* 10 */ u8 mUnk_10[0x56];
-    /* 66 */ u16 mAlpha;
-    /* 68 */ u8 mUnk_68[0x34];
-    /* 9c */ CourseMapRow *mCourseMapRow;
+    /* 00 */ MapObject mMapObject;
     /* a0 */ union {
         s32 mEffectDelayFrames;
         s32 mCameraEffectState;

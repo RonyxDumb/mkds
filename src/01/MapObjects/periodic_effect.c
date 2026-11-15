@@ -51,9 +51,9 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
             localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
             object->mEffectDelayFrames =
                 (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32);
-            object->mFlags &= ~2;
-            object->mFlags &= ~8;
-            object->mAlpha = MAP_OBJECT_ALPHA_MAX;
+            object->mMapObject.mFlags &= ~2;
+            object->mMapObject.mFlags &= ~8;
+            object->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             objectIndex++;
         }
     }
@@ -70,8 +70,8 @@ void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object) {
         localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
         object->mEffectDelayFrames = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32) +
                                      PERIODIC_EFFECT_DELAY_MIN;
-        if (!(object->mFlags & 0x12)) {
-            StartEffect(0x435, &object->mPos);
+        if (!(object->mMapObject.mFlags & 0x12)) {
+            StartEffect(0x435, &object->mMapObject.mPos);
         }
     }
 }
@@ -82,7 +82,7 @@ MapObjectList *CreatePeriodicEffectUpdateList(void) {
 
 void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *out) {
     out->x = camera->mPos.x + MUL_FIXED12_NO_ROUND(camera->mForward.x, CAMERA_EFFECT_AHEAD_DISTANCE);
-    out->y = object->mPos.y;
+    out->y = object->mMapObject.mPos.y;
     out->z = camera->mPos.z + MUL_FIXED12_NO_ROUND(camera->mForward.z, CAMERA_EFFECT_AHEAD_DISTANCE);
 }
 
@@ -94,7 +94,7 @@ void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
     switch (object->mCameraEffectState) {
         case CAMERA_EFFECT_STATE_START:
             object->mCameraEffectState = CAMERA_EFFECT_STATE_FOLLOW;
-            switch (object->mCourseMapRow->mSettings[0]) {
+            switch (object->mMapObject.mCourseMapRow->mSettings[0]) {
                 case 0:
                     StartEffect(0x400, &effectPosition);
                     StartEffect(0x3ff, &effectPosition);
@@ -127,7 +127,7 @@ void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
             }
             break;
         case CAMERA_EFFECT_STATE_FOLLOW:
-            switch (object->mCourseMapRow->mSettings[0]) {
+            switch (object->mMapObject.mCourseMapRow->mSettings[0]) {
                 case 0:
                     PlaceEffect(object->mEffectHandle, &camera->mPos);
                     break;
