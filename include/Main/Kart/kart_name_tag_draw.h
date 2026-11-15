@@ -23,3 +23,7 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry);
 void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap);
 void InitKartNameTagsAndDistanceOrder(void);
 void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed, u32 color);
+
+// Bytes of the emblem texture and palette a name tag uses.
+#define KART_EMBLEM_TEX_BYTES 0x200
+#define KART_EMBLEM_PLTT_BYTES 0x20

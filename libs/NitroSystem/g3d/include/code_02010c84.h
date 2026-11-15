@@ -86,6 +86,9 @@ typedef struct NNSG3dRenderObj {
     /* 4c */ u32 mHintVisAnmExist[2];
 } NNSG3dRenderObj;
 
+// NNSG3dRS.mFlag bit: mCurrentNodeDesc is valid.
+#define NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID 0x10
+
 // Render state of the SBC interpreter. mC points into the byte sequence that the SBC functions advance.
 struct NNSG3dRS {
     /* 00 */ u8 *mC;

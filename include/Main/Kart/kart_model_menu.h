@@ -69,3 +69,6 @@ extern NNSG3dResMatData *gSpecialKartBodyMaterial;
 extern struct KartModels *gKartModels;
 extern struct Nclr *gEmblemSBNclr;
 extern KartModelMenuData *gKartModelMenu;
+
+// Far plane the camera starts with and falls back to when the course setting is below 1.0 (1600 in fixed-point).
+#define CAMERA_DEFAULT_FAR TO_FIXED12(1600)

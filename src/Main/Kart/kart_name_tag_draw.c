@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_name_tag_draw.h"
+#include "Main/Race/results_gp.h"
 #include "03/Net/essid_packet_steps.h"
 #include "Main/Graphics/kart_entry_name_texture.h"
 #include "Main/Kart/kart_name_tags.h"
@@ -173,7 +174,7 @@ void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap) {
     kartObject->mFadeState = KART_NAME_TAG_FADE_NONE;
     kartObject->mFadeStopped = TRUE;
     kartObject->mAlpha = 0;
-    kartObject->mKartPaletteColor = 0x7fff;
+    kartObject->mKartPaletteColor = COLOR15_WHITE;
     kartObject->mFadeLevel = 0;
     kartObject->mFadeLevelPerCall = 0;
 }
@@ -273,8 +274,8 @@ void UploadKartNameTagTextures(void) {
         texPlttEntries = kartObject->mTexPlttEntries;
         entryNameTexPltt = &texPlttEntries->mEntries[1];
         fourthTexPltt = &texPlttEntries->mEntries[3];
-        texPlttEntries->mEntries[0].mTexByteCount = 0x200;
-        texPlttEntries->mEntries[0].mPlttByteCount = 0x20;
+        texPlttEntries->mEntries[0].mTexByteCount = KART_EMBLEM_TEX_BYTES;
+        texPlttEntries->mEntries[0].mPlttByteCount = KART_EMBLEM_PLTT_BYTES;
         texPlttEntries->mEntries[0].mPlttData = gKartNameTags->mEmblemPlttData;
         kartObject->mKartPaletteColor = GetKartPaletteColor(kartObject->mKartIndex);
         SetupKartEmblemTexture(&texPlttEntries->mEntries[0], kartObject->mKartIndex);
@@ -362,10 +363,10 @@ void SetupKartNameTagMaskedTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
         pixels = gKartNameTagMaskedTexBuffer;
         nibbleLimit = 7;
         switch (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mLowestGrandPrixRecordValue) {
-            case 2:
+            case GP_LOWEST_RECORD_SECOND_BEST:
                 nibbleLimit = 4;
                 break;
-            case 3:
+            case GP_LOWEST_RECORD_BEST:
                 nibbleLimit = -1;
                 break;
         }
@@ -448,10 +449,10 @@ void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData) {
     material = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, textureIndex));
     texOffset = (material->mTexImageParam & 0xffff) << 3;
     plttOffset = material->mTexPlttBase << 4;
-    DC_FlushRange(texData, 0x200);
-    DC_FlushRange(plttData, 0x20);
+    DC_FlushRange(texData, KART_EMBLEM_TEX_BYTES);
+    DC_FlushRange(plttData, KART_EMBLEM_PLTT_BYTES);
     GX_BeginLoadTex();
-    GX_LoadTex(texData, texOffset, 0x200);
+    GX_LoadTex(texData, texOffset, KART_EMBLEM_TEX_BYTES);
     GX_EndLoadTex();
     GX_BeginLoadTexPltt();
     GX_LoadTexPltt(plttData, plttOffset, 0x20);

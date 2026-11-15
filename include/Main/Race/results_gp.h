@@ -25,6 +25,12 @@ typedef enum ResultsGpGrade {
     RESULTS_GP_GRADE_BEST = 7,
 } ResultsGpGrade;
 
+// Values GetLowestGrandPrixRecordValue returns once every Grand Prix record has a grade of at least the third best: the
+// lowest grade over all records is the third best, the second best or the best (0 when a record is lower or missing).
+#define GP_LOWEST_RECORD_THIRD_BEST 1
+#define GP_LOWEST_RECORD_SECOND_BEST 2
+#define GP_LOWEST_RECORD_BEST 3
+
 // Object behind gResultsGp, allocated by InitResultsGp.
 typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];

@@ -81,7 +81,7 @@ void UpdateRaceStartSequence(void) {
         return;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
-        if ((gWiFiRaceSync->mFlags & 2) == 0) {
+        if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_IN_RACE) == 0) {
             return;
         }
         sequence->mCounting = TRUE;

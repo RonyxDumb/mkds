@@ -81,7 +81,7 @@ void PlaceKartKillerEffectCallback(NNSG3dRS *renderState) {
 
     killerItemKartIndex = GetKillerItemKartIndex();
     killerItemDictIndex = NNS_G3dGetResDictIdxByName(&renderState->mRenderObj->mResMdl->mNodeInfo, gKillerItemNodeName);
-    if (killerItemDictIndex != ((renderState->mFlag & 0x10) != 0 ? renderState->mCurrentNodeDesc : -1)) {
+    if (killerItemDictIndex != ((renderState->mFlag & NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID) != 0 ? renderState->mCurrentNodeDesc : -1)) {
         return;
     }
     currentViewMatrix = GetCurrentViewMatrix();

@@ -1,4 +1,5 @@
 #include "Main/Graphics/disp_cap.h"
+#include "Main/Race/results_gp.h"
 
 #include "Main/Scene/display_settings.h"
 #include "Main/Net/participant_get_connection.h"
@@ -68,11 +69,11 @@ u8 GetLowestGrandPrixRecordValue(void) {
     }
     switch (lowestValue) {
         case 5:
-            return 1;
+            return GP_LOWEST_RECORD_THIRD_BEST;
         case 6:
-            return 2;
+            return GP_LOWEST_RECORD_SECOND_BEST;
         case 7:
-            return 3;
+            return GP_LOWEST_RECORD_BEST;
         default:
             return 0;
     }

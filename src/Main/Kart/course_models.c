@@ -64,7 +64,7 @@ static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation 
 
 void AdvanceLocalKartCollisionSlot(Kart *kart) {
     AdvanceKartCollision(kart);
-    if ((gWiFiRaceSync->mFlags & 2) != 0) {
+    if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_IN_RACE) != 0) {
         WriteKartToParticipantRecord(kart);
     }
     AdvanceKartDrawState(kart);

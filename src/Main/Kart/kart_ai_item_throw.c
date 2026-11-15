@@ -507,8 +507,8 @@ void InitPosStrips(void *heap) {
     gPosStripTexture.mTexImageParam = gPosStripTexture.mTexImageParam & 0xffff0000;
     gPosStripTexture.mTexImageParam = gPosStripTexture.mTexImageParam | (((u32) textureVramOffset >> 3) & 0xffff);
     gPosStripTexture.mPlttBase = (effectTexture->mPlttInfo.mVramKey & 0xffff) << 3;
-    gPosStripTexture.mLowHalfTexCoord = 0x10000;
-    gPosStripTexture.mHighHalfTexCoord = 0x8000;
+    gPosStripTexture.mLowHalfTexCoord = POS_STRIP_LOW_HALF_TEX_COORD;
+    gPosStripTexture.mHighHalfTexCoord = POS_STRIP_HIGH_HALF_TEX_COORD;
     gPosStrips->mPolygonAttrBits = gRaceSetup->mCourseId == COURSE_ID_RAINBOW ? 0 : 0x8000;
 }
 
@@ -619,7 +619,7 @@ PosStrip *StartPosStrip(const Vec3 *followedPos) {
     if (strip != NULL) {
         strip->mFollowedPos = followedPos;
         strip->mStopped = 0;
-        strip->mHeight = 0x400;
+        strip->mHeight = POS_STRIP_START_HEIGHT;
         NNS_FndRemoveListObject(&gPosStrips->mLists[1], strip);
         NNS_FndAppendListObject(&gPosStrips->mLists[0], strip);
     }
@@ -642,7 +642,7 @@ PosStrip *StartAwardKartPosStrip(s32 kartIndex) {
             kartOffset = kartModelsEntry->mKartOffsetData->mCharacterOffsets[kartModelsEntry->mCharacterIndex];
             strip->mFollowedPos = &kart->mPos;
             strip->mStopped = 0;
-            strip->mHeight = 0x400;
+            strip->mHeight = POS_STRIP_START_HEIGHT;
             strip->mKartIndex = kartIndex;
             stripHeight = (kartOffset.y + (gAwardStripCharacterYOffsets[kartModelsEntry->mCharacterIndex][0] >> 4) -
                            gAwardStripKartYOffsets[kartModelsEntry->mKartIndex]) /

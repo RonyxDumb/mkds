@@ -87,16 +87,16 @@ BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
     *characterIndex = _s32_div_f((u16) kartIndex, 3);
     if (*characterIndex >= 8) {
         switch (*characterIndex) {
-            case 8:
+            case CHARACTER_KARON:
                 backupFlagIndex = 0x14;
                 break;
-            case 9:
+            case CHARACTER_DAISY:
                 backupFlagIndex = 0x15;
                 break;
-            case 10:
+            case CHARACTER_WALUIGI:
                 backupFlagIndex = 0x16;
                 break;
-            case 11:
+            case CHARACTER_ROBO:
                 backupFlagIndex = 0x17;
                 break;
         }
@@ -294,12 +294,12 @@ void SetupCamera(Camera *camera) {
     camera->mHalfFovAngle = gDefaultHalfFovAngle + 5;
     camera->mHalfFovPairFirst = FX_SinIdx((u16) camera->mHalfFovAngle);
     camera->mHalfFovPairSecond = FX_CosIdx((u16) camera->mHalfFovAngle);
-    camera->mAspectRatio = 0x1555;
-    camera->mNear = 0x400;
-    camera->mSecondFar = 0x640000;
+    camera->mAspectRatio = FIXED12_RATIO(4, 3);
+    camera->mNear = FIXED12_RATIO(1, 4);
+    camera->mSecondFar = CAMERA_DEFAULT_FAR;
     camera->mFar = gCourseMap->mSettings->mCameraFar;
-    if (camera->mFar < 0x1000) {
-        camera->mFar = 0x640000;
+    if (camera->mFar < TO_FIXED12(1)) {
+        camera->mFar = CAMERA_DEFAULT_FAR;
     }
     camera->mFrustumTop = 0;
     camera->mFrustumBottom = 0;
@@ -315,9 +315,9 @@ void SetupCamera(Camera *camera) {
     camera->mFollowDistance = gDefaultFollowDistance;
     camera->mInitialFollowDistance = camera->mFollowDistance;
     camera->mLookAtLowering = 0;
-    camera->mFollowDistanceScale = 0x1000;
+    camera->mFollowDistanceScale = TO_FIXED12(1);
     camera->mUnk_0ec = 0;
-    camera->mFollowDirectionSign = 0x1000;
+    camera->mFollowDirectionSign = TO_FIXED12(1);
     camera->mShakeLookAtOffsetGoal = zero;
     camera->mShakePosOffsetGoal = zero;
     camera->mShakeLookAtOffset = zero;
