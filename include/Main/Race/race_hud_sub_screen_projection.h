@@ -419,10 +419,10 @@ typedef struct RaceHudSubScreenProjection {
     /* 20 */ s32 mAnglePairSecondScaled;
     /* 24 */ s32 mAnglePairFirstScaled;
     /* 28 */ s32 mCourseWidthScaled;
-    /* 2c */ IntPair mState0Min;
-    /* 34 */ IntPair mState0Max;
-    /* 3c */ s64 mState0InverseX;
-    /* 44 */ s64 mState0InverseZ;
+    /* 2c */ IntPair mKartIconsMin;
+    /* 34 */ IntPair mKartIconsMax;
+    /* 3c */ s64 mKartIconsInverseX;
+    /* 44 */ s64 mKartIconsInverseZ;
     /* 4c */ IntPair mCourseMin;
     /* 54 */ IntPair mCourseMax;
     /* 5c */ s64 mCourseInverseX;
