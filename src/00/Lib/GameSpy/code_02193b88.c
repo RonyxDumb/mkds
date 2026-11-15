@@ -284,7 +284,8 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                         arg->mProfile = peerConn->mProfileId;
                         arg->mUnk_08 = goastrdup((const char *) buffer);
                         arg->mDate = GetUnixTime(NULL);
-                        result = GpiQueueCallback(connection, callback, arg, NULL, 2);
+                        result =
+                            GpiQueueCallback(connection, callback, arg, NULL, PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT);
                         if (result != 0) {
                             return result;
                         }

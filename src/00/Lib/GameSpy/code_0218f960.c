@@ -112,7 +112,8 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             strcpy(messageArg->mUnk_08, buffer);
             messageArg->mProfile = profileNumber;
             messageArg->mDate = date;
-            result = GpiQueueCallback(connection, messageCallback, messageArg, NULL, 2);
+            result = GpiQueueCallback(connection, messageCallback, messageArg, NULL,
+                                      PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT);
             if (result != 0) {
                 return result;
             }
@@ -157,7 +158,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             GpiCopyString(requestArg->mReason, buffer, 0x401);
             requestArg->mProfile = profileNumber;
             requestArg->mDate = date;
-            result = GpiQueueCallback(connection, requestCallback, requestArg, NULL, 6);
+            result = GpiQueueCallback(connection, requestCallback, requestArg, NULL, PROFILE_CALLBACK_TYPE_REQUEST);
             if (result != 0) {
                 return result;
             }
@@ -238,7 +239,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             messageArg->mProfile = profileNumber;
             messageArg->mUnk_08 = (void *) buddyInfo->mIndex;
             messageArg->mDate = date;
-            result = GpiQueueCallback(connection, statusCallback, messageArg, NULL, 5);
+            result = GpiQueueCallback(connection, statusCallback, messageArg, NULL, PROFILE_CALLBACK_TYPE_STATUS);
             if (result != 0) {
                 return result;
             }
@@ -279,7 +280,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
             inviteArg->mProfile = profileNumber;
             inviteArg->mProductId = productNumber;
             strcpy(inviteArg->mLocation, replyValue);
-            result = GpiQueueCallback(connection, inviteCallback, inviteArg, NULL, 0);
+            result = GpiQueueCallback(connection, inviteCallback, inviteArg, NULL, PROFILE_CALLBACK_TYPE_PLAIN);
             if (result != 0) {
                 return result;
             }

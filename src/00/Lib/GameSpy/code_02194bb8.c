@@ -482,7 +482,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         } else {
                             u2->mIsValid = TRUE;
                         }
-                        result = GpiQueueCallback(connection, c2, u2, operation, 0);
+                        result = GpiQueueCallback(connection, c2, u2, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                         if (result != 0) {
                             return result;
                         }
@@ -555,7 +555,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, c3, u3, operation, 3);
+                        result = GpiQueueCallback(connection, c3, u3, operation, PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS);
                         if (result != 0) {
                             return result;
                         }
@@ -620,7 +620,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, c4, u4, operation, 4);
+                        result = GpiQueueCallback(connection, c4, u4, operation, PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST);
                         if (result != 0) {
                             return result;
                         }
@@ -656,7 +656,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         u5->mResult = resultValue;
                         u5->mProfile = profileValue;
-                        result = GpiQueueCallback(connection, c5, u5, operation, 0);
+                        result = GpiQueueCallback(connection, c5, u5, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                         if (result != 0) {
                             return result;
                         }
@@ -694,7 +694,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         u5->mResult = resultValue;
                         u5->mProfile = profileValue;
-                        result = GpiQueueCallback(connection, c6, u5, operation, 0);
+                        result = GpiQueueCallback(connection, c6, u5, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                         if (result != 0) {
                             return result;
                         }
@@ -770,7 +770,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, c7, u7, operation, 8);
+                        result = GpiQueueCallback(connection, c7, u7, operation,
+                                                  PROFILE_CALLBACK_TYPE_FREE_OTHERS_PROFILES_IF_SET);
                         if (result != 0) {
                             return result;
                         }
@@ -829,7 +830,8 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, c8, u9, operation, 9);
+                        result =
+                            GpiQueueCallback(connection, c8, u9, operation, PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS);
                         if (result != 0) {
                             return result;
                         }
