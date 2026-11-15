@@ -15,4 +15,6 @@ void HeapDestroy(NNSiFndHeapHead *heap);
 void HeapFree(void *heap, void *block);
 // A negative alignment takes the block from the back end of the heap.
 void *HeapAllocAligned(void *heap, u32 size, s32 alignment);
+// Blocks that the cache invalidate or DMA touch start on a 32-byte line.
+#define HEAP_ALIGN_CACHE_LINE 0x20
 void *HeapAlloc(void *heap, u32 size);
