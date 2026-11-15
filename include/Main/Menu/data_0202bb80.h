@@ -16,5 +16,7 @@ typedef struct EntryCellIndices {
 // 8-byte elements of the table behind gEntryLabelTextRows.
 typedef struct EntryLabelTextRow {
     /* 00 */ s16 mLabelIndex;
-    /* 02 */ u8 mUnk_02[6];
+    /* 02 */ u16 mWidth;
+    /* 04 */ u16 mHeight;
+    /* 06 */ s16 mEntryIndex;
 } EntryLabelTextRow;
