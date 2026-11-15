@@ -92,7 +92,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         positionOffset = 0;
         header = &SYSTEM_WORK->mRomHeader.mHead;
     } else {
-        value = file->mUnk_2c - file->mProp.w.mUnk_04;
+        value = file->mPosition - file->mProp.w.mUnk_04;
         imageOffset = value + file->mProp.w.mUnk_04;
         header = &fileHeader;
         positionOffset = imageOffset;
@@ -427,7 +427,7 @@ void RequestRomArchiveBytes(FSFile *file) {
     }
     gRomArchiveTransfer.mPendingFile = file;
     requestedLength = *(volatile s32 *) &file->mArg.p.mUnk_08;
-    message.mWord04 = childView->mPositionOffset + file->mUnk_2c;
+    message.mWord04 = childView->mPositionOffset + file->mPosition;
     message.mKind = ROM_ARCHIVE_MESSAGE_REQUEST;
     message.mValue24 = requestedLength;
     message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
@@ -844,7 +844,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
                     file = gRomArchiveTransfer.mPendingFile;
                     archive = file->mArc;
                     gRomArchiveTransfer.mPendingFile = NULL;
-                    file->mUnk_2c = file->mUnk_2c + file->mArg.w.mUnk_08;
+                    file->mPosition = file->mPosition + file->mArg.w.mUnk_08;
                     FS_NotifyArchiveAsyncEnd(archive, 0);
                     return;
             }

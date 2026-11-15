@@ -71,7 +71,7 @@ s32 FSi_ReadFileCore(FSFile *file, void *dst, s32 len, u32 async) {
     s32 start;
     s32 requested;
 
-    start = file->mUnk_2c;
+    start = file->mPosition;
     requested = len;
     if (len > file->mProp.p.mUnk_08 - start) {
         len = file->mProp.p.mUnk_08 - start;
@@ -88,7 +88,7 @@ s32 FSi_ReadFileCore(FSFile *file, void *dst, s32 len, u32 async) {
     FSi_SendCommand(file, 0);
     if (async == 0) {
         if (FS_WaitAsync(file) != 0) {
-            len = file->mUnk_2c - start;
+            len = file->mPosition - start;
         } else {
             len = -1;
         }
@@ -212,7 +212,7 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
             offset += file->mProp.p.mUnk_04;
             break;
         case 1:
-            offset += file->mUnk_2c;
+            offset += file->mPosition;
             break;
         case 2:
             offset += file->mProp.p.mUnk_08;
@@ -226,7 +226,7 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     if (offset > file->mProp.p.mUnk_08) {
         offset = file->mProp.p.mUnk_08;
     }
-    file->mUnk_2c = offset;
+    file->mPosition = offset;
     return 1;
 }
 

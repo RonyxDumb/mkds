@@ -28,7 +28,7 @@ u32 MB_GetSegmentLength(FSFile *file) {
     headerPtr = NULL;
     size = 0;
     if (file != NULL) {
-        backupPosition = file->mUnk_2c - file->mProp.w.mUnk_04;
+        backupPosition = file->mPosition - file->mProp.w.mUnk_04;
         if ((u32) FS_ReadFile(file, &header, 0x60) >= 0x60) {
             headerPtr = &header;
         }

@@ -53,7 +53,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         writePos += 0x160;
         remaining -= 0x160;
         if (activeFile != NULL) {
-            basePosition = activeFile->mUnk_2c - activeFile->mProp.w.mUnk_04;
+            basePosition = activeFile->mPosition - activeFile->mProp.w.mUnk_04;
             if (FS_ReadFile(activeFile, header, 0x160) < 0x160) {
                 remaining = 0;
             }
@@ -64,7 +64,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             FS_InitFile(&openedFile);
             FS_OpenFileDirect(&openedFile, FS_FindArchive(gSegmentRomArchiveName, 3), 0, seekOffset + 0x88, -1);
             activeFile = &openedFile;
-            basePosition = openedFile.mUnk_2c - openedFile.mProp.w.mUnk_04;
+            basePosition = openedFile.mPosition - openedFile.mProp.w.mUnk_04;
             MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, header, 0x160);
             header->mRomCtrl |= 0x00406000;
         }

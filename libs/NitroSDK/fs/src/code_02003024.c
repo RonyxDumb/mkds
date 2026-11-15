@@ -72,11 +72,11 @@ s32 FSi_ReadFileCommand(FSFile *file) {
     u32 pos;
     u32 len;
 
-    pos = file->mUnk_2c;
+    pos = file->mPosition;
     len = file->mArg.p.mUnk_08;
     archive = file->mArc;
     dst = file->mArg.p.mUnk_00;
-    file->mUnk_2c = pos + len;
+    file->mPosition = pos + len;
     return archive->mRead(archive, dst, pos, len);
 }
 
@@ -87,11 +87,11 @@ s32 FSi_WriteFileCommand(FSFile *file) {
     u32 pos;
     u32 len;
 
-    pos = file->mUnk_2c;
+    pos = file->mPosition;
     len = file->mArg.p.mUnk_08;
     archive = file->mArc;
     src = file->mArg.p.mUnk_00;
-    file->mUnk_2c = pos + len;
+    file->mPosition = pos + len;
     return archive->mWrite(archive, src, pos, len);
 }
 
@@ -112,7 +112,7 @@ s32 FSi_SeekDirCommand(FSFile *dir) {
         dir->mProp.h.mIndex = tableEntry.mIndex;
         dir->mProp.h.mPos = archive->mFnt + tableEntry.mStart;
     }
-    dir->mUnk_2c = tableEntry.mParent & 0xfff;
+    dir->mParentId = tableEntry.mParent & 0xfff;
     return 0;
 }
 
@@ -194,7 +194,7 @@ s32 FSi_FindPathCommand(FSFile *dir) {
                 }
                 if ((nameLen == 2) & (path[1] == 0x2e)) {
                     if (dir->mProp.h.mOwnId != 0) {
-                        FSi_SeekDirDirect(dir, dir->mUnk_2c);
+                        FSi_SeekDirDirect(dir, dir->mParentId);
                     }
                     path += 2;
                     goto next;
@@ -270,7 +270,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
             do {
                 FSi_SeekDirDirect(&searchFile, dirIndex);
                 if (dirIndex == 0) {
-                    dirCount = searchFile.mUnk_2c;
+                    dirCount = searchFile.mParentId;
                 }
                 searchFile.mArg.e.mEntry = &entry;
                 searchFile.mArg.e.mSkipString = 1;
@@ -310,7 +310,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
         if (parent != 0) {
             FSi_SeekDirDirect(&searchFile, parent);
             do {
-                FSi_SeekDirDirect(&searchFile, searchFile.mUnk_2c);
+                FSi_SeekDirDirect(&searchFile, searchFile.mParentId);
                 searchFile.mArg.e.mEntry = &entry;
                 searchFile.mArg.e.mSkipString = 1;
                 if (FSi_TranslateCommand(&searchFile, ARCHIVE_COMMAND_LIST_DIR_ENTRY) == 0) {
@@ -366,7 +366,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     if (dirId != 0) {
         do {
-            FSi_SeekDirDirect(&searchFile, searchFile.mUnk_2c);
+            FSi_SeekDirDirect(&searchFile, searchFile.mParentId);
             searchFile.mArg.e.mEntry = &entry;
             searchFile.mArg.e.mSkipString = 0;
             *(buf + len - 1) = 0x2f;
@@ -413,7 +413,7 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
 // Open command by byte range: sets the file range and position.
 s32 FSi_OpenFileDirectCommand(FSFile *file) {
     file->mProp.w.mUnk_04 = file->mArg.w.mUnk_00;
-    file->mUnk_2c = file->mArg.w.mUnk_00;
+    file->mPosition = file->mArg.w.mUnk_00;
     file->mProp.w.mUnk_08 = file->mArg.w.mUnk_04;
     file->mProp.w.mUnk_00 = file->mArg.w.mUnk_08;
     return 0;

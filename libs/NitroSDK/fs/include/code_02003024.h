@@ -82,7 +82,10 @@ typedef struct FSFile {
     /* 14 */ s32 mError; // set from a return value in FSi_TranslateCommand and FSi_ReleaseCommand
     /* 18 */ OSThreadQueue mQueue;
     /* 20 */ FileLocation mProp;
-    /* 2c */ u32 mUnk_2c;
+    union {
+        /* 2c */ u32 mPosition;
+        /* 2c */ u32 mParentId;
+    };
     /* 30 */ FileLocation mArg;
     /* 3c */ const u8 *mPath;
     /* 40 */ u32 mFindDirectory;
