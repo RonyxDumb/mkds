@@ -3,6 +3,7 @@
 #include "types.h"
 
 typedef struct MissionRunMapObject MissionRunMapObject;
+typedef struct ItemObject ItemObject;
 typedef struct MapObjectList MapObjectList;
 typedef struct Kart Kart;
 
@@ -16,7 +17,7 @@ void InitKingTeresa(MapObjectList *mapObjectList);
 void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject);
 void InitKingTeresaObjects(MapObjectList *mapObjectList);
 void KingTeresaBossTransferCallback(MissionRunMapObject *mapObject, Kart *kart);
-void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject);
+void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject, Kart *kart);
 void KingTeresaParkBossCoinsCallback(MissionRunMapObject *mapObject, Kart *kart);
 void InitKingTeresaMapObject(MissionRunMapObject *mapObject);
 void StartKingTeresaZeroAlphaWait(MissionRunMapObject *mapObject);

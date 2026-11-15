@@ -97,7 +97,7 @@ u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
     return mapObject->mHandShape == IWANTE_HAND_SHAPE_WALK_B;
 }
 
-void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject) {
+void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject, Kart *kart) {
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_NONE;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
 }
@@ -723,7 +723,7 @@ void KingTeresaParkBossCoinsCallback(MissionRunMapObject *mapObject, Kart *kart)
         mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mHead.mCollisionExtentXZ;
 }
 
-void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject) {
+void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject, Kart *kart) {
     int isBelowFive;
     isBelowFive = IsStateNumberBelow(mapObject, 5);
     if (isBelowFive != 0) {

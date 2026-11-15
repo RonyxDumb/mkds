@@ -82,10 +82,10 @@ typedef struct MissionRunData {
     /* 12 */ u16 mTimerMax;
     /* 14 */ u16 mCountUpTimerAdd;
     /* 16 */ u16 mBossTransferTimerAdd;
-    /* 18 */ UnkFunc *mCountUpCallback;
-    /* 1c */ UnkFunc *mDropCallback;
-    /* 20 */ UnkFunc *mBossTransferCallback;
-    /* 24 */ UnkFunc *mTimerEndCallback;
+    /* 18 */ MissionRunEventCallback mCountUpCallback;
+    /* 1c */ MissionRunEventCallback mDropCallback;
+    /* 20 */ MissionRunEventCallback mBossTransferCallback;
+    /* 24 */ MissionRunEventCallback mTimerEndCallback;
     /* 28 */ Vec3 mKartPos;
     /* 34 */ Vec3 mPrevKartPos;
     /* 40 */ u16 mKartHeadingAngle;

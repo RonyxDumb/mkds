@@ -97,7 +97,7 @@ MapObjectKindDescriptor gHanachanFollowerKindDescriptor = {0,
                                                            NULL,
                                                            {NULL, NULL, NULL, NULL}};
 
-void HanachanItemHitCallback(MissionRunMapObject *mapObject) {
+void HanachanItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     mapObject->mItemResponse = 0;
     SetItemCollisionCallback(mapObject, HanachanItemHitCallback);
 }

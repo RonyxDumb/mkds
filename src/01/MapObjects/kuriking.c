@@ -590,14 +590,14 @@ void InitKurikingMapObject(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[15].mFarDistanceSquared;
 }
 
-void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, void *kart) {
+void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, Kart *kart) {
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
         StartSoundFullVolumeWrapper(kart, 0x224);
     }
 }
 
-void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
+void KurikingKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
     mapObject->mMapObject.mPosStep.x =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mKartHitSpeed, FX_SinIdx((u16) mapObject->mMoveAngle));
     mapObject->mMapObject.mPosStep.y = 0;

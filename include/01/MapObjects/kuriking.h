@@ -4,6 +4,7 @@
 #include "01/code_02188950.h"
 
 typedef struct MissionRunMapObject MissionRunMapObject;
+typedef struct Kart Kart;
 typedef struct MapObjectList MapObjectList;
 
 #include "Main/MapObjects/map_object_kind_update_list.h"
@@ -20,8 +21,8 @@ void InitKuriking(MapObjectList *mapObjectList);
 void UpdateKuriking(u32 unused,
                     MissionRunMapObject *mapObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitKurikingObjects(MapObjectList *mapObjectList);
-void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart);
-void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, void *kart);
+void KurikingKartHitCallback(MissionRunMapObject *mapObject, Kart *kart);
+void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, Kart *kart);
 void InitKurikingMapObject(MissionRunMapObject *mapObject);
 void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject);
 void StartKurikingChainStartupSecond(MissionRunMapObject *mapObject);

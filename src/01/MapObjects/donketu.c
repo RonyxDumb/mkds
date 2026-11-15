@@ -339,7 +339,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
     StartCameraWobbleAtDistance(donketu->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
-void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu) {
+void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     donketu->mKartResponse = KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT;
 }

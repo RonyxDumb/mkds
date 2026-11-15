@@ -760,6 +760,14 @@ enum {
 };
 
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
+typedef struct MissionRunMapObject MissionRunMapObject;
+#include "01/code_02188cd8.h"
+typedef struct Kart Kart;
+typedef struct ItemObject ItemObject;
+
+typedef void (*MapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
+typedef void (*MapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
+
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MissionRunPrm *mPrm;
@@ -810,26 +818,26 @@ typedef struct MissionRunMapObject {
     /* 1c0 */ s32 mMoveAnglePerCallIncrement;
     /* 1c4 */ s32 mMoveAngleOffset;
     /* 1c8 */ Vec3 mVelocity;
-    /* 1d4 */ UnkFunc *mAnimationEndCallback;
+    /* 1d4 */ MapObjectCallback mAnimationEndCallback;
     /* 1d8 */ s32 mAnimationFrameCallbackFrameIndex;
-    /* 1dc */ UnkFunc *mAnimationFrameCallback;
+    /* 1dc */ MapObjectCallback mAnimationFrameCallback;
     /* 1e0 */ s32 mFirstCallbackFrameIndex;
     /* 1e4 */ void (*mFirstFrameCallback)(struct MissionRunMapObject *);
     /* 1e8 */ s32 mSecondCallbackFrameIndex;
     /* 1ec */ void (*mSecondFrameCallback)(struct MissionRunMapObject *);
     /* 1f0 */ s32 mStateFrameCount;
-    /* 1f4 */ UnkFunc *mStateFrameCountCallback;
+    /* 1f4 */ MapObjectCallback mStateFrameCountCallback;
     /* 1f8 */ s32 mPointRadius;
     /* 1fc */ s32 mPointHalfAngle;
     /* 200 */ Vec3 mPoint;
-    /* 20c */ UnkFunc *mPointInRangeCallback;
+    /* 20c */ MapObjectCallback mPointInRangeCallback;
     /* 210 */ s32 mOutOfRangeRadius;
     /* 214 */ s32 mOutOfRangeHalfAngle;
     /* 218 */ Vec3 mOutOfRangePoint;
-    /* 224 */ UnkFunc *mOutOfRangeCallback;
-    /* 228 */ UnkFunc *mStoppedCallback;
-    /* 22c */ UnkFunc *mCourseCollisionCallback;
-    /* 230 */ UnkFunc *mUnk_230;
+    /* 224 */ MapObjectCallback mOutOfRangeCallback;
+    /* 228 */ MapObjectCallback mStoppedCallback;
+    /* 22c */ MapObjectCallback mCourseCollisionCallback;
+    /* 230 */ MapObjectCallback mUnk_230;
     /* 234 */ s32 mCollisionShape;
     /* 238 */ Vec3 mPosWithOffset;
     /* 244 */ Vec3 mOffset;
@@ -864,9 +872,9 @@ typedef struct MissionRunMapObject {
     /* 2c8 */ u32 mCollisionBits;
     /* 2cc */ u8 mUnk_2cc[0x4];
     /* 2d0 */ s32 mTimer;
-    /* 2d4 */ UnkFunc *mKartCollisionCallback;
+    /* 2d4 */ MapObjectKartCollisionCallback mKartCollisionCallback;
     /* 2d8 */ s32 mKartResponse;
-    /* 2dc */ UnkFunc *mItemCollisionCallback;
+    /* 2dc */ MapObjectItemCollisionCallback mItemCollisionCallback;
     /* 2e0 */ s32 mItemResponse;
     /* 2e4 */ s32 mNodeMatchValue;
     /* 2e8 */ Vec3 mNodePosition;

@@ -107,12 +107,12 @@ void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
-void IwanteKartResponse2Callback(MissionRunMapObject *mapObject) {
+void IwanteKartResponse2Callback(MissionRunMapObject *mapObject, Kart *kart) {
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_BUMP;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
 }
 
-void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
+void IwanteKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
     if (mapObject->mTimer > 0) {
         mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_BUMP;
         SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
@@ -128,7 +128,7 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject) {
     StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
-void IwanteKartResponse11Callback(MissionRunMapObject *mapObject) {
+void IwanteKartResponse11Callback(MissionRunMapObject *mapObject, Kart *kart) {
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_SCALE_EFFECT;
     SetKartCollisionCallback(mapObject, IwanteKartResponse2Callback);
     mapObject->mMapObject.mDistanceSquaredAndFlags =
@@ -1343,7 +1343,7 @@ void StartIwanteChainCameraHold(MissionRunMapObject *mapObject) {
                                  &StartIwanteChainCameraCourseWait);
 }
 
-void IwanteItemResponse2Callback(MissionRunMapObject *mapObject) {
+void IwanteItemResponse2Callback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
     SetItemCollisionCallback(mapObject, IwanteItemResponse2Callback);
 }
