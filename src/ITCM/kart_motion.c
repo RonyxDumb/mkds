@@ -243,7 +243,7 @@ s32 AdvanceKartRank(Kart *kart) {
     newRank = GetKartRank(kart->mIndex);
     if (newRank != kart->mRank) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
-            SetSceneSoundRank((u8) (newRank - 1));
+            SetSceneSoundRank((newRank - 1));
         }
         if (newRank < kart->mRank && newRank < gRaceSetup->mKartCount) {
             aheadKartIndex = GetKartAtRank(newRank + 1);

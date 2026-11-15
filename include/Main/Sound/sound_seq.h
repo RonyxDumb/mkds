@@ -159,7 +159,7 @@ void StartKartStarSeq(void);
 void StopKartStarSeq(void);
 void EndRaceSounds(void);
 void AdvanceSceneSoundLap(void);
-void SetSceneSoundRank(u32 rankIndex);
+void SetSceneSoundRank(u8 rankIndex);
 void UpdateRaceSounds(void);
 void UpdateCourseSeqAtSceneFrames(void);
 void UpdateSceneSoundState(void);

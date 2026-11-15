@@ -1150,7 +1150,7 @@ void AdvanceSceneSoundLap(void) {
 }
 
 // Stores the selected kart's new place; in some courses it starts a seq when the place improves.
-void SetSceneSoundRank(u32 rankIndex) {
+void SetSceneSoundRank(u8 rankIndex) {
     BOOL flag;
     BOOL raceKindMatches;
     u32 slotSeqPlaying;
