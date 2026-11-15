@@ -211,7 +211,7 @@ u32 NameToIp(const char *name) {
     u32 address;
     SOCHostEnt *host;
 
-    address = inet_addr((u32) name);
+    address = inet_addr(name);
     if (address == -1) {
         host = SOC_GetHostByName(name);
         if (host == NULL) {

@@ -190,14 +190,14 @@ u32 ServerBrowserLimitUpdateA(MatchingServerList *matchingServerList, u32 async,
     return result;
 }
 
-s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u8 *data,
+s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port, u8 *data,
                                       s32 dataLength) {
     u32 publicIp = inet_addr(ipText);
     return SBSendMessageToServer(&matchingServerList->mList, publicIp, ((port >> 8) & 0xff) | ((port << 8) & 0xff00),
                                  data, dataLength);
 }
 
-s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port,
+s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port,
                                                  u32 cookie) {
     u32 publicIp = inet_addr(ipText);
     return SBSendNatNegotiateCookieToServer(&matchingServerList->mList, publicIp,

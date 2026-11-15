@@ -459,7 +459,7 @@ s32 DWCi_GT2Startup(void) {
     }
     randomPort = (u16) (DWCi_GetMathRand32(0x4000) + 0xc000);
     wiFiConnection = gWiFiConnection;
-    result = gt2CreateSocket((Gt2Socket **) gWiFiConnection, (const char *) gt2AddressToString(0, randomPort, 0),
+    result = gt2CreateSocket((Gt2Socket **) gWiFiConnection, gt2AddressToString(0, randomPort, 0),
                              wiFiConnection->mSendBufferSize, wiFiConnection->mReceiveBufferSize,
                              (u32) DWCi_GT2SocketErrorCallback);
     if (ReportWiFiSocketResult(result) != 0) {

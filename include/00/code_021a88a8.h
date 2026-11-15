@@ -66,7 +66,7 @@ typedef struct CPSSoc {
     /* 60 */ u32 mOutBufferLength;
 } CPSSoc;
 
-s32 SOCL_InetAtoH(u32 hostname);
+s32 SOCL_InetAtoH(const char *hostname);
 s32 SOCL_Resolve(const char *hostname);
 s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket);
 u32 SOCL_GetStatus(SOCLSocket *socket);

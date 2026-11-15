@@ -38,9 +38,9 @@ void ServerBrowserClear(struct MatchingServerList *matchingServerList);
 void ServerBrowserHalt(struct MatchingServerList *matchingServerList);
 s32 ServerBrowserThink(struct MatchingServerList *matchingServerList);
 void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, SbServer *server);
-s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port,
+s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port,
                                                  u32 cookie);
-s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, u32 ipText, s32 port, u8 *data,
+s32 ServerBrowserSendMessageToServerA(MatchingServerList *matchingServerList, const char *ipText, s32 port, u8 *data,
                                       s32 dataLength);
 s32 ServerBrowserBeginUpdate2(MatchingServerList *matchingServerList, s32 async, u32 disconnectOnComplete,
                               u8 *basicFields, s32 numBasicFields, const char *serverFilter, u32 updateOptions,

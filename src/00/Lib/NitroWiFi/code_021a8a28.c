@@ -324,7 +324,7 @@ char *SOC_InetNtoA(SOCInAddr address) {
     return sInetNtoABuffer;
 }
 
-BOOL SOC_InetAtoN(u32 addressString, u32 *addressOut) {
+BOOL SOC_InetAtoN(const char *addressString, u32 *addressOut) {
     u32 hostAddress = SOCL_InetAtoH(addressString);
     if (hostAddress == 0) {
         return 0;

@@ -137,14 +137,14 @@ s32 SOCL_Resolve(const char *hostname) {
     return resolvedAddr;
 }
 
-s32 SOCL_InetAtoH(u32 hostname) {
+s32 SOCL_InetAtoH(const char *hostname) {
     u32 interruptState = OS_DisableInterrupts();
     u32 savedFirstDns = CPSDnsIp[0];
     u32 savedSecondDns = CPSDnsIp[1];
     s32 resolvedAddr;
     CPSDnsIp[0] = 0;
     CPSDnsIp[1] = 0;
-    resolvedAddr = CPS_Resolve((const char *) hostname);
+    resolvedAddr = CPS_Resolve(hostname);
     CPSDnsIp[0] = savedFirstDns;
     CPSDnsIp[1] = savedSecondDns;
     OS_RestoreInterrupts(interruptState);

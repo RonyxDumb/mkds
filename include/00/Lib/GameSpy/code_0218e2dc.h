@@ -37,7 +37,7 @@ typedef struct SOCPollFD {
 u32 nextlongrand(u32 seed);
 u32 GetUnixTime(u32 *timer);
 u32 GOAGetLastError(s32 sock);
-u32 inet_addr(u32 name);
+u32 inet_addr(const char *name);
 s32 getsockname(u32 sock, void *addr, u32 *len);
 u32 setsockopt(s32 sock, s32 level, s32 optname, void *optval, s32 optlen);
 s32 getsockopt(s32 sock, s32 level, s32 optname, void *optval, s32 *optlen);

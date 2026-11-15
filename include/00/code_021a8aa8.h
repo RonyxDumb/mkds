@@ -25,7 +25,7 @@ void SOCLi_SocketRegister(void *socket);
 s32 SOC_Poll(void *entries, s32 entryCount, s64 ticksLeft);
 void SOC_U32to4U8(u32 word, u8 *bytes);
 char *SOC_InetNtoP(s32 family, const void *source, char *destination, u32 length);
-BOOL SOC_InetAtoN(u32 addressString, u32 *addressOut);
+BOOL SOC_InetAtoN(const char *addressString, u32 *addressOut);
 char *SOC_InetNtoA(SOCInAddr address);
 s32 SOC_Cleanup(void);
 s32 SOC_Startup(void *configPointer);

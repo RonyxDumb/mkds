@@ -274,7 +274,7 @@ BOOL ResolveQueryHostAddress(const char *host, u32 port, SOCSockAddrIn *saddr, S
     if (host == NULL) {
         saddr->mAddr = 0;
     } else {
-        saddr->mAddr = inet_addr((u32) host);
+        saddr->mAddr = inet_addr(host);
     }
     if (saddr->mAddr == -1) {
         if (strcmp(host, "255.255.255.255") != 0) {

@@ -332,7 +332,7 @@ s32 getsockname(u32 sock, void *addr, u32 *len) {
     return result;
 }
 
-u32 inet_addr(u32 name) {
+u32 inet_addr(const char *name) {
     int parseResult;
     u32 addr[1];
     parseResult = SOC_InetAtoN(name, addr);

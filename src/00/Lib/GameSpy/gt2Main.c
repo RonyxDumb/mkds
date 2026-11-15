@@ -28,7 +28,7 @@ void gt2Reject(Gt2Connection *connection, void *message, u32 len) {
     gti2RejectConnection(connection, message, len);
 }
 
-int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void *message, int len, u32 timeout,
+int gt2Connect(void *socket, Gt2Connection **connection, const char *remoteAddress, void *message, int len, u32 timeout,
                Gt2ConnectionCallbacks *callbacks, int blocking) {
     Gt2Connection *pendingConn;
     u32 ipAddress;
@@ -36,7 +36,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, u32 remoteAddress, void
     u32 portValue;
     int result;
     int startResult;
-    if (gt2StringToAddress((const char *) remoteAddress, &ipAddress, &netPort) == FALSE || ipAddress == 0 ||
+    if (gt2StringToAddress(remoteAddress, &ipAddress, &netPort) == FALSE || ipAddress == 0 ||
         (portValue = netPort) == 0) {
         return 4;
     }

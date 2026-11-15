@@ -24,7 +24,7 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
     SOCHostEnt *resolvedHost;
     address->mFamily = 2;
     address->mPort = (((u16) port >> 8) & 0xff) | (((u16) port << 8) & 0xff00);
-    address->mAddr = inet_addr((u32) hostname);
+    address->mAddr = inet_addr(hostname);
     if (address->mAddr == -1) {
         resolvedHost = SOC_GetHostByName(hostname);
         if (resolvedHost == NULL) {

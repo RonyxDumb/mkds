@@ -50,7 +50,7 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u
 void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 instance);
 void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
                         s32 instance);
-BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **savehent);
+BOOL ResolveStatsHostAddress(const char *host, u32 port, u8 *saddr, SOCHostEnt **savehent);
 const char *value_for_key_safe(const s8 *text, const char *key);
 const char *value_for_key(const s8 *text, const char *key);
 void create_challenge(u32 challenge, s8 *chstr);

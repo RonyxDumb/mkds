@@ -9,7 +9,7 @@
 #include "code_0213a460.h"
 #include "00/Lib/NitroWiFi/socl_startup.h"
 
-u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
+char *gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     SOCInAddr inAddress;
     char *addressString;
     static char strAddressArray[2][22];
@@ -32,7 +32,7 @@ u32 gt2AddressToString(u32 ipAddress, u32 port, char *buffer) {
     } else {
         addressString[0] = 0;
     }
-    return (u32) addressString;
+    return addressString;
 }
 
 BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
@@ -88,7 +88,7 @@ BOOL gt2StringToAddress(const char *string, u32 *ipOut, u16 *portOut) {
             sourcePort = (u16) value;
         }
         if (string != NULL) {
-            sourceIp = inet_addr((u32) string);
+            sourceIp = inet_addr(string);
             if (sourceIp == -1) {
                 hostEntry = SOC_GetHostByName(string);
                 if (hostEntry == NULL) {

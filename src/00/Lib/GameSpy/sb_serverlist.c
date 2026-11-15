@@ -352,7 +352,7 @@ s32 ServerListConnect(SbServerList *serverList) {
     }
     masterAddress.mFamily = 2;
     masterAddress.mPort = 0xee70;
-    masterAddress.mAddr = inet_addr((u32) masterHost);
+    masterAddress.mAddr = inet_addr(masterHost);
     if (masterAddress.mAddr == -1) {
         hostEntry = SOC_GetHostByName(masterHost);
         if (hostEntry == NULL) {

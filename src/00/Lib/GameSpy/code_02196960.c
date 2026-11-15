@@ -69,7 +69,7 @@ s8 *GenerateAuthA(const char *challenge, const char *password, s8 *response) {
 
 s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
     u8 statsSockAddr[8];
-    s8 statsHost[0x84];
+    char statsHost[0x84];
     s32 ret;
     gGamePort = theGamePort;
     if (theInitTimeout != 0) {
@@ -87,12 +87,12 @@ s32 GstatsStartConnect(s32 theGamePort, s32 theInitTimeout) {
         GstatsClose();
     }
     gRcvLen = 0;
-    if (inet_addr((u32) gStatsServerHostname) == -1) {
-        strcpy((char *) statsHost, gcd_gamename);
-        strcat((char *) statsHost, ".");
-        strcat((char *) statsHost, gStatsServerHostname);
+    if (inet_addr(gStatsServerHostname) == -1) {
+        strcpy(statsHost, gcd_gamename);
+        strcat(statsHost, ".");
+        strcat(statsHost, gStatsServerHostname);
     } else {
-        strcpy((char *) statsHost, gStatsServerHostname);
+        strcpy(statsHost, gStatsServerHostname);
     }
     if (ResolveStatsHostAddress(statsHost, 0x74e0, statsSockAddr, NULL) == FALSE) {
         return 2;
@@ -469,7 +469,7 @@ const char *value_for_key_safe(const s8 *text, const char *key) {
     return result;
 }
 
-BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **savehent) {
+BOOL ResolveStatsHostAddress(const char *host, u32 port, u8 *saddr, SOCHostEnt **savehent) {
     SOCHostEnt *hent = NULL;
     u16 shortPort = port;
     saddr[0] = 0;
@@ -485,10 +485,10 @@ BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **s
     if (host == NULL) {
         *OFFSET_PTR(u32, saddr, 4) = 0;
     } else {
-        *OFFSET_PTR(u32, saddr, 4) = inet_addr((u32) host);
+        *OFFSET_PTR(u32, saddr, 4) = inet_addr(host);
     }
     if (*OFFSET_PTR(u32, saddr, 4) == -1) {
-        hent = SOC_GetHostByName((const char *) host);
+        hent = SOC_GetHostByName(host);
         if (hent == NULL) {
             return FALSE;
         }
