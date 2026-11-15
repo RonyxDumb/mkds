@@ -53,7 +53,7 @@ void InitWiFiTopMenu(void *heap) {
     gWiFiTopMenu->mHeap = heap;
     gWiFiTopMenu->mState = WIFI_TOP_MENU_STATE_WAIT_FADE;
     gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_FADE;
-    gWiFiTopMenu->mPendingWiFiState = -1;
+    gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_NONE;
     switch (GetWiFiPrevState()) {
         case WIFI_STATE_LOGIN_MENU:
         case WIFI_STATE_VS_SETTING:
@@ -303,7 +303,7 @@ void AdvanceWiFiTopMenuState5(void) {
         if (GetWiFiNextScene() == -1) {
             if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_AIKOTOBA && IsUserDataFriendKeyNonZeroWrapper() == 0) {
                 gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_MESSAGE;
-                gWiFiTopMenu->mPendingWiFiState = -1;
+                gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_NONE;
                 SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
                 gWiFiTopMenu->mStateFrames = 0;
                 SetSelectReturnSoundId(0xe);
