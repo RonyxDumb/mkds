@@ -5436,9 +5436,9 @@ CreateWoodbox1DrawList kind:function(arm,size=0x5c) addr:0x020ec370
 CreateWoodbox1KindData kind:function(arm,size=0x50) addr:0x020ec3cc
 HitPushedObjectByItemObject kind:function(arm,size=0x34) addr:0x020ec41c
 HitPushedObjectByKart kind:function(arm,size=0x34) addr:0x020ec450
-EnterPushedObjectState2 kind:function(arm,size=0xc) addr:0x020ec484
-UpdatePushedObjectState1 kind:function(arm,size=0x74) addr:0x020ec490
-EnterPushedObjectState1 kind:function(arm,size=0x34) addr:0x020ec504
+EnterPushedObjectPark kind:function(arm,size=0xc) addr:0x020ec484
+UpdatePushedObjectTumble kind:function(arm,size=0x74) addr:0x020ec490
+EnterPushedObjectTumble kind:function(arm,size=0x34) addr:0x020ec504
 SetPushedMotionFromItemObject kind:function(arm,size=0x1ac) addr:0x020ec538
 SetPushedMotionFromKart kind:function(arm,size=0x104) addr:0x020ec6e4
 AdvancePushedMotion kind:function(arm,size=0x6c) addr:0x020ec7e8
@@ -8531,7 +8531,7 @@ gWoodbox1ThirdFlag kind:data(byte[2]) addr:0x021594e0
 gWoodbox1UpdateListData kind:data(byte[40]) addr:0x021594e4
 gWoodbox1DrawListData kind:data(byte[44]) addr:0x0215950c
 gWoodbox1KindData kind:data(byte[64]) addr:0x02159538
-gPushedObjectState1Flag kind:data(byte[2]) addr:0x02159578
+gPushedObjectTumbleFlag kind:data(byte[2]) addr:0x02159578
 gVec3UnitX kind:data(byte[12]) addr:0x0215957c
 gPushedMotionFallbackDirection kind:data(byte[12]) addr:0x02159588
 gPushedMotionDefaultVelocity kind:data(byte[12]) addr:0x02159594

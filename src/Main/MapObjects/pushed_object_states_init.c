@@ -6,10 +6,10 @@
 #include "Main/MapObjects/pushed_object_state_1.h"
 
 StateCallbacks gPushedObjectStateTable[3] = {
-    {NULL, NULL}, {EnterPushedObjectState1, UpdatePushedObjectState1}, {EnterPushedObjectState2, NULL}};
+    {NULL, NULL}, {EnterPushedObjectTumble, UpdatePushedObjectTumble}, {EnterPushedObjectPark, NULL}};
 
 void InitPushedObjectStates(PushedObject *object) {
     InitStateMachine(&object->mMapObject.mStateMachine, gPushedObjectStateTable, 3, object);
-    object->mMapObject.mStateMachine.mNextState = 0;
+    object->mMapObject.mStateMachine.mNextState = PUSHED_OBJECT_STATE_IDLE;
     object->mMapObject.mStateMachine.mNextStateRequested = 1;
 }

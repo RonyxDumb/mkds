@@ -4,10 +4,10 @@
 #include "Main/MapObjects/pushed_motion.h"
 #include "Main/MapObjects/attractor.h" // MapObject
 
-void EnterPushedObjectState2(void *stateObject);
+void EnterPushedObjectPark(void *stateObject);
 
-void UpdatePushedObjectState1(void *stateObject);
+void UpdatePushedObjectTumble(void *stateObject);
 
-void EnterPushedObjectState1(void *stateObject);
+void EnterPushedObjectTumble(void *stateObject);
 
-extern const u8 gPushedObjectState1Flag[2];
+extern const u8 gPushedObjectTumbleFlag[2];

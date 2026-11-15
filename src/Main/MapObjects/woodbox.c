@@ -1,5 +1,6 @@
 #include "Main/MapObjects/woodbox.h"
 
+#include "Main/MapObjects/pushed_object_states_init.h"
 #include "Main/Graphics/emitters.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Graphics/effects.h"
@@ -96,7 +97,7 @@ BOOL HitPushedObjectByKart(PushedObject *mapObject, void *other, u8 *firstRespon
         return FALSE;
     }
     SetPushedMotionFromKart(mapObject, other);
-    mapObject->mMapObject.mStateMachine.mNextState = 1;
+    mapObject->mMapObject.mStateMachine.mNextState = PUSHED_OBJECT_STATE_TUMBLE;
     mapObject->mMapObject.mStateMachine.mNextStateRequested = 1;
     return TRUE;
 }
@@ -106,7 +107,7 @@ BOOL HitPushedObjectByItemObject(PushedObject *mapObject, void *other, u8 *first
         return FALSE;
     }
     SetPushedMotionFromItemObject(mapObject, other);
-    mapObject->mMapObject.mStateMachine.mNextState = 1;
+    mapObject->mMapObject.mStateMachine.mNextState = PUSHED_OBJECT_STATE_TUMBLE;
     mapObject->mMapObject.mStateMachine.mNextStateRequested = 1;
     return TRUE;
 }
