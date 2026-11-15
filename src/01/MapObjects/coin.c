@@ -105,23 +105,23 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
 }
 
 void StartCoinRiseOverKart(Coin *coin, Kart *kart) {
-    coin->mTimer = 0x1e;
+    coin->mTimer = COIN_RISE_FRAMES;
     coin->mMapObject.mPos.x = kart->mPos.x;
     coin->mMapObject.mPos.y = kart->mPos.y + 0xc000;
     coin->mMapObject.mPos.z = kart->mPos.z;
     coin->mMapObject.mPosStep.y = 0x3000;
     coin->mState = COIN_STATE_RISE_OVER_KART;
     coin->mScaleFactor = COIN_SCALE_START;
-    coin->mModelAlpha = 0x1f;
+    coin->mModelAlpha = MAP_OBJECT_ALPHA_MAX;
     coin->mMapObject.mFlags = coin->mMapObject.mFlags | gCoinHiddenFlag;
     coin->mEffect = StartEffect(0x3f5, &coin->mMapObject.mPos);
-    coin->mEffectTimer = 0xd;
+    coin->mEffectTimer = COIN_RISE_EFFECT_FRAMES;
 }
 
 void AdvanceCoinNsbtpFrame(Coin *coin, s32 counterAdd) {
     coin->mNsbtpFrameCounter += counterAdd;
-    if (coin->mNsbtpFrameCounter >= 5) {
-        coin->mNsbtpFrameCounter -= 5;
+    if (coin->mNsbtpFrameCounter >= COIN_NSBTP_FRAME_STEPS) {
+        coin->mNsbtpFrameCounter -= COIN_NSBTP_FRAME_STEPS;
         coin->mNsbtpFrameIndex += 1;
         if (coin->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gCoinModel)) {
             coin->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gCoinModel);
@@ -159,7 +159,7 @@ void StartCoinDrop(void) {
         speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
         coin->mState = COIN_STATE_DROP;
         coin->mScaleFactor = COIN_SCALE_START;
-        coin->mModelAlpha = 0x10;
+        coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
         coin->mMapObject.mPos.x = kart->mPos.x;
         coin->mMapObject.mPos.y = kart->mPos.y + 0x1a000;
         coin->mMapObject.mPos.z = kart->mPos.z;
@@ -167,9 +167,9 @@ void StartCoinDrop(void) {
         coin->mMapObject.mPosStep.y = kart->mVelocity.y + 0x4000;
         coin->mMapObject.mPosStep.z = kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, FX_CosIdx(angle));
         coin->mMapObject.mFlags &= ~1;
-        soundArg.mSoundId = 0x1d9;
+        soundArg.mSoundId = COIN_LEAVE_KART_SOUND_ID;
         soundArg.mPositionSource = NULL;
-        soundArg.mFalloffIndex = 2;
+        soundArg.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
         soundArg.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
         StartSoundFromParams(&soundArg);
     }
@@ -196,8 +196,8 @@ void StartCoinBossTransfer(void) {
         speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
         coin->mState = COIN_STATE_TRANSFER_RISE;
         coin->mScaleFactor = COIN_SCALE_START;
-        coin->mModelAlpha = 0x10;
-        coin->mTimer = 0x1e;
+        coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
+        coin->mTimer = COIN_RISE_FRAMES;
         targetObject = NULL;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             kartCount = 0;
@@ -213,9 +213,9 @@ void StartCoinBossTransfer(void) {
         coin->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(speed, FX_SinIdx(angle));
         coin->mMapObject.mPosStep.y = 0x4000;
         coin->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(speed, FX_CosIdx(angle));
-        soundArg.mSoundId = 0x1d9;
+        soundArg.mSoundId = COIN_LEAVE_KART_SOUND_ID;
         soundArg.mPositionSource = NULL;
-        soundArg.mFalloffIndex = 2;
+        soundArg.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
         soundArg.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
         StartSoundFromParams(&soundArg);
     }
@@ -319,7 +319,7 @@ void StartCoinsFadeOut(void) {
              coinIndex++) {
             if (coin->mState == COIN_STATE_RESTING && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                 coin->mMapObject.mPosStep.y = 0x5000;
-                coin->mModelAlpha = 0x32;
+                coin->mModelAlpha = COIN_LAUNCH_FADE_START_ALPHA;
                 coin->mState = COIN_STATE_LAUNCH_FADE;
                 coin->mMapObject.mFlags |= gCoinHiddenFlag;
             }
@@ -462,11 +462,11 @@ void InitCoinObjects(MapObjectList *coinList) {
                 coin->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                     speed, coin->mFollower.mPath->mSegments[coin->mFollower.mSegmentIndex].mInverseProgressLength);
             } else {
-                coin->mFollower.mGroupIndex = 0xffff;
+                coin->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
             }
             coin->mScaleFactor = COIN_SCALE_FULL;
             if (coin->mMapObject.mCourseMapRow->mSettings[1] == 0) {
-                coin->mModelAlpha = 0x1f;
+                coin->mModelAlpha = MAP_OBJECT_ALPHA_MAX;
             } else {
                 coin->mModelAlpha = 0;
             }
@@ -510,7 +510,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             s32 dx;
             s32 dz;
             AdvanceCoinNsbtpFrame(coin, 1);
-            if (coin->mFollower.mGroupIndex != 0xffff) {
+            if (coin->mFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
                 AdvanceGroupFollower(&coin->mFollower);
                 GetGroupFollowerCurvePosStep(&coin->mFollower, &coin->mMapObject.mPos, &coin->mMapObject.mPosStep);
                 coin->mMapObject.mPos.y += 0xe000;
@@ -575,7 +575,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             coin->mMapObject.mPosStep.y -= 0x333;
             if (coin->mTimer-- <= 0) {
                 ParkMapObject(&coin->mMapObject);
-            } else if (coin->mTimer == 3) {
+            } else if (coin->mTimer == COIN_RISE_KART_EFFECT_TIMER) {
                 SetupKartFollowEffect(StartEffect(0x3f4, &kart->mPos), kart->mIndex, 0x18);
             }
             if (coin->mEffect != NULL) {

@@ -23,6 +23,22 @@ enum {
 #define COIN_SCALE_FULL TO_FIXED12(1)
 #define COIN_SCALE_GROW_STEP 0x29
 
+// Frames (mTimer) a coin rises before it is parked; the effect that follows the kart is attached at the timer value
+// COIN_RISE_KART_EFFECT_TIMER, and the coin's own effect stops after COIN_RISE_EFFECT_FRAMES.
+#define COIN_RISE_FRAMES 0x1e
+#define COIN_RISE_KART_EFFECT_TIMER 3
+#define COIN_RISE_EFFECT_FRAMES 0xd
+
+// mNsbtpFrameCounter steps that make mNsbtpFrameIndex advance by one.
+#define COIN_NSBTP_FRAME_STEPS 5
+
+// mModelAlpha of a coin that drops or rises out of a kart, and at the start of the launch fade.
+#define COIN_LEAVE_KART_ALPHA 0x10
+#define COIN_LAUNCH_FADE_START_ALPHA 0x32
+
+// Sound a coin makes when it leaves a kart (drop and transfer rise).
+#define COIN_LEAVE_KART_SOUND_ID 0x1d9
+
 // Object updated by UpdateCoin, one state per value of mState.
 typedef struct Coin {
     /* 000 */ MapObject mMapObject;
