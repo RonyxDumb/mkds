@@ -879,7 +879,7 @@ void InitKartModels(void *heap, u32 kartCount) {
         SetKartModelsEntryVariant(entry, entry->mKartIndex);
         entry->mKartOffsetData = HeapAlloc(heap, 0xe0);
         MI_CpuCopy8(kartOffsetFile + entry->mKartIndex * 0xe0, entry->mKartOffsetData, 0xe0);
-        CopyKartPhysicalParams(kartIndex, (u16) entry->mKartIndex, (u16) entries[kartIndex].mCharacterIndex);
+        CopyKartPhysicalParams(kartIndex, entry->mKartIndex, (u16) entries[kartIndex].mCharacterIndex);
     }
     CreateKartModelsEntryModels(heap, 1);
     ReplaceKm1ArchiveWithKm2();
