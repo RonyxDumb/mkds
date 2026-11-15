@@ -83,7 +83,7 @@ void StartSeqAtVolume(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
 }
 
 void UpdateSndMain(void) {
-    if (gScenePlayers.mProgress != 0) {
+    if (gScenePlayers.mProgress != SCENE_PLAYERS_PROGRESS_RELEASED) {
         UpdateScenePlayersNop(&gScenePlayers);
     }
     NNS_SndMain();
@@ -97,5 +97,5 @@ void InitScenePlayers(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundSta
     scenePlayers->mSoundRowIndex = sceneSoundRowIndex;
     NNS_SndHandleInit(&scenePlayers->mSeqPlayer);
     NNS_SndHandleInit(&scenePlayers->mSecondSeqPlayer);
-    scenePlayers->mProgress = 1;
+    scenePlayers->mProgress = SCENE_PLAYERS_PROGRESS_INITIALIZED;
 }

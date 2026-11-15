@@ -13,7 +13,7 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h" // SoundHandlePool
 
-// MICAutoParam.mRate of the microphone buffer: timer ticks per sample (4000 samples per second on the 16.76 MHz timer).
+// MICAutoParam.mRate of the microphone buffer: the ARM7 clock (33,513,982 Hz) divided by 8000 samples per second.
 #define MIC_AUTO_SAMPLING_RATE 0x105d
 
 void InitMicAndAmp(void);

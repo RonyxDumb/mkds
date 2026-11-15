@@ -445,7 +445,7 @@ void UpdateSounds(void) {
     BOOL seqZeroPlaying;
     NNSSndSeqPlayer *seqPlayer;
 
-    if (gScenePlayers.mProgress != 0) {
+    if (gScenePlayers.mProgress != SCENE_PLAYERS_PROGRESS_RELEASED) {
         UpdateSceneSoundState();
     }
     ResetThunderShrinkSoundCounter();
@@ -789,7 +789,7 @@ void InitSceneSounds(s32 unused) {
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 savedHeap = gCurrentSndHeap;
                 if (gLoadedSoundBanks.mLoadMarker == LOADED_SOUND_BANKS_NONE ||
-                    gLoadedSoundBanks.mBankMask != LOADED_SOUND_BANKS_ALL) {
+                    gLoadedSoundBanks.mBankMask != LOADED_SOUND_BANKS_MENU_SET) {
                     NNS_SndHeapClear(gSndHeap);
                     gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_NONE;
                     gLoadedSoundBanks.mBankMask = 0;
@@ -797,7 +797,7 @@ void InitSceneSounds(s32 unused) {
                     if (NNS_SndArcLoadBank(0x2c, gSndHeap) != 0) {
                         if (NNS_SndArcLoadSeqArc(3, gCurrentSndHeap) != 0) {
                             gCurrentSndHeap = savedHeap;
-                            gLoadedSoundBanks.mBankMask = LOADED_SOUND_BANKS_ALL;
+                            gLoadedSoundBanks.mBankMask = LOADED_SOUND_BANKS_MENU_SET;
                             gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_LOADED;
                         }
                     }
@@ -807,7 +807,7 @@ void InitSceneSounds(s32 unused) {
         case SCENE_WIFI_MENU:
             savedHeap = gCurrentSndHeap;
             if (gLoadedSoundBanks.mLoadMarker == LOADED_SOUND_BANKS_NONE ||
-                gLoadedSoundBanks.mBankMask != LOADED_SOUND_BANKS_ALL) {
+                gLoadedSoundBanks.mBankMask != LOADED_SOUND_BANKS_MENU_SET) {
                 NNS_SndHeapClear(gSndHeap);
                 gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_NONE;
                 gLoadedSoundBanks.mBankMask = 0;
@@ -815,7 +815,7 @@ void InitSceneSounds(s32 unused) {
                 if (NNS_SndArcLoadBank(0x2c, gSndHeap) != 0) {
                     if (NNS_SndArcLoadSeqArc(3, gCurrentSndHeap) != 0) {
                         gCurrentSndHeap = savedHeap;
-                        gLoadedSoundBanks.mBankMask = LOADED_SOUND_BANKS_ALL;
+                        gLoadedSoundBanks.mBankMask = LOADED_SOUND_BANKS_MENU_SET;
                         gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_LOADED;
                     }
                 }
@@ -1729,27 +1729,27 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
         return;
     }
     switch (missionRow) {
-        case 1:
+        case MISSION_TABLE_ROW_DONKETU:
             gMissionRunMSselSeqIndex = 1;
             bankNo = SOUND_BANK_MISSION_DONKETU;
             break;
-        case 2:
+        case MISSION_TABLE_ROW_IWANTE:
             gMissionRunMSselSeqIndex = 2;
             bankNo = SOUND_BANK_MISSION_IWANTE;
             break;
-        case 3:
+        case MISSION_TABLE_ROW_KURIKING:
             gMissionRunMSselSeqIndex = 3;
             bankNo = SOUND_BANK_MISSION_KURIKING;
             break;
-        case 4:
+        case MISSION_TABLE_ROW_KING_TERESA:
             gMissionRunMSselSeqIndex = 4;
             bankNo = SOUND_BANK_MISSION_KING_TERESA;
             break;
-        case 5:
+        case MISSION_TABLE_ROW_BOMB_KING:
             gMissionRunMSselSeqIndex = 5;
             bankNo = SOUND_BANK_MISSION_BOMB_KING;
             break;
-        case 6:
+        case MISSION_TABLE_ROW_KING_ICE_DONKETU:
             gMissionRunMSselSeqIndex = 6;
             bankNo = SOUND_BANK_MISSION_DONKETU;
             break;

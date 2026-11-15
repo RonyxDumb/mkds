@@ -37,7 +37,7 @@ enum {
     KART_SOUND_SET_HEYHO,
 };
 
-// KartSound.mWhileRequestedSoundId of a kart with no sound started while requested.
+// KartSound.mWhileRequestedSoundId that StopKartSoundWhileRequested compares with and stores once the sound is stopped.
 #define KART_SOUND_NO_WHILE_REQUESTED_SOUND 0xffff
 
 // Values of KartSound.mVolume (volume scale 0 to 0x7f).

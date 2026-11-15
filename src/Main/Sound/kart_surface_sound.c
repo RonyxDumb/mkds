@@ -4,6 +4,7 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_source_list.h"
 #include "Main/Sound/sound_mode.h"
+#include "Main/Graphics/cell_file_set.h"
 
 #include "Main/Sound/sound_seq.h"
 #include "Main/Sound/seq_queue.h"
@@ -100,13 +101,13 @@ void StartKartLowSpeedTurnSound(Kart *kart, s32 withSurfaceSound, s32 surfaceKin
     u32 soundId;
 
     switch (kart->mSound.mSoundRow.mSoundRowIndex) {
-        case 0:
+        case KART_SOUND_TABLE_ROW_FIRST:
             soundId = 0xb2;
             break;
-        case 1:
+        case KART_SOUND_TABLE_ROW_SECOND:
             soundId = 0xb9;
             break;
-        case 2:
+        case KART_SOUND_TABLE_ROW_THIRD:
             soundId = 0xc0;
             break;
     }
@@ -291,7 +292,8 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
             if (soundOffset != 3 && soundOffset != 5) {
                 return;
             }
-            StartSoundEx(&kart->mSoundSource, 2, soundIndex * 0xe + (soundOffset + 1), 0x73, 0);
+            StartSoundEx(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + (soundOffset + 1),
+                         0x73, 0);
         }
     } else {
         minFrames = 0xf0;
@@ -306,7 +308,8 @@ void StartKartSeqArcSound(Kart *kart, s32 soundIndex, s32 soundOffset) {
         if (raceFrames - soundState->mLastSeqArcSoundRaceFrame < minFrameGap) {
             return;
         }
-        StartSoundEx(&kart->mSoundSource, 2, soundIndex * 0xe + soundOffset, SOUND_VOLUME_MAX, 0);
+        StartSoundEx(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + soundOffset,
+                     SOUND_VOLUME_MAX, 0);
         soundState->mLastSeqArcSoundRaceFrame = raceFrames;
     }
 }
@@ -409,7 +412,8 @@ void StartQueuedKartSound(Kart *kart, s32 soundIndex, s32 useKartSource, s32 vol
     }
     soundOffset = 0xd;
     if (useKartSource != 0) {
-        StartSoundEx(&kart->mSoundSource, 2, soundIndex * 0xe + soundOffset, SOUND_VOLUME_MAX, 0);
+        StartSoundEx(&kart->mSoundSource, PLAYING_SOUND_SEQ_ARC_PER_CHARACTER, soundIndex * 0xe + soundOffset,
+                     SOUND_VOLUME_MAX, 0);
         return;
     }
     if (IsRaceSceneNormalOrReplay() == 0) {

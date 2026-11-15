@@ -461,16 +461,16 @@ u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     s32 value;
 
     idArray = gSurfaceSoundIds[surfaceKind].mIdArrays[surfaceVariant];
-    value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
-    if (value != 0xffff) {
+    value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : SURFACE_SOUND_NONE;
+    if (value != SURFACE_SOUND_NONE) {
         return (u16) value;
     }
     value = gSurfaceSoundColumnIndices[surfaceKind][surfaceVariant];
     if (value == 0x14) {
-        value = 0xffff;
+        value = SURFACE_SOUND_NONE;
     }
-    if (value == 0xffff) {
-        return 0xffff;
+    if (value == SURFACE_SOUND_NONE) {
+        return SURFACE_SOUND_NONE;
     }
     return *(u16 *) (gSurfaceSoundIdRowTable + entryIndex * 0x26 + value * 2);
 }
@@ -480,16 +480,16 @@ u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     s32 value;
 
     idArray = gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex];
-    value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
-    if (value != 0xffff) {
+    value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : SURFACE_SOUND_NONE;
+    if (value != SURFACE_SOUND_NONE) {
         return (u16) value;
     }
     value = gSurfaceSoundColumnIndices[rowIndex][columnIndex];
     if (value == 0xe) {
-        value = 0xffff;
+        value = SURFACE_SOUND_NONE;
     }
-    if (value == 0xffff) {
-        return 0xffff;
+    if (value == SURFACE_SOUND_NONE) {
+        return SURFACE_SOUND_NONE;
     }
     return *(u16 *) (gSurfaceSoundIdShortRowTable + entryIndex * 0x1a + value * 2);
 }
