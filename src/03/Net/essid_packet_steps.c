@@ -1118,7 +1118,7 @@ s32 ParseFourValueItems(PacketItem *container, FourValueRecord *record) {
                 return -1;
         }
         if (item->mNextOffset != 0) {
-            item = (PacketItem *) ((u8 *) container + 6 + SwapBytes16(item->mNextOffset));
+            item = (PacketItem *) (container->mValue + SwapBytes16(item->mNextOffset));
             continue;
         }
         return 0;
@@ -1161,7 +1161,7 @@ s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record) {
                 return -1;
         }
         if (item->mNextOffset != 0) {
-            item = (PacketItem *) ((u8 *) container + 6 + SwapBytes16(item->mNextOffset));
+            item = (PacketItem *) (container->mValue + SwapBytes16(item->mNextOffset));
             continue;
         }
         return 0;
