@@ -49,8 +49,8 @@ typedef struct GPIMessage {
     /* 14 */ u32 mStart;
 } GPIMessage;
 
-u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operationOut, int blocking, int callback,
-                       int param);
+u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperation **operationOut, int blocking,
+                       GpiCallbackFn callback, int param);
 
 #include "00/Lib/GameSpy/code_021965a0.h"
 #include "00/Lib/GameSpy/code_02196594.h"

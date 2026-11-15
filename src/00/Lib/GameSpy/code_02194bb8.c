@@ -131,21 +131,21 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     return FALSE;
 }
 
-int GpiStartSearchOperation(GpConnection *connection, u32 data, u32 blocking, u32 callback, u32 param) {
+int GpiStartSearchOperation(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback, u32 param) {
     int result;
-    int pendingOp;
+    GpiOperation *pendingOp;
     connection->mGpiConnection->mSearchCount = connection->mGpiConnection->mSearchCount + 1;
     result = GpiCreateOperation(connection, PROFILE_OPERATION_SEARCH, data, &pendingOp, blocking, callback, param);
-    if (((result == 0) && (result = GpiOpenSearchSocket(connection, (GpiOperation *) pendingOp), result == 0)) &&
-        ((*(s32 *) (pendingOp + 8) == 0 ||
-          (result = GpiUpdateConnection(connection, *(u32 *) (pendingOp + 0x18)), result == 0)))) {
+    if (((result == 0) && (result = GpiOpenSearchSocket(connection, pendingOp), result == 0)) &&
+        ((pendingOp->mBlocking == 0 ||
+          (result = GpiUpdateConnection(connection, pendingOp->mId), result == 0)))) {
         result = 0;
     }
     return result;
 }
 
 int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                         int icquin, int skip, u32 blocking, u32 callback, u32 param) {
+                         int icquin, int skip, u32 blocking, GpiCallbackFn callback, u32 param) {
     int result;
     GPISearchData *data;
     if ((((((nick == NULL) || (*nick == 0)) && ((email == NULL || (*email == 0)))) &&
@@ -188,7 +188,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
             skip = 0;
         }
         data->mSkip = skip;
-        result = GpiStartSearchOperation(connection, (u32) data, blocking, callback, param);
+        result = GpiStartSearchOperation(connection, data, blocking, callback, param);
         if (result == 0) {
             result = 0;
         }
@@ -452,7 +452,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         result = gpiProfileSearch(
                             connection, data->mNick, data->mUniquenick, data->mEmail, data->mFirstname, data->mLastname,
                             data->mIcquin, response.mNumMatches + data->mSkip, operation->mBlocking,
-                            (u32) operation->mCallback.mCallback, operation->mCallback.mParam);
+                            operation->mCallback.mCallback, operation->mCallback.mParam);
                         if (result != 0) {
                             return result;
                         }

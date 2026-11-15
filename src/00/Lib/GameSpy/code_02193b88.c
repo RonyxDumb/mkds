@@ -470,10 +470,10 @@ GpiPeer *GpiPeerCreate(GpConnection *connection, u32 profileid, u32 initiate) {
 
 int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer) {
     int result;
-    int pendingOp[2];
-    result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, pendingOp, 0, 0, 0);
+    GpiOperation *pendingOp;
+    result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, NULL, &pendingOp, 0, NULL, 0);
     if ((result == 0) &&
-        (result = gpiSendGetInfo(connection, peer->mProfileId, *(u32 *) (pendingOp[0] + 0x18)), result == 0)) {
+        (result = gpiSendGetInfo(connection, peer->mProfileId, pendingOp->mId), result == 0)) {
         peer->mState = PROFILE_PEER_STATE_WAIT_PROFILE_INFO;
         result = 0;
     }

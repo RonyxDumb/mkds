@@ -126,7 +126,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
 
 u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,
                     const char *password, const s8 *authtoken, const s8 *partnerchallenge, const char *cdkey,
-                    s32 firewall, s32 newuser, s32 blocking, s32 callback, s32 param) {
+                    s32 firewall, s32 newuser, s32 blocking, GpiCallbackFn callback, s32 param) {
     GpiConnection *gpState;
     GPIConnectData *data;
     GpiOperation *pendingOp;
@@ -174,7 +174,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     if (cdkey != NULL) {
         GpiCopyString((char *) data->mCdkey, cdkey, 0x41);
     }
-    result = GpiCreateOperation(connection, PROFILE_OPERATION_CONNECT, (s32) data, (s32 *) &pendingOp, blocking,
+    result = GpiCreateOperation(connection, PROFILE_OPERATION_CONNECT, data, &pendingOp, blocking,
                                 callback, param);
     if (result != 0) {
         return result;

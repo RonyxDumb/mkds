@@ -815,7 +815,7 @@ u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
     return 0;
 }
 
-u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, u32 callback, u32 param) {
+u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpiCallbackFn callback, u32 param) {
     GpiProfile *profileEntry;
     GpiOperation *pendingOp;
     GetInfoReply *arg;
@@ -844,9 +844,9 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         gpiInfoCacheToArg(profileEntry->mCache, arg);
         arg->mResult = GP_REQUEST_OK;
         arg->mProfile = profile;
-        queuedCallback.mCallback = (void (*)(void *, void *, u32)) callback;
+        queuedCallback.mCallback = callback;
         queuedCallback.mParam = param;
-        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, (s32 *) &pendingOp, 1, callback, param);
+        result = GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &pendingOp, 1, callback, param);
         if (result != 0) {
             return result;
         }
@@ -858,7 +858,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
         GpiRemoveOperation(connection, pendingOp);
     } else {
         result =
-            GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, (s32 *) &pendingOp, blocking, callback, param);
+            GpiCreateOperation(connection, PROFILE_OPERATION_INFO, 0, &pendingOp, blocking, callback, param);
         if (result != 0) {
             return result;
         }

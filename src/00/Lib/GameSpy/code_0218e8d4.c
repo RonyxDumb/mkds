@@ -107,7 +107,7 @@ u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *part
     }
     return GpiStartConnect(connection, "", "", "",
                            "", authtoken, partnerchallenge, NULL, firewall, 0, blocking,
-                           (s32) callback, param);
+                           (GpiCallbackFn) callback, param);
 }
 
 void GpDisconnect(GpConnection *connection) {
@@ -134,7 +134,7 @@ u32 GpProfileSearchA(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
         return 0;
     }
     return gpiProfileSearch(connection, nick, uniquenick, email, firstname, lastname, icquin, 0, blocking,
-                                (u32) callback, param);
+                                (GpiCallbackFn) callback, param);
 }
 
 u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpGetInfoCb callback, u32 param) {
@@ -155,7 +155,7 @@ u32 GpGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blockin
         GpiSetErrorMessage(connection, "The connection has already been disconnected.");
         return 2;
     }
-    return gpiGetInfo(connection, profile, checkCache, blocking, (u32) callback, param);
+    return gpiGetInfo(connection, profile, checkCache, blocking, (GpiCallbackFn) callback, param);
 }
 
 u32 GpSetInfosA(GpConnection *connection, s32 info, const s8 *value) {

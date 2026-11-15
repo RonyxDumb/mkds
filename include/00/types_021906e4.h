@@ -18,8 +18,10 @@ typedef struct GpiBuffer {
 } GpiBuffer;
 
 // Callback and its argument, as stored in the object at 0x1a4 and passed by value to GpiQueueCallback.
+typedef void (*GpiCallbackFn)(void *a, void *b, u32 c);
+
 typedef struct GpiCallback {
-    /* 00 */ void (*mCallback)(void *a, void *b, u32 c);
+    /* 00 */ GpiCallbackFn mCallback;
     /* 04 */ u32 mParam;
 } GpiCallback;
 

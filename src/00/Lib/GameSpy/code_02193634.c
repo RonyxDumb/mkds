@@ -132,8 +132,8 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     return 0;
 }
 
-u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operationOut, int blocking, int callback,
-                       int param) {
+u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperation **operationOut, int blocking,
+                       GpiCallbackFn callback, int param) {
     GpiConnection *gpState = connection->mGpiConnection;
     GpiOperation *pendingOp = DWCi_GsMalloc(0x24);
 
@@ -142,7 +142,7 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
         return 1;
     }
     pendingOp->mType = type;
-    pendingOp->mData = (void *) data;
+    pendingOp->mData = data;
     pendingOp->mBlocking = blocking;
     pendingOp->mState = 0;
     if (type == PROFILE_OPERATION_CONNECT) {
@@ -154,11 +154,11 @@ u32 GpiCreateOperation(GpConnection *connection, int type, int data, int *operat
         }
     }
     pendingOp->mResult = GP_REQUEST_OK;
-    pendingOp->mCallback.mCallback = (void (*)(void *, void *, u32)) callback;
+    pendingOp->mCallback.mCallback = callback;
     pendingOp->mCallback.mParam = param;
     pendingOp->mNext = gpState->mOperationList;
     gpState->mOperationList = pendingOp;
-    *operationOut = (s32) pendingOp;
+    *operationOut = pendingOp;
     return 0;
 }
 

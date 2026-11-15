@@ -63,8 +63,9 @@ typedef struct UserNicksReply {
 BOOL GpiUpdateSearches(GpConnection *connection);
 s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation);
 int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                         int icquin, int skip, u32 blocking, u32 callback, u32 param);
-int GpiStartSearchOperation(GpConnection *connection, u32 data, u32 blocking, u32 callback, u32 param);
+                         int icquin, int skip, u32 blocking, GpiCallbackFn callback, u32 param);
+int GpiStartSearchOperation(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback,
+                            u32 param);
 BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 kind);
 s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation);
 void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
