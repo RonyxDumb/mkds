@@ -217,7 +217,8 @@ void ToggleDispCapBanks(void) {
     reg_GX_DISPCAPCNT = 0x80300010 | (captureBits << 16);
 }
 
-// Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (DISP_CAP_FLAG_BLEND_FALLING set) or 0x1000.
+// Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (DISP_CAP_FLAG_BLEND_FALLING set)
+// or 0x1000.
 void AdvanceDispCapBlend(s32 prevMenuOpen) {
     u8 weight;
 

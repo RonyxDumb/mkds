@@ -48,8 +48,8 @@ typedef struct NNSG3dResDictPlttData {
     /* 02 */ u16 mFlag;
 } NNSG3dResDictPlttData;
 
-// Flag of a texture palette entry: the palette holds four colors.
-#define TEXTURE_PALETTE_FOUR_COLOR 0x8000
+// Flag of a texture palette entry: the palette is the small kind (the is4pltt argument of the palette allocator).
+#define TEXTURE_PALETTE_FEW_COLORS 0x8000
 
 struct NNSG3dResTex {
     /* 00 */ NNSG3dResDataBlockHeader mHeader;

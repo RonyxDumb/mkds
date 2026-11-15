@@ -71,8 +71,8 @@ typedef struct LayoutTableEntry {
 #define LAYOUT_OAM_PRIORITY_MASK 0xc00
 #define LAYOUT_OAM_PALETTE_MASK 0xf000
 #define LAYOUT_OAM_CHAR_NAME_MASK 0x3ff
-// Mask over attr0 and attr1 together (attr1 in the high half) that drops the affine and double-size bits and the flip and
-// matrix bits.
+// Mask over attr0 and attr1 together (attr1 in the high half) that drops the affine and double-size bits and the flip
+// and matrix bits.
 #define LAYOUT_OAM_KEEP_NO_AFFINE_FLIP_MASK 0xc1fffcff
 
 // 8-byte elements InitLabelCanvas fills and copies into NNSG2dCellOAMAttrData elements.

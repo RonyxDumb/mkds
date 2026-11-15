@@ -383,7 +383,8 @@ s32 InitLabelCanvas(void *heap, s32 labelIndex, LayoutEntryTable *labelLayout, s
         oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~LAYOUT_OAM_PRIORITY_MASK) | (priority * 0x400);
         if (isXlu != 0) {
             value = labelEntry->mPaletteIndex;
-            oamBuffer[oamIndex].mAttr01 = (oamBuffer[oamIndex].mAttr01 & ~LAYOUT_OAM_MODE_MASK) | LAYOUT_OAM_MODE_TRANSLUCENT;
+            oamBuffer[oamIndex].mAttr01 =
+                (oamBuffer[oamIndex].mAttr01 & ~LAYOUT_OAM_MODE_MASK) | LAYOUT_OAM_MODE_TRANSLUCENT;
             oamBuffer[oamIndex].mAttr2 = (oamBuffer[oamIndex].mAttr2 & ~LAYOUT_OAM_PALETTE_MASK) | (value * 0x1000);
         } else {
             value = labelEntry->mPaletteIndex;
