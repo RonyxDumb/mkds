@@ -16,4 +16,4 @@ void ReadSlotGhostRecord(u32 slotIndex);
 
 typedef struct SlotGhostRecord SlotGhostRecord;
 
-void WriteSlotGhostRecord(u32 index, SlotGhostRecord *source);
+void WriteSlotGhostRecord(u8 index, SlotGhostRecord *source);

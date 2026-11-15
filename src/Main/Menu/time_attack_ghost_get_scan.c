@@ -1127,7 +1127,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             } else {
                 gTimeAttackGhostGetScan->mGhostSlot = FindUnfilledGhostSlot();
                 GetSlotGhostBuffer()->mHead.mFilled = 1;
-                WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
+                WriteSlotGhostRecord(gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 10);
                 NNS_SndArcSetCurrent(&gFileSndArc);
@@ -1148,7 +1148,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                             ->mGhostInfoEntries[gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex]
                             .mInfo.mCourseId);
                     GetSlotGhostBuffer()->mHead.mFilled = 1;
-                    WriteSlotGhostRecord((u8) gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
+                    WriteSlotGhostRecord(gTimeAttackGhostGetScan->mGhostSlot, GetSlotGhostBuffer());
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_BACKUP;
                 } else {
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_CLOSED;

@@ -20,7 +20,7 @@
 
 #pragma thumb on
 
-void WriteSlotGhostRecord(u32 index, SlotGhostRecord *source) {
+void WriteSlotGhostRecord(u8 index, SlotGhostRecord *source) {
     int slotBit;
     SlotGhostRecord *destination;
     destination = gBackupBuffers->mSlotGhostRecords[0];
