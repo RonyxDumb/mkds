@@ -1128,7 +1128,7 @@ void ReadCourseGhostRecordAndWait(u32 courseId) {
     }
 }
 
-void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex) {
+void ReadCourseAndSlotGhostRecords(u32 courseId, u8 slotIndex) {
     gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
     gBackupBuffers->mSlotGhostRecords[1]->mHead.mFilled = 0;
     gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;

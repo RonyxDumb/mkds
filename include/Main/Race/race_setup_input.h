@@ -25,7 +25,7 @@ void InitInputSlotsAndTouchMic(void *heap);
 void LoadSndBanksForCharacters(u32 useCurrentEntries);
 void SelectGhostReadCourseRecordAndWait(u32 courseId);
 void ReadCourseGhostRecordAndLoadFile(u32 courseId);
-void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex);
+void ReadCourseAndSlotGhostRecords(u32 courseId, u8 slotIndex);
 void ReadCourseGhostRecordAndWait(u32 courseId);
 void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32 tableColumn);
 void ReplaceEntryWithCpu(u32 entryIndex);

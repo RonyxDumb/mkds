@@ -210,7 +210,7 @@ void ReadGhostRecordsForKind(u32 kind) {
             ReadCourseGhostRecordAndWait(gGhostRecordSet->mCourseId);
             break;
         case 1:
-            ReadCourseAndSlotGhostRecords(gGhostRecordSet->mCourseId, (u8) gGhostRecordSet->mSlotIndex);
+            ReadCourseAndSlotGhostRecords(gGhostRecordSet->mCourseId, gGhostRecordSet->mSlotIndex);
             break;
         case 2:
             ReadCourseGhostRecordAndLoadFile(gGhostRecordSet->mCourseId);
