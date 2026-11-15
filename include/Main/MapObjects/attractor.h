@@ -178,7 +178,7 @@ void UpdateMapObjectList(MapObjectList *list);
 void UpdateMapObjectSoundSource(MapObject *object);
 void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow);
 void BuildAttractorTables(void);
-u16 GetAttractorStrength(int index);
+u16 GetAttractorStrength(u16 index);
 MapObjectList *CreateAttractorUpdateList(void);
 MapObjectKindData *CreateAttractorKindData(void);
 void CreateJg(void);

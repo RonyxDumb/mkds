@@ -300,7 +300,7 @@ Vec3 *GetAttractorPosition(u16 index) {
     return gAttractorPositions[index];
 }
 
-u16 GetAttractorStrength(int index) {
+u16 GetAttractorStrength(u16 index) {
     return gAttractorStrengths[index];
 }
 
