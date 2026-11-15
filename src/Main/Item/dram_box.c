@@ -47,12 +47,9 @@ const MapObjectKindDescriptor gMissionRunBoxKindDescriptor = {
 const MapObjectKindData gMissionRunBoxKindData = {NULL, NULL, 5, 0x190000, 0x64000, 0xaf000, NULL, 1,
                                                   1,    0,    0, 0,        0,       0,       0,    0};
 MtxFx33 gItemFBoxRotation;
-StateCallbacks gDramStateTable[6] = {{DramState0Nop, UpdateDramState0},
-                                     {NULL, NULL},
-                                     {EnterDramState2, UpdateDramState2},
-                                     {DramState3Nop, UpdateDramState3},
-                                     {EnterDramState4, UpdateDramState4},
-                                     {EnterDramState5, UpdateDramState5}};
+StateCallbacks gDramStateTable[6] = {{DramWaitDelayNop, UpdateDramWaitDelay}, {NULL, NULL},
+                                     {EnterDramRampUp, UpdateDramRampUp},     {DramSteadyNop, UpdateDramSteady},
+                                     {EnterDramRampDown, UpdateDramRampDown}, {EnterDramAlign, UpdateDramAlign}};
 
 #pragma thumb on
 

@@ -33,26 +33,26 @@ typedef struct Dram {
     /* bc */ s32 mAngleRemaining;
 } Dram;
 
-void UpdateDramState4(void *stateObject);
-void EnterDramState5(void *stateObject);
+void UpdateDramRampDown(void *stateObject);
+void EnterDramAlign(void *stateObject);
 
-void UpdateDramState5(void *stateObject);
+void UpdateDramAlign(void *stateObject);
 
 typedef struct Dram Dram;
 
-void EnterDramState4(void *stateObject);
+void EnterDramRampDown(void *stateObject);
 
-void UpdateDramState3(void *stateObject);
+void UpdateDramSteady(void *stateObject);
 
-void DramState3Nop(void *stateObject);
+void DramSteadyNop(void *stateObject);
 
-void UpdateDramState2(void *stateObject);
+void UpdateDramRampUp(void *stateObject);
 
-void EnterDramState2(void *stateObject);
+void EnterDramRampUp(void *stateObject);
 
-void UpdateDramState0(void *stateObject);
+void UpdateDramWaitDelay(void *stateObject);
 
-void DramState0Nop(void *stateObject);
+void DramWaitDelayNop(void *stateObject);
 
 void UpdateDram(u32 unused,
                 Dram *dram); /* the whole per-object step; the group also has a pre-step, PickDramAngleChoices */

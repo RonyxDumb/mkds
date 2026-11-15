@@ -104,9 +104,9 @@ void UpdateDram(u32 unused, Dram *dram) {
     AdvanceStateMachine(&dram->mMapObject.mStateMachine);
 }
 
-void DramState0Nop(void *stateObject) {}
+void DramWaitDelayNop(void *stateObject) {}
 
-void UpdateDramState0(void *stateObject) {
+void UpdateDramWaitDelay(void *stateObject) {
     Dram *dram = stateObject;
     if (dram->mMapObject.mStateMachine.mStateFrames > dram->mDelayFrameCount) {
         dram->mMapObject.mStateMachine.mNextState = DRAM_STATE_RAMP_UP;
@@ -114,12 +114,12 @@ void UpdateDramState0(void *stateObject) {
     }
 }
 
-void EnterDramState2(void *stateObject) {
+void EnterDramRampUp(void *stateObject) {
     Dram *dram = stateObject;
     dram->mRamp = 0x0u;
 }
 
-void UpdateDramState2(void *stateObject) {
+void UpdateDramRampUp(void *stateObject) {
     Dram *dram = stateObject;
     dram->mRamp += dram->mRampPerFrame;
     dram->mAngleX += (s16) (MUL_FIXED12_NO_ROUND(dram->mRamp, dram->mAnglePerFrame));
@@ -129,9 +129,9 @@ void UpdateDramState2(void *stateObject) {
     }
 }
 
-void DramState3Nop(void *stateObject) {}
+void DramSteadyNop(void *stateObject) {}
 
-void UpdateDramState3(void *stateObject) {
+void UpdateDramSteady(void *stateObject) {
     Dram *dram = stateObject;
     dram->mAngleX += dram->mAnglePerFrame;
     if (dram->mSteadyFrameCount == 0) {
@@ -143,12 +143,12 @@ void UpdateDramState3(void *stateObject) {
     }
 }
 
-void EnterDramState4(void *stateObject) {
+void EnterDramRampDown(void *stateObject) {
     Dram *dram = stateObject;
     dram->mRamp = 0x1000u;
 }
 
-void UpdateDramState4(void *stateObject) {
+void UpdateDramRampDown(void *stateObject) {
     Dram *dram = stateObject;
     s16 angleStep;
 
@@ -164,7 +164,7 @@ void UpdateDramState4(void *stateObject) {
     }
 }
 
-void EnterDramState5(void *stateObject) {
+void EnterDramAlign(void *stateObject) {
     Dram *dram = stateObject;
     s32 angle;
 
@@ -172,8 +172,8 @@ void EnterDramState5(void *stateObject) {
     dram->mAngleRemaining = DRAM_ALIGN_ANGLE - angle % DRAM_ALIGN_ANGLE;
 }
 
-// Asks for state 1 once mAngleRemaining has run out.
-void UpdateDramState5(void *stateObject) {
+// Asks for Idle once mAngleRemaining has run out.
+void UpdateDramAlign(void *stateObject) {
     Dram *dram = stateObject;
     dram->mAngleX += DRAM_MIN_ANGLE_STEP;
     dram->mAngleRemaining -= DRAM_MIN_ANGLE_STEP;
