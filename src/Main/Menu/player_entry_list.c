@@ -574,7 +574,7 @@ void AdvancePlayerEntryList(void) {
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x52);
                         }
                     } else {
-                        wifiCharacter = GetWiFiSessionCharacterIndex((u8) GetIndexOfPackedIndex(entryIndex));
+                        wifiCharacter = GetWiFiSessionCharacterIndex(GetIndexOfPackedIndex(entryIndex));
                         wiFiSessionKartIndex = GetWiFiSessionKartIndex((u8) GetIndexOfPackedIndex(entryIndex));
                         if (wifiCharacter == -1) {
                             value = 0;

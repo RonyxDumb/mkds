@@ -263,7 +263,7 @@ void SetWiFiSessionOwnPickedCourseId(s32 pickedCourseId) {
     gWiFiSession->mIndexMessages[DWC_GetMyAID()].mPickedCourseId = pickedCourseId;
 }
 
-u32 GetWiFiSessionCharacterIndex(u32 index) {
+u32 GetWiFiSessionCharacterIndex(u8 index) {
     return gWiFiSession->mIndexMessages[index].mCharacterIndex;
 }
 
