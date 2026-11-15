@@ -25,7 +25,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
     u16 ch;
     int matched;
 
-    parsed.mPadKind = 1;
+    parsed.mPadKind = FORMAT_WIDE_PAD_SPACES;
     parsed.mSignKind = 0;
     parsed.mHasDot = 0;
     parsed.mHash = 0;
@@ -43,7 +43,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
         matched = 1;
         switch (ch) {
             case '-':
-                parsed.mPadKind = 0;
+                parsed.mPadKind = FORMAT_WIDE_PAD_LEFT_ALIGN;
                 break;
             case '+':
                 parsed.mSignKind = 1;
@@ -57,8 +57,8 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
                 parsed.mHash = 1;
                 break;
             case '0':
-                if (parsed.mPadKind != 0) {
-                    parsed.mPadKind = 2;
+                if (parsed.mPadKind != FORMAT_WIDE_PAD_LEFT_ALIGN) {
+                    parsed.mPadKind = FORMAT_WIDE_PAD_ZEROS;
                 }
                 break;
             default:
@@ -74,7 +74,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
         *argList += 4;
         parsed.mMinLength = *(int *) (*argList - 4);
         if (parsed.mMinLength < 0) {
-            parsed.mPadKind = 0;
+            parsed.mPadKind = FORMAT_WIDE_PAD_LEFT_ALIGN;
             parsed.mMinLength = -parsed.mMinLength;
         }
         ch = *++cursor;
@@ -85,7 +85,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
         }
     }
     if (parsed.mMinLength > 0x1fd) {
-        parsed.mSpecChar = 0xffff;
+        parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
         *specOut = parsed;
         return cursor + 1;
     }
@@ -145,16 +145,16 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
             }
             if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 1;
-            } else if (parsed.mPadKind == 2) {
-                parsed.mPadKind = 1;
+            } else if (parsed.mPadKind == FORMAT_WIDE_PAD_ZEROS) {
+                parsed.mPadKind = FORMAT_WIDE_PAD_SPACES;
             }
             break;
         case 'f':
         case 'F':
             if (parsed.mArgKind == FORMAT_WIDE_ARG_SHORT || parsed.mArgKind == FORMAT_WIDE_ARG_LONG_LONG) {
-                parsed.mSpecChar = 0xffff;
+                parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
             } else if (parsed.mHasDot == 0) {
-                parsed.mPrecision = 6;
+                parsed.mPrecision = FORMAT_WIDE_FLOAT_DEFAULT_PRECISION;
             }
             break;
         case 'g':
@@ -166,29 +166,29 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
         case 'E':
             if (parsed.mArgKind == FORMAT_WIDE_ARG_SHORT || parsed.mArgKind == FORMAT_WIDE_ARG_LONG_LONG ||
                 parsed.mArgKind == FORMAT_WIDE_ARG_CHAR) {
-                parsed.mSpecChar = 0xffff;
+                parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
             } else if (parsed.mHasDot == 0) {
-                parsed.mPrecision = 6;
+                parsed.mPrecision = FORMAT_WIDE_FLOAT_DEFAULT_PRECISION;
             }
             break;
         case 'p':
             parsed.mArgKind = FORMAT_WIDE_ARG_LONG;
             parsed.mHash = 1;
             parsed.mSpecChar = 'x';
-            parsed.mPrecision = 8;
+            parsed.mPrecision = FORMAT_WIDE_POINTER_DIGITS;
             break;
         case 'c':
             if (parsed.mArgKind == FORMAT_WIDE_ARG_LONG) {
                 parsed.mArgKind = FORMAT_WIDE_ARG_WIDE;
             } else if (parsed.mHasDot != 0 || parsed.mArgKind != FORMAT_WIDE_ARG_DEFAULT) {
-                parsed.mSpecChar = 0xffff;
+                parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
             }
             break;
         case 's':
             if (parsed.mArgKind == FORMAT_WIDE_ARG_LONG) {
                 parsed.mArgKind = FORMAT_WIDE_ARG_WIDE;
             } else if (parsed.mArgKind != FORMAT_WIDE_ARG_DEFAULT) {
-                parsed.mSpecChar = 0xffff;
+                parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
             }
             break;
         case 'n':
@@ -197,7 +197,7 @@ const u16 *FormatWideParseSpec(const u16 *format, char **argList, FormatWideSpec
             }
             break;
         default:
-            parsed.mSpecChar = 0xffff;
+            parsed.mSpecChar = FORMAT_WIDE_SPEC_INVALID;
             break;
     }
     *specOut = parsed;
@@ -273,7 +273,7 @@ u16 *FormatWideInt32(unsigned long value, u16 *end, FormatWideSpec spec) {
             negative++;
         }
     }
-    if (spec.mPadKind == 2) {
+    if (spec.mPadKind == FORMAT_WIDE_PAD_ZEROS) {
         precision = width;
         if (count != 0 || signKind != 0) {
             precision--;
@@ -375,7 +375,7 @@ u16 *FormatWideInt64(u64 value, u16 *end, FormatWideSpec spec) {
             negative++;
         }
     }
-    if (spec.mPadKind == 2) {
+    if (spec.mPadKind == FORMAT_WIDE_PAD_ZEROS) {
         precision = width;
         if (count != 0 || signKind != 0) {
             precision--;
@@ -846,7 +846,7 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
                 text = buf;
                 textLength = 1;
                 break;
-            case 0xffff:
+            case FORMAT_WIDE_SPEC_INVALID:
             default:
             bad:
                 textLength = wcslen(percentPos);
@@ -857,8 +857,8 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
                 return totalLength;
         }
         printedLength = textLength;
-        if (spec.mPadKind != 0) {
-            padCharValue = spec.mPadKind == 2 ? '0' : ' ';
+        if (spec.mPadKind != FORMAT_WIDE_PAD_LEFT_ALIGN) {
+            padCharValue = spec.mPadKind == FORMAT_WIDE_PAD_ZEROS ? '0' : ' ';
             padChar = padCharValue;
             if ((*text == '+' || *text == '-' || *text == ' ') && padCharValue == '0') {
                 if (putFunc(putArg, text, 1) == 0) {
@@ -877,7 +877,7 @@ int FormatWideWithPutFunc(void *(*putFunc)(void *, const u16 *, u32), void *putA
         if (textLength != 0 && putFunc(putArg, text, textLength) == 0) {
             return -1;
         }
-        if (spec.mPadKind == 0) {
+        if (spec.mPadKind == FORMAT_WIDE_PAD_LEFT_ALIGN) {
             while (printedLength < spec.mMinLength) {
                 spaceChar = ' ';
                 if (putFunc(putArg, &spaceChar, 1) == 0) {

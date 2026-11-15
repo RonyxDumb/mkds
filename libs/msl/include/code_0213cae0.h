@@ -15,6 +15,20 @@ enum {
     FORMAT_WIDE_ARG_WIDE
 };
 
+// FormatWideSpec.mPadKind: how the converted text is padded to mMinLength.
+enum {
+    FORMAT_WIDE_PAD_LEFT_ALIGN,
+    FORMAT_WIDE_PAD_SPACES,
+    FORMAT_WIDE_PAD_ZEROS,
+};
+
+// FormatWideSpec.mSpecChar when the conversion is not valid.
+#define FORMAT_WIDE_SPEC_INVALID 0xffff
+
+// FormatWideSpec.mPrecision when the format gives none, for the floating point and pointer conversions.
+#define FORMAT_WIDE_FLOAT_DEFAULT_PRECISION 6
+#define FORMAT_WIDE_POINTER_DIGITS 8
+
 // 16 bytes. Filled by FormatWideParseSpec from the text after a '%', read by FormatWideWithPutFunc and passed by value
 // (one word in r3, three on the stack) to FormatWideDouble, FormatWideInt64 and FormatWideInt32. Byte 0x05 is never
 // accessed.
