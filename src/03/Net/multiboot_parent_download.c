@@ -341,7 +341,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
             switch (event->mCommand) {
                 case WIRELESS_REQUEST_RESTART:
                 case WIRELESS_REQUEST_CLOSE_STACK:
-                case 9:
+                case WIRELESS_REQUEST_CLOSE_HOST:
                     SetMultiBootParentState(7);
                     break;
                 case WIRELESS_REQUEST_OPEN_HOST:
