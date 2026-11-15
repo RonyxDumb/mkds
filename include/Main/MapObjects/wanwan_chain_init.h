@@ -2,6 +2,10 @@
 
 #include "types.h"
 
+// Values of WanwanChain.mDownwardStep: the initial one, and the one the lunge and hit states set.
+#define WANWAN_CHAIN_DOWNWARD_STEP_INITIAL 0x599
+#define WANWAN_CHAIN_DOWNWARD_STEP_HIT 0x219
+
 // Object of InitWanwanChain: words at 0x00 to 0x10, a vector at 0x14, a word at 0x20, a vector at 0x34, and two
 // arrays of vectors at 0x44 and 0x48 with one element per unit of the word at 0x20.
 typedef struct WanwanChain {

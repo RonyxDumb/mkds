@@ -26,7 +26,7 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
     chain->mLinkLengthSquared = (s64) chain->mLinkLength * chain->mLinkLength;
     SetWanwanChainPointsEvenly(chain, start, end);
     chain->mMinY = start->y + chain->mMinYOffset;
-    chain->mDownwardStep = 0x599;
+    chain->mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_INITIAL;
     chain->mDamping = 0x51;
     chain->mPullScale = gWanwanChainInitialPullScale;
     chain->mFirstLinkConstrained = 1;

@@ -112,7 +112,7 @@ void UpdateWanwanState5(Wanwan *wanwan) {
             &wanwan->mYawQuaternion);
     }
     if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
-        wanwan->mOrientationBlendAmount = wanwan->mOrientationBlendAmount + 0x1c;
+        wanwan->mOrientationBlendAmount = wanwan->mOrientationBlendAmount + WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }
 

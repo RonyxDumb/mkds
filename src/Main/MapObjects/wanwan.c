@@ -196,7 +196,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
                 value = 0x2800;
             }
             wanwan->mMapObject.mPosStep.y = value;
-        } else if (wanwan->mAngleAroundX == 0xd000) {
+        } else if (wanwan->mAngleAroundX == WANWAN_ANGLE_AROUND_X_HIT) {
             wanwan->mMapObject.mPosStep.y = 0x2000;
             wanwan->mAngleAroundX += 0x1000;
         } else {
@@ -266,9 +266,9 @@ u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstRespon
 void EnterWanwanState0(Wanwan *wanwan) {
     Vec3 *savedPoint;
 
-    wanwan->mAngleAroundX = 0x555;
-    wanwan->mOrientationBlendAmount = 0x1c2;
-    wanwan->mChainObject->mChain.mDownwardStep = 0x599;
+    wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
+    wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
+    wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_INITIAL;
     savedPoint = wanwan->mCurvePoints[0];
     wanwan->mCurvePoints[0] = NULL;
     *wanwan->mCurvePoints[1] = wanwan->mMapObject.mPos;
@@ -389,7 +389,7 @@ void UpdateWanwanState0(Wanwan *wanwan) {
             &wanwan->mYawQuaternion);
     }
     if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
-        wanwan->mOrientationBlendAmount += 0x1c;
+        wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }
 
@@ -397,10 +397,10 @@ void EnterWanwanState1(Wanwan *wanwan) {
     SoundStartParams soundRequest;
     s32 falloffIndex;
 
-    wanwan->mAngleAroundX = 0x2000;
-    wanwan->mOrientationBlendAmount = 0x1c2;
+    wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LUNGE;
+    wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
     wanwan->mTargetPos = wanwan->mMapObject.mPos;
-    wanwan->mChainObject->mChain.mDownwardStep = 0x219;
+    wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_HIT;
     wanwan->mTargetFrame = 0;
     if (wanwan->mMapObject.mDistanceSquaredAndFlags & 4) {
         return;
@@ -493,10 +493,10 @@ void UpdateWanwanState1(Wanwan *wanwan) {
 }
 
 void EnterWanwanState2(Wanwan *wanwan) {
-    wanwan->mAngleAroundX = 0xd000;
-    wanwan->mOrientationBlendAmount = 0x1c2;
+    wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_HIT;
+    wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
     if (wanwan->mFollowsPath == 0) {
-        wanwan->mChainObject->mChain.mDownwardStep = 0x219;
+        wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_HIT;
     }
     wanwan->mMapObject.mPosStep.y = 0x8000;
 }
@@ -521,25 +521,25 @@ void UpdateWanwanState2(Wanwan *wanwan) {
                 &wanwan->mYawQuaternion);
         }
         if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
-            wanwan->mOrientationBlendAmount += 0x1c;
+            wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
         }
         if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x28) {
             wanwan->mAngleAroundX += 0x200;
         } else {
             wanwan->mMapObject.mPosStep.y -= 0x266;
         }
-        if (wanwan->mAngleAroundX > 0x10555) {
+        if (wanwan->mAngleAroundX > WANWAN_ANGLE_AROUND_X_HIT_END) {
             wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_FOLLOW_PATH;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
     } else {
-        if (wanwan->mAngleAroundX == 0xd000) {
+        if (wanwan->mAngleAroundX == WANWAN_ANGLE_AROUND_X_HIT) {
             wanwan->mMapObject.mPosStep.y -= 0x19a;
         }
         if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x78) {
             wanwan->mAngleAroundX += 0x100;
         }
-        if (wanwan->mAngleAroundX > 0x10555) {
+        if (wanwan->mAngleAroundX > WANWAN_ANGLE_AROUND_X_HIT_END) {
             wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_PULL_BACK;
             wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
@@ -547,9 +547,9 @@ void UpdateWanwanState2(Wanwan *wanwan) {
 }
 
 void EnterWanwanState3(Wanwan *wanwan) {
-    wanwan->mAngleAroundX = 0x555;
-    wanwan->mOrientationBlendAmount = 0x1c2;
-    wanwan->mChainObject->mChain.mDownwardStep = 0x599;
+    wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
+    wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
+    wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_INITIAL;
 }
 
 static inline s64 XzLengthSquared(const Vec3 *vector) {
@@ -582,14 +582,14 @@ void UpdateWanwanState3(Wanwan *wanwan) {
 }
 
 void EnterWanwanState4(Wanwan *wanwan) {
-    wanwan->mAngleAroundX = 0x555;
-    wanwan->mOrientationBlendAmount = 0x1c2;
-    wanwan->mChainObject->mChain.mDownwardStep = 0x599;
+    wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
+    wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
+    wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_INITIAL;
 }
 
 void UpdateWanwanState4Nop(Wanwan *wanwan) {}
 
 void EnterWanwanState5(Wanwan *wanwan) {
-    wanwan->mAngleAroundX = 0x555;
-    wanwan->mOrientationBlendAmount = 0x1c2;
+    wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
+    wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
 }

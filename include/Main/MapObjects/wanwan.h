@@ -20,6 +20,17 @@ enum {
     WANWAN_STATE_FOLLOW_PATH,
 };
 
+// Values of Wanwan.mAngleAroundX (16-bit angles) that the states set: LEVEL is the tilt most states start with, LUNGE
+// the tilt of LUNGE, HIT the tilt of HIT; HIT_END is the value that ends the HIT turn (LEVEL after one full turn).
+#define WANWAN_ANGLE_AROUND_X_LEVEL 0x555
+#define WANWAN_ANGLE_AROUND_X_LUNGE 0x2000
+#define WANWAN_ANGLE_AROUND_X_HIT 0xd000
+#define WANWAN_ANGLE_AROUND_X_HIT_END (WANWAN_ANGLE_AROUND_X_LEVEL + 0x10000)
+// Wanwan.mOrientationBlendAmount (1.12 fixed point) at the start of a state, and the amount it grows per frame in
+// the states that follow a path.
+#define WANWAN_ORIENTATION_BLEND_AMOUNT_START 0x1c2
+#define WANWAN_ORIENTATION_BLEND_AMOUNT_STEP 0x1c
+
 // Object of CreateWanwanDrawList: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
 // it at 0x28.
 typedef struct WanwanDrawList {
