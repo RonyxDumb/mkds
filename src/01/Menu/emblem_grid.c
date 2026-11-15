@@ -36,7 +36,7 @@ void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount) {
     gEmblemGrid->mScrSide = scrSide;
     gEmblemGrid->mTableCount = tableCount;
     heap = GetHeap(GetCurrentHeapCall());
-    gEmblemGrid->mUnk_18 = HeapAllocAligned(heap, gEmblemGrid->mTableCount * 2, HEAP_ALIGN_CACHE_LINE);
+    gEmblemGrid->mTableHalfwordBuffer = HeapAllocAligned(heap, gEmblemGrid->mTableCount * 2, HEAP_ALIGN_CACHE_LINE);
     heap = GetHeap(GetCurrentHeapCall());
     gEmblemGrid->mBuffers[0] =
         HeapAllocAligned(heap, gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8), HEAP_ALIGN_CACHE_LINE);

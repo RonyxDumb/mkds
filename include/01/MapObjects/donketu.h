@@ -62,7 +62,7 @@
 #include "01/MapObjects/kuriking_state_shared.h"
 
 // MissionRunMapObject.mStateNumber of Donketu while it is launched by a boosted kart, falling or landed in the water.
-#define DONKETU_STATE_AIRBORNE 7
+#define DONKETU_STATE_AFTER_KART_LAUNCH 7
 
 MapObjectList *CreateDonketuUpdateList(void);
 MapObjectList *CreateKingIceDonketuDrawList(void);

@@ -113,7 +113,7 @@ typedef struct EmblemGrid {
     /* 0c */ BOOL mCopied;
     /* 10 */ s32 mChanged;
     /* 14 */ s32 mSwapped;
-    /* 18 */ u16 *mUnk_18;
+    /* 18 */ u16 *mTableHalfwordBuffer;
     /* 1c */ u8 *mBuffers[4];
     /* 2c */ EmblemGridPoint *mPointStack;
 } EmblemGrid;
