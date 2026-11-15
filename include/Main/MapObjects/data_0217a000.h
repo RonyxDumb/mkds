@@ -911,6 +911,9 @@ typedef struct OverlayLoader {
 #define WIFI_RACE_SYNC_TIMEOUT_FRAMES 300
 #define WIFI_RACE_SYNC_FIRST_TIMEOUT_FRAMES 600
 #define WIFI_RACE_SYNC_MAX_REJECTED_SAMPLES 0x40
+// Start values of WiFiRaceSync.mCountdownTimer: while the peers are probed and made ready, and for the countdown.
+#define WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME 0x7f
+#define WIFI_RACE_SYNC_COUNTDOWN_TIME 0xf0
 // Kart progress word of a participant: bits 0 to 18 time or start rank, 19 to 21 lap count, 22 still racing, 23 to 26
 // mask of the participants that finished, and the value a dropped participant gets in the high bits.
 #define WIFI_RACE_SYNC_PROGRESS_TIME_MASK 0x7ffff
@@ -1083,6 +1086,18 @@ typedef struct WiFiRaceSyncSendBuffer {
         };
     };
 } WiFiRaceSyncSendBuffer;
+
+// Values of WiFiRaceSync.mSharedState, which is also sent to the peers. After PICKED_QUIT or PICKED_NEXT (the
+// GetChoisesSPickedValue pick, quit or next) the state waits until every other participant is in PICKED_NEXT or
+// ALL_PEERS_PICKED, then becomes ALL_PEERS_PICKED.
+enum {
+    WIFI_RACE_SHARED_STATE_IDLE,
+    WIFI_RACE_SHARED_STATE_PROBING,
+    WIFI_RACE_SHARED_STATE_RACING,
+    WIFI_RACE_SHARED_STATE_PICKED_QUIT,
+    WIFI_RACE_SHARED_STATE_PICKED_NEXT,
+    WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED
+};
 
 // Object behind gWiFiRaceSync.
 typedef struct WiFiRaceSync {
