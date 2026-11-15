@@ -398,7 +398,7 @@ void StartDonketuWaterWalkState(MissionRunMapObject *donketu) {
                                 donketu->mPrm->mDonketu.mWaterWalkFrameStep);
     targetAndPerCall = donketu->mPrm->mDonketu.mWaterWalkAnglePerCall;
     TurnToPointMoveFollowsAngle(donketu, targetAndPerCall, targetAndPerCall);
-    SetAnglePointAndMoveAnglePoint(donketu, (Vec3 *) donketu->mMapObject.mCourseMapRow);
+    SetAnglePointAndMoveAnglePoint(donketu, &donketu->mMapObject.mCourseMapRow->mPosition);
     targetAndPerCall = donketu->mPrm->mDonketu.mWaterWalkSpeed;
     SetSpeedTargetAndPerCall(donketu, targetAndPerCall, targetAndPerCall);
     StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWaterWalkFrameCount, &StartDonketuWaterJumpState);
@@ -579,7 +579,7 @@ void StartDonketuChaseKartState(MissionRunMapObject *donketu) {
 }
 
 void StartDonketuWalkToCourseMapRow(MissionRunMapObject *donketu) {
-    if (IsPointInRange(donketu, (Vec3 *) donketu->mMapObject.mCourseMapRow,
+    if (IsPointInRange(donketu, &donketu->mMapObject.mCourseMapRow->mPosition,
                        (donketu->mPrm->mDonketu.mCourseMapRowRadius + 0x28), 0)) {
         StartMapObjectState(donketu, 3, NULL);
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowAnimationEntry,
@@ -798,7 +798,7 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
             }
         }
         if (IsStateNumberBelow(donketu, 3) != 0) {
-            if (IsPointInRange(donketu, (Vec3 *) donketu->mMapObject.mCourseMapRow,
+            if (IsPointInRange(donketu, &donketu->mMapObject.mCourseMapRow->mPosition,
                                donketu->mPrm->mDonketu.mCourseMapRowRadius, 0) == FALSE) {
                 StartDonketuWalkToCourseMapRow(donketu);
             }
@@ -818,7 +818,7 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
 
 void InitDonketuSoundSource(MissionRunMapObject *donketu) {
     donketu->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource((SoundSource *) donketu->mMapObject.mSound, 0xc, &donketu->mMapObject.mPos);
+    InitSoundSource(&donketu->mMapObject.mSound->mSoundSource, 0xc, &donketu->mMapObject.mPos);
     donketu->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 

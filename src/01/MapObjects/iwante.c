@@ -103,7 +103,7 @@ MapObjectKindDescriptor gIwanteHandsKindDescriptor = {0,
 
 void InitIwanteSoundSource(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource((SoundSource *) mapObject->mMapObject.mSound, 0xc, &mapObject->mMapObject.mPos);
+    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
