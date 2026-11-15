@@ -52,14 +52,14 @@ void ClearMissionRunBossIconPointer(void) {
 
 void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
                              u16 paletteSlot, s32 queueSelector) {
-    s32 v0 = 14;
+    s32 transferKind = 14;
     MissionRunBossIcon *missionRunBossIcon;
     u8 *paletteData;
     s32 paletteIndex;
 
     if (queueSelector != 0) {
         if (queueSelector == 1) {
-            v0 = 30;
+            transferKind = 30;
         }
     }
     missionRunBossIcon = gMissionRunBossIcon;
@@ -71,5 +71,5 @@ void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells,
     } else {
         paletteIndex = 7;
     }
-    NNS_GfdRegisterNewVramTransferTask(v0, paletteSlot << 5, paletteData + (paletteIndex << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5, paletteData + (paletteIndex << 5), 32);
 }

@@ -7,14 +7,15 @@ u8 gAllocFunc[4];
 u8 gFreeFunc[4];
 
 u32 DWC_SetMemFunc(void *(*alloc)(u32, u32, s32), void (*free)(u32, void *)) {
-    u32 value0 = (u32) alloc;
-    u32 value1 = (u32) free;
-    u32 value2;
-    value2 = (u32) &gAllocFunc;
-    *(u32 *) ((value2) + 0u) = value0;
-    value0 = (u32) &gFreeFunc;
-    *(u32 *) ((value0) + 0u) = value1;
-    return value0;
+    u32 allocFunction = (u32) alloc;
+    u32 freeFunction = (u32) free;
+    u32 allocSlotAddress;
+    u32 freeSlotAddress;
+    allocSlotAddress = (u32) &gAllocFunc;
+    *(u32 *) ((allocSlotAddress) + 0u) = allocFunction;
+    freeSlotAddress = (u32) &gFreeFunc;
+    *(u32 *) ((freeSlotAddress) + 0u) = freeFunction;
+    return freeSlotAddress;
 }
 
 void *DWC_Alloc(u32 name, u32 size) {
@@ -22,16 +23,16 @@ void *DWC_Alloc(u32 name, u32 size) {
 }
 
 void *DWC_AllocEx(u32 name, u32 size, u32 align) {
-    u32 v2 = ((u32) (&gAllocFunc));
-    u32 v3 = (*(u32 *) ((v2) + (0)));
-    u32 v4 = ((u32(*)(u32, u32, u32))(v3))(name, size, align);
-    return (void *) v4;
+    u32 allocSlotAddress = ((u32) (&gAllocFunc));
+    u32 allocFunction = (*(u32 *) ((allocSlotAddress) + (0)));
+    u32 allocatedMemory = ((u32(*)(u32, u32, u32))(allocFunction))(name, size, align);
+    return (void *) allocatedMemory;
 }
 
 void DWC_Free(u32 name, u32 ptr, u32 size) {
-    u32 v2 = ((u32) (&gFreeFunc));
-    u32 v3 = (*(u32 *) ((v2) + (0)));
-    u32 v4 = ((u32(*)(u32, u32, u32))(v3))(name, ptr, size);
+    u32 freeSlotAddress = ((u32) (&gFreeFunc));
+    u32 freeFunction = (*(u32 *) ((freeSlotAddress) + (0)));
+    u32 freeResult = ((u32(*)(u32, u32, u32))(freeFunction))(name, ptr, size);
 }
 
 void *DWC_Realloc(u32 name, void *ptr, u32 oldsize, u32 newsize) {
@@ -60,12 +61,12 @@ void *DWCi_GsRealloc(void *ptr, u32 size) {
 }
 
 void DWCi_GsFree(void *ptr) {
-    u32 value0 = (u32) ptr;
-    u32 value1;
-    u32 value2;
-    u32 value3;
-    value1 = (value0) + (0u);
-    value0 = 5u;
-    value2 = 0u;
-    DWC_Free(value0, value1, value2);
+    u32 pointerValue = (u32) ptr;
+    u32 freePointer;
+    u32 freeSize;
+    u32 unusedValue;
+    freePointer = (pointerValue) + (0u);
+    pointerValue = 5u;
+    freeSize = 0u;
+    DWC_Free(pointerValue, freePointer, freeSize);
 }

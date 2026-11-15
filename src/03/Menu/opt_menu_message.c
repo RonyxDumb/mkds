@@ -165,10 +165,11 @@ void UpdateOptMenuMessageFadeOut(void) {
 }
 
 void UpdateOptMenuMessageRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((gOptMenuMessageShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+    int checkResult;
+    checkResult = IsBlendBrightnessFadeSlotBusy(0);
+    if ((checkResult == 0) &&
+        (((gOptMenuMessageShowNext != 0 || (checkResult = IsBlendBrightnessFadeSlotBusy(1), checkResult == 0)) &&
+          (checkResult = IsSlideButtonsNotSlidingOut(), checkResult != 0)))) {
         ReleaseBgTextCanvasOfScreen(0);
         if (gOptMenuMessageShowNext == 0) {
             HideSubScreenMessage();

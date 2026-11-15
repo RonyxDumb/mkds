@@ -351,14 +351,14 @@ u32 gti2DeliverReliableMessage(Gt2Connection *connection, int type, const u8 *me
 s32 gti2IncomingBufferMessageCompare(const void *elem1, const void *elem2) {
     const u8 *leftMessage = elem1;
     const u8 *rightMessage = elem2;
-    s32 value0;
-    s32 value1;
-    u32 value3;
-    value0 = *(const u16 *) (leftMessage + 12);
-    value1 = *(const u16 *) (rightMessage + 12);
-    value3 = (u32) &gti2SNDiff;
-    value0 = gti2SNDiff(value0, value1);
-    return value0;
+    s32 serialDiff;
+    s32 rightSerialNumber;
+    u32 diffFunction;
+    serialDiff = *(const u16 *) (leftMessage + 12);
+    rightSerialNumber = *(const u16 *) (rightMessage + 12);
+    diffFunction = (u32) &gti2SNDiff;
+    serialDiff = gti2SNDiff(serialDiff, rightSerialNumber);
+    return serialDiff;
 }
 
 u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNumber, const u8 *message, s32 len,
@@ -541,13 +541,13 @@ u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
 }
 
 u32 gti2HandlePing(Gt2Connection *connection, u32 message, u32 len) {
-    u32 value0 = (u32) connection;
-    u32 value1 = message;
-    u32 value2 = len;
-    u32 value3;
-    value3 = (u32) &gti2SendPong;
-    value0 = gti2SendPong(value0, value1, value2);
-    return value0;
+    u32 sendResult = (u32) connection;
+    u32 pingMessage = message;
+    u32 pingLength = len;
+    u32 sendPongFunction;
+    sendPongFunction = (u32) &gti2SendPong;
+    sendResult = gti2SendPong(sendResult, pingMessage, pingLength);
+    return sendResult;
 }
 
 u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len) {
@@ -697,11 +697,12 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
 
 u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     Gt2Connection *connection;
-    int v2;
+    int checkResult;
+    int elapsed;
     connection = gti2SocketFindConnection(socket, address, port);
     if (socket->mReceiveDumpCallback != NULL) {
-        v2 = gti2DumpCallback(socket, connection, address, port, 1, 0, 0, 0);
-        if (v2 == 0) {
+        checkResult = gti2DumpCallback(socket, connection, address, port, 1, 0, 0, 0);
+        if (checkResult == 0) {
             return 0;
         }
     }
@@ -710,16 +711,17 @@ u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     }
     if (connection->mState == GT2_CONNECTION_OFFER_SENT) {
         if ((connection->mTimeSinceCreateLimit == 0) ||
-            (v2 = GetElapsedMilliseconds(), (v2 - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
+            (elapsed = GetElapsedMilliseconds(),
+             (elapsed - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
             return 1;
         }
-        v2 = gti2ConnectionError(connection, 6, 1);
-        if (v2 == 0) {
+        checkResult = gti2ConnectionError(connection, 6, 1);
+        if (checkResult == 0) {
             return 0;
         }
     } else {
-        v2 = gti2ConnectionError(connection, 2, 1);
-        if (v2 == 0) {
+        checkResult = gti2ConnectionError(connection, 2, 1);
+        if (checkResult == 0) {
             return 0;
         }
     }
@@ -798,15 +800,16 @@ BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int 
 #pragma opt_common_subs off
 
 u32 gti2EndReliableMessage(Gt2Connection *connection) {
-    int v1;
+    int checkResult;
+    int messageCount;
     int *messageInfo;
-    v1 = DarrayGetCount(connection->mOutgoingBufferMessages);
-    if (v1 <= 0) {
+    messageCount = DarrayGetCount(connection->mOutgoingBufferMessages);
+    if (messageCount <= 0) {
         AssertionFailed("len > 0", "gt2Message.c", NULL, 0x475);
     }
-    messageInfo = DarrayGetElement(connection->mOutgoingBufferMessages, v1 + -1);
-    v1 = SendConnectionBytes(connection, connection->mSendBuffer.mData + *messageInfo, messageInfo[1]);
-    if (v1 == 0) {
+    messageInfo = DarrayGetElement(connection->mOutgoingBufferMessages, messageCount + -1);
+    checkResult = SendConnectionBytes(connection, connection->mSendBuffer.mData + *messageInfo, messageInfo[1]);
+    if (checkResult == 0) {
         return 0;
     }
     connection->mPendingAck = 0;
@@ -1020,15 +1023,15 @@ BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber) {
 }
 
 u32 gti2SendPong(u32 connection, u32 message, u32 len) {
-    u32 value0 = connection;
+    u32 sendResult = connection;
     u32 messageAddress = message;
     u32 length = len;
-    u32 value3;
-    value3 = 103u;
-    *(u8 *) ((messageAddress) + 2u) = value3;
-    value3 = (u32) &SendConnectionBytes;
-    value0 = SendConnectionBytes((Gt2Connection *) value0, (u8 *) messageAddress, length);
-    return value0;
+    u32 pongType;
+    pongType = 103u;
+    *(u8 *) ((messageAddress) + 2u) = pongType;
+    pongType = (u32) &SendConnectionBytes;
+    sendResult = SendConnectionBytes((Gt2Connection *) sendResult, (u8 *) messageAddress, length);
+    return sendResult;
 }
 
 int gti2SendClosed(Gt2Connection *connection) {

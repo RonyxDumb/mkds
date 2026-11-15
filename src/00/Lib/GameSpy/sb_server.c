@@ -63,7 +63,7 @@ s32 RefStringCompare(const char *const *first, const char *const *second) {
 
 void RefStringFree(u32 element) {
     u32 stringPointer = element;
-    u32 value3;
+    u32 unusedValue;
     stringPointer = *(const u32 *) ((stringPointer) + 0u);
     DWCi_GsFree((void *) stringPointer);
 }
@@ -150,20 +150,20 @@ u32 SBServerGetPublicInetAddress(u32 *server) {
 }
 
 u32 SBServerGetPublicQueryPort(u32 server) {
-    u32 value0 = server;
+    u32 value = server;
     u32 port;
     u32 swappedPort;
-    port = *(const u16 *) ((value0) + 4u);
+    port = *(const u16 *) ((value) + 4u);
     swappedPort = ((s32) port >> 8);
-    value0 = 255u;
-    swappedPort = (swappedPort) & (value0);
+    value = 255u;
+    swappedPort = (swappedPort) & (value);
     port = (port << 8);
-    value0 = 0xff00u;
-    port = (port) & (value0);
+    value = 0xff00u;
+    port = (port) & (value);
     swappedPort = (swappedPort) | (port);
-    value0 = (swappedPort << 16);
-    value0 = (value0 >> 16);
-    return value0;
+    value = (swappedPort << 16);
+    value = (value >> 16);
+    return value;
 }
 
 u16 SBServerGetPublicQueryPortNBO(int server) {
@@ -182,20 +182,20 @@ u32 SBServerGetPrivateInetAddress(int server) {
 }
 
 u32 SBServerGetPrivateQueryPort(u32 server) {
-    u32 value0 = server;
+    u32 value = server;
     u32 port;
     u32 swappedPort;
-    port = *(const u16 *) ((value0) + 12u);
+    port = *(const u16 *) ((value) + 12u);
     swappedPort = ((s32) port >> 8);
-    value0 = 255u;
-    swappedPort = (swappedPort) & (value0);
+    value = 255u;
+    swappedPort = (swappedPort) & (value);
     port = (port << 8);
-    value0 = 0xff00u;
-    port = (port) & (value0);
+    value = 0xff00u;
+    port = (port) & (value);
     swappedPort = (swappedPort) | (port);
-    value0 = (swappedPort << 16);
-    value0 = (value0 >> 16);
-    return value0;
+    value = (swappedPort << 16);
+    value = (value >> 16);
+    return value;
 }
 
 void SBServerSetNext(int server, u32 next) {
@@ -373,7 +373,7 @@ SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPor
         return NULL;
     }
     newServer->mKeyValues = HashtableCreate(8, 8, 4, (s32(*)(void *, s32)) KeyValHashKey,
-                                         (s32(*)(void *, void *)) KeyValCompareKey, (void (*)(void *)) KeyValFree);
+                                            (s32(*)(void *, void *)) KeyValCompareKey, (void (*)(void *)) KeyValFree);
     if (newServer->mKeyValues == NULL) {
         DWCi_GsFree(newServer);
         return NULL;

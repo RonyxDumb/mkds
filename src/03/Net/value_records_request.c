@@ -62,13 +62,13 @@ u32 RunValueRecordsRequestForStatus(void) {
 }
 
 u32 EssidAllocExpHeapBlockWrapper(u32 size) {
-    u32 value0 = size;
+    u32 allocResult = size;
     u32 alignment;
     u32 allocFunctionAddress;
     alignment = 32u;
     allocFunctionAddress = (u32) &AllocExpHeapBlock;
-    value0 = (u32) AllocExpHeapBlock(value0, alignment);
-    return value0;
+    allocResult = (u32) AllocExpHeapBlock(allocResult, alignment);
+    return allocResult;
 }
 
 void EssidFreeExpHeapBlockWrapper(void *block) {

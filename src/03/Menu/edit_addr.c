@@ -150,17 +150,17 @@ void StartEditAddrFadeIn(void) {
 }
 
 void UpdateEditAddrFadeIn(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) {
+    int checkResult;
+    checkResult = IsBlendBrightnessFadeSlotBusy(1);
+    if ((checkResult == 0) && (checkResult = IsBlendBrightnessFadeSlotBusy(0), checkResult == 0)) {
         CreateEditAddrKeyboard();
         StartSoundSeq(0x14);
         if (gEditAddr->mGroupIndex == 0) {
             SetEditAddrKeyboardRemoveCharEnabled(0);
             SetEditAddrKeyboardNextGroupEnabled(0);
         } else {
-            v1 = IsEditAddrGroupFull(0x1a);
-            if (v1 != 0) {
+            checkResult = IsEditAddrGroupFull(0x1a);
+            if (checkResult != 0) {
                 SetEditAddrKeyboardAddCharEnabled(0);
             }
             SetEditAddrKeyboardNextGroupEnabled(0);

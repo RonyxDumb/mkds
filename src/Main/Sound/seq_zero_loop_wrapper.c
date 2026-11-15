@@ -2,6 +2,6 @@
 #include "Main/Sound/sound_seq.h"
 
 void StartSeqZeroLoopWrapper(void) {
-    u32 value12;
+    u32 unusedValue;
     StartSeqZeroLoop();
 }

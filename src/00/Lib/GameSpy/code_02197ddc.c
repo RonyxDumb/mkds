@@ -7,42 +7,42 @@
 #include "code_021384cc.h"
 #include "code_02139f70.h"
 
-u32 InitBuffer(Gt2Buffer *a, int b) {
-    u8 *v1;
-    v1 = DWCi_GsMalloc(b);
-    a->mData = v1;
-    if (a->mData == 0) {
+u32 InitBuffer(Gt2Buffer *gt2Buffer, int size) {
+    u8 *data;
+    data = DWCi_GsMalloc(size);
+    gt2Buffer->mData = data;
+    if (gt2Buffer->mData == 0) {
         return 0;
     }
-    a->mSize = b;
+    gt2Buffer->mSize = size;
     return 1;
 }
 
-int GetBufferUnusedSize(Gt2Buffer *a) {
-    return a->mSize - a->mLength;
+int GetBufferUnusedSize(Gt2Buffer *gt2Buffer) {
+    return gt2Buffer->mSize - gt2Buffer->mLength;
 }
 
-void AppendBufferByte(Gt2Buffer *buffer, u8 b) {
-    int v1;
+void AppendBufferByte(Gt2Buffer *buffer, u8 byteValue) {
+    int writeIndex;
     if (buffer->mLength >= buffer->mSize) {
         AssertionFailed("buffer->len < buffer->size", "gt2Buffer.c", NULL, 0x23);
     }
-    v1 = buffer->mLength;
-    buffer->mLength = v1 + 1;
-    buffer->mData[v1] = b;
+    writeIndex = buffer->mLength;
+    buffer->mLength = writeIndex + 1;
+    buffer->mData[writeIndex] = byteValue;
 }
 
-void AppendBufferU16(Gt2Buffer *buffer, s32 b) {
-    int v1;
+void AppendBufferU16(Gt2Buffer *buffer, s32 value) {
+    int writeIndex;
     if (buffer->mLength + 2 > buffer->mSize) {
         AssertionFailed("(buffer->len + 2) <= buffer->size", "gt2Buffer.c", NULL, 0x2e);
     }
-    v1 = buffer->mLength;
-    buffer->mLength = v1 + 1;
-    buffer->mData[v1] = b >> 8;
-    v1 = buffer->mLength;
-    buffer->mLength = v1 + 1;
-    buffer->mData[v1] = (s8) b;
+    writeIndex = buffer->mLength;
+    buffer->mLength = writeIndex + 1;
+    buffer->mData[writeIndex] = value >> 8;
+    writeIndex = buffer->mLength;
+    buffer->mLength = writeIndex + 1;
+    buffer->mData[writeIndex] = (s8) value;
 }
 
 void AppendBufferBytes(Gt2Buffer *buffer, const u8 *data, int len) {

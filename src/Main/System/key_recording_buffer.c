@@ -12,17 +12,17 @@
 #include "Main/Menu/select_race_rule_state.h"
 
 u32 SetMultiSimple(u32 flag) {
-    u32 value0 = flag;
-    u32 value1;
+    u32 newStartupFlags = flag;
+    u32 startupFlags;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        return value0;
+        return newStartupFlags;
     }
-    value0 = (value0) & (1u);
-    value1 = gStartupWork->mUnk_1c;
-    value1 = (value1) & ~(4u);
-    value0 = (value1) | ((value0 << 2));
-    gStartupWork->mUnk_1c = value0;
-    return value0;
+    newStartupFlags = (newStartupFlags) & (1u);
+    startupFlags = gStartupWork->mUnk_1c;
+    startupFlags = (startupFlags) & ~(4u);
+    newStartupFlags = (startupFlags) | ((newStartupFlags << 2));
+    gStartupWork->mUnk_1c = newStartupFlags;
+    return newStartupFlags;
 }
 
 KeyRecordingBuffer *InitKeyRecordingBuffer(KeyRecording *record, void *heap) {

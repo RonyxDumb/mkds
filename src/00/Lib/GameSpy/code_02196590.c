@@ -1,12 +1,12 @@
 #include "00/Lib/GameSpy/code_02196590.h"
 #include "00/Lib/GameSpy/code_02196594.h"
 
-void GpiSetErrorMessage(void *arg0, void *arg1) {
-    u32 value0 = (u32) arg0;
-    void *value1 = arg1;
-    u32 value2;
-    u32 value3;
-    value0 = *(const u32 *) ((value0) + 0u);
-    value2 = 0x100u;
-    GpiCopyString((char *) value0, value1, value2);
+void GpiSetErrorMessage(void *errorTarget, void *message) {
+    u32 destination = (u32) errorTarget;
+    void *source = message;
+    u32 capacity;
+    u32 unusedValue;
+    destination = *(const u32 *) ((destination) + 0u);
+    capacity = 0x100u;
+    GpiCopyString((char *) destination, source, capacity);
 }

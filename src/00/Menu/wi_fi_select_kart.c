@@ -50,7 +50,7 @@ void AdvanceWiFiSelectKartState(void) {
 }
 
 void WriteSelectKartRegistersWrapper(void) {
-    u32 value3;
+    u32 unusedValue;
     WriteSelectKartRegisters();
 }
 

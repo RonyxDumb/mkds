@@ -121,29 +121,29 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     return 0;
 }
 
-void DeleteSocket(Gt2Socket *a) {
-    if (a->mRunningCallbackCount != 0) {
-        a->mDeletePending = TRUE;
+void DeleteSocket(Gt2Socket *gt2Socket) {
+    if (gt2Socket->mRunningCallbackCount != 0) {
+        gt2Socket->mDeletePending = TRUE;
         return;
     }
-    closesocket(a->mDescriptor);
-    HashtableDelete(a->mConnections);
-    DarrayDelete(a->mConnectionsToFree);
-    DWCi_GsFree(a);
+    closesocket(gt2Socket->mDescriptor);
+    HashtableDelete(gt2Socket->mConnections);
+    DarrayDelete(gt2Socket->mConnectionsToFree);
+    DWCi_GsFree(gt2Socket);
     SocketShutDown();
 }
 
-void SetIncomingConnectionCallback(Gt2Socket *a, void *b) {
-    a->mIncomingConnectionCallback = b;
+void SetIncomingConnectionCallback(Gt2Socket *gt2Socket, void *callback) {
+    gt2Socket->mIncomingConnectionCallback = callback;
 }
 
 Gt2Connection *gti2CreateConnectionObject(void) {
-    u32 value0;
+    u32 connectionObject;
     u32 allocFunction;
-    value0 = 160u;
+    connectionObject = 160u;
     allocFunction = (u32) &DWCi_GsMalloc;
-    value0 = (u32) DWCi_GsMalloc(value0);
-    return (Gt2Connection *) value0;
+    connectionObject = (u32) DWCi_GsMalloc(connectionObject);
+    return (Gt2Connection *) connectionObject;
 }
 
 u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 address, u32 port) {

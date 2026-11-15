@@ -19,7 +19,7 @@ typedef struct GPIProfileMapData {
     /* 08 */ void *mData;
 } GPIProfileMapData;
 
-BOOL GpiForEachProfileWhileNonZero(GpConnection *a, void *b, void *c);
+BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, void *b, void *c);
 
 void gpiProfileMapCallback(u32 profile, u32 *mapData);
 

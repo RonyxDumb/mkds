@@ -438,10 +438,10 @@ const u8 gKartFirstResponsesHundreds2Effect3[12] = {5, 1, 0, 0, 0, 0, 0, 0, 0, 0
 #pragma thumb on
 void InitGroupFollower(GroupFollower *follower, CourseMapRow *row, s32 speed) {
     GroupFollower *followerCopy = follower;
-    u32 value1 = (u32) row;
+    u32 value = (u32) row;
     u32 speedCopy = speed;
     u32 unused;
-    value1 = *(const u16 *) ((value1) + 38u);
-    InitGroupFollowerForGroup(followerCopy, value1, speedCopy);
+    value = *(const u16 *) ((value) + 38u);
+    InitGroupFollowerForGroup(followerCopy, value, speedCopy);
 }
 #pragma thumb off

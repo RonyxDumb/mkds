@@ -16,7 +16,7 @@
 #include "00/Lib/GameSpy/gt2Utility.h"
 
 void gt2Listen(void *socket, void *callback) {
-    u32 value3;
+    u32 unusedValue;
     SetIncomingConnectionCallback(socket, callback);
 }
 

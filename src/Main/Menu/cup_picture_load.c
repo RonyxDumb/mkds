@@ -13,10 +13,10 @@
 struct CupPicture *gCupPicture;
 
 u32 CupPictureGetCurrentHeap(void) {
-    u32 value0;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
-    return value0;
+    u32 heap;
+    heap = (u32) GetCurrentHeapCall();
+    heap = (u32) GetHeap((void *) heap);
+    return heap;
 }
 
 #pragma thumb on

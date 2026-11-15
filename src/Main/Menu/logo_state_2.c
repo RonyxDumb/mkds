@@ -8,25 +8,25 @@
 #include "Main/Save/ghost_record_file.h"
 
 void UpdateLogoState1(void) {
-    s32 v1;
+    s32 commandBusy;
     StateMachine *stateMachine;
-    s32 v3;
+    s32 readStatus;
     LogoScene *scene;
     if (gBackupBuffers->mBusy == 0) {
         if (gBackupAccess->mBackupEnabled != 0) {
-            v1 = gBackupAccess->mCommandRunning;
+            commandBusy = gBackupAccess->mCommandRunning;
         } else {
-            v1 = 0;
+            commandBusy = 0;
         }
     } else {
-        v1 = 1;
+        commandBusy = 1;
     }
-    if (v1 != 0) {
+    if (commandBusy != 0) {
         return;
     }
-    v3 = gBackupBuffers->mReadStatus;
-    if (v3 != 0) {
-        if (v3 == 3) {
+    readStatus = gBackupBuffers->mReadStatus;
+    if (readStatus != 0) {
+        if (readStatus == 3) {
             gLogoScene->mUnk_2c_1 = 1;
             stateMachine = &gLogoScene->mStateMachine;
             stateMachine->mNextState = LOGO_STATE_RESET_NOTICE;
@@ -84,7 +84,7 @@ void EnterLogoState3(void) {
 }
 
 void UpdateLogoState3(void) {
-    s32 v1;
+    s32 commandBusy;
     StateMachine *stateMachine;
     gLogoScene->mSubTextFrames = gLogoScene->mSubTextFrames + 1;
     if (IsTxtSystemState2AfterState1() != 0) {
@@ -92,14 +92,14 @@ void UpdateLogoState3(void) {
     }
     if (gBackupBuffers->mBusy == 0) {
         if (gBackupAccess->mBackupEnabled != 0) {
-            v1 = gBackupAccess->mCommandRunning;
+            commandBusy = gBackupAccess->mCommandRunning;
         } else {
-            v1 = 0;
+            commandBusy = 0;
         }
     } else {
-        v1 = 1;
+        commandBusy = 1;
     }
-    if (v1 != 0) {
+    if (commandBusy != 0) {
         return;
     }
     if (IsTxtSystemState2NoCloseRequest() == 0) {
@@ -179,7 +179,7 @@ void EnterLogoState6(void) {
 
 void UpdateLogoState6(void) {
     LogoScene *scene;
-    s32 v2;
+    s32 commandBusy;
     StateMachine *stateMachine;
     gLogoScene->mSubTextFrames = gLogoScene->mSubTextFrames + 1;
     scene = gLogoScene;
@@ -189,14 +189,14 @@ void UpdateLogoState6(void) {
         }
         if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
-                v2 = gBackupAccess->mCommandRunning;
+                commandBusy = gBackupAccess->mCommandRunning;
             } else {
-                v2 = 0;
+                commandBusy = 0;
             }
         } else {
-            v2 = 1;
+            commandBusy = 1;
         }
-        if (v2 != 0) {
+        if (commandBusy != 0) {
             return;
         }
         if (IsTxtSystemState2NoCloseRequest() == 0) {
@@ -210,14 +210,14 @@ void UpdateLogoState6(void) {
     } else {
         if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
-                v2 = gBackupAccess->mCommandRunning;
+                commandBusy = gBackupAccess->mCommandRunning;
             } else {
-                v2 = 0;
+                commandBusy = 0;
             }
         } else {
-            v2 = 1;
+            commandBusy = 1;
         }
-        if (v2 == 0) {
+        if (commandBusy == 0) {
             stateMachine = &scene->mStateMachine;
             stateMachine->mNextState = LOGO_STATE_CHECK_DWC_INIT;
             stateMachine->mNextStateRequested = 1;

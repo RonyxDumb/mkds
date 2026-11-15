@@ -6,8 +6,8 @@ u32 SendLedPatternWireless(void) {
 }
 
 void SendLedPatternNone(void) {
-    u32 value0;
-    u32 value12;
-    value0 = 0u;
-    value0 = PMi_SendLEDPatternCommand(value0);
+    u32 sendResult;
+    u32 unusedValue;
+    sendResult = 0u;
+    sendResult = PMi_SendLEDPatternCommand(sendResult);
 }

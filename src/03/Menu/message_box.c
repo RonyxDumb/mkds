@@ -41,13 +41,13 @@ const s8 gMessageBoxKeyResults[6][2] = {{1, 0}, {0, -1}, {1, 0}, {0, -1}, {1, 0}
 MessageBox *gMessageBox;
 
 int GetMessageBoxResult(void) {
-    u32 value0;
-    u32 value1;
-    value0 = (u32) &gMessageBox;
-    value1 = *(const u32 *) ((value0) + 0u);
-    value0 = 27u;
-    value0 = *(const s8 *) ((value1) + (value0));
-    return value0;
+    u32 boxResult;
+    u32 boxData;
+    boxResult = (u32) &gMessageBox;
+    boxData = *(const u32 *) ((boxResult) + 0u);
+    boxResult = 27u;
+    boxResult = *(const s8 *) ((boxData) + (boxResult));
+    return boxResult;
 }
 
 BOOL IsMessageBoxOpen(void) {

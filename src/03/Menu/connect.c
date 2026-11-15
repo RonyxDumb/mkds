@@ -209,14 +209,14 @@ void AdvanceConnectRequest(u32 entry) {
 }
 
 u32 ConnectAllocExpHeapBlockWrapper(u32 unused, u32 size) {
-    u32 value0;
-    u32 value1 = size;
+    u32 allocatedBlock;
+    u32 blockSize = size;
     u32 allocFunctionAddress;
-    value0 = (value1) + (0u);
-    value1 = 32u;
+    allocatedBlock = (blockSize) + (0u);
+    blockSize = 32u;
     allocFunctionAddress = (u32) &AllocExpHeapBlock;
-    value0 = (u32) AllocExpHeapBlock(value0, value1);
-    return value0;
+    allocatedBlock = (u32) AllocExpHeapBlock(allocatedBlock, blockSize);
+    return allocatedBlock;
 }
 
 void ConnectFreeExpHeapBlockWrapper(void *unused, void *block) {

@@ -33,29 +33,29 @@ void ReleaseSoundData(void) {
 }
 
 void StartSoundSeq(u32 index) {
-    u32 value0 = index;
-    u32 value1;
+    u32 playResult = index;
+    u32 playerNumber;
     u32 sequenceIndex;
-    u32 value3;
-    sequenceIndex = (value0) + (0u);
-    value0 = (u32) &gSoundData;
-    value0 = *(const u32 *) ((value0) + 0u);
-    value0 = (value0) + 144u;
-    value1 = 0u;
-    value0 = NNS_SndArcPlayerStartSeqArc((const void *) value0, value1, sequenceIndex);
+    u32 unusedValue;
+    sequenceIndex = (playResult) + (0u);
+    playResult = (u32) &gSoundData;
+    playResult = *(const u32 *) ((playResult) + 0u);
+    playResult = (playResult) + 144u;
+    playerNumber = 0u;
+    playResult = NNS_SndArcPlayerStartSeqArc((const void *) playResult, playerNumber, sequenceIndex);
 }
 
 u32 SetSoundSeqVolume(u32 volume) {
-    u32 value0 = volume;
+    u32 setVolumeResult = volume;
     u32 volumeValue;
-    u32 value3;
-    volumeValue = (value0) + (0u);
-    value0 = (u32) &gSoundData;
-    value0 = *(const u32 *) ((value0) + 0u);
-    value0 = (value0) + 144u;
-    value3 = (u32) &NNS_SndPlayerSetVolume;
-    value0 = (u32) NNS_SndPlayerSetVolume((NNSSndSeqPlayer **) value0, volumeValue);
-    return value0;
+    u32 setVolumeFunction;
+    volumeValue = (setVolumeResult) + (0u);
+    setVolumeResult = (u32) &gSoundData;
+    setVolumeResult = *(const u32 *) ((setVolumeResult) + 0u);
+    setVolumeResult = (setVolumeResult) + 144u;
+    setVolumeFunction = (u32) &NNS_SndPlayerSetVolume;
+    setVolumeResult = (u32) NNS_SndPlayerSetVolume((NNSSndSeqPlayer **) setVolumeResult, volumeValue);
+    return setVolumeResult;
 }
 
 void SetSoundSeqTrackPitch(u32 tracks, u32 pitch) {

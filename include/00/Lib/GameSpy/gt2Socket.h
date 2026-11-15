@@ -22,8 +22,8 @@ Gt2Connection *gti2CreateConnectionObject(void);
 
 typedef struct Gt2Socket Gt2Socket;
 
-void SetIncomingConnectionCallback(Gt2Socket *a, void *b);
-void DeleteSocket(Gt2Socket *a);
+void SetIncomingConnectionCallback(Gt2Socket *gt2Socket, void *callback);
+void DeleteSocket(Gt2Socket *gt2Socket);
 
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;

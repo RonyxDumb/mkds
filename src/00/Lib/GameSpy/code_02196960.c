@@ -578,11 +578,11 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const u
 }
 
 u32 SocketReadable(u32 socket) {
-    u32 value0 = socket;
-    u32 value3;
-    value3 = (u32) &CanReceiveOnSocket;
-    value0 = CanReceiveOnSocket(value0);
-    return value0;
+    u32 readableResult = socket;
+    u32 receiveFunction;
+    receiveFunction = (u32) &CanReceiveOnSocket;
+    readableResult = CanReceiveOnSocket(readableResult);
+    return readableResult;
 }
 
 const s8 *FindFinal(const s8 *buff, s32 len) {

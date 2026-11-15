@@ -258,23 +258,23 @@ void MenuGXS_SetOBJVRamModeChar(u32 bits) {
 }
 
 u32 MenuWriteMainWinEnableBits(u32 bits) {
-    u32 value0 = bits;
+    u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GX_DISPCNT;
     registerValue = (registerValue) & ~(0xe000u);
-    value0 = (registerValue) | ((value0 << 13));
-    reg_GX_DISPCNT = value0;
-    return value0;
+    newDispcnt = (registerValue) | ((newDispcnt << 13));
+    reg_GX_DISPCNT = newDispcnt;
+    return newDispcnt;
 }
 
 u32 MenuWriteSubWinEnableBits(u32 bits) {
-    u32 value0 = bits;
+    u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;
     registerValue = (registerValue) & ~(0xe000u);
-    value0 = (registerValue) | ((value0 << 13));
-    reg_GXS_DB_DISPCNT = value0;
-    return value0;
+    newDispcnt = (registerValue) | ((newDispcnt << 13));
+    reg_GXS_DB_DISPCNT = newDispcnt;
+    return newDispcnt;
 }
 
 u32 GetMenuEntryKind(void) {

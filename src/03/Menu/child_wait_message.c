@@ -170,10 +170,10 @@ void UpdateChildWaitMessageFadeOut(void) {
 }
 
 void UpdateChildWaitMessageRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if (((v1 == 0) && (v1 = IsBlendBrightnessFadeSlotBusy(0), v1 == 0)) &&
-        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)) {
+    int checkResult;
+    checkResult = IsBlendBrightnessFadeSlotBusy(1);
+    if (((checkResult == 0) && (checkResult = IsBlendBrightnessFadeSlotBusy(0), checkResult == 0)) &&
+        (checkResult = IsSlideButtonsNotSlidingOut(), checkResult != 0)) {
         ReleaseBgTextCanvasOfScreen(0);
         if (gChildWaitMessageShowNext == 0) {
             HideSubScreenMessage();

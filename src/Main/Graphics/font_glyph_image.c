@@ -3,7 +3,7 @@
 #include "code_02022aa8.h"
 
 u8 *GetFontGlyphImage(NNSG2dFont *font, int glyphIndex) {
-    u32 value0 = GetFontGlyphImageStride(font);
-    u8 *value1 = font->mPRes->mPGlyph->mGlyphTable;
-    return value1 + glyphIndex * value0;
+    u32 glyphStride = GetFontGlyphImageStride(font);
+    u8 *glyphTable = font->mPRes->mPGlyph->mGlyphTable;
+    return glyphTable + glyphIndex * glyphStride;
 }

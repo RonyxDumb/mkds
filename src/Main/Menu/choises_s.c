@@ -258,14 +258,14 @@ u32 IsChoisesSOpen(void) {
 
 void SetChoisesSOpenDuringRace(u32 openFlag) {
     int wasOpen;
-    int v2;
+    int checkResult;
     wasOpen = GetChoisesSOpenDuringRace();
-    v2 = IsChoisesSOpenAllowedDuringRace();
-    if (v2 != 0) {
+    checkResult = IsChoisesSOpenAllowedDuringRace();
+    if (checkResult != 0) {
         SetChoisesSOpen(openFlag);
     }
-    v2 = GetChoisesSOpenDuringRace();
-    if ((wasOpen == 0) && (v2 != 0)) {
+    checkResult = GetChoisesSOpenDuringRace();
+    if ((wasOpen == 0) && (checkResult != 0)) {
         LowerSndHandleVolumes();
     }
 }

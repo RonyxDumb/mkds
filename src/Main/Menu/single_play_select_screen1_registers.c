@@ -13,21 +13,21 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 
 void MenuGX_SetVisiblePlane(int bits) {
-    u32 value0 = bits;
+    u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GX_DISPCNT;
     registerValue = (registerValue) & ~(0x1f00u);
-    value0 = (registerValue) | ((value0 << 8));
-    reg_GX_DISPCNT = value0;
+    newDispcnt = (registerValue) | ((newDispcnt << 8));
+    reg_GX_DISPCNT = newDispcnt;
 }
 
 void MenuGXS_SetVisiblePlane(int bits) {
-    u32 value0 = bits;
+    u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;
     registerValue = (registerValue) & ~(0x1f00u);
-    value0 = (registerValue) | ((value0 << 8));
-    reg_GXS_DB_DISPCNT = value0;
+    newDispcnt = (registerValue) | ((newDispcnt << 8));
+    reg_GXS_DB_DISPCNT = newDispcnt;
 }
 
 #pragma thumb on

@@ -136,20 +136,20 @@ void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userDa
 }
 
 void *HashtableFindByFn(Hashtable *table, int fn, const void *userData) {
-    void *v1;
-    int v3;
+    void *foundElement;
+    int bucketIndex;
     if (fn == 0) {
         AssertionFailed("fn", "hashtable.c", NULL, 0xd3);
     }
-    v3 = 0;
+    bucketIndex = 0;
     if (0 < table->mBucketCount) {
         do {
-            v1 = DarrayFindByFnReverse(table->mBuckets[v3], (UnkCompare *) fn, userData);
-            if (v1 != NULL) {
-                return v1;
+            foundElement = DarrayFindByFnReverse(table->mBuckets[bucketIndex], (UnkCompare *) fn, userData);
+            if (foundElement != NULL) {
+                return foundElement;
             }
-            v3 = v3 + 1;
-        } while (v3 < table->mBucketCount);
+            bucketIndex = bucketIndex + 1;
+        } while (bucketIndex < table->mBucketCount);
     }
     return NULL;
 }

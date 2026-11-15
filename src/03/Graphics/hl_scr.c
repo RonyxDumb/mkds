@@ -17,10 +17,10 @@
 #include "03/System/application.h"
 
 void *gHlNscNames[20] = {
-    gJb2HlWiFiNscName, gJb2HlApNscName,   gJb3HlList1NscName, gJb3HlList2NscName, gJb3HlList3NscName,
-    gJb4HlSet1NscName, gJb4HlSet2NscName, gJb4HlSet3NscName,  gJb4HlUsbNscName,   gJb4HlSsidNscName,
-    gJb4HlWepNscName,  gJb4HlIpNscName,   gJb4HlMaskNscName,  gJb4HlGatewayNscName, gJb4HlDns0NscName,
-    gJb4HlDns1NscName, gJb5HlOptionNscName, gJb5HlInfoNscName, gJb5HlEraseNscName, gJb5HlMoveNscName,
+    gJb2HlWiFiNscName, gJb2HlApNscName,     gJb3HlList1NscName, gJb3HlList2NscName,   gJb3HlList3NscName,
+    gJb4HlSet1NscName, gJb4HlSet2NscName,   gJb4HlSet3NscName,  gJb4HlUsbNscName,     gJb4HlSsidNscName,
+    gJb4HlWepNscName,  gJb4HlIpNscName,     gJb4HlMaskNscName,  gJb4HlGatewayNscName, gJb4HlDns0NscName,
+    gJb4HlDns1NscName, gJb5HlOptionNscName, gJb5HlInfoNscName,  gJb5HlEraseNscName,   gJb5HlMoveNscName,
 };
 char gJb4HlGatewayNscName[24] = "char/jb4HlGateway.nsc.l";
 char gJb5HlOptionNscName[23] = "char/jb5HlOption.nsc.l";
@@ -61,31 +61,31 @@ void ReleaseHlScr(void) {
     FreeExpHeapBlockAndClearPointer(&gHlScr);
 }
 
-void LoadHlScr(int b) {
-    void *a;
+void LoadHlScr(int scrIndex) {
+    void *file;
 
-    a = LoadFile(BuildFilePathWithLanguage(gHlNscNames[b]), NULL, 4);
-    MIi_CpuCopyFast(a, gHlScr, 0xc0);
-    DeleteLoadedFile(a);
+    file = LoadFile(BuildFilePathWithLanguage(gHlNscNames[scrIndex]), NULL, 4);
+    MIi_CpuCopyFast(file, gHlScr, 0xc0);
+    DeleteLoadedFile(file);
     AddTask(1, UploadHlScr, NULL, 0x78);
 }
 
 void LoadHlSetScr(void) {
-    u32 value0;
-    value0 = GetApWorkCopy()->mEntryIndex;
-    value0 = (value0) + (5u);
-    LoadHlScr(value0);
+    u32 scrIndex;
+    scrIndex = GetApWorkCopy()->mEntryIndex;
+    scrIndex = (scrIndex) + (5u);
+    LoadHlScr(scrIndex);
 }
 
 void LoadHlListScr(void) {
-    u32 value0;
-    value0 = GetApWorkCopy()->mEntryIndex;
-    value0 = (value0) + (2u);
-    LoadHlScr(value0);
+    u32 scrIndex;
+    scrIndex = GetApWorkCopy()->mEntryIndex;
+    scrIndex = (scrIndex) + (2u);
+    LoadHlScr(scrIndex);
 }
 
-void UploadHlScr(u32 a) {
+void UploadHlScr(u32 entry) {
     DC_FlushRange(gHlScr, 0xc0);
     GX_LoadBG1Scr(gHlScr, 0, 0xc0);
-    RequestTaskRemoval(1, a);
+    RequestTaskRemoval(1, entry);
 }

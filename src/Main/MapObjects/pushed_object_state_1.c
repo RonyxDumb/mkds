@@ -32,6 +32,6 @@ void UpdatePushedObjectState1(PushedObject *object) {
 
 void EnterPushedObjectState2(u32 objectAddress) {
     u32 object = objectAddress;
-    u32 value12;
+    u32 unusedValue;
     ParkMapObject((void *) object);
 }

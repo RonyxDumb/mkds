@@ -80,15 +80,16 @@ void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...
     }
 }
 
-u32 SendConnectionBytes(Gt2Connection *a, u8 *b, u32 c) {
-    int v1;
-    u32 v2;
-    v1 = gti2SocketSend((u32 *) a->mSocket, a->mAddress, a->mPort, (u32) b, c);
-    if (v1 == 0) {
+u32 SendConnectionBytes(Gt2Connection *gt2Connection, u8 *data, u32 length) {
+    int sendResult;
+    u32 elapsedMilliseconds;
+    sendResult = gti2SocketSend((u32 *) gt2Connection->mSocket, gt2Connection->mAddress, gt2Connection->mPort,
+                                (u32) data, length);
+    if (sendResult == 0) {
         return 0;
     }
-    v2 = GetElapsedMilliseconds();
-    a->mLastSendTime = v2;
+    elapsedMilliseconds = GetElapsedMilliseconds();
+    gt2Connection->mLastSendTime = elapsedMilliseconds;
     return 1;
 }
 

@@ -125,14 +125,14 @@ void UpdateChildWait(void) {
 }
 
 void UpdateChildWaitInput(void) {
-    int v1;
-    v1 = AreKeysPressed(2);
-    if (v1 != 0) {
+    int checkResult;
+    checkResult = AreKeysPressed(2);
+    if (checkResult != 0) {
         SetButtonResultIfNone(0);
         return;
     }
-    v1 = ChildWaitPAD_DetectFold();
-    if (v1 != 0) {
+    checkResult = ChildWaitPAD_DetectFold();
+    if (checkResult != 0) {
         SetButtonResultIfNone(0);
     }
 }
@@ -159,9 +159,10 @@ void StartChildWaitClose(void) {
 }
 
 void UpdateChildWaitFadeOut(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(1);
-    if ((v1 == 0) && ((gChildWaitResult != 0 || (v1 = IsChildWaitSessionReleased(), v1 != 0)))) {
+    int checkResult;
+    checkResult = IsBlendBrightnessFadeSlotBusy(1);
+    if ((checkResult == 0) &&
+        ((gChildWaitResult != 0 || (checkResult = IsChildWaitSessionReleased(), checkResult != 0)))) {
         StartSlideButtonsOut();
         if (gChildWaitResult == 0) {
             StartBlendBrightnessFade(3, 1, 1, 8);
@@ -172,11 +173,12 @@ void UpdateChildWaitFadeOut(void) {
 }
 
 void UpdateChildWaitRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if (((v1 == 0) && (((gChildWaitResult != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                        (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) &&
-        ((gChildWaitResult != 0 || (v1 = IsChildWaitSessionReleased(), v1 != 0)))) {
+    int checkResult;
+    checkResult = IsBlendBrightnessFadeSlotBusy(0);
+    if (((checkResult == 0) &&
+         (((gChildWaitResult != 0 || (checkResult = IsBlendBrightnessFadeSlotBusy(1), checkResult == 0)) &&
+           (checkResult = IsSlideButtonsNotSlidingOut(), checkResult != 0)))) &&
+        ((gChildWaitResult != 0 || (checkResult = IsChildWaitSessionReleased(), checkResult != 0)))) {
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         if (gChildWaitResult == 0) {

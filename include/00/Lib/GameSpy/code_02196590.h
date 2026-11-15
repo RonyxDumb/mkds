@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void GpiSetErrorMessage(void *arg0, void *arg1);
+void GpiSetErrorMessage(void *errorTarget, void *message);

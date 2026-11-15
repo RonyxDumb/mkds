@@ -78,16 +78,16 @@ u8 DWCi_AC_GetPhase(void) {
 }
 
 void DWCi_AC_SetError(u32 error) {
-    u32 value0 = error;
+    u32 value = error;
     u32 hold;
     u32 errorValue;
-    errorValue = (value0) + (0u);
-    value0 = 1u;
-    value0 = DWCi_AC_GetMemPtr(value0);
-    hold = (value0) + (0u);
+    errorValue = (value) + (0u);
+    value = 1u;
+    value = DWCi_AC_GetMemPtr(value);
+    hold = (value) + (0u);
     *(u32 *) ((hold) + 12u) = errorValue;
-    value0 = DWCi_AC_GetPhase();
-    *(u8 *) ((hold) + 10u) = value0;
+    value = DWCi_AC_GetPhase();
+    *(u8 *) ((hold) + 10u) = value;
 }
 
 u32 DWCi_AC_GetError(void) {

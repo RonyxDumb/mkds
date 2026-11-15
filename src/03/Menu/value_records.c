@@ -127,14 +127,14 @@ void UpdateValueRecords(void) {
 }
 
 void UpdateValueRecordsInput(void) {
-    int v1;
-    v1 = AreKeysDown(2);
-    if (v1 != 0) {
+    int checkResult;
+    checkResult = AreKeysDown(2);
+    if (checkResult != 0) {
         SetButtonResultIfNone((u8) 0);
         return;
     }
-    v1 = ValueRecordsPAD_DetectFold();
-    if (v1 != 0) {
+    checkResult = ValueRecordsPAD_DetectFold();
+    if (checkResult != 0) {
         SetButtonResultIfNone((u8) 0);
     }
 }
@@ -173,10 +173,11 @@ void UpdateValueRecordsFadeOut(void) {
 }
 
 void UpdateValueRecordsRelease(void) {
-    int v1;
-    v1 = IsBlendBrightnessFadeSlotBusy(0);
-    if ((v1 == 0) && (((gValueRecordsShowNext != 0 || (v1 = IsBlendBrightnessFadeSlotBusy(1), v1 == 0)) &&
-                       (v1 = IsSlideButtonsNotSlidingOut(), v1 != 0)))) {
+    int checkResult;
+    checkResult = IsBlendBrightnessFadeSlotBusy(0);
+    if ((checkResult == 0) &&
+        (((gValueRecordsShowNext != 0 || (checkResult = IsBlendBrightnessFadeSlotBusy(1), checkResult == 0)) &&
+          (checkResult = IsSlideButtonsNotSlidingOut(), checkResult != 0)))) {
         ReleaseValueRecordsRequest((gValueRecordsShowNext != 0));
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);

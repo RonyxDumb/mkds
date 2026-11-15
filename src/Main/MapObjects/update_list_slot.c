@@ -7,23 +7,23 @@
 
 #pragma thumb on
 u32 InitMapObjectUpdateList(MapObjectList *list) {
-    u32 value0 = (u32) list;
-    u32 value1;
+    u32 valueA = (u32) list;
+    u32 valueB;
     u32 listPointer;
-    listPointer = (value0) + (0u);
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
-    value1 = *(const u16 *) ((listPointer) + 4u);
-    value1 = (value1 << 2);
-    value0 = (u32) HeapAlloc((void *) value0, value1);
-    *(u32 *) ((listPointer) + 0u) = value0;
-    value1 = 0u;
-    *(u16 *) ((listPointer) + 4u) = value1;
-    value0 = 3u;
-    *(u32 *) ((listPointer) + 24u) = value0;
-    *(u32 *) ((listPointer) + 28u) = value1;
-    *(u32 *) ((listPointer) + 32u) = value0;
-    return value0;
+    listPointer = (valueA) + (0u);
+    valueA = (u32) GetCurrentHeapCall();
+    valueA = (u32) GetHeap((void *) valueA);
+    valueB = *(const u16 *) ((listPointer) + 4u);
+    valueB = (valueB << 2);
+    valueA = (u32) HeapAlloc((void *) valueA, valueB);
+    *(u32 *) ((listPointer) + 0u) = valueA;
+    valueB = 0u;
+    *(u16 *) ((listPointer) + 4u) = valueB;
+    valueA = 3u;
+    *(u32 *) ((listPointer) + 24u) = valueA;
+    *(u32 *) ((listPointer) + 28u) = valueB;
+    *(u32 *) ((listPointer) + 32u) = valueA;
+    return valueA;
 }
 #pragma thumb off
 

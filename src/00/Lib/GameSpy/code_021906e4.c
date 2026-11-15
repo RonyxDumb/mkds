@@ -93,8 +93,8 @@ u32 GpiAppendBufferBytes(void *connection, GpiBuffer *outputBuffer, const void *
     return 0;
 }
 
-u32 GpiAppendBufferString(void *p0, void *p1, const void *p2) {
-    return GpiAppendBufferBytes(p0, p1, p2, strlen(p2));
+u32 GpiAppendBufferString(void *connection, void *outputBuffer, const void *string) {
+    return GpiAppendBufferBytes(connection, outputBuffer, string, strlen(string));
 }
 
 u32 GpiAppendBufferNumber(void *connection, void *outputBuffer, u32 number) {
@@ -190,9 +190,9 @@ u32 GpiPeerSendBytes(GpConnection *connection, GpiPeer *gpiPeer, const char *dat
     return 0;
 }
 
-u32 GpiPeerSendString(GpConnection *p0, GpiPeer *p1, const char *p2) {
-    u32 v6 = strlen(p2);
-    return GpiPeerSendBytes(p0, p1, p2, v6);
+u32 GpiPeerSendString(GpConnection *connection, GpiPeer *gpiPeer, const char *string) {
+    u32 stringLen = strlen(string);
+    return GpiPeerSendBytes(connection, gpiPeer, string, stringLen);
 }
 
 static void UnusedFormatDecimal(char *text, u32 number) {

@@ -43,16 +43,16 @@ void InitOptionSelectMenuTexts(void) {
     s32 labelIndex;
 
     {
-        s32 v0 = 0x8000;
+        s32 mainRemainingSize = 0x8000;
         u8 mainLabelSizes[2][2] = {{0xdc, 0x10}, {0xf0, 0x50}};
         s32 mainMessageIndices[2] = {0xb, 0xc};
 
         for (labelIndex = 0; labelIndex < 2; labelIndex++) {
-            v0 -= InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuMLabelIndices[labelIndex],
-                                  gOptionSelectMenu->mOptionSelectMenuMBnll, mainLabelSizes[labelIndex][0],
-                                  mainLabelSizes[labelIndex][1], labelIndex, gOptionSelectMenu->mOptionSelectMenuMNcer,
-                                  gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMTable,
-                                  v0);
+            mainRemainingSize -= InitLabelCanvas(
+                gOptionSelectMenu->mHeap, gOptionSelectMenuMLabelIndices[labelIndex],
+                gOptionSelectMenu->mOptionSelectMenuMBnll, mainLabelSizes[labelIndex][0], mainLabelSizes[labelIndex][1],
+                labelIndex, gOptionSelectMenu->mOptionSelectMenuMNcer, gOptionSelectMenu->mOptionSelectMenuMBncl,
+                gOptionSelectMenu->mOptionSelectMenuMTable, mainRemainingSize);
             PrintLabelLayoutTextNoFixedAdvance(
                 0, gOptionSelectMenuMLabelIndices[labelIndex], gOptionSelectMenu->mOptionSelectMenuMBnll,
                 GetBmgEntry(gOptionSelectMenu->mOptionMessages, mainMessageIndices[labelIndex]),
@@ -60,24 +60,25 @@ void InitOptionSelectMenuTexts(void) {
         }
     }
     {
-        s32 v2 = GX_GetSizeOfSubOBJ();
-        void *v1;
+        s32 subRemainingSize = GX_GetSizeOfSubOBJ();
+        void *subMessages;
         u8 subLabelSizes[3][2] = {{0x9b, 0x10}, {0xa0, 0x10}, {0x32, 0x10}};
         s32 subMessageIndices[3] = {0, 2, 4};
 
         for (labelIndex = 0; labelIndex < 3; labelIndex++) {
-            v1 = gOptionSelectMenu->mOptionMessages;
+            subMessages = gOptionSelectMenu->mOptionMessages;
             if (labelIndex == 2) {
-                v1 = gOptionSelectMenu->mCommonMessages;
+                subMessages = gOptionSelectMenu->mCommonMessages;
             }
-            v2 -= InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuSLabelIndices[labelIndex],
-                                  gOptionSelectMenu->mOptionSelectMenuSBnll, subLabelSizes[labelIndex][0],
-                                  subLabelSizes[labelIndex][1], gOptionSelectMenuRowSTableIndices[labelIndex],
-                                  gOptionSelectMenu->mOptionSelectMenuSNcer, gOptionSelectMenu->mOptionSelectMenuSBncl,
-                                  gOptionSelectMenu->mOptionSelectMenuSTable, v2);
+            subRemainingSize -=
+                InitLabelCanvas(gOptionSelectMenu->mHeap, gOptionSelectMenuSLabelIndices[labelIndex],
+                                gOptionSelectMenu->mOptionSelectMenuSBnll, subLabelSizes[labelIndex][0],
+                                subLabelSizes[labelIndex][1], gOptionSelectMenuRowSTableIndices[labelIndex],
+                                gOptionSelectMenu->mOptionSelectMenuSNcer, gOptionSelectMenu->mOptionSelectMenuSBncl,
+                                gOptionSelectMenu->mOptionSelectMenuSTable, subRemainingSize);
             PrintLabelLayoutTextNoFixedAdvance(
                 1, gOptionSelectMenuSLabelIndices[labelIndex], gOptionSelectMenu->mOptionSelectMenuSBnll,
-                GetBmgEntry(v1, subMessageIndices[labelIndex]), gOptionSelectMenu->mOptionSelectMenuSBncl,
+                GetBmgEntry(subMessages, subMessageIndices[labelIndex]), gOptionSelectMenu->mOptionSelectMenuSBncl,
                 gOptionSelectMenu->mOptionSelectMenuSTable);
         }
     }

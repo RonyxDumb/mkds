@@ -266,24 +266,24 @@ s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
 
 // Address of one chunk; ids under 1000 count positions in the block list, higher ids are block ids.
 u32 WBTi_GetPacketBuffer(u32 blockIdOrPosition, u32 chunkIndex) {
-    WBTBlockInfoList *v1;
+    WBTBlockInfoList *blockPointer;
     u32 blockPosition;
-    v1 = GetBlockListHead();
+    blockPointer = GetBlockListHead();
     if (blockIdOrPosition < 1000) {
-        for (blockPosition = 0;; blockPosition++, v1 = v1->mNext) {
-            if (v1 == NULL) {
+        for (blockPosition = 0;; blockPosition++, blockPointer = blockPointer->mNext) {
+            if (blockPointer == NULL) {
                 break;
             }
             if (blockPosition == blockIdOrPosition) {
-                return (u32) v1 + chunkIndex * WBT_GetOwnPacketLength();
+                return (u32) blockPointer + chunkIndex * WBT_GetOwnPacketLength();
             }
         }
         return 0;
     }
-    for (; v1 != NULL; v1 = v1->mNext) {
-        if (v1->mDataInfo.mId == blockIdOrPosition) {
-            v1 = (WBTBlockInfoList *) v1->mDataPtr;
-            return (u32) v1 + chunkIndex * WBT_GetOwnPacketLength();
+    for (; blockPointer != NULL; blockPointer = blockPointer->mNext) {
+        if (blockPointer->mDataInfo.mId == blockIdOrPosition) {
+            blockPointer = (WBTBlockInfoList *) blockPointer->mDataPtr;
+            return (u32) blockPointer + chunkIndex * WBT_GetOwnPacketLength();
         }
     }
     return 0;

@@ -3,13 +3,13 @@
 #include "Main/MapObjects/bound.h"
 
 u32 GetDistanceSoundInverseVolume(void) {
-    u32 value0;
-    value0 = 0xau;
-    value0 = (u32) FindMapObjectKindUpdateList(value0);
-    value0 = *(const u32 *) ((value0) + (0));
-    value0 = *(const u32 *) ((value0) + (0));
-    value0 = *(const u32 *) ((value0) + (164));
-    value0 = (0x7f000u) - (value0);
-    value0 = ((s32) value0 >> 12);
-    return value0;
+    u32 volumeValue;
+    volumeValue = 0xau;
+    volumeValue = (u32) FindMapObjectKindUpdateList(volumeValue);
+    volumeValue = *(const u32 *) ((volumeValue) + (0));
+    volumeValue = *(const u32 *) ((volumeValue) + (0));
+    volumeValue = *(const u32 *) ((volumeValue) + (164));
+    volumeValue = (0x7f000u) - (volumeValue);
+    volumeValue = ((s32) volumeValue >> 12);
+    return volumeValue;
 }

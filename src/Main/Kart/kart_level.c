@@ -618,16 +618,16 @@ void StopKartTurnEffects(KartTurnEffects *turnEffects) {
     turnEffects->mTurnStartPresent = 0;
 }
 
-void RequestKartLevel4EffectsRestart(KartTurnEffects *p0) {
-    p0->mLevel4RestartFrames = 0x0u;
-    p0->mLevel4RestartRequested = 0x1u;
+void RequestKartLevel4EffectsRestart(KartTurnEffects *kartTurnEffects) {
+    kartTurnEffects->mLevel4RestartFrames = 0x0u;
+    kartTurnEffects->mLevel4RestartRequested = 0x1u;
 }
 
-void HideKartTurnEffects(KartTurnEffects *p0) {
-    p0->mHideEffects(p0);
+void HideKartTurnEffects(KartTurnEffects *kartTurnEffects) {
+    kartTurnEffects->mHideEffects(kartTurnEffects);
 }
 
-void ShowKartTurnEffects(KartTurnEffects *p0) {
-    u32 v2 = (*(u32 *) (((u32) p0) + (128)));
-    u32 v3 = ((u32(*)(u32))(v2))((u32) p0);
+void ShowKartTurnEffects(KartTurnEffects *kartTurnEffects) {
+    u32 v2 = (*(u32 *) (((u32) kartTurnEffects) + (128)));
+    u32 v3 = ((u32(*)(u32))(v2))((u32) kartTurnEffects);
 }

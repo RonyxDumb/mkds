@@ -548,11 +548,11 @@ void UnusedAllocLiterals(void) {
 }
 
 u32 DWC_Netcheck_GetError(void) {
-    u32 v1;
+    u32 error;
     OS_LockMutex(&gNetcheck->mMutex);
-    v1 = gNetcheck->mError;
+    error = gNetcheck->mError;
     OS_UnlockMutex(&gNetcheck->mMutex);
-    return v1;
+    return error;
 }
 
 void DWCi_Netcheck_SetError(u32 error) {

@@ -50,8 +50,8 @@ void CopyNceImageToOamEntries(u32 slot, u32 imageIndex, OamEntry *destination) {
 
 void *CreateOamEntryFromNceImage(u32 screen, u32 imageIndex) {
     OamEntry *entry;
-    u8 v2[8];
-    entry = CreateOamEntry(screen, v2);
+    u8 source[8];
+    entry = CreateOamEntry(screen, source);
     CopyNceImageToOamEntries(screen, imageIndex, entry);
     return entry;
 }

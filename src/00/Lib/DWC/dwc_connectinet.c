@@ -127,12 +127,12 @@ u32 DWC_GetInetStatus(void) {
 }
 
 void DWC_CleanupInet(void) {
-    int v1;
+    int destroyResult;
     if (gInetControl != NULL) {
-        v1 = DWC_AC_Destroy();
-        while (v1 == 0) {
+        destroyResult = DWC_AC_Destroy();
+        while (destroyResult == 0) {
             OS_Sleep(10);
-            v1 = DWC_AC_Destroy();
+            destroyResult = DWC_AC_Destroy();
         }
         *(s32 *) &gInetControl = 0;
     }
