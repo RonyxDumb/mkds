@@ -21,6 +21,12 @@ typedef struct GroupPath {
     /* 08 */ s32 mWraps;
 } GroupPath;
 
+// GroupFollower.mGroupIndex of a follower that is not on a group.
+#define GROUP_FOLLOWER_NO_GROUP 0xffff
+
+// GroupFollower.mProgress along one segment runs from 0 to this value (1.0 in 24-bit fixed point).
+#define SEGMENT_PROGRESS_END 0x1000000
+
 typedef struct GroupFollower {
     /* 00 */ GroupPath *mPath;
     /* 04 */ s32 mSpeed;

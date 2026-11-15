@@ -45,7 +45,7 @@ void InitSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength
 
 BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightLength, Vec3 **points) {
     s32 value;
-    segmentProgress->mProgress = segmentProgress->mProgress - 0x1000000;
+    segmentProgress->mProgress = segmentProgress->mProgress - SEGMENT_PROGRESS_END;
     segmentProgress->mProgress =
         MUL_FIXED12_NO_ROUND(segmentProgress->mProgress, segmentProgress->mSegment.mProgressLength);
     BuildSegment(&segmentProgress->mSegment, useStraightLength, 0, points[0], points[1], points[2], points[3]);
@@ -56,10 +56,10 @@ BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightL
     if (value != 0) {
         value = MUL_FIXED12_NO_ROUND(segmentProgress->mRate, value);
     } else {
-        value = 0x1000000;
+        value = SEGMENT_PROGRESS_END;
     }
     segmentProgress->mProgressStep = value;
-    if (segmentProgress->mProgress >= 0x1000000) {
+    if (segmentProgress->mProgress >= SEGMENT_PROGRESS_END) {
         return TRUE;
     }
     return FALSE;

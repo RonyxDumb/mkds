@@ -122,7 +122,7 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
     Quaternion orientation;
     u16 modelAlpha;
     NsbmdModel *model;
-    if (kuribo->mFollower.mGroupIndex == 0xffff) {
+    if (kuribo->mFollower.mGroupIndex == GROUP_FOLLOWER_NO_GROUP) {
         QuaternionMultiplyByYawIgnoreY(&kuribo->mOrientation, &gViewYawQuaternion, &orientation);
         Matrix3x3FromQuaternion(&kuribo->mMapObject.mMatrix.mAxes, &orientation);
     } else {

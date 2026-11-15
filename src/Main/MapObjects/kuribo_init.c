@@ -88,7 +88,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         stateMachine->mNextState = 0;
         stateMachine->mNextStateRequested = 1;
     } else {
-        kuribo->mFollower.mGroupIndex = 0xffff;
+        kuribo->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         kuribo->mStartY = 0;
         kuribo->mReturnsAfterWait = 0;
         InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);

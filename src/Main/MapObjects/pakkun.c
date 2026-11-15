@@ -101,7 +101,7 @@ void InitPakkun(Pakkun *pakkun) {
     pakkun->mHeadScaleSpeed = 0;
     pakkun->mHeadHeight = 0x46000;
     for (followerIndex = 0; followerIndex < 7; followerIndex++) {
-        pakkun->mFollowers[followerIndex].mGroupIndex = 0xffff;
+        pakkun->mFollowers[followerIndex].mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
     }
     for (followerIndex = 0; followerIndex < 7; followerIndex++) {
         if (followerIndex == 0) {

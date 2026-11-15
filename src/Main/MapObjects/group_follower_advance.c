@@ -58,7 +58,7 @@ void GetGroupFollowerLinearPosition(GroupFollower *follower, Vec3 *position) {
     s32 remaining;
     segment = &follower->mPath->mSegments[follower->mSegmentIndex];
     progress = follower->mProgress;
-    remaining = 0x1000000 - progress;
+    remaining = SEGMENT_PROGRESS_END - progress;
     position->x = MUL_FIXED24_NO_ROUND(segment->mPoints[0].x, remaining);
     position->y = MUL_FIXED24_NO_ROUND(segment->mPoints[0].y, remaining);
     position->z = MUL_FIXED24_NO_ROUND(segment->mPoints[0].z, remaining);
@@ -74,7 +74,7 @@ void GetGroupFollowerLinearPosStep(GroupFollower *follower, Vec3 *position, Vec3
     s32 rate;
     segment = &follower->mPath->mSegments[follower->mSegmentIndex];
     progress = follower->mProgress;
-    remaining = 0x1000000 - progress;
+    remaining = SEGMENT_PROGRESS_END - progress;
     position->x = MUL_FIXED24_NO_ROUND(segment->mPoints[0].x, remaining);
     position->y = MUL_FIXED24_NO_ROUND(segment->mPoints[0].y, remaining);
     position->z = MUL_FIXED24_NO_ROUND(segment->mPoints[0].z, remaining);
@@ -146,7 +146,7 @@ void GetGroupFollowerLinearXz(GroupFollower *follower, Vec3 *position) {
     s32 remaining;
     segment = &follower->mPath->mSegments[follower->mSegmentIndex];
     progress = follower->mProgress;
-    remaining = 0x1000000 - progress;
+    remaining = SEGMENT_PROGRESS_END - progress;
     position->x = MUL_FIXED24_NO_ROUND(segment->mPoints[0].x, remaining);
     position->z = MUL_FIXED24_NO_ROUND(segment->mPoints[0].z, remaining);
     position->x = position->x + MUL_FIXED24_NO_ROUND(segment->mPoints[3].x, progress);
@@ -189,7 +189,7 @@ Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row) {
 }
 
 void SetGroupFollowerSegmentEnd(GroupFollower *follower) {
-    follower->mProgress = 0x1000000u;
+    follower->mProgress = SEGMENT_PROGRESS_END;
 }
 
 void ReverseGroupFollower(GroupFollower *follower) {
@@ -241,11 +241,11 @@ s32 AdvanceGroupFollowerWithSpeeds(GroupFollowerWithSpeeds *follower) {
 void SetSegmentProgressRate(SegmentProgress *segmentProgress, s32 value) {
     s32 inverseLength = segmentProgress->mSegment.mInverseProgressLength;
     segmentProgress->mRate = value;
-    value = inverseLength != 0 ? MUL_FIXED12_NO_ROUND(value, inverseLength) : 0x1000000;
+    value = inverseLength != 0 ? MUL_FIXED12_NO_ROUND(value, inverseLength) : SEGMENT_PROGRESS_END;
     segmentProgress->mProgressStep = value;
 }
 
 BOOL AdvanceSegmentProgress(SegmentProgress *segmentProgress) {
     segmentProgress->mProgress = segmentProgress->mProgress + segmentProgress->mProgressStep;
-    return segmentProgress->mProgress >= 0x1000000;
+    return segmentProgress->mProgress >= SEGMENT_PROGRESS_END;
 }

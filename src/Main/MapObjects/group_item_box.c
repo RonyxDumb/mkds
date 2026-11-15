@@ -96,7 +96,7 @@ void UpdateGroupItemBoxHeightOffset(void) {
 }
 
 void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
-    if (itemBox->mFollower.mGroupFollower.mGroupIndex != 0xffff) {
+    if (itemBox->mFollower.mGroupFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
         if (AdvanceGroupFollowerWithSpeeds(&itemBox->mFollower) != 0) {
             if (itemBox->mFollower.mGroupFollower.mFromEntry->mExtraValue != 0) {
                 SetupGroupFollowerWithSpeeds(&itemBox->mFollower, 0, 1);

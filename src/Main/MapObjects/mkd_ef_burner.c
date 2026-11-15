@@ -128,7 +128,7 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
         mkdEfBurner->mMapObject.mPos.y =
             mkdEfBurner->mMapObject.mCourseMapRow->mPosition.y - mkdEfBurner->mMapObject.mExtent.y;
         if (mkdEfBurner->mMapObject.mCourseMapRow->mGroupIndex < 0) {
-            mkdEfBurner->mFollower.mGroupIndex = 0xffff;
+            mkdEfBurner->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         } else {
             InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mMapObject.mCourseMapRow, followerSpeed);
             speed = TO_FIXED12(mkdEfBurner->mMapObject.mCourseMapRow->mSettings[3]) / 100;
@@ -205,7 +205,7 @@ void UpdateMkdEfBurner(void *mapObjectList, MkdEfBurner *mkdEfBurner) {
     if (mkdEfBurner->mNsbtaFrameIndex >= nsbtaFrameCount) {
         mkdEfBurner->mNsbtaFrameIndex = 0;
     }
-    if (mkdEfBurner->mFollower.mGroupIndex != 0xffff) {
+    if (mkdEfBurner->mFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
         AdvanceGroupFollower(&mkdEfBurner->mFollower);
         GetGroupFollowerLinearPosition(&mkdEfBurner->mFollower, &mkdEfBurner->mMapObject.mPos);
         mkdEfBurner->mMapObject.mPos.y = mkdEfBurner->mMapObject.mPos.y - mkdEfBurner->mMapObject.mExtent.y;

@@ -330,7 +330,7 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
             bound->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength, 0x3000);
         } else {
-            bound->mFollower.mGroupIndex = 0xffff;
+            bound->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         }
     }
 }
@@ -349,7 +349,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     s32 kartIndex;
     s32 kartCount;
 
-    if (bound->mFollower.mGroupIndex != 0xffff) {
+    if (bound->mFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
         AdvanceGroupFollower(&bound->mFollower);
         GetGroupFollowerCurvePosStep(&bound->mFollower, &bound->mMapObject.mPos, &bound->mMapObject.mPosStep);
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gBound);
