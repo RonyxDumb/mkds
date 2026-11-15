@@ -2065,8 +2065,8 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     s32 index;
     u8 *block;
 
-    mgr = alloc(0x4c);
-    MI_CpuFill8(mgr, 0, 0x4c);
+    mgr = alloc(sizeof(SPLManager));
+    MI_CpuFill8(mgr, 0, sizeof(SPLManager));
     mgr->mMaxEmitters = maxEmitters;
     mgr->mMaxParticles = maxParticles;
     mgr->mPolygonIDMin = minPolyId;

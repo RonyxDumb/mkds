@@ -598,7 +598,7 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
         *cursor = *gMultibootGameNameCursor++;
         cursor++;
     }
-    MI_CpuCopy8(user, &parentWork->mUser, 0x16);
+    MI_CpuCopy8(user, &parentWork->mUser, sizeof(MBUserInfo));
     if (user->mNameLength < 10) {
         parentWork->mUser.mName[user->mNameLength] = 0;
     }
@@ -803,7 +803,7 @@ void MB_DisconnectChild(u32 childIndex) {
         slot = childIndex - 1;
         mbc->mChildversion[slot] = 0;
         MI_CpuFill8(mbc->mChildggid + slot, 0, 4);
-        MI_CpuFill8(OFFSET_PTR(MBUserInfo, mbc->mChildUser, slot * 0x16), 0, 0x16);
+        MI_CpuFill8(OFFSET_PTR(MBUserInfo, mbc->mChildUser, slot * 0x16), 0, sizeof(MBUserInfo));
         MBi_ClearParentPieceBuffer(childIndex);
         value = 0;
         mbc->mReq2child[slot] = value;

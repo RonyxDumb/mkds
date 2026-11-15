@@ -449,7 +449,7 @@ u32 FSi_SendCommand(FSFile *file, u32 command) {
 
 // Clears an archive and its thread queues.
 void FS_InitArchive(FSArchive *archive) {
-    MI_CpuFill8(archive, 0, 0x5c);
+    MI_CpuFill8(archive, 0, sizeof(FSArchive));
     archive->mSyncQ.mTail = 0;
     archive->mSyncQ.mHead = archive->mSyncQ.mTail;
     archive->mStatQ.mTail = 0;

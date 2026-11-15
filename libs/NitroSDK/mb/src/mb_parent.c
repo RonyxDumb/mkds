@@ -28,7 +28,7 @@ void *MB_CommGetChildUser(u32 child) {
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
     if (mbc != NULL && IsChildAidValid(child) != 0) {
-        MI_CpuCopy8(&mbc->mChildUser[child - 1], mbc->mChildUserBuf, 0x16);
+        MI_CpuCopy8(&mbc->mChildUser[child - 1], mbc->mChildUserBuf, sizeof(MBUserInfo));
         OS_RestoreInterrupts(savedInterrupts);
         return mbc->mChildUserBuf;
     }
@@ -118,7 +118,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
             if (aid != 0 && aid < 16) {
                 mbc->mChildversion[eventData->mLength - 1] = 0;
                 MI_CpuFill8(mbc->mChildggid + (eventData->mLength - 1), 0, 4);
-                MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, 0x16);
+                MI_CpuFill8(&mbc->mChildUser[eventData->mLength - 1], 0, sizeof(MBUserInfo));
                 MBi_ClearParentPieceBuffer(eventData->mLength);
                 value = 0;
                 mbc->mReq2child[eventData->mLength - 1] = value;
@@ -250,8 +250,8 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                 index = child - 1;
                 mbc->mChildggid[arrayIndex] = payloadCopy.mGgid;
                 mbc->mChildversion[index] = payloadCopy.mVersion;
-                index *= 0x16;
-                MI_CpuCopy8(payloadCopy.mUserInfo, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), 0x16);
+                index *= sizeof(MBUserInfo);
+                MI_CpuCopy8(payloadCopy.mUserInfo, OFFSET_PTR(MBUserInfo, mbc->mChildUser, index), sizeof(MBUserInfo));
                 OFFSET_PTR(MBUserInfo, mbc->mChildUser, index)->mPlayerNo = child;
                 MBi_CommChangeParentState(child, 0xa, payloadCopy.mUserInfo);
             }
