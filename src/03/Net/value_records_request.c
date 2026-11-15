@@ -23,9 +23,9 @@ void InitValueRecordsRequest(void) {
     requestItem.mClearValue = 0;
     MIi_CpuClear16(requestItem.mClearValue, &requestItem.mItem, sizeof(ValueRecordsRequestItem));
     requestItem.mItem.mItemType = 0x50;
-    requestItem.mItem.mItemLength = 0xc;
+    requestItem.mItem.mItemLength = sizeof(gNintendoDsItemBytes);
     MI_CpuCopy8(gNintendoDsItemBytes, requestItem.mItem.mItemBytes, 0xc);
-    gValueRecordsRequest->mWantedRecordMask = 3;
+    gValueRecordsRequest->mWantedRecordMask = VALUE_RECORD_MASK_FOUR_VALUE_FIRST | VALUE_RECORD_MASK_FOUR_VALUE_SECOND;
     request = gValueRecordsRequest;
     request->mItem = requestItem.mItem;
     request->mScanRetryLimit = 1;
