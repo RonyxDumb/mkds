@@ -304,7 +304,7 @@ BOOL PersistThink(void) {
             }
             gRcvLen += len;
             gRcvBuffer[gRcvLen] = 0;
-            usedLen = ProcessInBuffer((u8 *) gRcvBuffer, gRcvLen);
+            usedLen = ProcessInBuffer(gRcvBuffer, gRcvLen);
             if (usedLen == gRcvLen) {
                 gRcvLen = 0;
             } else {
@@ -329,7 +329,7 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
     char md5Text[0x21];
     char replyFormat[] = "\xC\x13\x1A\x1E\xD\x3F\x28\x26\x11\x5\x0\x16\x31\x1F\xA\x36\x40\x10\x28\x33\x15\x1B\x15\x17"
                          "\x3E\x1\xA\x36\x40\x10\x28\x31\x1F\x1A\x11\x24\x75\x16\x33\x3\x1\x3F\x45";
-    const s8 *challengeText;
+    const char *challengeText;
     s32 len;
     s8 replyBuf[0x80];
     gChallengeStr[0] = 'c';
@@ -338,7 +338,7 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
         closesocket(gSock);
         return 5;
     }
-    len = g_crc32(challengeText, strlen((const char *) challengeText));
+    len = g_crc32((const s8 *) challengeText, strlen(challengeText));
     len = sprintf((char *) replyBuf, "%d%s", len, gcd_secret_key);
     MD5Digest((const char *) replyBuf, len, md5Text);
     gEnc = gEnc3;
@@ -354,7 +354,7 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
 s32 RecvSessionKey(void) {
     s8 replyBuf[0x80];
     s32 len = recv(gSock, replyBuf, 0x80, 0);
-    const s8 *sessionText;
+    const char *sessionText;
     s32 sockErrCode;
     if (len == -1) {
         sockErrCode = GOAGetLastError(gSock);
@@ -372,7 +372,7 @@ s32 RecvSessionKey(void) {
         closesocket(gSock);
         return 5;
     }
-    gConnId = StrtolBase10((const char *) sessionText);
+    gConnId = StrtolBase10(sessionText);
     return 0;
 }
 
@@ -438,12 +438,12 @@ void create_challenge(u32 challenge, s8 *chstr) {
     }
 }
 
-const s8 *value_for_key(const s8 *text, const char *key) {
+const char *value_for_key(const s8 *text, const char *key) {
     char searchPattern[256] = "\\";
-    static s8 gValueForKeyValues[2][256] = {0};
+    static char gValueForKeyValues[2][256] = {0};
     const s8 *pos;
-    s8 *valuePos;
-    s8 *valueSlot;
+    char *valuePos;
+    char *valueSlot;
     gValueIndex ^= 1;
     strcat(searchPattern, key);
     strcat(searchPattern, "\\");
@@ -461,10 +461,10 @@ const s8 *value_for_key(const s8 *text, const char *key) {
     return valueSlot;
 }
 
-const s8 *value_for_key_safe(const s8 *text, const char *key) {
-    const s8 *result = value_for_key(text, key);
+const char *value_for_key_safe(const s8 *text, const char *key) {
+    const char *result = value_for_key(text, key);
     if (result == NULL) {
-        result = (const s8 *) "";
+        result = "";
     }
     return result;
 }
@@ -619,10 +619,10 @@ s32 FindRequest(s32 reqType, s32 ownId, s32 profileId) {
     return -1;
 }
 
-void ProcessPlayerAuth(u8 *buf, s32 len) {
-    s32 pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "pauthr"));
-    s32 lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "lid"));
-    const s8 *failText = value_for_key_safe((const s8 *) buf, "errmsg");
+void ProcessPlayerAuth(s8 *buf, s32 len) {
+    s32 pid = StrtolBase10(value_for_key_safe(buf, "pauthr"));
+    s32 lid = StrtolBase10(value_for_key_safe(buf, "lid"));
+    const char *failText = value_for_key_safe(buf, "errmsg");
     s32 requestPos = FindRequest(0, lid, 0);
     if (requestPos != -1) {
         ServerReq *req = DarrayGetElement(gServerReqs, requestPos);
@@ -631,14 +631,14 @@ void ProcessPlayerAuth(u8 *buf, s32 len) {
     }
 }
 
-void ProcessGetPid(u8 *buf, s32 len) {
+void ProcessGetPid(s8 *buf, s32 len) {
     s32 pid;
     s32 lid;
     s32 requestPos;
     ServerReq *req;
 
-    pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "getpidr"));
-    lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "lid"));
+    pid = StrtolBase10(value_for_key_safe(buf, "getpidr"));
+    lid = StrtolBase10(value_for_key_safe(buf, "lid"));
     requestPos = FindRequest(3, lid, 0);
     if (requestPos != -1) {
         req = DarrayGetElement(gServerReqs, requestPos);
@@ -647,7 +647,7 @@ void ProcessGetPid(u8 *buf, s32 len) {
     }
 }
 
-void ProcessGetData(u8 *buf, s32 len) {
+void ProcessGetData(s8 *buf, s32 len) {
     s32 okFlag;
     s32 lid;
     s32 pid;
@@ -657,13 +657,13 @@ void ProcessGetData(u8 *buf, s32 len) {
     u8 *marker;
     const u8 *data;
 
-    okFlag = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "getpdr"));
-    lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "lid"));
-    pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "pid"));
-    revisionStamp = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "mod"));
+    okFlag = StrtolBase10(value_for_key_safe(buf, "getpdr"));
+    lid = StrtolBase10(value_for_key_safe(buf, "lid"));
+    pid = StrtolBase10(value_for_key_safe(buf, "pid"));
+    revisionStamp = StrtolBase10(value_for_key_safe(buf, "mod"));
     requestPos = FindRequest(1, lid, pid);
     if (requestPos != -1) {
-        length = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "length"));
+        length = StrtolBase10(value_for_key_safe(buf, "length"));
         marker = (u8 *) strstr((const char *) buf, "\\data\\");
         if (marker == NULL) {
             length = 0;
@@ -675,24 +675,24 @@ void ProcessGetData(u8 *buf, s32 len) {
     }
 }
 
-void ProcessSetData(u8 *buf, s32 len) {
+void ProcessSetData(s8 *buf, s32 len) {
     s32 okFlag;
     s32 pid;
     s32 lid;
     s32 revisionStamp;
     s32 requestPos;
 
-    okFlag = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "setpdr"));
-    pid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "pid"));
-    lid = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "lid"));
-    revisionStamp = StrtolBase10((const char *) value_for_key_safe((const s8 *) buf, "mod"));
+    okFlag = StrtolBase10(value_for_key_safe(buf, "setpdr"));
+    pid = StrtolBase10(value_for_key_safe(buf, "pid"));
+    lid = StrtolBase10(value_for_key_safe(buf, "lid"));
+    revisionStamp = StrtolBase10(value_for_key_safe(buf, "mod"));
     requestPos = FindRequest(2, lid, pid);
     if (requestPos != -1) {
         CallReqCallback(requestPos, okFlag, revisionStamp, NULL, 0);
     }
 }
 
-void ProcessStatement(u8 *buff, s32 len) {
+void ProcessStatement(s8 *buff, s32 len) {
     buff[len] = 0;
     if (strncmp((const char *) buff, "\\pauthr\\", 8) == 0) {
         ProcessPlayerAuth(buff, len);
@@ -715,22 +715,22 @@ void ProcessStatement(u8 *buff, s32 len) {
     }
 }
 
-s32 ProcessInBuffer(u8 *buff, s32 len) {
-    u8 *pos;
+s32 ProcessInBuffer(s8 *buff, s32 len) {
+    const s8 *pos;
     s32 oldLen;
     s32 statementLen;
 
     oldLen = len;
-    pos = (u8 *) FindFinal((const s8 *) buff, len);
+    pos = FindFinal(buff, len);
     while (len > 0 && pos != NULL) {
         gEnc = gEnc1;
         statementLen = pos - buff;
-        xcode_buf((s8 *) buff, statementLen);
+        xcode_buf(buff, statementLen);
         ProcessStatement(buff, statementLen);
         len = len - (statementLen + 7);
-        buff = pos + 7;
+        buff = (s8 *) pos + 7;
         if (len > 0) {
-            pos = (u8 *) FindFinal((const s8 *) buff, len);
+            pos = FindFinal(buff, len);
         }
     }
     return oldLen - len;

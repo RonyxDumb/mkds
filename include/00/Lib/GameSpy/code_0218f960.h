@@ -82,7 +82,7 @@ typedef struct GpiConnection {
     /* 464 */ u8 mUnk_464[8];
     /* 46c */ s32 mProductId;
     /* 470 */ s32 mNamespaceId;
-    /* 474 */ s8 mUnk_474[0x19];
+    /* 474 */ char mUnk_474[0x19];
 } GpiConnection;
 
 // Object passed to GpiWriteDelbuddyAndRemoveBuddy as its first argument.

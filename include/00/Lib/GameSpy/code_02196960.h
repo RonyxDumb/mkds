@@ -36,12 +36,12 @@ extern char gcd_secret_key[];
 
 void ClosePendingCallbacks(void);
 void CallReqCallback(s32 requestPos, s32 success, s32 modified, const u8 *data, s32 length);
-s32 ProcessInBuffer(u8 *buff, s32 len);
-void ProcessStatement(u8 *buff, s32 len);
-void ProcessSetData(u8 *buf, s32 len);
-void ProcessGetData(u8 *buf, s32 len);
-void ProcessGetPid(u8 *buf, s32 len);
-void ProcessPlayerAuth(u8 *buf, s32 len);
+s32 ProcessInBuffer(s8 *buff, s32 len);
+void ProcessStatement(s8 *buff, s32 len);
+void ProcessSetData(s8 *buf, s32 len);
+void ProcessGetData(s8 *buf, s32 len);
+void ProcessGetPid(s8 *buf, s32 len);
+void ProcessPlayerAuth(s8 *buf, s32 len);
 s32 FindRequest(s32 reqType, s32 ownId, s32 profileId);
 const s8 *FindFinal(const s8 *buff, s32 len);
 u32 SocketReadable(u32 socket);
@@ -51,8 +51,8 @@ void SendPlayerAuthRequest(s8 *data, s32 len, s32 ownId, UnkFunc *callback, s32 
 void AddRequestCallback(s32 reqType, s32 ownId, s32 profileId, s32 dataKind, s32 dataIndex, UnkFunc *callback,
                         s32 instance);
 BOOL ResolveStatsHostAddress(const s8 *host, u32 port, u8 *saddr, SOCHostEnt **savehent);
-const s8 *value_for_key_safe(const s8 *text, const char *key);
-const s8 *value_for_key(const s8 *text, const char *key);
+const char *value_for_key_safe(const s8 *text, const char *key);
+const char *value_for_key(const s8 *text, const char *key);
 void create_challenge(u32 challenge, s8 *chstr);
 int g_crc32(const s8 *text, int len);
 void xcode_buf(s8 *buf, s32 len);

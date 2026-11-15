@@ -435,7 +435,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
             if (GpiGetValue(input, "\\uniquenick\\", uniqueNickText, 0x15) == FALSE) {
                 uniqueNickText[0] = 0;
             }
-            if (GpiGetValue(input, "\\lt\\", (char *) gpState->mUnk_474, 0x19) == FALSE) {
+            if (GpiGetValue(input, "\\lt\\", gpState->mUnk_474, 0x19) == FALSE) {
                 gpState->mUnk_474[0] = 0;
             }
             if (data->mAuthtoken[0] != 0) {
