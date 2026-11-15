@@ -1040,7 +1040,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
     index = 0;
     for (; index < current->mCount; index++) {
         char currentName[0x22] = {0};
-        memcpy(currentName, currentEntry->mSsid, 0x20);
+        memcpy(currentName, currentEntry->mSsid, sizeof(currentEntry->mSsid));
         currentName[currentEntry->mSsidLength] = 0;
         previousIndex = 0;
         previousCount = previous->mCount;
@@ -1077,7 +1077,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
         previousEntry = previous->mEntries;
         previousIndex = 0;
         for (; previousIndex < previous->mCount; previousIndex++) {
-            memcpy(entryName, previousEntry->mSsid, 0x20);
+            memcpy(entryName, previousEntry->mSsid, sizeof(previousEntry->mSsid));
             entryName[previousEntry->mSsidLength] = 0;
             if (memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
                 previousEntry->mEncrypted == 0) {
@@ -1088,7 +1088,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
         }
         index = 0;
         for (; index < current->mCount; index++) {
-            memcpy(entryName, currentEntry->mSsid, 0x20);
+            memcpy(entryName, currentEntry->mSsid, sizeof(currentEntry->mSsid));
             entryName[currentEntry->mSsidLength] = 0;
             if (strlen(entryName) == strlen(gSixAsterisksString) &&
                 memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
@@ -1216,7 +1216,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
         rawEntry = gRawEntries;
         if (result > 0) {
             do {
-                memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, 0x20);
+                memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, sizeof(currentList->mEntries[index].mSsid));
                 currentList->mEntries[index].mSsidLength = rawEntry->mSsidLength;
                 currentList->mEntries[index].mSsid[rawEntry->mSsidLength] = 0;
                 currentList->mEntries[index].mEncrypted = (rawEntry->mFlags & 0x10) ? 1 : 0;

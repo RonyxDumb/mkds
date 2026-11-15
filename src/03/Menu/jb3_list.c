@@ -582,7 +582,7 @@ void PrintJb3ListEntryText(u32 entryIndex, int row) {
             if (record->mEntry.mWepNotation == 1) {
                 starCount = _s32_div_f(starCount, 2);
             }
-            MI_CpuFill8(starText, 0, 0x21);
+            MI_CpuFill8(starText, 0, sizeof(starText));
             memset(starText, 0x2a, starCount);
             PrintJb3ListEntryString(starText, row);
             return;
@@ -768,7 +768,7 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     int charIndex;
     int yPosition;
     int secondLineLength;
-    MI_CpuFill8(text, 0, 0x22);
+    MI_CpuFill8(text, 0, sizeof(text));
     length = GetStringLengthWithLimit(bytes, 0x20);
     if (length <= 0x10) {
         shownLength = length;
@@ -789,7 +789,7 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     }
     DrawCharsCentered(gJb3List->mBgTextCanvas, 0x48, yPosition, 2, 8, text, 1);
     if (length > 0x10) {
-        MI_CpuFill8(text, 0, 0x22);
+        MI_CpuFill8(text, 0, sizeof(text));
         secondLineLength = length - 0x10;
         for (charIndex = 0; charIndex < secondLineLength; charIndex++) {
             character = bytes[charIndex + 0x10];

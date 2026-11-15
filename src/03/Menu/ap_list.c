@@ -501,7 +501,7 @@ void PrintApListEntryText(int entryIndex, int yPos) {
         if (textLength <= 0x10) {
             yPos += 6;
         }
-        MI_CpuFill8(lineText, 0, 0x22);
+        MI_CpuFill8(lineText, 0, sizeof(lineText));
         if (textLength <= 0x10) {
             lineLength = textLength;
         } else {
@@ -512,7 +512,7 @@ void PrintApListEntryText(int entryIndex, int yPos) {
         }
         DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
         if (textLength > 0x10) {
-            MI_CpuFill8(lineText, 0, 0x22);
+            MI_CpuFill8(lineText, 0, sizeof(lineText));
             lineLength = textLength - 0x10;
             for (charIndex = 0; charIndex < lineLength; charIndex++) {
                 lineText[charIndex] = gApList->mEntries[entryIndex].mSsid[charIndex + 0x10];
