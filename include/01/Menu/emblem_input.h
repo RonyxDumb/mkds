@@ -15,16 +15,16 @@ typedef struct EmblemInput {
     /* 0x20 */ s32 mPrevPressed;
     /* 0x24 */ s32 mPrevReleased;
     /* 0x28 */ s32 mPrevDown;
-    /* 0x2c */ s32 mBit5HeldCount;
-    /* 0x30 */ s32 mBit4HeldCount;
-    /* 0x34 */ s32 mBit6HeldCount;
-    /* 0x38 */ s32 mBit7HeldCount;
-    /* 0x3c */ s32 mBit0HeldCount;
-    /* 0x40 */ s32 mBit1HeldCount;
-    /* 0x44 */ s32 mBit10HeldCount;
-    /* 0x48 */ s32 mBit11HeldCount;
-    /* 0x4c */ s32 mBit9HeldCount;
-    /* 0x50 */ s32 mBit8HeldCount;
+    /* 0x2c */ s32 mLeftHeldCount;
+    /* 0x30 */ s32 mRightHeldCount;
+    /* 0x34 */ s32 mUpHeldCount;
+    /* 0x38 */ s32 mDownHeldCount;
+    /* 0x3c */ s32 mAHeldCount;
+    /* 0x40 */ s32 mBHeldCount;
+    /* 0x44 */ s32 mXHeldCount;
+    /* 0x48 */ s32 mYHeldCount;
+    /* 0x4c */ s32 mLHeldCount;
+    /* 0x50 */ s32 mRHeldCount;
 } EmblemInput;
 
 #include "01/MapObjects/iwante.h"

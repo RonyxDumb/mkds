@@ -98,102 +98,102 @@ void AdvanceEmblemInput(void) {
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit5HeldCount + 1;
+        heldCount = gEmblemInput->mLeftHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit5HeldCount = heldCount;
+    gEmblemInput->mLeftHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_RIGHT;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit4HeldCount + 1;
+        heldCount = gEmblemInput->mRightHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit4HeldCount = heldCount;
+    gEmblemInput->mRightHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_UP;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit6HeldCount + 1;
+        heldCount = gEmblemInput->mUpHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit6HeldCount = heldCount;
+    gEmblemInput->mUpHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DOWN;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit7HeldCount + 1;
+        heldCount = gEmblemInput->mDownHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit7HeldCount = heldCount;
+    gEmblemInput->mDownHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_A;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit0HeldCount + 1;
+        heldCount = gEmblemInput->mAHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit0HeldCount = heldCount;
+    gEmblemInput->mAHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_B;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit1HeldCount + 1;
+        heldCount = gEmblemInput->mBHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit1HeldCount = heldCount;
+    gEmblemInput->mBHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_X;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit10HeldCount + 1;
+        heldCount = gEmblemInput->mXHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit10HeldCount = heldCount;
+    gEmblemInput->mXHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_Y;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit11HeldCount + 1;
+        heldCount = gEmblemInput->mYHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit11HeldCount = heldCount;
+    gEmblemInput->mYHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_L;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit9HeldCount + 1;
+        heldCount = gEmblemInput->mLHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit9HeldCount = heldCount;
+    gEmblemInput->mLHeldCount = heldCount;
     bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_R;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
-        heldCount = gEmblemInput->mBit8HeldCount + 1;
+        heldCount = gEmblemInput->mRHeldCount + 1;
         if (heldCount >= 0x11) {
             heldCount = 0xf;
         }
     }
-    gEmblemInput->mBit8HeldCount = heldCount;
+    gEmblemInput->mRHeldCount = heldCount;
 }
 
 s32 GetEmblemInputX(void) {
@@ -235,25 +235,25 @@ u16 GetEmblemInputBits(u16 mask) {
 BOOL IsEmblemInputRepeat(int mask) {
     switch (mask) {
         case 0x20:
-            return gEmblemInput->mBit5HeldCount == 1 || gEmblemInput->mBit5HeldCount == 0xf;
+            return gEmblemInput->mLeftHeldCount == 1 || gEmblemInput->mLeftHeldCount == 0xf;
         case 0x10:
-            return gEmblemInput->mBit4HeldCount == 1 || gEmblemInput->mBit4HeldCount == 0xf;
+            return gEmblemInput->mRightHeldCount == 1 || gEmblemInput->mRightHeldCount == 0xf;
         case 0x40:
-            return gEmblemInput->mBit6HeldCount == 1 || gEmblemInput->mBit6HeldCount == 0xf;
+            return gEmblemInput->mUpHeldCount == 1 || gEmblemInput->mUpHeldCount == 0xf;
         case 0x80:
-            return gEmblemInput->mBit7HeldCount == 1 || gEmblemInput->mBit7HeldCount == 0xf;
+            return gEmblemInput->mDownHeldCount == 1 || gEmblemInput->mDownHeldCount == 0xf;
         case 1:
-            return gEmblemInput->mBit0HeldCount == 1 || gEmblemInput->mBit0HeldCount == 0xf;
+            return gEmblemInput->mAHeldCount == 1 || gEmblemInput->mAHeldCount == 0xf;
         case 2:
-            return gEmblemInput->mBit1HeldCount == 1 || gEmblemInput->mBit1HeldCount == 0xf;
+            return gEmblemInput->mBHeldCount == 1 || gEmblemInput->mBHeldCount == 0xf;
         case 0x400:
-            return gEmblemInput->mBit10HeldCount == 1 || gEmblemInput->mBit10HeldCount == 0xf;
+            return gEmblemInput->mXHeldCount == 1 || gEmblemInput->mXHeldCount == 0xf;
         case 0x800:
-            return gEmblemInput->mBit11HeldCount == 1 || gEmblemInput->mBit11HeldCount == 0xf;
+            return gEmblemInput->mYHeldCount == 1 || gEmblemInput->mYHeldCount == 0xf;
         case 0x200:
-            return gEmblemInput->mBit9HeldCount == 1 || gEmblemInput->mBit9HeldCount == 0xf;
+            return gEmblemInput->mLHeldCount == 1 || gEmblemInput->mLHeldCount == 0xf;
         case 0x100:
-            return gEmblemInput->mBit8HeldCount == 1 || gEmblemInput->mBit8HeldCount == 0xf;
+            return gEmblemInput->mRHeldCount == 1 || gEmblemInput->mRHeldCount == 0xf;
     }
     return FALSE;
 }
