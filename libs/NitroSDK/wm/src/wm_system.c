@@ -266,8 +266,8 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
         command = callback->mCommand;
         if (command == WIRELESS_REQUEST_OPEN_HOST || command == WIRELESS_REQUEST_ENTER_HOST) {
             if (command == WIRELESS_REQUEST_OPEN_HOST) {
-                peerAddress = (u8 *) callback + 0xa;
-                peerName = (u8 *) callback + 0x14;
+                peerAddress = callback->mMacAddress;
+                peerName = callback->mPeerBytes;
                 stateCode = *(u16 *) &callback->mRecvBuf;
                 memberIndex = callback->mLength;
                 ownIndex = 0;
@@ -276,7 +276,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
                 stateCode = *(u16 *) &callback->mRecvBuf;
                 ownIndex = callback->mLength;
                 peerName = 0;
-                peerAddress = (u8 *) callback + 0xa;
+                peerAddress = callback->mMacAddress;
             }
             if (stateCode == 7 || stateCode == 9) {
                 gPortCallbackEvent.mCommand = WIRELESS_REQUEST_PORT_DATA;
