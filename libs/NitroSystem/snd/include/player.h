@@ -3,6 +3,13 @@
 #include "types.h"
 #include "code_0212f788.h" // NNSSndFader
 
+// Values of mSeqType: no sequence yet, or one from the sequence archive.
+#define SND_SEQ_TYPE_NONE 0
+#define SND_SEQ_TYPE_ARCHIVE 2
+
+// Maximum volume of a player or sequence.
+#define SND_PLAYER_VOLUME_MAX 0x7f
+
 // mStatus values: unused, set up and started, fading out before the stop.
 typedef enum NNSSndSeqPlayerStatus {
     SEQ_PLAYER_FREE = 0,
