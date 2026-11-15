@@ -68,7 +68,7 @@ void InitWiFiAikotoba(void *heap) {
             gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[index][cellIndex]].mOffsetX = 0xfa;
         }
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
 void ClearWiFiAikotobaPointer(void) {

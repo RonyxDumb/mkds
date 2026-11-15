@@ -64,7 +64,7 @@ s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     gSelectReturn->mSlideInRequested = FALSE;
     gSelectReturn->mSlideOutRequested = FALSE;
     gSelectReturn->mBg2Offset = -0x28;
-    gSelectReturn->mSoundId = 0xe;
+    gSelectReturn->mSoundId = SELECT_RETURN_SOUND_ID;
     return subCharOffset;
 }
 #pragma thumb off
@@ -140,7 +140,7 @@ void AdvanceSelectReturnSlideIn(void) {
     gSelectReturn->mBg2Offset = LookupSelectReturnSlideInBg2Offset(gSelectReturn->mStateFrames);
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
-    if (selectReturn->mStateFrames >= 10) {
+    if (selectReturn->mStateFrames >= SELECT_RETURN_SLIDE_STEPS) {
         selectReturn->mNextState = SELECT_RETURN_STATE_SHOWN;
         gSelectReturn->mStateFrames = 0;
         gSelectReturn->mSlideInRequested = FALSE;
@@ -172,7 +172,7 @@ void AdvanceSelectReturnPress(void) {
     selectReturn->mBg2Offset = gSelectReturnPressBg2Offsets[selectReturn->mStateFrames];
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
-    if (selectReturn->mStateFrames >= 9) {
+    if (selectReturn->mStateFrames >= SELECT_RETURN_PRESS_STEPS) {
         if (selectReturn->mSlideOutRequested != FALSE) {
             selectReturn->mNextState = SELECT_RETURN_STATE_SLIDE_OUT;
             SetSelectReturnPaletteBits(0);
@@ -190,7 +190,7 @@ void AdvanceSelectReturnSlideOut(void) {
     gSelectReturn->mBg2Offset = LookupSelectReturnSlideOutBg2Offset(gSelectReturn->mStateFrames);
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
-    if (selectReturn->mStateFrames >= 10) {
+    if (selectReturn->mStateFrames >= SELECT_RETURN_SLIDE_STEPS) {
         selectReturn->mNextState = SELECT_RETURN_STATE_HIDDEN;
         gSelectReturn->mStateFrames = 0;
         gSelectReturn->mSlideOutRequested = FALSE;
@@ -412,9 +412,9 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     gSelectChoises->mHiddenRequested = 0;
     gSelectChoises->mDone = 0;
     gSelectChoises->mIndexNone = 0;
-    gSelectChoises->mSoundIds[0] = 7;
-    gSelectChoises->mSoundIds[1] = 0x10;
-    gSelectChoises->mIndexNoneSoundId = 0x10;
+    gSelectChoises->mSoundIds[0] = SELECT_CHOISES_FIRST_SOUND_ID;
+    gSelectChoises->mSoundIds[1] = SELECT_CHOISES_SECOND_SOUND_ID;
+    gSelectChoises->mIndexNoneSoundId = SELECT_CHOISES_NONE_SOUND_ID;
     return subCharOffset;
 }
 #pragma thumb off
@@ -668,7 +668,7 @@ void AdvanceSelectChoisesChoose(void) {
     } else {
         if ((u16) (keys & PAD_KEY_B) != 0) {
             gSelectChoises->mIndexNone = 1;
-            gSelectChoises->mChosenFrames = 0xb;
+            gSelectChoises->mChosenFrames = SELECT_CHOISES_RETURN_START_FRAME;
             gSelectChoises->mNextState = SELECT_CHOISES_STATE_CHOSEN;
             if (gSelectChoises->mDisplayBitOn != 0) {
                 if (gSelectChoises->mIndexNoneSoundId != -1) {
@@ -709,9 +709,9 @@ void AdvanceSelectChoisesChosen(void) {
     }
     selectChoises->mChosenFrames = selectChoises->mChosenFrames + 1;
     stateFrames = gSelectChoises->mChosenFrames;
-    if (15 <= stateFrames) {
+    if (SELECT_CHOISES_CHOSEN_FRAMES <= stateFrames) {
         gSelectChoises->mDone = 1;
-        gSelectChoises->mChosenFrames = 0xf;
+        gSelectChoises->mChosenFrames = SELECT_CHOISES_CHOSEN_FRAMES;
         return;
     }
     if (5 <= stateFrames) {
@@ -738,8 +738,8 @@ void AdvanceSelectChoises(void) {
                 break;
         }
         gSelectChoises->mToggleFrames++;
-        if ((gSelectChoises->mToggleOn != 0 && gSelectChoises->mToggleFrames > 0x1e) ||
-            (gSelectChoises->mToggleOn == 0 && gSelectChoises->mToggleFrames > 0x14)) {
+        if ((gSelectChoises->mToggleOn != 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_ON_FRAMES) ||
+            (gSelectChoises->mToggleOn == 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_OFF_FRAMES)) {
             gSelectChoises->mToggleOn = gSelectChoises->mToggleOn == 0;
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();

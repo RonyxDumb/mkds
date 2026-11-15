@@ -1894,7 +1894,7 @@ void AdvanceSelectRaceRuleChoose(void) {
     switch (gSelectRaceRule->mMode) {
         case SELECT_RACE_RULE_MODE_VS_NO_CONNECTION:
         case SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION:
-            SetSelectReturnSoundId(0xe);
+            SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
             RequestSelectRaceRuleSlideOut();
             gSelectRaceRule->mResult = MENU_SCREEN_RESULT_BACK;
             RequestSelectReturnPressWithSound(0);

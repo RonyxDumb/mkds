@@ -63,7 +63,7 @@ void InitOptionHensyuMenu(void *heap) {
             }
         }
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
 void ReleaseOptionHensyuMenu(void) {

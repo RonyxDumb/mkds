@@ -788,6 +788,17 @@ enum {
     SELECT_CHOISES_STATE_CHOSEN,
 };
 
+// Frames the chosen choice is shown (mChosenFrames); choosing return starts it at RETURN_START_FRAME so it ends sooner.
+#define SELECT_CHOISES_CHOSEN_FRAMES 0xf
+#define SELECT_CHOISES_RETURN_START_FRAME 0xb
+// Frames the toggle mark stays on and off.
+#define SELECT_CHOISES_TOGGLE_ON_FRAMES 0x1e
+#define SELECT_CHOISES_TOGGLE_OFF_FRAMES 0x14
+// Sound ids of the first choice, the second choice and the return choice.
+#define SELECT_CHOISES_FIRST_SOUND_ID 7
+#define SELECT_CHOISES_SECOND_SOUND_ID 0x10
+#define SELECT_CHOISES_NONE_SOUND_ID 0x10
+
 typedef struct SelectChoises {
     /* 000 */ u32 mEnabled;
     /* 004 */ s32 mState;
@@ -824,6 +835,12 @@ enum {
     SELECT_RETURN_STATE_PRESS,
     SELECT_RETURN_STATE_SLIDE_OUT,
 };
+
+// Steps the return button slides in and out, and steps its press runs; mStateFrames counts them.
+#define SELECT_RETURN_SLIDE_STEPS 10
+#define SELECT_RETURN_PRESS_STEPS 9
+// Sound id of the return button.
+#define SELECT_RETURN_SOUND_ID 0xe
 
 typedef struct SelectReturn {
     /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
@@ -960,6 +977,15 @@ typedef struct LinkLevelIconPos {
     /* 00 */ s32 mX;
     /* 04 */ s32 mY;
 } LinkLevelIconPos;
+
+// Icons of LinkLevelIcons (the index of mIconEnabled and the value of mIconKind): the wireless link level, the Wi-Fi
+// link level and the Wi-Fi buddy mark.
+#define LINK_LEVEL_ICON_WIRELESS 0
+#define LINK_LEVEL_ICON_WIFI 1
+#define LINK_LEVEL_ICON_WIFI_BUDDY 4
+// Frames of the blink cycle of the buddy mark, and the frame it is hidden from.
+#define LINK_LEVEL_ICON_CYCLE_FRAMES 0x78
+#define LINK_LEVEL_ICON_HIDDEN_FROM_FRAME 0x69
 
 // Object behind gLinkLevelIcons: 0x11c bytes allocated by InitLinkLevelIcons.
 typedef struct LinkLevelIcons {

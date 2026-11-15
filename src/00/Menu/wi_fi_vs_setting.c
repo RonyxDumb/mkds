@@ -145,7 +145,7 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mIndexDecrementTimer = 0;
     gWiFiVSSetting->mIndexIncrementTimer = 0;
     SetLinkLevelIconEnabled(1, 1);
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
 void ReleaseWiFiVSSetting(void) {

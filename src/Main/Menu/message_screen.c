@@ -92,10 +92,10 @@ s32 UpdateMessageScreen(void) {
     if ((u16) (gKeysInputSlot.mPressedBits & PAD_KEY_A) != 0) {
         messageScreen = gMessageScreen;
         if (messageScreen->mInputEnabled != 0) {
-            if ((u32) (messageScreen->mKind - 4) <= 1) {
+            if ((u32) (messageScreen->mKind - MESSAGE_KIND_WIFI_ERROR) <= 1) {
                 gMenuShared->mWiFiTopMenuRequested = TRUE;
                 gMessageScreen->mResult = 1;
-            } else if (messageScreen->mKind == 6) {
+            } else if (messageScreen->mKind == MESSAGE_KIND_WIFI_OPPONENT_LEFT) {
                 gMenuShared->mWiFiMenuStartKind = 1;
                 gMessageScreen->mResult = 1;
                 ClearWiFiDisconnectStatus();
@@ -137,25 +137,25 @@ void *GetMessageScreenText(void) {
         messages = FindFileInLoadedArchives("common.bmg");
     }
     kind = gMessageScreen->mKind;
-    if (kind == 4) {
+    if (kind == MESSAGE_KIND_WIFI_ERROR) {
         return GetBmgEntry(messages, 0x86);
     }
-    if (kind == 5) {
+    if (kind == MESSAGE_KIND_WIFI_NO_INPUT) {
         return GetBmgEntry(messages, 0x87);
     }
-    if (kind == 6) {
+    if (kind == MESSAGE_KIND_WIFI_OPPONENT_LEFT) {
         return GetBmgEntry(messages, 0x88);
     }
-    if (kind == 1) {
+    if (kind == MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS) {
         return GetBmgEntry(messages, 0x83);
     }
-    if (kind == 2) {
+    if (kind == MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING) {
         return GetBmgEntry(messages, 0x84);
     }
-    if (kind == 3) {
+    if (kind == MESSAGE_KIND_CARD_PULLED_OUT) {
         return GetBmgEntry(messages, 0x85);
     }
-    if (kind == 0) {
+    if (kind == MESSAGE_KIND_CONNECTION_ERROR) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             return GetBmgEntry(GetDownloadScreenFiles()->mMBChildMessages, 0);
         }
@@ -209,7 +209,7 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
         gMessageScreen->mInputEnabled = inputEnabled;
         gMessageScreen->mKind = messageKind;
         gMessageScreen->mText = GetMessageScreenText();
-        if (gMessageScreen->mKind == 4) {
+        if (gMessageScreen->mKind == MESSAGE_KIND_WIFI_ERROR) {
             FormatMessageScreenErrorCode();
         }
         PrintMessageScreenText();
@@ -250,32 +250,32 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
         gLinkLevelIcons->mIconEnabled[index] = 0;
     }
     switch (GetCurrentSceneNumber()) {
-        case 1:
+        case SCENE_MENU_1:
             if ((u32) (gStartupWork->mConnectionKind - CONNECTION_KIND_MEMBER_SELECT) <=
                 CONNECTION_KIND_WL_MENU - CONNECTION_KIND_MEMBER_SELECT) {
-                gLinkLevelIcons->mIconEnabled[0] = 1;
+                gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIRELESS] = 1;
             }
             break;
-        case 6:
-        case 13:
-            gLinkLevelIcons->mIconEnabled[0] = 1;
+        case SCENE_WL_MENU:
+        case SCENE_GHOST:
+            gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIRELESS] = 1;
             break;
-        case 12:
-            gLinkLevelIcons->mIconEnabled[4] = 1;
+        case SCENE_WIFI_MENU:
+            gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI_BUDDY] = 1;
             break;
-        case 10:
+        case SCENE_RESULT:
             if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
-                gLinkLevelIcons->mIconEnabled[1] = 1;
-                gLinkLevelIcons->mIconEnabled[4] = 1;
+                gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI] = 1;
+                gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI_BUDDY] = 1;
             } else if ((u32) (gStartupWork->mConnectionKind - CONNECTION_KIND_MEMBER_SELECT) <=
                        CONNECTION_KIND_WL_MENU - CONNECTION_KIND_MEMBER_SELECT) {
-                gLinkLevelIcons->mIconEnabled[0] = 1;
+                gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIRELESS] = 1;
             }
             break;
-        case 8:
+        case SCENE_RECORD:
             if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
-                gLinkLevelIcons->mIconEnabled[1] = 1;
-                gLinkLevelIcons->mIconEnabled[4] = 1;
+                gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI] = 1;
+                gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI_BUDDY] = 1;
             }
             break;
     }
@@ -345,19 +345,19 @@ void UpdateLinkLevelIconTiles(void) {
         gLinkLevelIcons->mIconKind[iconIndex] = -1;
         gLinkLevelIcons->mIconLevel[iconIndex] = 0;
     }
-    if (gLinkLevelIcons->mIconEnabled[1] != 0) {
-        gLinkLevelIcons->mIconKind[0] = 1;
+    if (gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI] != 0) {
+        gLinkLevelIcons->mIconKind[0] = LINK_LEVEL_ICON_WIFI;
         gLinkLevelIcons->mIconLevel[0] = GetWiFiLinkLevel();
         slotCount = 1;
     }
-    if (gLinkLevelIcons->mIconEnabled[0] != 0) {
-        gLinkLevelIcons->mIconKind[slotCount] = 0;
+    if (gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIRELESS] != 0) {
+        gLinkLevelIcons->mIconKind[slotCount] = LINK_LEVEL_ICON_WIRELESS;
         linkLevel = 0;
         if (gConnectionWork->mState != CONNECTION_STATE_IDLE) {
             linkLevel = WM_GetLinkLevel();
         }
         gLinkLevelIcons->mIconLevel[slotCount] = linkLevel;
-    } else if (gLinkLevelIcons->mIconEnabled[4] != 0) {
+    } else if (gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIFI_BUDDY] != 0) {
         flag = FALSE;
         if (!gBackupBuffers->mFirstBlock->mLocateFriendOff) {
             if (HasWiFiBuddyStatus4() != FALSE) {
@@ -365,7 +365,7 @@ void UpdateLinkLevelIconTiles(void) {
             }
         }
         if (flag != FALSE) {
-            gLinkLevelIcons->mIconKind[slotCount] = 4;
+            gLinkLevelIcons->mIconKind[slotCount] = LINK_LEVEL_ICON_WIFI_BUDDY;
         }
     }
     for (iconIndex = 0; iconIndex < 2; iconIndex++) {
@@ -385,13 +385,13 @@ void AdvanceLinkLevelIcons(void) {
     s32 iconIndex;
     u32 iconKind;
     gLinkLevelIcons->mCycleFrames++;
-    if (gLinkLevelIcons->mCycleFrames > 0x78) {
+    if (gLinkLevelIcons->mCycleFrames > LINK_LEVEL_ICON_CYCLE_FRAMES) {
         gLinkLevelIcons->mCycleFrames = 0;
     }
     UpdateLinkLevelIconTiles();
     for (iconIndex = 0; iconIndex < 2; iconIndex++) {
         iconKind = gLinkLevelIcons->mIconKind[iconIndex];
-        if (gLinkLevelIcons->mCycleFrames < 0x69 || iconKind <= 1) {
+        if (gLinkLevelIcons->mCycleFrames < LINK_LEVEL_ICON_HIDDEN_FROM_FRAME || iconKind <= LINK_LEVEL_ICON_WIFI) {
             MIi_CpuCopy16(&gLinkLevelIcons->mOamRecords[iconIndex],
                           &gLinkLevelIcons->mOamList->mOams[gLinkLevelIcons->mOamList->mOamCount], 6);
             gLinkLevelIcons->mOamList->mOamCount++;

@@ -125,7 +125,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
         }
     }
     reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0x9e10;
-    SetSelectReturnSoundId(14);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
 void ReleaseSelectBattleStage(void) {

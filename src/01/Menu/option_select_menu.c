@@ -138,7 +138,7 @@ void InitOptionSelectMenu(void *heap) {
     }
     gOptionSelectMenu->mOkChosen = FALSE;
     gOptionSelectMenu->mBg1Visible = TRUE;
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
 void ReleaseOptionSelectMenu(void) {

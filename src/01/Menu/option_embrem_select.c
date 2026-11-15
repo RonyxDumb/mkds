@@ -65,7 +65,7 @@ void InitOptionEmbremSelect(void *heap) {
     UpdateOptionEmbremSelectIndexCells();
     gOptionEmbremSelect->mOffsetTimers[0] = 0;
     gOptionEmbremSelect->mOffsetTimers[1] = 0;
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
 }
 
 void ReleaseOptionEmbremSelect(void) {
