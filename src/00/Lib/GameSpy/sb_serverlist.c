@@ -657,15 +657,15 @@ BOOL AllKeysPresent(SbServerList *serverList, u8 *buffer, s32 length) {
     if (keyCount > 0) {
         do {
             switch (((KeyInfo *) DarrayGetElement(serverList->mKeyList, keyIndex))->mKeyType) {
-                case 1:
+                case SERVER_KEY_STORED_AS_ONE_BYTE:
                     buffer += 1;
                     length -= 1;
                     break;
-                case 2:
+                case SERVER_KEY_STORED_AS_TWO_BYTES:
                     buffer += 2;
                     length -= 2;
                     break;
-                case 0:
+                case SERVER_KEY_STORED_AS_STRING_INDEX:
                     if (length < 1) {
                         return FALSE;
                     }
@@ -779,12 +779,12 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
             do {
                 keyInfo = DarrayGetElement(serverList->mKeyList, keyIndex);
                 switch (keyInfo->mKeyType) {
-                    case 1:
+                    case SERVER_KEY_STORED_AS_ONE_BYTE:
                         SbServerSetInt(server, keyInfo->mKeyName, buffer[0]);
                         buffer += 1;
                         length -= 1;
                         break;
-                    case 2:
+                    case SERVER_KEY_STORED_AS_TWO_BYTES:
                         valueBytes = (u8 *) &shortValue;
                         valueBytes[0] = buffer[0];
                         valueBytes[1] = buffer[1];
@@ -793,7 +793,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
                         buffer += 2;
                         length -= 2;
                         break;
-                    case 0:
+                    case SERVER_KEY_STORED_AS_STRING_INDEX:
                         if (popularOnly != 0) {
                             stringValue = buffer[0];
                             buffer += 1;
