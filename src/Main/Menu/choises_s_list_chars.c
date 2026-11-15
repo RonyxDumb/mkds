@@ -59,25 +59,25 @@ void StartChoisesSSelectedValueSeq(void) {
         StartChoisesSValueSeq(4);
     } else {
         switch (gChoisesS->mSelectedValue) {
-            case 0:
-            case 8:
+            case CHOISES_S_PICK_CONTINUE:
+            case CHOISES_S_PICK_REPLAY:
                 StartChoisesSValueSeq(0);
                 break;
-            case 1:
-            case 3:
+            case CHOISES_S_PICK_RETRY:
+            case CHOISES_S_PICK_RESTART:
                 StartChoisesSValueSeq(1);
                 break;
-            case 2:
-            case 7:
-            case 10:
+            case CHOISES_S_PICK_NEXT:
+            case CHOISES_S_PICK_NEXT_LAST:
+            case CHOISES_S_PICK_STAFF_CREDITS:
                 StartChoisesSValueSeq(5);
                 break;
-            case 4:
-            case 5:
-            case 6:
+            case CHOISES_S_PICK_CHANGE_COURSE:
+            case CHOISES_S_PICK_CHANGE_CHARACTERS:
+            case CHOISES_S_PICK_SELECT_MISSION:
                 StartChoisesSValueSeq(2);
                 break;
-            case 9:
+            case CHOISES_S_PICK_QUIT:
                 StartChoisesSValueSeq(3);
                 break;
         }

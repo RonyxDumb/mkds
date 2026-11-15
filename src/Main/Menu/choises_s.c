@@ -148,7 +148,7 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
             }
         }
         if (touched != 0) {
-            if (gChoisesS->mSelectedValue == 0) {
+            if (gChoisesS->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
                 RaiseSndHandleVolumes();
             } else {
                 StartChoisesSSelectedValueSeq();
@@ -560,7 +560,7 @@ void UpdateChoisesS(void) {
                     gChoisesS->mPickFrames = 1;
                 } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0) {
                     if (IsChoisesSOpen() != 0) {
-                        if (gChoisesS->mSelectedValue == 0) {
+                        if (gChoisesS->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
                             RaiseSndHandleVolumes();
                         } else {
                             StartChoisesSSelectedValueSeq();
@@ -595,7 +595,7 @@ void UpdateChoisesS(void) {
                 gChoisesS->mPickFrames = 1;
             } else if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0) {
                 if (IsChoisesSOpen() != 0) {
-                    if (gChoisesS->mSelectedValue == 0) {
+                    if (gChoisesS->mSelectedValue == CHOISES_S_PICK_CONTINUE) {
                         RaiseSndHandleVolumes();
                     } else {
                         StartChoisesSSelectedValueSeq();
