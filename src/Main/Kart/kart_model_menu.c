@@ -192,7 +192,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     kind7EntryCount++;
                 }
             }
-            gKind7EntryCount = kind7EntryCount;
+            gSequenceEntryCount = kind7EntryCount;
             gEntryCamera->mKind7Entries = HeapAlloc(heap, kind7EntryCount * 0x88);
             courseMapCamera = gEntryCamera->mCourseMapCamera;
             index = 0;
@@ -205,7 +205,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     }
                 }
                 if (courseMapCamera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
-                    InitKind7CameraEntry(&gEntryCamera->mKind7Entries[listIndex], courseMapCamera);
+                    InitSequenceCameraEntry(&gEntryCamera->mKind7Entries[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
@@ -218,7 +218,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
     }
 }
 
-void InitKind7CameraEntry(Kind7CameraEntry *kind7Entry, CourseMapCamera *courseMapCamera) {
+void InitSequenceCameraEntry(SequenceCameraEntry *kind7Entry, CourseMapCamera *courseMapCamera) {
     CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[courseMapCamera->mEntryGroupIndex];
 
     kind7Entry->mPosCurveStep = courseMapCamera->mPosCurvePerFrame;

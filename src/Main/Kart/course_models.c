@@ -71,8 +71,8 @@ void AdvanceLocalKartCollisionSlot(Kart *kart) {
 }
 
 void AdvanceLocalKartMotionSlot(Kart *kart) {
-    if (IsMissionRunWithKind2Shapes() != 0) {
-        FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
+    if (IsMissionRunWithEndShapes() != 0) {
+        FinishKartInCourseMapMissionEndShape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mEffectFlags & KART_EFFECT_START_SOUND_PENDING) != 0) {
         StartKartSoundAndCharacterAnimation(kart);
@@ -82,8 +82,8 @@ void AdvanceLocalKartMotionSlot(Kart *kart) {
 }
 
 void AdvancePeerKartMotionSlot(Kart *kart) {
-    if (IsMissionRunWithKind2Shapes() != 0) {
-        FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
+    if (IsMissionRunWithEndShapes() != 0) {
+        FinishKartInCourseMapMissionEndShape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mEffectFlags & KART_EFFECT_START_SOUND_PENDING) != 0) {
         StartKartSoundAndCharacterAnimation(kart);

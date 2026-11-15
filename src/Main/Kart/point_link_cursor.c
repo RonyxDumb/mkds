@@ -1026,7 +1026,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         if (isHumanGhostOrPeer != FALSE) {
             raceSpeedLimit->mRank = GetKartRank(kartAi->mIndex);
         } else {
-            raceSpeedLimit->mRank = GetKartRankAmongKind1(kartAi->mIndex);
+            raceSpeedLimit->mRank = GetKartRankAmongCpuKarts(kartAi->mIndex);
         }
         raceSpeedLimit->mSpeedLimitAddition = GetKartAiParamRow()->mSpeedLimitAddition;
         if (IsOneKartNotHumanOrPeer() != 0) {
@@ -1162,7 +1162,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         raceSpeedLimit->mSpeedLimitReduced = 1;
     } else if (rank == gap) {
         if (rank == 1) {
-            otherKartIndex = GetKind1KartByRankPlusOffset((u16) rank, gKartAiRankOffset);
+            otherKartIndex = GetCpuKartByRankPlusOffset((u16) rank, gKartAiRankOffset);
             if (otherKartIndex >= 0) {
                 progress = GetKartRaceProgressScaled(kartIndex);
                 progress -= GetKartRaceProgressScaled(otherKartIndex);
@@ -1174,7 +1174,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             }
         } else {
             progress = GetKartRaceProgressScaled(kartIndex);
-            otherKartIndex = GetFirstKind1KartByRank();
+            otherKartIndex = GetFirstCpuKartByRank();
             if (otherKartIndex >= 0) {
                 gap = GetKartRaceProgressScaled(otherKartIndex) - progress;
                 gap -= MUL_FIXED12_NO_ROUND(tableIndices[2], GetFirstRankProgressRatio());
@@ -1182,7 +1182,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         raceSpeedLimit->mSpeedLimitBeforeTurn + MUL_FIXED12_NO_ROUND(gap, 0x3000);
                 } else {
-                    otherKartIndex = GetKind1KartAheadOfRank(rank);
+                    otherKartIndex = GetCpuKartAheadOfRank(rank);
                     if (otherKartIndex >= 0) {
                         Kart *otherKart = GetKart(otherKartIndex);
                         s32 rowValue = kartAiParamRow->mSpeedLimitFloor;

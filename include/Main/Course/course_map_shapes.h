@@ -15,7 +15,7 @@
 extern const u8 gKartStartGroupCounts[16];
 
 // TRUE when the position of kart a lies inside any shape of list b of mKind3ShapeLists.
-s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex);
+s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex);
 // Returns the element of mItemPointLinks given by mItemPointIndex of the respawn spot of slot a, NULL when there is no
 // respawn spot.
 struct ItemPointLink *GetCourseMapRespawnItemPointLink(u16 slot);
@@ -30,11 +30,11 @@ u16 GetCourseMapRespawnSlot(u32 checkpointIndex);
 s32 GetCourseMapCameraIndexAtPos(Vec3 *pos);
 // Returns the element of mBattlePointLinks given by mPointIndex of the first mKind 4 shape that contains position a, or
 // NULL; NULL at once when the course has no kind 4 shapes.
-PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos);
+PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos);
 // Returns the element of mRacePointLinks given by mPointIndex of the first mKind 4 shape that contains position a, or
 // NULL; NULL at once when the course has no kind 4 shapes.
-void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos);
-s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag);
+void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos);
+s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag);
 s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape);
 BOOL IsPosInCourseMapShapeBox(Vec3 *pos, CourseMapShape *shape);
 void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex);

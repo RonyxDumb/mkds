@@ -29,6 +29,6 @@ void ReleaseTitleScene(void);
 void InitTitleScene(void);
 u32 ShouldEndReplayRace(void);
 BOOL IsFramesSinceFinishPastWait(void);
-void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex);
+void FinishKartInCourseMapMissionEndShape(Vec3 *position, u32 kartIndex);
 
 extern SceneCallbacks gTitleSceneCallbacks;

@@ -41,9 +41,9 @@
 SceneCallbacks gTitleSceneCallbacks = {
     InitTitleScene, UpdateTitleScene, ReleaseTitleScene, WriteTitleSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
 
-void FinishKartInCourseMapKind2Shape(Vec3 *position, u32 kartIndex) {
+void FinishKartInCourseMapMissionEndShape(Vec3 *position, u32 kartIndex) {
     s32 shapeFlag;
-    if (IsPosInCourseMapKind2Shape(position, &shapeFlag) == 0) {
+    if (IsPosInCourseMapMissionEndShape(position, &shapeFlag) == 0) {
         return;
     }
     if (shapeFlag != 0) {

@@ -138,9 +138,9 @@ s32 gKartSpeedLimitReciprocal;
 struct Kart *gKarts;
 s32 gKartForwardSpeedRatio;
 struct EntryKartCounters *gEntryKartCounters;
-u32 gKartKind3ShapeListMask;
+u32 gKartZoneMask;
 s32 gMinKartDistanceSquaredPresent;
-s32 gMissionRunKind2ShapesPresent;
+s32 gMissionRunEndShapesPresent;
 
 void DrawShadowModelIfDrawFlag(ShadowModel *shadowModel, u32 unusedArg1, u32 unusedArg2) {
     if ((shadowModel->mFlags & 1) != 0) {
@@ -173,10 +173,10 @@ void InitKarts(u32 kartCount) {
     InitKartMapObjectResponses();
     RegisterKartAiCallbacks();
     InitKartEffects(kartCount);
-    gMissionRunKind2ShapesPresent = 0;
+    gMissionRunEndShapesPresent = 0;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         if (gCourseMap->mKind2ShapeCountInMode4 != 0) {
-            gMissionRunKind2ShapesPresent = 1;
+            gMissionRunEndShapesPresent = 1;
         }
     }
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
@@ -184,7 +184,7 @@ void InitKarts(u32 kartCount) {
         gKarts[kartIndex].mEntryIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mIndex;
         InitKart(&gKarts[kartIndex], gKartDefaultSlotFunctions);
     }
-    gKartKind3ShapeListMask = 0;
+    gKartZoneMask = 0;
 }
 
 void UpdateKarts(void) {
@@ -264,8 +264,8 @@ u16 GetKartHeadingAngle(s32 kartIndex) {
     return gKarts[kartIndex].mHeadingAngle;
 }
 
-u32 IsMissionRunWithKind2Shapes(void) {
-    return gMissionRunKind2ShapesPresent;
+u32 IsMissionRunWithEndShapes(void) {
+    return gMissionRunEndShapesPresent;
 }
 
 BOOL IsKartRemovedWrapper(u16 kartIndex) {
@@ -285,19 +285,19 @@ u32 GetKartForwardSpeedRatio(void) {
 }
 
 // Sets bit i when the kart is inside kind 3 shape list i.
-void SetKartKind3ShapeListMask(s32 kartIndex) {
+void SetKartZoneMask(s32 kartIndex) {
     u16 shapeListIndex;
 
-    gKartKind3ShapeListMask = 0;
+    gKartZoneMask = 0;
     for (shapeListIndex = 0; shapeListIndex < 8; shapeListIndex++) {
-        if (IsKartInCourseMapKind3ShapeList(kartIndex, shapeListIndex) != 0) {
-            BIT_SET(gKartKind3ShapeListMask, shapeListIndex);
+        if (IsKartInCourseMapZoneShapeList(kartIndex, shapeListIndex) != 0) {
+            BIT_SET(gKartZoneMask, shapeListIndex);
         }
     }
 }
 
-u32 GetKartKind3ShapeListMask(void) {
-    return gKartKind3ShapeListMask;
+u32 GetKartZoneMask(void) {
+    return gKartZoneMask;
 }
 
 // Stores the forward speed as a part of the speed limit, 0x1000 = 1.0.

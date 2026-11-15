@@ -133,7 +133,7 @@ void RequestKartAiPointLink(KartAi *kartAi) {
             return;
         }
     }
-    kartAi->mPointLinkCursor.mRequestedLink = FindCourseMapKind4ShapeRacePointLink(&kartAi->mKart->mPos);
+    kartAi->mPointLinkCursor.mRequestedLink = FindCourseMapPointLinkShapeRacePointLink(&kartAi->mKart->mPos);
     if (kartAi->mPointLinkCursor.mRequestedLink != NULL) {
         kartAi->mPointLinkCursor.mRequestedLinkFound = TRUE;
     }
@@ -185,7 +185,7 @@ void RequestBattleKartAiPointLink(KartAi *kartAi) {
             return;
         }
     }
-    kartAi->mBattleLinkCursor.mRequestedLink = FindCourseMapKind4ShapeBattlePointLink(&kartAi->mKart->mPos);
+    kartAi->mBattleLinkCursor.mRequestedLink = FindCourseMapPointLinkShapeBattlePointLink(&kartAi->mKart->mPos);
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
         kartAi->mBattleLinkCursor.mRequestPending = TRUE;
     }

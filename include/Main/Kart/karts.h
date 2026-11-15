@@ -168,16 +168,16 @@ void SetKartSpeedLimitReciprocal(unsigned int speedLimitReciprocal);
 
 void SetKartForwardSpeedRatio(s32 forwardSpeed);
 
-unsigned int GetKartKind3ShapeListMask(void);
+unsigned int GetKartZoneMask(void);
 
-void SetKartKind3ShapeListMask(s32 kartIndex);
+void SetKartZoneMask(s32 kartIndex);
 
 unsigned int GetKartForwardSpeedRatio(void);
 
 void StartKartRaceEndWrapper(u16 kartIndex);
 
 // Whether this is a mission run on a course with a shape of kind 2.
-unsigned int IsMissionRunWithKind2Shapes(void);
+unsigned int IsMissionRunWithEndShapes(void);
 
 typedef struct Kart Kart;
 
@@ -190,6 +190,6 @@ extern s32 gKartForwardSpeedRatio;
 extern struct EntryKartCounters *gEntryKartCounters;
 extern s32 gMinKartDistanceSquaredPresent;
 // 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
-extern s32 gMissionRunKind2ShapesPresent;
+extern s32 gMissionRunEndShapesPresent;
 extern s32 gKartSpeedLimitReciprocal;
-extern u32 gKartKind3ShapeListMask;
+extern u32 gKartZoneMask;

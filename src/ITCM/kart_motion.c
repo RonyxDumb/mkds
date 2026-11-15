@@ -187,7 +187,7 @@ void AdvanceKartCollision(Kart *kart) {
         ComputeKartSidePoints(kart);
     }
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && IsRaceStarted() == 1) {
-        SetKartKind3ShapeListMask(kart->mIndex);
+        SetKartZoneMask(kart->mIndex);
     }
     UpdateKartSoundWrapper(kart);
     AdvanceKartCollisionTimer(kart);

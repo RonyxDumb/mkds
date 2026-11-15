@@ -3,8 +3,8 @@
 #include "ITCM/kart_motion.h"
 
 void AdvanceKartMotionSlot(Kart *kart) {
-    if (IsMissionRunWithKind2Shapes() != 0) {
-        FinishKartInCourseMapKind2Shape(&kart->mPos, kart->mIndex);
+    if (IsMissionRunWithEndShapes() != 0) {
+        FinishKartInCourseMapMissionEndShape(&kart->mPos, kart->mIndex);
     }
     AdvanceKartMotion(kart);
 }

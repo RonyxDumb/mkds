@@ -40,7 +40,7 @@ typedef struct CourseMapCamera {
     /* 3e */ u16 mKind;
     /* 40 */ u16 mEntryGroupIndex;
     // Added to the position curve's parameter each call (0x1000 = one segment); also copied into
-    // Kind7CameraEntry.mUnk_7c, which nothing reads.
+    // SequenceCameraEntry.mUnk_7c, which nothing reads.
     /* 42 */ s16 mPosCurvePerFrame;
     /* 44 */ u16 mLookAtBlendPerFrame;
     // Frames the entry lasts (compared with mCourseMapCameraFrames); the battle step compares it with the race clock
@@ -116,8 +116,8 @@ MtxFx43 *UpdateFirstChainCamera(void);
 // It updates the view of the first on even frames and of the second on odd frames, stores that camera in
 // gCurrentChainCamera and returns its view matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 3 or 5.
 MtxFx43 *UpdateChainCameraPair(void);
-// As StartEntryCameraKind6Entry for CourseMap.mFirstKind8EntryInMode4, setting mKind8EntryRunning.
-void StartEntryCameraKind8Entry(void);
+// As StartEntryCameraAngleStart for CourseMap.mFirstKind8EntryInMode4, setting mKind8EntryRunning.
+void StartEntryCameraMissionRun(void);
 // Runs the Camera's current entry by its mKind: 0 puts the camera at the entry position and looks at the followed Kart,
 // 1 UpdateCameraPosCurveLookAtKart, 2 puts the camera at the entry position with a blended look-at
 // (UpdateCameraLookAtBlend), 3 UpdateCameraPosCurveLookAtBlend, 5 and 6 UpdateCameraAngleEntry; kinds 4, 7 and 8 have
@@ -137,7 +137,7 @@ void SetEntryCameraUpdateHold(s32 hold);
 // Does nothing when CourseMap.mFirstKind6Entry is NULL. Otherwise sets mKind6EntryRunning and makes that entry the
 // current entry of gEntryCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
 // mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
-void StartEntryCameraKind6Entry(void);
+void StartEntryCameraAngleStart(void);
 // Eases mPosGoalYOffset toward 0 or, while KART_MOTION_ON_GROUND is set in the Kart's mMotionFlags or
 // KART_DRIVE_KEYED_PLACEMENT in its mDriveFlags, toward a multiple of the y of c (the Kart's forward vector times
 // mFollowDirectionSign); while KART_DRIVE_BOOST_SURFACE_HELD is set it eases toward 0 at once.
@@ -158,7 +158,7 @@ MtxFx44 *GetProjectionMatrix(void);
 
 // The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
 // and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstKind7EntryInMode2 is set. The
-// Kart code starts its kind 6 and kind 8 entries (StartEntryCameraKind6Entry, StartEntryCameraKind8Entry). The chain
+// Kart code starts its kind 6 and kind 8 entries (StartEntryCameraAngleStart, StartEntryCameraMissionRun). The chain
 // cameras also run entries but never pick by position.
 extern Camera *gEntryCamera;
 extern struct Camera *gChaseCamera;

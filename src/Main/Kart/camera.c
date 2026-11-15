@@ -354,7 +354,7 @@ void UpdateChaseCameraPosGoalYOffset(Camera *camera, Kart *kart, Vec3 *forward) 
     camera->mPosGoalYOffset = camera->mPosGoalYOffset + MUL_FIXED12_ROUNDED(offsetDelta, easeRate);
 }
 
-void StartEntryCameraKind6Entry(void) {
+void StartEntryCameraAngleStart(void) {
     Camera *entryCamera = gEntryCamera;
     CourseMapCamera *courseMapCamera;
     RandomState64 *localRandom;
@@ -561,7 +561,7 @@ void UpdateCameraByEntryKind(Camera *camera) {
     }
 }
 
-void StartEntryCameraKind8Entry(void) {
+void StartEntryCameraMissionRun(void) {
     Camera *entryCamera;
     CourseMapCamera *courseMapCamera;
     RandomState64 *localRandom;

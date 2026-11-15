@@ -39,9 +39,9 @@ s32 LoadCourseMapCamerasData(void *section, ...);
 // Takes the shape section: stores mShapeCount and mShapes (NULL when empty), then builds the kind 3 lists and counts
 // the kind 4 shapes and, in mission run, the kind 2 shapes. Returns 1.
 s32 LoadCourseMapShapesData(void *section, ...);
-void CountCourseMapKind2ShapesInMode4(void);
-void CountCourseMapKind4Shapes(void);
-void BuildCourseMapKind3ShapeLists(void);
+void CountCourseMapMissionEndShapes(void);
+void CountCourseMapPointLinkShapes(void);
+void BuildCourseMapZoneShapeLists(void);
 CourseMapShape *GetCourseMapShape(u32 shapeIndex);
 // Takes the route section of table entry 14: with several start placements it stores mBattleRouteCount and
 // mBattleRoutes, otherwise mRaceRouteCount and mRaceRoutes; when the section is not empty the other pair is cleared.

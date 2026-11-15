@@ -517,7 +517,7 @@ void UpdateKartAiRankLists(void) {
     }
 }
 
-s32 GetKartRankAmongKind1(u16 kartIndex) {
+s32 GetKartRankAmongCpuKarts(u16 kartIndex) {
     s32 rank;
     u16 rankIndex;
     rank = -1;
@@ -530,7 +530,7 @@ s32 GetKartRankAmongKind1(u16 kartIndex) {
     return rank;
 }
 
-s32 GetKind1KartByRankPlusOffset(u32 rank, u32 offset) {
+s32 GetCpuKartByRankPlusOffset(u32 rank, u32 offset) {
     return gKartAiShared->mKind1KartByRank[(((offset) + (rank))) - (0x1u)];
 }
 
@@ -538,11 +538,11 @@ s32 GetFirstRankProgressRatio(void) {
     return gKartAiShared->mFirstRankProgressRatio;
 }
 
-s32 GetFirstKind1KartByRank(void) {
+s32 GetFirstCpuKartByRank(void) {
     return gKartAiShared->mKind1KartByRank[0];
 }
 
-s32 GetKind1KartAheadOfRank(s32 rank) {
+s32 GetCpuKartAheadOfRank(s32 rank) {
     s32 listIndex = rank - 2;
     s32 result = -1;
 

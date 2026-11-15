@@ -162,7 +162,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         default:
             return;
     }
-    if (!(GetKartKind3ShapeListMask() & ironBall->mSoundOffKind3ShapeListMask) &&
+    if (!(GetKartZoneMask() & ironBall->mSoundOffKind3ShapeListMask) &&
         !(ironBall->mMapObject.mDistanceSquaredAndFlags & 4)) {
         StartIronBallSpeedSound(ironBall->mMapObject.mSound, ironBall->mPathSpeed);
     }
@@ -255,7 +255,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mHeightSpeed = MUL_FIXED12_NO_ROUND(ironBall->mHeightSpeed, -0x800);
             if (ironBall->mHeightSpeed < 0x1000) {
                 ironBall->mHeightSpeed = 0;
-            } else if (!(GetKartKind3ShapeListMask() & ironBall->mSoundOffKind3ShapeListMask) &&
+            } else if (!(GetKartZoneMask() & ironBall->mSoundOffKind3ShapeListMask) &&
                        !(ironBall->mMapObject.mDistanceSquaredAndFlags & 4)) {
                 StartIronBallBounceSound(ironBall->mMapObject.mSound, ironBall->mHeightSpeed);
             }

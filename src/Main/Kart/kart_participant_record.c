@@ -1645,7 +1645,7 @@ void FinishKartAtMissionRunEnd(Kart *kart) {
         }
         switch (endKind) {
             case 0:
-                StartEntryCameraKind8Entry();
+                StartEntryCameraMissionRun();
                 ResetKartAtRaceEnd(kart, 1, 1);
                 break;
             case 1:
@@ -1731,7 +1731,7 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) == 0) {
         *bitsPointer = *bitsPointer | KART_ENTRY_HIDDEN;
     } else {
-        StartEntryCameraKind6Entry();
+        StartEntryCameraAngleStart();
     }
     ResetKartAtRaceEnd(kart, 0, isWinner);
     kartBits = kart->mEntryFlags;
@@ -2439,7 +2439,7 @@ void StartKartRaceEnd(Kart *kart) {
              ((index = raceSetup->mKartCount) > 1 && (value = GetKartRank(kart->mIndex), value == index)))) {
             DisableEntryCameraUpdate();
         } else {
-            StartEntryCameraKind6Entry();
+            StartEntryCameraAngleStart();
             SwitchCourseCameraEffectsToCurrentCamera();
         }
     } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {

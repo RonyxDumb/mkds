@@ -250,10 +250,10 @@ typedef struct RacePointLink {
 } RacePointLink;
 
 // Node of the lists at CourseMap.mKind3ShapeLists: an entry of the table at mShapes and the next node.
-typedef struct CourseMapKind3ShapeNode {
+typedef struct CourseMapZoneShapeNode {
     /* 00 */ CourseMapShape *mShape;
-    /* 04 */ struct CourseMapKind3ShapeNode *mNext;
-} CourseMapKind3ShapeNode;
+    /* 04 */ struct CourseMapZoneShapeNode *mNext;
+} CourseMapZoneShapeNode;
 
 // Object behind the word at 0x3c of the object behind gCourseMap: two vectors and the halfword at 0x1a.
 typedef struct CourseMapRaceEndPlacement {
@@ -356,7 +356,7 @@ typedef struct CourseMap {
     /* 9c */ u16 mLapProgressBaseMax;
     /* 9e */ u8 mUnk_9e[2];
     // One 0x28-byte link per race point (up to three next and three previous links, a pointer to the point, two
-    // values), built from mRacePoints and mRaceRoutes; read by FindCourseMapKind4ShapeRacePointLink,
+    // values), built from mRacePoints and mRaceRoutes; read by FindCourseMapPointLinkShapeRacePointLink,
     // GetCourseMapRespawnRacePointLink and the kart follower set-up (InitRacePointLinkCursor).
     /* a0 */ RacePointLink *mRacePointLinks;
     // Link of the first point of mRaceRoutes[0].
@@ -372,7 +372,8 @@ typedef struct CourseMap {
     /* b4 */ s32 mItemRoute0PreviousLastLink;
     // One 0x30-byte link per battle point (up to eight neighbour links, a pointer to the point, two values, a link
     // count and a bit mask), built from mBattlePoints and mBattleRoutes; read by
-    // FindCourseMapKind4ShapeBattlePointLink, GetCourseMapRespawnBattlePointLink and GetKeyedPlacementBattlePointLink.
+    // FindCourseMapPointLinkShapeBattlePointLink, GetCourseMapRespawnBattlePointLink and
+    // GetKeyedPlacementBattlePointLink.
     /* b8 */ PointLink *mBattlePointLinks;
     // Address of the first element of mBattlePointLinks.
     /* bc */ PointLink *mFirstBattlePointLink;
@@ -385,7 +386,7 @@ typedef struct CourseMap {
     /* d0 */ CourseMapCamera *mFirstKind7EntryInMode2;
     // The first entry of mKind 8, set only when the mode is 4; the loader does not set it to NULL first.
     /* d4 */ CourseMapCamera *mFirstKind8EntryInMode4;
-    /* d8 */ struct CourseMapKind3ShapeNode *mKind3ShapeLists[8];
+    /* d8 */ struct CourseMapZoneShapeNode *mKind3ShapeLists[8];
     /* f8 */ u16 *mRespawnIndexBySlot;
     // Record index of mKeyedPlacements for each key, one halfword per record (BuildCourseMapKeyedPlacementIndexByKey).
     /* fc */ u16 *mKeyedPlacementIndexByKey;

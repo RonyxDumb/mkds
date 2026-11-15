@@ -716,10 +716,10 @@ CourseMapShape *GetCourseMapShape(u32 shapeIndex) {
 #pragma thumb off
 
 #pragma thumb on
-void BuildCourseMapKind3ShapeLists(void) {
+void BuildCourseMapZoneShapeLists(void) {
     void *heap;
     CourseMapShape *shape;
-    CourseMapKind3ShapeNode **nodeSlot;
+    CourseMapZoneShapeNode **nodeSlot;
     u16 shapeIndex;
     u16 listIndex;
 
@@ -745,7 +745,7 @@ void BuildCourseMapKind3ShapeLists(void) {
 
 #pragma thumb on
 
-void CountCourseMapKind4Shapes(void) {
+void CountCourseMapPointLinkShapes(void) {
     u16 count;
     u16 shapeIndex;
     count = 0;
@@ -757,7 +757,7 @@ void CountCourseMapKind4Shapes(void) {
     gCourseMap->mKind4ShapeCount = count;
 }
 
-void CountCourseMapKind2ShapesInMode4(void) {
+void CountCourseMapMissionEndShapes(void) {
     u8 count;
     u16 shapeIndex;
     count = 0;
@@ -781,9 +781,9 @@ s32 LoadCourseMapShapesData(void *section, ...) {
     } else {
         gCourseMap->mShapes = section;
     }
-    BuildCourseMapKind3ShapeLists();
-    CountCourseMapKind4Shapes();
-    CountCourseMapKind2ShapesInMode4();
+    BuildCourseMapZoneShapeLists();
+    CountCourseMapPointLinkShapes();
+    CountCourseMapMissionEndShapes();
     return 1;
 }
 
@@ -1045,7 +1045,7 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
     return inside;
 }
 
-s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag) {
+s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -1090,7 +1090,7 @@ s32 IsPosInCourseMapKind2Shape(Vec3 *pos, s32 *outFlag) {
     return found;
 }
 
-void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
+void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -1133,7 +1133,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
     return link;
 }
 
-PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
+PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -1314,8 +1314,8 @@ struct ItemPointLink *GetCourseMapRespawnItemPointLink(u16 slot) {
     return &gCourseMap->mItemPointLinks[respawn->mItemPointIndex];
 }
 
-s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
-    CourseMapKind3ShapeNode *node;
+s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex) {
+    CourseMapZoneShapeNode *node;
     s32 inside;
     CourseMapShape *shape;
     Vec3 kartPos;

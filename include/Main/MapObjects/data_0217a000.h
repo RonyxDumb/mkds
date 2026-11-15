@@ -1220,7 +1220,7 @@ typedef struct Race {
 
 extern Race *gRace;
 extern s32 gFadeFogActive;
-struct Kind7CameraEntry;
+struct SequenceCameraEntry;
 
 // The viewer of a race: position, look-at point, three axes, view matrix and frustum. One class, several instances:
 // gChaseCamera follows the selected kart, gEntryCamera and gFirstChainCamera / gSecondChainCamera step through
@@ -1346,11 +1346,11 @@ typedef struct Camera {
     // use.
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
-    /* 21c */ struct Kind7CameraEntry *mKind7Entries;
-    /* 220 */ struct Kind7CameraEntry *mCurrentKind7Entry;
+    /* 21c */ struct SequenceCameraEntry *mKind7Entries;
+    /* 220 */ struct SequenceCameraEntry *mCurrentKind7Entry;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
-    // TRUE from StartEntryCameraKind6Entry until mKind6EntryFrames reaches 300 (outside mode 2) or
+    // TRUE from StartEntryCameraAngleStart until mKind6EntryFrames reaches 300 (outside mode 2) or
     // SetEntryCameraUpdateHold replaces the entry. While TRUE the entry is not replaced by the one picked from the
     // Kart's position; in mode 2 TryUpdateEntryCamera steps the entry by its kind on every call and only
     // SetEntryCameraUpdateHold clears it.
@@ -1366,7 +1366,7 @@ typedef struct Camera {
     // Set to 1 once by DisableEntryCameraUpdate and never cleared (SetupCamera zeroes it). While set
     // TryUpdateEntryCamera returns FALSE at once, so the chase camera is shown.
     /* 234 */ BOOL mEntryUpdateDisabled;
-    // Set to TRUE by StartEntryCameraKind8Entry and never cleared (SetupCamera zeroes it). While set, and after the
+    // Set to TRUE by StartEntryCameraMissionRun and never cleared (SetupCamera zeroes it). While set, and after the
     // mEntryUpdateHold and mEntryUpdateDisabled tests, TryUpdateEntryCamera runs UpdateCameraAngleEntry on the current
     // entry and returns TRUE.
     /* 238 */ BOOL mKind8EntryRunning;
