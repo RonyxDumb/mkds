@@ -6,11 +6,11 @@
 
 CARDiCommon gAccessState;
 CARDiCommandArg gRequestBlock;
-u8 gAccessEnabled[0x20];
+u32 gAccessEnabled[8];
 
 // Returns the enable flag.
 u32 CARD_IsEnabled(void) {
-    return *(u32 *) gAccessEnabled;
+    return gAccessEnabled[0];
 }
 
 // Ends in OS_Terminate unless card access is enabled.
@@ -23,7 +23,7 @@ void CARD_CheckEnabled(void) {
 
 // Sets the enable flag.
 void CARD_Enable(u32 enable) {
-    *(u32 *) gAccessEnabled = enable;
+    gAccessEnabled[0] = enable;
 }
 
 // Waits while a transfer is running. Returns 1 when CARDiCommandArg.mResult is 0.
