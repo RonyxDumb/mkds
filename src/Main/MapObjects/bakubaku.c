@@ -154,12 +154,12 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             bakubaku->mMapObject.mPosStep.y -= 0x400;
             VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y <= bakubaku->mMapObject.mCourseMapRow->mPosition.y - 0x32000) {
-                bakubaku->mState4Timer = 0x708;
+                bakubaku->mWaitToResetTimer = 0x708;
                 bakubaku->mState = BAKUBAKU_STATE_WAIT_TO_RESET;
             }
             break;
         case BAKUBAKU_STATE_WAIT_TO_RESET:
-            if (bakubaku->mState4Timer-- <= 0) {
+            if (bakubaku->mWaitToResetTimer-- <= 0) {
                 bakubaku->mState = BAKUBAKU_STATE_WAIT_FOR_KART;
             }
             break;

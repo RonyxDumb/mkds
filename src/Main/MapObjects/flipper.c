@@ -205,14 +205,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 flipper->mMirror = 0;
                 flipper->mMapObject.mFlags &= ~0x400;
                 flipper->mMapObject.mAngle = 0x2000;
-                flipper->mState1Timer = 0x1e;
+                flipper->mWaitTimer = 0x1e;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
                 flipper->mMapObject.mAngle = 0x2000;
-                flipper->mState1Timer = 0x1e;
+                flipper->mWaitTimer = 0x1e;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
         }
@@ -272,8 +272,8 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             if (flipper->mState4Timer != 0) {
                 flipper->mState = FLIPPER_STATE_ALT_WAIT;
             } else {
-                flipper->mState1Timer = flipper->mState1Timer - 1;
-                if (flipper->mState1Timer <= 0) {
+                flipper->mWaitTimer = flipper->mWaitTimer - 1;
+                if (flipper->mWaitTimer <= 0) {
                     flipper->mSwingStep = 0;
                     flipper->mState = FLIPPER_STATE_SWING_OUT;
                 }
@@ -303,7 +303,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
-                flipper->mState1Timer = (u16) ((u16) randomValue * 0x14);
+                flipper->mWaitTimer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = FLIPPER_STATE_WAIT;
             }
             break;
@@ -337,7 +337,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 randomValue = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
-                flipper->mState1Timer = (u16) ((u16) randomValue * 0x14);
+                flipper->mWaitTimer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = FLIPPER_STATE_WAIT;
             }
             break;

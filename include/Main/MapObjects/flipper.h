@@ -29,7 +29,7 @@ typedef struct Flipper {
     /* 648 */ MtxFx43 mTiltedSwingMatrices[30];
     /* be8 */ Vec3 mEmitterStarts[30];
     /* d50 */ Vec3 mEmitterEnds[30];
-    /* eb8 */ s32 mState1Timer;
+    /* eb8 */ s32 mWaitTimer;
     /* ebc */ s32 mState4Timer;
     /* ec0 */ s32 mSwingStep;
     /* ec4 */ u16 mNsbtpFrameIndex;

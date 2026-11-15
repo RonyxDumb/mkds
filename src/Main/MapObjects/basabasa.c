@@ -149,7 +149,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             basabasa->mVelocity.y += -0x19a;
             basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x19a);
             VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
-            if (basabasa->mState0Timer-- <= 0) {
+            if (basabasa->mFallTimer-- <= 0) {
                 basabasa->mState = BASABASA_STATE_SLOW_FALL;
             }
             break;
@@ -165,7 +165,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             break;
         case BASABASA_STATE_GLIDE:
             VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
-            if (basabasa->mState2Timer-- <= 0) {
+            if (basabasa->mGlideTimer-- <= 0) {
                 basabasa->mState = BASABASA_STATE_CLIMB;
             }
             break;
@@ -232,7 +232,7 @@ MapObjectList *CreateBasabasaUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, UpdateBasabasa, NULL);
 }
 
-void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
+void StartBasabasa(u32 glideTimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 fallTimerBase,
                    s32 soundRequested, u16 subScreenCellKind) {
     Basabasa *basabasa;
     RandomState64 *mapObjectRandom;
@@ -251,12 +251,12 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
-    timerRange = TO_FIXED12(state0TimerBase) >> 16;
+    timerRange = TO_FIXED12(fallTimerBase) >> 16;
     randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
-    basabasa->mState0Timer = state0TimerBase + randomOffset;
-    timerRange = TO_FIXED12(state2TimerBase) >> 16;
+    basabasa->mFallTimer = fallTimerBase + randomOffset;
+    timerRange = TO_FIXED12(glideTimerBase) >> 16;
     randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);
-    basabasa->mState2Timer = state2TimerBase + randomOffset;
+    basabasa->mGlideTimer = glideTimerBase + randomOffset;
     basabasa->mMapObject.mPos = *startPos;
     basabasa->mVelocity = *velocity;
     basabasa->mState = BASABASA_STATE_FALL;

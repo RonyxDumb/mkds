@@ -19,7 +19,7 @@
 // Object of kind 0x13c (Bakubaku): after the shared part, a counter at 0xa0, a vector at 0xa4 and a state at 0xb0.
 typedef struct Bakubaku {
     /* 00 */ MapObject mMapObject;
-    /* a0 */ s32 mState4Timer;
+    /* a0 */ s32 mWaitToResetTimer;
     /* a4 */ Vec3 mDistanceCheckPos;
     /* State number of this kind's own per-frame switch in UpdateBakubaku; this object does not use
        MapObject.mUnk_80's state machine; also read by the draw (BAKUBAKU_STATE_ARC_OVER_SURFACE = drawn) */

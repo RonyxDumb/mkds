@@ -23,8 +23,8 @@ typedef struct Basabasa {
     /* ac */ u16 mNsbtpFrameIndex;
     /* ae */ u8 mUnk_ae[2];
     /* b0 */ s32 mDelayTimer;
-    /* b4 */ s32 mState0Timer;
-    /* b8 */ s32 mState2Timer;
+    /* b4 */ s32 mFallTimer;
+    /* b8 */ s32 mGlideTimer;
     /* bc */ s32 mSoundRequested;
     /* c0 */ u16 mRaceHudSubScreenCellKind;
     /* c2 */ u8 mUnk_c2[2];
@@ -42,7 +42,7 @@ typedef struct Basabasa Basabasa;
 
 void CreateBasabasa(void *mapObjectList);
 
-void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
+void StartBasabasa(u32 glideTimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 fallTimerBase,
                    s32 soundRequested, u16 subScreenCellKind);
 MapObjectList *CreateBasabasaUpdateList(void);
 MapObjectList *CreateBasabasaDrawList(void);
