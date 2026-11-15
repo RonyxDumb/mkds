@@ -2,11 +2,6 @@
 
 #include "types.h"
 
-// Four callbacks handed over as one block.
-typedef struct OptionStateCallbackTable {
-    /* 00 */ UnkFunc *mCallbacks[4];
-} OptionStateCallbackTable;
-
 #include "01/code_02192000.h"
 #include "01/unk_021a9000.h"
 #include "01/Menu/option_states.h"
@@ -49,7 +44,7 @@ void InitOptionEmbremSelect(void *heap);
 
 extern const s32 gOptionEmbremSelectCellCounts[2];
 extern const s32 gOptionEmbremSelectSTableCounts[2];
-extern OptionStateCallbackTable gOptionEmbremSelectCallbacks;
+extern OptionStateCallbacks gOptionEmbremSelectCallbacks;
 extern const u8 gOptionEmbremSelectSTableIndices[2][11];
 extern const u8 gOptionEmbremSelectTimerCellIndices[3][2];
 extern const u8 gOptionEmbremSelectCellIndices[2][2];

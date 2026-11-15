@@ -424,5 +424,5 @@ void WriteOptionTopMenuRegisters(void) {
 void RegisterOptionTopMenuCallbacks(void) {
     OptionStateCallbacks callbacks = gOptionTopMenuCallbacks;
 
-    SetOptionStateCallbacks((UnkFunc **) &callbacks);
+    SetOptionStateCallbacks(&callbacks);
 }

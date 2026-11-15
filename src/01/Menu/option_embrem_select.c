@@ -16,8 +16,8 @@
 
 const s32 gOptionEmbremSelectCellCounts[2] = {1, 2};
 const s32 gOptionEmbremSelectSTableCounts[2] = {4, 0xb};
-OptionStateCallbackTable gOptionEmbremSelectCallbacks = {
-    {InitOptionEmbremSelect, ReleaseOptionEmbremSelect, AdvanceOptionEmbremSelect, WriteOptionEmbremSelectRegisters}};
+OptionStateCallbacks gOptionEmbremSelectCallbacks = {InitOptionEmbremSelect, ReleaseOptionEmbremSelect,
+                                                     AdvanceOptionEmbremSelect, WriteOptionEmbremSelectRegisters};
 const u8 gOptionEmbremSelectSTableIndices[2][11] = {{0, 8, 2, 0xc, 0, 0, 0, 0, 0, 0, 0},
                                                     {1, 9, 3, 4, 5, 6, 7, 0xa, 0xb, 0xd, 0xe}};
 const u8 gOptionEmbremSelectTimerCellIndices[3][2] = {{0xa, 0xb}, {6, 7}, {4, 5}};
@@ -464,7 +464,7 @@ void WriteOptionEmbremSelectRegisters(void) {
 }
 
 void RegisterOptionEmbremSelectCallbacks(void) {
-    OptionStateCallbackTable local = gOptionEmbremSelectCallbacks;
+    OptionStateCallbacks callbacks = gOptionEmbremSelectCallbacks;
 
-    SetOptionStateCallbacks(local.mCallbacks);
+    SetOptionStateCallbacks(&callbacks);
 }

@@ -328,7 +328,7 @@ void WriteOptionHensyuMenuRegisters(void) {
 }
 
 void RegisterOptionHensyuMenuCallbacks(void) {
-    UnkFunc *tbl[4] = {InitOptionHensyuMenu, ReleaseOptionHensyuMenu, AdvanceOptionHensyuMenu,
-                       WriteOptionHensyuMenuRegisters};
-    SetOptionStateCallbacks(tbl);
+    OptionStateCallbacks tbl = {InitOptionHensyuMenu, ReleaseOptionHensyuMenu, AdvanceOptionHensyuMenu,
+                                WriteOptionHensyuMenuRegisters};
+    SetOptionStateCallbacks(&tbl);
 }

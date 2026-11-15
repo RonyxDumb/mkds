@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef struct OptionStateCallbacks OptionStateCallbacks;
+
 // Values of OptionStates.mState, mNextState and mPrevState and of the argument of RequestOptionState. The first four
 // have screen callbacks; the last three stand for the scene the option scene was entered from or leaves to (title,
 // keyboard, emblem). OptionStates.mNextState is OPTION_STATE_NONE while no change is requested.
@@ -20,7 +22,7 @@ void RequestOptionNextScene(u16 nextScene);
 int GetOptionNextScene(void);
 u32 GetOptionPrevState(void);
 void RequestOptionState(u32 nextState);
-void SetOptionStateCallbacks(UnkFunc **callbacks);
+void SetOptionStateCallbacks(OptionStateCallbacks *callbacks);
 void WriteOptionStatesRegisters(void);
 void AdvanceOptionStates(void);
 void ReleaseOptionStates(void);

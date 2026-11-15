@@ -167,8 +167,8 @@ void WriteOptionStatesRegisters(void) {
     WriteSceneTextRegisters();
 }
 
-void SetOptionStateCallbacks(UnkFunc **callbacks) {
-    gOptionStates->mCallbacks = *(OptionStateCallbacks *) callbacks;
+void SetOptionStateCallbacks(OptionStateCallbacks *callbacks) {
+    gOptionStates->mCallbacks = *callbacks;
 }
 
 void RequestOptionState(u32 nextState) {

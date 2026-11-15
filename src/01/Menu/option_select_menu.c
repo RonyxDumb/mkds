@@ -650,8 +650,8 @@ void WriteOptionSelectMenuRegisters(void) {
 }
 
 void RegisterOptionSelectMenuCallbacks(void) {
-    UnkFunc *table[4] = {InitOptionSelectMenu, ReleaseOptionSelectMenu, AdvanceOptionSelectMenu,
-                         WriteOptionSelectMenuRegisters};
+    OptionStateCallbacks table = {InitOptionSelectMenu, ReleaseOptionSelectMenu, AdvanceOptionSelectMenu,
+                                  WriteOptionSelectMenuRegisters};
 
-    SetOptionStateCallbacks((table));
+    SetOptionStateCallbacks(&table);
 }
