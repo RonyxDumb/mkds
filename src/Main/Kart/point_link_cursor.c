@@ -10,7 +10,7 @@
 #include "Main/Kart/kart_ai_staff_roll_advance.h"
 #include "Main/Kart/kart_call.h"
 #include "Main/Race/race_setup_input.h"
-#include "Main/Kart/kart_state0_return.h"
+#include "Main/Kart/kart_absolute_value.h"
 #include "Main/Kart/kart_palette_stem_tables.h"
 #include "fixed_arctangent.h"
 #include "ITCM/collision_slots.h"

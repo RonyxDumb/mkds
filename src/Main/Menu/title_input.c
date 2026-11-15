@@ -1,6 +1,6 @@
 #include "Main/Menu/title_input.h"
 
-#include "Main/Menu/title_state0.h"
+#include "Main/Menu/title_blend_in.h"
 #include "Main/System/input_slots.h"
 #include "Main/System/init_after_startup.h"
 

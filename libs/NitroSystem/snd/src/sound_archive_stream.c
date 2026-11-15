@@ -17,7 +17,7 @@
 #include "thread_mutex_types.h"
 #include "sound_fader.h"
 #include "Main/System/runtime_locks_stdio_buffers.h"
-#include "unk_02152000_data.h"
+#include "snd_color_mask_tables.h"
 #include "sound_wave_channel_volume.h"
 
 NNSSndStrmThread *sPrepareThread;

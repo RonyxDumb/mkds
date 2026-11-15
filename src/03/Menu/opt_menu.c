@@ -1,5 +1,5 @@
 #include "03/Menu/opt_menu.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 
 #include "03/Menu/menu_pair_loading.h"
 #include "03/System/dwc_archive.h"

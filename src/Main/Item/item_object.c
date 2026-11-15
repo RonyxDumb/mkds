@@ -29,7 +29,7 @@
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/Sound/item_object_sound_source_9038.h"
+#include "Main/Sound/item_object_sound_source_init.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/Item/item_pool.h"

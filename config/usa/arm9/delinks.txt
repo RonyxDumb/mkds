@@ -45,17 +45,17 @@ src/Main/Menu/logo_state.c:
     .text       start:0x02001080 end:0x02001290
 
 // provisional: file name and boundaries
-src/Main/Menu/logo_state_8_nop.c:
+src/Main/Menu/logo_check_dwc_init_enter_nop.c:
     complete
     .text       start:0x02001290 end:0x02001294
 
 // provisional: file name and boundaries
-src/Main/Menu/logo_state_2.c:
+src/Main/Menu/logo_wait_backup_read.c:
     complete
     .text       start:0x02001294 end:0x020019ac
 
 // provisional: file name and boundaries
-src/Main/Menu/logo_state_1_nop.c:
+src/Main/Menu/logo_wait_backup_read_enter_nop.c:
     complete
     .text       start:0x020019ac end:0x020019b0
 
@@ -65,7 +65,7 @@ src/Main/Menu/logo_scene.c:
     .text       start:0x020019b0 end:0x02001e54
 
 // provisional: file name and boundaries
-src/Main/System/empty_02001e54.c:
+src/Main/System/text_zero_fill.c:
     complete
     .text       start:0x02001e54 end:0x02003000
 
@@ -1857,7 +1857,7 @@ src/Main/Kart/kart_resources.c:
     .bss        start:0x0217abf0 end:0x0217ac70
 
 // provisional: file name and boundaries
-src/Main/Kart/kart_state0_return.c:
+src/Main/Kart/kart_absolute_value.c:
     complete
     .text       start:0x020738f4 end:0x02073904
     .bss        start:0x0217ac70 end:0x0217ac74
@@ -2511,12 +2511,12 @@ src/Main/MapObjects/shine_balloon.c:
     .bss        start:0x0217b31c end:0x0217b320
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state6.c:
+src/Main/Menu/title_request_nickname_scene.c:
     complete
     .text       start:0x020aca08 end:0x020aca24
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state5.c:
+src/Main/Menu/title_leave.c:
     complete
     .text       start:0x020aca24 end:0x020acaa4
     .data       start:0x02167e28 end:0x02167e34
@@ -2527,17 +2527,17 @@ src/Main/Menu/title_state_handlers.c:
     .data       start:0x02167e34 end:0x02167e6c
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state4.c:
+src/Main/Menu/title_select_press.c:
     complete
     .text       start:0x020acaa4 end:0x020acb08
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state3.c:
+src/Main/Menu/title_slide_out.c:
     complete
     .text       start:0x020acb08 end:0x020acbe8
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state2.c:
+src/Main/Menu/title_menu_input.c:
     complete
     .text       start:0x020acbe8 end:0x020ace14
 
@@ -2552,7 +2552,7 @@ src/Main/Menu/title_input.c:
     .text       start:0x020acebc end:0x020acf04
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state1.c:
+src/Main/Menu/title_slide_in.c:
     complete
     .text       start:0x020acf04 end:0x020acfec
 
@@ -2562,7 +2562,7 @@ src/Main/Menu/title_table_draw.c:
     .text       start:0x020acfec end:0x020ad230
 
 // provisional: file name and boundaries
-src/Main/Menu/title_state0.c:
+src/Main/Menu/title_blend_in.c:
     complete
     .text       start:0x020ad230 end:0x020ad268
 
@@ -3719,7 +3719,7 @@ src/Main/MapObjects/woodbox.c:
     .bss        start:0x0217bbc8 end:0x0217bbdc
 
 // provisional: file name and boundaries
-src/Main/MapObjects/pushed_object_state_1.c:
+src/Main/MapObjects/pushed_object_tumble.c:
     complete
     .text       start:0x020ec484 end:0x020ec538
     .rodata     start:0x02159578 end:0x0215957c
@@ -4050,7 +4050,7 @@ src/Main/Sound/sound_handle_pool.c:
     .text       start:0x02108e6c end:0x02109038
 
 // provisional: file name and boundaries
-src/Main/Sound/item_object_sound_source_9038.c:
+src/Main/Sound/item_object_sound_source_init.c:
     complete
     .text       start:0x02109038 end:0x02109054
 

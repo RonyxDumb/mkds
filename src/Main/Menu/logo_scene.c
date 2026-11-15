@@ -2,7 +2,7 @@
 #include "registers.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Menu/logo_state.h"
-#include "Main/Menu/logo_state_2.h"
+#include "Main/Menu/logo_wait_backup_read.h"
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 #include "Main/Menu/second_menu_scene.h"

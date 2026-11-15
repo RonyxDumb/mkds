@@ -14,7 +14,6 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "01/callees_0219b000.h"
 #include "01/Race/mission_run_state.h"
 #include "01/MapObjects/donketu_chase_kart_collision.h"
 #include "01/MapObjects/mission_run_group_entry_queries.h"

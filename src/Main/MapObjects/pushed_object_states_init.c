@@ -3,7 +3,7 @@
 #include "Main/MapObjects/pushed_motion.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
-#include "Main/MapObjects/pushed_object_state_1.h"
+#include "Main/MapObjects/pushed_object_tumble.h"
 
 StateCallbacks gPushedObjectStateTable[3] = {
     {NULL, NULL}, {EnterPushedObjectTumble, UpdatePushedObjectTumble}, {EnterPushedObjectPark, NULL}};

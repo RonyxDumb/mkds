@@ -2,7 +2,7 @@
 
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/server_query_engine.h"
-#include "00/types_0218b928.h"
+#include "00/Lib/GameSpy/server_key_info.h"
 #include "03/Net/exchange_essid.h" // SocketAddress
 #include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/DWC/connection_error_strings.h"

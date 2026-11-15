@@ -15,7 +15,7 @@
 #include "03/Graphics/oam_range_entry.h"
 #include "03/System/rect.h"
 #include "03/System/task_input.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 
 const u16 gMessageBoxTextOffset[2] = {8, 8};
 const u8 gMessageBoxButtonCounts[6] = {2, 1, 2, 1, 2, 0};

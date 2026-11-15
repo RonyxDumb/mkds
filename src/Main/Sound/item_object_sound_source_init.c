@@ -1,4 +1,4 @@
-#include "Main/Sound/item_object_sound_source_9038.h"
+#include "Main/Sound/item_object_sound_source_init.h"
 #include "Main/Sound/sound_source_list.h"
 
 void ItemObjectInitSoundSource(SoundSource *source, u32 falloffIndex, Vec3 *ownerPosSource) {

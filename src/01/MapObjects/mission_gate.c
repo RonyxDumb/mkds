@@ -1,7 +1,6 @@
 #include "01/MapObjects/mission_gate.h"
 
 #include "Main/MapObjects/map_object_model_frame.h"
-#include "01/callees_0219b000.h"
 #include "01/MapObjects/map_object_animation.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Kart/kart_drift.h"

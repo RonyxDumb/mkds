@@ -106,7 +106,7 @@ typedef struct HttpsEntry HttpsEntry;
 #include "00/Lib/CPS/tcp_ip_stack.h"
 #include "00/Lib/CPS/network_state.h"
 #include "00/Lib/CPS/big_integer_power_and_rc4.h"
-#include "00/types_021ab5e4.h"
+#include "00/Lib/CPS/https_entry.h"
 
 void CPSi_SslShutdown(CPSSoc *connection);
 s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *secondBytes, u32 secondLength,

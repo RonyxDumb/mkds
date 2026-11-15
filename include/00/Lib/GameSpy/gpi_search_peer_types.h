@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/types_021906e4.h"
+#include "00/Lib/GameSpy/gpi_callback_types.h"
 
 // Values of GPISearchData.mKind: the request each kind sends is named by the first key of its message (search,
 // valid, nicks, pmatch, check, newuser, others, uniquesearch).

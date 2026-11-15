@@ -3,7 +3,7 @@
 #include "03/Net/essid_packet_steps.h"
 #include "cpu_copy_fill.h"
 #include "00/Lib/CPS/https_protocol.h"
-#include "00/types_021ab5e4.h"
+#include "00/Lib/CPS/https_entry.h"
 
 void CPSi_SslPeriodical(s32 now) {
     s32 sessionIndex;

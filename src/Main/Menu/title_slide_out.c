@@ -1,5 +1,5 @@
-#include "Main/Menu/title_state3.h"
-#include "Main/Menu/title_state2.h"
+#include "Main/Menu/title_slide_out.h"
+#include "Main/Menu/title_menu_input.h"
 #include "Main/Menu/title_table_draw.h"
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"

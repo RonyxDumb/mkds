@@ -2,7 +2,7 @@
 #include "03/Net/exchange_essid.h"
 #include "03/Menu/edit_text.h"
 #include "03/Menu/message_box_create.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 #include "03/Menu/menu_pair_loading.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/Menu/wifi_menu_shared.h"

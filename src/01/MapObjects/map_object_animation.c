@@ -65,7 +65,6 @@
 #include "sound_archive_load.h"
 #include "01/MapObjects/map_object_model_nsbca_playing.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
-#include "01/callees_0219b000.h"
 #include "Main/Graphics/model_effects.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"

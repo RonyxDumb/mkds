@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "03/Menu/scroll_bar.h"
-#include "03/types_021da26c.h"
+#include "03/Net/ap_scan_types.h"
 #include "03/Menu/wifi_menu_tables.h"
 #include "03/Menu/wifi_menu_shared.h"
 #include "wireless_link_control.h"

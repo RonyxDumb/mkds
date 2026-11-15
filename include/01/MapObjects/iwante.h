@@ -19,7 +19,6 @@ typedef struct ItemObject ItemObject;
 
 #include "01/MapObjects/map_object_animation.h"
 
-#include "01/callees_0219b000.h"
 #include "01/MapObjects/mission_run_hit_count.h"
 #include "01/MapObjects/mission_run_state_callbacks.h"
 #include "01/MapObjects/mission_run_frame_callbacks.h"

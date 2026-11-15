@@ -1,5 +1,5 @@
-#include "Main/Menu/title_state1.h"
-#include "Main/Menu/title_state2.h"
+#include "Main/Menu/title_slide_in.h"
+#include "Main/Menu/title_menu_input.h"
 #include "Main/Menu/title_table_draw.h"
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"
@@ -7,7 +7,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
-#include "Main/Menu/title_state3.h"
+#include "Main/Menu/title_slide_out.h"
 
 #pragma optimize_for_size on
 #pragma thumb on

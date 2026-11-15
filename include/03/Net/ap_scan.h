@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/types_021da26c.h"
+#include "03/Net/ap_scan_types.h"
 
 int CountApScanEntries(ApScanEntry **entriesOut);
 BOOL StopApScan(void);

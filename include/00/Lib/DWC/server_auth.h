@@ -17,7 +17,7 @@ typedef struct DWCHttpParseResult {
 #include "00/Lib/DWC/auth_http_params.h"
 #include "wifi_settings_nvram_backup.h"
 #include "00/Lib/CPS/socket_status_resolve.h"
-#include "00/types_021a998c.h"
+#include "00/Lib/CPS/https_setup_types.h"
 
 // Growing buffer: mStart is its start, mCursor the write position, mEnd the end and mSize the size.
 typedef struct HttpBuffer {

@@ -3,7 +3,6 @@
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_cup_m.h"
 #include "01/Menu/select_visible_plane.h"
-#include "01/callees_0219b000.h"
 #include "01/Menu/mission_run_screen_registers.h"
 #include "01/Menu/select_ghost.h"
 #include "01/Menu/select_engine.h"

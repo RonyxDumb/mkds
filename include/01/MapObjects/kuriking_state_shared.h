@@ -12,7 +12,6 @@
 #include "01/MapObjects/kuriking_face_kart_state.h"
 #include "01/MapObjects/kuriking_sound_callbacks_setup.h"
 #include "01/MapObjects/kuriking_collision_and_shadow_targets.h"
-#include "01/callees_0219b000.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "Main/Item/pooled_map_object.h"
 #include "Main/Item/item_in_use.h"

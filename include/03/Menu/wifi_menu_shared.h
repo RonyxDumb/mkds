@@ -16,7 +16,7 @@
 #include "03/Net/child_wait_session_object.h"
 #include "03/System/exp_heap.h"
 #include "03/System/tasks.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 
 // The list of Wi-Fi ids: its text canvas, cell objects, scroll tasks, chosen and return id and scroll bar flags.
 typedef struct Jb3List {

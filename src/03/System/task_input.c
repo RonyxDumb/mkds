@@ -7,7 +7,7 @@
 #include "touch_panel_sampling.h"
 #include "registers.h"
 #include "03/System/rect.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 #include "fixed_vector_math.h"
 
 u8 gTouchRepeatFrames;

@@ -1,4 +1,4 @@
-#include "Main/MapObjects/pushed_object_state_1.h"
+#include "Main/MapObjects/pushed_object_tumble.h"
 #include "Main/MapObjects/pushed_object_states_init.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/MapObjects/rock.h"

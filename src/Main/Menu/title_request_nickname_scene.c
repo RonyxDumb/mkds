@@ -1,4 +1,4 @@
-#include "Main/Menu/title_state6.h"
+#include "Main/Menu/title_request_nickname_scene.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/System/scene_numbers.h"
 #include "Main/Scene/run_scene_connection.h"

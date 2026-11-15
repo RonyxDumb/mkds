@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 #include "00/Lib/DWC/access_point_manager.h"
 #include "00/Lib/DWC/socket_config.h"
 

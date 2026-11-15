@@ -3,7 +3,7 @@
 #include "interrupt_control.h"
 #include "reset_interrupts_halt.h"
 #include "registers.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 #include "fixed_vector_math.h"
 
 u32 gSavedIrqMask;

@@ -1,5 +1,5 @@
-#include "Main/Menu/title_state5.h"
-#include "Main/Menu/title_state4.h"
+#include "Main/Menu/title_leave.h"
+#include "Main/Menu/title_select_press.h"
 #include "Main/Sound/sound_seq.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/result_archive_path.h"

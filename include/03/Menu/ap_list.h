@@ -2,8 +2,8 @@
 
 #include "types.h"
 #include "03/System/tasks.h"
-#include "03/types_021d299c.h"
-#include "03/types_021da26c.h"
+#include "03/System/touch_key_input.h"
+#include "03/Net/ap_scan_types.h"
 
 typedef struct OamEntry OamEntry;
 typedef struct BgTextCanvas BgTextCanvas;

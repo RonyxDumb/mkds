@@ -7,7 +7,7 @@
 #include "model_draw_blend_state.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
-#include "Main/Kart/kart_state0_return.h"
+#include "Main/Kart/kart_absolute_value.h"
 #include "Main/Kart/karts.h"
 #include "Main/Item/item_pool.h"
 #include "model_material_set.h"

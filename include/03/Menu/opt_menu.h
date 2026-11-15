@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "03/types_021d299c.h"
+#include "03/System/touch_key_input.h"
 
 typedef struct OamEntry OamEntry;
 typedef struct Rect Rect;

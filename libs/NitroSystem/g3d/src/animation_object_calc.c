@@ -4,7 +4,7 @@
 #include "fixed_vector_math.h"
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"
-#include "unk_02152000_data.h"
+#include "snd_color_mask_tables.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "system_state_globals.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
