@@ -262,7 +262,7 @@ void InitializeCallback(WirelessMessage *event) {
     if (result != 0) {
         return;
     }
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
     if (gConnectionWork->mConnectionKind != 0) {
@@ -358,7 +358,7 @@ void StopConnection(void) {
 
 void ResetCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         gConnectionWork->mErrorCode = CONNECTION_ERROR_RESET_FAILED;
         gConnectionWork->mRequestPending = 0;
     } else {
@@ -376,7 +376,7 @@ void SetLifeTime(s32 camLifeTime) {
 
 void SetLifeTimeCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
     }
 }
@@ -435,7 +435,7 @@ void MeasureChannel(u16 measuredChannel) {
 void MeasureChannelCallback(WirelessMessage *event) {
     s16 *channelSum;
 
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
         return;
     }
@@ -582,7 +582,7 @@ void SetParentParameter(void) {
 
 void SetParentParameterCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
     }
 }
@@ -605,7 +605,7 @@ void StartParentCallback(WirelessMessage *event) {
     u16 seed;
     u32 aid;
 
-    if (event->mResultCode == 0) {
+    if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
         switch (event->mReplyState) {
             case WIRELESS_STATE_LINKED:
                 AddChild(event->mLength, &event->mMacAddress[0], (PlayerRecord *) event->mPeerBytes);

@@ -55,7 +55,7 @@ void DisconnectChildren(u32 aidBitmap) {
 
 void DisconnectChildrenCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0 && event->mResultCode != 7) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED && event->mResultCode != WIRELESS_RESULT_NO_REMOTE) {
         return;
     }
     if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
@@ -97,7 +97,7 @@ void EndMPCallback(WirelessMessage *event) {
 
     gConnectionWork->mRequestPending = 0;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
         return;
     }
@@ -118,7 +118,7 @@ void EndParent(void) {
 
 void EndParentCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         StopConnection();
     } else {
         ResetConnectionData();
@@ -172,8 +172,8 @@ void DisconnectCallback(WirelessMessage *event) {
     u16 aid;
 
     switch (event->mResultCode) {
-        case 0:
-        case 7:
+        case WIRELESS_RESULT_SUCCEEDED:
+        case WIRELESS_RESULT_NO_REMOTE:
             gConnectionWork->mRequestPending = 0;
             switch (gConnectionWork->mConnectionMode) {
                 case CONNECTION_MODE_PARENT:
@@ -192,7 +192,7 @@ void DisconnectCallback(WirelessMessage *event) {
                     break;
             }
             break;
-        case 1:
+        case WIRELESS_RESULT_REFUSED:
             if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_DISCONNECTING) != 0) {
                 gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECTING;
                 ResetConnectionData();
@@ -285,7 +285,7 @@ void End(void) {
 
 void EndCallback(WirelessMessage *event) {
     gConnectionWork->mRequestPending = 0;
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         gConnectionWork->mErrorCode = CONNECTION_ERROR_OPERATION_FAILED;
         gConnectionWork->mRequestPending = 0;
     } else {
@@ -459,7 +459,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
 void MPDataPortCallback(WirelessMessage *event) {
     MPMessage message;
 
-    if (event->mResultCode != 0) {
+    if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
     if (event->mData == 0) {
