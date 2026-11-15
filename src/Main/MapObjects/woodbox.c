@@ -374,7 +374,7 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 3) {
         if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-            if (kart->mItemEffect == 1 || kart->mVelocityLength > 0x3000) {
+            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > 0x3000) {
                 StartWoodbox1ItemObject(woodbox, &kart->mVelocity);
                 if (gBouncingWoodbox1 == woodbox) {
                     gBouncingWoodbox1 = NULL;

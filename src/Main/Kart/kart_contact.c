@@ -153,7 +153,7 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
         kart->mRadiusFactor = TO_FIXED12(1);
         kart->mSurfaceGroup = -1;
         effectIndex = 0;
-        kart->mItemEffect = 0;
+        kart->mItemEffect = KART_ITEM_EFFECT_NONE;
         if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             kartFollowEffectIds = gKartFollowEffectIds;
             for (effectIndex = 0; effectIndex < 3; effectIndex++) {

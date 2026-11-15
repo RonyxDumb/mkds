@@ -97,7 +97,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         if (itemEffectState->mStarFrames > 0x1c2) {
             kart->mEffectFlags &= ~KART_EFFECT_STAR;
             StopKartStarModels(kart);
-            kart->mItemEffect = 0;
+            kart->mItemEffect = KART_ITEM_EFFECT_NONE;
             StopKartStarEffects(kart->mIndex);
             SetKartCharacterAnimation(kart, 0, 1);
             if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {

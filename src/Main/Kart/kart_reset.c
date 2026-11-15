@@ -314,7 +314,7 @@ void StopKartItemsAndEffects(Kart *kart) {
     if (kart->mEffectFlags & KART_EFFECT_STAR) {
         kart->mEffectFlags &= ~KART_EFFECT_STAR;
         StopKartStarModels(kart);
-        kart->mItemEffect = 0;
+        kart->mItemEffect = KART_ITEM_EFFECT_NONE;
         StopKartStarEffects(kart->mIndex);
         SetKartCharacterAnimation(kart, 0, 1);
         if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
@@ -333,7 +333,7 @@ void StopKartItemsAndEffects(Kart *kart) {
         kart->mRadiusFactor = TO_FIXED12(1);
         kart->mSurfaceGroup = -1;
         effectIndex = 0;
-        kart->mItemEffect = 0;
+        kart->mItemEffect = KART_ITEM_EFFECT_NONE;
         if (kart->mKartModelsEntry->mKartModelHidden == 0) {
             effectIds = gKartFollowEffectIds;
             for (effectIndex = 0; effectIndex < 3; effectIndex++) {
@@ -346,7 +346,7 @@ void StopKartItemsAndEffects(Kart *kart) {
     if (kart->mEntryFlags & KART_ENTRY_TERESA) {
         kart->mEntryFlags &= ~KART_ENTRY_TERESA;
         kart->mEntryFlags &= ~(KART_ENTRY_TRANSLUCENT | KART_ENTRY_NOT_DRAWN);
-        kart->mItemEffect = 0;
+        kart->mItemEffect = KART_ITEM_EFFECT_NONE;
         if (!(kart->mEntryFlags & KART_ENTRY_SELECTED)) {
             ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
         } else {
@@ -516,7 +516,7 @@ void ResetKart(Kart *kart) {
     kart->mTestedKartMask = 0;
     kart->mNearKartMask = 0;
     kart->mPrevNearKartMask = 0;
-    kart->mItemEffect = 0;
+    kart->mItemEffect = KART_ITEM_EFFECT_NONE;
     kart->mHopSpeed = 0;
     kart->mHopHeight = 0;
     kart->mHopTiltAngle = 0;
@@ -1301,7 +1301,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         if (itemEffectState->mStarFrames > KART_TERESA_MAX_FRAMES) {
             kart->mEffectFlags &= ~KART_EFFECT_STAR;
             StopKartStarModels(kart);
-            kart->mItemEffect = 0;
+            kart->mItemEffect = KART_ITEM_EFFECT_NONE;
             StopKartStarEffects(kart->mIndex);
             SetKartCharacterAnimation(kart, 0, 1);
             if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
