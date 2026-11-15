@@ -476,7 +476,7 @@ void InitKeyboardDisplay(void) {
     MemFillWordsByBlock_inline((void *) G2_GetBG3ScrPtr(), 0x1000);
 }
 
-void AdvanceKeyboardState0(void) {
+void AdvanceKeyboardWaitFadeFriendKey(void) {
     if (AreBrightnessFadesClear() != 0) {
         gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY;
         SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_FRIEND_CODE), 0, 0, 0,
@@ -504,7 +504,7 @@ void UpdateKeyboardFriendKeyButtons(void) {
     }
 }
 
-void AdvanceKeyboardState1(void) {
+void AdvanceKeyboardSlideInFriendKey(void) {
     gKeyboard->mStateFrames++;
     gKeyboard->mOffsetY = InterpolateS16(1, KEYBOARD_OFFSET_HIDDEN, 0, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
     gKeyboard->mTextOffsetY[0][1] =
@@ -521,7 +521,7 @@ void AdvanceKeyboardState1(void) {
     UpdateKeyboardFriendKeyButtons();
 }
 
-void AdvanceKeyboardState2(void) {
+void AdvanceKeyboardEnterFriendKey(void) {
     InputSlotIndex inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     Keyboard *keyboard;
     KeyboardRecord *textRecord;
@@ -575,7 +575,7 @@ void AdvanceKeyboardState2(void) {
     }
 }
 
-void AdvanceKeyboardState3(void) {
+void AdvanceKeyboardSlideOutFriendKey(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
     gKeyboard->mOffsetY = InterpolateS16(1, 0, KEYBOARD_OFFSET_HIDDEN, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
@@ -627,7 +627,7 @@ void AdvanceKeyboardState3(void) {
     }
 }
 
-void AdvanceKeyboardState4(void) {
+void AdvanceKeyboardShowFriendKeyError(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
     if (IsTxtSystemOpenAfterOpening() != 0) {
@@ -642,7 +642,7 @@ void AdvanceKeyboardState4(void) {
     }
 }
 
-void AdvanceKeyboardState5(void) {
+void AdvanceKeyboardWaitFadeName(void) {
     if (AreBrightnessFadesClear() != 0) {
         gKeyboard->mNextState = KEYBOARD_STATE_SLIDE_IN_NAME;
         SetupTxtSystemMainTextEx(GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_ENTER_NICKNAME), 0, 0, 0, 0,
@@ -686,7 +686,7 @@ void UpdateKeyboardNameButtons(void) {
 #pragma thumb off
 
 #pragma thumb on
-void AdvanceKeyboardState6(void) {
+void AdvanceKeyboardSlideInName(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
     gKeyboard->mOffsetY = InterpolateS16(1, KEYBOARD_OFFSET_HIDDEN, 0, gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
@@ -711,7 +711,7 @@ void AdvanceKeyboardState6(void) {
     ShowKeyboardLayoutObject();
 }
 
-void AdvanceKeyboardState7(void) {
+void AdvanceKeyboardEnterName(void) {
     InputSlotIndex inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     Keyboard *keyboard;
     KeyboardRecord *textRecord;
@@ -818,7 +818,7 @@ void AdvanceKeyboardState7(void) {
     ShowKeyboardLayoutObject();
 }
 
-void AdvanceKeyboardState8(void) {
+void AdvanceKeyboardSlideOutName(void) {
     u16 nameChars[10];
     u16 formattedText[0xfe];
     Keyboard *keyboard;
@@ -876,7 +876,7 @@ void AdvanceKeyboardState8(void) {
     }
 }
 
-void AdvanceKeyboardState9(void) {
+void AdvanceKeyboardSlideInConfirm(void) {
     s16 targetOffsetY;
     gKeyboard->mStateFrames++;
     targetOffsetY = gKeyboardTextOffsetYTarget[1][0];
@@ -897,7 +897,7 @@ void AdvanceKeyboardState9(void) {
     }
 }
 
-void AdvanceKeyboardState10(void) {
+void AdvanceKeyboardAnswerConfirm(void) {
     Keyboard *keyboard;
     s16 targetOffsetY;
     void *message;
@@ -949,7 +949,7 @@ void AdvanceKeyboardState10(void) {
     }
 }
 
-void AdvanceKeyboardState11(void) {
+void AdvanceKeyboardShowSaving(void) {
     Keyboard *keyboard;
     void *message;
     s32 backupBusy;
@@ -976,7 +976,7 @@ void AdvanceKeyboardState11(void) {
     }
 }
 
-void AdvanceKeyboardState12(void) {
+void AdvanceKeyboardWaitBackup(void) {
     void *message;
     s32 backupBusy;
     void *buttonText;
@@ -1008,7 +1008,7 @@ void AdvanceKeyboardState12(void) {
     }
 }
 
-void AdvanceKeyboardState13(void) {
+void AdvanceKeyboardAskEmblem(void) {
     if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = SCENE_EMBLEM;
@@ -1138,46 +1138,46 @@ void AdvanceKeyboard(void) {
     }
     switch (gKeyboard->mState) {
         case KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY:
-            AdvanceKeyboardState0();
+            AdvanceKeyboardWaitFadeFriendKey();
             break;
         case KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY:
-            AdvanceKeyboardState1();
+            AdvanceKeyboardSlideInFriendKey();
             break;
         case KEYBOARD_STATE_ENTER_FRIEND_KEY:
-            AdvanceKeyboardState2();
+            AdvanceKeyboardEnterFriendKey();
             break;
         case KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY:
-            AdvanceKeyboardState3();
+            AdvanceKeyboardSlideOutFriendKey();
             break;
         case KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR:
-            AdvanceKeyboardState4();
+            AdvanceKeyboardShowFriendKeyError();
             break;
         case KEYBOARD_STATE_WAIT_FADE_NAME:
-            AdvanceKeyboardState5();
+            AdvanceKeyboardWaitFadeName();
             break;
         case KEYBOARD_STATE_SLIDE_IN_NAME:
-            AdvanceKeyboardState6();
+            AdvanceKeyboardSlideInName();
             break;
         case KEYBOARD_STATE_ENTER_NAME:
-            AdvanceKeyboardState7();
+            AdvanceKeyboardEnterName();
             break;
         case KEYBOARD_STATE_SLIDE_OUT_NAME:
-            AdvanceKeyboardState8();
+            AdvanceKeyboardSlideOutName();
             break;
         case KEYBOARD_STATE_SLIDE_IN_CONFIRM:
-            AdvanceKeyboardState9();
+            AdvanceKeyboardSlideInConfirm();
             break;
         case KEYBOARD_STATE_ANSWER_CONFIRM:
-            AdvanceKeyboardState10();
+            AdvanceKeyboardAnswerConfirm();
             break;
         case KEYBOARD_STATE_SHOW_SAVING:
-            AdvanceKeyboardState11();
+            AdvanceKeyboardShowSaving();
             break;
         case KEYBOARD_STATE_WAIT_BACKUP:
-            AdvanceKeyboardState12();
+            AdvanceKeyboardWaitBackup();
             break;
         case KEYBOARD_STATE_ASK_EMBLEM:
-            AdvanceKeyboardState13();
+            AdvanceKeyboardAskEmblem();
             break;
     }
     PrintKeyboardTextChars();
