@@ -14,7 +14,7 @@ typedef struct SelectRaceRuleNscrRect {
     /* 12 */ u16 mHighlightedTopBits;
 } SelectRaceRuleNscrRect;
 
-void AdvanceSelectRaceRuleState5(void);
+void AdvanceSelectRaceRuleWaitConfirmOpen(void);
 u16 GetSelectRaceRuleHumanCount(void);
 void AdvanceSelectRaceRuleValueObjects(void);
 void SetAndPrintSelectRaceRuleRaceCount(s16 count);
@@ -22,21 +22,21 @@ void SetAndPrintSelectRaceRuleWinCount(s16 count);
 void AdvanceSelectRaceRuleHighlight(void);
 void LookupSelectRaceRuleNscrRect(SelectRaceRuleNscrRect *outRect, s32 row);
 
-void AdvanceSelectRaceRuleState4(void);
-void AdvanceSelectRaceRuleState3(void);
-void AdvanceSelectRaceRuleState2(void);
-void AdvanceSelectRaceRuleState1(void);
+void AdvanceSelectRaceRuleWaitPress(void);
+void AdvanceSelectRaceRuleChoose(void);
+void AdvanceSelectRaceRuleWaitReturn(void);
+void AdvanceSelectRaceRuleSlideIn(void);
 
-void AdvanceSelectRaceRuleState0(void);
+void AdvanceSelectRaceRuleWaitFade(void);
 
 void ReleaseSelectRaceRule(void);
 void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode);
-void RequestSelectRaceRuleState8(void);
-void RequestSelectRaceRuleState7(void);
+void RequestSelectRaceRuleSlideOut(void);
+void RequestSelectRaceRuleWaitConfirmAnswer(void);
 void RequestSelectRaceRuleWaitConfirmChoices(void);
 void RequestSelectRaceRuleWaitConfirmOpen(void);
 void RequestSelectRaceRuleWaitPress(void);
-void RequestSelectRaceRuleState3(void);
+void RequestSelectRaceRuleChoose(void);
 void RequestSelectRaceRuleWaitReturn(void);
 void RequestSelectRaceRuleSlideIn(void);
 void ResetSelectRaceRulePositions(void);

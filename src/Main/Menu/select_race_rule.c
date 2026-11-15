@@ -48,9 +48,9 @@
 
 #pragma thumb on
 
-void AdvanceSelectRaceRuleState6(void) {
+void AdvanceSelectRaceRuleWaitConfirmChoices(void) {
     if (GetSelectChoisesDone() != 0) {
-        RequestSelectRaceRuleState7();
+        RequestSelectRaceRuleWaitConfirmAnswer();
         switch (GetSelectChoisesIndex()) {
             case 0:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
@@ -63,24 +63,24 @@ void AdvanceSelectRaceRuleState6(void) {
     }
 }
 
-void AdvanceSelectRaceRuleState7(void) {
+void AdvanceSelectRaceRuleWaitConfirmAnswer(void) {
     if (IsSelectChoisesHiddenNoRequest() != 0) {
         switch (GetSelectChoisesIndex()) {
             case 0:
-                RequestSelectRaceRuleState8();
+                RequestSelectRaceRuleSlideOut();
                 gSelectRaceRule->mResult = 1;
                 StartPlayerEntryListKind(3);
                 RequestSelectReturnSlideOut();
                 break;
             case -1:
             case 1:
-                RequestSelectRaceRuleState3();
+                RequestSelectRaceRuleChoose();
                 break;
         }
     }
 }
 
-void AdvanceSelectRaceRuleState8(void) {
+void AdvanceSelectRaceRuleSlideOut(void) {
     SelectRaceRule *selectRaceRule;
     s32 rowIndex;
     s16 returnOffsetY;
@@ -164,31 +164,31 @@ s32 AdvanceSelectRaceRule(void) {
     gSelectRaceRule->mPrevOnButton = gSelectRaceRule->mOnButton;
     switch (gSelectRaceRule->mState) {
         case SELECT_RACE_RULE_STATE_WAIT_FADE:
-            AdvanceSelectRaceRuleState0();
+            AdvanceSelectRaceRuleWaitFade();
             break;
         case SELECT_RACE_RULE_STATE_SLIDE_IN:
-            AdvanceSelectRaceRuleState1();
+            AdvanceSelectRaceRuleSlideIn();
             break;
         case SELECT_RACE_RULE_STATE_WAIT_RETURN:
-            AdvanceSelectRaceRuleState2();
+            AdvanceSelectRaceRuleWaitReturn();
             break;
         case SELECT_RACE_RULE_STATE_CHOOSE:
-            AdvanceSelectRaceRuleState3();
+            AdvanceSelectRaceRuleChoose();
             break;
         case SELECT_RACE_RULE_STATE_WAIT_PRESS:
-            AdvanceSelectRaceRuleState4();
+            AdvanceSelectRaceRuleWaitPress();
             break;
         case SELECT_RACE_RULE_STATE_WAIT_CONFIRM_OPEN:
-            AdvanceSelectRaceRuleState5();
+            AdvanceSelectRaceRuleWaitConfirmOpen();
             break;
         case SELECT_RACE_RULE_STATE_WAIT_CONFIRM_CHOICES:
-            AdvanceSelectRaceRuleState6();
+            AdvanceSelectRaceRuleWaitConfirmChoices();
             break;
         case SELECT_RACE_RULE_STATE_WAIT_CONFIRM_ANSWER:
-            AdvanceSelectRaceRuleState7();
+            AdvanceSelectRaceRuleWaitConfirmAnswer();
             break;
         case SELECT_RACE_RULE_STATE_SLIDE_OUT:
-            AdvanceSelectRaceRuleState8();
+            AdvanceSelectRaceRuleSlideOut();
             break;
     }
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {

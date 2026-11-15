@@ -1414,9 +1414,9 @@ void RequestSelectRaceRuleWaitReturn(void) {
     }
 }
 
-// Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
-// mState and runs AdvanceSelectRaceRuleState3.
-void RequestSelectRaceRuleState3(void) {
+// Requests the Choose state: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies
+// it to mState and runs AdvanceSelectRaceRuleChoose.
+void RequestSelectRaceRuleChoose(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_CHOOSE;
     gSelectRaceRule->mStateFrames = 0;
 }
@@ -1446,15 +1446,15 @@ void RequestSelectRaceRuleWaitConfirmChoices(void) {
     gSelectRaceRule->mStateFrames = 0;
 }
 
-void RequestSelectRaceRuleState7(void) {
+void RequestSelectRaceRuleWaitConfirmAnswer(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_CONFIRM_ANSWER;
     gSelectRaceRule->mStateFrames = 0;
     RequestSelectChoisesHidden();
 }
 
-// Requests state 8: stores mNextState = 8 and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
-// mState and runs AdvanceSelectRaceRuleState8.
-void RequestSelectRaceRuleState8(void) {
+// Requests the SlideOut state: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it
+// to mState and runs AdvanceSelectRaceRuleSlideOut.
+void RequestSelectRaceRuleSlideOut(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_SLIDE_OUT;
     gSelectRaceRule->mStateFrames = 0;
 }
@@ -1745,7 +1745,7 @@ void ReleaseSelectRaceRule(void) {
 
 #pragma thumb on
 
-void AdvanceSelectRaceRuleState0(void) {
+void AdvanceSelectRaceRuleWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -1757,7 +1757,7 @@ void AdvanceSelectRaceRuleState0(void) {
 
 #pragma thumb on
 
-void AdvanceSelectRaceRuleState1(void) {
+void AdvanceSelectRaceRuleSlideIn(void) {
     SelectRaceRule *selectRaceRule;
     s32 rowIndex;
     s16 rowsOffsetY;
@@ -1804,7 +1804,7 @@ void AdvanceSelectRaceRuleState1(void) {
     }
 }
 
-void AdvanceSelectRaceRuleState2(void) {
+void AdvanceSelectRaceRuleWaitReturn(void) {
     s16 returnOffsetY;
     s32 cellEntryCount;
     AdvanceSelectRaceRuleRowObjects();
@@ -1824,19 +1824,19 @@ void AdvanceSelectRaceRuleState2(void) {
         case SELECT_RACE_RULE_MODE_VS_NO_CONNECTION:
         case SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION:
             if (gSelectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnShownNoRequest() != 0) {
-                RequestSelectRaceRuleState3();
+                RequestSelectRaceRuleChoose();
                 return;
             }
             break;
         default:
             if (gSelectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS) {
-                RequestSelectRaceRuleState3();
+                RequestSelectRaceRuleChoose();
             }
             break;
     }
 }
 
-void AdvanceSelectRaceRuleState3(void) {
+void AdvanceSelectRaceRuleChoose(void) {
     InputSlotAtHasPair *hasPairSlot;
     InputSlotAtPairX *pairXSlot;
     InputSlotAtPairY *pairYSlot;
@@ -1894,7 +1894,7 @@ void AdvanceSelectRaceRuleState3(void) {
         case SELECT_RACE_RULE_MODE_VS_NO_CONNECTION:
         case SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION:
             SetSelectReturnSoundId(0xe);
-            RequestSelectRaceRuleState8();
+            RequestSelectRaceRuleSlideOut();
             gSelectRaceRule->mResult = 2;
             RequestSelectReturnPressWithSound(0);
             StartPlayerEntryListKind(1);
@@ -1971,7 +1971,7 @@ end:
     }
 }
 
-void AdvanceSelectRaceRuleState4(void) {
+void AdvanceSelectRaceRuleWaitPress(void) {
     AdvanceSelectRaceRuleRowObjects();
     AdvanceSelectRaceRuleChangeObjects();
     gSelectRaceRule->mStateFrames++;
@@ -1984,7 +1984,7 @@ void AdvanceSelectRaceRuleState4(void) {
             RequestSelectRaceRuleWaitConfirmOpen();
             return;
         }
-        RequestSelectRaceRuleState8();
+        RequestSelectRaceRuleSlideOut();
         gSelectRaceRule->mResult = 1;
         StartPlayerEntryListKind(3);
     }
@@ -1994,7 +1994,7 @@ void AdvanceSelectRaceRuleState4(void) {
 
 #pragma thumb on
 
-void AdvanceSelectRaceRuleState5(void) {
+void AdvanceSelectRaceRuleWaitConfirmOpen(void) {
     int state1WithoutRequest;
     state1WithoutRequest = IsSelectChoisesChooseNoRequest();
     if (state1WithoutRequest != 0) {
