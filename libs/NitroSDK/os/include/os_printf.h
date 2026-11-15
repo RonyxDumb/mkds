@@ -3,6 +3,13 @@
 #include "string.h"
 #include "types.h"
 
+
+// Number bases the formatter converts in.
+enum {
+    PRINTF_RADIX_OCTAL = 8,
+    PRINTF_RADIX_DECIMAL = 10,
+    PRINTF_RADIX_HEX = 16,
+};
 // Output cursor of the formatter: room left, next write position, start of the output.
 typedef struct dst_string {
     /* 00 */ size_t mLen;  // bytes still free; string_put_char stores only while this is nonzero

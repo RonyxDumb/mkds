@@ -155,7 +155,7 @@ void OS_InitThread(void) {
     }
     OSi_IsThreadInitialized = 1;
     OSi_CurrentThreadPtr = &OSi_ThreadInfo.mCurrentThread;
-    OSi_LauncherThread.mPriority = 0x10;
+    OSi_LauncherThread.mPriority = OS_THREAD_PRIORITY_LAUNCHER;
     OSi_LauncherThread.mId = 0;
     OSi_LauncherThread.mState = THREAD_STATE_RUNNABLE;
     OSi_LauncherThread.mNext = 0;
@@ -172,8 +172,8 @@ void OS_InitThread(void) {
     OSi_LauncherThread.mStackBottom = stackBottom;
     OSi_LauncherThread.mStackTop = stackTop;
     OSi_LauncherThread.mStackWarningOffset = 0;
-    *(u32 *) (stackBottom - 4) = 0xfddb597d;
-    *(u32 *) OSi_LauncherThread.mStackTop = 0x7bf9dd5b;
+    *(u32 *) (stackBottom - 4) = OS_STACK_CHECK_BOTTOM;
+    *(u32 *) OSi_LauncherThread.mStackTop = OS_STACK_CHECK_TOP;
     OSi_LauncherThread.mJoinQueue.mTail = 0;
     OSi_LauncherThread.mJoinQueue.mHead = 0;
     OSi_ThreadInfo.mIsNeedRescheduling = 0;
@@ -181,7 +181,7 @@ void OS_InitThread(void) {
     *(ThreadSystem **) HW_THREADINFO_MAIN = &OSi_ThreadInfo;
     OS_SetSwitchThreadCallback(0);
     OS_CreateThread(&OSi_IdleThread, OSi_IdleThreadProc, 0, (u8 *) &OSi_Initialized, 0xc8, 0x1f);
-    OSi_IdleThread.mPriority = 0x20;
+    OSi_IdleThread.mPriority = OS_THREAD_PRIORITY_IDLE;
     OSi_IdleThread.mState = THREAD_STATE_RUNNABLE;
 }
 
@@ -203,8 +203,8 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, u8 *stac
     stackTop = stack - stackSize;
     thread->mStackTop = stackTop;
     thread->mStackWarningOffset = 0;
-    *(u32 *) (thread->mStackBottom - 4) = 0xfddb597d;
-    *(u32 *) thread->mStackTop = 0x7bf9dd5b;
+    *(u32 *) (thread->mStackBottom - 4) = OS_STACK_CHECK_BOTTOM;
+    *(u32 *) thread->mStackTop = OS_STACK_CHECK_TOP;
     thread->mJoinQueue.mTail = 0;
     thread->mJoinQueue.mHead = thread->mJoinQueue.mTail;
     ThreadInitContext(thread, func, (u32) stack - 4);

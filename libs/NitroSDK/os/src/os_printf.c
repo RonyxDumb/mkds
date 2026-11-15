@@ -113,7 +113,7 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
         flag = 0;
         precision = -1;
         width = 0;
-        radix = 10;
+        radix = PRINTF_RADIX_DECIMAL;
         hexChar = 0x57;
         specStart = fmt;
         for (;;) {
@@ -188,7 +188,7 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
             case 'i':
                 goto label_int;
             case 'o':
-                radix = 8;
+                radix = PRINTF_RADIX_OCTAL;
                 flag |= 0x1000;
                 goto label_int;
             case 'u':
@@ -268,7 +268,7 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 continue;
         }
     labelHex:
-        radix = 16;
+        radix = PRINTF_RADIX_HEX;
         flag |= 0x1000;
     label_int:
         nPrefix = 0;
@@ -296,13 +296,13 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
             }
             flag &= ~3;
             if (flag & 4) {
-                if (radix == 16) {
+                if (radix == PRINTF_RADIX_HEX) {
                     if (value != 0) {
                         prefix[1] = '0';
                         prefix[0] = hexChar + 0x21;
                         nPrefix = 2;
                     }
-                } else if (radix == 8) {
+                } else if (radix == PRINTF_RADIX_OCTAL) {
                     prefix[0] = '0';
                     nPrefix = 1;
                 }
@@ -337,14 +337,14 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
         }
         nBuf = 0;
         switch (radix) {
-            case 8:
+            case PRINTF_RADIX_OCTAL:
                 while (value != 0) {
                     int digit = value & 7;
                     value >>= 3;
                     digits[nBuf++] = digit + '0';
                 }
                 break;
-            case 10:
+            case PRINTF_RADIX_DECIMAL:
                 if ((value >> 32) == 0) {
                     u32 low = value;
                     while (low != 0) {
@@ -361,7 +361,7 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                     }
                 }
                 break;
-            case 16:
+            case PRINTF_RADIX_HEX:
                 while (value != 0) {
                     int digit = value & 0xf;
                     value >>= 4;
