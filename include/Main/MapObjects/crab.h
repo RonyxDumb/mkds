@@ -6,6 +6,8 @@
 #include "Main/MapObjects/attractor.h"
 #include "01/MapObjects/data_0209bc74.h"
 
+#define CRAB_ITEM_HIT_SOUND_ID 0x10f
+
 typedef struct ItemObject ItemObject;
 
 // Crab.mState values: WAIT waves the hand until the timer ends, WALK follows the path, FLUNG is the flight after a

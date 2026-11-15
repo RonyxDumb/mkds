@@ -199,7 +199,7 @@ void EnterMkdEfBubbleLeap(void *stateObject) {
         } else {
             falloffIndex = 4;
         }
-        soundRequest.mSoundId = 0x18c;
+        soundRequest.mSoundId = MKD_EF_BUBBLE_LEAP_SOUND_ID;
         soundRequest.mPositionSource = &bubble->mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bubble->mMapObject.mPos);

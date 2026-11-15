@@ -195,7 +195,7 @@ void InitJg(void) {
             gJgLapFrameCount = 0x2d;
             break;
     }
-    gJgSoundStartParams.mSoundId = 0x101;
+    gJgSoundStartParams.mSoundId = JG_SOUND_ID;
     gJgSoundStartParams.mPositionSource = &gJgPos;
     gJgSoundStartParams.mFalloffIndex = 1;
     InitStateMachine(&gJgStateMachine, gJgStateTable, 7, NULL);

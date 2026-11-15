@@ -235,7 +235,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 } else {
                     stateValue = 4;
                 }
-                soundRequest.mSoundId = 0x166;
+                soundRequest.mSoundId = DOSSUN_WAIT_BEFORE_FOLLOW_SOUND_ID;
                 soundRequest.mPositionSource = &dossun->mMapObject.mPos;
                 soundRequest.mFalloffIndex = stateValue;
                 soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mMapObject.mPos);

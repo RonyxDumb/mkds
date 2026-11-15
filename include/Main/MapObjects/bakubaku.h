@@ -8,6 +8,10 @@
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "01/MapObjects/data_0209bc74.h"
 
+// Sounds started where the Bakubaku rises to the surface and where its arc over the surface ends.
+#define BAKUBAKU_RISE_TO_SURFACE_SOUND_ID 0x186
+#define BAKUBAKU_ARC_OVER_SURFACE_SOUND_ID 0x187
+
 // Bakubaku.mState: waits for the kart, rises through the surface, arcs over it (the only state that is drawn), sinks
 // below it and waits to start again.
 #define BAKUBAKU_STATE_WAIT_FOR_KART 0

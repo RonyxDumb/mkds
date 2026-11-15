@@ -5,6 +5,8 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
+#define CHOROPU_SINK_SOUND_ID 0x128
+
 void CreateChoropu(void);
 
 void UpdateChoropuFallSpin(void *stateObject);

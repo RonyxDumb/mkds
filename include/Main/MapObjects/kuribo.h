@@ -4,6 +4,8 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/code_020d6dc0.h"
 
+#define KURIBO_SPRING_BACK_SOUND_ID 0x183
+
 void CreateKuribo(void);
 
 typedef struct ItemObject ItemObject;

@@ -158,13 +158,13 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             bound->mWobbling = TRUE;
             switch (bound->mMapObject.mKind) {
                 case MAP_OBJECT_KIND_CREAM:
-                    StartSoundFullVolumeWrapper(kart, 0x156);
+                    StartSoundFullVolumeWrapper(kart, CREAM_ITEM_HIT_SOUND_ID);
                     break;
                 case MAP_OBJECT_KIND_BERRY:
-                    StartSoundFullVolumeWrapper(kart, 0x155);
+                    StartSoundFullVolumeWrapper(kart, BERRY_ITEM_HIT_SOUND_ID);
                     break;
                 case MAP_OBJECT_KIND_BOUND:
-                    StartSoundFullVolumeWrapper(kart, 0x1cf);
+                    StartSoundFullVolumeWrapper(kart, BOUND_ITEM_HIT_SOUND_ID);
                     break;
             }
             if ((u16) (bound->mMapObject.mKind + 0xfe4c) <= 1) {
@@ -510,7 +510,7 @@ BOOL StartBoundWobble(s32 mapObjectIndex) {
             } else {
                 falloffIndex = 4;
             }
-            soundParams.mSoundId = 0x1cf;
+            soundParams.mSoundId = BOUND_ITEM_HIT_SOUND_ID;
             soundParams.mPositionSource = &bound->mMapObject.mPos;
             soundParams.mFalloffIndex = falloffIndex;
             soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bound->mMapObject.mPos);

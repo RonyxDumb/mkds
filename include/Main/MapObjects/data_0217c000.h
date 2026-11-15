@@ -7,6 +7,12 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 
+// SoundSource.mFalloffIndex of the map object curves: the kinds pick one by comparing mFarDistanceSquared with the
+// words of gSoundFalloffs[2] and [3] (outer distances 380 and 800 against 1100 for the long one).
+#define SOUND_FALLOFF_SHORT_RANGE 2
+#define SOUND_FALLOFF_MEDIUM_RANGE 3
+#define SOUND_FALLOFF_LONG_RANGE 4
+
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
 typedef struct NNSSndHeap NNSSndHeap;

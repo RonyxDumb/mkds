@@ -77,7 +77,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                         } else {
                             falloffIndex = 4;
                         }
-                        firstSoundParams.mSoundId = 0x16e;
+                        firstSoundParams.mSoundId = COVER_POO_HOLE_KART_HIT_SOUND_ID;
                         firstSoundParams.mPositionSource = &coverPooHole->mMapObject.mPos;
                         firstSoundParams.mFalloffIndex = falloffIndex;
                         firstSoundParams.mDistanceSquared =
@@ -170,7 +170,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                         } else {
                             falloffIndex = 4;
                         }
-                        secondSoundParams.mSoundId = 0x16f;
+                        secondSoundParams.mSoundId = COVER_POO_HOLE_TILT_SOUND_ID;
                         secondSoundParams.mPositionSource = &coverPooHole->mMapObject.mPos;
                         secondSoundParams.mFalloffIndex = falloffIndex;
                         secondSoundParams.mDistanceSquared =
@@ -639,7 +639,7 @@ MapObjectKindData *CreateCoverPooHoleKindData(void) {
     MapObjectKindData *kindData;
     kindData = CreateMapObjectKindDataWithSound(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole,
                                                 TryGetCoverPooHolePushOut, 0, 1, 0x16d);
-    kindData->mCollideItemObjectSoundId = 0x1b0;
+    kindData->mCollideItemObjectSoundId = COVER_POO_HOLE_ITEM_HIT_SOUND_ID;
     return kindData;
 }
 

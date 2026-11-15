@@ -1,4 +1,5 @@
 #include "Main/MapObjects/water.h"
+#include "Main/MapObjects/data_0217c000.h"
 #include "Main/System/heap.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/view_frustum.h"
@@ -114,9 +115,9 @@ void UpdateWater(Water *water) {
             if (water->mHoldFrames > water->mHighHoldFrameCount) {
                 water->mState = WATER_STATE_FALLING;
                 if (water->mIsHeightUsed != 0 && volume >= 0) {
-                    highSoundRequest.mSoundId = 0x114;
+                    highSoundRequest.mSoundId = WATER_FALL_SOUND_ID;
                     highSoundRequest.mPositionSource = NULL;
-                    highSoundRequest.mFalloffIndex = 4;
+                    highSoundRequest.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     highSoundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                     StartSndHandleSound(&highSoundRequest, soundHandleSlot);
                 }
@@ -145,9 +146,9 @@ void UpdateWater(Water *water) {
             if (water->mHoldFrames > water->mLowHoldFrameCount) {
                 water->mState = WATER_STATE_RISING;
                 if (water->mIsHeightUsed != 0 && volume >= 0) {
-                    lowSoundRequest.mSoundId = 0x113;
+                    lowSoundRequest.mSoundId = WATER_RISE_SOUND_ID;
                     lowSoundRequest.mPositionSource = NULL;
-                    lowSoundRequest.mFalloffIndex = 4;
+                    lowSoundRequest.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     lowSoundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                     StartSndHandleSound(&lowSoundRequest, soundHandleSlot);
                 }

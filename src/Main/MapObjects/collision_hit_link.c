@@ -150,7 +150,7 @@ void UpdateKoopaBlock(void *unused, KoopaBlock *koopaBlock) {
                            gSoundFalloffs[3].mFarDistanceSquared
                        ? 3
                        : 4);
-        soundRequest.mSoundId = 0x17e;
+        soundRequest.mSoundId = KOOPA_BLOCK_SOUND_ID;
         soundRequest.mPositionSource = &koopaBlock->mCollisionMapObject.mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared =

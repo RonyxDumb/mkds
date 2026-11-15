@@ -109,7 +109,7 @@ void UpdateObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf) {
         } else {
             falloffIndex = 4;
         }
-        soundRequest.mSoundId = 0x163;
+        soundRequest.mSoundId = OB_PAKKUN_SF_SOUND_ID;
         soundRequest.mPositionSource = &obPakkunSf->mPushedObject.mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&obPakkunSf->mPushedObject.mMapObject.mPos);

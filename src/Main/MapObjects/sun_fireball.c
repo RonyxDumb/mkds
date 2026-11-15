@@ -1,4 +1,5 @@
 #include "Main/MapObjects/sun_fireball.h"
+#include "Main/MapObjects/data_0217c000.h"
 #include "Main/MapObjects/map_object_model_frame.h"
 #include "fx_mtx33.h"
 #include "Main/Course/code_02042044.h"
@@ -110,9 +111,9 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
         case SUN_FIREBALL_STATE_WAIT:
             if (sunFireball->mState0Timer-- <= 0) {
                 sunFireball->mState = SUN_FIREBALL_STATE_ARC;
-                soundRequest.mSoundId = 0x195;
+                soundRequest.mSoundId = SUN_FIREBALL_SOUND_ID;
                 soundRequest.mPositionSource = &sunFireball->mMapObject.mPos;
-                soundRequest.mFalloffIndex = 2;
+                soundRequest.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
                 soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sunFireball->mMapObject.mPos);
                 StartSoundFromParams(&soundRequest);
             }
@@ -224,7 +225,7 @@ MapObjectKindData *CreateSunFireballKindData(void) {
 
     kindData = CreateMapObjectKindDataWithSound(&CollideKartWithSunFireball, &CollideItemObjectWithSunFireball, NULL, 1,
                                                 0, 0x18d);
-    kindData->mCollideItemObjectSoundId = 0x196;
+    kindData->mCollideItemObjectSoundId = SUN_FIREBALL_ITEM_HIT_SOUND_ID;
     return kindData;
 }
 

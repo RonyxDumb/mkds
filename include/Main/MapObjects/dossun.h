@@ -17,6 +17,8 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "code_02012b30.h"
 
+#define KURIBO_STEP_SOUND_ID 0x182
+
 // Values of Dossun.mState; the entry extra value of the path picks the starting one (WAIT_START, HOVER or
 // WAIT_BEFORE_FOLLOW). Below FOLLOW_ACCELERATING the object is still the dropping one.
 enum {

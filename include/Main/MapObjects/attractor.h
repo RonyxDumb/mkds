@@ -7,6 +7,9 @@
 #include "Main/MapObjects/code_020e005c.h"
 #include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
+// Sound that Jg starts at its position.
+#define JG_SOUND_ID 0x101
+
 struct MapObject;
 struct CourseMapRow;
 

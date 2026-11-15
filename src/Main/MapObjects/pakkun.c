@@ -370,7 +370,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                     } else {
                         falloffIndex = 4;
                     }
-                    soundParams.mSoundId = 0x171;
+                    soundParams.mSoundId = PAKKUN_SPIT_SOUND_ID;
                     soundParams.mPositionSource = &pakkun->mMapObject.mPos;
                     soundParams.mFalloffIndex = falloffIndex;
                     soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkun->mMapObject.mPos);

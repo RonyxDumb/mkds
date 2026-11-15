@@ -8,6 +8,8 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 
+#define OB_PAKKUN_SF_SOUND_ID 0x163
+
 // SecondHand.mMapObject.mStateMachine states, in the order of gSecondHandStateTable. The hand speeds up, turns at a
 // steady speed, slows down and turns around, then pauses before the next turn.
 enum {

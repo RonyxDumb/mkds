@@ -82,7 +82,7 @@ void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit) {
                     } else {
                         falloffIndex = 4;
                     }
-                    soundRequest.mSoundId = 0x1af;
+                    soundRequest.mSoundId = PAKKUN_SPIT_OBJECT_SOUND_ID;
                     soundRequest.mPositionSource = &pakkunSpit->mMapObject.mPos;
                     soundRequest.mFalloffIndex = falloffIndex;
                     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkunSpit->mMapObject.mPos);

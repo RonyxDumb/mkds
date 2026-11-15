@@ -156,7 +156,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             } else {
                 falloffIndex = 4;
             }
-            firstSoundParams.mSoundId = 0x11f;
+            firstSoundParams.mSoundId = MOVE_TREE_SOUND_ID;
             firstSoundParams.mPositionSource = &moveTree->mMapObject.mPos;
             firstSoundParams.mFalloffIndex = falloffIndex;
             firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);
@@ -197,7 +197,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             } else {
                 falloffIndex = 4;
             }
-            secondSoundParams.mSoundId = 0x11f;
+            secondSoundParams.mSoundId = MOVE_TREE_SOUND_ID;
             secondSoundParams.mPositionSource = &moveTree->mMapObject.mPos;
             secondSoundParams.mFalloffIndex = falloffIndex;
             secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&moveTree->mMapObject.mPos);

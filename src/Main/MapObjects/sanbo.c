@@ -1,4 +1,5 @@
 #include "Main/MapObjects/sanbo.h"
+#include "Main/MapObjects/data_0217c000.h"
 
 #include "fx_mtx33.h"
 #include "Main/Course/code_02042044.h"
@@ -60,9 +61,9 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *respons
         StartSoundIfKartStarOrKiller(&sanbo->mMapObject, kart);
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
-            soundStartParams.mSoundId = 0x193;
+            soundStartParams.mSoundId = SANBO_HIT_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
-            soundStartParams.mFalloffIndex = 2;
+            soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;
@@ -83,9 +84,9 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboSecondHitFlag;
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
-            soundStartParams.mSoundId = 0x193;
+            soundStartParams.mSoundId = SANBO_HIT_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
-            soundStartParams.mFalloffIndex = 2;
+            soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;
@@ -345,9 +346,9 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             if (sanbo->mPieces[0].mWobbleAngle >= 0xc000) {
                 return;
             }
-            soundStartParams.mSoundId = 0x194;
+            soundStartParams.mSoundId = SANBO_WOBBLE_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
-            soundStartParams.mFalloffIndex = 2;
+            soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
             StartSoundFromParams(&soundStartParams);
             sanbo->mSoundTimer = 0x14;

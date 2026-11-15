@@ -10,6 +10,8 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/attractor.h"
 
+#define MKD_EF_BUBBLE_LEAP_SOUND_ID 0x18c
+
 // KoopaBlock.mCollisionMapObject.mMapObject.mStateMachine states, in the order of gKoopaBlockStateTable. The block
 // follows its path: ACCELERATE speeds up along the first part, CRUISE keeps the path speed, DECELERATE slows down
 // along the last part.

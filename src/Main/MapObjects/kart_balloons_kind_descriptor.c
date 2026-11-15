@@ -143,7 +143,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
             }
             SetupKartFollowEffect(StartEffect(0x7a, &kart->mPos), kart->mIndex, 0x20);
             SetupKartFollowEffect(StartEffect(0x7b, &kart->mPos), kart->mIndex, 0x20);
-            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), 0x14f);
+            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), KART_BALLOONS_HIT_SOUND_ID);
             if (GetBalloonOrShineCount(hitKartIndex) == 0) {
                 EliminateKartAndCheckWinner(hitKartIndex);
             }
@@ -226,9 +226,9 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
         }
     }
     if (firstKartIndex == gRaceSetup->mEntryIndex || secondKartIndex == gRaceSetup->mEntryIndex) {
-        soundStartParams.mSoundId = 0x14f;
+        soundStartParams.mSoundId = KART_BALLOONS_HIT_SOUND_ID;
         soundStartParams.mPositionSource = NULL;
-        soundStartParams.mFalloffIndex = 2;
+        soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
         soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
         StartSoundFromParams(&soundStartParams);
     }

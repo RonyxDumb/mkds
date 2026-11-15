@@ -167,7 +167,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                             falloffIndex = 4;
                         }
                     }
-                    soundRequest.mSoundId = 0x162;
+                    soundRequest.mSoundId = SMAN_SOUND_ID;
                     soundRequest.mPositionSource = &sman->mMapObject.mPos;
                     soundRequest.mFalloffIndex = falloffIndex;
                     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sman->mMapObject.mPos);

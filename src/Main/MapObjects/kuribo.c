@@ -178,7 +178,7 @@ void EnterKuriboSpringBack(void *stateObject) {
         } else {
             falloffIndex = 4;
         }
-        soundRequest.mSoundId = 0x183;
+        soundRequest.mSoundId = KURIBO_SPRING_BACK_SOUND_ID;
         soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);

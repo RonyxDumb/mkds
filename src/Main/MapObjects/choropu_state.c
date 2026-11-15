@@ -165,7 +165,7 @@ void UpdateChoropuSink(void *stateObject) {
         falloffIndex = choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared
                            ? 2
                            : (choropu->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mFarDistanceSquared ? 3 : 4);
-        soundRequest.mSoundId = 0x128;
+        soundRequest.mSoundId = CHOROPU_SINK_SOUND_ID;
         soundRequest.mPositionSource = &choropu->mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&choropu->mMapObject.mPos);

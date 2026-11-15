@@ -163,7 +163,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
             } else {
                 falloffIndex = 4;
             }
-            soundRequest.mSoundId = 0x182;
+            soundRequest.mSoundId = KURIBO_STEP_SOUND_ID;
             soundRequest.mPositionSource = &kuribo->mMapObject.mPos;
             soundRequest.mFalloffIndex = falloffIndex;
             soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);

@@ -4,6 +4,9 @@
 #include "Main/MapObjects/attractor.h" // MapObjectKindData
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SANBO_HIT_SOUND_ID 0x193
+#define SANBO_WOBBLE_SOUND_ID 0x194
+
 void ShineEndCallback(void);
 void ShineKartEliminatedCallback(u16 kartIndex);
 BOOL ShineKartHitCallback(u16 kartIndex, u16 hitByKartIndex);

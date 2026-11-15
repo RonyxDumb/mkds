@@ -6,6 +6,9 @@
 #include "code_0201c528.h" // ParticleEmitter
 #include "Main/MapObjects/attractor.h" // MapObject
 
+#define SUN_FIREBALL_SOUND_ID 0x195
+#define SUN_FIREBALL_ITEM_HIT_SOUND_ID 0x196
+
 // Values of SunFireball.mState: wait, fly in an arc (back to WAIT at each bounce), and after a kart hit rise and then
 // spiral down.
 enum {

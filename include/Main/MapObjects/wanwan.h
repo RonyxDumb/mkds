@@ -6,6 +6,10 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/code_020d6dc0.h"
 
+#define WANWAN_PATH_BASE_LAND_SOUND_ID 0x1a1
+#define WANWAN_PATH_COURSE_LAND_SOUND_ID 0x1df
+#define WANWAN_LUNGE_SOUND_ID 0x12c
+
 typedef struct Wanwan Wanwan;
 
 // Wanwan.mMapObject.mStateMachine states, in the order of gWanwanStateTable. ROAM moves on a curve around the center

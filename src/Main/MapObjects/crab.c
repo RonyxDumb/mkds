@@ -355,7 +355,7 @@ MapObjectKindData *CreateCrabKindData(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateMapObjectKindDataWithSound(CollideKartWithCrab, CollideItemObjectWithCrab, NULL, 2, 1, 0x10e);
-    kindData->mCollideItemObjectSoundId = 0x10f;
+    kindData->mCollideItemObjectSoundId = CRAB_ITEM_HIT_SOUND_ID;
     return kindData;
 }
 

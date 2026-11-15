@@ -175,7 +175,7 @@ void UpdatePukupukuHop(void *stateObject) {
         } else {
             falloffIndex = 4;
         }
-        soundRequest.mSoundId = 0x10b;
+        soundRequest.mSoundId = PUKUPUKU_HOP_SOUND_ID;
         soundRequest.mPositionSource = &pukupuku->mPushedObject.mMapObject.mPos;
         soundRequest.mFalloffIndex = falloffIndex;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pukupuku->mPushedObject.mMapObject.mPos);

@@ -8,6 +8,8 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+#define PAKKUN_SPIT_SOUND_ID 0x171
+
 // Values of Pakkun.mState: turn to a follower, lean back, grow the head, spit, lean forward.
 enum {
     PAKKUN_STATE_PICK_TARGET,

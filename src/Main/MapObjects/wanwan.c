@@ -140,7 +140,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
                     } else {
                         falloffIndex = 4;
                     }
-                    secondSoundParams.mSoundId = 0x1a1;
+                    secondSoundParams.mSoundId = WANWAN_PATH_BASE_LAND_SOUND_ID;
                     secondSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
                     secondSoundParams.mFalloffIndex = falloffIndex;
                     secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mMapObject.mPos);
@@ -161,7 +161,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
                     } else {
                         falloffIndex = 4;
                     }
-                    thirdSoundParams.mSoundId = 0x1df;
+                    thirdSoundParams.mSoundId = WANWAN_PATH_COURSE_LAND_SOUND_ID;
                     thirdSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
                     thirdSoundParams.mFalloffIndex = falloffIndex;
                     thirdSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mMapObject.mPos);
@@ -417,7 +417,7 @@ void EnterWanwanLunge(void *stateObject) {
     } else {
         falloffIndex = 4;
     }
-    soundRequest.mSoundId = 0x12c;
+    soundRequest.mSoundId = WANWAN_LUNGE_SOUND_ID;
     soundRequest.mPositionSource = &wanwan->mMapObject.mPos;
     soundRequest.mFalloffIndex = falloffIndex;
     soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&wanwan->mMapObject.mPos);

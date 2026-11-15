@@ -200,7 +200,7 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
             } else {
                 falloffIndex = 4;
             }
-            soundRequest.mSoundId = 0x173;
+            soundRequest.mSoundId = PENDULUM_SOUND_ID;
             soundRequest.mPositionSource = &pendulum->mMapObject.mPos;
             soundRequest.mFalloffIndex = falloffIndex;
             soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pendulum->mMapObject.mPos);

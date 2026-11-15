@@ -1,4 +1,5 @@
 #include "Main/MapObjects/bakubaku.h"
+#include "Main/MapObjects/data_0217c000.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
 #include "Main/MapObjects/map_object_model_frame.h"
@@ -129,9 +130,9 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
                 return;
             }
             StartModelEffect(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
-            firstSoundParams.mSoundId = 0x186;
+            firstSoundParams.mSoundId = BAKUBAKU_RISE_TO_SURFACE_SOUND_ID;
             firstSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
-            firstSoundParams.mFalloffIndex = 4;
+            firstSoundParams.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
             firstSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
             StartSoundFromParams(&firstSoundParams);
             bakubaku->mState = BAKUBAKU_STATE_ARC_OVER_SURFACE;
@@ -143,9 +144,9 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
                 return;
             }
             StartModelEffect(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
-            secondSoundParams.mSoundId = 0x187;
+            secondSoundParams.mSoundId = BAKUBAKU_ARC_OVER_SURFACE_SOUND_ID;
             secondSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
-            secondSoundParams.mFalloffIndex = 2;
+            secondSoundParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             secondSoundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bakubaku->mMapObject.mPos);
             StartSoundFromParams(&secondSoundParams);
             bakubaku->mState = BAKUBAKU_STATE_SINK_BELOW_SURFACE;

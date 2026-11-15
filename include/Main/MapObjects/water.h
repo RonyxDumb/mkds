@@ -21,6 +21,9 @@ struct MtxFx43;
 #include "Main/MapObjects/code_020d6dc0.h"
 #include "Main/MapObjects/code_020e6b58.h"
 
+#define WATER_FALL_SOUND_ID 0x114
+#define WATER_RISE_SOUND_ID 0x113
+
 // The flat water level of a course (the map object's y) and the three water_efct effect files; 0x10 bytes, built by
 // CreateWaterEfct (kinds 5, 0xe, 0xf) into gWaterEfct and published as gCourseWaterEfct.
 typedef struct WaterEfct {
