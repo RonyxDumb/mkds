@@ -107,7 +107,7 @@ s32 DWC_BM_Init(u8 *work) {
     if (ReadNvramEntries(work) == 0) {
         return -10001;
     }
-    MI_CpuFill8(valid, 0, 0x10);
+    MI_CpuFill8(valid, 0, sizeof(valid));
     pageIndex = 0;
     page = work;
     apPage = work;

@@ -86,7 +86,7 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     ctx->mBitCountHigh = bitsHigh;
     ProcessBlock(ctx);
     MI_CpuCopy8(ctx, digest, 0x10);
-    MI_CpuFill8(ctx, 0, 0x58);
+    MI_CpuFill8(ctx, 0, sizeof(*ctx));
 }
 
 // One MD5 block: four rounds of 16 steps over the 16 words of ctx.mBuffer8, added into ctx.mState.

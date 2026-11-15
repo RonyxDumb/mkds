@@ -669,7 +669,7 @@ void CARDi_InitCommon(void) {
     MemFillWordsByBlock_inline(&gRequestBlock, 0x40);
     DC_FlushRange(&gRequestBlock, 0x40);
     if (SYSTEM_WORK->mWmBootBuf.mBootType != BOOT_TYPE_MULTIBOOT) {
-        MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, HW_CARD_ROM_HEADER, 0x160);
+        MI_CpuCopy8(&SYSTEM_WORK->mRomHeader, HW_CARD_ROM_HEADER, sizeof(SYSTEM_WORK->mRomHeader));
     }
     common->mLockQueue.mTail = 0;
     common->mLockQueue.mHead = common->mLockQueue.mTail;

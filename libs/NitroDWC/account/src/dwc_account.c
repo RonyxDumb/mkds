@@ -203,7 +203,7 @@ void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, c
 void DWCi_Acc_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
     u32 crcTable[0x100];
 
-    MI_CpuFill8(userdata, 0, 0x40);
+    MI_CpuFill8(userdata, 0, sizeof(*userdata));
     userdata->mSize = 0x40;
     userdata->mGsProfileId = 0;
     userdata->mGamecode = gamecode;

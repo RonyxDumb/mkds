@@ -181,7 +181,7 @@ u32 FSi_CompareDigest(const u8 *expected, const u8 *data, u32 size) {
     u8 key[0x40];
     u32 byteOffset;
 
-    MI_CpuFill8(hmac, 0, 0x14);
+    MI_CpuFill8(hmac, 0, sizeof(hmac));
     MI_CpuCopy8(fsi_digest_key_ptr, key, fsi_digest_key_len);
     DGT_Hash2CalcHmac(hmac, data, size, key, fsi_digest_key_len);
     for (byteOffset = 0; byteOffset < 0x14; byteOffset += 4) {

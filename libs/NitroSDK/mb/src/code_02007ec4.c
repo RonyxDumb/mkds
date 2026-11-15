@@ -48,7 +48,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     record = (MBDownloadFileInfo *) (mbc->mFileInfo + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
     registry = rangeTable;
-    MI_CpuCopy8(registry->mUserParam, record->mReserved, 0x20);
+    MI_CpuCopy8(registry->mUserParam, record->mReserved, sizeof(record->mReserved));
     if (MBi_MakeBlockInfoTable((MB_BlockInfoTable *) (mbc->mBlockInfoTable + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
@@ -90,7 +90,7 @@ void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source)
         range++;
         kinds++;
     }
-    MI_CpuCopy8(headerTail, record->mAuthCode, 0x88);
+    MI_CpuCopy8(headerTail, record->mAuthCode, sizeof(record->mAuthCode));
 }
 
 void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInfo *range, u32 *nextAddress) {

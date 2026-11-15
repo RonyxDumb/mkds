@@ -508,7 +508,7 @@ s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param) {
     request->mScanType = param->mScanType;
     request->mSsidMatchLength = param->mSsidMatchLength;
     request->mSsidLength = param->mSsidLength;
-    MI_CpuCopy8(param->mSsid, request->mSsid, 0x20);
+    MI_CpuCopy8(param->mSsid, request->mSsid, sizeof(request->mSsid));
     result = WMi_SendCommand(WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS, 0);
     if (result == 0) {
         return 2;

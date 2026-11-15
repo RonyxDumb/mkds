@@ -711,7 +711,7 @@ s32 MBi_StartParentCore(u16 channel) {
     mbc->mEntryCount = 0;
     clearValues[1] = 0;
     MIi_CpuClear16(clearValues[1], mbc->mFileInfo, 0x5d40);
-    MI_CpuFill8(mbc->mReq2child, 0, 0x1e);
+    MI_CpuFill8(mbc->mReq2child, 0, sizeof(mbc->mReq2child));
     gWirelessWork->mMode = 1;
     gWirelessWork->mCallback = MBi_CommParentCallback;
     gWirelessWork->mCommandCallback = MBi_ParentCallback;
