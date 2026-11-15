@@ -46,10 +46,10 @@ void B64Encode(const void *input, void *output, s32 inlen, s32 encodingType) {
     s8 *padStart;
     s8 value;
     switch (encodingType) {
-        case 1:
+        case B64_ENCODING_ALTERNATE:
             alphabet = gAlternateEncoding;
             break;
-        case 2:
+        case B64_ENCODING_URL_SAFE:
             alphabet = gUrlSafeEncodeing;
             break;
         default:
