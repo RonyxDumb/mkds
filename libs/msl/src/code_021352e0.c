@@ -36,7 +36,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
     int matched;
     int widthArg;
 
-    parsed.mPadKind = 1;
+    parsed.mPadKind = FORMAT_PAD_SPACES;
     parsed.mSignKind = 0;
     parsed.mHasDot = 0;
     parsed.mHash = 0;
@@ -54,7 +54,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         matched = 1;
         switch (currentChar) {
             case '-':
-                parsed.mPadKind = 0;
+                parsed.mPadKind = FORMAT_PAD_LEFT_ALIGN;
                 break;
             case '+':
                 parsed.mSignKind = 1;
@@ -68,8 +68,8 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
                 parsed.mHash = 1;
                 break;
             case '0':
-                if (parsed.mPadKind != 0) {
-                    parsed.mPadKind = 2;
+                if (parsed.mPadKind != FORMAT_PAD_LEFT_ALIGN) {
+                    parsed.mPadKind = FORMAT_PAD_ZEROS;
                 }
                 break;
             default:
@@ -86,7 +86,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         widthArg = ((int *) *argList)[-1];
         parsed.mMinLength = widthArg;
         if (widthArg < 0) {
-            parsed.mPadKind = 0;
+            parsed.mPadKind = FORMAT_PAD_LEFT_ALIGN;
             parsed.mMinLength = -widthArg;
         }
         currentChar = *++cursor;
@@ -97,7 +97,7 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         }
     }
     if (parsed.mMinLength > 0x1fd) {
-        parsed.mSpecChar = 0xff;
+        parsed.mSpecChar = FORMAT_SPEC_INVALID;
         *buf = parsed;
         return cursor + 1;
     }
@@ -162,11 +162,11 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
         case 'x':
         case 'X':
             if (parsed.mArgKind == FORMAT_ARG_LONG_DOUBLE) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             } else if (parsed.mHasDot == 0) {
                 parsed.mPrecision = 1;
-            } else if (parsed.mPadKind == 2) {
-                parsed.mPadKind = 1;
+            } else if (parsed.mPadKind == FORMAT_PAD_ZEROS) {
+                parsed.mPadKind = FORMAT_PAD_SPACES;
             }
             break;
         case 'f':
@@ -174,20 +174,20 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             if (parsed.mArgKind == FORMAT_ARG_SHORT || parsed.mArgKind == FORMAT_ARG_INTMAX ||
                 parsed.mArgKind == FORMAT_ARG_SIZE || parsed.mArgKind == FORMAT_ARG_PTRDIFF ||
                 parsed.mArgKind == FORMAT_ARG_LONG_LONG) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             } else if (parsed.mHasDot == 0) {
-                parsed.mPrecision = 6;
+                parsed.mPrecision = FORMAT_FLOAT_DEFAULT_PRECISION;
             }
             break;
         case 'a':
         case 'A':
             if (parsed.mHasDot == 0) {
-                parsed.mPrecision = 0xd;
+                parsed.mPrecision = FORMAT_HEX_FLOAT_DEFAULT_PRECISION;
             }
             if (parsed.mArgKind == FORMAT_ARG_SHORT || parsed.mArgKind == FORMAT_ARG_INTMAX ||
                 parsed.mArgKind == FORMAT_ARG_SIZE || parsed.mArgKind == FORMAT_ARG_PTRDIFF ||
                 parsed.mArgKind == FORMAT_ARG_LONG_LONG || parsed.mArgKind == FORMAT_ARG_CHAR) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             }
             break;
         case 'g':
@@ -200,38 +200,38 @@ const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf)
             if (parsed.mArgKind == FORMAT_ARG_SHORT || parsed.mArgKind == FORMAT_ARG_INTMAX ||
                 parsed.mArgKind == FORMAT_ARG_SIZE || parsed.mArgKind == FORMAT_ARG_PTRDIFF ||
                 parsed.mArgKind == FORMAT_ARG_LONG_LONG || parsed.mArgKind == FORMAT_ARG_CHAR) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             } else if (parsed.mHasDot == 0) {
-                parsed.mPrecision = 6;
+                parsed.mPrecision = FORMAT_FLOAT_DEFAULT_PRECISION;
             }
             break;
         case 'p':
             parsed.mSpecChar = 'x';
             parsed.mHash = 1;
             parsed.mArgKind = FORMAT_ARG_LONG;
-            parsed.mPrecision = 8;
+            parsed.mPrecision = FORMAT_POINTER_DIGITS;
             break;
         case 'c':
             if (parsed.mArgKind == FORMAT_ARG_LONG) {
                 parsed.mArgKind = FORMAT_ARG_WIDE;
             } else if (parsed.mHasDot != 0 || parsed.mArgKind != FORMAT_ARG_DEFAULT) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             }
             break;
         case 's':
             if (parsed.mArgKind == FORMAT_ARG_LONG) {
                 parsed.mArgKind = FORMAT_ARG_WIDE;
             } else if (parsed.mArgKind != FORMAT_ARG_DEFAULT) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             }
             break;
         case 'n':
             if (parsed.mArgKind == FORMAT_ARG_LONG_DOUBLE) {
-                parsed.mSpecChar = 0xff;
+                parsed.mSpecChar = FORMAT_SPEC_INVALID;
             }
             break;
         default:
-            parsed.mSpecChar = 0xff;
+            parsed.mSpecChar = FORMAT_SPEC_INVALID;
             break;
     }
     *buf = parsed;
@@ -302,7 +302,7 @@ char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
         *--cursor = '0';
         cnt++;
     }
-    if (spec.mPadKind == 2) {
+    if (spec.mPadKind == FORMAT_PAD_ZEROS) {
         prec = width;
         if (neg != 0 || sign != 0) {
             prec--;
@@ -396,7 +396,7 @@ char *FormatInt64(u64 value, char *end, FormatSpec spec) {
         *--cursor = '0';
         count++;
     }
-    if (spec.mPadKind == 2) {
+    if (spec.mPadKind == FORMAT_PAD_ZEROS) {
         precision = wid;
         if (neg != 0 || flag != 0) {
             precision--;
@@ -494,7 +494,7 @@ char *FormatDoubleHex(double value, char *buf, FormatSpec spec) {
         }
         return cursor;
     }
-    exponentSpec.mPadKind = 1;
+    exponentSpec.mPadKind = FORMAT_PAD_SPACES;
     exponentSpec.mSignKind = 1;
     exponentSpec.mHasDot = 0;
     exponentSpec.mHash = 0;
@@ -1015,7 +1015,7 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
                 *text = '%';
                 textLength = 1;
                 break;
-            case 0xff:
+            case FORMAT_SPEC_INVALID:
             default:
             bad:
                 chunkLength = strlen(percentPos);
@@ -1026,8 +1026,8 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
                 return totalLength;
         }
         printedLength = textLength;
-        if (spec.mPadKind != 0) {
-            padChar = spec.mPadKind == 2 ? '0' : ' ';
+        if (spec.mPadKind != FORMAT_PAD_LEFT_ALIGN) {
+            padChar = spec.mPadKind == FORMAT_PAD_ZEROS ? '0' : ' ';
             if ((*text == '+' || *text == '-' || *text == ' ') && padChar == '0') {
                 if (putFunc(putArg, text, 1) == 0) {
                     return -1;
@@ -1044,7 +1044,7 @@ int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg,
         if (textLength != 0 && putFunc(putArg, text, textLength) == 0) {
             return -1;
         }
-        if (spec.mPadKind == 0) {
+        if (spec.mPadKind == FORMAT_PAD_LEFT_ALIGN) {
             for (; printedLength < spec.mMinLength; printedLength++) {
                 spaceChar = ' ';
                 if (putFunc(putArg, &spaceChar, 1) == 0) {

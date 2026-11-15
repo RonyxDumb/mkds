@@ -17,6 +17,21 @@ enum {
     FORMAT_ARG_WIDE
 };
 
+// FormatSpec.mPadKind: how the converted text is padded to mMinLength.
+enum {
+    FORMAT_PAD_LEFT_ALIGN,
+    FORMAT_PAD_SPACES,
+    FORMAT_PAD_ZEROS,
+};
+
+// FormatSpec.mSpecChar when the conversion is not valid.
+#define FORMAT_SPEC_INVALID 0xff
+
+// FormatSpec.mPrecision when the format gives none, for the floating point, hex floating point and pointer conversions.
+#define FORMAT_FLOAT_DEFAULT_PRECISION 6
+#define FORMAT_HEX_FLOAT_DEFAULT_PRECISION 0xd
+#define FORMAT_POINTER_DIGITS 8
+
 // 16 bytes. Filled by FormatParseSpec; FormatWithPutFunc passes it by value (moved as four words) to
 // FormatDouble, FormatDoubleHex, FormatInt64 and FormatInt32.
 typedef struct FormatSpec {
