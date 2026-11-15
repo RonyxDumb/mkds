@@ -1536,7 +1536,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         return;
     } else if ((u32) rank >= 2 && rank <= gRaceSetup->mKartCount - 1) {
         switch (itemUse->mHeldItemEntry->mThenBitKind) {
-            case 0:
+            case KART_AI_THEN_BIT_NONE:
                 RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mItemBitsEveryCall = 0;
                 if (itemUse->mItemInUseEntry == NULL) {
@@ -1553,7 +1553,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 }
                 itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
                 return;
-            case 1:
+            case KART_AI_THEN_BIT_THROW_FORWARD:
                 RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mThrowForwardPending = 1;
                 itemUse->mThrowForwardTimer = 2;
@@ -1572,7 +1572,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 }
                 itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
                 return;
-            case 2:
+            case KART_AI_THEN_BIT_THROW_BEHIND:
                 RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mThrowBehindPending = 1;
                 itemUse->mThrowBehindTimer = 2;

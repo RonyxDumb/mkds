@@ -9,6 +9,13 @@ struct KartAi;
 // function called with the KartAiItemUse and the KartAi at 0x00 and halfwords at 0x08 and 0x0a.
 typedef void (*KartAiItemHandler)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 
+// Values of KartAiItemUseEntry.mThenBitKind.
+enum {
+    KART_AI_THEN_BIT_NONE,
+    KART_AI_THEN_BIT_THROW_FORWARD,
+    KART_AI_THEN_BIT_THROW_BEHIND,
+};
+
 typedef struct KartAiItemUseEntry {
     /* 00 */ void (*mHandler)(struct KartAiItemUse *a, struct KartAi *b);
 // 0: item bits only; 1: then the bit 0x40 (ITEM_THROW_FORWARD_BIT); 2: then the bit 0x80.
