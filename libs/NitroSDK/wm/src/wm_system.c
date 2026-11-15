@@ -101,7 +101,7 @@ s32 WM_Finish(void) {
 }
 
 // Stores callback as the handler of the command id.
-void WMi_SetCallbackTable(u32 id, Unk021425e8Func callback) {
+void WMi_SetCallbackTable(u32 id, WirelessMessageCallback callback) {
     wm9buf->mCommandCallbacks[id] = callback;
 }
 
@@ -197,7 +197,7 @@ s32 WMi_CheckStateEx(s32 paramNum, ...) {
 // command callback, the indication callback or a port callback). Replies to commands 8 and 12 (start
 // parent, start connect) with a connect or disconnect state are also passed to every port callback.
 void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
-    Unk021425e8Func handler;
+    WirelessMessageCallback handler;
     u16 command;
     u16 stateCode;
     u16 memberIndex;

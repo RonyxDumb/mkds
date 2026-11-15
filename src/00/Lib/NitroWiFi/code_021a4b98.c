@@ -322,7 +322,7 @@ s32 WCM_BeginSearchAsync(const void *bssid, const u8 *essid, u32 option) {
             WcmEditScanExParam(bssid, essid, option);
             DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
             gWcmWork->mScanCount++;
-            result = WM_StartScanEx((Unk021425e8Func) WcmWmcbScanEx, &gWcmWork->mScanExParam);
+            result = WM_StartScanEx((WirelessMessageCallback) WcmWmcbScanEx, &gWcmWork->mScanExParam);
             switch (result) {
                 case WIRELESS_CALL_QUEUED:
                     WcmSetPhase(WIFI_LINK_PHASE_SEARCH_STARTING);
@@ -814,7 +814,7 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                     result = WM_Disable(WcmWmcbCommon);
                     break;
                 case WIRELESS_REQUEST_SET_TIMEOUT:
-                    result = WM_SetBeaconIndication((Unk021425e8Func) WcmWmcbCommon, 0);
+                    result = WM_SetBeaconIndication((WirelessMessageCallback) WcmWmcbCommon, 0);
                     break;
                 case WIRELESS_REQUEST_WATCH_BEACONS:
                     work = gWcmWork;
@@ -828,7 +828,7 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                     option = work->mOption;
                     authMode = (option & 0xc0000) == 0xc0000;
                     powerSave = (option & 0x30000) != 0x30000 ? 1 : 0;
-                    result = WM_StartConnectEx((Unk021425e8Func) WcmWmcbConnect, (u16 *) work->mBssDesc, NULL,
+                    result = WM_StartConnectEx((WirelessMessageCallback) WcmWmcbConnect, (u16 *) work->mBssDesc, NULL,
                                                powerSave, authMode);
                     break;
                 }
@@ -929,10 +929,10 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                         (1 << WcmGetNextScanChannel(32 - WcmCountLeadingZero(callback->mUnk_0a))) >> 1;
                     DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
                     gWcmWork->mScanCount++;
-                    result = WM_StartScanEx((Unk021425e8Func) WcmWmcbScanEx, &gWcmWork->mScanExParam);
+                    result = WM_StartScanEx((WirelessMessageCallback) WcmWmcbScanEx, &gWcmWork->mScanExParam);
                     break;
                 case WIFI_LINK_PHASE_SEARCH_STOPPING:
-                    result = WM_EndScan((Unk021425e8Func) WcmWmcbEndScan);
+                    result = WM_EndScan((WirelessMessageCallback) WcmWmcbEndScan);
                     break;
                 case WIFI_LINK_PHASE_TERMINATING:
                     WcmWmReset();
@@ -1017,7 +1017,8 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     authId = callback->mUnk_0a;
                     if (authId >= 1 && authId <= 0x7d7) {
                         gWcmWork->mAuthId = authId;
-                        result = WM_StartDCF((Unk021425e8Func) WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
+                        result =
+                            WM_StartDCF((WirelessMessageCallback) WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
                         switch (result) {
                             case WIRELESS_CALL_QUEUED:
                                 return;
@@ -1132,7 +1133,7 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
                 WcmWmReset();
                 return;
             }
-            result = WM_Disconnect((Unk021425e8Func) WcmWmcbDisconnect, 0);
+            result = WM_Disconnect((WirelessMessageCallback) WcmWmcbDisconnect, 0);
             switch (result) {
                 case WIRELESS_CALL_QUEUED:
                     return;
@@ -1198,7 +1199,7 @@ void WcmWmcbReset(WirelessMessage *callback) {
                     } else {
                         powerSave = 1;
                     }
-                    result = WM_StartConnectEx((Unk021425e8Func) WcmWmcbConnect, (u16 *) gWcmWork->mBssDesc, 0,
+                    result = WM_StartConnectEx((WirelessMessageCallback) WcmWmcbConnect, (u16 *) gWcmWork->mBssDesc, 0,
                                                powerSave, authMode);
                     switch (result) {
                         case WIRELESS_CALL_QUEUED:
@@ -1227,7 +1228,7 @@ void WcmWmcbReset(WirelessMessage *callback) {
                 WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x922);
                 return;
             case WIFI_LINK_PHASE_TERMINATING:
-                result = WM_PowerOff((Unk021425e8Func) WcmWmcbCommon);
+                result = WM_PowerOff((WirelessMessageCallback) WcmWmcbCommon);
                 switch (result) {
                     case WIRELESS_CALL_QUEUED:
                         return;

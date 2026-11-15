@@ -1,10 +1,10 @@
 #pragma once
 
 #include "types.h"
-#include "code_02142eac.h" // WirelessMessage, Unk021425e8Func
+#include "code_02142eac.h" // WirelessMessage, WirelessMessageCallback
 
 void StartParentCallback(WirelessMessage *event);
-void StartParent(Unk021425e8Func callback);
+void StartParent(WirelessMessageCallback callback);
 void SetParentParameterCallback(WirelessMessage *event);
 void SetParentParameter(void);
 u16 ComputeParentTgid(u32 unusedValue);

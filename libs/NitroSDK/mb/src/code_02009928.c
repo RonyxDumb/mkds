@@ -837,7 +837,7 @@ void MBi_SetMaxScanTime(u32 maxChannelTime) {
 
 #pragma thumb on
 
-s32 MBi_SetMPData(Unk021425e8Func callback, void *data, s32 dataSize, u16 unusedValue, u16 childMask) {
+s32 MBi_SetMPData(WirelessMessageCallback callback, void *data, s32 dataSize, u16 unusedValue, u16 childMask) {
     s32 result;
     result = WM_SetMPDataToPortEx((UnkFunc *) callback, NULL, data, dataSize, childMask, 1, 3);
     MBi_CheckWmErrcode(WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA, result);

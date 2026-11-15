@@ -71,7 +71,7 @@ typedef enum WirelessResult {
 // Result of a WM_ call that only queues the request: the result then arrives in the callback.
 #define WIRELESS_CALL_QUEUED 2
 
-typedef void (*Unk021425e8Func)(WirelessMessage *);
+typedef void (*WirelessMessageCallback)(WirelessMessage *);
 
 // 0x2c bytes from 0x36 of UserGameDetails.
 typedef struct UserGameNameBlock {
@@ -182,8 +182,8 @@ typedef struct WMArm9Buf {
     /* 010 */ WirelessMessage *mMessageArea;
     /* 014 */ u16 mDmaNo;
     /* 016 */ u16 mScanOnlyFlag;
-    /* 018 */ Unk021425e8Func mCommandCallbacks[0x2a];
-    /* 0c0 */ Unk021425e8Func mIndicationCallback;
+    /* 018 */ WirelessMessageCallback mCommandCallbacks[0x2a];
+    /* 0c0 */ WirelessMessageCallback mIndicationCallback;
     /* 0c4 */ UnkFunc *mPortCallbacks[16];
     /* 104 */ void *mPortCallbackArgs[16];
 } WMArm9Buf;
@@ -423,35 +423,35 @@ typedef struct ParentParameter {
     /* 36 */ u16 mChildMaxSize;
 } ParentParameter;
 
-s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize);
-s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData, u16 sendDataSize);
-s32 WM_EndDCF(Unk021425e8Func callback);
-s32 WM_StartMPEx(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize, void *sendBuf, u16 sendBufSize, u16 mpFreq,
-                 u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode,
+s32 WM_StartDCF(WirelessMessageCallback callback, void *recvBuf, u16 recvBufSize);
+s32 WM_SetDCFData(WirelessMessageCallback callback, const void *destAdr, void *sendData, u16 sendDataSize);
+s32 WM_EndDCF(WirelessMessageCallback callback);
+s32 WM_StartMPEx(WirelessMessageCallback callback, void *recvBuf, u16 recvBufSize, void *sendBuf, u16 sendBufSize,
+                 u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode,
                  BOOL ignoreFatalError);
-s32 WM_SetMPFrequency(Unk021425e8Func callback, u32 mpFreq);
+s32 WM_SetMPFrequency(WirelessMessageCallback callback, u32 mpFreq);
 s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendDataSize, u16 destBitmap, u16 port,
                          u16 prio);
-s32 WM_EndMP(Unk021425e8Func callback);
-s32 WM_Enable(Unk021425e8Func callback);
-s32 WM_Disable(Unk021425e8Func callback);
-s32 WM_PowerOn(Unk021425e8Func callback);
-s32 WM_PowerOff(Unk021425e8Func callback);
-s32 WM_Initialize(void *wmSysBuf, Unk021425e8Func callback, u16 dmaNo);
-s32 WM_Reset(Unk021425e8Func callback);
-s32 WM_End(Unk021425e8Func callback);
-s32 WM_SetParentParameter(Unk021425e8Func callback, ParentParameter *pparaBuf);
+s32 WM_EndMP(WirelessMessageCallback callback);
+s32 WM_Enable(WirelessMessageCallback callback);
+s32 WM_Disable(WirelessMessageCallback callback);
+s32 WM_PowerOn(WirelessMessageCallback callback);
+s32 WM_PowerOff(WirelessMessageCallback callback);
+s32 WM_Initialize(void *wmSysBuf, WirelessMessageCallback callback, u16 dmaNo);
+s32 WM_Reset(WirelessMessageCallback callback);
+s32 WM_End(WirelessMessageCallback callback);
+s32 WM_SetParentParameter(WirelessMessageCallback callback, ParentParameter *pparaBuf);
 u32 WmCheckParentParameter(const ParentParameter *param);
-s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave);
-s32 WM_StartParent(Unk021425e8Func callback);
-s32 WM_EndParent(Unk021425e8Func callback);
-s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param);
-s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param);
-s32 WM_EndScan(Unk021425e8Func callback);
-s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode);
-s32 WM_Disconnect(Unk021425e8Func callback, u32 aid);
-s32 WM_DisconnectChildren(Unk021425e8Func callback, u32 aidBitmap);
-s32 WM_SetIndCallback(Unk021425e8Func callback);
+s32 WMi_StartParentEx(WirelessMessageCallback callback, BOOL powerSave);
+s32 WM_StartParent(WirelessMessageCallback callback);
+s32 WM_EndParent(WirelessMessageCallback callback);
+s32 WM_StartScan(WirelessMessageCallback callback, ScanParam *param);
+s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param);
+s32 WM_EndScan(WirelessMessageCallback callback);
+s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode);
+s32 WM_Disconnect(WirelessMessageCallback callback, u32 aid);
+s32 WM_DisconnectChildren(WirelessMessageCallback callback, u32 aidBitmap);
+s32 WM_SetIndCallback(WirelessMessageCallback callback);
 s32 WM_SetPortCallback(u16 port, UnkFunc *callback, void *arg);
 s32 WM_ReadStatus(void *statusBuf);
 s32 WM_GetMPSendBufferSize(void);

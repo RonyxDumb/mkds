@@ -32,7 +32,7 @@ typedef struct MBiParam {
     /* 500 */ u16 mSendDataSize;
     /* 502 */ u16 mReceiveDataSize;
     /* 504 */ void *mReceiveBuffer;
-    /* 508 */ Unk021425e8Func mCommandCallback;
+    /* 508 */ WirelessMessageCallback mCommandCallback;
     /* 50c */ u8 mDataQueued;
     /* 50d */ u8 mMbIsStarted;
     /* 50e */ u8 mReserved0[0x518 - 0x50e];

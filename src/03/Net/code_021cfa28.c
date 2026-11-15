@@ -103,7 +103,7 @@ void StartWhMeasureChannelCallback(WirelessMessage *event) {
     }
 }
 
-int StartWhMeasureChannel(Unk021425e8Func callback, u16 channel) {
+int StartWhMeasureChannel(WirelessMessageCallback callback, u16 channel) {
     return WM_MeasureChannel(callback, 3, 0x11, channel, 0x1e);
 }
 

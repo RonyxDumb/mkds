@@ -587,7 +587,7 @@ void SetParentParameterCallback(WirelessMessage *event) {
     }
 }
 
-void StartParent(Unk021425e8Func callback) {
+void StartParent(WirelessMessageCallback callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }

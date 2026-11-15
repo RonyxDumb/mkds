@@ -91,7 +91,7 @@ void WhIndicationCallback(WirelessMessage *event);
 BOOL ClearWhAndInitialize(void);
 int PickWhChannel(u16 channelMask);
 u16 DecideWhChannel(void);
-int StartWhMeasureChannel(Unk021425e8Func callback, u16 channel);
+int StartWhMeasureChannel(WirelessMessageCallback callback, u16 channel);
 void StartWhMeasureChannelCallback(WirelessMessage *event);
 u32 MeasureNextWhChannel(u16 channel);
 BOOL StartWhChannelSearch(void);

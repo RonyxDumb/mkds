@@ -11,7 +11,7 @@
 u32 tgid_bak = 0x10000;
 
 // Starts DCF reception into recvBuf (command 17). Needs state 8 and DCF not running; recvBufSize must be at least 0x10.
-s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
+s32 WM_StartDCF(WirelessMessageCallback callback, void *recvBuf, u16 recvBufSize) {
     WMArm9Buf *work;
     s32 result;
 
@@ -41,7 +41,7 @@ s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
 
 // Sends sendDataSize bytes (at most 0x5e4) of sendData to the station destAdr (command 18). Needs state 11 and DCF
 // running.
-s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData, u16 sendDataSize) {
+s32 WM_SetDCFData(WirelessMessageCallback callback, const void *destAdr, void *sendData, u16 sendDataSize) {
     WMArm9Buf *work;
     s32 result;
     u32 address[2];
@@ -69,7 +69,7 @@ s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData,
 }
 
 // Ends DCF (command 19). Needs state 11 and DCF running.
-s32 WM_EndDCF(Unk021425e8Func callback) {
+s32 WM_EndDCF(WirelessMessageCallback callback) {
     WMArm9Buf *work;
     s32 result;
 
@@ -92,8 +92,8 @@ s32 WM_EndDCF(Unk021425e8Func callback) {
 
 // Starts the MP protocol (command 14). Needs state 7 or 8 and MP not running; the buffer sizes are checked against
 // WM_GetMPReceiveBufferSize and WM_GetMPSendBufferSize.
-s32 WM_StartMPEx(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize, void *sendBuf, u16 sendBufSize, u16 mpFreq,
-                 u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode,
+s32 WM_StartMPEx(WirelessMessageCallback callback, void *recvBuf, u16 recvBufSize, void *sendBuf, u16 sendBufSize,
+                 u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode,
                  BOOL ignoreFatalError) {
     WMArm9Buf *work;
     s32 result;
@@ -139,7 +139,7 @@ s32 WM_StartMPEx(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize, void 
 }
 
 // Sets the MP frequency (command 35). Needs state 9.
-s32 WM_SetMPFrequency(Unk021425e8Func callback, u32 mpFreq) {
+s32 WM_SetMPFrequency(WirelessMessageCallback callback, u32 mpFreq) {
     s32 result;
 
     WMi_GetSystemWork();
@@ -206,7 +206,7 @@ s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendD
 }
 
 // Ends the MP protocol (command 16). Needs state 9 or 10 and MP running.
-s32 WM_EndMP(Unk021425e8Func callback) {
+s32 WM_EndMP(WirelessMessageCallback callback) {
     WMArm9Buf *work;
     s32 result;
 
@@ -228,7 +228,7 @@ s32 WM_EndMP(Unk021425e8Func callback) {
 }
 
 // Enables the wireless hardware (command 3). Needs state 0.
-s32 WM_Enable(Unk021425e8Func callback) {
+s32 WM_Enable(WirelessMessageCallback callback) {
     WMArm9Buf *work;
     s32 result;
 
@@ -246,7 +246,7 @@ s32 WM_Enable(Unk021425e8Func callback) {
 }
 
 // Disables the wireless hardware (command 4). Needs state 1.
-s32 WM_Disable(Unk021425e8Func callback) {
+s32 WM_Disable(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_ENABLED);
@@ -262,7 +262,7 @@ s32 WM_Disable(Unk021425e8Func callback) {
 }
 
 // Powers the wireless hardware on (command 5). Needs state 1.
-s32 WM_PowerOn(Unk021425e8Func callback) {
+s32 WM_PowerOn(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_ENABLED);
@@ -278,7 +278,7 @@ s32 WM_PowerOn(Unk021425e8Func callback) {
 }
 
 // Powers the wireless hardware off (command 6). Needs state 2.
-s32 WM_PowerOff(Unk021425e8Func callback) {
+s32 WM_PowerOff(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
@@ -294,7 +294,7 @@ s32 WM_PowerOff(Unk021425e8Func callback) {
 }
 
 // Sets up the system buffer with WM_Init, then starts the wireless hardware (command 0).
-s32 WM_Initialize(void *wmSysBuf, Unk021425e8Func callback, u16 dmaNo) {
+s32 WM_Initialize(void *wmSysBuf, WirelessMessageCallback callback, u16 dmaNo) {
     WMArm9Buf *work;
     s32 result;
 
@@ -312,7 +312,7 @@ s32 WM_Initialize(void *wmSysBuf, Unk021425e8Func callback, u16 dmaNo) {
 }
 
 // Resets the wireless state back to idle (command 1). Needs state 2 or later.
-s32 WM_Reset(Unk021425e8Func callback) {
+s32 WM_Reset(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckIdle();
@@ -328,7 +328,7 @@ s32 WM_Reset(Unk021425e8Func callback) {
 }
 
 // Shuts the wireless hardware down (command 2). Needs state 2.
-s32 WM_End(Unk021425e8Func callback) {
+s32 WM_End(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
@@ -344,7 +344,7 @@ s32 WM_End(Unk021425e8Func callback) {
 }
 
 // Sets the parent parameters (command 7). Needs state 2; game info and beacon data sizes are limited to 0x200 bytes.
-s32 WM_SetParentParameter(Unk021425e8Func callback, ParentParameter *pparaBuf) {
+s32 WM_SetParentParameter(WirelessMessageCallback callback, ParentParameter *pparaBuf) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
@@ -391,7 +391,7 @@ u32 WmCheckParentParameter(const ParentParameter *param) {
 }
 
 // Starts the parent (command 8). Needs state 2.
-s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave) {
+s32 WMi_StartParentEx(WirelessMessageCallback callback, BOOL powerSave) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_POWERED_ON);
@@ -407,12 +407,12 @@ s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave) {
 }
 
 // Starts the parent with power save on.
-s32 WM_StartParent(Unk021425e8Func callback) {
+s32 WM_StartParent(WirelessMessageCallback callback) {
     return WMi_StartParentEx(callback, 1);
 }
 
 // Ends the parent (command 9). Needs state 7.
-s32 WM_EndParent(Unk021425e8Func callback) {
+s32 WM_EndParent(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_PARENT_STARTED);
@@ -428,7 +428,7 @@ s32 WM_EndParent(Unk021425e8Func callback) {
 }
 
 // Starts a scan (command 10). Needs state 2, 3 or 5; the channel must be 1 to 14.
-s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
+s32 WM_StartScan(WirelessMessageCallback callback, ScanParam *param) {
     StartScanRequest *request;
     s32 result;
 
@@ -466,7 +466,7 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
 }
 
 // Starts a scan with a scan type and SSID (command 38). Needs state 2, 3 or 5.
-s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
+s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param) {
     StartScanExRequest *request;
     s32 result;
     u16 scanType;
@@ -517,7 +517,7 @@ s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
 }
 
 // Ends the scan (command 11). Needs state 5.
-s32 WM_EndScan(Unk021425e8Func callback) {
+s32 WM_EndScan(WirelessMessageCallback callback) {
     s32 result;
 
     result = WMi_CheckStateEx(1, WIRELESS_UNIT_STATE_SCANNING);
@@ -533,7 +533,7 @@ s32 WM_EndScan(Unk021425e8Func callback) {
 }
 
 // Connects to the parent described by pInfo (command 12). Needs state 2.
-s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode) {
+s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode) {
     StartConnectExRequest *request;
     s32 result;
 
@@ -564,7 +564,7 @@ s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL pow
 }
 
 // Disconnects the station aid (command 13): a child from a parent, or the parent itself when aid is 0 on a child.
-s32 WM_Disconnect(Unk021425e8Func callback, u32 aid) {
+s32 WM_Disconnect(WirelessMessageCallback callback, u32 aid) {
     WMArm9Buf *work;
     s32 result;
 
@@ -596,7 +596,7 @@ s32 WM_Disconnect(Unk021425e8Func callback, u32 aid) {
 }
 
 // Disconnects the children in aidBitmap (command 13). Needs state 7 or 9; returns 7 when none of them is connected.
-s32 WM_DisconnectChildren(Unk021425e8Func callback, u32 aidBitmap) {
+s32 WM_DisconnectChildren(WirelessMessageCallback callback, u32 aidBitmap) {
     WMArm9Buf *work;
     s32 result;
 
@@ -618,7 +618,7 @@ s32 WM_DisconnectChildren(Unk021425e8Func callback, u32 aidBitmap) {
 }
 
 // Sets the callback for indications.
-s32 WM_SetIndCallback(Unk021425e8Func callback) {
+s32 WM_SetIndCallback(WirelessMessageCallback callback) {
     u32 enabled;
     s32 result;
 

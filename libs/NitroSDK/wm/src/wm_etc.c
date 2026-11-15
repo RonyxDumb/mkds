@@ -8,7 +8,7 @@
 u8 tmpUserGameInfoBuf[0x80];
 
 // Sets the WEP mode (0 to 3) and key (command 20). Needs state 2 or later; the key is required for a mode above 0.
-int WM_SetWEPKey(Unk021425e8Func callback, u32 wepmode, void *wepkey) {
+int WM_SetWEPKey(WirelessMessageCallback callback, u32 wepmode, void *wepkey) {
     int result;
 
     result = WMi_CheckIdle();
@@ -33,7 +33,7 @@ int WM_SetWEPKey(Unk021425e8Func callback, u32 wepmode, void *wepkey) {
 }
 
 // Same as WM_SetWEPKey with a key id (command 39).
-int WM_SetWEPKeyEx(Unk021425e8Func callback, u16 wepmode, u16 wepkeyid, void *wepkey) {
+int WM_SetWEPKeyEx(WirelessMessageCallback callback, u16 wepmode, u16 wepkeyid, void *wepkey) {
     int result;
 
     result = WMi_CheckIdle();
@@ -58,7 +58,7 @@ int WM_SetWEPKeyEx(Unk021425e8Func callback, u16 wepmode, u16 wepkeyid, void *we
 }
 
 // Sets the game info the parent sends in its beacon (command 24); at most 0x70 bytes. Needs state 7 or 9.
-int WM_SetGameInfo(Unk021425e8Func callback, const void *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid,
+int WM_SetGameInfo(WirelessMessageCallback callback, const void *userGameInfo, u16 userGameInfoSize, u32 ggid, u16 tgid,
                    u8 attr) {
     int result;
 
@@ -84,7 +84,7 @@ int WM_SetGameInfo(Unk021425e8Func callback, const void *userGameInfo, u16 userG
 }
 
 // Turns the beacon indication on or off (command 25). Needs state 2 or later.
-int WM_SetBeaconIndication(Unk021425e8Func callback, u16 flag) {
+int WM_SetBeaconIndication(WirelessMessageCallback callback, u16 flag) {
     int result;
 
     result = WMi_CheckIdle();
@@ -103,7 +103,8 @@ int WM_SetBeaconIndication(Unk021425e8Func callback, u16 flag) {
 }
 
 // Sets the connection life times (command 29). Needs state 2 or later.
-int WM_SetLifeTime(Unk021425e8Func callback, u32 tableNumber, u32 camLifeTime, u32 frameLifeTime, u16 mpLifeTime) {
+int WM_SetLifeTime(WirelessMessageCallback callback, u32 tableNumber, u32 camLifeTime, u32 frameLifeTime,
+                   u16 mpLifeTime) {
     int result;
 
     result = WMi_CheckIdle();
@@ -119,7 +120,7 @@ int WM_SetLifeTime(Unk021425e8Func callback, u32 tableNumber, u32 camLifeTime, u
 }
 
 // Measures the radio use of a channel (command 30). Needs state 2.
-int WM_MeasureChannel(Unk021425e8Func callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime) {
+int WM_MeasureChannel(WirelessMessageCallback callback, u16 ccaMode, u16 edThreshold, u16 channel, u16 measureTime) {
     WMArm9Buf *work;
     u16 *request;
     int result;
@@ -144,7 +145,7 @@ int WM_MeasureChannel(Unk021425e8Func callback, u16 ccaMode, u16 edThreshold, u1
 }
 
 // Allows or refuses new children (command 33). Needs state 7 or 9.
-int WM_SetEntry(Unk021425e8Func callback, BOOL enabled) {
+int WM_SetEntry(WirelessMessageCallback callback, BOOL enabled) {
     int result;
 
     result = WMi_CheckStateEx(2, 7, 9);
