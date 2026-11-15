@@ -1737,11 +1737,11 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner) {
     kartBits = kart->mEntryFlags;
     if ((kartBits & KART_ENTRY_SELECTED) != 0) {
         if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_MISSION_RUN) {
-            finishResult = 1;
+            finishResult = FINISH_RESULT_NEITHER;
             if ((kartBits & KART_ENTRY_RESULT_WON) != 0) {
-                finishResult = 0;
+                finishResult = FINISH_RESULT_WON;
             } else if ((kartBits & KART_ENTRY_RESULT_LOST) != 0) {
-                finishResult = 2;
+                finishResult = FINISH_RESULT_LOST;
             }
             SetEntryKartFinishResult(finishResult);
         }
