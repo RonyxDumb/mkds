@@ -400,14 +400,14 @@ s32 WCM_ConnectAsync(WMBssDesc *bssDesc, WCMWepDesc *wepDesc, u32 option) {
                 work->mWepMode = wepDesc->mMode;
                 gWcmWork->mWepKeyId = wepDesc->mKeyId;
                 if (gWcmWork->mWepMode == 0) {
-                    MI_CpuFill8(gWcmWork->mWepKey, 0, 0x50);
+                    MI_CpuFill8(gWcmWork->mWepKey, 0, sizeof(gWcmWork->mWepKey));
                 } else {
-                    MI_CpuCopy8(wepDesc->mKey, gWcmWork->mWepKey, 0x50);
+                    MI_CpuCopy8(wepDesc->mKey, gWcmWork->mWepKey, sizeof(gWcmWork->mWepKey));
                 }
             } else {
-                MI_CpuFill8(work->mWepKey, 0, 0x52);
+                MI_CpuFill8(work->mWepKey, 0, sizeof(WCMWepDesc));
             }
-            MI_CpuCopy8(bssDesc, &gWcmWork->mBssDesc, 0xc0);
+            MI_CpuCopy8(bssDesc, &gWcmWork->mBssDesc, sizeof(gWcmWork->mBssDesc));
             gWcmWork->mBssDesc.mRateSet.mSupport = gWcmWork->mBssDesc.mRateSet.mBasic | 3;
             WCM_UpdateOption(option);
             break;
@@ -666,10 +666,10 @@ void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option) {
         MI_CpuCopy8(bssid, gWcmWork->mScanExParam.mBssid, 6);
     }
     if (essid == NULL || essid == WCM_Essid_Any) {
-        MI_CpuCopy8(WCM_Essid_Any, gWcmWork->mScanExParam.mSsid, 0x20);
+        MI_CpuCopy8(WCM_Essid_Any, gWcmWork->mScanExParam.mSsid, sizeof(gWcmWork->mScanExParam.mSsid));
         gWcmWork->mScanExParam.mSsidLength = 0;
     } else {
-        MI_CpuCopy8(essid, gWcmWork->mScanExParam.mSsid, 0x20);
+        MI_CpuCopy8(essid, gWcmWork->mScanExParam.mSsid, sizeof(gWcmWork->mScanExParam.mSsid));
         for (essidLength = 0; essidLength < 0x20; essidLength++) {
             if (*essid == 0) {
                 break;

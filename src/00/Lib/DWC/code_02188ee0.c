@@ -68,7 +68,7 @@ u32 ConnectStart(ACWORK *work) {
 
     bssDesc = &work->mBssDesc[work->mConnectNo];
     work->mConnectApType = GetConnectType(work);
-    MI_CpuFill8(&work->mWepKey, 0, 0x52);
+    MI_CpuFill8(&work->mWepKey, 0, sizeof(WCMWepDesc));
     if (FillApWepKey(work, work->mConnectApType, &work->mWepKey) != 0) {
         work->mAuthMode = 1;
         if (((bssDesc->mCapaInfo >> 4) & 1) == 0) {

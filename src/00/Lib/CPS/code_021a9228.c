@@ -615,7 +615,7 @@ void ParseAnswerMessage(HttpsState *httpsState, u8 *message) {
     u8 *afterId;
     u8 *idLengthByte;
     HttpsEntry *entry;
-    MI_CpuCopy8(message + 2, httpsState->mAnswerBlock, 0x20);
+    MI_CpuCopy8(message + 2, httpsState->mAnswerBlock, sizeof(httpsState->mAnswerBlock));
     idLengthByte = message + 0x22;
     message = (u8 *) message + 0x23;
     idLength = *idLengthByte;
@@ -687,7 +687,7 @@ void ParseOfferMessageWithThreeByteValues(HttpsState *httpsState, u8 *message) {
             httpsState->mEntry = NULL;
             message += valueListLength + 8 + idLength;
             if (blockLength >= 0x20) {
-                MI_CpuCopy8(message, httpsState->mOfferBlock, 0x20);
+                MI_CpuCopy8(message, httpsState->mOfferBlock, sizeof(httpsState->mOfferBlock));
             } else {
                 MI_CpuFill8(httpsState->mOfferBlock, 0, 0x20 - blockLength);
                 MI_CpuCopy8(message, httpsState->mAnswerBlock - blockLength, blockLength);
@@ -702,7 +702,7 @@ void ParseOfferMessage(HttpsState *httpsState, const u8 *message) {
     u16 offeredValue;
     const u8 *cursor;
     if (IsFirstArgumentThree(message[0], message[1]) != 0) {
-        MI_CpuCopy8(message + 2, httpsState->mOfferBlock, 0x20);
+        MI_CpuCopy8(message + 2, httpsState->mOfferBlock, sizeof(httpsState->mOfferBlock));
         idLength = message[0x22];
         cursor = message + 0x23;
         if (idLength != 0x20) {
@@ -796,7 +796,7 @@ void ReplaceEntryBytesWithLabeledDigests(HttpsState *httpsState) {
     ComputeLabeledDigest16(firstDigest, (const u8 *) "A", httpsState);
     ComputeLabeledDigest16(secondDigest, (const u8 *) "BB", httpsState);
     ComputeLabeledDigest16(thirdDigest, (const u8 *) "CCC", httpsState);
-    MI_CpuCopy8(firstDigest, httpsState->mEntry->mMasterSecret, 0x30);
+    MI_CpuCopy8(firstDigest, httpsState->mEntry->mMasterSecret, sizeof(httpsState->mEntry->mMasterSecret));
 }
 
 // Fills mDerivedBytes from digests, splits it between the send and receive members and seeds the two key stream states.
@@ -884,12 +884,12 @@ void ComputeLabeledMessageDigest16(HttpsState *httpsState, u8 *digest, u32 fromO
         CPSi_md5_calc(messageHash, (const u8 *) "CLNT", 4);
     }
     CPSi_md5_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
-    MI_CpuFill8(padBytes, 0x36, 0x30);
+    MI_CpuFill8(padBytes, 0x36, sizeof(padBytes));
     CPSi_md5_calc(messageHash, padBytes, 0x30);
     CPSi_md5_result(messageHash, digest);
     CPSi_md5_init(messageHash);
     CPSi_md5_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
-    MI_CpuFill8(padBytes, 0x5c, 0x30);
+    MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
     CPSi_md5_calc(messageHash, padBytes, 0x30);
     CPSi_md5_calc(messageHash, digest, 0x10);
     CPSi_md5_result(messageHash, digest);
@@ -905,12 +905,12 @@ void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromO
         CPSi_sha1_calc(messageHash, (const u8 *) "CLNT", 4);
     }
     CPSi_sha1_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
-    MI_CpuFill8(padBytes, 0x36, 0x28);
+    MI_CpuFill8(padBytes, 0x36, sizeof(padBytes));
     CPSi_sha1_calc(messageHash, padBytes, 0x28);
     CPSi_sha1_result(messageHash, digest);
     CPSi_sha1_init(messageHash);
     CPSi_sha1_calc(messageHash, httpsState->mEntry->mMasterSecret, 0x30);
-    MI_CpuFill8(padBytes, 0x5c, 0x28);
+    MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
     CPSi_sha1_calc(messageHash, padBytes, 0x28);
     CPSi_sha1_calc(messageHash, digest, 0x14);
     CPSi_sha1_result(messageHash, digest);
@@ -919,17 +919,17 @@ void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromO
 void CheckMessageDigestsAndSetState(HttpsState *httpsState, u8 *receivedDigests) {
     int compareResult;
     u8 ownDigest[20];
-    MI_CpuCopy8(&httpsState->mMessageHash16, &httpsState->mScratchHash16, 0x58);
+    MI_CpuCopy8(&httpsState->mMessageHash16, &httpsState->mScratchHash16, sizeof(httpsState->mMessageHash16));
     ComputeLabeledMessageDigest16(httpsState, ownDigest, 1);
-    MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, 0x58);
+    MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, sizeof(httpsState->mScratchHash16));
     compareResult = memcmp(receivedDigests, ownDigest, 0x10);
     if (compareResult != 0) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
         return;
     }
-    MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, 0x5c);
+    MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, sizeof(httpsState->mMessageHash20));
     ComputeLabeledMessageDigest20(httpsState, ownDigest, 1);
-    MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, 0x5c);
+    MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, sizeof(httpsState->mScratchHash20));
     compareResult = memcmp(receivedDigests + 0x10, ownDigest, 0x14);
     if (compareResult != 0) {
         httpsState->mSetupState = HTTPS_SETUP_FAILED;
@@ -975,7 +975,7 @@ s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *rec
             scratchHash16 = &httpsState->mScratchHash16;
             CPSi_md5_init(scratchHash16);
             CPSi_md5_calc(scratchHash16, httpsState->mReceiveDigestBytes, 0x10);
-            MI_CpuFill8(padBytes, 0x36, 0x30);
+            MI_CpuFill8(padBytes, 0x36, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
             CPSi_md5_calc(scratchHash16, httpsState->mReceiveRecordCount, 8);
             CPSi_md5_calc(scratchHash16, record, 1);
@@ -984,7 +984,7 @@ s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *rec
             CPSi_md5_result(scratchHash16, computedDigest);
             CPSi_md5_init(scratchHash16);
             CPSi_md5_calc(scratchHash16, httpsState->mReceiveDigestBytes, 0x10);
-            MI_CpuFill8(padBytes, 0x5c, 0x30);
+            MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
             CPSi_md5_calc(scratchHash16, computedDigest, 0x10);
             CPSi_md5_result(scratchHash16, computedDigest);
@@ -1033,7 +1033,7 @@ s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg
             scratchHash16 = &httpsState->mScratchHash16;
             CPSi_md5_init(scratchHash16);
             CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, 0x10);
-            MI_CpuFill8(padBytes, 0x36, 0x30);
+            MI_CpuFill8(padBytes, 0x36, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
             CPSi_md5_calc(scratchHash16, httpsState->mSendRecordCount, 8);
             CPSi_md5_calc(scratchHash16, record, 1);
@@ -1042,7 +1042,7 @@ s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg
             CPSi_md5_result(scratchHash16, digestPosition);
             CPSi_md5_init(scratchHash16);
             CPSi_md5_calc(scratchHash16, httpsState->mSendDigestBytes, 0x10);
-            MI_CpuFill8(padBytes, 0x5c, 0x30);
+            MI_CpuFill8(padBytes, 0x5c, sizeof(padBytes));
             CPSi_md5_calc(scratchHash16, padBytes, 0x30);
             CPSi_md5_calc(scratchHash16, digestPosition, 0x10);
             CPSi_md5_result(scratchHash16, digestPosition);
@@ -1392,12 +1392,12 @@ void SendOneByteRecordAndMessageDigests(CPSSoc *connection) {
     msg[12] = 0;
     msg[13] = 0;
     msg[14] = 0x24;
-    MI_CpuCopy8(&httpsState->mMessageHash16, &httpsState->mScratchHash16, 0x58);
+    MI_CpuCopy8(&httpsState->mMessageHash16, &httpsState->mScratchHash16, sizeof(httpsState->mMessageHash16));
     ComputeLabeledMessageDigest16(httpsState, msg + 0xf, 0);
-    MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, 0x58);
-    MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, 0x5c);
+    MI_CpuCopy8(&httpsState->mScratchHash16, &httpsState->mMessageHash16, sizeof(httpsState->mScratchHash16));
+    MI_CpuCopy8(&httpsState->mMessageHash20, &httpsState->mScratchHash20, sizeof(httpsState->mMessageHash20));
     ComputeLabeledMessageDigest20(httpsState, msg + 0x1f, 0);
-    MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, 0x5c);
+    MI_CpuCopy8(&httpsState->mScratchHash20, &httpsState->mMessageHash20, sizeof(httpsState->mScratchHash20));
     CPSi_sha1_calc(&httpsState->mMessageHash20, msg + 0xb, 0x28);
     CPSi_md5_calc(&httpsState->mMessageHash16, msg + 0xb, 0x28);
     CPSi_TcpWrite2Raw(msg, AppendDigestAndXorSentRecordWithKeyStream(httpsState, msg + 6) + 6, NULL, 0, connection);
