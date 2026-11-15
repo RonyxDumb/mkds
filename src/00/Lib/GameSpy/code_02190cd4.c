@@ -121,7 +121,7 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         callbackArg = data->mArg;
         DWCi_GsFree(callbackArg->mMatchList);
         callbackArg->mMatchList = NULL;
-    } else if (data->mType == 7) {
+    } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_TRANSFER_MESSAGE) {
         callbackArg = data->mArg;
         if (callbackArg->mTransferMessage != NULL) {
             DWCi_GsFree(callbackArg->mTransferMessage);
