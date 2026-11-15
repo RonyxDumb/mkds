@@ -103,7 +103,7 @@ void OS_InitException(void) {
     } else {
         OSi_DebuggerHandler = 0;
     }
-    block = (DtcmTail *) ((u8 *) HW_DTCM + 0x3000);
+    block = OFFSET_PTR(DtcmTail, HW_DTCM, 0x3000);
     if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
         *HW_EXCP_VECTOR_MAIN = (u32) OSi_ExceptionHandler;
         block->mExceptionHandler = OSi_ExceptionHandler;

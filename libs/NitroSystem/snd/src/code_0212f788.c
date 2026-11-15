@@ -43,7 +43,7 @@ NNSSndSeqArcSeqInfo *NNSi_SndSeqArcGetSeqInfo(NNSSndSeqArc *archive, s32 entry) 
     if (entry >= archive->mCount) {
         return 0;
     }
-    record = (NNSSndSeqArcSeqInfo *) ((u8 *) archive->mInfo + entry * 12);
+    record = OFFSET_PTR(NNSSndSeqArcSeqInfo, archive->mInfo, entry * 12);
     if (record->mOffset == -1) {
         return 0;
     }

@@ -29,7 +29,7 @@ MessageFile *LoadMessages(void *path) {
     messages->mFile = LoadFile(path, &size, 4);
     section = (BmgEntryOffsetSection *) &messages->mFile->mFirstSection;
     messages->mOffsets = section->mEntryOffsets;
-    messages->mData = ((BmgBodySection *) ((u8 *) section + section->mNextOffset))->mBody;
+    messages->mData = OFFSET_PTR(BmgBodySection, section, section->mNextOffset)->mBody;
     return messages;
 }
 

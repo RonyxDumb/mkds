@@ -568,7 +568,7 @@ void AdvanceWiFiVSMatchingState4(void) {
     }
     emblemEntryOffset = gWiFiVSMatchingEmblemCellIndices[otherSlot] << 6;
     ((LayoutTableEntry *) ((u32) gWiFiVSMatching->mWiFiVSMatchingTable + emblemEntryOffset))->mVisible = 1;
-    *(s16 *) ((u8 *) gWiFiVSMatching->mNameSlideOffsets + otherSlot * 2) = gWiFiVSMatchingNameSlideOffsets[totalFrame];
+    *OFFSET_PTR(s16, gWiFiVSMatching->mNameSlideOffsets, otherSlot * 2) = gWiFiVSMatchingNameSlideOffsets[totalFrame];
     for (totalIndex = 0; totalIndex < 2; totalIndex++) {
         SetLayoutEntryAngleAndScale(
             &gWiFiVSMatching
