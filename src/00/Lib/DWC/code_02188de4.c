@@ -23,16 +23,16 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
         case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID + 1:
             userInfo++;
         case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID:
-            wepKey->mMode = WCM_WEPMODE_SHORT_KEY;
+            wepKey->mMode = WEP_KEY_MODE_SHORT;
             MI_CpuCopy8(userInfo->mWep2, wepKey->mKey, sizeof(userInfo->mWep2));
             wepKey->mKey[0x14] = 0;
             break;
         case AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID:
-            wepKey->mMode = WCM_WEPMODE_LONG_KEY;
+            wepKey->mMode = WEP_KEY_MODE_LONG;
             DWCi_AC_GetNintendoUSBWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
         case AUTO_CONNECT_AP_TYPE_NDWCSHAP_SSID_PREFIX:
-            wepKey->mMode = WCM_WEPMODE_LONG_KEY;
+            wepKey->mMode = WEP_KEY_MODE_LONG;
             DWCi_AC_GetNintendoShopWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
         case AUTO_CONNECT_AP_TYPE_FREESPOT_SSID:

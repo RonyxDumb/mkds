@@ -1351,7 +1351,7 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
             socket->mRemotePort != (u16) ((udpHeader->mSourcePort >> 8) | (udpHeader->mSourcePort << 8))) {
             continue;
         }
-        if (socket->mRemoteIp != 0 && socket->mRemoteIp != CPS_IP_BROADCAST &&
+        if (socket->mRemoteIp != 0 && socket->mRemoteIp != IP_BROADCAST_ADDRESS &&
             socket->mRemoteIp !=
                 (u32) (((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
                        (u16) ((ipHeader->mSourceAddressLow >> 8) | (ipHeader->mSourceAddressLow << 8)))) {
