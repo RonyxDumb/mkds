@@ -24,25 +24,34 @@ void CreatePukupuku(void);
 
 typedef struct Pukupuku Pukupuku;
 
+// Pukupuku.mPushedObject.mMapObject.mStateMachine states, in the order of gPukupukuStateTable. HOP bounces around the
+// start; PUSHED follows a hit; WAIT_RESPAWN waits 300 frames; RESPAWN returns to the start and goes on with HOP.
+enum {
+    PUKUPUKU_STATE_HOP,
+    PUKUPUKU_STATE_PUSHED,
+    PUKUPUKU_STATE_WAIT_RESPAWN,
+    PUKUPUKU_STATE_RESPAWN,
+};
+
 s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firstResponse, u8 *response);
 
 u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8 *response);
 
-void UpdatePukupukuState3(void *stateObject);
+void UpdatePukupukuRespawn(void *stateObject);
 
-void EnterPukupukuState3(void *stateObject);
+void EnterPukupukuRespawn(void *stateObject);
 
-void UpdatePukupukuState2(void *stateObject);
+void UpdatePukupukuWaitRespawn(void *stateObject);
 
-void EnterPukupukuState2(void *stateObject);
+void EnterPukupukuWaitRespawn(void *stateObject);
 
-void UpdatePukupukuState1(void *stateObject);
+void UpdatePukupukuPushed(void *stateObject);
 
-void EnterPukupukuState1(void *stateObject);
+void EnterPukupukuPushed(void *stateObject);
 
-void UpdatePukupukuState0(void *stateObject);
+void UpdatePukupukuHop(void *stateObject);
 
-void EnterPukupukuState0(void *stateObject);
+void EnterPukupukuHop(void *stateObject);
 
 void UpdatePukupuku(u32 unused, Pukupuku *pukupuku);
 
@@ -65,8 +74,8 @@ MapObjectList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
 void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha);
 
-extern const u16 gPukupukuState2Flag;
-extern const u16 gPukupukuState2SecondFlag;
+extern const u16 gPukupukuWaitRespawnFlag;
+extern const u16 gPukupukuWaitRespawnSecondFlag;
 extern const struct MapObjectList gPukupukuUpdateListData;
 extern const MapObjectDrawList gPukupukuShadowDrawListData;
 extern const MapObjectDrawList gPukupukuDrawListData;

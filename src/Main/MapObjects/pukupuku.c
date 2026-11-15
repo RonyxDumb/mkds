@@ -83,7 +83,7 @@ void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha) {
     s32 mirrored;
     u32 motionAngle;
 
-    if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState == 0) {
+    if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState == PUKUPUKU_STATE_HOP) {
         MtxFx43 *matrix;
         mirrored = pukupuku->mPushedObject.mMapObject.mCollisionSlotIndex & 1;
         matrix = SetViewTransposeMatrixPos(&pukupuku->mPushedObject.mMapObject.mPos);
@@ -117,8 +117,8 @@ void SetupDrawPukupukuShadow(void) {
 void DrawPukupukuShadow(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u32 alpha) {
     PukupukuShadowParams shadowParams;
 
-    if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState != 0 &&
-        pukupuku->mPushedObject.mMapObject.mStateMachine.mState != 1) {
+    if (pukupuku->mPushedObject.mMapObject.mStateMachine.mState != PUKUPUKU_STATE_HOP &&
+        pukupuku->mPushedObject.mMapObject.mStateMachine.mState != PUKUPUKU_STATE_PUSHED) {
         return;
     }
     shadowParams.mScale = pukupuku->mPushedObject.mMapObject.mPos.y - pukupuku->mInitialPos.y;
@@ -133,7 +133,7 @@ void UpdatePukupuku(u32 unused, Pukupuku *pukupuku) {
     AdvanceStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine);
 }
 
-void EnterPukupukuState0(void *stateObject) {
+void EnterPukupukuHop(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMotion.mAngle = 0x0u;
 }
@@ -147,7 +147,7 @@ static inline u32 PukupukuNextRandomBelow(RandomState64 *random, u32 range) {
     }
 }
 
-void UpdatePukupukuState0(void *stateObject) {
+void UpdatePukupukuHop(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     s32 groundY;
 
@@ -223,40 +223,40 @@ void UpdatePukupukuState0(void *stateObject) {
     }
 }
 
-void EnterPukupukuState1(void *stateObject) {
+void EnterPukupukuPushed(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mFlags =
         (((pukupuku->mPushedObject.mMapObject.mFlags)) | ((gPukupukuPushedFlag)));
 }
 
-void UpdatePukupukuState1(void *stateObject) {
+void UpdatePukupukuPushed(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     if (AdvancePushedMotion(&pukupuku->mPushedObject) == FALSE) {
         return;
     }
     if (pukupuku->mPushedObject.mMapObject.mCourseMapRow->mSettings[0] == 0) {
-        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 2;
+        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_WAIT_RESPAWN;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         return;
     }
     ParkMapObject(&pukupuku->mPushedObject.mMapObject);
 }
 
-void EnterPukupukuState2(void *stateObject) {
+void EnterPukupukuWaitRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
-    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuState2Flag;
-    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuState2SecondFlag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuWaitRespawnFlag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuWaitRespawnSecondFlag;
 }
 
-void UpdatePukupukuState2(void *stateObject) {
+void UpdatePukupukuWaitRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     if (pukupuku->mPushedObject.mMapObject.mStateMachine.mStateFrames > 0x12c) {
-        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 3;
+        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_RESPAWN;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterPukupukuState3(void *stateObject) {
+void EnterPukupukuRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mPos.x = pukupuku->mInitialPos.x;
     pukupuku->mPushedObject.mMapObject.mPos.z = pukupuku->mInitialPos.z;
@@ -269,12 +269,12 @@ void EnterPukupukuState3(void *stateObject) {
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x1u));
 }
 
-void UpdatePukupukuState3(void *stateObject) {
+void UpdatePukupukuRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
     pukupuku->mPushedObject.mMapObject.mPos.y =
         pukupuku->mPushedObject.mMapObject.mPos.y + pukupuku->mPushedObject.mMapObject.mPosStep.y;
     if (pukupuku->mPushedObject.mMapObject.mPos.y > pukupuku->mInitialPos.y) {
-        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 0;
+        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_HOP;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -282,7 +282,7 @@ void UpdatePukupukuState3(void *stateObject) {
 u8 CollideKartWithPukupuku(Pukupuku *pukupuku, Kart *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 1) {
         SetPushedMotionFromKart(&pukupuku->mPushedObject, kart);
-        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 1;
+        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_PUSHED;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
         pukupuku->mPushedObject.mMapObject.mFlags = pukupuku->mPushedObject.mMapObject.mFlags | (gPukupukuPushedFlag);
         StartSoundIfKartStarOrKiller(&pukupuku->mPushedObject.mMapObject, kart);
@@ -294,7 +294,7 @@ s32 CollideItemObjectWithPukupuku(Pukupuku *pukupuku, void *itemObject, u8 *firs
     if (*firstResponse == 1) {
         SetPushedMotionFromItemObject(&pukupuku->mPushedObject, itemObject);
         pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuPushedFlag;
-        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 1;
+        pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_PUSHED;
         pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     }
     return *response;
@@ -311,8 +311,8 @@ void CreatePukupuku(void) {
 
 #pragma thumb off
 
-const u16 gPukupukuState2Flag = 2;
-const u16 gPukupukuState2SecondFlag = 8;
+const u16 gPukupukuWaitRespawnFlag = 2;
+const u16 gPukupukuWaitRespawnSecondFlag = 8;
 const struct MapObjectList gPukupukuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePukupuku,
                                                       NULL, 0, NULL,   0,    NULL};
 const MapObjectDrawList gPukupukuShadowDrawListData = {{NULL,

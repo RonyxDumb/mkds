@@ -32,10 +32,10 @@ const MapObjectKindDescriptor gPukupukuKindDescriptor = {0,
 
 #pragma thumb on
 
-StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuState0, UpdatePukupukuState0},
-                                         {EnterPukupukuState1, UpdatePukupukuState1},
-                                         {EnterPukupukuState2, UpdatePukupukuState2},
-                                         {EnterPukupukuState3, UpdatePukupukuState3}};
+StateCallbacks gPukupukuStateTable[4] = {{EnterPukupukuHop, UpdatePukupukuHop},
+                                         {EnterPukupukuPushed, UpdatePukupukuPushed},
+                                         {EnterPukupukuWaitRespawn, UpdatePukupukuWaitRespawn},
+                                         {EnterPukupukuRespawn, UpdatePukupukuRespawn}};
 
 void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
     InitStateMachine(&pukupuku->mPushedObject.mMapObject.mStateMachine, gPukupukuStateTable, 4, pukupuku);
@@ -49,7 +49,7 @@ void InitPukupuku(Pukupuku *pukupuku, Vec3 *position) {
     pukupuku->mPushedObject.mMapObject.mPosStep.z = 0;
     InitPushedMotion(&pukupuku->mPushedObject, pukupuku->mPushedObject.mMapObject.mPos.y - 0x1e000, 0x400, 0x400,
                      0x4000, 0x1800);
-    pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = 0;
+    pukupuku->mPushedObject.mMapObject.mStateMachine.mNextState = PUKUPUKU_STATE_HOP;
     pukupuku->mPushedObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&pukupuku->mShadowMatrix, position,
                         MUL_FIXED12_NO_ROUND(pukupuku->mPushedObject.mMapObject.mScale.x, 0x12000), 0xd);
