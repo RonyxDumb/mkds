@@ -786,7 +786,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                     gMenuShared->mRaceSetupRequested = 1;
                     gMenuShared->mMenuEntryKind = 4;
                     if (sceneNumbers != NULL) {
-                        sceneNumbers->mNextScene = 1;
+                        sceneNumbers->mNextScene = SCENE_MENU_1;
                     }
                     gMultiSelectMember->mStartPressedFrames = 0;
                     gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
@@ -934,7 +934,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 gMenuShared->mRaceSetupRequested = 1;
                 gMenuShared->mMenuEntryKind = 4;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 1;
+                    sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
                 gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
             } else if (started == 0) {

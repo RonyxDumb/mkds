@@ -370,7 +370,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mNextScene = 1;
+                    advanceArg->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -420,7 +420,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                     if (keyB != 0 || returnTouched != 0) {
                         gMenuShared->mMenuEntryKind = 5;
                         if (advanceArg != NULL) {
-                            advanceArg->mNextScene = 1;
+                            advanceArg->mNextScene = SCENE_MENU_1;
                         }
                         gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
                         RequestSelectReturnPressWithSound(0);
@@ -499,7 +499,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mNextScene = 1;
+                    advanceArg->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -522,7 +522,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mNextScene = 1;
+                    advanceArg->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }

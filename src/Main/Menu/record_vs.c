@@ -17,6 +17,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h"
+#include "Main/System/scene_numbers.h"
 #include "Main/Menu/record_vs_erase.h"
 #include "Main/Graphics/scene_text.h"
 #include "01/Menu/record_top_menu.h"
@@ -829,7 +830,7 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     gRecordScene->mNextScene = -1;
     gRecordScene->mNextScreen = RECORD_SCREEN_NONE;
     gRecordScene->mRegistersTimer = 2;
-    if (gRecordScene->mPrevScene == 12) {
+    if (gRecordScene->mPrevScene == SCENE_WIFI_MENU) {
         gRecordScene->mPrevScreen = RECORD_SCREEN_OUTSIDE;
         gRecordScene->mScreen = RECORD_SCREEN_VS;
         RegisterRecordVSCallbacks();

@@ -1096,7 +1096,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 1;
+                    sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             }
@@ -1184,7 +1184,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = 5;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 1;
+                    sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             }
