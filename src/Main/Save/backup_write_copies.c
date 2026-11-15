@@ -23,18 +23,18 @@ void FinishBackupWrite(void *arg) {
     result = BACKUP_ERROR_NONE;
     gBackupAccess->mCommandRunning = 0;
     switch (resultCode) {
-        case CARD_RESULT_SUCCESS:
+        case CARD_STATUS_OK:
             result = BACKUP_ERROR_NONE;
             break;
-        case CARD_RESULT_FAILURE:
-        case CARD_RESULT_TIMEOUT:
-        case CARD_RESULT_NO_RESPONSE:
+        case CARD_STATUS_FAILED:
+        case CARD_STATUS_TIMED_OUT:
+        case CARD_STATUS_NO_REPLY:
             result = BACKUP_ERROR_UNAVAILABLE;
             break;
-        case CARD_RESULT_INVALID_PARAM:
-        case CARD_RESULT_UNSUPPORTED:
-        case CARD_RESULT_ERROR:
-        case CARD_RESULT_CANCELED:
+        case CARD_STATUS_BAD_ARGUMENT:
+        case CARD_STATUS_NOT_SUPPORTED:
+        case CARD_STATUS_ERROR:
+        case CARD_STATUS_CANCELED:
         default:
             result = BACKUP_ERROR_ACCESS_FAILED;
             break;

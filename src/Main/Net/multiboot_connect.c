@@ -73,7 +73,7 @@ void ParentStateCallback(u32 index, u32 code, void *data) {
             u32 accept = 1;
             if (gConnectionWork->mMultiBootRequestFlags & CONNECTION_MULTIBOOT_REQUEST_SEND) {
                 accept = 0;
-            } else if ((gConnectionWork->mStatusFlags & CONNECTION_STATUS_REFUSE_HOST_PLAYER_NUMBER) &&
+            } else if ((gConnectionWork->mStatusFlags & CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD) &&
                        childInfo->mPlayerNo == 0) {
                 accept = 0;
             }
@@ -194,7 +194,7 @@ void StartMultiBootParent(void) {
     if (RegisterMultiBootSegment() == 0) {
         SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
     }
-    gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_REFUSE_HOST_PLAYER_NUMBER;
+    gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD;
     gConnectionWork->mRequestPending = 0;
 }
 

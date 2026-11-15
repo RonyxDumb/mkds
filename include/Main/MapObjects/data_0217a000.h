@@ -474,10 +474,10 @@ typedef struct ScanStateView {
     /* 390 */ u8 mUnk_390[0x20];
 } ScanStateView;
 
-// SharingReceiveRecord.mFlags bits: the sync toggle bit of the record sender (bit 1 or 2 depending on
+// SharingReceiveRecord.mFlags bits: the sync phase bit of the record sender (the first or the second, by
 // ConnectionWork.mSyncToggle), and the fade flag a parent copies from DispCap.mFlags (connection.c send).
-#define SHARING_RECORD_FLAG_SYNC_TOGGLE_0 1
-#define SHARING_RECORD_FLAG_SYNC_TOGGLE_1 2
+#define SHARING_RECORD_FLAG_SYNC_PHASE_A 1
+#define SHARING_RECORD_FLAG_SYNC_PHASE_B 2
 #define SHARING_RECORD_FLAG_DISP_CAP_FADE 4
 
 // 8-byte entries behind member 0xc of DataSharing.
@@ -590,9 +590,9 @@ typedef struct MultiBootStateView {
 #define CONNECTION_STATUS_SHARING_SYNCED 1
 // ConnectionWork.mStatusFlags: the child set changed since the game info was last refreshed.
 #define CONNECTION_STATUS_CHILDREN_CHANGED 8
-// ConnectionWork.mStatusFlags: refuse a multiboot child that announces player number 0 (cleared at parent start, never
-// set).
-#define CONNECTION_STATUS_REFUSE_HOST_PLAYER_NUMBER 4
+// ConnectionWork.mStatusFlags: refuse a multiboot child that has no player number yet, i.e. announces 0 (cleared at
+// parent start, never set).
+#define CONNECTION_STATUS_REFUSE_UNNUMBERED_CHILD 4
 // ConnectionWork.mMultiBootRequestFlags: the send request, and the boot request, are in flight to the children.
 #define CONNECTION_MULTIBOOT_REQUEST_SEND 1
 #define CONNECTION_MULTIBOOT_REQUEST_BOOT 2

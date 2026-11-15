@@ -64,11 +64,11 @@ static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRec
     BOOL result = FALSE;
     u8 toggleBits = receiveRecord->mFlags;
     if (gConnectionWork->mSyncToggle == 0) {
-        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_0) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_A) {
             result = TRUE;
         }
     } else {
-        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_1) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_B) {
             result = TRUE;
         }
     }
@@ -87,8 +87,8 @@ static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, Sharing
                 result = FALSE;
                 childIndex = 8;
             } else {
-                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_TOGGLE_0
-                                                              : SHARING_RECORD_FLAG_SYNC_TOGGLE_1;
+                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_PHASE_A
+                                                              : SHARING_RECORD_FLAG_SYNC_PHASE_B;
                 if ((toggleBit & receiveRecords[childIndex].mFlags) == 0) {
                     result = FALSE;
                     childIndex = 8;

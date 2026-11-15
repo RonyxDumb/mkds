@@ -359,7 +359,7 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
              12);
         steered = TRUE;
     }
-    if ((kart->mEffectFlags & KART_EFFECT_GESSO) && kartAi->mTurnAngleDegrees < 0x46000 &&
+    if ((kart->mEffectFlags & KART_EFFECT_GESSO) && kartAi->mTurnAngleDegrees < KART_AI_GESSO_SWING_MAX_TURN_ANGLE &&
         (kart->mMotionFlags & KART_MOTION_ON_GROUND) &&
         !(kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST)) &&
         kart->mVelocityLength > KART_AI_GESSO_SWING_MIN_SPEED && kartAi->mDriftState != KART_AI_DRIFT_HOLDING &&

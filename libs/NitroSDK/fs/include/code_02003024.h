@@ -129,8 +129,8 @@ enum {
 #define FS_DIR_NUMBER_MASK 0xfff
 
 // FSFile.mStat bits: a command on the file is running, the record holds an open file.
-#define FS_FILE_STATUS_BUSY 0x1
-#define FS_FILE_STATUS_IS_FILE 0x10
+#define FILE_RECORD_BUSY 0x1
+#define FILE_RECORD_OPEN 0x10
 
 // 0x48-byte record, set up by FS_InitFile (also used as a local); mArc is the archive it works through.
 typedef struct FSFile {

@@ -61,7 +61,7 @@ void texmtxCalc_flagTRS_(s32 *matrix) {
 void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult) {
     TexMtxCommand command;
 
-    if (matAnmResult->mFlag & NNS_G3D_MATANM_RESULTFLAG_TEXMTX_SET) {
+    if (matAnmResult->mFlag & MAT_RESULT_TEX_MATRIX_SET) {
         command.mCommand = TEX_MTX_COMMAND_SET;
     } else {
         command.mCommand = TEX_MTX_COMMAND_MULT;

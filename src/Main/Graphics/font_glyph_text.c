@@ -10,7 +10,6 @@
 #include "Main/MapObjects/data_0217b000.h"
 #include "code_02022aa8.h"
 #include "Main/Menu/title_state_handlers.h"
-#include "Main/Race/results_gp.h"
 
 const s16 gFrameOffsets[6] = {2, 4, 8, 4, 2, 0};
 
@@ -118,9 +117,9 @@ BOOL AreOtherMissionRecordsFilled5To7(void) {
             } else {
                 if (isFilled != 0) {
                     switch (value) {
-                        case RESULTS_GP_GRADE_THIRD_BEST:
-                        case RESULTS_GP_GRADE_SECOND_BEST:
-                        case RESULTS_GP_GRADE_BEST:
+                        case MISSION_RECORD_VALUE_FIRST_HIGH_TIER:
+                        case MISSION_RECORD_VALUE_SECOND_HIGH_TIER:
+                        case MISSION_RECORD_VALUE_TOP_TIER:
                             break;
                         default:
                             return FALSE;

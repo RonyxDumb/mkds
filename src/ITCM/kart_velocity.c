@@ -77,7 +77,8 @@ void AdvanceKartByVelocity(Kart *kart) {
                             0xa3);
         }
         itemEffectState->mAheadBoostFrames++;
-        if (itemEffectState->mAheadBoostFrames > 0xb4 && (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
+        if (itemEffectState->mAheadBoostFrames > KART_AHEAD_BOOST_MAX_FRAMES &&
+            (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
             kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
             kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
             if (!(kart->mEffectFlags & KART_EFFECT_GESSO)) {

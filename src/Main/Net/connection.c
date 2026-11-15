@@ -122,11 +122,11 @@ void StepDataSharing(void) {
     role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
     if (role != CONNECTION_MODE_PARENT || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
         if (gConnectionWork->mSyncToggle == 0) {
-            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_0;
-            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_1;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_A;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_B;
         } else {
-            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_1;
-            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_0;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_B;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_A;
         }
     }
     sendData->mMicOverThreshold = gTouchMicInput->mMicOverThreshold;
