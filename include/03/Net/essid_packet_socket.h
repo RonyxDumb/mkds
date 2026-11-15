@@ -28,7 +28,7 @@ typedef struct PayloadRecord {
 } PayloadRecord;
 
 typedef struct PacketHeader {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mNonzeroWord;
     /* 02 */ u16 mUnk_02;
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mKind;
@@ -36,7 +36,7 @@ typedef struct PacketHeader {
     /* 0a */ u16 mPayloadLength;
     /* 0c */ u16 mFlags;
     /* 0e */ s8 mPayloadCrc;
-    /* 0f */ s8 mUnk_0f;
+    /* 0f */ s8 mMagicByte;
     /* 10 */ u8 mTag[8];
 } PacketHeader;
 
@@ -151,14 +151,14 @@ typedef struct PacketTag PacketTag;
 typedef struct PacketBuffer PacketBuffer;
 
 typedef struct Packet {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mNonzeroWord;
     /* 02 */ u8 pad_02[4];
     /* 06 */ u16 mKind;
     /* 08 */ u8 pad_08[2];
     /* 0a */ u16 mPayloadLength;
     /* 0c */ u16 mFlags;
     /* 0e */ u8 mPayloadCrc;
-    /* 0f */ u8 mUnk_0f;
+    /* 0f */ u8 mMagicByte;
     /* 10 */ PacketTag mTag;
     /* 18 */ u8 mPayload[1];
 } Packet;

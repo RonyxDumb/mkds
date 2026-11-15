@@ -751,11 +751,11 @@ s32 ReportStateChange(s32 state) {
 s32 AdvanceStepByKind(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list, s32 descriptor) {
     Packet *header = (Packet *) buffer->mBytes;
     u32 kind;
-    if (SwapBytes16(header->mUnk_00) < 1) {
+    if (SwapBytes16(header->mNonzeroWord) < 1) {
         *attempts = *attempts + 1;
         return mode;
     }
-    if (header->mUnk_0f != ESSID_PACKET_MAGIC_BYTE) {
+    if (header->mMagicByte != ESSID_PACKET_MAGIC_BYTE) {
         *attempts = *attempts + 1;
         return mode;
     }
@@ -1399,7 +1399,7 @@ void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, 
 void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 byte0f,
                       const u8 *tagBytes) {
     PacketHeader *header = buffer;
-    header->mUnk_00 = PacketSwapBytes16(1);
+    header->mNonzeroWord = PacketSwapBytes16(1);
     header->mUnk_02 = 0;
     header->mUnk_04 = 0;
     header->mKind = PacketSwapBytes16(kind);
@@ -1407,7 +1407,7 @@ void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 p
     header->mPayloadLength = PacketSwapBytes16(payloadLength);
     header->mFlags = PacketSwapBytes16(flags);
     header->mPayloadCrc = payloadCrc;
-    header->mUnk_0f = byte0f;
+    header->mMagicByte = byte0f;
     CopyBytes(header->mTag, tagBytes, 8);
 }
 
