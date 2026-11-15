@@ -814,7 +814,7 @@ void WcmWmcbCommon(WirelessMessage *callback) {
                     result = WM_Disable(WcmWmcbCommon);
                     break;
                 case WIRELESS_REQUEST_SET_TIMEOUT:
-                    result = WM_SetBeaconIndication((WirelessMessageCallback) WcmWmcbCommon, 0);
+                    result = WM_SetBeaconIndication(WcmWmcbCommon, 0);
                     break;
                 case WIRELESS_REQUEST_WATCH_BEACONS:
                     work = gWcmWork;
@@ -932,7 +932,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                     result = WM_StartScanEx((WirelessMessageCallback) WcmWmcbScanEx, &gWcmWork->mScanExParam);
                     break;
                 case WIFI_LINK_PHASE_SEARCH_STOPPING:
-                    result = WM_EndScan((WirelessMessageCallback) WcmWmcbEndScan);
+                    result = WM_EndScan(WcmWmcbEndScan);
                     break;
                 case WIFI_LINK_PHASE_TERMINATING:
                     WcmWmReset();
@@ -1018,7 +1018,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                     if (authId >= 1 && authId <= 0x7d7) {
                         gWcmWork->mAuthId = authId;
                         result =
-                            WM_StartDCF((WirelessMessageCallback) WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
+                            WM_StartDCF(WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
                         switch (result) {
                             case WIRELESS_CALL_QUEUED:
                                 return;
@@ -1133,7 +1133,7 @@ void WcmWmcbEndDCF(WirelessMessage *callback) {
                 WcmWmReset();
                 return;
             }
-            result = WM_Disconnect((WirelessMessageCallback) WcmWmcbDisconnect, 0);
+            result = WM_Disconnect(WcmWmcbDisconnect, 0);
             switch (result) {
                 case WIRELESS_CALL_QUEUED:
                     return;
@@ -1228,7 +1228,7 @@ void WcmWmcbReset(WirelessMessage *callback) {
                 WcmNotify(WIFI_REPORT_SUCCEEDED, gWcmWork->mBssDesc, 0, 0x922);
                 return;
             case WIFI_LINK_PHASE_TERMINATING:
-                result = WM_PowerOff((WirelessMessageCallback) WcmWmcbCommon);
+                result = WM_PowerOff(WcmWmcbCommon);
                 switch (result) {
                     case WIRELESS_CALL_QUEUED:
                         return;

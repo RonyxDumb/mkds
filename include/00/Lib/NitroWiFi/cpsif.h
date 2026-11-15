@@ -8,7 +8,7 @@
 
 BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);
 
-void WcmCpsifKACallback(void);
+void WcmCpsifKACallback(WirelessMessage *event);
 void WcmCpsifWmCallback(WirelessMessage *callback);
 s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len);
 u32 WCM_SetRecvDCFCallback(Unk021b5f54Func callback);

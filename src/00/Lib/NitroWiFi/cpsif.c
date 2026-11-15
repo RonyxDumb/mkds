@@ -39,7 +39,7 @@ void WCMi_CpsifSendNullPacket(void) {
     work = WCMi_GetSystemWork();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting != 1) {
         if (WcmCpsifTryLockMutexInIRQ(&gWcmCpsifWork.mSendMutex) != 0) {
-            if (WM_SetDCFData((WirelessMessageCallback) WcmCpsifKACallback, work->mBssid, work->mSendBuf, 0) != 2) {
+            if (WM_SetDCFData(WcmCpsifKACallback, work->mBssid, work->mSendBuf, 0) != 2) {
                 WcmCpsifUnlockMutexInIRQ(&gWcmCpsifWork.mSendMutex);
             }
         }
@@ -154,7 +154,7 @@ void WcmCpsifWmCallback(WirelessMessage *callback) {
     }
 }
 
-void WcmCpsifKACallback(void) {
+void WcmCpsifKACallback(WirelessMessage *event) {
     WcmCpsifUnlockMutexInIRQ(&gWcmCpsifWork.mSendMutex);
 }
 
