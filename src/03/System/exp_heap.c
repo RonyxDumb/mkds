@@ -8,8 +8,8 @@
 NNSiFndHeapHead *gExpHeap;
 
 void CreateExpHeapOverBuffer(void *buffer) {
-    MI_CpuFill8(buffer, 0, 0x40000);
-    gExpHeap = NNS_FndCreateExpHeapEx(buffer, 0x40000, 0);
+    MI_CpuFill8(buffer, 0, EXP_HEAP_BYTES);
+    gExpHeap = NNS_FndCreateExpHeapEx(buffer, EXP_HEAP_BYTES, 0);
     if (gExpHeap == NULL) {
         OS_Terminate();
     }
