@@ -29,8 +29,8 @@ typedef struct WiFiLogin {
     // GpiConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
     /* 0c */ u32 mGamecode;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 10 */ u32 mPlayerName;
+    /* 14 */ u32 mReserved;
     // Set by InitWiFiLogin (DWCi_LoginCallback). Called with (error kind, 0, arg) by DWCi_StopLogin and with (0,
     // profile id, arg) when state 2 succeeds.
     /* 18 */ void (*mResultCallback)();
