@@ -130,7 +130,9 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
     }
     scale.z = kuribo->mMapObject.mScale.z;
     scale.y = MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.y, kuribo->mScaleFactorY);
-    scale.x = MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.x, ((0x1000 - kuribo->mScaleFactorY) >> 1) + 0x1000);
+    scale.x =
+        MUL_FIXED12_NO_ROUND(kuribo->mMapObject.mScale.x,
+                             ((KURIBO_SCALE_FACTOR_Y_REST - kuribo->mScaleFactorY) >> 1) + KURIBO_SCALE_FACTOR_Y_REST);
     kuribo->mMapObject.mMatrix.mRows[3].x = kuribo->mMapObject.mPos.x >> 4;
     kuribo->mMapObject.mMatrix.mRows[3].y = kuribo->mMapObject.mPos.y >> 4;
     kuribo->mMapObject.mMatrix.mRows[3].z = kuribo->mMapObject.mPos.z >> 4;

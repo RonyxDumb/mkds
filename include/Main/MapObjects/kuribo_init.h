@@ -15,6 +15,14 @@ typedef struct CourseMapRow CourseMapRow;
 #define KURIBO_STATE_FLAT_WAIT 4 // waits 300 frames to return, else fades out
 #define KURIBO_STATE_SPRING_BACK 5 // the height scale springs back to 0x1000
 
+// Kuribo.mScaleFactorY: the resting value, the spring pull and the speed damping per frame that bring it back to rest,
+// how close to rest (value and speed) it snaps back, and the factor the shrink state multiplies it by each frame.
+#define KURIBO_SCALE_FACTOR_Y_REST TO_FIXED12(1)
+#define KURIBO_SCALE_SPRING_STIFFNESS 0x200
+#define KURIBO_SCALE_DAMPING 0xd99
+#define KURIBO_SCALE_SETTLE_RANGE 0x29
+#define KURIBO_SCALE_SHRINK_FACTOR 0xd99
+
 // Object of kind 0x191 (Kuribo), at least 0x108 bytes; also created in pools by ov001.
 typedef struct Kuribo {
     /* 00 */ MapObject mMapObject;

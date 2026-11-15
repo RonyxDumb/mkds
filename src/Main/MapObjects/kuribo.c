@@ -52,7 +52,7 @@ const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
 const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
 
 void EnterKuriboState0(Kuribo *kuribo) {
-    kuribo->mScaleFactorY = 0x1000u;
+    kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
     kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
@@ -61,21 +61,24 @@ void UpdateKuriboState0(Kuribo *kuribo) {
         AdvanceGroupFollower(&kuribo->mFollower);
     }
     GetGroupFollowerCurvePosition(&kuribo->mFollower, &kuribo->mMapObject.mPos);
-    if (kuribo->mScaleFactorY == 0x1000 && kuribo->mScaleFactorYSpeed == 0) {
+    if (kuribo->mScaleFactorY == KURIBO_SCALE_FACTOR_Y_REST && kuribo->mScaleFactorYSpeed == 0) {
         return;
     }
-    kuribo->mScaleFactorYSpeed += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
-    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, 0xd99);
+    kuribo->mScaleFactorYSpeed +=
+        MUL_FIXED12_NO_ROUND(KURIBO_SCALE_FACTOR_Y_REST - kuribo->mScaleFactorY, KURIBO_SCALE_SPRING_STIFFNESS);
+    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, KURIBO_SCALE_DAMPING);
     kuribo->mScaleFactorY += kuribo->mScaleFactorYSpeed;
-    if (kuribo->mScaleFactorY > 0xfd7 && kuribo->mScaleFactorY < 0x1029 && kuribo->mScaleFactorYSpeed > -0x29 &&
-        kuribo->mScaleFactorYSpeed < 0x29) {
-        kuribo->mScaleFactorY = 0x1000;
+    if (kuribo->mScaleFactorY > KURIBO_SCALE_FACTOR_Y_REST - KURIBO_SCALE_SETTLE_RANGE &&
+        kuribo->mScaleFactorY < KURIBO_SCALE_FACTOR_Y_REST + KURIBO_SCALE_SETTLE_RANGE &&
+        kuribo->mScaleFactorYSpeed > -KURIBO_SCALE_SETTLE_RANGE &&
+        kuribo->mScaleFactorYSpeed < KURIBO_SCALE_SETTLE_RANGE) {
+        kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
         kuribo->mScaleFactorYSpeed = 0;
     }
 }
 
 void EnterKuriboState1(Kuribo *kuribo) {
-    kuribo->mScaleFactorY = 0x1000u;
+    kuribo->mScaleFactorY = KURIBO_SCALE_FACTOR_Y_REST;
     kuribo->mScaleFactorYSpeed = 0x0u;
 }
 
@@ -130,7 +133,7 @@ u32 EnterKuriboState3(u32 value) {
 }
 
 void UpdateKuriboState3(Kuribo *kuribo) {
-    kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0xd99);
+    kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, KURIBO_SCALE_SHRINK_FACTOR);
     if (kuribo->mScaleFactorY < 0x333) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_FLAT_WAIT;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -177,8 +180,9 @@ void EnterKuriboState5(Kuribo *kuribo) {
 }
 
 void UpdateKuriboState5(Kuribo *kuribo) {
-    kuribo->mScaleFactorYSpeed += MUL_FIXED12_NO_ROUND(0x1000 - kuribo->mScaleFactorY, 0x200);
-    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, 0xd99);
+    kuribo->mScaleFactorYSpeed +=
+        MUL_FIXED12_NO_ROUND(KURIBO_SCALE_FACTOR_Y_REST - kuribo->mScaleFactorY, KURIBO_SCALE_SPRING_STIFFNESS);
+    kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, KURIBO_SCALE_DAMPING);
     kuribo->mScaleFactorY += kuribo->mScaleFactorYSpeed;
     if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x3c) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_WALK_PATH;
@@ -230,7 +234,7 @@ void StartItemKinokoFromKuribo(Kuribo *kuribo, Vec3 *hitVector) {
 u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     switch (*firstResponsePtr) {
         case 0:
-            if (kuribo->mScaleFactorY == 0x1000) {
+            if (kuribo->mScaleFactorY == KURIBO_SCALE_FACTOR_Y_REST) {
                 if (kuribo->mScaleFactorYSpeed == 0) {
                     kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, 0x52);
                 }
@@ -255,7 +259,7 @@ u32 CollideKartWithKuribo(Kuribo *kuribo, Kart *kart, u8 *firstResponsePtr, u8 *
 u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     switch (*firstResponsePtr) {
         case 0:
-            if (kuribo->mScaleFactorY == 0x1000) {
+            if (kuribo->mScaleFactorY == KURIBO_SCALE_FACTOR_Y_REST) {
                 if (kuribo->mScaleFactorYSpeed == 0) {
                     kuribo->mScaleFactorYSpeed = 0x19a;
                 }
