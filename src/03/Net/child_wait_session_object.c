@@ -22,7 +22,7 @@ ChildWaitSession *gChildWaitSession;
 
 void CreateChildWaitSession(void (*callback)(s32)) {
     ChildWaitParams params;
-    gChildWaitSession = AllocExpHeapBlock(0x1e2a4, 0x20);
+    gChildWaitSession = AllocExpHeapBlock(sizeof(ChildWaitSession), HEAP_ALIGN_CACHE_LINE);
     gChildWaitSession->mCallback = callback;
     gChildWaitSession->mEventPending = 0;
     gChildWaitSession->mStopRequested = 0;

@@ -23,7 +23,7 @@ struct ApStore *gApStore;
 
 void CreateApStore(void) {
     ApStore *store;
-    store = AllocExpHeapBlock(0x6f8, 0x20);
+    store = AllocExpHeapBlock(0x6f8, HEAP_ALIGN_CACHE_LINE);
     gApStore = store;
     Crc16InitTable(&store->mWorkCopy.mCrcTable, 0xa001);
     ReadNvramEntries(gApStore);
@@ -46,7 +46,7 @@ void SetApWorkDnsNone(u32 dnsNone) {
 }
 
 void StoreApWorkSsid(const u8 *ssid) {
-    MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsid, 0x20);
+    MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsid, sizeof(gApStore->mWorkCopy.mEntry.mSsid));
     gApStore->mWorkCopy.mEntry.mSetType = AP_SET_TYPE_ENTERED;
 }
 
@@ -54,7 +54,7 @@ void StoreApWorkWepKey(const u8 *text) {
     s32 charIndex;
     s32 textLength;
     u8 *keyCursor;
-    MI_CpuFill8(gApStore->mWorkCopy.mEntry.mWepKeys[0], 0, 0x10);
+    MI_CpuFill8(gApStore->mWorkCopy.mEntry.mWepKeys[0], 0, sizeof(gApStore->mWorkCopy.mEntry.mWepKeys[0]));
     textLength = GetStringLengthWithLimit(text, 0x20);
     switch (textLength) {
         case 0:
@@ -72,7 +72,7 @@ void StoreApWorkWepKey(const u8 *text) {
             break;
         default:
             gApStore->mWorkCopy.mEntry.mWepNotation = 1;
-            MI_CpuCopy8(text, gApStore->mWorkCopy.mEntry.mWepKeys[0], 0x10);
+            MI_CpuCopy8(text, gApStore->mWorkCopy.mEntry.mWepKeys[0], sizeof(gApStore->mWorkCopy.mEntry.mWepKeys[0]));
             break;
     }
     switch (textLength) {
@@ -114,7 +114,7 @@ void StoreApWorkDnsSecondText(const char *input) {
 }
 
 void CopyApWorkSsid(void *output) {
-    MI_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsid, output, 0x20);
+    MI_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsid, output, sizeof(gApStore->mWorkCopy.mEntry.mSsid));
 }
 
 void FormatApWorkIpText(char *output) {
@@ -217,8 +217,8 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     const u8 *sourceKey;
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
-    MI_CpuFill8(workCopy, 0, 0xef);
-    MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, 0x20);
+    MI_CpuFill8(workCopy, 0, sizeof(ApEntry) - 1);
+    MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, sizeof(workCopy->mEntry.mSsid));
     switch (exchangeResult->mKind) {
         case AP_WEP_MODE_KEY_5_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
@@ -369,7 +369,7 @@ struct ApStore *GetApStore(void) {
 void ResetApEntry(int entryIndex) {
     ApEntry *entry;
     entry = &gApStore->mPages[entryIndex].mEntry;
-    MI_CpuFill8(entry, 0, 0xef);
+    MI_CpuFill8(entry, 0, sizeof(ApEntry) - 1);
     entry->mSetType = AP_SET_TYPE_EMPTY;
     WriteApEntryToNvram(entryIndex);
 }
@@ -401,7 +401,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
     void *workBuffer;
     ApStore *store;
     s32 slotIndex;
-    MI_CpuFill8(entryFlags, 0, 0x10);
+    MI_CpuFill8(entryFlags, 0, sizeof(entryFlags));
     entryFlags[entryIndex] = 1;
     if (entryIndex <= 2) {
         store = gApStore;
@@ -430,7 +430,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
                 Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mPages[slotIndex].mEntry.mUnk_00, 0xfe);
         }
     }
-    workBuffer = AllocExpHeapBlock(0x100, 0x20);
+    workBuffer = AllocExpHeapBlock(0x100, HEAP_ALIGN_CACHE_LINE);
     WriteFlaggedNvramEntries(gApStore, entryFlags, workBuffer);
     FreeExpHeapBlockAndClearPointer(&workBuffer);
 }

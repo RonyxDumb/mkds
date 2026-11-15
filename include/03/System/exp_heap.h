@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/System/heap.h" // HEAP_ALIGN_CACHE_LINE
 
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 

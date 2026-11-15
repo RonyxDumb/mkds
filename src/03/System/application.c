@@ -105,7 +105,7 @@ void InitApplication(void) {
     InitDwcArchive();
     InitKeyTouchInput();
     InitBlendBrightnessFadeSlotsFaded();
-    work = AllocExpHeapBlock(0x700, 0x20);
+    work = AllocExpHeapBlock(0x700, HEAP_ALIGN_CACHE_LINE);
     DWC_BM_Init(work);
     FreeExpHeapBlockAndClearPointer(&work);
 }

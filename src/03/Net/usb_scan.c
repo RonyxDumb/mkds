@@ -37,7 +37,7 @@ BOOL InitUsbScan(void (*callback)(u32)) {
     OwnerInfo ownerInfo;
     u64 tick;
 
-    gUsbScan = AllocZeroedExpHeapBlock(0x1ba0, 0x20);
+    gUsbScan = AllocZeroedExpHeapBlock(0x1ba0, HEAP_ALIGN_CACHE_LINE);
     gUsbScan->mResultCallback = callback;
     scan = gUsbScan;
     tick = OS_GetTick();
