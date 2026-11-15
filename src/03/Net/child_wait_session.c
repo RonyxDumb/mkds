@@ -86,7 +86,8 @@ void ResetChildWaitSessionState(void) {
     SetWhGgid(gChildWaitSessionView->mGameRegistry.mGgid);
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mTgid = WM_GetNextTgid();
-    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy, 0x40);
+    MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy,
+                sizeof(gChildWaitSessionView->mApStoreHeadCopy));
     gChildWaitSessionView->mHandshakeDone = 0;
     gChildWaitSessionView->mStallCount = 0;
     gChildWaitSessionView->mTgid++;
@@ -432,7 +433,8 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
     if (gChildWaitSessionView->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
         gChildWaitSessionView->mSendEntry->mCode = code;
         gChildWaitSessionView->mSendEntry->mValue = value;
-        MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload, 0x40);
+        MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload,
+                    sizeof(gChildWaitSessionView->mSendEntry->mPayload));
     } else {
         gChildWaitSessionView->mStallCount = gChildWaitSessionView->mStallCount + 1;
         gChildWaitSessionView->mSendEntry->mCode = CHILD_WAIT_CODE_HANDSHAKE_REQUEST;
@@ -455,7 +457,8 @@ void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
         for (aid = 0; aid < 2; aid++) {
             u8 *sharedData = GetWhSharedDataAddress(aid);
             if (sharedData != NULL) {
-                MI_CpuCopy8(sharedData, &gChildWaitSessionView->mSharedEntries[aid], 0x44);
+                MI_CpuCopy8(sharedData, &gChildWaitSessionView->mSharedEntries[aid],
+                            sizeof(gChildWaitSessionView->mSharedEntries[aid]));
                 gChildWaitSessionView->mEntryPresent[aid] = 1;
             } else {
                 gChildWaitSessionView->mEntryPresent[aid] = 0;

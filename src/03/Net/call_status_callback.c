@@ -92,7 +92,7 @@ u32 GetExchangeStatus(u32 *output) {
 }
 
 u32 CopyExchangeResult(ExchangeResult *output) {
-    memcpy(((u32 *) (u32) output), &gExchangeResult, 0xe8);
+    memcpy(((u32 *) (u32) output), &gExchangeResult, sizeof(ExchangeResult));
     return 1;
 }
 

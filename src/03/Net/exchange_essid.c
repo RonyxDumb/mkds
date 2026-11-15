@@ -658,7 +658,7 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option) {
             } while (byteIndex < 0x20);
         }
     } else {
-        MI_CpuFill8(gExchangeSearchEssidBytes, 0xff, 0x20);
+        MI_CpuFill8(gExchangeSearchEssidBytes, 0xff, sizeof(gExchangeSearchEssidBytes));
         gExchangeSearchEssid = WCM_Essid_Any;
     }
     if (gExchangeWcmState == 3) {

@@ -302,7 +302,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     } else if (request->mUseSharedKey == TRUE) {
         flags = 0xc0000;
     }
-    MI_CpuFill8(&gMelcoBlock, 0, 0x60);
+    MI_CpuFill8(&gMelcoBlock, 0, sizeof(MelcoBlock));
     if (request->mMelcoLength == 5) {
         gMelcoBlock.mLengthKind = 1;
     } else if (request->mMelcoLength == 0xd) {

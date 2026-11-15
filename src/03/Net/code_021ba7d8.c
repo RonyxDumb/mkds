@@ -278,7 +278,7 @@ BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLen
         }
         gEssidSearchEssid = gEssidSearchEssidBytes;
     } else {
-        MI_CpuFill8(gEssidSearchEssidBytes, 0xff, 0x20);
+        MI_CpuFill8(gEssidSearchEssidBytes, 0xff, sizeof(gEssidSearchEssidBytes));
         gEssidSearchEssid = WCM_Essid_Any;
     }
     if (gEssidWcmState == 3) {
