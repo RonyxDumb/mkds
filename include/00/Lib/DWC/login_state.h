@@ -51,11 +51,11 @@ typedef struct WiFiLogin {
     /* 40 */ DWCAccFriendData mTempLoginId;
     // First string of the HTTP reply (0x100 buffer): given to the GP connect as its first credential, which
     // GpiWriteLogin writes after '\authtoken\'; also passed to StartBuddySync (stats login).
-    // The reply's second string (mUnk_14c) is the password substitute the library hashes, not
+    // The reply's second string (mPartnerChallenge) is the password substitute the library hashes, not
     // the library's '\challenge\' (a random string the library makes).
     /* 4c */ char mAuthToken[0x100];
     // Second string of the HTTP reply (0x100 buffer), the second GP connect credential: GpiStartConnect copies it to
-    // q.mUnk_1c2 and GpiWriteLogin hashes it where it would hash the password. Not the
+    // GPIConnectData.mPartnerChallenge and GpiWriteLogin hashes it where it would hash the password. Not the
     // library's \challenge\ value.
     /* 14c */ char mPartnerChallenge[0x100];
     /* 24c */ char mUsername[9];

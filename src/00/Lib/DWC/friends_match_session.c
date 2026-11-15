@@ -866,7 +866,7 @@ void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
 }
 
 // Slot 3 of the record (Gt2CallElapsedTimeCallback): the body only forwards (connection,
-// elapsed time) to DWCi_PingCallback, which calls the layer's mUnk_60c with the time and the peer index.
+// elapsed time) to DWCi_PingCallback, which calls the layer's mPingCallback with the time and the peer index.
 void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }

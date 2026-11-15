@@ -39,16 +39,16 @@ typedef struct WiFiConnection {
     // code_0219c3e4.c), closed by DWC_ShutdownFriendsMatch or by the socket's own callback DWCi_GT2SocketErrorCallback,
     // which sets it NULL.
     /* 00 */ Gt2Socket *mSocket;
-    // Slot 0 of a Gt2ConnectionCallbacks record made of mResultCallback, mDataCallback, mUnk_0c, mElapsedTimeCallback
-    // (its address is handed to the matching object and from there to the Gt2 connect call): result of a Gt2 connect,
-    // DWCi_GT2ConnectedCallback (retries up to 5 times).
+    // Slot 0 of a Gt2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
+    // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect call):
+    // result of a Gt2 connect, DWCi_GT2ConnectedCallback (retries up to 5 times).
     /* 04 */ void (*mResultCallback)();
     // Slot 1 of the record at mResultCallback: data received from a peer, forwarded to the net layer
     // (DWCi_RecvCallback).
     /* 08 */ void (*mDataCallback)();
     /* 0c */ s32 (*mClosedCallback)();
-    // Slot 3 of the record at mResultCallback: forwards (connection, elapsed time) to the net layer's mUnk_60c
-    // callback (DWCi_PingCallback). Slot 2 (mUnk_0c) is the connection-closed
+    // Slot 3 of the record at mResultCallback: forwards (connection, elapsed time) to the net layer's mPingCallback
+    // callback (DWCi_PingCallback). Slot 2 (mClosedCallback) is the connection-closed
     // handler DWCi_GT2ClosedCallback.
     /* 10 */ void (*mElapsedTimeCallback)();
     // Passed to gti2CreateSocket as the send buffer size (0 selects 0x2000).
@@ -86,7 +86,7 @@ typedef struct WiFiConnection {
     // object's mGameName is the same buffer and the stats host name starts with it.
     /* 54 */ char *mGameName;
     // Points at the 0x100-byte buffer gcd_secret_key (DWC_InitFriendsMatch's fifth argument): mixed into the stats
-    // login hash ('%d%s'), given to the matching object as mUnk_2e0. Never read through this
+    // login hash ('%d%s'), given to the matching object as WiFiMatching.mSecretKey. Never read through this
     // member.
     /* 58 */ char *mSecretKey;
     // Set by DWC_LoginAsync; DWCi_LoginCallback calls it with (result, profile id, mLoginCallbackArg) on success and
@@ -107,9 +107,9 @@ typedef struct WiFiConnection {
     /* 7c */ void (*mConnectionClosedCallback)(s32 error, s32 reason, s32 hostSide, u32 aid, u32 friendListIndex,
                                                void *arg);
     /* 80 */ void *mConnectionClosedCallbackArg;
-    // Login object (WiFiLogin): holds the GP connection pointer, the login state
-    // (mUnk_04), the two credential strings given to the connect call (mUnk_4c, mUnk_14c) and the saved profile
-    // record; stepped in state 2; its result callback is DWCi_LoginCallback.
+    // Login object (WiFiLogin): holds the GP connection pointer, the login state (mState), the two credential
+    // strings given to the connect call (mAuthToken, mPartnerChallenge) and the saved profile record; stepped in
+    // state 2; its result callback is DWCi_LoginCallback.
     /* 84 */ WiFiLogin mLogin;
     /* 2e8 */ WiFiBuddySync mBuddySync;
     /* 33c */ WiFiMatching mMatching;
