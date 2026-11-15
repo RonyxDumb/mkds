@@ -7,6 +7,10 @@ void RequestPlayerEntryListSetup(void);
 void SetPlayerEntryListShowAllEntries(s32 showAll);
 void SetEntryTeamIndex(int entryIndex, int teamIndex);
 void SetPlayerEntryListUseTeams(s32 useTeams);
+// Kinds of StartPlayerEntryListKind: the timer slides out (called after the hold wait of the screens), and every entry
+// moves to its outer slot and moves back to the inner slot on the next setup (called when a screen is left).
+#define PLAYER_ENTRY_LIST_KIND_TIMER_OUT 2
+#define PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT 3
 void StartPlayerEntryListKind(s32 kind);
 u32 IsEveryPlayerKartStored(void);
 u32 IsPlayerEntryListTimerZero(void);

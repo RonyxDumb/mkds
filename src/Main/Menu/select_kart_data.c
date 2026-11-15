@@ -696,9 +696,9 @@ int AdvanceSelectKart(void) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[4], INTERPOLATION_STATE_FALLING);
                 if (gSelectKart->mMode == SELECT_KART_MODE_WIFI_SESSION) {
                     WriteWiFiSessionToRaceSetupCopy();
-                    StartSelectKartEntryListKindIfUsed(3);
+                    StartSelectKartEntryListKindIfUsed(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
                 } else {
-                    StartSelectKartEntryListKindIfUsed(2);
+                    StartSelectKartEntryListKindIfUsed(PLAYER_ENTRY_LIST_KIND_TIMER_OUT);
                 }
                 if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
                     StartKartModelMenuBg0Decrease();

@@ -69,7 +69,7 @@ void AdvanceSelectRaceRuleWaitConfirmAnswer(void) {
             case 0:
                 RequestSelectRaceRuleSlideOut();
                 gSelectRaceRule->mResult = 1;
-                StartPlayerEntryListKind(3);
+                StartPlayerEntryListKind(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
                 RequestSelectReturnSlideOut();
                 break;
             case -1:

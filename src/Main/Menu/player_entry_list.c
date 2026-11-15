@@ -740,10 +740,10 @@ void StartPlayerEntryListKind(s32 kind) {
                 }
             }
             break;
-        case 2:
+        case PLAYER_ENTRY_LIST_KIND_TIMER_OUT:
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[1], INTERPOLATION_STATE_FALLING);
             break;
-        case 3:
+        case PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT:
             for (entryIndex = 0; entryIndex < 8; entryIndex++) {
                 SetEntryTargetOuterSlot(entryIndex);
             }

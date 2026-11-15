@@ -458,7 +458,7 @@ void StartSelectCharacterReturn(void) {
     gSelectCharacter->mResult = MENU_SCREEN_RESULT_BACK;
     gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
     RequestSelectReturnPressWithSound(0);
-    StartPlayerEntryListKindIfUsed(3);
+    StartPlayerEntryListKindIfUsed(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_FALLING);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[2], INTERPOLATION_STATE_FALLING);
@@ -1148,9 +1148,9 @@ int AdvanceSelectCharacter(void) {
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mStateFrames > SELECT_CHARACTER_HOLD_STEPS) {
                 if (selectCharacterReload->mMode == SELECT_CHARACTER_MODE_WIFI_SESSION) {
-                    StartPlayerEntryListKindIfUsed(3);
+                    StartPlayerEntryListKindIfUsed(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
                 } else {
-                    StartPlayerEntryListKindIfUsed(2);
+                    StartPlayerEntryListKindIfUsed(PLAYER_ENTRY_LIST_KIND_TIMER_OUT);
                 }
                 SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                 if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
