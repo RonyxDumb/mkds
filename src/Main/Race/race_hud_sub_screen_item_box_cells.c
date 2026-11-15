@@ -40,9 +40,8 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
                                                     &gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mDrawPos,
                                                     subScreenScale, 0, 0) != FALSE) {
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mCell = GetRaceSNcerEntry(0x4e);
-                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority = IsPositionOutsideBox(position) != 0
-                                                                                     ? RACE_HUD_PRIORITY_OUTSIDE_BOX
-                                                                                     : RACE_HUD_PRIORITY_INSIDE_BOX;
+                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority =
+                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mXlu = mapObject->mFlags & 0x20;
                     cellCount++;
                     cellIndex++;

@@ -637,8 +637,8 @@ void UpdateRaceTaPositions(void) {
                 &gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPositions[count], kartIndex);
             gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPriorities[count] =
                 IsPositionOutsideBox(&gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPositions[count]) != 0
-                    ? RACE_HUD_PRIORITY_OUTSIDE_BOX
-                    : RACE_HUD_PRIORITY_INSIDE_BOX;
+                    ? RACE_HUD_PRIORITY_MIDDLE
+                    : RACE_HUD_PRIORITY_BACK;
         }
     }
     gRaceTaPositions->mSampleFrames++;
@@ -662,9 +662,8 @@ void UpdateRaceTaPositions(void) {
             }
             GetKartPosFromPosSourceCopy(&gRaceTaPositions->mSamples[kartIndex][0].mPos, kartIndex);
             gRaceTaPositions->mSamples[kartIndex][0].mPriority =
-                IsPositionOutsideBox(&gRaceTaPositions->mSamples[kartIndex][0].mPos) != 0
-                    ? RACE_HUD_PRIORITY_OUTSIDE_BOX
-                    : RACE_HUD_PRIORITY_INSIDE_BOX;
+                IsPositionOutsideBox(&gRaceTaPositions->mSamples[kartIndex][0].mPos) != 0 ? RACE_HUD_PRIORITY_MIDDLE
+                                                                                          : RACE_HUD_PRIORITY_BACK;
             gRaceTaPositions->mSamples[kartIndex][0].mAngle = GetRaceHudSubScreenKartAngle(kartIndex);
             if ((kart->mMotionFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)) != 0) {
                 gRaceTaPositions->mSamples[kartIndex][0].mKind = RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING;

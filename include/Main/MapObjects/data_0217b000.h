@@ -70,10 +70,11 @@ typedef struct IntPair {
     /* 04 */ s32 mSecond;
 } IntPair;
 
-// Priority stored for a sub-screen cell whose position is inside the box.
-#define RACE_HUD_PRIORITY_INSIDE_BOX 3
-// Priority stored for a sub-screen cell whose position is outside the box.
-#define RACE_HUD_PRIORITY_OUTSIDE_BOX 2
+// Values of RaceHudSubScreenCell.mPriority (the OAM priority, lower draws in front). The cells of the box objects take
+// MIDDLE when their position is outside the box and BACK when it is inside.
+#define RACE_HUD_PRIORITY_FRONT 1
+#define RACE_HUD_PRIORITY_MIDDLE 2
+#define RACE_HUD_PRIORITY_BACK 3
 typedef struct RaceHudSubScreenCell {
     /* 00 */ IntPair mDrawPos;
     /* 08 */ struct NNSG2dCellDataWithBR *mCell;
