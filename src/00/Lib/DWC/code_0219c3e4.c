@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_friend.h"
 #include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/code_0219c3e4.h"
 
@@ -158,7 +159,7 @@ void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 par
     gWiFiLogin->mConnectPending = FALSE;
     if (arg->mResult == GP_REQUEST_OK) {
         if (gWiFiLogin->mState == WIFI_LOGIN_CONNECT_KNOWN_ID) {
-            if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(1, "", NULL)) == 0) {
+            if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL)) == 0) {
                 if (gWiFiLogin->mUserData->mGsProfileId == arg->mProfile) {
                     if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mProfile) == 0) {
                         gWiFiLogin->mState = WIFI_LOGIN_DONE;

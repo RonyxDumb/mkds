@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_friend.h"
 #include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/code_0219b1f8.h"
 #include "00/code_0219b000.h"
@@ -376,7 +377,7 @@ s32 DWC_CloseAllConnectionsHard(void) {
         return -1;
     }
     if (wiFiConnection->mMatching.mLastParticipantPos == 0) {
-        DWCi_SetGPStatus(1, "", NULL);
+        DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL);
         NNFreeNegotiateList();
         DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
         return 1;
@@ -844,10 +845,10 @@ void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
         if (gWiFiConnection->mOwnCloseFlag == 0) {
             DWCi_GPSetServerStatus();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-            DWCi_SetGPStatus(1, "", NULL);
+            DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL);
         }
     } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-        DWCi_SetGPStatus(1, "", NULL);
+        DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL);
     }
     if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_FILTER_SEARCH ||
         gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_BUDDY_LIST) {

@@ -21,7 +21,7 @@ u8 DWC_GetFriendStatusSC(void *friendData, u8 *maxEntry, u8 *numEntry, char *sta
     char valueText[4];
     GpBuddyStatus status;
     if (DWCi_GetFriendBuddyStatus(friendData, &status) != 0) {
-        if (status.mStatus == 6) {
+        if (status.mStatus == DWC_STATUS_MATCH_SC_SV) {
             if (maxEntry != NULL) {
                 if (DWC_GetCommonValueString("SCM", valueText, status.mStatusString, 0x2f) > 0) {
                     *maxEntry = strtoul(valueText, NULL, 10);

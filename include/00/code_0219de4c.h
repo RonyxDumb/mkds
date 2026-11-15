@@ -149,6 +149,22 @@ enum {
     WIFI_MATCH_MODE_SERVER_CLIENT = 3,
 };
 
+// Retry counts and timeouts (milliseconds) of the matching: a command is sent again after DWC_MATCH_CMD_RTT_TIMEOUT
+// and given up after DWC_MATCH_CMD_RETRY_MAX tries; a friend reservation is kept for DWC_MATCH_RESV_KEEP_TIME_FRIEND.
+#define DWC_MAX_CONNECTIONS 32
+#define DWC_MATCH_CMD_RETRY_MAX 5
+#define DWC_MATCH_CMD_RTT_TIMEOUT 6000
+#define DWC_MATCH_CMD_RESV_TIMEOUT_MSEC 6000
+#define DWC_MATCH_SB_UPDATE_TIMEOUT 13000
+#define DWC_MATCH_RESV_KEEP_TIME_FRIEND (DWC_MATCH_CMD_RTT_TIMEOUT + DWC_MATCH_SB_UPDATE_TIMEOUT)
+#define DWC_WAIT_GT2_CONNECT_TIMEOUT 25000
+#define DWC_MATCH_LINK_CLS_TIMEOUT 30000
+#define DWC_WAIT_NN_RETRY_TIMEOUT 10000
+#define DWC_MATCH_NN_FAILURE_MAX 5
+#define DWC_RESV_COMMAND_RETRY_MAX 16
+#define WIFI_MATCH_RESUME_WAIT_MSEC 3000
+#define WIFI_MATCH_RESV_TIMEOUT_WRAPPED_MSEC 3000
+
 // Values of WiFiMatching.mLastCommand and the command number of the matching messages DWCi_SendMatchCommand sends and
 // DWCi_ProcessRecvMatchCommand handles. RESERVE asks a host for a place (RESERVE_PRIORITY when a prior host is set);
 // the host answers with RESERVE_OK, RESERVE_DENIED or RESERVE_WAIT. CONNECT_INFO carries the address for the

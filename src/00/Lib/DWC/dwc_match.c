@@ -1,3 +1,4 @@
+#include "00/Lib/DWC/dwc_friend.h"
 #include "00/Lib/DWC/dwc_result.h"
 #include "00/Lib/DWC/dwc_match.h"
 #include "00/Lib/DWC/code_021a2ccc.h"
@@ -338,7 +339,7 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedC
     if (gWiFiMatching->mServerList == NULL && DWCi_HandleSBError(5) != 0) {
         return;
     }
-    DWCi_SetGPStatus(3, "", NULL);
+    DWCi_SetGPStatus(DWC_STATUS_MATCH_ANYBODY, "", NULL);
     if (DWCi_HandleSBError(DWCi_SBUpdateAsync(gWiFiMatching->mOwnProfileId)) != 0) {
         return;
     }
@@ -380,7 +381,7 @@ void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen,
     DWC_AddCommonKeyValueString("MDF", distantFriend != 0 ? "Y" : "N", keyValueStr, 0x2f);
     OS_SNPrintf(numDigits, 12, gUnsignedFormat, 3);
     DWC_AddCommonKeyValueString("VER", numDigits, keyValueStr, 0x2f);
-    if (ReportMatchingGpResult(DWCi_SetGPStatus(4, keyValueStr, NULL)) != 0) {
+    if (ReportMatchingGpResult(DWCi_SetGPStatus(DWC_STATUS_MATCH_FRIEND, keyValueStr, NULL)) != 0) {
         return;
     }
     if (DWCi_HandleMatchCommandError(DWCi_SendResvCommandToFriend(0, 1)) != 0) {
@@ -427,7 +428,7 @@ void DWCi_MatchProcess(s32 runStateMachine) {
                     if (mode == 3) {
                         wiFiMatching->mResvRetryCount++;
                         wiFiMatching = gWiFiMatching;
-                        if (wiFiMatching->mResvRetryCount > 5) {
+                        if (wiFiMatching->mResvRetryCount > DWC_MATCH_CMD_RETRY_MAX) {
                             DWCi_StopMatching(6, -80430);
                             return;
                         }
@@ -472,17 +473,18 @@ void DWCi_MatchProcess(s32 runStateMachine) {
             break;
         case WIFI_MATCH_STATE_CONNECT_CLIENT:
             if (wiFiMatching->mIncomingWaitStartTime != 0) {
-                if (MatchingGetTickMilliseconds() - wiFiMatching->mIncomingWaitStartTime > 25000) {
+                if (MatchingGetTickMilliseconds() - wiFiMatching->mIncomingWaitStartTime >
+                    DWC_WAIT_GT2_CONNECT_TIMEOUT) {
                     gWiFiMatching->mIncomingWaitStartTime = 0;
                     if (DWCi_CancelPreConnectedClientProcess(gWiFiMatching->mParticipantProfileIds[0]) == 0) {
                         return;
                     }
                 }
             } else if (wiFiMatching->mLastCommand == WIFI_MATCH_COMMAND_CONNECT_INFO) {
-                if (MatchingGetTickMilliseconds() - wiFiMatching->mLastCommandTime > 6000) {
+                if (MatchingGetTickMilliseconds() - wiFiMatching->mLastCommandTime > DWC_MATCH_CMD_RTT_TIMEOUT) {
                     wiFiMatching->mResendCount++;
                     wiFiMatching = gWiFiMatching;
-                    if (wiFiMatching->mResendCount > 5) {
+                    if (wiFiMatching->mResendCount > DWC_MATCH_CMD_RETRY_MAX) {
                         DWCi_StopResendingMatchCommand();
                         if (DWCi_CancelPreConnectedClientProcess(gWiFiMatching->mParticipantProfileIds[0]) == 0) {
                             return;
@@ -499,8 +501,8 @@ void DWCi_MatchProcess(s32 runStateMachine) {
         case WIFI_MATCH_STATE_NEGOTIATE_SERVER:
             if (wiFiMatching->mLastCommand == WIFI_MATCH_COMMAND_RESERVE_OK) {
                 if ((wiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH &&
-                     MatchingGetTickMilliseconds() - gWiFiMatching->mLastCommandTime > 6000) ||
-                    MatchingGetTickMilliseconds() - gWiFiMatching->mLastCommandTime > 19000) {
+                     MatchingGetTickMilliseconds() - gWiFiMatching->mLastCommandTime > DWC_MATCH_CMD_RTT_TIMEOUT) ||
+                    MatchingGetTickMilliseconds() - gWiFiMatching->mLastCommandTime > DWC_MATCH_RESV_KEEP_TIME_FRIEND) {
                     DWCi_StopResendingMatchCommand();
                     if (DWCi_CancelPreConnectedServerProcess(
                             gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1]) == 0) {
@@ -511,7 +513,7 @@ void DWCi_MatchProcess(s32 runStateMachine) {
             break;
         case WIFI_MATCH_STATE_INFORM_PEERS:
             if (wiFiMatching->mLastCommand == WIFI_MATCH_COMMAND_PARTICIPANT_INFO) {
-                if (MatchingGetTickMilliseconds() - wiFiMatching->mLastCommandTime > 30000) {
+                if (MatchingGetTickMilliseconds() - wiFiMatching->mLastCommandTime > DWC_MATCH_LINK_CLS_TIMEOUT) {
                     wiFiMatching->mResendCount++;
                     wiFiMatching = gWiFiMatching;
                     if (wiFiMatching->mResendCount != 0) {
@@ -539,7 +541,7 @@ void DWCi_MatchProcess(s32 runStateMachine) {
     if (wiFiMatching->mState == WIFI_MATCH_STATE_NEGOTIATE_SERVER ||
         wiFiMatching->mState == WIFI_MATCH_STATE_NEGOTIATE_CLIENT) {
         if (wiFiMatching->mNNFailedTime != 0) {
-            if (MatchingGetTickMilliseconds() - wiFiMatching->mNNFailedTime > 10000) {
+            if (MatchingGetTickMilliseconds() - wiFiMatching->mNNFailedTime > DWC_WAIT_NN_RETRY_TIMEOUT) {
                 DWCi_NNCompletedCallback(1, 0, 0, &wiFiMatching->mNNInfo);
             }
         }
@@ -570,7 +572,7 @@ void DWCi_MatchProcess(s32 runStateMachine) {
         gt2Think(*gWiFiMatching->mConnectionSocket);
     }
     if (gWiFiMatching->mState == WIFI_MATCH_STATE_RESUME_WAIT) {
-        if (MatchingGetTickMilliseconds() - gWiFiMatching->mResumeWaitStartTime > 3000) {
+        if (MatchingGetTickMilliseconds() - gWiFiMatching->mResumeWaitStartTime > WIFI_MATCH_RESUME_WAIT_MSEC) {
             if (DWCi_ResumeMatching() != 0) {
                 return;
             }
@@ -696,7 +698,7 @@ void DWCi_GT2ConnectedCallback(Gt2Connection *connection, s32 result) {
         if (result == 6) {
             wiFiMatching->mConnectRetryCount++;
             wiFiMatching = gWiFiMatching;
-            if (wiFiMatching->mConnectRetryCount > 5) {
+            if (wiFiMatching->mConnectRetryCount > DWC_MATCH_CMD_RETRY_MAX) {
                 wiFiMatching->mConnectRetryCount = 0;
                 DWCi_CancelPreConnectedServerProcess(
                     gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1]);
@@ -779,7 +781,7 @@ void DWCi_StopMatching(s32 kind, s32 code) {
     if (gWiFiMatching != NULL && kind != 0) {
         DWCi_CloseAllConnectionsByTimeout();
         DWCi_SetError(kind, code);
-        DWCi_SetGPStatus(0, "", NULL);
+        DWCi_SetGPStatus(DWC_STATUS_OFFLINE, "", NULL);
         wiFiMatching = gWiFiMatching;
         isServer = wiFiMatching->mMode == WIFI_MATCH_MODE_SERVER ? 1 : 0;
         eventProfileId = gWiFiMatching->mEventProfileId;
@@ -1052,7 +1054,7 @@ u32 DWCi_GPSetServerStatus(void) {
     DWC_AddCommonKeyValueString("SCN", numText, keyValueStr, 0x2f);
     OS_SNPrintf(numText, 0xc, gUnsignedFormat, 3);
     DWC_AddCommonKeyValueString("VER", numText, keyValueStr, 0x2f);
-    return DWCi_SetGPStatus(6, keyValueStr, NULL);
+    return DWCi_SetGPStatus(DWC_STATUS_MATCH_SC_SV, keyValueStr, NULL);
 }
 
 void DWCi_ShutdownMatch(void) {
@@ -1405,7 +1407,7 @@ u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 v
         valueCount = 0;
     }
     *(MatchingSignatureText *) &header = gMatchingSignature;
-    header.mVersion = 3;
+    header.mVersion = DWC_MATCHING_VERSION;
     header.mCommand = command;
     header.mValuesSize = valueCount * 4;
     header.mPort = gWiFiMatching->mOwnPort;
@@ -1592,7 +1594,7 @@ s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 address, u16 po
                 break;
             }
             wiFiMatching->mResvTimeoutStartTick = OS_GetTick();
-            if ((wiFiMatching->mPriorProfileId != 0 && wiFiMatching->mPriorResvDelayCount < 0x10) ||
+            if ((wiFiMatching->mPriorProfileId != 0 && wiFiMatching->mPriorResvDelayCount < DWC_RESV_COMMAND_RETRY_MAX) ||
                 wiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
                 wiFiMatching->mResvDelayPending = 1;
                 latestMatching = gWiFiMatching;
@@ -1944,7 +1946,7 @@ u32 DWCi_SendResvCommand(u32 profileId, s32 delay) {
         words[2] = gWiFiMatching->mOwnPort;
         wordCount = 3;
     }
-    gWiFiMatching->mResvTimeoutMs = 6000;
+    gWiFiMatching->mResvTimeoutMs = DWC_MATCH_CMD_RESV_TIMEOUT_MSEC;
     gWiFiMatching->mResvTimeoutStartTick = OS_GetTick();
     gWiFiMatching->mResvDelayPending = 0;
     resvKind = gWiFiMatching->mPriorProfileId != 0 ? WIFI_MATCH_COMMAND_RESERVE_PRIORITY : WIFI_MATCH_COMMAND_RESERVE;
@@ -1986,7 +1988,7 @@ u32 DWCi_SendResvCommandToFriend(s32 delay, s32 init) {
             }
         }
         if (wrapped != FALSE && gWiFiMatching->mBuddyEntryIndexPos == firstIndex) {
-            gWiFiMatching->mResvTimeoutMs = 3000;
+            gWiFiMatching->mResvTimeoutMs = WIFI_MATCH_RESV_TIMEOUT_WRAPPED_MSEC;
             gWiFiMatching->mResvTimeoutStartTick = OS_GetTick();
             gWiFiMatching->mResvDelayPending = 0;
             return 0;
@@ -2021,7 +2023,7 @@ u32 DWCi_SendResvCommandToFriend(s32 delay, s32 init) {
         if (gpStatus != 0) {
             continue;
         }
-        if (status.mStatus != 4) {
+        if (status.mStatus != DWC_STATUS_MATCH_FRIEND) {
             continue;
         }
         verLen = DWC_GetCommonValueString("VER", verText, status.mStatusString, 0x2f);
@@ -2085,7 +2087,7 @@ u32 DWCi_CancelPreConnectedServerProcess(u32 clientPid) {
         gWiFiMatching->mMresvProfileId = 0;
         qr2_send_statechanged(gWiFiMatching->mQr2);
     }
-    if (gWiFiMatching->mLastParticipantPos < 0x1f) {
+    if (gWiFiMatching->mLastParticipantPos < DWC_MAX_CONNECTIONS - 1) {
         gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1] = 0;
     }
     gWiFiMatching->mLastCommand = WIFI_MATCH_COMMAND_NONE;
@@ -2285,7 +2287,7 @@ void DWCi_PostProcessConnection(s32 type) {
             break;
         case 4:
             if (gWiFiMatching->mMode != WIFI_MATCH_MODE_SERVER) {
-                DWCi_SetGPStatus(2, "", (void *) clearFlag);
+                DWCi_SetGPStatus(DWC_STATUS_PLAYING, "", (void *) clearFlag);
             }
             wiFiMatching = gWiFiMatching;
             if (wiFiMatching->mEventProfileId == 0) {
@@ -2408,7 +2410,7 @@ void DWCi_FinishCancelMatching(void) {
     BOOL isServer;
     BOOL isSelf;
     u32 eventProfileId;
-    if (ReportMatchingGpResult(DWCi_SetGPStatus(1, "", NULL)) == 0) {
+    if (ReportMatchingGpResult(DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL)) == 0) {
         DWCi_CloseMatching();
         wiFiMatching = gWiFiMatching;
         eventProfileId = wiFiMatching->mEventProfileId;
@@ -2631,7 +2633,7 @@ u32 DWCi_ProcessMatchSynTimeout(void) {
             if (elapsed > 6000) {
                 wiFiMatching->mSynResendCounts[0]++;
                 wiFiMatching = gWiFiMatching;
-                if (wiFiMatching->mSynResendCounts[0] > 5) {
+                if (wiFiMatching->mSynResendCounts[0] > DWC_MATCH_CMD_RETRY_MAX) {
                     if (wiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH ||
                         wiFiMatching->mMode == WIFI_MATCH_MODE_BUDDY_LIST) {
                         DWCi_CloseAllConnectionsByTimeout();
@@ -2775,7 +2777,7 @@ u32 DWCi_ProcessCancelMatchSynTimeout(void) {
             if (elapsed > 6000) {
                 wiFiMatching->mSynResendCounts[1]++;
                 wiFiMatching = gWiFiMatching;
-                if (wiFiMatching->mSynResendCounts[1] > 5) {
+                if (wiFiMatching->mSynResendCounts[1] > DWC_MATCH_CMD_RETRY_MAX) {
                     if (DWCi_CloseShutdownClientSC(wiFiMatching->mCancelSynReplyMask) == 0) {
                         return 0;
                     }
@@ -3489,7 +3491,7 @@ void DWCi_QR2ClientMsgCallback(const void *data, u32 len, void *userData) {
             if (strncmp(header.mSignature, gMatchingSignature.mText, 4) != 0) {
                 break;
             }
-            if (header.mVersion != 3) {
+            if (header.mVersion != DWC_MATCHING_VERSION) {
                 break;
             }
             MI_CpuCopy8(data + 0x14, body, header.mValuesSize);
@@ -3599,7 +3601,7 @@ u32 DWCi_ProcessNNFailure(void) {
     if (gWiFiMatching->mMode != WIFI_MATCH_MODE_SERVER_CLIENT) {
         gWiFiMatching->mNatnegCounts[1]++;
     }
-    if (gWiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT || gWiFiMatching->mNatnegCounts[1] >= 5) {
+    if (gWiFiMatching->mMode == WIFI_MATCH_MODE_SERVER_CLIENT || gWiFiMatching->mNatnegCounts[1] >= DWC_MATCH_NN_FAILURE_MAX) {
         DWCi_StopMatching(6, -0x15194);
         return 0;
     }
