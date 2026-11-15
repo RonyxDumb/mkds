@@ -287,8 +287,7 @@ void ReleaseSndHeaps(void) {
     gSeqRowSndHeap = NULL;
     ClearSndFileAddresses(GetSndDataFileIdList());
     ClearSndFileIdList(GetSndDataFileIdList());
-    ((u32 *) &gLoadedSoundBanks)[0] = gLoadedSoundBanksAfterRelease[0];
-    ((u32 *) &gLoadedSoundBanks)[1] = gLoadedSoundBanksAfterRelease[1];
+    gLoadedSoundBanks = gLoadedSoundBanksAfterRelease;
     ResetLoadedSoundSet(&gLoadedSoundSet);
 }
 
@@ -312,8 +311,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             soundHeapSize = 0x25a5c;
             break;
     }
-    ((u32 *) &gLoadedSoundBanks)[0] = gLoadedSoundBanksAfterHeapCreate[0];
-    ((u32 *) &gLoadedSoundBanks)[1] = gLoadedSoundBanksAfterHeapCreate[1];
+    gLoadedSoundBanks = gLoadedSoundBanksAfterHeapCreate;
     ResetLoadedSoundSet(&gLoadedSoundSet);
     gSndHeap = NNS_SndHeapCreate((void *) buffer, soundHeapSize);
     seqRowHeapSize = 0;
@@ -409,8 +407,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
     if (useFileArchive != 0) {
         LoadInitialSndArcs();
     } else {
-        ((u32 *) &gLoadedSoundBanks)[0] = gLoadedSoundBanksAfterOnMemoryInit[0];
-        ((u32 *) &gLoadedSoundBanks)[1] = gLoadedSoundBanksAfterOnMemoryInit[1];
+        gLoadedSoundBanks = gLoadedSoundBanksAfterOnMemoryInit;
         gSndHeap = NNS_SndHeapCreate((buffer + bufferSize), 0x25a5c);
         CreateSeqRowHeap((buffer + bufferSize + 0x25a5c), 0x35a0);
     }

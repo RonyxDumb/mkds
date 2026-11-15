@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/Sound/sound_seq.h"
 
 // gSurfaceSoundIds is addressed in rows of eight words.
 typedef struct SurfaceSoundIdRow {
@@ -31,7 +32,7 @@ extern u8 gSurfaceSoundIdRowTable[152];
 extern SurfaceSoundIdRow gSurfaceSoundIds[23];
 
 extern const u16 gSurfaceSoundColumnIndices[24][8];
-extern const u32 gLoadedSoundBanksAfterRelease[2];
+extern const LoadedSoundBanks gLoadedSoundBanksAfterRelease;
 extern const u8 gOnMemorySdat[6909];
-extern const u32 gLoadedSoundBanksAfterHeapCreate[2];
-extern const u32 gLoadedSoundBanksAfterOnMemoryInit[2];
+extern const LoadedSoundBanks gLoadedSoundBanksAfterHeapCreate;
+extern const LoadedSoundBanks gLoadedSoundBanksAfterOnMemoryInit;
