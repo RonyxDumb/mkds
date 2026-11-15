@@ -406,7 +406,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             if (AreBrightnessFadesClear() == 0) {
                 break;
             }
-            if (gWiFiVSCourseSelect->mInterpolations[0].mState == 1) {
+            if (gWiFiVSCourseSelect->mInterpolations[0].mState == INTERPOLATION_STATE_AT_END) {
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_PICK_COURSE;
             }
             AdvanceSubCellsOffsetY();
