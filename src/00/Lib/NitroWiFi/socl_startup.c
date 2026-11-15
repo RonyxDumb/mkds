@@ -49,7 +49,7 @@
 #include "00/code_021a836c.h"
 #include "00/Lib/NitroWiFi/code_021a8a28.h"
 
-u8 SOCLiYieldWait[4];
+u32 SOCLiYieldWait;
 SOCLConfig *SOCLiConfigPtr;
 SOCLSocket *SOCLiUDPSendSocket;
 u32 SOCLiRequestedIP;
@@ -88,7 +88,7 @@ void SOCLi_StartupCPS(void) {
     cfgBlock->mLinkIsOn = SOCL_LinkIsOn;
     cfgBlock->mRandomSeedLow = 0;
     cfgBlock->mRandomSeedHigh = 0;
-    cfgBlock->mYieldWait = *(u32 *) SOCLiYieldWait;
+    cfgBlock->mYieldWait = SOCLiYieldWait;
     if (config->mLanBufLen != 0) {
         cfgBlock->mLanBufLen = config->mLanBufLen;
     } else {

@@ -10,7 +10,7 @@ void SOCLi_TrashSocket(void);
 SOCHostEnt *SOC_GetHostByName(const char *hostname);
 s32 SOC_Bind(s32 descriptor, const void *address);
 
-extern u8 SOCLiYieldWait[4];
+extern u32 SOCLiYieldWait;
 extern struct SOCLConfig *SOCLiConfigPtr;
 extern struct SOCLSocket *SOCLiUDPSendSocket;
 extern u32 SOCLiRequestedIP;
