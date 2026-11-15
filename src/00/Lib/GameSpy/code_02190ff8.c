@@ -110,7 +110,7 @@ u32 GpiOpenSockets(GpConnection *connection, GpiOperation *operation) {
     if (address.mAddr == 0) {
         AssertionFailed("address.sin_addr.s_addr != 0", "gpiConnect.c", NULL, 0x90);
     }
-    address.mPort = 0xcc74;
+    address.mPort = GPI_CONNECTION_MANAGER_PORT_NETWORK_ORDER;
     if (connect(gpState->mConnectSocket, &address, 8) == -1) {
         openResult = GOAGetLastError(gpState->mConnectSocket);
         if (openResult != -6 && openResult != -26 && openResult != -76) {

@@ -10,7 +10,7 @@ u32 ConnectTestProcess(ACWORK *work) {
     ACHOLD *hold;
     u32 error;
 
-    hold = DWCi_AC_GetMemPtr(1);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
     error = DWC_Netcheck_GetError();
     if (error != 0) {
         if (hold->mEndType == DWCi_ConvConnectAPType(work->mConnectApType)) {

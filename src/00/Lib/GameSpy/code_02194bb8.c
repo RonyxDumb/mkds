@@ -88,7 +88,7 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         if (address.mAddr == 0) {
             AssertionFailed("address.sin_addr.s_addr != 0", "gpiSearch.c", NULL, 0x59);
         }
-        address.mPort = 0xcd74;
+        address.mPort = GPI_SEARCH_MANAGER_PORT_NETWORK_ORDER;
         if (connect(data->mSocket, &address, 8) == -1) {
             openResult = GOAGetLastError(data->mSocket);
             if (openResult != -6 && openResult != -0x1a && openResult != -0x4c) {

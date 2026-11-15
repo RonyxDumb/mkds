@@ -102,7 +102,7 @@ BOOL gti2CheckTimeout(Gt2Connection *connection, u32 now) {
                 hasExpired = TRUE;
             }
         } else if (connection->mState < GT2_CONNECTION_AWAIT_DECISION) {
-            if (now - connection->mCreateTime > 60000) {
+            if (now - connection->mCreateTime > GTI2_SERVER_TIMEOUT) {
                 hasExpired = TRUE;
             }
         }
@@ -124,7 +124,7 @@ BOOL gti2SendRetries(Gt2Connection *connection, u32 now) {
     len = DarrayGetCount(connection->mOutgoingBufferMessages);
     for (index = 0; index < len; index++) {
         message = DarrayGetElement(connection->mOutgoingBufferMessages, index);
-        if (now - message->mLastSend > 1000) {
+        if (now - message->mLastSend > GTI2_RESEND_TIME) {
             if (gti2ResendMessage(connection, message) == 0) {
                 return FALSE;
             }
@@ -137,7 +137,7 @@ BOOL gti2CheckPendingAck(Gt2Connection *connection, u32 now) {
     if (connection->mPendingAck == 0) {
         return TRUE;
     }
-    if (now - connection->mPendingAckTime > 100) {
+    if (now - connection->mPendingAckTime > GTI2_PENDING_ACK_TIME) {
         if (gti2SendAck(connection) == 0) {
             return FALSE;
         }
@@ -146,7 +146,7 @@ BOOL gti2CheckPendingAck(Gt2Connection *connection, u32 now) {
 }
 
 BOOL gti2CheckKeepAlive(Gt2Connection *connection, u32 now) {
-    if (now - connection->mLastSendTime > 30000) {
+    if (now - connection->mLastSendTime > GTI2_KEEP_ALIVE_TIME) {
         if (gti2SendKeepAlive(connection) == 0) {
             return FALSE;
         }

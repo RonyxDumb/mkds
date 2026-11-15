@@ -7,6 +7,16 @@
 #define SOCKET_FAMILY_IPV4 2
 #define SOCKET_ADDRESS_LENGTH_IPV4 4
 
+// Bits of the events and revents members of the poll entry; port of the master server for the availability check and
+// the reporter; the numbers of the ports of the profile servers, as the network order words in the address.
+#define SOC_POLLRDNORM 0x0001
+#define SOC_POLLWRNORM 0x0008
+#define SOC_POLLERR 0x0020
+#define SOC_POLLHUP 0x0040
+#define MASTER_PORT 0x6cfc
+#define GPI_CONNECTION_MANAGER_PORT_NETWORK_ORDER 0xcc74
+#define GPI_SEARCH_MANAGER_PORT_NETWORK_ORDER 0xcd74
+
 // 8 bytes, moved one byte at a time.
 typedef struct SOCSockAddr {
     /* 00 */ u8 mLen;

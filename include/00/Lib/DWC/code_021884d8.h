@@ -3,8 +3,18 @@
 #include "types.h"
 #include "00/Lib/DWC/code_0218a064.h"
 
-// Values of ACHOLD.mPhase, the steps of the automatic connect: start up the wireless layer, scan around, scan the channels
-// of the listed access points, scan for hidden ones, connect to an access point, retry the connect, test the
+// Names of the memory blocks of the automatic connect (bits of ACHOLD.mAllocState, the argument of DWCi_AC_GetMemPtr
+// and the first argument of DWCi_AC_Alloc and of the free function).
+enum {
+    AC_MEM_HOLD = 1,
+    AC_MEM_WCM_BUFFER = 2,
+    AC_MEM_SOC_CONFIG = 4,
+    AC_MEM_NETCHECK = 8,
+    AC_MEM_WORK = 0x10,
+};
+
+// Values of ACHOLD.mPhase, the steps of the automatic connect: start up the wireless layer, scan around, scan the
+// channels of the listed access points, scan for hidden ones, connect to an access point, retry the connect, test the
 // connection (get an address, open a socket, run the test), then finish or fail.
 enum {
     AC_PHASE_START = 1,

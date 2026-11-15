@@ -22,7 +22,7 @@ u32 DWCi_AC_ConnectRetryAP(void) {
     ACWORK *work;
     u32 nextPhase;
 
-    work = DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     nextPhase = AC_PHASE_CONNECT_RETRY;
     switch (WCM_GetPhase()) {
         case WIFI_LINK_PHASE_READY:
@@ -57,7 +57,7 @@ u8 DWCi_AC_MakeSearchList(u32 type) {
     ACWORK *work;
     volatile u32 clearValue;
 
-    work = DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     clearValue = 0;
     MIi_CpuClear32(clearValue, work->mSearchList, 0x144);
     switch (type) {

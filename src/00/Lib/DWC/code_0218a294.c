@@ -18,7 +18,7 @@ u32 DWCi_AC_ConnectTest(void) {
     ACWORK *work;
 
     phase = DWCi_AC_GetPhase();
-    work = DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     if (WCM_GetPhase() == WIFI_LINK_PHASE_CONNECTED) {
         switch (phase) {
             case AC_PHASE_TEST_START:

@@ -9,8 +9,8 @@ u32 ConnectTestStart(ACWORK *work) {
     ACHOLD *hold;
     SOCConfig *config;
     int result;
-    hold = DWCi_AC_GetMemPtr(1);
-    config = DWCi_AC_GetMemPtr(4);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
+    config = DWCi_AC_GetMemPtr(AC_MEM_SOC_CONFIG);
     MakeSOCConfig(hold, work, config);
     SOCLiYieldWait = 4;
     result = SOC_Startup(config);

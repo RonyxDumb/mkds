@@ -7,47 +7,47 @@ void DWCi_AC_FreeAll(void) {
     ACHOLD *hold;
     void *buffer;
 
-    hold = DWCi_AC_GetMemPtr(1);
-    if ((hold->mAllocState & 0x10) != 0) {
-        buffer = DWCi_AC_GetMemPtr(0x10);
-        hold->mAllocState &= ~0x10;
-        hold->mFree(0x10, buffer, 0xd18);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
+    if ((hold->mAllocState & AC_MEM_WORK) != 0) {
+        buffer = DWCi_AC_GetMemPtr(AC_MEM_WORK);
+        hold->mAllocState &= ~AC_MEM_WORK;
+        hold->mFree(AC_MEM_WORK, buffer, 0xd18);
     }
-    if ((hold->mAllocState & 8) != 0) {
-        buffer = DWCi_AC_GetMemPtr(8);
-        hold->mAllocState &= ~8;
-        hold->mFree(8, buffer, 0xc);
+    if ((hold->mAllocState & AC_MEM_NETCHECK) != 0) {
+        buffer = DWCi_AC_GetMemPtr(AC_MEM_NETCHECK);
+        hold->mAllocState &= ~AC_MEM_NETCHECK;
+        hold->mFree(AC_MEM_NETCHECK, buffer, 0xc);
     }
-    if ((hold->mAllocState & 4) != 0) {
-        buffer = DWCi_AC_GetMemPtr(4);
-        hold->mAllocState &= ~4;
-        hold->mFree(4, buffer, 0x58);
+    if ((hold->mAllocState & AC_MEM_SOC_CONFIG) != 0) {
+        buffer = DWCi_AC_GetMemPtr(AC_MEM_SOC_CONFIG);
+        hold->mAllocState &= ~AC_MEM_SOC_CONFIG;
+        hold->mFree(AC_MEM_SOC_CONFIG, buffer, 0x58);
     }
-    if ((hold->mAllocState & 2) != 0) {
-        buffer = DWCi_AC_GetMemPtr(2);
-        hold->mAllocState &= ~2;
-        hold->mFree(2, buffer, 0x2300);
+    if ((hold->mAllocState & AC_MEM_WCM_BUFFER) != 0) {
+        buffer = DWCi_AC_GetMemPtr(AC_MEM_WCM_BUFFER);
+        hold->mAllocState &= ~AC_MEM_WCM_BUFFER;
+        hold->mFree(AC_MEM_WCM_BUFFER, buffer, 0x2300);
     }
-    if ((hold->mAllocState & 1) != 0) {
-        hold->mAllocState &= ~1;
-        hold->mFree(1, hold, 0x18);
+    if ((hold->mAllocState & AC_MEM_HOLD) != 0) {
+        hold->mAllocState &= ~AC_MEM_HOLD;
+        hold->mFree(AC_MEM_HOLD, hold, 0x18);
     }
 }
 
 void *DWCi_AC_GetMemPtr(u32 name) {
-    if ((name & 1) != 0) {
+    if ((name & AC_MEM_HOLD) != 0) {
         return gAcHold;
     }
-    if ((name & 2) != 0) {
+    if ((name & AC_MEM_WCM_BUFFER) != 0) {
         return gWcmBuffer;
     }
-    if ((name & 4) != 0) {
+    if ((name & AC_MEM_SOC_CONFIG) != 0) {
         return gSocConfig;
     }
-    if ((name & 8) != 0) {
+    if ((name & AC_MEM_NETCHECK) != 0) {
         return gNetCheck;
     }
-    if ((name & 0x10) != 0) {
+    if ((name & AC_MEM_WORK) != 0) {
         return gAcWork;
     }
     return NULL;
@@ -57,8 +57,8 @@ void DWCi_AC_SetPhase(u8 phase) {
     ACHOLD *hold;
     ACWORK *work;
 
-    hold = DWCi_AC_GetMemPtr(1);
-    work = DWCi_AC_GetMemPtr(0x10);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
+    work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     hold->mPhase = phase;
     if (phase < 0x10) {
         if (phase > hold->mEndSequence) {
@@ -82,7 +82,7 @@ void DWCi_AC_SetError(u32 error) {
     ACHOLD *hold;
     u32 errorValue;
     errorValue = (value) + (0u);
-    hold = DWCi_AC_GetMemPtr(1);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
     hold->mError = errorValue;
     value = DWCi_AC_GetPhase();
     hold->mErrorPhase = value;

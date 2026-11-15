@@ -127,10 +127,10 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
     pollEntry.mFd = theSocket;
     pollEntry.mEvents = 0;
     if (theReadFlag != NULL) {
-        pollEntry.mEvents |= 1;
+        pollEntry.mEvents |= SOC_POLLRDNORM;
     }
     if (theWriteFlag != NULL) {
-        pollEntry.mEvents |= 8;
+        pollEntry.mEvents |= SOC_POLLWRNORM;
     }
     pollEntry.mRevents = 0;
     pollResult = SOC_Poll(&pollEntry, 1, 0);
@@ -138,21 +138,21 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
         return -1;
     }
     if (theReadFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & 0x41) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & (SOC_POLLRDNORM | SOC_POLLHUP)) != 0) {
             *theReadFlag = 1;
         } else {
             *theReadFlag = 0;
         }
     }
     if (theWriteFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & 8) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & SOC_POLLWRNORM) != 0) {
             *theWriteFlag = 1;
         } else {
             *theWriteFlag = 0;
         }
     }
     if (theExceptFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & 0x20) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & SOC_POLLERR) != 0) {
             *theExceptFlag = 1;
         } else {
             *theExceptFlag = 0;

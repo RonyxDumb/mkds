@@ -3,6 +3,14 @@
 #include "types.h"
 #include "00/Lib/GameSpy/code_02197e58.h"
 
+// Milliseconds: a connection that has not finished connecting is dropped after SERVER_TIMEOUT, an unconfirmed message
+// is sent again after RESEND_TIME, an acknowledgement waits PENDING_ACK_TIME for company, and a connection that sent
+// nothing for KEEP_ALIVE_TIME gets a keep-alive message.
+#define GTI2_SERVER_TIMEOUT 60000
+#define GTI2_RESEND_TIME 1000
+#define GTI2_PENDING_ACK_TIME 100
+#define GTI2_KEEP_ALIVE_TIME 30000
+
 u32 gti2ConnectionThink(Gt2Connection *connection, u32 now);
 
 BOOL gti2CheckKeepAlive(Gt2Connection *connection, u32 now);

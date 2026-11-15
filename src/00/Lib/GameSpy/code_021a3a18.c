@@ -86,7 +86,8 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
         if (hostOverride == 0) {
             sprintf(hostText, "%s.master.gs.nintendowifi.net", gamename);
         }
-        resolved = ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, 0x6cfc, &record->mHbAddr, NULL);
+        resolved =
+            ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, MASTER_PORT, &record->mHbAddr, NULL);
     } else {
         resolved = 1;
     }

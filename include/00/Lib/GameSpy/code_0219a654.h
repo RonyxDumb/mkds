@@ -10,6 +10,22 @@ typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
+// Sockets a negotiation sends from (NN_PT_*: the game port, then two others, each answered by its own acknowledgement),
+// how a negotiation ends (FINISHED_*, the mFinished byte of a connect message), the port of the matchup server, and
+// how often and how long (milliseconds) the init and ping messages are sent again.
+#define NN_PT_GP 0
+#define NN_PT_NN1 1
+#define NN_PT_NN2 2
+#define FINISHED_NOERROR 0
+#define FINISHED_ERROR_DEADBEAT_PARTNER 1
+#define FINISHED_ERROR_INIT_PACKETS_TIMEDOUT 2
+#define MATCHUP_PORT 0x6cfd
+#define INIT_RETRY_TIME 500
+#define INIT_RETRY_COUNT 30
+#define PING_RETRY_TIME 700
+#define PING_RETRY_COUNT 12
+#define FINISHED_IDLE_TIME 5000
+
 // Value of the mVersion byte of every message.
 #define NAT_PACKET_VERSION 2
 

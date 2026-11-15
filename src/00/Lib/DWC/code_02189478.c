@@ -8,7 +8,7 @@
 u8 DWCi_AC_Error(void) {
     ACHOLD *hold;
     int status;
-    hold = DWCi_AC_GetMemPtr(1);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
     status = DWCi_AC_CloseNetwork(&hold->mErrorPhase);
     if (status == 1) {
         return 0x12;
@@ -19,7 +19,7 @@ u8 DWCi_AC_Error(void) {
 u32 DWCi_AC_GetResult(void) {
     ACHOLD *hold;
     int error;
-    hold = DWCi_AC_GetMemPtr(1);
+    hold = DWCi_AC_GetMemPtr(AC_MEM_HOLD);
     error = DWCi_AC_GetError();
     if (error < 4) {
         return GetProgramaError(error);
