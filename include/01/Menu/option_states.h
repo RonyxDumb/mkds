@@ -26,7 +26,7 @@ void SetOptionStateCallbacks(OptionStateCallbacks *callbacks);
 void WriteOptionStatesRegisters(void);
 void AdvanceOptionStates(void);
 void ReleaseOptionStates(void);
-void InitOptionStates(void *heap, s16 a);
+void InitOptionStates(void *heap, s16 previousScene);
 void SetupOptionBackgrounds(void);
 void LoadOptionData(void);
 void ClearOptionStateCallbacks(void);

@@ -50,6 +50,6 @@ void AdvanceNicknameSceneState2(void);
 void AdvanceNicknameSceneState1(void);
 void AdvanceNicknameSceneState0(void);
 void ReleaseNicknameSceneObject(void);
-void InitNicknameSceneObject(void *heap, s16 a);
+void InitNicknameSceneObject(void *heap, s16 previousScene);
 
 #include "00/Menu/wi_fi_vs_matching.h"

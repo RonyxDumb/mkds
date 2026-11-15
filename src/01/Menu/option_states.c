@@ -67,7 +67,7 @@ void SetupOptionBackgrounds(void) {
     MIi_CpuClearFast(secondFillValue, bg1Screen, 0x1000);
 }
 
-void InitOptionStates(void *heap, s16 a) {
+void InitOptionStates(void *heap, s16 previousScene) {
     SceneTextInitParams sceneTextParams;
     gOptionStates = HeapAlloc(heap, sizeof(OptionStates));
     gOptionStates->mHeap = heap;
@@ -90,7 +90,7 @@ void InitOptionStates(void *heap, s16 a) {
     LoadOptionData();
     ClearOptionStateCallbacks();
     gOptionStates->mNextScene = -1;
-    switch (a) {
+    switch (previousScene) {
         case 0:
             gOptionStates->mPrevState = OPTION_STATE_SCENE_TITLE;
             gOptionStates->mState = OPTION_STATE_TOP_MENU;

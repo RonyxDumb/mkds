@@ -18,7 +18,7 @@
 
 NicknameScene *gNicknameScene;
 
-void InitNicknameSceneObject(void *heap, s16 a) {
+void InitNicknameSceneObject(void *heap, s16 previousScene) {
     SceneTextInitParams textParams;
 
     gNicknameScene = HeapAlloc(heap, sizeof(NicknameScene));
@@ -36,7 +36,7 @@ void InitNicknameSceneObject(void *heap, s16 a) {
     textParams.mBackScreenKind = 0;
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(heap, &textParams);
-    gNicknameScene->mUnk_0c = a;
+    gNicknameScene->mUnk_0c = previousScene;
     gNicknameScene->mNextScene = NICKNAME_SCENE_NEXT_NONE;
     gNicknameScene->mState = NICKNAME_SCENE_STATE_WAIT_FADE;
     gNicknameScene->mNextState = gNicknameScene->mState;
