@@ -188,7 +188,7 @@ void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
 
 // Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
 // IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
-void CopyKartPhysicalParams(u32 slot, u16 kartRow, u32 characterRow) {
+void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow) {
     KartPhysicalParam *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
     s32 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;
     if (IsRaceAwardOrStaffRoll() != 0) {
