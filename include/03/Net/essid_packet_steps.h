@@ -61,7 +61,6 @@ typedef struct EssidEntry {
     /* 24 */ u32 mChannel;
     /* 28 */ u8 pad_28[8];
     /* 30 */ u8 mAddress[6];
-    /* 36 */ u8 pad_36[2];
     /* 38 */ u32 mCodeCount;
     /* 3c */ u8 mCodes[0x10]; // bit 0x80 set when the record's second bit list has the same bit
     /* 4c */ u32 mBeaconPeriod;

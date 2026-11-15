@@ -50,7 +50,6 @@ typedef struct OutgoingPacketItem {
 
 typedef struct ItemContainer {
     /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 pad_01;
     /* 02 */ u16 mLength;
     /* 04 */ u8 mItems[1];
 } ItemContainer;
@@ -118,7 +117,6 @@ enum {
 
 typedef struct PacketItem {
     /* 00 */ u8 mType;
-    /* 01 */ u8 pad_01;
     /* 02 */ u16 mLength;
     /* 04 */ u16 mNextOffset;
     /* 06 */ u8 mValue[1];

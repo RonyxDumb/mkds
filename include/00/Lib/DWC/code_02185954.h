@@ -78,7 +78,6 @@ u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 typedef struct AuthCreateParams {
     /* 00 */ char mIngamesn[0x15];
     /* 15 */ char mGsbrcd[0xc];
-    /* 21 */ u8 pad_21[3];
     /* 24 */ void *(*mAlloc)(const void *, u32);
     /* 28 */ void (*mFree)(const void *, void *, u32);
 } AuthCreateParams;

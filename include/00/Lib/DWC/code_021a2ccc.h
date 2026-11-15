@@ -73,7 +73,6 @@ typedef struct WiFiMessageLayer {
     // into chunks of at most this size; a size equal to it is
     // allowed, the last chunk is shorter and a single-packet send above it is refused.
     /* 610 */ u16 mSendChunkSize;
-    /* 612 */ u8 pad_612[2];
 } WiFiMessageLayer;
 
 // Local of DWCs_DecodeHeader, filled by a copy of eight bytes.

@@ -4,7 +4,6 @@
 
 typedef struct ValueRecordsRequestItem {
     /* 000 */ u8 mItemType;
-    /* 001 */ u8 pad_01;
     /* 002 */ u16 mItemLength;
     /* 004 */ u8 mItemBytes[0x100];
 } ValueRecordsRequestItem;
