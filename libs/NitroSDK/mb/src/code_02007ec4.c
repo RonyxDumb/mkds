@@ -63,7 +63,7 @@ u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source) {
     (OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCardMapping = source->mCardMapping;
     if ((OFFSET_PTR(MB_CommPWork, mbc, entryOffset))->mCacheList->mList[3].mState != 0) {
         if (MBi_IsTaskAvailable() == 0) {
-            MBi_InitTaskInfo(mbc->mCurTask);
+            MBi_InitTaskInfo(&mbc->mCurTask);
             MBi_InitTaskThread(&mbc->mTaskWork, 0x800);
         }
     }

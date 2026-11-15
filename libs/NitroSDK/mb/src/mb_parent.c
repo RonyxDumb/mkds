@@ -500,7 +500,7 @@ u32 MBi_CommParentSendBlock(void) {
     childEntry = OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4);
     rangeTable = childEntry->mCacheList;
     if (MBi_ReadFromCache(rangeTable, readOffset, sendBlock, blockInfo.mSize) == 0) {
-        loadJob = (DataRangeLoadJob *) mbc->mCurTask;
+        loadJob = &mbc->mCurTask;
         if (MBi_IsTaskBusy(&loadJob->mTask) == 0) {
             if (rangeTable->mLifetime != 0) {
                 range = rangeTable->mList;

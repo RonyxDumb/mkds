@@ -36,6 +36,12 @@ typedef enum MBCommPState {
 
 // Object behind mbc. The members from 0x1788 on are reached from a pointer advanced in steps of 0x5d4
 // bytes, so their offsets here include the 0x1788.
+typedef struct DataRangeLoadJob {
+    /* 00 */ WorkerTask mTask;
+    /* 10 */ MBiCacheInfo *mDataRange;
+    /* 14 */ MBiCacheList *mDataRangeTable;
+} DataRangeLoadJob;
+
 typedef struct MB_CommPWork {
     /* 0000 */ u8 mSendBuffer[0x400];
     /* 0400 */ u8 mRecvBuffer[0x1300 - 0x400];
@@ -80,7 +86,8 @@ typedef struct MB_CommPWork {
     /* 74cc */ u8 mPadding2[0x74e0 - 0x74cc];
     /* 74e0 */ WorkerQueue mTaskWork;
     /* ---- */ u8 mUnk_74e0_end[0x800 - sizeof(WorkerQueue)];
-    /* 7ce0 */ u8 mCurTask[0x20];
+    /* 7ce0 */ DataRangeLoadJob mCurTask;
+    /* 7cf8 */ u8 mUnk_7cf8[8];
 } MB_CommPWork;
 
 u32 MBi_calc_nextsendblock(u32 first, u32 second);
@@ -88,12 +95,6 @@ void MBi_calc_sendblock(u32 entryIndex);
 
 int MBi_CommParentSendData(void);
 u32 MBi_CommParentSendBlock(void);
-
-typedef struct DataRangeLoadJob {
-    /* 00 */ WorkerTask mTask;
-    /* 10 */ MBiCacheInfo *mDataRange;
-    /* 14 */ MBiCacheList *mDataRangeTable;
-} DataRangeLoadJob;
 
 
 void MBi_ReloadCache(DataRangeLoadJob *job);
