@@ -435,7 +435,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             } else {
                 value = 0;
             }
-            if (value == 0 && backupAccess->mErrorCode == 0) {
+            if (value == 0 && backupAccess->mErrorCode == BACKUP_ERROR_NONE) {
                 if (IsSlotGhostIndex(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex) == 0) {
                     CopyCourseGhostToSlotGhost(GetCourseGhostBuffer(), GetSlotGhostBuffer());
                 }

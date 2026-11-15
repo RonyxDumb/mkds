@@ -1123,7 +1123,7 @@ void ReadCourseGhostRecordAndWait(u32 courseId) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
 }
@@ -1140,7 +1140,7 @@ void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
     ReadSlotGhostRecord(slotIndex);
@@ -1148,7 +1148,7 @@ void ReadCourseAndSlotGhostRecords(u32 courseId, u32 slotIndex) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         gBackupBuffers->mSlotGhostRecords[0]->mHead.mFilled = 0;
     }
 }
@@ -1171,7 +1171,7 @@ void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
     if (TryFormatGhostPath(courseId, path, 0x80) != FALSE) {
@@ -1193,7 +1193,7 @@ void SelectGhostReadCourseRecordAndWait(u32 courseId) {
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         gBackupBuffers->mCourseGhostRecord->mHead.mFilled = 0;
     }
 }

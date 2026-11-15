@@ -31,7 +31,7 @@ void UpdateLogoState1(void) {
             stateMachine = &gLogoScene->mStateMachine;
             stateMachine->mNextState = LOGO_STATE_RESET_NOTICE;
             stateMachine->mNextStateRequested = 1;
-        } else if (gBackupAccess->mErrorCode == 4) {
+        } else if (gBackupAccess->mErrorCode == BACKUP_ERROR_BAD_PREFIX) {
             gLogoScene->mUnk_2c_1 = 0;
             stateMachine = &gLogoScene->mStateMachine;
             stateMachine->mNextState = LOGO_STATE_RESET_BACKUP;

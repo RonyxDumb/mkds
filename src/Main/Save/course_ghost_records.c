@@ -24,7 +24,7 @@ void ReadCourseGhostRecords(void) {
             if (gBackupAccess->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }
-            if (gBackupAccess->mErrorCode != 0) {
+            if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
                 record->mFilled = 0;
             }
         } else {
