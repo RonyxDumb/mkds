@@ -277,11 +277,11 @@ void AdvanceEmblemGridScreen(void) {
     if (gEmblem->mCursorTargetState == EMBLEM_CURSOR_TARGET_GRID && GetEmblemInputDown() &&
         IsEmblemPointInGrid(GetEmblemInputX(), GetEmblemInputY())) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0), -5);
-        gEmblem->mCursorSizeIndex = -1;
+        gEmblem->mCursorSizeIndex = EMBLEM_BRUSH_NONE;
     } else if (gEmblem->mCursorTargetState == EMBLEM_CURSOR_TARGET_GRID && GetEmblemInputDown() &&
                GetLldEntryFrameIndex(GetLldEntry(gEmblem->mEmblemSLld, 0)) == -5) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0), -5);
-        gEmblem->mCursorSizeIndex = -1;
+        gEmblem->mCursorSizeIndex = EMBLEM_BRUSH_NONE;
     } else {
         gEmblem->mCursorSizeIndex = GetEmblemCursorSizeIndex();
         if (flag) {

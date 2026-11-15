@@ -211,6 +211,9 @@ enum {
     EMBLEM_BRUSH_3X3,
 };
 
+// Emblem.mCursorSizeIndex while the grid is pressed: no brush frame is shown.
+#define EMBLEM_BRUSH_NONE (-1)
+
 // Object behind gEmblemCursor, allocated by CreateEmblemCursorAndGrid.
 typedef struct EmblemCursor {
     /* 00 */ s32 mMode;
