@@ -322,7 +322,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
         case 0x16:
             if (mode != 2) {
                 if (httpsState->mDatesSeen != 0) {
-                    AppendCommaSeparatedText(httpsState->mUnk_684, (const s8 *) cursor, length);
+                    AppendCommaSeparatedText(httpsState->mCommaSeparatedText, (const s8 *) cursor, length);
                     if (httpsState->mCopyNextText == 5 && length <= 0x4f) {
                         MI_CpuCopy8(cursor, httpsState->mHostPattern, length);
                         httpsState->mHostPattern[length] = 0;
@@ -556,7 +556,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     httpsState->mTaggedItemPrefixIndex = -1;
     RTC_GetDate(&date);
     httpsState->mCurrentDate = date.mDay + (((date.mYear + 0x7d0) << 16) + (date.mMonth << 8));
-    httpsState->mUnk_684[0] = 0;
+    httpsState->mCommaSeparatedText[0] = 0;
     httpsState->mFirstValueLength = httpsState->mSecondValueLength = 0;
     parseMode = FALSE;
     itemIndex = parseMode;
@@ -568,7 +568,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
         httpsState->mCaptureValues = 0;
         httpsState->mDatesSeen = 0;
         httpsState->mDateInRange = 0;
-        httpsState->mUnk_684[0] = 0;
+        httpsState->mCommaSeparatedText[0] = 0;
         httpsState->mAuthorityName[0] = 0;
         httpsState->mHostPattern[0] = 0;
         httpsState->mItemBytes = cursor;

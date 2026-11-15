@@ -88,7 +88,7 @@ typedef struct HttpsState {
     /* 583 */ u8 mDateInRange;
     /* 584 */ s8 mAuthorityName[0x100];
     // Text items seen after the dates, joined with ', '; written, never read.
-    /* 684 */ s8 mUnk_684[0x100];
+    /* 684 */ s8 mCommaSeparatedText[0x100];
     /* 784 */ s8 mHostPattern[0x50];
     /* 7d4 */ s8 *mHost;
     /* 7d8 */ u8 *mItemBytes;
