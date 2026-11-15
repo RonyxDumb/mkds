@@ -5,12 +5,18 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
+// Object behind gWiFiVSCourseSelectState.
+typedef struct WiFiVSCourseSelectHeapHolder {
+    /* 0 */ u8 mUnk_00[4];
+    /* 4 */ void *mHeap;
+} WiFiVSCourseSelectHeapHolder;
+
 void RegisterWiFiVSCourseSelectCallbacks(void);
 void WriteWiFiVSCourseSelectRegistersWrapper(void);
 void AdvanceWiFiVSCourseSelectState(void);
 void InitWiFiVSCourseSelectNop(void);
 void ReleaseWiFiVSCourseSelectState(void);
-void InitWiFiVSCourseSelectState(u32 heap);
+void InitWiFiVSCourseSelectState(void *heap);
 
 extern WiFiStateCallbacks gWiFiVSCourseSelectCallbacks;
-extern u8 gWiFiVSCourseSelectState[1];
+extern WiFiVSCourseSelectHeapHolder *gWiFiVSCourseSelectState;

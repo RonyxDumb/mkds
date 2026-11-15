@@ -106,7 +106,7 @@ void DWCi_ShutdownLogin(void) {
         DWC_Free(0, gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
     }
-    *(s32 *) &gWiFiLogin = 0;
+    gWiFiLogin = NULL;
 }
 
 // Writes the start values back (mState 0, mConnectPending FALSE) when the object exists; called by

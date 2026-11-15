@@ -134,7 +134,7 @@ void DWC_CleanupInet(void) {
             OS_Sleep(10);
             destroyResult = DWC_AC_Destroy();
         }
-        *(s32 *) &gInetControl = 0;
+        gInetControl = NULL;
     }
 }
 

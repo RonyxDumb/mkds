@@ -263,7 +263,7 @@ void DWCi_CallBuddyFriendCallback(s32 index) {
 }
 
 void DWCi_ShutdownFriend(void) {
-    *(u32 *) &gWiFiBuddySync = 0;
+    gWiFiBuddySync = NULL;
 }
 
 int DWCi_GPProcess(void) {

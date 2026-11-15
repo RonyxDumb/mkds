@@ -80,7 +80,7 @@ void SBRefStrHashCleanup(void *serverList) {
     int count;
     if ((gSBRefStrList != NULL) && (count = HashtableGetCount(gSBRefStrList), count == 0)) {
         HashtableDelete(gSBRefStrList);
-        *(s32 *) &gSBRefStrList = 0;
+        gSBRefStrList = NULL;
     }
 }
 

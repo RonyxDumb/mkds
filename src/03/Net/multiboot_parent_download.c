@@ -362,7 +362,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
 }
 
 void SetMultiBootParentState(u16 state) {
-    *(u16 *) (*(u32 *) &gMultiBootParent) = state;
+    gMultiBootParent->mHeader.mState = state;
 }
 
 u16 GetMultiBootParentState(void) {

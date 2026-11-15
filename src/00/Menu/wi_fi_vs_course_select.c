@@ -24,28 +24,26 @@
 #include "Main/Race/race_setup_input.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-WiFiStateCallbacks gWiFiVSCourseSelectCallbacks = {(void (*)(void *)) InitWiFiVSCourseSelectState,
+WiFiStateCallbacks gWiFiVSCourseSelectCallbacks = {InitWiFiVSCourseSelectState,
                                                    ReleaseWiFiVSCourseSelectState, AdvanceWiFiVSCourseSelectState,
                                                    WriteWiFiVSCourseSelectRegistersWrapper};
-u8 gWiFiVSCourseSelectState[1];
+WiFiVSCourseSelectHeapHolder *gWiFiVSCourseSelectState;
 
-void InitWiFiVSCourseSelectState(u32 heap) {
-    int recordAddress;
+void InitWiFiVSCourseSelectState(void *heap) {
     void *firstOamList;
     void *secondOamList;
-    recordAddress = ((u32) HeapAlloc((void *) heap, 8));
-    *(s32 *) &gWiFiVSCourseSelectState = recordAddress;
-    *(u32 *) (recordAddress + 4) = heap;
+    gWiFiVSCourseSelectState = HeapAlloc(heap, 8);
+    gWiFiVSCourseSelectState->mHeap = heap;
     InitWiFiVSCourseSelectNop();
     firstOamList = GetWiFiMenuMainOamList();
     secondOamList = GetWiFiMenuSubOamList();
-    InitWiFiVSCourseSelect((void *) heap, firstOamList, secondOamList);
+    InitWiFiVSCourseSelect(heap, firstOamList, secondOamList);
     SetLinkLevelIconEnabled(1, 1);
 }
 
 void ReleaseWiFiVSCourseSelectState(void) {
     ReleaseWiFiVSCourseSelect();
-    *(u32 *) &gWiFiVSCourseSelectState = 0;
+    gWiFiVSCourseSelectState = NULL;
 }
 
 void InitWiFiVSCourseSelectNop(void) {}

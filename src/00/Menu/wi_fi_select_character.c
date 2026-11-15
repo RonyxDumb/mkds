@@ -41,7 +41,7 @@ void InitWiFiSelectCharacterState(void *heap) {
 
 void ReleaseWiFiSelectCharacterState(void) {
     ReleaseSelectCharacter();
-    *(u32 *) &gWiFiSelectCharacterState = 0;
+    gWiFiSelectCharacterState = NULL;
 }
 
 void InitWiFiSelectCharacterNop(void) {}

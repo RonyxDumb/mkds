@@ -25,7 +25,7 @@ void InitWiFiSelectKartState(void *heap) {
 
 void ReleaseWiFiSelectKartState(void) {
     ReleaseSelectKart();
-    *(u32 *) &gWiFiSelectKartState = 0;
+    gWiFiSelectKartState = NULL;
 }
 
 void InitWiFiSelectKartNop(void) {}
