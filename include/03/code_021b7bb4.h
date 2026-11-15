@@ -90,26 +90,27 @@ enum {
 
 // Values of PacketItem.mType inside a group item.
 enum {
-    GROUP_SUB_ITEM_FOUR_VALUE_RECORD0 = 3,
-    GROUP_SUB_ITEM_FOUR_VALUE_RECORD1,
+    GROUP_SUB_ITEM_WEP_KEYS_5_BYTES = 3,
+    GROUP_SUB_ITEM_WEP_KEYS_13_BYTES,
     GROUP_SUB_ITEM_SINGLE_VALUE_RECORD0,
     GROUP_SUB_ITEM_SINGLE_VALUE_RECORD1,
     GROUP_SUB_ITEM_SLOT_BYTES = 10,
 };
 
-// Values of PacketItem.mType inside a record item. SHORT and LONG hold the same value with a different length limit.
+// Values of PacketItem.mType inside a record item: the four WEP keys (SHORT up to 5 bytes, LONG up to 13) and the
+// string of the record.
 // Types 0x30 and 0x40 (strings 0x35 and 0x45) are handled alike and stay bare in ParseSingleValueItems.
 enum {
-    RECORD_ITEM_FOUR_VALUE_SHORT0 = 0x10,
-    RECORD_ITEM_FOUR_VALUE_SHORT1,
-    RECORD_ITEM_FOUR_VALUE_SHORT2,
-    RECORD_ITEM_FOUR_VALUE_SHORT3,
-    RECORD_ITEM_FOUR_VALUE_SHORT_STRING = 0x15,
-    RECORD_ITEM_FOUR_VALUE_LONG0 = 0x20,
-    RECORD_ITEM_FOUR_VALUE_LONG1,
-    RECORD_ITEM_FOUR_VALUE_LONG2,
-    RECORD_ITEM_FOUR_VALUE_LONG3,
-    RECORD_ITEM_FOUR_VALUE_LONG_STRING = 0x25,
+    RECORD_ITEM_WEP_KEY_SHORT0 = 0x10,
+    RECORD_ITEM_WEP_KEY_SHORT1,
+    RECORD_ITEM_WEP_KEY_SHORT2,
+    RECORD_ITEM_WEP_KEY_SHORT3,
+    RECORD_ITEM_STRING_SHORT_KEYS = 0x15,
+    RECORD_ITEM_WEP_KEY_LONG0 = 0x20,
+    RECORD_ITEM_WEP_KEY_LONG1,
+    RECORD_ITEM_WEP_KEY_LONG2,
+    RECORD_ITEM_WEP_KEY_LONG3,
+    RECORD_ITEM_STRING_LONG_KEYS = 0x25,
 };
 
 // Type of the item CopyFirstItemValueIfSlotBytes copies.
@@ -134,10 +135,7 @@ typedef struct FourValueRecord {
     /* 000 */ u8 pad_000[4];
     /* 004 */ u32 mValueLength;
     /* 008 */ u8 mString[0x28];
-    /* 030 */ u8 mValue0[0x40];
-    /* 070 */ u8 mValue1[0x40];
-    /* 0b0 */ u8 mValue2[0x40];
-    /* 0f0 */ u8 mValue3[0x40];
+    /* 030 */ u8 mWepKeys[4][0x40];
 } FourValueRecord;
 
 typedef struct ParsedItems {

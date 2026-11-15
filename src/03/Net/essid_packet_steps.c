@@ -631,20 +631,20 @@ s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
     request->mWantedRecordMask = gRequestState.mWantedRecordMask & gRequestState.mFoundRecordMask;
     FillBytes(recordBytes, 0, 0x154);
     if (request->mWantedRecordMask & 1) {
-        CopyBytes(recordBytes, fourValueRecord0->mValue0, fourValueRecord0->mValueLength);
-        CopyBytes(recordBytes + 6, fourValueRecord0->mValue1, fourValueRecord0->mValueLength);
-        CopyBytes(recordBytes + 0xc, fourValueRecord0->mValue2, fourValueRecord0->mValueLength);
-        CopyBytes(recordBytes + 0x12, fourValueRecord0->mValue3, fourValueRecord0->mValueLength);
+        CopyBytes(recordBytes, fourValueRecord0->mWepKeys[0], fourValueRecord0->mValueLength);
+        CopyBytes(recordBytes + 6, fourValueRecord0->mWepKeys[1], fourValueRecord0->mValueLength);
+        CopyBytes(recordBytes + 0xc, fourValueRecord0->mWepKeys[2], fourValueRecord0->mValueLength);
+        CopyBytes(recordBytes + 0x12, fourValueRecord0->mWepKeys[3], fourValueRecord0->mValueLength);
         if (CheckBytesInRange0x20To0x7f(fourValueRecord0->mString, GetStringLength(fourValueRecord0->mString)) != 0) {
             goto fail;
         }
         CopyBytes(recordBytes + 0x18, fourValueRecord0->mString, GetStringLength(fourValueRecord0->mString));
     }
     if (request->mWantedRecordMask & 2) {
-        CopyBytes(recordBytes + 0x39, fourValueRecord1->mValue0, fourValueRecord1->mValueLength);
-        CopyBytes(recordBytes + 0x47, fourValueRecord1->mValue1, fourValueRecord1->mValueLength);
-        CopyBytes(recordBytes + 0x55, fourValueRecord1->mValue2, fourValueRecord1->mValueLength);
-        CopyBytes(recordBytes + 0x63, fourValueRecord1->mValue3, fourValueRecord1->mValueLength);
+        CopyBytes(recordBytes + 0x39, fourValueRecord1->mWepKeys[0], fourValueRecord1->mValueLength);
+        CopyBytes(recordBytes + 0x47, fourValueRecord1->mWepKeys[1], fourValueRecord1->mValueLength);
+        CopyBytes(recordBytes + 0x55, fourValueRecord1->mWepKeys[2], fourValueRecord1->mValueLength);
+        CopyBytes(recordBytes + 0x63, fourValueRecord1->mWepKeys[3], fourValueRecord1->mValueLength);
         if (CheckBytesInRange0x20To0x7f(fourValueRecord1->mString, GetStringLength(fourValueRecord1->mString)) != 0) {
             goto fail;
         }
@@ -1063,52 +1063,52 @@ s32 ParseFourValueItems(PacketItem *container, FourValueRecord *record) {
     while (1) {
         length = SwapBytes16(item->mLength);
         switch (item->mType) {
-            case RECORD_ITEM_FOUR_VALUE_SHORT0:
-            case RECORD_ITEM_FOUR_VALUE_SHORT1:
-            case RECORD_ITEM_FOUR_VALUE_SHORT2:
-            case RECORD_ITEM_FOUR_VALUE_SHORT3:
+            case RECORD_ITEM_WEP_KEY_SHORT0:
+            case RECORD_ITEM_WEP_KEY_SHORT1:
+            case RECORD_ITEM_WEP_KEY_SHORT2:
+            case RECORD_ITEM_WEP_KEY_SHORT3:
                 if (length > 5) {
                     return -1;
                 }
                 break;
-            case RECORD_ITEM_FOUR_VALUE_LONG0:
-            case RECORD_ITEM_FOUR_VALUE_LONG1:
-            case RECORD_ITEM_FOUR_VALUE_LONG2:
-            case RECORD_ITEM_FOUR_VALUE_LONG3:
+            case RECORD_ITEM_WEP_KEY_LONG0:
+            case RECORD_ITEM_WEP_KEY_LONG1:
+            case RECORD_ITEM_WEP_KEY_LONG2:
+            case RECORD_ITEM_WEP_KEY_LONG3:
                 if (length > 0xd) {
                     return -1;
                 }
                 break;
-            case RECORD_ITEM_FOUR_VALUE_SHORT_STRING:
-            case RECORD_ITEM_FOUR_VALUE_LONG_STRING:
+            case RECORD_ITEM_STRING_SHORT_KEYS:
+            case RECORD_ITEM_STRING_LONG_KEYS:
                 if (length > 0x21) {
                     return -1;
                 }
                 break;
         }
         switch (item->mType) {
-            case RECORD_ITEM_FOUR_VALUE_SHORT0:
-            case RECORD_ITEM_FOUR_VALUE_LONG0:
-                CopyBytes(record->mValue0, item->mValue, length);
+            case RECORD_ITEM_WEP_KEY_SHORT0:
+            case RECORD_ITEM_WEP_KEY_LONG0:
+                CopyBytes(record->mWepKeys[0], item->mValue, length);
                 record->mValueLength = length;
                 break;
-            case RECORD_ITEM_FOUR_VALUE_SHORT1:
-            case RECORD_ITEM_FOUR_VALUE_LONG1:
-                CopyBytes(record->mValue1, item->mValue, length);
+            case RECORD_ITEM_WEP_KEY_SHORT1:
+            case RECORD_ITEM_WEP_KEY_LONG1:
+                CopyBytes(record->mWepKeys[1], item->mValue, length);
                 record->mValueLength = length;
                 break;
-            case RECORD_ITEM_FOUR_VALUE_SHORT2:
-            case RECORD_ITEM_FOUR_VALUE_LONG2:
-                CopyBytes(record->mValue2, item->mValue, length);
+            case RECORD_ITEM_WEP_KEY_SHORT2:
+            case RECORD_ITEM_WEP_KEY_LONG2:
+                CopyBytes(record->mWepKeys[2], item->mValue, length);
                 record->mValueLength = length;
                 break;
-            case RECORD_ITEM_FOUR_VALUE_SHORT3:
-            case RECORD_ITEM_FOUR_VALUE_LONG3:
-                CopyBytes(record->mValue3, item->mValue, length);
+            case RECORD_ITEM_WEP_KEY_SHORT3:
+            case RECORD_ITEM_WEP_KEY_LONG3:
+                CopyBytes(record->mWepKeys[3], item->mValue, length);
                 record->mValueLength = length;
                 break;
-            case RECORD_ITEM_FOUR_VALUE_SHORT_STRING:
-            case RECORD_ITEM_FOUR_VALUE_LONG_STRING:
+            case RECORD_ITEM_STRING_SHORT_KEYS:
+            case RECORD_ITEM_STRING_LONG_KEYS:
                 if (length != 0 && item->mValue[length - 1] != 0) {
                     return -1;
                 }
@@ -1216,11 +1216,11 @@ s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedI
     result = -3;
     do {
         switch (item->mType) {
-            case GROUP_SUB_ITEM_FOUR_VALUE_RECORD0:
+            case GROUP_SUB_ITEM_WEP_KEYS_5_BYTES:
                 result = ParseFourValueItems(item, &parsed->mFourValueRecord0);
                 foundMask |= 1;
                 break;
-            case GROUP_SUB_ITEM_FOUR_VALUE_RECORD1:
+            case GROUP_SUB_ITEM_WEP_KEYS_13_BYTES:
                 result = ParseFourValueItems(item, &parsed->mFourValueRecord1);
                 foundMask |= 2;
                 break;
