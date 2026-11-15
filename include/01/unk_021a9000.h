@@ -251,6 +251,16 @@ enum {
     TIME_ATTACK_TOP_ROW_RECEIVE_GHOST,
 };
 
+// Values of TimeAttackTopMenu.mResult, returned by AdvanceTimeAttackTopMenu once the slide out is done: the row that
+// was chosen, or the return button.
+enum {
+    TIME_ATTACK_TOP_RESULT_NONE,
+    TIME_ATTACK_TOP_RESULT_TIME_TRIALS,
+    TIME_ATTACK_TOP_RESULT_SEND_GHOST,
+    TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST,
+    TIME_ATTACK_TOP_RESULT_RETURN,
+};
+
 // Values of TimeAttackTopMenu.mState and mNextState.
 enum {
     TIME_ATTACK_TOP_STATE_SLIDE_IN,

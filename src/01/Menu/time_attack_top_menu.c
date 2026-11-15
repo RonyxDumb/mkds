@@ -143,7 +143,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, s32 subOam) {
     gTimeAttackTopMenu->mState = TIME_ATTACK_TOP_STATE_SLIDE_IN;
     gTimeAttackTopMenu->mMainOamList = mainOam;
     gTimeAttackTopMenu->mSubOamList = subOam;
-    gTimeAttackTopMenu->mResult = 0;
+    gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_NONE;
     RequestTimeAttackTopMenuState0();
     if (GetPreviousMenuScreenNumber() == 0x1f) {
         if (gMenuShared->mGhostSceneInitialCallbacksIndex == 0) {
@@ -270,7 +270,7 @@ void AdvanceTimeAttackTopMenuState3(void) {
     }
     SetSelectReturnSoundId(0xe);
     RequestTimeAttackTopMenuState5();
-    gTimeAttackTopMenu->mResult = 4;
+    gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RETURN;
     RequestSelectReturnState3WithSound(0);
     return;
 next:
@@ -298,13 +298,13 @@ next:
         }
         switch (gTimeAttackTopMenu->mIndex) {
             case TIME_ATTACK_TOP_ROW_TIME_TRIALS:
-                gTimeAttackTopMenu->mResult = 1;
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_TIME_TRIALS;
                 break;
             case TIME_ATTACK_TOP_ROW_SEND_GHOST:
-                gTimeAttackTopMenu->mResult = 2;
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_SEND_GHOST;
                 break;
             case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
-                gTimeAttackTopMenu->mResult = 3;
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST;
                 break;
         }
         RequestTimeAttackTopMenuState4();
