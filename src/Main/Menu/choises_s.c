@@ -131,8 +131,8 @@ u32 MoveChoisesSSelectedValueByTouch(void) {
         valueCount = gChoisesS->mLists[listIndex].mValueCount;
         for (valueIndex = 0, firstRectRow = 0xc - valueCount * 2; valueIndex < valueCount; valueIndex++) {
             top = (firstRectRow + valueIndex * 4) * 8 + 6;
-            valueRects[valueIndex].mMinX = 8;
-            valueRects[valueIndex].mMaxX = 0xf8;
+            valueRects[valueIndex].mMinX = CHOISES_S_RECT_MIN_X;
+            valueRects[valueIndex].mMaxX = CHOISES_S_RECT_MAX_X;
             valueRects[valueIndex].mMinY = top;
             valueRects[valueIndex].mMaxY = top + 0x16;
         }
@@ -351,9 +351,9 @@ void WriteChoisesSSelectedValueTiles(s32 selectedIndex) {
     valueCount = gChoisesS->mLists[GetChoisesSListIndex()].mValueCount;
     screenMap = GetChoisesSListScreenMapData();
     if (screenMap != NULL) {
-        if (gChoisesS->mPickStartedOnSelected == FALSE || gChoisesS->mPickFrames >= 5) {
+        if (gChoisesS->mPickStartedOnSelected == FALSE || gChoisesS->mPickFrames >= CHOISES_S_PICK_START_FRAMES) {
             row = 0xd - valueCount * 2 + selectedIndex * 4;
-            if (gChoisesS->mCycleFrames < 0x1e) {
+            if (gChoisesS->mCycleFrames < CHOISES_S_CYCLE_LIT_FRAMES) {
                 SetScreenMapBlockLowBits(screenMap, 2, row, 1, 1, 0x21);
                 SetScreenMapBlockLowBits(screenMap, 2, row + 1, 1, 1, 0x41);
             }
@@ -509,7 +509,7 @@ void UpdateChoisesS(void) {
 
     gChoisesS->mPrevOpenDuringRace = gChoisesS->mOpenDuringRace;
     gChoisesS->mCycleFrames = gChoisesS->mCycleFrames + 1;
-    if (gChoisesS->mCycleFrames >= 0x32) {
+    if (gChoisesS->mCycleFrames >= CHOISES_S_CYCLE_FRAMES) {
         gChoisesS->mCycleFrames = 0;
     }
     if (ChoisesSIsBackupBusy() != 0) {
@@ -618,7 +618,7 @@ void UpdateChoisesS(void) {
     frames = gChoisesS->mPickFrames;
     if (frames != 0) {
         gChoisesS->mPickFrames = frames + 1;
-        if (gChoisesS->mPickFrames > 0xf) {
+        if (gChoisesS->mPickFrames > CHOISES_S_PICK_FRAMES) {
             if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
                     gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
@@ -637,7 +637,7 @@ void UpdateChoisesS(void) {
     frames = gChoisesS->mCloseFrames;
     if (frames != 0) {
         gChoisesS->mCloseFrames = frames + 1;
-        if (gChoisesS->mCloseFrames > 4) {
+        if (gChoisesS->mCloseFrames > CHOISES_S_CLOSE_FRAMES) {
             if (IsRaceDoneOrReplayPastStartFrames() != 0) {
                 if (IsChoisesSOpen() != 0) {
                     SetChoisesSOpen(0);
@@ -650,9 +650,10 @@ void UpdateChoisesS(void) {
             gChoisesS->mCloseFrames = 0;
         }
     }
-    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == 5 && IsRaceDoneOrReplayPastStartFrames() != 0) {
+    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == MODE_WIFI &&
+        IsRaceDoneOrReplayPastStartFrames() != 0) {
         gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
-        if (gChoisesS->mAutoPickFrames > 0x384) {
+        if (gChoisesS->mAutoPickFrames > CHOISES_S_AUTO_PICK_FRAMES) {
             gChoisesS->mPickedValue = GetCourseNumber() != 4 ? CHOISES_S_PICK_NEXT : CHOISES_S_PICK_NEXT_LAST;
         }
     }
@@ -660,7 +661,7 @@ void UpdateChoisesS(void) {
         frames = gChoisesS->mOpenDuringRaceFrames;
         gChoisesS->mOpenDuringRaceFrames = frames + 1;
         if (frames >= 1) {
-            gChoisesS->mOpenDuringRaceState = 2;
+            gChoisesS->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_SETTLED;
             gChoisesS->mOpenDuringRaceFrames = 1;
         }
     } else {
@@ -829,7 +830,7 @@ void InitChoisesS(void) {
                 AppendChoisesSListValue(2, 9);
             }
             break;
-        case 5:
+        case MODE_WIFI:
             AppendChoisesSListValue(0, 0);
             if (GetCourseNumber() != 4) {
                 AppendChoisesSListValue(1, 2);

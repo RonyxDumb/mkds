@@ -111,6 +111,16 @@ typedef enum SelectKartState {
     SELECT_KART_STATE_DONE,
 } SelectKartState;
 
+// Steps of the cell slide in state SLIDE_CELL, steps state CONFIRM and state HOLD run; mStateFrames counts them.
+#define SELECT_KART_SLIDE_CELL_STEPS 6
+#define SELECT_KART_CONFIRM_STEPS 5
+#define SELECT_KART_HOLD_STEPS 60
+// SelectKart.mTouchRect of the confirm touch area, and SelectKart.mSlidingCellIndex while the cell slides left or
+// right.
+#define SELECT_KART_TOUCH_RECT_CONFIRM 2
+#define SELECT_KART_SLIDING_CELL_LEFT 2
+#define SELECT_KART_SLIDING_CELL_RIGHT 3
+
 // 0x24-byte part of ResultsBattle (at 0x00 and 0x24) and of SelectKart, filled by LoadScreenMapFileSet.
 typedef struct ScreenMapFileSet {
     /* 00 */ Ncgr *mChars[4];

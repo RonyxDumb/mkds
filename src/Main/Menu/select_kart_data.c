@@ -1,4 +1,5 @@
 #include "Main/Menu/select_kart_data.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Graphics/rect_containing_point.h"
 #include "Main/Menu/select_kart_entry_list.h"
 #include "Main/Race/code_020b1dbc.h"
@@ -320,11 +321,11 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectKart->mMode = mode;
     gSelectKart->mTouchRect = -1;
     switch (GetRaceSetupCopy()->mEntryTransition) {
-        case 1:
+        case ENTRY_TRANSITION_FROM_CHARACTER:
             SetupInterpolation(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
             SetupInterpolation(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
             break;
-        case 0:
+        case ENTRY_TRANSITION_FRESH:
             SetupInterpolation(&gSelectKart->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
             if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
@@ -587,7 +588,8 @@ int AdvanceSelectKart(void) {
                 isReturnTouched = IsSelectReturnShownNoRequestAndInRect(SelectKartGetSlotPairX(padInputSlot),
                                                                         SelectKartGetSlotPairY(padInputSlot));
             }
-            if (SelectKartGetNewBits(padInputSlot, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 ||
+            if (SelectKartGetNewBits(padInputSlot, PAD_KEY_A) != 0 ||
+                gSelectKart->mTouchRect == SELECT_KART_TOUCH_RECT_CONFIRM ||
                 IsSelectKartModeAndTimerZero() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
@@ -600,7 +602,7 @@ int AdvanceSelectKart(void) {
                 StopPaletteBlend();
             } else if (SelectKartGetNewBits(padInputSlot, PAD_KEY_B) != 0 || isReturnTouched != 0) {
                 gSelectKart->mStateFrames = 0;
-                gSelectKart->mResult = 2;
+                gSelectKart->mResult = MENU_SCREEN_RESULT_BACK;
                 StartSelectKartEntryListKindIfUsed(0);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[3], INTERPOLATION_STATE_FALLING);
@@ -614,12 +616,12 @@ int AdvanceSelectKart(void) {
                 RequestSelectReturnPressWithSound(value);
             } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
-                gSelectKart->mSlidingCellIndex = 3;
+                gSelectKart->mSlidingCellIndex = SELECT_KART_SLIDING_CELL_RIGHT;
                 selectKartParts->mCellTable[1].mVisible = 0;
                 selectKartParts->mCellTable[3].mVisible = 1;
             } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
-                gSelectKart->mSlidingCellIndex = 2;
+                gSelectKart->mSlidingCellIndex = SELECT_KART_SLIDING_CELL_LEFT;
                 selectKartParts->mCellTable[0].mVisible = 0;
                 selectKartParts->mCellTable[2].mVisible = 1;
             }
@@ -633,7 +635,7 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_SLIDE_CELL:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
-            if (gSelectKart->mStateFrames > 6) {
+            if (gSelectKart->mStateFrames > SELECT_KART_SLIDE_CELL_STEPS) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = SELECT_KART_STATE_CHOOSE;
                 selectKartParts->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = 0;
@@ -643,7 +645,7 @@ int AdvanceSelectKart(void) {
                 selectKartParts->mCellTable[2].mVisible = 0;
             } else {
                 value = LookupFrameOffset(gSelectKart->mStateFrames);
-                if (gSelectKart->mSlidingCellIndex == 2) {
+                if (gSelectKart->mSlidingCellIndex == SELECT_KART_SLIDING_CELL_LEFT) {
                     value = -value;
                 }
                 selectKartParts->mCellTable[gSelectKart->mSlidingCellIndex].mOffsetX = value;
@@ -652,7 +654,7 @@ int AdvanceSelectKart(void) {
         case SELECT_KART_STATE_CONFIRM:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
             selectKart = gSelectKart;
-            if (selectKart->mStateFrames >= 5) {
+            if (selectKart->mStateFrames >= SELECT_KART_CONFIRM_STEPS) {
                 switch (selectKart->mMode) {
                     case SELECT_KART_MODE_NO_CONNECTION:
                         GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = selectKart->mKartIndex;
@@ -686,7 +688,7 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_HOLD:
             selectKart->mStateFrames = selectKart->mStateFrames + 1;
-            if (gSelectKart->mStateFrames > 0x3c) {
+            if (gSelectKart->mStateFrames > SELECT_KART_HOLD_STEPS) {
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[0], INTERPOLATION_STATE_FALLING);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                 SetInterpolationStateIfOpposite(&gSelectKart->mInterpolations[2], INTERPOLATION_STATE_FALLING);
@@ -741,11 +743,11 @@ int AdvanceSelectKart(void) {
         AdvanceSelectRaceRuleWait();
     }
     switch (result) {
-        case 1:
-            GetRaceSetupCopy()->mEntryTransition = 0;
+        case MENU_SCREEN_RESULT_NEXT:
+            GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FRESH;
             break;
-        case 2:
-            GetRaceSetupCopy()->mEntryTransition = 2;
+        case MENU_SCREEN_RESULT_BACK:
+            GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FROM_KART;
             break;
     }
     return result;

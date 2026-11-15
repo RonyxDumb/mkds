@@ -21,6 +21,20 @@
 #define CHOISES_S_PICK_QUIT 9
 #define CHOISES_S_PICK_STAFF_CREDITS 10
 
+// Frames the pick stays before it is latched, frames the close stays, frames the cycle of the list marks lasts and the
+// frames of it the mark is lit, and frames before the race picks by itself in the Wi-Fi mode.
+#define CHOISES_S_PICK_FRAMES 0xf
+#define CHOISES_S_PICK_START_FRAMES 5
+#define CHOISES_S_CLOSE_FRAMES 4
+#define CHOISES_S_CYCLE_FRAMES 0x32
+#define CHOISES_S_CYCLE_LIT_FRAMES 0x1e
+#define CHOISES_S_AUTO_PICK_FRAMES 0x384
+// mOpenDuringRaceState once the list was open for a frame.
+#define CHOISES_S_OPEN_DURING_RACE_SETTLED 2
+// Screen x range of the value rects.
+#define CHOISES_S_RECT_MIN_X 8
+#define CHOISES_S_RECT_MAX_X 0xf8
+
 typedef struct ChoisesSList {
     /* 00 */ s32 mValues[6];
     /* 18 */ s32 mValueCount;

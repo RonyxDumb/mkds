@@ -1,4 +1,5 @@
 #include "Main/Menu/emblem_choises_shown.h"
+#include "Main/Menu/choises_s.h"
 #include "Main/Menu/data_020ae000.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Sound/sound_seq.h"
@@ -56,8 +57,8 @@ s32 MoveEmblemChoisesIndexByTouch(void) {
             s32 minY;
 
             minY = (12 - choisesCount * 2 + rectIndex * 4) * 8 + 6;
-            choiceRects[rectIndex].mMinX = 8;
-            choiceRects[rectIndex].mMaxX = 0xf8;
+            choiceRects[rectIndex].mMinX = CHOISES_S_RECT_MIN_X;
+            choiceRects[rectIndex].mMaxX = CHOISES_S_RECT_MAX_X;
             choiceRects[rectIndex].mMinY = minY;
             choiceRects[rectIndex].mMaxY = minY + 0x16;
         }
@@ -127,9 +128,10 @@ void WriteEmblemChoisesSelectedTiles(s32 choiceIndex) {
     choisesCount = emblemChoises->mChoisesCount;
     mapData = emblemChoises->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
-        if (emblemChoises->mPickStartedOnSelected == FALSE || emblemChoises->mPickFrames >= 5) {
+        if (emblemChoises->mPickStartedOnSelected == FALSE ||
+            emblemChoises->mPickFrames >= CHOISES_S_PICK_START_FRAMES) {
             firstRow = 13 - choisesCount * 2 + choiceIndex * 4;
-            if (emblemChoises->mCycleFrames < 0x1e) {
+            if (emblemChoises->mCycleFrames < CHOISES_S_CYCLE_LIT_FRAMES) {
                 SetScreenMapBlockLowBits(mapData, 2, firstRow, 1, 1, 0x21);
                 SetScreenMapBlockLowBits(mapData, 2, firstRow + 1, 1, 1, 0x41);
             }
@@ -227,7 +229,7 @@ u32 StartEmblemChoisesSound(u32 seqIndex) {
 #pragma optimize_for_size on
 void UpdateEmblemChoises(void) {
     gEmblemChoises->mCycleFrames++;
-    if (gEmblemChoises->mCycleFrames >= 0x32) {
+    if (gEmblemChoises->mCycleFrames >= CHOISES_S_CYCLE_FRAMES) {
         gEmblemChoises->mCycleFrames = 0;
     }
     if (gEmblemChoises->mPickFrames == 0 && gEmblemChoises->mCloseFrames == 0 && gEmblemChoises->mShown != 0 &&
@@ -260,7 +262,7 @@ void UpdateEmblemChoises(void) {
     }
     if (gEmblemChoises->mPickFrames != 0) {
         gEmblemChoises->mPickFrames++;
-        if (gEmblemChoises->mPickFrames > 0xf) {
+        if (gEmblemChoises->mPickFrames > CHOISES_S_PICK_FRAMES) {
             if (gEmblemChoises->mShown != 0) {
                 gEmblemChoises->mResult = gEmblemChoises->mChoisesIndex;
                 gEmblemChoises->mPickFrames = 0;
@@ -271,7 +273,7 @@ void UpdateEmblemChoises(void) {
     }
     if (gEmblemChoises->mCloseFrames != 0) {
         gEmblemChoises->mCloseFrames++;
-        if (gEmblemChoises->mCloseFrames > 4) {
+        if (gEmblemChoises->mCloseFrames > CHOISES_S_CLOSE_FRAMES) {
             if (gEmblemChoises->mShown != 0) {
                 gEmblemChoises->mResult = -2;
                 gEmblemChoises->mPickFrames = 0;
