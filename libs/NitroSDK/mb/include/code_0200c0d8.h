@@ -5,6 +5,9 @@
 
 typedef struct MbRequestPieceBuf MbRequestPieceBuf;
 
+// Bytes of one child MP exchange that hold pieces; MBi_SetChildMPMaxSize divides it by the piece size.
+#define MB_CHILD_MP_BUFFER_SIZE 0x1e
+
 // ParentMessage.mKind.
 typedef enum ParentMessageKind {
     PARENT_MESSAGE_LISTENING = 1,

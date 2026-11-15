@@ -108,7 +108,7 @@ void AcceptMultiBootChildRequest(u32 aid) {
     u16 clearMask;
     u32 savedInterrupts;
 
-    if (MB_CommResponseRequest(aid, 1) == 0) {
+    if (MB_CommResponseRequest(aid, MB_RESPONSE_ACCEPT) == 0) {
         clearMask = ~(1 << aid);
         savedInterrupts = OS_DisableInterrupts();
         gMultiBootParent->mHeader.mMask &= clearMask;
@@ -127,7 +127,7 @@ void KickMultiBootChild(u32 aid) {
     u32 savedInterrupts;
     s32 aidBit;
 
-    if (MB_CommResponseRequest(aid, 0) == 0) {
+    if (MB_CommResponseRequest(aid, MB_RESPONSE_REFUSE) == 0) {
         clearMask = ~(1 << aid);
         savedInterrupts = OS_DisableInterrupts();
         gMultiBootParent->mHeader.mMask &= clearMask;
@@ -152,7 +152,7 @@ void StartMultiBootChildDownload(u32 aid) {
     u32 savedInterrupts;
     s32 aidBit;
 
-    if (MB_CommResponseRequest(aid, 2) == 0) {
+    if (MB_CommResponseRequest(aid, MB_RESPONSE_DOWNLOAD) == 0) {
         clearMask = ~(1 << aid);
         savedInterrupts = OS_DisableInterrupts();
         gMultiBootParent->mHeader.mMask &= clearMask;
@@ -230,7 +230,7 @@ void StartMultiBootBootRequests(void) {
     for (; aid < 16; aid++) {
         aidBit = 1 << aid;
         if ((gMultiBootParent->mHeader.mSendCompleteMask & aidBit) != 0) {
-            if (MB_CommResponseRequest(aid, 3) == 0) {
+            if (MB_CommResponseRequest(aid, MB_RESPONSE_BOOT) == 0) {
                 clearMask = ~aidBit;
                 savedInterrupts = OS_DisableInterrupts();
                 gMultiBootParent->mHeader.mMask &= clearMask;

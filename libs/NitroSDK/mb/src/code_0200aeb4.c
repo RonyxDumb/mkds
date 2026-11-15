@@ -15,20 +15,20 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMax
     if (MB_FakeGetParentBssDesc(entryIndex, scanBlock) == 0) {
         return 0;
     }
-    scanBlock->mGameInfoLength = 0x10;
+    scanBlock->mGameInfoLength = MB_BEACON_GAME_INFO_LENGTH;
     scanBlock->mGameInfo.mUserGameInfoLength = 0;
     scanBlock->mGameInfo.mParentMaxSize = parentMaxSize;
     scanBlock->mGameInfo.mChildMaxSize = childMaxSize;
     csAttribute = 0;
     if (flagTwo != 0) {
-        csAttribute = 8;
+        csAttribute = WM_ATTRIBUTE_CS_FLAG;
     }
     if (ksFlag != 0) {
-        ksAttribute = 4;
+        ksAttribute = WM_ATTRIBUTE_KS_FLAG;
     } else {
         ksAttribute = 0;
     }
-    scanBlock->mGameInfo.mAttribute = ksAttribute | csAttribute | 1;
+    scanBlock->mGameInfo.mAttribute = ksAttribute | csAttribute | WM_ATTRIBUTE_ENTRY;
     return 1;
 }
 

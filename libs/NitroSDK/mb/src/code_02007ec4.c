@@ -5,7 +5,7 @@
 #include "code_0200fc8c.h"
 #include "code_0214d018.h"
 
-const u32 MBi_defaultLoadSegList[3] = {2, 0, 1};
+const u32 MBi_defaultLoadSegList[3] = {MB_SEGMENT_HEADER_AREA, MB_SEGMENT_MAIN_RAM, MB_SEGMENT_SUB_RAM};
 u8 gNextSeqNoFixed;
 
 #pragma thumb on
@@ -99,7 +99,7 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
     u32 *pair;
     u32 end;
     switch (*kindWord) {
-        case 0:
+        case MB_SEGMENT_MAIN_RAM:
             pair = source->mMainRamRange;
             if (source->mMainRamRange[0] >= 0x02000000 && source->mMainRamRange[0] < 0x022c0000 &&
                 source->mMainRamRange[0] + pair[1] <= 0x022c0000) {
@@ -111,7 +111,7 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
             }
             OS_Terminate();
             return;
-        case 1:
+        case MB_SEGMENT_SUB_RAM:
             outOfBounds = 0;
             useNextAddress = 0;
             pair = source->mSubRamRange;
@@ -146,9 +146,9 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
             }
             range->mTarget = (range->mTarget & ~1) | 1;
             return;
-        case 2:
-            range->mSize = 0x160;
-            range->mLoadAddr = 0x027ffe00;
+        case MB_SEGMENT_HEADER_AREA:
+            range->mSize = MB_HEADER_AREA_SIZE;
+            range->mLoadAddr = MB_HEADER_AREA_ADDRESS;
             range->mRecvAddr = range->mLoadAddr;
             range->mTarget &= ~1;
             return;
@@ -223,17 +223,17 @@ BOOL MBi_get_blockinfo(MB_BlockInfo *result, void *chunkTableData, u16 chunk, vo
 
 u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size) {
     switch (MBi_defaultLoadSegList[rangeIndex]) {
-        case 2:
-            if (address >= 0x027ffe00 && address + size <= 0x027fff60) {
+        case MB_SEGMENT_HEADER_AREA:
+            if (address >= MB_HEADER_AREA_ADDRESS && address + size <= MB_HEADER_AREA_ADDRESS + MB_HEADER_AREA_SIZE) {
                 return 1;
             }
             break;
-        case 0:
+        case MB_SEGMENT_MAIN_RAM:
             if (address >= 0x02000000 && address + size <= 0x022c0000) {
                 return 1;
             }
             break;
-        case 1:
+        case MB_SEGMENT_SUB_RAM:
             if (address >= 0x022c0000 && address + size <= 0x02300000) {
                 return 1;
             }
@@ -250,10 +250,10 @@ u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size) {
 u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size) {
     u32 end;
     switch (MBi_defaultLoadSegList[rangeIndex]) {
-        case 0:
-        case 2:
+        case MB_SEGMENT_MAIN_RAM:
+        case MB_SEGMENT_HEADER_AREA:
             return MBi_IsAbleToRecv(rangeIndex, address, size);
-        case 1:
+        case MB_SEGMENT_SUB_RAM:
             if (address >= 0x02000000 && address < 0x023fe800) {
                 end = address + size;
                 if (address < 0x02300000 && end > 0x02300000) {
@@ -285,7 +285,7 @@ void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 ch
     u32 ksAttribute;
     BootInfo *bootInfo = gBootInfo;
     MI_CpuCopy8(bootInfo->mBootType == BOOT_TYPE_MULTIBOOT ? bootInfo->mParentBssDesc : NULL, bssDesc, 0x3c);
-    bssDesc->mGameInfoLength = 0x10;
+    bssDesc->mGameInfoLength = MB_BEACON_GAME_INFO_LENGTH;
     bssDesc->mGameInfo.mGgid = bssDesc->mSsidHalfwords[0] | (bssDesc->mSsidHalfwords[1] << 16);
     bssDesc->mGameInfo.mTgid = bssDesc->mSsidHalfwords[2];
     bssDesc->mGameInfo.mUserGameInfoLength = 0;
@@ -293,14 +293,14 @@ void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 ch
     bssDesc->mGameInfo.mChildMaxSize = childMaxSize;
     csAttribute = 0;
     if (flagTwo != 0) {
-        csAttribute = 8;
+        csAttribute = WM_ATTRIBUTE_CS_FLAG;
     }
     if (ksFlag != 0) {
-        ksAttribute = 4;
+        ksAttribute = WM_ATTRIBUTE_KS_FLAG;
     } else {
         ksAttribute = 0;
     }
-    bssDesc->mGameInfo.mAttribute = ksAttribute | csAttribute | 1;
+    bssDesc->mGameInfo.mAttribute = ksAttribute | csAttribute | WM_ATTRIBUTE_ENTRY;
 }
 
 #pragma thumb off

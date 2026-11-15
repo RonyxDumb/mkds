@@ -65,5 +65,14 @@ void MBi_SetSegmentInfo(SegmentBuffer *source, const u32 *kindWord, MbSegmentInf
 void MBi_MakeDownloadFileInfo(MBDownloadFileInfo *record, SegmentBuffer *source);
 u32 MB_RegisterFile(void *rangeTable, SegmentBuffer *source);
 
+// Kinds of load segment in MBi_defaultLoadSegList, as the range checks tell them apart: the two main RAM ranges of a
+// parent and the fixed area at 0x027ffe00.
+enum {
+    MB_SEGMENT_MAIN_RAM = 0,
+    MB_SEGMENT_SUB_RAM = 1,
+    MB_SEGMENT_HEADER_AREA = 2,
+};
+#define MB_HEADER_AREA_ADDRESS 0x027ffe00
+#define MB_HEADER_AREA_SIZE 0x160
 extern const u32 MBi_defaultLoadSegList[3];
 extern u8 gNextSeqNoFixed;

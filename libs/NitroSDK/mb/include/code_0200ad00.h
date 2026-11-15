@@ -4,6 +4,23 @@
 #include "code_02142eac.h"
 #include "code_0200aea8.h"
 
+// Values of MBiParam.mMode: the parent side is set up here, the child side is never entered in this build.
+enum {
+    MB_MODE_PARENT = 1,
+    MB_MODE_CHILD = 2,
+};
+
+// Parent set-up values: data bytes sent and received per MP exchange, children allowed, the beacon period base and
+// the longest time spent on a channel while scanning.
+#define MB_PARENT_SEND_DATA_SIZE 0x100
+#define MB_PARENT_RECEIVE_DATA_SIZE 8
+#define MB_MAX_CHILDREN 0xf
+#define MB_BEACON_PERIOD_BASE 0xc8
+#define MB_SCAN_MAX_CHANNEL_TIME 0xc8
+
+// Bytes of the game info the beacon of a multiboot parent carries.
+#define MB_BEACON_GAME_INFO_LENGTH 0x10
+
 // 0x180-byte entries from 0x600 of MBiParam.
 typedef struct ScanEntry {
     /* 000 */ u8 mUnk_000[0xc0];

@@ -75,9 +75,9 @@ void ParentStateCallback(u32 index, u32 code, void *data) {
                 accept = 0;
             }
             if (accept != 0) {
-                MB_CommResponseRequest(index, 1);
+                MB_CommResponseRequest(index, MB_RESPONSE_ACCEPT);
             } else {
-                MB_CommResponseRequest(index, 0);
+                MB_CommResponseRequest(index, MB_RESPONSE_REFUSE);
             }
             return;
         }
@@ -391,7 +391,7 @@ void StartSendingToAllChildren(void) {
     gConnectionWork->mSendCompleteMask = count;
     gConnectionWork->mMultiBootRequestFlags |= index;
     for (; index <= 15; index++) {
-        if (MB_CommResponseRequest(index, 2) == 1) {
+        if (MB_CommResponseRequest(index, MB_RESPONSE_DOWNLOAD) == 1) {
             count++;
         }
     }
@@ -410,7 +410,7 @@ void StartBootRequestToAllChildren(void) {
     count = 0;
     gConnectionWork->mMultiBootChildMask = count;
     for (; index <= 15; index++) {
-        if (MB_CommResponseRequest(index, 3) == 1) {
+        if (MB_CommResponseRequest(index, MB_RESPONSE_BOOT) == 1) {
             count++;
         }
     }

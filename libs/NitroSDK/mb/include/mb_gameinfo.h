@@ -3,6 +3,29 @@
 #include "types.h"
 #include "code_02142eac.h"
 
+// Values of mDataAttr in the game info entries and in the beacon block: the whole entry with its icon, the entry
+// without the icon (sent when the icon files could not be read), and the part that changes while the game runs.
+enum {
+    MB_DATA_ATTR_FIXED_WITH_ICON = 0,
+    MB_DATA_ATTR_FIXED_NO_ICON = 1,
+    MB_DATA_ATTR_VOLATILE = 2,
+};
+
+// Bytes of game info in one beacon block, and how many blocks a fixed entry takes with and without the icon.
+#define MB_GAME_INFO_BLOCK_SIZE 0x62
+#define MB_FIXED_BLOCK_COUNT_WITH_ICON 9
+#define MB_FIXED_BLOCK_COUNT_NO_ICON 4
+
+// Count-down counts: a received entry lives this long without a new beacon; while one entry is followed the scan
+// counts in bigger steps for the lock time, and the follow ends after that many lost beacons in a row.
+#define MB_GAME_INFO_LIFETIME 0x1771
+#define MB_LOCKED_SCAN_COUNT_UNIT 0x16
+#define MB_LOCK_TIME_COUNT 0x321
+#define MB_LOCK_NOT_FOUND_LIMIT 4
+
+// An entry is dropped when its sequence number repeats more than this many times in a row.
+#define MB_SEQUENCE_REPEAT_LIMIT 3
+
 typedef struct MBGameInfoRecvList {
     /* 000 */ u8 mIcon[0x220];
     /* 220 */ u8 mFixedNoIcon[0x138];
@@ -43,6 +66,9 @@ typedef struct MbBeaconRecvStatus {
     /* 10 */ MBGameInfoRecvList mEntries[16];
 } MbBeaconRecvStatus;
 
+// Characters in the name of a user.
+#define MB_USER_NAME_LENGTH 10
+
 // Element of the array at 0x10 in MbBeacon.
 typedef struct MBUserInfo {
     /* 00 */ union {
@@ -53,7 +79,7 @@ typedef struct MBUserInfo {
         };
     };
     /* 01 */ u8 mNameLength;
-    /* 02 */ u16 mName[10];
+    /* 02 */ u16 mName[MB_USER_NAME_LENGTH];
 } MBUserInfo;
 
 // Object behind gReceivedGameInfo.

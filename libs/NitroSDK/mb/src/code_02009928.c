@@ -359,7 +359,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                 gScanParams.mChannel = 1;
             }
             if (gScanParams.mMaxChannelTime == 0) {
-                gScanParams.mMaxChannelTime = 0xc8;
+                gScanParams.mMaxChannelTime = MB_SCAN_MAX_CHANNEL_TIME;
             }
             gScanParams.mBssid[0] = 0xff;
             gScanParams.mBssid[1] = 0xff;
@@ -600,11 +600,11 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
         cursor++;
     }
     MI_CpuCopy8(user, &parentWork->mUser, sizeof(MBUserInfo));
-    if (user->mNameLength < 10) {
+    if (user->mNameLength < MB_USER_NAME_LENGTH) {
         parentWork->mUser.mName[user->mNameLength] = 0;
     }
-    wirelessWork->mSendDataSize = 0x100;
-    wirelessWork->mReceiveDataSize = 8;
+    wirelessWork->mSendDataSize = MB_PARENT_SEND_DATA_SIZE;
+    wirelessWork->mReceiveDataSize = MB_PARENT_RECEIVE_DATA_SIZE;
     wirelessWork->mSendBufferSize = 0;
     wirelessWork->mReceiveBufferSize = 0;
     wirelessWork->mContSend = 1;
@@ -615,8 +615,8 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     wirelessWork->mKsFlag = 0;
     wirelessWork->mGgid = ggid;
     wirelessWork->mTgid = tgid;
-    wirelessWork->mBeaconPeriod = MBi_GetBeaconPeriodDispersion() + 0xc8;
-    wirelessWork->mMaxChildren = 0xf;
+    wirelessWork->mBeaconPeriod = MBi_GetBeaconPeriodDispersion() + MB_BEACON_PERIOD_BASE;
+    wirelessWork->mMaxChildren = MB_MAX_CHILDREN;
     wirelessWork->mDataQueued = 0;
     wirelessWork->mMbIsStarted = 0;
     parentWork->mIsMbInitialized = 1;
@@ -655,7 +655,7 @@ u32 MB_SetParentCommParam(u32 sendDataSize, u32 maxChildren) {
     }
     gWirelessWork->mMaxChildren = maxChildren;
     gWirelessWork->mSendDataSize = sendDataSize;
-    gWirelessWork->mReceiveDataSize = 8;
+    gWirelessWork->mReceiveDataSize = MB_PARENT_RECEIVE_DATA_SIZE;
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
@@ -712,7 +712,7 @@ s32 MBi_StartParentCore(u16 channel) {
     clearValues[1] = 0;
     MIi_CpuClear16(clearValues[1], mbc->mFileInfo, 0x5d40);
     MI_CpuFill8(mbc->mReq2child, 0, sizeof(mbc->mReq2child));
-    gWirelessWork->mMode = 1;
+    gWirelessWork->mMode = MB_MODE_PARENT;
     gWirelessWork->mCallback = MBi_CommParentCallback;
     gWirelessWork->mCommandCallback = MBi_ParentCallback;
     gWirelessWork->mParentMaxSize = gWirelessWork->mSendDataSize;
@@ -859,7 +859,7 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
         return 1;
     }
     switch (work->mMode) {
-        case 1:
+        case MB_MODE_PARENT:
             if (work->mContSend == 0) {
                 value = 0x3e8;
             } else {
@@ -873,7 +873,7 @@ int MBi_SendMP(void *data, u32 size, u32 childMask) {
                 result = 0;
             }
             return result;
-        case 2:
+        case MB_MODE_CHILD:
             result = MBi_SetMPData(MBi_ChildCallback, data, sizeHalfword, 0, childMaskHalfword);
             if (result == 2) {
                 gWirelessWork->mDataQueued = 1;

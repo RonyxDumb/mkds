@@ -19,6 +19,36 @@ struct SegmentBuffer;
 // Called with the child index, the event code and a message or user info that depends on the code.
 typedef void (*MBParentStateCallback)(u32 child, u32 code, void *data);
 
+// Values of the event code MBi_CommParentCallback receives, named by what the handler does with them.
+enum {
+    MB_PARENT_EVENT_CHILD_CONNECTED = 0,
+    MB_PARENT_EVENT_CHILD_DISCONNECTED = 1,
+    MB_PARENT_EVENT_MP_DATA_RECEIVED = 3,
+    MB_PARENT_EVENT_ENDED = 0x11,
+    MB_PARENT_EVENT_PARENT_STARTED = 0x15,
+    MB_PARENT_EVENT_MP_SEND_READY = 0x19,
+    MB_PARENT_EVENT_BEACON_DUE = 0x1c,
+    MB_PARENT_EVENT_ERROR = 0xff,
+    MB_PARENT_EVENT_REQUEST_FAILED = 0x100,
+};
+
+// What the parent asks of one child (MB_CommPWork.mReq2child), set once the child is in the state that allows it.
+enum {
+    MB_CHILD_REQUEST_NONE = 0,
+    MB_CHILD_REQUEST_DOWNLOAD = 2,
+    MB_CHILD_REQUEST_ACCEPT = 3,
+    MB_CHILD_REQUEST_REFUSE = 4,
+    MB_CHILD_REQUEST_BOOT = 5,
+};
+
+// Values of the pairIndex of MB_CommResponseRequest: which request to set for a child in which state.
+enum {
+    MB_RESPONSE_REFUSE = 0,
+    MB_RESPONSE_ACCEPT = 1,
+    MB_RESPONSE_DOWNLOAD = 2,
+    MB_RESPONSE_BOOT = 3,
+};
+
 typedef enum MBCommPState {
     MULTIBOOT_PARENT_NONE,
     MULTIBOOT_PARENT_STARTED,
