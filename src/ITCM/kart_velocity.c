@@ -94,7 +94,7 @@ void AdvanceKartByVelocity(Kart *kart) {
             SetKartCharacterAnimation(kart, 2, 1);
         }
         itemEffectState->mStarFrames++;
-        if (itemEffectState->mStarFrames > 0x1c2) {
+        if (itemEffectState->mStarFrames > KART_STAR_MAX_FRAMES) {
             kart->mEffectFlags &= ~KART_EFFECT_STAR;
             StopKartStarModels(kart);
             kart->mItemEffect = KART_ITEM_EFFECT_NONE;
@@ -118,7 +118,7 @@ void AdvanceKartByVelocity(Kart *kart) {
     ScaleKartForwardSpeed(kart);
     if (kart->mDriveFlags & KART_DRIVE_SINKING) {
         kart->mSinkFrames++;
-        if (kart->mSinkFrames > 0x41) {
+        if (kart->mSinkFrames > KART_SINK_MAX_FRAMES) {
             kart->mDriveFlags &= ~(KART_DRIVE_SINKING | KART_DRIVE_OBJECTS_SKIP);
             if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 SetJgFollowKartCountdown();
@@ -201,7 +201,7 @@ void AdvanceKartByVelocity(Kart *kart) {
         SetKartForwardSpeedRatio(Vec3DotUnrounded(&kart->mVelocity, &kart->mTurnedForward));
         if ((kart->mMotionFlags & KART_MOTION_START_DONE) && kart->mRevLevel != 0) {
             kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xfae);
-            if (kart->mRevLevel < 0xcd) {
+            if (kart->mRevLevel < KART_REV_LEVEL_MIN) {
                 kart->mRevLevel = 0;
             }
         }

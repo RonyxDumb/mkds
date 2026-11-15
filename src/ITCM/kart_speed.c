@@ -10,7 +10,7 @@
 
 void AdvanceKartOffsetCycleIndex(Kart *kart) {
     kart->mOffsetCycleIndex = kart->mOffsetCycleIndex + 1;
-    if (kart->mOffsetCycleIndex >= 8) {
+    if (kart->mOffsetCycleIndex >= KART_OFFSET_CYCLE_COUNT) {
         kart->mOffsetCycleIndex = 0;
     }
     kart->mOffsetCycleAmount.x = gKartOffsetCycleX[kart->mOffsetCycleIndex];
@@ -100,11 +100,11 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *kart, s32 scale) {
         length = Vec3NormalizeAndGetLengthUnchecked(&kart->mVelocity, &kart->mVelocityDirection);
     }
     kart->mVelocityLength = length;
-    if (kart->mVelocityLength > 0xd000) {
-        kart->mVelocityLength = 0xd000;
-        kart->mVelocity.x = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.x, 0xd000);
-        kart->mVelocity.y = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.y, 0xd000);
-        kart->mVelocity.z = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.z, 0xd000);
+    if (kart->mVelocityLength > KART_VELOCITY_LENGTH_MAX) {
+        kart->mVelocityLength = KART_VELOCITY_LENGTH_MAX;
+        kart->mVelocity.x = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.x, KART_VELOCITY_LENGTH_MAX);
+        kart->mVelocity.y = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.y, KART_VELOCITY_LENGTH_MAX);
+        kart->mVelocity.z = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.z, KART_VELOCITY_LENGTH_MAX);
     }
 }
 

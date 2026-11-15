@@ -341,7 +341,7 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
             goto end;
         }
     }
-    if (kartAi->mTurnAngleDegrees > 0x2000) {
+    if (kartAi->mTurnAngleDegrees > KART_AI_STEER_MIN_TURN_ANGLE) {
         speedFactor = MUL_FIXED12_NO_ROUND(kart->mVelocityLength, *gKartAiVelocityFactorScale);
         if (speedFactor > 0x1000) {
             speedFactor = 0x1000;
@@ -361,8 +361,9 @@ void AdvanceKartAiHeading(struct KartAi *kartAi, Vec3 *directionA, Vec3 *directi
     }
     if ((kart->mEffectFlags & KART_EFFECT_GESSO) && kartAi->mTurnAngleDegrees < 0x46000 &&
         (kart->mMotionFlags & KART_MOTION_ON_GROUND) &&
-        !(kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST)) && kart->mVelocityLength > 0x3000 &&
-        kartAi->mDriftState != KART_AI_DRIFT_HOLDING && kartAi->mContactStage == KART_AI_CONTACT_NONE) {
+        !(kart->mDriveFlags & (KART_DRIVE_BOOST | KART_DRIVE_RACE_START_BOOST)) &&
+        kart->mVelocityLength > KART_AI_GESSO_SWING_MIN_SPEED && kartAi->mDriftState != KART_AI_DRIFT_HOLDING &&
+        kartAi->mContactStage == KART_AI_CONTACT_NONE) {
         kartAi->mHeadingSwingPhase += 0x44c;
         kartAi->mHeadingSwingOffset = MUL_FIXED12_ROUNDED(FX_SinIdx(kartAi->mHeadingSwingPhase), 0xfa);
         kart->mHeadingAngle += (s16) kartAi->mHeadingSwingOffset * kartAi->mHeadingSwingSign;

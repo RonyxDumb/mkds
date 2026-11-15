@@ -6,6 +6,11 @@ typedef struct Kart Kart;
 typedef struct MtxFx33 MtxFx33;
 typedef struct MtxFx43 MtxFx43;
 
+// Largest tilt the up and down keys give a kart in the air (either way), and the heading turn a key press sets as the
+// goal per frame while the kart is in the air and not drifting.
+#define KART_AIR_TILT_LIMIT 0x157c
+#define KART_AIR_TURN_HEADING_GOAL 0x32
+
 void AdvanceKartForwardSpeedAndAngles(Kart *kart);
 void UpdateKartForwardAndLengthRatio(Kart *kart);
 void UpdateKartSpeedLimit(Kart *kart);

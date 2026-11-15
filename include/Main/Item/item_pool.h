@@ -51,6 +51,14 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 #define KART_ITEMS_DOWN 0x20
 // Set every frame by AdvanceItemInUseOne while a single item is held in use; AddKartItemUseFlags clears it and adds the
 // end-use bit.
+// Other bits of KartItems.mFlags, as the const words of the same names (gKartItems...Bit) set them; KEY_PRESSED is set
+// with KEY_DOWN on the frame the item key goes down, KEY_RELEASED on the frame it comes up.
+#define KART_ITEMS_HELD 2
+#define KART_ITEMS_START_USE 0x40
+#define KART_ITEMS_START_ALLOWED 0x200
+#define KART_ITEMS_KEY_DOWN 0x1000
+#define KART_ITEMS_KEY_PRESSED 0x2000
+#define KART_ITEMS_KEY_RELEASED 0x4000
 #define KART_ITEMS_IN_USE_ADVANCED 0x100
 // Other bits of KartItems.mFlags, as the const words of the same names (gKartItems...Bit) set them.
 #define KART_ITEMS_SLOT 1

@@ -4,6 +4,12 @@
 
 struct KartAi;
 
+// CPU kart steering by the turn angle toward the next point: the angle above which it steers by itself, the angle
+// below which the gesso heading swing runs, and the speed that swing needs.
+#define KART_AI_STEER_MIN_TURN_ANGLE 0x2000
+#define KART_AI_GESSO_SWING_MAX_TURN_ANGLE 0x46000
+#define KART_AI_GESSO_SWING_MIN_SPEED 0x3000
+
 // Writes to b the quaternion a scaled to length 1 (0x1000); no test for a zero quaternion.
 void QuaternionNormalize(const Vec4 *input, Vec4 *output);
 // Writes the quaternion built from the cross and dot products of b and c to a; returns FALSE (identity written) when

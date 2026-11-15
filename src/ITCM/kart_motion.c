@@ -448,8 +448,8 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
         keyBits = gInputSlots[entryIndex].mBits;
         if ((u16) (keyBits & PAD_KEY_UP)) {
             kart->mAirTiltAngle += 0x96;
-            if (kart->mAirTiltAngle > 0x157c) {
-                kart->mAirTiltAngle = 0x157c;
+            if (kart->mAirTiltAngle > KART_AIR_TILT_LIMIT) {
+                kart->mAirTiltAngle = KART_AIR_TILT_LIMIT;
             }
         } else if ((u16) (keyBits & PAD_KEY_DOWN)) {
             kart->mAirTiltAngle -= 0x12c;
@@ -489,7 +489,7 @@ s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32
     kart->mDriveFlags |= turnFlag;
     if (airborne != 0) {
         if (!(kart->mMotionFlags & KART_MOTION_DRIFTING)) {
-            kart->mTurnHeadingAnglePerFrameGoal = 0x32 * direction;
+            kart->mTurnHeadingAnglePerFrameGoal = KART_AIR_TURN_HEADING_GOAL * direction;
         }
         return 1;
     }
@@ -508,8 +508,8 @@ s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32
     }
     if (kartFlags & KART_MOTION_ON_GROUND) {
         kart->mTurnRatio += direction * 0x666;
-        if (kart->mTurnRatio > 0x1000) {
-            kart->mTurnRatio = 0x1000;
+        if (kart->mTurnRatio > FIXED12_UNIT) {
+            kart->mTurnRatio = FIXED12_UNIT;
         } else if (kart->mTurnRatio < -0x1000) {
             kart->mTurnRatio = -0x1000;
         }
@@ -619,8 +619,8 @@ void UpdateKartForwardAndLengthRatio(Kart *kart) {
         GetKartForward(kart, &kart->mForward);
     }
     kart->mVelocityLengthRatio = FX_GetDivResult();
-    if (kart->mVelocityLengthRatio > 0x1000) {
-        kart->mVelocityLengthRatio = 0x1000;
+    if (kart->mVelocityLengthRatio > FIXED12_UNIT) {
+        kart->mVelocityLengthRatio = FIXED12_UNIT;
         kart->mVelocityLength = kart->mSpeedLimit;
     }
 }

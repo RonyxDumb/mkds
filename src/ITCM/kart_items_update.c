@@ -28,13 +28,13 @@ void UpdateKartItems(KartItems *kartItems) {
     u16 itemKeyBits;
     u32 keyWasDown;
     previousFlags = kartItems->mFlags;
-    keyWasDown = previousFlags & 0x1000;
+    keyWasDown = previousFlags & KART_ITEMS_KEY_DOWN;
     itemKeyBits = gInputSlots[kartItems->mEntryIndex].mBits & ITEM_BITS;
     kart = kartItems->mKart;
     kartItems->mFlags &= ~0xf200;
     if (itemKeyBits) {
         if (!keyWasDown) {
-            kartItems->mFlags |= 0x3000;
+            kartItems->mFlags |= KART_ITEMS_KEY_DOWN | KART_ITEMS_KEY_PRESSED;
         } else {
             kartItems->mFlags |= gKartItemsKeyDownBit;
         }
@@ -62,8 +62,10 @@ void UpdateKartItems(KartItems *kartItems) {
         AdvanceItemInUse(itemInUse);
     }
     if (heldItem->mItemInfoIndex != ITEM_INFO_NONE) {
-        if ((kartItems->mFlags & 0x242) == 0x242 && heldItem->mItemInfoIndex != ITEM_INFO_NONE &&
-            heldItem->mObjectStartFramesLeft == 0 && (kartItems->mFlags & 0x200) && kart->mState == KART_STATE_NORMAL) {
+        if ((kartItems->mFlags & (KART_ITEMS_HELD | KART_ITEMS_START_USE | KART_ITEMS_START_ALLOWED)) ==
+                (KART_ITEMS_HELD | KART_ITEMS_START_USE | KART_ITEMS_START_ALLOWED) &&
+            heldItem->mItemInfoIndex != ITEM_INFO_NONE && heldItem->mObjectStartFramesLeft == 0 &&
+            (kartItems->mFlags & KART_ITEMS_START_ALLOWED) && kart->mState == KART_STATE_NORMAL) {
             StartItemInUse(itemInUse, heldItem);
         }
         UpdateHeldItem(heldItem);
@@ -102,13 +104,13 @@ void AddKartItemUseFlags(KartItems *kartItems) {
             heldItemNotInUseKindOneOrTwo = (u32) (gItemInfos[heldItemIndex].mUseKind - 1) <= 1;
         }
         if (heldItemNotInUseKindOneOrTwo != FALSE) {
-            if ((kartItems->mFlags & 0x4000) && TryAddKartItemFlags(kartItems) != FALSE) {
+            if ((kartItems->mFlags & KART_ITEMS_KEY_RELEASED) && TryAddKartItemFlags(kartItems) != FALSE) {
                 kartItems->mFlags |= gKartItemsStartUseBit;
             }
             goto after;
         }
     }
-    if ((kartItems->mFlags & 0x2000) && TryAddKartItemFlags(kartItems) != FALSE) {
+    if ((kartItems->mFlags & KART_ITEMS_KEY_PRESSED) && TryAddKartItemFlags(kartItems) != FALSE) {
         kartItems->mFlags |= gKartItemsStartUseBit;
     }
 after:
@@ -116,7 +118,7 @@ after:
         return;
     }
     kartItems->mFlags &= ~KART_ITEMS_IN_USE_ADVANCED;
-    if (gRaceSetup->mMode != MODE_WIFI && (kartItems->mFlags & 0x1000)) {
+    if (gRaceSetup->mMode != MODE_WIFI && (kartItems->mFlags & KART_ITEMS_KEY_DOWN)) {
         return;
     }
     if (TryAddKartItemFlags(kartItems) == FALSE) {
