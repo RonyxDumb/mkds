@@ -61,13 +61,13 @@ void texmtxCalc_flagTRS_(s32 *matrix) {
 void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult) {
     TexMtxCommand command;
 
-    if (matAnmResult->mFlag & 8) {
-        command.mCommand = 0x101610;
+    if (matAnmResult->mFlag & NNS_G3D_MATANM_RESULTFLAG_TEXMTX_SET) {
+        command.mCommand = TEX_MTX_COMMAND_SET;
     } else {
-        command.mCommand = 0x101810;
+        command.mCommand = TEX_MTX_COMMAND_MULT;
     }
-    command.mMtxModeTex = 3;
-    command.mMtxModePosVec = 2;
+    command.mMtxModeTex = TEX_MTX_MODE_TEXTURE;
+    command.mMtxModePosVec = TEX_MTX_MODE_POSITION_VECTOR;
     command.mMatrix[14] = 0;
     command.mMatrix[11] = 0;
     command.mMatrix[10] = 0;
@@ -78,13 +78,13 @@ void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult) {
     command.mMatrix[3] = 0;
     command.mMatrix[2] = 0;
     command.mMatrix[15] = 0x1000;
-    calcTexMtx_[matAnmResult->mFlag & 7](command.mMatrix, matAnmResult);
-    if (matAnmResult->mMagW != 0x1000) {
+    calcTexMtx_[matAnmResult->mFlag & TEX_MTX_CALC_FLAG_MASK](command.mMatrix, matAnmResult);
+    if (matAnmResult->mMagW != FIXED12_UNIT) {
         command.mMatrix[0] = MUL_FIXED12_NO_ROUND(matAnmResult->mMagW, command.mMatrix[0]);
         command.mMatrix[1] = MUL_FIXED12_NO_ROUND(matAnmResult->mMagW, command.mMatrix[1]);
         command.mMatrix[12] = MUL_FIXED12_NO_ROUND(matAnmResult->mMagW, command.mMatrix[12]);
     }
-    if (matAnmResult->mMagH != 0x1000) {
+    if (matAnmResult->mMagH != FIXED12_UNIT) {
         command.mMatrix[4] = MUL_FIXED12_NO_ROUND(matAnmResult->mMagH, command.mMatrix[4]);
         command.mMatrix[5] = MUL_FIXED12_NO_ROUND(matAnmResult->mMagH, command.mMatrix[5]);
         command.mMatrix[13] = MUL_FIXED12_NO_ROUND(matAnmResult->mMagH, command.mMatrix[13]);

@@ -119,12 +119,51 @@ typedef struct NNSG3dRenderObj {
 #define G3D_RS_FLAG_SKIP_ALL 0x200
 
 // Render state of the SBC interpreter. mC points into the byte sequence that the SBC functions advance.
+// NNSG3dRS.mFlag bits.
+#define NNS_G3D_RSFLAG_NODE_VISIBLE 0x1
+#define NNS_G3D_RSFLAG_MAT_TRANSPARENT 0x2
+#define NNS_G3D_RSFLAG_CURRENT_NODE_VALID 0x4
+#define NNS_G3D_RSFLAG_CURRENT_MAT_VALID 0x8
+#define NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID 0x10
+#define NNS_G3D_RSFLAG_RETURN 0x20
+#define NNS_G3D_RSFLAG_SKIP 0x40
+#define NNS_G3D_RSFLAG_OPT_RECORD 0x80
+#define NNS_G3D_RSFLAG_OPT_NOGECMD 0x100
+#define NNS_G3D_RSFLAG_OPT_SKIP_SBCDRAW 0x200
+#define NNS_G3D_RSFLAG_OPT_SKIP_SBCMTXCALC 0x400
+// NNSG3dRenderObj.mFlag bits.
+#define NNS_G3D_RENDEROBJ_FLAG_RECORD 0x1
+#define NNS_G3D_RENDEROBJ_FLAG_NOGECMD 0x2
+#define NNS_G3D_RENDEROBJ_FLAG_SKIP_SBC_DRAW 0x4
+#define NNS_G3D_RENDEROBJ_FLAG_SKIP_SBC_MTXCALC 0x8
+#define NNS_G3D_RENDEROBJ_FLAG_HINT_OBSOLETE 0x10
+// NNSG3dMatAnmResult.mFlag bits.
+#define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_SCALEONE 0x1
+#define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_ROTZERO 0x2
+#define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_TRANSZERO 0x4
+#define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_SET 0x8
+#define NNS_G3D_MATANM_RESULTFLAG_TEXMTX_MULT 0x10
+#define NNS_G3D_MATANM_RESULTFLAG_WIREFRAME 0x20
+// NNSG3dJntAnmResult.mFlag bits.
+#define NNS_G3D_JNTANM_RESULTFLAG_ROT_ZERO 0x2
+#define NNS_G3D_JNTANM_RESULTFLAG_TRANS_ZERO 0x4
+// Material data flag bits.
+#define NNS_G3D_MATFLAG_TEXMTX_USE 0x1
+#define NNS_G3D_MATFLAG_TEXMTX_SCALEONE 0x2
+#define NNS_G3D_MATFLAG_TEXMTX_ROTZERO 0x4
+#define NNS_G3D_MATFLAG_TEXMTX_TRANSZERO 0x8
+#define NNS_G3D_MATFLAG_WIREFRAME 0x20
+// Polygon attribute bits 16 to 20, the alpha of the polygon.
+#define G3D_POLYGON_ATTR_ALPHA_MASK 0x1f0000
+// Entries of the callback vectors of NNSG3dRS (one per SBC command number).
+#define G3D_CALLBACK_VECTOR_COUNT 0x20
+
 struct NNSG3dRS {
     /* 00 */ u8 *mC;
     /* 04 */ NNSG3dRenderObj *mRenderObj;
     /* 08 */ u32 mFlag; // bit 0, bit 6, bit 8 and bit 9 are tested
-    /* 0c */ NNSG3dSbcCallBackFunc mCbVecFunc[32];
-    /* 8c */ u8 mCbVecTiming[32];
+    /* 0c */ NNSG3dSbcCallBackFunc mCbVecFunc[G3D_CALLBACK_VECTOR_COUNT];
+    /* 8c */ u8 mCbVecTiming[G3D_CALLBACK_VECTOR_COUNT];
     /* ac */ u8 mCurrentNode;
     /* ad */ u8 mCurrentMat;
     /* ae */ u8 mCurrentNodeDesc;
