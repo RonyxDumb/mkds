@@ -23,7 +23,7 @@ typedef struct DWCACConfig {
     /* 0b */ u8 mSkipNetCheck;
 } DWCACConfig;
 
-// Values of WifiReportArgument.mUnk_08 that DWCi_AC_CallBackWCM turns into a connect result.
+// Values of WifiReportArgument.mReportCode that DWCi_AC_CallBackWCM turns into a connect result.
 enum {
     WIFI_REPORT_CODE_RETRY_AUTH_FALLBACK = 0xd,
     WIFI_REPORT_CODE_ERROR_51100 = 0xf,
@@ -35,7 +35,7 @@ typedef struct WifiReportArgument {
     /* 00 */ s16 mNotify;
     /* 02 */ s16 mResult;
     /* 04 */ WMBssDesc *mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mReportCode;
 } WifiReportArgument;
 
 static inline void func_0214d018_inline(void *p, u32 n) {

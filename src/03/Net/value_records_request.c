@@ -20,8 +20,8 @@ void InitValueRecordsRequest(void) {
     ValueRecordsRequest *request;
     gValueRecordsRequest = AllocZeroedExpHeapBlock(0x26c, 4);
     gValueRecordsRequestSucceeded[0] = 0;
-    requestItem.mUnk_00 = 0;
-    MIi_CpuClear16(requestItem.mUnk_00, &requestItem.mItemType, 0x104);
+    requestItem.mClearValue = 0;
+    MIi_CpuClear16(requestItem.mClearValue, &requestItem.mItemType, 0x104);
     requestItem.mItemType = 0x50;
     requestItem.mItemLength = 0xc;
     MI_CpuCopy8(gNintendoDsItemBytes, requestItem.mItemBytes, 0xc);

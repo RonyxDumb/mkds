@@ -159,7 +159,7 @@ void AdvanceWiFiLoginMenuState1(void) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            gWiFiLoginMenu->mUnk_14 = TRUE;
+            gWiFiLoginMenu->mShowLoggedInMessage = TRUE;
             StartWiFiSessionLoginSeq();
             return;
         }
@@ -245,7 +245,7 @@ void AdvanceWiFiLoginMenuState4(void) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            gWiFiLoginMenu->mUnk_14 = TRUE;
+            gWiFiLoginMenu->mShowLoggedInMessage = TRUE;
             StartWiFiSessionLoginSeq();
             return;
         }
@@ -295,7 +295,7 @@ void AdvanceWiFiLoginMenuState6(void) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            gWiFiLoginMenu->mUnk_14 = FALSE;
+            gWiFiLoginMenu->mShowLoggedInMessage = FALSE;
             StartWiFiSessionLoginSeq();
             return;
         }
@@ -331,7 +331,7 @@ void AdvanceWiFiLoginMenuState7(void) {
                 break;
             case 1:
                 if (IsWiFiStatesCounterNotNegative() != 0) {
-                    if (gWiFiLoginMenu->mUnk_14 != FALSE) {
+                    if (gWiFiLoginMenu->mShowLoggedInMessage != FALSE) {
                         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_SHOW_LOGGED_IN;
                         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x1e),
                                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));

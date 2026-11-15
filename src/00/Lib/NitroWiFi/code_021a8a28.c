@@ -299,12 +299,12 @@ s32 SOC_Startup(void *configPointer) {
     soclConfig.mGatewayIp = ((socConfig->mRouter << 24) & 0xff000000) |
                             (((socConfig->mRouter << 8) & 0xff0000) |
                              (((socConfig->mRouter >> 24) & 0xff) | ((socConfig->mRouter >> 8) & 0xff00)));
-    soclConfig.mUnk_10 = ((socConfig->mDns1 << 24) & 0xff000000) |
-                         (((socConfig->mDns1 << 8) & 0xff0000) |
-                          (((socConfig->mDns1 >> 24) & 0xff) | ((socConfig->mDns1 >> 8) & 0xff00)));
-    soclConfig.mUnk_14 = ((socConfig->mDns2 << 24) & 0xff000000) |
-                         (((socConfig->mDns2 << 8) & 0xff0000) |
-                          (((socConfig->mDns2 >> 24) & 0xff) | ((socConfig->mDns2 >> 8) & 0xff00)));
+    soclConfig.mDnsFirstIp = ((socConfig->mDns1 << 24) & 0xff000000) |
+                             (((socConfig->mDns1 << 8) & 0xff0000) |
+                              (((socConfig->mDns1 >> 24) & 0xff) | ((socConfig->mDns1 >> 8) & 0xff00)));
+    soclConfig.mDnsSecondIp = ((socConfig->mDns2 << 24) & 0xff000000) |
+                              (((socConfig->mDns2 << 8) & 0xff0000) |
+                               (((socConfig->mDns2 >> 24) & 0xff) | ((socConfig->mDns2 >> 8) & 0xff00)));
     soclConfig.mAlloc = AllocFunc_SOCL;
     soclConfig.mFree = (void (*)(void *)) FreeFunc_SOCL;
     AllocFunc_SOC = socConfig->mAlloc;

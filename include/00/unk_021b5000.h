@@ -34,8 +34,8 @@ typedef struct SOCLConfig {
     /* 04 */ u32 mMyIp;
     /* 08 */ u32 mNetMask;
     /* 0c */ u32 mGatewayIp;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 10 */ u32 mDnsFirstIp;
+    /* 14 */ u32 mDnsSecondIp;
     /* 18 */ void *(*mAlloc)(u32 param_1);
     /* 1c */ void (*mFree)(void *param_1);
     /* 20 */ s32 mCmdPacketMax;

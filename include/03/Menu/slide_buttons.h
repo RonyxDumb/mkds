@@ -7,7 +7,7 @@
 
 typedef struct SlideButtons {
     /* 00 */ OamRange *mButtons[2];
-    /* 08 */ OamRange *mUnk_08;
+    /* 08 */ OamRange *mSlideRange;
     /* 0c */ TaskEntry *mStepTask;
     /* 10 */ u32 mResetTask;
     /* 14 */ u16 mStepFrames;

@@ -29,7 +29,7 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
     work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
     if (notice->mNotify == WIFI_NOTIFY_CONNECT_REQUEST) {
         if (notice->mResult != WIFI_REPORT_SUCCEEDED) {
-            switch (notice->mUnk_08) {
+            switch (notice->mReportCode) {
                 case WIFI_REPORT_CODE_RETRY_AUTH_FALLBACK:
                     work->mConnectResult = AUTO_CONNECT_RESULT_RETRY_AUTH_FALLBACK;
                     break;

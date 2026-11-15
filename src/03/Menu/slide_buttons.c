@@ -48,8 +48,8 @@ void CreateSlideButtons(u32 kind) {
             buttonIndex++;
         } while (buttonIndex < buttonCount);
     }
-    gSlideButtons->mUnk_08 = CreateOamRangeFromNceImage(0, 1, 1);
-    SetOamRangePriority(gSlideButtons->mUnk_08, -1, 1);
+    gSlideButtons->mSlideRange = CreateOamRangeFromNceImage(0, 1, 1);
+    SetOamRangePriority(gSlideButtons->mSlideRange, -1, 1);
     SetSlideButtonsY(0xc0);
     gSlideButtons->mStepTask = (TaskEntry *) AddTask(0, AdvanceSlideButtonsIn, NULL, 0x78);
 }
@@ -99,7 +99,7 @@ void SetSlideButtonsY(s32 yPosition) {
 
     buttonCount = gSlideButtonCounts[gSlideButtons->mKind];
     buttonY = yPosition + gSlideButtonOrigins[1] - gSlideButtonsPosition[1];
-    SetOamRangePosition(gSlideButtons->mUnk_08, -1, gSlideButtonsPosition[0], yPosition);
+    SetOamRangePosition(gSlideButtons->mSlideRange, -1, gSlideButtonsPosition[0], yPosition);
     for (buttonIndex = 0; buttonIndex < buttonCount; buttonIndex++) {
         SetOamRangePosition(
             gSlideButtons->mButtons[buttonIndex], -1,
@@ -111,7 +111,7 @@ void AdvanceSlideButtonsIn(TaskEntry *task) {
     u32 xPosition;
     s32 yPosition;
 
-    GetOamRangeEntryPosition(gSlideButtons->mUnk_08, 0, &xPosition, &yPosition);
+    GetOamRangeEntryPosition(gSlideButtons->mSlideRange, 0, &xPosition, &yPosition);
     yPosition = yPosition - 4;
     SetSlideButtonsY(yPosition);
     if (yPosition <= gSlideButtonsPosition[1]) {
@@ -169,7 +169,7 @@ void AdvanceButtonTouch(void) {
 void AdvanceSlideButtonsOut(TaskEntry *task) {
     u32 stackValue;
     int yPosition;
-    GetOamRangeEntryPosition(gSlideButtons->mUnk_08, 0, &stackValue, &yPosition);
+    GetOamRangeEntryPosition(gSlideButtons->mSlideRange, 0, &stackValue, &yPosition);
     yPosition = yPosition + 4;
     SetSlideButtonsY(yPosition);
     if (192 <= yPosition) {
@@ -191,7 +191,7 @@ void ReleaseSlideButtons(u32 task) {
             DeleteOamRange(gSlideButtons->mButtons[buttonIndex]);
         }
     }
-    DeleteOamRange(gSlideButtons->mUnk_08);
+    DeleteOamRange(gSlideButtons->mSlideRange);
     FreeExpHeapBlockAndClearPointer(&gSlideButtons);
 }
 

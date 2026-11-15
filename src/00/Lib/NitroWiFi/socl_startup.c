@@ -137,8 +137,8 @@ void SOCLi_SetMyIP(void) {
     CPSMyIp = config->mMyIp;
     CPSNetMask = config->mNetMask;
     CPSGatewayIp = config->mGatewayIp;
-    CPSDnsIp[0] = config->mUnk_10;
-    CPSDnsIp[1] = config->mUnk_14;
+    CPSDnsIp[0] = config->mDnsFirstIp;
+    CPSDnsIp[1] = config->mDnsSecondIp;
     SOCLiDhcpState |= 2;
 }
 

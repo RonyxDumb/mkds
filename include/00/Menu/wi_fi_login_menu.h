@@ -26,7 +26,7 @@ typedef struct WiFiLoginMenu {
     // Usually passed to RequestWiFiState right after it is stored; -1 until set.
     /* 0c */ s32 mPendingWiFiState;
     /* 10 */ s32 mMessageTableIndex;
-    /* 14 */ BOOL mUnk_14;
+    /* 14 */ BOOL mShowLoggedInMessage;
     /* 18 */ s32 mErrorCode;
     /* 1c */ void *mHeap;
     /* 20 */ u8 pad_20[0x18];
