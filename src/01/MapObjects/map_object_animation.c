@@ -1167,7 +1167,7 @@ u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit) {
 }
 
 BOOL IsNotRisingWithBelowZeroBit(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & COURSE_HIT_BELOW_ZERO_BIT) != 0 && mapObject->mVelocity.y <= 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_NOT_RISING_BIT) != 0 && mapObject->mVelocity.y <= 0) {
         return TRUE;
     }
     return FALSE;
