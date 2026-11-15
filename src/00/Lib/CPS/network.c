@@ -1661,10 +1661,10 @@ void CPSi_TcpListenRaw(CPSSoc *socket) {
 }
 
 void CPS_SetUdpCallback(CPSUDPReadCallback callback) {
-    u8 *socket;
+    CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        *(CPSUDPReadCallback *) (socket + 0x38) = callback;
+        socket->mReceiveCallback = (ConnectionReceiveFn) callback;
     }
 }
 
