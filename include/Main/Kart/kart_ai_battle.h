@@ -122,6 +122,19 @@ typedef struct KartAi {
     /* 154 */ s32 mListedCpu;
 } KartAi;
 
+// KartAi.mTargetDistanceSquared at or past this (a distance of 300) is too far to use an item on the target.
+#define KART_AI_ITEM_RANGE_SQUARED 0x15f90
+// KartAi.mTargetForwardDot and mEntryForwardDot above this mean the target lies ahead of the kart.
+#define KART_AI_AHEAD_DOT 0xb33
+// The same dot above this is the looser test used when the target is in range and ahead.
+#define KART_AI_AHEAD_DOT_LOOSE 0x666
+// KartAi.mTurnAngleDegrees above this lowers the turn speed limit in proportion.
+#define KART_AI_TURN_SLOWDOWN_START_ANGLE 0x5000
+// A held item is used only while KartAi.mTurnAngleDegrees is below this.
+#define KART_AI_ITEM_TURN_ANGLE_LIMIT 0xa000
+// The same limit for the items that tolerate a wider turn.
+#define KART_AI_ITEM_TURN_ANGLE_LIMIT_WIDE 0x14000
+
 void AdvanceBattleKartAiSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi);
 void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi, s32 speedLimit);
 void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLimit);

@@ -41,7 +41,7 @@ void UseItemAfterHeldOrOnTargetIfTurnUnder10(KartAiItemUse *itemUse, KartAi *kar
     if (DecrementHeldItemTimer(itemUse) == 0 && kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTurnAngleDegrees >= 0xa000) {
+    if (kartAi->mTurnAngleDegrees >= KART_AI_ITEM_TURN_ANGLE_LIMIT) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);
@@ -51,7 +51,7 @@ void UseItemAfterHeldIfTurnUnder10(KartAiItemUse *itemUse, KartAi *kartAi) {
     if (DecrementHeldItemTimer(itemUse) == 0) {
         return;
     }
-    if (kartAi->mTurnAngleDegrees >= 0xa000) {
+    if (kartAi->mTurnAngleDegrees >= KART_AI_ITEM_TURN_ANGLE_LIMIT) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);

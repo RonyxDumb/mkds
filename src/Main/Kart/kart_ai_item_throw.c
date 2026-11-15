@@ -78,10 +78,10 @@ void ThrowItemRandomAfterHeldOrAtNearTarget(KartAiItemUse *itemUse, KartAi *kart
         if (kartAi->mTargetKart == NULL) {
             return;
         }
-        if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+        if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
             return;
         }
-        if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > 0xb33) {
+        if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > KART_AI_AHEAD_DOT) {
             UseItemForwardAndResetInUseTimer(itemUse, kartAi);
         } else {
             UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -127,7 +127,7 @@ void ThrowItemRandomAfterHeldOrBehindNearTarget(KartAiItemUse *itemUse, struct K
         if (kartAi->mTargetKart == NULL) {
             return;
         }
-        if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+        if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
             return;
         }
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -162,7 +162,7 @@ void UseItemAndResetHeldTimerAfterHeldIfTurnUnder10(KartAiItemUse *itemUse, stru
     if (DecrementHeldItemTimer(itemUse) == 0) {
         return;
     }
-    if (kartAi->mTurnAngleDegrees >= 0xa000) {
+    if (kartAi->mTurnAngleDegrees >= KART_AI_ITEM_TURN_ANGLE_LIMIT) {
         return;
     }
     UseItemAndResetHeldTimer(itemUse, kartAi);
@@ -190,10 +190,10 @@ void ThrowItemAtNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
-    if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > 0xb33) {
+    if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > KART_AI_AHEAD_DOT) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
     } else {
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -217,10 +217,10 @@ void ThrowItemRandomAfterInUseOrAtNearTarget(KartAiItemUse *itemUse, struct Kart
         if (kartAi->mTargetKart == NULL) {
             return;
         }
-        if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+        if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
             return;
         }
-        if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > 0xb33) {
+        if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > KART_AI_AHEAD_DOT) {
             UseItemForwardAndResetInUseTimer(itemUse, kartAi);
         } else {
             UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -253,10 +253,10 @@ void ThrowItemAtNearTargetAfterInUseEveryCall(KartAiItemUse *itemUse, struct Kar
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
-    if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > 0xb33) {
+    if (kartAi->mTargetAhead != 0 && kartAi->mTargetForwardDot > KART_AI_AHEAD_DOT) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
     } else {
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -295,13 +295,13 @@ void UseItemAfterInUseAtNearTargetAheadDot(KartAiItemUse *itemUse, struct KartAi
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
     if (kartAi->mTargetAhead == 0) {
         return;
     }
-    if (kartAi->mTargetForwardDot <= 0x666) {
+    if (kartAi->mTargetForwardDot <= KART_AI_AHEAD_DOT_LOOSE) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);
@@ -314,13 +314,13 @@ void NormalUseItemAfterInUseAtNearTargetAheadDot(KartAiItemUse *itemUse, struct 
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
     if (kartAi->mTargetAhead == 0) {
         return;
     }
-    if (kartAi->mTargetForwardDot <= 0x666) {
+    if (kartAi->mTargetForwardDot <= KART_AI_AHEAD_DOT_LOOSE) {
         return;
     }
     UseItemAndResetInUseTimer(itemUse, kartAi);
@@ -340,7 +340,7 @@ void HardUseItemAfterInUseAtNearTargetAhead(KartAiItemUse *itemUse, struct KartA
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
     if (kartAi->mTargetAhead == 0) {
@@ -356,7 +356,7 @@ void UseItemAfterInUseAtNearTargetAhead(KartAiItemUse *itemUse, struct KartAi *k
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
     if (kartAi->mTargetAhead == 0) {
@@ -380,11 +380,11 @@ void ThrowItemAtNearTargetAheadDotAfterInUse(KartAiItemUse *itemUse, struct Kart
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
     if (kartAi->mTargetAhead != 0) {
-        if (kartAi->mTargetForwardDot <= 0xb33) {
+        if (kartAi->mTargetForwardDot <= KART_AI_AHEAD_DOT) {
             return;
         }
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -410,7 +410,7 @@ void ThrowItemRandomAfterInUseOrBehindNearTarget(KartAiItemUse *itemUse, struct 
         if (kartAi->mTargetKart == NULL) {
             return;
         }
-        if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+        if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
             return;
         }
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -425,11 +425,11 @@ void ThrowItemBehindNearTargetAfterInUseEveryCall(KartAiItemUse *itemUse, struct
     if (kartAi->mTargetKart == NULL) {
         return;
     }
-    if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+    if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
         return;
     }
     if (kartAi->mTargetAhead != 0) {
-        if (kartAi->mTargetForwardDot <= 0xb33) {
+        if (kartAi->mTargetForwardDot <= KART_AI_AHEAD_DOT) {
             return;
         }
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -443,7 +443,7 @@ void UseItemBehindAfterInUseOrNearTarget(KartAiItemUse *itemUse, struct KartAi *
         if (kartAi->mTargetKart == NULL) {
             return;
         }
-        if (kartAi->mTargetDistanceSquared >= 0x15f90) {
+        if (kartAi->mTargetDistanceSquared >= KART_AI_ITEM_RANGE_SQUARED) {
             return;
         }
     }

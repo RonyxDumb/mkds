@@ -119,10 +119,10 @@ void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *k
     s32 turnRatio;
 
     kartAiSpeedLimit->mTurnSpeedLimit = speedLimit;
-    if (kartAi->mTurnAngleDegrees <= 0x5000) {
+    if (kartAi->mTurnAngleDegrees <= KART_AI_TURN_SLOWDOWN_START_ANGLE) {
         return;
     }
-    turnRatio = MUL_FIXED12_ROUNDED(kartAi->mTurnAngleDegrees - 0x5000, 0x5b);
+    turnRatio = MUL_FIXED12_ROUNDED(kartAi->mTurnAngleDegrees - KART_AI_TURN_SLOWDOWN_START_ANGLE, 0x5b);
     if (turnRatio > 0x1000) {
         turnRatio = 0x1000;
     }
@@ -130,7 +130,7 @@ void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *k
     if (kartAi->mTargetShine == NULL) {
         return;
     }
-    if (kartAi->mEntryForwardDot > 0xb33) {
+    if (kartAi->mEntryForwardDot > KART_AI_AHEAD_DOT) {
         kartAiSpeedLimit->mTurnSpeedLimit = kartAiSpeedLimit->mTurnSpeedLimit >> 1;
     }
 }
@@ -503,7 +503,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         }
         kartFlag = value != 0 ? 1 : 0;
         targetFlag = (kartAi->mTargetKart->mEffectFlags & KART_EFFECT_STAR) != 0 ? 1 : 0;
-        if (kartFlag != 0 && targetFlag == 0 && kartAi->mTargetForwardDot > 0xb33) {
+        if (kartFlag != 0 && targetFlag == 0 && kartAi->mTargetForwardDot > KART_AI_AHEAD_DOT) {
             targetPos = kartAi->mTargetKart->mPos;
             targetPos.y = kartAi->mLinkPosWithSideOffset.y;
             linkPos = *kartAi->mBattleLinkCursor.mLink->mPoint;
@@ -622,7 +622,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
                     kartAi->mEntryForwardDot = VEC_DotProduct(&toShine, &kartAi->mKart->mRotationRow2);
                     isAhead = TRUE;
                 }
-                if (isAhead != FALSE && kartAi->mEntryForwardDot > 0xb33) {
+                if (isAhead != FALSE && kartAi->mEntryForwardDot > KART_AI_AHEAD_DOT) {
                     shinePos = targetShine->mPos;
                     shinePos.y = kartAi->mLinkPosWithSideOffset.y;
                     linkPos = *kartAi->mBattleLinkCursor.mLink->mPoint;

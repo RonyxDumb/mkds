@@ -1045,8 +1045,8 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         }
         if (kartAi->mDriftState == KART_AI_DRIFT_NONE) {
             raceSpeedLimit->mTurnSpeedLimit = speedLimit;
-            if (kartAi->mTurnAngleDegrees > 0x5000) {
-                turnExcessRatio = MUL_FIXED12_NO_ROUND(kartAi->mTurnAngleDegrees - 0x5000, 0x5b);
+            if (kartAi->mTurnAngleDegrees > KART_AI_TURN_SLOWDOWN_START_ANGLE) {
+                turnExcessRatio = MUL_FIXED12_NO_ROUND(kartAi->mTurnAngleDegrees - KART_AI_TURN_SLOWDOWN_START_ANGLE, 0x5b);
                 if (turnExcessRatio > 0x1000) {
                     turnExcessRatio = 0x1000;
                 }
@@ -1631,7 +1631,7 @@ void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi
     if (timerRanOut == FALSE) {
         return;
     }
-    if (kartAi->mTurnAngleDegrees >= 0x14000) {
+    if (kartAi->mTurnAngleDegrees >= KART_AI_ITEM_TURN_ANGLE_LIMIT_WIDE) {
         return;
     }
     RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
@@ -1666,7 +1666,7 @@ void UseItemIfTurnUnder20ResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *k
     if (timerRanOut == FALSE) {
         return;
     }
-    if (kartAi->mTurnAngleDegrees >= 0x14000) {
+    if (kartAi->mTurnAngleDegrees >= KART_AI_ITEM_TURN_ANGLE_LIMIT_WIDE) {
         return;
     }
     RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
