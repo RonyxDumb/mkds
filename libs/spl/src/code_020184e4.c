@@ -2084,14 +2084,14 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     mgr->mLists[2].mFront = 0;
     mgr->mMiscPolygonAttr = 0;
     mgr->mCurrentCycle = 0;
-    block = alloc(maxEmitters * 0x9c);
-    MI_CpuFill8(block, 0, maxEmitters * 0x9c);
+    block = alloc(maxEmitters * sizeof(ParticleEmitter));
+    MI_CpuFill8(block, 0, maxEmitters * sizeof(ParticleEmitter));
     for (index = 0; index < maxEmitters; index++) {
         SPLList_PushFront(&mgr->mLists[1], (ParticleInstance *) block);
-        block += 0x9c;
+        block += sizeof(ParticleEmitter);
     }
-    block = alloc(maxParticles * 0x44);
-    MI_CpuFill8(block, 0, maxParticles * 0x44);
+    block = alloc(maxParticles * sizeof(ParticleInstance));
+    MI_CpuFill8(block, 0, maxParticles * sizeof(ParticleInstance));
     for (index = 0; index < maxParticles; index++) {
         SPLList_PushFront(&mgr->mLists[2], (ParticleInstance *) block);
         block += 0x44;
@@ -2196,8 +2196,8 @@ void SPLManager_LoadResources(SPLManager *mgr, ParticleFileHeader *data) {
             resource->mBehaviors = 0;
         }
     }
-    mgr->mTextures = mgr->mAlloc(mgr->mTexCount * 0x14);
-    MI_CpuFill8(mgr->mTextures, 0, mgr->mTexCount * 0x14);
+    mgr->mTextures = mgr->mAlloc(mgr->mTexCount * sizeof(ParticleTexture));
+    MI_CpuFill8(mgr->mTextures, 0, mgr->mTexCount * sizeof(ParticleTexture));
     for (index = 0; index < mgr->mTexCount; index++) {
         texture = mgr->mTextures + index;
         textureHeader = OFFSET_PTR(ParticleTextureHeader, data, off);
