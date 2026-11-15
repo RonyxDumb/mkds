@@ -65,7 +65,8 @@ void InitWiFiAikotoba(void *heap) {
     gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     for (index = 0; index < 2; index++) {
         for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[index]; cellIndex++) {
-            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[index][cellIndex]].mOffsetX = 0xfa;
+            gWiFiAikotoba->mWiFiAikotobaTable[gWiFiAikotobaOffsetTableIndices[index][cellIndex]].mOffsetX =
+                WIFI_AIKOTOBA_OFFSET_HIDDEN;
         }
     }
     SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
@@ -114,7 +115,8 @@ void AdvanceWiFiAikotobaSlideIn(void) {
     s32 cellIndex;
 
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
-    offsetX = InterpolateS16(1, 0xfa, 0, gWiFiAikotoba->mStateFrames, 10);
+    offsetX =
+        InterpolateS16(1, WIFI_AIKOTOBA_OFFSET_HIDDEN, 0, gWiFiAikotoba->mStateFrames, WIFI_AIKOTOBA_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[rowIndex]; cellIndex++) {
             if (rowIndex == 1) {
@@ -126,7 +128,7 @@ void AdvanceWiFiAikotobaSlideIn(void) {
             }
         }
     }
-    if (gWiFiAikotoba->mStateFrames >= 10) {
+    if (gWiFiAikotoba->mStateFrames >= WIFI_AIKOTOBA_SLIDE_FRAMES) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_WAIT_SELECT_RETURN;
         gWiFiAikotoba->mStateFrames = 0;
         RequestSelectReturnSlideIn();
@@ -227,13 +229,13 @@ next:
 
 void AdvanceWiFiAikotobaPress(void) {
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
-    if (gWiFiAikotoba->mStateFrames >= 10) {
+    if (gWiFiAikotoba->mStateFrames >= WIFI_AIKOTOBA_PRESS_FRAMES) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_SLIDE_OUT;
         if (gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
             RequestSelectReturnSlideOut();
         }
         gWiFiAikotoba->mStateFrames = 0;
-    } else if (gWiFiAikotoba->mStateFrames >= 5) {
+    } else if (gWiFiAikotoba->mStateFrames >= WIFI_AIKOTOBA_PRESS_HIGHLIGHT_FRAMES) {
         gWiFiAikotoba->mHighlightVisible = TRUE;
     }
 }
@@ -250,10 +252,11 @@ void AdvanceWiFiAikotobaSlideOut(void) {
         SetWiFiNextScene(0xe);
     }
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
-    if (gWiFiAikotoba->mStateFrames <= 10) {
-        offsetX = InterpolateS16(1, 0, 0xfa, gWiFiAikotoba->mStateFrames, 10);
+    if (gWiFiAikotoba->mStateFrames <= WIFI_AIKOTOBA_SLIDE_FRAMES) {
+        offsetX =
+            InterpolateS16(1, 0, WIFI_AIKOTOBA_OFFSET_HIDDEN, gWiFiAikotoba->mStateFrames, WIFI_AIKOTOBA_SLIDE_FRAMES);
     } else {
-        offsetX = 0xfa;
+        offsetX = WIFI_AIKOTOBA_OFFSET_HIDDEN;
     }
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiAikotobaOffsetCellCounts[rowIndex]; cellIndex++) {
@@ -266,7 +269,7 @@ void AdvanceWiFiAikotobaSlideOut(void) {
             }
         }
     }
-    if (gWiFiAikotoba->mStateFrames >= 10) {
+    if (gWiFiAikotoba->mStateFrames >= WIFI_AIKOTOBA_SLIDE_FRAMES) {
         if (IsBuddyRecordBlockFull() != 0 && gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
             gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_NOTICE;
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_NONE;

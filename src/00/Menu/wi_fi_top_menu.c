@@ -79,7 +79,8 @@ void InitWiFiTopMenu(void *heap) {
     InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
-            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX = 0xdc;
+            gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX =
+                WIFI_TOP_MENU_OFFSET_HIDDEN;
         }
     }
     SetLinkLevelIconEnabled(1, 0);
@@ -127,14 +128,15 @@ void AdvanceWiFiTopMenuSlideIn(void) {
     s32 cellIndex;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
-    if (gWiFiTopMenu->mStateFrames >= 20) {
+    if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_SLIDE_IN_FRAMES) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_RETURN_BUTTON;
         gWiFiTopMenu->mStateFrames = offsetX;
         RequestSelectReturnSlideIn();
-    } else if (gWiFiTopMenu->mStateFrames >= 10) {
-        offsetX = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - 10);
+    } else if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_SLIDE_FRAMES) {
+        offsetX = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - WIFI_TOP_MENU_SLIDE_FRAMES);
     } else {
-        offsetX = InterpolateS16(1, 0xdc, offsetX, gWiFiTopMenu->mStateFrames, 10);
+        offsetX = InterpolateS16(1, WIFI_TOP_MENU_OFFSET_HIDDEN, offsetX, gWiFiTopMenu->mStateFrames,
+                                 WIFI_TOP_MENU_SLIDE_FRAMES);
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
@@ -261,13 +263,13 @@ void AdvanceWiFiTopMenuPressItem(void) {
         gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[gWiFiTopMenu->mIndex][cellIndex]].mOffsetX =
             selectedPressOffset;
     }
-    if (gWiFiTopMenu->mStateFrames >= 10) {
+    if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_PRESS_FRAMES) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_OUT;
         if (gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_VS || gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_WIFI_MENU) {
             RequestSelectReturnSlideOut();
         }
         gWiFiTopMenu->mStateFrames = 0;
-    } else if (gWiFiTopMenu->mStateFrames >= 5) {
+    } else if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_PRESS_HIGHLIGHT_FRAMES) {
         gWiFiTopMenu->mHighlightVisible = TRUE;
     }
 }
@@ -286,17 +288,18 @@ void AdvanceWiFiTopMenuSlideOut(void) {
     }
     gWiFiTopMenu->mStateFrames++;
     offsetX = gWiFiTopMenu->mStateFrames;
-    if (offsetX <= 10) {
-        offsetX = InterpolateS16(1, 0xdc, 0, 10 - offsetX, 10);
+    if (offsetX <= WIFI_TOP_MENU_SLIDE_FRAMES) {
+        offsetX = InterpolateS16(1, WIFI_TOP_MENU_OFFSET_HIDDEN, 0, WIFI_TOP_MENU_SLIDE_FRAMES - offsetX,
+                                 WIFI_TOP_MENU_SLIDE_FRAMES);
     } else {
-        offsetX = 0xdc;
+        offsetX = WIFI_TOP_MENU_OFFSET_HIDDEN;
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
             gWiFiTopMenu->mWiFiTopMenuTable[gWiFiTopMenuOffsetTableIndices[rowIndex][cellIndex]].mOffsetX = offsetX;
         }
     }
-    if (gWiFiTopMenu->mStateFrames >= 10) {
+    if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_SLIDE_FRAMES) {
         if ((gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE ||
              gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) &&
             IsSelectReturnHiddenNoRequest() == 0) {

@@ -79,7 +79,7 @@ void InitWiFiAikotobaCheck(void *heap) {
     ResetOamLists(oamList, GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiAikotobaCheck->mWiFiAikotobaCheckBncl, gWiFiAikotobaCheck->mWiFiAikotobaCheckBnll,
                     &gWiFiAikotobaCheck->mWiFiAikotobaCheckTable);
-    gWiFiAikotobaCheck->mOffset = 0x50;
+    gWiFiAikotobaCheck->mOffset = WIFI_AIKOTOBA_CHECK_OFFSET_HIDDEN;
     UpdateWiFiAikotobaCheckOffsets();
     InitWiFiAikotobaCheckDigits();
     SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiAikotobaCheck->mWiFiMessages, 0x11), 0, 1, 0, 0, 0, 0);
@@ -124,8 +124,9 @@ void UpdateWiFiAikotobaCheckOffsets(void) {
 
 void AdvanceWiFiAikotobaCheckSlideIn(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
-    gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0x50, 0, gWiFiAikotobaCheck->mStateFrames, 15);
-    if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemOpenNoCloseRequest() != 0) {
+    gWiFiAikotobaCheck->mOffset = InterpolateS16(1, WIFI_AIKOTOBA_CHECK_OFFSET_HIDDEN, 0,
+                                                 gWiFiAikotobaCheck->mStateFrames, WIFI_AIKOTOBA_CHECK_SLIDE_FRAMES);
+    if (gWiFiAikotobaCheck->mStateFrames >= WIFI_AIKOTOBA_CHECK_SLIDE_FRAMES && IsTxtSystemOpenNoCloseRequest() != 0) {
         gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_WAIT_INPUT;
         gWiFiAikotobaCheck->mStateFrames = 0;
     }
@@ -161,8 +162,9 @@ void AdvanceWiFiAikotobaCheckWaitInput(void) {
 
 void AdvanceWiFiAikotobaCheckSlideOut(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
-    gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0, 0x50, gWiFiAikotobaCheck->mStateFrames, 15);
-    if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemClosedNoOpenRequest() != 0 &&
+    gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0, WIFI_AIKOTOBA_CHECK_OFFSET_HIDDEN,
+                                                 gWiFiAikotobaCheck->mStateFrames, WIFI_AIKOTOBA_CHECK_SLIDE_FRAMES);
+    if (gWiFiAikotobaCheck->mStateFrames >= WIFI_AIKOTOBA_CHECK_SLIDE_FRAMES && IsTxtSystemClosedNoOpenRequest() != 0 &&
         IsSelectReturnShownNoRequest() != 0) {
         RequestWiFiState(gWiFiAikotobaCheck->mPendingWiFiState);
     }

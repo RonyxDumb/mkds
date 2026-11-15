@@ -20,6 +20,13 @@ enum {
     WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK,
 };
 
+// Frames the two cell rows take to slide in or out, the press state lasts, and the frame of it where the highlight
+// shows again; the x offset of the table cells while they are off screen.
+#define WIFI_AIKOTOBA_SLIDE_FRAMES 10
+#define WIFI_AIKOTOBA_PRESS_FRAMES 10
+#define WIFI_AIKOTOBA_PRESS_HIGHLIGHT_FRAMES 5
+#define WIFI_AIKOTOBA_OFFSET_HIDDEN 0xfa
+
 // Object behind gWiFiAikotoba; LocateAndUploadWiFiAikotoba fills 0x20 to 0x30.
 typedef struct WiFiAikotoba {
     /* 00 */ s32 mState;

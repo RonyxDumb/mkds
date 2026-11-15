@@ -30,6 +30,14 @@ enum {
     WIFI_TOP_MENU_ITEM_WIFI_MENU,
 };
 
+// Frames the three cell rows take to slide, the slide-in state lasts (the slide then settles with a press bounce), the
+// press state lasts, and the frame of it where the highlight shows again; the x offset of the cells while off screen.
+#define WIFI_TOP_MENU_SLIDE_FRAMES 10
+#define WIFI_TOP_MENU_SLIDE_IN_FRAMES 20
+#define WIFI_TOP_MENU_PRESS_FRAMES 10
+#define WIFI_TOP_MENU_PRESS_HIGHLIGHT_FRAMES 5
+#define WIFI_TOP_MENU_OFFSET_HIDDEN 0xdc
+
 // Object behind gWiFiTopMenu; LocateAndQueueWiFiTopMenu fills 0x20 to 0x30.
 typedef struct WiFiTopMenu {
     /* 00 */ s32 mState;

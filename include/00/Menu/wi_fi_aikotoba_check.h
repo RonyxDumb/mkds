@@ -14,6 +14,10 @@ enum {
     WIFI_AIKOTOBA_CHECK_STATE_SLIDE_OUT,
 };
 
+// Frames the digits panel takes to slide in or out, and WiFiAikotobaCheck.mOffset while it is off screen.
+#define WIFI_AIKOTOBA_CHECK_SLIDE_FRAMES 15
+#define WIFI_AIKOTOBA_CHECK_OFFSET_HIDDEN 0x50
+
 // Object behind gWiFiAikotobaCheck; LocateAndUploadWiFiAikotobaCheck fills 0x34 to 0x48.
 typedef struct WiFiAikotobaCheck {
     /* 00 */ s32 mState;
