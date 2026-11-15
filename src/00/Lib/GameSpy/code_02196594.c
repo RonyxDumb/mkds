@@ -107,7 +107,7 @@ u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
     return 0;
 }
 
-s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s8 *value) {
+s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key, char *value) {
     s8 *start;
     s8 character;
     s32 length;

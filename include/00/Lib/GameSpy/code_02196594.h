@@ -4,7 +4,7 @@
 
 typedef struct GpConnection GpConnection;
 
-s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, s8 *key, s8 *value);
+s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key, char *value);
 u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state);
 
 typedef struct GpConnection GpConnection;

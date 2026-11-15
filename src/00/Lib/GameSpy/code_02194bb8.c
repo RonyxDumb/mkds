@@ -388,13 +388,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     response.mMatches = NULL;
                     response.mMore = PROFILE_SEARCH_MORE_DONE;
                     do {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "bsrdone") == 0) {
                             result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -417,7 +417,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             do {
                                 savedPos = readPos;
                                 result =
-                                    GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                                    GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                                 if (result != 0) {
                                     return result;
                                 }
@@ -462,7 +462,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == PROFILE_SEARCH_KIND_VALID_EMAIL) {
                     c2 = operation->mCallback;
                     if (c2.mCallback != NULL) {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
@@ -501,7 +501,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u3->mNumNicks = 0;
                         u3->mNicks = NULL;
                         u3->mUniquenicks = NULL;
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
@@ -513,7 +513,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         isDone = FALSE;
                         do {
                             result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -576,7 +576,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u4->mMatches = NULL;
                         do {
                             result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -598,8 +598,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 matchDone = FALSE;
                                 do {
                                     savedPos = readPos;
-                                    result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key,
-                                                             (s8 *) value);
+                                    result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                                     if (result != 0) {
                                         return result;
                                     }
@@ -629,7 +628,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
                     c5 = operation->mCallback;
                     if (c5.mCallback != NULL) {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
@@ -665,7 +664,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == PROFILE_SEARCH_KIND_NEW_USER) {
                     c6 = operation->mCallback;
                     if (c6.mCallback != NULL) {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
@@ -711,7 +710,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u7->mResult = GP_REQUEST_OK;
                         u7->mNumProfiles = 0;
                         u7->mProfiles = NULL;
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
@@ -723,7 +722,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         isDone = FALSE;
                         do {
                             result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -745,8 +744,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 matchDone = FALSE;
                                 do {
                                     savedPos = readPos;
-                                    result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key,
-                                                             (s8 *) value);
+                                    result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                                     if (result != 0) {
                                         return result;
                                     }
@@ -789,7 +787,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u9->mResult = GP_REQUEST_OK;
                         u9->mNumSuggestedNicks = 0;
                         u9->mSuggestedNicks = NULL;
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
@@ -807,7 +805,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         isDone = FALSE;
                         do {
                             result =
-                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, (s8 *) key, (s8 *) value);
+                                GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
