@@ -33,7 +33,8 @@ void texmtxCalc_flagTS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult)
     FX_DivAsync(widthFixed, heightFixed);
     negSum = -(matAnmResult->mSinCosR[0] + matAnmResult->mSinCosR[1]);
     matrix->mRows[3].x = (matAnmResult->mOrigWidth * (negSum + 0x1000)) << 3;
-    matrix->mRows[3].y = (matAnmResult->mOrigHeight * (matAnmResult->mSinCosR[0] - matAnmResult->mSinCosR[1] + 0x1000)) << 3;
+    matrix->mRows[3].y = (matAnmResult->mOrigHeight * (matAnmResult->mSinCosR[0] - matAnmResult->mSinCosR[1] + 0x1000))
+                         << 3;
     matrix->mRows[1].x = (matAnmResult->mSinCosR[0] * FX_GetDivResult()) >> 12;
 }
 
