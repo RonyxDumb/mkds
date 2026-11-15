@@ -16,6 +16,9 @@
 
 struct SegmentBuffer;
 
+// Called with the child index, the event code and a message or user info that depends on the code.
+typedef void (*MBParentStateCallback)(u32 child, u32 code, void *data);
+
 typedef enum MBCommPState {
     MULTIBOOT_PARENT_NONE,
     MULTIBOOT_PARENT_STARTED,
@@ -54,7 +57,7 @@ typedef struct MB_CommPWork {
     /* 1340 */ MBUserInfo mChildUser[15];
     /* 148a */ u16 mChildversion[15];
     /* 14a8 */ u32 mChildggid[15];
-    /* 14e4 */ void (*mCallback)(u32, u32, void *);
+    /* 14e4 */ MBParentStateCallback mCallback;
     /* 14e8 */ u32 mPCommState[15];
     /* 1524 */ u8 mEntryCount;
     /* 1525 */ u8 mCurFileid;
@@ -112,9 +115,6 @@ u32 MB_CommIsBootable(u32 child);
 void *MB_CommGetChildUser(u32 child);
 void MBi_CommCallParentError(u32 aid, u16 errcode);
 u32 IsChildAidValid(u32 aid);
-
-// The third argument is a message or a user info for the different callbacks, so the type is left unprototyped.
-typedef void (*MBParentStateCallback)();
 
 void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback);
 

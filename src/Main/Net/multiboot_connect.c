@@ -54,7 +54,8 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     ResetConnectionBuffers(&gConnectionWork->mMultiBootState);
 }
 
-void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
+void ParentStateCallback(u32 index, u32 code, void *data) {
+    MBUserInfo *childInfo = data;
     gConnectionWork->mMultiBootState.mChildStateCodes[index] = code;
     if (gConnectionWork->mStep == CONNECTION_STEP_MULTIBOOT_END_TO_IDLE && code != 0xc) {
         return;

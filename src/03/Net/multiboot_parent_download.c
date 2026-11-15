@@ -258,7 +258,8 @@ void StartMultiBootEndToIdle(void) {
     MB_EndToIdle();
 }
 
-void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
+void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
+    WirelessMessage *event = data;
     MultiBootParent *parent;
     u32 value;
     u16 clearMask;

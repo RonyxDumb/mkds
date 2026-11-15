@@ -46,7 +46,7 @@ u32 GetMultiBootChildState(u32 aid);
 u16 GetMultiBootChildMask(u32 maskIndex);
 u16 GetMultiBootParentState(void);
 void SetMultiBootParentState(u16 state);
-void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event);
+void MultiBootParentStateCallback(u32 aid, u32 code, void *data);
 void StartMultiBootEndToIdle(void);
 void StartMultiBootBootRequests(void);
 BOOL AreMultiBootChildrenBootable(void);

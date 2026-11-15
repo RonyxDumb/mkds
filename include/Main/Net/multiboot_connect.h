@@ -24,5 +24,5 @@ void StartCloseScanConnect(void);
 void SetupScanConnect(void);
 void StartMultiBootParent(void);
 void ResetConnectionBuffers(MultiBootStateView *view);
-void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo);
+void ParentStateCallback(u32 index, u32 code, void *data);
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg);
