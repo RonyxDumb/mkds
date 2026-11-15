@@ -90,7 +90,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
         gKartNameTags->mNameTagCount = gRaceSetup->mKartCount - 1;
         for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
             if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind == PLAYER_KIND_GHOST &&
-                gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mGhostRecordIndex == 0) {
+                gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mGhostRecordIndex == GHOST_RECORD_INDEX_COURSE) {
                 gKartNameTags->mNameTagCount = gKartNameTags->mNameTagCount - 1;
             }
         }
@@ -131,7 +131,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
             if (isGrandPrix == FALSE) {
                 if (kartIndex != gRaceSetup->mEntryIndex) {
                     if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind != PLAYER_KIND_GHOST ||
-                        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mGhostRecordIndex != 0) {
+                        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mGhostRecordIndex != GHOST_RECORD_INDEX_COURSE) {
                         createsObject = TRUE;
                     }
                 }

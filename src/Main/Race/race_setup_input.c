@@ -747,7 +747,7 @@ BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
     if (ghostRecord->mHead.mFilled == 1) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
-        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
         result = TRUE;
         GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);

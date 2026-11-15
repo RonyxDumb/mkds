@@ -128,7 +128,8 @@ void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int pla
     gRaceSetup->mNextEntries[entryIndex].mKartIndex = kartIndex;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuSlot = listedCpuSlot;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = playerKind == PLAYER_KIND_GHOST ? 0 : 3;
+    gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex =
+        playerKind == PLAYER_KIND_GHOST ? GHOST_RECORD_INDEX_COURSE : GHOST_RECORD_INDEX_NONE;
     gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags = 0;
     if (listedCpuSlot != 3) {
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mListedCpuFlags |= KART_ENTRY_LISTED_CPU_FLAG;
