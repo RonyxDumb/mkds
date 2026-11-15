@@ -14,9 +14,9 @@ typedef struct ScanStringSource {
 #define SCAN_OP_UNREAD 1
 #define SCAN_OP_AT_END 2
 
-// States of ScanInt32 and ScanInt64. READ_SIGN skips spaces and a sign, AFTER_SIGN looks for a leading 0, AFTER_ZERO
-// for an x, FIRST_DIGIT needs a digit, DIGITS has read at least one. ENDED stops after the digits, FAILED stops on a
-// bad start. STOPPED and VALID group them.
+// States of ScanInt32 and ScanInt64. READ_SIGN skips spaces and a sign, AFTER_SIGN looks for a leading 0,
+// CHECK_RADIX_MARK for an x, FIRST_DIGIT needs a digit, DIGITS has read at least one. ENDED stops after the digits,
+// FAILED stops on a bad start. STOPPED and VALID group them.
 #define SCAN_INT_STATE_READ_SIGN 0x1
 #define SCAN_INT_STATE_AFTER_SIGN 0x2
 #define SCAN_INT_STATE_CHECK_RADIX_MARK 0x4
