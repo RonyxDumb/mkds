@@ -65,12 +65,12 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
             sideDirection.z = -valueX;
             sideDirection.x = valueZ;
             sideDirection.y = 0;
-            crab->mRotateZAnglePerFrame = 0x71c;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME;
         } else {
             sideDirection.z = valueX;
             sideDirection.x = -valueZ;
             sideDirection.y = 0;
-            crab->mRotateZAnglePerFrame = 0xf8e4;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK;
         }
         crab->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(sideDirection.x, 0x1800);
         crab->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(sideDirection.y, 0x1800);
@@ -84,9 +84,9 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mMapObject.mPosStep.z = valueX;
         mapObjectRandom = GetMapObjectRandom();
         if (CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
-            crab->mRotateZAnglePerFrame = 0x71c;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME;
         } else {
-            crab->mRotateZAnglePerFrame = 0xf8e4;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK;
         }
     }
     if (sourceVelocity != NULL) {
@@ -94,7 +94,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mMapObject.mPosStep.z += sourceVelocity->z / 2;
     }
     crab->mMapObject.mPosStep.y = 0x4000;
-    crab->mTimer = 0x12c;
+    crab->mTimer = CRAB_START_TIMER_FRAMES;
     crab->mState = CRAB_STATE_FLUNG;
     crab->mMapObject.mFlags |= gCrabLaunchFlag;
 }
@@ -182,9 +182,9 @@ void InitCrabObjects(MapObjectList *mapObjectList) {
          objectIndex++) {
         crab->mHandWobble.mAngle = 0;
         crab->mHandWobble.mMid = 0;
-        crab->mHandWobble.mAmplitude = 0x1c7;
+        crab->mHandWobble.mAmplitude = CRAB_HAND_WOBBLE_AMPLITUDE;
         crab->mHandWobble.mAmplitudePerFrame = 0;
-        crab->mHandWobble.mAnglePerFrame = 0xe39;
+        crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
         crab->mHandWobble.mAnglePerFrameDelta = 0;
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
@@ -257,15 +257,15 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             }
             break;
         case CRAB_STATE_WALK:
-            crab->mFollower.mSpeed = 0x800;
+            crab->mFollower.mSpeed = CRAB_PATH_SPEED;
             crab->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength, 0x800);
             if (AdvanceGroupFollower(&crab->mFollower) != FALSE) {
                 crab->mHandWobble.mAngle = 0;
                 crab->mHandWobble.mMid = 0;
-                crab->mHandWobble.mAmplitude = 0x1c7;
+                crab->mHandWobble.mAmplitude = CRAB_HAND_WOBBLE_AMPLITUDE;
                 crab->mHandWobble.mAmplitudePerFrame = 0;
-                crab->mHandWobble.mAnglePerFrame = 0xe39;
+                crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
                 crab->mHandWobble.mAnglePerFrameDelta = 0;
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
@@ -308,9 +308,9 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mMapObject.mPos.y = crab->mMapObject.mCourseMapRow->mPosition.y - 0x5000;
             crab->mCrabWobble.mAngle = 0;
             crab->mCrabWobble.mMid = 0;
-            crab->mCrabWobble.mAmplitude = 0x2aab;
+            crab->mCrabWobble.mAmplitude = CRAB_BODY_WOBBLE_AMPLITUDE;
             crab->mCrabWobble.mAmplitudePerFrame = -0xb6;
-            crab->mCrabWobble.mAnglePerFrame = 0x71c;
+            crab->mCrabWobble.mAnglePerFrame = CRAB_BODY_WOBBLE_ANGLE_PER_FRAME;
             crab->mCrabWobble.mAnglePerFrameDelta = 0;
             AdvanceCrabWobble(&crab->mCrabWobble);
             crab->mRotateZAngle = crab->mCrabWobble.mValue;
@@ -337,9 +337,9 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mRotateZAngle = 0;
             crab->mHandWobble.mAngle = 0;
             crab->mHandWobble.mMid = 0;
-            crab->mHandWobble.mAmplitude = 0x1c7;
+            crab->mHandWobble.mAmplitude = CRAB_HAND_WOBBLE_AMPLITUDE;
             crab->mHandWobble.mAmplitudePerFrame = 0;
-            crab->mHandWobble.mAnglePerFrame = 0xe39;
+            crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
             crab->mHandWobble.mAnglePerFrameDelta = 0;
             mapObjectRandom = GetMapObjectRandom();
             mapObjectRandom->mValue =

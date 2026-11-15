@@ -107,7 +107,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             dossun->mSpinAngle = dossun->mSpinSpeed;
             dossun->mHitState = DOSSUN_HIT_NONE;
             dossun->mKartMask = 0;
-            dossun->mTimer = 0x1e;
+            dossun->mTimer = DOSSUN_START_FRAMES;
             dossun->mState = DOSSUN_STATE_WAIT_START;
             return;
         }
@@ -165,7 +165,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             break;
         case DOSSUN_STATE_HOVER:
             dossun->mTimer--;
-            if (dossun->mTimer < 0 && dossun->mSineAngle < 0x1555) {
+            if (dossun->mTimer < 0 && dossun->mSineAngle < DOSSUN_HOVER_SINE_ANGLE_LIMIT) {
                 dossun->mState++;
                 dossun->mDownSpeedOrFollowerSpeed = -dossun->mInitialUpSpeed;
                 return;
@@ -183,7 +183,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             }
             return;
         case DOSSUN_STATE_FOLLOW_ACCELERATING:
-            if (dossun->mDownSpeedOrFollowerSpeed < 0x14000) {
+            if (dossun->mDownSpeedOrFollowerSpeed < DOSSUN_FOLLOW_SPEED_LIMIT) {
                 dossun->mDownSpeedOrFollowerSpeed += 0x1000;
                 followerSpeed = dossun->mDownSpeedOrFollowerSpeed;
                 follower->mSpeed = followerSpeed;
@@ -288,7 +288,7 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *
             follower->mProgressStep =
                 MUL_FIXED12_NO_ROUND(speed, follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength);
             dossun->mHitState = DOSSUN_HIT_SLIDING;
-            dossun->mSpinSpeed = 0x1b58;
+            dossun->mSpinSpeed = DOSSUN_SPIN_SPEED;
             if ((s64) kartOffset.z * kart->mVelocity.x - (s64) kartOffset.x * kart->mVelocity.z < 0) {
                 dossun->mSpinSpeed = -dossun->mSpinSpeed;
             }

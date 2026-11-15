@@ -212,7 +212,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mPathPos, &ironBall->mMapObject.mPosStep);
             ironBall->mPathPos.y += 0x1000;
             ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mPathPos.y;
-            ironBall->mHeightSpeed = 0xa000;
+            ironBall->mHeightSpeed = IRON_BALL_JUMP_SPEED;
         } else if (value == 11) {
             ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_HEIGHT_SLOW;
             ironBall->mShadowStage = IRON_BALL_SHADOW_REFRESH;
@@ -326,7 +326,7 @@ MapObjectKindData *CreateIronBallKindData(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
-    mapObjectKindData->mHeightRangeMax = 0x190000;
+    mapObjectKindData->mHeightRangeMax = IRON_BALL_HEIGHT_RANGE_MAX;
     mapObjectKindData->mHeightRangeMin = -0x1f4000;
     return mapObjectKindData;
 }

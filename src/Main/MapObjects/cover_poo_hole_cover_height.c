@@ -99,8 +99,8 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     coverPooHole->mHitState = COVER_POO_HOLE_HIT_THROWN;
                     coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
                     coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
-                    coverPooHole->mHitCoverSpeed = 0x4000;
-                    coverPooHole->mHitPooSpeed = 0x1333;
+                    coverPooHole->mHitCoverSpeed = COVER_POO_HOLE_HIT_COVER_SPEED;
+                    coverPooHole->mHitPooSpeed = COVER_POO_HOLE_HIT_POO_SPEED;
                     coverPooHole->mYawWobbleAngle = 0;
                     coverPooHole->mYawWobbleCenter = 0;
                     coverPooHole->mYawWobbleAmplitude = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE;
@@ -208,8 +208,8 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
         coverPooHole->mHitState = COVER_POO_HOLE_HIT_THROWN;
         coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
         coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
-        coverPooHole->mHitCoverSpeed = 0x4000;
-        coverPooHole->mHitPooSpeed = 0x1333;
+        coverPooHole->mHitCoverSpeed = COVER_POO_HOLE_HIT_COVER_SPEED;
+        coverPooHole->mHitPooSpeed = COVER_POO_HOLE_HIT_POO_SPEED;
         coverPooHole->mMapObject.mPosStep.x = 0;
         coverPooHole->mMapObject.mPosStep.y = 0;
         coverPooHole->mMapObject.mPosStep.z = 0;
@@ -382,7 +382,7 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (coverPooHole = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        coverPooHole->mHoleHeight = 0x1000;
+        coverPooHole->mHoleHeight = COVER_POO_HOLE_HOLE_HEIGHT;
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;

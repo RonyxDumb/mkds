@@ -17,6 +17,12 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "code_02012b30.h"
 
+// Frames of the Kuribo walk cycle and its quarters.
+#define KURIBO_WALK_QUARTER_FRAMES 0xa
+#define KURIBO_WALK_HALF_FRAMES 0x14
+#define KURIBO_WALK_THREE_QUARTER_FRAMES 0x1e
+#define KURIBO_WALK_CYCLE_FRAMES 0x28
+
 #define KURIBO_STEP_SOUND_ID 0x182
 
 // Values of Dossun.mState; the entry extra value of the path picks the starting one (WAIT_START, HOVER or

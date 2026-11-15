@@ -6,6 +6,15 @@
 #include "Main/MapObjects/attractor.h"
 #include "01/MapObjects/data_0209bc74.h"
 
+#define CRAB_ROTATE_Z_ANGLE_PER_FRAME 0x71c
+#define CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK 0xf8e4
+#define CRAB_START_TIMER_FRAMES 0x12c
+#define CRAB_HAND_WOBBLE_AMPLITUDE 0x1c7
+#define CRAB_HAND_WOBBLE_ANGLE_PER_FRAME 0xe39
+#define CRAB_PATH_SPEED 0x800
+#define CRAB_BODY_WOBBLE_AMPLITUDE 0x2aab
+#define CRAB_BODY_WOBBLE_ANGLE_PER_FRAME 0x71c
+
 #define CRAB_ITEM_HIT_SOUND_ID 0x10f
 
 typedef struct ItemObject ItemObject;

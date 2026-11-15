@@ -133,7 +133,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             }
             VEC_Subtract(&component, &bound->mMapObject.mMatrix.mRows[1], &component);
             VEC_MultAdd(0x19a, &component, &bound->mMapObject.mPosStep, &bound->mMapObject.mPosStep);
-            bound->mKartTimers[kart->mIndex] = 0x1f;
+            bound->mKartTimers[kart->mIndex] = BOUND_KART_HIT_FRAMES;
             if (gRaceSetup->mMode == MODE_BATTLE) {
                 CallStandingsKartOffsetCallback(kart->mIndex, &bound->mMapObject.mPosStep);
             }
@@ -326,7 +326,7 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
          mapObjectIndex++) {
         if (bound->mMapObject.mCourseMapRow->mGroupIndex >= 0) {
             InitGroupFollower(&bound->mFollower, bound->mMapObject.mCourseMapRow, 0);
-            bound->mFollower.mSpeed = 0x3000;
+            bound->mFollower.mSpeed = BOUND_PATH_SPEED;
             bound->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength, 0x3000);
         } else {

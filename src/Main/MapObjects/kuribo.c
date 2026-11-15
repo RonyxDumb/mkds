@@ -59,7 +59,8 @@ void EnterKuriboWalkPath(void *stateObject) {
 
 void UpdateKuriboWalkPath(void *stateObject) {
     Kuribo *kuribo = stateObject;
-    if (kuribo->mFrameIndex >= 0xa && (kuribo->mFrameIndex < 0x14 || kuribo->mFrameIndex >= 0x1e)) {
+    if (kuribo->mFrameIndex >= KURIBO_WALK_QUARTER_FRAMES &&
+        (kuribo->mFrameIndex < KURIBO_WALK_HALF_FRAMES || kuribo->mFrameIndex >= KURIBO_WALK_THREE_QUARTER_FRAMES)) {
         AdvanceGroupFollower(&kuribo->mFollower);
     }
     GetGroupFollowerCurvePosition(&kuribo->mFollower, &kuribo->mMapObject.mPos);
@@ -91,8 +92,9 @@ void UpdateKuriboFallToSurface(void *stateObject) {
     Vec3 probePos;
     Vec3 correction;
     Vec3 surfaceNormal;
-    if (kuribo->mFrameIndex < 0xa || (kuribo->mFrameIndex >= 0x14 && kuribo->mFrameIndex < 0x1e)) {
-        if (kuribo->mFrameIndex == 0 || kuribo->mFrameIndex == 0x14) {
+    if (kuribo->mFrameIndex < KURIBO_WALK_QUARTER_FRAMES ||
+        (kuribo->mFrameIndex >= KURIBO_WALK_HALF_FRAMES && kuribo->mFrameIndex < KURIBO_WALK_THREE_QUARTER_FRAMES)) {
+        if (kuribo->mFrameIndex == 0 || kuribo->mFrameIndex == KURIBO_WALK_HALF_FRAMES) {
             kuribo->mToggleCountdown--;
             if (kuribo->mToggleCountdown < 0) {
                 kuribo->mToggleCountdown = 3;

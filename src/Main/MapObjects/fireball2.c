@@ -85,7 +85,7 @@ u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse,
         }
         StartSoundIfKartStarOrKiller(&fireball2->mMapObject, kart);
     }
-    fireball2->mKartHitTimers[kart->mIndex] = 0xb;
+    fireball2->mKartHitTimers[kart->mIndex] = FIREBALL2_KART_HIT_FRAMES;
     return responseValue;
 }
 

@@ -205,14 +205,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 flipper->mMirror = 0;
                 flipper->mMapObject.mFlags &= ~0x400;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
-                flipper->mWaitTimer = 0x1e;
+                flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
-                flipper->mWaitTimer = 0x1e;
+                flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
         }
@@ -283,15 +283,15 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
         case FLIPPER_STATE_SWING_OUT:
             flipper->mMapObject.mAngle -= 0x16c;
             flipper->mSwingStep = flipper->mSwingStep + 1;
-            if (flipper->mSwingStep >= 0x1d) {
-                flipper->mSwingStep = 0x1d;
+            if (flipper->mSwingStep >= FLIPPER_SWING_OUT_STEPS) {
+                flipper->mSwingStep = FLIPPER_SWING_OUT_STEPS;
                 flipper->mState = FLIPPER_STATE_SWING_BACK;
             }
             flipper->mIsAnimating = 1;
             break;
         case FLIPPER_STATE_SWING_BACK:
             flipper->mMapObject.mAngle += 0x16c;
-            if (flipper->mSwingStep >= 0xf) {
+            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_STEP_LIMIT) {
                 flipper->mIsAnimating = 1;
             } else {
                 flipper->mIsAnimating = 0;
@@ -317,15 +317,15 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
         case FLIPPER_STATE_ALT_SWING_OUT:
             flipper->mMapObject.mAngle -= 0x2d8;
             flipper->mSwingStep = flipper->mSwingStep + 2;
-            if (flipper->mSwingStep >= 0x1c) {
-                flipper->mSwingStep = 0x1c;
+            if (flipper->mSwingStep >= FLIPPER_ALT_SWING_OUT_STEPS) {
+                flipper->mSwingStep = FLIPPER_ALT_SWING_OUT_STEPS;
                 flipper->mState = FLIPPER_STATE_ALT_SWING_BACK;
             }
             flipper->mIsAnimating = 1;
             break;
         case FLIPPER_STATE_ALT_SWING_BACK:
             flipper->mMapObject.mAngle += 0x2d8;
-            if (flipper->mSwingStep >= 0xf) {
+            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_STEP_LIMIT) {
                 flipper->mIsAnimating = 1;
             } else {
                 flipper->mIsAnimating = 0;

@@ -6,6 +6,9 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "01/MapObjects/data_0209bc74.h"
 
+#define FIREBALL2_KART_HIT_FRAMES 0xb
+#define FIREBALL2_ROW_ANGLE_SPACING 0x10000
+
 // Element of 0x10 bytes: a position, then two halfwords.
 typedef struct Fireball2Element {
     /* 00 */ Vec3 mPos;

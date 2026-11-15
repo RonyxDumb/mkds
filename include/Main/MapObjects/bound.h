@@ -6,6 +6,9 @@
 #include "Main/MapObjects/code_020e005c.h" // GroupFollower
 #include "01/MapObjects/data_0209bc74.h"
 
+#define BOUND_KART_HIT_FRAMES 0x1f
+#define BOUND_PATH_SPEED 0x3000
+
 // Start values of the wobble: the x angle starts half a turn on and both centers are 1.0. A kart hit or an iron ball
 // path entry starts the large amplitude, an item hit the small one; each shrinks by its step per frame.
 #define BOUND_WOBBLE_X_ANGLE_START 0x8000

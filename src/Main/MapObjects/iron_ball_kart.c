@@ -88,7 +88,7 @@ u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *firstResponse, u
     u32 responseValue = *response;
 
     if (firstResponseValue == 1) {
-        ironBall->mHeightSpeed = 0xa000;
+        ironBall->mHeightSpeed = IRON_BALL_JUMP_SPEED;
         return 0;
     }
     return (u8) responseValue;

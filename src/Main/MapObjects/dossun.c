@@ -136,7 +136,7 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
     kuribo->mMapObject.mMatrix.mRows[3].x = kuribo->mMapObject.mPos.x >> 4;
     kuribo->mMapObject.mMatrix.mRows[3].y = kuribo->mMapObject.mPos.y >> 4;
     kuribo->mMapObject.mMatrix.mRows[3].z = kuribo->mMapObject.mPos.z >> 4;
-    if (kuribo->mFrameIndex < 0x14) {
+    if (kuribo->mFrameIndex < KURIBO_WALK_HALF_FRAMES) {
         gKuribo->mFrameIndex = kuribo->mFrameIndex;
     } else {
         scale.x = -scale.x;
@@ -154,7 +154,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
     RandomState64 *random;
     s32 falloffIndex;
     kuribo->mFrameIndex++;
-    if (kuribo->mFrameIndex == 0x14 || kuribo->mFrameIndex == 0x28) {
+    if (kuribo->mFrameIndex == KURIBO_WALK_HALF_FRAMES || kuribo->mFrameIndex == KURIBO_WALK_CYCLE_FRAMES) {
         if ((kuribo->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
             if (kuribo->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
                 falloffIndex = 2;
@@ -170,7 +170,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
             StartSoundFromParams(&soundRequest);
         }
     }
-    if (kuribo->mFrameIndex >= 0x28) {
+    if (kuribo->mFrameIndex >= KURIBO_WALK_CYCLE_FRAMES) {
         if (kuribo->mFrameRandomized != 0) {
             kuribo->mFrameIndex = 0;
         } else {
