@@ -124,7 +124,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     gRaceSetup->mNextHeader.mCourseListMode = 0;
     gRaceSetup->mNextHeader.mMirrorMode = 0;
     gRaceSetup->mNextHeader.mLapCount = -1;
-    gRaceSetup->mNextHeader.mCpuDifficulty = 2;
+    gRaceSetup->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
     random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
     courseIndexInCup = (u64) (u32) (random.mValue >> 32) * 4 >> 32;
     cupIndex = PickRandomCupIndex(&random);

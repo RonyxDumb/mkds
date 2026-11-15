@@ -359,7 +359,7 @@ void InitRaceProgress(void) {
     for (index = 0; index < gCourseMap->mNumberedCheckpointCount + 1; index++) {
         checkpointNumber = index % (gCourseMap->mNumberedCheckpointCount + 1);
         if (checkpointNumber == gCourseMap->mNumberedCheckpointCount) {
-            gRaceProgress->mCheckpointLapProgress[index] = 0x1000;
+            gRaceProgress->mCheckpointLapProgress[index] = TO_FIXED12(1);
         } else {
             for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
                 route = &gCourseMap->mCheckpointRoutes[routeIndex];

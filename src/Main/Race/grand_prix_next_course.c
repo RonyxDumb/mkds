@@ -6,7 +6,7 @@
 
 void SetNextGrandPrixCourse(void) {
     gRaceSetup->mNextHeader.mCourseNumber = gRaceSetup->mCourseNumber + 1;
-    if (gRaceSetup->mNextHeader.mCourseNumber <= 4) {
+    if (gRaceSetup->mNextHeader.mCourseNumber <= COURSES_PER_CUP) {
         gRaceSetup->mNextHeader.mCourseId =
             gCupCourseIdTable[gRaceSetup->mNextHeader.mCupIndex][gRaceSetup->mNextHeader.mCourseNumber - 1];
     }

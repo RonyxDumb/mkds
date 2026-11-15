@@ -81,7 +81,7 @@ void UpdateRaceNewRecordTa(void) {
     }
     gRaceNewRecordTa->mUpdate();
     gRaceNewRecordTa->mCycleFrames = gRaceNewRecordTa->mCycleFrames + 1;
-    if (gRaceNewRecordTa->mCycleFrames >= 0x18) {
+    if (gRaceNewRecordTa->mCycleFrames >= RACE_NEW_RECORD_TA_CYCLE_FRAMES) {
         gRaceNewRecordTa->mCycleFrames = 0;
     }
 }
@@ -104,7 +104,7 @@ void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, 
     SplitTimeDigits(record->mMinute, record->mSecond, record->mMillisecond, &digits);
     if (record->mFilled == 0) {
         digits.mDigits[0] = digits.mDigits[1] = digits.mDigits[2] = digits.mDigits[3] = digits.mDigits[4] =
-            digits.mDigits[5] = digits.mDigits[6] = 0xb;
+            digits.mDigits[5] = digits.mDigits[6] = RACE_NEW_RECORD_TA_BLANK_DIGIT;
     }
     if (digits.mDigits[0] != 0) {
         cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[0] + 0xe);

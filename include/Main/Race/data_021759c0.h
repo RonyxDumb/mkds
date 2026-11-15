@@ -38,6 +38,10 @@ enum {
 
 // Bit 0 of KartEntryPlayer.mListedCpuFlags: the entry fills a listed CPU slot.
 #define KART_ENTRY_LISTED_CPU_FLAG 1
+// KartEntryPlayer.mListedCpuSlot of an entry that fills no listed CPU slot.
+#define KART_ENTRY_LISTED_CPU_SLOT_NONE 3
+// Courses in a cup; KartEntry.mCourseNumber counts them from 1.
+#define COURSES_PER_CUP 4
 
 // The 0x28 bytes from 0x08 of each KartEntry entry (code keeps pointers to them).
 typedef struct KartEntryPlayer {

@@ -67,18 +67,18 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
     GhostListEntry *ghostFileRecords;
 
     switch (kind) {
-        case 0:
+        case GHOST_RECORD_KIND_COURSE:
             courseRecords = gGhostRecordSet->mCourseGhostRecords;
             GetGhostRecordTime(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], time);
             break;
-        case 1:
+        case GHOST_RECORD_KIND_SLOT:
             GetGhostRecordTime(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex), time);
             break;
-        case 2:
+        case GHOST_RECORD_KIND_GHOST_FILE:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
             GetGhostRecordTime(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, time);
             break;
-        case 4:
+        case GHOST_RECORD_KIND_OUTSIDE_SET:
             break;
     }
 }
@@ -89,18 +89,18 @@ void GetGhostRecordSetName(u32 kind, void *name) {
     u8 ghostName[0x14];
 
     switch (kind) {
-        case 0:
+        case GHOST_RECORD_KIND_COURSE:
             courseRecords = gGhostRecordSet->mCourseGhostRecords;
             GetGhostRecordName(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)], ghostName);
             break;
-        case 1:
+        case GHOST_RECORD_KIND_SLOT:
             GetGhostRecordName(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex), ghostName);
             break;
-        case 2:
+        case GHOST_RECORD_KIND_GHOST_FILE:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
             GetGhostRecordName(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead, ghostName);
             break;
-        case 4:
+        case GHOST_RECORD_KIND_OUTSIDE_SET:
             break;
     }
     MI_CpuFill8(name, 0, 0x20);
@@ -113,18 +113,18 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
     s32 characterIndex = -1;
 
     switch (kind) {
-        case 4:
+        case GHOST_RECORD_KIND_OUTSIDE_SET:
             characterIndex = -1;
             break;
-        case 0:
+        case GHOST_RECORD_KIND_COURSE:
             courseRecords = gGhostRecordSet->mCourseGhostRecords;
             characterIndex =
                 GetGhostRecordCharacterIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
-        case 1:
+        case GHOST_RECORD_KIND_SLOT:
             characterIndex = GetGhostRecordCharacterIndex(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex));
             break;
-        case 2:
+        case GHOST_RECORD_KIND_GHOST_FILE:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
             characterIndex =
                 GetGhostRecordCharacterIndex(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
@@ -139,17 +139,17 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
     s32 kartIndex = -1;
 
     switch (kind) {
-        case 4:
+        case GHOST_RECORD_KIND_OUTSIDE_SET:
             kartIndex = -1;
             break;
-        case 0:
+        case GHOST_RECORD_KIND_COURSE:
             courseRecords = gGhostRecordSet->mCourseGhostRecords;
             kartIndex = GetGhostRecordKartIndex(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
-        case 1:
+        case GHOST_RECORD_KIND_SLOT:
             kartIndex = GetGhostRecordKartIndex(GetGhostRecordSetSlotHead(gGhostRecordSet->mSlotIndex));
             break;
-        case 2:
+        case GHOST_RECORD_KIND_GHOST_FILE:
             ghostFileRecords = gGhostRecordSet->mGhostFileRecords;
             kartIndex =
                 GetGhostRecordKartIndex(&ghostFileRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)].mHead);
@@ -163,19 +163,19 @@ BOOL IsGhostRecordSetKindSelectable(u32 kind) {
     GhostRecordHead *courseRecords;
 
     switch (kind) {
-        case 4:
+        case GHOST_RECORD_KIND_OUTSIDE_SET:
             result = 1;
             break;
-        case 0:
+        case GHOST_RECORD_KIND_COURSE:
             courseRecords = gGhostRecordSet->mCourseGhostRecords;
             result = IsGhostRecordFilled(&courseRecords[FindCupCourseIndex(gGhostRecordSet->mCourseId)]);
             break;
-        case 1:
+        case GHOST_RECORD_KIND_SLOT:
             if (gGhostRecordSet->mSlotIndex != -1) {
                 result = 1;
             }
             break;
-        case 2:
+        case GHOST_RECORD_KIND_GHOST_FILE:
             if (IsTimeRecordFilled(gGhostRecordSet->mCourseId, 0) != FALSE) {
                 MinuteSecondMillisecondTime time;
 
@@ -203,16 +203,16 @@ BOOL HasNoSelectableGhost(void) {
 
 void ReadGhostRecordsForKind(u32 kind) {
     switch (kind) {
-        case 4:
+        case GHOST_RECORD_KIND_OUTSIDE_SET:
             SelectGhostReadCourseRecordAndWait(gGhostRecordSet->mCourseId);
             break;
-        case 0:
+        case GHOST_RECORD_KIND_COURSE:
             ReadCourseGhostRecordAndWait(gGhostRecordSet->mCourseId);
             break;
-        case 1:
+        case GHOST_RECORD_KIND_SLOT:
             ReadCourseAndSlotGhostRecords(gGhostRecordSet->mCourseId, gGhostRecordSet->mSlotIndex);
             break;
-        case 2:
+        case GHOST_RECORD_KIND_GHOST_FILE:
             ReadCourseGhostRecordAndLoadFile(gGhostRecordSet->mCourseId);
             break;
     }

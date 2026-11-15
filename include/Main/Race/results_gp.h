@@ -33,6 +33,8 @@ typedef enum ResultsGpGrade {
 
 // Number of cup ranks that get a trophy: a cup rank index below it is a trophy rank.
 #define CUP_RANK_TROPHY_COUNT 3
+// TimeRecord.mCupRank of a rank without a trophy.
+#define CUP_RANK_NO_TROPHY 3
 // Values of ResultsGp.mState: the timeline runs, a text is open and waits to close, the scene is left.
 #define RESULTS_GP_STATE_TIMELINE 0
 #define RESULTS_GP_STATE_TEXT_OPEN 1

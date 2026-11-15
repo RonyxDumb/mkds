@@ -195,6 +195,9 @@ typedef struct DisplaySettings {
 // Set when a scene ends; the input slots then update with no keys.
 #define INPUT_STATE_NO_KEYS 8
 
+// Bit of InputState.mFlags: the left and right keys are swapped (mirror mode).
+#define INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED 4
+
 typedef struct InputState {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mPadKeys;

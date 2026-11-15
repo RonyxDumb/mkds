@@ -3,6 +3,7 @@
 #include "code_0214d018.h"
 #include "Main/Race/race_setup_input.h"
 #include "Main/System/result_archive_path.h"
+#include "Main/Race/results_gp.h"
 #include "Main/Net/multiboot_connect.h"
 #include "Main/Net/packet_port.h"
 #include "Main/MapObjects/data_0217a000.h"
@@ -79,7 +80,7 @@ void FillGrandPrixRecord(TimeRecord *record) {
 BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
     s32 storedTimeMs;
     s32 newTimeMs;
-    if (newRecord->mCupRank == 3) {
+    if (newRecord->mCupRank == CUP_RANK_NO_TROPHY) {
         return FALSE;
     }
     if (storedRecord->mFilled == 0) {

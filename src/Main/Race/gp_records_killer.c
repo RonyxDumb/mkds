@@ -50,6 +50,7 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Race/results_gp.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/code_02196d58.h"
 #include "code_021458c4.h"
@@ -436,7 +437,7 @@ s32 GetStaffRollKindAfterGp(void) {
                 flag = FALSE;
             }
             if (flag != FALSE) {
-                if (gMenuShared->mCupRankIndex <= 2) {
+                if (gMenuShared->mCupRankIndex <= CUP_RANK_TROPHY_COUNT - 1) {
                     conditionMet = TRUE;
                 }
             }

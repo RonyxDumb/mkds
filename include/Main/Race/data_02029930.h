@@ -17,3 +17,8 @@ typedef struct MissionFileRow {
     /* 1f */ u8 mKartIndex1;
     /* 20 */ u8 mMissionRunStem[0xc];
 } MissionFileRow;
+
+// MissionFileRow.mFlags bit: the mission runs mirrored. MissionFileRow.mCharacterIndex1 and mKartIndex1 hold this when
+// the mission has no second kart.
+#define MISSION_FILE_ROW_FLAG_MIRROR 0x10
+#define MISSION_FILE_ROW_NO_SECOND_KART 0xff

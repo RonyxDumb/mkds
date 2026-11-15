@@ -73,9 +73,9 @@ void ResetRaceSetupCopy(void) {
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex = -1;
         gRaceSetupCopy->mEntries[entryIndex].mKartIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = 4;
+        gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = PLAYER_KIND_NONE;
         gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = 3;
+        gRaceSetupCopy->mEntries[entryIndex].mListedCpuSlot = KART_ENTRY_LISTED_CPU_SLOT_NONE;
     }
     gRaceSetupCopy->mMissionTableRow = 1;
     gRaceSetupCopy->mMissionTableColumn = 1;

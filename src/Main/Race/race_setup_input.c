@@ -511,7 +511,7 @@ s32 AdvanceToNextBattleCourse(void) {
 BOOL CopyCourseIdAndAdvanceCourseNumber(void) {
     gMenuShared->mUnk_5c[gRaceSetup->mCourseNumber] = gRaceSetup->mCourseId;
     gRaceSetup->mNextHeader.mCourseNumber++;
-    return gRaceSetup->mNextHeader.mCourseNumber <= 4;
+    return gRaceSetup->mNextHeader.mCourseNumber <= COURSES_PER_CUP;
 }
 
 static inline void SetNextRaceEntryWrapper(s32 listedCpuSlot, u32 teamIndex, s32 playerKind, u32 kartIndex,
@@ -563,7 +563,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[index].mKartIndex = index * 3;
         gRaceSetup->mNextEntries[index].mPlayer.mKind = index == 0 ? PLAYER_KIND_HUMAN : PLAYER_KIND_CPU;
         gRaceSetup->mNextEntries[index].mPlayer.mTeamIndex = -1;
-        gRaceSetup->mNextEntries[index].mPlayer.mListedCpuSlot = 3;
+        gRaceSetup->mNextEntries[index].mPlayer.mListedCpuSlot = KART_ENTRY_LISTED_CPU_SLOT_NONE;
         gRaceSetup->mNextEntries[index].mPlayer.mIndex = index;
         gRaceSetup->mNextEntries[index].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_NONE;
         gRaceSetup->mNextEntries[index].mPlayer.mListedCpuFlags = 0;
@@ -879,7 +879,7 @@ void SetCurrentRaceFromNext(void) {
         case RACE_KIND_NORMAL:
         case RACE_KIND_REPLAY:
         case RACE_KIND_START_GP:
-        case 4:
+        case RACE_KIND_START_BATTLE:
             entryIndex = 0;
             for (searchIndex = 0; searchIndex < 8; searchIndex++) {
                 if (gRaceSetup->mNextEntries[searchIndex].mPlayer.mKind == PLAYER_KIND_HUMAN) {
@@ -1097,7 +1097,7 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mNextHeader.mMissionTableColumn = tableColumn;
     gRaceSetup->mNextHeader.mMode = MODE_MISSION_RUN;
     gRaceSetup->mNextHeader.mCourseId = missionFileRow->mCourseId;
-    gRaceSetup->mNextHeader.mMirrorMode = (missionFileRow->mFlags & 0x10) != 0 ? 1 : 0;
+    gRaceSetup->mNextHeader.mMirrorMode = (missionFileRow->mFlags & MISSION_FILE_ROW_FLAG_MIRROR) != 0 ? 1 : 0;
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
@@ -1105,9 +1105,9 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mCourseCount = 0;
     gRaceSetup->mNextHeader.mEngineIndex = missionFileRow->mEngineIndex;
     SetNextRaceEntry(0, missionFileRow->mCharacterIndex0, missionFileRow->mKartIndex0, PLAYER_KIND_HUMAN, -1, 3);
-    if (missionFileRow->mCharacterIndex1 != 0xff && missionFileRow->mKartIndex1 != 0xff) {
+    if (missionFileRow->mCharacterIndex1 != MISSION_FILE_ROW_NO_SECOND_KART && missionFileRow->mKartIndex1 != MISSION_FILE_ROW_NO_SECOND_KART) {
         SetNextRaceEntry(1, missionFileRow->mCharacterIndex1, missionFileRow->mKartIndex1, PLAYER_KIND_CPU, -1, 3);
-        gRaceSetup->mNextHeader.mCpuDifficulty = 2;
+        gRaceSetup->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
     } else {
         SetNextRaceEntry(1, -1, -1, PLAYER_KIND_NONE, -1, 3);
         gRaceSetup->mNextHeader.mCpuDifficulty = 0;
@@ -1291,9 +1291,9 @@ void ReleaseTouchMicInputWrapper(void) {
 
 void SetLeftRightKeysSwapped(u32 mirrorMode) {
     if (mirrorMode != 0) {
-        gInputState->mFlags |= 4;
+        gInputState->mFlags |= INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED;
     } else {
-        gInputState->mFlags &= ~4;
+        gInputState->mFlags &= ~INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED;
     }
 }
 
@@ -1411,7 +1411,7 @@ void UpdateInputSlots(void) {
                     if (isBlocked == 0) {
                         if (canReadKeys != 0) {
                             slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
-                            if (gInputState->mFlags & 4) {
+                            if (gInputState->mFlags & INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED) {
                                 keys = slotKeys & 0xffcf;
                                 if (slotKeys & PAD_KEY_LEFT) {
                                     keys |= PAD_KEY_RIGHT;

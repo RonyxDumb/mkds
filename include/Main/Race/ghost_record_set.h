@@ -30,3 +30,11 @@ extern struct GhostRecordSet *gGhostRecordSet;
 static inline GhostRecordHead *GetGhostRecordSetSlotHead(u8 slotIndex) {
     return &gGhostRecordSet->mSlotGhostRecords[slotIndex].mHead;
 }
+
+// Kinds of ghost record the functions of this file take: the record of the course, the record of the selected slot, the
+// record of the ghost file, and the kind with no record of its own in the set (the getters read nothing for it; reading
+// it loads the course record only).
+#define GHOST_RECORD_KIND_COURSE 0
+#define GHOST_RECORD_KIND_SLOT 1
+#define GHOST_RECORD_KIND_GHOST_FILE 2
+#define GHOST_RECORD_KIND_OUTSIDE_SET 4

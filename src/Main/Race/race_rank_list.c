@@ -162,13 +162,13 @@ void UpdateRaceRankList(void) {
     }
     SortIndicesByKey(gRaceRankList->mKartsByRank, rankKeys, gRaceSetup->mKartCount);
     gRaceRankList->mMoveFrames++;
-    if (gRaceRankList->mMoveFrames >= 0x1c) {
+    if (gRaceRankList->mMoveFrames >= RACE_RANK_LIST_MOVE_FRAMES) {
         gRaceRankList->mMoveFrames = 0;
     }
     for (kartIndex = 0; kartIndex < (s32) gRaceSetup->mKartCount; kartIndex++) {
         if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames != 0) {
             gRaceRankList->mItemsInUse[kartIndex].mInUseFrames++;
-            if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames > 0x24) {
+            if (gRaceRankList->mItemsInUse[kartIndex].mInUseFrames > RACE_RANK_LIST_ITEM_IN_USE_FRAMES) {
                 gRaceRankList->mItemsInUse[kartIndex].mInUseFrames = 0;
             }
         }
@@ -231,7 +231,7 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
         if (framesSinceStart % 12 < 6) {
             cellIndex = 0xc9;
         } else if ((itemIndexView = (RaceRankListItemInUse *) &rankList->mItemsInUse[0].mItemInfoIndex)[kartIndex]
-                       .mInUseFrames == 5) {
+                       .mInUseFrames == RACE_RANK_LIST_ITEM_COUNT_FRAME) {
             switch (rankList->mItemsInUse[kartIndex].mObjectCount) {
                 case 1:
                     cellIndex = 0x11;
@@ -764,7 +764,7 @@ void UpdateRaceLapNumber(void) {
             lapNumber->mBlinkShown = 0;
         }
         gRaceLapNumber->mBlinkFrames++;
-        if (gRaceLapNumber->mBlinkFrames > 0x78) {
+        if (gRaceLapNumber->mBlinkFrames > RACE_LAP_NUMBER_BLINK_FRAMES) {
             gRaceLapNumber->mBlinkFrames = 0;
         }
     } else {

@@ -52,3 +52,7 @@ void SlideInRaceNewRecordTa(void);
 unsigned int GetRaceNewRecordTaBestLapNumber(void);
 
 extern struct RaceNewRecordTa *gRaceNewRecordTa;
+
+// Frames of the new record cycle, and the digit value that shows no digit.
+#define RACE_NEW_RECORD_TA_CYCLE_FRAMES 0x18
+#define RACE_NEW_RECORD_TA_BLANK_DIGIT 0xb

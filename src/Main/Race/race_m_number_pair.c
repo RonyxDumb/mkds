@@ -80,13 +80,13 @@ void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
     if (startFrames < 0x78) {
         gRaceMNumberPair->mOffsetX = 0;
         gRaceMNumberPair->mCellMatrix = NULL;
-        gRaceMNumberPair->mScale = 0x1000;
+        gRaceMNumberPair->mScale = TO_FIXED12(1);
         gRaceMNumberPair->mMatrixIndex = 0;
         return;
     }
     gRaceMNumberPair->mOffsetX = InterpolateS16(1, 0, 0x80, startFrames - 0x78, 0x14);
     gRaceMNumberPair->mCellMatrix = NULL;
-    gRaceMNumberPair->mScale = 0x1000;
+    gRaceMNumberPair->mScale = TO_FIXED12(1);
     gRaceMNumberPair->mMatrixIndex = 0;
 }
 
