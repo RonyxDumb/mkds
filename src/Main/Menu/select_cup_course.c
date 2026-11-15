@@ -305,31 +305,31 @@ s32 AdvanceSelectCupCourse(void) {
 
     gSelectCupCourse->mState = gSelectCupCourse->mNextState;
     switch (gSelectCupCourse->mState) {
-        case 0:
+        case SELECT_CUP_COURSE_STATE_WAIT_FADE:
             AdvanceSelectCupCourseState0();
             break;
-        case 1:
+        case SELECT_CUP_COURSE_STATE_SLIDE_IN:
             AdvanceSelectCupCourseState1();
             break;
-        case 2:
+        case SELECT_CUP_COURSE_STATE_WAIT_RETURN:
             AdvanceSelectCupCourseState2();
             break;
-        case 3:
+        case SELECT_CUP_COURSE_STATE_PICK_COURSE:
             AdvanceSelectCupCourseState3();
             break;
-        case 4:
+        case SELECT_CUP_COURSE_STATE_CONFIRM_PICK:
             AdvanceSelectCupCourseState4();
             break;
-        case 5:
+        case SELECT_CUP_COURSE_STATE_WAIT_CHOICES:
             AdvanceSelectCupCourseState5();
             break;
-        case 6:
+        case SELECT_CUP_COURSE_STATE_CHOOSE:
             AdvanceSelectCupCourseState6();
             break;
-        case 7:
+        case SELECT_CUP_COURSE_STATE_CLOSE_CHOICES:
             AdvanceSelectCupCourseState7();
             break;
-        case 8:
+        case SELECT_CUP_COURSE_STATE_SLIDE_OUT:
             AdvanceSelectCupCourseState8();
             break;
     }
@@ -354,7 +354,7 @@ s32 AdvanceSelectCupCourse(void) {
     } else {
         AdvanceSelectRaceRuleWait();
     }
-    if (gSelectCupCourse->mState == 8 && gSelectCupCourse->mStateFrames >= 10) {
+    if (gSelectCupCourse->mState == SELECT_CUP_COURSE_STATE_SLIDE_OUT && gSelectCupCourse->mStateFrames >= 10) {
         return gSelectCupCourse->mResult;
     }
     return 0;
