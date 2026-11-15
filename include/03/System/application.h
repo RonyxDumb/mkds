@@ -2,9 +2,12 @@
 
 #include "types.h"
 
-typedef struct ModeAndFlags {
-    /* 00 */ u32 mMode : 4;
-    /* 00 */ u32 mFlags : 28;
+typedef union ModeAndFlags {
+    /* 00 */ u32 mValue;
+    struct {
+        u32 mMode : 4;
+        u32 mFlags : 28;
+    } mBits;
 } ModeAndFlags;
 
 extern void (*gUpdateFunction)(void);

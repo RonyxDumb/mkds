@@ -63,7 +63,7 @@ s32 RunMainLoop(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
 
 BOOL InitLanguageAndMode(s32 languageIndex, u32 modeAndFlags) {
     gLanguageIndex[0] = languageIndex;
-    *(u32 *) &gModeAndFlags = modeAndFlags;
+    gModeAndFlags.mValue = modeAndFlags;
     if (languageIndex < 0 || languageIndex > 5) {
         return 0;
     }
@@ -73,7 +73,7 @@ BOOL InitLanguageAndMode(s32 languageIndex, u32 modeAndFlags) {
     if (languageIndex != 0 && ((modeAndFlags >> 4) & 1) != 0) {
         return 0;
     }
-    if (languageIndex == 0 && (gModeAndFlags.mFlags & 1) == 0) {
+    if (languageIndex == 0 && (gModeAndFlags.mBits.mFlags & 1) == 0) {
         return 0;
     }
     return 1;
@@ -221,11 +221,11 @@ u8 GetLanguageIndex(void) {
 }
 
 u32 GetMode(void) {
-    return gModeAndFlags.mMode;
+    return gModeAndFlags.mBits.mMode;
 }
 
 BOOL HasModeFlag(u32 mask) {
-    if ((gModeAndFlags.mFlags & mask) != 0) {
+    if ((gModeAndFlags.mBits.mFlags & mask) != 0) {
         return 1;
     }
     return 0;
