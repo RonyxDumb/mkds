@@ -116,7 +116,7 @@ void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject) {
 }
 
 SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x60);
+    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectSound));
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
     mapObject->mFarDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
     SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);

@@ -73,7 +73,6 @@ typedef struct ItemKouraW {
     /* 2e8 */ StateMachine mStateMachine;
     /* 2fc */ s32 mReverse;
     /* 300 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
-    /* 310 */ u8 mUnk_310[0xc];
 } ItemKouraW;
 
 typedef struct ItemKouraW ItemKouraW;

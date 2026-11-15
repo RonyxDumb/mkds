@@ -15,7 +15,6 @@ typedef struct MapObjectSound {
     // Sound source of the map object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
     /* 44 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
-    /* 54 */ u8 mUnk_54[0xc];
 } MapObjectSound;
 
 // Values of MapObjectKindData.mShapeKind: the body that kart and item hits are tested against.
@@ -104,7 +103,7 @@ typedef struct MapObject {
     // state and the frames spent in the state.
     /* 80 */ StateMachine mStateMachine;
     // The sound object of the map object, tested against NULL before use: a SoundSource at 0 (so the pointer also
-    // serves as the source) and, in the 0x60-byte variant, a SoundDistanceSquaredChange behind it.
+    // serves as the source) and a SoundDistanceSquaredChange behind it.
     /* 94 */ MapObjectSound *mSound;
     /* 98 */ MapObjectKindData *mKindData;
     /* 9c */ struct CourseMapRow *mCourseMapRow;

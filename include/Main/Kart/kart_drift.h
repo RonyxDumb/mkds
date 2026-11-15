@@ -783,7 +783,6 @@ typedef struct Kart {
     /* 510 */ Vec3 *mCollisionPosSource;
     /* 514 */ ParticipantKartRecordState *mParticipantRecordData;
     /* 518 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
-    /* 528 */ u8 mUnk_528[0xc];
     /* 534 */ Vec3 *mPosSourceCopy;
     /* 538 */ KartItemEffectState mItemEffectData;
     /* 590 */ struct KartModelsEntry *mKartModelsEntry;

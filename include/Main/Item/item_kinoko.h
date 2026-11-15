@@ -36,7 +36,6 @@ typedef struct ItemKouraR {
     /* 250 */ s32 mReverse;
     /* 254 */ s32 mThrowForward;
     /* 258 */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
-    /* 268 */ u8 mUnk_268[0xc];
 } ItemKouraR;
 
 // Object of item kind 2, element of gItemPools[2].
@@ -50,7 +49,6 @@ typedef struct ItemKouraG {
     /* 000 */ DirectedItemObject mDirectedItemObject;
     /* 168 */ s32 mReverse;
     /* 16c */ SoundDistanceSquaredChange mSoundDistanceSquaredChange;
-    /* 17c */ u8 mUnk_17c[0xc];
 } ItemKouraG;
 
 #include "Main/Race/data_020f36d8.h"
