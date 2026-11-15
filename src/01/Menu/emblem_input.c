@@ -86,7 +86,7 @@ void AdvanceEmblemInput(void) {
         gEmblemInput->mX >= gEmblemInput->mPrevX - 1 && gEmblemInput->mY <= gEmblemInput->mPrevY + 1 &&
         gEmblemInput->mY >= gEmblemInput->mPrevY - 1) {
         gEmblemInput->mStillCallCount++;
-        if (gEmblemInput->mStillCallCount > 0x3c) {
+        if (gEmblemInput->mStillCallCount > EMBLEM_INPUT_STILL_PRESS_CALLS) {
             gEmblemInput->mStillCallCount = 0;
             gEmblemInput->mPressed = 1;
             gEmblemInput->mReleased = 1;
@@ -234,26 +234,26 @@ u16 GetEmblemInputBits(u16 mask) {
 
 BOOL IsEmblemInputRepeat(int mask) {
     switch (mask) {
-        case 0x20:
-            return gEmblemInput->mLeftHeldCount == 1 || gEmblemInput->mLeftHeldCount == 0xf;
-        case 0x10:
-            return gEmblemInput->mRightHeldCount == 1 || gEmblemInput->mRightHeldCount == 0xf;
-        case 0x40:
-            return gEmblemInput->mUpHeldCount == 1 || gEmblemInput->mUpHeldCount == 0xf;
-        case 0x80:
-            return gEmblemInput->mDownHeldCount == 1 || gEmblemInput->mDownHeldCount == 0xf;
-        case 1:
-            return gEmblemInput->mAHeldCount == 1 || gEmblemInput->mAHeldCount == 0xf;
-        case 2:
-            return gEmblemInput->mBHeldCount == 1 || gEmblemInput->mBHeldCount == 0xf;
-        case 0x400:
-            return gEmblemInput->mXHeldCount == 1 || gEmblemInput->mXHeldCount == 0xf;
-        case 0x800:
-            return gEmblemInput->mYHeldCount == 1 || gEmblemInput->mYHeldCount == 0xf;
-        case 0x200:
-            return gEmblemInput->mLHeldCount == 1 || gEmblemInput->mLHeldCount == 0xf;
-        case 0x100:
-            return gEmblemInput->mRHeldCount == 1 || gEmblemInput->mRHeldCount == 0xf;
+        case PAD_KEY_LEFT:
+            return gEmblemInput->mLeftHeldCount == 1 || gEmblemInput->mLeftHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_RIGHT:
+            return gEmblemInput->mRightHeldCount == 1 || gEmblemInput->mRightHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_UP:
+            return gEmblemInput->mUpHeldCount == 1 || gEmblemInput->mUpHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_DOWN:
+            return gEmblemInput->mDownHeldCount == 1 || gEmblemInput->mDownHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_A:
+            return gEmblemInput->mAHeldCount == 1 || gEmblemInput->mAHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_B:
+            return gEmblemInput->mBHeldCount == 1 || gEmblemInput->mBHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_X:
+            return gEmblemInput->mXHeldCount == 1 || gEmblemInput->mXHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_Y:
+            return gEmblemInput->mYHeldCount == 1 || gEmblemInput->mYHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_L:
+            return gEmblemInput->mLHeldCount == 1 || gEmblemInput->mLHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
+        case PAD_KEY_R:
+            return gEmblemInput->mRHeldCount == 1 || gEmblemInput->mRHeldCount == EMBLEM_INPUT_REPEAT_CALLS;
     }
     return FALSE;
 }

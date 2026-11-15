@@ -3,6 +3,11 @@
 #include "types.h"
 #include "01/code_02188950.h"
 
+// Calls a key has been held at which it repeats (the held counts also count 1 for the first call), and calls a touch
+// must stay within one pixel of its previous point to count as pressed and released.
+#define EMBLEM_INPUT_REPEAT_CALLS 0xf
+#define EMBLEM_INPUT_STILL_PRESS_CALLS 0x3c
+
 typedef struct EmblemInput {
     /* 0x00 */ s32 mX;
     /* 0x04 */ s32 mY;
