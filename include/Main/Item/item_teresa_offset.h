@@ -37,19 +37,19 @@ void SetItemTeresaFromPacket(ItemTeresa *teresa, u32 sel, s32 value);
 void InitItemTeresaFromData(ItemTeresa *teresa);
 void CopyItemTeresaData(void *cursor, ItemTeresa *teresa, void *toData);
 void ResetItemTeresaOwnerActiveItem(ItemTeresa *teresa);
-void UpdateItemTeresaState6(void *stateObject);
+void UpdateItemTeresaFadeOutEnd(void *stateObject);
 
-unsigned int EnterItemTeresaState6(unsigned int value);
+unsigned int EnterItemTeresaFadeOutEnd(unsigned int value);
 
-void UpdateItemTeresaState5(void *stateObject);
-void EnterItemTeresaState5(void *stateObject);
+void UpdateItemTeresaFadeInAtOwner(void *stateObject);
+void EnterItemTeresaFadeInAtOwner(void *stateObject);
 void RestoreItemTeresaPosPointer(ItemTeresa *teresa);
 
 void SetItemTeresaPosPointerToDrawPos(ItemTeresa *teresa);
 
-void UpdateItemTeresaState4(void *stateObject);
-void EnterItemTeresaState4(void *stateObject);
-void UpdateItemTeresaState3(void *stateObject);
+void UpdateItemTeresaWaitDelay(void *stateObject);
+void EnterItemTeresaWaitDelay(void *stateObject);
+void UpdateItemTeresaTakeItem(void *stateObject);
 
 // ItemTeresa.mPickedKartIndex while no kart is picked (one past the last kart index).
 #define ITEM_TERESA_NO_KART 8
@@ -101,22 +101,22 @@ typedef struct ItemTeresa {
 } ItemTeresa;
 
 s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa);
-void EnterItemTeresaState2(void *stateObject);
+void EnterItemTeresaFadeInAtPicked(void *stateObject);
 s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 nextState);
 BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 nextState);
 void AdvanceItemTeresaPath(ItemTeresa *teresa);
-void EnterItemTeresaState0(void *stateObject);
+void EnterItemTeresaFadeOutAtOwner(void *stateObject);
 void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide);
-void UpdateItemTeresaState0(void *stateObject);
-void EnterItemTeresaState1(void *stateObject);
-void UpdateItemTeresaState1(void *stateObject);
+void UpdateItemTeresaFadeOutAtOwner(void *stateObject);
+void EnterItemTeresaWaitPickedKart(void *stateObject);
+void UpdateItemTeresaWaitPickedKart(void *stateObject);
 void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex);
 void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex);
-void UpdateItemTeresaState2(void *stateObject);
+void UpdateItemTeresaFadeInAtPicked(void *stateObject);
 void AdvanceItemTeresa(ItemTeresa *teresa);
 void InitItemTeresa(ItemInUse *inUse, ItemTeresa *teresa);
 
-void EnterItemTeresaState3(void *stateObject);
+void EnterItemTeresaTakeItem(void *stateObject);
 
 void ResetItemTeresa(ItemTeresa *teresa);
 typedef struct ItemInUse ItemInUse;

@@ -93,13 +93,13 @@ const ItemKind gItemKindTeresa = {0x274,
                                   1,
                                   1,
                                   0};
-StateCallbacks gItemTeresaStateTable[7] = {{EnterItemTeresaState0, UpdateItemTeresaState0},
-                                           {EnterItemTeresaState1, UpdateItemTeresaState1},
-                                           {EnterItemTeresaState2, UpdateItemTeresaState2},
-                                           {EnterItemTeresaState3, UpdateItemTeresaState3},
-                                           {EnterItemTeresaState4, UpdateItemTeresaState4},
-                                           {EnterItemTeresaState5, UpdateItemTeresaState5},
-                                           {(StateCallback) EnterItemTeresaState6, UpdateItemTeresaState6}};
+StateCallbacks gItemTeresaStateTable[7] = {{EnterItemTeresaFadeOutAtOwner, UpdateItemTeresaFadeOutAtOwner},
+                                           {EnterItemTeresaWaitPickedKart, UpdateItemTeresaWaitPickedKart},
+                                           {EnterItemTeresaFadeInAtPicked, UpdateItemTeresaFadeInAtPicked},
+                                           {EnterItemTeresaTakeItem, UpdateItemTeresaTakeItem},
+                                           {EnterItemTeresaWaitDelay, UpdateItemTeresaWaitDelay},
+                                           {EnterItemTeresaFadeInAtOwner, UpdateItemTeresaFadeInAtOwner},
+                                           {(StateCallback) EnterItemTeresaFadeOutEnd, UpdateItemTeresaFadeOutEnd}};
 
 void TeresaMarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
     itemInUse->mIsActiveItem = TRUE;
@@ -441,7 +441,7 @@ void PlaceItemTeresaAtKart(ItemTeresa *teresa, s32 shiftAlongCameraSide) {
     teresa->mOffsetZ = delta[2] + (s32) teresa->mOffsetZ;
 }
 
-void EnterItemTeresaState0(void *stateObject) {
+void EnterItemTeresaFadeOutAtOwner(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     teresa->mKart = GetKart((u16) (teresa->mItemObject.mOwnerKartIndexAndFlags & ~0xff00));
     teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
@@ -575,7 +575,7 @@ s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 ne
     return stateFrames;
 }
 
-void UpdateItemTeresaState0(void *stateObject) {
+void UpdateItemTeresaFadeOutAtOwner(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     AdvanceItemTeresaFadeOut(teresa, 0,
                              (teresa->mItemObject.mFlags & 0x8000000) ? ITEM_TERESA_STATE_WAIT_PICKED_KART
@@ -599,7 +599,7 @@ void UpdateItemTeresaState0(void *stateObject) {
     }
 }
 
-void EnterItemTeresaState1(void *stateObject) {
+void EnterItemTeresaWaitPickedKart(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     if (teresa->mActsLocally == FALSE) {
         return;
@@ -610,7 +610,7 @@ void EnterItemTeresaState1(void *stateObject) {
     teresa->mActsLocally = FALSE;
 }
 
-void UpdateItemTeresaState1(void *stateObject) {
+void UpdateItemTeresaWaitPickedKart(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     s32 stateFrames;
 
@@ -627,7 +627,7 @@ void UpdateItemTeresaState1(void *stateObject) {
     teresa->mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterItemTeresaState2(void *stateObject) {
+void EnterItemTeresaFadeInAtPicked(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     s32 *offset;
     Camera *camera;
@@ -718,7 +718,7 @@ s32 RemoveItemTeresaPickedKartItem(ItemTeresa *teresa) {
     return gItemInfos[itemInfoIndex].mObjectKind;
 }
 
-void UpdateItemTeresaState2(void *stateObject) {
+void UpdateItemTeresaFadeInAtPicked(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     u32 framesLeft;
     BOOL receivedItem;
@@ -791,12 +791,12 @@ void UpdateItemTeresaState2(void *stateObject) {
     }
 }
 
-void EnterItemTeresaState3(void *stateObject) {
+void EnterItemTeresaTakeItem(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     teresa->mOffsetAccelerationY = 0x0u;
 }
 
-void UpdateItemTeresaState3(void *stateObject) {
+void UpdateItemTeresaTakeItem(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     if (teresa->mItemModelAlpha < 0x1f) {
         teresa->mItemModelAlpha += 5;
@@ -854,13 +854,13 @@ void UpdateItemTeresaState3(void *stateObject) {
     }
 }
 
-void EnterItemTeresaState4(void *stateObject) {
+void EnterItemTeresaWaitDelay(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     teresa->mDelayTimer = ((teresa->mItemObject.mFlags & 0x10000000) ? 0xf : 0) - teresa->mDelayTimer;
     teresa->mActsLocally = FALSE;
 }
 
-void UpdateItemTeresaState4(void *stateObject) {
+void UpdateItemTeresaWaitDelay(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     teresa->mDelayTimer--;
     if (teresa->mDelayTimer >= 0) {
@@ -882,7 +882,7 @@ void RestoreItemTeresaPosPointer(ItemTeresa *teresa) {
     }
 }
 
-void EnterItemTeresaState5(void *stateObject) {
+void EnterItemTeresaFadeInAtOwner(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     int ownerKartIndex;
     KartItems *ownerKartItems;
@@ -928,7 +928,7 @@ void EnterItemTeresaState5(void *stateObject) {
     positionFunction(teresa);
 }
 
-void UpdateItemTeresaState5(void *stateObject) {
+void UpdateItemTeresaFadeInAtOwner(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     s32 ownerKartIndex;
     KartItems *ownerKartItems;
@@ -1034,11 +1034,11 @@ skip:
     }
 }
 
-u32 EnterItemTeresaState6(u32 value) {
+u32 EnterItemTeresaFadeOutEnd(u32 value) {
     return value;
 }
 
-void UpdateItemTeresaState6(void *stateObject) {
+void UpdateItemTeresaFadeOutEnd(void *stateObject) {
     ItemTeresa *teresa = stateObject;
     BOOL hasItem;
     s32 ownerKartIndex;
