@@ -237,16 +237,16 @@ void GX_BeginLoadBGExtPltt(void) {
     switch (mask) {
         case 0:
             break;
-        case 0x10:
+        case GX_VRAM_BANK_E:
             gBgExtPaletteLoadBase = 0x6880000;
             gBgExtPaletteLoadBaseOffset = 0;
             break;
-        case 0x40:
+        case GX_VRAM_BANK_G:
             gBgExtPaletteLoadBase = 0x6894000;
             gBgExtPaletteLoadBaseOffset = 0x4000;
             break;
-        case 0x20:
-        case 0x60:
+        case GX_VRAM_BANK_F:
+        case GX_VRAM_BANK_F | GX_VRAM_BANK_G:
             gBgExtPaletteLoadBase = 0x6890000;
             gBgExtPaletteLoadBaseOffset = 0;
             break;
@@ -283,10 +283,10 @@ void GX_BeginLoadOBJExtPltt(void) {
         return;
     }
     switch (mask) {
-        case 0x20:
+        case GX_VRAM_BANK_F:
             gObjExtPaletteLoadBase = 0x6890000;
             break;
-        case 0x40:
+        case GX_VRAM_BANK_G:
             gObjExtPaletteLoadBase = 0x6894000;
             break;
     }

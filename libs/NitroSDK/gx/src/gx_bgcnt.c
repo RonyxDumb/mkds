@@ -1,4 +1,5 @@
 #include "gx_bgcnt.h"
+#include "gx.h"
 #include "registers.h"
 
 u32 G2_GetBG0ScrPtr(void) {
@@ -54,18 +55,18 @@ u32 G2_GetBG2ScrPtr(void) {
     offset = ((reg_GX_DISPCNT & 0x38000000) >> 27) << 16;
     block = (control & 0x1f00) >> 8;
     switch (mode) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
+        case GX_BGMODE_0:
+        case GX_BGMODE_1:
+        case GX_BGMODE_2:
+        case GX_BGMODE_3:
+        case GX_BGMODE_4:
             return offset + 0x6000000 + (block << 11);
-        case 5:
+        case GX_BGMODE_5:
             if (control & 0x80) {
                 return (block << 14) + 0x6000000;
             }
             return offset + 0x6000000 + (block << 11);
-        case 6:
+        case GX_BGMODE_6:
             return 0x6000000;
     }
     return 0;
@@ -81,18 +82,18 @@ u32 G2S_GetBG2ScrPtr(void) {
     control = reg_G2S_DB_BG2CNT;
     block = (control & 0x1f00) >> 8;
     switch (mode) {
-        case 0:
-        case 1:
-        case 2:
-        case 3:
-        case 4:
+        case GX_BGMODE_0:
+        case GX_BGMODE_1:
+        case GX_BGMODE_2:
+        case GX_BGMODE_3:
+        case GX_BGMODE_4:
             return (block << 11) + 0x6200000;
-        case 5:
+        case GX_BGMODE_5:
             if (control & 0x80) {
                 return (block << 14) + 0x6200000;
             }
             return (block << 11) + 0x6200000;
-        case 6:
+        case GX_BGMODE_6:
             return 0;
     }
     return 0;
@@ -110,18 +111,18 @@ u32 G2_GetBG3ScrPtr(void) {
     offset = ((reg_GX_DISPCNT & 0x38000000) >> 27) << 16;
     block = (control & 0x1f00) >> 8;
     switch (mode) {
-        case 0:
-        case 1:
-        case 2:
+        case GX_BGMODE_0:
+        case GX_BGMODE_1:
+        case GX_BGMODE_2:
             return offset + 0x6000000 + (block << 11);
-        case 3:
-        case 4:
-        case 5:
+        case GX_BGMODE_3:
+        case GX_BGMODE_4:
+        case GX_BGMODE_5:
             if (control & 0x80) {
                 return (block << 14) + 0x6000000;
             }
             return offset + 0x6000000 + (block << 11);
-        case 6:
+        case GX_BGMODE_6:
             return 0;
     }
     return 0;
@@ -137,18 +138,18 @@ u32 G2S_GetBG3ScrPtr(void) {
     control = reg_G2S_DB_BG3CNT;
     block = (control & 0x1f00) >> 8;
     switch (mode) {
-        case 0:
-        case 1:
-        case 2:
+        case GX_BGMODE_0:
+        case GX_BGMODE_1:
+        case GX_BGMODE_2:
             return (block << 11) + 0x6200000;
-        case 3:
-        case 4:
-        case 5:
+        case GX_BGMODE_3:
+        case GX_BGMODE_4:
+        case GX_BGMODE_5:
             if (control & 0x80) {
                 return (block << 14) + 0x6200000;
             }
             return (block << 11) + 0x6200000;
-        case 6:
+        case GX_BGMODE_6:
             return 0;
     }
     return 0;
