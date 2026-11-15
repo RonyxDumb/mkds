@@ -406,10 +406,10 @@ void InitRaceHud(void) {
     if (gRaceSetup->mMode == MODE_BATTLE) {
         switch (gRaceSetup->mCourseId) {
             case COURSE_ID_MINI_STAGE3:
-                gRaceHud->mSubScreenCourseScale = 0x40;
+                gRaceHud->mSubScreenCourseScale = RACE_HUD_COURSE_SCALE_SMALL;
                 break;
             default:
-                gRaceHud->mSubScreenCourseScale = 0x64;
+                gRaceHud->mSubScreenCourseScale = RACE_HUD_COURSE_SCALE_MEDIUM;
                 break;
         }
     } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
@@ -418,14 +418,14 @@ void InitRaceHud(void) {
             case COURSE_ID_MR_STAGE2:
             case COURSE_ID_MR_STAGE3:
             case COURSE_ID_MR_STAGE4:
-                gRaceHud->mSubScreenCourseScale = 0x64;
+                gRaceHud->mSubScreenCourseScale = RACE_HUD_COURSE_SCALE_MEDIUM;
                 break;
             default:
-                gRaceHud->mSubScreenCourseScale = 0x86;
+                gRaceHud->mSubScreenCourseScale = RACE_HUD_COURSE_SCALE_LARGE;
                 break;
         }
     } else {
-        gRaceHud->mSubScreenCourseScale = 0x86;
+        gRaceHud->mSubScreenCourseScale = RACE_HUD_COURSE_SCALE_LARGE;
     }
     gRaceHud->mEnabled = FALSE;
     for (index = 0; index < 8; index++) {
@@ -665,7 +665,7 @@ void SetupRaceHudScreens(void) {
     if (raceKind == RACE_KIND_AWARD || raceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    value = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
+    value = gCourseMap->mSettings->mColorAndFogAlpha & COLOR15_MASK;
     *(vu16 *) HW_BG_PLTT = value;
     gRaceHud->mNclrs[0]->mData[0] = value;
     DC_FlushRange(gRaceHud->mNclrs[0]->mData, gRaceHud->mNclrs[0]->mDataSize);
@@ -781,7 +781,7 @@ void UpdateRaceHud(void) {
     }
     if (gRaceHud->mShowLapTime != 0) {
         gRaceHud->mShowLapTimeFrames++;
-        if (gRaceHud->mShowLapTimeFrames >= 0x80) {
+        if (gRaceHud->mShowLapTimeFrames >= RACE_HUD_LAP_TIME_SHOW_FRAMES) {
             gRaceHud->mShowLapTime = 0;
             gRaceHud->mShowLapTimeFrames = -1;
         }
@@ -827,7 +827,7 @@ void UpdateRaceHud(void) {
     }
     UpdateRaceNewRecordTa();
     gRaceHud->mUpdateFrames++;
-    if (gRaceHud->mUpdateFrames >= 0xc00) {
+    if (gRaceHud->mUpdateFrames >= RACE_HUD_UPDATE_FRAMES_WRAP) {
         gRaceHud->mUpdateFrames = 0;
     }
 }
@@ -858,12 +858,12 @@ void UpdateRaceHudSubScreen(void) {
                         gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
-                        gRaceHud->mGoalMDelayFrameCount = 0xc;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
                     }
                 } else if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = 0xc;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -918,7 +918,7 @@ void UpdateRaceHudSubScreen(void) {
                 if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = 0xc;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -994,7 +994,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = 0x8c;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -1054,7 +1054,7 @@ void UpdateRaceHudSubScreen(void) {
                     if (gRaceHud->mGoalMStarted == FALSE) {
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
-                        gRaceHud->mGoalMDelayFrameCount = 0x8c;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
                     }
                 } else {
                     gRaceHud->mSubScreenEnabled = FALSE;
@@ -1065,7 +1065,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = 0x8c;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
                 } else {
                     subScreenEnabled = FALSE;
                     switchAllowed = FALSE;
@@ -1172,7 +1172,7 @@ void UpdateRaceHudSubScreen(void) {
                         value = RACE_END_KIND_NOT_ENDED;
                     }
                     if (value == 0) {
-                        gRaceHud->mGoalMDelayFrameCount = 0xaf;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MISSION_RUN;
                     }
                 }
             } else if (gRaceProgress->mRaceDone != 0) {

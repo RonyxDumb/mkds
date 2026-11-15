@@ -31,8 +31,8 @@ void UpdateRaceHudSubScreenShine16Cells(void) {
             if (ComputeRaceHudSubScreenPosition(
                     &mapObject->mPos, &gRaceHudSubScreenShine16Cells->mCells[cellCount].mDrawPos, scale, 1, 1)) {
                 gRaceHudSubScreenShine16Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb6);
-                gRaceHudSubScreenShine16Cells->mCells[cellCount].mPriority = (mapObject->mFlags & 0x20) ? 2 : 1;
-                gRaceHudSubScreenShine16Cells->mCells[cellCount].mXlu = mapObject->mFlags & 0x20;
+                gRaceHudSubScreenShine16Cells->mCells[cellCount].mPriority = (mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU) ? 2 : 1;
+                gRaceHudSubScreenShine16Cells->mCells[cellCount].mXlu = mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 cellCount++;
             }
         }

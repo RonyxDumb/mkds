@@ -127,7 +127,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
         }
         for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
             object = objects[objectIndex];
-            if ((object->mFlags & 0x80000) != 0) {
+            if ((object->mFlags & ITEM_OBJECT_FLAG_ENDED) != 0) {
                 position = NULL;
             } else {
                 position = &object->mPos;
@@ -160,7 +160,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
                                 IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mXlu =
-                                (object->mFlags & 0x40000) != 0 ? 1 : 0;
+                                (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                             cellCount++;
                         }
                     }
@@ -174,7 +174,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
                                 IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mXlu =
-                                (object->mFlags & 0x40000) != 0 ? 1 : 0;
+                                (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                             cellCount++;
                         }
                     }
@@ -293,7 +293,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                     objectScale = GetRaceHudSubScreenScale();
                     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
                         object = objects[objectIndex];
-                        if ((object->mFlags & 0x80000) != 0) {
+                        if ((object->mFlags & ITEM_OBJECT_FLAG_ENDED) != 0) {
                             position = NULL;
                         } else {
                             position = &object->mPos;
@@ -343,7 +343,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                                     IsPositionOutsideBox(&cellPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE
                                                                              : RACE_HUD_PRIORITY_BACK;
                                 gRaceHudSubScreenKarts->mCells->mCells[cellCount].mXlu =
-                                    (object->mFlags & 0x40000) != 0 ? 1 : 0;
+                                    (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                                 cellCount++;
                             }
                         }
@@ -964,7 +964,7 @@ void UpdateRaceHudSubScreenPukupukuCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenPukupukuCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenPukupukuCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenPukupukuCells->mObjects[objectIndex];
-            if ((object->mFlags & 2) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
                 if (ComputeRaceHudSubScreenPosition(&object->mPos,
                                                     &gRaceHudSubScreenPukupukuCells->mCells[cellCount].mDrawPos, scale,
                                                     0, 0) != FALSE) {

@@ -407,6 +407,8 @@ typedef struct CourseMap {
 // Scrolling of the map view: a direction key moves mScrollPosition by the step and sets mScrollTimer to the start.
 #define RACE_HUD_SUB_SCREEN_SCROLL_STEP 0xa000
 #define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START 600
+// The scroll timer counts down from the start value; at this value the view starts to follow the kart.
+#define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW 300
 
 typedef struct RaceHudSubScreenProjection {
     /* 00 */ IntPair mCenter;

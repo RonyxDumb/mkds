@@ -64,6 +64,11 @@ typedef struct MapObjectKindData {
 
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f
+// MapObject.mFlags: the object is invisible (the map screen draws no cell for it and unparking keeps its alpha);
+// the map screen shows a translucent cell; the flipper is mirrored.
+#define MAP_OBJECT_FLAG_INVISIBLE 0x2
+#define MAP_OBJECT_FLAG_HUD_XLU 0x20
+#define MAP_OBJECT_FLAG_FLIPPER_MIRROR 0x400
 // MapObject.mFlags: a kart touching the object counts as hitting it fast whatever its speed (full push strength).
 #define MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED 0x200
 

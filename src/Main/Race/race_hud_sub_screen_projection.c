@@ -511,9 +511,9 @@ void UpdateRaceHudSubScreenScroll(void) {
     }
     if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
         gRaceHudSubScreenProjection->mScrollTimer--;
-        if (gRaceHudSubScreenProjection->mScrollTimer < 300) {
+        if (gRaceHudSubScreenProjection->mScrollTimer < RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW) {
             GetKartPosFromPosSourceCopy(&target, GetFollowedKartOrEntryIndex());
-            gRaceHudSubScreenProjection->mScrollTimer = 300;
+            gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW;
             VEC_Subtract(&target, &gRaceHudSubScreenProjection->mScrollPosition, &dir);
             Vec3NormalizeAndGetLengthUnchecked(&dir, &dir);
             VEC_MultAdd(RACE_HUD_SUB_SCREEN_SCROLL_STEP, &dir, &gRaceHudSubScreenProjection->mScrollPosition,

@@ -34,7 +34,7 @@ void UpdateRaceHudSubScreenPakkunSpitCells(void) {
                                                 &gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
                 gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa4);
-                gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mPriority = 2;
+                gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_MIDDLE;
                 cellCount++;
             }
         }

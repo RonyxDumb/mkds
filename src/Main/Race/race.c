@@ -588,7 +588,7 @@ void InitRaceFog(void) {
                                          (fogCurve[index * 4 + 2] << 16) | (fogCurve[index * 4 + 3] << 24);
             }
         }
-        gCourseFogColor = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
+        gCourseFogColor = gCourseMap->mSettings->mColorAndFogAlpha & COLOR15_MASK;
         gCourseFogAlpha = ((u32) gCourseMap->mSettings->mColorAndFogAlpha >> 15) & 31;
         gCourseFogSlope = gCourseMap->mSettings->mFogSlope;
         gCourseFogOffset = gCourseMap->mSettings->mFogOffset / 512;

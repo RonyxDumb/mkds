@@ -72,3 +72,9 @@ unsigned int GetRaceHudSubScreenScale(void);
 unsigned int GetRaceHudSubScreenMinDrawValue(void);
 
 extern struct RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;
+
+// The burner cells count mSecond up to the cycle and show the first cell below the half; the pakkun cells swap their cell
+// with this bit of the frame counter.
+#define RACE_HUD_BURNER_CYCLE_FRAMES 8
+#define RACE_HUD_BURNER_HALF_FRAMES 4
+#define RACE_HUD_PAKKUN_SF_SWAP_FRAME_BIT 0x10
