@@ -31,7 +31,7 @@ typedef struct ApEntry {
     /* e6 */ u8 mWepMode : 2;
     /* e6 */ u8 mWepNotation : 6;
     /* e7 */ u8 mSetType;
-    /* e8 */ u8 mUnk_e8[8];
+    /* e8 */ u8 mReservedAndEntrySetBits[8];
 } ApEntry;
 
 // Entry at offset 0x400 of the object at gApStore, and the bytes after it.
@@ -48,10 +48,10 @@ typedef struct ApWorkCopy {
 // Object at gApStore, as far as WriteApWorkFromExchangeResult through CopyApEntryToWorkCopy use it.
 typedef struct ApStore {
     /* 000 */ struct {
-        ApEntry mUnk_00;
-        u8 mUnk_f0[0xe];
-        u16 mUnk_fe;
-    } mUnk_000[4];
+        ApEntry mEntry;
+        u8 mPackedWiFiInfo[0xe];
+        u16 mCrc;
+    } mPages[4];
     /* 400 */ ApWorkCopy mWorkCopy;
 } ApStore;
 

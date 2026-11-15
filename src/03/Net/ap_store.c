@@ -168,12 +168,12 @@ void FormatApWorkDnsSecondText(char *output) {
 }
 
 u8 GetApEntrySetType(int entryIndex) {
-    return gApStore->mUnk_000[entryIndex].mUnk_00.mSetType;
+    return gApStore->mPages[entryIndex].mEntry.mSetType;
 }
 
 void CopyApEntryToWorkCopy(s32 entryIndex) {
     ApStore *store = gApStore;
-    ApEntry *entry = &store->mUnk_000[entryIndex].mUnk_00;
+    ApEntry *entry = &store->mPages[entryIndex].mEntry;
     store->mWorkCopy.mEntry = *entry;
     store->mWorkCopy.mEntryIndex = entryIndex;
     if (memcmp(entry->mIp, gSettingNone, 4) != 0) {
@@ -191,7 +191,7 @@ void CopyApEntryToWorkCopy(s32 entryIndex) {
 
 void WriteApWorkCopy(void) {
     ApWorkCopy *workCopy = &gApStore->mWorkCopy;
-    ApEntry *entry = &gApStore->mUnk_000[workCopy->mEntryIndex].mUnk_00;
+    ApEntry *entry = &gApStore->mPages[workCopy->mEntryIndex].mEntry;
     *entry = workCopy->mEntry;
     if (workCopy->mIpNone != 0) {
         MI_CpuFill8(entry->mIp, 0, 4);
@@ -368,7 +368,7 @@ struct ApStore *GetApStore(void) {
 
 void ResetApEntry(int entryIndex) {
     ApEntry *entry;
-    entry = &gApStore->mUnk_000[entryIndex].mUnk_00;
+    entry = &gApStore->mPages[entryIndex].mEntry;
     MI_CpuFill8(entry, 0, 0xef);
     entry->mSetType = AP_SET_TYPE_EMPTY;
     WriteApEntryToNvram(entryIndex);
@@ -381,12 +381,12 @@ void ResetApEntries(void) {
     s32 entryIndex;
     MIi_CpuClear16(zeroValue, gApStore, 0x400);
     for (entryIndex = 0; entryIndex < 3; entryIndex++) {
-        gApStore->mUnk_000[entryIndex].mUnk_00.mSetType = AP_SET_TYPE_EMPTY;
+        gApStore->mPages[entryIndex].mEntry.mSetType = AP_SET_TYPE_EMPTY;
     }
     DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
     packedWifiInfo = DWCi_BACKUPlConvWifiInfo(&wifiInfo);
     for (entryIndex = 0; entryIndex < 2; entryIndex++) {
-        MI_CpuCopy8(packedWifiInfo, gApStore->mUnk_000[entryIndex].mUnk_f0, 0xe);
+        MI_CpuCopy8(packedWifiInfo, gApStore->mPages[entryIndex].mPackedWiFiInfo, 0xe);
     }
     for (entryIndex = 0; entryIndex < 4; entryIndex++) {
         WriteApEntryToNvram(entryIndex);
@@ -394,7 +394,7 @@ void ResetApEntries(void) {
 }
 
 void WriteApEntryToNvram(s32 entryIndex) {
-    u32 setType = gApStore->mUnk_000[entryIndex].mUnk_00.mSetType;
+    u32 setType = gApStore->mPages[entryIndex].mEntry.mSetType;
     u32 entryBit = 1 << entryIndex;
     BOOL stateBitSet = FALSE;
     s32 entryFlags[4];
@@ -405,25 +405,29 @@ void WriteApEntryToNvram(s32 entryIndex) {
     entryFlags[entryIndex] = 1;
     if (entryIndex <= 2) {
         store = gApStore;
-        if ((store->mUnk_000[0].mUnk_00.mUnk_e8[7] & entryBit) != 0) {
+        if ((store->mPages[0].mEntry.mReservedAndEntrySetBits[7] & entryBit) != 0) {
             stateBitSet = TRUE;
         }
         if (setType == 0xff && stateBitSet != FALSE) {
-            store->mUnk_000[0].mUnk_00.mUnk_e8[7] = store->mUnk_000[0].mUnk_00.mUnk_e8[7] & ~entryBit;
-            gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] = gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] & ~entryBit;
+            store->mPages[0].mEntry.mReservedAndEntrySetBits[7] =
+                store->mPages[0].mEntry.mReservedAndEntrySetBits[7] & ~entryBit;
+            gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] =
+                gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] & ~entryBit;
             entryFlags[1] = 1;
             entryFlags[0] = 1;
         } else if (setType != 0xff && stateBitSet == FALSE) {
-            store->mUnk_000[0].mUnk_00.mUnk_e8[7] = store->mUnk_000[0].mUnk_00.mUnk_e8[7] | entryBit;
-            gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] = gApStore->mUnk_000[1].mUnk_00.mUnk_e8[7] | entryBit;
+            store->mPages[0].mEntry.mReservedAndEntrySetBits[7] =
+                store->mPages[0].mEntry.mReservedAndEntrySetBits[7] | entryBit;
+            gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] =
+                gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] | entryBit;
             entryFlags[1] = 1;
             entryFlags[0] = 1;
         }
     }
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         if (entryFlags[slotIndex] != 0) {
-            gApStore->mUnk_000[slotIndex].mUnk_fe =
-                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mUnk_000[slotIndex].mUnk_00.mUnk_00, 0xfe);
+            gApStore->mPages[slotIndex].mCrc =
+                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mPages[slotIndex].mEntry.mUnk_00, 0xfe);
         }
     }
     workBuffer = AllocExpHeapBlock(0x100, 0x20);

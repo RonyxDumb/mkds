@@ -177,8 +177,8 @@ void UpdateConnectFadeOut(void) {
 void UpdateConnectRelease(void) {
     ApStore *recordStore = GetApStore();
     if (DWC_AC_Destroy() != 0) {
-        MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mUnk_000[0].mUnk_f0, 0xe);
-        MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mUnk_000[1].mUnk_f0, 0xe);
+        MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mPages[0].mPackedWiFiInfo, 0xe);
+        MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mPages[1].mPackedWiFiInfo, 0xe);
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);
