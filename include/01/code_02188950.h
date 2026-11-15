@@ -263,6 +263,13 @@ enum {
     KART_MAP_OBJECT_RESPONSE_CARRY_SPIN = 14,
 };
 
+// Values of mItemResponse, which CollideItemWithMissionRunMapObject returns as the hit type of ApplyItemObjectHitType:
+// the item bounces off the object, or is pushed away and fades out.
+enum {
+    ITEM_MAP_OBJECT_RESPONSE_BOUNCE = 1,
+    ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT = 2,
+};
+
 // Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mUnk_000;

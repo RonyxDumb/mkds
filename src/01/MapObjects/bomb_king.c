@@ -637,7 +637,7 @@ void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *item
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
         }
     }
-    mapObject->mItemResponse = 1;
+    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_BOUNCE;
     SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemBounceCallback);
 }
 
@@ -648,7 +648,7 @@ void BombKingItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObj
     if (IsItemBombStored(mapObject) != 0) {
         ThrowOrReleaseStoredItemBomb(mapObject, NULL, 0);
     }
-    mapObject->mItemResponse = 2;
+    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
     SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
     if (IsStateNumberBelow(mapObject, 7) != 0) {
         velocity.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;

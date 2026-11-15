@@ -1282,7 +1282,7 @@ void StartIwanteChainCameraHold(MissionRunMapObject *mapObject) {
 }
 
 void IwanteItemResponse2Callback(MissionRunMapObject *mapObject) {
-    mapObject->mItemResponse = 2;
+    mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
     SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
 }
 
@@ -1323,9 +1323,9 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) + 2))
                 : 0);
         SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemResponse2Callback);
-        mapObject->mItemResponse = 2;
+        mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
     } else {
-        mapObject->mItemResponse = 2;
+        mapObject->mItemResponse = ITEM_MAP_OBJECT_RESPONSE_PUSH_FADE_OUT;
         SetItemCollisionCallback(mapObject, (UnkFunc *) IwanteItemHitCallback);
     }
 }
