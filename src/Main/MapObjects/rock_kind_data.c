@@ -48,7 +48,7 @@ const MapObjectKindData gRockKindData = {(s32 (*)(MapObject *, void *, s32 *, s3
 MapObjectKindData *CreateRockKindData(void) {
     MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
     *kindData = gRockKindData;
-    kindData->mHeightRangeMax = 0x3e8000;
+    kindData->mHeightRangeMax = ROCK_HEIGHT_RANGE_MAX;
     kindData->mHeightRangeMin = -0x3e8000;
     return kindData;
 }

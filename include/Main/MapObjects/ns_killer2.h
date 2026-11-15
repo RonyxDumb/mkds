@@ -8,6 +8,8 @@
 #include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 #include "01/MapObjects/data_0209bc74.h"
 
+#define NS_KILLER2_HEIGHT_RANGE_MAX 0x32000
+
 // Object of kind 0x1a2 (NsKiller2), pool objects: after the shared part, a counter at 0xa0, mMode at 0xa4 and an
 // object at 0xa8.
 typedef struct NsKiller2 {

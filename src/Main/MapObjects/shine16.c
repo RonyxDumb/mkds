@@ -552,7 +552,7 @@ MapObjectKindData *CreateShine16KindData(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithShine16, NULL, NULL, 1, 0);
-    mapObjectKindData->mHeightRangeMax = 0x190000;
+    mapObjectKindData->mHeightRangeMax = SHINE16_HEIGHT_RANGE_MAX;
     mapObjectKindData->mHeightRangeMin = -0x190000;
     return mapObjectKindData;
 }

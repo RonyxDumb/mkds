@@ -60,6 +60,8 @@ typedef struct Shine16 {
 #include "Main/MapObjects/balloon.h" // Balloon
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SHINE16_HEIGHT_RANGE_MAX 0x190000
+
 // KartBalloons.mState values: IDLE waits for the inflate input, AUTO_INFLATE makes the balloons given at the start,
 // INFLATE_TO_HALF and INFLATE_TO_FULL inflate the balloon being made (from the first half of its size on, the input
 // may stop), SHRINK deflates it.

@@ -164,20 +164,21 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                         descriptor->mKindData->mCollideItemObjectSoundId = -1;
                     }
                     if (descriptor->mKindData->mHeightRangeMax == 0) {
-                        descriptor->mKindData->mHeightRangeMax = 0x64000;
+                        descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_DEFAULT;
                     }
                     if (descriptor->mKindData->mHeightRangeMin == 0) {
-                        descriptor->mKindData->mHeightRangeMin = -0x64000;
+                        descriptor->mKindData->mHeightRangeMin = -MAP_OBJECT_HEIGHT_RANGE_DEFAULT;
                     }
                     if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
-                        if (descriptor->mKindData->mHeightRangeMax < 0x44c000) {
-                            descriptor->mKindData->mHeightRangeMax = 0x44c000;
+                        if (descriptor->mKindData->mHeightRangeMax < MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX) {
+                            descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX;
                         }
                     }
                 }
                 grpconfRow = FindGrpconfTblRowByKind(row->mKind);
                 if (grpconfRow->mViewTestKind != 0) {
-                    descriptor->mKindData->mUseTwoPlaneViewTest = grpconfRow->mViewTestKind >= 2 ? 1 : 0;
+                    descriptor->mKindData->mUseTwoPlaneViewTest =
+                        grpconfRow->mViewTestKind >= MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE ? 1 : 0;
                     tableValue = grpconfRow->mViewRadius;
                     descriptor->mKindData->mViewRadius =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;
@@ -236,14 +237,14 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 object->mPos.y = source->mPos.y;
                 object->mPos.z = source->mPos.z;
             }
-            if (kindData->mPosStepMode == 0 || kindData->mPosStepMode == 2) {
+            if (kindData->mPosStepMode == 0 || kindData->mPosStepMode == MAP_OBJECT_LIST_POS_STEP_MEASURED) {
                 object->mPosStep.x = 0;
                 object->mPosStep.y = 0;
                 object->mPosStep.z = 0;
             } else {
-                object->mPosStep.x = 0x270f000;
-                object->mPosStep.y = 0x270f000;
-                object->mPosStep.z = 0x270f000;
+                object->mPosStep.x = MAP_OBJECT_FAR_VALUE;
+                object->mPosStep.y = MAP_OBJECT_FAR_VALUE;
+                object->mPosStep.z = MAP_OBJECT_FAR_VALUE;
             }
             if (courseRow != NULL) {
                 object->mAngle = DEG_TO_ANGLE(courseRow->mRotationDegrees.y);
@@ -319,7 +320,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             gMapObjects->mMapObjectCount = index + 1;
             gMapObjects->mMapObjects[index] = object;
             if (gMapObjects->mMapObjectCount >= MAP_OBJECT_CAPACITY) {
-                gMapObjects->mMapObjectCount = 0xff;
+                gMapObjects->mMapObjectCount = MAP_OBJECT_CAPACITY - 1;
             }
             return object;
         }

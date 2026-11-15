@@ -94,7 +94,7 @@ void SetMapObjectDrawDistance(MapObject *mapObject, s32 drawDistance) {
     s32 maxDistance;
     mapObject->mDrawDistance = drawDistance;
     if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
-        mapObject->mDrawDistance = 0x270f000;
+        mapObject->mDrawDistance = MAP_OBJECT_FAR_VALUE;
         return;
     }
     maxDistance = gCourseMap->mSettings->mMapObjectDrawDistanceMax;

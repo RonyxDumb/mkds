@@ -144,7 +144,7 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
     value = bubble->mMapObject.mPos.y - bubble->mInitialY;
     if (value > 0x10000) {
         value = 0x1000 - ((value - 0x10000) >> 8);
-        bubble->mShadowMatrix.mAlphaCap = 0xd;
+        bubble->mShadowMatrix.mAlphaCap = MKD_EF_BUBBLE_SHADOW_ALPHA_CAP;
     } else {
         amount = 0xd - ((0x10000 - value) >> 13);
         value = 0x1000;

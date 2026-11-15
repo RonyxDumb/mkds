@@ -10,6 +10,8 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/attractor.h"
 
+#define MKD_EF_BUBBLE_SHADOW_ALPHA_CAP 0xd
+
 #define MKD_EF_BUBBLE_LEAP_SOUND_ID 0x18c
 
 // KoopaBlock.mCollisionMapObject.mMapObject.mStateMachine states, in the order of gKoopaBlockStateTable. The block

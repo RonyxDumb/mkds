@@ -97,7 +97,7 @@ void UpdateKuriboFallToSurface(void *stateObject) {
         if (kuribo->mFrameIndex == 0 || kuribo->mFrameIndex == KURIBO_WALK_HALF_FRAMES) {
             kuribo->mToggleCountdown--;
             if (kuribo->mToggleCountdown < 0) {
-                kuribo->mToggleCountdown = 3;
+                kuribo->mToggleCountdown = KURIBO_TOGGLE_COUNTDOWN_START;
                 kuribo->mToggleState = kuribo->mToggleState == 0;
             }
         }
@@ -117,8 +117,8 @@ void UpdateKuriboFallToSurface(void *stateObject) {
     }
     QuaternionBlendTowardNearerSign(&kuribo->mOrientation, &kuribo->mTargetOrientation, &kuribo->mOrientation,
                                     kuribo->mOrientationBlendAmount);
-    if (kuribo->mOrientationBlendAmount > 0xb4) {
-        kuribo->mOrientationBlendAmount = 0xb4;
+    if (kuribo->mOrientationBlendAmount > KURIBO_ORIENTATION_BLEND_AMOUNT_MAX) {
+        kuribo->mOrientationBlendAmount = KURIBO_ORIENTATION_BLEND_AMOUNT_MAX;
     }
 }
 
@@ -130,7 +130,7 @@ void EnterKuriboStretch(void *stateObject) {
 void UpdateKuriboStretch(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
-    if (kuribo->mScaleFactorY > 0x1800) {
+    if (kuribo->mScaleFactorY > KURIBO_STRETCH_SCALE_Y_MAX) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SHRINK;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -143,7 +143,7 @@ u32 EnterKuriboShrink(u32 value) {
 void UpdateKuriboShrink(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, KURIBO_SCALE_SHRINK_FACTOR);
-    if (kuribo->mScaleFactorY < 0x333) {
+    if (kuribo->mScaleFactorY < KURIBO_SHRINK_SCALE_Y_MIN) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_FLAT_WAIT;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -156,7 +156,7 @@ u32 EnterKuriboFlatWait(u32 value) {
 void UpdateKuriboFlatWait(void *stateObject) {
     Kuribo *kuribo = stateObject;
     if (kuribo->mReturnsAfterWait != 0) {
-        if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x12c) {
+        if (kuribo->mMapObject.mStateMachine.mStateFrames > KURIBO_FLAT_WAIT_FRAMES) {
             kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SPRING_BACK;
             kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
         }
@@ -196,7 +196,7 @@ void UpdateKuriboSpringBack(void *stateObject) {
         MUL_FIXED12_NO_ROUND(KURIBO_SCALE_FACTOR_Y_REST - kuribo->mScaleFactorY, KURIBO_SCALE_SPRING_STIFFNESS);
     kuribo->mScaleFactorYSpeed = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorYSpeed, KURIBO_SCALE_DAMPING);
     kuribo->mScaleFactorY += kuribo->mScaleFactorYSpeed;
-    if (kuribo->mMapObject.mStateMachine.mStateFrames > 0x3c) {
+    if (kuribo->mMapObject.mStateMachine.mStateFrames > KURIBO_SPRING_BACK_FRAMES) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_WALK_PATH;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -273,7 +273,7 @@ u32 CollideItemObjectWithKuribo(Kuribo *kuribo, ItemObject *itemObject, u8 *firs
         case 0:
             if (kuribo->mScaleFactorY == KURIBO_SCALE_FACTOR_Y_REST) {
                 if (kuribo->mScaleFactorYSpeed == 0) {
-                    kuribo->mScaleFactorYSpeed = 0x19a;
+                    kuribo->mScaleFactorYSpeed = KURIBO_STRETCH_SCALE_Y_SPEED;
                 }
             }
             break;

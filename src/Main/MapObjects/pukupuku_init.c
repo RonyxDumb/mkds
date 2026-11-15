@@ -36,7 +36,7 @@ MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
     kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
     *kindData = gRotaryGearTestCylinderKindData;
-    kindData->mHeightRangeMax = 0x2bc000;
+    kindData->mHeightRangeMax = PUKUPUKU_HEIGHT_RANGE_MAX;
     return kindData;
 }
 

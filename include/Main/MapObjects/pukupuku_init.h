@@ -7,6 +7,8 @@
 #include "Main/MapObjects/attractor.h"
 #include "Main/Menu/second_menu_scene.h"
 
+#define PUKUPUKU_HEIGHT_RANGE_MAX 0x2bc000
+
 typedef struct Rotary Rotary;
 
 // Object InitPukupuku sets up, 0x10c bytes.

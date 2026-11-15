@@ -142,7 +142,7 @@ void CreateNsKiller2KindData(void) {
     MapObjectKindData *mapObjectKindDataWithSound;
 
     mapObjectKindDataWithSound = CreateMapObjectKindDataWithSound(CollideKartWithNsKiller2, NULL, NULL, 1, 1, 0x17b);
-    mapObjectKindDataWithSound->mHeightRangeMax = 0x32000;
+    mapObjectKindDataWithSound->mHeightRangeMax = NS_KILLER2_HEIGHT_RANGE_MAX;
     mapObjectKindDataWithSound->mHeightRangeMin = -0x64000;
 }
 

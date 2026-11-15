@@ -388,9 +388,9 @@ void InitKartBalloons(KartBalloonsObject *kartBalloonsObject) {
             }
         }
         if (GetRaceUseChainCameras() != 0) {
-            kartBalloonsObject->mStartTimer = 0xffff;
+            kartBalloonsObject->mStartTimer = KART_BALLOONS_NEVER_START_FRAMES;
         } else {
-            kartBalloonsObject->mStartTimer = 0x3c;
+            kartBalloonsObject->mStartTimer = KART_BALLOONS_START_FRAMES;
         }
         SetStandingsKartBalloons(kartBalloonsObject->mKartBalloons);
         SetStandingsKartHitByKartCallback((s32(*)(s32, s32)) BalloonKartHitByKartCallback);
@@ -541,7 +541,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetKartInflatingBalloon(kartIndex, 0);
                 AddBalloonOrShineCountAndMoveRank(kartIndex, 1);
                 if (kartBalloons->mRemainingSpawnCount <= 0) {
-                    kartBalloons->mSpawnTimer = 30;
+                    kartBalloons->mSpawnTimer = KART_BALLOONS_RESPAWN_WAIT_FRAMES;
                     kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
                 }
                 StartSoundFullVolumeWrapper(GetKart((u16) kartIndex), 0x152);

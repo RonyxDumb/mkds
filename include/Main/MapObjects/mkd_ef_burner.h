@@ -7,6 +7,9 @@
 #include "01/MapObjects/data_0209bc74.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
+#define MKD_EF_BURNER_MEDIUM_SCALE 0x99a
+#define MKD_EF_BURNER_SMALL_SCALE 0x4cd
+
 // MkdEfBurner.mState values: the scale (mScaleFixed12) is 0 in OFF, grows in GROW, stays at 1.0 in FULL, shrinks in
 // SHRINK; STEADY keeps it at 1.0 for good (all three settings of the course row are 0).
 enum {

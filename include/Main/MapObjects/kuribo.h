@@ -4,6 +4,14 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/code_020d6dc0.h"
 
+#define KURIBO_ORIENTATION_BLEND_AMOUNT_MAX 0xb4
+#define KURIBO_STRETCH_SCALE_Y_MAX 0x1800
+#define KURIBO_SHRINK_SCALE_Y_MIN 0x333
+#define KURIBO_FLAT_WAIT_FRAMES 0x12c
+#define KURIBO_SPRING_BACK_FRAMES 0x3c
+#define KURIBO_TOGGLE_COUNTDOWN_START 3
+#define KURIBO_STRETCH_SCALE_Y_SPEED 0x19a
+
 #define KURIBO_SPRING_BACK_SOUND_ID 0x183
 
 void CreateKuribo(void);

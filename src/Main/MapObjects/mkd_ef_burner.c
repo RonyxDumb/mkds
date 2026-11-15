@@ -237,10 +237,10 @@ u16 CountMkdEfBurnerScaleThresholds(MkdEfBurner *burner) {
     if (burner->mScaleFixed12 >= TO_FIXED12(1)) {
         return 3;
     }
-    if (burner->mScaleFixed12 >= 0x99a) {
+    if (burner->mScaleFixed12 >= MKD_EF_BURNER_MEDIUM_SCALE) {
         return 2;
     }
-    return burner->mScaleFixed12 >= 0x4cd;
+    return burner->mScaleFixed12 >= MKD_EF_BURNER_SMALL_SCALE;
 }
 
 const u16 gMkdEfBurnerDisabledFlag = 1;

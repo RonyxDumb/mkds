@@ -50,6 +50,16 @@ typedef struct MapObjectKindData {
     /* 3c */ s32 mHeightRangeMin;
 } MapObjectKindData;
 
+// A far-away value: the draw distance of a GP start race and the position step of an object whose step is not measured.
+#define MAP_OBJECT_FAR_VALUE 0x270f000
+
+// Range of heights, up and down, that a kind covers when its data leaves it 0 (a replay raises the upper one).
+#define MAP_OBJECT_HEIGHT_RANGE_DEFAULT 0x64000
+#define MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX 0x44c000
+
+// View test kind of a grpconf row from which on the kind uses two view planes.
+#define MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE 2
+
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f
 

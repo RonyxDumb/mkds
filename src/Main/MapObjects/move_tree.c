@@ -66,7 +66,7 @@ u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8
 
     responseValue = *response;
     if (moveTree->mState <= 1) {
-        moveTree->mKartHitFramesLeft = 30;
+        moveTree->mKartHitFramesLeft = MOVE_TREE_KART_HIT_FRAMES;
     }
     return responseValue;
 }
@@ -129,7 +129,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
                 return;
             }
             if (moveTree->mKartHitFramesLeft-- > 0) {
-                moveTree->mNsbcaFrameStep = 2;
+                moveTree->mNsbcaFrameStep = MOVE_TREE_HIT_FRAME_STEP;
                 moveTree->mNsbcaFrameIndex += moveTree->mNsbcaFrameStep;
                 if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
                     moveTree->mNsbcaFrameIndex = 0;
@@ -143,7 +143,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
                 moveTree->mNsbcaFrameIndex = 0;
             }
-            if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
+            if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != MOVE_TREE_HIT_REST_FRAME) {
                 return;
             }
             if ((moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) != 0) {
@@ -176,7 +176,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
                 return;
             }
             if (moveTree->mKartHitFramesLeft-- > 0) {
-                moveTree->mNsbcaFrameStep = 2;
+                moveTree->mNsbcaFrameStep = MOVE_TREE_HIT_FRAME_STEP;
             } else {
                 moveTree->mNsbcaFrameStep = 1;
             }
@@ -184,7 +184,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
                 moveTree->mNsbcaFrameIndex = 0;
             }
-            if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
+            if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != MOVE_TREE_HIT_REST_FRAME) {
                 return;
             }
             if ((moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) != 0) {
