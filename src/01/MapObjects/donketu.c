@@ -125,9 +125,10 @@ void StartDonketuRepeatJumpAfterHitState(MissionRunMapObject *mapObject) {
     if (GetRepeatsRemaining(mapObject) != 0) {
         Vec3 velocity = {0, 0, 0};
 
-        velocity.y = mapObject->mPrm->mDonketu.mUnk_1f4;
+        velocity.y = mapObject->mPrm->mDonketu.mHitRepeatJumpVelocityY;
         StartMapObjectState(mapObject, 5, NULL);
-        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mDonketu.mUnk_1ec, mapObject->mPrm->mDonketu.mUnk_1f0);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mDonketu.mHitRepeatJumpAnimationEntry,
+                                    mapObject->mPrm->mDonketu.mHitRepeatJumpFrameStep);
         SetVelocity(mapObject, &velocity);
         SetCourseCollisionCallback(mapObject, StartDonketuRepeatJumpAfterHitState);
     } else {
@@ -136,7 +137,7 @@ void StartDonketuRepeatJumpAfterHitState(MissionRunMapObject *mapObject) {
 }
 
 void StartDonketuRepeatJumpsAfterHit(MissionRunMapObject *mapObject) {
-    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mDonketu.mUnk_1f8);
+    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mDonketu.mHitRepeatJumpCount);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpAfterHitState(mapObject);
 }
@@ -145,9 +146,10 @@ void StartDonketuRepeatJumpState(MissionRunMapObject *mapObject) {
     if (GetRepeatsRemaining(mapObject) != 0) {
         Vec3 velocity = {0, 0, 0};
 
-        velocity.y = mapObject->mPrm->mDonketu.mUnk_124;
+        velocity.y = mapObject->mPrm->mDonketu.mRepeatJumpVelocityY;
         StartMapObjectState(mapObject, 5, NULL);
-        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mDonketu.mUnk_11c, mapObject->mPrm->mDonketu.mUnk_120);
+        StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mDonketu.mRepeatJumpAnimationEntry,
+                                    mapObject->mPrm->mDonketu.mRepeatJumpFrameStep);
         SetVelocity(mapObject, &velocity);
         SetCourseCollisionCallback(mapObject, StartDonketuRepeatJumpState);
     } else {
@@ -156,7 +158,7 @@ void StartDonketuRepeatJumpState(MissionRunMapObject *mapObject) {
 }
 
 void StartDonketuRepeatJumps(MissionRunMapObject *mapObject) {
-    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mDonketu.mUnk_128);
+    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mDonketu.mRepeatJumpCount);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpState(mapObject);
 }
@@ -166,7 +168,8 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
 
     if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
-            if (donketu->mPrm->mDonketu.mUnk_1dc > 0 || donketu->mPrm->mDonketu.mUnk_1e0 > 0) {
+            if (donketu->mPrm->mDonketu.mHitBoostedVelocityY > 0 ||
+                donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale > 0) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
                 velocityWhenBoosted.x = kart->mVelocity.x;
                 velocityWhenBoosted.z = kart->mVelocity.z;
@@ -176,15 +179,15 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
-                scale = donketu->mPrm->mDonketu.mUnk_1e0;
+                scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
                 velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.x, scale);
                 velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
-                velocityWhenBoosted.y = donketu->mPrm->mDonketu.mUnk_1dc;
+                velocityWhenBoosted.y = donketu->mPrm->mDonketu.mHitBoostedVelocityY;
                 StartMapObjectState(donketu, 7, NULL);
-                StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_1d4,
-                                            donketu->mPrm->mDonketu.mUnk_1d8);
-                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_1e4, 0x270f000);
+                StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitBoostedAnimationEntry,
+                                            donketu->mPrm->mDonketu.mHitBoostedFrameStep);
+                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitBoostedAnglePerCall, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
                 SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
@@ -220,7 +223,8 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             }
         }
     } else if (IsStateNumberBelow(donketu, 7)) {
-        if (donketu->mPrm->mDonketu.mUnk_1c4 > 0 || donketu->mPrm->mDonketu.mUnk_1c8 > 0) {
+        if (donketu->mPrm->mDonketu.mHitNotBoostedVelocityY > 0 ||
+            donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale > 0) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
             velocityWhenNotBoosted.x = kart->mVelocity.x;
             velocityWhenNotBoosted.z = kart->mVelocity.z;
@@ -230,14 +234,15 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
-            scale = donketu->mPrm->mDonketu.mUnk_1c8;
+            scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
             velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.x, scale);
             velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
-            velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mUnk_1c4;
+            velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mHitNotBoostedVelocityY;
             StartMapObjectState(donketu, 7, NULL);
-            StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_1bc, donketu->mPrm->mDonketu.mUnk_1c0);
-            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_1cc, 0x270f000);
+            StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnimationEntry,
+                                        donketu->mPrm->mDonketu.mHitNotBoostedFrameStep);
+            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnglePerCall, 0x270f000);
             SetVelocity(donketu, &velocityWhenNotBoosted);
             SetStoppedCallback(donketu, NULL);
             SetSpeedAndClearTarget(donketu, 0);
@@ -254,16 +259,17 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
 
     if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
-            if (donketu->mPrm->mDonketu.mUnk_1a8 > 0 || donketu->mPrm->mDonketu.mUnk_1ac > 0) {
-                velocityWhenBoosted.x =
-                    MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mUnk_1ac, FX_SinIdx((u16) donketu->mMoveAngle));
-                velocityWhenBoosted.y = donketu->mPrm->mDonketu.mUnk_1a8;
-                velocityWhenBoosted.z =
-                    MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mUnk_1ac, FX_CosIdx((u16) donketu->mMoveAngle));
+            if (donketu->mPrm->mDonketu.mChaseHitBoostedVelocityY > 0 ||
+                donketu->mPrm->mDonketu.mChaseHitBoostedHorizontalSpeed > 0) {
+                velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitBoostedHorizontalSpeed,
+                                                             FX_SinIdx((u16) donketu->mMoveAngle));
+                velocityWhenBoosted.y = donketu->mPrm->mDonketu.mChaseHitBoostedVelocityY;
+                velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitBoostedHorizontalSpeed,
+                                                             FX_CosIdx((u16) donketu->mMoveAngle));
                 StartMapObjectState(donketu, 7, NULL);
-                StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_1a0,
-                                            donketu->mPrm->mDonketu.mUnk_1a4);
-                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_1b0, 0x270f000);
+                StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseHitBoostedAnimationEntry,
+                                            donketu->mPrm->mDonketu.mChaseHitBoostedFrameStep);
+                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mChaseHitBoostedAnglePerCall, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
                 SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
@@ -292,34 +298,36 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
                 StartEffectAtRowHeight(donketu, -0x11ec, 0, 0x1800, 0x445, 0);
                 StartEffectAtRowHeight(donketu, 0x11ec, 0, 0x1800, 0x445, 0);
             }
-            donketu->mUnk_000.mPosStep.x =
-                MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mUnk_1b8, FX_SinIdx((u16) donketu->mMoveAngle));
+            donketu->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mChaseHitBoostedPosStep,
+                                                                FX_SinIdx((u16) donketu->mMoveAngle));
             donketu->mUnk_000.mPosStep.y = 0;
-            donketu->mUnk_000.mPosStep.z =
-                MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mUnk_1b8, FX_CosIdx((u16) donketu->mMoveAngle));
+            donketu->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mChaseHitBoostedPosStep,
+                                                                FX_CosIdx((u16) donketu->mMoveAngle));
             donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mPosStep.x;
             donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mPosStep.y;
             donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mPosStep.z;
         }
     } else if (IsStateNumberBelow(donketu, 7)) {
-        if (donketu->mPrm->mDonketu.mUnk_18c > 0 || donketu->mPrm->mDonketu.mUnk_190 > 0) {
-            velocityWhenNotBoosted.x =
-                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mUnk_190, FX_SinIdx((u16) donketu->mMoveAngle));
-            velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mUnk_18c;
-            velocityWhenNotBoosted.z =
-                MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mUnk_190, FX_CosIdx((u16) donketu->mMoveAngle));
+        if (donketu->mPrm->mDonketu.mChaseHitNotBoostedVelocityY > 0 ||
+            donketu->mPrm->mDonketu.mChaseHitNotBoostedHorizontalSpeed > 0) {
+            velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitNotBoostedHorizontalSpeed,
+                                                            FX_SinIdx((u16) donketu->mMoveAngle));
+            velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mChaseHitNotBoostedVelocityY;
+            velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(-donketu->mPrm->mDonketu.mChaseHitNotBoostedHorizontalSpeed,
+                                                            FX_CosIdx((u16) donketu->mMoveAngle));
             StartMapObjectState(donketu, 7, NULL);
-            StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_184, donketu->mPrm->mDonketu.mUnk_188);
-            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_194, 0x270f000);
+            StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseHitNotBoostedAnimationEntry,
+                                        donketu->mPrm->mDonketu.mChaseHitNotBoostedFrameStep);
+            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mChaseHitNotBoostedAnglePerCall, 0x270f000);
             SetVelocity(donketu, &velocityWhenNotBoosted);
             SetStoppedCallback(donketu, StartDonketuRepeatJumps);
             SetSpeedAndClearTarget(donketu, 0);
         }
-        donketu->mUnk_000.mPosStep.x =
-            MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mUnk_19c, FX_SinIdx((u16) donketu->mMoveAngle));
+        donketu->mUnk_000.mPosStep.x = MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mChaseHitNotBoostedPosStep,
+                                                            FX_SinIdx((u16) donketu->mMoveAngle));
         donketu->mUnk_000.mPosStep.y = 0;
-        donketu->mUnk_000.mPosStep.z =
-            MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mUnk_19c, FX_CosIdx((u16) donketu->mMoveAngle));
+        donketu->mUnk_000.mPosStep.z = MUL_FIXED12_NO_ROUND(donketu->mPrm->mDonketu.mChaseHitNotBoostedPosStep,
+                                                            FX_CosIdx((u16) donketu->mMoveAngle));
         donketu->mUnk_000.mPos.x -= donketu->mUnk_000.mPosStep.x;
         donketu->mUnk_000.mPos.y -= donketu->mUnk_000.mPosStep.y;
         donketu->mUnk_000.mPos.z -= donketu->mUnk_000.mPosStep.z;
@@ -338,7 +346,8 @@ void DonketuFallKartCollisionCallback(MissionRunMapObject *donketu) {
 
 void StartDonketuWaterLandState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 7, NULL);
-    StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_23c, donketu->mPrm->mDonketu.mUnk_240, NULL);
+    StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mWaterLandAnimationEntry,
+                                  donketu->mPrm->mDonketu.mWaterLandFrameStep, NULL);
     StopTurningMoveFollowsAngle(donketu);
     SetSpeedAndClearTarget(donketu, 0);
     StartEffectAtRowHeight(donketu, 0, 0, 0, 0x411, 0);
@@ -370,12 +379,14 @@ s32 UpdateDonketuWaterJumpSplash(MissionRunMapObject *donketu) {
 void StartDonketuWaterJumpState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = donketu->mPrm->mDonketu.mUnk_238;
+    velocity.y = donketu->mPrm->mDonketu.mWaterJumpVelocityY;
     StartMapObjectState(donketu, 8, UpdateDonketuWaterJumpSplash);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_224, donketu->mPrm->mDonketu.mUnk_228);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWaterJumpAnimationEntry,
+                                donketu->mPrm->mDonketu.mWaterJumpFrameStep);
     SetVelocity(donketu, &velocity);
     StopTurningMoveFollowsAngle(donketu);
-    SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mUnk_230, donketu->mPrm->mDonketu.mUnk_234);
+    SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mWaterJumpSpeedTarget,
+                             donketu->mPrm->mDonketu.mWaterJumpSpeedPerCall);
     SetCourseCollisionCallback(donketu, StartDonketuWaterLandState);
     donketu->mUnk_000.mFlags |= gDonketuWaterFlag;
 }
@@ -383,13 +394,14 @@ void StartDonketuWaterJumpState(MissionRunMapObject *donketu) {
 void StartDonketuWaterWalkState(MissionRunMapObject *donketu) {
     u32 targetAndPerCall;
     StartMapObjectState(donketu, 8, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_210, donketu->mPrm->mDonketu.mUnk_214);
-    targetAndPerCall = donketu->mPrm->mDonketu.mUnk_21c;
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWaterWalkAnimationEntry,
+                                donketu->mPrm->mDonketu.mWaterWalkFrameStep);
+    targetAndPerCall = donketu->mPrm->mDonketu.mWaterWalkAnglePerCall;
     TurnToPointMoveFollowsAngle(donketu, targetAndPerCall, targetAndPerCall);
     SetAnglePointAndMoveAnglePoint(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow);
-    targetAndPerCall = donketu->mPrm->mDonketu.mUnk_218;
+    targetAndPerCall = donketu->mPrm->mDonketu.mWaterWalkSpeed;
     SetSpeedTargetAndPerCall(donketu, targetAndPerCall, targetAndPerCall);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_220, &StartDonketuWaterJumpState);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWaterWalkFrameCount, &StartDonketuWaterJumpState);
 }
 
 void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
@@ -402,18 +414,19 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     if ((s64) velocity.z * velocity.z + SQUARE_SUM2(velocity.x, velocity.y) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
     }
-    scale = donketu->mPrm->mDonketu.mUnk_204;
+    scale = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;
     velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
     velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, scale);
     velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, scale);
-    velocity.y = -donketu->mPrm->mDonketu.mUnk_208;
+    velocity.y = -donketu->mPrm->mDonketu.mWaterSinkDescentSpeed;
     StartMapObjectState(donketu, 8, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_1fc, donketu->mPrm->mDonketu.mUnk_200);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWaterSinkAnimationEntry,
+                                donketu->mPrm->mDonketu.mWaterSinkFrameStep);
     StopTurningMoveFollowsAngle(donketu);
     SetSpeedAndClearTarget(donketu, 0);
     SetVelocity(donketu, &velocity);
     DisableMissionRunMapObjectGravity(donketu);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_20c, StartDonketuWaterWalkState);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWaterSinkFrameCount, StartDonketuWaterWalkState);
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x423, 0);
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x425, 0);
     StartModelEffectAtWaterHeight(donketu, 4, 0);
@@ -425,7 +438,8 @@ void StartDonketuKartNotEliminatedState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};
 
     StartMapObjectState(donketu, 8, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_070, donketu->mPrm->mDonketu.mUnk_074);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mKartNotEliminatedAnimationEntry,
+                                donketu->mPrm->mDonketu.mKartNotEliminatedFrameStep);
     SetVelocity(donketu, &velocity);
     DisableMissionRunMapObjectGravity(donketu);
     StopTurningMoveFollowsAngle(donketu);
@@ -449,7 +463,8 @@ void StartDonketuKartNotEliminatedState(MissionRunMapObject *donketu) {
 
 void StartDonketuJumpLandState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 5, NULL);
-    StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_160, donketu->mPrm->mDonketu.mUnk_164, NULL);
+    StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mJumpLandAnimationEntry,
+                                  donketu->mPrm->mDonketu.mJumpLandFrameStep, NULL);
     SetSpeedAndClearTarget(donketu, 0);
 }
 
@@ -461,24 +476,27 @@ u32 UpdateDonketuJumpSound(MissionRunMapObject *donketu) {
 void StartDonketuJumpState(MissionRunMapObject *donketu) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = donketu->mPrm->mDonketu.mUnk_154;
+    velocity.y = donketu->mPrm->mDonketu.mJumpVelocityY;
     StartMapObjectState(donketu, 5, (s32(*)(MissionRunMapObject *)) UpdateDonketuJumpSound);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_14c, donketu->mPrm->mDonketu.mUnk_150);
-    SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_158, donketu->mPrm->mDonketu.mUnk_158);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mJumpAnimationEntry,
+                                donketu->mPrm->mDonketu.mJumpFrameStep);
+    SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mJumpAnglePerCall,
+                           donketu->mPrm->mDonketu.mJumpAnglePerCall);
     SetVelocity(donketu, &velocity);
     SetCourseCollisionCallback(donketu, StartDonketuJumpLandState);
 }
 
 void StartDonketuJumpWaitState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 5, NULL);
-    StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_12c, donketu->mPrm->mDonketu.mUnk_130, NULL);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_134, &StartDonketuJumpState);
+    StartAnimationWithEndCallback(donketu, donketu->mPrm->mDonketu.mJumpWaitAnimationEntry,
+                                  donketu->mPrm->mDonketu.mJumpWaitFrameStep, NULL);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mJumpWaitFrameCount, &StartDonketuJumpState);
     SetSpeedAndClearTarget(donketu, 0);
 }
 
 s32 UpdateDonketuChaseStop(MissionRunMapObject *donketu) {
     SetAnglePointAndMoveAnglePoint(donketu, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
-    if (donketu->mSpeed < donketu->mPrm->mDonketu.mUnk_108) {
+    if (donketu->mSpeed < donketu->mPrm->mDonketu.mChaseStopCollisionSpeed) {
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
         SetDonketuStepSoundCallbacks(donketu);
     }
@@ -490,14 +508,16 @@ void StartDonketuChaseStopState(MissionRunMapObject *donketu) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(donketu, 2, UpdateDonketuChaseStop);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_10c, donketu->mPrm->mDonketu.mUnk_110);
-    TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mUnk_118, donketu->mPrm->mDonketu.mUnk_118);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseStopAnimationEntry,
+                                donketu->mPrm->mDonketu.mChaseStopFrameStep);
+    TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mChaseStopAnglePerCall,
+                                donketu->mPrm->mDonketu.mChaseStopAnglePerCall);
     SetAnglePointAndMoveAnglePoint(donketu, &kart->mPos);
     StopMoveAngleTurning(donketu);
-    SetSpeedTargetAndPerCall(donketu, 0, donketu->mPrm->mDonketu.mUnk_114);
+    SetSpeedTargetAndPerCall(donketu, 0, donketu->mPrm->mDonketu.mChaseStopSpeedPerCall);
     SetStoppedCallback(donketu, StartDonketuRepeatJumps);
     SetKartCollisionCallback(donketu, DonketuChaseKartCollisionCallback);
-    if (donketu->mSpeed < donketu->mPrm->mDonketu.mUnk_114) {
+    if (donketu->mSpeed < donketu->mPrm->mDonketu.mChaseStopSpeedPerCall) {
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     }
     SetDonketuStepEffectCallbacks((u16 *) donketu);
@@ -505,28 +525,34 @@ void StartDonketuChaseStopState(MissionRunMapObject *donketu) {
 
 void StartDonketuChaseRunState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 2, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_0f4, donketu->mPrm->mDonketu.mUnk_0f8);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseRunAnimationEntry,
+                                donketu->mPrm->mDonketu.mChaseRunFrameStep);
     StopTurningMoveFollowsAngle(donketu);
-    SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mUnk_0fc, donketu->mPrm->mDonketu.mUnk_100);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_104, &StartDonketuChaseStopState);
+    SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mChaseRunSpeedTarget,
+                             donketu->mPrm->mDonketu.mChaseRunSpeedPerCall);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mChaseRunFrameCount, &StartDonketuChaseStopState);
     SetKartCollisionCallback(donketu, DonketuChaseKartCollisionCallback);
     SetDonketuStepEffectCallbacks((u16 *) donketu);
 }
 
 void StartDonketuChaseWaitState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 2, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_0e8, donketu->mPrm->mDonketu.mUnk_0ec);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseWaitAnimationEntry,
+                                donketu->mPrm->mDonketu.mChaseWaitFrameStep);
     StopTurningMoveFollowsAngle(donketu);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_0f0, &StartDonketuChaseRunState);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mChaseWaitFrameCount, &StartDonketuChaseRunState);
     SetDonketuStepSoundCallbacks(donketu);
 }
 
 void StartDonketuChaseRunAtStart(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 2, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_080, donketu->mPrm->mDonketu.mUnk_084);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseRunAtStartAnimationEntry,
+                                donketu->mPrm->mDonketu.mChaseRunAtStartFrameStep);
     StopTurningMoveFollowsAngle(donketu);
-    SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mUnk_088, donketu->mPrm->mDonketu.mUnk_08c);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_090, &StartDonketuChaseStopState);
+    SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mChaseRunAtStartSpeedTarget,
+                             donketu->mPrm->mDonketu.mChaseRunAtStartSpeedPerCall);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mChaseRunAtStartFrameCount,
+                                 &StartDonketuChaseStopState);
     SetKartCollisionCallback(donketu, DonketuChaseKartCollisionCallback);
     SetDonketuStepEffectCallbacks((u16 *) donketu);
 }
@@ -536,11 +562,14 @@ void StartDonketuChaseKartState(MissionRunMapObject *donketu) {
 
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(donketu, 3, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_0cc, donketu->mPrm->mDonketu.mUnk_0d0);
-    TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mUnk_0d8, donketu->mPrm->mDonketu.mUnk_0d8);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseKartAnimationEntry,
+                                donketu->mPrm->mDonketu.mChaseKartFrameStep);
+    TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mChaseKartAnglePerCall,
+                                donketu->mPrm->mDonketu.mChaseKartAnglePerCall);
     SetAnglePointAndMoveAnglePoint(donketu, &kart->mPos);
-    SetSpeedAndClearTarget(donketu, donketu->mPrm->mDonketu.mUnk_0d4);
-    SetPointInRangeCallback(donketu, 0, donketu->mPrm->mDonketu.mUnk_0e4, &kart->mPos, StartDonketuChaseWaitState);
+    SetSpeedAndClearTarget(donketu, donketu->mPrm->mDonketu.mChaseKartSpeed);
+    SetPointInRangeCallback(donketu, 0, donketu->mPrm->mDonketu.mChaseKartWaitHalfAngle, &kart->mPos,
+                            StartDonketuChaseWaitState);
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
         StartMapObjectSound(&donketu->mUnk_000, 0x214);
     } else if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
@@ -550,22 +579,26 @@ void StartDonketuChaseKartState(MissionRunMapObject *donketu) {
 }
 
 void StartDonketuWalkToCourseMapRow(MissionRunMapObject *donketu) {
-    if (IsPointInRange(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow, (donketu->mPrm->mDonketu.mUnk_180 + 0x28),
-                       0)) {
+    if (IsPointInRange(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow,
+                       (donketu->mPrm->mDonketu.mCourseMapRowRadius + 0x28), 0)) {
         StartMapObjectState(donketu, 3, NULL);
-        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_168, donketu->mPrm->mDonketu.mUnk_16c);
-        TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mUnk_178, 0x270f000);
+        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowAnimationEntry,
+                                    donketu->mPrm->mDonketu.mWalkToCourseMapRowFrameStep);
+        TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowAnglePerCall, 0x270f000);
         SetAnglePointAndMoveAnglePoint(donketu, &donketu->mUnk_000.mCourseMapRow->mPosition);
-        SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mUnk_174, donketu->mPrm->mDonketu.mUnk_170);
-        StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_17c, NULL);
+        SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowSpeedTarget,
+                                 donketu->mPrm->mDonketu.mWalkToCourseMapRowSpeedPerCall);
+        StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowFrameCount, NULL);
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     } else {
         StartMapObjectState(donketu, 3, NULL);
-        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_168, donketu->mPrm->mDonketu.mUnk_16c << 2);
-        TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mUnk_178, 0x270f000);
+        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowAnimationEntry,
+                                    donketu->mPrm->mDonketu.mWalkToCourseMapRowFrameStep << 2);
+        TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowAnglePerCall, 0x270f000);
         SetAnglePointAndMoveAnglePoint(donketu, &donketu->mUnk_000.mCourseMapRow->mPosition);
-        SetSpeedTargetAndPerCall(donketu, -donketu->mPrm->mDonketu.mUnk_174, donketu->mPrm->mDonketu.mUnk_170);
-        StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_17c, NULL);
+        SetSpeedTargetAndPerCall(donketu, -donketu->mPrm->mDonketu.mWalkToCourseMapRowSpeedTarget,
+                                 donketu->mPrm->mDonketu.mWalkToCourseMapRowSpeedPerCall);
+        StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWalkToCourseMapRowFrameCount, NULL);
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
     }
     SetDonketuStepSoundCallbacks(donketu);
@@ -575,22 +608,30 @@ void StartDonketuWalkState(MissionRunMapObject *donketu) {
     DonketuPrm *prm;
 
     prm = &donketu->mPrm->mDonketu;
-    if (IsPointInRange(donketu, &GetCurrentGroupEntry(donketu)->mPos, prm->mUnk_0ac, prm->mUnk_0b0)) {
+    if (IsPointInRange(donketu, &GetCurrentGroupEntry(donketu)->mPos, prm->mWalkRangeRadius,
+                       prm->mWalkRangeHalfAngle)) {
         StartMapObjectState(donketu, 1, NULL);
-        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_0b8, donketu->mPrm->mDonketu.mUnk_0bc);
-        TurnSidewaysMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mUnk_0c4, donketu->mPrm->mDonketu.mUnk_0c4, 0);
+        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWalkInRangeAnimationEntry,
+                                    donketu->mPrm->mDonketu.mWalkInRangeFrameStep);
+        TurnSidewaysMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mWalkInRangeAnglePerCall,
+                                     donketu->mPrm->mDonketu.mWalkInRangeAnglePerCall, 0);
         SetAnglePointAndMoveAnglePoint(donketu, &GetCurrentGroupEntry(donketu)->mPos);
-        SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mUnk_0c0, donketu->mPrm->mDonketu.mUnk_0c0);
-        StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mUnk_0c8, NULL);
+        SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mWalkInRangeSpeed,
+                                 donketu->mPrm->mDonketu.mWalkInRangeSpeed);
+        StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWalkInRangeFrameCount, NULL);
     } else {
         IncrementEntryIndex(donketu);
         StartMapObjectState(donketu, 1, NULL);
-        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_09c, donketu->mPrm->mDonketu.mUnk_0a0);
-        TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mUnk_0a8, donketu->mPrm->mDonketu.mUnk_0a8);
+        StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWalkToNextEntryAnimationEntry,
+                                    donketu->mPrm->mDonketu.mWalkToNextEntryFrameStep);
+        TurnToPointMoveFollowsAngle(donketu, donketu->mPrm->mDonketu.mWalkToNextEntryAnglePerCall,
+                                    donketu->mPrm->mDonketu.mWalkToNextEntryAnglePerCall);
         SetAnglePointAndMoveAnglePoint(donketu, &GetCurrentGroupEntry(donketu)->mPos);
-        SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mUnk_0a4, donketu->mPrm->mDonketu.mUnk_0a4);
+        SetSpeedTargetAndPerCall(donketu, donketu->mPrm->mDonketu.mWalkToNextEntrySpeed,
+                                 donketu->mPrm->mDonketu.mWalkToNextEntrySpeed);
         prm = &donketu->mPrm->mDonketu;
-        SetPointInRangeCallback(donketu, prm->mUnk_0ac, prm->mUnk_0b0, &GetCurrentGroupEntry(donketu)->mPos, NULL);
+        SetPointInRangeCallback(donketu, prm->mWalkRangeRadius, prm->mWalkRangeHalfAngle,
+                                &GetCurrentGroupEntry(donketu)->mPos, NULL);
     }
     SetDonketuStepSoundCallbacks(donketu);
 }
@@ -602,7 +643,8 @@ void StartDonketuWaterFallState(MissionRunMapObject *donketu) {
 
 void StartDonketuKartEliminatedState(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, NULL);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_078, donketu->mPrm->mDonketu.mUnk_07c);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mKartEliminatedAnimationEntry,
+                                donketu->mPrm->mDonketu.mKartEliminatedFrameStep);
     StopTurningMoveFollowsAngle(donketu);
     SetSpeedAndClearTarget(donketu, 0);
 }
@@ -740,11 +782,11 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
         }
         if (IsStateNumberBelow(donketu, 5) != 0) {
             prm = &donketu->mPrm->mDonketu;
-            if (GetAbsoluteCounter(donketu) >= prm->mUnk_148) {
+            if (GetAbsoluteCounter(donketu) >= prm->mJumpMinAbsoluteCounter) {
                 prm = &donketu->mPrm->mDonketu;
-                if (GetEntryKartInRange(donketu, prm->mUnk_138, prm->mUnk_13c) != NULL) {
+                if (GetEntryKartInRange(donketu, prm->mJumpKartRadius, prm->mJumpKartHalfAngle) != NULL) {
                     prm = &donketu->mPrm->mDonketu;
-                    kart = GetEntryKartFacingObject(donketu, prm->mUnk_140, prm->mUnk_144);
+                    kart = GetEntryKartFacingObject(donketu, prm->mJumpKartFacingRadius, prm->mJumpKartFacingHalfAngle);
                     if (kart != NULL) {
                         if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_KINOKO_BOOST) != 0 &&
                             kart->mBoostTimer > 0) {
@@ -755,14 +797,14 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
             }
         }
         if (IsStateNumberBelow(donketu, 3) != 0) {
-            if (IsPointInRange(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow, donketu->mPrm->mDonketu.mUnk_180,
-                               0) == FALSE) {
+            if (IsPointInRange(donketu, (Vec3 *) donketu->mUnk_000.mCourseMapRow,
+                               donketu->mPrm->mDonketu.mCourseMapRowRadius, 0) == FALSE) {
                 StartDonketuWalkToCourseMapRow(donketu);
             }
         }
         if (IsStateNumberBelow(donketu, 2) != 0) {
             prm = &donketu->mPrm->mDonketu;
-            if (GetEntryKartInRange(donketu, prm->mUnk_0dc, prm->mUnk_0e0) != NULL) {
+            if (GetEntryKartInRange(donketu, prm->mChaseKartRadius, prm->mChaseKartHalfAngle) != NULL) {
                 StartDonketuChaseKartState(donketu);
             }
         }

@@ -17,7 +17,8 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
 
     if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
-            if (donketu->mPrm->mDonketu.mUnk_1dc > 0 || donketu->mPrm->mDonketu.mUnk_1e0 > 0) {
+            if (donketu->mPrm->mDonketu.mHitBoostedVelocityY > 0 ||
+                donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale > 0) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
                 velocityWhenBoosted.x = kart->mVelocity.x;
                 velocityWhenBoosted.z = kart->mVelocity.z;
@@ -27,15 +28,15 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
-                scale = donketu->mPrm->mDonketu.mUnk_1e0;
+                scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
                 velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.x, scale);
                 velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
-                velocityWhenBoosted.y = donketu->mPrm->mDonketu.mUnk_1dc;
+                velocityWhenBoosted.y = donketu->mPrm->mDonketu.mHitBoostedVelocityY;
                 StartMapObjectState(donketu, 7, NULL);
-                StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_1d4,
-                                            donketu->mPrm->mDonketu.mUnk_1d8);
-                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_1e4, 0x270f000);
+                StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitBoostedAnimationEntry,
+                                            donketu->mPrm->mDonketu.mHitBoostedFrameStep);
+                SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitBoostedAnglePerCall, 0x270f000);
                 SetVelocity(donketu, &velocityWhenBoosted);
                 SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
@@ -71,7 +72,8 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             }
         }
     } else if (IsStateNumberBelow(donketu, 7)) {
-        if (donketu->mPrm->mDonketu.mUnk_1c4 > 0 || donketu->mPrm->mDonketu.mUnk_1c8 > 0) {
+        if (donketu->mPrm->mDonketu.mHitNotBoostedVelocityY > 0 ||
+            donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale > 0) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
             velocityWhenNotBoosted.x = kart->mVelocity.x;
             velocityWhenNotBoosted.z = kart->mVelocity.z;
@@ -81,14 +83,15 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
-            scale = donketu->mPrm->mDonketu.mUnk_1c8;
+            scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
             velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.x, scale);
             velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
-            velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mUnk_1c4;
+            velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mHitNotBoostedVelocityY;
             StartMapObjectState(donketu, 7, NULL);
-            StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mUnk_1bc, donketu->mPrm->mDonketu.mUnk_1c0);
-            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mUnk_1cc, 0x270f000);
+            StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnimationEntry,
+                                        donketu->mPrm->mDonketu.mHitNotBoostedFrameStep);
+            SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnglePerCall, 0x270f000);
             SetVelocity(donketu, &velocityWhenNotBoosted);
             SetStoppedCallback(donketu, NULL);
             SetSpeedAndClearTarget(donketu, 0);
