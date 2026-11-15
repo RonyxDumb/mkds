@@ -121,7 +121,7 @@ void WriteLogoSceneRegisters(void) {
 
 void UpdateLogoScene(SceneNumbers *sceneNumbers) {
     AdvanceStateMachine(&gLogoScene->mStateMachine);
-    if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == 11) {
+    if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == LOGO_STATE_END) {
         sceneNumbers->mNextScene = 0;
     }
     AdvanceSceneText();
