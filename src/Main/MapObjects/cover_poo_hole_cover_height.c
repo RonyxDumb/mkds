@@ -647,7 +647,7 @@ MapObjectList *CreateCoverPooHoleUpdateList(void) {
     return CreateMapObjectUpdateList(InitCoverPooHoleObjects, UpdateCoverPooHole, NULL);
 }
 
-BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole) {
+BOOL IsCoverPooHoleRaising(CoverPooHole *coverPooHole) {
     if (coverPooHole->mState == COVER_POO_HOLE_STATE_RAISE_SHORT ||
         coverPooHole->mState == COVER_POO_HOLE_STATE_RAISE_TALL) {
         return TRUE;

@@ -86,7 +86,7 @@ typedef struct CoverPooHole {
 #include "Main/Kart/kart_drift.h" // Kart
 #include "01/MapObjects/data_0209bc74.h"
 
-BOOL IsCoverPooHoleState1Or4(CoverPooHole *coverPooHole);
+BOOL IsCoverPooHoleRaising(CoverPooHole *coverPooHole);
 MapObjectList *CreateCoverPooHoleUpdateList(void);
 MapObjectList *CreateCoverPooHoleDrawList(void);
 MapObjectKindData *CreateCoverPooHoleKindData(void);

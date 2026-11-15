@@ -430,7 +430,7 @@ void UpdateRaceHudSubScreenCoverPooHoleCells(void) {
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos.mSecond -=
                         GetCoverPooHoleHitCoverHeight((CoverPooHole *) object) >> 14;
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mCell =
-                        GetRaceSNcerEntry(IsCoverPooHoleState1Or4((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
+                        GetRaceSNcerEntry(IsCoverPooHoleRaising((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mPriority =
                         IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
