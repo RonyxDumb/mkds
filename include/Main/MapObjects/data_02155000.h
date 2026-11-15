@@ -52,5 +52,5 @@ typedef struct CharacterAnimationRow {
 
 extern const CharacterAnimationRow gCharacterNsbcaStems[];
 
-extern const s32 gFinishResultByRank[];
+extern const s16 gFinishResultByRank[7][8];
 

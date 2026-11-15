@@ -106,9 +106,9 @@ const KartAiItemUseEntry gRaceEasyHeldItemEntries[18] = {{UseItemByRankAfterHeld
 const CharacterAnimationRow gCharacterNsbcaStems[4] = {{0, "drive", 0}, {1, "spin", 1}, {2, "win", 1}, {3, "lose", 1}};
 s32 gNearPlayerRankKartCount = 2;
 s32 gMinKartDistanceSquared = -1;
-const s32 gFinishResultByRank[28] = {0x20000, 0,      0, 0, 0x10000, 2,       0, 0, 0,       0x20001, 0, 0, 0,
-                                     0x10001, 2,      0, 0, 0x10000, 0x20001, 0, 0, 0x10000, 0x20001, 2, 0, 0x10000,
-                                     0x10001, 0x20002};
+const s16 gFinishResultByRank[7][8] = {{0, 2, 0, 0, 0, 0, 0, 0}, {0, 1, 2, 0, 0, 0, 0, 0}, {0, 0, 1, 2, 0, 0, 0, 0},
+                                       {0, 0, 1, 1, 2, 0, 0, 0}, {0, 0, 0, 1, 1, 2, 0, 0}, {0, 0, 0, 1, 1, 2, 2, 0},
+                                       {0, 0, 0, 1, 1, 1, 2, 2}};
 char gCharacterNsbcaPathBuffer[256];
 
 char *BuildCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {
@@ -271,7 +271,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
             }
         }
     } else if (value > 1) {
-        finishResult = ((s16 *) &gFinishResultByRank[(value - 2) * 4])[GetKartRank(kart->mIndex) - 1];
+        finishResult = gFinishResultByRank[value - 2][GetKartRank(kart->mIndex) - 1];
     }
     if (finishResult == FINISH_RESULT_WON) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
