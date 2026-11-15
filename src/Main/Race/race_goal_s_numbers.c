@@ -50,7 +50,7 @@ void StartRaceGoalS(void) {
         gRaceGoalS->mRowKartIndex[rowIndex] = rowIndex;
         if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             isHumanGhostOrPeer = falseValue;
-            if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= 3 &&
+            if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
                 ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isHumanGhostOrPeer = 1;
             }

@@ -69,7 +69,7 @@ void SetKartCupRanks(void) {
     for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
         if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             isHumanGhostOrPeer = FALSE;
-            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= 3) {
+            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER) {
                 if ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     isHumanGhostOrPeer = TRUE;
                 }
@@ -81,7 +81,7 @@ void SetKartCupRanks(void) {
             sortKeys[kartIndex] = (cupScore << 4) + (humanGhostOrPeerBit << 3) + 8 - GetKartRank(kartIndex);
         } else {
             isHumanGhostOrPeer = FALSE;
-            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= 3) {
+            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER) {
                 if ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     isHumanGhostOrPeer = TRUE;
                 }

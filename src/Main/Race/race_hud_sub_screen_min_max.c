@@ -26,7 +26,7 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
     }
     isHumanGhostOrPeer = FALSE;
     if (rowIndex == 0) {
-        if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= 3) {
+        if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= PLAYER_KIND_PEER) {
             if ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }

@@ -147,7 +147,7 @@ void InitKartAiNonCpuCounts(void) {
         if (gRaceSetup->mUseTeams != 0) {
             for (teamIndex = 0; teamIndex < 2; teamIndex++) {
                 isNonCpu = FALSE;
-                if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind > 3) {
+                if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind > PLAYER_KIND_PEER) {
                 } else if ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) &
                            PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     isNonCpu = TRUE;
@@ -160,7 +160,7 @@ void InitKartAiNonCpuCounts(void) {
         } else {
             isNonCpuWithoutTeams = FALSE;
             player = &gRaceSetup->mCurrentEntries[kartIndex].mPlayer;
-            if (player->mKind <= 3 && ((1 << player->mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+            if (player->mKind <= PLAYER_KIND_PEER && ((1 << player->mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isNonCpuWithoutTeams = TRUE;
             }
             if (isNonCpuWithoutTeams != FALSE) {
@@ -193,7 +193,7 @@ void InitKartAiGrandPrixPoints(void) {
             kartIndex = entryIndex;
             previousTotalPoints = GetKartPreviousTotalPoints(kartIndex);
             isNonCpu = FALSE;
-            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= 3 &&
+            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
                 ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isNonCpu = TRUE;
             }
@@ -250,7 +250,7 @@ void InitKartAiTableIndices(void) {
     kartCount = gRaceSetup->mKartCount;
     for (kartIndex = 0; (u32) kartIndex < kartCount; kartIndex++) {
         isNonCpu = FALSE;
-        if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= 3 &&
+        if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
             ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isNonCpu = TRUE;
         }
@@ -382,7 +382,7 @@ void DecrementKartAiNonCpuCount(u32 kartIndex) {
     s16 teamIndex;
     raceSetup = gRaceSetup;
     isNonCpu = FALSE;
-    if (raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= 3 &&
+    if (raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
         ((1 << raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
         isNonCpu = TRUE;
     }
@@ -505,7 +505,7 @@ void UpdateKartAiRankLists(void) {
         if (kartAtRank >= 0) {
             index = kartAtRank;
             isNonCpu = FALSE;
-            if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= 3 &&
+            if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
                 ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isNonCpu = TRUE;
             }

@@ -107,6 +107,7 @@
 #include "ITCM/sphere_collision.h"
 #include "Main/MapObjects/data_0206b000.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Sound/sound_mode.h"
 #include "Main/Kart/code_02066ac0.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
@@ -2384,7 +2385,7 @@ void StartKartRaceEnd(Kart *kart) {
             index = kart->mIndex;
             player = &raceSetup->mCurrentEntries[index].mPlayer;
             value = 0;
-            if (player->mKind <= 3 && ((1 << player->mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+            if (player->mKind <= PLAYER_KIND_PEER && ((1 << player->mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                 value = 1;
             }
             if (value != 0) {
@@ -2472,7 +2473,7 @@ void StartKartRaceEnd(Kart *kart) {
         return;
     }
     flag = 1;
-    if (gSoundModeHolder.mMode != 2 && gSoundModeHolder.mMode != 3) {
+    if (gSoundModeHolder.mMode != SCENE_SOUND_MODE_PLAYING && gSoundModeHolder.mMode != SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY) {
         flag = 0;
     }
     if (flag == 0) {

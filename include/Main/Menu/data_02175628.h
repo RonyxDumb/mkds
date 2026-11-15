@@ -100,6 +100,9 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
+// A pair missing for fewer frames than this (InputSlotPair.mNoPairCount) still counts as a brief gap.
+#define INPUT_NO_PAIR_BRIEF_FRAMES 5
+
 // InputSlotHead.mRepeatState: no masked bit held, held until the first repeat, repeating at the interval.
 #define INPUT_REPEAT_IDLE 0
 #define INPUT_REPEAT_WAIT_DELAY 1

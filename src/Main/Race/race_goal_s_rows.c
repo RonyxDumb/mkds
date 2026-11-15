@@ -41,7 +41,7 @@ void RefreshRaceGoalSRows(void) {
         for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
             if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
                 isHumanGhostOrPeer = falseValueFirst;
-                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= 3 &&
+                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
                     ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     isHumanGhostOrPeer = 1;
                 }
@@ -52,7 +52,7 @@ void RefreshRaceGoalSRows(void) {
                 sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(index);
             } else {
                 isHumanGhostOrPeer = falseValueSecond;
-                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= 3 &&
+                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
                     ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     isHumanGhostOrPeer = 1;
                 }

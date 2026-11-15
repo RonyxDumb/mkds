@@ -27,7 +27,7 @@ s64 ComputeDotOfPairsRoundedS64(const IntPair *first, const IntPair *second) {
 
 static inline s32 IsEntryHumanGhostOrPeer(s8 entryIndex) {
     BOOL isHumanGhostOrPeer = FALSE;
-    if (GetCurrentEntry(entryIndex)->mPlayer.mKind <= 3 &&
+    if (GetCurrentEntry(entryIndex)->mPlayer.mKind <= PLAYER_KIND_PEER &&
         ((1 << GetCurrentEntry(entryIndex)->mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
         isHumanGhostOrPeer = TRUE;
     }
