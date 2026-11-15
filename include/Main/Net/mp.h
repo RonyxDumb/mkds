@@ -2,13 +2,13 @@
 
 #include "types.h"
 
-void UpdateMPState20(void *stateObject);
-void EnterMPState20(void *stateObject);
-void UpdateMPState17(void *stateObject);
-void EnterMPState17(void *stateObject);
+void UpdateMPWaitRequestDone(void *stateObject);
+void EnterMPWaitRequestDone(void *stateObject);
+void UpdateMPLoadCourseSound(void *stateObject);
+void EnterMPLoadCourseSound(void *stateObject);
 void LoadCourseSoundSetCallback(void);
-void UpdateMPState16(void *stateObject);
-void EnterMPState16(void *stateObject);
+void UpdateMPWaitRaceArchives(void *stateObject);
+void EnterMPWaitRaceArchives(void *stateObject);
 u32 AdvanceRaceArchives(void);
 void RequestMPWaitMenuArchives(void);
 void RequestMPWaitResultArchives(void);

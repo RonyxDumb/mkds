@@ -38,11 +38,11 @@ StateCallbacks gMPStateTable[MP_STATE_COUNT] = {{EnterMPFillOwnRecord, UpdateMPF
                                                 {EnterMPExchangePlayerBits, UpdateMPExchangePlayerBits},
                                                 {EnterMPSendPlayerBits, UpdateMPSendPlayerBits},
                                                 {EnterMPReadyNop, NULL},
-                                                {EnterMPState16, UpdateMPState16},
-                                                {EnterMPState17, UpdateMPState17},
+                                                {EnterMPWaitRaceArchives, UpdateMPWaitRaceArchives},
+                                                {EnterMPLoadCourseSound, UpdateMPLoadCourseSound},
                                                 {EnterMPWaitResultArchives, UpdateMPWaitResultArchives},
                                                 {EnterMPLoadResultSound, UpdateMPLoadResultSound},
-                                                {EnterMPState20, UpdateMPState20},
+                                                {EnterMPWaitRequestDone, UpdateMPWaitRequestDone},
                                                 {EnterMPWaitMenuArchives, UpdateMPWaitMenuArchives},
                                                 {EnterMPChildDelay, UpdateMPChildDelay}};
 
