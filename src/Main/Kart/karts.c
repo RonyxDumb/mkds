@@ -291,7 +291,7 @@ void SetKartKind3ShapeListMask(s32 kartIndex) {
     gKartKind3ShapeListMask = 0;
     for (shapeListIndex = 0; shapeListIndex < 8; shapeListIndex++) {
         if (IsKartInCourseMapKind3ShapeList(kartIndex, shapeListIndex) != 0) {
-            gKartKind3ShapeListMask |= 1 << shapeListIndex;
+            BIT_SET(gKartKind3ShapeListMask, shapeListIndex);
         }
     }
 }

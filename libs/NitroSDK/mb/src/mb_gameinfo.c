@@ -595,12 +595,12 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
                 record += 0x16;
             }
             *(u16 *) &entry->mGetPlayerFlag &= ~gReceivedGameInfo->mHalf0e;
-            mbrsp->mValidGameInfoFlag &= ~(1 << entryIndex);
+            BIT_CLEAR(mbrsp->mValidGameInfoFlag, entryIndex);
         } else {
             vu16 zeroValue = 0;
             MIi_CpuClear16(zeroValue, entry->mMember, 0x14a);
             entry->mGetPlayerFlag = 0;
-            mbrsp->mValidGameInfoFlag &= ~(1 << entryIndex);
+            BIT_CLEAR(mbrsp->mValidGameInfoFlag, entryIndex);
         }
         entry->mSeqNoVolat = gReceivedGameInfo->mSeqNoVolat;
     } else if (entry->mGetPlayerFlag == gReceivedGameInfo->mHalf0c) {
@@ -617,7 +617,7 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
         u32 recordNumber = gReceivedGameInfo->mMember[recordIndex].mPlayerNo;
         if (recordNumber != 0) {
             MIi_CpuCopy16(&gReceivedGameInfo->mMember[recordIndex], &entry->mMember[(recordNumber - 1) * 0x16], 0x16);
-            entry->mGetPlayerFlag |= 1 << recordNumber;
+            BIT_SET(entry->mGetPlayerFlag, recordNumber);
         }
     }
 }

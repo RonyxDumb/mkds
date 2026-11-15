@@ -210,9 +210,9 @@ void ResetPlayingSound(PlayingSound *sound) {
 // Every caller passes bit 2 with 1: the sound pass then flips bit 0 and clears bit 2.
 void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value) {
     if (value == 1) {
-        source->mSourceFlags |= 1 << bit;
+        BIT_SET(source->mSourceFlags, bit);
     } else {
-        source->mSourceFlags &= ~(1 << bit);
+        BIT_CLEAR(source->mSourceFlags, bit);
     }
 }
 

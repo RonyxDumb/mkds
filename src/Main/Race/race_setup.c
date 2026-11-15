@@ -167,7 +167,7 @@ void SetNextRaceSetupFromKartMask(void) {
     kartMask = 0;
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
-            kartMask |= 1 << index;
+            BIT_SET(kartMask, index);
         }
     }
     SetParticipantKartMapFromMask(kartMask);

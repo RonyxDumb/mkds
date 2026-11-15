@@ -163,11 +163,11 @@ void InitCharacterKartPicks(CharacterKartPicks *picks) {
 }
 
 void SetGivenCharacter(CharacterKartPicks *picks, u32 entryIndex, u32 characterIndex) {
-    picks->mCharacterGivenBits |= 1 << entryIndex;
+    BIT_SET(picks->mCharacterGivenBits, entryIndex);
     picks->mCharacterIndices[entryIndex] = characterIndex;
 }
 
 void SetGivenKart(CharacterKartPicks *picks, u32 entryIndex, u32 kartIndex) {
-    picks->mKartGivenBits |= 1 << entryIndex;
+    BIT_SET(picks->mKartGivenBits, entryIndex);
     picks->mKartIndices[entryIndex] = kartIndex;
 }

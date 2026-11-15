@@ -436,7 +436,7 @@ BOOL DWC_IsValidAID(u32 aid) {
     if (gWiFiConnection == NULL) {
         return FALSE;
     }
-    if ((gWiFiConnection->mMatching.mParticipantMask & (1 << aid)) != 0) {
+    if (BIT_IS_SET(gWiFiConnection->mMatching.mParticipantMask, aid)) {
         return DWCi_IsValidAID(aid);
     }
     return FALSE;
@@ -814,7 +814,7 @@ void DWCi_GT2ClosedCallback(Gt2ConnectionView *connection, u32 reason) {
             return;
         }
         aid = connectionInfo[1];
-        inMask = (gWiFiConnection->mMatching.mParticipantMask & (1 << aid)) != 0;
+        inMask = BIT_IS_SET(gWiFiConnection->mMatching.mParticipantMask, aid);
         DWCi_ClearTransConnection(aid);
         wiFiConnection = gWiFiConnection;
         if ((wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER && reason == 0) ||

@@ -17,7 +17,7 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
     TPData *sample;
 
     if (err != 0) {
-        gTouchPanelState.mErrorFlags |= 1 << tpCommand;
+        BIT_SET(gTouchPanelState.mErrorFlags, tpCommand);
         if (gTouchPanelState.mCallback != 0) {
             gTouchPanelState.mCallback(tpCommand, TP_RESULT_PXI_BUSY, 0);
         }
@@ -62,7 +62,7 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
                     gTouchPanelState.mState = TP_STATE_READY;
                     break;
             }
-            gTouchPanelState.mBusyFlags &= ~(1 << tpCommand);
+            BIT_CLEAR(gTouchPanelState.mBusyFlags, tpCommand);
             if (gTouchPanelState.mCallback != 0) {
                 gTouchPanelState.mCallback(tpCommand, TP_RESULT_SUCCESS, 0);
             }
@@ -79,8 +79,8 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
         default:
             goto fail;
     }
-    gTouchPanelState.mErrorFlags |= 1 << tpCommand;
-    gTouchPanelState.mBusyFlags &= ~(1 << tpCommand);
+    BIT_SET(gTouchPanelState.mErrorFlags, tpCommand);
+    BIT_CLEAR(gTouchPanelState.mBusyFlags, tpCommand);
     if (gTouchPanelState.mCallback != 0) {
         gTouchPanelState.mCallback(tpCommand, callbackResult, 0);
     }

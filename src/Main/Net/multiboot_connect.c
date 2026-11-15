@@ -75,14 +75,14 @@ void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
             return;
         }
         case 7:
-            gConnectionWork->mSendCompleteMask |= 1 << index;
+            BIT_SET(gConnectionWork->mSendCompleteMask, index);
             if (gConnectionWork->mWaitToSendMask ==
                 (gConnectionWork->mWaitToSendMask & gConnectionWork->mSendCompleteMask)) {
                 gConnectionWork->mRequestPending = 0;
             }
             break;
         case 9:
-            gConnectionWork->mMultiBootChildMask |= 1 << index;
+            BIT_SET(gConnectionWork->mMultiBootChildMask, index);
             break;
         case 12:
             gConnectionWork->mRequestPending = 0;
@@ -92,7 +92,7 @@ void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
             break;
         case 3:
             if (gConnectionWork->mMultiBootChildMask & (1 << index)) {
-                gConnectionWork->mBootRequestDoneMask |= 1 << index;
+                BIT_SET(gConnectionWork->mBootRequestDoneMask, index);
                 if (gConnectionWork->mWaitToSendMask ==
                     (gConnectionWork->mWaitToSendMask & gConnectionWork->mBootRequestDoneMask)) {
                     gConnectionWork->mRequestPending = 0;
@@ -101,7 +101,7 @@ void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
             if (!(gConnectionWork->mMultiBootRequestFlags & 2)) {
                 if (gConnectionWork->mWaitToSendCount != 0) {
                     if (gConnectionWork->mWaitToSendMask & (1 << index)) {
-                        gConnectionWork->mWaitToSendMask &= ~(1 << index);
+                        BIT_CLEAR(gConnectionWork->mWaitToSendMask, index);
                         gConnectionWork->mWaitToSendCount--;
                     }
                     if ((gConnectionWork->mMultiBootRequestFlags & 1) && gConnectionWork->mWaitToSendMask == 0) {
@@ -131,7 +131,7 @@ void ParentStateCallback(u32 index, u32 code, MBUserInfo *childInfo) {
             break;
         case 14:
             if (!(gConnectionWork->mWaitToSendMask & (1 << index))) {
-                gConnectionWork->mWaitToSendMask |= 1 << index;
+                BIT_SET(gConnectionWork->mWaitToSendMask, index);
                 gConnectionWork->mWaitToSendCount++;
             }
             break;

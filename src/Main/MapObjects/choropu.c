@@ -485,7 +485,7 @@ void InitVehicleUpdateList(MapObjectList *updateList) {
         vehicle->mUpdateIndex = index;
         if ((seenGroupMask & (1 << groupIndex)) == 0) {
             entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
-            seenGroupMask |= 1 << groupIndex;
+            BIT_SET(seenGroupMask, groupIndex);
             for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
                 entry = GetCourseMapGroupEntry(groupIndex, entryIndex);
                 angleDegrees = entry->mValue;

@@ -62,6 +62,11 @@ typedef s32 BOOL;
 #define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
 #define HORIZONTAL_LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).z * (v).z)
 
+// Test, set or clear bit n of v.
+#define BIT_IS_SET(v, n) (((v) & (1 << (n))) != 0)
+#define BIT_SET(v, n) ((v) |= 1 << (n))
+#define BIT_CLEAR(v, n) ((v) &= ~(1 << (n)))
+
 // Pointer to the T that starts OFFSET bytes after BASE (offsets read from file data and headers).
 #define OFFSET_PTR(T, base, offset) ((T *) ((u8 *) (base) + (offset)))
 

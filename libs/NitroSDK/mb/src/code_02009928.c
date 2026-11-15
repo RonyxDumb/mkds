@@ -817,9 +817,9 @@ void MB_DisconnectChild(u32 childIndex) {
             mbc->mChildEntryIndex[childIndex - 1] = value;
             OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4)->mPollbmp &= ~childBit;
         }
-        if ((mbc->mChildEntryBmp & (1 << childIndex)) != 0) {
+        if (BIT_IS_SET(mbc->mChildEntryBmp, childIndex)) {
             mbc->mChildNum--;
-            mbc->mChildEntryBmp &= ~(1 << childIndex);
+            BIT_CLEAR(mbc->mChildEntryBmp, childIndex);
         }
         mbc->mPCommState[slot] = 0;
     }

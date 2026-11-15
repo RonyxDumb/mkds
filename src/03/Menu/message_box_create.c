@@ -34,7 +34,7 @@ u16 GetRecordValueByMacAddress(u8 *macAddress) {
     records = gMultiBootParent;
     mask = records->mMask;
     for (; aid < 2; aid++) {
-        if ((mask & (1 << aid)) != 0) {
+        if (BIT_IS_SET(mask, aid)) {
             u8 *firstRecordMac;
             u8 *recordMac;
             s32 byteOffset;

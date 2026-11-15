@@ -410,7 +410,7 @@ void BuildCourseMapBattlePointLinks(void *heap) {
         if (pointIndex == route->mFirstEntry) {
             for (previousIndex = 0; previousIndex < 8; previousIndex++) {
                 if (route->mPreviousPoints[previousIndex] != COURSE_MAP_ROUTE_NONE) {
-                    pointLink->mRouteLinkMask |= 1 << linkCount;
+                    BIT_SET(pointLink->mRouteLinkMask, linkCount);
                     pointLink->mLinks[linkCount++] = linkPointers[0] + route->mPreviousPoints[previousIndex];
                 }
             }
@@ -421,7 +421,7 @@ void BuildCourseMapBattlePointLinks(void *heap) {
         if (pointIndex == lastPoint) {
             for (nextIndex = 0; nextIndex < 8; nextIndex++) {
                 if (route->mNextPoints[nextIndex] != COURSE_MAP_ROUTE_NONE) {
-                    pointLink->mRouteLinkMask |= 1 << linkCount;
+                    BIT_SET(pointLink->mRouteLinkMask, linkCount);
                     pointLink->mLinks[linkCount++] = linkPointers[0] + route->mNextPoints[nextIndex];
                 }
             }

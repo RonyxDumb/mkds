@@ -115,7 +115,7 @@ s8 DWCi_AC_GetStealthChannel(s32 index) {
     }
     found = channel = 0;
     for (; channel < 0xd; channel++) {
-        if ((mask & (1 << channel)) != 0) {
+        if (BIT_IS_SET(mask, channel)) {
             if (found == index) {
                 return channel;
             }

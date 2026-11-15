@@ -57,15 +57,15 @@ void UpdateWiFiSessionKartTimeouts(void) {
             }
         }
         for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-            if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+            if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
                 if (gWiFiSession->mSinceCallbackFrames[participantIndex] > 300) {
-                    gWiFiSession->mKartRemoveMask |= 1 << participantIndex;
+                    BIT_SET(gWiFiSession->mKartRemoveMask, participantIndex);
                 }
             }
         }
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
             gWiFiSession->mSinceCallbackFrames[participantIndex]++;
         }
     }

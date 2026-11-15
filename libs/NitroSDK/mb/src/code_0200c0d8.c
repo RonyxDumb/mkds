@@ -115,7 +115,7 @@ u8 *MBi_ReceiveRequestDataPiece(ChildMessage *message, u32 child) {
     slotOffset = slotIndex << 5;
     MI_CpuCopy8((u8 *) message + 3, (u8 *) pieceBuffer + slotOffset + pieceIndex * gPieceSizes.mPieceSize,
                 gPieceSizes.mPieceSize);
-    gPieceBuffer->mDataBmp[slotIndex] |= 1 << pieceIndex;
+    BIT_SET(gPieceBuffer->mDataBmp[slotIndex], pieceIndex);
     if (IsGetAllRequestData(child) != 0) {
         return &gPieceBuffer->mDataBuf[slotOffset];
     }

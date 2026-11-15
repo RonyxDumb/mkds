@@ -463,7 +463,7 @@ void UpdateItemKouraWState1(ItemKouraW *item) {
         return;
     }
     value = (u16) GetRaceUpdateFramesMod8();
-    if ((item->mKartMask & (1 << value)) != 0 && item->mRankKartIndex != value && IsKartEnded(value) != 0 &&
+    if (BIT_IS_SET(item->mKartMask, value) && item->mRankKartIndex != value && IsKartEnded(value) != 0 &&
         TrySetItemKouraWKartItems(item, value) != 0) {
         kart = item->mKartItems->mKart;
         entry = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 0x40000000) ||

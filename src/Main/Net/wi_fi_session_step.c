@@ -66,7 +66,7 @@ void SetupWiFiSession(u32 mode) {
             PackWiFiSessionIndices();
             gWiFiSession->mKartCount = 0;
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                if (BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
                     gWiFiSession->mKartCount++;
                 }
             }
@@ -75,7 +75,7 @@ void SetupWiFiSession(u32 mode) {
             break;
         case WIFI_SESSION_SETUP_COURSE_PICKS:
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
                     DWC_SetRecvBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex],
                                       sizeof(WiFiSessionMessage));
                 }
@@ -91,7 +91,7 @@ void SetupWiFiSession(u32 mode) {
             PackWiFiSessionIndices();
             gWiFiSession->mKartCount = 0;
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                if (BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
                     gWiFiSession->mKartCount++;
                 }
             }
@@ -100,7 +100,7 @@ void SetupWiFiSession(u32 mode) {
             break;
         case WIFI_SESSION_SETUP_CONTINUE_CHOICES:
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-                if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+                if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
                     DWC_SetRecvBuffer(participantIndex, &gWiFiSession->mReceiveBuffers[participantIndex],
                                       sizeof(WiFiSessionMessage));
                 }
@@ -505,7 +505,7 @@ void AdvanceWiFiSessionStep9(void) {
         return;
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && (gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
             if (DWC_SetRecvBuffer(participantIndex, gWiFiSession->mRecvBuffers[participantIndex], 0x80) == FALSE) {
                 return;
             }
@@ -529,14 +529,14 @@ void CombineKartRemoveMask(void) {
         return;
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+        if (BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
             commonMask &= gWiFiSession->mIndexMessages[participantIndex].mKartMask;
         }
     }
     for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
-        if ((gWiFiSession->mKartMask & (1 << participantIndex)) != 0) {
+        if (BIT_IS_SET(gWiFiSession->mKartMask, participantIndex)) {
             if ((commonMask & (1 << participantIndex)) == 0) {
-                gWiFiSession->mKartRemoveMask |= 1 << participantIndex;
+                BIT_SET(gWiFiSession->mKartRemoveMask, participantIndex);
             }
         }
     }

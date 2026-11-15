@@ -209,7 +209,7 @@ BOOL AreMultiBootChildrenBootable(void) {
         return 0;
     }
     for (aid = 1; aid < 16; aid++) {
-        if ((gMultiBootParent->mMask & (1 << aid)) != 0) {
+        if (BIT_IS_SET(gMultiBootParent->mMask, aid)) {
             if (MB_CommIsBootable(aid) == 0) {
                 return 0;
             }
@@ -269,7 +269,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
             if (GetMultiBootParentState() == 2) {
                 parent = gMultiBootParent;
                 value = OS_DisableInterrupts();
-                parent->mMask |= 1 << aid;
+                BIT_SET(parent->mMask, aid);
                 OS_RestoreInterrupts(value);
                 childMac = gMultiBootParent->mRecords[aid - 1].mMacAddress;
                 childMac[0] = event->mMacAddress[0];
@@ -299,7 +299,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
                 KickMultiBootChild(aid);
                 break;
             }
-            gMultiBootParent->mRequestedMask |= 1 << aid;
+            BIT_SET(gMultiBootParent->mRequestedMask, aid);
             AcceptMultiBootChildRequest(aid);
             value = (u32) MB_CommGetChildUser(aid);
             if (value != 0) {
@@ -307,19 +307,19 @@ void MultiBootParentStateCallback(u32 aid, u32 code, WirelessMessage *event) {
             }
             break;
         case MULTIBOOT_PARENT_CHILD_WAITING:
-            gMultiBootParent->mRequestedMask &= ~(1 << aid);
-            gMultiBootParent->mDownloadPendingMask |= 1 << aid;
+            BIT_CLEAR(gMultiBootParent->mRequestedMask, aid);
+            BIT_SET(gMultiBootParent->mDownloadPendingMask, aid);
             if (GetMultiBootParentState() == 3) {
                 StartMultiBootChildDownload(aid);
             }
             break;
         case MULTIBOOT_PARENT_DOWNLOAD_DONE:
-            gMultiBootParent->mDownloadStartedMask &= ~(1 << aid);
-            gMultiBootParent->mSendCompleteMask |= 1 << aid;
+            BIT_CLEAR(gMultiBootParent->mDownloadStartedMask, aid);
+            BIT_SET(gMultiBootParent->mSendCompleteMask, aid);
             break;
         case MULTIBOOT_PARENT_CHILD_BOOTED:
-            gMultiBootParent->mSendCompleteMask &= ~(1 << aid);
-            gMultiBootParent->mBootStartableMask |= 1 << aid;
+            BIT_CLEAR(gMultiBootParent->mSendCompleteMask, aid);
+            BIT_SET(gMultiBootParent->mBootStartableMask, aid);
             if (gMultiBootParent->mMask == gMultiBootParent->mBootStartableMask) {
                 MB_EndToIdle();
             }
@@ -415,7 +415,7 @@ u32 GetMultiBootChildState(u32 aid) {
 
 void *GetMultiBootChildRecord(u32 index) {
     MultiBootParent *state = gMultiBootParent;
-    if ((state->mMask & (1 << index)) != 0) {
+    if (BIT_IS_SET(state->mMask, index)) {
         return &state->mRecords[index - 1];
     }
     return NULL;

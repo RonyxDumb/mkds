@@ -141,15 +141,15 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
     }
     switch (message->mKind) {
         case WIFI_SESSION_MESSAGE_RECORD_REQUEST:
-            gWiFiSession->mSendRecordMask |= 1 << fromIndex;
+            BIT_SET(gWiFiSession->mSendRecordMask, fromIndex);
             break;
         case WIFI_SESSION_MESSAGE_RECORD:
-            gWiFiSession->mReceivedMask |= 1 << fromIndex;
+            BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             DWC_SetRecvBuffer(fromIndex, &gWiFiSession->mReceiveBuffers[fromIndex], sizeof(WiFiSessionMessage));
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_CONTINUE_CHOICE:
@@ -161,17 +161,17 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             }
             MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                         sizeof(WiFiSessionMessage));
-            gWiFiSession->mReceivedMask |= 1 << fromIndex;
+            BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             break;
         case WIFI_SESSION_MESSAGE_CONTINUE_CONFIRM:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
@@ -188,7 +188,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
                 if (message->mKartIndex == -1) {
                     return;
                 }
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
@@ -199,11 +199,11 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_PICKS) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_COURSE_PICK:
@@ -217,30 +217,30 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
                 }
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_COURSE_MASK:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
         case WIFI_SESSION_MESSAGE_RESULT:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             } else if (gWiFiSession->mStep == WIFI_SESSION_STEP_VERIFY_RESULT) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
                 EndWiFiSessionOnPicksMismatch(fromIndex);
-                gWiFiSession->mReceivedMask |= 1 << fromIndex;
+                BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
     }
@@ -853,7 +853,7 @@ void KartKeysStartCallback(u32 result, s32 flag) {
         session = gWiFiSession;
         participantIndex = 0;
         while (participantIndex < session->mStartKartCount) {
-            session->mKartMask |= 1 << participantIndex;
+            BIT_SET(session->mKartMask, participantIndex);
             session = gWiFiSession;
             participantIndex++;
         }

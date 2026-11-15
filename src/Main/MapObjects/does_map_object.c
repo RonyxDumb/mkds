@@ -57,21 +57,21 @@ u32 DecimalNonZeroDigitsToBitMask(s32 number) {
     bitMask = 0;
     if (number >= 1000) {
         digit = number / 1000;
-        bitMask |= 1 << digit;
+        BIT_SET(bitMask, digit);
         number = (s16) (number - digit * 1000);
     }
     if (number >= 100) {
         digit = number / 100;
-        bitMask |= 1 << digit;
+        BIT_SET(bitMask, digit);
         number = (s16) (number - digit * 100);
     }
     if (number >= 10) {
         digit = number / 10;
-        bitMask |= 1 << digit;
+        BIT_SET(bitMask, digit);
         number = (s16) (number - digit * 10);
     }
     if (number >= 1) {
-        bitMask |= 1 << number;
+        BIT_SET(bitMask, number);
     }
     return bitMask;
 }

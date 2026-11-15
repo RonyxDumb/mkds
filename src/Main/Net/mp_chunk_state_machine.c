@@ -121,7 +121,7 @@ void ProcessMPChunk(u8 *chunk) {
             break;
         case 0xfd:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
-                gConnectionWork->mRecordReceivedMask |= 1 << playerIndex;
+                BIT_SET(gConnectionWork->mRecordReceivedMask, playerIndex);
                 if (gConnectionWork->mChildren.mChildMask ==
                     (gConnectionWork->mChildren.mChildMask & gConnectionWork->mRecordReceivedMask)) {
                     MPChunkRequestMPState(10);

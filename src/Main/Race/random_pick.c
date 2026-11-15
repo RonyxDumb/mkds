@@ -55,7 +55,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
                 }
             }
             for (kartOffset = 0; kartOffset < 8; kartOffset++) {
-                if ((givenBits & (1 << kartOffset)) != 0 && picks->mKartIndices[kartOffset] >= firstKart &&
+                if (BIT_IS_SET(givenBits, kartOffset) && picks->mKartIndices[kartOffset] >= firstKart &&
                     picks->mKartIndices[kartOffset] < (character + 1) * 3) {
                     candidateBits = candidateBits & ~(1 << (picks->mKartIndices[kartOffset] - firstKart));
                 }
@@ -81,7 +81,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
             }
             seen = 0;
             for (kartOffset = 0; kartOffset < 3 && kart == -1; kartOffset++) {
-                if ((candidateBits & (1 << kartOffset)) != 0) {
+                if (BIT_IS_SET(candidateBits, kartOffset)) {
                     if (seen == (u16) pick) {
                         kart = kartOffset + firstKart;
                     } else {
@@ -158,7 +158,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     }
     for (entry = 0; entry < 8; entry++) {
         givenCharacter = picks->mCharacterIndices[entry];
-        if (givenCharacter != -1 && (givenBits & (1 << entry)) != 0) {
+        if (givenCharacter != -1 && BIT_IS_SET(givenBits, entry)) {
             availableBits = availableBits & ~(1 << givenCharacter);
         }
     }
@@ -179,7 +179,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
                 }
             }
             for (candidate = 0; candidate < 0xd && pickedCharacter == -1; candidate++) {
-                if ((availableBits & (1 << candidate)) != 0) {
+                if (BIT_IS_SET(availableBits, candidate)) {
                     if (seen == (u16) pick) {
                         availableBits = availableBits & ~(1 << candidate);
                         pickedCharacter = candidate;

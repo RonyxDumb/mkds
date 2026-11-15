@@ -268,7 +268,7 @@ void InitCourseModelsFogEnableFlags(void) {
     vResMdl = gCourseModels.mVNsbmd->mResMdl;
     for (vMaterialIndex = 0; vMaterialIndex < vResMdl->mInfo.mNumMat; vMaterialIndex++) {
         if (NNS_G3dMdlGetMdlFogEnableFlag(vResMdl, vMaterialIndex) != 0) {
-            gCourseModels.mSavedVFogEnableFlags |= 1 << vMaterialIndex;
+            BIT_SET(gCourseModels.mSavedVFogEnableFlags, vMaterialIndex);
         }
     }
 }
@@ -283,7 +283,7 @@ void SetCourseModelsFogEnableFlags(u32 flag) {
             resMdl = gCourseModels.mVNsbmd->mResMdl;
             for (vMaterialIndex = 0; vMaterialIndex < resMdl->mInfo.mNumMat; vMaterialIndex++) {
                 NNS_G3dMdlSetMdlFogEnableFlag(
-                    resMdl, vMaterialIndex, (gCourseModels.mSavedVFogEnableFlags & (1 << vMaterialIndex)) != 0 ? 1 : 0);
+                    resMdl, vMaterialIndex, BIT_IS_SET(gCourseModels.mSavedVFogEnableFlags, vMaterialIndex) ? 1 : 0);
             }
         } else {
             NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mVNsbmd->mResMdl, flag);

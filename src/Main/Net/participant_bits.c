@@ -14,7 +14,7 @@ void CombineParticipantBits(void) {
 
     ClearParticipantBits();
     for (participantIndex = 0; participantIndex < 8; participantIndex++) {
-        if ((gConnectionWork->mParticipantMask & (1 << participantIndex)) != 0) {
+        if (BIT_IS_SET(gConnectionWork->mParticipantMask, participantIndex)) {
             for (byteIndex = 0; byteIndex < 4; byteIndex++) {
                 entry = &gConnectionWork->mPlayerRecords[participantIndex];
                 bitsByte = &entry->mBits[byteIndex];

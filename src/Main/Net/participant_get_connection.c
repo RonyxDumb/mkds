@@ -133,13 +133,13 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
             result = FALSE;
             if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 childUser = MB_CommGetChildUser(entryIndex);
-                if ((gConnectionWork->mWaitToSendMask & (1 << entryIndex)) != 0 && childUser != NULL) {
+                if (BIT_IS_SET(gConnectionWork->mWaitToSendMask, entryIndex) && childUser != NULL) {
                     if (destination != NULL) {
                         MI_CpuCopy8((u8 *) childUser + 2, destination, 0x14);
                     }
                     result = TRUE;
                 }
-            } else if ((gConnectionWork->mChildren.mChildMask & (1 << entryIndex)) != 0) {
+            } else if (BIT_IS_SET(gConnectionWork->mChildren.mChildMask, entryIndex)) {
                 if (destination != NULL) {
                     MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, 0x14);
                 }
@@ -148,7 +148,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
             break;
         case CONNECTION_MODE_CHILD:
             result = FALSE;
-            if ((gConnectionWork->mReceivedNameMask & (1 << entryIndex)) != 0) {
+            if (BIT_IS_SET(gConnectionWork->mReceivedNameMask, entryIndex)) {
                 if (destination != NULL) {
                     MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, 0x14);
                 }

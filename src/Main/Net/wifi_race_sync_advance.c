@@ -79,7 +79,7 @@ void SetParticipantKartMapFromMask(u32 participantMask) {
 
     for (participant = 0, kart = 0; participant < 4; participant++) {
         gParticipantKartMap->mKartOfParticipant[participant] = -1;
-        if ((participantMask & (1 << participant)) != 0) {
+        if (BIT_IS_SET(participantMask, participant)) {
             gParticipantKartMap->mParticipantOfKart[kart] = participant;
             gParticipantKartMap->mKartOfParticipant[participant] = kart;
             kart++;
@@ -246,7 +246,7 @@ void UpdateWiFiRaceSyncState1(void) {
     sendParticipantIndex = sync->mSendParticipantIndex;
     if (sendParticipantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT) {
         targetParticipant = sendParticipantIndex;
-        if ((sync->mParticipantMask & (1 << targetParticipant)) != 0 && targetParticipant != DWC_GetMyAID()) {
+        if (BIT_IS_SET(sync->mParticipantMask, targetParticipant) && targetParticipant != DWC_GetMyAID()) {
             sync = gWiFiRaceSync;
             if (sync->mPeers[targetParticipant].mSampleCount < WIFI_RACE_SYNC_SAMPLE_COUNT) {
                 sendBuffer = sync->mSendBuffer;
@@ -408,7 +408,7 @@ void EnterWiFiRaceSyncState4(void) {
     gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_RACING;
     MI_CpuFill8(gWiFiRaceSync->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        if ((gWiFiRaceSync->mStartParticipantMask & (1 << participant)) != 0 &&
+        if (BIT_IS_SET(gWiFiRaceSync->mStartParticipantMask, participant) &&
             (gWiFiRaceSync->mParticipantMask & (1 << participant)) == 0) {
             if (gParticipantKartMap->mKartOfParticipant[participant] >= 0) {
                 gWiFiRaceSync->mEntries[participant].mLastProgressWord =
@@ -463,7 +463,7 @@ void SendWiFiRaceSyncRecord(s32 dataSize) {
         lastParticipant = lastParticipant + 4;
     }
     while (sentCount < 1 && participant != lastParticipant) {
-        if (participant != DWC_GetMyAID() && (gWiFiRaceSync->mParticipantMask & (1 << participant)) != 0) {
+        if (participant != DWC_GetMyAID() && BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participant)) {
             if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_RECORD, dataSize) != 0) {
                 participant = participant + 1;
                 if (participant >= 4) {
@@ -588,7 +588,7 @@ void UpdateWiFiRaceSyncRanks(void) {
         rank = 0;
         sync = gWiFiRaceSync;
         startMask = sync->mStartParticipantMask;
-        if ((startMask & (1 << participant)) != 0) {
+        if (BIT_IS_SET(startMask, participant)) {
             if ((u8) (((u32) sync->mEntries[participant].mLastProgressWord & WIFI_RACE_SYNC_PROGRESS_RACING_MASK) >>
                       WIFI_RACE_SYNC_PROGRESS_RACING_SHIFT) == 0) {
                 rank = orderIndex + 1;
@@ -615,7 +615,7 @@ void UpdateWiFiRaceSyncRanks(void) {
                     } else {
                         isRacing = 0;
                     }
-                    if ((startMask & (1 << otherParticipant)) != 0) {
+                    if (BIT_IS_SET(startMask, otherParticipant)) {
                         u16 otherKartIndex;
                         u32 otherRank;
 
@@ -821,7 +821,7 @@ void AddWiFiRaceSyncRoundTrip(const u64 *ticks, s32 participant) {
             accepted = FALSE;
             gWiFiRaceSync->mPeers[participant].mRejectedSampleCount++;
             if (gWiFiRaceSync->mPeers[participant].mRejectedSampleCount > WIFI_RACE_SYNC_MAX_REJECTED_SAMPLES) {
-                gWiFiRaceSync->mDroppedParticipantMask |= 1 << participant;
+                BIT_SET(gWiFiRaceSync->mDroppedParticipantMask, participant);
             }
         }
     } else {
@@ -1042,7 +1042,7 @@ void RemoveDroppedParticipants(void) {
     }
     agreedDroppedMask = gWiFiRaceSync->mDroppedParticipantMask;
     for (participant = 0; participant < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participant++) {
-        if ((gWiFiRaceSync->mParticipantMask & (1 << participant)) != 0) {
+        if (BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participant)) {
             if (participant != DWC_GetMyAID()) {
                 if ((gWiFiRaceSync->mDroppedParticipantMask & (1 << participant)) == 0) {
                     peerMask = gWiFiRaceSync->mPeerDroppedMasks[participant] | (1u << participant);

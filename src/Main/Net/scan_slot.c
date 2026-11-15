@@ -74,7 +74,7 @@ void RefreshParticipantTables(void) {
     index = 0;
     participantCount = 0;
     for (; index < 8; index++) {
-        if ((gConnectionWork->mParticipantMask & (1 << index)) != 0) {
+        if (BIT_IS_SET(gConnectionWork->mParticipantMask, index)) {
             gConnectionWork->mParticipantPosByIndex[index].mEntryIndex = participantCount;
             gConnectionWork->mParticipantIndexByPos[participantCount] = index;
             gConnectionWork->mParticipantIndices[participantCount] = index;

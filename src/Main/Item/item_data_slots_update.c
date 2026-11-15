@@ -167,7 +167,7 @@ void StoreReceivedItemDataSlots(void) {
     u8 headerByte;
 
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participantIndex) &&
             gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
             headerCursor = (u8 *) &gWiFiRaceSync->mEntries[participantIndex] + 0x28;
             dataCursor = headerCursor + ITEM_DATA_SLOT_COUNT;
@@ -200,7 +200,7 @@ void ProcessOtherParticipantItemData(void) {
     u8 *data;
 
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
-        if (participantIndex != DWC_GetMyAID() && (gWiFiRaceSync->mParticipantMask & (1 << participantIndex)) != 0 &&
+        if (participantIndex != DWC_GetMyAID() && BIT_IS_SET(gWiFiRaceSync->mParticipantMask, participantIndex) &&
             gWiFiRaceSync->mEntries[participantIndex].mRecordReceived != 0) {
             for (slotIndex = 0; slotIndex < ITEM_DATA_SLOT_COUNT; slotIndex++) {
                 wiFiRaceSync = gWiFiRaceSync;

@@ -181,7 +181,7 @@ void DisconnectCallback(WirelessMessage *event) {
                     RemoveChild(aid);
                     if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
                         if (gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
-                            gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;
+                            BIT_SET(gConnectionWork->mLeftParticipantMask[0], aid);
                         }
                     }
                     gConnectionWork->mChildren.mDisconnectingIndex = -1;
@@ -307,7 +307,7 @@ void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry) {
     }
     children->mEntries[aid - 1].mAid = aid;
     children->mChildCount += 1;
-    children->mChildMask |= 1 << aid;
+    BIT_SET(children->mChildMask, aid);
     children->mEntries[0].mBytes[0] = bytes[0];
     children->mEntries[0].mBytes[1] = bytes[1];
     children->mEntries[0].mBytes[2] = bytes[2];
@@ -317,7 +317,7 @@ void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry) {
     MI_CpuCopy8(playerEntry, &gConnectionWork->mPlayerRecords[aid], 0x14);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     if ((playerEntry->mEmblem[0] & 1) != 0) {
-        gConnectionWork->mGroupSendMask |= 1 << aid;
+        BIT_SET(gConnectionWork->mGroupSendMask, aid);
     }
 }
 
@@ -356,15 +356,15 @@ static inline void RemoveChildrenInMask(u16 removeMask) {
     u32 isInState9;
 
     for (childIndex = 0; childIndex < 8; childIndex++) {
-        if ((removeMask & (1 << childIndex)) != 0) {
+        if (BIT_IS_SET(removeMask, childIndex)) {
             isInState9 = gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE ? 1 : 0;
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_PARENT) {
-                gConnectionWork->mChildren.mChildMask &= ~(1 << childIndex);
+                BIT_CLEAR(gConnectionWork->mChildren.mChildMask, childIndex);
                 if (isInState9 != 0) {
-                    gConnectionWork->mRemovedChildMask |= 1 << childIndex;
+                    BIT_SET(gConnectionWork->mRemovedChildMask, childIndex);
                 }
             }
-            gConnectionWork->mGroupSendMask &= ~(1 << childIndex);
+            BIT_CLEAR(gConnectionWork->mGroupSendMask, childIndex);
         }
     }
     if (DisconnectGetConnectionMode() != CONNECTION_MODE_PARENT) {
@@ -405,10 +405,10 @@ void RemoveChild(u32 aid) {
 void ProcessMPData(u32 aid, MPMessage *message) {
     switch (message->mKind) {
         case MP_MESSAGE_SYNC_NOT_DONE:
-            gConnectionWork->mSyncDoneChildMask &= ~(1 << aid);
+            BIT_CLEAR(gConnectionWork->mSyncDoneChildMask, aid);
             break;
         case MP_MESSAGE_SYNC_DONE:
-            gConnectionWork->mSyncDoneChildMask |= 1 << aid;
+            BIT_SET(gConnectionWork->mSyncDoneChildMask, aid);
             if (gConnectionWork->mSyncDoneChildMask == gConnectionWork->mChildren.mChildMask) {
                 gConnectionWork->mRequestPending = 0;
             }

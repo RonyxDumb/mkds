@@ -330,7 +330,7 @@ u32 OSi_TryLockVram(u32 bank, u16 lockId) {
         if (bankIndex < 0) {
             break;
         }
-        remainingBanks &= ~(1 << bankIndex);
+        BIT_CLEAR(remainingBanks, bankIndex);
         if (lockId != gVramBankLockIds[bankIndex]) {
             OS_RestoreInterrupts(enabled);
             return 0;
@@ -342,9 +342,9 @@ u32 OSi_TryLockVram(u32 bank, u16 lockId) {
         if (bankIndex < 0) {
             break;
         }
-        remainingBanks &= ~(1 << bankIndex);
+        BIT_CLEAR(remainingBanks, bankIndex);
         gVramBankLockIds[bankIndex] = lockId;
-        gVramBankLockedMask |= 1 << bankIndex;
+        BIT_SET(gVramBankLockedMask, bankIndex);
     }
     OS_RestoreInterrupts(enabled);
     return 1;
@@ -364,10 +364,10 @@ void OSi_UnlockVram(u32 bank, u16 lockId) {
         if (bankIndex < 0) {
             break;
         }
-        remainingBanks &= ~(1 << bankIndex);
+        BIT_CLEAR(remainingBanks, bankIndex);
         if (lockId == gVramBankLockIds[bankIndex]) {
             gVramBankLockIds[bankIndex] = 0;
-            gVramBankLockedMask &= ~(1 << bankIndex);
+            BIT_CLEAR(gVramBankLockedMask, bankIndex);
         }
     }
     OS_RestoreInterrupts(enabled);

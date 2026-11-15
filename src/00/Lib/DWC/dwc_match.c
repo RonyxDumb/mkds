@@ -985,7 +985,7 @@ void DWCi_SetNumValidConnection(void) {
     wiFiMatching = gWiFiMatching;
     bitmap = wiFiMatching->mParticipantMask;
     for (; bitIndex < 32; bitIndex++) {
-        if ((bitmap & (1 << bitIndex)) != 0) {
+        if (BIT_IS_SET(bitmap, bitIndex)) {
             lastPos++;
         }
     }
@@ -1781,9 +1781,9 @@ s32 DWCi_ProcessRecvMatchCommand(s32 command, u32 profileId, u32 address, u16 po
             if (result == 0xff) {
                 break;
             }
-            gOptMinComp->mRecvBit |= 1 << result;
+            BIT_SET(gOptMinComp->mRecvBit, result);
             if (values[0] != 0) {
-                gOptMinComp->mTimeoutBit |= 1 << result;
+                BIT_SET(gOptMinComp->mTimeoutBit, result);
             }
             break;
         case 19:
@@ -2707,7 +2707,7 @@ BOOL DWCi_ProcessCancelMatchSynCommand(u32 profileId, s32 command, u32 data) {
                 }
                 aid = DWCi_GetAIDFromProfileID(profileId, 0);
                 if (aid != 0xff) {
-                    gWiFiMatching->mCancelSynReplyMask |= 1 << aid;
+                    BIT_SET(gWiFiMatching->mCancelSynReplyMask, aid);
                 }
                 mask = DWCi_GetAIDBitmask(1);
                 wiFiMatching = gWiFiMatching;

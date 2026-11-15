@@ -68,7 +68,7 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
     if (buddyRecord.mFilled == 0 || buddyRecord.mHasEmblem == 0) {
         return FALSE;
     }
-    emblemData->mHasPixels = (emblemBlock->mBlockData.mFilledBits & (1 << slotIndex)) != 0;
+    emblemData->mHasPixels = BIT_IS_SET(emblemBlock->mBlockData.mFilledBits, slotIndex);
     if (emblemData->mHasPixels != 0) {
         MI_CpuCopy8(emblemBlock->mBlockData.mEmblems[slotIndex], emblemData, 0x200);
     }
@@ -114,7 +114,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
         }
         if (playerIndex != (u16) ownIndex) {
             if ((gConnectionWork->mGroupSendMask & (1 << gConnectionWork->mParticipantIndexByPos[playerIndex])) == 0) {
-                if ((gConnectionWork->mParticipantMask & (1 << playerIndex)) != 0) {
+                if (BIT_IS_SET(gConnectionWork->mParticipantMask, playerIndex)) {
                     playerEntry = &gConnectionWork->mPlayerRecords[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
                     if (buddyIndex != -1) {
@@ -150,7 +150,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                 buddyIndex = buddyIndexOfPlayer[copyPlayerIndex];
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
-                    blockData->mFilledBits |= 1 << slotIndex;
+                    BIT_SET(blockData->mFilledBits, slotIndex);
                     MI_CpuCopy8((u8 *) &gConnectionWork->mPlayerRecords[copyPlayerIndex] + 0x14,
                                 blockData->mEmblems[slotIndex], 0x200);
                 }

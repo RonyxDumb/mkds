@@ -516,7 +516,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *vector, i
                                                 &secondHitRecord, lowestOffset != NULL ? &lowestOffsetValue : 0,
                                                 &hitBitIndex, pointMotion, angleChange)) {
                 hitBits |= gSphereHitObjectBitsFlag;
-                hitBits |= 1 << hitBitIndex;
+                BIT_SET(hitBits, hitBitIndex);
                 if (gCollisionHitCount == 16) {
                     gCollisionHitCount--;
                 }

@@ -283,7 +283,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
                             return;
                         }
                         mbc->mChildNum++;
-                        mbc->mChildEntryBmp |= 1 << child;
+                        BIT_SET(mbc->mChildEntryBmp, child);
                         mbc->mChildEntryIndex[child - 1] = entryIndex;
                         (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChildBmp |= 1 << child;
                         (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mGameinfoChangedBmp |= 1 << child;
@@ -409,7 +409,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     prev_fid = candidateFile;
     for (aid = 1; aid <= 15; aid++) {
         if (work->mPCommState[aid - 1] == 5 && candidateFile == work->mChildEntryIndex[aid - 1]) {
-            childMask |= 1 << aid;
+            BIT_SET(childMask, aid);
         }
     }
     message.mKind = PARENT_MESSAGE_WELCOMED;
@@ -542,19 +542,19 @@ int MBi_CommParentSendData(void) {
     for (; childNo <= 15; childNo++) {
         switch (work->mPCommState[childNo - 1]) {
             case 2:
-                childMasks[1] |= 1 << childNo;
+                BIT_SET(childMasks[1], childNo);
                 break;
             case 5:
-                childMasks[2] |= 1 << childNo;
+                BIT_SET(childMasks[2], childNo);
                 break;
             case 4:
-                childMasks[3] |= 1 << childNo;
+                BIT_SET(childMasks[3], childNo);
                 break;
             case 8:
-                childMasks[4] |= 1 << childNo;
+                BIT_SET(childMasks[4], childNo);
                 break;
             case 11:
-                childMasks[5] |= 1 << childNo;
+                BIT_SET(childMasks[5], childNo);
                 break;
         }
     }

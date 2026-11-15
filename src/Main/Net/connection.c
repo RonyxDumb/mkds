@@ -188,7 +188,7 @@ BOOL UpdateDataSharing(void) {
                 if ((gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode) ==
                     CONNECTION_MODE_PARENT) {
                     for (clearIndex = 1; clearIndex < 8; clearIndex++) {
-                        if ((gConnectionWork->mParticipantMask & (1 << clearIndex)) != 0) {
+                        if (BIT_IS_SET(gConnectionWork->mParticipantMask, clearIndex)) {
                             gConnectionWork->mUnk_15f8[clearIndex - 1] = 0;
                         }
                     }
@@ -223,7 +223,7 @@ BOOL UpdateDataSharing(void) {
     }
     if (allRead != FALSE) {
         for (participantIndex = 1; participantIndex < 8; participantIndex++) {
-            if ((gConnectionWork->mParticipantMask & (1 << participantIndex)) != 0) {
+            if (BIT_IS_SET(gConnectionWork->mParticipantMask, participantIndex)) {
                 sharedData = WM_GetSharedDataAddress(gConnectionWork->mSharingInfo, gConnectionWork->mSharingDataSet,
                                                      participantIndex);
                 if (sharedData != NULL) {
@@ -236,7 +236,7 @@ BOOL UpdateDataSharing(void) {
         }
     }
     for (participantIndex = 0; participantIndex < 8; participantIndex++) {
-        if (allRead != FALSE && (gConnectionWork->mParticipantMask & (1 << participantIndex)) != 0) {
+        if (allRead != FALSE && BIT_IS_SET(gConnectionWork->mParticipantMask, participantIndex)) {
             MI_CpuCopy8(&buf[participantIndex], &dataSharing->mReceivedRecords[participantIndex], 8);
             dataSharing->mSharedDataCopied[participantIndex] = 1;
         } else {
@@ -634,7 +634,7 @@ void StartParentCallback(WirelessMessage *event) {
                 aid = event->mLength;
                 role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
                 if (role == CONNECTION_MODE_PARENT && gConnectionWork->mState == CONNECTION_STATE_SYNCED_RACE) {
-                    gConnectionWork->mLeftParticipantMask[0] |= 1 << aid;
+                    BIT_SET(gConnectionWork->mLeftParticipantMask[0], aid);
                 }
                 break;
         }

@@ -134,7 +134,7 @@ int PickWhChannel(u16 channelMask) {
     lastChannel = 0;
     bitCount = 0;
     for (bitIndex = 0; bitIndex < 16; bitIndex++) {
-        if ((channelMask & (1 << bitIndex)) != 0) {
+        if (BIT_IS_SET(channelMask, bitIndex)) {
             lastChannel = bitIndex + 1;
             bitCount++;
         }

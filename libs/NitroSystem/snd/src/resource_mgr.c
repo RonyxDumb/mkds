@@ -70,7 +70,7 @@ s32 NNS_SndAllocAlarm(void) {
 
 // Marks alarm number alarm free.
 void NNS_SndFreeAlarm(s32 alarm) {
-    sAlarmLock &= ~(1 << alarm);
+    BIT_CLEAR(sAlarmLock, alarm);
 }
 
 // Clears the channel, capture and alarm locks.

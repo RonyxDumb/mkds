@@ -58,9 +58,9 @@ void PXI_SetFifoRecvCallback(s32 fifotag, PXIFifoCallback callback) {
     FifoRecvCallbackTable[fifotag] = callback;
     systemWork = SYSTEM_WORK;
     if (callback != 0) {
-        systemWork->mPxiHandleChecker[0] |= 1 << fifotag;
+        BIT_SET(systemWork->mPxiHandleChecker[0], fifotag);
     } else {
-        systemWork->mPxiHandleChecker[0] &= ~(1 << fifotag);
+        BIT_CLEAR(systemWork->mPxiHandleChecker[0], fifotag);
     }
     OS_RestoreInterrupts(enabled);
 }
@@ -70,7 +70,7 @@ s32 PXI_IsCallbackReady(s32 fifotag, s32 proc) {
     OSSystemWork *systemWork;
 
     systemWork = SYSTEM_WORK;
-    return (systemWork->mPxiHandleChecker[proc] & (1 << fifotag)) != 0;
+    return BIT_IS_SET(systemWork->mPxiHandleChecker[proc], fifotag);
 }
 
 // Packs fifotag (5 bits), err (1 bit) and data (26 bits) into one word and writes it to the send FIFO.
