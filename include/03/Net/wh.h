@@ -41,9 +41,9 @@ typedef struct WhWork {
     /* 000c */ u16 mTgid;
     /* 000e */ u16 mEntryFlag;
     /* 0010 */ u16 mMaxEntry;
-    /* 0012 */ u16 mUnk_12;
+    /* 0012 */ u16 mMultiBootFlag;
     /* 0014 */ u16 mKsFlag;
-    /* 0016 */ u16 mUnk_16;
+    /* 0016 */ u16 mCsFlag;
     /* 0018 */ u16 mBeaconPeriod;
     /* 001a */ u8 pad_1a[0x18];
     /* 0032 */ u16 mChannel;

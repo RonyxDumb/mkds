@@ -225,8 +225,8 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     gWhWork->mParentMaxSize = 0xd0;
     gWhWork->mChildMaxSize = 0x44;
     gWhWork->mMaxEntry = 2;
-    gWhWork->mUnk_16 = 0;
-    gWhWork->mUnk_12 = 0;
+    gWhWork->mCsFlag = 0;
+    gWhWork->mMultiBootFlag = 0;
     gWhWork->mEntryFlag = 1;
     gWhWork->mKsFlag = mode == 2 ? 1 : 0;
     if (mode == 0 || mode == 2 || mode == 4) {
