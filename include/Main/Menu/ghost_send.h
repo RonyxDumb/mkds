@@ -15,7 +15,7 @@ void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton);
 void SetupGhostSendMainText(void);
 void PrintSelectedGhostSendRecord(void);
 void PrintGhostSendCounts(void);
-void SetupGhostSendState8Text(void);
+void SetupGhostSendEndConnectionText(void);
 void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot);
 
 // Rows of four halfwords.

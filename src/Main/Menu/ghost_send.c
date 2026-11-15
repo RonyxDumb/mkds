@@ -125,7 +125,7 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
 
 #pragma thumb on
 
-void SetupGhostSendState8Text(void) {
+void SetupGhostSendEndConnectionText(void) {
     void *text;
     void *buttonText;
     text = GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 0xd);
@@ -482,7 +482,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_SHOW_NAME;
                     break;
                 case 2:
-                    SetupGhostSendState8Text();
+                    SetupGhostSendEndConnectionText();
                     break;
             }
             break;
