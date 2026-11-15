@@ -126,8 +126,8 @@ u32 SleepUnlessHttpAborted(Http *http) {
 void DWCi_Http_Thread(void *argument) {
     Http *http = argument;
     char *bufferText;
-    HttpB4 *socketBuffers;
-    Http118 *sslInfo;
+    CPSSoc *socketBuffers;
+    HttpsState *sslInfo;
     HttpBuffer *receiveBuffer;
     const u8 *receivedData;
     s32 timeoutMillis;
@@ -153,7 +153,7 @@ void DWCi_Http_Thread(void *argument) {
     if (timeoutMillis <= 0) {
         timeoutMillis = 60000;
     }
-    MI_CpuFill8(socketBuffers, 0, 0x64);
+    MI_CpuFill8(socketBuffers, 0, sizeof(CPSSoc));
     socketBuffers->mReceiveBufferSize = 0xb68;
     socketBuffers->mReceiveBuffer = http->mLowReceiveBuffer;
     socketBuffers->mSendBufferSize = 0x5ea;
@@ -166,10 +166,10 @@ void DWCi_Http_Thread(void *argument) {
     }
     CPS_SocUse();
     if (http->mUseHttps == 1) {
-        MI_CpuFill8(sslInfo, 0, 0x804);
-        sslInfo->mUnk_7e4 = DWCi_Http_CPSCallback;
-        sslInfo->mUnk_7d4 = http->mHost;
-        socketBuffers->mUnk_0c = sslInfo;
+        MI_CpuFill8(sslInfo, 0, sizeof(HttpsState));
+        sslInfo->mCheckFlagsCallback = DWCi_Http_CPSCallback;
+        sslInfo->mHost = (s8 *) http->mHost;
+        socketBuffers->mHttpsState = sslInfo;
         SetAuthorityTable(gCaInfoTable, 0xb);
         CPS_SetSsl(1);
         port = 0x1bb;
@@ -455,7 +455,7 @@ BOOL DWC_Http_Add_Body(Http *http, const char *body) {
     return FALSE;
 }
 
-u32 DWCi_Http_CPSCallback(u32 flags) {
+u32 DWCi_Http_CPSCallback(u32 flags, HttpsState *httpsState, s32 itemIndex) {
     if (flags & 0x8000) {
         flags &= 0xffff7fff;
     }

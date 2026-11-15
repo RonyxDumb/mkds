@@ -16,6 +16,8 @@ typedef struct DWCHttpParseResult {
 #include "os_thread.h"
 #include "00/unk_021b1000.h"
 #include "dwc_backup.h"
+#include "00/code_021a88a8.h"
+#include "00/types_021a998c.h"
 
 // Growing buffer: mStart is its start, mCursor the write position, mEnd the end and mSize the size.
 typedef struct HttpBuffer {
@@ -24,28 +26,6 @@ typedef struct HttpBuffer {
     /* 08 */ char *mEnd;
     /* 0c */ s32 mSize;
 } HttpBuffer;
-
-// Object at p + 0x118 of an Http.
-typedef struct Http118 {
-    /* 000 */ u8 pad_000[0x7d4];
-    /* 7d4 */ char *mUnk_7d4;
-    /* 7d8 */ u8 pad_7d8[0xc];
-    /* 7e4 */ u32 (*mUnk_7e4)(u32);
-    /* 7e8 */ u8 pad_7e8[0x1c];
-} Http118;
-
-// Object at p + 0xb4 of an Http.
-typedef struct HttpB4 {
-    /* 00 */ u8 pad_00[0xc];
-    /* 0c */ Http118 *mUnk_0c;
-    /* 10 */ u8 pad_10[0x2c];
-    /* 3c */ u32 mReceiveBufferSize;
-    /* 40 */ void *mReceiveBuffer;
-    /* 44 */ u8 pad_44[4];
-    /* 48 */ u32 mSendBufferSize;
-    /* 4c */ void *mSendBuffer;
-    /* 50 */ u8 pad_50[0x14];
-} HttpB4;
 
 // Values of Http.mResult, set by the thread that sends the request and reads the reply.
 typedef enum HttpResult {
@@ -70,8 +50,8 @@ typedef struct Http {
     /* 0a8 */ char *mHost;
     /* 0ac */ char *mPath;
     /* 0b0 */ BOOL mUseHttps;
-    /* 0b4 */ HttpB4 mSoc;
-    /* 118 */ Http118 mHttpsState;
+    /* 0b4 */ CPSSoc mSoc;
+    /* 118 */ HttpsState mHttpsState;
     /* 91c */ void *mLowReceiveBuffer;
     /* 920 */ void *mLowSendBuffer;
     /* 924 */ s32 mPairCount;
@@ -180,4 +160,4 @@ void *DWC_Http_GetResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, co
 BOOL DWC_Http_ParseResult(DWCHttpLabelValue *labelValues, s32 labelValueCount, s32 noParseBody, const char *reply);
 BOOL DWCi_Http_AddResult(DWCHttpParseResult *list, void *first, void *second);
 BOOL DWCi_Http_SetHostinfo(Http *http, const char *url);
-u32 DWCi_Http_CPSCallback(u32 flags);
+u32 DWCi_Http_CPSCallback(u32 flags, HttpsState *httpsState, s32 itemIndex);
