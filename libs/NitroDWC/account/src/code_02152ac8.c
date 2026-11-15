@@ -2,6 +2,7 @@
 #include "code_021519d4.h"
 #include "dwc_account.h"
 #include "code_02000b44.h"
+#include "unk_02000000.h"
 #include "Main/Save/nvram_new_wifi_info.h"
 
 #pragma thumb on
@@ -11,7 +12,7 @@ u32 DWC_Init(u8 *work) {
     s32 result;
 
     created = 0;
-    OSi_ReferSymbol(0x2000b88);
+    OSi_ReferSymbol(BuildInfo.mDwc);
     result = DWC_BM_Init(work);
     if (DWC_Auth_CheckWiFiIDNeedCreate() != 0) {
         WriteNewWiFiInfoToNvram((u32) work);

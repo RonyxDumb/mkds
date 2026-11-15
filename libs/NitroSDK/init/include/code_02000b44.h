@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-unsigned int OSi_ReferSymbol(unsigned int symbol);
+const void *OSi_ReferSymbol(const void *symbol);
 void NitroStartUp(void);

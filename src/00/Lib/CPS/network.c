@@ -19,6 +19,7 @@
 #include "03/Net/essid_packet_steps.h"
 #include "02/overlay_heap_buffers.h"
 #include "code_02000b44.h"
+#include "unk_02000000.h"
 
 u32 gIcmpEchoReplyEnabled = 1;
 u32 gHelperThreadsPriority = 16;
@@ -133,7 +134,7 @@ BOOL default_link_is_on(void) {
 }
 
 void CPS_Startup(CPSConfig *config) {
-    OSi_ReferSymbol(0x2000bfc);
+    OSi_ReferSymbol(BuildInfo.mCps);
     if (config->mRandomSeed != 0) {
         CPSiRand32ctx[0] = config->mRandomSeed;
         CPSiRand32ctx[1] = 0x5d588b656c078965ULL;

@@ -38,6 +38,7 @@
 #include "os_printf.h"
 #include "std_string.h"
 #include "00/Lib/NitroWiFi/code_021a8a28.h"
+#include "unk_02000000.h"
 
 u32 SOCLiYieldWait;
 SOCLConfig *SOCLiConfigPtr;
@@ -47,7 +48,7 @@ u32 SOCLiDhcpState;
 CPSConfig SOCLiCPSConfig;
 
 s32 SOCL_Startup(SOCLConfig *config) {
-    OSi_ReferSymbol(0x2000bbc);
+    OSi_ReferSymbol(BuildInfo.mWifi);
     if (SOCLiConfigPtr != NULL) {
         return 0;
     }
