@@ -503,30 +503,35 @@ s32 UpdateKurikingStartupEffects(MissionRunMapObject *mapObject) {
 
 void StartKurikingWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, KurikingStopStateWhenRaceStarted);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mWaitForRaceStartFrameStep);
 }
 
 void StartKurikingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateKurikingStartupEffects);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
-                                  &StartKurikingWaitForRaceStart);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mStartupSecondFrameStep, &StartKurikingWaitForRaceStart);
 }
 
 void StartKurikingStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartKurikingStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount, &StartKurikingStartupSecond);
 }
 
 void StartKurikingChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mChainStartupSecondFrameStep);
 }
 
 void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartKurikingChainStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+                                 &StartKurikingChainStartupSecond);
 }
 
 void InitKurikingMapObject(MissionRunMapObject *mapObject) {
@@ -565,7 +570,7 @@ void InitKurikingObjects(MapObjectList *mapObjectList) {
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mUnk_050, 0);
+            StartMapObjectModelNsbtaAnimation(obj->mNsbmd, obj->mPrm->mUnk_080, obj->mPrm->mStartupFirstFrameStep, 0);
             if (GetRaceUseChainCameras()) {
                 StartKurikingChainStartupFirst(obj);
             } else {
@@ -625,17 +630,17 @@ void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
     }
     AdvanceMissionRunMapObject(unused, mapObject);
     AdvanceMapObjectModelNsbtaAnimation(mapObject->mNsbmd);
-    var = mapObject->mUnk_134 + 1;
+    var = mapObject->mModelAnimationFrameIndex + 1;
     if (var >= GetAbsoluteCounter(mapObject) * 30) {
         var = GetAbsoluteCounter(mapObject) * 30;
     }
-    mapObject->mUnk_134 = var;
-    var = mapObject->mUnk_134;
+    mapObject->mModelAnimationFrameIndex = var;
+    var = mapObject->mModelAnimationFrameIndex;
     if (var >= GetMapObjectModelNsbmaFrameCount(mapObject->mNsbmd) - 1) {
         var = GetMapObjectModelNsbmaFrameCount(mapObject->mNsbmd) - 1;
     }
-    mapObject->mUnk_134 = var;
-    SetMapObjectModelNsbmaFrameIndex(mapObject->mNsbmd, (u16) mapObject->mUnk_134);
+    mapObject->mModelAnimationFrameIndex = var;
+    SetMapObjectModelNsbmaFrameIndex(mapObject->mNsbmd, (u16) mapObject->mModelAnimationFrameIndex);
 }
 
 void InitKuriking(MapObjectList *mapObjectList) {

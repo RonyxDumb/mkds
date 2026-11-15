@@ -532,33 +532,38 @@ s32 StopStateWhenRaceStarted(MissionRunMapObject *mapObject) {
 
 void StartBombKingWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, StopStateWhenRaceStarted);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mWaitForRaceStartFrameStep);
 }
 
 void StartBombKingStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
-                                  (UnkFunc *) &StartBombKingWaitForRaceStart);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mStartupSecondFrameStep, (UnkFunc *) &StartBombKingWaitForRaceStart);
     SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mUnk_148), ThrowItemBombsInRing);
 }
 
 void StartBombKingStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartBombKingStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount, &StartBombKingStartupSecond);
     StartMapObjectSound(&mapObject->mUnk_000, 0x00000235u);
 }
 
 void StartBombKingChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mChainStartupSecondFrameStep);
     SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, StartBombKingEffectAndSound);
 }
 
 void StartBombKingChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartBombKingChainStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+                                 &StartBombKingChainStartupSecond);
 }
 
 void InitBombKingObjects(MapObjectList *list) {

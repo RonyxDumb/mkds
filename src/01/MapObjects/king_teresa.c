@@ -613,15 +613,16 @@ void KingTeresaStandingsEndCallback(void) {
 
 void StartKingTeresaSecondAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
-                                  StartKingTeresaHideThenState1);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mStartupSecondFrameStep, StartKingTeresaHideThenState1);
 }
 
 void StartKingTeresaFirstAnimation(MissionRunMapObject *mapObject) {
     mapObject->mUnk_000.mPos.y += mapObject->mPrm->mUnk_080;
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, StartKingTeresaSecondAnimation);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount, StartKingTeresaSecondAnimation);
 }
 
 void ShowKingTeresaAfterWait(MissionRunMapObject *mapObject) {
@@ -635,8 +636,9 @@ void StartKingTeresaZeroAlphaWait(MissionRunMapObject *mapObject) {
     mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget;
     mapObject->mAlphaLimit = 0;
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, ShowKingTeresaAfterWait);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount, ShowKingTeresaAfterWait);
 }
 
 void InitKingTeresaMapObject(MissionRunMapObject *mapObject) {

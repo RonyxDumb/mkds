@@ -1128,8 +1128,7 @@ void StartIwanteHandsToggleStateHold(MissionRunMapObject *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
     StartMapObjectState(mapObject, 3, AdvanceIwanteHandsStopAfterToggle);
     StopTurningMoveFollowsAngle(mapObject);
-    mapObject->mUnk_0a8 =
-        (mapObject->mUnk_0a8 == IWANTE_HAND_FIRST) ? IWANTE_HAND_SECOND : IWANTE_HAND_FIRST;
+    mapObject->mUnk_0a8 = (mapObject->mUnk_0a8 == IWANTE_HAND_FIRST) ? IWANTE_HAND_SECOND : IWANTE_HAND_FIRST;
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         firstHand = GetMissionRunMapObject(
             (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0)));
@@ -1249,14 +1248,16 @@ void StartIwanteCourseHitEffects(MissionRunMapObject *mapObject) {
 
 void StartIwanteNoChainCameraEffects(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mWaitForRaceStartFrameStep);
     StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042du, 0);
     StartEffectAtOffset(mapObject, 0, 0x000044cdu, 0x00000400u, 0x0000042eu, 0);
 }
 
 void StartIwanteNoChainCameraAnimation(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mStartupSecondFrameStep,
                                   (UnkFunc *) &StartIwanteNoChainCameraEffects);
     SetIwanteNoChainCameraWalkA(mapObject);
     StartMapObjectSound(&mapObject->mUnk_000, 0x0000021bu);
@@ -1264,21 +1265,26 @@ void StartIwanteNoChainCameraAnimation(MissionRunMapObject *mapObject) {
 
 void StartIwanteNoChainCameraWait(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartIwanteNoChainCameraAnimation);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount,
+                                 &StartIwanteNoChainCameraAnimation);
 }
 
 void StartIwanteChainCameraCourseWait(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mChainStartupSecondFrameStep);
     SetCourseCollisionCallback(mapObject, StartIwanteCourseHitEffects);
 }
 
 void StartIwanteChainCameraHold(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mChainStartupFirstFrameStep);
     DisableMissionRunMapObjectGravity(mapObject);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartIwanteChainCameraCourseWait);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+                                 &StartIwanteChainCameraCourseWait);
 }
 
 void IwanteItemResponse2Callback(MissionRunMapObject *mapObject) {
@@ -1400,19 +1406,19 @@ void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject) {
         }
     }
     if (mapObject->mUnk_0a8 == 1) {
-        frameIndex = mapObject->mUnk_134 + 1;
+        frameIndex = mapObject->mModelAnimationFrameIndex + 1;
         if (frameIndex >= GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1) {
             frameIndex = GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1;
         }
-        mapObject->mUnk_134 = frameIndex;
+        mapObject->mModelAnimationFrameIndex = frameIndex;
     } else {
-        frameIndex = mapObject->mUnk_134 - 1;
+        frameIndex = mapObject->mModelAnimationFrameIndex - 1;
         if (frameIndex <= 0) {
             frameIndex = 0;
         }
-        mapObject->mUnk_134 = frameIndex;
+        mapObject->mModelAnimationFrameIndex = frameIndex;
     }
-    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, mapObject->mUnk_134);
+    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, mapObject->mModelAnimationFrameIndex);
     AdvanceMissionRunMapObject(mapObjectList, mapObject);
 }
 

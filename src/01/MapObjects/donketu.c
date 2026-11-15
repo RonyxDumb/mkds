@@ -192,8 +192,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 effectPosition;
 
                 VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
-                if ((s64) effectPosition.z * effectPosition.z +
-                        SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
+                if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }
@@ -268,8 +267,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
                 SetSpeedAndClearTarget(donketu, 0);
             }
             VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
-            if (SQUARE_SUM3(effectPosition.x, effectPosition.y, effectPosition.z) >=
-                0x10) {
+            if (SQUARE_SUM3(effectPosition.x, effectPosition.y, effectPosition.z) >= 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
             }
             VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
@@ -661,35 +659,40 @@ s32 UpdateDonketuKingIceEffects(MissionRunMapObject *donketu) {
 
 void StartDonketuWaitForRaceStart(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, &UpdateDonketuWaitForRaceStart);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_064, donketu->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mWaitForRaceStartAnimationEntry,
+                                donketu->mPrm->mWaitForRaceStartFrameStep);
 }
 
 void StartDonketuStartupSecond(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, &UpdateDonketuStartupEffects);
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
-        StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_058, donketu->mPrm->mUnk_05c);
+        StartAnimationNoEndCallback(donketu, donketu->mPrm->mStartupSecondAnimationEntry,
+                                    donketu->mPrm->mStartupSecondFrameStep);
         StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_060, &StartDonketuWaitForRaceStart);
         return;
     }
-    StartAnimationWithEndCallback(donketu, donketu->mPrm->mUnk_058, donketu->mPrm->mUnk_05c,
-                                  &StartDonketuWaitForRaceStart);
+    StartAnimationWithEndCallback(donketu, donketu->mPrm->mStartupSecondAnimationEntry,
+                                  donketu->mPrm->mStartupSecondFrameStep, &StartDonketuWaitForRaceStart);
 }
 
 void StartDonketuStartupFirst(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, UpdateDonketuKingIceEffects);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_04c, donketu->mPrm->mUnk_050);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_054, &StartDonketuStartupSecond);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mStartupFirstAnimationEntry,
+                                donketu->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mStartupFirstFrameCount, &StartDonketuStartupSecond);
 }
 
 void StartDonketuChainStartupSecond(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, UpdateDonketuKingIceEffects);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_040, donketu->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mChainStartupSecondAnimationEntry,
+                                donketu->mPrm->mChainStartupSecondFrameStep);
 }
 
 void StartDonketuChainStartupFirst(MissionRunMapObject *donketu) {
     StartMapObjectState(donketu, 8, UpdateDonketuKingIceEffects);
-    StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_034, donketu->mPrm->mUnk_038);
-    StartStateFrameCountCallback(donketu, donketu->mPrm->mUnk_03c, &StartDonketuChainStartupSecond);
+    StartAnimationNoEndCallback(donketu, donketu->mPrm->mChainStartupFirstAnimationEntry,
+                                donketu->mPrm->mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(donketu, donketu->mPrm->mChainStartupFirstFrameCount, &StartDonketuChainStartupSecond);
 }
 
 void InitDonketuObjects(MapObjectList *list) {

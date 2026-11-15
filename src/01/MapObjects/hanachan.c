@@ -477,30 +477,35 @@ s32 UpdateHanachanWaitForRaceStart(MissionRunMapObject *mapObject) {
 
 void StartHanachanWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateHanachanWaitForRaceStart);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mWaitForRaceStartFrameStep);
 }
 
 void StartHanachanStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
-                                  &StartHanachanWaitForRaceStart);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mStartupSecondFrameStep, &StartHanachanWaitForRaceStart);
 }
 
 void StartHanachanStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount, &StartHanachanStartupSecond);
 }
 
 void StartHanachanChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mChainStartupSecondFrameStep);
 }
 
 void StartHanachanChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartHanachanChainStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+                                 &StartHanachanChainStartupSecond);
 }
 
 s32 UpdateFollowerWaitForRaceStart(MissionRunMapObject *mapObject) {
@@ -530,36 +535,44 @@ s32 UpdateFollowerStartupEffects(MissionRunMapObject *mapObject) {
 
 void StartFollowerWaitForRaceStart(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateFollowerWaitForRaceStart);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mWaitForRaceStartFrameStep);
 }
 
 void StartHanachanFollowerStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, UpdateFollowerStartupEffects);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
-                                  &StartFollowerWaitForRaceStart);
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mStartupSecondAnimationEntry,
+                                  mapObject->mPrm->mStartupSecondFrameStep, &StartFollowerWaitForRaceStart);
 }
 
 void StartHanachanFollowerStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanFollowerStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mStartupFirstAnimationEntry,
+                                mapObject->mPrm->mStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount,
+                                 &StartHanachanFollowerStartupSecond);
 }
 
 void StartFollowerChainStartupSecond(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupSecondAnimationEntry,
+                                mapObject->mPrm->mChainStartupSecondFrameStep);
 }
 
 void StartFollowerChainStartupFirst(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &StartFollowerChainStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mChainStartupFirstAnimationEntry,
+                                mapObject->mPrm->mChainStartupFirstFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mChainStartupFirstFrameCount,
+                                 &StartFollowerChainStartupSecond);
 }
 
 void StartHanachanFollowerWaitAnimState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &StartHanachanFollowerStartupSecond);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mWaitForRaceStartAnimationEntry,
+                                mapObject->mPrm->mWaitForRaceStartFrameStep);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mStartupFirstFrameCount,
+                                 &StartHanachanFollowerStartupSecond);
 }
 
 void InitHanachanObjects(MapObjectList *mapObjectList) {
