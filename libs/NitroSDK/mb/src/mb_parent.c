@@ -433,11 +433,11 @@ void MBi_ReloadCache(DataRangeLoadJob *job) {
     if (FS_OpenFileDirect(&file, FS_FindArchive(table->mArcName, table->mArcNameLen), offset, offset + range->mLen,
                           -1) != 0) {
         if (range->mLen == FS_ReadFile(&file, range->mPtr, range->mLen)) {
-            range->mState = 2;
+            range->mState = MULTIBOOT_CACHE_LOADED;
         }
         FS_CloseFile(&file);
     }
-    if (range->mState != 2) {
+    if (range->mState != MULTIBOOT_CACHE_LOADED) {
         OS_Terminate();
     }
 }
@@ -506,7 +506,7 @@ u32 MBi_CommParentSendBlock(void) {
                 range = rangeTable->mList;
                 lowestRange = NULL;
                 for (rangeIndex = 0; rangeIndex < 4; range++, rangeIndex++) {
-                    if (range->mState == 2) {
+                    if (range->mState == MULTIBOOT_CACHE_LOADED) {
                         if (lowestRange == NULL || lowestRange->mSrc > range->mSrc) {
                             lowestRange = range;
                         }
@@ -516,7 +516,7 @@ u32 MBi_CommParentSendBlock(void) {
                     OS_Terminate();
                 }
                 rangeTable->mLifetime = 0;
-                lowestRange->mState = 1;
+                lowestRange->mState = MULTIBOOT_CACHE_LOADING;
                 lowestRange->mSrc = readOffset & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
