@@ -6,7 +6,7 @@ typedef struct MultiBootStateView MultiBootStateView;
 typedef struct MBUserInfo MBUserInfo;
 
 void ReadMultiBootParentBssDesc(void);
-void ReadFakeParentBssDesc(u32 entryIndex);
+void ReadFakeParentBssDesc(u16 entryIndex);
 void StartConnectToScanEntry(u16 entryIndex);
 void StartRequestEndScan(void);
 void StartEndToIdle(void);

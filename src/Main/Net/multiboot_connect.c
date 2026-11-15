@@ -434,7 +434,7 @@ void StartConnectToScanEntry(u16 entryIndex) {
     }
 }
 
-void ReadFakeParentBssDesc(u32 entryIndex) {
+void ReadFakeParentBssDesc(u16 entryIndex) {
     u32 result;
     gConnectionWork->mStep = CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC;
     gConnectionWork->mRequestPending = 1;

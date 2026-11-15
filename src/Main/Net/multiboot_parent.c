@@ -87,7 +87,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
                 if (connectionWork->mScanEntryIndex == -1) {
                     ReadFakeParentBssDesc(entryIndex);
                 } else {
-                    ReadFakeParentBssDesc((u16) connectionWork->mScanEntryIndex);
+                    ReadFakeParentBssDesc(connectionWork->mScanEntryIndex);
                 }
             } else {
                 result = 2;
