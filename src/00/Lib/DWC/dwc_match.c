@@ -90,7 +90,7 @@ u32 DWC_IsValidCancelMatching(void) {
     if (DWCi_IsError() != 0) {
         return 0;
     }
-    if (gWiFiMatching == NULL || DWC_GetState() != 5 || gWiFiMatching->mStopPending != 0) {
+    if (gWiFiMatching == NULL || DWC_GetState() != WIFI_CONNECTION_PARTNER_SEARCH || gWiFiMatching->mStopPending != 0) {
         return 0;
     }
     return 1;
@@ -849,7 +849,7 @@ void DWCi_ProcessMatchSynPacket(s32 peerIndex, s32 kind, u8 *data) {
 
 u32 DWCi_ProcessMatchClosing(s32 error, s32 errorCode, s32 profileId) {
     WiFiMatching *wiFiMatching;
-    if (DWC_GetState() != 5) {
+    if (DWC_GetState() != WIFI_CONNECTION_PARTNER_SEARCH) {
         return 0;
     }
     wiFiMatching = gWiFiMatching;
@@ -2689,7 +2689,7 @@ BOOL DWCi_ProcessCancelMatchSynCommand(u32 profileId, s32 command, u32 data) {
     u32 mask;
     s32 participantPos;
     u32 aid;
-    if (DWC_GetState() != 6) {
+    if (DWC_GetState() != WIFI_CONNECTION_MATCHED) {
         return TRUE;
     }
     switch (command) {
@@ -3106,13 +3106,13 @@ u32 DWCi_HandleQR2Error(u32 error) {
             break;
     }
     switch (DWC_GetState()) {
-        case 2:
+        case WIFI_CONNECTION_LOGIN:
             DWCi_StopLogin(kind, detail - 0xfa00);
             break;
-        case 4:
+        case WIFI_CONNECTION_BUDDY_SYNC:
             DWCi_StopFriendProcess(kind, detail - 0x12110);
             break;
-        case 5:
+        case WIFI_CONNECTION_PARTNER_SEARCH:
             DWCi_StopMatching(kind, detail - 0x14820);
             break;
         default:
