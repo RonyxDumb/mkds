@@ -219,7 +219,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     QueueCellChars(gCupNameLeftCharIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
     InitFrmVramManagers();
-    InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);
+    InitTrophy(gResultsGp->mCupIndex, gResultsGp->mCupRankIndex);
     index = -1;
     switch (gResultsGp->mGrade) {
         case RESULTS_GP_GRADE_THIRD_BEST:

@@ -152,7 +152,7 @@ void SetupTrophy(void) {
     }
 }
 
-void InitTrophy(s32 modelIndex, u32 rankIndex) {
+void InitTrophy(s32 modelIndex, u16 rankIndex) {
     void *modelFile;
     void *animationFile;
     void *heap;

@@ -933,7 +933,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
             value = 7;
             break;
     }
-    InitTrophy(8, (u16) value);
+    InitTrophy(8, value);
 }
 
 #pragma thumb off

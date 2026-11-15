@@ -10,7 +10,7 @@ void DrawTrophy(void);
 void AdvanceTrophy(void);
 s32 TrophyFX_MulInline(s32 lhs, s32 rhs);
 s16 TrophyFX_SinIdx(s32 angle);
-void InitTrophy(s32 modelIndex, u32 rankIndex);
+void InitTrophy(s32 modelIndex, u16 rankIndex);
 void SetupTrophy(void);
 
 extern const s32 gTrophyModelEffectOffsetY[9];
