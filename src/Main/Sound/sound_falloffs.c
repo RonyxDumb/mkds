@@ -1,4 +1,5 @@
 #include "Main/Sound/sound_falloffs.h"
+#include "Main/Sound/kart_sound.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Scene/run_scenes.h"
 #include "Main/MapObjects/choropu_state.h"
@@ -19,11 +20,11 @@
 #include "Main/Sound/snd_handle_slots.h"
 
 void StopKartSoundWhileRequested(Kart *kart) {
-    if (kart->mSound.mWhileRequestedSoundId == 0xffff) {
+    if (kart->mSound.mWhileRequestedSoundId == KART_SOUND_NO_WHILE_REQUESTED_SOUND) {
         return;
     }
     StopSoundEx(&kart->mSoundSource, 0, kart->mSound.mWhileRequestedSoundId, 0);
-    kart->mSound.mWhileRequestedSoundId = 0xffff;
+    kart->mSound.mWhileRequestedSoundId = KART_SOUND_NO_WHILE_REQUESTED_SOUND;
 }
 
 void InitSoundFalloffs(void) {

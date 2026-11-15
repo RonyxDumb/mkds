@@ -31,6 +31,9 @@ typedef struct SoundSet {
     /* 08 */ u32 mSecondBankId;
 } SoundSet;
 
+// LoadedSoundSet.mHeapState of a set with no saved heap state.
+#define LOADED_SOUND_SET_NO_HEAP_STATE 0xff00
+
 // Object gLoadedSoundSet, which GetLoadedSoundSet returns: a SoundSet at 0 and a word at 0xc that
 // SaveSndHeapState and ReleaseSoundSet write.
 typedef struct LoadedSoundSet {

@@ -53,6 +53,20 @@ typedef struct LoadedSoundBanks {
     /* 04 */ u32 mLoadMarker;
 } LoadedSoundBanks;
 
+// Values of ScenePlayers.mProgress: released, set up by InitScenePlayers, then the scene and the race started.
+#define SCENE_PLAYERS_PROGRESS_RELEASED 0
+#define SCENE_PLAYERS_PROGRESS_INITIALIZED 1
+#define SCENE_PLAYERS_PROGRESS_SCENE_STARTED 2
+#define SCENE_PLAYERS_PROGRESS_RACE_STARTED 3
+// ScenePlayersSeqInfo.mSeqStartProgress that never starts the sequence.
+#define SCENE_PLAYERS_SEQ_START_NEVER 0xff
+
+// Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded. LOADED_SOUND_BANKS_ALL is
+// the mBankMask of every bank.
+#define LOADED_SOUND_BANKS_NONE 0xff00
+#define LOADED_SOUND_BANKS_LOADED 0xfe00
+#define LOADED_SOUND_BANKS_ALL 0xffff
+
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct ScenePlayersSeqInfo {
     /* 00 */ u8 mUnk_00;

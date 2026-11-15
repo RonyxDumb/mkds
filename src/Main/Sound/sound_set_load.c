@@ -396,7 +396,7 @@ u32 LoadSndGroup(s32 groupId) {
 
 void ResetLoadedSoundSet(LoadedSoundSet *loadedSet) {
     loadedSet->mSoundSet = gResetEmptySoundSet;
-    loadedSet->mHeapState = 0xff00;
+    loadedSet->mHeapState = LOADED_SOUND_SET_NO_HEAP_STATE;
 }
 
 void SaveSndHeapState(LoadedSoundSet *loadedSet) {

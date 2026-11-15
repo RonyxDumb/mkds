@@ -7,6 +7,11 @@
 #include "Main/Sound/sound_source_list.h"
 // Object of AdvanceSoundDistanceSquaredChange: a value at 0x00, the previous value at 0x04, their difference at 0x08
 // and a shift at 0x0c; 0x1c bytes in all.
+// SoundDistanceSquaredChange.mShift ResetSoundDistanceSquaredChange sets, and the largest change in mDifference
+// AdvanceSoundDistanceSquaredChange keeps (a larger one is dropped for the previous change).
+#define SOUND_DISTANCE_CHANGE_SHIFT 6
+#define SOUND_DISTANCE_CHANGE_LIMIT 0x600
+
 typedef struct SoundDistanceSquaredChange {
     /* 00 */ s32 mDistanceSquared;
     /* 04 */ s32 mPrevDistanceSquared;

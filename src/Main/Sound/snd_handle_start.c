@@ -24,7 +24,7 @@ void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 
     tracker->mDistanceSquared = distanceSquared;
     tracker->mDifference = (tracker->mPrevDistanceSquared - tracker->mDistanceSquared) >> tracker->mShift;
     value = tracker->mDifference;
-    if (value > 0x600 || value < -0x600) {
+    if (value > SOUND_DISTANCE_CHANGE_LIMIT || value < -SOUND_DISTANCE_CHANGE_LIMIT) {
         tracker->mDifference = oldChange;
     }
 }

@@ -1,5 +1,6 @@
 #include "Main/Sound/scene_players_release.h"
 #include "Main/Sound/sound_system.h"
+#include "Main/Sound/sound_set_load.h"
 #include "Main/Sound/data_0216c000.h"
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Menu/data_0217d000.h"
@@ -21,23 +22,23 @@ static inline void StartScenePlayersSeqIfSet(ScenePlayers *scenePlayers, u32 seq
     if (handle == NULL) {
         handle = &gScenePlayers.mSeqPlayer;
     }
-    if (scenePlayers->mSeqInfo.mSeqId == 0xff) {
+    if (scenePlayers->mSeqInfo.mSeqId == SOUND_ID_NONE) {
         return;
     }
     StartSeqAtVolume(seqNo, gSceneSeqVolume, handle);
 }
 
 void StartScenePlayersForScene(ScenePlayers *scenePlayers) {
-    scenePlayers->mProgress = 2;
-    if (scenePlayers->mSeqInfo.mSeqStartProgress != 2) {
+    scenePlayers->mProgress = SCENE_PLAYERS_PROGRESS_SCENE_STARTED;
+    if (scenePlayers->mSeqInfo.mSeqStartProgress != SCENE_PLAYERS_PROGRESS_SCENE_STARTED) {
         return;
     }
     StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqInfo.mSeqId, &gScenePlayers.mSeqPlayer);
 }
 
 void StartScenePlayersForRace(ScenePlayers *scenePlayers) {
-    scenePlayers->mProgress = 3;
-    if (scenePlayers->mSeqInfo.mSeqStartProgress != 3) {
+    scenePlayers->mProgress = SCENE_PLAYERS_PROGRESS_RACE_STARTED;
+    if (scenePlayers->mSeqInfo.mSeqStartProgress != SCENE_PLAYERS_PROGRESS_RACE_STARTED) {
         return;
     }
     StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqInfo.mSeqId, &gScenePlayers.mSeqPlayer);
@@ -52,7 +53,7 @@ void StartScenePlayersSeq(ScenePlayers *scenePlayers) {
 }
 
 void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps) {
-    if (scenePlayers->mSeqInfo.mSeqId == 0xff) {
+    if (scenePlayers->mSeqInfo.mSeqId == SOUND_ID_NONE) {
         return;
     }
     NNS_SndPlayerStopSeq(&scenePlayers->mSeqPlayer, fadeSteps);
@@ -62,5 +63,5 @@ void ScenePlayersNop(ScenePlayers *scenePlayers) {}
 
 void ReleaseScenePlayers(ScenePlayers *scenePlayers, s32 unused) {
     ReleaseAllSoundSources();
-    scenePlayers->mProgress = 0;
+    scenePlayers->mProgress = SCENE_PLAYERS_PROGRESS_RELEASED;
 }
