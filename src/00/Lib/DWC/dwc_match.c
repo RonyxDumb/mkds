@@ -256,7 +256,7 @@ void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, Gt2S
     gWiFiMatching->mSecretKey = secretKey;
     gWiFiMatching->mBuddies = buddies;
     gWiFiMatching->mBuddyEntryCount = buddyEntryCount;
-    MI_CpuFill8(gWiFiMatching->mBuddyEntryIndices, 0, 0x40);
+    MI_CpuFill8(gWiFiMatching->mBuddyEntryIndices, 0, sizeof(gWiFiMatching->mBuddyEntryIndices));
     gWiFiMatching->mBuddyEntryIndexCount = 0;
     gWiFiMatching->mResultCallback = NULL;
     gWiFiMatching->mResultCallbackArg = 0;
@@ -1018,7 +1018,7 @@ u32 DWCi_GetValidAIDList(u8 **aidList) {
     if (gWiFiMatching == NULL) {
         return 0;
     }
-    MI_CpuFill8(gMatchingMaskedParticipantIndices, 0, 0x20);
+    MI_CpuFill8(gMatchingMaskedParticipantIndices, 0, sizeof(gMatchingMaskedParticipantIndices));
     listIndex = 0;
     participantBytes = (u8 *) gWiFiMatching;
     if (listIndex <= ((WiFiMatching *) participantBytes)->mLastMaskedParticipantPos) {
@@ -1135,7 +1135,7 @@ void DWCi_ResetMatchParam(s32 level) {
         ClearBuffer32(gWiFiMatching->mParticipantConnectAddresses, 0x80);
         connectPortFill = 0;
         MIi_CpuClear16(connectPortFill, gWiFiMatching->mParticipantConnectPorts, 0x40);
-        MI_CpuFill8(gWiFiMatching->mParticipantIndices, 0, 0x20);
+        MI_CpuFill8(gWiFiMatching->mParticipantIndices, 0, sizeof(gWiFiMatching->mParticipantIndices));
         ClearBuffer32(gWiFiMatching->mReceivedList, 0x84);
         if (level == 1) {
             if (gWiFiMatching->mMode == WIFI_MATCH_MODE_FILTER_SEARCH) {
@@ -3484,7 +3484,7 @@ void DWCi_QR2ClientMsgCallback(const void *data, u32 len, void *userData) {
     offset = 0;
     if (len >= 0x14) {
         do {
-            MI_CpuCopy8(data, &header, 0x14);
+            MI_CpuCopy8(data, &header, sizeof(header));
             if (strncmp(header.mSignature, gMatchingSignature.mText, 4) != 0) {
                 break;
             }

@@ -76,7 +76,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     if (newSocket == NULL) {
         return 1;
     }
-    memset(newSocket, 0, 0x44);
+    memset(newSocket, 0, sizeof(*newSocket));
     newSocket->mDescriptor = -1;
     newSocket->mIncomingBufferSize = incomingBufferSize;
     newSocket->mSendBufferSize = outgoingBufferSize;
@@ -153,7 +153,7 @@ u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u3
     }
     newConnection = gti2CreateConnectionObject();
     if (newConnection != NULL) {
-        memset(newConnection, 0, 0xa0);
+        memset(newConnection, 0, sizeof(*newConnection));
         newConnection->mAddress = address;
         newConnection->mPort = port;
         newConnection->mSocket = socket;

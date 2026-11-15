@@ -125,7 +125,7 @@ s32 SOCL_Resolve(const char *hostname) {
     if (memory == NULL) {
         return 0;
     }
-    MI_CpuFill8(&soc, 0, 0x64);
+    MI_CpuFill8(&soc, 0, sizeof(soc));
     soc.mReceiveBuffer = memory;
     soc.mReceiveBufferSize = 0xb68;
     soc.mSendBuffer = memory + 0xb68;

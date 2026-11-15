@@ -165,7 +165,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
         GpiSetErrorMessage(connection, "Out of memory.");
         return 1;
     }
-    memset(data, 0, 0x308);
+    memset(data, 0, sizeof(*data));
     data->mNewUser = newuser;
     if (*authtoken != 0 && *partnerchallenge != 0) {
         GpiCopyString((char *) data->mAuthtoken, (const char *) authtoken, 0x100);

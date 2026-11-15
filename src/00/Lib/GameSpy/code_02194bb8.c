@@ -410,7 +410,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             }
                             matchIndex = response.mNumMatches - 1;
                             profileMatch = &profileMatches[matchIndex];
-                            memset(profileMatch, 0, 0xac);
+                            memset(profileMatch, 0, sizeof(*profileMatch));
                             profileMatches[matchIndex].mProfile = StrtolBase10(value);
                             matchDone = FALSE;
                             do {
@@ -590,7 +590,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 }
                                 matchIndex = u4->mNumMatches - 1;
                                 playerMatch = &playerMatches[matchIndex];
-                                memset(playerMatch, 0, 0x128);
+                                memset(playerMatch, 0, sizeof(*playerMatch));
                                 playerMatch->mStatus = 1;
                                 playerMatches[matchIndex].mProfile = StrtolBase10(value);
                                 matchDone = FALSE;
@@ -738,7 +738,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 profileMatches = u7->mProfiles;
                                 matchIndex = u7->mNumProfiles;
                                 profileMatch = &profileMatches[matchIndex];
-                                memset(profileMatch, 0, 0xac);
+                                memset(profileMatch, 0, sizeof(*profileMatch));
                                 u7->mNumProfiles++;
                                 profileMatches[matchIndex].mProfile = StrtolBase10(value);
                                 matchDone = FALSE;

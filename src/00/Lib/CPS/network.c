@@ -88,7 +88,7 @@ void reset_network_vars(u32 reason) {
     CPSDnsIp[1] = 0;
     CPSDhcpServerIp = 0;
     if (addressSeen != 0) {
-        MI_CpuFill8(gArpCache, 0, 0x60);
+        MI_CpuFill8(gArpCache, 0, sizeof(gArpCache));
         thread = OSi_ThreadInfo.mListHead;
         if (thread != NULL) {
             do {
@@ -477,7 +477,7 @@ u8 *inq_arpcache(u32 address) {
 void send_arprequest(u32 address) {
     ArpRequestFrame frame;
 
-    MI_CpuFill8(&frame, 0, 0x2a);
+    MI_CpuFill8(&frame, 0, sizeof(frame));
     MI_CpuFill8(&frame, 0xff, 6);
     MI_CpuCopy8(CPSMyMac, frame.mSourceMac, 6);
     frame.mEtherType = 0x608;
@@ -1041,7 +1041,7 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
     CPSSoc *socket;
 
     socket = &gTmpSoc;
-    MI_CpuFill8(socket, 0, 0x64);
+    MI_CpuFill8(socket, 0, sizeof(*socket));
     socket->mLocalPort = (tcpHeader->mDestPort >> 8) | (tcpHeader->mDestPort << 8);
     socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
     socket->mRemoteIp = ((u16) ((ipHeader->mSourceAddressHigh >> 8) | (ipHeader->mSourceAddressHigh << 8)) << 16) |
@@ -2089,7 +2089,7 @@ void scavenger(void) {
     CPSFragTable *fragment;
 
     gScavengerForceExit = 0;
-    MI_CpuFill8(&gScavengerSoc, 0, 0x64);
+    MI_CpuFill8(&gScavengerSoc, 0, sizeof(gScavengerSoc));
     gScavengerSoc.mReceiveBufferSize = 0x180;
     gScavengerSoc.mReceiveBuffer = gScavengerReceiveBuffer;
     gScavengerSoc.mSendBufferSize = 0x180;

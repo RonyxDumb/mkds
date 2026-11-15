@@ -282,7 +282,7 @@ u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status)
         return 2;
     }
     if (gpState->mSimulation != 0) {
-        memset(status, 0, 0x210);
+        memset(status, 0, sizeof(*status));
         return 0;
     }
     if (status == NULL) {
