@@ -30,9 +30,7 @@ RaceSetupCopy *gRaceSetupCopy;
 #pragma thumb on
 
 void CreateRaceSetupCopy(void *heap) {
-    u32 setupCopyAddress;
-    setupCopyAddress = ((u32) HeapAlloc(heap, (0x00000110u)));
-    *(u32 *) &gRaceSetupCopy = setupCopyAddress;
+    gRaceSetupCopy = HeapAlloc(heap, (0x00000110u));
     ResetRaceSetupCopy();
 }
 

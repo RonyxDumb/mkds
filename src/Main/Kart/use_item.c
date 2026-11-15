@@ -11,7 +11,7 @@ void AdvanceBattleItemBitRequests(KartAiItemUse *itemUse, KartAi *kartAi) {
 void SetupBattleHeldItemEntry(KartAiItemUse *itemUse, KartAi *kartAi) {
     enum { K0 } heldItemIndex;
 
-    heldItemIndex = *(s32 *) &gKartItems[kartAi->mIndex].mHeldItem;
+    heldItemIndex = gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex;
     itemUse->mHeldItemEntry = gBattleHeldItemEntries + heldItemIndex;
     ResetHeldItemTimer(itemUse);
 }

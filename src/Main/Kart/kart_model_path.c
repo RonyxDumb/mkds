@@ -292,9 +292,8 @@ char *BuildCharacterDirPath(s32 characterIndex) {
 }
 
 s8 *BuildPFaceanimNsbtpPath(void) {
-    snprintf((char *) &gKartModelPathBuffer, 0x100, "%s%scommon/P_faceanim.nsbtp", *(u32 *) &gKartModelPathPrefix,
-             *(u32 *) &gCharacterDirName);
-    return (s8 *) &gKartModelPathBuffer;
+    snprintf(gKartModelPathBuffer, 0x100, "%s%scommon/P_faceanim.nsbtp", gKartModelPathPrefix, gCharacterDirName);
+    return (s8 *) gKartModelPathBuffer;
 }
 
 char *BuildEmblemNsbtxPath(u16 characterIndex) {
