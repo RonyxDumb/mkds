@@ -12,7 +12,7 @@ void AdvancePaletteBlend(void);
 void BlendPaletteColors(s32 weight);
 void ClearPaletteBlendPointer(void);
 
-void AdvanceStaffRollTextState1(void);
+void AdvanceStaffRollTextScrolling(void);
 void AdvanceStaffRollText(void);
 void SetStaffRollScrollAndDrainQueue(void);
 
