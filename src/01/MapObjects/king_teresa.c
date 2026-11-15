@@ -1,5 +1,6 @@
 #include "01/MapObjects/king_teresa.h"
 #include "01/code_0218f900.h"
+#include "01/MapObjects/iwante.h"
 #include "01/code_02188cd8.h"
 #include "01/MapObjects/map_object_animation.h"
 #include "01/code_02188000.h"
@@ -93,7 +94,7 @@ MapObjectKindDescriptor gKingTeresaKindDescriptor = {0,
                                                      {NULL, NULL, NULL, NULL}};
 
 u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
-    return mapObject->mUnk_0a8 == 2;
+    return mapObject->mUnk_0a8 == IWANTE_HAND_SHAPE_WALK_B;
 }
 
 void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject) {

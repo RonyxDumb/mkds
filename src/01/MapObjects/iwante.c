@@ -214,7 +214,7 @@ void SetIwanteNoneCollision(MissionRunMapObject *mapObject) {
 }
 
 void SetIwanteNoChainCameraWalkA(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_0a8 = 1;
+    mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_A;
     SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemHitCallback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x0001e000u, 0xffff5000u, 0x00002000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00002000u);
@@ -223,7 +223,7 @@ void SetIwanteNoChainCameraWalkA(MissionRunMapObject *mapObject) {
 }
 
 void SetIwanteWalkACollision(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_0a8 = 1;
+    mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_A;
     SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemHitCallback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00001000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00001000u);
@@ -232,7 +232,7 @@ void SetIwanteWalkACollision(MissionRunMapObject *mapObject) {
 }
 
 void SetIwanteWalkBCollision(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_0a8 = 2;
+    mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_B;
     SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0x00015000u, 0x00028000u, 0x0001c000u, 0x00001000u, 0x00013000u,
                                          0x00028000u, 0x00028000u, 0x00001000u);
@@ -250,7 +250,7 @@ void SetIwanteHitReactionCollision(MissionRunMapObject *mapObject) {
 }
 
 void SetIwanteWalkAHitCollision(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_0a8 = 1;
+    mapObject->mUnk_0a8 = IWANTE_HAND_SHAPE_WALK_A;
     SetItemCollisionCallback(mapObject, (UnkFunc *) &IwanteItemResponse2Callback);
     SetCollisionBoxOffsetAndExtentTarget(mapObject, 0xffffc000u, 0x00028000u, 0xffff5000u, 0x00002000u, 0x00024000u,
                                          0x00028000u, 0x00011000u, 0x00001000u);
@@ -687,7 +687,7 @@ void StartIwanteHideAtEndReached(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteKartEliminatedHold(MissionRunMapObject *mapObject) {
-    if (mapObject->mUnk_0a8 == 1) {
+    if (mapObject->mUnk_0a8 == IWANTE_HAND_SHAPE_WALK_A) {
         StartMapObjectState(mapObject, 8, NULL);
         StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
         StopTurningMoveFollowsAngle(mapObject);
