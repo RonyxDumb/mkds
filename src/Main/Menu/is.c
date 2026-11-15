@@ -6,7 +6,7 @@
 #pragma optimize_for_size on
 
 BOOL MenuIsPairRecentlyLost(InputSlotPair *pair) {
-    if (MenuGetPairHasPair(pair) == 0 && pair->mNoPairCount < 5) {
+    if (MenuGetPairHasPair(pair) == 0 && pair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         return TRUE;
     }
     return FALSE;

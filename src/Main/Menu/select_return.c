@@ -614,7 +614,7 @@ static inline s32 SelectChoisesIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL recentlyLost = FALSE;
     u16 hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
 
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

@@ -432,7 +432,7 @@ u32 ChoisesSGetPairHasPair(InputSlotPair *inputSlotPair) {
 
 #pragma optimize_for_size on
 u32 ChoisesSIsPairRecentlyLost(InputSlotPair *inputSlotPair) {
-    if (ChoisesSGetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
+    if (ChoisesSGetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         return 1;
     }
     return 0;

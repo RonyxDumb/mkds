@@ -431,7 +431,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
             value = gInputSlots[slotIndex].mPair.mHasPair;
-            if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            if (value == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                 pairRecentlyGone = TRUE;
             }
             if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && value != 0) {

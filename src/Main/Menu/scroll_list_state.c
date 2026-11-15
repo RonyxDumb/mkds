@@ -90,7 +90,7 @@ u32 ScrollListGetSlotPairY(u32 slot) {
 
 u32 ScrollListIsPairRecentlyLost(InputSlotPair *pair) {
     u32 result = 0;
-    if (ScrollListGetPairHasPair(pair) == 0 && pair->mNoPairCount < 5) {
+    if (ScrollListGetPairHasPair(pair) == 0 && pair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         result = 1;
     }
     return result;

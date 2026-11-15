@@ -50,7 +50,7 @@ static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) 
     result = FALSE;
     recentlyLost = FALSE;
     hasPair = gInputSlots[inputIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputIndex].mPair.mNoPairCount < 5) {
+    if (hasPair == 0 && gInputSlots[inputIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[inputIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

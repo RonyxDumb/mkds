@@ -1190,7 +1190,7 @@ void AdvanceSelectRaceRuleTeamInput(void) {
             noPairForFewCalls = FALSE;
             inputSlot = &gInputSlots[slotIndex];
             hasPair = inputSlot->mPair.mHasPair;
-            if (hasPair == 0 && inputSlot->mPair.mNoPairCount < 5) {
+            if (hasPair == 0 && inputSlot->mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                 noPairForFewCalls = TRUE;
             }
             if (noPairForFewCalls == FALSE && inputSlot->mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -1855,7 +1855,7 @@ void AdvanceSelectRaceRuleChoose(void) {
     noPairForFewCalls = FALSE;
     hasPairSlot = &gInputHasPairs[inputIndex];
     hasPair = gInputHasPairs[inputIndex].mHasPair;
-    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < 5) {
+    if (hasPair == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         noPairForFewCalls = TRUE;
     }
     if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && hasPair != 0) {
@@ -1879,7 +1879,7 @@ void AdvanceSelectRaceRuleChoose(void) {
         newPair = FALSE;
         noPairForFewCalls = FALSE;
         hasPair = hasPairSlot->mHasPair;
-        if (hasPair == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < 5) {
+        if (hasPair == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
             noPairForFewCalls = TRUE;
         }
         if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && hasPair != 0) {

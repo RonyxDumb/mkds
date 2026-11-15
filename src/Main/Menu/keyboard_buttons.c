@@ -534,7 +534,7 @@ void AdvanceKeyboardEnterFriendKey(void) {
     touchedRectIndex = -1;
     pairRecentlyLost = FALSE;
     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -725,7 +725,7 @@ void AdvanceKeyboardEnterName(void) {
     touchedRectIndex = -1;
     pairRecentlyLost = FALSE;
     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

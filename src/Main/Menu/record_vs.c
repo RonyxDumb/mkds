@@ -193,7 +193,7 @@ void AdvanceRecordVSBrowse(void) {
     releasedFlag = FALSE;
     touchSlot = &gInputHasPairs[inputSlotIndex];
     pressedBits = gInputHasPairs[inputSlotIndex].mHasPair;
-    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < 5) {
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         releasedFlag = TRUE;
     }
     if (releasedFlag == FALSE && pressedBits == 0) {
@@ -206,7 +206,7 @@ void AdvanceRecordVSBrowse(void) {
     pressedFlag = FALSE;
     releasedFlag = FALSE;
     pressedBits = touchSlot->mHasPair;
-    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < 5) {
+    if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         releasedFlag = TRUE;
     }
     if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPrevHasPair == 0 && pressedBits != 0) {
@@ -227,7 +227,7 @@ void AdvanceRecordVSBrowse(void) {
         pressedFlag = FALSE;
         releasedFlag = FALSE;
         pressedBits = touchSlot->mHasPair;
-        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < 5) {
+        if (pressedBits == 0 && gInputNoPairCounts[inputSlotIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
             releasedFlag = TRUE;
         }
         if (releasedFlag == FALSE && gInputPrevHasPairs[inputSlotIndex].mPrevHasPair == 0 && pressedBits != 0) {

@@ -338,7 +338,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     pairIsNew = FALSE;
     pairRecentlyGone = FALSE;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         pairRecentlyGone = TRUE;
     }
     if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -987,7 +987,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     pairIsNew = FALSE;
                     pairRecentlyGone = FALSE;
                     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-                    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+                    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                         pairRecentlyGone = TRUE;
                     }
                     if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

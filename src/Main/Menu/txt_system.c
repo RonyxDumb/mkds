@@ -428,7 +428,8 @@ static inline s32 TxtSystemIsPairNewUnlessLost(u32 inputSlotIndex) {
     BOOL result = FALSE;
     BOOL recentlyLost = FALSE;
 
-    if (gInputSlots[inputSlotIndex].mPair.mHasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[inputSlotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 &&

@@ -297,7 +297,7 @@ s32 AdvanceSelectGame(void) {
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                 pairRecentlyGone = TRUE;
             }
             if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

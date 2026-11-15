@@ -478,7 +478,7 @@ u32 SelectKartGetPairHasPair(InputSlotPair *inputSlotPair) {
 
 BOOL SelectKartIsPairRecentlyLost(InputSlotPair *pair) {
     if (SelectKartGetPairHasPair(pair) == 0) {
-        if (pair->mNoPairCount < 5) {
+        if (pair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
             return 1;
         }
     }

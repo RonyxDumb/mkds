@@ -6,7 +6,7 @@
 #pragma optimize_for_size on
 
 BOOL MultiSelectNSIsPairRecentlyLost(InputSlotPair *pair) {
-    if (MultiSelectNSGetPairHasPair(pair) == 0 && pair->mNoPairCount < 5) {
+    if (MultiSelectNSGetPairHasPair(pair) == 0 && pair->mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
         return 1;
     }
     return 0;
