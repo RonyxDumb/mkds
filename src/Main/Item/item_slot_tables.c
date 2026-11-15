@@ -269,7 +269,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
             slot->mSlotFrames++;
             mode = gRaceSetup->mMode;
             if (mode == MODE_WIFI && slot->mResultPending != FALSE) {
-                value = kartItems->mKartIndex & 0xff;
+                value = (u8) kartItems->mKartIndex;
                 if (IsParticipantSlotResultSyncing(((u8 *) gParticipantKartMap)[value]) == 0) {
                     value = GetParticipantSlotResult(((u8 *) gParticipantKartMap)[value]);
                     if (IsItemInfoObjectCountFree(value) != FALSE) {
@@ -288,7 +288,9 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
                 return FALSE;
             }
             if (slot->mSlotFrames > KART_ITEMS_SLOT_MIN_SPIN_FRAMES &&
-                (((kartItems->mFlags & 0x241) == 0x241 && mode != MODE_WIFI && slot->mIsShortSpin == FALSE) ||
+                (((kartItems->mFlags & (KART_ITEMS_START_ALLOWED | KART_ITEMS_START_USE | KART_ITEMS_SLOT)) ==
+                      (KART_ITEMS_START_ALLOWED | KART_ITEMS_START_USE | KART_ITEMS_SLOT) &&
+                  mode != MODE_WIFI && slot->mIsShortSpin == FALSE) ||
                  slot->mSlotFrames > slot->mSlotFrameCount)) {
                 slot->mSlotFrames = 0;
                 slot->mSlotState = KART_ITEMS_SLOT_SHOWING_RESULT;
@@ -562,7 +564,7 @@ void CreateItemSlotTables(void) {
                 RemapItemSlotRows(&gItemSlotCpuTable, gRaceSetup->mKartCount);
             }
             break;
-        case 5:
+        case MODE_WIFI:
             data = ComputeItemSlotTableDataEnd(data + 1);
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);

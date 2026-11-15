@@ -6,6 +6,23 @@
 #include "Main/Race/data_020f36d8.h"
 #include "Main/Kart/kart_drift.h"
 
+// Message kinds of the item data a Wi-Fi race sends (AddItemData, ProcessItemPoolMessage): the start of an object with
+// its kind's data, the start with the generic copy (0x12 bytes), an event of an object (ITEM_EVENT_*; 3 bytes), and the
+// kart an object follows.
+#define ITEM_DATA_MESSAGE_START 0
+#define ITEM_DATA_MESSAGE_START_GENERIC 1
+#define ITEM_DATA_MESSAGE_EVENT 2
+#define ITEM_DATA_MESSAGE_KART 3
+
+// Events of an item object (the low nibble of the event byte of ITEM_DATA_MESSAGE_EVENT): the fade-outs with and
+// without the kind's callback, used up and hit by a kart, then the release timer and the release.
+#define ITEM_EVENT_FADE_OUT_ENDED 0
+#define ITEM_EVENT_FADE_OUT_NO_CALLBACK 1
+#define ITEM_EVENT_FADE_OUT_USED_UP 2
+#define ITEM_EVENT_FADE_OUT_HIT_BY_KART 3
+#define ITEM_EVENT_RELEASE_TIMER 4
+#define ITEM_EVENT_RELEASE 5
+
 // Values of KartItems.mSlotState: no roulette, the spin through random items, the final scroll that lands on the
 // result.
 typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_SHOWING_RESULT } KartItemsSlotState;
@@ -35,6 +52,18 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 // Set every frame by AdvanceItemInUseOne while a single item is held in use; AddKartItemUseFlags clears it and adds the
 // end-use bit.
 #define KART_ITEMS_IN_USE_ADVANCED 0x100
+// Other bits of KartItems.mFlags, as the const words of the same names (gKartItems...Bit) set them.
+#define KART_ITEMS_SLOT 1
+#define KART_ITEMS_HELD 2
+#define KART_ITEMS_IN_USE 4
+#define KART_ITEMS_START_USE 0x40
+#define KART_ITEMS_END_USE 0x80
+#define KART_ITEMS_START_ALLOWED 0x200
+#define KART_ITEMS_KEY_DOWN 0x1000
+#define KART_ITEMS_KEY_RELEASED 0x4000
+// Free objects (ItemPool.mLimit - mReservedCount) below which UpdateItemPool releases old objects to make room.
+#define ITEM_POOL_LOW_FREE_OBJECTS 2
+
 // One item record per kart (the array behind gKartItems, 0x210 bytes each): the item roulette in the first 0x30 bytes,
 // the held item at 0x30, the item in use at 0x58, the course reference at 0x1f0, the kart index and the Kart at 0x1f8 /
 // 0x1fc and four words of use state at 0x200..0x20c. A bag named after whose item state it is: no single role. Race

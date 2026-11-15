@@ -261,7 +261,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
-        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
+        AddItemDataItemIdAndKart(ITEM_OBJECT_KIND_KOURA_R, kouraR->mKartItems->mKartIndex,
                                  kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         return;
     }
@@ -274,7 +274,7 @@ void UpdateItemKouraRSeekAfterThrow(void *stateObject) {
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
-        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
+        AddItemDataItemIdAndKart(ITEM_OBJECT_KIND_KOURA_R, kouraR->mKartItems->mKartIndex,
                                  kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
     }
 }
@@ -332,7 +332,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
-        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
+        AddItemDataItemIdAndKart(ITEM_OBJECT_KIND_KOURA_R, kouraR->mKartItems->mKartIndex,
                                  kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
         return;
     }
@@ -345,7 +345,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
         if (!(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE)) {
             return;
         }
-        AddItemDataItemIdAndKart(1, kouraR->mKartItems->mKartIndex,
+        AddItemDataItemIdAndKart(ITEM_OBJECT_KIND_KOURA_R, kouraR->mKartItems->mKartIndex,
                                  kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mId);
     }
 }

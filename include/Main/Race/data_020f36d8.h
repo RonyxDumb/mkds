@@ -81,10 +81,16 @@ extern SegmentProgress gJgSegmentProgress;
 // A resting object re-tests its hit link on the frames whose number modulo 8 equals ItemObject.mCreationNumber & this.
 #define ITEM_OBJECT_CREATION_PHASE_MASK 7
 
+// ItemObject.mScaleTargetOrSpeed and the gap of mScale.x and mScale.y below which the scale swing is at rest.
+#define ITEM_OBJECT_SCALE_SWING_REST 0x29
+
+// ItemObject.mPendingUpdateCount bit set when the object has frames to catch up.
+#define ITEM_OBJECT_PENDING_UPDATE_CATCH_UP 0x8000
+
 // Age (5 seconds) after which a resting object counts as old and may be released.
 #define ITEM_OBJECT_OLD_FRAMES 0x12c
 
-// Bits of ItemObject.mFlags. The low 12 bits are events of the current frame: UpdateItemObject clears them at its start.
+// Bits of ItemObject.mFlags. The low 12 bits are events of the current frame: UpdateItemObject clears them first.
 // Fade-out (ITEM_OBJECT_FLAG_FADING_OUT) began this frame.
 #define ITEM_OBJECT_FLAG_FADE_OUT_STARTED 0x1
 // The release timer (ITEM_OBJECT_FLAG_RELEASING) began this frame.
@@ -165,6 +171,8 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OWNER_NO_OWNER 0x8000
 // All the flag bits above; clearing them leaves the owner kart index.
 #define ITEM_OWNER_FLAGS_MASK 0xff00
+// Kart index that stands for no kart (one past the last kart): an item without an owner reads as this kart.
+#define ITEM_NO_KART_INDEX 8
 
 // Element returned through gItemPools: the first 0x12c bytes that every pool object shares; the per-kind objects
 // embed it as their first member and run from 0x12c (kinds 4, 6 and 13) to 0x31c bytes. One is also embedded in
@@ -494,7 +502,8 @@ typedef enum {
     ITEM_USE_KIND_ONE,
     ITEM_USE_KIND_ONE_WITH_ORIENTATION,
     ITEM_USE_KIND_TRAIL,
-    ITEM_USE_KIND_CIRCLE
+    ITEM_USE_KIND_CIRCLE,
+    ITEM_USE_KIND_NONE // ItemInUse.mUseKind while nothing is in use (ResetItemInUse)
 } ItemUseKind;
 
 struct ItemInUse;
@@ -592,6 +601,10 @@ typedef enum {
     ITEM_OBJECT_KIND_COUNT,
     ITEM_OBJECT_KIND_NONE
 } ItemObjectKind;
+
+// ItemKind.mLimit (objects the pool holds) of the bouncing item box in a battle and of the mushroom in a Wi-Fi race.
+#define ITEM_BATTLE_BOUNCING_ITEM_BOX_LIMIT 8
+#define ITEM_WIFI_KINOKO_LIMIT 0x20
 
 // The item a kart holds: its item index, how many are left and the objects it holds.
 // HeldItem.mObjectStartFramesLeft starts at HELD_ITEM_OBJECT_START_FRAMES and counts down; one held object leaves

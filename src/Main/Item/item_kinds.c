@@ -68,15 +68,15 @@ void CreateItemKinds(void) {
     mode = gRaceSetup->mMode;
     switch (mode) {
         case MODE_BATTLE:
-            gItemKinds[8].mLimit = 8;
+            gItemKinds[ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX].mLimit = ITEM_BATTLE_BOUNCING_ITEM_BOX_LIMIT;
             break;
         case MODE_MISSION_RUN:
-            for (limitKindIndex = 0; limitKindIndex < 0xe; limitKindIndex++) {
+            for (limitKindIndex = 0; limitKindIndex < ITEM_OBJECT_KIND_COUNT; limitKindIndex++) {
                 gItemKinds[limitKindIndex].mLimit = gItemKinds[limitKindIndex].mMissionRunLimit;
             }
             break;
-        case 5:
-            gItemKinds[3].mLimit = 0x20;
+        case MODE_WIFI:
+            gItemKinds[ITEM_OBJECT_KIND_KINOKO].mLimit = ITEM_WIFI_KINOKO_LIMIT;
             break;
     }
 }

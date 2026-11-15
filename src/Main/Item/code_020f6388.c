@@ -301,7 +301,7 @@ void StartItemObjectReleaseTimerSynced(ItemObject *item, s32 sendEvent) {
     if (sendEvent == 0) {
         return;
     }
-    AddItemDataItemIdAndParts(item->mKind, 4, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, ITEM_EVENT_RELEASE_TIMER, 8, item->mId);
 }
 
 void StartItemObjectReleaseTimer(ItemObject *item) {
@@ -379,7 +379,7 @@ void StartItemObjectReleaseSynced(ItemObject *item, s32 sendEvent) {
     if (sendEvent == 0) {
         return;
     }
-    AddItemDataItemIdAndParts(item->mKind, 5, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, ITEM_EVENT_RELEASE, 8, item->mId);
 }
 
 void StartItemObjectRelease(ItemObject *item) {
@@ -488,7 +488,7 @@ void FadeOutEndedItemObject(ItemObject *item, s32 sendEvent) {
     if (sendEvent == 0) {
         return;
     }
-    AddItemDataItemIdAndParts(item->mKind, 0, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, ITEM_EVENT_FADE_OUT_ENDED, 8, item->mId);
 }
 
 void ReplayPendingFadeOut(ItemObject *item) {
@@ -509,7 +509,7 @@ void FadeOutItemObjectNoCallback(ItemObject *item, s32 sendEvent) {
     if (sendEvent == 0) {
         return;
     }
-    AddItemDataItemIdAndParts(item->mKind, 1, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, ITEM_EVENT_FADE_OUT_NO_CALLBACK, 8, item->mId);
 }
 
 void ReplayPendingNoCallbackFadeOut(ItemObject *item) {
@@ -537,7 +537,7 @@ void FadeOutUsedUpItemObject(ItemObject *item, s32 sendEvent) {
     if (item->mKind == ITEM_OBJECT_KIND_KOURA_W) {
         return;
     }
-    AddItemDataItemIdAndParts(item->mKind, 2, 8, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, ITEM_EVENT_FADE_OUT_USED_UP, 8, item->mId);
 }
 
 void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
@@ -561,7 +561,7 @@ void FadeOutItemObjectHitByKart(ItemObject *item, s32 sendEvent, s32 highPart) {
     if (item->mKind == ITEM_OBJECT_KIND_KOURA_W) {
         return;
     }
-    AddItemDataItemIdAndParts(item->mKind, 3, highPart, item->mId);
+    AddItemDataItemIdAndParts(item->mKind, ITEM_EVENT_FADE_OUT_HIT_BY_KART, highPart, item->mId);
 }
 
 void AdvanceItemObjectFadeOut(ItemObject *item) {

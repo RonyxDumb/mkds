@@ -15,8 +15,30 @@ typedef struct ItemTeresa ItemTeresa;
 // taken that was none or that nobody held.
 #define ITEM_TERESA_KIND_EMPTY ITEM_OBJECT_KIND_COUNT
 #define ITEM_TERESA_KIND_TOOK_NOTHING ITEM_OBJECT_KIND_NONE
-// Value of ItemTeresa.mTakenItemInfoIndex and mGivenItemInfoIndex while no item has arrived (the count is -1).
+// Value of ItemTeresa.mTakenItemInfoIndex and mGivenItemInfoIndex while no item has arrived; the count is
+// ITEM_TERESA_COUNT_NOT_RECEIVED then.
 #define ITEM_TERESA_NOT_RECEIVED ITEM_INFO_COUNT
+#define ITEM_TERESA_COUNT_NOT_RECEIVED 0xffffffff
+// ItemTeresa.mPendingPickedKartIndex while no picked kart was received.
+#define ITEM_TERESA_NO_PENDING_PICK 0xffffffff
+// Selector of the Teresa packets (SetItemTeresaFromPacket, the third byte AddItemDataItemIdAndBytes sends): the picked
+// kart, the state the sender reports, the item taken from the picked kart (item index * 4 + count), and the item given
+// back.
+#define ITEM_TERESA_PACKET_PICKED_KART 0
+#define ITEM_TERESA_PACKET_STATE 1
+#define ITEM_TERESA_PACKET_TAKEN_ITEM 2
+#define ITEM_TERESA_PACKET_GIVEN_ITEM 3
+// Points of the path the Boo follows when it took nothing, and the index it starts from.
+#define ITEM_TERESA_PATH_POINT_COUNT 11
+#define ITEM_TERESA_PATH_START_INDEX 3
+// State frames: the frame of the take-item state at which the item is taken, the frames of the fade-in at the picked
+// kart after which a Boo without a picked kart gives up, and the frames the Boo may stall waiting for the taken item.
+#define ITEM_TERESA_TAKE_ITEM_FRAME 0x12
+#define ITEM_TERESA_NO_PICK_LIMIT_FRAMES 0x6e
+#define ITEM_TERESA_STALL_LIMIT_FRAMES 0x3c
+// ItemTeresa.mOffsetAccelerationY after the item was taken, going down and then going up.
+#define ITEM_TERESA_TAKE_DROP_ACCELERATION (-0x1ae)
+#define ITEM_TERESA_TAKE_RISE_ACCELERATION 0x133
 
 // Values of the ItemTeresa state machine states, which gItemTeresaStateTable follows, and so of
 // ItemTeresa.mReportedState. FINISHED is the value after the last state; NONE means nothing reported yet.
@@ -52,7 +74,7 @@ void EnterItemTeresaWaitDelay(void *stateObject);
 void UpdateItemTeresaTakeItem(void *stateObject);
 
 // ItemTeresa.mPickedKartIndex while no kart is picked (one past the last kart index).
-#define ITEM_TERESA_NO_KART 8
+#define ITEM_TERESA_NO_KART ITEM_NO_KART_INDEX
 
 // Object of item kind 11, element of gItemPools[11].
 typedef struct ItemTeresa {

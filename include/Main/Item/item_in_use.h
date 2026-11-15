@@ -117,6 +117,12 @@ typedef struct KartModelsEntry {
 // an item thrown backwards from a hop is moved back from the kart.
 #define ITEM_THROW_RANDOM_SPREAD_KART_SPEED 0x3000
 #define ITEM_THROW_HOP_OFFSET_KART_SPEED 0x2000
+// ItemInUse.mCircleAngleSpeed at the start of a circle item, its limit and its per-frame increase.
+#define ITEM_IN_USE_CIRCLE_START_SPEED 0x258
+#define ITEM_IN_USE_CIRCLE_MAX_SPEED 0x578
+#define ITEM_IN_USE_CIRCLE_SPEED_STEP 0x46
+// Age (frames) of the first object of an item in use after which its scale grows.
+#define ITEM_IN_USE_OBJECT_GROW_AGE 0xc
 // Start value and per-frame decrease of ItemInUse.mKartMovementWeights.
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_START 0xee1
 #define ITEM_IN_USE_MOVEMENT_WEIGHT_DECREASE 0x3d

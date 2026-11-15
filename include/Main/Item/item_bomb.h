@@ -37,6 +37,33 @@ void ParkItemBombMapObject(ItemBomb *bomb);
 
 struct ModelEffect;
 
+// ItemBomb.mTimer counts down to the explosion. It starts at ITEM_BOMB_FUSE_FRAMES, at the short value for a bomb
+// dropped with the down key or one that starts falling, and at the throw's timer for a thrown bomb. A bomb that waits
+// for its end block timer gets the end-block value at 0; the bomb flashes below the flash start; the last frames hold
+// the final value and flash value; the map object is disabled in the last frames.
+#define ITEM_BOMB_FUSE_FRAMES 300
+#define ITEM_BOMB_SHORT_FUSE_FRAMES 0x5a
+#define ITEM_BOMB_END_BLOCK_FUSE_FRAMES 0x10
+#define ITEM_BOMB_FLASH_START_FRAMES 0xd2
+#define ITEM_BOMB_FINAL_FUSE_FRAMES 4
+#define ITEM_BOMB_FINAL_FLASH_FRAMES 3
+#define ITEM_BOMB_MAP_OBJECT_DISABLE_FRAMES 0x10
+// Frames after a rest request during which the timer cannot end (ItemBomb.mTimerEndBlockTimer).
+#define ITEM_BOMB_END_BLOCK_FRAMES 0x10e
+// ItemBomb.mModelFrameTimer: the flashing model shows its second frame below ITEM_BOMB_FLASH_SHOWN_FRAMES; the timer
+// restarts from a quarter of mTimer but never below ITEM_BOMB_FLASH_MIN_PERIOD.
+#define ITEM_BOMB_FLASH_SHOWN_FRAMES 6
+#define ITEM_BOMB_FLASH_MIN_PERIOD 8
+// Bounces a thrown bomb and a dropped bomb make; the bomb looks for the nearest kart after them.
+#define ITEM_BOMB_THROWN_BOUNCES 3
+#define ITEM_BOMB_DROPPED_BOUNCES 2
+// ItemBomb.mNearestKartDistanceSquared before a kart is found, and the value below which it is measured again from the
+// kart already found.
+#define ITEM_BOMB_NO_KART_DISTANCE_SQUARED 0x5f592e1
+#define ITEM_BOMB_NEAREST_REMEASURE_DISTANCE_SQUARED 8
+// Largest ItemBomb.mReflectFactor.
+#define ITEM_BOMB_MAX_REFLECT_FACTOR 0xccd
+
 // Object of item kind 9, element of gItemPools[9].
 typedef struct ItemBomb {
     /* 000 */ BouncingItemObject mBouncingItemObject;

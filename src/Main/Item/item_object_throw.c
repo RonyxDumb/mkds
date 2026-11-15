@@ -69,7 +69,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
     object->mReflectsOnHit = TRUE;
     object->mPushOutMode = pushOutMode;
-    object->mCollisionQueryFlags = 4;
+    object->mCollisionQueryFlags = COURSE_QUERY_SKIP_TAGGED_TRIANGLES;
 }
 
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {

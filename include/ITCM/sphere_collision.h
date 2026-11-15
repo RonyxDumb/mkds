@@ -35,6 +35,9 @@ typedef struct CourseCollision {
     /* 38 */ u8 mUnk_38[4];
 } CourseCollision;
 
+// Bit of the queryFlags argument of CollideSphereWithCourse: skip the triangles whose hit value has bit 0x2000.
+#define COURSE_QUERY_SKIP_TAGGED_TRIANGLES 4
+
 // Groups of bits in the collision bits CollideSphereWithCourse stores.
 // Floor hits (the bits the kart code reads as the ground attribute).
 #define COURSE_HIT_GROUND 0x1e34ef

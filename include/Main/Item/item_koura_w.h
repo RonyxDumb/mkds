@@ -40,6 +40,30 @@ typedef struct DirectionQuaternion {
     /* 1c */ u8 mUnk_1c[4];
 } DirectionQuaternion;
 
+// Sound ids of ItemKouraW.mSoundId: the one set at reset, and the one the entry kart's shell takes when it starts
+// to steer to its target.
+#define ITEM_KOURA_W_SOUND_ID_DEFAULT 0xdc
+#define ITEM_KOURA_W_SOUND_ID_ENTRY_STEERING 0xdd
+// ItemKouraW.mSpeed at reset, the speed the following and steering states move it toward (by the step each frame),
+// and its value when the rise starts.
+#define ITEM_KOURA_W_START_SPEED 0x1a000
+#define ITEM_KOURA_W_CRUISE_SPEED 0xd000
+#define ITEM_KOURA_W_SPEED_STEP 0xccd
+#define ITEM_KOURA_W_RISE_START_SPEED 0x3000
+// ItemKouraW.mLift at reset, at the start of the rise and fall, and where the rise ends.
+#define ITEM_KOURA_W_START_LIFT 0x32000
+#define ITEM_KOURA_W_HOVER_LIFT 0x28000
+#define ITEM_KOURA_W_RISE_LIFT_LIMIT 0x2d000
+// ItemKouraW.mAngleStep when the circling starts, and the circle angles (65536 is a full turn): the first half turn
+// and the end of the part where the shell follows the course normal.
+#define ITEM_KOURA_W_CIRCLE_START_ANGLE_STEP 0x3e8
+#define ITEM_KOURA_W_CIRCLE_HALF_ANGLE 0x8000
+#define ITEM_KOURA_W_CIRCLE_NORMAL_END_ANGLE 0x11f40
+// State frame of the pick-target state at which the shell starts its position strip, and the state frame after which
+// it stops looking for a target.
+#define ITEM_KOURA_W_POS_STRIP_FRAME 8
+#define ITEM_KOURA_W_PICK_TARGET_LIMIT_FRAMES 0xa8c
+
 // Object of item kind 5, element of gItemPools[5].
 typedef struct ItemKouraW {
     /* 000 */ LinkFollowingItemObject mLinkFollowingItemObject;
