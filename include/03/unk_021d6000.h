@@ -7,11 +7,6 @@
 
 typedef struct Rect Rect;
 
-// Seven bytes moved as one value.
-typedef struct Bytes7 {
-    /* 0 */ u8 mBytes[7];
-} Bytes7;
-
 // Entry of gApObjectPositions, two halfwords.
 typedef struct ApObjectPosition {
     /* 0 */ u16 mX;

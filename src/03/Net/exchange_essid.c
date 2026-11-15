@@ -371,7 +371,7 @@ const u32 gReversedTableByte2[256] = {
 u32 gThreadStackSize = 0x800;
 s32 gStartEntryCount = 0x40;
 s32 gTimeoutAtMs = -1;
-Bytes7 gKind2Item3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
+Kind2Item3 gKind2Item3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
 char gSixAsterisksString[7] = "******";
 u8 gHashPadding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -384,7 +384,7 @@ OSThread gExchangeThread;
 char gSelectedEntryName[36];
 u8 gExchangeSearchEssidBytes[0x20];
 u8 gSecondKeyHashedPart[24];
-Bytes8 gSecondKeyReceivedPart;
+SecondKeyPart gSecondKeyReceivedPart;
 
 void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
     if (message == NULL) {
@@ -1409,7 +1409,7 @@ s32 BuildSingleItemBody(u8 *out, u32 type, const void *value, u32 length) {
 
 typedef struct Kind2Values {
     /* 0 */ u16 mHalfword;
-    /* 2 */ Bytes7 mSevenBytes;
+    /* 2 */ Kind2Item3 mSevenBytes;
 } Kind2Values;
 
 BOOL ParseAndCheckExchangePacketKind1(const u8 *packet, u32 *item5Flag) {
@@ -1702,7 +1702,7 @@ s32 FillExchangeResultFromKind5Data(void) {
                         break;
                     case 5:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_5;
-                        *(Bytes5 *) resultBytes = *(Bytes5 *) valueText;
+                        *(WepKey5 *) resultBytes = *(WepKey5 *) valueText;
                         break;
                     case 10:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_5;
@@ -1710,7 +1710,7 @@ s32 FillExchangeResultFromKind5Data(void) {
                         break;
                     case 13:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_13;
-                        *(Bytes13 *) resultBytes = *(Bytes13 *) valueText;
+                        *(WepKey13 *) resultBytes = *(WepKey13 *) valueText;
                         break;
                     case 26:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_13;
@@ -1718,7 +1718,7 @@ s32 FillExchangeResultFromKind5Data(void) {
                         break;
                     case 16:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_16;
-                        *(Bytes16 *) resultBytes = *(Bytes16 *) valueText;
+                        *(WepKey16 *) resultBytes = *(WepKey16 *) valueText;
                         break;
                     case 32:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_VALUES_16;
@@ -1846,7 +1846,7 @@ s32 RunExchange(void) {
                     value = ReadFirstItem(gBodyBuffer, &itemType, &itemLength);
                     if (itemType == 0x101) {
                         now = GetTickMilliseconds();
-                        gSecondKeyReceivedPart = *(Bytes8 *) value;
+                        gSecondKeyReceivedPart = *(SecondKeyPart *) value;
                         ComputeHash(gSecondKeyHashedPart, (const u8 *) &now, 4);
                         retryCount = 0;
                         gExchangeState = 7;

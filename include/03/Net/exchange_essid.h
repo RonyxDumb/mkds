@@ -20,18 +20,28 @@ typedef struct HashContext {
     /* 18 */ u8 mBuffer[0x40];
 } HashContext;
 
-// Five, thirteen and sixteen bytes moved as one value.
-typedef struct Bytes5 {
+// Value of item 3 of the kind 2 packet.
+typedef struct Kind2Item3 {
+    /* 0 */ u8 mBytes[7];
+} Kind2Item3;
+
+// The eight bytes the peer sends for the second key.
+typedef struct SecondKeyPart {
+    /* 0 */ u8 mBytes[8];
+} SecondKeyPart;
+
+// The five, thirteen and sixteen byte WEP keys of an exchanged entry.
+typedef struct WepKey5 {
     /* 0 */ u8 mBytes[5];
-} Bytes5;
+} WepKey5;
 
-typedef struct Bytes13 {
+typedef struct WepKey13 {
     /* 0 */ u8 mBytes[13];
-} Bytes13;
+} WepKey13;
 
-typedef struct Bytes16 {
+typedef struct WepKey16 {
     /* 0 */ u8 mBytes[16];
-} Bytes16;
+} WepKey16;
 
 #include "03/unk_021d8000.h"
 #include "00/Lib/DWC/code_0218a064.h"
@@ -141,7 +151,7 @@ extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
 extern s32 gStartEntryCount;
 extern char gSixAsterisksString[7];
-extern Bytes7 gKind2Item3Bytes;
+extern Kind2Item3 gKind2Item3Bytes;
 extern u8 gHashPadding[64];
 extern u8 gPacketBuffer[0x800];
 extern u8 gBodyBuffer[0x800];
@@ -151,4 +161,4 @@ extern OSThread gExchangeThread;
 extern char gSelectedEntryName[36];
 extern u8 gExchangeSearchEssidBytes[0x20];
 extern u8 gSecondKeyHashedPart[24];
-extern Bytes8 gSecondKeyReceivedPart;
+extern SecondKeyPart gSecondKeyReceivedPart;

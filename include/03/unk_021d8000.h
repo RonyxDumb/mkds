@@ -12,11 +12,6 @@ typedef struct MacAddress {
     /* 0 */ u8 mBytes[6];
 } MacAddress;
 
-// Eight bytes moved as one value.
-typedef struct Bytes8 {
-    /* 0 */ u8 mBytes[8];
-} Bytes8;
-
 // 0x40 bytes moved as one value.
 typedef struct Words16 {
     /* 0 */ u32 mWords[16];
