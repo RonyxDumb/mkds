@@ -15,7 +15,7 @@ void *WiFiSessionHeapAlloc(u32 unused, u32 size, s32 alignment) {
     return memory;
 }
 
-void WiFiSessionHeapFree(u32 unused, void *memory) {
+void WiFiSessionHeapFree(u32 unused, void *memory, u32 unusedSize) {
     u32 enabled;
 
     if (memory == NULL) {

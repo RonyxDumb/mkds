@@ -103,7 +103,7 @@ void DWCi_ShutdownLogin(void) {
     if (gWiFiLogin->mHttp != NULL) {
         DWC_Auth_Abort();
         DWC_Auth_Destroy();
-        DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
+        DWC_Free(0, gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
     }
     *(s32 *) &gWiFiLogin = 0;
@@ -256,7 +256,7 @@ void DWCi_RemoteLoginProcess(void) {
         strcpy(gWiFiLogin->mAuthToken, authResult.mToken);
         strcpy(gWiFiLogin->mPartnerChallenge, authResult.mChallenge);
         DWC_Auth_Destroy();
-        DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
+        DWC_Free(0, gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
         if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUserData) != 0) {
             stRemoteAuthCallback(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, pStRemoteAuthParam);
@@ -268,7 +268,7 @@ void DWCi_RemoteLoginProcess(void) {
         if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
             DWC_Auth_GetResult(&failedAuthResult.mReturnCode);
             DWC_Auth_Destroy();
-            DWC_Free(0, (u32) gWiFiLogin->mHttp, 0);
+            DWC_Free(0, gWiFiLogin->mHttp, 0);
             gWiFiLogin->mHttp = NULL;
             DWCi_StopLogin(2, failedAuthResult.mReturnCode);
         } else {

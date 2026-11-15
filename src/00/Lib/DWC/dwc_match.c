@@ -117,7 +117,7 @@ u32 DWC_AddMatchKeyInt(u32 keyId, char *keyString, void *valueSrc) {
     gMatchingKeys[index].mIsString = 0;
     gMatchingKeys[index].mPad = 0;
     if (gMatchingKeys[index].mString != NULL) {
-        DWC_Free(4, (u32) gMatchingKeys[index].mString, 0);
+        DWC_Free(4, gMatchingKeys[index].mString, 0);
     }
     gMatchingKeys[index].mString = DWC_Alloc(4, strlen(keyString) + 1);
     if (gMatchingKeys[index].mString == NULL) {
@@ -150,7 +150,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
     gMatchingKeys[index].mIsString = 1;
     gMatchingKeys[index].mPad = 0;
     if (gMatchingKeys[index].mString != NULL) {
-        DWC_Free(4, (u32) gMatchingKeys[index].mString, 0);
+        DWC_Free(4, gMatchingKeys[index].mString, 0);
     }
     gMatchingKeys[index].mString = DWC_Alloc(4, strlen(keyString) + 1);
     if (gMatchingKeys[index].mString == NULL) {
@@ -311,7 +311,7 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, u32 matched
     char filterText[0x100];
     s32 filterRoom;
     if (gMatchingFilterText != NULL) {
-        DWC_Free(4, (u32) gMatchingFilterText, 0);
+        DWC_Free(4, gMatchingFilterText, 0);
         gMatchingFilterText = NULL;
     }
     if (addFilter != NULL) {
@@ -1054,12 +1054,12 @@ u32 DWCi_GPSetServerStatus(void) {
 void DWCi_ShutdownMatch(void) {
     gWiFiMatching = NULL;
     if (gMatchingFilterText != NULL) {
-        DWC_Free(4, (u32) gMatchingFilterText, 0);
+        DWC_Free(4, gMatchingFilterText, 0);
         gMatchingFilterText = NULL;
     }
     DWCi_ClearGameMatchKeys();
     if (gOptMinComp != NULL) {
-        DWC_Free(4, (u32) gOptMinComp, 0);
+        DWC_Free(4, gOptMinComp, 0);
         gOptMinComp = NULL;
     }
     gOptSCBlock.mValid = 0;
@@ -1182,7 +1182,7 @@ void DWCi_CloseMatching(void) {
         NNFreeNegotiateList();
         gWiFiMatching->mState = WIFI_MATCH_STATE_IDLE;
         if (gMatchingFilterText != NULL) {
-            DWC_Free(4, (u32) gMatchingFilterText, 0);
+            DWC_Free(4, gMatchingFilterText, 0);
             gMatchingFilterText = NULL;
         }
         DWCi_ClearGameMatchKeys();
@@ -2825,7 +2825,7 @@ void DWCi_ClearGameMatchKeys(void) {
     matchingKey = gMatchingKeys;
     for (; keyIndex < 0x9a; keyIndex++) {
         if (matchingKey->mString != NULL) {
-            DWC_Free(4, (u32) matchingKey->mString, 0);
+            DWC_Free(4, matchingKey->mString, 0);
         }
         matchingKey++;
     }
