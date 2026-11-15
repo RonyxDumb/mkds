@@ -159,7 +159,7 @@ void SetUnusedCallback(MissionRunMapObject *mapObject, MapObjectCallback callbac
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
-    mapObject->mUnk_230 = callback;
+    mapObject->mUnusedCallback = callback;
 }
 
 void SetPointInRangePoint(MissionRunMapObject *mapObject, Vec3 *point) {

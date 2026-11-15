@@ -837,7 +837,7 @@ typedef struct MissionRunMapObject {
     /* 224 */ MapObjectCallback mOutOfRangeCallback;
     /* 228 */ MapObjectCallback mStoppedCallback;
     /* 22c */ MapObjectCallback mCourseCollisionCallback;
-    /* 230 */ MapObjectCallback mUnk_230;
+    /* 230 */ MapObjectCallback mUnusedCallback;
     /* 234 */ s32 mCollisionShape;
     /* 238 */ Vec3 mPosWithOffset;
     /* 244 */ Vec3 mOffset;
