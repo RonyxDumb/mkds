@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
-#include "Main/MapObjects/quaternion_math.h" // Quaternion
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h" // Quaternion
 #include "Main/Sound/sound_distance_squared_change.h" // SoundStartParams
 #include "Main/MapObjects/wanwan.h" // Wanwan
 #include "Main/Kart/shadow_model.h"

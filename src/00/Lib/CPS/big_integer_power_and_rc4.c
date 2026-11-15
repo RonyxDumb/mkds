@@ -4,7 +4,7 @@
 #include "00/Lib/CPS/big_integer_add_subtract.h"
 #include "00/Lib/CPS/big_integer_digit_count.h"
 #include "00/Lib/CPS/stack_globals.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "string.h"
 #include "print_memory_multibyte_write.h"
 #include "cpu_copy_fill.h"

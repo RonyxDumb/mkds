@@ -5,7 +5,7 @@
 #include "Main/Kart/kart_effects.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "model_material_set.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "animation_lookup.h"
 #include "matrix_3x3_basic.h"
 #include "matrix_4x3_basic.h"

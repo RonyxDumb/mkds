@@ -2,7 +2,7 @@
 
 #include "reset_interrupts_halt.h"
 #include "tick_counter.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "animation_lookup.h"
 #include "fixed_vector_math.h"
 #include "system_state_globals.h"

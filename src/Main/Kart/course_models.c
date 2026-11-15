@@ -18,7 +18,7 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "model_material_set.h"
 #include "animation_lookup.h"
 #include "Main/Graphics/model_animation_loop_mode.h"

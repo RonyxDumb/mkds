@@ -8,7 +8,7 @@
 #include "ITCM/kart_motion.h"
 #include "ITCM/collision_slots.h"
 #include "Main/Race/race.h"
-#include "Main/Kart/kart_absolute_value.h"
+#include "Main/Kart/kart_nop_and_absolute_value.h"
 #include "Main/Kart/kart_ai.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/MapObjects/map_objects_get.h"

@@ -214,7 +214,7 @@ src/01/Menu/record_gpx.c:
     .bss        start:0x021a9bb8 end:0x021a9bbc
 
 // provisional: file name and boundaries
-src/01/Menu/record_gpx_cell_tables.c:
+src/01/Menu/record_gpx_setup_and_index.c:
     complete
     .text       start:0x02194a30 end:0x021956bc
     .rodata     start:0x021a6664 end:0x021a67a0

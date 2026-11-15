@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 
 void NNSi_G3dGetJointScaleBasic(NNSG3dJntAnmResult *pResult, const s32 *scale, const u8 *cmd, u32 srtflag);
 void NNSi_G3dSendJointSRTBasic(const NNSG3dJntAnmResult *result);

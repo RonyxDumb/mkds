@@ -1,7 +1,7 @@
 #include "ITCM/g3d_texture_matrix.h"
 #include "ITCM/g3d_draw_and_irq_handler.h"
 #include "ITCM/kart_ground_contact.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "fixed_vector_math.h"
 
 #pragma opt_arithtransformation off

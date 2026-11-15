@@ -4,7 +4,7 @@
 #include "Main/MapObjects/attractor.h" // MapObjectList
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/group_follower_advance.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 
 #define WANWAN_HIT_FRAMES 0x78
 #define WANWAN_ROAM_START_FRAMES 0x40

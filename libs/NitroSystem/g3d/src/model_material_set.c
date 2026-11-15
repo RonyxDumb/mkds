@@ -1,6 +1,6 @@
 #include "model_material_set.h"
 #include "texture_resource_type.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "model_texture_bind.h"
 #include "texture_vram_load.h"
 #include "geometry_engine_setup.h"

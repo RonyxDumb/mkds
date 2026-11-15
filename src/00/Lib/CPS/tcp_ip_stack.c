@@ -12,7 +12,7 @@
 #include "string.h"
 #include "print_memory_multibyte_write.h"
 #include "signed_int_divide.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "00/Lib/NitroWiFi/access_point_list.h"
 #include "00/Lib/NitroWiFi/wifi_stack_bridge.h"
 #include "00/Lib/NitroWiFi/dns_resolver_setting.h"

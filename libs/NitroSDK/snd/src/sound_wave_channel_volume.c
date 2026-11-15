@@ -1,6 +1,6 @@
 #include "sound_wave_channel_volume.h"
 #include "sound_init_and_mutex.h"
-#include "snd_color_mask_tables.h"
+#include "color_mask_tables.h"
 
 const s16 gVolumeDecibelTable[128] = {
     -723, -421, -361, -325, -300, -281, -265, -252, -240, -230, -221, -212, -205, -198, -192, -186, -180, -175, -170,

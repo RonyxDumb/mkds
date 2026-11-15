@@ -9,7 +9,7 @@
 #include "tick_counter.h"
 #include "reset_interrupts_halt.h"
 #include "cpu_copy_fill.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "narrow_string_functions.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "string.h"

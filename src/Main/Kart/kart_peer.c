@@ -30,7 +30,7 @@
 #include "Main/Kart/kart_reset.h"
 #include "Main/Kart/kart_models_entry.h"
 #include "Main/Item/item_in_use.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Course/course_color_blend.h"
 #include "Main/Kart/kart_ai_staff_roll_advance.h"

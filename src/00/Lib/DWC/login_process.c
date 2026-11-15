@@ -14,7 +14,7 @@
 #include "00/Lib/DWC/match_init.h"
 #include "tick_counter.h"
 #include "signed_int_divide.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "narrow_string_functions.h"
 #include "cpu_copy_fill.h"
 #include "friend_data_account_fields.h"

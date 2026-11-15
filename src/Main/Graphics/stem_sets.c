@@ -26,7 +26,7 @@
 #include "system_state_globals.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "animation_lookup.h"
 #include "print_memory_multibyte_write.h"
 #include "matrix_3x3_basic.h"

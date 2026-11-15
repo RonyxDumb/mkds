@@ -20,7 +20,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
-#include "01/Menu/record_gpx_cell_tables.h"
+#include "01/Menu/record_gpx_setup_and_index.h"
 
 const u16 gRecordGpxCharacterPaletteSlots[4] = {3, 4, 5, 6};
 const u16 gRecordGpxKartPaletteSlots[4] = {7, 8, 9, 0xa};

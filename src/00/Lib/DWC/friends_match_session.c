@@ -11,7 +11,7 @@
 #include "00/Lib/DWC/access_point_manager.h"
 #include "00/Lib/GameSpy/protocol_messages.h"
 #include "00/Lib/GameSpy/socket_accessors.h"
-#include "00/Lib/DWC/match_messaging.h"
+#include "00/Lib/DWC/match_send_and_key_value_strings.h"
 #include "00/Lib/GameSpy/connection_control.h"
 #include "00/Lib/DWC/match_init.h"
 #include "cpu_copy_fill.h"

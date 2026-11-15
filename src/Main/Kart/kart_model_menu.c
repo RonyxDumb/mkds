@@ -4,7 +4,7 @@
 #include "Main/Save/backup_reset.h"
 #include "Main/System/thread_function_queue.h"
 #include "Main/Save/buddy_record_time.h"
-#include "Main/Kart/kart_absolute_value.h"
+#include "Main/Kart/kart_nop_and_absolute_value.h"
 #include "Main/Kart/camera_shake.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"

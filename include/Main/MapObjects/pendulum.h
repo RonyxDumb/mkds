@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "animation_object_calc.h"
-#include "Main/MapObjects/quaternion_math.h" // Quaternion
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/ob_pakkun_sf.h"

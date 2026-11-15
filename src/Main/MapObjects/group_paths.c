@@ -11,7 +11,7 @@
 
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/System/heap.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/System/heap_call.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Course/course_map_group_entry.h"

@@ -16,7 +16,7 @@
 #include "00/Lib/NitroWiFi/socket_shutdown_all.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "narrow_string_functions.h"
-#include "decimal_digit_arith.h"
+#include "decimal_digit_arith_string_compare.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/dynamic_array.h"
 #include "00/Lib/GameSpy/error_set.h"

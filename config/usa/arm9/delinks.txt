@@ -50,7 +50,7 @@ src/Main/Menu/logo_check_dwc_init_enter_nop.c:
     .text       start:0x02001290 end:0x02001294
 
 // provisional: file name and boundaries
-src/Main/Menu/logo_wait_backup_read.c:
+src/Main/Menu/logo_backup_read_and_reset.c:
     complete
     .text       start:0x02001294 end:0x020019ac
 
@@ -329,7 +329,7 @@ libs/NitroSystem/g3d/src/render_object_resources.c:
     .text       start:0x020107e4 end:0x02010c84
 
 // provisional: file name and boundaries
-libs/NitroSystem/g3d/src/model_draw_blend_state.c:
+libs/NitroSystem/g3d/src/model_draw_state.c:
     complete
     .text       start:0x02010c84 end:0x02012b20
     .data       start:0x021617d0 end:0x02161844
@@ -1857,7 +1857,7 @@ src/Main/Kart/kart_resources.c:
     .bss        start:0x0217abf0 end:0x0217ac70
 
 // provisional: file name and boundaries
-src/Main/Kart/kart_absolute_value.c:
+src/Main/Kart/kart_nop_and_absolute_value.c:
     complete
     .text       start:0x020738f4 end:0x02073904
     .bss        start:0x0217ac70 end:0x0217ac74
@@ -3302,7 +3302,7 @@ src/Main/MapObjects/rock_kind_data.c:
     .rodata     start:0x02156adc end:0x02156b1c
 
 // provisional: file name and boundaries
-src/Main/MapObjects/quaternion_math.c:
+src/Main/MapObjects/map_object_response_and_quaternion_math.c:
     complete
     .text       start:0x020d6910 end:0x020d7d80
 
@@ -3843,7 +3843,7 @@ src/Main/Item/item_thunder.c:
     .rodata     start:0x02159aa0 end:0x02159b64
 
 // provisional: file name and boundaries
-src/Main/Item/item_object_hit_release_fade.c:
+src/Main/Item/item_object_bounce_hit_release_fade.c:
     complete
     .text       start:0x020f6388 end:0x020f7ec8
     .rodata     start:0x02159b64 end:0x02159c3c
@@ -4641,7 +4641,7 @@ libs/NitroSystem/snd/src/sound_fader_init.c:
     .text       start:0x0212f864 end:0x0212f884
 
 // provisional: file name and boundaries
-libs/mathlib/src/double_add.s:
+libs/mathlib/src/double_add_and_to_float.s:
     complete
     .text       start:0x0212f884 end:0x02130198
 
@@ -4661,7 +4661,7 @@ libs/mathlib/src/double_square_root.c:
     .text       start:0x02130a70 end:0x02130cb4
 
 // provisional: file name and boundaries
-libs/mathlib/src/double_subtract.s:
+libs/mathlib/src/double_subtract_float_add.s:
     complete
     .text       start:0x02130cb4 end:0x02131694
 
@@ -4676,12 +4676,12 @@ libs/mathlib/src/float_to_double.c:
     .text       start:0x02132200 end:0x021322c8
 
 // provisional: file name and boundaries
-libs/mathlib/src/float_int_convert.s:
+libs/mathlib/src/float_int_convert_multiply.s:
     complete
     .text       start:0x021322c8 end:0x021329f8
 
 // provisional: file name and boundaries
-libs/mathlib/src/float_subtract.s:
+libs/mathlib/src/float_subtract_int64_muldiv.s:
     complete
     .text       start:0x021329f8 end:0x02133068
 
@@ -4816,7 +4816,7 @@ libs/msl/src/double_digits_math_functions.c:
     .data       start:0x0216ef10 end:0x0216ef78
 
 // provisional: file name and boundaries
-libs/msl/src/decimal_digit_arith.c:
+libs/msl/src/decimal_digit_arith_string_compare.c:
     complete
     .text       start:0x0214177c end:0x021423e4
     .data       start:0x0216ef78 end:0x0216f04c

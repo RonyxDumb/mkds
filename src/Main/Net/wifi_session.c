@@ -4,7 +4,7 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/DWC/data_transport.h"
-#include "00/Lib/DWC/match_messaging.h"
+#include "00/Lib/DWC/match_send_and_key_value_strings.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record.h"
 #include "Main/Net/wi_fi_session_step.h"

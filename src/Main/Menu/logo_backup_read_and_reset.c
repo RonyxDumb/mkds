@@ -1,4 +1,4 @@
-#include "Main/Menu/logo_wait_backup_read.h"
+#include "Main/Menu/logo_backup_read_and_reset.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Save/backup_reset.h"
 #include "Main/Sound/sound_seq.h"

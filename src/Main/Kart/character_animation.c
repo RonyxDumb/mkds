@@ -1,6 +1,6 @@
 #include "Main/Kart/character_animation.h"
 #include "Main/Item/item_in_use.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "Main/Kart/karts.h"
 #include "Main/Graphics/model_animation_loop_mode.h"
 #include "Main/Graphics/model_animation.h"

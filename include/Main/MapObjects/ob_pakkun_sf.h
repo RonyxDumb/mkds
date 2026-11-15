@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/MapObjects/quaternion_math.h" // Quaternion
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h" // Quaternion
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList, MapObjectKindData
 #include "Main/MapObjects/map_object_draw_list_flags.h" // MapObjectDrawList
 #include "Main/MapObjects/pushed_motion.h" // PushedObject

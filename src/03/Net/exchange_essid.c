@@ -18,7 +18,7 @@
 #include "00/Lib/NitroWiFi/wcm_search_defaults.h"
 #include "thread_scheduler.h"
 #include "tick_counter.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "string.h"
 #include "print_memory_multibyte_write.h"
 #include "03/Net/essid_packet_socket.h"

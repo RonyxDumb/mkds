@@ -1,7 +1,7 @@
 #pragma avoid_byte all
 #pragma dont_reuse_strings off
 
-#include "decimal_digit_arith.h"
+#include "decimal_digit_arith_string_compare.h"
 #include "text_to_number.h"
 
 // Compares the byte strings a and b, mapping each byte below 0x80 through gLowerCaseMap first: -1 or 1 at the first

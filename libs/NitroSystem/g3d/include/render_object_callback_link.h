@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 
 void NNS_G3dRenderObjSetCallBack(NNSG3dRenderObj *pRenderObj, NNSG3dSbcCallBackFunc func, u8 *unused, u8 cmd,
                                  u32 timing);

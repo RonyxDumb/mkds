@@ -3,7 +3,7 @@
 #include "Main/System/heap.h"
 #include "Main/Graphics/model_animation_loop.h"
 #include "render_object_callback_link.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 
 #include "Main/Graphics/model_animation_looping.h"
 #include "animation_lookup.h"

@@ -1,4 +1,4 @@
-#include "Main/Item/item_object_hit_release_fade.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "Main/Item/item_kinoko.h"
 #include "Main/Sound/sound_start.h"
 #include "Main/Item/item_objects_and_race_progress.h"

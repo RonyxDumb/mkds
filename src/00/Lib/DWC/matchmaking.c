@@ -12,7 +12,7 @@
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/DWC/error_state.h"
 #include "00/Lib/DWC/match_keys.h"
-#include "00/Lib/DWC/match_messaging.h"
+#include "00/Lib/DWC/match_send_and_key_value_strings.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/DWC/memory_allocator.h"
 #include "00/Lib/GameSpy/query_key_register.h"

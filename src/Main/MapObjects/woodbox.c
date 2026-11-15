@@ -37,7 +37,7 @@
 #include "touch_panel_sampling.h"
 #include "fixed_vector_math.h"
 #include "model_material_set.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "render_object_callback_link.h"
 #include "Main/System/heap.h"
 #include "Main/MapObjects/shadow_position_raised.h"

@@ -19,7 +19,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
-#include "01/Menu/record_gpx_cell_tables.h"
+#include "01/Menu/record_gpx_setup_and_index.h"
 #include "Main/System/init_after_startup.h"
 
 const u16 gRecordGpxRunningSTableIndices[2] = {0x2e, 0x2f};

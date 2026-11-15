@@ -1,4 +1,4 @@
-#include "Main/Item/item_object_hit_release_fade.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "Main/Item/item_object.h"
 #include "Main/MapObjects/rock.h"
 #include "Main/Item/item_objects_and_race_progress.h"

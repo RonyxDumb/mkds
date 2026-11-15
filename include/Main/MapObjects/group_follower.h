@@ -18,7 +18,7 @@ typedef struct RockDrawList {
 #include "particle_instance.h"
 #include "Main/Kart/shadow_model.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 
 void CopyEmitterParams(ParticleEmitter *emitter, EmitterParams *params);
 void DrawRock(void *unused0, RockObject *rock, void *unused1, s32 alpha);

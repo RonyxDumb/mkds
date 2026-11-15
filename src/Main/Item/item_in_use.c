@@ -1,4 +1,4 @@
-#include "Main/Item/item_object_hit_release_fade.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"

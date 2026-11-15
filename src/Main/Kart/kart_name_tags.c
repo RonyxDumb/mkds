@@ -10,7 +10,7 @@
 #include "Main/Graphics/model_animation_loop.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/camera.h"
-#include "Main/Kart/kart_absolute_value.h"
+#include "Main/Kart/kart_nop_and_absolute_value.h"
 #include "Main/MapObjects/view_frustum.h"
 #include "model_material_set.h"
 #include "Main/Sound/sound_sources.h"

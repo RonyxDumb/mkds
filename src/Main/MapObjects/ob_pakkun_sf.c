@@ -22,7 +22,7 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "Main/Item/item_koura_w.h"
 #include "Main/System/heap.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/MapObjects/pushed_motion.h"
 #include "ITCM/kart_motion.h"
 #include "Main/System/heap_call.h"

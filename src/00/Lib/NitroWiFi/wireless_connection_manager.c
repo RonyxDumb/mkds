@@ -16,7 +16,7 @@
 #include "00/Lib/NitroWiFi/wireless_connection_options.h"
 #include "cpu_copy_fill.h"
 #include "00/Lib/NitroWiFi/oldest_access_point.h"
-#include "00/Lib/NitroWiFi/link_status.h"
+#include "00/Lib/NitroWiFi/link_on_and_bssid_compare.h"
 #include "thread_scheduler.h"
 #include "tick_counter.h"
 #include "alarm_timer.h"

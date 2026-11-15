@@ -115,7 +115,7 @@ src/00/Lib/DWC/network_check_thread.c:
     .bss        start:0x021b4c6c end:0x021b4cc0
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/base64_codec.c:
+src/00/Lib/DWC/base64_and_access_point_check.c:
     complete
     .text       start:0x0218819c end:0x021884a4
     .data       start:0x021b1448 end:0x021b1490
@@ -682,7 +682,7 @@ src/00/Lib/DWC/data_transport.c:
     .bss        start:0x021b5d90 end:0x021b5d94
 
 // provisional: file name and boundaries
-src/00/Lib/DWC/match_messaging.c:
+src/00/Lib/DWC/match_send_and_key_value_strings.c:
     complete
     .text       start:0x021a3230 end:0x021a3634
     .data       start:0x021b41b4 end:0x021b41c0
@@ -744,7 +744,7 @@ src/00/Lib/NitroWiFi/rssi_link_level.c:
     .bss        start:0x021b5f40 end:0x021b5f54
 
 // provisional: file name and boundaries
-src/00/Lib/NitroWiFi/link_status.c:
+src/00/Lib/NitroWiFi/link_on_and_bssid_compare.c:
     complete
     .text       start:0x021a6ce8 end:0x021a6d28
 

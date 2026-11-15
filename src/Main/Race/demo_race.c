@@ -10,7 +10,7 @@
 #include "touch_panel_sampling.h"
 #include "tick_counter.h"
 #include "signed_int_divide.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "clock_chip_access.h"
 #include "Main/Race/race_setup_input.h"
 

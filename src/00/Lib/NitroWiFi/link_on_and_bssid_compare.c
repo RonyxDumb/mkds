@@ -1,4 +1,4 @@
-#include "00/Lib/NitroWiFi/link_status.h"
+#include "00/Lib/NitroWiFi/link_on_and_bssid_compare.h"
 #include "00/Lib/NitroWiFi/wifi_stack_bridge.h"
 
 u32 SOCL_LinkIsOn(void) {

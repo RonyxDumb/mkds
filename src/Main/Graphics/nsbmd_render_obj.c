@@ -24,7 +24,7 @@
 #include "model_texture_bind.h"
 #include "texture_vram_load.h"
 #include "texture_resource_type.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "linked_list_ops.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Graphics/nsbmd_draw.h"

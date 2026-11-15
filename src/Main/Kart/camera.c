@@ -35,7 +35,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "matrix_3x3_basic.h"
 #include "system_state_globals.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "Main/Race/kart.h"
 #include "Main/Kart/camera_shake.h"
 #include "Main/System/init_after_startup.h"

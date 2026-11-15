@@ -8,7 +8,7 @@
 #include "00/Lib/DWC/connection_error_strings.h"
 #include "print_memory_multibyte_write.h"
 #include "00/Lib/GameSpy/hash_table.h"
-#include "decimal_digit_arith.h"
+#include "decimal_digit_arith_string_compare.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "unsigned_int_divide.h"
 #include "narrow_string_functions.h"

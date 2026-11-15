@@ -43,7 +43,7 @@
 #include "Main/Graphics/ortho_quad_corners.h"
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/Race/race.h"
 #include "Main/MapObjects/segment_curve.h"
 #include "Main/MapObjects/group_follower_init.h"

@@ -62,7 +62,7 @@
 #include "Main/Item/bouncing_item_box.h"
 #include "vram_bank_display_setup.h"
 #include "geometry_render_state.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "geometry_fast_dma_switch.h"
 #include "Main/System/result_archive_path.h"
 #include "Main/Scene/scene_display_archive_work.h"

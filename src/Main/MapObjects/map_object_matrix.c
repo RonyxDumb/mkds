@@ -1,6 +1,6 @@
 #include "Main/MapObjects/map_object_matrix.h"
 #include "Main/MapObjects/attractor.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "ITCM/kart_motion.h"
 #include "ITCM/sphere_collision.h"
 

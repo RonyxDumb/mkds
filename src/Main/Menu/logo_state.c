@@ -1,7 +1,7 @@
 #include "Main/Menu/logo_state.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Menu/logo_check_dwc_init_enter_nop.h"
-#include "Main/Menu/logo_wait_backup_read.h"
+#include "Main/Menu/logo_backup_read_and_reset.h"
 #include "Main/Menu/logo_wait_backup_read_enter_nop.h"
 #include "Main/Menu/logo_scene.h"
 #include "Main/Graphics/locate_bmg_sections.h"

@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "model_material_set.h" // MtxFx43
-#include "model_draw_blend_state.h" // NNSG3dRS
+#include "model_draw_state.h" // NNSG3dRS
 #include "01/MapObjects/mission_run_map_object.h"
 #include "01/MapObjects/hanachan_move_and_followers.h"
 

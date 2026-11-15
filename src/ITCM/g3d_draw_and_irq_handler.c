@@ -1,5 +1,5 @@
 #include "ITCM/g3d_draw_and_irq_handler.h"
-#include "snd_color_mask_tables.h"
+#include "color_mask_tables.h"
 #include "Main/Graphics/g3d_anm_function_pointers.h"
 #include "system_state_globals.h"
 #include "particle_random_state.h"
@@ -12,7 +12,7 @@
 #include "mb_data.h"
 #include "Main/Graphics/nsbmd_render_obj.h" // NNSG3dRenderObj
 #include "interrupt_control.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "dma_copy_fill_wait.h"
 #include "coprocessor_context_save.h"
 #include "registers.h"

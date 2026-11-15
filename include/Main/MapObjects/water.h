@@ -18,7 +18,7 @@
 #include "Main/Item/item_koura_w.h"
 
 struct MtxFx43;
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 
 #define WATER_HEIGHT_ANGLE_PER_FRAME 0x10000

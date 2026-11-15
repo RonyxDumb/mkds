@@ -44,7 +44,7 @@
 #include "sound_archive_load_result.h"
 #include "vram_load_3d_graphics.h"
 #include "model_texture_bind.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "vram_transfer_queue.h"
 #include "matrix_4x3_basic.h"
 #include "geometry_engine_setup.h"

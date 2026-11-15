@@ -1,4 +1,4 @@
-#include "Main/Kart/kart_absolute_value.h"
+#include "Main/Kart/kart_nop_and_absolute_value.h"
 
 u16 gSequenceEntryCount;
 

@@ -9,7 +9,7 @@
 #include "Main/MapObjects/segment_group_collision.h"
 #include "Main/MapObjects/view_matrix_setters.h"
 #include "Main/Item/item_koura_w.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/wanwan.h"
 #include "Main/Kart/shadow_model.h"

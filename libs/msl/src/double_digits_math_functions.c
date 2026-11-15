@@ -4,7 +4,7 @@
 #include "double_digits_math_functions.h"
 #include "file_write_flush.h"
 #include "text_to_number.h"
-#include "decimal_digit_arith.h"
+#include "decimal_digit_arith_string_compare.h"
 #include "float_trap_dispatch.h"
 
 double gPowersOfTen[8] = {10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, 10000000.0, 100000000.0};

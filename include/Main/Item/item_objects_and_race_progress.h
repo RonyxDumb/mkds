@@ -632,7 +632,7 @@ typedef struct HeldItem {
     /* 24 */ BOOL mIsPeerEntry;
 } HeldItem;
 
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 
 extern struct RaceProgress *gRaceProgress;
 

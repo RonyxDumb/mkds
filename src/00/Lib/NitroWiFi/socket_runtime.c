@@ -5,7 +5,7 @@
 #include "00/Lib/NitroWiFi/socl_startup_commands.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/NitroWiFi/socket_command_packet.h"
-#include "00/Lib/NitroWiFi/link_status.h"
+#include "00/Lib/NitroWiFi/link_on_and_bssid_compare.h"
 #include "00/Lib/NitroWiFi/access_point_list.h"
 #include "00/Lib/NitroWiFi/wifi_stack_bridge.h"
 #include "00/Lib/NitroWiFi/socket_create_call.h"

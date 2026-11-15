@@ -1,7 +1,7 @@
 #include "Main/Net/wi_fi_session_step.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/DWC/data_transport.h"
-#include "00/Lib/DWC/match_messaging.h"
+#include "00/Lib/DWC/match_send_and_key_value_strings.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Net/wifi_session_karts.h"

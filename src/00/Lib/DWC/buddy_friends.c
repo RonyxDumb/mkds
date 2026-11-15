@@ -15,7 +15,7 @@
 #include "00/Lib/DWC/login_control.h"
 #include "00/Lib/DWC/buddy_status_error.h"
 #include "tick_counter.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "friend_user_data.h"
 #include "00/Lib/DWC/friend_status.h"
 #include "00/Lib/DWC/error_state.h"

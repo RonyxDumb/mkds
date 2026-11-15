@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/gpi_search_peer_types.h"
-#include "00/Lib/GameSpy/gpi_callback_types.h"
+#include "00/Lib/GameSpy/profile_operation_types.h"
+#include "00/Lib/GameSpy/profile_callback_types.h"
 
 struct GpConnection;
 

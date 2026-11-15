@@ -10,7 +10,7 @@
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 #include "Main/MapObjects/map_object_kind_update_list.h" // MAP_OBJECT_KIND_ROTARY_GEAR
 #include "model_material_set.h"
-#include "Main/MapObjects/quaternion_math.h" // Quaternion
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h" // Quaternion
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "Main/Graphics/nsbmd_render_obj.h"
 #include "Main/Kart/shadow_model.h"

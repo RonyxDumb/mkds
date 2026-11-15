@@ -1,4 +1,4 @@
-#include "00/Lib/DWC/match_messaging.h"
+#include "00/Lib/DWC/match_send_and_key_value_strings.h"
 #include "00/Lib/DWC/friends_match_session.h"
 #include "00/Lib/wifi_library_work_objects.h"
 #include "00/Lib/DWC/error_state.h"
@@ -8,7 +8,7 @@
 #include "formatted_text_to_buffer.h"
 #include "tick_counter.h"
 #include "reset_interrupts_halt.h"
-#include "float_subtract.h"
+#include "float_subtract_int64_muldiv.h"
 #include "string.h"
 #include "print_memory_multibyte_write.h"
 

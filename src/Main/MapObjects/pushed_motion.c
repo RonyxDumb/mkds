@@ -1,5 +1,5 @@
 #include "Main/MapObjects/pushed_motion.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Kart/kart_drift.h"
 

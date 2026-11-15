@@ -2,7 +2,7 @@
 #include "registers.h"
 #include "Main/System/heap.h"
 #include "Main/Scene/scene_connection.h"
-#include "model_draw_blend_state.h"
+#include "model_draw_state.h"
 #include "matrix_3x3_basic.h"
 #include "geometry_engine_setup.h"
 #include "Main/Item/item_in_use.h"

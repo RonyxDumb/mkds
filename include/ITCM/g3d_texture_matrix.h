@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "model_draw_blend_state.h" // NNSG3dMatAnmResult, MtxFx44
+#include "model_draw_state.h" // NNSG3dMatAnmResult, MtxFx44
 
 typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 

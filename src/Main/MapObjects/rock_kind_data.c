@@ -20,7 +20,7 @@
 #include "01/Race/mission_run_state.h"
 #include "matrix_3x3_basic.h"
 #include "fixed_vector_math.h"
-#include "Main/MapObjects/quaternion_math.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 #include "Main/MapObjects/group_paths.h"
 #include "Main/MapObjects/group_follower_init.h"
 #include "Main/MapObjects/group_follower_advance.h"
