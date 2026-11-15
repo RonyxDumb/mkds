@@ -21,8 +21,8 @@ const u8 gEditKeyboardExtraKeyInputs[5] = {0xff, 0xff, 0x20, 0x80, 0};
 const u16 gEditKeyboardRow4KeyPositions[2][2] = {{4, 0xaa}, {0x84, 0xaa}};
 
 static inline void EditKeyboardOutG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mAttr01 & 0x1ff0000) >> 16;
-    *y = object->mAttr01 & 0xff;
+    *x = (object->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
+    *y = object->mAttr01 & OAM_ATTR01_Y_MASK;
 }
 
 void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task, void *arg) {

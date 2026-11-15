@@ -143,18 +143,18 @@ void CreateApListRowObjects(void) {
     }
     for (imageIndex = 0; imageIndex < 3; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowLeftImageIndices[imageIndex], gApList->mRowLeftOamEntries[0]);
-        gApList->mRowLeftTiles[imageIndex] = gApList->mRowLeftOamEntries[0]->mAttr2 & 0x3ff;
+        gApList->mRowLeftTiles[imageIndex] = gApList->mRowLeftOamEntries[0]->mAttr2 & OAM_ATTR2_TILE_MASK;
     }
     for (imageIndex = 0; imageIndex < 4; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowRightImageIndices[imageIndex], gApList->mRowRightOamEntries[0]);
-        gApList->mRowRightTiles[imageIndex] = gApList->mRowRightOamEntries[0]->mAttr2 & 0x3ff;
+        gApList->mRowRightTiles[imageIndex] = gApList->mRowRightOamEntries[0]->mAttr2 & OAM_ATTR2_TILE_MASK;
     }
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
         OamEntry *oamEntry;
         oamEntry = gApList->mRowLeftOamEntries[rowIndex];
-        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
         oamEntry = gApList->mRowRightOamEntries[rowIndex];
-        oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
     }
 }
 
@@ -547,9 +547,9 @@ void RefreshApListRowPositions(void) {
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++, yPos += 0x1c) {
         OamEntry *oamEntry;
         oamEntry = gApList->mRowLeftOamEntries[rowIndex];
-        oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos - 2) & 0xff) | 0xb30000;
+        oamEntry->mAttr01 = (oamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | ((yPos - 2) & 0xff) | 0xb30000;
         oamEntry = gApList->mRowRightOamEntries[rowIndex];
-        oamEntry->mAttr01 = (oamEntry->mAttr01 & 0xfe00ff00) | ((yPos + 1) & 0xff) | 0xd20000;
+        oamEntry->mAttr01 = (oamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | ((yPos + 1) & 0xff) | 0xd20000;
     }
     gApList->mBgOffsetPending = 1;
 }

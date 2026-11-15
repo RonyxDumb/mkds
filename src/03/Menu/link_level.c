@@ -22,8 +22,8 @@ void CreateLinkLevel(int row) {
         gLinkLevel->mOamEntry = CreateOamEntryFromNceImage(0, gLinkLevelImages[row][0]);
         gLinkLevel->mOamEntry->mAttr01 =
             ((gLinkLevelPosition[0] & 0x1ff) << 16) |
-            ((gLinkLevel->mOamEntry->mAttr01 & 0xfe00ff00) | (gLinkLevelPosition[1] & 0xff));
-        gLinkLevel->mOamEntry->mAttr2 = (gLinkLevel->mOamEntry->mAttr2 & 0xfffff3ff) | 0x800;
+            ((gLinkLevel->mOamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (gLinkLevelPosition[1] & 0xff));
+        gLinkLevel->mOamEntry->mAttr2 = (gLinkLevel->mOamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0x800;
         gLinkLevel->mTask = AddTask(0, UpdateLinkLevel, NULL, 0x78);
     }
 }
@@ -48,7 +48,8 @@ void UpdateLinkLevel(TaskEntry *task, void *arg) {
     reg_OS_IME;
     reg_OS_IME = savedIme;
     CopyNceImageToOamEntries(0, gLinkLevelImages[gLinkLevel->mImageRow][linkLevel], gLinkLevel->mOamEntry);
-    gLinkLevel->mOamEntry->mAttr01 = ((gLinkLevelPosition[0] & 0x1ff) << 16) |
-                                     ((gLinkLevel->mOamEntry->mAttr01 & 0xfe00ff00) | (gLinkLevelPosition[1] & 0xff));
-    gLinkLevel->mOamEntry->mAttr2 = (gLinkLevel->mOamEntry->mAttr2 & 0xfffff3ff) | 0x800;
+    gLinkLevel->mOamEntry->mAttr01 =
+        ((gLinkLevelPosition[0] & 0x1ff) << 16) |
+        ((gLinkLevel->mOamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (gLinkLevelPosition[1] & 0xff));
+    gLinkLevel->mOamEntry->mAttr2 = (gLinkLevel->mOamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0x800;
 }

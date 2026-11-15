@@ -176,10 +176,10 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     keyIndex = row * 12;
     for (rowKeyIndex = 0; rowKeyIndex < keyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & 0xc1fffcff;
+        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mAttr01 =
-            ((gEditKeyboardKeyPositions[keyIndex][0] & 0x1ff) << 16) | ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
+        key->mAttr01 = ((gEditKeyboardKeyPositions[keyIndex][0] & 0x1ff) << 16) |
+                       ((key->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditKeyboard->mRowTexts[page][row], gEditKeyboardKeyPositions[row * 12][0], yPos,
@@ -188,10 +188,10 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     extraKeyIndex = FX_ModS32(row + 3, 4);
     for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mAttr01 = key->mAttr01 & 0xc1fffcff;
+        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = ((gEditKeyboardExtraKeyPositions[extraKeyIndex][0] & 0x1ff) << 16) |
-                       ((key->mAttr01 & 0xfe00ff00) | (yPos & 0xff));
+                       ((key->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (yPos & 0xff));
     }
     for (rowKeyIndex = 0; rowKeyIndex < row4KeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         SetOamRangeEffect(gEditKeyboard->mRow4Keys[rowKeyIndex], -1, 0, 0);
@@ -234,15 +234,15 @@ void SetEditKeyboardKeyHighlight(int keyIndex, int highlight) {
     }
     if (keyIndex < EDIT_KEY_MAIN_COUNT) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & 0xfffff3ff;
-        key->mAttr2 = (key->mAttr2 & 0xffff0fff) | (gEditKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_MODE_MASK;
+        key->mAttr2 = (key->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
     extraKeyIndex = keyIndex - EDIT_KEY_MAIN_COUNT;
     if (extraKeyIndex < 4) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mAttr01 = key->mAttr01 & 0xfffff3ff;
-        key->mAttr2 = (key->mAttr2 & 0xffff0fff) | (gEditKeyboardKeyPalettes[highlight] << 12);
+        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_MODE_MASK;
+        key->mAttr2 = (key->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gEditKeyboardKeyPalettes[highlight] << 12);
         return;
     }
     SetOamRangeMode(gEditKeyboard->mRow4Keys[keyIndex - EDIT_KEY_BOTTOM_LEFT], -1, 0,
