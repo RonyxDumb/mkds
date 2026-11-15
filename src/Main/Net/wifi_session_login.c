@@ -137,17 +137,17 @@ void AdvanceWiFiSessionLoginStep1(void) {
         return;
     }
     switch (DWC_GetInetStatus()) {
-        case 4:
+        case INET_STATUS_ONLINE:
             DWC_LoginAsync(0, 0, WiFiSessionLoginCallback, 0);
             gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_LOGIN;
             break;
-        case 7:
+        case INET_STATUS_FAILED_LARGE_CODE:
             gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
             DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
             gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             break;
-        case 8:
+        case INET_STATUS_FAILED_SMALL_CODE:
             break;
     }
 }
