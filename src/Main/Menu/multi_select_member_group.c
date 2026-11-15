@@ -161,7 +161,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
         if (gMultiSelectMemberGroup->mSelectedIndex == rowIndex && showSelected != 0) {
             rowSelected = 1;
         }
-        rowFlag = *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x58);
+        rowFlag = OFFSET_PTR(ScanSlotMemberRow, gMultiSelectMemberGroup->mMemberRows, entryOffset)->mHasText;
         cellFileSet->mCellTable[rowCellIndices->mCellIndices[0]].mVisible = rowSelected;
         if (rowSelected == 0) {
             rowNotSelected = 1;
@@ -174,16 +174,16 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
             cellFileSet->mCellTable[(rowCellIndices->mCellIndices + 12)[cellIndex]].mVisible = rowNotSelected & rowFlag;
         }
         cellFileSet->mCellTable[rowCellIndices->mCellIndices[1]].mVisible &=
-            *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c);
+            OFFSET_PTR(ScanSlotMemberRow, gMultiSelectMemberGroup->mMemberRows, entryOffset)->mIsMultiBoot;
         cellFileSet->mCellTable[rowCellIndices->mCellIndices[13]].mVisible &=
-            *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c);
-        if (*(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c) == 0) {
+            OFFSET_PTR(ScanSlotMemberRow, gMultiSelectMemberGroup->mMemberRows, entryOffset)->mIsMultiBoot;
+        if (OFFSET_PTR(ScanSlotMemberRow, gMultiSelectMemberGroup->mMemberRows, entryOffset)->mIsMultiBoot == 0) {
             visibleFlag = TRUE;
         } else {
             visibleFlag = FALSE;
         }
         cellFileSet->mCellTable[rowCellIndices->mCellIndices[2]].mVisible &= visibleFlag;
-        if (*(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c) == 0) {
+        if (OFFSET_PTR(ScanSlotMemberRow, gMultiSelectMemberGroup->mMemberRows, entryOffset)->mIsMultiBoot == 0) {
             visibleFlag = TRUE;
         } else {
             visibleFlag = FALSE;
