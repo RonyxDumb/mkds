@@ -279,6 +279,7 @@ enum {
     TIME_ATTACK_TOP_ROW_TIME_TRIALS,
     TIME_ATTACK_TOP_ROW_SEND_GHOST,
     TIME_ATTACK_TOP_ROW_RECEIVE_GHOST,
+    TIME_ATTACK_TOP_ROW_COUNT,
 };
 
 // Values of TimeAttackTopMenu.mResult, returned by AdvanceTimeAttackTopMenu once the slide out is done: the row that
@@ -300,6 +301,16 @@ enum {
     TIME_ATTACK_TOP_STATE_PRESS,
     TIME_ATTACK_TOP_STATE_SLIDE_OUT,
 };
+
+// Frames of the slide in and the slide out; the rows travel TIME_ATTACK_TOP_SLIDE_DISTANCE sideways, the BG0 layer
+// TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE.
+#define TIME_ATTACK_TOP_SLIDE_FRAMES 10
+#define TIME_ATTACK_TOP_SLIDE_DISTANCE 224
+#define TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE 192
+
+// Frames of the press animation of a row (GetSelectedPressOffset); its highlight is shown at the fifth.
+#define TIME_ATTACK_TOP_PRESS_FRAMES 10
+#define TIME_ATTACK_TOP_HIGHLIGHT_FRAME 5
 
 typedef struct TimeAttackTopMenu {
     /* 00 */ struct NNSG2dCellDataBank *mTimeAttackTopMenuSNcer;

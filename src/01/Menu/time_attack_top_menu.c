@@ -163,14 +163,18 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,
                     &gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
     for (index = 0; index < 3; index++) {
-        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = 0xe0;
-        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = 0xe0;
-        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuVisibleTableIndices[index]].mOffsetX = 0xe0;
-        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuPaletteCellIndices[index]].mOffsetX = 0xe0;
+        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX =
+            TIME_ATTACK_TOP_SLIDE_DISTANCE;
+        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX =
+            TIME_ATTACK_TOP_SLIDE_DISTANCE;
+        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuVisibleTableIndices[index]].mOffsetX =
+            TIME_ATTACK_TOP_SLIDE_DISTANCE;
+        gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuPaletteCellIndices[index]].mOffsetX =
+            TIME_ATTACK_TOP_SLIDE_DISTANCE;
         HideTimeAttackTopMenuHighlight(index);
     }
-    gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = 0xe0;
-    gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = 0xe0;
+    gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = TIME_ATTACK_TOP_SLIDE_DISTANCE;
+    gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = TIME_ATTACK_TOP_SLIDE_DISTANCE;
     ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
     FrmHeapShrinkInParent(gTimeAttackTopMenu->mHeap);
 }
@@ -185,8 +189,10 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
     s32 index;
 
     gTimeAttackTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0xe0, 0, gTimeAttackTopMenu->mStateFrames, 10);
-    gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, -192, 0, gTimeAttackTopMenu->mStateFrames, 10);
+    offsetX = InterpolateS16(1, TIME_ATTACK_TOP_SLIDE_DISTANCE, 0, gTimeAttackTopMenu->mStateFrames,
+                             TIME_ATTACK_TOP_SLIDE_FRAMES);
+    gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE, 0,
+                                                    gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
     for (index = 0; index < 3; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = offsetX;
@@ -195,7 +201,7 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
     }
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = offsetX;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = offsetX;
-    if (gTimeAttackTopMenu->mStateFrames >= 10) {
+    if (gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_SLIDE_FRAMES) {
         RequestTimeAttackTopMenuSettle();
     }
 }
@@ -218,7 +224,7 @@ void AdvanceTimeAttackTopMenuSettle(void) {
     }
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = selectedPressOffset;
     gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = selectedPressOffset;
-    if (gTimeAttackTopMenu->mStateFrames >= 10) {
+    if (gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_PRESS_FRAMES) {
         RequestTimeAttackTopMenuWaitSelectReturn();
     }
 }
@@ -322,7 +328,7 @@ next:
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex++;
-            if (gTimeAttackTopMenu->mIndex >= 3) {
+            if (gTimeAttackTopMenu->mIndex >= TIME_ATTACK_TOP_ROW_COUNT) {
                 gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
@@ -352,10 +358,10 @@ void AdvanceTimeAttackTopMenuPress(void) {
             gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = selectedPressOffset;
             break;
     }
-    if (gTimeAttackTopMenu->mStateFrames == 5) {
+    if (gTimeAttackTopMenu->mStateFrames == TIME_ATTACK_TOP_HIGHLIGHT_FRAME) {
         ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
     }
-    if (gTimeAttackTopMenu->mStateFrames >= 10) {
+    if (gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_PRESS_FRAMES) {
         RequestTimeAttackTopMenuSlideOut();
     }
 }
@@ -365,8 +371,10 @@ void AdvanceTimeAttackTopMenuSlideOut(void) {
     s32 index;
 
     gTimeAttackTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 0xe0, gTimeAttackTopMenu->mStateFrames, 10);
-    gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, 0, -192, gTimeAttackTopMenu->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, TIME_ATTACK_TOP_SLIDE_DISTANCE, gTimeAttackTopMenu->mStateFrames,
+                             TIME_ATTACK_TOP_SLIDE_FRAMES);
+    gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, 0, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE,
+                                                    gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
     for (index = 0; index < 3; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = offsetX;
@@ -401,7 +409,8 @@ s32 AdvanceTimeAttackTopMenu(void) {
     }
     DrawLayoutTable(gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, NULL,
                     gTimeAttackTopMenu->mSubOamList, gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
-    if (gTimeAttackTopMenu->mState == TIME_ATTACK_TOP_STATE_SLIDE_OUT && gTimeAttackTopMenu->mStateFrames >= 10) {
+    if (gTimeAttackTopMenu->mState == TIME_ATTACK_TOP_STATE_SLIDE_OUT &&
+        gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_SLIDE_FRAMES) {
         return gTimeAttackTopMenu->mResult;
     }
     return 0;
