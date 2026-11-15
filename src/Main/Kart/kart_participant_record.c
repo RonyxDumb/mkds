@@ -756,9 +756,9 @@ void StartKartThunderShrink(Kart *kart) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
         AddMissionRunPendingDropOnKartHit();
     }
-    kart->mScaleFactor.x = 0x1000;
-    kart->mScaleFactor.y = 0x1000;
-    kart->mScaleFactor.z = 0x1000;
+    kart->mScaleFactor.x = TO_FIXED12(1);
+    kart->mScaleFactor.y = TO_FIXED12(1);
+    kart->mScaleFactor.z = TO_FIXED12(1);
     SetKartThunderShrinkTrackParamsFunction(kart);
     if (kart->mIndex == gRaceSetup->mEntryIndex) {
         SetThunderShrinkSoundFlag(1);
@@ -777,12 +777,12 @@ void AdvanceKartThunderShrink(Kart *kart) {
         }
         itemEffect->mThunderShrinkFrameIndex = itemEffect->mThunderShrinkFrameIndex + 1;
         if (itemEffect->mThunderShrinkFrameIndex >= 0x19) {
-            kart->mScaleBase.x = 0x1000;
-            kart->mScaleBase.y = 0x1000;
-            kart->mScaleBase.z = 0x1000;
-            kart->mScaleFactor.x = 0x1000;
-            kart->mScaleFactor.y = 0x1000;
-            kart->mScaleFactor.z = 0x1000;
+            kart->mScaleBase.x = TO_FIXED12(1);
+            kart->mScaleBase.y = TO_FIXED12(1);
+            kart->mScaleBase.z = TO_FIXED12(1);
+            kart->mScaleFactor.x = TO_FIXED12(1);
+            kart->mScaleFactor.y = TO_FIXED12(1);
+            kart->mScaleFactor.z = TO_FIXED12(1);
             kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
@@ -805,9 +805,9 @@ void AdvanceKartThunderShrink(Kart *kart) {
         kart->mScaleFactor.x = gKartScaleFactorXTable[itemEffect->mThunderShrinkFrameIndex];
         kart->mScaleFactor.y = gKartScaleFactorYTable[itemEffect->mThunderShrinkFrameIndex];
         kart->mScaleFactor.z = gKartScaleFactorZTable[itemEffect->mThunderShrinkFrameIndex];
-        kart->mScaleBase.x = 0x1000;
-        kart->mScaleBase.y = 0x1000;
-        kart->mScaleBase.z = 0x1000;
+        kart->mScaleBase.x = TO_FIXED12(1);
+        kart->mScaleBase.y = TO_FIXED12(1);
+        kart->mScaleBase.z = TO_FIXED12(1);
         kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
         kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
         kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
@@ -850,9 +850,9 @@ BOOL TryStartKartScaleTableEffect(Kart *kart) {
     }
     effectState->mScaleTableIndex = 0;
     effectState->mScaleEffectTimer = 0x258;
-    kart->mScaleFactor.x = 0x1000;
-    kart->mScaleFactor.y = 0x1000;
-    kart->mScaleFactor.z = 0x1000;
+    kart->mScaleFactor.x = TO_FIXED12(1);
+    kart->mScaleFactor.y = TO_FIXED12(1);
+    kart->mScaleFactor.z = TO_FIXED12(1);
     kart->mTireSpinAngle = 0;
     kart->mEffectFlags |= KART_EFFECT_SCALE_TABLE;
     kart->mDriveFlags |= KART_DRIVE_SCALE_TABLE_EFFECT;
@@ -885,9 +885,9 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
         if (effectState->mScaleTableIndex >= 0x19) {
             kart->mUnk_398 = TO_FIXED12(1);
             kart->mScaleYFactor = TO_FIXED12(1);
-            kart->mScaleFactor.x = 0x1000;
-            kart->mScaleFactor.y = 0x1000;
-            kart->mScaleFactor.z = 0x1000;
+            kart->mScaleFactor.x = TO_FIXED12(1);
+            kart->mScaleFactor.y = TO_FIXED12(1);
+            kart->mScaleFactor.z = TO_FIXED12(1);
             kart->mScale.x = MUL_FIXED12_NO_ROUND(kart->mScaleBase.x, kart->mScaleFactor.x);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
@@ -939,24 +939,24 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
 void ResetKartScaleEffects(Kart *kart) {
     kart->mUnk_398 = TO_FIXED12(1);
     kart->mScaleYFactor = TO_FIXED12(1);
-    kart->mScale.y = 0x1000;
+    kart->mScale.y = TO_FIXED12(1);
     kart->mEffectFlags &= ~KART_EFFECT_SCALE_TABLE;
     if (kart->mEffectFlags & KART_EFFECT_THUNDER_SHRINK) {
         kart->mEffectFlags &= ~KART_EFFECT_THUNDER_SHRINK;
-        kart->mScaleBase.x = 0x1000;
-        kart->mScaleBase.y = 0x1000;
-        kart->mScaleBase.z = 0x1000;
+        kart->mScaleBase.x = TO_FIXED12(1);
+        kart->mScaleBase.y = TO_FIXED12(1);
+        kart->mScaleBase.z = TO_FIXED12(1);
         if (kart->mIndex == gRaceSetup->mEntryIndex) {
             SetThunderShrinkSoundFlag(0);
         }
         ResetKartTrackParamsFunction(kart);
     }
-    kart->mScale.x = 0x1000;
-    kart->mScale.y = 0x1000;
-    kart->mScale.z = 0x1000;
-    kart->mScaleFactor.x = 0x1000;
-    kart->mScaleFactor.y = 0x1000;
-    kart->mScaleFactor.z = 0x1000;
+    kart->mScale.x = TO_FIXED12(1);
+    kart->mScale.y = TO_FIXED12(1);
+    kart->mScale.z = TO_FIXED12(1);
+    kart->mScaleFactor.x = TO_FIXED12(1);
+    kart->mScaleFactor.y = TO_FIXED12(1);
+    kart->mScaleFactor.z = TO_FIXED12(1);
     if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
         kart->mShrinkFactor = TO_FIXED12(1);
     }

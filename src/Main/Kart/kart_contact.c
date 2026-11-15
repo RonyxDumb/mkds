@@ -428,7 +428,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
     u32 hitValue;
 
     if (collisionFlags & 0x200000) {
-        baseSpeedLimitHitFactor = 0x1000;
+        baseSpeedLimitHitFactor = TO_FIXED12(1);
     } else {
         baseSpeedLimitHitFactor = 0xccd;
     }
@@ -471,9 +471,9 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
     Vec3 effectPos;
 
     isFirstContact = FALSE;
-    forwardFactor = Vec3DotUnrounded(&kart->mSignedTurnedForward, contactNormal) + 0x1000;
-    if (forwardFactor > 0x1000) {
-        forwardFactor = 0x1000;
+    forwardFactor = Vec3DotUnrounded(&kart->mSignedTurnedForward, contactNormal) + TO_FIXED12(1);
+    if (forwardFactor > TO_FIXED12(1)) {
+        forwardFactor = TO_FIXED12(1);
     } else if (forwardFactor < 0x29) {
         forwardFactor = 0x29;
     }
@@ -505,7 +505,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         if (kart->mVelocityLength > 0x1800) {
             if (!(kart->mDriveFlags & KART_DRIVE_BOOST) &&
                 (normalVelocity.x != 0 || normalVelocity.y != 0 || normalVelocity.z != 0) &&
-                baseSpeedLimitHitFactor != 0x1000) {
+                baseSpeedLimitHitFactor != TO_FIXED12(1)) {
                 BounceVelocityOffSurface(&normalVelocity, contactNormal, 0, 0x4cd, 0, &normalVelocity);
                 kart->mHitVelocity.x = normalVelocity.x;
                 kart->mHitVelocity.z = normalVelocity.z;
@@ -553,15 +553,15 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                     StopDispCapBlend();
                 }
             }
-            if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != 0x1000) {
+            if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != TO_FIXED12(1)) {
                 headingAnglePerFrame = FROM_FIXED12(kart->mVelocityLength) * 100;
                 if ((u16) kart->mTurnAngle > 0x7fff) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;
                 }
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;
             }
-        } else if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != 0x1000) {
-            factor = 0x1000 - forwardFactor;
+        } else if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != TO_FIXED12(1)) {
+            factor = TO_FIXED12(1) - forwardFactor;
             if (kart->mVelocityLength > 0x1800 && factor > 0x19a) {
                 headingAnglePerFrame = FROM_FIXED12(MUL_FIXED12_NO_ROUND(kart->mVelocityLength, factor)) * 30;
                 Vec3CrossUnrounded(&kart->mSignedTurnedForward, contactNormal, &crossVector);

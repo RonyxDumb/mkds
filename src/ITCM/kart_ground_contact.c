@@ -238,7 +238,7 @@ void RefreshKartSurface(Kart *kart) {
 
     kart->mSurfaceKind = (hitValue & 0x1f00) >> 8;
     kart->mSurfaceVariant = (u32) ((hitValue & 0xe0) << 11) >> 16;
-    targetFactor = 0x1000;
+    targetFactor = TO_FIXED12(1);
     surfaceGroup = gKartSurfaceFunctions[kart->mSurfaceKind](kart);
     if (surfaceGroup != 0) {
         targetFactor = kart->mPhysicalParam->mSurfaceSpeedLimitFactors[surfaceGroup];
