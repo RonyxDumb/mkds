@@ -68,7 +68,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
             }
             break;
         case CONNECTION_SYNC_PARENT_ANNOUNCE:
-            QueueMPDataHalfword(5, 0xff);
+            QueueMPDataHalfword(MP_MESSAGE_TRANSFER_SYNC_DONE, 0xff);
             gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
             gConnectionWork->mSyncDoneChildMask = done;
             gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
@@ -85,7 +85,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
                 gThreadFunctionQueue->mRunRequested = 1;
             }
             gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
-            QueueMPDataHalfword(3, 1);
+            QueueMPDataHalfword(MP_MESSAGE_SYNC_NOT_DONE, 1);
             break;
         case CONNECTION_SYNC_CHILD_LOAD_WAIT:
             if (gThreadFunctionQueue->mRunRequested == 0) {
@@ -97,7 +97,7 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
             }
             break;
         case CONNECTION_SYNC_CHILD_REPORT:
-            if (QueueMPDataHalfword(4, 1) != FALSE) {
+            if (QueueMPDataHalfword(MP_MESSAGE_SYNC_DONE, 1) != FALSE) {
                 gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;

@@ -68,7 +68,7 @@ void UpdateMPState5(void) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
         participantMask = gConnectionWork->mParticipantMask;
         if (IsAllMPChildSharedDataCopied() != 0) {
-            if (QueueMPDataHalfwordAndWord(1, participantMask, participantMask) != FALSE) {
+            if (QueueMPDataHalfwordAndWord(MP_MESSAGE_PARTICIPANT_MASK, participantMask, participantMask) != FALSE) {
                 SetParticipantMask(participantMask);
             }
         } else {
@@ -87,8 +87,8 @@ void UpdateMPState6(void) {
 
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT &&
         (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY)) {
-        if (QueueMPDataHalfwordAndWord(2, gConnectionWork->mChildren.mChildMask, gConnectionWork->mGroupSendMask) !=
-            FALSE) {
+        if (QueueMPDataHalfwordAndWord(MP_MESSAGE_GROUP_SEND_MASK, gConnectionWork->mChildren.mChildMask,
+                                       gConnectionWork->mGroupSendMask) != FALSE) {
             stateMachine = &gConnectionWork->mMPStateMachine;
             stateMachine->mStateMachine.mNextState = 1;
             stateMachine->mStateMachine.mNextStateRequested = 1;

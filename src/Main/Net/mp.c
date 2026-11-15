@@ -118,7 +118,7 @@ s32 AdvanceParentSync(void) {
             }
             break;
         case CONNECTION_SYNC_PARENT_ANNOUNCE:
-            if (QueueMPDataHalfword(5, 0xff) != FALSE) {
+            if (QueueMPDataHalfword(MP_MESSAGE_TRANSFER_SYNC_DONE, 0xff) != FALSE) {
                 gConnectionWork->mSyncDoneChildMask = done;
                 gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             }
@@ -164,7 +164,7 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
             } else {
                 gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
             }
-            QueueMPDataHalfword(3, 1);
+            QueueMPDataHalfword(MP_MESSAGE_SYNC_NOT_DONE, 1);
             break;
         case CONNECTION_SYNC_CHILD_LOAD_WAIT:
             if (LoadPendingFiles() != FALSE) {
@@ -172,7 +172,7 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode) {
             }
             break;
         case CONNECTION_SYNC_CHILD_REPORT:
-            if (QueueMPDataHalfword(4, 1) != FALSE) {
+            if (QueueMPDataHalfword(MP_MESSAGE_SYNC_DONE, 1) != FALSE) {
                 gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;

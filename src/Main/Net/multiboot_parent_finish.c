@@ -14,7 +14,8 @@ void DisconnectRemovedChildren(void) {
     if (removedChildMask == 0) {
         return;
     }
-    if (QueueMPDataHalfwordAndWord(7, gConnectionWork->mChildren.mChildMask, removedChildMask) == FALSE) {
+    if (QueueMPDataHalfwordAndWord(MP_MESSAGE_REMOVE_CHILDREN, gConnectionWork->mChildren.mChildMask,
+                                   removedChildMask) == FALSE) {
         return;
     }
     DisconnectChildren(removedChildMask);
