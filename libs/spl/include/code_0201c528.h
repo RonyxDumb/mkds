@@ -278,13 +278,21 @@ struct ParticleResource {
     /* 1c */ u16 mBehaviorCount;
 };
 
-// The four bytes at ParticleEmitter 0x98.
+// The four bytes at ParticleEmitter 0x98, read by the side and follow effects.
 typedef struct EmitterCallbackBytes {
     /* 00 */ u8 mVelocityFactorIndex;
     /* 01 */ u8 mCounting;
     /* 02 */ u8 mStepCount;
     /* 03 */ u8 mSideIndex;
 } EmitterCallbackBytes;
+
+// The same four bytes as AdvanceOtherKartEffect and PlaceOtherKartEffect use them.
+typedef struct EmitterOtherKartBytes {
+    /* 00 */ u8 mFirstKartIndex;
+    /* 01 */ u8 mSecondKartIndex;
+    /* 02 */ u8 mShowSecondKart;
+    /* 03 */ u8 mSwitchCounter;
+} EmitterOtherKartBytes;
 
 struct ParticleEmitter {
     /* 00 */ struct ParticleEmitter *mNext;
@@ -322,16 +330,17 @@ struct ParticleEmitter {
     /* 90 */ void (*mCallback)(ParticleEmitter *p, s32 a);
     /* 94 */ union {
         void *mCallbackData;
-        u32 mUnk_94_u;
+        u32 mElapsedFrames;
     };
     /* 98 */ union {
         u32 mCallbackState;
         EmitterCallbackBytes mCallbackBytes;
+        EmitterOtherKartBytes mOtherKartBytes;
         struct {
             u8 mVelocityFactorIndex;
-            u8 mUnk_98_8;
+            u8 mStepLimit;
             u8 mStepCount;
-            u8 mUnk_98_24;
+            u8 mKartIndex;
         };
     };
 };

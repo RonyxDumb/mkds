@@ -20,7 +20,7 @@ void StartKartSpinSideEffects(s32 kartIndex) {
     do {
         effect = StartEffect(0x58, &gKartEffectVec3Zero);
         effect->mCallbackData = kart;
-        effect->mUnk_98_24 = effectIndex;
+        effect->mCallbackBytes.mSideIndex = effectIndex;
         effectIndex = effectIndex + 1;
         effect->mCallback = AdvanceKartSpinSideEffect;
     } while (effectIndex < 2);
@@ -32,7 +32,7 @@ void AdvanceKartSpinSideEffect(ParticleEmitter *effect, s32 phase) {
     }
     AdvanceKartSideEffect(effect, phase);
     if (effect->mVelocityFactorIndex >= 7) {
-        effect->mUnk_98_8 = 1;
+        effect->mCallbackBytes.mCounting = 1;
     } else {
         effect->mVelocityFactorIndex = effect->mVelocityFactorIndex + 1;
     }
@@ -48,8 +48,8 @@ void StartKartSpinFollowEffect(u32 kartIndex) {
     kartEffects->mSpinFollowEffect = StartEffect(0x5e, &gKartEffectVec3Zero);
     effect = kartEffects->mSpinFollowEffect;
     effect->mStepCount = 0;
-    effect->mUnk_98_8 = 0x78;
-    effect->mUnk_98_24 = kartIndex;
+    effect->mStepLimit = 0x78;
+    effect->mKartIndex = kartIndex;
     effect->mCallback = AdvanceKartSpinFollowEffect;
 }
 
@@ -65,7 +65,7 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
     if (phase != 0) {
         return;
     }
-    kartIndex = effect->mUnk_98_24;
+    kartIndex = effect->mKartIndex;
     elapsedFrames = effect->mStepCount;
     ended = 0;
     kartPosition = GetKart(kartIndex)->mPosSource;
@@ -75,8 +75,8 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
     effect->mPosition.x = (kartX >> 4) + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = (kartY >> 4) + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = (kartZ >> 4) + effect->mResource->mHeader->mPositionOffset.z;
-    if (elapsedFrames >= effect->mUnk_98_8) {
-        if (elapsedFrames == effect->mUnk_98_8) {
+    if (elapsedFrames >= effect->mStepLimit) {
+        if (elapsedFrames == effect->mStepLimit) {
             ended = 1;
             effect->mFlags.mEnding = 1;
         }
