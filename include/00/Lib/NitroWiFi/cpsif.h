@@ -11,7 +11,7 @@ BOOL WcmCpsifTryLockMutexInIRQ(OSMutex *mutex);
 void WcmCpsifKACallback(WirelessMessage *event);
 void WcmCpsifWmCallback(WirelessMessage *callback);
 s32 WCM_SendDCFData(const void *dstAddr, const void *buf, s32 len);
-u32 WCM_SetRecvDCFCallback(Unk021b5f54Func callback);
+u32 WCM_SetRecvDCFCallback(WCMRecvInd callback);
 u8 *WCM_GetApEssid(u16 *length);
 u8 *WCM_GetApMacAddress(void);
 void WCMi_CpsifSendNullPacket(void);

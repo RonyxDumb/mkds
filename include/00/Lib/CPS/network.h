@@ -199,7 +199,7 @@ u32 CPS_SocWho(u16 *remotePort, u32 *localAddress);
 u32 CPS_TcpConnect(void);
 u32 CPSi_TcpConnectRaw(CPSSoc *socket);
 void CPS_TcpListen(void);
-void CPS_SetUdpCallback(Unk021a78a4Func callback);
+void CPS_SetUdpCallback(CPSUDPReadCallback callback);
 void CPSi_TcpListenRaw(CPSSoc *socket);
 void CPS_SocDup(OSThread *thread);
 void CPS_SocRelease(void);

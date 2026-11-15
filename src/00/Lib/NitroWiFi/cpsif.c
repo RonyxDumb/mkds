@@ -26,7 +26,7 @@ void WCMi_InitCpsif(void) {
 }
 
 void WCMi_CpsifRecvCallback(WMDcfRecvBuf *recv) {
-    Unk021b5f54Func callback = gWcmCpsifWork.mRecvCallback;
+    WCMRecvInd callback = gWcmCpsifWork.mRecvCallback;
 
     if (callback != NULL) {
         callback(recv->mSrcAdrs, recv->mDestAdrs, recv->mData, recv->mLength);
@@ -79,7 +79,7 @@ u8 *WCM_GetApEssid(u16 *length) {
     return ssidBytes;
 }
 
-u32 WCM_SetRecvDCFCallback(Unk021b5f54Func callback) {
+u32 WCM_SetRecvDCFCallback(WCMRecvInd callback) {
     u32 enabled = (u32) callback;
     u32 cpsifWork;
     u32 recvCallback;

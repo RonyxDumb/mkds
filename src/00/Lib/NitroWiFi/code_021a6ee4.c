@@ -475,7 +475,7 @@ SOCLiCommandPacket *SOCLi_AllocCommandPacket(s32 flag) {
     return NULL;
 }
 
-SOCLiCommandPacket *SOCLi_CreateCommandPacket(Unk021a7064Func handler, SOCLSocket *socket, s32 flag) {
+SOCLiCommandPacket *SOCLi_CreateCommandPacket(SOCLiCommandHandler handler, SOCLSocket *socket, s32 flag) {
     SOCLiCommandPacket *packet;
 
     packet = SOCLi_AllocCommandPacket(flag);

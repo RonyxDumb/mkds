@@ -6,7 +6,7 @@
 typedef struct SOCLiSocketRecvCommandPipe SOCLiSocketRecvCommandPipe;
 typedef struct SOCLSocket SOCLSocket;
 
-typedef s32 (*Unk021a78a4Func)(void *param_1, u32 param_2, SOCLSocket *param_3);
+typedef s32 (*CPSUDPReadCallback)(void *data, u32 length, SOCLSocket *socket);
 
 // Entry of the list behind mUnk_100 and mUnk_104 of an SOCLiSocketRecvCommandPipe; the data follows at mUnk_0c.
 typedef struct SOCLiSocketUdpData {
@@ -19,7 +19,7 @@ typedef struct SOCLiSocketUdpData {
 
 // An SOCLiCommandPacket entry as SOCLi_ReadCallBack reads it.
 typedef struct SOCLiCommandRead {
-    /* 00 */ Unk021a7064Func mUnk_00;
+    /* 00 */ SOCLiCommandHandler mUnk_00;
     /* 04 */ SOCLSocket *mSocket;
     /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;

@@ -7,11 +7,11 @@ typedef struct SOCLSocketParam SOCLSocketParam;
 
 struct SOCLiCommandPacket;
 
-typedef s32 (*Unk021a7064Func)(struct SOCLiCommandPacket *param_1);
+typedef s32 (*SOCLiCommandHandler)(struct SOCLiCommandPacket *packet);
 
 // Entry of the queue behind SOCLiCommandPacketQueue.
 typedef struct SOCLiCommandPacket {
-    /* 00 */ Unk021a7064Func mHandler;
+    /* 00 */ SOCLiCommandHandler mHandler;
     /* 04 */ SOCLSocket *mSocket;
     /* 08 */ OSMessageQueue *mResponse;
     /* 0c */ s8 mFlagMode;
@@ -33,7 +33,7 @@ s32 SOCLi_ExecCommandPacketInRecvPipe(SOCLSocket *socket, SOCLiCommandPacket *pa
 s32 SOCLi_ExecCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet);
 s32 SOCLi_SendCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet);
 void SOCLi_FreeCommandPacket(SOCLiCommandPacket *packet);
-SOCLiCommandPacket *SOCLi_CreateCommandPacket(Unk021a7064Func handler, SOCLSocket *socket, s32 flag);
+SOCLiCommandPacket *SOCLi_CreateCommandPacket(SOCLiCommandHandler handler, SOCLSocket *socket, s32 flag);
 SOCLiCommandPacket *SOCLi_AllocCommandPacket(s32 flag);
 s32 SOCLi_CleanupCommandPacketQueue(void);
 s32 SOCLi_StartupCommandPacketQueue(s32 count);

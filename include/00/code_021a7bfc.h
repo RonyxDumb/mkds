@@ -8,7 +8,7 @@ typedef struct SOCLSocket SOCLSocket;
 
 // An SOCLiCommandPacket entry as SOCLi_MemCpy and the functions after it see it.
 typedef struct SOCLiCommandWrite {
-    /* 00 */ Unk021a7064Func mUnk_00;
+    /* 00 */ SOCLiCommandHandler mUnk_00;
     /* 04 */ SOCLSocket *mSocket;
     /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;

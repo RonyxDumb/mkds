@@ -19,14 +19,14 @@ typedef struct SOCInAddr {
     /* 0 */ u32 addr;
 } SOCInAddr;
 
-typedef void (*Unk021b5f54Func)(void *param_1, void *param_2, void *param_3, u16 param_4);
+typedef void (*WCMRecvInd)(void *srcAddr, void *dstAddr, void *buffer, u16 size);
 
 typedef struct WCMCpsifWork {
     /* 00 */ u8 mInitialized;
     /* 04 */ OSThreadQueue mSendQ;
     /* 0c */ OSMutex mSendMutex;
     /* 24 */ s32 mSendResult;
-    /* 28 */ Unk021b5f54Func mRecvCallback;
+    /* 28 */ WCMRecvInd mRecvCallback;
 } WCMCpsifWork;
 
 typedef struct SOCLConfig {

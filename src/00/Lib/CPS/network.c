@@ -1659,11 +1659,11 @@ void CPSi_TcpListenRaw(CPSSoc *socket) {
     OS_SleepThread(NULL);
 }
 
-void CPS_SetUdpCallback(Unk021a78a4Func callback) {
+void CPS_SetUdpCallback(CPSUDPReadCallback callback) {
     u8 *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        *(Unk021a78a4Func *) (socket + 0x38) = callback;
+        *(CPSUDPReadCallback *) (socket + 0x38) = callback;
     }
 }
 
