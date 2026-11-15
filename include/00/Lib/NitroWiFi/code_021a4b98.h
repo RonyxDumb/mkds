@@ -54,19 +54,19 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
-// Values of the mode member of a WEP key: the key length in bits.
+// Values of the mode member of a WEP key: the key length (5, 13 and 16 bytes).
 #define WCM_WEPMODE_NONE 0
-#define WCM_WEPMODE_40 1
-#define WCM_WEPMODE_104 2
-#define WCM_WEPMODE_128 3
+#define WCM_WEPMODE_SHORT_KEY 1
+#define WCM_WEPMODE_LONG_KEY 2
+#define WCM_WEPMODE_LONGEST_KEY 3
 
 // Bits of WCMWork.mOption: TEST bits say a setting is made, the FILTER bit next to it gives its value (channel bits
 // are numbered from channel 1).
 #define WCM_OPTION_TEST_CHANNEL 0x00008000
 #define WCM_OPTION_CHANNEL_1 (WCM_OPTION_TEST_CHANNEL | 0x00000002)
 #define WCM_OPTION_CHANNEL_7 (WCM_OPTION_TEST_CHANNEL | 0x00000080)
-#define WCM_OPTION_CHANNEL_13 (WCM_OPTION_TEST_CHANNEL | 0x00002000)
-#define WCM_OPTION_CHANNEL_RDC (WCM_OPTION_CHANNEL_1 | WCM_OPTION_CHANNEL_7 | WCM_OPTION_CHANNEL_13)
+#define WCM_OPTION_CHANNEL_LAST (WCM_OPTION_TEST_CHANNEL | 0x00002000)
+#define WCM_OPTION_CHANNEL_RDC (WCM_OPTION_CHANNEL_1 | WCM_OPTION_CHANNEL_7 | WCM_OPTION_CHANNEL_LAST)
 #define WCM_OPTION_TEST_POWER 0x00020000
 #define WCM_OPTION_FILTER_POWER 0x00010000
 #define WCM_OPTION_MASK_POWER (WCM_OPTION_TEST_POWER | WCM_OPTION_FILTER_POWER)
