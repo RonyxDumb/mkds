@@ -15,10 +15,10 @@ typedef union {
 typedef struct OrthoQuad OrthoQuad;
 
 struct OrthoQuad {
-    /* 00 */ s16 mCorners[4][2];
+    /* 00 */ HalfwordPair mCorners[4];
     // Per corner: the offset SetupOrthoQuad picks, scaled by a motion table; later a velocity added to the corners.
     /* 10 */ s16 mCornerVelocities[4][2];
-    /* 20 */ s16 mStartPair[2];
+    /* 20 */ HalfwordPair mStartPair;
     /* 24 */ void (*mUpdateFunction)(OrthoQuad *p);
     // 1 once the velocities were set from the corners; the update function then adds them to the corners.
     /* 28 */ u32 mVelocityMode;
@@ -28,8 +28,8 @@ struct OrthoQuad {
     /* 30 */ u32 mPickedCornerIndex;
 };
 
-static inline s16 *GetOrthoQuadCorner(OrthoQuad *quad, u32 cornerIndex) {
-    return quad->mCorners[cornerIndex];
+static inline HalfwordPair *GetOrthoQuadCorner(OrthoQuad *quad, u32 cornerIndex) {
+    return &quad->mCorners[cornerIndex];
 }
 
 void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex);

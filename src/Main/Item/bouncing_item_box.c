@@ -141,7 +141,7 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     framesFromMoveStart = gOrthoQuadFrames - gOrthoQuadMoveStartFrameCount;
     if (framesFromMoveStart < 0) {
         for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
-            quad->mCorners[cornerIndex][1] -= 2;
+            quad->mCorners[cornerIndex].mHalf.mY -= 2;
         }
         return;
     }
@@ -160,21 +160,21 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     }
     if (quad->mVelocityMode != 0) {
         for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
-            quad->mCorners[cornerIndex][0] += velocities[cornerIndex][0];
-            quad->mCorners[cornerIndex][1] += velocities[cornerIndex][1];
+            quad->mCorners[cornerIndex].mHalf.mX += velocities[cornerIndex][0];
+            quad->mCorners[cornerIndex].mHalf.mY += velocities[cornerIndex][1];
             velocities[cornerIndex][0] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][0], 0x10cd);
             velocities[cornerIndex][1] = MUL_FIXED12_NO_ROUND(velocities[cornerIndex][1], 0x10cd);
-            coordX = quad->mCorners[cornerIndex][0];
+            coordX = quad->mCorners[cornerIndex].mHalf.mX;
             if (coordX > 0x3ccd) {
-                quad->mCorners[cornerIndex][0] = 0x3ccd;
+                quad->mCorners[cornerIndex].mHalf.mX = 0x3ccd;
             } else if (coordX < -0x3ccd) {
-                quad->mCorners[cornerIndex][0] = -0x3ccd;
+                quad->mCorners[cornerIndex].mHalf.mX = -0x3ccd;
             }
-            coordY = quad->mCorners[cornerIndex][1];
+            coordY = quad->mCorners[cornerIndex].mHalf.mY;
             if (coordY > 0x3ccd) {
-                quad->mCorners[cornerIndex][1] = 0x3ccd;
+                quad->mCorners[cornerIndex].mHalf.mY = 0x3ccd;
             } else if (coordY < -0x3ccd) {
-                quad->mCorners[cornerIndex][1] = -0x3ccd;
+                quad->mCorners[cornerIndex].mHalf.mY = -0x3ccd;
             }
         }
     } else {
@@ -193,9 +193,9 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
                 }
                 fallDistance = fallSpeed;
                 fallDistance += (fallSpeed * framesFromMoveStart) >> 8;
-                quad->mCorners[cornerIndex][1] = quad->mCorners[cornerIndex][1] - fallDistance;
-                if (quad->mCorners[cornerIndex][1] < -0x3ccd) {
-                    quad->mCorners[cornerIndex][1] = -0x3ccd;
+                quad->mCorners[cornerIndex].mHalf.mY = quad->mCorners[cornerIndex].mHalf.mY - fallDistance;
+                if (quad->mCorners[cornerIndex].mHalf.mY < -0x3ccd) {
+                    quad->mCorners[cornerIndex].mHalf.mY = -0x3ccd;
                 }
                 cornerIndex++;
             } while (cornerIndex < 4);
@@ -219,13 +219,13 @@ void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
     s32 velocity;
 
     tableScale = gOrthoQuadTableScales[-quad->mTimer];
-    startX = quad->mStartPair[0];
-    startY = quad->mStartPair[1];
+    startX = quad->mStartPair.mHalf.mX;
+    startY = quad->mStartPair.mHalf.mY;
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
         velocity = velocities[cornerIndex][0];
-        quad->mCorners[cornerIndex][0] = startX + MUL_FIXED12_NO_ROUND(velocity, tableScale);
+        quad->mCorners[cornerIndex].mHalf.mX = startX + MUL_FIXED12_NO_ROUND(velocity, tableScale);
         velocity = velocities[cornerIndex][1];
-        quad->mCorners[cornerIndex][1] = startY + MUL_FIXED12_NO_ROUND(velocity, tableScale);
+        quad->mCorners[cornerIndex].mHalf.mY = startY + MUL_FIXED12_NO_ROUND(velocity, tableScale);
     }
     quad->mTimer = quad->mTimer - 1;
     if (quad->mTimer == -13) {
@@ -334,15 +334,15 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         reg_G3_POLYGON_ATTR = model->mPolygonAttr | (gOrthoQuadFirstPolygonId + quadIndex) << 24;
         reg_G3_BEGIN_VTXS = 1;
         reg_G3_TEXCOORD = 0;
-        reg_G3_VTX_16 = *(u32 *) &quad->mCorners[0];
+        reg_G3_VTX_16 = quad->mCorners[0].mWord;
         reg_G3_VTX_16 = 0;
         reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16;
-        reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[1];
+        reg_G3_VTX_DIFF = quad->mCorners[1].mWord;
         reg_G3_TEXCOORD =
             (u16) ((s32) (model->mTexSizeT << 8) >> 16) | ((u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16);
-        reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[2];
+        reg_G3_VTX_DIFF = quad->mCorners[2].mWord;
         reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeT << 8) >> 16);
-        reg_G3_VTX_DIFF = *(u32 *) &quad->mCorners[3];
+        reg_G3_VTX_DIFF = quad->mCorners[3].mWord;
         reg_G3_END_VTXS = 0;
         quadIndex++;
     } while (quadIndex < gOrthoQuadCount);
@@ -428,9 +428,9 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
         velocityX = velocities[cornerIndex][0];
         velocities[cornerIndex][0] = (sinResult * velocityX - cosResult * velocityY) >> 12;
         velocities[cornerIndex][1] = (cosResult * velocityX + sinResult * velocityY) >> 12;
-        *(HalfwordPair *) GetOrthoQuadCorner(quad, cornerIndex) = startPair;
+        *GetOrthoQuadCorner(quad, cornerIndex) = startPair;
     }
-    *(HalfwordPair *) quad->mStartPair = startPair;
+    quad->mStartPair = startPair;
     quad->mUpdateFunction = AdvanceOrthoQuadDelayAndStartSound;
     quad->mPickedCornerIndex = -1;
     quad->mVelocityMode = 0;
@@ -563,8 +563,8 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
         velocities[cornerIndex][1] = 0;
     }
     for (cornerIndex = 0; cornerIndex < 4; cornerIndex++) {
-        cornerX = quad->mCorners[cornerIndex][0];
-        cornerY = quad->mCorners[cornerIndex][1];
+        cornerX = quad->mCorners[cornerIndex].mHalf.mX;
+        cornerY = quad->mCorners[cornerIndex].mHalf.mY;
         if (cornerX > 0) {
             if (cornerX > 0x4cd) {
                 pushX = MUL_FIXED12_NO_ROUND(cornerX, cornerX);
