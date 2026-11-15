@@ -75,7 +75,7 @@ typedef struct WiFiBuddySync {
     // running (mState 1). The one caller passes BuddyChangedCallback.
     /* 44 */ DWCBuddyChangedCallback mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
-    /* 4c */ void (*mSaveCallback)(s32 a, s32 b, u32 c);
+    /* 4c */ void (*mSaveCallback)(s32 success, s32 isPublicData, u32 instance);
     /* 50 */ u32 mUnk_50;
 } WiFiBuddySync;
 
