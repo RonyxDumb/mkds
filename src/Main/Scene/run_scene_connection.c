@@ -362,9 +362,9 @@ end:
         messageKind = gSceneRunState->mMessageKind;
         if (messageKind != -1) {
             switch (messageKind) {
-                case 4:
-                case 5:
-                case 6:
+                case MESSAGE_KIND_WIFI_ERROR:
+                case MESSAGE_KIND_WIFI_NO_INPUT:
+                case MESSAGE_KIND_WIFI_OPPONENT_LEFT:
                     sceneNumbers->mNextScene = gSceneRunState->mNextScene;
                     break;
                 default:

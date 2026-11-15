@@ -3,6 +3,11 @@
 #include "types.h"
 #include "Main/Menu/data_02175000.h"
 
+// Fade frames of the staff roll and the award scene (SceneCallbacks.mFadeToClearFrameCount, mFadeToFadedFrameCount).
+#define STAFF_ROLL_FADE_TO_FADED_FRAMES 0x78
+#define AWARD_FADE_TO_CLEAR_FRAMES 0x3c
+#define AWARD_FADE_TO_FADED_FRAMES 0x78
+
 typedef struct SceneNumbers SceneNumbers;
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 

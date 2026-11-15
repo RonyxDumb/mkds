@@ -232,7 +232,7 @@ DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
     InitDisplaySettings(settings, descriptor);
     if (settings->mBg0As == GX_BG0_AS_3D) {
         g3xParams = HeapAlloc(heap, 8);
-        g3xParams->mClearColor = 0x5000;
+        g3xParams->mClearColor = DISPLAY_3D_CLEAR_COLOR;
         g3xParams->mSortMode = 1;
         g3xParams->mBufferMode = 1;
         settings->mG3xParams = g3xParams;
@@ -745,13 +745,13 @@ void PrepareDisplayFrame(void) {
 }
 
 u32 IsFrameSpanningVBlank(void) {
-    return (gDisplaySettings->mFrameFlags & 2) ? 1 : 0;
+    return (gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_SPANNED_VBLANK) ? 1 : 0;
 }
 
 void ClearFrameFinishedFlag(void) {
     u32 frameFlags;
     frameFlags = gDisplaySettings->mFrameFlags;
-    frameFlags = (frameFlags) & ~(1u);
+    frameFlags = (frameFlags) & ~(u32) DISPLAY_FRAME_FLAG_FINISHED;
     gDisplaySettings->mFrameFlags = frameFlags;
 }
 
@@ -833,11 +833,11 @@ void FinishDisplayFrame(void) {
     if (settings->mBg0As == GX_BG0_AS_3D) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
-    if ((gDisplaySettings->mFrameFlags & 1) == 0) {
-        gDisplaySettings->mFrameFlags |= 2;
+    if ((gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
+        gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
     } else {
-        gDisplaySettings->mFrameFlags &= ~2;
-        gDisplaySettings->mFrameFlags &= ~1;
+        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
     }
     settings = gDisplaySettings;
     tick = OS_GetTick();
@@ -845,7 +845,7 @@ void FinishDisplayFrame(void) {
     for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
         OS_WaitIrq(1, 1);
     }
-    gDisplaySettings->mFrameFlags |= 1;
+    gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
     gDisplaySettings->mWaitEndTick = OS_GetTick();
     if (prevMainBrightness != gMainBrightnessFade.mBrightness) {
         GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
@@ -873,13 +873,13 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
     UpdateBrightnessFade(&gMainBrightnessFade);
     UpdateBrightnessFade(&gSubBrightnessFade);
     DC_StoreAll();
-    if ((gDisplaySettings->mFrameFlags & 1) == 0) {
-        gDisplaySettings->mFrameFlags |= 2;
+    if ((gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
+        gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
     } else {
-        gDisplaySettings->mFrameFlags &= ~2;
-        gDisplaySettings->mFrameFlags &= ~1;
+        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
     }
-    if (skipWhenSpanned == 0 || (gDisplaySettings->mFrameFlags & 2) == 0) {
+    if (skipWhenSpanned == 0 || (gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_SPANNED_VBLANK) == 0) {
         swapAndWait = TRUE;
     } else {
         swapAndWait = FALSE;
@@ -896,7 +896,7 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
             OS_WaitIrq(1, 1);
         }
     }
-    gDisplaySettings->mFrameFlags |= 1;
+    gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
     gDisplaySettings->mWaitEndTick = OS_GetTick();
     if (prevMainBrightness != gMainBrightnessFade.mBrightness) {
         GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
@@ -923,11 +923,11 @@ void FinishDisplayFrameSwapIf(s32 doSwap) {
     UpdateBrightnessFade(&gMainBrightnessFade);
     UpdateBrightnessFade(&gSubBrightnessFade);
     DC_StoreAll();
-    if ((gDisplaySettings->mFrameFlags & 1) == 0) {
-        gDisplaySettings->mFrameFlags |= 2;
+    if ((gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
+        gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
     } else {
-        gDisplaySettings->mFrameFlags &= ~2;
-        gDisplaySettings->mFrameFlags &= ~1;
+        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
     }
     settings = gDisplaySettings;
     if (settings->mBg0As == GX_BG0_AS_3D && doSwap != 0) {
@@ -939,7 +939,7 @@ void FinishDisplayFrameSwapIf(s32 doSwap) {
     for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
         OS_WaitIrq(1, 1);
     }
-    gDisplaySettings->mFrameFlags |= 1;
+    gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
     gDisplaySettings->mWaitEndTick = OS_GetTick();
     if (prevMainBrightness != gMainBrightnessFade.mBrightness) {
         GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);

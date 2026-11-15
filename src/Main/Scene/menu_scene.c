@@ -192,11 +192,11 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
     if (gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
         if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
             callbacks.mFadeToClearFrameCount = 1;
-            callbacks.mFadeToFadedFrameCount = 0x78;
+            callbacks.mFadeToFadedFrameCount = STAFF_ROLL_FADE_TO_FADED_FRAMES;
         }
     } else {
-        callbacks.mFadeToClearFrameCount = 0x3c;
-        callbacks.mFadeToFadedFrameCount = 0x78;
+        callbacks.mFadeToClearFrameCount = AWARD_FADE_TO_CLEAR_FRAMES;
+        callbacks.mFadeToFadedFrameCount = AWARD_FADE_TO_FADED_FRAMES;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LoadSndBanksForCharacters(1);

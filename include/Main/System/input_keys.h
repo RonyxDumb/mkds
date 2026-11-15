@@ -16,6 +16,15 @@ typedef struct KeyStream {
     /* 18 */ u16 mKeyMask;
 } KeyStream;
 
+// Frames a key is held before it repeats, and frames between two repeats (KeysInputSlot defaults).
+#define KEYS_REPEAT_DELAY_FRAMES 0x14
+#define KEYS_REPEAT_INTERVAL_FRAMES 8
+
+// Origin argument of SeekKeyStream: the start of the stream, the current position, the highest position written.
+#define KEY_STREAM_SEEK_START 0
+#define KEY_STREAM_SEEK_CURRENT 1
+#define KEY_STREAM_SEEK_END 2
+
 u32 ReadKeyBitsFromStream(void);
 void WriteKeyBitsToStream(u32 keys);
 void SeekKeyStream(u32 count, u32 origin);

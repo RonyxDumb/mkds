@@ -6,6 +6,7 @@
 #include "tp.h"
 #include "Main/Menu/data_02175628.h"
 #include "Main/Race/data_021759c0.h"
+#include "Main/Graphics/oam.h"
 
 void StartTouchAutoSampling(void) {
     if (gTouchMicInput->mTouchAutoSampling != 0) {
@@ -109,7 +110,7 @@ void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverT
         pair->mPoint = point;
         if (pair->mHasPair != 0) {
             pair->mNoPairCount = 0;
-        } else if (pair->mNoPairCount <= 5) {
+        } else if (pair->mNoPairCount <= INPUT_PAIR_NO_PAIR_COUNT_LIMIT) {
             pair->mNoPairCount++;
         }
     }

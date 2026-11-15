@@ -1,4 +1,5 @@
 #include "Main/System/key_recording.h"
+#include "Main/System/scene_numbers.h"
 #include "Main/System/wvr_state.h"
 #include "Main/Race/race_setup_input.h"
 
@@ -144,8 +145,8 @@ void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
     emblemDone = AdvanceEmblemAndCheckDone();
     if (sceneNumbers != NULL && emblemDone != 0) {
         switch (sceneNumbers->mPreviousScene) {
-            case 7:
-                sceneNumbers->mNextScene = 7;
+            case SCENE_OPTION:
+                sceneNumbers->mNextScene = SCENE_OPTION;
                 break;
             default:
                 sceneNumbers->mNextScene = 0;

@@ -147,6 +147,12 @@ typedef struct SceneRunState {
     /* 120 */ s8 mNextScene;
 } SceneRunState;
 
+// DisplaySettings.mFrameFlags: the frame was finished and waited for; the frame took more than one vblank.
+#define DISPLAY_FRAME_FLAG_FINISHED 1
+#define DISPLAY_FRAME_FLAG_SPANNED_VBLANK 2
+// G3xParams.mClearColor of a 3D scene.
+#define DISPLAY_3D_CLEAR_COLOR 0x5000
+
 // Object behind member 0x6c of DisplaySettings.
 typedef struct G3xParams {
     /* 00 */ u16 mClearColor;

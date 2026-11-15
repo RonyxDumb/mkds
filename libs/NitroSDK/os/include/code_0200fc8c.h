@@ -66,6 +66,7 @@ typedef struct OSSystemWork {
     /* 394 */ u16 mMicSamplingData;
     /* 396 */ u16 mWmCallbackControl;
     /* 398 */ u8 mUnk_398[0x10];
+    // Bit 15 is set while the console is closed; the sleep wait and the pad readers test it.
     /* 3a8 */ vu16 mButtonXY;
     /* 3aa */ u16 mTouchPanel[2];
     /* 3ae */ u8 mUnk_3ae[2];

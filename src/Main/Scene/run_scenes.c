@@ -1,4 +1,5 @@
 #include "Main/Scene/run_scenes.h"
+#include "Main/System/scene_numbers.h"
 #include "Main/System/heap.h"
 #include "Main/Net/slot_result_sync.h"
 #include "Main/MapObjects/data_02165000.h"
@@ -266,12 +267,12 @@ s32 RunScenes(s16 *sceneNumber) {
 
 void RunScenesForever(void) {
     HeapCall heapCall;
-    gRunScenesState->mSceneNumber = 9;
+    gRunScenesState->mSceneNumber = SCENE_LOGO;
     gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
         gMenuShared->mWLMenuKind = 0;
-        gRunScenesState->mSceneNumber = 6;
+        gRunScenesState->mSceneNumber = SCENE_WL_MENU;
     }
     do {
         gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;

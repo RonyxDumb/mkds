@@ -24,8 +24,8 @@ void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mRepeatState = 0;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = 0x14;
-    gKeysInputSlot.mRepeatIntervalLimit = 8;
+    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
+    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
     gKeysInputSlot.mHoldLong = 0;
     gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
@@ -41,8 +41,8 @@ void ResetKeysInputSlot(void) {
     gKeysInputSlot.mRepeatState = 0;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = 0x14;
-    gKeysInputSlot.mRepeatIntervalLimit = 8;
+    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
+    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
     gKeysInputSlot.mHoldLong = 0;
     gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
@@ -65,13 +65,13 @@ void SeekKeyStream(u32 count, u32 origin) {
     u8 *newPosition;
     u8 *start;
     switch (origin) {
-        case 2:
+        case KEY_STREAM_SEEK_END:
             newPosition = gKeyStream.mHighestWritten - count * elementSize;
             break;
-        case 0:
+        case KEY_STREAM_SEEK_START:
             newPosition = gKeyStream.mStart + count * elementSize;
             break;
-        case 1:
+        case KEY_STREAM_SEEK_CURRENT:
             newPosition = gKeyStream.mPosition + count * elementSize;
             break;
     }

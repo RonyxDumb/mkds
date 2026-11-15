@@ -181,7 +181,7 @@ u32 GetLanguageCode(void) {
     s32 languageIndex;
 
     languageIndex = gStartupWork->mLanguageIndex;
-    if (gStartupWork->mRegion == 2 && languageIndex == LANGUAGE_ENGLISH) {
+    if (gStartupWork->mRegion == REGION_EUROPE && languageIndex == LANGUAGE_ENGLISH) {
         languageIndex += 5;
     }
     return (u32) gLanguageCodes[languageIndex];
@@ -194,7 +194,7 @@ u32 GetLanguageCode(void) {
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
     languageIndex = gConnectionWork->mLanguageIndex;
-    if ((gStartupWork->mRegion == 2) && (gStartupWork->mLanguageIndex == LANGUAGE_ENGLISH)) {
+    if ((gStartupWork->mRegion == REGION_EUROPE) && (gStartupWork->mLanguageIndex == LANGUAGE_ENGLISH)) {
         languageIndex = languageIndex + 5;
     }
     return (u32) gLanguageCodes[languageIndex];

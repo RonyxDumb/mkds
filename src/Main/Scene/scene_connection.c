@@ -1,4 +1,5 @@
 #include "Main/Scene/scene_connection.h"
+#include "Main/System/scene_numbers.h"
 #include "Main/System/heap.h"
 #include "Main/Scene/display_settings.h"
 #include "Main/Scene/run_scene_connection.h"
@@ -138,19 +139,19 @@ s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
     BOOL result = FALSE;
 
     switch (sceneNumber) {
-        case 11:
+        case SCENE_NICKNAME:
             *seqId = 4;
             result = TRUE;
             break;
-        case 0:
+        case SCENE_TITLE:
             *seqId = 0;
             result = TRUE;
             break;
-        case 7:
+        case SCENE_OPTION:
             *seqId = 4;
             result = TRUE;
             break;
-        case 2:
+        case SCENE_RACE:
             if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
                 if (gRaceSetup->mCourseId != COURSE_ID_STAFFROLL) {
                     if (gRaceSetup->mCourseId == COURSE_ID_STAFFROLLTRUE) {
@@ -171,34 +172,34 @@ s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
     BOOL result = TRUE;
 
     switch (scene) {
-        case 0:
-            if (nextScene == 2) {
+        case SCENE_TITLE:
+            if (nextScene == SCENE_RACE) {
                 result = FALSE;
             }
             break;
-        case 11:
-            if (nextScene == 14) {
+        case SCENE_NICKNAME:
+            if (nextScene == SCENE_KEYBOARD) {
                 result = FALSE;
             }
             break;
-        case 14:
-            if (nextScene == 3 || nextScene == 7) {
+        case SCENE_KEYBOARD:
+            if (nextScene == SCENE_EMBLEM || nextScene == SCENE_OPTION) {
                 result = FALSE;
             }
             break;
-        case 7:
-            if (nextScene == 3 || nextScene == 14) {
+        case SCENE_OPTION:
+            if (nextScene == SCENE_EMBLEM || nextScene == SCENE_KEYBOARD) {
                 result = FALSE;
             }
             break;
-        case 3:
-            if (nextScene == 7) {
+        case SCENE_EMBLEM:
+            if (nextScene == SCENE_OPTION) {
                 result = FALSE;
             }
             break;
-        case 2:
-            if (nextScene != 0) {
-                if (nextScene == 15) {
+        case SCENE_RACE:
+            if (nextScene != SCENE_TITLE) {
+                if (nextScene == SCENE_ENDING) {
                     if (GetStaffRollEndedEarly()) {
                         StopSceneSoundSetSeqWithSteps(0x78);
                     }
@@ -275,7 +276,7 @@ void RunMessageScreenThread(void *unused) {
         } while (status == -1);
         switch (status) {
             case 1:
-                gSceneRunState->mNextScene = 12;
+                gSceneRunState->mNextScene = SCENE_WIFI_MENU;
                 break;
             default:
                 gSceneRunState->mNextScene = 0;
@@ -356,7 +357,7 @@ void RunMessageScreen(void) {
     } while (waitDone == FALSE || screenResult == -1);
     switch (screenResult) {
         case 1:
-            gSceneRunState->mNextScene = 12;
+            gSceneRunState->mNextScene = SCENE_WIFI_MENU;
             break;
         default:
             gSceneRunState->mNextScene = 0;
@@ -480,16 +481,17 @@ BOOL ShouldGoSleepMode(void) {
 u32 IsVolatileHalfwordIndex39Ignored(void) {
     s32 unused;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() || GetCurrentSceneNumber() == 6 ||
-        GetCurrentSceneNumber() == 13 || (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLogin() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF)) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() ||
+        GetCurrentSceneNumber() == SCENE_WL_MENU || GetCurrentSceneNumber() == SCENE_GHOST ||
+        (GetCurrentSceneNumber() == SCENE_WIFI_MENU && IsWiFiSessionOffOutsideLogin() == FALSE) ||
+        (GetCurrentSceneNumber() != SCENE_WIFI_MENU && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF)) {
         return 1;
     }
     switch (GetCurrentSceneNumber()) {
-        case 9:
-        case 15:
+        case SCENE_LOGO:
+        case SCENE_ENDING:
             return 1;
-        case 2:
+        case SCENE_RACE:
             if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
                 return 1;
             }
