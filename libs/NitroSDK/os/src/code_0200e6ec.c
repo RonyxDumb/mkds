@@ -305,9 +305,9 @@ u32 OSi_IsRunOnDebugger(void) {
     u16 *address;
 
     if (*HW_CHECK_DEBUGGER_SW == 0) {
-        address = HW_UNK_027FF814_BUF;
+        address = HW_CHECK_DEBUGGER_BUF1;
     } else {
-        address = HW_UNK_027FFC14_BUF;
+        address = HW_CHECK_DEBUGGER_BUF2;
     }
     return *address == 1;
 }

@@ -5,8 +5,8 @@
 struct OSThread;
 
 #define HW_CHECK_DEBUGGER_SW ((u16 *) 0x027ffc10)
-#define HW_UNK_027FF814_BUF ((u16 *) 0x027ff814)
-#define HW_UNK_027FFC14_BUF ((u16 *) 0x027ffc14)
+#define HW_CHECK_DEBUGGER_BUF1 ((u16 *) 0x027ff814)
+#define HW_CHECK_DEBUGGER_BUF2 ((u16 *) 0x027ffc14)
 
 // Head and tail of a list of threads, linked through OSThread.mLinkNext and OSThread.mLinkPrev by OSi_InsertLinkToQueue
 // and OSi_RemoveLinkFromQueue. OS_WakeupThread and OS_SleepThread take it.
