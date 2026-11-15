@@ -13,7 +13,7 @@ typedef struct WMStartScanExCallback {
     /* 04 */ u16 mUnk_04;
     /* 06 */ u16 mUnk_06;
     /* 08 */ u16 mState;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 mChannelList;
     /* 0c */ u16 mUnk_0c;
     /* 0e */ u16 mBssDescCount;
     /* 10 */ WMBssDesc *mBssDesc[0x10];

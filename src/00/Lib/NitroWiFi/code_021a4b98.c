@@ -924,7 +924,7 @@ void WcmWmcbScanEx(WMStartScanExCallback *callback) {
                         }
                     }
                     gWcmWork->mScanExParam.mChannelList =
-                        (1 << WcmGetNextScanChannel(32 - WcmCountLeadingZero(callback->mUnk_0a))) >> 1;
+                        (1 << WcmGetNextScanChannel(32 - WcmCountLeadingZero(callback->mChannelList))) >> 1;
                     DC_InvalidateRange(gWcmWork->mScanExParam.mScanBuf, gWcmWork->mScanExParam.mScanBufSize);
                     gWcmWork->mScanCount++;
                     result = WM_StartScanEx((WirelessMessageCallback) WcmWmcbScanEx, &gWcmWork->mScanExParam);
