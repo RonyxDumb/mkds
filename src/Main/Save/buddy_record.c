@@ -28,7 +28,8 @@ static inline s32 TryGetFilledTimeRecord(s32 courseId, s32 recordIndex, TimeReco
 }
 
 void CopyWiFiBuddiesToRecordBlock(DWCAccFriendData *buddies) {
-    MI_CpuCopy8(buddies, gBackupBuffers->mBuddyRecordBlock->mFriendData, 0x2d0);
+    MI_CpuCopy8(buddies, gBackupBuffers->mBuddyRecordBlock->mFriendData,
+                sizeof(gBackupBuffers->mBuddyRecordBlock->mFriendData));
 }
 
 void RefreshNotYetBuddyFlags(void) {

@@ -565,12 +565,12 @@ void SetRaceResultRecords(void) {
 }
 
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord) {
-    MI_CpuCopy8(buddyRecord, &gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], 0x24);
+    MI_CpuCopy8(buddyRecord, &gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], sizeof(BuddyRecord));
 }
 
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut) {
     if (buddyRecordOut != NULL) {
-        MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], buddyRecordOut, 0x24);
+        MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], buddyRecordOut, sizeof(BuddyRecord));
     }
     return gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0;
 }

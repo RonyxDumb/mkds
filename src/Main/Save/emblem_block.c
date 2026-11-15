@@ -64,7 +64,7 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
     if (blockIndex != emblemBlock->mBlockIndex) {
         return FALSE;
     }
-    MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[buddyIndex], &buddyRecord, 0x24);
+    MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[buddyIndex], &buddyRecord, sizeof(BuddyRecord));
     if (buddyRecord.mFilled == 0 || buddyRecord.mHasEmblem == 0) {
         return FALSE;
     }
@@ -283,7 +283,7 @@ static inline u8 CopyBuddyRecordsAndCountFilled(void *recordOut) {
     u8 recordIndex = 0;
     do {
         if (recordOut != 0) {
-            MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], recordOut, 0x24);
+            MI_CpuCopy8(&gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex], recordOut, sizeof(BuddyRecord));
         }
         if (gBackupBuffers->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0) {
             filledCount = filledCount + 1;
