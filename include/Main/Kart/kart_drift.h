@@ -983,6 +983,9 @@ extern s32 gSpeedReductionAtFullTurnRatio;
 // A map object spins the kart when it is hit above this Kart.mVelocityLength (or the object has
 // MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED).
 #define KART_MAP_OBJECT_SPIN_MIN_SPEED 0x3000
+// A map object touch is recorded for the sound only above this Kart.mVelocityLength (or for an object with
+// MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED).
+#define KART_MAP_OBJECT_TOUCH_MIN_SPEED 0x2000
 
 // Values of Kart.mModelScaleKind: which scale tables the model scale animation plays (a normal landing, a landing after
 // a hop or a long fall, a bump), and the frames it runs.

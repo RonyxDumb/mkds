@@ -46,7 +46,7 @@ void WriteRaceGoalSRowTiles(s32 row, s32 style) {
     copyIndex = nscrIndex != 0 ? 1 : 0;
     nscrIndex = nscrIndex != 0 ? 2 : 1;
     switch (style) {
-        case 0:
+        case RACE_GOAL_S_ROW_STYLE_FOLLOWED:
             spanStart = spans[row].mFirst;
             spanLength = spans[row].mSecond - spanStart + 1;
             fullStart = fullSpan.mFirst;
@@ -56,7 +56,7 @@ void WriteRaceGoalSRowTiles(s32 row, s32 style) {
             SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 9);
             break;
-        case 1:
+        case RACE_GOAL_S_ROW_STYLE_OTHER:
             spanStart = spans[row].mFirst;
             spanLength = spans[row].mSecond - spanStart + 1;
             fullStart = fullSpan.mFirst;
@@ -66,7 +66,7 @@ void WriteRaceGoalSRowTiles(s32 row, s32 style) {
             SetScreenMapBlockTopBits(gRaceGoalS->mRaceGoalSNscrs[nscrIndex]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 8);
             break;
-        case 2:
+        case RACE_GOAL_S_ROW_STYLE_HIDDEN:
             spanStart = spans[row].mFirst;
             spanLength = spans[row].mSecond - spanStart + 1;
             fullLength = fullSpan.mSecond - fullSpan.mFirst + 1;
@@ -355,11 +355,11 @@ void DrawRaceGoalSKarts(RaceHudOamBuffer *oamBuffer) {
             hundreds = ones;
         }
         if (gRaceGoalS->mRowVisible[rowIndex] == 0) {
-            WriteRaceGoalSRowTiles(rowIndex, 2);
+            WriteRaceGoalSRowTiles(rowIndex, RACE_GOAL_S_ROW_STYLE_HIDDEN);
         } else if (kartIndex == GetFollowedKartOrEntryIndex()) {
-            WriteRaceGoalSRowTiles(rowIndex, 0);
+            WriteRaceGoalSRowTiles(rowIndex, RACE_GOAL_S_ROW_STYLE_FOLLOWED);
         } else {
-            WriteRaceGoalSRowTiles(rowIndex, 1);
+            WriteRaceGoalSRowTiles(rowIndex, RACE_GOAL_S_ROW_STYLE_OTHER);
         }
         if (gRaceGoalS->mRowVisible[rowIndex] != 0) {
             if (hundreds != 0) {

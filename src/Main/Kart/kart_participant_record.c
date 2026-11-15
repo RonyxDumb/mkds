@@ -1669,7 +1669,7 @@ void FinishKartAtMissionRunEnd(Kart *kart) {
             case RACE_END_KIND_KART_STATE:
             case RACE_END_KIND_CONTACT:
             case RACE_END_KIND_FAILED:
-            case 5:
+            case RACE_END_KIND_UNUSED:
             case RACE_END_KIND_NOT_ENDED:
             default:
                 if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {

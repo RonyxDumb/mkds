@@ -95,8 +95,8 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     record->mRank = rank;
     record->mPoints = points;
     record->mTotalPoints = previousTotal + points;
-    if (record->mTotalPoints > 9999) {
-        record->mTotalPoints = 9999;
+    if (record->mTotalPoints > CUP_RECORD_TOTAL_POINTS_MAX) {
+        record->mTotalPoints = CUP_RECORD_TOTAL_POINTS_MAX;
     }
     if (rank == 1) {
         winCount = winCount + 1;

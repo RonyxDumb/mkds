@@ -33,6 +33,8 @@ typedef s32 BOOL;
 // Whole number to fixed-point and back (12 fraction bits).
 #define TO_FIXED12(x) ((x) << 12)
 #define FROM_FIXED12(x) ((x) >> 12)
+// The fraction bits of a fixed-point number.
+#define FIXED12_FRACTION_MASK 0xfff
 // A positive fraction num/den as fixed-point, rounded to the nearest step (negate it for a negative one).
 #define FIXED12_RATIO(num, den) ((s32) ((((num) * 0x2000) + (den)) / ((den) * 2)))
 

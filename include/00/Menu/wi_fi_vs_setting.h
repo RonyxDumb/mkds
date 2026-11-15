@@ -124,14 +124,6 @@ typedef struct EntryCharacterKartKind {
     /* 08 */ s32 mPlayerKind;
 } EntryCharacterKartKind;
 
-// Values of MenuShared.mMenuEntryKind: how the menu scene was entered, set by the race scene from the pick on the race
-// list screen (CHOISES_S_PICK_*) and by the screens that start a connected race or a ghost.
-#define MENU_ENTRY_KIND_DEFAULT 0
-#define MENU_ENTRY_KIND_CHANGE_CHARACTERS 1
-#define MENU_ENTRY_KIND_CHANGE_COURSE 2
-#define MENU_ENTRY_KIND_SELECT_MISSION 3
-#define MENU_ENTRY_KIND_CONNECTED 4
-#define MENU_ENTRY_KIND_GHOST 5
 // Values of MenuShared.mWiFiMenuStartKind: the WiFi menu state the scene starts in after a race or a result (the top
 // menu, the VS setting, the character select or the VS course select).
 #define WIFI_MENU_START_TOP_MENU 0

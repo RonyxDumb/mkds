@@ -4,6 +4,7 @@
 #include "Main/Race/cup_records.h"
 #include "Main/System/low_byte.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/Menu/data_02174000.h"
 #include "Main/System/heap_call.h"
 #include "Main/Menu/data_02153000.h"
@@ -1052,7 +1053,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                         sceneNumbers->mNextScene = SCENE_WL_MENU;
                                     }
                                 } else {
-                                    gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CONNECTED;
+                                    gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = SCENE_MENU_1;
                                     }

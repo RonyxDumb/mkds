@@ -317,7 +317,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                             MUL_FIXED12_NO_ROUND(0x1000 - factor, MUL_FIXED12_NO_ROUND(kart->mVelocityLength,
                                                                                        gFirstBaseSpeedLimitReciprocal));
                     }
-                    if (kart->mVelocityLength > 0x2000 || flagBits != 0) {
+                    if (kart->mVelocityLength > KART_MAP_OBJECT_TOUCH_MIN_SPEED || flagBits != 0) {
                         if (touchedCount < 2) {
                             for (slotIndex = 0; slotIndex < 2; slotIndex++) {
                                 if (mapObject == kart->mPrevTouchingMapObjects[slotIndex]) {

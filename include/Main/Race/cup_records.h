@@ -24,3 +24,6 @@ u8 GetCourseIndexInCup(void);
 void ResetCupRecords(void);
 
 void CreateCupRecords(void *heap);
+
+// Largest total of Grand Prix points a kart keeps in a cup record.
+#define CUP_RECORD_TOTAL_POINTS_MAX 9999

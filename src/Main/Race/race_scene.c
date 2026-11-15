@@ -16,6 +16,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Race/race_setup_input.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/Race/results_gp.h"
 #include "Main/Race/time_attack_next_scene.h"
 #include "Main/Race/data_021759c0.h"
@@ -321,7 +322,7 @@ void SetPickedValue(u32 pickedValue) {
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_DEFAULT;
+    gMenuShared->mMenuEntryKind = MENU_ENTRY_FIRST_SCREEN;
     nextScene = -1;
     switch (pickedValue) {
         case CHOISES_S_PICK_STAFF_CREDITS:
@@ -352,7 +353,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                     } else {
                         nextScene = SCENE_MENU_1;
                     }
-                    gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CONNECTED;
+                    gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                     gMenuShared->mRaceSetupRequested = 1;
                 } else {
                     nextScene = SCENE_TITLE;
@@ -390,7 +391,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
-                            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_COURSE;
+                            gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
                             nextScene = SCENE_MENU_1;
@@ -419,7 +420,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         }
                     } else {
                         if (gRaceSetup->mCourseListMode == COURSE_LIST_MODE_SINGLE) {
-                            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_COURSE;
+                            gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
                             nextScene = SCENE_MENU_1;
@@ -456,14 +457,14 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             break;
         case CHOISES_S_PICK_CHANGE_CHARACTERS:
             nextScene = SCENE_MENU_1;
-            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_CHARACTERS;
+            gMenuShared->mMenuEntryKind = MENU_ENTRY_CHARACTER_SELECT;
             break;
         case CHOISES_S_PICK_CHANGE_COURSE:
-            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_CHANGE_COURSE;
+            gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
             nextScene = SCENE_MENU_1;
             break;
         case CHOISES_S_PICK_SELECT_MISSION:
-            gMenuShared->mMenuEntryKind = MENU_ENTRY_KIND_SELECT_MISSION;
+            gMenuShared->mMenuEntryKind = MENU_ENTRY_MISSION_SELECT;
             nextScene = SCENE_MENU_1;
             break;
     }

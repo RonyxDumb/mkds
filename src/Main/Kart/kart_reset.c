@@ -983,7 +983,7 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     if (value >= 0) {
         kart->mOffsetCyclePhase = value;
     }
-    fraction = kart->mOffsetCyclePhase & 0xfff;
+    fraction = kart->mOffsetCyclePhase & FIXED12_FRACTION_MASK;
     tableIndex = FROM_FIXED12(kart->mOffsetCyclePhase);
     nextTableIndex = tableIndex + 1;
     if (nextTableIndex >= 8) {

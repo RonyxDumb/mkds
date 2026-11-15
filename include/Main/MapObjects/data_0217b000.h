@@ -713,6 +713,10 @@ enum {
 #define RACE_GOAL_S_ROWS_PHASE_FRAMES 0x2d
 // Values of RaceGoalS.mRankComparison (a row moved down, moved up, or stayed), the largest points number counted up on
 // a row, and the frames and distance of the slide in.
+// Styles of a RaceGoalS row (WriteRaceGoalSRowTiles): the followed kart, another kart, a row not shown yet.
+#define RACE_GOAL_S_ROW_STYLE_FOLLOWED 0
+#define RACE_GOAL_S_ROW_STYLE_OTHER 1
+#define RACE_GOAL_S_ROW_STYLE_HIDDEN 2
 #define RACE_GOAL_S_RANK_DOWN 0
 #define RACE_GOAL_S_RANK_UP 1
 #define RACE_GOAL_S_RANK_SAME 2

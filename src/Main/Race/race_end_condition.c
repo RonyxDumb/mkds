@@ -268,12 +268,12 @@ void FinishRemainingMissionRunKarts(void) {
             missionSettings = (u8 *) &gRaceSetup->mMissionTimeLimitFrameCount;
             entryKartCounters = GetEntryKartCounters();
             switch (missionSettings[7]) {
-                case 4:
+                case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                     if (missionSettings[0xf] > (u32) entryKartCounters->mMiniTurboCount) {
                         succeeded = 0;
                     }
                     break;
-                case 6:
+                case MISSION_KIND_LAPS_FIRST_PLACE:
                     if (((u32) (raceProgressKart->mRankIndexRequestBits << 28) >> 28) != 1) {
                         succeeded = 0;
                     }
