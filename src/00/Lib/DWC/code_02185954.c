@@ -379,7 +379,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *http, const char *gsbrcd, const char *inga
     }
     MI_CpuCopy8(bssidPointer, postData.mBssid, 6);
     MI_CpuFill8(apInfoBytes, 0, 0x21);
-    apInfoPointer = WCM_GetApEssid((u16 *) &postData);
+    apInfoPointer = WCM_GetApEssid(&postData.mEssidLength);
     if (apInfoPointer == NULL) {
         OS_RestoreInterrupts(interruptState);
         return 3;

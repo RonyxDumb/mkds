@@ -644,7 +644,7 @@ s32 DWC_Http_GetBase64DecodedResult(DWCHttpLabelValue *labelValues, s32 labelVal
     if (encodedText == NULL) {
         return 0;
     }
-    decodedLength = DWC_Auth_Base64Decode((const s8 *) encodedText, strlen(encodedText), (u8 *) buffer, bufferSize);
+    decodedLength = DWC_Auth_Base64Decode((const s8 *) encodedText, strlen(encodedText), buffer, bufferSize);
     if (decodedLength != -1 && decodedLength < bufferSize) {
         buffer[decodedLength] = 0;
     }

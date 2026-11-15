@@ -1655,7 +1655,7 @@ BOOL CPSi_SslConnect(CPSSoc *connection) {
     return RunSetupAfterSendingKind1Record(connection);
 }
 
-u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, CPSSoc *connection) {
+u8 *ReadHttpsRecordsUntilBytesReceived(u32 *unreadCount, CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (httpsState->mReceivedBlock == NULL) {
         if (ReadHttpsRecordAndSetState(connection) == HTTPS_SETUP_FAILED) {
@@ -1689,7 +1689,8 @@ s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(CPSSoc *connection) {
     return httpsState->mReceivedBlockEnd - httpsState->mReceivedBlockOffset;
 }
 
-s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength, CPSSoc *connection) {
+s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *secondBytes, u32 secondLength,
+                           CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     s32 remaining = firstLength + secondLength;
     u8 *record;
@@ -1727,8 +1728,7 @@ s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32
         record[3] = chunkLength >> 8;
         record[4] = chunkLength;
         firstChunkLength = AppendDigestAndXorSentRecordWithKeyStream(httpsState, record);
-        if (CPSi_TcpWrite2Raw(record, firstChunkLength, (const u8 *) emptyLength, emptyLength, connection) <
-            firstChunkLength) {
+        if (CPSi_TcpWrite2Raw(record, firstChunkLength, NULL, emptyLength, connection) < firstChunkLength) {
             chunkLength = noneSent;
         }
         CPSiFree(record);

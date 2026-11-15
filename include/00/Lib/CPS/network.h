@@ -88,6 +88,8 @@ typedef struct DhcpMessage {
     /* 08 */ u8 mUnk_08[4];
     /* 0c */ u16 mClientAddressHigh;
     /* 0e */ u16 mClientAddressLow;
+    /* 10 */ u8 mUnk_10[0xc];
+    /* 1c */ u16 mClientHardwareAddress[3];
 } DhcpMessage;
 
 typedef struct ArpPacket {
@@ -235,10 +237,10 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
 void reply_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length);
 void dispatch_arp(ArpPacket *packet, u32 length);
 void reply_arp(ArpPacket *packet);
-void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent);
+void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent);
 void send_udp(u8 *data, u32 length, CPSSoc *socket);
 void send_ping(u8 *pattern, u32 length, CPSSoc *socket);
-void send_ip(u8 *header, u32 headerLength, u8 *body, u32 bodyLength, u32 addressTo, u8 protocol);
+void send_ip(u8 *header, u32 headerLength, const u8 *body, u32 bodyLength, u32 addressTo, u8 protocol);
 void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u32 offset);
 void send_ether(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 addressTo, u16 type);
 void reg_arpcache(u8 *mac, u32 address, u32 addedEntry);

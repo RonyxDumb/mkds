@@ -56,10 +56,11 @@ typedef struct HttpsEntry HttpsEntry;
 #include "00/types_021ab5e4.h"
 
 void CPSi_SslShutdown(CPSSoc *connection);
-s32 SendHttpsBytesInChunks(u8 *firstBytes, u32 firstLength, u8 *secondBytes, u32 secondLength, CPSSoc *connection);
+s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *secondBytes, u32 secondLength,
+                           CPSSoc *connection);
 s32 ReadHttpsRecordIfBufferedAndGetUnreadByteCount(CPSSoc *connection);
 void SkipHttpsReceivedBytes(u32 count, CPSSoc *connection);
-u8 *ReadHttpsRecordsUntilBytesReceived(s32 *unreadCount, CPSSoc *connection);
+u8 *ReadHttpsRecordsUntilBytesReceived(u32 *unreadCount, CPSSoc *connection);
 BOOL CPSi_SslConnect(CPSSoc *connection);
 BOOL RunSetupAfterSendingKind1Record(CPSSoc *connection);
 void RunSetupAfterReadingKind1RecordUntilDone(CPSSoc *connection);

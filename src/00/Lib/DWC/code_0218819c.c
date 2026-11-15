@@ -95,12 +95,12 @@ s32 DWC_Auth_Base64Encode(const u8 *src, u32 srcLength, char *dst, u32 dstLength
     return dstCursor - dst;
 }
 
-s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, u8 *dst, u32 dstLength) {
+s32 DWC_Auth_Base64Decode(const s8 *src, u32 srcLength, char *dst, u32 dstLength) {
     s32 decodedLength;
     s32 decodedBits;
     u32 charIndex;
     s32 packedByte;
-    u8 *dstCursor;
+    char *dstCursor;
     s8 sextets[4];
     s8 *sextetPointer;
     s8 character;

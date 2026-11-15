@@ -94,7 +94,7 @@ s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc) {
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NWCUSBAP_SSID) {
         nintendoFlag = bssdesc->mCapaInfo >> 4 & 1;
         if (nintendoFlag == 1) {
-            if (DWCi_AC_CheckNintendoUsbAP((const u8 *) bssdesc->mSsid) == 1) {
+            if (DWCi_AC_CheckNintendoUsbAP(bssdesc->mSsid) == 1) {
                 return AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID;
             }
         }
@@ -102,7 +102,7 @@ s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc) {
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NDWCSHAP_SSID_PREFIX) {
         nintendoFlag = bssdesc->mCapaInfo >> 4 & 1;
         if (nintendoFlag == 1) {
-            if (DWCi_AC_CheckNintendoShopAP((const u8 *) bssdesc->mSsid) == 1) {
+            if (DWCi_AC_CheckNintendoShopAP(bssdesc->mSsid) == 1) {
                 return AUTO_CONNECT_AP_TYPE_NDWCSHAP_SSID_PREFIX;
             }
         }

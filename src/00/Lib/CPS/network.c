@@ -600,7 +600,7 @@ void send_ip_frag(u8 *header, u32 headerLength, void *body, u32 bodyLength, u32 
     }
 }
 
-void send_ip(u8 *header, u32 headerLength, u8 *body, u32 bodyLength, u32 addressTo, u8 protocol) {
+void send_ip(u8 *header, u32 headerLength, const u8 *body, u32 bodyLength, u32 addressTo, u8 protocol) {
     u16 offset;
     u8 *payloadCursor;
     u32 chunkLength;
@@ -700,7 +700,7 @@ void send_udp(u8 *data, u32 length, CPSSoc *socket) {
     send_ip(header, 8, data, length, socket->mRemoteIp, 0x11);
 }
 
-void send_tcp(u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
+void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) {
     u8 *header;
     TcpHeader *tcp;
     u32 tcpSize;
@@ -1812,7 +1812,7 @@ u8 *CPS_SocRead(u32 *length) {
             return udp_read_raw(length, socket);
         }
         if (socket->mUseHttps != 0) {
-            return ReadHttpsRecordsUntilBytesReceived((s32 *) length, socket);
+            return ReadHttpsRecordsUntilBytesReceived(length, socket);
         }
         return CPSi_TcpReadRaw(length, socket);
     }
@@ -1895,7 +1895,7 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
             break;
         }
         window -= segmentLength;
-        send_tcp((u8 *) buffer, segmentLength, socket, 0x18, 0);
+        send_tcp(buffer, segmentLength, socket, 0x18, 0);
         OS_YieldThread();
         buffer += segmentLength;
         length -= segmentLength;
@@ -1995,7 +1995,7 @@ s32 CPSi_SocWrite2(const u8 *buffer, s32 length, const u8 *secondBuffer, s32 sec
             }
             bytesWritten = length + secondLength;
         } else if (socket->mUseHttps != 0) {
-            bytesWritten = SendHttpsBytesInChunks((u8 *) buffer, length, (u8 *) secondBuffer, secondLength, socket);
+            bytesWritten = SendHttpsBytesInChunks(buffer, length, secondBuffer, secondLength, socket);
         } else {
             bytesWritten = CPSi_TcpWrite2Raw(buffer, length, secondBuffer, secondLength, socket);
         }
@@ -2323,7 +2323,7 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
         if (replyLength > 0xf0 && reply[0] == 2 &&
             queryId == ((u16) (replyMessage->mTransactionIdHigh >> 8 | replyMessage->mTransactionIdHigh << 8) << 16 |
                         (u16) (replyMessage->mTransactionIdLow >> 8 | replyMessage->mTransactionIdLow << 8)) &&
-            maccmp((const u16 *) (reply + 0x1c), CPSMyMac) == FALSE) {
+            maccmp(replyMessage->mClientHardwareAddress, CPSMyMac) == FALSE) {
             result = 3;
             assignedIp = (u16) (reply[0x10] << 8 | reply[0x11]) << 16 | (u16) (reply[0x12] << 8 | reply[0x13]);
             replyEnd = reply + replyLength;
