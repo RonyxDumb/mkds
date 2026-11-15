@@ -112,7 +112,7 @@ s32 FSi_SeekDirCommand(FSFile *dir) {
         dir->mProp.h.mIndex = tableEntry.mIndex;
         dir->mProp.h.mPos = archive->mFnt + tableEntry.mStart;
     }
-    dir->mParentId = tableEntry.mParent & FS_DIR_NUMBER_MASK;
+    dir->mParentId = tableEntry.mParent & FILE_DIR_NUMBER_MASK;
     return 0;
 }
 

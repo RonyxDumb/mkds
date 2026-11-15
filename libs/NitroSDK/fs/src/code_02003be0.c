@@ -208,10 +208,10 @@ s32 FS_ReadFile(FSFile *file, void *dst, s32 len) {
 // Moves the file position, clamped to the file range; origin 0 is start, 1 current, 2 end.
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     switch (origin) {
-        case FS_SEEK_START:
+        case FILE_SEEK_START:
             offset += file->mProp.p.mUnk_04;
             break;
-        case FS_SEEK_CURRENT:
+        case FILE_SEEK_CURRENT:
             offset += file->mPosition;
             break;
         case FS_SEEK_END:

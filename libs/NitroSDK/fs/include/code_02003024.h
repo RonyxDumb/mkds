@@ -126,7 +126,7 @@ enum {
 #define ARCHIVE_NAME_DOUBLE_CHAR_MAX 0xff00
 
 // Mask of the directory number in the parent field of a directory table entry.
-#define FS_DIR_NUMBER_MASK 0xfff
+#define FILE_DIR_NUMBER_MASK 0xfff
 
 // FSFile.mStat bits: a command on the file is running, the record holds an open file.
 #define FILE_RECORD_BUSY 0x1

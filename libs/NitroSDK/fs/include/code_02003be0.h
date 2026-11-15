@@ -30,8 +30,8 @@ u32 FSi_GetPackedName(const u8 *name, s32 nameLen);
 u32 FS_ChangeDir(const u8 *path);
 // Values of the origin of FS_SeekFile.
 enum {
-    FS_SEEK_START = 0,
-    FS_SEEK_CURRENT = 1,
+    FILE_SEEK_START = 0,
+    FILE_SEEK_CURRENT = 1,
     FS_SEEK_END = 2,
 };
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin);
