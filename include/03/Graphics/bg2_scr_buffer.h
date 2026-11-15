@@ -19,7 +19,7 @@ typedef struct BgPaletteCopyRequest {
 
 void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow);
 void AdvanceBg2ScrUpload(void);
-void CopyBg2ScrBufferRect(int source, int destOffset, int width, int rowCount);
+void CopyBg2ScrBufferRect(const void *source, int destOffset, int width, int rowCount);
 void RequestBg2ScrUpload(void);
 void ReleaseBg2ScrBuffer(void);
 void CreateBg2ScrBuffer(const void *scr);

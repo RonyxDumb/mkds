@@ -2,8 +2,10 @@
 
 #include "types.h"
 
-void DrawCanvasText(unsigned int canvas, unsigned int xPos, unsigned int yPos, unsigned int color, unsigned int flags,
-                    unsigned int text);
+typedef struct BgTextCanvas BgTextCanvas;
+
+void DrawCanvasText(BgTextCanvas *canvas, unsigned int xPos, unsigned int yPos, unsigned int color, unsigned int flags,
+                    void *text);
 
 #include "Main/Menu/data_02180728.h"
 #include "g2d_CharCanvas.h"

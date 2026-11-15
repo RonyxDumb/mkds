@@ -29,16 +29,16 @@ void RequestBg2ScrUpload(void) {
     gBg2ScrBuffer->mUploadRequested = 1;
 }
 
-void CopyBg2ScrBufferRect(int source, int destOffset, int width, int rowCount) {
+void CopyBg2ScrBufferRect(const void *source, int destOffset, int width, int rowCount) {
     int dest;
     int row;
     dest = (s32) gBg2ScrBuffer + 4 + destOffset * 2;
     row = 0;
     if (rowCount > 0) {
         do {
-            MIi_CpuCopy16((const void *) source, (void *) dest, (u32) (width << 1));
+            MIi_CpuCopy16(source, (void *) dest, (u32) (width << 1));
             row = row + 1;
-            source = source + 0x40;
+            source = (const u8 *) source + 0x40;
             dest = dest + 0x40;
         } while (row < rowCount);
     }

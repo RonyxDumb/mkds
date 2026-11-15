@@ -161,12 +161,9 @@ void ReleaseBgTextCanvasOfScreen(u32 index) {
     ReleaseBgTextCanvas(&gTextCanvases->mBgTextCanvases[index]);
 }
 
-void DrawCanvasText(u32 canvas, u32 xPos, u32 yPos, u32 color, u32 flags, u32 text) {
+void DrawCanvasText(BgTextCanvas *canvas, u32 xPos, u32 yPos, u32 color, u32 flags, void *text) {
     u32 textFlags = flags;
-    u32 textAddress = text;
-    u32 textCanvasAddress = ((canvas) + (0x20u));
-    u32 drawResult = NNSi_G2dTextCanvasDrawText((TextCanvas *) textCanvasAddress, xPos, yPos, color, textFlags,
-                                                (void *) textAddress);
+    u32 drawResult = NNSi_G2dTextCanvasDrawText(&canvas->mTextCanvas, xPos, yPos, color, textFlags, text);
 }
 
 void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, int fontIndex) {

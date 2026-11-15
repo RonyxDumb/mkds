@@ -547,7 +547,7 @@ void RefreshJb3List(void) {
     for (rowIndex = 0, entryIndex = firstEntryIndex; rowIndex < 5; rowIndex++, entryIndex++) {
         PrintJb3ListEntryText(entryIndex, rowIndex);
     }
-    CopyBg2ScrBufferRect((s32) (gJb3List->mJb3ListBackNsc + gJb3ListBackNscOffsets[firstEntryIndex]), 0, 0x1e, 0x13);
+    CopyBg2ScrBufferRect(gJb3List->mJb3ListBackNsc + gJb3ListBackNscOffsets[firstEntryIndex], 0, 0x1e, 0x13);
     for (rowIndex = 0; rowIndex < 5; rowIndex++, firstEntryIndex++) {
         SetupJb3ListEntryCells(firstEntryIndex, rowIndex);
     }

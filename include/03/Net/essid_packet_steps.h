@@ -182,5 +182,5 @@ extern u32 gRandomState[3];
 extern RequestState gRequestState;
 extern u8 gKeyStreamKey[0x64];
 extern u8 gItemSlots[0x280];
-extern u8 gCrcTable[0x400];
+extern u32 gCrcTable[0x100];
 extern ParsedItems gParsedItems[2];

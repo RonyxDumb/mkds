@@ -63,7 +63,7 @@ u32 gRandomState[3];
 RequestState gRequestState;
 u8 gKeyStreamKey[0x64];
 u8 gItemSlots[0x280];
-u8 gCrcTable[0x400];
+u32 gCrcTable[0x100];
 ParsedItems gParsedItems[2];
 
 s32 RunValueRecordsRequest(ValueRecordsRequest *req) {
@@ -1535,7 +1535,7 @@ u32 NextKeyStreamByte(KeyStreamState *state) {
 }
 
 u8 ComputeCrcLowByte(const u8 *bytes, s32 count) {
-    return ComputeCrc(~0, bytes, count, 0, (u32 *) gCrcTable) ^ ~0;
+    return ComputeCrc(~0, bytes, count, 0, gCrcTable) ^ ~0;
 }
 
 u32 ComputeCrc(u32 crc, const u8 *bytes, s32 count, s32 tableBuilt, u32 *table) {

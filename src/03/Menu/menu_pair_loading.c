@@ -82,7 +82,7 @@ void PrintMessage(u32 messageIndex) {
     RequestBgTextCanvasUpload(canvas);
 }
 
-void PrintMessageAndText(u32 text, u32 messageIndex) {
+void PrintMessageAndText(void *text, u32 messageIndex) {
     void *canvas;
     void *message;
 
@@ -90,7 +90,7 @@ void PrintMessageAndText(u32 text, u32 messageIndex) {
     message = GetMessageEntry(gMessages, messageIndex);
     DrawCanvasTextRect(canvas, gPrintMessageAndTextRect[0], gPrintMessageAndTextRect[1], gPrintMessageAndTextRect[2],
                        gPrintMessageAndTextRect[3], 2, GetLanguageTextFlags(), message);
-    DrawCanvasText((u32) canvas, gPrintMessageTextXPositions[GetLanguageIndex() * 2],
+    DrawCanvasText(canvas, gPrintMessageTextXPositions[GetLanguageIndex() * 2],
                    (gPrintMessageTextXPositions + 1)[GetLanguageIndex() * 2], 2, 0x209, text);
     RequestBgTextCanvasUpload(canvas);
 }

@@ -3,7 +3,7 @@
 #include "types.h"
 
 u32 GetLanguageTextFlags(void);
-void PrintMessageAndText(u32 text, u32 messageIndex);
+void PrintMessageAndText(void *text, u32 messageIndex);
 void PrintMessage(u32 messageIndex);
 void CreateSlideButtonsForMenuPair(u32 variant);
 void CreateObjectsForMenuPair(u32 row);

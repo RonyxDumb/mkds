@@ -56,7 +56,7 @@ void SetupUsb(void) {
     ownerText[0] = 0;
     MIi_CpuClear16(ownerText[0], &ownerText[1], 0x16);
     MIi_CpuCopy16(ownerInfo.mNickName, &ownerText[1], ownerInfo.mNickNameLength * 2);
-    PrintMessageAndText((u32) &ownerText[1], 0x6d);
+    PrintMessageAndText(&ownerText[1], 0x6d);
     CreateAnimatedIcon(0);
     InitUsbScan(UsbEventCallback);
     StartSoundSeq(0xb);
