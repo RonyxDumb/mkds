@@ -6,7 +6,7 @@
 typedef struct HttpsState HttpsState;
 
 struct CPSSoc;
-typedef s32 (*ConnectionReceiveFn)(void *param_1, u32 param_2, struct CPSSoc *param_3);
+typedef s32 (*ConnectionReceiveFn)(void *data, u32 length, struct CPSSoc *socket);
 
 // Values of CPSSoc.mState: the TCP connection states, then the two modes that carry single packets (DATAGRAM, PING).
 // Value 5 is never set. LAST_ACK is after the peer closed and the answering FIN went out, FIN_SENT after our own FIN,
