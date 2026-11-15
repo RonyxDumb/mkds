@@ -104,12 +104,17 @@ typedef enum SelectKartState {
     SELECT_KART_STATE_DONE,
 } SelectKartState;
 
+// 0x24-byte part of ResultsBattle (at 0x00 and 0x24) and of SelectKart, filled by LoadScreenMapFileSet.
+typedef struct ScreenMapFileSet {
+    /* 00 */ Ncgr *mChars[4];
+    /* 10 */ Nclr *mPalette;
+    /* 14 */ Nscr *mScreenMaps[4];
+} ScreenMapFileSet;
+
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
-    // The 0x24-byte record of LocateAndQueueScreenMapFileSet starts here and runs into mUnk_040.
-    /* 024 */ CellFileSet mSelectKartSBParts;
-    /* 040 */ u8 mUnk_040[8];
+    /* 024 */ ScreenMapFileSet mSelectKartSBParts;
     /* 048 */ CellFileSet mSelectCharacterGpMParts;
     /* 064 */ CellFileSet mSelectKartSParts;
     /* 080 */ void *mMainOam;
@@ -229,13 +234,6 @@ typedef struct PlayerEntryList {
     /* 250 */ s32 mMode;
     /* 254 */ s32 mScreenKind; // PLAYER_ENTRY_LIST_CHARACTER / _KART / _RACE_RULE
 } PlayerEntryList;
-
-// 0x24-byte part of ResultsBattle, at 0x00 and 0x24, filled by LoadScreenMapFileSet.
-typedef struct ScreenMapFileSet {
-    /* 00 */ Ncgr *mChars[4];
-    /* 10 */ Nclr *mPalette;
-    /* 14 */ Nscr *mScreenMaps[4];
-} ScreenMapFileSet;
 
 // 0xc-byte entries from 0xe4 of ResultsBattle.
 typedef struct ResultsBattleEntry {
