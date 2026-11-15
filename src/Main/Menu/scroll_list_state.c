@@ -282,7 +282,7 @@ u16 ScrollListGetDownBits(u32 slotIndex, u32 mask) {
 #pragma thumb on
 
 // Idle state: starts a pick, a selection move or a scroll from the keys and the touch.
-void AdvanceScrollListState0(void) {
+void AdvanceScrollListIdle(void) {
     u32 slotIndex = GetPadInputSlot();
     BOOL rowChanged;
     if (gScrollList->mEnabled == 0) {
@@ -560,7 +560,7 @@ void AdvanceScrollList(void) {
     AdvanceScrollListRightColumnTimer();
     switch (gScrollList->mState) {
         case SCROLL_LIST_STATE_IDLE:
-            AdvanceScrollListState0();
+            AdvanceScrollListIdle();
             break;
         case SCROLL_LIST_STATE_SELECT_UP:
             AdvanceScrollListSelectUp();

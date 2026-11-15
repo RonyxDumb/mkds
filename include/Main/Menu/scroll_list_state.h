@@ -36,7 +36,7 @@ void AdvanceScrollListScrollDown(void);
 void AdvanceScrollListScrollUp(void);
 void AdvanceScrollListSelectDown(void);
 void AdvanceScrollListSelectUp(void);
-void AdvanceScrollListState0(void);
+void AdvanceScrollListIdle(void);
 u16 ScrollListGetDownBits(u32 slotIndex, u32 mask);
 u16 GetSlotDownBits(InputSlot *slot, u32 mask);
 
