@@ -41,10 +41,10 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     LldRecord *rec;
     NNSG2dCellDataWithBR *cell;
 
-    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x18);
+    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Lld));
     data = FindSceneFile((fileName));
     list->mEntryCount = data->mEntryCount;
-    list->mEntries = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mEntryCount * 0x88);
+    list->mEntries = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mEntryCount * sizeof(LldEntry));
     list->mCells = cells;
     list->mCellAnims = cellAnims;
     rec = data->mRecords;

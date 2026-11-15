@@ -46,12 +46,12 @@ void *LoadMissionRunFile(const char *fileName) {
 
 // Overlay-1 version of CreateMapObjectModelAnimated; the file comes from LoadMissionRunFile.
 MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const char *nsbmdName) {
-    MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectModel));
     if (mapObjectList != NULL) {
         mapObjectList->mPassOrPosStepMode = 1;
     }
     mapObjectModel->mNsbmdFile = LoadMissionRunFile((nsbmdName));
-    mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
+    mapObjectModel->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Nsbmd));
     InitNsbmd(mapObjectModel->mAnimatedModel, mapObjectModel->mNsbmdFile);
     SetMapObjectModelFogEnabled(mapObjectModel, 0);
     mapObjectModel->mScale = gMapObjectModelAnimatedScale;
@@ -60,12 +60,12 @@ MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const c
 
 // Overlay-1 version of CreateMapObjectModelShadow; the file comes from LoadMissionRunFile.
 MapObjectModel *LoadMapObjectModelShadow(MapObjectList *mapObjectList, const char *shadowFileName) {
-    MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectModel));
     void *missionRunFile = LoadMissionRunFile((shadowFileName));
     if (mapObjectList != NULL) {
         mapObjectList->mPassOrPosStepMode = 1;
     }
-    mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
+    mapObjectModel->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ShadowModel));
     InitShadowModel(mapObjectModel->mShadowModel, missionRunFile, 0x3f);
     SetMapObjectModelFogEnabled(mapObjectModel, 0);
     mapObjectModel->mScale = gMapObjectModelShadowScale;
@@ -75,7 +75,7 @@ MapObjectModel *LoadMapObjectModelShadow(MapObjectList *mapObjectList, const cha
 void LoadMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const char *fileName) {
     void *missionRunFile = LoadMissionRunFile((fileName));
     u8 entryCount;
-    mapObjectModel->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    mapObjectModel->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ModelAnimation));
     entryCount = NNS_G3dGetJntAnmSet(missionRunFile)->mDict.mNumEntry;
     InitModelAnimation(0, mapObjectModel->mAnimations[0], mapObjectModel->mAnimatedModel, entryCount,
                        GetHeap(GetCurrentHeapCall()), mapObjectModel->mNsbmdFile);
@@ -85,7 +85,7 @@ void LoadMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, const char
 
 void LoadMapObjectModelNsbmaAnimation(MapObjectModel *mapObjectModel, const char *fileName) {
     void *missionRunFile = LoadMissionRunFile((fileName));
-    mapObjectModel->mAnimations[2] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    mapObjectModel->mAnimations[2] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ModelAnimation));
     InitModelAnimationWithEntries(4, (mapObjectModel->mAnimatedModel), (mapObjectModel->mAnimations[2]),
                                   (mapObjectModel->mNsbmdFile), (missionRunFile));
 }
@@ -93,7 +93,7 @@ void LoadMapObjectModelNsbmaAnimation(MapObjectModel *mapObjectModel, const char
 void LoadMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const char *fileName) {
     void *missionRunFile = LoadMissionRunFile((fileName));
     u8 entryCount;
-    mapObjectModel->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    mapObjectModel->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ModelAnimation));
     entryCount = NNS_G3dGetTexSRTAnmSet(missionRunFile)->mDict.mNumEntry;
     InitModelAnimation(1, mapObjectModel->mAnimations[3], mapObjectModel->mAnimatedModel, entryCount,
                        GetHeap(GetCurrentHeapCall()), mapObjectModel->mNsbmdFile);
@@ -103,14 +103,14 @@ void LoadMapObjectModelNsbtaAnimation(MapObjectModel *mapObjectModel, const char
 
 void LoadMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, const char *fileName) {
     void *missionRunFile = LoadMissionRunFile((fileName));
-    mapObjectModel->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    mapObjectModel->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ModelAnimation));
     InitModelAnimationWithEntries(2, (mapObjectModel->mAnimatedModel), (mapObjectModel->mAnimations[1]),
                                   (mapObjectModel->mNsbmdFile), (missionRunFile));
 }
 
 void InitMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, void *nsbcaFile) {
     u8 entryCount;
-    mapObjectModel->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    mapObjectModel->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ModelAnimation));
     entryCount = NNS_G3dGetJntAnmSet(nsbcaFile)->mDict.mNumEntry;
     InitModelAnimation(0, mapObjectModel->mAnimations[0], mapObjectModel->mAnimatedModel, entryCount,
                        GetHeap(GetCurrentHeapCall()), mapObjectModel->mNsbmdFile);
@@ -119,7 +119,7 @@ void InitMapObjectModelNsbcaAnimation(MapObjectModel *mapObjectModel, void *nsbc
 }
 
 void InitMapObjectModelNsbtpAnimation(MapObjectModel *mapObjectModel, void *nsbtpFile) {
-    mapObjectModel->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
+    mapObjectModel->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(ModelAnimation));
     InitModelAnimationWithEntries(2, (mapObjectModel->mAnimatedModel), (mapObjectModel->mAnimations[1]),
                                   (mapObjectModel->mNsbmdFile), (nsbtpFile));
 }
