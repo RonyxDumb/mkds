@@ -99,6 +99,10 @@ void FinishKartAtBattleEnd(Kart *kart, s32 isWinner);
 void FinishKartAtMissionRunEnd(Kart *kart);
 void QueueKartOwnSoundIndex(Kart *kart);
 void StartKartHitReaction(Kart *kart);
+// Entries of the character animation of a kart that the code names: the one a winner and a kart with a star switch to
+// from the base loop (a winner swaps back and forth on a random timer), and the one a losing kart plays.
+#define KART_CHARACTER_ANIMATION_ALTERNATE 2
+#define KART_CHARACTER_ANIMATION_LOST 3
 void SetKartCharacterAnimation(Kart *kart, s32 animationIndex, s32 useBlend);
 void StartBattleKartRemoval(Kart *kart);
 void AdvanceKartRemovalShrink(Kart *kart);

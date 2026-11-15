@@ -1296,7 +1296,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
         AdvanceKartStarEffects(kart->mIndex);
         if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) &&
             kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
-            SetKartCharacterAnimation(kart, 2, 1);
+            SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         }
         itemEffectState->mStarFrames++;
         if (itemEffectState->mStarFrames > KART_TERESA_MAX_FRAMES) {

@@ -277,7 +277,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
         animationState = &modelsEntry->mAnimationState;
         SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
-        SetKartCharacterAnimation(kart, 2, 1);
+        SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         if (isRuleKindWinner != 0) {
             kart->mEntryFlags |= KART_ENTRY_RESULT_WON;
         } else {
@@ -289,7 +289,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         }
     } else if (finishResult == FINISH_RESULT_LOST) {
         kart->mEntryFlags |= KART_ENTRY_RESULT_LOST;
-        SetKartCharacterAnimation(kart, 3, 1);
+        SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_LOST, 1);
     }
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
         normalizedResult = FINISH_RESULT_NEITHER;
@@ -317,10 +317,11 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
         return;
     }
     modelsEntry = kart->mKartModelsEntry;
-    if ((kart->mEntryFlags & KART_ENTRY_HIDDEN) != 0 || modelsEntry->mCharacterAnimation->mCurrentIndex == 2) {
+    if ((kart->mEntryFlags & KART_ENTRY_HIDDEN) != 0 ||
+        modelsEntry->mCharacterAnimation->mCurrentIndex == KART_CHARACTER_ANIMATION_ALTERNATE) {
         SetKartCharacterAnimation(kart, 0, 1);
     } else if (modelsEntry->mCharacterAnimation->mCurrentIndex == 0) {
-        SetKartCharacterAnimation(kart, 2, 1);
+        SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
     }
     localRandom = &gRaceProgress->mLocalRandom;
     localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
