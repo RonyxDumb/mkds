@@ -65,7 +65,7 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
         matBlock = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
         entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &matBlock->mDict, matBlock->mDict.mOfsEntry);
         matData = OFFSET_PTR(NNSG3dResMatData, matBlock, *DICT_ENTRY(u32, entries, matId));
-        if (!(matData->mPolyAttr & 0x1f0000)) {
+        if (!(matData->mPolyAttr & G3D_POLY_ATTR_ALPHA_MASK)) {
             return;
         }
         words[0] = 0x293130;
@@ -73,40 +73,40 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
         words[2] = matData->mSpecEmi;
         polyAttr = matData->mPolyAttr;
         words[3] = polyAttr;
-        if (matData->mFlag & 0x20) {
-            words[3] = polyAttr & ~0x1f0000;
+        if (matData->mFlag & G3D_MAT_FLAG_WIREFRAME) {
+            words[3] = polyAttr & ~G3D_POLY_ATTR_ALPHA_MASK;
         }
         words[4] = 0x2b2a;
         words[5] = matData->mTexImageParam;
         words[6] = matData->mTexPlttBase;
         NNS_G3dGeBufferOP_N(words[0], &words[1], 6);
-        if (matData->mFlag & 1) {
+        if (matData->mFlag & G3D_MAT_FLAG_HAS_TEX_MTX) {
             sendTexSRT = NNS_G3dSendTexSRT_FuncArray[resMdl->mInfo.mTexMtxMode];
-            texResult.mFlag = 8;
+            texResult.mFlag = G3D_MAT_ANM_TEX_MTX_SET;
             texResult.mOrigWidth = matData->mOrigWidth;
             texResult.mOrigHeight = matData->mOrigHeight;
             texResult.mMagW = matData->mMagW;
             texResult.mMagH = matData->mMagH;
             texMtx = matData->mTexMtxData;
-            if (!(matData->mFlag & 2)) {
+            if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_SCALE)) {
                 texResult.mScaleST[0] = ((u32 *) texMtx)[0];
                 texResult.mScaleST[1] = ((u32 *) texMtx)[1];
                 texMtx += 8;
             } else {
-                texResult.mFlag |= 1;
+                texResult.mFlag |= G3D_MAT_ANM_SCALE_IS_ONE;
             }
-            if (!(matData->mFlag & 4)) {
+            if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_ROT)) {
                 texResult.mSinCosR[0] = ((s16 *) texMtx)[0];
                 texResult.mSinCosR[1] = ((s16 *) texMtx)[1];
                 texMtx += 4;
             } else {
-                texResult.mFlag |= 2;
+                texResult.mFlag |= G3D_MAT_ANM_ROT_IS_ZERO;
             }
-            if (!(matData->mFlag & 8)) {
+            if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_TRANS)) {
                 texResult.mTransST[0] = ((u32 *) texMtx)[0];
                 texResult.mTransST[1] = ((u32 *) texMtx)[1];
             } else {
-                texResult.mFlag |= 4;
+                texResult.mFlag |= G3D_MAT_ANM_TRANS_IS_ZERO;
             }
             sendTexSRT(&texResult);
         }
@@ -136,7 +136,7 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
     Vec3 *pos = &gSbcBillboardPosition;
     Vec3 *scaleVec = &gSbcBillboardScale;
 
-    if (state->mFlag & 0x200) {
+    if (state->mFlag & G3D_RS_FLAG_SKIP_ALL) {
         if (mode == 0x40 || mode == 0x60) {
             commandSize++;
         }
@@ -148,7 +148,7 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
     }
     if (mode == 0x40 || mode == 0x60) {
         commandSize++;
-        if (!(state->mFlag & 0x100)) {
+        if (!(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
             if (mode == 0x40) {
                 restoreIdx = state->mC[2];
             } else {
@@ -162,17 +162,17 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
     } else {
         timing = 0;
     }
-    if (!(state->mFlag & 0x100)) {
+    if (!(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
         NNS_G3dGeFlushBuffer();
         reg_G3X_GXFIFO = 0x151110;
         reg_G3X_GXFIFO = 0;
         reg_G3X_GXFIFO = 0;
         while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        if (NNS_G3dGlb.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
             MTX_Concat44(&clipMtx, &invWV, &clipMtx);
-        } else if (NNS_G3dGlb.mFlag & 2) {
+        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
             MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
@@ -182,13 +182,13 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         scaleVec->x = VEC_Mag((Vec3 *) &clipMtx.mRows[0]);
         scaleVec->y = VEC_Mag((Vec3 *) &clipMtx.mRows[1]);
         scaleVec->z = VEC_Mag((Vec3 *) &clipMtx.mRows[2]);
-        if (NNS_G3dGlb.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
             MIi_CpuSend32(gSbcBillboardMatrix, &reg_G3X_GXFIFO, 0x3c);
-        } else if (NNS_G3dGlb.mFlag & 2) {
+        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
@@ -199,15 +199,15 @@ void NNSi_G3dFuncSbc_BB(NNSG3dRS *state, u32 mode) {
         }
     }
     if (timing == 3) {
-        state->mFlag &= ~0x40;
+        state->mFlag &= ~G3D_RS_FLAG_CALLBACK_HANDLED;
         state->mCbVecFunc[7](state);
-        timing = state->mFlag & 0x40;
+        timing = state->mFlag & G3D_RS_FLAG_CALLBACK_HANDLED;
     } else {
         timing = 0;
     }
     if (mode == 0x20 || mode == 0x60) {
         commandSize++;
-        if (timing == 0 && !(state->mFlag & 0x100)) {
+        if (timing == 0 && !(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
             storeIdx = state->mC[2];
             NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
         }
@@ -228,7 +228,7 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     Vec3 *scaleVec = &gSbcBillboardYScale;
     Vec3 *axes = gSbcBillboardYAxes;
 
-    if (state->mFlag & 0x200) {
+    if (state->mFlag & G3D_RS_FLAG_SKIP_ALL) {
         if (mode == 0x40 || mode == 0x60) {
             commandSize++;
         }
@@ -240,7 +240,7 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     }
     if (mode == 0x40 || mode == 0x60) {
         commandSize++;
-        if (!(state->mFlag & 0x100)) {
+        if (!(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
             if (mode == 0x40) {
                 restoreIdx = state->mC[2];
             } else {
@@ -254,17 +254,17 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
     } else {
         timing = 0;
     }
-    if (!(state->mFlag & 0x100)) {
+    if (!(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
         NNS_G3dGeFlushBuffer();
         reg_G3X_GXFIFO = 0x151110;
         reg_G3X_GXFIFO = 0;
         reg_G3X_GXFIFO = 0;
         while (G3X_GetClipMtx(&clipMtx) != 0) {
         }
-        if (NNS_G3dGlb.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             MTX_Copy43To44_(NNS_G3dGlbGetWV(), &invWV);
             MTX_Concat44(&clipMtx, &invWV, &clipMtx);
-        } else if (NNS_G3dGlb.mFlag & 2) {
+        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
             MTX_Copy43To44_(&NNS_G3dGlb.mCameraMtx, &camMtx);
             MTX_Concat44(&clipMtx, &camMtx, &clipMtx);
         }
@@ -283,13 +283,13 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
             axes[1].z = -axes[2].y;
             axes[1].y = axes[2].z;
         }
-        if (NNS_G3dGlb.mFlag & 1) {
+        if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardYOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvWV(), &reg_G3X_GXFIFO, 0x30);
             reg_G3X_GXFIFO = 0x1b19;
             MIi_CpuSend32(gSbcBillboardYAxes, &reg_G3X_GXFIFO, 0x3c);
-        } else if (NNS_G3dGlb.mFlag & 2) {
+        } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
             reg_G3X_GXFIFO = 0x171012;
             MIi_CpuSend32(gSbcBillboardYOpArgs, &reg_G3X_GXFIFO, 8);
             MIi_CpuSend32(NNS_G3dGlbGetInvV(), &reg_G3X_GXFIFO, 0x30);
@@ -300,15 +300,15 @@ void NNSi_G3dFuncSbc_BBY(NNSG3dRS *state, u32 mode) {
         }
     }
     if (timing == 3) {
-        state->mFlag &= ~0x40;
+        state->mFlag &= ~G3D_RS_FLAG_CALLBACK_HANDLED;
         state->mCbVecFunc[8](state);
-        timing = state->mFlag & 0x40;
+        timing = state->mFlag & G3D_RS_FLAG_CALLBACK_HANDLED;
     } else {
         timing = 0;
     }
     if (mode == 0x20 || mode == 0x60) {
         commandSize++;
-        if (timing == 0 && !(state->mFlag & 0x100)) {
+        if (timing == 0 && !(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
             storeIdx = state->mC[2];
             NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
         }
@@ -420,14 +420,14 @@ void NNSi_G3dFuncSbc_CALLDL(NNSG3dRS *state) {
     } else {
         timing = 0;
     }
-    if (!(state->mFlag & 0x100)) {
+    if (!(state->mFlag & G3D_RS_FLAG_NO_COMMANDS)) {
         commandBytes = state->mC;
         NNS_G3dGeSendDL(commandBytes + (commandBytes[1] | (commandBytes[2] << 8) | (commandBytes[3] << 16) |
                                         (commandBytes[4] << 24)),
                         commandBytes[5] | (commandBytes[6] << 8) | (commandBytes[7] << 16) | (commandBytes[8] << 24));
     }
     if (timing == 3) {
-        state->mFlag &= ~0x40;
+        state->mFlag &= ~G3D_RS_FLAG_CALLBACK_HANDLED;
         state->mCbVecFunc[10](state);
     }
     state->mC += 9;
@@ -449,10 +449,10 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
     s32 width;
     s32 height;
 
-    if (!(state->mFlag & 0x200) && (state->mFlag & 1)) {
-        if ((state->mMatAnmResult->mPrmTexImage & 0xc0000000) != 0x80000000) {
-            state->mMatAnmResult->mPrmTexImage &= ~0xc0000000;
-            state->mMatAnmResult->mPrmTexImage |= 0x80000000;
+    if (!(state->mFlag & G3D_RS_FLAG_SKIP_ALL) && (state->mFlag & G3D_RS_FLAG_NODE_VISIBLE)) {
+        if ((state->mMatAnmResult->mPrmTexImage & G3D_TEX_GEN_MASK) != G3D_TEX_GEN_NORMAL) {
+            state->mMatAnmResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
+            state->mMatAnmResult->mPrmTexImage |= G3D_TEX_GEN_NORMAL;
             gEnvMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(gEnvMapTexImageParamCommand[0], &gEnvMapTexImageParamCommand[1], 1);
         }
@@ -475,23 +475,23 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
         matData =
             OFFSET_PTR(NNSG3dResMatData, state->mResMat, *(u32 *) (entries->mData + entries->mSizeUnit * state->mC[1]));
         flag = matData->mFlag;
-        if (flag & 0x2000) {
+        if (flag & G3D_MAT_FLAG_HAS_EXTRA_MTX) {
             texMtx = matData->mTexMtxData;
-            if (!(flag & 2)) {
+            if (!(flag & G3D_MAT_FLAG_NO_TEX_SCALE)) {
                 texMtx += 8;
             }
-            if (!(flag & 4)) {
+            if (!(flag & G3D_MAT_FLAG_NO_TEX_ROT)) {
                 texMtx += 4;
             }
-            if (!(flag & 8)) {
+            if (!(flag & G3D_MAT_FLAG_NO_TEX_TRANS)) {
                 texMtx += 8;
             }
             NNS_G3dGeBufferOP_N(0x18, texMtx, 0x10);
         }
         if (timing == 3) {
-            state->mFlag &= ~0x40;
+            state->mFlag &= ~G3D_RS_FLAG_CALLBACK_HANDLED;
             state->mCbVecFunc[12](state);
-            timing = state->mFlag & 0x40;
+            timing = state->mFlag & G3D_RS_FLAG_CALLBACK_HANDLED;
         } else {
             timing = 0;
         }
@@ -501,11 +501,11 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             NNS_G3dGetCurrentMtx(0, &nrm);
             texModeAfterNormal = 3;
             NNS_G3dGeBufferOP_N(0x10, &texModeAfterNormal, 1);
-            if (NNS_G3dGlb.mFlag & 1) {
+            if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
-            } else if (NNS_G3dGlb.mFlag & 2) {
+            } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
             } else {
@@ -536,13 +536,13 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
     s32 transX;
     s32 transY;
 
-    if (!(state->mFlag & 0x200) && (state->mFlag & 1)) {
+    if (!(state->mFlag & G3D_RS_FLAG_SKIP_ALL) && (state->mFlag & G3D_RS_FLAG_NODE_VISIBLE)) {
         NNS_G3dGetCurrentMtx(&curMatrix, 0);
         storeIdx = 0x1e;
         NNS_G3dGeBufferOP_N(0x13, &storeIdx, 1);
-        if ((state->mMatAnmResult->mPrmTexImage & 0xc0000000) != 0xc0000000) {
-            state->mMatAnmResult->mPrmTexImage &= ~0xc0000000;
-            state->mMatAnmResult->mPrmTexImage |= 0xc0000000;
+        if ((state->mMatAnmResult->mPrmTexImage & G3D_TEX_GEN_MASK) != G3D_TEX_GEN_VERTEX) {
+            state->mMatAnmResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
+            state->mMatAnmResult->mPrmTexImage |= G3D_TEX_GEN_VERTEX;
             gPrjMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(gPrjMapTexImageParamCommand[0], &gPrjMapTexImageParamCommand[1], 1);
         }
@@ -562,32 +562,32 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
         matData =
             OFFSET_PTR(NNSG3dResMatData, state->mResMat, *(u32 *) (entries->mData + entries->mSizeUnit * state->mC[1]));
         flag = matData->mFlag;
-        if (flag & 0x2000) {
+        if (flag & G3D_MAT_FLAG_HAS_EXTRA_MTX) {
             effectMtx = matData->mTexMtxData;
-            if (!(flag & 2)) {
+            if (!(flag & G3D_MAT_FLAG_NO_TEX_SCALE)) {
                 effectMtx += 8;
             }
-            if (!(flag & 4)) {
+            if (!(flag & G3D_MAT_FLAG_NO_TEX_ROT)) {
                 effectMtx += 4;
             }
-            if (!(flag & 8)) {
+            if (!(flag & G3D_MAT_FLAG_NO_TEX_TRANS)) {
                 effectMtx += 8;
             }
             NNS_G3dGeBufferOP_N(0x18, effectMtx, 0x10);
         }
         if (timing == 3) {
-            state->mFlag &= ~0x40;
+            state->mFlag &= ~G3D_RS_FLAG_CALLBACK_HANDLED;
             state->mCbVecFunc[13](state);
-            timing = state->mFlag & 0x40;
+            timing = state->mFlag & G3D_RS_FLAG_CALLBACK_HANDLED;
         } else {
             timing = 0;
         }
         if (timing == 0) {
-            if (NNS_G3dGlb.mFlag & 1) {
+            if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
                 NNS_G3dGeBufferOP_N(0x1c, &NNS_G3dGlb.mPrmBaseTrans, 3);
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mPrmBaseRot, 9);
                 NNS_G3dGeBufferOP_N(0x19, &curMatrix, 0xc);
-            } else if (NNS_G3dGlb.mFlag & 2) {
+            } else if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_CAMERA) {
                 NNS_G3dGeBufferOP_N(0x19, &curMatrix, 0xc);
             } else {
                 NNS_G3dGeBufferOP_N(0x19, NNS_G3dGlbGetInvV(), 0xc);
@@ -691,15 +691,17 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
             } else {
                 weight = FX_Div(anmObj->mRatio, totalWeight);
             }
-            blendScaleVec_(&result->mScale, &animResult.mScale, weight, animResult.mFlag & 1);
-            blendScaleVec_(&result->mScaleEx0, &animResult.mScaleEx0, weight, animResult.mFlag & 8);
-            blendScaleVec_(&result->mScaleEx1, &animResult.mScaleEx1, weight, animResult.mFlag & 0x10);
-            if (!(animResult.mFlag & 4)) {
+            blendScaleVec_(&result->mScale, &animResult.mScale, weight, animResult.mFlag & G3D_JNT_ANM_SCALE_IS_ONE);
+            blendScaleVec_(&result->mScaleEx0, &animResult.mScaleEx0, weight,
+                           animResult.mFlag & G3D_JNT_ANM_SCALE_EX0_IS_ONE);
+            blendScaleVec_(&result->mScaleEx1, &animResult.mScaleEx1, weight,
+                           animResult.mFlag & G3D_JNT_ANM_SCALE_EX1_IS_ONE);
+            if (!(animResult.mFlag & G3D_JNT_ANM_TRANS_IS_ZERO)) {
                 result->mTrans.x += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.x);
                 result->mTrans.y += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.y);
                 result->mTrans.z += MUL_FIXED12_NO_ROUND(weight, animResult.mTrans.z);
             }
-            if (!(animResult.mFlag & 2)) {
+            if (!(animResult.mFlag & G3D_JNT_ANM_ROT_IS_ZERO)) {
                 result->mRot.mRows[0].x += (weight * animResult.mRot.mRows[0].x) >> 12;
                 result->mRot.mRows[0].y += (weight * animResult.mRot.mRows[0].y) >> 12;
                 result->mRot.mRows[0].z += (weight * animResult.mRot.mRows[0].z) >> 12;
@@ -767,9 +769,9 @@ void NNS_G3dGlbInit(void) {
     NNS_G3dGlb.mPrmBaseTrans.y = 0;
     NNS_G3dGlb.mPrmBaseTrans.z = 0;
     MTX_Identity33_(&NNS_G3dGlb.mPrmBaseRot);
-    NNS_G3dGlb.mPrmBaseScale.x = 0x1000;
-    NNS_G3dGlb.mPrmBaseScale.y = 0x1000;
-    NNS_G3dGlb.mPrmBaseScale.z = 0x1000;
+    NNS_G3dGlb.mPrmBaseScale.x = FIXED12_UNIT;
+    NNS_G3dGlb.mPrmBaseScale.y = FIXED12_UNIT;
+    NNS_G3dGlb.mPrmBaseScale.z = FIXED12_UNIT;
     NNS_G3dGlb.mPrmTexImageParam = 0;
     NNS_G3dGlb.mFlag = 0;
     NNS_G3dGlb.mCamPos.z = 0;
@@ -789,20 +791,20 @@ void NNS_G3dGlbFlushP(void) {
     u32 command = *words++;
 
     NNS_G3dGeBufferOP_N(command, words, 0x3e);
-    NNS_G3dGlb.mFlag &= ~1;
-    NNS_G3dGlb.mFlag &= ~2;
+    NNS_G3dGlb.mFlag &= ~G3D_GLB_FLAG_USE_BASE_SRT_CAMERA;
+    NNS_G3dGlb.mFlag &= ~G3D_GLB_FLAG_USE_CAMERA;
 }
 
 // Sets the base translation and drops the cached matrices that depend on it.
 void NNS_G3dGlbSetBaseTrans(const Vec3 *trans) {
     NNS_G3dGlb.mPrmBaseTrans = *trans;
-    NNS_G3dGlb.mFlag &= ~0xa4;
+    NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
 }
 
 // Sets the base scale and drops the cached matrices that depend on it.
 void NNS_G3dGlbSetBaseScale(const Vec3 *scale) {
     NNS_G3dGlb.mPrmBaseScale = *scale;
-    NNS_G3dGlb.mFlag &= ~0xa4;
+    NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
 }
 
 // Sets the direction of a light.
@@ -834,9 +836,9 @@ void NNS_G3dGlbPolygonAttr(u32 light, u32 polyMode, u32 cullMode, u32 polygonId,
 
 // Returns the inverse of the camera matrix, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetInvV(void) {
-    if (!(NNS_G3dGlb.mFlag & 0x8)) {
+    if (!(NNS_G3dGlb.mFlag & G3D_GLB_FLAG_INV_CAMERA_VALID)) {
         MTX_Inverse43(&NNS_G3dGlb.mCameraMtx, &NNS_G3dGlb.mInvCameraMtx);
-        NNS_G3dGlb.mFlag |= 0x8;
+        NNS_G3dGlb.mFlag |= G3D_GLB_FLAG_INV_CAMERA_VALID;
     }
     return &NNS_G3dGlb.mInvCameraMtx;
 }
@@ -851,18 +853,18 @@ void calcSrtCameraMtx_(void) {
 
 // Returns the camera matrix with the base transform applied, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetWV(void) {
-    if (!(NNS_G3dGlb.mFlag & 0x80)) {
+    if (!(NNS_G3dGlb.mFlag & G3D_GLB_FLAG_SRT_CAMERA_VALID)) {
         calcSrtCameraMtx_();
-        NNS_G3dGlb.mFlag |= 0x80;
+        NNS_G3dGlb.mFlag |= G3D_GLB_FLAG_SRT_CAMERA_VALID;
     }
     return &NNS_G3dGlb.mSrtCameraMtx;
 }
 
 // Returns the inverse of the camera matrix with the base transform applied, computing it when it is out of date.
 MtxFx43 *NNS_G3dGlbGetInvWV(void) {
-    if (!(NNS_G3dGlb.mFlag & 0x80)) {
+    if (!(NNS_G3dGlb.mFlag & G3D_GLB_FLAG_SRT_CAMERA_VALID)) {
         calcSrtCameraMtx_();
-        NNS_G3dGlb.mFlag |= 0x80;
+        NNS_G3dGlb.mFlag |= G3D_GLB_FLAG_SRT_CAMERA_VALID;
     }
     return &NNS_G3dGlb.mInvSrtCameraMtx;
 }
@@ -888,8 +890,8 @@ void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *r
     anmObj->mFrame = 0;
     anmObj->mResAnm = resAnm;
     anmObj->mNext = 0;
-    anmObj->mPriority = 0x7f;
-    anmObj->mRatio = 0x1000;
+    anmObj->mPriority = G3D_ANM_PRIORITY_DEFAULT;
+    anmObj->mRatio = FIXED12_UNIT;
     anmObj->mResTex = resTex;
     animHeader = resAnm;
     for (funcIndex = 0; funcIndex < NNS_G3dAnmFmtNum; funcIndex++) {

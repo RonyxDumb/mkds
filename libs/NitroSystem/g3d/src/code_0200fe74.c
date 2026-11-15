@@ -23,17 +23,17 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
     NNSG3dResMatData *matEntry;
 
     matIndices = (u8 *) mat + data->mOffset;
-    if ((texData->mTexImageParam & 0x1c000000) != 0x14000000) {
-        keyOffset = tex->mTexInfo.mVramKey & 0xffff;
+    if ((texData->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4_COMPRESSED) {
+        keyOffset = tex->mTexInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
     } else {
-        keyOffset = tex->mTex4x4Info.mVramKey & 0xffff;
+        keyOffset = tex->mTex4x4Info.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
     }
     for (matIndex = 0; matIndex < data->mNumIdx; matIndex++) {
         NNSG3dResDictEntryHeader *table;
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
         matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
         matEntry->mTexImageParam |= texData->mTexImageParam + keyOffset;
-        width = texData->mExtraParam & 0x7ff;
+        width = texData->mExtraParam & G3D_TEX_EXTRA_WIDTH_MASK;
         height = (texData->mExtraParam >> 11) & 0x7ff;
         matEntry->mMagW =
             (width == matEntry->mOrigWidth) ? 0x1000 : FX_Div(TO_FIXED12(width), TO_FIXED12(matEntry->mOrigWidth));
@@ -54,8 +54,8 @@ void releaseMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *da
         NNSG3dResDictEntryHeader *table;
         table = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
         matEntry = OFFSET_PTR(NNSG3dResMatData, mat, *DICT_ENTRY(u32, table, matIndices[matIndex]));
-        matEntry->mTexImageParam &= 0xc00f0000;
-        matEntry->mMagW = 0x1000;
+        matEntry->mTexImageParam &= G3D_TEX_IMAGE_KEEP_MASK;
+        matEntry->mMagW = FIXED12_UNIT;
         matEntry->mMagH = matEntry->mMagW;
     }
     data->mFlag &= ~1;

@@ -73,7 +73,7 @@ void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
     u32 nameWord3;
 
     resDict = dict;
-    if (resDict->mNumEntry < 0x10) {
+    if (resDict->mNumEntry < G3D_DICT_LINEAR_SEARCH_LIMIT) {
         nameWord0 = name[0];
         nameWord1 = name[1];
         nameWord2 = name[2];
@@ -123,7 +123,7 @@ int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
     u32 nameWord3;
 
     resDict = dict;
-    if (resDict->mNumEntry < 0x10) {
+    if (resDict->mNumEntry < G3D_DICT_LINEAR_SEARCH_LIMIT) {
         nameWord0 = name[0];
         nameWord1 = name[1];
         nameWord2 = name[2];

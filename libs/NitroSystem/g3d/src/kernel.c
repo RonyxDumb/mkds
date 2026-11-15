@@ -114,7 +114,7 @@ int removeLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {
 void NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmObj) {
     if (removeLink_(&pRenderObj->mAnmMat, pAnmObj) != 0 || removeLink_(&pRenderObj->mAnmJnt, pAnmObj) != 0 ||
         removeLink_(&pRenderObj->mAnmVis, pAnmObj) != 0) {
-        pRenderObj->mFlag |= 0x10;
+        pRenderObj->mFlag |= G3D_RENDER_OBJ_FLAG_ANM_CHANGED;
     }
 }
 
@@ -154,12 +154,13 @@ void NNS_G3dTexLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
     }
     texSize = pTex->mTexInfo.mSizeTex << 3;
     if (texSize != 0) {
-        GX_LoadTex((u8 *) pTex + pTex->mTexInfo.mOfsTex, (pTex->mTexInfo.mVramKey & 0xffff) << 3, texSize);
+        GX_LoadTex((u8 *) pTex + pTex->mTexInfo.mOfsTex, (pTex->mTexInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK) << 3,
+                   texSize);
         pTex->mTexInfo.mFlag |= 1;
     }
     tex4x4Size = pTex->mTex4x4Info.mSizeTex << 3;
     if (tex4x4Size != 0) {
-        keyAddr = pTex->mTex4x4Info.mVramKey & 0xffff;
+        keyAddr = pTex->mTex4x4Info.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
         vramAddr = keyAddr << 3;
         plttIdxData = (u8 *) pTex + pTex->mTex4x4Info.mOfsTexPlttIdx;
         GX_LoadTex((u8 *) pTex + pTex->mTex4x4Info.mOfsTex, vramAddr, tex4x4Size);
@@ -193,8 +194,8 @@ void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
     if (execBeginEnd != 0) {
         GX_BeginLoadTexPltt();
     }
-    GX_LoadTexPltt((u8 *) pTex + pTex->mPlttInfo.mOfsPlttData, (pTex->mPlttInfo.mVramKey & 0xffff) << 3,
-                   pTex->mPlttInfo.mSizePltt << 3);
+    GX_LoadTexPltt((u8 *) pTex + pTex->mPlttInfo.mOfsPlttData,
+                   (pTex->mPlttInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK) << 3, pTex->mPlttInfo.mSizePltt << 3);
     pTex->mPlttInfo.mFlag |= 1;
     if (execBeginEnd != 0) {
         GX_EndLoadTexPltt();
