@@ -293,9 +293,9 @@ void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
         if (length < 2) {
             return;
         }
-        __memcpy(scratch.mUnitCount, data, 2);
-        unitCount = *(u16 *) scratch.mUnitCount;
-        *(u16 *) scratch.mUnitCount = ((unitCount >> 8) & 0xff) | ((unitCount << 8) & 0xff00);
+        __memcpy(&scratch.mUnitCount, data, 2);
+        unitCount = scratch.mUnitCount;
+        scratch.mUnitCount = ((unitCount >> 8) & 0xff) | ((unitCount << 8) & 0xff00);
         data += 2;
         length -= 2;
         keyNames = data;
@@ -312,7 +312,7 @@ void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
         data++;
         length--;
         unitIndex = 0;
-        while (unitIndex < *(u16 *) scratch.mUnitCount) {
+        while (unitIndex < scratch.mUnitCount) {
             key = keyNames;
             keyIndex = 0;
             while (keyIndex < keyCount) {

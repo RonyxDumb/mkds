@@ -14,7 +14,7 @@ typedef struct InvalidKeyNames {
 } InvalidKeyNames;
 
 typedef struct FullKeysScratch {
-    /* 00 */ u8 mUnitCount[2];
+    /* 00 */ u16 mUnitCount;
     /* 02 */ char mTempKey[0x86];
 } FullKeysScratch;
 
