@@ -32,8 +32,8 @@ typedef struct Teresa {
     /* 0ae */ u16 mNsbtpFrameIndex;
     /* 0b0 */ u16 mMirror;
     /* 0b2 */ u8 mUnk_b2[2];
-    /* 0b4 */ s32 mState1Timer;
-    /* 0b8 */ s32 mState0Timer;
+    /* 0b4 */ s32 mFadeInDelayFrames;
+    /* 0b8 */ s32 mFadeOutDelayFrames;
     /* 0bc */ TeresaWobble mAngleWobble;
     /* 0dc */ TeresaWobble mYWobble;
     /* 0fc */ s32 mAlphaFixed12;

@@ -36,7 +36,7 @@ typedef struct Bakubaku {
 // 0xb0, an GroupFollower at 0xb4, a state at 0xd8 and an ShadowMatrix at 0xdc.
 typedef struct MoveTree {
     /* 00 */ MapObject mMapObject;
-    /* a0 */ s32 mState0Timer;
+    /* a0 */ s32 mStartDelayFrames;
     /* a4 */ s32 mKartHitFramesLeft;
     /* a8 */ s32 mFollowerSpeed;
     /* ac */ u16 mNsbcaFrameIndex;

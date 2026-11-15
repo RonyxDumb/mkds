@@ -51,7 +51,7 @@ typedef struct ResultsGp {
     /* 50 */ Bmg *mSecretMessages;
     /* 54 */ s32 mState;
     /* 58 */ u32 mSecretMessageMask;
-    /* 5c */ s32 mState0Frames;
+    /* 5c */ s32 mStateFrames; /* counted only in state 0 */
 } ResultsGp;
 
 

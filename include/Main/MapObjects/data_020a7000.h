@@ -41,7 +41,7 @@ typedef struct Sanbo {
     /* 0a0 */ s32 mPathWaitTimer;
     // Wobble step is 0xb61 while above 0, else 0x2d8.
     /* 0a4 */ s32 mFastWobbleTimer;
-    /* 0a8 */ s32 mState2Timer;
+    /* 0a8 */ s32 mLaunchWaitFrames;
     /* 0ac */ s32 mSoundTimer;
     /* 0b0 */ SanboPiece mPieces[4];
     /* 1d0 */ u16 mPieceCount;

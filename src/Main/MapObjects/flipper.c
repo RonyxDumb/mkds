@@ -262,14 +262,14 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
     u32 randomValue;
     s32 frameIndex;
 
-    flipper->mState4Timer = flipper->mState4Timer - (flipper->mState4Timer > 0);
+    flipper->mAltWaitFrames = flipper->mAltWaitFrames - (flipper->mAltWaitFrames > 0);
     switch (flipper->mState) {
         case FLIPPER_STATE_START:
             flipper->mEmitter = StartEffect(0x5f, &flipper->mMapObject.mPos);
             flipper->mState = FLIPPER_STATE_WAIT;
             break;
         case FLIPPER_STATE_WAIT:
-            if (flipper->mState4Timer != 0) {
+            if (flipper->mAltWaitFrames != 0) {
                 flipper->mState = FLIPPER_STATE_ALT_WAIT;
             } else {
                 flipper->mWaitTimer = flipper->mWaitTimer - 1;
@@ -308,7 +308,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             }
             break;
         case FLIPPER_STATE_ALT_WAIT:
-            if (flipper->mState4Timer <= 0) {
+            if (flipper->mAltWaitFrames <= 0) {
                 flipper->mSwingStep = 0;
                 flipper->mState = FLIPPER_STATE_ALT_SWING_OUT;
             }

@@ -5,7 +5,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/data_0209bc74.h"
 
-// Values of Picture.mState: IDLE does nothing, WAIT counts mState1Timer down, PLAY steps the animation and plays its
+// Values of Picture.mState: IDLE does nothing, WAIT counts mWaitFrames down, PLAY steps the animation and plays its
 // sounds.
 enum {
     PICTURE_STATE_IDLE,
@@ -20,7 +20,7 @@ typedef struct Picture {
     /* a0 */ u16 mNsbcaFrameIndex;
     /* a2 */ u8 mUnk_a2[2];
     /* a4 */ s32 mPictureIndex;
-    /* a8 */ s32 mState1Timer;
+    /* a8 */ s32 mWaitFrames;
     /* ac */ s32 mState;
 } Picture;
 

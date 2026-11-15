@@ -190,7 +190,7 @@ typedef struct ChildWaitSharedEntry {
 // Object behind gChildWaitSessionView.
 typedef struct ChildWaitSessionView {
     /* 000 */ ChildWaitSharedEntry mSendEntryStorage;
-    /* 044 */ u8 pad_044[0xbc];
+    /* 044 */ u8 pad_44[0xbc];
     /* 100 */ ChildWaitSharedEntry mSharedEntries[2];
     /* 188 */ u8 pad_188[0x78];
     /* 200 */ u16 mBlockNumber;

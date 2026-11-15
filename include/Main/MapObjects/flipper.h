@@ -16,7 +16,7 @@
 #define FLIPPER_ALT_SWING_OUT_STEPS 0x1c
 #define FLIPPER_SWING_BACK_STEP_LIMIT 0xf
 
-// Values of Flipper.mState; the ALT states are the same cycle at double step after mState4Timer was set.
+// Values of Flipper.mState; the ALT states are the same cycle at double step after mAltWaitFrames was set.
 enum {
     FLIPPER_STATE_START,
     FLIPPER_STATE_WAIT,
@@ -37,7 +37,7 @@ typedef struct Flipper {
     /* be8 */ Vec3 mEmitterStarts[30];
     /* d50 */ Vec3 mEmitterEnds[30];
     /* eb8 */ s32 mWaitTimer;
-    /* ebc */ s32 mState4Timer;
+    /* ebc */ s32 mAltWaitFrames;
     /* ec0 */ s32 mSwingStep;
     /* ec4 */ u16 mNsbtpFrameIndex;
     /* ec6 */ u16 mNsbtaFrameIndex;

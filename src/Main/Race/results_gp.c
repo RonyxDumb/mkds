@@ -267,8 +267,8 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
             s32 frameLimit;
             s32 frames;
             frameLimit = GetResultsGpFrameLimit(gResultsGp->mCupRankIndex);
-            frames = gResultsGp->mState0Frames;
-            gResultsGp->mState0Frames = frames + 1;
+            frames = gResultsGp->mStateFrames;
+            gResultsGp->mStateFrames = frames + 1;
             if (frames >= frameLimit) {
                 void *commonMessage;
                 u32 messageMask;

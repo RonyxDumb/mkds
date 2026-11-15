@@ -6,7 +6,7 @@
 #include "Main/MapObjects/code_020e005c.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 
-// IronBall.mState: waits for its start (timer or lap), counts mState1Timer down, then rolls along the path.
+// IronBall.mState: waits for its start (timer or lap), counts mStartDelayFrames down, then rolls along the path.
 #define IRON_BALL_STATE_WAIT_START 0
 #define IRON_BALL_STATE_WAIT_APPEAR 1
 #define IRON_BALL_STATE_ROLL 2
@@ -32,7 +32,7 @@
 typedef struct IronBall {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mRotateZAngle;
-    /* 0a4 */ s32 mState1Timer;
+    /* 0a4 */ s32 mStartDelayFrames;
     /* 0a8 */ s32 mTimer;
     /* 0ac */ s32 mNextStartLap;
     /* 0b0 */ s32 mPathSpeed;

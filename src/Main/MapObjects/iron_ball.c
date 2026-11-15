@@ -124,7 +124,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                     return;
                 }
                 ironBall->mTimer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[2];
-                ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[3];
+                ironBall->mStartDelayFrames = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[3];
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
                 ironBall->mState = IRON_BALL_STATE_WAIT_APPEAR;
                 return;
@@ -142,13 +142,13 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 return;
             }
             ironBall->mNextStartLap = ironBall->mNextStartLap + 1;
-            ironBall->mState1Timer = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[3];
+            ironBall->mStartDelayFrames = (u16) ironBall->mMapObject.mCourseMapRow->mSettings[3];
             SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
             ironBall->mState = IRON_BALL_STATE_WAIT_APPEAR;
             return;
         case IRON_BALL_STATE_WAIT_APPEAR:
-            ironBall->mState1Timer -= 1;
-            if (ironBall->mState1Timer > 0) {
+            ironBall->mStartDelayFrames -= 1;
+            if (ironBall->mStartDelayFrames > 0) {
                 return;
             }
             ironBall->mMapObject.mFlags &= ~1;

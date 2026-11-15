@@ -109,7 +109,7 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
 
     switch (sunFireball->mState) {
         case SUN_FIREBALL_STATE_WAIT:
-            if (sunFireball->mState0Timer-- <= 0) {
+            if (sunFireball->mWaitFrames-- <= 0) {
                 sunFireball->mState = SUN_FIREBALL_STATE_ARC;
                 soundRequest.mSoundId = SUN_FIREBALL_SOUND_ID;
                 soundRequest.mPositionSource = &sunFireball->mMapObject.mPos;
@@ -147,7 +147,7 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
                             sunFireball->mMapObject.mPosStep.z = -sunFireball->mMapObject.mPosStep.z;
                         }
                         sunFireball->mMapObject.mPosStep.y = 0x2c00;
-                        sunFireball->mState0Timer += 0x3c;
+                        sunFireball->mWaitFrames += 0x3c;
                         sunFireball->mState = SUN_FIREBALL_STATE_WAIT;
                         sunFireball->mEmitterA->mLife = SUN_FIREBALL_LONG_LIFE_FRAMES;
                         sunFireball->mEmitterB->mLife = SUN_FIREBALL_LONG_LIFE_FRAMES;
@@ -247,7 +247,7 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(direction->x, 0x2000);
     sunFireball->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(direction->y, 0x2000);
     sunFireball->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(direction->z, 0x2000);
-    sunFireball->mState0Timer = 0;
+    sunFireball->mWaitFrames = 0;
     sunFireball->mState = SUN_FIREBALL_STATE_WAIT;
     sunFireball->mEmitterA = StartEffect(0x35, &sunFireball->mMapObject.mPos);
     sunFireball->mEmitterB = StartEffect(0x34, &sunFireball->mMapObject.mPos);

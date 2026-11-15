@@ -146,9 +146,9 @@ void AdvanceWiFiTopMenuSlideIn(void) {
 }
 
 void AdvanceWiFiTopMenuWaitReturnButton(void) {
-    int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (returnState2NoRequest != 0) {
+    int isReturnShown;
+    isReturnShown = IsSelectReturnShownNoRequest();
+    if (isReturnShown != 0) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_BROWSE;
         SetSelectReturnSoundId(0xf);
     }

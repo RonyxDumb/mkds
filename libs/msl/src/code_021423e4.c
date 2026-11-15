@@ -44,7 +44,7 @@ void RunListNodeCallbacks(void) {
     } while (node != 0);
 }
 
-s32 SwiReadBytes(s32 unusedArg1, u8 *buffer, u32 *countPtr) {
+s32 SwiReadBytes(s32 fileHandle, u8 *buffer, u32 *countPtr) {
     u32 index;
     u32 capacity;
 
@@ -59,7 +59,7 @@ s32 SwiReadBytes(s32 unusedArg1, u8 *buffer, u32 *countPtr) {
     return 0;
 }
 
-s32 SwiWriteBytes(s32 unusedArg1, const u8 *buffer, const u32 *countPtr) {
+s32 SwiWriteBytes(s32 fileHandle, const u8 *buffer, const u32 *countPtr) {
     u32 index;
     u32 count;
 

@@ -136,9 +136,9 @@ void AdvanceWiFiAikotobaSlideIn(void) {
 }
 
 void AdvanceWiFiAikotobaWaitSelectReturn(void) {
-    int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (returnState2NoRequest != 0) {
+    int isReturnShown;
+    isReturnShown = IsSelectReturnShownNoRequest();
+    if (isReturnShown != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_INPUT;
     }
 }

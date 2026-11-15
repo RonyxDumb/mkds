@@ -37,7 +37,7 @@ typedef struct SunFireball {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mTimer;
     /* a2 */ u8 mUnk_a2[2];
-    /* a4 */ s32 mState0Timer;
+    /* a4 */ s32 mWaitFrames;
     /* a8 */ Vec3 mStartPos;
     /* b4 */ u16 mMoveAngle;
     /* b6 */ u8 mUnk_b6[2];

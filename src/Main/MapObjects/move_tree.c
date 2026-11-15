@@ -122,7 +122,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
         case 0:
             moveTree->mFollower.mSpeed = 0;
             moveTree->mFollower.mProgressStep = 0;
-            if (moveTree->mState0Timer-- <= 0) {
+            if (moveTree->mStartDelayFrames-- <= 0) {
                 moveTree->mState = 1;
             }
             if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
@@ -168,7 +168,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             moveTree->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
                 speed, moveTree->mFollower.mPath->mSegments[moveTree->mFollower.mSegmentIndex].mInverseProgressLength);
             if (AdvanceGroupFollower(&moveTree->mFollower) != FALSE) {
-                moveTree->mState0Timer = (u16) moveTree->mFollower.mFromEntry->mValue;
+                moveTree->mStartDelayFrames = (u16) moveTree->mFollower.mFromEntry->mValue;
                 moveTree->mState = 0;
             }
             GetGroupFollowerLinearXz(&moveTree->mFollower, &moveTree->mMapObject.mPos);

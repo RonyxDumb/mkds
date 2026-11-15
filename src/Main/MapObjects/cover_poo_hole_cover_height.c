@@ -32,7 +32,7 @@
 u32 SetFlipperAltWaitTimerByIndex(u32 flipperIndex) {
     Flipper *flipper;
     flipper = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_FLIPPER), flipperIndex);
-    flipper->mState4Timer = FLIPPER_ALT_WAIT_FRAMES;
+    flipper->mAltWaitFrames = FLIPPER_ALT_WAIT_FRAMES;
     return 1;
 }
 
