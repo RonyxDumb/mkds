@@ -590,13 +590,13 @@ void AdvanceKeyboardSlideOutFriendKey(void) {
         if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen != 0) {
             CopyKeyboardTextAsBytes();
             switch (CheckFriendKeyString(&gKeyboard->mRecords[KEYBOARD_RECORD_STATUS])) {
-                case 1:
+                case FRIEND_KEY_CHECK_INCORRECT:
                     gKeyboard->mNextState = KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR;
                     SetupTxtSystemSubText(
                         GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_FRIEND_CODE_INCORRECT));
                     gKeyboard->mStateFrames = 0;
                     return;
-                case 2:
+                case FRIEND_KEY_CHECK_ALREADY_REGISTERED:
                     gKeyboard->mNextState = KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR;
                     SetupTxtSystemSubText(
                         GetBmgEntry(gKeyboard->mCommonMessages, KEYBOARD_MESSAGE_FRIEND_CODE_ALREADY_REGISTERED));
@@ -781,27 +781,27 @@ void AdvanceKeyboardEnterName(void) {
         previousLayout = keyboard->mLayout;
         touched = FALSE;
         switch (touchedRectIndex) {
-            case 0:
+            case KEYBOARD_NAME_RECT_TAB_KANA:
                 keyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case 1:
+            case KEYBOARD_NAME_RECT_TAB_ASCII:
                 keyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case 2:
+            case KEYBOARD_NAME_RECT_TAB_EURO:
                 keyboard->mLayout = KEYBOARD_LAYOUT_EURO;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case 3:
+            case KEYBOARD_NAME_RECT_TAB_PICTOGRAMS:
                 keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case 4:
+            case KEYBOARD_NAME_RECT_TAB_PICTOGRAMS_EXTRA:
                 keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS_EXTRA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;

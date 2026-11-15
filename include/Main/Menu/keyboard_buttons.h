@@ -23,10 +23,19 @@ typedef enum KeyboardMessage {
     KEYBOARD_MESSAGE_SAVING = 0x81,
 } KeyboardMessage;
 
+// Results of CheckFriendKeyString: the message of the friend code screen that goes with a rejected key.
+#define FRIEND_KEY_CHECK_INCORRECT 1
+#define FRIEND_KEY_CHECK_ALREADY_REGISTERED 2
+
 // Rect indices the touch lookup returns on the friend code screen (the first button, the second button) and on the
 // name screen (the five layout tabs come first, then the two buttons).
 #define KEYBOARD_FRIEND_KEY_RECT_FIRST_BUTTON 1
 #define KEYBOARD_FRIEND_KEY_RECT_SECOND_BUTTON 0
+#define KEYBOARD_NAME_RECT_TAB_KANA 0
+#define KEYBOARD_NAME_RECT_TAB_ASCII 1
+#define KEYBOARD_NAME_RECT_TAB_EURO 2
+#define KEYBOARD_NAME_RECT_TAB_PICTOGRAMS 3
+#define KEYBOARD_NAME_RECT_TAB_PICTOGRAMS_EXTRA 4
 #define KEYBOARD_NAME_RECT_FIRST_BUTTON 5
 #define KEYBOARD_NAME_RECT_SECOND_BUTTON 6
 
