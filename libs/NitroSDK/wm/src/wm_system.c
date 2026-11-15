@@ -299,7 +299,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
                     gPortCallbackEvent.mPort = port;
                     if (wm9buf->mPortCallbacks[port] != 0) {
                         gPortCallbackEvent.mArg = wm9buf->mPortCallbackArgs[port];
-                        wm9buf->mPortCallbacks[port]((WirelessMessage *) &gPortCallbackEvent);
+                        wm9buf->mPortCallbacks[port](&gPortCallbackEvent);
                     }
                 }
             }

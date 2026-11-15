@@ -102,7 +102,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
 // Ends data sharing and removes the port callback; returns 3 when dsInfo is not running data sharing.
 int WM_EndDataSharing(WMDataSharingInfo *dsInfo) {
     WMArm9Buf *work;
-    UnkFunc *registered;
+    WirelessPortCallback registered;
     int result;
 
     work = WMi_GetSystemWork();
@@ -251,7 +251,7 @@ void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
     WMArm9Buf *work;
     WMStatus *status;
     WMDataSharingInfo *share;
-    UnkFunc *registered;
+    WirelessPortCallback registered;
     u32 code;
     u32 ownIndex;
 

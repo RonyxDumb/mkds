@@ -157,8 +157,8 @@ s32 WM_SetMPFrequency(WirelessMessageCallback callback, u32 mpFreq) {
 
 // Queues sendDataSize bytes of sendData for the stations in destBitmap on port with priority prio (command 15).
 // Needs state 9 or 10; returns 7 when a parent has no child connected. callback is called with arg when it is sent.
-s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendDataSize, u16 destBitmap, u16 port,
-                         u16 prio) {
+s32 WM_SetMPDataToPortEx(WirelessSendCallback callback, void *arg, void *sendData, s32 sendDataSize, u16 destBitmap,
+                         u16 port, u16 prio) {
     u16 limit;
     u32 children;
     WMStatus *status;
@@ -635,7 +635,7 @@ s32 WM_SetIndCallback(WirelessMessageCallback callback) {
 
 // Sets the callback and argument for data received on port (stored in WMArm9Buf.mPortCallbacks and
 // WMArm9Buf.mPortCallbackArgs).
-s32 WM_SetPortCallback(u16 port, UnkFunc *callback, void *arg) {
+s32 WM_SetPortCallback(u16 port, WirelessPortCallback callback, void *arg) {
     u32 enabled;
     s32 result;
     WMArm9Buf *work;

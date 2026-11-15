@@ -73,6 +73,12 @@ typedef enum WirelessResult {
 
 typedef void (*WirelessMessageCallback)(WirelessMessage *);
 
+// Port callbacks take a different view of the message for each user (data sharing, ROM archive, MP link), so they are
+// left unprototyped.
+typedef void (*WirelessPortCallback)();
+// Callback of a port send, unprototyped for the same reason.
+typedef void (*WirelessSendCallback)();
+
 // 0x2c bytes from 0x36 of UserGameDetails.
 typedef struct UserGameNameBlock {
     /* 00 */ u8 mUnk_00[2];
@@ -184,7 +190,7 @@ typedef struct WMArm9Buf {
     /* 016 */ u16 mScanOnlyFlag;
     /* 018 */ WirelessMessageCallback mCommandCallbacks[0x2a];
     /* 0c0 */ WirelessMessageCallback mIndicationCallback;
-    /* 0c4 */ UnkFunc *mPortCallbacks[16];
+    /* 0c4 */ WirelessPortCallback mPortCallbacks[16];
     /* 104 */ void *mPortCallbackArgs[16];
 } WMArm9Buf;
 
@@ -431,8 +437,8 @@ s32 WM_StartMPEx(WirelessMessageCallback callback, void *recvBuf, u16 recvBufSiz
                  u16 mpFreq, u16 defaultRetryCount, BOOL minPollBmpMode, BOOL singlePacketMode, BOOL fixFreqMode,
                  BOOL ignoreFatalError);
 s32 WM_SetMPFrequency(WirelessMessageCallback callback, u32 mpFreq);
-s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendDataSize, u16 destBitmap, u16 port,
-                         u16 prio);
+s32 WM_SetMPDataToPortEx(WirelessSendCallback callback, void *arg, void *sendData, s32 sendDataSize, u16 destBitmap,
+                         u16 port, u16 prio);
 s32 WM_EndMP(WirelessMessageCallback callback);
 s32 WM_Enable(WirelessMessageCallback callback);
 s32 WM_Disable(WirelessMessageCallback callback);
@@ -453,7 +459,7 @@ s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, 
 s32 WM_Disconnect(WirelessMessageCallback callback, u32 aid);
 s32 WM_DisconnectChildren(WirelessMessageCallback callback, u32 aidBitmap);
 s32 WM_SetIndCallback(WirelessMessageCallback callback);
-s32 WM_SetPortCallback(u16 port, UnkFunc *callback, void *arg);
+s32 WM_SetPortCallback(u16 port, WirelessPortCallback callback, void *arg);
 s32 WM_ReadStatus(void *statusBuf);
 s32 WM_GetMPSendBufferSize(void);
 s32 WM_GetMPReceiveBufferSize(void);
