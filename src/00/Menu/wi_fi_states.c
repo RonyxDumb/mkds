@@ -85,7 +85,7 @@ void LoadWiFiMenuSceneData(void) {
 void InitWiFiStates(void *heap, s32 sceneNumber) {
     SceneTextInitParams sceneTextInitParams;
     StateMachine *sessionStateMachine;
-    gWiFiStates = HeapAlloc(heap, 0x3c);
+    gWiFiStates = HeapAlloc(heap, sizeof(WiFiStates));
     gWiFiStates->mHeap = heap;
     gWiFiStates->mCounter = 0;
     CreateRaceSetupCopy(heap);

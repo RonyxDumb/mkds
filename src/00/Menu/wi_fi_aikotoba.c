@@ -36,7 +36,7 @@ void InitWiFiAikotoba(void *heap) {
     u32 wiFiPrevState;
     void *oamList;
 
-    gWiFiAikotoba = HeapAlloc(heap, 0x40);
+    gWiFiAikotoba = HeapAlloc(heap, sizeof(WiFiAikotoba));
     gWiFiAikotoba->mHeap = heap;
     gWiFiAikotoba->mState = WIFI_AIKOTOBA_STATE_WAIT_FADE;
     gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_WAIT_FADE;

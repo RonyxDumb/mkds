@@ -148,7 +148,7 @@ void InitWiFiVSMatching(void *heap) {
     u8 totalLabelIndex;
 
     GetRaceSetupCopy();
-    gWiFiVSMatching = HeapAlloc(heap, 0x170c);
+    gWiFiVSMatching = HeapAlloc(heap, sizeof(WiFiVSMatching));
     gWiFiVSMatching->mHeap = heap;
     gWiFiVSMatching->mState = WIFI_VS_MATCHING_STATE_SLIDE_IN;
     gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SLIDE_IN;

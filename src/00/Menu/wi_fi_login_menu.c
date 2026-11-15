@@ -24,7 +24,7 @@
 #include "Main/System/init_after_startup.h"
 
 void InitWiFiLoginMenu(void *heap) {
-    gWiFiLoginMenu = HeapAlloc(heap, 0x40);
+    gWiFiLoginMenu = HeapAlloc(heap, sizeof(WiFiLoginMenu));
     gWiFiLoginMenu->mHeap = heap;
     gWiFiLoginMenu->mState = WIFI_LOGIN_STATE_START;
     gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_START;

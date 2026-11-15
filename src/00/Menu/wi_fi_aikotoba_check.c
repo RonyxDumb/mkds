@@ -66,7 +66,7 @@ void InitWiFiAikotobaCheckDigits(void) {
 void InitWiFiAikotobaCheck(void *heap) {
     void *oamList;
 
-    gWiFiAikotobaCheck = HeapAlloc(heap, 0x54);
+    gWiFiAikotobaCheck = HeapAlloc(heap, sizeof(WiFiAikotobaCheck));
     gWiFiAikotobaCheck->mHeap = heap;
     gWiFiAikotobaCheck->mState = WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN;
     gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_SLIDE_IN;

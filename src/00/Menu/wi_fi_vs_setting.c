@@ -59,7 +59,7 @@ BOOL HasBuddyRecords(void) {
 void InitWiFiVSSetting(void *heap) {
     s32 index;
 
-    gWiFiVSSetting = HeapAlloc(heap, 0x1060);
+    gWiFiVSSetting = HeapAlloc(heap, sizeof(WiFiVSSetting));
     gWiFiVSSetting->mHeap = heap;
     gWiFiVSSetting->mState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
     gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;

@@ -49,7 +49,7 @@ void InitWiFiTopMenu(void *heap) {
     s32 rowIndex;
     s32 cellIndex;
 
-    gWiFiTopMenu = HeapAlloc(heap, 0x40);
+    gWiFiTopMenu = HeapAlloc(heap, sizeof(WiFiTopMenu));
     gWiFiTopMenu->mHeap = heap;
     gWiFiTopMenu->mState = WIFI_TOP_MENU_STATE_WAIT_FADE;
     gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_FADE;
