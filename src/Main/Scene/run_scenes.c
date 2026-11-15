@@ -233,17 +233,17 @@ s32 RunScenes(s16 *sceneNumber) {
             *sceneNumber = 9;
         }
         switch (gStartupWork->mConnectionKind) {
-            case 0:
-            case 1:
-            case 2:
+            case CONNECTION_KIND_NONE:
+            case CONNECTION_KIND_MEMBER_SELECT:
+            case CONNECTION_KIND_WL_MENU:
                 gRunScenesState->mNextKind = RUN_SCENES_KIND_CONNECTION;
                 break;
-            case 3:
+            case CONNECTION_KIND_WIFI_MENU:
                 gRunScenesState->mNextKind = RUN_SCENES_KIND_WIFI_SESSION;
                 break;
-            case 4:
+            case CONNECTION_KIND_WIFI_TOP_MENU:
                 RunDWCUtility();
-                gStartupWork->mConnectionKind = 3;
+                gStartupWork->mConnectionKind = CONNECTION_KIND_WIFI_MENU;
                 break;
         }
     }
@@ -269,7 +269,7 @@ void RunScenesForever(void) {
     gRunScenesState->mSceneNumber = 9;
     gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        gStartupWork->mConnectionKind = 2;
+        gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
         gMenuShared->mWLMenuKind = 0;
         gRunScenesState->mSceneNumber = 6;
     }
