@@ -13,7 +13,7 @@ extern struct WCMWepDesc *gEssidConnectBlock;
 extern WCMWork *gEssidWcmWork;
 extern u8 *gEssidSearchEssid;
 extern s32 gEssidWcmState;
-extern Unk021ba818Func *gEssidEventCallback;
+extern EssidEventCallback *gEssidEventCallback;
 extern struct WMBssDesc *gEssidConnectRecord;
 extern u8 gEssidSearchAddressBytes[6];
 extern u8 gEssidSearchEssidBytes[0x20];

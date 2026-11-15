@@ -36,7 +36,7 @@ WCMWepDesc *gEssidConnectBlock;
 WCMWork *gEssidWcmWork;
 u8 *gEssidSearchEssid;
 s32 gEssidWcmState;
-Unk021ba818Func *gEssidEventCallback;
+EssidEventCallback *gEssidEventCallback;
 WMBssDesc *gEssidConnectRecord;
 u8 gEssidSearchAddressBytes[6];
 u8 gEssidSearchEssidBytes[0x20];
@@ -367,7 +367,7 @@ BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags) {
     return FALSE;
 }
 
-BOOL InitEssidWcm(Unk021ba818Func *callback, u8 *buffer, s32 size) {
+BOOL InitEssidWcm(EssidEventCallback *callback, u8 *buffer, s32 size) {
     u32 enabled = OS_DisableInterrupts();
     gEssidConnectBlock = (WCMWepDesc *) buffer;
     gEssidWcmConfig = (WCMConfig *) (((u32) buffer + 0x53) & ~3);
