@@ -95,6 +95,18 @@ void AddSeqQueueEntry(u32 pairNo, u32 pairSide);
 
 void SetEmblemSoundValue(unsigned int value);
 
+// Values of gKingTeresaState, named from the king_teresa.c functions that set them.
+enum {
+    KING_TERESA_STATE_WAIT_TO_APPROACH,
+    KING_TERESA_STATE_APPROACH_KART,
+    KING_TERESA_STATE_MOVE_TO_FORWARD_POINT,
+    KING_TERESA_STATE_HIDDEN,
+    KING_TERESA_STATE_SHOW_BOSS_COINS,
+    KING_TERESA_STATE_GROUP_ENTRY,
+    KING_TERESA_STATE_KART_ELIMINATED,
+    KING_TERESA_STATE_END_REACHED,
+};
+
 extern u16 gLapProgressSoundIds[2];
 extern const s32 gLapProgressSoundGapDividends[2];
 extern s32 gUseKingTeresaSeqVolume;

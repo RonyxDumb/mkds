@@ -564,6 +564,15 @@ typedef struct SelectRaceRuleWait {
 #define SEQ_VOLUME_OVERRIDE_ZERO 1
 #define SEQ_VOLUME_OVERRIDE_FULL 2
 
+// Bits of SeqPlayerControl.mFlags (SEQ_PLAYER_BIT_ is the bit number): the selected Kart is small from the Thunder item,
+// a Teresa effect runs on it, and the scene seq restarted (pitch 0x40 and a lower volume target).
+#define SEQ_PLAYER_BIT_THUNDER_SHRINK 1
+#define SEQ_PLAYER_BIT_TERESA 2
+#define SEQ_PLAYER_BIT_RESTARTED 3
+#define SEQ_PLAYER_FLAG_THUNDER_SHRINK (1 << SEQ_PLAYER_BIT_THUNDER_SHRINK)
+#define SEQ_PLAYER_FLAG_TERESA (1 << SEQ_PLAYER_BIT_TERESA)
+#define SEQ_PLAYER_FLAG_RESTARTED (1 << SEQ_PLAYER_BIT_RESTARTED)
+
 // Object at gSeqPlayerControl (0x10 bytes).
 typedef struct SeqPlayerControl {
     /* 00 */ s32 mVolumeOverride;
@@ -573,6 +582,12 @@ typedef struct SeqPlayerControl {
     /* 08 */ s32 mFlags;
     /* 0c */ u32 mKartNear;
 } SeqPlayerControl;
+
+// SeqQueue: the number of entries, the pair that marks an empty entry, and the frames to wait after a start.
+#define SEQ_QUEUE_LENGTH 14
+#define SEQ_QUEUE_EMPTY_PAIR_NO 13
+#define SEQ_QUEUE_EMPTY_PAIR_SIDE 2
+#define SEQ_QUEUE_START_DELAY_FRAMES 0x19
 
 // Object at gSeqQueue.
 typedef struct SeqQueue {

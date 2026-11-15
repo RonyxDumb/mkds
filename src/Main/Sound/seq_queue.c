@@ -79,9 +79,9 @@ void ResetSeqQueue(void) {
     gSeqQueue.mNextStartTimer = entryIndex;
     gSeqQueue.mWriteIndex = entryIndex;
     gSeqQueue.mReadIndex = entryIndex;
-    for (entryIndex = 0; entryIndex < 14; entryIndex++) {
-        gSeqQueue.mPairNo[entryIndex] = 13;
-        gSeqQueue.mPairSide[entryIndex] = 2;
+    for (entryIndex = 0; entryIndex < SEQ_QUEUE_LENGTH; entryIndex++) {
+        gSeqQueue.mPairNo[entryIndex] = SEQ_QUEUE_EMPTY_PAIR_NO;
+        gSeqQueue.mPairSide[entryIndex] = SEQ_QUEUE_EMPTY_PAIR_SIDE;
     }
 }
 
@@ -96,7 +96,7 @@ void UpdateSeqQueue(void) {
     if (queue->mNextStartTimer == 0) {
         readIndex = queue->mReadIndex;
         pairNo = queue->mPairNo[readIndex];
-        if (pairNo != 13) {
+        if (pairNo != SEQ_QUEUE_EMPTY_PAIR_NO) {
             pairSide = queue->mPairSide[readIndex];
             seqArcNo = 3;
             if (pairNo == 12) {
@@ -113,12 +113,12 @@ void UpdateSeqQueue(void) {
             if (gSharedSeqHandle != NULL) {
                 SetSndHandleTrackVolume(&gSharedSeqHandle, 0x3c);
             }
-            gSeqQueue.mPairNo[queue->mReadIndex] = 13;
-            gSeqQueue.mPairSide[queue->mReadIndex] = 2;
-            queue->mNextStartTimer = 0x19;
+            gSeqQueue.mPairNo[queue->mReadIndex] = SEQ_QUEUE_EMPTY_PAIR_NO;
+            gSeqQueue.mPairSide[queue->mReadIndex] = SEQ_QUEUE_EMPTY_PAIR_SIDE;
+            queue->mNextStartTimer = SEQ_QUEUE_START_DELAY_FRAMES;
             queue->mReadIndex = queue->mReadIndex + 1;
             readIndex = queue->mReadIndex;
-            if (readIndex == 14) {
+            if (readIndex == SEQ_QUEUE_LENGTH) {
                 readIndex = 0;
             }
             queue->mReadIndex = readIndex;
@@ -136,7 +136,7 @@ void AddSeqQueueEntry(u32 pairNo, u32 pairSide) {
     gSeqQueue.mPairNo[writeIndex] = pairNo;
     nextIndex = writeIndex + 1;
     gSeqQueue.mPairSide[writeIndex] = pairSide;
-    if (nextIndex == 14) {
+    if (nextIndex == SEQ_QUEUE_LENGTH) {
         nextIndex = 0;
     }
     gSeqQueue.mWriteIndex = nextIndex;
@@ -223,9 +223,9 @@ void SetLapProgressSoundGaps(u32 divisor) {
 
 void InitKingTeresaSoundState(u32 kingTeresaFlag) {
     gUseKingTeresaSeqVolume = kingTeresaFlag;
-    gKingTeresaState = 3;
-    gKingTeresaStateLastFrame = 3;
-    gPreviousKingTeresaState = 3;
+    gKingTeresaState = KING_TERESA_STATE_HIDDEN;
+    gKingTeresaStateLastFrame = KING_TERESA_STATE_HIDDEN;
+    gPreviousKingTeresaState = KING_TERESA_STATE_HIDDEN;
     gKingTeresaStateFrames = 0;
 }
 
@@ -244,7 +244,7 @@ void InitVolumeFade(void) {
     gKingTeresaSeqVolumeFactor = FX_Div(TO_FIXED12(gSceneSeqVolume), 0x23000);
     gKingTeresaSoundVolumeFactor = FX_Div(0x7f000, 0x19000);
     gVolumeFade.mVolumePerFrame = gInitialVolumePerFrame;
-    gVolumeFade.mVolume = 0x7f000;
+    gVolumeFade.mVolume = TO_FIXED12(SOUND_VOLUME_MAX);
     gReachedSeqVolume = gSceneSeqVolume;
 }
 
@@ -265,8 +265,9 @@ BOOL IsKingTeresaState0Or2Or5(void) {
     u32 state;
     result = 0;
     state = gKingTeresaState;
-    if (state <= 5) {
-        if ((1 << state) & 0x25) {
+    if (state <= KING_TERESA_STATE_GROUP_ENTRY) {
+        if ((1 << state) & ((1 << KING_TERESA_STATE_WAIT_TO_APPROACH) | (1 << KING_TERESA_STATE_MOVE_TO_FORWARD_POINT) |
+                            (1 << KING_TERESA_STATE_GROUP_ENTRY))) {
             result = 1;
         }
     }
@@ -321,7 +322,7 @@ void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
     value = gKingTeresaState;
     targetVolume = gSceneSeqVolume;
     switch (value) {
-        case 0:
+        case KING_TERESA_STATE_WAIT_TO_APPROACH:
             value = FROM_FIXED12(
                 MUL_FIXED12_ROUNDED(gKingTeresaSeqVolumeFactor, 0x29000 - GetMissionRunMapObjectAlphaLimit()));
             targetVolume = 0;
@@ -332,20 +333,20 @@ void UpdateKingTeresaSeqVolume(NNSSndSeqPlayer **handle) {
                 }
             }
             break;
-        case 1:
+        case KING_TERESA_STATE_APPROACH_KART:
             targetVolume = 0;
             break;
-        case 2:
+        case KING_TERESA_STATE_MOVE_TO_FORWARD_POINT:
             targetVolume = 0;
             break;
-        case 5:
-            if (gPreviousKingTeresaState == 2) {
+        case KING_TERESA_STATE_GROUP_ENTRY:
+            if (gPreviousKingTeresaState == KING_TERESA_STATE_MOVE_TO_FORWARD_POINT) {
                 if (gKingTeresaStateFrames < 0x14) {
                     targetVolume = 0;
                 }
             }
             break;
-        case 7:
+        case KING_TERESA_STATE_END_REACHED:
             break;
     }
     if (gKingTeresaStateLastFrame != gKingTeresaState) {
@@ -474,7 +475,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     }
     control->mKartNear =
         (TryGetMinKartDistanceSquared(&minKartDistanceSquared) != FALSE && minKartDistanceSquared < 0x8d04) ? 1 : 0;
-    if ((control->mFlags >> 2) & 1) {
+    if ((control->mFlags >> SEQ_PLAYER_BIT_TERESA) & 1) {
         targetVolume = 0;
         value = 0x1e;
         slotSeqIndex = 0xff;
@@ -504,7 +505,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
     }
     if (gSceneSoundState.mRaceState != 1) {
         pitch = 0;
-    } else if ((control->mFlags >> 1) & 1) {
+    } else if ((control->mFlags >> SEQ_PLAYER_BIT_THUNDER_SHRINK) & 1) {
         control->mPitchAngle += 0x1111;
         control->mPitchAngle &= 0xffff;
         pitch = FROM_FIXED12(MUL_FIXED12_ROUNDED(FX_SinIdx(control->mPitchAngle), 0x30000));
@@ -512,7 +513,7 @@ void UpdateSeqPlayerControl(SeqPlayerControl *control, NNSSndSeqPlayer **handle)
         if (targetVolume > 0x3c) {
             targetVolume = 0x3c;
         }
-    } else if ((control->mFlags >> 3) & 1) {
+    } else if ((control->mFlags >> SEQ_PLAYER_BIT_RESTARTED) & 1) {
         pitch = 0x40;
         if (targetVolume == gSceneSeqVolume) {
             targetVolume = gSceneSeqVolume - 10;
@@ -577,7 +578,7 @@ void UpdateSceneSeqPlayerControl(void) {
 }
 
 u32 IsTeresaSoundFlagSet(void) {
-    if ((gSeqPlayerControl.mFlags >> 2) & 1) {
+    if ((gSeqPlayerControl.mFlags >> SEQ_PLAYER_BIT_TERESA) & 1) {
         return 1;
     }
     return 0;
@@ -596,16 +597,16 @@ SeqPlayerControl *SetRestartedSeqPitchFlag(void) {
     u32 flags;
     control = &gSeqPlayerControl;
     flags = gSeqPlayerControl.mFlags;
-    flags = (flags) | (8u);
+    flags = (flags) | (SEQ_PLAYER_FLAG_RESTARTED);
     gSeqPlayerControl.mFlags = flags;
     return control;
 }
 
 void SetThunderShrinkSoundFlag(u32 enabled) {
     if (enabled == 1) {
-        gSeqPlayerControl.mFlags |= 2;
+        gSeqPlayerControl.mFlags |= SEQ_PLAYER_FLAG_THUNDER_SHRINK;
     } else {
-        gSeqPlayerControl.mFlags &= ~2;
+        gSeqPlayerControl.mFlags &= ~SEQ_PLAYER_FLAG_THUNDER_SHRINK;
     }
     gSeqPlayerControl.mPitchAngle = 0;
 }
@@ -615,9 +616,9 @@ void SetTeresaSoundFlag(u32 enabled, u32 isSelectedEntry) {
         return;
     }
     if (enabled == 1) {
-        gSeqPlayerControl.mFlags |= 4;
+        gSeqPlayerControl.mFlags |= SEQ_PLAYER_FLAG_TERESA;
     } else {
-        gSeqPlayerControl.mFlags &= ~4;
+        gSeqPlayerControl.mFlags &= ~SEQ_PLAYER_FLAG_TERESA;
     }
 }
 
