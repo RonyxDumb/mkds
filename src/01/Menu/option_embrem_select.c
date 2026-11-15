@@ -322,7 +322,7 @@ void AdvanceOptionEmbremSelectState6(void) {
             return;
         }
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         RequestOptionState(gOptionEmbremSelect->mNextOptionState);
     }
 }

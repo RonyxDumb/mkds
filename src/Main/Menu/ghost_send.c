@@ -399,7 +399,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             }
             break;
         case TIME_ATTACK_GHOST_SEND_STATE_PICK_GHOST:
-            if (IsTxtSystemState2NoCloseRequest() != 0) {
+            if (IsTxtSystemOpenNoCloseRequest() != 0) {
                 AdvanceScrollList();
                 value = GetScrollListSelectedRow();
                 if (gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex != value) {
@@ -487,7 +487,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             }
             break;
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_TEXT_END_CONNECTION:
-            if (IsTxtSystemState2AfterState1() != 0) {
+            if (IsTxtSystemOpenAfterOpening() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {

@@ -566,7 +566,7 @@ void AdvanceRecordTopMenuState7(void) {
 
 void AdvanceRecordTopMenuState8(void) {
     int txtSystemNoCloseRequest;
-    txtSystemNoCloseRequest = IsTxtSystemState2NoCloseRequest();
+    txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (txtSystemNoCloseRequest != 0) {
         RequestRecordTopMenuState9();
     }
@@ -604,7 +604,7 @@ void AdvanceRecordTopMenuState9(void) {
 
 void AdvanceRecordTopMenuState10(void) {
     int txtSystemNoOpenRequest;
-    txtSystemNoOpenRequest = IsTxtSystemState0NoOpenRequest();
+    txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (txtSystemNoOpenRequest != 0) {
         RequestRecordTopMenuState11();
     }

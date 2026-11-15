@@ -285,7 +285,7 @@ void AdvanceWiFiAikotobaState6(void) {
     void *questionText;
     void *yesText;
 
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK;
         questionText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0x10);
         yesText = GetBmgEntry(gWiFiAikotoba->mCommonMessages, 0);
@@ -298,7 +298,7 @@ void AdvanceWiFiAikotobaState6(void) {
 }
 
 void AdvanceWiFiAikotobaState7(void) {
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
             if (GetWiFiNextScene() == -1) {

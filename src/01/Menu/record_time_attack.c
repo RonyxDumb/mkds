@@ -527,7 +527,7 @@ void AdvanceRecordTAttState8(void) {
 }
 
 void AdvanceRecordTAttState9(void) {
-    if (IsTxtSystemState2NoCloseRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0) {
         RequestRecordTAttState10();
     }
 }
@@ -571,7 +571,7 @@ void AdvanceRecordTAttState11(void) {
         gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mOffsetX = offsetX;
     }
     if (gRecordTAtt->mStateFrames >= 10) {
-        if (IsTxtSystemState0NoOpenRequest() != 0) {
+        if (IsTxtSystemClosedNoOpenRequest() != 0) {
             RequestRecordTAttState12();
         }
     }
@@ -666,7 +666,7 @@ void AdvanceRecordTAttState13(void) {
 
 void AdvanceRecordTAttState14(void) {
     int txtSystemNoCloseRequest;
-    txtSystemNoCloseRequest = IsTxtSystemState2NoCloseRequest();
+    txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (txtSystemNoCloseRequest != 0) {
         RequestRecordTAttState15();
     }
@@ -701,7 +701,7 @@ void AdvanceRecordTAttState15(void) {
 
 void AdvanceRecordTAttState16(void) {
     int txtSystemNoOpenRequest;
-    txtSystemNoOpenRequest = IsTxtSystemState0NoOpenRequest();
+    txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (txtSystemNoOpenRequest != 0) {
         RequestRecordTAttState17();
     }

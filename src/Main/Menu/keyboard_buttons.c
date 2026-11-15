@@ -513,7 +513,7 @@ void AdvanceKeyboardState1(void) {
     if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState2NoCloseRequest() != 0) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemOpenNoCloseRequest() != 0) {
         gKeyboard->mNextState = KEYBOARD_STATE_ENTER_FRIEND_KEY;
         gKeyboard->mTextEntryEnabled = TRUE;
         gKeyboard->mStateFrames = 0;
@@ -585,7 +585,7 @@ void AdvanceKeyboardState3(void) {
     if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState0NoOpenRequest() != 0) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemClosedNoOpenRequest() != 0) {
         keyboard = gKeyboard;
         if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen != 0) {
             CopyKeyboardTextAsBytes();
@@ -630,7 +630,7 @@ void AdvanceKeyboardState3(void) {
 void AdvanceKeyboardState4(void) {
     Keyboard *keyboard;
     gKeyboard->mStateFrames++;
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
     keyboard = gKeyboard;
@@ -702,7 +702,7 @@ void AdvanceKeyboardState6(void) {
     if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState2NoCloseRequest() != 0) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemOpenNoCloseRequest() != 0) {
         gKeyboard->mNextState = KEYBOARD_STATE_ENTER_NAME;
         gKeyboard->mTextEntryEnabled = TRUE;
         gKeyboard->mStateFrames = 0;
@@ -840,7 +840,7 @@ void AdvanceKeyboardState8(void) {
     if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
-    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemState0NoOpenRequest() != 0) {
+    if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES && IsTxtSystemClosedNoOpenRequest() != 0) {
         keyboard = gKeyboard;
         if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mFirstButtonChosen != 0) {
             if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode == SCENE_WIFI_MENU) {
@@ -890,7 +890,7 @@ void AdvanceKeyboardState9(void) {
         gKeyboard->mStateFrames = KEYBOARD_SLIDE_FRAMES;
     }
     if (gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
-        if (IsTxtSystemState2NoCloseRequest() != 0) {
+        if (IsTxtSystemOpenNoCloseRequest() != 0) {
             gKeyboard->mNextState = KEYBOARD_STATE_ANSWER_CONFIRM;
             gKeyboard->mStateFrames = 0;
         }
@@ -913,7 +913,7 @@ void AdvanceKeyboardState10(void) {
             InterpolateS16(1, gKeyboardTextOffsetYTarget[0][0] - (KEYBOARD_OFFSET_HIDDEN - targetOffsetY),
                            gKeyboardTextOffsetYTarget[0][0], gKeyboard->mStateFrames, KEYBOARD_SLIDE_FRAMES);
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && gKeyboard->mStateFrames >= KEYBOARD_SLIDE_FRAMES) {
         if (GetTxtSystemSelectedIndex() == 0) {
             keyboard = gKeyboard;
             if (keyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode == SCENE_WIFI_MENU) {
@@ -942,7 +942,7 @@ void AdvanceKeyboardState10(void) {
                                      0, 0, 0);
         }
     } else {
-        if (GetTxtSystemDone() != 0 || IsTxtSystemState0NoOpenRequest() != 0) {
+        if (GetTxtSystemDone() != 0 || IsTxtSystemClosedNoOpenRequest() != 0) {
             RequestTxtSystemClose();
             gKeyboard->mStateFrames++;
         }
@@ -954,11 +954,11 @@ void AdvanceKeyboardState11(void) {
     void *message;
     s32 backupBusy;
     void *buttonText;
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x22);
     }
     gKeyboard->mStateFrames++;
-    if (IsTxtSystemState2NoCloseRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0) {
         keyboard = gKeyboard;
         if (keyboard->mStateFrames > KEYBOARD_SAVING_FRAMES) {
             backupBusy = (gBackupBuffers->mBusy == 0)
@@ -985,7 +985,7 @@ void AdvanceKeyboardState12(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         backupBusy = (gBackupBuffers->mBusy == 0)
                          ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
                          : 1;
@@ -1009,7 +1009,7 @@ void AdvanceKeyboardState12(void) {
 }
 
 void AdvanceKeyboardState13(void) {
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = SCENE_EMBLEM;
         } else {

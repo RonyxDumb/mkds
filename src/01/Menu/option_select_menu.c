@@ -474,7 +474,7 @@ void AdvanceOptionSelectMenuState5(void) {
             RequestSelectReturnSlideIn();
         }
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         RequestOptionState(gOptionSelectMenu->mNextOptionState);
     }
 }

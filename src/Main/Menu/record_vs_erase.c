@@ -717,7 +717,7 @@ void ReleaseRecordVSErase(void) {
 
 void AdvanceRecordVSEraseState0(void) {
     int isState2NoCloseRequest;
-    isState2NoCloseRequest = IsTxtSystemState2NoCloseRequest();
+    isState2NoCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (isState2NoCloseRequest != 0) {
         RequestRecordVSEraseState1();
     }
@@ -733,7 +733,7 @@ void AdvanceRecordVSEraseState1(void) {
 
 void AdvanceRecordVSEraseState2(void) {
     int isState0NoOpenRequest;
-    isState0NoOpenRequest = IsTxtSystemState0NoOpenRequest();
+    isState0NoOpenRequest = IsTxtSystemClosedNoOpenRequest();
     if (isState0NoOpenRequest != 0) {
         RequestRecordVSEraseState3();
     }
@@ -1057,7 +1057,7 @@ void AdvanceRecordVSEraseState7(void) {
 
 void AdvanceRecordVSEraseState8(void) {
     int noCloseRequest;
-    noCloseRequest = IsTxtSystemState2NoCloseRequest();
+    noCloseRequest = IsTxtSystemOpenNoCloseRequest();
     if (noCloseRequest != 0) {
         RequestRecordVSEraseState9();
     }
@@ -1118,7 +1118,7 @@ void AdvanceRecordVSEraseState10(void) {
                 .mOffsetX = offsetX;
         }
     }
-    if (IsTxtSystemState0NoOpenRequest()) {
+    if (IsTxtSystemClosedNoOpenRequest()) {
         firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
         if (GetRecordCount() <= firstRecordIndex) {
             gRecordVSErase->mPageIndex--;

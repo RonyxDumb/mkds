@@ -292,7 +292,7 @@ void AdvanceOptionTopMenuState6(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             SetupTxtSystemSubTextTwoButtons(GetBmgEntry(gOptionTopMenu->mOptionMessages, 4),
                                             GetBmgEntry(gOptionTopMenu->mCommonMessages, 0),
@@ -309,7 +309,7 @@ void AdvanceOptionTopMenuState7(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             ResetBackupAndStartWrite();
             gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_RESET_WRITE;
@@ -323,7 +323,7 @@ void AdvanceOptionTopMenuState7(void) {
 void AdvanceOptionTopMenuState8(void) {
     s32 flag;
 
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x22);
     }
     if (gBackupBuffers->mBusy == 0) {
@@ -335,7 +335,7 @@ void AdvanceOptionTopMenuState8(void) {
     } else {
         flag = 1;
     }
-    if (flag == 0 && IsTxtSystemState2NoCloseRequest() != 0) {
+    if (flag == 0 && IsTxtSystemOpenNoCloseRequest() != 0) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_RESET_DONE;
         SetTxtSystemOpenSoundId(0x21);
         SetupTxtSystemSubTextButton(GetBmgEntry(gOptionTopMenu->mOptionMessages, 6),

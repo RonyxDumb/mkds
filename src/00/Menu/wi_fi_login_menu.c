@@ -137,7 +137,7 @@ void AdvanceWiFiLoginMenuState1(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         u16 messageIndices[2] = {0, 0x1d};
         if (gWiFiLoginMenu->mMessageTableIndex < 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
@@ -173,7 +173,7 @@ void AdvanceWiFiLoginMenuState2(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ASK_SETUP;
         SetupTxtSystemMainTextButton(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x21),
                                      GetBmgEntry(gWiFiLoginMenu->mCommonMessages, 6));
@@ -187,7 +187,7 @@ void AdvanceWiFiLoginMenuState3(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         u16 messageIndices[2] = {0, 0x22};
         if (gWiFiLoginMenu->mMessageTableIndex < 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
@@ -223,7 +223,7 @@ void AdvanceWiFiLoginMenuState4(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         u16 messageIndices[3] = {0, 0x24, 0x25};
         if (gWiFiLoginMenu->mMessageTableIndex < 1) {
             gWiFiLoginMenu->mMessageTableIndex++;
@@ -260,7 +260,7 @@ void AdvanceWiFiLoginMenuState5(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         u16 messageIndices[2] = {0, 0x1f};
         if (gWiFiLoginMenu->mMessageTableIndex < 0) {
             gWiFiLoginMenu->mMessageTableIndex++;
@@ -290,7 +290,7 @@ void AdvanceWiFiLoginMenuState6(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_WAIT_LOGIN;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
@@ -307,13 +307,13 @@ void AdvanceWiFiLoginMenuState6(void) {
 void AdvanceWiFiLoginMenuState7(void) {
     s32 pageCount;
     s32 messageIndex;
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (WiFiLoginMenuIsBackupBusy() == 0) {
             RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
             return;
         }
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0) {
         switch (GetWiFiSessionLoginResult()) {
             case -1:
                 gWiFiLoginMenu->mErrorCode = GetWiFiSessionErrorCodeNegatedWrapper();
@@ -357,7 +357,7 @@ void AdvanceWiFiLoginMenuState8(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         gWiFiLoginMenu->mMessageTableIndex++;
         messageIndex = LookupWiFiLoginErrorMessageIndex(gWiFiLoginMenu->mErrorCode, gWiFiLoginMenu->mMessageTableIndex,
                                                         &pageCount);
@@ -381,7 +381,7 @@ void AdvanceWiFiLoginMenuState9(void) {
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
@@ -402,7 +402,7 @@ void AdvanceWiFiLoginMenuState9(void) {
         return;
     }
 next:
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }

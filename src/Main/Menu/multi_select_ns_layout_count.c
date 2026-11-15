@@ -794,7 +794,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             }
             break;
         case MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE:
-            if (IsTxtSystemState2AfterState1() != 0) {
+            if (IsTxtSystemOpenAfterOpening() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
@@ -951,7 +951,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
             }
             break;
         case MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE:
-            if (IsTxtSystemState2AfterState1() != 0) {
+            if (IsTxtSystemOpenAfterOpening() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {

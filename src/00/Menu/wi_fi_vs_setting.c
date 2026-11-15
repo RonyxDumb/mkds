@@ -215,11 +215,11 @@ void AdvanceWiFiVSSettingState0(void) {
 void AdvanceWiFiVSSettingState1(void) {
     int queryResult;
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    queryResult = IsTxtSystemState2NoCloseRequest();
+    queryResult = IsTxtSystemOpenNoCloseRequest();
     if ((queryResult != 0) && (0x78 < gWiFiVSSetting->mStateFrames)) {
         RequestTxtSystemClose();
     }
-    queryResult = IsTxtSystemState0NoOpenRequest();
+    queryResult = IsTxtSystemClosedNoOpenRequest();
     if (queryResult != 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
@@ -442,7 +442,7 @@ void AdvanceWiFiVSSettingState6(void) {
         gWiFiVSSetting->mRowOffsets[2][1] = rowOffsetY;
     }
     if (gWiFiVSSetting->mStateFrames >= 10 && gWiFiVSSetting->mStateFrames >= 13 &&
-        IsTxtSystemState0NoOpenRequest() != 0 &&
+        IsTxtSystemClosedNoOpenRequest() != 0 &&
         ((gWiFiVSSetting->mSelectReturnPending != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
          IsSelectReturnShownNoRequest() != 0) &&
         GetWiFiNextScene() == -1) {
@@ -485,16 +485,16 @@ void AdvanceWiFiVSSettingState7(void) {
     BOOL pairRecentlyLost;
     u16 hasPair;
 
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mRow = 1;
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairNewUnlessRecentlyLost = FALSE;
             pairRecentlyLost = FALSE;
@@ -524,16 +524,16 @@ void AdvanceWiFiVSSettingState8(void) {
     BOOL pairRecentlyLost;
     u16 hasPair;
 
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
         gWiFiVSSetting->mRow = 1;
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairNewUnlessRecentlyLost = FALSE;
             pairRecentlyLost = FALSE;
@@ -562,7 +562,7 @@ void AdvanceWiFiVSSettingState9(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_TEXT;
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 0x18), 1, 1, 1, 0, 1, 0);
@@ -576,12 +576,12 @@ void AdvanceWiFiVSSettingState9(void) {
 
 void AdvanceWiFiVSSettingState10(void) {
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSSetting->mConnectionReleased == FALSE) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSSetting->mConnectionReleased == FALSE) {
         gWiFiVSSetting->mConnectionReleased = TRUE;
         ReleaseWiFiConnectionWrapper();
     }
     if (gWiFiVSSetting->mConnectionReleased != FALSE && UpdateWiFiSessionRelease() != 0 &&
-        gWiFiVSSetting->mStateFrames > 90 && IsTxtSystemState2NoCloseRequest() != 0) {
+        gWiFiVSSetting->mStateFrames > 90 && IsTxtSystemOpenNoCloseRequest() != 0) {
         void *bmgEntry;
 
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT;
@@ -598,7 +598,7 @@ void AdvanceWiFiVSSettingState11(void) {
         RequestTxtSystemClose();
         return;
     }
-    queryResult = IsTxtSystemState0NoOpenRequest();
+    queryResult = IsTxtSystemClosedNoOpenRequest();
     if (queryResult != 0) {
         RequestWiFiState(gWiFiVSSetting->mPendingWiFiState);
     }

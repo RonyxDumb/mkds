@@ -22,9 +22,9 @@ void SetupTxtSystemSubTextTwoButtons(void *text, void *buttonText, void *secondB
 void SetupTxtSystemSubTextTwoButtonsEx(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
                                        u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex);
 void RequestTxtSystemClose(void);
-BOOL IsTxtSystemState2NoCloseRequest(void);
-BOOL IsTxtSystemState0NoOpenRequest(void);
-BOOL IsTxtSystemState2AfterState1(void);
+BOOL IsTxtSystemOpenNoCloseRequest(void);
+BOOL IsTxtSystemClosedNoOpenRequest(void);
+BOOL IsTxtSystemOpenAfterOpening(void);
 
 void SetupTxtSystemSubTextButton(void *text, void *buttonText);
 
@@ -49,11 +49,11 @@ void SetupTxtSystemMainTextShort(void *text, u32 mainBlendPlanes, u32 subBlendPl
 
 void SetupTxtSystemMainText(void *text);
 
-void AdvanceTxtSystemState0(void);
-void AdvanceTxtSystemState1(void);
-void AdvanceTxtSystemState2(void);
-void AdvanceTxtSystemState3(void);
-void AdvanceTxtSystemState4(void);
+void AdvanceTxtSystemClosed(void);
+void AdvanceTxtSystemOpening(void);
+void AdvanceTxtSystemOpen(void);
+void AdvanceTxtSystemButtonPressed(void);
+void AdvanceTxtSystemClosing(void);
 void AdvanceTxtSystem(void);
 void WriteTxtSystemRegisters(void);
 void RequestTxtSystemOpen(void);

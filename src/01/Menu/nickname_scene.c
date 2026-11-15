@@ -69,7 +69,7 @@ void AdvanceNicknameSceneState1(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gNicknameScene->mNextState = NICKNAME_SCENE_STATE_SECOND_MESSAGE;
             messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xd);
@@ -91,7 +91,7 @@ void AdvanceNicknameSceneState2(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             ownerText = gStartupWork->mOwnerText;
             gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
@@ -115,7 +115,7 @@ void AdvanceNicknameSceneState3(void) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         if (gBackupBuffers->mBusy == 0) {
             if (gBackupAccess->mBackupEnabled != 0) {
                 backupBusy = gBackupAccess->mCommandRunning;

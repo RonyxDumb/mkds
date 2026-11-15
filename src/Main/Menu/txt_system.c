@@ -336,8 +336,8 @@ void ResetTxtSystemButtonColors(void) {
 
 #pragma thumb on
 
-// State 0: serves an open request by building the screens and queueing them.
-void AdvanceTxtSystemState0(void) {
+// Closed: serves an open request by building the screens and queueing them.
+void AdvanceTxtSystemClosed(void) {
     u32 drawFlags[9];
     s32 index;
     s32 bufferSize;
@@ -395,8 +395,8 @@ void AdvanceTxtSystemState0(void) {
     }
 }
 
-// State 1: slides the box in over 15 steps.
-void AdvanceTxtSystemState1(void) {
+// Opening: slides the box in over 15 steps.
+void AdvanceTxtSystemOpening(void) {
     TxtSystem *txtSystem;
     s32 screenIndex;
 
@@ -438,8 +438,8 @@ static inline s32 TxtSystemIsPairNewUnlessLost(u32 inputSlotIndex) {
     return result;
 }
 
-// State 2: open; answers a close request, or a touch or key press when the box has buttons.
-void AdvanceTxtSystemState2(void) {
+// Open: answers a close request, or a touch or key press when the box has buttons.
+void AdvanceTxtSystemOpen(void) {
     s32 buttonCount;
     s32 offsetTouchY;
     u16 clampedTouchY;
@@ -536,8 +536,8 @@ L:
     }
 }
 
-// State 3: ten steps after an accepted input, then sets mDone.
-void AdvanceTxtSystemState3(void) {
+// ButtonPressed: ten steps after an accepted input, then sets mDone.
+void AdvanceTxtSystemButtonPressed(void) {
     gTxtSystem->mStateFrames++;
     gTxtSystem->mInputAccepted = 0;
     if (gTxtSystem->mStateFrames >= 10) {
@@ -549,8 +549,8 @@ void AdvanceTxtSystemState3(void) {
     }
 }
 
-// State 4: slides the box out over 15 steps.
-void AdvanceTxtSystemState4(void) {
+// Closing: slides the box out over 15 steps.
+void AdvanceTxtSystemClosing(void) {
     TxtSystem *txtSystem;
     s32 screenIndex;
 
@@ -582,19 +582,19 @@ void AdvanceTxtSystem(void) {
         gTxtSystem->mState = gTxtSystem->mNextState;
         switch (gTxtSystem->mState) {
             case TXT_SYSTEM_STATE_CLOSED:
-                AdvanceTxtSystemState0();
+                AdvanceTxtSystemClosed();
                 break;
             case TXT_SYSTEM_STATE_OPENING:
-                AdvanceTxtSystemState1();
+                AdvanceTxtSystemOpening();
                 break;
             case TXT_SYSTEM_STATE_OPEN:
-                AdvanceTxtSystemState2();
+                AdvanceTxtSystemOpen();
                 break;
             case TXT_SYSTEM_STATE_BUTTON_PRESSED:
-                AdvanceTxtSystemState3();
+                AdvanceTxtSystemButtonPressed();
                 break;
             case TXT_SYSTEM_STATE_CLOSING:
-                AdvanceTxtSystemState4();
+                AdvanceTxtSystemClosing();
                 break;
         }
         if (gTxtSystem->mAnimVisible[0] != 0 || gTxtSystem->mAnimVisible[1] != 0) {
@@ -889,7 +889,7 @@ void RequestTxtSystemClose(void) {
     gTxtSystem->mCloseRequested = 1;
 }
 
-BOOL IsTxtSystemState2NoCloseRequest(void) {
+BOOL IsTxtSystemOpenNoCloseRequest(void) {
     BOOL result;
 
     result = FALSE;
@@ -899,7 +899,7 @@ BOOL IsTxtSystemState2NoCloseRequest(void) {
     return result;
 }
 
-BOOL IsTxtSystemState0NoOpenRequest(void) {
+BOOL IsTxtSystemClosedNoOpenRequest(void) {
     BOOL result;
 
     result = FALSE;
@@ -909,7 +909,7 @@ BOOL IsTxtSystemState0NoOpenRequest(void) {
     return result;
 }
 
-BOOL IsTxtSystemState2AfterState1(void) {
+BOOL IsTxtSystemOpenAfterOpening(void) {
     BOOL result;
 
     result = FALSE;

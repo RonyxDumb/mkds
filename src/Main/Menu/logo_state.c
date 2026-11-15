@@ -54,7 +54,7 @@ void UpdateLogoDwcNoticeFirst(void *stateObject) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() == 0) {
+    if (IsTxtSystemClosedNoOpenRequest() == 0) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
@@ -74,7 +74,7 @@ void UpdateLogoDwcNoticeSecond(void *stateObject) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() == 0) {
+    if (IsTxtSystemClosedNoOpenRequest() == 0) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;

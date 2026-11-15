@@ -849,7 +849,7 @@ typedef struct Keyboard {
     /* 1c */ BOOL mButtonEnabled[2];
     /* 24 */ BOOL mTextEntryEnabled;
     // Calls spent in the current state: counted up by the handlers of states 1, 3, 4, 6, 8, 9 and 11, and by state 10
-    // only while GetTxtSystemDone or IsTxtSystemState0NoOpenRequest returns non-zero; zeroed by the handler that
+    // only while GetTxtSystemDone or IsTxtSystemClosedNoOpenRequest returns non-zero; zeroed by the handler that
     // leaves; the slide states hold it at 0xf.
     /* 28 */ s32 mStateFrames;
     /* 2c */ KeyboardRecord mRecords[3];

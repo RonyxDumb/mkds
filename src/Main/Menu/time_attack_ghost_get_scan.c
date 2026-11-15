@@ -358,7 +358,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT:
-            if (IsTxtSystemState0NoOpenRequest() != 0) {
+            if (IsTxtSystemClosedNoOpenRequest() != 0) {
                 SetupGhostMainTextEx();
             }
             AdvanceScrollList();
@@ -935,7 +935,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     if (gTimeAttackGhostGetScan->mGhostPicked != FALSE) {
                         break;
                     }
-                    if (IsTxtSystemState0NoOpenRequest() != 0) {
+                    if (IsTxtSystemClosedNoOpenRequest() != 0) {
                         SetupGhostMainTextShort();
                     }
                     gTimeAttackGhostGetScan->mFilledCount = 0;
@@ -1153,7 +1153,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_CLOSED:
-            if (IsTxtSystemState0NoOpenRequest() != 0) {
+            if (IsTxtSystemClosedNoOpenRequest() != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x54);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
@@ -1171,7 +1171,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE:
-            if (IsTxtSystemState2AfterState1() != 0) {
+            if (IsTxtSystemOpenAfterOpening() != 0) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {

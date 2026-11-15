@@ -282,7 +282,7 @@ void AdvanceWiFiVSMatchingState0(void) {
         gWiFiVSMatching->mStateFrames = 10;
     }
     if (gWiFiVSMatching->mStateFrames >= 10) {
-        if (IsTxtSystemState2NoCloseRequest() != 0) {
+        if (IsTxtSystemOpenNoCloseRequest() != 0) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_MATCHING;
             gWiFiVSMatching->mStateFrames = 0;
             if (GetWiFiVSSettingFlag() != 0) {
@@ -329,7 +329,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
         }
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
         (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto hit;
     }
@@ -356,7 +356,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         StopBothSeqHandles();
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->mStateFrames >= 0x78 &&
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSMatching->mStateFrames >= 0x78 &&
         CheckWiFiMatchingResult() == -1) {
         PrintWiFiVSMatchingNoOpponents();
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_NO_OPPONENTS_BACK;
@@ -370,7 +370,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         StartSelectReturnState1Seq();
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && CheckWiFiMatchingResult() == 1) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && CheckWiFiMatchingResult() == 1) {
         otherSlot = 0;
         gWiFiVSMatching->mStateFrames = 0;
         if (gWiFiSession->mKartCount <= 1) {
@@ -480,7 +480,7 @@ void AdvanceWiFiVSMatchingState2(void) {
     }
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (gWiFiVSMatching->mStateFrames >= 0x14) {
-        if (IsTxtSystemState0NoOpenRequest() != 0) {
+        if (IsTxtSystemClosedNoOpenRequest() != 0) {
             emblemSBNclr = GetEmblemSBNclr();
             for (otherIndex = 0; otherIndex < 3; otherIndex++) {
                 gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingEmblemCellIndices[otherIndex]].mVisible = 0;
@@ -619,10 +619,10 @@ void AdvanceWiFiVSMatchingState9(void) {
     u16 hasPair;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
 
-    if (IsTxtSystemState0NoOpenRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0) {
         SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 13), 0, 0, 1, 0, 0, 0);
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairNewUnlessRecentlyLost = FALSE;
             pairRecentlyLost = FALSE;
@@ -654,7 +654,7 @@ void AdvanceWiFiVSMatchingState10(void) {
     if (gWiFiVSMatching->mStateFrames >= 10) {
         gWiFiVSMatching->mStateFrames = 10;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
         gWiFiVSMatching->mStateFrames >= 10) {
         if (gWiFiVSMatching->mNoOpponents != FALSE) {
             RequestWiFiState(gWiFiVSMatching->mPendingWiFiState);
@@ -668,7 +668,7 @@ void AdvanceWiFiVSMatchingState10(void) {
 
 void AdvanceWiFiVSMatchingState11(void) {
     if (AreBrightnessFadesFaded() != 0) {
-        if (IsTxtSystemState0NoOpenRequest() != 0) {
+        if (IsTxtSystemClosedNoOpenRequest() != 0) {
             RequestWiFiState(gWiFiVSMatching->mPendingWiFiState);
         }
     }

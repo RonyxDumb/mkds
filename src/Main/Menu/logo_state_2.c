@@ -67,7 +67,7 @@ void UpdateLogoResetNotice(void *stateObject) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() == 0) {
+    if (IsTxtSystemClosedNoOpenRequest() == 0) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
@@ -87,7 +87,7 @@ void UpdateLogoResetFailedBlocks(void *stateObject) {
     s32 commandBusy;
     StateMachine *stateMachine;
     gLogoScene->mSubTextFrames = gLogoScene->mSubTextFrames + 1;
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         StartSoundOncePerFrame(34);
     }
     if (gBackupBuffers->mBusy == 0) {
@@ -102,7 +102,7 @@ void UpdateLogoResetFailedBlocks(void *stateObject) {
     if (commandBusy != 0) {
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() == 0) {
+    if (IsTxtSystemOpenNoCloseRequest() == 0) {
         return;
     }
     if (gLogoScene->mSubTextFrames > 90) {
@@ -126,7 +126,7 @@ void UpdateLogoResetFailedBlocksDone(void *stateObject) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() == 0) {
+    if (IsTxtSystemClosedNoOpenRequest() == 0) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;
@@ -152,7 +152,7 @@ void UpdateLogoAskResetBackup(void *stateObject) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() == 0) {
+    if (IsTxtSystemClosedNoOpenRequest() == 0) {
         return;
     }
     if (GetTxtSystemSelectedIndex() == 0) {
@@ -184,7 +184,7 @@ void UpdateLogoResetBackup(void *stateObject) {
     gLogoScene->mSubTextFrames = gLogoScene->mSubTextFrames + 1;
     scene = gLogoScene;
     if (scene->mResetBackupRequested != 0) {
-        if (IsTxtSystemState2AfterState1() != 0) {
+        if (IsTxtSystemOpenAfterOpening() != 0) {
             StartSoundOncePerFrame(34);
         }
         if (gBackupBuffers->mBusy == 0) {
@@ -199,7 +199,7 @@ void UpdateLogoResetBackup(void *stateObject) {
         if (commandBusy != 0) {
             return;
         }
-        if (IsTxtSystemState2NoCloseRequest() == 0) {
+        if (IsTxtSystemOpenNoCloseRequest() == 0) {
             return;
         }
         if (gLogoScene->mSubTextFrames > 90) {
@@ -239,7 +239,7 @@ void UpdateLogoResetBackupDone(void *stateObject) {
         RequestTxtSystemClose();
         return;
     }
-    if (IsTxtSystemState0NoOpenRequest() == 0) {
+    if (IsTxtSystemClosedNoOpenRequest() == 0) {
         return;
     }
     stateMachine = &gLogoScene->mStateMachine;

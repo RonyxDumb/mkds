@@ -321,7 +321,7 @@ void AdvanceWiFiTopMenuState6(void) {
         RequestTxtSystemClose();
         return;
     }
-    queryResult = IsTxtSystemState0NoOpenRequest();
+    queryResult = IsTxtSystemClosedNoOpenRequest();
     if (queryResult != 0) {
         queryResult = GetTxtSystemSelectedIndex();
         if (queryResult == 0) {
@@ -350,10 +350,10 @@ void AdvanceWiFiTopMenuState8(void) {
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;
-    if (IsTxtSystemState2AfterState1() != 0) {
+    if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;

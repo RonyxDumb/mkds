@@ -125,7 +125,7 @@ void UpdateWiFiAikotobaCheckOffsets(void) {
 void AdvanceWiFiAikotobaCheckState0(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
     gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0x50, 0, gWiFiAikotobaCheck->mStateFrames, 15);
-    if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemState2NoCloseRequest() != 0) {
+    if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemOpenNoCloseRequest() != 0) {
         gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_WAIT_INPUT;
         gWiFiAikotobaCheck->mStateFrames = 0;
     }
@@ -162,7 +162,7 @@ void AdvanceWiFiAikotobaCheckState1(void) {
 void AdvanceWiFiAikotobaCheckState2(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
     gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0, 0x50, gWiFiAikotobaCheck->mStateFrames, 15);
-    if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemState0NoOpenRequest() != 0 &&
+    if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemClosedNoOpenRequest() != 0 &&
         IsSelectReturnShownNoRequest() != 0) {
         RequestWiFiState(gWiFiAikotobaCheck->mPendingWiFiState);
     }
