@@ -305,15 +305,15 @@ u32 IsRecordGpxCupSelectable(u32 cupIndex) {
 
     result = 0;
     switch (cupIndex) {
-        case 0:
-        case 1:
-        case 4:
-        case 5:
+        case RECORD_GPX_CUP_MUSHROOM:
+        case RECORD_GPX_CUP_FLOWER:
+        case RECORD_GPX_CUP_SHELL:
+        case RECORD_GPX_CUP_BANANA:
             return 1;
-        case 2:
-        case 3:
-        case 6:
-        case 7:
+        case RECORD_GPX_CUP_STAR:
+        case RECORD_GPX_CUP_SPECIAL:
+        case RECORD_GPX_CUP_LEAF:
+        case RECORD_GPX_CUP_LIGHTNING:
             for (flagIndex = 0; flagIndex < 3; flagIndex++) {
                 result |= IsBackupFlagSet(gRecordGpxCupAnyOfFlagIndices[cupIndex][flagIndex]);
             }

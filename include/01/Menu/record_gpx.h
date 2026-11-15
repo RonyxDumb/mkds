@@ -52,6 +52,19 @@ typedef struct OptionTopMenu {
     /* 3c */ struct Bmg *mCommonMessages;
 } OptionTopMenu;
 
+// Values of RecordGpx.mIndex and the cup arguments of the record screen helpers: the cups in the order of their
+// names in common.bmg (entries 0x25 to 0x2c, gRecordGpxCupMessageIndices).
+enum {
+    RECORD_GPX_CUP_MUSHROOM,
+    RECORD_GPX_CUP_FLOWER,
+    RECORD_GPX_CUP_STAR,
+    RECORD_GPX_CUP_SPECIAL,
+    RECORD_GPX_CUP_SHELL,
+    RECORD_GPX_CUP_BANANA,
+    RECORD_GPX_CUP_LEAF,
+    RECORD_GPX_CUP_LIGHTNING,
+};
+
 // States of RecordGpx.mState and mNextState, in the order of the AdvanceRecordGpxStateN calls.
 enum {
     RECORD_GPX_STATE_BG_SLIDE_IN,
