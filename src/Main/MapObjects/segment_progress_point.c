@@ -2,13 +2,13 @@
 #include "Main/MapObjects/curve_point_xz.h"
 #include "Main/MapObjects/curve_point.h"
 
-void GetSegmentProgressPoint(SegmentPoints *progressOwner, Vec3 *output) {
-    Vec3 *points = progressOwner->mSegmentProgress.mSegment.mPoints;
+void GetSegmentProgressPoint(SegmentProgress *segmentProgress, Vec3 *output) {
+    Vec3 *points = segmentProgress->mSegment.mPoints;
     u32 progress;
     Vec3 *resultAddress;
     u32 unused;
     resultAddress = output;
-    progress = progressOwner->mSegmentProgress.mProgress;
+    progress = segmentProgress->mProgress;
     GetCurvePoint(points, progress, resultAddress);
 }
 

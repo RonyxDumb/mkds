@@ -251,7 +251,7 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
     }
     if (hasFlag40000000) {
         prevPos = *pos;
-        GetSegmentProgressPoint(segmentPoints, pos);
+        GetSegmentProgressPoint(&segmentPoints->mSegmentProgress, pos);
         velocity->y = 0;
         if (follower->mDirectedItemObject.mPushOutMode == 0) {
             VEC_Subtract(pos, &prevPos, &prevPos);

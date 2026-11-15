@@ -470,7 +470,7 @@ void AdvanceItemTeresaPath(ItemTeresa *teresa) {
             }
         } while (PushSegmentPoint(&teresa->mPathSegmentPoints, &gItemTeresaPathPoints[teresa->mPointIndex]) != 0);
     }
-    GetSegmentProgressPoint(&teresa->mPathSegmentPoints, &pathPoint);
+    GetSegmentProgressPoint(&teresa->mPathSegmentPoints.mSegmentProgress, &pathPoint);
     SetSegmentProgressRate(&teresa->mPathSegmentPoints.mSegmentProgress, pathPoint.y);
     if (teresa->mItemObject.mPosPointer == &teresa->mItemObject.mDrawPos) {
         targetOffset = (Vec3){pathPoint.x};

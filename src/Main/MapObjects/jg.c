@@ -196,7 +196,7 @@ void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 
             }
         } while (BuildNextSegmentProgress(&gJgSegmentProgress, 0, gJgPointPointers) != FALSE);
     }
-    GetSegmentProgressPoint((SegmentPoints *) &gJgSegmentProgress, &pathPoint);
+    GetSegmentProgressPoint(&gJgSegmentProgress, &pathPoint);
     gJgAngle += 0x64;
     anglePair0 = SIN_OF_ANGLE(gJgAngle);
     anglePair1 = COS_OF_ANGLE(gJgAngle);
