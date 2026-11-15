@@ -224,7 +224,7 @@ typedef struct PadOrParticipantSlotPairView {
 #define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
 #define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
 #define gEmblemInputSlotView ((EmblemInputSlotView *) &gInputSlots[7].mSourceKind)
-#define gInputSlot8PairView ((PadOrParticipantSlotPairView *) &gInputSlots[8].mWritesKeyBits)
+#define gPadOrParticipantSlotPairView ((PadOrParticipantSlotPairView *) &gInputSlots[INPUT_SLOT_PAD_OR_PARTICIPANT].mWritesKeyBits)
 
 static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
     return &gInputSlots[inputSlotIndex];

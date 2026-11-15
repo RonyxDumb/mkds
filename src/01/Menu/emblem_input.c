@@ -52,12 +52,14 @@ void AdvanceEmblemInput(void) {
     gEmblemInput->mPrevPressed = gEmblemInput->mPressed;
     gEmblemInput->mPrevDown = gEmblemInput->mDown;
     gEmblemInput->mPrevReleased = gEmblemInput->mReleased;
-    if (gEmblemInput->mDown == 0 && gInputSlot8PairView->mPair.mPairX != 0 && gInputSlot8PairView->mPair.mPairY != 0) {
+    if (gEmblemInput->mDown == 0 && gPadOrParticipantSlotPairView->mPair.mPairX != 0 &&
+        gPadOrParticipantSlotPairView->mPair.mPairY != 0) {
         gEmblemInput->mPressed = 1;
     } else {
         gEmblemInput->mPressed = 0;
     }
-    if (gEmblemInput->mDown != 0 && gInputSlot8PairView->mPair.mPairX == 0 && gInputSlot8PairView->mPair.mPairY == 0) {
+    if (gEmblemInput->mDown != 0 && gPadOrParticipantSlotPairView->mPair.mPairX == 0 &&
+        gPadOrParticipantSlotPairView->mPair.mPairY == 0) {
         gEmblemInput->mReleased = 1;
     } else {
         gEmblemInput->mReleased = 0;
@@ -72,10 +74,10 @@ void AdvanceEmblemInput(void) {
     if (pairRecentlyLost == 0 && value == 0) {
         pairUsable = FALSE;
     }
-    if (pairUsable != FALSE && (value = gInputSlot8PairView->mPair.mPairX) != 0 &&
-        gInputSlot8PairView->mPair.mPairY != 0) {
+    if (pairUsable != FALSE && (value = gPadOrParticipantSlotPairView->mPair.mPairX) != 0 &&
+        gPadOrParticipantSlotPairView->mPair.mPairY != 0) {
         gEmblemInput->mX = value;
-        gEmblemInput->mY = gInputSlot8PairView->mPair.mPairY;
+        gEmblemInput->mY = gPadOrParticipantSlotPairView->mPair.mPairY;
         gEmblemInput->mDown = 1;
     } else {
         gEmblemInput->mDown = 0;
