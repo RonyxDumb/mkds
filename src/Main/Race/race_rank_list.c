@@ -707,8 +707,8 @@ void ClearRaceLapNumberPointer(void) {
     gRaceLapNumber = NULL;
 }
 
-// Values of the first argument DrawRaceLapAndTimeDifference passes to GetRaceTaMNcerEntry.
-typedef enum { UNK_020B843C_ARG_0, UNK_020B843C_ARG_1 } Unk020b843c_Arg;
+// Cell DrawRaceLapAndTimeDifference draws for a non-zero or a zero mTimeDifferenceSign.
+typedef enum { RACE_TA_M_SIGN_CELL_FLAG_SET, RACE_TA_M_SIGN_CELL_FLAG_CLEAR } RaceTaMSignCell;
 
 // Plays a sound when the displayed kart starts a lap before the last, and counts 0x78 frames for the lap number blink.
 void UpdateRaceLapNumber(void) {
@@ -859,7 +859,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
         s32 cellXs[10] = {0x57, 0x61, 0x6a, 0x72, 0x7c, 0x85, 0x8e, 0x98, 0xa1, 0xaa};
 
         GetRaceHudTimeDifference(&timeDifferenceSign, &timeDifferenceDigits);
-        cell = GetRaceTaMNcerEntry(*timeDifferenceSign != 0 ? UNK_020B843C_ARG_0 : UNK_020B843C_ARG_1);
+        cell = GetRaceTaMNcerEntry(*timeDifferenceSign != 0 ? RACE_TA_M_SIGN_CELL_FLAG_SET : RACE_TA_M_SIGN_CELL_FLAG_CLEAR);
         signDrawPosition[0] = TO_FIXED12(cellXs[0]);
         signDrawPosition[1] = 0x58000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
