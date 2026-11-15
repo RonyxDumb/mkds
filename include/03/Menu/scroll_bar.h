@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef struct Rect Rect;
+
 // Parts of the bar that can be touched, as returned by GetPressedScrollBarPart (0 = none).
 enum {
     SCROLL_BAR_PART_THUMB = 1,
@@ -50,7 +52,7 @@ typedef struct ScrollBar {
 void ReleaseScrollBar(void);
 void CreateScrollBar(u32 sizeIndex, u32 trackLength, u16 positionX, u16 positionY, u32 offset);
 void PlaceScrollBar(s32 offset);
-void GetScrollBarPartRect(s32 part, u16 *rect);
+void GetScrollBarPartRect(s32 part, Rect *rect);
 int GetTouchedScrollBarArrow(int unusedArg);
 int GetPressedScrollBarPart(void);
 void MoveScrollBarToTouch(void);
