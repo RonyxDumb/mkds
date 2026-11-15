@@ -464,8 +464,8 @@ u32 GetConnectionState(void) {
     return (gConnectionWork->mState);
 }
 
-void SetDataSharingSendByteInState8(u8 sendByte) {
-    if (GetConnectionState() == 8) {
+void SetDataSharingSendByteWhenSynced(u8 sendByte) {
+    if (GetConnectionState() == CONNECTION_STATE_SYNCED) {
         gConnectionWork->mDataSharingSendByte = sendByte;
     }
 }
@@ -578,7 +578,7 @@ int AdvanceSelectKart(void) {
             SetSelectKartSPartsOffsetY();
             break;
         case SELECT_KART_STATE_SEND_KART:
-            SetDataSharingSendByteInState8(selectKart->mKartIndex | 0x80);
+            SetDataSharingSendByteWhenSynced(selectKart->mKartIndex | 0x80);
             gSelectKart->mResult = 1;
             gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
             break;
@@ -662,7 +662,7 @@ int AdvanceSelectKart(void) {
                         break;
                     case SELECT_KART_MODE_CONNECTION:
                         RequestSelectReturnSlideOut();
-                        SetDataSharingSendByteInState8(gSelectKart->mKartIndex | 0x80);
+                        SetDataSharingSendByteWhenSynced(gSelectKart->mKartIndex | 0x80);
                         gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
                         break;
                     case SELECT_KART_MODE_WIFI_SESSION:

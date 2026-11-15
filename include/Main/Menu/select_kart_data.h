@@ -40,7 +40,7 @@ BOOL SelectKartIsPairNew(InputSlotPair *pair);
 BOOL SelectKartIsPairRecentlyLost(InputSlotPair *pair);
 
 unsigned int SelectKartGetPairHasPair(InputSlotPair *inputSlotPair);
-void SetDataSharingSendByteInState8(u8 sendByte);
+void SetDataSharingSendByteWhenSynced(u8 sendByte);
 unsigned int GetConnectionState(void);
 
 void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam);

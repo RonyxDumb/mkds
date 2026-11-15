@@ -574,7 +574,7 @@ void StartDataSharing(void) {
 
 void SetGameInfo(void) {
     ChildList *children;
-    BOOL isState8Or9;
+    BOOL isSyncedOrSyncedRace;
     u8 unusedValue;
 
     if (ScanGetConnectionMode() != CONNECTION_MODE_PARENT) {
@@ -584,12 +584,12 @@ void SetGameInfo(void) {
     gConnectionWork->mRequestPending = 1;
     children = &gConnectionWork->mChildren;
     children->mGameInfo->mGameInfoPart.mChildCount = children->mChildCount;
-    isState8Or9 = TRUE;
+    isSyncedOrSyncedRace = TRUE;
     if (gConnectionWork->mState != CONNECTION_STATE_SYNCED && gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
-        isState8Or9 = FALSE;
+        isSyncedOrSyncedRace = FALSE;
     }
     if (WM_SetGameInfo(ClearRequestPending, children->mGameInfo, 0x1c, 0x25, gConnectionWork->mParentParameter->mTgid,
-                       isState8Or9 == FALSE) != 2) {
+                       isSyncedOrSyncedRace == FALSE) != 2) {
         gConnectionWork->mRequestPending = 0;
     }
 }
