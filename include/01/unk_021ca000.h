@@ -34,7 +34,7 @@ typedef struct EndingScene {
     /* 014 */ s16 mNextScene;
     /* 016 */ u8 mUnk_016[0x2];
     /* 018 */ BOOL mIndex1Queued;
-    /* 01c */ void *mUnk_01c;
+    /* 01c */ void *mSceneDisplaySettings;
     /* 020 */ LayoutTableEntry *mEndingThanksTable;
     /* 024 */ struct NNSG2dCellDataBank *mThanksYouMNcer;
     /* 028 */ u8 mUnk_028[0x4];

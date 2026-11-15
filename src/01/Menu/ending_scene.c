@@ -20,7 +20,7 @@ void CreateEndingScene(void *heap) {
 
     gEndingScene = HeapAlloc(heap, sizeof(EndingScene));
     gEndingScene->mHeap = heap;
-    gEndingScene->mUnk_01c = CreateSceneDisplaySettings(heap);
+    gEndingScene->mSceneDisplaySettings = CreateSceneDisplaySettings(heap);
     gEndingScene->mNextScene = -1;
     gEndingScene->mState = ENDING_SCENE_STATE_WAIT_FADE_IN;
     gEndingScene->mNextState = gEndingScene->mState;
