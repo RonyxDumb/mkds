@@ -839,7 +839,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     cellCount = cellFileSet->mCellLayout->mCount;
     index = 0;
     if (index < cellFileSet->mLabelLayout->mCount) {
-        row = (s16 *) gTimeAttackGhostGetScanSSelLabelTextRows;
+        row = gTimeAttackGhostGetScanSSelLabelTextRows[0];
         do {
             if (row[3] < 0) {
                 row[3] = cellCount + assignedCount++;
