@@ -30,3 +30,11 @@ void SetKartAiParamRow(void);
 // The row of 'kartAIparam.bin' for this race; NULL in battle and when RaceSetup.mRaceKind is 5 or 6.
 extern KartAiParamRow *gKartAiParamRow;
 extern struct KartAiShared *gKartAiShared;
+
+// Values of KartAiShared.mEngineOrDifficultyIndex, the row of the CPU tables: slow engine or easy, medium or normal,
+// fast engine or hard.
+#define KART_AI_LEVEL_LOW 0
+#define KART_AI_LEVEL_MEDIUM 1
+#define KART_AI_LEVEL_HIGH 2
+// Smallest KartAiShared.mFirstRankProgressRatio while the first rank is held.
+#define KART_AI_FIRST_RANK_RATIO_MIN 0x19a

@@ -183,15 +183,15 @@ void SetupKartAiGlobals(void) {
     gKartAiVelocityFactorScale =
         gRaceSetup->mMode == MODE_BATTLE ? &gKartAiBattleVelocityFactorScale : &gKartAiRaceVelocityFactorScale;
     switch (GetKartAiEngineOrDifficultyIndex()) {
-        case 0:
+        case KART_AI_LEVEL_LOW:
             gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex0;
             gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex0;
             break;
-        case 1:
+        case KART_AI_LEVEL_MEDIUM:
             gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex1;
             gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex1;
             break;
-        case 2:
+        case KART_AI_LEVEL_HIGH:
             gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex2;
             gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex2;
             break;
@@ -479,25 +479,25 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
         }
         if (conditionsMet != FALSE) {
             switch (linkValue) {
-                case 1:
+                case KART_AI_DRIFT_LINK_LEFT_ROLL:
                     kartAi->mDriftState = KART_AI_DRIFT_HOP_PENDING;
                     kartAi->mTurnSide = KART_AI_TURN_LEFT;
                     kartAi->mDriftFrames = 0;
                     kartAi->mDriftChargeRollAllowed = TRUE;
                     break;
-                case 2:
+                case KART_AI_DRIFT_LINK_LEFT_NO_ROLL:
                     kartAi->mDriftState = KART_AI_DRIFT_HOP_PENDING;
                     kartAi->mTurnSide = KART_AI_TURN_LEFT;
                     kartAi->mDriftFrames = 0;
                     kartAi->mDriftChargeRollAllowed = FALSE;
                     break;
-                case 3:
+                case KART_AI_DRIFT_LINK_RIGHT_ROLL:
                     kartAi->mDriftState = KART_AI_DRIFT_HOP_PENDING;
                     kartAi->mTurnSide = KART_AI_TURN_RIGHT;
                     kartAi->mDriftFrames = 0;
                     kartAi->mDriftChargeRollAllowed = TRUE;
                     break;
-                case 4:
+                case KART_AI_DRIFT_LINK_RIGHT_NO_ROLL:
                     kartAi->mDriftState = KART_AI_DRIFT_HOP_PENDING;
                     kartAi->mTurnSide = KART_AI_TURN_RIGHT;
                     kartAi->mDriftFrames = 0;
@@ -518,12 +518,12 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
     Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &upVector, &sideDirection);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPoint, &kartOffsetFromLink);
     kartAi->mSideOffsetRatio =
-        FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection), kartAi->mPointLinkCursor.mLink->mRadius + 0x1000);
-    if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > 0x1000) {
+        FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection), kartAi->mPointLinkCursor.mLink->mRadius + TO_FIXED12(1));
+    if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
         if (kartAi->mSideOffsetRatio > 0) {
-            kartAi->mSideOffsetRatio = 0x1000;
+            kartAi->mSideOffsetRatio = TO_FIXED12(1);
         }
-        kartAi->mSideOffsetRatio = -0x1000;
+        kartAi->mSideOffsetRatio = -TO_FIXED12(1);
     }
     kartAi->mSideOffsetRatio = kartAi->mSideOffsetRatio >> 1;
 }
@@ -627,7 +627,7 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     RequestBits(kart->mEntryIndex, PAD_KEY_R);
     kartAi->mDriftFrames++;
     chargeRollPassed = FALSE;
-    if (kartAi->mDriftFrames == 0x28 && kartAi->mDriftChargeRollAllowed != FALSE) {
+    if (kartAi->mDriftFrames == KART_AI_DRIFT_CHARGE_ROLL_FRAMES && kartAi->mDriftChargeRollAllowed != FALSE) {
         RandomState64 *kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         if ((s16) (u16) (kartAiRandom->mValue >> 52) <= kartAi->mDriftChargeRandomLimit) {
@@ -728,12 +728,12 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &unitYCopy, &sideAxis);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPosCopy, &kartOffset);
     scale = Vec3DotUnrounded(&kartOffset, &sideAxis);
-    kartAi->mSideOffsetRatio = FX_Div(scale, kartAi->mPointLinkCursor.mLink->mRadius + 0x1000);
-    if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > 0x1000) {
+    kartAi->mSideOffsetRatio = FX_Div(scale, kartAi->mPointLinkCursor.mLink->mRadius + TO_FIXED12(1));
+    if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
         if (kartAi->mSideOffsetRatio > 0) {
-            kartAi->mSideOffsetRatio = 0x1000;
+            kartAi->mSideOffsetRatio = TO_FIXED12(1);
         }
-        kartAi->mSideOffsetRatio = -0x1000;
+        kartAi->mSideOffsetRatio = -TO_FIXED12(1);
     }
     upVector = unitY;
     Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &upVector, &kartAi->mSideOffset);
@@ -759,13 +759,13 @@ void AdvanceKartAiContactStages(KartAi *kartAi) {
     {
         BOOL isTriggered;
         if ((kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) &&
-            kart->mVelocityLength < 0x3000) {
+            kart->mVelocityLength < KART_AI_CONTACT_MAX_SPEED) {
             isTriggered = TRUE;
         } else {
             isTriggered = FALSE;
         }
         if (isTriggered != FALSE) {
-            kartAi->mContactTimer = 10;
+            kartAi->mContactTimer = KART_AI_CONTACT_FRAMES;
             timerActive = TRUE;
         }
     }
@@ -823,11 +823,11 @@ void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 un
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
     kartAi->mIndexModFour = kartAi->mIndex % 4;
-    kartAi->mDriftStartRandomLimit = 0x1000;
+    kartAi->mDriftStartRandomLimit = TO_FIXED12(1);
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         kartAi->mDriftChargeRandomLimit = 0;
     } else {
-        kartAi->mDriftChargeRandomLimit = 0x1000;
+        kartAi->mDriftChargeRandomLimit = TO_FIXED12(1);
     }
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
     InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
@@ -874,7 +874,7 @@ void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedVa
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
     kartAi->mIndexModFour = kartAi->mIndex % 4;
-    kartAi->mDriftStartRandomLimit = 0x1000;
+    kartAi->mDriftStartRandomLimit = TO_FIXED12(1);
     kartAi->mDriftChargeRandomLimit = 0;
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
     InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
@@ -910,15 +910,15 @@ void InitKartAiTables(void) {
     s32 cpuAndGhostKartCount;
 
     switch (GetKartAiEngineOrDifficultyIndex()) {
-        case 0:
+        case KART_AI_LEVEL_LOW:
             gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex0;
             gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex0;
             break;
-        case 1:
+        case KART_AI_LEVEL_MEDIUM:
             gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex1;
             gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex1;
             break;
-        case 2:
+        case KART_AI_LEVEL_HIGH:
         default:
             gKartAiRaceStartBoostRandomLimits = gKartAiRaceStartBoostRandomLimitsIndex2;
             gKartAiRaceStartHeadingSwingRandomLimits = gKartAiRaceStartHeadingSwingRandomLimitsIndex2;
@@ -1394,7 +1394,7 @@ void UseItemByTargetOrRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kar
     raceSetup = gRaceSetup;
     kartIndex = kartAi->mIndex;
     if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
-        if (itemUse->mRandomValue <= 0xc00) {
+        if (itemUse->mRandomValue <= FIXED12_RATIO(3, 4)) {
             itemUse->mItemBitsEveryCall = 1;
             return;
         }
@@ -1408,7 +1408,7 @@ void UseItemByRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     raceSetup = gRaceSetup;
     kartIndex = kartAi->mIndex;
     if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
-        if (itemUse->mRandomValue <= 0x400) {
+        if (itemUse->mRandomValue <= FIXED12_RATIO(1, 4)) {
             itemUse->mItemBitsEveryCall = 1;
             return;
         }
@@ -1467,7 +1467,7 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         if (GetTargetAhead(kartAi) != 0) {
             RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
             itemUse->mThrowForwardPending = 1;
-            itemUse->mThrowForwardTimer = 2;
+            itemUse->mThrowForwardTimer = KART_AI_THROW_TIMER_FRAMES;
             itemUse->mItemBitsEveryCall = 0;
             if (itemUse->mItemInUseEntry == NULL) {
                 return;
@@ -1486,7 +1486,7 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         } else {
             RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
             itemUse->mThrowBehindPending = 1;
-            itemUse->mThrowBehindTimer = 2;
+            itemUse->mThrowBehindTimer = KART_AI_THROW_TIMER_FRAMES;
             itemUse->mItemBitsEveryCall = 0;
             if (itemUse->mItemInUseEntry == NULL) {
                 return;
@@ -1518,7 +1518,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (rank == 1) {
         RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
         itemUse->mThrowBehindPending = 1;
-        itemUse->mThrowBehindTimer = 2;
+        itemUse->mThrowBehindTimer = KART_AI_THROW_TIMER_FRAMES;
         itemUse->mItemBitsEveryCall = 0;
         if (itemUse->mItemInUseEntry == NULL) {
             return;
@@ -1556,7 +1556,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
             case KART_AI_THEN_BIT_THROW_FORWARD:
                 RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mThrowForwardPending = 1;
-                itemUse->mThrowForwardTimer = 2;
+                itemUse->mThrowForwardTimer = KART_AI_THROW_TIMER_FRAMES;
                 itemUse->mItemBitsEveryCall = 0;
                 if (itemUse->mItemInUseEntry == NULL) {
                     return;
@@ -1575,7 +1575,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
             case KART_AI_THEN_BIT_THROW_BEHIND:
                 RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mThrowBehindPending = 1;
-                itemUse->mThrowBehindTimer = 2;
+                itemUse->mThrowBehindTimer = KART_AI_THROW_TIMER_FRAMES;
                 itemUse->mItemBitsEveryCall = 0;
                 if (itemUse->mItemInUseEntry == NULL) {
                     return;
@@ -1597,7 +1597,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     } else {
         RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
         itemUse->mThrowForwardPending = 1;
-        itemUse->mThrowForwardTimer = 2;
+        itemUse->mThrowForwardTimer = KART_AI_THROW_TIMER_FRAMES;
         itemUse->mItemBitsEveryCall = 0;
         if (itemUse->mItemInUseEntry == NULL) {
             return;
@@ -1876,7 +1876,7 @@ void UseItemForwardAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kar
 
     RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mThrowForwardPending = 1;
-    itemUse->mThrowForwardTimer = 2;
+    itemUse->mThrowForwardTimer = KART_AI_THROW_TIMER_FRAMES;
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -1901,7 +1901,7 @@ void UseItemBehindAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kart
 
     RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mThrowBehindPending = 1;
-    itemUse->mThrowBehindTimer = 2;
+    itemUse->mThrowBehindTimer = KART_AI_THROW_TIMER_FRAMES;
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -2139,11 +2139,11 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
 
     entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
     posCurve->mParam += paramStep;
-    if (posCurve->mParam > 0x1000) {
+    if (posCurve->mParam > TO_FIXED12(1)) {
         posCurve->mEntryIndex++;
         if (posCurve->mEntryIndex >= entryGroup->mEntryCount) {
             posCurve->mEntryIndex = entryGroup->mEntryCount;
-            posCurve->mParam = 0x1000;
+            posCurve->mParam = TO_FIXED12(1);
         } else {
             groupEntry = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, posCurve->mEntryIndex);
             for (pointIndex = 0; pointIndex < 3; pointIndex++) {

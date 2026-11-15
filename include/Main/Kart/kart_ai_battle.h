@@ -134,6 +134,17 @@ typedef struct KartAi {
 #define KART_AI_ITEM_TURN_ANGLE_LIMIT 0xa000
 // The same limit for the items that tolerate a wider turn.
 #define KART_AI_ITEM_TURN_ANGLE_LIMIT_WIDE 0x14000
+// Frames of the CPU drift before it may roll for the charge; frames its contact timer runs; the speed below which a
+// contact starts it; and the frames the item throw timers run.
+#define KART_AI_DRIFT_CHARGE_ROLL_FRAMES 0x28
+#define KART_AI_CONTACT_FRAMES 10
+#define KART_AI_CONTACT_MAX_SPEED 0x3000
+#define KART_AI_THROW_TIMER_FRAMES 2
+// Point link values that start a CPU drift: the turn side (left or right) and whether the charge roll is allowed.
+#define KART_AI_DRIFT_LINK_LEFT_ROLL 1
+#define KART_AI_DRIFT_LINK_LEFT_NO_ROLL 2
+#define KART_AI_DRIFT_LINK_RIGHT_ROLL 3
+#define KART_AI_DRIFT_LINK_RIGHT_NO_ROLL 4
 
 void AdvanceBattleKartAiSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi);
 void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi, s32 speedLimit);

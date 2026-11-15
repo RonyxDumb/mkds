@@ -125,15 +125,15 @@ void AdvanceKartDrawState(Kart *kart) {
     if ((kart->mEffectFlags & KART_EFFECT_BLINK_GUARD) != 0) {
         kart->mBlinkFrames = kart->mBlinkFrames + 1;
         kart->mBlinkCycleFrames = kart->mBlinkCycleFrames + 1;
-        if (kart->mBlinkCycleFrames > 8) {
+        if (kart->mBlinkCycleFrames > KART_BLINK_CYCLE_FRAMES) {
             kart->mBlinkCycleFrames = 0;
         }
-        if (kart->mBlinkCycleFrames >= 4) {
+        if (kart->mBlinkCycleFrames >= KART_BLINK_HIDDEN_FROM_FRAME) {
             kart->mEffectFlags = kart->mEffectFlags | KART_EFFECT_BLINK_HIDDEN;
         } else {
             kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_BLINK_HIDDEN;
         }
-        if (kart->mBlinkFrames > 0x5a) {
+        if (kart->mBlinkFrames > KART_BLINK_GUARD_FRAMES) {
             kart->mEffectFlags = kart->mEffectFlags & ~(KART_EFFECT_BLINK_HIDDEN | KART_EFFECT_BLINK_GUARD);
         }
     }

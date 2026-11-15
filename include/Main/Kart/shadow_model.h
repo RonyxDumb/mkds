@@ -14,3 +14,6 @@ typedef struct ShadowModel {
 } ShadowModel;
 
 void DrawShadowModel(ShadowModel *shadowModel, u32 unusedParam1, u32 unusedParam2);
+
+// ShadowModel.mAlpha of the kart shadow, out of 31.
+#define KART_SHADOW_ALPHA 0xd

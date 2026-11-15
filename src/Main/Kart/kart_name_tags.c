@@ -213,17 +213,17 @@ void UpdateKartNameTags(void) {
         distance = gKartNameTags->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
         alphaScale = 0x1000;
         if (distance > 0) {
-            if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || GetCurrentCameraKind() == 3) {
+            if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED || GetCurrentCameraKind() == 3) {
                 distance -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
-                kartObject->mFadeState = 1;
+                kartObject->mFadeState = KART_NAME_TAG_FADE_IN;
                 if (distance < 0) {
                     distance = 0;
                 }
                 alphaScale = MUL_FIXED12_ROUNDED(distance, 0x44);
             } else {
                 kartObject->mFadeLevelPerCall = -1;
-                kartObject->mFadeState = 2;
+                kartObject->mFadeState = KART_NAME_TAG_FADE_OUT;
             }
         }
         if (gKartNameTags->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
@@ -238,8 +238,8 @@ void UpdateKartNameTags(void) {
             }
         } else if (kartObject->mFadeLevelPerCall != 0) {
             kartObject->mFadeLevel = kartObject->mFadeLevel + kartObject->mFadeLevelPerCall;
-            if (kartObject->mFadeLevel > 0x1e) {
-                kartObject->mFadeLevel = 0x1e;
+            if (kartObject->mFadeLevel > KART_NAME_TAG_FADE_LEVEL_MAX) {
+                kartObject->mFadeLevel = KART_NAME_TAG_FADE_LEVEL_MAX;
                 kartObject->mFadeLevelPerCall = 0;
             } else if (kartObject->mFadeLevel < 0) {
                 kartObject->mFadeLevel = 0;

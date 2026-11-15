@@ -72,7 +72,7 @@ void AdvancePeerKartMotion(Kart *kart) {
     recordState = kart->mParticipantRecordData;
     Matrix4x3FromQuaternion(&kart->mRotationMatrix, &kart->mCombinedQuaternion);
     AdvanceParticipantKartRecords(kart);
-    if (kart->mForwardSpeed > 0x3000) {
+    if (kart->mForwardSpeed > KART_PEER_OFFSET_CLEAR_SPEED) {
         recordState->mPosOffset = gKartVec3Zero;
     }
     ResetKartTurnAndRadius(kart);
@@ -168,7 +168,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
 
     recordState = kart->mParticipantRecordData;
     kart->mVelocityScaleFactor = TO_FIXED12(1);
-    if (kart->mAirborneFrames > 5 && (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
+    if (kart->mAirborneFrames > KART_PEER_AIR_TILT_AIRBORNE_FRAMES && (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {
@@ -192,9 +192,9 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     if ((kart->mMotionFlags & KART_MOTION_HOPPING) != 0) {
         if (kart->mHopSpeed > 0) {
             hopHeightTilt = (u16) MUL_FIXED12_NO_ROUND(kart->mHopHeight, 0x1f4);
-            kart->mHopTiltAngle = 0x9c4 - hopHeightTilt;
-            if (kart->mHopTiltAngle > 0x6a4) {
-                kart->mHopTiltAngle = 0x352;
+            kart->mHopTiltAngle = KART_HOP_TILT_START - hopHeightTilt;
+            if (kart->mHopTiltAngle > KART_HOP_TILT_LIMIT) {
+                kart->mHopTiltAngle = KART_HOP_TILT_RESET;
             }
         } else {
             kart->mHopTiltAngle = 0;

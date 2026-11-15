@@ -437,7 +437,7 @@ void InitShadowModelFromResMdl(ShadowModel *shadowModel, void *resFile, u32 poly
     InitNsbmdRenderObjWrapper(&shadowModel->mNsbmd, resFile);
     resMdl = shadowModel->mNsbmd.mResMdl;
     shadowModel->mPolygonId = polygonId;
-    shadowModel->mAlpha = 0xd;
+    shadowModel->mAlpha = KART_SHADOW_ALPHA;
     shadowModel->mFlags |= 1;
     NNS_G3dMdlSetMdlPolygonMode(resMdl, 0, 3);
     NNS_G3dMdlSetMdlLightEnableFlag(resMdl, 0, 0);
@@ -449,7 +449,7 @@ NNSG3dResMdl *InitShadowModel(ShadowModel *shadowModel, NNSG3dResFileHeader *res
     InitNsbmd(&shadowModel->mNsbmd, resFileHeader);
     resMdl = shadowModel->mNsbmd.mResMdl;
     shadowModel->mPolygonId = polygonId;
-    shadowModel->mAlpha = 0xd;
+    shadowModel->mAlpha = KART_SHADOW_ALPHA;
     shadowModel->mFlags |= 1;
     NNS_G3dMdlSetMdlPolygonMode(resMdl, 0, 3);
     NNS_G3dMdlSetMdlLightEnableFlag(resMdl, 0, 0);

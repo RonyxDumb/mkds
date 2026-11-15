@@ -92,31 +92,31 @@ void InitKartAiShared(void) {
         if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
             switch (gRaceSetup->mEngineIndex) {
                 case ENGINE_CLASS_SLOW:
-                    gKartAiShared->mEngineOrDifficultyIndex = 0;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_LOW;
                     break;
                 case ENGINE_CLASS_MEDIUM:
-                    gKartAiShared->mEngineOrDifficultyIndex = 1;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
                 case ENGINE_CLASS_FAST:
-                    gKartAiShared->mEngineOrDifficultyIndex = 2;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_HIGH;
                     break;
                 default:
-                    gKartAiShared->mEngineOrDifficultyIndex = 1;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
             }
         } else {
             switch (gRaceSetup->mCpuDifficulty) {
                 case CPU_DIFFICULTY_EASY:
-                    gKartAiShared->mEngineOrDifficultyIndex = 0;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_LOW;
                     break;
                 case CPU_DIFFICULTY_NORMAL:
-                    gKartAiShared->mEngineOrDifficultyIndex = 1;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
                 case CPU_DIFFICULTY_HARD:
-                    gKartAiShared->mEngineOrDifficultyIndex = 2;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_HIGH;
                     break;
                 default:
-                    gKartAiShared->mEngineOrDifficultyIndex = 1;
+                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
             }
         }
@@ -475,10 +475,10 @@ void UpdateKartAiRankLists(void) {
         if (kartRank == 1) {
             if (scaledProgress >= 0) {
                 gKartAiShared->mFirstRankProgressRatio = FX_Div(gKartAiShared->mRaceProgressScaled[kartIndex], 0x4ce);
-                if (gKartAiShared->mFirstRankProgressRatio < 0x19a) {
-                    gKartAiShared->mFirstRankProgressRatio = 0x19a;
-                } else if (gKartAiShared->mFirstRankProgressRatio > 0x1000) {
-                    gKartAiShared->mFirstRankProgressRatio = 0x1000;
+                if (gKartAiShared->mFirstRankProgressRatio < KART_AI_FIRST_RANK_RATIO_MIN) {
+                    gKartAiShared->mFirstRankProgressRatio = KART_AI_FIRST_RANK_RATIO_MIN;
+                } else if (gKartAiShared->mFirstRankProgressRatio > TO_FIXED12(1)) {
+                    gKartAiShared->mFirstRankProgressRatio = TO_FIXED12(1);
                 }
             } else {
                 gKartAiShared->mFirstRankProgressRatio = 0;

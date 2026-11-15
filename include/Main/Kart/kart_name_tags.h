@@ -88,3 +88,11 @@ extern TexPlttEntry gKartNameTagColorQuadTexPltt;
 extern TexPlttEntry gKartNameTagEmblemTexPltt;
 extern TexPlttEntry gKartNameTagEntryNameTexPltt;
 extern TexPlttEntry gKartNameTagMaskedTexPltt;
+
+// Values of KartNameTag.mFadeState: no fade, fading in near the camera, fading out.
+#define KART_NAME_TAG_FADE_NONE 0
+#define KART_NAME_TAG_FADE_IN 1
+#define KART_NAME_TAG_FADE_OUT 2
+// A name tag fades in when the squared distance to the camera is below this; the highest fade level it reaches.
+#define KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED 0x9c400
+#define KART_NAME_TAG_FADE_LEVEL_MAX 0x1e

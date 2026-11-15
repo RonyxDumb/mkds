@@ -170,7 +170,7 @@ void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap) {
     kartObject->mTexPlttEntries->mEntries[2] = gKartNameTagColorQuadTexPltt;
     kartObject->mTexPlttEntries->mEntries[3] = gKartNameTagMaskedTexPltt;
     kartObject->mApplyXOffset = TRUE;
-    kartObject->mFadeState = 0;
+    kartObject->mFadeState = KART_NAME_TAG_FADE_NONE;
     kartObject->mFadeStopped = TRUE;
     kartObject->mAlpha = 0;
     kartObject->mKartPaletteColor = 0x7fff;
