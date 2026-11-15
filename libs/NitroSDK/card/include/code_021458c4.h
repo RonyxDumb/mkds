@@ -75,6 +75,17 @@ typedef enum RomAccessResult {
     ROM_ACCESS_CALLED_OFF = 7
 } RomAccessResult;
 
+// Sizes of the backup devices CARDi_IdentifyBackupCore accepts (the size is 1 << ((type >> 8) & 0xff)).
+enum {
+    BACKUP_DEVICE_SIZE_512B = 0x200,
+    BACKUP_DEVICE_SIZE_8KB = 0x2000,
+    BACKUP_DEVICE_SIZE_32KB = 0x8000,
+    BACKUP_DEVICE_SIZE_64KB = 0x10000,
+    BACKUP_DEVICE_SIZE_256KB = 0x40000,
+    BACKUP_DEVICE_SIZE_512KB = 0x80000,
+    BACKUP_DEVICE_SIZE_1MB = 0x100000,
+};
+
 // Values written to CARDiCommandArg.mPageSize: the page size of the backup devices of 512 bytes, 8 KB and 64 KB, and of
 // the large devices. Smaller devices use smaller pages.
 enum {
@@ -110,6 +121,22 @@ typedef struct CARDiCommandArg {
     /* 38 */ u32 mUnk_38;
     /* 3c */ u32 mUnk_3c;
 } CARDiCommandArg;
+
+// Bits of CARDiCommon.mFlag. Nothing in the tree sets WAKE_WORKER or STOP_REQUESTED; the transfer end tests them.
+enum {
+    CARD_FLAG_INITIALIZED = 0x1,
+    CARD_FLAG_REQUEST_CHANNEL_READY = 0x2,
+    CARD_FLAG_BUSY = 0x4,
+    CARD_FLAG_TASK_PENDING = 0x8,
+    CARD_FLAG_WAKE_WORKER = 0x10,
+    CARD_FLAG_REQUEST_PENDING = 0x20,
+    CARD_FLAG_STOP_REQUESTED = 0x40,
+    CARD_FLAG_TRANSFER_MASK = CARD_FLAG_BUSY | CARD_FLAG_TASK_PENDING | CARD_FLAG_STOP_REQUESTED,
+};
+
+// The ROM is read in pages of this many bytes; DMA channels count from 0 to this.
+#define CARD_ROM_PAGE_SIZE 0x200
+#define CARD_LAST_DMA_CHANNEL 3
 
 // 0x620 bytes at gAccessState; mThread is started with the 0x400 bytes at mUnk_220 as its stack.
 typedef struct CARDiCommon {
