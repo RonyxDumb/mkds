@@ -103,7 +103,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
     }
     isGhost = gameInfo->mGameInfoPart.mHasGhost;
     if (isGhost != 0) {
-        if (gConnectionWork->mConnectionKind != 2) {
+        if (gConnectionWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             return;
         }
         languageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
@@ -124,7 +124,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         s32 gameChildCount;
         u8 gameLanguageIndex;
 
-        if (gConnectionWork->mConnectionKind == 2) {
+        if (gConnectionWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
             return;
         }
         gameLanguageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
@@ -194,7 +194,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
         return;
     }
     if ((scanBuffer->mGameInfo.mAttribute & 2) != 0) {
-        if (connection->mConnectionKind != 2) {
+        if (connection->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             userGameInfo = &scanBuffer->mGameInfo.mUserGameInfo;
             if (userGameInfo->mKind == 5) {
                 gameInfoPart = (void *) &userGameInfo->mGameInfoPart;
