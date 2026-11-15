@@ -132,7 +132,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
                 shadowPos.y += 0x800;
             }
             if (RefreshShadowMatrix(&itemBox->mShadowMatrix, &shadowPos, 0x14000, 0xd) == 0) {
-                itemBox->mShadowMode = 2;
+                itemBox->mShadowMode = ITEM_BOX_SHADOW_MODE_REFRESH_FAILED;
             }
         }
     }

@@ -173,7 +173,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     if (touchesGround != FALSE) {
         touchesGround = TRUE;
         if (wanwan->mMapObject.mStateMachine.mState == WANWAN_STATE_HIT) {
-            if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x78) {
+            if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_FRAMES) {
                 touchesGround = FALSE;
             }
         }
@@ -392,7 +392,7 @@ void UpdateWanwanRoam(void *stateObject) {
                    44),
             &wanwan->mYawQuaternion);
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_ROAM_START_FRAMES) {
         wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }
@@ -492,7 +492,7 @@ void UpdateWanwanLunge(void *stateObject) {
             wanwan->mMapObject.mPosStep.z -= MUL_FIXED12_NO_ROUND(length, offset.z);
         }
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_LUNGE_FRAMES) {
         wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_PULL_BACK;
         wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -528,10 +528,10 @@ void UpdateWanwanHit(void *stateObject) {
                        44),
                 &wanwan->mYawQuaternion);
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames < 0x40) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_SHAKE_FRAMES) {
             wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x28) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_PHASE_END_FRAMES) {
             wanwan->mAngleAroundX += 0x200;
         } else {
             wanwan->mMapObject.mPosStep.y -= 0x266;
@@ -544,7 +544,7 @@ void UpdateWanwanHit(void *stateObject) {
         if (wanwan->mAngleAroundX == WANWAN_ANGLE_AROUND_X_HIT) {
             wanwan->mMapObject.mPosStep.y -= 0x19a;
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0x78) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_FRAMES) {
             wanwan->mAngleAroundX += 0x100;
         }
         if (wanwan->mAngleAroundX > WANWAN_ANGLE_AROUND_X_HIT_END) {
@@ -585,7 +585,7 @@ void UpdateWanwanPullBack(void *stateObject) {
         wanwan->mMapObject.mPos.x += wanwan->mMapObject.mPosStep.x;
         wanwan->mMapObject.mPos.z += wanwan->mMapObject.mPosStep.z;
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames >= 0xb4) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_PULL_BACK_FRAMES) {
         wanwan->mMapObject.mStateMachine.mNextState = WANWAN_STATE_ROAM;
         wanwan->mMapObject.mStateMachine.mNextStateRequested = 1;
     }

@@ -141,7 +141,7 @@ void EnterChoropuHoldTop(void *stateObject) {
 
 void UpdateChoropuHoldTop(void *stateObject) {
     Choropu *choropu = stateObject;
-    if (choropu->mMapObject.mStateMachine.mStateFrames >= 0x14) {
+    if (choropu->mMapObject.mStateMachine.mStateFrames >= CHOROPU_HOLD_TOP_FRAMES) {
         choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_SINK;
         choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -259,7 +259,7 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
     Vec3 offsetFromKart;
 
     switch (firstResponsePtr[0]) {
-        case 2:
+        case CHOROPU_KART_RESPONSE_FALL_SPIN:
             if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
                 return secondResponsePtr[0];
             }

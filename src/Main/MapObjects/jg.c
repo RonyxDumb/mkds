@@ -257,7 +257,7 @@ void UpdateJg(void) {
         gRaceProgress->mKarts[gJgKartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED &&
         (gJgKart->mDriveFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
         Vec3 targetOffset;
-        gJgMain.mFrameIndex = 2;
+        gJgMain.mFrameIndex = JG_GOAL_FRAME_INDEX;
         gJgKartPos = gJgKart->mPos;
         gJgKartPos.y -= gJgKart->mHopHeight;
         ComputeJgMatrixAndInverse();

@@ -6,6 +6,9 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "01/MapObjects/data_0209bc74.h"
 
+#define SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED 0x19
+#define SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED 8
+
 #define SHINE_BALLOON_TIMER_FRAMES 0x1e
 #define SHINE_BALLOON_PULSE_SCALE_MIN 0x4a
 

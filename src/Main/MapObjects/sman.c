@@ -194,7 +194,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                 sman->mTopHeight = sman->mTopHeight + sman->mTopHeightPerFrame;
             }
             sman->mStateFrames = sman->mStateFrames + 1;
-            if (sman->mStateFrames > 10) {
+            if (sman->mStateFrames > SMAN_COME_BACK_FRAMES) {
                 sman->mBottomScale = sman->mBottomScale + 0x40;
                 if (sman->mBottomScale >= FIXED12_UNIT) {
                     sman->mStateFrames = 0;

@@ -9,6 +9,8 @@
 #include "01/MapObjects/data_0209bc74.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
+#define FLIPPER_ALT_WAIT_FRAMES 0xaa
+
 #define FLIPPER_WAIT_FRAMES 0x1e
 #define FLIPPER_SWING_OUT_STEPS 0x1d
 #define FLIPPER_ALT_SWING_OUT_STEPS 0x1c

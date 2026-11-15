@@ -197,13 +197,13 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                 if (sun->mTimer-- <= 0) {
                     sun->mDrawOffsetAngle = 0;
                     sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
-                    sun->mTimer = 5;
+                    sun->mTimer = SUN_WAIT_AT_PATH_POINT_FRAMES;
                     sun->mState = SUN_STATE_SHOOT_FIREBALLS;
                 }
             } else if (UpdateSun_inline_b(sun)) {
                 sun->mDrawOffsetAngle = 0;
                 sun->mDrawOffsetRadiusAngle = sun->mDrawOffsetAngle;
-                sun->mTimer = 5;
+                sun->mTimer = SUN_WAIT_AT_PATH_POINT_FRAMES;
                 sun->mState = SUN_STATE_SHOOT_FIREBALLS;
             }
             break;
@@ -228,18 +228,18 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             direction.z = FX_CosIdx(sun->mFireballAngle);
             StartSunFireball(&position, &direction);
             sun->mFireballIndex += 1;
-            if (sun->mFireballIndex >= 2) {
+            if (sun->mFireballIndex >= SUN_FIREBALLS_PER_VOLLEY) {
                 sun->mFireballIndex = 0;
                 sun->mState = SUN_STATE_SPIN_DOWN;
             } else {
-                sun->mTimer = 0x1e;
+                sun->mTimer = SUN_SHOOT_FIREBALLS_FRAMES;
             }
             break;
         case SUN_STATE_SPIN_DOWN:
             sun->mDrawOffsetAngle += 0xe39;
             sun->mDrawOffsetRadiusAngle += 0x222;
             if (sun->mDrawOffsetRadiusAngle > ANGLE_FULL_TURN) {
-                sun->mTimer = 0x1e;
+                sun->mTimer = SUN_SHOOT_FIREBALLS_FRAMES;
                 sun->mState = SUN_STATE_WAIT_TO_MOVE;
             }
             break;

@@ -4,6 +4,9 @@
 
 #include "Main/MapObjects/attractor.h" // MapObject
 
+#define BASABASA_BURST_TIMER_FRAMES 4
+#define BASABASA_BURST_CYCLE_FRAMES 0x14
+
 typedef struct MapObjectList MapObjectList;
 
 // Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.

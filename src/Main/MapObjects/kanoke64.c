@@ -1,3 +1,4 @@
+#include "Main/MapObjects/kanoke64.h"
 #include "Main/MapObjects/cow.h"
 #include "ITCM/code_01ff8000.h"
 #include "ITCM/code_01ff9000.h"
@@ -164,7 +165,7 @@ static inline BOOL Kanoke64IsKartNearInAngle(Kanoke64 *kanoke64, s32 objectAngle
 
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
         isHumanGhostOrPeer = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= 3 &&
+        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
             ((1 << gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -215,13 +216,13 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
             }
             if (kanoke64->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (kanoke64->mTimer-- <= 0) {
-                    kanoke64->mTimer = 8;
+                    kanoke64->mTimer = KANOKE64_BURST_TIMER_FRAMES;
                     kanoke64->mState = 1;
                 }
                 return;
             }
             if (Kanoke64IsKartNearInAngle(kanoke64, kanoke64->mMapObject.mAngle) != FALSE) {
-                kanoke64->mTimer = 8;
+                kanoke64->mTimer = KANOKE64_BURST_TIMER_FRAMES;
                 kanoke64->mState = 1;
             }
             return;
@@ -230,7 +231,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
         default:
             return;
     }
-    if (kanoke64->mNsbcaFrameIndex == 10) {
+    if (kanoke64->mNsbcaFrameIndex == KANOKE64_BURST_END_FRAME) {
         for (burstIndex = 0; burstIndex < 3; burstIndex++) {
             Kanoke64SetRandomPos(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
                                  kanoke64->mMapObject.mPos.z);

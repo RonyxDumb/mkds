@@ -44,7 +44,7 @@ void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject
         kindData = mapObject->mKindData;
         mapObjectList->mCollideItemObjectCallback = kindData->mCollideItemObjectCallback;
     }
-    if (mapObjectList->mItemFirstResponse == 3) {
+    if (mapObjectList->mItemFirstResponse == MAP_OBJECT_LIST_ITEM_RESPONSE_UNSET) {
         mapObjectList->mItemFirstResponse = GetItemObjectFirstResponse(6, mapObject);
     }
 }

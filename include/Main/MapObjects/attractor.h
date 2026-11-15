@@ -7,6 +7,8 @@
 #include "Main/MapObjects/code_020e005c.h"
 #include "Main/Sound/data_0210b000.h" // SoundDistanceSquaredChange
 
+#define JG_GOAL_FRAME_INDEX 2
+
 // Sound that Jg starts at its position.
 #define JG_SOUND_ID 0x101
 
@@ -165,6 +167,7 @@ typedef struct AttractorMapObject {
 #define MAP_OBJECT_LIST_PASS_SECOND 2
 #define MAP_OBJECT_LIST_POS_STEP_MEASURED 2
 #define MAP_OBJECT_LIST_POS_STEP_UNSET 3
+#define MAP_OBJECT_LIST_ITEM_RESPONSE_UNSET 3
 
 // The update and draw lists call mForEachObject with different arguments and the stored functions take their own object
 // type, so its type is left unprototyped.

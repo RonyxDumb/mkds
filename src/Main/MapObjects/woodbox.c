@@ -241,7 +241,7 @@ void EnterWoodbox1Broken(void *stateObject) {
 
 void UpdateWoodbox1Broken(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
-    if (woodbox->mMapObject.mStateMachine.mStateFrames < 900) {
+    if (woodbox->mMapObject.mStateMachine.mStateFrames < WOODBOX1_BROKEN_FRAMES) {
         return;
     }
     if (woodbox->mMapObject.mCourseMapRow->mSettings[2] != 0) {
@@ -371,7 +371,7 @@ void UpdateWoodbox1Settle(void *stateObject) {
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
     QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
-    if (woodbox->mMapObject.mStateMachine.mStateFrames >= 90) {
+    if (woodbox->mMapObject.mStateMachine.mStateFrames >= WOODBOX1_SETTLE_FRAMES) {
         gBouncingWoodbox1 = NULL;
         woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_INTACT;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
@@ -381,7 +381,7 @@ void UpdateWoodbox1Settle(void *stateObject) {
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 3) {
         if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > 0x3000) {
+            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > WOODBOX1_SMASH_VELOCITY) {
                 StartWoodbox1ItemObject(woodbox, &kart->mVelocity);
                 if (gBouncingWoodbox1 == woodbox) {
                     gBouncingWoodbox1 = NULL;
@@ -475,7 +475,7 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mTiltOffsetOnEvenFrame.x = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnEvenFrame.x, 0x800);
     woodbox->mTiltOffsetOnEvenFrame.y = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnEvenFrame.y, 0x800);
     woodbox->mTiltOffsetOnEvenFrame.z = MUL_FIXED12_NO_ROUND(woodbox->mTiltOffsetOnEvenFrame.z, 0x800);
-    woodbox->mStoredHeadingAngleOffset = 0x1555;
+    woodbox->mStoredHeadingAngleOffset = WOODBOX1_HEADING_ANGLE_OFFSET;
     woodbox->mItemRowHandle = courseRow->mSettings[0];
     woodbox->mItemChancePercent = courseRow->mSettings[1];
     InitStateMachine(&woodbox->mMapObject.mStateMachine, gWoodbox1StateTable, 4, woodbox);

@@ -122,7 +122,7 @@ void DrawPukupukuShadow(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u32 alpha
         return;
     }
     shadowParams.mScale = pukupuku->mPushedObject.mMapObject.mPos.y - pukupuku->mInitialPos.y;
-    shadowParams.mScale = 0x1000 - (shadowParams.mScale >> 6);
+    shadowParams.mScale = FIXED12_UNIT - (shadowParams.mScale >> 6);
     shadowParams.mPos = pukupuku->mPushedObject.mMapObject.mPos;
     shadowParams.mPos.y = pukupuku->mInitialGroundY + pukupuku->mGroundYOffset;
     SetShadowPositionRaised(&pukupuku->mShadowMatrix, &shadowParams.mPos);

@@ -5,6 +5,9 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/data_02158000.h" // MapObjectDrawList
 
+#define CHOROPU_HOLD_TOP_FRAMES 0x14
+#define CHOROPU_KART_RESPONSE_FALL_SPIN 2
+
 #define CHOROPU_SINK_SOUND_ID 0x128
 
 void CreateChoropu(void);

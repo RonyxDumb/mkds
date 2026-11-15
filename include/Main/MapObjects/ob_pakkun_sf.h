@@ -8,6 +8,8 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 
+#define OB_PAKKUN_SF_FRAME_TOGGLE_BIT 0x10
+
 #define OB_PAKKUN_SF_SOUND_FRAME_MASK 0x1f
 
 #define OB_PAKKUN_SF_SOUND_ID 0x163

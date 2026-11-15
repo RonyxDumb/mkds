@@ -102,7 +102,7 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
                 return;
             }
             shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
-            shineBalloonObject->mPulseScaleSpeed = 0x19;
+            shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED;
             shineBalloonObject->mState = SHINE_BALLOON_STATE_APPEAR;
             shineBalloonObject->mMapObject.mFlags &= ~2;
             shineBalloonObject->mMapObject.mFlags &= ~8;
@@ -126,7 +126,7 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
         case SHINE_BALLOON_STATE_SHOWN:
             if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
                 shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
-                shineBalloonObject->mPulseScaleSpeed = 8;
+                shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED;
                 shineBalloonObject->mState = SHINE_BALLOON_STATE_DISAPPEAR;
             }
             shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;

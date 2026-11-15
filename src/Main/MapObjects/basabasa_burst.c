@@ -88,7 +88,7 @@ static inline BOOL BasabasaBurstIsKartNearInAngle(BasabasaBurst *burst, s32 burs
 
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
         isHumanGhostOrPeer = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= 3 &&
+        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
             ((1 << gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -145,13 +145,13 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
             }
             if (burstObject->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (burstObject->mTimer-- <= 0) {
-                    burstObject->mTimer = 4;
+                    burstObject->mTimer = BASABASA_BURST_TIMER_FRAMES;
                     burstObject->mState = 1;
                 }
                 return;
             }
             if (BasabasaBurstIsKartNearInAngle(burstObject, burstObject->mMapObject.mAngle) != FALSE) {
-                burstObject->mTimer = 4;
+                burstObject->mTimer = BASABASA_BURST_TIMER_FRAMES;
                 burstObject->mState = 1;
             }
             return;
@@ -160,7 +160,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
         default:
             return;
     }
-    if (burstObject->mCycleFrames == 0x14) {
+    if (burstObject->mCycleFrames == BASABASA_BURST_CYCLE_FRAMES) {
         for (spawnIndex = 0; spawnIndex < 2; spawnIndex++) {
             BasabasaBurstSetRandomPos(&basabasaPos, burstObject->mMapObject.mPos.x,
                                       burstObject->mMapObject.mPos.y + 0x23000, burstObject->mMapObject.mPos.z);

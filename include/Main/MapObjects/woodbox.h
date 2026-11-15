@@ -7,6 +7,11 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/MapObjects/code_020ec1fc.h"
 
+#define WOODBOX1_BROKEN_FRAMES 900
+#define WOODBOX1_SETTLE_FRAMES 90
+#define WOODBOX1_SMASH_VELOCITY 0x3000
+#define WOODBOX1_HEADING_ANGLE_OFFSET 0x1555
+
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
 
