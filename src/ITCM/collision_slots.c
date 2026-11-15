@@ -388,7 +388,7 @@ void QuaternionFromAxisAngle(const Vec3 *axis, u16 angle, Vec4 *result) {
     result->x = MUL_FIXED12_ROUNDED(axis->x, sinHalf);
     result->y = MUL_FIXED12_ROUNDED(axis->y, sinHalf);
     result->z = MUL_FIXED12_ROUNDED(axis->z, sinHalf);
-    result->w = COS_OF_ANGLE(halfAngle);
+    result->wComponent = COS_OF_ANGLE(halfAngle);
 }
 
 s32 TryQuaternionFromVectors(Vec4 *result, const Vec3 *source, const Vec3 *target) {
@@ -404,7 +404,7 @@ s32 TryQuaternionFromVectors(Vec4 *result, const Vec3 *source, const Vec3 *targe
         result->x = FX_Div(cross.x, sqrtValue);
         result->y = FX_Div(cross.y, sqrtValue);
         result->z = FX_Div(cross.z, sqrtValue);
-        result->w = sqrtValue >> 1;
+        result->wComponent = sqrtValue >> 1;
     }
     return success;
 }
@@ -417,7 +417,7 @@ void QuaternionNormalize(const Vec4 *input, Vec4 *output) {
     lengthSquared = (s64) input->x * input->x;
     lengthSquared += (s64) input->y * input->y;
     lengthSquared += (s64) input->z * input->z;
-    lengthSquared += (s64) input->w * input->w;
+    lengthSquared += (s64) input->wComponent * input->wComponent;
     reg_CP_DIVCNT = 2;
     reg_CP_DIV_NUMER = 0x1000000000000LL << 8;
     reg_CP_DIV_DENOM = lengthSquared;
@@ -433,5 +433,5 @@ void QuaternionNormalize(const Vec4 *input, Vec4 *output) {
     output->x = (scale * input->x + 0x100000000000LL) >> 45;
     output->y = (scale * input->y + 0x100000000000LL) >> 45;
     output->z = (scale * input->z + 0x100000000000LL) >> 45;
-    output->w = (scale * input->w + 0x100000000000LL) >> 45;
+    output->wComponent = (scale * input->wComponent + 0x100000000000LL) >> 45;
 }

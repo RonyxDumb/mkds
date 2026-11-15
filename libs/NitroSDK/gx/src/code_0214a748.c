@@ -29,14 +29,14 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
     if (mtx != 0) {
         mtx->mRows[0].y = 0;
         mtx->mRows[0].z = 0;
-        mtx->mRows[0].w = 0;
+        mtx->mRows[0].wComponent = 0;
         mtx->mRows[1].x = 0;
         mtx->mRows[1].z = 0;
-        mtx->mRows[1].w = 0;
-        mtx->mRows[2].w = -scaleW;
+        mtx->mRows[1].wComponent = 0;
+        mtx->mRows[2].wComponent = -scaleW;
         mtx->mRows[3].x = 0;
         mtx->mRows[3].y = 0;
-        mtx->mRows[3].w = 0;
+        mtx->mRows[3].wComponent = 0;
     }
     dblNear = nearPlane << 1;
     invWidth = FX_GetDivResultFx64c();
@@ -126,14 +126,14 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
     if (mtx != 0) {
         mtx->mRows[0].y = 0;
         mtx->mRows[0].z = 0;
-        mtx->mRows[0].w = 0;
+        mtx->mRows[0].wComponent = 0;
         mtx->mRows[1].x = 0;
         mtx->mRows[1].z = 0;
-        mtx->mRows[1].w = 0;
+        mtx->mRows[1].wComponent = 0;
         mtx->mRows[2].x = 0;
         mtx->mRows[2].y = 0;
-        mtx->mRows[2].w = 0;
-        mtx->mRows[3].w = scaleW;
+        mtx->mRows[2].wComponent = 0;
+        mtx->mRows[3].wComponent = scaleW;
     }
     invWidth = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;

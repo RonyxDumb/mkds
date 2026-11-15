@@ -1462,7 +1462,7 @@ void ComputeKartAirTiltQuaternion(Kart *kart, Vec4 *quaternion) {
         quaternion->x = -quaternion->x;
         quaternion->y = -quaternion->y;
         quaternion->z = -quaternion->z;
-        quaternion->w = -quaternion->w;
+        quaternion->wComponent = -quaternion->wComponent;
     }
     if (kart->mMotionFlags & KART_MOTION_HOPPING) {
         return;

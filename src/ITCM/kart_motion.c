@@ -46,10 +46,14 @@
 void QuaternionMultiply(const Vec4 *left, const Vec4 *right, Vec4 *result) {
     Vec4 product;
 
-    product.x = (left->w * right->x + left->x * right->w + (left->y * right->z - left->z * right->y)) >> 12;
-    product.y = (left->w * right->y + left->y * right->w + (left->z * right->x - left->x * right->z)) >> 12;
-    product.z = (left->w * right->z + left->z * right->w + (left->x * right->y - left->y * right->x)) >> 12;
-    product.w = (left->w * right->w - (left->x * right->x + left->y * right->y + left->z * right->z)) >> 12;
+    product.x =
+        (left->wComponent * right->x + left->x * right->wComponent + (left->y * right->z - left->z * right->y)) >> 12;
+    product.y =
+        (left->wComponent * right->y + left->y * right->wComponent + (left->z * right->x - left->x * right->z)) >> 12;
+    product.z =
+        (left->wComponent * right->z + left->z * right->wComponent + (left->x * right->y - left->y * right->x)) >> 12;
+    product.wComponent =
+        (left->wComponent * right->wComponent - (left->x * right->x + left->y * right->y + left->z * right->z)) >> 12;
     *result = product;
 }
 
@@ -57,7 +61,7 @@ void QuaternionBlend(Vec4 *start, const Vec4 *end, Vec4 *result, s32 blend) {
     result->x = start->x + ((blend * (end->x - start->x)) >> 12);
     result->y = start->y + ((blend * (end->y - start->y)) >> 12);
     result->z = start->z + ((blend * (end->z - start->z)) >> 12);
-    result->w = start->w + ((blend * (end->w - start->w)) >> 12);
+    result->wComponent = start->wComponent + ((blend * (end->wComponent - start->wComponent)) >> 12);
 }
 
 void Matrix4x3FromQuaternion(MtxFx43 *mtx, const Vec4 *quat) {
@@ -79,7 +83,7 @@ void Matrix4x3FromQuaternion(MtxFx43 *mtx, const Vec4 *quat) {
     quatX = quat->x;
     quatY = quat->y;
     quatZ = quat->z;
-    quatW = quat->w;
+    quatW = quat->wComponent;
     zx = quatW * quatY >> 11;
     xx = quatY * quatY >> 11;
     ww = quatX * quatX >> 11;
@@ -123,7 +127,7 @@ void Matrix3x3FromQuaternion(MtxFx33 *mtx, void *quatPtr) {
     quatX = quat->x;
     quatY = quat->y;
     quatZ = quat->z;
-    quatW = quat->w;
+    quatW = quat->wComponent;
     zx = quatW * quatY >> 11;
     xx = quatY * quatY >> 11;
     ww = quatX * quatX >> 11;

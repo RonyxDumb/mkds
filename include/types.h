@@ -100,5 +100,5 @@ typedef struct Vec4 {
     /* 0 */ s32 x;
     /* 4 */ s32 y;
     /* 8 */ s32 z;
-    /* c */ s32 w;
+    /* c */ s32 wComponent;
 } Vec4;
