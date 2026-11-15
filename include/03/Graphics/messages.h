@@ -3,6 +3,7 @@
 #include "types.h"
 #include "03/Graphics/message_pool.h"
 
+// A loaded message file: its offset table, text data and the message file itself.
 typedef struct MessageFile {
     /* 00 */ u32 *mOffsets;
     /* 04 */ u8 *mData;

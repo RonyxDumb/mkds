@@ -5,6 +5,7 @@
 typedef struct PointerStack PointerStack;
 typedef struct MessageFile MessageFile;
 
+// The pool of message file entries: a stack of the free ones.
 typedef struct MessagesPool {
     /* 00 */ u8 pad_00[0x60];
     /* 60 */ PointerStack *mFreeList;

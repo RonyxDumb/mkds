@@ -3,6 +3,7 @@
 #include "types.h"
 #include "tp.h"
 
+// A rectangle given by its position and its right and bottom edges.
 typedef struct Rect {
     /* 00 */ u16 mX;
     /* 02 */ u16 mY;
@@ -10,6 +11,7 @@ typedef struct Rect {
     /* 06 */ u16 mBottom;
 } Rect;
 
+// A rectangle given by its position and size.
 typedef struct OriginSizeRect {
     /* 00 */ u16 mX;
     /* 02 */ u16 mY;
@@ -17,6 +19,7 @@ typedef struct OriginSizeRect {
     /* 06 */ u16 mHeight;
 } OriginSizeRect;
 
+// The touch and key input state: recent touch samples, touch position and the keys down, pressed and released.
 typedef struct KeyTouchInput {
     /* 00 */ TPData mTouchSamples[5];
     /* 28 */ u16 mTouchX;

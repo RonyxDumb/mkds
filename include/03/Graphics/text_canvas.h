@@ -26,6 +26,7 @@ void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32
 
 #include "03/Graphics/obj_char_ranges.h"
 
+// A text canvas drawn with objects: its font, character and line spacing, character range and area size.
 typedef struct ObjTextCanvas {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ void (*mPClear)(struct ObjTextCanvas *canvas, u32 color);
@@ -40,6 +41,7 @@ typedef struct ObjTextCanvas {
     /* 37 */ u8 mAreaHeight;
 } ObjTextCanvas;
 
+// The text canvases: two fonts, the object canvas storage, two background canvases and the free object canvas stack.
 typedef struct TextCanvases {
     /* 000 */ NNSG2dFont mFonts[2];
     /* 018 */ u8 mObjCanvasStorage[0x700];

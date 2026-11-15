@@ -3,6 +3,7 @@
 #include "types.h"
 #include "03/System/tasks.h"
 
+// One brightness fade: its task, frame counts, kind and whether it is enabled.
 typedef struct BlendBrightnessFadeSlot {
     /* 00 */ TaskEntry *mTask;
     /* 04 */ s16 mFrames;
