@@ -103,7 +103,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
                 lastBalloon->mMapObject.mFlags &= ~4;
                 lastBalloon->mMapObject.mFlags &= ~2;
                 lastBalloon->mMapObject.mFlags &= ~8;
-                lastBalloon->mMapObject.mAlpha = 0x1f;
+                lastBalloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
                 StartBalloonWithoutKart(lastBalloon, &balloonPos);
             }
             StartSoundFullVolumeWrapper(kart, 0x153);
@@ -268,7 +268,7 @@ BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
             lastBalloon->mMapObject.mFlags &= ~4;
             lastBalloon->mMapObject.mFlags &= ~2;
             lastBalloon->mMapObject.mFlags &= ~8;
-            lastBalloon->mMapObject.mAlpha = 0x1f;
+            lastBalloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             StartBalloonWithoutKart(lastBalloon, &balloonPos);
         }
         StartSoundFullVolumeWrapper(kart, 0x153);
@@ -599,7 +599,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 balloon->mMapObject.mFlags &= ~4;
                 balloon->mMapObject.mFlags &= ~2;
                 balloon->mMapObject.mFlags &= ~8;
-                balloon->mMapObject.mAlpha = 0x1f;
+                balloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             }
         } else {
             balloonCount = GetBalloonOrShineCount(kartIndex) + (IsKartInflatingBalloon(kartIndex) != 0 ? 1 : 0);
@@ -612,7 +612,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                     balloon->mMapObject.mFlags &= ~4;
                     balloon->mMapObject.mFlags &= ~2;
                     balloon->mMapObject.mFlags &= ~8;
-                    balloon->mMapObject.mAlpha = 0x1f;
+                    balloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
                 } else {
                     SetBalloonDrawCountAndList(balloon, 0, NULL);
                     balloon->mMapObject.mFlags |= gBalloonHideFirstFlag;

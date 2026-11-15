@@ -46,6 +46,9 @@ typedef struct MapObjectKindData {
     /* 3c */ s32 mHeightRangeMin;
 } MapObjectKindData;
 
+// Largest value of MapObject.mAlpha (fully opaque).
+#define MAP_OBJECT_ALPHA_MAX 0x1f
+
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
 // 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the
 // StateMachine at 0x80 to InitStateMachine. From 0xa0 on, the objects of InitAttractorMapObject (AttractorMapObject),
@@ -65,10 +68,10 @@ typedef struct MapObject {
     // object), or -1 when its kind record word at 0x08 is 0 or the table was full. DrawPukupuku also reads its lowest
     // bit as a mirror flag for the model.
     /* 64 */ s16 mCollisionSlotIndex;
-    // Alpha of the object, 0 to 0x1f. The visibility pass lowers it by 1 per call while mDistanceSquaredAndFlags bit 0
-    // is set and raises it by 1 up to 0x1f otherwise (RefreshMapObjectViewTests sets 0 or 0x1f at once); the draw group
-    // skips the object at 0, the view test counts 1 or less as not drawn, and the model draw lowers the model's polygon
-    // alpha to it.
+    // Alpha of the object, 0 to MAP_OBJECT_ALPHA_MAX. The visibility pass lowers it by 1 per call while
+    // mDistanceSquaredAndFlags bit 0 is set and raises it by 1 up to 0x1f otherwise (RefreshMapObjectViewTests sets 0
+    // or 0x1f at once); the draw group skips the object at 0, the view test counts 1 or less as not drawn, and the
+    // model draw lowers the model's polygon alpha to it.
     /* 66 */ u16 mAlpha;
     // Radius of the sphere that the view test checks against the view planes and adds to mDrawDistance: the kind's
     // value times the largest of mScale x, y, z (two kinds use their own factor).
