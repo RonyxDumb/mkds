@@ -48,7 +48,7 @@ void ReleaseNicknameSceneObject(void) {
     gNicknameScene = NULL;
 }
 
-void AdvanceNicknameSceneState0(void) {
+void AdvanceNicknameSceneWaitFade(void) {
     void *messageText;
     void *firstButtonText;
     void *secondButtonText;
@@ -61,7 +61,7 @@ void AdvanceNicknameSceneState0(void) {
     }
 }
 
-void AdvanceNicknameSceneState1(void) {
+void AdvanceNicknameSceneFirstMessage(void) {
     void *messageText;
     void *firstButtonText;
     void *secondButtonText;
@@ -82,7 +82,7 @@ void AdvanceNicknameSceneState1(void) {
     }
 }
 
-void AdvanceNicknameSceneState2(void) {
+void AdvanceNicknameSceneSecondMessage(void) {
     void *messageText;
     void *firstButtonText;
     void *secondButtonText;
@@ -109,7 +109,7 @@ void AdvanceNicknameSceneState2(void) {
     }
 }
 
-void AdvanceNicknameSceneState3(void) {
+void AdvanceNicknameSceneThirdMessage(void) {
     s32 backupBusy;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -140,16 +140,16 @@ void AdvanceNicknameScene(void) {
     gNicknameScene->mState = gNicknameScene->mNextState;
     switch (gNicknameScene->mState) {
         case NICKNAME_SCENE_STATE_WAIT_FADE:
-            AdvanceNicknameSceneState0();
+            AdvanceNicknameSceneWaitFade();
             break;
         case NICKNAME_SCENE_STATE_FIRST_MESSAGE:
-            AdvanceNicknameSceneState1();
+            AdvanceNicknameSceneFirstMessage();
             break;
         case NICKNAME_SCENE_STATE_SECOND_MESSAGE:
-            AdvanceNicknameSceneState2();
+            AdvanceNicknameSceneSecondMessage();
             break;
         case NICKNAME_SCENE_STATE_THIRD_MESSAGE:
-            AdvanceNicknameSceneState3();
+            AdvanceNicknameSceneThirdMessage();
             break;
     }
 }

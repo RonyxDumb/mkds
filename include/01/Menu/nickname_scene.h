@@ -45,10 +45,10 @@ typedef struct NicknameScene {
 int GetNicknameSceneNextScene(void);
 void NicknameWriteSceneTextRegistersWrapper(void);
 void AdvanceNicknameScene(void);
-void AdvanceNicknameSceneState3(void);
-void AdvanceNicknameSceneState2(void);
-void AdvanceNicknameSceneState1(void);
-void AdvanceNicknameSceneState0(void);
+void AdvanceNicknameSceneThirdMessage(void);
+void AdvanceNicknameSceneSecondMessage(void);
+void AdvanceNicknameSceneFirstMessage(void);
+void AdvanceNicknameSceneWaitFade(void);
 void ReleaseNicknameSceneObject(void);
 void InitNicknameSceneObject(void *heap, s16 previousScene);
 
