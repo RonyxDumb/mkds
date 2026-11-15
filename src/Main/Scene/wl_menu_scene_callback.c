@@ -99,7 +99,7 @@ void FillStartupWork(void) {
             gStartupWork->mLanguageIndex = LANGUAGE_ENGLISH;
             break;
     }
-    gStartupWork->mConnectionKind = 0;
+    gStartupWork->mConnectionKind = CONNECTION_KIND_NONE;
     gStartupWork->mUnk_28 = -1;
     gStartupWork->mPickedValue = -1;
     gStartupWork->mSoundSetSeqPlaying = 0;

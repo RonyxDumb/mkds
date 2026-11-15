@@ -263,7 +263,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             gLinkLevelIcons->mIconEnabled[4] = 1;
             break;
         case 10:
-            if (gStartupWork->mConnectionKind == 3) {
+            if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
             } else if ((u32) (gStartupWork->mConnectionKind - 1) <= 1) {
@@ -271,7 +271,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             }
             break;
         case 8:
-            if (gStartupWork->mConnectionKind == 3) {
+            if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_MENU) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
             }

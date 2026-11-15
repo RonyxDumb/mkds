@@ -351,7 +351,7 @@ void UpdateRaceLinkLevel(void) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (gStartupWork->mConnectionKind == 0) {
+    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
         return;
     }
     if (gRaceSetup->mMode == MODE_WIFI) {
@@ -383,7 +383,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (gStartupWork->mConnectionKind != 0) {
+    if (gStartupWork->mConnectionKind != CONNECTION_KIND_NONE) {
         if (IsRaceHudGoalMUploaded() == 0) {
             if (gRaceSetup->mMode == MODE_WIFI) {
                 levelCell = GetRaceMNcerEntry(gRaceLinkLevel->mWiFiLinkLevel + 0x28);

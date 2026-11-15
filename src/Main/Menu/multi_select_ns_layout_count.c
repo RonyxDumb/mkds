@@ -407,7 +407,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
             }
             switch (AdvanceConnectByMultiBoot(GetWLMenuSceneScanSlotPick()->mSlotIndex)) {
                 case 1:
-                    if (gStartupWork->mConnectionKind == 2) {
+                    if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
                         SetMultiSimple((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0 ? 1 : 0);
                     }
                     gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION;
@@ -552,7 +552,7 @@ void InitMultiSelectMemberKeyStart(void *parentHeap, void *mainOam, void *subOam
         1, gMultiSelectKeyStartLabelData[16], subFileSet->mLabelLayout,
         GetBmgEntry(gMultiSelectMember->mBannerMessages, gMultiSelectMemberSubLabelRows.mRows[8].mMessageIndex),
         subFileSet->mCellLayout, subFileSet->mCellTable);
-    gStartupWork->mConnectionKind = 1;
+    gStartupWork->mConnectionKind = CONNECTION_KIND_MEMBER_SELECT;
     SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMember->mBannerMessages, 9), 0, 0, 1, 0, 0, 0);
     subFileSet->mCellTable[0x11].mVisible = 0;
     subFileSet->mCellTable[0x10].mVisible = subFileSet->mCellTable[0x11].mVisible;
