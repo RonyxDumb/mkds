@@ -105,8 +105,8 @@ void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverT
             point.mY = pointY;
             point.mTouch = 1;
         }
-        *(TPData *) &pair->mPrevPairX = *(TPData *) pair;
-        *(TPData *) pair = point;
+        pair->mPrevPoint = pair->mPoint;
+        pair->mPoint = point;
         if (pair->mHasPair != 0) {
             pair->mNoPairCount = 0;
         } else if (pair->mNoPairCount <= 5) {

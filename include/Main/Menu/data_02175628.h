@@ -1,5 +1,6 @@
 #pragma once
 #include "types.h"
+#include "tp.h" // TPData
 
 #define PAD_KEY_B 0x2
 
@@ -77,14 +78,24 @@ typedef struct KeyRecording {
 
 // The 0x14 bytes at 0x48 of an element of gInputSlots (the same bytes as its mUnk_48 to mUnk_5b).
 typedef struct InputSlotPair {
-    /* 00 */ u16 mPairX;
-    /* 02 */ u16 mPairY;
-    /* 04 */ u16 mHasPair;
-    /* 06 */ u16 mValidity;
-    /* 08 */ u16 mPrevPairX;
-    /* 0a */ u16 mPrevPairY;
-    /* 0c */ u16 mPrevHasPair;
-    /* 0e */ u16 mPrevValidity;
+    union {
+        TPData mPoint;
+        struct {
+            /* 00 */ u16 mPairX;
+            /* 02 */ u16 mPairY;
+            /* 04 */ u16 mHasPair;
+            /* 06 */ u16 mValidity;
+        };
+    };
+    union {
+        TPData mPrevPoint;
+        struct {
+            /* 08 */ u16 mPrevPairX;
+            /* 0a */ u16 mPrevPairY;
+            /* 0c */ u16 mPrevHasPair;
+            /* 0e */ u16 mPrevValidity;
+        };
+    };
     /* 10 */ u16 mNoPairCount;
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
