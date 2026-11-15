@@ -550,7 +550,7 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
     if (writePacket == NULL) {
         return -0x21;
     }
-    writePacket->mUnk_0d = 0;
+    writePacket->mFlagBlock = 0;
     zero = 0;
     ringStart = outPipe->mBufferArea.mStart;
     ringSize = outPipe->mBufferArea.mSize;

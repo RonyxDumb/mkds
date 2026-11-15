@@ -27,10 +27,10 @@ typedef struct ObjTextCanvas {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ void (*mPClear)(struct ObjTextCanvas *a, u32 b);
     /* 1c */ u8 mUnk_1c[4];
-    /* 20 */ struct ObjTextCanvas *mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
+    /* 20 */ struct ObjTextCanvas *mCharCanvas;
+    /* 24 */ void *mFont;
+    /* 28 */ s32 mCharSpacing;
+    /* 2c */ s32 mLineSpacing;
     /* 30 */ ObjCharRange *mCharRange;
     /* 34 */ u16 mCharName;
     /* 36 */ u8 mAreaWidth;

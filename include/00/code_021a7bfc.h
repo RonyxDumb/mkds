@@ -12,7 +12,7 @@ typedef struct SOCLiCommandWrite {
     /* 04 */ SOCLSocket *mSocket;
     /* 08 */ OSMessageQueue *mUnk_08;
     /* 0c */ s8 mUnk_0c;
-    /* 0d */ s8 mUnk_0d;
+    /* 0d */ s8 mFlagBlock;
     /* 0e */ u8 mUnk_0e[2];
     /* 10 */ u8 *mBuffer1;
     /* 14 */ s32 mBuffer1Len;

@@ -72,10 +72,10 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
     NNS_G2dCharCanvasInitForOBJ1D(canvas, (void *) charBase, areaWidth, areaHeight, 4);
     canvas->mPClear(canvas, 0);
     font = &gTextCanvases->mFonts[fontIndex];
-    canvas->mUnk_20 = canvas;
-    canvas->mUnk_24 = font;
-    canvas->mUnk_28 = 1;
-    canvas->mUnk_2c = 1;
+    canvas->mCharCanvas = canvas;
+    canvas->mFont = font;
+    canvas->mCharSpacing = 1;
+    canvas->mLineSpacing = 1;
     return canvas;
 }
 

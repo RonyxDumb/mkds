@@ -69,7 +69,7 @@ BOOL StartApScan(void) {
 }
 
 BOOL StopApScan(void) {
-    gApScan->mUnk_1e48 = 1;
+    gApScan->mStopRequested = 1;
     WM_ReadStatus(&gApScan->mStatus);
     if (gApScan->mStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON) {
         if (WM_Reset(ApScanCallback) != 2) {

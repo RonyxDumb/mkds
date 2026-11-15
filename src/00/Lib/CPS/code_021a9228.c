@@ -293,7 +293,7 @@ BOOL ParseTaggedItem(HttpsState *httpsState, u8 **position, s32 depth, s32 index
                         case 1:
                         case 2:
                             if (mode == 0) {
-                                httpsState->mUnk_430 = failed;
+                                httpsState->mTaggedItemPrefixIndex = failed;
                             }
                             httpsState->mCaptureValues = failed;
                             break;
@@ -463,7 +463,7 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *httpsState, AuthorityRecor
 }
 
 // Flags: 0x8000 when mDateInRange is clear; low byte 1 no authority found, 2 check failed, 3 unknown digest kind, 4
-// mUnk_430 is -1.
+// mTaggedItemPrefixIndex is -1.
 u32 ComputeParsedItemCheckFlags(HttpsState *httpsState) {
     u32 flags;
     CPSMd5Ctx *scratchHash16;
@@ -474,7 +474,7 @@ u32 ComputeParsedItemCheckFlags(HttpsState *httpsState) {
     } else {
         flags = 0x8000;
     }
-    if (httpsState->mUnk_430 == -1) {
+    if (httpsState->mTaggedItemPrefixIndex == -1) {
         flags |= 4;
         return flags;
     }
@@ -553,7 +553,7 @@ void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     RTCDate date;
     remainingLength = (((cursor[0] << 8) + cursor[1]) << 8) + cursor[2];
     cursor += 3;
-    httpsState->mUnk_430 = -1;
+    httpsState->mTaggedItemPrefixIndex = -1;
     RTC_GetDate(&date);
     httpsState->mCurrentDate = date.mDay + (((date.mYear + 0x7d0) << 16) + (date.mMonth << 8));
     httpsState->mUnk_684[0] = 0;

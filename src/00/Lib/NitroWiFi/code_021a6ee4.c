@@ -127,8 +127,8 @@ s32 SOCLi_ExecBindCommand(SOCLSocket *socket) {
     if (cmdPacket == NULL) {
         return -33;
     }
-    cmdPacket->mUnk_10 = socket->mLocalPort;
-    cmdPacket->mUnk_12 = socket->mRemotePort;
+    cmdPacket->mLocalPort = socket->mLocalPort;
+    cmdPacket->mRemotePort = socket->mRemotePort;
     cmdPacket->mUnk_14 = socket->mRemoteIp;
     socket->mStatusFlags |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, cmdPacket);
@@ -143,7 +143,7 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     connectResult = 0;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mCommandPipe.mInUse);
-    CPS_SocBind(packet->mUnk_10, packet->mUnk_12, (s32) packet->mUnk_14);
+    CPS_SocBind(packet->mLocalPort, packet->mRemotePort, (s32) packet->mUnk_14);
     inPipe->mConsumed = 0;
     if (packet->mFlagMode == SOCKET_MODE_STREAM || packet->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         connectResult = CPS_TcpConnect();
@@ -262,9 +262,9 @@ s32 SOCL_ListenAccept(SOCLSocket *socket, u16 *remotePortOut, u32 *remoteIpOut) 
         return -28;
     }
     cmdPacket = SOCLi_CreateCommandPacket(SOCLi_ListenAcceptCallBack, socket, socket->mFlagBlock);
-    cmdPacket->mUnk_10 = socket->mLocalPort;
+    cmdPacket->mLocalPort = socket->mLocalPort;
     cmdPacket->mUnk_14 = remotePortOut;
-    cmdPacket->mUnk_18 = remoteIpOut;
+    cmdPacket->mRemoteIpOut = remoteIpOut;
     socket->mStatusFlags |= 2;
     return SOCLi_ExecCommandPacketInRecvPipe(socket, cmdPacket);
 }
@@ -279,12 +279,12 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     sockObj = packet->mSocket;
     inPipe = sockObj->mReceiveBlock;
     OS_LockMutex(&inPipe->mCommandPipe.mInUse);
-    CPS_SocBind(packet->mUnk_10, 0, 0);
+    CPS_SocBind(packet->mLocalPort, 0, 0);
     CPS_TcpListen();
     inPipe->mConsumed = 0;
     peerAddr = CPS_SocWho(&remotePort, &ownAddr);
     *packet->mUnk_14 = remotePort;
-    *packet->mUnk_18 = peerAddr;
+    *packet->mRemoteIpOut = peerAddr;
     sockObj->mStatusFlags |= 4;
     OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
     return 0;

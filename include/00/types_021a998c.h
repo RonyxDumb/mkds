@@ -78,7 +78,7 @@ typedef struct HttpsState {
     /* 42c */ s32 mDigestKind;
     // Table position (1 or 2) stored by ParseTaggedItem for the first item of a list; -1 when none was stored, which
     // makes the flags carry 4.
-    /* 430 */ s32 mUnk_430;
+    /* 430 */ s32 mTaggedItemPrefixIndex;
     /* 434 */ u8 *mDigestStart;
     /* 438 */ u8 *mDigestEnd;
     /* 43c */ u8 mRangeDigest[0x14];

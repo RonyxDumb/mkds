@@ -25,6 +25,6 @@ typedef struct ApScan {
     /* 1300 */ ApScanEntry mEntries[0x14];
     /* 1648 */ ScanParamBlock mScanParam;
     /* 168c */ WMStatus mStatus;
-    /* 1e48 */ u8 mUnk_1e48;
+    /* 1e48 */ u8 mStopRequested;
     /* 1e49 */ u8 mUnk_1e49[0x17];
 } ApScan;
