@@ -12,7 +12,7 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState1(void) {
+void UpdateTitleSlideIn(void) {
     u32 subBase;
     s32 entryIndex;
     LayoutTableEntry *titleTable;

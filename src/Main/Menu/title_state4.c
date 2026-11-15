@@ -10,14 +10,14 @@
 #include "Main/Menu/menu_shared_clear.h"
 
 #pragma thumb on
-u32 TitleState4ReturnArgumentWrapper(u32 value) {
+u32 TitleSelectPressReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void UpdateTitleState4(void) {
+void UpdateTitleSelectPress(void) {
     s32 titleStateFrames;
 
     titleStateFrames = GetTitleStateFrames();
@@ -28,7 +28,7 @@ void UpdateTitleState4(void) {
     SetupAndDrawTitleTable();
 }
 
-void TitleState5Nop(void) {}
+void TitleLeaveNop(void) {}
 
 #pragma thumb off
 

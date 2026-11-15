@@ -98,7 +98,7 @@ void SetupAndDrawTitleTable(void) {
 #pragma thumb off
 
 #pragma thumb on
-u32 TitleState1ReturnArgumentWrapper(u32 value) {
+u32 TitleSlideInReturnArgumentWrapper(u32 value) {
     return TitleReturnArgument(value);
 }
 #pragma thumb off

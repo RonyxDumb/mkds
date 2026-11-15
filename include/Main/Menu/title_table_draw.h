@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-u32 TitleState1ReturnArgumentWrapper(u32 value);
+u32 TitleSlideInReturnArgumentWrapper(u32 value);
 
 void SetupAndDrawTitleTable(void);
 

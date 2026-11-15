@@ -4,9 +4,9 @@
 
 #pragma thumb on
 
-void TitleState6Nop(void) {}
+void TitleRequestNicknameSceneNop(void) {}
 
-void UpdateTitleState6(SceneNumbers *sceneNumbers) {
+void UpdateTitleRequestNicknameScene(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != 0) {
         sceneNumbers->mNextScene = 0xb;
         StopSceneSeqWithFadeSteps();

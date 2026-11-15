@@ -10,11 +10,11 @@
 #include "Main/Menu/title_table_draw.h"
 
 TitleStateHandlers gTitleStateHandlers[7] = {
-    {TitleState0Nop, (void (*)(s32)) UpdateTitleState0},
-    {(void (*)(void)) TitleState1ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState1},
+    {TitleBlendInNop, (void (*)(s32)) UpdateTitleBlendIn},
+    {(void (*)(void)) TitleSlideInReturnArgumentWrapper, (void (*)(s32)) UpdateTitleSlideIn},
     {(void (*)(void)) TitleMenuInputReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState2},
     {(void (*)(void)) TitleState3ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState3},
-    {(void (*)(void)) TitleState4ReturnArgumentWrapper, (void (*)(s32)) UpdateTitleState4},
-    {TitleState5Nop, (void (*)(s32)) UpdateTitleLeave},
-    {TitleState6Nop, (void (*)(s32)) UpdateTitleState6},
+    {(void (*)(void)) TitleSelectPressReturnArgumentWrapper, (void (*)(s32)) UpdateTitleSelectPress},
+    {TitleLeaveNop, (void (*)(s32)) UpdateTitleLeave},
+    {TitleRequestNicknameSceneNop, (void (*)(s32)) UpdateTitleRequestNicknameScene},
 };

@@ -3,4 +3,4 @@
 #include "types.h"
 
 void StartTitleSelectedSound(void);
-void UpdateTitleState1(void);
+void UpdateTitleSlideIn(void);

@@ -6,9 +6,9 @@
 
 #pragma thumb on
 
-void TitleState0Nop(void) {}
+void TitleBlendInNop(void) {}
 
-void UpdateTitleState0(void) {
+void UpdateTitleBlendIn(void) {
     int stateFrames;
     int waitFrames;
     waitFrames = 0;
