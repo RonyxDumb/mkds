@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+typedef void (*ExchangeEventCallback)(u32 event, u32 arg);
+
 typedef struct RawEntry RawEntry;
 
 typedef struct OamEntry OamEntry;
@@ -20,7 +22,7 @@ typedef struct WcmNoticeHead {
     /* 02 */ s16 mResult;
 } WcmNoticeHead;
 
-BOOL InitExchangeWcm(void (*callback)(u32, u32), void *buffer, u32 size);
+BOOL InitExchangeWcm(ExchangeEventCallback callback, void *buffer, u32 size);
 BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option);
 BOOL CleanupExchangeWcm(void);
 BOOL DisconnectExchange(void);

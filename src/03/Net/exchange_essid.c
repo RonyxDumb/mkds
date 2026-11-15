@@ -45,7 +45,7 @@
 #include "00/Lib/NitroWiFi/code_021a4b98.h"
 
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size);
-void CallFreeFunctionWithMutex(u32 unused, s32 block, s32 size);
+void CallFreeFunctionWithMutex(u32 unused, void *block, s32 size);
 SOCConfig gExchangeSocketConfig = {{0, 0, 0, 1},
                                    (SocketAllocFn) CallAllocFunctionWithMutex,
                                    (SocketFreeFn) CallFreeFunctionWithMutex,
@@ -739,7 +739,7 @@ BOOL ConnectExchangeToEntry(void *entry, void *optionalBytes, u32 option) {
     return 0;
 }
 
-BOOL InitExchangeWcm(void (*callback)(u32, u32), void *buffer, u32 size) {
+BOOL InitExchangeWcm(ExchangeEventCallback callback, void *buffer, u32 size) {
     u32 savedInterrupts = OS_DisableInterrupts();
     WCMConfig *alignedBlock;
     u32 cursor;
@@ -756,7 +756,7 @@ BOOL InitExchangeWcm(void (*callback)(u32, u32), void *buffer, u32 size) {
     gExchangeWcmConfig->mNbdBuffer = (u32) buffer + size - (u32) gExchangeWcmConfig->mPbdBuffer;
     gExchangeWcmConfig->mNbdMode = 0;
     gExchangeWcmConfig->mDmaNo = 3;
-    gExchangeEventCallback = (UnkFunc *) callback;
+    gExchangeEventCallback = callback;
     if (gExchangeWcmState == 0) {
         if (WCM_Init(gExchangeWcmWork, 0x2300) != 0) {
             OS_RestoreInterrupts(savedInterrupts);
@@ -792,7 +792,7 @@ u32 CallAllocFunctionWithMutex(u32 unused, s32 size) {
     return 0;
 }
 
-void CallFreeFunctionWithMutex(u32 unused, s32 block, s32 size) {
+void CallFreeFunctionWithMutex(u32 unused, void *block, s32 size) {
     if (block != 0 && size > 0) {
         OS_LockMutex(&gAllocMutex);
         gFreeFunction(block);
@@ -2670,8 +2670,8 @@ s32 FormatMacAddress(u8 *output, const s8 *address) {
 }
 
 // Starts the thread that runs RunExchange; returns 1, or -10 while a run is under way.
-s32 StartExchange(u32 priority, s32 count, UnkFunc *callback, UnkWordFunc *allocFunction, UnkFunc *freeFunction,
-                  u32 stackSize) {
+s32 StartExchange(u32 priority, s32 count, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
+                  ExchangeFreeFunc freeFunction, u32 stackSize) {
     s32 result;
     if (gExchangeStatus >= EXCHANGE_STATUS_STARTED && gExchangeStatus <= EXCHANGE_STATUS_SECOND_KEY_RECEIVED) {
         return -10;

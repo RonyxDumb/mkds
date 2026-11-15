@@ -1,8 +1,14 @@
 #pragma once
 
 #include "types.h"
+#include "03/code_021be610.h"
+#include "03/Menu/exchange_status_record.h"
 
 typedef struct ExchangeResult ExchangeResult;
+
+typedef void (*ExchangeStatusCallback)(const ExchangeStatus *status);
+typedef u32 (*ExchangeAllocFunc)(u32 size);
+typedef void (*ExchangeFreeFunc)(void *block);
 
 typedef struct HashContext HashContext;
 
@@ -60,8 +66,8 @@ void CallStatusCallback(void);
 u32 CopyExchangeResult(ExchangeResult *output);
 u32 GetExchangeStatus(u32 *output);
 s32 StopExchange(void);
-s32 StartExchange(u32 priority, s32 count, UnkFunc *callback, UnkWordFunc *allocFunction, UnkFunc *freeFunction,
-                  u32 stackSize);
+s32 StartExchange(u32 priority, s32 count, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
+                  ExchangeFreeFunc freeFunction, u32 stackSize);
 s32 FormatMacAddress(u8 *output, const s8 *address);
 s32 FormatByteAsHex(u8 *output, s8 value);
 void CallFreeFunction(void *block);
@@ -112,7 +118,7 @@ void EnqueueEvent(u32 value);
 void EnqueueEventEx(u32 value, u32 unused);
 u32 DequeueEvent(void);
 void ClearEventQueue(void);
-void CallFreeFunctionWithMutex(u32 unused, s32 block, s32 size);
+void CallFreeFunctionWithMutex(u32 unused, void *block, s32 size);
 u32 CallAllocFunctionWithMutex(u32 unused, s32 size);
 u32 GetExchangeWcmState(void);
 

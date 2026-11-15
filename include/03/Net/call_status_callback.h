@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/Net/exchange_essid.h"
 #include "00/Lib/DWC/code_02188de4.h"
 #include "code_02142eac.h"
 #include "03/unk_021d8000.h"
@@ -9,9 +10,9 @@
 
 extern u8 gReceivedTextNonEmpty;
 extern u8 *gExchangeSearchAddress;
-extern UnkWordFunc *gAllocFunction;
+extern ExchangeAllocFunc gAllocFunction;
 extern void *gAlignedBuffer;
-extern UnkFunc *gFreeFunction;
+extern ExchangeFreeFunc gFreeFunction;
 extern s32 gStopRequested;
 extern u32 gPacketLength;
 extern s32 gExchangeResultCode;
@@ -23,7 +24,7 @@ extern u32 gExchangeWcmState;
 extern void *gThreadStack;
 extern u32 gBodyLength;
 extern u32 gSelectedEntryIndex;
-extern UnkFunc *gExchangeEventCallback;
+extern ExchangeEventCallback gExchangeEventCallback;
 extern u32 gExchangeState;
 extern void *gExchangeWcmWork;
 extern u8 *gExchangeSearchEssid;
@@ -39,7 +40,7 @@ extern s32 gEventReadIndex;
 extern s32 gEntryCountMax;
 extern s32 gExchangeWiFiInitCalled;
 extern struct WCMConfig *gExchangeWcmConfig;
-extern UnkFunc *gStatusCallback;
+extern ExchangeStatusCallback gStatusCallback;
 extern u8 gExchangeSearchAddressBytes[6];
 extern MacAddress gSelectedEntryAddress;
 extern MacAddress gMacAddress;
