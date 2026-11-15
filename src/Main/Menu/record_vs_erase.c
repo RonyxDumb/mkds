@@ -716,9 +716,9 @@ void ReleaseRecordVSErase(void) {
 #pragma thumb on
 
 void AdvanceRecordVSEraseOpenIntroText(void) {
-    int isState2NoCloseRequest;
-    isState2NoCloseRequest = IsTxtSystemOpenNoCloseRequest();
-    if (isState2NoCloseRequest != 0) {
+    int txtSystemNoCloseRequest;
+    txtSystemNoCloseRequest = IsTxtSystemOpenNoCloseRequest();
+    if (txtSystemNoCloseRequest != 0) {
         RequestRecordVSEraseWaitIntroText();
     }
 }
@@ -732,9 +732,9 @@ void AdvanceRecordVSEraseWaitIntroText(void) {
 }
 
 void AdvanceRecordVSEraseCloseIntroText(void) {
-    int isState0NoOpenRequest;
-    isState0NoOpenRequest = IsTxtSystemClosedNoOpenRequest();
-    if (isState0NoOpenRequest != 0) {
+    int txtSystemNoOpenRequest;
+    txtSystemNoOpenRequest = IsTxtSystemClosedNoOpenRequest();
+    if (txtSystemNoOpenRequest != 0) {
         RequestRecordVSEraseSlideInSub();
     }
 }
