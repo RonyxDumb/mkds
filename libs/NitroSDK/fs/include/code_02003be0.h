@@ -28,6 +28,12 @@ s32 FSi_WriteMemCallback(FSArchive *archive, const void *src, u32 pos, u32 size)
 s32 FSi_ReadMemCallback(FSArchive *archive, void *dst, u32 pos, u32 size);
 u32 FSi_GetPackedName(const u8 *name, s32 nameLen);
 u32 FS_ChangeDir(const u8 *path);
+// Values of the origin of FS_SeekFile.
+enum {
+    FS_SEEK_START = 0,
+    FS_SEEK_CURRENT = 1,
+    FS_SEEK_END = 2,
+};
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin);
 s32 FS_ReadFile(FSFile *file, void *dst, s32 len);
 s32 FS_ReadFileAsync(FSFile *file, void *dst, s32 len);

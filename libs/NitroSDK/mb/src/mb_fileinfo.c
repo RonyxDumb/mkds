@@ -69,7 +69,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             header->mRomCtrl |= 0x00406000;
         }
         if (remaining >= 0x88) {
-            FS_SeekFile(activeFile, basePosition + seekOffset, 0);
+            FS_SeekFile(activeFile, basePosition + seekOffset, FS_SEEK_START);
             FS_ReadFile(activeFile, writePos, 0x88);
             writePos += 0x88;
             remaining -= 0x88;
@@ -105,29 +105,29 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         segmentSize = header->mHead.mMainSize + header->mHead.mSubSize;
         if (remaining >= segmentSize) {
             fileBase = activeFile->mProp.w.mUnk_04;
-            FS_SeekFile(activeFile, offsetTable[1] - fileBase, 0);
+            FS_SeekFile(activeFile, offsetTable[1] - fileBase, FS_SEEK_START);
             FS_ReadFile(activeFile, writePos, header->mHead.mMainSize);
             MBi_AttachCacheBuffer(rangeTable, offsetTable[1], header->mHead.mMainSize, writePos, 3);
             writePos += header->mHead.mMainSize;
-            FS_SeekFile(activeFile, offsetTable[2] - fileBase, 0);
+            FS_SeekFile(activeFile, offsetTable[2] - fileBase, FS_SEEK_START);
             FS_ReadFile(activeFile, writePos, header->mHead.mSubSize);
             MBi_AttachCacheBuffer(rangeTable, offsetTable[2], header->mHead.mSubSize, writePos, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
             fileBase = activeFile->mProp.w.mUnk_04;
             mainOffset = offsetTable[1];
-            FS_SeekFile(activeFile, mainOffset - fileBase, 0);
+            FS_SeekFile(activeFile, mainOffset - fileBase, FS_SEEK_START);
             FS_ReadFile(activeFile, writePos, 0x4400);
             MBi_AttachCacheBuffer(rangeTable, mainOffset, 0x4400, writePos, 3);
-            FS_SeekFile(activeFile, mainOffset + 0x4400 - fileBase, 0);
+            FS_SeekFile(activeFile, mainOffset + 0x4400 - fileBase, FS_SEEK_START);
             FS_ReadFile(activeFile, writePos + 0x4400, 0x4400);
             MBi_AttachCacheBuffer(rangeTable, mainOffset + 0x4400, 0x4400, (writePos + 0x4400), 2);
-            FS_SeekFile(activeFile, mainOffset + 0x8800 - fileBase, 0);
+            FS_SeekFile(activeFile, mainOffset + 0x8800 - fileBase, FS_SEEK_START);
             FS_ReadFile(activeFile, writePos + 0x8800, 0x4400);
             MBi_AttachCacheBuffer(rangeTable, mainOffset + 0x8800, 0x4400, (writePos + 0x8800), 2);
             result = TRUE;
         }
-        FS_SeekFile(activeFile, basePosition, 0);
+        FS_SeekFile(activeFile, basePosition, FS_SEEK_START);
         if (openedHere != FALSE) {
             FS_CloseFile(&openedFile);
             if (result != FALSE) {

@@ -363,10 +363,10 @@ s32 FSi_WriteDummyCallback(FSArchive *archive, const void *src, u32 dst, u32 len
 // ROM archive callback: locks and unlocks the card.
 s32 FSi_RomArchiveProc(FSFile *file, u32 command) {
     switch (command) {
-        case 9:
+        case ARCHIVE_COMMAND_START_RUN:
             CARD_LockRom(fsi_card_lock_id);
             return 0;
-        case 10:
+        case ARCHIVE_COMMAND_STOP_RUN:
             CARD_UnlockRom(fsi_card_lock_id);
             return 0;
         case 1:

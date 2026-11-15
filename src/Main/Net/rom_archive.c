@@ -97,7 +97,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
         header = &fileHeader;
         positionOffset = imageOffset;
         FS_ReadFile(file, header, 0x60);
-        FS_SeekFile(file, value, 0);
+        FS_SeekFile(file, value, FS_SEEK_START);
     }
     if (appendOverlayEntries == 0) {
         tables[0] = header->mFatTable;
@@ -709,7 +709,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
             node->mLastLoadedBufferIndex = newBufferIndex;
             node->mLoadingBufferIndex = newBufferIndex;
             node->mBufferOffsets[newBufferIndex] = byteOffset & -0x200;
-            FS_SeekFile(&node->mFile, byteOffset & -0x200, 0);
+            FS_SeekFile(&node->mFile, byteOffset & -0x200, FS_SEEK_START);
             FS_ReadFileAsync(&node->mFile, node->mBuffers[newBufferIndex], 0x400);
             break;
     }

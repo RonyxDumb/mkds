@@ -69,8 +69,64 @@ typedef enum ArchiveCommand {
     ARCHIVE_COMMAND_MOVE_DIR_CURSOR = 2,
     ARCHIVE_COMMAND_LIST_DIR_ENTRY = 3,
     ARCHIVE_COMMAND_OPEN_BY_NUMBER = 7,
+    // Sent to FSArchive.mProc, not to a file: the archive starts running its queue, and has run it empty.
+    ARCHIVE_COMMAND_START_RUN = 9,
+    ARCHIVE_COMMAND_STOP_RUN = 10,
     ARCHIVE_COMMAND_UNSET = 14
 } ArchiveCommand;
+
+// Bits of FSArchive.mProcFlag: the commands the archive handles itself (bit n is command n).
+enum {
+    ARCHIVE_PROC_START_RUN = 1 << ARCHIVE_COMMAND_START_RUN,
+    ARCHIVE_PROC_STOP_RUN = 1 << ARCHIVE_COMMAND_STOP_RUN,
+};
+
+// Commands 2 to 8 are always waited for by the caller (FSi_SendCommand sets FILE_STAT_SYNC for them).
+#define ARCHIVE_SYNC_COMMANDS_MASK 0x1fc
+
+// Results of the archive handlers and of the commands. FSFile.mError holds the final ones.
+enum {
+    ARCHIVE_RESULT_SUCCESS = 0,
+    ARCHIVE_RESULT_FAILED = 1,
+    ARCHIVE_RESULT_PENDING = 2,
+    ARCHIVE_RESULT_CANCELED = 3,
+    ARCHIVE_RESULT_UNSUPPORTED = 4,
+    ARCHIVE_RESULT_RUNNING_IN_BACKGROUND = 6,
+    ARCHIVE_RESULT_USE_DEFAULT = 7,
+    ARCHIVE_RESULT_NOT_HANDLED = 8,
+};
+
+// Bits of FSFile.mStat.
+enum {
+    FILE_STAT_BUSY = 0x1,
+    FILE_STAT_CANCEL = 0x2,
+    FILE_STAT_SYNC = 0x4,
+    FILE_STAT_ASYNC = 0x8,
+    FILE_STAT_IS_FILE = 0x10,
+    FILE_STAT_IS_DIRECTORY = 0x20,
+    FILE_STAT_STARTED = 0x40,
+    FILE_STAT_COMMAND_MASK = FILE_STAT_BUSY | FILE_STAT_CANCEL | FILE_STAT_SYNC | FILE_STAT_ASYNC | FILE_STAT_STARTED,
+};
+
+// Bits of FSArchive.mFlag.
+enum {
+    ARCHIVE_FLAG_LOADED = 0x2,
+    ARCHIVE_FLAG_TABLES_IN_MEMORY = 0x4,
+    ARCHIVE_FLAG_SUSPENDED = 0x8,
+    ARCHIVE_FLAG_RUNNING = 0x10,
+    ARCHIVE_FLAG_CANCEL_PENDING = 0x20,
+    ARCHIVE_FLAG_SUSPEND_REQUESTED = 0x40,
+    ARCHIVE_FLAG_UNLOADING = 0x80,
+    ARCHIVE_FLAG_ASYNC_COMMAND = 0x100,
+    ARCHIVE_FLAG_SYNC_COMMAND = 0x200,
+};
+
+// Archive names hold up to three characters in FSArchive.mName; these are the largest values of one and of two.
+#define ARCHIVE_NAME_ONE_CHAR_MAX 0xff
+#define ARCHIVE_NAME_TWO_CHARS_MAX 0xff00
+
+// Mask of the directory number in the parent field of a directory table entry.
+#define FS_DIR_NUMBER_MASK 0xfff
 
 // 0x48-byte record, set up by FS_InitFile (also used as a local); mArc is the archive it works through.
 typedef struct FSFile {

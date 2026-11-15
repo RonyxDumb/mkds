@@ -33,7 +33,7 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
                 if (archive == 0) {
                     return 0;
                 }
-                if (archive->mFlag & 2) {
+                if (archive->mFlag & ARCHIVE_FLAG_LOADED) {
                     loaded = 1;
                 } else {
                     loaded = 0;
@@ -83,7 +83,7 @@ s32 FSi_ReadFileCore(FSFile *file, void *dst, s32 len, u32 async) {
     file->mArg.p.mUnk_04 = requested;
     file->mArg.p.mUnk_08 = len;
     if (async == 0) {
-        file->mStat |= 4;
+        file->mStat |= FILE_STAT_SYNC;
     }
     FSi_SendCommand(file, 0);
     if (async == 0) {
@@ -113,8 +113,8 @@ u32 FS_OpenFileDirect(FSFile *file, FSArchive *archive, u32 imageTop, u32 imageB
     if (FSi_SendCommand(file, 7) == 0) {
         return 0;
     }
-    file->mStat |= 0x10;
-    file->mStat &= ~0x20;
+    file->mStat |= FILE_STAT_IS_FILE;
+    file->mStat &= ~FILE_STAT_IS_DIRECTORY;
     return 1;
 }
 
@@ -128,8 +128,8 @@ u32 FS_OpenFileFast(FSFile *file, FSFileID fileID) {
     if (FSi_SendCommand(file, 6) == 0) {
         return 0;
     }
-    file->mStat |= 0x10;
-    file->mStat &= ~0x20;
+    file->mStat |= FILE_STAT_IS_FILE;
+    file->mStat &= ~FILE_STAT_IS_DIRECTORY;
     return 1;
 }
 
@@ -152,7 +152,7 @@ u32 FS_CloseFile(FSFile *file) {
     }
     file->mArc = 0;
     file->mCommand = ARCHIVE_COMMAND_UNSET;
-    file->mStat &= ~0x30;
+    file->mStat &= ~(FILE_STAT_IS_FILE | FILE_STAT_IS_DIRECTORY);
     return 1;
 }
 
@@ -163,17 +163,17 @@ u32 FS_WaitAsync(FSFile *file) {
 
     needsRun = 0;
     enabled = OS_DisableInterrupts();
-    if (((file->mStat & 1) ? 1 : 0) != 0) {
-        needsRun = (file->mStat & 0x44) == 0;
+    if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
+        needsRun = (file->mStat & (FILE_STAT_SYNC | FILE_STAT_STARTED)) == 0;
         if (needsRun) {
-            file->mStat |= 4;
+            file->mStat |= FILE_STAT_SYNC;
             do {
                 OS_SleepThread(&file->mQueue);
-            } while ((file->mStat & 0x40) == 0);
+            } while ((file->mStat & FILE_STAT_STARTED) == 0);
         } else {
             do {
                 OS_SleepThread(&file->mQueue);
-            } while (((file->mStat & 1) ? 1 : 0) != 0);
+            } while (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0);
         }
     }
     OS_RestoreInterrupts(enabled);
@@ -188,9 +188,9 @@ void FS_CancelFile(FSFile *file) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (((file->mStat & 1) ? 1 : 0) != 0) {
-        file->mStat |= 2;
-        file->mArc->mFlag |= 0x20;
+    if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
+        file->mStat |= FILE_STAT_CANCEL;
+        file->mArc->mFlag |= ARCHIVE_FLAG_CANCEL_PENDING;
     }
     OS_RestoreInterrupts(enabled);
 }
@@ -208,13 +208,13 @@ s32 FS_ReadFile(FSFile *file, void *dst, s32 len) {
 // Moves the file position, clamped to the file range; origin 0 is start, 1 current, 2 end.
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     switch (origin) {
-        case 0:
+        case FS_SEEK_START:
             offset += file->mProp.p.mUnk_04;
             break;
-        case 1:
+        case FS_SEEK_CURRENT:
             offset += file->mPosition;
             break;
-        case 2:
+        case FS_SEEK_END:
             offset += file->mProp.p.mUnk_08;
             break;
         default:
@@ -289,13 +289,13 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
     u32 first;
 
     enabled = OS_DisableInterrupts();
-    if (archive->mFlag & 0x20) {
-        archive->mFlag &= ~0x20;
+    if (archive->mFlag & ARCHIVE_FLAG_CANCEL_PENDING) {
+        archive->mFlag &= ~ARCHIVE_FLAG_CANCEL_PENDING;
         file = archive->mList.mNext;
         if (file != 0) {
             do {
                 next = file->mLink.mNext;
-                if (((file->mStat & 2) ? 1 : 0) != 0) {
+                if (((file->mStat & FILE_STAT_CANCEL) ? 1 : 0) != 0) {
                     if (archive->mList.mNext == file) {
                         archive->mList.mNext = next;
                     }
@@ -308,18 +308,19 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
             } while (next != 0);
         }
     }
-    if (!(archive->mFlag & 0x40) && ((archive->mFlag & 8) ? 1 : 0) == 0 && (file = archive->mList.mNext) != 0) {
-        first = ((archive->mFlag & 0x10) ? 1 : 0) == 0;
+    if (!(archive->mFlag & ARCHIVE_FLAG_SUSPEND_REQUESTED) &&
+        ((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0 && (file = archive->mList.mNext) != 0) {
+        first = ((archive->mFlag & ARCHIVE_FLAG_RUNNING) ? 1 : 0) == 0;
         if (first != 0) {
-            archive->mFlag |= 0x10;
+            archive->mFlag |= ARCHIVE_FLAG_RUNNING;
         }
         OS_RestoreInterrupts(enabled);
-        if (first != 0 && (archive->mProcFlag & 0x200)) {
-            archive->mProc(file, 9);
+        if (first != 0 && (archive->mProcFlag & ARCHIVE_PROC_START_RUN)) {
+            archive->mProc(file, ARCHIVE_COMMAND_START_RUN);
         }
         enabled = OS_DisableInterrupts();
-        file->mStat |= 0x40;
-        if (((file->mStat & 4) ? 1 : 0) != 0) {
+        file->mStat |= FILE_STAT_STARTED;
+        if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
             OS_WakeupThread(&file->mQueue);
             OS_RestoreInterrupts(enabled);
             return 0;
@@ -327,17 +328,17 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
         OS_RestoreInterrupts(enabled);
         return file;
     }
-    if (archive->mFlag & 0x10) {
-        archive->mFlag &= ~0x10;
-        if (archive->mProcFlag & 0x400) {
+    if (archive->mFlag & ARCHIVE_FLAG_RUNNING) {
+        archive->mFlag &= ~ARCHIVE_FLAG_RUNNING;
+        if (archive->mProcFlag & ARCHIVE_PROC_STOP_RUN) {
             FS_InitFile(&procFile);
             procFile.mArc = archive;
-            archive->mProc(&procFile, 10);
+            archive->mProc(&procFile, ARCHIVE_COMMAND_STOP_RUN);
         }
     }
-    if (archive->mFlag & 0x40) {
-        archive->mFlag &= ~0x40;
-        archive->mFlag |= 8;
+    if (archive->mFlag & ARCHIVE_FLAG_SUSPEND_REQUESTED) {
+        archive->mFlag &= ~ARCHIVE_FLAG_SUSPEND_REQUESTED;
+        archive->mFlag |= ARCHIVE_FLAG_SUSPENDED;
         OS_WakeupThread(&archive->mStatQ);
     }
     OS_RestoreInterrupts(enabled);
@@ -355,13 +356,13 @@ void FSi_ExecuteAsyncCommand(FSFile *file) {
     }
     do {
         enabled = OS_DisableInterrupts();
-        file->mStat |= 0x40;
-        if (((file->mStat & 4) ? 1 : 0) != 0) {
+        file->mStat |= FILE_STAT_STARTED;
+        if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
             OS_WakeupThread(&file->mQueue);
             OS_RestoreInterrupts(enabled);
             return;
         }
-        file->mStat |= 8;
+        file->mStat |= FILE_STAT_ASYNC;
         OS_RestoreInterrupts(enabled);
         if (FSi_TranslateCommand(file, file->mCommand) == 6) {
             return;
@@ -394,16 +395,16 @@ u32 FSi_SendCommand(FSFile *file, u32 command) {
     archive = file->mArc;
     file->mCommand = command;
     mask = 1 << command;
-    file->mError = 2;
-    file->mStat |= 1;
+    file->mError = ARCHIVE_RESULT_PENDING;
+    file->mStat |= FILE_STAT_BUSY;
     enabled = OS_DisableInterrupts();
-    if (archive->mFlag & 0x80) {
+    if (archive->mFlag & ARCHIVE_FLAG_UNLOADING) {
         FSi_ReleaseCommand(file, 3);
         OS_RestoreInterrupts(enabled);
         return 0;
     }
-    if (mask & 0x1fc) {
-        file->mStat |= 4;
+    if (mask & ARCHIVE_SYNC_COMMANDS_MASK) {
+        file->mStat |= FILE_STAT_SYNC;
     }
     prev = file->mLink.mPrev;
     tail = (FSFile *) &archive->mList;
@@ -420,28 +421,28 @@ u32 FSi_SendCommand(FSFile *file, u32 command) {
     tail->mLink.mNext = file;
     file->mLink.mPrev = tail;
     file->mLink.mNext = 0;
-    if (((archive->mFlag & 8) ? 1 : 0) == 0 && (archive->mFlag & 0x10) == 0) {
-        archive->mFlag |= 0x10;
+    if (((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0 && (archive->mFlag & ARCHIVE_FLAG_RUNNING) == 0) {
+        archive->mFlag |= ARCHIVE_FLAG_RUNNING;
         OS_RestoreInterrupts(enabled);
-        if (archive->mProcFlag & 0x200) {
-            archive->mProc(file, 9);
+        if (archive->mProcFlag & ARCHIVE_PROC_START_RUN) {
+            archive->mProc(file, ARCHIVE_COMMAND_START_RUN);
         }
         enabled = OS_DisableInterrupts();
-        file->mStat |= 0x40;
-        if (((file->mStat & 4) ? 1 : 0) == 0) {
+        file->mStat |= FILE_STAT_STARTED;
+        if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) == 0) {
             OS_RestoreInterrupts(enabled);
             FSi_ExecuteAsyncCommand(file);
             return 1;
         }
         OS_RestoreInterrupts(enabled);
     } else {
-        if (((file->mStat & 4) ? 1 : 0) == 0) {
+        if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) == 0) {
             OS_RestoreInterrupts(enabled);
             return 1;
         }
         do {
             OS_SleepThread(&file->mQueue);
-        } while ((file->mStat & 0x40) == 0);
+        } while ((file->mStat & FILE_STAT_STARTED) == 0);
         OS_RestoreInterrupts(enabled);
     }
     return FSi_ExecuteSyncCommand(file);
@@ -544,7 +545,7 @@ u32 FS_LoadArchive(FSArchive *archive, u8 *base, u32 fat, u32 fatSize, u32 fnt, 
     archive->mWrite = (writeFunc == 0) ? FSi_WriteMemCallback : writeFunc;
     archive->mTable = archive->mRead;
     archive->mLoadMem = 0;
-    archive->mFlag |= 2;
+    archive->mFlag |= ARCHIVE_FLAG_LOADED;
     return 1;
 }
 
@@ -556,10 +557,10 @@ u32 FS_UnloadArchive(FSArchive *archive) {
     u32 suspended;
 
     enabled = OS_DisableInterrupts();
-    if (((archive->mFlag & 2) ? 1 : 0) != 0) {
+    if (((archive->mFlag & ARCHIVE_FLAG_LOADED) ? 1 : 0) != 0) {
         archive->mFlag;
         suspended = FS_SuspendArchive(archive);
-        archive->mFlag |= 0x80;
+        archive->mFlag |= ARCHIVE_FLAG_UNLOADING;
         file = archive->mList.mNext;
         if (file != 0) {
             do {
@@ -613,7 +614,7 @@ u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
         archive->mFnt = (u32) cache;
         archive->mLoadMem = mem;
         archive->mTable = FSi_ReadMemoryCore;
-        archive->mFlag |= 4;
+        archive->mFlag |= ARCHIVE_FLAG_TABLES_IN_MEMORY;
     }
     return totalSize;
 }
@@ -624,10 +625,10 @@ u32 FS_UnloadArchiveTables(FSArchive *archive) {
     u32 suspended;
 
     mem = 0;
-    if (((archive->mFlag & 2) ? 1 : 0) != 0) {
+    if (((archive->mFlag & ARCHIVE_FLAG_LOADED) ? 1 : 0) != 0) {
         suspended = FS_SuspendArchive(archive);
-        if (((archive->mFlag & 4) ? 1 : 0) != 0) {
-            archive->mFlag &= ~4;
+        if (((archive->mFlag & ARCHIVE_FLAG_TABLES_IN_MEMORY) ? 1 : 0) != 0) {
+            archive->mFlag &= ~ARCHIVE_FLAG_TABLES_IN_MEMORY;
             mem = archive->mLoadMem;
             archive->mLoadMem = 0;
             archive->mFat = archive->mFatBak;
@@ -647,15 +648,15 @@ u32 FS_SuspendArchive(FSArchive *archive) {
     u32 result;
 
     enabled = OS_DisableInterrupts();
-    result = ((archive->mFlag & 8) ? 1 : 0) == 0;
+    result = ((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0;
     if (result) {
-        if (archive->mFlag & 0x10) {
-            archive->mFlag |= 0x40;
+        if (archive->mFlag & ARCHIVE_FLAG_RUNNING) {
+            archive->mFlag |= ARCHIVE_FLAG_SUSPEND_REQUESTED;
             do {
                 OS_SleepThread(&archive->mStatQ);
-            } while (archive->mFlag & 0x40);
+            } while (archive->mFlag & ARCHIVE_FLAG_SUSPEND_REQUESTED);
         } else {
-            archive->mFlag |= 8;
+            archive->mFlag |= ARCHIVE_FLAG_SUSPENDED;
         }
     }
     OS_RestoreInterrupts(enabled);
@@ -670,9 +671,9 @@ u32 FS_ResumeArchive(FSArchive *archive) {
 
     next = 0;
     enabled = OS_DisableInterrupts();
-    result = ((archive->mFlag & 8) ? 1 : 0) == 0;
+    result = ((archive->mFlag & ARCHIVE_FLAG_SUSPENDED) ? 1 : 0) == 0;
     if (!result) {
-        archive->mFlag &= ~8;
+        archive->mFlag &= ~ARCHIVE_FLAG_SUSPENDED;
         next = FSi_NextCommand(archive);
     }
     OS_RestoreInterrupts(enabled);
@@ -698,9 +699,9 @@ void FS_NotifyArchiveAsyncEnd(FSArchive *archive, u32 result) {
     u32 enabled;
     FSFile *file;
 
-    if (archive->mFlag & 0x100) {
+    if (archive->mFlag & ARCHIVE_FLAG_ASYNC_COMMAND) {
         file = archive->mList.mNext;
-        archive->mFlag &= ~0x100;
+        archive->mFlag &= ~ARCHIVE_FLAG_ASYNC_COMMAND;
         FSi_ReleaseCommand(file, result);
         file = FSi_NextCommand(archive);
         if (file != 0) {
@@ -710,7 +711,7 @@ void FS_NotifyArchiveAsyncEnd(FSArchive *archive, u32 result) {
         file = archive->mList.mNext;
         enabled = OS_DisableInterrupts();
         file->mError = result;
-        archive->mFlag &= ~0x200;
+        archive->mFlag &= ~ARCHIVE_FLAG_SYNC_COMMAND;
         OS_WakeupThread(&archive->mSyncQ);
         OS_RestoreInterrupts(enabled);
     }

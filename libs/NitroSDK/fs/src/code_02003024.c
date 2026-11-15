@@ -35,19 +35,19 @@ void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len) {
     u32 enabled;
 
     archive = param->mArc;
-    archive->mFlag |= 0x200;
+    archive->mFlag |= ARCHIVE_FLAG_SYNC_COMMAND;
     result = archive->mTable(archive, dst, param->mPos, len);
     switch (result) {
-        case 0:
-        case 1:
-            archive->mFlag &= ~0x200;
+        case ARCHIVE_RESULT_SUCCESS:
+        case ARCHIVE_RESULT_FAILED:
+            archive->mFlag &= ~ARCHIVE_FLAG_SYNC_COMMAND;
             break;
-        case 6:
+        case ARCHIVE_RESULT_RUNNING_IN_BACKGROUND:
             enabled = OS_DisableInterrupts();
-            if (archive->mFlag & 0x200) {
+            if (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND) {
                 do {
                     OS_SleepThread(&archive->mSyncQ);
-                } while (archive->mFlag & 0x200);
+                } while (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND);
             }
             OS_RestoreInterrupts(enabled);
             break;
@@ -57,7 +57,7 @@ void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len) {
 
 // Moves a directory file to the directory with the given number.
 s32 FSi_SeekDirDirect(FSFile *dir, u32 id) {
-    dir->mStat |= 4;
+    dir->mStat |= FILE_STAT_SYNC;
     dir->mArg.h.mArc = dir->mArc;
     dir->mArg.w.mUnk_08 = 0;
     dir->mArg.h.mIndex = 0;
@@ -112,7 +112,7 @@ s32 FSi_SeekDirCommand(FSFile *dir) {
         dir->mProp.h.mIndex = tableEntry.mIndex;
         dir->mProp.h.mPos = archive->mFnt + tableEntry.mStart;
     }
-    dir->mParentId = tableEntry.mParent & 0xfff;
+    dir->mParentId = tableEntry.mParent & FS_DIR_NUMBER_MASK;
     return 0;
 }
 
@@ -256,7 +256,7 @@ s32 FSi_GetPathCommand(FSFile *file) {
     arg = &file->mArg;
     FS_InitFile(&searchFile);
     searchFile.mArc = file->mArc;
-    if (((file->mStat & 0x20) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_IS_DIRECTORY) ? 1 : 0) != 0) {
         dirId = file->mProp.h.mOwnId;
         fileId = 0x10000;
     } else {
@@ -295,9 +295,9 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     if (arg->b.mTotalLen == 0) {
         totalLen = 0;
-        if (archive->mName <= 0xff) {
+        if (archive->mName <= ARCHIVE_NAME_ONE_CHAR_MAX) {
             totalLen += 1;
-        } else if (archive->mName <= 0xff00) {
+        } else if (archive->mName <= ARCHIVE_NAME_TWO_CHARS_MAX) {
             totalLen += 2;
         } else {
             totalLen += 3;
@@ -336,9 +336,9 @@ s32 FSi_GetPathCommand(FSFile *file) {
         return 1;
     }
     off = 0;
-    if (archive->mName <= 0xff) {
+    if (archive->mName <= ARCHIVE_NAME_ONE_CHAR_MAX) {
         byteCount = 1;
-    } else if (archive->mName <= 0xff00) {
+    } else if (archive->mName <= ARCHIVE_NAME_TWO_CHARS_MAX) {
         byteCount = 2;
     } else {
         byteCount = 3;
@@ -441,7 +441,7 @@ void FSi_ReleaseCommand(FSFile *file, s32 result) {
     }
     file->mLink.mPrev = 0;
     file->mLink.mNext = file->mLink.mPrev;
-    file->mStat &= ~0x4f;
+    file->mStat &= ~FILE_STAT_COMMAND_MASK;
     file->mError = result;
     OS_WakeupThread(&file->mQueue);
     OS_RestoreInterrupts(enabled);
@@ -456,46 +456,46 @@ s32 FSi_TranslateCommand(FSFile *file, u32 command) {
 
     archive = file->mArc;
     mask = 1 << command;
-    if (((file->mStat & 4) ? 1 : 0) != 0) {
-        archive->mFlag |= 0x200;
+    if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
+        archive->mFlag |= ARCHIVE_FLAG_SYNC_COMMAND;
     } else {
-        archive->mFlag |= 0x100;
+        archive->mFlag |= ARCHIVE_FLAG_ASYNC_COMMAND;
     }
     if (archive->mProcFlag & mask) {
         result = archive->mProc(file, command);
         switch (result) {
-            case 0:
-            case 1:
-            case 4:
+            case ARCHIVE_RESULT_SUCCESS:
+            case ARCHIVE_RESULT_FAILED:
+            case ARCHIVE_RESULT_UNSUPPORTED:
                 file->mError = result;
                 break;
-            case 8:
+            case ARCHIVE_RESULT_NOT_HANDLED:
                 archive->mProcFlag = archive->mProcFlag & ~mask;
-                result = 7;
+                result = ARCHIVE_RESULT_USE_DEFAULT;
                 break;
         }
     } else {
-        result = 7;
+        result = ARCHIVE_RESULT_USE_DEFAULT;
     }
-    if (result == 7) {
+    if (result == ARCHIVE_RESULT_USE_DEFAULT) {
         result = fsi_default_command[command](file);
     }
-    if (result == 6) {
-        if (((file->mStat & 4) ? 1 : 0) != 0) {
+    if (result == ARCHIVE_RESULT_RUNNING_IN_BACKGROUND) {
+        if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
             enabled = OS_DisableInterrupts();
-            if (archive->mFlag & 0x200) {
+            if (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND) {
                 do {
                     OS_SleepThread(&archive->mSyncQ);
-                } while (archive->mFlag & 0x200);
+                } while (archive->mFlag & ARCHIVE_FLAG_SYNC_COMMAND);
             }
             result = file->mError;
             OS_RestoreInterrupts(enabled);
         }
-    } else if (((file->mStat & 4) ? 1 : 0) != 0) {
-        archive->mFlag &= ~0x200;
+    } else if (((file->mStat & FILE_STAT_SYNC) ? 1 : 0) != 0) {
+        archive->mFlag &= ~ARCHIVE_FLAG_SYNC_COMMAND;
         file->mError = result;
     } else {
-        archive->mFlag &= ~0x100;
+        archive->mFlag &= ~ARCHIVE_FLAG_ASYNC_COMMAND;
         FSi_ReleaseCommand(file, result);
     }
     return result;
