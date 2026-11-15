@@ -799,7 +799,7 @@ void CopyKartPlacementToItemObject(KartItems *kartItems, ItemObject *object) {
     }
 }
 
-void SetKartItemLinkFromHitValue(KartItems *kartItems, s32 hitValue) {
+void SetKartItemLinkFromHitValue(KartItems *kartItems, u16 hitValue) {
     ItemPointLinkRef *linkRef;
     Kart *kart;
     Vec3 *kartPos;
