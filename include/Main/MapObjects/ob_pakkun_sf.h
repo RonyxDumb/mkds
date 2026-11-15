@@ -8,6 +8,15 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Graphics/nsbmd_render_obj.h"
 
+// SecondHand.mMapObject.mStateMachine states, in the order of gSecondHandStateTable. The hand speeds up, turns at a
+// steady speed, slows down and turns around, then pauses before the next turn.
+enum {
+    SECOND_HAND_STATE_SPEED_UP,
+    SECOND_HAND_STATE_STEADY,
+    SECOND_HAND_STATE_SLOW_DOWN,
+    SECOND_HAND_STATE_PAUSE,
+};
+
 // Object InitSecondHand sets up, 0xd0 bytes.
 typedef struct SecondHand {
     /* 00 */ MapObject mMapObject;
@@ -48,22 +57,22 @@ unsigned int CollideItemObjectWithSecondHand(unsigned int secondHand, unsigned i
 typedef struct SecondHand SecondHand;
 typedef struct Kart Kart;
 
-void UpdateSecondHandState3(void *stateObject);
+void UpdateSecondHandPause(void *stateObject);
 s32 CollideKartWithSecondHand(SecondHand *secondHand, Kart *kart, s32 unused, u8 *response);
 
-void SecondHandState3Nop(void *stateObject);
+void SecondHandPauseNop(void *stateObject);
 
-void UpdateSecondHandState2(void *stateObject);
+void UpdateSecondHandSlowDown(void *stateObject);
 
-void EnterSecondHandState2(void *stateObject);
+void EnterSecondHandSlowDown(void *stateObject);
 
-void UpdateSecondHandState1(void *stateObject);
+void UpdateSecondHandSteady(void *stateObject);
 
-void SecondHandState1Nop(void *stateObject);
+void SecondHandSteadyNop(void *stateObject);
 
-void UpdateSecondHandState0(void *stateObject);
+void UpdateSecondHandSpeedUp(void *stateObject);
 
-void EnterSecondHandState0(void *stateObject);
+void EnterSecondHandSpeedUp(void *stateObject);
 
 typedef struct ObPakkunSf ObPakkunSf;
 

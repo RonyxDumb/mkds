@@ -60,10 +60,10 @@ const MapObjectKindDescriptor gSecondHandKindDescriptor = {0,
 
 #pragma thumb on
 
-StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandState0, UpdateSecondHandState0},
-                                           {SecondHandState1Nop, UpdateSecondHandState1},
-                                           {EnterSecondHandState2, UpdateSecondHandState2},
-                                           {SecondHandState3Nop, UpdateSecondHandState3}};
+StateCallbacks gSecondHandStateTable[4] = {{EnterSecondHandSpeedUp, UpdateSecondHandSpeedUp},
+                                           {SecondHandSteadyNop, UpdateSecondHandSteady},
+                                           {EnterSecondHandSlowDown, UpdateSecondHandSlowDown},
+                                           {SecondHandPauseNop, UpdateSecondHandPause}};
 
 void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
     secondHand->mMapObject.mExtent.y = MUL_FIXED12_NO_ROUND(secondHand->mMapObject.mScale.x, 0x4b000);
@@ -84,7 +84,7 @@ void InitSecondHand(SecondHand *secondHand, CourseMapRow *courseRow) {
         secondHand->mSpeedFractionPerFrame = 0;
     }
     secondHand->mSpeedFraction = 0;
-    secondHand->mMapObject.mStateMachine.mNextState = 0;
+    secondHand->mMapObject.mStateMachine.mNextState = SECOND_HAND_STATE_SPEED_UP;
     secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     secondHand->mMapObject.mFlags |= gSecondHandFlag;
 }

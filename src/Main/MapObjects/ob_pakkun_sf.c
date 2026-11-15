@@ -196,59 +196,59 @@ void UpdateSecondHand(u32 unused, SecondHand *secondHand) {
     Matrix3x3FromQuaternion(&secondHand->mMapObject.mMatrix.mAxes, &secondHand->mRotationQuaternion);
 }
 
-void EnterSecondHandState0(void *stateObject) {
+void EnterSecondHandSpeedUp(void *stateObject) {
     SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = 0x0u;
 }
 
-void UpdateSecondHandState0(void *stateObject) {
+void UpdateSecondHandSpeedUp(void *stateObject) {
     SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = secondHand->mSpeedFraction + secondHand->mSpeedFractionPerFrame;
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle +
                                     (s16) MUL_FIXED12_NO_ROUND(secondHand->mSpeedFraction, secondHand->mAnglePerFrame);
     if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mRampFrameCount) {
-        secondHand->mMapObject.mStateMachine.mNextState = 1;
+        secondHand->mMapObject.mStateMachine.mNextState = SECOND_HAND_STATE_STEADY;
         secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void SecondHandState1Nop(void *stateObject) {}
+void SecondHandSteadyNop(void *stateObject) {}
 
-void UpdateSecondHandState1(void *stateObject) {
+void UpdateSecondHandSteady(void *stateObject) {
     SecondHand *secondHand = stateObject;
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle + secondHand->mAnglePerFrame;
     if (secondHand->mSteadyFrameCount == 0) {
         return;
     }
     if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mSteadyFrameCount) {
-        secondHand->mMapObject.mStateMachine.mNextState = 2;
+        secondHand->mMapObject.mStateMachine.mNextState = SECOND_HAND_STATE_SLOW_DOWN;
         secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterSecondHandState2(void *stateObject) {
+void EnterSecondHandSlowDown(void *stateObject) {
     SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = 0x4000u;
 }
 
-void UpdateSecondHandState2(void *stateObject) {
+void UpdateSecondHandSlowDown(void *stateObject) {
     SecondHand *secondHand = stateObject;
     secondHand->mSpeedFraction = secondHand->mSpeedFraction - secondHand->mSpeedFractionPerFrame;
     secondHand->mMapObject.mAngle = secondHand->mMapObject.mAngle +
                                     (s16) MUL_FIXED12_NO_ROUND(secondHand->mSpeedFraction, secondHand->mAnglePerFrame);
     if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mRampFrameCount) {
         secondHand->mAnglePerFrame = -secondHand->mAnglePerFrame;
-        secondHand->mMapObject.mStateMachine.mNextState = 3;
+        secondHand->mMapObject.mStateMachine.mNextState = SECOND_HAND_STATE_PAUSE;
         secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void SecondHandState3Nop(void *stateObject) {}
+void SecondHandPauseNop(void *stateObject) {}
 
-void UpdateSecondHandState3(void *stateObject) {
+void UpdateSecondHandPause(void *stateObject) {
     SecondHand *secondHand = stateObject;
     if (secondHand->mMapObject.mStateMachine.mStateFrames > secondHand->mPauseFrameCount) {
-        secondHand->mMapObject.mStateMachine.mNextState = 0;
+        secondHand->mMapObject.mStateMachine.mNextState = SECOND_HAND_STATE_SPEED_UP;
         secondHand->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
