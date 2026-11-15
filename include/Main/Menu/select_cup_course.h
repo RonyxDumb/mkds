@@ -3,12 +3,12 @@
 #include "types.h"
 #include "Main/Menu/data_0217d000.h"
 
-void AdvanceSelectCupCourseState3(void);
-void AdvanceSelectCupCourseState4(void);
-void AdvanceSelectCupCourseState5(void);
-void AdvanceSelectCupCourseState6(void);
-void AdvanceSelectCupCourseState7(void);
-void AdvanceSelectCupCourseState8(void);
+void AdvanceSelectCupCoursePickCourse(void);
+void AdvanceSelectCupCourseConfirmPick(void);
+void AdvanceSelectCupCourseWaitChoices(void);
+void AdvanceSelectCupCourseChoose(void);
+void AdvanceSelectCupCourseCloseChoices(void);
+void AdvanceSelectCupCourseSlideOut(void);
 s32 AdvanceSelectCupCourse(void);
 void WriteSelectCupCourseBgOffsets(void);
 void LoadSelectCupGridData(void);

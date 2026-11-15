@@ -14,26 +14,26 @@ enum {
     SELECT_CUP_COURSE_STATE_SLIDE_OUT,
 };
 
-void AdvanceSelectCupCourseState2(void);
+void AdvanceSelectCupCourseWaitReturn(void);
 
-void AdvanceSelectCupCourseState1(void);
+void AdvanceSelectCupCourseSlideIn(void);
 
-void AdvanceSelectCupCourseState0(void);
+void AdvanceSelectCupCourseWaitFade(void);
 
-void RequestSelectCupCourseState7(void);
-void RequestSelectCupCourseState8(void);
+void RequestSelectCupCourseCloseChoices(void);
+void RequestSelectCupCourseSlideOut(void);
 void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode);
 void ReleaseSelectCupCourse(void);
 
-void RequestSelectCupCourseState6(void);
+void RequestSelectCupCourseChoose(void);
 
 void AdvanceSelectCupCourseIndexChange(void);
 void RequestSelectCupCourseWaitFade(void);
 void RequestSelectCupCourseSlideIn(void);
 void RequestSelectCupCourseWaitReturn(void);
-void RequestSelectCupCourseState3(void);
-void RequestSelectCupCourseState4(void);
-void RequestSelectCupCourseState5(void);
+void RequestSelectCupCoursePickCourse(void);
+void RequestSelectCupCourseConfirmPick(void);
+void RequestSelectCupCourseWaitChoices(void);
 
 u32 IsSelectCupCourseIndexChangeRunning(void);
 

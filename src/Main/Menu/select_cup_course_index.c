@@ -157,8 +157,8 @@ void RequestSelectCupCourseWaitFade(void) {
     }
 }
 
-// Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
-// mState and runs AdvanceSelectCupCourseState1.
+// Requests SlideIn: stores mNextState = SELECT_CUP_COURSE_STATE_SLIDE_IN and zeroes mStateFrames; the next
+// AdvanceSelectCupCourse call copies it to mState and runs AdvanceSelectCupCourseSlideIn.
 void RequestSelectCupCourseSlideIn(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_IN;
     gSelectCupCourse->mStateFrames = 0;
@@ -170,14 +170,14 @@ void RequestSelectCupCourseWaitReturn(void) {
     RequestSelectReturnSlideIn();
 }
 
-// Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
-// mState and runs AdvanceSelectCupCourseState3.
-void RequestSelectCupCourseState3(void) {
+// Requests PickCourse: stores mNextState = SELECT_CUP_COURSE_STATE_PICK_COURSE and zeroes mStateFrames; the next
+// AdvanceSelectCupCourse call copies it to mState and runs AdvanceSelectCupCoursePickCourse.
+void RequestSelectCupCoursePickCourse(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_PICK_COURSE;
     gSelectCupCourse->mStateFrames = 0;
 }
 
-void RequestSelectCupCourseState4(void) {
+void RequestSelectCupCourseConfirmPick(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CONFIRM_PICK;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -185,7 +185,7 @@ void RequestSelectCupCourseState4(void) {
     }
 }
 
-void RequestSelectCupCourseState5(void) {
+void RequestSelectCupCourseWaitChoices(void) {
     u16 messageText[0x100];
     SelectCupCourse *selectCupCourse;
 
@@ -218,7 +218,7 @@ void RequestSelectCupCourseState5(void) {
 
 #pragma thumb on
 
-void RequestSelectCupCourseState6(void) {
+void RequestSelectCupCourseChoose(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CHOOSE;
     gSelectCupCourse->mStateFrames = 0;
     SetSelectChoisesSoundId(0, 7);
@@ -229,7 +229,7 @@ void RequestSelectCupCourseState6(void) {
 #pragma thumb off
 
 #pragma thumb on
-void RequestSelectCupCourseState7(void) {
+void RequestSelectCupCourseCloseChoices(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CLOSE_CHOICES;
     gSelectCupCourse->mStateFrames = 0;
     switch (gSelectCupCourse->mMode) {
@@ -247,7 +247,7 @@ void RequestSelectCupCourseState7(void) {
     }
 }
 
-void RequestSelectCupCourseState8(void) {
+void RequestSelectCupCourseSlideOut(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_OUT;
     gSelectCupCourse->mStateFrames = 0;
     if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
@@ -360,7 +360,7 @@ void ReleaseSelectCupCourse(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupCourseState0(void) {
+void AdvanceSelectCupCourseWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -371,7 +371,7 @@ void AdvanceSelectCupCourseState0(void) {
 #pragma thumb off
 
 #pragma thumb on
-void AdvanceSelectCupCourseState1(void) {
+void AdvanceSelectCupCourseSlideIn(void) {
     s16 offsetY;
     s32 taOrVsCellCount;
     s32 cellIndex;
@@ -423,11 +423,11 @@ void AdvanceSelectCupCourseState1(void) {
 
 #pragma thumb on
 
-void AdvanceSelectCupCourseState2(void) {
+void AdvanceSelectCupCourseWaitReturn(void) {
     int returnRequested;
     returnRequested = IsSelectReturnShownNoRequest();
     if (returnRequested != 0) {
-        RequestSelectCupCourseState3();
+        RequestSelectCupCoursePickCourse();
     }
 }
 

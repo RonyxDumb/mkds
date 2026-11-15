@@ -59,7 +59,7 @@ static inline s32 SelectCupCourseIsPairNewUnlessLost(InputSlotIndex inputIndex) 
     return result;
 }
 
-void AdvanceSelectCupCourseState3(void) {
+void AdvanceSelectCupCoursePickCourse(void) {
     s32 touchedRectIndex;
     InputSlotIndex inputIndex;
     s16 courseIndex;
@@ -82,7 +82,7 @@ void AdvanceSelectCupCourseState3(void) {
             } else {
                 SetSelectReturnSoundId(0xe);
             }
-            RequestSelectCupCourseState8();
+            RequestSelectCupCourseSlideOut();
             gSelectCupCourse->mResult = 2;
             RequestSelectReturnPressWithSound(0);
         }
@@ -94,15 +94,15 @@ void AdvanceSelectCupCourseState3(void) {
             gSelectCupCourse->mHighlightShown = FALSE;
         }
         gSelectCupCourse->mIndex = courseIndex;
-        RequestSelectCupCourseState4();
+        RequestSelectCupCourseConfirmPick();
         return;
     }
     if (touchedRectIndex == 4) {
-        RequestSelectCupCourseState4();
+        RequestSelectCupCourseConfirmPick();
         return;
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
-        RequestSelectCupCourseState4();
+        RequestSelectCupCourseConfirmPick();
         gSelectCupCourse->mHighlightShown = FALSE;
         return;
     }
@@ -127,7 +127,7 @@ void AdvanceSelectCupCourseState3(void) {
     }
 }
 
-void AdvanceSelectCupCourseState4(void) {
+void AdvanceSelectCupCourseConfirmPick(void) {
     AdvanceSelectCupCourseIndexChange();
     if (gSelectCupCourse->mStateFrames == 5) {
         gSelectCupCourse->mHighlightShown = TRUE;
@@ -139,44 +139,44 @@ void AdvanceSelectCupCourseState4(void) {
                 SetupGhostRecordSetForCupCourse();
                 if (HasNoSelectableGhost() != FALSE) {
                     ReadGhostRecordsForKind(0);
-                    RequestSelectCupCourseState5();
+                    RequestSelectCupCourseWaitChoices();
                     return;
                 }
                 SetCourseIdFromSelectCupCourse();
                 gSelectCupCourse->mResult = 1;
-                RequestSelectCupCourseState8();
+                RequestSelectCupCourseSlideOut();
                 return;
             }
-            RequestSelectCupCourseState5();
+            RequestSelectCupCourseWaitChoices();
         }
     }
 }
 
-void AdvanceSelectCupCourseState5(void) {
+void AdvanceSelectCupCourseWaitChoices(void) {
     switch (gSelectCupCourse->mMode) {
         case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
         case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
         case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
             if (IsSelectChoisesChooseNoRequest() != 0) {
-                RequestSelectCupCourseState6();
+                RequestSelectCupCourseChoose();
             }
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
             if (gSelectCupCourse->mStateFrames >= 0xf) {
                 if (IsSelectChoisesChooseNoRequest() != 0 || GetSelectChoisesDone() != 0) {
-                    RequestSelectCupCourseState6();
+                    RequestSelectCupCourseChoose();
                 }
             }
             break;
     }
 }
 
-void AdvanceSelectCupCourseState6(void) {
+void AdvanceSelectCupCourseChoose(void) {
     s32 choiceIndex;
 
     if (GetSelectChoisesDone() != 0) {
-        RequestSelectCupCourseState7();
+        RequestSelectCupCourseCloseChoices();
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
@@ -192,7 +192,7 @@ void AdvanceSelectCupCourseState6(void) {
     }
 }
 
-void AdvanceSelectCupCourseState7(void) {
+void AdvanceSelectCupCourseCloseChoices(void) {
     s32 choiceIndex;
 
     switch (gSelectCupCourse->mMode) {
@@ -205,11 +205,11 @@ void AdvanceSelectCupCourseState7(void) {
                     case 0:
                         SetCourseIdFromSelectCupCourse();
                         gSelectCupCourse->mResult = 1;
-                        RequestSelectCupCourseState8();
+                        RequestSelectCupCourseSlideOut();
                         break;
                     case -1:
                     case 1:
-                        RequestSelectCupCourseState3();
+                        RequestSelectCupCoursePickCourse();
                         break;
                 }
             }
@@ -223,14 +223,14 @@ void AdvanceSelectCupCourseState7(void) {
                         case 0:
                             SetCourseIdFromSelectCupCourse();
                             gSelectCupCourse->mResult = 1;
-                            RequestSelectCupCourseState8();
+                            RequestSelectCupCourseSlideOut();
                             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                                 SlideOutSelectRaceRuleWait();
                             }
                             break;
                         case -1:
                         case 1:
-                            RequestSelectCupCourseState3();
+                            RequestSelectCupCoursePickCourse();
                             break;
                     }
                 }
@@ -239,7 +239,7 @@ void AdvanceSelectCupCourseState7(void) {
     }
 }
 
-void AdvanceSelectCupCourseState8(void) {
+void AdvanceSelectCupCourseSlideOut(void) {
     BOOL movesTaOrVsCells;
     s16 offsetY;
     s32 cellCount;
@@ -306,31 +306,31 @@ s32 AdvanceSelectCupCourse(void) {
     gSelectCupCourse->mState = gSelectCupCourse->mNextState;
     switch (gSelectCupCourse->mState) {
         case SELECT_CUP_COURSE_STATE_WAIT_FADE:
-            AdvanceSelectCupCourseState0();
+            AdvanceSelectCupCourseWaitFade();
             break;
         case SELECT_CUP_COURSE_STATE_SLIDE_IN:
-            AdvanceSelectCupCourseState1();
+            AdvanceSelectCupCourseSlideIn();
             break;
         case SELECT_CUP_COURSE_STATE_WAIT_RETURN:
-            AdvanceSelectCupCourseState2();
+            AdvanceSelectCupCourseWaitReturn();
             break;
         case SELECT_CUP_COURSE_STATE_PICK_COURSE:
-            AdvanceSelectCupCourseState3();
+            AdvanceSelectCupCoursePickCourse();
             break;
         case SELECT_CUP_COURSE_STATE_CONFIRM_PICK:
-            AdvanceSelectCupCourseState4();
+            AdvanceSelectCupCourseConfirmPick();
             break;
         case SELECT_CUP_COURSE_STATE_WAIT_CHOICES:
-            AdvanceSelectCupCourseState5();
+            AdvanceSelectCupCourseWaitChoices();
             break;
         case SELECT_CUP_COURSE_STATE_CHOOSE:
-            AdvanceSelectCupCourseState6();
+            AdvanceSelectCupCourseChoose();
             break;
         case SELECT_CUP_COURSE_STATE_CLOSE_CHOICES:
-            AdvanceSelectCupCourseState7();
+            AdvanceSelectCupCourseCloseChoices();
             break;
         case SELECT_CUP_COURSE_STATE_SLIDE_OUT:
-            AdvanceSelectCupCourseState8();
+            AdvanceSelectCupCourseSlideOut();
             break;
     }
     AdvanceSelectCupCourseHighlight();
