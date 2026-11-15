@@ -144,7 +144,7 @@ Run these from the repository root after `python3 tools/configure.py` (the ones 
 - On a SHA-1 mismatch, `python3 tools/diff_rom.py` shows the size change and which pointers shifted. Thumb pointers
   that now point at veneers mean a stretch mapped as code that isn't: look for a function before it with a wrong or
   zero size.
-- The soft-float runtime at 0x02130380-0x02133670 is hand-written: `dsd init` ended each routine at its first
+- The soft-float runtime is written in assembly: `dsd init` ended each routine at its first
   return and left the code its branches reach outside every function. Each function was extended over the code only
   it branches into, including its literal pool, and an entry stub that falls through into the next function has a
   symbol of its own. Every non-zero byte of `.text` outside a function should be data.
