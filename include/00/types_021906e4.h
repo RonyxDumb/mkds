@@ -35,7 +35,7 @@ typedef struct CallbackArgData {
     /* 14 */ u8 mUnk_14[0x24];
     /* 38 */ s32 mNickCount;
     /* 3c */ void **mNicknames;
-    /* 40 */ void **mUnk_40;
+    /* 40 */ void **mUniquenicks;
 } CallbackArgData;
 
 // Values of GpiQueuedCallback.mType; the ones that free members say which CallbackArgData members

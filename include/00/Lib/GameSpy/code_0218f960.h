@@ -63,7 +63,7 @@ typedef struct GpiConnection {
     /* 318 */ char mLocationString[0x100];
     /* 418 */ u32 mErrorNumber;
     /* 41c */ BOOL mFatal;
-    /* 420 */ s32 mUnk_420;
+    /* 420 */ s32 mDiskCache;
     /* 424 */ GpiOperation *mOperationList;
     /* 428 */ GPIProfileList mProfileList;
     /* 430 */ s32 mBuddyCount;
@@ -82,7 +82,7 @@ typedef struct GpiConnection {
     /* 464 */ u8 mUnk_464[8];
     /* 46c */ s32 mProductId;
     /* 470 */ s32 mNamespaceId;
-    /* 474 */ char mUnk_474[0x19];
+    /* 474 */ char mLoginTicket[0x19];
 } GpiConnection;
 
 // Object passed to GpiWriteDelbuddyAndRemoveBuddy as its first argument.

@@ -34,7 +34,7 @@ u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
         newConnection.mGpiConnection = NULL;
         return 1;
     }
-    newConnection.mGpiConnection->mUnk_420 = 0;
+    newConnection.mGpiConnection->mDiskCache = 0;
     for (callbackIndex = 0; callbackIndex < 6; callbackIndex++) {
         newConnection.mGpiConnection->mCallbacks[callbackIndex].mCallback = NULL;
         newConnection.mGpiConnection->mCallbacks[callbackIndex].mParam = 0;

@@ -110,13 +110,13 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
         for (entryIndex = 0; entryIndex < listArg->mNickCount; entryIndex++) {
             DWCi_GsFree(listArg->mNicknames[entryIndex]);
             listArg->mNicknames[entryIndex] = NULL;
-            DWCi_GsFree(listArg->mUnk_40[entryIndex]);
-            listArg->mUnk_40[entryIndex] = NULL;
+            DWCi_GsFree(listArg->mUniquenicks[entryIndex]);
+            listArg->mUniquenicks[entryIndex] = NULL;
         }
         DWCi_GsFree(listArg->mNicknames);
         listArg->mNicknames = NULL;
-        DWCi_GsFree(listArg->mUnk_40);
-        listArg->mUnk_40 = NULL;
+        DWCi_GsFree(listArg->mUniquenicks);
+        listArg->mUniquenicks = NULL;
     } else if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST) {
         callbackArg = data->mArg;
         DWCi_GsFree(callbackArg->mMatchList);
