@@ -2,6 +2,7 @@
 
 #include "types.h"
 
+typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
 typedef struct Kart Kart;
 typedef struct SoundSource SoundSource;
 
@@ -61,11 +62,12 @@ typedef struct KartSound {
     /* 30 */ s32 mLastSeqArcSoundRaceFrame;
     /* 34 */ s32 mThunderShrinkRaceFrame;
     /* 38 */ s32 mWhileRequestedSoundId;
-    /* 3c */ UnkWordFunc *mDistanceChangeFunction;
+    /* 3c */ u32 (*mDistanceChangeFunction)(SoundDistanceSquaredChange *change);
     /* 40 */ KartSoundRow mSoundRow;
     /* 68 */ s32 mSoundIndex;
 } KartSound;
 
+typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
 typedef struct Kart Kart;
 typedef struct KartSound KartSound;
 

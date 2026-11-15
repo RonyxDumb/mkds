@@ -487,7 +487,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 player
     }
 }
 
-u32 GetZeroSoundDistanceChange(void) {
+u32 GetZeroSoundDistanceChange(SoundDistanceSquaredChange *change) {
     return 0x0u;
 }
 

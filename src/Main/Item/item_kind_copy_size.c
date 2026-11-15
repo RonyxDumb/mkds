@@ -6,8 +6,8 @@
 
 u32 GetItemKindCopyDataSize(int kind) {
     u32 size;
-    UnkWordFunc *copyData;
-    copyData = (UnkWordFunc *) gItemKinds[kind].mCopyData;
+    u32 (*copyData)(void *, void *, s32);
+    copyData = (u32(*)(void *, void *, s32)) gItemKinds[kind].mCopyData;
     if (copyData != NULL) {
         size = (*copyData)(0, 0, 1);
         return size;

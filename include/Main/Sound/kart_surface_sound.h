@@ -3,6 +3,8 @@
 #include "types.h"
 #include "Main/Sound/code_0210ab48.h"
 
+typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
+
 typedef struct Kart Kart;
 typedef struct PlayingSound PlayingSound;
 struct MapObjectSound;
@@ -15,7 +17,7 @@ void SetVehicleSoundTrackParams(struct MapObjectSound *soundSource, PlayingSound
 void SetNsKiller2SoundTrackParams(struct MapObjectSound *soundSource, PlayingSound *playingSound);
 void SetItemKouraWSoundTrackParams(Kart *kart, PlayingSound *playingSound);
 
-unsigned int GetZeroSoundDistanceChange(void);
+unsigned int GetZeroSoundDistanceChange(SoundDistanceSquaredChange *change);
 
 void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 playerPrio);
 
