@@ -113,6 +113,9 @@ void *MB_CommGetChildUser(u32 child);
 void MBi_CommCallParentError(u32 aid, u16 errcode);
 u32 IsChildAidValid(u32 aid);
 
-void MB_CommSetParentStateCallback(UnkFunc *parentStateCallback);
+// The third argument is a message or a user info for the different callbacks, so the type is left unprototyped.
+typedef void (*MBParentStateCallback)();
+
+void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback);
 
 extern u8 prev_fid;

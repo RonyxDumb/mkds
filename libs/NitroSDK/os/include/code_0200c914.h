@@ -12,10 +12,13 @@
 typedef void (*OSIrqFunction)(void);
 typedef u32 OSIrqMask;
 
+// Called with the argument stored beside it; the registered functions take it or nothing, so it is left unprototyped.
+typedef void (*OSIrqCallback)();
+
 // One registered callback of a DMA channel or timer: the function, whether its interrupt stays enabled after the
 // callback has run, and the argument the function is called with.
 typedef struct OSIrqCallbackInfo {
-    /* 00 */ UnkFunc *mFunc;
+    /* 00 */ OSIrqCallback mFunc;
     /* 04 */ u32 mEnable;
     /* 08 */ u32 mArg;
 } OSIrqCallbackInfo;
@@ -54,8 +57,8 @@ OSIrqMask OS_SetIrqMask(OSIrqMask intr);
 // Store the callback and its argument in the entry for timer timerNo (OSi_IrqCallbackInfo[timerNo + 4]) or DMA
 // channel dmaNo, enable the interrupt bit and set the entry's mEnable: always for a timer, and for a DMA channel
 // only when the bit was already set.
-void OSi_EnterTimerCallback(u32 timerNo, UnkFunc *callback, u32 arg);
-void OSi_EnterDmaCallback(u32 dmaNo, UnkFunc *callback, u32 arg);
+void OSi_EnterTimerCallback(u32 timerNo, OSIrqCallback callback, u32 arg);
+void OSi_EnterDmaCallback(u32 dmaNo, OSIrqCallback callback, u32 arg);
 // Return and set the handler of the lowest interrupt bit in intrBit. DMA and timer bits use OSi_IrqCallbackInfo, with
 // no argument and mEnable set.
 OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit);

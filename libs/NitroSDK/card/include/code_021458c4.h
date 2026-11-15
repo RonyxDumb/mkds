@@ -3,6 +3,12 @@
 #include "types.h"
 #include "os_thread.h"
 
+// Callback of a card or backup transfer. The stored functions take different arguments (the archive, a buffer pair,
+// none), so it is left unprototyped.
+typedef void (*CARDCallback)();
+typedef struct CARDRomStat CARDRomStat;
+typedef void (*CARDRomReadFunc)(CARDRomStat *romStat);
+
 // Two words read as a pair: fsi_ovt9, fsi_ovt7 and the tables in the ROM header.
 typedef struct CARDRomRegion {
     /* 00 */ u8 *mOffset;
@@ -121,7 +127,7 @@ typedef struct CARDiCommon {
     /* 02c */ u32 mReqType;
     /* 030 */ u32 mReqRetry;
     /* 034 */ u32 mReqMode;
-    /* 038 */ UnkFunc *mCallback;
+    /* 038 */ CARDCallback mCallback;
     /* 03c */ u32 mCallbackArg;
     /* 040 */ void (*mTaskFunc)(struct CARDiCommon *);
     /* 044 */ OSThread mThread;
@@ -136,7 +142,7 @@ typedef struct CARDiCommon {
 
 // The ROM read state: the page reader, the control word, the page held in the cache buffer and the cache buffer.
 typedef struct CARDRomStat {
-    /* 00 */ void (*mReadFunc)(struct CARDRomStat *);
+    /* 00 */ CARDRomReadFunc mReadFunc;
     /* 04 */ u32 mCtrl;
     /* 08 */ u32 mCachePage;
     /* 0c */ u8 mDummy[0x14];
@@ -155,13 +161,13 @@ void CARDi_IdentifyBackupCore(s32 type);
 int CARD_TryWaitBackupAsync(void);
 int CARD_WaitBackupAsync(void);
 int CARD_IdentifyBackup(s32 type);
-int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, void *callbackArg, u32 isAsync,
+int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode);
 void CARDi_RequestStreamCommandCore(CARDiCommon *common);
-UnkFunc *CARDi_GetRomAccessor(void);
+CARDRomReadFunc CARDi_GetRomAccessor(void);
 int CARD_WaitRomAsync(void);
 void CARD_Init(void);
-void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 callbackArg, u32 isAsync);
+void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, u32 callbackArg, u32 isAsync);
 void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon);
 void CARDi_ReadCard(CARDRomStat *romStat);
 int CARDi_TryReadCardDma(CARDRomStat *romStat);

@@ -13,7 +13,7 @@ u8 prev_fid = 0xff;
 
 #pragma thumb on
 
-void MB_CommSetParentStateCallback(UnkFunc *parentStateCallback) {
+void MB_CommSetParentStateCallback(MBParentStateCallback parentStateCallback) {
     u32 enabled = (OS_DisableInterrupts());
     u32 previousState;
     mbc->mCallback = parentStateCallback;

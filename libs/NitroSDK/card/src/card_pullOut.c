@@ -5,7 +5,7 @@
 #include "pm.h"
 #include "code_0200007e.h"
 
-UnkWordFunc *gRemovalCallback;
+CARDPulledOutCallback gRemovalCallback;
 u32 gRemovalSeen;
 
 // Installs CARDi_PulledOutCallback on tag 14 and clears the user callback.
@@ -19,7 +19,7 @@ void CARD_InitPulledOutCallback(void) {
 // is none or it returns non-zero. Any other command ends in OS_Terminate.
 void CARDi_PulledOutCallback(u32 tag, u32 data) {
     u32 terminate;
-    UnkWordFunc *callback;
+    CARDPulledOutCallback callback;
 
     if ((data & 0x3F) == 0x11) {
         callback = gRemovalCallback;
@@ -37,7 +37,7 @@ void CARDi_PulledOutCallback(u32 tag, u32 data) {
 }
 
 // Sets the user callback.
-void CARD_SetPulledOutCallback(void *callback) {
+void CARD_SetPulledOutCallback(CARDPulledOutCallback callback) {
     gRemovalCallback = callback;
 }
 

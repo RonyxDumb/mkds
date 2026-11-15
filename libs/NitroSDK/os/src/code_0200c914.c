@@ -55,7 +55,7 @@ OSIrqFunction OS_GetIrqFunction(OSIrqMask intrBit) {
 
 // Registers callback with arg for DMA channel dmaNo and enables its interrupt; the interrupt is only disabled again
 // after the callback when it was not already enabled.
-void OSi_EnterDmaCallback(u32 dmaNo, UnkFunc *callback, u32 arg) {
+void OSi_EnterDmaCallback(u32 dmaNo, OSIrqCallback callback, u32 arg) {
     OSIrqMask irqBit;
 
     irqBit = 1 << (dmaNo + 8);
@@ -65,7 +65,7 @@ void OSi_EnterDmaCallback(u32 dmaNo, UnkFunc *callback, u32 arg) {
 }
 
 // Registers callback with arg for timer timerNo and enables its interrupt, which stays enabled afterwards.
-void OSi_EnterTimerCallback(u32 timerNo, UnkFunc *callback, u32 arg) {
+void OSi_EnterTimerCallback(u32 timerNo, OSIrqCallback callback, u32 arg) {
     (OSi_IrqCallbackInfo + 4)[timerNo].mFunc = callback;
     (OSi_IrqCallbackInfo + 4)[timerNo].mArg = arg;
     OS_EnableIrqMask(1 << (timerNo + 3));
@@ -142,7 +142,7 @@ void OS_IrqDummy(void) {}
 // Runs and clears the callback of entry index, marks its interrupt as handled and disables it again unless the entry
 // stays enabled.
 void OSi_IrqCallback(int index) {
-    UnkFunc *callback;
+    OSIrqCallback callback;
     OSIrqMask irqBit;
 
     irqBit = 1 << OSi_IrqCallbackInfoIndex[index];

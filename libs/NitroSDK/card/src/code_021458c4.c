@@ -128,7 +128,7 @@ void CARDi_SetCardDma(void) {
 // Card DMA interrupt handler: advances one page, then starts the next page or finishes the transfer.
 void CARDi_OnReadCard(void) {
     CARDiCommon *common;
-    UnkFunc *callback;
+    CARDCallback callback;
     u32 callbackArg;
     u32 enabled;
 
@@ -281,7 +281,7 @@ void CARDi_ReadCard(CARDRomStat *romStat) {
 void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
     CARDiCommon *common;
     CARDRomStat *romStat;
-    UnkFunc *callback;
+    CARDCallback callback;
     u32 callbackArg;
     u32 enabled;
 
@@ -307,7 +307,7 @@ void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon) {
 
 // Starts a ROM read of the given channel, offset, destination and length. Waits for the previous transfer first and
 // adds gRomBaseOffset to the offset. Reads by DMA when possible, otherwise on the worker thread or the calling thread.
-void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 callbackArg, u32 isAsync) {
+void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, u32 callbackArg, u32 isAsync) {
     CARDiCommon *common;
     CARDRomStat *romStat;
     u32 enabled;
@@ -368,7 +368,7 @@ int CARD_WaitRomAsync(void) {
 }
 
 // Returns the CPU page reader.
-UnkFunc *CARDi_GetRomAccessor(void) {
+CARDRomReadFunc CARDi_GetRomAccessor(void) {
     return CARDi_ReadCard;
 }
 
@@ -380,7 +380,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
     u32 retryCount;
     u32 len;
     u32 *buf;
-    UnkFunc *callback;
+    CARDCallback callback;
     u32 callbackArg;
     u32 enabled;
 
@@ -440,7 +440,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *common) {
 
 // Starts a backup transfer of the given source, destination and length. Waits for the previous transfer first. The
 // game always passes isAsync 1, which queues CARDi_RequestStreamCommandCore on the worker thread.
-int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, void *callbackArg, u32 isAsync,
+int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode) {
     CARDiCommon *common;
     u32 enabled;
@@ -473,7 +473,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, voi
 // Sets the backup type, then reads one byte of the backup to identify it. Returns 1 when CARDiCommandArg.mResult is 0.
 int CARD_IdentifyBackup(s32 type) {
     CARDiCommon *common;
-    UnkFunc *callback;
+    CARDCallback callback;
     u32 callbackArg;
     u32 enabled;
 

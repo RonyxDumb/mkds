@@ -698,7 +698,7 @@ s32 MBi_StartParentCore(u16 channel) {
     value = (s32) parentWork->mCallback;
     clearValues[0] = 0;
     MIi_CpuClear16(clearValues[0], parentWork->mChildUser, 0x69c0);
-    MB_CommSetParentStateCallback((UnkFunc *) value);
+    MB_CommSetParentStateCallback((MBParentStateCallback) value);
     mbc->mBlockSizeMax = gWirelessWork->mSendDataSize - 6;
     MBi_SetChildMPMaxSize(gWirelessWork->mReceiveDataSize);
     MBi_SetParentPieceBuffer(&mbc->mReqDataBuf);

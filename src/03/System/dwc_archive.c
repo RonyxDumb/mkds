@@ -91,8 +91,7 @@ s32 DwcArchiveProc(FSFile *file, u32 command) {
 }
 
 u32 DwcArchiveReadCallback(int archive, u32 dst, int offset, u32 length) {
-    CARDi_ReadRom(0xffffffff, (offset + *(s32 *) (archive + 0x28)), dst, length,
-                  (UnkFunc *) (&DwcArchiveReadEndCallback), archive, 1);
+    CARDi_ReadRom(0xffffffff, (offset + *(s32 *) (archive + 0x28)), dst, length, DwcArchiveReadEndCallback, archive, 1);
     return 6;
 }
 
