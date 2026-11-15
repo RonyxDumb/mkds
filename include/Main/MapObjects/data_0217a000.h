@@ -1589,10 +1589,10 @@ typedef struct KartStarEffects {
     /* 00 */ struct ParticleEmitter *mEffects[3];
 } KartStarEffects;
 
-// Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list.
+// Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list (the list offset is 4).
 typedef struct KartAiTableIndexEntry {
     /* 00 */ s32 mTableIndex;
-    /* 04 */ u8 mUnk_04[8];
+    /* 04 */ NNSFndLink mLink;
 } KartAiTableIndexEntry;
 
 // One row of 'kartAIparam.bin'.
