@@ -33,11 +33,8 @@ PicksHolder *gPicksHolder;
 #pragma thumb on
 
 void CreatePicksHolder(void *heap) {
-    u32 value;
-    value = ((u32) HeapAlloc(heap, 4));
-    *(u32 *) &gPicksHolder = value;
-    value = (u32) CreateCharacterKartPicks(heap);
-    *(u32 *) (*(u32 *) &gPicksHolder) = value;
+    gPicksHolder = HeapAlloc(heap, 4);
+    gPicksHolder->mPicks = CreateCharacterKartPicks(heap);
 }
 
 #pragma thumb off
