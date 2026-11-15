@@ -579,7 +579,7 @@ void CARDi_IdentifyBackupCore(s32 type) {
             default:
                 goto fail;
         }
-        commandArg->mSectSize = 0x10000;
+        commandArg->mSectSize = BACKUP_DEVICE_LARGE_SECTOR_SIZE;
         commandArg->mPageSize = BACKUP_DEVICE_LARGE_PAGE_SIZE;
         commandArg->mAddrWidth = 3;
         commandArg->mProgramPage = BACKUP_DEVICE_PROGRAM_PAGE_COMMON;
@@ -676,7 +676,7 @@ void CARDi_InitCommon(void) {
     common->mLockQueue.mHead = common->mLockQueue.mTail;
     common->mBusyQ.mTail = 0;
     common->mBusyQ.mHead = common->mBusyQ.mTail;
-    common->mPriority = 4;
+    common->mPriority = CARD_TASK_THREAD_PRIORITY;
     OS_CreateThread(&common->mThread, CARDi_TaskThread, 0, (u8 *) &gRomBaseOffset, 0x400, common->mPriority);
     OS_WakeupThreadDirect(&common->mThread);
     PXI_SetFifoRecvCallback(11, CARDi_OnFifoRecv);

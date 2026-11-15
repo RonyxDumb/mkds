@@ -95,6 +95,10 @@ enum {
     BACKUP_DEVICE_LARGE_PAGE_SIZE = 0x100,
 };
 
+// Sector size written to CARDiCommandArg.mSectSize for the large devices, and the priority of the worker thread.
+#define BACKUP_DEVICE_LARGE_SECTOR_SIZE 0x10000
+#define CARD_TASK_THREAD_PRIORITY 4
+
 // Values written to CARDiCommandArg.mProgramPage: the 64 KB devices use their own value, every other device with one
 // the common value.
 enum {
