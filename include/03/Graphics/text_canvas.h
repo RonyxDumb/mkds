@@ -28,7 +28,7 @@ void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32
 
 typedef struct ObjTextCanvas {
     /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ void (*mPClear)(struct ObjTextCanvas *a, u32 b);
+    /* 18 */ void (*mPClear)(struct ObjTextCanvas *canvas, u32 color);
     /* 1c */ u8 mUnk_1c[4];
     /* 20 */ struct ObjTextCanvas *mCharCanvas;
     /* 24 */ void *mFont;

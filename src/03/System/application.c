@@ -111,14 +111,14 @@ void InitApplication(void) {
 }
 
 void InitGraphics(void) {
-    volatile u32 *p;
+    volatile u32 *displayControl;
     volatile u16 *powerControl;
     GX_VBlankIntr(0);
     GX_SetBankForBG(1);
     GX_SetBankForOBJ(2);
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
-    p = &reg_GX_DISPCNT;
-    *p = *p & 0xffffe0ff;
+    displayControl = &reg_GX_DISPCNT;
+    *displayControl = *displayControl & 0xffffe0ff;
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | 0x200010;
     reg_G2_BG0CNT &= ~REG_G2_BG0CNT_MOSAIC_MASK;
@@ -133,8 +133,8 @@ void InitGraphics(void) {
     GX_SetBankForSubBG(0x80);
     GX_SetBankForSubOBJ(0x100);
     GXS_SetGraphicsMode(GX_BGMODE_0);
-    p = &reg_GXS_DB_DISPCNT;
-    *p = *p & 0xffffe0ff;
+    displayControl = &reg_GXS_DB_DISPCNT;
+    *displayControl = *displayControl & 0xffffe0ff;
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |

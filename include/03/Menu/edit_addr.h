@@ -32,7 +32,7 @@ void UpdateEditAddrResult(void);
 void UpdateEditAddrSlideOut(void);
 void StartEditAddrClose(void);
 void UpdateEditAddrNop(void);
-BOOL IsEditAddrGroupFull(s32 param_0);
+BOOL IsEditAddrGroupFull(s32 groupLimit);
 void UpdateEditAddrInput(void);
 void UpdateEditAddr(void);
 void UpdateEditAddrKeyboardIn(void);

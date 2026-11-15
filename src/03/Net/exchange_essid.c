@@ -860,7 +860,7 @@ s32 InitExchangeWiFi(u32 entryCount) {
     u32 alignedBuffer;
     u32 entriesSize;
     u32 bufferSize;
-    enum { K0 } alignMask;
+    enum { ALIGN_MASK_UNSET } alignMask;
     u32 bufferEnd;
 
     gEntryCountMax = entryCount;
@@ -1959,7 +1959,7 @@ BOOL TransformBodyWithKey(u8 *output, u8 *input, u32 inputLength, u8 *key, int k
     u64 counter;
     u8 *cursor;
     u8 *source;
-    enum { K0 } bytesLeft;
+    enum { BYTES_LEFT_DONE } bytesLeft;
 
     fixedBytes[0] = 0xa6a6a6a6;
     fixedBytes[1] = 0xa6a6a6a6;
@@ -2009,7 +2009,7 @@ BOOL TransformBodyReversedWithKey(u8 *output, u8 *input, u32 inputLength, u8 *ke
     u64 counter;
     u8 *cursor;
     u8 *copyCursor;
-    enum { K0 } bytesLeft;
+    enum { BYTES_LEFT_DONE } bytesLeft;
 
     valid = TRUE;
     fixedBytes[0] = 0xa6a6a6a6;
@@ -2190,7 +2190,7 @@ int ExpandKeyReversedWithTables(u32 *words, u8 *key, int keyBits) {
 }
 
 void TransformBlock(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
-    u32 s0, s1, s2, s3, t0, t1, t2, t3;
+    u32 s0, s1, s2, s3, nextFirst, nextSecond, nextThird, nextFourth;
     int passesLeft;
 
     s0 = ((input[0] << 24) ^ (input[1] << 16) ^ (input[2] << 8) ^ input[3]) ^ keyWords[0];
@@ -2199,50 +2199,50 @@ void TransformBlock(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
     s3 = ((input[12] << 24) ^ (input[13] << 16) ^ (input[14] << 8) ^ input[15]) ^ keyWords[3];
     passesLeft = lastGroup >> 1;
     for (;;) {
-        t0 = gTransformTableByte3[s0 >> 24] ^ gTransformTableByte2[(s1 >> 16) & 0xff] ^
+        nextFirst = gTransformTableByte3[s0 >> 24] ^ gTransformTableByte2[(s1 >> 16) & 0xff] ^
              gTransformTableByte1[(s2 >> 8) & 0xff] ^ gTransformTableByte0[s3 & 0xff] ^ keyWords[4];
-        t1 = gTransformTableByte3[s1 >> 24] ^ gTransformTableByte2[(s2 >> 16) & 0xff] ^
+        nextSecond = gTransformTableByte3[s1 >> 24] ^ gTransformTableByte2[(s2 >> 16) & 0xff] ^
              gTransformTableByte1[(s3 >> 8) & 0xff] ^ gTransformTableByte0[s0 & 0xff] ^ keyWords[5];
-        t2 = gTransformTableByte3[s2 >> 24] ^ gTransformTableByte2[(s3 >> 16) & 0xff] ^
+        nextThird = gTransformTableByte3[s2 >> 24] ^ gTransformTableByte2[(s3 >> 16) & 0xff] ^
              gTransformTableByte1[(s0 >> 8) & 0xff] ^ gTransformTableByte0[s1 & 0xff] ^ keyWords[6];
-        t3 = gTransformTableByte3[s3 >> 24] ^ gTransformTableByte2[(s0 >> 16) & 0xff] ^
+        nextFourth = gTransformTableByte3[s3 >> 24] ^ gTransformTableByte2[(s0 >> 16) & 0xff] ^
              gTransformTableByte1[(s1 >> 8) & 0xff] ^ gTransformTableByte0[s2 & 0xff] ^ keyWords[7];
         keyWords += 8;
         if (--passesLeft == 0) {
             break;
         }
-        s0 = gTransformTableByte3[t0 >> 24] ^ gTransformTableByte2[(t1 >> 16) & 0xff] ^
-             gTransformTableByte1[(t2 >> 8) & 0xff] ^ gTransformTableByte0[t3 & 0xff] ^ keyWords[0];
-        s1 = gTransformTableByte3[t1 >> 24] ^ gTransformTableByte2[(t2 >> 16) & 0xff] ^
-             gTransformTableByte1[(t3 >> 8) & 0xff] ^ gTransformTableByte0[t0 & 0xff] ^ keyWords[1];
-        s2 = gTransformTableByte3[t2 >> 24] ^ gTransformTableByte2[(t3 >> 16) & 0xff] ^
-             gTransformTableByte1[(t0 >> 8) & 0xff] ^ gTransformTableByte0[t1 & 0xff] ^ keyWords[2];
-        s3 = gTransformTableByte3[t3 >> 24] ^ gTransformTableByte2[(t0 >> 16) & 0xff] ^
-             gTransformTableByte1[(t1 >> 8) & 0xff] ^ gTransformTableByte0[t2 & 0xff] ^ keyWords[3];
+        s0 = gTransformTableByte3[nextFirst >> 24] ^ gTransformTableByte2[(nextSecond >> 16) & 0xff] ^
+             gTransformTableByte1[(nextThird >> 8) & 0xff] ^ gTransformTableByte0[nextFourth & 0xff] ^ keyWords[0];
+        s1 = gTransformTableByte3[nextSecond >> 24] ^ gTransformTableByte2[(nextThird >> 16) & 0xff] ^
+             gTransformTableByte1[(nextFourth >> 8) & 0xff] ^ gTransformTableByte0[nextFirst & 0xff] ^ keyWords[1];
+        s2 = gTransformTableByte3[nextThird >> 24] ^ gTransformTableByte2[(nextFourth >> 16) & 0xff] ^
+             gTransformTableByte1[(nextFirst >> 8) & 0xff] ^ gTransformTableByte0[nextSecond & 0xff] ^ keyWords[2];
+        s3 = gTransformTableByte3[nextFourth >> 24] ^ gTransformTableByte2[(nextFirst >> 16) & 0xff] ^
+             gTransformTableByte1[(nextSecond >> 8) & 0xff] ^ gTransformTableByte0[nextThird & 0xff] ^ keyWords[3];
     }
-    s0 = (gSubstitutionTable[t0 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t1 >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(t2 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t3 & 0xff] & 0x000000ff) ^
+    s0 = (gSubstitutionTable[nextFirst >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextSecond >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextThird >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextFourth & 0xff] & 0x000000ff) ^
          keyWords[0];
     output[0] = s0 >> 24;
     output[1] = s0 >> 16;
     output[2] = s0 >> 8;
     output[3] = s0;
-    s1 = (gSubstitutionTable[t1 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t2 >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(t3 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t0 & 0xff] & 0x000000ff) ^
+    s1 = (gSubstitutionTable[nextSecond >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextThird >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextFourth >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextFirst & 0xff] & 0x000000ff) ^
          keyWords[1];
     output[4] = s1 >> 24;
     output[5] = s1 >> 16;
     output[6] = s1 >> 8;
     output[7] = s1;
-    s2 = (gSubstitutionTable[t2 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t3 >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(t0 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t1 & 0xff] & 0x000000ff) ^
+    s2 = (gSubstitutionTable[nextThird >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextFourth >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextFirst >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextSecond & 0xff] & 0x000000ff) ^
          keyWords[2];
     output[8] = s2 >> 24;
     output[9] = s2 >> 16;
     output[10] = s2 >> 8;
     output[11] = s2;
-    s3 = (gSubstitutionTable[t3 >> 24] & 0xff000000) ^ (gSubstitutionTable[(t0 >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(t1 >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[t2 & 0xff] & 0x000000ff) ^
+    s3 = (gSubstitutionTable[nextFourth >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextFirst >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextSecond >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextThird & 0xff] & 0x000000ff) ^
          keyWords[3];
     output[12] = s3 >> 24;
     output[13] = s3 >> 16;
@@ -2251,7 +2251,7 @@ void TransformBlock(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
 }
 
 void TransformBlockReversed(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
-    u32 s0, s1, s2, s3, t0, t1, t2, t3;
+    u32 s0, s1, s2, s3, nextFirst, nextSecond, nextThird, nextFourth;
     int passesLeft;
 
     s0 = ((input[0] << 24) ^ (input[1] << 16) ^ (input[2] << 8) ^ input[3]) ^ keyWords[0];
@@ -2260,55 +2260,55 @@ void TransformBlockReversed(u32 *keyWords, int lastGroup, u8 *input, u8 *output)
     s3 = ((input[12] << 24) ^ (input[13] << 16) ^ (input[14] << 8) ^ input[15]) ^ keyWords[3];
     passesLeft = lastGroup >> 1;
     for (;;) {
-        t0 = gReversedTableByte3[s0 >> 24] ^ gReversedTableByte2[(s3 >> 16) & 0xff] ^
+        nextFirst = gReversedTableByte3[s0 >> 24] ^ gReversedTableByte2[(s3 >> 16) & 0xff] ^
              gReversedTableByte1[(s2 >> 8) & 0xff] ^ gReversedTableByte0[s1 & 0xff] ^ keyWords[4];
-        t1 = gReversedTableByte3[s1 >> 24] ^ gReversedTableByte2[(s0 >> 16) & 0xff] ^
+        nextSecond = gReversedTableByte3[s1 >> 24] ^ gReversedTableByte2[(s0 >> 16) & 0xff] ^
              gReversedTableByte1[(s3 >> 8) & 0xff] ^ gReversedTableByte0[s2 & 0xff] ^ keyWords[5];
-        t2 = gReversedTableByte3[s2 >> 24] ^ gReversedTableByte2[(s1 >> 16) & 0xff] ^
+        nextThird = gReversedTableByte3[s2 >> 24] ^ gReversedTableByte2[(s1 >> 16) & 0xff] ^
              gReversedTableByte1[(s0 >> 8) & 0xff] ^ gReversedTableByte0[s3 & 0xff] ^ keyWords[6];
-        t3 = gReversedTableByte3[s3 >> 24] ^ gReversedTableByte2[(s2 >> 16) & 0xff] ^
+        nextFourth = gReversedTableByte3[s3 >> 24] ^ gReversedTableByte2[(s2 >> 16) & 0xff] ^
              gReversedTableByte1[(s1 >> 8) & 0xff] ^ gReversedTableByte0[s0 & 0xff] ^ keyWords[7];
         keyWords += 8;
         if (--passesLeft == 0) {
             break;
         }
-        s0 = gReversedTableByte3[t0 >> 24] ^ gReversedTableByte2[(t3 >> 16) & 0xff] ^
-             gReversedTableByte1[(t2 >> 8) & 0xff] ^ gReversedTableByte0[t1 & 0xff] ^ keyWords[0];
-        s1 = gReversedTableByte3[t1 >> 24] ^ gReversedTableByte2[(t0 >> 16) & 0xff] ^
-             gReversedTableByte1[(t3 >> 8) & 0xff] ^ gReversedTableByte0[t2 & 0xff] ^ keyWords[1];
-        s2 = gReversedTableByte3[t2 >> 24] ^ gReversedTableByte2[(t1 >> 16) & 0xff] ^
-             gReversedTableByte1[(t0 >> 8) & 0xff] ^ gReversedTableByte0[t3 & 0xff] ^ keyWords[2];
-        s3 = gReversedTableByte3[t3 >> 24] ^ gReversedTableByte2[(t2 >> 16) & 0xff] ^
-             gReversedTableByte1[(t1 >> 8) & 0xff] ^ gReversedTableByte0[t0 & 0xff] ^ keyWords[3];
+        s0 = gReversedTableByte3[nextFirst >> 24] ^ gReversedTableByte2[(nextFourth >> 16) & 0xff] ^
+             gReversedTableByte1[(nextThird >> 8) & 0xff] ^ gReversedTableByte0[nextSecond & 0xff] ^ keyWords[0];
+        s1 = gReversedTableByte3[nextSecond >> 24] ^ gReversedTableByte2[(nextFirst >> 16) & 0xff] ^
+             gReversedTableByte1[(nextFourth >> 8) & 0xff] ^ gReversedTableByte0[nextThird & 0xff] ^ keyWords[1];
+        s2 = gReversedTableByte3[nextThird >> 24] ^ gReversedTableByte2[(nextSecond >> 16) & 0xff] ^
+             gReversedTableByte1[(nextFirst >> 8) & 0xff] ^ gReversedTableByte0[nextFourth & 0xff] ^ keyWords[2];
+        s3 = gReversedTableByte3[nextFourth >> 24] ^ gReversedTableByte2[(nextThird >> 16) & 0xff] ^
+             gReversedTableByte1[(nextSecond >> 8) & 0xff] ^ gReversedTableByte0[nextFirst & 0xff] ^ keyWords[3];
     }
-    s0 = (gReversedSubstitutionTable[t0 >> 24] & 0xff000000) ^
-         (gReversedSubstitutionTable[(t3 >> 16) & 0xff] & 0x00ff0000) ^
-         (gReversedSubstitutionTable[(t2 >> 8) & 0xff] & 0x0000ff00) ^
-         (gReversedSubstitutionTable[t1 & 0xff] & 0x000000ff) ^ keyWords[0];
+    s0 = (gReversedSubstitutionTable[nextFirst >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(nextFourth >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(nextThird >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[nextSecond & 0xff] & 0x000000ff) ^ keyWords[0];
     output[0] = s0 >> 24;
     output[1] = s0 >> 16;
     output[2] = s0 >> 8;
     output[3] = s0;
-    s1 = (gReversedSubstitutionTable[t1 >> 24] & 0xff000000) ^
-         (gReversedSubstitutionTable[(t0 >> 16) & 0xff] & 0x00ff0000) ^
-         (gReversedSubstitutionTable[(t3 >> 8) & 0xff] & 0x0000ff00) ^
-         (gReversedSubstitutionTable[t2 & 0xff] & 0x000000ff) ^ keyWords[1];
+    s1 = (gReversedSubstitutionTable[nextSecond >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(nextFirst >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(nextFourth >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[nextThird & 0xff] & 0x000000ff) ^ keyWords[1];
     output[4] = s1 >> 24;
     output[5] = s1 >> 16;
     output[6] = s1 >> 8;
     output[7] = s1;
-    s2 = (gReversedSubstitutionTable[t2 >> 24] & 0xff000000) ^
-         (gReversedSubstitutionTable[(t1 >> 16) & 0xff] & 0x00ff0000) ^
-         (gReversedSubstitutionTable[(t0 >> 8) & 0xff] & 0x0000ff00) ^
-         (gReversedSubstitutionTable[t3 & 0xff] & 0x000000ff) ^ keyWords[2];
+    s2 = (gReversedSubstitutionTable[nextThird >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(nextSecond >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(nextFirst >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[nextFourth & 0xff] & 0x000000ff) ^ keyWords[2];
     output[8] = s2 >> 24;
     output[9] = s2 >> 16;
     output[10] = s2 >> 8;
     output[11] = s2;
-    s3 = (gReversedSubstitutionTable[t3 >> 24] & 0xff000000) ^
-         (gReversedSubstitutionTable[(t2 >> 16) & 0xff] & 0x00ff0000) ^
-         (gReversedSubstitutionTable[(t1 >> 8) & 0xff] & 0x0000ff00) ^
-         (gReversedSubstitutionTable[t0 & 0xff] & 0x000000ff) ^ keyWords[3];
+    s3 = (gReversedSubstitutionTable[nextFourth >> 24] & 0xff000000) ^
+         (gReversedSubstitutionTable[(nextThird >> 16) & 0xff] & 0x00ff0000) ^
+         (gReversedSubstitutionTable[(nextSecond >> 8) & 0xff] & 0x0000ff00) ^
+         (gReversedSubstitutionTable[nextFirst & 0xff] & 0x000000ff) ^ keyWords[3];
     output[12] = s3 >> 24;
     output[13] = s3 >> 16;
     output[14] = s3 >> 8;
