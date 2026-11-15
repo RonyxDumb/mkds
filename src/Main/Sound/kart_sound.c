@@ -314,5 +314,5 @@ s32 GetShine16SoundId(s32 value, s32 isEntryKart, u32 highestBalloonOrShineCount
     } else {
         soundOffset += 3;
     }
-    return soundOffset + 0x130;
+    return soundOffset + SHINE16_SOUND_BASE;
 }

@@ -56,6 +56,22 @@ enum {
 // KartSound.mPitch and mTargetPitch while the kart is a bullet.
 #define KART_SOUND_PITCH_KILLER 0x6c0000
 
+// Sound ids of the shine sprite: SHINE16_SOUND_BASE plus these offsets. GetShine16SoundId adds 4 for the entry kart and 3
+// for a hit, else how far the kart's count is behind the highest.
+#define SHINE16_SOUND_BASE 0x130
+enum {
+    SHINE16_SOUND_OTHER_LEADS,
+    SHINE16_SOUND_OTHER_ONE_BEHIND,
+    SHINE16_SOUND_OTHER_FAR_BEHIND,
+    SHINE16_SOUND_OTHER_HIT,
+    SHINE16_SOUND_ENTRY_LEADS,
+    SHINE16_SOUND_ENTRY_ONE_BEHIND,
+    SHINE16_SOUND_ENTRY_FAR_BEHIND,
+    SHINE16_SOUND_ENTRY_HIT,
+    SHINE16_SOUND_SPAWNED,
+    SHINE16_SOUND_LANDED,
+};
+
 // The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
 typedef struct KartSound {
     /* 00 */ s32 mSoundId;

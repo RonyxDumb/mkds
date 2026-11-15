@@ -1,4 +1,5 @@
 #include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/kart_sound.h"
 
 #include "Main/Sound/sound_start.h"
 #include "code_0212d214.h"
@@ -39,26 +40,26 @@ void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId) {
     s32 distanceOffset;
 
     distanceOffset = 0;
-    switch (soundId - 0x130) {
-        case 0:
+    switch (soundId - SHINE16_SOUND_BASE) {
+        case SHINE16_SOUND_OTHER_LEADS:
             distanceOffset = 0x640;
             break;
-        case 1:
+        case SHINE16_SOUND_OTHER_ONE_BEHIND:
             distanceOffset = 0x1900;
             break;
-        case 2:
+        case SHINE16_SOUND_OTHER_FAR_BEHIND:
             distanceOffset = 0x3840;
             break;
-        case 8:
+        case SHINE16_SOUND_SPAWNED:
             distanceOffset = 0x6400;
             break;
-        case 9:
+        case SHINE16_SOUND_LANDED:
             distanceOffset = 0xe100;
             break;
-        case 3:
+        case SHINE16_SOUND_OTHER_HIT:
             distanceOffset = 0x9c40;
             break;
-        case 7:
+        case SHINE16_SOUND_ENTRY_HIT:
             distanceOffset = 0x19;
             break;
     }
