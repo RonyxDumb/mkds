@@ -85,21 +85,21 @@ BOOL StopApScan(void) {
     return 1;
 }
 
-int CountApScanEntries(int *entriesOut) {
+int CountApScanEntries(ApScanEntry **entriesOut) {
     int slotIndex;
     int entryCount;
-    int entryAddress;
+    ApScanEntry *entry;
     int bssidDiff;
     entryCount = 0;
-    *entriesOut = (s32) gApScan->mEntries;
+    *entriesOut = gApScan->mEntries;
     slotIndex = 0;
-    entryAddress = *entriesOut;
+    entry = *entriesOut;
     do {
-        bssidDiff = memcmp((const u8 *) (entryAddress + 0x20), gApScanEmptyBssid, 6);
+        bssidDiff = memcmp(entry->mBssid, gApScanEmptyBssid, 6);
         if (bssidDiff != 0) {
             entryCount = entryCount + 1;
         }
-        entryAddress = entryAddress + 0x2a;
+        entry++;
         slotIndex = slotIndex + 1;
     } while (slotIndex < 0x14);
     return entryCount;

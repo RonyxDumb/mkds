@@ -54,8 +54,8 @@ void CreateEdit(void) {
     gEdit = AllocZeroedExpHeapBlock(0x2c, 4);
     GetSecondaryMenuPair(&secondaryPairFirst, &secondaryPairSecond);
     if (secondaryPairFirst == 0) {
-        CopyApWorkSsid((u8 *) gEdit + 8);
-        gEdit->mCharCount = GetStringLengthWithLimit((u8 *) gEdit + 8, 0x20);
+        CopyApWorkSsid(gEdit->mText);
+        gEdit->mCharCount = GetStringLengthWithLimit(gEdit->mText, 0x20);
     }
     LoadEditFilesAndSetBgCnt();
     LoadHlScr(secondaryPairFirst + 9);

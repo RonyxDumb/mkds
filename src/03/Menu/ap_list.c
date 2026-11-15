@@ -78,7 +78,7 @@ void CreateApList(void) {
         gApListSelectedRow = 0;
         gApListScrollY = 0;
     }
-    gApList->mEntryCount = CountApScanEntries((s32 *) gApList);
+    gApList->mEntryCount = CountApScanEntries(&gApList->mEntries);
     LoadApListFilesAndSetBgCnt();
     LoadHlSetScr();
     ShowSubScreenMessage(0x80, -1, 0);
@@ -297,8 +297,7 @@ void UpdateApListScroll(void) {
         case SCROLL_BAR_EVENT_THUMB_MOVED:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
-                gApListScrollY =
-                    FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
+                gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
                 RefreshApList();
                 gApList->mScrollTimer = 4;
             }
@@ -306,8 +305,7 @@ void UpdateApListScroll(void) {
         case SCROLL_BAR_EVENT_OFFSET_SETTLED:
             gApList->mScrollBarDragging = 0;
             EnableButtonTouch();
-            gApListScrollY =
-                FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
+            gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
             StartSoundSeq(0x13);
             RefreshApList();
             rowOffset = FX_ModS32(gApListScrollY, 0x1c);
@@ -363,7 +361,7 @@ void UpdateApListResult(void) {
                     RequestApListPaletteRowCopy();
                 } else {
                     entryIndex = gApListSelectedRow + FX_DivS32(gApListScrollY, 0x1c);
-                    if ((gApList->mEntries + entryIndex * 0x2a)[0x28] == 2) {
+                    if (gApList->mEntries[entryIndex].mCapaLevel == 2) {
                         StartSoundSeq(9);
                         DisableScrollBarInput();
                         DisableButtonTouch();
@@ -445,9 +443,9 @@ void UpdateApListRelease(void) {
         SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupApScan);
     } else {
-        StoreApWorkSsid(apList->mEntries + apList->mEntryIndex * 0x2a);
+        StoreApWorkSsid(apList->mEntries[apList->mEntryIndex].mSsid);
         SetPrimaryMenuPair(0, 0);
-        if ((gApList->mEntries + gApList->mEntryIndex * 0x2a)[0x28] != 0) {
+        if (gApList->mEntries[gApList->mEntryIndex].mCapaLevel != 0) {
             SetPrimaryMenuPair(0, 1);
             SetSecondaryMenuPair(1, 1);
             SetUpdateFunction(CreateEdit);
@@ -495,11 +493,9 @@ void RefreshApList(void) {
 void PrintApListEntryText(int entryIndex, int yPos) {
     u16 lineText[17];
     int textLength;
-    int entryOffset;
     int charIndex;
     int lineLength;
-    entryOffset = entryIndex * 0x2a;
-    textLength = GetStringLengthWithLimit(gApList->mEntries + entryOffset, 0x20);
+    textLength = GetStringLengthWithLimit(gApList->mEntries[entryIndex].mSsid, 0x20);
     yPos *= 0x1c;
     if (entryIndex < gApList->mEntryCount) {
         if (textLength <= 0x10) {
@@ -512,14 +508,14 @@ void PrintApListEntryText(int entryIndex, int yPos) {
             lineLength = 0x10;
         }
         for (charIndex = 0; charIndex < lineLength; charIndex++) {
-            lineText[charIndex] = (gApList->mEntries + entryOffset)[charIndex];
+            lineText[charIndex] = gApList->mEntries[entryIndex].mSsid[charIndex];
         }
         DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
         if (textLength > 0x10) {
             MI_CpuFill8(lineText, 0, 0x22);
             lineLength = textLength - 0x10;
             for (charIndex = 0; charIndex < lineLength; charIndex++) {
-                lineText[charIndex] = (gApList->mEntries + entryOffset)[charIndex + 0x10];
+                lineText[charIndex] = gApList->mEntries[entryIndex].mSsid[charIndex + 0x10];
             }
             yPos += 0xc;
             DrawCharsCentered(gApList->mTextCanvas, 0xa, yPos, 2, 0xa, lineText, 1);
@@ -529,15 +525,13 @@ void PrintApListEntryText(int entryIndex, int yPos) {
 
 void SetApListRowTiles(int entryIndex, int rowSlot) {
     OamEntry *oamEntry;
-    int entryOffset;
     if (entryIndex < gApList->mEntryCount) {
         oamEntry = gApList->mRowLeftOamEntries[rowSlot];
-        entryOffset = entryIndex * 0x2a;
         oamEntry->mAttr2 =
-            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowLeftTiles[*(gApList->mEntries + entryOffset + 0x28)];
+            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowLeftTiles[gApList->mEntries[entryIndex].mCapaLevel];
         oamEntry = gApList->mRowRightOamEntries[rowSlot];
         oamEntry->mAttr2 =
-            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowRightTiles[*(u16 *) (gApList->mEntries + entryOffset + 0x26)];
+            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowRightTiles[gApList->mEntries[entryIndex].mLinkLevel];
     }
 }
 

@@ -204,13 +204,9 @@ void SBServerListClear(SbServerList *serverList) {
     SBFreeDeadList(serverList);
 }
 
-void SBAllocateServerList(u32 serverList) {
-    u32 listAddress = ((serverList) + (0x0u));
-    u32 serversArray = (u32) DarrayCreate(0x4u, 0x64u, 0x0u);
-    u32 deadListOffset;
-    *(u32 *) ((listAddress) + (4)) = serversArray;
-    deadListOffset = 0x5d0u;
-    *(u32 *) ((listAddress) + (0 + (deadListOffset))) = 0x0u;
+void SBAllocateServerList(SbServerList *serverList) {
+    serverList->mServers = DarrayCreate(0x4u, 0x64u, 0x0u);
+    serverList->mDeadList = NULL;
 }
 
 void *SBRefStr(SbServerList *serverList, const char *text) {
@@ -268,15 +264,14 @@ static inline void CopyUnalignedWord(UnalignedWord *destination, UnalignedWord *
     destinationBytes[3] = sourceBytes[3];
 }
 
-void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
-                      const char *queryFromKey, u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback,
-                      void *instance) {
+void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
+                      u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance) {
     if (slist == NULL) {
         AssertionFailed("slist != NULL", "sb_serverlist.c", NULL, 0x11c);
     }
     if (lanBrowse != 0 || gGsiAcResult == 1) {
         slist->mState = SERVER_LIST_STATE_NO_SOCKET;
-        SBAllocateServerList((u32) slist);
+        SBAllocateServerList(slist);
         SBRefStrHash(slist);
         strcpy(slist->mQueryForGameName, targetName);
         strcpy(slist->mQueryFromGameName, sourceName);
@@ -803,8 +798,7 @@ s32 ParseServer(SbServerList *serverList, void *server, u8 *buffer, s32 length, 
                             buffer += stringValue;
                             length -= stringValue;
                         } else {
-                            SbServerSetValue(server, keyInfo->mKeyName,
-                                             serverList->mPopularValues[stringValue]);
+                            SbServerSetValue(server, keyInfo->mKeyName, serverList->mPopularValues[stringValue]);
                         }
                         break;
                 }
@@ -1328,8 +1322,7 @@ s32 ProcessIncomingData(SbServerList *serverList) {
     }
     serverList->mInBufferLength += received;
     error = 0;
-    if (serverList->mState == SERVER_LIST_STATE_AD_HOC ||
-        serverList->mParseState > SERVER_LIST_PARSE_CIPHER_KEY) {
+    if (serverList->mState == SERVER_LIST_STATE_AD_HOC || serverList->mParseState > SERVER_LIST_PARSE_CIPHER_KEY) {
         GOADecrypt(&serverList->mCryptKey, serverList->mInBuffer + oldLength, serverList->mInBufferLength - oldLength);
     }
     if (serverList->mState == SERVER_LIST_STATE_RECEIVING_LIST) {

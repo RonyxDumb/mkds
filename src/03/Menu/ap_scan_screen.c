@@ -138,7 +138,7 @@ void UpdateApScan(void) {
 
 void UpdateApScanFrames(void) {
     int entryCount;
-    int entries;
+    ApScanEntry *entries;
     int entryIndex;
     gApScanFrames++;
     if (gApScanFrames >= 0x12c) {
@@ -153,7 +153,7 @@ void UpdateApScanFrames(void) {
             return;
         }
         for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-            if (*(u8 *) (entries + entryIndex * 0x2a + 0x28) != 2) {
+            if (entries[entryIndex].mCapaLevel != 2) {
                 break;
             }
         }

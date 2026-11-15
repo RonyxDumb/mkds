@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "03/types_021d299c.h"
+#include "03/types_021da26c.h"
 
 typedef struct OamEntry OamEntry;
 typedef struct BgTextCanvas BgTextCanvas;
@@ -9,7 +10,7 @@ typedef struct Rect Rect;
 
 // 0x5c bytes.
 typedef struct ApList {
-    /* 00 */ u8 *mEntries;
+    /* 00 */ ApScanEntry *mEntries;
     /* 04 */ void *mXb4ApListBackNsc;
     /* 08 */ void *mYbBgStep31Ncl;
     /* 0c */ BgTextCanvas *mTextCanvas;

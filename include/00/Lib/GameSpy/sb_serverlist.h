@@ -22,8 +22,8 @@ typedef struct UnalignedWord {
     /* 0 */ u8 mBytes[4];
 } UnalignedWord;
 
-void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName,
-                      const char *queryFromKey, u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance);
+void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
+                      u32 queryFromVersion, s32 lanBrowse, UnkFunc *callback, void *instance);
 
 #include "00/unk_021b4000.h"
 #include "00/Lib/GameSpy/sb_queryengine.h"
@@ -69,7 +69,7 @@ void ErrorDisconnect(SbServerList *serverList);
 int NTSLengthSB(const void *buffer, int length);
 void SBReleaseStr(SbServerList *serverList, u32 key);
 void *SBRefStr(SbServerList *serverList, const char *key);
-void SBAllocateServerList(unsigned int serverList);
+void SBAllocateServerList(SbServerList *serverList);
 void SBServerListClear(SbServerList *serverList);
 void SBFreeDeadList(SbServerList *serverList);
 SbServer *SBServerListNth(SbServerList *serverList, u32 index);
