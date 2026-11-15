@@ -17,7 +17,7 @@ u32 MB_FakeGetParentBssDesc(u32 index, WMBssDesc *destination) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    MI_CpuCopy8(&entry->mScanBuffer, ((u32 *) (u32) destination), sizeof(WMBssDesc));
+    MI_CpuCopy8(&entry->mScanBuffer, destination, sizeof(WMBssDesc));
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
 }
