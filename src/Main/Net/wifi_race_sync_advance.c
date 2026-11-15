@@ -673,14 +673,14 @@ void UpdateWiFiRaceSyncState4(void) {
     }
     if (gWiFiRaceSync->mSharedState == WIFI_RACE_SHARED_STATE_RACING) {
         switch (GetChoisesSPickedValue()) {
-            case 2:
-            case 7:
+            case CHOISES_S_PICK_NEXT:
+            case CHOISES_S_PICK_NEXT_LAST:
                 gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PICKED_NEXT;
                 sync = gWiFiRaceSync;
                 sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_AFTER_CHOICE;
                 sync->mStateMachine.mNextStateRequested = 1;
                 break;
-            case 9:
+            case CHOISES_S_PICK_QUIT:
                 gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PICKED_QUIT;
                 sync = gWiFiRaceSync;
                 sync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_AFTER_CHOICE;
