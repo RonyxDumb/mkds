@@ -29,7 +29,7 @@
 #include "code_02147cd8.h"
 #include "01/Race/mission_run_state.h"
 
-u32 SetFlipperState4TimerByIndex(u32 flipperIndex) {
+u32 SetFlipperAltWaitTimerByIndex(u32 flipperIndex) {
     Flipper *flipper;
     flipper = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_FLIPPER), flipperIndex);
     flipper->mState4Timer = 0xaa;

@@ -236,7 +236,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
                 if (settingValue != ironBall->mFollower.mToEntry->mValue) {
                     ironBall->mPathSpeed = IRON_BALL_PATH_SPEED_FLIPPER;
                 } else {
-                    SetFlipperState4TimerByIndex(flipperIndex);
+                    SetFlipperAltWaitTimerByIndex(flipperIndex);
                 }
                 ironBall->mShadowStage = IRON_BALL_SHADOW_ON;
             }

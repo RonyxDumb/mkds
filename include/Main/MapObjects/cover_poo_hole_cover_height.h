@@ -102,7 +102,7 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
                                       u8 *secondResponsePtr);
 u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void InitCoverPooHole(MapObject *mapObject);
-u32 SetFlipperState4TimerByIndex(u32 flipperIndex);
+u32 SetFlipperAltWaitTimerByIndex(u32 flipperIndex);
 
 extern const u32 gCoverPooHoleSkipSoundFlag;
 extern const u32 gCoverPooHoleHitDistanceFlag;
