@@ -91,17 +91,17 @@ void InitOptionStates(void *heap, s16 previousScene) {
     ClearOptionStateCallbacks();
     gOptionStates->mNextScene = -1;
     switch (previousScene) {
-        case 0:
+        case SCENE_TITLE:
             gOptionStates->mPrevState = OPTION_STATE_SCENE_TITLE;
             gOptionStates->mState = OPTION_STATE_TOP_MENU;
             RegisterOptionTopMenuCallbacks();
             break;
-        case 14:
+        case SCENE_KEYBOARD:
             gOptionStates->mPrevState = OPTION_STATE_SCENE_KEYBOARD;
             gOptionStates->mState = OPTION_STATE_HENSYU_MENU;
             RegisterOptionHensyuMenuCallbacks();
             break;
-        case 3:
+        case SCENE_EMBLEM:
             gOptionStates->mPrevState = OPTION_STATE_SCENE_EMBLEM;
             if (gMenuShared->mOptionReturnsToEmbremSelect == FALSE) {
                 gOptionStates->mState = OPTION_STATE_HENSYU_MENU;

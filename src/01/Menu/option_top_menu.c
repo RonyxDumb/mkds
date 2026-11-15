@@ -35,11 +35,11 @@ void InitOptionTopMenu(void *heap) {
     gOptionTopMenu->mState = OPTION_TOP_STATE_WAIT_FADE;
     gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_FADE;
     switch (GetOptionPrevState()) {
-        case 1:
-        case 4:
+        case OPTION_STATE_SELECT_MENU:
+        case OPTION_STATE_SCENE_TITLE:
             gOptionTopMenu->mIndex = OPTION_TOP_ROW_SETTINGS;
             break;
-        case 2:
+        case OPTION_STATE_HENSYU_MENU:
             gOptionTopMenu->mIndex = OPTION_TOP_ROW_EDIT;
             break;
     }
@@ -47,7 +47,7 @@ void InitOptionTopMenu(void *heap) {
     gOptionTopMenu->mHighlightVisible = TRUE;
     gOptionTopMenu->mOptionMessages = FindSceneFile("option.bmg");
     gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    if (GetOptionPrevState() == 1) {
+    if (GetOptionPrevState() == OPTION_STATE_SELECT_MENU) {
         gOptionTopMenu->mBg0Offset = OPTION_TOP_BG0_SLIDE_DISTANCE;
     } else {
         gOptionTopMenu->mBg0Offset = 0;
@@ -125,7 +125,7 @@ void AdvanceOptionTopMenuSlideIn(void) {
             }
         }
     }
-    if (GetOptionPrevState() == 1 && gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA) {
+    if (GetOptionPrevState() == OPTION_STATE_SELECT_MENU && gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA) {
         gOptionTopMenu->mBg0Offset =
             InterpolateS16(1, OPTION_TOP_BG0_SLIDE_DISTANCE, 0, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     }

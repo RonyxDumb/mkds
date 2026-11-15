@@ -50,6 +50,9 @@ enum {
 // Frames the cells of a row shift after a left or right press (RecordTAtt.mOffsetTimers count them down).
 #define RECORD_TATT_OFFSET_TIMER_FRAMES 6
 
+// Entries of gRecordTAttCourseIds, the courses RecordTAtt.mIndex walks through.
+#define RECORD_TATT_COURSE_COUNT 32
+
 // Length of the button sequence that gRecordTAttButtonSequence lists and mButtonSequenceIndex walks.
 #define RECORD_TATT_BUTTON_SEQUENCE_LENGTH 6
 
@@ -161,7 +164,7 @@ extern const u16 gRecordTAttCharacterKartCellIndices[5][2];
 #include "code_021458c4.h"
 
 extern BackupAccess *gBackupAccess;
-extern const s32 gRecordTAttCourseIds[32];
+extern const s32 gRecordTAttCourseIds[RECORD_TATT_COURSE_COUNT];
 extern RecordTAtt *gRecordTAtt;
 
 void RegisterRecordTAttCallbacks(void);
