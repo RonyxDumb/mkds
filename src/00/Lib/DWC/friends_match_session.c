@@ -56,7 +56,7 @@ s32 stLastSocketError = 0;
 DWCConnectionInfo stConnectionInfoList[32];
 void *stGt2ConnectionList[32];
 
-// Sets up the object at each login (the caller zeroes the 0xdb4 bytes first, code_0211f6cc.c): stores
+// Sets up the object at each login (the caller zeroes the 0xdb4 bytes first, wifi_session_login.c): stores
 // gWiFiConnection, builds the login, buddy, matching and net-layer objects and copies the game name and key. Undone
 // by DWC_ShutdownFriendsMatch.
 void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumber, const char *gameName,

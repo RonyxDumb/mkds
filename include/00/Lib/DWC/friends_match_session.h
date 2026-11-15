@@ -36,7 +36,7 @@ typedef void (*DWCLoginCallback)(s32 error, u32 profileId, u32 arg);
 
 typedef struct WiFiConnection {
     // Gt2Socket * (declared void *): created by DWCi_GT2Startup when the login succeeds (called from
-    // code_0219c3e4.c), closed by DWC_ShutdownFriendsMatch or by the socket's own callback DWCi_GT2SocketErrorCallback,
+    // login_process.c), closed by DWC_ShutdownFriendsMatch or by the socket's own callback DWCi_GT2SocketErrorCallback,
     // which sets it NULL.
     /* 00 */ Gt2Socket *mSocket;
     // Slot 0 of a Gt2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
@@ -97,7 +97,7 @@ typedef struct WiFiConnection {
     // mBuddySyncCallbackArg) when the sync ends or fails.
     /* 64 */ void (*mBuddySyncCallback)();
     /* 68 */ void *mBuddySyncCallbackArg;
-    // Set by DWC_ConnectToAnybodyAsync / WithBuddies; DWCi_MatchedCallback calls it with (result, flag,
+    // Set by DWC_ConnectToAnybodyAsync and its buddy variant; DWCi_MatchedCallback calls it with (result, flag,
     // mMatchingCallbackArg) for matching modes 0 and 1 (the pair at 0x74 / 0x78 is called for modes 2 and 3 and is
     // never set).
     /* 6c */ void (*mMatchingCallback)(u32 error, u32 cancel, void *arg);
