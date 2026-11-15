@@ -90,7 +90,7 @@ typedef struct GameInfoBlock {
 
 // Fields MBi_MakeGameInfo reads.
 typedef struct MBGameRegistry {
-    /* 00 */ u8 mRomFilePathp[4];
+    /* 00 */ const u8 *mRomFilePathp;
     /* 04 */ const u16 *mGameNamep;
     /* 08 */ const u8 *mGameIntroductionp;
     /* 0c */ const u8 *mIconCharPathp;

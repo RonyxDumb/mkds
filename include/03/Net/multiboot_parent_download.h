@@ -35,11 +35,7 @@ struct MultiBootParent {
 
 #include "03/unk_021da000.h"
 #include "code_02142eac.h"
-
-// Object with the path pointer at 0x00 that RegisterMultiBootFile takes.
-typedef struct MultiBootGameRegistryView {
-    /* 00 */ const u8 *mRomFilePathp;
-} MultiBootGameRegistryView;
+#include "code_020091fc.h"
 
 void *GetMultiBootChildRecord(u32 index);
 u32 GetMultiBootChildState(u32 aid);
@@ -54,8 +50,8 @@ void StartMultiBootDownloads(void);
 void StartMultiBootChildDownload(u32 aid);
 void KickMultiBootChild(u32 aid);
 void AcceptMultiBootChildRequest(u32 aid);
-BOOL RegisterMultiBootFile(MultiBootGameRegistryView *gameRegistry);
-void StartMultiBootParentFromIdle(MultiBootGameRegistryView *gameRegistry, u16 channel);
+BOOL RegisterMultiBootFile(MBGameRegistry *gameRegistry);
+void StartMultiBootParentFromIdle(MBGameRegistry *gameRegistry, u16 channel);
 void InitMultiBootParentComm(u32 ggid, u32 tgid);
 void InitMultiBootParent(u8 *object);
 

@@ -30,14 +30,14 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParams *params
     gChildWaitSessionView->mPrevState = 1;
     gChildWaitSessionView->mEndWaitFrames = 0;
     ClearChildWaitSharedEntries();
-    gChildWaitSessionView->mRomFilePathp = params->mRomFilePathp;
-    gChildWaitSessionView->mGameNamep = params->mGameNamep;
-    gChildWaitSessionView->mGameIntroductionp = params->mGameIntroductionp;
-    gChildWaitSessionView->mIconCharPathp = params->mBannerCharFilePathp;
-    gChildWaitSessionView->mIconPalettePathp = params->mBannerPaletteFilePathp;
-    gChildWaitSessionView->mGgid = params->mGgid;
+    gChildWaitSessionView->mGameRegistry.mRomFilePathp = params->mRomFilePathp;
+    gChildWaitSessionView->mGameRegistry.mGameNamep = params->mGameNamep;
+    gChildWaitSessionView->mGameRegistry.mGameIntroductionp = params->mGameIntroductionp;
+    gChildWaitSessionView->mGameRegistry.mIconCharPathp = params->mBannerCharFilePathp;
+    gChildWaitSessionView->mGameRegistry.mIconPalettePathp = params->mBannerPaletteFilePathp;
+    gChildWaitSessionView->mGameRegistry.mGgid = params->mGgid;
     gChildWaitSessionView->mHandshakeByte = params->mHandshakeByte;
-    gChildWaitSessionView->mMaxPlayerNum = 2;
+    gChildWaitSessionView->mGameRegistry.mMaxPlayerNum = 2;
     OS_GetTick();
     ReadNvramEntries(gChildWaitSessionView->mNvramEntries);
     OS_GetTick();
@@ -83,7 +83,7 @@ BOOL StopChildWaitSession(void) {
 }
 
 void ResetChildWaitSessionState(void) {
-    SetWhGgid(gChildWaitSessionView->mGgid);
+    SetWhGgid(gChildWaitSessionView->mGameRegistry.mGgid);
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mTgid = WM_GetNextTgid();
     MI_CpuCopy8(gChildWaitSessionView->mUnk_aa0[1], gChildWaitSessionView->mApStoreHeadCopy, 0x40);
@@ -281,14 +281,13 @@ void AdvanceChildWaitWhStart(void) {
 }
 
 void InitChildWaitMultiBoot(void) {
-    InitMultiBootParentComm(gChildWaitSessionView->mGgid, gChildWaitSessionView->mTgid);
+    InitMultiBootParentComm(gChildWaitSessionView->mGameRegistry.mGgid, gChildWaitSessionView->mTgid);
 }
 
 void AdvanceChildWaitMultiBoot(void) {
     switch (GetMultiBootParentState()) {
         case 1:
-            StartMultiBootParentFromIdle((MultiBootGameRegistryView *) &gChildWaitSessionView->mRomFilePathp,
-                                         gChildWaitSessionView->mChannel);
+            StartMultiBootParentFromIdle(&gChildWaitSessionView->mGameRegistry, gChildWaitSessionView->mChannel);
             return;
         case 2:
             if (GetMultiBootChildMask(2) != 0) {
@@ -424,7 +423,7 @@ u32 AcceptMatchingWhChild(WirelessMessage *event) {
 void ClearChildWaitSharedEntries(void) {
     MI_CpuFill8(gChildWaitSessionView->mSharedEntries, 0, 0x100);
     MI_CpuFill8(gChildWaitSessionView, 0, 0x100);
-    gChildWaitSessionView->mSendEntry = (ChildWaitSharedEntry *) gChildWaitSessionView;
+    gChildWaitSessionView->mSendEntry = &gChildWaitSessionView->mSendEntryStorage;
 }
 
 void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {

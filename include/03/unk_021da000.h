@@ -1,6 +1,7 @@
 #pragma once
 
 #include "03/code_021be610.h"
+#include "code_020091fc.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/System/application.h"
 #include "03/Menu/jb5_move.h"
@@ -188,7 +189,8 @@ typedef struct ChildWaitSharedEntry {
 
 // Object behind gChildWaitSessionView.
 typedef struct ChildWaitSessionView {
-    /* 000 */ u8 pad_000[0x100];
+    /* 000 */ ChildWaitSharedEntry mSendEntryStorage;
+    /* 044 */ u8 pad_044[0xbc];
     /* 100 */ ChildWaitSharedEntry mSharedEntries[2];
     /* 188 */ u8 pad_188[0x78];
     /* 200 */ u16 mBlockNumber;
@@ -212,14 +214,8 @@ typedef struct ChildWaitSessionView {
     /* aac */ u8 mRequest;
     /* aad */ u8 mUnk_aad[3];
     /* ab0 */ ChildWaitSharedEntry *mSendEntry;
-    /* ab4 */ void *mRomFilePathp;
-    /* ab8 */ void *mGameNamep;
-    /* abc */ void *mGameIntroductionp;
-    /* ac0 */ void *mIconCharPathp;
-    /* ac4 */ void *mIconPalettePathp;
-    /* ac8 */ u32 mGgid;
-    /* acc */ u8 mMaxPlayerNum;
-    /* acd */ u8 mUnk_acd[0x33];
+    /* ab4 */ MBGameRegistry mGameRegistry;
+    /* af0 */ u8 pad_af0[0x10];
     /* b00 */ u8 mMultiBootParent[4];
 } ChildWaitSessionView;
 

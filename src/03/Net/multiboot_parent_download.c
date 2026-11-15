@@ -62,7 +62,7 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     SetMultiBootParentState(1);
 }
 
-void StartMultiBootParentFromIdle(MultiBootGameRegistryView *gameRegistry, u16 channel) {
+void StartMultiBootParentFromIdle(MBGameRegistry *gameRegistry, u16 channel) {
     SetMultiBootParentState(2);
     if (MB_StartParentFromIdle(channel) != 0) {
         SetMultiBootParentState(7);
@@ -73,7 +73,7 @@ void StartMultiBootParentFromIdle(MultiBootGameRegistryView *gameRegistry, u16 c
     }
 }
 
-BOOL RegisterMultiBootFile(MultiBootGameRegistryView *gameRegistry) {
+BOOL RegisterMultiBootFile(MBGameRegistry *gameRegistry) {
     FSFile *segmentFile;
     FSFile openedFile;
     u32 registered;
