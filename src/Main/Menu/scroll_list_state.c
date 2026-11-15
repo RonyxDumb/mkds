@@ -233,7 +233,7 @@ void SetScrollListRightColumnHighBits(s32 highBits) {
             *(u16 *) halfwordPointer = *(u16 *) halfwordPointer | (highBits << 12);
         }
     }
-    gScrollList->mRightColumnHighBitsTimer = 5;
+    gScrollList->mRightColumnHighBitsTimer = SCROLL_LIST_HIGH_BITS_FRAMES;
     gScrollList->mRightColumnHighBits = highBits;
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gScrollList->mScreenMap, 0x600);
 }
@@ -288,12 +288,14 @@ void AdvanceScrollListIdle(void) {
     if (gScrollList->mEnabled == 0) {
         return;
     }
-    gScrollList->mScrollFrameCount = gScrollList->mHeldMoveCount > 2 ? 5 : 0xf;
+    gScrollList->mScrollFrameCount = gScrollList->mHeldMoveCount > SCROLL_LIST_FAST_HELD_MOVES
+                                         ? SCROLL_LIST_FAST_SCROLL_FRAMES
+                                         : SCROLL_LIST_SLOW_SCROLL_FRAMES;
     if (ScrollListGetNewBits(slotIndex, PAD_KEY_A) != 0) {
         gScrollList->mState = SCROLL_LIST_STATE_PICK;
         gScrollList->mPickedVisibleRow = gScrollList->mSelectedVisibleRow;
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
-        gScrollList->mTimer = 10;
+        gScrollList->mTimer = SCROLL_LIST_PICK_FRAMES;
         gScrollList->mDownHeldFrames = 0;
         gScrollList->mUpHeldFrames = gScrollList->mDownHeldFrames;
         gScrollList->mHeldMoveCount = 0;
@@ -308,7 +310,7 @@ void AdvanceScrollListIdle(void) {
         gScrollList->mPickedVisibleRow = gScrollList->mPressedRectIndex - gScrollList->mFirstRowRectIndex;
         rowChanged = gScrollList->mPickedVisibleRow != gScrollList->mSelectedVisibleRow;
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = rowChanged;
-        gScrollList->mTimer = 10;
+        gScrollList->mTimer = SCROLL_LIST_PICK_FRAMES;
         gScrollList->mDownHeldFrames = 0;
         gScrollList->mUpHeldFrames = gScrollList->mDownHeldFrames;
         gScrollList->mHeldMoveCount = 0;
@@ -480,7 +482,7 @@ void AdvanceScrollListScrollDown(void) {
 }
 
 void AdvanceScrollListPick(void) {
-    if (gScrollList->mTimer == 10) {
+    if (gScrollList->mTimer == SCROLL_LIST_PICK_FRAMES) {
         gScrollList->mPickStarted = 1;
     }
     gScrollList->mTimer = gScrollList->mTimer - 1;
@@ -550,7 +552,7 @@ void InitScrollList(void *heap, s32 groupCount, const void *groupFirstEntries, u
     if (gScrollList->mRowCount == 0) {
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
     }
-    gScrollList->mScrollFrameCount = 0xf;
+    gScrollList->mScrollFrameCount = SCROLL_LIST_SLOW_SCROLL_FRAMES;
 }
 
 void AdvanceScrollList(void) {

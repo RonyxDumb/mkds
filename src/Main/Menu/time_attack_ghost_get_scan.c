@@ -1,4 +1,5 @@
 #include "Main/Menu/time_attack_ghost_get_scan.h"
+#include "Main/Net/mp_states_connection.h"
 #include "Main/Menu/menu_entry_kind.h"
 #include "Main/Race/results_battle_registers.h"
 #include "Main/Graphics/locate_bmg_sections.h"
@@ -1071,7 +1072,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     SetBlockEntryBuffer(0, GetSlotGhostBuffer());
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_RECEIVE_BLOCKS;
                     break;
-                case 2:
+                case MP_STATE_ADVANCE_OWN_INDEX_LOST:
                     StartTimeAttackGhostGetScanWaitErrorMessage();
                     break;
             }
@@ -1081,7 +1082,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 case 1:
                     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_AFTER_RECEIVE;
                     break;
-                case 2:
+                case MP_STATE_ADVANCE_OWN_INDEX_LOST:
                     StartTimeAttackGhostGetScanWaitErrorMessage();
                     break;
             }
@@ -1191,7 +1192,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_OUT:
-            if (gTimeAttackGhostGetScan->mInterpolation.mState == 3) {
+            if (gTimeAttackGhostGetScan->mInterpolation.mState == INTERPOLATION_STATE_AT_START) {
                 result = gTimeAttackGhostGetScan->mNextCallbacksIndex;
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             } else {

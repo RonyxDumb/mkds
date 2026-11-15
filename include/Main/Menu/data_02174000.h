@@ -473,6 +473,14 @@ enum {
     SCROLL_LIST_STATE_PICK,
 };
 
+// Calls a pick of the scroll list runs, calls a scroll step takes once the direction was held for more than
+// SCROLL_LIST_FAST_HELD_MOVES moves and before that, and calls the right column bits stay.
+#define SCROLL_LIST_PICK_FRAMES 10
+#define SCROLL_LIST_FAST_SCROLL_FRAMES 5
+#define SCROLL_LIST_SLOW_SCROLL_FRAMES 0xf
+#define SCROLL_LIST_FAST_HELD_MOVES 2
+#define SCROLL_LIST_HIGH_BITS_FRAMES 5
+
 typedef struct ScrollList {
     /* 000 */ s32 mGroupCount;
     /* 004 */ u16 *mGroupFirstEntries;
