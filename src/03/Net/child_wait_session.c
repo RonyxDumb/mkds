@@ -75,7 +75,7 @@ BOOL StopChildWaitSession(void) {
         return 1;
     }
     switch (state) {
-        case 2:
+        case CHILD_WAIT_STATE_WH_START:
             return 0;
         default:
             return 0;

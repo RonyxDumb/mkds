@@ -91,12 +91,12 @@ void AdvanceChildWaitSession(u32 task) {
     }
     GetChildWaitStateChange(&stateInfo[0], &stateInfo[1]);
     switch (stateInfo[0]) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
+        case CHILD_WAIT_STATE_IDLE:
+        case CHILD_WAIT_STATE_WH_START:
+        case CHILD_WAIT_STATE_MULTIBOOT_START:
+        case CHILD_WAIT_STATE_MULTIBOOT_WAIT:
             break;
-        case 5:
+        case CHILD_WAIT_STATE_CHILD_JOINED:
             if (stateInfo[1] == 0) {
                 break;
             }
@@ -107,7 +107,7 @@ void AdvanceChildWaitSession(u32 task) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case 13:
+        case CHILD_WAIT_STATE_CHILD_LEFT:
             if (stateInfo[1] == 0) {
                 break;
             }
@@ -117,8 +117,8 @@ void AdvanceChildWaitSession(u32 task) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case 20:
-        case 23:
+        case CHILD_WAIT_STATE_END_DONE:
+        case CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE:
             if (stateInfo[1] == 0) {
                 break;
             }
@@ -128,8 +128,8 @@ void AdvanceChildWaitSession(u32 task) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case 26:
-        case 29:
+        case CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE:
+        case CHILD_WAIT_STATE_ABORT_DONE:
             if (stateInfo[1] == 0) {
                 break;
             }
@@ -139,7 +139,7 @@ void AdvanceChildWaitSession(u32 task) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case 12:
+        case CHILD_WAIT_STATE_FINAL_REPLY_DONE:
             if (stateInfo[1] == 0) {
                 break;
             }
@@ -149,7 +149,7 @@ void AdvanceChildWaitSession(u32 task) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case 34:
+        case CHILD_WAIT_STATE_ENDED:
             RequestTaskRemoval(0, task);
             FreeExpHeapBlockAndClearPointer(&gChildWaitSession);
             break;
