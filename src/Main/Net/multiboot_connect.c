@@ -249,7 +249,7 @@ s32 FindScanEntryIndex(u32 entryIndex) {
 }
 
 // Codes: 2 is an error, 3 the end of the scan; 0 and 1 carry a table entry and are ignored.
-void RepeatedScanCallback(u32 code) {
+void RepeatedScanCallback(u32 code, void *args) {
     switch (code) {
         case SCAN_EVENT_ENTRY_NEW:
         case SCAN_EVENT_ENTRY_UPDATED:
@@ -263,7 +263,7 @@ void RepeatedScanCallback(u32 code) {
     }
 }
 
-void ScanConnectStateCallback(u32 state) {
+void ScanConnectStateCallback(u32 state, void *info) {
     switch (state) {
         case SCAN_CONNECT_STATE_RESET_DONE:
             gConnectionWork->mRequestPending = 0;

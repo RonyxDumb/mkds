@@ -92,8 +92,12 @@ typedef enum ScanError {
     SCAN_ERROR_NO_CHANNEL = 30,
 } ScanError;
 
+// The second argument is the wireless message or a pointer to an error value, depending on the event, so the type is
+// left unprototyped.
+typedef void (*MPLinkEventCallback)();
+
 typedef struct MPLink {
-    /* 00 */ UnkFunc *mCallback;
+    /* 00 */ MPLinkEventCallback mCallback;
     /* 04 */ void *mSendBuffer;
     /* 08 */ u8 *mReceiveBuffer;
     /* 0c */ u32 mUnk_0c;
@@ -108,6 +112,9 @@ typedef struct MPLink {
     /* 20 */ u16 mDataQueued;
 } MPLink;
 
+typedef void (*ScanEventCallback)(u32 event, void *args);
+typedef void (*ScanConnectStateFunc)(u32 state, void *info);
+
 typedef struct ScanConnectWork {
     /* 0000 */ u8 mUnk_0000[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
@@ -116,8 +123,8 @@ typedef struct ScanConnectWork {
     /* 0580 */ ScanParam mScanParams;
     /* 05a0 */ MPLink mMPLink;
     /* 05c4 */ u8 mUserInfo[0x18];
-    /* 05dc */ void (*mScanCallback)(u32, void *);
-    /* 05e0 */ void (*mStateCallback)(u32, void *);
+    /* 05dc */ ScanEventCallback mScanCallback;
+    /* 05e0 */ ScanConnectStateFunc mStateCallback;
     /* 05e4 */ u32 mScanGgid;
     /* 05e8 */ u8 mBeaconRecvStatus[0x5ee - 0x5e8];
     /* 05ee */ u16 mUnk_05ee;
@@ -148,9 +155,9 @@ void ReportScanError(u16 errorCode, u16 resultCode);
 void CallScanCallbackWithEntry(u32 event, MBGameInfoRecvList *entry, u32 entryIndex);
 void ScanConnectStartScanCallback(WirelessMessage *result);
 void ScanConnectStartScan(void);
-void StartRepeatedScan(UnkFunc *callback, u32 param);
+void StartRepeatedScan(ScanEventCallback callback, u32 param);
 void SetScanConnectStateAndNotify(u32 state, void *info);
-void SetScanConnectStateCallback(UnkFunc *callback);
+void SetScanConnectStateCallback(ScanConnectStateFunc callback);
 unsigned int GetScanConnectWorkSize(void);
 void FinishScanConnect(void);
 void CloseScanConnect(void);
@@ -168,7 +175,7 @@ void ScanConnectStartMPCallback(WirelessMessage *result);
 void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer);
 void ScanConnectStartConnectCallback(WirelessMessage *result);
 void ScanConnectStartConnect(WMBssDesc *scanBuffer);
-void SetMPLinkCallback(UnkFunc *callback);
+void SetMPLinkCallback(MPLinkEventCallback callback);
 void SetupMPLink(MPLink *link);
 
 extern const u8 gDefaultScanBssid[6];

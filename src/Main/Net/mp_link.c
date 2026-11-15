@@ -34,7 +34,7 @@ void SetupMPLink(MPLink *link) {
 
 #pragma thumb on
 
-void SetMPLinkCallback(UnkFunc *callback) {
+void SetMPLinkCallback(MPLinkEventCallback callback) {
     u32 irqState = (OS_DisableInterrupts());
     u32 restoredIrq;
     gMPLink->mCallback = callback;
@@ -375,7 +375,7 @@ u32 GetScanConnectWorkSize(void) {
     return SCAN_CONNECT_WORK_SIZE;
 }
 
-void SetScanConnectStateCallback(UnkFunc *callback) {
+void SetScanConnectStateCallback(ScanConnectStateFunc callback) {
     u32 irqState = (OS_DisableInterrupts());
     u32 restoredIrq;
     gScanConnectWork->mStateCallback = callback;
@@ -400,7 +400,7 @@ void SetScanConnectStateAndNotify(u32 state, void *info) {
 
 #pragma thumb on
 
-void StartRepeatedScan(UnkFunc *callback, u32 param) {
+void StartRepeatedScan(ScanEventCallback callback, u32 param) {
     gScanConnectWork->mScanCallback = callback;
     gScanConnectWork->mScanGgid = param;
     gScanConnectWork->mScanParams.mChannel = 0;
