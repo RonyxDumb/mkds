@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/Lib/GameSpy/code_0218d818.h"
 
 typedef struct Darray Darray;
 
@@ -11,11 +12,11 @@ typedef struct Hashtable {
     /* 04 */ s32 mBucketCount;
     /* 08 */ void (*mElemCallback)(void *);
     /* 0c */ s32 (*mHashFn)(void *, s32);
-    /* 10 */ s32 (*mCompFn)(void *, void *);
+    /* 10 */ UnkCompare *mCompFn;
 } Hashtable;
 
 Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
-                           s32 (*compFn)(void *, void *), void (*freeElement)(void *));
+                           UnkCompare *compFn, void (*freeElement)(void *));
 
 void *HashtableFindByFn(Hashtable *table, int fn, const void *userData);
 void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userData);

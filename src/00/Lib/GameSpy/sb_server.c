@@ -71,7 +71,7 @@ void RefStringFree(u32 element) {
 struct Hashtable *SBRefStrHash(struct SbServerList *serverList) {
     if (gSBRefStrList == NULL) {
         gSBRefStrList = HashtableCreate(8, 100, 2, (s32(*)(void *, s32)) RefStringHash,
-                                        (s32(*)(void *, void *)) RefStringCompare, (void (*)(void *)) RefStringFree);
+                                        (UnkCompare *) RefStringCompare, (void (*)(void *)) RefStringFree);
     }
     return gSBRefStrList;
 }
@@ -373,7 +373,7 @@ SbServer *SBAllocServer(SbServerList *serverList, u32 outerAddress, u16 outerPor
         return NULL;
     }
     newServer->mKeyValues = HashtableCreate(8, 8, 4, (s32(*)(void *, s32)) KeyValHashKey,
-                                            (s32(*)(void *, void *)) KeyValCompareKey, (void (*)(void *)) KeyValFree);
+                                            (UnkCompare *) KeyValCompareKey, (void (*)(void *)) KeyValFree);
     if (newServer->mKeyValues == NULL) {
         DWCi_GsFree(newServer);
         return NULL;
