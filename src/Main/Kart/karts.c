@@ -625,7 +625,7 @@ KartModelsEntry *GetKartModelsEntry(u32 kartIndex) {
     return &gKartModels->mKartModelsEntries[kartIndex];
 }
 
-void *GetKartModelResMdl(u32 kartIndex) {
+void *GetKartModelResMdl(u16 kartIndex) {
     return gKartModels->mKartModelsEntries[kartIndex].mModels[1]->mResMdl;
 }
 

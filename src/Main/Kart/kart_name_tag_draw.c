@@ -438,7 +438,7 @@ void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData) {
     s32 textureIndex;
     u32 texOffset;
     u32 plttOffset;
-    kartModelResMdl = GetKartModelResMdl((u16) kartIndex);
+    kartModelResMdl = GetKartModelResMdl(kartIndex);
     textureIndex =
         NNS_G3dGetResDictIdxByName(&OFFSET_PTR(NNSG3dResMat, kartModelResMdl, kartModelResMdl->mOfsMat)->mDict,
                                    (const u32 *) gKartEmblemTextureName);
