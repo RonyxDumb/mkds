@@ -533,7 +533,7 @@ s32 WM_EndScan(WirelessMessageCallback callback) {
 }
 
 // Connects to the parent described by pInfo (command 12). Needs state 2.
-s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode) {
+s32 WM_StartConnectEx(WirelessMessageCallback callback, WMBssDesc *pInfo, void *ssid, BOOL powerSave, u16 authMode) {
     StartConnectExRequest *request;
     s32 result;
 
@@ -544,7 +544,7 @@ s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, 
     if (pInfo == 0) {
         return 6;
     }
-    DC_StoreRange(pInfo, pInfo[0] * 2);
+    DC_StoreRange(pInfo, pInfo->mLength * 2);
     WMi_SetCallbackTable(WIRELESS_REQUEST_ENTER_HOST, callback);
     request = WMi_GetSystemWork()->mRequestArea;
     request->mApiid = WIRELESS_REQUEST_ENTER_HOST;

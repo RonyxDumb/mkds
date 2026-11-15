@@ -376,7 +376,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
     }
     gConnectionWork->mStep = CONNECTION_STEP_JOINING;
     gConnectionWork->mRequestPending = 1;
-    if (WM_StartConnectEx(StartConnectCallback, (u16 *) gConnectionWork->mParentBssDesc, userData, 1, 0) != 2) {
+    if (WM_StartConnectEx(StartConnectCallback, gConnectionWork->mParentBssDesc, userData, 1, 0) != 2) {
         StopConnection();
         return;
     }

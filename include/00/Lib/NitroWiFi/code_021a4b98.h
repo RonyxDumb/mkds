@@ -80,13 +80,7 @@ typedef struct WCMWork {
     /* 0000 */ u8 mWmWork[0xf00];
     /* 0f00 */ u8 mSendBuf[0x600];
     /* 1500 */ u8 mRecvBuf[0xc40];
-    /* 2140 */ u8 mBssDesc[4];
-    /* 2144 */ u8 mBssid[6];
-    /* 214a */ u16 mSsidLength;
-    /* 214c */ u8 mSsid[0x22];
-    /* 216e */ u16 mBasicRateSet;
-    /* 2170 */ u16 mSupportRateSet;
-    /* 2172 */ u8 mUnk_2172[0x8e];
+    /* 2140 */ WMBssDesc mBssDesc;
     /* 2200 */ u8 mWepKey[0x50];
     /* 2250 */ u8 mWepMode;
     /* 2251 */ u8 mWepKeyId;

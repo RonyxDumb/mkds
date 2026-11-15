@@ -365,7 +365,7 @@ typedef struct WMMpRecvData {
 typedef struct StartConnectExRequest {
     /* 00 */ u16 mApiid;
     /* 02 */ u8 mReserved[2];
-    /* 04 */ u16 *mPInfo;
+    /* 04 */ WMBssDesc *mPInfo;
     /* 08 */ u8 mSsid[0x18];
     /* 20 */ u32 mPowerSave;
     /* 24 */ u8 mReserved2[2];
@@ -462,7 +462,7 @@ s32 WM_EndParent(WirelessMessageCallback callback);
 s32 WM_StartScan(WirelessMessageCallback callback, ScanParam *param);
 s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param);
 s32 WM_EndScan(WirelessMessageCallback callback);
-s32 WM_StartConnectEx(WirelessMessageCallback callback, u16 *pInfo, void *ssid, BOOL powerSave, u16 authMode);
+s32 WM_StartConnectEx(WirelessMessageCallback callback, WMBssDesc *pInfo, void *ssid, BOOL powerSave, u16 authMode);
 s32 WM_Disconnect(WirelessMessageCallback callback, u32 aid);
 s32 WM_DisconnectChildren(WirelessMessageCallback callback, u32 aidBitmap);
 s32 WM_SetIndCallback(WirelessMessageCallback callback);

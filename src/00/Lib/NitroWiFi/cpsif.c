@@ -39,7 +39,7 @@ void WCMi_CpsifSendNullPacket(void) {
     work = WCMi_GetSystemWork();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting != 1) {
         if (WcmCpsifTryLockMutexInIRQ(&gWcmCpsifWork.mSendMutex) != 0) {
-            if (WM_SetDCFData(WcmCpsifKACallback, work->mBssid, work->mSendBuf, 0) != 2) {
+            if (WM_SetDCFData(WcmCpsifKACallback, work->mBssDesc.mBssid, work->mSendBuf, 0) != 2) {
                 WcmCpsifUnlockMutexInIRQ(&gWcmCpsifWork.mSendMutex);
             }
         }
@@ -54,7 +54,7 @@ u8 *WCM_GetApMacAddress(void) {
     work = WCMi_GetSystemWork();
     enabled = OS_DisableInterrupts();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
-        mac = work->mBssid;
+        mac = work->mBssDesc.mBssid;
     }
     OS_RestoreInterrupts(enabled);
     return mac;
@@ -69,8 +69,8 @@ u8 *WCM_GetApEssid(u16 *length) {
     work = WCMi_GetSystemWork();
     enabled = OS_DisableInterrupts();
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED && work->mResetting == 0) {
-        ssidBytes = work->mSsid;
-        ssidLength = work->mSsidLength;
+        ssidBytes = work->mBssDesc.mSsid;
+        ssidLength = work->mBssDesc.mSsidLength;
     }
     OS_RestoreInterrupts(enabled);
     if (length != NULL) {

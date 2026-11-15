@@ -39,7 +39,7 @@ typedef struct MBiParam {
     /* 518 */ u16 mSendBufferSize;
     /* 51a */ u16 mReceiveBufferSize;
     /* 51c */ void (*mCallback)(s32, WirelessMessage *);
-    /* 520 */ u16 *mPInfo;
+    /* 520 */ WMBssDesc *mPInfo;
     /* 524 */ u16 mMode;
     /* 526 */ u16 mResetting;
     /* 528 */ u16 mMPStarted;

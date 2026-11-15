@@ -55,7 +55,7 @@ void ScanConnectStartConnect(WMBssDesc *scanBuffer) {
     gMPLink->mChildMaxSize = scanBuffer->mGameInfo.mChildMaxSize;
     gMPLink->mParentPayloadSize = gMPLink->mParentMaxSize - 6;
     MBi_SetChildMPMaxSize(gMPLink->mChildMaxSize);
-    wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
+    wmResult = WM_StartConnectEx(ScanConnectStartConnectCallback, scanBuffer, NULL, 1, 0);
     if (wmResult != WIRELESS_CALL_QUEUED) {
         if (gMPLink->mCallback != NULL) {
             gMPLink->mCallback(MP_LINK_EVENT_CONNECT_FAILED, 0);
