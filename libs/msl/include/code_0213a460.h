@@ -9,7 +9,7 @@ typedef struct ScanStringSource {
 } ScanStringSource;
 
 // Called through a pointer by ScanWithSourceFunc and ScanDouble: (their second argument, value, 0/1/2).
-typedef int (*ScanReadCharFunc)(void *a, int b, int c);
+typedef int (*ScanReadCharFunc)(void *source, int character, int operation);
 
 // Read by ScanDouble.
 extern double gDoubleInfinity;

@@ -6,7 +6,7 @@
 #pragma section ARCHIVE_TEXT begin
 
 // The File functions in the order the command numbers index them.
-s32 (*fsi_default_command[9])(FSFile *a) = {
+s32 (*fsi_default_command[9])(FSFile *file) = {
     FSi_ReadFileCommand,     FSi_WriteFileCommand,      FSi_SeekDirCommand,
     FSi_ReadDirCommand,      FSi_FindPathCommand,       FSi_GetPathCommand,
     FSi_OpenFileFastCommand, FSi_OpenFileDirectCommand, FSi_CloseFileCommand,

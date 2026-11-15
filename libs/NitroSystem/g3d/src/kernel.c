@@ -7,14 +7,14 @@
 #include "code_02010878.h"
 #include "code_02010804.h"
 
-void addLink_(NNSG3dAnmObj **l, NNSG3dAnmObj *item) {
+void addLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {
     NNSG3dAnmObj *prev;
     NNSG3dAnmObj *next;
     NNSG3dAnmObj *tail;
 
-    prev = *l;
+    prev = *head;
     if (prev == 0) {
-        *l = item;
+        *head = item;
         return;
     }
     next = prev->mNext;
@@ -27,7 +27,7 @@ void addLink_(NNSG3dAnmObj **l, NNSG3dAnmObj *item) {
                 } while (tail->mNext != 0);
             }
             tail->mNext = prev;
-            *l = item;
+            *head = item;
             return;
         }
         prev->mNext = item;
@@ -85,16 +85,16 @@ void NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmOb
     }
 }
 
-int removeLink_(NNSG3dAnmObj **l, NNSG3dAnmObj *item) {
+int removeLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {
     NNSG3dAnmObj *next;
     NNSG3dAnmObj *cur;
 
-    cur = *l;
+    cur = *head;
     if (cur == 0) {
         return 0;
     }
     if (cur == item) {
-        *l = cur->mNext;
+        *head = cur->mNext;
         item->mNext = 0;
         return 1;
     }

@@ -102,7 +102,7 @@ typedef struct MBGameRegistry {
 } MBGameRegistry;
 
 extern u32 sSendVolatCallbackTimming;
-extern void (*sSendVolatCallback)(u32 a);
+extern void (*sSendVolatCallback)(u32 gameGroupId);
 extern GameInfoList mbss;
 extern GameInfoBlock gGameInfoBlock;
 extern WMBssDesc bssDescbuf;

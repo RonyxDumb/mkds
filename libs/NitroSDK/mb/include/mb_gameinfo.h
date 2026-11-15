@@ -76,7 +76,7 @@ typedef struct MbBeacon {
     /* 68 */ u8 mUserVolatData[8];
 } MbBeacon;
 
-typedef void (*EntryCallbackFunc)(u32 a, void *b, u32 c);
+typedef void (*EntryCallbackFunc)(u32 event, void *entry, u32 entryIndex);
 
 extern MbBeaconRecvStatus *mbrsp;
 extern MbBeacon *gReceivedGameInfo;

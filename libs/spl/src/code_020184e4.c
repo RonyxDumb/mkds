@@ -1943,7 +1943,7 @@ void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr) {
 void SPLManager_DrawParticles(SPLManager *mgr) {
     ParticleEmitter *emitter;
     ParticleResourceHeader *header;
-    void (*drawFunc)(SPLManager *mgr, ParticleInstance *b);
+    void (*drawFunc)(SPLManager *mgr, ParticleInstance *particle);
     void (*textureFunc)(ParticleTexture *mgr);
     ParticleInstance *particle;
 
@@ -1982,7 +1982,7 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
 void SPLManager_DrawChildParticles(SPLManager *mgr) {
     ParticleEmitter *emitter;
     ParticleResource *resource;
-    void (*drawFunc)(SPLManager *mgr, ParticleInstance *b);
+    void (*drawFunc)(SPLManager *mgr, ParticleInstance *particle);
     ParticleInstance *particle;
 
     emitter = mgr->mRenderStateEmitter;

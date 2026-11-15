@@ -13,7 +13,7 @@ void (*gClearBssidCallback)(void) = NULL;
 GameInfoBlock gGameInfoBlock __attribute__((aligned(32)));
 MbBeacon *gReceivedGameInfo;
 WMBssDesc bssDescbuf __attribute__((aligned(32)));
-void (*sSendVolatCallback)(u32 a) = NULL;
+void (*sSendVolatCallback)(u32 gameGroupId) = NULL;
 u32 sSendVolatCallbackTimming;
 
 #pragma thumb on

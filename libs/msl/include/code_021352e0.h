@@ -60,7 +60,7 @@ extern char gFormatHexZero[];
 int FormatWithPutFunc(void *(*putFunc)(void *, const char *, u32), void *putArg, const char *format, char *argList);
 char *FormatDouble(double value, char *end, FormatSpec spec);
 void FormatRoundDigitChars(DigitRecord *record, int keepCount);
-char *FormatDoubleHex(double v, char *end, FormatSpec spec);
+char *FormatDoubleHex(double value, char *end, FormatSpec spec);
 char *FormatInt64(u64 value, char *end, FormatSpec spec);
 char *FormatInt32(unsigned long value, char *end, FormatSpec spec);
 const char *FormatParseSpec(const char *format, char **argList, FormatSpec *buf);

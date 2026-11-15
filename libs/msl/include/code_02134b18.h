@@ -4,8 +4,8 @@
 
 // The two conversion functions called through CharConversion.mFunctions.
 typedef struct CharConversionFunctions {
-    /* 00 */ int (*mMbtowc)(u16 *dst, const char *src, u32 n);
-    /* 04 */ int (*mWctomb)(char *dst, u16 c);
+    /* 00 */ int (*mMbtowc)(u16 *dst, const char *src, u32 maxBytes);
+    /* 04 */ int (*mWctomb)(char *dst, u16 wideChar);
 } CharConversionFunctions;
 
 // wctomb and mbtowc read the pointer at 0x08.

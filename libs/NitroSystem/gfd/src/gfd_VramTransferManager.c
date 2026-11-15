@@ -180,7 +180,7 @@ void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte) {
     GXS_LoadOBJ(pSrc, offset, szByte);
 }
 
-void (*const transFunc[36])(const void *a, u32 b, u32 c) = {
+void (*const transFunc[36])(const void *pSrc, u32 offset, u32 szByte) = {
     DoTransfer3dTex,
     DoTransfer3dTexPltt,
     DoTransfer3dClearImageColor,
@@ -220,11 +220,11 @@ void (*const transFunc[36])(const void *a, u32 b, u32 c) = {
 };
 
 void DoTransfer_(NNSGfdVramTransferTask *task) {
-    void (*f)(const void *, u32, u32);
+    void (*transfer)(const void *, u32, u32);
 
-    f = transFunc[task->mType];
+    transfer = transFunc[task->mType];
     DC_FlushRange(task->mPSrc, task->mSzByte);
-    f(task->mPSrc, task->mDstAddr, task->mSzByte);
+    transfer(task->mPSrc, task->mDstAddr, task->mSzByte);
 }
 
 void ResetTaskQueue_(NNSGfdVramTransferTaskQueue *queue) {

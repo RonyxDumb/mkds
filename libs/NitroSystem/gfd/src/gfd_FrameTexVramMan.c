@@ -4,8 +4,8 @@
 
 s32 (*NNS_GfdDefaultFuncFreeTexVram)(u32) = FreeTexVram_;
 s32 (*NNS_GfdDefaultFuncFreePlttVram)(u32) = FreePlttVram_;
-u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 a, s32 b, s32 c) = (u32(*)(s32, s32, s32)) AllocTexVram_;
-u32 (*NNS_GfdDefaultFuncAllocPlttVram)(s32 a, s32 b, s32 c) = (u32(*)(s32, s32, s32)) AllocPlttVram_;
+u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 szByte, s32 is4x4comp, s32 opt) = (u32(*)(s32, s32, s32)) AllocTexVram_;
+u32 (*NNS_GfdDefaultFuncAllocPlttVram)(s32 szByte, s32 is4pltt, s32 opt) = (u32(*)(s32, s32, s32)) AllocPlttVram_;
 NNSGfdFrmTexRegionState vramRegions_[5] = {
     {0xffffffff, 0xffffffff, 0, 0, 0, 0xffff, 0},
     {0xffffffff, 0xffffffff, 0, 1, 1, 0xffff, 0x20000},

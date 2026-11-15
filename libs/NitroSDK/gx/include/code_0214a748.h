@@ -5,8 +5,8 @@
 #include "code_021479b4.h" // MtxFx44
 
 void G3X_SetFogTable(const void *fogTable);
-s32 G3X_GetVectorMtx(void *m);
-s32 G3X_GetClipMtx(void *m);
+s32 G3X_GetVectorMtx(void *dest);
+s32 G3X_GetClipMtx(void *dest);
 void G3X_SetFog(s32 enable, u32 fogMode, u32 fogSlope, u32 fogOffset);
 void G3X_ResetMtxStack(void);
 void G3X_InitMtxStack(void);

@@ -27,50 +27,50 @@ s64 DateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
 
 u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     union {
-        u64 v;
-        u8 b[8];
+        u64 bits;
+        u8 bytes[8];
     } value;
     u8 copy[8];
     s32 byteIndex;
     u8 *src;
     u8 *dst;
     const u8 *order;
-    value.v = (((u64) rand & 0xffff) << 27) |
+    value.bits = (((u64) rand & 0xffff) << 27) |
               ((((u64) mac & 0xffffff) << 3) | (((u64) mainunit & 3) | (((u64) vend & 1) << 2)));
-    src = value.b;
+    src = value.bytes;
     for (byteIndex = 0; byteIndex < 6; byteIndex++) {
         *src ^= 0xd6;
         src++;
     }
     byteIndex = 0;
-    src = value.b;
+    src = value.bytes;
     for (; byteIndex < 5; byteIndex++) {
         *src = (DWCi_util_wifiid_ttable[(*src >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*src & 0xf];
         src++;
     }
-    MI_CpuCopy8(value.b, copy, 8);
+    MI_CpuCopy8(value.bytes, copy, 8);
     byteIndex = 0;
     dst = copy;
     order = DWCi_util_wifiid_exctable;
     for (; byteIndex < 5; byteIndex++) {
-        value.b[*order] = *dst;
+        value.bytes[*order] = *dst;
         dst++;
         order++;
     }
-    value.b[7] = 0;
-    value.b[6] = 0;
-    value.b[5] &= 7;
-    value.v <<= 1;
-    value.b[0] |= (value.b[5] >> 3) & 1;
-    src = value.b;
+    value.bytes[7] = 0;
+    value.bytes[6] = 0;
+    value.bytes[5] &= 7;
+    value.bits <<= 1;
+    value.bytes[0] |= (value.bytes[5] >> 3) & 1;
+    src = value.bytes;
     for (byteIndex = 0; byteIndex < 6; byteIndex++) {
         *src ^= 0x67;
         src++;
     }
-    value.b[7] = 0;
-    value.b[6] = 0;
-    value.b[5] &= 7;
-    return value.v;
+    value.bytes[7] = 0;
+    value.bytes[6] = 0;
+    value.bytes[5] &= 7;
+    return value.bits;
 }
 
 BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {

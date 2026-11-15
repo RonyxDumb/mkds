@@ -349,8 +349,8 @@ double DigitCharsToDouble(const DigitRecord *record) {
     double scaled;
     double sum;
     union {
-        double d;
-        u32 w[2];
+        double value;
+        u32 words[2];
     } resultUnion, neighborUnion;
     DigitRecord parsed;
     DigitRecord maxRecord;
@@ -414,17 +414,17 @@ double DigitCharsToDouble(const DigitRecord *record) {
         result = result * pow(5.0, exponent5);
     }
     result = ldexp(result, exponent5);
-    resultUnion.d = result;
-    switch (resultUnion.w[1] & 0x7ff00000) {
+    resultUnion.value = result;
+    switch (resultUnion.words[1] & 0x7ff00000) {
         case 0x7ff00000:
-            if ((resultUnion.w[1] & 0xfffff) || resultUnion.w[0]) {
+            if ((resultUnion.words[1] & 0xfffff) || resultUnion.words[0]) {
                 fpClass = 1;
             } else {
                 fpClass = 2;
             }
             break;
         case 0:
-            if ((resultUnion.w[1] & 0xfffff) || resultUnion.w[0]) {
+            if ((resultUnion.words[1] & 0xfffff) || resultUnion.words[0]) {
                 fpClass = 5;
             } else {
                 fpClass = 3;
@@ -448,17 +448,17 @@ double DigitCharsToDouble(const DigitRecord *record) {
         for (;;) {
             if (searchUp) {
                 (*neighborBits)++;
-                neighborUnion.d = neighbor;
-                switch (neighborUnion.w[1] & 0x7ff00000) {
+                neighborUnion.value = neighbor;
+                switch (neighborUnion.words[1] & 0x7ff00000) {
                     case 0x7ff00000:
-                        if ((neighborUnion.w[1] & 0xfffff) || neighborUnion.w[0]) {
+                        if ((neighborUnion.words[1] & 0xfffff) || neighborUnion.words[0]) {
                             fpClass = 1;
                         } else {
                             fpClass = 2;
                         }
                         break;
                     case 0:
-                        if ((neighborUnion.w[1] & 0xfffff) || neighborUnion.w[0]) {
+                        if ((neighborUnion.words[1] & 0xfffff) || neighborUnion.words[0]) {
                             fpClass = 5;
                         } else {
                             fpClass = 3;

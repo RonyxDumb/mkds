@@ -18,7 +18,7 @@ u32 MI_SwapWord(u32 setData, volatile u32 *destp);
 void MI_UncompressLZ8(const void *srcp, void *destp);
 
 // Calls MIi_CpuClearFast with 0, passed through a stack offset of its own.
-static inline void MemFillWordsByBlock_inline(void *p, u32 n) {
-    volatile u32 v = 0;
-    MIi_CpuClearFast(v, p, n);
+static inline void MemFillWordsByBlock_inline(void *dest, u32 size) {
+    volatile u32 zero = 0;
+    MIi_CpuClearFast(zero, dest, size);
 }

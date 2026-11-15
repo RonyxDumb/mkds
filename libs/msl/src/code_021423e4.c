@@ -23,10 +23,10 @@ u32 *GetFloatStatus(void) {
 }
 
 void __call_static_initializers(void) {
-    void (**p)(void);
+    void (**initializer)(void);
 
-    for (p = gStaticInitializers; p != 0 && *p != 0; p++) {
-        (*p)();
+    for (initializer = gStaticInitializers; initializer != 0 && *initializer != 0; initializer++) {
+        (*initializer)();
     }
 }
 

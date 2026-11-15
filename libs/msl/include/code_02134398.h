@@ -8,7 +8,7 @@ int FflushAll(void);
 u32 Abs(u32 value);
 
 // Function slot of a FILE; FileFlushBuffer calls the write one with a buffer and a count pointer.
-typedef int (*FileIoFunc)(u32 a, u8 *b, u32 *c, u32 d);
+typedef int (*FileIoFunc)(u32 firstArg, u8 *buffer, u32 *countPtr, u32 lastArg);
 
 // mWideMode values: not set yet, set by a negative fwide mode, set by a positive fwide mode.
 typedef enum FileWideMode {

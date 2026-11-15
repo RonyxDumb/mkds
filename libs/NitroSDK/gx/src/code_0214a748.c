@@ -366,21 +366,21 @@ void G3X_SetFog(s32 enable, u32 fogMode, u32 fogSlope, u32 fogOffset) {
     }
 }
 
-// Copies the 16 words of the clip matrix to m. Returns -1 while the geometry engine is busy, 0 otherwise.
-s32 G3X_GetClipMtx(void *m) {
+// Copies the 16 words of the clip matrix to dest. Returns -1 while the geometry engine is busy, 0 otherwise.
+s32 G3X_GetClipMtx(void *dest) {
     if (reg_G3X_GXSTAT & 0x8000000) {
         return -1;
     }
-    MI_Copy64B((const void *) 0x4000640, m);
+    MI_Copy64B((const void *) 0x4000640, dest);
     return 0;
 }
 
-// Copies the 9 words of the vector matrix to m. Returns -1 while the geometry engine is busy, 0 otherwise.
-s32 G3X_GetVectorMtx(void *m) {
+// Copies the 9 words of the vector matrix to dest. Returns -1 while the geometry engine is busy, 0 otherwise.
+s32 G3X_GetVectorMtx(void *dest) {
     if (reg_G3X_GXSTAT & 0x8000000) {
         return -1;
     }
-    MI_Copy36B((const void *) 0x4000680, m);
+    MI_Copy36B((const void *) 0x4000680, dest);
     return 0;
 }
 

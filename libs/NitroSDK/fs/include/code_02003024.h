@@ -120,7 +120,7 @@ typedef struct FSArchive {
 } FSArchive;
 
 // Called by FSi_TranslateCommand with its second argument as the index.
-extern s32 (*fsi_default_command[])(FSFile *a);
+extern s32 (*fsi_default_command[])(FSFile *file);
 
 s32 FSi_TranslateCommand(FSFile *file, u32 command);
 void FSi_ReleaseCommand(FSFile *file, s32 result);

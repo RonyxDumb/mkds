@@ -38,9 +38,10 @@ typedef struct LetterCharInfo {
     /* 24 */ u32 mCl;
 } LetterCharInfo;
 
-void InitCharCanvas(NNSG2dCharCanvas *a, void *b, s32 c, s32 d, u32 e,
-                    void (*f)(NNSG2dCharCanvas *, NNSG2dFont *, s32, s32, u32, NNSG2dGlyph *),
-                    void (*g)(NNSG2dCharCanvas *, u32), void (*h)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32), u32 i);
+void InitCharCanvas(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
+                    void (*drawGlyph)(NNSG2dCharCanvas *, NNSG2dFont *, s32, s32, u32, NNSG2dGlyph *),
+                    void (*clearAll)(NNSG2dCharCanvas *, u32),
+                    void (*clearArea)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32), u32 stride);
 void ClearArea1D(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
 void ClearAreaLine(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight);
 void ClearContinuous(NNSG2dCharCanvas *pCanvas, u32 cl);

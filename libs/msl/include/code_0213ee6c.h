@@ -39,7 +39,7 @@ double ldexp(double value, int exponentDelta);
 double pow(double base, double power);
 double DigitCharsToDouble(const DigitRecord *record);
 void DoubleToDigitChars(DigitOptions *options, double value, DigitRecord *record);
-void DoubleToDigits(DigitRecord *out, double a);
+void DoubleToDigits(DigitRecord *out, double value);
 void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const DigitRecord *subtrahend);
 int DigitsLess(const DigitRecord *left, const DigitRecord *right);
 int DigitsEqual(const DigitRecord *left, const DigitRecord *right);

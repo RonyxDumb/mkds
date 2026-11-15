@@ -327,7 +327,7 @@ struct ParticleEmitter {
     /* 80 */ u32 mUnk_80_19 : 13;
     /* 84 */ Vec3s16 mAxisX;
     /* 8a */ Vec3s16 mAxisY;
-    /* 90 */ void (*mCallback)(ParticleEmitter *p, s32 a);
+    /* 90 */ void (*mCallback)(ParticleEmitter *emitter, s32 afterUpdate);
     /* 94 */ union {
         void *mCallbackData;
         u32 mElapsedFrames;
@@ -376,8 +376,8 @@ typedef struct ParticleBehaviorSpin {
 void SPLUtil_RotateXYZ(s32 sinValue, s32 cosValue, MtxFx43 *mtx);
 void SPLUtil_DrawXZPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerZ);
 void SPLUtil_DrawXYPlane(u32 texCoordU, u32 texCoordV, s32 centerX, s32 centerY);
-void SPLEmitter_EmitChildren(ParticleInstance *emtr, ParticleEmitter *q, ParticleList *r);
-void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *r);
+void SPLEmitter_EmitChildren(ParticleInstance *ptcl, ParticleEmitter *emtr, ParticleList *list);
+void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list);
 void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, ParticleEmitter *emtr);
 void SPLEmitter_ComputeOrthogonalAxes(ParticleEmitter *emtr);
 void SPLAnim_ChildAlpha(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate);

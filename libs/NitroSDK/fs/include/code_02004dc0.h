@@ -21,7 +21,7 @@ typedef struct FSOverlayInfo {
         struct {
             u32 mCompressedSize : 24;
         } f;
-        u8 b[4];
+        u8 bytes[4];
     } mCompressedSizeAndFlags;
     /* 20 */ u32 mTarget;
     /* 24 */ u32 mFileOffset;

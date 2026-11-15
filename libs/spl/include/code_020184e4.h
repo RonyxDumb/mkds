@@ -60,7 +60,7 @@ typedef struct ParticleFileHeader {
 } ParticleFileHeader;
 
 typedef struct SPLManager {
-    /* 00 */ void *(*mAlloc)(u32 a);
+    /* 00 */ void *(*mAlloc)(u32 size);
     /* 04 */ ParticleList mLists[3];
     /* 28 */ ParticleResource *mResources;
     /* 2c */ ParticleTexture *mTextures;
@@ -82,7 +82,7 @@ typedef struct SPLManager {
 
 // Entries of the two local call tables of SPLEmitter_Update.
 typedef struct ParticleAnimEntry {
-    /* 00 */ void (*mAnimate)(ParticleInstance *p, ParticleResource *q, s32 v);
+    /* 00 */ void (*mAnimate)(ParticleInstance *particle, ParticleResource *resource, s32 lifeRate);
     /* 04 */ u32 mTimeIndex;
 } ParticleAnimEntry;
 
