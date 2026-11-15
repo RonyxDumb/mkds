@@ -2353,7 +2353,7 @@ void StartKartRaceEnd(Kart *kart) {
     u32 value;
     s32 soundOffset;
     u16 index;
-    s32 framesSinceEntryEnd;
+    u32 framesSinceEntryEnd;
     KartItemEffectState *effectState;
     u32 flag;
 
@@ -2445,8 +2445,8 @@ void StartKartRaceEnd(Kart *kart) {
     } else if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
         if (gRaceProgress->mKarts[kart->mIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
             framesSinceEntryEnd = 0;
-            if (TryGetRaceUpdateFramesSinceEntryEnd((u32 *) &framesSinceEntryEnd) != 0 &&
-                (u32) framesSinceEntryEnd > 0xb4) {
+            if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0 &&
+                framesSinceEntryEnd > 0xb4) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x45);
             }
         }
