@@ -29,17 +29,17 @@ MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback call
     u32 size;
     u8 flags;
 
-    if (((u32) param->mBuffer & MIC_BUFFER_ALIGNMENT_MASK) != 0) {
+    if (((u32) param->mBuffer & MICROPHONE_BUFFER_ALIGNMENT_MASK) != 0) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     size = param->mSize;
-    if ((size & MIC_BUFFER_ALIGNMENT_MASK) != 0) {
+    if ((size & MICROPHONE_BUFFER_ALIGNMENT_MASK) != 0) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     if (size == 0) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
-    if (param->mRate < MIC_MIN_SAMPLING_RATE) {
+    if (param->mRate < MICROPHONE_MIN_SAMPLING_RATE) {
         return MIC_RESULT_ILLEGAL_PARAMETER;
     }
     switch (param->mType) {
@@ -138,19 +138,19 @@ void MicCommonCallback(u32 tag, u32 data, BOOL err) {
     status = data & 0xff;
     pxiCommand = (data & 0x7f00) >> 8;
     switch (status) {
-        case MIC_REPLY_STATUS_SUCCESS:
+        case MICROPHONE_REPLY_STATUS_SUCCESS:
             result = MIC_RESULT_SUCCESS;
             break;
-        case MIC_REPLY_STATUS_INVALID_COMMAND:
+        case MICROPHONE_REPLY_STATUS_INVALID_COMMAND:
             result = MIC_RESULT_INVALID_COMMAND;
             break;
-        case MIC_REPLY_STATUS_ILLEGAL_PARAMETER:
+        case MICROPHONE_REPLY_STATUS_ILLEGAL_PARAMETER:
             result = MIC_RESULT_ILLEGAL_PARAMETER;
             break;
-        case MIC_REPLY_STATUS_ILLEGAL_STATUS:
+        case MICROPHONE_REPLY_STATUS_ILLEGAL_STATUS:
             result = MIC_RESULT_ILLEGAL_STATUS;
             break;
-        case MIC_REPLY_STATUS_BUSY:
+        case MICROPHONE_REPLY_STATUS_BUSY:
             result = MIC_RESULT_BUSY;
             break;
         default:

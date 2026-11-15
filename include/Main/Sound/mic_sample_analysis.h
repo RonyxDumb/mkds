@@ -7,9 +7,9 @@
 
 // gMicSampleAnalysisMode: how strict the amplitude and interval limits are (the loose mode has the lowest amplitude
 // limits, the strict mode also has lower limits on the interval counts).
-#define MIC_ANALYSIS_MODE_LOOSE 0
-#define MIC_ANALYSIS_MODE_MIDDLE 1
-#define MIC_ANALYSIS_MODE_STRICT 2
+#define MICROPHONE_ANALYSIS_MODE_LOOSE 0
+#define MICROPHONE_ANALYSIS_MODE_MIDDLE 1
+#define MICROPHONE_ANALYSIS_MODE_STRICT 2
 
 u8 UpdateMicSampleAnalysis(void);
 void SetMicSampleAnalysisMode(u32 mode);

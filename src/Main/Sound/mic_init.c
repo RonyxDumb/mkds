@@ -42,11 +42,11 @@ void SetupMicAutoSampling(MicBuffer *micBuffer) {
     autoParam = &micBuffer->mAutoParam;
     autoParam->mBuffer = micBuffer;
     autoParam->mSize = sizeof(micBuffer->mSamples);
-    autoParam->mRate = MIC_AUTO_SAMPLING_RATE;
+    autoParam->mRate = MICROPHONE_AUTO_SAMPLING_RATE;
     autoParam->mLoopEnable = 1;
     autoParam->mFullCallback = 0;
     autoParam->mFullArg = 0;
     InitMicSampleAnalysis(autoParam);
-    SetMicSampleAnalysisMode(MIC_ANALYSIS_MODE_LOOSE);
+    SetMicSampleAnalysisMode(MICROPHONE_ANALYSIS_MODE_LOOSE);
     PM_SetAmpGain(3);
 }
