@@ -138,7 +138,7 @@ void InitCharacterAnimationState(u32 animationStateAddress);
 
 void InitKartModelsEntry(void *entry);
 
-u32 GetKartVariant(u32 kartIndex);
+u32 GetKartVariant(u16 kartIndex);
 
 void *GetKillerItemNsbca(void);
 void *GetKillerItemS(void);

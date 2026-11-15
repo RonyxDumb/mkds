@@ -1356,7 +1356,7 @@ void InitItems(void) {
         for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
             heldItem = &gKartItems[kartIndex].mHeldItem;
             SetHeldItem(heldItem, ITEM_INFO_KINOKO_THREE);
-            switch (GetKartVariant((u16) kartIndex)) {
+            switch (GetKartVariant(kartIndex)) {
                 case 0:
                     RemoveHeldItemObjects(heldItem, 1);
                     break;

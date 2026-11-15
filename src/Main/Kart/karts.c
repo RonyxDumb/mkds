@@ -647,7 +647,7 @@ void *GetKillerItemNsbca(void) {
     return &gKartModels->mKillerItemNsbca;
 }
 
-u32 GetKartVariant(u32 kartIndex) {
+u32 GetKartVariant(u16 kartIndex) {
     return gKartModels->mKartModelsEntries[kartIndex].mVariant;
 }
 
