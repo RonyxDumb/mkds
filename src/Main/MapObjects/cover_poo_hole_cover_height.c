@@ -101,16 +101,16 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     coverPooHole->mHitPooSpeed = 0x1333;
                     coverPooHole->mYawWobbleAngle = 0;
                     coverPooHole->mYawWobbleCenter = 0;
-                    coverPooHole->mYawWobbleAmplitude = 0x2000;
-                    coverPooHole->mYawWobbleAmplitudeChange = -0x40;
-                    coverPooHole->mYawWobbleAngleStep = 0x200;
+                    coverPooHole->mYawWobbleAmplitude = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE;
+                    coverPooHole->mYawWobbleAmplitudeChange = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE_CHANGE;
+                    coverPooHole->mYawWobbleAngleStep = COVER_POO_HOLE_YAW_WOBBLE_ANGLE_STEP;
                     coverPooHole->mYawWobbleAngleStepChange = 0;
                     coverPooHole->mTiltWobbleAngle = 0;
                     coverPooHole->mTiltWobbleCenter = 0;
-                    coverPooHole->mTiltWobbleAmplitude = 0x1000;
-                    coverPooHole->mTiltWobbleAmplitudeChange = -0x30;
-                    coverPooHole->mTiltWobbleAngleStep = 0x800;
-                    coverPooHole->mTiltWobbleAngleStepChange = 0x100;
+                    coverPooHole->mTiltWobbleAmplitude = COVER_POO_HOLE_TILT_WOBBLE_AMPLITUDE;
+                    coverPooHole->mTiltWobbleAmplitudeChange = COVER_POO_HOLE_TILT_WOBBLE_AMPLITUDE_CHANGE;
+                    coverPooHole->mTiltWobbleAngleStep = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP;
+                    coverPooHole->mTiltWobbleAngleStepChange = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE;
                     StartSoundIfKartStarOrKiller(&coverPooHole->mMapObject, kart);
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
                         effectPosition.x = (coverPooHole->mMapObject.mPos.x + kart->mPos.x) >> 1;
@@ -145,16 +145,16 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     coverPooHole->mHitPooSpeed = 0;
                     coverPooHole->mYawWobbleAngle = 0;
                     coverPooHole->mYawWobbleCenter = 0;
-                    coverPooHole->mYawWobbleAmplitude = 0x2000;
-                    coverPooHole->mYawWobbleAmplitudeChange = -0x40;
-                    coverPooHole->mYawWobbleAngleStep = 0x200;
+                    coverPooHole->mYawWobbleAmplitude = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE;
+                    coverPooHole->mYawWobbleAmplitudeChange = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE_CHANGE;
+                    coverPooHole->mYawWobbleAngleStep = COVER_POO_HOLE_YAW_WOBBLE_ANGLE_STEP;
                     coverPooHole->mYawWobbleAngleStepChange = 0;
                     coverPooHole->mTiltWobbleAngle = 0;
                     coverPooHole->mTiltWobbleCenter = 0;
-                    coverPooHole->mTiltWobbleAmplitude = 0x1000;
-                    coverPooHole->mTiltWobbleAmplitudeChange = -0x30;
-                    coverPooHole->mTiltWobbleAngleStep = 0x800;
-                    coverPooHole->mTiltWobbleAngleStepChange = 0x100;
+                    coverPooHole->mTiltWobbleAmplitude = COVER_POO_HOLE_TILT_WOBBLE_AMPLITUDE;
+                    coverPooHole->mTiltWobbleAmplitudeChange = COVER_POO_HOLE_TILT_WOBBLE_AMPLITUDE_CHANGE;
+                    coverPooHole->mTiltWobbleAngleStep = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP;
+                    coverPooHole->mTiltWobbleAngleStepChange = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE;
                     coverPooHole->mMapObject.mDistanceSquaredAndFlags =
                         coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleSkipSoundFlag;
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
@@ -211,16 +211,16 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
         coverPooHole->mMapObject.mPosStep.z = 0;
         coverPooHole->mYawWobbleAngle = 0;
         coverPooHole->mYawWobbleCenter = 0;
-        coverPooHole->mYawWobbleAmplitude = 0x2000;
-        coverPooHole->mYawWobbleAmplitudeChange = -0x40;
-        coverPooHole->mYawWobbleAngleStep = 0x200;
+        coverPooHole->mYawWobbleAmplitude = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE;
+        coverPooHole->mYawWobbleAmplitudeChange = COVER_POO_HOLE_YAW_WOBBLE_AMPLITUDE_CHANGE;
+        coverPooHole->mYawWobbleAngleStep = COVER_POO_HOLE_YAW_WOBBLE_ANGLE_STEP;
         coverPooHole->mYawWobbleAngleStepChange = 0;
         coverPooHole->mTiltWobbleAngle = 0;
         coverPooHole->mTiltWobbleCenter = 0;
-        coverPooHole->mTiltWobbleAmplitude = 0x1000;
-        coverPooHole->mTiltWobbleAmplitudeChange = -0x30;
-        coverPooHole->mTiltWobbleAngleStep = 0x800;
-        coverPooHole->mTiltWobbleAngleStepChange = 0x100;
+        coverPooHole->mTiltWobbleAmplitude = COVER_POO_HOLE_TILT_WOBBLE_AMPLITUDE;
+        coverPooHole->mTiltWobbleAmplitudeChange = COVER_POO_HOLE_TILT_WOBBLE_AMPLITUDE_CHANGE;
+        coverPooHole->mTiltWobbleAngleStep = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP;
+        coverPooHole->mTiltWobbleAngleStepChange = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE;
         coverPooHole->mMapObject.mDistanceSquaredAndFlags =
             coverPooHole->mMapObject.mDistanceSquaredAndFlags | gCoverPooHoleHitDistanceFlag;
         if ((coverPooHole->mMapObject.mFlags & 0x800) == 0) {
