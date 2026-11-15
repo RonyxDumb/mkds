@@ -30,7 +30,7 @@ void QuaternionMultiplyByYawIgnoreY(Quaternion *first, Quaternion *second, Quate
 void QuaternionMultiplyAngleAroundX(Quaternion *quaternion, u16 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundY(Quaternion *quaternion, s32 angle, Quaternion *result);
 void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternion *result);
-void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, s32 angle, Quaternion *result);
+void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, u16 angle, Quaternion *result);
 // Blends p toward q by d, toward the negated q when their dot product is negative.
 void QuaternionBlendTowardNearerSign(Quaternion *from, Quaternion *to, Quaternion *result, s32 amount);
 void QuaternionNormalizeUnlessNearOne(Quaternion *input, Quaternion *output);

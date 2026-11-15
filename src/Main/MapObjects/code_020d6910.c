@@ -165,7 +165,7 @@ void QuaternionMultiplyAngleAroundZ(Quaternion *quaternion, s32 angle, Quaternio
     result->mComponents[3] = (source.mComponents[3] * pairSecond - source.mComponents[2] * pairFirst) >> 12;
 }
 
-void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, s32 angle, Quaternion *result) {
+void QuaternionMultiplyAngleAroundXIgnoreXZ(Quaternion *quaternion, u16 angle, Quaternion *result) {
     Quaternion source = *quaternion;
     s32 pairFirst = SIN_OF_ANGLE((u16) (angle >> 1));
     s32 pairSecond = COS_OF_ANGLE((u16) (angle >> 1));
