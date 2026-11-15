@@ -84,9 +84,9 @@ const MapObjectKindDescriptor gWanwanOnPathKindDescriptor = {
     NULL,
     {NULL, NULL, NULL, NULL}};
 StateCallbacks gWanwanStateTable[] = {
-    {EnterWanwanState0, UpdateWanwanState0},    {EnterWanwanState1, UpdateWanwanState1},
-    {EnterWanwanState2, UpdateWanwanState2},    {EnterWanwanState3, UpdateWanwanState3},
-    {EnterWanwanState4, UpdateWanwanState4Nop}, {EnterWanwanState5, UpdateWanwanState5},
+    {EnterWanwanRoam, UpdateWanwanRoam},    {EnterWanwanLunge, UpdateWanwanLunge},
+    {EnterWanwanHit, UpdateWanwanHit},    {EnterWanwanPullBack, UpdateWanwanPullBack},
+    {EnterWanwanRest, UpdateWanwanRestNop}, {EnterWanwanFollowPath, UpdateWanwanFollowPath},
 };
 Quaternion gWanwanResetSurfaceOrientation = {{0, 0, 0, 0x1000}};
 SoundStartParams gWanwanTouchGroundSoundParams = {0x12d, NULL, 2, 0};
@@ -97,7 +97,7 @@ static inline s64 WanwanXzLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
-void UpdateWanwanState5(void *stateObject) {
+void UpdateWanwanFollowPath(void *stateObject) {
     Wanwan *wanwan = stateObject;
     wanwan->mMapObject.mPosStep.x = wanwan->mMapObject.mPos.x;
     wanwan->mMapObject.mPosStep.z = wanwan->mMapObject.mPos.z;

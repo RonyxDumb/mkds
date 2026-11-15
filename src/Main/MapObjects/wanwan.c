@@ -263,7 +263,7 @@ u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstRespon
 }
 
 // Kind 0x196 only (kind 0x1a5 never reaches ROAM).
-void EnterWanwanState0(void *stateObject) {
+void EnterWanwanRoam(void *stateObject) {
     Wanwan *wanwan = stateObject;
     Vec3 *savedPoint;
 
@@ -288,7 +288,7 @@ static inline s64 WanwanGetHorizontalLengthSquared(const Vec3 *vector) {
 }
 
 // Kind 0x196 only (kind 0x1a5 never reaches ROAM).
-void UpdateWanwanState0(void *stateObject) {
+void UpdateWanwanRoam(void *stateObject) {
     Wanwan *wanwan = stateObject;
     Vec3 *candidate;
     Vec3 *lastPoint;
@@ -395,7 +395,7 @@ void UpdateWanwanState0(void *stateObject) {
     }
 }
 
-void EnterWanwanState1(void *stateObject) {
+void EnterWanwanLunge(void *stateObject) {
     Wanwan *wanwan = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
@@ -422,7 +422,7 @@ void EnterWanwanState1(void *stateObject) {
     StartSoundFromParams(&soundRequest);
 }
 
-void UpdateWanwanState1(void *stateObject) {
+void UpdateWanwanLunge(void *stateObject) {
     Wanwan *wanwan = stateObject;
     Vec3 offset;
     Vec3 predictedPos;
@@ -496,7 +496,7 @@ void UpdateWanwanState1(void *stateObject) {
     }
 }
 
-void EnterWanwanState2(void *stateObject) {
+void EnterWanwanHit(void *stateObject) {
     Wanwan *wanwan = stateObject;
     wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_HIT;
     wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
@@ -506,7 +506,7 @@ void EnterWanwanState2(void *stateObject) {
     wanwan->mMapObject.mPosStep.y = 0x8000;
 }
 
-void UpdateWanwanState2(void *stateObject) {
+void UpdateWanwanHit(void *stateObject) {
     Wanwan *wanwan = stateObject;
     const Vec3 *velocity;
 
@@ -552,7 +552,7 @@ void UpdateWanwanState2(void *stateObject) {
     }
 }
 
-void EnterWanwanState3(void *stateObject) {
+void EnterWanwanPullBack(void *stateObject) {
     Wanwan *wanwan = stateObject;
     wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
     wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
@@ -563,7 +563,7 @@ static inline s64 XzLengthSquared(const Vec3 *vector) {
     return HORIZONTAL_LENGTH_SQUARED(*vector);
 }
 
-void UpdateWanwanState3(void *stateObject) {
+void UpdateWanwanPullBack(void *stateObject) {
     Wanwan *wanwan = stateObject;
     Vec3 toCenter;
     s32 radius;
@@ -589,16 +589,16 @@ void UpdateWanwanState3(void *stateObject) {
     }
 }
 
-void EnterWanwanState4(void *stateObject) {
+void EnterWanwanRest(void *stateObject) {
     Wanwan *wanwan = stateObject;
     wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
     wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;
     wanwan->mChainObject->mChain.mDownwardStep = WANWAN_CHAIN_DOWNWARD_STEP_INITIAL;
 }
 
-void UpdateWanwanState4Nop(void *stateObject) {}
+void UpdateWanwanRestNop(void *stateObject) {}
 
-void EnterWanwanState5(void *stateObject) {
+void EnterWanwanFollowPath(void *stateObject) {
     Wanwan *wanwan = stateObject;
     wanwan->mAngleAroundX = WANWAN_ANGLE_AROUND_X_LEVEL;
     wanwan->mOrientationBlendAmount = WANWAN_ORIENTATION_BLEND_AMOUNT_START;

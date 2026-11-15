@@ -63,14 +63,14 @@ extern const WanwanKindData gWanwanKindData;
 extern MapObjectList *gWanwanUpdateList;
 extern WanwanDrawList *gWanwanDrawList;
 
-void EnterWanwanState5(void *stateObject);
-void UpdateWanwanState4Nop(void *stateObject);
-void UpdateWanwanState2(void *stateObject);
-void EnterWanwanState2(void *stateObject);
-void UpdateWanwanState1(void *stateObject);
-void EnterWanwanState1(void *stateObject);
-void UpdateWanwanState0(void *stateObject);
-void EnterWanwanState0(void *stateObject);
+void EnterWanwanFollowPath(void *stateObject);
+void UpdateWanwanRestNop(void *stateObject);
+void UpdateWanwanHit(void *stateObject);
+void EnterWanwanHit(void *stateObject);
+void UpdateWanwanLunge(void *stateObject);
+void EnterWanwanLunge(void *stateObject);
+void UpdateWanwanRoam(void *stateObject);
+void EnterWanwanRoam(void *stateObject);
 u8 CollideItemObjectWithWanwan(Wanwan *wanwan, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 CollideKartWithWanwan(Wanwan *wanwan, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
@@ -79,10 +79,10 @@ MapObjectList *CreateWanwanUpdateList(void);
 WanwanDrawList *CreateWanwanDrawList(void);
 WanwanKindData *CreateWanwanKindData(void);
 
-void EnterWanwanState4(void *stateObject);
+void EnterWanwanRest(void *stateObject);
 
-// Object of kinds 0x196 (with chain post kind 0x197) and 0x1a5 (mUnk_fc is 0 or 1) of Wanwan; UpdateWanwanState3,
-// UpdateWanwanState2 and the functions after it up to CreateWanwanKindData: vectors at 0x04, 0x10 and 0xa0, ring of
+// Object of kinds 0x196 (with chain post kind 0x197) and 0x1a5 (mUnk_fc is 0 or 1) of Wanwan; UpdateWanwanPullBack,
+// UpdateWanwanHit and the functions after it up to CreateWanwanKindData: vectors at 0x04, 0x10 and 0xa0, ring of
 // four vector pointers at 0x160, words at 0xe8, 0xec, 0xf0 and 0x1fc.
 typedef struct Wanwan {
     /* 00 */ MapObject mMapObject;
@@ -115,6 +115,6 @@ typedef struct Wanwan {
     /* 200 */ Vec3 mForward;
 } Wanwan;
 
-void UpdateWanwanState3(void *stateObject);
+void UpdateWanwanPullBack(void *stateObject);
 
-void EnterWanwanState3(void *stateObject);
+void EnterWanwanPullBack(void *stateObject);

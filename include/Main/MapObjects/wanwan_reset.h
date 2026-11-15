@@ -15,7 +15,7 @@ extern SoundStartParams gWanwanTouchGroundSoundParams;
 extern Quaternion gWanwanResetSurfaceOrientation;
 extern StateCallbacks gWanwanStateTable[];
 
-void UpdateWanwanState5(void *stateObject);
+void UpdateWanwanFollowPath(void *stateObject);
 void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row);
 void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row);
 void ResetWanwan(Wanwan *wanwan);
