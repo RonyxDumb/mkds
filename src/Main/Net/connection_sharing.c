@@ -356,10 +356,10 @@ s32 GetZeroWordResult(void) {
     s32 result;
     s32 count;
 
-    result = ZERO_WORD_RESULT_WAITING;
+    result = WORD_WAIT_RESULT_WAITING;
     connection = gConnectionWork;
     if (GetWorkConnectionMode(connection) != 1) {
-        result = ZERO_WORD_RESULT_NOT_RECEIVED;
+        result = WORD_WAIT_RESULT_NOT_RECEIVED;
     } else {
         if (GetWorkConnectionMode(connection) == 1) {
             if ((connection->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
@@ -372,9 +372,9 @@ s32 GetZeroWordResult(void) {
         }
         if (count == 0) {
             if (connection->mZeroWordReceived != 0) {
-                result = ZERO_WORD_RESULT_RECEIVED;
+                result = WORD_WAIT_RESULT_RECEIVED;
             } else {
-                result = ZERO_WORD_RESULT_NOT_RECEIVED;
+                result = WORD_WAIT_RESULT_NOT_RECEIVED;
             }
         }
     }
