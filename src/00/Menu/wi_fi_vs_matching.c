@@ -193,7 +193,7 @@ void InitWiFiVSMatching(void *heap) {
         totalLabelIndices += 2;
         nameCellIndices++;
     }
-    gWiFiVSMatching->mOffset = 0x100;
+    gWiFiVSMatching->mOffset = WIFI_VS_MATCHING_OFFSET_HIDDEN;
     for (otherIndex = 0; otherIndex < 3; otherIndex++) {
         gWiFiVSMatching->mUnk_12[otherIndex] = 0;
         gWiFiVSMatching->mNameSlideOffsets[otherIndex] = 0;
@@ -277,11 +277,12 @@ void PrintWiFiVSMatchingNoOpponents(void) {
 void AdvanceWiFiVSMatchingSlideIn(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    gWiFiVSMatching->mOffset = InterpolateS16(1, 0x100, 0, gWiFiVSMatching->mStateFrames, 10);
-    if (gWiFiVSMatching->mStateFrames >= 10) {
-        gWiFiVSMatching->mStateFrames = 10;
+    gWiFiVSMatching->mOffset = InterpolateS16(1, WIFI_VS_MATCHING_OFFSET_HIDDEN, 0, gWiFiVSMatching->mStateFrames,
+                                              WIFI_VS_MATCHING_SLIDE_FRAMES);
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_SLIDE_FRAMES) {
+        gWiFiVSMatching->mStateFrames = WIFI_VS_MATCHING_SLIDE_FRAMES;
     }
-    if (gWiFiVSMatching->mStateFrames >= 10) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_SLIDE_FRAMES) {
         if (IsTxtSystemOpenNoCloseRequest() != 0) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_MATCHING;
             gWiFiVSMatching->mStateFrames = 0;
@@ -314,8 +315,8 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
     u8 *emblemDestination;
     s32 otherSlot;
 
-    if (gWiFiVSMatching->mStateFrames >= 0x78) {
-        gWiFiVSMatching->mStateFrames = 0x78;
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_RESULT_WAIT_FRAMES) {
+        gWiFiVSMatching->mStateFrames = WIFI_VS_MATCHING_RESULT_WAIT_FRAMES;
     }
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (IsWiFiSessionMatchingActive() != FALSE) {
@@ -356,7 +357,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
         StopBothSeqHandles();
         return;
     }
-    if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSMatching->mStateFrames >= 0x78 &&
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_RESULT_WAIT_FRAMES &&
         CheckWiFiMatchingResult() == -1) {
         PrintWiFiVSMatchingNoOpponents();
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_NO_OPPONENTS_BACK;
@@ -438,11 +439,11 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
         otherCount = 3;
     }
     gWiFiVSMatching->mBlinkFrames = gWiFiVSMatching->mBlinkFrames + 1;
-    if (gWiFiVSMatching->mBlinkFrames >= 0x50) {
+    if (gWiFiVSMatching->mBlinkFrames >= WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES) {
         gWiFiVSMatching->mBlinkFrames = 0;
     }
     if (otherCount > 0) {
-        sh = 0x50 >> (otherCount - 1);
+        sh = WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES >> (otherCount - 1);
         if (gWiFiVSMatching->mBlinkFrames % sh >= sh / 2) {
             blinkOn = TRUE;
         }
@@ -469,8 +470,8 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
 
 void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
     s32 frame = gWiFiVSMatching->mStateFrames;
-    u16 angle = (frame << 16) / 0x14;
-    s32 scale = ((0x13 - frame) * 0xf33) / 0x14 + 0xcd;
+    u16 angle = (frame << 16) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES;
+    s32 scale = ((0x13 - frame) * 0xf33) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES + 0xcd;
     s32 otherIndex;
     Nclr *emblemSBNclr;
 
@@ -479,7 +480,7 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
             &gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingEmblemCellIndices[otherIndex]], angle, scale);
     }
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    if (gWiFiVSMatching->mStateFrames >= 0x14) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES) {
         if (IsTxtSystemClosedNoOpenRequest() != 0) {
             emblemSBNclr = GetEmblemSBNclr();
             for (otherIndex = 0; otherIndex < 3; otherIndex++) {
@@ -510,7 +511,7 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
 
 void AdvanceWiFiVSMatchingWaitPlayerListText(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    if (gWiFiVSMatching->mStateFrames >= 0x28) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_PLAYER_LIST_TEXT_FRAMES) {
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER;
         gWiFiVSMatching->mStateFrames = 0;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x20b);
@@ -545,11 +546,11 @@ void AdvanceWiFiVSMatchingScaleInOther(void) {
     emblemFrame = frame;
     otherSlot = gWiFiVSMatching->mCurrentOtherIndex;
     cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
-    if (frame >= 0x1e) {
-        totalFrame = 0x1d;
+    if (frame >= WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES) {
+        totalFrame = WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES - 1;
     }
-    if (frame >= 0x28) {
-        emblemFrame = 0x27;
+    if (frame >= WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES) {
+        emblemFrame = WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES - 1;
     }
     totalScale = TO_FIXED12(gWiFiVSMatchingTotalScalePercents[totalFrame]) / 100;
     emblemScale = TO_FIXED12(gWiFiVSMatchingEmblemScalePercents[emblemFrame]) / 100;
@@ -578,7 +579,8 @@ void AdvanceWiFiVSMatchingScaleInOther(void) {
     SetLayoutEntryAngleAndScale((LayoutTableEntry *) ((u32) gWiFiVSMatching->mWiFiVSMatchingTable + emblemEntryOffset),
                                 emblemAngle, emblemScale);
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    if (gWiFiVSMatching->mStateFrames >= 0x1e && gWiFiVSMatching->mStateFrames >= 0x28) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES &&
+        gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES) {
         gWiFiVSMatching->mStateFrames = 0;
         if (gWiFiVSMatching->mCurrentOtherIndex == gWiFiVSMatching->mOtherCount - 1) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_RESULT_SHOWN;
@@ -591,7 +593,7 @@ void AdvanceWiFiVSMatchingScaleInOther(void) {
 
 void AdvanceWiFiVSMatchingPauseBetweenOthers(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    if (gWiFiVSMatching->mStateFrames >= 0x50) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_PAUSE_FRAMES) {
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER;
         gWiFiVSMatching->mStateFrames = 0;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x20b);
@@ -650,12 +652,13 @@ void AdvanceWiFiVSMatchingWaitNoOpponentsBack(void) {
 
 void AdvanceWiFiVSMatchingSlideOut(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    gWiFiVSMatching->mOffset = InterpolateS16(1, 0, 0x100, gWiFiVSMatching->mStateFrames, 10);
-    if (gWiFiVSMatching->mStateFrames >= 10) {
-        gWiFiVSMatching->mStateFrames = 10;
+    gWiFiVSMatching->mOffset = InterpolateS16(1, 0, WIFI_VS_MATCHING_OFFSET_HIDDEN, gWiFiVSMatching->mStateFrames,
+                                              WIFI_VS_MATCHING_SLIDE_FRAMES);
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_SLIDE_FRAMES) {
+        gWiFiVSMatching->mStateFrames = WIFI_VS_MATCHING_SLIDE_FRAMES;
     }
     if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
-        gWiFiVSMatching->mStateFrames >= 10) {
+        gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_SLIDE_FRAMES) {
         if (gWiFiVSMatching->mNoOpponents != FALSE) {
             RequestWiFiState(gWiFiVSMatching->mPendingWiFiState);
             return;
@@ -727,7 +730,7 @@ void UpdateWiFiVSMatchingPaletteBlend(void) {
     if (gWiFiVSMatching->mState == WIFI_VS_MATCHING_STATE_WAIT_RESULT_SHOWN ||
         gWiFiVSMatching->mState == WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT) {
         gWiFiVSMatching->mBlendFrames = gWiFiVSMatching->mBlendFrames + 1;
-        if (gWiFiVSMatching->mBlendFrames >= 0x3c) {
+        if (gWiFiVSMatching->mBlendFrames >= WIFI_VS_MATCHING_BLEND_CYCLE_FRAMES) {
             gWiFiVSMatching->mBlendFrames = 0;
         }
         blendFrame = gWiFiVSMatching->mBlendFrames;

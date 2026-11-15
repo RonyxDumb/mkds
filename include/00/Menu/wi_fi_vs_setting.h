@@ -77,6 +77,22 @@ enum {
     WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT,
 };
 
+// Frame counts of the matching screen. The slide states last SLIDE_FRAMES, with the table x offset moving between 0
+// and OFFSET_HIDDEN; waiting for a match result gives up after RESULT_WAIT_FRAMES; BLINK_CYCLE_FRAMES is one blink
+// round of the found-opponent cells (shared by the opponents seen), BLEND_CYCLE_FRAMES one round of the palette blend.
+// An opponent's scale-in shows the totals for TOTAL_SCALE_FRAMES frames (the length of the scale percent table) and
+// the emblem for EMBLEM_SCALE_FRAMES, which ends the state.
+#define WIFI_VS_MATCHING_SLIDE_FRAMES 10
+#define WIFI_VS_MATCHING_OFFSET_HIDDEN 0x100
+#define WIFI_VS_MATCHING_RESULT_WAIT_FRAMES 0x78
+#define WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES 0x50
+#define WIFI_VS_MATCHING_BLEND_CYCLE_FRAMES 0x3c
+#define WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES 0x14
+#define WIFI_VS_MATCHING_PLAYER_LIST_TEXT_FRAMES 0x28
+#define WIFI_VS_MATCHING_PAUSE_FRAMES 0x50
+#define WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES 0x1e
+#define WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES 0x28
+
 // Object behind gWiFiVSMatching; mState selects the handler run by AdvanceWiFiVSMatching.
 typedef struct WiFiVSMatching {
     /* 0000 */ s32 mState;
