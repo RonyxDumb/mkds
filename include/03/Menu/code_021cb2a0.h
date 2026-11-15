@@ -4,6 +4,12 @@
 #include "03/types_021d299c.h"
 #include "03/unk_021d7000.h"
 
+// Values of gWaySelectedIndex when a way is chosen: the screen each one opens.
+#define WAY_SELECTED_AP_SCAN 0
+#define WAY_SELECTED_VALUE_RECORDS 1
+#define WAY_SELECTED_EXCHANGE_SEARCH 2
+#define WAY_SELECTED_JB3_LIST 3
+
 extern const Rect gWaySelectionRects[2][4];
 
 void UpdateWayFadeOut(void);

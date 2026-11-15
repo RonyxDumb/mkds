@@ -203,11 +203,11 @@ void UpdateExchangeEntryRelease(void) {
 
 void UpdateExchangeEntryOutcome(void) {
     switch (GetExchangeOutcome()) {
-        case 2:
+        case EXCHANGE_OUTCOME_FIRST_PACKET_ACCEPTED:
             gExchangeEntryShowNext = 1;
             SetUpdateFunction(StartExchangeEntryClose);
             break;
-        case 4:
+        case EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT:
             gExchangeEntryShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);

@@ -4,6 +4,13 @@
 #include "03/System/tasks.h"
 #include "code_02142eac.h"
 
+// Codes UsbScan.mResultCallback gets once the scan time is up: no entries, only entries with the flag set, or entries
+// with and without it. The callback in usb.c also has a case for the code after them, which nothing reports.
+#define USB_SCAN_RESULT_NONE 0
+#define USB_SCAN_RESULT_FLAGGED 1
+#define USB_SCAN_RESULT_MIXED 2
+#define USB_SCAN_RESULT_NEVER_REPORTED 3
+
 // Values of UsbScan.mReleaseProgress: running, release started, the close reply arrived.
 #define USB_SCAN_RELEASE_RUNNING 0
 #define USB_SCAN_RELEASE_STARTED 1

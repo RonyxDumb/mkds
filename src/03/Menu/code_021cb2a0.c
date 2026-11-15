@@ -213,19 +213,19 @@ void UpdateWayRelease(void) {
             SetUpdateFunction(CreateAp);
         } else {
             switch (gWaySelectedIndex) {
-                case 0:
+                case WAY_SELECTED_AP_SCAN:
                     SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(SetupApScan);
                     break;
-                case 1:
+                case WAY_SELECTED_VALUE_RECORDS:
                     SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(SetupValueRecords);
                     break;
-                case 2:
+                case WAY_SELECTED_EXCHANGE_SEARCH:
                     SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(SetupExchangeSearch);
                     break;
-                case 3:
+                case WAY_SELECTED_JB3_LIST:
                     SetPrimaryMenuPair(2, 0);
                     SetSecondaryMenuPair(0, 0);
                     SetJb3ListMode(1);

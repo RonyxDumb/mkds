@@ -217,11 +217,11 @@ void UpdateExchangeSearchRelease(void) {
 
 void UpdateExchangeSearchOutcome(void) {
     switch (GetExchangeOutcome()) {
-        case 1:
+        case EXCHANGE_OUTCOME_SEARCH_ROUND_DONE:
             gExchangeSearchShowNext = 1;
             SetUpdateFunction(StartExchangeSearchClose);
             break;
-        case 4:
+        case EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT:
             gExchangeSearchShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);

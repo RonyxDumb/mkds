@@ -6,6 +6,9 @@ typedef struct PointerStack PointerStack;
 
 struct TaskEntry;
 
+// Priority of the end node of a task list, after every task.
+#define TASK_PRIORITY_LIST_END 0xff
+
 typedef void (*TaskCallback)(struct TaskEntry *task, void *arg);
 
 typedef struct TaskEntry {

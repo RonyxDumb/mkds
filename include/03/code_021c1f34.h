@@ -14,6 +14,11 @@ typedef struct ValueRecordsRequestView {
     /* 002 */ ValueRecordsRequestItem mItem;
 } ValueRecordsRequestView;
 
+// Values RunValueRecordsRequestForStatus returns: try again later (no entry or a timeout), succeeded, failed.
+#define VALUE_RECORDS_STATUS_RETRY 0
+#define VALUE_RECORDS_STATUS_SUCCEEDED 1
+#define VALUE_RECORDS_STATUS_FAILED 2
+
 u32 RunValueRecordsRequestForStatus(void);
 void ReleaseValueRecordsRequest(int succeeded);
 void InitValueRecordsRequest(void);

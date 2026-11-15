@@ -52,13 +52,13 @@ u32 RunValueRecordsRequestForStatus(void) {
     u8 resultCode;
     if (RunValueRecordsRequest(gValueRecordsRequest) == 0) {
         gValueRecordsRequestSucceeded = 1;
-        return 1;
+        return VALUE_RECORDS_STATUS_SUCCEEDED;
     }
     resultCode = gValueRecordsRequest->mResultCode;
-    if (resultCode == 1 || (u8) (resultCode + 253) <= 2) {
-        return 0;
+    if (resultCode == VALUE_RECORDS_RESULT_NO_ENTRY_FOUND || (u8) (resultCode + 253) <= 2) {
+        return VALUE_RECORDS_STATUS_RETRY;
     }
-    return 2;
+    return VALUE_RECORDS_STATUS_FAILED;
 }
 
 u32 EssidAllocExpHeapBlockWrapper(u32 size) {

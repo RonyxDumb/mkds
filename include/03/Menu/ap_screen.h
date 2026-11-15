@@ -9,6 +9,15 @@
 extern const ApObjectPosition gApObjectPositions[6];
 extern const Rect gApSelectionRects[7];
 
+// Values of gApSelectedIndex: the three entries, the multi button, and the reset button of each entry.
+#define AP_SELECTED_FIRST_ENTRY 0
+#define AP_SELECTED_SECOND_ENTRY 1
+#define AP_SELECTED_THIRD_ENTRY 2
+#define AP_SELECTED_MULTI 3
+#define AP_SELECTED_FIRST_RESET 4
+#define AP_SELECTED_SECOND_RESET 5
+#define AP_SELECTED_THIRD_RESET 6
+
 // Values of Ap.mCloseKind: how the screen was left; BACK also slides the menu pair objects out.
 enum {
     AP_CLOSE_KIND_NONE,

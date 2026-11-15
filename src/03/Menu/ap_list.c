@@ -113,15 +113,15 @@ void SetupApListScroll(void) {
     u32 offset;
     offset = 0;
     gApList->mScrollYMax = (gApList->mEntryCount - 4) * 0x1c;
-    if (gApList->mEntryCount <= 4) {
+    if (gApList->mEntryCount <= AP_LIST_VISIBLE_ROWS) {
         entryCountRange = 0;
         gApList->mScrollBarOffsetMax = 0;
-    } else if (gApList->mEntryCount <= 8) {
+    } else if (gApList->mEntryCount <= AP_LIST_SMALL_ENTRY_COUNT_MAX) {
         entryCountRange = 1;
-        gApList->mScrollBarOffsetMax = 0x1f;
+        gApList->mScrollBarOffsetMax = AP_LIST_SCROLL_BAR_OFFSET_MAX_SMALL;
     } else {
         entryCountRange = 2;
-        gApList->mScrollBarOffsetMax = 0x37;
+        gApList->mScrollBarOffsetMax = AP_LIST_SCROLL_BAR_OFFSET_MAX_LARGE;
     }
     if (entryCountRange != 0) {
         offset = FX_DivS32(gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax);
@@ -299,7 +299,7 @@ void UpdateApListScroll(void) {
                 ReleaseSelectionObjectSlots();
                 gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
                 RefreshApList();
-                gApList->mScrollTimer = 4;
+                gApList->mScrollTimer = AP_LIST_SCROLL_TIMER_FRAMES;
             }
             break;
         case SCROLL_BAR_EVENT_OFFSET_SETTLED:
@@ -330,7 +330,7 @@ void UpdateApListScroll(void) {
             break;
         case SCROLL_BAR_EVENT_ARROW_DOWN_PRESSED:
             apList = gApList;
-            if (apList->mEntryCount <= 4 || gApListScrollY == apList->mScrollYMax) {
+            if (apList->mEntryCount <= AP_LIST_VISIBLE_ROWS || gApListScrollY == apList->mScrollYMax) {
                 if (apList->mBarBlockedSoundPlayed == 0) {
                     StartSoundSeq(9);
                     gApList->mBarBlockedSoundPlayed = 1;
@@ -617,7 +617,7 @@ void PlaceApListSelection(void) {
     u8 selectedRow;
     int pairIndex;
     selectedRow = gApListSelectedRow;
-    if (selectedRow < 4) {
+    if (selectedRow < AP_LIST_VISIBLE_ROWS) {
         pairIndex = 2;
     } else {
         pairIndex = 3;
@@ -632,10 +632,10 @@ void MoveApListSelectedRow(int direction) {
     moved = TRUE;
     selectedRow = gApListSelectedRow;
     switch (selectedRow) {
-        case 0:
+        case AP_LIST_ROW_FIRST_VISIBLE:
             if (direction == 1) {
                 if (gApListScrollY == 0) {
-                    gApListSelectedRow = 4;
+                    gApListSelectedRow = AP_LIST_ROW_BUTTON;
                 } else {
                     StartSoundSeq(0x13);
                     gApList->mScrollTask = AddTask(0, AdvanceApListScrollYDecrease, NULL, 0x78);
@@ -647,8 +647,8 @@ void MoveApListSelectedRow(int direction) {
                 moved = FALSE;
             }
             break;
-        case 1:
-        case 2:
+        case AP_LIST_ROW_SECOND_VISIBLE:
+        case AP_LIST_ROW_THIRD_VISIBLE:
             if (direction == 1) {
                 gApListSelectedRow = selectedRow - 1;
             } else if (gApList->mEntryCount > selectedRow + 1) {
@@ -657,7 +657,7 @@ void MoveApListSelectedRow(int direction) {
                 moved = FALSE;
             }
             break;
-        case 3:
+        case AP_LIST_ROW_LAST_VISIBLE:
             if (direction == 1) {
                 gApListSelectedRow = selectedRow - 1;
             } else {
@@ -665,12 +665,12 @@ void MoveApListSelectedRow(int direction) {
                 return;
             }
             break;
-        case 4:
+        case AP_LIST_ROW_BUTTON:
             if (direction == 1) {
                 moved = FALSE;
             } else {
                 gApListScrollY = 0;
-                gApListSelectedRow = 0;
+                gApListSelectedRow = AP_LIST_ROW_FIRST_VISIBLE;
                 RefreshApList();
                 PlaceScrollBarWrapper(0);
             }
@@ -700,7 +700,7 @@ void StartApListScrollYDecrease(void) {
 }
 
 void StartApListScrollYIncrease(void) {
-    if (gApListScrollY == gApList->mScrollYMax || gApList->mEntryCount <= 4) {
+    if (gApListScrollY == gApList->mScrollYMax || gApList->mEntryCount <= AP_LIST_VISIBLE_ROWS) {
         if (gApList->mKeyBlockedSoundPlayed == 0) {
             StartSoundSeq(9);
             gApList->mKeyBlockedSoundPlayed = 1;

@@ -165,7 +165,7 @@ void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
                     goto next;
                 }
                 if (scan->mResultCallback != NULL) {
-                    scan->mResultCallback(1);
+                    scan->mResultCallback(USB_SCAN_RESULT_FLAGGED);
                 }
                 return;
             }
@@ -221,7 +221,7 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
                         break;
                     }
                     if (usbScan->mResultCallback != NULL) {
-                        usbScan->mResultCallback(1);
+                        usbScan->mResultCallback(USB_SCAN_RESULT_FLAGGED);
                         return;
                     }
                     usbScan->mPendingResult = 1;

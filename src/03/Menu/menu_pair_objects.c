@@ -55,15 +55,15 @@ void AdvanceUsbScanReport(TaskEntry *task, void *arg) {
         }
         if (flagSetFound != 0 && flagClearFound != 0) {
             if (scan->mResultCallback != NULL) {
-                scan->mResultCallback(2);
+                scan->mResultCallback(USB_SCAN_RESULT_MIXED);
             }
         } else if (flagSetFound != 0) {
             if (scan->mResultCallback != NULL) {
-                scan->mResultCallback(1);
+                scan->mResultCallback(USB_SCAN_RESULT_FLAGGED);
             }
         } else if (flagClearFound == 0) {
             if (scan->mResultCallback != NULL) {
-                scan->mResultCallback(0);
+                scan->mResultCallback(USB_SCAN_RESULT_NONE);
             }
         }
         gUsbScan->mReportTask = 0;

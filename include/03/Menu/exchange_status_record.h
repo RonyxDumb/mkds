@@ -15,6 +15,15 @@ enum {
     EXCHANGE_STATUS_ENDED_WITHOUT_RESULT,
 };
 
+// Values GetExchangeOutcome returns: the step the exchange reached, as the screens tell them apart. RESULT_USABLE is a
+// finished exchange whose result has a known kind and item value 1; BAD_RESULT is a finished one that has not.
+#define EXCHANGE_OUTCOME_PENDING 0
+#define EXCHANGE_OUTCOME_SEARCH_ROUND_DONE 1
+#define EXCHANGE_OUTCOME_FIRST_PACKET_ACCEPTED 2
+#define EXCHANGE_OUTCOME_RESULT_USABLE 3
+#define EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT 4
+#define EXCHANGE_OUTCOME_BAD_RESULT 5
+
 typedef struct ExchangeStatus {
     /* 00 */ u32 mStatus;
     /* 04 */ u32 mTimeoutMillisecondsRemaining;

@@ -254,7 +254,7 @@ void StartApClose(void) {
 void UpdateApFadeOut(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
         if (gAp->mCloseKind == AP_CLOSE_KIND_SELECTED) {
-            if (gApSelectedIndex == 3 || GetApWorkCopy()->mEntry.mSetType != AP_SET_TYPE_EMPTY) {
+            if (gApSelectedIndex == AP_SELECTED_MULTI || GetApWorkCopy()->mEntry.mSetType != AP_SET_TYPE_EMPTY) {
                 StartSlideButtonsOut();
             }
         }
@@ -289,9 +289,9 @@ void UpdateApRelease(void) {
             SetUpdateFunction(SetupJb2Menu);
         } else {
             switch (gApSelectedIndex) {
-                case 0:
-                case 1:
-                case 2:
+                case AP_SELECTED_FIRST_ENTRY:
+                case AP_SELECTED_SECOND_ENTRY:
+                case AP_SELECTED_THIRD_ENTRY:
                     SetPrimaryMenuPair(2, 0);
                     if (GetApWorkCopy()->mEntry.mSetType == AP_SET_TYPE_EMPTY) {
                         SetUpdateFunction(SetupWay);
@@ -301,7 +301,7 @@ void UpdateApRelease(void) {
                         SetUpdateFunction(CreateJb3List);
                     }
                     break;
-                case 3:
+                case AP_SELECTED_MULTI:
                     SetPrimaryMenuPair(2, 1);
                     SetUpdateFunction(SetupXb3Multi);
                     break;
@@ -325,43 +325,43 @@ void PlaceApSelection(void) {
 void MoveApSelection(int direction) {
     u32 moved = 1;
     switch (gApSelectedIndex) {
-        case 0:
-            gAp->mRememberedEntryIndex = 0;
+        case AP_SELECTED_FIRST_ENTRY:
+            gAp->mRememberedEntryIndex = AP_SELECTED_FIRST_ENTRY;
             if (direction == 0) {
-                gApSelectedIndex = 2;
+                gApSelectedIndex = AP_SELECTED_THIRD_ENTRY;
             } else if (direction == 2) {
-                gApSelectedIndex = 1;
+                gApSelectedIndex = AP_SELECTED_SECOND_ENTRY;
             } else if (direction == 1) {
-                gApSelectedIndex = 3;
+                gApSelectedIndex = AP_SELECTED_MULTI;
             } else {
-                gApSelectedIndex = 4;
+                gApSelectedIndex = AP_SELECTED_FIRST_RESET;
             }
             break;
-        case 1:
-            gAp->mRememberedEntryIndex = 1;
+        case AP_SELECTED_SECOND_ENTRY:
+            gAp->mRememberedEntryIndex = AP_SELECTED_SECOND_ENTRY;
             if (direction == 0) {
-                gApSelectedIndex = 0;
+                gApSelectedIndex = AP_SELECTED_FIRST_ENTRY;
             } else if (direction == 2) {
-                gApSelectedIndex = 2;
+                gApSelectedIndex = AP_SELECTED_THIRD_ENTRY;
             } else if (direction == 1) {
-                gApSelectedIndex = 3;
+                gApSelectedIndex = AP_SELECTED_MULTI;
             } else {
-                gApSelectedIndex = 5;
+                gApSelectedIndex = AP_SELECTED_SECOND_RESET;
             }
             break;
-        case 2:
-            gAp->mRememberedEntryIndex = 2;
+        case AP_SELECTED_THIRD_ENTRY:
+            gAp->mRememberedEntryIndex = AP_SELECTED_THIRD_ENTRY;
             if (direction == 0) {
-                gApSelectedIndex = 1;
+                gApSelectedIndex = AP_SELECTED_SECOND_ENTRY;
             } else if (direction == 2) {
-                gApSelectedIndex = 0;
+                gApSelectedIndex = AP_SELECTED_FIRST_ENTRY;
             } else if (direction == 1) {
-                gApSelectedIndex = 3;
+                gApSelectedIndex = AP_SELECTED_MULTI;
             } else {
-                gApSelectedIndex = 6;
+                gApSelectedIndex = AP_SELECTED_THIRD_RESET;
             }
             break;
-        case 3: {
+        case AP_SELECTED_MULTI: {
             u8 rememberedIndex = gAp->mRememberedEntryIndex;
             s32 targetIndex = rememberedIndex + 4;
             if (direction == 1) {
@@ -373,40 +373,40 @@ void MoveApSelection(int direction) {
             }
             break;
         }
-        case 4:
-            gAp->mRememberedEntryIndex = 0;
+        case AP_SELECTED_FIRST_RESET:
+            gAp->mRememberedEntryIndex = AP_SELECTED_FIRST_ENTRY;
             if (direction == 0) {
-                gApSelectedIndex = 6;
+                gApSelectedIndex = AP_SELECTED_THIRD_RESET;
             } else if (direction == 2) {
-                gApSelectedIndex = 5;
+                gApSelectedIndex = AP_SELECTED_SECOND_RESET;
             } else if (direction == 1) {
-                gApSelectedIndex = 0;
+                gApSelectedIndex = AP_SELECTED_FIRST_ENTRY;
             } else {
-                gApSelectedIndex = 3;
+                gApSelectedIndex = AP_SELECTED_MULTI;
             }
             break;
-        case 5:
-            gAp->mRememberedEntryIndex = 1;
+        case AP_SELECTED_SECOND_RESET:
+            gAp->mRememberedEntryIndex = AP_SELECTED_SECOND_ENTRY;
             if (direction == 0) {
-                gApSelectedIndex = 4;
+                gApSelectedIndex = AP_SELECTED_FIRST_RESET;
             } else if (direction == 2) {
-                gApSelectedIndex = 6;
+                gApSelectedIndex = AP_SELECTED_THIRD_RESET;
             } else if (direction == 1) {
-                gApSelectedIndex = 1;
+                gApSelectedIndex = AP_SELECTED_SECOND_ENTRY;
             } else {
-                gApSelectedIndex = 3;
+                gApSelectedIndex = AP_SELECTED_MULTI;
             }
             break;
-        case 6:
-            gAp->mRememberedEntryIndex = 2;
+        case AP_SELECTED_THIRD_RESET:
+            gAp->mRememberedEntryIndex = AP_SELECTED_THIRD_ENTRY;
             if (direction == 0) {
-                gApSelectedIndex = 5;
+                gApSelectedIndex = AP_SELECTED_SECOND_RESET;
             } else if (direction == 2) {
-                gApSelectedIndex = 4;
+                gApSelectedIndex = AP_SELECTED_FIRST_RESET;
             } else if (direction == 1) {
-                gApSelectedIndex = 2;
+                gApSelectedIndex = AP_SELECTED_THIRD_ENTRY;
             } else {
-                gApSelectedIndex = 3;
+                gApSelectedIndex = AP_SELECTED_MULTI;
             }
             break;
     }
@@ -470,7 +470,7 @@ void RequestApSelectionPalette(void) {
     if (gApSelectedIndex <= 3) {
         RequestBgPaletteRowCopy(gAp->mYbBgStep11Ncl, paletteRows.mRowIndices[gApSelectedIndex],
                                 paletteRows.mRowIndices[gApSelectedIndex]);
-        if (gApSelectedIndex != 3) {
+        if (gApSelectedIndex != AP_SELECTED_MULTI) {
             statusIndex = GetApEntrySetType(gApSelectedIndex);
             if (statusIndex > 2) {
                 statusIndex = 3;

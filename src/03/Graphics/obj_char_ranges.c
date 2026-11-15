@@ -24,8 +24,8 @@ void InitObjCharRanges(void) {
     for (rangeIndex = 0; rangeIndex < 2; rangeIndex++) {
         gObjCharRanges[rangeIndex].mFreeRanges = CreateFilledPointerStack(0x20, &gObjCharRanges[rangeIndex], 0xc);
         gObjCharRanges[rangeIndex].mList = CreateNodeList();
-        gObjCharRanges[rangeIndex].mListStart.mStart = 0x300;
-        gObjCharRanges[rangeIndex].mListEnd.mStart = 0x400;
+        gObjCharRanges[rangeIndex].mListStart.mStart = OBJ_CHAR_RANGE_FIRST_UNIT;
+        gObjCharRanges[rangeIndex].mListEnd.mStart = OBJ_CHAR_RANGE_END_UNIT;
         AddNodeToListFront(gObjCharRanges[rangeIndex].mList, &gObjCharRanges[rangeIndex].mListStart);
         AddNodeToListBack(gObjCharRanges[rangeIndex].mList, &gObjCharRanges[rangeIndex].mListEnd);
     }

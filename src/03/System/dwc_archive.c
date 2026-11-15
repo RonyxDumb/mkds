@@ -76,13 +76,13 @@ void ReleaseDwcArchive(void) {
 
 s32 DwcArchiveProc(FSFile *file, u32 command) {
     switch (command) {
-        case 9:
+        case FS_COMMAND_ACTIVATE:
             CARD_LockRom(gDwcArchive->mLockId);
             return 0;
-        case 10:
+        case FS_COMMAND_IDLE:
             CARD_UnlockRom(gDwcArchive->mLockId);
             return 0;
-        case 1:
+        case FS_COMMAND_WRITEFILE:
             return 4;
         default:
             return 8;

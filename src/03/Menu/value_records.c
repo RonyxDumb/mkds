@@ -106,15 +106,15 @@ void UpdateValueRecords(void) {
     UpdateValueRecordsResult();
     requestStatus = RunValueRecordsRequestForStatus();
     switch (requestStatus) {
-        case 0:
+        case VALUE_RECORDS_STATUS_RETRY:
             break;
-        case 1:
+        case VALUE_RECORDS_STATUS_SUCCEEDED:
             gValueRecordsShowNext = 1;
             RemoveTaskEntryWrapper(1, gValueRecordsRequestTask);
             gValueRecordsRequestTask = 0;
             SetUpdateFunction(UpdateValueRecordsFrames);
             break;
-        case 2:
+        case VALUE_RECORDS_STATUS_FAILED:
             StopSoundSeq();
             CreateMessageBox(0x40, 1, 1, -1, 0);
             StartSoundSeq(9);

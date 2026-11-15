@@ -5,6 +5,10 @@
 
 typedef struct PointerStack PointerStack;
 
+// The units of the object character memory the ranges are cut from: the first one and the one after the last.
+#define OBJ_CHAR_RANGE_FIRST_UNIT 0x300
+#define OBJ_CHAR_RANGE_END_UNIT 0x400
+
 typedef struct ObjCharRange {
     /* 00 */ struct ObjCharRange *mPrev;
     /* 04 */ struct ObjCharRange *mNext;

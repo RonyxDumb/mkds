@@ -32,7 +32,7 @@ void InitTasks(void) {
         gTaskLists[listIndex].mResource = CreatePointerStack(*countPtr);
         gTaskLists[listIndex].mList = CreateNodeList();
         gTaskLists[listIndex].mListStart.mPriority = 0;
-        gTaskLists[listIndex].mListEnd.mPriority = 0xff;
+        gTaskLists[listIndex].mListEnd.mPriority = TASK_PRIORITY_LIST_END;
         AddNodeToListFront(gTaskLists[listIndex].mList, &gTaskLists[listIndex].mListStart);
         AddNodeToListBack(gTaskLists[listIndex].mList, &gTaskLists[listIndex].mListEnd);
         countPtr++;

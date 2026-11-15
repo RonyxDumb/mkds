@@ -35,6 +35,11 @@ extern const Rect gOptMenuSelectionRects[3];
 extern const Rect gOptMenuRects[3];
 extern const u16 gOptMenuOamEntryPosition[2];
 extern const u8 gOptMenuPaletteRows[3];
+// Values of gOptMenuSelectedIndex when an entry is chosen.
+#define OPT_MENU_SELECTED_INFO 0
+#define OPT_MENU_SELECTED_MULTI 1
+#define OPT_MENU_SELECTED_MESSAGE 2
+
 extern u8 gOptMenuSelectedIndex;
 extern u8 gOptMenuEntryChosen[4];
 extern OamEntry *gOptMenuOamEntry;

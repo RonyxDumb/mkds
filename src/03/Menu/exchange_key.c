@@ -203,13 +203,13 @@ void UpdateExchangeKeyRelease(void) {
 
 void UpdateExchangeKeyOutcome(void) {
     switch (GetExchangeOutcome()) {
-        case 3:
+        case EXCHANGE_OUTCOME_RESULT_USABLE:
             gExchangeKeyShowNext = 1;
             StopSoundSeq();
             StoreExchangeResultForAp();
             SetUpdateFunction(StartExchangeKeyClose);
             break;
-        case 4:
+        case EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT:
             gExchangeKeyShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(9);
@@ -217,7 +217,7 @@ void UpdateExchangeKeyOutcome(void) {
             DisableButtonTouch();
             SetUpdateFunction(UpdateExchangeKeyMessageResult);
             break;
-        case 5:
+        case EXCHANGE_OUTCOME_BAD_RESULT:
             gExchangeKeyShowNext = 0;
             StopSoundSeq();
             StartSoundSeq(0x12);

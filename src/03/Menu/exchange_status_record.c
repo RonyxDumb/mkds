@@ -34,22 +34,22 @@ u32 GetExchangeOutcome(void) {
         case EXCHANGE_STATUS_STARTED:
         case EXCHANGE_STATUS_ENTRY_FOUND:
         case EXCHANGE_STATUS_SECOND_KEY_RECEIVED:
-            return 0;
+            return EXCHANGE_OUTCOME_PENDING;
         case EXCHANGE_STATUS_SEARCH_ROUND_DONE:
-            return 1;
+            return EXCHANGE_OUTCOME_SEARCH_ROUND_DONE;
         case EXCHANGE_STATUS_FIRST_PACKET_ACCEPTED:
-            return 2;
+            return EXCHANGE_OUTCOME_FIRST_PACKET_ACCEPTED;
         case EXCHANGE_STATUS_SUCCEEDED:
             if (CopyExchangeResult(&exchangeResult) != 1) {
                 OS_Terminate();
             }
             if (exchangeResult.mKind >= EXCHANGE_RESULT_KIND_NONE &&
                 exchangeResult.mKind <= EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES && exchangeResult.mItem205Value == 1) {
-                return 3;
+                return EXCHANGE_OUTCOME_RESULT_USABLE;
             }
-            return 5;
+            return EXCHANGE_OUTCOME_BAD_RESULT;
         case EXCHANGE_STATUS_ENDED_WITHOUT_RESULT:
-            return 4;
+            return EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT;
     }
 }
 

@@ -213,7 +213,7 @@ void UpdateUsbRelease(void) {
 void UsbEventCallback(u32 eventCode) {
     if (gUsbExitKind == 0) {
         switch (eventCode) {
-            case 0:
+            case USB_SCAN_RESULT_NONE:
                 gUsbExitKind = 3;
                 StopSoundSeq();
                 StartSoundSeq(0x12);
@@ -221,19 +221,19 @@ void UsbEventCallback(u32 eventCode) {
                 DisableButtonTouch();
                 SetUpdateFunction(UpdateUsbMessageResult);
                 break;
-            case 1:
+            case USB_SCAN_RESULT_FLAGGED:
                 gUsbExitKind = 1;
                 StopSoundSeq();
                 SetUpdateFunction(StartUsbClose);
                 break;
-            case 2:
+            case USB_SCAN_RESULT_MIXED:
                 StopSoundSeq();
                 SetUsbScanCallback(0);
                 CreateMessageBox(0x47, 0, 1, -1, 0);
                 DisableButtonTouch();
                 SetUpdateFunction(UpdateUsbChoiceMessageResult);
                 break;
-            case 3:
+            case USB_SCAN_RESULT_NEVER_REPORTED:
                 gUsbExitKind = 2;
                 StopSoundSeq();
                 StartSoundSeq(9);

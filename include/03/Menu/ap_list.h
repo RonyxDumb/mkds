@@ -10,6 +10,21 @@ typedef struct BgTextCanvas BgTextCanvas;
 typedef struct Rect Rect;
 
 // 0x5c bytes.
+// Rows of the list that show at once (the row after them is the button row), the entry count up to which the scroll bar
+// offset range is the smaller one, the two ranges, and frames a dragged scroll bar waits between redraws.
+#define AP_LIST_VISIBLE_ROWS 4
+#define AP_LIST_SMALL_ENTRY_COUNT_MAX 8
+#define AP_LIST_SCROLL_BAR_OFFSET_MAX_SMALL 0x1f
+#define AP_LIST_SCROLL_BAR_OFFSET_MAX_LARGE 0x37
+#define AP_LIST_SCROLL_TIMER_FRAMES 4
+
+// Values of gApListSelectedRow.
+#define AP_LIST_ROW_FIRST_VISIBLE 0
+#define AP_LIST_ROW_SECOND_VISIBLE 1
+#define AP_LIST_ROW_THIRD_VISIBLE 2
+#define AP_LIST_ROW_LAST_VISIBLE 3
+#define AP_LIST_ROW_BUTTON 4
+
 typedef struct ApList {
     /* 00 */ ApScanEntry *mEntries;
     /* 04 */ void *mXb4ApListBackNsc;

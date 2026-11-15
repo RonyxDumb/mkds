@@ -213,15 +213,15 @@ void UpdateOptMenuRelease(void) {
             SetUpdateFunction(SetupJb2Menu);
         } else {
             switch (gOptMenuSelectedIndex) {
-                case 0:
+                case OPT_MENU_SELECTED_INFO:
                     SetPrimaryMenuPair(0, 1);
                     SetUpdateFunction(SetupJb5Info);
                     break;
-                case 1:
+                case OPT_MENU_SELECTED_MULTI:
                     SetPrimaryMenuPair(0, 1);
                     SetUpdateFunction(SetupYb5Multi);
                     break;
-                case 2:
+                case OPT_MENU_SELECTED_MESSAGE:
                     SetPrimaryMenuPair(0, 1);
                     SetUpdateFunction(SetupOptMenuMessage);
                     break;
