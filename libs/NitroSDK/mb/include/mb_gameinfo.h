@@ -103,7 +103,7 @@ void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex);
 void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value);
 void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value);
 void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback);
-s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback);
+s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback);
 
 void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 value);
 

@@ -327,7 +327,7 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
     if (MBi_calc_cksum(&gReceivedGameInfo->mChecksum, 0x68) != 0) {
         return 0;
     }
-    entryIndex = MBi_GetStoreElement((u8 *) scanBlock, callback);
+    entryIndex = MBi_GetStoreElement(scanBlock, callback);
     if (entryIndex < 0) {
         return 0;
     }
@@ -358,7 +358,7 @@ void MBi_SetSSIDToBssDesc(u16 *scanBlock, u32 value) {
 
 #pragma thumb on
 
-s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback) {
+s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) {
     s32 entryIndex;
     MbBeaconRecvStatus *entryTable;
     MBGameInfoRecvList *entry;
@@ -370,8 +370,9 @@ s32 MBi_GetStoreElement(const u8 *scanBlock, EntryCallbackFunc callback) {
         u32 entryBit = 1 << entryIndex;
         usedMask = entryTable->mUsedMask;
         if ((usedMask & entryBit) != 0 && entry->mGgid == gReceivedGameInfo->mGgid &&
-            entry->mBssid[0] == scanBlock[4] && entry->mBssid[1] == scanBlock[5] && entry->mBssid[2] == scanBlock[6] &&
-            entry->mBssid[3] == scanBlock[7] && entry->mBssid[4] == scanBlock[8] && entry->mBssid[5] == scanBlock[9] &&
+            entry->mBssid[0] == scanBlock->mBssid[0] && entry->mBssid[1] == scanBlock->mBssid[1] &&
+            entry->mBssid[2] == scanBlock->mBssid[2] && entry->mBssid[3] == scanBlock->mBssid[3] &&
+            entry->mBssid[4] == scanBlock->mBssid[4] && entry->mBssid[5] == scanBlock->mBssid[5] &&
             gReceivedGameInfo->mFileNo == entryTable->mEntries[entryIndex].mFileNo) {
             if ((entryTable->mValidGameInfoFlag & entryBit) == 0) {
                 MBi_LockScanTarget(entryIndex);
