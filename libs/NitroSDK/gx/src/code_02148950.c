@@ -11,7 +11,7 @@
 #include "code_0200fe74.h"
 #include "registers.h"
 
-u8 gDispOn[4] = {1, 0, 0, 0};
+u16 gDispOn[2] = {1, 0};
 u32 GXi_DmaId = 3;
 s32 sDayOfYear[12] = {0, 0x1f, 0x3b, 0x5a, 0x78, 0x97, 0xb5, 0xd4, 0xf3, 0x111, 0x130, 0x14e};
 u16 gVramLockId = 0;
@@ -664,7 +664,7 @@ u32 GX_VBlankIntr(s32 enable) {
 void GX_DispOff(void) {
     u32 cnt = reg_GX_DISPCNT;
 
-    *(u16 *) gDispOn = 0;
+    gDispOn[0] = 0;
     gSavedDispMode = (cnt & 0x30000) >> 16;
     reg_GX_DISPCNT = cnt & ~0x30000;
 }
@@ -672,7 +672,7 @@ void GX_DispOff(void) {
 void GX_DispOn(void) {
     u32 mode;
 
-    *(u16 *) gDispOn = 1;
+    gDispOn[0] = 1;
     mode = gSavedDispMode;
     if (mode != 0) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x30000) | (mode << 16);
@@ -686,13 +686,13 @@ void GX_SetGraphicsMode(u16 dispMode, u32 bgMode, s32 bg0As) {
     u32 dispCtrl;
 
     dispCtrl = reg_GX_DISPCNT;
-    isDispOn = *(u16 *) gDispOn;
+    isDispOn = gDispOn[0];
     gSavedDispMode = dispMode;
     if (isDispOn == 0) {
         dispMode = 0;
     }
     reg_GX_DISPCNT = ((dispCtrl & 0xfff0fff0) | (dispMode << 16) | bgMode) | (bg0As << 3);
     if (gSavedDispMode == 0) {
-        *(u16 *) gDispOn = 0;
+        gDispOn[0] = 0;
     }
 }
