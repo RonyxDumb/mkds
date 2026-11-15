@@ -5,11 +5,13 @@
 
 typedef struct Kart Kart;
 
+// The scale of a joint and its inverse.
 typedef struct JointScaleValues {
     /* 00 */ Vec3 mScale;
     /* 0c */ Vec3 mScaleInverse;
 } JointScaleValues;
 
+// The node, parent and option flags of one joint scale command.
 typedef struct JointScaleCommand {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mNodeId;
