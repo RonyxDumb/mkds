@@ -476,13 +476,13 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_RESULT:
             value = GetZeroWordResult();
             switch (value) {
-                case 1:
+                case ZERO_WORD_RESULT_RECEIVED:
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xa);
                     NNS_SndArcSetCurrent(&gFileSndArc);
                     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_SHOW_NAME;
                     break;
-                case 2:
+                case ZERO_WORD_RESULT_NOT_RECEIVED:
                     SetupGhostSendEndConnectionText();
                     break;
             }
