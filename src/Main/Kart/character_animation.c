@@ -32,6 +32,7 @@
 #include "Main/Kart/point_link_cursor.h"
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/data_0217d000.h"
 
 const s32 gCharacterFaceFrames[2] = {0, 0x1000};
 const KartAiItemUseEntry gRaceItemInUseEntries[14] = {{UseItemAfterInUseByCircleKind, 1, 0x5, 0x10},
@@ -248,31 +249,31 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         value = gRaceProgress->mKartAtRank[0];
         if (gRaceSetup->mUseTeams != 0) {
             if (KartAnimationGetCurrentTeamIndex(value) != KartAnimationGetCurrentTeamIndex(kart->mIndex)) {
-                finishResult = 2;
+                finishResult = FINISH_RESULT_LOST;
             } else {
-                finishResult = 0;
+                finishResult = FINISH_RESULT_WON;
                 kart->mEntryFlags |= KART_ENTRY_WINNER;
                 isRuleKindWinner = flag;
             }
         } else if (kart->mIndex != value) {
-            finishResult = 2;
+            finishResult = FINISH_RESULT_LOST;
         } else {
-            finishResult = 0;
+            finishResult = FINISH_RESULT_WON;
             kart->mEntryFlags |= KART_ENTRY_WINNER;
             isRuleKindWinner = flag;
         }
     } else if (mode == MODE_TIME_ATTACK) {
         if ((bits7c & KART_ENTRY_GHOST) == 0) {
             if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
-                finishResult = 0;
+                finishResult = FINISH_RESULT_WON;
             } else {
-                finishResult = 2;
+                finishResult = FINISH_RESULT_LOST;
             }
         }
     } else if (value > 1) {
         finishResult = ((s16 *) &gFinishResultByRank[(value - 2) * 4])[GetKartRank(kart->mIndex) - 1];
     }
-    if (finishResult == 0) {
+    if (finishResult == FINISH_RESULT_WON) {
         KartModelsEntry *modelsEntry = kart->mKartModelsEntry;
         animationState = &modelsEntry->mAnimationState;
         SetModelAnimationEntryLoopMode(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
@@ -286,18 +287,18 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
             animationState->mAnimationChangeTimer = (u32) (((localRandom->mValue >> 32) * 200) >> 32);
             animationState->mAnimationChangeTimer += 0x96;
         }
-    } else if (finishResult == 2) {
+    } else if (finishResult == FINISH_RESULT_LOST) {
         kart->mEntryFlags |= KART_ENTRY_RESULT_LOST;
         SetKartCharacterAnimation(kart, 3, 1);
     }
     if ((kart->mEntryFlags & KART_ENTRY_SELECTED) != 0) {
-        normalizedResult = 1;
-        if (finishResult != 0) {
-            if (finishResult == 2) {
-                normalizedResult = 2;
+        normalizedResult = FINISH_RESULT_NEITHER;
+        if (finishResult != FINISH_RESULT_WON) {
+            if (finishResult == FINISH_RESULT_LOST) {
+                normalizedResult = FINISH_RESULT_LOST;
             }
         } else {
-            normalizedResult = 0;
+            normalizedResult = FINISH_RESULT_WON;
         }
         SetEntryKartFinishResult(normalizedResult);
     }

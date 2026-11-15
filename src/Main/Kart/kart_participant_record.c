@@ -1673,11 +1673,11 @@ void FinishKartAtMissionRunEnd(Kart *kart) {
         return;
     }
     if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_MISSION_RUN) {
-        finishResult = 1;
+        finishResult = FINISH_RESULT_NEITHER;
         if ((kartBits & KART_ENTRY_RESULT_WON) != 0) {
-            finishResult = 0;
+            finishResult = FINISH_RESULT_WON;
         } else if ((kartBits & KART_ENTRY_RESULT_LOST) != 0) {
-            finishResult = 2;
+            finishResult = FINISH_RESULT_LOST;
         }
         SetEntryKartFinishResult(finishResult);
     }
