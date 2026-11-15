@@ -102,7 +102,7 @@ void UpdateWater(Water *water) {
             water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
-            water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
+            water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHeightAnglePerFrame;
             if (water->mHeightAngle > 0x3fff && water->mHeightAngle < 0x7fff) {
                 water->mState = WATER_STATE_HOLD_TOP;
                 water->mHoldFrames = 0;
@@ -122,10 +122,10 @@ void UpdateWater(Water *water) {
                 }
             } else if (water->mHoldFrames > (water->mHighHoldFrameCount >> 1)) {
                 water->mHoldAngleStep = water->mHoldAngleStep + 1;
-                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
+                water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHoldAngleStep;
             } else {
                 water->mHoldAngleStep = water->mHoldAngleStep - 1;
-                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
+                water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHoldAngleStep;
             }
             break;
         case WATER_STATE_FALLING:
@@ -133,7 +133,7 @@ void UpdateWater(Water *water) {
             water->mHeight = water->mMidHeight + MUL_FIXED12_NO_ROUND(water->mHeightAmplitude, water->mHeightFactor);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
-            water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
+            water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHeightAnglePerFrame;
             if (water->mHeightAngle > 0xbfff) {
                 water->mState = WATER_STATE_HOLD_BOTTOM;
                 water->mHoldFrames = 0;
@@ -153,10 +153,10 @@ void UpdateWater(Water *water) {
                 }
             } else if (water->mHoldFrames > (water->mLowHoldFrameCount >> 1)) {
                 water->mHoldAngleStep = water->mHoldAngleStep + 1;
-                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
+                water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHoldAngleStep;
             } else {
                 water->mHoldAngleStep = water->mHoldAngleStep - 1;
-                water->mUnk_3a = water->mUnk_3a + water->mHoldAngleStep;
+                water->mHeightAngleWithHold = water->mHeightAngleWithHold + water->mHoldAngleStep;
             }
             break;
     }
@@ -227,7 +227,7 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
     gWater->mModelCY = gWater->mHeight;
     gWater->mHeightAmplitude = (highHeight - lowHeight) >> 1;
     gWater->mHeightAngle = 0;
-    gWater->mUnk_3a = 0;
+    gWater->mHeightAngleWithHold = 0;
     gWater->mCircleAngle = 0;
     gWater->mModelCAngleOffset = modelCAngleOffset;
     gWater->mUnk_52 = unk52Value;

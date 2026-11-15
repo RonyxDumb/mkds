@@ -158,10 +158,10 @@ void ShowWiFiSessionCourse(void) {
                                        fileSet->mCellLayout, fileSet->mCellTable);
     gWiFiVSCourseSelect->mCourseId = courseId;
     gWiFiVSCourseSelect->mCourseMessageIndex = GetCourseMessageIndex(courseId);
-    gWiFiVSCourseSelect->mUnk_14c[0] = text[0];
-    gWiFiVSCourseSelect->mUnk_14c[1] = text[1];
-    gWiFiVSCourseSelect->mUnk_14c[2] = text[2];
-    gWiFiVSCourseSelect->mUnk_14c[3] = text[3];
+    gWiFiVSCourseSelect->mCourseNameStart[0] = text[0];
+    gWiFiVSCourseSelect->mCourseNameStart[1] = text[1];
+    gWiFiVSCourseSelect->mCourseNameStart[2] = text[2];
+    gWiFiVSCourseSelect->mCourseNameStart[3] = text[3];
 }
 
 void AdvanceSubCellsOffsetY(void) {

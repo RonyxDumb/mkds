@@ -646,7 +646,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
         case XFER_EVENT_BEFORE_SEND:
             commandData = &record->mData;
             identifier = commandData->mPrepareSendData.mBlockId;
-            commandData->mArchiveParentViewEntry.mUnk_08 = 0;
+            commandData->mArchiveParentViewEntry.mBlockData = 0;
             for (node = gRomArchiveTransfer.mParentView.mActiveHead; node != NULL; node = node->mNext) {
                 if (node->mState == ROM_ARCHIVE_NODE_ACTIVE && node->mBlockNode.mDataInfo.mId == identifier) {
                     break;
@@ -679,7 +679,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                     continue;
                 }
                 commandData->mArchiveParentViewEntry.mBlockId = oldValue;
-                commandData->mArchiveParentViewEntry.mUnk_08 = (node->mBuffers[value] + bufferDelta);
+                commandData->mArchiveParentViewEntry.mBlockData = (node->mBuffers[value] + bufferDelta);
                 break;
             }
             if (node->mLoadingBufferIndex != ROM_ARCHIVE_NODE_NO_BUFFER) {

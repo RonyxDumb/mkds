@@ -364,8 +364,8 @@ void InitMapObjects(void) {
     gFoundMapObjects = HeapAlloc(heap, 0x80);
     gFoundMapObjectVectors = HeapAlloc(heap, 0x180);
     gMapObjects->mMapObjectCount = 0;
-    gMapObjects->mUnk_130 = FALSE;
-    gMapObjects->mUnk_178 = FALSE;
+    gMapObjects->mDrawListsBuilt = FALSE;
+    gMapObjects->mUpdateListsBuilt = FALSE;
     value = 0;
     if (gRaceSetup->mMode != MODE_WIFI) {
         value = 1;
@@ -487,7 +487,7 @@ void InitMapObjects(void) {
     for (index = 0; index < gMapObjects->mDrawListCount; index++) {
         InitMapObjectDrawOrder(gMapObjects->mDrawLists[index]);
     }
-    gMapObjects->mUnk_130 = TRUE;
+    gMapObjects->mDrawListsBuilt = TRUE;
     RunMapObjectDrawListInits();
     count = gMapObjects->mDrawListCount;
     firstCount = 0;
@@ -566,7 +566,7 @@ void InitMapObjects(void) {
             }
         }
     }
-    gMapObjects->mUnk_178 = TRUE;
+    gMapObjects->mUpdateListsBuilt = TRUE;
     RunMapObjectUpdateListInits();
 }
 

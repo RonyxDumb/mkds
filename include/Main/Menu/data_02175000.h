@@ -312,7 +312,7 @@ typedef struct RomArchiveParentViewEntry {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mUnk_00_4 : 28;
     /* 04 */ s32 mBlockId;
-    /* 08 */ u8 *mUnk_08;
+    /* 08 */ u8 *mBlockData;
 } RomArchiveParentViewEntry;
 
 // Nine bytes that SendRomArchiveMessage builds on the stack and passes to WBT_PutUserData: two four-bit parts, a

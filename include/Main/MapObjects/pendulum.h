@@ -18,7 +18,7 @@ typedef struct PendulumObject {
     /* b0 */ Vec3 mPrevPos;
     /* bc */ Vec3 mCourseRowPos;
     /* c8 */ MtxFx33 mShadowMatrix;
-    /* ec */ Vec3 mUnk_ec;
+    /* ec */ Vec3 mDrawPos;
     /* f8 */ s32 mCourseRowDistance;
     /* fc */ u16 mSwingAmplitude;
     /* fe */ u16 mSwingAnglePerFrame;
@@ -26,7 +26,7 @@ typedef struct PendulumObject {
     /* 102 */ u8 mUnk_102[0x02];
     /* 104 */ s32 mRadius;
     /* 108 */ s32 mHalfSizeZ;
-    /* 10c */ BOOL mUnk_10c;
+    /* 10c */ BOOL mLastHitRadial;
 } PendulumObject;
 
 // Allocated by CreateNsbmdModel and CreateItemModel, filled in by FillNsbmdModel, 0x2c bytes.

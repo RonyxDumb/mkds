@@ -27,11 +27,11 @@ typedef struct MapObjects {
     /* 12a */ u16 mFirstPassDrawListCount;
     /* 12c */ u16 mSecondPassDrawListCount;
     /* 12e */ u8 mUnk_12e[2];
-    /* 130 */ BOOL mUnk_130;
+    /* 130 */ BOOL mDrawListsBuilt;
     /* 134 */ MapObjectList *mUpdateLists[16];
     /* 174 */ u16 mUpdateListCount;
     /* 176 */ u8 mUnk_176[2];
-    /* 178 */ BOOL mUnk_178;
+    /* 178 */ BOOL mUpdateListsBuilt;
     /* 17c */ s32 mHasKoopaBlock;
     /* 180 */ s32 mHasRotary;
     /* 184 */ s32 mHasBridge;

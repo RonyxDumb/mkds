@@ -2101,7 +2101,7 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
 
     posCurve->mParam = 0;
     posCurve->mEntryIndex = 0;
-    posCurve->mUnk_38 = 0;
+    posCurve->mReverseLastEntryIndex = 0;
     if (entryGroup->mEntryCount < 4) {
         return;
     }
@@ -2118,11 +2118,11 @@ void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera)
 
     posCurve->mParam = 0;
     posCurve->mEntryIndex = 0;
-    posCurve->mUnk_38 = 0;
+    posCurve->mReverseLastEntryIndex = 0;
     if (entryGroup->mEntryCount < 4) {
         return;
     }
-    posCurve->mUnk_38 = entryGroup->mEntryCount - 1;
+    posCurve->mReverseLastEntryIndex = entryGroup->mEntryCount - 1;
     posCurve->mEntryIndex = 2;
     entryIndex = 2;
     for (pointIndex = 0; pointIndex < 3; pointIndex++) {

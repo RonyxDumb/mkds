@@ -19,7 +19,7 @@ typedef struct SoundFalloff {
     // Distance beyond which the sound is silent.
     /* 00 */ s32 mOuterDistance;
     /* 04 */ s32 mMidDistance;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 mMidVolume;
     // Distance up to which the sound has its maximum volume.
     /* 0c */ s32 mInnerDistance;
     // Highest volume of the curve.

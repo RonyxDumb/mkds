@@ -49,7 +49,7 @@ typedef struct WiFiVSCourseSelect {
     /* 140 */ s32 mTimer;
     /* 144 */ s32 mCourseId;
     /* 148 */ s32 mCourseMessageIndex;
-    /* 14c */ u16 mUnk_14c[4];
+    /* 14c */ u16 mCourseNameStart[4];
     /* 154 */ s16 mSubOffsetY;
 } WiFiVSCourseSelect;
 

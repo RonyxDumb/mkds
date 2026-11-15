@@ -113,7 +113,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectNS = HeapAlloc(heap, 0x40);
     MultiSelectNSMI_CpuClearFast(gMultiSelectNS, 0x40);
     gMultiSelectNS->mHeap = heap;
-    gMultiSelectNS->mUnk_1c = scene;
+    gMultiSelectNS->mScene = scene;
     gMultiSelectNS->mOamList = oamList;
     gMultiSelectNS->mBannerMessages = FindSceneFile("banner.bmg");
     gMultiSelectNS->mOffset = -0xc0;

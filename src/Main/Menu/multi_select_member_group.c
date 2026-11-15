@@ -343,7 +343,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectMemberGroup = HeapAlloc(heap, 0xa8);
     MemFillWordsByBlock_inline(gMultiSelectMemberGroup, 0xa8);
     gMultiSelectMemberGroup->mHeap = heap;
-    gMultiSelectMemberGroup->mUnk_40 = scene;
+    gMultiSelectMemberGroup->mScene = scene;
     gMultiSelectMemberGroup->mOamList = oamList;
     gMultiSelectMemberGroup->mBannerMessages = FindSceneFile("banner.bmg");
     gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_IN;

@@ -18,7 +18,7 @@ typedef struct PosCurve {
     /* 00 */ Vec3 mPoints[4];
     /* 30 */ s32 mParam;
     /* 34 */ s32 mEntryIndex;
-    /* 38 */ s32 mUnk_38;
+    /* 38 */ s32 mReverseLastEntryIndex;
 } PosCurve;
 extern const s32 gKartAiRaceStartBoostRandomLimitsIndex0[9];
 extern const s32 gKartAiRaceStartBoostRandomLimitsIndex1[9];

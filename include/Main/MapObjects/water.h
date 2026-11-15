@@ -93,7 +93,7 @@ typedef struct Water {
     // Counts up one per UpdateWater call while holding at the top or bottom, zeroed when the state is entered,
     // compared with mHighHoldFrameCount / mLowHoldFrameCount.
     /* 38 */ u16 mHoldFrames;
-    /* 3a */ u16 mUnk_3a;
+    /* 3a */ u16 mHeightAngleWithHold;
     // 0x10000 per turn: the angle of the circle model A moves on (model C uses it minus mModelCAngleOffset); advances
     // every UpdateWater call by mCircleAnglePerFrame.
     /* 3c */ u16 mCircleAngle;

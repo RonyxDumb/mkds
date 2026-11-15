@@ -49,7 +49,7 @@ enum {
 typedef struct MultiSelectMemberGroup {
     /* 00 */ u8 mUnk_00[0x24];
     /* 24 */ CellFileSet mGroupSParts;
-    /* 40 */ void *mUnk_40;
+    /* 40 */ void *mScene;
     /* 44 */ void *mOamList;
     /* 48 */ s32 mSelectedIndex;
     /* 4c */ s32 mState;
@@ -92,7 +92,7 @@ typedef struct MultiSelectNS {
     /* 10 */ void *mBnbl;
     /* 14 */ LayoutEntryTable *mBnll;
     /* 18 */ LayoutTableEntry *mCellTable;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ void *mScene;
     /* 20 */ void *mOamList;
     /* 24 */ void *mBannerMessages;
     /* 28 */ s32 mIndex;

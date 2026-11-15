@@ -211,9 +211,9 @@ void UpdatePendulum(u32 list, PendulumObject *pendulum) {
     Matrix3x3FromQuaternion(&pendulum->mMapObject.mMatrix.mAxes, &swingRotation);
     VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
-    pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
-    pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
-    pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
+    pendulum->mDrawPos.x = pendulum->mMapObject.mPos.x >> 4;
+    pendulum->mDrawPos.y = pendulum->mMapObject.mPos.y >> 4;
+    pendulum->mDrawPos.z = pendulum->mMapObject.mPos.z >> 4;
     VEC_Subtract(&pendulum->mMapObject.mPos, &pendulum->mPrevPos, &pendulum->mMapObject.mPosStep);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
 }
@@ -253,7 +253,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         out->x = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].x, axisOverlap);
         out->y = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].y, axisOverlap);
         out->z = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mMatrix.mRows[2].z, axisOverlap);
-        pendulum->mUnk_10c = FALSE;
+        pendulum->mLastHitRadial = FALSE;
     } else {
         if (sphereOffset.y < 0) {
             sphereOffset.y = 0;
@@ -265,7 +265,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         out->x = MUL_FIXED12_NO_ROUND(sphereOffset.x, combinedRadius);
         out->y = MUL_FIXED12_NO_ROUND(sphereOffset.y, combinedRadius);
         out->z = MUL_FIXED12_NO_ROUND(sphereOffset.z, combinedRadius);
-        pendulum->mUnk_10c = TRUE;
+        pendulum->mLastHitRadial = TRUE;
     }
     return TRUE;
 }
@@ -293,15 +293,15 @@ void InitPendulum(PendulumObject *pendulum, CourseMapRow *courseRow) {
     VEC_MultAdd(-pendulum->mCourseRowDistance, &pendulum->mMapObject.mMatrix.mRows[1], &pendulum->mCourseRowPos,
                 &pendulum->mMapObject.mPos);
     pendulum->mPrevPos = pendulum->mMapObject.mPos;
-    pendulum->mUnk_ec.x = pendulum->mMapObject.mPos.x >> 4;
-    pendulum->mUnk_ec.y = pendulum->mMapObject.mPos.y >> 4;
-    pendulum->mUnk_ec.z = pendulum->mMapObject.mPos.z >> 4;
+    pendulum->mDrawPos.x = pendulum->mMapObject.mPos.x >> 4;
+    pendulum->mDrawPos.y = pendulum->mMapObject.mPos.y >> 4;
+    pendulum->mDrawPos.z = pendulum->mMapObject.mPos.z >> 4;
     amplitudeSetting = courseRow->mSettings[1];
     pendulum->mSwingAnglePerFrame = 0x640000u / (u32) courseRow->mSettings[0] / 0xf0u;
     pendulum->mSwingAmplitude = (u32) (amplitudeSetting * 0x1111) / 0x64u;
     pendulum->mRadius = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.x, 0x64000);
     pendulum->mHalfSizeZ = MUL_FIXED12_NO_ROUND(pendulum->mMapObject.mScale.z, 0x32000);
-    pendulum->mUnk_10c = FALSE;
+    pendulum->mLastHitRadial = FALSE;
 }
 
 #pragma thumb off

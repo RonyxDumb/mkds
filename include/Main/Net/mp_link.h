@@ -101,7 +101,7 @@ typedef struct MPLink {
     /* 12 */ u16 mReceiveBufferSize;
     /* 14 */ u16 mParentMaxSize;
     /* 16 */ u16 mChildMaxSize;
-    /* 18 */ u16 mUnk_18;
+    /* 18 */ u16 mParentMaxSizeLess6;
     /* 1a */ u16 mMPStarted;
     /* 1c */ u16 mResetting;
     /* 1e */ u16 mUnk_1e;
