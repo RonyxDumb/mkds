@@ -4,7 +4,7 @@
 
 u32 ConnectTestCreate(void) {
     int result;
-    result = DWC_Netcheck_Create((DWCNetcheckParam *) DWCi_AC_GetMemPtr(8));
+    result = DWC_Netcheck_Create(DWCi_AC_GetMemPtr(8));
     if (result != 0) {
         DWCi_AC_SetError(3);
         return 0x11;

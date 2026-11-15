@@ -24,5 +24,5 @@ u32 DWCi_AC_GetError(void);
 void DWCi_AC_SetError(u32 error);
 u8 DWCi_AC_GetPhase(void);
 void DWCi_AC_SetPhase(u8 phase);
-u32 DWCi_AC_GetMemPtr(u32 name);
+void *DWCi_AC_GetMemPtr(u32 name);
 void DWCi_AC_FreeAll(void);

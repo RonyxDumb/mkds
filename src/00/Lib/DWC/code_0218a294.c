@@ -17,7 +17,7 @@ u32 DWCi_AC_ConnectTest(void) {
     ACWORK *work;
 
     phase = DWCi_AC_GetPhase();
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     if (WCM_GetPhase() == 9) {
         switch (phase) {
             case 10:

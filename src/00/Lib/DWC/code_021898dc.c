@@ -47,7 +47,7 @@ u8 DWCi_AC_Start(void) {
     s32 result;
 
     wcmPhase = WCM_GetPhase();
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     if (wcmPhase == 1) {
         config.mDmaNo = work->mDmaNo;
         config.mPbdBuffer = NULL;
@@ -70,7 +70,7 @@ u32 DWCi_AC_SearchAP(void) {
     u32 phase;
     u32 wcmPhase;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     phase = DWCi_AC_GetPhase();
     wcmPhase = WCM_GetPhase();
     if (phase == 2 && wcmPhase == 3) {
@@ -95,7 +95,7 @@ u32 DWCi_AC_SearchAP(void) {
 void DWCi_AC_SetStealthChannel(u32 channel) {
     ACWORK *work;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     if (channel > 0xd) {
         channel = 0xd;
     }
@@ -108,7 +108,7 @@ s8 DWCi_AC_GetStealthChannel(s32 index) {
     u8 channel;
     u8 found;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     mask = work->mStealthChannel;
     if (mask == 0) {
         return -1;
@@ -128,7 +128,7 @@ s8 DWCi_AC_GetStealthChannel(s32 index) {
 void DWCi_AC_SearchReStart(u32 phase) {
     ACWORK *work;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
         case 3:
             work->mTimeOut = OS_GetTick();

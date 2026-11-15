@@ -6,14 +6,14 @@
 #include "00/Lib/NitroWiFi/socl_startup.h"
 
 u32 ConnectTestStart(ACWORK *work) {
-    u32 hold;
-    u32 config;
+    ACHOLD *hold;
+    SOCConfig *config;
     int result;
     hold = DWCi_AC_GetMemPtr(1);
     config = DWCi_AC_GetMemPtr(4);
-    MakeSOCConfig((const SocketAllocPair *) hold, work, (SOCConfig *) config);
+    MakeSOCConfig((const SocketAllocPair *) hold, work, config);
     *(u32 *) &SOCLiYieldWait = 4;
-    result = SOC_Startup((void *) config);
+    result = SOC_Startup(config);
     if (result != 0) {
         DWCi_AC_SetError(2);
         return 0x11;

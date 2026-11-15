@@ -2,5 +2,7 @@
 
 #include "types.h"
 
-u32 GetNotFoundAP(int hold);
+typedef struct ACHOLD ACHOLD;
+
+u32 GetNotFoundAP(ACHOLD *hold);
 u32 GetIrregularError(void);

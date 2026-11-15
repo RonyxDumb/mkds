@@ -21,7 +21,7 @@ u32 DWCi_AC_ConnectRetryAP(void) {
     ACWORK *work;
     u32 nextPhase;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     nextPhase = 9;
     switch (WCM_GetPhase()) {
         case 3:
@@ -56,7 +56,7 @@ u8 DWCi_AC_MakeSearchList(u32 type) {
     ACWORK *work;
     volatile u32 clearValue;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     clearValue = 0;
     MIi_CpuClear32(clearValue, work->mSearchList, 0x144);
     switch (type) {

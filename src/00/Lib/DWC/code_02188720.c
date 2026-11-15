@@ -26,7 +26,7 @@ DWCNetcheckParam *gNetCheck;
 void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
     ACWORK *work;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     if (notice->mNotify == WIFI_NOTIFY_CONNECT_REQUEST) {
         if (notice->mResult != WIFI_REPORT_SUCCEEDED) {
             switch (notice->mReportCode) {
@@ -51,12 +51,14 @@ void DWCi_AC_CallBackWCM(WifiReportArgument *notice) {
 
 void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
     ACWORK *work;
+    ACHOLD *hold;
     s32 type;
     u32 phase;
 
     type = -1;
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
-    ((ACHOLD *) DWCi_AC_GetMemPtr(1))->mUnk_0b = 1;
+    work = DWCi_AC_GetMemPtr(0x10);
+    hold = DWCi_AC_GetMemPtr(1);
+    hold->mUnk_0b = 1;
     phase = DWCi_AC_GetPhase();
     switch (phase) {
         case 3:
@@ -88,7 +90,7 @@ s32 DWCi_AC_CheckNintendoSSID(WMBssDesc *bssdesc) {
     ACWORK *work;
     u8 nintendoFlag;
 
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     if (work->mConnectType == AUTO_CONNECT_TYPE_ANY || work->mConnectType == AUTO_CONNECT_TYPE_NWCUSBAP_SSID) {
         nintendoFlag = bssdesc->mCapaInfo >> 4 & 1;
         if (nintendoFlag == 1) {

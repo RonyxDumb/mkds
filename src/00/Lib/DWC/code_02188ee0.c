@@ -51,7 +51,7 @@ u32 DWCi_AC_ConnectAP(void) {
     ACWORK *work;
 
     phase = DWCi_AC_GetPhase();
-    work = (ACWORK *) DWCi_AC_GetMemPtr(0x10);
+    work = DWCi_AC_GetMemPtr(0x10);
     switch (phase) {
         case 7:
             phase = ConnectStart(work);
