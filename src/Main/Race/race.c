@@ -541,7 +541,8 @@ u32 GetRaceUpdateFramesMod2(void) {
     return (gRace->mUpdateFramesMod2);
 }
 
-// Also writes FOG_COLOR, FOG_OFFSET and FOG_TABLE directly and resets the fade state.
+// Also writes the fog color register directly, sets the fog offset and table through G3X_SetFog and
+// G3X_SetFogTable, and resets the fade state.
 void InitRaceFog(void) {
     u32 fogCurve[32];
     u16 index;

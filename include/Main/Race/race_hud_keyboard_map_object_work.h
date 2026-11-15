@@ -68,7 +68,7 @@ typedef struct QuestionRotation {
     /* 04 */ s32 mSine;
 } QuestionRotation;
 
-// IntPair of code_020b502c.h is this type.
+// Two s32 values, used for the screen positions of the race HUD.
 typedef struct IntPair {
     /* 00 */ s32 mFirst;
     /* 04 */ s32 mSecond;

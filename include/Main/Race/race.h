@@ -69,5 +69,5 @@ extern Vec3 gRaceLightVector;
 extern const u16 gToonTableFirstColors[8];
 extern const u16 gToonTableSecondColors[8];
 
-// A WiFi race counts up to this many frames of RaceInfo.mUpdateFrames before the limit is reached.
+// A WiFi race counts up to this many frames of Race.mUpdateFrames before the limit is reached.
 #define RACE_WIFI_UPDATE_FRAMES_LIMIT 128

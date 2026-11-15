@@ -49,7 +49,7 @@ typedef struct Bg01Cnt {
     /* 0e */ u8 mUnk_0e[0x2];
 } Bg01Cnt;
 
-// The 0x44 bytes at DisplaySettings.mMainBgRecords and mSubBgRecords (unk_02175000.h).
+// The 0x44 bytes at DisplaySettings.mMainBgRecords and mSubBgRecords.
 typedef struct DisplayBgRecords {
     /* 00 */ Bg01Cnt mBg0;
     /* 10 */ Bg01Cnt mBg1;
