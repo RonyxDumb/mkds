@@ -66,7 +66,7 @@ s32 IsBuddyRecordFlagged(u8 recordIndex) {
     return 0;
 }
 
-s32 GetBuddyRecordMatchKind0FirstCount(u8 recordIndex) {
+s32 GetBuddyRecordVsWinCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -76,7 +76,7 @@ s32 GetBuddyRecordMatchKind0FirstCount(u8 recordIndex) {
     return -1;
 }
 
-s32 GetBuddyRecordMatchKind0SecondCount(u8 recordIndex) {
+s32 GetBuddyRecordVsLossCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -86,7 +86,7 @@ s32 GetBuddyRecordMatchKind0SecondCount(u8 recordIndex) {
     return -1;
 }
 
-s32 GetBuddyRecordMatchKind1FirstCount(u8 recordIndex) {
+s32 GetBuddyRecordBattleWinCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -96,7 +96,7 @@ s32 GetBuddyRecordMatchKind1FirstCount(u8 recordIndex) {
     return -1;
 }
 
-s32 GetBuddyRecordMatchKind1SecondCount(u8 recordIndex) {
+s32 GetBuddyRecordBattleLossCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -106,7 +106,7 @@ s32 GetBuddyRecordMatchKind1SecondCount(u8 recordIndex) {
     return -1;
 }
 
-s32 GetBuddyRecordMatchKind2FirstCount(u8 recordIndex) {
+s32 GetBuddyRecordWiFiRaceWinCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);
@@ -116,7 +116,7 @@ s32 GetBuddyRecordMatchKind2FirstCount(u8 recordIndex) {
     return -1;
 }
 
-s32 GetBuddyRecordMatchKind2SecondCount(u8 recordIndex) {
+s32 GetBuddyRecordWiFiRaceLossCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
     GetBuddyRecord(recordIndex, &buddyRecord);

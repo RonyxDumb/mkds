@@ -161,28 +161,28 @@ s32 IsRecordFlagged(u16 listIndex) {
     return IsBuddyRecordFlagged(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
-s32 GetRecordMatchKind0FirstCount(u16 listIndex) {
-    return GetBuddyRecordMatchKind0FirstCount(gRecordList->mEntries[listIndex].mRecordIndex);
+s32 GetRecordVsWinCount(u16 listIndex) {
+    return GetBuddyRecordVsWinCount(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
-s32 GetRecordMatchKind1FirstCount(u16 listIndex) {
-    return GetBuddyRecordMatchKind1FirstCount(gRecordList->mEntries[listIndex].mRecordIndex);
+s32 GetRecordBattleWinCount(u16 listIndex) {
+    return GetBuddyRecordBattleWinCount(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
-s32 GetRecordMatchKind2FirstCount(u16 listIndex) {
-    return GetBuddyRecordMatchKind2FirstCount(gRecordList->mEntries[listIndex].mRecordIndex);
+s32 GetRecordWiFiRaceWinCount(u16 listIndex) {
+    return GetBuddyRecordWiFiRaceWinCount(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
-s32 GetRecordMatchKind0SecondCount(u16 listIndex) {
-    return GetBuddyRecordMatchKind0SecondCount(gRecordList->mEntries[listIndex].mRecordIndex);
+s32 GetRecordVsLossCount(u16 listIndex) {
+    return GetBuddyRecordVsLossCount(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
-s32 GetRecordMatchKind1SecondCount(u16 listIndex) {
-    return GetBuddyRecordMatchKind1SecondCount(gRecordList->mEntries[listIndex].mRecordIndex);
+s32 GetRecordBattleLossCount(u16 listIndex) {
+    return GetBuddyRecordBattleLossCount(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
-s32 GetRecordMatchKind2SecondCount(u16 listIndex) {
-    return GetBuddyRecordMatchKind2SecondCount(gRecordList->mEntries[listIndex].mRecordIndex);
+s32 GetRecordWiFiRaceLossCount(u16 listIndex) {
+    return GetBuddyRecordWiFiRaceLossCount(gRecordList->mEntries[listIndex].mRecordIndex);
 }
 
 s32 GetRecordDate(u16 listIndex, void *dateBytes) {
@@ -394,12 +394,12 @@ void PrintRecordVSShownRecord(void) {
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
             PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                                                gRecordVS->mRecordVSMTable);
-            counts[1][0] = GetRecordMatchKind0FirstCount(firstIndex + gRecordVS->mShownIndex);
-            counts[1][1] = GetRecordMatchKind1FirstCount(firstIndex + gRecordVS->mShownIndex);
-            counts[1][2] = GetRecordMatchKind2FirstCount(firstIndex + gRecordVS->mShownIndex);
-            counts[2][0] = GetRecordMatchKind0SecondCount(firstIndex + gRecordVS->mShownIndex);
-            counts[2][1] = GetRecordMatchKind1SecondCount(firstIndex + gRecordVS->mShownIndex);
-            counts[2][2] = GetRecordMatchKind2SecondCount(firstIndex + gRecordVS->mShownIndex);
+            counts[1][0] = GetRecordVsWinCount(firstIndex + gRecordVS->mShownIndex);
+            counts[1][1] = GetRecordBattleWinCount(firstIndex + gRecordVS->mShownIndex);
+            counts[1][2] = GetRecordWiFiRaceWinCount(firstIndex + gRecordVS->mShownIndex);
+            counts[2][0] = GetRecordVsLossCount(firstIndex + gRecordVS->mShownIndex);
+            counts[2][1] = GetRecordBattleLossCount(firstIndex + gRecordVS->mShownIndex);
+            counts[2][2] = GetRecordWiFiRaceLossCount(firstIndex + gRecordVS->mShownIndex);
             for (index = 1; index < 3; index++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
                     if (counts[index][columnIndex] > 9999) {

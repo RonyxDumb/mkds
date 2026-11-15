@@ -49,12 +49,12 @@ typedef struct EmblemData {
 void BuildRecordList(void);
 u16 GetRecordCount(void);
 s32 IsRecordFlagged(u16 listIndex);
-s32 GetRecordMatchKind0FirstCount(u16 listIndex);
-s32 GetRecordMatchKind1FirstCount(u16 listIndex);
-s32 GetRecordMatchKind2FirstCount(u16 listIndex);
-s32 GetRecordMatchKind0SecondCount(u16 listIndex);
-s32 GetRecordMatchKind1SecondCount(u16 listIndex);
-s32 GetRecordMatchKind2SecondCount(u16 listIndex);
+s32 GetRecordVsWinCount(u16 listIndex);
+s32 GetRecordBattleWinCount(u16 listIndex);
+s32 GetRecordWiFiRaceWinCount(u16 listIndex);
+s32 GetRecordVsLossCount(u16 listIndex);
+s32 GetRecordBattleLossCount(u16 listIndex);
+s32 GetRecordWiFiRaceLossCount(u16 listIndex);
 s32 GetRecordDate(u16 listIndex, void *dateBytes);
 void CopyRecordText(u16 listIndex, void *buffer, u32 bufferSize);
 s32 SetRecordFlag(u16 listIndex);

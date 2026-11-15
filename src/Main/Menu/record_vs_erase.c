@@ -221,12 +221,12 @@ void PrintRecordVSEraseShownRecord(void) {
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
             PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordVSErase->mRecordVSMBnll, text,
                                                gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
-            counts[1][0] = GetRecordMatchKind0FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[1][1] = GetRecordMatchKind1FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[1][2] = GetRecordMatchKind2FirstCount(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[2][0] = GetRecordMatchKind0SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[2][1] = GetRecordMatchKind1SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
-            counts[2][2] = GetRecordMatchKind2SecondCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[1][0] = GetRecordVsWinCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[1][1] = GetRecordBattleWinCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[1][2] = GetRecordWiFiRaceWinCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[2][0] = GetRecordVsLossCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[2][1] = GetRecordBattleLossCount(firstRecordIndex + gRecordVSErase->mShownIndex);
+            counts[2][2] = GetRecordWiFiRaceLossCount(firstRecordIndex + gRecordVSErase->mShownIndex);
             for (index = 1; index < 3; index++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
                     if (counts[index][columnIndex] > 0x270f) {
