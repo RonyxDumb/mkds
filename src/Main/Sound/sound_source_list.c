@@ -46,7 +46,7 @@ void ItemObjectInitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSou
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
     source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
-    ClearThreeWords((u32 *) source->mUnk_1c);
+    ClearThreeWords(source->mUnk_1c);
     ClearThreeWords((u32 *) source);
     TryAppendListObject(&gSoundSources, source);
 }

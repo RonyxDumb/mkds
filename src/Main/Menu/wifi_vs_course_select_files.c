@@ -388,7 +388,7 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     values[0] = 0;
     values[1] = subCellCount;
     InitScrollList(gWiFiVSCourseSelect->mHeap, 2, values, 7, 8, 0x7c, subFileSet->mCellTable, subFileSet->mRects,
-                   (u8 *) gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1].mScreenMaps[3] + 0xc, 5, 6, 0, 0x15,
+                   gWiFiVSCourseSelect->mWiFiVSCourseSelectMBAndSBParts[1].mScreenMaps[3]->mData, 5, 6, 0, 0x15,
                    RefreshCourseListRows);
     FrmHeapShrinkInParent(gWiFiVSCourseSelect->mHeap);
 }
