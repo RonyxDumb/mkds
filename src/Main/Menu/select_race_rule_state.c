@@ -1396,14 +1396,14 @@ void ResetSelectRaceRulePositions(void) {
     }
 }
 
-// Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
-// mState and runs AdvanceSelectRaceRuleState1.
-void RequestSelectRaceRuleState1(void) {
+// Requests the slide in: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
+// mState and runs that state's handler.
+void RequestSelectRaceRuleSlideIn(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_SLIDE_IN;
     gSelectRaceRule->mStateFrames = 0;
 }
 
-void RequestSelectRaceRuleState2(void) {
+void RequestSelectRaceRuleWaitReturn(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_RETURN;
     gSelectRaceRule->mStateFrames = 0;
     switch (gSelectRaceRule->mMode) {
@@ -1421,7 +1421,7 @@ void RequestSelectRaceRuleState3(void) {
     gSelectRaceRule->mStateFrames = 0;
 }
 
-void RequestSelectRaceRuleState4(void) {
+void RequestSelectRaceRuleWaitPress(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_PRESS;
     gSelectRaceRule->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -1431,7 +1431,7 @@ void RequestSelectRaceRuleState4(void) {
     WriteSelectRaceRuleToRaceSetupCopy();
 }
 
-void RequestSelectRaceRuleState5(void) {
+void RequestSelectRaceRuleWaitConfirmOpen(void) {
     void *message;
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_CONFIRM_OPEN;
     gSelectRaceRule->mStateFrames = 0;
@@ -1439,9 +1439,9 @@ void RequestSelectRaceRuleState5(void) {
     StartSelectChoises(message, GetBmgEntry(gSelectRaceRule->mCommonMessages, 2), 0);
 }
 
-// Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
-// mState and runs AdvanceSelectRaceRuleState6.
-void RequestSelectRaceRuleState6(void) {
+// Requests the confirm choices wait: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
+// mState and runs that state's handler.
+void RequestSelectRaceRuleWaitConfirmChoices(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_CONFIRM_CHOICES;
     gSelectRaceRule->mStateFrames = 0;
 }
@@ -1749,7 +1749,7 @@ void AdvanceSelectRaceRuleState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestSelectRaceRuleState1();
+        RequestSelectRaceRuleSlideIn();
     }
 }
 
@@ -1800,7 +1800,7 @@ void AdvanceSelectRaceRuleState1(void) {
         gSelectRaceRule->mTable[31].mOffsetY = rowsOffsetY;
     }
     if (gSelectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS) {
-        RequestSelectRaceRuleState2();
+        RequestSelectRaceRuleWaitReturn();
     }
 }
 
@@ -1921,7 +1921,7 @@ chain:
             gSelectRaceRule->mButtonHighlightShown = 0;
         }
         gSelectRaceRule->mOnButton = 1;
-        RequestSelectRaceRuleState4();
+        RequestSelectRaceRuleWaitPress();
     } else if (hitRectIndex - 10 <= 4) {
         row = (gSelectRaceRuleRowRectRows - 10)[hitRectIndex];
         if (GetSelectRaceRuleHumanCount() != 8 || row != 1) {
@@ -1931,7 +1931,7 @@ chain:
         }
     } else if ((u16) (slot->mPressedBits & PAD_KEY_A) != 0) {
         if (gSelectRaceRule->mOnButton != 0) {
-            RequestSelectRaceRuleState4();
+            RequestSelectRaceRuleWaitPress();
             gSelectRaceRule->mButtonHighlightShown = 0;
         } else {
             MoveSelectRaceRuleRowNext();
@@ -1981,7 +1981,7 @@ void AdvanceSelectRaceRuleState4(void) {
     if (gSelectRaceRule->mStateFrames >= SELECT_RACE_RULE_PRESS_STEPS) {
         if (gSelectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
             gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1) {
-            RequestSelectRaceRuleState5();
+            RequestSelectRaceRuleWaitConfirmOpen();
             return;
         }
         RequestSelectRaceRuleState8();
@@ -1998,7 +1998,7 @@ void AdvanceSelectRaceRuleState5(void) {
     int state1WithoutRequest;
     state1WithoutRequest = IsSelectChoisesChooseNoRequest();
     if (state1WithoutRequest != 0) {
-        RequestSelectRaceRuleState6();
+        RequestSelectRaceRuleWaitConfirmChoices();
     }
 }
 
