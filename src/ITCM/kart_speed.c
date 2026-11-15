@@ -118,7 +118,8 @@ void AdvanceKartQuaternionFromVector(Kart *kart, Vec3 *target) {
     TryQuaternionFromVectors(&fromGroundQuaternion, &kart->mGroundNormal, target);
     QuaternionMultiply(&fromGroundQuaternion, kartQuaternion, kartQuaternion);
     if (succeeded != 0) {
-        if ((fromUpQuaternion.wComponent < 0 && kartQuaternion->wComponent > 0) || (fromUpQuaternion.wComponent > 0 && kartQuaternion->wComponent < 0)) {
+        if ((fromUpQuaternion.wComponent < 0 && kartQuaternion->wComponent > 0) ||
+            (fromUpQuaternion.wComponent > 0 && kartQuaternion->wComponent < 0)) {
             kartQuaternion->x = -fromUpQuaternion.x;
             kartQuaternion->y = 0;
             kartQuaternion->z = -fromUpQuaternion.z;

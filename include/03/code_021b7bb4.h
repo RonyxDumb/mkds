@@ -174,7 +174,8 @@ s32 BindSocket(s32 id, SocketAddress *addr, u32 length);
 s32 OpenSocket(s32 domain, s32 type, s32 protocol);
 s32 SocketReturnArgument(s32 id, s32 unusedLevel, s32 unusedOption, void *value, s32 length);
 s32 SendToSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddress *address, u32 addressLength);
-s32 PollSocketWithTimeout(s32 descriptorCount, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet, WaitTimeout *timeout);
+s32 PollSocketWithTimeout(s32 descriptorCount, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet,
+                          WaitTimeout *timeout);
 s32 RecvFromSocket(s32 id, void *buffer, s32 length, s32 flags, SocketAddress *out, s32 *outLength);
 void FillBytes(void *destination, s32 fillValue, u32 size);
 void CopyBytes(void *destination, const void *source, u32 size);

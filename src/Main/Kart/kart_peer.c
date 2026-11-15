@@ -168,7 +168,8 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
 
     recordState = kart->mParticipantRecordData;
     kart->mVelocityScaleFactor = TO_FIXED12(1);
-    if (kart->mAirborneFrames > KART_PEER_AIR_TILT_AIRBORNE_FRAMES && (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
+    if (kart->mAirborneFrames > KART_PEER_AIR_TILT_AIRBORNE_FRAMES &&
+        (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);
     } else {

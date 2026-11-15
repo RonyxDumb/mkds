@@ -1178,7 +1178,8 @@ void CreateKillerItem(void *heap) {
     NNSG3dResFileHeader *nsbtxFile = FindKartModelFile("character/common/KillerItem.nsbtx");
     void *shadowNsbmdFile = GetKartModelFile("character/common/KillerItem_s.nsbmd");
     void *nsbcaFile;
-    SetKartModelMaterialColors(InitNsbmdWithTextureInfoCopy(heap, &gKartModels->mKillerItem, nsbmdFile, nsbtxFile), KART_MODEL_COLORS_COURSE);
+    SetKartModelMaterialColors(InitNsbmdWithTextureInfoCopy(heap, &gKartModels->mKillerItem, nsbmdFile, nsbtxFile),
+                               KART_MODEL_COLORS_COURSE);
     SetNsbmdPolygonIdAll(&gKartModels->mKillerItem, 3);
     nsbcaFile = GetKartModelFile("character/common/KillerItem.nsbca");
     InitModelAnimation(0, &gKartModels->mKillerItemNsbca, &gKartModels->mKillerItem, 1, heap, nsbmdFile);

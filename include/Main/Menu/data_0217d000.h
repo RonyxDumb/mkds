@@ -606,8 +606,8 @@ typedef struct SelectRaceRuleWait {
 #define SEQ_VOLUME_OVERRIDE_ZERO 1
 #define SEQ_VOLUME_OVERRIDE_FULL 2
 
-// Bits of SeqPlayerControl.mFlags (SEQ_PLAYER_BIT_ is the bit number): the selected Kart is small from the Thunder item,
-// a Teresa effect runs on it, and the scene seq restarted (pitch 0x40 and a lower volume target).
+// Bits of SeqPlayerControl.mFlags (SEQ_PLAYER_BIT_ is the bit number): the selected Kart is small from the Thunder
+// item, a Teresa effect runs on it, and the scene seq restarted (pitch 0x40 and a lower volume target).
 #define SEQ_PLAYER_BIT_THUNDER_SHRINK 1
 #define SEQ_PLAYER_BIT_TERESA 2
 #define SEQ_PLAYER_BIT_RESTARTED 3

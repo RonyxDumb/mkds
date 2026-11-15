@@ -1440,8 +1440,8 @@ void RequestSelectRaceRuleWaitConfirmOpen(void) {
     StartSelectChoises(message, GetBmgEntry(gSelectRaceRule->mCommonMessages, 2), 0);
 }
 
-// Requests the confirm choices wait: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
-// mState and runs that state's handler.
+// Requests the confirm choices wait: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call
+// copies it to mState and runs that state's handler.
 void RequestSelectRaceRuleWaitConfirmChoices(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_CONFIRM_CHOICES;
     gSelectRaceRule->mStateFrames = 0;

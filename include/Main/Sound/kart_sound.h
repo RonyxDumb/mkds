@@ -56,8 +56,8 @@ enum {
 // KartSound.mPitch and mTargetPitch while the kart is a bullet.
 #define KART_SOUND_PITCH_KILLER 0x6c0000
 
-// Sound ids of the shine sprite: SHINE16_SOUND_BASE plus these offsets. GetShine16SoundId adds 4 for the entry kart and 3
-// for a hit, else how far the kart's count is behind the highest.
+// Sound ids of the shine sprite: SHINE16_SOUND_BASE plus these offsets. GetShine16SoundId adds 4 for the entry kart and
+// 3 for a hit, else how far the kart's count is behind the highest.
 #define SHINE16_SOUND_BASE 0x130
 enum {
     SHINE16_SOUND_OTHER_LEADS,

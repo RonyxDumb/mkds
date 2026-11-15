@@ -386,8 +386,10 @@ void UpdateRaceHudSubScreenObPakkunSfCells(void) {
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 0) != FALSE) {
-                    gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mCell =
-                        GetRaceSNcerEntry(((((ObPakkunSf *) object)->mFramesSinceInit & RACE_HUD_PAKKUN_SF_SWAP_FRAME_BIT) >> 4) != 0 ? 0xa2 : 0xa1);
+                    gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mCell = GetRaceSNcerEntry(
+                        ((((ObPakkunSf *) object)->mFramesSinceInit & RACE_HUD_PAKKUN_SF_SWAP_FRAME_BIT) >> 4) != 0
+                            ? 0xa2
+                            : 0xa1);
                     gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mPriority =
                         IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;

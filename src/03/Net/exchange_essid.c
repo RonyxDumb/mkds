@@ -1667,8 +1667,8 @@ BOOL ParseHexText(u8 *output, const s8 *text, s32 length) {
     return TRUE;
 }
 
-// Builds gExchangeResult from the result packet items; returns 1, or -7 for a value text of the wrong length, a zero item 0x205
-// value or an unknown item 0x202 value.
+// Builds gExchangeResult from the result packet items; returns 1, or -7 for a value text of the wrong length, a zero
+// item 0x205 value or an unknown item 0x202 value.
 s32 FillExchangeResultFromItems(void) {
     s32 result;
     s32 valueIndex;
@@ -2218,30 +2218,34 @@ void TransformBlock(u32 *keyWords, int lastGroup, u8 *input, u8 *output) {
         s3 = gTransformTableByte3[nextFourth >> 24] ^ gTransformTableByte2[(nextFirst >> 16) & 0xff] ^
              gTransformTableByte1[(nextSecond >> 8) & 0xff] ^ gTransformTableByte0[nextThird & 0xff] ^ keyWords[3];
     }
-    s0 = (gSubstitutionTable[nextFirst >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextSecond >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(nextThird >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextFourth & 0xff] & 0x000000ff) ^
-         keyWords[0];
+    s0 = (gSubstitutionTable[nextFirst >> 24] & 0xff000000) ^
+         (gSubstitutionTable[(nextSecond >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextThird >> 8) & 0xff] & 0x0000ff00) ^
+         (gSubstitutionTable[nextFourth & 0xff] & 0x000000ff) ^ keyWords[0];
     output[0] = s0 >> 24;
     output[1] = s0 >> 16;
     output[2] = s0 >> 8;
     output[3] = s0;
-    s1 = (gSubstitutionTable[nextSecond >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextThird >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(nextFourth >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextFirst & 0xff] & 0x000000ff) ^
-         keyWords[1];
+    s1 = (gSubstitutionTable[nextSecond >> 24] & 0xff000000) ^
+         (gSubstitutionTable[(nextThird >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextFourth >> 8) & 0xff] & 0x0000ff00) ^
+         (gSubstitutionTable[nextFirst & 0xff] & 0x000000ff) ^ keyWords[1];
     output[4] = s1 >> 24;
     output[5] = s1 >> 16;
     output[6] = s1 >> 8;
     output[7] = s1;
-    s2 = (gSubstitutionTable[nextThird >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextFourth >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(nextFirst >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextSecond & 0xff] & 0x000000ff) ^
-         keyWords[2];
+    s2 = (gSubstitutionTable[nextThird >> 24] & 0xff000000) ^
+         (gSubstitutionTable[(nextFourth >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextFirst >> 8) & 0xff] & 0x0000ff00) ^
+         (gSubstitutionTable[nextSecond & 0xff] & 0x000000ff) ^ keyWords[2];
     output[8] = s2 >> 24;
     output[9] = s2 >> 16;
     output[10] = s2 >> 8;
     output[11] = s2;
-    s3 = (gSubstitutionTable[nextFourth >> 24] & 0xff000000) ^ (gSubstitutionTable[(nextFirst >> 16) & 0xff] & 0x00ff0000) ^
-         (gSubstitutionTable[(nextSecond >> 8) & 0xff] & 0x0000ff00) ^ (gSubstitutionTable[nextThird & 0xff] & 0x000000ff) ^
-         keyWords[3];
+    s3 = (gSubstitutionTable[nextFourth >> 24] & 0xff000000) ^
+         (gSubstitutionTable[(nextFirst >> 16) & 0xff] & 0x00ff0000) ^
+         (gSubstitutionTable[(nextSecond >> 8) & 0xff] & 0x0000ff00) ^
+         (gSubstitutionTable[nextThird & 0xff] & 0x000000ff) ^ keyWords[3];
     output[12] = s3 >> 24;
     output[13] = s3 >> 16;
     output[14] = s3 >> 8;

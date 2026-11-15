@@ -213,7 +213,8 @@ void UpdateKartNameTags(void) {
         distance = gKartNameTags->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
         alphaScale = 0x1000;
         if (distance > 0) {
-            if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED || GetCurrentCameraKind() == 3) {
+            if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED ||
+                GetCurrentCameraKind() == 3) {
                 distance -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
                 kartObject->mFadeState = KART_NAME_TAG_FADE_IN;

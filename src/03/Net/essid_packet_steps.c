@@ -1679,7 +1679,8 @@ s32 RecvFromSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAd
     return SOC_RecvFrom(descriptor, buffer, length, flags, address);
 }
 
-s32 PollSocketWithTimeout(s32 descriptorCount, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet, WaitTimeout *timeout) {
+s32 PollSocketWithTimeout(s32 descriptorCount, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet,
+                          WaitTimeout *timeout) {
     PollEntry setCopy;
     s64 ticks;
     ticks = 0;

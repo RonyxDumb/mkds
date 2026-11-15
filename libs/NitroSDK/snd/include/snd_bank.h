@@ -10,7 +10,8 @@ typedef struct UnsignedHalfwordPair {
     /* 02 */ u16 mSecond;
 } UnsignedHalfwordPair;
 
-// 10 bytes that SND_GetNextInstData copies to mWave..mReleaseAndPan of its record (original key, attack, decay, sustain; release, pan).
+// 10 bytes that SND_GetNextInstData copies to mWave..mReleaseAndPan of its record (original key, attack, decay,
+// sustain; release, pan).
 typedef struct InstSimple {
     /* 00 */ UnsignedHalfwordPair mWave;
     /* 04 */ UnsignedHalfwordPair mKeyAndEnvelope;

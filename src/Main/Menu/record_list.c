@@ -694,15 +694,15 @@ void RequestRecordVSWaitReturnButton(void) {
     RequestSelectReturnSlideIn();
 }
 
-// Requests the browse state: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
-// and runs that state's handler.
+// Requests the browse state: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to
+// mState and runs that state's handler.
 void RequestRecordVSBrowse(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_BROWSE;
     gRecordVS->mStateFrames = 0;
 }
 
-// Requests the page slide out: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
-// and runs that state's handler.
+// Requests the page slide out: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to
+// mState and runs that state's handler.
 void RequestRecordVSPageSlideOut(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_PAGE_SLIDE_OUT;
     gRecordVS->mStateFrames = 0;
@@ -722,8 +722,8 @@ void RequestRecordVSPageSlideInAndChangePage(void) {
     RefreshRecordVSPage();
 }
 
-// Requests the sub slide out: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
-// and runs that state's handler.
+// Requests the sub slide out: stores mNextState and zeroes mStateFrames; the next AdvanceRecordVS call copies it to
+// mState and runs that state's handler.
 void RequestRecordVSSubSlideOut(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_OUT;
     gRecordVS->mStateFrames = 0;

@@ -164,7 +164,8 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
         return;
     }
     if ((!(kart->mEffectFlags & KART_EFFECT_KILLER) && kart->mVelocity.y < 0 &&
-         (kart->mAirborneFrames > KART_BOUNCE_LANDING_AIRBORNE_FRAMES || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
+         (kart->mAirborneFrames > KART_BOUNCE_LANDING_AIRBORNE_FRAMES ||
+          kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
         kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
         dotProduct = VEC_DotProduct(groundNormal, &kart->mVelocity);
         normalVelocity.x = MUL_FIXED12_NO_ROUND(groundNormal->x, dotProduct);
@@ -542,7 +543,8 @@ void CollideKartWithKarts(Kart *kart) {
                     TryStartKartPushFlip(otherKart, kart, &normal);
                 }
             } else if (kart->mKartCollisionDelayTimer <= 0) {
-                if (kart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED || otherKart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED) {
+                if (kart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED ||
+                    otherKart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED) {
                     if (gSceneSoundState.mRaceFrames > KART_COLLISION_SOUND_MIN_RACE_FRAMES) {
                         StartSound(&kart->mSoundSource, 0x80, 0x7f, 0);
                     }
@@ -863,8 +865,9 @@ void UpdateKartAheadEffect(Kart *kart) {
         if (kart->mVelocityLength > KART_AHEAD_BUILD_UP_MIN_SPEED && kart->mState == KART_STATE_NORMAL) {
             for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
                 otherKart = gFoundCollisionSlotObjects[slotIndex];
-                if (otherKart->mVelocityLength >= KART_AHEAD_OTHER_MIN_SPEED && (gFoundCollisionSlotFlags[slotIndex] & 0x800) &&
-                    otherKart != kart && !(otherKart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED)) {
+                if (otherKart->mVelocityLength >= KART_AHEAD_OTHER_MIN_SPEED &&
+                    (gFoundCollisionSlotFlags[slotIndex] & 0x800) && otherKart != kart &&
+                    !(otherKart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED)) {
                     VEC_Subtract(&otherKart->mPos, &kart->mPos, &offset);
                     distance = VEC_Mag(&offset);
                     if (Vec3DotUnrounded(&otherKart->mTurnedForward, &offset) > MUL_FIXED12_NO_ROUND(distance, 0xe7f)) {

@@ -254,7 +254,8 @@ void UpdateChoropuFallSpin(void *stateObject) {
     }
 }
 
-// Case 1 starts the launched spin with an upward speed; case 2 starts the fall spin unless the kart is a ghost or already there.
+// Case 1 starts the launched spin with an upward speed; case 2 starts the fall spin unless the kart is a ghost or
+// already there.
 u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     Vec3 offsetFromKart;
 

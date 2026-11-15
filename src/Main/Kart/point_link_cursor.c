@@ -517,8 +517,8 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
     upVector = gPointLinkVec3UnitY;
     Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &upVector, &sideDirection);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPoint, &kartOffsetFromLink);
-    kartAi->mSideOffsetRatio =
-        FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection), kartAi->mPointLinkCursor.mLink->mRadius + TO_FIXED12(1));
+    kartAi->mSideOffsetRatio = FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection),
+                                      kartAi->mPointLinkCursor.mLink->mRadius + TO_FIXED12(1));
     if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = TO_FIXED12(1);
@@ -1046,7 +1046,8 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         if (kartAi->mDriftState == KART_AI_DRIFT_NONE) {
             raceSpeedLimit->mTurnSpeedLimit = speedLimit;
             if (kartAi->mTurnAngleDegrees > KART_AI_TURN_SLOWDOWN_START_ANGLE) {
-                turnExcessRatio = MUL_FIXED12_NO_ROUND(kartAi->mTurnAngleDegrees - KART_AI_TURN_SLOWDOWN_START_ANGLE, 0x5b);
+                turnExcessRatio =
+                    MUL_FIXED12_NO_ROUND(kartAi->mTurnAngleDegrees - KART_AI_TURN_SLOWDOWN_START_ANGLE, 0x5b);
                 if (turnExcessRatio > 0x1000) {
                     turnExcessRatio = 0x1000;
                 }

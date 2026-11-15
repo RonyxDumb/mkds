@@ -95,8 +95,8 @@ extern void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struc
 extern void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 
-// The killer kart of the staff roll: its forward speed, the frames of contact that reset the end count timer hold and the
-// end count it ends at.
+// The killer kart of the staff roll: its forward speed, the frames of contact that reset the end count timer hold and
+// the end count it ends at.
 #define KART_KILLER_STAFF_FORWARD_SPEED 0xa800
 #define KART_KILLER_END_HOLD_FRAMES 5
 #define KART_KILLER_END_COUNT_FRAMES 0x78

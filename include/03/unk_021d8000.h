@@ -77,8 +77,8 @@ typedef struct RawEntry {
     /* 38 */ u8 pad_38[0x88];
 } RawEntry;
 
-// The items of the result packet, 0x254 bytes. The words below the record are only cleared with the rest; the values are
-// four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte
+// The items of the result packet, 0x254 bytes. The words below the record are only cleared with the rest; the values
+// are four 0x28-byte slots (0x20 characters, then two words that items 0x203 and 0x204 store) addressed from the byte
 // array.
 typedef struct ExchangeResultItems {
     /* 000 */ u32 mWords[0x40];

@@ -141,7 +141,8 @@ typedef struct MapObject {
 #define MAP_OBJECT_FLAG_NO_ITEM_CALLBACK 0x8 // the item hit callback skips the object
 #define MAP_OBJECT_FLAG_OUT_OF_VIEW 0x10 // set by the view test while the object is outside the view planes
 #define MAP_OBJECT_FLAG_NOT_COLLIDABLE 0x40 // the kind's collidable word was 0: kart and item hits skip the object
-#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW 0x80 // the course row's number was 10000 or more; the park pass parks the object
+#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW                                                                                \
+    0x80 // the course row's number was 10000 or more; the park pass parks the object
 #define MAP_OBJECT_FLAG_PARKED 0x100
 #define MAP_OBJECT_FLAG_MIRRORED 0x400 // the model is drawn mirrored
 #define MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI 0x800 // set at creation while gMapObjectsTimeAttackOrWiFi is non-zero

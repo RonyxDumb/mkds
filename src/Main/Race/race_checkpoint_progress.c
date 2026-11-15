@@ -105,7 +105,8 @@ void UpdateRaceClock(void) {
             switch (gRaceSetup->mMode) {
                 case MODE_MISSION_RUN:
                     FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, RACE_END_KIND_TIME_UP);
-                    flag = gSoundModeHolder.mMode == SCENE_SOUND_MODE_PLAYING || gSoundModeHolder.mMode == SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY;
+                    flag = gSoundModeHolder.mMode == SCENE_SOUND_MODE_PLAYING ||
+                           gSoundModeHolder.mMode == SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY;
                     if (flag) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);
                     }

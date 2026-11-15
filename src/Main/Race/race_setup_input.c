@@ -1105,7 +1105,8 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mCourseCount = 0;
     gRaceSetup->mNextHeader.mEngineIndex = missionFileRow->mEngineIndex;
     SetNextRaceEntry(0, missionFileRow->mCharacterIndex0, missionFileRow->mKartIndex0, PLAYER_KIND_HUMAN, -1, 3);
-    if (missionFileRow->mCharacterIndex1 != MISSION_FILE_ROW_NO_SECOND_KART && missionFileRow->mKartIndex1 != MISSION_FILE_ROW_NO_SECOND_KART) {
+    if (missionFileRow->mCharacterIndex1 != MISSION_FILE_ROW_NO_SECOND_KART &&
+        missionFileRow->mKartIndex1 != MISSION_FILE_ROW_NO_SECOND_KART) {
         SetNextRaceEntry(1, missionFileRow->mCharacterIndex1, missionFileRow->mKartIndex1, PLAYER_KIND_CPU, -1, 3);
         gRaceSetup->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
     } else {

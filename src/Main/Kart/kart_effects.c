@@ -532,8 +532,8 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
     chaseCamera = GetChaseCamera();
     kart = effect->mCallbackData;
     if (GetCurrentCameraKind() != 0 ||
-        (effect->mFlags.mEmissionStopped != 0 &&
-         (effect->mCallbackState = effect->mCallbackState + 1, effect->mCallbackState > KART_BOOST_CAMERA_EFFECT_END_STEPS))) {
+        (effect->mFlags.mEmissionStopped != 0 && (effect->mCallbackState = effect->mCallbackState + 1,
+                                                  effect->mCallbackState > KART_BOOST_CAMERA_EFFECT_END_STEPS))) {
         effect->mFlags.mEnding = 1;
         gKartBoostCameraEffect = NULL;
         return;

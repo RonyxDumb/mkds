@@ -61,8 +61,9 @@ typedef struct LoadedSoundBanks {
 // ScenePlayersSeqInfo.mSeqStartProgress that never starts the sequence.
 #define SCENE_PLAYERS_SEQ_START_NEVER 0xff
 
-// Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded. LOADED_SOUND_BANKS_MENU_SET
-// is the mBankMask stored after InitSceneSounds loaded bank 0x2c and seq arc 3 for the menu scenes.
+// Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded.
+// LOADED_SOUND_BANKS_MENU_SET is the mBankMask stored after InitSceneSounds loaded bank 0x2c and seq arc 3 for the menu
+// scenes.
 #define LOADED_SOUND_BANKS_NONE 0xff00
 #define LOADED_SOUND_BANKS_LOADED 0xfe00
 #define LOADED_SOUND_BANKS_MENU_SET 0xffff
@@ -97,8 +98,8 @@ typedef struct LoadedSoundBanks {
 #define SOUND_PLAYER_MASK_ALL 0xff
 #define SOUND_PLAYER_MASK_ALL_BUT_HIGHEST 0x7f
 
-// Rows of the mission table (GetMissionTableRow) whose sequence and bank LoadMissionRunMSselSoundData picks, named by the
-// mission whose bank (SOUND_BANK_MISSION_*) the row loads.
+// Rows of the mission table (GetMissionTableRow) whose sequence and bank LoadMissionRunMSselSoundData picks, named by
+// the mission whose bank (SOUND_BANK_MISSION_*) the row loads.
 #define MISSION_TABLE_ROW_DONKETU 1
 #define MISSION_TABLE_ROW_IWANTE 2
 #define MISSION_TABLE_ROW_KURIKING 3
