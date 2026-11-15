@@ -38,7 +38,7 @@ typedef struct ValueRecordsRequest {
     /* 10e */ s16 mReceiveTimeoutMs;
     /* 110 */ u8 mMacAddress[6];
     /* 116 */ u8 mResultCode;
-    /* 117 */ u8 mUnk_117;
+    /* 117 */ u8 mRecordBytes[0x154];
 } ValueRecordsRequest;
 
 typedef struct RequestState {

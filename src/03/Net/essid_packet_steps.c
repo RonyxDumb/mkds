@@ -622,7 +622,7 @@ s32 GetErrorCode(void) {
 }
 
 s32 CheckAndCopyValueRecordsToRequest(ValueRecordsRequest *request) {
-    u8 *recordBytes = (u8 *) request + 0x117;
+    u8 *recordBytes = request->mRecordBytes;
     FourValueRecord *fourValueRecord0 = &gParsedItems[0].mFourValueRecord0;
     FourValueRecord *fourValueRecord1 = &gParsedItems[0].mFourValueRecord1;
     SingleValueRecord *singleValueRecord0 = &gParsedItems[0].mSingleValueRecord0;
