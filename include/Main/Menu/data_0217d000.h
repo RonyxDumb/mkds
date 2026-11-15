@@ -79,6 +79,10 @@ struct Ncgr;
 
 struct Nscr;
 
+// Calls each frame of the wait animation stays, and the frames it cycles through.
+#define WAIT_FRAME_TICKS 4
+#define WAIT_FRAME_COUNT 3
+
 typedef struct Wait {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ struct Ncgr *mNcgr;
@@ -703,6 +707,19 @@ enum {
     TXT_SYSTEM_STATE_BUTTON_PRESSED,
     TXT_SYSTEM_STATE_CLOSING,
 };
+
+// Steps of the opening and closing slide; mStateFrames counts them.
+#define TXT_SYSTEM_SLIDE_STEPS 15
+// Steps state BUTTON_PRESSED runs; the button colors are queued from TXT_SYSTEM_PRESS_COLOR_STEP on.
+#define TXT_SYSTEM_PRESS_STEPS 10
+#define TXT_SYSTEM_PRESS_COLOR_STEP 5
+// Sound ids of the first button, of the second button and of the opening of a text box.
+#define TXT_SYSTEM_INPUT_SOUND_ID 5
+#define TXT_SYSTEM_SECOND_INPUT_SOUND_ID 0x10
+#define TXT_SYSTEM_OPEN_SOUND_ID 0x23
+// Calls each frame of the arrow animation stays, and the frames it cycles through.
+#define TXT_SYSTEM_ANIM_FRAME_TICKS 4
+#define TXT_SYSTEM_ANIM_FRAME_COUNT 3
 
 // Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
 typedef struct TxtSystem {

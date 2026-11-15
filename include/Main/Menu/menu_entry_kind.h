@@ -2,6 +2,10 @@
 
 #include "types.h"
 
+// Blend coefficients of the menu text: the weight of the first and of the second target, out of 16.
+#define MENU_BLEND_FIRST_COEFFICIENT 6
+#define MENU_BLEND_SECOND_COEFFICIENT 10
+
 void MenuWriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
 void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
 void SetUnfilledNotEliminated(unsigned int value);

@@ -49,8 +49,8 @@ void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTabl
     gWait->mDestinationBnclIndex = destinationBnclIndex;
     gWait->mPaletteIndex = paletteIndex;
     gWait->mQueueSelector = queueSelector;
-    gWait->mFrameIndex = 2;
-    gWait->mFrameIndexFrames = 3;
+    gWait->mFrameIndex = WAIT_FRAME_COUNT - 1;
+    gWait->mFrameIndexFrames = WAIT_FRAME_TICKS - 1;
 }
 
 #pragma thumb off

@@ -374,8 +374,8 @@ void InitMenu(void) {
     gMenuScene->mCharacterKartPicks = CreateCharacterKartPicks(MenuGetCurrentHeap());
     MenuGX_SetOBJVRamModeChar(0x10);
     MenuGXS_SetOBJVRamModeChar(0x10);
-    WriteMainBlendAlpha(0, 0x3f, 6, 10);
-    MenuWriteSubBlendAlpha(0, 0x3f, 6, 10);
+    WriteMainBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
+    MenuWriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     MenuWriteMainWinEnableBits(0);
     MenuWriteSubWinEnableBits(0);
     if (MenuMB_IsMultiBootChildWrapper() == 0) {

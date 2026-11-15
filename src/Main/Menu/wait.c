@@ -32,9 +32,9 @@ void AdvanceWait(void) {
     Wait *wait;
 
     gWait->mFrameIndexFrames++;
-    if (gWait->mFrameIndexFrames >= 4) {
+    if (gWait->mFrameIndexFrames >= WAIT_FRAME_TICKS) {
         gWait->mFrameIndex++;
-        if (gWait->mFrameIndex >= 3) {
+        if (gWait->mFrameIndex >= WAIT_FRAME_COUNT) {
             gWait->mFrameIndex = 0;
         }
         gWait->mFrameIndexFrames = 0;

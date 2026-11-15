@@ -29,7 +29,7 @@ void ReleaseMenu(void) {
     ReleaseAllResFiles();
     SetMenuEntryKind(0);
     SetUnfilledNotEliminated(0);
-    WriteMainBlendAlpha(0, 0x3f, 6, 10);
-    MenuWriteSubBlendAlpha(0, 0x3f, 6, 10);
+    WriteMainBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
+    MenuWriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
     gMenuScene = NULL;
 }

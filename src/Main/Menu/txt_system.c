@@ -1,5 +1,7 @@
 #include "Main/Menu/txt_system.h"
 #include "registers.h"
+#include "gx.h"
+#include "Main/Menu/menu_entry_kind.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/text_draw.h"
@@ -129,20 +131,20 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
     gTxtSystem->mCloseRequested = 0;
     gTxtSystem->mDone = 0;
     gTxtSystem->mInputAccepted = 0;
-    gTxtSystem->mInputSoundId = 5;
-    gTxtSystem->mSecondInputSoundId = 0x10;
-    gTxtSystem->mOpenSoundId = 0x23;
+    gTxtSystem->mInputSoundId = TXT_SYSTEM_INPUT_SOUND_ID;
+    gTxtSystem->mSecondInputSoundId = TXT_SYSTEM_SECOND_INPUT_SOUND_ID;
+    gTxtSystem->mOpenSoundId = TXT_SYSTEM_OPEN_SOUND_ID;
     for (index = 0; index < 2; index++) {
         gTxtSystem->mBgOffset[index] = -192;
         gTxtSystem->mBgOffsetAtOpen[index] = 0;
         gTxtSystem->mBgOffsetRequested[index] = 0;
     }
-    gTxtSystem->mBlendPlanes[0] = 0x19;
-    gTxtSystem->mBlendPlanes[1] = 0x1a;
+    gTxtSystem->mBlendPlanes[0] = GX_PLANEMASK_BG0 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
+    gTxtSystem->mBlendPlanes[1] = GX_PLANEMASK_BG1 | GX_PLANEMASK_BG3 | GX_PLANEMASK_OBJ;
     gTxtSystem->mBrightness = 0;
     for (index = 0; index < 2; index++) {
-        gTxtSystem->mBlendEv1[index] = 6;
-        gTxtSystem->mBlendEv2[index] = 10;
+        gTxtSystem->mBlendEv1[index] = MENU_BLEND_FIRST_COEFFICIENT;
+        gTxtSystem->mBlendEv2[index] = MENU_BLEND_SECOND_COEFFICIENT;
     }
     gTxtSystem->mMode = 0;
     return subCharOffset;
@@ -404,11 +406,11 @@ void AdvanceTxtSystemOpening(void) {
     for (screenIndex = 0; screenIndex < 2; screenIndex++) {
         gTxtSystem->mBgOffset[screenIndex] =
             InterpolateS16(1, gTxtSystemBgOffsets[gTxtSystem->mOpenFromIndex],
-                           -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystem->mStateFrames, 0xf);
+                           -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystem->mStateFrames, TXT_SYSTEM_SLIDE_STEPS);
     }
     txtSystem = gTxtSystem;
-    txtSystem->mBrightness = (txtSystem->mStateFrames * -10) / 15;
-    if (gTxtSystem->mStateFrames >= 15) {
+    txtSystem->mBrightness = (txtSystem->mStateFrames * -10) / TXT_SYSTEM_SLIDE_STEPS;
+    if (gTxtSystem->mStateFrames >= TXT_SYSTEM_SLIDE_STEPS) {
         if (gTxtSystem->mCloseRequested == 0) {
             gTxtSystem->mOpenRequested = 0;
         }
@@ -541,11 +543,11 @@ L:
 void AdvanceTxtSystemButtonPressed(void) {
     gTxtSystem->mStateFrames++;
     gTxtSystem->mInputAccepted = 0;
-    if (gTxtSystem->mStateFrames >= 10) {
+    if (gTxtSystem->mStateFrames >= TXT_SYSTEM_PRESS_STEPS) {
         gTxtSystem->mDone = 1;
         gTxtSystem->mNextState = TXT_SYSTEM_STATE_OPEN;
         gTxtSystem->mStateFrames = 0;
-    } else if (gTxtSystem->mStateFrames >= 5) {
+    } else if (gTxtSystem->mStateFrames >= TXT_SYSTEM_PRESS_COLOR_STEP) {
         QueueTxtSystemButtonColors();
     }
 }
@@ -559,11 +561,11 @@ void AdvanceTxtSystemClosing(void) {
     for (screenIndex = 0; screenIndex < 2; screenIndex++) {
         gTxtSystem->mBgOffset[screenIndex] =
             InterpolateS16(1, -gTxtSystem->mBgOffsetAtOpen[screenIndex], gTxtSystemBgOffsets[gTxtSystem->mCloseToIndex],
-                           gTxtSystem->mStateFrames, 0xf);
+                           gTxtSystem->mStateFrames, TXT_SYSTEM_SLIDE_STEPS);
     }
     txtSystem = gTxtSystem;
-    txtSystem->mBrightness = -10 - (txtSystem->mStateFrames * -10) / 15;
-    if (gTxtSystem->mStateFrames >= 15) {
+    txtSystem->mBrightness = -10 - (txtSystem->mStateFrames * -10) / TXT_SYSTEM_SLIDE_STEPS;
+    if (gTxtSystem->mStateFrames >= TXT_SYSTEM_SLIDE_STEPS) {
         for (screenIndex = 0; screenIndex < 2; screenIndex++) {
             gTxtSystem->mBgOffset[screenIndex] = -192;
         }
@@ -600,10 +602,10 @@ void AdvanceTxtSystem(void) {
         }
         if (gTxtSystem->mAnimVisible[0] != 0 || gTxtSystem->mAnimVisible[1] != 0) {
             gTxtSystem->mAnimFrameIndexFrames++;
-            if (gTxtSystem->mAnimFrameIndexFrames >= 4) {
+            if (gTxtSystem->mAnimFrameIndexFrames >= TXT_SYSTEM_ANIM_FRAME_TICKS) {
                 gTxtSystem->mAnimFrameIndexFrames = 0;
                 gTxtSystem->mAnimFrameIndex++;
-                if (gTxtSystem->mAnimFrameIndex >= 3) {
+                if (gTxtSystem->mAnimFrameIndex >= TXT_SYSTEM_ANIM_FRAME_COUNT) {
                     gTxtSystem->mAnimFrameIndex = 0;
                 }
                 RefreshTxtSystemAnim();
