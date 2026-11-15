@@ -88,8 +88,13 @@ typedef struct IpHeader {
     /* 00 */ u8 mVersionIhl;
     /* 01 */ u8 mTypeOfService;
     /* 02 */ u16 mTotalLength;
-    /* 04 */ u8 mIdentifierFirstByte;
-    /* 05 */ u8 mIdentifierSecondByte;
+    union {
+        /* 04 */ u16 mIdentifier;
+        struct {
+            /* 04 */ u8 mIdentifierFirstByte;
+            /* 05 */ u8 mIdentifierSecondByte;
+        };
+    };
     /* 06 */ u16 mFragOffset;
     /* 08 */ u8 mTimeToLive;
     /* 09 */ u8 mProtocol;

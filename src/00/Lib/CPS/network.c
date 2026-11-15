@@ -1413,7 +1413,7 @@ IpHeader *check_frag(IpHeader *packet, u32 *fragmented) {
         return packet;
     }
     headerLength = (packet->mVersionIhl & IHL_MASK) << 2;
-    identifier = *(u16 *) &packet->mIdentifierFirstByte;
+    identifier = packet->mIdentifier;
     sourceAddress = ((u16) ((packet->mSourceAddressHigh >> 8) | (packet->mSourceAddressHigh << 8)) << 16) |
                     (u16) ((packet->mSourceAddressLow >> 8) | (packet->mSourceAddressLow << 8));
     freeSlot = NULL;
