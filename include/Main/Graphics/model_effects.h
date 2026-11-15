@@ -19,6 +19,13 @@
 #include "Main/Sound/data_0210b000.h"
 #include "Main/MapObjects/data_0217b000.h"
 
+// Frames of the bombcore effect: the frame the particle effect starts on, and the frame the effect ends on.
+#define MODEL_EFFECT_BOMBCORE_PARTICLE_FRAME 0x26
+#define MODEL_EFFECT_BOMBCORE_END_FRAME 0x37
+// ModelEffect.mFinishFrameCount of the Donketu water splash and the Bk wave.
+#define MODEL_EFFECT_DONKETU_SPLASH_FINISH_FRAMES 0x20
+#define MODEL_EFFECT_BK_WAVE_FINISH_FRAMES 0x27
+
 // A pooled effect object: a model, up to three animation objects, a position and a Start and an Update function.
 typedef struct ModelEffect {
     /* 00 */ u8 mUnk_00[8];

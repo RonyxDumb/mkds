@@ -452,11 +452,11 @@ void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects) {
 }
 
 void UpdateModelEffectBombcore(ModelEffect *modelEffect) {
-    if (modelEffect->mSinceStartFrames == 0x26) {
+    if (modelEffect->mSinceStartFrames == MODEL_EFFECT_BOMBCORE_PARTICLE_FRAME) {
         StartEffect(3, &modelEffect->mPos);
         return;
     }
-    if (modelEffect->mSinceStartFrames >= 0x37) {
+    if (modelEffect->mSinceStartFrames >= MODEL_EFFECT_BOMBCORE_END_FRAME) {
         modelEffect->mFinished = 1;
         return;
     }
@@ -481,7 +481,7 @@ void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
     modelEffect->mScale.y = 0x3d9a;
     modelEffect->mScale.z = 0x3d9a;
     SetModelAnimation(modelEffect->mAnimations[0], 0);
-    modelEffect->mFinishFrameCount = 0x20;
+    modelEffect->mFinishFrameCount = MODEL_EFFECT_DONKETU_SPLASH_FINISH_FRAMES;
     if (modelEffect->mAnimations[1] != NULL) {
         SetModelAnimation(modelEffect->mAnimations[1], 0);
     }
@@ -506,7 +506,7 @@ void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects) {
     modelEffect->mScale.x = 0x5800;
     modelEffect->mScale.y = 0x5800;
     modelEffect->mScale.z = 0x5800;
-    modelEffect->mFinishFrameCount = 0x27;
+    modelEffect->mFinishFrameCount = MODEL_EFFECT_BK_WAVE_FINISH_FRAMES;
     SetModelAnimation(modelEffect->mAnimations[1], 0);
     if (startEffects == 0) {
         return;
@@ -540,7 +540,7 @@ void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects) {
 }
 
 void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
-    if (modelEffect->mSinceStartFrames >= 0x37) {
+    if (modelEffect->mSinceStartFrames >= MODEL_EFFECT_BOMBCORE_END_FRAME) {
         modelEffect->mFinished = 1;
         return;
     }

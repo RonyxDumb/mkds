@@ -49,8 +49,8 @@ void HideUnusedOams(void *mainOam, void *subOam) {
         DC_FlushRange(mainOamList, 0x400);
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
             mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
-                (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            mainOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = 0xe0;
+                (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_MASK) | OAM_ENTRY_HIDDEN_X;
+            mainOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = OAM_ENTRY_HIDDEN_Y;
         }
     }
     if (subOamList != NULL) {
@@ -58,8 +58,8 @@ void HideUnusedOams(void *mainOam, void *subOam) {
         DC_FlushRange(subOamList, 0x400);
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
             subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
-                (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            subOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = 0xe0;
+                (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_MASK) | OAM_ENTRY_HIDDEN_X;
+            subOamList->mEntries[usedEntryCount + hiddenIndex].mYPos = OAM_ENTRY_HIDDEN_Y;
         }
     }
 }

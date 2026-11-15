@@ -4,6 +4,19 @@
 #include "Main/Graphics/layout_entry_angle.h" // LabelTextCanvas
 #include "Main/Scene/display_settings.h" // DisplaySettings
 
+// TextTag.mKind: nothing to expand, a name to insert (the variant picks which), a tag copied to the output unchanged.
+#define TEXT_TAG_KIND_NONE 0
+#define TEXT_TAG_KIND_NAME 1
+#define TEXT_TAG_KIND_KEEP 0xff
+// TextTag.mVariant of a name tag: the player name, the player name cut to the width the canvas allows, the owner text,
+// the owner text cut to the width; and the variant of the tag (in TextTagWithCharCode) that marks where
+// FormatMessageWithText inserts its text.
+#define TEXT_TAG_NAME_PLAYER 0
+#define TEXT_TAG_NAME_PLAYER_FIT 1
+#define TEXT_TAG_NAME_OWNER_TEXT 10
+#define TEXT_TAG_NAME_OWNER_TEXT_FIT 11
+#define TEXT_TAG_VARIANT_INSERT 0xff
+
 // Tag in a run of halfwords: 0x1a, a byte (the number of bytes), a byte (1) and a halfword (0xff).
 typedef struct TextTagWithCharCode {
     /* 00 */ u16 mCharCode;

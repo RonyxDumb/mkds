@@ -2,6 +2,12 @@
 
 #include "types.h"
 
+// How HideUnusedOams parks an entry: the x position bits of the first word (the second halfword) are replaced with an
+// x that is right of the screen, and the y position goes below it.
+#define OAM_ENTRY_X_MASK 0x1ff0000
+#define OAM_ENTRY_HIDDEN_X 0x1800000
+#define OAM_ENTRY_HIDDEN_Y 0xe0
+
 // Element of 8 bytes of OamEntryList.mUnk_00.
 typedef struct OamListEntry {
     /* 00 */ union {

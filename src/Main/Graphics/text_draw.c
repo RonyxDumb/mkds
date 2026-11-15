@@ -92,11 +92,11 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                 tagSize = ((TextTag *) readPointer)->mSize;
                 variant = ((TextTag *) readPointer)->mVariant;
                 switch (((TextTag *) readPointer)->mKind) {
-                    case 0:
+                    case TEXT_TAG_KIND_NONE:
                         break;
-                    case 1:
+                    case TEXT_TAG_KIND_NAME:
                         switch (variant) {
-                            case 0:
+                            case TEXT_TAG_NAME_PLAYER:
                                 for (value = 0; value < 10; value++) {
                                     tagTextChar = gBackupBuffers->mFirstBlock->mPlayerName[value];
                                     if (tagTextChar == 0) {
@@ -117,7 +117,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                                 break;
-                            case 1:
+                            case TEXT_TAG_NAME_PLAYER_FIT:
                                 playerNameCharCount = CopyTextWithinWidth(
                                     gBackupBuffers->mFirstBlock->mPlayerName, playerNameChars);
                                 for (playerNameIndex = 0; playerNameIndex < playerNameCharCount; playerNameIndex++) {
@@ -134,7 +134,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                         *lineWidthPointer += fixedAdvanceWithSpacing;
                                     }
                                 }
-                            case 10:
+                            case TEXT_TAG_NAME_OWNER_TEXT:
                                 for (value = 0; value < 10; value++) {
                                     tagTextChar = gStartupWork->mOwnerText[value];
                                     if (tagTextChar == 0) {
@@ -155,7 +155,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                     }
                                 }
                                 break;
-                            case 11:
+                            case TEXT_TAG_NAME_OWNER_TEXT_FIT:
                                 ownerTextCharCount =
                                     CopyTextWithinWidth(gStartupWork->mOwnerText, ownerTextChars);
                                 for (ownerTextIndex = 0; ownerTextIndex < ownerTextCharCount; ownerTextIndex++) {
@@ -175,7 +175,7 @@ void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineW
                                 break;
                         }
                         break;
-                    case 0xff:
+                    case TEXT_TAG_KIND_KEEP:
                         if (variant == 0) {
                             MI_CpuCopy8(readPointer - 2, writePointer, tagSize);
                             writePointer += tagSize >> 1;
@@ -336,8 +336,8 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
     u16 halfword;
 
     length = 0;
-    while (*message != 0x1a || ((TextTagWithCharCode *) message)->mKind != 1 ||
-           ((TextTagWithCharCode *) message)->mVariant != 0xff) {
+    while (*message != 0x1a || ((TextTagWithCharCode *) message)->mKind != TEXT_TAG_KIND_NAME ||
+           ((TextTagWithCharCode *) message)->mVariant != TEXT_TAG_VARIANT_INSERT) {
         formattedText[length] = *message;
         length++;
         message++;
