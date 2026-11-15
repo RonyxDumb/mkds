@@ -87,7 +87,7 @@ void QuaternionFromYAxisToVec3(Vec3 *direction, Quaternion *quaternion) {
     quaternion->mComponents[2] = FX_GetDivResult();
 }
 
-void QuaternionFromAngleAroundY(s32 angle, Quaternion *quaternion) {
+void QuaternionFromAngleAroundY(u16 angle, Quaternion *quaternion) {
     quaternion->mComponents[0] = 0;
     quaternion->mComponents[1] = SIN_OF_ANGLE((u16) (angle >> 1));
     quaternion->mComponents[2] = 0;

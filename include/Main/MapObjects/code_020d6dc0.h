@@ -21,7 +21,7 @@ BOOL BuildNextSegmentProgress(SegmentProgress *segmentProgress, s32 useStraightL
 // Stores in gViewYawQuaternion the rotation about Y by the angle of the matrix a.
 void SetViewYawQuaternion(MtxFx43 *viewMatrix);
 void QuaternionFromYAxisToVec3(Vec3 *p, Quaternion *quaternion);
-void QuaternionFromAngleAroundY(s32 angle, Quaternion *quaternion);
+void QuaternionFromAngleAroundY(u16 angle, Quaternion *quaternion);
 // Writes to q the quaternion QuaternionFromYAxisToVec3 gives for p combined with the Y rotation
 // QuaternionFromAngleAroundY gives for b.
 void QuaternionFromVec3AndAngleAroundY(Vec3 *direction, s32 angle, Quaternion *quaternion);
