@@ -1,4 +1,5 @@
 #include "Main/Kart/kart_drift.h"
+#include "Main/MapObjects/attractor.h"
 #include "Main/Race/race.h"
 #include "Main/Kart/kart_contact.h"
 #include "Main/Race/code_020b1dbc.h"
@@ -154,7 +155,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
                         (void (*)(void *, int)) StartSurfaceSoundFromKart, kart, 2);
         StartKartModelScaleAnimation(kart, 0);
     }
-    kart->mLandingTimer = 7;
+    kart->mLandingTimer = KART_LANDING_FRAMES;
     if (kart->mDriveFlags & KART_DRIVE_RESPAWN_LANDING) {
         kart->mEffectFlags &= ~KART_EFFECT_RESPAWN_DROP;
         kart->mDriveFlags &= ~KART_DRIVE_RESPAWN_LANDING;
@@ -163,7 +164,7 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
         return;
     }
     if ((!(kart->mEffectFlags & KART_EFFECT_KILLER) && kart->mVelocity.y < 0 &&
-         (kart->mAirborneFrames > 0x19 || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
+         (kart->mAirborneFrames > KART_BOUNCE_LANDING_AIRBORNE_FRAMES || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
         kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
         dotProduct = VEC_DotProduct(groundNormal, &kart->mVelocity);
         normalVelocity.x = MUL_FIXED12_NO_ROUND(groundNormal->x, dotProduct);
@@ -187,14 +188,14 @@ void ApplyKartLanding(Kart *kart, Vec3 *groundNormal) {
             }
         }
     }
-    if (kart->mAirborneFrames <= 0x14) {
+    if (kart->mAirborneFrames <= KART_LANDING_SLOWDOWN_AIRBORNE_FRAMES) {
         return;
     }
     dotProduct = Vec3DotUnrounded(&kart->mRotationRow2, groundNormal);
     if (dotProduct >= 0) {
         return;
     }
-    if (kart->mAirTiltAngle <= 0x3e8) {
+    if (kart->mAirTiltAngle <= KART_LANDING_SLOWDOWN_MIN_TILT) {
         return;
     }
     kart->mForwardSpeed = MUL_FIXED12_NO_ROUND(kart->mForwardSpeed, dotProduct + 0x1000);
@@ -287,7 +288,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                                     }
                                 }
                                 kart->mMapObjectVectorLength = VEC_Mag(&mapObjectVector);
-                                if (kart->mMapObjectVectorLength > 0x1000 && value != 0) {
+                                if (kart->mMapObjectVectorLength > KART_MAP_OBJECT_PUSH_MIN_LENGTH && value != 0) {
                                     kart->mMapObjectVectorForwardDot =
                                         Vec3DotUnrounded(&kart->mTurnedForward, &mapObjectVector);
                                     factor = VEC_DotProduct(&kart->mTurnedForward, &mapObjectVector);
@@ -308,7 +309,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                             contactRequested = TRUE;
                         }
                     }
-                    flagBits = mapObject->mFlags & 0x200;
+                    flagBits = mapObject->mFlags & MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED;
                     if (flagBits != 0) {
                         value = 0x1000;
                     } else {
@@ -357,7 +358,7 @@ void CollideKartWithMapObjects(Kart *kart) {
         kart->mPrevTouchingMapObjects[slotIndex] = touchedMapObjects[slotIndex];
         if (kart->mMapObjectSoundPlayed[slotIndex] != 0) {
             kart->mMapObjectSoundFrames[slotIndex]++;
-            if (kart->mMapObjectSoundFrames[slotIndex] > 10) {
+            if (kart->mMapObjectSoundFrames[slotIndex] > KART_MAP_OBJECT_SOUND_FRAMES) {
                 kart->mMapObjectSoundPlayed[slotIndex] = 0;
                 kart->mMapObjectSoundFrames[slotIndex] = 0;
             }
@@ -541,18 +542,18 @@ void CollideKartWithKarts(Kart *kart) {
                     TryStartKartPushFlip(otherKart, kart, &normal);
                 }
             } else if (kart->mKartCollisionDelayTimer <= 0) {
-                if (kart->mVelocityLength > 0x1000 || otherKart->mVelocityLength > 0x1000) {
-                    if (gSceneSoundState.mRaceFrames > 0x78) {
+                if (kart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED || otherKart->mVelocityLength > KART_COLLISION_BUMP_MIN_SPEED) {
+                    if (gSceneSoundState.mRaceFrames > KART_COLLISION_SOUND_MIN_RACE_FRAMES) {
                         StartSound(&kart->mSoundSource, 0x80, 0x7f, 0);
                     }
                     if (kart->mVelocityLength > otherKart->mVelocityLength) {
-                        otherKart->mKartCollisionTimer = 0x14;
+                        otherKart->mKartCollisionTimer = KART_COLLISION_TIMER_FRAMES;
                     } else {
-                        kart->mKartCollisionTimer = 0x14;
+                        kart->mKartCollisionTimer = KART_COLLISION_TIMER_FRAMES;
                     }
                     StartKartModelScaleAnimation(kart, 2);
                     StartKartModelScaleAnimation(otherKart, 2);
-                    kart->mKartCollisionDelayTimer = 0xf;
+                    kart->mKartCollisionDelayTimer = KART_COLLISION_DELAY_FRAMES;
                     if (effectsStarted == 0) {
                         effectsStarted = TryStartKartCollisionEffects(kart, &normal, callbackValue);
                         if (effectsStarted == 0) {
@@ -859,10 +860,10 @@ void UpdateKartAheadEffect(Kart *kart) {
                 &kart->mSecondCollisionCenter);
     if (kart->mIndex == GetRaceUpdateFramesMod8() &&
         !(kart->mEffectFlags & (KART_EFFECT_KILLER | KART_EFFECT_AHEAD_BOOST))) {
-        if (kart->mVelocityLength > 0x4000 && kart->mState == KART_STATE_NORMAL) {
+        if (kart->mVelocityLength > KART_AHEAD_BUILD_UP_MIN_SPEED && kart->mState == KART_STATE_NORMAL) {
             for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
                 otherKart = gFoundCollisionSlotObjects[slotIndex];
-                if (otherKart->mVelocityLength >= 0x2000 && (gFoundCollisionSlotFlags[slotIndex] & 0x800) &&
+                if (otherKart->mVelocityLength >= KART_AHEAD_OTHER_MIN_SPEED && (gFoundCollisionSlotFlags[slotIndex] & 0x800) &&
                     otherKart != kart && !(otherKart->mEntryFlags & KART_ENTRY_TERESA_OR_PARKED)) {
                     VEC_Subtract(&otherKart->mPos, &kart->mPos, &offset);
                     distance = VEC_Mag(&offset);
@@ -878,7 +879,7 @@ void UpdateKartAheadEffect(Kart *kart) {
             if (aheadFound != FALSE) {
                 kart->mEffectFlags |= KART_EFFECT_AHEAD_BUILD_UP;
                 StartKartAheadEffectIfSelectedEntry(kart);
-                if (kart->mItemEffectData.mAheadCount > 0xf && distance < 0x3c000) {
+                if (kart->mItemEffectData.mAheadCount > KART_AHEAD_BOOST_MIN_COUNT && distance < 0x3c000) {
                     StartKartAheadBoost(kart);
                 }
             } else {
@@ -937,9 +938,9 @@ void ApplyItemObjectHitToKart(Kart *kart) {
             break;
         case ITEM_OBJECT_KIND_KINOKO:
             // r is still 0 here, KART_BOOST_ITEM_OR_SURFACE.
-            StartKartBoost(kart, hitResult, 0x5a);
+            StartKartBoost(kart, hitResult, KART_KINOKO_BOOST_FRAMES);
             kart->mDriveFlags |= KART_DRIVE_KINOKO_BOOST;
-            kart->mItemEffectData.mKinokoBoostTimer = 0x5a;
+            kart->mItemEffectData.mKinokoBoostTimer = KART_KINOKO_BOOST_FRAMES;
             if (gRaceSetup->mMode == MODE_BATTLE) {
                 ClearStandingsHitSeenFromKart(kart->mIndex);
             }
@@ -1000,7 +1001,7 @@ void ApplyItemObjectHitToKart(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xe9, 0x7f, 0);
         return;
     }
-    kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & 0x8000) == 0
+    kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & ITEM_OBJECT_OWNER_NOT_KART) == 0
                            ? (u16) (itemObject->mOwnerKartIndexAndFlags & ~0xff00)
                            : 8);
     if (kartIndex >= gRaceSetup->mKartCount) {
@@ -1163,35 +1164,35 @@ void EndKartDrift(Kart *kart) {
 
 void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn) {
     if (kart->mTurnDirection > 0) {
-        if (kart->mTurnAngle > 11000) {
+        if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
             kart->mTurnAngle = kart->mTurnAngle - 200;
-            if (kart->mTurnAngle < 11000) {
-                kart->mTurnAngle = 11000;
+            if (kart->mTurnAngle < KART_MAX_TURN_ANGLE) {
+                kart->mTurnAngle = KART_MAX_TURN_ANGLE;
             }
-        } else if (kart->mTurnAngle < 11000) {
+        } else if (kart->mTurnAngle < KART_MAX_TURN_ANGLE) {
             kart->mTurnAngle += 375;
-            if (kart->mTurnAngle > 11000) {
-                kart->mTurnAngle = 11000;
+            if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
+                kart->mTurnAngle = KART_MAX_TURN_ANGLE;
             }
         }
     } else {
-        if (kart->mTurnAngle < -11000) {
+        if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
             kart->mTurnAngle = kart->mTurnAngle + 200;
-            if (kart->mTurnAngle > -11000) {
-                kart->mTurnAngle = -11000;
+            if (kart->mTurnAngle > -KART_MAX_TURN_ANGLE) {
+                kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
             }
-        } else if (kart->mTurnAngle > -11000) {
+        } else if (kart->mTurnAngle > -KART_MAX_TURN_ANGLE) {
             kart->mTurnAngle -= 375;
-            if (kart->mTurnAngle < -11000) {
-                kart->mTurnAngle = -11000;
+            if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
+                kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
             }
         }
     }
     if (fromLowSpeedTurn != 0) {
         return;
     }
-    if (kart->mDriftHeadingAnglePerFrame <= 50) {
-        kart->mDriftHeadingAnglePerFrame = 50;
+    if (kart->mDriftHeadingAnglePerFrame <= KART_DRIFT_HEADING_MIN) {
+        kart->mDriftHeadingAnglePerFrame = KART_DRIFT_HEADING_MIN;
     } else {
         kart->mDriftHeadingAnglePerFrame = MUL_FIXED12_NO_ROUND(kart->mDriftHeadingAnglePerFrame, 0xf33);
     }
@@ -1222,7 +1223,7 @@ void AdvanceKartDrift(Kart *kart) {
     if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
         return;
     }
-    if (kart->mAirborneFrames >= 5 &&
+    if (kart->mAirborneFrames >= KART_DRIFT_ARM_MIN_AIRBORNE_FRAMES &&
         !(bits44 & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING | KART_MOTION_ON_GROUND))) {
         entryIndex = kart->mEntryIndex;
         if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_R)) {
@@ -1337,10 +1338,10 @@ recheck:
             value = -value;
         }
         kart->mTurnAngle += (s16) (turn * value);
-        if (kart->mTurnAngle > 0x2af8) {
-            kart->mTurnAngle = 0x2af8;
-        } else if (kart->mTurnAngle < -0x2af8) {
-            kart->mTurnAngle = -0x2af8;
+        if (kart->mTurnAngle > KART_MAX_TURN_ANGLE) {
+            kart->mTurnAngle = KART_MAX_TURN_ANGLE;
+        } else if (kart->mTurnAngle < -KART_MAX_TURN_ANGLE) {
+            kart->mTurnAngle = -KART_MAX_TURN_ANGLE;
         }
         if (!(kart->mMotionFlags & KART_MOTION_DRIFTING)) {
             return;
@@ -1367,8 +1368,8 @@ recheck:
     }
     kart->mMotionFlags |= KART_MOTION_HOPPING | KART_MOTION_HOP_ACTIVE | KART_MOTION_HOP_STEER;
     kart->mMotionFlags &= ~(KART_MOTION_DRIFTING | KART_MOTION_DRIFT_ENDED_IN_AIR);
-    kart->mHopSpeed = 0x1405;
-    kart->mVerticalSpeed += 0x21a2;
+    kart->mHopSpeed = KART_HOP_SPEED;
+    kart->mVerticalSpeed += KART_HOP_VERTICAL_SPEED;
     kart->mHopHeight = 0;
     kart->mTurnDirection = 0;
     kart->mDriftHeadingAnglePerFrame = 0;
@@ -1397,7 +1398,7 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
     KartTurnEffects *turnEffects;
     enum { ENTRY_INDEX_FIRST } entryIndex;
 
-    if (kart->mVelocityLength < 0x1800 && (kart->mDriveFlags & KART_DRIVE_BRAKING)) {
+    if (kart->mVelocityLength < KART_LOW_SPEED_TURN_MAX_SPEED && (kart->mDriveFlags & KART_DRIVE_BRAKING)) {
         kart->mTurnDirection = 0;
         result = TRUE;
         pending = FALSE;

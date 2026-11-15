@@ -1004,9 +1004,9 @@ void StartKartThunder(Kart *kart) {
 }
 
 void StartKartKinokoBoost(Kart *kart) {
-    StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x5a);
+    StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, KART_KINOKO_BOOST_FRAMES);
     kart->mDriveFlags |= KART_DRIVE_KINOKO_BOOST;
-    kart->mItemEffectData.mKinokoBoostTimer = 0x5a;
+    kart->mItemEffectData.mKinokoBoostTimer = KART_KINOKO_BOOST_FRAMES;
     if (gRaceSetup->mMode != MODE_BATTLE) {
         return;
     }
@@ -2033,7 +2033,7 @@ s32 CollideKartWithMapObjectResponse2(Kart *kart, s32 *output) {
 }
 
 int CollideKartWithMapObjectResponse3(Kart *kart, s32 *result, MapObject *mapObject) {
-    if (kart->mVelocityLength > 0x3000 || (mapObject->mFlags & 0x200)) {
+    if (kart->mVelocityLength > KART_MAP_OBJECT_SPIN_MIN_SPEED || (mapObject->mFlags & MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED)) {
         if (TrySpinKart(kart, 1, 0)) {
             if (kart->mKartModelsEntry->mKartModelHidden == 0) {
                 StartEffect(0xc, &kart->mPos);
@@ -2052,7 +2052,7 @@ int CollideKartWithMapObjectResponse3(Kart *kart, s32 *result, MapObject *mapObj
 }
 
 int CollideKartWithMapObjectResponse4(Kart *kart, s32 *result, MapObject *mapObject) {
-    if (kart->mVelocityLength > 0x3000 || (mapObject->mFlags & 0x200)) {
+    if (kart->mVelocityLength > KART_MAP_OBJECT_SPIN_MIN_SPEED || (mapObject->mFlags & MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED)) {
         if (TrySpinKart(kart, 2, 0)) {
             if (kart->mKartModelsEntry->mKartModelHidden == 0) {
                 StartEffect(0xc, &kart->mPos);
@@ -2071,7 +2071,7 @@ int CollideKartWithMapObjectResponse4(Kart *kart, s32 *result, MapObject *mapObj
 }
 
 int CollideKartWithMapObjectResponse6(Kart *kart, s32 *result, MapObject *mapObject) {
-    if (kart->mVelocityLength > 0x3000 || (mapObject->mFlags & 0x200)) {
+    if (kart->mVelocityLength > KART_MAP_OBJECT_SPIN_MIN_SPEED || (mapObject->mFlags & MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED)) {
         if (TrySpinKart(kart, 2, 0)) {
             if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
                 GetEntryKartCounters()->mMapObjectHitCount++;
@@ -2835,9 +2835,9 @@ void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 s
     if (((kart->mParticipantRecordData->mAppliedFlags & 1) != 0) != ((recordFlags & 1) != 0) &&
         (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
         stateAgain = ((volatile Kart *) kart)->mParticipantRecordData;
-        stateAgain->mHopSpeed = 0x1405;
+        stateAgain->mHopSpeed = KART_HOP_SPEED;
         stateAgain->mHopHeight = 0;
-        kart->mVerticalSpeed += 0x21a2;
+        kart->mVerticalSpeed += KART_HOP_VERTICAL_SPEED;
     }
     if (((kart->mParticipantRecordData->mAppliedFlags & KART_EVENT_LAUNCH_DOUBLE_FLIP) != 0) != ((recordFlags & KART_EVENT_LAUNCH_DOUBLE_FLIP) != 0)) {
         StartKartLaunchDoubleFlip(kart);

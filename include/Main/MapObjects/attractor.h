@@ -64,6 +64,8 @@ typedef struct MapObjectKindData {
 
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f
+// MapObject.mFlags: a kart touching the object counts as hitting it fast whatever its speed (full push strength).
+#define MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED 0x200
 
 // Element object up to 0xa0, which every kind shares: UpdateMapObjectList and UpdateMapObjectSoundSource read 0x78 and
 // 0x94 of every object, DoesItemObjectRespondToMapObject reads 0x00, 0x02 and 0x98. InitKuribo and InitDram pass the

@@ -946,3 +946,40 @@ extern s32 gKartPushDoubleFlipStartAnglePerFrame;
 extern s32 gFixedPositionOtherEffectIds[2];
 extern s32 gKartPushFlipAngleDecay;
 extern s32 gSpeedReductionAtFullTurnRatio;
+
+// Frames Kart.mLandingTimer is set to at a landing.
+#define KART_LANDING_FRAMES 7
+// A fall that lasted longer than this many frames makes the landing bounce.
+#define KART_BOUNCE_LANDING_AIRBORNE_FRAMES 0x19
+// A landing after more airborne frames than this, with the kart nose down by more than the tilt, slows the kart.
+#define KART_LANDING_SLOWDOWN_AIRBORNE_FRAMES 0x14
+#define KART_LANDING_SLOWDOWN_MIN_TILT 0x3e8
+// A map object pushes the kart only when the vector to it is longer than this.
+#define KART_MAP_OBJECT_PUSH_MIN_LENGTH 0x1000
+// Frames after which a map object sound played for a touched object may play again.
+#define KART_MAP_OBJECT_SOUND_FRAMES 10
+// Kart.mVelocityLength a kart needs before a kart-to-kart contact bumps it, and the frames that bump timers run.
+#define KART_COLLISION_BUMP_MIN_SPEED 0x1000
+#define KART_COLLISION_TIMER_FRAMES 0x14
+#define KART_COLLISION_DELAY_FRAMES 0xf
+// The ahead build-up starts above this speed of the kart and counts karts that go at least the second speed.
+#define KART_AHEAD_BUILD_UP_MIN_SPEED 0x4000
+#define KART_AHEAD_OTHER_MIN_SPEED 0x2000
+// The ahead boost starts once KartItemEffectState.mAheadCount is above this.
+#define KART_AHEAD_BOOST_MIN_COUNT 0xf
+// Frames a mushroom boost lasts.
+#define KART_KINOKO_BOOST_FRAMES 0x5a
+// Largest absolute Kart.mTurnAngle while steering or drifting.
+#define KART_MAX_TURN_ANGLE 11000
+// Smallest Kart.mDriftHeadingAnglePerFrame during a drift.
+#define KART_DRIFT_HEADING_MIN 50
+// The air drift can arm only after the kart was airborne for at least this many frames.
+#define KART_DRIFT_ARM_MIN_AIRBORNE_FRAMES 5
+// Kart.mHopSpeed and the vertical speed added when a hop starts.
+#define KART_HOP_SPEED 0x1405
+#define KART_HOP_VERTICAL_SPEED 0x21a2
+// The low speed turn on the spot is possible below this Kart.mVelocityLength.
+#define KART_LOW_SPEED_TURN_MAX_SPEED 0x1800
+// A map object spins the kart when it is hit above this Kart.mVelocityLength (or the object has
+// MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED).
+#define KART_MAP_OBJECT_SPIN_MIN_SPEED 0x3000
