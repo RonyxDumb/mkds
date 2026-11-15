@@ -162,8 +162,8 @@ BOOL ClearWhAndInitialize(void) {
     gWhWork->mUnk_50 = 0;
     gWhWork->mConnectedMask = 1;
     gWhWork->mErrorCode = 0;
-    gWhWork->mUserGameInfo = NULL;
-    gWhWork->mUserGameInfoLength = 0;
+    gWhWork->mParentParameter.mUserGameInfo = NULL;
+    gWhWork->mParentParameter.mUserGameInfoLength = 0;
     gWhWork->mConnectCallback = NULL;
     if (StartWhInitialize() != FALSE) {
         return TRUE;
@@ -219,16 +219,16 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     }
     gWhWork->mConnectMode = mode;
     SetWhState(WH_STATE_BUSY);
-    gWhWork->mTgid = tgid;
-    gWhWork->mChannel = channel;
-    gWhWork->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
-    gWhWork->mParentMaxSize = 0xd0;
-    gWhWork->mChildMaxSize = 0x44;
-    gWhWork->mMaxEntry = 2;
-    gWhWork->mCsFlag = 0;
-    gWhWork->mMultiBootFlag = 0;
-    gWhWork->mEntryFlag = 1;
-    gWhWork->mKsFlag = mode == 2 ? 1 : 0;
+    gWhWork->mParentParameter.mTgid = tgid;
+    gWhWork->mParentParameter.mChannel = channel;
+    gWhWork->mParentParameter.mBeaconPeriod = WM_GetDispersionBeaconPeriod();
+    gWhWork->mParentParameter.mParentMaxSize = 0xd0;
+    gWhWork->mParentParameter.mChildMaxSize = 0x44;
+    gWhWork->mParentParameter.mMaxEntry = 2;
+    gWhWork->mParentParameter.mCsFlag = 0;
+    gWhWork->mParentParameter.mMultiBootFlag = 0;
+    gWhWork->mParentParameter.mEntryFlag = 1;
+    gWhWork->mParentParameter.mKsFlag = mode == 2 ? 1 : 0;
     if (mode == 0 || mode == 2 || mode == 4) {
         return SetWhParentParameter();
     }

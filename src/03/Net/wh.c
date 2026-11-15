@@ -43,7 +43,7 @@ BOOL SetWhParentParameter(void) {
     s32 result;
 
     SetWhState(WH_STATE_BUSY);
-    result = WM_SetParentParameter(SetWhParentParameterCallback, (ParentParameter *) gWhWork);
+    result = WM_SetParentParameter(SetWhParentParameterCallback, &gWhWork->mParentParameter);
     if (result != 2) {
         SetWhErrorCode(result);
         SetWhState(WH_STATE_ERROR);
@@ -368,7 +368,7 @@ void EndWhCallback(WirelessMessage *event) {
 }
 
 void SetWhGgid(u32 ggid) {
-    gWhWork->mGgid = ggid;
+    gWhWork->mParentParameter.mGgid = ggid;
 }
 
 u16 GetWhConnectedMask(void) {

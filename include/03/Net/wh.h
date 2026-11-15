@@ -34,21 +34,7 @@ enum {
 };
 
 typedef struct WhWork {
-    /* 0000 */ void *mUserGameInfo;
-    /* 0004 */ u16 mUserGameInfoLength;
-    /* 0006 */ u8 pad_06[2];
-    /* 0008 */ u32 mGgid;
-    /* 000c */ u16 mTgid;
-    /* 000e */ u16 mEntryFlag;
-    /* 0010 */ u16 mMaxEntry;
-    /* 0012 */ u16 mMultiBootFlag;
-    /* 0014 */ u16 mKsFlag;
-    /* 0016 */ u16 mCsFlag;
-    /* 0018 */ u16 mBeaconPeriod;
-    /* 001a */ u8 pad_1a[0x18];
-    /* 0032 */ u16 mChannel;
-    /* 0034 */ u16 mParentMaxSize;
-    /* 0036 */ u16 mChildMaxSize;
+    /* 0000 */ ParentParameter mParentParameter;
     /* 0038 */ u8 pad_38[8];
     /* 0040 */ s32 mState;
     /* 0044 */ u32 mConnectMode;

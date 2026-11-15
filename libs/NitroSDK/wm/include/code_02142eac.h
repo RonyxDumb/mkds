@@ -422,13 +422,14 @@ typedef struct StartScanRequest {
 typedef struct ParentParameter {
     /* 00 */ struct UserGameInfo *mUserGameInfo;
     /* 04 */ u16 mUserGameInfoLength;
-    /* 06 */ u8 mUnk_06[6];
+    /* 06 */ u8 mUnk_06[2];
+    /* 08 */ u32 mGgid;
     /* 0c */ u16 mTgid;
     /* 0e */ u16 mEntryFlag;
     /* 10 */ u16 mMaxEntry;
-    /* 12 */ u8 mMultiBootFlag[2];
+    /* 12 */ u16 mMultiBootFlag;
     /* 14 */ u16 mKsFlag;
-    /* 16 */ u8 mCsFlag[2];
+    /* 16 */ u16 mCsFlag;
     /* 18 */ u16 mBeaconPeriod;
     /* 1a */ u8 mUnk_1a[0x18];
     /* 32 */ u16 mChannel;
