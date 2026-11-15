@@ -33,6 +33,68 @@ typedef struct SizedBuffer {
     /* 04 */ u8 *mStart;
 } SizedBuffer;
 
+typedef struct HttpsState HttpsState;
+
+struct CPSSoc;
+typedef s32 (*ConnectionReceiveFn)(void *data, u32 length, struct CPSSoc *socket);
+
+// Values of CPSSoc.mState: the TCP connection states, then the two modes that carry single packets (DATAGRAM, PING).
+// Value 5 is never set. LAST_ACK is after the peer closed and the answering FIN went out, FIN_SENT after our own FIN,
+// FIN_ACKED once it was acknowledged, CLOSING when the peer's FIN arrived before that acknowledgement.
+enum {
+    SOCKET_STATE_CLOSED = 0,
+    SOCKET_STATE_LISTENING = 1,
+    SOCKET_STATE_SYN_SENT = 2,
+    SOCKET_STATE_SYN_RECEIVED = 3,
+    SOCKET_STATE_ESTABLISHED = 4,
+    SOCKET_STATE_LAST_ACK = 6,
+    SOCKET_STATE_FIN_SENT = 7,
+    SOCKET_STATE_FIN_ACKED = 8,
+    SOCKET_STATE_CLOSING = 9,
+    SOCKET_STATE_DATAGRAM = 10,
+    SOCKET_STATE_PING = 11,
+};
+
+// Values of CPSSoc.mBlockType: what the thread of the socket sleeps for (0 when it is not sleeping): the connection to
+// be made, received TCP data, or a received datagram.
+enum {
+    SOCKET_BLOCK_NONE = 0,
+    SOCKET_BLOCK_CONNECT = 1,
+    SOCKET_BLOCK_TCP_DATA = 2,
+    SOCKET_BLOCK_DATAGRAM = 3,
+};
+
+// One TCP or UDP connection of the network stack, 0x64 bytes; mHttpsState is the https layer's own state. It is the
+// head of every SOCLSocket (mCps).
+typedef struct CPSSoc {
+    /* 00 */ struct OSThread *mThread;
+    /* 04 */ u32 mBlockType;
+    // TCP_SOCKET_STATE_*
+    /* 08 */ u8 mState;
+    /* 09 */ u8 mUseHttps;
+    /* 0a */ u16 mLocalPort;
+    /* 0c */ HttpsState *mHttpsState;
+    /* 10 */ u32 mStateStartTime;
+    /* 14 */ u32 mLocalIpReal;
+    /* 18 */ u16 mRemotePort;
+    /* 1a */ u16 mRemotePortBound;
+    /* 1c */ u32 mRemoteIp;
+    /* 20 */ u32 mRemoteIpBound;
+    /* 24 */ u32 mAckNo;
+    /* 28 */ u32 mSeqNo;
+    /* 2c */ u16 mRemoteWin;
+    /* 2e */ u16 mRemoteMss;
+    /* 30 */ u32 mRemoteAckNo;
+    /* 34 */ u32 mAckRcvd;
+    /* 38 */ ConnectionReceiveFn mReceiveCallback;
+    /* 3c */ SizedBuffer mReceiveBuffer;
+    /* 44 */ u32 mReceiveBufferLength;
+    /* 48 */ SizedBuffer mSendBuffer;
+    /* 50 */ SizedBuffer mLineBuffer;
+    /* 58 */ SizedBuffer mOutBuffer;
+    /* 60 */ u32 mOutBufferLength;
+} CPSSoc;
+
 // Shared start of the two blocks SOCLi_InitSocket sets up behind an SOCLSocket.
 typedef struct SOCLiSocketCommandPipe {
     /* 00 */ OSMessageQueue mQueue;
@@ -76,22 +138,7 @@ enum {
 };
 
 typedef struct SOCLSocket {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u8 mState;
-    /* 09 */ u8 mUnk_09;
-    /* 0a */ u16 mCpsLocalPort;
-    /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ u16 mCpsRemotePort;
-    /* 1a */ u16 mCpsRemotePortBound;
-    /* 1c */ u32 mCpsRemoteIp;
-    /* 20 */ u32 mCpsRemoteIpBound;
-    /* 24 */ u8 mUnk_24[0x18];
-    /* 3c */ SizedBuffer mReceiveBuffer;
-    /* 44 */ s32 mReceiveBufferLength;
-    /* 48 */ SizedBuffer mSendBuffer;
-    /* 50 */ SizedBuffer mCpsLineBuffer;
-    /* 58 */ SizedBuffer mCpsOutBuffer;
-    /* 60 */ u8 mUnk_60[4];
+    /* 00 */ CPSSoc mCps;
     /* 64 */ SOCLiSocketRecvCommandPipe *mReceiveBlock;
     /* 68 */ SOCLiSocketSendCommandPipe *mSendBlock;
     /* 6c */ s32 mEntryResult;

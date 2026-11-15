@@ -377,8 +377,8 @@ u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param) {
         socket->mReceiveBlock = inPipe;
         inPipe->mConsumedMin = param->mRcvbufConsumeMin;
         cursor = SOCLi_InitCommandPipe(inPipe->mCommandMessages, &inPipe->mCommandPipe, &param->mRecvPipe);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mReceiveBuffer, param->mRcvbufSize);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCpsLineBuffer, param->mLinbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCps.mReceiveBuffer, param->mRcvbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCps.mLineBuffer, param->mLinbufSize);
         inPipe->mUdpDataSizeMax = param->mUdpbufSize;
         inPipe->mUdpDataWaiting.mTail = NULL;
         inPipe->mUdpDataWaiting.mHead = inPipe->mUdpDataWaiting.mTail;
@@ -388,8 +388,8 @@ u8 *SOCLi_InitSocket(SOCLSocket *socket, SOCLSocketParam *param) {
         socket->mSendBlock = outPipe;
         outPipe->mExeSocket = socket;
         cursor = SOCLi_InitCommandPipe(outPipe->mCommandMessages, &outPipe->mCommandPipe, &param->mSendPipe);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mSendBuffer, param->mSndbufSize);
-        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCpsOutBuffer, param->mOutbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCps.mSendBuffer, param->mSndbufSize);
+        cursor = SOCLi_InitSocketBuffer(cursor, &socket->mCps.mOutBuffer, param->mOutbufSize);
         cursor = SOCLi_InitSocketBuffer(cursor, &outPipe->mBufferArea, param->mWrtbufSize);
         outPipe->mBufferWaitingTail = 0;
         outPipe->mBufferWaitingHead = outPipe->mBufferWaitingTail;

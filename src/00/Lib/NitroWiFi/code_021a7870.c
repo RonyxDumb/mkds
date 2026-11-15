@@ -75,7 +75,7 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
         }
         if (isTcp != FALSE) {
             if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) != 0 &&
-                socket->mState != SOCKET_STATE_ESTABLISHED && (status & 1) == 0) {
+                socket->mCps.mState != SOCKET_STATE_ESTABLISHED && (status & 1) == 0) {
                 volatileSocket->mStatusFlags &= ~(SOCL_STATUS_CONNECTING | SOCL_STATUS_CONNECTED);
             }
             if ((volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTING) == 0 &&
@@ -100,7 +100,7 @@ s32 SOCLi_GetReadBufferOccpiedSize(SOCLSocket *socket) {
                 size = inPipe->mUdpDataOut->mSize;
             }
         } else if ((kind == SOCKET_MODE_STREAM) || (kind == SOCKET_MODE_STREAM_DIRECT_READ)) {
-            size = socket->mReceiveBufferLength - inPipe->mConsumed;
+            size = socket->mCps.mReceiveBufferLength - inPipe->mConsumed;
         }
     }
     return size;
@@ -118,10 +118,10 @@ s32 SOCL_Resolve(const char *hostname) {
         return 0;
     }
     MI_CpuFill8(&soc, 0, sizeof(soc));
-    soc.mReceiveBuffer = memory;
-    soc.mReceiveBufferSize = 0xb68;
-    soc.mSendBuffer = memory + 0xb68;
-    soc.mSendBufferSize = 0x5ea;
+    soc.mReceiveBuffer.mStart = memory;
+    soc.mReceiveBuffer.mSize = 0xb68;
+    soc.mSendBuffer.mStart = memory + 0xb68;
+    soc.mSendBuffer.mSize = 0x5ea;
     CPS_SocRegister(&soc);
     resolvedAddr = CPS_Resolve(hostname);
     CPS_SocUnRegister();
@@ -461,7 +461,7 @@ s32 SOCLi_WriteBuffer(SOCLSocket *socket, u8 *buffer, s32 length, u16 remotePort
     s32 writeLength;
     u32 ringIn;
     copiedLength = 0;
-    chunkLimit = socket->mSendBlock->mExeSocket->mSendBuffer.mSize;
+    chunkLimit = socket->mSendBlock->mExeSocket->mCps.mSendBuffer.mSize;
     if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
         chunkLimit -= 0x2a;
         if (length > chunkLimit) {
@@ -569,7 +569,7 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
     if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
         if (socket->mLocalPort == 0) {
             socket->mLocalPort = CPS_SocGetEport();
-            socket->mCpsLocalPort = socket->mLocalPort;
+            socket->mCps.mLocalPort = socket->mLocalPort;
         }
         writePacket->mLocalPort = socket->mLocalPort;
         if (socket->mRemoteIp == 0 || peerAddr != 0) {
@@ -606,8 +606,8 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
         } else {
             headerSize = 0x2a;
         }
-        sendBuffer = sockObj->mSendBuffer.mStart + headerSize;
-        sendCapacity = sockObj->mSendBuffer.mSize - headerSize;
+        sendBuffer = sockObj->mCps.mSendBuffer.mStart + headerSize;
+        sendCapacity = sockObj->mCps.mSendBuffer.mSize - headerSize;
         for (;;) {
             chunkLength = SOCLi_MemCpy(sendBuffer, sendCapacity, command);
             if (chunkLength <= 0) {
@@ -785,20 +785,20 @@ u8 *SOCLi_ReadCPSBuffer(SOCLSocket *socket, s32 *lengthOut, u16 *localPortOut, u
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
     SOCLSocket *cpsSocket = inPipe->mCommandPipe.mThread.mSpecific[0];
     s32 used = inPipe->mConsumed;
-    s32 available = cpsSocket->mReceiveBufferLength - used;
+    s32 available = cpsSocket->mCps.mReceiveBufferLength - used;
     if (available >= 0) {
-        *localPortOut = cpsSocket->mCpsLocalPort;
-        *remotePortOut = cpsSocket->mCpsRemotePort;
-        *remoteIpOut = cpsSocket->mCpsRemoteIp;
+        *localPortOut = cpsSocket->mCps.mLocalPort;
+        *remotePortOut = cpsSocket->mCps.mRemotePort;
+        *remoteIpOut = cpsSocket->mCps.mRemoteIp;
         *lengthOut = available;
-        if (available == 0 && cpsSocket->mState != SOCKET_STATE_ESTABLISHED) {
+        if (available == 0 && cpsSocket->mCps.mState != SOCKET_STATE_ESTABLISHED) {
             return NULL;
         }
     } else {
         *lengthOut = -1;
         return NULL;
     }
-    return cpsSocket->mReceiveBuffer.mStart + used;
+    return cpsSocket->mCps.mReceiveBuffer.mStart + used;
 }
 
 s32 SOCLi_ExecReadCommand(SOCLSocket *socket, u8 *buffer, s32 length, u16 *remotePort, u32 *peerAddr) {
@@ -834,7 +834,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         if (sockObj->mFlagMode != SOCKET_MODE_STREAM && sockObj->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
             isTcp = FALSE;
         }
-        if (isTcp != FALSE && sockObj->mState != SOCKET_STATE_ESTABLISHED) {
+        if (isTcp != FALSE && sockObj->mCps.mState != SOCKET_STATE_ESTABLISHED) {
             gotData = NULL;
             break;
         }
@@ -956,14 +956,14 @@ s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
             inPipe->mUdpDataSize += length;
             datagram->mNext = NULL;
             datagram->mSize = length;
-            datagram->mRemotePort = socket->mCpsRemotePort;
-            datagram->mRemoteIp = socket->mCpsRemoteIp;
+            datagram->mRemotePort = socket->mCps.mRemotePort;
+            datagram->mRemoteIp = socket->mCps.mRemoteIp;
             MI_CpuCopy8(data, datagram->mData, length);
             if (socket->mLocalPort == 0) {
-                socket->mLocalPort = socket->mCpsLocalPort;
+                socket->mLocalPort = socket->mCps.mLocalPort;
             }
-            socket->mCpsRemotePort = socket->mCpsRemotePortBound;
-            socket->mCpsRemoteIp = socket->mCpsRemoteIpBound;
+            socket->mCps.mRemotePort = socket->mCps.mRemotePortBound;
+            socket->mCps.mRemoteIp = socket->mCps.mRemoteIpBound;
             if (((const SOCLiSocketRecvCommandPipe *) inPipe)->mUdpDataIn != NULL) {
                 inPipe->mUdpDataIn->mNext = datagram;
             }

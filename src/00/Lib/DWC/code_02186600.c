@@ -151,10 +151,10 @@ void DWCi_Http_Thread(void *argument) {
         timeoutMillis = 60000;
     }
     MI_CpuFill8(socketBuffers, 0, sizeof(CPSSoc));
-    socketBuffers->mReceiveBufferSize = 0xb68;
-    socketBuffers->mReceiveBuffer = http->mLowReceiveBuffer;
-    socketBuffers->mSendBufferSize = 0x5ea;
-    socketBuffers->mSendBuffer = http->mLowSendBuffer;
+    socketBuffers->mReceiveBuffer.mSize = 0xb68;
+    socketBuffers->mReceiveBuffer.mStart = http->mLowReceiveBuffer;
+    socketBuffers->mSendBuffer.mSize = 0x5ea;
+    socketBuffers->mSendBuffer.mStart = http->mLowSendBuffer;
     CPS_SocRegister(socketBuffers);
     hostAddress = CPS_Resolve(http->mHost);
     if (hostAddress == 0) {

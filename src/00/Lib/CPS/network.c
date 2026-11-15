@@ -657,7 +657,7 @@ void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
     u8 *sendBuffer;
     IcmpHeader *icmpHeader;
 
-    sendBuffer = socket->mSendBuffer;
+    sendBuffer = socket->mSendBuffer.mStart;
     icmpHeader = OFFSET_PTR(IcmpHeader, sendBuffer, 0x22);
     icmpHeader->mTypeAndCode = ICMP_ECHO_REQUEST;
     icmpHeader->mIdentifier = (u32) OSi_ThreadInfo.mCurrentThread;
@@ -680,7 +680,7 @@ void send_udp(u8 *data, u32 length, CPSSoc *socket) {
     u32 checksum;
     u16 field16;
 
-    sendBuffer = socket->mSendBuffer;
+    sendBuffer = socket->mSendBuffer.mStart;
     header = sendBuffer + 0x22;
     udp = (UdpHeader *) header;
     *(u16 *) (header - 0xc) = ((u16) (CPSMyIp >> 16) >> 8) | ((u16) (CPSMyIp >> 16) << 8);
@@ -714,7 +714,7 @@ void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) 
     if (OSi_ThreadInfo.mCurrentThread == &gTcpipThread) {
         header = gTmpBuf + 0x22;
     } else {
-        header = socket->mSendBuffer + 0x22;
+        header = socket->mSendBuffer.mStart + 0x22;
     }
     tcp = (TcpHeader *) header;
     if (flag & 2) {
@@ -736,8 +736,8 @@ void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) 
     tcp->mAckNoLow = ((u16) socket->mAckNo >> 8) | ((u16) socket->mAckNo << 8);
     tcp->mDataOffset = (tcpSize >> 2) << 4;
     tcp->mFlags = flag;
-    tcp->mWindow = ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) >> 8) |
-                   ((u16) (socket->mReceiveBufferSize - socket->mReceiveBufferLength) << 8);
+    tcp->mWindow = ((u16) (socket->mReceiveBuffer.mSize - socket->mReceiveBufferLength) >> 8) |
+                   ((u16) (socket->mReceiveBuffer.mSize - socket->mReceiveBufferLength) << 8);
     tcp->mChecksum = 0;
     tcp->mUrgent = (urgent >> 8) | (urgent << 8);
     if (flag & 2) {
@@ -869,12 +869,12 @@ void process_icmp_reply(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
             continue;
         }
         length -= 8;
-        if (length > socket->mReceiveBufferSize) {
-            socket->mReceiveBufferLength = socket->mReceiveBufferSize;
+        if (length > socket->mReceiveBuffer.mSize) {
+            socket->mReceiveBufferLength = socket->mReceiveBuffer.mSize;
         } else {
             socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8(icmp + 1, socket->mReceiveBuffer, socket->mReceiveBufferLength);
+        MI_CpuCopy8(icmp + 1, socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength);
         if (socket->mBlockType == SOCKET_BLOCK_DATAGRAM) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
             OS_WakeupThreadDirect(socket->mThread);
@@ -1183,7 +1183,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             }
         case SOCKET_STATE_ESTABLISHED:
             socket->mAckRcvd++;
-            freeSpace = socket->mReceiveBufferSize - socket->mReceiveBufferLength;
+            freeSpace = socket->mReceiveBuffer.mSize - socket->mReceiveBufferLength;
             if (length > freeSpace) {
                 length = freeSpace;
                 value = 0;
@@ -1193,7 +1193,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
             if (length != 0) {
                 interruptState = OS_DisableInterrupts();
                 MI_CpuCopy8((u8 *) tcpHeader + (tcpHeader->mDataOffset & TCP_DATA_OFFSET_MASK) / 4,
-                            socket->mReceiveBuffer + socket->mReceiveBufferLength, length);
+                            socket->mReceiveBuffer.mStart + socket->mReceiveBufferLength, length);
                 socket->mReceiveBufferLength += length;
                 socket->mAckNo += length;
                 OS_RestoreInterrupts(interruptState);
@@ -1370,19 +1370,19 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
             return;
         }
         length -= 8;
-        if (length > socket->mReceiveBufferSize) {
-            socket->mReceiveBufferLength = socket->mReceiveBufferSize;
+        if (length > socket->mReceiveBuffer.mSize) {
+            socket->mReceiveBufferLength = socket->mReceiveBuffer.mSize;
         } else {
             socket->mReceiveBufferLength = length;
         }
-        MI_CpuCopy8(udpHeader + 1, socket->mReceiveBuffer, socket->mReceiveBufferLength);
+        MI_CpuCopy8(udpHeader + 1, socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength);
         if (socket->mBlockType == SOCKET_BLOCK_DATAGRAM) {
             socket->mBlockType = SOCKET_BLOCK_NONE;
             OS_WakeupThreadDirect(socket->mThread);
             return;
         }
         if (socket->mReceiveCallback != NULL &&
-            socket->mReceiveCallback(socket->mReceiveBuffer, socket->mReceiveBufferLength, socket) != 0) {
+            socket->mReceiveCallback(socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength, socket) != 0) {
             socket->mReceiveBufferLength = 0;
         }
         return;
@@ -1785,7 +1785,7 @@ u8 *udp_read_raw(u32 *length, CPSSoc *socket) {
         received = socket->mReceiveBufferLength;
     }
     *length = received;
-    return socket->mReceiveBuffer;
+    return socket->mReceiveBuffer.mStart;
 }
 
 u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
@@ -1799,7 +1799,7 @@ u8 *CPSi_TcpReadRaw(u32 *length, CPSSoc *socket) {
     }
     *length = socket->mReceiveBufferLength;
     if (*length != 0) {
-        return socket->mReceiveBuffer;
+        return socket->mReceiveBuffer.mStart;
     }
     return NULL;
 }
@@ -1832,7 +1832,7 @@ void CPSi_SocConsumeRaw(u32 length, CPSSoc *socket) {
     if (length >= receiveLength) {
         socket->mReceiveBufferLength = 0;
     } else {
-        buffer = socket->mReceiveBuffer;
+        buffer = socket->mReceiveBuffer.mStart;
         source = buffer;
         source += length;
         socket->mReceiveBufferLength = (receiveLength -= length);
@@ -2014,9 +2014,10 @@ s32 CPS_SocWrite(const u8 *buffer, s32 length) {
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
         if (socket->mOutBufferLength != 0) {
-            bytesWritten = CPSi_SocWrite2(socket->mOutBuffer, socket->mOutBufferLength, buffer, length);
+            bytesWritten = CPSi_SocWrite2(socket->mOutBuffer.mStart, socket->mOutBufferLength, buffer, length);
             if (bytesWritten < socket->mOutBufferLength) {
-                memmove(socket->mOutBuffer, socket->mOutBuffer + bytesWritten, socket->mOutBufferLength - bytesWritten);
+                memmove(socket->mOutBuffer.mStart, socket->mOutBuffer.mStart + bytesWritten,
+                        socket->mOutBufferLength - bytesWritten);
                 socket->mOutBufferLength -= bytesWritten;
                 return 0;
             }
@@ -2053,7 +2054,7 @@ void CPS_SocFlush(void) {
     CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if ((socket != NULL) && (socket->mOutBufferLength != 0)) {
-        CPSi_SocWrite2((socket->mOutBuffer), socket->mOutBufferLength, NULL, 0);
+        CPSi_SocWrite2((socket->mOutBuffer.mStart), socket->mOutBufferLength, NULL, 0);
         socket->mOutBufferLength = 0;
     }
 }
@@ -2091,10 +2092,10 @@ void scavenger(void) {
 
     gScavengerForceExit = 0;
     MI_CpuFill8(&gScavengerSoc, 0, sizeof(gScavengerSoc));
-    gScavengerSoc.mReceiveBufferSize = 0x180;
-    gScavengerSoc.mReceiveBuffer = gScavengerReceiveBuffer;
-    gScavengerSoc.mSendBufferSize = 0x180;
-    gScavengerSoc.mSendBuffer = gScavengerSendBuffer;
+    gScavengerSoc.mReceiveBuffer.mSize = 0x180;
+    gScavengerSoc.mReceiveBuffer.mStart = gScavengerReceiveBuffer;
+    gScavengerSoc.mSendBuffer.mSize = 0x180;
+    gScavengerSoc.mSendBuffer.mStart = gScavengerSendBuffer;
     CPS_SocRegister(&gScavengerSoc);
     dhcpPhase = DHCP_STATE_INIT;
     isFirstPass = TRUE;
