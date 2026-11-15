@@ -56,14 +56,14 @@
 #include "Main/MapObjects/kuribo.h"
 #include "Main/System/init_after_startup.h"
 
-const MapObjectList gDossunUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, (UnkFunc *) UpdateDossun,
+const MapObjectList gDossunUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdateDossun,
                                              NULL, 0, NULL,   0,    NULL};
 const struct DossunDrawList gDossunDrawListData = {{NULL,
                                                     0,
                                                     {0, 0},
                                                     (void (*)(MapObjectList *)) CreateDossunAndDossunShadow,
                                                     NULL,
-                                                    (UnkFunc *) DrawDossun,
+                                                    DrawDossun,
                                                     NULL,
                                                     1,
                                                     NULL,
