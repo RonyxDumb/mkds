@@ -8,7 +8,7 @@ typedef struct DWCAccFriendData DWCAccFriendData;
 typedef struct DWCAccUserData DWCAccUserData;
 
 // Month from which a leap year has its extra day already behind it.
-#define DWC_ACC_MARCH 3
+#define ACCOUNT_MARCH 3
 
 s32 DateToDayCount(const RTCDate *date);
 u32 IsLeapYearTwoDigit(u32 year);

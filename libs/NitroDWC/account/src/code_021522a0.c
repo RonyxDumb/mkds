@@ -72,7 +72,7 @@ s32 DateToDayCount(const RTCDate *date) {
         return -1;
     }
     dayNum = date->mDay - 1 + (sMonthStartDay - 1)[date->mMonth];
-    if (date->mMonth >= DWC_ACC_MARCH && IsLeapYearTwoDigit(date->mYear) != 0) {
+    if (date->mMonth >= ACCOUNT_MARCH && IsLeapYearTwoDigit(date->mYear) != 0) {
         dayNum++;
     }
     dayNum = dayNum + date->mYear * 365;
