@@ -56,10 +56,10 @@ void UnlinkSoundSourceSounds(SoundSource *source) {
 
     StopSoundsStartedWhileRequested(source, 0);
     for (sound = source->mPlayingSounds.mHead; sound != NULL; sound = source->mPlayingSounds.mHead) {
-        RemoveListObject(&source->mPlayingSounds, (u8 *) sound);
+        RemoveListObject(&source->mPlayingSounds, sound);
     }
     if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
-        RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], (u8 *) source);
+        RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
         source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
     }
 }
@@ -90,7 +90,7 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
     }
     if (source->mUpdateListIndex != updateListIndex) {
         if (source->mUpdateListIndex != SOUND_SOURCE_LIST_NONE) {
-            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], (u8 *) source);
+            RemoveListObject(&gSoundSourceUpdateLists[source->mUpdateListIndex], source);
             source->mUpdateListIndex = SOUND_SOURCE_LIST_NONE;
         }
         if (updateListIndex != 3) {
@@ -111,7 +111,7 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
     StopPlayingSoundSeq(sound, 0);
     sourceList = sound->mSourceList;
     if (sourceList != NULL) {
-        RemoveListObject(sourceList, (u8 *) sound);
+        RemoveListObject(sourceList, sound);
         RefreshSoundSourceUpdateList((SoundSource *) (sourceList - 1));
     }
     ResetPlayingSound(sound);
