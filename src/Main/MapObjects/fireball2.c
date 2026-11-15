@@ -72,7 +72,7 @@ void InitFireball2(Fireball2 *fireball2) {
     fireball2->mMapObject.mFlags &= ~1;
     fireball2->mMapObject.mFlags &= ~2;
     fireball2->mMapObject.mFlags &= ~8;
-    fireball2->mMapObject.mAlpha = 0x1f;
+    fireball2->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }
 
 u8 CollideKartWithFireball2(Fireball2 *fireball2, Kart *kart, u8 *firstResponse, u8 *response) {

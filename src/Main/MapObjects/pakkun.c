@@ -71,7 +71,7 @@ void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset) {
     pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~8;
     pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~2;
     pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~8;
-    pakkunSpit->mMapObject.mAlpha = 0x1f;
+    pakkunSpit->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pakkunSpit->mFollower.mGroupIndex = groupFollower->mGroupIndex;
     pakkunSpit->mFollower.mPath = groupFollower->mPath;
     SetupGroupFollowerAtEntry(&pakkunSpit->mFollower, 0, 1);

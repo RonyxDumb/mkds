@@ -66,7 +66,7 @@ void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
     gWaterMapObject = mapObject;
     mapObject->mFlags &= ~2;
     mapObject->mFlags &= ~8;
-    mapObject->mAlpha = 0x1f;
+    mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
     createWater();
     gWater->mEfctNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
     gWater->mEfctNsbcaFile = FindCourseFile("MapObj/water_efct.nsbca");

@@ -448,7 +448,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
     teresa->mOffset =
         (Vec3){0, MUL_FIXED12_ROUNDED(teresa->mKart->mPhysicalParam->mRadius, teresa->mKart->mScale.z), 0};
     teresa->mOffsetVelocityY = 0;
-    teresa->mItemObject.mAlpha = 0x1f;
+    teresa->mItemObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if (teresa->mKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) {
         teresa->mItemObject.mPosPointer = &teresa->mItemObject.mDrawPos;
     }
@@ -553,7 +553,7 @@ s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 ne
     }
     PlaceItemTeresaAtKart(teresa, shiftAlongCameraSide);
     if (stateFrames > 7) {
-        if (teresa->mItemObject.mAlpha < 0x1f) {
+        if (teresa->mItemObject.mAlpha < MAP_OBJECT_ALPHA_MAX) {
             teresa->mItemObject.mAlpha += 6;
         }
         if (stateFrames == 0x27) {
@@ -1170,7 +1170,7 @@ void DrawItemTeresa(ItemTeresa *teresa, s32 unusedValue, NsbmdModel *model) {
         itemModel = GetItemModel(teresa->mItemObjectKind);
         itemModelAlpha = teresa->mItemModelAlpha;
         itemCount = teresa->mItemCount;
-        if (teresa->mItemObject.mAlpha < 0x1f) {
+        if (teresa->mItemObject.mAlpha < MAP_OBJECT_ALPHA_MAX) {
             if (teresa->mItemObject.mAlpha < itemModelAlpha) {
                 itemModelAlpha = teresa->mItemObject.mAlpha;
             }

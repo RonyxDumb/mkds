@@ -901,7 +901,7 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
     }
     scale.x = scale.z = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.x;
     scale.y = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.y;
-    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAlpha != 0x1f) {
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAlpha != MAP_OBJECT_ALPHA_MAX) {
         u32 materialIndex;
         NNSG3dResMdl *resMdl;
 
@@ -923,7 +923,7 @@ void DrawItemKouraWModel(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
         matrix = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx;
     }
     DrawNsbmdWithMatrixAndMaxAlpha(gKouraW, matrix, &scale, 0x1f);
-    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAlpha == 0x1f) {
+    if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mAlpha == MAP_OBJECT_ALPHA_MAX) {
         return;
     }
     {

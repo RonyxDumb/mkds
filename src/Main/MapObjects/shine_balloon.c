@@ -106,7 +106,7 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
             shineBalloonObject->mState = SHINE_BALLOON_STATE_APPEAR;
             shineBalloonObject->mMapObject.mFlags &= ~2;
             shineBalloonObject->mMapObject.mFlags &= ~8;
-            shineBalloonObject->mMapObject.mAlpha = 0x1f;
+            shineBalloonObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             break;
         case SHINE_BALLOON_STATE_APPEAR:
             if (shineBalloonObject->mTimer-- > 0) {

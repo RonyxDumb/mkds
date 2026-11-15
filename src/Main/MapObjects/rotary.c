@@ -253,7 +253,7 @@ void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *
     }
     object->mCollisionMapObject.mMapObject.mFlags &= ~2;
     object->mCollisionMapObject.mMapObject.mFlags &= ~8;
-    object->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
+    object->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if (kindInfo->mModelIndex == 0) {
         object->mSoundId = courseRow->mRotationDegrees.x > 0 ? 0x175 : 0x176;
     } else {

@@ -52,7 +52,7 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
             object->mUnk_a0 = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32);
             object->mFlags &= ~2;
             object->mFlags &= ~8;
-            object->mAlpha = 0x1f;
+            object->mAlpha = MAP_OBJECT_ALPHA_MAX;
             objectIndex++;
         }
     }

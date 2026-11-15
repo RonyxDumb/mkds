@@ -33,7 +33,7 @@ void UnparkMapObject(MapObject *mapObject) {
     mapObject->mFlags &= ~0xf;
     mapObject->mFlags |= (mapObject->mFlags & 0xf000) >> 12;
     if (!(mapObject->mFlags & 2)) {
-        mapObject->mAlpha = 0x1f;
+        mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
     }
     if (mapObject->mCollisionSlotIndex != -1) {
         EnableCollisionSlot(mapObject->mCollisionSlotIndex);

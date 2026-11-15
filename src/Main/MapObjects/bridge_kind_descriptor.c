@@ -102,7 +102,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mMapObject.mFlags |= gBridgeInitFlag;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~2;
     bridge->mCollisionMapObject.mMapObject.mFlags &= ~8;
-    bridge->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
+    bridge->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if (courseRow->mRotationDegrees.y < 0) {
         CreateMapObjectSoundSourceFalloff4(&bridge->mCollisionMapObject.mMapObject);
     }

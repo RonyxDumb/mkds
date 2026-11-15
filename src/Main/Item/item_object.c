@@ -92,7 +92,7 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mScaleTargetOrSpeed = 0;
     item->mCourseRadius = 0x7b;
     item->mRadius = 0x7b;
-    item->mAlpha = 0x1f;
+    item->mAlpha = MAP_OBJECT_ALPHA_MAX;
     item->mCollisionBits = 0;
     item->mCourseReleaseTimer = 0;
     item->mFramesSinceCourseHit = 5;

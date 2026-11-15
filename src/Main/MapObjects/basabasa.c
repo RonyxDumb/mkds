@@ -144,7 +144,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             basabasa->mMapObject.mFlags &= ~1;
             basabasa->mMapObject.mFlags &= ~2;
             basabasa->mMapObject.mFlags &= ~8;
-            basabasa->mMapObject.mAlpha = 0x1f;
+            basabasa->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x19a);
             basabasa->mVelocity.y += -0x19a;
             basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x19a);

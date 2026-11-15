@@ -89,10 +89,10 @@ MapObject *AllocPooledMapObject(void) {
 
 void ResetPooledMapObject(ItemBox *pooledObject) {
     UnparkMapObject(&pooledObject->mMapObject);
-    pooledObject->mMapObject.mAlpha = 0x1f;
+    pooledObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pooledObject->mMapObject.mFlags &= ~2;
     pooledObject->mMapObject.mFlags &= ~8;
-    pooledObject->mMapObject.mAlpha = 0x1f;
+    pooledObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pooledObject->mMapObject.mScale.x = 0;
     pooledObject->mMapObject.mScale.y = 0;
     pooledObject->mMapObject.mScale.z = 0;

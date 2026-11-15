@@ -260,5 +260,5 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mMapObject.mFlags &= ~8;
     sunFireball->mMapObject.mFlags &= ~2;
     sunFireball->mMapObject.mFlags &= ~8;
-    sunFireball->mMapObject.mAlpha = 0x1f;
+    sunFireball->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }

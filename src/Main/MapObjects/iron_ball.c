@@ -156,7 +156,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mMapObject.mFlags &= ~1;
             ironBall->mMapObject.mFlags &= ~2;
             ironBall->mMapObject.mFlags &= ~8;
-            ironBall->mMapObject.mAlpha = 0x1f;
+            ironBall->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             ironBall->mState = IRON_BALL_STATE_ROLL;
             return;
         case IRON_BALL_STATE_ROLL:

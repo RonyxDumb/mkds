@@ -271,7 +271,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 (descriptor->mLists[2] != NULL && descriptor->mLists[2]->mForEachObject != NULL)) {
                 object->mFlags &= ~2;
                 object->mFlags &= ~8;
-                object->mAlpha = 0x1f;
+                object->mAlpha = MAP_OBJECT_ALPHA_MAX;
             } else {
                 object->mFlags |= gMapObjectNoDrawListFlag;
                 object->mFlags |= gMapObjectNoDrawListSecondFlag;

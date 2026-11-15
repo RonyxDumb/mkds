@@ -329,7 +329,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     } else {
         rock->mMapObject.mFlags &= ~2;
         rock->mMapObject.mFlags &= ~8;
-        rock->mMapObject.mAlpha = 0x1f;
+        rock->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     }
     rock->mBounceRatio = TO_FIXED12(courseRow->mSettings[2]) / 100;
     if (rock->mMapObject.mKind == 0x192) {

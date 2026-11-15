@@ -189,7 +189,7 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
     bubble->mMapObject.mPosStep.y = 0x4b33;
     bubble->mMapObject.mFlags &= ~2;
     bubble->mMapObject.mFlags &= ~8;
-    bubble->mMapObject.mAlpha = 0x1f;
+    bubble->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if ((bubble->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
         if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
             falloffIndex = 2;

@@ -156,7 +156,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mMapObject.mFlags |= gKoopaBlockFlag;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;
-    koopaBlock->mCollisionMapObject.mMapObject.mAlpha = 0x1f;
+    koopaBlock->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = 0;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;
     koopaBlock->mCollisionMapObject.mMapObject.mFarDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;

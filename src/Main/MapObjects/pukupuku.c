@@ -258,7 +258,7 @@ void EnterPukupukuState3(Pukupuku *pukupuku) {
     pukupuku->mPushedObject.mMapObject.mPosStep.z = 0x0u;
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x2u));
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x8u));
-    pukupuku->mPushedObject.mMapObject.mAlpha = 0x1fu;
+    pukupuku->mPushedObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pukupuku->mPushedObject.mMapObject.mFlags = (((pukupuku->mPushedObject.mMapObject.mFlags)) & ~(0x1u));
 }
 

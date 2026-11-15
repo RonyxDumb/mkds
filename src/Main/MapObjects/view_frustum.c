@@ -536,7 +536,7 @@ void UpdateMapObjectViewTests(void) {
                     mapObject->mAlpha -= 1;
                 }
             } else {
-                if (mapObject->mAlpha < 0x1f) {
+                if (mapObject->mAlpha < MAP_OBJECT_ALPHA_MAX) {
                     mapObject->mAlpha += 1;
                 }
             }
@@ -608,7 +608,7 @@ void RefreshMapObjectViewTests(void) {
                 if (mapObject->mDistanceSquaredAndFlags & 1) {
                     mapObject->mAlpha = 0;
                 } else {
-                    mapObject->mAlpha = 0x1f;
+                    mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
                 }
                 if (mapObject->mDistanceSquaredAndFlags & 2) {
                     mapObject->mFlags |= extraFlags;

@@ -540,7 +540,7 @@ void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position) {
     pooledMapObject = bomb->mPooledMapObject;
     pooledMapObject->mMapObject.mFlags &= ~2;
     pooledMapObject->mMapObject.mFlags &= ~8;
-    pooledMapObject->mMapObject.mAlpha = 0x1f;
+    pooledMapObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }
 
 void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
@@ -573,7 +573,7 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
     if (pooledMapObject != NULL) {
         pooledMapObject->mMapObject.mFlags &= ~2;
         pooledMapObject->mMapObject.mFlags &= ~8;
-        pooledMapObject->mMapObject.mAlpha = 0x1f;
+        pooledMapObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
         pooledMapObject->mMapObject.mFlags &= ~4;
         if (pooledMapObject->mMapObject.mKind != MAP_OBJECT_KIND_KURIBO) {
             pooledMapObject->mMapObject.mFlags &= ~1;
