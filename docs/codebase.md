@@ -1,78 +1,71 @@
 # Codebase Guide
 
-Where things are in this repository, and what each folder holds. Build steps are in [INSTALL.md](../INSTALL.md);
-how to work on the code is in [decompiling.md](decompiling.md) and [CONTRIBUTING.md](../CONTRIBUTING.md).
+This page says where things are. To build the project, see [INSTALL.md](../INSTALL.md); for how to work on the code,
+see [decompiling.md](decompiling.md) and [CONTRIBUTING.md](../CONTRIBUTING.md).
 
-## Top Level
+## Layout
 
-- `src/`: the game's own code, one `.c` file per object or job.
-- `include/`: the game's headers, at the same path as their `.c` file (`src/Main/Kart/kart_level.c` ->
-  `include/Main/Kart/kart_level.h`).
-- `libs/`: the library code linked into the game (SDK, NitroSystem, Wi-Fi libraries, C runtime), with its headers.
-- `config/`: how the ROM splits into units: symbols, the source file of each address range, relocations, per version.
-- `tools/`: build, check and progress scripts (`configure.py` writes the build; `progress.py` measures matching).
-- `docs/`: notes on the compiler and flags, the decompiling workflow, and version differences.
-- `progress/`: the progress graph and its history.
+The game's own code is in `src/` and its headers are in `include/`, at the same path: `src/Main/Kart/kart_level.c`
+has its declarations in `include/Main/Kart/kart_level.h`. Library code linked into the game lives in `libs/`, each
+library with its own headers. `config/` describes how the ROM is cut into units for each version (symbols, which file
+covers which addresses, relocations), `tools/` has the build, check and progress scripts, and `progress/` keeps the
+progress graph and its history.
 
-## Game Code (`src/Main`)
+## The Main Binary
 
-The code that is always loaded (the ARM9 main binary).
+Most of the game is in `src/Main`, split by what the code is about.
 
-- `src/Main/Kart`: karts: driving, speed, drift, collision responses, the Kart AI, name tags, kart effects.
-- `src/Main/Item`: items: item objects (shells, bananas, bombs, Boo), item boxes, holding, throwing and following.
-- `src/Main/MapObjects`: course objects: the map object list and kind table, and each kind (Kuribo, Pakkun, Wanwan,
-  Dossun, coins, balloons, pipes ...).
-- `src/Main/Course`: course data: the course map and its shapes, course colours, course sounds.
-- `src/Main/Race`: the race itself: rules, progress and laps, standings, the race HUD, the end of a race, ghosts.
-- `src/Main/Menu`: menu screens shared by every mode: title, character and kart select, cup and course select,
-  records, the on-screen keyboard.
-- `src/Main/Scene`: the scene table and the loop that switches scenes (title, menu, race, results ...).
-- `src/Main/Graphics`: models and their animations, fonts and text drawing, screen effects.
-- `src/Main/Sound`: sound playback: sequences, sound banks, positional sounds of karts and objects.
-- `src/Main/Net`: local wireless play: multiboot (download play), the connection, data sharing between consoles.
-- `src/Main/Save`: the save data: records, ghosts, emblems, friend data.
-- `src/Main/System`: start-up, heaps, threads, input recording.
+Karts live in `src/Main/Kart`: driving, speed and drift, what happens when a kart hits something, the Kart AI, name
+tags and kart effects. Items are in `src/Main/Item`, from the shells, bananas and bombs themselves to item boxes and
+how an item is held, thrown or follows a kart. Everything placed on a course (the map object list and every kind of
+object, such as Kuribo, Pakkun, Wanwan, coins and balloons) is in `src/Main/MapObjects`, and the course data itself
+(the course map, its shapes, colours and sounds) is in `src/Main/Course`.
 
-## Fast Memory Code (`src/ITCM`)
+A race runs through `src/Main/Race`, which has the rules, lap progress, standings, the race HUD, the end of the race
+and ghosts. The menu screens that every mode shares, such as the title, character and kart select, cup select,
+records and the on-screen keyboard, are in `src/Main/Menu`, and `src/Main/Scene` switches between the title, menus,
+race and results.
 
-- `src/ITCM`: code copied into the processor's fast memory at start-up: kart physics (speed, velocity, gravity,
-  ground contact), sphere collision, DMA transfers, and the 3D drawing and interrupt code that runs there.
+The rest supports all of that. `src/Main/Graphics` draws models and their animations, text and screen effects;
+`src/Main/Sound` plays sequences and the sounds of karts and objects; `src/Main/Net` handles local wireless play,
+including download play; `src/Main/Save` reads and writes the save data (records, ghosts, emblems, friends); and
+`src/Main/System` covers start-up, heaps, threads and input recording.
 
-## Overlays (`src/00` to `src/03`)
+## Fast Memory
 
-Code loaded only while it is needed; each overlay keeps its own folder.
+`src/ITCM` is copied into the processor's fast memory at start-up. It holds the kart physics that run every frame
+(speed, velocity, gravity, ground contact), sphere collision, DMA transfers, and the 3D drawing and interrupt code
+that is kept there.
 
-- `src/00`: online play over Nintendo Wi-Fi Connection: the Wi-Fi menus (`src/00/Menu`), the Wi-Fi menu scene
-  (`src/00/Scene`), and the online libraries in `src/00/Lib` (DWC, GameSpy, CPS, NitroWiFi).
-- `src/01`: menus and modes outside the race core: records and time attack menus, Mission Run (its menus, bosses and
-  objects in `src/01/MapObjects`, its HUD in `src/01/Race`), the logo and test scenes (`src/01/Scene`), the ending
-  (`src/01/Menu`), and one graphics helper in `src/01/Graphics`.
-- `src/02`: a small overlay that only holds a large heap buffer (`src/02/Net`).
-- `src/03`: the Nintendo Wi-Fi Connection setup screens: access point settings and search (`src/03/Net`), their
-  menus and error screens (`src/03/Menu`), and their own graphics, sound and system helpers (`src/03/Graphics`,
-  `src/03/Sound`, `src/03/System`).
+## Overlays
 
-## Libraries (`libs`)
+Overlays are loaded only while they are needed, and each has its own folder.
 
-Library files keep their address names (`code_XXXXXXXX.c`); their functions carry the library's names.
+`src/00` is online play over Nintendo Wi-Fi Connection. Its menus are in `src/00/Menu`, its scene in
+`src/00/Scene`, and the online libraries it brings along (DWC, GameSpy, CPS, NitroWiFi) in `src/00/Lib`.
 
-- `libs/NitroSDK`: the console SDK, one folder per module (os, fs, gx, snd, wm, mb, card ...).
-- `libs/NitroSystem`: the higher-level graphics and sound library (fnd, g2d, g3d, gfd, snd).
-- `libs/NitroDWC`: the Wi-Fi Connection library parts linked into the main binary (account, backup).
-- `libs/spl`: the particle library.
-- `libs/msl`: the C runtime (strings, printing, math).
-- `libs/mathlib`: the compiler's arithmetic routines (division, floating point), written in assembly.
+`src/01` covers the modes around the race: the records and time attack menus and the ending in `src/01/Menu`,
+Mission Run's bosses and objects in `src/01/MapObjects` and its HUD in `src/01/Race`, the logo and test scenes in
+`src/01/Scene`, and one drawing helper in `src/01/Graphics`.
 
-## Headers (`include`)
+`src/02` only holds a large heap buffer, in `src/02/Net`.
 
-- `include/Main`, `include/ITCM`, `include/00`, `include/01`, `include/02`, `include/03`: the game's headers, mirroring
-  `src/`.
-- `include/types.h`: the base types and the project's own helper macros.
-- Library headers live next to their code in `libs/<library>/<module>/include`.
+`src/03` is the Nintendo Wi-Fi Connection setup: access point settings and search in `src/03/Net`, the setup menus
+and error screens in `src/03/Menu`, and the graphics, sound and system helpers they use in `src/03/Graphics`,
+`src/03/Sound` and `src/03/System`.
+
+The overlay headers mirror this in `include/00`, `include/01`, `include/02` and `include/03`, and the main binary's
+in `include/Main` and `include/ITCM`. `include/types.h` has the base types and the project's own helper macros.
+
+## Libraries
+
+`libs/NitroSDK` is the console SDK, one folder per module (os, fs, gx, snd, wm, mb, card and so on).
+`libs/NitroSystem` is the graphics and sound library built on top of it. `libs/NitroDWC` has the parts of the Wi-Fi
+Connection library that sit in the main binary, `libs/spl` is the particle library, `libs/msl` is the C runtime, and
+`libs/mathlib` holds the arithmetic routines the compiler calls for division and floating point.
 
 ## Finding Things
 
-- A function by name: `git grep -n "Name("`; every function in the ROM is named.
-- What an address holds: `config/usa/arm9/symbols.txt` (main binary) and `config/usa/arm9/overlays/ov00N/` (overlays).
-- Which source file covers an address: `config/usa/arm9/delinks.txt`.
-- Matching status of a file: `python3 tools/progress.py` after a build.
+Every function in the ROM has a name, so `git grep -n "Name("` finds it. `config/usa/arm9/symbols.txt` (and the
+`overlays/` folder next to it) says what each address holds, and `config/usa/arm9/delinks.txt` says which source file
+covers it. After a build, `python3 tools/progress.py` shows how much matches.
