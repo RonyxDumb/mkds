@@ -25,6 +25,15 @@ enum {
     SOCKET_STATE_PING = 11,
 };
 
+// Values of CPSSoc.mBlockType: what the thread of the socket sleeps for (0 when it is not sleeping): the connection to
+// be made, received TCP data, or a received datagram.
+enum {
+    SOCKET_BLOCK_NONE = 0,
+    SOCKET_BLOCK_CONNECT = 1,
+    SOCKET_BLOCK_TCP_DATA = 2,
+    SOCKET_BLOCK_DATAGRAM = 3,
+};
+
 // One TCP or UDP connection of the network stack, 0x64 bytes; mHttpsState is the https layer's own state.
 typedef struct CPSSoc {
     /* 00 */ struct OSThread *mThread;
