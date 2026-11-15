@@ -73,8 +73,8 @@ s32 RunValueRecordsRequest(ValueRecordsRequest *req) {
     s32 ret;
     if (req->mScanRetryLimit == 0 || req->mScanRetryLimit < -1 || req->mScanRetryDelayMs < -1 ||
         req->mSendAttemptLimit == 0 || req->mSendAttemptLimit < -1 || req->mSendAttemptDelayMs < -1 ||
-        req->mReceiveTimeoutMs < -1 || req->mItemLength == 0 || req->mItemLength > 0x100 ||
-        req->mItemBytes[req->mItemLength - 1] != 0) {
+        req->mReceiveTimeoutMs < -1 || req->mItem.mItemLength == 0 || req->mItem.mItemLength > 0x100 ||
+        req->mItem.mItemBytes[req->mItem.mItemLength - 1] != 0) {
         status = -1;
     } else {
         status = 0;
@@ -601,10 +601,10 @@ void InitRequestState(ValueRecordsRequest *req) {
     FillBytes(gSavedTagBytes, 0, 8);
     gErrorCode = 1;
     FillBytes(&gRequestState, 0, 0x1c);
-    gRequestState.mItemBytes = req->mItemBytes;
-    gRequestState.mItemLength = req->mItemLength;
+    gRequestState.mItemBytes = req->mItem.mItemBytes;
+    gRequestState.mItemLength = req->mItem.mItemLength;
     gRequestState.mWantedRecordMask = req->mWantedRecordMask & 0xf;
-    gRequestState.mItemType = req->mItemType;
+    gRequestState.mItemType = req->mItem.mItemType;
     gRequestState.mFoundRecordMask = 0;
     gRequestState.mDestinationAddress = 0xc0a80b01;
     gRequestState.mAddressApplied = 0;

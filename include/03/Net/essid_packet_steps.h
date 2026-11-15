@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "03/code_021b7ba8.h"
+#include "03/code_021c1f34.h"
 #include "code_0214cfe4.h"
 #include "code_0200f790.h"
 #include "os_thread.h"
@@ -29,10 +30,7 @@ enum {
 
 typedef struct ValueRecordsRequest {
     /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
-    /* 002 */ u8 mItemType;
-    /* 003 */ u8 pad_003;
-    /* 004 */ u16 mItemLength;
-    /* 006 */ u8 mItemBytes[0x100];
+    /* 002 */ ValueRecordsRequestItem mItem;
     /* 106 */ s16 mScanRetryLimit;
     /* 108 */ s16 mScanRetryDelayMs;
     /* 10a */ s16 mSendAttemptLimit;

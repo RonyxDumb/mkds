@@ -21,13 +21,13 @@ void InitValueRecordsRequest(void) {
     gValueRecordsRequest = AllocZeroedExpHeapBlock(0x26c, 4);
     gValueRecordsRequestSucceeded[0] = 0;
     requestItem.mClearValue = 0;
-    MIi_CpuClear16(requestItem.mClearValue, &requestItem.mItemType, 0x104);
-    requestItem.mItemType = 0x50;
-    requestItem.mItemLength = 0xc;
-    MI_CpuCopy8(gNintendoDsItemBytes, requestItem.mItemBytes, 0xc);
+    MIi_CpuClear16(requestItem.mClearValue, &requestItem.mItem, sizeof(ValueRecordsRequestItem));
+    requestItem.mItem.mItemType = 0x50;
+    requestItem.mItem.mItemLength = 0xc;
+    MI_CpuCopy8(gNintendoDsItemBytes, requestItem.mItem.mItemBytes, 0xc);
     gValueRecordsRequest->mWantedRecordMask = 3;
     request = gValueRecordsRequest;
-    *(ValueRecordsRequestItem *) &request->mItemType = *(ValueRecordsRequestItem *) &requestItem.mItemType;
+    request->mItem = requestItem.mItem;
     request->mScanRetryLimit = 1;
     gValueRecordsRequest->mScanRetryDelayMs = -1;
     gValueRecordsRequest->mSendAttemptLimit = 1;

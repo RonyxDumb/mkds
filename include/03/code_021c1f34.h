@@ -2,18 +2,17 @@
 
 #include "types.h"
 
-// 0x104 bytes moved as one value.
 typedef struct ValueRecordsRequestItem {
-    /* 000 */ u16 mUnk_00[0x82];
+    /* 000 */ u8 mItemType;
+    /* 001 */ u8 pad_01;
+    /* 002 */ u16 mItemLength;
+    /* 004 */ u8 mItemBytes[0x100];
 } ValueRecordsRequestItem;
 
 // Stack object of InitValueRecordsRequest.
 typedef struct ValueRecordsRequestView {
     /* 000 */ u16 mClearValue;
-    /* 002 */ u8 mItemType;
-    /* 003 */ u8 pad_03;
-    /* 004 */ u16 mItemLength;
-    /* 006 */ u8 mItemBytes[0x100];
+    /* 002 */ ValueRecordsRequestItem mItem;
 } ValueRecordsRequestView;
 
 u32 RunValueRecordsRequestForStatus(void);
