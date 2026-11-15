@@ -136,6 +136,13 @@ typedef struct UserGameInfo {
     };
 } UserGameInfo;
 
+// Bits of WMGameInfo.mAttribute: the beacon belongs to an entry-accepting parent, a multiboot parent, and the two
+// flags the parent passes to MB_ReadMultiBootParentBssDesc (ksFlag, flagTwo).
+#define WM_ATTRIBUTE_ENTRY 0x1
+#define WM_ATTRIBUTE_MULTIBOOT 0x2
+#define WM_ATTRIBUTE_KS_FLAG 0x4
+#define WM_ATTRIBUTE_CS_FLAG 0x8
+
 typedef struct WMGameInfo {
     /* 00 */ u16 mMagicNumber;
     /* 02 */ u8 mVer;
@@ -417,6 +424,16 @@ typedef struct StartScanRequest {
     /* 08 */ u16 mMaxChannelTime;
     /* 0a */ u8 mBssid[6];
 } StartScanRequest;
+
+// Limits WmCheckParentParameter and the scan requests accept: game info bytes, beacon period range, last channel
+// number (channels count from 1), scan buffer bytes, SSID bytes, and the information elements kept from a beacon.
+#define WM_PARENT_GAME_INFO_MAX_LENGTH 0x70
+#define WM_BEACON_PERIOD_MIN 10
+#define WM_BEACON_PERIOD_MAX 0x3e8
+#define WM_CHANNEL_MAX 0xe
+#define WM_SCAN_BUFFER_MAX_SIZE 0x400
+#define WM_SSID_MAX_LENGTH 0x20
+#define WM_OTHER_ELEMENTS_MAX_COUNT 0x10
 
 // Parent parameters of WM_SetParentParameter.
 typedef struct ParentParameter {

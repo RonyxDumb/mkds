@@ -287,7 +287,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
                 gPortCallbackEvent.mLength = 0;
                 gPortCallbackEvent.mAid = memberIndex;
                 gPortCallbackEvent.mOwnIndex = ownIndex;
-                gPortCallbackEvent.mSeqNo = 0xffff;
+                gPortCallbackEvent.mSeqNo = WM_SEQ_NO_NONE;
                 MI_CpuCopy8(peerAddress, gPortCallbackEvent.mPeerBytes, 6);
                 if (peerName != 0) {
                     MIi_CpuCopy16(peerName, gPortCallbackEvent.mSsid, 0x18);

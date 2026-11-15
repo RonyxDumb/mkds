@@ -378,13 +378,13 @@ s32 WM_SetParentParameter(WirelessMessageCallback callback, ParentParameter *ppa
 
 // Returns 1 when the game info length, beacon period and channel of param are in range, otherwise 0.
 u32 WmCheckParentParameter(const ParentParameter *param) {
-    if (param->mUserGameInfoLength > 0x70) {
+    if (param->mUserGameInfoLength > WM_PARENT_GAME_INFO_MAX_LENGTH) {
         return 0;
     }
-    if (param->mBeaconPeriod < 10 || param->mBeaconPeriod > 0x3e8) {
+    if (param->mBeaconPeriod < WM_BEACON_PERIOD_MIN || param->mBeaconPeriod > WM_BEACON_PERIOD_MAX) {
         return 0;
     }
-    if (param->mChannel < 1 || param->mChannel > 0xe) {
+    if (param->mChannel < 1 || param->mChannel > WM_CHANNEL_MAX) {
         return 0;
     }
     return 1;
@@ -443,7 +443,7 @@ s32 WM_StartScan(WirelessMessageCallback callback, ScanParam *param) {
     if (param->mScanBuf == 0) {
         return 6;
     }
-    if (param->mChannel < 1 || param->mChannel > 0xe) {
+    if (param->mChannel < 1 || param->mChannel > WM_CHANNEL_MAX) {
         return 6;
     }
     WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_SEARCH, callback);
@@ -482,10 +482,10 @@ s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param) {
     if (param->mScanBuf == 0) {
         return 6;
     }
-    if (param->mScanBufSize > 0x400) {
+    if (param->mScanBufSize > WM_SCAN_BUFFER_MAX_SIZE) {
         return 6;
     }
-    if (param->mSsidLength > 0x20) {
+    if (param->mSsidLength > WM_SSID_MAX_LENGTH) {
         return 6;
     }
     scanType = param->mScanType;
@@ -493,7 +493,7 @@ s32 WM_StartScanEx(WirelessMessageCallback callback, ScanExParam *param) {
         return 6;
     }
     if ((u16) (scanType + 0xfffe) <= 1) {
-        if (param->mSsidMatchLength > 0x20) {
+        if (param->mSsidMatchLength > WM_SSID_MAX_LENGTH) {
             return 6;
         }
     }
@@ -827,8 +827,8 @@ WMOtherElements WM_GetOtherElements(const u16 *bssDesc) {
     if (elements.mCount == 0) {
         return elements;
     }
-    if (elements.mCount > 0x10) {
-        elements.mCount = 0x10;
+    if (elements.mCount > WM_OTHER_ELEMENTS_MAX_COUNT) {
+        elements.mCount = WM_OTHER_ELEMENTS_MAX_COUNT;
     }
     body = (const u8 *) bssDesc + 0x40;
     bodyLength = bssDesc[0] * 2 - 0x40;
