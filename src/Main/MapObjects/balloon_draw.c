@@ -308,7 +308,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                     }
                 } else {
                     if (balloon->mScaleSwingPerFrame >= 0) {
-                        balloon->mScaleSwingPerFrame = 50;
+                        balloon->mScaleSwingPerFrame = BALLOON_SCALE_SWING_PER_FRAME;
                     } else {
                         balloon->mScaleSwingPerFrame = balloon->mScaleSwingPerFrame + 10;
                     }
@@ -402,7 +402,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 }
             } else {
                 if (balloon->mSwingAnglePerFrame >= 0) {
-                    balloon->mSwingAnglePerFrame = 0x640;
+                    balloon->mSwingAnglePerFrame = BALLOON_SWING_ANGLE_PER_FRAME;
                 } else {
                     balloon->mSwingAnglePerFrame = balloon->mSwingAnglePerFrame + 200;
                 }
@@ -480,7 +480,7 @@ void UpdateBalloonInflating(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mState = BALLOON_STATE_SWING;
     if (balloon->mScaleFactor >= TO_FIXED12(1)) {
         balloon->mScaleSwing = 0;
-        balloon->mScaleFactorPerFrame = 0x258;
+        balloon->mScaleFactorPerFrame = BALLOON_SCALE_FACTOR_PER_FRAME;
         balloon->mState = BALLOON_STATE_SETTLE;
     }
 }

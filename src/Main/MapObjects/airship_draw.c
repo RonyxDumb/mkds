@@ -76,14 +76,14 @@ void InitAirshipObjects(AirshipObjectList *list) {
         airship->mModelHeightOffset = airship->mModelHeightOffset - airship->mMapObject.mPos.y;
         airship->mWobbleAngle = 0;
         airship->mWobbleMid = 0;
-        airship->mWobbleAmplitude = 0x50000;
+        airship->mWobbleAmplitude = AIRSHIP_WOBBLE_AMPLITUDE;
         airship->mWobbleAmplitudePerFrame = 0;
-        airship->mWobbleAnglePerFrame = 0xb6;
+        airship->mWobbleAnglePerFrame = AIRSHIP_WOBBLE_ANGLE_PER_FRAME;
         airship->mWobbleAnglePerFrameStep = 0;
         if (airship->mMapObject.mCourseMapRow->mSettings[1] != 0) {
-            airship->mState = 0;
+            airship->mState = AIRSHIP_STATE_WAIT_SECOND_LAP;
         } else {
-            airship->mState = 2;
+            airship->mState = AIRSHIP_STATE_FOLLOW_PATH;
         }
     }
 }

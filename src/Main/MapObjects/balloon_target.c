@@ -2,7 +2,7 @@
 
 // Sets the balloon's kart index to -1 and starts a countdown; given a position, places the balloon there.
 void StartBalloonWithoutKart(Balloon *balloon, Vec3 *position) {
-    balloon->mNoKartTimer = 0x1e;
+    balloon->mNoKartTimer = BALLOON_TARGET_NO_KART_FRAMES;
     balloon->mKartIndex = -1;
     balloon->mDrawCount = 1;
     balloon->mDrawList = NULL;

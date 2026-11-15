@@ -7,6 +7,9 @@
 #include "Main/Item/item_koura_w.h" // CourseMapRow
 #include "01/MapObjects/data_0209bc74.h"
 
+#define AIRSHIP_WOBBLE_AMPLITUDE 0x50000
+#define AIRSHIP_WOBBLE_ANGLE_PER_FRAME 0xb6
+
 // Values of Airship.mState: waits for a kart on its second lap, raises the model to its place, then follows the path.
 enum {
     AIRSHIP_STATE_WAIT_SECOND_LAP,

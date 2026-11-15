@@ -109,7 +109,7 @@ void DrawBasabasa(void *mapObjectList, Basabasa *basabasa) {
     MtxFx33 rotationMatrix;
     s32 drawAngle;
 
-    drawAngle = 0x1fe0 - basabasa->mDrawAngleOffset;
+    drawAngle = BASABASA_DRAW_ANGLE_OFFSET_LIMIT - basabasa->mDrawAngleOffset;
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&basabasa->mMapObject.mPos), 0xc);
@@ -128,12 +128,12 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
     s32 nextFrameIndex;
 
     basabasa->mDrawAngleOffset += basabasa->mDrawAngleOffsetPerFrame;
-    basabasa->mDrawAngleOffsetPerFrame += 0x3c;
+    basabasa->mDrawAngleOffsetPerFrame += BASABASA_DRAW_ANGLE_SPEED_STEP;
     if (basabasa->mDrawAngleOffset == 0) {
         basabasa->mDrawAngleOffset += basabasa->mDrawAngleOffsetPerFrame;
-        basabasa->mDrawAngleOffsetPerFrame += 0x3c;
-    } else if (basabasa->mDrawAngleOffset >= 0x1fe0) {
-        basabasa->mDrawAngleOffsetPerFrame = 0x3c - basabasa->mDrawAngleOffsetPerFrame;
+        basabasa->mDrawAngleOffsetPerFrame += BASABASA_DRAW_ANGLE_SPEED_STEP;
+    } else if (basabasa->mDrawAngleOffset >= BASABASA_DRAW_ANGLE_OFFSET_LIMIT) {
+        basabasa->mDrawAngleOffsetPerFrame = BASABASA_DRAW_ANGLE_SPEED_STEP - basabasa->mDrawAngleOffsetPerFrame;
         basabasa->mRotateZNegated = basabasa->mRotateZNegated == 0;
     }
     switch (basabasa->mState) {

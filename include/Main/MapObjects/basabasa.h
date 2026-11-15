@@ -6,6 +6,9 @@
 #include "Main/Kart/kart_drift.h" // Kart
 #include "01/MapObjects/data_0209bc74.h"
 
+#define BASABASA_DRAW_ANGLE_OFFSET_LIMIT 0x1fe0
+#define BASABASA_DRAW_ANGLE_SPEED_STEP 0x3c
+
 // Basabasa.mState values: FALL speeds up downward, SLOW_FALL slows the fall until it stops, GLIDE keeps the velocity,
 // CLIMB speeds up upward until the object leaves the course and is parked.
 enum {

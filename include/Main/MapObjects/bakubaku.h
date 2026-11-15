@@ -8,6 +8,8 @@
 #include "Main/MapObjects/send_obj_shadow.h" // ShadowMatrix
 #include "01/MapObjects/data_0209bc74.h"
 
+#define BAKUBAKU_WAIT_TO_RESET_FRAMES 0x708
+
 // Sounds started where the Bakubaku rises to the surface and where its arc over the surface ends.
 #define BAKUBAKU_RISE_TO_SURFACE_SOUND_ID 0x186
 #define BAKUBAKU_ARC_OVER_SURFACE_SOUND_ID 0x187

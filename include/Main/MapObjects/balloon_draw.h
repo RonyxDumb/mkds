@@ -6,6 +6,10 @@
 #include "Main/Kart/kart_name_tags.h"
 #include "01/MapObjects/data_0209bc74.h"
 
+#define BALLOON_SCALE_SWING_PER_FRAME 50
+#define BALLOON_SWING_ANGLE_PER_FRAME 0x640
+#define BALLOON_SCALE_FACTOR_PER_FRAME 0x258
+
 typedef struct MapObjectList MapObjectList;
 
 void UpdateBalloonShrinking(Balloon *balloon, u16 kartIndex, s32 scaleStep);
