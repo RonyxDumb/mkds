@@ -43,7 +43,7 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
         slotIndex = GetTitleInputSlot();
         if (TitleGetNewBits(slotIndex, PAD_KEY_A) != 0) {
-            SetTitleState(4, 8);
+            SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
             StartTitleSelectedSound();
             gTitleScene->mStartedOnSelected = TRUE;
         } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
@@ -114,7 +114,7 @@ void UpdateTitleState2(SceneNumbers *sceneNumbers) {
                     gTitleScene->mStartedOnSelected = TRUE;
                 }
                 gTitleScene->mSelectedIndex = rectIndex;
-                SetTitleState(4, 8);
+                SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
                 StartTitleSelectedSound();
             }
         } else {

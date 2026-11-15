@@ -23,7 +23,7 @@ void UpdateTitleState4(void) {
     titleStateFrames = GetTitleStateFrames();
     gTitleScene->mSelectedOffset = GetSelectedPressOffset(titleStateFrames);
     if (titleStateFrames >= 10) {
-        SetTitleState(3, 5);
+        SetTitleState(TITLE_STATE_SLIDE_OUT, TITLE_STATE_NOP);
     }
     SetupAndDrawTitleTable();
 }

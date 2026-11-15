@@ -19,7 +19,7 @@ void UpdateTitleState0(void) {
     }
     stateFrames = GetTitleStateFrames();
     if (stateFrames >= waitFrames) {
-        SetTitleState(1, 8);
+        SetTitleState(TITLE_STATE_SLIDE_IN, 8);
     }
     AdvanceTitleBlend();
 }

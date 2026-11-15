@@ -39,7 +39,7 @@ void UpdateTitleState3(void) {
         if (HasPlayerName() != 0) {
             SetTitleState(gTitleScene->mNextState, 8);
         } else {
-            SetTitleState(6, 8);
+            SetTitleState(TITLE_STATE_REQUEST_NICKNAME_SCENE, 8);
         }
     }
     SetupAndDrawTitleTable();

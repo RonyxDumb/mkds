@@ -33,7 +33,7 @@ void UpdateTitleState1(void) {
         for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
             titleTable[entryIndex + subBase].mOffsetX = 0;
         }
-        SetTitleState(2, 8);
+        SetTitleState(TITLE_STATE_MENU_INPUT, 8);
         gTitleScene->mStartedOnSelected = FALSE;
     }
     SetupAndDrawTitleTable();
