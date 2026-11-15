@@ -97,7 +97,7 @@ enum {
 
 // Sector size written to CARDiCommandArg.mSectSize for the large devices, and the priority of the worker thread.
 #define BACKUP_DEVICE_LARGE_SECTOR_SIZE 0x10000
-#define CARD_TASK_THREAD_PRIORITY 4
+#define BACKUP_TASK_THREAD_PRIORITY 4
 
 // Values written to CARDiCommandArg.mProgramPage: the 64 KB devices use their own value, every other device with one
 // the common value.
@@ -128,19 +128,20 @@ typedef struct CARDiCommandArg {
 
 // Bits of CARDiCommon.mFlag. Nothing in the tree sets WAKE_WORKER or STOP_REQUESTED; the transfer end tests them.
 enum {
-    CARD_FLAG_INITIALIZED = 0x1,
-    CARD_FLAG_REQUEST_CHANNEL_READY = 0x2,
-    CARD_FLAG_BUSY = 0x4,
-    CARD_FLAG_TASK_PENDING = 0x8,
-    CARD_FLAG_WAKE_WORKER = 0x10,
-    CARD_FLAG_REQUEST_PENDING = 0x20,
-    CARD_FLAG_STOP_REQUESTED = 0x40,
-    CARD_FLAG_TRANSFER_MASK = CARD_FLAG_BUSY | CARD_FLAG_TASK_PENDING | CARD_FLAG_STOP_REQUESTED,
+    BACKUP_ACCESS_FLAG_INITIALIZED = 0x1,
+    BACKUP_ACCESS_FLAG_REQUEST_CHANNEL_READY = 0x2,
+    BACKUP_ACCESS_FLAG_BUSY = 0x4,
+    BACKUP_ACCESS_FLAG_TASK_PENDING = 0x8,
+    BACKUP_ACCESS_FLAG_WAKE_WORKER = 0x10,
+    BACKUP_ACCESS_FLAG_REQUEST_PENDING = 0x20,
+    BACKUP_ACCESS_FLAG_STOP_REQUESTED = 0x40,
+    BACKUP_ACCESS_FLAG_TRANSFER_MASK =
+        BACKUP_ACCESS_FLAG_BUSY | BACKUP_ACCESS_FLAG_TASK_PENDING | BACKUP_ACCESS_FLAG_STOP_REQUESTED,
 };
 
 // The ROM is read in pages of this many bytes; DMA channels count from 0 to this.
 #define CARD_ROM_PAGE_SIZE 0x200
-#define CARD_LAST_DMA_CHANNEL 3
+#define ROM_CARD_LAST_DMA_CHANNEL 3
 
 // 0x620 bytes at gAccessState; mThread is started with the 0x400 bytes at mUnk_220 as its stack.
 typedef struct CARDiCommon {
