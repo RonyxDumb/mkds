@@ -77,14 +77,14 @@ const MapObjectKindData gChoropuKindData = {(s32 (*)(MapObject *, void *, s32 *,
                                          0,
                                          0,
                                          0};
-StateCallbacks gChoropuStateTable[8] = {{EnterChoropuState0, UpdateChoropuState0},
-                                        {EnterChoropuState1, UpdateChoropuState1},
-                                        {EnterChoropuState2, UpdateChoropuState2},
-                                        {EnterChoropuState3, UpdateChoropuState3},
-                                        {EnterChoropuState4, UpdateChoropuState4},
-                                        {EnterChoropuState5, UpdateChoropuState5},
-                                        {EnterChoropuState6, UpdateChoropuState6},
-                                        {ChoropuState7Nop, UpdateChoropuState7}};
+StateCallbacks gChoropuStateTable[8] = {{EnterChoropuWaitStart, UpdateChoropuWaitStart},
+                                        {EnterChoropuRise, UpdateChoropuRise},
+                                        {EnterChoropuHoldTop, UpdateChoropuHoldTop},
+                                        {EnterChoropuSink, UpdateChoropuSink},
+                                        {EnterChoropuLeap, UpdateChoropuLeap},
+                                        {EnterChoropuWaitRepeat, UpdateChoropuWaitRepeat},
+                                        {EnterChoropuLaunchedSpin, UpdateChoropuLaunchedSpin},
+                                        {ChoropuFallSpinNop, UpdateChoropuFallSpin}};
 
 void SetupDrawChoropuShadow(void) {
     u32 unused;
@@ -99,7 +99,7 @@ void UpdateChoropu(u32 unused, Choropu *choropu) {
     AdvanceStateMachine(&choropu->mMapObject.mStateMachine);
 }
 
-void EnterChoropuState0(void *stateObject) {
+void EnterChoropuWaitStart(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0;
@@ -107,7 +107,7 @@ void EnterChoropuState0(void *stateObject) {
     choropu->mMapObject.mFlags |= gChoropuFlag;
 }
 
-void UpdateChoropuState0(void *stateObject) {
+void UpdateChoropuWaitStart(void *stateObject) {
     Choropu *choropu = stateObject;
     if (choropu->mMapObject.mStateMachine.mStateFrames >= choropu->mStartDelayFrameCount) {
         choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_RISE;
@@ -115,7 +115,7 @@ void UpdateChoropuState0(void *stateObject) {
     }
 }
 
-void EnterChoropuState1(void *stateObject) {
+void EnterChoropuRise(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0x1000;
@@ -124,7 +124,7 @@ void EnterChoropuState1(void *stateObject) {
     choropu->mMapObject.mFlags |= gChoropuFlag;
 }
 
-void UpdateChoropuState1(void *stateObject) {
+void UpdateChoropuRise(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mPosStep.y;
     if (choropu->mMapObject.mPos.y > choropu->mBottomY + 0x11199) {
@@ -134,12 +134,12 @@ void UpdateChoropuState1(void *stateObject) {
     }
 }
 
-void EnterChoropuState2(void *stateObject) {
+void EnterChoropuHoldTop(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPosStep.y = 0;
 }
 
-void UpdateChoropuState2(void *stateObject) {
+void UpdateChoropuHoldTop(void *stateObject) {
     Choropu *choropu = stateObject;
     if (choropu->mMapObject.mStateMachine.mStateFrames >= 0x14) {
         choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_SINK;
@@ -147,12 +147,12 @@ void UpdateChoropuState2(void *stateObject) {
     }
 }
 
-void EnterChoropuState3(void *stateObject) {
+void EnterChoropuSink(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPosStep.y = -0x1000;
 }
 
-void UpdateChoropuState3(void *stateObject) {
+void UpdateChoropuSink(void *stateObject) {
     Choropu *choropu = stateObject;
     SoundStartParams soundRequest;
     s32 falloffIndex;
@@ -175,7 +175,7 @@ void UpdateChoropuState3(void *stateObject) {
     choropu->mMapObject.mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterChoropuState4(void *stateObject) {
+void EnterChoropuLeap(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0x4800;
@@ -188,7 +188,7 @@ void EnterChoropuState4(void *stateObject) {
     StartEffect(0x30, &choropu->mMapObject.mCourseMapRow->mPosition);
 }
 
-void UpdateChoropuState4(void *stateObject) {
+void UpdateChoropuLeap(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPosStep.y -= 0x266;
     choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mPosStep.y;
@@ -198,8 +198,8 @@ void UpdateChoropuState4(void *stateObject) {
     }
 }
 
-// Same body as EnterChoropuState0; this is the enter slot of state 5.
-void EnterChoropuState5(void *stateObject) {
+// Same body as EnterChoropuWaitStart; this is the enter slot of the 5.
+void EnterChoropuWaitRepeat(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0;
@@ -207,7 +207,7 @@ void EnterChoropuState5(void *stateObject) {
     choropu->mMapObject.mFlags |= gChoropuFlag;
 }
 
-void UpdateChoropuState5(void *stateObject) {
+void UpdateChoropuWaitRepeat(void *stateObject) {
     Choropu *choropu = stateObject;
     if (choropu->mMapObject.mStateMachine.mStateFrames >= choropu->mRepeatDelayFrameCount) {
         choropu->mMapObject.mStateMachine.mNextState = CHOROPU_STATE_RISE;
@@ -215,12 +215,12 @@ void UpdateChoropuState5(void *stateObject) {
     }
 }
 
-void EnterChoropuState6(void *stateObject) {
+void EnterChoropuLaunchedSpin(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mFlags = (((choropu->mMapObject.mFlags)) | ((gChoropuFlag)));
 }
 
-void UpdateChoropuState6(void *stateObject) {
+void UpdateChoropuLaunchedSpin(void *stateObject) {
     Choropu *choropu = stateObject;
     if (choropu->mSpinDirection != 0) {
         choropu->mSpinAngle += 0x400;
@@ -235,9 +235,9 @@ void UpdateChoropuState6(void *stateObject) {
     }
 }
 
-void ChoropuState7Nop(void *stateObject) {}
+void ChoropuFallSpinNop(void *stateObject) {}
 
-void UpdateChoropuState7(void *stateObject) {
+void UpdateChoropuFallSpin(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPosStep.y -= 0x266;
     choropu->mMapObject.mPos.y = choropu->mMapObject.mPos.y + choropu->mMapObject.mPosStep.y;
@@ -254,7 +254,7 @@ void UpdateChoropuState7(void *stateObject) {
     }
 }
 
-// Case 1 starts state 6 with an upward speed; case 2 starts state 7 unless player kind 2 or already there.
+// Case 1 starts the launched spin with an upward speed; case 2 starts the fall spin unless the kart is a ghost or already there.
 u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     Vec3 offsetFromKart;
 
@@ -287,7 +287,7 @@ u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8
     return secondResponsePtr[0];
 }
 
-// Case 1 starts state 6 with an upward speed, as CollideKartWithChoropu does for a kart.
+// Case 1 starts the launched spin with an upward speed, as CollideKartWithChoropu does for a kart.
 u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     Vec3 offsetFromItem;
     Vec3 offset;

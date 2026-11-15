@@ -7,39 +7,39 @@
 
 void CreateChoropu(void);
 
-void UpdateChoropuState7(void *stateObject);
+void UpdateChoropuFallSpin(void *stateObject);
 u8 CollideKartWithChoropu(Choropu *choropu, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 CollideItemObjectWithChoropu(Choropu *choropu, ItemObject *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr);
 
-void ChoropuState7Nop(void *stateObject);
+void ChoropuFallSpinNop(void *stateObject);
 
 typedef struct Choropu Choropu;
 
-void UpdateChoropuState6(void *stateObject);
+void UpdateChoropuLaunchedSpin(void *stateObject);
 
-void EnterChoropuState6(void *stateObject);
+void EnterChoropuLaunchedSpin(void *stateObject);
 
-void UpdateChoropuState5(void *stateObject);
+void UpdateChoropuWaitRepeat(void *stateObject);
 
-void EnterChoropuState5(void *stateObject);
+void EnterChoropuWaitRepeat(void *stateObject);
 
-void UpdateChoropuState3(void *stateObject);
-void EnterChoropuState4(void *stateObject);
-void UpdateChoropuState4(void *stateObject);
+void UpdateChoropuSink(void *stateObject);
+void EnterChoropuLeap(void *stateObject);
+void UpdateChoropuLeap(void *stateObject);
 
-void EnterChoropuState3(void *stateObject);
+void EnterChoropuSink(void *stateObject);
 
-void UpdateChoropuState2(void *stateObject);
+void UpdateChoropuHoldTop(void *stateObject);
 
-void EnterChoropuState2(void *stateObject);
+void EnterChoropuHoldTop(void *stateObject);
 
-void UpdateChoropuState1(void *stateObject);
+void UpdateChoropuRise(void *stateObject);
 
-void EnterChoropuState1(void *stateObject);
+void EnterChoropuRise(void *stateObject);
 
-void UpdateChoropuState0(void *stateObject);
+void UpdateChoropuWaitStart(void *stateObject);
 
-void EnterChoropuState0(void *stateObject);
+void EnterChoropuWaitStart(void *stateObject);
 
 void UpdateChoropu(u32 unused, Choropu *choropu);
 
