@@ -63,7 +63,7 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     DC_InvalidateRange(wmSysBuf, bufSize);
     MI_DmaFill32(dmaNo, wmSysBuf, 0, bufSize);
     wm9buf = wmSysBuf;
-    wm9buf->mWM7 = OFFSET_PTR(void, wmSysBuf, WM_ARM9_BUF_SIZE);
+    wm9buf->mWM7 = OFFSET_PTR(void, wmSysBuf, WIRELESS_ARM9_BUF_SIZE);
     wm9buf->mStatusArea = OFFSET_PTR(WMStatus, wm9buf->mWM7, 0x300);
     wm9buf->mRequestArea = OFFSET_PTR(u16, wm9buf->mStatusArea, 0x800);
     wm9buf->mMessageArea = OFFSET_PTR(WirelessMessage, wm9buf->mRequestArea, 0x100);
@@ -287,7 +287,7 @@ void WmReceiveFifo(u32 tag, WirelessMessage *callback, s32 err) {
                 gPortCallbackEvent.mLength = 0;
                 gPortCallbackEvent.mAid = memberIndex;
                 gPortCallbackEvent.mOwnIndex = ownIndex;
-                gPortCallbackEvent.mSeqNo = WM_SEQ_NO_NONE;
+                gPortCallbackEvent.mSeqNo = WIRELESS_SEQ_NO_NONE;
                 MI_CpuCopy8(peerAddress, gPortCallbackEvent.mPeerBytes, 6);
                 if (peerName != 0) {
                     MIi_CpuCopy16(peerName, gPortCallbackEvent.mSsid, 0x18);

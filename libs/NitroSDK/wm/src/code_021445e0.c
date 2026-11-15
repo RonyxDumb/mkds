@@ -68,7 +68,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
     count = CountSetBits(mask);
     dsInfo->mStationNumber = count;
     dsInfo->mDataSetLength = dataLength * count;
-    if (dsInfo->mDataSetLength > WM_DATA_SHARING_MAX_SET_LENGTH) {
+    if (dsInfo->mDataSetLength > WIRELESS_DATA_SHARING_MAX_SET_LENGTH) {
         dsInfo->mMemberMask = 0;
         return 6;
     }
@@ -85,7 +85,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
             result = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, block, dsInfo->mDataSetLength,
                                           dsInfo->mMemberMask & readyMembers, dsInfo->mPort, 1);
             if (result == 7) {
-                dsInfo->mSeqNum[index] = WM_SEQ_NO_NONE;
+                dsInfo->mSeqNum[index] = WIRELESS_SEQ_NO_NONE;
                 dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
             } else if (result != 0 && result != 2) {
                 dsInfo->mStatus = DATA_SHARING_STATUS_FAILED;
@@ -93,7 +93,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
             }
         }
     } else {
-        dsInfo->mSendIndex = WM_DATA_SHARING_RING_LAST_INDEX;
+        dsInfo->mSendIndex = WIRELESS_DATA_SHARING_RING_LAST_INDEX;
         WM_SetPortCallback(port, WmDataSharingReceiveCallback_Child, dsInfo);
     }
     return 0;

@@ -21,14 +21,14 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, WMBssDesc *scanBlock, u16 parentMax
     scanBlock->mGameInfo.mChildMaxSize = childMaxSize;
     csAttribute = 0;
     if (flagTwo != 0) {
-        csAttribute = WM_ATTRIBUTE_CS_FLAG;
+        csAttribute = WIRELESS_ATTRIBUTE_CS_FLAG;
     }
     if (ksFlag != 0) {
-        ksAttribute = WM_ATTRIBUTE_KS_FLAG;
+        ksAttribute = WIRELESS_ATTRIBUTE_KS_FLAG;
     } else {
         ksAttribute = 0;
     }
-    scanBlock->mGameInfo.mAttribute = ksAttribute | csAttribute | WM_ATTRIBUTE_ENTRY;
+    scanBlock->mGameInfo.mAttribute = ksAttribute | csAttribute | WIRELESS_ATTRIBUTE_ENTRY;
     return 1;
 }
 

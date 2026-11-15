@@ -295,14 +295,14 @@ void MB_ReadMultiBootParentBssDesc(WMBssDesc *bssDesc, u16 parentMaxSize, u16 ch
     bssDesc->mGameInfo.mChildMaxSize = childMaxSize;
     csAttribute = 0;
     if (flagTwo != 0) {
-        csAttribute = WM_ATTRIBUTE_CS_FLAG;
+        csAttribute = WIRELESS_ATTRIBUTE_CS_FLAG;
     }
     if (ksFlag != 0) {
-        ksAttribute = WM_ATTRIBUTE_KS_FLAG;
+        ksAttribute = WIRELESS_ATTRIBUTE_KS_FLAG;
     } else {
         ksAttribute = 0;
     }
-    bssDesc->mGameInfo.mAttribute = ksAttribute | csAttribute | WM_ATTRIBUTE_ENTRY;
+    bssDesc->mGameInfo.mAttribute = ksAttribute | csAttribute | WIRELESS_ATTRIBUTE_ENTRY;
 }
 
 #pragma thumb off

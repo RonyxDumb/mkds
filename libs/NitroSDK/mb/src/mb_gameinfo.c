@@ -337,7 +337,8 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
 }
 
 u32 MBi_CheckMBParent(WMBssDesc *scanBlock) {
-    if ((scanBlock->mGameInfo.mAttribute & WM_ATTRIBUTE_MULTIBOOT) == 0 || scanBlock->mGameInfo.mMagicNumber != 1) {
+    if ((scanBlock->mGameInfo.mAttribute & WIRELESS_ATTRIBUTE_MULTIBOOT) == 0 ||
+        scanBlock->mGameInfo.mMagicNumber != 1) {
         return 0;
     }
     return 1;
