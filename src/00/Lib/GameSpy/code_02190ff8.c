@@ -471,7 +471,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                     GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
-                memset(arg, 0, 0x20);
+                memset(arg, 0, sizeof(*arg));
                 arg->mProfile = gpState->mProfileId;
                 arg->mResult = GP_REQUEST_OK;
                 GpiCopyString(arg->mUniquenick, uniqueNickText, 0x15);

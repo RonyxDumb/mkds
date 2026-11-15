@@ -1308,7 +1308,7 @@ u8 SendAnswerRecord(CPSSoc *connection) {
     cursor[3] = 0x46;
     cursor[4] = 3;
     cursor[5] = 0;
-    MI_CpuCopy8(httpsState->mAnswerBlock, cursor + 6, 0x20);
+    MI_CpuCopy8(httpsState->mAnswerBlock, cursor + 6, sizeof(httpsState->mAnswerBlock));
     cursor[0x26] = 0x20;
     if (httpsState->mEntry != NULL) {
         MI_CpuCopy8(httpsState->mEntry, cursor + 0x27, 0x20);
@@ -1427,7 +1427,7 @@ void SendOfferRecord(CPSSoc *connection) {
     httpsState->mOfferBlock[2] = seconds >> 8;
     httpsState->mOfferBlock[3] = seconds;
     FillNonzeroRandomBytes(&httpsState->mOfferBlock[4], 0x1c);
-    MI_CpuCopy8(httpsState->mOfferBlock, cursor + 2, 0x20);
+    MI_CpuCopy8(httpsState->mOfferBlock, cursor + 2, sizeof(httpsState->mOfferBlock));
     httpsState->mEntry = FindEntryByValuePairAndSetLastUseTime(connection->mRemoteIp, connection->mRemotePort);
     if (httpsState->mEntry != NULL) {
         cursor[0x22] = 0x20;
@@ -1499,7 +1499,8 @@ void send_client_key_exchange(CPSSoc *connection) {
     paddedSecret[1] = 2;
     FillNonzeroRandomBytes(paddedSecret + 2, modulusLength - 0x33);
     paddedSecret[modulusLength - 0x31] = 0;
-    MI_CpuCopy8(httpsState->mEntry->mMasterSecret, paddedSecret + modulusLength - 0x30, 0x30);
+    MI_CpuCopy8(httpsState->mEntry->mMasterSecret, paddedSecret + modulusLength - 0x30,
+                sizeof(httpsState->mEntry->mMasterSecret));
     result = (u16 *) CPSiAlloc(digitCount * 8);
     if (result == NULL) {
         CPSiFree(paddedSecret);

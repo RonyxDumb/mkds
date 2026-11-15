@@ -480,7 +480,7 @@ void FreeHttpBuffer(Http *http, HttpBuffer *httpBuffer) {
     if (httpBuffer->mStart != NULL) {
         http->mParam.mFree("DWCHttpBuffer", httpBuffer->mStart, 0);
     }
-    MI_CpuFill8(httpBuffer, 0, 0x10);
+    MI_CpuFill8(httpBuffer, 0, sizeof(*httpBuffer));
 }
 
 u32 GrowHttpBuffer(Http *http, HttpBuffer *httpBuffer, int addedSize) {

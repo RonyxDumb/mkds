@@ -456,7 +456,7 @@ GpiPeer *GpiPeerCreate(GpConnection *connection, u32 profileid, u32 initiate) {
     if (peerConn == NULL) {
         return NULL;
     }
-    memset(peerConn, 0, 0x40);
+    memset(peerConn, 0, sizeof(*peerConn));
     peerConn->mState = PROFILE_PEER_STATE_NOT_CONNECTED;
     peerConn->mInitiated = initiate;
     peerConn->mSocket = -1;

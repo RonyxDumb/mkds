@@ -60,7 +60,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
-                memset(arg, 0, 0x20);
+                memset(arg, 0, sizeof(*arg));
                 arg->mResult = operation->mResult;
                 if (gpState->mErrorNumber == PROFILE_ERROR_RETURNS_PROFILE_ID) {
                     arg->mProfile = gpState->mProfileId;
@@ -103,7 +103,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     GpiSetErrorMessage(connection, "Out of memory.");
                     return 1;
                 }
-                memset(searchArg, 0, 0x10);
+                memset(searchArg, 0, sizeof(*searchArg));
                 searchArg->mResult = operation->mResult;
                 searchArg->mMatches = 0;
                 result = GpiQueueCallback(connection, callback, searchArg, operation, 0);

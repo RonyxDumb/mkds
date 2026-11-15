@@ -20,7 +20,7 @@ u32 GpiInitialize(GpConnection *connection, s32 titleNumber, s32 spaceId) {
     if (newConnection.mGpiConnection == NULL) {
         return 1;
     }
-    memset(newConnection.mGpiConnection, 0, 0x490);
+    memset(newConnection.mGpiConnection, 0, sizeof(*newConnection.mGpiConnection));
     newConnection.mGpiConnection->mErrorMessage[0] = 0;
     newConnection.mGpiConnection->mErrorNumber = 0;
     newConnection.mGpiConnection->mInfoCaching = 1;
