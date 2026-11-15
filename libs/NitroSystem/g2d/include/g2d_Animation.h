@@ -14,6 +14,17 @@ typedef struct NNSG2dSRTControl {
     /* 14 */ u8 mUnk_14[8];
 } NNSG2dSRTControl;
 
+// Values of NNSG2dCallBackFunctor.mType: when mFunc is called.
+#define G2D_CALLBACK_NONE 0
+#define G2D_CALLBACK_AT_SEQUENCE_END 1
+#define G2D_CALLBACK_AT_FRAME 2
+#define G2D_CALLBACK_EVERY_FRAME 3
+
+// Bits of NNSG2dSRTControl.mSRTEnableFlag: which of the values were set.
+#define G2D_SRT_ENABLE_SCALE 2
+#define G2D_SRT_ENABLE_ROT_Z 4
+#define G2D_SRT_ENABLE_TRANS 8
+
 typedef void (*NNSG2dAnmCallBackPtr)(u32 data, s32 currentFrame);
 
 typedef struct NNSG2dCallBackFunctor {

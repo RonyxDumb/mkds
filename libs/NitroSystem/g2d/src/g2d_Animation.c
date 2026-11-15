@@ -8,12 +8,12 @@ NNSG2dAnimDataSRT *NNS_G2dGetAnimCtrlCurrentElement(NNSG2dCellAnimation *pAnimCt
 
 static inline void CallbackFuncHandling_(const NNSG2dCellAnimation *pAnimCtrl, u16 currentFrameIdx) {
     switch (pAnimCtrl->mCallbackFunctor.mType) {
-        case 2:
+        case G2D_CALLBACK_AT_FRAME:
             if (currentFrameIdx == pAnimCtrl->mCallbackFunctor.mFrameIdx) {
                 pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, currentFrameIdx);
             }
             break;
-        case 3:
+        case G2D_CALLBACK_EVERY_FRAME:
             pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, currentFrameIdx);
             break;
     }
@@ -86,7 +86,7 @@ void NNS_G2dInitAnimCtrl(NNSG2dCellAnimation *pAnimCtrl) {
     pAnimCtrl->mReverse = 0;
     pAnimCtrl->mActive = 1;
     pAnimCtrl->mCurrentTime = 0;
-    pAnimCtrl->mSpeed = 0x1000;
+    pAnimCtrl->mSpeed = FIXED12_UNIT;
     pAnimCtrl->mOverriddenPlayMode = 0;
     pAnimCtrl->mPAnimSequence = 0;
 }
