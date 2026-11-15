@@ -2,9 +2,11 @@
 
 #include "types.h"
 
-// Values of the sex members; the profile text carries the sex as the characters 0 and 1 (stored as 0x500 and 0x501,
-// bare in the code); anything else reads as PROFILE_SEX_CODE_DEFAULT (0x502).
+// Values of the sex members; the profile text carries the sex as the characters 0 and 1 (male and female);
+// anything else reads as PROFILE_SEX_CODE_DEFAULT.
 enum {
+    PROFILE_SEX_CODE_MALE = 0x500,
+    PROFILE_SEX_CODE_FEMALE = 0x501,
     PROFILE_SEX_CODE_DEFAULT = 0x502,
 };
 
