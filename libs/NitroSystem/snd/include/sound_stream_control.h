@@ -29,8 +29,9 @@ typedef struct NNSSndStrm {
     /* 4c */ u8 mChannelNo[0x10];
 } NNSSndStrm;
 
-// 0x160 bytes; sStrmPlayer holds four. Bits of mUnk_110: 0 is tested by ShutdownPlayer_, ForceStopStrm_ and
-// NNSi_SndArcStrmMain, 1 by ForceStopStrm_ and NNSi_SndArcStrmMain, 2 and 3 by NNSi_SndArcStrmMain.
+// 0x160 bytes; sStrmPlayer holds four. mActiveFlag is tested by ShutdownPlayer_, ForceStopStrm_ and
+// NNSi_SndArcStrmMain, mPlayFlag by ForceStopStrm_ and NNSi_SndArcStrmMain, mStartFlag and mFadeOutFlag by
+// NNSi_SndArcStrmMain.
 typedef struct NNSSndStrmPlayer {
     /* 00 */ NNSSndStrm mStream;
     /* 5c */ FSFile mFile;
