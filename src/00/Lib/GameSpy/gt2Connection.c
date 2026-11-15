@@ -34,7 +34,7 @@ int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int addr
 }
 
 BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int len, Gt2ConnectionCallbacks *callbacks) {
-    s8 challengeBytes[0x24];
+    u8 challengeBytes[0x24];
     gti2MessageCheck((const char **) &message, &len);
     if (len > 0) {
         connection->mInitialMessageData = DWCi_GsMalloc(len);
@@ -48,7 +48,7 @@ BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int le
         connection->mCallbacks = *callbacks;
     }
     gti2GetChallenge(challengeBytes);
-    gti2GetResponse((s8 *) connection->mResponse, challengeBytes);
+    gti2GetResponse(connection->mResponse, challengeBytes);
     gti2SendClientChallenge(connection, challengeBytes);
     connection->mState = GT2_CONNECTION_OFFER_SENT;
     return FALSE;

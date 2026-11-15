@@ -176,8 +176,8 @@ u32 gti2HandleAppReliable(Gt2Connection *connection, const u8 *message, u32 leng
 }
 
 u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int length) {
-    s8 peerAnswer[0x20];
-    s8 ownChallenge[0x20];
+    u8 peerAnswer[0x20];
+    u8 ownChallenge[0x20];
     if (connection->mState != GT2_CONNECTION_AWAIT_OFFER) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
@@ -190,10 +190,10 @@ u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int 
         }
         return 0;
     }
-    gti2GetResponse(peerAnswer, (const s8 *) message);
+    gti2GetResponse(peerAnswer, message);
     gti2GetChallenge(ownChallenge);
-    gti2GetResponse((s8 *) connection->mResponse, ownChallenge);
-    if (gti2SendServerChallenge(connection, (const u8 *) peerAnswer, (const u8 *) ownChallenge) == 0) {
+    gti2GetResponse(connection->mResponse, ownChallenge);
+    if (gti2SendServerChallenge(connection, peerAnswer, ownChallenge) == 0) {
         return 0;
     }
     connection->mState = GT2_CONNECTION_CHALLENGE_SENT;
@@ -201,7 +201,7 @@ u32 gti2HandleClientChallenge(Gt2Connection *connection, const u8 *message, int 
 }
 
 u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int length) {
-    s8 clientAnswer[0x20];
+    u8 clientAnswer[0x20];
     if (connection->mState != GT2_CONNECTION_OFFER_SENT) {
         if (gti2ConnectionCommunicationError(connection) != 0) {
             return 1;
@@ -220,8 +220,8 @@ u32 gti2HandleServerChallenge(Gt2Connection *connection, const u8 *message, int 
         }
         return 0;
     }
-    gti2GetResponse(clientAnswer, (const s8 *) (message + 0x20));
-    if (gti2SendClientResponse(connection, (const u8 *) clientAnswer, connection->mInitialMessageData,
+    gti2GetResponse(clientAnswer, message + 0x20);
+    if (gti2SendClientResponse(connection, clientAnswer, connection->mInitialMessageData,
                                connection->mInitialMessageSize) == 0) {
         return 0;
     }
