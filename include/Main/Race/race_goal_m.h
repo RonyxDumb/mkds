@@ -73,3 +73,13 @@ extern struct RaceTaPositions *gRaceTaPositions;
 extern struct RaceGoalM *gRaceGoalM;
 extern struct RaceStartGp *gRaceStartGp;
 extern struct RaceLinkLevel *gRaceLinkLevel;
+
+// RaceGoalM.mComputedMissionRecordValue (0 to 7, higher is better): the three best values start a sequence; a value of
+// the count or more has no cell. The friend-on frame count restarts at the first limit and the friend cell shows below
+// the second.
+#define MISSION_RECORD_VALUE_THIRD_BEST 5
+#define MISSION_RECORD_VALUE_SECOND_BEST 6
+#define MISSION_RECORD_VALUE_BEST 7
+#define MISSION_RECORD_VALUE_COUNT 8
+#define RACE_LINK_FRIEND_ON_CYCLE_FRAMES 0x78
+#define RACE_LINK_FRIEND_ON_SHOWN_FRAMES 0x69

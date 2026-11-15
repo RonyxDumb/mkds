@@ -711,6 +711,14 @@ enum {
 #define RACE_GOAL_S_SHOW_ROW_SEQ_FIRST 0x2a
 #define RACE_GOAL_S_ROW_STEP_FRAMES 5
 #define RACE_GOAL_S_ROWS_PHASE_FRAMES 0x2d
+// Values of RaceGoalS.mRankComparison (a row moved down, moved up, or stayed), the largest points number counted up on
+// a row, and the frames and distance of the slide in.
+#define RACE_GOAL_S_RANK_DOWN 0
+#define RACE_GOAL_S_RANK_UP 1
+#define RACE_GOAL_S_RANK_SAME 2
+#define RACE_GOAL_S_POINTS_LIMIT 0x3e8
+#define RACE_GOAL_S_SLIDE_FRAMES 0x14
+#define RACE_GOAL_S_SLIDE_OFFSET 0x100
 
 // Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.
 typedef struct RaceGoalS {
@@ -801,6 +809,10 @@ typedef struct RaceTimeDigits {
 } RaceTimeDigits;
 
 // Values of RaceTaPositionSample.mKind: which cell the trail sample draws.
+// Position samples kept per kart for the time attack trail, and the frames between two ageing steps of the boost point
+// samples (an age of the sample count means the point is gone).
+#define RACE_TA_SAMPLE_COUNT 0x28
+#define RACE_TA_AGE_INTERVAL_FRAMES 0xf
 #define RACE_TA_SAMPLE_KIND_NONE 0
 #define RACE_TA_SAMPLE_KIND_PLAIN 1
 #define RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING 2

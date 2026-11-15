@@ -48,3 +48,7 @@ extern struct RaceGoalTimes *gRaceGoalTimes;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
 
 extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
+
+// The fireball cells of the goal times count their frames up to this value and show the first half below the half.
+#define RACE_GOAL_TIMES_FIREBALL_CYCLE_FRAMES 0x14
+#define RACE_GOAL_TIMES_FIREBALL_HALF_FRAMES 10

@@ -131,7 +131,7 @@ void CountUpRaceGoalSNumbers(void) {
                 target = record->mTotalPoints;
             }
             if (gRaceGoalS->mShownNumbers[rowIndex] < target) {
-                if (gRaceGoalS->mShownNumbers[rowIndex] < 0x3e8) {
+                if (gRaceGoalS->mShownNumbers[rowIndex] < RACE_GOAL_S_POINTS_LIMIT) {
                     gRaceGoalS->mShownNumbers[rowIndex]++;
                     allReached = FALSE;
                 }

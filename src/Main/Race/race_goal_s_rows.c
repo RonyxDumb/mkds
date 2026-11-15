@@ -91,11 +91,11 @@ void RefreshRaceGoalSRows(void) {
                 }
             }
             if (newRowIndex < previousRowIndex) {
-                gRaceGoalS->mRankComparison[kartIndex] = 1;
+                gRaceGoalS->mRankComparison[kartIndex] = RACE_GOAL_S_RANK_UP;
             } else if (newRowIndex > previousRowIndex) {
-                gRaceGoalS->mRankComparison[kartIndex] = 0;
+                gRaceGoalS->mRankComparison[kartIndex] = RACE_GOAL_S_RANK_DOWN;
             } else {
-                gRaceGoalS->mRankComparison[kartIndex] = 2;
+                gRaceGoalS->mRankComparison[kartIndex] = RACE_GOAL_S_RANK_SAME;
             }
         }
     }
@@ -105,10 +105,10 @@ void SlideOutRaceGoalS(void) {
     s32 frame;
 
     frame = gRaceGoalS->mUpdateFrames++;
-    if (frame < 0x14) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0, 0x100, frame, 0x14);
+    if (frame < RACE_GOAL_S_SLIDE_FRAMES) {
+        gRaceGoalS->mOffsetX = InterpolateS16(1, 0, RACE_GOAL_S_SLIDE_OFFSET, frame, RACE_GOAL_S_SLIDE_FRAMES);
     } else {
-        gRaceGoalS->mOffsetX = 0x100;
+        gRaceGoalS->mOffsetX = RACE_GOAL_S_SLIDE_OFFSET;
         gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
         gRaceGoalS->mUpdateFrames = 0;
         RequestRaceHudSubScreenGoalTeams();
@@ -119,7 +119,7 @@ void SlideInRaceGoalSTeams(void) {
     s32 frame;
 
     frame = gRaceGoalS->mUpdateFrames++;
-    if (frame < 0x14) {
+    if (frame < RACE_GOAL_S_SLIDE_FRAMES) {
         gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, frame, 0x14);
     } else {
         gRaceGoalS->mOffsetX = 0;
