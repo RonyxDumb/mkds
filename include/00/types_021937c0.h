@@ -98,7 +98,7 @@ typedef struct GpiPeer {
     /* 14 */ s32 mNackCount;
     /* 18 */ void *mInputBuffer;
     /* 1c */ u32 mUnk_1c;
-    /* 20 */ BOOL mInputBufferLength;
+    /* 20 */ s32 mInputBufferLength;
     /* 24 */ u8 mUnk_24[4];
     /* 28 */ GpiBuffer mOutputBuffer;
     /* 38 */ struct Darray *mQueuedMessages;
