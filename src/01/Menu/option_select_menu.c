@@ -226,7 +226,7 @@ void SetOptionSoundRowFromSave(void) {
     }
 }
 
-void AdvanceOptionSelectMenuState0(void) {
+void AdvanceOptionSelectMenuSlideIn(void) {
     s32 groupIndex;
     s32 entryIndex;
     s16 offsetX;
@@ -249,7 +249,7 @@ void AdvanceOptionSelectMenuState0(void) {
     }
 }
 
-void AdvanceOptionSelectMenuState1(void) {
+void AdvanceOptionSelectMenuSlideInBg2(void) {
     gOptionSelectMenu->mStateFrames++;
     gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnSlideInBg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
@@ -258,7 +258,7 @@ void AdvanceOptionSelectMenuState1(void) {
     }
 }
 
-void AdvanceOptionSelectMenuState2(void) {
+void AdvanceOptionSelectMenuWaitInput(void) {
     OptionSelectMenu *menu;
     s32 sel;
     s32 touchedRect;
@@ -406,7 +406,7 @@ end:
     ApplyOptionSelectMenuSound();
 }
 
-void AdvanceOptionSelectMenuState3(void) {
+void AdvanceOptionSelectMenuOkPressedDelay(void) {
     gOptionSelectMenu->mStateFrames++;
     if (gOptionSelectMenu->mStateFrames >= 10) {
         gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
@@ -416,7 +416,7 @@ void AdvanceOptionSelectMenuState3(void) {
     }
 }
 
-void AdvanceOptionSelectMenuState4(void) {
+void AdvanceOptionSelectMenuSlideOut(void) {
     s32 groupIndex;
     s32 entryIndex;
     s16 offsetX;
@@ -455,7 +455,7 @@ void AdvanceOptionSelectMenuState4(void) {
     }
 }
 
-void AdvanceOptionSelectMenuState5(void) {
+void AdvanceOptionSelectMenuWaitBackup(void) {
     s32 backupBusy;
 
     if (GetTxtSystemDone() != 0) {
@@ -602,22 +602,22 @@ void AdvanceOptionSelectMenu(void) {
     gOptionSelectMenu->mState = gOptionSelectMenu->mNextState;
     switch (gOptionSelectMenu->mState) {
         case OPTION_SELECT_STATE_SLIDE_IN:
-            AdvanceOptionSelectMenuState0();
+            AdvanceOptionSelectMenuSlideIn();
             break;
         case OPTION_SELECT_STATE_SLIDE_IN_BG2:
-            AdvanceOptionSelectMenuState1();
+            AdvanceOptionSelectMenuSlideInBg2();
             break;
         case OPTION_SELECT_STATE_WAIT_INPUT:
-            AdvanceOptionSelectMenuState2();
+            AdvanceOptionSelectMenuWaitInput();
             break;
         case OPTION_SELECT_STATE_OK_PRESSED_DELAY:
-            AdvanceOptionSelectMenuState3();
+            AdvanceOptionSelectMenuOkPressedDelay();
             break;
         case OPTION_SELECT_STATE_SLIDE_OUT:
-            AdvanceOptionSelectMenuState4();
+            AdvanceOptionSelectMenuSlideOut();
             break;
         case OPTION_SELECT_STATE_WAIT_BACKUP:
-            AdvanceOptionSelectMenuState5();
+            AdvanceOptionSelectMenuWaitBackup();
             break;
     }
     AdvancePaletteBlend();
