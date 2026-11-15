@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 #include "code_02142eac.h"
 
 extern const u8 gUsbScanEmptyBssid[6];
@@ -19,7 +20,7 @@ struct UsbScan {
     /* 1374 */ ScanExParam mScanParam;
     /* 13b8 */ WMStatus mWmStatus;
     /* 1b74 */ u64 mStartTick;
-    /* 1b7c */ u32 mReportTask;
+    /* 1b7c */ TaskEntry *mReportTask;
     /* 1b80 */ vu8 mReleaseProgress;
     /* 1b81 */ u8 mPendingResult;
     /* 1b82 */ u8 mReported;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 #include "03/types_021d299c.h"
 #include "03/types_021da26c.h"
 
@@ -16,8 +17,8 @@ typedef struct ApList {
     /* 0c */ BgTextCanvas *mTextCanvas;
     /* 10 */ OamEntry *mRowLeftOamEntries[5];
     /* 24 */ OamEntry *mRowRightOamEntries[5];
-    /* 38 */ u32 mScrollTask;
-    /* 3c */ u32 mBgOffsetTask;
+    /* 38 */ TaskEntry *mScrollTask;
+    /* 3c */ TaskEntry *mBgOffsetTask;
     /* 40 */ u16 mScrollYMax;
     /* 42 */ u16 mRowLeftTiles[3];
     /* 48 */ u16 mRowRightTiles[4];
@@ -38,9 +39,9 @@ void StartApListScrollYIncrease(void);
 void StartApListScrollYDecrease(void);
 void MoveApListSelectedRow(int direction);
 void PlaceApListSelection(void);
-void WriteApListBgOffset(void);
-void AdvanceApListScrollYIncrease(u32 task);
-void AdvanceApListScrollYDecrease(u32 task);
+void WriteApListBgOffset(TaskEntry *task, void *arg);
+void AdvanceApListScrollYIncrease(TaskEntry *task, void *arg);
+void AdvanceApListScrollYDecrease(TaskEntry *task, void *arg);
 void RefreshApListRowPositions(void);
 void SetApListRowTiles(int entryIndex, int rowSlot);
 void PrintApListEntryText(int entryIndex, int yPos);

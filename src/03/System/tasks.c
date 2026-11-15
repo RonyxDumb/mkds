@@ -76,12 +76,11 @@ void RunTasksAndRemoveRequested(int listIndex) {
     }
 }
 
-u32 AddTask(u32 listIndex, void *function, void *arg, u32 priority) {
-    return (u32) AddTaskEx(listIndex, (void (*)(TaskEntry *, u32))(function), (u32) arg, priority, 0x0u);
+TaskEntry *AddTask(u32 listIndex, TaskCallback function, void *arg, u32 priority) {
+    return AddTaskEx(listIndex, function, arg, priority, 0x0u);
 }
 
-TaskEntry *AddTaskEx(u32 listIndex, void (*function)(TaskEntry *listIndex, u32 function), u32 arg, u32 priority,
-                     u8 freesArg) {
+TaskEntry *AddTaskEx(u32 listIndex, TaskCallback function, void *arg, u32 priority, u8 freesArg) {
     TaskEntry *entry;
     TaskEntry *following;
     u32 savedIrqMask;
@@ -108,15 +107,15 @@ void SetTaskCallback(TaskEntry *taskEntry, TaskCallback function) {
     taskEntry->mCallback = function;
 }
 
-void RequestTaskRemoval(u32 listIndex, u32 entry) {
-    PushPointerStack(gTaskLists[listIndex].mResource, (void *) entry);
+void RequestTaskRemoval(u32 listIndex, TaskEntry *entry) {
+    PushPointerStack(gTaskLists[listIndex].mResource, entry);
 }
 
-void RemoveTaskEntryWrapper(u32 listIndex, u32 entry) {
+void RemoveTaskEntryWrapper(u32 listIndex, TaskEntry *entry) {
     u32 listIndexCopy = listIndex;
-    u32 entryCopy = entry;
+    TaskEntry *entryCopy = entry;
     u32 unused;
-    RemoveTaskEntry(listIndexCopy, (TaskEntry *) entryCopy);
+    RemoveTaskEntry(listIndexCopy, entryCopy);
 }
 
 void RemoveTaskEntry(int listIndex, TaskEntry *entry) {

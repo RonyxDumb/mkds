@@ -3,12 +3,12 @@
 #include "types.h"
 #include "03/System/tasks.h"
 
-void ReleaseEditKeyboard(u32 task);
-void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task);
-void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task);
-void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task);
-void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task);
-void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task);
+void ReleaseEditKeyboard(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task, void *arg);
 
 extern const u8 gEditKeyboardKeyPalettes[2];
 extern const u8 gEditKeyboardRow4HighlightValues[2];

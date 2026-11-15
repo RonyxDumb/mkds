@@ -120,8 +120,9 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     return canvas;
 }
 
-void AdvanceBgTextCanvasUpload(u32 task, u8 *flag) {
+void AdvanceBgTextCanvasUpload(TaskEntry *task, void *arg) {
     TextCanvases *canvases;
+    u8 *flag = arg;
     u32 size;
 
     if (*flag != 0) {

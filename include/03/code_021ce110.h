@@ -5,11 +5,11 @@
 #include "03/unk_021da000.h"
 #include "03/System/tasks.h"
 
-void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry);
-void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry);
-void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry);
-void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry);
-void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry);
+void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry, void *arg);
+void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry, void *arg);
+void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry, void *arg);
+void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry, void *arg);
+void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry, void *arg);
 
 void CreateMenuPairObjects(u32 row);
-void AdvanceUsbScanReport(u32 task);
+void AdvanceUsbScanReport(TaskEntry *task, void *arg);

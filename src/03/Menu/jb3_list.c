@@ -938,7 +938,7 @@ int GetJb3ListEntryIndexOfRow(int row) {
     return firstEntryIndex + row;
 }
 
-void AdvanceJb3ListScrollYDecrease(u32 taskEntry) {
+void AdvanceJb3ListScrollYDecrease(TaskEntry *taskEntry, void *arg) {
     s32 scrollRemainder;
     DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
@@ -966,7 +966,7 @@ void AdvanceJb3ListScrollYDecrease(u32 taskEntry) {
     }
 }
 
-void AdvanceJb3ListScrollYIncrease(u32 taskEntry) {
+void AdvanceJb3ListScrollYIncrease(TaskEntry *taskEntry, void *arg) {
     s32 scrollRemainder;
     DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
@@ -985,7 +985,7 @@ void AdvanceJb3ListScrollYIncrease(u32 taskEntry) {
     RequestTaskRemoval(0, taskEntry);
 }
 
-void WriteJb3ListBgOffset(void) {
+void WriteJb3ListBgOffset(TaskEntry *task, void *arg) {
     u32 firstEntryIndex;
     s32 bgOffsetY;
     if (gJb3List->mBgOffsetPending != 0) {
@@ -1173,7 +1173,7 @@ void RequestJb3ListPaletteRowCopy(void) {
     RequestBgPaletteRowCopy(gJb3List->mYbBgStep2NclFiles[1], paletteRow, paletteRow);
 }
 
-void AdvanceJb3ListIdTimers(void) {
+void AdvanceJb3ListIdTimers(TaskEntry *task, void *arg) {
     s32 timerIndex;
     for (timerIndex = 0; timerIndex < 4; timerIndex++) {
         if (gJb3List->mIdTimer[timerIndex] != 0) {

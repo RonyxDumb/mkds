@@ -18,15 +18,15 @@
 #include "03/types_021d299c.h"
 
 typedef struct Jb3List {
-    /* 00 */ u32 mIdTimerTask;
+    /* 00 */ TaskEntry *mIdTimerTask;
     /* 04 */ u8 mIdTimer[4];
     /* 08 */ u16 *mJb3ListBackNsc;
     /* 0c */ void *mYbBgStep2NclFiles[2];
     /* 14 */ BgTextCanvas *mBgTextCanvas;
     /* 18 */ OamEntry *mCellOamEntries[7];
     /* 34 */ OamEntry *mSetTypeOamEntry;
-    /* 38 */ u32 mScrollTask;
-    /* 3c */ u32 mBgOffsetTask;
+    /* 38 */ TaskEntry *mScrollTask;
+    /* 3c */ TaskEntry *mBgOffsetTask;
     /* 40 */ u8 mChosenId;
     /* 41 */ u8 mScrollTimer;
     /* 42 */ u8 mReturnId;
@@ -43,7 +43,7 @@ typedef struct MultiBootParent MultiBootParent;
 // Object behind gLinkLevel.
 typedef struct LinkLevel {
     /* 00 */ OamEntry *mOamEntry;
-    /* 04 */ u32 mTask;
+    /* 04 */ TaskEntry *mTask;
     /* 08 */ s8 mImageRow;
 } LinkLevel;
 
@@ -114,7 +114,7 @@ typedef struct MessageBox {
     /* 04 */ OamRange *mText;
     /* 08 */ OamRange *mButtons[2];
     /* 10 */ void *mTextCanvas;
-    /* 14 */ u32 mTask;
+    /* 14 */ TaskEntry *mTask;
     /* 18 */ u16 mTimedFrames;
     /* 1a */ s8 mBrightness;
     /* 1b */ s8 mResult;

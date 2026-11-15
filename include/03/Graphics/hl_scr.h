@@ -1,11 +1,12 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 
 extern void *gHlScr;
 
 void InitHlScr(void);
-void UploadHlScr(u32 entry);
+void UploadHlScr(TaskEntry *entry, void *arg);
 void LoadHlListScr(void);
 void LoadHlSetScr(void);
 void LoadHlScr(int scrIndex);

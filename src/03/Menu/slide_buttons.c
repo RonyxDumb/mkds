@@ -51,7 +51,7 @@ void CreateSlideButtons(u32 kind) {
     gSlideButtons->mSlideRange = CreateOamRangeFromNceImage(0, 1, 1);
     SetOamRangePriority(gSlideButtons->mSlideRange, -1, 1);
     SetSlideButtonsY(0xc0);
-    gSlideButtons->mStepTask = (TaskEntry *) AddTask(0, AdvanceSlideButtonsIn, NULL, 0x78);
+    gSlideButtons->mStepTask = AddTask(0, AdvanceSlideButtonsIn, NULL, 0x78);
 }
 
 void StartSlideButtonsOut(void) {
@@ -107,7 +107,7 @@ void SetSlideButtonsY(s32 yPosition) {
     }
 }
 
-void AdvanceSlideButtonsIn(TaskEntry *task) {
+void AdvanceSlideButtonsIn(TaskEntry *task, void *arg) {
     s32 xPosition;
     s32 yPosition;
 
@@ -120,7 +120,7 @@ void AdvanceSlideButtonsIn(TaskEntry *task) {
     }
 }
 
-void AdvanceSlideButtonsWait(TaskEntry *task) {
+void AdvanceSlideButtonsWait(TaskEntry *task, void *arg) {
     u32 resetFrames = 0;
 
     gSlideButtons->mButtonResult = -1;
@@ -131,7 +131,7 @@ void AdvanceSlideButtonsWait(TaskEntry *task) {
     }
 }
 
-void AdvanceButtonTouch(void) {
+void AdvanceButtonTouch(TaskEntry *task, void *arg) {
     Rect rect;
     s32 buttonCount;
     s32 buttonIndex;
@@ -166,7 +166,7 @@ void AdvanceButtonTouch(void) {
     gSlideButtons->mButtonResult = -1;
 }
 
-void AdvanceSlideButtonsOut(TaskEntry *task) {
+void AdvanceSlideButtonsOut(TaskEntry *task, void *arg) {
     s32 stackValue;
     int yPosition;
     GetOamRangeEntryPosition(gSlideButtons->mSlideRange, 0, &stackValue, &yPosition);
@@ -177,7 +177,7 @@ void AdvanceSlideButtonsOut(TaskEntry *task) {
     }
 }
 
-void ReleaseSlideButtons(u32 task) {
+void ReleaseSlideButtons(TaskEntry *task, void *arg) {
     SlideButtons *slideButtons;
     s32 buttonIndex;
 
@@ -195,7 +195,7 @@ void ReleaseSlideButtons(u32 task) {
     FreeExpHeapBlockAndClearPointer(&gSlideButtons);
 }
 
-void AdvanceButtonReset(u32 task) {
+void AdvanceButtonReset(TaskEntry *task, void *arg) {
     SlideButtons *slideButtons;
     s32 buttonIndex;
     s32 buttonCount;
@@ -251,7 +251,7 @@ void ReleaseAnimatedIcon(void) {
     FreeExpHeapBlockAndClearPointer(&gAnimatedIcon);
 }
 
-void AdvanceAnimatedIcon(void) {
+void AdvanceAnimatedIcon(TaskEntry *task, void *arg) {
     AnimatedIcon *object;
     OamEntry *innerObject;
     u32 imageOrPalette;

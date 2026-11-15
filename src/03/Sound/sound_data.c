@@ -66,6 +66,6 @@ void StopSoundSeq(void) {
     NNS_SndPlayerStopSeq(&gSoundData->mSeqPlayer, 0);
 }
 
-void UpdateSound(void) {
+void UpdateSound(TaskEntry *task, void *arg) {
     NNS_SndMain();
 }

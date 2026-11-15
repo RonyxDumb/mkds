@@ -84,7 +84,7 @@ void LoadHlListScr(void) {
     LoadHlScr(scrIndex);
 }
 
-void UploadHlScr(u32 entry) {
+void UploadHlScr(TaskEntry *entry, void *arg) {
     DC_FlushRange(gHlScr, 0xc0);
     GX_LoadBG1Scr(gHlScr, 0, 0xc0);
     RequestTaskRemoval(1, entry);

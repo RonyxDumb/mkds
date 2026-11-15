@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 
 typedef struct PointerStack PointerStack;
 
@@ -22,10 +23,10 @@ typedef struct ObjCharRanges {
 typedef struct OamBuffers {
     /* 000 */ u8 mBuffers[2][0x400];
     /* 800 */ PointerStack *mFreeEntries[2];
-    /* 808 */ u32 mUploadTask;
+    /* 808 */ TaskEntry *mUploadTask;
 } OamBuffers;
 
-void UploadOamBuffers(void);
+void UploadOamBuffers(TaskEntry *task, void *arg);
 void InitOamBuffers(void);
 void DeleteObjCharRange(ObjCharRange *range);
 ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *outStart);

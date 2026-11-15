@@ -44,7 +44,7 @@ void CopyBg2ScrBufferRect(const void *source, int destOffset, int width, int row
     }
 }
 
-void AdvanceBg2ScrUpload(void) {
+void AdvanceBg2ScrUpload(TaskEntry *task, void *arg) {
     if (gBg2ScrBuffer->mUploadRequested != 0) {
         DC_FlushRange(gBg2ScrBuffer->mScr, (0x00000600u));
         GX_LoadBG2Scr(gBg2ScrBuffer->mScr, 0, (0x00000600u));
@@ -58,7 +58,7 @@ void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow) {
     AddTask(1, AdvanceBgPaletteRowCopy, NULL, 0x78);
 }
 
-void AdvanceBgPaletteRowCopy(u32 entry) {
+void AdvanceBgPaletteRowCopy(TaskEntry *entry, void *arg) {
     MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, gBgPaletteCopyRequest.mDestination, 0x20);
     RequestTaskRemoval(1, entry);
 }
@@ -68,7 +68,7 @@ void RequestBgPaletteCopy(const void *palette) {
     AddTask(1, &AdvanceBgPaletteCopy, NULL, 0x78);
 }
 
-void AdvanceBgPaletteCopy(u32 entry) {
+void AdvanceBgPaletteCopy(TaskEntry *entry, void *arg) {
     MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, (void *) ((0x05000000u)), (0x00000200u));
     RequestTaskRemoval(1, entry);
 }

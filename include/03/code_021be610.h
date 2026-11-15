@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 
 typedef void (*ExchangeEventCallback)(u32 event, u32 arg);
 
@@ -10,7 +11,7 @@ typedef struct OamEntry OamEntry;
 
 // 0xc bytes allocated by CreateAnimatedIcon.
 typedef struct AnimatedIcon {
-    /* 00 */ u32 mTask;
+    /* 00 */ TaskEntry *mTask;
     /* 04 */ OamEntry *mOamEntry;
     /* 08 */ u8 mPaletteIndex;
     /* 09 */ u8 mStepFrames;
@@ -30,8 +31,8 @@ BOOL StartExchangeSearch(u8 *address, u8 *name, s32 nameLength, u32 option);
 s32 CopyExchangeScanRecords(RawEntry *output, s32 maxCount);
 BOOL StartExchangeReturnToIdle(void);
 void ExchangeWcmNotifyCallback(WcmNoticeHead *message);
-void AdvanceAnimatedIcon(void);
+void AdvanceAnimatedIcon(TaskEntry *task, void *arg);
 void ReleaseAnimatedIcon(void);
 void CreateAnimatedIcon(int index);
-void AdvanceButtonReset(u32 task);
-void ReleaseSlideButtons(u32 task);
+void AdvanceButtonReset(TaskEntry *task, void *arg);
+void ReleaseSlideButtons(TaskEntry *task, void *arg);

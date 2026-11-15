@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 #include "03/types_021d299c.h"
 #include "03/unk_021d7000.h"
 #include "03/unk_021da000.h"
@@ -17,15 +18,15 @@ void UpdateJb3ListMessageClose(void);
 void UpdateJb3ListMessageResult(void);
 BOOL IsJb3ListRecordValid(void);
 void StartJb3ListIdTimer(void);
-void AdvanceJb3ListIdTimers(void);
+void AdvanceJb3ListIdTimers(TaskEntry *task, void *arg);
 void RequestJb3ListPaletteRowCopy(void);
 void MoveJb3ListSelection(s32 direction);
 void SetJb3ListSelectedId(u32 listId);
 void SetJb3ListSelectedIdFromRow(void);
 void PlaceJb3ListSelectionPair(void);
-void WriteJb3ListBgOffset(void);
-void AdvanceJb3ListScrollYIncrease(u32 taskEntry);
-void AdvanceJb3ListScrollYDecrease(u32 taskEntry);
+void WriteJb3ListBgOffset(TaskEntry *task, void *arg);
+void AdvanceJb3ListScrollYIncrease(TaskEntry *taskEntry, void *arg);
+void AdvanceJb3ListScrollYDecrease(TaskEntry *taskEntry, void *arg);
 int GetJb3ListEntryIndexOfRow(int row);
 int GetJb3ListRowOfEntryIndex(int entryIndex);
 u32 GetJb3ListHitId(void);

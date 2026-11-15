@@ -192,7 +192,7 @@ void UpdateConnectRelease(void) {
     }
 }
 
-void AdvanceConnectRequest(u32 entry) {
+void AdvanceConnectRequest(TaskEntry *entry, void *arg) {
     s32 connectResult = DWC_AC_Process();
     if (connectResult != 0) {
         ReleaseLinkLevel();

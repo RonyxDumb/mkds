@@ -44,7 +44,7 @@
 
 u8 gValueRecordsShowNext;
 u16 gValueRecordsFrames;
-u32 gValueRecordsRequestTask;
+TaskEntry *gValueRecordsRequestTask;
 
 BOOL ValueRecordsPAD_DetectFold(void) {
     if ((*HW_BUTTON_XY_BUF & PAD_DETECT_FOLD_MASK) >> 15) {
@@ -196,7 +196,7 @@ void UpdateValueRecordsRelease(void) {
     }
 }
 
-void UpdateValueRecordsDuringRequest(void) {
+void UpdateValueRecordsDuringRequest(TaskEntry *task, void *arg) {
     UpdateKeyTouchInput();
     RunTasksAndRemoveRequested(0);
     UpdateValueRecordsInput();

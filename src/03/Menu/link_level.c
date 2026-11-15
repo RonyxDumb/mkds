@@ -36,7 +36,7 @@ void ReleaseLinkLevel(void) {
     }
 }
 
-void UpdateLinkLevel(void) {
+void UpdateLinkLevel(TaskEntry *task, void *arg) {
     u32 linkLevel;
     u16 savedIme;
     linkLevel = 0;

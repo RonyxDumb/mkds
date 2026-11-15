@@ -9,7 +9,7 @@ typedef struct SlideButtons {
     /* 00 */ OamRange *mButtons[2];
     /* 08 */ OamRange *mSlideRange;
     /* 0c */ TaskEntry *mStepTask;
-    /* 10 */ u32 mResetTask;
+    /* 10 */ TaskEntry *mResetTask;
     /* 14 */ u16 mStepFrames;
     /* 16 */ s8 mButtonResult;
     /* 17 */ u8 mKind;
@@ -19,10 +19,10 @@ typedef struct SlideButtons {
 
 extern const u16 gSlideButtonOrigins[4];
 
-void AdvanceSlideButtonsOut(TaskEntry *task);
-void AdvanceButtonTouch(void);
-void AdvanceSlideButtonsWait(TaskEntry *task);
-void AdvanceSlideButtonsIn(TaskEntry *task);
+void AdvanceSlideButtonsOut(TaskEntry *task, void *arg);
+void AdvanceButtonTouch(TaskEntry *task, void *arg);
+void AdvanceSlideButtonsWait(TaskEntry *task, void *arg);
+void AdvanceSlideButtonsIn(TaskEntry *task, void *arg);
 void SetSlideButtonsY(s32 yPosition);
 void DisableButtonTouch(void);
 void EnableButtonTouch(void);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 
 typedef struct Rect Rect;
 
@@ -36,7 +37,7 @@ enum {
 typedef struct ScrollBar {
     /* 00 */ struct OamRange *mResource;
     /* 04 */ u8 mUnk_04[8];
-    /* 0c */ u32 mTask;
+    /* 0c */ TaskEntry *mTask;
     /* 10 */ u16 mX;
     /* 12 */ u16 mY;
     /* 14 */ u16 mDragStartTouch[2];
@@ -59,7 +60,7 @@ void MoveScrollBarToTouch(void);
 void StartScrollBarArrowHold(int arrow);
 void SetScrollBarDragSound(s32 targetOffset);
 void AdvanceScrollBarDrag(void);
-void AdvanceScrollBar(void);
+void AdvanceScrollBar(TaskEntry *task, void *arg);
 void DisableScrollBarInput(void);
 void EnableScrollBarInput(void);
 void PlaceScrollBarWrapper(s32 offset);

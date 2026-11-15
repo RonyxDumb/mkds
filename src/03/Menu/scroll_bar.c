@@ -57,7 +57,7 @@ void DisableScrollBarInput(void) {
     gScrollBar->mInputDisabled = 1;
 }
 
-void AdvanceScrollBar(void) {
+void AdvanceScrollBar(TaskEntry *task, void *arg) {
     gScrollBar->mEvent = SCROLL_BAR_EVENT_NONE;
     switch (gScrollBar->mState) {
         case SCROLL_BAR_STATE_IDLE:

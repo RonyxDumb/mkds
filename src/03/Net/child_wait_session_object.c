@@ -41,7 +41,7 @@ void StartChildWaitStop(void) {
     AddTask(0, &AdvanceChildWaitStop, NULL, 0x78);
 }
 
-void AdvanceChildWaitStop(u32 task) {
+void AdvanceChildWaitStop(TaskEntry *task, void *arg) {
     int result;
     result = StopChildWaitSession();
     if (result != 0) {
@@ -77,7 +77,7 @@ static inline void MI_CpuCopy16(const void *source, void *destination, s32 size)
     MIi_CpuCopy16(source, destination, size);
 }
 
-void AdvanceChildWaitSession(u32 task) {
+void AdvanceChildWaitSession(TaskEntry *task, void *arg) {
     u8 stateInfo[2];
     ChildWaitSession *object;
     AdvanceChildWaitState();

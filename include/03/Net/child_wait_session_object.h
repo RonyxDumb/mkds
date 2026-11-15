@@ -1,12 +1,13 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 
 typedef struct ChildWaitSession {
     /* 00000 */ u8 pad_00000[0x1e280];
     /* 1e280 */ u8 mChildUser[0x18];
     /* 1e298 */ void (*mCallback)(s32 a);
-    /* 1e29c */ u32 mStepTask;
+    /* 1e29c */ TaskEntry *mStepTask;
     /* 1e2a0 */ u8 mEventPending;
     /* 1e2a1 */ u8 mStopRequested;
 } ChildWaitSession;
@@ -24,12 +25,12 @@ typedef struct ChildWaitParams {
 
 #include "03/unk_021da000.h"
 
-void AdvanceChildWaitSession(u32 task);
+void AdvanceChildWaitSession(TaskEntry *task, void *arg);
 u8 *GetChildUserBuffer(void);
 u32 ConfirmChildWaitUser(void);
 void SetChildWaitCallback(void *callback);
 BOOL IsChildWaitSessionReleased(void);
-void AdvanceChildWaitStop(u32 task);
+void AdvanceChildWaitStop(TaskEntry *task, void *arg);
 void StartChildWaitStop(void);
 void CreateChildWaitSession(void (*callback)(s32));
 

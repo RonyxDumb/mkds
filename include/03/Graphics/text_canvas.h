@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 
 typedef struct BgTextCanvas BgTextCanvas;
 
@@ -15,7 +16,7 @@ typedef struct BgTextCanvas {
     /* 00 */ NNSG2dCharCanvas mCharCanvas;
     /* 20 */ TextCanvas mTextCanvas;
     /* 30 */ u8 *mChars;
-    /* 34 */ u32 mUploadTask;
+    /* 34 */ TaskEntry *mUploadTask;
 } BgTextCanvas;
 
 #include "03/code_021d1d88.h"
@@ -64,7 +65,7 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
 void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, int fontIndex);
 void ReleaseBgTextCanvasOfScreen(u32 index);
 void ReleaseBgTextCanvas(BgTextCanvas *canvas);
-void AdvanceBgTextCanvasUpload(u32 task, u8 *flag);
+void AdvanceBgTextCanvasUpload(TaskEntry *task, void *arg);
 BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex);
 void DeleteObjTextCanvas(ObjTextCanvas *canvas);
 ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s32 fromFront, u32 *entryCount,

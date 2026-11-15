@@ -1,9 +1,10 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 #include "03/unk_021da000.h"
 
-void UpdateLinkLevel(void);
+void UpdateLinkLevel(TaskEntry *task, void *arg);
 void ReleaseLinkLevel(void);
 void CreateLinkLevel(int row);
 

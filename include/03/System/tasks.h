@@ -4,14 +4,15 @@
 
 typedef struct PointerStack PointerStack;
 
-// The task functions take the entry, its argument or nothing, so the type is left unprototyped.
-typedef void (*TaskCallback)();
+struct TaskEntry;
+
+typedef void (*TaskCallback)(struct TaskEntry *task, void *arg);
 
 typedef struct TaskEntry {
     /* 00 */ struct TaskEntry *mPrev;
     /* 04 */ struct TaskEntry *mNext;
-    /* 08 */ void (*mCallback)(struct TaskEntry *a, u32 b);
-    /* 0c */ u32 mArg;
+    /* 08 */ TaskCallback mCallback;
+    /* 0c */ void *mArg;
     /* 10 */ u8 mPriority;
     /* 11 */ u8 mFreesArg;
     /* 12 */ u8 mUnk_12[2];
@@ -28,12 +29,11 @@ typedef struct TaskList {
 } TaskList;
 
 void RemoveTaskEntry(int listIndex, TaskEntry *entry);
-void RemoveTaskEntryWrapper(u32 listIndex, u32 entry);
-void RequestTaskRemoval(u32 listIndex, u32 entry);
+void RemoveTaskEntryWrapper(u32 listIndex, TaskEntry *entry);
+void RequestTaskRemoval(u32 listIndex, TaskEntry *entry);
 void SetTaskCallback(TaskEntry *taskEntry, TaskCallback function);
-TaskEntry *AddTaskEx(u32 listIndex, void (*function)(TaskEntry *listIndex, u32 function), u32 arg, u32 priority,
-                     u8 freesArg);
-unsigned int AddTask(unsigned int listIndex, void *function, void *arg, unsigned int priority);
+TaskEntry *AddTaskEx(u32 listIndex, TaskCallback function, void *arg, u32 priority, u8 freesArg);
+TaskEntry *AddTask(u32 listIndex, TaskCallback function, void *arg, u32 priority);
 void RunTasksAndRemoveRequested(int listIndex);
 void ReleaseTasks(void);
 void InitTasks(void);

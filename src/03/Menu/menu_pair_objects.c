@@ -34,7 +34,7 @@ const MenuPairObjectPosition gMenuPairObjectPositions[5] = {
 void *gMenuPairScreenMap;
 struct MenuPairObjects *gMenuPairObjects;
 
-void AdvanceUsbScanReport(u32 task) {
+void AdvanceUsbScanReport(TaskEntry *task, void *arg) {
     u32 flagSetFound;
     UsbScan *scan;
     u32 flagClearFound;
@@ -88,7 +88,7 @@ void CreateMenuPairObjects(u32 row) {
     StartSoundSeq(0xd);
 }
 
-void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -109,7 +109,7 @@ void AdvanceMenuPairObjectSlideIn0(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideIn1);
 }
 
-void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -130,7 +130,7 @@ void AdvanceMenuPairObjectSlideIn1(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideIn2);
 }
 
-void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -151,7 +151,7 @@ void AdvanceMenuPairObjectSlideIn2(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideIn3);
 }
 
-void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -172,7 +172,7 @@ void AdvanceMenuPairObjectSlideIn3(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideIn4);
 }
 
-void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -193,7 +193,7 @@ void AdvanceMenuPairObjectSlideIn4(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectsSlideInEnd);
 }
 
-void AdvanceMenuPairObjectsSlideInEnd(u32 task) {
+void AdvanceMenuPairObjectsSlideInEnd(TaskEntry *task, void *arg) {
     RequestTaskRemoval(0, task);
     gMenuPairObjects->mTask = 0;
 }
@@ -223,7 +223,7 @@ BOOL IsMenuPairObjectsSliding(void) {
     return 0;
 }
 
-void AdvanceMenuPairObjectSlideOut4(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideOut4(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -244,7 +244,7 @@ void AdvanceMenuPairObjectSlideOut4(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut3);
 }
 
-void AdvanceMenuPairObjectSlideOut3(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideOut3(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -265,7 +265,7 @@ void AdvanceMenuPairObjectSlideOut3(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut2);
 }
 
-void AdvanceMenuPairObjectSlideOut2(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideOut2(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -286,7 +286,7 @@ void AdvanceMenuPairObjectSlideOut2(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut1);
 }
 
-void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -307,7 +307,7 @@ void AdvanceMenuPairObjectSlideOut1(TaskEntry *taskEntry) {
     SetTaskCallback(taskEntry, AdvanceMenuPairObjectSlideOut0);
 }
 
-void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry) {
+void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry, void *arg) {
     s32 objectIndex;
     s32 xPos;
     s32 yPos;
@@ -318,7 +318,7 @@ void AdvanceMenuPairObjectSlideOut0(TaskEntry *taskEntry) {
                             gMenuPairObjectPositions[objectIndex].mY);
     }
     if (xPos <= 0x1d6 && xPos >= 0x100) {
-        RequestTaskRemoval(0, (u32) taskEntry);
+        RequestTaskRemoval(0, taskEntry);
         for (objectIndex = 0; objectIndex < 5; objectIndex++) {
             DeleteOamRange(gMenuPairObjects->mObjects[objectIndex]);
         }
@@ -341,7 +341,7 @@ void LoadMenuPairScreenMap(u32 pathIndex) {
     AddTask(1, AdvanceUploadMenuPairScreenMap, NULL, 0x78);
 }
 
-void AdvanceUploadMenuPairScreenMap(u32 task) {
+void AdvanceUploadMenuPairScreenMap(TaskEntry *task, void *arg) {
     DC_FlushRange(gMenuPairScreenMap, (0x00000600u));
     GXS_LoadBG1Scr(gMenuPairScreenMap, 0, (0x00000600u));
     DeleteLoadedFile(gMenuPairScreenMap);

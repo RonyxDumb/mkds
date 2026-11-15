@@ -59,7 +59,8 @@ u32 StartBlendBrightnessFade(s32 kind, s32 screen, u32 plane, u16 frameCount) {
 u8 data_ov003_021d1e14_pad1[1];
 u8 data_ov003_021d1e14_pad2[8];
 
-void AdvanceBlendBrightnessFade(u32 task, BlendBrightnessFadeSlot *slot) {
+void AdvanceBlendBrightnessFade(TaskEntry *task, void *arg) {
+    BlendBrightnessFadeSlot *slot = arg;
     u8 bitsByKind[4] = {0x11, 0x10, 0x01, 0x00};
     s8 finalLevels[4] = {0x00, -0x10, 0x00, 0x10};
     s32 level;
@@ -103,7 +104,8 @@ u32 StartBlendBrightnessFadeWait(u16 frameCount) {
     return 1;
 }
 
-void AdvanceBlendBrightnessFadeWait(u32 task, BlendBrightnessFadeSlot *state) {
+void AdvanceBlendBrightnessFadeWait(TaskEntry *task, void *arg) {
+    BlendBrightnessFadeSlot *state = arg;
     state->mFrames++;
     if (state->mFrames >= state->mFrameCount) {
         state->mEnabled = 0;

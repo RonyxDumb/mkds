@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "03/System/tasks.h"
 #include "player.h"
 
 typedef struct NNSSndArc NNSSndArc;
@@ -9,7 +10,7 @@ typedef struct SoundData {
     /* 00 */ NNSSndArc mArc;
     /* 90 */ NNSSndSeqPlayer *mSeqPlayer;
     /* 94 */ void *mFileData;
-    /* 98 */ u32 mTask;
+    /* 98 */ TaskEntry *mTask;
 } SoundData;
 
 void StopSoundSeq(void);

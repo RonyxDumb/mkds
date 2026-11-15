@@ -57,7 +57,7 @@ BOOL IsMessageBoxOpen(void) {
     return 0;
 }
 
-void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry) {
+void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry, void *arg) {
     gMessageBox->mBrightness--;
     G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, gMessageBox->mBrightness);
     if (gMessageBox->mBrightness <= -12) {
@@ -65,7 +65,7 @@ void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry) {
     }
 }
 
-void AdvanceMessageBoxSlideIn(u32 task) {
+void AdvanceMessageBoxSlideIn(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
 
@@ -84,7 +84,7 @@ void AdvanceMessageBoxSlideIn(u32 task) {
     RequestTaskRemoval(1, task);
 }
 
-void AdvanceMessageBoxInput(void) {
+void AdvanceMessageBoxInput(TaskEntry *task, void *arg) {
     s32 touchIndex;
     s32 buttonIndex;
     Rect buttonRect;
@@ -113,7 +113,7 @@ void AdvanceMessageBoxInput(void) {
     gMessageBox->mResult = -1;
 }
 
-void AdvanceMessageBoxTimed(u32 task) {
+void AdvanceMessageBoxTimed(TaskEntry *task, void *arg) {
     gMessageBox->mResult = -1;
     gMessageBox->mTimedFrames++;
     if (gMessageBox->mTimedFrames >= 0x78) {
@@ -189,14 +189,14 @@ void ShowMessageBoxButtonPressed(s32 buttonIndex) {
     SetOamRangePriority(gMessageBox->mButtons[buttonIndex], -1, 0);
 }
 
-void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry) {
+void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry, void *arg) {
     gMessageBox->mCloseWaitFrames++;
     if (gMessageBox->mCloseWaitFrames >= 8) {
         SetTaskCallback(taskEntry, AdvanceMessageBoxSlideOut);
     }
 }
 
-void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry) {
+void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry, void *arg) {
     s32 xPos;
     s32 yPos;
 
@@ -212,7 +212,7 @@ void AdvanceMessageBoxSlideOut(TaskEntry *taskEntry) {
     }
 }
 
-void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry) {
+void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry, void *arg) {
     gMessageBox->mBrightness++;
     G2x_ChangeBlendBrightness_(&reg_G2_BLDCNT, gMessageBox->mBrightness);
     if (gMessageBox->mBrightness >= 0) {
@@ -220,7 +220,7 @@ void AdvanceMessageBoxBrightnessUp(TaskEntry *taskEntry) {
     }
 }
 
-void AdvanceMessageBoxRelease(u32 task) {
+void AdvanceMessageBoxRelease(TaskEntry *task, void *arg) {
     s32 buttonIndex;
 
     reg_GX_DISPCNT = reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK);

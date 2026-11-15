@@ -554,7 +554,7 @@ void RefreshApListRowPositions(void) {
     gApList->mBgOffsetPending = 1;
 }
 
-void AdvanceApListScrollYDecrease(u32 task) {
+void AdvanceApListScrollYDecrease(TaskEntry *task, void *arg) {
     int rowOffset;
     DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
@@ -582,7 +582,7 @@ void AdvanceApListScrollYDecrease(u32 task) {
     }
 }
 
-void AdvanceApListScrollYIncrease(u32 task) {
+void AdvanceApListScrollYIncrease(TaskEntry *task, void *arg) {
     int rowOffset;
     DisableScrollBarInput();
     ReleaseSelectionObjectSlots();
@@ -601,7 +601,7 @@ void AdvanceApListScrollYIncrease(u32 task) {
     RequestTaskRemoval(0, task);
 }
 
-void WriteApListBgOffset(void) {
+void WriteApListBgOffset(TaskEntry *task, void *arg) {
     int rowOffset;
     u32 bgOffset;
     if (gApList->mBgOffsetPending != 0) {

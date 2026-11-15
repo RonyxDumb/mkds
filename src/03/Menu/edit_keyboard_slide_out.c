@@ -25,7 +25,7 @@ static inline void EditKeyboardOutG2_GetOBJPosition(OamEntry *object, u32 *x, u3
     *y = object->mAttr01 & 0xff;
 }
 
-void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task) {
+void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardOutG2_GetOBJPosition(GetOamRangeEntry(gEditKeyboard->mRow4Keys[0], 0), (u32 *) &xPos, (u32 *) &yPos);
@@ -36,7 +36,7 @@ void AdvanceEditKeyboardSlideOutRow4(TaskEntry *task) {
     }
 }
 
-void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task) {
+void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[36], (u32 *) &xPos, (u32 *) &yPos);
@@ -47,7 +47,7 @@ void AdvanceEditKeyboardSlideOutRow3(TaskEntry *task) {
     }
 }
 
-void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task) {
+void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[24], (u32 *) &xPos, (u32 *) &yPos);
@@ -58,7 +58,7 @@ void AdvanceEditKeyboardSlideOutRow2(TaskEntry *task) {
     }
 }
 
-void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task) {
+void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[12], (u32 *) &xPos, (u32 *) &yPos);
@@ -69,7 +69,7 @@ void AdvanceEditKeyboardSlideOutRow1(TaskEntry *task) {
     }
 }
 
-void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task) {
+void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardOutG2_GetOBJPosition(gEditKeyboard->mKeys[0], (u32 *) &xPos, (u32 *) &yPos);
@@ -80,7 +80,7 @@ void AdvanceEditKeyboardSlideOutRow0(TaskEntry *task) {
     }
 }
 
-void ReleaseEditKeyboard(u32 task) {
+void ReleaseEditKeyboard(TaskEntry *task, void *arg) {
     s32 index;
     s32 rowIndex;
     RequestTaskRemoval(0, task);

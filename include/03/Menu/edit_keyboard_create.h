@@ -3,11 +3,11 @@
 #include "types.h"
 #include "03/System/tasks.h"
 
-void AdvanceEditKeyboardSlideInRow4(TaskEntry *task);
-void AdvanceEditKeyboardSlideInRow3(TaskEntry *task);
-void AdvanceEditKeyboardSlideInRow2(TaskEntry *task);
-void AdvanceEditKeyboardSlideInRow1(TaskEntry *task);
-void AdvanceEditKeyboardSlideInRow0(TaskEntry *task);
+void AdvanceEditKeyboardSlideInRow4(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideInRow3(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideInRow2(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideInRow1(TaskEntry *task, void *arg);
+void AdvanceEditKeyboardSlideInRow0(TaskEntry *task, void *arg);
 BOOL HasEditKeyboard(void);
 void SetEditKeyboardAddCharEnabled(u8 canAdd);
 void SetEditKeyboardRemoveCharEnabled(u8 canRemove);

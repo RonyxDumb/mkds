@@ -112,7 +112,7 @@ void InitOamBuffers(void) {
     gOamBuffers->mUploadTask = AddTask(1, UploadOamBuffers, NULL, 200);
 }
 
-void UploadOamBuffers(void) {
+void UploadOamBuffers(TaskEntry *task, void *arg) {
     DC_FlushRange((u8 *) gOamBuffers, 0x800);
     GX_LoadOAM(gOamBuffers->mBuffers[0], 0, 0x400);
     GXS_LoadOAM(gOamBuffers->mBuffers[1], 0, 0x400);

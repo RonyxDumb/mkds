@@ -95,7 +95,7 @@ void CreateEditKeyboard(void) {
     gEditKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x40, 1);
     SetOamRangeEffect(gEditKeyboard->mCursor, -1, 0x200, 0);
     SetOamRangePriority(gEditKeyboard->mCursor, -1, 2);
-    gEditKeyboard->mStepTask = (TaskEntry *) AddTask(0, AdvanceEditKeyboardSlideInRow0, NULL, 0x78);
+    gEditKeyboard->mStepTask = AddTask(0, AdvanceEditKeyboardSlideInRow0, NULL, 0x78);
     SetEditKeyboardRowY(gEditKeyboard->mPage, 0, 0xc0);
 }
 
@@ -128,7 +128,7 @@ static inline void EditKeyboardInG2_GetOBJPosition(OamEntry *object, u32 *x, u32
     *y = object->mAttr01 & 0xff;
 }
 
-void AdvanceEditKeyboardSlideInRow0(TaskEntry *task) {
+void AdvanceEditKeyboardSlideInRow0(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardInG2_GetOBJPosition(gEditKeyboard->mKeys[0], (u32 *) &xPos, (u32 *) &yPos);
@@ -142,7 +142,7 @@ void AdvanceEditKeyboardSlideInRow0(TaskEntry *task) {
     SetTaskCallback(task, AdvanceEditKeyboardSlideInRow1);
 }
 
-void AdvanceEditKeyboardSlideInRow1(TaskEntry *task) {
+void AdvanceEditKeyboardSlideInRow1(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardInG2_GetOBJPosition(gEditKeyboard->mKeys[12], (u32 *) &xPos, (u32 *) &yPos);
@@ -156,7 +156,7 @@ void AdvanceEditKeyboardSlideInRow1(TaskEntry *task) {
     SetTaskCallback(task, AdvanceEditKeyboardSlideInRow2);
 }
 
-void AdvanceEditKeyboardSlideInRow2(TaskEntry *task) {
+void AdvanceEditKeyboardSlideInRow2(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardInG2_GetOBJPosition(gEditKeyboard->mKeys[24], (u32 *) &xPos, (u32 *) &yPos);
@@ -170,7 +170,7 @@ void AdvanceEditKeyboardSlideInRow2(TaskEntry *task) {
     SetTaskCallback(task, AdvanceEditKeyboardSlideInRow3);
 }
 
-void AdvanceEditKeyboardSlideInRow3(TaskEntry *task) {
+void AdvanceEditKeyboardSlideInRow3(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     EditKeyboardInG2_GetOBJPosition(gEditKeyboard->mKeys[36], (u32 *) &xPos, (u32 *) &yPos);
@@ -184,7 +184,7 @@ void AdvanceEditKeyboardSlideInRow3(TaskEntry *task) {
     SetTaskCallback(task, AdvanceEditKeyboardSlideInRow4);
 }
 
-void AdvanceEditKeyboardSlideInRow4(TaskEntry *task) {
+void AdvanceEditKeyboardSlideInRow4(TaskEntry *task, void *arg) {
     s32 xPos;
     s32 yPos;
     GetOamRangeEntryPosition(gEditKeyboard->mRow4Keys[0], 0, &xPos, &yPos);
