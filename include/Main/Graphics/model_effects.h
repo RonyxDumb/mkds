@@ -47,7 +47,7 @@ void UpdateModelEffectBkWave(ModelEffect *modelEffect);
 void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects);
 void UpdateWaterEfctKinds(ModelEffect *modelEffect);
 void StartWaterEfctKind4(ModelEffect *modelEffect);
-void StartWaterEfctKind2(ModelEffect *modelEffect);
+void StartKartWaterSplashModel(ModelEffect *modelEffect);
 void UpdateModelEffectBombcore(ModelEffect *modelEffect);
 void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects);
 void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, void *nsbcaFile, void *nsbmaFile,

@@ -48,7 +48,7 @@ ModelEffectKind gModelEffectKinds[5] = {
      1,
      0,
      0,
-     (void (*)(ModelEffect *, s32)) StartWaterEfctKind2,
+     (void (*)(ModelEffect *, s32)) StartKartWaterSplashModel,
      UpdateWaterEfctKinds,
      0xb8,
      {NULL, NULL, NULL, NULL}},
@@ -462,7 +462,7 @@ void UpdateModelEffectBombcore(ModelEffect *modelEffect) {
     AdvanceModelAnimation(modelEffect->mAnimations[2]);
 }
 
-void StartWaterEfctKind2(ModelEffect *modelEffect) {
+void StartKartWaterSplashModel(ModelEffect *modelEffect) {
     u32 animationFrameCount;
 
     animationFrameCount = (u32) (GetModelAnimationFrameCountFixed(modelEffect->mAnimations[0]) << 4) >> 16;
