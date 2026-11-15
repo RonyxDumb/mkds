@@ -272,6 +272,34 @@ enum {
     EMBLEM_BRUSH_3X3,
 };
 
+// Entries of the emblem screen's sub layout (the entryIndex of ActivateEmblemEntry and the entries of
+// gEmblemColorLldEntries): the draw and erase brushes of three sizes each, the fill and pick value modes, the template,
+// swap, camera and choices buttons, the colors and the button that toggles the frame of entry
+// EMBLEM_ENTRY_TOGGLED_BY_BUTTON.
+enum {
+    EMBLEM_ENTRY_DRAW_BRUSH_FIRST = 0xe,
+    EMBLEM_ENTRY_ERASE_BRUSH_FIRST = 0x11,
+    EMBLEM_ENTRY_FILL = 0x14,
+    EMBLEM_ENTRY_PICK_VALUE = 0x15,
+    EMBLEM_ENTRY_TEMPLATE_BUTTON = 0x16,
+    EMBLEM_ENTRY_SWAP_CELLS = 0x17,
+    EMBLEM_ENTRY_TOGGLED_BY_BUTTON = 0x18,
+    EMBLEM_ENTRY_CAMERA = 0x19,
+    EMBLEM_ENTRY_CHOISES = 0x1a,
+    EMBLEM_ENTRY_COLOR_FIRST = 0x1b,
+    EMBLEM_ENTRY_TOGGLE_BUTTON = 0x2a,
+};
+
+// Colors the cursor can pick from the color entries (Emblem.mColorCursorIndex runs one past them to the toggle
+// button).
+#define EMBLEM_COLOR_COUNT 15
+
+// Entries of the template screen: the back button, then one entry per template from EMBLEM_TEMPLATE_ENTRY_FIRST on.
+enum {
+    EMBLEM_TEMPLATE_ENTRY_BACK = 0,
+    EMBLEM_TEMPLATE_ENTRY_FIRST = 3,
+};
+
 // Emblem.mCursorSizeIndex while the grid is pressed: no brush frame is shown.
 #define EMBLEM_BRUSH_NONE (-1)
 

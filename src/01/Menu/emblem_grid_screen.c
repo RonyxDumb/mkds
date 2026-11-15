@@ -184,7 +184,7 @@ void AdvanceEmblemGridScreen(void) {
                     gEmblem->mColorCursorIndex = gEmblemColorCursorVerticalMoves[dy + 1][previousCursor];
                     gEmblem->mColorCursorIndex = gEmblemColorCursorHorizontalMoves[dx + 1][gEmblem->mColorCursorIndex];
                     GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mColorCursorIndex]);
-                    if (gEmblem->mColorCursorIndex < 0xf) {
+                    if (gEmblem->mColorCursorIndex < EMBLEM_COLOR_COUNT) {
                         ApplyLldEntryFrameCommand(colorCursorEntry, 0);
                     } else {
                         ApplyLldEntryFrameCommand(colorCursorEntry, -5);
@@ -326,7 +326,7 @@ void AdvanceEmblemGridScreen(void) {
     SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 9), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
     SetLldEntryPos(GetLldEntry(gEmblem->mEmblemSLld, 10), GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
 
-    if (gEmblem->mColorCursorIndex < 0xf) {
+    if (gEmblem->mColorCursorIndex < EMBLEM_COLOR_COUNT) {
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 4), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 5), -5);
         ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 6), -5);
