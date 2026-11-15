@@ -24,7 +24,8 @@ extern MapObjectKindRow gMapObjectKindRows[];
 // row's descriptor (CreateCream and CreateBerry, the model loaders, for the last two rows) carries the class name; for
 // RainStar, Rock, Rock2, ObPakkunSf and Pendulum it is a function of the lists the row builds. Other rows stay
 // literals. CarA, BusA and TruckA share one Init: their CreateKindData function carries the class name.
-// The class ItemBox also has kind 0xc9 (own Init and update list), which stays a literal.
+// The class ItemBox also has kind 0xc9 (own Init and update list), which InitItemBox compares to pick the group shadow.
+#define MAP_OBJECT_KIND_ITEM_BOX_GROUP_SHADOW 0xc9
 #define MAP_OBJECT_KIND_ITEM_BOX 0x65
 #define MAP_OBJECT_KIND_WOODBOX1 0x67
 #define MAP_OBJECT_KIND_SHINE16 0x6a

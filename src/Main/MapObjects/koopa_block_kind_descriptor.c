@@ -95,7 +95,7 @@ void DrawAllKoopaBlocks(void *viewMatrix) {
 
 BOOL IsKoopaBlockKind(u32 kind) {
     switch (kind) {
-        case 0xca:
+        case MAP_OBJECT_KIND_KOOPA_BLOCK:
             return 1;
         default:
             return 0;

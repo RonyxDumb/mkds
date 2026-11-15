@@ -163,7 +163,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
                 case MAP_OBJECT_KIND_BERRY:
                     StartSoundFullVolumeWrapper(kart, 0x155);
                     break;
-                case 0x1a8:
+                case MAP_OBJECT_KIND_BOUND:
                     StartSoundFullVolumeWrapper(kart, 0x1cf);
                     break;
             }

@@ -101,7 +101,7 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x82) >> 32;
     itemBox->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
     if (row != NULL) {
-        if (itemBox->mMapObject.mKind == 0xc9 && row->mGroupIndex >= 0) {
+        if (itemBox->mMapObject.mKind == MAP_OBJECT_KIND_ITEM_BOX_GROUP_SHADOW && row->mGroupIndex >= 0) {
             usesGroupShadow = TRUE;
         } else {
             usesGroupShadow = FALSE;

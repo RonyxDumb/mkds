@@ -110,7 +110,7 @@ void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
                 gRockSecondEffectRows06[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm6, scaleY);
             secondEmitterParams.mSizeScale =
                 gRockSecondEffectRows08[baseRow] + MUL_FIXED12_NO_ROUND(secondTerm8, scaleY);
-            if (rock->mMapObject.mKind == 0x192) {
+            if (rock->mMapObject.mKind == MAP_OBJECT_KIND_ROCK) {
                 StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, CopyEmitterParams);
                 StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, CopyEmitterParams);
             } else {
@@ -332,7 +332,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
         rock->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     }
     rock->mBounceRatio = TO_FIXED12(courseRow->mSettings[2]) / 100;
-    if (rock->mMapObject.mKind == 0x192) {
+    if (rock->mMapObject.mKind == MAP_OBJECT_KIND_ROCK) {
         CreateMapObjectSoundSourceFalloff4(&rock->mMapObject);
     } else {
         CreateMapObjectSoundSourceFalloff3(&rock->mMapObject);
@@ -683,7 +683,8 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
         if (gCollisionSlotLowEnds[value].mOtherEndIndex >= highEndIndex) {
             slot = &gCollisionSlots[gCollisionSlotLowEnds[value].mSlotIndexOrScanLimit];
             slotFlags = slot->mFlags;
-            if (slot->mHighZ >= zlo && slot->mLowZ <= zhi && (slotFlags & flagMask) && !(slotFlags & 0x200)) {
+            if (slot->mHighZ >= zlo && slot->mLowZ <= zhi && (slotFlags & flagMask) &&
+                !(slotFlags & COLLISION_SLOT_FLAG_DISABLED)) {
                 gFoundCollisionSlotIndices[gFoundCollisionSlotCount] =
                     gCollisionSlotLowEnds[value].mSlotIndexOrScanLimit;
                 gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = slotFlags;
@@ -708,7 +709,7 @@ void SetCollisionSlotRadius(s16 slotIndex, s32 radius) {
 
     slot = &gCollisionSlots[slotIndex];
     slot->mRadius = radius;
-    if (slot->mFlags & 0x400) {
+    if (slot->mFlags & COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE) {
         slot->mFlags |= gCollisionSlotRadiusFlag;
     }
 }
@@ -718,7 +719,7 @@ void DisableCollisionSlot(s16 slotIndex) {
 }
 
 void EnableCollisionSlot(s16 slotIndex) {
-    gCollisionSlots[slotIndex].mFlags &= ~0x200;
+    gCollisionSlots[slotIndex].mFlags &= ~COLLISION_SLOT_FLAG_DISABLED;
 }
 
 const u16 gRockFirstFlag = 2;
