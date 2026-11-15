@@ -116,7 +116,7 @@ void AdvanceSelectRaceRuleState8(void) {
             gSelectRaceRule->mTable[gSelectRaceRuleCountTeamChangeCells[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
         }
     }
-    if (gStartupWork->mConnectionKind != 2) {
+    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         gSelectRaceRule->mTable[40].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[41].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[value + 13].mOffsetY = returnOffsetY;
@@ -144,7 +144,7 @@ void DrawSelectRaceRuleOffsetLabel(s32 labelIndex) {
 
 void DrawSelectRaceRuleRowOffsetLabels(s32 row) {
     if (row == SELECT_RACE_RULE_ROW_RULE_KIND) {
-        if (gStartupWork->mConnectionKind != 2) {
+        if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
             DrawSelectRaceRuleOffsetLabel(gSelectRaceRuleRowEntries[row].mEntryIndices[1]);
         }
         DrawSelectRaceRuleOffsetLabel(10);
@@ -191,7 +191,7 @@ s32 AdvanceSelectRaceRule(void) {
             AdvanceSelectRaceRuleState8();
             break;
     }
-    if (gStartupWork->mConnectionKind == 2) {
+    if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
         AdvanceWait();
     }
     switch (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_TEAMS]) {

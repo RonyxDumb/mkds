@@ -93,12 +93,12 @@ RandomState64 *GetRandomState(void) {
     StartupWork *startupWork = gStartupWork;
 
     switch (startupWork->mConnectionKind) {
-        case 0:
-        case 3:
+        case CONNECTION_KIND_NONE:
+        case CONNECTION_KIND_WIFI_MENU:
             random = &startupWork->mRandom;
             break;
-        case 1:
-        case 2:
+        case CONNECTION_KIND_MEMBER_SELECT:
+        case CONNECTION_KIND_WL_MENU:
             random = &gConnectionWork->mRandomState;
             break;
     }
