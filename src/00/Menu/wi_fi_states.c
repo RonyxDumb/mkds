@@ -117,60 +117,60 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
         gMenuShared->mWiFiTopMenuRequested = FALSE;
     }
     switch (sceneNumber) {
-        case 0:
-            gWiFiStates->mPrevState = 10;
-            gWiFiStates->mState = 1;
+        case SCENE_TITLE:
+            gWiFiStates->mPrevState = WIFI_STATE_SCENE_TITLE;
+            gWiFiStates->mState = WIFI_STATE_TOP_MENU;
             RegisterWiFiTopMenuCallbacks();
             ResetWiFiSessionToOff();
             gMenuShared->mWiFiMenuStartKind = 0;
             break;
-        case 12:
-            gWiFiStates->mPrevState = 13;
-            gWiFiStates->mState = 1;
+        case SCENE_WIFI_MENU:
+            gWiFiStates->mPrevState = WIFI_STATE_SCENE_WIFI_MENU;
+            gWiFiStates->mState = WIFI_STATE_TOP_MENU;
             RegisterWiFiTopMenuCallbacks();
             break;
-        case 2:
-        case 10:
+        case SCENE_RACE:
+        case SCENE_RESULT:
             switch (gMenuShared->mWiFiMenuStartKind) {
                 case 0:
-                    gWiFiStates->mState = 1;
+                    gWiFiStates->mState = WIFI_STATE_TOP_MENU;
                     RegisterWiFiTopMenuCallbacks();
                     break;
                 case 1:
                     sessionStateMachine = &gWiFiSession->mStateMachine;
                     sessionStateMachine->mNextState = 2;
                     sessionStateMachine->mNextStateRequested = 1;
-                    gWiFiStates->mState = 2;
+                    gWiFiStates->mState = WIFI_STATE_VS_SETTING;
                     RegisterWiFiVSSettingCallbacks();
                     break;
                 case 2:
                     SetupWiFiSession(1);
-                    gWiFiStates->mState = 4;
+                    gWiFiStates->mState = WIFI_STATE_SELECT_CHARACTER;
                     RegisterSelectCharacterCallbacks();
                     break;
                 case 3:
                     SetupWiFiSession(2);
                     CopyEntriesToRaceSetupCopy();
-                    gWiFiStates->mState = 6;
+                    gWiFiStates->mState = WIFI_STATE_VS_COURSE_SELECT;
                     RegisterWiFiVSCourseSelectCallbacks();
                     break;
             }
             break;
-        case 14:
-            gWiFiStates->mPrevState = 11;
-            gWiFiStates->mState = 8;
+        case SCENE_KEYBOARD:
+            gWiFiStates->mPrevState = WIFI_STATE_SCENE_KEYBOARD;
+            gWiFiStates->mState = WIFI_STATE_AIKOTOBA;
             RegisterWiFiAikotobaCallbacks();
             break;
-        case 8:
+        case SCENE_RECORD:
             switch (gMenuShared->mWiFiScene8StartKind) {
                 case 0:
-                    gWiFiStates->mPrevState = 14;
-                    gWiFiStates->mState = 2;
+                    gWiFiStates->mPrevState = WIFI_STATE_SCENE_RECORD;
+                    gWiFiStates->mState = WIFI_STATE_VS_SETTING;
                     RegisterWiFiVSSettingCallbacks();
                     break;
                 case 1:
-                    gWiFiStates->mPrevState = 14;
-                    gWiFiStates->mState = 8;
+                    gWiFiStates->mPrevState = WIFI_STATE_SCENE_RECORD;
+                    gWiFiStates->mState = WIFI_STATE_AIKOTOBA;
                     RegisterWiFiAikotobaCallbacks();
                     break;
             }
@@ -313,7 +313,7 @@ void SetWiFiVSSettingFlag(s32 flag) {
 
 BOOL IsWiFiSessionOffOutsideLogin(void) {
     BOOL valid = TRUE;
-    if (gWiFiStates != NULL && gWiFiStates->mState == 0) {
+    if (gWiFiStates != NULL && gWiFiStates->mState == WIFI_STATE_LOGIN_MENU) {
         valid = FALSE;
     }
     if (gWiFiSession->mStateMachine.mState == 0 && valid != FALSE) {
