@@ -243,15 +243,16 @@ void AddMissionRunCountForMapObjectKind(s32 mapObjectKind) {
     u32 missionKind = raceSetup->mMissionKind;
     if (missionKind == MISSION_KIND_COUNT_MAP_OBJECTS || missionKind == MISSION_KIND_COUNT_HITS ||
         missionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
-        u32 missionObjectKind0 = raceSetup->mMissionMapObjectKind0;
-        if (missionObjectKind0 == 0 && raceSetup->mMissionMapObjectKind1 == 0 &&
-            raceSetup->mMissionMapObjectKind2 == 0 && raceSetup->mMissionMapObjectKind3 == 0 && mapObjectKind > 400 &&
-            mapObjectKind < 500) {
+        u32 firstCountedKind = raceSetup->mMissionCountMapObjectKinds[0];
+        if (firstCountedKind == 0 && raceSetup->mMissionCountMapObjectKinds[1] == 0 &&
+            raceSetup->mMissionCountMapObjectKinds[2] == 0 && raceSetup->mMissionCountMapObjectKinds[3] == 0 &&
+            mapObjectKind > 400 && mapObjectKind < 500) {
             AddMissionRunCount();
             return;
         }
-        if (mapObjectKind == missionObjectKind0 || mapObjectKind == raceSetup->mMissionMapObjectKind1 ||
-            mapObjectKind == raceSetup->mMissionMapObjectKind2 || mapObjectKind == raceSetup->mMissionMapObjectKind3) {
+        if (mapObjectKind == firstCountedKind || mapObjectKind == raceSetup->mMissionCountMapObjectKinds[1] ||
+            mapObjectKind == raceSetup->mMissionCountMapObjectKinds[2] ||
+            mapObjectKind == raceSetup->mMissionCountMapObjectKinds[3]) {
             AddMissionRunCount();
         }
     }
