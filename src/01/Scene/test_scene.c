@@ -58,7 +58,7 @@ void WriteSubBg0CntBits(u32 bits) {
     *reg = (*reg & ~3) | bits;
 }
 
-void WriteSubBg0CntBit6(u32 bit6Value) {
+void WriteSubBg0CntMosaic(u32 bit6Value) {
     vu16 *reg = &reg_G2S_DB_BG0CNT;
     if (bit6Value != 0) {
         *reg |= 0x40;
@@ -81,7 +81,7 @@ void WriteSubBg1CntBits(u32 bits) {
     *reg = (*reg & ~3) | bits;
 }
 
-void WriteSubBg1CntBit6(u32 bit6Value) {
+void WriteSubBg1CntMosaic(u32 bit6Value) {
     vu16 *reg = &reg_G2S_DB_BG1CNT;
     if (bit6Value != 0) {
         *reg |= 0x40;
@@ -123,7 +123,7 @@ void DrawTestScene(void) {
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 WriteSubBg0Offset(0, 0);
                 WriteSubBg0CntBits(0);
-                WriteSubBg0CntBit6(0);
+                WriteSubBg0CntMosaic(0);
                 SetSubBg0Cnt(0, 0, 4, 4, 0);
                 SetEmblemChoisesShownAndReset(1);
                 RequestEmblemChoisesGraphicsUpload();
@@ -135,7 +135,7 @@ void DrawTestScene(void) {
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 WriteSubBg1Offset(0, 0);
                 WriteSubBg1CntBits(0);
-                WriteSubBg1CntBit6(0);
+                WriteSubBg1CntMosaic(0);
                 TestSceneSetSubBg1Cnt(0, 0, 4, 4, 0);
                 *(u16 *) 0x5000400 = 0;
                 *(u16 *) 0x5000402 = 0x1f;
@@ -224,19 +224,19 @@ void *TestSceneGetCurrentHeap(void) {
     return GetHeap(GetCurrentHeapCall());
 }
 
-void TestSceneSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+void TestSceneSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                                u32 cntVal8, u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void TestSceneSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+void TestSceneSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14,
                                      u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void TestSceneSetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+void TestSceneSetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14,
                                     u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
 void TestSceneInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {

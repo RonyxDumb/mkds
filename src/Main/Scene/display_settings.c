@@ -107,7 +107,7 @@ void WaitIrqAndTurnOnDisplays(void) {
 void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     u32 bgCntMode;
     records->mBg0.mBgCntLow2 = DISPLAY_BG0_DEFAULT_PRIORITY;
-    records->mBg0.mBgCntBit6 = 0;
+    records->mBg0.mBgCntMosaic = 0;
     records->mBg0.mBgCntVal14 = 0;
     records->mBg0.mBgCntVal7 = 0;
     records->mBg0.mBgCntVal8 = 0;
@@ -116,7 +116,7 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     records->mBg1.mBgCntLow2 = DISPLAY_BG1_DEFAULT_PRIORITY;
     records->mBg1.mBgCntVal14 = 0;
     records->mBg1.mBgCntVal7 = 0;
-    records->mBg1.mBgCntBit6 = 0;
+    records->mBg1.mBgCntMosaic = 0;
     records->mBg1.mBgCntVal8 = 0;
     records->mBg1.mBgCntVal2 = 0;
     records->mBg1.mBgCntVal13 = 0;
@@ -143,21 +143,21 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg2.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
-            records->mBg2.mFields.mBgCntBit6 = 0;
+            records->mBg2.mFields.mBgCntMosaic = 0;
             records->mBg2.mFields.mBgCntVal8 = 0;
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE:
             records->mBg2.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg2.mFields.mBgCntVal14 = 0;
-            records->mBg2.mFields.mBgCntBit6 = 0;
+            records->mBg2.mFields.mBgCntMosaic = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
             records->mBg2.mFields.mBgCntVal8 = 0;
             records->mBg2.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE_NO_CHAR_BASE:
             records->mBg2.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
-            records->mBg2.mFields.mBgCntBit6 = 0;
+            records->mBg2.mFields.mBgCntMosaic = 0;
             records->mBg2.mFields.mBgCntVal14 = 0;
             records->mBg2.mFields.mBgCntVal7Or13 = 0;
             records->mBg2.mFields.mBgCntVal8 = 0;
@@ -186,21 +186,21 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
             records->mBg3.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;
-            records->mBg3.mFields.mBgCntBit6 = 0;
+            records->mBg3.mFields.mBgCntMosaic = 0;
             records->mBg3.mFields.mBgCntVal8 = 0;
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE:
             records->mBg3.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
             records->mBg3.mFields.mBgCntVal14 = 0;
-            records->mBg3.mFields.mBgCntBit6 = 0;
+            records->mBg3.mFields.mBgCntMosaic = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;
             records->mBg3.mFields.mBgCntVal8 = 0;
             records->mBg3.mFields.mBgCntVal2 = 0;
             break;
         case BG23_MODE_AFFINE_NO_CHAR_BASE:
             records->mBg3.mFields.mBgCntLow2 = DISPLAY_BG23_DEFAULT_PRIORITY;
-            records->mBg3.mFields.mBgCntBit6 = 0;
+            records->mBg3.mFields.mBgCntMosaic = 0;
             records->mBg3.mFields.mBgCntVal14 = 0;
             records->mBg3.mFields.mBgCntVal7Or13 = 0;
             records->mBg3.mFields.mBgCntVal8 = 0;
@@ -233,68 +233,68 @@ DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
     if (settings->mBg0As == GX_BG0_AS_3D) {
         g3xParams = HeapAlloc(heap, 8);
         g3xParams->mClearColor = 0x5000;
-        g3xParams->mSwapBit0 = 1;
-        g3xParams->mSwapBit1 = 1;
+        g3xParams->mSortMode = 1;
+        g3xParams->mBufferMode = 1;
         settings->mG3xParams = g3xParams;
     }
     return settings;
 }
 
-void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13) {
     records->mBg0.mBgCntLow2 = cntLow2;
     records->mBg0.mBgCntVal14 = cntVal14;
     records->mBg0.mBgCntVal7 = cntVal7;
-    records->mBg0.mBgCntBit6 = cntBit6;
+    records->mBg0.mBgCntMosaic = cntMosaic;
     records->mBg0.mBgCntVal8 = cntVal8;
     records->mBg0.mBgCntVal2 = cntVal2;
     records->mBg0.mBgCntVal13 = cntVal13;
 }
 
-void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13) {
     records->mBg1.mBgCntLow2 = cntLow2;
     records->mBg1.mBgCntVal14 = cntVal14;
     records->mBg1.mBgCntVal7 = cntVal7;
-    records->mBg1.mBgCntBit6 = cntBit6;
+    records->mBg1.mBgCntMosaic = cntMosaic;
     records->mBg1.mBgCntVal8 = cntVal8;
     records->mBg1.mBgCntVal2 = cntVal2;
     records->mBg1.mBgCntVal13 = cntVal13;
 }
 
-void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
-                        u32 cntVal2) {
+void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+                        u32 cntVal8, u32 cntVal2) {
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
-    records->mBg2.mFields.mBgCntBit6 = cntBit6;
+    records->mBg2.mFields.mBgCntMosaic = cntMosaic;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
     records->mBg2.mFields.mBgCntVal7Or13 = cntVal7Or13;
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
     records->mBg2.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
-                        u32 cntVal2) {
+void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+                        u32 cntVal8, u32 cntVal2) {
     records->mBg3.mFields.mBgCntLow2 = cntLow2;
-    records->mBg3.mFields.mBgCntBit6 = cntBit6;
+    records->mBg3.mFields.mBgCntMosaic = cntMosaic;
     records->mBg3.mFields.mBgCntVal14 = cntVal14;
     records->mBg3.mFields.mBgCntVal7Or13 = cntVal7Or13;
     records->mBg3.mFields.mBgCntVal8 = cntVal8;
     records->mBg3.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13,
+void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                        u32 cntVal8) {
     records->mBg2.mMode = BG23_MODE_DC_BMP;
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
-    records->mBg2.mFields.mBgCntBit6 = cntBit6;
+    records->mBg2.mFields.mBgCntMosaic = cntMosaic;
     records->mBg2.mFields.mBgCntVal14 = cntVal14;
     records->mBg2.mFields.mBgCntVal7Or13 = cntVal7Or13;
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
 }
 
 void SetG3xSwapBits(DisplaySettings *settings, u32 sortMode, u32 bufferMode) {
-    settings->mG3xParams->mSwapBit0 = sortMode;
-    settings->mG3xParams->mSwapBit1 = bufferMode;
+    settings->mG3xParams->mSortMode = sortMode;
+    settings->mG3xParams->mBufferMode = bufferMode;
 }
 
 void SetSubObjVRamModeBmp(DisplaySettings *settings, u32 value) {
@@ -307,7 +307,7 @@ typedef enum { BG3_CONTROL_FIELD_0 } Bg3ControlField;
 // Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of fields.
 static inline void SetBg3PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) {
     *cntReg = (*cntReg & ~3) | fields->mBgCntLow2;
-    if (fields->mBgCntBit6 != 0) {
+    if (fields->mBgCntMosaic != 0) {
         *cntReg |= 0x40;
     } else {
         *cntReg &= ~0x40;
@@ -347,7 +347,7 @@ static inline void SetBg3ControlDCBmp(vu16 *cntReg, Bg3ControlField screenSize, 
 // Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of fields.
 static inline void SetBg2PriorityAndMosaic(vu16 *cntReg, Bg23CntFields *fields) {
     *cntReg = (*cntReg & ~3) | fields->mBgCntLow2;
-    if (fields->mBgCntBit6 != 0) {
+    if (fields->mBgCntMosaic != 0) {
         *cntReg |= 0x40;
     } else {
         *cntReg &= ~0x40;
@@ -568,7 +568,7 @@ static inline void DisplayFillMemoryFast(u32 fillValue, void *destination, u32 s
 // Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of q.
 static inline void SetBg01PriorityAndMosaic(vu16 *cntReg, Bg01Cnt *cnt) {
     *cntReg = (*cntReg & ~3) | cnt->mBgCntLow2;
-    if (cnt->mBgCntBit6 != 0) {
+    if (cnt->mBgCntMosaic != 0) {
         *cntReg |= 0x40;
     } else {
         *cntReg &= ~0x40;
@@ -662,7 +662,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
         reg_G3X_ALPHA_TEST_REF = 0;
         reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
         reg_G2_BLDCNT = 0;
-        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
+        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
         clearColor = settings->mG3xParams->mClearColor;
         G3X_SetClearColor((u16) (clearColor & 0x7fff), (u8) ((clearColor & 0x8000) >> 15), 0x7fff, 0x3f, 0);
     }
@@ -831,7 +831,7 @@ void FinishDisplayFrame(void) {
     DC_StoreAll();
     settings = gDisplaySettings;
     if (settings->mBg0As == GX_BG0_AS_3D) {
-        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
+        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
     if ((gDisplaySettings->mFrameFlags & 1) == 0) {
         gDisplaySettings->mFrameFlags |= 2;
@@ -886,7 +886,7 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
     }
     settings = gDisplaySettings;
     if (settings->mBg0As == GX_BG0_AS_3D && swapAndWait != FALSE) {
-        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
+        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
     settings = gDisplaySettings;
     tick = OS_GetTick();
@@ -931,7 +931,7 @@ void FinishDisplayFrameSwapIf(s32 doSwap) {
     }
     settings = gDisplaySettings;
     if (settings->mBg0As == GX_BG0_AS_3D && doSwap != 0) {
-        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mSwapBit1 << 1) | settings->mG3xParams->mSwapBit0;
+        reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
     settings = gDisplaySettings;
     tick = OS_GetTick();

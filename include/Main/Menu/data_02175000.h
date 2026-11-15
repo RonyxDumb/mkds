@@ -147,8 +147,8 @@ typedef struct SceneRunState {
 // Object behind member 0x6c of DisplaySettings.
 typedef struct G3xParams {
     /* 00 */ u16 mClearColor;
-    /* 02 */ u8 mSwapBit0;
-    /* 03 */ u8 mSwapBit1;
+    /* 02 */ u8 mSortMode;
+    /* 03 */ u8 mBufferMode;
 } G3xParams;
 
 // Object behind gDisplaySettings.

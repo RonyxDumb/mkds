@@ -20,11 +20,11 @@ unsigned int GetTestSceneInputSlot(void);
 void ReleaseTestSceneObject(void);
 void InitTestSceneObject(void);
 void TestSceneInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing);
-void TestSceneSetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+void TestSceneSetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14,
                                     u32 cntVal7Or13, u32 cntVal8, u32 cntVal2);
-void TestSceneSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14,
+void TestSceneSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14,
                                      u32 cntVal7Or13, u32 cntVal8, u32 cntVal2);
-void TestSceneSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7,
+void TestSceneSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                                u32 cntVal8, u32 cntVal2, u32 cntVal13);
 void *TestSceneGetCurrentHeap(void);
 void DrawTestScene(void);

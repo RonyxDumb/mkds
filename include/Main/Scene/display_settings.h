@@ -22,7 +22,7 @@ typedef enum {
 // Halfwords of Bg23Cnt after the mode.
 typedef struct Bg23CntFields {
     /* 00 */ u16 mBgCntLow2;
-    /* 02 */ u16 mBgCntBit6;
+    /* 02 */ u16 mBgCntMosaic;
     /* 04 */ u16 mBgCntVal14;
     /* 06 */ u16 mBgCntVal7Or13;
     /* 08 */ u16 mBgCntVal8;
@@ -40,7 +40,7 @@ typedef struct DisplaySettings DisplaySettings;
 // Seven halfwords of a background control record (the first two backgrounds).
 typedef struct Bg01Cnt {
     /* 00 */ u16 mBgCntLow2;
-    /* 02 */ u16 mBgCntBit6;
+    /* 02 */ u16 mBgCntMosaic;
     /* 04 */ u16 mBgCntVal14;
     /* 06 */ u16 mBgCntVal7;
     /* 08 */ u16 mBgCntVal8;
@@ -124,14 +124,15 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen);
 void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen);
 void SetSubObjVRamModeBmp(DisplaySettings *settings, unsigned int value);
 void SetG3xSwapBits(DisplaySettings *settings, u32 sortMode, u32 bufferMode);
-void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8);
-void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
-                        u32 cntVal2);
-void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7Or13, u32 cntVal8,
-                        u32 cntVal2);
-void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+                       u32 cntVal8);
+void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+                        u32 cntVal8, u32 cntVal2);
+void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+                        u32 cntVal8, u32 cntVal2);
+void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13);
-void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13);
 DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor);
 void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase);
