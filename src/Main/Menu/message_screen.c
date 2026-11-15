@@ -319,7 +319,7 @@ void SetupLinkLevelIcons(void) {
     for (iconIndex = 0; iconIndex < 5; iconIndex++) {
         for (charIndex = 0; charIndex < gLinkLevelIconCharCounts[iconIndex]; charIndex++) {
             gLinkLevelIcons->mIconChars[iconIndex][charIndex] =
-                (CharTile *) chars->mData +
+                chars->mTiles +
                 GetCellCharIndex(gLinkLevelIconCharCellEntryIndices[iconIndex][charIndex], cells, searchIconCellLayout);
         }
     }

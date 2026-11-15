@@ -17,6 +17,7 @@ typedef struct Ncgr {
     union {
         /* 0014 */ u16 *mData;
         u8 *mBytes;
+        struct CharTile *mTiles;
     };
 } Ncgr;
 
