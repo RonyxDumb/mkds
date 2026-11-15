@@ -82,10 +82,10 @@ u8 MakeUserList(ACWORK *work) {
             work->mConnectType == AUTO_CONNECT_TYPE_USER_FIRST + apIndex) {
             if (info->mSetType != 0xff) {
                 for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
-                    if (info->mSsid[ssidIndex] == 0) {
+                    if (info->mSsids[0][ssidIndex] == 0) {
                         break;
                     }
-                    list->mSsid[ssidIndex] = info->mSsid[ssidIndex];
+                    list->mSsid[ssidIndex] = info->mSsids[0][ssidIndex];
                 }
                 if (ssidIndex != 0) {
                     list->mSsidLength = ssidIndex;
@@ -100,10 +100,10 @@ u8 MakeUserList(ACWORK *work) {
                 }
                 if (info->mSetType == 1) {
                     for (ssidIndex = 0; ssidIndex < 0x20; ssidIndex++) {
-                        if (info->mSecondSsid[ssidIndex] == 0) {
+                        if (info->mSsids[1][ssidIndex] == 0) {
                             break;
                         }
-                        list->mSsid[ssidIndex] = info->mSecondSsid[ssidIndex];
+                        list->mSsid[ssidIndex] = info->mSsids[1][ssidIndex];
                     }
                     if (ssidIndex != 0) {
                         list->mSsidLength = ssidIndex;

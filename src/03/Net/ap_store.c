@@ -46,7 +46,7 @@ void SetApWorkDnsNone(u32 dnsNone) {
 }
 
 void StoreApWorkSsid(const u8 *ssid) {
-    MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsid, sizeof(gApStore->mWorkCopy.mEntry.mSsid));
+    MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsids[0], sizeof(gApStore->mWorkCopy.mEntry.mSsids[0]));
     gApStore->mWorkCopy.mEntry.mSetType = AP_SET_TYPE_ENTERED;
 }
 
@@ -114,7 +114,7 @@ void StoreApWorkDnsSecondText(const char *input) {
 }
 
 void CopyApWorkSsid(void *output) {
-    MI_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsid, output, sizeof(gApStore->mWorkCopy.mEntry.mSsid));
+    MI_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsids[0], output, sizeof(gApStore->mWorkCopy.mEntry.mSsids[0]));
 }
 
 void FormatApWorkIpText(char *output) {
@@ -218,7 +218,7 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
     MI_CpuFill8(workCopy, 0, sizeof(ApEntry) - 1);
-    MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsid, sizeof(workCopy->mEntry.mSsid));
+    MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsids[0], sizeof(workCopy->mEntry.mSsids[0]));
     switch (exchangeResult->mKind) {
         case AP_WEP_MODE_KEY_5_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
@@ -405,21 +405,17 @@ void WriteApEntryToNvram(s32 entryIndex) {
     entryFlags[entryIndex] = 1;
     if (entryIndex <= 2) {
         store = gApStore;
-        if ((store->mPages[0].mEntry.mReservedAndEntrySetBits[7] & entryBit) != 0) {
+        if ((store->mPages[0].mEntry.mEntrySetBits & entryBit) != 0) {
             stateBitSet = TRUE;
         }
         if (setType == 0xff && stateBitSet != FALSE) {
-            store->mPages[0].mEntry.mReservedAndEntrySetBits[7] =
-                store->mPages[0].mEntry.mReservedAndEntrySetBits[7] & ~entryBit;
-            gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] =
-                gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] & ~entryBit;
+            store->mPages[0].mEntry.mEntrySetBits = store->mPages[0].mEntry.mEntrySetBits & ~entryBit;
+            gApStore->mPages[1].mEntry.mEntrySetBits = gApStore->mPages[1].mEntry.mEntrySetBits & ~entryBit;
             entryFlags[1] = 1;
             entryFlags[0] = 1;
         } else if (setType != 0xff && stateBitSet == FALSE) {
-            store->mPages[0].mEntry.mReservedAndEntrySetBits[7] =
-                store->mPages[0].mEntry.mReservedAndEntrySetBits[7] | entryBit;
-            gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] =
-                gApStore->mPages[1].mEntry.mReservedAndEntrySetBits[7] | entryBit;
+            store->mPages[0].mEntry.mEntrySetBits = store->mPages[0].mEntry.mEntrySetBits | entryBit;
+            gApStore->mPages[1].mEntry.mEntrySetBits = gApStore->mPages[1].mEntry.mEntrySetBits | entryBit;
             entryFlags[1] = 1;
             entryFlags[0] = 1;
         }
@@ -427,7 +423,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         if (entryFlags[slotIndex] != 0) {
             gApStore->mPages[slotIndex].mCrc =
-                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mPages[slotIndex].mEntry.mUnk_00, 0xfe);
+                Crc16(&gApStore->mWorkCopy.mCrcTable, gApStore->mPages[slotIndex].mEntry.mIspId, 0xfe);
         }
     }
     workBuffer = AllocExpHeapBlock(0x100, HEAP_ALIGN_CACHE_LINE);

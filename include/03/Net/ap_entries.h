@@ -19,19 +19,21 @@ enum {
 
 // 0xf0 bytes; the object at gApStore holds four of them at a stride of 0x100.
 typedef struct ApEntry {
-    /* 00 */ u8 mUnk_00[0x40];
-    /* 40 */ u8 mSsid[0x20];
-    /* 60 */ u8 mUnk_60[0x20];
+    /* 00 */ u8 mIspId[0x20];
+    /* 20 */ u8 mIspPass[0x20];
+    /* 40 */ u8 mSsids[2][0x20];
     /* 80 */ u8 mWepKeys[4][0x10];
     /* c0 */ u8 mIp[4];
     /* c4 */ u8 mGateway[4];
     /* c8 */ u8 mDns[8];
     /* d0 */ u8 mNetmaskCidr;
-    /* d1 */ u8 mUnk_d1[0x15];
+    /* d1 */ u8 mWep2Keys[4][5];
+    /* e5 */ u8 mAuthType;
     /* e6 */ u8 mWepMode : 2;
     /* e6 */ u8 mWepNotation : 6;
     /* e7 */ u8 mSetType;
-    /* e8 */ u8 mReservedAndEntrySetBits[8];
+    /* e8 */ u8 mReserved[7];
+    /* ef */ u8 mEntrySetBits;
 } ApEntry;
 
 // Entry at offset 0x400 of the object at gApStore, and the bytes after it.

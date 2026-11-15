@@ -552,7 +552,7 @@ void PrintJb3ListEntryText(u32 entryIndex, int row) {
     record = GetApWorkCopy();
     switch (entryIndex) {
         case JB3_ENTRY_SSID:
-            PrintJb3ListEntryString(record->mEntry.mSsid, row);
+            PrintJb3ListEntryString(record->mEntry.mSsids[0], row);
             return;
         case JB3_ENTRY_WEP_KEY:
             switch (record->mEntry.mWepMode) {
@@ -1207,7 +1207,7 @@ void StartJb3ListIdTimer(void) {
 BOOL IsJb3ListRecordValid(void) {
     ApWorkCopy *record;
     record = GetApWorkCopy();
-    if (record->mEntry.mSsid[0] == 0) {
+    if (record->mEntry.mSsids[0][0] == 0) {
         return 0;
     }
     if (record->mDnsNone == 0) {
