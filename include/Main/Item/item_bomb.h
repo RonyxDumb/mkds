@@ -24,11 +24,11 @@ ItemBomb *GetRestingItemBomb(int index);
 void ParkItemBomb(void *object);
 void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position);
 void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart);
-BOOL IsItemBombState2(ItemObject *object);
+BOOL IsItemBombExploding(ItemObject *object);
 void ReleaseItemBomb(void **bombSlot);
 void *StartItemBomb(void);
 void *StartItemBombWithMapObject(void *mapObject, s32 offsetY);
-Vec3 *GetItemBombState2Info(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ);
+Vec3 *GetItemBombExplodeInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ);
 void SetupItemBombKind(void);
 
 unsigned int GetItemBombActiveCount(void);
@@ -58,8 +58,8 @@ typedef struct ItemBomb {
     /* 1a0 */ BOOL mVisible;
 } ItemBomb;
 
-void RequestItemBombState1(ItemBomb *bomb);
-int RequestItemBombState2(ItemBomb *bomb);
+void RequestItemBombRest(ItemBomb *bomb);
+int RequestItemBombExplode(ItemBomb *bomb);
 void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model);
 void InitItemBombFromData(ItemBomb *bomb);
 void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData);
@@ -67,21 +67,21 @@ void AdvanceItemBomb(ItemBomb *bomb);
 void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *pooledMapObject);
 void ClampItemBombTimerByDistance(ItemBomb *bomb);
 void AdvanceItemBombNearestKart(ItemBomb *bomb);
-void UpdateItemBombState2(void *stateObject);
-void EnterItemBombState2(void *stateObject);
-void UpdateItemBombState1(void *stateObject);
+void UpdateItemBombExplode(void *stateObject);
+void EnterItemBombExplode(void *stateObject);
+void UpdateItemBombRest(void *stateObject);
 
-void ItemBombState1Nop(void *stateObject);
+void ItemBombRestNop(void *stateObject);
 
-void UpdateItemBombState0(void *stateObject);
+void UpdateItemBombBounce(void *stateObject);
 
-void ItemBombState0Nop(void *stateObject);
+void ItemBombBounceNop(void *stateObject);
 
 s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb);
 
 void ResetItemBomb(ItemBomb *bomb);
 
-extern const Vec3 gItemBombState2StartScale;
+extern const Vec3 gItemBombExplodeStartScale;
 extern const u16 gItemBombDisabledFlag;
 extern StateCallbacks gItemBombStateTable[4];
 extern const u16 gItemBombSkipListCallbackFlag;
@@ -89,8 +89,8 @@ extern const u16 gItemBombNoUpdateListFlag;
 extern const u32 gItemObjectDistanceSquaredMask;
 extern const u16 gItemBombSkipViewTestFlag;
 extern const u16 gItemBombNoOwnerBit;
-extern s32 gItemBombState2MaxRadiusSquared;
+extern s32 gItemBombExplodeMaxRadiusSquared;
 extern s32 gItemBombTimerLimit;
-extern s32 gItemBombState2InverseLimit;
-extern s32 gItemBombState2ScaleLimit;
-extern s32 gItemBombState2ScaleStep;
+extern s32 gItemBombExplodeInverseLimit;
+extern s32 gItemBombExplodeScaleLimit;
+extern s32 gItemBombExplodeScaleStep;

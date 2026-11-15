@@ -355,8 +355,8 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     objects = pool->mObjects;
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         bomb = objects[objectIndex];
-        if (IsItemBombState2(bomb) != FALSE) {
-            bombPosition = GetItemBombState2Info((ItemBomb *) bomb, &bombStateFrames, &bombValue);
+        if (IsItemBombExploding(bomb) != FALSE) {
+            bombPosition = GetItemBombExplodeInfo((ItemBomb *) bomb, &bombStateFrames, &bombValue);
             if (ComputeRaceHudSubScreenPosition(bombPosition,
                                                 &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {

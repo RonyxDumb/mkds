@@ -66,22 +66,22 @@
 #include "fx_mtx43.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-const Vec3 gItemBombState2StartScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gItemBombExplodeStartScale = {0x1000, 0x1000, 0x1000};
 const u16 gItemBombDisabledFlag = 1;
-StateCallbacks gItemBombStateTable[4] = {{ItemBombState0Nop, UpdateItemBombState0},
-                                         {ItemBombState1Nop, UpdateItemBombState1},
-                                         {EnterItemBombState2, UpdateItemBombState2},
+StateCallbacks gItemBombStateTable[4] = {{ItemBombBounceNop, UpdateItemBombBounce},
+                                         {ItemBombRestNop, UpdateItemBombRest},
+                                         {EnterItemBombExplode, UpdateItemBombExplode},
                                          {NULL, NULL}};
 const u16 gItemBombSkipListCallbackFlag = 8;
 const u16 gItemBombNoUpdateListFlag = 4;
 const u32 gItemObjectDistanceSquaredMask = 0x3fffffe0;
 const u16 gItemBombSkipViewTestFlag = 2;
 const u16 gItemBombNoOwnerBit = 0x8000;
-s32 gItemBombState2MaxRadiusSquared;
+s32 gItemBombExplodeMaxRadiusSquared;
 s32 gItemBombTimerLimit;
-s32 gItemBombState2InverseLimit;
-s32 gItemBombState2ScaleLimit;
-s32 gItemBombState2ScaleStep;
+s32 gItemBombExplodeInverseLimit;
+s32 gItemBombExplodeScaleLimit;
+s32 gItemBombExplodeScaleStep;
 
 // Reset hook of the bomb kind.
 void ResetItemBomb(ItemBomb *bomb) {
@@ -123,9 +123,9 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     return bomb->mIsThrown;
 }
 
-void ItemBombState0Nop(void *stateObject) {}
+void ItemBombBounceNop(void *stateObject) {}
 
-void UpdateItemBombState0(void *stateObject) {
+void UpdateItemBombBounce(void *stateObject) {
     ItemBomb *bomb = stateObject;
     u32 collisionHitLink;
 
@@ -155,9 +155,9 @@ void UpdateItemBombState0(void *stateObject) {
     bomb->mStateMachine.mNextStateRequested = 1;
 }
 
-void ItemBombState1Nop(void *stateObject) {}
+void ItemBombRestNop(void *stateObject) {}
 
-void UpdateItemBombState1(void *stateObject) {
+void UpdateItemBombRest(void *stateObject) {
     ItemBomb *bomb = stateObject;
     u32 flags;
 
@@ -173,14 +173,14 @@ void UpdateItemBombState1(void *stateObject) {
     }
 }
 
-void EnterItemBombState2(void *stateObject) {
+void EnterItemBombExplode(void *stateObject) {
     ItemBomb *bomb = stateObject;
     NNSSndSeqPlayer **seqPlayerPointer;
     ModelEffect *modelEffect;
 
     bomb->mBouncingItemObject.mItemObject.mFlags |= 0x800000;
     bomb->mBouncingItemObject.mItemObject.mScaleTargetOrSpeed = 0;
-    bomb->mBouncingItemObject.mItemObject.mScale = gItemBombState2StartScale;
+    bomb->mBouncingItemObject.mItemObject.mScale = gItemBombExplodeStartScale;
     bomb->mModelEffect =
         StartModelEffect(0, &bomb->mBouncingItemObject.mItemObject.mPos,
                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
@@ -209,13 +209,13 @@ void EnterItemBombState2(void *stateObject) {
     StartCameraWobbleAtDistance(bomb->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemBombState2(void *stateObject) {
+void UpdateItemBombExplode(void *stateObject) {
     ItemBomb *bomb = stateObject;
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombState2ScaleLimit,
-                            gItemBombState2ScaleStep) != 0) {
+    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombExplodeScaleLimit,
+                            gItemBombExplodeScaleStep) != 0) {
         RefreshItemObjectScaleExact(&bomb->mBouncingItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -277,22 +277,22 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
 }
 
 void ClampItemBombTimerByDistance(ItemBomb *bomb) {
-    if (bomb->mNearestKartDistanceSquared > (gItemBombState2MaxRadiusSquared << 6)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 6)) {
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (gItemBombState2MaxRadiusSquared << 4)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 4)) {
         if (bomb->mTimer > gItemBombTimerLimit) {
             bomb->mTimer = gItemBombTimerLimit;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (gItemBombState2MaxRadiusSquared << 2)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 2)) {
         if (bomb->mTimer > (gItemBombTimerLimit >> 1)) {
             bomb->mTimer = gItemBombTimerLimit >> 1;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > gItemBombState2MaxRadiusSquared) {
+    if (bomb->mNearestKartDistanceSquared > gItemBombExplodeMaxRadiusSquared) {
         if (bomb->mTimer > (gItemBombTimerLimit >> 2)) {
             bomb->mTimer = gItemBombTimerLimit >> 2;
         }
@@ -436,7 +436,7 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
     bomb->mModelEffect->mVisible = (bomb->mBouncingItemObject.mItemObject.mFlags & 0x10000) == 0;
 }
 
-int RequestItemBombState2(ItemBomb *bomb) {
+int RequestItemBombExplode(ItemBomb *bomb) {
     if (bomb->mStateMachine.mState != ITEM_BOMB_STATE_EXPLODE) {
         InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
         bomb->mStateMachine.mNextState = ITEM_BOMB_STATE_EXPLODE;
@@ -451,7 +451,7 @@ int RequestItemBombState2(ItemBomb *bomb) {
     return 1;
 }
 
-void RequestItemBombState1(ItemBomb *bomb) {
+void RequestItemBombRest(ItemBomb *bomb) {
     if (bomb->mBouncingItemObject.mItemObject.mFlags & 0x80000) {
         return;
     }
@@ -582,7 +582,7 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
     *bombSlot = NULL;
 }
 
-BOOL IsItemBombState2(ItemObject *object) {
+BOOL IsItemBombExploding(ItemObject *object) {
     ItemBomb *bomb;
 
     bomb = (ItemBomb *) object;
@@ -656,9 +656,9 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     return bomb;
 }
 
-Vec3 *GetItemBombState2Info(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
+Vec3 *GetItemBombExplodeInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateMachine.mStateFrames;
-    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombState2InverseLimit);
+    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombExplodeInverseLimit);
     return &bomb->mBouncingItemObject.mItemObject.mPos;
 }
 
@@ -667,12 +667,12 @@ Vec3 *GetItemBombState2Info(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ)
 void SetupItemBombKind(void) {
     s32 engineIndex;
 
-    gItemBombState2ScaleLimit = 0x18006;
-    gItemBombState2InverseLimit = FX_Div(0x1000, 0x18006);
-    gItemBombState2ScaleStep = 0x2148;
-    gItemBombState2MaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombState2ScaleLimit, gItemKinds[9].mRadius);
-    gItemBombState2MaxRadiusSquared >>= 12;
-    gItemBombState2MaxRadiusSquared *= gItemBombState2MaxRadiusSquared;
+    gItemBombExplodeScaleLimit = 0x18006;
+    gItemBombExplodeInverseLimit = FX_Div(0x1000, 0x18006);
+    gItemBombExplodeScaleStep = 0x2148;
+    gItemBombExplodeMaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombExplodeScaleLimit, gItemKinds[9].mRadius);
+    gItemBombExplodeMaxRadiusSquared >>= 12;
+    gItemBombExplodeMaxRadiusSquared *= gItemBombExplodeMaxRadiusSquared;
     engineIndex = gRaceSetup->mEngineIndex;
     switch (engineIndex) {
         case ENGINE_CLASS_SLOW:
