@@ -91,13 +91,13 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
                         gSelectBattleStage->mSelectBattleStageBnlls[index],
                         &gSelectBattleStage->mSelectBattleStageTables[index]);
     }
-    gSelectBattleStage->mSelectBattleStageTables[0][0].mOffsetY = -0xa0;
-    gSelectBattleStage->mSlideOffsetY = 0xa0;
+    gSelectBattleStage->mSelectBattleStageTables[0][0].mOffsetY = -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y;
+    gSelectBattleStage->mSlideOffsetY = SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y;
     UpdateSelectBattleStageCellOffsets();
     for (index = 0; index < 6; index++) {
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[index][cellIndex]]
-                .mOffsetX = 0xdc;
+                .mOffsetX = SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE;
         }
     }
     {
@@ -220,25 +220,31 @@ void AdvanceSelectBattleStageSlideIn(void) {
     s32 stageIndex, cellIndex;
 
     gSelectBattleStage->mStateFrames++;
-    if (gSelectBattleStage->mStateFrames > 20) {
+    if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES + SELECT_BATTLE_STAGE_SETTLE_FRAMES) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
         gSelectBattleStage->mStateFrames = 0;
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
         RequestSelectReturnSlideIn();
-    } else if (gSelectBattleStage->mStateFrames > 10) {
-        for (stageIndex = 0; stageIndex < 6; stageIndex++) {
+    } else if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES) {
+        for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
             for (cellIndex = 0; cellIndex < 3; cellIndex++) {
                 gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[stageIndex][cellIndex]]
-                    .mOffsetX = GetSelectedPressOffset(gSelectBattleStage->mStateFrames - 10);
+                    .mOffsetX =
+                    GetSelectedPressOffset(gSelectBattleStage->mStateFrames - SELECT_BATTLE_STAGE_SLIDE_FRAMES);
             }
         }
     } else {
-        gSelectBattleStage->mSlideOffsetY = InterpolateS16(1, 0xa0, 0, gSelectBattleStage->mStateFrames, 10);
-        gSelectBattleStage->mSlideOffsetX = InterpolateS16(1, -0x100, 0, gSelectBattleStage->mStateFrames, 10);
-        for (stageIndex = 0; stageIndex < 6; stageIndex++) {
+        gSelectBattleStage->mSlideOffsetY =
+            InterpolateS16(1, SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y, 0, gSelectBattleStage->mStateFrames,
+                           SELECT_BATTLE_STAGE_SLIDE_FRAMES);
+        gSelectBattleStage->mSlideOffsetX =
+            InterpolateS16(1, -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X, 0, gSelectBattleStage->mStateFrames,
+                           SELECT_BATTLE_STAGE_SLIDE_FRAMES);
+        for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
             for (cellIndex = 0; cellIndex < 3; cellIndex++) {
                 gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[stageIndex][cellIndex]]
-                    .mOffsetX = InterpolateS16(1, 0xdc, 0, gSelectBattleStage->mStateFrames, 10);
+                    .mOffsetX = InterpolateS16(1, SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE, 0,
+                                               gSelectBattleStage->mStateFrames, SELECT_BATTLE_STAGE_SLIDE_FRAMES);
             }
         }
     }
@@ -274,7 +280,7 @@ void AdvanceSelectBattleStageInput(void) {
         touchedRect = RectTableFindContaining(gSelectBattleStage->mSelectBattleStageBnbls[1],
                                               gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
     }
-    for (stageIndex = 0; stageIndex < 6; stageIndex++) {
+    for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
         if (touchedRect == gSelectBattleStageBnblRectIndices[stageIndex]) {
             touchedStage = stageIndex;
         }
@@ -322,25 +328,25 @@ next:
         }
         gSelectBattleStage->mPendingResult = gSelectBattleStage->mIndex;
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_PRESS_STAGE;
-        gSelectBattleStage->mOffsetTimer = 6;
+        gSelectBattleStage->mOffsetTimer = SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(5);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         gSelectBattleStage->mIndex--;
         if (gSelectBattleStage->mIndex < 0) {
-            gSelectBattleStage->mIndex = 5;
+            gSelectBattleStage->mIndex = SELECT_BATTLE_STAGE_COUNT - 1;
         }
-        gSelectBattleStage->mOffsetTimer = 6;
+        gSelectBattleStage->mOffsetTimer = SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(0);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
         gSelectBattleStage->mIndex++;
-        if (gSelectBattleStage->mIndex >= 6) {
+        if (gSelectBattleStage->mIndex >= SELECT_BATTLE_STAGE_COUNT) {
             gSelectBattleStage->mIndex = 0;
         }
-        gSelectBattleStage->mOffsetTimer = 6;
+        gSelectBattleStage->mOffsetTimer = SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES;
         StartSoundOncePerFrame(0);
     }
 }
@@ -356,14 +362,14 @@ void AdvanceSelectBattleStagePressStage(void) {
             ->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[gSelectBattleStage->mIndex][cellIndex]]
             .mOffsetX = offsetX;
     }
-    if (gSelectBattleStage->mStateFrames >= 10) {
+    if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_SETTLE_FRAMES) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_CHOISES;
         gSelectBattleStage->mStateFrames = 0;
         StartSelectChoises(GetBmgEntry(gSelectBattleStage->mCommonMessages, 4),
                            GetBmgEntry(gSelectBattleStage->mCommonMessages, 2), 0);
         SetSelectChoisesSoundId(0, 7);
         SetSelectChoisesSoundId(1, 0x10);
-    } else if (gSelectBattleStage->mStateFrames >= 5) {
+    } else if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_HIGHLIGHT_FRAME) {
         gSelectBattleStage->mHighlightVisible = TRUE;
     }
 }
@@ -405,22 +411,26 @@ void AdvanceSelectBattleStageSlideOut(void) {
     s32 cellIndex;
 
     gSelectBattleStage->mStateFrames++;
-    if (gSelectBattleStage->mStateFrames > 10) {
+    if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES) {
         if ((gSelectBattleStage->mWaitForReturnHidden != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
             (gSelectBattleStage->mWaitForReturnHidden == FALSE && IsSelectReturnShownNoRequest() != 0)) {
             gSelectBattleStage->mResult = gSelectBattleStage->mPendingResult;
             return;
         }
     }
-    if (gSelectBattleStage->mStateFrames > 10) {
-        gSelectBattleStage->mStateFrames = 10;
+    if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES) {
+        gSelectBattleStage->mStateFrames = SELECT_BATTLE_STAGE_SLIDE_FRAMES;
     }
-    gSelectBattleStage->mSlideOffsetY = InterpolateS16(1, 0, 0xa0, gSelectBattleStage->mStateFrames, 10);
-    gSelectBattleStage->mSlideOffsetX = InterpolateS16(1, 0, -0x100, gSelectBattleStage->mStateFrames, 10);
-    for (stageIndex = 0; stageIndex < 6; stageIndex++) {
+    gSelectBattleStage->mSlideOffsetY = InterpolateS16(
+        1, 0, SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y, gSelectBattleStage->mStateFrames, SELECT_BATTLE_STAGE_SLIDE_FRAMES);
+    gSelectBattleStage->mSlideOffsetX =
+        InterpolateS16(1, 0, -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X, gSelectBattleStage->mStateFrames,
+                       SELECT_BATTLE_STAGE_SLIDE_FRAMES);
+    for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[stageIndex][cellIndex]]
-                .mOffsetX = InterpolateS16(1, 0, 0xdc, gSelectBattleStage->mStateFrames, 10);
+                .mOffsetX = InterpolateS16(1, 0, SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE,
+                                           gSelectBattleStage->mStateFrames, SELECT_BATTLE_STAGE_SLIDE_FRAMES);
         }
     }
 }
@@ -429,7 +439,7 @@ void UpdateSelectBattleStageHighlight(void) {
     s32 stageIndex;
     BOOL zero = FALSE;
 
-    for (stageIndex = 0; stageIndex < 6; stageIndex++) {
+    for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
         if (stageIndex == gSelectBattleStage->mIndex && gSelectBattleStage->mHighlightVisible != FALSE) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[stageIndex][1]].mVisible =
                 1;

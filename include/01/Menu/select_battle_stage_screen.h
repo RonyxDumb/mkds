@@ -9,6 +9,22 @@ typedef struct SelectBattleStageNscrRect {
     /* 03 */ u8 mLastRow;
 } SelectBattleStageNscrRect;
 
+// The stages (SelectBattleStage.mIndex) listed top to bottom.
+#define SELECT_BATTLE_STAGE_COUNT 6
+
+// Frames of the slide in and the slide out; the layers slide in from SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y and _X, the
+// stage cells from SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE. The slide in is followed by SETTLE_FRAMES of the press
+// offset animation (GetSelectedPressOffset), which the press of a stage plays as well; its highlight shows at the fifth.
+#define SELECT_BATTLE_STAGE_SLIDE_FRAMES 10
+#define SELECT_BATTLE_STAGE_SETTLE_FRAMES 10
+#define SELECT_BATTLE_STAGE_HIGHLIGHT_FRAME 5
+#define SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y 160
+#define SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X 256
+#define SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE 220
+
+// Frames the cells of a stage shift after the index changed or a stage was pressed (mOffsetTimer counts them down).
+#define SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES 6
+
 extern const u8 gSelectBattleStageSTableIndices[6][3];
 
 #include "00/Menu/wi_fi_vs_setting.h"
