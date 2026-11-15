@@ -55,7 +55,7 @@ u32 CheckWiFiSessionDisconnect(void);
 void ClearWiFiDisconnectStatus(void);
 
 u32 GetWiFiSessionPickedCourseId(u32 index);
-u32 GetWiFiSessionKartIndex(u32 index);
+u32 GetWiFiSessionKartIndex(u8 index);
 u32 GetWiFiSessionCharacterIndex(u8 index);
 
 void SetWiFiSessionOwnPickedCourseId(s32 pickedCourseId);

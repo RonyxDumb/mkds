@@ -267,7 +267,7 @@ u32 GetWiFiSessionCharacterIndex(u8 index) {
     return gWiFiSession->mIndexMessages[index].mCharacterIndex;
 }
 
-u32 GetWiFiSessionKartIndex(u32 index) {
+u32 GetWiFiSessionKartIndex(u8 index) {
     return gWiFiSession->mIndexMessages[index].mKartIndex;
 }
 

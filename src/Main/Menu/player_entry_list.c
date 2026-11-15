@@ -575,7 +575,7 @@ void AdvancePlayerEntryList(void) {
                         }
                     } else {
                         wifiCharacter = GetWiFiSessionCharacterIndex(GetIndexOfPackedIndex(entryIndex));
-                        wiFiSessionKartIndex = GetWiFiSessionKartIndex((u8) GetIndexOfPackedIndex(entryIndex));
+                        wiFiSessionKartIndex = GetWiFiSessionKartIndex(GetIndexOfPackedIndex(entryIndex));
                         if (wifiCharacter == -1) {
                             value = 0;
                         } else {
