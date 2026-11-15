@@ -564,7 +564,7 @@ void MBi_RecvFixedBeacon(u32 entryIndex) {
     }
     gameInfo = gReceivedGameInfo;
     destination += gameInfo->mByte0a * 0x62;
-    byteCount = *(u8 *) &gameInfo->mHalf0c;
+    byteCount = gameInfo->mByteCount;
     if (destination + byteCount > dataEnd) {
         return;
     }
@@ -594,7 +594,7 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
                 }
                 record += 0x16;
             }
-            *(u16 *) &entry->mGetPlayerFlag &= ~gReceivedGameInfo->mHalf0e;
+            entry->mGetPlayerFlag &= ~gReceivedGameInfo->mHalf0e;
             BIT_CLEAR(mbrsp->mValidGameInfoFlag, entryIndex);
         } else {
             vu16 zeroValue = 0;

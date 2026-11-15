@@ -178,7 +178,7 @@ void QueueStateMessage(void) {
             childMessage.mKind = CHILD_MESSAGE_REQUEST;
             payload = &childMessage.mKind;
             payload += 3;
-            *(u8 *) &childMessage.mPieceRequest = MBi_SendRequestDataPiece(payload, &requestData);
+            childMessage.mPieceRequestByte = MBi_SendRequestDataPiece(payload, &requestData);
             if (MBi_MakeChildSendBuffer(&childMessage, gScanConnectWork->mMessageBuffer) != NULL) {
                 QueueMPDataIfReady(8, 0xffff, gScanConnectWork->mMessageBuffer);
             }

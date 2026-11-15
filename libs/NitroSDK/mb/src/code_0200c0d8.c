@@ -73,8 +73,8 @@ u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
             if (IsGetAllRequestData(child) != 0) {
                 return &gPieceBuffer->mDataBuf[(child - 1) * 0x20];
             }
-            *(u8 *) &message->mPieceRequest = bytes[1];
-            if (*(u8 *) &message->mPieceRequest > gPieceSizes.mPieceCount) {
+            message->mPieceRequestByte = bytes[1];
+            if (message->mPieceRequestByte > gPieceSizes.mPieceCount) {
                 return NULL;
             }
             MI_CpuCopy8(bytes + 2, (u8 *) message + 3, gPieceSizes.mPieceSize);
@@ -107,7 +107,7 @@ u8 *MBi_ReceiveRequestDataPiece(ChildMessage *message, u32 child) {
     if (pieceBuffer == NULL) {
         return NULL;
     }
-    pieceIndex = *(u8 *) &message->mPieceRequest;
+    pieceIndex = message->mPieceRequestByte;
     if (pieceIndex > gPieceSizes.mPieceCount) {
         return NULL;
     }
@@ -146,8 +146,8 @@ u8 *MBi_MakeChildSendBuffer(ChildMessage *message, u8 *buffer) {
     *cursor++ = message->mKind;
     switch (message->mKind) {
         case CHILD_MESSAGE_REQUEST:
-            *cursor++ = *(u8 *) &message->mPieceRequest;
-            if (*(u8 *) &message->mPieceRequest > gPieceSizes.mPieceCount) {
+            *cursor++ = message->mPieceRequestByte;
+            if (message->mPieceRequestByte > gPieceSizes.mPieceCount) {
                 return NULL;
             }
             MI_CpuCopy8((u8 *) message + 3, cursor, gPieceSizes.mPieceSize);

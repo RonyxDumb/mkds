@@ -71,7 +71,10 @@ typedef struct MbBeacon {
     /* 08 */ u16 mChecksum;
     /* 0a */ u8 mByte0a;
     /* 0b */ u8 mFlagmentMaxNum;
-    /* 0c */ u16 mHalf0c;
+    union {
+        /* 0c */ u16 mHalf0c;
+        /* 0c */ u8 mByteCount;
+    };
     /* 0e */ u16 mHalf0e;
     /* 10 */ MBUserInfo mMember[4];
     /* 68 */ u8 mUserVolatData[8];

@@ -38,7 +38,10 @@ typedef struct ParentMessage {
 typedef struct ChildMessage {
     /* 00 */ u8 mKind;
     /* 01 */ u8 mPad1;
-    /* 02 */ u16 mPieceRequest;
+    union {
+        /* 02 */ u16 mPieceRequest;
+        /* 02 */ u8 mPieceRequestByte;
+    };
     /* 04 */ u8 mData[0x10];
 } ChildMessage;
 
