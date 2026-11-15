@@ -424,31 +424,31 @@ void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offse
 
 void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX,
                              u32 unusedScaleY, u32 scaleZ) {
-    int *v1;
-    int *v2;
+    int *shadowTargetPtr;
+    int *shadowTargetXPtr;
     mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
-    v2 = &mapObject->mShadowOffsetTargetX;
-    *v2 = offsetX;
-    mapObject->mShadowOffsetX = *v2;
-    v1 = &mapObject->mShadowOffsetTargetY;
-    *v1 = offsetY;
-    mapObject->mShadowOffsetY = *v1;
-    v1 = &mapObject->mShadowOffsetTargetZ;
-    *v1 = offsetZ;
-    mapObject->mShadowOffsetZ = *v1;
+    shadowTargetXPtr = &mapObject->mShadowOffsetTargetX;
+    *shadowTargetXPtr = offsetX;
+    mapObject->mShadowOffsetX = *shadowTargetXPtr;
+    shadowTargetPtr = &mapObject->mShadowOffsetTargetY;
+    *shadowTargetPtr = offsetY;
+    mapObject->mShadowOffsetY = *shadowTargetPtr;
+    shadowTargetPtr = &mapObject->mShadowOffsetTargetZ;
+    *shadowTargetPtr = offsetZ;
+    mapObject->mShadowOffsetZ = *shadowTargetPtr;
     mapObject->mShadowOffsetPerCall = 0;
-    v1 = &mapObject->mShadowScaleTargetX;
-    *v1 = scaleX;
-    mapObject->mShadowScaleX = *v1;
-    v1 = &mapObject->mShadowScaleTargetY;
-    *v1 = (0x0000a000u);
-    mapObject->mShadowScaleY = *v1;
-    v1 = &mapObject->mShadowScaleTargetZ;
-    *v1 = scaleZ;
-    mapObject->mShadowScaleZ = *v1;
+    shadowTargetPtr = &mapObject->mShadowScaleTargetX;
+    *shadowTargetPtr = scaleX;
+    mapObject->mShadowScaleX = *shadowTargetPtr;
+    shadowTargetPtr = &mapObject->mShadowScaleTargetY;
+    *shadowTargetPtr = (0x0000a000u);
+    mapObject->mShadowScaleY = *shadowTargetPtr;
+    shadowTargetPtr = &mapObject->mShadowScaleTargetZ;
+    *shadowTargetPtr = scaleZ;
+    mapObject->mShadowScaleZ = *shadowTargetPtr;
     mapObject->mShadowScalePerCall = 0;
 }
 
@@ -470,41 +470,41 @@ void SetShadowOffsetAndScaleTarget(MissionRunMapObject *mapObject, int offsetX, 
 
 void SetCollisionBoxOffsetAndExtent(MissionRunMapObject *mapObject, int offsetX, int offsetY, int offsetZ, u32 extentX,
                                     u32 extentY, u32 extentZ) {
-    int *v1;
-    int *v2;
-    int *v3;
-    int *v4;
-    int *v5;
+    int *offsetXPtr;
+    int *targetXOrOffsetYPtr;
+    int *targetYOrOffsetZPtr;
+    int *targetZPtr;
+    int *extentTargetPtr;
     mapObject->mCollisionShape = MAP_OBJECT_COLLISION_BOX;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
-    v2 = &mapObject->mOffsetTargetX;
-    *v2 = offsetX;
-    v1 = &mapObject->mOffset.x;
-    *v1 = *v2;
-    v3 = &mapObject->mOffsetTargetY;
-    *v3 = offsetY;
-    v2 = &mapObject->mOffset.y;
-    *v2 = *v3;
-    v4 = &mapObject->mOffsetTargetZ;
-    *v4 = offsetZ;
-    v3 = &mapObject->mOffset.z;
-    *v3 = *v4;
+    targetXOrOffsetYPtr = &mapObject->mOffsetTargetX;
+    *targetXOrOffsetYPtr = offsetX;
+    offsetXPtr = &mapObject->mOffset.x;
+    *offsetXPtr = *targetXOrOffsetYPtr;
+    targetYOrOffsetZPtr = &mapObject->mOffsetTargetY;
+    *targetYOrOffsetZPtr = offsetY;
+    targetXOrOffsetYPtr = &mapObject->mOffset.y;
+    *targetXOrOffsetYPtr = *targetYOrOffsetZPtr;
+    targetZPtr = &mapObject->mOffsetTargetZ;
+    *targetZPtr = offsetZ;
+    targetYOrOffsetZPtr = &mapObject->mOffset.z;
+    *targetYOrOffsetZPtr = *targetZPtr;
     mapObject->mOffsetPerCall = 0;
-    v5 = &mapObject->mCollisionExtentTargetX;
-    *v5 = extentX;
-    mapObject->mCollisionExtent.x = *v5;
-    v5 = &mapObject->mCollisionExtentTargetY;
-    *v5 = extentY;
-    mapObject->mCollisionExtent.y = *v5;
-    v5 = &mapObject->mCollisionExtentTargetZ;
-    *v5 = extentZ;
-    mapObject->mCollisionExtent.z = *v5;
+    extentTargetPtr = &mapObject->mCollisionExtentTargetX;
+    *extentTargetPtr = extentX;
+    mapObject->mCollisionExtent.x = *extentTargetPtr;
+    extentTargetPtr = &mapObject->mCollisionExtentTargetY;
+    *extentTargetPtr = extentY;
+    mapObject->mCollisionExtent.y = *extentTargetPtr;
+    extentTargetPtr = &mapObject->mCollisionExtentTargetZ;
+    *extentTargetPtr = extentZ;
+    mapObject->mCollisionExtent.z = *extentTargetPtr;
     mapObject->mCollisionExtentPerCall = 0;
-    mapObject->mPosWithOffset.x = mapObject->mMapObject.mPos.x + *v1;
-    mapObject->mPosWithOffset.y = mapObject->mMapObject.mPos.y + *v2;
-    mapObject->mPosWithOffset.z = mapObject->mMapObject.mPos.z + *v3;
+    mapObject->mPosWithOffset.x = mapObject->mMapObject.mPos.x + *offsetXPtr;
+    mapObject->mPosWithOffset.y = mapObject->mMapObject.mPos.y + *targetXOrOffsetYPtr;
+    mapObject->mPosWithOffset.z = mapObject->mMapObject.mPos.z + *targetYOrOffsetZPtr;
 }
 
 void SetCollisionBoxOffsetAndExtentTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
@@ -1287,8 +1287,8 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
 void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     Vec3 probePosition;
     Vec3 pushOut;
-    Vec3 v50;
-    Vec3 v5c;
+    Vec3 courseNormal;
+    Vec3 wallNormal;
     Vec3 pushDirection;
     Vec3 effectPosition;
     s32 velocityScale;
@@ -1493,10 +1493,10 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     probePosition.y = mapObject->mMapObject.mPos.y + 0x14000;
     probePosition.z = mapObject->mMapObject.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000,
-                                mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4
-                                                                                                          : (u16) 1,
-                                -2, &pushOut, &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
+    if (CollideSphereWithCourse(
+            &probePosition, NULL, 0, 0x14000,
+            mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4 : (u16) 1, -2, &pushOut,
+            &courseNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
         if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS ||
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY) {
             mapObject->mMapObject.mPos.y += pushOut.y;
@@ -1508,8 +1508,8 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     }
     if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS &&
         (mapObject->mCollisionBits & 0x214300)) {
-        if (LENGTH_SQUARED(v5c) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&v5c, &pushDirection);
+        if (LENGTH_SQUARED(wallNormal) >= 0x10) {
+            Vec3NormalizeAndGetLengthUnchecked(&wallNormal, &pushDirection);
         }
         pushDirection.y = 0;
         VEC_MultAdd(mapObject->mPrm->mHead.mWallPushVelocity, &pushDirection, &mapObject->mVelocity,
