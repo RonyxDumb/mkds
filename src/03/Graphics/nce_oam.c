@@ -145,7 +145,7 @@ void DeleteOamRange(OamRange *range) {
         entries->mAttr01 = (entries->mAttr01 & 0xc1fffcff) | 0x200;
     }
     RemoveNodeFromList(range);
-    if (range >= (OamRange *) &gOamRanges[1]) {
+    if (range >= &gOamRanges[1].mRanges[0]) {
         screen = 1;
     }
     PushPointerStack(gOamRanges[screen].mFreeRanges, range);
