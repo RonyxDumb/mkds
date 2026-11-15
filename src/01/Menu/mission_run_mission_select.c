@@ -204,7 +204,7 @@ void InitMissionRunMSselCells(void) {
     }
     gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mVisible = 1;
     for (missionIndex = 0; missionIndex < 9; missionIndex++) {
-        if (missionIndex == 8) {
+        if (missionIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
             if (gMissionRunMSsel->mAllRecorded != 0) {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible =
                     1;
@@ -237,22 +237,22 @@ void InitMissionRunMSselCells(void) {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][out + 1]]
                     .mVisible = 1;
             }
-            if (missionIndex == 8) {
+            if (missionIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
                 gMissionRunMSsel->mBossRecorded = TRUE;
             }
         }
         LoadMissionRunMSselSoundData(0, GetMissionTableRow());
-        if (missionIndex == 8) {
+        if (missionIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
             SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][2], 2,
                                 gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl);
             SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][1], 5,
                                 gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl);
             if (gMissionRunMSsel->mAllRecorded != 0) {
                 if (GetPreviousMenuScreenNumber() == SCREEN_MISSION_RUN_LVSEL) {
-                    gMissionRunMSsel->mIndex = 8;
+                    gMissionRunMSsel->mIndex = MISSION_RUN_MSSEL_BOSS_INDEX;
                 }
                 if (gMissionRunMSsel->mBossRecorded == FALSE) {
-                    gMissionRunMSsel->mIndex = 8;
+                    gMissionRunMSsel->mIndex = MISSION_RUN_MSSEL_BOSS_INDEX;
                     SetCellPaletteIndex(gMissionRunMSselIndexSTableIndices[missionIndex][2], 0xb,
                                         gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
@@ -301,10 +301,10 @@ void AdvanceMissionRunMSselPaletteBlend(void) {
     if (gMissionRunMSsel->mAllRecorded != 0) {
         if (gMissionRunMSsel->mBossRecorded == FALSE) {
             gMissionRunMSsel->mPaletteBlendFrame = gMissionRunMSsel->mPaletteBlendFrame + 1;
-            if (gMissionRunMSsel->mPaletteBlendFrame >= 100) {
+            if (gMissionRunMSsel->mPaletteBlendFrame >= MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES) {
                 gMissionRunMSsel->mPaletteBlendFrame = 0;
             }
-            if (gMissionRunMSsel->mIndex == 8) {
+            if (gMissionRunMSsel->mIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
                 fromPaletteRow = 9;
                 toPaletteRow = 10;
                 blendPaletteRow = 11;
@@ -367,7 +367,7 @@ void UpdateMissionRunMSselIndexCells(void) {
                 offsetY;
         } else if (gMissionRunMSsel->mIndex == missionIndex) {
             gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][2]].mVisible = 1;
-        } else if (missionIndex == 8) {
+        } else if (missionIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
             if (gMissionRunMSsel->mAllRecorded) {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible =
                     1;
@@ -391,7 +391,7 @@ void RefreshMissionRunMSselMCells(void) {
     for (slotIndex = 0; slotIndex < 9; slotIndex++) {
         gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mVisible = 0;
     }
-    if (gMissionRunMSsel->mIndex == 8) {
+    if (gMissionRunMSsel->mIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
         gMissionRunMSsel->mMissionRunMSselMTable[0].mVisible = 0;
         gMissionRunMSsel->mMissionRunMSselMTable[1].mVisible = 1;
     } else {
@@ -450,7 +450,7 @@ void AdvanceMissionRunMSselIndexChange(void) {
     s32 slotIndex;
 
     if (IsMissionRunMSselIndexChangeRunning() != FALSE) {
-        if (gMissionRunMSsel->mIndexChangeTimer == 7) {
+        if (gMissionRunMSsel->mIndexChangeTimer == MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES) {
             gMissionRunMSsel->mShownIndex = gMissionRunMSsel->mIndex;
             RefreshMissionRunMSselMCells();
         } else {
@@ -477,7 +477,7 @@ void AdvanceMissionRunMSselIndexChange(void) {
         }
         gMissionRunMSsel->mIndexChangeTimer = gMissionRunMSsel->mIndexChangeTimer - 1;
     } else if (gMissionRunMSsel->mIndex != gMissionRunMSsel->mShownIndex) {
-        gMissionRunMSsel->mIndexChangeTimer = 7;
+        gMissionRunMSsel->mIndexChangeTimer = MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES;
     }
 }
 
@@ -712,7 +712,7 @@ void AdvanceMissionRunMSselSlideIn(void) {
                 .mOffsetX = offsetX;
         }
     }
-    if (gMissionRunMSsel->mStateFrames >= 10) {
+    if (gMissionRunMSsel->mStateFrames >= MISSION_RUN_MSSEL_SLIDE_FRAMES) {
         RequestMissionRunMSselWaitSelectReturn();
     }
 }
@@ -776,17 +776,17 @@ void AdvanceMissionRunMSselInput(void) {
 skip:
     if (result <= 8) {
         target = gMissionRunMSselRectIndices[result];
-        if (target == 8 && gMissionRunMSsel->mAllRecorded == 0) {
+        if (target == MISSION_RUN_MSSEL_BOSS_INDEX && gMissionRunMSsel->mAllRecorded == 0) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             return;
         }
         gMissionRunMSsel->mIndex = target;
-        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
+        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES;
         RequestMissionRunMSselPressMission();
         return;
     }
     if ((u16) (gInputSlots[slot].mPressedBits & PAD_KEY_A) != 0) {
-        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
+        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES;
         RequestMissionRunMSselPressMission();
         return;
     }
@@ -797,11 +797,11 @@ skip:
             return;
         }
         target = current + delta;
-        if (target == 8 && gMissionRunMSsel->mAllRecorded == 0) {
+        if (target == MISSION_RUN_MSSEL_BOSS_INDEX && gMissionRunMSsel->mAllRecorded == 0) {
             target = target + gMissionRunMSselUpSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
-        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
+        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
@@ -812,11 +812,11 @@ skip:
             return;
         }
         target = current + delta;
-        if (target == 8 && gMissionRunMSsel->mAllRecorded == 0) {
+        if (target == MISSION_RUN_MSSEL_BOSS_INDEX && gMissionRunMSsel->mAllRecorded == 0) {
             target = target + gMissionRunMSselDownSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
-        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
+        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
@@ -827,11 +827,11 @@ skip:
             return;
         }
         target = current + delta;
-        if (target == 8 && gMissionRunMSsel->mAllRecorded == 0) {
+        if (target == MISSION_RUN_MSSEL_BOSS_INDEX && gMissionRunMSsel->mAllRecorded == 0) {
             target = target + gMissionRunMSselLeftSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
-        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
+        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
@@ -842,11 +842,11 @@ skip:
             return;
         }
         target = current + delta;
-        if (target == 8 && gMissionRunMSsel->mAllRecorded == 0) {
+        if (target == MISSION_RUN_MSSEL_BOSS_INDEX && gMissionRunMSsel->mAllRecorded == 0) {
             target = target + gMissionRunMSselRightSteps[target];
         }
         gMissionRunMSsel->mIndex = target;
-        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = 5;
+        gMissionRunMSsel->mIndexCellTimers[gMissionRunMSsel->mIndex] = MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
     }
 }
@@ -855,7 +855,7 @@ void AdvanceMissionRunMSselPressMission(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    if (gMissionRunMSsel->mStateFrames >= 5) {
+    if (gMissionRunMSsel->mStateFrames >= MISSION_RUN_MSSEL_HOLD_FRAMES) {
         if (IsMissionRunMSselIndexChangeRunning() == FALSE) {
             RequestMissionRunMSselChoisesOpen();
         }
@@ -943,7 +943,7 @@ void AdvanceMissionRunMSselSlideOut(void) {
                 .mOffsetX = first;
         }
     }
-    if (gMissionRunMSsel->mStateFrames == 5) {
+    if (gMissionRunMSsel->mStateFrames == MISSION_RUN_MSSEL_VRAM_TRANSFER_FRAME) {
         NNS_GfdRegisterNewVramTransferTask(9, 0, gMissionRunMSsel->mVramTransferBuffer, SECOND_SCREEN_MAP_BYTES);
     }
 }
@@ -987,7 +987,8 @@ s32 AdvanceMissionRunMSsel(void) {
     DrawLayoutTable(gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSNcer,
                     gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSsel->mSubOamList,
                     gMissionRunMSsel->mMissionRunMSselSTable);
-    if (gMissionRunMSsel->mState == MSSEL_STATE_SLIDE_OUT && gMissionRunMSsel->mStateFrames >= 10) {
+    if (gMissionRunMSsel->mState == MSSEL_STATE_SLIDE_OUT &&
+        gMissionRunMSsel->mStateFrames >= MISSION_RUN_MSSEL_SLIDE_FRAMES) {
         return gMissionRunMSsel->mResult;
     }
     return 0;

@@ -128,6 +128,20 @@ enum {
     MSSEL_STATE_SLIDE_OUT,
 };
 
+// MissionRunMSsel.mIndex of the boss entry, which is shown differently until the boss was recorded and cannot be
+// picked before all missions are recorded.
+#define MISSION_RUN_MSSEL_BOSS_INDEX 8
+
+// Frames of the slide in and the slide out, of the hold before the choices open, of the index change animation, and of
+// the highlight timer of a picked or moved-to entry; the palette blend of the boss entry repeats every
+// MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES, and the VRAM transfer queued during the slide in starts at its fifth frame.
+#define MISSION_RUN_MSSEL_SLIDE_FRAMES 10
+#define MISSION_RUN_MSSEL_HOLD_FRAMES 5
+#define MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES 7
+#define MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES 5
+#define MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES 100
+#define MISSION_RUN_MSSEL_VRAM_TRANSFER_FRAME 5
+
 // Object behind gMissionRunMSsel.
 typedef struct MissionRunMSsel {
     /* 00 */ struct NNSG2dCellDataBank *mMissionRunMSselMNcer;
