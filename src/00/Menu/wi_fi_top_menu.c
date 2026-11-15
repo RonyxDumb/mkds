@@ -162,7 +162,8 @@ void AdvanceWiFiTopMenuBrowse(void) {
     BOOL backPairNewUnlessRecentlyLost;
     s32 backPairRecentlyLost;
 
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -176,7 +177,8 @@ void AdvanceWiFiTopMenuBrowse(void) {
     pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
     if ((u16) pressedKeys == 0) {
         backPairRecentlyLost = backPairNewUnlessRecentlyLost = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             backPairRecentlyLost = 1;
         }
         if (backPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -357,7 +359,7 @@ void AdvanceWiFiTopMenuWaitMessage(void) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
                 pairRecentlyLost = 1;
             }
             if (pairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {

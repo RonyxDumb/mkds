@@ -276,7 +276,8 @@ void AdvanceWiFiVSSettingWaitInput(void) {
     InputSlot *inputSlot;
     u32 messageIndex;
 
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         pairRecentlyLost = TRUE;
     }
     if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -291,7 +292,8 @@ void AdvanceWiFiVSSettingWaitInput(void) {
     pressedKeys = inputSlot->mPressedBits & PAD_KEY_B;
     if ((u16) pressedKeys == 0) {
         backPairRecentlyLost = backPairNewUnlessRecentlyLost = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             backPairRecentlyLost = 1;
         }
         if (backPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -499,7 +501,7 @@ void AdvanceWiFiVSSettingWaitNoBuddyListText(void) {
             pairNewUnlessRecentlyLost = FALSE;
             pairRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
                 pairRecentlyLost = TRUE;
             }
             if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -538,7 +540,7 @@ void AdvanceWiFiVSSettingWaitNoBuddySettingText(void) {
             pairNewUnlessRecentlyLost = FALSE;
             pairRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < 5) {
+            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
                 pairRecentlyLost = TRUE;
             }
             if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
