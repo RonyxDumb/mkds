@@ -163,9 +163,9 @@ void AdvanceRecordVSSlideInSub(void) {
 #pragma thumb on
 
 void AdvanceRecordVSWaitReturnButton(void) {
-    int selectReturnState2NoRequest;
-    selectReturnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (selectReturnState2NoRequest != 0) {
+    int selectReturnShownNoRequest;
+    selectReturnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (selectReturnShownNoRequest != 0) {
         RequestRecordVSBrowse();
     }
 }
