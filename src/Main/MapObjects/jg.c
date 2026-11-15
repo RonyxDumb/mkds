@@ -264,7 +264,7 @@ void UpdateJg(void) {
         targetOffset = gJgKind3Offset;
         targetOffset.x += gJgShiftX;
         MTX_MultVec43(&targetOffset, &gJgMatrix, &gJgTargetPos);
-        gJgKind = 3;
+        gJgKind = JG_KIND_FLAG;
         if (GetEntryRaceEnded() == 0) {
             if ((u32) gJgKind <= 1) {
                 gJgSnapActive = 1;
@@ -357,7 +357,7 @@ void DrawJg(void) {
     lapModel = NULL;
     switch (gJgKind) {
         case 2:
-        case 3:
+        case JG_KIND_FLAG:
             kindModel = gJgKindRows[gJgKind].mModel;
             break;
         case 0:
@@ -424,7 +424,7 @@ void DrawJg(void) {
     QueueNsbmdModelMaterial(&gJgMain);
     DrawNsbmdModelWithMaxAlpha(&gJgMain, NULL, 0, 0x1f);
     if (kindModel != NULL) {
-        if (gJgKind == 3) {
+        if (gJgKind == JG_KIND_FLAG) {
             commandArg5 = 0;
             NNS_G3dGeBufferOP_N(0x12, &commandArg5, 1);
             NNS_G3dDraw(&kindModel->mRenderObj);
@@ -1102,7 +1102,7 @@ void UpdateJgState6(void) {
             case 1:
                 SetStateMachineState(&gJgStateMachine, JG_STATE_LAP);
                 break;
-            case 3:
+            case JG_KIND_FLAG:
                 SetStateMachineState(&gJgStateMachine, JG_STATE_FLAG);
                 break;
             default:
