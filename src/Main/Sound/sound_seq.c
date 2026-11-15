@@ -778,8 +778,6 @@ void InitSceneSounds(s32 unused) {
                         gMissionRunCountSeqNo[0] = 0x1dd;
                         gMissionRunLimitSeqNo[0] = 0x1de;
                         break;
-                    case 8:
-                    case 9:
                     case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
                         break;
                 }
