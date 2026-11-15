@@ -6,7 +6,7 @@
 void QueueMissionRunBossIcon(s16 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
                              u16 paletteSlot, s32 queueSelector);
 void ClearMissionRunBossIconPointer(void);
-void CreateMissionRunBossIcon(void *param_1);
+void CreateMissionRunBossIcon(void *heap);
 void LoadMissionRunBossIconData(void);
 
 extern const u16 gMissionRunBossIconCellIndices[7];

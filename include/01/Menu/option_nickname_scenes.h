@@ -6,7 +6,7 @@
 // Scene function of gSceneFuncs[11] (scene 'Nickname' in gSceneNames): copies the callbacks and
 // calls RunScene. Returns 0.
 int RunNicknameScene(void *sceneNumbers);
-void UpdateNicknameScene(s16 *param_1);
+void UpdateNicknameScene(s16 *sceneNumbers);
 void WriteNicknameSceneRegisters(void);
 void ReleaseNicknameScene(void);
 void InitNicknameScene(s16 *sceneNumbers);

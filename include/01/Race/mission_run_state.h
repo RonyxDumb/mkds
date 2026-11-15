@@ -15,7 +15,7 @@
 
 void AddMissionRunPendingCountUpFromBoss(s32 stepCount);
 void AddMissionRunPendingCountUp(s32 stepCount);
-void AddMissionRunBossCount(short param_1);
+void AddMissionRunBossCount(short amount);
 void AddMissionRunPendingBossTransfer(u16 amount);
 void AddMissionRunPendingDrop(u32 amount);
 void SetMissionRunBossTransferCallback(MissionRunEventCallback callback);

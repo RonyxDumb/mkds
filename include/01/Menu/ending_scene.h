@@ -17,7 +17,7 @@ void AdvanceEndingSceneState1(void);
 void AdvanceEndingSceneState0(void);
 void LoadAndQueueEndingSceneData(void);
 void QueueEndingSceneIndex1Data(void);
-void QueueEndingSceneNcgrNscrNclr(int param_1);
+void QueueEndingSceneNcgrNscrNclr(int i);
 void InitEndingSceneDisplay(void);
 void ClearEndingScenePointer(void);
 void CreateEndingScene(void *heap);
