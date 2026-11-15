@@ -1700,27 +1700,27 @@ s32 FillExchangeResultFromItems(void) {
                 switch (strlen(valueText)) {
                     case 0:
                         break;
-                    case 5:
+                    case sizeof(WepKey5):
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES;
                         *(WepKey5 *) resultBytes = *(WepKey5 *) valueText;
                         break;
-                    case 10:
+                    case sizeof(WepKey5) * 2:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES;
                         ParseHexText(resultBytes, (s8 *) valueText, 10);
                         break;
-                    case 13:
+                    case sizeof(WepKey13):
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES;
                         *(WepKey13 *) resultBytes = *(WepKey13 *) valueText;
                         break;
-                    case 26:
+                    case sizeof(WepKey13) * 2:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES;
                         ParseHexText(resultBytes, (s8 *) valueText, 26);
                         break;
-                    case 16:
+                    case sizeof(WepKey16):
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES;
                         *(WepKey16 *) resultBytes = *(WepKey16 *) valueText;
                         break;
-                    case 32:
+                    case sizeof(WepKey16) * 2:
                         gExchangeResult.mKind = EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES;
                         ParseHexText(resultBytes, (s8 *) valueText, 32);
                         break;
