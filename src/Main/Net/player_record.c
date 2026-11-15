@@ -74,7 +74,7 @@ void AdvanceWiFiSessionOnIrq(void) {
     AdvanceWiFiRaceSyncFrames();
 }
 
-void EnterWiFiSessionState1(void *stateObject) {
+void EnterWiFiSessionLogin(void *stateObject) {
     SetupWiFiSessionLogin();
 }
 
@@ -89,11 +89,11 @@ void UpdateWiFiSessionState1(void *stateObject) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterWiFiSessionState3(void *stateObject) {
+void EnterWiFiSessionSearch(void *stateObject) {
     RegisterKartKeysAndStart();
 }
 
-void UpdateWiFiSessionState3(void *stateObject) {
+void UpdateWiFiSessionSearch(void *stateObject) {
     StateMachine *stateMachine;
 
     if (IsKartKeysStartStatus3() == FALSE) {
@@ -104,25 +104,25 @@ void UpdateWiFiSessionState3(void *stateObject) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterWiFiSessionState4Nop(void *stateObject) {}
+void EnterWiFiSessionExchangeNop(void *stateObject) {}
 
-void UpdateWiFiSessionState4(void *stateObject) {
+void UpdateWiFiSessionExchange(void *stateObject) {
     UpdateWiFiSessionStep();
 }
 
-void EnterWiFiSessionState5(void *stateObject) {
+void EnterWiFiSessionRace(void *stateObject) {
     WiFiRaceSync *wiFiRaceSync;
 
     DWC_SetUserSendCallback(FinishWiFiRaceSyncSend);
     DWC_SetUserRecvCallback(WiFiRaceSyncReceiveCallback);
     wiFiRaceSync = gWiFiRaceSync;
-    wiFiRaceSync->mStateMachine.mNextState = 1;
+    wiFiRaceSync->mStateMachine.mNextState = WIFI_RACE_SYNC_STATE_PROBE;
     wiFiRaceSync->mStateMachine.mNextStateRequested = 1;
 }
 
-void UpdateWiFiSessionState5(void *stateObject) {
+void UpdateWiFiSessionRace(void *stateObject) {
     u32 unused;
     AdvanceWiFiRaceSync();
 }
 
-void UpdateWiFiSessionState6Nop(void *stateObject) {}
+void UpdateWiFiSessionUnusedNop(void *stateObject) {}

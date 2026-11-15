@@ -45,12 +45,12 @@
 
 StateCallbacks gWiFiSessionStateTable[7] = {
     {0, 0},
-    {EnterWiFiSessionState1, UpdateWiFiSessionState1},
+    {EnterWiFiSessionLogin, UpdateWiFiSessionState1},
     {0, 0},
-    {EnterWiFiSessionState3, UpdateWiFiSessionState3},
-    {EnterWiFiSessionState4Nop, UpdateWiFiSessionState4},
-    {EnterWiFiSessionState5, UpdateWiFiSessionState5},
-    {0, UpdateWiFiSessionState6Nop},
+    {EnterWiFiSessionSearch, UpdateWiFiSessionSearch},
+    {EnterWiFiSessionExchangeNop, UpdateWiFiSessionExchange},
+    {EnterWiFiSessionRace, UpdateWiFiSessionRace},
+    {0, UpdateWiFiSessionUnusedNop},
 };
 WiFiSession *gWiFiSession;
 char gKartFilterString[0x64];
