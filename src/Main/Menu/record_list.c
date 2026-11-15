@@ -691,7 +691,7 @@ void RequestRecordVSState2AndRefreshPage(void) {
 void RequestRecordVSState3(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_WAIT_RETURN_BUTTON;
     gRecordVS->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests state 4: stores mNextState = 4 and zeroes mStateFrames; the next AdvanceRecordVS call copies it to mState
@@ -766,7 +766,7 @@ void RequestRecordVSState9(void) {
 void RequestRecordVSState10(void) {
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_OUT_REQUEST_SCREEN;
     gRecordVS->mStateFrames = 0;
-    RequestSelectReturnState4();
+    RequestSelectReturnSlideOut();
 }
 
 void RequestRecordVSState11AndRefreshPage(void) {

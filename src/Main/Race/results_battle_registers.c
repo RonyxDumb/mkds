@@ -1066,7 +1066,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
-                        RequestSelectChoisesState0();
+                        RequestSelectChoisesHidden();
                     }
                     break;
                 case CONNECTION_KIND_WIFI_MENU:
@@ -1088,7 +1088,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
-                        RequestSelectChoisesState0();
+                        RequestSelectChoisesHidden();
                     }
                     break;
             }

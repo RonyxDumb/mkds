@@ -36,9 +36,9 @@
 const u8 gSelectChoisesNscrOrigins[2][2] = {{2, 8}, {2, 0xe}};
 const ByteRect gSelectChoisesTileRect = {1, 1, 1, 2};
 const ByteRect gSelectChoisesPaletteRects[2] = {{1, 0x1e, 7, 0xa}, {1, 0x1e, 0xd, 0x10}};
-const s8 gSelectReturnState3Bg2Offsets[12] = {4, 8, 0xb, 0xd, 0xc, 0xc, 0xa, 4, 0, 0, 0, 0};
-const s8 gSelectReturnState1Bg2Offsets[12] = {-40, -30, -22, -16, -10, -6, -4, -2, -1, 0, 0, 0};
-const s8 gSelectReturnState4Bg2Offsets[12] = {0, -6, -12, -18, -24, -30, -40, -40, -40, -40, 0, 0};
+const s8 gSelectReturnPressBg2Offsets[12] = {4, 8, 0xb, 0xd, 0xc, 0xc, 0xa, 4, 0, 0, 0, 0};
+const s8 gSelectReturnSlideInBg2Offsets[12] = {-40, -30, -22, -16, -10, -6, -4, -2, -1, 0, 0, 0};
+const s8 gSelectReturnSlideOutBg2Offsets[12] = {0, -6, -12, -18, -24, -30, -40, -40, -40, -40, 0, 0};
 const ByteRect gSelectChoisesHitRects[2] = {{8, 0xf8, 0x3c, 0x53}, {8, 0xf8, 0x6c, 0x83}};
 SelectReturn *gSelectReturn;
 SelectChoises *gSelectChoises;
@@ -61,8 +61,8 @@ s32 InitSelectReturn(void *heap, s32 subCharOffset) {
     gSelectReturn->mState = SELECT_RETURN_STATE_HIDDEN;
     gSelectReturn->mNextState = SELECT_RETURN_STATE_HIDDEN;
     gSelectReturn->mStateFrames = 0;
-    gSelectReturn->mState1Requested = FALSE;
-    gSelectReturn->mState4Requested = FALSE;
+    gSelectReturn->mSlideInRequested = FALSE;
+    gSelectReturn->mSlideOutRequested = FALSE;
     gSelectReturn->mBg2Offset = -0x28;
     gSelectReturn->mSoundId = 0xe;
     return subCharOffset;
@@ -127,38 +127,38 @@ void SetSelectReturnPaletteBits(s32 paletteKind) {
     }
 }
 
-void AdvanceSelectReturnState0(void) {
-    if (gSelectReturn->mState1Requested != FALSE) {
+void AdvanceSelectReturnHidden(void) {
+    if (gSelectReturn->mSlideInRequested != FALSE) {
         gSelectReturn->mNextState = SELECT_RETURN_STATE_SLIDE_IN;
         gSelectReturn->mStateFrames = 0;
         SetSelectReturnPaletteBits(1);
     }
 }
 
-void AdvanceSelectReturnState1(void) {
+void AdvanceSelectReturnSlideIn(void) {
     SelectReturn *selectReturn;
-    gSelectReturn->mBg2Offset = LookupSelectReturnState1Bg2Offset(gSelectReturn->mStateFrames);
+    gSelectReturn->mBg2Offset = LookupSelectReturnSlideInBg2Offset(gSelectReturn->mStateFrames);
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
     if (selectReturn->mStateFrames >= 10) {
         selectReturn->mNextState = SELECT_RETURN_STATE_SHOWN;
         gSelectReturn->mStateFrames = 0;
-        gSelectReturn->mState1Requested = FALSE;
+        gSelectReturn->mSlideInRequested = FALSE;
     }
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void AdvanceSelectReturnState2(void) {
+void AdvanceSelectReturnShown(void) {
     SelectReturn *selectReturn;
     selectReturn = gSelectReturn;
-    if (selectReturn->mState3Requested != FALSE) {
+    if (selectReturn->mPressRequested != FALSE) {
         selectReturn->mNextState = SELECT_RETURN_STATE_PRESS;
         SetSelectReturnPaletteBits(0);
         return;
     }
-    if (selectReturn->mState4Requested != FALSE) {
+    if (selectReturn->mSlideOutRequested != FALSE) {
         selectReturn->mNextState = SELECT_RETURN_STATE_SLIDE_OUT;
     }
 }
@@ -166,14 +166,14 @@ void AdvanceSelectReturnState2(void) {
 #pragma thumb off
 
 #pragma thumb on
-void AdvanceSelectReturnState3(void) {
+void AdvanceSelectReturnPress(void) {
     SelectReturn *selectReturn;
     selectReturn = gSelectReturn;
-    selectReturn->mBg2Offset = gSelectReturnState3Bg2Offsets[selectReturn->mStateFrames];
+    selectReturn->mBg2Offset = gSelectReturnPressBg2Offsets[selectReturn->mStateFrames];
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
     if (selectReturn->mStateFrames >= 9) {
-        if (selectReturn->mState4Requested != FALSE) {
+        if (selectReturn->mSlideOutRequested != FALSE) {
             selectReturn->mNextState = SELECT_RETURN_STATE_SLIDE_OUT;
             SetSelectReturnPaletteBits(0);
         } else {
@@ -181,19 +181,19 @@ void AdvanceSelectReturnState3(void) {
             SetSelectReturnPaletteBits(1);
         }
         gSelectReturn->mStateFrames = 0;
-        gSelectReturn->mState3Requested = FALSE;
+        gSelectReturn->mPressRequested = FALSE;
     }
 }
 
-void AdvanceSelectReturnState4(void) {
+void AdvanceSelectReturnSlideOut(void) {
     SelectReturn *selectReturn;
-    gSelectReturn->mBg2Offset = LookupSelectReturnState4Bg2Offset(gSelectReturn->mStateFrames);
+    gSelectReturn->mBg2Offset = LookupSelectReturnSlideOutBg2Offset(gSelectReturn->mStateFrames);
     gSelectReturn->mStateFrames++;
     selectReturn = gSelectReturn;
     if (selectReturn->mStateFrames >= 10) {
         selectReturn->mNextState = SELECT_RETURN_STATE_HIDDEN;
         gSelectReturn->mStateFrames = 0;
-        gSelectReturn->mState4Requested = FALSE;
+        gSelectReturn->mSlideOutRequested = FALSE;
     }
 }
 
@@ -204,19 +204,19 @@ void AdvanceSelectReturn(void) {
         selectReturn->mState = selectReturn->mNextState;
         switch (gSelectReturn->mState) {
             case SELECT_RETURN_STATE_HIDDEN:
-                AdvanceSelectReturnState0();
+                AdvanceSelectReturnHidden();
                 break;
             case SELECT_RETURN_STATE_SLIDE_IN:
-                AdvanceSelectReturnState1();
+                AdvanceSelectReturnSlideIn();
                 break;
             case SELECT_RETURN_STATE_SHOWN:
-                AdvanceSelectReturnState2();
+                AdvanceSelectReturnShown();
                 break;
             case SELECT_RETURN_STATE_PRESS:
-                AdvanceSelectReturnState3();
+                AdvanceSelectReturnPress();
                 break;
             case SELECT_RETURN_STATE_SLIDE_OUT:
-                AdvanceSelectReturnState4();
+                AdvanceSelectReturnSlideOut();
                 break;
         }
     }
@@ -244,25 +244,25 @@ void WriteSelectReturnRegisters(void) {
     }
 }
 
-void RequestSelectReturnState1(void) {
-    if (IsSelectReturnState2NoState3Or4Request() != 0) {
-        gSelectReturn->mState1Requested = FALSE;
+void RequestSelectReturnSlideIn(void) {
+    if (IsSelectReturnShownNoRequest() != 0) {
+        gSelectReturn->mSlideInRequested = FALSE;
     } else {
-        gSelectReturn->mState1Requested = TRUE;
+        gSelectReturn->mSlideInRequested = TRUE;
     }
-    gSelectReturn->mState3Requested = FALSE;
-    gSelectReturn->mState4Requested = FALSE;
+    gSelectReturn->mPressRequested = FALSE;
+    gSelectReturn->mSlideOutRequested = FALSE;
 }
 
 // a != 0 also asks for state 4 once state 3 ends.
-void RequestSelectReturnState3WithSound(s32 requestState4) {
+void RequestSelectReturnPressWithSound(s32 requestState4) {
     s32 soundId;
-    gSelectReturn->mState1Requested = FALSE;
-    gSelectReturn->mState3Requested = TRUE;
+    gSelectReturn->mSlideInRequested = FALSE;
+    gSelectReturn->mPressRequested = TRUE;
     if (requestState4 != 0) {
-        gSelectReturn->mState4Requested = TRUE;
+        gSelectReturn->mSlideOutRequested = TRUE;
     } else {
-        gSelectReturn->mState4Requested = FALSE;
+        gSelectReturn->mSlideOutRequested = FALSE;
     }
     soundId = gSelectReturn->mSoundId;
     if (soundId != -1) {
@@ -270,40 +270,40 @@ void RequestSelectReturnState3WithSound(s32 requestState4) {
     }
 }
 
-void RequestSelectReturnState4(void) {
-    if (IsSelectReturnState0NoState1Request() != 0) {
-        gSelectReturn->mState4Requested = FALSE;
+void RequestSelectReturnSlideOut(void) {
+    if (IsSelectReturnHiddenNoRequest() != 0) {
+        gSelectReturn->mSlideOutRequested = FALSE;
     } else {
-        gSelectReturn->mState4Requested = TRUE;
+        gSelectReturn->mSlideOutRequested = TRUE;
     }
-    gSelectReturn->mState1Requested = FALSE;
-    gSelectReturn->mState3Requested = FALSE;
+    gSelectReturn->mSlideInRequested = FALSE;
+    gSelectReturn->mPressRequested = FALSE;
 }
 
-BOOL IsSelectReturnState2NoState3Or4Request(void) {
+BOOL IsSelectReturnShownNoRequest(void) {
     BOOL result;
     BOOL state2NoState4Request;
     SelectReturn *selectReturn;
     result = FALSE;
     state2NoState4Request = FALSE;
     selectReturn = gSelectReturn;
-    if (selectReturn->mState == SELECT_RETURN_STATE_SHOWN && selectReturn->mState4Requested == FALSE) {
+    if (selectReturn->mState == SELECT_RETURN_STATE_SHOWN && selectReturn->mSlideOutRequested == FALSE) {
         state2NoState4Request = TRUE;
     }
     if (state2NoState4Request != FALSE) {
-        if (selectReturn->mState3Requested == FALSE) {
+        if (selectReturn->mPressRequested == FALSE) {
             result = TRUE;
         }
     }
     return result;
 }
 
-BOOL IsSelectReturnState0NoState1Request(void) {
+BOOL IsSelectReturnHiddenNoRequest(void) {
     BOOL result;
     SelectReturn *selectReturn;
     result = FALSE;
     selectReturn = gSelectReturn;
-    if (selectReturn->mState == SELECT_RETURN_STATE_HIDDEN && selectReturn->mState1Requested == FALSE) {
+    if (selectReturn->mState == SELECT_RETURN_STATE_HIDDEN && selectReturn->mSlideInRequested == FALSE) {
         result = TRUE;
     }
     return result;
@@ -312,32 +312,31 @@ BOOL IsSelectReturnState0NoState1Request(void) {
 
 #pragma thumb on
 
-int LookupSelectReturnState1Bg2Offset(int frame) {
+int LookupSelectReturnSlideInBg2Offset(int frame) {
     if (frame < 0) {
         frame = 0;
     }
     if (10 <= frame) {
         frame = 9;
     }
-    return gSelectReturnState1Bg2Offsets[frame];
+    return gSelectReturnSlideInBg2Offsets[frame];
 }
 
-int LookupSelectReturnState4Bg2Offset(int frame) {
+int LookupSelectReturnSlideOutBg2Offset(int frame) {
     if (frame < 0) {
         frame = 0;
     }
     if (10 <= frame) {
         frame = 9;
     }
-    return gSelectReturnState4Bg2Offsets[frame];
+    return gSelectReturnSlideOutBg2Offsets[frame];
 }
 
 #pragma thumb off
 
 #pragma thumb on
-BOOL IsSelectReturnState2NoState3Or4RequestAndInRect(s32 pointX, s32 pointY) {
-    if (IsSelectReturnState2NoState3Or4Request() != 0 && pointX >= 0 && pointX <= 0x28 && pointY >= 0x98 &&
-        pointY <= 0xc0) {
+BOOL IsSelectReturnShownNoRequestAndInRect(s32 pointX, s32 pointY) {
+    if (IsSelectReturnShownNoRequest() != 0 && pointX >= 0 && pointX <= 0x28 && pointY >= 0x98 && pointY <= 0xc0) {
         return TRUE;
     }
     return FALSE;
@@ -406,11 +405,11 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
     gSelectChoises->mEnabled = 1;
     gSelectChoises->mState = SELECT_CHOISES_STATE_HIDDEN;
     gSelectChoises->mNextState = SELECT_CHOISES_STATE_HIDDEN;
-    gSelectChoises->mState2Frames = 0;
+    gSelectChoises->mChosenFrames = 0;
     gSelectChoises->mToggleFrames = 0;
     gSelectChoises->mToggleOn = 1;
-    gSelectChoises->mState1Requested = 0;
-    gSelectChoises->mState0Requested = 0;
+    gSelectChoises->mChooseRequested = 0;
+    gSelectChoises->mHiddenRequested = 0;
     gSelectChoises->mDone = 0;
     gSelectChoises->mIndexNone = 0;
     gSelectChoises->mSoundIds[0] = 7;
@@ -576,17 +575,17 @@ void RefreshSelectChoisesPaletteNoIndex(void) {
     }
 }
 
-void AdvanceSelectChoisesState0(void) {
+void AdvanceSelectChoisesHidden(void) {
     s32 choiceIndex;
     s32 partIndex;
     s32 tileOffset;
 
-    if (gSelectChoises->mState1Requested != 0) {
+    if (gSelectChoises->mChooseRequested != 0) {
         RefreshAndQueueSelectChoises();
         gSelectChoises->mNextState = SELECT_CHOISES_STATE_CHOOSE;
         choiceIndex = 0;
-        gSelectChoises->mState1Requested = choiceIndex;
-        gSelectChoises->mState2Frames = choiceIndex;
+        gSelectChoises->mChooseRequested = choiceIndex;
+        gSelectChoises->mChosenFrames = choiceIndex;
         gSelectChoises->mIndexNone = choiceIndex;
         if (gSelectChoises->mUseCharBuffers != 0) {
             for (choiceIndex = 0; choiceIndex < 2; choiceIndex++) {
@@ -624,7 +623,7 @@ static inline s32 SelectChoisesIsPairNewUnlessLost(u32 inputSlotIndex) {
     return result;
 }
 
-void AdvanceSelectChoisesState1(void) {
+void AdvanceSelectChoisesChoose(void) {
     s32 hit;
     u16 touchX;
     u16 touchY;
@@ -634,9 +633,9 @@ void AdvanceSelectChoisesState1(void) {
     inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     touchX = gInputSlots[inputSlotIndex].mPair.mPairX;
     touchY = gInputSlots[inputSlotIndex].mPair.mPairY;
-    if (gSelectChoises->mState0Requested != 0) {
+    if (gSelectChoises->mHiddenRequested != 0) {
         gSelectChoises->mNextState = SELECT_CHOISES_STATE_HIDDEN;
-        gSelectChoises->mState0Requested = 0;
+        gSelectChoises->mHiddenRequested = 0;
         return;
     }
     hit = -1;
@@ -669,7 +668,7 @@ void AdvanceSelectChoisesState1(void) {
     } else {
         if ((u16) (keys & PAD_KEY_B) != 0) {
             gSelectChoises->mIndexNone = 1;
-            gSelectChoises->mState2Frames = 0xb;
+            gSelectChoises->mChosenFrames = 0xb;
             gSelectChoises->mNextState = SELECT_CHOISES_STATE_CHOSEN;
             if (gSelectChoises->mDisplayBitOn != 0) {
                 if (gSelectChoises->mIndexNoneSoundId != -1) {
@@ -699,20 +698,20 @@ void AdvanceSelectChoisesState1(void) {
 
 #pragma thumb on
 
-void AdvanceSelectChoisesState2(void) {
+void AdvanceSelectChoisesChosen(void) {
     SelectChoises *selectChoises;
     int stateFrames;
     selectChoises = gSelectChoises;
-    if (selectChoises->mState0Requested != 0) {
+    if (selectChoises->mHiddenRequested != 0) {
         selectChoises->mNextState = SELECT_CHOISES_STATE_HIDDEN;
-        gSelectChoises->mState0Requested = 0;
+        gSelectChoises->mHiddenRequested = 0;
         return;
     }
-    selectChoises->mState2Frames = selectChoises->mState2Frames + 1;
-    stateFrames = gSelectChoises->mState2Frames;
+    selectChoises->mChosenFrames = selectChoises->mChosenFrames + 1;
+    stateFrames = gSelectChoises->mChosenFrames;
     if (15 <= stateFrames) {
         gSelectChoises->mDone = 1;
-        gSelectChoises->mState2Frames = 0xf;
+        gSelectChoises->mChosenFrames = 0xf;
         return;
     }
     if (5 <= stateFrames) {
@@ -729,13 +728,13 @@ void AdvanceSelectChoises(void) {
         gSelectChoises->mState = gSelectChoises->mNextState;
         switch (gSelectChoises->mState) {
             case SELECT_CHOISES_STATE_HIDDEN:
-                AdvanceSelectChoisesState0();
+                AdvanceSelectChoisesHidden();
                 break;
             case SELECT_CHOISES_STATE_CHOOSE:
-                AdvanceSelectChoisesState1();
+                AdvanceSelectChoisesChoose();
                 break;
             case SELECT_CHOISES_STATE_CHOSEN:
-                AdvanceSelectChoisesState2();
+                AdvanceSelectChoisesChosen();
                 break;
         }
         gSelectChoises->mToggleFrames++;
@@ -768,14 +767,14 @@ void WriteSelectChoisesRegisters(void) {
     }
 }
 
-void RequestSelectChoisesState1(void) {
-    if ((gSelectChoises->mState == SELECT_CHOISES_STATE_HIDDEN && gSelectChoises->mState1Requested != 0) ||
+void RequestSelectChoisesChoose(void) {
+    if ((gSelectChoises->mState == SELECT_CHOISES_STATE_HIDDEN && gSelectChoises->mChooseRequested != 0) ||
         gSelectChoises->mState == SELECT_CHOISES_STATE_CHOOSE) {
-        gSelectChoises->mState0Requested = 1;
+        gSelectChoises->mHiddenRequested = 1;
     } else {
-        gSelectChoises->mState0Requested = 0;
+        gSelectChoises->mHiddenRequested = 0;
     }
-    gSelectChoises->mState1Requested = 1;
+    gSelectChoises->mChooseRequested = 1;
 }
 
 void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
@@ -789,7 +788,7 @@ void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
     DrawTextInRectNoFixedAdvance(&gSelectChoises->mTextCanvases[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mUseCharBuffers = 1;
-    RequestSelectChoisesState1();
+    RequestSelectChoisesChoose();
     if (startOnSecond == 0) {
         gSelectChoises->mIndex = 0;
     } else {
@@ -801,26 +800,26 @@ void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
     gSelectChoises->mToggleOn = 1;
 }
 
-void RequestSelectChoisesState0(void) {
-    gSelectChoises->mState1Requested = 0;
-    gSelectChoises->mState0Requested = 1;
+void RequestSelectChoisesHidden(void) {
+    gSelectChoises->mChooseRequested = 0;
+    gSelectChoises->mHiddenRequested = 1;
 }
 
-BOOL IsSelectChoisesState1NoState0Request(void) {
+BOOL IsSelectChoisesChooseNoRequest(void) {
     u32 result;
 
     result = 0;
-    if (gSelectChoises->mState == SELECT_CHOISES_STATE_CHOOSE && gSelectChoises->mState0Requested == 0) {
+    if (gSelectChoises->mState == SELECT_CHOISES_STATE_CHOOSE && gSelectChoises->mHiddenRequested == 0) {
         result = 1;
     }
     return result;
 }
 
-BOOL IsSelectChoisesState0NoState1Request(void) {
+BOOL IsSelectChoisesHiddenNoRequest(void) {
     BOOL result;
 
     result = FALSE;
-    if (gSelectChoises->mState == SELECT_CHOISES_STATE_HIDDEN && gSelectChoises->mState1Requested == 0) {
+    if (gSelectChoises->mState == SELECT_CHOISES_STATE_HIDDEN && gSelectChoises->mChooseRequested == 0) {
         result = TRUE;
     }
     return result;

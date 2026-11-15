@@ -225,7 +225,7 @@ void StartReadSelectedGhost(void) {
     StartReadListedGhost(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex);
     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 9));
     SetSelectReturnSoundId(0xe);
-    RequestSelectReturnState4();
+    RequestSelectReturnSlideOut();
 }
 
 void SetGhostSendCellsOffsetY(void) {
@@ -362,8 +362,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         isTouched = 1;
     }
     if (isTouched != 0) {
-        returnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                        gInputSlots[slotIndex].mPair.mPairY);
+        returnTouched = IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                              gInputSlots[slotIndex].mPair.mPairY);
     }
     switch (gTimeAttackGhostSend->mState) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NO_GHOST_TEXT:
@@ -384,7 +384,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 } else {
                     PrintSelectedGhostSendRecord();
                     SetupGhostSendMainText();
-                    RequestSelectReturnState1();
+                    RequestSelectReturnSlideIn();
                     SetInterpolationStateIfOpposite(&gTimeAttackGhostSend->mInterpolation, INTERPOLATION_STATE_RISING);
                     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_SLIDE_IN;
                 }
@@ -423,7 +423,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                             advanceArg->mNextScene = 1;
                         }
                         gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
-                        RequestSelectReturnState3WithSound(0);
+                        RequestSelectReturnPressWithSound(0);
                     }
                 }
             }
@@ -448,7 +448,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                 case 1:
                     ResetPendingFiles();
                     AddGhostDataBlockWrapper(GetSlotGhostBuffer(), 0x1000);
-                    RequestSelectReturnState1();
+                    RequestSelectReturnSlideIn();
                     gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_WAIT_CHILD;
                     break;
                 case 2:
@@ -458,12 +458,12 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_CHILD:
             keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
             if (keyB != 0 || returnTouched != 0) {
-                RequestSelectReturnState3WithSound(0);
+                RequestSelectReturnPressWithSound(0);
                 SetSelectReturnSoundId(0xf);
                 StopTimeAttackGhostSendSeq();
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_END_CONNECTION_BACK_TO_LIST;
             } else if (CopySingleChildName(gTimeAttackGhostSend->mChildName) != 0) {
-                RequestSelectReturnState4();
+                RequestSelectReturnSlideOut();
                 StopTimeAttackGhostSendSeq();
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 9);

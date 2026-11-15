@@ -251,7 +251,7 @@ void AdvanceOptionSelectMenuState0(void) {
 
 void AdvanceOptionSelectMenuState1(void) {
     gOptionSelectMenu->mStateFrames++;
-    gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnState1Bg2Offset(gOptionSelectMenu->mStateFrames);
+    gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnSlideInBg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
         gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_WAIT_INPUT;
         gOptionSelectMenu->mStateFrames = 0;
@@ -297,15 +297,15 @@ void AdvanceOptionSelectMenuState2(void) {
         if (recentlyLost == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchBegan = TRUE;
         }
-        if (touchBegan != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
-                                       gInputSlots[idx].mPair.mPairX, gInputSlots[idx].mPair.mPairY) != FALSE) {
+        if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[idx].mPair.mPairX,
+                                                                         gInputSlots[idx].mPair.mPairY) != FALSE) {
         L1:
             gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
             gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
             for (rowIndex = 0; rowIndex < 2; rowIndex++) {
                 gOptionSelectMenu->mRowValues[rowIndex] = gOptionSelectMenu->mSavedRowValues[rowIndex];
             }
-            RequestSelectReturnState3WithSound(0);
+            RequestSelectReturnPressWithSound(0);
             goto end;
         }
     }
@@ -435,9 +435,10 @@ void AdvanceOptionSelectMenuState4(void) {
             }
         }
     }
-    gOptionSelectMenu->mGroupOffsets[2].mOffsetY = -LookupSelectReturnState4Bg2Offset(gOptionSelectMenu->mStateFrames);
+    gOptionSelectMenu->mGroupOffsets[2].mOffsetY =
+        -LookupSelectReturnSlideOutBg2Offset(gOptionSelectMenu->mStateFrames);
     if (gOptionSelectMenu->mStateFrames >= 10) {
-        if (gOptionSelectMenu->mStateFrames >= 10 && IsSelectReturnState2NoState3Or4Request() != 0) {
+        if (gOptionSelectMenu->mStateFrames >= 10 && IsSelectReturnShownNoRequest() != 0) {
             gOptionSelectMenu->mBg1Visible = FALSE;
             if (gOptionSelectMenu->mOkChosen != FALSE) {
                 SetTxtSystemOpenSoundId(0x21);
@@ -446,7 +447,7 @@ void AdvanceOptionSelectMenuState4(void) {
                 SetupTxtSystemSubTextButton(text, buttonText);
                 gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_WAIT_BACKUP;
                 gOptionSelectMenu->mStateFrames = 0;
-                RequestSelectReturnState4();
+                RequestSelectReturnSlideOut();
             } else {
                 RequestOptionState(gOptionSelectMenu->mNextOptionState);
             }
@@ -470,10 +471,10 @@ void AdvanceOptionSelectMenuState5(void) {
         if (backupBusy == 0) {
             SetTxtSystemOpenSoundId(0x23);
             RequestTxtSystemClose();
-            RequestSelectReturnState1();
+            RequestSelectReturnSlideIn();
         }
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
+    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         RequestOptionState(gOptionSelectMenu->mNextOptionState);
     }
 }

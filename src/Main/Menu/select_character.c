@@ -457,7 +457,7 @@ void StartSelectCharacterReturn(void) {
     gSelectCharacter->mStateFrames = 0;
     gSelectCharacter->mResult = 2;
     gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     StartPlayerEntryListKindIfUsed(3);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_FALLING);
     SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
@@ -872,7 +872,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION) {
         ClearNonParticipantCharacterIndices();
         SetSelectReturnSoundId(0xe);
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
     if (AreBrightnessFadesClear() != 0) {
         gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_IN;
@@ -993,7 +993,7 @@ int AdvanceSelectCharacter(void) {
                     gSelectCharacter->mStateFrames = 0;
                     gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_PICK;
                 } else if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION &&
-                           IsSelectReturnState2NoState3Or4RequestAndInRect(pointX, pointY) != FALSE) {
+                           IsSelectReturnShownNoRequestAndInRect(pointX, pointY) != FALSE) {
                     StartSelectCharacterReturn();
                 }
             } else if (IsSelectCharacterModeAndTimerZero() != 0) {

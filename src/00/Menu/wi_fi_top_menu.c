@@ -130,7 +130,7 @@ void AdvanceWiFiTopMenuState1(void) {
     if (gWiFiTopMenu->mStateFrames >= 20) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_RETURN_BUTTON;
         gWiFiTopMenu->mStateFrames = offsetX;
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     } else if (gWiFiTopMenu->mStateFrames >= 10) {
         offsetX = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - 10);
     } else {
@@ -145,7 +145,7 @@ void AdvanceWiFiTopMenuState1(void) {
 
 void AdvanceWiFiTopMenuState2(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_BROWSE;
         SetSelectReturnSoundId(0xf);
@@ -184,15 +184,15 @@ void AdvanceWiFiTopMenuState3(void) {
             backPairNewUnlessRecentlyLost = TRUE;
         }
         if (backPairNewUnlessRecentlyLost == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
     gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_OUT;
     gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_TITLE;
     if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE) {
-        RequestSelectReturnState3WithSound(1);
+        RequestSelectReturnPressWithSound(1);
     }
     return;
 next:
@@ -262,7 +262,7 @@ void AdvanceWiFiTopMenuState4(void) {
     if (gWiFiTopMenu->mStateFrames >= 10) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_OUT;
         if (gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_VS || gWiFiTopMenu->mIndex == WIFI_TOP_MENU_ITEM_WIFI_MENU) {
-            RequestSelectReturnState4();
+            RequestSelectReturnSlideOut();
         }
         gWiFiTopMenu->mStateFrames = 0;
     } else if (gWiFiTopMenu->mStateFrames >= 5) {
@@ -297,7 +297,7 @@ void AdvanceWiFiTopMenuState5(void) {
     if (gWiFiTopMenu->mStateFrames >= 10) {
         if ((gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE ||
              gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) &&
-            IsSelectReturnState0NoState1Request() == 0) {
+            IsSelectReturnHiddenNoRequest() == 0) {
             return;
         }
         if (GetWiFiNextScene() == -1) {
@@ -353,7 +353,7 @@ void AdvanceWiFiTopMenuState8(void) {
     if (IsTxtSystemState2AfterState1() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
+    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
@@ -364,13 +364,13 @@ void AdvanceWiFiTopMenuState8(void) {
                 pairNewUnlessRecentlyLost = TRUE;
             }
             if (pairNewUnlessRecentlyLost == FALSE ||
-                IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+                IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                      gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
                 return;
             }
         }
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         RequestTxtSystemClose();
     }
 }

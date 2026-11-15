@@ -142,7 +142,7 @@ void RequestRecordTopMenuState2(void) {
 void RequestRecordTopMenuState3(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_SELECT_RETURN;
     gRecordTopMenu->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests state 4 for the next update.
@@ -402,7 +402,7 @@ void AdvanceRecordTopMenuState2(void) {
 
 void AdvanceRecordTopMenuState3(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         RequestRecordTopMenuState4();
     }
@@ -445,15 +445,15 @@ void AdvanceRecordTopMenuState4(void) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto skip;
         }
     }
     SetSelectReturnSoundId(15);
     RequestRecordTopMenuState6();
     gRecordTopMenu->mRecordScreen = RECORD_SCREEN_START;
-    RequestSelectReturnState3WithSound(1);
+    RequestSelectReturnPressWithSound(1);
     return;
 skip:
     if ((u32) touchedRect <= 2) {
@@ -593,13 +593,13 @@ void AdvanceRecordTopMenuState9(void) {
             touchBegan = TRUE;
         }
         if (touchBegan == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
     RequestRecordTopMenuState10();
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
 }
 
 void AdvanceRecordTopMenuState10(void) {

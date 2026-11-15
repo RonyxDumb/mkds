@@ -30,7 +30,7 @@ void AdvanceSelectCupGridState10(void);
 // sound 0xf for answer 1 when the flag at 0x027ffc40 is 2).
 void AdvanceSelectCupGridState9(void);
 
-// Runs AdvanceSelectCupGridShownCourse and waits until IsSelectChoisesState1NoState0Request returns non-zero (after the
+// Runs AdvanceSelectCupGridShownCourse and waits until IsSelectChoisesChooseNoRequest returns non-zero (after the
 // request of state 8, RequestSelectCupGridState8, opened a message with StartSelectChoises), then requests state 9.
 void AdvanceSelectCupGridState8(void);
 
@@ -40,7 +40,7 @@ void AdvanceSelectCupGridState7(void);
 
 // Runs AdvanceSelectCupGridShownCourse and waits until GetSelectChoisesDone returns non-zero, then requests state 7.
 void AdvanceSelectCupGridState6(void);
-// Runs AdvanceSelectCupGridShownCourse and waits until IsSelectChoisesState1NoState0Request returns non-zero (after the
+// Runs AdvanceSelectCupGridShownCourse and waits until IsSelectChoisesChooseNoRequest returns non-zero (after the
 // request of state 5, RequestSelectCupGridState5, opened a message with StartSelectChoises), then requests state 6.
 void AdvanceSelectCupGridState5(void);
 
@@ -53,7 +53,7 @@ void AdvanceSelectCupGridState4(void);
 // enabled.
 void AdvanceSelectCupGridState3(void);
 
-// Waits until IsSelectReturnState2NoState3Or4Request returns non-zero, then requests state 3.
+// Waits until IsSelectReturnShownNoRequest returns non-zero, then requests state 3.
 void AdvanceSelectCupGridState2(void);
 
 // Slides the cups in over 10 steps (mStateFrames counts the calls), then requests state 2.

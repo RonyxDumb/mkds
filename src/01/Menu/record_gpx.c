@@ -272,14 +272,14 @@ void AdvanceRecordGpxState2(void) {
             confirmTouchBegan = TRUE;
         }
         if (confirmTouchBegan == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
     RequestRecordGpxState5();
     gRecordGpx->mNextScreen = RECORD_SCREEN_TOP_MENU;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 next:
     if ((touchedRect == 0 && gRecordGpx->mLeftRepeat != FALSE) ||

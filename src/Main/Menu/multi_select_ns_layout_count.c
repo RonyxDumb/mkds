@@ -94,7 +94,7 @@ void SetupMultiSelectMemberSubTextButton(void) {
     gMultiSelectMember->mSetupState = MULTI_SELECT_MEMBER_SETUP_END_CONNECTION_ERROR;
     gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_ERROR_MESSAGE;
     SetupTxtSystemSubTextButton(bannerMessage, commonMessage);
-    RequestSelectReturnState4();
+    RequestSelectReturnSlideOut();
 }
 
 s32 CountMultiSelectChildren(void) {
@@ -750,13 +750,13 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
             if (pairIsNew != 0) {
                 value = gInputSlots[slotIndex].mPair.mPairX;
                 pairY = gInputSlots[slotIndex].mPair.mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(value, pairY);
+                touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(value, pairY);
                 rectIndex = RectTableFindContaining(subFileSet->mRects, value, pairY);
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || rectIndex == 0) {
                 if (gMultiSelectMember->mChildCount > 0 && gMultiSelectMember->mInterpolations[3].mState == 1) {
                     SetMultiSelectMemberSubCellVisible(0);
-                    RequestSelectReturnState4();
+                    RequestSelectReturnSlideOut();
                     StopPaletteBlend();
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 6);
@@ -772,7 +772,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                 gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE;
                 gMultiSelectMember->mReturnPending = TRUE;
                 RequestTxtSystemClose();
-                RequestSelectReturnState3WithSound(0);
+                RequestSelectReturnPressWithSound(0);
                 NNS_SndArcSetCurrent(&gOnMemorySndArc);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                 NNS_SndArcSetCurrent(&gFileSndArc);
@@ -901,8 +901,8 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 pairIsNew = 1;
             }
             if (pairIsNew != 0) {
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(
-                    gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
+                touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                          gInputSlots[slotIndex].mPair.mPairY);
             }
             started = gMultiSelectMember->mStarted;
             if (started == 0) {
@@ -919,7 +919,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                         break;
                 }
                 if (flag != FALSE) {
-                    RequestSelectReturnState4();
+                    RequestSelectReturnSlideOut();
                     SetInterpolationStateIfOpposite(&gMultiSelectMember->mInterpolations[0],
                                                     INTERPOLATION_STATE_FALLING);
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
@@ -943,7 +943,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                     gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_WAIT_SETUP_DONE;
                     gMultiSelectMember->mReturnPending = TRUE;
                     RequestTxtSystemClose();
-                    RequestSelectReturnState3WithSound(0);
+                    RequestSelectReturnPressWithSound(0);
                     NNS_SndArcSetCurrent(&gOnMemorySndArc);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 3);
                     NNS_SndArcSetCurrent(&gFileSndArc);

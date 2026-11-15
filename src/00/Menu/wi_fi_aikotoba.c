@@ -129,13 +129,13 @@ void AdvanceWiFiAikotobaState1(void) {
     if (gWiFiAikotoba->mStateFrames >= 10) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_WAIT_SELECT_RETURN;
         gWiFiAikotoba->mStateFrames = 0;
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
 }
 
 void AdvanceWiFiAikotobaState2(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_INPUT;
     }
@@ -175,14 +175,14 @@ void AdvanceWiFiAikotobaState3(void) {
             pairNewUnlessRecentlyLost = TRUE;
         }
         if (pairNewUnlessRecentlyLost == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
     gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_SLIDE_OUT;
     gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_TOP_MENU;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 next:
     pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
@@ -230,7 +230,7 @@ void AdvanceWiFiAikotobaState4(void) {
     if (gWiFiAikotoba->mStateFrames >= 10) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_SLIDE_OUT;
         if (gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
-            RequestSelectReturnState4();
+            RequestSelectReturnSlideOut();
         }
         gWiFiAikotoba->mStateFrames = 0;
     } else if (gWiFiAikotoba->mStateFrames >= 5) {
@@ -285,7 +285,7 @@ void AdvanceWiFiAikotobaState6(void) {
     void *questionText;
     void *yesText;
 
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState0NoState1Request() != 0) {
+    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK;
         questionText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0x10);
         yesText = GetBmgEntry(gWiFiAikotoba->mCommonMessages, 0);

@@ -411,7 +411,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 break;
             }
             if (gMultiSelectMemberGroup->mBg3OffsetFrames == 0) {
-                RequestSelectReturnState1();
+                RequestSelectReturnSlideIn();
                 SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
             }
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
@@ -440,7 +440,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             if (pairIsNew != FALSE) {
                 pairX = gInputSlots[slotIndex].mPair.mPairX;
                 pairY = gInputSlots[slotIndex].mPair.mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
+                touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(pairX, pairY);
                 rectIndex = RectTableFindContaining(cellFileSet->mRects, pairX, pairY);
             }
             value = gInputSlots[slotIndex].mPressedBits;
@@ -469,7 +469,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     sceneNumbers->mNextScene = 0;
                 }
                 gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT;
-                RequestSelectReturnState3WithSound(1);
+                RequestSelectReturnPressWithSound(1);
             } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex--;
                 if (gMultiSelectMemberGroup->mSelectedIndex < 0) {

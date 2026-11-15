@@ -533,7 +533,7 @@ void RequestMissionRunMSselState1(void) {
 void RequestMissionRunMSselState2(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunMSsel->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
@@ -572,13 +572,13 @@ void RequestMissionRunMSselState6(void) {
 void RequestMissionRunMSselState7(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_CLOSE;
     gMissionRunMSsel->mStateFrames = 0;
-    RequestSelectChoisesState0();
+    RequestSelectChoisesHidden();
 }
 
 void RequestMissionRunMSselState8(void) {
     gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_OUT;
     gMissionRunMSsel->mStateFrames = 0;
-    RequestSelectReturnState4();
+    RequestSelectReturnSlideOut();
     switch (gMissionRunMSsel->mResult) {
         case MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN:
             StopMissionRunMSselSeqsWithSteps(4, 10, GetMissionTableRow());
@@ -719,7 +719,7 @@ void AdvanceMissionRunMSselState1(void) {
 
 void AdvanceMissionRunMSselState2(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
-    if (IsSelectReturnState2NoState3Or4Request()) {
+    if (IsSelectReturnShownNoRequest()) {
         RequestMissionRunMSselState3();
     }
 }
@@ -759,8 +759,8 @@ void AdvanceMissionRunMSselState3(void) {
         if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {
             flag_b = TRUE;
         }
-        if (!flag_b || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slot].mPair.mPairX,
-                                                                       gInputSlots[slot].mPair.mPairY) == FALSE) {
+        if (!flag_b || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slot].mPair.mPairX,
+                                                             gInputSlots[slot].mPair.mPairY) == FALSE) {
             goto skip;
         }
     }
@@ -771,7 +771,7 @@ void AdvanceMissionRunMSselState3(void) {
     gMissionRunMSsel->mExitOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_BACK;
     RequestMissionRunMSselState8();
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 skip:
     if (result <= 8) {
@@ -865,7 +865,7 @@ void AdvanceMissionRunMSselState4(void) {
 void AdvanceMissionRunMSselState5(void) {
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
-    if (IsSelectChoisesState1NoState0Request()) {
+    if (IsSelectChoisesChooseNoRequest()) {
         RequestMissionRunMSselState6();
     }
 }
@@ -884,7 +884,7 @@ void AdvanceMissionRunMSselState7(void) {
 
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
-    if (IsSelectChoisesState0NoState1Request()) {
+    if (IsSelectChoisesHiddenNoRequest()) {
         choisesIndex = GetSelectChoisesIndex();
         switch (choisesIndex) {
             case 0:

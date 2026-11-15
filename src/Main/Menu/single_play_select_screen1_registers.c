@@ -120,7 +120,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = offset;
         }
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     } else {
         mainCells->mOffsetY = 0;
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {

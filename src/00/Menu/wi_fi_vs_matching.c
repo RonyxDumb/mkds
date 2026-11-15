@@ -319,9 +319,9 @@ void AdvanceWiFiVSMatchingState1(void) {
     }
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (IsWiFiSessionMatchingActive() != FALSE) {
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     } else {
-        RequestSelectReturnState4();
+        RequestSelectReturnSlideOut();
     }
     if (gWiFiVSMatching->mCheckTimeLimit != FALSE) {
         if (IsWiFiMatchingBeforeTimeLimit() == FALSE) {
@@ -329,7 +329,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 12), 0, 0, 1, 0, 1, 0);
         }
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0 &&
+    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
         (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto hit;
     }
@@ -343,12 +343,12 @@ void AdvanceWiFiVSMatchingState1(void) {
         pairNewUnlessRecentlyLost = TRUE;
     }
     if (pairNewUnlessRecentlyLost != FALSE &&
-        IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                        gInputSlots[slotIndex].mPair.mPairY) != FALSE &&
+        IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                              gInputSlots[slotIndex].mPair.mPairY) != FALSE &&
         IsWiFiSessionMatchingActive() != FALSE) {
     hit:
         StopWiFiSessionMatching();
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SLIDE_OUT;
         gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_VS_SETTING;
         gWiFiVSMatching->mStateFrames = 0;
@@ -366,7 +366,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[otherIndex]].mVisible = 0;
         }
         RequestTxtSystemClose();
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
         StartSelectReturnState1Seq();
         return;
     }
@@ -381,7 +381,7 @@ void AdvanceWiFiVSMatchingState1(void) {
                 gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[otherIndex]].mVisible = 0;
             }
             RequestTxtSystemClose();
-            RequestSelectReturnState1();
+            RequestSelectReturnSlideIn();
             StartSelectReturnState1Seq();
             return;
         }
@@ -425,7 +425,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[otherIndex]].mVisible = 1;
         }
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN;
-        RequestSelectReturnState4();
+        RequestSelectReturnSlideOut();
         RequestTxtSystemClose();
         RequestPlayerEntryListSetup();
         StartPlayerEntryListSetupSeq();
@@ -602,7 +602,7 @@ void AdvanceWiFiVSMatchingState8(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     // mUnk_30 is 1 to 3 here and indexes the table from 1.
     if (gWiFiVSMatching->mStateFrames >= (gWiFiVSMatchingResultWaitFrames - 1)[gWiFiVSMatching->mOtherCount]) {
-        if (IsSelectReturnState0NoState1Request() != 0) {
+        if (IsSelectReturnHiddenNoRequest() != 0) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT;
             gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_SELECT_CHARACTER;
             gWiFiVSMatching->mStateFrames = 0;
@@ -636,14 +636,14 @@ void AdvanceWiFiVSMatchingState9(void) {
             if (pairNewUnlessRecentlyLost == FALSE) {
                 return;
             }
-            if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            if (IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                      gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
                 return;
             }
         }
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SLIDE_OUT;
         gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_VS_SETTING;
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         RequestTxtSystemClose();
     }
 }
@@ -654,7 +654,7 @@ void AdvanceWiFiVSMatchingState10(void) {
     if (gWiFiVSMatching->mStateFrames >= 10) {
         gWiFiVSMatching->mStateFrames = 10;
     }
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0 &&
+    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0 &&
         gWiFiVSMatching->mStateFrames >= 10) {
         if (gWiFiVSMatching->mNoOpponents != FALSE) {
             RequestWiFiState(gWiFiVSMatching->mPendingWiFiState);

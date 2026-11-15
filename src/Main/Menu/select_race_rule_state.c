@@ -1409,7 +1409,7 @@ void RequestSelectRaceRuleState2(void) {
     switch (gSelectRaceRule->mMode) {
         case SELECT_RACE_RULE_MODE_VS_NO_CONNECTION:
         case SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION:
-            RequestSelectReturnState1();
+            RequestSelectReturnSlideIn();
             break;
     }
 }
@@ -1449,7 +1449,7 @@ void RequestSelectRaceRuleState6(void) {
 void RequestSelectRaceRuleState7(void) {
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_CONFIRM_ANSWER;
     gSelectRaceRule->mStateFrames = 0;
-    RequestSelectChoisesState0();
+    RequestSelectChoisesHidden();
 }
 
 // Requests state 8: stores mNextState = 8 and zeroes mStateFrames; the next AdvanceSelectRaceRule call copies it to
@@ -1810,7 +1810,7 @@ void AdvanceSelectRaceRuleState2(void) {
     AdvanceSelectRaceRuleRowObjects();
     AdvanceSelectRaceRuleChangeObjects();
     gSelectRaceRule->mStateFrames++;
-    returnOffsetY = -LookupSelectReturnState1Bg2Offset(gSelectRaceRule->mStateFrames);
+    returnOffsetY = -LookupSelectReturnSlideInBg2Offset(gSelectRaceRule->mStateFrames);
     cellEntryCount = gSelectRaceRule->mBncl->mCount;
     if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         gSelectRaceRule->mTable[0x28].mOffsetY = returnOffsetY;
@@ -1823,8 +1823,7 @@ void AdvanceSelectRaceRuleState2(void) {
     switch (gSelectRaceRule->mMode) {
         case SELECT_RACE_RULE_MODE_VS_NO_CONNECTION:
         case SELECT_RACE_RULE_MODE_BATTLE_NO_CONNECTION:
-            if (gSelectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS &&
-                IsSelectReturnState2NoState3Or4Request() != 0) {
+            if (gSelectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnShownNoRequest() != 0) {
                 RequestSelectRaceRuleState3();
                 return;
             }
@@ -1886,8 +1885,8 @@ void AdvanceSelectRaceRuleState3(void) {
         if (noPairForFewCalls == FALSE && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && hasPair != 0) {
             newPair = TRUE;
         }
-        if (newPair == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPairX,
-                                                                                gInputPairYs[inputIndex].mPairY) == 0) {
+        if (newPair == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputPairXs[inputIndex].mPairX,
+                                                                      gInputPairYs[inputIndex].mPairY) == 0) {
             goto chain;
         }
     }
@@ -1897,7 +1896,7 @@ void AdvanceSelectRaceRuleState3(void) {
             SetSelectReturnSoundId(0xe);
             RequestSelectRaceRuleState8();
             gSelectRaceRule->mResult = 2;
-            RequestSelectReturnState3WithSound(0);
+            RequestSelectReturnPressWithSound(0);
             StartPlayerEntryListKind(1);
             break;
     }
@@ -1997,7 +1996,7 @@ void AdvanceSelectRaceRuleState4(void) {
 
 void AdvanceSelectRaceRuleState5(void) {
     int state1WithoutRequest;
-    state1WithoutRequest = IsSelectChoisesState1NoState0Request();
+    state1WithoutRequest = IsSelectChoisesChooseNoRequest();
     if (state1WithoutRequest != 0) {
         RequestSelectRaceRuleState6();
     }

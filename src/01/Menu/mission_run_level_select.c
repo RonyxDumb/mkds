@@ -298,7 +298,7 @@ void RequestMissionRunLVselState1(void) {
 void RequestMissionRunLVselState2(void) {
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunLVsel->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests the select state: stores mNextState and zeroes mStateFrames; the next AdvanceMissionRunLVsel call copies
@@ -436,7 +436,7 @@ void AdvanceMissionRunLVselState1(void) {
 void AdvanceMissionRunLVselState2(void) {
     int returnState2NoRequest;
     StartSceneSeqIfIdle();
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         RequestMissionRunLVselState3();
     }
@@ -474,8 +474,8 @@ void AdvanceMissionRunLVselState3(void) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -483,7 +483,7 @@ void AdvanceMissionRunLVselState3(void) {
     RequestMissionRunLVselState5();
     gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_BACK;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 next:
     if (touchedRect <= 6) {

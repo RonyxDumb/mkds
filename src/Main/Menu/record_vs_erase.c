@@ -485,7 +485,7 @@ void RequestRecordVSEraseState2(void) {
 void RequestRecordVSEraseState3(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SLIDE_IN_SUB;
     gRecordVSErase->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
     RefreshRecordVSErasePage();
 }
 
@@ -516,7 +516,7 @@ void RequestRecordVSEraseState6(void) {
 void RequestRecordVSEraseState7(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SUB_SLIDE_OUT;
     gRecordVSErase->mStateFrames = 0;
-    RequestSelectReturnState4();
+    RequestSelectReturnSlideOut();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
@@ -550,7 +550,7 @@ void RequestRecordVSEraseState10(void) {
 void RequestRecordVSEraseState11(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_SLIDE_IN_AFTER_CONFIRM;
     gRecordVSErase->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
     RefreshRecordVSErasePage();
 }
 
@@ -769,7 +769,7 @@ void AdvanceRecordVSEraseState3(void) {
             offsetX;
     }
     if (gRecordVSErase->mStateFrames >= 0xa) {
-        if (IsSelectReturnState2NoState3Or4Request() != 0) {
+        if (IsSelectReturnShownNoRequest() != 0) {
             RequestRecordVSEraseState4();
         }
     }
@@ -815,14 +815,14 @@ void AdvanceRecordVSEraseState4(void) {
                         gInputSlots[inputSlotIndex].mPair.mNoPairCount < 5) &&
                       (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 &&
                        gInputSlots[inputSlotIndex].mPair.mHasPair != 0)) &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
-                                                         gInputSlots[inputSlotIndex].mPair.mPairY) != FALSE)) {
+         IsSelectReturnShownNoRequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
+                                               gInputSlots[inputSlotIndex].mPair.mPairY) != FALSE)) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
         RequestRecordVSEraseState12();
         gRecordVSErase->mNextScreen = RECORD_SCREEN_VS;
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         return;
     }
     if ((downRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat != FALSE) ||
@@ -1045,7 +1045,7 @@ void AdvanceRecordVSEraseState7(void) {
             offsetX;
     }
     if (gRecordVSErase->mStateFrames > 0xa) {
-        if (IsSelectReturnState0NoState1Request() != 0) {
+        if (IsSelectReturnHiddenNoRequest() != 0) {
             RequestRecordVSEraseState8();
         }
     }
@@ -1185,7 +1185,7 @@ void AdvanceRecordVSEraseState11(void) {
         gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + gRecordVSEraseRowLabelIndices[index]].mOffsetX = offsetX;
     }
     if (gRecordVSErase->mStateFrames > 10) {
-        if (IsSelectReturnState2NoState3Or4Request()) {
+        if (IsSelectReturnShownNoRequest()) {
             RequestRecordVSEraseState4();
         }
     }

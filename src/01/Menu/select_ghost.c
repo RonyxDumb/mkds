@@ -163,7 +163,7 @@ void RequestSelectGhostState5(void) {
 void RequestSelectGhostState6(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_CLOSE;
     gSelectGhost->mStateFrames = 0;
-    RequestSelectChoisesState0();
+    RequestSelectChoisesHidden();
 }
 
 // Requests state 7.
@@ -466,7 +466,7 @@ void AdvanceSelectGhostState1(void) {
     AdvanceSelectGhostOffsetTimers();
     subLayoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
     gSelectGhost->mStateFrames++;
-    returnOffsetY = -LookupSelectReturnState1Bg2Offset(gSelectGhost->mStateFrames);
+    returnOffsetY = -LookupSelectReturnSlideInBg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[subLayoutCount + 5].mOffsetY = returnOffsetY;
@@ -510,15 +510,15 @@ void AdvanceSelectGhostState2(void) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
     SetSelectReturnSoundId(14);
     RequestSelectGhostState7();
     gSelectGhost->mResult = SELECT_GHOST_RESULT_RETURN;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 next:
     if (touchBeganRect == 0) {
@@ -559,7 +559,7 @@ void AdvanceSelectGhostState3(void) {
 }
 
 void AdvanceSelectGhostState4(void) {
-    if (IsSelectChoisesState1NoState0Request() != 0) {
+    if (IsSelectChoisesChooseNoRequest() != 0) {
         RequestSelectGhostState5();
     }
 }
@@ -575,7 +575,7 @@ void AdvanceSelectGhostState5(void) {
 void AdvanceSelectGhostState6(void) {
     s32 selectChoisesIndex;
 
-    if (IsSelectChoisesState0NoState1Request() == 0) {
+    if (IsSelectChoisesHiddenNoRequest() == 0) {
         return;
     }
     selectChoisesIndex = GetSelectChoisesIndex();
@@ -584,7 +584,7 @@ void AdvanceSelectGhostState6(void) {
             ReadSelectGhostRecords();
             gSelectGhost->mResult = SELECT_GHOST_RESULT_CHOSEN;
             RequestSelectGhostState7();
-            RequestSelectReturnState4();
+            RequestSelectReturnSlideOut();
             break;
         case -1:
         case 1:
@@ -621,7 +621,7 @@ void AdvanceSelectGhostState7(void) {
         gSelectGhost->mSelectCupCourseTaMTable[layoutCount + 5].mOffsetY = offsetY;
     }
     layoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
-    returnOffsetY = -LookupSelectReturnState4Bg2Offset(gSelectGhost->mStateFrames);
+    returnOffsetY = -LookupSelectReturnSlideOutBg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mBg3Offset = offsetY;
     for (index = 0; index < 6; index++) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[index]].mOffsetY = offsetY;
@@ -677,7 +677,7 @@ int AdvanceSelectGhost(void) {
         switch (gSelectGhost->mResult) {
             case SELECT_GHOST_RESULT_CHOSEN:
                 if (gSelectGhost->mStateFrames >= 10) {
-                    if (IsSelectReturnState0NoState1Request() != 0) {
+                    if (IsSelectReturnHiddenNoRequest() != 0) {
                         return 1;
                     }
                 }

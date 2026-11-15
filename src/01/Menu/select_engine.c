@@ -270,7 +270,7 @@ void RequestSelectEngineState2(void) {
 void RequestSelectEngineState3(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_WAIT_SELECT_RETURN;
     gSelectEngine->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests state 4: stores mNextState = 4 and zeroes mStateFrames; the next AdvanceSelectEngine call copies it to
@@ -410,7 +410,7 @@ void AdvanceSelectEngineState2(void) {
 
 void AdvanceSelectEngineState3(void) {
     int returnState2NoState3Or4Request;
-    returnState2NoState3Or4Request = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoState3Or4Request = IsSelectReturnShownNoRequest();
     if (returnState2NoState3Or4Request != 0) {
         RequestSelectEngineState4();
     }
@@ -453,8 +453,8 @@ void AdvanceSelectEngineState4(void) {
             pairStartedAgain = TRUE;
         }
         if (pairStartedAgain == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
-                                                            gInputSlots[inputSlotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,
+                                                  gInputSlots[inputSlotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -464,7 +464,7 @@ void AdvanceSelectEngineState4(void) {
     SetSelectReturnSoundId(0xe);
     RequestSelectEngineState6();
     gSelectEngine->mResult = 2;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 next:
     if (touchedRectIndex <= 3) {

@@ -244,7 +244,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     } else {
         SetSelectReturnSoundId(0xe);
     }
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
@@ -306,7 +306,7 @@ s32 AdvanceSelectGame(void) {
             if (pairIsNew != FALSE) {
                 touchValue = gInputSlots[slotIndex].mPair.mPairX;
                 pairY = gInputSlots[slotIndex].mPair.mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(touchValue, pairY);
+                touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(touchValue, pairY);
                 touchValue = RectTableFindContaining(subFileSet->mRects, touchValue, pairY);
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
@@ -336,7 +336,7 @@ s32 AdvanceSelectGame(void) {
                     gSelectGame->mState = SELECT_GAME_STATE_ASK_LEAVE;
                     SetSelectGameRowCellsVisible(0);
                 }
-                RequestSelectReturnState3WithSound(0);
+                RequestSelectReturnPressWithSound(0);
             } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
                 if (gSelectGame->mSelectedIndex == 0) {
                     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
@@ -369,7 +369,7 @@ s32 AdvanceSelectGame(void) {
                     gSelectGame->mState = SELECT_GAME_STATE_WAIT_CONNECTION_END;
                 }
                 SetSelectGameRowCellsVisible(1);
-                RequestSelectChoisesState0();
+                RequestSelectChoisesHidden();
             }
             break;
         case SELECT_GAME_STATE_WAIT_CONNECTION_END:
@@ -394,7 +394,7 @@ s32 AdvanceSelectGame(void) {
                 gSelectGame->mStateFrames = value;
                 gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
                 if (gSelectGame->mMode != SELECT_GAME_MODE_NO_CONNECTION) {
-                    RequestSelectReturnState4();
+                    RequestSelectReturnSlideOut();
                 }
             }
             SetSelectGameRowOffsetX();

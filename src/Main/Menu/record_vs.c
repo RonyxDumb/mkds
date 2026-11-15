@@ -164,7 +164,7 @@ void AdvanceRecordVSState2(void) {
 
 void AdvanceRecordVSState3(void) {
     int selectReturnState2NoRequest;
-    selectReturnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    selectReturnState2NoRequest = IsSelectReturnShownNoRequest();
     if (selectReturnState2NoRequest != 0) {
         RequestRecordVSState4();
     }
@@ -234,7 +234,7 @@ void AdvanceRecordVSState4(void) {
             pressedFlag = TRUE;
         }
         if (pressedFlag == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputSlotIndex].mPairX,
+            IsSelectReturnShownNoRequestAndInRect(gInputPairXs[inputSlotIndex].mPairX,
                                                             gInputPairYs[inputSlotIndex].mPairY) == FALSE) {
             goto handlePageButtons;
         }
@@ -245,11 +245,11 @@ void AdvanceRecordVSState4(void) {
     RequestRecordVSState7();
     if (GetRecordPrevScene() == 12) {
         gRecordVS->mNextScreen = RECORD_SCREEN_OUTSIDE;
-        RequestSelectReturnState3WithSound(1);
+        RequestSelectReturnPressWithSound(1);
         return;
     }
     gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 handlePageButtons:
     if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||

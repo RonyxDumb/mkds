@@ -122,7 +122,7 @@ s32 AdvanceMultiSelectNS(void) {
             if (MultiSelectNSIsSlotPairNew(slotIndex) != 0) {
                 value = MultiSelectNSGetSlotPairX(slotIndex);
                 pairY = MultiSelectNSGetSlotPairY(slotIndex);
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(value, pairY);
+                touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(value, pairY);
                 value = FindRectContainingPoint(value, pairY, multiSelectNS->mBnbl);
             }
             if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_A) != 0) {
@@ -134,7 +134,7 @@ s32 AdvanceMultiSelectNS(void) {
             } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 gMultiSelectNS->mNextCallbacksIndex = 0;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
-                RequestSelectReturnState3WithSound(0);
+                RequestSelectReturnPressWithSound(0);
             } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_UP) != 0 && gMultiSelectNS->mIndex > 0) {
                 gMultiSelectNS->mIndex--;
                 RefreshMultiSelectNS(1);

@@ -130,13 +130,13 @@ void AdvanceOptionTopMenuState1(void) {
     if (gOptionTopMenu->mStateFrames >= 10) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_WAIT_SELECT_RETURN;
         gOptionTopMenu->mStateFrames = 0;
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
 }
 
 void AdvanceOptionTopMenuState2(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_INPUT;
     }
@@ -174,15 +174,15 @@ void AdvanceOptionTopMenuState3(void) {
             touchBeganAgain = TRUE;
         }
         if (touchBeganAgain != FALSE &&
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
             goto leave;
         }
     } else {
     leave:
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
         gOptionTopMenu->mNextOptionState = OPTION_STATE_SCENE_TITLE;
-        RequestSelectReturnState3WithSound(1);
+        RequestSelectReturnPressWithSound(1);
         return;
     }
     keyAPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
@@ -237,7 +237,7 @@ void AdvanceOptionTopMenuState4(void) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
         gOptionTopMenu->mStateFrames = 0;
         if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
-            RequestSelectReturnState4();
+            RequestSelectReturnSlideOut();
         }
     } else if (gOptionTopMenu->mStateFrames >= 5) {
         gOptionTopMenu->mHighlightVisible = TRUE;
@@ -273,7 +273,7 @@ void AdvanceOptionTopMenuState5(void) {
         gOptionTopMenu->mBg0Offset = InterpolateS16(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10 &&
-        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnState0NoState1Request() != 0) &&
+        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnHiddenNoRequest() != 0) &&
         GetOptionNextScene() == -1) {
         if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
             gOptionTopMenu->mNextState = OPTION_TOP_STATE_ASK_RESET;

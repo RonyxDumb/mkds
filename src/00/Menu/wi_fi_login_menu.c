@@ -372,7 +372,7 @@ void AdvanceWiFiLoginMenuState8(void) {
         FormatMessageWithText(errorCodeText, GetBmgEntry(gWiFiLoginMenu->mWiFiMessages, 0x30), messageText, 0x258);
         gWiFiLoginMenu->mNextState = WIFI_LOGIN_STATE_ERROR_CODE;
         SetupTxtSystemMainText(messageText);
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
 }
 
@@ -381,7 +381,7 @@ void AdvanceWiFiLoginMenuState9(void) {
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;
-    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
+    if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
             hasPair = gInputSlots[slotIndex].mPair.mHasPair;
@@ -392,17 +392,17 @@ void AdvanceWiFiLoginMenuState9(void) {
                 pairNewUnlessRecentlyLost = TRUE;
             }
             if (pairNewUnlessRecentlyLost == FALSE ||
-                IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+                IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                      gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
                 goto next;
             }
         }
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         RequestTxtSystemClose();
         return;
     }
 next:
-    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
+    if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiLoginMenu->mPendingWiFiState = WIFI_STATE_TOP_MENU;
         RequestWiFiState(gWiFiLoginMenu->mPendingWiFiState);
     }

@@ -74,8 +74,8 @@ void AdvanceSelectCupCourseState3(void) {
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
         (SelectCupCourseIsPairNewUnlessLost(inputIndex) != 0 &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[inputIndex].mPair.mPairX,
-                                                         gInputSlots[inputIndex].mPair.mPairY) != FALSE)) {
+         IsSelectReturnShownNoRequestAndInRect(gInputSlots[inputIndex].mPair.mPairX,
+                                               gInputSlots[inputIndex].mPair.mPairY) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 SetSelectReturnSoundId(-1);
@@ -84,7 +84,7 @@ void AdvanceSelectCupCourseState3(void) {
             }
             RequestSelectCupCourseState8();
             gSelectCupCourse->mResult = 2;
-            RequestSelectReturnState3WithSound(0);
+            RequestSelectReturnPressWithSound(0);
         }
         return;
     }
@@ -157,14 +157,14 @@ void AdvanceSelectCupCourseState5(void) {
         case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
         case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
         case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
-            if (IsSelectChoisesState1NoState0Request() != 0) {
+            if (IsSelectChoisesChooseNoRequest() != 0) {
                 RequestSelectCupCourseState6();
             }
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
             if (gSelectCupCourse->mStateFrames >= 0xf) {
-                if (IsSelectChoisesState1NoState0Request() != 0 || GetSelectChoisesDone() != 0) {
+                if (IsSelectChoisesChooseNoRequest() != 0 || GetSelectChoisesDone() != 0) {
                     RequestSelectCupCourseState6();
                 }
             }
@@ -199,7 +199,7 @@ void AdvanceSelectCupCourseState7(void) {
         case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
         case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
         case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
-            if (IsSelectChoisesState0NoState1Request() != 0) {
+            if (IsSelectChoisesHiddenNoRequest() != 0) {
                 choiceIndex = GetSelectChoisesIndex();
                 switch (choiceIndex) {
                     case 0:
@@ -217,7 +217,7 @@ void AdvanceSelectCupCourseState7(void) {
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
             if (gSelectCupCourse->mStateFrames >= 0xf) {
-                if (IsSelectChoisesState0NoState1Request() != 0) {
+                if (IsSelectChoisesHiddenNoRequest() != 0) {
                     choiceIndex = GetSelectChoisesIndex();
                     switch (choiceIndex) {
                         case 0:

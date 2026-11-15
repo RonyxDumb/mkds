@@ -64,13 +64,13 @@ void AdvanceSelectRaceRuleState6(void) {
 }
 
 void AdvanceSelectRaceRuleState7(void) {
-    if (IsSelectChoisesState0NoState1Request() != 0) {
+    if (IsSelectChoisesHiddenNoRequest() != 0) {
         switch (GetSelectChoisesIndex()) {
             case 0:
                 RequestSelectRaceRuleState8();
                 gSelectRaceRule->mResult = 1;
                 StartPlayerEntryListKind(3);
-                RequestSelectReturnState4();
+                RequestSelectReturnSlideOut();
                 break;
             case -1:
             case 1:
@@ -91,7 +91,7 @@ void AdvanceSelectRaceRuleState8(void) {
     selectRaceRule = gSelectRaceRule;
     value = InterpolateS16(1, 0, -192, selectRaceRule->mStateFrames, SELECT_RACE_RULE_SLIDE_STEPS);
     rowsOffsetY = selectRaceRule->mOffsetY + value;
-    returnOffsetY = -LookupSelectReturnState4Bg2Offset(selectRaceRule->mStateFrames);
+    returnOffsetY = -LookupSelectReturnSlideOutBg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
     value = gSelectRaceRule->mBncl->mCount;
     for (rowIndex = 0; rowIndex < 5; rowIndex++) {
@@ -220,8 +220,7 @@ s32 AdvanceSelectRaceRule(void) {
     if (selectRaceRule->mState == SELECT_RACE_RULE_STATE_SLIDE_OUT) {
         if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
                                              selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
-            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS &&
-                IsSelectReturnState0NoState1Request() != 0) {
+            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnHiddenNoRequest() != 0) {
                 return gSelectRaceRule->mResult;
             }
         } else if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS) {

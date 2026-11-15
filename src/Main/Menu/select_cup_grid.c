@@ -420,7 +420,7 @@ void RequestSelectCupGridState1(void) {
 void RequestSelectCupGridState2(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_RETURN;
     gSelectCupGrid->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 void RequestSelectCupGridState3(void) {
@@ -464,7 +464,7 @@ void RequestSelectCupGridState6(void) {
 void RequestSelectCupGridState7(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_ANSWER;
     gSelectCupGrid->mStateFrames = 0;
-    RequestSelectChoisesState0();
+    RequestSelectChoisesHidden();
 }
 
 void RequestSelectCupGridState8(void) {
@@ -500,7 +500,7 @@ void RequestSelectCupGridState9(void) {
 void RequestSelectCupGridState10(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_EXIT_ANSWER;
     gSelectCupGrid->mStateFrames = 0;
-    RequestSelectChoisesState0();
+    RequestSelectChoisesHidden();
 }
 
 void RequestSelectCupGridState11(void) {
@@ -662,7 +662,7 @@ void AdvanceSelectCupGridState1(void) {
 
 void AdvanceSelectCupGridState2(void) {
     int isReturnState2NoState3Or4Request;
-    isReturnState2NoState3Or4Request = IsSelectReturnState2NoState3Or4Request();
+    isReturnState2NoState3Or4Request = IsSelectReturnShownNoRequest();
     if (isReturnState2NoState3Or4Request != 0) {
         RequestSelectCupGridState3();
     }
@@ -717,7 +717,7 @@ void AdvanceSelectCupGridState3(void) {
     if (pressedFlag == 0) {
         goto checkCupTouch;
     }
-    if (IsSelectReturnState2NoState3Or4RequestAndInRect(gInputPairXs[inputIndex].mPairX,
+    if (IsSelectReturnShownNoRequestAndInRect(gInputPairXs[inputIndex].mPairX,
                                                         gInputPairYs[inputIndex].mPairY) == FALSE) {
         goto checkCupTouch;
     }
@@ -731,7 +731,7 @@ runReturnRequest:
         case SELECT_CUP_GRID_MODE_NO_RECORDS:
             RequestSelectCupGridState11();
             gSelectCupGrid->mResult = 2;
-            RequestSelectReturnState3WithSound(0);
+            RequestSelectReturnPressWithSound(0);
             return;
         case SELECT_CUP_GRID_MODE_NO_CONNECTION:
         case SELECT_CUP_GRID_MODE_MULTI_SIMPLE:
@@ -741,18 +741,18 @@ runReturnRequest:
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetSelectReturnSoundId(-1);
                 }
-                RequestSelectReturnState3WithSound(0);
+                RequestSelectReturnPressWithSound(0);
                 return;
             }
             RequestSelectCupGridState11();
             gSelectCupGrid->mResult = 2;
             if (gSelectCupGrid->mMode != SELECT_CUP_GRID_MODE_NO_CONNECTION) {
-                RequestSelectReturnState3WithSound(1);
+                RequestSelectReturnPressWithSound(1);
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SlideOutSelectRaceRuleWait();
                 }
             } else {
-                RequestSelectReturnState3WithSound(0);
+                RequestSelectReturnPressWithSound(0);
             }
             return;
     }
@@ -858,7 +858,7 @@ void AdvanceSelectCupGridState4(void) {
 void AdvanceSelectCupGridState5(void) {
     int isChoisesState1NoState0Request;
     AdvanceSelectCupGridShownCourse();
-    isChoisesState1NoState0Request = IsSelectChoisesState1NoState0Request();
+    isChoisesState1NoState0Request = IsSelectChoisesChooseNoRequest();
     if (isChoisesState1NoState0Request != 0) {
         RequestSelectCupGridState6();
     }
@@ -881,14 +881,14 @@ void AdvanceSelectCupGridState7(void) {
     s32 choiceIndex;
 
     AdvanceSelectCupGridShownCourse();
-    if (IsSelectChoisesState0NoState1Request() != 0) {
+    if (IsSelectChoisesHiddenNoRequest() != 0) {
         choiceIndex = GetSelectChoisesIndex();
         switch (choiceIndex) {
             case 0:
                 SetCupFromSelectCupGrid();
                 gSelectCupGrid->mResult = 1;
                 RequestSelectCupGridState11();
-                RequestSelectReturnState4();
+                RequestSelectReturnSlideOut();
                 break;
             case -1:
             case 1:
@@ -905,7 +905,7 @@ void AdvanceSelectCupGridState7(void) {
 void AdvanceSelectCupGridState8(void) {
     int isChoisesState1NoState0Request;
     AdvanceSelectCupGridShownCourse();
-    isChoisesState1NoState0Request = IsSelectChoisesState1NoState0Request();
+    isChoisesState1NoState0Request = IsSelectChoisesChooseNoRequest();
     if (isChoisesState1NoState0Request != 0) {
         RequestSelectCupGridState9();
     }
@@ -939,7 +939,7 @@ void AdvanceSelectCupGridState10(void) {
     s32 choiceIndex;
 
     AdvanceSelectCupGridShownCourse();
-    if (IsSelectChoisesState0NoState1Request() != 0) {
+    if (IsSelectChoisesHiddenNoRequest() != 0) {
         choiceIndex = GetSelectChoisesIndex();
         switch (choiceIndex) {
             case -1:

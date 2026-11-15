@@ -167,7 +167,7 @@ void RequestSelectCupCourseState1(void) {
 void RequestSelectCupCourseState2(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_WAIT_RETURN;
     gSelectCupCourse->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
@@ -236,10 +236,10 @@ void RequestSelectCupCourseState7(void) {
         case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
         case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
         case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
-            RequestSelectChoisesState0();
+            RequestSelectChoisesHidden();
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
-            RequestSelectChoisesState0();
+            RequestSelectChoisesHidden();
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 RequestTxtSystemClose();
             }
@@ -253,11 +253,11 @@ void RequestSelectCupCourseState8(void) {
     if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
         if (gSelectCupCourse->mResult == 1) {
             if (HasNoSelectableGhost() != FALSE) {
-                RequestSelectReturnState4();
+                RequestSelectReturnSlideOut();
             }
         }
     } else {
-        RequestSelectReturnState4();
+        RequestSelectReturnSlideOut();
     }
 }
 
@@ -425,7 +425,7 @@ void AdvanceSelectCupCourseState1(void) {
 
 void AdvanceSelectCupCourseState2(void) {
     int returnRequested;
-    returnRequested = IsSelectReturnState2NoState3Or4Request();
+    returnRequested = IsSelectReturnShownNoRequest();
     if (returnRequested != 0) {
         RequestSelectCupCourseState3();
     }

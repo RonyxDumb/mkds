@@ -30,7 +30,7 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
             gMenuScene->mSinglePlaySelectStartedOnSelected = TRUE;
         } else if (MenuGetNewBits(value, PAD_KEY_B)) {
             SwitchMenuScreen(2, 0x1b);
-            RequestSelectReturnState3WithSound(1);
+            RequestSelectReturnPressWithSound(1);
         } else if (GetNewOrRepeatBits(value, PAD_KEY_UP)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
@@ -52,9 +52,9 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
                 gMenuScene->mSinglePlaySelectModeIndex = touchedIndex;
                 SwitchMenuScreen(3, 0x1f);
                 StartMenuSound(5);
-            } else if (IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, value)) {
+            } else if (IsSelectReturnShownNoRequestAndInRect(pairX, value)) {
                 SwitchMenuScreen(2, 0x1b);
-                RequestSelectReturnState3WithSound(1);
+                RequestSelectReturnPressWithSound(1);
             }
         }
     }

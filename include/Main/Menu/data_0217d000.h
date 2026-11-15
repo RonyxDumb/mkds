@@ -713,14 +713,14 @@ typedef struct SelectChoises {
     /* 000 */ u32 mEnabled;
     /* 004 */ s32 mState;
     /* 008 */ u32 mNextState;
-    /* 00c */ u32 mState2Frames;
+    /* 00c */ u32 mChosenFrames;
     /* 010 */ s32 mToggleFrames;
     /* 014 */ u32 mToggleOn;
     /* 018 */ u32 mIndex;
     /* 01c */ u32 mDone;
     /* 020 */ u32 mIndexNone;
-    /* 024 */ u32 mState1Requested;
-    /* 028 */ u32 mState0Requested;
+    /* 024 */ u32 mChooseRequested;
+    /* 028 */ u32 mHiddenRequested;
     /* 02c */ u16 mNscrCopy[0x400];
     /* 82c */ u32 mToggleOnFirstTile;
     /* 830 */ u32 mToggleOffFirstTile;
@@ -752,9 +752,9 @@ typedef struct SelectReturn {
     /* 008 */ s32 mNextState;
     /* 00c */ s32 mStateFrames; /* counts only in states 1, 3, 4 */
     /* 010 */ u16 mScreenMapCopy[0x400];
-    /* 810 */ BOOL mState1Requested;
-    /* 814 */ BOOL mState3Requested;
-    /* 818 */ BOOL mState4Requested;
+    /* 810 */ BOOL mSlideInRequested;
+    /* 814 */ BOOL mPressRequested;
+    /* 818 */ BOOL mSlideOutRequested;
     /* 81c */ s32 mBg2Offset;
     /* 820 */ BOOL mDisplayBitOn;
     /* 824 */ s32 mSoundId;

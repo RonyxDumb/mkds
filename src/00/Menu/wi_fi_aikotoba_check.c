@@ -148,14 +148,14 @@ void AdvanceWiFiAikotobaCheckState1(void) {
             pairNewUnlessRecentlyLost = TRUE;
         }
         if (pairNewUnlessRecentlyLost == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
     gWiFiAikotobaCheck->mNextState = WIFI_AIKOTOBA_CHECK_STATE_SLIDE_OUT;
     gWiFiAikotobaCheck->mPendingWiFiState = WIFI_STATE_AIKOTOBA;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     RequestTxtSystemClose();
 }
 
@@ -163,7 +163,7 @@ void AdvanceWiFiAikotobaCheckState2(void) {
     gWiFiAikotobaCheck->mStateFrames = gWiFiAikotobaCheck->mStateFrames + 1;
     gWiFiAikotobaCheck->mOffset = InterpolateS16(1, 0, 0x50, gWiFiAikotobaCheck->mStateFrames, 15);
     if (gWiFiAikotobaCheck->mStateFrames >= 15 && IsTxtSystemState0NoOpenRequest() != 0 &&
-        IsSelectReturnState2NoState3Or4Request() != 0) {
+        IsSelectReturnShownNoRequest() != 0) {
         RequestWiFiState(gWiFiAikotobaCheck->mPendingWiFiState);
     }
 }

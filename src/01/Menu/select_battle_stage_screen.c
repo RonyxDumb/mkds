@@ -224,7 +224,7 @@ void AdvanceSelectBattleStageState0(void) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
         gSelectBattleStage->mStateFrames = 0;
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     } else if (gSelectBattleStage->mStateFrames > 10) {
         for (stageIndex = 0; stageIndex < 6; stageIndex++) {
             for (cellIndex = 0; cellIndex < 3; cellIndex++) {
@@ -246,7 +246,7 @@ void AdvanceSelectBattleStageState0(void) {
 
 void AdvanceSelectBattleStageState1(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
     }
@@ -290,25 +290,25 @@ void AdvanceSelectBattleStageState2(void) {
             touchBegan = TRUE;
         }
         if (touchBegan == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
     if (gMenuShared->mMenuEntryKind == 2) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES;
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         gSelectBattleStage->mWaitForReturnState0NoState1 = FALSE;
         return;
     }
     gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
     gSelectBattleStage->mPendingResult = -3;
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         gSelectBattleStage->mWaitForReturnState0NoState1 = FALSE;
         return;
     }
-    RequestSelectReturnState3WithSound(1);
+    RequestSelectReturnPressWithSound(1);
     gSelectBattleStage->mWaitForReturnState0NoState1 = TRUE;
     return;
 next:
@@ -369,7 +369,7 @@ void AdvanceSelectBattleStageState3(void) {
 }
 
 void AdvanceSelectBattleStageState4(void) {
-    if (IsSelectReturnState2NoState3Or4Request() != 0) {
+    if (IsSelectReturnShownNoRequest() != 0) {
         gSelectBattleStage->mPendingResult = -2;
         StartSelectChoises(GetBmgEntry(gSelectBattleStage->mMenuMessages, 0x14),
                            GetBmgEntry(gSelectBattleStage->mMenuMessages, 0x15), 0);
@@ -390,13 +390,13 @@ void AdvanceSelectBattleStageState5(void) {
         } else {
             if (GetSelectChoisesIndex() == 0) {
                 gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
-                RequestSelectReturnState4();
+                RequestSelectReturnSlideOut();
                 gSelectBattleStage->mWaitForReturnState0NoState1 = TRUE;
             } else {
                 gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
             }
         }
-        RequestSelectChoisesState0();
+        RequestSelectChoisesHidden();
     }
 }
 
@@ -406,9 +406,8 @@ void AdvanceSelectBattleStageState6(void) {
 
     gSelectBattleStage->mStateFrames++;
     if (gSelectBattleStage->mStateFrames > 10) {
-        if ((gSelectBattleStage->mWaitForReturnState0NoState1 != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
-            (gSelectBattleStage->mWaitForReturnState0NoState1 == FALSE &&
-             IsSelectReturnState2NoState3Or4Request() != 0)) {
+        if ((gSelectBattleStage->mWaitForReturnState0NoState1 != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
+            (gSelectBattleStage->mWaitForReturnState0NoState1 == FALSE && IsSelectReturnShownNoRequest() != 0)) {
             gSelectBattleStage->mResult = gSelectBattleStage->mPendingResult;
             return;
         }

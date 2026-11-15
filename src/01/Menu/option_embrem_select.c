@@ -132,13 +132,13 @@ void AdvanceOptionEmbremSelectState1(void) {
     if (gOptionEmbremSelect->mStateFrames >= 10) {
         gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_SELECT_RETURN;
         gOptionEmbremSelect->mStateFrames = 0;
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
 }
 
 void AdvanceOptionEmbremSelectState2(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SELECT;
     }
@@ -176,15 +176,15 @@ void AdvanceOptionEmbremSelectState3(void) {
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         touchBegan = TRUE;
     }
-    if (touchBegan != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(
-                                   gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
+    if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                     gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
     next:
         gOptionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_OUT;
         gOptionEmbremSelect->mNextOptionState = OPTION_STATE_HENSYU_MENU;
         if (gOptionEmbremSelect->mEmblemOffChoice != gOptionEmbremSelect->mEmblemOffAtOpen) {
-            RequestSelectReturnState3WithSound(1);
+            RequestSelectReturnPressWithSound(1);
         } else {
-            RequestSelectReturnState3WithSound(0);
+            RequestSelectReturnPressWithSound(0);
         }
         if (gOptionEmbremSelect->mEmblemOffChoice == 0) {
             gBackupBuffers->mFirstBlock->mEmblemOff = 0;
@@ -250,7 +250,7 @@ void AdvanceOptionEmbremSelectState4(void) {
     if (10 <= optionEmbremSelect->mStateFrames) {
         optionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_SLIDE_OUT;
         gOptionEmbremSelect->mStateFrames = 0;
-        RequestSelectReturnState4();
+        RequestSelectReturnSlideOut();
         return;
     }
     if (5 <= optionEmbremSelect->mStateFrames) {
@@ -279,7 +279,7 @@ void AdvanceOptionEmbremSelectState5(void) {
     }
     if (gOptionEmbremSelect->mStateFrames >= 10) {
         if (gOptionEmbremSelect->mStateFrames >= 10 &&
-            (IsSelectReturnState2NoState3Or4Request() != 0 || IsSelectReturnState0NoState1Request() != 0)) {
+            (IsSelectReturnShownNoRequest() != 0 || IsSelectReturnHiddenNoRequest() != 0)) {
             if (GetOptionNextScene() == -1) {
                 OptionEmbremSelect *obj = gOptionEmbremSelect;
                 s32 arg;

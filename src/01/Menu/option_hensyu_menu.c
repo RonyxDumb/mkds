@@ -120,13 +120,13 @@ void AdvanceOptionHensyuMenuState1(void) {
     if (gOptionHensyuMenu->mStateFrames >= 10) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_WAIT_SELECT_RETURN;
         gOptionHensyuMenu->mStateFrames = 0;
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
 }
 
 void AdvanceOptionHensyuMenuState2(void) {
     int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnState2NoState3Or4Request();
+    returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SELECT;
     }
@@ -167,15 +167,15 @@ void AdvanceOptionHensyuMenuState3(void) {
             touchBegan = TRUE;
         }
         if (touchBegan != FALSE &&
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
             goto leave;
         }
     } else {
     leave:
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_OUT;
         gOptionHensyuMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
-        RequestSelectReturnState3WithSound(0);
+        RequestSelectReturnPressWithSound(0);
         return;
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedRect <= 1) {
@@ -233,7 +233,7 @@ void AdvanceOptionHensyuMenuState4(void) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_OUT;
         gOptionHensyuMenu->mStateFrames = 0;
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_KEYBOARD) {
-            RequestSelectReturnState4();
+            RequestSelectReturnSlideOut();
         }
     } else if (gOptionHensyuMenu->mStateFrames >= 5) {
         gOptionHensyuMenu->mHighlightVisible = TRUE;
@@ -270,8 +270,7 @@ void AdvanceOptionHensyuMenuState5(void) {
     }
     if (gOptionHensyuMenu->mStateFrames >= 10) {
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_TOP_MENU ||
-            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT ||
-            IsSelectReturnState0NoState1Request() != 0) {
+            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT || IsSelectReturnHiddenNoRequest() != 0) {
             if (GetOptionNextScene() == -1) {
                 RequestOptionState(gOptionHensyuMenu->mNextOptionState);
             }

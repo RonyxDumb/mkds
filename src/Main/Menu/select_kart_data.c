@@ -448,7 +448,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     SetSelectKartPositionDigits();
     PrintSelectKartMessage();
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
-        RequestSelectReturnState1();
+        RequestSelectReturnSlideIn();
     }
     if (SelectKartGetConnectionKind() == 2) {
         SetSelectReturnDisplayBitOn();
@@ -584,8 +584,8 @@ int AdvanceSelectKart(void) {
             break;
         case SELECT_KART_STATE_CHOOSE:
             if (SelectKartIsSlotPairNew(padInputSlot) != 0) {
-                isReturnTouched = IsSelectReturnState2NoState3Or4RequestAndInRect(SelectKartGetSlotPairX(padInputSlot),
-                                                                                  SelectKartGetSlotPairY(padInputSlot));
+                isReturnTouched = IsSelectReturnShownNoRequestAndInRect(SelectKartGetSlotPairX(padInputSlot),
+                                                                        SelectKartGetSlotPairY(padInputSlot));
             }
             if (SelectKartGetNewBits(padInputSlot, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 ||
                 IsSelectKartModeAndTimerZero() != 0) {
@@ -611,7 +611,7 @@ int AdvanceSelectKart(void) {
                 } else {
                     value = 0;
                 }
-                RequestSelectReturnState3WithSound(value);
+                RequestSelectReturnPressWithSound(value);
             } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
                 gSelectKart->mSlidingCellIndex = 3;
@@ -661,12 +661,12 @@ int AdvanceSelectKart(void) {
                         gSelectKart->mState = SELECT_KART_STATE_HOLD;
                         break;
                     case SELECT_KART_MODE_CONNECTION:
-                        RequestSelectReturnState4();
+                        RequestSelectReturnSlideOut();
                         SetDataSharingSendByteInState8(gSelectKart->mKartIndex | 0x80);
                         gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
                         break;
                     case SELECT_KART_MODE_WIFI_SESSION:
-                        RequestSelectReturnState4();
+                        RequestSelectReturnSlideOut();
                         SetWiFiSessionOwnKartIndex(gSelectKart->mKartIndex);
                         gSelectKart->mState = SELECT_KART_STATE_WAIT_OTHERS;
                         break;

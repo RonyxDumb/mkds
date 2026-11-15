@@ -284,15 +284,14 @@ void AdvanceRecordTAttState2(void) {
         if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchFlag = TRUE;
         }
-        if (touchFlag == FALSE ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+        if (touchFlag == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                        gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto other;
         }
     }
     RequestRecordTAttState5();
     gRecordTAtt->mNextScreen = RECORD_SCREEN_TOP_MENU;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     goto done;
 other:
     if (touchBeganRect == 2 || (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_X) != 0) {
@@ -522,7 +521,7 @@ void AdvanceRecordTAttState8(void) {
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
-        if (IsSelectReturnState0NoState1Request() != 0) {
+        if (IsSelectReturnHiddenNoRequest() != 0) {
             RequestRecordTAttState9();
         }
     }
@@ -627,7 +626,7 @@ void AdvanceRecordTAttState12(void) {
         }
     }
     if (gRecordTAtt->mStateFrames > 10) {
-        if (IsSelectReturnState2NoState3Or4Request() != 0) {
+        if (IsSelectReturnShownNoRequest() != 0) {
             RequestRecordTAttState2();
         }
     }
@@ -696,13 +695,13 @@ void AdvanceRecordTAttState15(void) {
             pressedOrTouched = 1;
         }
         if (pressedOrTouched == 0 ||
-            IsSelectReturnState2NoState3Or4RequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                            gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             return;
         }
     }
     RequestRecordTAttState16();
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
 }
 
 void AdvanceRecordTAttState16(void) {

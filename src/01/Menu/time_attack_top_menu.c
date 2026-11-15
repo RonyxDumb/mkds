@@ -91,7 +91,7 @@ void RequestTimeAttackTopMenuState1(void) {
 void RequestTimeAttackTopMenuState2(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_WAIT_SELECT_RETURN;
     gTimeAttackTopMenu->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
 }
 
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
@@ -107,7 +107,7 @@ void RequestTimeAttackTopMenuState4(void) {
     switch (gTimeAttackTopMenu->mIndex) {
         case TIME_ATTACK_TOP_ROW_SEND_GHOST:
         case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
-            RequestSelectReturnState4();
+            RequestSelectReturnSlideOut();
             break;
     }
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
@@ -224,7 +224,7 @@ void AdvanceTimeAttackTopMenuState1(void) {
 }
 
 void AdvanceTimeAttackTopMenuState2(void) {
-    if (IsSelectReturnState2NoState3Or4Request() != 0) {
+    if (IsSelectReturnShownNoRequest() != 0) {
         RequestTimeAttackTopMenuState3();
     }
 }
@@ -263,15 +263,15 @@ void AdvanceTimeAttackTopMenuState3(void) {
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
             flag4 = TRUE;
         }
-        if (flag4 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(
-                                  gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+        if (flag4 == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                    gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
     SetSelectReturnSoundId(0xe);
     RequestTimeAttackTopMenuState5();
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RETURN;
-    RequestSelectReturnState3WithSound(0);
+    RequestSelectReturnPressWithSound(0);
     return;
 next:
     pressedBits = inputSlot->mPressedBits & PAD_KEY_A;

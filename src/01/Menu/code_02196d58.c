@@ -392,7 +392,7 @@ void RequestRecordTAttState7(void) {
 void RequestRecordTAttState8(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_FOR_CLEAR_PROMPT;
     gRecordTAtt->mStateFrames = 0;
-    RequestSelectReturnState4();
+    RequestSelectReturnSlideOut();
 }
 
 void RequestRecordTAttState9(void) {
@@ -429,7 +429,7 @@ void RequestRecordTAttState11(void) {
 void RequestRecordTAttState12(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_AFTER_CLEAR_PROMPT;
     gRecordTAtt->mStateFrames = 0;
-    RequestSelectReturnState1();
+    RequestSelectReturnSlideIn();
     SetupRecordTAtt();
     gRecordTAtt->mRecordTAttSTable[13].mVisible = 0;
 }
