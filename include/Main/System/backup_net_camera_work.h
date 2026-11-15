@@ -1017,7 +1017,7 @@ typedef struct OverlayLoader {
 #define WIFI_RACE_SYNC_PROBE_SIZE 0x28
 #define WIFI_RACE_SYNC_SEND_BUFFER_SIZE 0x6c
 // Bits of WiFiRaceSync.mFlags.
-// Set when the sync enters its race state (EnterWiFiRaceSyncRace) and cleared when it enters the probe state.
+// Set when the sync enters its race state (EnterWiFiRaceSyncRace) and cleared when it enters the latency check state.
 #define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
 #define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A 0x1
 #define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2

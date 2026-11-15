@@ -5,7 +5,7 @@
 #include "code_0201c4e8.h"
 
 // An emitter's mPlaneY with no override of the plane height of the behavior.
-#define SPL_PLANE_Y_UNSET 0x80000000
+#define SPL_UNSET_PLANE 0x80000000
 
 // Mask of one 5-bit channel of a 15-bit color, and the largest value of the 5-bit animation alpha.
 #define SPL_COLOR_CHANNEL_MASK 0x1f

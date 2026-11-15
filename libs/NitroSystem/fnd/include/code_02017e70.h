@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// A free region smaller than this cannot hold a block header and is dropped.
+// A free region smaller than this cannot hold the header of a block and is dropped.
 #define EXP_HEAP_MIN_FREE_BLOCK_SIZE 0x10
 
 // Header of 16 bytes before each block of an Exp heap, followed by mBlockSize bytes; blocks are linked through

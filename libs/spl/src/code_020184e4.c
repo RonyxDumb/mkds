@@ -149,7 +149,7 @@ void SPLBehavior_ApplyCollisionPlane(const ParticleBehaviorCollisionPlane *plane
     s32 particleY;
 
     lim = plane->mPlaneY;
-    if (emtr->mPlaneY != SPL_PLANE_Y_UNSET) {
+    if (emtr->mPlaneY != SPL_UNSET_PLANE) {
         lim = emtr->mPlaneY;
     }
     switch (plane->mMode) {
@@ -1756,7 +1756,7 @@ void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos) {
     emtr->mAlpha = emtr->mResource->mHeader->mAlpha;
     emtr->mUpdateCycle = 0;
     emtr->mUnk_80_19 = 0;
-    emtr->mPlaneY = SPL_PLANE_Y_UNSET;
+    emtr->mPlaneY = SPL_UNSET_PLANE;
     emtr->mTexCoordU = FIXED12_UNIT << emtr->mResource->mHeader->mDrawParams.mTexCoordUShift;
     emtr->mTexCoordV = FIXED12_UNIT << emtr->mResource->mHeader->mDrawParams.mTexCoordVShift;
     if (emtr->mResource->mHeader->mFlipU) {
