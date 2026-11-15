@@ -456,7 +456,7 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             gEnvMapTexImageParamCommand[1] = state->mMatAnmResult->mPrmTexImage;
             NNS_G3dGeBufferOP_N(gEnvMapTexImageParamCommand[0], &gEnvMapTexImageParamCommand[1], 1);
         }
-        texMode = 3;
+        texMode = G3D_MTX_MODE_TEXTURE;
         NNS_G3dGeBufferOP_N(0x10, &texMode, 1);
         if (state->mCbVecFunc[12] != 0) {
             timing = state->mCbVecTiming[12];
@@ -496,10 +496,10 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
             timing = 0;
         }
         if (timing == 0) {
-            vecMode = 2;
+            vecMode = G3D_MTX_MODE_POS_VEC;
             NNS_G3dGeBufferOP_N(0x10, &vecMode, 1);
             NNS_G3dGetCurrentMtx(0, &nrm);
-            texModeAfterNormal = 3;
+            texModeAfterNormal = G3D_MTX_MODE_TEXTURE;
             NNS_G3dGeBufferOP_N(0x10, &texModeAfterNormal, 1);
             if (NNS_G3dGlb.mFlag & G3D_GLB_FLAG_USE_BASE_SRT_CAMERA) {
                 NNS_G3dGeBufferOP_N(0x1a, &NNS_G3dGlb.mCameraMtx, 9);
@@ -512,7 +512,7 @@ void NNSi_G3dFuncSbc_ENVMAP(NNSG3dRS *state) {
                 NNS_G3dGeBufferOP_N(0x1a, &nrm, 9);
             }
         }
-        vecModeAtEnd = 2;
+        vecModeAtEnd = G3D_MTX_MODE_POS_VEC;
         NNS_G3dGeBufferOP_N(0x10, &vecModeAtEnd, 1);
     }
     state->mC += 3;
@@ -607,7 +607,7 @@ void NNSi_G3dFuncSbc_PRJMAP(NNSG3dRS *state) {
             texCoord = (u16) (s16) (transX >> 8) | ((u16) (s16) (transY >> 8) << 16);
             NNS_G3dGeBufferOP_N(0x22, &texCoord, 1);
         }
-        vecMode = 2;
+        vecMode = G3D_MTX_MODE_POS_VEC;
         NNS_G3dGeBufferOP_N(0x10, &vecMode, 1);
         restoreIdx = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &restoreIdx, 1);
@@ -746,7 +746,7 @@ BOOL NNSi_G3dAnmBlendVis(NNSG3dVisAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
 void NNS_G3dGlbInit(void) {
     NNS_G3dGlb.mCmd0 = 0x17101610;
     NNS_G3dGlb.mMtxModeProj = 0;
-    NNS_G3dGlb.mMtxModePosVec = 2;
+    NNS_G3dGlb.mMtxModePosVec = G3D_MTX_MODE_POS_VEC;
     NNS_G3dGlb.mCmd1 = 0x32323232;
     NNS_G3dGlb.mCmd2 = 0x60293130;
     NNS_G3dGlb.mCmd3 = 0x33333333;

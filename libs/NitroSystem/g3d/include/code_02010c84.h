@@ -180,6 +180,10 @@ typedef struct NNSG3dResAnmHeader {
 // Packed viewport value of mPrmViewPort that covers the whole screen.
 #define VIEWPORT_WHOLE_SCREEN 0xbfff0000
 
+// Matrix modes of the geometry engine that the interpreter sets: position and vector matrices together, texture matrix.
+#define G3D_MTX_MODE_POS_VEC 2
+#define G3D_MTX_MODE_TEXTURE 3
+
 // Bits of NNSG3dGlb.mFlag. The first two are tested by the billboard and environment map commands to pick the camera
 // matrices they multiply in (both are cleared by NNS_G3dGlbFlushP). The valid bits say that the cached inverse is up
 // to date; G3D_GLB_BASE_DEPENDENT_CACHES are the bits of the caches that depend on the base transform.

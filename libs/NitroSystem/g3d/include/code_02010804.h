@@ -26,6 +26,9 @@ typedef struct NNSG3dResTex4x4Info {
     /* 10 */ u32 mOfsTexPlttIdx;
 } NNSG3dResTex4x4Info;
 
+// Bit of NNSG3dResTex4x4Info.mFlag: the palette is the four-color kind; it is passed on when the palette is allocated.
+#define G3D_TEX_4X4_FLAG_PLTT_4COLOR 0x8000
+
 typedef struct NNSG3dResPlttInfo {
     /* 00 */ NNSG3dPlttKey mVramKey;
     /* 04 */ u16 mSizePltt;
