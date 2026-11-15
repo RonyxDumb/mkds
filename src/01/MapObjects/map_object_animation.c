@@ -953,8 +953,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
             position->z >>= 1;
             break;
         case MAP_OBJECT_EFFECT_SCALED_OFFSET:
-            // The entry's mUnk_08 is first multiplied per component by param_1.mUnk_01c, mBounceScale and
-// mKartPushPosStep.
+            // The entry's mOffset is first multiplied per component by the object's mScale.
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.y;
             scaledY = MUL_FIXED12_NO_ROUND(offsetComponent, mapObject->mMapObject.mScale.y);
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.x;
