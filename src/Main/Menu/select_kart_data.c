@@ -566,7 +566,7 @@ int AdvanceSelectKart(void) {
     selectKart = gSelectKart;
     switch (selectKart->mState) {
         case SELECT_KART_STATE_SLIDE_IN:
-            if (selectKart->mInterpolations[4].mState == 1) {
+            if (selectKart->mInterpolations[4].mState == INTERPOLATION_STATE_AT_END) {
                 selectKart->mStateFrames = 0;
                 if (SelectKartMB_IsMultiBootChildWrapper() != 0) {
                     value = SELECT_KART_STATE_SEND_KART;
@@ -708,7 +708,7 @@ int AdvanceSelectKart(void) {
             }
             break;
         case SELECT_KART_STATE_SLIDE_OUT:
-            if (selectKart->mInterpolations[4].mState == 3) {
+            if (selectKart->mInterpolations[4].mState == INTERPOLATION_STATE_AT_START) {
                 GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartStored = selectKart->mResult == 1;
                 gSelectKart->mState = SELECT_KART_STATE_DONE;
             }
