@@ -216,7 +216,7 @@ void UpdateSelectBattleStageCellOffsets(void) {
     }
 }
 
-void AdvanceSelectBattleStageState0(void) {
+void AdvanceSelectBattleStageSlideIn(void) {
     s32 stageIndex, cellIndex;
 
     gSelectBattleStage->mStateFrames++;
@@ -244,7 +244,7 @@ void AdvanceSelectBattleStageState0(void) {
     }
 }
 
-void AdvanceSelectBattleStageState1(void) {
+void AdvanceSelectBattleStageWaitSelectReturn(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
@@ -252,7 +252,7 @@ void AdvanceSelectBattleStageState1(void) {
     }
 }
 
-void AdvanceSelectBattleStageState2(void) {
+void AdvanceSelectBattleStageInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     s32 touchedRect = -1;
     s32 touchedStage = -4;
@@ -298,18 +298,18 @@ void AdvanceSelectBattleStageState2(void) {
     if (gMenuShared->mMenuEntryKind == 2) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES;
         RequestSelectReturnPressWithSound(0);
-        gSelectBattleStage->mWaitForReturnState0NoState1 = FALSE;
+        gSelectBattleStage->mWaitForReturnHidden = FALSE;
         return;
     }
     gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
     gSelectBattleStage->mPendingResult = -3;
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
         RequestSelectReturnPressWithSound(0);
-        gSelectBattleStage->mWaitForReturnState0NoState1 = FALSE;
+        gSelectBattleStage->mWaitForReturnHidden = FALSE;
         return;
     }
     RequestSelectReturnPressWithSound(1);
-    gSelectBattleStage->mWaitForReturnState0NoState1 = TRUE;
+    gSelectBattleStage->mWaitForReturnHidden = TRUE;
     return;
 next:
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedStage != -4) {
@@ -345,7 +345,7 @@ next:
     }
 }
 
-void AdvanceSelectBattleStageState3(void) {
+void AdvanceSelectBattleStagePressStage(void) {
     s32 cellIndex;
     s16 offsetX;
 
@@ -368,7 +368,7 @@ void AdvanceSelectBattleStageState3(void) {
     }
 }
 
-void AdvanceSelectBattleStageState4(void) {
+void AdvanceSelectBattleStageWaitSelectReturnThenChoises(void) {
     if (IsSelectReturnShownNoRequest() != 0) {
         gSelectBattleStage->mPendingResult = -2;
         StartSelectChoises(GetBmgEntry(gSelectBattleStage->mMenuMessages, 0x14),
@@ -379,7 +379,7 @@ void AdvanceSelectBattleStageState4(void) {
     }
 }
 
-void AdvanceSelectBattleStageState5(void) {
+void AdvanceSelectBattleStageChoises(void) {
     if (GetSelectChoisesDone() != 0) {
         if (gSelectBattleStage->mPendingResult == -2 || gSelectBattleStage->mPendingResult == -1) {
             if (GetSelectChoisesIndex() == 1) {
@@ -391,7 +391,7 @@ void AdvanceSelectBattleStageState5(void) {
             if (GetSelectChoisesIndex() == 0) {
                 gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
                 RequestSelectReturnSlideOut();
-                gSelectBattleStage->mWaitForReturnState0NoState1 = TRUE;
+                gSelectBattleStage->mWaitForReturnHidden = TRUE;
             } else {
                 gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
             }
@@ -400,14 +400,14 @@ void AdvanceSelectBattleStageState5(void) {
     }
 }
 
-void AdvanceSelectBattleStageState6(void) {
+void AdvanceSelectBattleStageSlideOut(void) {
     s32 stageIndex;
     s32 cellIndex;
 
     gSelectBattleStage->mStateFrames++;
     if (gSelectBattleStage->mStateFrames > 10) {
-        if ((gSelectBattleStage->mWaitForReturnState0NoState1 != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
-            (gSelectBattleStage->mWaitForReturnState0NoState1 == FALSE && IsSelectReturnShownNoRequest() != 0)) {
+        if ((gSelectBattleStage->mWaitForReturnHidden != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
+            (gSelectBattleStage->mWaitForReturnHidden == FALSE && IsSelectReturnShownNoRequest() != 0)) {
             gSelectBattleStage->mResult = gSelectBattleStage->mPendingResult;
             return;
         }
@@ -457,25 +457,25 @@ s32 AdvanceSelectBattleStage(void) {
     gSelectBattleStage->mState = gSelectBattleStage->mNextState;
     switch (gSelectBattleStage->mState) {
         case SELECT_BATTLE_STAGE_STATE_SLIDE_IN:
-            AdvanceSelectBattleStageState0();
+            AdvanceSelectBattleStageSlideIn();
             break;
         case SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN:
-            AdvanceSelectBattleStageState1();
+            AdvanceSelectBattleStageWaitSelectReturn();
             break;
         case SELECT_BATTLE_STAGE_STATE_INPUT:
-            AdvanceSelectBattleStageState2();
+            AdvanceSelectBattleStageInput();
             break;
         case SELECT_BATTLE_STAGE_STATE_PRESS_STAGE:
-            AdvanceSelectBattleStageState3();
+            AdvanceSelectBattleStagePressStage();
             break;
         case SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES:
-            AdvanceSelectBattleStageState4();
+            AdvanceSelectBattleStageWaitSelectReturnThenChoises();
             break;
         case SELECT_BATTLE_STAGE_STATE_CHOISES:
-            AdvanceSelectBattleStageState5();
+            AdvanceSelectBattleStageChoises();
             break;
         case SELECT_BATTLE_STAGE_STATE_SLIDE_OUT:
-            AdvanceSelectBattleStageState6();
+            AdvanceSelectBattleStageSlideOut();
             break;
     }
     AdvanceSelectBattleStageOffsetTimer();
