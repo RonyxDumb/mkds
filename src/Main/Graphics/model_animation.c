@@ -9,30 +9,29 @@
 #include "code_02013740.h"
 #include "code_02013bdc.h"
 
-const AnmFrameCountGetter gAnmFrameCountGetters[5] = {
-    (AnmFrameCountGetter) JointGetAnmObjFrameCount, (AnmFrameCountGetter) TexSrtGetAnmObjFrameCount,
-    (AnmFrameCountGetter) TexPatGetAnmObjFrameCount, (AnmFrameCountGetter) VisGetAnmObjFrameCount,
-    (AnmFrameCountGetter) MatCGetAnmObjFrameCount};
+const AnmFrameCountGetter gAnmFrameCountGetters[5] = {JointGetAnmObjFrameCount, TexSrtGetAnmObjFrameCount,
+                                                      TexPatGetAnmObjFrameCount, VisGetAnmObjFrameCount,
+                                                      MatCGetAnmObjFrameCount};
 u32 gAnmObjSizeRequired;
 
-u32 JointGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mResAnm->mFrameCount;
+s32 JointGetAnmObjFrameCount(NNSG3dAnmObj *anmObj) {
+    return ((NNSG3dResJntAnm *) anmObj->mResAnm)->mNumFrame;
 }
 
-u32 TexSrtGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mResAnm->mFrameCount;
+s32 TexSrtGetAnmObjFrameCount(NNSG3dAnmObj *anmObj) {
+    return ((NNSG3dResTexSRTAnm *) anmObj->mResAnm)->mNumFrame;
 }
 
-u32 TexPatGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mResAnm->mFrameCount;
+s32 TexPatGetAnmObjFrameCount(NNSG3dAnmObj *anmObj) {
+    return ((NNSG3dResTexPatAnm *) anmObj->mResAnm)->mNumFrame;
 }
 
-u32 VisGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mResAnm->mFrameCount;
+s32 VisGetAnmObjFrameCount(NNSG3dAnmObj *anmObj) {
+    return ((NNSG3dResVisAnm *) anmObj->mResAnm)->mNumFrame;
 }
 
-u32 MatCGetAnmObjFrameCount(AnmObjView *anmObj) {
-    return anmObj->mResAnm->mFrameCount;
+s32 MatCGetAnmObjFrameCount(NNSG3dAnmObj *anmObj) {
+    return ((NNSG3dResMatCAnm *) anmObj->mResAnm)->mNumFrame;
 }
 
 void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,

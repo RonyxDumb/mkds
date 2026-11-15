@@ -40,16 +40,6 @@ typedef struct ModelAnimation {
     /* 34 */ NNSG3dAnmObj *mPreviousAnmObj;
 } ModelAnimation;
 
-typedef struct AnmResourceHead {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mFrameCount;
-} AnmResourceHead;
-
-typedef struct AnmObjView {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ AnmResourceHead *mResAnm;
-} AnmObjView;
-
 s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation);
 void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation);
 void AdvanceModelAnimation(ModelAnimation *modelAnimation);
@@ -60,11 +50,11 @@ void InitModelAnimationEntry(ModelAnimation *modelAnimation, s32 entryIndex, voi
                              void *heap);
 void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
                         void *file);
-unsigned int MatCGetAnmObjFrameCount(AnmObjView *anmObj);
-unsigned int VisGetAnmObjFrameCount(AnmObjView *anmObj);
-unsigned int TexPatGetAnmObjFrameCount(AnmObjView *anmObj);
-unsigned int TexSrtGetAnmObjFrameCount(AnmObjView *anmObj);
-unsigned int JointGetAnmObjFrameCount(AnmObjView *anmObj);
+s32 MatCGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
+s32 VisGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
+s32 TexPatGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
+s32 TexSrtGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
+s32 JointGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
 
 extern u32 gAnmObjSizeRequired;
 
