@@ -194,7 +194,7 @@ void SetupWiFiVSSettingText(void) {
     SetupTxtSystemMainTextEx(bmgEntry, 0, 0, 1, 0, 0, 0);
 }
 
-void AdvanceWiFiVSSettingState0(void) {
+void AdvanceWiFiVSSettingWaitFadeIn(void) {
     if (AreBrightnessFadesFaded() != 0) {
         StartFadeToClear(10);
     }
@@ -212,7 +212,7 @@ void AdvanceWiFiVSSettingState0(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState1(void) {
+void AdvanceWiFiVSSettingWaitConnectionLostText(void) {
     int queryResult;
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
     queryResult = IsTxtSystemOpenNoCloseRequest();
@@ -227,7 +227,7 @@ void AdvanceWiFiVSSettingState1(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState2(void) {
+void AdvanceWiFiVSSettingSlideIn(void) {
     s32 offsetX;
     s32 rowIndex;
 
@@ -247,7 +247,7 @@ void AdvanceWiFiVSSettingState2(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState3(void) {
+void AdvanceWiFiVSSettingSlideInReturnButton(void) {
     s16 rowOffsetY;
 
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
@@ -263,7 +263,7 @@ void AdvanceWiFiVSSettingState3(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState4(void) {
+void AdvanceWiFiVSSettingWaitInput(void) {
     s32 previousRow = gWiFiVSSetting->mRow;
     s32 prevSettingIndex = gWiFiVSSetting->mSettingIndex;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
@@ -393,7 +393,7 @@ end:
     }
 }
 
-void AdvanceWiFiVSSettingState5(void) {
+void AdvanceWiFiVSSettingPressButton(void) {
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
     if (gWiFiVSSetting->mStateFrames >= 10) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_OUT;
@@ -411,7 +411,7 @@ void AdvanceWiFiVSSettingState5(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState6(void) {
+void AdvanceWiFiVSSettingSlideOut(void) {
     s32 offsetX;
     s16 rowOffsetY;
     s32 rowIndex;
@@ -479,7 +479,7 @@ void AdvanceWiFiVSSettingState6(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState7(void) {
+void AdvanceWiFiVSSettingWaitNoBuddyListText(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
@@ -518,7 +518,7 @@ void AdvanceWiFiVSSettingState7(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState8(void) {
+void AdvanceWiFiVSSettingWaitNoBuddySettingText(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost;
     BOOL pairRecentlyLost;
@@ -557,7 +557,7 @@ void AdvanceWiFiVSSettingState8(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState9(void) {
+void AdvanceWiFiVSSettingWaitDisconnectAnswer(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -574,7 +574,7 @@ void AdvanceWiFiVSSettingState9(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState10(void) {
+void AdvanceWiFiVSSettingWaitDisconnectText(void) {
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
     if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSSetting->mConnectionReleased == FALSE) {
         gWiFiVSSetting->mConnectionReleased = TRUE;
@@ -591,7 +591,7 @@ void AdvanceWiFiVSSettingState10(void) {
     }
 }
 
-void AdvanceWiFiVSSettingState11(void) {
+void AdvanceWiFiVSSettingWaitDisconnectedText(void) {
     int queryResult;
     queryResult = GetTxtSystemDone();
     if (queryResult != 0) {
@@ -683,40 +683,40 @@ void AdvanceWiFiVSSetting(void) {
     gWiFiVSSetting->mState = gWiFiVSSetting->mNextState;
     switch (gWiFiVSSetting->mState) {
         case WIFI_VS_SETTING_STATE_WAIT_FADE_IN:
-            AdvanceWiFiVSSettingState0();
+            AdvanceWiFiVSSettingWaitFadeIn();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_CONNECTION_LOST_TEXT:
-            AdvanceWiFiVSSettingState1();
+            AdvanceWiFiVSSettingWaitConnectionLostText();
             break;
         case WIFI_VS_SETTING_STATE_SLIDE_IN:
-            AdvanceWiFiVSSettingState2();
+            AdvanceWiFiVSSettingSlideIn();
             break;
         case WIFI_VS_SETTING_STATE_SLIDE_IN_RETURN_BUTTON:
-            AdvanceWiFiVSSettingState3();
+            AdvanceWiFiVSSettingSlideInReturnButton();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_INPUT:
-            AdvanceWiFiVSSettingState4();
+            AdvanceWiFiVSSettingWaitInput();
             break;
         case WIFI_VS_SETTING_STATE_PRESS_BUTTON:
-            AdvanceWiFiVSSettingState5();
+            AdvanceWiFiVSSettingPressButton();
             break;
         case WIFI_VS_SETTING_STATE_SLIDE_OUT:
-            AdvanceWiFiVSSettingState6();
+            AdvanceWiFiVSSettingSlideOut();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_LIST_TEXT:
-            AdvanceWiFiVSSettingState7();
+            AdvanceWiFiVSSettingWaitNoBuddyListText();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_SETTING_TEXT:
-            AdvanceWiFiVSSettingState8();
+            AdvanceWiFiVSSettingWaitNoBuddySettingText();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_ANSWER:
-            AdvanceWiFiVSSettingState9();
+            AdvanceWiFiVSSettingWaitDisconnectAnswer();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_TEXT:
-            AdvanceWiFiVSSettingState10();
+            AdvanceWiFiVSSettingWaitDisconnectText();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT:
-            AdvanceWiFiVSSettingState11();
+            AdvanceWiFiVSSettingWaitDisconnectedText();
             break;
     }
     AdvancePaletteBlend();
