@@ -122,7 +122,7 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
             gWiFiStates->mState = WIFI_STATE_TOP_MENU;
             RegisterWiFiTopMenuCallbacks();
             ResetWiFiSessionToOff();
-            gMenuShared->mWiFiMenuStartKind = 0;
+            gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_TOP_MENU;
             break;
         case SCENE_WIFI_MENU:
             gWiFiStates->mPrevState = WIFI_STATE_SCENE_WIFI_MENU;
@@ -132,23 +132,23 @@ void InitWiFiStates(void *heap, s32 sceneNumber) {
         case SCENE_RACE:
         case SCENE_RESULT:
             switch (gMenuShared->mWiFiMenuStartKind) {
-                case 0:
+                case WIFI_MENU_START_TOP_MENU:
                     gWiFiStates->mState = WIFI_STATE_TOP_MENU;
                     RegisterWiFiTopMenuCallbacks();
                     break;
-                case 1:
+                case WIFI_MENU_START_VS_SETTING:
                     sessionStateMachine = &gWiFiSession->mStateMachine;
                     sessionStateMachine->mNextState = WIFI_SESSION_STATE_IDLE;
                     sessionStateMachine->mNextStateRequested = 1;
                     gWiFiStates->mState = WIFI_STATE_VS_SETTING;
                     RegisterWiFiVSSettingCallbacks();
                     break;
-                case 2:
+                case WIFI_MENU_START_SELECT_CHARACTER:
                     SetupWiFiSession(1);
                     gWiFiStates->mState = WIFI_STATE_SELECT_CHARACTER;
                     RegisterSelectCharacterCallbacks();
                     break;
-                case 3:
+                case WIFI_MENU_START_VS_COURSE_SELECT:
                     SetupWiFiSession(2);
                     CopyEntriesToRaceSetupCopy();
                     gWiFiStates->mState = WIFI_STATE_VS_COURSE_SELECT;

@@ -74,7 +74,7 @@ void AdvanceWiFiConnectionLostWaitFadeIn(void) {
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
         RequestWiFiState(WIFI_STATE_VS_SETTING);
-        gMenuShared->mWiFiMenuStartKind = 1;
+        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
     }
 }
 

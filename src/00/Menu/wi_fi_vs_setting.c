@@ -63,7 +63,7 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mHeap = heap;
     gWiFiVSSetting->mState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
     gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_FADE_IN;
-    gWiFiVSSetting->mRow = 1;
+    gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
     gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_NONE;
     gWiFiVSSetting->mStateFrames = 0;
     gWiFiVSSetting->mHighlightVisible = TRUE;
@@ -104,8 +104,8 @@ void InitWiFiVSSetting(void *heap) {
                 messageColumn = 0;
                 if (index == 1) {
                     gWiFiVSSetting->mSettingIndex = gWiFiVSSettingIndexByKartType[gMenuShared->mWiFiVSSettingKartType];
-                    if (gWiFiVSSetting->mSettingIndex == 0 && !HasBuddyRecords()) {
-                        gWiFiVSSetting->mSettingIndex = 2;
+                    if (gWiFiVSSetting->mSettingIndex == WIFI_VS_SETTING_INDEX_BUDDIES && !HasBuddyRecords()) {
+                        gWiFiVSSetting->mSettingIndex = WIFI_VS_SETTING_INDEX_NO_BUDDY_DEFAULT;
                     }
                     messageColumn = gWiFiVSSetting->mSettingIndex;
                 }
@@ -135,10 +135,10 @@ void InitWiFiVSSetting(void *heap) {
             gWiFiVSSetting->mRowOffsets[index][0] = 0;
             gWiFiVSSetting->mRowOffsets[index][1] = 0x28;
         } else if (index == 1) {
-            gWiFiVSSetting->mRowOffsets[index][0] = -0x100;
+            gWiFiVSSetting->mRowOffsets[index][0] = -WIFI_VS_SETTING_OFFSET_HIDDEN;
             gWiFiVSSetting->mRowOffsets[index][1] = 0;
         } else {
-            gWiFiVSSetting->mRowOffsets[index][0] = 0x100;
+            gWiFiVSSetting->mRowOffsets[index][0] = WIFI_VS_SETTING_OFFSET_HIDDEN;
             gWiFiVSSetting->mRowOffsets[index][1] = 0;
         }
     }
@@ -232,7 +232,8 @@ void AdvanceWiFiVSSettingSlideIn(void) {
     s32 rowIndex;
 
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    offsetX = InterpolateS16(1, 0x100, 0, gWiFiVSSetting->mStateFrames, 10);
+    offsetX =
+        InterpolateS16(1, WIFI_VS_SETTING_OFFSET_HIDDEN, 0, gWiFiVSSetting->mStateFrames, WIFI_VS_SETTING_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         if (rowIndex == 0) {
             gWiFiVSSetting->mRowOffsets[rowIndex][0] = offsetX;
@@ -240,7 +241,7 @@ void AdvanceWiFiVSSettingSlideIn(void) {
             gWiFiVSSetting->mRowOffsets[rowIndex][0] = -offsetX;
         }
     }
-    if (gWiFiVSSetting->mStateFrames >= 10) {
+    if (gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_SLIDE_FRAMES) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN_RETURN_BUTTON;
         gWiFiVSSetting->mStateFrames = 0;
         RequestSelectReturnSlideIn();
@@ -251,13 +252,15 @@ void AdvanceWiFiVSSettingSlideInReturnButton(void) {
     s16 rowOffsetY;
 
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    if (gWiFiVSSetting->mStateFrames < 3) {
+    if (gWiFiVSSetting->mStateFrames < WIFI_VS_SETTING_RETURN_DELAY_FRAMES) {
         rowOffsetY = -LookupSelectReturnSlideInBg2Offset(0);
     } else {
-        rowOffsetY = -LookupSelectReturnSlideInBg2Offset(gWiFiVSSetting->mStateFrames - 3);
+        rowOffsetY =
+            -LookupSelectReturnSlideInBg2Offset(gWiFiVSSetting->mStateFrames - WIFI_VS_SETTING_RETURN_DELAY_FRAMES);
     }
     gWiFiVSSetting->mRowOffsets[2][1] = rowOffsetY;
-    if (gWiFiVSSetting->mStateFrames >= 10 && gWiFiVSSetting->mStateFrames >= 13) {
+    if (gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_SLIDE_FRAMES &&
+        gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_RETURN_SLIDE_END_FRAMES) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_INPUT;
         gWiFiVSSetting->mStateFrames = 0;
     }
@@ -314,74 +317,74 @@ void AdvanceWiFiVSSettingWaitInput(void) {
     goto end;
 next:
     pressedKeys = inputSlot->mPressedBits & PAD_KEY_A;
-    if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == 2) || hitIndex == 2) {
+    if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_MATCHING) || hitIndex == 2) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_PRESS_BUTTON;
-        if (gWiFiVSSetting->mRow == 2) {
+        if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_MATCHING) {
             gWiFiVSSetting->mHighlightVisible = FALSE;
         }
         gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_VS_MATCHING;
-        gWiFiVSSetting->mRow = 2;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_MATCHING;
         gMenuShared->mWiFiVSSettingKartType = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
         if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEY_R) != 0) {
             SetWiFiVSSettingFlag(1);
         }
         SetWiFiVSSettingIndex(gWiFiVSSetting->mSettingIndex);
         StartSoundOncePerFrame(5);
-    } else if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == 0) || hitIndex == 0) {
+    } else if (((u16) pressedKeys != 0 && gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_BUDDY_LIST) || hitIndex == 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_PRESS_BUTTON;
-        if (gWiFiVSSetting->mRow == 0) {
+        if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_BUDDY_LIST) {
             gWiFiVSSetting->mHighlightVisible = FALSE;
         }
         gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
-        gWiFiVSSetting->mRow = 0;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_BUDDY_LIST;
         gMenuShared->mWiFiScene8StartKind = 0;
         RequestTxtSystemClose();
         StartSoundOncePerFrame(5);
         gMenuShared->mWiFiVSSettingKartType = gWiFiVSSettingKartTypes[gWiFiVSSetting->mSettingIndex];
         WriteChangedWiFiBuddies();
     } else if (hitIndex == 1) {
-        gWiFiVSSetting->mRow = 1;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex + 1;
         StartSoundOncePerFrame(1);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         gWiFiVSSetting->mRow = gWiFiVSSetting->mRow - 1;
         if (gWiFiVSSetting->mRow < 0) {
-            gWiFiVSSetting->mRow = 2;
+            gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_MATCHING;
         }
         StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 ||
-               (gWiFiVSSetting->mRow == 1 && (u16) (inputSlot->mPressedBits & PAD_KEY_A) != 0)) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 || (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING &&
+                                                            (u16) (inputSlot->mPressedBits & PAD_KEY_A) != 0)) {
         gWiFiVSSetting->mRow = gWiFiVSSetting->mRow + 1;
-        if (gWiFiVSSetting->mRow > 2) {
-            gWiFiVSSetting->mRow = 0;
+        if (gWiFiVSSetting->mRow > WIFI_VS_SETTING_ROW_MATCHING) {
+            gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_BUDDY_LIST;
         }
         StartSoundOncePerFrame(0);
-    } else if (gWiFiVSSetting->mRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex - 1;
-        gWiFiVSSetting->mIndexDecrementTimer = 6;
+        gWiFiVSSetting->mIndexDecrementTimer = WIFI_VS_SETTING_INDEX_TIMER_FRAMES;
         StartSoundOncePerFrame(1);
-    } else if (gWiFiVSSetting->mRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex + 1;
         if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
-            gWiFiVSSetting->mIndexIncrementTimer = 6;
+            gWiFiVSSetting->mIndexIncrementTimer = WIFI_VS_SETTING_INDEX_TIMER_FRAMES;
         }
         StartSoundOncePerFrame(1);
     } else if (hitIndex == 3) {
-        gWiFiVSSetting->mRow = 1;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex - 1;
-        gWiFiVSSetting->mIndexDecrementTimer = 6;
+        gWiFiVSSetting->mIndexDecrementTimer = WIFI_VS_SETTING_INDEX_TIMER_FRAMES;
         StartSoundOncePerFrame(1);
     } else if (hitIndex == 4) {
-        gWiFiVSSetting->mRow = 1;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex + 1;
-        gWiFiVSSetting->mIndexIncrementTimer = 6;
+        gWiFiVSSetting->mIndexIncrementTimer = WIFI_VS_SETTING_INDEX_TIMER_FRAMES;
         StartSoundOncePerFrame(1);
     }
 end:
     if (gWiFiVSSetting->mSettingIndex < 0) {
-        gWiFiVSSetting->mSettingIndex = 3;
+        gWiFiVSSetting->mSettingIndex = WIFI_VS_SETTING_INDEX_LAST;
     }
-    if (gWiFiVSSetting->mSettingIndex > 3) {
+    if (gWiFiVSSetting->mSettingIndex > WIFI_VS_SETTING_INDEX_LAST) {
         gWiFiVSSetting->mSettingIndex = 0;
     }
     if (prevSettingIndex != gWiFiVSSetting->mSettingIndex) {
@@ -390,25 +393,25 @@ end:
                                            GetBmgEntry(gWiFiVSSetting->mWiFiMessages, messageIndex),
                                            gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
     }
-    if (gWiFiVSSetting->mRow == 2 && previousRow != 2) {
+    if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_MATCHING && previousRow != WIFI_VS_SETTING_ROW_MATCHING) {
         ResetPaletteBlendCycle();
     }
 }
 
 void AdvanceWiFiVSSettingPressButton(void) {
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    if (gWiFiVSSetting->mStateFrames >= 10) {
+    if (gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_PRESS_FRAMES) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_OUT;
         gWiFiVSSetting->mStateFrames = 0;
         RequestTxtSystemClose();
-        if (HasBuddyRecords() != FALSE ||
-            (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING && gWiFiVSSetting->mSettingIndex != 0)) {
+        if (HasBuddyRecords() != FALSE || (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING &&
+                                           gWiFiVSSetting->mSettingIndex != WIFI_VS_SETTING_INDEX_BUDDIES)) {
             RequestSelectReturnSlideOut();
             gWiFiVSSetting->mSelectReturnPending = TRUE;
             return;
         }
         gWiFiVSSetting->mSelectReturnPending = FALSE;
-    } else if (gWiFiVSSetting->mStateFrames >= 5) {
+    } else if (gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_PRESS_HIGHLIGHT_FRAMES) {
         gWiFiVSSetting->mHighlightVisible = TRUE;
     }
 }
@@ -423,10 +426,11 @@ void AdvanceWiFiVSSettingSlideOut(void) {
         SetWiFiNextScene(8);
     }
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
-    if (gWiFiVSSetting->mStateFrames <= 10) {
-        offsetX = InterpolateS16(1, 0, 0x100, gWiFiVSSetting->mStateFrames, 10);
+    if (gWiFiVSSetting->mStateFrames <= WIFI_VS_SETTING_SLIDE_FRAMES) {
+        offsetX = InterpolateS16(1, 0, WIFI_VS_SETTING_OFFSET_HIDDEN, gWiFiVSSetting->mStateFrames,
+                                 WIFI_VS_SETTING_SLIDE_FRAMES);
     } else {
-        offsetX = 0x100;
+        offsetX = WIFI_VS_SETTING_OFFSET_HIDDEN;
     }
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         if (rowIndex == 0) {
@@ -435,15 +439,17 @@ void AdvanceWiFiVSSettingSlideOut(void) {
             gWiFiVSSetting->mRowOffsets[rowIndex][0] = -offsetX;
         }
     }
-    if (gWiFiVSSetting->mStateFrames < 3) {
+    if (gWiFiVSSetting->mStateFrames < WIFI_VS_SETTING_RETURN_DELAY_FRAMES) {
         rowOffsetY = -LookupRowOffset(0);
     } else {
-        rowOffsetY = -LookupSelectReturnSlideOutBg2Offset(gWiFiVSSetting->mStateFrames - 3);
+        rowOffsetY =
+            -LookupSelectReturnSlideOutBg2Offset(gWiFiVSSetting->mStateFrames - WIFI_VS_SETTING_RETURN_DELAY_FRAMES);
     }
     for (rowIndex = 0; rowIndex < gWiFiVSSettingOffsetCellCounts[2]; rowIndex++) {
         gWiFiVSSetting->mRowOffsets[2][1] = rowOffsetY;
     }
-    if (gWiFiVSSetting->mStateFrames >= 10 && gWiFiVSSetting->mStateFrames >= 13 &&
+    if (gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_SLIDE_FRAMES &&
+        gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_RETURN_SLIDE_END_FRAMES &&
         IsTxtSystemClosedNoOpenRequest() != 0 &&
         ((gWiFiVSSetting->mSelectReturnPending != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
          IsSelectReturnShownNoRequest() != 0) &&
@@ -455,8 +461,8 @@ void AdvanceWiFiVSSettingSlideOut(void) {
             gWiFiVSSetting->mStateFrames = 0;
             return;
         }
-        if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING && gWiFiVSSetting->mSettingIndex == 0 &&
-            HasBuddyRecords() == FALSE) {
+        if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING &&
+            gWiFiVSSetting->mSettingIndex == WIFI_VS_SETTING_INDEX_BUDDIES && HasBuddyRecords() == FALSE) {
             gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_SETTING_TEXT;
             gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_NONE;
             SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 14));
@@ -493,7 +499,7 @@ void AdvanceWiFiVSSettingWaitNoBuddyListText(void) {
     if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
-        gWiFiVSSetting->mRow = 1;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
         return;
     }
     if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
@@ -532,7 +538,7 @@ void AdvanceWiFiVSSettingWaitNoBuddySettingText(void) {
     if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
-        gWiFiVSSetting->mRow = 1;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
         return;
     }
     if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
@@ -572,7 +578,7 @@ void AdvanceWiFiVSSettingWaitDisconnectAnswer(void) {
         }
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_SLIDE_IN;
         SetupWiFiVSSettingText();
-        gWiFiVSSetting->mRow = 1;
+        gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
     }
 }
 
@@ -583,7 +589,7 @@ void AdvanceWiFiVSSettingWaitDisconnectText(void) {
         ReleaseWiFiConnectionWrapper();
     }
     if (gWiFiVSSetting->mConnectionReleased != FALSE && UpdateWiFiSessionRelease() != 0 &&
-        gWiFiVSSetting->mStateFrames > 90 && IsTxtSystemOpenNoCloseRequest() != 0) {
+        gWiFiVSSetting->mStateFrames > WIFI_VS_SETTING_DISCONNECT_MIN_FRAMES && IsTxtSystemOpenNoCloseRequest() != 0) {
         void *bmgEntry;
 
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT;
@@ -662,7 +668,7 @@ void AdvanceWiFiVSSettingIndexTimers(void) {
     BOOL hiddenTimerDone = FALSE;
 
     for (timerIndex = 0; timerIndex < 2; timerIndex++) {
-        if (gWiFiVSSetting->mRow == 1) {
+        if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING) {
             if ((&gWiFiVSSetting->mIndexDecrementTimer)[timerIndex] > 0) {
                 gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[0][timerIndex]].mVisible = 1;
                 gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingTimerTableIndices[1][timerIndex]].mVisible = 1;

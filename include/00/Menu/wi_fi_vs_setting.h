@@ -33,6 +33,32 @@ enum {
     WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT,
 };
 
+// Values of WiFiVSSetting.mRow: the button that opens the buddy list, the setting selector, and the button that starts
+// matching.
+enum {
+    WIFI_VS_SETTING_ROW_BUDDY_LIST,
+    WIFI_VS_SETTING_ROW_SETTING,
+    WIFI_VS_SETTING_ROW_MATCHING,
+};
+
+// WiFiVSSetting.mSettingIndex runs from 0, the setting that needs buddy records, to LAST and wraps; without buddy
+// records the selector starts at NO_BUDDY_DEFAULT.
+#define WIFI_VS_SETTING_INDEX_BUDDIES 0
+#define WIFI_VS_SETTING_INDEX_NO_BUDDY_DEFAULT 2
+#define WIFI_VS_SETTING_INDEX_LAST 3
+
+// Frames the cell rows take to slide in or out (x offset between 0 and OFFSET_HIDDEN), the return button's delay and
+// the frame its slide ends, the press state lasts and where its highlight shows again, the frames the arrow timers
+// count down from, and the frames the disconnect text waits at least.
+#define WIFI_VS_SETTING_SLIDE_FRAMES 10
+#define WIFI_VS_SETTING_OFFSET_HIDDEN 0x100
+#define WIFI_VS_SETTING_RETURN_DELAY_FRAMES 3
+#define WIFI_VS_SETTING_RETURN_SLIDE_END_FRAMES 13
+#define WIFI_VS_SETTING_PRESS_FRAMES 10
+#define WIFI_VS_SETTING_PRESS_HIGHLIGHT_FRAMES 5
+#define WIFI_VS_SETTING_INDEX_TIMER_FRAMES 6
+#define WIFI_VS_SETTING_DISCONNECT_MIN_FRAMES 90
+
 // Allocated by InitWiFiVSSetting and held in gWiFiVSSetting.
 typedef struct WiFiVSSetting {
     /* 0000 */ s32 mState;
@@ -154,6 +180,7 @@ typedef struct EntryCharacterKartKind {
 #define WL_MENU_KIND_TO_MENU 3
 
 // Object behind gMenuShared, 0x130 bytes (CreateMenuShared allocates it).
+
 typedef struct MenuShared {
     /* 000 */ s32 mTitleBlendDone;
     /* 004 */ s32 mRaceSetupRequested;
