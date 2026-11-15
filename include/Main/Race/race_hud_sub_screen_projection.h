@@ -52,9 +52,7 @@ typedef struct CourseMapEntryGroup {
     /* 02 */ u16 mEntryCount;
 } CourseMapEntryGroup;
 
-// The one 0x28-byte record behind CourseMap.mSettings: per-course values read by unrelated consumers: fog
-// (mFogEnabled, mFogTableMode, mFogSlope, mFogOffset), four colours (mColors), a
-// halfword that is the lap count outside mode 2 and the battle time in seconds in mode 2, start and limit values.
+// Per-course values of CourseMap.mSettings: fog, four colors, the lap count or battle time, start and limit values.
 typedef struct CourseMapSettings {
     /* 00 */ u8 mUnk_00[2];
     // Lap count; in battle mode the same halfword is the time limit in seconds (times 60 frames into
@@ -129,10 +127,7 @@ typedef struct PointLink {
 
 struct CourseMapRow;
 
-// 0x1c-byte records: position at 0x00, rotation angles in degrees at 0x0c, node index at 0x18, key halfword at 0x1a.
-// Used by CourseMap.mStartPlacements (record chosen by key, GetCourseMapStartPlacementWithOffsets) and by
-// CourseMap.mKeyedPlacements (looked up by key through mKeyedPlacementIndexByKey; PlaceKartAtKeyedPlacement puts a kart
-// at one in modes 2 and 4). The name only says where a kart is put.
+// A position, rotation, node index and key where a kart is put (CourseMap.mStartPlacements and mKeyedPlacements).
 typedef struct CourseMapPlacement {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mRotation;
@@ -143,11 +138,7 @@ typedef struct CourseMapPlacement {
     /* 1a */ u16 mKey;
 } CourseMapPlacement;
 
-// 0x20-byte entries of CourseMap.mRespawns, read through mRespawnIndexBySlot: position at 0x00, rotation angles in
-// degrees at 0x0c, node index at 0x18, index into the table CourseMap.mItemPointLinks at 0x1a, slot at 0x1c. Where a
-// kart is put back after it falls (kart y < 0) or is flagged by the surface; the slot comes from the checkpoint the
-// kart is in (mRespawnSlot) or, in mode 2, from a counter. Role word Respawn is not spelled in the tree; read from the
-// callers.
+// Where a kart is put back after it falls or is flagged by the surface (CourseMap.mRespawns).
 typedef struct CourseMapRespawn {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mRotation;
@@ -162,11 +153,7 @@ typedef struct CourseMapRespawn {
     /* 1e */ u8 mUnk_1e[2];
 } CourseMapRespawn;
 
-// 0x24-byte entries of CourseMap.mCheckpoints: a gate across the course: two x/z end points (0x00..0x0c), a 2-D
-// direction at 0x10, a word at 0x18 that is summed along the routes (ComputeCourseMapRouteCheckpointSum), neighbour
-// links at 0x1c and 0x1e, mNumber, mRespawnSlot, a flag byte at 0x23. The race progress code tests the kart's x/z
-// against these lines, keeps the entry the kart is in and counts a lap when it reaches entry 0 after all numbered ones.
-// Role word Checkpoint is not spelled in the tree.
+// A gate across the course (CourseMap.mCheckpoints): its two end points, direction, neighbours and respawn slot.
 typedef struct CourseMapCheckpoint {
     // X of end point A of the checkpoint line (the two ends are A and B in the order of the file words; the position
     // tests compare a kart with the lines through consecutive A ends and consecutive B ends).
@@ -193,10 +180,7 @@ typedef struct CourseMapCheckpoint {
     /* 23 */ u8 mFlags;
 } CourseMapCheckpoint;
 
-// 0x0c-byte run of consecutive entries of a table: first entry, count, up to three forward links at 0x04 and three back
-// links at 0x07 to other runs, stage index at 0x0a. Used by CourseMap.mCheckpointRoutes (the entries are checkpoints)
-// and by mItemRoutes and mRaceRoutes (the entries are nodes of two other tables, built by BuildCourseMapItemRouteLinks
-// and BuildCourseMapRaceRouteLinks).
+// A run of consecutive table entries with links to other runs: the checkpoint, item and race routes of CourseMap.
 typedef struct CourseMapRoute {
     /* 00 */ u16 mFirstEntry;
     /* 02 */ u16 mEntryCount;
@@ -410,6 +394,7 @@ typedef struct CourseMap {
 // The scroll timer counts down from the start value; at this value the view starts to follow the kart.
 #define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW 300
 
+// How the course maps onto the sub screen: centers, angle pairs, scaled ranges and the scroll timer.
 typedef struct RaceHudSubScreenProjection {
     /* 00 */ IntPair mCenter;
     /* 08 */ s32 mCenterRemainderX;

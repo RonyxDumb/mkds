@@ -259,6 +259,7 @@ enum {
     RULE_KIND_RACE_COUNT,
 };
 
+// The header of a race setup: course, cup, mode, race kind, rules, mission row, seed and lap count.
 typedef struct RaceSetupHeader {
     /* 00 */ s32 mCourseId;
     /* 04 */ s32 mCupIndex;

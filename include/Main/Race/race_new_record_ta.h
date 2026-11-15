@@ -9,10 +9,7 @@ void HoldRaceNewRecordTa(void);
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-// Time-attack record handling of the race (mode 1 only), one record behind gRaceNewRecordTa (0xe8 bytes, allocated by
-// InitRaceNewRecordTa, set NULL by ClearRaceNewRecordTaPointer): mUpdate is the function it runs every frame
-// (UpdateRaceNewRecordTa), which compares the finished run with the course's saved records, inserts and saves a new one
-// (SetCourseTimeRecord) and slides in and draws the new-record page (DrawRaceNewRecordTa).
+// The time-attack record handling of a race: compares the run with the saved records and shows the new-record page.
 typedef struct RaceNewRecordTa {
     /* 00 */ void (*mUpdate)(void);
     /* 04 */ s32 mUpdateFrames;

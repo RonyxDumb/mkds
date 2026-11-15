@@ -79,6 +79,7 @@ typedef struct IntPair {
 #define RACE_HUD_PRIORITY_FRONT 1
 #define RACE_HUD_PRIORITY_MIDDLE 2
 #define RACE_HUD_PRIORITY_BACK 3
+// One cell of the race sub screen: its draw position, cell, priority, translucency and angle.
 typedef struct RaceHudSubScreenCell {
     /* 00 */ IntPair mDrawPos;
     /* 08 */ struct NNSG2dCellDataWithBR *mCell;
@@ -107,9 +108,7 @@ typedef struct RaceHudSubScreenKoopaBgColors {
     /* 18 */ u16 mKoopaBlockColors[2];
 } RaceHudSubScreenKoopaBgColors;
 
-// The halfwords from 0x02 of RaceHudSubScreenBgColors as UpdateRaceHudSubScreenBgPalette and
-// CopyRaceHudSubScreenBgColors index them for gRaceSetup.mCourseId: a run of 0x15 (TOWN, BEACH, MINI_STAGE3), nine
-// rows of three (OLD_NOKO_SFC), five rows of four (CLOCK) and the KOOPA colours.
+// The sub screen background colors of every course, indexed for gRaceSetup.mCourseId.
 typedef union RaceHudSubScreenBgColorSets {
     u16 mColorList[0x15];
     u16 mFrameColors[9][3];
@@ -123,9 +122,7 @@ typedef struct RaceHudSubScreenBgColors {
     /* 02 */ RaceHudSubScreenBgColorSets mColors;
 } RaceHudSubScreenBgColors;
 
-// Pair of numbers "course number, course count" drawn on the main screen before start-sequence frame 0xb4, only in mode
-// 5 and in mode 3 with gRaceSetup.mUnk_1c == 2 (DrawRaceMNumberPair), one record behind gRaceMNumberPair (0x28
-// bytes, InitRaceMNumberPair); mUnk_08 .. mUnk_20 are the slide-in animation state. mUnk_18 points into mUnk_08.
+// The course number and course count pair drawn on the main screen before the race start (gRaceMNumberPair).
 typedef struct RaceMNumberPair {
     // Copy of gRaceSetup.mCourseNumber taken in InitRaceMNumberPair.
     /* 00 */ s32 mCourseNumber;
@@ -238,6 +235,7 @@ typedef struct PosStrips {
 // TimedQuad.mColor: white as a 15-bit color.
 #define TIMED_QUAD_COLOR_WHITE 0x7fff
 
+// A quad with a countdown timer, alpha and 15-bit color that is drawn while it is enabled.
 typedef struct TimedQuad {
     /* 00 */ s16 mTimer;
     /* 02 */ s16 mAlpha;
@@ -269,9 +267,7 @@ typedef struct StemSets {
 
 // Value of KartStanding.mNotNormalEndPending and mObjectsSkipEndPending when no hit end is waiting (s32).
 #define KART_STANDING_HIT_END_NONE -2
-// One kart's entry of Standings (0x70 bytes, indexed by kart index): its count, rank, side id, elimination status and
-// last position, and the hit tracking of the kart (those members keep their address names). Slots past the kart count
-// are unused: status 2, count -1.
+// One kart's entry of Standings: its count, rank, side id, elimination status, last position and hit tracking.
 typedef struct KartStanding {
     /* 00 */ BOOL mNotNormalOrFlaggedSeen;
     /* 04 */ BOOL mObjectsSkipSeen;
@@ -303,11 +299,7 @@ typedef struct KartStanding {
     /* 6c */ s32 mInflatingBalloon;
 } KartStanding;
 
-// Per-kart table of the modes that play with kart counts (modes 2 and 4): the one object behind gStandings, made by
-// InitStandings from InitRace and stepped once per UpdateRace call. It ranks the karts by count (mKarts), keeps who is
-// eliminated, the winning side, the end timer and its callbacks. The name covers only the ranking and winner part: the
-// kart-to-kart hit tracking, the four hit callbacks that act on a hit, a time-limit step and a random course point are
-// in the same object too (those members keep their address names). 0x3c0 bytes, the allocation size.
+// The per-kart table of the modes that play with kart counts: ranks, eliminations, winning side and end timer.
 typedef struct Standings {
     // One KartStanding per kart index; the entries past the kart count are unused slots.
     /* 000 */ KartStanding mKarts[8];
@@ -491,6 +483,7 @@ typedef struct KeyboardTextEntry {
 
 extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
+// The functions of a title scene state: one writes the registers and one updates each frame.
 typedef struct TitleStateHandlers {
     /* 00 */ void (*mWriteRegisters)(void);
     /* 04 */ void (*mUpdate)(s32);
@@ -563,6 +556,7 @@ typedef struct TitleScene {
 
 extern TitleScene *gTitleScene;
 extern u64 gLastTick;
+// The affine matrix, center and offset of the sub screen background.
 typedef struct RaceHudSubScreenBgAffine {
     /* 00 */ s32 mMatrix0;
     /* 04 */ s32 mMatrix1;
@@ -588,14 +582,7 @@ typedef enum {
     RACE_HUD_SUB_SCREEN_NEW_RECORD
 } RaceHudSubScreenState;
 
-// On-screen display of the race, one record behind gRaceHud (0x914 bytes, allocated by InitRaceHud on the scene heap,
-// set NULL by the release slot ReleaseRaceHud, never freed). It holds the two 0x400-byte sprite entry buffers the
-// element draws append to (mUnk_004 for the main screen, mSubOam for the sub screen, copied to 0x07000000 /
-// 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
-// themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
-// 5 and 6 of gRaceSetup.mRaceKind (the scene slots run RaceStartGp / EndingStaffRoll there).
-// Words from 0x828 to 0x910 are read and written by UpdateRaceHudSubScreen. The pointers at 0x80c to 0x824 are written
-// through LoadNclrData, LoadNcgrData and LoadNscrData.
+// The race's on-screen display (gRaceHud): the sprite entry buffers, loaded graphics and the sub screen page state.
 typedef struct RaceHud {
     // Calls of the step UpdateRaceHud that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
     // 0xc00. An animation clock: read by the upload slot (value / 6 = scroll of the sub-screen page 0) and by
