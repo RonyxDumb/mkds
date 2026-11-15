@@ -44,7 +44,7 @@ void QueueShine16Sound(struct MapObjectSound *mapSound, s32 soundId) {
         case SHINE16_SOUND_OTHER_LEADS:
             distanceOffset = 0x640;
             break;
-        case SHINE16_SOUND_OTHER_ONE_BEHIND:
+        case SHINE16_SOUND_OTHER_JUST_BEHIND:
             distanceOffset = 0x1900;
             break;
         case SHINE16_SOUND_OTHER_FAR_BEHIND:
