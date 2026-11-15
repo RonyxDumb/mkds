@@ -486,9 +486,9 @@ void RemapItemSlotRows(ItemSlotTable *table, s32 kartCount) {
     s32 rowIndex;
     s32 columnIndex;
     u16 sourceRow;
-    u16 *sourceRows;
+    const u16 *sourceRows;
 
-    sourceRows = (u16 *) &gItemSlotRowRemaps[kartCount - 1];
+    sourceRows = gItemSlotRowRemaps[kartCount - 1].mSourceRowNumbers;
     tab = table->mRows;
     if (kartCount == 8) {
         return;
