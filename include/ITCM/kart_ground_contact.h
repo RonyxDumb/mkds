@@ -27,11 +27,11 @@ typedef struct JointScaleCommand {
 #define KART_HOP_TILT_LIMIT 0x6a4
 #define KART_HOP_TILT_RESET 0x352
 
-void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
-void texmtxCalc_flagRS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
-void texmtxCalc_flagR_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
-void texmtxCalc_flagS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
-void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flagT_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flagRS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flagR_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flagS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flag_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult);
 void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValues *scaleValues,
                                JointScaleCommand *command, u32 srtFlags);
 void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult);

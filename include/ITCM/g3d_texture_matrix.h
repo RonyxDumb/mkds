@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "code_02010c84.h" // NNSG3dMatAnmResult, MtxFx44
 
 typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 
@@ -18,14 +19,14 @@ typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 typedef struct TexMtxCommand {
     /* 00 */ u32 mCommand;
     /* 04 */ u32 mMtxModeTex;
-    /* 08 */ s32 mMatrix[16];
+    /* 08 */ MtxFx44 mMatrix;
     /* 48 */ u32 mMtxModePosVec;
     /* 4c */ u32 mUnk_4c;
 } TexMtxCommand;
 
-typedef void (*CalcTexMtxFunc)(s32 *, NNSG3dMatAnmResult *);
+typedef void (*CalcTexMtxFunc)(MtxFx44 *, const NNSG3dMatAnmResult *);
 
 void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult);
-void texmtxCalc_flagTRS_(s32 *matrix);
-void texmtxCalc_flagTR_(s32 *matrix, const NNSG3dMatAnmResult *in);
-void texmtxCalc_flagTS_(s32 *matrix, const NNSG3dMatAnmResult *in);
+void texmtxCalc_flagTRS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult);
+void texmtxCalc_flagTR_(MtxFx44 *matrix, const NNSG3dMatAnmResult *in);
+void texmtxCalc_flagTS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *in);

@@ -439,7 +439,7 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
     jntAnmResult->mFlag |= JNT_RESULT_SECOND_EXTRA_SCALE_UNIT;
 }
 
-void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
+void texmtxCalc_flag_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     s32 widthFixed = TO_FIXED12(matAnmResult->mOrigWidth);
     s32 heightFixed = TO_FIXED12(matAnmResult->mOrigHeight);
     s32 cosR;
@@ -473,7 +473,7 @@ void texmtxCalc_flag_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mRows[1].x = scaleSSin * FX_GetDivResult() >> 12;
 }
 
-void texmtxCalc_flagS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
+void texmtxCalc_flagS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     s32 widthFixed = TO_FIXED12(matAnmResult->mOrigWidth);
     s32 heightFixed = TO_FIXED12(matAnmResult->mOrigHeight);
     s32 sinPlusCos;
@@ -492,7 +492,7 @@ void texmtxCalc_flagS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mRows[1].x = matAnmResult->mSinCosR[0] * FX_GetDivResult() >> 12;
 }
 
-void texmtxCalc_flagR_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
+void texmtxCalc_flagR_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     matrix->mRows[0].x = matAnmResult->mScaleST[0];
     matrix->mRows[1].y = matAnmResult->mScaleST[1];
     matrix->mRows[0].y = 0;
@@ -504,7 +504,7 @@ void texmtxCalc_flagR_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mRows[1].x = 0;
 }
 
-void texmtxCalc_flagRS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
+void texmtxCalc_flagRS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     matrix->mRows[0].x = 0x1000;
     matrix->mRows[1].y = 0x1000;
     matrix->mRows[0].y = 0;
@@ -513,7 +513,7 @@ void texmtxCalc_flagRS_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
     matrix->mRows[1].x = 0;
 }
 
-void texmtxCalc_flagT_(MtxFx44 *matrix, NNSG3dMatAnmResult *matAnmResult) {
+void texmtxCalc_flagT_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
     s32 widthFixed = TO_FIXED12(matAnmResult->mOrigWidth);
     s32 heightFixed = TO_FIXED12(matAnmResult->mOrigHeight);
     s32 cosR;
