@@ -62,25 +62,25 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
         case WL_MENU_MESSAGE_STATE_CONNECT_MULTI_BOOT:
             result = AdvanceConnectByMultiBoot(0);
             switch (result) {
-                case 1:
+                case CONNECT_ADVANCE_CONNECTED:
                     SetMultiSimple(WLMenuIsMultiBootSetupStarted());
                     gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX;
                     break;
-                case 2:
+                case CONNECT_ADVANCE_CONNECT_FAILED:
                     break;
             }
             break;
         case WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX:
             result = AdvanceMPStateMachineWithOwnIndex();
             switch (result) {
-                case 1:
+                case MP_STATE_ADVANCE_READY:
                     if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }
                     StartCopyOtherEmblems(1);
                     gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_WAIT_BACKUP;
                     break;
-                case 2:
+                case MP_STATE_ADVANCE_OWN_INDEX_LOST:
                     break;
             }
             break;

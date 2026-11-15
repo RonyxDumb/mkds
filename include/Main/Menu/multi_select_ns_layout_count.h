@@ -7,6 +7,11 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Graphics/font_and_player_character.h"
 
+// Frames a message of the member setup stays before the setup goes on, and frames after the setup started before the
+// sequence zero loop is started.
+#define MULTI_SELECT_MEMBER_MESSAGE_FRAMES 0x78
+#define MULTI_SELECT_MEMBER_SEQ_LOOP_START_FRAMES 0x96
+
 unsigned int MultiSelectNSGetLabelLayoutCount(LayoutEntryTable *labelLayout);
 unsigned int MultiSelectNSGetCellLayoutCount(LayoutEntryTable *cellLayout);
 

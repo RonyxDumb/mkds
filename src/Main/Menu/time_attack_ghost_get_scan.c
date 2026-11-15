@@ -1119,7 +1119,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_REPLACE_ANSWER;
             } else if (GetSlotGhostCount() == 10) {
                 RequestTxtSystemClose();
-                gTimeAttackGhostGetScan->mNextCallbacksIndex = 2;
+                gTimeAttackGhostGetScan->mNextCallbacksIndex = GHOST_SCENE_CALLBACKS_GET_SLOT;
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_OUT;
                 SetInterpolationStateIfOpposite(&gTimeAttackGhostGetScan->mInterpolation, INTERPOLATION_STATE_FALLING);
             } else {

@@ -24,6 +24,14 @@ typedef struct ScanSlotMemberRow {
     /* 08 */ s32 mChildCount;
 } ScanSlotMemberRow;
 
+// Member rows of the group list; the row after them is the return row (MultiSelectMemberGroup.mSelectedIndex).
+#define MULTI_SELECT_MEMBER_GROUP_ROW_COUNT 4
+#define MULTI_SELECT_MEMBER_GROUP_RETURN_ROW 4
+// Steps of the slide in and out, steps the pressed row is shown, frames after which the member entries are cleared.
+#define MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS 10
+#define MULTI_SELECT_MEMBER_GROUP_PRESS_STEPS 5
+#define MULTI_SELECT_MEMBER_GROUP_CLEAR_FRAMES 0x78
+
 // Values of MultiSelectMemberGroup.mState: the panel slides in, waits for a choice, the choice is shown for 5 frames,
 // the panel slides out, then the next callbacks index is returned. NONE is only compared with.
 enum {

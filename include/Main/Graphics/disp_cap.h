@@ -17,6 +17,10 @@ enum {
     DISP_CAP_MODE_BLEND,
 };
 
+// Results of AdvanceConnectByMultiBoot besides 0 (still running): connected, connecting to the entry failed.
+#define CONNECT_ADVANCE_CONNECTED 1
+#define CONNECT_ADVANCE_CONNECT_FAILED 2
+
 s32 AdvanceConnectByMultiBoot(u16 entryIndex);
 s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot);
 s32 AdvanceNonMultiBootSetup(s32 isParent);

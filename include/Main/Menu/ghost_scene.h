@@ -25,6 +25,11 @@ void LoadGhostSceneFiles(void);
 
 u32 GhostSceneGetCupCourseIdAtIndex(s32 cupCourseIndex);
 
+// Indexes of gGhostSceneCallbacks.
+#define GHOST_SCENE_CALLBACKS_SEND 0
+#define GHOST_SCENE_CALLBACKS_GET_SCAN 1
+#define GHOST_SCENE_CALLBACKS_GET_SLOT 2
+
 extern struct GhostSceneCallbacks *gGhostSceneCallbacks[3];
 extern struct GhostScene *gGhostScene;
 

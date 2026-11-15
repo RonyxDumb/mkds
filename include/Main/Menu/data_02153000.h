@@ -62,7 +62,8 @@ typedef struct MultiSelectMemberCycleStep {
     /* 02 */ u16 mFrameLimit;
 } MultiSelectMemberCycleStep;
 
-extern const MultiSelectMemberCycleStep gMultiSelectMemberCycleSteps[4];
+#define MULTI_SELECT_MEMBER_CYCLE_STEP_COUNT 4
+extern const MultiSelectMemberCycleStep gMultiSelectMemberCycleSteps[MULTI_SELECT_MEMBER_CYCLE_STEP_COUNT];
 
 // The label rows of the sub screen. The code indexes mRows up to 8; the rows after the fifth are in
 // gMultiSelectKeyStartLabelData, which follows in the next file.

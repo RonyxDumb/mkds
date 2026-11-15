@@ -14,5 +14,9 @@ void SetMultiSelectNSCellTableOffsetY(void);
 extern const u16 gMultiSelectNSRowCellIndices[2][3];
 extern const MultiSelectNSLabelMessageRow gMultiSelectNSLabelMessageRows[2];
 extern u32 gMultiSelectNSLabelValues[2];
+// Steps of the slide in and out, steps the pressed choice is shown.
+#define MULTI_SELECT_NS_SLIDE_STEPS 10
+#define MULTI_SELECT_NS_PRESS_STEPS 5
+
 extern struct WLMenuCallbacks gMultiSelectNSCallbacks;
 extern struct MultiSelectNS *gMultiSelectNS;

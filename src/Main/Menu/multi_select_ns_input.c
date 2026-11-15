@@ -23,6 +23,7 @@
 #include "Main/Menu/multi_select_member_group.h"
 #include "Main/Menu/multi_select_ns_pair_new.h"
 #include "Main/Menu/multi_select_ns.h"
+#include "Main/Menu/wl_menu_scene.h"
 #include "Main/Graphics/rect_containing_point.h"
 #include "Main/System/key_recording_buffer.h"
 #include "Main/Graphics/oam.h"
@@ -107,8 +108,9 @@ s32 AdvanceMultiSelectNS(void) {
     switch (multiSelectNS->mState) {
         case MULTI_SELECT_NS_STATE_SLIDE_IN:
             multiSelectNS->mStateFrames++;
-            if (gMultiSelectNS->mStateFrames < 10) {
-                gMultiSelectNS->mOffset = InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, 10);
+            if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_STEPS) {
+                gMultiSelectNS->mOffset =
+                    InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
             } else {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mOffset = 0;
@@ -127,12 +129,12 @@ s32 AdvanceMultiSelectNS(void) {
             }
             if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_A) != 0) {
                 SetMultiSimple(gMultiSelectNS->mIndex == 1 ? 1 : 0);
-                gMultiSelectNS->mNextCallbacksIndex = 2;
+                gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_KEY_START;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(0);
                 MultiSelectNSStartOnMemorySeqArc(4);
             } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_B) != 0 || touchInReturnRect != 0) {
-                gMultiSelectNS->mNextCallbacksIndex = 0;
+                gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_GROUP;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
                 RequestSelectReturnPressWithSound(0);
             } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_UP) != 0 && gMultiSelectNS->mIndex > 0) {
@@ -149,19 +151,19 @@ s32 AdvanceMultiSelectNS(void) {
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 0;
                 SetMultiSimple(0);
-                gMultiSelectNS->mNextCallbacksIndex = 2;
+                gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_KEY_START;
             } else if (value == 1) {
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_PRESS_WAIT;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
                 MultiSelectNSStartOnMemorySeqArc(4);
                 gMultiSelectNS->mIndex = 1;
                 SetMultiSimple(1);
-                gMultiSelectNS->mNextCallbacksIndex = 2;
+                gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_KEY_START;
             }
             break;
         case MULTI_SELECT_NS_STATE_PRESS_WAIT:
             multiSelectNS->mStateFrames++;
-            if (gMultiSelectNS->mStateFrames >= 5) {
+            if (gMultiSelectNS->mStateFrames >= MULTI_SELECT_NS_PRESS_STEPS) {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
                 RefreshMultiSelectNS(1);
@@ -169,8 +171,9 @@ s32 AdvanceMultiSelectNS(void) {
             break;
         case MULTI_SELECT_NS_STATE_SLIDE_OUT:
             multiSelectNS->mStateFrames++;
-            if (gMultiSelectNS->mStateFrames < 10) {
-                gMultiSelectNS->mOffset = InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, 10);
+            if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_STEPS) {
+                gMultiSelectNS->mOffset =
+                    InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
             } else {
                 gMultiSelectNS->mOffset = 0;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_DONE;
