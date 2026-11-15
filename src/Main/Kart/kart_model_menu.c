@@ -210,7 +210,7 @@ void CreateEntryCamera(u32 followedKartIndex) {
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            gEntryCamera->mUnk_220 = gEntryCamera->mKind7Entries;
+            gEntryCamera->mCurrentKind7Entry = gEntryCamera->mKind7Entries;
             gEntryCamera->mUnk_224 = 0;
             gEntryCamera->mKind = CAMERA_KIND_ENTRY_SEQUENCE;
             gCameraEntryChanged = 1;
@@ -358,7 +358,7 @@ void SetupCamera(Camera *camera) {
     camera->mLookAtOffset = zero;
     camera->mSideDistanceSign = gRaceSetup->mMirrorMode ? -1 : 1;
     camera->mKind7Entries = NULL;
-    camera->mUnk_220 = NULL;
+    camera->mCurrentKind7Entry = NULL;
     camera->mUnk_20c = 0;
     camera->mUnk_20e = 0;
     camera->mUnk_224 = 0;

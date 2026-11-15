@@ -246,7 +246,7 @@ void ResetKartAi(KartAi *kartAi, s32 value) {
     kartAi->mContactStageFrameLimit = 0;
     kartAi->mUnk_80 = 0;
     kartAi->mUnk_7c = 0;
-    kartAi->mUnk_84 = value;
+    kartAi->mResetAtPointLink = value;
     kartAi->mContactStage = KART_AI_CONTACT_NONE;
     kartAi->mContactTimer = 0;
     kartAi->mTargetKart = NULL;

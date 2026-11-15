@@ -89,7 +89,7 @@ typedef struct KartAi {
     /* 7c */ s32 mUnk_7c;
     /* 80 */ u16 mUnk_80;
     /* 82 */ u8 mUnk_82[2];
-    /* 84 */ s32 mUnk_84;
+    /* 84 */ s32 mResetAtPointLink;
     /* 88 */ s32 mDriftStartRandomLimit;
     /* 8c */ s32 mDriftChargeRandomLimit;
     /* 90 */ s32 mDriftState;

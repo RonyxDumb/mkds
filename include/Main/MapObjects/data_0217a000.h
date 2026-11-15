@@ -1347,7 +1347,7 @@ typedef struct Camera {
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
     /* 21c */ struct Kind7CameraEntry *mKind7Entries;
-    /* 220 */ struct Kind7CameraEntry *mUnk_220;
+    /* 220 */ struct Kind7CameraEntry *mCurrentKind7Entry;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
     // TRUE from StartEntryCameraKind6Entry until mKind6EntryFrames reaches 300 (outside mode 2) or

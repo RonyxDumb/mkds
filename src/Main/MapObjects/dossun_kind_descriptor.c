@@ -386,9 +386,9 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mIsSlowVariant = row->mSettings[0];
     InitGroupFollower(&dossun->mFollower, row, dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mSettings[1];
-    dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
+    dossun->mXOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
     dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
-    dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
+    dossun->mZOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
     dossun->mInitialUpSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
     dossun->mDownSpeedStep = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
     dossun->mState5FollowerSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);
