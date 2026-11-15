@@ -239,7 +239,7 @@ u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, 
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockIdOrPosition;
-    request.mData.mGet.mRecvDataSize = WBT_BLOCK_INFO_BYTES;
+    request.mData.mGet.mRecvDataSize = BLOCK_TRANSFER_BLOCK_INFO_BYTES;
     MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
     return TrySetNextRequest(&request);
 }

@@ -123,8 +123,8 @@ typedef struct BlockTransferEntry {
 
 // Most bytes of user data one custom packet carries, and the size of the block information a details request
 // (WBT_GetBlockInfo) receives.
-#define WBT_USER_DATA_MAX_BYTES 9
-#define WBT_BLOCK_INFO_BYTES 0x28
+#define BLOCK_TRANSFER_USER_DATA_MAX_BYTES 9
+#define BLOCK_TRANSFER_BLOCK_INFO_BYTES 0x28
 
 // Tail of a WBTCommand from 0x14, which the kinds of request fill in different ways;
 // mUserDataWord is its first word; mArchiveParentViewEntry and mArchiveMessage are RomArchive views of the user data
@@ -145,7 +145,7 @@ typedef union WBTCommandData {
         s16 mOwnPacketSize;
     } mPrepareSendData;
     struct {
-        u8 mData[WBT_USER_DATA_MAX_BYTES];
+        u8 mData[BLOCK_TRANSFER_USER_DATA_MAX_BYTES];
         u8 mSize;
     } mUserData;
     u32 mUserDataWord;
