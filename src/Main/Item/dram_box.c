@@ -115,7 +115,7 @@ void InitMissionRunBoxMapObject(MissionRunBox *object) {
     object->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
     object->mCollisionMapObject.mCollisionData.mHitFlagWords.y = 0;
     object->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 0;
-    object->mCollisionMapObject.mCollisionData.mFloorThreshold = 0x800;
+    object->mCollisionMapObject.mCollisionData.mFloorThreshold = FIXED12_RATIO(1, 2);
     object->mCollisionMapObject.mCollisionData.mPreviousPos = object->mCollisionMapObject.mMapObject.mPos;
     object->mCollisionMapObject.mMapObject.mPosStep.x = 0;
     object->mCollisionMapObject.mMapObject.mPosStep.y = 0;

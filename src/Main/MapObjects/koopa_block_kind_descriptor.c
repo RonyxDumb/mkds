@@ -146,7 +146,7 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
     koopaBlock->mCollisionMapObject.mCollisionData.mHitFlagWords.y = 0;
     koopaBlock->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 0;
-    koopaBlock->mCollisionMapObject.mCollisionData.mFloorThreshold = 0x800;
+    koopaBlock->mCollisionMapObject.mCollisionData.mFloorThreshold = FIXED12_RATIO(1, 2);
     SetupGroupFollowerAtEntry(&koopaBlock->mFollower, 0, 1);
     GetGroupFollowerLinearPosStep(&koopaBlock->mFollower, &koopaBlock->mCollisionMapObject.mMapObject.mPos,
                                   &koopaBlock->mCollisionMapObject.mMapObject.mPosStep);

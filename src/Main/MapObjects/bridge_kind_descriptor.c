@@ -96,7 +96,7 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mHitFlagWords.x = 1;
     bridge->mCollisionMapObject.mCollisionData.mHitFlagWords.y = 0;
     bridge->mCollisionMapObject.mCollisionData.mHitFlagWords.z = 1;
-    bridge->mCollisionMapObject.mCollisionData.mFloorThreshold = 0x800;
+    bridge->mCollisionMapObject.mCollisionData.mFloorThreshold = FIXED12_RATIO(1, 2);
     bridge->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
     bridge->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     bridge->mCollisionMapObject.mMapObject.mFlags |= gBridgeInitFlag;
