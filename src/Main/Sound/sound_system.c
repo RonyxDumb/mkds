@@ -92,7 +92,7 @@ void UpdateSndMain(void) {
 void InitScenePlayers(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 sceneSoundRowIndex,
                       ScenePlayersSeqInfo seqInfo) {
     SetupSoundMode(&gSoundModeHolder, scenePlayers, 0);
-    *(ScenePlayersSeqInfo *) &scenePlayers->mUnk_09 = seqInfo;
+    scenePlayers->mSeqInfo = seqInfo;
     scenePlayers->mSceneSoundState = sceneSoundState;
     scenePlayers->mSoundRowIndex = sceneSoundRowIndex;
     NNS_SndHandleInit(&scenePlayers->mSeqPlayer);

@@ -850,7 +850,7 @@ void InitSceneSounds(s32 unused) {
         return;
     }
     if (gMenuShared->mMenuEntryKind == 3) {
-        gScenePlayers.mSeqStartProgress = 0xff;
+        gScenePlayers.mSeqInfo.mSeqStartProgress = 0xff;
     }
 }
 

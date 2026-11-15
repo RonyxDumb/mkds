@@ -6,6 +6,7 @@
 #include "code_0212c9d4.h" // CaptureParam, EffectInfo
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
+#include "Main/Sound/sound_seq.h" // ScenePlayersSeqInfo
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudOamBuffer
 #include "code_0212d214.h"
@@ -177,9 +178,7 @@ typedef struct ScenePlayers {
     /* 00 */ s32 mProgress;
     /* 04 */ SceneSoundState *mSceneSoundState;
     /* 08 */ u8 mSoundRowIndex;
-    /* 09 */ u8 mUnk_09;
-    /* 0a */ u8 mSeqStartProgress;
-    /* 0b */ u8 mSeqId;
+    /* 09 */ ScenePlayersSeqInfo mSeqInfo;
     /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
     /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
 } ScenePlayers;

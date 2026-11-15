@@ -21,7 +21,7 @@ static inline void StartScenePlayersSeqIfSet(ScenePlayers *scenePlayers, u32 seq
     if (handle == NULL) {
         handle = &gScenePlayers.mSeqPlayer;
     }
-    if (scenePlayers->mSeqId == 0xff) {
+    if (scenePlayers->mSeqInfo.mSeqId == 0xff) {
         return;
     }
     StartSeqAtVolume(seqNo, gSceneSeqVolume, handle);
@@ -29,18 +29,18 @@ static inline void StartScenePlayersSeqIfSet(ScenePlayers *scenePlayers, u32 seq
 
 void StartScenePlayersForScene(ScenePlayers *scenePlayers) {
     scenePlayers->mProgress = 2;
-    if (scenePlayers->mSeqStartProgress != 2) {
+    if (scenePlayers->mSeqInfo.mSeqStartProgress != 2) {
         return;
     }
-    StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqId, &gScenePlayers.mSeqPlayer);
+    StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqInfo.mSeqId, &gScenePlayers.mSeqPlayer);
 }
 
 void StartScenePlayersForRace(ScenePlayers *scenePlayers) {
     scenePlayers->mProgress = 3;
-    if (scenePlayers->mSeqStartProgress != 3) {
+    if (scenePlayers->mSeqInfo.mSeqStartProgress != 3) {
         return;
     }
-    StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqId, &gScenePlayers.mSeqPlayer);
+    StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqInfo.mSeqId, &gScenePlayers.mSeqPlayer);
 }
 
 void StartScenePlayersSeqNo(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
@@ -48,11 +48,11 @@ void StartScenePlayersSeqNo(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlay
 }
 
 void StartScenePlayersSeq(ScenePlayers *scenePlayers) {
-    StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqId, &gScenePlayers.mSeqPlayer);
+    StartScenePlayersSeqIfSet(scenePlayers, gScenePlayers.mSeqInfo.mSeqId, &gScenePlayers.mSeqPlayer);
 }
 
 void StopScenePlayersSeq(ScenePlayers *scenePlayers, u32 fadeSteps) {
-    if (scenePlayers->mSeqId == 0xff) {
+    if (scenePlayers->mSeqInfo.mSeqId == 0xff) {
         return;
     }
     NNS_SndPlayerStopSeq(&scenePlayers->mSeqPlayer, fadeSteps);
