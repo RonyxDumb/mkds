@@ -13,6 +13,12 @@
 #define SOUND_FALLOFF_MEDIUM_RANGE 3
 #define SOUND_FALLOFF_LONG_RANGE 4
 
+// The other curves the course sound objects use, named by the outer distance gSoundFalloffs gives them (600, 1200 and
+// 3000, against 380, 800 and 1100 above; InitSoundFalloffs).
+#define SOUND_FALLOFF_SHORT_MEDIUM_RANGE 6
+#define SOUND_FALLOFF_LONGER_RANGE 8
+#define SOUND_FALLOFF_VERY_LONG_RANGE 5
+
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
 typedef struct NNSSndHeap NNSSndHeap;

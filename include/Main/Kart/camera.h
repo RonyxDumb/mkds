@@ -20,6 +20,10 @@ typedef struct Camera Camera;
 #define COURSE_MAP_CAMERA_KIND_SEQUENCE 7
 #define COURSE_MAP_CAMERA_KIND_MISSION_RUN 8 // recorded only in mission run mode
 
+// CourseMapCamera.mChainStart values that mark the first and the second chain camera of a course.
+#define CAMERA_CHAIN_START_FIRST 1
+#define CAMERA_CHAIN_START_SECOND 2
+
 // The 0x4c-byte entries of the table at CourseMap.mCameras: a position at 0x00, two vectors at 0x18 and 0x24 (look-at
 // ends in some kinds, angles or a kart index in others), blend steps, a kind (mKind), a duration (mFrameCount), the
 // next entry (mNextIndex).

@@ -6,6 +6,15 @@
 #include "Main/Sound/data_0210b000.h" // SoundStartParams
 #include "player.h"
 
+// Sound ids of the course sound objects: the bank sound, the chain camera sound of the cross course, and the first and
+// second part sounds of the cross and mario courses (mFirstPart and mSecondPart).
+#define COURSE_SOUND_ID_BANK 0x109
+#define COURSE_SOUND_ID_CROSS_CHAIN 0x103
+#define COURSE_SOUND_ID_CROSS_FIRST_PART 0x108
+#define COURSE_SOUND_ID_CROSS_SECOND_PART 0x107
+#define COURSE_SOUND_ID_MARIO_FIRST_PART 0x1a0
+#define COURSE_SOUND_ID_MARIO_SECOND_PART 0x19f
+
 // 0x28-byte part at 0xa0 and 0xc8 of CourseSoundObject: the four words at 0x00 go to StartSndHandleSoundUnchecked or
 // StartSndHandleSound with the value at 0x1c, 0x0c holds GetHorizontalCameraDistanceSquared's result for the vector at
 // 0x10, 0x24 is set to 0, 1 or 2 (UpdateCourseSoundObject); PlaceCourseSoundObjectPartSource writes the vector at 0x10

@@ -803,10 +803,10 @@ s32 LoadCourseMapCamerasData(void *section, ...) {
     gCourseMap->mFirstBattleSequenceCamera = NULL;
     for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
         camera = gCourseMap->mCameras + cameraIndex;
-        if (gCourseMap->mFirstChainStartEntry == NULL && camera->mChainStart == 1) {
+        if (gCourseMap->mFirstChainStartEntry == NULL && camera->mChainStart == CAMERA_CHAIN_START_FIRST) {
             gCourseMap->mFirstChainStartEntry = camera;
         }
-        if (gCourseMap->mSecondChainStartEntry == NULL && camera->mChainStart == 2) {
+        if (gCourseMap->mSecondChainStartEntry == NULL && camera->mChainStart == CAMERA_CHAIN_START_SECOND) {
             gCourseMap->mSecondChainStartEntry = camera;
         }
         if (gCourseMap->mFirstAngleStartCamera == NULL && camera->mKind == COURSE_MAP_CAMERA_KIND_ANGLE_START) {

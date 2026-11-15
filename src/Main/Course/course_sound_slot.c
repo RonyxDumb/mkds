@@ -41,20 +41,20 @@ void SelectCourseSoundTable(u32 courseId) {
 
     tableIndex = 0xffff;
     switch (courseId) {
-        case 0x1d:
-            tableIndex = 0;
+        case COURSE_ID_RAINBOW:
+            tableIndex = COURSE_SOUND_TABLE_RAINBOW;
             break;
-        case 0x1c:
-            tableIndex = 1;
+        case COURSE_ID_TOWN:
+            tableIndex = COURSE_SOUND_TABLE_TOWN;
             break;
-        case 0x20:
-            tableIndex = 2;
+        case COURSE_ID_KOOPA:
+            tableIndex = COURSE_SOUND_TABLE_KOOPA;
             break;
-        case 0x21:
-            tableIndex = 3;
+        case COURSE_ID_PINBALL:
+            tableIndex = COURSE_SOUND_TABLE_PINBALL;
             break;
-        case 0x22:
-            tableIndex = 4;
+        case COURSE_ID_STADIUM:
+            tableIndex = COURSE_SOUND_TABLE_STADIUM;
             break;
     }
     gCourseSoundTableIndex = tableIndex;
@@ -73,7 +73,7 @@ void SelectCourseSoundTable(u32 courseId) {
         }
     }
     volumeHandle = 0;
-    if (tableIndex == 1 && gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (tableIndex == COURSE_SOUND_TABLE_TOWN && gRaceSetup->mMode != MODE_MISSION_RUN) {
         volumeHandle = 3;
     }
     gCourseSoundSlots[0].mPreviousVolumeHandle = volumeHandle;
@@ -89,7 +89,7 @@ void ApplyCourseSoundTableEntry(s32 entryIndex) {
     tableValue = gCourseSoundTable[gCourseSoundTableIndex].mEntries[entryIndex];
     lowBits = tableValue & 0xfff;
     switch (gCourseSoundTableIndex) {
-        case 3:
+        case COURSE_SOUND_TABLE_PINBALL:
             if (tableValue == 0x1cc) {
                 handle = GetSndHandles();
                 if (*handle != NULL) {
@@ -101,7 +101,7 @@ void ApplyCourseSoundTableEntry(s32 entryIndex) {
                 }
             };
             break;
-        case 4:
+        case COURSE_SOUND_TABLE_STADIUM:
             StopSndHandleSlots7To11();
             break;
     }
@@ -215,7 +215,7 @@ void InitCourseSoundSlot(CourseSoundSlot *slot, u32 volumeHandle, u32 firstTable
     slot->mPreviousVolumeHandle = volumeHandle;
     slot->mVolumeHandle = volumeHandle;
     slot->mFirstTableIndex = firstTableIndex;
-    slot->mLowVolume = 0x28;
-    slot->mMidVolume = 0x50;
-    slot->mHighVolume = 0x7f;
+    slot->mLowVolume = COURSE_SOUND_LOW_VOLUME;
+    slot->mMidVolume = COURSE_SOUND_MID_VOLUME;
+    slot->mHighVolume = SOUND_VOLUME_MAX;
 }

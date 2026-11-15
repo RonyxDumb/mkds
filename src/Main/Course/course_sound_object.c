@@ -60,8 +60,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     crossFirstZ = courseMapRow->mPosition.z + (-0x4a6000);
                     crossFirstY = courseMapRow->mPosition.y;
                     crossFirstX = courseMapRow->mPosition.x + (-0x2c6000);
-                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x103;
-                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 5;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = COURSE_SOUND_ID_CROSS_CHAIN;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_VERY_LONG_RANGE;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
                         &courseSoundObject->mFirstPart.mSourcePos;
                     courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
@@ -72,8 +72,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     crossSecondZ = courseMapRow->mPosition.z + 0x726000;
                     crossSecondY = courseMapRow->mPosition.y;
                     crossSecondX = courseMapRow->mPosition.x + (-0x7ee000);
-                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x103;
-                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 5;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = COURSE_SOUND_ID_CROSS_CHAIN;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_VERY_LONG_RANGE;
                     courseSoundObject->mSecondPart.mStartParams.mPositionSource =
                         &courseSoundObject->mSecondPart.mSourcePos;
                     courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
@@ -87,8 +87,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     bankChainZ = courseMapRow->mPosition.z;
                     bankChainY = courseMapRow->mPosition.y;
                     bankChainX = courseMapRow->mPosition.x;
-                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x109;
-                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 4;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = COURSE_SOUND_ID_BANK;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
                         &courseSoundObject->mFirstPart.mSourcePos;
                     if (mapObjectIndex == 0) {
@@ -107,7 +107,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     break;
                 default:
-                    if ((courseSoundObject->mMapObject.mFlags & 0x100) == 0) {
+                    if ((courseSoundObject->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                         ParkMapObject(&courseSoundObject->mMapObject);
                     }
                     break;
@@ -116,16 +116,16 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
             switch (gRaceSetup->mCourseId) {
                 case COURSE_ID_CROSS:
                     courseSoundObject->mState = COURSE_SOUND_STATE_WAIT_RACE_START;
-                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x108;
-                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = COURSE_SOUND_ID_CROSS_FIRST_PART;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_LONGER_RANGE;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
                         &courseSoundObject->mFirstPart.mSourcePos;
                     courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
                     courseSoundObject->mFirstPart.mSourcePos.x = 0;
                     courseSoundObject->mFirstPart.mSourcePos.y = 0;
                     courseSoundObject->mFirstPart.mSourcePos.z = 0;
-                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x107;
-                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = COURSE_SOUND_ID_CROSS_SECOND_PART;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_LONGER_RANGE;
                     courseSoundObject->mSecondPart.mStartParams.mPositionSource =
                         &courseSoundObject->mSecondPart.mSourcePos;
                     courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
@@ -137,16 +137,16 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     break;
                 case COURSE_ID_MARIO:
                     courseSoundObject->mState = COURSE_SOUND_STATE_WAIT_RACE_START;
-                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x1a0;
-                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = COURSE_SOUND_ID_MARIO_FIRST_PART;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_LONGER_RANGE;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
                         &courseSoundObject->mFirstPart.mSourcePos;
                     courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
                     courseSoundObject->mFirstPart.mSourcePos.x = 0;
                     courseSoundObject->mFirstPart.mSourcePos.y = 0;
                     courseSoundObject->mFirstPart.mSourcePos.z = 0;
-                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x19f;
-                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 8;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = COURSE_SOUND_ID_MARIO_SECOND_PART;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_LONGER_RANGE;
                     courseSoundObject->mSecondPart.mStartParams.mPositionSource =
                         &courseSoundObject->mSecondPart.mSourcePos;
                     courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
@@ -162,8 +162,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     bankFirstZ = courseMapRow->mPosition.z;
                     bankFirstY = courseMapRow->mPosition.y;
                     bankFirstX = courseMapRow->mPosition.x;
-                    courseSoundObject->mFirstPart.mStartParams.mSoundId = 0x109;
-                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = 6;
+                    courseSoundObject->mFirstPart.mStartParams.mSoundId = COURSE_SOUND_ID_BANK;
+                    courseSoundObject->mFirstPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_MEDIUM_RANGE;
                     courseSoundObject->mFirstPart.mStartParams.mPositionSource =
                         &courseSoundObject->mFirstPart.mSourcePos;
                     courseSoundObject->mFirstPart.mSndHandleSlot = GetSndHandleSlot(8);
@@ -177,8 +177,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     bankSecondZ = courseMapRow->mPosition.z;
                     bankSecondY = courseMapRow->mPosition.y;
                     bankSecondX = courseMapRow->mPosition.x;
-                    courseSoundObject->mSecondPart.mStartParams.mSoundId = 0x109;
-                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = 6;
+                    courseSoundObject->mSecondPart.mStartParams.mSoundId = COURSE_SOUND_ID_BANK;
+                    courseSoundObject->mSecondPart.mStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_MEDIUM_RANGE;
                     courseSoundObject->mSecondPart.mStartParams.mPositionSource =
                         &courseSoundObject->mSecondPart.mSourcePos;
                     courseSoundObject->mSecondPart.mSndHandleSlot = GetSndHandleSlot(9);
@@ -190,7 +190,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                                 &courseSoundObject->mSecondPart.mSourcePos, &courseSoundObject->mSecondPart.mSourcePos);
                     break;
                 default:
-                    if ((courseSoundObject->mMapObject.mFlags & 0x100) == 0) {
+                    if ((courseSoundObject->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
                         ParkMapObject(&courseSoundObject->mMapObject);
                     }
                     break;
@@ -202,18 +202,18 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
 static inline void StartCourseSoundPartIfInRange(CourseSoundObjectPart *soundPart) {
     s32 falloffDistanceSquared;
 
-    if (soundPart->mStartParams.mFalloffIndex == 2) {
-        falloffDistanceSquared = gSoundFalloffs[2].mFarDistanceSquared;
-    } else if (soundPart->mStartParams.mFalloffIndex == 3) {
-        falloffDistanceSquared = gSoundFalloffs[3].mFarDistanceSquared;
-    } else if (soundPart->mStartParams.mFalloffIndex == 4) {
-        falloffDistanceSquared = gSoundFalloffs[4].mFarDistanceSquared;
-    } else if (soundPart->mStartParams.mFalloffIndex == 5) {
-        falloffDistanceSquared = gSoundFalloffs[5].mFarDistanceSquared;
-    } else if (soundPart->mStartParams.mFalloffIndex == 6) {
-        falloffDistanceSquared = gSoundFalloffs[6].mFarDistanceSquared;
-    } else if (soundPart->mStartParams.mFalloffIndex == 8) {
-        falloffDistanceSquared = gSoundFalloffs[8].mFarDistanceSquared;
+    if (soundPart->mStartParams.mFalloffIndex == SOUND_FALLOFF_SHORT_RANGE) {
+        falloffDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared;
+    } else if (soundPart->mStartParams.mFalloffIndex == SOUND_FALLOFF_MEDIUM_RANGE) {
+        falloffDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_MEDIUM_RANGE].mFarDistanceSquared;
+    } else if (soundPart->mStartParams.mFalloffIndex == SOUND_FALLOFF_LONG_RANGE) {
+        falloffDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared;
+    } else if (soundPart->mStartParams.mFalloffIndex == SOUND_FALLOFF_VERY_LONG_RANGE) {
+        falloffDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_VERY_LONG_RANGE].mFarDistanceSquared;
+    } else if (soundPart->mStartParams.mFalloffIndex == SOUND_FALLOFF_SHORT_MEDIUM_RANGE) {
+        falloffDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_SHORT_MEDIUM_RANGE].mFarDistanceSquared;
+    } else if (soundPart->mStartParams.mFalloffIndex == SOUND_FALLOFF_LONGER_RANGE) {
+        falloffDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_LONGER_RANGE].mFarDistanceSquared;
     } else {
         falloffDistanceSquared = 0;
     }
