@@ -554,7 +554,7 @@ void FileResetBuffer(FILE *stream) {
     stream->mBufferNext = stream->mBuffer;
     stream->mBufferRemaining = stream->mBufferSize;
     stream->mBufferRemaining = stream->mBufferRemaining - (stream->mPosition & stream->mPositionMask);
-    stream->mUnk_34 = stream->mPosition;
+    stream->mBufferStartPosition = stream->mPosition;
 }
 
 int FileFlushBuffer(FILE *stream, u32 *writtenOut) {

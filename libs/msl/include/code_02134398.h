@@ -40,7 +40,7 @@ typedef struct FILE {
     /* 28 */ u32 mBufferRemaining;
     /* 2c */ u32 mPositionMask;
     /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
+    /* 34 */ u32 mBufferStartPosition;
     /* 38 */ u32 mUnk_38;
     /* 3c */ FileIoFunc mUnk_3c;
     /* 40 */ FileIoFunc mWriteFunc;
