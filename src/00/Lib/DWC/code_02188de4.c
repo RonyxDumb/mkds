@@ -9,33 +9,33 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
 
     userInfo = work->mUserInfo;
     switch (type) {
-        case 2:
+        case AUTO_CONNECT_AP_TYPE_USER_FIRST_SSID + 2:
             userInfo++;
-        case 1:
+        case AUTO_CONNECT_AP_TYPE_USER_FIRST_SSID + 1:
             userInfo++;
-        case 0:
+        case AUTO_CONNECT_AP_TYPE_USER_FIRST_SSID:
             wepKey->mMode = userInfo->mWepMode;
             MI_CpuCopy8(userInfo->mWepKeys, wepKey->mKey, 0x50);
             break;
-        case 5:
+        case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID + 2:
             userInfo++;
-        case 4:
+        case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID + 1:
             userInfo++;
-        case 3:
+        case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID:
             wepKey->mMode = 1;
             MI_CpuCopy8(userInfo->mWep2, wepKey->mKey, 0x14);
             wepKey->mKey[0x14] = 0;
             break;
-        case 6:
+        case AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID:
             wepKey->mMode = 2;
             DWCi_AC_GetNintendoUSBWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
-        case 7:
+        case AUTO_CONNECT_AP_TYPE_NDWCSHAP_SSID_PREFIX:
             wepKey->mMode = 2;
             DWCi_AC_GetNintendoShopWepKey(work->mBssDesc[work->mConnectNo].mSsid, wepKey->mKey);
             break;
-        case 8:
-        case 9:
+        case AUTO_CONNECT_AP_TYPE_FREESPOT_SSID:
+        case AUTO_CONNECT_AP_TYPE_WAYPORT2_SSID:
             break;
     }
     if (wepKey->mMode != 0) {
