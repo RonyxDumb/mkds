@@ -68,7 +68,7 @@ SceneCallbacks gRaceSceneCallbacks = {InitRaceScene,
                                       0x1e,
                                       0};
 
-static inline u32 IsSlot8PairPresentOrRecentlyLost(void) {
+static inline u32 IsPadOrParticipantPairPresentOrRecentlyLost(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     u32 result = 1;
     u32 briefNoPair = 0;
@@ -302,7 +302,7 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
         InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
         if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_NO_DIRECTION_OR_SHOULDER) != 0 ||
-            IsSlot8PairPresentOrRecentlyLost() != 0) {
+            IsPadOrParticipantPairPresentOrRecentlyLost() != 0) {
             result = 1;
         }
     }

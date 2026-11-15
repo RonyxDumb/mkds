@@ -705,7 +705,7 @@ void DrawMapObjects(Camera *view) {
     }
 }
 
-void DrawKoopaBlocksKind203AndBridges(Camera *view) {
+void DrawKoopaBlocksRotariesAndBridges(Camera *view) {
     MtxFx43 *viewMatrix;
 
     viewMatrix = &view->mViewMatrix;
@@ -713,7 +713,7 @@ void DrawKoopaBlocksKind203AndBridges(Camera *view) {
         DrawAllKoopaBlocks(viewMatrix);
     }
     if (gMapObjects->mHasRotary != 0) {
-        DrawAllKind203MapObjects(viewMatrix);
+        DrawAllRotaries(viewMatrix);
     }
     if (gMapObjects->mHasBridge != 0) {
         DrawAllBridges(viewMatrix);

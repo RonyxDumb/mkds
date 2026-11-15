@@ -42,7 +42,7 @@ void UpdateMapObjectViewTests(void);
 void RefreshMapObjectViewTests(void);
 void UpdateMapObjects(void);
 void DrawMapObjects(Camera *view);
-void DrawKoopaBlocksKind203AndBridges(Camera *view);
+void DrawKoopaBlocksRotariesAndBridges(Camera *view);
 s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset);
 s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind);
 

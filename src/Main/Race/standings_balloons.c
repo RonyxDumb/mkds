@@ -448,7 +448,7 @@ found:
         if (gStandings->mWinnerTeamId == entryIndex) {
             FinishMissionRunKartWithEndKind0(entryIndex);
         } else {
-            FinishRaceProgressKartWithEndKind4(entryIndex);
+            FinishRaceProgressKartMissionFailed(entryIndex);
         }
         gStandings->mEndTimer = 0;
     }

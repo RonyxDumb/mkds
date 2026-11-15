@@ -118,8 +118,8 @@ void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void
     StartOrUpdateSndHandleSound(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
 }
 
-u32 StartOrUpdateSndHandleSoundInMode2(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
-                                       void *request) {
+u32 StartOrUpdateSndHandleSoundIfEnabled(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
+                                         void *request) {
     if (gSoundModeHolder.mSoundsEnabled == 0) {
         return seqArcNo;
     }

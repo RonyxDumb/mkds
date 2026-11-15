@@ -287,7 +287,7 @@ void AdvanceMissionRunEnd(void) {
     FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, endKind);
 }
 
-void FinishRaceProgressKartWithEndKind4(u16 kartIndex) {
+void FinishRaceProgressKartMissionFailed(u16 kartIndex) {
     FinishRaceProgressKartWithEndKind(kartIndex, 4);
 }
 

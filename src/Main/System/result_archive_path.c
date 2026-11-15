@@ -1009,7 +1009,7 @@ void RequestResultDLArchives(void) {
 
 #pragma thumb on
 
-void ClearArchiveBuffersBit31(void) {
+void ClearArchiveBuffersMap2DLoadFlag(void) {
     s32 bufferIndex;
 
     for (bufferIndex = 0; bufferIndex < ARCHIVE_BUFFER_COUNT; bufferIndex++) {

@@ -86,7 +86,7 @@ void UpdateRotaryState3(void *stateObject) {
     }
 }
 
-void DrawAllKind203MapObjects(void *viewMatrix) {
+void DrawAllRotaries(void *viewMatrix) {
     DrawVisibleMapObjects(gRotaryDrawList, viewMatrix, DrawMapObjectModelAtPos);
 }
 

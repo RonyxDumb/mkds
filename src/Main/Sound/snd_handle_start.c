@@ -37,7 +37,7 @@ void StartSoundFromParams(SoundStartParams *request) {
 
 void StartSndHandleSound(SoundStartParams *request, NNSSndSeqPlayer **handle) {
     if (gRaceSoundKind & 1) {
-        StartOrUpdateSndHandleSoundInMode2(0, request->mSoundId, request->mPositionSource, handle, request);
+        StartOrUpdateSndHandleSoundIfEnabled(0, request->mSoundId, request->mPositionSource, handle, request);
     }
 }
 
@@ -50,5 +50,5 @@ void StartSndHandleSoundUnchecked(SoundStartParams *request, NNSSndSeqPlayer **h
 void StartSndHandleSoundEx(SoundStartParams *request, NNSSndSeqPlayer **handle) {
     u32 soundId = request->mSoundId;
     Vec3 *positionSource = request->mPositionSource;
-    u32 result = StartOrUpdateSndHandleSoundInMode2(0x0u, soundId, positionSource, handle, request);
+    u32 result = StartOrUpdateSndHandleSoundIfEnabled(0x0u, soundId, positionSource, handle, request);
 }

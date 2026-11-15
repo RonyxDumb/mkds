@@ -81,8 +81,8 @@ typedef struct SoundParams {
 
 u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
                                 void *request);
-u32 StartOrUpdateSndHandleSoundInMode2(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
-                                       void *request);
+u32 StartOrUpdateSndHandleSoundIfEnabled(u32 seqArcNo, u32 soundId, Vec3 *positionSource, NNSSndSeqPlayer **handle,
+                                         void *request);
 void StartSoundOnPoolEntry(u32 seqArcNo, u32 soundId, Vec3 *positionSource, void *request);
 void RefreshSoundSourceUpdateList(SoundSource *source);
 void StopPlayingSoundSeq(PlayingSound *sound, u32 fadeSteps);

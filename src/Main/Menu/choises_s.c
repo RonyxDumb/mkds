@@ -223,7 +223,7 @@ s8 GetMissionRunTableColumn(void) {
 #pragma thumb on
 // TRUE when the entry ended with kind 0, the other 53 cells held 5 to 7 at the start, and the current cell now holds 5
 // to 7.
-BOOL IsAllMissionRecords5To7AtEndKind0(void) {
+BOOL IsAllMissionRecords5To7AtGoalEnd(void) {
     s32 recordValue;
     s32 isFilled;
 
@@ -531,7 +531,7 @@ void UpdateChoisesS(void) {
                         gChoisesS->mPickLocked = 1;
                         StartChoisesSSelectedValueSeq();
                     }
-                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && IsAllMissionRecords5To7AtEndKind0() != 0) {
+                } else if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN && IsAllMissionRecords5To7AtGoalEnd() != 0) {
                     if (ChoisesSGetNewBits(GetChoisesSInputSlot(), PAD_KEY_A) != 0 ||
                         ChoisesSIsSlotPairNew(GetChoisesSInputSlot()) != 0) {
                         gChoisesS->mPickedValue = CHOISES_S_PICK_SELECT_MISSION;

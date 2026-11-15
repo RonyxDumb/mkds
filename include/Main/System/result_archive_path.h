@@ -64,7 +64,7 @@ void InitTouchPanelAndSetCalibration(void);
 void InitCompressedArchiveAndMBChild(void *heap);
 void ResizeMainEffectArchiveBlock(u8 *regionStart, u32 regionSize);
 s32 ShouldLoadMap2DData(void);
-void ClearArchiveBuffersBit31(void);
+void ClearArchiveBuffersMap2DLoadFlag(void);
 void RequestResultDLArchives(void);
 void RequestRaceArchives(void *courseId, void *kind);
 void RequestMenuDLArchives(void);

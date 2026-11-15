@@ -8,7 +8,7 @@
 
 // Steps the clock, sends the net finish requests, handles the mode 2 / 4 end and sets mRaceDone.
 void UpdateRaceProgress(void);
-void FinishRaceProgressKartWithEndKind4(u16 kartIndex);
+void FinishRaceProgressKartMissionFailed(u16 kartIndex);
 // Mission run per-call step of the end of the selected entry: after a goal (flag 0x10) or a failure end (flag 0x20) it
 // counts RaceProgress.mFramesSinceFinish or mFramesSinceFailure and, past the wait, runs the closing calls
 // (FinishKartAtMissionRunEnd, StartKartRaceEndWrapper, FinishStandings) and clears the flag; before the entry has ended

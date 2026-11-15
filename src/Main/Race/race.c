@@ -483,7 +483,7 @@ void DrawRaceWorld(void) {
     NNS_G3dGlbFlushP();
     NNS_G3dGeSetBuffer(gGeBuffer);
     DrawCourseModel();
-    DrawKoopaBlocksKind203AndBridges(gCurrentCamera);
+    DrawKoopaBlocksRotariesAndBridges(gCurrentCamera);
     NNS_G3dGeReleaseBuffer();
     DrawKarts();
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);

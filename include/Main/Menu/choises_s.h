@@ -150,4 +150,4 @@ void SetChoisesSOpen(s32 openFlag);
 u32 IsMissionRunTableRow6Or7Column9(void);
 s8 GetMissionRunTableRow(void);
 s8 GetMissionRunTableColumn(void);
-BOOL IsAllMissionRecords5To7AtEndKind0(void);
+BOOL IsAllMissionRecords5To7AtGoalEnd(void);

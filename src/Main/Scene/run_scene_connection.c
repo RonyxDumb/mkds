@@ -217,7 +217,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     if (callbacks->mInit != NULL) {
         callbacks->mInit(sceneNumbers);
     }
-    ClearArchiveBuffersBit31();
+    ClearArchiveBuffersMap2DLoadFlag();
     gDisplaySettings->mIrqCallback = AdvanceWiFiSessionOnIrqWrapper;
     StartSceneSoundSetSeq();
     StartSceneSounds();

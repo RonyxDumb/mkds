@@ -206,16 +206,16 @@ typedef struct InputSlotAtNoPairCount {
 } InputSlotAtNoPairCount;
 
 // Slot 7 from mSourceKind on: mNextBits is the mBits of slot 8.
-typedef struct InputSlot7FromSourceKind {
+typedef struct EmblemInputSlotView {
     /* 00 */ u8 mUnk_00[0x22];
     /* 22 */ volatile u16 mNextBits;
-} InputSlot7FromSourceKind;
+} EmblemInputSlotView;
 
 // Slot 8 from mWritesKeyBits on.
-typedef struct InputSlot8PairView {
+typedef struct PadOrParticipantSlotPairView {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ volatile InputSlotPair mPair;
-} InputSlot8PairView;
+} PadOrParticipantSlotPairView;
 
 #define gInputClearedBitsSlots ((InputSlotAtClearedBits *) &gInputSlots[0].mClearedBits)
 #define gInputPairXs ((InputSlotAtPairX *) &gInputSlots[0].mPair.mPairX)
@@ -223,8 +223,8 @@ typedef struct InputSlot8PairView {
 #define gInputHasPairs ((InputSlotAtHasPair *) &gInputSlots[0].mPair.mHasPair)
 #define gInputPrevHasPairs ((InputSlotAtPrevHasPair *) &gInputSlots[0].mPair.mPrevHasPair)
 #define gInputNoPairCounts ((InputSlotAtNoPairCount *) &gInputSlots[0].mPair.mNoPairCount)
-#define gEmblemInputSlotView ((InputSlot7FromSourceKind *) &gInputSlots[7].mSourceKind)
-#define gInputSlot8PairView ((InputSlot8PairView *) &gInputSlots[8].mWritesKeyBits)
+#define gEmblemInputSlotView ((EmblemInputSlotView *) &gInputSlots[7].mSourceKind)
+#define gInputSlot8PairView ((PadOrParticipantSlotPairView *) &gInputSlots[8].mWritesKeyBits)
 
 static inline InputSlot *GetInputSlot(u32 inputSlotIndex) {
     return &gInputSlots[inputSlotIndex];
