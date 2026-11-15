@@ -294,7 +294,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 boostIndex = GetKartAiRaceStartBoostChoice(kart->mAi);
                 kart->mRaceStartFrameCount = gKartRaceStartBoostFrameCounts[boostIndex - 1];
                 kart->mMotionFlags |= KART_MOTION_RACE_START_BOOSTED | KART_MOTION_START_DONE;
-                StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
+                StartKartBoost(kart, KART_BOOST_RACE_START, kart->mRaceStartFrameCount);
                 if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
                     StartKartSeqArcSound(kart, kart->mSoundIndex, 5);
                 }
@@ -342,7 +342,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
                 }
                 kart->mRaceStartFrameCount = gKartRaceStartBoostFrameCounts[boostIndex - 1];
                 kart->mMotionFlags |= KART_MOTION_RACE_START_BOOSTED | KART_MOTION_START_DONE;
-                StartKartBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
+                StartKartBoost(kart, KART_BOOST_RACE_START, kart->mRaceStartFrameCount);
                 if (!(kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT))) {
                     StartKartSeqArcSound(kart, kart->mSoundIndex, 5);
                 }

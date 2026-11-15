@@ -847,7 +847,7 @@ typedef enum {
     KART_BOOST_RESPAWN
 } KartBoostKind;
 
-void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames);
+void StartKartBoost(Kart *kart, KartBoostKind boostKind, s16 boostFrames);
 void StartKartSoundAndCharacterAnimation(Kart *kart);
 void ApplyItemObjectHitToKart(Kart *kart);
 void UpdateKartAheadEffect(Kart *kart);

@@ -1042,7 +1042,7 @@ void StartKartSoundAndCharacterAnimation(Kart *kart) {
     StartKartCharacterAnimationOnce(kart, 2, 0);
 }
 
-void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames) {
+void StartKartBoost(Kart *kart, KartBoostKind boostKind, s16 boostFrames) {
     s32 clearMask;
     u32 flagBits;
     s16 currentTimer;
