@@ -4,13 +4,13 @@
 #include "code_02139f70.h"
 
 u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header) {
-    if (header->mSignature != 0x4352414e) {
+    if (header->mSignature != ARCHIVE_SIGNATURE) {
         return 0;
     }
-    if (header->mByteOrder != 0xfffe) {
+    if (header->mByteOrder != ARCHIVE_BYTE_ORDER) {
         return 0;
     }
-    return header->mVersion == 0x100 ? 1 : 0;
+    return header->mVersion == ARCHIVE_VERSION ? 1 : 0;
 }
 
 u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header) {
@@ -31,13 +31,13 @@ u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchive
     blockCount = header->mDataBlocks;
     for (blockIndex = 0; blockIndex < blockCount; blockIndex++) {
         switch (*(u32 *) block) {
-            case 0x46415442:
+            case ARCHIVE_BLOCK_FAT:
                 fatBlock = block;
                 break;
-            case 0x464e5442:
+            case ARCHIVE_BLOCK_FNT:
                 fntBlock = block;
                 break;
-            case 0x46494d47:
+            case ARCHIVE_BLOCK_IMAGE:
                 imageBlock = block;
                 break;
         }

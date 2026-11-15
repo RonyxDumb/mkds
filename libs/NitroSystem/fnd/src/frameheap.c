@@ -35,7 +35,7 @@ void *AllocFromHead_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
     {
         volatile u32 zero;
 
-        if ((u16) (((NNSiFndHeapHead *) frmHeap - 1)->mAttribute & 0xff) & 1) {
+        if ((u16) (((NNSiFndHeapHead *) frmHeap - 1)->mAttribute & HEAP_OPTION_FLAG_MASK) & 1) {
             zero = 0;
             MIi_CpuClear32(zero, (void *) oldHead, clearSize);
         }
@@ -61,7 +61,7 @@ void *AllocFromTail_(NNSiFndFrmHeapHead *frmHeap, u32 size, int alignment) {
     {
         volatile u32 zero;
 
-        if ((u16) (((NNSiFndHeapHead *) frmHeap - 1)->mAttribute & 0xff) & 1) {
+        if ((u16) (((NNSiFndHeapHead *) frmHeap - 1)->mAttribute & HEAP_OPTION_FLAG_MASK) & 1) {
             zero = 0;
             MIi_CpuClear32(zero, start, clearSize);
         }

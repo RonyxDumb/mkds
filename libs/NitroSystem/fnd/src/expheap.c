@@ -103,12 +103,12 @@ void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBl
     freeRegion.mEnd = usedBlock;
     rightRegion.mStart = (void *) (size + (u32) mblock);
     prev = RemoveMBlock(&expHeap->mMbFreeList, freeBlock);
-    if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart < 0x10) {
+    if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
         freeRegion.mEnd = freeRegion.mStart;
     } else {
         prev = InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&freeRegion, 0x4652), prev);
     }
-    if ((u32) rightRegion.mEnd - (u32) rightRegion.mStart < 0x10) {
+    if ((u32) rightRegion.mEnd - (u32) rightRegion.mStart < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
         rightRegion.mStart = rightRegion.mEnd;
     } else {
         InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&rightRegion, 0x4652), prev);
@@ -117,7 +117,7 @@ void *AllocUsedBlockFromFreeBlock(NNSiFndExpHeapHead *expHeap, NNSiFndExpHeapMBl
     {
         volatile u32 zero;
 
-        if ((u16) (((NNSiFndHeapHead *) expHeap - 1)->mAttribute & 0xff) & 1) {
+        if ((u16) (((NNSiFndHeapHead *) expHeap - 1)->mAttribute & HEAP_OPTION_FLAG_MASK) & 1) {
             zero = 0;
             MIi_CpuClear32(zero, freeRegion.mEnd, clearSize);
         }
@@ -267,7 +267,7 @@ BOOL RecycleRegion(NNSiFndExpHeapHead *expHeap, const NNSiMemRegion *region) {
             prev = RemoveMBlock(&expHeap->mMbFreeList, prev);
         }
     }
-    if ((u32) merged.mEnd - (u32) merged.mStart < 0x10) {
+    if ((u32) merged.mEnd - (u32) merged.mStart < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
         return 0;
     }
     InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&merged, 0x4652), prev);
@@ -344,18 +344,18 @@ u32 NNS_FndResizeForMBlockExpHeap(NNSFndHeapHandle heap, void *memBlock, u32 siz
         newEnd = size + (u32) memBlock;
         freeStart = (u32) freeRegion.mStart;
         freeRegion.mStart = (void *) newEnd;
-        if ((u32) freeRegion.mEnd - newEnd < 0x10) {
+        if ((u32) freeRegion.mEnd - newEnd < EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
             freeRegion.mStart = freeRegion.mEnd;
         }
         blockHead->mBlockSize = (u32) freeRegion.mStart - (u32) memBlock;
-        if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart >= 0x10) {
+        if ((u32) freeRegion.mEnd - (u32) freeRegion.mStart >= EXP_HEAP_MIN_FREE_BLOCK_SIZE) {
             InsertMBlock(&expHeap->mMbFreeList, InitMBlock(&freeRegion, 0x4652), prev);
         }
         clearSize = (u32) freeRegion.mStart - freeStart;
         {
             volatile u32 zero;
 
-            if ((u16) (heap->mAttribute & 0xff) & 1) {
+            if ((u16) (heap->mAttribute & HEAP_OPTION_FLAG_MASK) & 1) {
                 zero = 0;
                 MIi_CpuClear32(zero, (void *) freeStart, clearSize);
             }

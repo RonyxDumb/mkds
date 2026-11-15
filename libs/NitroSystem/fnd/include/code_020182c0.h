@@ -14,6 +14,15 @@ typedef struct NNSiFndArchiveHeader {
     /* 0e */ u16 mDataBlocks;
 } NNSiFndArchiveHeader;
 
+// Values of NNSiFndArchiveHeader.mSignature, mByteOrder and mVersion that ArchiveHeaderMatches accepts, and the kind
+// words of the three blocks (the ASCII tags "NARC", "BTAF", "BTNF" and "GMIF" as words).
+#define ARCHIVE_SIGNATURE 0x4352414e
+#define ARCHIVE_BYTE_ORDER 0xfffe
+#define ARCHIVE_VERSION 0x100
+#define ARCHIVE_BLOCK_FAT 0x46415442
+#define ARCHIVE_BLOCK_FNT 0x464e5442
+#define ARCHIVE_BLOCK_IMAGE 0x46494d47
+
 // Bytes at the start of each block of the archive: its kind word and its size.
 #define ARCHIVE_BLOCK_HEADER_SIZE 8
 

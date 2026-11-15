@@ -10,6 +10,9 @@
 // Header at the start of every heap: mSignature tells the heap type, mLink puts the heap in the child list of the heap
 // that contains it, and the heap's own children hang off mChildList (link offset 4). The memory the heap hands out lies
 // between mHeapStart and mHeapEnd. The low byte of mAttribute holds the heap's option optFlag.
+// Mask of the option flags in NNSiFndHeapHead.mAttribute; bit 0 makes the heap clear memory it gives back.
+#define HEAP_OPTION_FLAG_MASK 0xff
+
 typedef struct NNSiFndHeapHead {
     /* 00 */ u32 mSignature;
     /* 04 */ NNSFndLink mLink;

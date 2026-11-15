@@ -2,6 +2,9 @@
 
 #include "types.h"
 
+// A free region smaller than this cannot hold a block header and is dropped.
+#define EXP_HEAP_MIN_FREE_BLOCK_SIZE 0x10
+
 // Header of 16 bytes before each block of an Exp heap, followed by mBlockSize bytes; blocks are linked through
 // mMBHeadPrev and mMBHeadNext. mAttribute holds the group ID in bits 0 to 7, the offset to the start of the block in
 // bits 8 to 14 and the end of the heap the block was taken from in bit 15.
