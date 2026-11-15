@@ -43,7 +43,8 @@ u32 GetExchangeOutcome(void) {
             if (CopyExchangeResult(&exchangeResult) != 1) {
                 OS_Terminate();
             }
-            if (exchangeResult.mKind >= 0 && exchangeResult.mKind <= 3 && exchangeResult.mUnk_24 == 1) {
+            if (exchangeResult.mKind >= EXCHANGE_RESULT_KIND_NONE &&
+                exchangeResult.mKind <= EXCHANGE_RESULT_KIND_VALUES_16 && exchangeResult.mUnk_24 == 1) {
                 return 3;
             }
             return 5;

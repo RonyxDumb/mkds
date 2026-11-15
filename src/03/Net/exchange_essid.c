@@ -1797,7 +1797,7 @@ s32 RunExchange(void) {
                     done = TRUE;
                     break;
                 }
-                __clear(&bindAddress, 8);
+                __clear(&bindAddress, sizeof(SocketAddress));
                 bindAddress.mLength = sizeof(SocketAddress);
                 bindAddress.mFamily = SOCKET_FAMILY_IPV4;
                 bindAddress.mPort = 0x1e6;
