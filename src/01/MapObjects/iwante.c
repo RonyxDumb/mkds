@@ -1431,7 +1431,7 @@ void InitIwante(MapObjectList *mapObjectList) {
             InitMissionRunMapObject(mapObjectList, obj, "iwante_l.nsbmd", "iwante_l.nsbca", "iwante_l.prm");
             LoadMissionRunMapObjectShadow(mapObjectList, obj, "sh_iwante.nsbmd");
             LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, "iwante_l.nsbtp");
-            obj->mCollisionShape = 1;
+            obj->mCollisionShape = MAP_OBJECT_COLLISION_BOX;
             if (objectIndex == 0) {
                 obj->mUnk_000.mFlags |= gMapObjectMirrorFlag;
             } else if (objectIndex == 1) {

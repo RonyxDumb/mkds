@@ -235,6 +235,23 @@ enum {
     MAP_OBJECT_SHADOW_AT_NODE,
 };
 
+// Values of MissionRunMapObject.mCollisionShape: the body the kart and item hit tests use.
+enum {
+    MAP_OBJECT_COLLISION_SPHERE,
+    MAP_OBJECT_COLLISION_BOX,
+    MAP_OBJECT_COLLISION_CYLINDER,
+};
+
+// Values of MissionRunMapObject.mCourseCollisionMode: how the object is moved out of the course. ALT_FILTER uses the
+// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_BITS also skips the checks of
+// the collision bits.
+enum {
+    MAP_OBJECT_COURSE_COLLISION_PUSH_OUT,
+    MAP_OBJECT_COURSE_COLLISION_ALT_FILTER,
+    MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS,
+    MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY,
+};
+
 // Values of mKartResponse: the index into the kart's collision response table (gCollideKartWithMapObjectResponses).
 enum {
     KART_MAP_OBJECT_RESPONSE_NONE = 0,

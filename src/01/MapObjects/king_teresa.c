@@ -820,7 +820,7 @@ void InitKingTeresa(MapObjectList *mapObjectList) {
             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
             SetNodePositionSource(mapObject, 0);
             mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
-            mapObject->mCourseCollisionMode = 3;
+            mapObject->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY;
         }
     }
 }

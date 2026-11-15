@@ -390,9 +390,9 @@ void SetShadowOffsetYAndScaleTarget(MissionRunMapObject *mapObject, int offsetY,
 
 void SetCollisionOffsetAndExtent(MissionRunMapObject *mapObject, s32 offsetY, s32 extentXZ, s32 extentY) {
     if (extentY == 0) {
-        mapObject->mCollisionShape = 0;
+        mapObject->mCollisionShape = MAP_OBJECT_COLLISION_SPHERE;
     } else {
-        mapObject->mCollisionShape = 2;
+        mapObject->mCollisionShape = MAP_OBJECT_COLLISION_CYLINDER;
     }
     mapObject->mOffset.x = mapObject->mOffsetTargetX = 0;
     mapObject->mOffset.y = mapObject->mOffsetTargetY = offsetY;
@@ -410,9 +410,9 @@ void SetCollisionOffsetAndExtent(MissionRunMapObject *mapObject, s32 offsetY, s3
 void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offsetY, u32 offsetPerCall, u32 extentXZ,
                                        int extentY, u32 extentPerCall) {
     if (extentY == 0) {
-        mapObject->mCollisionShape = 0;
+        mapObject->mCollisionShape = MAP_OBJECT_COLLISION_SPHERE;
     } else {
-        mapObject->mCollisionShape = 2;
+        mapObject->mCollisionShape = MAP_OBJECT_COLLISION_CYLINDER;
     }
     mapObject->mOffsetTargetX = 0;
     mapObject->mOffsetTargetY = offsetY;
@@ -477,7 +477,7 @@ void SetCollisionBoxOffsetAndExtent(MissionRunMapObject *mapObject, int offsetX,
     int *v3;
     int *v4;
     int *v5;
-    mapObject->mCollisionShape = 1;
+    mapObject->mCollisionShape = MAP_OBJECT_COLLISION_BOX;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -511,7 +511,7 @@ void SetCollisionBoxOffsetAndExtent(MissionRunMapObject *mapObject, int offsetX,
 
 void SetCollisionBoxOffsetAndExtentTarget(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                           u32 offsetPerCall, u32 extentX, u32 extentY, u32 extentZ, u32 extentPerCall) {
-    mapObject->mCollisionShape = 1;
+    mapObject->mCollisionShape = MAP_OBJECT_COLLISION_BOX;
     if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
@@ -539,7 +539,7 @@ void ResetMissionRunMapObjects(void) {
             table = FindMapObjectKindUpdateList(0x1ff);
             StopMapObjectState(obj);
             obj->mGravityEnabled = FALSE;
-            obj->mCourseCollisionMode = 3;
+            obj->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY;
             obj->mSpeed = obj->mSpeedTarget = obj->mSpeedPerCall = 0;
             obj->mAngleState = MAP_OBJECT_ANGLE_NONE;
             obj->mAnglePerCall = obj->mAnglePerCallTarget = obj->mAnglePerCallIncrement = 0;
@@ -1494,9 +1494,11 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     probePosition.z = mapObject->mUnk_000.mPos.z;
     mapObject->mCollisionBits = 0;
     if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000,
-                                mapObject->mCourseCollisionMode == 1 ? (u16) 4 : (u16) 1, -2, &pushOut, &v50, &v5c,
-                                &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
-        if (mapObject->mCourseCollisionMode == 2 || mapObject->mCourseCollisionMode == 3) {
+                                mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4
+                                                                                                          : (u16) 1,
+                                -2, &pushOut, &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
+        if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS ||
+            mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY) {
             mapObject->mUnk_000.mPos.y += pushOut.y;
         } else {
             mapObject->mUnk_000.mPos.x += pushOut.x;
@@ -1504,7 +1506,8 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             mapObject->mUnk_000.mPos.z += pushOut.z;
         }
     }
-    if (mapObject->mCourseCollisionMode != 2 && (mapObject->mCollisionBits & 0x214300)) {
+    if (mapObject->mCourseCollisionMode != MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS &&
+        (mapObject->mCollisionBits & 0x214300)) {
         if (LENGTH_SQUARED(v5c) >= 0x10) {
             Vec3NormalizeAndGetLengthUnchecked(&v5c, &pushDirection);
         }
@@ -1540,7 +1543,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         mapObject->mUnk_000.mScale.x = mapObject->mUnk_000.mScale.y = mapObject->mUnk_000.mScale.z =
             StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->mUnk_000.mScale.x);
     }
-    if (mapObject->mCollisionShape == 1) {
+    if (mapObject->mCollisionShape == MAP_OBJECT_COLLISION_BOX) {
         MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mAxes, FX_SinIdx((u16) mapObject->mAngle),
                     FX_CosIdx((u16) mapObject->mAngle));
         MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mPosWithOffset);
@@ -1752,7 +1755,7 @@ s32 ComputeSphereHitOnMissionRunMapObject(MissionRunMapObject *mapObject, Vec3 *
     s32 diffZ;
 
     switch (mapObject->mCollisionShape) {
-        case 0:
+        case MAP_OBJECT_COLLISION_SPHERE:
             sphereRadius += mapObject->mCollisionExtent.x;
             diffX = sphereCenter->x - mapObject->mPosWithOffset.x;
             diffY = sphereCenter->y - mapObject->mPosWithOffset.y;
@@ -1762,12 +1765,12 @@ s32 ComputeSphereHitOnMissionRunMapObject(MissionRunMapObject *mapObject, Vec3 *
                 return 1;
             }
             return 0;
-        case 2:
+        case MAP_OBJECT_COLLISION_CYLINDER:
             return ComputeSphereHitOnRotatedCylinder(sphereCenter, &mapObject->mPosWithOffset,
                                                      &mapObject->mUnk_000.mMatrix.mRows[0],
                                                      mapObject->mCollisionExtent.x, mapObject->mCollisionExtent.y,
                                                      mapObject->mCollisionExtent.y, sphereRadius, overlapOffset);
-        case 1:
+        case MAP_OBJECT_COLLISION_BOX:
             return ComputeSphereHitOnRotatedBox(sphereCenter, &mapObject->mPosWithOffset,
                                                 &mapObject->mUnk_000.mMatrix.mRows[0], &mapObject->mCollisionExtent,
                                                 &mapObject->mCollisionExtent, sphereRadius, overlapOffset);

@@ -789,7 +789,7 @@ void InitBossDonketu(MapObjectList *list) {
                                         0);
             SetShadowOffsetYAndScale(donketu, 0, 0x11000);
             SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
-            donketu->mCourseCollisionMode = 2;
+            donketu->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS;
         }
     }
 }

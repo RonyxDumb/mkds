@@ -621,7 +621,7 @@ void UpdateKuriking(u32 unused, MissionRunMapObject *mapObject) {
             StartKurikingWalkState(mapObject);
             SetKartCollisionCallback(mapObject, KurikingKartHitCallback);
         }
-        mapObject->mCourseCollisionMode = 1;
+        mapObject->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_ALT_FILTER;
     }
     AdvanceMissionRunMapObject(unused, mapObject);
     AdvanceMapObjectModelNsbtaAnimation(mapObject->mNsbmd);
