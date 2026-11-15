@@ -31,8 +31,8 @@ s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize) {
         return 6;
     }
     DC_StoreRange(recvBuf, recvBufSize);
-    WMi_SetCallbackTable(0x11, callback);
-    result = WMi_SendCommand(0x11, 2, recvBuf, recvBufSize);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_FRAME_MODE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_BEGIN_FRAME_MODE, 2, recvBuf, recvBufSize);
     if (result == 0) {
         return 2;
     }
@@ -59,9 +59,9 @@ s32 WM_SetDCFData(Unk021425e8Func callback, const void *destAdr, void *sendData,
         return 6;
     }
     DC_StoreRange(sendData, sendDataSize);
-    WMi_SetCallbackTable(0x12, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_QUEUE_FRAME_DATA, callback);
     MI_CpuCopy8(destAdr, address, 6);
-    result = WMi_SendCommand(0x12, 4, address[0], address[1], sendData, sendDataSize);
+    result = WMi_SendCommand(WIRELESS_REQUEST_QUEUE_FRAME_DATA, 4, address[0], address[1], sendData, sendDataSize);
     if (result == 0) {
         return 2;
     }
@@ -82,8 +82,8 @@ s32 WM_EndDCF(Unk021425e8Func callback) {
     if (work->mStatusArea->mDcfFlag == 0) {
         return 3;
     }
-    WMi_SetCallbackTable(0x13, callback);
-    result = WMi_SendCommand(0x13, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_STOP_FRAME_MODE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_STOP_FRAME_MODE, 0);
     if (result == 0) {
         return 2;
     }
@@ -128,9 +128,10 @@ s32 WM_StartMPEx(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize, void 
     if ((sendSize & 0x1f) != 0) {
         return 6;
     }
-    WMi_SetCallbackTable(0xe, callback);
-    result = WMi_SendCommand(0xe, 10, recvBuf, (u32) recvBufSize >> 1, sendBuf, sendBufSize, mpFreq, defaultRetryCount,
-                             minPollBmpMode, singlePacketMode, fixFreqMode, ignoreFatalError);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_EXCHANGE, callback);
+    result =
+        WMi_SendCommand(WIRELESS_REQUEST_BEGIN_EXCHANGE, 10, recvBuf, (u32) recvBufSize >> 1, sendBuf, sendBufSize,
+                        mpFreq, defaultRetryCount, minPollBmpMode, singlePacketMode, fixFreqMode, ignoreFatalError);
     if (result == 0) {
         return 2;
     }
@@ -146,8 +147,8 @@ s32 WM_SetMPFrequency(Unk021425e8Func callback, u32 mpFreq) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(0x23, callback);
-    result = WMi_SendCommand(0x23, 1, mpFreq);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_EXCHANGE_RATE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_SET_EXCHANGE_RATE, 1, mpFreq);
     if (result == 0) {
         return 2;
     }
@@ -196,7 +197,8 @@ s32 WM_SetMPDataToPortEx(UnkFunc *callback, void *arg, void *sendData, s32 sendD
         return 6;
     }
     DC_StoreRange(sendData, sendDataSize);
-    result = WMi_SendCommand(0xf, 7, sendData, sendDataSize, destBitmap, port, prio, callback, arg);
+    result = WMi_SendCommand(WIRELESS_REQUEST_QUEUE_EXCHANGE_DATA, 7, sendData, sendDataSize, destBitmap, port, prio,
+                             callback, arg);
     if (result == 0) {
         return 2;
     }
@@ -217,8 +219,8 @@ s32 WM_EndMP(Unk021425e8Func callback) {
     if (work->mStatusArea->mMpFlag == 0) {
         return 3;
     }
-    WMi_SetCallbackTable(0x10, callback);
-    result = WMi_SendCommand(0x10, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_STOP_EXCHANGE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_STOP_EXCHANGE, 0);
     if (result == 0) {
         return 2;
     }
@@ -234,9 +236,9 @@ s32 WM_Enable(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(3, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_ACTIVATE, callback);
     work = WMi_GetSystemWork();
-    result = WMi_SendCommand(3, 3, work->mWM7, work->mStatusArea, work->mMessageArea);
+    result = WMi_SendCommand(WIRELESS_REQUEST_ACTIVATE, 3, work->mWM7, work->mStatusArea, work->mMessageArea);
     if (result == 0) {
         return 2;
     }
@@ -251,8 +253,8 @@ s32 WM_Disable(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(4, callback);
-    result = WMi_SendCommand(4, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_DEACTIVATE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_DEACTIVATE, 0);
     if (result == 0) {
         return 2;
     }
@@ -267,8 +269,8 @@ s32 WM_PowerOn(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(5, callback);
-    result = WMi_SendCommand(5, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_RADIO_ON, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_RADIO_ON, 0);
     if (result == 0) {
         return 2;
     }
@@ -283,8 +285,8 @@ s32 WM_PowerOff(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(6, callback);
-    result = WMi_SendCommand(6, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_RADIO_OFF, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_RADIO_OFF, 0);
     if (result == 0) {
         return 2;
     }
@@ -300,9 +302,9 @@ s32 WM_Initialize(void *wmSysBuf, Unk021425e8Func callback, u16 dmaNo) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(0, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_POWER_UP_STACK, callback);
     work = WMi_GetSystemWork();
-    result = WMi_SendCommand(0, 3, work->mWM7, work->mStatusArea, work->mMessageArea);
+    result = WMi_SendCommand(WIRELESS_REQUEST_POWER_UP_STACK, 3, work->mWM7, work->mStatusArea, work->mMessageArea);
     if (result == 0) {
         return 2;
     }
@@ -317,8 +319,8 @@ s32 WM_Reset(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(1, callback);
-    result = WMi_SendCommand(1, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_RESTART, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_RESTART, 0);
     if (result == 0) {
         return 2;
     }
@@ -333,8 +335,8 @@ s32 WM_End(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(2, callback);
-    result = WMi_SendCommand(2, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_CLOSE_STACK, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_CLOSE_STACK, 0);
     if (result == 0) {
         return 2;
     }
@@ -362,12 +364,12 @@ s32 WM_SetParentParameter(Unk021425e8Func callback, ParentParameter *pparaBuf) {
         return 6;
     }
     WmCheckParentParameter(pparaBuf);
-    WMi_SetCallbackTable(7, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_CONFIGURE_HOST, callback);
     DC_StoreRange(pparaBuf, 0x40);
     if (pparaBuf->mUserGameInfoLength != 0) {
         DC_StoreRange(pparaBuf->mUserGameInfo, pparaBuf->mUserGameInfoLength);
     }
-    result = WMi_SendCommand(7, 1, pparaBuf);
+    result = WMi_SendCommand(WIRELESS_REQUEST_CONFIGURE_HOST, 1, pparaBuf);
     if (result == 0) {
         return 2;
     }
@@ -396,8 +398,8 @@ s32 WMi_StartParentEx(Unk021425e8Func callback, BOOL powerSave) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(8, callback);
-    result = WMi_SendCommand(8, 1, powerSave);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_OPEN_HOST, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_OPEN_HOST, 1, powerSave);
     if (result == 0) {
         return 2;
     }
@@ -417,8 +419,8 @@ s32 WM_EndParent(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(9, callback);
-    result = WMi_SendCommand(9, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_CLOSE_HOST, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_CLOSE_HOST, 0);
     if (result == 0) {
         return 2;
     }
@@ -444,9 +446,9 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
     if (param->mChannel < 1 || param->mChannel > 0xe) {
         return 6;
     }
-    WMi_SetCallbackTable(0xa, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_SEARCH, callback);
     request = (StartScanRequest *) WMi_GetSystemWork()->mRequestArea;
-    request->mApiid = 0xa;
+    request->mApiid = WIRELESS_REQUEST_BEGIN_SEARCH;
     request->mChannel = param->mChannel;
     request->mScanBuf = param->mScanBuf;
     request->mMaxChannelTime = param->mMaxChannelTime;
@@ -456,7 +458,7 @@ s32 WM_StartScan(Unk021425e8Func callback, ScanParam *param) {
     request->mBssid[3] = param->mBssid[3];
     request->mBssid[4] = param->mBssid[4];
     request->mBssid[5] = param->mBssid[5];
-    result = WMi_SendCommand(0xa, 0);
+    result = WMi_SendCommand(WIRELESS_REQUEST_BEGIN_SEARCH, 0);
     if (result == 0) {
         return 2;
     }
@@ -495,9 +497,9 @@ s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
             return 6;
         }
     }
-    WMi_SetCallbackTable(0x26, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS, callback);
     request = (StartScanExRequest *) WMi_GetSystemWork()->mRequestArea;
-    request->mApiid = 0x26;
+    request->mApiid = WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS;
     request->mChannelList = param->mChannelList;
     request->mScanBuf = param->mScanBuf;
     request->mScanBufSize = param->mScanBufSize;
@@ -507,7 +509,7 @@ s32 WM_StartScanEx(Unk021425e8Func callback, ScanExParam *param) {
     request->mSsidMatchLength = param->mSsidMatchLength;
     request->mSsidLength = param->mSsidLength;
     MI_CpuCopy8(param->mSsid, request->mSsid, 0x20);
-    result = WMi_SendCommand(0x26, 0);
+    result = WMi_SendCommand(WIRELESS_REQUEST_BEGIN_SEARCH_CHANNELS, 0);
     if (result == 0) {
         return 2;
     }
@@ -522,8 +524,8 @@ s32 WM_EndScan(Unk021425e8Func callback) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(0xb, callback);
-    result = WMi_SendCommand(0xb, 0);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_STOP_SEARCH, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_STOP_SEARCH, 0);
     if (result == 0) {
         return 2;
     }
@@ -543,9 +545,9 @@ s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL pow
         return 6;
     }
     DC_StoreRange(pInfo, pInfo[0] * 2);
-    WMi_SetCallbackTable(0xc, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_ENTER_HOST, callback);
     request = (StartConnectExRequest *) WMi_GetSystemWork()->mRequestArea;
-    request->mApiid = 0xc;
+    request->mApiid = WIRELESS_REQUEST_ENTER_HOST;
     request->mPInfo = pInfo;
     if (ssid != 0) {
         MI_CpuCopy8(ssid, request->mSsid, 0x18);
@@ -554,7 +556,7 @@ s32 WM_StartConnectEx(Unk021425e8Func callback, u16 *pInfo, void *ssid, BOOL pow
     }
     request->mPowerSave = powerSave;
     request->mAuthMode = authMode;
-    result = WMi_SendCommand(0xc, 0);
+    result = WMi_SendCommand(WIRELESS_REQUEST_ENTER_HOST, 0);
     if (result == 0) {
         return 2;
     }
@@ -585,8 +587,8 @@ s32 WM_Disconnect(Unk021425e8Func callback, u32 aid) {
     } else if (aid != 0) {
         return 6;
     }
-    WMi_SetCallbackTable(0xd, callback);
-    result = WMi_SendCommand(0xd, 1, 1 << aid);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_LEAVE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_LEAVE, 1, 1 << aid);
     if (result == 0) {
         return 2;
     }
@@ -607,8 +609,8 @@ s32 WM_DisconnectChildren(Unk021425e8Func callback, u32 aidBitmap) {
     if ((work->mStatusArea->mConnectedChildren & aidBitmap & 0xfffe) == 0) {
         return 7;
     }
-    WMi_SetCallbackTable(0xd, callback);
-    result = WMi_SendCommand(0xd, 1, aidBitmap);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_LEAVE, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_LEAVE, 1, aidBitmap);
     if (result == 0) {
         return 2;
     }

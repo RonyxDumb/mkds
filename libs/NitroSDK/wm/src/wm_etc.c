@@ -24,8 +24,8 @@ int WM_SetWEPKey(Unk021425e8Func callback, u32 wepmode, void *wepkey) {
         }
         DC_StoreRange(wepkey, 0x50);
     }
-    WMi_SetCallbackTable(0x14, callback);
-    result = WMi_SendCommand(0x14, 2, wepmode, wepkey);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_BASIC_CIPHER_KEY, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_SET_BASIC_CIPHER_KEY, 2, wepmode, wepkey);
     if (result == 0) {
         result = 2;
     }
@@ -49,8 +49,8 @@ int WM_SetWEPKeyEx(Unk021425e8Func callback, u16 wepmode, u16 wepkeyid, void *we
         }
         DC_StoreRange(wepkey, 0x50);
     }
-    WMi_SetCallbackTable(0x27, callback);
-    result = WMi_SendCommand(0x27, 3, wepmode, wepkey, wepkeyid);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_CIPHER_KEY, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_SET_CIPHER_KEY, 3, wepmode, wepkey, wepkeyid);
     if (result == 0) {
         result = 2;
     }
@@ -74,8 +74,9 @@ int WM_SetGameInfo(Unk021425e8Func callback, const void *userGameInfo, u16 userG
     }
     MIi_CpuCopy16(userGameInfo, tmpUserGameInfoBuf, userGameInfoSize);
     DC_StoreRange(tmpUserGameInfoBuf, userGameInfoSize);
-    WMi_SetCallbackTable(0x18, callback);
-    result = WMi_SendCommand(0x18, 5, tmpUserGameInfoBuf, userGameInfoSize, ggid, tgid, attr);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_HOST_ADVERT, callback);
+    result =
+        WMi_SendCommand(WIRELESS_REQUEST_SET_HOST_ADVERT, 5, tmpUserGameInfoBuf, userGameInfoSize, ggid, tgid, attr);
     if (result == 0) {
         result = 2;
     }
@@ -93,8 +94,8 @@ int WM_SetBeaconIndication(Unk021425e8Func callback, u16 flag) {
     if (flag != 0 && flag != 1) {
         return 6;
     }
-    WMi_SetCallbackTable(0x19, callback);
-    result = WMi_SendCommand(0x19, 1, flag);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_WATCH_BEACONS, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_WATCH_BEACONS, 1, flag);
     if (result == 0) {
         result = 2;
     }
@@ -109,8 +110,8 @@ int WM_SetLifeTime(Unk021425e8Func callback, u32 tableNumber, u32 camLifeTime, u
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(0x1d, callback);
-    result = WMi_SendCommand(0x1d, 4, tableNumber, camLifeTime, frameLifeTime, mpLifeTime);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_TIMEOUT, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_SET_TIMEOUT, 4, tableNumber, camLifeTime, frameLifeTime, mpLifeTime);
     if (result == 0) {
         result = 2;
     }
@@ -128,14 +129,14 @@ int WM_MeasureChannel(Unk021425e8Func callback, u16 ccaMode, u16 edThreshold, u1
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(0x1e, callback);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_MEASURE_CHANNEL, callback);
     request = work->mRequestArea;
     request[0] = 0x1e;
     request[1] = ccaMode;
     request[2] = edThreshold;
     request[3] = channel;
     request[4] = measureTime;
-    result = WMi_SendCommand(0x1e, 0);
+    result = WMi_SendCommand(WIRELESS_REQUEST_MEASURE_CHANNEL, 0);
     if (result == 0) {
         result = 2;
     }
@@ -150,8 +151,8 @@ int WM_SetEntry(Unk021425e8Func callback, BOOL enabled) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(0x21, callback);
-    result = WMi_SendCommand(0x21, 1, enabled);
+    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_JOIN_ALLOWED, callback);
+    result = WMi_SendCommand(WIRELESS_REQUEST_SET_JOIN_ALLOWED, 1, enabled);
     if (result == 0) {
         result = 2;
     }
