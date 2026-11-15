@@ -19,10 +19,10 @@ MapObjectModel *gStopSign;
 
 void InitStopSign(MissionRunMapObject *mapObject) {
     MtxFx33 rotationMatrix;
-    RefreshMapObjectMatrixFromHitNormal(&mapObject->mUnk_000);
-    mapObject->mUnk_000.mAngle = DEG_TO_ANGLE(mapObject->mUnk_000.mCourseMapRow->mRotationDegrees.y);
-    MTX_RotY33_(&rotationMatrix, FX_SinIdx(mapObject->mUnk_000.mAngle), FX_CosIdx(mapObject->mUnk_000.mAngle));
-    MTX_Concat33(&rotationMatrix, &mapObject->mUnk_000.mMatrix.mAxes, &mapObject->mUnk_000.mMatrix.mAxes);
+    RefreshMapObjectMatrixFromHitNormal(&mapObject->mMapObject);
+    mapObject->mMapObject.mAngle = DEG_TO_ANGLE(mapObject->mMapObject.mCourseMapRow->mRotationDegrees.y);
+    MTX_RotY33_(&rotationMatrix, FX_SinIdx(mapObject->mMapObject.mAngle), FX_CosIdx(mapObject->mMapObject.mAngle));
+    MTX_Concat33(&rotationMatrix, &mapObject->mMapObject.mMatrix.mAxes, &mapObject->mMapObject.mMatrix.mAxes);
 }
 
 void LoadStopSign(MapObjectList *mapObjectList) {

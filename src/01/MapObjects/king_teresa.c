@@ -94,7 +94,7 @@ MapObjectKindDescriptor gKingTeresaKindDescriptor = {0,
                                                      {NULL, NULL, NULL, NULL}};
 
 u16 IsIwanteWalkB(MissionRunMapObject *mapObject) {
-    return mapObject->mUnk_0a8 == IWANTE_HAND_SHAPE_WALK_B;
+    return mapObject->mHandShape == IWANTE_HAND_SHAPE_WALK_B;
 }
 
 void KingTeresaKartCollisionCallback(MissionRunMapObject *mapObject) {
@@ -112,8 +112,8 @@ void ShowKingTeresaWithEffects(MissionRunMapObject *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41b, 0);
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41c, 0);
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41d, 0);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x22e);
-    mapObject->mUnk_000.mFlags &= ~1;
+    StartMapObjectSound(&mapObject->mMapObject, 0x22e);
+    mapObject->mMapObject.mFlags &= ~1;
 }
 
 void HideKingTeresaWithEffects(MissionRunMapObject *mapObject) {
@@ -126,8 +126,8 @@ void HideKingTeresaWithEffects(MissionRunMapObject *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41e, 0);
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41f, 0);
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x420, 0);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x22d);
-    mapObject->mUnk_000.mFlags = mapObject->mUnk_000.mFlags | gKingTeresaHiddenFlag;
+    StartMapObjectSound(&mapObject->mMapObject, 0x22d);
+    mapObject->mMapObject.mFlags = mapObject->mMapObject.mFlags | gKingTeresaHiddenFlag;
 }
 
 void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject) {
@@ -147,7 +147,7 @@ void SetKingTeresaVelocityWithKartTurn(MissionRunMapObject *mapObject) {
         headingChange = GetMissionRunPrevKartHeadingAngle();
     }
     headingChange = (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartHeadingAngle() : 0) - headingChange;
-    VEC_Subtract(&mapObject->mUnk_000.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
+    VEC_Subtract(&mapObject->mMapObject.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
                  &offsetFromKart);
     for (repeatIndex = 0; repeatIndex < 1; repeatIndex++) {
         cosine = FX_CosIdx((u16) headingChange);
@@ -231,7 +231,7 @@ void StartKingTeresaTurnTowardKart(MissionRunMapObject *mapObject) {
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mTurnTowardKartFrameCount,
                                  StartKingTeresaCoinsFadeOut);
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x229);
+    StartMapObjectSound(&mapObject->mMapObject, 0x229);
 }
 
 s32 AdvanceKingTeresaFollowForwardPoint(MissionRunMapObject *mapObject) {
@@ -284,7 +284,7 @@ void StartKingTeresaMoveToForwardPoint(MissionRunMapObject *mapObject) {
     }
     gKingTeresaState = 2;
     SetKartCollisionCallback(mapObject, KingTeresaBossTransferCallback);
-    mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+    mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
 }
 
 s32 AdvanceKingTeresaApproachKart(MissionRunMapObject *mapObject) {
@@ -337,9 +337,9 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
     }
     SetKingTeresaVelocityWithKartTurn(mapObject);
     if (GetEntryKartInRange(mapObject, mapObject->mPrm->mKingTeresa.mWaitToApproachKartRadius, 0) == NULL) {
-        mapObject->mUnk_1c4 = mapObject->mPrm->mKingTeresa.mWaitToApproachMoveAngleOffset;
+        mapObject->mMoveAngleOffset = mapObject->mPrm->mKingTeresa.mWaitToApproachMoveAngleOffset;
     } else {
-        mapObject->mUnk_1c4 = 0;
+        mapObject->mMoveAngleOffset = 0;
     }
     mapObject->mAlphaLimitPerCall = mapObject->mPrm->mKingTeresa.mWaitToApproachAlphaLimitPerCall;
     if (mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimer -
@@ -357,7 +357,7 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
             mapObject->mPrm->mKingTeresa.mApproachTimerLimit &&
         GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mKingTeresa.mApproachFacingHalfAngle) != NULL) {
         SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-        mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+        mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
         StartKingTeresaApproachKart(mapObject);
     } else if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) >
                mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimer) {
@@ -387,17 +387,17 @@ void ShowKingTeresaNearKart(MissionRunMapObject *mapObject) {
     kart = GetKart((u16) gRaceSetup->mEntryIndex);
     VEC_MultAdd(-mapObject->mPrm->mKingTeresa.mApproachKartDistance, &kart->mEasedTurnedForward, &kart->mPos,
                 &nearKartPoint);
-    mapObject->mUnk_000.mPos.x = nearKartPoint.x;
-    mapObject->mUnk_000.mPos.y =
-        mapObject->mUnk_000.mCourseMapRow->mPosition.y + mapObject->mPrm->mKingTeresa.mPosOffsetY;
-    mapObject->mUnk_000.mPos.z = nearKartPoint.z;
+    mapObject->mMapObject.mPos.x = nearKartPoint.x;
+    mapObject->mMapObject.mPos.y =
+        mapObject->mMapObject.mCourseMapRow->mPosition.y + mapObject->mPrm->mKingTeresa.mPosOffsetY;
+    mapObject->mMapObject.mPos.z = nearKartPoint.z;
     mapObject->mMoveAngle =
-        (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mUnk_000.mPos.x, kart->mPos.z - mapObject->mUnk_000.mPos.z) +
+        (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mMapObject.mPos.x, kart->mPos.z - mapObject->mMapObject.mPos.z) +
                0x4000);
     mapObject->mAngle = mapObject->mMoveAngle;
     StartKingTeresaWaitToApproach(mapObject);
     SetBossCoinShownCount(0);
-    mapObject->mUnk_000.mFlags &= ~1;
+    mapObject->mMapObject.mFlags &= ~1;
 }
 
 void StartKingTeresaHitReaction(MissionRunMapObject *mapObject) {
@@ -429,17 +429,17 @@ void StartKingTeresaMoveToGroupEntry(MissionRunMapObject *mapObject) {
                                 mapObject->mPrm->mKingTeresa.mMoveToGroupEntryFrameStep);
     SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryAlphaLimitTarget,
                                   mapObject->mPrm->mKingTeresa.mMoveToGroupEntryAlphaLimitPerCall);
-    if (mapObject->mUnk_0a8 == 1) {
+    if (mapObject->mMoveStage == 1) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1SpeedTarget,
                                  mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1SpeedPerCall);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1AnglePerCallTarget,
                                     mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1AnglePerCallIncrement);
-    } else if (mapObject->mUnk_0a8 == 2) {
+    } else if (mapObject->mMoveStage == 2) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2SpeedTarget,
                                  mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2SpeedPerCall);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2AnglePerCallTarget,
                                     mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2AnglePerCallIncrement);
-    } else if (mapObject->mUnk_0a8 == 3) {
+    } else if (mapObject->mMoveStage == 3) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage3SpeedTarget,
                                  mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage3SpeedPerCall);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage3AnglePerCallTarget,
@@ -460,9 +460,10 @@ void ShowKingTeresaAtGroupEntry(MissionRunMapObject *mapObject) {
     GetKart((u16) gRaceSetup->mEntryIndex);
     rng = GetMapObjectRandom();
     rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
-    mapObject->mUnk_000.mPos.x = (&GetCurrentGroupEntry(mapObject)->mPos)->x;
-    mapObject->mUnk_000.mPos.y = mapObject->mPrm->mKingTeresa.mPosOffsetY + (&GetCurrentGroupEntry(mapObject)->mPos)->y;
-    mapObject->mUnk_000.mPos.z = (&GetCurrentGroupEntry(mapObject)->mPos)->z;
+    mapObject->mMapObject.mPos.x = (&GetCurrentGroupEntry(mapObject)->mPos)->x;
+    mapObject->mMapObject.mPos.y =
+        mapObject->mPrm->mKingTeresa.mPosOffsetY + (&GetCurrentGroupEntry(mapObject)->mPos)->y;
+    mapObject->mMapObject.mPos.z = (&GetCurrentGroupEntry(mapObject)->mPos)->z;
     StartMapObjectState(mapObject, 5, (s32(*)(MissionRunMapObject *)) ClearFadeFogHoldFramesWrapper);
     ShowKingTeresaWithEffects(mapObject);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mShowFrameCount, NULL);
@@ -481,7 +482,7 @@ void StartKingTeresaHideForNextGroup(MissionRunMapObject *mapObject) {
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mHideFrameCount, ShowKingTeresaAtGroupEntry);
     SetBossCoinShownCount(0);
     IncrementEntryGroupIndex(mapObject, mapObject->mPrm->mKingTeresa.mNextGroupSpan);
-    currentValue = mapObject->mUnk_0a8;
+    currentValue = mapObject->mMoveStage;
     if (currentValue == 1) {
         nextValue = 2;
     } else if (currentValue == 2) {
@@ -491,7 +492,7 @@ void StartKingTeresaHideForNextGroup(MissionRunMapObject *mapObject) {
     } else {
         nextValue = 1;
     }
-    mapObject->mUnk_0a8 = nextValue;
+    mapObject->mMoveStage = nextValue;
     if (gKingTeresaState != 3) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
@@ -505,12 +506,12 @@ void StartKingTeresaHideForNextGroup(MissionRunMapObject *mapObject) {
 u32 AdvanceKingTeresaSinkToCourseRow(MissionRunMapObject *mapObject) {
     int newY;
     int lowestY;
-    lowestY = mapObject->mUnk_000.mCourseMapRow->mPosition.y + mapObject->mPrm->mKingTeresa.mSinkMinOffsetY;
-    newY = mapObject->mUnk_000.mPos.y - mapObject->mPrm->mKingTeresa.mSinkStepY;
+    lowestY = mapObject->mMapObject.mCourseMapRow->mPosition.y + mapObject->mPrm->mKingTeresa.mSinkMinOffsetY;
+    newY = mapObject->mMapObject.mPos.y - mapObject->mPrm->mKingTeresa.mSinkStepY;
     if (newY <= lowestY) {
         newY = lowestY;
     }
-    mapObject->mUnk_000.mPos.y = newY;
+    mapObject->mMapObject.mPos.y = newY;
     ClearFadeFogHoldFrames();
     return 0;
 }
@@ -533,7 +534,7 @@ void StartKingTeresaShowBossCoins(MissionRunMapObject *mapObject) {
     }
     gKingTeresaState = 4;
     SetKartCollisionCallback(mapObject, KingTeresaParkBossCoinsCallback);
-    mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+    mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
     SetBossCoinShownCount(mapObject->mPrm->mKingTeresa.mShowBossCoinsShownCountMax <
                                   (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
                               ? mapObject->mPrm->mKingTeresa.mShowBossCoinsShownCountMax
@@ -550,7 +551,7 @@ void StartKingTeresaStopForBossCoins(MissionRunMapObject *mapObject) {
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     SetBossCoinShownCount(0);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x00000230u);
+    StartMapObjectSound(&mapObject->mMapObject, 0x00000230u);
 }
 
 void StartKingTeresaCoinsFadeIn(MissionRunMapObject *mapObject) {
@@ -583,7 +584,7 @@ void HideKingTeresaWithoutEffects(MissionRunMapObject *mapObject) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 3;
-    mapObject->mUnk_000.mFlags |= gKingTeresaHiddenFlag;
+    mapObject->mMapObject.mFlags |= gKingTeresaHiddenFlag;
 }
 
 void StartKingTeresaState1ShadowOffset(MissionRunMapObject *mapObject) {
@@ -619,29 +620,29 @@ void HideKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKingTeresa.mWinnerDecidedAnimationEntry,
                                 mapObject->mPrm->mKingTeresa.mWinnerDecidedFrameStep);
-    StartEffect(0x3fe, &mapObject->mUnk_000.mPos);
-    StartEffect(0x3fd, &mapObject->mUnk_000.mPos);
+    StartEffect(0x3fe, &mapObject->mMapObject.mPos);
+    StartEffect(0x3fd, &mapObject->mMapObject.mPos);
     if (gKingTeresaState != 7) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 7;
-    mapObject->mUnk_000.mFlags |= gKingTeresaSkipViewTestFlag;
-    mapObject->mUnk_000.mFlags |= gKingTeresaSkipListCallbackFlag;
-    mapObject->mUnk_000.mFlags |= gKingTeresaHiddenFlag;
+    mapObject->mMapObject.mFlags |= gKingTeresaSkipViewTestFlag;
+    mapObject->mMapObject.mFlags |= gKingTeresaSkipListCallbackFlag;
+    mapObject->mMapObject.mFlags |= gKingTeresaHiddenFlag;
 }
 
 s32 AdvanceKingTeresaEndReachedSound(MissionRunMapObject *mapObject) {
     if (mapObject->mStateFrames == 50) {
         SoundStartParams soundParams = {0x22f, 0, 0xe, 0};
-        soundParams.mPositionSource = &mapObject->mUnk_000.mPos;
-        soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
+        soundParams.mPositionSource = &mapObject->mMapObject.mPos;
+        soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mMapObject.mPos);
         StartSndHandleSoundUnchecked(&soundParams, GetSecondSndHandleSlot());
     }
     return 0;
 }
 
 void ShowKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_000.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
+    mapObject->mMapObject.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
     mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget = 0x1f000;
     mapObject->mAlphaLimitPerCall = 0;
     StartMapObjectState(mapObject, 8, AdvanceKingTeresaEndReachedSound);
@@ -652,7 +653,7 @@ void ShowKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = 7;
-    mapObject->mUnk_000.mFlags &= ~1;
+    mapObject->mMapObject.mFlags &= ~1;
 }
 
 void StartKingTeresaWinnerDecidedHold(MissionRunMapObject *mapObject) {
@@ -674,7 +675,7 @@ void StartKingTeresaSecondAnimation(MissionRunMapObject *mapObject) {
 }
 
 void StartKingTeresaFirstAnimation(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_000.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
+    mapObject->mMapObject.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHead.mStartupFirstAnimationEntry,
                                 mapObject->mPrm->mHead.mStartupFirstFrameStep);
@@ -688,7 +689,7 @@ void ShowKingTeresaAfterWait(MissionRunMapObject *mapObject) {
 }
 
 void StartKingTeresaZeroAlphaWait(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_000.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
+    mapObject->mMapObject.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
     mapObject->mAlphaLimitTarget = 0;
     mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget;
     mapObject->mAlphaLimit = 0;
@@ -700,24 +701,24 @@ void StartKingTeresaZeroAlphaWait(MissionRunMapObject *mapObject) {
 }
 
 void InitKingTeresaMapObject(MissionRunMapObject *mapObject) {
-    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xe, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[14].mFarDistanceSquared;
+    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xe, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[14].mFarDistanceSquared;
 }
 
 void KingTeresaParkBossCoinsCallback(MissionRunMapObject *mapObject, Kart *kart) {
-    mapObject->mUnk_000.mPosStep.x =
+    mapObject->mMapObject.mPosStep.x =
         MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mHead.mKartPushPosStep, FX_SinIdx(kart->mHeadingAngle));
-    mapObject->mUnk_000.mPosStep.y = 0;
-    mapObject->mUnk_000.mPosStep.z =
+    mapObject->mMapObject.mPosStep.y = 0;
+    mapObject->mMapObject.mPosStep.z =
         MUL_FIXED12_NO_ROUND(-mapObject->mPrm->mHead.mKartPushPosStep, FX_CosIdx(kart->mHeadingAngle));
     ParkBossCoins(mapObject->mPrm->mKingTeresa.mParkBossCoinCount);
     StartKingTeresaHideForNextGroup(mapObject);
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_NONE;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
     StartKingTeresaHideThenCoinsFadeIn(mapObject);
-    mapObject->mUnk_0a8 = 0;
-    StartMapObjectSound(&mapObject->mUnk_000, 0x22c);
+    mapObject->mMoveStage = 0;
+    StartMapObjectSound(&mapObject->mMapObject, 0x22c);
     mapObject->mCollisionExtent.x = mapObject->mCollisionExtentTargetX = mapObject->mCollisionExtent.z =
         mapObject->mCollisionExtentTargetZ = mapObject->mPrm->mHead.mCollisionExtentXZ;
 }
@@ -731,22 +732,22 @@ void KingTeresaHitReactionCallback(MissionRunMapObject *mapObject) {
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     SetKartCollisionCallback(mapObject, KingTeresaHitReactionCallback);
     if (mapObject->mTimer == 0) {
-        StartMapObjectSound(&mapObject->mUnk_000, 0x00000234u);
+        StartMapObjectSound(&mapObject->mMapObject, 0x00000234u);
     }
 }
 
 void KingTeresaBossTransferCallback(MissionRunMapObject *mapObject, Kart *kart) {
     AddPendingBossTransferInMissionRun((u16) mapObject->mPrm->mKingTeresa.mBossTransferAmount);
-    mapObject->mUnk_000.mPosStep.x = 0;
-    mapObject->mUnk_000.mPosStep.y = mapObject->mPrm->mKingTeresa.mBossTransferPosStepY;
-    mapObject->mUnk_000.mPosStep.z = 0;
+    mapObject->mMapObject.mPosStep.x = 0;
+    mapObject->mMapObject.mPosStep.y = mapObject->mPrm->mKingTeresa.mBossTransferPosStepY;
+    mapObject->mMapObject.mPosStep.z = 0;
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
     mapObject->mStateFunction = AdvanceKingTeresaFollowForwardPoint;
     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     StartKartHitReaction(kart);
     SetShadowOffsetYAndScale(mapObject, 0, 0x32000);
-    mapObject->mUnk_0a8 = 1;
+    mapObject->mMoveStage = 1;
     if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0)) {
         StartFadeFog();
     }
@@ -790,7 +791,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
             }
         }
     } else {
-        if (mapObject->mUnk_0a8 != 0) {
+        if (mapObject->mMoveStage != 0) {
             if (IsStateNumberBelow(mapObject, 5) != 0) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 if (kart->mState == KART_STATE_NORMAL && (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0 &&
@@ -807,7 +808,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                     IncrementEntryIndex(mapObject);
                 }
                 SetKartCollisionCallback(mapObject, KingTeresaHitReactionCallback);
-                mapObject->mUnk_000.mFlags &= ~0x40;
+                mapObject->mMapObject.mFlags &= ~0x40;
                 SetBossCoinShownCount(0);
                 StartKingTeresaMoveToGroupEntry(mapObject);
             }
@@ -823,9 +824,9 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                         SetMissionRunTimer(0);
                     }
                 }
-                if ((mapObject->mUnk_000.mFlags & 1) == 0) {
+                if ((mapObject->mMapObject.mFlags & 1) == 0) {
                     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                    mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+                    mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                     HideKingTeresaWithoutEffects(mapObject);
                 }
             }
@@ -833,29 +834,29 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                 if (IsStateNumberBelow(mapObject, 3) != 0) {
                     if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <
                         mapObject->mPrm->mKingTeresa.mShowNearKartTimerLimit) {
-                        if (mapObject->mUnk_000.mFlags & 1) {
+                        if (mapObject->mMapObject.mFlags & 1) {
                             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                            mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+                            mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                             ShowKingTeresaNearKart(mapObject);
                         } else {
                             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                            mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+                            mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                             StartKingTeresaWaitToApproach(mapObject);
                         }
-                    } else if ((mapObject->mUnk_000.mFlags & 1) == 0) {
+                    } else if ((mapObject->mMapObject.mFlags & 1) == 0) {
                         SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
-                        mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+                        mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                         HideKingTeresaWithoutEffects(mapObject);
                     }
                 }
             }
         }
         if (gKingTeresaState == 0) {
-            StartKingTeresaAlphaSound(mapObject->mUnk_000.mSound);
+            StartKingTeresaAlphaSound(mapObject->mMapObject.mSound);
         } else if (IsKingTeresaState0Or2Or5() != 0) {
-            StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x22a);
+            StartMapObjectSoundWhileRequested(&mapObject->mMapObject, 0x22a);
         } else if (gKingTeresaState == 4) {
-            StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x22b);
+            StartMapObjectSoundWhileRequested(&mapObject->mMapObject, 0x22b);
         }
     }
     AdvanceMissionRunMapObject(unused, mapObject);
@@ -882,7 +883,7 @@ void InitKingTeresa(MapObjectList *mapObjectList) {
             SetShadowOffsetYAndScale(mapObject, 0, 0x19000);
             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
             SetNodePositionSource(mapObject, 0);
-            mapObject->mUnk_000.mFlags |= gKingTeresaNoPushOutFlag;
+            mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
             mapObject->mCourseCollisionMode = MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY;
         }
     }
@@ -890,7 +891,7 @@ void InitKingTeresa(MapObjectList *mapObjectList) {
 
 void DrawKingTeresa(void *mapObjectList, MissionRunMapObject *mapObject) {
     DrawMissionRunMapObject(mapObjectList, mapObject);
-    if (mapObject->mUnk_0a8 == 0) {
+    if (mapObject->mMoveStage == 0) {
         DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
         return;
     }

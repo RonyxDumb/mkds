@@ -206,7 +206,7 @@ void StartCoinBossTransfer(void) {
             }
             targetObject = GetMissionRunMapObject(kartCount);
         }
-        coin->mTargetPos = &targetObject->mUnk_000.mPos;
+        coin->mTargetPos = &targetObject->mMapObject.mPos;
         coin->mMapObject.mPos.x = kart->mPos.x;
         coin->mMapObject.mPos.y = kart->mPos.y + 0x1a000;
         coin->mMapObject.mPos.z = kart->mPos.z;

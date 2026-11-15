@@ -147,11 +147,11 @@ void SetTripledCollisionAndShadowTargets(MissionRunMapObject *mapObject) {
 }
 
 void KurikingFirstSoundCallback(MissionRunMapObject *mapObject) {
-    StartMapObjectSound(&mapObject->mUnk_000, 0x223);
+    StartMapObjectSound(&mapObject->mMapObject, 0x223);
 }
 
 void KurikingSecondSoundCallback(MissionRunMapObject *mapObject) {
-    StartMapObjectSound(&mapObject->mUnk_000, 0x223);
+    StartMapObjectSound(&mapObject->mMapObject, 0x223);
 }
 
 void SetKurikingSoundCallbacks(MissionRunMapObject *mapObject) {
@@ -252,7 +252,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     s32 throwIndex;
 
     prm = &mapObject->mPrm->mKuriking;
-    angle = mapObject->mAngle - prm->mThrowAngleStep * (mapObject->mUnk_138 / 2);
+    angle = mapObject->mAngle - prm->mThrowAngleStep * (mapObject->mThrowCount / 2);
     firstRange = prm->mKinokoRandomLimit;
     if (firstRange == 0x10000) {
         random = GetMapObjectRandom();
@@ -274,7 +274,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         firstResult = firstScaledDraw;
     }
     if (firstResult == 0) {
-        secondRange = mapObject->mUnk_138;
+        secondRange = mapObject->mThrowCount;
         if (secondRange == 0x10000) {
             random = GetMapObjectRandom();
             random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
@@ -299,13 +299,13 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         kinokoIndex = -1;
     }
     radius = mapObject->mPrm->mKuriking.mThrowRadius;
-    for (throwIndex = 0; throwIndex < mapObject->mUnk_138; throwIndex++) {
+    for (throwIndex = 0; throwIndex < mapObject->mThrowCount; throwIndex++) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
-        pos.x = mapObject->mUnk_000.mPos.x + (MUL_FIXED12_NO_ROUND(radius, FX_SinIdx((u16) angle)));
-        pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mKuriking.mThrowOffsetY;
-        pos.z = mapObject->mUnk_000.mPos.z + (MUL_FIXED12_NO_ROUND(radius, FX_CosIdx((u16) angle)));
+        pos.x = mapObject->mMapObject.mPos.x + (MUL_FIXED12_NO_ROUND(radius, FX_SinIdx((u16) angle)));
+        pos.y = mapObject->mMapObject.mPos.y + mapObject->mPrm->mKuriking.mThrowOffsetY;
+        pos.z = mapObject->mMapObject.mPos.z + (MUL_FIXED12_NO_ROUND(radius, FX_CosIdx((u16) angle)));
         vel.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mThrowSpeed, FX_SinIdx((u16) angle));
         vel.y = mapObject->mPrm->mKuriking.mThrowVelocityY;
         vel.z = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mThrowSpeed, FX_CosIdx((u16) angle));
@@ -320,7 +320,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         StartEffect(0x3f7, &pos);
         StartEffect(0x3f6, &pos);
     }
-    StartMapObjectSound(&mapObject->mUnk_000, 0x222);
+    StartMapObjectSound(&mapObject->mMapObject, 0x222);
 }
 
 void StartKurikingTurnToEntryState(MissionRunMapObject *mapObject) {
@@ -381,7 +381,7 @@ void StartKurikingFaceKartState(MissionRunMapObject *mapObject) {
     SetMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mFaceKartFrameCount,
                                  StartKurikingThrowBombsState);
-    mapObject->mUnk_138 = GetCurrentGroupEntryValue(mapObject);
+    mapObject->mThrowCount = GetCurrentGroupEntryValue(mapObject);
     SetKurikingSoundCallbacks(mapObject);
 }
 
@@ -393,7 +393,7 @@ void StartKurikingJumpLandState(MissionRunMapObject *mapObject) {
                                       mapObject->mPrm->mKuriking.mJumpLandFrameStep, 0);
     StopTurningMoveFollowsAngle(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
-    mapObject->mUnk_000.mFlags &= ~0x20;
+    mapObject->mMapObject.mFlags &= ~0x20;
 }
 
 void StartKurikingJumpState(MissionRunMapObject *mapObject) {
@@ -410,8 +410,8 @@ void StartKurikingJumpState(MissionRunMapObject *mapObject) {
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mJumpSpeedTarget,
                              mapObject->mPrm->mKuriking.mJumpSpeedPerCall);
     SetCourseCollisionCallback(mapObject, StartKurikingJumpLandState);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x226);
-    mapObject->mUnk_000.mFlags |= gKurikingJumpFlag;
+    StartMapObjectSound(&mapObject->mMapObject, 0x226);
+    mapObject->mMapObject.mFlags |= gKurikingJumpFlag;
 }
 
 void StartKurikingJumpAnimationState(MissionRunMapObject *mapObject) {
@@ -432,7 +432,7 @@ void StartKurikingTurnToRowState(MissionRunMapObject *mapObject) {
                                       mapObject->mPrm->mKuriking.mTurnToRowFrameStep, 0);
     TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKuriking.mTurnToRowAnglePerCallTarget,
                                 mapObject->mPrm->mKuriking.mTurnToRowAnglePerCallIncrement);
-    SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mUnk_000.mCourseMapRow->mPosition);
+    SetAnglePointAndMoveAnglePoint(mapObject, &mapObject->mMapObject.mCourseMapRow->mPosition);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKuriking.mTurnToRowSpeedTarget,
                              mapObject->mPrm->mKuriking.mTurnToRowSpeedPerCall);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mTurnToRowFrameCount,
@@ -442,9 +442,9 @@ void StartKurikingTurnToRowState(MissionRunMapObject *mapObject) {
 
 int UpdateKurikingGrowSound(MissionRunMapObject *mapObject) {
     if (GetAbsoluteCounter(mapObject) == 1) {
-        StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x220);
+        StartMapObjectSoundWhileRequested(&mapObject->mMapObject, 0x220);
     } else if (GetAbsoluteCounter(mapObject) == 2) {
-        StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x221);
+        StartMapObjectSoundWhileRequested(&mapObject->mMapObject, 0x221);
     }
     return 0;
 }
@@ -461,7 +461,8 @@ void StartKurikingGrowState(MissionRunMapObject *mapObject) {
                                 mapObject->mPrm->mKuriking.mGrowAnglePerCallIncrement);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKuriking.mGrowFrameCount, StartKurikingWalkState);
-    SetScaleTargetAndPerCall(mapObject, (mapObject->mUnk_000.mScale.x + mapObject->mPrm->mKuriking.mGrowScaleIncrease),
+    SetScaleTargetAndPerCall(mapObject,
+                             (mapObject->mMapObject.mScale.x + mapObject->mPrm->mKuriking.mGrowScaleIncrease),
                              mapObject->mPrm->mKuriking.mGrowScalePerCall);
     SetSpeedAndClearTarget(mapObject, 0);
     SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
@@ -495,19 +496,19 @@ void StartKurikingChaseKartState(MissionRunMapObject *mapObject) {
 
 void StartKurikingEndEffects(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, (s32(*)(MissionRunMapObject *))(0));
-    StartEffect(0x418, &mapObject->mUnk_000.mPos);
-    StartEffect(0x417, &mapObject->mUnk_000.mPos);
-    StartEffect(0x416, &mapObject->mUnk_000.mPos);
+    StartEffect(0x418, &mapObject->mMapObject.mPos);
+    StartEffect(0x417, &mapObject->mMapObject.mPos);
+    StartEffect(0x416, &mapObject->mMapObject.mPos);
     {
         SoundStartParams soundRequest = {0x225, 0, 0xf, 0};
 
-        soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
+        soundRequest.mPositionSource = &mapObject->mMapObject.mPos;
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(soundRequest.mPositionSource);
         StartSndHandleSoundUnchecked(&soundRequest, GetSecondSndHandleSlot());
     }
-    mapObject->mUnk_000.mFlags |= gKurikingSkipViewTestFlag;
-    mapObject->mUnk_000.mFlags |= gKurikingSkipListCallbackFlag;
-    mapObject->mUnk_000.mFlags |= gKurikingDisabledFlag;
+    mapObject->mMapObject.mFlags |= gKurikingSkipViewTestFlag;
+    mapObject->mMapObject.mFlags |= gKurikingSkipListCallbackFlag;
+    mapObject->mMapObject.mFlags |= gKurikingDisabledFlag;
 }
 
 void StartKurikingKartNotEliminatedState(MissionRunMapObject *mapObject) {
@@ -536,13 +537,13 @@ s32 UpdateKurikingStartupEffects(MissionRunMapObject *mapObject) {
     if (nsbcaFrameIndex == 0x4d) {
         ReleaseEffects(mapObject);
         StartEffectAtRowHeight(mapObject, (0xfffff99au), 0, (0xfffff99au), (0x0000042bu), 0);
-        StartMapObjectSound(&mapObject->mUnk_000, (0x0000021eu));
+        StartMapObjectSound(&mapObject->mMapObject, (0x0000021eu));
     } else {
         nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
         if (nsbcaFrameIndex == 0x68) {
             ReleaseEffects(mapObject);
             StartEffectAtRowHeight(mapObject, (0xfffff99au), 0, (0xfffff99au), (0x0000042cu), 0);
-            StartMapObjectSound(&mapObject->mUnk_000, (0x0000021fu));
+            StartMapObjectSound(&mapObject->mMapObject, (0x0000021fu));
         }
     }
     return 0;
@@ -584,9 +585,9 @@ void StartKurikingChainStartupFirst(MissionRunMapObject *mapObject) {
 
 void InitKurikingMapObject(MissionRunMapObject *mapObject) {
     CreateParkedMapObjects(MAP_OBJECT_KIND_KURIBO, 0x32, mapObject);
-    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
-    InitSoundSource(&mapObject->mUnk_000.mSound->mSoundSource, 0xf, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = gSoundFalloffs[15].mFarDistanceSquared;
+    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xf, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[15].mFarDistanceSquared;
 }
 
 void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, void *kart) {
@@ -597,13 +598,13 @@ void KurikingKartHitSoundCallback(MissionRunMapObject *mapObject, void *kart) {
 }
 
 void KurikingKartHitCallback(MissionRunMapObject *mapObject, void *kart) {
-    mapObject->mUnk_000.mPosStep.x =
+    mapObject->mMapObject.mPosStep.x =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mKartHitSpeed, FX_SinIdx((u16) mapObject->mMoveAngle));
-    mapObject->mUnk_000.mPosStep.y = 0;
-    mapObject->mUnk_000.mPosStep.z =
+    mapObject->mMapObject.mPosStep.y = 0;
+    mapObject->mMapObject.mPosStep.z =
         MUL_FIXED12_NO_ROUND(mapObject->mPrm->mKuriking.mKartHitSpeed, FX_CosIdx((u16) mapObject->mMoveAngle));
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
-    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     SetKartCollisionCallback(mapObject, KurikingKartHitSoundCallback);
     if (mapObject->mTimer == 0) {
         StartSoundFullVolumeWrapper(kart, 0x224);

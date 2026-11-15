@@ -44,25 +44,25 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             {
                 Vec3 effectPosition;
 
-                VEC_Subtract(&donketu->mUnk_000.mPos, &kart->mCollisionCenter, &effectPosition);
+                VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
                 if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
                     0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }
                 VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
-                if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
-                    donketu->mUnk_000.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
-                    StopSound(&donketu->mUnk_000.mSound->mSoundSource, 0x214);
-                    StartMapObjectSound(&donketu->mUnk_000, 0x211);
+                if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
+                    donketu->mMapObject.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
+                    StopSound(&donketu->mMapObject.mSound->mSoundSource, 0x214);
+                    StartMapObjectSound(&donketu->mMapObject, 0x211);
                     StartEffect(0x3e9, &effectPosition);
                     StartEffect(0x3e8, &effectPosition);
                     StartEffect(0x3ea, &effectPosition);
                     StartEffectAtRowHeight(donketu, 0x99a, 0, 0x75c, 0x3f3, 0);
                     StartEffectAtRowHeight(donketu, -0x99a, 0, 0x75c, 0x3f3, 0);
-                } else if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
-                    donketu->mUnk_000.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
-                    StopSound(&donketu->mUnk_000.mSound->mSoundSource, 0x245);
-                    StartMapObjectSound(&donketu->mUnk_000, 0x23f);
+                } else if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
+                    donketu->mMapObject.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
+                    StopSound(&donketu->mMapObject.mSound->mSoundSource, 0x245);
+                    StartMapObjectSound(&donketu->mMapObject, 0x23f);
                     StartEffect(0x3fa, &effectPosition);
                     StartEffect(0x3fb, &effectPosition);
                     StartEffect(0x3fc, &effectPosition);

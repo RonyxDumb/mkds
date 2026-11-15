@@ -106,9 +106,9 @@ BOOL IsWithinXzDistanceOfPoint(MissionRunMapObject *mapObject, Vec3 *point, s32 
     float radiusAsFloatCopy;
 
     if (point != NULL) {
-        VEC_Subtract(point, &mapObject->mUnk_000.mPos, &unusedOffset);
-        dx = mapObject->mUnk_000.mPos.x - point->x;
-        dz = mapObject->mUnk_000.mPos.z - point->z;
+        VEC_Subtract(point, &mapObject->mMapObject.mPos, &unusedOffset);
+        dx = mapObject->mMapObject.mPos.x - point->x;
+        dz = mapObject->mMapObject.mPos.z - point->z;
         if (radius > 0) {
             radiusAsFloat = 0.5f + TO_FIXED12(radius);
         } else {
@@ -132,7 +132,8 @@ BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Ve
 
     if (point != NULL) {
         angleDifference =
-            (u16) (FX_Atan2Idx(point->x - mapObject->mUnk_000.mPos.x, point->z - mapObject->mUnk_000.mPos.z) - angle);
+            (u16) (FX_Atan2Idx(point->x - mapObject->mMapObject.mPos.x, point->z - mapObject->mMapObject.mPos.z) -
+                   angle);
         if (angleDifference > 0x8000) {
             angleDifference -= 0x10000;
         }
