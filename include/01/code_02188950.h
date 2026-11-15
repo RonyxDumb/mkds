@@ -33,11 +33,11 @@ typedef struct MissionRunPrmHead {
     /* 060 */ s32 mUnk_060;
     /* 064 */ s32 mWaitForRaceStartAnimationEntry;
     /* 068 */ s32 mWaitForRaceStartFrameStep;
+    /* 06c */ s32 mUnk_06c;
 } MissionRunPrmHead;
 
 typedef struct BombKingPrm {
     /* 000 */ MissionRunPrmHead mHead;
-    /* 06c */ u8 mUnk_06c[0x4];
     /* 070 */ s32 mStoppedAfterHitsAnimationEntry;
     /* 074 */ s32 mStoppedAfterHitsFrameStep;
     /* 078 */ s32 mKartEliminatedAnimationEntry;
@@ -137,7 +137,6 @@ typedef struct BombKingPrm {
 
 typedef struct DonketuPrm {
     /* 000 */ MissionRunPrmHead mHead;
-    /* 06c */ u8 mUnk_06c[0x4];
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
     /* 074 */ s32 mKartNotEliminatedFrameStep;
     /* 078 */ s32 mKartEliminatedAnimationEntry;
@@ -258,7 +257,6 @@ typedef struct DonketuPrm {
 
 typedef struct HanachanPrm {
     /* 000 */ MissionRunPrmHead mHead;
-    /* 06c */ u8 mUnk_06c[0x4];
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
     /* 074 */ s32 mKartNotEliminatedFrameStep;
     /* 078 */ s32 mKartEliminatedAnimationEntry;
@@ -308,7 +306,6 @@ typedef struct HanachanPrm {
 
 typedef struct IwantePrm {
     /* 000 */ MissionRunPrmHead mHead;
-    /* 06c */ u8 mUnk_06c[0x4];
     /* 070 */ s32 mHideAtEndReachedAnimationEntry;
     /* 074 */ s32 mHideAtEndReachedFrameStep;
     /* 078 */ s32 mKartEliminatedHoldAnimationEntry;
@@ -439,7 +436,6 @@ typedef struct IwantePrm {
 
 typedef struct KingTeresaPrm {
     /* 000 */ MissionRunPrmHead mHead;
-    /* 06c */ u8 mUnk_06c[0x4];
     /* 070 */ s32 mWinnerDecidedAnimationEntry;
     /* 074 */ s32 mWinnerDecidedFrameStep;
     /* 078 */ s32 mKartEliminatedAnimationEntry;
@@ -561,7 +557,6 @@ typedef struct KingTeresaPrm {
 
 typedef struct KurikingPrm {
     /* 000 */ MissionRunPrmHead mHead;
-    /* 06c */ u8 mUnk_06c[0x4];
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
     /* 074 */ s32 mKartNotEliminatedFrameStep;
     /* 078 */ s32 mChaseKartAnimationEntry;
