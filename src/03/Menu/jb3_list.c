@@ -367,10 +367,10 @@ void UpdateJb3ListScrollInput(void) {
             jb3List->mScrollTimer--;
         }
         switch (GetScrollBarEvent()) {
-            case 1:
+            case SCROLL_BAR_EVENT_THUMB_PRESSED:
                 gJb3List->mScrollBarDragging = 1;
                 break;
-            case 2:
+            case SCROLL_BAR_EVENT_THUMB_MOVED:
                 if (gJb3List->mScrollTimer != 0) {
                     return;
                 }
@@ -379,7 +379,7 @@ void UpdateJb3ListScrollInput(void) {
                 RefreshJb3List();
                 gJb3List->mScrollTimer = 4;
                 break;
-            case 3:
+            case SCROLL_BAR_EVENT_OFFSET_SETTLED:
                 gJb3List->mScrollBarDragging = 0;
                 gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, 0x37);
                 StartSoundSeq(0x13);
@@ -395,7 +395,7 @@ void UpdateJb3ListScrollInput(void) {
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYIncrease, NULL, 0x78);
                 }
                 break;
-            case 4:
+            case SCROLL_BAR_EVENT_ARROW_UP_PRESSED:
                 if (gJb3ListScrollY == 0) {
                     if (gJb3List->mScrollBarLimitSoundPlayed != 0) {
                         return;
@@ -407,7 +407,7 @@ void UpdateJb3ListScrollInput(void) {
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYDecrease, NULL, 0x78);
                 }
                 break;
-            case 6:
+            case SCROLL_BAR_EVENT_ARROW_DOWN_PRESSED:
                 if (gJb3ListScrollY == 0x91) {
                     if (gJb3List->mScrollBarLimitSoundPlayed != 0) {
                         return;
@@ -419,8 +419,8 @@ void UpdateJb3ListScrollInput(void) {
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYIncrease, NULL, 0x78);
                 }
                 break;
-            case 5:
-            case 7:
+            case SCROLL_BAR_EVENT_ARROW_UP_RELEASED:
+            case SCROLL_BAR_EVENT_ARROW_DOWN_RELEASED:
                 gJb3List->mScrollBarLimitSoundPlayed = 0;
                 break;
         }

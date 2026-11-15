@@ -290,11 +290,11 @@ void UpdateApListScroll(void) {
         apList->mScrollTimer--;
     }
     switch (GetScrollBarEvent()) {
-        case 1:
+        case SCROLL_BAR_EVENT_THUMB_PRESSED:
             gApList->mScrollBarDragging = 1;
             DisableButtonTouch();
             break;
-        case 2:
+        case SCROLL_BAR_EVENT_THUMB_MOVED:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
                 *(u16 *) &gApListScrollY =
@@ -303,7 +303,7 @@ void UpdateApListScroll(void) {
                 gApList->mScrollTimer = 4;
             }
             break;
-        case 3:
+        case SCROLL_BAR_EVENT_OFFSET_SETTLED:
             gApList->mScrollBarDragging = 0;
             EnableButtonTouch();
             *(u16 *) &gApListScrollY =
@@ -319,7 +319,7 @@ void UpdateApListScroll(void) {
                 gApList->mScrollTask = AddTask(0, AdvanceApListScrollYIncrease, NULL, 0x78);
             }
             break;
-        case 4:
+        case SCROLL_BAR_EVENT_ARROW_UP_PRESSED:
             if (*(u16 *) &gApListScrollY == 0) {
                 if (gApList->mBarBlockedSoundPlayed == 0) {
                     StartSoundSeq(9);
@@ -330,7 +330,7 @@ void UpdateApListScroll(void) {
                 gApList->mScrollTask = AddTask(0, AdvanceApListScrollYDecrease, NULL, 0x78);
             }
             break;
-        case 6:
+        case SCROLL_BAR_EVENT_ARROW_DOWN_PRESSED:
             apList = gApList;
             if (apList->mEntryCount <= 4 || *(u16 *) &gApListScrollY == apList->mScrollYMax) {
                 if (apList->mBarBlockedSoundPlayed == 0) {
@@ -342,8 +342,8 @@ void UpdateApListScroll(void) {
                 gApList->mScrollTask = AddTask(0, AdvanceApListScrollYIncrease, NULL, 0x78);
             }
             break;
-        case 5:
-        case 7:
+        case SCROLL_BAR_EVENT_ARROW_UP_RELEASED:
+        case SCROLL_BAR_EVENT_ARROW_DOWN_RELEASED:
             gApList->mBarBlockedSoundPlayed = 0;
             break;
     }

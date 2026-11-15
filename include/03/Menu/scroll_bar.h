@@ -18,6 +18,19 @@ enum {
     SCROLL_BAR_STATE_HOLD_ARROW_DOWN,
 };
 
+// Values of ScrollBar.mEvent, set by one AdvanceScrollBar call and read through GetScrollBarEvent. OFFSET_SETTLED is
+// the end of a drag or a tap on the track.
+enum {
+    SCROLL_BAR_EVENT_NONE,
+    SCROLL_BAR_EVENT_THUMB_PRESSED,
+    SCROLL_BAR_EVENT_THUMB_MOVED,
+    SCROLL_BAR_EVENT_OFFSET_SETTLED,
+    SCROLL_BAR_EVENT_ARROW_UP_PRESSED,
+    SCROLL_BAR_EVENT_ARROW_UP_RELEASED,
+    SCROLL_BAR_EVENT_ARROW_DOWN_PRESSED,
+    SCROLL_BAR_EVENT_ARROW_DOWN_RELEASED,
+};
+
 typedef struct ScrollBar {
     /* 00 */ struct OamRange *mResource;
     /* 04 */ u8 mUnk_04[8];

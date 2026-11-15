@@ -58,7 +58,7 @@ void DisableScrollBarInput(void) {
 }
 
 void AdvanceScrollBar(void) {
-    gScrollBar->mEvent = 0;
+    gScrollBar->mEvent = SCROLL_BAR_EVENT_NONE;
     switch (gScrollBar->mState) {
         case SCROLL_BAR_STATE_IDLE:
             if (gScrollBar->mInputDisabled == 0) {
@@ -67,7 +67,7 @@ void AdvanceScrollBar(void) {
                         if (gScrollBar->mSizeIndex != 0) {
                             StartSoundSeq(0x16);
                             SetSoundSeqVolume(0);
-                            gScrollBar->mEvent = 1;
+                            gScrollBar->mEvent = SCROLL_BAR_EVENT_THUMB_PRESSED;
                             GetTouchPoint(gScrollBar->mDragStartTouch);
                             gScrollBar->mDragStartOffset = gScrollBar->mOffset;
                             gScrollBar->mState = SCROLL_BAR_STATE_DRAG;
@@ -90,7 +90,7 @@ void AdvanceScrollBar(void) {
             break;
         case SCROLL_BAR_STATE_HOLD_ARROW_UP:
             if (GetTouchedScrollBarArrow(SCROLL_BAR_PART_ARROW_UP) != SCROLL_BAR_PART_ARROW_UP) {
-                gScrollBar->mEvent = 5;
+                gScrollBar->mEvent = SCROLL_BAR_EVENT_ARROW_UP_RELEASED;
                 gScrollBar->mState = SCROLL_BAR_STATE_IDLE;
             } else if (GetPressedScrollBarPart() == SCROLL_BAR_PART_ARROW_UP) {
                 StartScrollBarArrowHold(SCROLL_BAR_PART_ARROW_UP);
@@ -98,7 +98,7 @@ void AdvanceScrollBar(void) {
             break;
         case SCROLL_BAR_STATE_HOLD_ARROW_DOWN:
             if (GetTouchedScrollBarArrow(SCROLL_BAR_PART_ARROW_DOWN) != SCROLL_BAR_PART_ARROW_DOWN) {
-                gScrollBar->mEvent = 7;
+                gScrollBar->mEvent = SCROLL_BAR_EVENT_ARROW_DOWN_RELEASED;
                 gScrollBar->mState = SCROLL_BAR_STATE_IDLE;
             } else if (GetPressedScrollBarPart() == SCROLL_BAR_PART_ARROW_DOWN) {
                 StartScrollBarArrowHold(SCROLL_BAR_PART_ARROW_DOWN);
@@ -125,13 +125,13 @@ void AdvanceScrollBarDrag(void) {
             }
             SetScrollBarDragSound(newOffset);
             PlaceScrollBar(newOffset);
-            gScrollBar->mEvent = 2;
+            gScrollBar->mEvent = SCROLL_BAR_EVENT_THUMB_MOVED;
             return;
         }
     }
     StopSoundSeq();
     gScrollBar->mState = SCROLL_BAR_STATE_IDLE;
-    gScrollBar->mEvent = 3;
+    gScrollBar->mEvent = SCROLL_BAR_EVENT_OFFSET_SETTLED;
 }
 
 void SetScrollBarDragSound(s32 targetOffset) {
@@ -163,9 +163,9 @@ void StartScrollBarArrowHold(int arrow) {
     u8 resultCode;
     gScrollBar->mState = (s8) arrow;
     if (arrow == SCROLL_BAR_PART_ARROW_UP) {
-        resultCode = 4;
+        resultCode = SCROLL_BAR_EVENT_ARROW_UP_PRESSED;
     } else {
-        resultCode = 6;
+        resultCode = SCROLL_BAR_EVENT_ARROW_DOWN_PRESSED;
     }
     gScrollBar->mEvent = resultCode;
 }
@@ -187,7 +187,7 @@ void MoveScrollBarToTouch(void) {
         }
     }
     PlaceScrollBar(newOffset);
-    gScrollBar->mEvent = 3;
+    gScrollBar->mEvent = SCROLL_BAR_EVENT_OFFSET_SETTLED;
 }
 
 int GetPressedScrollBarPart(void) {
