@@ -29,6 +29,25 @@ enum {
     PROFILE_CONNECTION_CLOSED = 4,
 };
 
+// Types of buddy messages: the "bm" value of a server message and the type of a message between peers.
+enum {
+    GPI_BM_MESSAGE = 1,
+    GPI_BM_REQUEST = 2,
+    GPI_BM_STATUS = 100,
+    GPI_BM_INVITE = 101,
+    GPI_BM_PING = 102,
+    GPI_BM_PONG = 103,
+    GPI_BM_FILE_SEND_REQUEST = 200,
+    GPI_BM_FILE_SEND_REPLY,
+    GPI_BM_FILE_BEGIN,
+    GPI_BM_FILE_END,
+    GPI_BM_FILE_DATA,
+    GPI_BM_FILE_SKIP,
+    GPI_BM_FILE_TRANSFER_THROTTLE,
+    GPI_BM_FILE_TRANSFER_CANCEL,
+    GPI_BM_FILE_TRANSFER_KEEPALIVE,
+};
+
 // Object behind GpConnection.mGpiConnection: GpiWriteDelbuddyAndRemoveBuddy passes the address of 0x1f4 to
 // GpiAppendBufferString and GpiAppendBufferNumber, reads 0x198 and decrements 0x430.
 typedef struct GpiConnection {

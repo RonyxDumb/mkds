@@ -89,7 +89,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
         date = GetUnixTime(NULL);
     }
     switch (type) {
-        case 1:
+        case GPI_BM_MESSAGE:
             messageCallback = gpState->mCallbacks[3];
             if (messageCallback.mCallback == NULL) {
                 break;
@@ -118,7 +118,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return result;
             }
             break;
-        case 2:
+        case GPI_BM_REQUEST:
             profileRec = GpiFindOrAddProfile(connection, profileNumber);
             if (profileRec == NULL) {
                 GpiSetErrorMessage(connection, "Out of memory.");
@@ -163,7 +163,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return result;
             }
             break;
-        case 100:
+        case GPI_BM_STATUS:
             profileRec = GpiFindOrAddProfile(connection, profileNumber);
             if (profileRec == NULL) {
                 GpiSetErrorMessage(connection, "Out of memory.");
@@ -244,7 +244,7 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return result;
             }
             break;
-        case 101:
+        case GPI_BM_INVITE:
             if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
                 GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
@@ -285,13 +285,13 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
                 return result;
             }
             break;
-        case 102:
+        case GPI_BM_PING:
             if (GpiGetValue(input, "\\msg\\", buffer, 0x1000) == FALSE) {
                 GpiSetError(connection, 1, "Unexpected data was received from the server.");
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            gpiSendBuddyMessage(connection, profileNumber, 0x67, "1");
+            gpiSendBuddyMessage(connection, profileNumber, GPI_BM_PONG, "1");
             break;
     }
     return 0;

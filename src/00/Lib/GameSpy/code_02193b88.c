@@ -273,7 +273,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
         }
         if (buffer != 0) {
             switch (type) {
-                case 1:
+                case GPI_BM_MESSAGE:
                     callback = gpState->mCallbacks[3];
                     if (callback.mCallback != NULL) {
                         arg = DWCi_GsMalloc(0xc);
@@ -292,17 +292,17 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                     }
                     break;
                 case PROFILE_PEER_STATE_START_CONNECT:
-                    gpiSendBuddyMessage(connection, peerConn->mProfileId, 0x67, "1");
+                    gpiSendBuddyMessage(connection, peerConn->mProfileId, GPI_BM_PONG, "1");
                     break;
-                case 200:
-                case 201:
-                case 202:
-                case 203:
-                case 204:
-                case 205:
-                case 206:
-                case 207:
-                case 208:
+                case GPI_BM_FILE_SEND_REQUEST:
+                case GPI_BM_FILE_SEND_REPLY:
+                case GPI_BM_FILE_BEGIN:
+                case GPI_BM_FILE_END:
+                case GPI_BM_FILE_DATA:
+                case GPI_BM_FILE_SKIP:
+                case GPI_BM_FILE_TRANSFER_THROTTLE:
+                case GPI_BM_FILE_TRANSFER_CANCEL:
+                case GPI_BM_FILE_TRANSFER_KEEPALIVE:
                     gpiHandleTransferMessage(connection, peerConn, type, peerConn->mInputBuffer, buffer, msgBytes);
                     break;
             }
@@ -377,7 +377,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer
     if (DarrayGetCount(peer->mQueuedMessages) != 0) {
         do {
             message = DarrayGetElement(peer->mQueuedMessages, 0);
-            if (message->mType < 0x64) {
+            if (message->mType < GPI_BM_STATUS) {
                 gpiSendServerBuddyMessage(connection, peer->mProfileId, message->mType,
                                           (const char *) message->mBuffer.mBuffer + message->mStart);
             }

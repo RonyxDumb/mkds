@@ -454,7 +454,7 @@ u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message)
         GpiSetErrorMessage(connection, "Invalid message.");
         return 2;
     }
-    return gpiSendBuddyMessage(connection, profileRec, 1, message);
+    return gpiSendBuddyMessage(connection, profileRec, GPI_BM_MESSAGE, message);
 }
 
 static void UnusedLiteralsConnection(GpConnection *connection) {
