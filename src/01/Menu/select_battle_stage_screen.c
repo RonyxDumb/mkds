@@ -245,9 +245,9 @@ void AdvanceSelectBattleStageSlideIn(void) {
 }
 
 void AdvanceSelectBattleStageWaitSelectReturn(void) {
-    int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (returnState2NoRequest != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_INPUT;
     }
 }

@@ -401,9 +401,9 @@ void AdvanceRecordTopMenuRowsSettle(void) {
 }
 
 void AdvanceRecordTopMenuWaitSelectReturn(void) {
-    int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (returnState2NoRequest != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         RequestRecordTopMenuInput();
     }
 }

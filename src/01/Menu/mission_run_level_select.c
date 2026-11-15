@@ -434,10 +434,10 @@ void AdvanceMissionRunLVselSlideIn(void) {
 }
 
 void AdvanceMissionRunLVselWaitSelectReturn(void) {
-    int returnState2NoRequest;
+    int returnShownNoRequest;
     StartSceneSeqIfIdle();
-    returnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (returnState2NoRequest != 0) {
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         RequestMissionRunLVselSelect();
     }
 }

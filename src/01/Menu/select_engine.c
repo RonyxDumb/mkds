@@ -409,9 +409,9 @@ void AdvanceSelectEngineSettle(void) {
 }
 
 void AdvanceSelectEngineWaitSelectReturn(void) {
-    int returnState2NoState3Or4Request;
-    returnState2NoState3Or4Request = IsSelectReturnShownNoRequest();
-    if (returnState2NoState3Or4Request != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         RequestSelectEngineInput();
     }
 }

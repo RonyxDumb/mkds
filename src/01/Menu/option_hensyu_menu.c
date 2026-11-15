@@ -125,9 +125,9 @@ void AdvanceOptionHensyuMenuSlideIn(void) {
 }
 
 void AdvanceOptionHensyuMenuWaitSelectReturn(void) {
-    int returnState2NoRequest;
-    returnState2NoRequest = IsSelectReturnShownNoRequest();
-    if (returnState2NoRequest != 0) {
+    int returnShownNoRequest;
+    returnShownNoRequest = IsSelectReturnShownNoRequest();
+    if (returnShownNoRequest != 0) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SELECT;
     }
 }
