@@ -21,7 +21,7 @@ struct UsbScan {
     /* 1b74 */ u32 mStartTickLow;
     /* 1b78 */ u32 mStartTickHigh;
     /* 1b7c */ u32 mReportTask;
-    /* 1b80 */ u8 mReleaseProgress;
+    /* 1b80 */ vu8 mReleaseProgress;
     /* 1b81 */ u8 mPendingResult;
     /* 1b82 */ u8 mReported;
 };

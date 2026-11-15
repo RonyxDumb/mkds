@@ -94,7 +94,7 @@ BOOL ReleaseUsbScan(void) {
         RemoveTaskEntryWrapper(0, scan->mReportTask);
     }
     scan = gUsbScan;
-    while (*(vu8 *) &scan->mReleaseProgress != 2) {
+    while (scan->mReleaseProgress != 2) {
     }
     FreeExpHeapBlockAndClearPointer(&gUsbScan);
     return 1;
