@@ -20,7 +20,8 @@ enum {
     CAMERA_EFFECT_STATE_FOLLOW,
 };
 
-// Values of the first course setting of the camera effect: its effects start at the camera and follow it, none start, or
+// Values of the first course setting of the camera effect: its effects start at the camera and follow it, none start,
+// or
 // they start at a point ahead of the camera (ComputePointAheadOfCamera) and follow that.
 enum {
     CAMERA_EFFECT_KIND_AT_CAMERA,

@@ -364,7 +364,7 @@ void SetShadowOffsetYAndScale(MissionRunMapObject *mapObject, s32 offsetY, s32 s
     mapObject->mShadowOffsetZ = mapObject->mShadowOffsetTargetZ = 0;
     mapObject->mShadowOffsetPerCall = 0;
     mapObject->mShadowScaleX = mapObject->mShadowScaleTargetX = scaleXZ;
-    mapObject->mShadowScaleY = mapObject->mShadowScaleTargetY = 0xa000;
+    mapObject->mShadowScaleY = mapObject->mShadowScaleTargetY = TO_FIXED12(10);
     mapObject->mShadowScaleZ = mapObject->mShadowScaleTargetZ = scaleXZ;
     mapObject->mShadowScalePerCall = 0;
 }
@@ -544,7 +544,7 @@ void ResetMissionRunMapObjects(void) {
             obj->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_KEEP;
             obj->mMoveAnglePerCall = obj->mMoveAnglePerCallTarget = obj->mMoveAnglePerCallIncrement = 0;
             obj->mVelocity.x = obj->mVelocity.y = obj->mVelocity.z = 0;
-            obj->mAlphaLimit = obj->mAlphaLimitTarget = 0x1f000;
+            obj->mAlphaLimit = obj->mAlphaLimitTarget = TO_FIXED12(MAP_OBJECT_ALPHA_MAX);
             obj->mAlphaLimitPerCall = 0;
             if (objectIndex - (gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0) <
                 table->mMapObjectCount) {
@@ -1185,7 +1185,7 @@ void InitMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
         mapObject->mPrm = LoadMissionRunFile(prmName);
     }
     mapObject->mAngle = DEG_TO_ANGLE(mapObject->mMapObject.mCourseMapRow->mRotationDegrees.y);
-    mapObject->mAlphaLimit = 0x1f000;
+    mapObject->mAlphaLimit = TO_FIXED12(MAP_OBJECT_ALPHA_MAX);
     if (mapObject->mPrm != NULL) {
         SetMapObjectExtentX(&mapObject->mMapObject, mapObject->mPrm->mHead.mCollisionExtentXZ << 2);
         mapObject->mMapObject.mScale.x = mapObject->mPrm->mHead.mScale;
@@ -1817,7 +1817,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
         }
     }
     if (mapObject->mTimer == 0) {
-        mapObject->mTimer = 0x1f;
+        mapObject->mTimer = MAP_OBJECT_KART_HIT_COOLDOWN_FRAMES;
     }
     return mapObject->mKartResponse;
 }

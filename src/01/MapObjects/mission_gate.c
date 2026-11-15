@@ -55,7 +55,7 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     sideExtentX = MUL_FIXED12_NO_ROUND(0xA000, missionGateObject->mMapObject.mScale.x);
     sideExtentY = MUL_FIXED12_NO_ROUND(0xF000, missionGateObject->mMapObject.mScale.y);
     saved = missionGateObject->mMapObject.mCourseMapRow->mSettings[0];
-    missionGateObject->mMapObject.mCourseMapRow->mSettings[0] = 0x12;
+    missionGateObject->mMapObject.mCourseMapRow->mSettings[0] = MISSION_GATE_SIDE_OBJECT_SETTING;
     missionGateObject->mNegativeSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mPositiveSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mMapObject.mCourseMapRow->mSettings[0] = saved;

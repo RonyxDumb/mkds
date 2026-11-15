@@ -683,7 +683,7 @@ void InitBombKingMapObject(MissionRunMapObject *mapObject) {
 }
 
 void SetBombKingEffectScale(ParticleEmitter *emitter) {
-    emitter->mSizeScale = 0x2000;
+    emitter->mSizeScale = TO_FIXED12(2);
 }
 
 void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {

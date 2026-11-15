@@ -57,6 +57,16 @@ typedef struct NNSG2dCellDataWithBR {
     /* 0e */ s16 mMinY;
 } NNSG2dCellDataWithBR;
 
+// Values of NNSG2dCellAnimation.mOverriddenPlayMode (0 keeps the sequence's own play mode) and of the play mode of an
+// animation sequence.
+enum {
+    NNS_G2D_ANIMATIONPLAYMODE_INVALID,
+    NNS_G2D_ANIMATIONPLAYMODE_FORWARD,
+    NNS_G2D_ANIMATIONPLAYMODE_FORWARD_LOOP,
+    NNS_G2D_ANIMATIONPLAYMODE_REVERSE,
+    NNS_G2D_ANIMATIONPLAYMODE_REVERSE_LOOP,
+};
+
 typedef struct NNSG2dCellAnimation {
     /* 00 */ NNSG2dAnimFrameData *mPCurrent;
     /* 04 */ u32 mReverse;

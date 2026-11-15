@@ -56,7 +56,7 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
                                                  : TO_FIXED12(rec[entryIndex].mPosX) - 0.5f;
         entry->mPosY = rec[entryIndex].mPosY > 0 ? 0.5f + TO_FIXED12(rec[entryIndex].mPosY)
                                                  : TO_FIXED12(rec[entryIndex].mPosY) - 0.5f;
-        entry->mScale = 0x1000;
+        entry->mScale = TO_FIXED12(1);
         entry->mShown = rec[entryIndex].mShowMode != 0;
         NNS_G2dInitCellAnimation(&entry->mCellAnim, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[entryIndex].mAnimIndex),
                                  cells);
@@ -99,7 +99,7 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
             screenX = FROM_FIXED12(entry->mPosX) + lld->mOffsetX;
             screenY = FROM_FIXED12(entry->mPosY) + lld->mOffsetY;
             if (screenX >= -64 && screenX <= 0x140 && screenY >= -48 && screenY <= 0xf0) {
-                if (entry->mScale != 0x1000) {
+                if (entry->mScale != TO_FIXED12(1)) {
                     u16 idx = AllocOamMatrixIndex(oamBuffer);
                     MtxFx22 mtx = {{0, 0, 0, 0}};
 
@@ -114,16 +114,16 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     cell = entry->mCellAnim.mPCurrentCell;
                     scaledPos[0] = TO_FIXED12(screenX);
                     scaledPos[1] = TO_FIXED12(screenY);
-                    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
-                        (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
-                        cell, &mtx, scaledPos, idx, 1);
+                    oamBuffer->mOamCount +=
+                        NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
+                                              0x80 - oamBuffer->mOamCount, cell, &mtx, scaledPos, idx, 1);
                 } else {
                     cell = entry->mCellAnim.mPCurrentCell;
                     unscaledPos[0] = TO_FIXED12(screenX);
                     unscaledPos[1] = TO_FIXED12(screenY);
-                    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(
-                        (GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8], 0x80 - oamBuffer->mOamCount,
-                        cell, NULL, unscaledPos, 0, 0);
+                    oamBuffer->mOamCount +=
+                        NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
+                                              0x80 - oamBuffer->mOamCount, cell, NULL, unscaledPos, 0, 0);
                 }
             }
         }
@@ -167,11 +167,11 @@ void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
     NNSG2dCellAnimation *cellAnim = &entry->mCellAnim;
 
     if (frameOrCommand == -1) {
-        cellAnim->mOverriddenPlayMode = 2;
+        cellAnim->mOverriddenPlayMode = NNS_G2D_ANIMATIONPLAYMODE_FORWARD_LOOP;
         entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -2) {
         NNS_G2dResetAnimCtrlState(cellAnim);
-        cellAnim->mOverriddenPlayMode = 1;
+        cellAnim->mOverriddenPlayMode = NNS_G2D_ANIMATIONPLAYMODE_FORWARD;
         entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -3) {
         entry->mCellAnim.mActive = FALSE;

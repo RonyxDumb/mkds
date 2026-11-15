@@ -1,5 +1,9 @@
 #pragma once
 
+// Frames between the hit callbacks of an eliminated kart once the winner is decided
+// (MissionRunData.mSinceHitCallbackFrames).
+#define MISSION_RUN_SELF_HIT_CALLBACK_FRAMES 0xf
+
 #include "types.h"
 #include "Main/MapObjects/balloon.h" // Balloon
 

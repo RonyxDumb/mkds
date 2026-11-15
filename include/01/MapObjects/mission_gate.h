@@ -9,6 +9,9 @@ typedef struct MapObjectModel MapObjectModel;
 
 #include "01/code_0218b9b4.h"
 
+// First course setting the two side objects of a mission gate are created with.
+#define MISSION_GATE_SIDE_OBJECT_SETTING 0x12
+
 MapObjectList *CreateMissionGateUpdateList(void);
 MapObjectList *CreateMissionGateDrawList(void);
 MapObjectKindData *CreateMissionGateKindData(void);

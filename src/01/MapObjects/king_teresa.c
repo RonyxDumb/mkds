@@ -429,17 +429,17 @@ void StartKingTeresaMoveToGroupEntry(MissionRunMapObject *mapObject) {
                                 mapObject->mPrm->mKingTeresa.mMoveToGroupEntryFrameStep);
     SetAlphaLimitTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryAlphaLimitTarget,
                                   mapObject->mPrm->mKingTeresa.mMoveToGroupEntryAlphaLimitPerCall);
-    if (mapObject->mMoveStage == 1) {
+    if (mapObject->mMoveStage == KING_TERESA_MOVE_STAGE_FIRST) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1SpeedTarget,
                                  mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1SpeedPerCall);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1AnglePerCallTarget,
                                     mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage1AnglePerCallIncrement);
-    } else if (mapObject->mMoveStage == 2) {
+    } else if (mapObject->mMoveStage == KING_TERESA_MOVE_STAGE_SECOND) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2SpeedTarget,
                                  mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2SpeedPerCall);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2AnglePerCallTarget,
                                     mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage2AnglePerCallIncrement);
-    } else if (mapObject->mMoveStage == 3) {
+    } else if (mapObject->mMoveStage == KING_TERESA_MOVE_STAGE_THIRD) {
         SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage3SpeedTarget,
                                  mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage3SpeedPerCall);
         TurnToPointMoveFollowsAngle(mapObject, mapObject->mPrm->mKingTeresa.mMoveToGroupEntryStage3AnglePerCallTarget,
@@ -631,7 +631,7 @@ void HideKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
 }
 
 s32 AdvanceKingTeresaEndReachedSound(MissionRunMapObject *mapObject) {
-    if (mapObject->mStateFrames == 50) {
+    if (mapObject->mStateFrames == KING_TERESA_END_SOUND_FRAME) {
         SoundStartParams soundParams = {0x22f, 0, 0xe, 0};
         soundParams.mPositionSource = &mapObject->mMapObject.mPos;
         soundParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mMapObject.mPos);
@@ -642,7 +642,7 @@ s32 AdvanceKingTeresaEndReachedSound(MissionRunMapObject *mapObject) {
 
 void ShowKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
     mapObject->mMapObject.mPos.y += mapObject->mPrm->mKingTeresa.mPosOffsetY;
-    mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget = 0x1f000;
+    mapObject->mAlphaLimit = mapObject->mAlphaLimitTarget = TO_FIXED12(MAP_OBJECT_ALPHA_MAX);
     mapObject->mAlphaLimitPerCall = 0;
     StartMapObjectState(mapObject, 8, AdvanceKingTeresaEndReachedSound);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mKingTeresa.mWinnerDecidedAnimationEntry,

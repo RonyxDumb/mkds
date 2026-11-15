@@ -94,6 +94,10 @@ void ThrowItemBombFromPosition(void *bomb, Vec3 *position, Vec3 *velocity, s32 t
 
 #include "01/Menu/select_ghost.h"
 
+// Frames (MissionRunMapObject.mTimer) after a kart hit during which the object keeps its response and plays no hit
+// sound again.
+#define MAP_OBJECT_KART_HIT_COOLDOWN_FRAMES 0x1f
+
 extern Vec3 gItemBombUpNormal;
 extern Vec3 gItemKinokoUpNormal;
 extern u16 gShadowScaleToggle;
