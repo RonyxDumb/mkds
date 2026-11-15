@@ -15,15 +15,25 @@
 
 struct ModelEffect;
 
+// Rows of gModelEffectKinds, the kind passed to StartModelEffect and SetupModelEffectKind.
+enum {
+    MODEL_EFFECT_BOMBCORE,
+    MODEL_EFFECT_BOMBCORE2,
+    MODEL_EFFECT_KART_WATER_SPLASH,
+    MODEL_EFFECT_BK_WAVE,
+    MODEL_EFFECT_DONKETU_WATER_SPLASH,
+    MODEL_EFFECT_KIND_COUNT
+};
+
 // Object counts of the first two rows of gModelEffectKinds (Bombcore, Bombcore2) per race mode.
 #define BOMBCORE_OBJECT_COUNT 3
 #define BOMBCORE2_OBJECT_COUNT 1
 #define BOMBCORE_OBJECT_COUNT_WIFI 6
 #define BOMBCORE2_OBJECT_COUNT_WIFI 4
 #define BOMBCORE_OBJECT_COUNT_MISSION_RUN 0x14
-// Rows 2, 3 and 4 (water_efct kinds and bk_wave).
-#define WATER_EFCT_KIND2_OBJECT_COUNT 1
-#define WATER_EFCT_KIND4_OBJECT_COUNT 2
+// Rows 2, 3 and 4 (kart splash, Donketu splash and bk_wave).
+#define KART_WATER_SPLASH_OBJECT_COUNT 1
+#define DONKETU_WATER_SPLASH_OBJECT_COUNT 2
 #define BK_WAVE_OBJECT_COUNT 1
 
 // One row of gModelEffectKinds: object count, which animation objects to make, start and update functions, size.

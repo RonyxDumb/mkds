@@ -128,7 +128,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             if (bakubaku->mMapObject.mPos.y < bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
-            StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
+            StartModelEffect(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
             firstSoundParams.mSoundId = 0x186;
             firstSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
             firstSoundParams.mFalloffIndex = 4;
@@ -142,7 +142,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             if (bakubaku->mMapObject.mPos.y > bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
-            StartModelEffect(3, &bakubaku->mMapObject.mPos, 1);
+            StartModelEffect(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
             secondSoundParams.mSoundId = 0x187;
             secondSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
             secondSoundParams.mFalloffIndex = 2;

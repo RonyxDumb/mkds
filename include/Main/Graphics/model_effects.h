@@ -68,7 +68,7 @@ extern s32 gKartWaterSplashCreated;
 extern s32 gKartWaterSplashEffectIds[2];
 extern struct ModelEffects *gModelEffects;
 
-extern ModelEffectKind gModelEffectKinds[5];
+extern ModelEffectKind gModelEffectKinds[MODEL_EFFECT_KIND_COUNT];
 
 extern char gRaceEffectSpaName[15];
 extern char gRaceEffectFogOffSpaName[29];

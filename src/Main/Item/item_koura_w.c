@@ -773,7 +773,7 @@ void EnterItemKouraWState7(void *stateObject) {
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = 0;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWState7StartScale;
     item->mModelEffect = StartModelEffect(
-        1, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
+        MODEL_EFFECT_BOMBCORE2, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
         IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
     effect = item->mModelEffect;
     if (effect != NULL) {

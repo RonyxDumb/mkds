@@ -1,4 +1,5 @@
 #include "01/MapObjects/donketu.h"
+#include "Main/Graphics/model_effects.h"
 #include "01/code_02184e18.h"
 #include "01/MapObjects/lld.h"
 #include "01/code_02184cc8.h"
@@ -369,7 +370,7 @@ s32 UpdateDonketuFall(MissionRunMapObject *donketu) {
 
 s32 UpdateDonketuWaterJumpSplash(MissionRunMapObject *donketu) {
     if (donketu->mMapObject.mPos.y >= -GetHeightAboveWaterOrEfct(0)) {
-        StartModelEffectAtWaterHeight(donketu, 4, 0);
+        StartModelEffectAtWaterHeight(donketu, MODEL_EFFECT_DONKETU_WATER_SPLASH, 0);
         StartMapObjectSound(&donketu->mMapObject, 0x241);
         donketu->mStateFunction = UpdateDonketuFall;
     }
@@ -429,7 +430,7 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     StartStateFrameCountCallback(donketu, donketu->mPrm->mDonketu.mWaterSinkFrameCount, StartDonketuWaterWalkState);
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x423, 0);
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x425, 0);
-    StartModelEffectAtWaterHeight(donketu, 4, 0);
+    StartModelEffectAtWaterHeight(donketu, MODEL_EFFECT_DONKETU_WATER_SPLASH, 0);
     StartMapObjectSound(&donketu->mMapObject, 0x244);
     donketu->mMapObject.mFlags |= gDonketuWaterFlag;
 }

@@ -27,7 +27,7 @@
 char gRaceEffectSpaName[15] = "RaceEffect.spa";
 char gRaceEffectFogOffSpaName[29] = "/effect/RaceEffectFogOff.spa";
 char gMissionEffectSpaName[35] = "/data/MissionRun/MissionEffect.spa";
-ModelEffectKind gModelEffectKinds[5] = {
+ModelEffectKind gModelEffectKinds[MODEL_EFFECT_KIND_COUNT] = {
     {BOMBCORE_OBJECT_COUNT,
      1,
      1,
@@ -157,11 +157,11 @@ void InitModelEffects(void *heap) {
     }
     gModelEffects = HeapAlloc(heap, sizeof(ModelEffects));
     NNS_FndInitList(&gModelEffects->mActiveList, 0);
-    for (kindIndex = 0; kindIndex < 5; kindIndex++) {
+    for (kindIndex = 0; kindIndex < MODEL_EFFECT_KIND_COUNT; kindIndex++) {
         NNS_FndInitList(&gModelEffects->mFreeLists[kindIndex], 0);
     }
     firstKind = gModelEffectKinds;
-    secondKind = &gModelEffectKinds[1];
+    secondKind = &gModelEffectKinds[MODEL_EFFECT_BOMBCORE2];
     if (gRaceSetup->mMode == MODE_WIFI) {
         firstKind->mObjectCount = BOMBCORE_OBJECT_COUNT_WIFI;
         secondKind->mObjectCount = BOMBCORE2_OBJECT_COUNT_WIFI;
@@ -172,25 +172,27 @@ void InitModelEffects(void *heap) {
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         firstKind->mObjectCount = BOMBCORE_OBJECT_COUNT_MISSION_RUN;
     }
-    SetupWaterEfctKindRow(&gModelEffectKinds[2], WATER_EFCT_KIND2_OBJECT_COUNT);
-    SetupWaterEfctKindRow(&gModelEffectKinds[4], WATER_EFCT_KIND4_OBJECT_COUNT);
+    SetupWaterEfctKindRow(&gModelEffectKinds[MODEL_EFFECT_KART_WATER_SPLASH], KART_WATER_SPLASH_OBJECT_COUNT);
+    SetupWaterEfctKindRow(&gModelEffectKinds[MODEL_EFFECT_DONKETU_WATER_SPLASH], DONKETU_WATER_SPLASH_OBJECT_COUNT);
     SetupBkWaveKind();
     InitModelEffectObjects(heap);
     modelFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbmd");
     nsbcaFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbca");
     nsbmaFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbma");
     nsbtaFile = FindMainRaceOrMainEffectFile("/effect/bombcore/bombcore.nsbta");
-    SetupModelEffectKind(heap, 0, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
+    SetupModelEffectKind(heap, MODEL_EFFECT_BOMBCORE, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
     modelFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbmd");
     nsbcaFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbca");
     nsbmaFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbma");
     nsbtaFile = FindMainRaceOrMainEffectFile("/effect/bombcore2/bombcore2.nsbta");
-    SetupModelEffectKind(heap, 1, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
-    SetupModelEffectKind(heap, 2, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(), GetWaterEfctNsbmaFile(), NULL);
-    SetupModelEffectKind(heap, 4, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(), GetWaterEfctNsbmaFile(), NULL);
+    SetupModelEffectKind(heap, MODEL_EFFECT_BOMBCORE2, modelFile, nsbcaFile, nsbmaFile, nsbtaFile);
+    SetupModelEffectKind(heap, MODEL_EFFECT_KART_WATER_SPLASH, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(),
+                         GetWaterEfctNsbmaFile(), NULL);
+    SetupModelEffectKind(heap, MODEL_EFFECT_DONKETU_WATER_SPLASH, GetWaterEfctNsbmdFile(), GetWaterEfctNsbcaFile(),
+                         GetWaterEfctNsbmaFile(), NULL);
     if (gRaceSetup->mCourseId == COURSE_ID_OLD_HYUDORO_64) {
-        SetupModelEffectKind(heap, 3, GetWaterEfctNsbmdFile(), FindCourseFile("/MapObj/bk_wave.nsbca"),
-                             FindCourseFile("/MapObj/bk_wave.nsbma"), NULL);
+        SetupModelEffectKind(heap, MODEL_EFFECT_BK_WAVE, GetWaterEfctNsbmdFile(),
+                             FindCourseFile("/MapObj/bk_wave.nsbca"), FindCourseFile("/MapObj/bk_wave.nsbma"), NULL);
     }
     gModelEffects->mNextPolygonId = MODEL_EFFECT_POLYGON_ID_FIRST;
 }
@@ -288,13 +290,14 @@ void SetupWaterEfctKindRow(ModelEffectKind *kindRow, s32 objectCount) {
     }
 }
 
-// Row 3 gets one object only when the water_efct model exists; its animation flags say which bk_wave files exist.
+// The bk_wave row gets one object only when the water_efct model exists; its animation flags say which bk_wave files
+// exist.
 void SetupBkWaveKind(void) {
     ModelEffectKind *kindRow;
     void *bkWaveNsbcaFile;
     void *bkWaveNsbmaFile;
 
-    kindRow = &gModelEffectKinds[3];
+    kindRow = &gModelEffectKinds[MODEL_EFFECT_BK_WAVE];
     if (GetWaterEfctNsbmdFile() != 0) {
         bkWaveNsbcaFile = FindCourseFile("/MapObj/bk_wave.nsbca");
         bkWaveNsbmaFile = FindCourseFile("/MapObj/bk_wave.nsbma");
@@ -323,7 +326,7 @@ void InitModelEffectObjects(void *heap) {
     ModelEffect *modelEffect;
     s32 scale;
 
-    for (kindIndex = 0; kindIndex < 5; kindIndex++) {
+    for (kindIndex = 0; kindIndex < MODEL_EFFECT_KIND_COUNT; kindIndex++) {
         kindRow = &gModelEffectKinds[kindIndex];
         if (kindRow->mObjectCount == 0) {
             continue;
@@ -381,10 +384,10 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
     if (kindRow->mObjectCount == 0) {
         return;
     }
-    if (kind != 3) {
+    if (kind != MODEL_EFFECT_BK_WAVE) {
         AddResFileEntry(&kindRow->mResFileEntry, modelFile, modelFile);
     }
-    if (kind == 2) {
+    if (kind == MODEL_EFFECT_KART_WATER_SPLASH) {
         gKartWaterSplashCreated = 1;
     }
     modelSet = NNS_G3dGetMdlSet(modelFile);
@@ -402,7 +405,7 @@ void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, 
             } else {
                 animation->mAnmObjCount = 0;
             }
-            if (kind == 2) {
+            if (kind == MODEL_EFFECT_KART_WATER_SPLASH) {
                 if (FROM_FIXED12(GetModelAnimationFrameCountFixed(modelEffect->mAnimations[0])) == 0x20) {
                     gKartWaterSplashEffectIds[0] = 0x37;
                     gKartWaterSplashEffectIds[1] = 0x38;
@@ -486,7 +489,7 @@ void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
     StartEffect(0x422, &modelEffect->mPos);
 }
 
-// Update of kinds 2 and 4: sets mFinished at mFinishFrameCount, else advances animations 0 and 1.
+// Update of the kart and Donketu splash kinds: sets mFinished at mFinishFrameCount, else advances animations 0 and 1.
 void UpdateWaterEfctKinds(ModelEffect *modelEffect) {
     if (modelEffect->mSinceStartFrames >= modelEffect->mFinishFrameCount) {
         modelEffect->mFinished = 1;
@@ -546,19 +549,23 @@ void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
     AdvanceModelAnimation(modelEffect->mAnimations[2]);
 }
 
-// Starts a kind 2 object at position when startModel is set, then the particle effects of gKartWaterSplashEffectIds.
+// Starts a kart splash object at position when startModel is set, then the particle effects of
+// gKartWaterSplashEffectIds.
 void StartKartWaterSplashEffects(const Vec3 *position, s32 startModel) {
     ModelEffect *modelEffect;
     u16 effectIndex;
 
-    if (gModelEffectKinds[2].mObjectCount == 0) {
+    if (gModelEffectKinds[MODEL_EFFECT_KART_WATER_SPLASH].mObjectCount == 0) {
         return;
     }
     effectIndex = 0;
     if (startModel != 0) {
-        modelEffect = NNS_FndGetNthListObject(OFFSET_PTR(NNSFndList, gModelEffects->mFreeLists, 0x18), 0);
+        modelEffect = NNS_FndGetNthListObject(
+            OFFSET_PTR(NNSFndList, gModelEffects->mFreeLists, MODEL_EFFECT_KART_WATER_SPLASH * sizeof(NNSFndList)), 0);
         if (modelEffect != NULL) {
-            NNS_FndRemoveListObject(OFFSET_PTR(NNSFndList, gModelEffects->mFreeLists, 0x18), modelEffect);
+            NNS_FndRemoveListObject(
+                OFFSET_PTR(NNSFndList, gModelEffects->mFreeLists, MODEL_EFFECT_KART_WATER_SPLASH * sizeof(NNSFndList)),
+                modelEffect);
             modelEffect->mFinished = 0;
             modelEffect->mPos = *position;
             modelEffect->mSinceStartFrames = 0;

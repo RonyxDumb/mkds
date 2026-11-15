@@ -182,7 +182,7 @@ void EnterItemBombExplode(void *stateObject) {
     bomb->mBouncingItemObject.mItemObject.mScaleTargetOrSpeed = 0;
     bomb->mBouncingItemObject.mItemObject.mScale = gItemBombExplodeStartScale;
     bomb->mModelEffect =
-        StartModelEffect(0, &bomb->mBouncingItemObject.mItemObject.mPos,
+        StartModelEffect(MODEL_EFFECT_BOMBCORE, &bomb->mBouncingItemObject.mItemObject.mPos,
                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
