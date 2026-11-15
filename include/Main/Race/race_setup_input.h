@@ -32,10 +32,6 @@ void ReplaceEntryWithCpu(u32 entryIndex);
 
 void RequestMPState16ForNextRace(void);
 
-typedef struct RaceSetupBlock {
-    /* 000 */ u32 mUnk_000[0x7a];
-} RaceSetupBlock;
-
 u16 GetLapCount(void);
 void ResetTimeAttackNextEntries(void);
 void SetNextRaceByMode(void);

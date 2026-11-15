@@ -332,60 +332,76 @@ typedef struct MissionSettings {
 // Difficulty of the CPU karts, the value of the CPU KART row (RaceSetup.mUnk_014 and the setup copy); 0 is not named.
 #define CPU_DIFFICULTY_EASY 1
 
+// A race setup header with its eight kart entries; RaceSetup holds the current one and the next one.
+typedef struct RaceSetupBlock {
+    RaceSetupHeader mHeader;
+    KartEntry mEntries[8];
+} RaceSetupBlock;
+
 // Object behind gRaceSetup.
 typedef struct RaceSetup {
-    /* 00 */ s32 mCourseId;
-    /* 004 */ s32 mCupIndex;
-    /* 08 */ s32 mMode;
-// Which kind of race scene this is (RACE_KIND_*): the display table and the scene code are chosen by it.
-// RACE_KIND_REPLAY is 2; the value 4 is RACE_KIND_START_BATTLE.
-    /* 00c */ u32 mRaceKind;
-    /* 010 */ s32 mEngineIndex;
-    /* 014 */ s32 mCpuDifficulty;
-// Which battle this is (BattleKind): the end handling, the timer and the item tables differ.
-    /* 018 */ s32 mBattleKind;
-    /* 01c */ s32 mRuleKind;
-    /* 020 */ s32 mCourseListMode;
-    /* 024 */ u8 mUnk_024[0x4];
     union {
-        MissionSettings mUnk_28_view;
+        RaceSetupBlock mCurrent;
         struct {
-            /* 028 */ u16 mMissionTimeLimitFrameCount;
-            /* 02a */ u16 mTimeScoreFrameCount;
-            /* 02c */ s16 mTimeScoreWeight;
-            /* 02e */ u8 mMissionTableValue;
-            /* 2f */ u8 mMissionKind;
-            /* 030 */ u8 mUnk_030[0x6];
-            /* 036 */ u8 mMissionCameraTableIndex;
-            /* 37 */ u8 mMissionRunCountLimit;
+            /* 00 */ s32 mCourseId;
+            /* 004 */ s32 mCupIndex;
+            /* 08 */ s32 mMode;
+            // Which kind of race scene this is (RACE_KIND_*): the display table and the scene code are chosen by it.
+            // RACE_KIND_REPLAY is 2; the value 4 is RACE_KIND_START_BATTLE.
+            /* 00c */ u32 mRaceKind;
+            /* 010 */ s32 mEngineIndex;
+            /* 014 */ s32 mCpuDifficulty;
+            // Which battle this is (BattleKind): the end handling, the timer and the item tables differ.
+            /* 018 */ s32 mBattleKind;
+            /* 01c */ s32 mRuleKind;
+            /* 020 */ s32 mCourseListMode;
+            /* 024 */ u8 mUnk_024[0x4];
+            union {
+                MissionSettings mUnk_28_view;
+                struct {
+                    /* 028 */ u16 mMissionTimeLimitFrameCount;
+                    /* 02a */ u16 mTimeScoreFrameCount;
+                    /* 02c */ s16 mTimeScoreWeight;
+                    /* 02e */ u8 mMissionTableValue;
+                    /* 2f */ u8 mMissionKind;
+                    /* 030 */ u8 mUnk_030[0x6];
+                    /* 036 */ u8 mMissionCameraTableIndex;
+                    /* 37 */ u8 mMissionRunCountLimit;
+                };
+            };
+            /* 038 */ u16 mFinishWaitFrameCount;
+            /* 03a */ u8 mUnk_03a[0x2];
+            /* 3c */ u16 mMissionMapObjectKind0;
+            /* 3e */ u16 mMissionMapObjectKind1;
+            /* 40 */ u16 mMissionMapObjectKind2;
+            /* 42 */ u16 mMissionMapObjectKind3;
+            /* 044 */ u16 mMissionRunBits;
+            /* 046 */ u8 mUnk_046[0x2];
+            /* 048 */ char mMissionRunStem[0xc];
+            /* 54 */ s8 mMissionTableRow;
+            /* 55 */ s8 mMissionTableColumn;
+            /* 056 */ u8 mUnk_056[0x1];
+            // Nonzero in mirror mode: the side distance of the camera and the map object models are flipped.
+            /* 57 */ s8 mMirrorMode;
+            /* 58 */ s8 mUseTeams;
+            /* 059 */ u8 mUnk_059[0x3];
+            /* 05c */ s32 mSeed;
+            /* 60 */ u16 mCourseNumber;
+            /* 62 */ s8 mEntryIndex;
+            /* 063 */ u8 mFollowedKartIndex;
+            // Laps to run; 0 or less means the count of the course setting.
+            /* 064 */ s8 mLapCount;
+            /* 065 */ u8 mUnk_065[0x3];
+            /* 68 */ KartEntry mCurrentEntries[8];
         };
     };
-    /* 038 */ u16 mFinishWaitFrameCount;
-    /* 03a */ u8 mUnk_03a[0x2];
-    /* 3c */ u16 mMissionMapObjectKind0;
-    /* 3e */ u16 mMissionMapObjectKind1;
-    /* 40 */ u16 mMissionMapObjectKind2;
-    /* 42 */ u16 mMissionMapObjectKind3;
-    /* 044 */ u16 mMissionRunBits;
-    /* 046 */ u8 mUnk_046[0x2];
-    /* 048 */ char mMissionRunStem[0xc];
-    /* 54 */ s8 mMissionTableRow;
-    /* 55 */ s8 mMissionTableColumn;
-    /* 056 */ u8 mUnk_056[0x1];
-// Nonzero in mirror mode: the side distance of the camera and the map object models are flipped.
-    /* 57 */ s8 mMirrorMode;
-    /* 58 */ s8 mUseTeams;
-    /* 059 */ u8 mUnk_059[0x3];
-    /* 05c */ s32 mSeed;
-    /* 60 */ u16 mCourseNumber;
-    /* 62 */ s8 mEntryIndex;
-    /* 063 */ u8 mFollowedKartIndex;
-// Laps to run; 0 or less means the count of the course setting.
-    /* 064 */ s8 mLapCount;
-    /* 065 */ u8 mUnk_065[0x3];
-    /* 68 */ KartEntry mCurrentEntries[8];
-    /* 1e8 */ RaceSetupHeader mNextHeader;
-    /* 250 */ KartEntry mNextEntries[8];
+    union {
+        RaceSetupBlock mNext;
+        struct {
+            /* 1e8 */ RaceSetupHeader mNextHeader;
+            /* 250 */ KartEntry mNextEntries[8];
+        };
+    };
     /* 3d0 */ u8 mKartCount;
     /* 3d1 */ u8 mHumanAndPeerKartCount;
     /* 3d2 */ u8 mTeamKartCounts[2];

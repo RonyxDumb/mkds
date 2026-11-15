@@ -903,7 +903,7 @@ void SetCurrentRaceFromNext(void) {
             gRaceSetup->mNextHeader.mFollowedKartIndex = entryIndex;
             break;
     }
-    *(RaceSetupBlock *) gRaceSetup = *(RaceSetupBlock *) &gRaceSetup->mNextHeader;
+    gRaceSetup->mCurrent = gRaceSetup->mNext;
     RefreshRaceSetupKartCounts(entryCount);
     RefreshListedCpuEntryIndices();
     for (value = 0; value < 8; value++) {
