@@ -100,7 +100,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
     }
     position[0] += TO_FIXED12(entry->mOffsetX);
     position[1] += TO_FIXED12(entry->mOffsetY);
-    if ((position[0] >> 12) + width < 0 || (position[0] >> 12) - width > 0x100 || (position[1] >> 12) + height < 0 ||
+    if (FROM_FIXED12(position[0]) + width < 0 || FROM_FIXED12(position[0]) - width > 0x100 ||
+        FROM_FIXED12(position[1]) + height < 0 ||
         FROM_FIXED12(position[1]) - height > 0xc0) {
         return 0;
     }

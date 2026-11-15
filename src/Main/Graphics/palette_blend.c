@@ -301,7 +301,7 @@ void AdvanceStaffRollText(void) {
 }
 
 void SetStaffRollScrollAndDrainQueue(void) {
-    reg_G2S_DB_BG0OFS = (((gStaffRollText->mScrollYFixed >> 12) % 256) << 16) & 0x1ff0000;
+    reg_G2S_DB_BG0OFS = ((FROM_FIXED12(gStaffRollText->mScrollYFixed) % 256) << 16) & 0x1ff0000;
     NNS_GfdDoVramTransfer();
 }
 

@@ -1698,14 +1698,14 @@ void AdvanceEmblemDisplay(void) {
             reg_G2S_DB_BG0CNT =
                 (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x8a10;
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             gEmblem->mDisplayState = EMBLEM_DISPLAY_TEMPLATE_SLIDING;
             break;
         case EMBLEM_DISPLAY_TEMPLATE_SLIDE_OUT_SETUP:
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             GXS_SetGraphicsMode(GX_BGMODE_1);
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 2;
             reg_G2S_DB_BG3CNT =
@@ -1717,8 +1717,8 @@ void AdvanceEmblemDisplay(void) {
             break;
         case EMBLEM_DISPLAY_TEMPLATE_SLIDING:
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
             GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
             DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
@@ -1732,8 +1732,8 @@ void AdvanceEmblemDisplay(void) {
             break;
         case EMBLEM_DISPLAY_TEMPLATE_SETUP:
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             GXS_SetGraphicsMode(GX_BGMODE_0);
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
             reg_G2S_DB_BG3CNT =
@@ -1745,8 +1745,8 @@ void AdvanceEmblemDisplay(void) {
         case EMBLEM_DISPLAY_GRID_RESTORE:
             dispcntBits = (reg_GXS_DB_DISPCNT & REG_GXS_DB_DISPCNT_DISPLAY_MASK) >> 8;
             reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | ((dispcntBits & ~1) << 8);
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             gEmblem->mDisplayState = EMBLEM_DISPLAY_GRID;
             break;
         case EMBLEM_DISPLAY_TEMPLATE_SHOWN:
@@ -1760,8 +1760,8 @@ void AdvanceEmblemDisplay(void) {
             GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
         case EMBLEM_DISPLAY_GRID:
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
             GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
             DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
@@ -1788,8 +1788,8 @@ void AdvanceEmblemDisplay(void) {
             G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3e, -gEmblem->mFadeLevel);
             break;
         case EMBLEM_DISPLAY_GRID_FADE:
-            reg_G2S_DB_BG2OFS = ((gEmblem->mBgScrollPosition >> 12) & 0x1ff) |
-                                (((-gEmblem->mBgScrollPosition >> 12) << 16) & 0x1ff0000);
+            reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
+                                ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
             G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3e, -gEmblem->mFadeLevel);
             break;
         case EMBLEM_DISPLAY_CHOISES_SETUP:
