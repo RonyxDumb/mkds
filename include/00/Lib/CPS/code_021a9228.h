@@ -75,7 +75,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection);
 u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection);
 s32 AppendDigestAndXorSentRecordWithKeyStream(void *rawHttpsState, u8 *recordArg);
 s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *record);
-unsigned int XorReceivedBytesWithKeyStream(unsigned int httpsState, u8 *bytes, unsigned int count);
+unsigned int XorReceivedBytesWithKeyStream(HttpsState *httpsState, u8 *bytes, unsigned int count);
 void IncrementBigEndianBytes(u8 *bytes, s32 count);
 void CheckMessageDigestsAndSetState(HttpsState *httpsState, u8 *receivedDigests);
 void ComputeLabeledMessageDigest20(HttpsState *httpsState, u8 *digest, u32 fromOtherSide);

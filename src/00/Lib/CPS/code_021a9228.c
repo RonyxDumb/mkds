@@ -950,12 +950,11 @@ void IncrementBigEndianBytes(u8 *bytes, s32 count) {
     }
 }
 
-u32 XorReceivedBytesWithKeyStream(u32 httpsState, u8 *bytes, u32 count) {
+u32 XorReceivedBytesWithKeyStream(HttpsState *httpsState, u8 *bytes, u32 count) {
     u32 byteCount = ((count) + (0x0u));
-    u32 keyStreamOffset = 0x1b4u;
-    u32 keyStreamState = ((httpsState) + (keyStreamOffset));
+    u8 *keyStreamState = httpsState->mReceiveKeyStreamState;
     u32 resultCount;
-    CPSi_rc4_crypt((u8 *) keyStreamState, bytes, count);
+    CPSi_rc4_crypt(keyStreamState, bytes, count);
     resultCount = ((byteCount) + (0x0u));
     return resultCount;
 }
@@ -967,7 +966,7 @@ s32 XorReceivedRecordWithKeyStreamAndCheckDigest(HttpsState *httpsState, u8 *rec
     u32 digestLength;
     CPSMd5Ctx *scratchHash16;
     Hash20Context *scratchHash20;
-    payloadLength = XorReceivedBytesWithKeyStream((u32) httpsState, (record + 5), (record[3] << 8) + record[4]);
+    payloadLength = XorReceivedBytesWithKeyStream(httpsState, (record + 5), (record[3] << 8) + record[4]);
     switch (httpsState->mCommonValue) {
         case HTTPS_COMMON_VALUE_MD5:
             payloadLength -= 0x10;
@@ -1216,7 +1215,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
 // Writes n bytes taken from digests of gRandomByteState, skipping zero bytes.
 void FillNonzeroRandomBytes(u8 *out, s32 count) {
     u8 digest[0x14];
-    u8 hashState[0x5c];
+    Hash20Context hashState;
     u32 randomWord;
     s32 digestIndex;
     s32 outputCount;
@@ -1239,10 +1238,10 @@ void FillNonzeroRandomBytes(u8 *out, s32 count) {
     outputCount = 0;
     while (outputCount < count) {
         if (digestIndex == 0x14) {
-            CPSi_sha1_init((Hash20Context *) hashState);
+            CPSi_sha1_init(&hashState);
             savedInterrupts = OS_DisableInterrupts();
-            CPSi_sha1_calc(hashState, gRandomByteState, 0x14);
-            CPSi_sha1_result_prng((Hash20Context *) hashState, digest);
+            CPSi_sha1_calc(&hashState, gRandomByteState, 0x14);
+            CPSi_sha1_result_prng(&hashState, digest);
             carry = 1;
             byteIndex = 0x13;
             digestCursor = digest + 0x13;
@@ -1267,13 +1266,13 @@ void FillNonzeroRandomBytes(u8 *out, s32 count) {
 }
 
 void MixBytesIntoRandomState(void *bytes, u32 byteCount) {
-    u8 hashState[0x60];
+    Hash20Context hashState;
     u32 savedInterrupts;
-    CPSi_sha1_init((Hash20Context *) hashState);
+    CPSi_sha1_init(&hashState);
     savedInterrupts = OS_DisableInterrupts();
-    CPSi_sha1_calc(hashState, gRandomByteState, 0x14);
-    CPSi_sha1_calc(hashState, bytes, byteCount);
-    CPSi_sha1_result((Hash20Context *) hashState, gRandomByteState);
+    CPSi_sha1_calc(&hashState, gRandomByteState, 0x14);
+    CPSi_sha1_calc(&hashState, bytes, byteCount);
+    CPSi_sha1_result(&hashState, gRandomByteState);
     OS_RestoreInterrupts(savedInterrupts);
     gRandomByteStateMixed = 1;
 }
