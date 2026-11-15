@@ -174,7 +174,7 @@ void RequestRecordTopMenuRowsSlideOut(void) {
 void RequestRecordTopMenuWaitMessageOpen(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_WAIT_MESSAGE_OPEN;
     gRecordTopMenu->mStateFrames = 0;
-    SetupTxtSystemSubText(GetBmgEntry(gRecordTopMenu->mUnk_20, 0x76));
+    SetupTxtSystemSubText(GetBmgEntry(gRecordTopMenu->mCommonMessages, 0x76));
 }
 
 void RequestRecordTopMenuMessageInput(void) {
@@ -278,7 +278,7 @@ void InitRecordTopMenu(void *heap) {
     InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMBnll,
                     &gRecordTopMenu->mRecordTopMenuMTable);
     InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuSBncl, NULL, &gRecordTopMenu->mRecordTopMenuSTable);
-    gRecordTopMenu->mUnk_20 = FindFileInLoadedArchives("common.bmg");
+    gRecordTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     gRecordTopMenu->mRecordMessages = FindSceneFile("record.bmg");
     remainingSize = 0x8000;
     remainingSize -=

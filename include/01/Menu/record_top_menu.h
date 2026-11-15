@@ -48,7 +48,7 @@ typedef struct RecordTopMenu {
     /* 0x18 */ LayoutTableEntry *mRecordTopMenuMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 0x1c */ LayoutTableEntry *mRecordTopMenuSTable;
-    /* 0x20 */ void *mUnk_20;
+    /* 0x20 */ void *mCommonMessages;
     /* 0x24 */ struct Bmg *mRecordMessages;
     /* 0x28 */ void *mSecondScreenMapBuffer;
     /* 0x2c */ void *mHeap;
