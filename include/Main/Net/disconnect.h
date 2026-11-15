@@ -63,7 +63,7 @@ typedef struct PlayerRecord PlayerRecord;
 
 void QueueMPDataToPortCallback(void);
 BOOL QueueMPDataHalfwordAndWord(s32 kind, u16 destBitmap, s32 word);
-BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap);
+BOOL QueueMPDataPlayerBits(u8 playerIndex, u16 destBitmap);
 BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap);
 BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap);
 BOOL QueueMPDataToPort(void *data, s32 dataSize, u16 destBitmap, void *sendBuffer, QueueMPDataToPortParams *params);

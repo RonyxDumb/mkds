@@ -558,7 +558,7 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     return FALSE;
 }
 
-BOOL QueueMPDataPlayerBits(s32 playerIndex, u16 destBitmap) {
+BOOL QueueMPDataPlayerBits(u8 playerIndex, u16 destBitmap) {
     MPPlayerBitsMessage message;
 
     message.mKind = MP_MESSAGE_PLAYER_BITS;

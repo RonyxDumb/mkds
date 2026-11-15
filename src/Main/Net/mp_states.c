@@ -521,7 +521,7 @@ void UpdateMPState13(void) {
         } else {
             ownIndex = 0;
         }
-        QueueMPDataPlayerBits((u8) (u16) ownIndex, 1);
+        QueueMPDataPlayerBits((u16) ownIndex, 1);
     }
 }
 #pragma thumb off
