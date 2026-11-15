@@ -27,7 +27,7 @@ void NNS_SndCaptureChangeOutputEffect(s32 type) {
     if (type == sCallbackInfo.mType) {
         return;
     }
-    if (sCallbackInfo.mType == SND_OUTPUT_EFFECT_SURROUND) {
+    if (sCallbackInfo.mType == SOUND_OUTPUT_EFFECT_SURROUND) {
         SNDi_SetSurroundDecay(0);
     }
     enabled = OS_DisableInterrupts();
@@ -35,16 +35,16 @@ void NNS_SndCaptureChangeOutputEffect(s32 type) {
     MIi_CpuClear16(zero, &sCallbackInfo.mBuffer, 0xc0);
     sCallbackInfo.mType = type;
     switch (type) {
-        case SND_OUTPUT_EFFECT_SURROUND:
+        case SOUND_OUTPUT_EFFECT_SURROUND:
             sCallbackInfo.mEffectFunc = SurroundProc;
             break;
-        case SND_OUTPUT_EFFECT_HEADPHONE:
+        case SOUND_OUTPUT_EFFECT_HEADPHONE:
             sCallbackInfo.mEffectFunc = HeadphoneProc;
             break;
-        case SND_OUTPUT_EFFECT_MONO:
+        case SOUND_OUTPUT_EFFECT_MONO:
             sCallbackInfo.mEffectFunc = MonoProc;
             break;
-        case SND_OUTPUT_EFFECT_NONE:
+        case SOUND_OUTPUT_EFFECT_NONE:
             sCallbackInfo.mEffectFunc = NothingProc;
             break;
         default:
@@ -52,7 +52,7 @@ void NNS_SndCaptureChangeOutputEffect(s32 type) {
             break;
     }
     OS_RestoreInterrupts(enabled);
-    if (type == SND_OUTPUT_EFFECT_SURROUND) {
+    if (type == SOUND_OUTPUT_EFFECT_SURROUND) {
         SNDi_SetSurroundDecay(0x3000);
     }
 }

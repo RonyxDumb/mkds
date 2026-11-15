@@ -175,9 +175,9 @@ s32 NNSi_SndCaptureStart(u32 type, u8 *left, u8 *right, u32 length, u32 format, 
     SND_StartTimer(playChannels, 3, alarm >= 0 ? 1 << alarm : 0, 0);
     capture->mActiveFlag = 1;
     capture->mType = type;
-    capture->mChBitMask = SND_CAPTURE_CHANNEL_BITS;
+    capture->mChBitMask = SOUND_CAPTURE_CHANNEL_BITS;
     capture->mPlayChBitMask = playChannels;
-    capture->mCapBitMask = SND_CAPTURE_UNIT_BITS;
+    capture->mCapBitMask = SOUND_CAPTURE_UNIT_BITS;
     capture->mAlarmNo = alarm;
     capture->mFormat = format;
     capture->mBufferL = left;

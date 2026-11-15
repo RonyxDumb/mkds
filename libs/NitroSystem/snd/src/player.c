@@ -210,7 +210,7 @@ void NNS_SndPlayerSetSeqArcNo(NNSSndSeqPlayer **handle, int archive, int index) 
     if (*handle == 0) {
         return;
     }
-    (*handle)->mSeqType = SND_SEQ_TYPE_ARCHIVE;
+    (*handle)->mSeqType = SOUND_SEQ_TYPE_ARCHIVE;
     (*handle)->mSeqNo = archive;
     (*handle)->mSeqArcIndex = index;
 }
@@ -261,7 +261,7 @@ void NNSi_SndPlayerInit(void) {
     for (index = 0, playerSlot = sPlayer; index < 32; index++, playerSlot++) {
         NNS_FndInitList(&playerSlot->mPlayerList, 0xc);
         NNS_FndInitList(&playerSlot->mHeapList, 0);
-        playerSlot->mVolume = SND_PLAYER_VOLUME_MAX;
+        playerSlot->mVolume = SOUND_PLAYER_VOLUME_MAX;
         playerSlot->mPlayableSeqCount = 1;
         playerSlot->mAllocChBitFlag = 0;
     }
@@ -401,10 +401,10 @@ void InitPlayer(NNSSndSeqPlayer *seq) {
     seq->mPauseFlag = 0;
     seq->mStartFlag = 0;
     seq->mPrepareFlag = 0;
-    seq->mSeqType = SND_SEQ_TYPE_NONE;
+    seq->mSeqType = SOUND_SEQ_TYPE_NONE;
     seq->mVolume = 0;
-    seq->mInitVolume = SND_PLAYER_VOLUME_MAX;
-    seq->mExtVolume = SND_PLAYER_VOLUME_MAX;
+    seq->mInitVolume = SOUND_PLAYER_VOLUME_MAX;
+    seq->mExtVolume = SOUND_PLAYER_VOLUME_MAX;
     NNSi_SndFaderInit(&seq->mFader);
     NNSi_SndFaderSet(&seq->mFader, 0x7f00, 1);
 }

@@ -5,7 +5,7 @@
 typedef struct SNDSharedWork SNDSharedWork;
 
 // Command id whose first argument is the address of the shared work area.
-#define SND_COMMAND_SET_SHARED_WORK 0x1d
+#define SOUND_COMMAND_SET_SHARED_WORK 0x1d
 
 // 0x18 bytes, linked through mNext. sCommandArray holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
 // takes one.

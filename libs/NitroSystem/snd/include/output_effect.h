@@ -12,10 +12,10 @@ typedef void (*EffectFunc)(s16 *bufferL, s16 *bufferR, u32 len, struct CallbackI
 // matching function in mEffectFunc and clears mBuffer. mBuffer holds two words for SurroundProc and 24 pairs of words
 // for HeadphoneProc.
 // Values of CallbackInfo.mType: which effect runs on the captured sound.
-#define SND_OUTPUT_EFFECT_NONE 0
-#define SND_OUTPUT_EFFECT_SURROUND 1
-#define SND_OUTPUT_EFFECT_HEADPHONE 2
-#define SND_OUTPUT_EFFECT_MONO 3
+#define SOUND_OUTPUT_EFFECT_NONE 0
+#define SOUND_OUTPUT_EFFECT_SURROUND 1
+#define SOUND_OUTPUT_EFFECT_HEADPHONE 2
+#define SOUND_OUTPUT_EFFECT_MONO 3
 
 typedef struct CallbackInfo {
     /* 00 */ s32 mType;
