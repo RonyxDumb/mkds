@@ -2,7 +2,7 @@
 #include "Main/MapObjects/data_0217b000.h"
 
 PaletteAndChars *GetRaceGoalSBPaletteAndChars(u32 index) {
-    return (PaletteAndChars *) &gRaceGoalS->mRaceGoalSBNclr + index;
+    return &gRaceGoalS->mRaceGoalSB + index;
 }
 
 Nscr *GetRaceGoalSNscr(u32 index) {

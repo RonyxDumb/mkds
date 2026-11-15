@@ -8,7 +8,7 @@ typedef struct Nclr Nclr;
 
 s32 GetRaceGoalSOffsetX(void);
 Nscr *GetRaceGoalSNscr(unsigned int index);
-// Two pointers; the elements of 8 bytes at member 0xb8 of the object behind gRaceGoalS.
+// The palette and chars of the file pair at RaceGoalS.mRaceGoalSB.
 typedef struct PaletteAndChars {
     /* 00 */ Nclr *mPalette;
     /* 04 */ Ncgr *mChars;

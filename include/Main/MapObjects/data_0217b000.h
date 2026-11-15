@@ -17,6 +17,7 @@
 #include "code_0212d214.h"
 #include "Main/System/time_digits.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudOamBuffer
+#include "Main/Race/race_goal_s_sb.h" // PaletteAndChars
 #include "Main/MapObjects/pendulum.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 #include "Main/MapObjects/code_020e6b58.h"
@@ -717,8 +718,7 @@ typedef struct RaceGoalS {
     /* 00ac */ void (*mUpdate)(void);
     /* 00b0 */ s32 mUpdateFrames;
     /* 00b4 */ s32 mCourseCountReached;
-    /* 00b8 */ struct Nclr *mRaceGoalSBNclr;
-    /* 00bc */ struct Ncgr *mRaceGoalSBNcgr;
+    /* 00b8 */ PaletteAndChars mRaceGoalSB;
     /* 00c0 */ struct Nscr *mRaceGoalSNscrs[6];
     /* 00d8 */ u16 mRaceGoalSSpaceNscrCopies[2][0x800];
     /* 20d8 */ s32 mOffsetState;

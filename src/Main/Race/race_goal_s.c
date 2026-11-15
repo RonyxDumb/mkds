@@ -243,8 +243,8 @@ void InitRaceGoalS(void) {
     gRaceGoalS->mOffsetState = RACE_GOAL_S_OFFSET_START;
     gRaceGoalS->mOffsetStateFrames = 0;
     gRaceGoalS->mOffset = -0x20;
-    LoadNclrData(&gRaceGoalS->mRaceGoalSBNclr, FindSceneFileWrapper("race_goal_s_b.NCLR"));
-    LoadNcgrData(&gRaceGoalS->mRaceGoalSBNcgr, FindSceneFileWrapper("race_goal_s_b.NCGR"));
+    LoadNclrData(&gRaceGoalS->mRaceGoalSB.mPalette, FindSceneFileWrapper("race_goal_s_b.NCLR"));
+    LoadNcgrData(&gRaceGoalS->mRaceGoalSB.mChars, FindSceneFileWrapper("race_goal_s_b.NCGR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[0], FindSceneFileWrapper("race_goal_s_bg.NSCR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[1], FindSceneFileWrapper("race_goal_s_space1.NSCR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[2], FindSceneFileWrapper("race_goal_s_space2.NSCR"));
