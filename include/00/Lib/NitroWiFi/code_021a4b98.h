@@ -137,6 +137,20 @@ typedef struct WCMWork {
     /* 22fa */ u8 mUnk_22fa[6];
 } WCMWork;
 
+typedef struct WMStartConnectCallback {
+    /* 00 */ u16 mApiId;
+    /* 02 */ u16 mErrCode;
+    /* 04 */ u16 mWlCmdId;
+    /* 06 */ u16 mWlResult;
+    /* 08 */ u16 mState;
+    /* 0a */ u16 mAid;
+    /* 0c */ u16 mReason;
+    /* 0e */ u16 mWlStatus;
+    /* 10 */ u8 mMacAddress[6];
+    /* 16 */ u16 mParentSize;
+    /* 18 */ u16 mChildSize;
+} WMStartConnectCallback;
+
 typedef struct WMStartScanExCallback WMStartScanExCallback;
 
 void WcmWmcbCommon(WirelessMessage *event);
@@ -147,7 +161,7 @@ void WcmWmcbReset(WirelessMessage *event);
 void WcmWmcbEndDCF(WirelessMessage *event);
 void WcmWmcbStartDCF(WirelessMessage *event);
 void WcmWmcbDisconnect(WirelessMessage *event);
-void WcmWmcbConnect(WMStartScanExCallback *event);
+void WcmWmcbConnect(WMStartConnectCallback *event);
 void WcmWmcbEndScan(WirelessMessage *event);
 void WcmWmcbScanEx(WMStartScanExCallback *event);
 u32 WCM_GetPhase(void);

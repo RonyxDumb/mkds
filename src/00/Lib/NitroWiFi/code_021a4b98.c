@@ -981,11 +981,11 @@ void WcmWmcbEndScan(WirelessMessage *callback) {
     }
 }
 
-void WcmWmcbConnect(WMStartScanExCallback *callback) {
+void WcmWmcbConnect(WMStartConnectCallback *callback) {
     u16 authId;
     s32 result;
 
-    switch (callback->mErrcode) {
+    switch (callback->mErrCode) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (callback->mState) {
                 case WIRELESS_STATE_CHILD_NO_ACTION:
@@ -1012,7 +1012,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
                         WcmWmReset();
                         return;
                     }
-                    authId = callback->mUnk_0a;
+                    authId = callback->mAid;
                     if (authId >= 1 && authId <= 0x7d7) {
                         gWcmWork->mAuthId = authId;
                         result = WM_StartDCF(WcmWmcbStartDCF, &gWcmWork->mWmWork[0x1500], 0x620);
@@ -1041,7 +1041,7 @@ void WcmWmcbConnect(WMStartScanExCallback *callback) {
             }
             break;
         case WIRELESS_RESULT_REFUSED:
-            gWcmWork->mWlStatusOnConnectFail = callback->mBssDescCount;
+            gWcmWork->mWlStatusOnConnectFail = callback->mWlStatus;
         case WIRELESS_RESULT_BAD_INPUT:
         case WIRELESS_RESULT_NOT_LISTED:
         case WIRELESS_RESULT_LIST_FULL:
