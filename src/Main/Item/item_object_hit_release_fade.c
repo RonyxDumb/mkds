@@ -631,7 +631,7 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
         item->mHitLinkTimer = 0;
     }
     item->mFlags |= ITEM_OBJECT_FLAG_RESTING;
-    kind = *(vs32 *) &item->mKind;
+    kind = item->mKind;
     if (gItemKinds[kind].mKeepsAdvanceWhenResting == 0) {
         if (!(item->mFlags & ITEM_OBJECT_FLAGS_ENDING)) {
             item->mAdvance = AdvanceRestingItemObject;
@@ -652,8 +652,8 @@ void StartRestingItemObject(ItemObject *item, void *collisionHitLink) {
     item->mVelocity.y = 0;
     item->mVelocity.z = 0;
     StopItemObjectSoundSource(item);
-    AddRestingItemPoolObject(&gItemPools[*(vs32 *) &item->mKind], item);
-    kind = *(vs32 *) &item->mKind;
+    AddRestingItemPoolObject(&gItemPools[item->mKind], item);
+    kind = item->mKind;
     StartItemObjectSoundIfNear(item, gItemKinds[kind].mRestSoundId);
 }
 
