@@ -60,7 +60,7 @@ u8 *MBi_MakeChildSendBuffer(ChildMessage *message, u8 *buffer);
 u32 IsGetAllRequestData(u32 child);
 u8 *MBi_ReceiveRequestDataPiece(ChildMessage *message, u32 child);
 u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child);
-u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output);
+u8 *MBi_MakeParentSendBuffer(ParentMessage *message, u8 *output);
 void MBi_ClearParentPieceBuffer(s32 child);
 void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer);
 void MBi_SetChildMPMaxSize(s32 packetSize);

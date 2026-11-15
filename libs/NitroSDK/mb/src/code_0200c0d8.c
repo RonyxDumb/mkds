@@ -40,10 +40,8 @@ void MBi_ClearParentPieceBuffer(s32 child) {
 
 #pragma thumb on
 
-u8 *MBi_MakeParentSendBuffer(u8 *input, u8 *output) {
-    ParentMessage *message;
+u8 *MBi_MakeParentSendBuffer(ParentMessage *message, u8 *output) {
     u8 *cursor;
-    message = (ParentMessage *) input;
     cursor = output;
     *cursor++ = message->mKind;
     switch (message->mKind) {

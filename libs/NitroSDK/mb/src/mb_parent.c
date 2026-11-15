@@ -363,9 +363,9 @@ void MBi_CommParentRecvData(WMMpRecvHeader *header) {
 #pragma thumb on
 
 int MBi_CommParentSendMsg(u8 messageKind, u32 childMask) {
-    u8 message[8];
-    message[0] = messageKind;
-    MBi_MakeParentSendBuffer(message, (u8 *) mbc);
+    ParentMessage message;
+    message.mKind = messageKind;
+    MBi_MakeParentSendBuffer(&message, (u8 *) mbc);
     return MBi_BlockHeaderEnd(6, childMask, (u32) mbc);
 }
 
@@ -414,7 +414,7 @@ u32 MBi_CommParentSendDLFileInfo(void) {
     }
     message.mKind = PARENT_MESSAGE_WELCOMED;
     message.mFid = candidateFile;
-    sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
+    sendBlock = MBi_MakeParentSendBuffer(&message, (u8 *) work);
     if (sendBlock != NULL) {
         MI_CpuCopy8(mbc->mFileInfo + candidateFile * 0x5d4, sendBlock, 0xe4);
     }
@@ -491,7 +491,7 @@ u32 MBi_CommParentSendBlock(void) {
     work = mbc;
     message.mFid = work->mCurFileid;
     message.mSeqno = (OFFSET_PTR(MB_CommPWork, work, work->mCurFileid * 0x5d4))->mCurrentb;
-    sendBlock = MBi_MakeParentSendBuffer((u8 *) &message, (u8 *) work);
+    sendBlock = MBi_MakeParentSendBuffer(&message, (u8 *) work);
     segmentNum = blockInfo.mSegmentNo;
     work = mbc;
     readOffset = blockInfo.mOffset -
