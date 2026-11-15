@@ -743,7 +743,7 @@ void InitSceneSounds(s32 unused) {
             }
             SelectCourseSoundTable(value);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                MissionSettings *setupView = &gRaceSetup->mUnk_28_view;
+                MissionSettings *setupView = &gRaceSetup->mMissionSettings;
                 switch (gRaceSetup->mMissionKind) {
                     case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
                         gMissionRunCountSeqNo[0] = 0x1d7;

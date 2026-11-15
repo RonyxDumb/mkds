@@ -165,7 +165,7 @@ void SetupDispCapMode1(void) {
         for (column = 0; column < 4; column++) {
             oamEntry = &oamBuffer[entryIndex++];
             oamEntry->mAttr0And1 = (u8) (0x40 * row) | 0xc0000c00 | ((column * 0x40 & 0x1ff) << 16);
-            oamEntry->mUnk_04_h = (0x100 * row + column * 8) | 0xf000;
+            oamEntry->mAttr2 = (0x100 * row + column * 8) | 0xf000;
         }
     }
     DC_FlushRange(oamBuffer, 0x400);

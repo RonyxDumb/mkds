@@ -83,10 +83,10 @@ void StartWhMeasureChannelCallback(WirelessMessage *event) {
         return;
     }
     if (gWhPrintFunction != NULL) {
-        gWhPrintFunction(0x08000000, "channel %d bratio = %x\n", event->mReplyState, event->mUnk_08_2);
+        gWhPrintFunction(0x08000000, "channel %d bratio = %x\n", event->mReplyState, event->mBusyRatio);
     }
     channel = event->mReplyState;
-    busyRatio = event->mUnk_08_2;
+    busyRatio = event->mBusyRatio;
     if (gWhWork->mLowestBusyRatio > busyRatio) {
         gWhWork->mLowestBusyRatio = busyRatio;
         gWhWork->mLowestBusyChannelMask = 1 << (channel - 1);

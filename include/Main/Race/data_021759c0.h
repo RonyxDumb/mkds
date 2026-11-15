@@ -357,7 +357,7 @@ typedef struct RaceSetup {
             /* 020 */ s32 mCourseListMode;
             /* 024 */ u8 mUnk_024[0x4];
             union {
-                MissionSettings mUnk_28_view;
+                MissionSettings mMissionSettings;
                 struct {
                     /* 028 */ u16 mMissionTimeLimitFrameCount;
                     /* 02a */ u16 mTimeScoreFrameCount;

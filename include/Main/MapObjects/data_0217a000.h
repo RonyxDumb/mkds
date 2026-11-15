@@ -1680,7 +1680,7 @@ typedef struct DispCapOamEntry {
     /* 00 */ u32 mAttr0And1;
     /* 04 */ union {
         u32 mUnk_04;
-        u16 mUnk_04_h;
+        u16 mAttr2;
     };
 } DispCapOamEntry;
 
@@ -1777,7 +1777,7 @@ typedef struct CupRecords {
     /* 164 */ union {
         u32 mUnk_164;
         struct {
-            u32 mUnk_164_0 : 1;
+            u32 mConnectionActive : 1;
         };
     };
 } CupRecords;

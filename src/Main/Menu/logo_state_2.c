@@ -43,7 +43,7 @@ void UpdateLogoState1(void) {
         }
     } else {
         scene = gLogoScene;
-        if (scene->mUnk_2c_0 != 0) {
+        if (scene->mResetBackupRequested != 0) {
             stateMachine = &scene->mStateMachine;
             stateMachine->mNextState = LOGO_STATE_ASK_RESET_BACKUP;
             stateMachine->mNextStateRequested = 1;
@@ -169,7 +169,7 @@ void UpdateLogoState5(void) {
 void EnterLogoState6(void) {
     void *message;
     ResetBackupAndStartWrite();
-    if (gLogoScene->mUnk_2c_0 == 0) {
+    if (gLogoScene->mResetBackupRequested == 0) {
         return;
     }
     message = GetBmgEntry(gLogoScene->mCommonMessages, 126);
@@ -183,7 +183,7 @@ void UpdateLogoState6(void) {
     StateMachine *stateMachine;
     gLogoScene->mSubTextFrames = gLogoScene->mSubTextFrames + 1;
     scene = gLogoScene;
-    if (scene->mUnk_2c_0 != 0) {
+    if (scene->mResetBackupRequested != 0) {
         if (IsTxtSystemState2AfterState1() != 0) {
             StartSoundOncePerFrame(34);
         }

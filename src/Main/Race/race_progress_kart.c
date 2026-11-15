@@ -184,7 +184,7 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     }
     kart->mHighestLap = GetLapCount();
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        missionSettings = &gRaceSetup->mUnk_28_view;
+        missionSettings = &gRaceSetup->mMissionSettings;
         missionTestPassed = TRUE;
         entryKartCounters = GetEntryKartCounters();
         switch (missionSettings->mMissionKind) {

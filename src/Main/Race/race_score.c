@@ -135,7 +135,7 @@ s16 ComputeRaceProgressKartScore(s32 kartIndex) {
             ComputeGrandPrixScoreTerms(&scoreTerms, kartIndex);
             break;
         case MODE_MISSION_RUN:
-            missionSettings = &raceSetup->mUnk_28_view;
+            missionSettings = &raceSetup->mMissionSettings;
             entryKartCounters = GetEntryKartCounters();
             scoreTerms.mTimeRemainingScore =
                 FX_Div(missionSettings->mTimeScoreWeight *

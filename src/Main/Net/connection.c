@@ -443,7 +443,7 @@ void MeasureChannelCallback(WirelessMessage *event) {
     if (*channelSum < 0) {
         *channelSum = 0;
     }
-    *channelSum = *channelSum + event->mUnk_08_2;
+    *channelSum = *channelSum + event->mBusyRatio;
     MeasureChannel(event->mReplyState);
 }
 

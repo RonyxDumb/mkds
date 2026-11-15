@@ -395,7 +395,7 @@ void StartConnectCallback(WirelessMessage *event) {
         case WIRELESS_RESULT_SUCCEEDED:
             switch (event->mReplyState) {
                 case WIRELESS_STATE_LINKED:
-                    gConnectionWork->mOwnIndex = event->mUnk_08_2;
+                    gConnectionWork->mOwnIndex = event->mOwnAid;
                     gConnectionWork->mExpectedRecordMask = shouldReset;
                     seed = shouldReset;
                     switch (ScanGetConnectionMode()) {

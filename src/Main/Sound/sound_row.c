@@ -218,7 +218,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                     rowIndex = GetCourseSoundRowIndex(gRaceSetup->mCourseId, output);
                     rowWritten = TRUE;
                     if (raceMode == MODE_MISSION_RUN) {
-                        mission = &gRaceSetup->mUnk_28_view;
+                        mission = &gRaceSetup->mMissionSettings;
                         overridden = FALSE;
                         if (mission->mMissionTableValue == MISSION_NUMBER_GARDEN) {
                             output->mSeqId = 0x2a;

@@ -24,7 +24,7 @@ typedef struct LogoScene {
         s32 mUnk_2c;
         struct {
 // Set to 1 when A, B, X, Y, L and R are held together in state 0, and stays set.
-            s32 mUnk_2c_0 : 1;
+            s32 mResetBackupRequested : 1;
             u32 mUnk_2c_1 : 1;
         };
     };

@@ -68,7 +68,7 @@ void InitLogoScene(void *heap) {
     LoadBg1FromSceneFiles(&gLogoScene->mSubBg, 0, gLogoSubBgPaletteFileName, gLogoSubBgCharsFileName,
                           gLogoSubBgScreenMapFileName);
     InitStateMachine(&gLogoScene->mStateMachine, gLogoStateTable, 12, NULL);
-    gLogoScene->mUnk_2c_0 = 0;
+    gLogoScene->mResetBackupRequested = 0;
     gLogoScene->mState0Frames = 0;
     gLogoScene->mCommonMessages = FindFileInLoadedArchives(gLogoSceneCommonBmgFileName);
     arg.mUseTxtSystem = TRUE;
@@ -145,5 +145,5 @@ void UpdateLogoState0(void) {
     if ((gInputSlots[slotIndex].mBits & PAD_KEYS_FACE_AND_SHOULDER) != PAD_KEYS_FACE_AND_SHOULDER) {
         return;
     }
-    gLogoScene->mUnk_2c_0 = 1;
+    gLogoScene->mResetBackupRequested = 1;
 }

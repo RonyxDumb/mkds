@@ -45,9 +45,9 @@ void ResetCupRecords(void) {
         flag = TRUE;
     }
     if (flag != FALSE) {
-        gCupRecords->mUnk_164_0 = 1;
+        gCupRecords->mConnectionActive = 1;
     } else {
-        gCupRecords->mUnk_164_0 = 0;
+        gCupRecords->mConnectionActive = 0;
     }
     cupRecords->mScore = 0;
 }

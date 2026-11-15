@@ -289,7 +289,11 @@ struct WirelessMessage {
         };
         struct {
             u16 mReplyState;
-            u16 mUnk_08_2;
+            union {
+                u16 mBusyRatio;
+                u16 mOwnAid;
+                u16 mAidBitmap;
+            };
         };
         struct {
             u8 mUnk_08_b[2];

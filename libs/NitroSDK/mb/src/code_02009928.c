@@ -289,7 +289,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
             return;
         case WIRELESS_REQUEST_LEAVE:
             if (result->mResultCode == WIRELESS_RESULT_SUCCEEDED) {
-                gWirelessWork->mConnectedAids &= ~result->mUnk_08_2;
+                gWirelessWork->mConnectedAids &= ~result->mAidBitmap;
             }
             return;
         case WIRELESS_REQUEST_EVENT_REPORT:
@@ -459,7 +459,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     work->mMPStarted = 1;
                     return;
                 case WIRELESS_STATE_LINKED:
-                    work->mMyAid = result->mUnk_08_2;
+                    work->mMyAid = result->mOwnAid;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
                     if (WM_SetPortCallback(1, MBi_ChildPortCallback, NULL) != 0) {
