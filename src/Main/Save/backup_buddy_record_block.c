@@ -8,11 +8,11 @@
 
 #pragma thumb on
 
-void WriteBackupBuddyRecordBlock(void *block) {
+void WriteBackupBuddyRecordBlock(BuddyRecordBlock *block) {
     u32 *buffer;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(block, buffer, 0xc00);
+        MI_CpuCopy8(block, buffer, sizeof(BuddyRecordBlock));
         *buffer = 0x4c464b4e;
         StartBackupWriteTwoCopies(0x1f00, 0x32e00, buffer, 0xc00, NULL, 0);
     }

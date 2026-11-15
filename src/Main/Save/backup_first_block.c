@@ -6,12 +6,12 @@
 
 #pragma thumb on
 
-void WriteBackupFirstBlock(void *block) {
+void WriteBackupFirstBlock(BackupFirstBlock *block) {
     u32 *buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
         enum { K0 = 0x53444b4d } firstWord;
         enum { K1 = 0x30315653 } secondWord;
-        MI_CpuCopy8(block, buffer, 0x100);
+        MI_CpuCopy8(block, buffer, sizeof(BackupFirstBlock));
         firstWord = K0;
         secondWord = K1;
         buffer[0] = firstWord;

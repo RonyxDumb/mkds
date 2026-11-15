@@ -8,14 +8,14 @@
 
 #pragma thumb on
 
-void WriteBackupCourseGhost(u32 index, const void *record) {
+void WriteBackupCourseGhost(u32 index, const GhostRecord *record) {
     u32 offset;
     void *buffer;
 
     offset = index * 0xe00;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(record, buffer, 0xe00);
+        MI_CpuCopy8(record, buffer, sizeof(GhostRecord));
         *(u32 *) buffer = 0x47504b4e;
         StartBackupWriteOneCopy(offset + 0xaf00, buffer, 0xe00, 0);
     }

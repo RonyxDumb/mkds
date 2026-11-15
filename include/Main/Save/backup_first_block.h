@@ -2,4 +2,6 @@
 
 #include "types.h"
 
-void WriteBackupFirstBlock(void *block);
+typedef struct BackupFirstBlock BackupFirstBlock;
+
+void WriteBackupFirstBlock(BackupFirstBlock *block);

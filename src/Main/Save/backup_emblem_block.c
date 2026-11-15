@@ -13,7 +13,7 @@ void WriteBackupEmblemBlock(EmblemBlockData *blockData, s32 blockIndex) {
     u32 *buffer;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(blockData, buffer, 0xb00);
+        MI_CpuCopy8(blockData, buffer, sizeof(EmblemBlockData));
         buffer[0] = 0x45464b4e;
         StartBackupWriteTwoCopies(blockOffset + 0x2b00, blockOffset + 0x33a00, buffer, 0xb00, NULL, 0);
     }

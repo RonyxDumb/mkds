@@ -19,7 +19,7 @@ void WriteBackupEmblemRecord(EmblemRecord *block) {
     u32 *buffer;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(block, buffer, 0x300);
+        MI_CpuCopy8(block, buffer, sizeof(EmblemRecord));
         *buffer = 0x4d454b4e;
         StartBackupWriteTwoCopies(0x100, 0x31000, buffer, 0x300, NULL, 0);
     }
@@ -36,7 +36,7 @@ void WriteBackupGrandPrixRecordBlock(GrandPrixRecordBlock *block) {
     u32 *buffer;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(block, buffer, 0x400);
+        MI_CpuCopy8(block, buffer, sizeof(GrandPrixRecordBlock));
         *buffer = 0x50474b4e;
         StartBackupWriteTwoCopies(0x400, 0x31300, buffer, 0x400, NULL, 0);
     }
@@ -53,7 +53,7 @@ void WriteBackupCourseTimeRecordBlock(CourseTimeRecordBlock *block) {
     u32 *buffer;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(block, buffer, 0x1600);
+        MI_CpuCopy8(block, buffer, sizeof(CourseTimeRecordBlock));
         *buffer = 0x41544b4e;
         StartBackupWriteTwoCopies(0x800, 0x31700, buffer, 0x1600, NULL, 0);
     }
@@ -70,7 +70,7 @@ void WriteBackupMissionRecordBlock(MissionRecordBlock *block) {
     u32 *buffer;
     buffer = gBackupAccess->mBuffer;
     if (gBackupAccess->mBackupEnabled != 0) {
-        MI_CpuCopy8(block, buffer, 0x100);
+        MI_CpuCopy8(block, buffer, sizeof(MissionRecordBlock));
         *buffer = 0x524d4b4e;
         StartBackupWriteTwoCopies(0x1e00, 0x32d00, buffer, 0x100, NULL, 0);
     }
