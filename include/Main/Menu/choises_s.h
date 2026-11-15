@@ -45,7 +45,7 @@ typedef struct ChoisesS {
     // The value handed to the race scene, 0 = none; usually copied from mSelectedValue when a pick completes.
     /* 024 */ s32 mPickedValue;
     /* 028 */ s32 mSelectedValue;
-    /* 02c */ s32 mUnk_02c;
+    /* 02c */ s32 mOpenDuringRaceState;
     /* 030 */ s32 mOpenDuringRaceFrames;
     // Counts calls and wraps at 0x32; zeroed when the selection steps; the list draw writes two tiles below 0x1e.
     /* 034 */ s32 mCycleFrames;

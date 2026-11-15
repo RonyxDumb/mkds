@@ -19,7 +19,7 @@ StartupMemory gStartupMemory;
 u8 gDwcInitWork[0x700];
 
 void InitHeapCall(HeapCall *call, u32 func) {
-    call->mUnk_00 = NULL;
+    call->mName = NULL;
     call->mFunc = func;
     call->mAfterFunc = 0;
     call->mParent = NULL;

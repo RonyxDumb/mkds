@@ -100,7 +100,7 @@ void InitStartup(void) {
     arenaLo = OS_GetArenaLo(0);
     gStartupMemory.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
     InitHeapCall(&gStartupMemory.mRootHeapCall, 0);
-    gStartupMemory.mRootHeapCall.mUnk_00 = "MainProc";
+    gStartupMemory.mRootHeapCall.mName = "MainProc";
     StartupResetKeysInputSlot();
 }
 

@@ -237,7 +237,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
 
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
-    kartAi->mUnk_06 = kartAi->mIndex % 4;
+    kartAi->mIndexModFour = kartAi->mIndex % 4;
     ResetBattlePointLinkCursorNear(&kartAi->mBattleLinkCursor, &kart->mPos, &kart->mRotationRow2, kart->mIndex);
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);

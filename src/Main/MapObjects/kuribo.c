@@ -89,10 +89,10 @@ void UpdateKuriboState1(Kuribo *kuribo) {
     Vec3 surfaceNormal;
     if (kuribo->mFrameIndex < 0xa || (kuribo->mFrameIndex >= 0x14 && kuribo->mFrameIndex < 0x1e)) {
         if (kuribo->mFrameIndex == 0 || kuribo->mFrameIndex == 0x14) {
-            kuribo->mUnk_102--;
-            if (kuribo->mUnk_102 < 0) {
-                kuribo->mUnk_102 = 3;
-                kuribo->mUnk_104 = kuribo->mUnk_104 == 0;
+            kuribo->mToggleCountdown--;
+            if (kuribo->mToggleCountdown < 0) {
+                kuribo->mToggleCountdown = 3;
+                kuribo->mToggleState = kuribo->mToggleState == 0;
             }
         }
     }

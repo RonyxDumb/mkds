@@ -86,7 +86,7 @@ s32 gItemBombState2ScaleStep;
 // Reset hook of the bomb kind.
 void ResetItemBomb(ItemBomb *bomb) {
     u32 initialDistanceSquared;
-    MTX_Identity43_(&bomb->mUnk_13c);
+    MTX_Identity43_(&bomb->mMatrix);
     InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
     bomb->mTimer = 300;

@@ -158,7 +158,7 @@ void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
 
 void ResetItemKouraW(ItemKouraW *item) {
     InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
-    MTX_Identity43_(&item->mUnk_2b4);
+    MTX_Identity43_(&item->mMatrix);
     item->mRank = 1;
     item->mRankKartIndex = gRaceProgress->mKartAtRank[0];
     item->mRankTargetSkipped = 0;

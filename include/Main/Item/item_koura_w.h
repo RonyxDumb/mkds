@@ -68,7 +68,7 @@ typedef struct ItemKouraW {
     /* 298 */ Vec3 mSmoothedDirectionDelta;
     /* 2a4 */ Vec3 mEasedDirection;
     /* 2b0 */ struct ModelEffect *mModelEffect;
-    /* 2b4 */ MtxFx43 mUnk_2b4;
+    /* 2b4 */ MtxFx43 mMatrix;
     /* 2e4 */ s32 mHitSpinsKart;
     /* 2e8 */ StateMachine mStateMachine;
     /* 2fc */ s32 mReverse;

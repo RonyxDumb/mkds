@@ -216,14 +216,14 @@ void UpdateKartNameTags(void) {
             if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || GetCurrentCameraKind() == 3) {
                 distance -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
-                kartObject->mUnk_14 = 1;
+                kartObject->mFadeState = 1;
                 if (distance < 0) {
                     distance = 0;
                 }
                 alphaScale = MUL_FIXED12_ROUNDED(distance, 0x44);
             } else {
                 kartObject->mFadeLevelPerCall = -1;
-                kartObject->mUnk_14 = 2;
+                kartObject->mFadeState = 2;
             }
         }
         if (gKartNameTags->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||

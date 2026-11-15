@@ -1677,7 +1677,7 @@ extern char gKartModelPathBuffer[];
 
 // Entries of the 0x400-byte buffer behind member 0x04 of DispCap.
 typedef struct DispCapOamEntry {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 mAttr0And1;
     /* 04 */ union {
         u32 mUnk_04;
         u16 mUnk_04_h;

@@ -157,14 +157,14 @@ void SetupDispCapMode1(void) {
     affineMatrix[2] = 0;
     G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, affineMatrix, 0, 0, 0, 0);
     for (clearIndex = 0; clearIndex < 0x80; clearIndex++) {
-        oamBuffer[clearIndex].mUnk_00 = 0;
+        oamBuffer[clearIndex].mAttr0And1 = 0;
         oamBuffer[clearIndex].mUnk_04 = 0;
     }
     entryIndex = 0;
     for (row = 0; row < 3; row++) {
         for (column = 0; column < 4; column++) {
             oamEntry = &oamBuffer[entryIndex++];
-            oamEntry->mUnk_00 = (u8) (0x40 * row) | 0xc0000c00 | ((column * 0x40 & 0x1ff) << 16);
+            oamEntry->mAttr0And1 = (u8) (0x40 * row) | 0xc0000c00 | ((column * 0x40 & 0x1ff) << 16);
             oamEntry->mUnk_04_h = (0x100 * row + column * 8) | 0xf000;
         }
     }

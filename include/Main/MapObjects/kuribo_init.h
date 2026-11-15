@@ -39,8 +39,8 @@ typedef struct Kuribo {
     /* fa */ u8 mUnk_fa[2];
     /* fc */ s32 mReturnsAfterWait;
     /* 100 */ u16 mModelAlpha;
-    /* 102 */ s16 mUnk_102;
-    /* 104 */ s32 mUnk_104;
+    /* 102 */ s16 mToggleCountdown;
+    /* 104 */ s32 mToggleState;
 } Kuribo;
 
 /* also runs for source-created objects with row == NULL (no path follower; starts in state 1) */

@@ -44,7 +44,7 @@ typedef struct ItemBomb {
     /* 130 */ s32 mIsThrown;
     /* 134 */ s32 mReflectFactor;
     /* 138 */ struct ModelEffect *mModelEffect;
-    /* 13c */ MtxFx43 mUnk_13c;
+    /* 13c */ MtxFx43 mMatrix;
     /* 16c */ BOOL mHitSpinsKart;
     /* 170 */ s32 mTimer;
     /* 174 */ s32 mModelFrameTimer;

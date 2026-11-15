@@ -660,11 +660,11 @@ void UpdateChoisesS(void) {
         frames = gChoisesS->mOpenDuringRaceFrames;
         gChoisesS->mOpenDuringRaceFrames = frames + 1;
         if (frames >= 1) {
-            gChoisesS->mUnk_02c = 2;
+            gChoisesS->mOpenDuringRaceState = 2;
             gChoisesS->mOpenDuringRaceFrames = 1;
         }
     } else {
-        gChoisesS->mUnk_02c = 0;
+        gChoisesS->mOpenDuringRaceState = 0;
         gChoisesS->mOpenDuringRaceFrames = 0;
     }
 }
@@ -739,7 +739,7 @@ void InitChoisesS(void) {
     } else {
         gChoisesS->mOtherMissionRecordsFilled5To7 = FALSE;
     }
-    gChoisesS->mUnk_02c = 0;
+    gChoisesS->mOpenDuringRaceState = 0;
     gChoisesS->mOpenDuringRaceFrames = 0;
     ResetChoisesSSelection();
     ClearChoisesSListValueCounts();

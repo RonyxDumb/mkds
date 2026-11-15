@@ -9,8 +9,8 @@ typedef struct SoundSource SoundSource;
 typedef struct KartSoundRow {
     /* 00 */ s32 mSoundRowIndex;
     /* 04 */ s32 mPitchedSoundId;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 08 */ s32 mSecondSoundColumn;
+    /* 0c */ s32 mThirdSoundColumn;
     /* 10 */ s32 mHighRatioSoundId;
     /* 14 */ s32 mMidRatioSoundId;
     /* 18 */ s32 mLowRatioSoundId;

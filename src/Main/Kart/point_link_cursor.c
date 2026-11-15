@@ -218,7 +218,7 @@ void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 useDefaultTable) {
 
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
-    kartAi->mUnk_06 = kartAi->mIndex % 4;
+    kartAi->mIndexModFour = kartAi->mIndex % 4;
     if (useDefaultTable != 0) {
         value = 0;
     } else {
@@ -822,7 +822,7 @@ u32 GetTargetAhead(struct KartAi *p0) {
 void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue) {
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
-    kartAi->mUnk_06 = kartAi->mIndex % 4;
+    kartAi->mIndexModFour = kartAi->mIndex % 4;
     kartAi->mDriftStartRandomLimit = 0x1000;
     if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
         kartAi->mDriftChargeRandomLimit = 0;
@@ -873,7 +873,7 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
 void SetupStaffRollKartAi(struct KartAi *kartAi, struct Kart *kart, s32 unusedValue) {
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
-    kartAi->mUnk_06 = kartAi->mIndex % 4;
+    kartAi->mIndexModFour = kartAi->mIndex % 4;
     kartAi->mDriftStartRandomLimit = 0x1000;
     kartAi->mDriftChargeRandomLimit = 0;
     kartAi->mMinVelocityLength = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, 0x99a);
@@ -938,7 +938,7 @@ u32 SetupRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
     raceSpeedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
     raceSpeedLimit->mSpeedLimitBeforeTurn = raceSpeedLimit->mBaseSpeedLimit;
     raceSpeedLimit->mTableIndex = GetKartAiTableIndex(kartAi->mIndex);
-    raceSpeedLimit->mUnk_20 = raceSpeedLimit->mTableIndex;
+    raceSpeedLimit->mTableIndexCopy = raceSpeedLimit->mTableIndex;
     raceSpeedLimit->mProgressGapLimit = 0;
     raceSpeedLimit->mSpeedLimit = raceSpeedLimit->mBaseSpeedLimit;
     raceSpeedLimit->mSpeedLimitAddition = 0;
@@ -1120,8 +1120,8 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                                 if (otherRaceSpeedLimit->mTableIndex == 2) {
                                     tableIndices[0] = 2;
                                     tableIndices[1] = tableIndices[0];
-                                    otherRaceSpeedLimit->mUnk_20 = 1;
-                                    otherRaceSpeedLimit->mTableIndex = otherRaceSpeedLimit->mUnk_20;
+                                    otherRaceSpeedLimit->mTableIndexCopy = 1;
+                                    otherRaceSpeedLimit->mTableIndex = otherRaceSpeedLimit->mTableIndexCopy;
                                     break;
                                 }
                             }
