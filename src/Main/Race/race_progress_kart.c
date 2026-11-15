@@ -53,8 +53,8 @@ static inline s32 RaceProgressKartIsConnectionActive(ConnectionWork *connectionW
 static inline void ReplaceDisconnectedHumansWithCpu(void) {
     u16 entryIndex;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != 10 &&
-        (GetNextSceneNumber() != 6 || gMenuShared->mWLMenuKind != WL_MENU_KIND_TO_RESULT) &&
+    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != SCENE_RESULT &&
+        (GetNextSceneNumber() != SCENE_WL_MENU || gMenuShared->mWLMenuKind != WL_MENU_KIND_TO_RESULT) &&
         RaceProgressKartIsConnectionActive(gConnectionWork) != 0) {
         for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
             if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&

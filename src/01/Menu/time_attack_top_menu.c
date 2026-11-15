@@ -268,7 +268,7 @@ void AdvanceTimeAttackTopMenuInput(void) {
             goto next;
         }
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestTimeAttackTopMenuSlideOut();
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RETURN;
     RequestSelectReturnPressWithSound(0);

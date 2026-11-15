@@ -461,7 +461,7 @@ void AdvanceSelectEngineInput(void) {
     if (IsSelectEngineIndexChangeRunning() != 0) {
         return;
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectEngineSlideOut();
     gSelectEngine->mResult = 2;
     RequestSelectReturnPressWithSound(0);

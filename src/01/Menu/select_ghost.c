@@ -515,7 +515,7 @@ void AdvanceSelectGhostInput(void) {
             goto next;
         }
     }
-    SetSelectReturnSoundId(14);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectGhostSlideOut();
     gSelectGhost->mResult = SELECT_GHOST_RESULT_RETURN;
     RequestSelectReturnPressWithSound(0);
