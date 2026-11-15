@@ -107,7 +107,7 @@ const ItemKind gItemKindKouraW = {0x31c,
                                   (void (*)(ItemObject *)) AdvanceItemKouraW,
                                   (void (*)(void *, void *, void *)) DrawItemKouraW,
                                   ComputeTwoPlaneViewTest,
-                                  (s32(*)(void *)) RequestItemKouraWState7,
+                                  (s32(*)(void *)) RequestItemKouraWBurst,
                                   NULL,
                                   NULL,
                                   0,
@@ -137,19 +137,20 @@ const ItemKind gItemKindKouraW = {0x31c,
                                   7,
                                   0};
 Vec3 gKouraWVec3UnitY = {0, 0x1000, 0};
-StateCallbacks gItemKouraWStateTable[ITEM_KOURA_W_STATE_COUNT] = {{NULL, UpdateItemKouraWState0},
-                                                                  {NULL, UpdateItemKouraWState1},
-                                                                  {NULL, UpdateItemKouraWState2},
-                                                                  {EnterItemKouraWState3, UpdateItemKouraWState3},
-                                                                  {EnterItemKouraWState4, UpdateItemKouraWState4},
-                                                                  {EnterItemKouraWState5, UpdateItemKouraWState5},
-                                                                  {EnterItemKouraWState6, UpdateItemKouraWState6},
-                                                                  {EnterItemKouraWState7, UpdateItemKouraWState7}};
+StateCallbacks gItemKouraWStateTable[ITEM_KOURA_W_STATE_COUNT] = {
+    {NULL, UpdateItemKouraWStraight},
+    {NULL, UpdateItemKouraWPickTarget},
+    {NULL, UpdateItemKouraWFollowLink},
+    {EnterItemKouraWSteerToTarget, UpdateItemKouraWSteerToTarget},
+    {EnterItemKouraWCircleTarget, UpdateItemKouraWCircleTarget},
+    {EnterItemKouraWRise, UpdateItemKouraWRise},
+    {EnterItemKouraWFall, UpdateItemKouraWFall},
+    {EnterItemKouraWBurst, UpdateItemKouraWBurst}};
 Nsbmd *gKouraW;
-s32 gKouraWState7ScaleStep;
-s32 gKouraWState7InverseLimit;
-s32 gKouraWState7ScaleLimit;
-volatile s32 gKouraWState7MaxRadiusSquared;
+s32 gKouraWBurstScaleStep;
+s32 gKouraWBurstInverseLimit;
+s32 gKouraWBurstScaleLimit;
+volatile s32 gKouraWBurstMaxRadiusSquared;
 struct ItemObject **gCollidedItemObjects;
 
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
@@ -358,7 +359,7 @@ void AdvanceItemKouraW(ItemKouraW *item) {
 
 #pragma thumb off
 
-void UpdateItemKouraWState0(void *stateObject) {
+void UpdateItemKouraWStraight(void *stateObject) {
     ItemKouraW *item = stateObject;
     AdvanceItemObjectMotion((DirectedItemObject *) item, 0xd000);
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & 1) {
@@ -385,7 +386,7 @@ static inline Vec3 *GetItemKouraWNormalOrNull(ItemKouraW *item) {
     return NULL;
 }
 
-void UpdateItemKouraWState1(void *stateObject) {
+void UpdateItemKouraWPickTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
     u16 rank;
     s32 value;
@@ -500,7 +501,7 @@ void UpdateItemKouraWState1(void *stateObject) {
     item->mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterItemKouraWState3(void *stateObject) {
+void EnterItemKouraWSteerToTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
     item->mSpeed = VEC_Mag(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     item->mRadiusOrEaseFactor = TO_FIXED12(30);
@@ -509,7 +510,7 @@ void EnterItemKouraWState3(void *stateObject) {
     }
 }
 
-void UpdateItemKouraWState3(void *stateObject) {
+void UpdateItemKouraWSteerToTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
     s32 gain;
     void *normal;
@@ -546,7 +547,7 @@ void UpdateItemKouraWState3(void *stateObject) {
                                 normal);
 }
 
-void UpdateItemKouraWState2(void *stateObject) {
+void UpdateItemKouraWFollowLink(void *stateObject) {
     ItemKouraW *item = stateObject;
     s32 index;
     void *normal;
@@ -584,7 +585,7 @@ void UpdateItemKouraWState2(void *stateObject) {
     }
 }
 
-void EnterItemKouraWState4(void *stateObject) {
+void EnterItemKouraWCircleTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
     item->mBobAmplitudeOrGain = TO_FIXED12(5);
     item->mAngleStep = 0x3e8;
@@ -599,7 +600,7 @@ void EnterItemKouraWState4(void *stateObject) {
     }
 }
 
-void UpdateItemKouraWState4(void *stateObject) {
+void UpdateItemKouraWCircleTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
     Vec3 direction;
     void *normal;
@@ -650,7 +651,7 @@ void UpdateItemKouraWState4(void *stateObject) {
     item->mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterItemKouraWState5(void *stateObject) {
+void EnterItemKouraWRise(void *stateObject) {
     ItemKouraW *item = stateObject;
     enum { KIND_FIRST } kind;
 
@@ -671,7 +672,7 @@ void EnterItemKouraWState5(void *stateObject) {
     item->mRadiusOrEaseFactor = FIXED12_RATIO(7, 20);
 }
 
-void UpdateItemKouraWState5(void *stateObject) {
+void UpdateItemKouraWRise(void *stateObject) {
     ItemKouraW *item = stateObject;
     Vec3 targetDirection;
     Vec3 *normal;
@@ -709,7 +710,7 @@ void UpdateItemKouraWState5(void *stateObject) {
     UpdateItemKouraWOrientation(item, &item->mEasedDirection, 0, normal);
 }
 
-void EnterItemKouraWState6(void *stateObject) {
+void EnterItemKouraWFall(void *stateObject) {
     ItemKouraW *item = stateObject;
     enum { KIND_FIRST } kind;
 
@@ -720,7 +721,7 @@ void EnterItemKouraWState6(void *stateObject) {
     CreateItemObjectCollisionSlotExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
 }
 
-void UpdateItemKouraWState6(void *stateObject) {
+void UpdateItemKouraWFall(void *stateObject) {
     ItemKouraW *item = stateObject;
     s32 grew;
     Vec3 hitOffset;
@@ -763,7 +764,7 @@ void UpdateItemKouraWState6(void *stateObject) {
     }
 }
 
-void EnterItemKouraWState7(void *stateObject) {
+void EnterItemKouraWBurst(void *stateObject) {
     ItemKouraW *item = stateObject;
     NNSSndSeqPlayer **sndHandle;
     struct ModelEffect *effect;
@@ -771,7 +772,7 @@ void EnterItemKouraWState7(void *stateObject) {
 
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= 0x800000;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = 0;
-    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWState7StartScale;
+    item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWBurstStartScale;
     item->mModelEffect = StartModelEffect(
         MODEL_EFFECT_BOMBCORE2, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
         IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
@@ -799,13 +800,13 @@ void EnterItemKouraWState7(void *stateObject) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemKouraWState7(void *stateObject) {
+void UpdateItemKouraWBurst(void *stateObject) {
     ItemKouraW *item = stateObject;
     u32 stateFrames;
 
     stateFrames = item->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWState7ScaleLimit,
-                            gKouraWState7ScaleStep)) {
+    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWBurstScaleLimit,
+                            gKouraWBurstScaleStep)) {
         RefreshItemObjectScaleExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -965,7 +966,7 @@ void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
 }
 
 // Asks for state 7 unless the object is already in it; returns 1.
-s32 RequestItemKouraWState7(ItemKouraW *item) {
+s32 RequestItemKouraWBurst(ItemKouraW *item) {
     if (item->mStateMachine.mState != ITEM_KOURA_W_STATE_BURST) {
         InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
         item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_BURST;
@@ -982,14 +983,14 @@ s32 RequestItemKouraWState7(ItemKouraW *item) {
     return 1;
 }
 
-BOOL IsItemKouraWState7(ItemKouraW *item) {
+BOOL IsItemKouraWBurst(ItemKouraW *item) {
     return item->mStateMachine.mState == ITEM_KOURA_W_STATE_BURST;
 }
 
-Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
+Vec3 *GetItemKouraWBurstInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
     *stateFrames = item->mStateMachine.mStateFrames;
     *scaleRatio = MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.z,
-                                       gKouraWState7InverseLimit);
+                                       gKouraWBurstInverseLimit);
     return &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
 }
 
@@ -1000,16 +1001,16 @@ void SetupItemKouraWKind(void) {
     s32 radiusRatio;
     s32 maxRadius;
 
-    gKouraWState7ScaleLimit = 0x1e000;
-    gKouraWState7InverseLimit = FX_Div(0x1000, gKouraWState7ScaleLimit);
-    gKouraWState7ScaleStep = 0x299a;
-    scaleLimit = gKouraWState7ScaleLimit;
+    gKouraWBurstScaleLimit = 0x1e000;
+    gKouraWBurstInverseLimit = FX_Div(0x1000, gKouraWBurstScaleLimit);
+    gKouraWBurstScaleStep = 0x299a;
+    scaleLimit = gKouraWBurstScaleLimit;
     radiusRatio = gItemKinds[5].mRadius;
     maxRadius = MUL_FIXED12_NO_ROUND(scaleLimit, radiusRatio);
-    gKouraWState7MaxRadiusSquared = maxRadius;
+    gKouraWBurstMaxRadiusSquared = maxRadius;
     maxRadius >>= 12;
-    gKouraWState7MaxRadiusSquared = maxRadius;
-    gKouraWState7MaxRadiusSquared = maxRadius * maxRadius;
+    gKouraWBurstMaxRadiusSquared = maxRadius;
+    gKouraWBurstMaxRadiusSquared = maxRadius * maxRadius;
     gKouraW = CreateItemNsbmd("koura_w.nsbmd", "koura_w.nsbtx");
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
         NNS_G3dMdlSetMdlFogEnableFlagAll(gKouraW->mResMdl, 0);

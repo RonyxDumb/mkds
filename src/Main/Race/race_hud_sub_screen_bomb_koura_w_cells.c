@@ -379,8 +379,8 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     objects = pool->mObjects;
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         kouraW = objects[objectIndex];
-        if (IsItemKouraWState7((ItemKouraW *) kouraW) != FALSE) {
-            kouraPosition = GetItemKouraWState7Info((ItemKouraW *) kouraW, &kouraStateFrames, &kouraValue);
+        if (IsItemKouraWBurst((ItemKouraW *) kouraW) != FALSE) {
+            kouraPosition = GetItemKouraWBurstInfo((ItemKouraW *) kouraW, &kouraStateFrames, &kouraValue);
             if (ComputeRaceHudSubScreenPosition(kouraPosition,
                                                 &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {
