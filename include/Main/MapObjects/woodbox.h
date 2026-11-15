@@ -9,6 +9,15 @@
 
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
+
+// Woodbox1.mMapObject.mStateMachine states, in the order of gWoodbox1StateTable. INTACT rests at its base; a hit breaks
+// it open (BROKEN, 900 frames); FALL drops the box back in; SETTLE bounces it until it rests.
+enum {
+    WOODBOX1_STATE_INTACT,
+    WOODBOX1_STATE_BROKEN,
+    WOODBOX1_STATE_FALL,
+    WOODBOX1_STATE_SETTLE,
+};
 typedef struct Kart Kart;
 typedef struct MapObjectList MapObjectList;
 typedef struct CourseMapRow CourseMapRow;
@@ -52,14 +61,14 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow);
 void ClearWoodbox1Pointer(MapObjectList *list);
 u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse, u8 *response);
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
-void UpdateWoodbox1State3(void *stateObject);
-void UpdateWoodbox1State2(void *stateObject);
-void EnterWoodbox1State2(void *stateObject);
+void UpdateWoodbox1Settle(void *stateObject);
+void UpdateWoodbox1Fall(void *stateObject);
+void EnterWoodbox1Fall(void *stateObject);
 // Landing test of the box: when it is below the ground and falling, lifts it, reverses and scales its fall speed and
 // returns TRUE.
 BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox);
-void UpdateWoodbox1State1(void *stateObject);
-void EnterWoodbox1State1(void *stateObject);
+void UpdateWoodbox1Broken(void *stateObject);
+void EnterWoodbox1Broken(void *stateObject);
 
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox);
 

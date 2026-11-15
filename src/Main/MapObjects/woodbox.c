@@ -53,10 +53,10 @@
 
 s32 gSavedModelAlpha = -1;
 Vec3 gWoodbox1GroundUp = {0, 0x1000, 0};
-StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1State0, NULL},
-                                         {EnterWoodbox1State1, UpdateWoodbox1State1},
-                                         {EnterWoodbox1State2, UpdateWoodbox1State2},
-                                         {NULL, UpdateWoodbox1State3}};
+StateCallbacks gWoodbox1StateTable[4] = {{EnterWoodbox1Intact, NULL},
+                                         {EnterWoodbox1Broken, UpdateWoodbox1Broken},
+                                         {EnterWoodbox1Fall, UpdateWoodbox1Fall},
+                                         {NULL, UpdateWoodbox1Settle}};
 const u16 gWoodbox1Flag = 1;
 const u16 gWoodbox1SecondFlag = 2;
 const u16 gWoodbox1ThirdFlag = 8;
@@ -149,7 +149,7 @@ void DrawWoodbox1(void *mapObjectList, Woodbox1 *woodbox, void *unused, u32 maxA
     woodbox->mMapObject.mMatrix.mRows[3].y = woodbox->mMapObject.mPos.y >> 4;
     woodbox->mMapObject.mMatrix.mRows[3].z = woodbox->mMapObject.mPos.z >> 4;
     DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mMapObject.mMatrix, &woodbox->mMapObject.mScale, maxAlpha);
-    if (state == 0) {
+    if (state == WOODBOX1_STATE_INTACT) {
         return;
     }
     shadowValue = MUL_FIXED12_NO_ROUND(0x5a000 - woodbox->mPosOffset.y, 0x2e);
@@ -166,7 +166,7 @@ void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox) {
     AdvanceStateMachine(&woodbox->mMapObject.mStateMachine);
 }
 
-void EnterWoodbox1State0(void *stateObject) {
+void EnterWoodbox1Intact(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
     Quaternion rotation;
     Vec3 *velocity;
@@ -229,7 +229,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     LaunchItemObjectFromPos(itemObject, 2, &woodbox->mMapObject.mPos, velocity, &woodbox->mGroundUp);
 }
 
-void EnterWoodbox1State1(void *stateObject) {
+void EnterWoodbox1Broken(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
     woodbox->mMapObject.mFlags |= gWoodbox1Flag;
     woodbox->mMapObject.mFlags |= gWoodbox1SecondFlag;
@@ -238,7 +238,7 @@ void EnterWoodbox1State1(void *stateObject) {
 
 #pragma thumb off
 
-void UpdateWoodbox1State1(void *stateObject) {
+void UpdateWoodbox1Broken(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
     if (woodbox->mMapObject.mStateMachine.mStateFrames < 900) {
         return;
@@ -248,7 +248,7 @@ void UpdateWoodbox1State1(void *stateObject) {
     }
     if (gBouncingWoodbox1 == NULL) {
         gBouncingWoodbox1 = woodbox;
-        woodbox->mMapObject.mStateMachine.mNextState = 2;
+        woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_FALL;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -300,7 +300,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     return FALSE;
 }
 
-void EnterWoodbox1State2(void *stateObject) {
+void EnterWoodbox1Fall(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
     Quaternion rotation;
     u32 frameCount;
@@ -333,10 +333,10 @@ void EnterWoodbox1State2(void *stateObject) {
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
 }
 
-void UpdateWoodbox1State2(void *stateObject) {
+void UpdateWoodbox1Fall(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
     if (BounceWoodbox1OffGround(woodbox) != FALSE) {
-        woodbox->mMapObject.mStateMachine.mNextState = 3;
+        woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_SETTLE;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
     woodbox->mMapObject.mPosStep.y -= 0x1ec;
@@ -344,7 +344,7 @@ void UpdateWoodbox1State2(void *stateObject) {
     VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mMapObject.mPos);
 }
 
-void UpdateWoodbox1State3(void *stateObject) {
+void UpdateWoodbox1Settle(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
     Quaternion rotation;
     s32 headingOffset;
@@ -372,7 +372,7 @@ void UpdateWoodbox1State3(void *stateObject) {
     Matrix3x3FromQuaternion(&woodbox->mMapObject.mMatrix.mAxes, &rotation);
     if (woodbox->mMapObject.mStateMachine.mStateFrames >= 90) {
         gBouncingWoodbox1 = NULL;
-        woodbox->mMapObject.mStateMachine.mNextState = 0;
+        woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_INTACT;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
 }
@@ -385,7 +385,7 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8
                 if (gBouncingWoodbox1 == woodbox) {
                     gBouncingWoodbox1 = NULL;
                 }
-                woodbox->mMapObject.mStateMachine.mNextState = 1;
+                woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_BROKEN;
                 woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
                 StartSoundFullVolumeWrapper(kart, 0x167);
                 woodbox->mMapObject.mDistanceSquaredAndFlags |= gWoodbox1HitFlag;
@@ -414,7 +414,7 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, ItemObject *itemObject, u8 
         if (gBouncingWoodbox1 == woodbox) {
             gBouncingWoodbox1 = NULL;
         }
-        woodbox->mMapObject.mStateMachine.mNextState = 1;
+        woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_BROKEN;
         woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
         if ((woodbox->mMapObject.mDistanceSquaredAndFlags & 3) == 0) {
             StartEffect(0x31, &woodbox->mMapObject.mPos);
@@ -478,7 +478,7 @@ void InitWoodbox1(Woodbox1 *woodbox, CourseMapRow *courseRow) {
     woodbox->mItemRowHandle = courseRow->mSettings[0];
     woodbox->mItemChancePercent = courseRow->mSettings[1];
     InitStateMachine(&woodbox->mMapObject.mStateMachine, gWoodbox1StateTable, 4, woodbox);
-    woodbox->mMapObject.mStateMachine.mNextState = 0;
+    woodbox->mMapObject.mStateMachine.mNextState = WOODBOX1_STATE_INTACT;
     woodbox->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&woodbox->mShadowMatrix, &courseRow->mPosition,
                         MUL_FIXED12_NO_ROUND(woodbox->mMapObject.mScale.x, 0x19000), 13);

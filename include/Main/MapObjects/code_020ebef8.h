@@ -35,4 +35,4 @@ typedef struct Woodbox1 {
 } Woodbox1;
 
 void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity);
-void EnterWoodbox1State0(void *stateObject);
+void EnterWoodbox1Intact(void *stateObject);
