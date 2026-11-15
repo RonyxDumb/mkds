@@ -10,11 +10,11 @@ typedef struct UnsignedHalfwordPair {
     /* 02 */ u16 mSecond;
 } UnsignedHalfwordPair;
 
-// 10 bytes that SND_GetNextInstData copies to mUnk_02..mUnk_0a of its record.
+// 10 bytes that SND_GetNextInstData copies to mWave..mReleaseAndPan of its record (original key, attack, decay, sustain; release, pan).
 typedef struct InstSimple {
     /* 00 */ UnsignedHalfwordPair mWave;
-    /* 04 */ UnsignedHalfwordPair mUnk_04;
-    /* 08 */ u16 mUnk_08;
+    /* 04 */ UnsignedHalfwordPair mKeyAndEnvelope;
+    /* 08 */ u16 mReleaseAndPan;
 } InstSimple;
 
 // Values of SNDInstData.mType. The five simple types share the InstSimple layout; the code does not tell them apart.
@@ -28,8 +28,8 @@ enum {
 typedef struct SNDInstData {
     /* 00 */ u8 mType;
     /* 02 */ UnsignedHalfwordPair mWave;
-    /* 06 */ UnsignedHalfwordPair mUnk_06;
-    /* 0a */ u16 mUnk_0a;
+    /* 06 */ UnsignedHalfwordPair mKeyAndEnvelope;
+    /* 0a */ u16 mReleaseAndPan;
 } SNDInstData;
 
 // Two bytes (the second minus the first plus one is the number of entries), then the 12-byte entries.

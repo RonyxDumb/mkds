@@ -123,8 +123,8 @@ u32 SND_GetNextInstData(SNDBankData *bank, SNDInstData *inst, SNDInstPos *pos) {
             case 5:
                 simple = OFFSET_PTR(InstSimple, bank, (entry >> 8));
                 inst->mWave = simple->mWave;
-                inst->mUnk_06 = simple->mUnk_04;
-                inst->mUnk_0a = simple->mUnk_08;
+                inst->mKeyAndEnvelope = simple->mKeyAndEnvelope;
+                inst->mReleaseAndPan = simple->mReleaseAndPan;
                 pos->mPrgNo++;
                 return 1;
             case INSTRUMENT_TYPE_DRUM_SET:
