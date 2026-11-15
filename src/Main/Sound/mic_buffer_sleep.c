@@ -5,7 +5,7 @@ u32 UpdateMicBufferInput(MicBuffer *micBuffer) {
     if (micBuffer->mSkipFrames == 0) {
         return UpdateMicSampleAnalysis();
     }
-    if (micBuffer->mSkipFrames < 0x1e) {
+    if (micBuffer->mSkipFrames < MIC_BUFFER_SKIP_LAST) {
         micBuffer->mSkipFrames = micBuffer->mSkipFrames + 1;
     } else {
         micBuffer->mSkipFrames = 0;
@@ -15,12 +15,12 @@ u32 UpdateMicBufferInput(MicBuffer *micBuffer) {
 
 void PreSleepMicBuffer(MicBuffer *micBuffer) {
     u32 unused;
-    micBuffer->mSkipFrames = 1;
+    micBuffer->mSkipFrames = MIC_BUFFER_SKIP_FROM_PRE_SLEEP;
     StopMicSampleAnalysis();
 }
 
 void PostSleepMicBuffer(MicBuffer *micBuffer) {
     u32 unused;
-    micBuffer->mSkipFrames = 2;
+    micBuffer->mSkipFrames = MIC_BUFFER_SKIP_FROM_POST_SLEEP;
     StartMicSampleAnalysis();
 }

@@ -13,6 +13,9 @@
 #include "code_0212d214.h"
 #include "Main/Sound/sound_seq.h" // SoundHandlePool
 
+// MICAutoParam.mRate of the microphone buffer: timer ticks per sample (4000 samples per second on the 16.76 MHz timer).
+#define MIC_AUTO_SAMPLING_RATE 0x105d
+
 void InitMicAndAmp(void);
 void SetupMicAutoSampling(MicBuffer *micBuffer);
 

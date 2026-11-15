@@ -17,7 +17,7 @@ u32 ClampMicSample(u32 rawSample) {
     return sample;
 }
 
-u8 gMicSampleAnalysisMode = 1;
+u8 gMicSampleAnalysisMode = MIC_ANALYSIS_MODE_MIDDLE;
 
 u8 gMicSampleAnalysisValue;
 s32 gMicMaxCrossingInterval;
@@ -257,7 +257,7 @@ u8 UpdateMicSampleAnalysis(void) {
             cappedLevel = 1883;
         }
         switch (gMicSampleAnalysisMode) {
-            case 2:
+            case MIC_ANALYSIS_MODE_STRICT:
                 if (level >= 100 && level < 200) {
                     if (maxv >= 70 && gMicIntervalHistogram[0] <= 9 && gMicIntervalHistogram[0] >= 5 &&
                         gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 3 &&
@@ -345,7 +345,7 @@ u8 UpdateMicSampleAnalysis(void) {
                     }
                 }
                 break;
-            case 1:
+            case MIC_ANALYSIS_MODE_MIDDLE:
                 if (level >= 100 && level < 200) {
                     if (maxv >= 70 && gMicIntervalHistogram[0] <= 9 && gMicIntervalHistogram[0] >= 1 &&
                         gMicIntervalHistogram[1] <= 14 && gMicIntervalHistogram[1] >= 1 &&
@@ -431,7 +431,7 @@ u8 UpdateMicSampleAnalysis(void) {
                     }
                 }
                 break;
-            case 0:
+            case MIC_ANALYSIS_MODE_LOOSE:
                 lim = 1;
                 if (level >= 100 && level < 200) {
                     if (maxv >= 30 && gMicIntervalHistogram[0] <= 13 && gMicIntervalHistogram[0] >= 1 &&

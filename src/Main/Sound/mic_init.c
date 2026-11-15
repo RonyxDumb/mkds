@@ -41,12 +41,12 @@ void SetupMicAutoSampling(MicBuffer *micBuffer) {
     micBuffer->mAutoParam.mType = MIC_SAMPLING_TYPE_SIGNED_8BIT;
     autoParam = &micBuffer->mAutoParam;
     autoParam->mBuffer = micBuffer;
-    autoParam->mSize = 0x400;
-    autoParam->mRate = 0x105d;
+    autoParam->mSize = sizeof(micBuffer->mSamples);
+    autoParam->mRate = MIC_AUTO_SAMPLING_RATE;
     autoParam->mLoopEnable = 1;
     autoParam->mFullCallback = 0;
     autoParam->mFullArg = 0;
     InitMicSampleAnalysis(autoParam);
-    SetMicSampleAnalysisMode(0);
+    SetMicSampleAnalysisMode(MIC_ANALYSIS_MODE_LOOSE);
     PM_SetAmpGain(3);
 }
