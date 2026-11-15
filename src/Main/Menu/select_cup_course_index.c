@@ -109,7 +109,7 @@ void AdvanceSelectCupCourseIndexChange(void) {
     }
 }
 
-void RequestSelectCupCourseState0(void) {
+void RequestSelectCupCourseWaitFade(void) {
     s16 subOffsetY;
     s32 taOrVsCellCount;
     s32 cellIndex;
@@ -159,12 +159,12 @@ void RequestSelectCupCourseState0(void) {
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectCupCourse call copies it to
 // mState and runs AdvanceSelectCupCourseState1.
-void RequestSelectCupCourseState1(void) {
+void RequestSelectCupCourseSlideIn(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_SLIDE_IN;
     gSelectCupCourse->mStateFrames = 0;
 }
 
-void RequestSelectCupCourseState2(void) {
+void RequestSelectCupCourseWaitReturn(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_WAIT_RETURN;
     gSelectCupCourse->mStateFrames = 0;
     RequestSelectReturnSlideIn();
@@ -333,7 +333,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     }
     SetupSelectCupCourseObjects();
     RefreshSelectCupCourseForIndex();
-    RequestSelectCupCourseState0();
+    RequestSelectCupCourseWaitFade();
     FrmHeapShrinkInParent(gSelectCupCourse->mHeap);
 }
 
@@ -364,7 +364,7 @@ void AdvanceSelectCupCourseState0(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
-        RequestSelectCupCourseState1();
+        RequestSelectCupCourseSlideIn();
     }
 }
 
@@ -416,7 +416,7 @@ void AdvanceSelectCupCourseState1(void) {
         }
     }
     if (gSelectCupCourse->mStateFrames >= 10) {
-        RequestSelectCupCourseState2();
+        RequestSelectCupCourseWaitReturn();
     }
 }
 #pragma thumb off

@@ -28,9 +28,9 @@ void ReleaseSelectCupCourse(void);
 void RequestSelectCupCourseState6(void);
 
 void AdvanceSelectCupCourseIndexChange(void);
-void RequestSelectCupCourseState0(void);
-void RequestSelectCupCourseState1(void);
-void RequestSelectCupCourseState2(void);
+void RequestSelectCupCourseWaitFade(void);
+void RequestSelectCupCourseSlideIn(void);
+void RequestSelectCupCourseWaitReturn(void);
 void RequestSelectCupCourseState3(void);
 void RequestSelectCupCourseState4(void);
 void RequestSelectCupCourseState5(void);
