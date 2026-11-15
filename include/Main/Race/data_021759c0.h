@@ -17,6 +17,15 @@ typedef struct MinuteSecondMillisecondTime {
 // What drives an entry's kart: the player, the game's CPU, a recorded ghost, a player on another console, or nothing.
 typedef enum { PLAYER_KIND_HUMAN, PLAYER_KIND_CPU, PLAYER_KIND_GHOST, PLAYER_KIND_PEER, PLAYER_KIND_NONE } PlayerKind;
 
+// Values of the mGhostRecordIndex members: the saved record a ghost entry is read from. NONE is set on entries that are
+// not ghosts.
+typedef enum {
+    GHOST_RECORD_INDEX_COURSE,
+    GHOST_RECORD_INDEX_FIRST_SLOT,
+    GHOST_RECORD_INDEX_SECOND_SLOT,
+    GHOST_RECORD_INDEX_NONE,
+} GhostRecordIndex;
+
 // Bit set of the kinds 0, 2 and 3 (human, ghost, peer): the entries the mask tests pick out.
 #define PLAYER_KIND_MASK_HUMAN_GHOST_PEER 0xd
 

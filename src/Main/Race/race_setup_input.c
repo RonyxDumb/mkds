@@ -546,7 +546,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mBattleKind = 0;
     gRaceSetup->mNextHeader.mRuleKind = 0;
     gRaceSetup->mNextHeader.mCourseListMode = 0;
-    gRaceSetup->mNextHeader.mGhostRecordIndex = 0;
+    gRaceSetup->mNextHeader.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
     MI_CpuFill8(&gRaceSetup->mNextHeader.mMissionFileRow, 0, 0x2c);
     gRaceSetup->mNextHeader.mMissionTableRow = -1;
     gRaceSetup->mNextHeader.mMissionTableColumn = -1;
@@ -565,7 +565,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mNextEntries[index].mPlayer.mTeamIndex = -1;
         gRaceSetup->mNextEntries[index].mPlayer.mListedCpuSlot = 3;
         gRaceSetup->mNextEntries[index].mPlayer.mIndex = index;
-        gRaceSetup->mNextEntries[index].mPlayer.mGhostRecordIndex = 3;
+        gRaceSetup->mNextEntries[index].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_NONE;
         gRaceSetup->mNextEntries[index].mPlayer.mListedCpuFlags = 0;
         gRaceSetup->mNextEntries[index].mPlayer.mName = NULL;
         gRaceSetup->mNextEntries[index].mPlayer.mHasEmblem = 0;
@@ -678,21 +678,21 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             break;
         case PLAYER_KIND_GHOST:
             switch (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
-                case 0:
+                case GHOST_RECORD_INDEX_COURSE:
                     *nameSlot = &gBackupBuffers->mCourseGhostRecord->mHead.mName;
                     *emblemDataSlot = &gBackupBuffers->mEmblemRecord->mEmblemData;
                     *hasEmblemSlot = hasEmblem != FALSE ? 1 : 0;
                     *regionSlot = gBackupBuffers->mCourseGhostRecord->mHead.mRegion;
                     *lowestRecordValueSlot = 0;
                     break;
-                case 1:
+                case GHOST_RECORD_INDEX_FIRST_SLOT:
                     *nameSlot = &gBackupBuffers->mSlotGhostRecords[0]->mHead.mName;
                     *emblemDataSlot = &gBackupBuffers->mSlotGhostRecords[0]->mEmblem;
                     *hasEmblemSlot = gBackupBuffers->mSlotGhostRecords[0]->mHead.mHasEmblem;
                     *regionSlot = gBackupBuffers->mSlotGhostRecords[0]->mHead.mRegion;
                     *lowestRecordValueSlot = gBackupBuffers->mSlotGhostRecords[0]->mHead.mLowestGrandPrixRecordValue;
                     break;
-                case 2:
+                case GHOST_RECORD_INDEX_SECOND_SLOT:
                     *nameSlot = &gBackupBuffers->mSlotGhostRecords[1]->mHead.mName;
                     *emblemDataSlot = &gBackupBuffers->mSlotGhostRecords[1]->mEmblem;
                     *hasEmblemSlot = 1;
@@ -771,7 +771,7 @@ BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
     if (filled != 0) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
-        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_FIRST_SLOT;
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
         GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
@@ -794,7 +794,7 @@ BOOL SetNextEntryFromSecondSlotGhost(s32 courseId, s32 entryIndex) {
     if (ghostRecord != NULL && ghostRecord->mHead.mFilled == 1) {
         SetNextRaceEntry(entryIndex, ghostRecord->mHead.mCharacterIndex, ghostRecord->mHead.mKartIndex,
                          PLAYER_KIND_GHOST, -1, 3);
-        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
+        gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_SECOND_SLOT;
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer, 0xdcc);
         GetGhostFinishTime(&ghostRecord->mHead, &gRaceSetup->mGhostTime);
         for (lapIndex = 1; lapIndex <= 5; lapIndex++) {
@@ -840,22 +840,22 @@ void SetCurrentRaceFromNext(void) {
                 gRaceSetup->mFirstGhostRecordMillisecond = 0;
             }
             switch (gRaceSetup->mNextHeader.mGhostRecordIndex) {
-                case 0:
+                case GHOST_RECORD_INDEX_COURSE:
                     if (SetNextEntryFromCourseGhost(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
                         value++;
                     }
                     break;
-                case 1:
+                case GHOST_RECORD_INDEX_FIRST_SLOT:
                     if (SetNextEntryFromFirstSlotGhost(gRaceSetup->mNextHeader.mCourseId, 1) != 0) {
                         value++;
                     }
                     break;
-                case 2:
+                case GHOST_RECORD_INDEX_SECOND_SLOT:
                     if (SetNextEntryFromSecondSlotGhost(gRaceSetup->mNextHeader.mCourseId, 1) != FALSE) {
                         value++;
                     }
                     break;
-                case 3:
+                case GHOST_RECORD_INDEX_NONE:
                     break;
             }
             entryCount = value;
