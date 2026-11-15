@@ -183,13 +183,13 @@ void BuildCourseList(s32 isVersus) {
         gRaceSetup->mCourseList[listIndex] = 0;
     }
     switch (gStartupWork->mConnectionKind) {
-        case 1:
-        case 2:
+        case CONNECTION_KIND_MEMBER_SELECT:
+        case CONNECTION_KIND_WL_MENU:
             flag = (gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0;
             break;
     }
     switch (gRaceSetup->mNextHeader.mCourseListMode) {
-        case 1:
+        case COURSE_LIST_MODE_IN_ORDER:
             if (isVersus != 0) {
                 u8 cupSlot;
                 u8 courseSlot;
@@ -245,7 +245,7 @@ void BuildCourseList(s32 isVersus) {
                 }
                 return;
             }
-        case 2:
+        case COURSE_LIST_MODE_SHUFFLED:
             if (isVersus != 0) {
                 RandomState64 *random;
                 u32 entryCount;
@@ -480,11 +480,11 @@ s32 AdvanceToNextCourse(void) {
         }
     }
     switch (gRaceSetup->mCourseListMode) {
-        case 0:
+        case COURSE_LIST_MODE_SINGLE:
             result = FALSE;
             break;
-        case 1:
-        case 2:
+        case COURSE_LIST_MODE_IN_ORDER:
+        case COURSE_LIST_MODE_SHUFFLED:
             gRaceSetup->mCourseListIndex++;
             if (gRaceSetup->mCourseList[gRaceSetup->mCourseListIndex] == 0) {
                 gRaceSetup->mCourseListIndex = 0;
@@ -545,7 +545,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mCpuDifficulty = 0;
     gRaceSetup->mNextHeader.mBattleKind = 0;
     gRaceSetup->mNextHeader.mRuleKind = 0;
-    gRaceSetup->mNextHeader.mCourseListMode = 0;
+    gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
     MI_CpuFill8(&gRaceSetup->mNextHeader.mMissionFileRow, 0, 0x2c);
     gRaceSetup->mNextHeader.mMissionTableRow = -1;
@@ -1097,7 +1097,7 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mNextHeader.mMirrorMode = (missionFileRow->mFlags & 0x10) != 0 ? 1 : 0;
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = 0;
-    gRaceSetup->mNextHeader.mCourseListMode = 0;
+    gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mBattleKind = 0;
     gRaceSetup->mCourseCount = 0;
     gRaceSetup->mNextHeader.mEngineIndex = missionFileRow->mEngineIndex;

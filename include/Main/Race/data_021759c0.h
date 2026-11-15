@@ -26,6 +26,13 @@ typedef enum {
     GHOST_RECORD_INDEX_NONE,
 } GhostRecordIndex;
 
+// Values of the mCourseListMode members: one course, the course list in order, or the course list shuffled.
+enum {
+    COURSE_LIST_MODE_SINGLE,
+    COURSE_LIST_MODE_IN_ORDER,
+    COURSE_LIST_MODE_SHUFFLED,
+};
+
 // Bit set of the kinds 0, 2 and 3 (human, ghost, peer): the entries the mask tests pick out.
 #define PLAYER_KIND_MASK_HUMAN_GHOST_PEER 0xd
 
