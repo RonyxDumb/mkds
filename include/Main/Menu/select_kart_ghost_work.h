@@ -184,7 +184,6 @@ typedef struct PlayerEntryRow {
     /* 14 */ u16 mName[0xc];
 } PlayerEntryRow;
 
-// Object behind gPlayerEntryList.
 typedef enum SelectCharacterState {
     SELECT_CHARACTER_STATE_WAIT_FADE = 0,
     SELECT_CHARACTER_STATE_SCALE_IN = 1,
