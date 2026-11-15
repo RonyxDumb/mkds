@@ -22,6 +22,9 @@ typedef struct KartModelMenuView KartModelMenuView;
 #define KART_INDEX_SPECIAL_FIRST 0x22
 #define KART_INDEX_SPECIAL_SECOND 0x23
 
+// The kart of CHARACTER_HEYHO in both character to kart tables (gCharacterKartIndexTable, gCharacterKartIndexTableBattle).
+#define KART_INDEX_HEYHO 0x24
+
 typedef struct NNSG3dResFileHeader NNSG3dResFileHeader;
 
 void InitKartModels(void *heap, u32 kartCount);

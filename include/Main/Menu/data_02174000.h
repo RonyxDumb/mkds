@@ -49,6 +49,13 @@ typedef struct RaceSetupCopyEntry {
     /* 14 */ s32 mKartStored;
 } RaceSetupCopyEntry;
 
+// Values of RaceSetupCopy.mEntryTransition: how the character or kart screen is entered. The character screen stores
+// FROM_CHARACTER when it leaves forward (FRESH in battle mode, which has no kart screen) and FRESH when it leaves back;
+// the kart screen stores FROM_KART when it leaves back and FRESH when it leaves forward.
+#define ENTRY_TRANSITION_FRESH 0
+#define ENTRY_TRANSITION_FROM_CHARACTER 1
+#define ENTRY_TRANSITION_FROM_KART 2
+
 // Copy of the race setup that the screens edit: filled from the current half of gRaceSetup (or from the Wi-Fi
 // session), written to the next half by SetNextRaceSetupFromCopy or SetNextRaceSetupFromKartMask. Object behind
 // gRaceSetupCopy, returned by GetRaceSetupCopy.
@@ -180,6 +187,9 @@ typedef enum SelectCharacterMode {
 // SelectCharacter.mResult once the player entry list timer has run out: the screen after this one is reached as for
 // MENU_SCREEN_RESULT_NEXT.
 #define SELECT_CHARACTER_RESULT_TIME_UP 3
+
+// The byte of the data sharing to the others while no character is picked.
+#define SELECT_CHARACTER_SEND_BYTE_NONE 0xff
 
 // Steps of the scale in and scale out.
 #define SELECT_CHARACTER_SCALE_STEPS 10

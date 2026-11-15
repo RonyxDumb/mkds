@@ -1,4 +1,5 @@
 #include "Main/Menu/select_character.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/System/data_02025000.h"
 #include "Main/Graphics/cell_layout_entry.h"
 #include "Main/Menu/select_race_rule_state.h"
@@ -455,7 +456,7 @@ void StartPlayerEntryListKindIfUsed(s32 kind) {
 
 void StartSelectCharacterReturn(void) {
     gSelectCharacter->mStateFrames = 0;
-    gSelectCharacter->mResult = 2;
+    gSelectCharacter->mResult = MENU_SCREEN_RESULT_BACK;
     gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
     RequestSelectReturnPressWithSound(0);
     StartPlayerEntryListKindIfUsed(3);
@@ -661,20 +662,20 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter->mHeap = heap;
     gSelectCharacter->mMode = mode;
     switch (GetRaceSetupCopy()->mEntryTransition) {
-        case 0:
+        case ENTRY_TRANSITION_FRESH:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 StartKartModelMenuBg0Increase();
             }
             break;
-        case 2:
+        case ENTRY_TRANSITION_FROM_KART:
             SetupInterpolation(&gSelectCharacter->mInterpolations[0], 1, 10, -0x80, 0);
             SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
             switch (gSelectCharacter->mMode) {
                 case SELECT_CHARACTER_MODE_CONNECTION:
                     if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
-                        gConnectionWork->mDataSharingSendByte = 0xff;
+                        gConnectionWork->mDataSharingSendByte = SELECT_CHARACTER_SEND_BYTE_NONE;
                     }
                     break;
                 case SELECT_CHARACTER_MODE_WIFI_SESSION:
@@ -686,8 +687,8 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mSubOam = subOam;
-    if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == 3 ||
-        GetRaceSetupCopy()->mMode == 2) {
+    if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||
+        GetRaceSetupCopy()->mMode == MODE_BATTLE) {
         usePlayerEntryList = TRUE;
     } else {
         usePlayerEntryList = FALSE;
@@ -765,7 +766,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
         sParts->mCellTable[24].mUseMatrix = sParts->mCellTable[25].mUseMatrix;
         sParts->mCellTable[25].mDoubleAffine = 0;
         sParts->mCellTable[24].mDoubleAffine = sParts->mCellTable[25].mDoubleAffine;
-    } else if (GetRaceSetupCopy()->mMode == 2) {
+    } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
         InitSelectRaceRuleWait(gSelectCharacter->mHeap, gSelectCharacter->mSubOam);
         SlideInSelectRaceRuleWait();
     }
@@ -958,17 +959,17 @@ int AdvanceSelectCharacter(void) {
             break;
         case SELECT_CHARACTER_STATE_PICK_FIXED:
             selectCharacter->mCharacterIndex = CHARACTER_HEYHO;
-            gSelectCharacter->mKartIndex = 0x24;
+            gSelectCharacter->mKartIndex = KART_INDEX_HEYHO;
             gSelectCharacter->mStateFrames = 0;
-            gSelectCharacter->mResult = 1;
-            if (GetRaceSetupCopy()->mMode == 3) {
+            gSelectCharacter->mResult = MENU_SCREEN_RESULT_NEXT;
+            if (GetRaceSetupCopy()->mMode == MODE_VS) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
                 if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
                 }
                 StartPlayerEntryListKindIfUsed(1);
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
-            } else if (GetRaceSetupCopy()->mMode == 2) {
+            } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
                 flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
                 if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                     gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
@@ -999,7 +1000,7 @@ int AdvanceSelectCharacter(void) {
                 }
             } else if (IsSelectCharacterModeAndTimerZero() != 0) {
                 gSelectCharacter->mStateFrames = 0;
-                gSelectCharacter->mResult = 3;
+                gSelectCharacter->mResult = SELECT_CHARACTER_RESULT_TIME_UP;
                 gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_OTHERS;
                 StartSeqPair(GetCharacterSeqPairNo(gSelectCharacter->mCharacterIndex), 0);
                 SetKartModelMenuSpinStopped(1);
@@ -1073,7 +1074,7 @@ int AdvanceSelectCharacter(void) {
             selectCharacterReload = gSelectCharacter;
             if (selectCharacterReload->mStateFrames > SELECT_CHARACTER_SETTLE_STEPS) {
                 selectCharacterReload->mStateFrames = 0;
-                gSelectCharacter->mResult = 1;
+                gSelectCharacter->mResult = MENU_SCREEN_RESULT_NEXT;
                 SetSelectCharacterBracketsResting();
                 selectCharacterReload = gSelectCharacter;
                 switch (selectCharacterReload->mMode) {
@@ -1083,7 +1084,7 @@ int AdvanceSelectCharacter(void) {
                         GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartIndex =
                             gSelectCharacter->mKartIndex;
                         FillRandomCharacterIndices();
-                        if (GetRaceSetupCopy()->mMode == 2) {
+                        if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
                             GetRaceSetupCopy()->mEntries[gSelectCharacter->mEntryIndex].mKartStored = 1;
                             SetKartModelMenuSpinStopped(1);
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
@@ -1098,7 +1099,7 @@ int AdvanceSelectCharacter(void) {
                         }
                         break;
                     case SELECT_CHARACTER_MODE_CONNECTION:
-                        if (GetRaceSetupCopy()->mMode == 3) {
+                        if (GetRaceSetupCopy()->mMode == MODE_VS) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0x40;
                             if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
@@ -1108,7 +1109,7 @@ int AdvanceSelectCharacter(void) {
                             StartPlayerEntryListKindIfUsed(1);
                             gSelectCharacter->mState = SELECT_CHARACTER_STATE_SCALE_OUT;
                             StartKartModelMenuTimedSpinStop();
-                        } else if (GetRaceSetupCopy()->mMode == 2) {
+                        } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
                             flaggedCharacterIndex = gSelectCharacter->mCharacterIndex | 0xc0;
                             if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
                                 gConnectionWork->mDataSharingSendByte = flaggedCharacterIndex;
@@ -1134,7 +1135,7 @@ int AdvanceSelectCharacter(void) {
                 if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_WIFI_SESSION) {
                     WriteWiFiSessionToRaceSetupCopy();
                 }
-                if (GetRaceSetupCopy()->mMode == 2 || IsSelectCharacterModeAndTimerZero() != 0) {
+                if (GetRaceSetupCopy()->mMode == MODE_BATTLE || IsSelectCharacterModeAndTimerZero() != 0) {
                     gSelectCharacter->mState = SELECT_CHARACTER_STATE_WAIT_HOLD;
                 } else {
                     StartPlayerEntryListKindIfUsed(1);
@@ -1155,7 +1156,7 @@ int AdvanceSelectCharacter(void) {
                 SetInterpolationStateIfOpposite(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_FALLING);
                 if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                     StartKartModelMenuBg0Decrease();
-                } else if (GetRaceSetupCopy()->mMode == 2) {
+                } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
                     SlideOutSelectRaceRuleWait();
                 }
                 gSelectCharacter->mStateFrames = 0;
@@ -1191,7 +1192,7 @@ int AdvanceSelectCharacter(void) {
     SetSelectCharacterCellOffsetsY(interpolatedValue, GetInterpolatedValue(&gSelectCharacter->mInterpolations[2]));
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         selectCharacterReload = gSelectCharacter;
-        if (selectCharacterReload->mResult != 2) {
+        if (selectCharacterReload->mResult != MENU_SCREEN_RESULT_BACK) {
             RequestKartModelMenuCharacter(selectCharacterReload->mCharacterIndex);
             RequestKartModelMenuKart(gSelectCharacter->mKartIndex);
         }
@@ -1207,26 +1208,26 @@ int AdvanceSelectCharacter(void) {
         DrawLayoutTableKeepMatrixCount(sParts->mCellLayout, sParts->mCells, NULL, gSelectCharacter->mSubOam,
                                        sParts->mCellTable);
         IncrementOamMatrixCount(gSelectCharacter->mSubOam);
-    } else if (GetRaceSetupCopy()->mMode == 2) {
+    } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
         AdvanceSelectRaceRuleWait();
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         DrawKartModelMenu();
     }
     switch (result) {
-        case 1:
-            if (GetRaceSetupCopy()->mMode == 2) {
-                GetRaceSetupCopy()->mEntryTransition = 0;
+        case MENU_SCREEN_RESULT_NEXT:
+            if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
+                GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FRESH;
             } else {
-                GetRaceSetupCopy()->mEntryTransition = 1;
+                GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FROM_CHARACTER;
             }
             break;
-        case 2:
+        case MENU_SCREEN_RESULT_BACK:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 RequestKartModelMenuCharacter(-1);
                 RequestKartModelMenuKart(-1);
             }
-            GetRaceSetupCopy()->mEntryTransition = 0;
+            GetRaceSetupCopy()->mEntryTransition = ENTRY_TRANSITION_FRESH;
             break;
     }
     return result;
@@ -1238,7 +1239,7 @@ int AdvanceSelectCharacter(void) {
 
 void ReleaseSelectCharacter(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        if (GetRaceSetupCopy()->mMode == 2) {
+        if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
             ClearSelectRaceRuleWaitPointer();
         }
     }
@@ -1250,7 +1251,8 @@ void WriteSelectCharacterRegisters(void) {
     u32 displayBits = 0x18;
 
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
-    if (!(gSelectCharacter->mState == SELECT_CHARACTER_STATE_DONE && gSelectCharacter->mResult == 2)) {
+    if (!(gSelectCharacter->mState == SELECT_CHARACTER_STATE_DONE &&
+          gSelectCharacter->mResult == MENU_SCREEN_RESULT_BACK)) {
         displayBits |= 1;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
