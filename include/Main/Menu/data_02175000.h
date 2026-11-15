@@ -296,6 +296,16 @@ typedef struct UnreadHalfwordGroups {
     /* 0e */ u16 mUnk_0e;
 } UnreadHalfwordGroups;
 
+// Values of RomArchiveMessage.mKind and RomArchiveParentViewEntry.mKind. The child sends REQUEST (word 04 and value 24
+// name the file part) and RELEASE (word 04 is the block id); the parent answers with REPLY (the block id, or value 24
+// of 0 to ask for a new sync) and RELEASE_REPLY.
+enum {
+    ROM_ARCHIVE_MESSAGE_REQUEST,
+    ROM_ARCHIVE_MESSAGE_REPLY,
+    ROM_ARCHIVE_MESSAGE_RELEASE,
+    ROM_ARCHIVE_MESSAGE_RELEASE_REPLY
+};
+
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.
 typedef struct RomArchiveParentViewEntry {

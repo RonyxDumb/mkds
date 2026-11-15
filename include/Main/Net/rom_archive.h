@@ -50,6 +50,9 @@ enum {
     ROM_ARCHIVE_NODE_FINISHED,
 };
 
+// RomArchiveFileNode.mLoadingBufferIndex while neither of the two buffers is being loaded.
+#define ROM_ARCHIVE_NODE_NO_BUFFER 2
+
 // Node of 0x8c0 bytes; StartRomArchiveParent chains eight of them from 0xc0 of the object at 0x440 of
 // gRomArchiveTransfer.
 typedef struct RomArchiveFileNode {

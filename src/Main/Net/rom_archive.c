@@ -250,7 +250,7 @@ void SendRomArchiveMessage(void) {
         if (value == 0) {
             return;
         }
-        sizeMessage.mKind = 1;
+        sizeMessage.mKind = ROM_ARCHIVE_MESSAGE_REPLY;
         sizeMessage.mValue24 = 0;
         sizeMessage.mWord04 = 0;
         sizeMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
@@ -301,11 +301,11 @@ void SendRomArchiveMessage(void) {
         return;
     }
     switch (firstEntry->mKind) {
-        case 0:
-            firstEntry->mKind = 1;
+        case ROM_ARCHIVE_MESSAGE_REQUEST:
+            firstEntry->mKind = ROM_ARCHIVE_MESSAGE_REPLY;
             break;
-        case 2:
-            firstEntry->mKind = 3;
+        case ROM_ARCHIVE_MESSAGE_RELEASE:
+            firstEntry->mKind = ROM_ARCHIVE_MESSAGE_RELEASE_REPLY;
             view->mRequestMask = view->mRequestMask & ~sendMask;
             break;
     }
@@ -428,7 +428,7 @@ void RequestRomArchiveBytes(FSFile *file) {
     gRomArchiveTransfer.mPendingFile = file;
     requestedLength = *(volatile s32 *) &file->mArg.p.mUnk_08;
     message.mWord04 = childView->mPositionOffset + file->mUnk_2c;
-    message.mKind = 0;
+    message.mKind = ROM_ARCHIVE_MESSAGE_REQUEST;
     message.mValue24 = requestedLength;
     message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
@@ -489,7 +489,7 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
         return;
     }
     switch (message->mKind) {
-        case 7:
+        case WIRELESS_STATE_LINKED:
             isParent = transfer->mIsParent;
             if (isParent == 0) {
                 return;
@@ -515,13 +515,13 @@ void RomArchivePortCallback(RomArchivePortMessage *message) {
                 WM_SetMPDataToPortEx(SendRomArchivePacket, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
             transfer->mSendAllowed = gRomArchiveTransfer.mSendPending == FALSE;
             return;
-        case 9:
+        case WIRELESS_STATE_UNLINKED:
             if (transfer->mIsParent == 0) {
                 return;
             }
             view->mActiveMask = view->mActiveMask & ~(1 << message->mFromIndex);
             return;
-        case 21:
+        case WIRELESS_STATE_PORT_DATA_ARRIVED:
             data = message->mData;
             dataLength = message->mDataLength;
             if (transfer->mIsParent != 0) {
@@ -574,7 +574,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
             payload = &record->mData;
             view->mEntries[fromIndex] = payload->mArchiveParentViewEntry;
             switch (record->mData.mArchiveMessage.mKind) {
-                case 0:
+                case ROM_ARCHIVE_MESSAGE_REQUEST:
                     fileLength = record->mData.mArchiveMessage.mValue24;
                     identifier =
                         (record->mData.mArchiveMessage.mPacketSizeHigh << 8) | payload->mArchiveMessage.mPacketSizeLow;
@@ -619,7 +619,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                     }
                     view->mRequestMask = view->mRequestMask | (1 << fromIndex);
                     return;
-                case 2:
+                case ROM_ARCHIVE_MESSAGE_RELEASE:
                     savedInterrupts = OS_DisableInterrupts();
                     view->mReplySendMask = view->mReplySendMask | (1 << fromIndex);
                     blockId = payload->mArchiveMessage.mWord04;
@@ -658,10 +658,10 @@ void RomArchiveParentCallback(WBTCommand *record) {
             ownPacketSize = commandData->mPrepareSendData.mOwnPacketSize;
             oldValue = node->mLastBlockId;
             requestedBlockId = commandData->mArchiveParentViewEntry.mBlockId;
-            if (node->mLoadingBufferIndex != 2) {
+            if (node->mLoadingBufferIndex != ROM_ARCHIVE_NODE_NO_BUFFER) {
                 statFlag = (node->mFile.mStat & 1) != 0 ? 1 : 0;
                 if (statFlag == 0) {
-                    node->mLoadingBufferIndex = 2;
+                    node->mLoadingBufferIndex = ROM_ARCHIVE_NODE_NO_BUFFER;
                 }
             }
             byteOffset = ownPacketSize * oldValue;
@@ -682,7 +682,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
                 commandData->mArchiveParentViewEntry.mUnk_08 = (node->mBuffers[value] + bufferDelta);
                 break;
             }
-            if (node->mLoadingBufferIndex != 2) {
+            if (node->mLoadingBufferIndex != ROM_ARCHIVE_NODE_NO_BUFFER) {
                 return;
             }
             byteOffset = ownPacketSize * requestedBlockId;
@@ -814,7 +814,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
                 return;
             }
             message.mWord04 = childView->mFileBlockId;
-            message.mKind = 2;
+            message.mKind = ROM_ARCHIVE_MESSAGE_RELEASE;
             message.mValue24 = 1;
             message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
             message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
@@ -829,7 +829,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             }
             received = &record->mData.mArchiveMessage;
             switch (received->mKind) {
-                case 1:
+                case ROM_ARCHIVE_MESSAGE_REPLY:
                     if (received->mValue24 == 0) {
                         WBT_RequestSync(1, RomArchiveChildCallback);
                         return;
@@ -840,7 +840,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
                                  gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_08, childView->mChunkBitmaps,
                                  RomArchiveChildCallback);
                     return;
-                case 3:
+                case ROM_ARCHIVE_MESSAGE_RELEASE_REPLY:
                     file = gRomArchiveTransfer.mPendingFile;
                     archive = file->mArc;
                     gRomArchiveTransfer.mPendingFile = NULL;
