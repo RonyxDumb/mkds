@@ -817,7 +817,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
             if (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) {
                 if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0) {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                        SetMissionRunTimer((u16) mapObject->mPrm->mKingTeresa.mTimerMax);
+                        SetMissionRunTimer(mapObject->mPrm->mKingTeresa.mTimerMax);
                     }
                 } else {
                     if (gRaceSetup->mMode == MODE_MISSION_RUN) {

@@ -600,7 +600,7 @@ u16 GetAbsoluteCounter(MissionRunMapObject *mapObject) {
     return counter & 0xffff;
 }
 
-void SetRepeatsRemaining(MissionRunMapObject *mapObject, s32 repeatsRemaining) {
+void SetRepeatsRemaining(MissionRunMapObject *mapObject, u16 repeatsRemaining) {
     mapObject->mRepeatsRemaining = repeatsRemaining;
 }
 

@@ -30,7 +30,7 @@ void AddMissionRunCountForKind7(void);
 s32 GetMissionRunBossCount(void);
 u32 GetMissionRunCountLimit(void);
 unsigned int GetMissionRunCount(void);
-void SetMissionRunTimer(unsigned int timer);
+void SetMissionRunTimer(u16 timer);
 s32 GetMissionRunTimer(void);
 void SetMissionRunTimerValues(u16 startTimer, u16 maxTimer, u16 countUpTimerAdd, u16 bossTransferTimerAdd);
 void UpdateMissionRunData(void);

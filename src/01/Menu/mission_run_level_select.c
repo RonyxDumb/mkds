@@ -135,7 +135,7 @@ s32 GetMissionRunLVselMinRecordValue(s16 levelIndex) {
     return result;
 }
 
-u32 IsMissionRunLVselLevelReached(int levelIndex) {
+u32 IsMissionRunLVselLevelReached(s16 levelIndex) {
     if (gMissionRunLVsel->mReachedLevel >= levelIndex) {
         return 1;
     }
@@ -161,7 +161,7 @@ void RefreshMissionRunLVselLevelCells(void) {
         gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][10]].mVisible = 0;
         gMissionRunLVsel->mMissionRunLVselS7Or6Table[layoutCount + gMissionRunLVselGradeLabelIndices[levelIndex]]
             .mVisible = 0;
-        if (IsMissionRunLVselLevelReached((s16) levelIndex)) {
+        if (IsMissionRunLVselLevelReached(levelIndex)) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][0]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][5]].mVisible = 1;
@@ -206,7 +206,7 @@ void UpdateMissionRunLVselHighlight(void) {
                 1;
         } else if (gMissionRunLVsel->mIndex == levelIndex) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mVisible = 1;
-        } else if (IsMissionRunLVselLevelReached((s16) levelIndex)) {
+        } else if (IsMissionRunLVselLevelReached(levelIndex)) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 1;
         } else if (levelIndex != 6) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;

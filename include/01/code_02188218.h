@@ -4,5 +4,5 @@
 
 typedef struct MissionRunMapObject MissionRunMapObject;
 
-void SetRepeatsRemaining(MissionRunMapObject *mapObject, s32 repeatsRemaining);
+void SetRepeatsRemaining(MissionRunMapObject *mapObject, u16 repeatsRemaining);
 unsigned short GetAbsoluteCounter(MissionRunMapObject *mapObject);

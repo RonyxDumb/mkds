@@ -170,7 +170,7 @@ void SetMissionRunMSselAllRecorded(void) {
     }
 }
 
-void FormatMissionRunMissionNumber(s32 missionIndex, u16 *text) {
+void FormatMissionRunMissionNumber(s16 missionIndex, u16 *text) {
     FormatAsciiNumber(GetMissionTableRow(), text);
     text[1] = 0x2d;
     FormatAsciiNumber(missionIndex + 1, text + 2);
@@ -208,12 +208,12 @@ void InitMissionRunMSselCells(void) {
             if (gMissionRunMSsel->mAllRecorded != 0) {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][1]].mVisible =
                     1;
-                QueueMissionRunBossIcon((s16) (GetMissionTableRow() - 1), 1, gMissionRunMSsel->mMissionRunMSselSNcer,
+                QueueMissionRunBossIcon(GetMissionTableRow() - 1, 1, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl, 0x2d, 8, 1);
             } else {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][4]].mVisible =
                     1;
-                QueueMissionRunBossIcon((s16) (GetMissionTableRow() - 1), 0, gMissionRunMSsel->mMissionRunMSselSNcer,
+                QueueMissionRunBossIcon(GetMissionTableRow() - 1, 0, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl, 0x2d, 8, 1);
             }
         } else {
@@ -266,7 +266,7 @@ void InitMissionRunMSselCells(void) {
         gMissionRunMSsel
             ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[missionIndex][1]]
             .mVisible = 1;
-        FormatMissionRunMissionNumber((s16) missionIndex, text);
+        FormatMissionRunMissionNumber(missionIndex, text);
         PrintLabelLayoutTextNoFixedAdvance(
             1, gMissionRunMSselLabelSTableIndices[missionIndex][1], gMissionRunMSsel->mMissionRunMSselSBnll, text,
             gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSTable);

@@ -137,7 +137,7 @@ void StartDonketuRepeatJumpAfterHitState(MissionRunMapObject *mapObject) {
 }
 
 void StartDonketuRepeatJumpsAfterHit(MissionRunMapObject *mapObject) {
-    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mDonketu.mHitRepeatJumpCount);
+    SetRepeatsRemaining(mapObject, mapObject->mPrm->mDonketu.mHitRepeatJumpCount);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpAfterHitState(mapObject);
 }
@@ -158,7 +158,7 @@ void StartDonketuRepeatJumpState(MissionRunMapObject *mapObject) {
 }
 
 void StartDonketuRepeatJumps(MissionRunMapObject *mapObject) {
-    SetRepeatsRemaining(mapObject, (u16) mapObject->mPrm->mDonketu.mRepeatJumpCount);
+    SetRepeatsRemaining(mapObject, mapObject->mPrm->mDonketu.mRepeatJumpCount);
     StopTurningMoveFollowsAngle(mapObject);
     StartDonketuRepeatJumpState(mapObject);
 }

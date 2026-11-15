@@ -31,7 +31,7 @@ void RefreshMissionRunMSselMCells(void);
 void UpdateMissionRunMSselIndexCells(void);
 void AdvanceMissionRunMSselPaletteBlend(void);
 void InitMissionRunMSselCells(void);
-void FormatMissionRunMissionNumber(s32 missionIndex, u16 *text);
+void FormatMissionRunMissionNumber(s16 missionIndex, u16 *text);
 void SetMissionRunMSselAllRecorded(void);
 void LocateAndQueueMissionRunMSsel(void);
 void LoadMissionRunMSselAndBossIconData(void);

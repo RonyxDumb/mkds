@@ -50,7 +50,7 @@ void ClearMissionRunBossIconPointer(void) {
     gMissionRunBossIcon = NULL;
 }
 
-void QueueMissionRunBossIcon(s32 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
+void QueueMissionRunBossIcon(s16 rowIndex, s32 usePaletteIndex, void *destCells, void *destCellLayout, u32 destIndex,
                              u16 paletteSlot, s32 queueSelector) {
     s32 transferKind = 14;
     MissionRunBossIcon *missionRunBossIcon;

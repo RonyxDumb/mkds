@@ -850,7 +850,7 @@ s32 AdvanceIwanteHandsStartFromPrm(MissionRunMapObject *mapObject) {
     SetAnglePointAndMoveAnglePoint(mapObject, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
     SetIwanteHandsPoints();
     if (IsStateNumberBelow(firstHand, 3) && IsStateNumberBelow(secondHand, 3)) {
-        SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mIwante.mHandsRepeatCount));
+        SetRepeatsRemaining(mapObject, mapObject->mPrm->mIwante.mHandsRepeatCount);
         StartIwanteHandsFallOrMoveToPoints(mapObject);
     }
     return 0;
@@ -1207,7 +1207,7 @@ void StartIwanteHandsToggleStateHold(MissionRunMapObject *mapObject) {
 }
 
 void StartIwanteHandsFromPrm(MissionRunMapObject *mapObject) {
-    SetRepeatsRemaining(mapObject, ((u16) mapObject->mPrm->mIwante.mHandsRepeatCount));
+    SetRepeatsRemaining(mapObject, mapObject->mPrm->mIwante.mHandsRepeatCount);
     StartIwanteHandsFallOrMoveToPoints(mapObject);
 }
 

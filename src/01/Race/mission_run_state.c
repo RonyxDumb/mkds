@@ -212,7 +212,7 @@ s32 GetMissionRunTimer(void) {
     return (gMissionRunData->mTimer);
 }
 
-void SetMissionRunTimer(u32 timer) {
+void SetMissionRunTimer(u16 timer) {
     gMissionRunData->mTimer = timer;
 }
 

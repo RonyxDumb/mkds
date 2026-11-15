@@ -23,7 +23,7 @@ void SetMissionTableToSelectedLevel(void);
 void RefreshMissionRunLVselReachedLevel(void);
 void UpdateMissionRunLVselHighlight(void);
 void RefreshMissionRunLVselLevelCells(void);
-u32 IsMissionRunLVselLevelReached(int levelIndex);
+u32 IsMissionRunLVselLevelReached(s16 levelIndex);
 s32 GetMissionRunLVselMinRecordValue(s16 levelIndex);
 void LocateAndQueueMissionRunLVsel(void);
 void LoadMissionRunLVselData(void);
