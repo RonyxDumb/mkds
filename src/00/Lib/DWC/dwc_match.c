@@ -3218,10 +3218,10 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server, u32 
     s32 serverProfileId;
     WiFiMatching *wiFiMatching;
     switch (event) {
-        case 0:
+        case sbc_serveradded:
             DWCi_SBPrintServerData(server);
             return;
-        case 4:
+        case sbc_updatecomplete:
             serverIndex = 0;
             if (ServerBrowserCount(list) > 0) {
                 do {
@@ -3318,7 +3318,7 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server, u32 
                     return;
             }
             return;
-        case 5:
+        case sbc_queryerror:
             break;
     }
 }
@@ -3381,29 +3381,29 @@ BOOL DWCi_EvaluateServers(s32 sort) {
 void DWCi_QR2ServerKeyCallback(s32 keyId, QueryBuffer *buffer, void *userdata) {
     s32 index;
     switch (keyId) {
-        case 8:
+        case NUMPLAYERS_KEY:
             qr2_buffer_add_int(buffer, gWiFiMatching->mNNCompletedCount);
             return;
-        case 0xa:
+        case MAXPLAYERS_KEY:
             qr2_buffer_add_int(buffer, gWiFiMatching->mNumEntry);
             return;
-        case 0x32:
+        case DWC_QR2_PID_KEY:
             qr2_buffer_add_int(buffer, gWiFiMatching->mOwnProfileId);
             return;
-        case 0x33:
+        case DWC_QR2_MATCH_TYPE_KEY:
             qr2_buffer_add_int(buffer, gWiFiMatching->mMode);
             return;
-        case 0x34:
+        case DWC_QR2_MATCH_RESV_KEY:
             qr2_buffer_add_int(buffer, gWiFiMatching->mMresvProfileId);
             return;
-        case 0x35:
-            qr2_buffer_add_int(buffer, 3);
+        case DWC_QR2_MATCH_VER_KEY:
+            qr2_buffer_add_int(buffer, DWC_MATCHING_VERSION);
             return;
-        case 0x36:
+        case DWC_QR2_MATCH_EVAL_KEY:
             qr2_buffer_add_int(buffer, 1);
             return;
     }
-    index = keyId - 100;
+    index = keyId - DWC_QR2_GAME_KEY_START;
     if (gMatchingKeys[index].mKeyId != 0) {
         if (gMatchingKeys[index].mIsString != 0) {
             qr2_buffer_addA(buffer, gMatchingKeys[index].mValue.mText);
@@ -3421,17 +3421,17 @@ void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata
     s32 keyIndex;
     MatchingKey *matchingKey;
     switch (keytype) {
-        case 0:
-            qr2_keybuffer_add(keyIds, 8);
-            qr2_keybuffer_add(keyIds, 0xa);
-            qr2_keybuffer_add(keyIds, 0x32);
-            qr2_keybuffer_add(keyIds, 0x33);
-            qr2_keybuffer_add(keyIds, 0x34);
-            qr2_keybuffer_add(keyIds, 0x35);
-            qr2_keybuffer_add(keyIds, 0x36);
+        case key_server:
+            qr2_keybuffer_add(keyIds, NUMPLAYERS_KEY);
+            qr2_keybuffer_add(keyIds, MAXPLAYERS_KEY);
+            qr2_keybuffer_add(keyIds, DWC_QR2_PID_KEY);
+            qr2_keybuffer_add(keyIds, DWC_QR2_MATCH_TYPE_KEY);
+            qr2_keybuffer_add(keyIds, DWC_QR2_MATCH_RESV_KEY);
+            qr2_keybuffer_add(keyIds, DWC_QR2_MATCH_VER_KEY);
+            qr2_keybuffer_add(keyIds, DWC_QR2_MATCH_EVAL_KEY);
             keyIndex = 0;
             matchingKey = gMatchingKeys;
-            for (; keyIndex < 0x9a; keyIndex++) {
+            for (; keyIndex < DWC_QR2_GAME_RESERVED_KEYS; keyIndex++) {
                 if (matchingKey->mKeyId != 0) {
                     qr2_keybuffer_add(keyIds, matchingKey->mKeyId);
                 }

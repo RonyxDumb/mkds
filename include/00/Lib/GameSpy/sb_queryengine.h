@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "00/Lib/GameSpy/sb_internal.h"
 
 typedef struct SbServer SbServer;
 typedef struct SBQueryEngine SBQueryEngine;

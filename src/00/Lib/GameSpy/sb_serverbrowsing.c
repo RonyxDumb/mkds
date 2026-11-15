@@ -50,51 +50,59 @@
 
 void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, MatchingServerList *matchingServerList) {
     switch (reason) {
-        case 0:
-            matchingServerList->mBrowserCallback(matchingServerList, 0, server, matchingServerList->mBrowserInstance);
-            if (((server->mStateFlags & 3) == 0 || (server->mStateFlags & 0x40) == 0) &&
-                (server->mStateFlags & 0x2c) == 0 && matchingServerList->mDontUpdate == 0) {
+        case slc_serveradded:
+            matchingServerList->mBrowserCallback(matchingServerList, sbc_serveradded, server,
+                                                 matchingServerList->mBrowserInstance);
+            if (((server->mStateFlags & (STATE_BASICKEYS | STATE_FULLKEYS)) == 0 ||
+                 (server->mStateFlags & STATE_VALIDPING) == 0) &&
+                (server->mStateFlags & (STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY | STATE_PENDINGICMPQUERY)) ==
+                    0 &&
+                matchingServerList->mDontUpdate == 0) {
                 s32 queryType;
-                if (server->mFlags & 1) {
+                if (server->mFlags & UNSOLICITED_UDP_FLAG) {
                     if (matchingServerList->mList.mState == SERVER_LIST_STATE_LOCAL_SCAN ||
                         matchingServerList->mEngine.mNumServerKeys == 0) {
-                        queryType = 1;
+                        queryType = QTYPE_FULL;
                     } else {
-                        queryType = 0;
+                        queryType = QTYPE_BASIC;
                     }
                 } else {
-                    queryType = 2;
+                    queryType = QTYPE_ICMP;
                 }
                 SBQueryEngineUpdateServer(&matchingServerList->mEngine, server, 0, queryType);
             }
             break;
-        case 1:
-            if ((server->mStateFlags & 0x43) == 0) {
-                matchingServerList->mBrowserCallback(matchingServerList, 2, server,
+        case slc_serverupdated:
+            if ((server->mStateFlags & (STATE_BASICKEYS | STATE_FULLKEYS | STATE_VALIDPING)) == 0) {
+                matchingServerList->mBrowserCallback(matchingServerList, sbc_serverupdatefailed, server,
                                                      matchingServerList->mBrowserInstance);
             } else {
-                matchingServerList->mBrowserCallback(matchingServerList, 1, server,
+                matchingServerList->mBrowserCallback(matchingServerList, sbc_serverupdated, server,
                                                      matchingServerList->mBrowserInstance);
             }
             break;
-        case 2:
-            if ((server->mStateFlags & 0x2c) != 0) {
+        case slc_serverdeleted:
+            if ((server->mStateFlags & (STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY | STATE_PENDINGICMPQUERY)) !=
+                0) {
                 SBQueryEngineRemoveServerFromFIFOs(matchingServerList, server);
             }
-            matchingServerList->mBrowserCallback(matchingServerList, 3, server, matchingServerList->mBrowserInstance);
+            matchingServerList->mBrowserCallback(matchingServerList, sbc_serverdeleted, server,
+                                                 matchingServerList->mBrowserInstance);
             break;
-        case 3:
+        case slc_initiallistcomplete:
             if (matchingServerList->mDisconnectFlag != 0) {
                 SBServerListDisconnect(browserList);
             }
             if (DarrayGetCount(browserList->mServers) == 0 || matchingServerList->mEngine.mQueryList.mCount == 0) {
-                matchingServerList->mBrowserCallback(matchingServerList, 4, 0, matchingServerList->mBrowserInstance);
+                matchingServerList->mBrowserCallback(matchingServerList, sbc_updatecomplete, 0,
+                                                     matchingServerList->mBrowserInstance);
             }
             break;
-        case 5:
-            matchingServerList->mBrowserCallback(matchingServerList, 5, 0, matchingServerList->mBrowserInstance);
+        case slc_queryerror:
+            matchingServerList->mBrowserCallback(matchingServerList, sbc_queryerror, 0,
+                                                 matchingServerList->mBrowserInstance);
             break;
-        case 6:
+        case slc_publicipdetermined:
             SBQueryEngineSetPublicIP(matchingServerList, matchingServerList->mList.mMyPublicIp);
             break;
     }
@@ -106,14 +114,17 @@ void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, Match
 
 void EngineCallback(void *engine, s32 reason, SbServer *server, MatchingServerList *matchingServerList) {
     switch (reason) {
-        case 1:
-            matchingServerList->mBrowserCallback(matchingServerList, 2, server, matchingServerList->mBrowserInstance);
+        case qe_updatefailed:
+            matchingServerList->mBrowserCallback(matchingServerList, sbc_serverupdatefailed, server,
+                                                 matchingServerList->mBrowserInstance);
             break;
-        case 0:
-            matchingServerList->mBrowserCallback(matchingServerList, 1, server, matchingServerList->mBrowserInstance);
+        case qe_updatesuccess:
+            matchingServerList->mBrowserCallback(matchingServerList, sbc_serverupdated, server,
+                                                 matchingServerList->mBrowserInstance);
             break;
-        case 2:
-            matchingServerList->mBrowserCallback(matchingServerList, 4, server, matchingServerList->mBrowserInstance);
+        case qe_engineidle:
+            matchingServerList->mBrowserCallback(matchingServerList, sbc_updatecomplete, server,
+                                                 matchingServerList->mBrowserInstance);
             break;
     }
     if (server != NULL && server->mPublicIp == matchingServerList->mTriggerIp &&

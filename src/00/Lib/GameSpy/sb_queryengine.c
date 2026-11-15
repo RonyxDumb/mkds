@@ -85,13 +85,13 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     FIFOAddRear(&engine->mQueryList, server);
     server->mPing = GetElapsedMilliseconds();
     address.mFamily = SOCKET_FAMILY_IPV4;
-    if ((server->mStateFlags & 0x20) == 0) {
+    if ((server->mStateFlags & STATE_PENDINGICMPQUERY) == 0) {
         if (engine->mQueryVersion == 1) {
-            query[0] = 0xfe;
-            query[1] = 0xfd;
+            query[0] = QR2_MAGIC_1;
+            query[1] = QR2_MAGIC_2;
             query[2] = 0;
             __memcpy(&query[3], &server->mPing, 4);
-            if ((server->mStateFlags & 4) != 0) {
+            if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
                 query[7] = engine->mNumServerKeys;
                 for (keyIndex = 0; keyIndex < engine->mNumServerKeys; keyIndex++) {
                     query[keyIndex + 8] = engine->mServerKeys[keyIndex];
@@ -105,14 +105,14 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
                 query[9] = 0xff;
                 queryLength = 10;
             }
-        } else if ((server->mStateFlags & 4) != 0) {
+        } else if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
             __memcpy(query, "\\basic\\\\info\\", 13);
             queryLength = 13;
         } else {
             __memcpy(query, "\\status\\", 8);
             queryLength = 8;
         }
-        if (server->mPublicIp == engine->mMyPublicIp && (server->mFlags & 2) != 0) {
+        if (server->mPublicIp == engine->mMyPublicIp && (server->mFlags & PRIVATE_IP_FLAG) != 0) {
             address.mAddress = server->mPrivateIp;
             address.mPort = server->mPrivatePort;
         } else {
@@ -159,11 +159,12 @@ void SBEngineCleanup(MatchingServerList *matchingServerList) {
 void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFront, s32 updateKind) {
     u8 *statePtr;
     statePtr = &server->mStateFlags;
-    server->mStateFlags &= 0xc3;
+    server->mStateFlags &=
+        (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY | STATE_PENDINGICMPQUERY | STATE_QUERYFAILED);
     if (updateKind == 0) {
-        *statePtr |= 4;
+        *statePtr |= STATE_PENDINGBASICQUERY;
     } else if (updateKind == 1) {
-        *statePtr |= 8;
+        *statePtr |= STATE_PENDINGFULLQUERY;
     } else if (updateKind == 2) {
         return;
     }
@@ -184,7 +185,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
     if (data[0] == 0) {
         data += 5;
         length -= 5;
-        if ((server->mStateFlags & 4) != 0) {
+        if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
             keyIndex = 0;
             if (engine->mNumServerKeys > 0) {
                 do {
@@ -198,15 +199,15 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
                     keyIndex++;
                 } while (keyIndex < engine->mNumServerKeys);
             }
-            server->mStateFlags |= 0x41;
+            server->mStateFlags |= STATE_BASICKEYS | STATE_VALIDPING;
         } else {
             SBServerParseQR2FullKeysSingle(server, data, length);
-            server->mStateFlags |= 0x43;
+            server->mStateFlags |= STATE_FULLKEYS | STATE_BASICKEYS | STATE_VALIDPING;
         }
-        server->mStateFlags &= 0xf3;
+        server->mStateFlags &= (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY);
         server->mPing = GetElapsedMilliseconds() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
-        engine->mListCallback(engine, 0, server, engine->mInstance);
+        engine->mListCallback(engine, qe_updatesuccess, server, engine->mInstance);
     }
 }
 
@@ -219,15 +220,15 @@ void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
     }
     SBServerParseKeyVals(server, data);
     if (isFinal != FALSE) {
-        if ((server->mStateFlags & 4) != 0) {
-            server->mStateFlags |= 0x41;
+        if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
+            server->mStateFlags |= STATE_BASICKEYS | STATE_VALIDPING;
         } else {
-            server->mStateFlags |= 0x42;
+            server->mStateFlags |= STATE_FULLKEYS | STATE_VALIDPING;
         }
-        server->mStateFlags &= 0xf3;
+        server->mStateFlags &= (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY);
         server->mPing = GetElapsedMilliseconds() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
-        engine->mListCallback(engine, 0, server, engine->mInstance);
+        engine->mListCallback(engine, qe_updatesuccess, server, engine->mInstance);
     }
 }
 
@@ -255,10 +256,11 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket) {
         }
         data[length] = 0;
         for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mNext) {
-            if ((probeSocket != 0 && (queryEntry->mFlags & 8) != 0 && queryEntry->mIcmpIp == address.mAddress) ||
+            if ((probeSocket != 0 && (queryEntry->mFlags & ICMP_IP_FLAG) != 0 &&
+                 queryEntry->mIcmpIp == address.mAddress) ||
                 (queryEntry->mPublicIp == address.mAddress &&
                  (queryEntry->mPublicPort == address.mPort || probeSocket != 0)) ||
-                (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & 2) != 0 &&
+                (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & PRIVATE_IP_FLAG) != 0 &&
                  queryEntry->mPrivateIp == address.mAddress && queryEntry->mPrivatePort == address.mPort)) {
                 if (probeSocket != 0) {
                     if (ParseSingleICMPReply(engine, queryEntry, data, length) != 0) {
@@ -283,13 +285,14 @@ void TimeoutOldQueries(SBQueryEngine *engine) {
     currentTime = GetElapsedMilliseconds();
     server = engine->mQueryList.mFirst;
     while (server != NULL) {
-        if (currentTime <= server->mPing + 0x9c4) {
+        if (currentTime <= server->mPing + MAX_QUERY_MSEC) {
             break;
         }
-        server->mFlags |= 0x10;
-        engine->mQueryList.mFirst->mPing = 0x9c4;
-        engine->mQueryList.mFirst->mFlags &= 0xd3;
-        engine->mListCallback(engine, 1, engine->mQueryList.mFirst, engine->mInstance);
+        server->mFlags |= STATE_QUERYFAILED;
+        engine->mQueryList.mFirst->mPing = MAX_QUERY_MSEC;
+        engine->mQueryList.mFirst->mFlags &=
+            (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY | STATE_PENDINGICMPQUERY);
+        engine->mListCallback(engine, qe_updatefailed, engine->mQueryList.mFirst, engine->mInstance);
         FIFOGetFirst(&engine->mQueryList);
         server = engine->mQueryList.mFirst;
     }
@@ -311,7 +314,8 @@ void SBQueryEngineThink(MatchingServerList *matchingServerList) {
             QueueNextQueries(&matchingServerList->mEngine);
         }
         if (matchingServerList->mEngine.mQueryList.mCount == 0) {
-            matchingServerList->mEngine.mListCallback(matchingServerList, 2, 0, matchingServerList->mEngine.mInstance);
+            matchingServerList->mEngine.mListCallback(matchingServerList, qe_engineidle, 0,
+                                                      matchingServerList->mEngine.mInstance);
         }
     }
 }

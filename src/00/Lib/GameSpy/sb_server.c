@@ -171,7 +171,7 @@ u16 SBServerGetPublicQueryPortNBO(SbServer *server) {
 }
 
 BOOL SBServerHasPrivateAddress(SbServer *server) {
-    if ((server->mFlags & 2) == 2) {
+    if ((server->mFlags & PRIVATE_IP_FLAG) == PRIVATE_IP_FLAG) {
         return 1;
     }
     return 0;
