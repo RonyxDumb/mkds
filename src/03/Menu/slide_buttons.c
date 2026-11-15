@@ -125,7 +125,7 @@ void AdvanceSlideButtonsWait(TaskEntry *task, void *arg) {
 
     gSlideButtons->mButtonResult = -1;
     gSlideButtons->mStepFrames = gSlideButtons->mStepFrames + 1;
-    if (gSlideButtons->mStepFrames >= 4) {
+    if (gSlideButtons->mStepFrames >= SLIDE_BUTTONS_WAIT_FRAMES) {
         gSlideButtons->mStepFrames = resetFrames;
         SetTaskCallback(task, AdvanceButtonTouch);
     }
@@ -205,7 +205,7 @@ void AdvanceButtonReset(TaskEntry *task, void *arg) {
 
     slideButtons = gSlideButtons;
     slideButtons->mStepFrames = slideButtons->mStepFrames + 1;
-    if (gSlideButtons->mStepFrames >= 0x10) {
+    if (gSlideButtons->mStepFrames >= SLIDE_BUTTONS_RESET_WAIT_FRAMES) {
         slideButtons = gSlideButtons;
         buttonCount = gSlideButtonCounts[slideButtons->mKind];
         for (buttonIndex = 0; buttonIndex < buttonCount; buttonIndex++) {

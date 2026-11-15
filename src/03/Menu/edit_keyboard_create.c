@@ -57,7 +57,7 @@ void CreateEditKeyboard(void) {
     textRect[3] = gEditKeyboardKeySize[0][1];
     keyboard = AllocZeroedExpHeapBlock(0x128, 4);
     gEditKeyboard = keyboard;
-    keyboard->mInput = 0xff;
+    keyboard->mInput = EDIT_KEYBOARD_INPUT_NOT_READY;
     gEditKeyboard->mCursorKeyIndex = 0;
     gEditKeyboard->mRemoveCharEnabled = 1;
     gEditKeyboard->mAddCharEnabled = 1;

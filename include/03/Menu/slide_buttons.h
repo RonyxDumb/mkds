@@ -5,6 +5,10 @@
 #include "03/System/tasks.h"
 #include "03/code_021be610.h"
 
+// Frames the slide buttons wait before they take touch input, and frames the button reset waits.
+#define SLIDE_BUTTONS_WAIT_FRAMES 4
+#define SLIDE_BUTTONS_RESET_WAIT_FRAMES 0x10
+
 typedef struct SlideButtons {
     /* 00 */ OamRange *mButtons[2];
     /* 08 */ OamRange *mSlideRange;

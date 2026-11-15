@@ -778,7 +778,7 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
     for (charIndex = 0; charIndex < shownLength; charIndex++) {
         character = bytes[charIndex];
         if (character == 0x20) {
-            text[charIndex] = 0xe01d;
+            text[charIndex] = EDIT_TEXT_GLYPH_SPACE;
         } else {
             text[charIndex] = character;
         }
@@ -794,7 +794,7 @@ void PrintJb3ListEntryString(const u8 *bytes, int row) {
         for (charIndex = 0; charIndex < secondLineLength; charIndex++) {
             character = bytes[charIndex + 0x10];
             if (character == 0x20) {
-                text[charIndex] = 0xe01d;
+                text[charIndex] = EDIT_TEXT_GLYPH_SPACE;
             } else {
                 text[charIndex] = character;
             }

@@ -76,7 +76,7 @@ void AdvanceMessageBoxSlideIn(TaskEntry *task, void *arg) {
         return;
     }
     PlaceMessageBox(gMessageBoxPositions[gMessageBox->mKind][1]);
-    if (gMessageBox->mKind == 5) {
+    if (gMessageBox->mKind == MESSAGE_BOX_KIND_TIMED) {
         gMessageBox->mTask = AddTask(0, AdvanceMessageBoxTimed, NULL, 0x78);
     } else {
         gMessageBox->mTask = AddTask(0, AdvanceMessageBoxInput, NULL, 0x78);
@@ -116,7 +116,7 @@ void AdvanceMessageBoxInput(TaskEntry *task, void *arg) {
 void AdvanceMessageBoxTimed(TaskEntry *task, void *arg) {
     gMessageBox->mResult = -1;
     gMessageBox->mTimedFrames++;
-    if (gMessageBox->mTimedFrames >= 0x78) {
+    if (gMessageBox->mTimedFrames >= MESSAGE_BOX_TIMED_FRAMES) {
         RequestTaskRemoval(0, task);
         gMessageBox->mTask = AddTask(1, AdvanceMessageBoxCloseWait, NULL, 0x78);
     }
@@ -191,7 +191,7 @@ void ShowMessageBoxButtonPressed(s32 buttonIndex) {
 
 void AdvanceMessageBoxCloseWait(TaskEntry *taskEntry, void *arg) {
     gMessageBox->mCloseWaitFrames++;
-    if (gMessageBox->mCloseWaitFrames >= 8) {
+    if (gMessageBox->mCloseWaitFrames >= MESSAGE_BOX_CLOSE_WAIT_FRAMES) {
         SetTaskCallback(taskEntry, AdvanceMessageBoxSlideOut);
     }
 }

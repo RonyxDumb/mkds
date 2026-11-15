@@ -88,7 +88,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
                 return;
             }
             gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][keyIndex];
-            if (gEditKeyboard->mPage == 1) {
+            if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
                 ChangeEditKeyboardPage(0);
             }
             gEditKeyboard->mCursorKeyIndex = keyIndex;
@@ -106,7 +106,7 @@ void AdvanceEditKeyboardTouchReleased(void) {
                 return;
             }
             gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[extraKeyIndex];
-            if (gEditKeyboard->mPage == 1) {
+            if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
                 ChangeEditKeyboardPage(0);
             }
             gEditKeyboard->mCursorKeyIndex = extraKeyIndex + 0x2f;
@@ -128,31 +128,31 @@ void AdvanceEditKeyboardTouchReleased(void) {
     }
     ComputeRectFromOriginAndSize(gEditKeyboardExtraKeyPositions[0], gEditKeyboardExtraKeySizes[0], &keyRect);
     if (IsTouchReleasedInRect(&keyRect) != 0) {
-        if (gEditKeyboard->mPressedKeyIndex != 0x2f) {
+        if (gEditKeyboard->mPressedKeyIndex != EDIT_KEY_PAGE2_TOGGLE) {
             return;
         }
         ToggleEditKeyboardPage2();
-        gEditKeyboard->mCursorKeyIndex = 0x2f;
+        gEditKeyboard->mCursorKeyIndex = EDIT_KEY_PAGE2_TOGGLE;
         PlaceEditKeyboardCursor();
         return;
     }
     ComputeRectFromOriginAndSize(gEditKeyboardPage1KeyPosition[0], gEditKeyboardPage1KeySize[0], &keyRect);
     if (IsTouchReleasedInRect(&keyRect) != 0) {
-        if (gEditKeyboard->mPressedKeyIndex != 0x30) {
+        if (gEditKeyboard->mPressedKeyIndex != EDIT_KEY_PAGE1_TOGGLE) {
             return;
         }
         ToggleEditKeyboardPage1();
-        gEditKeyboard->mCursorKeyIndex = 0x30;
+        gEditKeyboard->mCursorKeyIndex = EDIT_KEY_PAGE1_TOGGLE;
         PlaceEditKeyboardCursor();
     }
 }
 
 void ToggleEditKeyboardPage2(void) {
     u32 page;
-    if (gEditKeyboard->mPage == 2) {
-        page = 0;
+    if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE2) {
+        page = EDIT_KEYBOARD_PAGE_MAIN;
     } else {
-        page = 2;
+        page = EDIT_KEYBOARD_PAGE2;
     }
     ChangeEditKeyboardPage(page);
     StartSoundSeq(1);
@@ -191,13 +191,13 @@ void AdvanceEditKeyboardTouchDown(void) {
             ChangeEditKeyboardHighlight(extraKeyIndex + 0x2f);
             if (extraKeyIndex == 3) {
                 gEditKeyboard->mRepeatCalls++;
-                if (gEditKeyboard->mRepeatCalls >= 0x28) {
+                if (gEditKeyboard->mRepeatCalls >= EDIT_KEYBOARD_REPEAT_DELAY_CALLS) {
                     if (gEditKeyboard->mRemoveCharEnabled == 0) {
                         StartSoundSeq(9);
                         gEditKeyboard->mPressedKeyIndex = -1;
                         return;
                     }
-                    gEditKeyboard->mInput = 0x80;
+                    gEditKeyboard->mInput = EDIT_KEYBOARD_INPUT_REMOVE_CHAR;
                     gEditKeyboard->mRepeatCalls -= 7;
                     return;
                 }

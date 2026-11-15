@@ -348,7 +348,7 @@ void AdvanceEditAddrKeyboardTouchDown(void) {
                 goto label_2;
             }
             gEditAddrKeyboard->mRepeatCalls = gEditAddrKeyboard->mRepeatCalls + 1;
-            if (gEditAddrKeyboard->mRepeatCalls >= 0x28) {
+            if (gEditAddrKeyboard->mRepeatCalls >= EDIT_KEYBOARD_REPEAT_DELAY_CALLS) {
                 if (gEditAddrKeyboard->mRemoveCharEnabled == 0) {
                     StartSoundSeq(9);
                     gEditAddrKeyboard->mPressedKeyIndex = -1;
@@ -504,7 +504,7 @@ void SetEditAddrKeyboardKeyHighlight(int keyIndex, int highlight) {
 
 void PlaceEditAddrKeyboardCursor(void) {
     int imageIndex;
-    if (gEditAddrKeyboard->mCursorKeyIndex <= 11) {
+    if (gEditAddrKeyboard->mCursorKeyIndex <= EDIT_ADDR_KEY_NEXT_GROUP) {
         imageIndex = 0x44;
     } else {
         imageIndex = 0x45;
@@ -522,19 +522,21 @@ void MoveEditAddrKeyboardCursor(u32 direction) {
     previousKeyIndex = gEditAddrKeyboard->mCursorKeyIndex;
     gEditAddrKeyboard->mCursorKeyIndex = (gEditAddrKeyboardCursorMoves + previousKeyIndex * 4)[direction];
     nextKeyIndex = gEditAddrKeyboard->mCursorKeyIndex;
-    if (nextKeyIndex == 0xd && (direction == 1 || direction == 3)) {
+    if (nextKeyIndex == EDIT_ADDR_KEY_OK && (direction == 1 || direction == 3)) {
         gEditAddrKeyboard->mPreviousKeyIndex = previousKeyIndex;
     } else if (nextKeyIndex == -1) {
-        if (gEditAddrKeyboard->mPreviousKeyIndex == 1 || gEditAddrKeyboard->mPreviousKeyIndex == 10) {
-            gEditAddrKeyboard->mCursorKeyIndex = 10;
+        if (gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_TOP_MIDDLE ||
+            gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_REMOVE) {
+            gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_REMOVE;
         } else {
-            gEditAddrKeyboard->mCursorKeyIndex = 11;
+            gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_NEXT_GROUP;
         }
     } else if (nextKeyIndex == -2) {
-        if (gEditAddrKeyboard->mPreviousKeyIndex == 1 || gEditAddrKeyboard->mPreviousKeyIndex == 10) {
-            gEditAddrKeyboard->mCursorKeyIndex = 1;
+        if (gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_TOP_MIDDLE ||
+            gEditAddrKeyboard->mPreviousKeyIndex == EDIT_ADDR_KEY_REMOVE) {
+            gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_TOP_MIDDLE;
         } else {
-            gEditAddrKeyboard->mCursorKeyIndex = 2;
+            gEditAddrKeyboard->mCursorKeyIndex = EDIT_ADDR_KEY_TOP_RIGHT;
         }
     }
     PlaceEditAddrKeyboardCursor();

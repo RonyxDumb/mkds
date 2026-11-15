@@ -68,7 +68,7 @@ void CreateEditAddr(void) {
     textFuncs.mUnk_00[secondaryPairFirst](gEditAddr->mText);
     editAddr = gEditAddr;
     if (memcmp(editAddr->mText, "  0", 3) != 0) {
-        editAddr->mGroupIndex = 3;
+        editAddr->mGroupIndex = EDIT_ADDR_LAST_GROUP;
     } else {
         MI_CpuFill8(editAddr->mText, 0, 0xc);
         gEditAddr->mGroupIndex = 0;
@@ -189,9 +189,9 @@ void UpdateEditAddrInput(void) {
     u8 groupIndex;
     keyboardInput = GetEditAddrKeyboardInput();
     switch (keyboardInput) {
-        case 0:
+        case EDIT_ADDR_KEYBOARD_INPUT_NONE:
             return;
-        case 0x10:
+        case EDIT_ADDR_KEYBOARD_INPUT_REMOVE_CHAR:
             if (gEditAddr->mGroupIndex == 0 && gEditAddr->mText[2] == 0) {
                 break;
             }
@@ -206,7 +206,7 @@ void UpdateEditAddrInput(void) {
             SetEditAddrKeyboardAddCharEnabled(1);
             SetEditAddrKeyboardNextGroupEnabled(0);
             break;
-        case 0x11:
+        case EDIT_ADDR_KEYBOARD_INPUT_NEXT_GROUP:
             groupIndex = gEditAddr->mGroupIndex;
             if (groupIndex >= 3) {
                 break;
@@ -218,12 +218,12 @@ void UpdateEditAddrInput(void) {
             gEditAddr->mGroupIndex = gEditAddr->mGroupIndex + 1;
             SetEditAddrKeyboardNextGroupEnabled(0);
             break;
-        case 0x12:
+        case EDIT_ADDR_KEYBOARD_INPUT_CANCEL:
             gEditAddr->mResult = EDIT_RESULT_CANCELED;
             StartSoundSeq(7);
             SetUpdateFunction(StartEditAddrClose);
             return;
-        case 0x13:
+        case EDIT_ADDR_KEYBOARD_INPUT_OK:
             if (IsEditAddrTextValid() != FALSE) {
                 StartSoundSeq(6);
                 gEditAddr->mResult = EDIT_RESULT_CONFIRMED;
@@ -231,7 +231,7 @@ void UpdateEditAddrInput(void) {
                 gEditAddr->mResult = EDIT_RESULT_INVALID;
                 StartSoundSeq(9);
             }
-            gEditAddr->mGroupIndex = 3;
+            gEditAddr->mGroupIndex = EDIT_ADDR_LAST_GROUP;
             gEditAddr->mOamEntry->mAttr01 =
                 (gEditAddr->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
             PlaceEditAddrGroupOam();
@@ -239,7 +239,7 @@ void UpdateEditAddrInput(void) {
             SetUpdateFunction(StartEditAddrClose);
             return;
         default:
-            if (gEditAddr->mGroupIndex == 3) {
+            if (gEditAddr->mGroupIndex == EDIT_ADDR_LAST_GROUP) {
                 if (IsEditAddrGroupFull(0x1a) != 0) {
                     break;
                 }
@@ -255,7 +255,7 @@ void UpdateEditAddrInput(void) {
                 text[groupOffset + 2] = keyboardInput;
                 if (IsEditAddrGroupFull(0x1a) != 0) {
                     editAddr = gEditAddr;
-                    if (editAddr->mGroupIndex < 3) {
+                    if (editAddr->mGroupIndex < EDIT_ADDR_LAST_GROUP) {
                         editAddr->mGroupIndex = editAddr->mGroupIndex + 1;
                     }
                 }
@@ -263,17 +263,17 @@ void UpdateEditAddrInput(void) {
                 text[groupOffset] = text[groupOffset + 1];
                 text[groupOffset + 1] = text[groupOffset + 2];
                 text[groupOffset + 2] = keyboardInput;
-                if ((*editAddrPointer)->mGroupIndex < 3) {
+                if ((*editAddrPointer)->mGroupIndex < EDIT_ADDR_LAST_GROUP) {
                     (*editAddrPointer)->mGroupIndex = (*editAddrPointer)->mGroupIndex + 1;
                 }
             }
             SetEditAddrKeyboardRemoveCharEnabled(1);
-            if (gEditAddr->mGroupIndex < 3) {
+            if (gEditAddr->mGroupIndex < EDIT_ADDR_LAST_GROUP) {
                 SetEditAddrKeyboardNextGroupEnabled(1);
             } else {
                 SetEditAddrKeyboardNextGroupEnabled(0);
             }
-            if (gEditAddr->mGroupIndex == 3) {
+            if (gEditAddr->mGroupIndex == EDIT_ADDR_LAST_GROUP) {
                 if (IsEditAddrGroupFull(0x1a) != 0) {
                     SetEditAddrKeyboardAddCharEnabled(0);
                 }

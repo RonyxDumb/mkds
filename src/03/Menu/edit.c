@@ -1,4 +1,5 @@
 #include "03/Menu/edit.h"
+#include "03/Net/exchange_essid.h"
 #include "03/code_021c6764.h"
 #include "03/Menu/message_box_create.h"
 #include "03/types_021d299c.h"
@@ -169,7 +170,7 @@ void UpdateEditInput(void) {
     Edit *edit;
     keyboardInput = GetEditKeyboardInput();
     switch (keyboardInput) {
-        case 0x80:
+        case EDIT_KEYBOARD_INPUT_REMOVE_CHAR:
             edit = gEdit;
             if (edit->mCharCount != 0) {
                 StartSoundSeq(3);
@@ -183,12 +184,12 @@ void UpdateEditInput(void) {
                 SetEditKeyboardAddCharEnabled(1);
             }
             break;
-        case 0x82:
+        case EDIT_KEYBOARD_INPUT_CANCEL:
             StartSoundSeq(7);
             gEdit->mResult = EDIT_RESULT_CANCELED;
             SetUpdateFunction(StartEditClose);
             return;
-        case 0x83:
+        case EDIT_KEYBOARD_INPUT_OK:
             if (IsEditTextValid() != FALSE) {
                 StartSoundSeq(6);
                 gEdit->mResult = EDIT_RESULT_CONFIRMED;
@@ -202,17 +203,17 @@ void UpdateEditInput(void) {
             return;
         case 0:
             break;
-        case 0xe01d:
+        case EDIT_TEXT_GLYPH_SPACE:
         default:
             edit = gEdit;
-            if (edit->mCharCount != 0x20) {
+            if (edit->mCharCount != EDIT_TEXT_MAX_CHARS) {
                 StartSoundSeq(1);
                 edit = gEdit;
                 edit->mText[edit->mCharCount] = keyboardInput;
                 edit = gEdit;
                 edit->mCharCount = edit->mCharCount + 1;
                 SetEditKeyboardRemoveCharEnabled(1);
-                if (gEdit->mCharCount == 0x20) {
+                if (gEdit->mCharCount == EDIT_TEXT_MAX_CHARS) {
                     SetEditKeyboardAddCharEnabled(0);
                 }
             }
@@ -304,7 +305,7 @@ void PrintEditText(void) {
         }
         edit = gEdit;
         if (edit->mText[charIndex] == 0x20) {
-            charText[0] = 0xe01d;
+            charText[0] = EDIT_TEXT_GLYPH_SPACE;
         } else {
             charText[0] = edit->mText[charIndex];
         }
@@ -385,13 +386,13 @@ BOOL IsEditTextValid(void) {
     textLength = GetStringLengthWithLimit(gEdit->mText, 0x20);
     switch (textLength) {
         case 0:
-        case 5:
-        case 0xd:
-        case 0x10:
+        case sizeof(WepKey5):
+        case sizeof(WepKey13):
+        case sizeof(WepKey16):
             return TRUE;
-        case 0xa:
-        case 0x1a:
-        case 0x20:
+        case sizeof(WepKey5) * 2:
+        case sizeof(WepKey13) * 2:
+        case sizeof(WepKey16) * 2:
             for (charIndex = 0; charIndex < textLength; charIndex++) {
                 u8 charValue = gEdit->mText[charIndex];
                 if (!((charValue >= '0' && charValue <= '9') || (charValue >= 'A' && charValue <= 'F') ||

@@ -61,6 +61,18 @@ enum {
     EDIT_KEY_BOTTOM_LEFT,
     EDIT_KEY_BOTTOM_RIGHT,
 };
+// Values of EditKeyboard.mPage, and of EditKeyboard.mInput besides the characters (NOT_READY until the keyboard slid
+// in), the number of calls a held remove key waits before it repeats, the text glyph of a space and the longest text.
+#define EDIT_KEYBOARD_PAGE_MAIN 0
+#define EDIT_KEYBOARD_PAGE1 1
+#define EDIT_KEYBOARD_PAGE2 2
+#define EDIT_KEYBOARD_INPUT_REMOVE_CHAR 0x80
+#define EDIT_KEYBOARD_INPUT_CANCEL 0x82
+#define EDIT_KEYBOARD_INPUT_OK 0x83
+#define EDIT_KEYBOARD_INPUT_NOT_READY 0xff
+#define EDIT_KEYBOARD_REPEAT_DELAY_CALLS 0x28
+#define EDIT_TEXT_GLYPH_SPACE 0xe01d
+#define EDIT_TEXT_MAX_CHARS 0x20
 // Values the cursor move table holds in place of a key index.
 enum {
     EDIT_KEY_UP_FROM_LAST_GRID_KEY = -1,

@@ -71,7 +71,7 @@ void WriteWinInOutBits(int screen, int selector, u32 bits, int extraBitFlag) {
     u32 registerValue;
 
     switch (selector) {
-        case 0:
+        case WIN_SELECTOR_WIN0_IN:
             if (screen == 1) {
                 registerValue = reg_G2S_DB_WININ;
                 registerValue = (registerValue & ~0x3f) | bits;
@@ -88,7 +88,7 @@ void WriteWinInOutBits(int screen, int selector, u32 bits, int extraBitFlag) {
                 reg_G2_WININ = registerValue;
             }
             break;
-        case 1:
+        case WIN_SELECTOR_WIN1_IN:
             if (screen == 1) {
                 registerValue = (reg_G2S_DB_WININ & ~REG_G2S_DB_WININ_WIN1IN_MASK) | (bits << 8);
                 if (extraBitFlag != 0) {
@@ -103,7 +103,7 @@ void WriteWinInOutBits(int screen, int selector, u32 bits, int extraBitFlag) {
                 reg_G2_WININ = registerValue;
             }
             break;
-        case 2:
+        case WIN_SELECTOR_OBJ_WIN_IN:
             if (screen == 1) {
                 registerValue = (reg_G2S_DB_WINOUT & ~REG_G2S_DB_WINOUT_OBJWININ_MASK) | (bits << 8);
                 if (extraBitFlag != 0) {
@@ -118,7 +118,7 @@ void WriteWinInOutBits(int screen, int selector, u32 bits, int extraBitFlag) {
                 reg_G2_WINOUT = registerValue;
             }
             break;
-        case 3:
+        case WIN_SELECTOR_OUTSIDE:
             if (screen == 1) {
                 registerValue = reg_G2S_DB_WINOUT;
                 registerValue = (registerValue & ~0x3f) | bits;

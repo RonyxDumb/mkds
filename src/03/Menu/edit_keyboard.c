@@ -107,33 +107,33 @@ void UpdateEditKeyboardPad(void) {
                 return;
             }
             gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][cursorKeyIndex];
-            if (gEditKeyboard->mPage == 1) {
+            if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
                 ChangeEditKeyboardPage(0);
             }
             return;
         }
         if (cursorKeyIndex - EDIT_KEY_MAIN_COUNT < 4) {
             switch (cursorKeyIndex - EDIT_KEY_MAIN_COUNT) {
-                case 0:
+                case EDIT_KEY_PAGE2_TOGGLE - EDIT_KEY_MAIN_COUNT:
                     ToggleEditKeyboardPage2();
                     return;
-                case 1:
+                case EDIT_KEY_PAGE1_TOGGLE - EDIT_KEY_MAIN_COUNT:
                     ToggleEditKeyboardPage1();
                     return;
-                case 2:
+                case EDIT_KEY_SPACE - EDIT_KEY_MAIN_COUNT:
                     if (gEditKeyboard->mAddCharEnabled == 0) {
                         StartSoundSeq(9);
                         return;
                     }
                     break;
-                case 3:
+                case EDIT_KEY_REMOVE - EDIT_KEY_MAIN_COUNT:
                     if (gEditKeyboard->mRemoveCharEnabled == 0) {
                         StartSoundSeq(9);
                         return;
                     }
                     break;
             }
-            if (gEditKeyboard->mPage == 1) {
+            if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
                 ChangeEditKeyboardPage(0);
             }
             gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[cursorKeyIndex - EDIT_KEY_MAIN_COUNT];
@@ -150,7 +150,7 @@ void UpdateEditKeyboardPad(void) {
             gEditKeyboard->mRemoveDisabledSoundPlayed = 1;
             return;
         }
-        gEditKeyboard->mInput = 0x80;
+        gEditKeyboard->mInput = EDIT_KEYBOARD_INPUT_REMOVE_CHAR;
     } else if (AreKeysReleased(2) != 0) {
         gEditKeyboard->mRemoveDisabledSoundPlayed = 0;
     }

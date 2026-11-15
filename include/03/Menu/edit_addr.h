@@ -6,6 +6,9 @@
 typedef struct BgTextCanvas BgTextCanvas;
 typedef struct OamEntry OamEntry;
 
+// Index of the last of the four three-digit groups of the address text.
+#define EDIT_ADDR_LAST_GROUP 3
+
 typedef struct EditAddr {
     /* 00 */ BgTextCanvas *mBgTextCanvas;
     /* 04 */ OamEntry *mOamEntry;
