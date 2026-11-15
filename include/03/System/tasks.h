@@ -4,6 +4,9 @@
 
 typedef struct PointerStack PointerStack;
 
+// The task functions take the entry, its argument or nothing, so the type is left unprototyped.
+typedef void (*TaskCallback)();
+
 typedef struct TaskEntry {
     /* 00 */ struct TaskEntry *mPrev;
     /* 04 */ struct TaskEntry *mNext;
@@ -27,7 +30,7 @@ typedef struct TaskList {
 void RemoveTaskEntry(int listIndex, TaskEntry *entry);
 void RemoveTaskEntryWrapper(u32 listIndex, u32 entry);
 void RequestTaskRemoval(u32 listIndex, u32 entry);
-void SetTaskCallback(TaskEntry *taskEntry, UnkFunc *function);
+void SetTaskCallback(TaskEntry *taskEntry, TaskCallback function);
 TaskEntry *AddTaskEx(u32 listIndex, void (*function)(TaskEntry *listIndex, u32 function), u32 arg, u32 priority,
                      u8 freesArg);
 unsigned int AddTask(unsigned int listIndex, void *function, void *arg, unsigned int priority);

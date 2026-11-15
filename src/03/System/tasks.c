@@ -104,7 +104,7 @@ TaskEntry *AddTaskEx(u32 listIndex, void (*function)(TaskEntry *listIndex, u32 f
     return entry;
 }
 
-void SetTaskCallback(TaskEntry *taskEntry, UnkFunc *function) {
+void SetTaskCallback(TaskEntry *taskEntry, TaskCallback function) {
     taskEntry->mCallback = function;
 }
 

@@ -93,7 +93,3 @@ typedef struct Vec4 {
     /* 8 */ s32 z;
     /* c */ s32 w;
 } Vec4;
-
-// Function types for calls through pointers whose target isn't known.
-typedef void UnkFunc();
-typedef u32 UnkWordFunc();
