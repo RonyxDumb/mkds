@@ -92,7 +92,7 @@ void LocateAndQueueOptionHensyuMenu(void) {
                                        gOptionHensyuMenu->mOptionHensyuMenuSONclr->mDataSize);
 }
 
-void AdvanceOptionHensyuMenuState0(void) {
+void AdvanceOptionHensyuMenuWaitFade(void) {
     int fadesClear;
     fadesClear = AreBrightnessFadesClear();
     if (fadesClear != 0) {
@@ -100,7 +100,7 @@ void AdvanceOptionHensyuMenuState0(void) {
     }
 }
 
-void AdvanceOptionHensyuMenuState1(void) {
+void AdvanceOptionHensyuMenuSlideIn(void) {
     s32 rowIndex;
     s32 cellIndex;
     s32 offsetX;
@@ -124,7 +124,7 @@ void AdvanceOptionHensyuMenuState1(void) {
     }
 }
 
-void AdvanceOptionHensyuMenuState2(void) {
+void AdvanceOptionHensyuMenuWaitSelectReturn(void) {
     int returnState2NoRequest;
     returnState2NoRequest = IsSelectReturnShownNoRequest();
     if (returnState2NoRequest != 0) {
@@ -132,7 +132,7 @@ void AdvanceOptionHensyuMenuState2(void) {
     }
 }
 
-void AdvanceOptionHensyuMenuState3(void) {
+void AdvanceOptionHensyuMenuSelect(void) {
     u32 touchedRect;
     BOOL touchBegan;
     BOOL recentlyLost;
@@ -227,7 +227,7 @@ void AdvanceOptionHensyuMenuState3(void) {
     }
 }
 
-void AdvanceOptionHensyuMenuState4(void) {
+void AdvanceOptionHensyuMenuHoldChosen(void) {
     gOptionHensyuMenu->mStateFrames++;
     if (gOptionHensyuMenu->mStateFrames >= 10) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_OUT;
@@ -240,7 +240,7 @@ void AdvanceOptionHensyuMenuState4(void) {
     }
 }
 
-void AdvanceOptionHensyuMenuState5(void) {
+void AdvanceOptionHensyuMenuSlideOut(void) {
     s32 rowIndex;
     s32 cellIndex;
     s32 offsetX;
@@ -298,22 +298,22 @@ void AdvanceOptionHensyuMenu(void) {
     gOptionHensyuMenu->mState = gOptionHensyuMenu->mNextState;
     switch (gOptionHensyuMenu->mState) {
         case OPTION_HENSYU_MENU_STATE_WAIT_FADE:
-            AdvanceOptionHensyuMenuState0();
+            AdvanceOptionHensyuMenuWaitFade();
             break;
         case OPTION_HENSYU_MENU_STATE_SLIDE_IN:
-            AdvanceOptionHensyuMenuState1();
+            AdvanceOptionHensyuMenuSlideIn();
             break;
         case OPTION_HENSYU_MENU_STATE_WAIT_SELECT_RETURN:
-            AdvanceOptionHensyuMenuState2();
+            AdvanceOptionHensyuMenuWaitSelectReturn();
             break;
         case OPTION_HENSYU_MENU_STATE_SELECT:
-            AdvanceOptionHensyuMenuState3();
+            AdvanceOptionHensyuMenuSelect();
             break;
         case OPTION_HENSYU_MENU_STATE_HOLD_CHOSEN:
-            AdvanceOptionHensyuMenuState4();
+            AdvanceOptionHensyuMenuHoldChosen();
             break;
         case OPTION_HENSYU_MENU_STATE_SLIDE_OUT:
-            AdvanceOptionHensyuMenuState5();
+            AdvanceOptionHensyuMenuSlideOut();
             break;
     }
     UpdateOptionHensyuMenuHighlight();
