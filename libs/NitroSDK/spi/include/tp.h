@@ -16,6 +16,9 @@ typedef struct TPData {
     /* 06 */ u16 mValidity;
 } TPData;
 
+// TPData.mValidity of a reading with neither x nor y usable.
+#define TP_VALIDITY_INVALID_XY 3
+
 // Stored conversion for TP_GetCalibratedPoint: the origin, the size of a screen dot and 0x10000000 divided by that
 // size, for x and then y.
 typedef struct TPCalibrateParam {
