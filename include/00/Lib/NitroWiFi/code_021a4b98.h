@@ -11,6 +11,22 @@ typedef enum WifiReportResult {
     WIFI_REPORT_UNRECOVERABLE = 7
 } WifiReportResult;
 
+// Values of WCMWork.mNotifyId: the request whose answer is reported next (named by the wireless call that starts it).
+// WcmNotify sends it and clears it.
+// SEARCH_FOUND and SCAN_ROUND are also sent on their own while searching.
+enum {
+    WIFI_NOTIFY_NONE = 0,
+    WIFI_NOTIFY_ENABLE_REQUEST = 1,
+    WIFI_NOTIFY_POWER_OFF_REQUEST = 2,
+    WIFI_NOTIFY_SCAN_START_REQUEST = 3,
+    WIFI_NOTIFY_SCAN_STOP_REQUEST = 4,
+    WIFI_NOTIFY_CONNECT_REQUEST = 5,
+    WIFI_NOTIFY_DISCONNECT_REQUEST = 6,
+    WIFI_NOTIFY_SEARCH_FOUND = 7,
+    WIFI_NOTIFY_SCAN_ROUND = 8,
+    WIFI_NOTIFY_LINK_TERMINATING = 9,
+};
+
 // Event the function at mNotify is called with; built by WcmNotifyEx.
 typedef struct WCMNotice {
     /* 00 */ u16 mNotify;
@@ -86,6 +102,7 @@ typedef struct WCMWork {
     /* 2274 */ u32 mNbdBuffer;
     /* 2278 */ u32 mNbdMode;
     /* 227c */ void (*mNotify)(WCMNotice *);
+    // WIFI_NOTIFY_*
     /* 2280 */ s16 mNotifyId;
     /* 2282 */ u16 mAuthId;
     /* 2284 */ s32 mScanCount;
