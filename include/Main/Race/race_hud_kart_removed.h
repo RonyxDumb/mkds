@@ -4,5 +4,5 @@
 
 void SetRaceHudKartRemoved(u32 kartIndex, u32 removed);
 
-void RequestRaceHudSubScreenState6(void);
+void RequestRaceHudSubScreenNewRecord(void);
 void RequestRaceHudSubScreenState5(void);

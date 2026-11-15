@@ -495,7 +495,7 @@ void ShowRaceNewRecordTaSubScreen(void) {
     if (GetShowLapTime() != 0) {
         return;
     }
-    RequestRaceHudSubScreenState6();
+    RequestRaceHudSubScreenNewRecord();
     gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
     gRaceNewRecordTa->mUpdateFrames = 0;
 }

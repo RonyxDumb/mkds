@@ -596,15 +596,15 @@ typedef struct RaceHud {
     /* 81c */ struct Nscr *mNscrs[3];
     // RaceHudSubScreenState page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), switched on by the step,
     // the draw and the upload slot; assigned by UpdateRaceHudSubScreen (per mode and race state),
-    // RequestRaceHudSubScreenState5 (RaceGoalS teams) and RequestRaceHudSubScreenState6 (RaceNewRecordTa). The player
+    // RequestRaceHudSubScreenState5 (RaceGoalS teams) and RequestRaceHudSubScreenNewRecord (RaceNewRecordTa). The player
     // switches the icons page and the first map page with sounds 0x18 / 0x17.
     /* 828 */ s32 mSubScreenState;
     // Gate of the sub screen's page update and page upload.
     /* 82c */ BOOL mSubScreenEnabled;
-    // Set when the state-5 page is requested; the upload loads its graphics once and clears it.
-    /* 830 */ BOOL mSubScreenState5LoadPending;
-    // Set when the state-6 page is requested; the upload loads its graphics once and clears it.
-    /* 834 */ BOOL mSubScreenState6LoadPending;
+    // Set when the goal teams page is requested; the upload loads its graphics once and clears it.
+    /* 830 */ BOOL mSubScreenGoalTeamsLoadPending;
+    // Set when the new record page is requested; the upload loads its graphics once and clears it.
+    /* 834 */ BOOL mSubScreenNewRecordLoadPending;
     /* 838 */ BOOL mRaceGoalSShown;
     /* 83c */ BOOL mGoalMStarted;
     /* 840 */ BOOL mGoalMUploadPending;

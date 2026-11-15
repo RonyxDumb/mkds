@@ -287,14 +287,14 @@ void UploadRaceHud(void) {
                     break;
             }
             value = GetRaceGoalSOffsetX();
-            if (gRaceHud->mSubScreenState5LoadPending != FALSE) {
+            if (gRaceHud->mSubScreenGoalTeamsLoadPending != FALSE) {
                 GXS_LoadBG1Scr(GetRaceGoalSNscr(3)->mData, 0, GetRaceGoalSNscr(3)->mDataSize);
                 GXS_LoadBG2Scr(GetRaceGoalSNscr(4)->mData, 0, GetRaceGoalSNscr(4)->mDataSize);
                 GXS_LoadBG3Scr(GetRaceGoalSNscr(5)->mData, 0, GetRaceGoalSNscr(5)->mDataSize);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNclr->mData, 0, 0x20);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNclr->mData + 0xc0, 0x180, 0x80);
                 GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mData, 0, 0x4000);
-                gRaceHud->mSubScreenState5LoadPending = FALSE;
+                gRaceHud->mSubScreenGoalTeamsLoadPending = FALSE;
             }
             if (value < 0x100) {
                 reg_G2S_DB_BG2OFS = value & 0x1ff;
@@ -302,7 +302,7 @@ void UploadRaceHud(void) {
             }
             break;
         case RACE_HUD_SUB_SCREEN_NEW_RECORD:
-            if (gRaceHud->mSubScreenState6LoadPending != FALSE) {
+            if (gRaceHud->mSubScreenNewRecordLoadPending != FALSE) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1200;
                 GXS_SetGraphicsMode(GX_BGMODE_0);
                 reg_G2S_DB_BG1OFS = 0;
@@ -316,7 +316,7 @@ void UploadRaceHud(void) {
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNclr->mData, 0, 0xa0);
                 GXS_LoadOBJPltt(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNclr->mData + 0xb0, 0x160, 0xa0);
                 GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_NEW_RECORD_TA_S)->mNcgr->mData, 0, 0x4000);
-                gRaceHud->mSubScreenState6LoadPending = FALSE;
+                gRaceHud->mSubScreenNewRecordLoadPending = FALSE;
             }
             break;
     }
@@ -394,7 +394,7 @@ void InitRaceHud(void) {
     }
     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_MAP_TURNING;
     gRaceHud->mSubScreenEnabled = FALSE;
-    gRaceHud->mSubScreenState5LoadPending = FALSE;
+    gRaceHud->mSubScreenGoalTeamsLoadPending = FALSE;
     gRaceHud->mRaceGoalSShown = FALSE;
     gRaceHud->mGoalMStarted = FALSE;
     gRaceHud->mGoalMUploadPending = FALSE;
