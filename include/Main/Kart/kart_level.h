@@ -174,3 +174,20 @@ void InitKartTurnEffects(void *heap);
 extern const Vec3 gKartTurnEffectsStartPosition;
 // Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
 extern struct KartTurnEffects *gKartTurnEffects;
+
+// Particle effect ids of the turn effects: the entry kart (and the award and time attack karts) get the variant with a
+// second level 4 object, the other karts the one with the first only.
+#define KART_TURN_START_EFFECT_ID_WITH_SECOND 0x14
+#define KART_TURN_START_EFFECT_ID_FIRST_ONLY 0x15
+#define KART_LEVEL4_FIRST_EFFECT_ID_WITH_SECOND 0x11
+#define KART_LEVEL4_SECOND_EFFECT_ID 0x12
+#define KART_LEVEL4_FIRST_EFFECT_ID_FIRST_ONLY 0x13
+#define KART_LEVEL3_FIRST_EFFECT_ID 0x16
+#define KART_LEVEL3_SECOND_EFFECT_ID 0x17
+// Frames after which a requested stop or restart resets the level 4 group, the level 3 group releases, and the level 2
+// group releases.
+#define KART_LEVEL4_RESET_FRAMES 10
+#define KART_LEVEL3_RELEASE_FRAMES 10
+#define KART_LEVEL2_RELEASE_FRAMES 8
+// Turn start effect look: alpha out of 31 and a size of 1.0.
+#define KART_TURN_START_EFFECT_ALPHA 0x1c

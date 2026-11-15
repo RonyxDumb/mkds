@@ -69,6 +69,10 @@ typedef s32 BOOL;
 #define ANGLE_HALF_TURN 0x8000
 #define ANGLE_MINUS_QUARTER_TURN 0xc000
 #define ANGLE_FULL_TURN 0x10000
+// A 15-bit colour (five bits per channel): every channel at maximum, and the mask of the colour bits.
+#define COLOR15_WHITE 0x7fff
+#define COLOR15_MASK 0x7fff
+
 // Degrees (fx32) to a 16-bit angle, rounded.
 #define DEG_TO_ANGLE(deg) ((u16) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000000LL) >> 44))
 // Degrees (fx32) to a 16-bit angle, truncated (rounds differently from DEG_TO_ANGLE).

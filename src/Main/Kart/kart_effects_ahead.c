@@ -51,7 +51,7 @@ void StopKartAheadEffect(Kart *kart) {
         return;
     }
     effect->mStepCount = 0;
-    effect->mStepLimit = 3;
+    effect->mStepLimit = KART_AHEAD_EFFECT_STOP_STEPS;
     effect->mCallback = AdvanceKartAheadEffectWithLimit;
     gKartAheadEffects[kart->mIndex] = NULL;
 }
@@ -84,7 +84,7 @@ void StopKartNearRankEffect(Kart *kart) {
         return;
     }
     effect->mStepCount = 0;
-    effect->mStepLimit = 5;
+    effect->mStepLimit = KART_NEAR_RANK_EFFECT_STOP_STEPS;
     effect->mCallback = AdvanceKartAheadEffectWithLimit;
     gKartNearRankEffects[kart->mIndex] = NULL;
 }

@@ -41,3 +41,7 @@ void AdvancePointLinkCursorTo(PointLinkCursor *linkCursor, RacePointLink *pointL
 s16 GetPointLinkFirstValue(PointLinkCursor *linkCursor);
 
 extern const Vec3 gPointLinkVec3Zero;
+
+// mStepLimit given to the ahead effect, and to the near-rank effect, when it is stopped: steps it keeps advancing.
+#define KART_AHEAD_EFFECT_STOP_STEPS 3
+#define KART_NEAR_RANK_EFFECT_STOP_STEPS 5

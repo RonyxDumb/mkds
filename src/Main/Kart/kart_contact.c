@@ -255,8 +255,8 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             levelStep = 0x52 - MUL_FIXED12_NO_ROUND(levelStep, keyALevel);
         }
         kart->mRevLevel = kart->mRevLevel + levelStep;
-        if (kart->mRevLevel > 0x1000) {
-            kart->mRevLevel = 0x1000;
+        if (kart->mRevLevel > TO_FIXED12(1)) {
+            kart->mRevLevel = TO_FIXED12(1);
         }
     } else {
         kart->mRevLevel = MUL_FIXED12_NO_ROUND(kart->mRevLevel, 0xf5c);
@@ -271,7 +271,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             if (GetKartAiHeadingSwingAtRaceStart(kart->mAi) != 0) {
                 if (!(kart->mEffectFlags & KART_EFFECT_HEADING_SWING)) {
                     kart->mEffectFlags |= KART_EFFECT_HEADING_SWING;
-                    kart->mRaceStartFrameCount = 0x78;
+                    kart->mRaceStartFrameCount = KART_RACE_START_HEADING_SWING_FRAMES;
                     SetKartCharacterAnimation(kart, 1, 1);
                     firstOffsets = gKartRaceStartEffectOffsets;
                     bits7c = kart->mEntryFlags;
@@ -310,7 +310,7 @@ void AdvanceKartRaceStartBoost(Kart *kart) {
             if (revLevel > 0xf34) {
                 if (!(kart->mEffectFlags & KART_EFFECT_HEADING_SWING)) {
                     kart->mEffectFlags |= KART_EFFECT_HEADING_SWING;
-                    kart->mRaceStartFrameCount = 0x78;
+                    kart->mRaceStartFrameCount = KART_RACE_START_HEADING_SWING_FRAMES;
                     SetKartCharacterAnimation(kart, 1, 1);
                     secondOffsets = gKartRaceStartEffectOffsets;
                     bits7c = kart->mEntryFlags;
@@ -502,7 +502,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
         kart->mLeftTurnCount = kart->mRightTurnCount;
         kart->mTurnCountTimer = 0;
         kart->mHeadingAnglePerFrame = 0;
-        if (kart->mVelocityLength > 0x1800) {
+        if (kart->mVelocityLength > KART_CONTACT_BOUNCE_MIN_SPEED) {
             if (!(kart->mDriveFlags & KART_DRIVE_BOOST) &&
                 (normalVelocity.x != 0 || normalVelocity.y != 0 || normalVelocity.z != 0) &&
                 baseSpeedLimitHitFactor != TO_FIXED12(1)) {
@@ -553,16 +553,16 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                     StopDispCapBlend();
                 }
             }
-            if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != TO_FIXED12(1)) {
+            if (kart->mVelocityLength > KART_CONTACT_HEADING_KICK_MIN_SPEED && baseSpeedLimitHitFactor != TO_FIXED12(1)) {
                 headingAnglePerFrame = FROM_FIXED12(kart->mVelocityLength) * 100;
                 if ((u16) kart->mTurnAngle > 0x7fff) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;
                 }
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;
             }
-        } else if (kart->mVelocityLength > 0x2000 && baseSpeedLimitHitFactor != TO_FIXED12(1)) {
+        } else if (kart->mVelocityLength > KART_CONTACT_HEADING_KICK_MIN_SPEED && baseSpeedLimitHitFactor != TO_FIXED12(1)) {
             factor = TO_FIXED12(1) - forwardFactor;
-            if (kart->mVelocityLength > 0x1800 && factor > 0x19a) {
+            if (kart->mVelocityLength > KART_CONTACT_GRAZE_HEADING_MIN_SPEED && factor > 0x19a) {
                 headingAnglePerFrame = FROM_FIXED12(MUL_FIXED12_NO_ROUND(kart->mVelocityLength, factor)) * 30;
                 Vec3CrossUnrounded(&kart->mSignedTurnedForward, contactNormal, &crossVector);
                 if (Vec3DotUnrounded(&crossVector, &kart->mRotationRow1) < 0) {
@@ -571,7 +571,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;
             }
         }
-        if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mVelocityLength > 0x3000 && value == 2) {
+        if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && kart->mVelocityLength > KART_CONTACT_COUNT_MIN_SPEED && value == 2) {
             GetEntryKartCounters()->mCourseContactCount++;
         }
         kart->mTurnAngle = 0;

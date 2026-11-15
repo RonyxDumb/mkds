@@ -533,7 +533,7 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
     kart = effect->mCallbackData;
     if (GetCurrentCameraKind() != 0 ||
         (effect->mFlags.mEmissionStopped != 0 &&
-         (effect->mCallbackState = effect->mCallbackState + 1, effect->mCallbackState > 5))) {
+         (effect->mCallbackState = effect->mCallbackState + 1, effect->mCallbackState > KART_BOOST_CAMERA_EFFECT_END_STEPS))) {
         effect->mFlags.mEnding = 1;
         gKartBoostCameraEffect = NULL;
         return;
@@ -576,7 +576,7 @@ void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase) {
     counting = effect->mCallbackBytes.mCounting;
     stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
-        if (kart->mVelocityLength >= 0x119a) {
+        if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             stopsEmission = 0;
         }
     }
@@ -624,7 +624,7 @@ void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase) {
     sideIndex = effect->mCallbackBytes.mSideIndex;
     stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
-        if (kart->mVelocityLength >= 0x119a) {
+        if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             stopsEmission = 0;
         }
     }
@@ -668,7 +668,7 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase) {
     velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
     stopsEmission = 1;
     if (IsKartTurnEffectsActive(kart) == 0) {
-        if (kart->mVelocityLength >= 0x119a) {
+        if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             stopsEmission = 0;
         }
     }
@@ -719,12 +719,12 @@ void AdvanceKartWaterEffect(ParticleEmitter *effect, s32 phase) {
     sideIndex = effect->mCallbackBytes.mSideIndex;
     velocityFactor = gKartEffectVelocityFactors[effect->mCallbackBytes.mVelocityFactorIndex];
     if (IsKartTurnEffectsActive(kart) == 0) {
-        if (kart->mVelocityLength >= 0x119a) {
+        if (kart->mVelocityLength >= KART_EFFECT_TRAIL_MIN_SPEED) {
             isSlowOrTurning = 0;
         }
     }
     if (isSlowOrTurning == 0) {
-        if (kart->mWaterDepth <= 0x5000) {
+        if (kart->mWaterDepth <= KART_EFFECT_WATER_TRAIL_MAX_DEPTH) {
             stopsEmission = 0;
         }
     }
@@ -756,7 +756,7 @@ void AdvanceOtherKartEffect(ParticleEmitter *effect, s32 phase) {
     }
     PlaceOtherKartEffect(effect, phase);
     effect->mOtherKartBytes.mSwitchCounter = effect->mOtherKartBytes.mSwitchCounter + 1;
-    if (effect->mOtherKartBytes.mSwitchCounter >= 2) {
+    if (effect->mOtherKartBytes.mSwitchCounter >= KART_OTHER_KART_EFFECT_SWITCH_STEPS) {
         effect->mOtherKartBytes.mShowSecondKart = (effect->mOtherKartBytes.mShowSecondKart == 0);
         effect->mOtherKartBytes.mSwitchCounter = 0;
     }
@@ -869,7 +869,7 @@ void InitCourseCameraEffects(void) {
     gSecondCourseCameraEffect = NULL;
     gFirstCourseCameraEffect = NULL;
     switch (gRaceSetup->mCourseId) {
-        case 0x25: {
+        case COURSE_ID_OLD_LUIGI_AGB: {
             ParticleEmitter *effect;
 
             if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
@@ -896,7 +896,7 @@ void InitCourseCameraEffects(void) {
             }
             break;
         }
-        case 0x10: {
+        case COURSE_ID_OLD_FRAPPE_64: {
             ParticleEmitter *effect;
 
             if (GetRaceUseChainCameras() != 0) {
@@ -1048,7 +1048,7 @@ void AdvanceOldLuigiAgbFirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     directionHalfwords.x = negatedUnitY.x;
     directionHalfwords.y = negatedUnitY.y;
     directionHalfwords.z = negatedUnitY.z;
-    effect->mAxisSpeed = 0x1000;
+    effect->mAxisSpeed = TO_FIXED12(1);
     effect->mDirection = directionHalfwords;
     VEC_MultAdd(gOldLuigiAgbFirstCameraEffectForwardDistance, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y =
@@ -1161,7 +1161,7 @@ void AdvanceOldFrappe64FirstCurrentCameraEffect(ParticleEmitter *effect, s32 pha
     effect->mPosition.x = effectPos.x + effect->mResource->mHeader->mPositionOffset.x;
     effect->mPosition.y = effectPos.y + effect->mResource->mHeader->mPositionOffset.y;
     effect->mPosition.z = effectPos.z + effect->mResource->mHeader->mPositionOffset.z;
-    effect->mEmitRate = 0x800;
+    effect->mEmitRate = FIXED12_RATIO(1, 2);
 }
 
 void SwitchCourseCameraEffectsToCurrentCamera(void) {

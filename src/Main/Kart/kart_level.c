@@ -21,9 +21,9 @@ void InitKartTurnEffects(void *heap) {
         turnEffects->mIndex = kartIndex;
         if (kartIndex == gRaceSetup->mEntryIndex || gRaceSetup->mRaceKind == RACE_KIND_AWARD ||
             gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            turnEffects->mTurnStartEffectId = 0x14;
-            turnEffects->mLevel4FirstEffectId = 0x11;
-            turnEffects->mLevel4SecondEffectId = 0x12;
+            turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_WITH_SECOND;
+            turnEffects->mLevel4FirstEffectId = KART_LEVEL4_FIRST_EFFECT_ID_WITH_SECOND;
+            turnEffects->mLevel4SecondEffectId = KART_LEVEL4_SECOND_EFFECT_ID;
             turnEffects->mStartLevel4Effects = StartKartLevel4EffectsWithSecond;
             turnEffects->mStopLevel4Emission = StopKartLevel4EmissionWithSecond;
             turnEffects->mStartLevel4Emission = StartKartLevel4EmissionWithSecond;
@@ -33,8 +33,8 @@ void InitKartTurnEffects(void *heap) {
             turnEffects->mHideEffects = HideKartEffectsWithSecond;
             turnEffects->mShowEffects = ShowKartEffectsWithSecond;
         } else {
-            turnEffects->mTurnStartEffectId = 0x15;
-            turnEffects->mLevel4FirstEffectId = 0x13;
+            turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_FIRST_ONLY;
+            turnEffects->mLevel4FirstEffectId = KART_LEVEL4_FIRST_EFFECT_ID_FIRST_ONLY;
             turnEffects->mLevel4SecondEffectId = -1;
             turnEffects->mStartLevel4Effects = StartKartLevel4EffectsFirstOnly;
             turnEffects->mStopLevel4Emission = StopKartLevel4EmissionFirstOnly;
@@ -45,8 +45,8 @@ void InitKartTurnEffects(void *heap) {
             turnEffects->mHideEffects = HideKartEffectsFirstOnly;
             turnEffects->mShowEffects = ShowKartEffectsFirstOnly;
         }
-        turnEffects->mLevel3FirstEffectId = 0x16;
-        turnEffects->mLevel3SecondEffectId = 0x17;
+        turnEffects->mLevel3FirstEffectId = KART_LEVEL3_FIRST_EFFECT_ID;
+        turnEffects->mLevel3SecondEffectId = KART_LEVEL3_SECOND_EFFECT_ID;
         for (sideIndex = 0; sideIndex < 2; sideIndex++) {
             turnEffects->mLevel4FirstEffects[sideIndex] = NULL;
             turnEffects->mLevel4SecondEffects[sideIndex] = NULL;
@@ -79,9 +79,9 @@ void StartKartTurnStartEffects(KartTurnEffects *turnEffects) {
     for (sideIndex = 0; sideIndex < 2; sideIndex++) {
         turnEffects->mTurnStartEffects[sideIndex] =
             StartEffect(turnEffects->mTurnStartEffectId, &gKartTurnEffectsStartPosition);
-        turnEffects->mTurnStartEffects[sideIndex]->mColor = 0x7fff;
-        turnEffects->mTurnStartEffects[sideIndex]->mAlpha = 0x1c;
-        turnEffects->mTurnStartEffects[sideIndex]->mSizeScale = 0x1000;
+        turnEffects->mTurnStartEffects[sideIndex]->mColor = COLOR15_WHITE;
+        turnEffects->mTurnStartEffects[sideIndex]->mAlpha = KART_TURN_START_EFFECT_ALPHA;
+        turnEffects->mTurnStartEffects[sideIndex]->mSizeScale = TO_FIXED12(1);
     }
     turnEffects->mTurnStartPresent = 1;
 }
@@ -381,7 +381,7 @@ void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart) {
 
     if (turnEffects->mLevel4StopRequested != FALSE) {
         turnEffects->mLevel4StopFrames++;
-        if (turnEffects->mLevel4StopFrames > 10) {
+        if (turnEffects->mLevel4StopFrames > KART_LEVEL4_RESET_FRAMES) {
             if (turnEffects->mLevel4Present != 0) {
                 turnEffects->mReleaseLevel4Effects(turnEffects);
             }
@@ -394,7 +394,7 @@ void AdvanceKartLevel4Effects(KartTurnEffects *turnEffects, Kart *kart) {
     }
     if ((kart->mMotionFlags & KART_MOTION_DRIFTING) && turnEffects->mLevel4RestartRequested != 0) {
         turnEffects->mLevel4RestartFrames++;
-        if (turnEffects->mLevel4RestartFrames > 10) {
+        if (turnEffects->mLevel4RestartFrames > KART_LEVEL4_RESET_FRAMES) {
             if (turnEffects->mLevel4Present != 0) {
                 turnEffects->mReleaseLevel4Effects(turnEffects);
             }
@@ -457,7 +457,7 @@ void AdvanceKartLevel3Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirecti
         return;
     }
     turnEffects->mLevel3Frames++;
-    if (turnEffects->mLevel3Frames > 10) {
+    if (turnEffects->mLevel3Frames > KART_LEVEL3_RELEASE_FRAMES) {
         if (turnEffects->mLevel3Present != 0) {
             for (sideIndex = 0; sideIndex < 2; sideIndex++) {
                 DeleteEffect(turnEffects->mLevel3FirstEffects[sideIndex]);
@@ -519,7 +519,7 @@ void AdvanceKartLevel2Effects(KartTurnEffects *turnEffects, Vec3s16 *sideDirecti
         return;
     }
     turnEffects->mLevel2Frames++;
-    if (turnEffects->mLevel2Frames > 8) {
+    if (turnEffects->mLevel2Frames > KART_LEVEL2_RELEASE_FRAMES) {
         if (turnEffects->mLevel2Present != FALSE) {
             for (sideIndex = 0; sideIndex < 2; sideIndex++) {
                 DeleteEffect(turnEffects->mLevel2Effects[sideIndex]);

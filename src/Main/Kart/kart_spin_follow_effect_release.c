@@ -31,7 +31,7 @@ void AdvanceKartSpinSideEffect(ParticleEmitter *effect, s32 phase) {
         return;
     }
     AdvanceKartSideEffect(effect, phase);
-    if (effect->mVelocityFactorIndex >= 7) {
+    if (effect->mVelocityFactorIndex >= KART_SPIN_SIDE_EFFECT_RAMP_STEPS) {
         effect->mCallbackBytes.mCounting = 1;
     } else {
         effect->mVelocityFactorIndex = effect->mVelocityFactorIndex + 1;
@@ -48,7 +48,7 @@ void StartKartSpinFollowEffect(u32 kartIndex) {
     kartEffects->mSpinFollowEffect = StartEffect(0x5e, &gKartEffectVec3Zero);
     effect = kartEffects->mSpinFollowEffect;
     effect->mStepCount = 0;
-    effect->mStepLimit = 0x78;
+    effect->mStepLimit = KART_SPIN_FOLLOW_EFFECT_STEPS;
     effect->mKartIndex = kartIndex;
     effect->mCallback = AdvanceKartSpinFollowEffect;
 }

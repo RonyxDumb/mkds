@@ -146,3 +146,12 @@ extern s32 gOtherKartFullPairCount;
 extern OtherKartPairs gOtherKartPairsCopy;
 
 extern const KartSurfaceEffectRow gKartSurfaceEffectRows[8];
+
+// The boost camera effect ends once this many steps passed after its emission stopped.
+#define KART_BOOST_CAMERA_EFFECT_END_STEPS 5
+// The trail effects of a kart keep emitting at or above this Kart.mVelocityLength (when no turn effect is active).
+#define KART_EFFECT_TRAIL_MIN_SPEED 0x119a
+// The water trail emits only while Kart.mWaterDepth is at most this.
+#define KART_EFFECT_WATER_TRAIL_MAX_DEPTH 0x5000
+// The other-kart effect swaps its shown kart every this many steps.
+#define KART_OTHER_KART_EFFECT_SWITCH_STEPS 2
