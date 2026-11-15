@@ -105,10 +105,10 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
 
                     mtx.mElements[0] = FX_Div(0x1000, entry->mScale);
                     mtx.mElements[3] = FX_Div(0x1000, entry->mScale);
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPA = mtx.mElements[0] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPB = mtx.mElements[1] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPC = mtx.mElements[2] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mPD = mtx.mElements[3] >> 4;
+                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPA = mtx.mElements[0] >> 4;
+                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPB = mtx.mElements[1] >> 4;
+                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPC = mtx.mElements[2] >> 4;
+                    ((OamAffineGroup *) oamBuffer->mOams)[idx].mPD = mtx.mElements[3] >> 4;
                     mtx.mElements[0] = entry->mScale;
                     mtx.mElements[3] = entry->mScale;
                     cell = entry->mCellAnim.mPCurrentCell;
