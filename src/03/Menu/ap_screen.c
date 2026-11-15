@@ -314,10 +314,10 @@ void UpdateApRelease(void) {
 void PlaceApSelection(void) {
     u8 selectedIndex = gApSelectedIndex[0];
     if (selectedIndex < 4) {
-        PlaceSelectionCorners(gApSelectionRects[selectedIndex].mX, gApSelectionRects[selectedIndex].mUnk_04,
-                              gApSelectionRects[selectedIndex].mY, gApSelectionRects[selectedIndex].mUnk_06);
+        PlaceSelectionCorners(gApSelectionRects[selectedIndex].mX, gApSelectionRects[selectedIndex].mRight,
+                              gApSelectionRects[selectedIndex].mY, gApSelectionRects[selectedIndex].mBottom);
     } else {
-        PlaceSelectionPair(0, gApSelectionRects[selectedIndex].mX, gApSelectionRects[selectedIndex].mUnk_04,
+        PlaceSelectionPair(0, gApSelectionRects[selectedIndex].mX, gApSelectionRects[selectedIndex].mRight,
                            gApSelectionRects[selectedIndex].mY);
     }
 }

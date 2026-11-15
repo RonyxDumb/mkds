@@ -73,9 +73,9 @@ const Rect gJb3ListSelectionRects[6] = {{0xc8, 0x31, 0xe0, 0x4d}, {0xbc, 0x31, 0
                                         {0x82, 0x18, 0xee, 0x2c}, {0x82, 0xa9, 0xee, 0xbd}, {2, 0xa9, 0x6e, 0xbd}};
 Jb3ListSelectionRectIndices gJb3ListSelectionRectIndices = {{0, 0, 1, 2, 0, 0, 0, 1, 2, 0, 0, 3, 4, 5}};
 const u8 gJb3ListBg2OffsetByEntry[9] = {0, 5, 2, 7, 4, 1, 6, 3, 0};
-const Rect gJb3ListLeftButtonRect = {0x8f, 0x34, 0x2c, 0x18};
-const Rect gJb3ListRightButtonRect = {0xc0, 0x34, 0x2c, 0x18};
-const Rect gJb3ListCellRect = {0xcc, 0x34, 0x1c, 0x18};
+const OriginSizeRect gJb3ListLeftButtonRect = {0x8f, 0x34, 0x2c, 0x18};
+const OriginSizeRect gJb3ListRightButtonRect = {0xc0, 0x34, 0x2c, 0x18};
+const OriginSizeRect gJb3ListCellRect = {0xcc, 0x34, 0x1c, 0x18};
 const Rect gJb3ListFixedRects[3] = {{0x84, 0x1b, 0xfc, 0x2c}, {0x84, 0xac, 0xfc, 0xbd}, {4, 0xac, 0x7c, 0xbd}};
 u16 gDotSeparatedBytesFormat[15] = {0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64, 0x2e,
                                     0x25, 0x33, 0x64, 0x2e, 0x25, 0x33, 0x64};
@@ -853,8 +853,8 @@ void RefreshJb3ListRowPositions(void) {
 }
 
 u32 GetJb3ListHitId(void) {
-    Rect cellRect;
-    Rect *cellRectPointer;
+    OriginSizeRect cellRect;
+    OriginSizeRect *cellRectPointer;
     s32 firstEntryIndex;
     s32 rowIndex;
     s32 searchEntryIndex;
@@ -1004,13 +1004,13 @@ void PlaceJb3ListSelectionPair(void) {
     selectionRectIndices = gJb3ListSelectionRectIndices;
     rectIndex = selectionRectIndices.mRectIndices[gJb3ListSelectedId];
     if (rectIndex >= 3) {
-        PlaceSelectionPair(3, gJb3ListSelectionRects[rectIndex].mX, gJb3ListSelectionRects[rectIndex].mUnk_04,
+        PlaceSelectionPair(3, gJb3ListSelectionRects[rectIndex].mX, gJb3ListSelectionRects[rectIndex].mRight,
                            gJb3ListSelectionRects[rectIndex].mY);
         return;
     }
     selectionRect = gJb3ListSelectionRects[rectIndex];
     selectionRect.mY = selectionRect.mY + gJb3ListSelectedRow * 0x1d;
-    PlaceSelectionPair(1, selectionRect.mX, selectionRect.mUnk_04, selectionRect.mY);
+    PlaceSelectionPair(1, selectionRect.mX, selectionRect.mRight, selectionRect.mY);
 }
 
 void SetJb3ListSelectedIdFromRow(void) {

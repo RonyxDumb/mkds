@@ -282,14 +282,14 @@ void UpdateEditRelease(void) {
 }
 
 void PrintEditText(void) {
-    Rect charRect = {0, 0, 0, 0};
+    OriginSizeRect charRect = {0, 0, 0, 0};
     u16 charText[2];
     int column;
     int charIndex;
     u8 secondLineY;
     charRect.mY = gEditLineY[0];
-    charRect.mUnk_04 = gEditCharSize[0];
-    charRect.mUnk_06 = gEditCharSize[1];
+    charRect.mWidth = gEditCharSize[0];
+    charRect.mHeight = gEditCharSize[1];
     ClearBgTextCanvas(gEdit->mBgTextCanvas, 0);
     charText[1] = 0;
     charIndex = 0;
@@ -308,7 +308,7 @@ void PrintEditText(void) {
             charText[0] = edit->mText[charIndex];
         }
         charRect.mX = gEditColumnX[column];
-        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mUnk_04, charRect.mUnk_06, 2, 0x480,
+        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mWidth, charRect.mHeight, 2, 0x480,
                            charText);
     }
     RequestBgTextCanvasUpload(gEdit->mBgTextCanvas);

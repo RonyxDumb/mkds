@@ -19,6 +19,6 @@ void SetRectCorners(s32 left, s32 top, s32 right, s32 bottom, u16 *corners) {
 void ComputeRectFromOriginAndSize(const u16 *origin, const u16 *size, Rect *rect) {
     rect->mX = *origin;
     rect->mY = origin[1];
-    rect->mUnk_04 = *origin + *size;
-    rect->mUnk_06 = origin[1] + size[1];
+    rect->mRight = *origin + *size;
+    rect->mBottom = origin[1] + size[1];
 }

@@ -628,7 +628,7 @@ void PlaceApListSelection(void) {
     } else {
         pairIndex = 3;
     }
-    PlaceSelectionPair(pairIndex, gApListSelectionRects[selectedRow].mX, gApListSelectionRects[selectedRow].mUnk_04,
+    PlaceSelectionPair(pairIndex, gApListSelectionRects[selectedRow].mX, gApListSelectionRects[selectedRow].mRight,
                        gApListSelectionRects[selectedRow].mY);
 }
 

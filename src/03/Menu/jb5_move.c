@@ -47,8 +47,8 @@ void SetupJb5Move(void) {
     childUserText[0] = 0;
     MIi_CpuClear16(childUserText[0], &childUserText[1], 0x16);
     MIi_CpuCopy16(childUserBuffer + 2, &childUserText[1], childUserBuffer[1] * 2);
-    DrawCanvasTextRect(canvas, gJb5MoveTextRect.mX, gJb5MoveTextRect.mY, gJb5MoveTextRect.mUnk_04 - gJb5MoveTextRect.mX,
-                       gJb5MoveTextRect.mUnk_06 - gJb5MoveTextRect.mY, 2, 0x480, &childUserText[1]);
+    DrawCanvasTextRect(canvas, gJb5MoveTextRect.mX, gJb5MoveTextRect.mY, gJb5MoveTextRect.mRight - gJb5MoveTextRect.mX,
+                       gJb5MoveTextRect.mBottom - gJb5MoveTextRect.mY, 2, 0x480, &childUserText[1]);
     RequestBgTextCanvasUpload(canvas);
     SetChildWaitCallback(Jb5MoveChildWaitCallback);
     SetUpdateFunction(StartJb5MoveFadeIn);

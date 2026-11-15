@@ -43,8 +43,8 @@ void SetupJb2Menu(void) {
     ShowSubScreenMessage(0x7a, -1, 0);
     LoadMenuPairScreenMap(4);
     PlaceSelectionCorners(
-        gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
-        gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
+        gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mRight,
+        gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mBottom);
     SetUpdateFunction(StartJb2MenuFadeIn);
 }
 
@@ -98,9 +98,9 @@ void UpdateJb2MenuInput(void) {
             SetButtonResultIfNone(1);
             gJb2MenuSelectedIndex = rectIndex;
             PlaceSelectionCorners(gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX,
-                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
+                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mRight,
                                   gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY,
-                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
+                                  gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mBottom);
             return;
         }
     }
@@ -176,8 +176,8 @@ void MoveJb2MenuSelection(s32 direction) {
         gJb2MenuSelectedIndex ^= 1;
         StartSoundSeq(8);
         PlaceSelectionCorners(
-            gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_04,
-            gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mUnk_06);
+            gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mX, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mRight,
+            gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mY, gJb2MenuSelectionRects[gJb2MenuSelectedIndex].mBottom);
     }
 }
 

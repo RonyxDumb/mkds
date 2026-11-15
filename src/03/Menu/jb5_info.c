@@ -23,8 +23,8 @@
 #include "03/Menu/slide_buttons.h"
 #include "03/Menu/yb5_multi_next_setup.h"
 
-const Rect gJb5InfoMacAddressRect = {8, 0x40, 0xf0, 0x1c};
-const Rect gJb5InfoUserIdRect = {8, 0x78, 0xf0, 0x1c};
+const OriginSizeRect gJb5InfoMacAddressRect = {8, 0x40, 0xf0, 0x1c};
+const OriginSizeRect gJb5InfoUserIdRect = {8, 0x78, 0xf0, 0x1c};
 
 void SetupJb5Info(void) {
     LoadJb5InfoFileAndSetBgCnt();
@@ -93,8 +93,8 @@ void PrintJb5Info(void) {
     OS_GetMacAddress(macAddress);
     swprintf(text, 0x14, L"%02X-%02X-%02X-%02X-%02X-%02X", macAddress[0], macAddress[1], macAddress[2], macAddress[3],
              macAddress[4], macAddress[5]);
-    DrawCanvasTextRect(canvas, gJb5InfoMacAddressRect.mX, gJb5InfoMacAddressRect.mY, gJb5InfoMacAddressRect.mUnk_04,
-                       gJb5InfoMacAddressRect.mUnk_06, 2, 0x480, text);
+    DrawCanvasTextRect(canvas, gJb5InfoMacAddressRect.mX, gJb5InfoMacAddressRect.mY, gJb5InfoMacAddressRect.mWidth,
+                       gJb5InfoMacAddressRect.mHeight, 2, 0x480, text);
     DWCi_BM_GetWiFiInfo(&wifiInfo);
     userId = wifiInfo.mAttestedUserId;
     if (userId != 0) {
@@ -108,8 +108,8 @@ void PrintJb5Info(void) {
     } else {
         swprintf(text, 0x14, L"-------------------");
     }
-    DrawCanvasTextRect(canvas, gJb5InfoUserIdRect.mX, gJb5InfoUserIdRect.mY, gJb5InfoUserIdRect.mUnk_04,
-                       gJb5InfoUserIdRect.mUnk_06, 2, 0x480, text);
+    DrawCanvasTextRect(canvas, gJb5InfoUserIdRect.mX, gJb5InfoUserIdRect.mY, gJb5InfoUserIdRect.mWidth,
+                       gJb5InfoUserIdRect.mHeight, 2, 0x480, text);
     RequestBgTextCanvasUpload(canvas);
 }
 

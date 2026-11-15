@@ -6,7 +6,7 @@
 typedef struct Rect Rect;
 
 BOOL GetTouchPoint(u16 *output);
-BOOL IsTouchPressedInOriginSizeRect(const Rect *input);
+BOOL IsTouchPressedInOriginSizeRect(const OriginSizeRect *input);
 BOOL IsTouchReleasedInRect(const Rect *rect);
 BOOL IsTouchPressedOrRepeatedInRect(const Rect *rect);
 BOOL IsTouchPressedInRect(const Rect *rect);

@@ -6,9 +6,16 @@
 typedef struct Rect {
     /* 00 */ u16 mX;
     /* 02 */ u16 mY;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 04 */ u16 mRight;
+    /* 06 */ u16 mBottom;
 } Rect;
+
+typedef struct OriginSizeRect {
+    /* 00 */ u16 mX;
+    /* 02 */ u16 mY;
+    /* 04 */ u16 mWidth;
+    /* 06 */ u16 mHeight;
+} OriginSizeRect;
 
 typedef struct KeyTouchInput {
     /* 00 */ TPData mTouchSamples[5];

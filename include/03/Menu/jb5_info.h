@@ -5,5 +5,5 @@
 
 void UpdateJb5Info(void);
 
-extern const Rect gJb5InfoMacAddressRect;
-extern const Rect gJb5InfoUserIdRect;
+extern const OriginSizeRect gJb5InfoMacAddressRect;
+extern const OriginSizeRect gJb5InfoUserIdRect;

@@ -87,9 +87,9 @@ void SetupWay(void) {
     ShowSubScreenMessage(0x7e, gWayMessageDigitColumns[GetLanguageIndex()], record->mEntryIndex + 1);
     CreateObjectsForMenuPair(1);
     PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mX,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mRight,
                           gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mY,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mBottom);
     SetUpdateFunction(StartWayFadeIn);
 }
 
@@ -142,9 +142,9 @@ void UpdateWayInput(void) {
             SetButtonResultIfNone(1);
             gWaySelectedIndex = rectIndex;
             PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mX,
-                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mRight,
                                   gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mY,
-                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
+                                  gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mBottom);
             return;
         }
     }
@@ -252,9 +252,9 @@ void MoveWaySelection(int direction) {
     }
     StartSoundSeq(8);
     PlaceSelectionCorners(gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mX,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_04,
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mRight,
                           gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mY,
-                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mUnk_06);
+                          gWaySelectionRects[HasModeFlag(1)][gWaySelectedIndex].mBottom);
 }
 
 void RequestWayPaletteRowCopy(void) {

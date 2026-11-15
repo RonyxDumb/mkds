@@ -65,8 +65,8 @@ void SetupOptMenu(void) {
     oamEntry = gOptMenuOamEntry;
     oamEntry->mAttr2 = (oamEntry->mAttr2 & 0xfffff3ff) | 0xc00;
     PlaceSelectionCorners(
-        gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
-        gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mRight,
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mBottom);
     SetUpdateFunction(StartOptMenuFadeIn);
 }
 
@@ -138,9 +138,9 @@ void UpdateOptMenuInput(void) {
             SetButtonResultIfNone(1);
             gOptMenuSelectedIndex = rectIndex;
             PlaceSelectionCorners(gOptMenuSelectionRects[gOptMenuSelectedIndex].mX,
-                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
+                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mRight,
                                   gOptMenuSelectionRects[gOptMenuSelectedIndex].mY,
-                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
+                                  gOptMenuSelectionRects[gOptMenuSelectedIndex].mBottom);
             return;
         }
     }
@@ -238,8 +238,8 @@ void MoveOptMenuSelection(s32 direction) {
     }
     StartSoundSeq(8);
     PlaceSelectionCorners(
-        gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_04,
-        gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mUnk_06);
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mX, gOptMenuSelectionRects[gOptMenuSelectedIndex].mRight,
+        gOptMenuSelectionRects[gOptMenuSelectedIndex].mY, gOptMenuSelectionRects[gOptMenuSelectedIndex].mBottom);
 }
 
 void RequestOptMenuPaletteRowCopy(void) {
