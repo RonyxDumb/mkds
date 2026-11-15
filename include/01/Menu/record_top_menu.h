@@ -19,6 +19,24 @@ enum {
     RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN,
 };
 
+// Values of RecordTopMenu.mIndex: the rows, top to bottom, in the order of gRecordTopMenuRowRecordScreens.
+enum {
+    RECORD_TOP_ROW_GPX,
+    RECORD_TOP_ROW_TIME_ATTACK,
+    RECORD_TOP_ROW_VS,
+    RECORD_TOP_ROW_COUNT,
+};
+
+// Frames of the slide in and the slide out; the rows travel RECORD_TOP_MENU_SLIDE_DISTANCE sideways, the BG0 layer
+// RECORD_TOP_MENU_BG0_SLIDE_DISTANCE vertically.
+#define RECORD_TOP_MENU_SLIDE_FRAMES 10
+#define RECORD_TOP_MENU_SLIDE_DISTANCE 224
+#define RECORD_TOP_MENU_BG0_SLIDE_DISTANCE 192
+
+// Frames of the press animation of a row (GetSelectedPressOffset); the row is switched on at the fifth.
+#define RECORD_TOP_MENU_PRESS_FRAMES 10
+#define RECORD_TOP_MENU_ROW_ON_FRAME 5
+
 typedef struct RecordTopMenu {
     /* 0x00 */ struct NNSG2dCellDataBank *mRecordTopMenuMNcer;
     /* 0x04 */ LayoutEntryTable *mRecordTopMenuMBncl;
