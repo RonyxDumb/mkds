@@ -17,7 +17,7 @@ s32 GetRaceHudSubScreenState(void) {
     return subScreenState;
 }
 
-void RequestRaceHudSubScreenState5(void) {
+void RequestRaceHudSubScreenGoalTeams(void) {
     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_TEAMS;
     gRaceHud->mSubScreenEnabled = TRUE;
     gRaceHud->mSubScreenGoalTeamsLoadPending = TRUE;

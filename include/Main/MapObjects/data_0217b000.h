@@ -597,8 +597,8 @@ typedef struct RaceHud {
     /* 81c */ struct Nscr *mNscrs[3];
     // RaceHudSubScreenState page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), switched on by the step,
     // the draw and the upload slot; assigned by UpdateRaceHudSubScreen (per mode and race state),
-    // RequestRaceHudSubScreenState5 (RaceGoalS teams) and RequestRaceHudSubScreenNewRecord (RaceNewRecordTa). The player
-    // switches the icons page and the first map page with sounds 0x18 / 0x17.
+    // RequestRaceHudSubScreenGoalTeams (RaceGoalS teams) and RequestRaceHudSubScreenNewRecord (RaceNewRecordTa). The
+    // player switches the icons page and the first map page with sounds 0x18 / 0x17.
     /* 828 */ s32 mSubScreenState;
     // Gate of the sub screen's page update and page upload.
     /* 82c */ BOOL mSubScreenEnabled;

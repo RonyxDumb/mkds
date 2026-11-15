@@ -38,7 +38,7 @@ void StartRaceGoalS(void) {
     if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0) {
         gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
         gRaceGoalS->mUpdateFrames = 0;
-        RequestRaceHudSubScreenState5();
+        RequestRaceHudSubScreenGoalTeams();
     } else {
         gRaceGoalS->mUpdate = SlideInRaceGoalS;
         gRaceGoalS->mUpdateFrames = 0;

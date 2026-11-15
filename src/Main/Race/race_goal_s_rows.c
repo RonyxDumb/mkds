@@ -111,7 +111,7 @@ void SlideOutRaceGoalS(void) {
         gRaceGoalS->mOffsetX = 0x100;
         gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
         gRaceGoalS->mUpdateFrames = 0;
-        RequestRaceHudSubScreenState5();
+        RequestRaceHudSubScreenGoalTeams();
     }
 }
 
