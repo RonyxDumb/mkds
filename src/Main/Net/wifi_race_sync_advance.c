@@ -125,8 +125,8 @@ void InitWiFiRaceSync(void *heap) {
     if (gRaceSetup->mMode != MODE_WIFI) {
         return;
     }
-    gWiFiRaceSync = HeapAlloc(heap, 0x760);
-    gWiFiRaceSync->mSendBuffer = HeapAllocAligned(heap, WIFI_RACE_SYNC_SEND_BUFFER_SIZE, 0x20);
+    gWiFiRaceSync = HeapAlloc(heap, sizeof(*gWiFiRaceSync));
+    gWiFiRaceSync->mSendBuffer = HeapAllocAligned(heap, WIFI_RACE_SYNC_SEND_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
         gWiFiRaceSync->mItemDataSlots[slotIndex].mData = HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
         for (index = 0; index < WIFI_RACE_SYNC_PARTICIPANT_COUNT; index++) {

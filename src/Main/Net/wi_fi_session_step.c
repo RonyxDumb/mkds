@@ -27,8 +27,8 @@ void SetupWiFiSession(u32 mode) {
     switch (mode) {
         case WIFI_SESSION_SETUP_FIRST:
             MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
-            MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
-            MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, 0x110);
+            MI_CpuFill8(gWiFiSession->mIndexMessages, 0, sizeof(gWiFiSession->mIndexMessages));
+            MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, sizeof(gWiFiSession->mReceiveBuffers));
             for (participantIndex = 0; participantIndex < gWiFiSession->mStartKartCount; participantIndex++) {
                 if (participantIndex != DWC_GetMyAID()) {
                     DWC_SetRecvBuffer(participantIndex, &gWiFiSession->mPlayerRecords[participantIndex],

@@ -22,13 +22,13 @@ void InitMPChunkBuffers(void *heap) {
     int byteOffset;
     void *allocation;
     ConnectionWork **workAddress;
-    allocation = HeapAllocAligned(heap, (0x0000016cu), 0x20);
+    allocation = HeapAllocAligned(heap, MP_CHUNK_PACKET_BYTES, HEAP_ALIGN_CACHE_LINE);
     workAddress = &gConnectionWork;
     gConnectionWork->mChunkBuffer = allocation;
     slot = 0;
     byteOffset = 0;
     do {
-        allocation = HeapAlloc(heap, 0x12);
+        allocation = HeapAlloc(heap, MP_CHUNK_FLAGS_PER_SLOT);
         gConnectionWork->mChunkReceivedFlags[slot] = allocation;
         byteOffset = byteOffset + 4;
         slot = slot + 1;
@@ -81,7 +81,7 @@ void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s
     }
     playerBit = 1 << playerIndex;
     if (!(gConnectionWork->mNamesStoredMask & playerBit)) {
-        MI_CpuCopy8(data, &gConnectionWork->mPlayerRecords[playerIndex], 0x14);
+        MI_CpuCopy8(data, &gConnectionWork->mPlayerRecords[playerIndex], PLAYER_NAME_BYTES);
         gConnectionWork->mNamesStoredMask |= playerBit;
     }
 }

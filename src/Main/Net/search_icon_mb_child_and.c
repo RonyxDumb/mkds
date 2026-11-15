@@ -18,7 +18,7 @@
 struct DownloadScreenFiles *gDownloadScreenFiles;
 
 void CreateSearchIconMBChildAndMultiDownload(void *heap) {
-    gDownloadScreenFiles = HeapAlloc(heap, 0x2c);
+    gDownloadScreenFiles = HeapAlloc(heap, sizeof(*gDownloadScreenFiles));
     gDownloadScreenFiles->mSearchIconCellLayout = FindFileInLoadedArchives("search_icon_00.bncl");
     gDownloadScreenFiles->mSearchIconLayoutCellLayout = FindFileInLoadedArchives("search_icon_layout_00.bncl");
     LoadNcgrData2(&gDownloadScreenFiles->mSearchIconChars, FindFileInLoadedArchives("search_icon_00.nce.ncgr"));

@@ -48,7 +48,7 @@ u32 TrySelectScanSlot(u32 entryIndex) {
         entry = &gConnectionWork->mScanSlots[entryIndex];
         gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_SCANNING;
         if (entry->mInUse != 0) {
-            MI_CpuCopy8(entry, gConnectionWork->mParentBssDesc, 0xc0);
+            MI_CpuCopy8(entry, gConnectionWork->mParentBssDesc, sizeof(WMBssDesc));
             DC_StoreRange(gConnectionWork->mParentBssDesc, 0xc0);
             connectionWork = gConnectionWork;
             connectionWork->mRememberedScanKey = entry->mKey;

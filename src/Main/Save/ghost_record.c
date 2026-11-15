@@ -118,7 +118,7 @@ void FillPlayerRecord(PlayerRecord *record) {
         MI_CpuCopy8(gBackupBuffers->mEmblemRecord->mEmblemData, record->mEmblem, sizeof(record->mEmblem));
     } else {
         record->mHasEmblem = 0;
-        MI_CpuFill8(record->mEmblem, 0, 0x200);
+        MI_CpuFill8(record->mEmblem, 0, sizeof(record->mEmblem));
     }
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mFlags, record->mBits, sizeof(record->mBits));
     record->mRegion = gStartupWork->mRegion;

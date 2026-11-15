@@ -146,7 +146,7 @@ BOOL GetBuddyRecordName(u8 recordIndex, void *nameOut) {
     if (buddyRecord.mFilled != 1) {
         return FALSE;
     }
-    MI_CpuCopy8(buddyRecord.mName, nameOut, 0x14);
+    MI_CpuCopy8(buddyRecord.mName, nameOut, sizeof(buddyRecord.mName));
     return TRUE;
 }
 
@@ -168,7 +168,7 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
 
     GetBuddyRecord(recordIndex, &buddyRecord);
     wasFilled = buddyRecord.mFilled == 1;
-    MI_CpuFill8(&buddyRecord, 0, 0x24);
+    MI_CpuFill8(&buddyRecord, 0, sizeof(BuddyRecord));
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
     if (gWiFiSession->mStateMachine.mState != 0) {
@@ -217,7 +217,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
     combinedRecord.mHasEmblem = keptRecord.mHasEmblem;
     combinedRecord.mFlagged = keptRecord.mFlagged == 1 || mergedRecord.mFlagged == 1;
     SetBuddyRecord(keptIndex, &combinedRecord);
-    MI_CpuFill8(&mergedRecord, 0, 0x24);
+    MI_CpuFill8(&mergedRecord, 0, sizeof(BuddyRecord));
     mergedRecord.mFilled = 0;
     SetBuddyRecord(mergedIndex, &mergedRecord);
 }
@@ -388,7 +388,7 @@ BOOL GetTimeRecordName(s32 courseId, s32 recordIndex, void *nameOut) {
     if (!TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
         return FALSE;
     }
-    MI_CpuCopy8(timeRecord.mName, nameOut, 0x14);
+    MI_CpuCopy8(timeRecord.mName, nameOut, sizeof(timeRecord.mName));
     return TRUE;
 }
 
@@ -414,7 +414,7 @@ void ClearCourseTimeRecords(s32 courseId) {
         ghostBitCleared = TRUE;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
-        MI_CpuFill8(&timeRecord, 0, 0x20);
+        MI_CpuFill8(&timeRecord, 0, sizeof(TimeRecord));
         SetCourseTimeRecord(courseId, recordIndex, &timeRecord);
     }
     if (ghostBitCleared != FALSE) {

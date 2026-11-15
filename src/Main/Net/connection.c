@@ -73,7 +73,7 @@ void ResetConnection(void) {
     blocks = &gConnectionWork->mBlockTransfer;
     blockEntry = &blocks->mBlockEntries[0];
     for (index = 0; index < 0xc; index++) {
-        blockEntry->mPath = 0;
+        blockEntry->mPath[0] = 0;
         blockEntry->mBuffer = NULL;
         blockEntry++;
     }
@@ -611,7 +611,8 @@ void StartParentCallback(WirelessMessage *event) {
                 AddChild(event->mLength, &event->mMacAddress[0], (PlayerRecord *) event->mPeerBytes);
                 break;
             case WIRELESS_STATE_SESSION_START:
-                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0], 0x14);
+                MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, &gConnectionWork->mPlayerRecords[0],
+                            PLAYER_NAME_BYTES);
                 MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mFlags, &gConnectionWork->mPlayerRecords[0].mBits,
                             sizeof(gConnectionWork->mPlayerRecords[0].mBits));
                 seed = 0;

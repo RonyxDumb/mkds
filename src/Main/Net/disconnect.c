@@ -315,7 +315,7 @@ void AddChild(u32 aid, u8 *bytes, PlayerRecord *playerEntry) {
     children->mEntries[0].mBytes[3] = bytes[3];
     children->mEntries[0].mBytes[4] = bytes[4];
     children->mEntries[0].mBytes[5] = bytes[5];
-    MI_CpuCopy8(playerEntry, &gConnectionWork->mPlayerRecords[aid], 0x14);
+    MI_CpuCopy8(playerEntry, &gConnectionWork->mPlayerRecords[aid], PLAYER_NAME_BYTES);
     gConnectionWork->mStatusFlags |= CONNECTION_STATUS_CHILDREN_CHANGED;
     if ((playerEntry->mEmblem[0] & 1) != 0) {
         BIT_SET(gConnectionWork->mGroupSendMask, aid);

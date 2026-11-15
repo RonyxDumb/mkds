@@ -7,17 +7,18 @@
 #pragma thumb on
 
 void InitBackupBuffers(void *heap) {
-    gBackupBuffers = HeapAlloc(heap, 0x48);
-    gBackupBuffers->mFirstBlock = HeapAllocAligned(heap, sizeof(BackupFirstBlock), 0x20);
-    gBackupBuffers->mEmblemRecord = HeapAllocAligned(heap, sizeof(EmblemRecord), 0x20);
-    gBackupBuffers->mGrandPrixRecordBlock = HeapAllocAligned(heap, sizeof(GrandPrixRecordBlock), 0x20);
-    gBackupBuffers->mCourseTimeRecordBlock = HeapAllocAligned(heap, sizeof(CourseTimeRecordBlock), 0x20);
-    gBackupBuffers->mMissionRecordBlock = HeapAllocAligned(heap, sizeof(MissionRecordBlock), 0x20);
-    gBackupBuffers->mCourseGhostRecord = HeapAllocAligned(heap, sizeof(GhostRecord), 0x20);
-    gBackupBuffers->mSlotGhostRecords[0] = HeapAllocAligned(heap, 0x1000, 0x20);
-    gBackupBuffers->mSlotGhostRecords[1] = HeapAllocAligned(heap, 0x1000, 0x20);
-    gBackupBuffers->mBuddyRecordBlock = HeapAllocAligned(heap, sizeof(BuddyRecordBlock), 0x20);
-    gBackupBuffers->mEmblemBlockData = HeapAllocAligned(heap, sizeof(EmblemBlockData), 0x20);
+    gBackupBuffers = HeapAlloc(heap, sizeof(BackupBuffers));
+    gBackupBuffers->mFirstBlock = HeapAllocAligned(heap, sizeof(BackupFirstBlock), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mEmblemRecord = HeapAllocAligned(heap, sizeof(EmblemRecord), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mGrandPrixRecordBlock = HeapAllocAligned(heap, sizeof(GrandPrixRecordBlock), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mCourseTimeRecordBlock =
+        HeapAllocAligned(heap, sizeof(CourseTimeRecordBlock), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mMissionRecordBlock = HeapAllocAligned(heap, sizeof(MissionRecordBlock), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mCourseGhostRecord = HeapAllocAligned(heap, sizeof(GhostRecord), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mSlotGhostRecords[0] = HeapAllocAligned(heap, sizeof(SlotGhostRecord), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mSlotGhostRecords[1] = HeapAllocAligned(heap, sizeof(SlotGhostRecord), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mBuddyRecordBlock = HeapAllocAligned(heap, sizeof(BuddyRecordBlock), HEAP_ALIGN_CACHE_LINE);
+    gBackupBuffers->mEmblemBlockData = HeapAllocAligned(heap, sizeof(EmblemBlockData), HEAP_ALIGN_CACHE_LINE);
     gBackupBuffers->mReadDestination = NULL;
     ResetBackupFirstBlockAndRecords(1);
     gBackupBuffers->mFailedBlockBits = 0;

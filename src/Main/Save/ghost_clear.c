@@ -7,7 +7,7 @@
 
 void ClearCourseAndFirstSlotGhost(void) {
     MI_CpuFill8(gBackupBuffers->mCourseGhostRecord, 0, sizeof(GhostRecord));
-    MI_CpuFill8(gBackupBuffers->mSlotGhostRecords[0], 0, 0x1000);
+    MI_CpuFill8(gBackupBuffers->mSlotGhostRecords[0], 0, sizeof(SlotGhostRecord));
 }
 
 #pragma thumb off

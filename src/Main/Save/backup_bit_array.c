@@ -58,7 +58,7 @@ void ResetBackupFirstBlock(s32 copyOwnerName) {
         ownerCharCount = gStartupWork->mOwnerCharCount;
         ownerText = gStartupWork->mOwnerText;
         gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
-        MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, 0x14);
+        MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
         MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
     }
     gBackupBuffers->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;

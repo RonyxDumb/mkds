@@ -190,9 +190,9 @@ s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 
     node->mDataInfo.mBlockSize = size;
     node->mPermissionBmp = permissionBmp;
     if (info != NULL) {
-        MI_CpuCopy8(info, node->mDataInfo.mUserId, 0x20);
+        MI_CpuCopy8(info, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
     } else {
-        MI_CpuFill8(node->mDataInfo.mUserId, 0, 0x20);
+        MI_CpuFill8(node->mDataInfo.mUserId, 0, sizeof(node->mDataInfo.mUserId));
     }
     OS_RestoreInterrupts(savedInterrupts);
     return 1;

@@ -79,7 +79,7 @@ u32 IsAllMPChunksReceived(u32 slot) {
     receivedFlags = gConnectionWork->mChunkReceivedFlags[slot];
     allReceived = 1;
     if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        chunkCount = 0x12;
+        chunkCount = MP_CHUNK_FLAGS_PER_SLOT;
     } else {
         chunkCount = 2;
     }

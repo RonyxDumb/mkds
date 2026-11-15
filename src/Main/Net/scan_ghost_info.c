@@ -72,7 +72,7 @@ BOOL CopySingleChildName(void *destination) {
     childMask = gConnectionWork->mChildren.mChildMask;
     do {
         if (BIT_IS_SET(childMask, index)) {
-            MI_CpuCopy8(&gConnectionWork->mPlayerRecords[index], destination, 0x14);
+            MI_CpuCopy8(&gConnectionWork->mPlayerRecords[index], destination, PLAYER_NAME_BYTES);
             found = TRUE;
             break;
         }

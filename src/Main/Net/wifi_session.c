@@ -685,7 +685,7 @@ void RegisterKartKeysAndStart(void) {
     s32 eloLow;
 
     ClearWiFiDisconnectStatus();
-    MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, 0x910);
+    MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, sizeof(gWiFiSession->mPlayerRecords));
     FillPlayerRecord(&gWiFiSession->mPlayerRecords[0].mPlayer);
     gWiFiSession->mKeys[WIFI_MATCH_KEY_REGION].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mRegion;
     gWiFiSession->mKeys[WIFI_MATCH_KEY_ELO].mValue = gWiFiSession->mPlayerRecords[0].mPlayer.mElo;
@@ -713,7 +713,7 @@ void RegisterKartKeysAndStart(void) {
     if (eloHigh > WIFI_ELO_MAX) {
         eloHigh = WIFI_ELO_MAX;
     }
-    MI_CpuFill8(gKartFilterString, 0, 0x64);
+    MI_CpuFill8(gKartFilterString, 0, sizeof(gKartFilterString));
     if (gWiFiSession->mKeys[WIFI_MATCH_KEY_TYPE].mValue == WIFI_MATCH_TYPE_ELO) {
         sprintf(gKartFilterString, "%s = '%s' and %s > %d and %s < %d", "kart_filter", "ds_mario_kart_product",
                 "kart_elo", eloLow, "kart_elo", eloHigh);
@@ -858,7 +858,7 @@ void KartKeysStartCallback(u32 result, s32 flag) {
             session = gWiFiSession;
             participantIndex++;
         }
-        MI_CpuFill8(session->mPlayerRecords, 0, 0x910);
+        MI_CpuFill8(session->mPlayerRecords, 0, sizeof(session->mPlayerRecords));
         FillPlayerRecord(&gWiFiSession->mPlayerRecords[DWC_GetMyAID()].mPlayer);
         SetupWiFiSession(WIFI_SESSION_SETUP_FIRST);
         gWiFiSession->mStartStatus = WIFI_START_STATUS_CONNECTED;
@@ -877,14 +877,14 @@ void SetWiFiDisconnectKind(s32 kind) {
 }
 
 void ResetWiFiSession(void) {
-    MI_CpuFill8(gWiFiSession->mRecvBuffers, 0, 0x200);
-    MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, 0x910);
+    MI_CpuFill8(gWiFiSession->mRecvBuffers, 0, sizeof(gWiFiSession->mRecvBuffers));
+    MI_CpuFill8(gWiFiSession->mPlayerRecords, 0, sizeof(gWiFiSession->mPlayerRecords));
     MI_CpuFill8(gWiFiSession->mConnection, 0, 0xe24);
     MI_CpuFill8(&gWiFiSession->mStep, 0, 0x60);
     MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
-    MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, 0x110);
-    MI_CpuFill8(gWiFiSession->mIndexMessages, 0, 0x110);
-    MI_CpuFill8(&gWiFiSession->mLogin, 0, 0x10);
+    MI_CpuFill8(gWiFiSession->mReceiveBuffers, 0, sizeof(gWiFiSession->mReceiveBuffers));
+    MI_CpuFill8(gWiFiSession->mIndexMessages, 0, sizeof(gWiFiSession->mIndexMessages));
+    MI_CpuFill8(&gWiFiSession->mLogin, 0, sizeof(gWiFiSession->mLogin));
     gWiFiSession->mResetToOff = FALSE;
     gWiFiSession->mRaceSyncEnabled = FALSE;
     gWiFiSession->mIrqCallbackCount = 0;
@@ -950,7 +950,7 @@ u32 GetWiFiLinkLevel(void) {
 void InitWiFiSession(void *heap) {
     StateMachine *stateMachine;
 
-    gWiFiSession = HeapAllocAligned(heap, 0x1f58, 0x20);
+    gWiFiSession = HeapAllocAligned(heap, 0x1f58, HEAP_ALIGN_CACHE_LINE);
     InitStateMachine(&gWiFiSession->mStateMachine, gWiFiSessionStateTable, 8, NULL);
     stateMachine = &gWiFiSession->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
@@ -960,7 +960,7 @@ void InitWiFiSession(void *heap) {
 // Creates the 0x3e800-byte exp heap and registers WiFiSessionHeapAlloc / Free with the net layer (the heap is used only
 // through them).
 void CreateWiFiSessionHeap(void *heap) {
-    gWiFiSession->mHeapBuffer = HeapAllocAligned(heap, 0x3e800, 0x20);
+    gWiFiSession->mHeapBuffer = HeapAllocAligned(heap, 0x3e800, HEAP_ALIGN_CACHE_LINE);
     gWiFiSession->mHeap = NNS_FndCreateExpHeapEx(gWiFiSession->mHeapBuffer, 0x3e800, 1);
     gWiFiSession->mHeapCreated = TRUE;
     DWC_SetMemFunc(WiFiSessionHeapAlloc, WiFiSessionHeapFree);

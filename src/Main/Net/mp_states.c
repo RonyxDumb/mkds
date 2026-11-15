@@ -209,7 +209,7 @@ void EnterMPStartExchange(void *stateObject) {
     }
     for (slot = 0; slot < 8; slot++) {
         if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-            flagCount = 0x12;
+            flagCount = MP_CHUNK_FLAGS_PER_SLOT;
         } else {
             flagCount = 2;
         }
@@ -402,7 +402,7 @@ void EnterMPSendRomArchive(void *stateObject) {
     }
     for (slot = 1; slot < 8; slot++) {
         if ((gConnectionWork->mRecordReceivedMask & (1 << slot)) == 0) {
-            MI_CpuFill8(&gConnectionWork->mPlayerRecords[slot], 0, 0x22c);
+            MI_CpuFill8(&gConnectionWork->mPlayerRecords[slot], 0, sizeof(PlayerRecord));
         }
     }
 }

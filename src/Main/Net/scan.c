@@ -108,7 +108,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         }
         languageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
         childCount = gameInfo->mGameInfoPart.mChildCount;
-        MI_CpuCopy8(scanBuffer, slot, 0xc0);
+        MI_CpuCopy8(scanBuffer, slot, sizeof(WMBssDesc));
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
@@ -129,7 +129,7 @@ void FillScanSlot(ScanSlot *slot, WMBssDesc *scanBuffer, ScanMacAddress *key, Us
         }
         gameLanguageIndex = gameInfo->mGameInfoPart.mLanguageIndex;
         gameChildCount = gameInfo->mGameInfoPart.mChildCount;
-        MI_CpuCopy8(scanBuffer, slot, 0xc0);
+        MI_CpuCopy8(scanBuffer, slot, sizeof(WMBssDesc));
         slot->mKey = *key;
         slot->mInUse = 1;
         slot->mAge = 0;
@@ -200,7 +200,7 @@ void FindOrAddScanSlot(WMBssDesc *scanBuffer, ScanMacAddress *key, UserGameInfo 
                 gameInfoPart = (void *) &userGameInfo->mGameInfoPart;
                 nameInfo = &gameInfoPart->mNameInfo;
                 childCount = -(found != FALSE);
-                MI_CpuCopy8(scanBuffer, chosenSlot, 0xc0);
+                MI_CpuCopy8(scanBuffer, chosenSlot, sizeof(WMBssDesc));
                 chosenSlot->mKey = *key;
                 chosenSlot->mInUse = 1;
                 chosenSlot->mAge = 0;
@@ -255,7 +255,7 @@ void StartScanCallback(WirelessMessage *event) {
         switch (event->mReplyState) {
             case WIRELESS_STATE_HOST_SIGHTED:
                 DC_InvalidateRange(gConnectionWork->mScanBssDescBuffer, 0xc0);
-                MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, 0xc0);
+                MI_CpuCopy8(gConnectionWork->mScanBssDescBuffer, &scanBuffer, sizeof(WMBssDesc));
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == CONNECTION_STATE_ENDED) {
                     value = event->mAid;
@@ -361,8 +361,8 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
                   void (*disconnectedCallback)()) {
     u8 userData[0x18];
 
-    MI_CpuFill8(userData, 0, 0x18);
-    MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, userData, 0x14);
+    MI_CpuFill8(userData, 0, sizeof(userData));
+    MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mPlayerName, userData, PLAYER_NAME_BYTES);
     if (parentBssDesc != NULL) {
         *gConnectionWork->mParentBssDesc = *parentBssDesc;
     }
@@ -372,7 +372,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
             userData[0x14] = userData[0x14] | 1;
         }
     } else {
-        MI_CpuCopy8(customUserData, userData, 0x18);
+        MI_CpuCopy8(customUserData, userData, sizeof(userData));
     }
     gConnectionWork->mStep = CONNECTION_STEP_JOINING;
     gConnectionWork->mRequestPending = 1;

@@ -70,7 +70,8 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
     }
     emblemData->mHasPixels = BIT_IS_SET(emblemBlock->mBlockData.mFilledBits, slotIndex);
     if (emblemData->mHasPixels != 0) {
-        MI_CpuCopy8(emblemBlock->mBlockData.mEmblems[slotIndex], emblemData, 0x200);
+        MI_CpuCopy8(emblemBlock->mBlockData.mEmblems[slotIndex], emblemData,
+                    sizeof(emblemBlock->mBlockData.mEmblems[slotIndex]));
     }
     return TRUE;
 }
@@ -140,7 +141,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                     CARD_WaitBackupAsync();
                 }
             } else {
-                MI_CpuFill8(blockData, 0, 0xb00);
+                MI_CpuFill8(blockData, 0, sizeof(EmblemBlockData));
                 SetBitArrayBit(blockIndex, gBackupBuffers->mFirstBlock->mEmblemBlockBits, 2);
                 blockCreated = TRUE;
             }
@@ -214,7 +215,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
                     CARD_WaitBackupAsync();
                 }
             } else {
-                MI_CpuFill8(blockData, 0, 0xb00);
+                MI_CpuFill8(blockData, 0, sizeof(EmblemBlockData));
                 SetBitArrayBit(blockIndex, gBackupBuffers->mFirstBlock->mEmblemBlockBits, 2);
             }
             firstBuddyIndex = blockIndex * 5;

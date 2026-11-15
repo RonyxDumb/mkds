@@ -106,10 +106,10 @@ void ClearBackupAccessStatus(void) {
 }
 
 void CreateBackupAccess(void *heap) {
-    gBackupAccess = HeapAlloc(heap, 0x70);
+    gBackupAccess = HeapAlloc(heap, sizeof(*gBackupAccess));
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        gBackupAccess->mBuffer = HeapAllocAligned(heap, 0x2c00, 0x20);
-        gBackupAccess->mOneByteReadBuffer = HeapAllocAligned(heap, 1, 0x20);
+        gBackupAccess->mBuffer = HeapAllocAligned(heap, 0x2c00, HEAP_ALIGN_CACHE_LINE);
+        gBackupAccess->mOneByteReadBuffer = HeapAllocAligned(heap, 1, HEAP_ALIGN_CACHE_LINE);
     }
     gBackupAccess->mBackupEnabled = 0;
 }

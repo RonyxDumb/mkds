@@ -933,7 +933,7 @@ void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
     archiveNode->mNext = view->mActiveHead;
     view->mActiveHead = archiveNode;
     archiveNode->mChildCount = 1;
-    MI_CpuFill8(archiveNode, 0, 0x8c0);
+    MI_CpuFill8(archiveNode, 0, sizeof(*archiveNode));
     WBT_RegisterBlock(&archiveNode->mBlockNode, 0x20000, gEmptyBlockInfo, transfer->mArchiveBlock,
                       gRomArchiveTransfer.mArchiveBlockSize, 0);
     transfer->mState = ROM_ARCHIVE_STARTING;

@@ -381,7 +381,7 @@ s32 GetZeroWordResult(void) {
 }
 
 void InitConnection(void *heap) {
-    gConnectionWork = HeapAllocAligned(heap, sizeof(ConnectionWork), 0x20);
+    gConnectionWork = HeapAllocAligned(heap, sizeof(ConnectionWork), HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
     gConnectionWork->mState = CONNECTION_STATE_IDLE;
     gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
@@ -391,28 +391,33 @@ void InitConnection(void *heap) {
     gConnectionWork->mUnk_0456_0 = 0;
 }
 
+// Bytes of the exp heap that the connection code allocates its buffers from.
+#define CONNECTION_HEAP_BYTES 0x7800
+
 void InitConnectionBuffers(void *heap) {
-    gConnectionWork->mWmWorkBuffer = HeapAllocAligned(heap, 0xf00, 0x20);
-    gConnectionWork->mParentParameter = HeapAllocAligned(heap, 0x40, 0x20);
-    gConnectionWork->mScanParams = HeapAllocAligned(heap, 0x20, 0x20);
-    gConnectionWork->mParentBssDesc = HeapAllocAligned(heap, 0xc0, 0x20);
-    gConnectionWork->mScanBssDescBuffer = HeapAllocAligned(heap, 0xc0, 0x20);
-    gConnectionWork->mScanExParams = HeapAllocAligned(heap, 0x44, 0x20);
-    gConnectionWork->mScanExBuffer = HeapAllocAligned(heap, 0x400, 0x20);
+    gConnectionWork->mWmWorkBuffer = HeapAllocAligned(heap, 0xf00, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mParentParameter = HeapAllocAligned(heap, 0x40, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mScanParams = HeapAllocAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mParentBssDesc = HeapAllocAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mScanBssDescBuffer = HeapAllocAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mScanExParams = HeapAllocAligned(heap, 0x44, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mScanExBuffer = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mStartMPSendBufferSize = 0x1c0;
-    gConnectionWork->mStartMPSendBuffer = HeapAllocAligned(heap, gConnectionWork->mStartMPSendBufferSize, 0x20);
+    gConnectionWork->mStartMPSendBuffer =
+        HeapAllocAligned(heap, gConnectionWork->mStartMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mStartMPReceiveBufferSize = 0x400;
-    gConnectionWork->mStartMPReceiveBuffer = HeapAllocAligned(heap, gConnectionWork->mStartMPReceiveBufferSize, 0x20);
-    gConnectionWork->mSharingInfo = HeapAllocAligned(heap, 0x820, 0x20);
-    gConnectionWork->mSharingDataSet = HeapAllocAligned(heap, 0x200, 0x20);
-    gConnectionWork->mSharingSendRecord = HeapAllocAligned(heap, 8, 0x20);
-    gConnectionWork->mSharingReceiveRecords = HeapAllocAligned(heap, 0x40, 0x20);
-    gConnectionWork->mMPDataBuffer = HeapAllocAligned(heap, 0x18, 0x20);
+    gConnectionWork->mStartMPReceiveBuffer =
+        HeapAllocAligned(heap, gConnectionWork->mStartMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mSharingInfo = HeapAllocAligned(heap, 0x820, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mSharingDataSet = HeapAllocAligned(heap, 0x200, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mSharingSendRecord = HeapAllocAligned(heap, 8, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mSharingReceiveRecords = HeapAllocAligned(heap, 0x40, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mMPDataBuffer = HeapAllocAligned(heap, 0x18, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mAllocHeap = 0;
     gConnectionWork->mMultiBootWork = 0;
     gConnectionWork->mMultiBootSegment = 0;
-    gConnectionWork->mChildren.mGameInfo = HeapAllocAligned(heap, 0x1c, 0x20);
-    gConnectionWork->mHeap = NNS_FndCreateExpHeapEx(HeapAlloc(heap, 0x7800), 0x7800, 1);
+    gConnectionWork->mChildren.mGameInfo = HeapAllocAligned(heap, 0x1c, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mHeap = NNS_FndCreateExpHeapEx(HeapAlloc(heap, CONNECTION_HEAP_BYTES), CONNECTION_HEAP_BYTES, 1);
     gConnectionWork->mMPReceiveBuffer = 0;
     gConnectionWork->mMPReceiveBufferSize = 0;
     gConnectionWork->mMPSendBuffer = 0;
@@ -482,7 +487,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mRemovedChildMask = 0;
     gConnectionWork->mStatusFlags = 0;
     gConnectionWork->mChildren.mNameSendIndex = 0;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, 0x14);
+    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, PLAYER_NAME_BYTES);
     gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mLanguageIndex = gStartupWork->mLanguageIndex;
     gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mChildCount = 0;
     for (innerIndex = 0; innerIndex < 4; innerIndex++) {

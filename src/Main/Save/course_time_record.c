@@ -16,7 +16,7 @@ void PackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRe
         packedCourseTimeRecord->mSecond = timeRecord->mSecond;
         packedCourseTimeRecord->mMillisecond = timeRecord->mMillisecond;
     } else {
-        MI_CpuFill8(packedCourseTimeRecord, 0, 0x1c);
+        MI_CpuFill8(packedCourseTimeRecord, 0, sizeof(PackedCourseTimeRecord));
     }
 }
 
@@ -47,7 +47,7 @@ void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, Time
         timeRecord->mMillisecond = packedCourseTimeRecord->mMillisecond;
         timeRecord->mFilled = 1;
     } else {
-        MI_CpuFill8(timeRecord, 0, 0x20);
+        MI_CpuFill8(timeRecord, 0, sizeof(TimeRecord));
     }
 }
 

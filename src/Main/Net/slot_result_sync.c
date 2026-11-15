@@ -122,7 +122,7 @@ s32 GetParticipantSlotResult(s32 participantIndex) {
 
 // Allocates the overlay record and fills the table of the three overlays and the address range they cover.
 void InitOverlayTable(void *heap) {
-    gOverlayLoader = HeapAlloc(heap, 0xb0);
+    gOverlayLoader = HeapAlloc(heap, sizeof(*gOverlayLoader));
     gOverlayLoader->mLowestStart = -1;
     gOverlayLoader->mHighestEnd = 0;
     SetOverlayLoaderEntry(OVERLAY_SLOT_OV000, (s32) SDK_OVERLAY_OV000_ID, (u32) OV000_TEXT_START, (u32) OV000_BSS_END);

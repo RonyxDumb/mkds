@@ -105,7 +105,7 @@ void SetupWiFiSessionLogin(void) {
     u8 buddyIndex;
     WiFiSession *session;
 
-    MI_CpuFill8(&gWiFiSession->mLogin, 0, 0x10);
+    MI_CpuFill8(&gWiFiSession->mLogin, 0, sizeof(gWiFiSession->mLogin));
     MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
     MI_CpuFill8(&gWiFiSession->mConnection, 0, 0xe24);
     if (CheckUserDataValidConsole() != 0) {

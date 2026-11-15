@@ -194,6 +194,7 @@ typedef struct SlotGhostRecord {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mEmblem[0x200];
     /* 230 */ u8 mKeyRecordingBuffer[0xdcc];
+    /* ffc */ u8 mUnk_ffc[4];
 } SlotGhostRecord;
 
 // One buddy: counts per kind of match, the date of the last result, the name and four flags; 60 entries from 0x04 of
@@ -224,10 +225,12 @@ typedef struct BuddyRecord {
     /* 23 */ u8 mUnk_23;
 } BuddyRecord;
 
+#define BUDDY_RECORD_COUNT 60
+
 // 60 BuddyRecord entries from 0x04, then the 60 buddy friend data of 0xc bytes each from 0x874.
 typedef struct BuddyRecordBlock {
     /* 00 */ u8 mUnk_00[4];
-    /* 04 */ BuddyRecord mRecords[60];
+    /* 04 */ BuddyRecord mRecords[BUDDY_RECORD_COUNT];
     /* 874 */ DWCAccFriendData mFriendData[60];
     /* b44 */ u8 mUnk_b44[0xbc];
 } BuddyRecordBlock;
@@ -341,9 +344,8 @@ typedef struct MPStateMachine {
 // One of the 12 entries at 0x16a0: a block to offer to the other consoles, or a file path to read in.
 typedef struct BlockEntry {
     /* 00 */ WBTBlockInfoList mNode;
-// First byte of the 0x40-byte path; 0 means the entry is free.
-    /* 34 */ u8 mPath;
-    /* 35 */ u8 mUnk_35[0x3f];
+// The 0x40-byte path; a first byte of 0 means the entry is free.
+    /* 34 */ u8 mPath[0x40];
     /* 74 */ u32 *mBuffer;
 // Where the uncompressed bytes go; nothing sets it, so a block is allocated for them.
     /* 78 */ void *mUncompressedBuffer;
@@ -382,9 +384,12 @@ typedef struct BlockTransferView {
     /* 7a7 */ u8 mUnk_7a7[1];
 } BlockTransferView;
 
+// Bytes of a player name: ten 16-bit characters.
+#define PLAYER_NAME_BYTES 0x14
+
 // 0x22c-byte entries from 0x45c of ConnectionWork; also the tail from 0xc of WiFiPlayerRecord.
 typedef struct PlayerRecord {
-    /* 000 */ u8 mName[0x14];
+    /* 000 */ u8 mName[PLAYER_NAME_BYTES];
     /* 014 */ u8 mEmblem[0x200];
     /* 214 */ u8 mHasEmblem;
     /* 215 */ u8 mUnk_215;
@@ -657,6 +662,11 @@ enum {
     CONNECTION_SYNC_PARENT_WAIT_CHILDREN,
     CONNECTION_SYNC_PARENT_ANNOUNCE,
 };
+
+// Bytes of the packet buffer behind ConnectionWork.mChunkBuffer (4 header bytes, then the chunk data), and the
+// received-chunk flag bytes of one slot (a child slot only uses 2).
+#define MP_CHUNK_PACKET_BYTES 0x16c
+#define MP_CHUNK_FLAGS_PER_SLOT 0x12
 
 typedef struct ConnectionWork {
     /* 0000 */ u32 mConnectionMode;

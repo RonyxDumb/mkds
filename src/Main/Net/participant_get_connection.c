@@ -77,7 +77,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
     }
     if (connectionWork->mScanSlots[entryIndex].mInUse != 0) {
         if (destination != NULL) {
-            MI_CpuCopy8(connectionWork->mScanSlots[entryIndex].mName, destination, 0x14);
+            MI_CpuCopy8(connectionWork->mScanSlots[entryIndex].mName, destination, PLAYER_NAME_BYTES);
         }
         result = TRUE;
     }
@@ -136,13 +136,13 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
                 childUser = MB_CommGetChildUser(entryIndex);
                 if (BIT_IS_SET(gConnectionWork->mWaitToSendMask, entryIndex) && childUser != NULL) {
                     if (destination != NULL) {
-                        MI_CpuCopy8(childUser->mName, destination, 0x14);
+                        MI_CpuCopy8(childUser->mName, destination, PLAYER_NAME_BYTES);
                     }
                     result = TRUE;
                 }
             } else if (BIT_IS_SET(gConnectionWork->mChildren.mChildMask, entryIndex)) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, PLAYER_NAME_BYTES);
                 }
                 result = TRUE;
             }
@@ -151,7 +151,7 @@ BOOL TryGetPlayerName(u16 entryIndex, void *destination) {
             result = FALSE;
             if (BIT_IS_SET(gConnectionWork->mReceivedNameMask, entryIndex)) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gConnectionWork->mPlayerRecords[entryIndex], destination, PLAYER_NAME_BYTES);
                 }
                 result = TRUE;
             }
@@ -215,7 +215,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     MIi_CpuCopy32(gDefaultParentParameter, parentParameter, 0x40);
     gameInfo = gConnectionWork->mChildren.mGameInfo;
     gameInfo->mGameInfoPart.mHasGhost = 1;
-    MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);
+    MI_CpuCopy8(ghostRecord->mName, gameInfo, PLAYER_NAME_BYTES);
     gameInfo->mGameInfoPart.mKartIndex = ghostRecord->mKartIndex;
     gameInfo->mCharacterIndex = ghostRecord->mCharacterIndex;
     gameInfo->mCupCourseIndex = (u8) FindCupCourseIndex(ghostRecord->mCourseId);

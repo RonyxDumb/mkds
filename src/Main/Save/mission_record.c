@@ -56,7 +56,8 @@ s32 GetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMission
 }
 
 void SetEmblemRecordAndWriteBackup(void *emblemData) {
-    MI_CpuCopy8(emblemData, gBackupBuffers->mEmblemRecord->mEmblemData, 0x200);
+    MI_CpuCopy8(emblemData, gBackupBuffers->mEmblemRecord->mEmblemData,
+                sizeof(gBackupBuffers->mEmblemRecord->mEmblemData));
     gBackupBuffers->mEmblemRecord->mFilled = 1;
     WriteBackupEmblem();
 }
@@ -79,7 +80,7 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     if (cupCourseIndex == -1) {
         return;
     }
-    MI_CpuFill8(ghostRecord, 0, 0xe00);
+    MI_CpuFill8(ghostRecord, 0, sizeof(GhostRecord));
     GetClockDateOrDefault(clockDate);
     ghostRecord->mHead.mYear = clockDate[0];
     ghostRecord->mHead.mMonth = clockDate[1];
@@ -100,7 +101,8 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     ghostRecord->mHead.mSecond = kartTime.mSecond;
     ghostRecord->mHead.mMillisecond = kartTime.mMillisecond;
     MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, ghostRecord->mHead.mName, sizeof(ghostRecord->mHead.mName));
-    MI_CpuCopy8(gInputSlots[playerIndex].mKeyRecording.mBuffer, ghostRecord->mKeyRecordingBuffer, 0xdcc);
+    MI_CpuCopy8(gInputSlots[playerIndex].mKeyRecording.mBuffer, ghostRecord->mKeyRecordingBuffer,
+                sizeof(KeyRecordingBuffer));
     MI_CpuFill8(lapBytes, 0, 0xf);
     for (lapNumber = 1; lapNumber <= GetLapCount(); lapNumber++) {
         byteOffset = (lapNumber - 1) * 3;

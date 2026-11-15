@@ -29,6 +29,9 @@
 
 #pragma thumb on
 
+// Bytes of the scratch buffer for multiboot child data.
+#define MULTIBOOT_SCRATCH_BUFFER_BYTES 0x4c0
+
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
     u32 workSize;
     gConnectionWork->mAllocHeap = heap;
@@ -37,15 +40,18 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
         workSize = 0xc000;
     }
     gConnectionWork->mMultiBootWorkSize = workSize;
-    gConnectionWork->mMultiBootWork = HeapAllocAligned(heap, gConnectionWork->mMultiBootWorkSize, 0x20);
+    gConnectionWork->mMultiBootWork =
+        HeapAllocAligned(heap, gConnectionWork->mMultiBootWorkSize, HEAP_ALIGN_CACHE_LINE);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gConnectionWork->mMultiBootSegmentSize = MB_GetSegmentLength(NULL);
         if (gConnectionWork->mMultiBootSegmentSize > 0x80000) {
             gConnectionWork->mMultiBootSegmentSize = 0x80000;
         }
-        gConnectionWork->mMultiBootSegment = HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, 0x20);
+        gConnectionWork->mMultiBootSegment =
+            HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, HEAP_ALIGN_CACHE_LINE);
         SetGameRegistryTexts(bmg);
-        gConnectionWork->mMultiBootScratchBuffer = HeapAllocAligned(heap, 0x4c0, 0x20);
+        gConnectionWork->mMultiBootScratchBuffer =
+            HeapAllocAligned(heap, MULTIBOOT_SCRATCH_BUFFER_BYTES, HEAP_ALIGN_CACHE_LINE);
     } else {
         gConnectionWork->mMultiBootSegmentSize = 0;
         gConnectionWork->mMultiBootSegment = 0;
@@ -145,7 +151,7 @@ void ResetConnectionBuffers(MultiBootStateView *view) {
         MI_CpuFill8(gConnectionWork->mMultiBootWork, 0, gConnectionWork->mMultiBootWorkSize);
     }
     if (gConnectionWork->mMultiBootScratchBuffer != 0) {
-        MI_CpuFill8(gConnectionWork->mMultiBootScratchBuffer, 0, 0x4c0);
+        MI_CpuFill8(gConnectionWork->mMultiBootScratchBuffer, 0, MULTIBOOT_SCRATCH_BUFFER_BYTES);
     }
     for (index = 0; index < 8; index++) {
         view->mChildStateCodes[index] = 0;
