@@ -96,6 +96,13 @@ typedef struct MissionRunLVsel {
     /* 58 */ s32 mResult; /* also read by ReleaseMissionRunLVsel for the sound */
 } MissionRunLVsel;
 
+// Values of MissionRunMSsel.mResult.
+enum {
+    MISSION_RUN_MSSEL_RESULT_NONE,
+    MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN,
+    MISSION_RUN_MSSEL_RESULT_BACK,
+};
+
 // Values of MissionRunMSsel.mState and mNextState.
 enum {
     MSSEL_STATE_WAIT_FADE,
@@ -151,7 +158,7 @@ typedef struct MissionRunMSsel {
     /* b2 */ u8 mUnk_b2[0x2];
     /* b4 */ void *mMainOamList;
     /* b8 */ void *mSubOamList;
-    /* bc */ s32 mResult; /* 1 = mission chosen, 2 = Back; also read by ReleaseMissionRunMSsel for the sound */
+    /* bc */ s32 mResult; /* MISSION_RUN_MSSEL_RESULT_*; also read by ReleaseMissionRunMSsel for the sound */
 } MissionRunMSsel;
 
 // Values of SelectEngine.mState and mNextState.

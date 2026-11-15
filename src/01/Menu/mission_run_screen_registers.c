@@ -4,6 +4,7 @@
 #include "01/code_0219e000.h"
 #include "01/Menu/mission_run_level_select.h"
 #include "01/Menu/mission_run_mission_select.h"
+#include "01/unk_021ca000.h"
 #include "01/Menu/time_attack_top_menu.h"
 #include "Main/Menu/select_character.h"
 #include "Main/Menu/select_kart_data.h"
@@ -35,10 +36,10 @@ void WriteMissionRunLVselScreenRegisters(void) {
 
 void UpdateMissionRunLVsel(void) {
     switch (AdvanceMissionRunLVsel()) {
-        case 1:
+        case MISSION_RUN_LVSEL_RESULT_LEVEL_CHOSEN:
             SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);
             break;
-        case 2:
+        case MISSION_RUN_LVSEL_RESULT_BACK:
             SwitchMenuScreen(0, 0x1f);
             break;
     }
@@ -68,10 +69,10 @@ void WriteMissionRunMSselScreenRegisters(void) {
 
 void UpdateMissionRunMSsel(void) {
     switch (AdvanceMissionRunMSsel()) {
-        case 1:
+        case MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN:
             SwitchMenuScreen(0x1d, 0x1f);
             break;
-        case 2:
+        case MISSION_RUN_MSSEL_RESULT_BACK:
             SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
             break;
     }

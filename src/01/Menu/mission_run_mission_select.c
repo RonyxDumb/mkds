@@ -580,10 +580,10 @@ void RequestMissionRunMSselState8(void) {
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnState4();
     switch (gMissionRunMSsel->mResult) {
-        case 1:
+        case MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN:
             StopMissionRunMSselSeqsWithSteps(4, 10, GetMissionTableRow());
             break;
-        case 2:
+        case MISSION_RUN_MSSEL_RESULT_BACK:
             StopMissionRunMSselSeqsWithSteps(0, 10, GetMissionTableRow());
             break;
     }
@@ -609,7 +609,7 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     gMissionRunMSsel->mBossRecorded = FALSE;
     gMissionRunMSsel->mMainOamList = mainOamList;
     gMissionRunMSsel->mSubOamList = subOamList;
-    gMissionRunMSsel->mResult = 0;
+    gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_NONE;
     for (missionIndex = 0; missionIndex < 9; missionIndex++) {
         gMissionRunMSsel->mIndexCellTimers[missionIndex] = 0;
     }
@@ -653,10 +653,10 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
 
 void ReleaseMissionRunMSsel(void) {
     switch (gMissionRunMSsel->mResult) {
-        case 1:
+        case MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN:
             StopMissionRunMSselSeqsAtOnce(4, GetMissionTableRow());
             break;
-        case 2:
+        case MISSION_RUN_MSSEL_RESULT_BACK:
             StopMissionRunMSselSeqsAtOnce(0, GetMissionTableRow());
             break;
     }
@@ -769,7 +769,7 @@ void AdvanceMissionRunMSselState3(void) {
     }
     SetSelectReturnSoundId(0xe);
     gMissionRunMSsel->mExitOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
-    gMissionRunMSsel->mResult = 2;
+    gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_BACK;
     RequestMissionRunMSselState8();
     RequestSelectReturnState3WithSound(0);
     return;
@@ -889,7 +889,7 @@ void AdvanceMissionRunMSselState7(void) {
         switch (choisesIndex) {
             case 0:
                 SetMissionFromMissionRunMSsel();
-                gMissionRunMSsel->mResult = 1;
+                gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_MISSION_CHOSEN;
                 gMissionRunMSsel->mExitOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
                 RequestMissionRunMSselState8();
                 break;
