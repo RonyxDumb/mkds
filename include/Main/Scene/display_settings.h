@@ -86,6 +86,10 @@ typedef struct DisplaySettingsDesc {
 // Values of BrightnessFade.mState: fully faded and still, fading toward clear, clear, fading toward faded.
 enum { BRIGHTNESS_FADE_FADED, BRIGHTNESS_FADE_TO_CLEAR, BRIGHTNESS_FADE_CLEAR, BRIGHTNESS_FADE_TO_FADED };
 
+// BrightnessFade.mBrightness when the screen is clear and when it is fully faded (the top of the 0 to 16 range).
+#define BRIGHTNESS_LEVEL_CLEAR 0
+#define BRIGHTNESS_LEVEL_FADED 0x10
+
 // Two of these sit at gSubBrightnessFade and gMainBrightnessFade; UpdateBrightnessFade steps one.
 typedef struct BrightnessFade {
     /* 00 */ u16 mState;

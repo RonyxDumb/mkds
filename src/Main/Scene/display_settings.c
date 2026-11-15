@@ -57,22 +57,22 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
             fade->mFadeFrames++;
             if (fade->mFadeFrames >= fade->mFadeFrameCount) {
                 fade->mState = BRIGHTNESS_FADE_CLEAR;
-                fade->mBrightness = 0;
+                fade->mBrightness = BRIGHTNESS_LEVEL_CLEAR;
             } else {
-                fade->mBrightness = 0x10 - (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
+                fade->mBrightness = BRIGHTNESS_LEVEL_FADED - (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
             }
             if (fade->mPositive == FALSE) {
                 fade->mBrightness = -fade->mBrightness;
             }
             break;
         case BRIGHTNESS_FADE_CLEAR:
-            fade->mBrightness = 0;
+            fade->mBrightness = BRIGHTNESS_LEVEL_CLEAR;
             break;
         case BRIGHTNESS_FADE_TO_FADED:
             fade->mFadeFrames++;
             if (fade->mFadeFrames >= fade->mFadeFrameCount) {
                 fade->mState = BRIGHTNESS_FADE_FADED;
-                fade->mBrightness = 0x10;
+                fade->mBrightness = BRIGHTNESS_LEVEL_FADED;
             } else {
                 fade->mBrightness = (fade->mFadeFrames << 4) / fade->mFadeFrameCount;
             }
@@ -88,12 +88,12 @@ void InitBrightnessFades(void) {
     gMainBrightnessFade.mPositive = TRUE;
     gMainBrightnessFade.mFadeFrames = 0;
     gMainBrightnessFade.mFadeFrameCount = 0;
-    gMainBrightnessFade.mBrightness = 0x10;
+    gMainBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_FADED;
     gSubBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
     gSubBrightnessFade.mPositive = TRUE;
     gSubBrightnessFade.mFadeFrames = 0;
     gSubBrightnessFade.mFadeFrameCount = 0;
-    gSubBrightnessFade.mBrightness = 0x10;
+    gSubBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_FADED;
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
 }
@@ -1027,12 +1027,12 @@ void SetBrightnessFadesClear(void) {
     gMainBrightnessFade.mPositive = FALSE;
     gMainBrightnessFade.mFadeFrames = 0;
     gMainBrightnessFade.mFadeFrameCount = 0;
-    gMainBrightnessFade.mBrightness = 0;
+    gMainBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_CLEAR;
     gSubBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
     gSubBrightnessFade.mPositive = FALSE;
     gSubBrightnessFade.mFadeFrames = 0;
     gSubBrightnessFade.mFadeFrameCount = 0;
-    gSubBrightnessFade.mBrightness = 0;
+    gSubBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_CLEAR;
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
 }
