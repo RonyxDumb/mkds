@@ -78,7 +78,7 @@ const EntryCellIndices *gEntryCellIndices;
 #pragma thumb on
 
 void SetEntrySlot(s32 entryIndex, s32 slot) {
-    gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames = 10;
+    gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames = PLAYER_ENTRY_LIST_MOVE_FRAMES;
     gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot = slot;
     gPlayerEntryList->mEntries[entryIndex].mSlotMove.mTargetSlot =
         gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot;
@@ -94,7 +94,7 @@ void SetEntryTargetSlot(s32 entryIndex, s32 slot) {
     if (entry->mTargetSlot == entry->mFromSlot) {
         entry->mFromSlot = entry->mToSlot;
         entry->mToSlot = entry->mTargetSlot;
-        entry->mMoveFrames = 10 - entry->mMoveFrames;
+        entry->mMoveFrames = PLAYER_ENTRY_LIST_MOVE_FRAMES - entry->mMoveFrames;
     }
 }
 
@@ -103,7 +103,7 @@ void ResetEntrySlots(void) {
     slotIndex = 0;
     do {
         SetEntrySlot(slotIndex, 0);
-        SetEntryTargetSlot(slotIndex, 1);
+        SetEntryTargetSlot(slotIndex, PLAYER_ENTRY_SLOT_FIRST_INNER);
         slotIndex++;
     } while (slotIndex < 8);
 }
@@ -118,7 +118,7 @@ void AdvanceEntrySlots(void) {
     EntrySlotMove *move;
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
         move = &gPlayerEntryList->mEntries[entryIndex].mSlotMove;
-        if (move->mMoveFrames < 10) {
+        if (move->mMoveFrames < PLAYER_ENTRY_LIST_MOVE_FRAMES) {
             move->mMoveFrames++;
         } else if (move->mTargetSlot != move->mToSlot) {
             move->mMoveFrames = 0;
@@ -134,22 +134,22 @@ void AdvanceEntrySlots(void) {
 
 void SetEntryTargetInnerSlot(s32 entryIndex) {
     switch (gPlayerEntryList->mEntries[entryIndex].mSlotMove.mTargetSlot) {
-        case 0:
-            SetEntryTargetSlot(entryIndex, 1);
+        case PLAYER_ENTRY_SLOT_FIRST_OUTER:
+            SetEntryTargetSlot(entryIndex, PLAYER_ENTRY_SLOT_FIRST_INNER);
             break;
-        case 3:
-            SetEntryTargetSlot(entryIndex, 2);
+        case PLAYER_ENTRY_SLOT_SECOND_OUTER:
+            SetEntryTargetSlot(entryIndex, PLAYER_ENTRY_SLOT_SECOND_INNER);
             break;
     }
 }
 
 void SetEntryTargetOuterSlot(s32 entryIndex) {
     switch (gPlayerEntryList->mEntries[entryIndex].mSlotMove.mTargetSlot) {
-        case 1:
-            SetEntryTargetSlot(entryIndex, 0);
+        case PLAYER_ENTRY_SLOT_FIRST_INNER:
+            SetEntryTargetSlot(entryIndex, PLAYER_ENTRY_SLOT_FIRST_OUTER);
             break;
-        case 2:
-            SetEntryTargetSlot(entryIndex, 3);
+        case PLAYER_ENTRY_SLOT_SECOND_INNER:
+            SetEntryTargetSlot(entryIndex, PLAYER_ENTRY_SLOT_SECOND_OUTER);
             break;
     }
 }
@@ -305,7 +305,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     entryList->mMode = mode;
     gPlayerEntryList->mScreenKind = screenKind;
     if (gPlayerEntryList->mSetupRequested != FALSE) {
-        gPlayerEntryList->mTimer = 0x708;
+        gPlayerEntryList->mTimer = PLAYER_ENTRY_LIST_TIMER_FRAMES;
         SetupInterpolation(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
         switch (gPlayerEntryList->mMode) {
             case PLAYER_ENTRY_LIST_MODE_NO_CONNECTION:
@@ -345,7 +345,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                         gPlayerEntryList->mEntries[secondIndex].mName, 0x14);
                 }
                 for (; count < 8; count++) {
-                    SetEntryTargetSlot(count, 0);
+                    SetEntryTargetSlot(count, PLAYER_ENTRY_SLOT_FIRST_OUTER);
                 }
                 SetExtraEntryNames();
                 for (index = 0; index < 8; index++) {
@@ -365,7 +365,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                     }
                 }
                 for (; count < 8; count++) {
-                    SetEntryTargetSlot(count, 0);
+                    SetEntryTargetSlot(count, PLAYER_ENTRY_SLOT_FIRST_OUTER);
                 }
                 for (index = 0; index < 4; index++) {
                     gPlayerEntryList->mEmptySlotSoundPlayed[index] = 0;
@@ -735,7 +735,7 @@ void StartPlayerEntryListKind(s32 kind) {
         case 1:
             for (entryIndex = 0; entryIndex < 8; entryIndex++) {
                 if (entryIndex < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
-                    SetEntryTargetSlot(entryIndex, 1);
+                    SetEntryTargetSlot(entryIndex, PLAYER_ENTRY_SLOT_FIRST_INNER);
                 }
             }
             break;
@@ -772,7 +772,7 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
         } else {
             for (entryIndex = 0; entryIndex < 8; entryIndex++) {
                 if (entryIndex < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mShowAllEntries != 0) {
-                    SetEntryTargetSlot(entryIndex, 1);
+                    SetEntryTargetSlot(entryIndex, PLAYER_ENTRY_SLOT_FIRST_INNER);
                 }
             }
             SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_FALLING);

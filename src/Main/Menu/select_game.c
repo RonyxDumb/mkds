@@ -1,4 +1,5 @@
 #include "Main/Menu/select_game.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Graphics/cell_file_set.h"
 #include "Main/Race/race_setup.h"
 #include "Main/Menu/player_entry_list.h"
@@ -173,7 +174,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectGame->mMode = mode;
     gSelectGame->mMainOam = mainOam;
     gSelectGame->mSubOam = subOam;
-    gSelectGame->mSubOffsetX = 0xee;
+    gSelectGame->mSubOffsetX = SELECT_GAME_SUB_OFFSCREEN_X;
     gSelectGame->mMainOffsetY = -0xc0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         gSelectGame->mMenuMessages = FindSceneFile("menu.bmg");
@@ -279,9 +280,12 @@ s32 AdvanceSelectGame(void) {
             SetSelectGameSubCellsVisible(1);
             SetSelectGameSelectedRowVisible(1);
             gSelectGame->mStateFrames = gSelectGame->mStateFrames + 1;
-            if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = InterpolateS16(1, 0xee, value, gSelectGame->mStateFrames, 10);
-                gSelectGame->mMainOffsetY = InterpolateS16(1, -0xc0, value, gSelectGame->mStateFrames, 10);
+            if (gSelectGame->mStateFrames < SELECT_GAME_SLIDE_STEPS) {
+                gSelectGame->mSubOffsetX =
+                    InterpolateS16(1, SELECT_GAME_SUB_OFFSCREEN_X, value, gSelectGame->mStateFrames,
+                                   SELECT_GAME_SLIDE_STEPS);
+                gSelectGame->mMainOffsetY =
+                    InterpolateS16(1, -0xc0, value, gSelectGame->mStateFrames, SELECT_GAME_SLIDE_STEPS);
             } else {
                 gSelectGame->mStateFrames = value;
                 gSelectGame->mSubOffsetX = value;
@@ -323,7 +327,7 @@ s32 AdvanceSelectGame(void) {
                 }
             } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
-                    gSelectGame->mResult = 2;
+                    gSelectGame->mResult = MENU_SCREEN_RESULT_BACK;
                     gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
                 } else {
                     firstChoiceText = " ";
@@ -365,7 +369,7 @@ s32 AdvanceSelectGame(void) {
                     gSelectGame->mState = SELECT_GAME_STATE_CHOOSE_ROW;
                 } else {
                     gConnectionWork->mFlags |= CONNECTION_FLAG_ENDING;
-                    gSelectGame->mResult = 3;
+                    gSelectGame->mResult = MENU_SCREEN_RESULT_LEAVE;
                     gSelectGame->mState = SELECT_GAME_STATE_WAIT_CONNECTION_END;
                 }
                 SetSelectGameRowCellsVisible(1);
@@ -380,7 +384,7 @@ s32 AdvanceSelectGame(void) {
             break;
         case SELECT_GAME_STATE_WAIT_PRESS:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
-            if (gSelectGame->mStateFrames >= 5) {
+            if (gSelectGame->mStateFrames >= SELECT_GAME_PRESS_START_STEP) {
                 gSelectGame->mStateFrames = value;
                 gSelectGame->mState = SELECT_GAME_STATE_PRESS_ANIMATION;
                 SetSelectGameSelectedRowVisible(1);
@@ -388,7 +392,7 @@ s32 AdvanceSelectGame(void) {
             break;
         case SELECT_GAME_STATE_PRESS_ANIMATION:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
-            if (gSelectGame->mStateFrames < 10) {
+            if (gSelectGame->mStateFrames < SELECT_GAME_PRESS_STEPS) {
                 gSelectGame->mSubOffsetX = GetSelectedPressOffset(gSelectGame->mStateFrames);
             } else {
                 gSelectGame->mStateFrames = value;
@@ -401,9 +405,12 @@ s32 AdvanceSelectGame(void) {
             break;
         case SELECT_GAME_STATE_SLIDE_OUT:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
-            if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = InterpolateS16(1, value, 0xee, gSelectGame->mStateFrames, 10);
-                gSelectGame->mMainOffsetY = InterpolateS16(1, value, -0xc0, gSelectGame->mStateFrames, 10);
+            if (gSelectGame->mStateFrames < SELECT_GAME_SLIDE_STEPS) {
+                gSelectGame->mSubOffsetX =
+                    InterpolateS16(1, value, SELECT_GAME_SUB_OFFSCREEN_X, gSelectGame->mStateFrames,
+                                   SELECT_GAME_SLIDE_STEPS);
+                gSelectGame->mMainOffsetY =
+                    InterpolateS16(1, value, -0xc0, gSelectGame->mStateFrames, SELECT_GAME_SLIDE_STEPS);
             } else {
                 gSelectGame->mSubOffsetX = value;
                 gSelectGame->mMainOffsetY = value;

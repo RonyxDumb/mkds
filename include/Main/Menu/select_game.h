@@ -22,6 +22,13 @@ typedef struct SelectGameRow {
 } SelectGameRow;
 
 // Value of SelectGame.mMode.
+// Steps of the slide in and out and of the press animation; mStateFrames counts them. The press starts at
+// SELECT_GAME_PRESS_START_STEP in state WAIT_PRESS. x offset of the sub screen cells while they are off screen.
+#define SELECT_GAME_SLIDE_STEPS 10
+#define SELECT_GAME_PRESS_STEPS 10
+#define SELECT_GAME_PRESS_START_STEP 5
+#define SELECT_GAME_SUB_OFFSCREEN_X 0xee
+
 typedef enum SelectGameMode {
     SELECT_GAME_MODE_NO_CONNECTION = 0,
     SELECT_GAME_MODE_CONNECTION = 1,

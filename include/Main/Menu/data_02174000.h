@@ -30,6 +30,16 @@ typedef struct GhostListEntry GhostListEntry;
 
 #define PLAYER_ENTRY_LIST_RACE_RULE 2
 
+// Slots an entry of the list moves between (SetEntryTargetSlot): two outer slots and the two inner slots next to them
+// (SetEntryTargetInnerSlot and SetEntryTargetOuterSlot step between each pair).
+#define PLAYER_ENTRY_SLOT_FIRST_OUTER 0
+#define PLAYER_ENTRY_SLOT_FIRST_INNER 1
+#define PLAYER_ENTRY_SLOT_SECOND_INNER 2
+#define PLAYER_ENTRY_SLOT_SECOND_OUTER 3
+// Frames an entry takes to move between slots, and frames the list timer runs.
+#define PLAYER_ENTRY_LIST_MOVE_FRAMES 10
+#define PLAYER_ENTRY_LIST_TIMER_FRAMES 0x708
+
 // Values of PlayerEntryList.mMode (SetupPlayerEntryList's first argument): the same three sources as SelectKartMode.
 typedef enum PlayerEntryListMode {
     PLAYER_ENTRY_LIST_MODE_NO_CONNECTION = 0,
