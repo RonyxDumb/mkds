@@ -6,15 +6,17 @@
 
 typedef struct Camera Camera;
 
-// A periodic effect starts again after PERIODIC_EFFECT_DELAY_BASE frames plus a random number of frames below
-// PERIODIC_EFFECT_DELAY_RANDOM_LIMIT; the first start only waits the random part.
+// A periodic effect starts every PERIODIC_EFFECT_DELAY_BASE plus one frames plus a random number of frames below
+// PERIODIC_EFFECT_DELAY_RANDOM_LIMIT, unless the object is flagged MAP_OBJECT_FLAGS_NOT_DRAWN; the first wait is the
+// random part plus one.
 #define PERIODIC_EFFECT_DELAY_BASE 0x46
 #define PERIODIC_EFFECT_DELAY_RANDOM_LIMIT 0x46
 
-// How far ahead of the camera, along its forward direction, the camera effect is placed (88.0).
+// How far ahead of the camera, along its forward x and z, the AHEAD_OF_CAMERA effect is placed (88.0).
 #define CAMERA_EFFECT_AHEAD_DISTANCE TO_FIXED12(88)
 
-// Values of EffectMapObject.mUnk_a0 for the camera effect: start its effects, then keep them on the camera.
+// Values of EffectMapObject.mCameraEffectState for the camera effect: START starts its effects once, FOLLOW then moves
+// the effect in mEffectHandle every update.
 enum {
     CAMERA_EFFECT_STATE_START,
     CAMERA_EFFECT_STATE_FOLLOW,
@@ -42,7 +44,7 @@ typedef struct EffectMapObject {
 MapObjectList *CreateCameraEffectUpdateList(void);
 void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object);
 // Writes into out the point CAMERA_EFFECT_AHEAD_DISTANCE ahead of the camera along its forward x and z, at the height
-// of the object's mUnk_04.y.
+// of the object's mMapObject.mPos.y.
 void ComputePointAheadOfCamera(EffectMapObject *object, Camera *camera, Vec3 *out);
 MapObjectList *CreatePeriodicEffectUpdateList(void);
 void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object);

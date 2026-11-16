@@ -39,7 +39,7 @@ MapObjectKindData *CreateStopSignKindData(void);
 void DrawStopSign(void *mapObjectList, StopSignObject *mapObject);
 void LoadStopSign(MapObjectList *mapObjectList);
 void InitStopSign(
-    MissionRunMapObject *mapObject); /* object is MapObject-sized; MissionRunMapObject is only the prefix view */
+    MissionRunMapObject *mapObject); /* object is only MapObject-sized; InitStopSign uses just its mMapObject part */
 
 #include "01/Menu/select_ghost.h"
 

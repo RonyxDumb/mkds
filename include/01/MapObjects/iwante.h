@@ -3,8 +3,9 @@
 #include "types.h"
 #include "01/MapObjects/mission_run_map_object.h"
 
-// Values of mHandShape and mHandOrder. A hand's mHandShape is the collision shape set by SetIwanteHandShapeNone to
-// SetIwanteHandShapeHitReaction. mHandOrder uses 4 and 5 for the hand that is currently the second or first one.
+// Values of mHandShape (set by SetIwanteHandShapeNone, SetIwanteHandShapeWalkAStartup, SetIwanteHandShapeWalkA,
+// SetIwanteHandShapeWalkB, SetIwanteHandShapeHitReaction and SetIwanteHandShapeWalkAItemPush) and of mHandOrder (4 or
+// 5: the second or the first hand is the one in the walk A pose).
 enum {
     IWANTE_HAND_SHAPE_NONE,
     IWANTE_HAND_SHAPE_WALK_A,

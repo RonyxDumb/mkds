@@ -18,7 +18,8 @@ enum {
     COIN_STATE_HIDDEN_WAIT,
 };
 
-// mScaleFactor: scale a coin starts with, its full scale and the per-frame growth between them.
+// Coin.mScaleFactor: scale a coin starts with when it leaves a kart, its full scale and the growth added each frame
+// while it drops or flies to the boss.
 #define COIN_SCALE_START 0x99a
 #define COIN_SCALE_FULL TO_FIXED12(1)
 #define COIN_SCALE_GROW_PER_FRAME 0x29
@@ -40,7 +41,7 @@ enum {
 // Sound a coin makes when it leaves a kart (drop and transfer rise).
 #define COIN_LEAVE_KART_SOUND_ID 0x1d9
 
-// Object updated by UpdateCoin, one state per value of mState.
+// A coin map object: its model alpha, animation frame, timer, scale, follower, positions, state and effect.
 typedef struct Coin {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mModelAlpha;

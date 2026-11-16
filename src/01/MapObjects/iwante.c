@@ -70,6 +70,7 @@
 #include "fixed_vector_math.h"
 #include "01/MapObjects/king_teresa.h"
 #include "Main/MapObjects/bound.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 
 MapObjectKindDescriptor gIwanteKindDescriptor = {0,
                                                  {0, 0},
@@ -1382,7 +1383,7 @@ void IwanteItemHitCallback(MissionRunMapObject *mapObject, ItemObject *itemObjec
 }
 
 // IwanteHands: the model-less third Mission Run object (index MissionRunGetCurrentKartCount() + 2) that steers both
-// stone hands.
+// hands.
 void InitIwanteHandsObjects(MapObjectList *mapObjectList) {
     int objectIndex;
     MissionRunMapObject *obj;
@@ -1448,7 +1449,7 @@ void UpdateIwante(u32 mapObjectList, MissionRunMapObject *mapObject) {
             StartIwanteHideAtEndReached(mapObject);
         }
     }
-    if (mapObject->mHandShape == 1) {
+    if (mapObject->mHandShape == IWANTE_HAND_SHAPE_WALK_A) {
         frameIndex = mapObject->mModelAnimationFrameIndex + 1;
         if (frameIndex >= GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1) {
             frameIndex = GetMapObjectModelNsbtpFrameCount(mapObject->mNsbmd) - 1;

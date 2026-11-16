@@ -43,7 +43,8 @@ void *LoadMissionRunFile(const char *fileName) {
     return out;
 }
 
-// Overlay-1 version of CreateMapObjectModelAnimated; the file comes from LoadMissionRunFile.
+// Like CreateMapObjectModelAnimated, but the file is read with LoadMissionRunFile and fog is switched off instead of
+// setting emission and light flags.
 MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const char *nsbmdName) {
     MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectModel));
     if (mapObjectList != NULL) {
@@ -57,7 +58,7 @@ MapObjectModel *LoadMapObjectModelAnimated(MapObjectList *mapObjectList, const c
     return mapObjectModel;
 }
 
-// Overlay-1 version of CreateMapObjectModelShadow; the file comes from LoadMissionRunFile.
+// Like CreateMapObjectModelShadow, but the file is read with LoadMissionRunFile and fog is switched off.
 MapObjectModel *LoadMapObjectModelShadow(MapObjectList *mapObjectList, const char *shadowFileName) {
     MapObjectModel *mapObjectModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectModel));
     void *missionRunFile = LoadMissionRunFile((shadowFileName));
