@@ -19,12 +19,9 @@ typedef struct FSFileID {
     /* 04 */ u32 mFileId;
 } FSFileID;
 
-// 12 bytes at 0x20 and at 0x30 of FSFile (assigned as a whole by FSi_SeekDirCommand, FSi_FindPath and
-// FS_ChangeDir; current_dir_pos). Different functions use the region with different types: an FSArchive pointer
-// (FSi_SeekDirDirect, FSi_ReadDirCommand, FSi_FindPath), an FSDirEntry pointer (FSi_FindPathCommand,
-// FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
-// FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words
-// (FS_SeekFile, FSi_ReadFileCore, FSi_ReadFileCommand).
+// A 12-byte area that FSFile.mProp, FSFile.mArg and the lookups through FSFile.mResult read in a different layout for
+// each command: h directory position, d file id, e directory entry, b path buffer, w three words, p pointer and two
+// positions.
 typedef union FileCommandData {
     struct {
         /* 00 */ u32 mUnk_00;
@@ -68,7 +65,7 @@ typedef struct FSFileLink {
 typedef enum ArchiveCommand {
     ARCHIVE_COMMAND_MOVE_DIR_CURSOR = 2,
     ARCHIVE_COMMAND_LIST_DIR_ENTRY = 3,
-    ARCHIVE_COMMAND_OPEN_BY_NUMBER = 7,
+    ARCHIVE_COMMAND_OPEN_BY_RANGE = 7,
     // Sent to FSArchive.mProc: START_RUN with the first queued file when the archive was not running, STOP_RUN with an
     // empty file when it was running and its queue is empty or it is suspended or a suspend was requested.
     ARCHIVE_COMMAND_START_RUN = 9,
@@ -136,12 +133,18 @@ enum {
 // A file system file or directory: its link, archive, status, command, error, thread queue, the locations mProp and
 // mArg, the position or parent id, the path, a directory flag and the result pointer.
 typedef struct FSFile {
-    // FSi_ReleaseCommand links mLink.mPrev and mLink.mNext to each other, then clears both.
+    // The file's place in the command list of FSFile.mArc (FSArchive.mList): FSi_ReleaseCommand joins the previous and
+    // the next file to each other, then clears both.
     /* 00 */ FSFileLink mLink;
     /* 08 */ FSArchive *mArc;
-    /* 0c */ volatile u32 mStat; // bit 2 selects the path in FSi_TranslateCommand; FSi_ReleaseCommand clears 0x4f
-    /* 10 */ u32 mCommand; // index passed to FSi_TranslateCommand by FSi_ExecuteSyncCommand and FSi_ExecuteAsyncCommand
-    /* 14 */ s32 mError; // set from a return value in FSi_TranslateCommand and FSi_ReleaseCommand
+    // FILE_STAT_ bits; FILE_STAT_SYNC picks the path in FSi_TranslateCommand; FSi_ReleaseCommand clears
+    // FILE_STAT_COMMAND_MASK.
+    /* 0c */ volatile u32 mStat;
+    // Command number that FSi_SendCommand stores and FSi_ExecuteSyncCommand and FSi_ExecuteAsyncCommand pass to
+    // FSi_TranslateCommand.
+    /* 10 */ u32 mCommand;
+    // ARCHIVE_RESULT_ code; FSi_SendCommand sets PENDING, FSi_TranslateCommand and FSi_ReleaseCommand store the result.
+    /* 14 */ s32 mError;
     /* 18 */ OSThreadQueue mQueue;
     /* 20 */ FileCommandData mProp;
     union {
@@ -179,7 +182,8 @@ typedef struct FSArchive {
     /* 58 */ u32 mProcFlag;
 } FSArchive;
 
-// Called by FSi_TranslateCommand with its second argument as the index.
+// Default handlers that FSi_TranslateCommand calls, indexed by its second argument, when FSArchive.mProc does not
+// handle the command.
 extern s32 (*fsi_default_command[])(FSFile *file);
 
 s32 FSi_TranslateCommand(FSFile *file, u32 command);
@@ -187,7 +191,8 @@ void FSi_ReleaseCommand(FSFile *file, s32 result);
 s32 FSi_OpenFileDirectCommand(FSFile *file);
 s32 FSi_CloseFileCommand(FSFile *file);
 
-// Two words FSi_OpenFileFastCommand reads into FSFile.mArg.
+// One file table entry: the top and bottom of a file. FSi_OpenFileFastCommand reads it from FSArchive.mFat and copies
+// it into FSFile.mArg.
 typedef struct FSArchiveFAT {
     /* 00 */ u32 mTop;
     /* 04 */ u32 mBottom;
@@ -206,8 +211,8 @@ typedef struct FSArchiveFNT {
     /* 06 */ u16 mParent;
 } FSArchiveFNT;
 
-// Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a FileCommandData, then a flag, a length
-// and the bytes.
+// A directory entry: its mId, whether it is a directory (mIsDirectory) and its name (mNameLength, mName).
+// FSi_ReadDirCommand fills it; FSi_FindPathCommand and FSi_GetPathCommand read it.
 typedef struct FSDirEntry {
     /* 00 */ FileCommandData mId;
     /* 0c */ u32 mIsDirectory;

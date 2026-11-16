@@ -95,7 +95,8 @@ s32 FSi_WriteFileCommand(FSFile *file) {
     return archive->mWrite(archive, src, pos, len);
 }
 
-// Directory seek command: reads the directory table entry for the directory in FSFile.mArg.
+// Directory seek command: reads the directory table entry for the directory in FSFile.mArg and sets FSFile.mProp and
+// mParentId from it.
 s32 FSi_SeekDirCommand(FSFile *dir) {
     FSArchive *archive;
     FileCommandData *arg;
@@ -411,7 +412,7 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
     file->mArg.w.mUnk_00 = range.mTop;
     file->mArg.w.mUnk_04 = range.mBottom;
     file->mArg.w.mUnk_08 = index;
-    return FSi_TranslateCommand(file, ARCHIVE_COMMAND_OPEN_BY_NUMBER);
+    return FSi_TranslateCommand(file, ARCHIVE_COMMAND_OPEN_BY_RANGE);
 }
 
 // Open command by byte range: sets the file range and position.

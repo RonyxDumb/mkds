@@ -49,5 +49,6 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos);
 
 // First FSArchive of the list FS_RegisterArchiveName builds through mNext/mPrev (FS_FindArchive searches it).
 extern FSArchive *arc_list;
-// Set by FS_RegisterArchiveName, FS_ReleaseArchiveName and FS_ChangeDir; read by FSi_FindPath.
+// Where FSi_FindPath starts a relative path: FS_RegisterArchiveName sets it to the first archive registered,
+// FS_ReleaseArchiveName moves it to arc_list when its archive is released, FS_ChangeDir sets it.
 extern FileCommandData current_dir_pos;

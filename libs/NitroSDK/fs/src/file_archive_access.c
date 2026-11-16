@@ -9,7 +9,9 @@
 FSArchive *arc_list;
 FileCommandData current_dir_pos;
 
-// Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
+// Starts a path lookup: a leading slash starts at the root of the current archive, an optional "name:" prefix picks a
+// loaded archive (returns 0 if it is unknown or not loaded), otherwise it starts at the current directory; the result
+// goes to dirPos when that is set, else to fileID.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
     FileCommandData pos;
     s32 charIndex;
@@ -133,7 +135,6 @@ u32 FS_OpenFileFast(FSFile *file, FSFileID fileID) {
     return 1;
 }
 
-// Opens a file by path.
 u32 FS_OpenFile(FSFile *file, const u8 *path) {
     FSFileID fileID;
 
@@ -145,7 +146,6 @@ u32 FS_OpenFile(FSFile *file, const u8 *path) {
     return 0;
 }
 
-// Closes an open file.
 u32 FS_CloseFile(FSFile *file) {
     if (FSi_SendCommand(file, 8) == 0) {
         return 0;
@@ -232,7 +232,6 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     return 1;
 }
 
-// Sets the current directory.
 u32 FS_ChangeDir(const u8 *path) {
     FileCommandData dirPos;
     FSFile searchFile;
@@ -481,7 +480,8 @@ FSArchive *FS_FindArchive(const u8 *name, s32 nameLen) {
     return archive;
 }
 
-// Adds an archive to the list under the given name.
+// Adds an archive to the list under the given name unless that name is already taken; returns whether it was added. The
+// first archive added becomes the current directory's archive.
 u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     u32 result;
     u32 savedInterrupts;
@@ -512,7 +512,8 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     return result;
 }
 
-// Removes an archive from the list.
+// Removes a named archive from the list; if it was the current directory's archive, the current directory goes back to
+// the first archive.
 void FS_ReleaseArchiveName(FSArchive *archive) {
     u32 savedInterrupts;
 
@@ -539,7 +540,7 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Sets the archive memory image, table offsets and read and write callbacks.
+// Sets the archive memory image, table offsets and read and write callbacks (the memory copy ones when none is given).
 u32 FS_LoadArchive(FSArchive *archive, u8 *base, u32 fat, u32 fatSize, u32 fnt, u32 fntSize,
                    FS_ARCHIVE_READ_FUNC readFunc, FS_ARCHIVE_WRITE_FUNC writeFunc) {
     archive->mBase = base;
@@ -557,7 +558,7 @@ u32 FS_LoadArchive(FSArchive *archive, u8 *base, u32 fat, u32 fatSize, u32 fnt, 
     return 1;
 }
 
-// Cancels the queued commands and clears the archive.
+// If the archive is loaded, cancels its queued commands and clears its memory image and table offsets.
 u32 FS_UnloadArchive(FSArchive *archive) {
     u32 savedInterrupts;
     FSFile *file;
@@ -594,7 +595,7 @@ u32 FS_UnloadArchive(FSArchive *archive) {
     return 1;
 }
 
-// Copies the two tables into memory; returns the size needed.
+// Copies the two tables into mem when the size needed fits maxSize; returns the size needed.
 u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
     FSFile tableFile;
     u32 totalSize;
@@ -627,7 +628,8 @@ u32 FS_LoadArchiveTables(FSArchive *archive, u32 mem, u32 maxSize) {
     return totalSize;
 }
 
-// Returns the archive to reading its tables from the image; returns the table memory.
+// If the tables were copied into memory, returns the archive to reading them through its own read callback and returns
+// that table memory (0 when none).
 u32 FS_UnloadArchiveTables(FSArchive *archive) {
     u32 mem;
     u32 suspendedHere;
@@ -650,7 +652,8 @@ u32 FS_UnloadArchiveTables(FSArchive *archive) {
     return mem;
 }
 
-// Stops the archive from starting commands; returns whether it was not already suspended.
+// Stops the archive from starting commands, waiting for a running command to finish; returns whether it was not already
+// suspended.
 u32 FS_SuspendArchive(FSArchive *archive) {
     u32 savedInterrupts;
     u32 result;
@@ -671,7 +674,7 @@ u32 FS_SuspendArchive(FSArchive *archive) {
     return result;
 }
 
-// Lets a suspended archive start commands again.
+// Lets a suspended archive start commands again; returns whether it was not suspended.
 u32 FS_ResumeArchive(FSArchive *archive) {
     FSFile *next;
     u32 savedInterrupts;
@@ -691,7 +694,7 @@ u32 FS_ResumeArchive(FSArchive *archive) {
     return result;
 }
 
-// Sets the archive notification callback and the events it receives.
+// Sets the archive's own command handler and the flags of the commands it handles; no handler or no flags clears both.
 void FS_SetArchiveProc(FSArchive *archive, FS_ARCHIVE_PROC_FUNC proc, u32 flags) {
     if (flags == 0) {
         proc = 0;
@@ -702,7 +705,8 @@ void FS_SetArchiveProc(FSArchive *archive, FS_ARCHIVE_PROC_FUNC proc, u32 flags)
     archive->mProcFlag = flags;
 }
 
-// Ends an asynchronous command with the given result.
+// Ends a command the archive left running in the background with the given result: finishes the queued asynchronous
+// command and starts the next, or wakes the thread waiting on the archive's sync queue.
 void FS_NotifyArchiveAsyncEnd(FSArchive *archive, u32 result) {
     u32 savedInterrupts;
     FSFile *file;
