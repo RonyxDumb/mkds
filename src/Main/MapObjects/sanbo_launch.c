@@ -35,6 +35,6 @@ void StartSanboLaunch(Sanbo *sanbo) {
         randomBit = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 2) >> 32;
         sanbo->mPieces[pieceIndex].mRotateZAnglePerFrame = (randomBit != 0 ? 1 : -1) * 0xaab;
     }
-    sanbo->mLaunchWaitFrames = SANBO_LAUNCH_WAIT_FRAMES;
+    sanbo->mLaunchWaitTimer = SANBO_LAUNCH_WAIT_FRAMES;
     sanbo->mState = SANBO_STATE_SCATTERED;
 }

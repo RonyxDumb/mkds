@@ -166,10 +166,10 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
 
     switch (teresa->mState) {
         case 1:
-            timer = teresa->mFadeInDelayFrames;
-            teresa->mFadeInDelayFrames = timer - 1;
+            timer = teresa->mFadeInTimer;
+            teresa->mFadeInTimer = timer - 1;
             if (timer <= 0) {
-                teresa->mFadeInDelayFrames = 0;
+                teresa->mFadeInTimer = 0;
                 AdvanceTeresaAlpha(teresa);
                 if (teresa->mAlphaFixed12 >= TERESA_ALPHA_FIXED12_MIN) {
                     teresa->mState = 0;
@@ -177,10 +177,10 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
             }
             break;
         case 0:
-            timer = teresa->mFadeOutDelayFrames;
-            teresa->mFadeOutDelayFrames = timer - 1;
+            timer = teresa->mFadeOutTimer;
+            teresa->mFadeOutTimer = timer - 1;
             if (timer <= 0) {
-                teresa->mFadeOutDelayFrames = 0;
+                teresa->mFadeOutTimer = 0;
                 teresa->mAlphaFixed12 = teresa->mAlphaFixed12 - 0x1000;
                 if (teresa->mAlphaFixed12 > 0) {
                     teresa->mModelAlpha = FROM_FIXED12(teresa->mAlphaFixed12);
@@ -194,7 +194,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
             }
             break;
     }
-    if (teresa->mFadeOutDelayFrames <= 0) {
+    if (teresa->mFadeOutTimer <= 0) {
         return;
     }
     teresa->mAngleWobble.mAngle = teresa->mAngleWobble.mAngle + teresa->mAngleWobble.mAnglePerFrame;
@@ -247,8 +247,8 @@ void ClearTeresaTimers(void) {
     for (objectIndex = 0;
          objectIndex < mapObjectList->mMapObjectCount && (teresa = mapObjectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
-        teresa->mFadeInDelayFrames = 0;
-        teresa->mFadeOutDelayFrames = 0;
+        teresa->mFadeInTimer = 0;
+        teresa->mFadeOutTimer = 0;
     }
 }
 
@@ -317,12 +317,12 @@ void StartTeresa(Vec3 *startPos) {
     teresa->mAlphaFixed12Min = TERESA_ALPHA_FIXED12_MIN;
     teresa->mAlphaFixed12Max = alphaFixed12Max;
     if (GetCurrentCameraKind() == 2) {
-        teresa->mFadeInDelayFrames = 0;
-        teresa->mFadeOutDelayFrames = TERESA_NEVER_FRAMES;
+        teresa->mFadeInTimer = 0;
+        teresa->mFadeOutTimer = TERESA_NEVER_FRAMES;
         teresa->mState = 0;
     } else {
-        teresa->mFadeInDelayFrames = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);
-        teresa->mFadeOutDelayFrames = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
+        teresa->mFadeInTimer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);
+        teresa->mFadeOutTimer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
         teresa->mState = 1;
     }
     gUnparkedTeresaCount++;

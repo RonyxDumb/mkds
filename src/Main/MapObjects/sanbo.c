@@ -374,7 +374,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             if (sanbo->mMapObject.mCourseMapRow->mSettings[1] != 0) {
                 return;
             }
-            if (sanbo->mLaunchWaitFrames-- > 0) {
+            if (sanbo->mLaunchWaitTimer-- > 0) {
                 return;
             }
             for (resetPieceIndex = 0; resetPieceIndex < sanbo->mPieceCount; resetPieceIndex++) {

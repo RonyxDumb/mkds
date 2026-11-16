@@ -44,7 +44,7 @@ typedef struct IronBall {
     /* 0c4 */ GroupFollower mFollower;
     /* 0e8 */ ShadowMatrix mShadowMatrix;
     /* 11c */ Vec3 mPathPos;
-    /* 128 */ s32 mSoundOffZoneMask;
+    /* 128 */ s32 mSoundOffDigitMask;
     /* 12c */ s32 mShadowStage;
     /* 130 */ s32 mState;
 } IronBall;
