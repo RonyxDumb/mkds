@@ -8,7 +8,7 @@ struct GpConnection;
 
 struct GpConnection;
 
-// List at 0x428 of GpiConnection: the object and the number of entries added to it.
+// The hash table of buddy profiles and how many were added to it.
 typedef struct GPIProfileList {
     /* 00 */ struct Hashtable *mTable;
     /* 04 */ s32 mNum;

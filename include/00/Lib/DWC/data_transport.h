@@ -57,10 +57,7 @@ typedef struct WiFiPeerMessage {
     /* 2c */ u32 mReceiveTimeoutTime;
 } WiFiPeerMessage;
 
-// Message framing on top of the Gt2 socket, embedded in WiFiConnection at 0x7a0 (0x614 bytes = sizeof, zeroed by
-// DWCi_InitTransport), reached through gWiFiMessageLayer: one WiFiPeerMessage per peer index (32), an 8-byte header
-// (size, kind, 2 more bytes) before each message, bodies cut into chunks of at most mSendChunkSize that
-// DWCi_TransportProcess continues every frame in connection state 6; completed messages go to mReceiveCallback.
+// Message framing on top of the Gt2 socket: one WiFiPeerMessage per peer, split into chunks and sent again each frame.
 typedef struct WiFiMessageLayer {
     /* 000 */ WiFiPeerMessage mPeers[32];
     // Called after a send was queued or finished, with (size, index).

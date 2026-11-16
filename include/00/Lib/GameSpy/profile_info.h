@@ -10,8 +10,7 @@ enum {
     PROFILE_SEX_CODE_DEFAULT = 0x502,
 };
 
-// Values read from the text, as built by GpiProcessInfoOperation on its stack. The pointers at 0x00 to 0x14 point to
-// buffers of its own; 0x1c, 0x27 and 0x34 are arrays inside.
+// The profile info fields (nick, email, name, place, birthday and so on) read from a profile info reply.
 typedef struct GPIInfoCache {
     /* 00 */ char *mNick;
     /* 04 */ char *mUniquenick;

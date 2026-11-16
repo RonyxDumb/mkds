@@ -73,8 +73,7 @@ u32 InitHttpBuffer(Http *http, HttpBuffer *httpBuffer, int size);
 
 #include "00/Lib/DWC/http_transfer.h"
 
-// Written into DWCAuth at 0x1cc; mUnk_24 and mUnk_28 allocate and release the 0x13e0 bytes of the object and the
-// buffers.
+// The allocator, free function and ids a DWCAuth object is created with.
 typedef struct AuthCreateParams {
     /* 00 */ char mIngamesn[0x15];
     /* 15 */ char mGsbrcd[0xc];

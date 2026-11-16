@@ -14,11 +14,7 @@ enum {
     WIFI_LOGIN_DONE = 5,
 };
 
-// Login machine, embedded in WiFiConnection at 0x84 (0x264 bytes = the MI_CpuFill8 of InitWiFiLogin), reached through
-// gWiFiLogin and stepped by DWCi_LoginProcess in connection state 2. mState 1 waits for the HTTP reply that holds the
-// auth token and a second string; 2 to 4 run the GP connect with them (state 2: check the saved record's profile id,
-// make the socket, done; state 3 then 4: profile name check in DWCi_GPGetInfoCallback, which can send the machine back
-// to state 1); 5 is done. It is not strictly two logins in turn.
+// The Wi-Fi login: gets the auth token over HTTP, then connects to the GP server and checks the profile (mState).
 typedef struct WiFiLogin {
     /* 00 */ GpConnection *mGpConnection;
     // 0 idle, 1 waiting for the HTTP reply, 2 GP connect for a known profile (success: id check, socket, done), 3 GP

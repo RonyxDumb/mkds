@@ -28,7 +28,7 @@ enum {
     AUTO_CONNECT_TYPE_NINTENDOWFC_SSID,
 };
 
-// Entries of 0x24 bytes at 0x300 of ACWORK.
+// A scan result of an access point (beacon and duplicate counts, type, channel, SSID) kept in the search list.
 typedef struct ACSL {
     /* 00 */ u8 mBeaconReceived : 4;
     /* 00 */ u8 mDuplicateMatch : 4;
@@ -56,7 +56,7 @@ enum {
     AUTO_CONNECT_RESULT_OTHER,
 };
 
-// Entries of 4 bytes at 0x444 of ACWORK.
+// A found access point (state, type, signal strength and channel) kept in the find list.
 typedef struct ACFL {
     /* 00 */ u8 mState;
     /* 01 */ u8 mApType;

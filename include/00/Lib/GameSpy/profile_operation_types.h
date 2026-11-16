@@ -16,8 +16,7 @@ enum {
     PROFILE_SEARCH_KIND_UNIQUE_NICK = 8,
 };
 
-// Object behind GpiOperation.mUnk_04: GpiCreateSearch clears and fills it, GpiOpenSearchSocket sets the
-// word at 0x04 and gives it the buffer at 0x08 of 0x0c bytes.
+// A profile search: its socket, input and output buffers and the nick, email, name and password it looks for.
 typedef struct GPISearchData {
     /* 000 */ s32 mKind;
     /* 004 */ s32 mSocket;

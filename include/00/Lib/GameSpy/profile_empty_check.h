@@ -2,8 +2,7 @@
 
 #include "types.h"
 
-// Object at 0x08 of GpiProfile: GpiWriteDelbuddyAndRemoveBuddy reads its 0x00 and passes its 0x08, its 0x0c and the
-// object to DWCi_GsFree.
+// A buddy status: its index, status, status and location strings, and the IP and port it is at.
 typedef struct GpiBuddyStatus {
     /* 00 */ s32 mIndex;
     /* 04 */ s32 mStatus;

@@ -17,8 +17,7 @@
 #define OAM_ATTR2_NOT_PRIORITY_MASK 0xfffff3ff
 #define OAM_ATTR2_NOT_PALETTE_MASK 0xffff0fff
 
-// 8-byte object at index i of OamRange.mUnk_08: GetOamRangeEntryPosition reads bits 16-24 and bits 0-7 of its word
-// at 0x00.
+// One OAM entry: the attribute 0 and 1 word and the attribute 2 halfword of a sprite.
 typedef struct OamEntry {
     /* 00 */ u32 mAttr01;
     /* 04 */ u16 mAttr2;

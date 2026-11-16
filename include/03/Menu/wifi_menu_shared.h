@@ -248,8 +248,7 @@ static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView
     return &session->mSharedEntries[entryIndex];
 }
 
-// Object of 0xe8 bytes: a pointer at 0x00, 32 pointers from 0x04, the list of them at 0x84, an FSArchive at 0x88
-// and a halfword at 0xe4.
+// An FSArchive for the Wi-Fi files with a stack of 32 pointers and the lock id.
 typedef struct DwcArchive {
     /* 00 */ void *mTables;
     /* 04 */ void *mStackStorage[0x20];
@@ -268,7 +267,7 @@ typedef struct OamRanges {
     /* 224 */ PointerStack *mFreeRanges;
 } OamRanges;
 
-// Eight-byte records at the start of a resource: a number at 0x00 and the offset of a table at 0x04.
+// The header of an NCE image file: the number of entries and the offset of their table.
 typedef struct NceImage {
     /* 00 */ u16 mEntryCount;
     /* 02 */ u16 mUnk_02;

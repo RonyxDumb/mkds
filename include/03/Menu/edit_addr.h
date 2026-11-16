@@ -18,7 +18,7 @@ typedef struct EditAddr {
     /* 15 */ u8 mResult;
 } EditAddr;
 
-// Five functions called with the object at 0x08.
+// Five functions that format or store the text of one address field (IP, netmask and so on).
 typedef struct EditAddrTextFuncs {
     /* 00 */ void (*mUnk_00[5])(u8 *);
 } EditAddrTextFuncs;

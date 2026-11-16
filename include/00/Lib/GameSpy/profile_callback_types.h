@@ -26,7 +26,7 @@ typedef struct GpiCallback {
     /* 04 */ u32 mParam;
 } GpiCallback;
 
-// Data behind GpiQueuedCallback.mArg: the members freed depend on the value at 0x0c.
+// The data a queued callback hands to its function: lists of nicks, matches or a transfer message.
 typedef struct CallbackArgData {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mSuggestedNickCount;
@@ -56,7 +56,7 @@ enum {
     PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS,
 };
 
-// Entry of the list whose head and tail are at 0x438 and 0x43c of the object.
+// One callback waiting in the queue: the function, its argument data, its kind and the next entry.
 typedef struct GpiQueuedCallback {
     /* 00 */ GpiCallback mCallback;
     /* 08 */ struct CallbackArgData *mArg;
