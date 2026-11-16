@@ -562,7 +562,7 @@ void EliminateKartsUntilWinnerDecided(void) {
                 if ((u16) kartCount == 0) {
                     randomKartIndex = 0;
                 } else {
-                    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+                    RANDOM_ADVANCE(randomState);
                     if (randomLimit == 0) {
                         randomKartIndex = (u32) RANDOM_HIGH32(randomState);
                     } else {
@@ -730,7 +730,7 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
     s32 pointIndex;
 
     randomState = &gRaceProgress->mRandom;
-    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+    RANDOM_ADVANCE(randomState);
     pointStep = (u16) RANDOM_BELOW_U64(randomState, 5) + 1;
     pointIndex = gStandings->mBattlePointIndex + pointStep;
     if (pointIndex >= gCourseMap->mBattlePointCount) {
@@ -956,11 +956,11 @@ void InitDistanceSoundObjects(MapObjectList *mapObjectList) {
             mapObject->mDistanceLevelInverted = FALSE;
         }
         randomState = &gRaceProgress->mLocalRandom;
-        randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+        RANDOM_ADVANCE(randomState);
         mapObject->mSoundTimer = (u16) RANDOM_BELOW_U64(randomState, 0x3c) + 0x258;
         mapObject->mDistanceVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
         randomState = &gRaceProgress->mLocalRandom;
-        randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+        RANDOM_ADVANCE(randomState);
         mapObject->mDistanceLevelTimer = (u16) RANDOM_BELOW_U64(randomState, 0xf);
     }
 }
@@ -1028,7 +1028,7 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
                 slot8Request.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
                 StartSndHandleSound(&slot8Request, sndHandleSlot);
                 randomState = &gRaceProgress->mLocalRandom;
-                randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+                RANDOM_ADVANCE(randomState);
                 mapObject->mSoundTimer = (u16) RANDOM_BELOW_U64(randomState, 0x3c) + 0x78;
                 mapObject->mSoundVolumeFixed12 = TO_FIXED12(SOUND_VOLUME_MAX);
             }

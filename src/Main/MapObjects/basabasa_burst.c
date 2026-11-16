@@ -43,7 +43,7 @@ static inline u32 BasabasaBurstMapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+    RANDOM_ADVANCE(mapObjectRandom);
     return RANDOM_BELOW(mapObjectRandom, limit);
 }
 
@@ -51,7 +51,7 @@ static inline u16 BasabasaBurstMapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+    RANDOM_ADVANCE(mapObjectRandom);
     return (u32) RANDOM_BELOW(mapObjectRandom, limit);
 }
 

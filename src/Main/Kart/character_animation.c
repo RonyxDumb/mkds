@@ -283,7 +283,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         } else {
             animationState->mAnimationChangeTimerSet = TRUE;
             localRandom = &gRaceProgress->mLocalRandom;
-            localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+            RANDOM_ADVANCE(localRandom);
             animationState->mAnimationChangeTimer = (u32) RANDOM_BELOW(localRandom, 200);
             animationState->mAnimationChangeTimer += 0x96;
         }
@@ -324,7 +324,7 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
         SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
     }
     localRandom = &gRaceProgress->mLocalRandom;
-    localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+    RANDOM_ADVANCE(localRandom);
     animationState->mAnimationChangeTimer = (u32) RANDOM_BELOW(localRandom, 200);
     animationState->mAnimationChangeTimer += 0x96;
 }

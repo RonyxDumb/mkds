@@ -113,7 +113,7 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
         return;
     }
     random = &gRaceProgress->mRandom;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
     item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
     item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);

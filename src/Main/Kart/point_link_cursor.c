@@ -226,7 +226,7 @@ void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 useDefaultTable) {
     InitRacePointLinkCursor(&kartAi->mPointLinkCursor, kartAi->mIndex);
     ResetKartAi(kartAi, 0);
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     value = (s16) (u16) (kartAiRandom->mValue >> 52);
     kartAi->mHeadingSwingSign = value > 0x800 ? 1 : -1;
 }
@@ -460,7 +460,7 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
         linkValue <= KART_AI_DRIFT_LINK_RIGHT_NO_ROLL) {
         conditionsMet = FALSE;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue <= kartAi->mDriftStartRandomLimit &&
             kartAi->mKart->mVelocityLength >= kartAi->mMinVelocityLength) {
@@ -626,7 +626,7 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     chargeRollPassed = FALSE;
     if (kartAi->mDriftFrames == KART_AI_DRIFT_CHARGE_ROLL_FRAMES && kartAi->mDriftChargeRollAllowed != FALSE) {
         RandomState64 *kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         if ((s16) (u16) (kartAiRandom->mValue >> 52) <= kartAi->mDriftChargeRandomLimit) {
             chargeRollPassed = TRUE;
         }
@@ -686,10 +686,10 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
 
         kartAi->mSideOffsetFrames = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         kartAi->mSideOffsetFrameLimit = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         newSideOffsetRatio =
             kartAi->mSideOffsetRatio + MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(randomValue, 0x2000) - 0x1000, 0x267);
@@ -977,7 +977,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     }
     boostChosen = FALSE;
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     tableIndex = GetKartAiTableIndex(kartAi->mIndex);
     kartAiOfKart = GetKart(kartAi->mIndex)->mAi;
@@ -1232,7 +1232,7 @@ u16 PickKartAiRaceStartBoost(s32 pickLast) {
         choiceIndex = 2;
     } else {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         choiceIndex = (u16) RANDOM_BELOW(kartAiRandom, 3);
     }
     switch (gRaceSetup->mCpuDifficulty) {
@@ -1347,7 +1347,7 @@ void TrailOrCircleUseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1379,7 +1379,7 @@ void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1475,7 +1475,7 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
             if (randomLimit == 0) {
                 randomPart = 0;
             } else {
-                random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                RANDOM_ADVANCE(random);
                 randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                                 : (u32) RANDOM_BELOW(random, (u32) randomLimit);
             }
@@ -1494,7 +1494,7 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
             if (randomLimit == 0) {
                 randomPart = 0;
             } else {
-                random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                RANDOM_ADVANCE(random);
                 randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                                 : (u32) RANDOM_BELOW(random, (u32) randomLimit);
             }
@@ -1526,7 +1526,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         if (randomLimit == 0) {
             randomPart = 0;
         } else {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                             : (u32) RANDOM_BELOW(random, (u32) randomLimit);
         }
@@ -1545,7 +1545,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 if (randomLimit == 0) {
                     randomPart = 0;
                 } else {
-                    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                    RANDOM_ADVANCE(random);
                     randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                                     : (u32) RANDOM_BELOW(random, (u32) randomLimit);
                 }
@@ -1564,7 +1564,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 if (randomLimit == 0) {
                     randomPart = 0;
                 } else {
-                    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                    RANDOM_ADVANCE(random);
                     randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                                     : (u32) RANDOM_BELOW(random, (u32) randomLimit);
                 }
@@ -1583,7 +1583,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 if (randomLimit == 0) {
                     randomPart = 0;
                 } else {
-                    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+                    RANDOM_ADVANCE(random);
                     randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                                     : (u32) RANDOM_BELOW(random, (u32) randomLimit);
                 }
@@ -1605,7 +1605,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         if (randomLimit == 0) {
             randomPart = 0;
         } else {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                             : (u32) RANDOM_BELOW(random, (u32) randomLimit);
         }
@@ -1642,7 +1642,7 @@ void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1677,7 +1677,7 @@ void UseItemIfTurnUnder20ResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *k
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1836,7 +1836,7 @@ void UseItemAndResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1859,7 +1859,7 @@ void UseItemAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1884,7 +1884,7 @@ void UseItemForwardAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kar
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1909,7 +1909,7 @@ void UseItemBehindAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kart
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -1988,7 +1988,7 @@ void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     heldItemIndex = gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex;
     itemUse->mHeldItemEntry = &gCurrentHeldItemEntries[heldItemIndex];
     random = GetKartAiRandom();
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     itemUse->mRandomValue = (s16) (u16) (random->mValue >> 52);
     if (itemUse->mHeldItemEntry == NULL) {
         return;
@@ -1998,7 +1998,7 @@ void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -2018,7 +2018,7 @@ void ResetHeldItemTimer(struct KartAiItemUse *itemUse) {
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -2050,7 +2050,7 @@ void ResetItemInUseTimer(struct KartAiItemUse *itemUse, const struct KartAiItemU
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }
@@ -2086,7 +2086,7 @@ void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (randomLimit == 0) {
         randomPart = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         randomPart = (randomLimit == 0) ? (u32) RANDOM_HIGH32(random)
                                         : (u32) RANDOM_BELOW(random, (u32) randomLimit);
     }

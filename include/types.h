@@ -74,6 +74,14 @@ typedef s32 BOOL;
 #define CROSS2_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond)                                         \
     (((s64) (leftFirst) * (rightFirst) - (s64) (leftSecond) * (rightSecond) + 0x800) >> 12)
 
+// Steps a random generator state: the state times its multiplier plus its increment. The S64 form casts both factors
+// to s64; the INCREMENT_FIRST form adds the increment first and casts both factors.
+#define RANDOM_ADVANCE(random) ((random)->mValue = (random)->mMultiplier * (random)->mValue + (random)->mIncrement)
+#define RANDOM_ADVANCE_S64(random)                                                                                     \
+    ((random)->mValue = (s64) (random)->mMultiplier * (s64) (random)->mValue + (random)->mIncrement)
+#define RANDOM_ADVANCE_INCREMENT_FIRST(random)                                                                         \
+    ((random)->mValue = (random)->mIncrement + (s64) (random)->mMultiplier * (s64) (random)->mValue)
+
 // The upper 32 bits of a random generator state.
 #define RANDOM_HIGH32(random) ((random)->mValue >> 32)
 // The top 16 bits of a random generator state, as a u16.

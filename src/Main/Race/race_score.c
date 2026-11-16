@@ -241,7 +241,7 @@ static inline s32 Fixed12AddOneThenDivideByIntOrZero(s32 value, s32 divisor) {
 }
 
 static inline u32 RaceProgressNextRandomBelow(RandomState64 *randomState64, u32 limit) {
-    randomState64->mValue = (s64) randomState64->mMultiplier * (s64) randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE_S64(randomState64);
     return RANDOM_BELOW_S64(randomState64, limit);
 }
 

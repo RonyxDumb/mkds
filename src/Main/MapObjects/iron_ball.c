@@ -189,8 +189,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             }
         } else if (fromEntry->mExtraValue >= 0) {
             mapObjectRandom = GetMapObjectRandom();
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            RANDOM_ADVANCE(mapObjectRandom);
             randomNumber = RANDOM_BELOW_U64(mapObjectRandom, 5);
             if (randomNumber != 0) {
                 SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mExtraValue, 1);

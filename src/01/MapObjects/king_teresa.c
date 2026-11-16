@@ -452,7 +452,7 @@ void ShowKingTeresaAtGroupEntry(MissionRunMapObject *mapObject) {
     RandomState64 *rng;
     GetKart((u16) gRaceSetup->mEntryIndex);
     rng = GetMapObjectRandom();
-    rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
+    RANDOM_ADVANCE_S64(rng);
     mapObject->mMapObject.mPos.x = (&GetCurrentGroupEntry(mapObject)->mPos)->x;
     mapObject->mMapObject.mPos.y =
         mapObject->mPrm->mKingTeresa.mPosOffsetY + (&GetCurrentGroupEntry(mapObject)->mPos)->y;

@@ -140,7 +140,7 @@ void EnterPukupukuHop(void *stateObject) {
 }
 
 static inline u32 PukupukuNextRandomBelow(RandomState64 *random, u32 range) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (range == 0) {
         return RANDOM_HIGH32(random);
     } else {

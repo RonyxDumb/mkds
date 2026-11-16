@@ -251,14 +251,14 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     firstRange = prm->mKinokoRandomLimit;
     if (firstRange == 0x10000) {
         random = GetMapObjectRandom();
-        random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
+        RANDOM_ADVANCE_INCREMENT_FIRST(random);
         firstResult = RANDOM_BELOW(random, 0x10000);
     } else {
         random = GetMapObjectRandom();
         if ((u16) firstRange == 0) {
             firstScaledDraw = 0;
         } else {
-            random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
+            RANDOM_ADVANCE_INCREMENT_FIRST(random);
             firstRangeLow = (u16) firstRange;
             if (firstRangeLow == 0) {
                 firstScaledDraw = RANDOM_HIGH32(random);
@@ -272,14 +272,14 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         secondRange = mapObject->mThrowCount;
         if (secondRange == 0x10000) {
             random = GetMapObjectRandom();
-            random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
+            RANDOM_ADVANCE_INCREMENT_FIRST(random);
             secondResult = RANDOM_BELOW(random, 0x10000);
         } else {
             random = GetMapObjectRandom();
             if ((u16) secondRange == 0) {
                 secondScaledDraw = 0;
             } else {
-                random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
+                RANDOM_ADVANCE_INCREMENT_FIRST(random);
                 secondRangeLow = (u16) secondRange;
                 if (secondRangeLow == 0) {
                     secondScaledDraw = RANDOM_HIGH32(random);

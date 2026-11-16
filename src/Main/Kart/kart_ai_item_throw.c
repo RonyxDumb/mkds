@@ -66,7 +66,7 @@ void ThrowItemRandomAfterHeldOrAtNearTarget(KartAiItemUse *itemUse, KartAi *kart
 
     if (DecrementHeldItemTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue < 0xb33) {
             UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -96,7 +96,7 @@ void ThrowItemRandomAfterHeld(KartAiItemUse *itemUse, KartAi *kartAi) {
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue < 0xb33) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -115,7 +115,7 @@ void ThrowItemRandomAfterHeldOrBehindNearTarget(KartAiItemUse *itemUse, struct K
 
     if (DecrementHeldItemTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue > 0xccd) {
             UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -141,7 +141,7 @@ void ThrowItemRandomMoreForwardAfterHeld(KartAiItemUse *itemUse, struct KartAi *
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue > 0xccd) {
         UseItemBehindAndResetInUseTimer(itemUse, kartAi);
@@ -205,7 +205,7 @@ void ThrowItemRandomAfterInUseOrAtNearTarget(KartAiItemUse *itemUse, struct Kart
 
     if (DecrementItemInUseTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue < 0xb33) {
             UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -235,7 +235,7 @@ void EasyThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue < 0xb33) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -270,7 +270,7 @@ void ThrowItemRandomAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     if (randomValue < 0xb33) {
         UseItemForwardAndResetInUseTimer(itemUse, kartAi);
@@ -398,7 +398,7 @@ void ThrowItemRandomAfterInUseOrBehindNearTarget(KartAiItemUse *itemUse, struct 
 
     if (DecrementItemInUseTimer(itemUse) != 0) {
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         if (randomValue > 0xb33) {
             UseItemBehindAndResetInUseTimer(itemUse, kartAi);

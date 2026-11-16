@@ -39,7 +39,7 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
 
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+        RANDOM_ADVANCE(mapObjectRandom);
         return RANDOM_BELOW(mapObjectRandom, 0x10000);
     } else {
         mapObjectRandom = GetMapObjectRandom();
@@ -47,8 +47,7 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
         if (limitU16 == 0) {
             value = 0;
         } else {
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            RANDOM_ADVANCE(mapObjectRandom);
             if (limitU16 == 0) {
                 value = RANDOM_HIGH32(mapObjectRandom);
             } else {
@@ -237,7 +236,7 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
         nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
         townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+        RANDOM_ADVANCE(mapObjectRandom);
         count = RANDOM_BELOW(mapObjectRandom, 0x1a);
         for (index = 0; index < count; index++) {
             AdvanceTownMonteBounce(townMonte);
@@ -249,8 +248,7 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
                 townMonte->mSoundId = TOWN_MONTE_SOUND_SECOND;
             } else if (townMonte->mNsbtpFrameIndex == 2) {
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+                RANDOM_ADVANCE(mapObjectRandom);
                 townMonte->mSoundId = (u16) RANDOM_BELOW(mapObjectRandom, 2) != 0
                                           ? TOWN_MONTE_SOUND_FIRST
                                           : TOWN_MONTE_SOUND_SECOND;

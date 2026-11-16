@@ -152,7 +152,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
         return;
     }
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     value = (s16) (u16) (kartAiRandom->mValue >> 52);
     boostChanceLimit = 0x333;
     switch (gRaceSetup->mCpuDifficulty) {
@@ -240,7 +240,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
         kartAiParams = gBattleKartAiParams;
         balloonCountGoal = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         for (goalIndex = 0; goalIndex < 3; goalIndex++) {
             if (kartAiParams->mSetupBalloonCountGoalLimits[goalIndex] > 0 &&
@@ -367,10 +367,10 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
     if (kartAi->mSideOffsetFrames > kartAi->mSideOffsetFrameLimit) {
         kartAi->mSideOffsetFrames = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         kartAi->mSideOffsetFrameLimit = 0;
         kartAiRandom = GetKartAiRandom();
-        kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+        RANDOM_ADVANCE(kartAiRandom);
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         centeredRandom = MUL_FIXED12_ROUNDED(randomValue, 0x2000) - 0x1000;
         ratioChange = MUL_FIXED12_ROUNDED(centeredRandom, 0x4ce);
@@ -568,7 +568,7 @@ void PickKartAiBalloonCountGoal(KartAi *kartAi) {
     s16 balloonCountGoal = 0;
 
     kartAiRandom = GetKartAiRandom();
-    kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+    RANDOM_ADVANCE(kartAiRandom);
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     for (goalIndex = 0; goalIndex < 3; goalIndex++) {
         if (randomLimits[goalIndex] > 0 && randomValue <= randomLimits[goalIndex]) {

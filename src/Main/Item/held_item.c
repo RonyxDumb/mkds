@@ -165,7 +165,7 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
 }
 
 static inline u32 TakeHeldItemObjects_inline(RandomState64 *generator, u32 range) {
-    generator->mValue = generator->mMultiplier * generator->mValue + generator->mIncrement;
+    RANDOM_ADVANCE(generator);
     if (range == 0) {
         return RANDOM_HIGH32(generator);
     } else {
@@ -683,7 +683,7 @@ void InitItemPointLinkDirections(void) {
 #pragma thumb off
 
 static inline u32 ThrowBouncingItem_inline(RandomState64 *generator, u32 range) {
-    generator->mValue = generator->mMultiplier * generator->mValue + generator->mIncrement;
+    RANDOM_ADVANCE(generator);
     return RANDOM_BELOW_U64(generator, range);
 }
 

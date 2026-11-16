@@ -95,7 +95,7 @@ u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemOb
 void SunFireballInitNop(void) {}
 
 static inline u32 SunFireballNextRandomU32(RandomState64 *randomState64) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE(randomState64);
     return RANDOM_HIGH32(randomState64);
 }
 

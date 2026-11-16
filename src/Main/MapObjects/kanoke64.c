@@ -59,7 +59,7 @@ static inline u32 MapObjectRandomBelow(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+    RANDOM_ADVANCE(mapObjectRandom);
     return RANDOM_BELOW(mapObjectRandom, limit);
 }
 
@@ -67,7 +67,7 @@ static inline u16 MapObjectRandomBelowU16(u32 limit) {
     RandomState64 *mapObjectRandom;
 
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+    RANDOM_ADVANCE(mapObjectRandom);
     return (u32) RANDOM_BELOW(mapObjectRandom, limit);
 }
 
@@ -133,7 +133,7 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit) {
     if (limit == 0) {
         return 0;
     }
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE(randomState64);
     if (limit == 0) {
         return RANDOM_HIGH32(randomState64);
     }

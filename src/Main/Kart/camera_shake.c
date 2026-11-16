@@ -46,7 +46,7 @@ void UpdateCameraShake(Camera *camera) {
         if (lookDistance != 0) {
             posShakeScale = gCameraShakePosScale;
             random = &gRaceProgress->mLocalRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             scale = MUL_FIXED12_NO_ROUND(gCameraShakeLookAtDistanceScale, lookDistance);
             randomValue = (s16) (u16) (random->mValue >> 52);
             scale = MUL_FIXED12_NO_ROUND(scale + 0x1000, gCameraShakeLookAtScaleFactor);
@@ -55,7 +55,7 @@ void UpdateCameraShake(Camera *camera) {
             sideOffset.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, offsetScale);
             sideOffset.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, offsetScale);
             random = &gRaceProgress->mLocalRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             randomValue = (s16) (u16) (random->mValue >> 52);
             offsetScale = MUL_FIXED12_NO_ROUND(scale, (randomValue - 0x800) * 2);
             upOffset.x = MUL_FIXED12_NO_ROUND(camera->mUp.x, offsetScale);
@@ -63,14 +63,14 @@ void UpdateCameraShake(Camera *camera) {
             upOffset.z = MUL_FIXED12_NO_ROUND(camera->mUp.z, offsetScale);
             VEC_Add(&sideOffset, &upOffset, &camera->mShakeLookAtOffsetGoal);
             random = &gRaceProgress->mLocalRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             randomValue = (s16) (u16) (random->mValue >> 52);
             offsetScale = MUL_FIXED12_NO_ROUND(posShakeScale, (randomValue - 0x800) * 2);
             sideOffset.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, offsetScale);
             sideOffset.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, offsetScale);
             sideOffset.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, offsetScale);
             random = &gRaceProgress->mLocalRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             randomValue = (s16) (u16) (random->mValue >> 52);
             offsetScale = MUL_FIXED12_NO_ROUND(posShakeScale, (randomValue - 0x800) * 2);
             upOffset.x = MUL_FIXED12_NO_ROUND(camera->mUp.x, offsetScale);

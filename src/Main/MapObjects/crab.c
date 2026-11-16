@@ -42,7 +42,7 @@ void InitCrab(Crab *crab) {
 }
 
 static inline u16 CrabNextRandomBelow(RandomState64 *random, u32 limit) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (limit == 0) {
         return RANDOM_HIGH32(random);
     } else {
@@ -186,7 +186,7 @@ void InitCrabObjects(MapObjectList *mapObjectList) {
         crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
         crab->mHandWobble.mAnglePerFrameDelta = 0;
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+        RANDOM_ADVANCE(mapObjectRandom);
         crab->mTimer = (u16) ((u16) RANDOM_BELOW_U64(mapObjectRandom, 60) + 30);
         crab->mState = CRAB_STATE_WAIT;
     }
@@ -268,8 +268,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                 crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
                 crab->mHandWobble.mAnglePerFrameDelta = 0;
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+                RANDOM_ADVANCE(mapObjectRandom);
                 crab->mTimer = (u16) ((u16) RANDOM_BELOW_U64(mapObjectRandom, 60) + 30);
                 crab->mState = CRAB_STATE_WAIT;
             }
@@ -342,8 +341,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
             crab->mHandWobble.mAnglePerFrame = CRAB_HAND_WOBBLE_ANGLE_PER_FRAME;
             crab->mHandWobble.mAnglePerFrameDelta = 0;
             mapObjectRandom = GetMapObjectRandom();
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            RANDOM_ADVANCE(mapObjectRandom);
             crab->mTimer = (u16) ((u16) RANDOM_BELOW_U64(mapObjectRandom, 60) + 30);
             crab->mState = CRAB_STATE_WAIT;
             crab->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;

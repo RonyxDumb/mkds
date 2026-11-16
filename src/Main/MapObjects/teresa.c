@@ -253,7 +253,7 @@ void ClearTeresaTimers(void) {
 }
 
 static inline u32 TeresaNextRandomBelow(RandomState64 *randomState64, u32 limit) {
-    randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
+    RANDOM_ADVANCE(randomState64);
     if (limit == 0) {
         return RANDOM_HIGH32(randomState64);
     }

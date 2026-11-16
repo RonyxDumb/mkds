@@ -203,7 +203,7 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     if ((quad->mTimer & ORTHO_QUAD_CORNER_PICK_MASK) == 0) {
         RandomState64 *random = &gRaceProgress->mLocalRandom;
 
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         quad->mPickedCornerIndex = (u16) RANDOM_BELOW_U64(random, 6);
     }
 }
@@ -397,15 +397,15 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     quad = &gOrthoQuads[index];
     random = &raceProgress->mLocalRandom;
     velocities = quad->mCornerVelocities;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     value = (s32) (u16) RANDOM_BELOW_U64(random, 0x10000);
     cosResult = SIN_OF_ANGLE(value);
     sinResult = COS_OF_ANGLE(value);
     if (overlap != 0) {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         value = (s16) RANDOM_BELOW_U64(random, 0xcd) + 0x800;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         value = 0xa66 + (s16) RANDOM_BELOW_U64(random, 0x52);
     }
     value = (s16) value;
@@ -465,25 +465,25 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     cellBit = 1;
     for (cellIndex = 0, placedCount = 0; cellIndex < 0x10 && placedCount < count; cellIndex++) {
         if (gOrthoQuadUseCreamEffect != 0) {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mX = (s16) RANDOM_BELOW_U64(random, 0x1000) * 2;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mY = (s16) RANDOM_BELOW_U64(random, 0xc00) * 2;
         } else if (gOrthoQuadCount == 0) {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mX = RANDOM_BELOW_U64(random, 0x1000);
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mX =
                 startPair.mHalf.mX + (s16) RANDOM_BELOW_U64(random, 0x1000);
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mY = RANDOM_BELOW_U64(random, 0xc00);
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mY =
                 startPair.mHalf.mY + (s16) RANDOM_BELOW_U64(random, 0xc00);
         } else {
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mX = RANDOM_BELOW_U64(random, 0x2000);
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             startPair.mHalf.mY = RANDOM_BELOW_U64(random, 0x1800);
         }
         column = startPair.mHalf.mX >> 10;
@@ -728,7 +728,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             }
             raceProgress = gRaceProgress;
             random = &raceProgress->mLocalRandom;
-            random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+            RANDOM_ADVANCE(random);
             gesso->mOrthoQuadCounts[candidateIndex] =
                 (u16) RANDOM_BELOW(random, ITEM_GESSO_MAX_QUADS_PER_KART) + 1;
         }

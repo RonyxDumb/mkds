@@ -49,7 +49,7 @@ s32 gItemSlotPossibleItems[18];
 s32 gItemSlotSpinItems[18];
 
 static inline u32 ItemSlotNextRandomBelow(RandomState64 *random, u32 limit) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (limit == 0) {
         return RANDOM_HIGH32(random);
     } else {
@@ -349,7 +349,7 @@ static inline u16 ItemSlotNextRandomBelowU16(RandomState64 *random, u32 limit) {
     if (limit == 0) {
         value = 0;
     } else {
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         if (limit == 0) {
             value = RANDOM_HIGH32(random);
         } else {

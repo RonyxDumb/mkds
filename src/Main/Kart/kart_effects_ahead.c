@@ -201,8 +201,7 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
             if (nextLinkCount == 0) {
                 randomValue = 0;
             } else {
-                kartAiRandom->mValue =
-                    (s64) kartAiRandom->mMultiplier * (s64) kartAiRandom->mValue + kartAiRandom->mIncrement;
+                RANDOM_ADVANCE_S64(kartAiRandom);
                 randomValue = (nextLinkCount == 0) ? (u32) RANDOM_HIGH32(kartAiRandom)
                                                    : (u32) RANDOM_BELOW(kartAiRandom, (u32) nextLinkCount);
             }
@@ -488,8 +487,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                     if (candidateCount == 0) {
                         randomValue = 0;
                     } else {
-                        kartAiRandom->mValue =
-                            kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
+                        RANDOM_ADVANCE(kartAiRandom);
                         if (candidateCount == 0) {
                             randomValue = RANDOM_HIGH32(kartAiRandom);
                         } else {

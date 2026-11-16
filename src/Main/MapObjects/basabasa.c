@@ -203,7 +203,7 @@ static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
 
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+        RANDOM_ADVANCE(mapObjectRandom);
         return RANDOM_BELOW(mapObjectRandom, 0x10000);
     } else {
         mapObjectRandom = GetMapObjectRandom();
@@ -211,8 +211,7 @@ static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
         if (limitU16 == 0) {
             value = 0;
         } else {
-            mapObjectRandom->mValue =
-                mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+            RANDOM_ADVANCE(mapObjectRandom);
             if (limitU16 == 0) {
                 value = RANDOM_HIGH32(mapObjectRandom);
             } else {
@@ -248,7 +247,7 @@ void StartBasabasa(u32 glideTimerBase, const Vec3 *startPos, const Vec3 *velocit
     basabasa->mSoundRequested = soundRequested;
     basabasa->mRaceHudSubScreenCellKind = subScreenCellKind;
     mapObjectRandom = GetMapObjectRandom();
-    mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+    RANDOM_ADVANCE(mapObjectRandom);
     basabasa->mDelayTimer = (u16) RANDOM_BELOW(mapObjectRandom, 30);
     timerRange = TO_FIXED12(fallTimerBase) >> 16;
     randomOffset = BasabasaMapObjectRandomBelowU16(timerRange);

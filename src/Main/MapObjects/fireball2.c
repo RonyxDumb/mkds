@@ -256,14 +256,13 @@ void InitFireball2Objects(MapObjectList *mapObjectList) {
         fireball2->mRowAngleSpacing = ANGLE_FULL_TURN / fireball2->mRowCount;
         fireball2->mElementRadiusSpacing = fireball2->mRadius / fireball2->mRowElementCount;
         mapObjectRandom = GetMapObjectRandom();
-        mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+        RANDOM_ADVANCE(mapObjectRandom);
         randomBits = RANDOM_HIGH32(mapObjectRandom);
         fireball2->mCenterRotationAngle = (randomBits * ANGLE_FULL_TURN) >> 32;
         for (elementIndex = 0; elementIndex < fireball2->mRowElementCount; elementIndex++) {
             for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+                RANDOM_ADVANCE(mapObjectRandom);
                 randomBits = RANDOM_HIGH32(mapObjectRandom);
                 fireball2->mElements[rowIndex][elementIndex].mRotationAngle = (randomBits * ANGLE_FULL_TURN) >> 32;
             }

@@ -38,7 +38,7 @@ void InitChandelierObjects(MapObjectList *objectList) {
          objectIndex < objectList->mMapObjectCount && (chandelier = objectList->mMapObjects[objectIndex]) != NULL;
          objectIndex++) {
         random = &gRaceProgress->mLocalRandom;
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         chandelier->mTimer = (u16) RANDOM_BELOW_U64(random, 0x3c) + 0x3c;
     }
 }

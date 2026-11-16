@@ -134,7 +134,7 @@ void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
     Vec3 pos;
 
     random = GetMapObjectRandom();
-    random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+    RANDOM_ADVANCE_S64(random);
     angle = RANDOM_HIGH16(random);
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
         Vec3 velocity = {0, 0, 0};
@@ -177,7 +177,7 @@ void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
     Vec3 pos;
 
     random = GetMapObjectRandom();
-    random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+    RANDOM_ADVANCE_S64(random);
     angle = RANDOM_HIGH16(random);
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
         Vec3 velocity = {0, 0, 0};
@@ -424,14 +424,14 @@ void StartBombKingRandomState(MissionRunMapObject *mapObject) {
     randomLimit = (u16) mapObject->mPrm->mBombKing.mRandomLimit;
     if (randomLimit == 0x10000) {
         rng = GetMapObjectRandom();
-        rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
+        RANDOM_ADVANCE(rng);
         randomValue = (u16) RANDOM_BELOW(rng, 0x10000);
     } else {
         rng = GetMapObjectRandom();
         if ((u16) randomLimit == 0) {
             randomValue = 0;
         } else {
-            rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
+            RANDOM_ADVANCE(rng);
             if ((u16) randomLimit == 0) {
                 randomValue = RANDOM_HIGH32(rng);
             } else {

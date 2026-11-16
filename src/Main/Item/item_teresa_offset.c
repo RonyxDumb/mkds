@@ -128,7 +128,7 @@ void ResetItemTeresa(ItemTeresa *teresa) {
 }
 
 static inline u32 ItemTeresaNextRandomBelow_inline(RandomState64 *random, u32 range) {
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     if (range == 0) {
         return RANDOM_HIGH32(random);
     }
@@ -278,7 +278,7 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
 
     raceProgress = gRaceProgress;
     random = &raceProgress->mRandom;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     raceSetup = gRaceSetup;
     rowIndex = (u16) RANDOM_BELOW_U64(random, 8);
     endIndex = rowIndex + 8;

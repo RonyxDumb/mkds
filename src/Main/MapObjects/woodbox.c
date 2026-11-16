@@ -195,7 +195,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
         return;
     }
     raceRandom = GetRaceRandom();
-    raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
+    RANDOM_ADVANCE(raceRandom);
     if (woodbox->mItemChancePercent <= (u16) RANDOM_BELOW_U64(raceRandom, 100)) {
         return;
     }
@@ -213,11 +213,11 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     }
     Vec3CrossUnrounded(&woodbox->mGroundUp, &direction, &sideDirection);
     raceRandom = GetRaceRandom();
-    raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
+    RANDOM_ADVANCE(raceRandom);
     spawnDistance =
         ((s64) (s32) ((u32) RANDOM_BELOW_U64(raceRandom, 0x1800) + 0x119a) << 12) >> 12;
     raceRandom = GetRaceRandom();
-    raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
+    RANDOM_ADVANCE(raceRandom);
     itemObject->mVelocity = *velocity;
     VEC_MultAdd(spawnDistance, &direction, &woodbox->mMapObject.mPos, &itemObject->mPos);
     VEC_MultAdd(0, &sideDirection, &itemObject->mPos, &itemObject->mPos);

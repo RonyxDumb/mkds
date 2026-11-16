@@ -121,7 +121,7 @@ void UpdateRaceClock(void) {
         }
         raceProgressForClock = gRaceProgress;
         random = &raceProgressForClock->mRandom;
-        random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+        RANDOM_ADVANCE(random);
         frameFractionOrTimeUp = -(s16) (u16) (random->mValue >> 32 >> 20);
     }
     clock = &raceProgressForClock->mHeader.mClockMillisecond;

@@ -32,7 +32,7 @@ const Vec3 gStadiumEmitterPositions[6] = {{0xba000, 0x67000, 0x2e000},  {0x34000
 KartPhysicalParamTable *gKartPhysicalParamTable;
 
 static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
-    randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
+    RANDOM_ADVANCE(randomState);
     if (limit == 0) {
         return RANDOM_HIGH32(randomState);
     }

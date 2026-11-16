@@ -376,7 +376,7 @@ void StartEntryCameraAngleStart(void) {
     }
     if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
         localRandom = &gRaceProgress->mLocalRandom;
-        localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+        RANDOM_ADVANCE(localRandom);
     }
     gCameraEntryChanged = 1;
 }
@@ -424,7 +424,7 @@ void SetEntryCameraUpdateHold(s32 hold) {
     }
     if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
         localRandom = &gRaceProgress->mLocalRandom;
-        localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+        RANDOM_ADVANCE(localRandom);
     }
     gCameraEntryChanged = 1;
 }
@@ -493,7 +493,7 @@ BOOL TryUpdateEntryCamera(Camera *camera) {
                 }
                 if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
                     localRandom = &gRaceProgress->mLocalRandom;
-                    localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+                    RANDOM_ADVANCE(localRandom);
                 }
                 gCameraEntryChanged = 1;
             }
@@ -585,7 +585,7 @@ void StartEntryCameraMissionRun(void) {
     }
     if (IsKartEnded(GetKart(gRaceSetup->mEntryIndex)->mIndex) != 0) {
         localRandom = &gRaceProgress->mLocalRandom;
-        localRandom->mValue = localRandom->mMultiplier * localRandom->mValue + localRandom->mIncrement;
+        RANDOM_ADVANCE(localRandom);
     }
     gCameraEntryChanged = 1;
 }

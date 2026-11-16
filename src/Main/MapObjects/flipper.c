@@ -299,8 +299,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             if (flipper->mSwingStep <= 0) {
                 flipper->mSwingStep = 0;
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+                RANDOM_ADVANCE_S64(mapObjectRandom);
                 randomValue = RANDOM_BELOW_U64(mapObjectRandom, 12);
                 flipper->mWaitTimer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = FLIPPER_STATE_WAIT;
@@ -333,8 +332,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             if (flipper->mSwingStep <= 0) {
                 flipper->mSwingStep = 0;
                 mapObjectRandom = GetMapObjectRandom();
-                mapObjectRandom->mValue =
-                    (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
+                RANDOM_ADVANCE_S64(mapObjectRandom);
                 randomValue = RANDOM_BELOW_U64(mapObjectRandom, 12);
                 flipper->mWaitTimer = (u16) ((u16) randomValue * 0x14);
                 flipper->mState = FLIPPER_STATE_WAIT;

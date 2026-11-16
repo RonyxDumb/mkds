@@ -149,10 +149,10 @@ void StartCoinDrop(void) {
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+        RANDOM_ADVANCE_S64(random);
         angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+        RANDOM_ADVANCE_S64(random);
         speed = (u32) RANDOM_BELOW_U64(random, 0x800) + 0x800;
         coin->mState = COIN_STATE_DROP;
         coin->mScaleFactor = COIN_SCALE_START;
@@ -186,10 +186,10 @@ void StartCoinBossTransfer(void) {
     coin = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x68));
     if (coin != NULL) {
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+        RANDOM_ADVANCE_S64(random);
         angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
         random = GetMapObjectRandom();
-        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+        RANDOM_ADVANCE_S64(random);
         speed = (u32) RANDOM_BELOW_U64(random, 0x800) + 0x800;
         coin->mState = COIN_STATE_TRANSFER_RISE;
         coin->mScaleFactor = COIN_SCALE_START;
@@ -243,7 +243,7 @@ void SetBossCoinShownCount(s32 shownCount) {
                 if (foundCount <= shownCount) {
                     if (coin->mTargetPos == NULL) {
                         random = GetMapObjectRandom();
-                        random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+                        RANDOM_ADVANCE_S64(random);
                         angle = RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
                         coin->mScaleFactor = COIN_SCALE_FULL;
                         coin->mModelAlpha = 0;

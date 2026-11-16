@@ -506,8 +506,7 @@ static inline u16 CourseMapNextRandomBelowU16(RandomState64 *randomState64, u16 
     if (limit == 0) {
         value = 0;
     } else {
-        randomState64->mValue =
-            (s64) randomState64->mMultiplier * (s64) randomState64->mValue + randomState64->mIncrement;
+        RANDOM_ADVANCE_S64(randomState64);
         if (limit == 0) {
             value = RANDOM_HIGH32(randomState64);
         } else {

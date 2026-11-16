@@ -274,7 +274,7 @@ s32 PickRandomCourseIndexNotRaced(void) {
 
     courseSelect = gWiFiVSCourseSelect;
     random = &courseSelect->mRandom;
-    random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
+    RANDOM_ADVANCE(random);
     courseIndex = (u16) (random->mValue >> 32 >> 20) % 20;
     menuShared = gMenuShared;
     do {
