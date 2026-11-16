@@ -296,14 +296,14 @@ void OS_GetLowEntropyData(LowEntropyData *buffer) {
     macBytes = OFFSET_PTR(u8, userInfo, 0x74);
     vcount = reg_GX_VCOUNT;
     buffer->mTickAndVcount = OS_GetTickLo() | (vcount << 16);
-    buffer->mUserDataAndTickCounter = (*OFFSET_PTR(u16, macBytes, 4) << 16) ^ (u32) gTickOverflowCount;
-    buffer->mUserDataVblankAndGxStat = *OFFSET_PTR(u32, work, 0x3c) ^ ((gTickOverflowCount >> 32) ^ *(u32 *) macBytes);
-    buffer->mUserDataVblankAndGxStat = buffer->mUserDataVblankAndGxStat ^ reg_G3X_GXSTAT;
-    buffer->mClockFirst = *OFFSET_PTR(u32, work, 0x1e8);
+    buffer->mMacAddressAndTickOverflow = (*OFFSET_PTR(u16, macBytes, 4) << 16) ^ (u32) gTickOverflowCount;
+    buffer->mTickOverflowMacAddressVblankAndGxStat = *OFFSET_PTR(u32, work, 0x3c) ^ ((gTickOverflowCount >> 32) ^ *(u32 *) macBytes);
+    buffer->mTickOverflowMacAddressVblankAndGxStat = buffer->mTickOverflowMacAddressVblankAndGxStat ^ reg_G3X_GXSTAT;
+    buffer->mRealTimeClockFirstWord = *OFFSET_PTR(u32, work, 0x1e8);
     buffer->mClockSecond = *OFFSET_PTR(u32, work, 0x1ec);
     buffer->mMicrophone = *OFFSET_PTR(u32, work, 0x390) ^ (*OFFSET_PTR(u16, work, 0x394) << 16);
     buffer->mTouchPanel = (*OFFSET_PTR(u16, work, 0x3aa) << 16) | *OFFSET_PTR(u16, work, 0x3ac);
-    buffer->mTouchRssiAndButtons = reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF | (*OFFSET_PTR(u16, work, 0x398) << 16);
+    buffer->mWmRssiPoolAndButtons = reg_PAD_KEYINPUT | *HW_BUTTON_XY_BUF | (*OFFSET_PTR(u16, work, 0x398) << 16);
 }
 
 // Sets the locked-bank mask and the nine bank lock ids to 0.

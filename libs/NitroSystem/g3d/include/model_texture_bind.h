@@ -9,13 +9,13 @@ u32 OsCountZeroBits(u32 bitmap);
 // Filled by OS_GetLowEntropyData.
 typedef struct LowEntropyData {
     /* 00 */ u32 mTickAndVcount;
-    /* 04 */ u32 mUserDataAndTickCounter;
-    /* 08 */ u32 mUserDataVblankAndGxStat;
-    /* 0c */ u32 mClockFirst;
+    /* 04 */ u32 mMacAddressAndTickOverflow;
+    /* 08 */ u32 mTickOverflowMacAddressVblankAndGxStat;
+    /* 0c */ u32 mRealTimeClockFirstWord;
     /* 10 */ u32 mClockSecond;
     /* 14 */ u32 mMicrophone;
     /* 18 */ u32 mTouchPanel;
-    /* 1c */ u32 mTouchRssiAndButtons;
+    /* 1c */ u32 mWmRssiPoolAndButtons;
 } LowEntropyData;
 
 typedef struct NNSG3dResMdlSet {
