@@ -15,7 +15,7 @@ typedef struct CartridgeAccessSave {
     };
 } CartridgeAccessSave;
 
-// Two halfwords at the start of the first object this file defines.
+// The reply flag and the lock id of the cartridge code: mSubpInitialized and mLockId.
 typedef struct CTRDGWork {
     // Set to 1 by CTRDGi_CallbackForInitModuleInfo; CTRDGi_InitModuleInfo waits until it is 1.
     /* 00 */ u16 mReplyReceived;
@@ -24,7 +24,7 @@ typedef struct CTRDGWork {
     /* 02 */ u16 mLockId;
 } CTRDGWork;
 
-// The tail of the cartridge header, which CTRDGi_InitModuleInfo copies and reads: game, maker and module ids.
+// The tail of the cartridge header, which CTRDGi_InitModuleInfo copies and reads: game, maker, ex LSI and module ids.
 typedef struct CartridgeHeaderTail {
     /* 00 */ u8 mUnk_00[0x2c];
     /* 2c */ u32 mGameCode;
@@ -38,43 +38,44 @@ typedef struct CartridgeHeaderTail {
 typedef struct CartridgeHeaderCopy {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mBiosBytes[0x7c];
-    // The 0x40 bytes copied from 0x08000080; CTRDGi_InitModuleInfo reads the fields at +0x2c, +0x30, +0x35 and
-    // +0x3e of it into the record.
+    // The cartridge header bytes CTRDGi_InitModuleInfo copies in; it reads mGameCode, mMakerCode, mExLsiId and
+    // mModuleId from them into the module info.
     /* 80 */ CartridgeHeaderTail mHeaderTailCopy;
 } CartridgeHeaderCopy;
 
-// Fixed-address object written by CTRDGi_InitModuleInfo and read by CTRDG_IsExisting.
+// The module info record in the shared system block (OSSystemWork.mCartridgeModuleInfo); CTRDGi_InitModuleInfo fills it
+// and CTRDG_IsExisting reads it and sets mDetectPullOut.
 typedef struct CTRDGModuleInfo {
-    // Written by CTRDGi_InitModuleInfo from +0xbe of the copy; CTRDG_IsExisting returns 0 when it is 0xffff and
-    // compares it with the window.
+    // Set from the header copy's mModuleId by CTRDGi_InitModuleInfo; CTRDG_IsExisting returns 0 when it is 0xffff and
+    // otherwise compares it with the cartridge's id halfword.
     /* 00 */ u16 mIdHalfword;
     /* 02 */ u8 mExLsiId[3];
     /* 05 */ u8 mIsAgbCartridge : 1;
     u8 mDetectPullOut : 1;
     u8 mUnk_05_2 : 6;
     /* 06 */ u16 mMakerCode;
-    // Written by CTRDGi_InitModuleInfo from +0xac of the copy; CTRDG_IsExisting compares it with the word at
-    // 0x080000ac.
+    // Set from the header copy's mGameCode by CTRDGi_InitModuleInfo; CTRDG_IsExisting compares it with
+    // CTRDGHeader.mGameCode only while mIsAgbCartridge is set.
     /* 08 */ u32 mIdWord;
 } CTRDGModuleInfo;
 
-// The id halfword of the record while no cartridge id has been read, and the selector byte value that makes the
-// header halfword the one to compare.
+// CTRDGModuleInfo.mIdHalfword value for which CTRDG_IsExisting returns 0 at once, and the CTRDGHeader.mIdSelector value
+// that makes it compare mIdHalfword with the header's own halfword (any other value: with the halfword at 0x0801fffe).
 #define CARTRIDGE_NO_ID_HALFWORD 0xffff
 #define CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD 0x96
 
-// Fixed-address object read by CTRDG_IsExisting.
+// The cartridge header as it lies at the start of cartridge memory; CTRDG_IsExisting reads mGameCode, mIsRomCode and
+// mModuleId from it.
 typedef struct CTRDGHeader {
     /* 00 */ u8 mUnk_00[0xac];
-    // The word at 0x080000ac; CTRDG_IsExisting compares it with the word of the record at +8.
+    // CTRDG_IsExisting compares it with CTRDGModuleInfo.mGameCode, only while mIsAgbCartridge is set.
     /* ac */ u32 mIdWord;
     /* b0 */ u8 mUnk_b0[2];
-    // The byte at 0x080000b2; CTRDG_IsExisting compares it with 0x96 to choose which halfword it compares with the
-    // record.
+    // CTRDG_IsExisting compares it with 0x96 to choose which halfword it compares with CTRDGModuleInfo.mModuleId.
     /* b2 */ u8 mIdSelector;
     /* b3 */ u8 mUnk_b3[0xb];
-    // The halfword at 0x080000be; CTRDG_IsExisting compares it with the record's halfword at +0 when mIdSelector is
-    // 0x96.
+    // CTRDG_IsExisting compares it with CTRDGModuleInfo.mModuleId when mIsRomCode is 0x96; otherwise it uses the
+    // halfword at 0x0801fffe.
     /* be */ u16 mIdHalfword;
 } CTRDGHeader;
 
@@ -100,11 +101,11 @@ void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info);
 // OS_TryLockCartridge(lockID) and returns when it gives 0; else calls OS_RestoreInterrupts, WaitByLoop(1) and tries
 // again. Returns with the interrupts disabled.
 void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info);
-// Writes the first word of r (shifted left by 2) into bits 2 and 3 and the second word (shifted left by 4) into bit 4
-// of the halfword at 0x04000204.
+// Writes the first word of cycleInfo (shifted left by 2) into bits 2 and 3 and the second word (shifted left by 4) into
+// bit 4 of the halfword at 0x04000204.
 void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *cycleInfo);
-// Stores bits 2 and 3 of the halfword at 0x04000204 (as 0 to 3) in the first word of the record r and bit 4 in the
-// second word, then sets bits 2 and 3 and clears bit 4.
+// Stores bits 2 and 3 of the halfword at 0x04000204 (as 0 to 3) in the first word of the object cycleInfo points to and
+// bit 4 in the second word, then sets bits 2 and 3 and clears bit 4.
 void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo);
 // Returns 0 when the halfword at 0x027ffc30 is 0xffff or bit 1 of the byte at 0x027ffc35 is set. Otherwise locks and
 // compares the record with the window: the halfword at 0x080000be (0x0801fffe when the byte at 0x080000b2 is not 0x96)
@@ -117,9 +118,9 @@ void CTRDGi_InitCommon(void);
 // Sends the word 2 with CTRDGi_SendtoPxi, then calls OS_Terminate. Its only caller is
 // CTRDGi_PulledOutCallback.
 void CTRDG_TerminateForPulledOut(void);
-// Tag 13 callback after CTRDG_Init: when the low 6 bits of the second argument are 0x11 calls gCartridgeRemovalCallback
-// if it is not 0 (nothing in the game sets it, so the result is 0) and calls CTRDG_TerminateForPulledOut when the
-// result is not 0; for any other value calls OS_Terminate. "Removal" rests on the name of its callee.
+// Tag 13 callback after CTRDG_Init: when the low 6 bits of data are 0x11 calls gCartridgeRemovalCallback if it is not 0
+// (nothing in the game sets it, so the result is 0) and calls CTRDG_TerminateForPulledOut when the result is not 0; for
+// any other value calls OS_Terminate.
 void CTRDGi_PulledOutCallback(u32 tag, u32 data);
 // Tag 13 callback while CTRDGi_InitModuleInfo waits: when the low 6 bits of the second argument are 1 sets
 // gCartridgeState.mReplyReceived to 1, otherwise calls OS_Terminate.
