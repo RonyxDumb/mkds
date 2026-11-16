@@ -38,8 +38,8 @@ BOOL DWCi_Acc_SetMaskBits(u32 *ptr, u32 data, u32 shift, u32 mask) {
     return 1;
 }
 
-u64 DWCi_Acc_GetUserId(const DWCAccFriendData *userdata) {
-    return (u64) (userdata->mIdData & ACCOUNT_USER_ID_HIGH_MASK) << 32 | userdata->mUserIdLo;
+u64 DWCi_Acc_GetUserId(const DWCAccFriendData *loginid) {
+    return (u64) (loginid->mIdData & ACCOUNT_USER_ID_HIGH_MASK) << 32 | loginid->mUserIdLo;
 }
 
 #pragma thumb off

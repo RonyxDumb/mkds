@@ -113,28 +113,28 @@ void DWCi_SetBuddyFriendData(DWCAccFriendData *frienddata) {
 }
 
 u64 DWC_Acc_CreateFriendKey(int gsProfileId, u32 gamecode) {
-    u32 code[2];
+    u32 crcInput[2];
     u8 table[0x100];
     u64 crc;
 
-    code[0] = gsProfileId;
-    code[1] = gamecode;
+    crcInput[0] = gsProfileId;
+    crcInput[1] = gamecode;
     Crc8InitTable(table, 7);
-    crc = Crc8(table, code, 8) & 0x7f;
+    crc = Crc8(table, crcInput, 8) & 0x7f;
     crc <<= 32;
     crc |= (u32) gsProfileId;
     return crc;
 }
 
 BOOL DWC_Acc_CheckFriendKey(u64 friendkey, u32 gamecode) {
-    u32 code[2];
+    u32 crcInput[2];
     u8 table[0x100];
     s32 crc;
 
-    code[0] = friendkey;
-    code[1] = gamecode;
+    crcInput[0] = friendkey;
+    crcInput[1] = gamecode;
     Crc8InitTable(table, 7);
-    crc = Crc8(table, code, 8) & 0x7f;
+    crc = Crc8(table, crcInput, 8) & 0x7f;
     return crc == (friendkey >> 32);
 }
 
@@ -164,14 +164,14 @@ void FormatFriendKey(u32 low, u32 high, u32 buffer) {
 u64 DWC_StringToFriendKey(const char *string) {
     const s8 *chars = (const s8 *) string;
     u64 result;
-    u64 dec;
+    u64 placeValue;
     s32 digitIndex;
 
     result = 0;
-    dec = 1;
+    placeValue = 1;
     for (digitIndex = 0; digitIndex < 12; digitIndex++) {
-        result += dec * (s64) (*(chars + 11 - digitIndex) - 0x30);
-        dec *= 10;
+        result += placeValue * (s64) (*(chars + 11 - digitIndex) - 0x30);
+        placeValue *= 10;
     }
     return result;
 }
@@ -191,12 +191,12 @@ void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result) {
 }
 
 void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, char *username) {
-    char idPart[0x15];
+    char userIdPart[0x15];
     char playerPart[0x15];
 
-    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, idPart);
+    DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, userIdPart);
     DWCi_Acc_U64ToString32(GetFriendDataPlayerId(loginid), 0x20, playerPart);
-    OS_SNPrintf(username, 0x15, "%s%c%c%c%c%s", idPart, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
+    OS_SNPrintf(username, 0x15, "%s%c%c%c%c%s", userIdPart, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
                 (u8) (gamecode >> 8), (u8) gamecode, playerPart);
 }
 

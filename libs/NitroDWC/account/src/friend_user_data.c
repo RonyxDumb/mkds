@@ -39,16 +39,16 @@ BOOL DWC_IsEqualFriendData(const DWCAccFriendData *frienddata1, const DWCAccFrie
 }
 
 void DWC_ReportFriendData(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata) {
-    u8 name[0x24];
+    u8 text[0x24];
     u64 friendKey;
     if (DWCi_Acc_GetFlag_DataType(frienddata) != 3) {
         if (DWCi_Acc_GetFlag_DataType(frienddata) == 2) {
             friendKey = DWCi_Acc_GetFriendKey(frienddata);
-            FormatFriendKey(friendKey, friendKey >> 32, (u32) name);
+            FormatFriendKey(friendKey, friendKey >> 32, (u32) text);
             return;
         }
         if (DWCi_Acc_GetFlag_DataType(frienddata) == 1) {
-            DWCi_Acc_LoginIdToUserName(frienddata, userdata->mGamecode, (char *) &name[0xd]);
+            DWCi_Acc_LoginIdToUserName(frienddata, userdata->mGamecode, (char *) &text[0xd]);
         }
     }
 }
@@ -66,17 +66,17 @@ u32 IsLeapYearTwoDigit(u32 year) {
 }
 
 s32 DateToDayCount(const RTCDate *date) {
-    s32 dayNum;
+    s32 days;
     if (date->mYear >= 100 || date->mMonth < 1 || date->mMonth > 12 || date->mDay < 1 || date->mDay > 31 ||
         (s32) date->mWeek >= 7 || date->mMonth < 1 || date->mMonth > 12) {
         return -1;
     }
-    dayNum = date->mDay - 1 + (sMonthStartDay - 1)[date->mMonth];
+    days = date->mDay - 1 + (sMonthStartDay - 1)[date->mMonth];
     if (date->mMonth >= ACCOUNT_MARCH && IsLeapYearTwoDigit(date->mYear) != 0) {
-        dayNum++;
+        days++;
     }
-    dayNum = dayNum + date->mYear * 365;
-    return dayNum + ((date->mYear + 3) >> 2);
+    days = days + date->mYear * 365;
+    return days + ((date->mYear + 3) >> 2);
 }
 
 #pragma thumb off
