@@ -19,16 +19,16 @@ u8 Work[32] = {0};
 
 #pragma thumb on
 
-void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info) {
-    MI_CpuCopy8(gPackedWiFiInfo, info, 6);
-    info->mAttestedUserId &= ~0xfffff80000000000ULL;
-    MI_CpuCopy8(gPackedWiFiInfo + 5, &info->mNotAttestedId, 6);
-    info->mNotAttestedId >>= 3;
-    info->mNotAttestedId &= ~0xfffff80000000000ULL;
-    MI_CpuCopy8(gPackedWiFiInfo + 10, &info->mPass, 2);
-    info->mPass = info->mPass >> 6;
-    info->mPass &= 0x3ff;
-    MI_CpuCopy8(gPackedWiFiInfo + 12, &info->mRandomHistory, 2);
+void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *buf) {
+    MI_CpuCopy8(gPackedWiFiInfo, buf, 6);
+    buf->mAttestedUserId &= ~0xfffff80000000000ULL;
+    MI_CpuCopy8(gPackedWiFiInfo + 5, &buf->mNotAttestedId, 6);
+    buf->mNotAttestedId >>= 3;
+    buf->mNotAttestedId &= ~0xfffff80000000000ULL;
+    MI_CpuCopy8(gPackedWiFiInfo + 10, &buf->mPass, 2);
+    buf->mPass = buf->mPass >> 6;
+    buf->mPass &= 0x3ff;
+    MI_CpuCopy8(gPackedWiFiInfo + 12, &buf->mRandomHistory, 2);
 }
 
 BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work) {
@@ -171,13 +171,13 @@ u8 DWCi_BACKUPlConvMaskCidr(const u8 *mask) {
 void DWCi_BACKUPlConvMaskAddr(u32 mask, u8 *buf) {
     s32 byteIndex;
     u32 value;
-    u32 shift;
+    u32 bitOffset;
     byteIndex = 0;
     value = ((u32) ~byteIndex >> mask) ^ ~byteIndex;
-    shift = byteIndex;
+    bitOffset = byteIndex;
     for (; byteIndex < 4; byteIndex++) {
-        buf[byteIndex] = value >> (0x18 - shift);
-        shift += 8;
+        buf[byteIndex] = value >> (0x18 - bitOffset);
+        bitOffset += 8;
     }
 }
 
@@ -264,7 +264,7 @@ static inline u32 sendOneWord(u32 tag, u32 word) {
     return 0;
 }
 
-BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
+BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
     u32 sending;
     u32 tag;
     u32 bufAddr;
@@ -310,7 +310,7 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
     while (1) {
         if (sending == 0) {
             nv_cb_occurred = 0;
-            switch (state) {
+            switch (nv_state) {
                 case NVRAM_STATE_READ:
                     sending = sendSixWords(tag, readHeader, addr, 0x20000, sizeWord, readBufHigh, readBufLow);
                     break;
@@ -349,21 +349,21 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
             if (nv_result != 0) {
                 break;
             }
-            switch (state) {
+            switch (nv_state) {
                 case NVRAM_STATE_READ:
                     return 1;
                 case NVRAM_STATE_WRITE_ENABLE:
-                    state = tag;
+                    nv_state = tag;
                     break;
                 case NVRAM_STATE_PAGE_WRITE:
-                    state = NVRAM_STATE_WAIT_WRITE_DONE;
+                    nv_state = NVRAM_STATE_WAIT_WRITE_DONE;
                     break;
                 case NVRAM_STATE_CHECK_WRITE_ENABLED:
                 case NVRAM_STATE_WAIT_WRITE_DONE:
                     DC_InvalidateRange(&Work, 1);
-                    if (state == NVRAM_STATE_CHECK_WRITE_ENABLED) {
+                    if (nv_state == NVRAM_STATE_CHECK_WRITE_ENABLED) {
                         if (Work[0] & 2) {
-                            state = NVRAM_STATE_PAGE_WRITE;
+                            nv_state = NVRAM_STATE_PAGE_WRITE;
                             break;
                         }
                         return 0;
@@ -372,7 +372,7 @@ BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp) {
                         return 1;
                     }
                     if ((Work[0] & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
-                        state = NVRAM_STATE_WRITE_FAILED;
+                        nv_state = NVRAM_STATE_WRITE_FAILED;
                     } else {
                         WaitByLoop(0x4000);
                     }
@@ -433,12 +433,12 @@ BOOL verify(const u8 *src, u32 address, u32 size, const u8 *work) {
 
 BOOL writeDisable(void) {
     u32 tag;
-    u32 ready;
+    u32 proc;
     u32 delay;
     u32 zero;
     tag = 4;
-    ready = 1;
-    while (PXI_IsCallbackReady(tag, ready) == 0) {
+    proc = 1;
+    while (PXI_IsCallbackReady(tag, proc) == 0) {
     }
     PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
     delay = 0x40000;

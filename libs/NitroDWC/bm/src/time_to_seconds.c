@@ -2,8 +2,8 @@
 
 #pragma thumb on
 
-u32 TimeToSeconds(const RTCTime *values) {
-    return values->mSecond + 0x3cu * (values->mMinute + 0x3cu * values->mHour);
+u32 TimeToSeconds(const RTCTime *time) {
+    return time->mSecond + 0x3cu * (time->mMinute + 0x3cu * time->mHour);
 }
 
 #pragma thumb off

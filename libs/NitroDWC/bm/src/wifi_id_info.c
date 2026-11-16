@@ -32,29 +32,29 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     } value;
     u8 copy[8];
     s32 byteIndex;
-    u8 *src;
-    u8 *dst;
+    u8 *valueByte;
+    u8 *copyByte;
     const u8 *order;
     value.bits = (((u64) rand & 0xffff) << 27) |
               ((((u64) mac & 0xffffff) << 3) | (((u64) mainunit & 3) | (((u64) vend & 1) << 2)));
-    src = value.bytes;
+    valueByte = value.bytes;
     for (byteIndex = 0; byteIndex < 6; byteIndex++) {
-        *src ^= 0xd6;
-        src++;
+        *valueByte ^= 0xd6;
+        valueByte++;
     }
     byteIndex = 0;
-    src = value.bytes;
+    valueByte = value.bytes;
     for (; byteIndex < 5; byteIndex++) {
-        *src = (DWCi_util_wifiid_ttable[(*src >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*src & 0xf];
-        src++;
+        *valueByte = (DWCi_util_wifiid_ttable[(*valueByte >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*valueByte & 0xf];
+        valueByte++;
     }
     MI_CpuCopy8(value.bytes, copy, 8);
     byteIndex = 0;
-    dst = copy;
+    copyByte = copy;
     order = DWCi_util_wifiid_exctable;
     for (; byteIndex < 5; byteIndex++) {
-        value.bytes[*order] = *dst;
-        dst++;
+        value.bytes[*order] = *copyByte;
+        copyByte++;
         order++;
     }
     value.bytes[7] = 0;
@@ -62,10 +62,10 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     value.bytes[5] &= 7;
     value.bits <<= 1;
     value.bytes[0] |= (value.bytes[5] >> 3) & 1;
-    src = value.bytes;
+    valueByte = value.bytes;
     for (byteIndex = 0; byteIndex < 6; byteIndex++) {
-        *src ^= 0x67;
-        src++;
+        *valueByte ^= 0x67;
+        valueByte++;
     }
     value.bytes[7] = 0;
     value.bytes[6] = 0;
