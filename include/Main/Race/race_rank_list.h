@@ -32,5 +32,4 @@ extern struct RaceLapNumber *gRaceLapNumber;
 // lap number blinks for this long.
 #define RACE_RANK_LIST_MOVE_FRAMES 0x1c
 #define RACE_RANK_LIST_ITEM_IN_USE_FRAMES 0x24
-#define RACE_RANK_LIST_ITEM_COUNT_FRAME 5
 #define RACE_LAP_NUMBER_BLINK_FRAMES 0x78

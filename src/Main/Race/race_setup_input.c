@@ -199,10 +199,10 @@ void BuildCourseList(s32 isVersus) {
                 cupCountOrLastCourseIndex = multibootSetupOrEntryIndex != 0 ? 2 : 8;
                 cupOrCourseIdTable = multibootSetupOrEntryIndex != 0 ? gCupIndicesTwoCups : gCupIndicesEightCups;
                 currentCourseId = gRaceSetup->mNextHeader.mCourseId;
-                entryCount = cupCountOrLastCourseIndex * 4;
+                entryCount = cupCountOrLastCourseIndex * COURSES_PER_CUP;
                 for (multibootSetupOrEntryIndex = 0; multibootSetupOrEntryIndex < entryCount; multibootSetupOrEntryIndex++) {
-                    cupSlot = multibootSetupOrEntryIndex / 4;
-                    courseSlot = multibootSetupOrEntryIndex % 4;
+                    cupSlot = multibootSetupOrEntryIndex / COURSES_PER_CUP;
+                    courseSlot = multibootSetupOrEntryIndex % COURSES_PER_CUP;
                     if (currentCourseId == gCupCourseIdTable[cupOrCourseIdTable[cupSlot]][courseSlot]) {
                         break;
                     }
@@ -261,11 +261,11 @@ void BuildCourseList(s32 isVersus) {
                 random = GetRandomState();
                 cupCountOrLastCourseIndex = multibootSetupOrEntryIndex != 0 ? 2 : 8;
                 cupOrCourseIdTable = multibootSetupOrEntryIndex != 0 ? gCupIndicesTwoCups : gCupIndicesEightCups;
-                entryCount = cupCountOrLastCourseIndex * 4;
+                entryCount = cupCountOrLastCourseIndex * COURSES_PER_CUP;
                 enabledCount = 0;
                 for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-                    cupSlot = entryIndex / 4;
-                    courseSlot = entryIndex % 4;
+                    cupSlot = entryIndex / COURSES_PER_CUP;
+                    courseSlot = entryIndex % COURSES_PER_CUP;
                     if (IsCupEnabled(cupOrCourseIdTable[cupSlot]) != FALSE) {
                         gRaceSetup->mCourseList[enabledCount] = gCupCourseIdTable[cupOrCourseIdTable[cupSlot]][courseSlot];
                         enabledCount = (u8) (enabledCount + 1);
@@ -380,7 +380,7 @@ BOOL CopyEntryResultAndSetupAwardRace(void) {
         GetKartCourseFinishTime(&finishTime, gRaceSetup->mEntryIndex, index);
         gMenuShared->mCourseTimes[index] = finishTime;
     }
-    if ((u32) GetKartCupRank(gRaceSetup->mEntryIndex) > 3) {
+    if ((u32) GetKartCupRank(gRaceSetup->mEntryIndex) > CUP_RANK_TROPHY_COUNT) {
         return FALSE;
     }
     gRaceSetup->mNextHeader.mCourseId = COURSE_ID_AWARD;
@@ -468,7 +468,7 @@ s32 AdvanceToNextCourse(void) {
     if (gRaceSetup->mListedCpuCount > 1) {
         for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex++) {
             oldSlot = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot;
-            newSlot = 3;
+            newSlot = KART_ENTRY_LISTED_CPU_SLOT_NONE;
             if (oldSlot != 0) {
                 if (oldSlot == 1) {
                     newSlot = 0;
@@ -585,7 +585,7 @@ void ResetRaceSetup(void) {
         gRaceSetup->mListedCpuEntryIndices[index] = -1;
     }
     gRaceSetup->mCourseCount = 0;
-    for (index = 0; index < 0x21; index++) {
+    for (index = 0; index < RACE_SETUP_COURSE_LIST_LENGTH; index++) {
         gRaceSetup->mCourseList[index] = 0;
     }
     gRaceSetup->mCourseListIndex = 0;
@@ -951,8 +951,8 @@ void SetNextRaceByMode(void) {
                 gRaceSetup->mNextHeader.mFollowedKartIndex = 0;
             } else {
                 for (tableIndex = 0; tableIndex < 32; tableIndex++) {
-                    cupIndex = (s32) tableIndex / 4;
-                    courseIndexInCup = (s32) tableIndex % 4;
+                    cupIndex = (s32) tableIndex / COURSES_PER_CUP;
+                    courseIndexInCup = (s32) tableIndex % COURSES_PER_CUP;
                     cupCourseId = gCupCourseIdTable[cupIndex][courseIndexInCup];
                     if (gRaceSetup->mNextHeader.mCourseId == cupCourseId) {
                         break;

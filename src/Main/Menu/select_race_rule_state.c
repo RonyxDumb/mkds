@@ -969,7 +969,7 @@ void AssignListedCpuSlots(void) {
     cpuEntries[0] = 8;
     cpuEntries[1] = 8;
     for (slotIndex = 0; slotIndex < 8; slotIndex++) {
-        SetListedCpuSlotWrapper(slotIndex, 3);
+        SetListedCpuSlotWrapper(slotIndex, KART_ENTRY_LISTED_CPU_SLOT_NONE);
     }
     if (GetSelectRaceRuleCpuCount() != 0) {
         selectRaceRule = gSelectRaceRule;

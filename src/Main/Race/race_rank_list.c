@@ -133,7 +133,7 @@ void UpdateRaceRankList(void) {
         gRaceRankList->mShownItems[kartIndex] = kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE
                                                     ? kartItems->mActiveItem
                                                     : kartItems->mHeldItem.mItemInfoIndex;
-        if (gRaceRankList->mMoveFrames % 0x1c == 0) {
+        if (gRaceRankList->mMoveFrames % RACE_RANK_LIST_MOVE_FRAMES == 0) {
             gRaceRankList->mPrevRanks[kartIndex] = gRaceRankList->mRanks[kartIndex];
             gRaceRankList->mRanks[kartIndex] = GetKartRank(kartIndex);
         }
@@ -152,8 +152,8 @@ void UpdateRaceRankList(void) {
                 position.mY = toPosition.mY;
             }
         } else {
-            position.mX = fromPosition.mX + moveFrames * (toPosition.mX - fromPosition.mX) / 0x1c;
-            position.mY = fromPosition.mY + moveFrames * (toPosition.mY - fromPosition.mY) / 0x1c;
+            position.mX = fromPosition.mX + moveFrames * (toPosition.mX - fromPosition.mX) / RACE_RANK_LIST_MOVE_FRAMES;
+            position.mY = fromPosition.mY + moveFrames * (toPosition.mY - fromPosition.mY) / RACE_RANK_LIST_MOVE_FRAMES;
         }
         gRaceRankList->mRowPositions[kartIndex] = position;
     }
@@ -234,7 +234,7 @@ u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
         if (framesSinceStart % 12 < 6) {
             cellIndex = 0xc9;
         } else if ((itemIndexView = (RaceRankListItemInUse *) &rankList->mItemsInUse[0].mItemInfoIndex)[kartIndex]
-                       .mInUseFrames == RACE_RANK_LIST_ITEM_COUNT_FRAME) {
+                       .mInUseFrames == ITEM_INFO_KINOKO_THREE) {
             switch (rankList->mItemsInUse[kartIndex].mObjectCount) {
                 case 1:
                     cellIndex = 0x11;

@@ -35,7 +35,14 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 
-const u8 gCupRankTable[8] = {0, 1, 2, 3, 3, 3, 3, 3};
+const u8 gCupRankTable[8] = {0,
+                              1,
+                              2,
+                              CUP_RANK_NO_TROPHY,
+                              CUP_RANK_NO_TROPHY,
+                              CUP_RANK_NO_TROPHY,
+                              CUP_RANK_NO_TROPHY,
+                              CUP_RANK_NO_TROPHY};
 
 void SumTimes(TimeRecord *firstTime, MinuteSecondMillisecondTime *secondTime, TimeRecord *sum) {
     u16 milliseconds = firstTime->mMillisecond + secondTime->mMillisecond;
