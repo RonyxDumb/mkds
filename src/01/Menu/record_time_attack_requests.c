@@ -349,7 +349,6 @@ void RequestRecordTAttWaitInput(void) {
     gRecordTAtt->mClearChosen = FALSE;
 }
 
-// Requests state 3.
 void RequestRecordTAttSlideOutSide(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_SIDE;
     gRecordTAtt->mStateFrames = 0;
@@ -369,13 +368,11 @@ void RequestRecordTAttSlideInSideAndMoveIndexAndSetup(void) {
     SetupRecordTAtt();
 }
 
-// Requests state 5.
 void RequestRecordTAttSlideOutRight(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_RIGHT;
     gRecordTAtt->mStateFrames = 0;
 }
 
-// Requests state 6.
 void RequestRecordTAttSlideOutTop(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_TOP;
     gRecordTAtt->mStateFrames = 0;
@@ -468,7 +465,6 @@ void RequestRecordTAttWaitTimeRecordCharsOpen(void) {
     SetupTxtSystemSubTextEx(str, 0, 1, 0, 0, 0);
 }
 
-// Requests state 15.
 void RequestRecordTAttWaitTimeRecordCharsInput(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_TIME_TEXT_INPUT;
     gRecordTAtt->mStateFrames = 0;
@@ -480,7 +476,6 @@ void RequestRecordTAttWaitTimeRecordCharsClose(void) {
     RequestTxtSystemClose();
 }
 
-// Requests state 17.
 void RequestRecordTAttSlideInAfterTimeRecordChars(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_AFTER_TIME_TEXT;
     gRecordTAtt->mStateFrames = 0;

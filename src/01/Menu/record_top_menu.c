@@ -132,13 +132,11 @@ void ResetRecordTopMenu(void) {
     }
 }
 
-// Requests state 1 for the next update.
 void RequestRecordTopMenuSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-// Requests state 2 for the next update.
 void RequestRecordTopMenuRowsPressOffsetAfterSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SETTLE;
     gRecordTopMenu->mStateFrames = 0;
@@ -150,7 +148,6 @@ void RequestRecordTopMenuWaitSelectReturn(void) {
     RequestSelectReturnSlideIn();
 }
 
-// Requests state 4 for the next update.
 void RequestRecordTopMenuInput(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_INPUT;
     gRecordTopMenu->mStateFrames = 0;
@@ -162,13 +159,11 @@ void RequestRecordTopMenuRowPress(void) {
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
 
-// Requests state 6 for the next update.
 void RequestRecordTopMenuSlideOut(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
 }
 
-// Requests state 7 for the next update.
 void RequestRecordTopMenuRowsSlideOut(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_OUT;
     gRecordTopMenu->mStateFrames = 0;
@@ -192,7 +187,6 @@ void RequestRecordTopMenuWaitMessageClose(void) {
     RequestTxtSystemClose();
 }
 
-// Requests state 11 for the next update.
 void RequestRecordTopMenuRowsSlideIn(void) {
     gRecordTopMenu->mNextState = RECORD_TOP_MENU_STATE_ROWS_SLIDE_IN;
     gRecordTopMenu->mStateFrames = 0;
