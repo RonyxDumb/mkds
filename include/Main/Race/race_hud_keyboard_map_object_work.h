@@ -716,7 +716,7 @@ enum {
 #define RACE_GOAL_S_ROW_STYLE_OTHER 1
 #define RACE_GOAL_S_ROW_STYLE_HIDDEN 2
 // Values of RaceGoalS.mRankComparison (a row moved down, moved up, or stayed), the largest number counted up on a row,
-// and the frames and distance of the mOffsetX slide.
+// and the frames and distance of the mOffsetX slides (the teams page slides in from 0x80).
 #define RACE_GOAL_S_RANK_DOWN 0
 #define RACE_GOAL_S_RANK_UP 1
 #define RACE_GOAL_S_RANK_SAME 2

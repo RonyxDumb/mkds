@@ -74,8 +74,10 @@ typedef struct CourseMapSettings {
     // fog alpha (the fog colour register gets colour | alpha << 16).
     /* 14 */ s32 mColorAndFogAlpha;
     // Four 15-bit colours (5-5-5); InitCourseColorBlend, SetCourseColorBlendColor and AdvanceCourseColorBlend pick one
-    // by the lowest set bit of a 4-bit mask (1 at set-up, bits 26 to 29 of the collision flags afterwards) and blend
-    // the colour of a kart model entry, item object or vehicle toward it.
+    // by the lowest set bit of a 4-bit mask (1 at set-up, bits 26 to 29 of the collision flags afterwards; colour in
+    // use
+    // is skipped by AdvanceCourseColorBlend) and blend the colour of a kart model entry, item object or vehicle toward
+    // it.
     /* 18 */ u16 mColors[4];
     // Upper limit for the mDrawDistance of every map object (SetMapObjectDrawDistance); 0 means no limit; not applied
     // when RaceSetup.mRaceKind is 3.
@@ -274,7 +276,8 @@ typedef struct CourseMap {
     /* 30 */ u16 mSubScreenViewCount;
     /* 32 */ u8 mUnk_32[0x2];
     // Records (CourseMapPlacement: position, rotation, battle point index, key) where PlaceKartAtKeyedPlacement puts a
-    // kart and AdvanceKartToKeyedPlacement moves one toward; found by key through mKeyedPlacementIndexByKey; loaded
+    // kart and AdvanceKartToKeyedPlacement (key 0) moves one toward; found by key through mKeyedPlacementIndexByKey;
+    // loaded
     // from COURSE_MAP_VERSION_KEYED_PLACEMENTS on, empty in older files.
     /* 34 */ CourseMapPlacement *mKeyedPlacements;
     /* 38 */ u16 mKeyedPlacementCount;

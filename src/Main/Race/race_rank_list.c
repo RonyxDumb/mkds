@@ -783,9 +783,9 @@ void UpdateRaceLapNumber(void) {
     }
 }
 
-// Draws nothing in a start battle, a demo, battle, or a mission run without laps (last lap index below 2); else the lap
-// label, the lap number while the blink shows it, a cell for last lap index 2 or 4, and the time difference while it
-// is in use, shown and in the visible part of its blink.
+// Draws nothing in a start battle, a demo, battle, or a mission run that is not a laps kind or has a last lap index
+// below 2; else the lap label, the lap number while the blink shows it, a cell for last lap index 2 or 4, and the time
+// difference while it is in use, shown and in the visible part of its blink.
 void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     s32 lapPosition[2] = {0xf8, 0x10};
     s32 *timeDifferenceSign;
