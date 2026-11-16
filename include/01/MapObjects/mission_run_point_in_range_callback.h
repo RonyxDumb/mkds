@@ -6,4 +6,4 @@
 typedef struct MissionRunMapObject MissionRunMapObject;
 
 void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
-                             MapObjectCallback callback);
+                             MissionRunMapObjectCallback callback);

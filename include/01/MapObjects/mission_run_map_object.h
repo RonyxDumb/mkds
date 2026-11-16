@@ -779,8 +779,8 @@ typedef struct MissionRunMapObject MissionRunMapObject;
 typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 
-typedef void (*MapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
-typedef void (*MapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
+typedef void (*MissionRunMapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
+typedef void (*MissionRunMapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
 
 // The bit of mCollisionBits the update sets when mPos.y is below 0; IsNotRisingWithBelowZeroBit tests it with a
 // velocity that is not upward.
@@ -840,26 +840,26 @@ typedef struct MissionRunMapObject {
     /* 1c0 */ s32 mMoveAnglePerCallIncrement;
     /* 1c4 */ s32 mMoveAngleOffset;
     /* 1c8 */ Vec3 mVelocity;
-    /* 1d4 */ MapObjectCallback mAnimationEndCallback;
+    /* 1d4 */ MissionRunMapObjectCallback mAnimationEndCallback;
     /* 1d8 */ s32 mAnimationFrameCallbackFrameIndex;
-    /* 1dc */ MapObjectCallback mAnimationFrameCallback;
+    /* 1dc */ MissionRunMapObjectCallback mAnimationFrameCallback;
     /* 1e0 */ s32 mFirstCallbackFrameIndex;
     /* 1e4 */ void (*mFirstFrameCallback)(struct MissionRunMapObject *);
     /* 1e8 */ s32 mSecondCallbackFrameIndex;
     /* 1ec */ void (*mSecondFrameCallback)(struct MissionRunMapObject *);
     /* 1f0 */ s32 mStateFrameCount;
-    /* 1f4 */ MapObjectCallback mStateFrameCountCallback;
+    /* 1f4 */ MissionRunMapObjectCallback mStateFrameCountCallback;
     /* 1f8 */ s32 mPointRadius;
     /* 1fc */ s32 mPointHalfAngle;
     /* 200 */ Vec3 mPoint;
-    /* 20c */ MapObjectCallback mPointInRangeCallback;
+    /* 20c */ MissionRunMapObjectCallback mPointInRangeCallback;
     /* 210 */ s32 mOutOfRangeRadius;
     /* 214 */ s32 mOutOfRangeHalfAngle;
     /* 218 */ Vec3 mOutOfRangePoint;
-    /* 224 */ MapObjectCallback mOutOfRangeCallback;
-    /* 228 */ MapObjectCallback mStoppedCallback;
-    /* 22c */ MapObjectCallback mCourseCollisionCallback;
-    /* 230 */ MapObjectCallback mUnusedCallback;
+    /* 224 */ MissionRunMapObjectCallback mOutOfRangeCallback;
+    /* 228 */ MissionRunMapObjectCallback mStoppedCallback;
+    /* 22c */ MissionRunMapObjectCallback mCourseCollisionCallback;
+    /* 230 */ MissionRunMapObjectCallback mUnusedCallback;
     /* 234 */ s32 mCollisionShape;
     /* 238 */ Vec3 mPosWithOffset;
     /* 244 */ Vec3 mOffset;
@@ -894,9 +894,9 @@ typedef struct MissionRunMapObject {
     /* 2c8 */ u32 mCollisionBits;
     /* 2cc */ u8 mUnk_2cc[0x4];
     /* 2d0 */ s32 mTimer;
-    /* 2d4 */ MapObjectKartCollisionCallback mKartCollisionCallback;
+    /* 2d4 */ MissionRunMapObjectKartCollisionCallback mKartCollisionCallback;
     /* 2d8 */ s32 mKartResponse;
-    /* 2dc */ MapObjectItemCollisionCallback mItemCollisionCallback;
+    /* 2dc */ MissionRunMapObjectItemCollisionCallback mItemCollisionCallback;
     /* 2e0 */ s32 mItemResponse;
     /* 2e4 */ s32 mNodeMatchValue;
     /* 2e8 */ Vec3 mNodePosition;

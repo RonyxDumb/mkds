@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef void (*MapObjectCallback)(MissionRunMapObject *mapObject);
+typedef void (*MissionRunMapObjectCallback)(MissionRunMapObject *mapObject);
 
 typedef struct MissionRunMapObject MissionRunMapObject;
 
@@ -11,6 +11,6 @@ void SetSpeedAndClearTarget(MissionRunMapObject *mapObject, s32 speed);
 void SetScaleTargetAndPerCall(MissionRunMapObject *mapObject, s32 scaleTarget, s32 scalePerCall);
 void SetAlphaLimitTargetAndPerCall(MissionRunMapObject *mapObject, s32 alphaLimitTarget, s32 alphaLimitPerCall);
 void StartAnimationWithEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep,
-                                   MapObjectCallback endCallback);
+                                   MissionRunMapObjectCallback endCallback);
 void StartAnimationNoEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep);
 void SetPointInRangePoint(MissionRunMapObject *mapObject, Vec3 *point);

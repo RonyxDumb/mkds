@@ -96,20 +96,20 @@ MapObjectKindDescriptor gEmptyMapObjectKindDescriptor = {0,
                                                          {NULL, NULL, NULL, NULL}};
 u16 gShadowScaleToggle;
 
-void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, MapObjectCallback callback) {
+void SetAnimationFrameCallback(MissionRunMapObject *mapObject, s32 frameIndex, MissionRunMapObjectCallback callback) {
     mapObject->mAnimationFrameCallbackFrameIndex = frameIndex;
     mapObject->mAnimationFrameCallback = callback;
 }
 
-void SetTwoAnimationFrameCallbacks(MissionRunMapObject *mapObject, s32 firstFrameIndex, MapObjectCallback firstCallback,
-                                   s32 secondFrameIndex, MapObjectCallback secondCallback) {
+void SetTwoAnimationFrameCallbacks(MissionRunMapObject *mapObject, s32 firstFrameIndex, MissionRunMapObjectCallback firstCallback,
+                                   s32 secondFrameIndex, MissionRunMapObjectCallback secondCallback) {
     mapObject->mFirstCallbackFrameIndex = firstFrameIndex;
     mapObject->mFirstFrameCallback = firstCallback;
     mapObject->mSecondCallbackFrameIndex = secondFrameIndex;
     mapObject->mSecondFrameCallback = secondCallback;
 }
 
-void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount, MapObjectCallback callback) {
+void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount, MissionRunMapObjectCallback callback) {
     mapObject->mStateFrameCount = frameCount;
     mapObject->mStateFrames = 0;
     if (callback == NULL) {
@@ -119,8 +119,8 @@ void StartStateFrameCountCallback(MissionRunMapObject *mapObject, s32 frameCount
 }
 
 void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s32 pointHalfAngle, Vec3 *point,
-                             MapObjectCallback callback) {
-    MapObjectCallback storedCallback;
+                             MissionRunMapObjectCallback callback) {
+    MissionRunMapObjectCallback storedCallback;
 
     mapObject->mPointRadius = pointRadius;
     mapObject->mPointHalfAngle = pointHalfAngle;
@@ -134,21 +134,21 @@ void SetPointInRangeCallback(MissionRunMapObject *mapObject, s32 pointRadius, s3
     mapObject->mPointInRangeCallback = storedCallback;
 }
 
-void SetStoppedCallback(MissionRunMapObject *mapObject, MapObjectCallback callback) {
+void SetStoppedCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback) {
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
     mapObject->mStoppedCallback = callback;
 }
 
-void SetCourseCollisionCallback(MissionRunMapObject *mapObject, MapObjectCallback callback) {
+void SetCourseCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback) {
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
     mapObject->mCourseCollisionCallback = callback;
 }
 
-void SetUnusedCallback(MissionRunMapObject *mapObject, MapObjectCallback callback) {
+void SetUnusedCallback(MissionRunMapObject *mapObject, MissionRunMapObjectCallback callback) {
     if (callback == NULL) {
         callback = StopMapObjectState;
     }
@@ -167,7 +167,7 @@ void StartAnimationNoEndCallback(MissionRunMapObject *mapObject, s32 animationEn
 }
 
 void StartAnimationWithEndCallback(MissionRunMapObject *mapObject, s32 animationEntry, s32 frameStep,
-                                   MapObjectCallback endCallback) {
+                                   MissionRunMapObjectCallback endCallback) {
     StartMapObjectModelNsbcaAnimation(mapObject->mNsbmd, (u16) animationEntry, frameStep, 1);
     if (endCallback == NULL) {
         endCallback = StopMapObjectState;
@@ -599,11 +599,11 @@ u16 GetRepeatsRemaining(MissionRunMapObject *mapObject) {
     return mapObject->mRepeatsRemaining;
 }
 
-void SetKartCollisionCallback(MissionRunMapObject *mapObject, MapObjectKartCollisionCallback kartCollisionCallback) {
+void SetKartCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectKartCollisionCallback kartCollisionCallback) {
     mapObject->mKartCollisionCallback = kartCollisionCallback;
 }
 
-void SetItemCollisionCallback(MissionRunMapObject *mapObject, MapObjectItemCollisionCallback itemCollisionCallback) {
+void SetItemCollisionCallback(MissionRunMapObject *mapObject, MissionRunMapObjectItemCollisionCallback itemCollisionCallback) {
     mapObject->mItemCollisionCallback = itemCollisionCallback;
 }
 
@@ -1782,7 +1782,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
     Vec3 awayDirection;
     s64 pushStrength;
     u32 mode;
-    MapObjectKartCollisionCallback collisionCallback;
+    MissionRunMapObjectKartCollisionCallback collisionCallback;
 
     mode = *firstResponsePointer;
     mapObject->mKartResponse = *responsePointer;
@@ -1817,7 +1817,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
 s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObject *itemObject, u8 *firstResponsePointer,
                                        u8 *responsePointer) {
     Vec3 awayDirection;
-    MapObjectItemCollisionCallback collisionCallback;
+    MissionRunMapObjectItemCollisionCallback collisionCallback;
 
     mapObject->mItemResponse = *responsePointer;
     awayDirection.x = mapObject->mMapObject.mPos.x - itemObject->mPos.x;
