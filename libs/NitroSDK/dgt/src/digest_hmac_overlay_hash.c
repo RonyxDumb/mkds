@@ -88,8 +88,8 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     MI_CpuCopy8(input, buffer, length);
 }
 
-// Callers pass ctx and digest only. The prologue pushes r0-r3, and the call
-// to MIi_CpuClear32 at the end clears the pushed ctx.
+// Pads the last block with 0x80, zeros and the bit count (hashing the block first if 56 or more bytes are buffered),
+// then writes the 20 digest bytes of the five state words to digest.
 void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     volatile u32 zero;
     u32 *blockWords;
@@ -163,8 +163,8 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     MIi_CpuClear32(zero, &ctx, 4);
 }
 
-// Hashes length bytes of source in 64-byte blocks, clearing the words at offsets 0x18 and 0x38 of each block while it
-// is hashed.
+// Hashes the length / 64 whole blocks of source, with the words at offsets 0x18 and 0x38 of each block set to 0 while
+// it is hashed and restored afterwards.
 void DGTi_Hash2ProcessMessageBlock(DGTHash2Context *ctx, u8 *source, int length) {
     u32 saved18;
     u32 saved38;
@@ -186,7 +186,8 @@ void DGTi_Hash2ProcessMessageBlock(DGTHash2Context *ctx, u8 *source, int length)
     }
 }
 
-// HMAC-SHA-1 of bin with key, written to digest. A key longer than 64 bytes is hashed down first.
+// HMAC-SHA-1 of bin with key, written to digest; a key longer than 64 bytes is hashed down first. Does nothing if
+// digest, bin or key is NULL or binLen or keyLen is 0.
 void DGT_Hash2CalcHmac(u8 *digest, const u8 *binPtr, u32 binLen, const u8 *keyPtr, s32 keyLen) {
     u8 innerKeyBlock[0x40];
     u8 outerKeyBlock[0x40];

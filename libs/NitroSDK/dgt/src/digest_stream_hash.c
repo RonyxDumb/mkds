@@ -58,8 +58,8 @@ void DGT_Hash1SetSource(DGTHash1Context *ctx, const void *input, u32 length) {
     MI_CpuCopy8(src, ctx->mBuffer8, length & DGT_HASH1_BLOCK_MASK);
 }
 
-// Appends the 0x80 pad, zeros and the bit count, runs the last block, copies the 16 state bytes to digest and clears
-// ctx.
+// Appends the 0x80 pad, zeros and the bit count (an extra block is hashed first if fewer than 8 bytes remain after the
+// pad), copies the 16 state bytes to digest and clears ctx.
 void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     u32 bitsLow;
     u32 bitsHigh;
@@ -89,7 +89,8 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
     MI_CpuFill8(ctx, 0, sizeof(*ctx));
 }
 
-// One MD5 block: four rounds of 16 steps over the 16 words of ctx.mBuffer8, added into ctx.mState.
+// One MD5 block: four rounds of 16 steps over the 16 words that start at ctx.mBuffer8 (the last two are mBitCountLow
+// and mBitCountHigh), added into ctx.mState.
 void ProcessBlock(DGTHash1Context *ctx) {
     const u32 *word;
     const u32 *order;
