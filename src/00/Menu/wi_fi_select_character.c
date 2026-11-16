@@ -32,7 +32,7 @@ void InitWiFiSelectCharacterState(void *heap) {
     firstOamList = GetWiFiMenuMainOamList();
     secondOamList = GetWiFiMenuSubOamList();
     InitSelectCharacter(heap, 2, firstOamList, secondOamList);
-    SetLinkLevelIconEnabled(1, 1);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 1);
     gMenuShared->mOtherKartCountAdded = FALSE;
     for (index = 0; index < 4; index++) {
         gMenuShared->mUnk_5c[index] = 0;

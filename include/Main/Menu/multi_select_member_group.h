@@ -27,7 +27,7 @@ typedef struct ScanSlotMemberRow {
 // Member rows of the group list; the row after them leads to the multi select NS screen
 // (MultiSelectMemberGroup.mSelectedIndex).
 #define MULTI_SELECT_MEMBER_GROUP_ROW_COUNT 4
-#define MULTI_SELECT_MEMBER_GROUP_RETURN_ROW 4
+#define MULTI_SELECT_MEMBER_GROUP_NS_ROW 4
 // Frames of the slide in and out, frames the press waits before the screen goes on, frames after which the member
 // entries are cleared.
 #define MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES 10
@@ -65,7 +65,7 @@ typedef struct MultiSelectMemberGroup {
     /* 4c */ s32 mState;
     /* 50 */ s32 mUpdateState;
     /* 54 */ s32 mNextCallbacksIndex;
-    /* 58 */ ScanSlotMemberRow mMemberRows[4];
+    /* 58 */ ScanSlotMemberRow mMemberRows[MULTI_SELECT_MEMBER_GROUP_ROW_COUNT];
     /* 88 */ BOOL mRowPressed;
     /* 8c */ s32 mBg3OffsetFrames;
     /* 90 */ s32 mBg3Offset;

@@ -15,8 +15,9 @@
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
 
-// Woodbox1.mMapObject.mStateMachine states, in the order of gWoodbox1StateTable. INTACT rests at its base; a hit breaks
-// it open (BROKEN, 900 frames); FALL drops the box back in; SETTLE bounces it until it rests.
+// Woodbox1.mMapObject.mStateMachine states, in the order of gWoodbox1StateTable. INTACT rests at its base; a hit by a
+// fast or star kart or an item breaks it open (BROKEN, for at least WOODBOX1_BROKEN_MIN_FRAMES); FALL drops the box
+// back in from above; SETTLE bounces it for WOODBOX1_SETTLE_FRAMES and then it is INTACT again.
 enum {
     WOODBOX1_STATE_INTACT,
     WOODBOX1_STATE_BROKEN,
@@ -54,14 +55,15 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
 void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, MtxFx43 *matrix, Vec3 *scale, s32 maxAlpha);
 void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                                           s32 minNormalSpeed, Vec3 *result);
-// Splits the velocity along surfaceNormal: the rest is scaled by tangentScale, the part along is reversed and scaled
-// by bounceScale; the result goes to result.
+// Splits the velocity along surfaceNormal (an upward normal is first made horizontal): the rest is scaled by
+// tangentScale, the part along it is reversed and scaled by bounceScale, but at least minNormalSpeed long along the
+// normal when its horizontal length is smaller; the result goes to result.
 void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                               s32 minNormalSpeed, Vec3 *result);
 void BlendDirectionTowardUp(Vec3 *direction, s32 blendFactor);
 void BlendDirectionTowardVector(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result);
-// Writes to offset the move that puts the point position out of the cylinder at center (radius in x/z, halfHeight in
-// y); the move has y = 0.
+// Writes to offset the horizontal move that puts the point position onto the side of the cylinder at center (radius in
+// x/z, halfHeight in y), limited in each axis to its distance to the nearer end; offset.y is 0.
 void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset);
 // Writes to offset the move that puts the point position exactly radius away from center.
 void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset);

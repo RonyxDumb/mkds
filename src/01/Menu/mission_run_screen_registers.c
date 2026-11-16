@@ -17,6 +17,7 @@
 #include "registers.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
+#include "Main/Menu/ghost_scene.h"
 
 #pragma optimize_for_size on
 
@@ -101,11 +102,11 @@ void UpdateTimeAttackTopMenu(void) {
             break;
         case TIME_ATTACK_TOP_RESULT_SEND_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
-            SetGhostSceneInitialCallbacksIndex(0);
+            SetGhostSceneInitialCallbacksIndex(GHOST_SCENE_CALLBACKS_SEND);
             break;
         case TIME_ATTACK_TOP_RESULT_GET_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
-            SetGhostSceneInitialCallbacksIndex(1);
+            SetGhostSceneInitialCallbacksIndex(GHOST_SCENE_CALLBACKS_GET_SCAN);
             break;
         case TIME_ATTACK_TOP_RESULT_RETURN:
             SwitchMenuScreen(0, 0x1f);

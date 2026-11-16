@@ -70,14 +70,14 @@ void InitWLMenuScene(void *heap) {
         sceneTextInitParams.mUseSelectChoises = 0;
         sceneTextInitParams.mSelectChoisesFont = NULL;
         sceneTextInitParams.mUseSelectReturn = 1;
-        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == WL_MENU_KIND_JOIN_GROUP;
+        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == WL_MENU_KIND_MEMBER_GROUP;
         sceneTextInitParams.mBackScreenKind = 0;
         LoadTxtSystemAndSelectChoisesAndSelectReturnData();
         InitSceneText(heap, &sceneTextInitParams);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (GetWLMenuKind()) {
-        case WL_MENU_KIND_JOIN_GROUP:
+        case WL_MENU_KIND_MEMBER_GROUP:
             gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0
                                                          ? WL_MENU_CALLBACKS_MB_CHILD_MESSAGE
                                                          : WL_MENU_CALLBACKS_MEMBER_GROUP;

@@ -544,7 +544,7 @@ void RequestRecordVSEraseCloseConfirmText(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN;
     gRecordVSErase->mStateFrames = 0;
     RequestTxtSystemClose();
-    SetTxtSystemSoundId(0, 5);
+    SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
 }
 
 void RequestRecordVSEraseSlideInAfterConfirm(void) {
@@ -696,7 +696,7 @@ void InitRecordVSErase(void *heap) {
     SetLabelOamModeXlu(5, 0, gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
                        gRecordVSErase->mRecordVSSEraseBncl);
     gRecordVSErase->mEmblem = HeapAlloc(heap, 0x201);
-    gRecordVSErase->mEmblemConverted = HeapAlloc(heap, 0x200);
+    gRecordVSErase->mEmblemConverted = HeapAlloc(heap, EMBLEM_PIXEL_BYTES);
     RequestRecordVSEraseOpenIntroText();
 }
 

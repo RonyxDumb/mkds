@@ -419,7 +419,7 @@ void RequestRecordTAttWaitAskClearClose(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_CLOSE;
     gRecordTAtt->mStateFrames = 0;
     RequestTxtSystemClose();
-    SetTxtSystemSoundId(0, 5);
+    SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
 }
 
 void RequestRecordTAttSlideInAfterAskClearAndSetup(void) {

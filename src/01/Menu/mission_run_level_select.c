@@ -482,7 +482,7 @@ void AdvanceMissionRunLVselSelect(void) {
             goto next;
         }
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestMissionRunLVselSlideOut();
     gMissionRunLVsel->mSlideOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunLVsel->mResult = MISSION_RUN_LVSEL_RESULT_BACK;

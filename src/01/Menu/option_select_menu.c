@@ -471,7 +471,7 @@ void AdvanceOptionSelectMenuWaitBackup(void) {
             backupBusy = 1;
         }
         if (backupBusy == 0) {
-            SetTxtSystemOpenSoundId(0x23);
+            SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
             RequestTxtSystemClose();
             RequestSelectReturnSlideIn();
         }

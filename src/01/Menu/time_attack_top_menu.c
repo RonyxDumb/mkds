@@ -19,6 +19,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Menu/ghost_scene.h"
 
 char *gTimeAttackTopMenuSNcgrName = "ta/TimeAttack_top_menu_s.nce.ncgr";
 char *gTimeAttackTopMenuSNcerName = "ta/TimeAttack_top_menu_s.nce.ncer";
@@ -145,7 +146,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_NONE;
     RequestTimeAttackTopMenuSlideIn();
     if (GetPreviousMenuScreenNumber() == 0x1f) {
-        if (gMenuShared->mGhostSceneInitialCallbacksIndex == 0) {
+        if (gMenuShared->mGhostSceneInitialCallbacksIndex == GHOST_SCENE_CALLBACKS_SEND) {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
         } else {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;

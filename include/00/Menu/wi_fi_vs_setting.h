@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/System/backup_net_camera_work.h"
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
@@ -149,7 +150,7 @@ typedef struct WiFiVSMatching {
     /* 00d4 */ u8 mNscrCopy[0x1000];
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
-    /* 10d8 */ u8 mOtherEmblems[3][0x200];
+    /* 10d8 */ u8 mOtherEmblems[3][EMBLEM_PIXEL_BYTES];
     /* 16d8 */ s32 mOtherHasEmblem[3];
     /* 16e4 */ struct NNSG2dCellDataBank *mWiFiVSMatchingSCells;
     /* 16e8 */ Ncgr *mWiFiVSMatchingSChars;

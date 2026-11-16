@@ -274,7 +274,7 @@ void RunScenesForever(void) {
     gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
-        gMenuShared->mWLMenuKind = WL_MENU_KIND_JOIN_GROUP;
+        gMenuShared->mWLMenuKind = WL_MENU_KIND_MEMBER_GROUP;
         gRunScenesState->mSceneNumber = SCENE_WL_MENU;
     }
     do {

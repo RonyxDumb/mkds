@@ -83,7 +83,7 @@ void InitWiFiTopMenu(void *heap) {
                 WIFI_TOP_MENU_OFFSET_HIDDEN;
         }
     }
-    SetLinkLevelIconEnabled(1, 0);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 0);
     SetSelectReturnSoundId(0xf);
     SendLedPatternNone();
 }
@@ -311,7 +311,7 @@ void AdvanceWiFiTopMenuSlideOut(void) {
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_NONE;
                 SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
                 gWiFiTopMenu->mStateFrames = 0;
-                SetSelectReturnSoundId(0xe);
+                SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
                 return;
             }
             RequestWiFiState(gWiFiTopMenu->mPendingWiFiState);

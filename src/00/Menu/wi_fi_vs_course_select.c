@@ -38,7 +38,7 @@ void InitWiFiVSCourseSelectState(void *heap) {
     firstOamList = GetWiFiMenuMainOamList();
     secondOamList = GetWiFiMenuSubOamList();
     InitWiFiVSCourseSelect(heap, firstOamList, secondOamList);
-    SetLinkLevelIconEnabled(1, 1);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 1);
 }
 
 void ReleaseWiFiVSCourseSelectState(void) {

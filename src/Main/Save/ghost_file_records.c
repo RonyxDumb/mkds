@@ -16,6 +16,7 @@
 #include "friend_user_data.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
+#include "Main/Menu/keyboard_buttons.h"
 
 u32 gGhostFileRecordsResultTotalMax = 0xf4240;
 
@@ -96,10 +97,10 @@ s32 CheckFriendKeyString(const void *keyString) {
 
     friendKey = DWC_StringToFriendKey(keyString);
     if (DWC_Acc_CheckFriendKey(friendKey, 0x414d434a) == 0) {
-        return 1;
+        return FRIEND_KEY_CHECK_INCORRECT;
     }
     if (friendKey == DWC_CreateFriendKey(&gBackupBuffers->mFirstBlock->mUserData)) {
-        return 1;
+        return FRIEND_KEY_CHECK_INCORRECT;
     }
     InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
@@ -117,7 +118,7 @@ s32 CheckFriendKeyString(const void *keyString) {
         }
     }
     if (foundIndex != -1) {
-        return 2;
+        return FRIEND_KEY_CHECK_ALREADY_REGISTERED;
     }
     return 0;
 }

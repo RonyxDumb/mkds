@@ -992,7 +992,7 @@ void AdvanceKeyboardWaitBackup(void) {
                          ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
                          : 1;
         if (backupBusy == 0) {
-            SetTxtSystemOpenSoundId(0x23);
+            SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
             mode = gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mMode;
             if (mode == SCENE_WIFI_MENU || mode == SCENE_OPTION) {
                 gKeyboard->mRecords[KEYBOARD_RECORD_STATUS].mNextScene = mode;

@@ -94,7 +94,7 @@ void AdvanceSelectRaceRuleSlideOut(void) {
     returnOffsetY = -LookupSelectReturnSlideOutBg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
     value = gSelectRaceRule->mBncl->mCount;
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         for (cellIndex = 0; cellIndex < 2; cellIndex++) {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][cellIndex]].mOffsetY = rowsOffsetY;
@@ -213,7 +213,7 @@ s32 AdvanceSelectRaceRule(void) {
     selectRaceRule = gSelectRaceRule;
     DrawLayoutTable(selectRaceRule->mBncl, selectRaceRule->mNcer, selectRaceRule->mBnll, selectRaceRule->mOamList,
                     selectRaceRule->mTable);
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         DrawSelectRaceRuleRowOffsetLabels(rowIndex);
     }
     selectRaceRule = gSelectRaceRule;

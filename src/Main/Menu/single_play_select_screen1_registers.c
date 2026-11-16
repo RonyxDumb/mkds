@@ -117,7 +117,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
     subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
         mainCells->mOffsetY = InterpolateS16(1, -0x28, 0, frame, 10);
-        offset = InterpolateS16(1, 0xf0, 0, frame, 10);
+        offset = InterpolateS16(1, SINGLE_PLAY_SELECT_OFFSCREEN_X, 0, frame, 10);
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = offset;
         }

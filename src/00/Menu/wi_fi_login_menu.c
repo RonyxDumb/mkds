@@ -33,8 +33,8 @@ void InitWiFiLoginMenu(void *heap) {
     gWiFiLoginMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiLoginMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     InitWiFiLoginMenuNop();
-    SetLinkLevelIconEnabled(1, 1);
-    SetSelectReturnSoundId(0xe);
+    SetLinkLevelIconEnabled(LINK_LEVEL_ICON_WIFI, 1);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     SendLedPatternWireless();
 }
 

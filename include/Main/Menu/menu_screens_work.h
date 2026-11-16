@@ -533,7 +533,7 @@ typedef struct SelectRaceRule {
     /* 38 */ s32 mStateFrames;
     // Set to 6 when the row's value is stepped ([row][0] down, [row][1] up), counted down each step; moves the row's
     // pair of objects.
-    /* 3c */ s16 mRowChangeTimers[5][2];
+    /* 3c */ s16 mRowChangeTimers[SELECT_RACE_RULE_ROW_COUNT][2];
     // Same shape for the row 3 count ([0][0] down, [0][1] up) and the row 4 teams ([1][0] and [1][1] by the team a
     // player lands in).
     /* 50 */ s16 mCountTeamChangeTimers[2][2];
@@ -548,7 +548,7 @@ typedef struct SelectRaceRule {
     // Row at the start of the step, to see whether it changed.
     /* 64 */ s32 mPrevRow;
     // Value of each row, 0 up to the row's count minus 1; stepped up and down with wrap.
-    /* 68 */ s32 mRowValues[5];
+    /* 68 */ s32 mRowValues[SELECT_RACE_RULE_ROW_COUNT];
     // Non-zero while the highlight is on the button below the rows instead of on a row.
     /* 7c */ s32 mOnButton;
     // mOnButton at the start of the step.
@@ -641,8 +641,8 @@ typedef struct SeqPlayerControl {
 // Object at gSeqQueue.
 typedef struct SeqQueue {
     // 14 queued pairs; 13 in mPairNo and 2 in mPairSide mark an empty entry.
-    /* 00 */ s32 mPairNo[14];
-    /* 38 */ s32 mPairSide[14];
+    /* 00 */ s32 mPairNo[SEQ_QUEUE_LENGTH];
+    /* 38 */ s32 mPairSide[SEQ_QUEUE_LENGTH];
     /* 70 */ s32 mWriteIndex;
     /* 74 */ s32 mReadIndex;
     /* 78 */ s32 mNextStartTimer;

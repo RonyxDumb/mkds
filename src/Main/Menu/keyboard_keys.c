@@ -862,7 +862,7 @@ s32 GetKeyboardRectValue(KeyboardRect *keyboardRect) {
             if (rects[rectIndex].mWidth > 1 && rects[rectIndex].mHeight > 1 && keyboardRect == &rects[rectIndex]) {
                 switch (rectIndex) {
                     case KEYBOARD_RECT_INDEX_DELETE:
-                        return 8;
+                        return KEYBOARD_VALUE_DELETE;
                     case 1:
                         return 0xa;
                     case KEYBOARD_RECT_INDEX_SPACE:
@@ -885,7 +885,7 @@ s32 GetKeyboardValueForKeyId(u32 keyId) {
             return 0;
         }
         fixedKeyCount = currentLayout->mFixedKeyCount;
-        if (keyId <= fixedKeyCount || keyId == 0xffff) {
+        if (keyId <= fixedKeyCount || keyId == KEYBOARD_KEY_ID_CYCLE) {
             if (currentLayout->mCallback == HiraganaKatakanaLayoutCallback) {
                 switch ((s32) keyId) {
                     case KEYBOARD_KEY_ID_DELETE:

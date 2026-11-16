@@ -379,7 +379,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetSlot->mGhostMessages, 0x54);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
-                SetTxtSystemSoundId(0, 5);
+                SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 RequestSelectReturnPressWithSound(1);
                 gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
@@ -409,7 +409,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
             if (GhostGetSlotIsBackupBusy() != 0) {
                 message = GetBmgEntry(object->mGhostMessages, 0x10);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetSlot->mInfoFileSets.mCommonMessages, 4);
-                SetTxtSystemSoundId(0, 5);
+                SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 gTimeAttackGhostGetSlot->mUnk_a0 = FALSE;
                 gTimeAttackGhostGetSlot->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_WAIT_MESSAGE_DONE;
@@ -482,7 +482,7 @@ void StartTimeAttackGhostGetScanWaitErrorMessage(void) {
 
     message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x11);
     buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
-    SetTxtSystemSoundId(0, 5);
+    SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
     SetupTxtSystemSubTextButton(message, buttonText);
     gTimeAttackGhostGetScan->mStateFrames = 0;
     gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_ERROR_MESSAGE;
@@ -614,7 +614,7 @@ void SetupGhostSubTextTwoButtons(void) {
     message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 8);
     firstButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 0);
     secondButtonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 1);
-    SetTxtSystemSoundId(0, 5);
+    SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
     SetupTxtSystemSubTextTwoButtonsEx(message, firstButtonText, secondButtonText, 0, 0, 1, 1, 0);
 }
 
@@ -1158,7 +1158,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             if (IsTxtSystemClosedNoOpenRequest() != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x54);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
-                SetTxtSystemSoundId(0, 5);
+                SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE;
             }
@@ -1167,7 +1167,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             if (GhostGetScanIsBackupBusy() != 0) {
                 message = GetBmgEntry(gTimeAttackGhostGetScan->mGhostMessages, 0x10);
                 buttonText = GetBmgEntry(gTimeAttackGhostGetScan->mInfoFileSets.mCommonMessages, 4);
-                SetTxtSystemSoundId(0, 5);
+                SetTxtSystemSoundId(0, TXT_SYSTEM_INPUT_SOUND_ID);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_WAIT_MESSAGE_DONE;
             }

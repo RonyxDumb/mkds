@@ -138,7 +138,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
     SelectRaceRuleNscrRect nscrRect;
     s32 rowIndex;
 
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         if (gSelectRaceRule->mOnButton == 0 && gSelectRaceRule->mRow == rowIndex) {
             SetLabelPaletteIndex(gSelectRaceRuleRowEntries[rowIndex].mEntryIndices[0], 1, gSelectRaceRule->mBnll,
                                  gSelectRaceRule->mTable, gSelectRaceRule->mBncl);
@@ -162,7 +162,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
         gSelectRaceRule->mPrevRow == gSelectRaceRule->mRow) {
         return;
     }
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         LookupSelectRaceRuleNscrRect(&nscrRect, rowIndex);
         SetScreenMapBlockTopBits(gSelectRaceRule->mNscr->mData, nscrRect.mFirstColumn, nscrRect.mFirstRow,
                                  nscrRect.mColumnCount, nscrRect.mRowCount, nscrRect.mTopBits);
@@ -908,7 +908,7 @@ void AdvanceSelectRaceRuleRowObjects(void) {
     s32 rowIndex;
     s32 columnIndex;
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
-        for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
                 gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][columnIndex]].mVisible = 0;
                 gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][columnIndex]].mVisible = 0;
@@ -917,7 +917,7 @@ void AdvanceSelectRaceRuleRowObjects(void) {
         }
         return;
     }
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         if (GetSelectRaceRuleHumanCount() == 8 && rowIndex == 1) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
                 gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][columnIndex]].mVisible = 0;
@@ -1259,7 +1259,7 @@ void ReadRaceSetupCopyIntoSelectRaceRule(void) {
             case SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE:
             case SELECT_RACE_RULE_MODE_VS_MULTI:
             case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
-                teamValue = 2;
+                teamValue = SELECT_RACE_RULE_TEAMS_PLAYER_PICKS;
                 break;
         }
         for (entryIndex = 0; entryIndex < 8; entryIndex++) {
@@ -1279,7 +1279,7 @@ void ReadRaceSetupCopyIntoSelectRaceRule(void) {
         MoveSelectRaceRuleValueNext(0);
     }
     if (GetMirrorMode() != 0) {
-        value = 3;
+        value = SELECT_RACE_RULE_ENGINE_MIRROR;
     } else {
         value = gSelectRaceRuleEngineIndexValues[GetEngineIndex()];
     }
@@ -1361,7 +1361,7 @@ void ResetSelectRaceRulePositions(void) {
     gSelectRaceRule->mTable[40].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
     gSelectRaceRule->mTable[41].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
     gSelectRaceRule->mTable[42].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         for (columnIndex = 0; columnIndex < 2; columnIndex++) {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][columnIndex]].mOffsetY =
                 gSelectRaceRule->mOffsetY - 0xc0;
@@ -1490,7 +1490,7 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
         gSelectRaceRule->mTeamHumanCounts[rowIndex] = 0;
         gSelectRaceRule->mTeamNonHumanCounts[rowIndex] = 0;
     }
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         for (columnIndex = 0; columnIndex < 2; columnIndex++) {
             gSelectRaceRule->mRowChangeTimers[rowIndex][columnIndex] = 0;
         }
@@ -1506,7 +1506,7 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
     gSelectRaceRule->mRuleMessages = FindSceneFile("rule.bmg");
     cellEntryCount = gSelectRaceRule->mBncl->mCount;
     remainingSubObjSize = GX_GetSizeOfSubOBJ();
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         for (columnIndex = 0; columnIndex < 2; columnIndex++) {
             if (!(rowIndex == 3 && columnIndex == 1)) {
                 remainingSubObjSize -= InitLabelCanvas(
@@ -1774,7 +1774,7 @@ void AdvanceSelectRaceRuleSlideIn(void) {
     rowsOffsetY = selectRaceRule->mOffsetY + value;
     selectRaceRule->mBg3Offset = rowsOffsetY;
     value = gSelectRaceRule->mBncl->mCount;
-    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+    for (rowIndex = 0; rowIndex < SELECT_RACE_RULE_ROW_COUNT; rowIndex++) {
         for (columnIndex = 0; columnIndex < 2; columnIndex++) {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][columnIndex]].mOffsetY = rowsOffsetY;
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][columnIndex]].mOffsetY = rowsOffsetY;

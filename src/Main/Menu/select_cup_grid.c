@@ -455,9 +455,9 @@ void RequestSelectCupGridWaitConfirmOpen(void) {
 void RequestSelectCupGridWaitConfirmChoices(void) {
     gSelectCupGrid->mNextState = SELECT_CUP_GRID_STATE_WAIT_CONFIRM_CHOICES;
     gSelectCupGrid->mStateFrames = 0;
-    SetSelectChoisesSoundId(0, 7);
-    SetSelectChoisesSoundId(1, 0x10);
-    SetSelectChoisesSoundId(0xffffffff, 0x10);
+    SetSelectChoisesSoundId(0, SELECT_CHOISES_FIRST_SOUND_ID);
+    SetSelectChoisesSoundId(1, SELECT_CHOISES_SECOND_SOUND_ID);
+    SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
 
 #pragma thumb off
@@ -493,7 +493,7 @@ void RequestSelectCupGridWaitExitChoices(void) {
     gSelectCupGrid->mStateFrames = 0;
     SetSelectChoisesSoundId(0, 5);
     SetSelectChoisesSoundId(1, 0xf);
-    SetSelectChoisesSoundId(0xffffffff, 0x10);
+    SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
 
 #pragma thumb off
@@ -730,7 +730,7 @@ runReturnRequest:
     if (IsSelectCupGridIndexChangeRunning() != 0) {
         return;
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     switch (gSelectCupGrid->mMode) {
         case SELECT_CUP_GRID_MODE_SHOW_RECORDS:
         case SELECT_CUP_GRID_MODE_NO_RECORDS:

@@ -243,7 +243,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         SetSelectReturnSoundId(-1);
     } else {
-        SetSelectReturnSoundId(0xe);
+        SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     }
     RequestSelectReturnSlideIn();
     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {

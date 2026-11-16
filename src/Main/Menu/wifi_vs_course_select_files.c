@@ -118,7 +118,8 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
                                        fileSet->mCellLayout, gWiFiVSCourseSelectMLabelTextRows[rowIndex].mCellIndex))[1]
                                        << 20 >>
                                    20),
-                           (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
+                           (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames,
+                           WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES);
         fileSet->mCellTable[cellCount + gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex].mOffsetY =
             InterpolateS16(
                 1, 0,
@@ -126,7 +127,8 @@ void SetWiFiVSCourseSelectRowsOffsetY(void) {
                                                      gWiFiVSCourseSelectMLabelTextRows[rowIndex].mLabelIndex))[1]
                             << 20 >>
                         20),
-                (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames, 0x3c);
+                (*(struct WiFiVSCourseSelect **) &gWiFiVSCourseSelect)->mStateFrames,
+                WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES);
     }
 }
 
@@ -439,7 +441,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
         case WIFI_VS_COURSE_SELECT_STATE_HOLD_PICKS:
             gWiFiVSCourseSelect->mStateFrames++;
             if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_HOLD_FRAMES) {
-                StartFadeToFadedPositiveOneScreen(0x3c, 1);
+                StartFadeToFadedPositiveOneScreen(WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES, 1);
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_FADE_OUT_ROWS;
                 gWiFiVSCourseSelect->mStateFrames = 0;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x209);

@@ -142,7 +142,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, multiSelectNS->mNclr->mData,
                                        multiSelectNS->mNclr->mDataSize);
     RefreshMultiSelectNS(1);
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     SendLedPatternWireless();
     FrmHeapShrinkInParent(gMultiSelectNS->mHeap);
 }

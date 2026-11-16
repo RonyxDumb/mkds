@@ -131,7 +131,8 @@ void AdvanceSelectRaceRuleWaitSlideIn(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = InterpolateS16(1, SELECT_RACE_RULE_WAIT_OFFSCREEN_Y, 0, gSelectRaceRuleWait->mStateFrames,
+                             SELECT_RACE_RULE_WAIT_SLIDE_STEPS);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= SELECT_RACE_RULE_WAIT_SLIDE_STEPS) {
@@ -145,7 +146,8 @@ void AdvanceSelectRaceRuleWaitSlideOut(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mCount;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = InterpolateS16(1, 0, SELECT_RACE_RULE_WAIT_OFFSCREEN_Y, gSelectRaceRuleWait->mStateFrames,
+                             SELECT_RACE_RULE_WAIT_SLIDE_STEPS);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= SELECT_RACE_RULE_WAIT_SLIDE_STEPS) {

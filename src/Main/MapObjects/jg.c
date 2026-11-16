@@ -740,7 +740,6 @@ void EnterJgReverse(void *stateObject) {
     ModelAnimation *animation;
     s32 rotatedZ;
 
-    // Written through a cast: a plain store changes the test below.
     *(s32 *) &gJgKind = JG_KIND_REVERSE;
     gJgVisible = 1;
     gJgCheckpointFlagFrames = 0;
@@ -911,7 +910,6 @@ void EnterJgFollowKart(void *stateObject) {
     MtxFx43 *matrix;
 
     gJgCheckpointFlagFrames = 0;
-    // Written through a cast: a plain store changes the test below.
     *(s32 *) &gJgKind = JG_KIND_NONE;
     gJgVisible = 1;
     gJgAlpha = 0x1f;

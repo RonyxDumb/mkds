@@ -153,7 +153,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                     slotIndex = buddyIndex % 5;
                     BIT_SET(blockData->mFilledBits, slotIndex);
                     MI_CpuCopy8((u8 *) &gConnectionWork->mPlayerRecords[copyPlayerIndex] + 0x14,
-                                blockData->mEmblems[slotIndex], 0x200);
+                                blockData->mEmblems[slotIndex], EMBLEM_PIXEL_BYTES);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);
@@ -227,7 +227,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
                     slotIndex = buddyIndex % 5;
                     *filledBits = *filledBits | (1 << slotIndex);
                     MI_CpuCopy8(GetWiFiSessionPlayerRecordData(copyPlayerIndex & 0xff)->mEmblem,
-                                blockData->mEmblems[slotIndex], 0x200);
+                                blockData->mEmblems[slotIndex], EMBLEM_PIXEL_BYTES);
                 }
             }
             WriteBackupEmblemBlock(blockData, blockIndex);

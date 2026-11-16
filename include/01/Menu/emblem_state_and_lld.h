@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "Main/System/backup_net_camera_work.h"
 
 typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
@@ -115,8 +116,8 @@ typedef struct Emblem {
     /* 0870 */ struct NNSG2dCellDataBank *mEmblemCameraSNcer;
     /* 0874 */ struct AnimBank *mEmblemCameraSNanr;
     /* 0878 */ struct Lld *mEmblemCameraSLld;
-    /* 087c */ u8 mRecordBytes[0x200];
-    /* 0a7c */ u8 mGridCharBytes[0x200];
+    /* 087c */ u8 mRecordBytes[EMBLEM_PIXEL_BYTES];
+    /* 0a7c */ u8 mGridCharBytes[EMBLEM_PIXEL_BYTES];
     /* 0c7c */ u8 mCellNibbles[0x400];
     /* 107c */ s32 mButtonCursorIndex;
     /* 1080 */ s32 mColorCursorIndex;

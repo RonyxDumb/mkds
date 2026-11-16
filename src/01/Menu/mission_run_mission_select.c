@@ -766,7 +766,7 @@ void AdvanceMissionRunMSselInput(void) {
     if (IsMissionRunMSselIndexChangeRunning() != FALSE) {
         return;
     }
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     gMissionRunMSsel->mExitOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mResult = MISSION_RUN_MSSEL_RESULT_BACK;
     RequestMissionRunMSselSlideOut();

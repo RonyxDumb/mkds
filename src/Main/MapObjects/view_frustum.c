@@ -1051,8 +1051,8 @@ void UnparkFlaggedMapObjects(void) {
 
 #pragma thumb on
 
-// Stores the mask of the nonzero decimal digits of a (bit d for digit d) in mDigitMask; a of 10000 or more first
-// sets flag 0x80 in mFlags and loses the 10000.
+// Stores the mask of the nonzero decimal digits of number (bit d for digit d) in mDigitMask; a number of 10000 or more
+// first sets MAP_OBJECT_FLAG_NUMBER_OVERFLOW in mFlags and has 10000 taken off.
 void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
     int limit;
     u32 digitMask;

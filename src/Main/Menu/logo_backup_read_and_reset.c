@@ -122,7 +122,7 @@ void EnterLogoResetFailedBlocksDone(void *stateObject) {
 void UpdateLogoResetFailedBlocksDone(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
-        SetTxtSystemOpenSoundId(35);
+        SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
         RequestTxtSystemClose();
         return;
     }
@@ -235,7 +235,7 @@ void EnterLogoResetBackupDone(void *stateObject) {
 void UpdateLogoResetBackupDone(void *stateObject) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
-        SetTxtSystemOpenSoundId(35);
+        SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
         RequestTxtSystemClose();
         return;
     }

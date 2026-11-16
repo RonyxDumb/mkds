@@ -355,7 +355,7 @@ void AdvanceOptionTopMenuResetDone(void) {
     }
     queryResult = GetTxtSystemDone();
     if (queryResult != 0) {
-        SetTxtSystemOpenSoundId(0x23);
+        SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
         RequestTxtSystemClose();
         gOptionTopMenu->mNextOptionState = OPTION_STATE_SCENE_TITLE;
     }

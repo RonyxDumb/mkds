@@ -588,7 +588,7 @@ void ReleaseArchiveSlot(int slotIndex) {
 
 void LoadArchiveSlotsForScene(s32 sceneNumber) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && sceneNumber == SCENE_WL_MENU &&
-        gMenuShared->mWLMenuKind == WL_MENU_KIND_JOIN_GROUP) {
+        gMenuShared->mWLMenuKind == WL_MENU_KIND_MEMBER_GROUP) {
     } else {
         LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_2D, sceneNumber);
     }

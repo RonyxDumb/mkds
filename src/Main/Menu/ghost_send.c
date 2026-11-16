@@ -225,7 +225,7 @@ void SetupGhostSendSubTextWithName(s32 messageIndex, s32 withButton) {
 void StartReadSelectedGhost(void) {
     StartReadListedGhost(gTimeAttackGhostSend->mInfoFileSets.mSelectedIndex);
     SetupTxtSystemSubText(GetBmgEntry(gTimeAttackGhostSend->mGhostMessages, 9));
-    SetSelectReturnSoundId(0xe);
+    SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectReturnSlideOut();
 }
 

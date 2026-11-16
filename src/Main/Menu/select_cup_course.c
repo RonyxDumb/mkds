@@ -80,7 +80,7 @@ void AdvanceSelectCupCoursePickCourse(void) {
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 SetSelectReturnSoundId(-1);
             } else {
-                SetSelectReturnSoundId(0xe);
+                SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
             }
             RequestSelectCupCourseSlideOut();
             gSelectCupCourse->mResult = MENU_SCREEN_RESULT_BACK;
@@ -181,11 +181,11 @@ void AdvanceSelectCupCourseChoose(void) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
                 case 0:
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, SELECT_CHOISES_FIRST_SOUND_ID);
                     break;
                 case -1:
                 case 1:
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x10);
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, SELECT_CHOISES_SECOND_SOUND_ID);
                     break;
             }
         }

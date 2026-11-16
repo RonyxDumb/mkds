@@ -1,6 +1,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/Menu/menu_mi_fill.h"
 #include "00/Menu/wi_fi_vs_setting.h"
+#include "Main/Menu/ghost_scene.h"
 
 #pragma thumb on
 
@@ -11,7 +12,7 @@ void ClearMenuShared(void) {
     gMenuShared->mTitleBlendDone = 0;
     gMenuShared->mRaceSetupRequested = 0;
     gMenuShared->mMenuEntryKind = 0;
-    gMenuShared->mGhostSceneInitialCallbacksIndex = 0;
+    gMenuShared->mGhostSceneInitialCallbacksIndex = GHOST_SCENE_CALLBACKS_SEND;
     gMenuShared->mUnfilledNotEliminated = 0;
     gMenuShared->mLVselIndex6Requested = 0;
     gMenuShared->mWiFiMenuStartKind = 0;

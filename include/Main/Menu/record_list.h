@@ -2,6 +2,7 @@
 
 #include "types.h"
 #include "Main/Menu/menu_screens_work.h"
+#include "Main/System/backup_net_camera_work.h"
 
 void AdvanceRecordVSIndexChange(void);
 void RequestRecordVSWaitFade(void);
@@ -41,9 +42,6 @@ u16 GetRecordVSFirstRecordIndex(void);
 void LocateAndQueueRecordVS(void);
 
 // An emblem's 0x200 bytes of pixels and a byte that is 1 once the pixels are filled in.
-// Bytes of the pixels of one emblem, and of its converted tiles.
-#define EMBLEM_PIXEL_BYTES 0x200
-
 // An emblem: its pixel bytes and whether they are filled in.
 typedef struct EmblemData {
     /* 000 */ u8 mPixels[EMBLEM_PIXEL_BYTES];

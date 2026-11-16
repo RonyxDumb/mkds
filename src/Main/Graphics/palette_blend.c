@@ -214,7 +214,7 @@ void ScrollAndDrawStaffRollTextLine(void) {
             variant = tag->mVariant;
             if (value == 1) {
                 argument = 0;
-                if (variant != 0x63) {
+                if (variant != STAFF_ROLL_TAG_END) {
                     argument = tag->mArgument;
                 }
                 switch (variant) {

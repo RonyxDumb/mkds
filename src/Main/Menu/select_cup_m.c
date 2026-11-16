@@ -353,9 +353,9 @@ void AdvanceSelectCupMScrollDown(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
-    subOffset =
-        InterpolateS16(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = InterpolateS16(1, 0, SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, SELECT_CUP_M_SCROLL_STEPS);
+    subOffset = InterpolateS16(1, -SELECT_CUP_M_OFFSCREEN_Y, SELECT_CUP_M_SUB_END_OFFSET_Y, gSelectCupM->mStateFrames,
+                               SELECT_CUP_M_SCROLL_STEPS);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;
@@ -397,9 +397,9 @@ void AdvanceSelectCupMScrollUp(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    mainOffset = InterpolateS16(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, 0xa);
-    subOffset =
-        InterpolateS16(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames, 0xa);
+    mainOffset = InterpolateS16(1, SELECT_CUP_M_OFFSCREEN_Y, 0, gSelectCupM->mStateFrames, SELECT_CUP_M_SCROLL_STEPS);
+    subOffset = InterpolateS16(1, SELECT_CUP_M_SUB_END_OFFSET_Y, -SELECT_CUP_M_OFFSCREEN_Y, gSelectCupM->mStateFrames,
+                               SELECT_CUP_M_SCROLL_STEPS);
     mainCellCount = gSelectCupM->mMainBncl->mCount;
     gSelectCupM->mBg0Offset = mainOffset;
     gSelectCupM->mMainTable[20].mOffsetY = mainOffset;

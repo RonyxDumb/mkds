@@ -208,7 +208,7 @@ void RequestSelectCupCourseWaitChoices(void) {
                         gSelectCupCourse->mGhostMessages,
                         gCupCourseGhostMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
                     GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
-                SetTxtSystemOpenSoundId(0x23);
+                SetTxtSystemOpenSoundId(TXT_SYSTEM_OPEN_SOUND_ID);
                 SetupTxtSystemMainText(messageText);
             }
             break;
@@ -221,9 +221,9 @@ void RequestSelectCupCourseWaitChoices(void) {
 void RequestSelectCupCourseChoose(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CHOOSE;
     gSelectCupCourse->mStateFrames = 0;
-    SetSelectChoisesSoundId(0, 7);
-    SetSelectChoisesSoundId(1, 0x10);
-    SetSelectChoisesSoundId(0xffffffff, 0x10);
+    SetSelectChoisesSoundId(0, SELECT_CHOISES_FIRST_SOUND_ID);
+    SetSelectChoisesSoundId(1, SELECT_CHOISES_SECOND_SOUND_ID);
+    SetSelectChoisesSoundId(0xffffffff, SELECT_CHOISES_NONE_SOUND_ID);
 }
 
 #pragma thumb off

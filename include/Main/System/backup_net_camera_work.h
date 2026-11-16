@@ -23,6 +23,9 @@
 #include "touch_panel_sampling.h"
 #include "Main/Net/wifi_race_sync_advance.h" // WiFiRaceSyncPacket
 
+// Bytes of the pixels of one emblem, and of its converted tiles.
+#define EMBLEM_PIXEL_BYTES 0x200
+
 // Values of BackupFirstBlock.mSoundMode.
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
 
@@ -58,7 +61,7 @@ typedef struct EmblemRecord {
     /* 000 */ u8 mUnk_000[0x4];
     /* 004 */ u8 mFilled : 1;
     /* 005 */ u8 mUnk_005[0x3];
-    /* 008 */ u8 mEmblemData[0x200];
+    /* 008 */ u8 mEmblemData[EMBLEM_PIXEL_BYTES];
     /* 208 */ u8 mUnk_208[0xf8];
 } EmblemRecord;
 
@@ -183,7 +186,7 @@ typedef struct GhostRecordHead {
 // One entry of the slot ghost list and of the ghost file list: a ghost record head and its emblem.
 typedef struct GhostListEntry {
     /* 000 */ GhostRecordHead mHead;
-    /* 030 */ u8 mEmblem[0x200];
+    /* 030 */ u8 mEmblem[EMBLEM_PIXEL_BYTES];
 } GhostListEntry;
 
 // A ghost record: its head and the key recording buffer.
@@ -195,7 +198,7 @@ typedef struct GhostRecord {
 // A slot ghost record: its head, emblem and key recording buffer.
 typedef struct SlotGhostRecord {
     /* 000 */ GhostRecordHead mHead;
-    /* 030 */ u8 mEmblem[0x200];
+    /* 030 */ u8 mEmblem[EMBLEM_PIXEL_BYTES];
     /* 230 */ u8 mKeyRecordingBuffer[0xdcc];
     /* ffc */ u8 mUnk_ffc[4];
 } SlotGhostRecord;
@@ -243,7 +246,7 @@ typedef struct EmblemBlockData {
     /* 000 */ u8 mUnk_000[4];
     /* 004 */ u8 mFilledBits;
     /* 005 */ u8 mUnk_005[3];
-    /* 008 */ u8 mEmblems[5][0x200];
+    /* 008 */ u8 mEmblems[5][EMBLEM_PIXEL_BYTES];
     /* a08 */ u8 mUnk_a08[0xf8];
 } EmblemBlockData;
 
@@ -421,7 +424,7 @@ typedef struct BlockTransferView {
 // What a console tells the others about its player: name, emblem, Elo, friend data and region and language.
 typedef struct PlayerRecord {
     /* 000 */ u8 mName[PLAYER_NAME_BYTES];
-    /* 014 */ u8 mEmblem[0x200];
+    /* 014 */ u8 mEmblem[EMBLEM_PIXEL_BYTES];
     /* 214 */ u8 mHasEmblem;
     /* 215 */ u8 mUnk_215;
     /* 216 */ s16 mElo;

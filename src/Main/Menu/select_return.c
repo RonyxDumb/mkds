@@ -316,7 +316,7 @@ int LookupSelectReturnSlideInBg2Offset(int frame) {
     if (frame < 0) {
         frame = 0;
     }
-    if (10 <= frame) {
+    if (SELECT_RETURN_SLIDE_STEPS <= frame) {
         frame = 9;
     }
     return gSelectReturnSlideInBg2Offsets[frame];
@@ -326,7 +326,7 @@ int LookupSelectReturnSlideOutBg2Offset(int frame) {
     if (frame < 0) {
         frame = 0;
     }
-    if (10 <= frame) {
+    if (SELECT_RETURN_SLIDE_STEPS <= frame) {
         frame = 9;
     }
     return gSelectReturnSlideOutBg2Offsets[frame];

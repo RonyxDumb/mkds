@@ -366,8 +366,8 @@ void AdvanceSelectBattleStagePressStage(void) {
         gSelectBattleStage->mStateFrames = 0;
         StartSelectChoises(GetBmgEntry(gSelectBattleStage->mCommonMessages, 4),
                            GetBmgEntry(gSelectBattleStage->mCommonMessages, 2), 0);
-        SetSelectChoisesSoundId(0, 7);
-        SetSelectChoisesSoundId(1, 0x10);
+        SetSelectChoisesSoundId(0, SELECT_CHOISES_FIRST_SOUND_ID);
+        SetSelectChoisesSoundId(1, SELECT_CHOISES_SECOND_SOUND_ID);
     } else if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_HIGHLIGHT_FRAME) {
         gSelectBattleStage->mHighlightVisible = TRUE;
     }

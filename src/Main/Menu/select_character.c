@@ -871,7 +871,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     }
     if (gSelectCharacter->mMode == SELECT_CHARACTER_MODE_NO_CONNECTION) {
         ClearNonParticipantCharacterIndices();
-        SetSelectReturnSoundId(0xe);
+        SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
         RequestSelectReturnSlideIn();
     }
     if (AreBrightnessFadesClear() != 0) {

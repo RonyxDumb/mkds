@@ -194,10 +194,10 @@ void InitGhostScene(void *heap) {
         REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     switch (gMenuShared->mGhostSceneInitialCallbacksIndex) {
         case 0:
-            gGhostScene->mRequestedCallbacksIndex = 0;
+            gGhostScene->mRequestedCallbacksIndex = GHOST_SCENE_CALLBACKS_SEND;
             break;
         case 1:
-            gGhostScene->mRequestedCallbacksIndex = 1;
+            gGhostScene->mRequestedCallbacksIndex = GHOST_SCENE_CALLBACKS_GET_SCAN;
             break;
     }
     gGhostScene->mCurrentCallbacksIndex = gGhostScene->mRequestedCallbacksIndex;
