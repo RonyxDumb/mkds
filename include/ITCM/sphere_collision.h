@@ -3,8 +3,8 @@
 #include "types.h"
 #include "fixed_vector_math.h" // Vec3s16
 
-// Sixteen bytes; gCourseCollision.mUnk_08 points to an array of these, which CollideSphereWithCourse indexes by
-// halfwords.
+// One triangle of the course collision data: its point index, plane normal index, edge normal indexes, hit value and
+// third edge offset; CourseCollision.mTriangles points to an array of these.
 typedef struct CourseTriangle {
     /* 00 */ s32 mThirdEdgeOffset;
     /* 04 */ u16 mPointIndex;
@@ -36,26 +36,15 @@ typedef struct CourseCollision {
 } CourseCollision;
 
 // Bit of the queryFlags argument of CollideSphereWithCourse: skip the triangles whose hit value has bit 0x2000.
-#define COURSE_QUERY_SKIP_TAGGED_TRIANGLES 4
+#define COURSE_QUERY_SKIP_HIT_VALUE_2000 4
 
 // Groups of bits in the collision bits CollideSphereWithCourse stores.
 // Ground hits (the bits the kart code reads as the ground attribute).
 #define COURSE_HIT_GROUND 0x1e34ef
-// Wall hits.
 #define COURSE_HIT_WALL 0x214300
 // Surfaces that make a hitting item fade out (except the KOURA_W kind in thrown and link-following items) and put a
 // kart at its keyed placement.
-#define COURSE_HIT_FADES_ITEMS 0x8000
-// Boost surface (items set ITEM_OBJECT_FLAG_ON_BOOST_SURFACE from it).
-#define COURSE_HIT_BOOST_SURFACE 0x80000
-
-// Groups of bits in the collision bits CollideSphereWithCourse stores.
-// Floor hits (the bits the kart code reads as the ground attribute).
-#define COURSE_HIT_GROUND 0x1e34ef
-// Wall hits.
-#define COURSE_HIT_WALL 0x214300
-// Surfaces that make a hitting item fade out.
-#define COURSE_HIT_FADES_ITEMS 0x8000
+#define COURSE_HIT_KEYED_PLACEMENT_OR_FADE 0x8000
 // Boost surface (items set ITEM_OBJECT_FLAG_ON_BOOST_SURFACE from it).
 #define COURSE_HIT_BOOST_SURFACE 0x80000
 

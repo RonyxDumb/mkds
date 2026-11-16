@@ -556,7 +556,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *forward, 
         offset.y += firstHitRecord.mMinOffset.y < secondHitRecord.mMinOffset.y ? firstHitRecord.mMinOffset.y
                                                                                : secondHitRecord.mMinOffset.y;
         if (hitBits & 0x10000) {
-            if (lowestOffset != NULL && (hitBits & 0x1e34ef) && !(hitBits & 0x400) && !(hitBits & 0x800)) {
+            if (lowestOffset != NULL && (hitBits & COURSE_HIT_GROUND) && !(hitBits & 0x400) && !(hitBits & 0x800)) {
                 lowestOffsetValue.x >>= 4;
                 lowestOffsetValue.y >>= 4;
                 lowestOffsetValue.z >>= 4;

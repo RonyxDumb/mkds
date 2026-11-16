@@ -181,6 +181,7 @@ typedef struct DonketuPrm {
     /* 108 */ s32 mChaseStopCollisionSpeed;
     /* 10c */ s32 mChaseStopAnimationEntry;
     /* 110 */ s32 mChaseStopFrameStep;
+    // Also the speed below which the normal kart collision callback is set.
     /* 114 */ s32 mChaseStopSpeedPerCall;
     /* 118 */ s32 mChaseStopAnglePerCall;
     /* 11c */ s32 mRepeatJumpAnimationEntry;
@@ -674,8 +675,8 @@ typedef struct KurikingPrm {
     /* 214 */ s32 mCollisionExtentY;
 } KurikingPrm;
 
-// Parameter table of a map object (the .prm file): mPrm of MissionRunMapObject points to it and each object reads its
-// own member. Object behind StopTurningMoveFollowsAngle and the per-state functions around StartIwanteHandsHitReaction.
+// Parameter table loaded from an object's .prm file: mPrm of MissionRunMapObject points to it and each kind of object
+// reads its own member.
 typedef union MissionRunPrm {
     MissionRunPrmHead mHead;
     BombKingPrm mBombKing;
@@ -686,9 +687,9 @@ typedef union MissionRunPrm {
     KurikingPrm mKuriking;
 } MissionRunPrm;
 
-// Values of MissionRunMapObjectEffect.mKind: where ComputeEffectPosition puts the effect. Offsets are turned by the
-// angle of the object; MODEL is the effect of a model started at the water height; the camera position is added in
-// ROTATED_OFFSET_CAMERA (never set).
+// Values of MissionRunMapObjectEffect.mKind, switched on in ComputeEffectPosition: every kind except MODEL turns the
+// offset by the angle of the object; MODEL has no case there and is set only by StartModelEffectAtWaterHeight;
+// ROTATED_OFFSET_CAMERA (never set) adds the camera position and halves the result.
 enum {
     MAP_OBJECT_EFFECT_MODEL,
     MAP_OBJECT_EFFECT_ROTATED_OFFSET,
@@ -702,6 +703,7 @@ enum {
 typedef struct MissionRunMapObjectEffect {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mTimer;
+    // Offset from the object; for kind MODEL the position of the model effect.
     /* 08 */ Vec3 mOffset;
     /* 14 */ void *mEffect;
 } MissionRunMapObjectEffect;
@@ -746,8 +748,8 @@ enum {
 };
 
 // Values of MissionRunMapObject.mCourseCollisionMode: how the object is moved out of the course. ALT_FILTER uses the
-// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_BITS also skips the checks of
-// the collision bits.
+// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_BITS also skips the wall-hit
+// push.
 enum {
     MAP_OBJECT_COURSE_COLLISION_PUSH_OUT,
     MAP_OBJECT_COURSE_COLLISION_ALT_FILTER,
@@ -766,7 +768,6 @@ enum {
     KART_MAP_OBJECT_RESPONSE_CARRY_SPIN = 14,
 };
 
-// Layout provisional: functions on objects that share this prefix use different types at 0xa0 and 0xa8.
 typedef struct MissionRunMapObject MissionRunMapObject;
 #include "01/MapObjects/mission_run_motion_setters.h"
 typedef struct Kart Kart;
@@ -775,11 +776,9 @@ typedef struct ItemObject ItemObject;
 typedef void (*MissionRunMapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
 typedef void (*MissionRunMapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
 
-// The bit of mCollisionBits the update sets when mPos.y is below 0; IsNotRisingWithBelowZeroBit tests it with a
-// velocity that is not upward.
-#define COURSE_HIT_GROUND 0x1e34ef
-#define COURSE_HIT_WALL 0x214300
-#define COURSE_HIT_NOT_RISING_BIT 0x800
+// Set in mCollisionBits by the update when mPos.y was clamped from below zero; IsNotRisingWithBelowZeroBit also needs
+// mVelocity.y <= 0.
+#define COURSE_HIT_BELOW_ZERO_BIT 0x800
 
 // A mission run map object: the shared map object, its parameter block, state, speed, angle, callback, collision,
 // shadow and timer members and five effects.
@@ -883,6 +882,7 @@ typedef struct MissionRunMapObject {
     /* 2b8 */ s32 mCourseCollisionMode;
     /* 2bc */ BOOL mBounceEnabled;
     /* 2c0 */ BOOL mGravityEnabled;
+    // While non-zero, StartMapObjectState keeps the callbacks and does not release the effects.
     /* 2c4 */ BOOL mKeepCallbacks;
     /* 2c8 */ u32 mCollisionBits;
     /* 2cc */ u8 mUnk_2cc[0x4];

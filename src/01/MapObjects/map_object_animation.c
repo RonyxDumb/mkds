@@ -936,7 +936,7 @@ void ComputeEffectPosition(MissionRunMapObject *mapObject, int effectIndex, Vec3
                                                       FX_SinIdx((u16) mapObject->mAngle)));
             break;
         case MAP_OBJECT_EFFECT_ROTATED_OFFSET_CAMERA:
-            // As case 1 with mUnk_024 of the object from GetCurrentCamera added, then halved.
+            // Like MAP_OBJECT_EFFECT_ROTATED_OFFSET with the current camera's mPos added, then x, y and z halved.
             camera = GetCurrentCamera();
             position->x = mapObject->mMapObject.mPos.x + camera->mPos.x +
                           (s32) (MUL_FIXED12_NO_ROUND(mapObject->mEffects[effectIndex].mOffset.z,
@@ -1160,7 +1160,7 @@ u32 IsStateNumberBelow(MissionRunMapObject *mapObject, int stateNumberLimit) {
 }
 
 BOOL IsNotRisingWithBelowZeroBit(MissionRunMapObject *mapObject) {
-    if ((mapObject->mCollisionBits & COURSE_HIT_NOT_RISING_BIT) != 0 && mapObject->mVelocity.y <= 0) {
+    if ((mapObject->mCollisionBits & COURSE_HIT_BELOW_ZERO_BIT) != 0 && mapObject->mVelocity.y <= 0) {
         return TRUE;
     }
     return FALSE;

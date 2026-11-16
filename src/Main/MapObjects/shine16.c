@@ -506,7 +506,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 if (CollideSphereWithCourse(&probePos, NULL, 0, shine16->mMapObject.mExtent.x, 8, -2, &pushOut,
                                             &firstNormal, &secondNormal, &hitFlags, NULL, NULL, NULL, NULL)) {
                     VEC_Add(&shine16->mMapObject.mPos, &pushOut, &shine16->mMapObject.mPos);
-                    if (hitFlags & 0x214300) {
+                    if (hitFlags & COURSE_HIT_WALL) {
                         savedVelocityY = shine16->mMapObject.mPosStep.y;
                         BounceVelocityOffSurface(&shine16->mMapObject.mPosStep, &secondNormal, 0x1000, 0x1000, 0x800,
                                                  &shine16->mMapObject.mPosStep);
@@ -523,7 +523,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                         shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.z, 0x1000);
                         shine16->mMapObject.mPosStep.y = savedVelocityY;
                     }
-                    if (hitFlags & 0x1e34ef) {
+                    if (hitFlags & COURSE_HIT_GROUND) {
                         shine16->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.x, 0x19a);
                         shine16->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.y, -0x333);
                         shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(shine16->mMapObject.mPosStep.z, 0x19a);

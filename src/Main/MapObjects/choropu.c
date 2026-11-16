@@ -314,7 +314,7 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
         probeVec = testPosition;
         if (CollideSphereWithCourse(&probeVec, NULL, 0, 0xf000, 8, -2, &probeOffset, &probeVec, NULL, &hitFlags, NULL,
                                     NULL, NULL, NULL) != 0) {
-            if (hitFlags & 0x1e34ef) {
+            if (hitFlags & COURSE_HIT_GROUND) {
                 QuaternionFromYAxisToVec3(&probeVec, &vehicle->mGroundRotation);
                 AdvanceCourseColorBlend(&vehicle->mCourseColorBlend, (hitFlags & 0x3c000000) >> 26, 0x5000);
                 if (vehicle->mHitReactionTimer != 0 && vehicle->mMapObject.mPosStep.y < 0) {
@@ -336,7 +336,7 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
                     }
                 }
             }
-            if ((hitFlags & 0x214300) && isInHitReaction) {
+            if ((hitFlags & COURSE_HIT_WALL) && isInHitReaction) {
                 vehicle->mMapObject.mPos.y = vehicle->mMapObject.mPos.y + probeOffset.y;
                 vehicle->mMapObject.mPosStep.y = 0;
             }

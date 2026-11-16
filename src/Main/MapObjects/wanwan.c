@@ -206,7 +206,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             wanwan->mMapObject.mPosStep.y = 0;
         }
         if (usesCourseCollision != 0) {
-            if (surfaceFlags & 0x1e34ef) {
+            if (surfaceFlags & COURSE_HIT_GROUND) {
                 value = DOT2_FIXED12(wanwan->mMapObject.mPosStep.x, surfaceNormal.x, wanwan->mMapObject.mPosStep.z,
                                      surfaceNormal.z);
                 if (value < 0) {

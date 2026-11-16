@@ -620,7 +620,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                                         coin->mMapObject.mCollisionSlotIndex, &pushOut, &normal, &secondNormal,
                                         &collisionBits, NULL, NULL, NULL, NULL) != 0) {
                 VEC_Add(&coin->mMapObject.mPos, &pushOut, &coin->mMapObject.mPos);
-                if (collisionBits & 0x214300) {
+                if (collisionBits & COURSE_HIT_WALL) {
                     BounceVelocityOffSurface(&coin->mMapObject.mPosStep, &secondNormal, 0x1000, 0x1000, 0xc00,
                                              &coin->mMapObject.mPosStep);
                     if ((s64) coin->mMapObject.mPosStep.x * coin->mMapObject.mPosStep.x +
@@ -633,7 +633,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     coin->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.y, 0x1400);
                     coin->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.z, 0x1400);
                 }
-                if ((collisionBits & 0x1e34ef) && coin->mMapObject.mPosStep.y <= 0) {
+                if ((collisionBits & COURSE_HIT_GROUND) && coin->mMapObject.mPosStep.y <= 0) {
                     coin->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(coin->mMapObject.mPosStep.y, -0x800);
                     if (coin->mMapObject.mPosStep.y < 0x1000) {
                         coin->mMapObject.mPosStep.x = 0;
@@ -643,7 +643,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                     }
                     StartSoundAtPositionIfNear(0x1d8, &coin->mMapObject.mPos, SOUND_FALLOFF_SHORT_RANGE);
                 }
-                if ((collisionBits & 0x800) || coin->mMapObject.mPos.y < 0) {
+                if ((collisionBits & COURSE_HIT_BELOW_ZERO_BIT) || coin->mMapObject.mPos.y < 0) {
                     coin->mState = COIN_STATE_FADE_OUT_DROP;
                 }
             }

@@ -10,6 +10,7 @@
 #include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
+#include "01/MapObjects/donketu.h"
 
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
@@ -32,7 +33,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 velocityWhenBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.y, scale);
                 velocityWhenBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.z, scale);
                 velocityWhenBoosted.y = donketu->mPrm->mDonketu.mHitBoostedVelocityY;
-                StartMapObjectState(donketu, 7, NULL);
+                StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
                 StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitBoostedAnimationEntry,
                                             donketu->mPrm->mDonketu.mHitBoostedFrameStep);
                 SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitBoostedAnglePerCall, 0x270f000);
@@ -70,7 +71,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 }
             }
         }
-    } else if (IsStateNumberBelow(donketu, 7)) {
+    } else if (IsStateNumberBelow(donketu, DONKETU_STATE_LAUNCH_FALL_LAND)) {
         if (donketu->mPrm->mDonketu.mHitNotBoostedVelocityY > 0 ||
             donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale > 0) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
@@ -87,7 +88,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             velocityWhenNotBoosted.y = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.y, scale);
             velocityWhenNotBoosted.z = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.z, scale);
             velocityWhenNotBoosted.y = donketu->mPrm->mDonketu.mHitNotBoostedVelocityY;
-            StartMapObjectState(donketu, 7, NULL);
+            StartMapObjectState(donketu, DONKETU_STATE_LAUNCH_FALL_LAND, NULL);
             StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnimationEntry,
                                         donketu->mPrm->mDonketu.mHitNotBoostedFrameStep);
             SpinAngleStopMoveAngle(donketu, donketu->mPrm->mDonketu.mHitNotBoostedAnglePerCall, 0x270f000);

@@ -687,7 +687,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
                 item->mVelocity.z = 0;
                 FadeOutUsedUpItemObject(item, 1);
             }
-            if (!(item->mCollisionBits & COURSE_HIT_FADES_ITEMS)) {
+            if (!(item->mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE)) {
                 return;
             }
             FadeOutItemObjectNoCallback(item, 1);
@@ -812,7 +812,7 @@ void AdvanceFallingItemObject(ItemObject *item) {
                 return;
             }
         }
-        if (item->mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (item->mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             FadeOutItemObjectNoCallback(item, 1);
             return;
         }

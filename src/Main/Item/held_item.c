@@ -835,7 +835,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             }
             item->mItemObject.mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
         }
-        if (item->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (item->mItemObject.mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             FadeOutItemObjectNoCallback(&item->mItemObject, 1);
             return;
         }

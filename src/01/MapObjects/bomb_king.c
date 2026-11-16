@@ -73,6 +73,7 @@
 #include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/sound_distance_squared_change.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 
 const u32 gBombKingSkipKindSoundFlag = 0x40000000;
 const u16 gBombKingSkipListCallbackFlag = 8;

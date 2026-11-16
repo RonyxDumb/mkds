@@ -596,7 +596,8 @@ void UpdateJgPosition(void) {
                         pushed = TRUE;
                     }
                 }
-                if (CollideSphereWithCourse(&gJgCollisionCenter, previousPos, 0, 0x12000, 4, -1, &offsetVec, NULL, NULL,
+                if (CollideSphereWithCourse(&gJgCollisionCenter, previousPos, 0, 0x12000,
+                                            COURSE_QUERY_SKIP_HIT_VALUE_2000, -1, &offsetVec, NULL, NULL,
                                             &gJgCourseHitBits, NULL, NULL, NULL, NULL) != 0) {
                     UpdateJgPosition_inline(&pushMin, &offsetVec, &pushMin);
                     UpdateJgPosition_inline_2(&pushMax, &offsetVec, &pushMax);
@@ -605,7 +606,7 @@ void UpdateJgPosition(void) {
             }
         }
         if (pushed != FALSE) {
-            if ((gJgCourseHitBits & 0x80000) == 0) {
+            if ((gJgCourseHitBits & COURSE_HIT_BOOST_SURFACE) == 0) {
                 gJgReverseAngleActive = 0;
             }
             offsetVec = pushMin;

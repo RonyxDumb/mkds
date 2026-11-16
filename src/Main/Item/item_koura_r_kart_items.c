@@ -135,7 +135,8 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
                 return FALSE;
             }
         }
-        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) {
+        if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits &
+            COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
             FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
             return FALSE;
         }

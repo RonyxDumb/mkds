@@ -112,7 +112,7 @@ void UpdateKuriboFallToSurface(void *stateObject) {
                                 NULL, NULL, NULL, NULL) != 0) {
         VEC_Add(&kuribo->mMapObject.mPos, &correction, &kuribo->mMapObject.mPos);
         kuribo->mMapObject.mPosStep.y = 0;
-        if ((surfaceFlags & 0x1e34ef) != 0) {
+        if ((surfaceFlags & COURSE_HIT_GROUND) != 0) {
             QuaternionFromYAxisToVec3(&surfaceNormal, &kuribo->mTargetOrientation);
             kuribo->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         }

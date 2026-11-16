@@ -62,7 +62,7 @@
 
 // MissionRunMapObject.mStateNumber of Donketu after a kart hit launched it (boosted or not), while it falls, and after
 // it landed in the water; hits no longer launch it.
-#define DONKETU_STATE_AFTER_KART_LAUNCH 7
+#define DONKETU_STATE_LAUNCH_FALL_LAND 7
 
 MapObjectList *CreateDonketuUpdateList(void);
 MapObjectList *CreateKingIceDonketuDrawList(void);

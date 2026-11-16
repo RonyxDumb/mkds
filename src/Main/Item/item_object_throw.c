@@ -69,7 +69,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     object->mItemObject.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
     object->mReflectsOnHit = TRUE;
     object->mPushOutMode = pushOutMode;
-    object->mCollisionQueryFlags = COURSE_QUERY_SKIP_TAGGED_TRIANGLES;
+    object->mCollisionQueryFlags = COURSE_QUERY_SKIP_HIT_VALUE_2000;
 }
 
 void ComputeItemSurfaceDirection(Vec3 *direction, Vec3 *normal, Vec3 *result) {
@@ -267,7 +267,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             FadeOutUsedUpItemObject(&object->mItemObject, 1);
             return;
         }
-        if ((object->mItemObject.mCollisionBits & COURSE_HIT_FADES_ITEMS) &&
+        if ((object->mItemObject.mCollisionBits & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) &&
             object->mItemObject.mKind != ITEM_OBJECT_KIND_KOURA_W) {
             FadeOutItemObjectNoCallback(&object->mItemObject, 1);
             return;

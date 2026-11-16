@@ -87,11 +87,11 @@ void StartKartRespawnWait(Kart *kart, u32 collisionFlags) {
     if (kart->mEntryFlags & KART_ENTRY_WIFI_PEER) {
         return;
     }
-    if (collisionFlags & 0x8000) {
+    if (collisionFlags & COURSE_HIT_KEYED_PLACEMENT_OR_FADE) {
         if (kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
             return;
         }
-        value = (u16) ((PickCollisionHitValue(0x8000) & 0xe0) >> 5);
+        value = (u16) ((PickCollisionHitValue(COURSE_HIT_KEYED_PLACEMENT_OR_FADE) & 0xe0) >> 5);
         mode = gRaceSetup->mMode;
         if (mode == MODE_BATTLE || mode == MODE_MISSION_RUN) {
             PlaceKartAtKeyedPlacement(kart, value);
@@ -397,7 +397,7 @@ void AdvanceKartPointMotion(Kart *kart, u32 collisionFlags, Vec3 *targetPointMot
     if (collisionFlags & 0x40000000) {
         kart->mMotionFlags |= KART_MOTION_MOVED_BY_OBJECT;
         kart->mHeadingAngle += headingDelta;
-    } else if (collisionFlags & 0x1e34ef) {
+    } else if (collisionFlags & COURSE_HIT_GROUND) {
         kart->mPointMotion.y = 0;
     }
     if (targetPointMotion->x | targetPointMotion->y | targetPointMotion->z) {
@@ -431,7 +431,7 @@ void ApplyKartCourseContact(Kart *kart, u32 collisionFlags, Vec3 *contactNormal)
     } else {
         baseSpeedLimitHitFactor = 0xccd;
     }
-    hitValue = PickCollisionHitValue(0x214300);
+    hitValue = PickCollisionHitValue(COURSE_HIT_WALL);
     ApplyKartContact(kart, contactNormal, (kart->mMotionFlags & KART_MOTION_COURSE_CONTACT) != 0,
                      baseSpeedLimitHitFactor, (s32) (hitValue & 0x1f00) >> 8, ((hitValue & 0xe0) << 11) >> 16, 2);
     kart->mMotionFlags |= KART_MOTION_COURSE_CONTACT;
