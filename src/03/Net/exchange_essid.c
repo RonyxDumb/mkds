@@ -359,7 +359,7 @@ const u32 gReversedTableByte2[256] = {
 u32 gThreadStackSize = 0x800;
 s32 gStartEntryCount = 0x40;
 s32 gTimeoutAtMs = -1;
-ExchangeIndexBytes gFirstReplyIndexBytes = {{6, 0, 1, 2, 3, 4, 5}};
+ExchangeIndexBytes gFirstReplyItem3Bytes = {{6, 0, 1, 2, 3, 4, 5}};
 char gSixAsterisksString[7] = "******";
 u8 gHashPadding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1480,7 +1480,7 @@ s32 BuildFirstReplyPacket(u8 *packet) {
     FirstReplyValues values;
     u8 *cursor;
     values.mHalfword = 0x100;
-    values.mSevenBytes = gFirstReplyIndexBytes;
+    values.mSevenBytes = gFirstReplyItem3Bytes;
     cursor = AppendItem(gFirstReplyItemBuffer, 1, &values, 2);
     cursor = AppendItem(cursor, 2, &values, 2);
     if (gReplyIncludesMacAddress != 0) {

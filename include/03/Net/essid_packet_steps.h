@@ -237,7 +237,7 @@ extern s32 gSocketDescriptor;
 extern RetryLimit gRetryLimitTemplate;
 extern s32 gRandomSeeded;
 extern EssidEntryList *gScannedEssidList;
-extern s32 gKeyStreamAccepted;
+extern s32 gUseKeyStream;
 extern EssidEntryList *gRequestedEssidList;
 extern PacketBuffer *gRequestPacketBuffer;
 extern s32 gErrorCode;

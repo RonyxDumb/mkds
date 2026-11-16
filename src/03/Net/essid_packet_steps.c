@@ -43,7 +43,7 @@ s32 gSocketDescriptor = -1;
 RetryLimit gRetryLimitTemplate = {-1, -1};
 s32 gRandomSeeded;
 EssidEntryList *gScannedEssidList;
-s32 gKeyStreamAccepted;
+s32 gUseKeyStream;
 EssidEntryList *gRequestedEssidList;
 PacketBuffer *gRequestPacketBuffer;
 s32 gErrorCode;
@@ -823,7 +823,7 @@ s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, 
         (*attempts)++;
         return mode;
     }
-    gKeyStreamAccepted = IsKeyStreamAcceptedBitSet(SwapBytes16(packet->mFlags));
+    gUseKeyStream = IsKeyStreamAcceptedBitSet(SwapBytes16(packet->mFlags));
     *attempts = 0;
     return 1;
 }
@@ -1335,7 +1335,7 @@ s32 SendWantedMaskPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor
     item.mFirstWord = gRequestState.mWantedRecordMask;
     item.mFirstWord = SwapBytes32(item.mFirstWord);
     payloadLength = 8;
-    FillPayloadRecord(gKeyStreamAccepted, &packetBuffer->mBytes[12], &item, &payloadLength, &flags, &payloadCrc);
+    FillPayloadRecord(gUseKeyStream, &packetBuffer->mBytes[12], &item, &payloadLength, &flags, &payloadCrc);
     CopyBytes(tagBytes, &list[1], 8);
     if (XorAndSwapBytesWithKey(tagBytes, 8, gMelcoString, 6) != 0) {
         SetErrorCode(ESSID_ERROR_PACKET_BUFFER);

@@ -174,7 +174,7 @@ extern u32 gThreadStackSize;
 extern s32 gTimeoutAtMs;
 extern s32 gStartEntryCount;
 extern char gSixAsterisksString[7];
-extern ExchangeIndexBytes gFirstReplyIndexBytes;
+extern ExchangeIndexBytes gFirstReplyItem3Bytes;
 extern u8 gHashPadding[64];
 extern u8 gPacketBuffer[0x800];
 extern u8 gBodyBuffer[0x800];
