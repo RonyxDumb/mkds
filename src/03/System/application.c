@@ -53,7 +53,7 @@ s32 RunMainLoop(void *memoryBlock, s32 languageIndex, u32 modeAndFlags) {
         RunTasksAndRemoveRequested(0);
         UpdateLcdPower();
         SendLedPatternWirelessIfDifferent();
-        VBlankIntrWait();
+        SVC_WaitVBlankIntr();
     } while (gQuitFlag[0] == 0);
     ReleaseApplication();
     return 0;

@@ -231,7 +231,7 @@ void RunMessageScreenThread(void *unused) {
         }
         ResetKeysInputSlot();
         ReadKeysIntoInputSlot();
-        VBlankIntrWait();
+        SVC_WaitVBlankIntr();
         if (SceneIsWiFiSessionHeapCreated()) {
             sessionHeapCreated = TRUE;
         }
@@ -259,7 +259,7 @@ void RunMessageScreenThread(void *unused) {
             }
             status = sessionHeapCreated == FALSE ? AdvanceConnectionEndStopOnError() == 1 : 1;
             UpdateSounds();
-            VBlankIntrWait();
+            SVC_WaitVBlankIntr();
             if (hasDisplaySettings != FALSE) {
                 RecordFrameTimes();
             }
@@ -271,7 +271,7 @@ void RunMessageScreenThread(void *unused) {
             ReadKeysIntoInputSlot();
             status = UpdateMessageScreen();
             UpdateSounds();
-            VBlankIntrWait();
+            SVC_WaitVBlankIntr();
             if (hasDisplaySettings != FALSE) {
                 RecordFrameTimes();
             }
@@ -307,7 +307,7 @@ void RunMessageScreen(void) {
     }
     ResetKeysInputSlot();
     ReadKeysIntoInputSlot();
-    VBlankIntrWait();
+    SVC_WaitVBlankIntr();
     if (SceneIsWiFiSessionHeapCreated()) {
         sessionHeapCreated = TRUE;
     }
@@ -352,7 +352,7 @@ void RunMessageScreen(void) {
         }
         screenResult = UpdateMessageScreen();
         UpdateSounds();
-        VBlankIntrWait();
+        SVC_WaitVBlankIntr();
         if (hasDisplaySettings != FALSE) {
             RecordFrameTimes();
         }

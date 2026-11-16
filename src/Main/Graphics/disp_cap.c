@@ -172,7 +172,7 @@ void SetupDispCapMode1(void) {
     }
     DC_FlushRange(oamBuffer, 0x400);
     GXS_LoadOAM(oamBuffer, 0, 0x400);
-    VBlankIntrWait();
+    SVC_WaitVBlankIntr();
     gDispCap->mFlags &= ~DISP_CAP_FLAG_BANK_SWAPPED;
     reg_GX_POWCNT = reg_GX_POWCNT | 0x8000;
     ToggleDispCapBanks();
