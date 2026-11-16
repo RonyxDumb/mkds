@@ -98,7 +98,7 @@ void StartKartMicInflate(u16 kartIndex) {
 }
 
 void StopKartMicInflate(int kartIndex) {
-    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_NONE;
+    gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_STOPPED;
 }
 
 s32 GetKartMicInflateTimer(u16 kartIndex) {
@@ -838,7 +838,7 @@ void UpdateStandings(void) {
             if (IsKartNotNormalOrFlagged(kart) != FALSE ||
                 (u16) (gInputSlots[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
                 gStandings->mKarts[kartIndex].mSelectKeyInflate = -1;
-                gStandings->mKarts[kartIndex].mMicInflateTimer = -1;
+                gStandings->mKarts[kartIndex].mMicInflateTimer = STANDINGS_MIC_INFLATE_STOPPED;
             } else if (IsRaceStarted() == 1) {
                 if ((u16) (GetInputSlot(kart->mEntryIndex)->mBits & PAD_KEY_SELECT) != 0) {
                     gStandings->mKarts[kartIndex].mSelectKeyInflate = 1;

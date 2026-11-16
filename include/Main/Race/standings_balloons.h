@@ -123,7 +123,7 @@ extern Standings *gStandings;
 // Standings.mKarts[].mMicInflateTimer: the frames it is set to when an inflate starts, and the value (all bits set)
 // that StopKartMicInflate, and a not normal kart or an A or B press, store to cancel it; otherwise it counts down to 0.
 #define STANDINGS_MIC_INFLATE_FRAMES 10
-#define STANDINGS_MIC_INFLATE_NONE 0xffffffff
+#define STANDINGS_MIC_INFLATE_STOPPED 0xffffffff
 // Standings.mLowestBalloonOrShineCount before any kart was counted, and the frames mEndTimer waits when a battle ends.
 #define STANDINGS_LOWEST_COUNT_START 0xffff
 #define STANDINGS_END_FRAMES 0x5a

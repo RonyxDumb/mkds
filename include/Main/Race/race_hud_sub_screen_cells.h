@@ -73,8 +73,10 @@ unsigned int GetRaceHudSubScreenMinDrawValue(void);
 
 extern struct RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;
 
-// The burner and Fireball2 cells count mSecond up to the cycle and show the first cell below the half.
+// The burner cells count mSecond up to the cycle, full scale below the half, smaller after; the pakkun cells swap their
+// cell by OB_PAKKUN_SF_FRAME_TOGGLE_BIT of the frame counter.
 #define RACE_HUD_BURNER_CYCLE_FRAMES 8
 #define RACE_HUD_BURNER_HALF_FRAMES 4
+// The Fireball2 cells count mSecond up to the cycle and show the first cell below the half.
 #define RACE_HUD_FIREBALL2_CYCLE_FRAMES 0x14
 #define RACE_HUD_FIREBALL2_HALF_FRAMES 10
