@@ -30,7 +30,7 @@ typedef enum FileWideMode {
 #define FILE_BUFFER_MODE_LINE 1
 #define FILE_BUFFER_MODE_FULL 2
 
-// FILE.mKind values: not usable, and the kind whose writes call NopWriteHook first.
+// FILE.mKind values: not usable, and the kind whose writes call WriteHookNop first.
 #define FILE_KIND_NONE 0
 #define FILE_KIND_WITH_WRITE_HOOK 2
 
@@ -97,5 +97,5 @@ int printf(const char *fmt, ...);
 void *FormatPutBuffer(void *arg, const char *text, u32 count);
 void *FormatPutFwrite(void *file, const char *text, u32 count);
 
-void ConvertTextNewlinesNop(u8 *buffer, u32 *length);
-void NopWriteHook(void);
+void ConvertNewlinesNop(u8 *buffer, u32 *length);
+void WriteHookNop(void);
