@@ -30,8 +30,8 @@ typedef struct ScanSlotMemberRow {
 #define MULTI_SELECT_MEMBER_GROUP_RETURN_ROW 4
 // Frames of the slide in and out, frames the press waits before the screen goes on, frames after which the member
 // entries are cleared.
-#define MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS 10
-#define MULTI_SELECT_MEMBER_GROUP_PRESS_STEPS 5
+#define MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES 10
+#define MULTI_SELECT_MEMBER_GROUP_PRESS_FRAMES 5
 #define MULTI_SELECT_MEMBER_GROUP_CLEAR_FRAMES 0x78
 
 // Values of MultiSelectMemberGroup.mState: the panel slides in, waits for a choice, the choice is shown for 5 frames,

@@ -32,7 +32,7 @@ enum {
 #define WIFI_VS_COURSE_SELECT_TIMER_FRAMES 0x4b0
 #define WIFI_VS_COURSE_SELECT_HOLD_FRAMES 0x3c
 #define WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES 0x3c
-#define WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES 10
+#define WIFI_VS_COURSE_SELECT_FADE_TO_FADED_FRAMES 10
 
 // The Wi-Fi VS course select screen: its file sets, messages, random state, interpolations and the courses shown.
 typedef struct WiFiVSCourseSelect {

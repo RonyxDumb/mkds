@@ -541,9 +541,9 @@ void AdvanceRecordVSOffsetTimers(void) {
 
     firstIndex = GetRecordVSFirstRecordIndex();
     gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[0]].mOffsetX =
-        -LookupFrameOffset(RECORD_PAGE_ARROW_FRAMES - gRecordVS->mOffsetTimers[0]);
+        -LookupFrameOffset(RECORD_VS_OFFSET_TIMER_FRAMES - gRecordVS->mOffsetTimers[0]);
     gRecordVS->mRecordVSSTable[gRecordVSPageButtonPressedIndices[1]].mOffsetX =
-        LookupFrameOffset(RECORD_PAGE_ARROW_FRAMES - gRecordVS->mOffsetTimers[1]);
+        LookupFrameOffset(RECORD_VS_OFFSET_TIMER_FRAMES - gRecordVS->mOffsetTimers[1]);
     for (buttonIndex = 0; buttonIndex < 2; buttonIndex++) {
         if (gRecordVS->mOffsetTimers[buttonIndex] > 0) {
             gRecordVS->mOffsetTimers[buttonIndex]--;

@@ -668,7 +668,7 @@ void AdvanceSelectChoisesChoose(void) {
     } else {
         if ((u16) (keys & PAD_KEY_B) != 0) {
             gSelectChoises->mIndexNone = 1;
-            gSelectChoises->mChosenFrames = SELECT_CHOISES_RETURN_START_FRAME;
+            gSelectChoises->mChosenFrames = SELECT_CHOISES_NONE_START_FRAME;
             gSelectChoises->mNextState = SELECT_CHOISES_STATE_CHOSEN;
             if (gSelectChoises->mDisplayBitOn != 0) {
                 if (gSelectChoises->mIndexNoneSoundId != -1) {
@@ -738,8 +738,8 @@ void AdvanceSelectChoises(void) {
                 break;
         }
         gSelectChoises->mToggleFrames++;
-        if ((gSelectChoises->mToggleOn != 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_ON_FRAMES) ||
-            (gSelectChoises->mToggleOn == 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_OFF_FRAMES)) {
+        if ((gSelectChoises->mToggleOn != 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_ON_LIMIT) ||
+            (gSelectChoises->mToggleOn == 0 && gSelectChoises->mToggleFrames > SELECT_CHOISES_TOGGLE_OFF_LIMIT)) {
             gSelectChoises->mToggleOn = gSelectChoises->mToggleOn == 0;
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();

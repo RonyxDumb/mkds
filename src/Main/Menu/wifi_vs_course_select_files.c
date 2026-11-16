@@ -466,7 +466,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             break;
         case WIFI_VS_COURSE_SELECT_STATE_FADE_IN:
             gWiFiVSCourseSelect->mStateFrames++;
-            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES) {
+            if (gWiFiVSCourseSelect->mStateFrames > WIFI_VS_COURSE_SELECT_FADE_TO_FADED_FRAMES) {
                 gWiFiVSCourseSelect->mState = WIFI_VS_COURSE_SELECT_STATE_DONE;
                 gWiFiVSCourseSelect->mStateFrames = 0;
             }

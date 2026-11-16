@@ -15,8 +15,8 @@ extern const u16 gMultiSelectNSRowCellIndices[2][3];
 extern const MultiSelectNSLabelMessageRow gMultiSelectNSLabelMessageRows[2];
 extern u32 gMultiSelectNSLabelValues[2];
 // Frames of the slide in and out, frames the press waits before the slide out.
-#define MULTI_SELECT_NS_SLIDE_STEPS 10
-#define MULTI_SELECT_NS_PRESS_STEPS 5
+#define MULTI_SELECT_NS_SLIDE_FRAMES 10
+#define MULTI_SELECT_NS_PRESS_FRAMES 5
 
 extern struct WLMenuCallbacks gMultiSelectNSCallbacks;
 extern struct MultiSelectNS *gMultiSelectNS;

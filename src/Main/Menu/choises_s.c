@@ -661,7 +661,7 @@ void UpdateChoisesS(void) {
         frames = gChoisesS->mOpenDuringRaceFrames;
         gChoisesS->mOpenDuringRaceFrames = frames + 1;
         if (frames >= 1) {
-            gChoisesS->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_SETTLED;
+            gChoisesS->mOpenDuringRaceState = CHOISES_S_OPEN_DURING_RACE_STATE_AFTER_FIRST_FRAME;
             gChoisesS->mOpenDuringRaceFrames = 1;
         }
     } else {

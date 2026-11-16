@@ -415,10 +415,10 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 SetupTxtSystemMainTextEx(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
             }
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
-            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS) {
+            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES) {
                 gMultiSelectMemberGroup->mBg3Offset =
                     InterpolateS16(1, -0xc0, 0, gMultiSelectMemberGroup->mBg3OffsetFrames,
-                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS);
+                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
                 gMultiSelectMemberGroup->mBg3Offset = 0;
@@ -516,7 +516,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             break;
         case MULTI_SELECT_MEMBER_GROUP_STATE_PRESS_WAIT:
             gMultiSelectMemberGroup->mPressWaitFrames++;
-            if (gMultiSelectMemberGroup->mPressWaitFrames >= MULTI_SELECT_MEMBER_GROUP_PRESS_STEPS) {
+            if (gMultiSelectMemberGroup->mPressWaitFrames >= MULTI_SELECT_MEMBER_GROUP_PRESS_FRAMES) {
                 gMultiSelectMemberGroup->mPressWaitFrames = 0;
                 RefreshMultiSelectMemberGroup(1);
                 if (gMultiSelectMemberGroup->mSelectedIndex < MULTI_SELECT_MEMBER_GROUP_ROW_COUNT &&
@@ -530,10 +530,10 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
             break;
         case MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT:
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
-            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS) {
+            if (gMultiSelectMemberGroup->mBg3OffsetFrames < MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES) {
                 gMultiSelectMemberGroup->mBg3Offset =
                     InterpolateS16(1, 0, -0xc0, gMultiSelectMemberGroup->mBg3OffsetFrames,
-                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS);
+                                   MULTI_SELECT_MEMBER_GROUP_SLIDE_FRAMES);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
                 gMultiSelectMemberGroup->mBg3Offset = 0;

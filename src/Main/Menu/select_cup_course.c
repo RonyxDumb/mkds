@@ -163,7 +163,7 @@ void AdvanceSelectCupCourseWaitChoices(void) {
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
-            if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_MESSAGE_FRAMES) {
+            if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_MULTI_SIMPLE_WAIT_FRAMES) {
                 if (IsSelectChoisesChooseNoRequest() != 0 || GetSelectChoisesDone() != 0) {
                     RequestSelectCupCourseChoose();
                 }
@@ -216,7 +216,7 @@ void AdvanceSelectCupCourseCloseChoices(void) {
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             gSelectCupCourse->mStateFrames++;
-            if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_MESSAGE_FRAMES) {
+            if (gSelectCupCourse->mStateFrames >= SELECT_CUP_COURSE_MULTI_SIMPLE_WAIT_FRAMES) {
                 if (IsSelectChoisesHiddenNoRequest() != 0) {
                     choiceIndex = GetSelectChoisesIndex();
                     switch (choiceIndex) {

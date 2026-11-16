@@ -781,27 +781,27 @@ void AdvanceKeyboardEnterName(void) {
         previousLayout = keyboard->mLayout;
         touched = FALSE;
         switch (touchedRectIndex) {
-            case KEYBOARD_NAME_RECT_TAB_KANA:
+            case KEYBOARD_NAME_RECT_LAYOUT_JP:
                 keyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_ASCII:
+            case KEYBOARD_NAME_RECT_LAYOUT_ASCII:
                 keyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_EURO:
+            case KEYBOARD_NAME_RECT_LAYOUT_EURO:
                 keyboard->mLayout = KEYBOARD_LAYOUT_EURO;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_PICTOGRAMS:
+            case KEYBOARD_NAME_RECT_LAYOUT_PICTO:
                 keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;
                 break;
-            case KEYBOARD_NAME_RECT_TAB_PICTOGRAMS_EXTRA:
+            case KEYBOARD_NAME_RECT_LAYOUT_PICTO_SECOND:
                 keyboard->mLayout = KEYBOARD_LAYOUT_PICTOGRAMS_EXTRA;
                 SelectKeyboardLayout(gKeyboard->mLayout);
                 touched = TRUE;

@@ -108,9 +108,9 @@ s32 AdvanceMultiSelectNS(void) {
     switch (multiSelectNS->mState) {
         case MULTI_SELECT_NS_STATE_SLIDE_IN:
             multiSelectNS->mStateFrames++;
-            if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_STEPS) {
+            if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_FRAMES) {
                 gMultiSelectNS->mOffset =
-                    InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
+                    InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_FRAMES);
             } else {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mOffset = 0;
@@ -163,7 +163,7 @@ s32 AdvanceMultiSelectNS(void) {
             break;
         case MULTI_SELECT_NS_STATE_PRESS_WAIT:
             multiSelectNS->mStateFrames++;
-            if (gMultiSelectNS->mStateFrames >= MULTI_SELECT_NS_PRESS_STEPS) {
+            if (gMultiSelectNS->mStateFrames >= MULTI_SELECT_NS_PRESS_FRAMES) {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
                 RefreshMultiSelectNS(1);
@@ -171,9 +171,9 @@ s32 AdvanceMultiSelectNS(void) {
             break;
         case MULTI_SELECT_NS_STATE_SLIDE_OUT:
             multiSelectNS->mStateFrames++;
-            if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_STEPS) {
+            if (gMultiSelectNS->mStateFrames < MULTI_SELECT_NS_SLIDE_FRAMES) {
                 gMultiSelectNS->mOffset =
-                    InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_STEPS);
+                    InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, MULTI_SELECT_NS_SLIDE_FRAMES);
             } else {
                 gMultiSelectNS->mOffset = 0;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_DONE;

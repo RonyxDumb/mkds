@@ -23,12 +23,12 @@
 
 // Frames the page button cells of the VS record screens shift after a page change was requested by the button or the
 // left or right key; mOffsetTimers counts down from this.
-#define RECORD_PAGE_ARROW_FRAMES 6
+#define RECORD_VS_OFFSET_TIMER_FRAMES 6
 // Steps of the slide in and out of the VS record screens (RecordVS and RecordVSErase); mStateFrames counts them.
-#define RECORD_SLIDE_STEPS 10
+#define RECORD_VS_SLIDE_STEPS 10
 // mStateFrames at which the sub screen cells 24 and 25 of the versus record screen change: AdvanceRecordVSSlideInSub
 // shows 24 and hides 25, the two slide outs hide both, AdvanceRecordVSSubSlideInFromErase shows 24 and hides 25 again.
-#define RECORD_VS_SUB_SLIDE_IN_SWAP_STEP 4
+#define RECORD_VS_SLIDE_IN_SUB_SWAP_STEP 4
 #define RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP 6
 #define RECORD_VS_SUB_RESLIDE_SWAP_STEP 2
 
@@ -83,8 +83,8 @@ struct Ncgr;
 struct Nscr;
 
 // Calls each frame of the wait animation stays, and the frames it cycles through.
-#define WAIT_FRAME_TICKS 4
-#define WAIT_FRAME_COUNT 3
+#define WAIT_FRAME_INDEX_CHANGE_FRAMES 4
+#define WAIT_FRAME_INDEX_COUNT 3
 
 // The wait animation: its loaded cell, graphics, palette and layout files, and the frame it shows.
 typedef struct Wait {
@@ -410,7 +410,7 @@ typedef enum SelectCupCourseMode {
 // Steps state CONFIRM_PICK runs before it moves on, once the index change has finished.
 #define SELECT_CUP_COURSE_CONFIRM_STEPS 10
 // Calls that states WAIT_CHOICES and CLOSE_CHOICES wait in mode MULTI_SIMPLE before its choices are looked at.
-#define SELECT_CUP_COURSE_MESSAGE_FRAMES 0xf
+#define SELECT_CUP_COURSE_MULTI_SIMPLE_WAIT_FRAMES 0xf
 
 // The cup course select screen: its state, mode, highlighted course, scroll offsets, layout tables, OAM lists, result.
 typedef struct SelectCupCourse {
@@ -808,10 +808,10 @@ enum {
 // Frames the chosen choice is shown (mChosenFrames); choosing none (the B key) starts it at NONE_START_FRAME so it ends
 // sooner.
 #define SELECT_CHOISES_CHOSEN_FRAMES 0xf
-#define SELECT_CHOISES_RETURN_START_FRAME 0xb
+#define SELECT_CHOISES_NONE_START_FRAME 0xb
 // mToggleFrames above which the toggle mark flips: ON while it is shown, OFF while it is hidden.
-#define SELECT_CHOISES_TOGGLE_ON_FRAMES 0x1e
-#define SELECT_CHOISES_TOGGLE_OFF_FRAMES 0x14
+#define SELECT_CHOISES_TOGGLE_ON_LIMIT 0x1e
+#define SELECT_CHOISES_TOGGLE_OFF_LIMIT 0x14
 // Sound ids of the first choice, the second choice and none (the B key).
 #define SELECT_CHOISES_FIRST_SOUND_ID 7
 #define SELECT_CHOISES_SECOND_SOUND_ID 0x10
@@ -1003,7 +1003,7 @@ typedef struct LinkLevelIconPos {
 #define LINK_LEVEL_ICON_WIFI 1
 #define LINK_LEVEL_ICON_WIFI_BUDDY 4
 // Last frame of the blink cycle of the buddy mark (it goes back to 0 after it), and the frame it is hidden from.
-#define LINK_LEVEL_ICON_CYCLE_FRAMES 0x78
+#define LINK_LEVEL_ICON_CYCLE_LAST_FRAME 0x78
 #define LINK_LEVEL_ICON_HIDDEN_FROM_FRAME 0x69
 
 // The link level icons: which are enabled, their kinds, levels and positions, the OAM list, chars and OAM records.

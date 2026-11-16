@@ -34,7 +34,7 @@
 #define CHOISES_S_AUTO_PICK_FRAMES 0x384
 // mOpenDuringRaceState from the second call of UpdateChoisesS in a row with GetChoisesSOpenDuringRace set; it is 0
 // while that is clear.
-#define CHOISES_S_OPEN_DURING_RACE_SETTLED 2
+#define CHOISES_S_OPEN_DURING_RACE_STATE_AFTER_FIRST_FRAME 2
 // Screen x range of the value rects.
 #define CHOISES_S_RECT_MIN_X 8
 #define CHOISES_S_RECT_MAX_X 0xf8

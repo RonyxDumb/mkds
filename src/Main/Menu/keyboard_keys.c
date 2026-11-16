@@ -578,7 +578,7 @@ void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
         }
         touch = touchPoint.mTouch;
         if (touch != gKeyboardInput.mPrevSample[2]) {
-            gKeyboardInput.mTouchStatus = touch != 0 ? KEYBOARD_TOUCH_BEGAN : KEYBOARD_TOUCH_ENDED;
+            gKeyboardInput.mTouchStatus = touch != 0 ? KEYBOARD_TOUCH_PRESSED : KEYBOARD_TOUCH_RELEASED;
             gKeyboardInput.mTouchHeldFrames = 0;
         } else if (touch != 0) {
             gKeyboardInput.mTouchStatus = KEYBOARD_TOUCH_HELD;
@@ -753,23 +753,23 @@ u16 GetKeyboardKeysPressedOrRepeated(void) {
 
 void AsciiLayoutCallback(KeyboardKeys *keyboardKeys) {
     switch (keyboardKeys->mKeyId) {
-        case KEYBOARD_KEY_ID_MODE_FIRST:
+        case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
             keyboardKeys->mToggledKeyId =
-                keyboardKeys->mToggledKeyId != KEYBOARD_KEY_ID_MODE_FIRST ? KEYBOARD_KEY_ID_MODE_FIRST : 0;
+                keyboardKeys->mToggledKeyId != KEYBOARD_KEY_ID_CHAR_MAP_FIRST ? KEYBOARD_KEY_ID_CHAR_MAP_FIRST : 0;
             break;
-        case KEYBOARD_KEY_ID_MODE_SECOND:
+        case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
             keyboardKeys->mToggledKeyId =
-                keyboardKeys->mToggledKeyId != KEYBOARD_KEY_ID_MODE_SECOND ? KEYBOARD_KEY_ID_MODE_SECOND : 0;
+                keyboardKeys->mToggledKeyId != KEYBOARD_KEY_ID_CHAR_MAP_SECOND ? KEYBOARD_KEY_ID_CHAR_MAP_SECOND : 0;
             break;
     }
     switch (keyboardKeys->mToggledKeyId) {
         case 0:
             keyboardKeys->mCharMap = gKbdmapAscii + 1;
             break;
-        case KEYBOARD_KEY_ID_MODE_FIRST:
+        case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
             keyboardKeys->mCharMap = gKbdmapAsciiShift + 1;
             break;
-        case KEYBOARD_KEY_ID_MODE_SECOND:
+        case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
             keyboardKeys->mCharMap = gKbdmapAsciiCaps + 1;
             break;
     }
@@ -777,22 +777,22 @@ void AsciiLayoutCallback(KeyboardKeys *keyboardKeys) {
 
 void HiraganaKatakanaLayoutCallback(KeyboardKeys *keyboardKeys) {
     switch (keyboardKeys->mKeyId) {
-        case KEYBOARD_KEY_ID_MODE_FIRST:
-            keyboardKeys->mChosenKeyId = KEYBOARD_KEY_ID_MODE_FIRST;
+        case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
+            keyboardKeys->mChosenKeyId = KEYBOARD_KEY_ID_CHAR_MAP_FIRST;
             keyboardKeys->mToggledKeyId = 0;
             break;
-        case KEYBOARD_KEY_ID_MODE_SECOND:
-            keyboardKeys->mChosenKeyId = KEYBOARD_KEY_ID_MODE_SECOND;
+        case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
+            keyboardKeys->mChosenKeyId = KEYBOARD_KEY_ID_CHAR_MAP_SECOND;
             keyboardKeys->mToggledKeyId = 0;
             break;
     }
     switch (keyboardKeys->mChosenKeyId) {
-        case KEYBOARD_KEY_ID_MODE_FIRST:
+        case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
             if (keyboardKeys->mToggledKeyId == 0) {
                 keyboardKeys->mCharMap = gKbdmapHiragana + 1;
             }
             break;
-        case KEYBOARD_KEY_ID_MODE_SECOND:
+        case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
             if (keyboardKeys->mToggledKeyId == 0) {
                 keyboardKeys->mCharMap = gKbdmapKatakana + 1;
             }
@@ -894,9 +894,9 @@ s32 GetKeyboardValueForKeyId(u32 keyId) {
                         return 0xa;
                     case KEYBOARD_KEY_ID_SPACE:
                         return KEYBOARD_VALUE_IDEOGRAPHIC_SPACE;
-                    case KEYBOARD_KEY_ID_MODE_FIRST:
+                    case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
                         return KEYBOARD_VALUE_HIRAGANA;
-                    case KEYBOARD_KEY_ID_MODE_SECOND:
+                    case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
                         return KEYBOARD_VALUE_KATAKANA;
                     case KEYBOARD_KEY_ID_CONVERT_FIRST:
                         return KEYBOARD_VALUE_CONVERT_FIRST;
@@ -915,9 +915,9 @@ s32 GetKeyboardValueForKeyId(u32 keyId) {
                         return 0xa;
                     case KEYBOARD_KEY_ID_SPACE:
                         return KEYBOARD_VALUE_SPACE;
-                    case KEYBOARD_KEY_ID_MODE_FIRST:
+                    case KEYBOARD_KEY_ID_CHAR_MAP_FIRST:
                         return KEYBOARD_VALUE_SHIFT;
-                    case KEYBOARD_KEY_ID_MODE_SECOND:
+                    case KEYBOARD_KEY_ID_CHAR_MAP_SECOND:
                         return KEYBOARD_VALUE_CAPS;
                 }
             }
@@ -953,7 +953,7 @@ void GetKeyboardCursorRectBounds(s32 *left, s32 *top, s32 *right, s32 *bottom) {
         *top = gKeyboardKeys.mCursorRect->mY;
         *right = gKeyboardKeys.mCursorRect->mX + gKeyboardKeys.mCursorRect->mWidth;
         *bottom = gKeyboardKeys.mCursorRect->mY + gKeyboardKeys.mCursorRect->mHeight;
-        if (gKeyboardKeys.mCursorRect->mKeyId <= KEYBOARD_KEY_ID_LAST_KEY) {
+        if (gKeyboardKeys.mCursorRect->mKeyId <= KEYBOARD_RECT_ID_LAST_KEY) {
             *left = *left + gKeyboardOffsetX;
             *top = *top + gKeyboardOffsetY;
             *right = *right + gKeyboardOffsetX;
@@ -1181,7 +1181,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         } while (ringRect != startRect);
     }
     startRect = keyboardKeys->mCursorRect;
-    if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= KEYBOARD_KEY_ID_LAST_KEY &&
+    if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= KEYBOARD_RECT_ID_LAST_KEY &&
         startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId &&
         startRect != keyboardKeys->mTouchStartRect && startRect != keyboardKeys->mKeyDownRect) {
         ringRect = startRect;
@@ -1193,7 +1193,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         } while (ringRect != startRect);
     }
     startRect = keyboardKeys->mKeyDownRect;
-    if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= KEYBOARD_KEY_ID_LAST_KEY &&
+    if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= KEYBOARD_RECT_ID_LAST_KEY &&
         startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId) {
         ringRect = startRect;
         do {
@@ -1204,7 +1204,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         } while (ringRect != startRect);
     }
     startRect = keyboardKeys->mTouchStartRect;
-    if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= KEYBOARD_KEY_ID_LAST_KEY &&
+    if (startRect != NULL && startRect->mKeyId != 0 && startRect->mKeyId <= KEYBOARD_RECT_ID_LAST_KEY &&
         startRect->mKeyId != gKeyboardKeys.mToggledKeyId && startRect->mKeyId != gKeyboardKeys.mChosenKeyId &&
         startRect != keyboardKeys->mKeyDownRect) {
         if (keyboardKeys->mTouchRect != NULL && startRect->mKeyId == keyboardKeys->mTouchRect->mKeyId) {
@@ -1279,11 +1279,11 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
                     if (fn == AsciiLayoutCallback) {
                         layoutKeyId = gKeyboardKeys.mToggledKeyId;
                         if (layoutKeyId == 0) {
-                            gKeyboardKeys.mKeyId = KEYBOARD_KEY_ID_MODE_FIRST;
-                        } else if (layoutKeyId == KEYBOARD_KEY_ID_MODE_FIRST) {
-                            gKeyboardKeys.mKeyId = KEYBOARD_KEY_ID_MODE_SECOND;
-                        } else if (layoutKeyId == KEYBOARD_KEY_ID_MODE_SECOND) {
-                            gKeyboardKeys.mKeyId = KEYBOARD_KEY_ID_MODE_SECOND;
+                            gKeyboardKeys.mKeyId = KEYBOARD_KEY_ID_CHAR_MAP_FIRST;
+                        } else if (layoutKeyId == KEYBOARD_KEY_ID_CHAR_MAP_FIRST) {
+                            gKeyboardKeys.mKeyId = KEYBOARD_KEY_ID_CHAR_MAP_SECOND;
+                        } else if (layoutKeyId == KEYBOARD_KEY_ID_CHAR_MAP_SECOND) {
+                            gKeyboardKeys.mKeyId = KEYBOARD_KEY_ID_CHAR_MAP_SECOND;
                         }
                         CallKeyboardKeyCallback(GetKeyboardKeysPressed(keyMask));
                     } else if (fn == HiraganaKatakanaLayoutCallback) {
@@ -1310,14 +1310,14 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
             gKeyboardKeys.mTouchRect =
                 FindKeyboardRectAt(&gKeyboardKeys, GetKeyboardLastTouchX(), GetKeyboardLastTouchY());
         }
-        if (GetKeyboardTouchStatus() == KEYBOARD_TOUCH_BEGAN) {
+        if (GetKeyboardTouchStatus() == KEYBOARD_TOUCH_PRESSED) {
             gKeyboardKeys.mTouchStartRect =
                 FindKeyboardRectAt(&gKeyboardKeys, GetKeyboardLastTouchX(), GetKeyboardLastTouchY());
             if (gKeyboardKeys.mTouchStartRect != NULL) {
                 gKeyboardKeys.mKeyId = gKeyboardKeys.mTouchStartRect->mKeyId;
                 CallKeyboardKeyCallback(1);
             }
-        } else if (GetKeyboardTouchStatus() == KEYBOARD_TOUCH_ENDED) {
+        } else if (GetKeyboardTouchStatus() == KEYBOARD_TOUCH_RELEASED) {
             gKeyboardKeys.mTouchStartRect = NULL;
         }
         if (IsKeyboardTouchOnStartKeyId(&gKeyboardKeys) != 0) {
@@ -1333,7 +1333,7 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
         if (gKeyboardKeys.mKeyValue >= KEYBOARD_VALUE_FIRST_CHARACTER) {
             fn = gKeyboardKeys.mCurrentLayout->mCallback;
             if (fn == AsciiLayoutCallback) {
-                if (gKeyboardKeys.mToggledKeyId == KEYBOARD_KEY_ID_MODE_FIRST) {
+                if (gKeyboardKeys.mToggledKeyId == KEYBOARD_KEY_ID_CHAR_MAP_FIRST) {
                     gKeyboardKeys.mToggledKeyId = 0;
                 }
             } else if (fn == HiraganaKatakanaLayoutCallback) {
@@ -1605,7 +1605,7 @@ void RefreshKeyboardCursor(KeyboardKeys *keyboardKeys) {
         keyboardKeys->mCursorRect = keyboardKeys->mCurrentLayout->mRects + keyboardKeys->mCurrentLayout->mFixedKeyCount;
         return;
     }
-    if (cursorRect->mKeyId <= KEYBOARD_KEY_ID_LAST_KEY) {
+    if (cursorRect->mKeyId <= KEYBOARD_RECT_ID_LAST_KEY) {
         centerX = gKeyboardOffsetX + ((cursorRect->mX << 1) + cursorRect->mWidth) / 2 + 3;
         centerY = gKeyboardOffsetY + ((cursorRect->mY << 1) + cursorRect->mHeight) / 2 - 3;
     } else {
@@ -1652,7 +1652,7 @@ KeyboardRect *FindKeyboardRectInDirection(u32 direction, KeyboardRect *rect, Key
             }
         }
     }
-    if (rect->mKeyId <= KEYBOARD_KEY_ID_LAST_KEY) {
+    if (rect->mKeyId <= KEYBOARD_RECT_ID_LAST_KEY) {
         offsetX = gKeyboardOffsetX;
         offsetY = gKeyboardOffsetY;
     } else {
@@ -1764,7 +1764,7 @@ void SetupKeyboardLayout(KeyboardRect *rects, Ncgr *ncgr, void (*callback)(Keybo
 }
 
 void SetupKeyboardLayoutHiragana(KeyboardRect *rects, Ncgr *ncgr, u32 rectCount) {
-    gKeyboardKeys.mChosenKeyId = KEYBOARD_KEY_ID_MODE_FIRST;
+    gKeyboardKeys.mChosenKeyId = KEYBOARD_KEY_ID_CHAR_MAP_FIRST;
     gKeyboardKeys.mToggledKeyId = 0;
     SetupKeyboardLayout(rects, ncgr, HiraganaKatakanaLayoutCallback, 9, rectCount, gKbdmapHiragana);
 }

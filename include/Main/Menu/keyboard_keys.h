@@ -26,15 +26,15 @@ typedef enum KeyboardLayoutId {
 // has no constant.
 #define KEYBOARD_KEY_ID_DELETE 1
 #define KEYBOARD_KEY_ID_SPACE 3
-#define KEYBOARD_KEY_ID_MODE_FIRST 4
-#define KEYBOARD_KEY_ID_MODE_SECOND 5
+#define KEYBOARD_KEY_ID_CHAR_MAP_FIRST 4
+#define KEYBOARD_KEY_ID_CHAR_MAP_SECOND 5
 #define KEYBOARD_KEY_ID_CONVERT_FIRST 6
 #define KEYBOARD_KEY_ID_CONVERT_SECOND 7
 #define KEYBOARD_KEY_ID_CONVERT_THIRD 8
 #define KEYBOARD_KEY_ID_CYCLE 0xffff
 // Rect ids up to this are key rects, drawn with the keyboard offset; the button rects, which SetKeyboardRect gives
 // KEYBOARD_RECT_ID_PLAIN, are above it.
-#define KEYBOARD_KEY_ID_LAST_KEY 0xff
+#define KEYBOARD_RECT_ID_LAST_KEY 0xff
 #define KEYBOARD_RECT_ID_PLAIN 0xff00
 
 // Key values: what the key callback and the text entry get for a key. Values from KEYBOARD_VALUE_FIRST_CHARACTER up are
@@ -59,9 +59,9 @@ typedef enum KeyboardLayoutId {
 
 // KeyboardInput.mTouchStatus: no touch, the touch pressed this call, still pressed, released this call.
 #define KEYBOARD_TOUCH_IDLE 0
-#define KEYBOARD_TOUCH_BEGAN 1
+#define KEYBOARD_TOUCH_PRESSED 1
 #define KEYBOARD_TOUCH_HELD 2
-#define KEYBOARD_TOUCH_ENDED 3
+#define KEYBOARD_TOUCH_RELEASED 3
 
 // Positions of the first and third rect of a layout: the delete key and the space key.
 #define KEYBOARD_RECT_INDEX_DELETE 0

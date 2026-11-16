@@ -385,7 +385,7 @@ void AdvanceLinkLevelIcons(void) {
     s32 iconIndex;
     u32 iconKind;
     gLinkLevelIcons->mCycleFrames++;
-    if (gLinkLevelIcons->mCycleFrames > LINK_LEVEL_ICON_CYCLE_FRAMES) {
+    if (gLinkLevelIcons->mCycleFrames > LINK_LEVEL_ICON_CYCLE_LAST_FRAME) {
         gLinkLevelIcons->mCycleFrames = 0;
     }
     UpdateLinkLevelIconTiles();
