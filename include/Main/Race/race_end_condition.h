@@ -1,0 +1,42 @@
+#pragma once
+
+#include "types.h"
+
+typedef struct RaceProgressKart RaceProgressKart;
+
+// How the race of the local entry ended (the endKind of FinishRaceProgressKartWithEndKind, RaceProgress.mEntryEndKind).
+// Only the goal ends it as won; the others end its wait as a failure.
+#define RACE_END_KIND_GOAL 0
+#define RACE_END_KIND_TIME_UP 1
+// Mission run end checks: the entry kart is not normal or is falling to a respawn; or is in contact.
+#define RACE_END_KIND_KART_STATE 2
+#define RACE_END_KIND_CONTACT 3
+// The mission conditions failed (settings not met at the end, or the shape map object counts).
+#define RACE_END_KIND_FAILED 4
+// Value of mEntryEndKind until the entry has ended.
+// No code ends a race with this kind; it is only a case label of the end kind switch.
+#define RACE_END_KIND_UNUSED 5
+#define RACE_END_KIND_NOT_ENDED 6
+
+void FinishMissionRunKartAtGoal(u16 kartIndex);
+// Ends kart a with end kind b (0 goal reached, other values the other ends) unless it has already ended or its end wait
+// runs: stops the race clock, stores the time in the kart's lap time slot 5, for the entry flagged local records the
+// kind and starts its end wait (flag 0x10 for kind 0, 0x20 otherwise), calls FinishRaceProgressKart(kart, b == 0) and
+// runs the end handler of the mode when IsRaceEndConditionMet holds.
+void FinishRaceProgressKartWithEndKind(s32 kartIndex, s32 endKind);
+// b is goal reached; b == 0 ends the entry without the goal (status 3). Also tells the input source and the HUD.
+void FinishRaceProgressKart(RaceProgressKart *raceProgressKart, s32 finished);
+void FinishRemainingMissionRunKarts(void);
+void FinishRemainingWiFiRaceKarts(void);
+// Finishes every kart that has neither ended nor been removed, without the goal, with its time from the race clock
+// (scaled by its race progress in Grand Prix), and sets the finished count to the kart count; the end handler of the
+// modes without their own.
+void FinishRemainingRaceProgressKarts(void);
+// Returns non-zero when the end condition of the current mode holds: Grand Prix when every entry whose mKind is 0, 2 or
+// 3 has status 1 to 3; Time Attack when entry 0 has ended; Battle when every such entry is eliminated; mode 5 and
+// Versus by the counts of finished and removed karts; mission run when RaceSetup.mMissionKind is
+// MISSION_KIND_LAPS_FIRST_PLACE and a kart has finished; changes nothing.
+s32 IsRaceEndConditionMet(void);
+
+// RaceProgressKart.mFinishTimeMs of a kart that did not finish: 100 minutes.
+#define RACE_FINISH_TIME_NONE_MS 0x5b8d80

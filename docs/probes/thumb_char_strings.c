@@ -5,20 +5,20 @@
 
 typedef struct {
     char pad0[0x18];
-    const char *field18;
-    const char *field1C;
-    const char *field20;
-    const char *field24;
-    const char *field28;
+    const char *mUnk_18;
+    const char *mUnk_1c;
+    const char *mUnk_20;
+    const char *mUnk_24;
+    const char *mUnk_28;
 } Names02164e04;
 
 typedef struct {
     char pad0[0x308];
-    int field308;
+    int mUnk_308;
     char pad30c[0x378 - 0x30c];
-    int field378;
+    int mUnk_378;
     char pad37c[0x3e8 - 0x37c];
-    int field3E8;
+    int mUnk_3e8;
 } Obj021759a8;
 
 extern Names02164e04 gArchiveNames;
@@ -34,7 +34,7 @@ int LoadKartModelFile(const char *path) {
     int result = 0;
     int mode = GetCurrentSceneNumber();
     if (mode == 1 || mode == 3 || mode == 12) {
-        name = gArchiveNames.field28;
+        name = gArchiveNames.mUnk_28;
         if (path[0] == '/') {
             OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
         } else {
@@ -42,8 +42,8 @@ int LoadKartModelFile(const char *path) {
         }
         result = func_02048504(buf, 8);
     } else {
-        if (data_021759a8->field308 != 0) {
-            name = gArchiveNames.field18;
+        if (data_021759a8->mUnk_308 != 0) {
+            name = gArchiveNames.mUnk_18;
             if (path[0] == '/') {
                 OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
             } else {
@@ -51,8 +51,8 @@ int LoadKartModelFile(const char *path) {
             }
             result = func_02048504(buf, 8);
         }
-        if (result == 0 && data_021759a8->field378 != 0) {
-            name = gArchiveNames.field1C;
+        if (result == 0 && data_021759a8->mUnk_378 != 0) {
+            name = gArchiveNames.mUnk_1c;
             if (path[0] == '/') {
                 OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
             } else {
@@ -60,8 +60,8 @@ int LoadKartModelFile(const char *path) {
             }
             result = func_02048504(buf, 8);
         }
-        if (result == 0 && data_021759a8->field3E8 != 0) {
-            name = gArchiveNames.field20;
+        if (result == 0 && data_021759a8->mUnk_3e8 != 0) {
+            name = gArchiveNames.mUnk_20;
             if (path[0] == '/') {
                 OS_SNPrintf(buf, 0x80, "%s:%s", name, path);
             } else {

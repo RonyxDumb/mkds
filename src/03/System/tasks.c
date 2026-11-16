@@ -1,0 +1,125 @@
+#include "03/System/tasks.h"
+#include "03/System/pointer_stack.h"
+#include "03/System/pointer_stack_filled.h"
+
+#include "03/System/exp_heap.h"
+#include "03/Menu/wifi_menu_shared.h"
+#include "03/Graphics/node_list_link.h"
+#include "interrupt_control.h"
+#include "03/System/pointer_stack_delete.h"
+#include "03/Graphics/node_list_delete.h"
+#include "03/Graphics/oam_buffers.h"
+#include "03/Graphics/oam_buffer_entries.h"
+#include "03/Menu/wifi_menu_tables.h"
+
+const u8 gTaskListCapacities[2] = {0x80, 0x20};
+struct TaskList *gTaskLists;
+
+void InitTasks(void) {
+    s32 listIndex;
+    const u8 *countPtr;
+
+    gTaskLists = AllocExpHeapBlock(0x78, 4);
+    listIndex = 0;
+    countPtr = gTaskListCapacities;
+    do {
+        gTaskLists[listIndex].mCapacity = *countPtr;
+        gTaskLists[listIndex].mEntryStorage = AllocExpHeapBlock(*countPtr * 0x14, 4);
+        gTaskLists[listIndex].mFreeEntries =
+            CreateFilledPointerStack(*countPtr, gTaskLists[listIndex].mEntryStorage, 0x14);
+        gTaskLists[listIndex].mResource = CreatePointerStack(*countPtr);
+        gTaskLists[listIndex].mList = CreateNodeList();
+        gTaskLists[listIndex].mListStart.mPriority = 0;
+        gTaskLists[listIndex].mListEnd.mPriority = TASK_PRIORITY_LIST_END;
+        AddNodeToListFront(gTaskLists[listIndex].mList, &gTaskLists[listIndex].mListStart);
+        AddNodeToListBack(gTaskLists[listIndex].mList, &gTaskLists[listIndex].mListEnd);
+        countPtr++;
+        listIndex++;
+    } while (listIndex < 2);
+}
+
+void ReleaseTasks(void) {
+    int listIndex;
+    listIndex = 0;
+    do {
+        DeleteNodeList(gTaskLists[listIndex].mList);
+        DeletePointerStack(gTaskLists[listIndex].mFreeEntries);
+        listIndex = listIndex + 1;
+    } while (2 > listIndex);
+    FreeExpHeapBlockAndClearPointer(&gTaskLists);
+}
+
+void RunTasksAndRemoveRequested(int listIndex) {
+    TaskEntry *entry;
+    s32 removedCount;
+    TaskEntry *queuedEntry;
+
+    entry = gTaskLists[listIndex].mListStart.mNext;
+    if (entry != &gTaskLists[listIndex].mListEnd) {
+        do {
+            entry->mCallback(entry, entry->mArg);
+            entry = entry->mNext;
+        } while (entry != &gTaskLists[listIndex].mListEnd);
+    }
+    removedCount = 0;
+    if (gTaskLists[listIndex].mCapacity > 0) {
+        do {
+            queuedEntry = PopPointerStack(gTaskLists[listIndex].mResource);
+            if (queuedEntry == 0) {
+                break;
+            }
+            RemoveTaskEntry(listIndex, queuedEntry);
+            removedCount++;
+        } while (removedCount < gTaskLists[listIndex].mCapacity);
+    }
+}
+
+TaskEntry *AddTask(u32 listIndex, TaskCallback function, void *arg, u32 priority) {
+    return AddTaskEx(listIndex, function, arg, priority, 0x0u);
+}
+
+TaskEntry *AddTaskEx(u32 listIndex, TaskCallback function, void *arg, u32 priority, u8 freesArg) {
+    TaskEntry *entry;
+    TaskEntry *following;
+    u32 savedIrqMask;
+
+    entry = PopPointerStack(gTaskLists[listIndex].mFreeEntries);
+    entry->mCallback = function;
+    entry->mArg = arg;
+    entry->mPriority = priority;
+    entry->mFreesArg = freesArg;
+    savedIrqMask = OS_DisableIrqMask(1);
+    following = gTaskLists[listIndex].mListStart.mNext;
+    while (1) {
+        if (priority < following->mPriority) {
+            AddNodeBefore(following, entry);
+            break;
+        }
+        following = following->mNext;
+    }
+    OS_EnableIrqMask(savedIrqMask);
+    return entry;
+}
+
+void SetTaskCallback(TaskEntry *taskEntry, TaskCallback function) {
+    taskEntry->mCallback = function;
+}
+
+void RequestTaskRemoval(u32 listIndex, TaskEntry *entry) {
+    PushPointerStack(gTaskLists[listIndex].mResource, entry);
+}
+
+void RemoveTaskEntryWrapper(u32 listIndex, TaskEntry *entry) {
+    u32 listIndexCopy = listIndex;
+    TaskEntry *entryCopy = entry;
+    u32 unused;
+    RemoveTaskEntry(listIndexCopy, entryCopy);
+}
+
+void RemoveTaskEntry(int listIndex, TaskEntry *entry) {
+    if (entry->mFreesArg != 0) {
+        FreeExpHeapBlockAndClearPointer(&entry->mArg);
+    }
+    RemoveNodeFromList(entry);
+    PushPointerStack(gTaskLists[listIndex].mFreeEntries, entry);
+}

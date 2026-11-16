@@ -1,0 +1,123 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Kart/kart_drift.h" // Kart
+#include "Main/MapObjects/attractor.h" // MapObject
+#include "Main/MapObjects/segment_group_collision.h" // GroupFollower
+#include "01/MapObjects/map_object_model.h"
+
+#define BOUND_KART_HIT_FRAMES 0x1f
+#define BOUND_PATH_SPEED 0x3000
+
+// Start values of the wobble: the x angle starts half a turn on and both centers are 1.0. A kart hit or an iron ball
+// path entry starts the large amplitude, an item hit the small one; each shrinks by its step per frame.
+#define BOUND_WOBBLE_X_ANGLE_START 0x8000
+#define BOUND_WOBBLE_Y_ANGLE_START 0
+#define BOUND_WOBBLE_MID TO_FIXED12(1)
+#define BOUND_WOBBLE_ANGLE_PER_FRAME 0x1000
+#define BOUND_WOBBLE_AMPLITUDE_LARGE 0x400
+#define BOUND_WOBBLE_AMPLITUDE_STEP_LARGE -0x29
+#define BOUND_WOBBLE_AMPLITUDE_SMALL 0x200
+#define BOUND_WOBBLE_AMPLITUDE_STEP_SMALL -0x14
+
+// Sound ids the Bound, Cream and Berry kinds play when an item object hits them.
+#define BOUND_ITEM_HIT_SOUND_ID 0x1cf
+#define CREAM_ITEM_HIT_SOUND_ID 0x156
+#define BERRY_ITEM_HIT_SOUND_ID 0x155
+
+// A bouncing map object (Bound, Cream, Berry): its wobbling scale, path follower and per-kart push timers.
+typedef struct Bound {
+    /* 000 */ MapObject mMapObject;
+    /* 0a0 */ u16 mNsbtpFrameIndex;
+    /* 0a2 */ u8 mUnk_0a2[2];
+    /* 0a4 */ s32 mSphereHit;
+    /* 0a8 */ u8 mUnk_0a8[0xc];
+    /* 0b4 */ s32 mInitialScaleX;
+    /* 0b8 */ u16 mWobbleXAngle;
+    /* 0ba */ u8 mUnk_0ba[2];
+    // Scale factor of x and z (1.12 fixed): mWobbleXMid plus mWobbleXAmplitude times the angle pair of mWobbleXAngle.
+    /* 0bc */ s32 mWobbleScaleX;
+    /* 0c0 */ s32 mWobbleScaleXDelta;
+    /* 0c4 */ s32 mWobbleXMid;
+    /* 0c8 */ s32 mWobbleXAmplitude;
+    /* 0cc */ s32 mWobbleXAmplitudePerFrame;
+    /* 0d0 */ s32 mWobbleXAnglePerFrame;
+    /* 0d4 */ s32 mWobbleXAnglePerFrameChange;
+    /* 0d8 */ u16 mWobbleYAngle;
+    /* 0da */ u8 mUnk_0da[2];
+    /* 0dc */ s32 mWobbleScaleY;
+    /* 0e0 */ s32 mWobbleScaleYDelta;
+    /* 0e4 */ s32 mWobbleYMid;
+    /* 0e8 */ s32 mWobbleYAmplitude;
+    /* 0ec */ s32 mWobbleYAmplitudePerFrame;
+    /* 0f0 */ s32 mWobbleYAnglePerFrame;
+    /* 0f4 */ s32 mWobbleYAnglePerFrameChange;
+    /* 0f8 */ GroupFollower mFollower;
+    // TRUE while the scale wobbles; cleared when both amplitudes have reached 0.
+    /* 11c */ BOOL mWobbling;
+    // Per kart index: set to 0x1f after a push and counted down every frame; a push is only computed at 0.
+    /* 120 */ s32 mKartTimers[8];
+} Bound;
+
+// Sun.mState: waits, follows its path, waits at a path point, then shoots two fireballs while its draw offset swells.
+#define SUN_STATE_WAIT_TO_MOVE 0
+#define SUN_STATE_FOLLOW_PATH 1
+#define SUN_STATE_WAIT_AT_PATH_POINT 2
+#define SUN_STATE_SHOOT_FIREBALLS 3
+#define SUN_STATE_SPIN_DOWN 4
+
+// The sun map object: UpdateSun steps mState through SUN_STATE_*; SUN_STATE_SHOOT_FIREBALLS unparks its fireballs.
+typedef struct Sun {
+    /* 000 */ MapObject mMapObject;
+    /* 0a0 */ u32 mFireballIndex;
+    /* 0a4 */ u16 mFireballAngle;
+    /* 0a6 */ u8 mUnk_0a6[2];
+    /* 0a8 */ s32 mTimer;
+    /* 0ac */ u32 mDrawOffsetRadiusAngle;
+    /* 0b0 */ u16 mDrawOffsetAngle;
+    /* 0b2 */ u16 mNsbcaFrameIndex;
+    // 1.12 fixed: mNsbcaFrameIndex grows by this >> 12; rises to 0x8000 in SUN_STATE_SHOOT_FIREBALLS, falls to 0x1000
+    // in the others.
+    /* 0b4 */ s32 mNsbcaFrameIndexPerFrame;
+    /* 0b8 */ GroupFollower mFollower;
+    /* 0dc */ s32 mState;
+} Sun;
+
+void CreateBound(void *mapObjectList);
+
+MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, void *collideItemObjectCallback,
+                                                    void *sphereHitCallback, u32 wordValue, u16 halfValue, u16 soundId);
+MapObjectKindData *CreateEmptyMapObjectKindData(void);
+void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
+                              u32 wordValue, u16 halfValue);
+BOOL StartBoundWobble(s32 mapObjectIndex);
+MapObjectList *CreateBoundUpdateList(void);
+MapObjectList *CreateBerryDrawList(void);
+MapObjectList *CreateCreamDrawList(void);
+MapObjectList *CreateBoundDrawList(void);
+MapObjectKindData *CreateBerryKindData(void);
+MapObjectKindData *CreateCreamKindData(void);
+MapObjectKindData *CreateBoundKindData(void);
+void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound);
+s32 BoundFX_MulInline(s32 value, s32 scale);
+s16 BoundFX_SinIdx(s32 angle);
+void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList);
+void DrawBerry(MapObjectList *mapObjectList, Bound *bound);
+void DrawCream(MapObjectList *mapObjectList, Bound *bound);
+void CreateBerry(void *mapObjectList); /* also loads cream_effect.nsbmd */
+void CreateCream(void *mapObjectList); /* also loads cream_effect.nsbmd */
+void DrawBound(MapObjectList *mapObjectList, Bound *bound);
+BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
+u8 CollideItemObjectWithBound(Bound *bound, void *itemObject, u8 *firstResponse, u8 *response);
+s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *response);
+void InitBound(Bound *bound);
+MapObjectList *CreateSunUpdateList(void);
+MapObjectList *CreateSunDrawList(void);
+void UpdateSun(MapObjectList *mapObjectList, Sun *sun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void InitSunObjects(MapObjectList *mapObjectList);
+void DrawSun(void *mapObjectList, Sun *sun);
+
+extern const u32 gBoundHitDistanceFlag;
+extern struct MapObjectModel *gBound;
+extern struct MapObjectModel *gBerry;
+extern struct MapObjectModel *gCream;

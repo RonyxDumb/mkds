@@ -1,0 +1,21 @@
+#pragma once
+
+#include "types.h"
+
+typedef struct SsidOrderTable {
+    /* 00 */ u8 mOrder[24];
+} SsidOrderTable;
+
+extern s8 *gUsbWepFirstXorKey;
+extern const u8 gConvByteTable[13];
+extern s8 *gUsbWepSecondXorKey;
+extern const u8 gConv4BitTable[16];
+extern SsidOrderTable gSsidOrderTable;
+extern s8 *gSsidDecodeFirstXorKey;
+extern s8 *gSsidDecodeSecondXorKey;
+
+s32 DecodeBase64(const u8 *encoded, u8 *decoded, s32 encodedLength, u32 capacity);
+s32 CodeToValue(u32 code);
+void MakeUsbWepKey(const u8 *name, u8 *wepKey);
+void MakeShopWepKey(const u8 *decoded, u8 *wepKey);
+void DecodeSsid(const u8 *ssid, u8 *decoded);

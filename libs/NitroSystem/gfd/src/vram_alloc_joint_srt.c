@@ -1,0 +1,47 @@
+#include "vram_alloc_joint_srt.h"
+#include "ITCM/model_draw_and_irq_handler.h"
+
+u32 AllocPlttVram_(u32 szByte, BOOL b4Pltt, u32 opt) {
+    return 0;
+}
+
+s32 FreePlttVram_(u32 plttKey) {
+    return -1;
+}
+
+u32 AllocTexVram_(u32 szByte, BOOL is4x4comp, u32 opt) {
+    return 0;
+}
+
+s32 FreeTexVram_(u32 texKey) {
+    return -1;
+}
+
+void NNSi_G3dSendJointSRTBasic(const NNSG3dJntAnmResult *result) {
+    u32 flag;
+
+    flag = result->mFlag;
+    if ((flag & G3D_JNT_ANM_TRANS_IS_IDENTITY) == 0) {
+        if ((flag & G3D_JNT_ANM_ROT_IS_IDENTITY) == 0) {
+            NNS_G3dGeBufferOP_N(0x19, &result->mRot, 0xc);
+        } else {
+            NNS_G3dGeBufferOP_N(0x1c, &result->mTrans, 3);
+        }
+    } else if ((flag & G3D_JNT_ANM_ROT_IS_IDENTITY) == 0) {
+        NNS_G3dGeBufferOP_N(0x1a, &result->mRot, 9);
+    }
+    if ((result->mFlag & G3D_JNT_ANM_SCALE_IS_IDENTITY) == 0) {
+        NNS_G3dGeBufferOP_N(0x1b, &result->mScale, 3);
+    }
+}
+
+void NNSi_G3dGetJointScaleBasic(NNSG3dJntAnmResult *pResult, const s32 *scale, const u8 *cmd, u32 srtflag) {
+    if (srtflag & 4) {
+        pResult->mFlag |= G3D_JNT_ANM_SCALE_IS_IDENTITY;
+    } else {
+        pResult->mScale.x = scale[0];
+        pResult->mScale.y = scale[1];
+        pResult->mScale.z = scale[2];
+    }
+    pResult->mFlag |= G3D_JNT_ANM_SCALE_EX_ARE_IDENTITY;
+}

@@ -3,24 +3,24 @@
 
 typedef struct {
     char pad0[0xc8];
-    int fieldC8;
+    int mUnk_c8;
 } Obj02029930;
 
 typedef struct {
     char pad0[0x10];
-    int field10;
+    int mUnk_10;
 } Obj0217a9e0;
 
 extern int data_02153274[];
 extern int data_02153240[];
 extern Obj0217a9e0 *data_0217a9e0;
 Obj02029930 *func_02029930(void);
-void func_02050e60(int arg);
+void SetRequestErrorCode(int arg);
 
-// PROBE: func_02025e60 main 0x02025e60
-int func_02025e60(int idx) {
+// PROBE: GetCharacterKartIndexByMode
+int GetCharacterKartIndexByMode(int idx) {
     int result = -1;
-    switch (func_02029930()->fieldC8) {
+    switch (func_02029930()->mUnk_c8) {
         case 0:
         case 1:
         case 3:
@@ -41,10 +41,10 @@ void RepeatedScanCallback(int arg) {
         case 1:
             break;
         case 2:
-            func_02050e60(5);
+            SetRequestErrorCode(5);
             break;
         case 3:
-            data_0217a9e0->field10 = 0;
+            data_0217a9e0->mUnk_10 = 0;
             break;
     }
 }

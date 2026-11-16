@@ -1,0 +1,73 @@
+#include "03/Graphics/bg2_scr_buffer.h"
+#include "thread_scheduler.h"
+#include "arena_cache_init.h"
+#include "vram_load_2d_graphics.h"
+
+#include "03/System/tasks.h"
+#include "03/Menu/wifi_menu_shared.h"
+#include "cpu_copy_clear_16.h"
+#include "03/System/exp_heap.h"
+#include "cpu_copy_fill.h"
+
+struct Bg2ScrBuffer *gBg2ScrBuffer;
+BgPaletteCopyRequest gBgPaletteCopyRequest;
+
+void CreateBg2ScrBuffer(const void *scr) {
+    Bg2ScrBuffer *bg2ScrBuffer = AllocZeroedExpHeapBlock(0x608, 4);
+    gBg2ScrBuffer = bg2ScrBuffer;
+    MIi_CpuCopyFast(scr, bg2ScrBuffer->mScr, 0x600);
+    gBg2ScrBuffer->mTask = AddTask(1, AdvanceBg2ScrUpload, NULL, 0x78);
+}
+
+void ReleaseBg2ScrBuffer(void) {
+    RemoveTaskEntryWrapper(1, gBg2ScrBuffer->mTask);
+    FreeExpHeapBlockAndClearPointer(&gBg2ScrBuffer);
+}
+
+void RequestBg2ScrUpload(void) {
+    gBg2ScrBuffer->mUploadRequested = 1;
+}
+
+void CopyBg2ScrBufferRect(const void *source, int destOffset, int width, int rowCount) {
+    int dest;
+    int row;
+    dest = (s32) gBg2ScrBuffer + 4 + destOffset * 2;
+    row = 0;
+    if (rowCount > 0) {
+        do {
+            MIi_CpuCopy16(source, (void *) dest, (u32) (width << 1));
+            row = row + 1;
+            source = (const u8 *) source + 0x40;
+            dest = dest + 0x40;
+        } while (row < rowCount);
+    }
+}
+
+void AdvanceBg2ScrUpload(TaskEntry *task, void *arg) {
+    if (gBg2ScrBuffer->mUploadRequested != 0) {
+        DC_FlushRange(gBg2ScrBuffer->mScr, (0x00000600u));
+        GX_LoadBG2Scr(gBg2ScrBuffer->mScr, 0, (0x00000600u));
+        gBg2ScrBuffer->mUploadRequested = 0;
+    }
+}
+
+void RequestBgPaletteRowCopy(u8 *palette, u32 srcRow, u32 dstRow) {
+    gBgPaletteCopyRequest.mSource = palette + (srcRow << 5);
+    gBgPaletteCopyRequest.mDestination = (u8 *) 0x5000000 + (dstRow << 5);
+    AddTask(1, AdvanceBgPaletteRowCopy, NULL, 0x78);
+}
+
+void AdvanceBgPaletteRowCopy(TaskEntry *entry, void *arg) {
+    MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, gBgPaletteCopyRequest.mDestination, 0x20);
+    RequestTaskRemoval(1, entry);
+}
+
+void RequestBgPaletteCopy(const void *palette) {
+    gBgPaletteCopyRequest.mSource = palette;
+    AddTask(1, &AdvanceBgPaletteCopy, NULL, 0x78);
+}
+
+void AdvanceBgPaletteCopy(TaskEntry *entry, void *arg) {
+    MIi_CpuCopy16(gBgPaletteCopyRequest.mSource, (void *) ((0x05000000u)), (0x00000200u));
+    RequestTaskRemoval(1, entry);
+}

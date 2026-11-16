@@ -15,25 +15,27 @@ text{font:12px -apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-
 <text x="40" y="88.0" class="muted" text-anchor="end">75%</text>
 <line x1="48" x2="544" y1="24.0" y2="24.0" class="grid" stroke-width="1"/>
 <text x="40" y="28.0" class="muted" text-anchor="end">100%</text>
-<line x1="63.6" x2="63.6" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="172.4" x2="172.4" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="203.6" x2="203.6" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="234.7" x2="234.7" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="265.9" x2="265.9" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="297.0" x2="297.0" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="338.6" x2="338.6" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="369.8" x2="369.8" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="401.0" x2="401.0" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="432.1" x2="432.1" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
-<line x1="522.5" x2="522.5" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="62.7" x2="62.7" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="165.0" x2="165.0" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="194.4" x2="194.4" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="223.7" x2="223.7" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="253.0" x2="253.0" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="282.3" x2="282.3" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="321.4" x2="321.4" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="350.8" x2="350.8" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="380.1" x2="380.1" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="409.4" x2="409.4" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="494.4" x2="494.4" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
+<line x1="529.3" x2="529.3" y1="24" y2="264" class="grid" stroke-width="1" stroke-dasharray="3 3"/>
 <text class="muted" x="48.0" y="288" text-anchor="start">2026-10-25</text>
-<text class="muted" x="188.0" y="288" text-anchor="middle">10-27</text>
-<text class="muted" x="281.5" y="288" text-anchor="middle">10-28</text>
-<text class="muted" x="354.2" y="288" text-anchor="middle">11-02</text>
-<text class="muted" x="447.7" y="288" text-anchor="middle">11-14</text>
-<polyline points="48.0,255.1 79.2,255.1 103.5,254.4 156.8,252.5 188.0,232.0 219.1,231.6 250.3,231.1 281.5,228.6 312.6,141.3 323.0,141.3 354.2,64.3 385.4,64.1 416.5,63.4 447.7,25.7 506.9,24.4 538.0,24.4 542.0,24.4 544.0,24.4" fill="none" class="ln0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-<polyline points="48.0,252.6 79.2,252.6 103.5,251.9 156.8,250.1 188.0,229.4 219.1,229.2 250.3,228.8 281.5,228.0 312.6,122.0 323.0,121.9 354.2,28.1 385.4,28.1 416.5,28.1 447.7,24.4 506.9,24.4 538.0,24.4 542.0,24.4 544.0,24.4" fill="none" class="ln1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-<polyline points="48.0,264.0 79.2,263.9 103.5,263.2 156.8,261.4 188.0,257.8 219.1,257.2 250.3,256.8 281.5,256.4 312.6,256.4 323.0,256.4 354.2,256.4 385.4,256.1 416.5,254.6 447.7,25.7 506.9,25.7 538.0,24.6 542.0,24.4 544.0,24.4" fill="none" class="ln2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text class="muted" x="179.7" y="288" text-anchor="middle">10-27</text>
+<text class="muted" x="267.7" y="288" text-anchor="middle">10-28</text>
+<text class="muted" x="336.1" y="288" text-anchor="middle">11-02</text>
+<text class="muted" x="424.1" y="288" text-anchor="middle">11-14</text>
+<text class="muted" x="544.0" y="288" text-anchor="end">11-16</text>
+<polyline points="48.0,255.1 77.3,255.1 100.2,254.4 150.4,252.5 179.7,232.0 209.0,231.6 238.3,231.1 267.7,228.6 297.0,141.3 306.8,141.3 336.1,64.3 365.4,64.1 394.7,63.4 424.1,25.7 479.7,24.4 509.1,24.4 512.8,24.4 514.7,24.4 544.0,24.4" fill="none" class="ln0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="48.0,252.6 77.3,252.6 100.2,251.9 150.4,250.1 179.7,229.4 209.0,229.2 238.3,228.8 267.7,228.0 297.0,122.0 306.8,121.9 336.1,28.1 365.4,28.1 394.7,28.1 424.1,24.4 479.7,24.4 509.1,24.4 512.8,24.4 514.7,24.4 544.0,24.4" fill="none" class="ln1" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<polyline points="48.0,264.0 77.3,263.9 100.2,263.2 150.4,261.4 179.7,257.8 209.0,257.2 238.3,256.8 267.7,256.4 297.0,256.4 306.8,256.4 336.1,256.4 365.4,256.1 394.7,254.6 424.1,25.7 479.7,25.7 509.1,24.6 512.8,24.4 514.7,24.4 544.0,24.4" fill="none" class="ln2" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
 <circle cx="544.0" cy="24.4" r="4" class="dot0" stroke-width="2"/>
 <circle cx="544.0" cy="24.4" r="4" class="dot1" stroke-width="2"/>
 <circle cx="544.0" cy="24.4" r="4" class="dot2" stroke-width="2"/>

@@ -1,0 +1,79 @@
+#include "03/Menu/link_message_update.h"
+#include "03/Menu/link_message_fade_in.h"
+#include "03/System/application.h"
+#include "03/System/tasks.h"
+#include "03/Net/child_wait_session_object.h"
+#include "03/Graphics/blend_brightness_fade_slots.h"
+#include "03/Menu/link_level.h"
+#include "03/Menu/opt_menu_message_next.h"
+#include "03/Menu/timed_message.h"
+#include "03/Menu/child_wait_message.h"
+#include "03/Net/ap_entries.h"
+#include "03/Sound/sound_seq.h"
+#include "03/Graphics/blend_brightness_fade_start.h"
+#include "03/Graphics/text_canvas.h"
+#include "03/Graphics/dispcnt_window.h"
+
+u8 gLinkMessageResult;
+
+void UpdateLinkMessageFadeIn(void) {
+    if (IsBlendBrightnessFadeSlotBusy(0) == 0) {
+        SetChildWaitCallback(LinkMessageResultCallback);
+        SetUpdateFunction(UpdateLinkMessage);
+    }
+}
+
+void UpdateLinkMessage(void) {
+    UpdateLinkMessageInputNop();
+    UpdateLinkMessageNop();
+}
+
+void UpdateLinkMessageInputNop(void) {}
+
+void UpdateLinkMessageNop(void) {}
+
+void StartLinkMessageFadeOut(void) {
+    StartBlendBrightnessFade(3, 0, 0x15, 8);
+    SetUpdateFunction(UpdateLinkMessageRelease);
+}
+
+void UpdateLinkMessageRelease(void) {
+    int queryResult;
+    queryResult = IsBlendBrightnessFadeSlotBusy(0);
+    if ((queryResult == 0) && (queryResult = IsChildWaitSessionReleased(), queryResult != 0)) {
+        ReleaseLinkLevel();
+        ReleaseAnimatedIcon();
+        ReleaseBgTextCanvasOfScreen(0);
+        ClearDispcntBits(0, 0x15);
+        SetPrimaryMenuPair(0, 1);
+        if (gLinkMessageResult == 0) {
+            SetUpdateFunction(SetupChildWaitMessage);
+            return;
+        }
+        if (gLinkMessageResult == 2) {
+            SetUpdateFunction(SetupTimedMessage);
+            return;
+        }
+        SetUpdateFunction(SetupLinkMessageNext);
+    }
+}
+
+void LinkMessageResultCallback(int callbackResult) {
+    if (callbackResult == 2) {
+        ResetApEntries();
+        gLinkMessageResult = 1;
+        StopSoundSeq();
+        StartSoundSeq(0x10);
+    } else if (callbackResult == 3) {
+        gLinkMessageResult = 2;
+        StopSoundSeq();
+        StartSoundSeq(0x12);
+    } else {
+        gLinkMessageResult = 0;
+        StopSoundSeq();
+        StartSoundSeq(0x12);
+    }
+    SetChildWaitCallback(NULL);
+    StartChildWaitStop();
+    SetUpdateFunction(StartLinkMessageFadeOut);
+}

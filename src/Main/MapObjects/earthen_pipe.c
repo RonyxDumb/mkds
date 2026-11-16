@@ -1,0 +1,83 @@
+#include "Main/MapObjects/earthen_pipe.h"
+#include "Main/Menu/second_menu_scene.h"
+
+#include "Main/Item/pooled_map_object.h"
+#include "Main/Item/item_in_use.h"
+#include "matrix_3x3_basic.h"
+#include "Main/MapObjects/attractor.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/MapObjects/does_map_object.h"
+#include "Main/MapObjects/map_object_sound.h"
+#include "Main/MapObjects/while_requested_full_volume_wrapper.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "Main/MapObjects/star_or_killer_hit_sound.h"
+#include "Main/MapObjects/map_object_scale_sound_source.h"
+#include "Main/MapObjects/map_object_list.h"
+#include "Main/MapObjects/map_object.h"
+#include "Main/MapObjects/nsbmd_model_draw_variants.h"
+#include "Main/MapObjects/view_matrix_queue.h"
+#include "Main/MapObjects/woodbox1_kind_data.h"
+#include "Main/MapObjects/pushed_motion.h"
+#include "Main/MapObjects/choropu.h"
+#include "Main/Sound/sound_distance_squared_change.h"
+#include "Main/MapObjects/earthen_pipe_create.h"
+#include "Main/MapObjects/wanwan_chain.h"
+
+const MapObjectKindDescriptor gEarthenPipeKindDescriptor = {0,
+                                                            {0, 0},
+                                                            0xb8,
+                                                            InitEarthenPipe,
+                                                            CreateEarthenPipeKindData,
+                                                            CreateEarthenPipeDrawList,
+                                                            0,
+                                                            0,
+                                                            CreateEarthenPipeUpdateList};
+
+MapObjectList *gEarthenPipeUpdateList;
+MapObjectDrawList *gEarthenPipeDrawList;
+struct NsbmdModel *gEarthenPipe1;
+NsbmdModel *gEarthenPipe2;
+
+void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 maxAlpha) {
+    MtxFx43 *matrix;
+    if (pipe->mMapObject.mStateMachine.mState == 0) {
+        matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
+        DrawNsbmdModelWithMatrixAndMaxAlpha(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, maxAlpha);
+        return;
+    }
+    QueueNsbmdModelMaterial(gEarthenPipe2);
+    matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
+    DrawNsbmdModelWithMatrixAndAngle(gEarthenPipe2, matrix, pipe->mMotion.mAngle, &pipe->mMapObject.mScale, 0,
+                                     maxAlpha);
+    QueueNsbmdModelMaterial(gEarthenPipe1);
+}
+
+void UpdateEarthenPipe(u32 unused, PushedObject *pipe) {
+    AdvanceStateMachine(&pipe->mMapObject.mStateMachine);
+}
+
+u8 CollideKartWithEarthenPipe(PushedObject *pipe, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    if (HitPushedObjectByKart(pipe, kart, firstResponsePtr) != FALSE) {
+        StartSoundIfKartStarOrKiller(&pipe->mMapObject, kart);
+    }
+    return *secondResponsePtr;
+}
+
+u8 CollideItemObjectWithEarthenPipe(PushedObject *pipe, void *itemObject, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+    HitPushedObjectByItemObject(pipe, itemObject, firstResponsePtr);
+    return *secondResponsePtr;
+}
+
+#pragma thumb on
+
+void CreateEarthenPipe1AndEarthenPipe2(void) {
+    void *nsbmdFile;
+    nsbmdFile = FindCourseMapObjFile("earthen_pipe1.nsbmd");
+    CreateNsbmdModel(&gEarthenPipe1, nsbmdFile, 0, 0);
+    nsbmdFile = FindCourseMapObjFile("earthen_pipe2.nsbmd");
+    CreateNsbmdModel(&gEarthenPipe2, nsbmdFile, 0, 0);
+    SetNsbmdModelFixedAttributes(gEarthenPipe1);
+    SetNsbmdModelFixedAttributes(gEarthenPipe2);
+}
+
+#pragma thumb off

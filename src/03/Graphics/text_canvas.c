@@ -1,0 +1,220 @@
+#include "03/Graphics/text_canvas.h"
+#include "03/System/pointer_stack.h"
+
+#include "03/Menu/wifi_menu_shared.h"
+#include "03/Graphics/oam_range_set.h"
+#include "03/Graphics/oam_range_entry.h"
+#include "font_glyph_layout.h"
+#include "char_canvas_text_draw.h"
+#include "03/System/exp_heap.h"
+#include "03/System/tasks.h"
+#include "arena_cache_init.h"
+#include "bg_screen_char_pointers.h"
+#include "vram_load_2d_graphics.h"
+#include "cpu_copy_clear_16.h"
+#include "03/System/pointer_stack_delete.h"
+#include "03/System/wifi_utility_archive.h"
+#include "03/Menu/menu_pair_loading.h"
+#include "03/System/pointer_stack_filled.h"
+#include "03/Menu/wifi_menu_strings.h"
+#include "registers.h"
+
+void *gTextCanvasNftrNames[2] = {"msg/lc_m.NFTR.l", "msg/lc_s.NFTR.l"};
+const u16 gBgTextCanvasCharOffsets[2] = {0, 0x180};
+const u16 gBgTextCanvasSizes[4] = {0x20, 0x18, 0x20, 0xc};
+
+TextCanvases *gTextCanvases;
+
+void InitTextCanvases(void) {
+    TextCanvases *canvases = AllocExpHeapBlock(sizeof(TextCanvases), 4);
+    u32 *outSize;
+    s32 fontIndex;
+
+    gTextCanvases = canvases;
+    gTextCanvases->mFreeObjCanvases = CreateFilledPointerStack(0x20, canvases->mObjCanvasStorage, 0x38);
+    outSize = NULL;
+    for (fontIndex = 0; fontIndex < 2; fontIndex++) {
+        gTextCanvases->mFontFiles[fontIndex] = LoadFile(gTextCanvasNftrNames[fontIndex], outSize, 4);
+        NNS_G2dFontInitUTF16(&gTextCanvases->mFonts[fontIndex], gTextCanvases->mFontFiles[fontIndex]);
+    }
+}
+
+void ReleaseTextCanvases(void) {
+    int fontIndex;
+    for (fontIndex = 0; fontIndex < 2; fontIndex++) {
+        DeleteLoadedFile(gTextCanvases->mFontFiles[fontIndex]);
+    }
+    DeletePointerStack(gTextCanvases->mFreeObjCanvases);
+    FreeExpHeapBlockAndClearPointer(&gTextCanvases);
+}
+
+ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s32 fromFront, u32 *entryCount,
+                                   s32 fontIndex) {
+    ObjTextCanvas *canvas = PopPointerStack(gTextCanvases->mFreeObjCanvases);
+    u32 charName;
+    u32 charBase;
+    NNSG2dFont *font;
+
+    canvas->mAreaWidth = areaWidth;
+    canvas->mAreaHeight = areaHeight;
+    canvas->mCharRange = CreateObjCharRange(screen, areaWidth * areaHeight, fromFront, &charName);
+    canvas->mCharName = charName;
+    *entryCount = NNSi_G2dCalcRequiredOBJ(areaWidth, areaHeight);
+    if (screen == 1) {
+        charBase = 0x6600000;
+    } else {
+        charBase = 0x6400000;
+    }
+    charBase += charName << 7;
+    NNS_G2dCharCanvasInitForOBJ1D(canvas, (void *) charBase, areaWidth, areaHeight, 4);
+    canvas->mPClear(canvas, 0);
+    font = &gTextCanvases->mFonts[fontIndex];
+    canvas->mCharCanvas = canvas;
+    canvas->mFont = font;
+    canvas->mCharSpacing = 1;
+    canvas->mLineSpacing = 1;
+    return canvas;
+}
+
+void DeleteObjTextCanvas(ObjTextCanvas *canvas) {
+    DeleteObjCharRange(canvas->mCharRange);
+    PushPointerStack(gTextCanvases->mFreeObjCanvases, canvas);
+}
+
+BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
+    BgTextCanvas *canvas = &gTextCanvases->mBgTextCanvases[screen];
+    u32 areaHeight = (gBgTextCanvasSizes + 1)[screen * 2];
+    u32 areaWidth = gBgTextCanvasSizes[screen * 2];
+    vu16 *bgControl;
+    u32 screenBase;
+    NNSG2dFont *font;
+
+    canvas->mChars = AllocExpHeapBlock((areaWidth * areaHeight) << 5, 0x20);
+    if (screen == 1) {
+        bgControl = &reg_G2S_DB_BG0CNT;
+        *bgControl &= ~0x40;
+        *bgControl = (*bgControl & 0x43) | 0xc00;
+    } else {
+        bgControl = &reg_G2_BG0CNT;
+        *bgControl &= ~0x40;
+        *bgControl = (*bgControl & 0x43) | 0xc00;
+    }
+    NNS_G2dCharCanvasInitForBG(canvas, canvas->mChars, areaWidth, areaHeight, 4);
+    font = &gTextCanvases->mFonts[fontIndex];
+    canvas->mTextCanvas.mCharCanvas = canvas;
+    canvas->mTextCanvas.mFont = font;
+    canvas->mTextCanvas.mCharSpacing = 1;
+    canvas->mTextCanvas.mLineSpacing = 1;
+    if (screen == 1) {
+        screenBase = G2S_GetBG0ScrPtr();
+    } else {
+        screenBase = G2_GetBG0ScrPtr();
+    }
+    NNS_G2dMapScrToCharText((u16 *) screenBase, areaWidth, areaHeight, 0, 0, 0x20, gBgTextCanvasCharOffsets[screen],
+                            0xf);
+    ClearBgTextCanvas(canvas, 0);
+    canvas->mUploadTask = AddTask(1, AdvanceBgTextCanvasUpload, &gTextCanvases->mBgUploadPending[screen], 200);
+    return canvas;
+}
+
+void AdvanceBgTextCanvasUpload(TaskEntry *task, void *arg) {
+    TextCanvases *canvases;
+    u8 *flag = arg;
+    u32 size;
+
+    if (*flag != 0) {
+        canvases = gTextCanvases;
+        if (flag == &canvases->mBgUploadPending[0]) {
+            size = (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5;
+            DC_FlushRange(canvases->mBgTextCanvases[0].mChars, size);
+            GX_LoadBG0Char(gTextCanvases->mBgTextCanvases[0].mChars, gBgTextCanvasCharOffsets[0] << 5, size);
+        } else {
+            size = (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5;
+            DC_FlushRange(canvases->mBgTextCanvases[1].mChars, size);
+            GXS_LoadBG0Char(gTextCanvases->mBgTextCanvases[1].mChars, gBgTextCanvasCharOffsets[1] << 5, size);
+        }
+        *flag = 0;
+    }
+}
+
+void ReleaseBgTextCanvas(BgTextCanvas *canvas) {
+    volatile u16 clearValueFirst;
+    volatile u16 clearValueSecond;
+    void *charBase;
+
+    RemoveTaskEntryWrapper(1, canvas->mUploadTask);
+    if (canvas == gTextCanvases->mBgTextCanvases) {
+        charBase = (void *) G2_GetBG0CharPtr();
+        clearValueFirst = 0;
+        MIi_CpuClear16(clearValueFirst, charBase, (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5);
+    } else {
+        charBase = (void *) G2_GetBG0CharPtr();
+        clearValueSecond = 0;
+        MIi_CpuClear16(clearValueSecond, charBase, (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5);
+    }
+    FreeExpHeapBlockAndClearPointer(&canvas->mChars);
+}
+
+void ReleaseBgTextCanvasOfScreen(u32 index) {
+    ReleaseBgTextCanvas(&gTextCanvases->mBgTextCanvases[index]);
+}
+
+void DrawCanvasText(BgTextCanvas *canvas, u32 xPos, u32 yPos, u32 color, u32 flags, void *text) {
+    u32 textFlags = flags;
+    u32 drawResult = NNSi_G2dTextCanvasDrawText(&canvas->mTextCanvas, xPos, yPos, color, textFlags, text);
+}
+
+void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, int fontIndex) {
+    NNS_G2dCharCanvasDrawChar(canvas, gTextCanvases->mFonts + fontIndex, xPos, yPos, color, charCode);
+}
+
+void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidth, u16 *text, s32 fontIndex) {
+    NNSG2dFont *font;
+    u32 glyphIndex;
+    NNSG2dCharWidths *widths;
+    s32 charWidth;
+
+    while (*text != 0) {
+        font = gTextCanvases->mFonts + fontIndex;
+        glyphIndex = NNS_G2dFontFindGlyphIndex(font, *text);
+        if (glyphIndex == 0xffff) {
+            glyphIndex = font->mPRes->mAlterCharIndex;
+        }
+        widths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+        if (font->mFileVersionIndex != 0) {
+            charWidth = widths->mLeft + widths->mGlyphWidth;
+        } else {
+            charWidth = widths->mCharWidth;
+        }
+        DrawCanvasChar(canvas, xPos + ((cellWidth - charWidth) >> 1), yPos, color, *text, fontIndex);
+        xPos += cellWidth;
+        text++;
+    }
+}
+
+void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32 height, u32 color, u32 flags,
+                        void *text) {
+    NNSi_G2dTextCanvasDrawTextRect(&canvas->mTextCanvas, xPos, yPos, width, height, color, flags, text);
+}
+
+void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color) {
+    canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, color);
+}
+
+void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 priority) {
+    OamEntry *entries = GetOamRangeEntry(range, 0);
+
+    SetOamRangeEffect(range, -1, 0, 0);
+    SetOamRangeMode(range, -1, 0, 0xf);
+    SetOamRangePriority(range, -1, priority);
+    NNS_G2dArrangeOBJ1D(entries, canvas->mAreaWidth, canvas->mAreaHeight, xPos, yPos, 0, canvas->mCharName, 2);
+}
+
+void RequestBgTextCanvasUpload(void *canvas) {
+    TextCanvases *state = gTextCanvases;
+    if (canvas == state->mBgTextCanvases) {
+        state->mBgUploadPending[0] = 1;
+    } else {
+        state->mBgUploadPending[1] = 1;
+    }
+}

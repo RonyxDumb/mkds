@@ -13,6 +13,9 @@ own dump of the game; see [INSTALL.md](INSTALL.md).
 
 Every function is decompiled from the game's own code. Code from other decompilations is not accepted.
 
+## Progress
+Each version's section is recorded from a build of that version (`python3 tools/configure.py <ver>`):
+`ninja report && python3 tools/progress.py update`.
 
 ### USA
 <!-- progress:usa:start -->
@@ -21,11 +24,11 @@ Every function is decompiled from the game's own code. Code from other decompila
 | Measure | Progress |
 |---|---|
 | Matched code | 99.83% (1,882,946 / 1,886,100 bytes) |
-| Linked code (complete units) | 99.36% (1,874,106 bytes) |
+| Linked code (complete units) | 99.83% (1,882,946 bytes) |
 | Overall accuracy (fuzzy) | 99.83% |
 | Matched functions | 11,498 / 11,498 |
 
-_Last updated 2026-11-07. Over time: [graph](progress/usa/progress.svg), [`progress/usa/history.csv`](progress/usa/history.csv)._
+_Last updated 2026-11-14. Over time: [graph](progress/usa/progress.svg), [`progress/usa/history.csv`](progress/usa/history.csv)._
 <!-- progress:usa:end -->
 
 ### Europe
@@ -35,11 +38,11 @@ _Last updated 2026-11-07. Over time: [graph](progress/usa/progress.svg), [`progr
 | Measure | Progress |
 |---|---|
 | Matched code | 99.83% (1,882,966 / 1,886,120 bytes) |
-| Linked code (complete units) | 99.83% (1,882,890 bytes) |
+| Linked code (complete units) | 99.83% (1,882,966 bytes) |
 | Overall accuracy (fuzzy) | 99.83% |
 | Matched functions | 11,498 / 11,498 |
 
-_Last updated 2026-11-14. Over time: [graph](progress/eur/progress.svg), [`progress/eur/history.csv`](progress/eur/history.csv)._
+_Last updated 2026-11-16. Over time: [graph](progress/eur/progress.svg), [`progress/eur/history.csv`](progress/eur/history.csv)._
 <!-- progress:eur:end -->
 
 ## Documentation
@@ -47,8 +50,9 @@ _Last updated 2026-11-14. Over time: [graph](progress/eur/progress.svg), [`progr
 - [CONTRIBUTING.md](CONTRIBUTING.md): repository layout, naming and workflow
 - [docs/compiler.md](docs/compiler.md): how the compiler and flags were identified
 - [docs/decompiling.md](docs/decompiling.md): source patterns that matter for matching
-- [docs/naming.md](docs/naming.md): where each file name comes from
-- [docs/versions.md](docs/versions.md): the shared source on Europe: regional code, configuration and file boundaries
+- [docs/versions.md](docs/versions.md): the European version: regional code and how its configuration was made
 
 Built with [ds-decomp](https://github.com/AetiasHax/ds-decomp), Metrowerks CodeWarrior for DS run through
 [wibo](https://github.com/decompals/wibo), and [objdiff](https://github.com/encounter/objdiff).
+
+Library function, type and member names follow [ntrtwl](https://github.com/ntrtwl) and [pret/pokeplatinum](https://github.com/pret/pokeplatinum) so they stay interchangeable with other projects that use the same libraries.

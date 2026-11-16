@@ -1,0 +1,355 @@
+#include "Main/Race/race_goal_s_numbers.h"
+#include "Main/Race/cup_records.h"
+#include "Main/Race/race.h"
+#include "Main/Graphics/oam.h"
+#include "Main/Race/race_hud_kart_removed.h"
+#include "Main/Race/race_goal_s_rows.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Race/race_goal_s_finish.h"
+#include "Main/System/low_byte.h"
+#include "Main/Race/race_setup_block.h"
+#include "touch_panel_sampling.h"
+#include "Main/System/backup_net_camera_work.h"
+#include "Main/System/input_slots.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "sound_player_control.h"
+#include "sound_archive_load_result.h"
+#include "Main/Race/race_clock.h"
+#include "Main/Sound/sound_system.h"
+#include "Main/Save/ghost_record_file.h"
+#include "Main/System/init_after_startup.h"
+
+RaceGoalS *gRaceGoalS;
+
+void StartRaceGoalS(void) {
+    s32 sortKeys[8];
+    u32 framesSinceEntryEnd;
+    s32 minusOne;
+    BOOL falseValue;
+    s32 zero;
+    s32 isHumanGhostOrPeer;
+    s32 humanGhostPeerFlag;
+    u16 rowIndex;
+
+    if (gRaceProgress->mRaceDone == 0) {
+        return;
+    }
+    gRaceGoalS->mRunning = 1;
+    if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0) {
+        gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
+        gRaceGoalS->mUpdateFrames = 0;
+        RequestRaceHudSubScreenGoalTeams();
+    } else {
+        gRaceGoalS->mUpdate = SlideInRaceGoalS;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+    minusOne = -1;
+    falseValue = FALSE;
+    zero = 0;
+    for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+        gRaceGoalS->mRowKartIndex[rowIndex] = rowIndex;
+        if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
+            isHumanGhostOrPeer = falseValue;
+            if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
+                ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                isHumanGhostOrPeer = 1;
+            }
+            humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zero;
+            sortKeys[rowIndex] = humanGhostPeerFlag * 8 + 8 - GetKartRank(rowIndex);
+            if (GetKartRank(rowIndex) == 1) {
+                sortKeys[rowIndex] += 0x20;
+            }
+            sortKeys[rowIndex] = sortKeys[rowIndex] * minusOne;
+        } else {
+            sortKeys[rowIndex] = GetKartRank(rowIndex);
+        }
+    }
+    SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
+    if (gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == MODE_WIFI) {
+        if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {
+            if (framesSinceEntryEnd >= 0xb4) {
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x46);
+            }
+        }
+    }
+}
+
+void SlideInRaceGoalS(void) {
+    s32 frame;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame < 0x14) {
+        gRaceGoalS->mOffsetX = InterpolateS16(1, -0x100, 0, frame, 0x14);
+    } else {
+        gRaceGoalS->mOffsetX = 0;
+        gRaceGoalS->mUpdate = HoldRaceGoalSPreviousNumbers;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+}
+
+void HoldRaceGoalSPreviousNumbers(void) {
+    s32 frame;
+    u16 keyABits;
+    InputSlotIndex inputSlot;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame >= 0x5a) {
+        gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
+    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+        gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+}
+
+void CountUpRaceGoalSNumbers(void) {
+    s32 frame;
+    u16 keyABits;
+    u16 rowIndex;
+    BOOL allReached;
+    s32 target;
+    u32 kartIndex;
+    u32 courseIndex;
+    KartCourseResult *record;
+    InputSlotIndex inputSlot;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame % RACE_GOAL_S_ROW_STEP_FRAMES == 0) {
+        allReached = TRUE;
+        for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
+                kartIndex = GetLowByte(rowIndex);
+                courseIndex = GetCourseIndexInCup();
+                target = gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)].mWinCount;
+            } else {
+                kartIndex = GetLowByte(rowIndex);
+                courseIndex = GetCourseIndexInCup();
+                record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
+                target = record->mTotalPoints;
+            }
+            if (gRaceGoalS->mShownNumbers[rowIndex] < target) {
+                if (gRaceGoalS->mShownNumbers[rowIndex] < RACE_GOAL_S_POINTS_LIMIT) {
+                    gRaceGoalS->mShownNumbers[rowIndex]++;
+                    allReached = FALSE;
+                }
+            }
+        }
+        if (allReached != FALSE) {
+            gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
+            gRaceGoalS->mUpdateFrames = 0;
+            gRaceGoalS->mUpdateFrames = 0;
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
+                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x29);
+            }
+        } else {
+            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x29);
+        }
+    }
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
+    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+        gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+}
+
+void HoldRaceGoalSNumbers(void) {
+    s32 frame;
+    u16 keyABits;
+    u16 rowIndex;
+    u32 kartIndex;
+    u32 courseIndex;
+    KartCourseResult *record;
+    InputSlotIndex inputSlot;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame < 0x5a) {
+        for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
+                kartIndex = GetLowByte(rowIndex);
+                courseIndex = GetCourseIndexInCup();
+                gRaceGoalS->mShownNumbers[rowIndex] =
+                    gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)].mWinCount;
+            } else {
+                kartIndex = GetLowByte(rowIndex);
+                courseIndex = GetCourseIndexInCup();
+                record = &gCupRecords->mKartResults[courseIndex][GetLowByte(kartIndex)];
+                gRaceGoalS->mShownNumbers[rowIndex] = record->mTotalPoints;
+            }
+        }
+    } else {
+        if (gRaceSetup->mUseTeams != 0) {
+            gRaceGoalS->mUpdate = SlideOutRaceGoalS;
+            gRaceGoalS->mUpdateFrames = 0;
+        } else if (gRaceSetup->mCourseNumber == 1) {
+            gRaceGoalS->mUpdate = HoldRaceGoalSRows;
+            gRaceGoalS->mUpdateFrames = 0;
+        } else {
+            gRaceGoalS->mUpdate = HideRaceGoalSRows;
+            gRaceGoalS->mUpdateFrames = 0;
+        }
+    }
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
+    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+        if (gRaceSetup->mUseTeams != 0) {
+            gRaceGoalS->mUpdate = SlideOutRaceGoalS;
+            gRaceGoalS->mUpdateFrames = 0;
+        } else if (gRaceSetup->mCourseNumber == 1) {
+            gRaceGoalS->mUpdate = HoldRaceGoalSRows;
+            gRaceGoalS->mUpdateFrames = 0;
+        } else {
+            gRaceGoalS->mUpdate = HideRaceGoalSRows;
+            gRaceGoalS->mUpdateFrames = 0;
+        }
+    }
+}
+
+void HideRaceGoalSRows(void) {
+    s32 frame;
+    s32 hiddenRows;
+    u16 keyABits;
+    u16 rowIndex;
+    InputSlotIndex inputSlot;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame < RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+        hiddenRows = gRaceGoalS->mHiddenRowCount;
+        if (hiddenRows < gRaceSetup->mKartCount) {
+            if (frame % RACE_GOAL_S_ROW_STEP_FRAMES == 0) {
+                switch (hiddenRows) {
+                    case 0:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST);
+                        break;
+                    case 1:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 1);
+                        break;
+                    case 2:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 2);
+                        break;
+                    case 3:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 3);
+                        break;
+                    case 4:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 4);
+                        break;
+                    case 5:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 5);
+                        break;
+                    case 6:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 6);
+                        break;
+                    case 7:
+                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_HIDE_ROW_SEQ_FIRST + 7);
+                        break;
+                }
+                gRaceGoalS->mRowVisible[gRaceGoalS->mHiddenRowCount++] = 0;
+            }
+        }
+    } else {
+        RefreshRaceGoalSRows();
+        gRaceGoalS->mUpdate = ShowRaceGoalSRows;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
+    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+        for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+            gRaceGoalS->mRowVisible[rowIndex] = 0;
+        }
+        gRaceGoalS->mHiddenRowCount = gRaceSetup->mKartCount;
+        RefreshRaceGoalSRows();
+        gRaceGoalS->mUpdate = ShowRaceGoalSRows;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+}
+
+void ShowRaceGoalSRows(void) {
+    s32 frame;
+    s32 hiddenRows;
+    u16 keyABits;
+    InputSlotIndex inputSlot;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    hiddenRows = gRaceGoalS->mHiddenRowCount;
+    if (hiddenRows > 0) {
+        if (frame % RACE_GOAL_S_ROW_STEP_FRAMES == 0) {
+            gRaceGoalS->mHiddenRowCount = hiddenRows - 1;
+            gRaceGoalS->mRowVisible[gRaceGoalS->mHiddenRowCount] = 1;
+            switch (gRaceGoalS->mHiddenRowCount) {
+                case 0:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST);
+                    break;
+                case 1:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 1);
+                    break;
+                case 2:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 2);
+                    break;
+                case 3:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 3);
+                    break;
+                case 4:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 4);
+                    break;
+                case 5:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 5);
+                    break;
+                case 6:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 6);
+                    break;
+                case 7:
+                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, RACE_GOAL_S_SHOW_ROW_SEQ_FIRST + 7);
+                    break;
+            }
+        }
+    } else {
+        gRaceGoalS->mUpdate = HoldRaceGoalSRows;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+    inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
+    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+        gRaceGoalS->mUpdate = HoldRaceGoalSRows;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+}
+
+static inline CourseTeamResult *RaceGoalSGetCourseTeamResult(s32 teamIndex) {
+    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
+}
+
+void HoldRaceGoalSRows(void) {
+    s32 frame;
+    s32 rowIndex;
+    s32 bestValue;
+    s32 teamOneValue;
+
+    frame = gRaceGoalS->mUpdateFrames++;
+    if (frame < 0x3c) {
+        RefreshRaceGoalSRows();
+        for (rowIndex = 0; rowIndex < gRaceSetup->mKartCount; rowIndex++) {
+            gRaceGoalS->mRowVisible[rowIndex] = 1;
+        }
+    } else {
+        if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
+            if (gRaceSetup->mUseTeams != 0) {
+                bestValue = RaceGoalSGetCourseTeamResult(0)->mWinCount;
+                teamOneValue = RaceGoalSGetCourseTeamResult(1)->mWinCount;
+                if (bestValue <= teamOneValue) {
+                    bestValue = teamOneValue;
+                }
+            } else {
+                bestValue = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
+            }
+            gRaceGoalS->mCourseCountReached = bestValue >= gRaceSetup->mCourseCount;
+        } else {
+            gRaceGoalS->mCourseCountReached = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
+        }
+        gRaceGoalS->mUpdate = FinishRaceGoalS;
+        gRaceGoalS->mUpdateFrames = 0;
+    }
+}

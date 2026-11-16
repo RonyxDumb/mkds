@@ -1,0 +1,44 @@
+#pragma once
+
+#include "types.h"
+#include "particle_system.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/Kart/kart_palette_stem_tables.h"
+
+// The Stadium course emitters: six directions, the six emitters now running, and the countdown to the next round.
+typedef struct StadiumEmitters {
+    /* 00 */ Vec3 mDirections[6];
+    /* 48 */ ParticleEmitter *mEmitters[6];
+    /* 60 */ s16 mEmitterTimer;
+    /* 62 */ u8 mUnk_62[2];
+} StadiumEmitters;
+
+// Two halfwords at gAwardFirstEffectIds.
+typedef struct AwardFirstEffectIds {
+    s16 mEffectIds[2];
+} AwardFirstEffectIds;
+
+// Twenty-four halfwords at gAwardEmitterEffectIds.
+typedef struct AwardEmitterEffectIds {
+    s16 mUnk_00[24];
+} AwardEmitterEffectIds;
+
+// Function stored at gGetSPLManagerFunction: writes a word to the first argument and returns the object.
+typedef SPLManager *GetSPLManagerFunc(s32 *outIndex, s32 effectId);
+
+void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow);
+void CreateKartPhysicalParamTable(void *heap, u32 entryCount);
+void CreateAwardEmitters(void);
+void AdvanceStadiumEmitters(void);
+SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId);
+
+extern const s32 gStadiumEmitterEffectIds[12];
+extern const Vec3 gStadiumEmitterPositions[6];
+
+extern struct KartPhysicalParamTable *gKartPhysicalParamTable;
+
+extern const StemSetParams gCompleteStems;
+extern const StemSetParams gLoseStems;
+extern const StemSetParams gWinStems;
+extern const StemSetParams gGoalStems;
+extern const StemSetParams gFailedStems;

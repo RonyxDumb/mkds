@@ -1,9 +1,43 @@
-# Shared-source validation on Europe
+# The European version
+
+## Complete European build, 2026-11-16
+
+The European ROM (SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`) is rebuilt byte for byte from the same named
+source tree as USA: every unit that is complete for USA is complete for Europe, **11,498 of 11,498 functions** match
+and 1,882,966 bytes of code (99.83%) are linked, the same as USA. `ninja check` passes for both versions, and
+`tools/check_calls.py`, `check_callees.py`, `check_strings.py`, `check_signatures.py` and `check_protos.py` report
+no differences on Europe.
+
+`config/eur/` was carried over from the completed European configuration of the earlier, unnamed tree. Every object
+was matched to its USA counterpart by address (shared names, then the targets of corresponding relocations in
+matching functions, then the layout between them), and then takes the USA name and kind; unit ranges are the USA
+units moved to the European addresses of their boundaries. Relocations into the middle of an object use the object
+and an addend, as for USA.
+
+Regional differences in the source, each under `#ifdef version_EUR`:
+
+| Where | Europe |
+| --- | --- |
+| `OS_GetInitArenaLo` | the main arena starts at `0x021da340` (USA `0x021da300`) |
+| `BuildInfo` | the cleared range ends at `0x021804e0`, the end of `.bss` (USA `0x021804c0`) |
+| `FillStartupWork` | `mRegion` is 2 (USA 1) |
+| `LoadOverlayAndRunDWCUtility` | passes 0 as the last argument of `RunMainLoop` (USA `0x20`) |
+| `TCPIP_STACK_TOP` | `gOverlayExpHeapBuffer + 0xdfa0` (USA `+ 0xdf80`) |
+| `LookupWiFiVSSettingMessageIndex` | returns 6 for setting 2 in language 0 or 1 |
+| `LoadAndQueueEndingSceneData` | loads the `_02` logo graphics (USA `_01`) |
+| Title screen | loads `title_true_m1_EU.NSCR` / `title_m1_EU.NSCR` |
+| Logo scene | the sub screen shows `allRightsReserved_s*` instead of the ESRB screen |
+| `bios_calls.s` | the BIOS stubs of the secure area sit at other addresses, in another order |
+
+`tools/expand_incbin.py` keeps only the configured version's `#ifdef version_<VER>` branch of an assembly file, so
+each version's filler bytes come from its own ROM.
+
+## Shared-source validation on Europe, 2026-10-29
 
 Checked on 2026-10-29, starting at `9cc5b2a7` and the European ROM with SHA-1
 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
 
-## Results
+### Results
 
 The USA configuration registers 2,713 C translation units, representing 7,549 functions. Building those same
 sources for Europe gives **7,254 fully matching functions, covering 958,670 bytes**. These totals equal the latest
@@ -24,7 +58,7 @@ No previously reported function's matching score decreased. Of the newly registe
 function matching. New units remain unlinked: an object-level match and a successful ROM rebuild with the
 existing linked units do not prove that a pending unit's data layout is ready for linking.
 
-## Regional addresses
+### Regional addresses
 
 After the secure area, all 7,676 main-module functions have the same addresses, instruction modes, sizes and
 order in the two symbol configurations. This provided candidate ranges; actual compiled code was compared
@@ -46,7 +80,7 @@ The nonmatching draft `func_020e0764` also shares its two result paths, bringing
 to the original's two. Its code is now `0x43c` bytes against the original's `0x448`, and its similarity improves
 from 36.27% to 63.80%. It remains excluded from the fully matching count.
 
-## Reproduce
+### Reproduce
 
 Use the pinned tools described in `INSTALL.md`, including wibo `1.2.0-8-g420a75b` and CodeWarrior `1.2/base`.
 
@@ -65,198 +99,3 @@ python3 tools/progress.py check
 The European ROM rebuild and symbol check pass. Calls/pointers, callee sets, strings, signatures and missing
 prototypes each report zero differences or problems; every source unit passes the range check. All previously
 matching functions remain matching, and no reported function's score decreases.
-
-## Shared-source update, 2026-11-02
-
-Checked against `6a7fd8a8` and the same European ROM and pinned tools. The USA progress recorded on 2026-10-31
-is 10,801 matching functions out of 11,498, or 1,571,102 matching bytes (83.30%). This update does not include
-a fresh USA ROM build.
-
-The October 31 source changes already improve Europe when rebuilt. Registering another **915 source units**
-adds **3,250 matching functions and 550,824 matching bytes** beyond that fresh starting build. No previously
-reported function's matching score decreases. Of the added units, 643 have every function matching.
-
-| European measurement | Published 2026-10-29 | Fresh starting build | After registration |
-| --- | ---: | ---: | ---: |
-| Matching functions | 7,422 | 7,533 | 10,783 |
-| Matching code | 964,162 bytes (51.12%) | 1,018,204 bytes (53.98%) | 1,569,028 bytes (83.19%) |
-| Linked source code | 59,640 bytes (3.16%) | 59,640 bytes (3.16%) | 59,640 bytes (3.16%) |
-
-| Module | Added units | Added matching functions | Added matching bytes |
-| --- | ---: | ---: | ---: |
-| Main | 452 | 1,951 | 341,228 |
-| ITCM | 11 | 73 | 16,836 |
-| Overlay 0 | 282 | 849 | 133,554 |
-| Overlay 3 | 170 | 377 | 59,206 |
-| Total | 915 | 3,250 | 550,824 |
-
-The European inventory now contains 11,499 functions. The main-module software floating-point routine at
-`0x02131694` previously included two following entry points; their boundaries now agree with the corresponding
-source definitions. The European overlay 0 also contains a function absent from the USA inventory.
-
-### Reference and layout validation
-
-Original European relocation sites identify the data addresses for 539 shared USA source names.
-Each name has one consistent European target across all matching functions that reference it. These names
-are linker aliases of the original European symbols, leaving the original data symbols and their boundaries
-intact. The empty constructor list uses its linker boundary, `ARM9_CTOR_START`. All 539 aliases also resolve
-to the expected addresses in the linked ELF.
-
-Floating-point comparison and integer multiplication entry aliases are recorded in the European symbols.
-The instruction-level audit covers 13,658 referenced names without unresolved or inconsistent targets, and
-59 references to local initialized data were checked byte for byte. The normal matching-function call/pointer
-and string checks report zero differences. Function declarations and definitions agree, and every registered
-source unit passes the range check.
-
-The same source and header tree also passed all 3,778 native prototype-check compile commands, without compilation
-failures or calls lacking a declaration in scope.
-
-The all-function callee check still reports 12 differences in nonmatching drafts. None of those functions is
-included in the matching totals; the instruction-level checks of fully matching functions report no differences.
-
-Splitting formerly combined original objects exposed unreferenced code, `BuildInfo`, and zero padding to the
-linker's dead stripping. The European `keep .text` edit retains those sections. The resulting ROM still passes
-the original SHA-1 and symbol checks; retaining them does not mark additional source units complete.
-
-New units remain unlinked. Matching their code and references does not establish that their own data layout
-is ready to replace the original objects in the ROM. Nonmatching drafts remain outside the matching totals.
-
-## European matching sweep, 2026-11-03
-
-Checked against a fresh build of `40d305c5`, using the same European ROM and CodeWarrior `1.2/base`.
-Near-matching functions were examined across the main game code, libraries, ITCM and overlays. This sweep
-adds **21 fully matching functions and 5,568 matching bytes**, with no decrease in any function's score.
-
-| European measurement | Fresh starting build | After this sweep |
-| --- | ---: | ---: |
-| Matching functions | 10,801 / 11,499 | 10,822 / 11,499 |
-| Matching code | 1,571,196 bytes (83.30%) | 1,576,764 bytes (83.60%) |
-| Linked source code | 61,698 bytes (3.27%) | 74,048 bytes (3.93%) |
-
-Percentages use the fixed 1,886,120-byte image code size. The remaining 677 functions are outside the fully
-matching count; overall fuzzy similarity does not establish a byte match.
-
-| Area | New matching functions | New matching bytes | Newly linked units |
-| --- | ---: | ---: | ---: |
-| Main game code | 13 | 3,988 | 5 |
-| Libraries | 1 | 56 | 1 |
-| ITCM | 1 | 96 | 1 |
-| Overlay 0 | 3 | 508 | 2 |
-| Overlay 3 | 3 | 920 | 3 |
-| Total | 21 | 5,568 | 12 |
-
-Twenty function bodies were corrected. Restoring the original function placement in `code_020681f0.c` also
-made `func_02068640` exact. The twelve newly linked units passed `tools/try_link.py`, including their data
-layout; the complete rebuilt ROM was compared byte for byte with the original and retains SHA-1
-`ce97d9b43f0d3ca0d48b781983e8a16f6393378f`.
-
-The encoder `func_ov000_021882f8` now uses the original unsigned division helpers for its block count and
-signed helpers for its remaining bits. This removes one pre-existing all-function callee difference, leaving
-11 differences in nonmatching drafts. Matching-function call/pointer and string checks report zero
-differences; signatures and all source-unit ranges pass. Prototype-check compiles for all 17 changed source
-units report no missing declarations. Headers and public signatures were not changed.
-
-Fifteen newly matching functions use explicitly marked enum temporaries or volatile pointer views whose
-original source forms remain unknown; their compiled code and references are verified. The EUR call argument
-in `func_0205dee0_inline` is verified as zero. The existing non-EUR value `0x20` is preserved, but its value
-in the USA original has not been verified here, and no fresh USA build was run.
-
-
-## European source checkpoint, 2026-11-04
-
-The shared sources now use European reference names for **470 initialized data symbols** that already had
-zero-addend European linker aliases. The USA symbol names change with the source; their addresses, kinds,
-sizes and attributes are unchanged. The original European symbols and data boundaries are retained.
-
-Sixteen reconstructed function candidates cover the main game code, libraries, ITCM and overlays 0 and 3.
-They adjust declaration and initialization order, signedness and narrow local types, remove redundant address
-casts, and preserve separate return blocks. Enum temporaries and const/volatile views are explicitly marked
-as placeholders: their original source forms remain unknown. All candidate units remain unlinked.
-
-Fresh compiler and ROM validation could not be completed for this reconstructed checkpoint. These candidates
-are **not added to the verified matching totals**. The recorded European progress remains the previous
-verified point: 10,822 of 11,499 functions and 1,576,764 matching bytes (83.60%). Rebuild and run the checks
-listed above before updating those totals or marking additional units complete. Declaration/signature
-consistency and unchanged USA symbol addresses were checked for this checkpoint.
-
-## USA source tree on Europe, 2026-11-14
-
-Checked on a fresh European build with the ROM with SHA-1 `ce97d9b43f0d3ca0d48b781983e8a16f6393378f`, wibo
-`1.2.0-8-g420a75b` and CodeWarrior `1.2/base`. The source tree, the USA configuration and the USA progress
-record are now the ones of the completed USA decompilation (11,498 of 11,498 functions recorded on 2026-11-07).
-**A USA ROM build was not run for this checkpoint**; the USA numbers in the README are that recorded point.
-
-The European configuration was regenerated for this tree:
-
-- Symbol names: European symbols take the USA name of the same object (matched through the previous USA and
-  European names), then `tools/sync_symbols.py` names the rest from every compiled unit.
-- Units: the USA unit list, with `.text` ranges moved by the offset of the European symbols they contain (the
-  main module's code has the same addresses in both versions after the secure area, and the USA function
-  boundaries there are used as they are). Data ranges were found from European relocation sites by
-  `tools/data_ranges.py`; a few units take the USA range directly, checked by the ROM rebuild.
-- Shared placeholders tagged `usa` that have a European address now use the reference name
-  (`data_<EUR address>`) in the source and in both configurations; USA addresses are unchanged.
-- `BuildInfo` writes the end of the cleared range as `ARM9_BSS_END`, the linker's main `.bss` end, instead of the
-  USA value `0x021804c0` (Europe: `0x021804e0`).
-- Linker aliases that no source uses any more were removed.
-
-Regional code under `#ifdef version_EUR`, each checked against the European original:
-
-| Function | Europe |
-| --- | --- |
-| `OS_GetInitArenaLo` | main arena starts at `0x021da340` (USA `0x021da300`) |
-| `func_0204ad44` | stores 2 in `mUnk_00` (USA 1) |
-| `func_0205dee0` (its inline) | passes 0 as the third argument of `func_ov003_021c2494` (USA `0x20`) |
-| `LoadAndQueueEndingSceneData` | loads the `_02` logo graphics |
-| `LookupWiFiVSSettingMessageIndex` | returns 6 for setting 2 in language 0 or 1; **non-matching** (5 words differ) |
-
-| European measurement | Before | After |
-| --- | ---: | ---: |
-| Matching functions | 10,837 / 11,502 | 11,475 / 11,498 |
-| Linked source code | 74,048 bytes (3.93%) | 1,872,594 bytes (99.28%) |
-
-1,593 of 1,599 units are linked, and the rebuilt ROM keeps the original SHA-1; `ninja check` passes. Not
-linked: `src/00/code_02180608.c` (the function above), and the five units that are not complete for USA either
-(`src/Main/Ui/ChoisesS.c`, `code_020b2ecc.c`, `code_02125960.c`, `libs/mathlib/src/code_02133048.c`,
-`libs/NitroSDK/card/src/code_021458c4.c`). Calls/pointers, callees, strings, signatures and prototypes report no
-differences, and every unit passes `tools/check_units.py`.
-
-## Remaining European units, 2026-11-14
-
-Checked on a fresh European build with the same ROM and tools; the rebuilt ROM keeps the original SHA-1 and
-`ninja check` passes. The data layout of the original showed where four files had been cut wrongly:
-
-- `src/Main/Ui/ChoisesS.c` (ChoisesS) now holds the 19 units from `0x020b1de4` to `0x020b3260`. Its
-  `.data` runs from the names of `InitChoisesS` through the `entryNumbers` initializer of
-  `GetChoisesSValueMessage` back to two strings of `InitChoisesS` and on to the string of
-  `GetChoisesSValueMessage`, an order only one file gives. All of its functions also match with
-  `#pragma optimize_for_size on`. `func_020b2c80` is defined without a prototype, because `func_020b2c68` calls it
-  with no argument. The six screen names are file-scope arrays, marked as placeholders, whose declaration order
-  gives the original order in `.data`.
-- `src/Main/Ui/BackScreen.c` holds `code_021258f0`, `code_02125960` and `code_02125da0`, the three units that
-  use `data_0217d3ec`. The back screen file names are file-scope arrays, marked as placeholders, declared in an order
-  that gives the original layout of the names and their tables.
-- The card unit is two files. The original `.bss` holds `gRequestBlock` (0x40) and `gAccessState` (0x620) and then
-  `gRomBaseOffset` (4) and `gRomReadState` (0x220); a smaller object after a bigger one starts a new file.
-  `libs/NitroSDK/card/src/code_021458c4.c` ends at `0x0214613c`, and `code_0214613c.c` holds the ROM read
-  functions, the request and the worker thread. `gRomReadState` is aligned to 32 bytes, as its address in the
-  original shows. `gAccessState` is now defined in `code_021458c4.c`.
-- `_ll_mul` and `_s32_div_f` are an assembly unit, `libs/mathlib/src/code_02133048.s`, so that `_ull_mul` is a
-  global function symbol at the address of `_ll_mul`. A linker alias does not work: the alias has no ARM type,
-  so Thumb callers get `bl` instead of `blx`.
-
-`tools/check_units.py` accepts a function symbol of an assembled unit that `symbols.txt` lists as a label.
-
-`LookupWiFiVSSettingMessageIndex` matches for Europe: the original copies the language index before comparing it
-with 1, which `(u32) ((u8 *) 0 + index) <= 1` reproduces (marked as a placeholder). The secure area unit
-`src/Main/Unknown/code_0200007e.c` is registered for Europe as for USA: its 18 BIOS call stubs match, but the unit
-is not linked, because the 0x800 bytes around them are not in the source.
-
-| European measurement | Start of this checkpoint | Now |
-| --- | ---: | ---: |
-| Matching functions | 11,483 / 11,498 | 11,498 / 11,498 |
-| Linked source code | 1,872,594 bytes (99.28%) | 1,882,890 bytes (99.83%) |
-
-1,580 of 1,581 units are linked; the 3,154 bytes of the code sections that no function covers are the same count
-as for USA. The USA configuration has the same unit list; the merged and split units are not marked complete
-there, and **a USA ROM build was not run**.

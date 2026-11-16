@@ -1,0 +1,15 @@
+#pragma once
+
+#include "types.h"
+#include "sound_archive_load.h"
+
+typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
+
+s32 NNS_GfdGetLnkPlttVramManagerWorkSize(s32 blockCount);
+void *NNS_FndGetNthListObject(NNSFndList *list, u16 index);
+void *NNS_FndGetPrevListObject(NNSFndList *list, void *object);
+void *NNS_FndGetNextListObject(NNSFndList *list, void *object);
+void NNS_FndRemoveListObject(NNSFndList *list, void *object);
+void NNS_FndInsertListObject(NNSFndList *list, void *target, void *object);
+void NNS_FndPrependListObject(NNSFndList *list, void *object);
+void NNS_FndAppendListObject(NNSFndList *list, void *object);

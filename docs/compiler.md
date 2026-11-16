@@ -8,7 +8,7 @@ to reproduce it; a setting with no exact match that breaks when it changes is un
 | Code | Compiler | Flags | Evidence |
 |---|---|---|---|
 | Game code (main + overlays) | 1.2 base (ARM: sp2 identical) | `-O4,p -inline on,noauto -char unsigned -str noreuse -proc arm946e -interworking` | exact matches below |
-| Library code (`libs/NitroSDK/`, `libs/NitroSystem/`, `libs/NitroDWC/`, `libs/spl/`, `libs/Unknown/`) | 1.2 base (sp2, sp2p3 identical) | `-O4,p -inline on,noauto -char signed -str noreuse -proc arm946e -interworking` | below |
+| Library code (`libs/NitroSDK/`, `libs/NitroSystem/`, `libs/NitroDWC/`, `libs/spl/`) | 1.2 base (sp2, sp2p3 identical) | `-O4,p -inline on,noauto -char signed -str noreuse -proc arm946e -interworking` | below |
 | C library (`libs/msl/`) | 1.2 base | as library code, with `-char unsigned` | below |
 | Compiler arithmetic routines (`libs/mathlib/`) | 1.2 base | as library code | the routines the compiler calls for `/`, `%`, float, double and 64-bit operations |
 
@@ -19,54 +19,58 @@ aren't vtables. The deciding probes, written for this ROM, are in [probes/](prob
 what it shows and the command that reruns it on every installed build
 (`python3 tools/probe_compilers.py docs/probes/<file> --flags="-O4,p -inline on,noauto"`):
 
-- Thumb switch dispatch: four switch functions (main 0x02025e60 and 0x0204e3b4, ov003 0x021cca5c and 0x021c88c4)
-  and one in ov001 (0x02194c7c) match on 1.2 b56 and base only: their tables are read with a sign-extended halfword
-  load and `add r0, pc; bx r0`. sp2 drops the sign extension; sp2p3, sp3, sp4 and every 2.0 build end in
-  `add pc, r0` (`thumb_switch_main.c`, `thumb_switch_ov003.c`, `thumb_switch_ov001.c`).
+- Thumb switch dispatch: four switch functions (`GetCharacterKartIndexByMode` and `RepeatedScanCallback`,
+  `GetScrollBarPartRect` and `IsJb3ListIdEnabled`) and one in ov001 (`IsRecordGpxCupSelectable`) match on 1.2 b56 and
+  base only: their tables are read with a sign-extended halfword load and `add r0, pc; bx r0`. sp2 drops the sign
+  extension; sp2p3, sp3, sp4 and every 2.0 build end in `add pc, r0` (`thumb_switch_main.c`, `thumb_switch_ov003.c`,
+  `thumb_switch_ov001.c`).
 - b56 reaches a field it reads and writes back through an address computed once (`add rX, rY, #imm`, then
   `ldr`/`str` through rX), a shape base never emits; in the disassembly of main's game code that shape appears only
-  once (0x0206ff50) in about 5,500 functions (read with a scanner that isn't in the repository).
-- ARM: a multiply-heavy function (main 0x020dac00, 0x58 bytes, `arm_long_multiply.c`) matches on 1.2 b56 to sp2p3
+  once (`StartKartRespawnWait`) in about 5,500 functions (read with a scanner that isn't in the repository).
+- ARM: a multiply-heavy function (`UpdateKuriboStretch`, 0x58 bytes, `arm_long_multiply.c`) matches on 1.2 b56 to sp2p3
   and on no 2.0 build at any `-proc`; in the disassembly, every ARM game function returns through
   `ldm {.., lr}; bx lr`, never `ldm {.., pc}`, which 1.2 sp3/sp4 emit under `-proc arm946e`. DSP multiplies (`smulbb`,
   `smlabb`) in game code need `-proc arm946e`.
 - Thumb switches that end in `add pc, r0` only come out of sp2p3, so the few files that have them are built with it.
-- ARM sp2p3: `func_020f40a0` and `func_020f4754` (main) index an array written twice, once with a cast; base and sp2
-  fold it into `mla` and an offset, sp2p3 indexes through a register. sp2 builds the same ARM bytes as base.
-- `-char unsigned`: a function walking a `char` path (main 0x02047780, `thumb_char_strings.c`) is 0x13c bytes with
+- ARM sp2p3: `RemoveReservedItemObjects` and `RemoveHeldItemObjects` (main) index an array written twice, once with a
+  cast; base and sp2 fold it into `mla` and an offset, sp2p3 indexes through a register. sp2 builds the same ARM bytes
+  as base.
+- `-char unsigned`: a function walking a `char` path (`LoadKartModelFile`, `thumb_char_strings.c`) is 0x13c bytes with
   `ldrb`; with `-char signed` it is 0x144 bytes.
 - `-str noreuse`: the same function references eight literals for four copies each of two format strings; with
   `-str reuse` the copies merge (0x124 bytes).
-- `-O4,p`: `-O4,s`, `-O3` and `-O2` break main 0x0204e3b4 and ov001 0x02194c7c; `-O3`, `-O2` and `-O3,p` break
-  ov003 0x021c88c4.
-- Some game files are compiled for size and carry `#pragma optimize_for_size on`: `src/01/code_0218550c.c`,
-  `code_021804e0.c`, `code_021857a4.c` and `code_02185438.c`. In `code_0218550c.c` (ov001, USA
-  0x021854ec-0x02185784) five two-case switch functions share one exit block; at `-O4,p` the return sequence is
-  repeated in each case (0x32 bytes instead of 0x2a). All 14 functions of that file match at `-O4,s`, at `-O3`, and at
-  the build's `-O4,p` with the pragma. The others show the same two signs: switch cases that share an epilogue, and
-  aggregate copies kept as loops instead of unrolled (`code_021804e0.c`).
-- Inlining: `-inline auto` inlines a same-file call (ov001 0x02194ce4 into 0x02194c7c, `thumb_switch_ov001.c`)
-  that the game keeps out of line.
+- `-O4,p`: `-O4,s`, `-O3` and `-O2` break `RepeatedScanCallback` and `IsRecordGpxCupSelectable`; `-O3`, `-O2` and
+  `-O3,p` break `IsJb3ListIdEnabled`.
+- Some game files are compiled for size and carry `#pragma optimize_for_size on`:
+  `src/01/Menu/select_screen_registers.c`, `test_scene.c`, `mission_run_screen_registers.c` and
+  `select_cup_grid_update.c`. In `select_screen_registers.c` (ov001) five two-case switch functions share one exit
+  block; at `-O4,p` the return sequence is repeated in each case (0x32 bytes instead of 0x2a). All 14 functions of that
+  file match at `-O4,s`, at `-O3`, and at the build's `-O4,p` with the pragma. The others show the same two signs:
+  switch cases that share an epilogue, and aggregate copies kept as loops instead of unrolled (`test_scene.c`).
+- Inlining: `-inline auto` inlines a same-file call (`IsRecordGpxCupBackupFlagSet` into `IsRecordGpxCupSelectable`,
+  `thumb_switch_ov001.c`) that the game keeps out of line.
 
 ### Libraries
 
-Library code in main is 0x02003024-0x0200589c, 0x0200c46c-0x020249b8 and 0x0212b9ec-0x0215109c: nothing in them
+Library code in main is `FSi_TranslateCommand` to `WBTi_SwitchNextCommand`, `CTRDGi_SendtoPxi` to
+`StartBalloonScaleSound` and `EndSleep` to `GetPackedWiFiInfo`: nothing in them
 calls game code, and each reads its own data. 1123 functions in `libs/`, from all of it except the soft-float
 runtime and its stubs, match on 1.2 base.
 
 - Build: base, sp2 and sp2p3 differ only in Thumb switch tables and one cast-twin index idiom (over every file in
   the repository); library code has neither, so the three build identical bytes. b56 is ruled out in most areas
   (it updates a pointer argument's field through a computed address, `add rX, rB, #off`).
-- `-O4,p`: 0x0201ca6c needs it (`-O3,p` gives 0xd48 bytes, not 0xd2c); `-O4,s`, `-O3` and `-O2` break functions
-  with loops or early returns.
+- `-O4,p`: `SPLEmitter_EmitParticles` needs it (`-O3,p` gives 0xd48 bytes, not 0xd2c); `-O4,s`, `-O3` and `-O2` break
+  functions with loops or early returns.
 - `-char signed`: a library function that reads the same byte as `char` and as `s8` only matches with signed chars.
 - `-char unsigned` in `libs/msl/`: the string functions match with plain `char` only unsigned. The other library files
   build the same objects with either setting.
-- `-inline on,noauto`: `auto` inlines 0x0201ec30's two helpers, `off` drops the static inline 0x02011c58 needs.
-- `-proc arm946e`: 0x0214843c needs `smulbb`/`smlabb`.
-- `-str noreuse`, `-enum int`: as the game code. One function, 0x0214177c, shares its literals the `reuse` way: it
-  matches with `#pragma dont_reuse_strings off` in its file (0x3e0 bytes; 0x3e8 without).
-- `#pragma avoid_byte all`: library code at 0x02133da8-0x021423e4 reads and writes bytes through word loads and
+- `-inline on,noauto`: `auto` inlines `UpdateMicSampleAnalysis`'s two helpers, `off` drops the static inline
+  `NNSi_G3dFuncSbc_NODEMIX` needs.
+- `-proc arm946e`: `VEC_Fx16DotProduct` needs `smulbb`/`smlabb`.
+- `-str noreuse`, `-enum int`: as the game code. One function, `DigitsPowerOfTwo`, shares its literals the `reuse` way:
+  it matches with `#pragma dont_reuse_strings off` in its file (0x3e0 bytes; 0x3e8 without).
+- `#pragma avoid_byte all`: library code at `_fp_init` to `SwiWriteByte` reads and writes bytes through word loads and
   rotated word stores, never `ldrb`/`strb`; this pragma makes 1.2 base do the same. All 20 library files from that
   range start with it (105 functions match).
 - 112 functions can't be 1.2 output and stay asm (the list below, cross-function branches, `pop {.., pc}`).
@@ -168,8 +172,8 @@ the 1.2 base `mwccarm.exe` and checked under gdb and on compiled code:
 
 Settings not yet backed by an exact match.
 
-- Game code `-inline`: `off` is ruled out (`src/01/code_02180ce8.c` needs a static inline expanded); `on` and the
+- Game code `-inline`: `off` is ruled out (`src/01/Menu/emblem_grid.c` needs a static inline expanded); `on` and the
   default aren't separated. Thumb files in main call per-file out-of-line ARM copies of small register-writing
   helpers, while ARM functions inline the same bodies: no single helper form explains both yet.
 - `-enum int` vs `min`: no probe separates them.
-- Library code in ov000 (from 0x02185920) and ov003: not probed.
+- Library code in ov000 (from `DWCi_Auth_SetError`) and ov003: not probed.

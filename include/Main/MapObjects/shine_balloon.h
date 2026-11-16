@@ -1,0 +1,54 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Kart/kart_drift.h" // Kart
+#include "matrix_3x3_basic.h"
+#include "Main/MapObjects/attractor.h" // MapObject
+#include "01/MapObjects/map_object_model.h"
+
+#define SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED 0x19
+#define SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED 8
+
+#define SHINE_BALLOON_TIMER_FRAMES 0x1e
+#define SHINE_BALLOON_PULSE_SCALE_MIN 0x4a
+
+// ShineBalloonObject.mState values: HIDDEN waits until the kart has a balloon, APPEAR and DISAPPEAR pulse the scale,
+// SHOWN follows the kart until its balloons are gone.
+enum {
+    SHINE_BALLOON_STATE_HIDDEN,
+    SHINE_BALLOON_STATE_APPEAR,
+    SHINE_BALLOON_STATE_SHOWN,
+    SHINE_BALLOON_STATE_DISAPPEAR,
+};
+
+// A shine balloon map object: a pulse scale and speed, a timer, the Kart it follows and its state.
+typedef struct ShineBalloonObject {
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ s32 mPulseScale;
+    /* a4 */ s32 mPulseScaleSpeed;
+    /* a8 */ s32 mTimer;
+    /* ac */ Kart *mKart;
+    /* b0 */ s32 mState;
+} ShineBalloonObject;
+
+void *FindParkedMapObject(s32 kind);
+void CreateParkedMapObjects(u32 kind, s32 count, void *object);
+void StartShineBalloon(Kart *kart);
+MapObjectList *CreateShineBalloonUpdateList(void);
+MapObjectList *CreateShineBalloonDrawList(void);
+
+MapObjectKindData *CreateShineBalloonKindData(void);
+
+/* skipped for objects with mFlags & 4 (parked pool objects) */
+void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
+void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject);
+void SetupDrawShineBalloon(void *mapObjectList);
+void CreateShineBalloon(void *mapObjectList);
+
+/* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
+ * UnparkFirstParkedMapObject */
+void InitShineBalloon(u32 mapObjectArg);
+
+extern const u16 gShineBalloonEndSecondFlag;
+extern const u16 gShineBalloonEndFlag;
+extern struct MapObjectModel *gShineBalloon;

@@ -1,0 +1,216 @@
+#include "Main/MapObjects/shine_balloon.h"
+#include "Main/MapObjects/map_object_model_frame.h"
+#include "matrix_3x3_basic.h"
+#include "Main/Course/course_map_group_entry.h"
+#include "touch_panel_sampling.h"
+#include "Main/MapObjects/bound.h"
+#include "Main/Race/standings_balloons.h"
+
+#include "Main/MapObjects/map_objects_get.h"
+#include "Main/MapObjects/map_object_list_count_get.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+#include "Main/MapObjects/map_object_create.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "ITCM/model_draw_and_irq_handler.h"
+#include "Main/Kart/kart_drift.h"
+#include "Main/MapObjects/trophy.h"
+#include "Main/MapObjects/balloon.h"
+#include "Main/MapObjects/balloon_target.h"
+#include "Main/MapObjects/balloon_draw.h"
+#include "Main/MapObjects/view_matrix_setters.h"
+#include "Main/Menu/keyboard_cursor_targets.h"
+#include "Main/Kart/kart_ai_item_use.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "fixed_vector_math.h"
+#include "Main/System/backup_net_camera_work.h"
+#include "Main/Race/race.h"
+
+MapObjectKindDescriptor gShineBalloonKindDescriptor = {0,
+                                                       {0, 0},
+                                                       0xb4,
+                                                       InitShineBalloon,
+                                                       (MapObjectKindData * (*) (void) ) CreateShineBalloonKindData,
+                                                       CreateShineBalloonDrawList,
+                                                       NULL,
+                                                       NULL,
+                                                       CreateShineBalloonUpdateList,
+                                                       NULL,
+                                                       {NULL, NULL, NULL, NULL}};
+const u16 gShineBalloonEndSecondFlag = 8;
+const u16 gShineBalloonEndFlag = 2;
+MapObjectModel *gShineBalloon;
+
+void InitShineBalloon(u32 mapObjectArg) {
+    u32 mapObjectCopy = mapObjectArg;
+    u32 unusedValue;
+    ParkMapObject((void *) mapObjectCopy);
+}
+
+void CreateShineBalloon(void *mapObjectList) {
+    MapObjectModel *mapObjectModelNsbmd;
+
+    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(mapObjectList, "shine_balloon.nsbmd");
+    gShineBalloon = mapObjectModelNsbmd;
+    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
+}
+
+void SetupDrawShineBalloon(void *mapObjectList) {
+    QueueMapObjectModelMaterial(mapObjectList, gShineBalloon);
+}
+
+void DrawShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
+    s32 gxParam;
+    Vec3 cameraOffset;
+    Vec3 heightOffset;
+    Vec3 pulseScale;
+    Vec3 distanceScale;
+    s32 scale;
+    s32 cameraDistance;
+
+    if (shineBalloonObject->mKart->mVisible == 0) {
+        return;
+    }
+    gxParam = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
+    NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&shineBalloonObject->mMapObject.mPos), 0xc);
+    heightOffset.y = GetKartBalloonOrShineHeight(shineBalloonObject->mKart) >> 4;
+    heightOffset.x = 0;
+    heightOffset.z = 0;
+    NNS_G3dGeBufferOP_N(0x1c, &heightOffset, 3);
+    scale = shineBalloonObject->mPulseScale;
+    if (scale != 0x1000) {
+        pulseScale.x = scale;
+        pulseScale.y = scale;
+        pulseScale.z = scale;
+        NNS_G3dGeBufferOP_N(0x1b, &pulseScale, 3);
+    }
+    NNS_G3dGeBufferOP_N(0x1b, &shineBalloonObject->mMapObject.mScale, 3);
+    VEC_Subtract(&shineBalloonObject->mMapObject.mPos, &GetCurrentCamera()->mPos, &cameraOffset);
+    cameraDistance = VEC_Mag(&cameraOffset);
+    distanceScale.x = cameraDistance;
+    distanceScale.y = cameraDistance;
+    distanceScale.z = cameraDistance;
+    NNS_G3dGeBufferOP_N(0x1b, &distanceScale, 3);
+    DrawMapObjectModel(mapObjectList, gShineBalloon, shineBalloonObject);
+}
+
+void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObject) {
+    switch (shineBalloonObject->mState) {
+        case SHINE_BALLOON_STATE_HIDDEN:
+            if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
+                return;
+            }
+            shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
+            shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_HIDDEN_PULSE_SCALE_SPEED;
+            shineBalloonObject->mState = SHINE_BALLOON_STATE_APPEAR;
+            shineBalloonObject->mMapObject.mFlags &= ~2;
+            shineBalloonObject->mMapObject.mFlags &= ~8;
+            shineBalloonObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
+            break;
+        case SHINE_BALLOON_STATE_APPEAR:
+            if (shineBalloonObject->mTimer-- > 0) {
+                return;
+            }
+            shineBalloonObject->mTimer = 0;
+            shineBalloonObject->mPulseScale += shineBalloonObject->mPulseScaleSpeed;
+            shineBalloonObject->mPulseScaleSpeed -= 4;
+            if (shineBalloonObject->mPulseScaleSpeed < 0) {
+                if (shineBalloonObject->mPulseScale <= SHINE_BALLOON_PULSE_SCALE_MIN) {
+                    shineBalloonObject->mPulseScale = SHINE_BALLOON_PULSE_SCALE_MIN;
+                    shineBalloonObject->mState = SHINE_BALLOON_STATE_SHOWN;
+                }
+            }
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
+            break;
+        case SHINE_BALLOON_STATE_SHOWN:
+            if (GetBalloonOrShineCount(shineBalloonObject->mKart->mIndex) == 0) {
+                shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
+                shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_SHOWN_PULSE_SCALE_SPEED;
+                shineBalloonObject->mState = SHINE_BALLOON_STATE_DISAPPEAR;
+            }
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
+            break;
+        case SHINE_BALLOON_STATE_DISAPPEAR:
+            if (shineBalloonObject->mTimer-- <= 0) {
+                shineBalloonObject->mTimer = 0;
+                shineBalloonObject->mPulseScale += shineBalloonObject->mPulseScaleSpeed;
+                shineBalloonObject->mPulseScaleSpeed -= 4;
+                if (shineBalloonObject->mPulseScaleSpeed < 0) {
+                    if (shineBalloonObject->mPulseScale <= 0) {
+                        shineBalloonObject->mPulseScale = 0;
+                        shineBalloonObject->mState = SHINE_BALLOON_STATE_HIDDEN;
+                        shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndFlag;
+                        shineBalloonObject->mMapObject.mFlags |= gShineBalloonEndSecondFlag;
+                    }
+                }
+            }
+            shineBalloonObject->mMapObject.mPos = shineBalloonObject->mKart->mPos;
+            break;
+    }
+}
+
+MapObjectKindData *CreateShineBalloonKindData(void) {
+    return CreateMapObjectKindData(NULL, NULL, NULL, 1, 0);
+}
+
+MapObjectList *CreateShineBalloonDrawList(void) {
+    return CreateMapObjectDrawList2(CreateShineBalloon, DrawShineBalloon, SetupDrawShineBalloon);
+}
+
+MapObjectList *CreateShineBalloonUpdateList(void) {
+    return CreateMapObjectUpdateList(NULL, UpdateShineBalloon, NULL);
+}
+
+void StartShineBalloon(Kart *kart) {
+    ShineBalloonObject *shineBalloonObject;
+
+    shineBalloonObject = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE_BALLOON));
+    if (shineBalloonObject == NULL) {
+        return;
+    }
+    shineBalloonObject->mMapObject.mPos.x = 0;
+    shineBalloonObject->mMapObject.mPos.y = 0;
+    shineBalloonObject->mMapObject.mPos.z = 0;
+    shineBalloonObject->mMapObject.mPosStep.x = 0;
+    shineBalloonObject->mMapObject.mPosStep.y = 0;
+    shineBalloonObject->mMapObject.mPosStep.z = 0;
+    shineBalloonObject->mKart = kart;
+    shineBalloonObject->mPulseScale = 0;
+    shineBalloonObject->mPulseScaleSpeed = 0;
+    shineBalloonObject->mTimer = 0;
+    shineBalloonObject->mState = SHINE_BALLOON_STATE_HIDDEN;
+}
+
+// Creates b map objects of kind a from the source object c and parks each one that is not already parked.
+void CreateParkedMapObjects(u32 kind, s32 count, void *object) {
+    s32 index;
+    MapObject *mapObject;
+
+    for (index = 0; index < count; index++) {
+        mapObject = CreateMapObjectFromObject(object, kind);
+        if ((mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) == 0) {
+            ParkMapObject(mapObject);
+        }
+    }
+}
+
+// Returns the first map object in the update list of kind a that has the parked bit 0x100, or NULL if there is none;
+// changes nothing.
+void *FindParkedMapObject(s32 kind) {
+    MapObjectList *mapObjectList;
+    void **mapObjects;
+    s32 objectCount;
+    s32 objectIndex;
+    MapObject *mapObject;
+
+    mapObjectList = FindMapObjectKindUpdateList(kind);
+    mapObjects = GetMapObjects(mapObjectList);
+    objectCount = GetMapObjectListCount(mapObjectList);
+    for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
+        mapObject = mapObjects[objectIndex];
+        if (mapObject->mFlags & MAP_OBJECT_FLAG_PARKED) {
+            return mapObject;
+        }
+    }
+    return NULL;
+}

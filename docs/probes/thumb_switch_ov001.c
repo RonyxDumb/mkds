@@ -2,7 +2,7 @@
 // 0x02194ce4 on every 1.2 build; -inline auto inlines 0x02194ce4 into 0x02194c7c, which the game keeps out of line.
 // python3 tools/probe_compilers.py docs/probes/thumb_switch_ov001.c --flags="-O4,p -inline on,noauto"
 
-extern int data_ov001_021a6740[][3];
+extern int gRecordGpxCupIndices[][3];
 extern int data_ov001_021a66e0[];
 int func_02056dec(int arg);
 int func_ov001_02194ce4(int idx);
@@ -22,7 +22,7 @@ int func_ov001_02194c7c(int idx) {
         case 6:
         case 7:
             for (i = 0; i < 3; i++) {
-                result |= func_02056dec(data_ov001_021a6740[idx][i]);
+                result |= func_02056dec(gRecordGpxCupIndices[idx][i]);
             }
             result |= func_ov001_02194ce4(idx);
             break;

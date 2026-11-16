@@ -1,0 +1,126 @@
+#pragma once
+
+#include "types.h"
+#include "matrix_3x3_basic.h"
+#include "Main/MapObjects/attractor.h" // MapObject
+#include "Main/Kart/kart_drift.h"
+#include "Main/MapObjects/water.h"
+#include "Main/MapObjects/kuribo_init.h"
+#include "Main/MapObjects/segment_group_collision.h"
+#include "Main/MapObjects/view_matrix_setters.h"
+#include "Main/Item/item_koura_w.h"
+#include "Main/MapObjects/map_object_response_and_quaternion_math.h"
+#include "Main/MapObjects/group_follower_advance.h"
+#include "Main/MapObjects/wanwan.h"
+#include "Main/Kart/shadow_model.h"
+#include "Main/MapObjects/pendulum.h"
+#include "Main/Graphics/nsbmd_render_obj.h"
+#include "model_material_set.h"
+
+// Frames of the Kuribo walk cycle and its quarters.
+#define KURIBO_WALK_QUARTER_FRAMES 0xa
+#define KURIBO_WALK_HALF_FRAMES 0x14
+#define KURIBO_WALK_LAST_QUARTER_START_FRAMES 0x1e
+#define KURIBO_WALK_CYCLE_FRAMES 0x28
+
+#define KURIBO_STEP_SOUND_ID 0x182
+
+// Values of Dossun.mState; the entry extra value of the path picks the starting one (WAIT_START, HOVER or
+// WAIT_BEFORE_FOLLOW). Below FOLLOW_ACCELERATING the object is still the dropping one.
+enum {
+    DOSSUN_STATE_WAIT_START,
+    DOSSUN_STATE_FOLLOW,
+    DOSSUN_STATE_HOVER,
+    DOSSUN_STATE_DROP,
+    DOSSUN_STATE_FOLLOW_ACCELERATING,
+    DOSSUN_STATE_WAIT_BEFORE_FOLLOW,
+    DOSSUN_STATE_FOLLOW_AT_SET_SPEED,
+};
+
+// Values of CourseMapGroupEntry.mExtraValue on a Dossun path: the state the Dossun starts in when it reaches the entry.
+enum {
+    DOSSUN_PATH_ENTRY_WAIT_START,
+    DOSSUN_PATH_ENTRY_HOVER,
+    DOSSUN_PATH_ENTRY_WAIT_BEFORE_FOLLOW,
+};
+
+// Values of Dossun.mHitState: 1 = a kart hit it and it spins off along the path, 2 = it reached the path end and the
+// spin dies down.
+enum {
+    DOSSUN_HIT_NONE,
+    DOSSUN_HIT_SLIDING,
+    DOSSUN_HIT_SPIN_SETTLING,
+};
+
+// A Dossun map object that slams down: its state, timers, spin and hit data and the follower it moves along.
+typedef struct Dossun {
+    /* 00 */ MapObject mMapObject;
+    /* a0 */ s32 mState;
+    /* a4 */ s32 mTimer;
+    /* a8 */ s32 mDownSpeedOrFollowerSpeed;
+    /* ac */ s32 mSineBaseY;
+    /* b0 */ BOOL mEnteredWaitBeforeFollow;
+    /* b4 */ s32 mHitState;
+    /* b8 */ s16 mSpinSpeed;
+    /* ba */ s16 mSpinAngle;
+    /* bc */ u32 mLastHitFrame;
+    /* c0 */ u16 mKartMask;
+    /* c2 */ u16 mSineAngle;
+    /* c4 */ s32 mSineAmplitude;
+    /* c8 */ GroupFollower mFollower;
+    /* ec */ u16 mStartEntryIndex;
+    /* ee */ u8 mUnk_ee[2];
+    /* f0 */ s32 mIsSlowVariant;
+    /* f4 */ s32 mXOffset;
+    /* f8 */ s32 mHeightOffset;
+    /* fc */ s32 mZOffset;
+    /* 100 */ s32 mInitialUpSpeed;
+    /* 104 */ s32 mDownSpeedStep;
+    /* 108 */ s32 mFollowerSetSpeed;
+} Dossun;
+
+// The draw list of the Kuribo map objects: functions that set up and draw each object.
+typedef struct KuriboDrawList {
+    /* 00 */ u8 mUnk_00[8];
+    /* 08 */ void (*mInit)(void);
+    /* 0c */ void (*mBeforeObjects)(void);
+    /* 10 */ void (*mForEachObject)(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha);
+    /* 14 */ u8 mUnk_14[0x18];
+} KuriboDrawList;
+
+// The draw list of Dossun map objects: a map object list and a word.
+typedef struct DossunDrawList {
+    /* 00 */ MapObjectList mList;
+    /* 28 */ u32 mUnk_28;
+} DossunDrawList;
+
+MapObjectKindData *CreateDossunKindData(void);
+MapObjectList *CreateDossunDrawList(void);
+MapObjectList *CreateDossunUpdateList(void);
+MapObjectKindData *CreateKuriboKindData(void);
+KuriboDrawList *CreateKuriboDrawList(void);
+MapObjectList *CreateKuriboUpdateList(void);
+s32 GetDossunMapDotOffset(Dossun *dossun);
+void SetupDossunAtStartEntry(Dossun *dossun);
+void CreateDossunAndDossunShadow(void);
+void InitDossun(Dossun *dossun, CourseMapRow *row);
+void SetupDrawKuribo(void);
+void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha);
+void UpdateKuribo(void *unused, Kuribo *kuribo); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha);
+u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *firstResponsePtr, u8 *secondResponsePtr);
+void UpdateDossun(void *unused, Dossun *dossun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+
+extern const MapObjectList gKuriboUpdateListData;
+extern const struct KuriboDrawList gKuriboDrawListData;
+extern const MapObjectKindData gKuriboKindData;
+
+extern struct ShadowModel *gDossunShadow;
+extern MapObjectList *gKuriboUpdateList;
+extern struct KuriboDrawList *gKuriboDrawList;
+extern struct DossunDrawList *gDossunDrawList;
+extern struct NsbmdModel *gKuribo;
+extern struct Nsbmd *gDossun;
+extern MapObjectList *gDossunUpdateList;
+extern MtxFx43 gDossunDrawMatrix;
+

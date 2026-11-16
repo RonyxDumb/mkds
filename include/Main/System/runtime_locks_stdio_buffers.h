@@ -1,0 +1,31 @@
+#pragma once
+#include "types.h"
+#include "sound_stream_control.h" // NNSSndStrmPlayer
+#include "sound_archive_load.h"
+
+typedef struct OSMutex OSMutex;
+
+typedef struct OSMessageQueue OSMessageQueue;
+
+struct MWiDestructorChain;
+
+struct WMArm9Buf;
+
+struct WMPortRecvCallback;
+
+extern struct MWiDestructorChain *gGlobalDestructorChain;
+
+// Word arrays; ExitTail uses entry 0 of each, fwrite entries 3-5, printf entry 3 and
+// raise entry 7.
+extern u32 gLockOwnerThreadIds[9];
+
+extern u32 gLockHoldCounts[9];
+
+// 0x14-byte entries passed to OS_TryLockMutex, OS_UnlockMutex and OS_LockMutex; ExitTail uses entry 0,
+// fwrite entries 3-5, printf entry 3 and raise entry 7. An OSMutex is 0x18 bytes, so OSMutex.mPrev of one entry is
+// the start of the next entry.
+extern u8 gLockMutexes[9][0x14];
+
+extern u8 gStderrBuffer[0x100];
+extern u8 gStdoutBuffer[0x100];
+extern u8 gStdinBuffer[0x100];

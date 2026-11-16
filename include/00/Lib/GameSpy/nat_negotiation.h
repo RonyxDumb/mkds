@@ -1,0 +1,113 @@
+#pragma once
+
+#include "types.h"
+#include "00/Lib/GameSpy/negotiator_free.h" // NatTraversalEntry
+#include "00/Lib/GameSpy/socket_calls.h"
+#include "00/Lib/GameSpy/query_reporting.h"
+
+// Six bytes at NNMagicData, written at the start of each buffer.
+typedef struct NNMagic {
+    /* 0 */ u8 mUnk_00[6];
+} NNMagic;
+
+// Sockets a negotiation sends from (NN_PT_*: the game port, then two others, each answered by its own acknowledgement),
+// how a negotiation ends (FINISHED_*, the mFinished byte of a connect message), the port of the matchup server, and
+// how often and how long (milliseconds) the init and ping messages are sent again.
+#define NN_PT_GP 0
+#define NN_PT_NN1 1
+#define NN_PT_NN2 2
+#define FINISHED_NOERROR 0
+#define FINISHED_ERROR_DEADBEAT_PARTNER 1
+#define FINISHED_ERROR_INIT_PACKETS_TIMEDOUT 2
+#define MATCHUP_PORT 0x6cfd
+#define INIT_RETRY_TIME 500
+#define INIT_RETRY_COUNT 30
+#define PING_RETRY_TIME 700
+#define PING_RETRY_COUNT 12
+#define FINISHED_IDLE_TIME 5000
+
+// Value of the mVersion byte of every message.
+#define NAT_PACKET_VERSION 2
+
+// Values of the mPacketType byte (offset 7 of every message). Types 0 to 3 are InitPacket messages, 5 to 7 are
+// ConnectPacket messages (6 is an InitPacket sent back).
+enum {
+    NAT_PACKET_INIT = 0,
+    NAT_PACKET_INIT_ACK = 1,
+    NAT_PACKET_ECHO_REQUEST = 2,
+    NAT_PACKET_ECHO_REPLY = 3,
+    NAT_PACKET_CONNECT = 5,
+    NAT_PACKET_CONNECT_ACK = 6,
+    NAT_PACKET_PING = 7,
+};
+
+// The NAT negotiation connect message: cookie, remote address and port, and the data received and finished flags.
+typedef struct ConnectPacket {
+    /* 00 */ NNMagic mMagic;
+    /* 06 */ u8 mVersion;
+    /* 07 */ u8 mPacketType;
+    /* 08 */ u8 mCookie[4];
+    /* 0c */ u8 mRemoteIp[4];
+    /* 10 */ u8 mRemotePort[2];
+    /* 12 */ u8 mGotYourData;
+    /* 13 */ u8 mFinished;
+} ConnectPacket;
+
+// The NAT negotiation init message: cookie, port type and client index.
+typedef struct InitPacket {
+    /* 00 */ NNMagic mMagic;
+    /* 06 */ u8 mVersion;
+    /* 07 */ u8 mPacketType;
+    /* 08 */ u8 mCookie[4];
+    /* 0c */ u8 mPortType;
+    /* 0d */ u8 mClientIndex;
+    /* 0e */ u8 mUnk_0e;
+    /* 0f */ u8 mUnk_0f;
+    /* 10 */ u8 mUnk_10;
+    /* 11 */ u8 mUnk_11;
+    /* 12 */ u8 mUnk_12;
+    /* 13 */ u8 mUnk_13;
+    /* 14 */ u8 mUnk_14;
+} InitPacket;
+
+// The NAT negotiation init message with the local address and the game name.
+typedef struct InitPacketWithGamename {
+    /* 00 */ NNMagic mMagic;
+    /* 06 */ u8 mVersion;
+    /* 07 */ u8 mPacketType;
+    /* 08 */ u8 mCookie[4];
+    /* 0c */ u8 mPortType;
+    /* 0d */ u8 mClientIndex;
+    /* 0e */ u8 mUseGamePort;
+    /* 0f */ u8 mLocalIpFirstByte;
+    /* 10 */ u8 mLocalIpSecondByte;
+    /* 11 */ u8 mLocalIpThirdByte;
+    /* 12 */ u8 mLocalIpFourthByte;
+    /* 13 */ u8 mLocalPortHighByte;
+    /* 14 */ u8 mLocalPortLowByte;
+    /* 15 */ char mGameName[0x40];
+} InitPacketWithGamename;
+
+void NNProcessData(u8 *data, s32 length, void *fromAddress);
+void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSockAddrIn *fromAddress);
+void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress);
+void ProcessConnectPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOCSockAddrIn *fromAddress);
+void SendConnectAck(NatTraversalEntry *negotiator, SOCSockAddrIn *toaddr);
+void NNThink(void);
+void NegotiateThink(NatTraversalEntry *negotiator);
+void NNCancel(u32 cookie);
+s32 NNBeginNegotiationWithSocket(
+    u32 gamesocket, u32 cookie, u32 clientNumber, void (*progressCallback)(s32 gamesocket, void *cookie),
+    void (*completedCallback)(s32 gamesocket, s32 cookie, void *clientNumber, void *progressCallback), void *userdata);
+BOOL ResolveServers(void);
+u32 ResolveServer(char *overrideHostname, const char *defaultHostname);
+u32 NameToIp(const char *name);
+void SendPingPacket(NatTraversalEntry *negotiator);
+void SendInitPackets(NatTraversalEntry *negotiator);
+u16 GetLocalPort(u32 sock);
+u32 GetLocalIP(void);
+void SendNegotiatorPacket(u32 sock, u32 toaddr, u16 toport, void *data, s32 length);
+BOOL CheckMagic(const u8 *data);
+void NNFreeNegotiateList(void);
+void RemoveNegotiator(NatTraversalEntry *negotiator);
+NatTraversalEntry *AddNegotiator(void);

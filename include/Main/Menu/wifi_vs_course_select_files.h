@@ -1,0 +1,49 @@
+#pragma once
+
+#include "types.h"
+#include "Main/System/interpolation_value.h"
+#include "Main/System/heap_call.h"
+#include "font_glyph_layout.h"
+#include "Main/Graphics/cell_file_set.h"
+#include "Main/Graphics/font_and_player_character.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Menu/multi_select_member_group.h"
+#include "touch_panel_sampling.h"
+#include "Main/Save/buddy_record_time.h"
+#include "cell_transfer_state.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "Main/Menu/wifi_vs_course_select.h"
+
+void LoadWiFiVSCourseSelectFiles(void);
+
+s32 AdvanceWiFiVSCourseSelect(void);
+
+void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam);
+
+void WriteWiFiVSCourseSelectRegisters(void);
+
+void ReleaseWiFiVSCourseSelect(void);
+
+s32 PickRandomCourseIndexNotRaced(void);
+
+void AdvanceWiFiVSCourseSelectTimer(void);
+
+void AdvancePickedCourseRows(void);
+
+void AdvanceSubCellsOffsetY(void);
+
+void ShowWiFiSessionCourse(void);
+
+void SetWiFiVSCourseSelectRowsOffsetY(void);
+
+void RefreshCourseListRows(s32 action, s32 slot, s32 row, s32 selectedSlot);
+
+void WriteKartPositionAndCount(s32 position, s32 kartCount);
+
+extern const u16 gCourseRowCellIndices[4];
+extern const u16 gCourseTimerDigitCellIndices[10];
+extern const LabelTextRow gWiFiVSCourseSelectMLabelTextRows[4];
+extern const LabelTextRow gWiFiVSCourseSelectSLabelTextRows[7];
+extern const s32 gCourseIdTable[20];
+extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;

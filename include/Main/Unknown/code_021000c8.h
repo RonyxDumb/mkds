@@ -1,7 +1,0 @@
-#pragma once
-
-#include "types.h"
-
-typedef struct MapObjectList MapObjectList;
-
-unsigned int mobj_logicPartGetInstanceCount(MapObjectList *list);

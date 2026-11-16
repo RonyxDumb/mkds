@@ -81,13 +81,16 @@ DECOMP_ME_COMPILER = DECOMP_ME_IDS.get(MWCC_VERSION)  # None: no decomp.me id (D
 PATH_COMPILERS = {
     "libs/": "1.2/base",  # verified: library code in main (docs/compiler.md, Libraries); sp2, sp2p3 identical
     # verified: four ov000 files whose switches end in `add pc, r0` (docs/compiler.md, Game code)
-    "src/00/code_021a9228.c": "1.2/sp2p3",
-    "src/00/code_021ad734.c": "1.2/sp2p3",  # holds the former code_021ad754 and code_021ae984
+    "src/00/Lib/CPS/https_protocol.c": "1.2/sp2p3",
+    "src/00/Lib/CPS/tcp_ip_stack.c": "1.2/sp2p3",
 }
 # Flags from CC_FLAGS that sources under these paths must not get.
 PATH_DROP_FLAGS = {
-    "libs/": ["-char unsigned"],  # verified: libs/NitroSDK/os/src/os_printf.c matches with plain char only signed
-    "libs/msl/": [],  # verified: libs/msl/src/code_02139f70.c matches with plain char only unsigned
+    "libs/": ["-char unsigned"],  # verified: libs/NitroSDK/os/src/formatted_text_to_buffer.c matches with plain char only signed
+    "libs/msl/": [],  # verified: libs/msl/src/narrow_string_functions.c matches with plain char only unsigned
+    "src/00/Lib/GameSpy/": ["-str noreuse"],
+    "src/00/Lib/DWC/": ["-str noreuse"],
+    "src/00/Lib/CPS/https_protocol.c": ["-str noreuse"],
 }
 # Flags added for sources under these paths. A game with Thumb code: "src/": ["-thumb"], with an empty list for an
 # ARM-only folder or file. An ARM function inside a Thumb file can be written between `#pragma thumb off` and
@@ -100,6 +103,9 @@ PATH_ADD_FLAGS = {
     "libs/msl/": [],
     # the overlays are Thumb game code (an ARM file in them gets a per-file entry with an empty list)
     "src/00/": ["-thumb"],
+    "src/00/Lib/GameSpy/": ["-thumb", "-str reuse"],
+    "src/00/Lib/DWC/": ["-thumb", "-str reuse"],
+    "src/00/Lib/CPS/https_protocol.c": ["-thumb", "-str reuse"],
     "src/01/": ["-thumb"],
     "src/03/": ["-thumb"],
 }
@@ -164,7 +170,7 @@ LD_FLAGS = [
     "-interworking",
     "-map closure,unused",
     "-msgstyle gcc",
-    "-m Entry",
+    "-m _start",
 ]
 # The assembler, for regions written as .s files.
 MWASM_VERSION = "2.0/sp2p3"
@@ -247,10 +253,8 @@ def tcm_module(addr: int):
 # Constants the linker script must define for the game's code (tools/lcf_force_active.py adds them). Read their
 # values from the original's literal pools; the overlay ids (SDK_OVERLAY_OVnnn_ID) are added automatically.
 LCF_SYMBOLS = {
-    # "SDK_IRQ_STACKSIZE": "0x1000",
-    # "SDK_SYS_STACKSIZE": "0",
-    "data_00000c00": "0xc00",
-    "data_00002800": "0x2800",
-    "data_02400000": "0x2400000",
-    "data_usa_02161748": "0x2161748",
+    "SDK_IRQ_STACKSIZE": "0xc00",
+    "SDK_SYS_STACKSIZE": "0x2800",
+    "SDK_SECTION_ARENA_EX_START": "0x2400000",
+    "gStaticInitializers": "0x2161748",
 }

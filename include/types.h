@@ -28,6 +28,77 @@ typedef s32 BOOL;
 #define TRUE 1
 #define FALSE 0
 
+// 1.0 in 12-bit fixed point.
+#define FIXED12_UNIT 0x1000
+// Whole number to fixed-point and back (12 fraction bits).
+#define TO_FIXED12(x) ((x) << 12)
+#define FROM_FIXED12(x) ((x) >> 12)
+// The fraction bits of a fixed-point number.
+#define FIXED12_FRACTION_MASK 0xfff
+// A positive fraction num/den as fixed-point, rounded to the nearest step (negate it for a negative one).
+#define FIXED12_RATIO(num, den) ((s32) ((((num) * 0x2000) + (den)) / ((den) * 2)))
+
+#define MUL_FIXED12_ROUNDED(a, b) ((s32) (((s64) (a) * (b) + 0x800) >> 12))
+#define MUL_FIXED12_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 12))
+#define MUL_FIXED24_NO_ROUND(a, b) ((s32) (((s64) (a) * (b)) >> 24))
+
+// Sum of two, three or four fixed-point products, shifted down to 12 fractional bits.
+#define DOT2_FIXED12(leftFirst, rightFirst, leftSecond, rightSecond)                                                   \
+    (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond)) >> 12)
+#define DOT3_FIXED12(leftFirst, rightFirst, leftSecond, rightSecond, leftThird, rightThird)                            \
+    (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond) + (s64) (leftThird) * (rightThird)) >> 12)
+#define DOT4_FIXED12(leftFirst, rightFirst, leftSecond, rightSecond, leftThird, rightThird, leftFourth, rightFourth)   \
+    (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond) + (s64) (leftThird) * (rightThird) +       \
+      (s64) (leftFourth) * (rightFourth)) >>                                                                           \
+     12)
+// The same sums, rounded.
+#define DOT2_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond)                                           \
+    (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond) + 0x800) >> 12)
+#define DOT3_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond, leftThird, rightThird)                    \
+    (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond) + (s64) (leftThird) * (rightThird) +       \
+      0x800) >>                                                                                                        \
+     12)
+// Difference of two fixed-point products (one component of a cross product), shifted down to 12 fractional bits.
+#define CROSS2_FIXED12(leftFirst, rightFirst, leftSecond, rightSecond)                                                 \
+    (((s64) (leftFirst) * (rightFirst) - (s64) (leftSecond) * (rightSecond)) >> 12)
+// The same difference, rounded.
+#define CROSS2_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond)                                         \
+    (((s64) (leftFirst) * (rightFirst) - (s64) (leftSecond) * (rightSecond) + 0x800) >> 12)
+
+// 16-bit angles: a full turn is 0x10000.
+#define ANGLE_EIGHTH_TURN 0x2000
+#define ANGLE_QUARTER_TURN 0x4000
+#define ANGLE_HALF_TURN 0x8000
+#define ANGLE_MINUS_QUARTER_TURN 0xc000
+#define ANGLE_FULL_TURN 0x10000
+// A 15-bit colour (five bits per channel): every channel at maximum, and the mask of the colour bits.
+#define COLOR15_WHITE 0x7fff
+#define COLOR15_MASK 0x7fff
+
+// Degrees (fx32) to a 16-bit angle, rounded.
+#define DEG_TO_ANGLE(deg) ((u16) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000000LL) >> 44))
+// Degrees (fx32) to a 16-bit angle, truncated (rounds differently from DEG_TO_ANGLE).
+#define DEG_TO_ANGLE_TRUNCATED(deg) ((u16) ((s32) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12))
+// Sine and cosine fx32 of a 16-bit angle, read from the sine table.
+#define SIN_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2]
+#define COS_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2 + 1]
+// Sum of the squares of two or three values, as s64.
+#define SQUARE_SUM2(a, b) ((s64) (a) * (a) + (s64) (b) * (b))
+#define SQUARE_SUM3(a, b, c) ((s64) (a) * (a) + (s64) (b) * (b) + (s64) (c) * (c))
+#define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
+#define HORIZONTAL_LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).z * (v).z)
+
+// Test, set or clear bit n of v.
+#define BIT_IS_SET(v, n) (((v) & (1 << (n))) != 0)
+#define BIT_SET(v, n) ((v) |= 1 << (n))
+#define BIT_CLEAR(v, n) ((v) &= ~(1 << (n)))
+
+// Milliseconds of a lap or race time given in minutes, seconds and milliseconds.
+#define TIME_TO_MS(min, sec, ms) ((sec) * 1000 + (min) * 60000 + (ms))
+
+// Absolute value of a plain variable (x is evaluated twice).
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 // Pointer to the T that starts OFFSET bytes after BASE (offsets read from file data and headers).
 #define OFFSET_PTR(T, base, offset) ((T *) ((u8 *) (base) + (offset)))
 
@@ -43,9 +114,5 @@ typedef struct Vec4 {
     /* 0 */ s32 x;
     /* 4 */ s32 y;
     /* 8 */ s32 z;
-    /* c */ s32 w;
+    /* c */ s32 wComponent;
 } Vec4;
-
-// Function types for calls through pointers whose target isn't known.
-typedef void UnkFunc();
-typedef u32 UnkWordFunc();

@@ -1,0 +1,18 @@
+#pragma once
+
+#include "types.h"
+#include "00/Lib/GameSpy/socket_calls.h" // SOCHostEnt
+#include "00/Lib/wifi_library_work_objects.h"
+#include "00/Lib/NitroWiFi/socket_objects.h"
+
+void SOCLi_DhcpTimeout(void);
+void SOCLi_TrashSocket(void);
+SOCHostEnt *SOC_GetHostByName(const char *hostname);
+s32 SOC_Bind(s32 descriptor, const void *address);
+
+extern u32 SOCLiYieldWait;
+extern struct SOCLConfig *SOCLiConfigPtr;
+extern struct SOCLSocket *SOCLiUDPSendSocket;
+extern u32 SOCLiRequestedIP;
+extern u32 SOCLiDhcpState;
+extern CPSConfig SOCLiCPSConfig;

@@ -1,0 +1,110 @@
+#include "Main/Net/mp_state.h"
+#include "Main/Net/scan.h"
+#include "Main/Net/mp_states_connection.h"
+#include "sound_archive_load.h"
+#include "Main/System/backup_net_camera_work.h"
+
+#include "Main/Net/mp_state_machine.h"
+#include "Main/Sound/sound_set_load.h"
+#include "Main/Net/mp_chunk_state_machine.h"
+
+#pragma thumb on
+
+void EnterMPWaitMenuArchives(void *stateObject) {
+    int connectionMode;
+    if (gConnectionWork == NULL) {
+        connectionMode = CONNECTION_MODE_NONE;
+    } else {
+        connectionMode = gConnectionWork->mConnectionMode;
+    }
+    if (connectionMode == CONNECTION_MODE_PARENT) {
+        SetMPFrequency(0);
+    }
+}
+
+void UpdateMPWaitMenuArchives(void *stateObject) {
+    int result;
+    MPStateMachine *stateMachine;
+    result = AdvanceMenuDLArchives();
+    if (result == 1) {
+        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine->mStateMachine.mNextState = MP_STATE_WAIT_REQUEST_DONE;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
+    }
+}
+
+void EnterMPWaitResultArchives(void *stateObject) {
+    int connectionMode;
+    if (gConnectionWork == NULL) {
+        connectionMode = CONNECTION_MODE_NONE;
+    } else {
+        connectionMode = gConnectionWork->mConnectionMode;
+    }
+    if (connectionMode == CONNECTION_MODE_PARENT) {
+        SetMPFrequency(0);
+    }
+}
+
+void UpdateMPWaitResultArchives(void *stateObject) {
+    int result;
+    MPStateMachine *stateMachine;
+    result = AdvanceResultDLArchives();
+    if (result == 1) {
+        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine->mStateMachine.mNextState = MP_STATE_LOAD_RESULT_SOUND;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
+    }
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void EnterMPLoadResultSound(void *stateObject) {
+    gConnectionWork->mSyncState = CONNECTION_SYNC_START;
+    gConnectionWork->mTransferFlags &= ~CONNECTION_TRANSFER_SYNC_DONE;
+    gConnectionWork->mCallbackFailed = 0;
+}
+
+void LoadResultSceneSoundSetCallback(void) {
+    if (LoadResultSceneSoundSet() == 0) {
+        gConnectionWork->mCallbackFailed = 1;
+    }
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void UpdateMPLoadResultSound(void *stateObject) {
+    int result;
+    MPStateMachine *stateMachine;
+    result = AdvanceSyncedCallback(LoadResultSceneSoundSetCallback);
+    if (result == 1) {
+        stateMachine = &gConnectionWork->mMPStateMachine;
+        stateMachine->mStateMachine.mNextState = MP_STATE_READY;
+        stateMachine->mStateMachine.mNextStateRequested = 1;
+    }
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+s32 WLMenuToResultAdvanceMPStateMachineWrapper(void) {
+    return AdvanceMPStateMachine();
+}
+
+#pragma thumb off
+
+#pragma thumb on
+
+void LoadSndDataFromFileCallback(void) {
+    int result;
+    result = LoadSndDataFromFile();
+    if (result == 0) {
+        gConnectionWork->mCallbackFailed = 1;
+    }
+}
+
+#pragma thumb off

@@ -1,0 +1,114 @@
+#include "Main/System/startup.h"
+#include "Main/System/heap_call.h"
+#include "wifi_account_init.h"
+
+#include "Main/Scene/display_settings.h"
+#include "arena_cache_init.h"
+#include "Main/System/heap_exp_over_block.h"
+#include "Main/System/input_keys.h"
+#include "build_info_layout.h"
+#include "Main/Race/race_scene_callbacks.h"
+#include "Main/Scene/scene_display_archive_work.h"
+#include "archive_memory_load.h"
+#include "heap_frame_allocator.h"
+#include "thread_scheduler.h"
+#include "Main/MapObjects/map_object_park.h"
+#include "power_management_commands.h"
+#include "Main/Sound/sound_seq.h"
+#include "Main/Menu/select_kart_ghost_work.h"
+#include "Main/System/interpolation_value.h"
+#include "font_glyph_layout.h"
+#include "Main/Graphics/cell_file_set.h"
+#include "Main/Graphics/font_and_player_character.h"
+#include "Main/Graphics/layout_entry_angle.h"
+#include "Main/Graphics/locate_bmg_sections.h"
+#include "Main/Menu/multi_select_member_group.h"
+#include "touch_panel_sampling.h"
+#include "Main/Save/buddy_record_time.h"
+#include "cell_transfer_state.h"
+#include "Main/Net/multiboot_parent_finish.h"
+#include "vram_bank_display_setup.h"
+#include "tick_counter.h"
+#include "alarm_timer.h"
+#include "fixed_point_graphics_setup.h"
+#include "interrupt_control.h"
+#include "reset_interrupts_halt.h"
+#include "overlay_rom_loader.h"
+#include "registers.h"
+
+DisplaySettings *gDisplaySettings;
+
+void VBlankIrqHandler(void) {
+    if (gDisplaySettings != NULL) {
+        ClearFrameFinishedFlag();
+        if (gDisplaySettings->mIrqCallback != NULL) {
+            gDisplaySettings->mIrqCallback();
+        }
+    }
+    IRQ_CHECK_FLAGS |= 1;
+}
+
+void EnableVBlankIrq(void) {
+    OS_SetIrqFunction(1, VBlankIrqHandler);
+    OS_EnableIrqMask(1);
+    reg_OS_IME;
+    reg_OS_IME = 1;
+    OS_EnableInterrupts();
+    GX_VBlankIntr(1);
+}
+
+void InitStartupLibraries(void) {
+    OS_DisableMainExArena();
+    OS_Init();
+    gStartupMemory.mUnk_00 = 0;
+    OS_InitTick();
+    OS_InitAlarm();
+    FX_Init();
+    GX_Init();
+    InitWvrState();
+    ClearLcdcBanksByState();
+    GX_DispOff();
+    reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0x10000;
+    OS_SetIrqFunction(1, VBlankIrqHandler);
+    OS_EnableIrqMask(1);
+    reg_OS_IME;
+    reg_OS_IME = 1;
+    OS_EnableInterrupts();
+    GX_VBlankIntr(1);
+    FS_Init(-1);
+    InitUnreadHalfwordGroups();
+    gDwcInitResult = DWC_Init(gDwcInitWork);
+    ClearLcdcBankAndStartWvrAndWait();
+}
+
+void GetArenaLoHiNop(void) {
+    OS_GetArenaLo(0);
+    OS_GetArenaHi(0);
+    OS_GetArenaLo(3);
+    OS_GetArenaHi(3);
+    OS_GetArenaLo(4);
+    OS_GetArenaHi(4);
+}
+
+void InitStartup(void) {
+    u8 *arenaLo;
+    InitStartupLibraries();
+    InitBrightnessFades();
+    gStartupMemory.mArm9TextStart = (u32) ARM9_TEXT_START;
+    gStartupMemory.mArenaLo = OS_GetArenaLo(0);
+    GetArenaLoHiNop();
+    arenaLo = OS_GetArenaLo(0);
+    gStartupMemory.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
+    InitHeapCall(&gStartupMemory.mRootHeapCall, 0);
+    gStartupMemory.mRootHeapCall.mName = "MainProc";
+    StartupResetKeysInputSlot();
+}
+
+void RunRootHeapCall(u32 func) {
+    SetHeapCallFunc(&gStartupMemory.mRootHeapCall, func);
+    RunHeapCall(&gStartupMemory.mRootHeapCall, 0xbeef);
+}
+
+void *GetArenaHeap(void) {
+    return gStartupMemory.mHeap;
+}

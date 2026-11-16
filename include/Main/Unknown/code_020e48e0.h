@@ -1,7 +1,0 @@
-#pragma once
-
-#include "types.h"
-
-typedef struct Unk020e43a8 Unk020e43a8;
-
-s32 puku_onItemCollide(Unk020e43a8 *pukupuku, void *itemObject, u8 *b, u8 *c);

@@ -1,0 +1,10 @@
+#pragma once
+
+#include "types.h"
+#include "03/Graphics/nce_oam.h" // OamEntry
+
+void *CreateNodeList(void);
+OamEntry *GetOamBufferEntry(int screen, int index);
+void DeleteOamEntry(OamEntry *entry);
+OamEntry *CreateOamEntry(int screen, u8 *source);
+void ReleaseOamBuffers(void);

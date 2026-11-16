@@ -1,10 +1,2 @@
 # place / alias / inner edits for the linker script, see tools/lcf_force_active.py.
-
-# Splitting original code must retain unused functions, BuildInfo and padding.
-keep .text
-
-# The empty constructor list is addressed through its linker boundary.
-alias data_usa_02161748 ARM9_CTOR_START 0
-
-# Shared-source data names: targets verified at matching EUR relocation sites.
-alias data_usa_021541a8 sSceneDefs 0x0
+inner gRomArchiveTransfer 0x4b30

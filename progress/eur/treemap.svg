@@ -10,8 +10,7 @@
 <rect class="todo" x="258.9" y="36" width="10" height="10" rx="2"/>
 <text class="muted" x="273.9" y="45">Not matched</text>
 <rect class="todo gap" x="18.0" y="76.0" width="29.2" height="28.3" stroke-width="2"/>
-<rect class="linked" x="18.0" y="77.0" width="28.84" height="26.3"/>
-<rect class="matched" x="46.8" y="77.0" width="0.32" height="26.3"/>
+<rect class="linked" x="18.0" y="77.0" width="29.16" height="26.3"/>
 <rect class="todo gap" x="18.0" y="104.3" width="29.2" height="32.3" stroke-width="2"/>
 <rect class="linked" x="18.0" y="105.3" width="29.16" height="30.3"/>
 <rect class="todo gap" x="18.0" y="136.5" width="29.2" height="25.2" stroke-width="2"/>

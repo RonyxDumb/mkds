@@ -1,0 +1,39 @@
+#pragma once
+
+#include "types.h"
+#include "Main/MapObjects/wanwan.h"
+#include "Main/MapObjects/wanwan_chain_init.h"
+#include "Main/MapObjects/nsbmd_model_draw_variants.h"
+#include "Main/MapObjects/map_object_kind_update_list.h"
+
+// The map object of a Wanwan chain: its position, scale, view radius, the Wanwan, the chain and the kui flag.
+typedef struct WanwanChainObject {
+    /* 00 */ u8 mUnk_00[2];
+    /* 02 */ u16 mFlags;
+    /* 04 */ Vec3 mPos;
+    /* 10 */ u8 mUnk_10[0xc];
+    /* 1c */ Vec3 mScale;
+    /* 28 */ u8 mUnk_28[0x40];
+    /* 68 */ s32 mViewRadius;
+    /* 6c */ u8 mUnk_6c[0x34];
+    /* a0 */ Wanwan *mWanwan;
+    /* a4 */ WanwanChain mChain;
+    /* f0 */ u8 mUnk_f0[4];
+    /* f4 */ BOOL mHasKui;
+} WanwanChainObject;
+
+extern const u16 gWanwanChainMapObjectFlag;
+
+void ResetWanwanChainPoints(WanwanChainObject *chainObject);
+void CreateWanwanChainAndWanwanKui(void);
+void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan *wanwan);
+void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused);
+void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16 maxAlpha);
+void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 maxAlpha);
+
+unsigned int CollideItemObjectWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
+                                              const unsigned char *bytePointer);
+unsigned int CollideKartWithWanwanChain(unsigned int unused0, unsigned int unused1, unsigned int unused2,
+                                        const unsigned char *bytePointer);
+
+extern const MapObjectKindDescriptor gWanwanChainKindDescriptor;

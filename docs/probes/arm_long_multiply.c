@@ -3,17 +3,17 @@
 
 typedef struct {
     char pad0[0x90];
-    short field90;
-    short field92;
+    short mUnk_90;
+    short mUnk_92;
     char pad94[0xc4 - 0x94];
-    int fieldC4;
+    int mUnk_c4;
 } Obj020dac00;
 
-// PROBE: UpdateKuriboState2 main 0x020dac00
-void UpdateKuriboState2(Obj020dac00 *obj) {
-    obj->fieldC4 = (int) (((long long) obj->fieldC4 * 0x1266) >> 12);
-    if (obj->fieldC4 > 0x1800) {
-        obj->field90 = 3;
-        obj->field92 = 1;
+// PROBE: UpdateKuriboStretch main 0x020dac00
+void UpdateKuriboStretch(Obj020dac00 *obj) {
+    obj->mUnk_c4 = (int) (((long long) obj->mUnk_c4 * 0x1266) >> 12);
+    if (obj->mUnk_c4 > 0x1800) {
+        obj->mUnk_90 = 3;
+        obj->mUnk_92 = 1;
     }
 }

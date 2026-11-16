@@ -1,0 +1,125 @@
+#pragma once
+
+#include "types.h"
+#include "matrix_3x3_basic.h"
+#include "Main/MapObjects/attractor.h"
+#include "Main/MapObjects/koopa_block_hit_link.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/MapObjects/group_follower_advance.h"
+#include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
+
+#define ROCK_GROUND_GRACE_FRAMES 10
+
+#define ROCK_HEIGHT_RANGE_MAX 0x3e8000
+
+// Slots in the table behind gCollisionSlots and in the tables of the two ends; found lists hold up to half of them.
+#define COLLISION_SLOT_COUNT 0x100
+#define FOUND_COLLISION_SLOT_CAPACITY 0x80
+
+// Bits of CollisionSlot.mFlags that the map object code sets or tests.
+#define COLLISION_SLOT_FLAG_MAP_OBJECT 0x2000 // CreateCollisionSlot flags of a map object slot
+#define COLLISION_SLOT_FLAG_ITEM_OBJECT 0x4000 // and of an item object slot
+#define COLLISION_SLOT_FLAG_RADIUS_CHANGED 0x100
+#define COLLISION_SLOT_FLAG_DISABLED 0x200 // the searches skip the slot
+#define COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE 0x400 // SetCollisionSlotRadius also sets the radius changed bit
+
+// One entry of the table behind gCollisionSlots: its end indices, z range, center, radius, flags and object.
+typedef struct CollisionSlot {
+    /* 00 */ s16 mHighEndIndex;
+    /* 02 */ s16 mLowEndIndex;
+    /* 04 */ s32 mHighZ;
+    /* 08 */ s32 mLowZ;
+    /* 0c */ Vec3 *mCenterPos;
+    /* 10 */ s32 mRadius;
+    /* 14 */ u16 mFlags;
+    /* 16 */ u8 mUnk_16[2];
+    /* 18 */ void *mObject;
+} CollisionSlot;
+
+static inline CollisionSlot *GetCollisionSlot(s16 slotId) {
+    return &gCollisionSlots[slotId];
+}
+
+// One end of a collision slot (gCollisionSlotHighEnds, gCollisionSlotLowEnds): the other end's index, a slot index, x.
+typedef struct CollisionSlotEnd {
+    /* 00 */ u32 mOtherEndIndex : 8;
+// Low-end list: the slot index. High-end list: the lowest low-end index the search scans down to.
+    /* 01 */ u32 mSlotIndexOrScanLimit : 8;
+    /* 02 */ s32 mEndX : 16;
+} CollisionSlotEnd;
+
+u32 FreeCollisionSlot(s32 slotIndex);
+s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
+// The first hit of a rock: the collision object it hit and whether the link is blocked.
+typedef struct CollisionFirstHit {
+    /* 00 */ CollisionMapObject *mObject;
+    /* 04 */ s32 mLinkBlocked;
+} CollisionFirstHit;
+
+// Element object of InitRock: MapObject and the words and halfword used after it.
+typedef struct RockObject {
+    /* 000 */ MapObject mMapObject;
+    /* 0a0 */ s32 mStartY;
+    /* 0a4 */ GroupFollowerWithSpeeds mFollower;
+    /* 0dc */ s32 mDelayFrames;
+    /* 0e0 */ s32 mDelayFramesLeft;
+    /* 0e4 */ Vec3 mBasePos;
+    /* 0f0 */ Vec3 *mSideVectors;
+    /* 0f4 */ BOOL mBounceSide;
+    /* 0f8 */ s32 mOffsetVelocityX;
+    /* 0fc */ s32 mOffsetVelocityZ;
+    /* 100 */ s32 mOffsetX;
+    /* 104 */ s32 mOffsetZ;
+    /* 108 */ u16 mSinceGroundFrames;
+    /* 10a */ u8 mUnk_10a[2];
+    /* 10c */ s32 mStartScale;
+    /* 110 */ s32 mScalePerFrame;
+    /* 114 */ s32 mScaleLimit;
+    /* 118 */ s32 mBottomOffsetReciprocal;
+    /* 11c */ s32 mBottomOffset;
+    /* 120 */ s32 mBounceRatio;
+} RockObject;
+
+// Twelve bytes ResetRockWithEffects fills: a word and three halfwords.
+typedef struct EmitterParams {
+    /* 00 */ s32 mRadius;
+    /* 04 */ s16 mDirectionSpeed;
+    /* 06 */ s16 mAxisSpeed;
+    /* 08 */ s16 mSizeScale;
+    /* 0a */ u8 mUnk_0a[2];
+} EmitterParams;
+
+void UpdateRock(void *mapObjectList, RockObject *rock);
+void ResetRockWithEffects(RockObject *rock, s32 wasHit);
+u8 CollideKartWithRock(RockObject *rock, s32 unused, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 CollideItemObjectWithRock(RockObject *rock, s32 unused, u8 *firstResponsePtr, u8 *secondResponsePtr);
+void ResetRock(RockObject *rock);
+void InitRock(RockObject *rock, struct CourseMapRow *courseRow);
+void CreateNsbmdAndShadowNsbmd(void *mapObjectList, const char *name, const char *shadowName);
+void CreateRock(void *mapObjectList);
+void CreateRock2(void *mapObjectList);
+void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file);
+void InitCourseCollision(void);
+void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, CollisionHitLink *link, Vec3 *position, Vec3 *normal);
+BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, CollisionHitLink *link);
+u16 PickCollisionHitValue(u32 mask);
+void InitCollisionSlots(void);
+void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask);
+void SetCollisionSlotRadius(s16 slotIndex, s32 radius);
+void DisableCollisionSlot(s16 slotIndex);
+void EnableCollisionSlot(s16 slotIndex);
+
+extern const u16 gRockSecondFlag;
+extern const u16 gRockThirdFlag;
+extern const u16 gRockFirstFlag;
+extern const s16 gRockFirstEffectRows08[4];
+extern const s16 gRockSecondEffectRows04[4];
+extern const s16 gRockSecondEffectRows06[4];
+extern const s16 gRockSecondEffectRows08[4];
+extern const s16 gRockFirstEffectRows04[4];
+extern const s16 gRockFirstEffectRows06[4];
+extern const s32 gRockSecondEffectRows00[4];
+extern const s32 gRockFirstEffectRows00[4];
+extern const MapObjectKindDescriptor gRockKindDescriptor;
+extern const MapObjectKindDescriptor gRock2KindDescriptor;

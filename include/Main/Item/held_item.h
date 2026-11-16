@@ -1,0 +1,30 @@
+#pragma once
+
+#include "types.h"
+#include "Main/Kart/kart_drift.h"
+#include "Main/Item/item_object_throw.h"
+#include "Main/Item/item_objects_and_race_progress.h"
+
+// An item object that bounces along the ground, with the number of bounces it has left.
+typedef struct BouncingItemObject {
+    /* 000 */ ItemObject mItemObject;
+    /* 12c */ s32 mBouncesRemaining;
+} BouncingItemObject;
+
+void BounceItemObject(ItemObject *item, Vec3 *unused, Vec3 *awayDirection);
+void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFactor, s32 reflectFactor,
+                         u32 *collisionHitLink);
+void InitBouncingItem(BouncingItemObject *item, s32 bounceCount, Vec3 *velocity);
+void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounceCount, s32 throwForward,
+                       s32 forwardSpeed, s32 forwardUpSpeed, s32 backwardUpSpeed);
+void InitItemPointLinkDirections(void);
+
+typedef struct ItemPointLink ItemPointLink;
+
+u32 GetItemPointLinkDirection(ItemPointLink *link, Vec3 *directionOut);
+
+s32 SetItemPointLinkRefFromIndex(u32 index, ItemPointLinkRef *ref);
+
+extern const u16 gItemObjectPendingUpdateBit;
+extern const ItemSpreadRow gItemSpreadRows[3];
+extern s32 gItemPointLinksByIndex[4];

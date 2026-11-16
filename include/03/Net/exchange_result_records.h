@@ -1,0 +1,90 @@
+#pragma once
+
+#include "types.h"
+#include "thread_scheduler.h"
+#include "03/Menu/wifi_menu_tables.h"
+#include "00/Lib/NitroWiFi/wireless_connection_config.h"
+#include "00/Lib/NitroWiFi/wireless_connection_options.h"
+#include "00/Lib/DWC/access_point_wep_key.h"
+
+// Six bytes moved as one value.
+typedef struct MacAddress {
+    /* 0 */ u8 mBytes[6];
+} MacAddress;
+
+// Sixteen words handled as one value.
+typedef struct Words16 {
+    /* 0 */ u32 mWords[16];
+} Words16;
+
+// Values of ExchangeResult.mKind: which value set FillExchangeResultFromItems stored; the three WEP_KEY ones hold
+// keys of 5, 13 or 16 bytes (given as text of that many characters or twice as many hex digits).
+enum {
+    EXCHANGE_RESULT_KIND_NONE,
+    EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES,
+    EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES,
+    EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES,
+    EXCHANGE_RESULT_KIND_WORDS_A,
+    EXCHANGE_RESULT_KIND_WORDS_B,
+};
+
+// A result of the exchange: its text, kind and four value strings.
+typedef struct ExchangeResult {
+    /* 00 */ char mText[0x20];
+    /* 20 */ s32 mKind;
+    /* 24 */ s32 mItem205Value;
+    /* 28 */ u8 mValueBytes[4][0x20];
+    /* a8 */ Words16 mItem20aWords;
+} ExchangeResult;
+
+// Values of ExchangeResultRecord.mItem202Value: what the record carries. 2 and 3 (bare) carry words and set the result
+// kind to 4 and 5.
+enum {
+    KIND5_ITEM202_NONE,
+    KIND5_ITEM202_VALUE_TEXTS,
+    KIND5_ITEM202_WORDS_A,
+    KIND5_ITEM202_WORDS_B,
+};
+
+// A record of the result packet: its text, items 202 and 205, and the flag that stores the values as hex.
+typedef struct ExchangeResultRecord {
+    /* 00 */ char mText[0x2c];
+    /* 2c */ u32 mItem202Value;
+    /* 30 */ s32 mItem205Value;
+    /* 34 */ u8 mUnk_34[0x28];
+    /* 5c */ s32 mStoreValuesAsHex;
+} ExchangeResultRecord;
+
+// The words of item 20a of the exchange result, followed by two more words.
+typedef struct ExchangeResultItem20a {
+    /* 00 */ Words16 mBytes;
+    /* 40 */ u32 mUnk_40[2];
+} ExchangeResultItem20a;
+
+// One access point as the scan returned it: address, SSID, flags, rate sets, beacon period and channel.
+typedef struct RawEntry {
+    /* 00 */ u16 mUnk_00;
+    /* 02 */ u16 mUnk_02;
+    /* 04 */ MacAddress mAddress;
+    /* 0a */ u16 mSsidLength;
+    /* 0c */ u8 mSsid[0x20];
+    /* 2c */ u16 mFlags;
+    /* 2e */ u16 mBasicRateSet;
+    /* 30 */ u16 mSupportRateSet;
+    /* 32 */ u16 mBeaconPeriod;
+    /* 34 */ u16 mUnk_34;
+    /* 36 */ u16 mChannel;
+    /* 38 */ u8 pad_38[0x88];
+} RawEntry;
+
+// The items of the result packet: words, an ExchangeResultRecord, the values and item 20a.
+typedef struct ExchangeResultItems {
+    /* 000 */ u32 mWords[0x40];
+    /* 100 */ ExchangeResultRecord mRecord;
+    /* 160 */ u8 mUnk_160[4];
+    /* 164 */ u8 mValues[0x98];
+    /* 1fc */ ExchangeResultItem20a mItem20a;
+    /* 244 */ u8 mUnk_244[0x10];
+} ExchangeResultItems;
+
+#include "03/Net/essid_packet_steps.h"
