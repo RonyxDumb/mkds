@@ -231,13 +231,13 @@ void CreateAnimatedIcon(int index) {
     object->mPaletteIndex = index;
     gAnimatedIcon->mOamEntry = CreateOamEntryFromNceImage(0, 0x47);
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0x400;
+    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0x400;
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mAttr01 = innerObject->mAttr01 & OAM_ATTR01_NOT_MODE_MASK;
-    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (gAnimatedIconPalettes[index] << 12);
+    innerObject->mAttr01 = innerObject->mAttr01 & OAM_ENTRY_NOT_MODE_MASK;
+    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (gAnimatedIconPalettes[index] << 12);
     innerObject = gAnimatedIcon->mOamEntry;
     innerObject->mAttr01 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
-                           ((innerObject->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (gAnimatedIconPosition[1] & 0xff));
+                           ((innerObject->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (gAnimatedIconPosition[1] & 0xff));
     gAnimatedIcon->mTask = AddTask(1, AdvanceAnimatedIcon, NULL, 0x78);
 }
 
@@ -256,13 +256,13 @@ void AdvanceAnimatedIcon(TaskEntry *task, void *arg) {
     imageOrPalette = FX_DivS32(gAnimatedIcon->mStepFrames, 5) + 0x47;
     CopyNceImageToOamEntries(0, imageOrPalette, gAnimatedIcon->mOamEntry);
     innerObject = gAnimatedIcon->mOamEntry;
-    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0x400;
+    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0x400;
     object = gAnimatedIcon;
     imageOrPalette = gAnimatedIconPalettes[object->mPaletteIndex];
     innerObject = object->mOamEntry;
-    innerObject->mAttr01 = innerObject->mAttr01 & OAM_ATTR01_NOT_MODE_MASK;
-    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ATTR2_NOT_PALETTE_MASK) | (imageOrPalette << 12);
+    innerObject->mAttr01 = innerObject->mAttr01 & OAM_ENTRY_NOT_MODE_MASK;
+    innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ENTRY_NOT_PALETTE_MASK) | (imageOrPalette << 12);
     innerObject = gAnimatedIcon->mOamEntry;
     innerObject->mAttr01 = ((gAnimatedIconPosition[0] & 0x1ff) << 16) |
-                           ((innerObject->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (gAnimatedIconPosition[1] & 0xff));
+                           ((innerObject->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (gAnimatedIconPosition[1] & 0xff));
 }

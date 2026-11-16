@@ -3,19 +3,19 @@
 #include "types.h"
 
 // Bits of OamEntry.mAttr01 (the object attribute 0 half is the low 16 bits, attribute 1 the high 16 bits).
-#define OAM_ATTR01_Y_MASK 0xff
-#define OAM_ATTR01_X_MASK 0x1ff0000
-#define OAM_ATTR01_NOT_POSITION_MASK 0xfe00ff00
+#define OAM_ENTRY_Y_POSITION_MASK 0xff
+#define OAM_ENTRY_X_POSITION_MASK 0x1ff0000
+#define OAM_ENTRY_NOT_POSITION_MASK 0xfe00ff00
 #define OAM_ATTR01_NOT_EFFECT_MASK 0xc1fffcff
-#define OAM_ATTR01_NOT_MODE_MASK 0xfffff3ff
-#define OAM_ATTR01_EFFECT_AFFINE 0x100
-#define OAM_ATTR01_EFFECT_HIDDEN 0x200
-#define OAM_ATTR01_EFFECT_DOUBLE_AFFINE 0x300
+#define OAM_ENTRY_NOT_MODE_MASK 0xfffff3ff
+#define OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX 0x100
+#define OAM_ENTRY_EFFECT_HIDDEN 0x200
+#define OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX_BOTH_BITS 0x300
 
 // Bits of OamEntry.mAttr2.
 #define OAM_ATTR2_TILE_MASK 0x3ff
-#define OAM_ATTR2_NOT_PRIORITY_MASK 0xfffff3ff
-#define OAM_ATTR2_NOT_PALETTE_MASK 0xffff0fff
+#define OAM_ENTRY_NOT_PRIORITY_MASK 0xfffff3ff
+#define OAM_ENTRY_NOT_PALETTE_MASK 0xffff0fff
 
 // One OAM entry: the attribute 0 and 1 word and the attribute 2 halfword of a sprite.
 typedef struct OamEntry {

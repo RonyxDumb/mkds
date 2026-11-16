@@ -433,8 +433,8 @@ void UpdateJb3ListFadeOut(void) {
 }
 
 static inline void Jb3ListG2_GetOBJPosition(OamEntry *oamEntry, u32 *x, u32 *y) {
-    *x = (oamEntry->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *y = oamEntry->mAttr01 & OAM_ATTR01_Y_MASK;
+    *x = (oamEntry->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = oamEntry->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void UpdateJb3ListRelease(void) {
@@ -742,10 +742,10 @@ void SetupJb3ListCell(int cellKind, int cellState, int row) {
     if (gJb3ListCellImageIds[cellKind][cellState] != 0) {
         CopyNceImageToOamEntries(0, gJb3ListCellImageIds[cellKind][cellState], *entryPointer);
         xBits = (cellXPositions[cellKind] & 0x1ff) << 16;
-        (*entryPointer)->mAttr01 = xBits | ((*entryPointer)->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK);
+        (*entryPointer)->mAttr01 = xBits | ((*entryPointer)->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK);
         (*entryPointer)->mAttr2 = ((*entryPointer)->mAttr2 & ~0xc00) | 0xc00;
     } else {
-        (*entryPointer)->mAttr01 = ((*entryPointer)->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | 0x1000000;
+        (*entryPointer)->mAttr01 = ((*entryPointer)->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | 0x1000000;
     }
 }
 
@@ -816,31 +816,31 @@ void RefreshJb3ListRowPositions(void) {
         }
         gJb3List->mSetTypeOamEntry->mAttr01 =
             ((xPosition & 0x1ff) << 16) |
-            ((gJb3List->mSetTypeOamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (firstRowY & 0xff));
+            ((gJb3List->mSetTypeOamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (firstRowY & 0xff));
     }
     for (rowIndex = 0, rowY = firstRowY; rowIndex < 5; rowIndex++, rowY += 0x1d) {
         Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[rowIndex], (u32 *) &xPosition, &yPosition);
         oamEntry = gJb3List->mCellOamEntries[rowIndex];
         oamEntry->mAttr01 =
-            ((xPosition & 0x1ff) << 16) | ((oamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | (rowY & 0xff));
+            ((xPosition & 0x1ff) << 16) | ((oamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (rowY & 0xff));
     }
     if (firstEntryIndex <= 2) {
         Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[5], &xPosition, (u32 *) &yPosition);
         gJb3List->mCellOamEntries[5]->mAttr01 =
-            ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[5]->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) |
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[5]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) |
                                            ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
         gJb3List->mCellOamEntries[5]->mAttr01 =
-            (gJb3List->mCellOamEntries[5]->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | 0x1000000;
+            (gJb3List->mCellOamEntries[5]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | 0x1000000;
     }
     if (firstEntryIndex >= 2 && firstEntryIndex <= 6) {
         Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[6], &xPosition, (u32 *) &yPosition);
         gJb3List->mCellOamEntries[6]->mAttr01 =
-            ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[6]->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) |
+            ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[6]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) |
                                            ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
     } else {
         gJb3List->mCellOamEntries[6]->mAttr01 =
-            (gJb3List->mCellOamEntries[6]->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | 0x1000000;
+            (gJb3List->mCellOamEntries[6]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | 0x1000000;
     }
     gJb3List->mBgOffsetPending = 1;
 }

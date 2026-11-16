@@ -70,7 +70,7 @@ void CreateEditAddr(void) {
     CreateObjectsForMenuPair(2);
     gEditAddr->mBgTextCanvas = InitBgTextCanvas(0, 0);
     gEditAddr->mOamEntry = CreateOamEntryFromNceImage(0, 0x3f);
-    gEditAddr->mOamEntry->mAttr2 = (gEditAddr->mOamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+    gEditAddr->mOamEntry->mAttr2 = (gEditAddr->mOamEntry->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     PlaceEditAddrGroupOam();
     PrintEditAddrText();
     SetUpdateFunction(StartEditAddrFadeIn);
@@ -224,7 +224,7 @@ void UpdateEditAddrInput(void) {
             }
             gEditAddr->mGroupIndex = EDIT_ADDR_LAST_GROUP;
             gEditAddr->mOamEntry->mAttr01 =
-                (gEditAddr->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+                (gEditAddr->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
             PlaceEditAddrGroupOam();
             WriteEditAddrGroupPadding();
             SetUpdateFunction(StartEditAddrClose);
@@ -397,7 +397,7 @@ void PlaceEditAddrGroupOam(void) {
     }
     oamEntry = editAddr->mOamEntry;
     xBits = (gEditAddrCharX[groupIndex * 3 + 2] & 0x1ff) << 16;
-    oamEntry->mAttr01 = xBits | ((oamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | 0x28);
+    oamEntry->mAttr01 = xBits | ((oamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | 0x28);
 }
 
 void UpdateEditAddrMessageResult(void) {

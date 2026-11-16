@@ -63,16 +63,16 @@ void CreateEditKeyboard(void) {
     for (index = 0; index < 0x2f; index++) {
         gEditKeyboard->mKeys[index] = CreateOamEntryFromNceImage(0, 0x34);
         gEditKeyboard->mKeys[index]->mAttr01 =
-            (gEditKeyboard->mKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+            (gEditKeyboard->mKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
         gEditKeyboard->mKeys[index]->mAttr2 =
-            (gEditKeyboard->mKeys[index]->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+            (gEditKeyboard->mKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
     for (index = 0; index < 4; index++) {
         gEditKeyboard->mExtraKeys[index] = CreateOamEntryFromNceImage(0, gEditKeyboardExtraKeyImages[index]);
         gEditKeyboard->mExtraKeys[index]->mAttr01 =
-            (gEditKeyboard->mExtraKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ATTR01_EFFECT_HIDDEN;
+            (gEditKeyboard->mExtraKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
         gEditKeyboard->mExtraKeys[index]->mAttr2 =
-            (gEditKeyboard->mExtraKeys[index]->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+            (gEditKeyboard->mExtraKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
     for (index = 0; index < 2; index++) {
         gEditKeyboard->mRow4Keys[index] = CreateOamRangeFromNceImage(0, gEditKeyboardRow4KeyImages[index], 1);
@@ -127,8 +127,8 @@ BOOL HasEditKeyboard(void) {
 }
 
 static inline void EditKeyboardInG2_GetOBJPosition(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mAttr01 & OAM_ATTR01_X_MASK) >> 16;
-    *y = object->mAttr01 & OAM_ATTR01_Y_MASK;
+    *x = (object->mAttr01 & OAM_ENTRY_X_POSITION_MASK) >> 16;
+    *y = object->mAttr01 & OAM_ENTRY_Y_POSITION_MASK;
 }
 
 void AdvanceEditKeyboardSlideInRow0(TaskEntry *task, void *arg) {

@@ -142,9 +142,9 @@ void CreateApListRowObjects(void) {
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
         OamEntry *oamEntry;
         oamEntry = gApList->mRowLeftOamEntries[rowIndex];
-        oamEntry->mAttr2 = (oamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
         oamEntry = gApList->mRowRightOamEntries[rowIndex];
-        oamEntry->mAttr2 = (oamEntry->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0xc00;
+        oamEntry->mAttr2 = (oamEntry->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
 }
 
@@ -537,9 +537,9 @@ void RefreshApListRowPositions(void) {
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++, yPos += 0x1c) {
         OamEntry *oamEntry;
         oamEntry = gApList->mRowLeftOamEntries[rowIndex];
-        oamEntry->mAttr01 = (oamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | ((yPos - 2) & 0xff) | 0xb30000;
+        oamEntry->mAttr01 = (oamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | ((yPos - 2) & 0xff) | 0xb30000;
         oamEntry = gApList->mRowRightOamEntries[rowIndex];
-        oamEntry->mAttr01 = (oamEntry->mAttr01 & OAM_ATTR01_NOT_POSITION_MASK) | ((yPos + 1) & 0xff) | 0xd20000;
+        oamEntry->mAttr01 = (oamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | ((yPos + 1) & 0xff) | 0xd20000;
     }
     gApList->mBgOffsetPending = 1;
 }
