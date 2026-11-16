@@ -81,14 +81,14 @@ void ClearShapeMapObjectCountListPointer(void) {
 
 s32 UpdateShapeMapObjectCounts(void) {
     BOOL result = FALSE;
-    u16 shapeIndex = 0;
+    u16 entryIndex = 0;
     ShapeMapObjectCount *entry;
     CourseMapShape *courseMapShape;
     s32 mapObjectCount;
     u16 mapObjectIndex;
     u8 insideCount;
-    for (shapeIndex = 0; shapeIndex < gShapeMapObjectCountList->mEntryCount; shapeIndex++) {
-        entry = &gShapeMapObjectCountList->mEntries[shapeIndex];
+    for (entryIndex = 0; entryIndex < gShapeMapObjectCountList->mEntryCount; entryIndex++) {
+        entry = &gShapeMapObjectCountList->mEntries[entryIndex];
         courseMapShape = GetCourseMapShape(entry->mShapeIndex);
         mapObjectCount =
             FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindValue);

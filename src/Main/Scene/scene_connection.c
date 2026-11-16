@@ -504,14 +504,14 @@ void RunMessageScreenOfKindWrapper(s32 kind) {
     RunMessageScreenOfKind(kind);
 }
 
-s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
+s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 messageAllowed) {
     BOOL result;
     s32 value;
 
     result = FALSE;
     if (SceneIsWiFiSessionHeapCreated()) {
         value = CheckWiFiSessionDisconnect();
-        if (flag != 0 && value != WIFI_DISCONNECT_NONE) {
+        if (messageAllowed != 0 && value != WIFI_DISCONNECT_NONE) {
             switch (value) {
                 case WIFI_DISCONNECT_NO_INPUT:
                     value = MESSAGE_KIND_WIFI_NO_INPUT;
@@ -527,7 +527,7 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
             RunMessageScreenOfKind(value);
             result = TRUE;
         }
-    } else if (flag != 0 && SceneIsConnectionActiveNotEndingWithError()) {
+    } else if (messageAllowed != 0 && SceneIsConnectionActiveNotEndingWithError()) {
         RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
         result = TRUE;
         gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
