@@ -251,7 +251,7 @@ typedef struct ArchiveLoadRequest {
     /* 90 */ s32 mAllocFromHeapEnd;
     /* 94 */ s32 mUncompressSource;
     /* 98 */ s32 mUnk_98;
-    /* 9c */ s32 mUnk_9c;
+    /* 9c */ s32 mArchiveBufferSize;
 } ArchiveLoadRequest;
 
 // The archive loader: 20 archive slots, the file table, the load request, the buffers and their heaps.

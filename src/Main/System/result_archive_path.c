@@ -464,7 +464,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mData = data;
     request->mAllocFromHeapEnd = allocFromHeapEnd;
     request->mUncompressSource = uncompressSource;
-    request->mUnk_9c = archiveBufferSize;
+    request->mArchiveBufferSize = archiveBufferSize;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
