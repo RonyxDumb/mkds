@@ -153,7 +153,7 @@ typedef union WBTCommandData {
         u32 mBlockId;
         u32 mRecvDataSize;
         u32 mRecvBuf[16];
-        void *mPktBmp[16];
+        void *mPacketBitmap[16];
     } mGet;
     RomArchiveParentViewEntry mArchiveParentViewEntry;
     RomArchiveMessage mArchiveMessage;

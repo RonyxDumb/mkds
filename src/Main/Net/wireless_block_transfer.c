@@ -612,7 +612,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
             for (entryIndex = 0, dataBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
                 if (((transfer->mCurrentRequest.mTargetBmp >> entryIndex) & 1) != 0) {
                     WBTi_InitBitmap(dataBitmap, transfer->mCurrentRequest.mData.mGet.mRecvDataSize,
-                                    transfer->mCurrentRequest.mData.mGet.mPktBmp[entryIndex],
+                                    transfer->mCurrentRequest.mData.mGet.mPacketBitmap[entryIndex],
                                     transfer->mCurrentRequest.mData.mGet.mRecvBuf[entryIndex]);
                 }
                 dataBitmap = OFFSET_PTR(WBTPacketBitmap, dataBitmap, sizeof(BlockTransferEntry));

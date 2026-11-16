@@ -253,7 +253,7 @@ u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize,
     request.mData.mGet.mBlockId = blockId;
     request.mData.mGet.mRecvDataSize = blockSize;
     MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
-    MIi_CpuCopy32(chunkBitmaps, request.mData.mGet.mPktBmp, 0x40);
+    MIi_CpuCopy32(chunkBitmaps, request.mData.mGet.mPacketBitmap, 0x40);
     return TrySetNextRequest(&request);
 }
 
