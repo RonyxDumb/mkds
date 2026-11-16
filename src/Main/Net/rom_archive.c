@@ -563,15 +563,15 @@ void RomArchiveParentCallback(WBTCommand *record) {
     s32 isBusy;
 
     fromIndex = WBT_AidbitmapToAid(record->mPeerBmp);
-    if (record->mCommand != XFER_COMMAND_HOOK_RECORD) {
+    if (record->mCommand != XFER_COMMAND_CALLBACK_RECORD) {
         return;
     }
     switch (record->mEvent) {
         case XFER_EVENT_HANDSHAKE_ASKED:
             break;
-        case XFER_EVENT_ALL_CHUNKS_HELD:
+        case XFER_EVENT_NO_MISSING_CHUNK:
             break;
-        case XFER_EVENT_CUSTOM_ARRIVED:
+        case XFER_EVENT_USER_DATA_ARRIVED:
             view = &gRomArchiveTransfer.mParentOrChildView;
             payload = &record->mData;
             view->mEntries[fromIndex] = payload->mArchiveParentViewEntry;
@@ -768,7 +768,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             }
             RequestRomArchiveBytes(gRomArchiveTransfer.mPendingFile);
             return;
-        case XFER_COMMAND_FETCH_DETAILS:
+        case XFER_COMMAND_FETCH_NODE:
             blockSize = childView->mNodeBuffers[fromIndex]->mBlockSize;
             gRomArchiveTransfer.mArchiveBlockSize = blockSize;
             savedInterrupts = OS_DisableInterrupts();
@@ -825,8 +825,8 @@ void RomArchiveChildCallback(WBTCommand *record) {
             }
             OS_Terminate();
             return;
-        case XFER_COMMAND_HOOK_RECORD:
-            if (record->mEvent != XFER_EVENT_CUSTOM_ARRIVED) {
+        case XFER_COMMAND_CALLBACK_RECORD:
+            if (record->mEvent != XFER_EVENT_USER_DATA_ARRIVED) {
                 return;
             }
             received = &record->mData.mArchiveMessage;

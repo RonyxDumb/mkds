@@ -119,7 +119,7 @@ void MPLinkCallback(s32 eventKind, void *eventInfo) {
                 gScanConnectWork->mStateCallback(SCAN_CONNECT_STATE_ERROR, &replyErrorKind);
             }
             break;
-        case MP_LINK_EVENT_SEND_BUSY:
+        case MP_LINK_EVENT_SEND_NO_ANSWER:
             break;
     }
 }

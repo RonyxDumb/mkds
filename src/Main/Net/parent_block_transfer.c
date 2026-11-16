@@ -6,7 +6,7 @@
 
 void ParentBlockTransferCallback(WBTCommand *record) {
     s32 callbackCode = record->mEvent;
-    if (callbackCode == XFER_EVENT_CUSTOM_ARRIVED) {
+    if (callbackCode == XFER_EVENT_USER_DATA_ARRIVED) {
         SetZeroWordReceived(&record->mData.mUserDataWord, record->mData.mUserData.mSize);
         return;
     }
@@ -17,12 +17,12 @@ void ParentBlockTransferCallback(WBTCommand *record) {
             }
             break;
         case PARENT_TRANSFER_WAIT_FIRST_CHUNKS:
-            if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
+            if (callbackCode == XFER_EVENT_NO_MISSING_CHUNK) {
                 gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_SECOND_CHUNKS;
             }
             break;
         case PARENT_TRANSFER_WAIT_SECOND_CHUNKS:
-            if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
+            if (callbackCode == XFER_EVENT_NO_MISSING_CHUNK) {
                 gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SEQUENCE_DONE;
                 gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_HANDSHAKE;
             }

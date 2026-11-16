@@ -168,7 +168,7 @@ void UpdateMPLoadOverlay(void *stateObject) {
             CreateOverlayFrmHeap();
             InitArchiveBuffersOnOverlayHeap();
         }
-        MPStatesRequestMPState(MP_STATE_LOAD_DL_ARCHIVES);
+        MPStatesRequestMPState(MP_STATE_WAIT_MAIN_AND_MENU_ARCHIVES);
     }
 }
 

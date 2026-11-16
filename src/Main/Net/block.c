@@ -53,8 +53,8 @@ void StartBlockNodeRequest(void) {
 }
 
 void BlockNodeRequestCallback(WBTCommand *record) {
-    if (record->mCommand == XFER_COMMAND_FETCH_DETAILS) {
-        if (record->mEvent == XFER_EVENT_LAYOUT_ENDED) {
+    if (record->mCommand == XFER_COMMAND_FETCH_NODE) {
+        if (record->mEvent == XFER_EVENT_NODE_ENDED) {
             gConnectionWork->mRequestPending = 0;
         } else {
             StartBlockNodeRequest();

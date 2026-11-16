@@ -290,7 +290,7 @@ void QueueMPDataCallback(WirelessMessage *result) {
         }
     } else if (result->mResultCode == WIRELESS_RESULT_NO_ANSWER) {
         if (gMPLink->mCallback != NULL) {
-            gMPLink->mCallback(MP_LINK_EVENT_SEND_BUSY, result);
+            gMPLink->mCallback(MP_LINK_EVENT_SEND_NO_ANSWER, result);
         }
     } else {
         if (gMPLink->mCallback != NULL) {
@@ -433,7 +433,7 @@ void ScanConnectStartScan(void) {
         bssid[3] = defaultBssid[3];
         bssid[4] = defaultBssid[4];
         bssid[5] = defaultBssid[5];
-        gScanConnectWork->mScanParams.mMaxChannelTime = SCAN_CHANNEL_TIME_ANY;
+        gScanConnectWork->mScanParams.mMaxChannelTime = SCAN_CHANNEL_TIME_UNLOCKED;
         if (PickScanChannel() == 0) {
             ReportScanError(SCAN_ERROR_NO_CHANNEL, 0);
             return;
@@ -531,10 +531,10 @@ void EntryCallback(u32 event, void *entry, u32 entryIndex) {
         case BEACON_ENTRY_EVENT_NO_FREE_SLOT:
             break;
         case BEACON_ENTRY_EVENT_COMPLETE:
-            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_NEW, entry, entryIndex);
+            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_COMPLETE, entry, entryIndex);
             break;
         case BEACON_ENTRY_EVENT_TIMED_OUT:
-            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_UPDATED, entry, entryIndex);
+            CallScanCallbackWithEntry(SCAN_EVENT_ENTRY_TIMED_OUT, entry, entryIndex);
             break;
     }
 }

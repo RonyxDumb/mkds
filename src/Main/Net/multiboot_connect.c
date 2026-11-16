@@ -31,7 +31,7 @@
 
 // Bytes of mMultiBootScratchBuffer, which a game that did not start as a multiboot child allocates and
 // ResetConnectionBuffers clears.
-#define MULTIBOOT_SCRATCH_BUFFER_BYTES 0x4c0
+#define MULTIBOOT_BUFFER_BYTES 0x4c0
 // Most bytes of the multiboot program segment (mMultiBootSegment) a game that did not start as a multiboot child reads;
 // a longer segment is cut to this.
 #define MULTIBOOT_SEGMENT_MAX_BYTES 0x80000
@@ -55,7 +55,7 @@ void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
             HeapAllocAligned(heap, gConnectionWork->mMultiBootSegmentSize, HEAP_ALIGN_CACHE_LINE);
         SetGameRegistryTexts(bmg);
         gConnectionWork->mMultiBootScratchBuffer =
-            HeapAllocAligned(heap, MULTIBOOT_SCRATCH_BUFFER_BYTES, HEAP_ALIGN_CACHE_LINE);
+            HeapAllocAligned(heap, MULTIBOOT_BUFFER_BYTES, HEAP_ALIGN_CACHE_LINE);
     } else {
         gConnectionWork->mMultiBootSegmentSize = 0;
         gConnectionWork->mMultiBootSegment = 0;
@@ -157,7 +157,7 @@ void ResetConnectionBuffers(MultiBootStateView *view) {
         MI_CpuFill8(gConnectionWork->mMultiBootWork, 0, gConnectionWork->mMultiBootWorkSize);
     }
     if (gConnectionWork->mMultiBootScratchBuffer != 0) {
-        MI_CpuFill8(gConnectionWork->mMultiBootScratchBuffer, 0, MULTIBOOT_SCRATCH_BUFFER_BYTES);
+        MI_CpuFill8(gConnectionWork->mMultiBootScratchBuffer, 0, MULTIBOOT_BUFFER_BYTES);
     }
     for (index = 0; index < 8; index++) {
         view->mChildStateCodes[index] = 0;
@@ -266,8 +266,8 @@ s32 FindScanEntryIndex(u32 entryIndex) {
 // Codes: 2 is an error, 3 the end of the scan; 0 and 1 carry a table entry and are ignored.
 void RepeatedScanCallback(u32 code, void *args) {
     switch (code) {
-        case SCAN_EVENT_ENTRY_NEW:
-        case SCAN_EVENT_ENTRY_UPDATED:
+        case SCAN_EVENT_ENTRY_COMPLETE:
+        case SCAN_EVENT_ENTRY_TIMED_OUT:
             break;
         case SCAN_EVENT_ERROR:
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);

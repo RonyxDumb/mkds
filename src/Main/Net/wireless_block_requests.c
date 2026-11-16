@@ -142,7 +142,7 @@ BOOL WBT_GetCurrentDownloadProgress(u32 blockId, s32 entryIndex, s32 *receivedCh
 u32 WBT_SetPacketSize(s32 sendSize, s32 receiveSize) {
     switch (GetBlockTransfer()->mCurrentRequest.mCommand) {
         case XFER_COMMAND_FETCH_DATA:
-        case XFER_COMMAND_FETCH_DETAILS:
+        case XFER_COMMAND_FETCH_NODE:
             return 0;
     }
     SetSendChunkSize(sendSize - 0xe);
@@ -235,7 +235,7 @@ u32 WBT_RequestSync(u16 indexMask, void (*callback)(WBTCommand *)) {
 
 u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, void (*callback)(WBTCommand *)) {
     WBTCommand request;
-    request.mCommand = XFER_COMMAND_FETCH_DETAILS;
+    request.mCommand = XFER_COMMAND_FETCH_NODE;
     request.mTargetBmp = indexMask;
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockIdOrPosition;
@@ -263,7 +263,7 @@ u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*call
     if (byteCount < 0 || byteCount > 9) {
         return 0;
     }
-    request.mCommand = XFER_COMMAND_SEND_CUSTOM;
+    request.mCommand = XFER_COMMAND_SEND_USER_DATA;
     requestPointer = &request;
     requestPointer->mTargetBmp = indexMask;
     requestPointer->mCallback = callback;

@@ -93,8 +93,8 @@ void StartSendWordRequest(u16 indexMask, s32 value) {
 }
 
 void SendWordRequestCallback(WBTCommand *record) {
-    if (record->mCommand == XFER_COMMAND_SEND_CUSTOM) {
-        if (record->mEvent == XFER_EVENT_CUSTOM_ENDED) {
+    if (record->mCommand == XFER_COMMAND_SEND_USER_DATA) {
+        if (record->mEvent == XFER_EVENT_USER_DATA_ENDED) {
             gConnectionWork->mRequestPending = 0;
             return;
         }

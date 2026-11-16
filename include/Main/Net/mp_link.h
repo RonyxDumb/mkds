@@ -56,7 +56,7 @@ typedef enum ScanConnectError {
 
 // Scan timing and channels: the most time in milliseconds spent on a channel (a locked bssid waits longer) and the
 // channel range PickScanChannel walks.
-#define SCAN_CHANNEL_TIME_ANY 10
+#define SCAN_CHANNEL_TIME_UNLOCKED 10
 #define SCAN_CHANNEL_TIME_LOCKED 0xdc
 #define SCAN_CHANNEL_FIRST 1
 #define SCAN_CHANNEL_LAST 0x10
@@ -73,15 +73,15 @@ typedef enum MPLinkEvent {
     MP_LINK_EVENT_SEND_FAILED = 18,
     MP_LINK_EVENT_MP_STARTED = 20,
     MP_LINK_EVENT_SEND_READY = 25,
-    MP_LINK_EVENT_SEND_BUSY = 0x29,
+    MP_LINK_EVENT_SEND_NO_ANSWER = 0x29,
     MP_LINK_EVENT_CALL_FAILED = 0xff, // a WM call failed
     MP_LINK_EVENT_REPLY_FAILED = 0x100, // a WM reply failed
 } MPLinkEvent;
 
 // First argument of ScanConnectWork.mScanCallback.
 typedef enum ScanEvent {
-    SCAN_EVENT_ENTRY_NEW = 0,
-    SCAN_EVENT_ENTRY_UPDATED = 1,
+    SCAN_EVENT_ENTRY_COMPLETE = 0,
+    SCAN_EVENT_ENTRY_TIMED_OUT = 1,
     SCAN_EVENT_ERROR = 2,
     SCAN_EVENT_END = 3,
 } ScanEvent;
