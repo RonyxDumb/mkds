@@ -59,7 +59,7 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
     }
     MB_SetParentCommParam(0x100, 1);
     MB_CommSetParentStateCallback(MultiBootParentStateCallback);
-    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_READY);
+    SetMultiBootParentState(MULTIBOOT_PARENT_STATE_INITIALIZED);
 }
 
 void StartMultiBootParentFromIdle(MBGameRegistry *gameRegistry, u16 channel) {

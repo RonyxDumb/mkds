@@ -144,7 +144,7 @@ void UpdateApScanFrames(void) {
             return;
         }
         for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
-            if (entries[entryIndex].mCapaLevel != AP_CAPA_LEVEL_SECURITY_ELEMENT) {
+            if (entries[entryIndex].mCapaLevel != AP_CAPA_LEVEL_ENCRYPTED_ELEMENT_MATCHED) {
                 break;
             }
         }

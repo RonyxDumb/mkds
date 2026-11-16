@@ -40,10 +40,10 @@ typedef struct ExchangeResult {
 // Values of ExchangeResultRecord.mItem202Value: what the record carries. WORDS_A and WORDS_B carry words and set the
 // result kind to WORDS_A and WORDS_B.
 enum {
-    KIND5_ITEM202_NONE,
-    KIND5_ITEM202_VALUE_TEXTS,
-    KIND5_ITEM202_WORDS_A,
-    KIND5_ITEM202_WORDS_B,
+    RESULT_ITEM202_NONE,
+    RESULT_ITEM202_VALUE_TEXTS,
+    RESULT_ITEM202_WORDS_A,
+    RESULT_ITEM202_WORDS_B,
 };
 
 // A record of the result packet: its text, items 202 and 205, and the flag that stores the values as hex.

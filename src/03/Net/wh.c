@@ -33,7 +33,7 @@ void SetWhState(u32 newState) {
 }
 
 void SetWhErrorCode(s32 errorCode) {
-    if ((u32) (gWhWork->mState - WH_STATE_ERROR) > WH_STATE_FAILED - WH_STATE_ERROR) {
+    if ((u32) (gWhWork->mState - WH_STATE_ERROR) > WH_STATE_INIT_RESET_OR_END_FAILED - WH_STATE_ERROR) {
         gWhWork->mErrorCode = errorCode;
     }
 }
@@ -360,7 +360,7 @@ void StartWhResetCallback(WirelessMessage *event) {
 
 void EndWhCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
-        SetWhState(WH_STATE_FAILED);
+        SetWhState(WH_STATE_INIT_RESET_OR_END_FAILED);
         return;
     }
     SetWhState(WH_STATE_STOP);

@@ -58,7 +58,7 @@ BOOL StopChildWaitSession(void) {
     if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT || state == CHILD_WAIT_STATE_CHILD_JOINED ||
         state == CHILD_WAIT_STATE_DOWNLOADING || state == CHILD_WAIT_STATE_CHILD_LEFT) {
         if (state == CHILD_WAIT_STATE_MULTIBOOT_WAIT &&
-            session->mMultiBootInitFrames < CHILD_WAIT_MULTIBOOT_MIN_RUN_FRAMES) {
+            session->mMultiBootInitFrames < CHILD_WAIT_MULTIBOOT_INIT_FRAME_COUNT) {
             return 0;
         }
         MB_EndToIdle();
@@ -287,7 +287,7 @@ void InitChildWaitMultiBoot(void) {
 
 void AdvanceChildWaitMultiBoot(void) {
     switch (GetMultiBootParentState()) {
-        case MULTIBOOT_PARENT_STATE_READY:
+        case MULTIBOOT_PARENT_STATE_INITIALIZED:
             StartMultiBootParentFromIdle(&gChildWaitSessionView->mGameRegistry, gChildWaitSessionView->mChannel);
             return;
         case MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN:

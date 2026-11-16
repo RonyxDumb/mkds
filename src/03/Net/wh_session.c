@@ -34,7 +34,7 @@ BOOL StartWhChannelSearch(void) {
     gWhWork->mRandomSeed = seed;
     gWhWork->mRandomSeed = gWhWork->mRandomSeed * 0x10dcd + 0x3039;
     gWhWork->mDecidedChannel = 0;
-    gWhWork->mLowestBusyRatio = WH_BUSY_RATIO_NOT_MEASURED;
+    gWhWork->mLowestBusyRatio = WH_LOWEST_BUSY_RATIO_START;
     SetWhState(WH_STATE_BUSY);
     result = MeasureNextWhChannel(1);
     if (result == 0x18) {
@@ -183,7 +183,7 @@ BOOL StartWhInitialize(void) {
     result = WM_Initialize(gWhWork->mWmSystemBuffer, StartWhInitializeCallback, 2);
     if (result != 2) {
         SetWhErrorCode(result);
-        SetWhState(WH_STATE_FAILED);
+        SetWhState(WH_STATE_INIT_RESET_OR_END_FAILED);
         return FALSE;
     }
     return TRUE;
@@ -192,12 +192,12 @@ BOOL StartWhInitialize(void) {
 void StartWhInitializeCallback(WirelessMessage *event) {
     if (event->mResultCode != 0) {
         SetWhErrorCode(event->mResultCode);
-        SetWhState(WH_STATE_FAILED);
+        SetWhState(WH_STATE_INIT_RESET_OR_END_FAILED);
     } else {
         s32 result = WM_SetIndCallback(WhIndicationCallback);
         if (result != 0) {
             SetWhErrorCode(result);
-            SetWhState(WH_STATE_FAILED);
+            SetWhState(WH_STATE_INIT_RESET_OR_END_FAILED);
         } else {
             SetWhState(WH_STATE_IDLE);
         }
@@ -271,7 +271,7 @@ void StartWhResetOrFail(void) {
     int result;
     result = StartWhReset();
     if (result == 0) {
-        SetWhState(WH_STATE_FAILED);
+        SetWhState(WH_STATE_INIT_RESET_OR_END_FAILED);
     }
 }
 
@@ -294,13 +294,13 @@ void FinalizeWh(void) {
     }
     SetWhState(WH_STATE_BUSY);
     switch (gWhWork->mConnectMode) {
-        case WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING:
+        case WIRELESS_CONNECT_MODE_KEY_SHARING_END_CHECKED:
             if (EndActiveWhKeySharing() == FALSE) {
                 StartWhResetOrFail();
             }
             break;
-        case WIRELESS_CONNECT_MODE_END_MP_FIRST:
-        case WIRELESS_CONNECT_MODE_END_MP_FIRST_ALTERNATE:
+        case WIRELESS_CONNECT_MODE_END_MP_BEFORE_DISCONNECT:
+        case WIRELESS_CONNECT_MODE_END_MP_FIRST_ALSO:
             if (EndWhMPBeforeDisconnect() == FALSE) {
                 StartWhResetOrFail();
             }

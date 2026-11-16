@@ -62,16 +62,16 @@ typedef struct WepKey16 {
 #define EXCHANGE_STEP_WAIT_FIRST_PACKET 4
 #define EXCHANGE_STEP_SEND_FIRST_REPLY 5
 #define EXCHANGE_STEP_WAIT_SECOND_KEY 6
-#define EXCHANGE_STEP_SEND_KEY_HASH 7
+#define EXCHANGE_STEP_SEND_HASHED_KEY_PART 7
 #define EXCHANGE_STEP_WAIT_RESULT 8
-#define EXCHANGE_STEP_SEND_RESULT_ACK 9
-#define EXCHANGE_STEP_WAIT_ACK_RESEND 10
+#define EXCHANGE_STEP_SEND_RESULT_REPLY 9
+#define EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY 10
 
 // Bit of RawEntry.mFlags that is set for an entry with encryption.
 #define RAW_ENTRY_FLAG_ENCRYPTED 0x10
 
 // First byte of a one-character SSID that is never matched (a zero byte is skipped too).
-#define EXCHANGE_SSID_BLANK_CHAR 0x20
+#define EXCHANGE_SSID_SPACE_CHAR 0x20
 
 // Eight bytes passed by address.
 typedef struct SocketAddress {

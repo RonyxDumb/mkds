@@ -12,11 +12,11 @@ typedef void (*WhPrintFunction)(u32 flags, const char *format, ...);
 // disconnect; no caller passes them (bare case labels).
 enum {
     WIRELESS_CONNECT_MODE_MP = 0,
-    WIRELESS_CONNECT_MODE_END_MP_FIRST = 1,
+    WIRELESS_CONNECT_MODE_END_MP_BEFORE_DISCONNECT = 1,
     WIRELESS_CONNECT_MODE_KEY_SHARING = 2,
-    WIRELESS_CONNECT_MODE_ACTIVE_KEY_SHARING = 3,
+    WIRELESS_CONNECT_MODE_KEY_SHARING_END_CHECKED = 3,
     WIRELESS_CONNECT_MODE_DATA_SHARING = 4,
-    WIRELESS_CONNECT_MODE_END_MP_FIRST_ALTERNATE = 5,
+    WIRELESS_CONNECT_MODE_END_MP_FIRST_ALSO = 5,
 };
 
 // Buffer sizes and the largest parent and child data sizes StartWhParentConnect sets, and the value
@@ -25,7 +25,7 @@ enum {
 #define WH_SEND_BUFFER_SIZE 0xe0
 #define WH_PARENT_MAX_SIZE 0xd0
 #define WH_CHILD_MAX_SIZE 0x44
-#define WH_BUSY_RATIO_NOT_MEASURED 0x65
+#define WH_LOWEST_BUSY_RATIO_START 0x65
 
 // Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when initialize,
 // reset start or end fails.
@@ -40,7 +40,7 @@ enum {
     WH_STATE_MEASURE_CHANNEL,
     WH_STATE_CONNECT_FAIL,
     WH_STATE_ERROR,
-    WH_STATE_FAILED,
+    WH_STATE_INIT_RESET_OR_END_FAILED,
 };
 
 // The wireless link work (gWhWork): its parent parameters, state, connect mode and callback, connected mask and channel

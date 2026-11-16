@@ -8,7 +8,7 @@
 // started, BOOTING once the boot requests went out, BOOTED when the parent ended after that, ENDING after the end
 // request, FAILED when StartParentFromIdle failed, an error notice arrived, or no boot request call succeeded.
 #define MULTIBOOT_PARENT_STATE_ENDED 0
-#define MULTIBOOT_PARENT_STATE_READY 1
+#define MULTIBOOT_PARENT_STATE_INITIALIZED 1
 #define MULTIBOOT_PARENT_STATE_ACCEPTING_CHILDREN 2
 #define MULTIBOOT_PARENT_STATE_DOWNLOADING 3
 #define MULTIBOOT_PARENT_STATE_BOOTING 4

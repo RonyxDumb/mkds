@@ -37,7 +37,7 @@ void EssidWcmNotifyCallback(s16 *event) {
     switch (event[0]) {
         case WIFI_NOTIFY_STARTUP_REQUEST:
             if (event[1] == 0) {
-                if (gEssidWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+                if (gEssidWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gEssidEventCallback != NULL) {
                         gEssidEventCallback(EXCHANGE_EVENT_STARTUP_DONE, 0);
@@ -46,21 +46,21 @@ void EssidWcmNotifyCallback(s16 *event) {
                     if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 } else if (gEssidWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 }
             } else {
                 gEssidWcmState = EXCHANGE_WCM_STATE_INITIALIZED;
                 if (gEssidEventCallback != NULL) {
-                    gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                    gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                 }
             }
             break;
@@ -96,7 +96,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             break;
         case WIFI_NOTIFY_SCAN_STOP_REQUEST:
             if (event[1] == 0) {
-                if (gEssidWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+                if (gEssidWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gEssidEventCallback != NULL) {
                         gEssidEventCallback(EXCHANGE_EVENT_SEARCH_STOPPED, 0);
@@ -105,21 +105,21 @@ void EssidWcmNotifyCallback(s16 *event) {
                     if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 } else if (gEssidWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     if (WCM_CleanupAsync() != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 } else if (gEssidWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 }
@@ -132,7 +132,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             break;
         case WIFI_NOTIFY_DISCONNECT_REQUEST:
             if (event[1] == 0) {
-                if (gEssidWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
+                if (gEssidWcmState == EXCHANGE_WCM_STATE_RETURNING_TO_IDLE) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                     if (gEssidEventCallback != NULL) {
                         gEssidEventCallback(EXCHANGE_EVENT_DISCONNECTED, 0);
@@ -141,21 +141,21 @@ void EssidWcmNotifyCallback(s16 *event) {
                     if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 } else if (gEssidWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     if (WCM_CleanupAsync() != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 } else if (gEssidWcmState == EXCHANGE_WCM_STATE_CONNECT_PENDING) {
                     if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) != 3) {
                         gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                         if (gEssidEventCallback != NULL) {
-                            gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                            gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                         }
                     }
                 } else {
@@ -180,7 +180,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             } else {
                 gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
                 if (gEssidEventCallback != NULL) {
-                    gEssidEventCallback(EXCHANGE_EVENT_CHAINED_REQUEST_FAILED, 0);
+                    gEssidEventCallback(EXCHANGE_EVENT_REQUEST_FAILED, 0);
                 }
             }
             break;
@@ -193,7 +193,7 @@ void EssidWcmNotifyCallback(s16 *event) {
             break;
         default:
             if (gEssidEventCallback != NULL) {
-                gEssidEventCallback(EXCHANGE_EVENT_UNEXPECTED_NOTICE, 0);
+                gEssidEventCallback(EXCHANGE_EVENT_OTHER_NOTICE, 0);
             }
             break;
     }
@@ -219,7 +219,7 @@ BOOL StartEssidReturnToIdle(void) {
         case EXCHANGE_WCM_STATE_STOPPED:
         case EXCHANGE_WCM_STATE_CLEANING_UP:
         case EXCHANGE_WCM_STATE_IDLE:
-        case EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING:
+        case EXCHANGE_WCM_STATE_RETURNING_TO_IDLE:
         case EXCHANGE_WCM_STATE_SEARCH_PENDING:
         case EXCHANGE_WCM_STATE_CONNECT_PENDING:
         default:
@@ -289,7 +289,7 @@ BOOL EndEssidSearch(void) {
     u32 savedInterrupts = OS_DisableInterrupts();
     if (gEssidWcmState == EXCHANGE_WCM_STATE_SEARCHING) {
         if (WCM_SearchAsync(NULL, NULL, 0) == 3) {
-            gEssidWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
+            gEssidWcmState = EXCHANGE_WCM_STATE_RETURNING_TO_IDLE;
             OS_RestoreInterrupts(savedInterrupts);
             return TRUE;
         }
@@ -302,7 +302,7 @@ BOOL DisconnectEssid(void) {
     u32 savedInterrupts = OS_DisableInterrupts();
     if (gEssidWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
         if (WCM_DisconnectAsync() == 3) {
-            gEssidWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
+            gEssidWcmState = EXCHANGE_WCM_STATE_RETURNING_TO_IDLE;
             OS_RestoreInterrupts(savedInterrupts);
             return TRUE;
         }
@@ -379,7 +379,7 @@ BOOL InitEssidWcm(EssidEventCallback *callback, u8 *buffer, s32 size) {
             OS_RestoreInterrupts(savedInterrupts);
             return FALSE;
         }
-        gEssidWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
+        gEssidWcmState = EXCHANGE_WCM_STATE_RETURNING_TO_IDLE;
         OS_RestoreInterrupts(savedInterrupts);
         return TRUE;
     }

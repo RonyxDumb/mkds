@@ -28,7 +28,7 @@ void ApScanCallback(WirelessMessage *message);
 // Bit of WMBssDesc.mCapaInfo that is set when a WEP key is needed, the element id matched whatever its body, and the
 // element id matched only when its body starts with gOtherElementPrefix.
 #define AP_SCAN_CAPA_INFO_ENCRYPTED 0x10
-#define AP_SCAN_ELEMENT_ID_SECURITY 0x30
-#define AP_SCAN_ELEMENT_ID_VENDOR 0xdd
+#define AP_SCAN_ELEMENT_ID_ANY_BODY 0x30
+#define AP_SCAN_ELEMENT_ID_PREFIXED_BODY 0xdd
 
 extern const u8 gOtherElementPrefix[4];

@@ -71,7 +71,7 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
             MI_CpuCopy8(bssDesc->mSsid, slot, sizeof(bssDesc->mSsid));
             slot->mLinkLevel = scanResult->mLinkLevel[descIndex];
             if ((bssDesc->mCapaInfo & AP_SCAN_CAPA_INFO_ENCRYPTED) == 0) {
-                slot->mCapaLevel = AP_CAPA_LEVEL_OPEN;
+                slot->mCapaLevel = AP_CAPA_LEVEL_NOT_ENCRYPTED;
             } else {
                 WMOtherElements otherElements;
                 s32 elementIndex;
@@ -81,14 +81,14 @@ void StoreApScanEntries(WMStartScanExCallback *scanResult) {
                 elementIndex = 0;
                 elementCount = otherElements.mCount;
                 for (; elementIndex < elementCount; elementIndex++) {
-                    if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_SECURITY) {
-                        slot->mCapaLevel = AP_CAPA_LEVEL_SECURITY_ELEMENT;
+                    if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_ANY_BODY) {
+                        slot->mCapaLevel = AP_CAPA_LEVEL_ENCRYPTED_ELEMENT_MATCHED;
                         break;
                     }
-                    if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_VENDOR &&
+                    if (otherElements.mElement[elementIndex].mId == AP_SCAN_ELEMENT_ID_PREFIXED_BODY &&
                         otherElements.mElement[elementIndex].mLength >= sizeof(gOtherElementPrefix) &&
                         memcmp(otherElements.mElement[elementIndex].mBody, gOtherElementPrefix, 4) == 0) {
-                        slot->mCapaLevel = AP_CAPA_LEVEL_SECURITY_ELEMENT;
+                        slot->mCapaLevel = AP_CAPA_LEVEL_ENCRYPTED_ELEMENT_MATCHED;
                         break;
                     }
                 }

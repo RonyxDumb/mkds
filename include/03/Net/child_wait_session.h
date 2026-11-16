@@ -7,7 +7,7 @@ typedef struct ChildWaitSessionView ChildWaitSessionView;
 
 // Calls of the step in CHILD_WAIT_STATE_MULTIBOOT_WAIT (ChildWaitSessionView.mMultiBootInitFrames) that must have run
 // before a stop request is accepted in that state.
-#define CHILD_WAIT_MULTIBOOT_MIN_RUN_FRAMES 6
+#define CHILD_WAIT_MULTIBOOT_INIT_FRAME_COUNT 6
 
 // mStallCount value above which the session aborts, and the number of blocks mBlockNumber counts
 // before it wraps (ChildWaitSessionView).
