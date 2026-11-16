@@ -56,7 +56,7 @@ char gTrophyTBanaNsbtp[] = "T_bana.nsbtp";
 char gTrophyTKonoNsbmd[] = "T_kono.nsbmd";
 char gTrophyTrophyNsbmd[] = "trophy.nsbmd";
 char gTrophyTKonoNsbtp[] = "T_kono.nsbtp";
-char *gTKinoNsbmdName[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd,
+char *gTrophyModelNsbmdNames[9] = {gTrophyTKinoNsbmd, gTrophyTFlowNsbmd, gTrophyTStarNsbmd,
                             gTrophyTSpecNsbmd, gTrophyTKoraNsbmd, gTrophyTBanaNsbmd,
                             gTrophyTKonoNsbmd, gTrophyTThunNsbmd, gTrophyTrophyNsbmd};
 char gTrophyTFlowNsbtp[] = "T_flow.nsbtp";
@@ -68,7 +68,7 @@ char gTrophyTThunNsbtp[] = "T_thun.nsbtp";
 char gTrophyTSpecNsbtp[] = "T_spec.nsbtp";
 char gTrophyTKinoNsbmd[] = "T_kino.nsbmd";
 char gTrophyTThunNsbmd[] = "T_thun.nsbmd";
-char *gTKinoNsbtpName[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp,
+char *gTrophyModelNsbtpNames[9] = {gTrophyTKinoNsbtp, gTrophyTFlowNsbtp, gTrophyTStarNsbtp,
                             gTrophyTSpecNsbtp, gTrophyTKoraNsbtp, gTrophyTBanaNsbtp,
                             gTrophyTKonoNsbtp, gTrophyTThunNsbtp, gTrophyTrophyNsbtp};
 Trophy *gTrophy;
@@ -163,8 +163,8 @@ void InitTrophy(s32 modelIndex, u16 rankIndex) {
     gTrophy->mRankIndex = rankIndex;
     gTrophy->mModelIndex = modelIndex;
     if (modelIndex < 9 && rankIndex < 3) {
-        modelFile = FindSceneFile(gTKinoNsbmdName[modelIndex]);
-        animationFile = FindSceneFile(gTKinoNsbtpName[modelIndex]);
+        modelFile = FindSceneFile(gTrophyModelNsbmdNames[modelIndex]);
+        animationFile = FindSceneFile(gTrophyModelNsbtpNames[modelIndex]);
         gTrophy->mLight0X = gTrophyModelLight0X[modelIndex];
         gTrophy->mLight0Y = gTrophyModelLight0Y[modelIndex];
         gTrophy->mLight0Z = gTrophyModelLight0Z[modelIndex];

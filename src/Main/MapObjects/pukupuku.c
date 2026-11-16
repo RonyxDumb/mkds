@@ -246,8 +246,8 @@ void UpdatePukupukuPushed(void *stateObject) {
 
 void EnterPukupukuWaitRespawn(void *stateObject) {
     Pukupuku *pukupuku = stateObject;
-    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuWaitRespawnFlag;
-    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuWaitRespawnSecondFlag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuSkipViewTestFlag;
+    pukupuku->mPushedObject.mMapObject.mFlags |= gPukupukuSkipItemCallbackFlag;
 }
 
 void UpdatePukupukuWaitRespawn(void *stateObject) {
@@ -313,8 +313,8 @@ void CreatePukupuku(void) {
 
 #pragma thumb off
 
-const u16 gPukupukuWaitRespawnFlag = 2;
-const u16 gPukupukuWaitRespawnSecondFlag = 8;
+const u16 gPukupukuSkipViewTestFlag = 2;
+const u16 gPukupukuSkipItemCallbackFlag = 8;
 const struct MapObjectList gPukupukuUpdateListData = {NULL, 0, {0, 0}, NULL, NULL, UpdatePukupuku,
                                                       NULL, 0, NULL,   0,    NULL};
 const MapObjectDrawList gPukupukuShadowDrawListData = {{NULL,

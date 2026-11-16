@@ -80,8 +80,8 @@ MapObjectList *CreatePukupukuUpdateList(void);
 void SetupDrawPukupuku(void);
 void DrawPukupuku(u32 unused, Pukupuku *pukupuku, u32 unusedArg, u16 alpha);
 
-extern const u16 gPukupukuWaitRespawnFlag;
-extern const u16 gPukupukuWaitRespawnSecondFlag;
+extern const u16 gPukupukuSkipViewTestFlag;
+extern const u16 gPukupukuSkipItemCallbackFlag;
 extern const struct MapObjectList gPukupukuUpdateListData;
 extern const MapObjectDrawList gPukupukuShadowDrawListData;
 extern const MapObjectDrawList gPukupukuDrawListData;
