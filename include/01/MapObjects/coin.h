@@ -32,7 +32,8 @@ enum {
 // mNsbtpFrameCounter steps that make mNsbtpFrameIndex advance by one.
 #define COIN_NSBTP_FRAME_STEPS 5
 
-// mModelAlpha of a coin that drops or rises out of a kart, and at the start of the launch fade.
+// mModelAlpha at the start of COIN_STATE_DROP and COIN_STATE_TRANSFER_RISE (a coin leaving a kart), and at the start of
+// COIN_STATE_LAUNCH_FADE.
 #define COIN_LEAVE_KART_ALPHA 0x10
 #define COIN_LAUNCH_FADE_START_ALPHA 0x32
 

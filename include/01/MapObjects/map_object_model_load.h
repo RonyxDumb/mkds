@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// The height range every kind data of this loader gets: no object is cut off by it (9999.0 up and down).
+// The height range CreateMapObjectKindDataWithSoundIds gives every kind data (9999.0 up and down); an object is out of
+// range when the camera height difference is outside it.
 #define MAP_OBJECT_HEIGHT_RANGE_MAX TO_FIXED12(9999)
 #define MAP_OBJECT_HEIGHT_RANGE_MIN (-TO_FIXED12(9999))
 

@@ -9,8 +9,8 @@ typedef struct Kart Kart;
 
 #include "01/MapObjects/kuriking_state_shared.h"
 
-// Values of MissionRunMapObject.mMoveStage of King Teresa while it moves to its group entry: 0 is no stage, and the
-// stages use the first, second and third set of speed and turn parameters.
+// Values of MissionRunMapObject.mMoveStage of King Teresa: 0 is no stage; hiding for the next group steps 1 to 2 to 3
+// (3 stays), and StartKingTeresaMoveToGroupEntry then uses the first, second or third set of speed and turn parameters.
 enum {
     KING_TERESA_MOVE_STAGE_NONE,
     KING_TERESA_MOVE_STAGE_FIRST,

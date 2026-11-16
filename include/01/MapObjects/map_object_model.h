@@ -6,7 +6,7 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/Kart/shadow_model.h" // ShadowModel
 
-// The model bundle of one map object kind, shared by all objects of the kind: its scale, models and animations.
+// The model bundle a map object kind or a mission run map object loads: its scale, models and animations.
 typedef struct MapObjectModel {
     // Three words (1.0 = 0x1000 each) set by the creators and sent to the geometry engine as the scale command (0x1b)
     // by both draw functions; afterwards only the mirror setter writes them (it flips the sign of x and y).

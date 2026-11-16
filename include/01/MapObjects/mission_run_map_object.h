@@ -36,7 +36,8 @@ typedef struct MissionRunPrmHead {
     /* 06c */ s32 mUnk_06c;
 } MissionRunPrmHead;
 
-// The parameters of a Bomb King mission run map object: animation entries, speeds and angles for its walk and chase.
+// The parameters of a Bomb King mission run map object: animation entries, speeds, angles and timers for its walk,
+// chase, bomb throws, jumps, bounce and stop.
 typedef struct BombKingPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mStoppedAfterHitsAnimationEntry;
@@ -136,7 +137,8 @@ typedef struct BombKingPrm {
     /* 20c */ s32 mCollisionExtentY;
 } BombKingPrm;
 
-// The parameters of a Donketu mission run map object: animation entries, start chase run and walking on.
+// The parameters of a Donketu mission run map object: animation entries, speeds and angles for its walk, chase, jumps,
+// kart hits and its water sink, walk and jump.
 typedef struct DonketuPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
@@ -257,7 +259,8 @@ typedef struct DonketuPrm {
     /* 240 */ s32 mWaterLandFrameStep;
 } DonketuPrm;
 
-// The parameters of a Hanachan mission run map object: animation entries and the speed and angle steps of its move.
+// The parameters of a Hanachan mission run map object: animation entries, its move speed and angle steps, speed
+// reductions by balloon count, its four followers and its two kart ranges.
 typedef struct HanachanPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
@@ -307,7 +310,8 @@ typedef struct HanachanPrm {
     /* 130 */ s32 mKartRangeSpeedPercentReduction;
 } HanachanPrm;
 
-// The parameters of an Iwante mission run map object: animation entries, chain camera, item hit and kart turn.
+// The parameters of an Iwante mission run map object: animation entries, speeds and frame counts for its moves, falls
+// and landings, the chain camera offset, its hands and item hit reactions.
 typedef struct IwantePrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mHideAtEndReachedAnimationEntry;
@@ -438,7 +442,9 @@ typedef struct IwantePrm {
     /* 2cc */ s32 mWalkSpeedTarget;
 } IwantePrm;
 
-// The parameters of a King Teresa mission run map object: animation entries, sink offsets and waiting to approach.
+// The parameters of a King Teresa mission run map object: animation entries, speeds and alpha limits for waiting,
+// approaching, moving to a forward point and group entry, hit reaction, boss coins, show and hide, and its mission run
+// timer values.
 typedef struct KingTeresaPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mWinnerDecidedAnimationEntry;
@@ -560,7 +566,8 @@ typedef struct KingTeresaPrm {
     /* 240 */ s32 mCollisionExtentY;
 } KingTeresaPrm;
 
-// The parameters of a Kuriking mission run map object: animation entries and speeds for start, chase and walk.
+// The parameters of a Kuriking mission run map object: animation entries, speeds and angles for its walk, grow, chase,
+// face kart, turn to entry and row, bomb and kinoko throws, and jump.
 typedef struct KurikingPrm {
     /* 000 */ MissionRunPrmHead mHead;
     /* 070 */ s32 mKartNotEliminatedAnimationEntry;
@@ -775,13 +782,14 @@ typedef struct ItemObject ItemObject;
 typedef void (*MapObjectKartCollisionCallback)(MissionRunMapObject *mapObject, Kart *kart);
 typedef void (*MapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, ItemObject *itemObject);
 
-// Groups of bits in MissionRunMapObject.mCollisionBits, the bits CollideSphereWithCourse stores: floor hits and wall
-// hits, and the bit IsNotRisingWithBelowZeroBit tests with a velocity that is not upward.
+// The bit of mCollisionBits the update sets when mPos.y is below 0; IsNotRisingWithBelowZeroBit tests it with a
+// velocity that is not upward.
 #define COURSE_HIT_GROUND 0x1e34ef
 #define COURSE_HIT_WALL 0x214300
 #define COURSE_HIT_NOT_RISING_BIT 0x800
 
-// A mission run map object: the shared map object, its parameter block, state counters and five effects.
+// A mission run map object: the shared map object, its parameter block, state, speed, angle, callback, collision,
+// shadow and timer members and five effects.
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MissionRunPrm *mPrm;
