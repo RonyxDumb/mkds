@@ -443,7 +443,7 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
                 kartIndex = index * 3;
             }
         } else if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
-            if (GetStaffRollKindAfterGp() != 2) {
+            if (GetStaffRollKindAfterGp() != STAFF_ROLL_AFTER_GP_TRUE) {
                 characterIndex = index;
                 kartIndex = index * 3;
             } else {

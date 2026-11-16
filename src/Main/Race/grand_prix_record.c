@@ -148,7 +148,7 @@ u32 TrySetMissionRecord(void) {
     missionColumn = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableColumn : -1;
     endKind = IsKartEnded((u16) gRaceSetup->mEntryIndex);
     endKind = (endKind != 0) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED;
-    if (endKind != 0) {
+    if (endKind != RACE_END_KIND_GOAL) {
         return 0;
     }
     GetMissionRecord((u16) missionRow, (u16) missionColumn, &storedRecord);

@@ -78,8 +78,9 @@ void SlideInRaceGoalS(void) {
     s32 frame;
 
     frame = gRaceGoalS->mUpdateFrames++;
-    if (frame < 0x14) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, -0x100, 0, frame, 0x14);
+    if (frame < RACE_GOAL_S_SLIDE_FRAMES) {
+        gRaceGoalS->mOffsetX =
+            InterpolateS16(1, -RACE_GOAL_S_SLIDE_OFFSET, 0, frame, RACE_GOAL_S_SLIDE_FRAMES);
     } else {
         gRaceGoalS->mOffsetX = 0;
         gRaceGoalS->mUpdate = HoldRaceGoalSPreviousNumbers;

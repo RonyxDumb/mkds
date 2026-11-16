@@ -227,7 +227,8 @@ void UpdateRaceEnd(void) {
                         case MISSION_KIND_LAPS_FIRST_PLACE:
                         case MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS:
                             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
-                                                                           : RACE_END_KIND_NOT_ENDED) != 0) {
+                                                                           : RACE_END_KIND_NOT_ENDED) !=
+                                RACE_END_KIND_GOAL) {
                                 playsRaceEndSound = FALSE;
                             }
                             break;
@@ -264,7 +265,7 @@ void UpdateRaceEnd(void) {
                     break;
                 case MODE_MISSION_RUN:
                     if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
-                                                                   : RACE_END_KIND_NOT_ENDED) != 0) {
+                                                                   : RACE_END_KIND_NOT_ENDED) != RACE_END_KIND_GOAL) {
                         SetStemSet(STEM_SET_FAILED);
                     }
                     break;
@@ -287,7 +288,7 @@ void UpdateRaceEnd(void) {
     switch (raceSetup->mMode) {
         case MODE_MISSION_RUN:
             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : RACE_END_KIND_NOT_ENDED) ==
-                0) {
+                RACE_END_KIND_GOAL) {
                 SetStemSet(STEM_SET_COMPLETE);
             }
             break;

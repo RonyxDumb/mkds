@@ -193,8 +193,8 @@ BOOL HasNoSelectableGhost(void) {
     u32 selectable = 0;
 
     selectable |= IsGhostRecordSetKindSelectable(selectable);
-    selectable |= IsGhostRecordSetKindSelectable(1);
-    selectable |= IsGhostRecordSetKindSelectable(2);
+    selectable |= IsGhostRecordSetKindSelectable(GHOST_RECORD_KIND_SLOT);
+    selectable |= IsGhostRecordSetKindSelectable(GHOST_RECORD_KIND_GHOST_FILE);
     if (selectable == 0) {
         return TRUE;
     }

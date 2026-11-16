@@ -354,11 +354,11 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     u32 framesSinceHit;
 
     itemBox->mBoxRotationIndex++;
-    if (itemBox->mBoxRotationIndex >= ITEM_BOX_BOX_ROTATION_STEPS) {
+    if (itemBox->mBoxRotationIndex >= BOX_ROTATION_COUNT) {
         itemBox->mBoxRotationIndex = 0;
     }
     itemBox->mQuestionRotationIndex++;
-    if (itemBox->mQuestionRotationIndex >= ITEM_BOX_QUESTION_ROTATION_STEPS) {
+    if (itemBox->mQuestionRotationIndex >= QUESTION_ROTATION_COUNT) {
         itemBox->mQuestionRotationIndex = 0;
     }
     framesSinceHit = itemBox->mFramesSinceHit;

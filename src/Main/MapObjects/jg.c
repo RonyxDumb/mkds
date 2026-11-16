@@ -727,7 +727,7 @@ void UpdateJgPosition(void) {
 }
 
 void EnterJgOff(void *stateObject) {
-    gJgKind = 4;
+    gJgKind = JG_KIND_NONE;
     gJgVisible = 0;
     gJgCheckpointFlagFrames = 0;
     gJgLapKindActive = 0;

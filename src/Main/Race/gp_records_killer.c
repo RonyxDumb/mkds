@@ -401,7 +401,7 @@ s32 GetStaffRollKindAfterGp(void) {
     s32 engineClass;
     BOOL conditionMet;
     BOOL flag;
-    result = 0;
+    result = STAFF_ROLL_AFTER_GP_NONE;
     menuShared = gMenuShared;
     engineClass = menuShared->mEngineIndex;
     cupIndex = menuShared->mCupIndex;
@@ -418,7 +418,7 @@ s32 GetStaffRollKindAfterGp(void) {
         }
     }
     if (conditionMet != FALSE) {
-        result = 2;
+        result = STAFF_ROLL_AFTER_GP_TRUE;
     } else {
         conditionMet = FALSE;
         if (cupIndex == 3 || cupIndex == 7) {
@@ -440,7 +440,7 @@ s32 GetStaffRollKindAfterGp(void) {
             }
         }
         if (conditionMet != FALSE) {
-            result = 1;
+            result = STAFF_ROLL_AFTER_GP_NORMAL;
         }
     }
     return result;

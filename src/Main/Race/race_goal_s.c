@@ -198,14 +198,14 @@ void InitRaceGoalS(void) {
         gRaceGoalS->mRowVisible[index] = 1;
         gRaceGoalS->mShownNumbers[index] = 0;
         gRaceGoalS->mRowKartIndex[index] = 0;
-        gRaceGoalS->mRankComparison[index] = 1;
+        gRaceGoalS->mRankComparison[index] = RACE_GOAL_S_RANK_UP;
     }
     gRaceGoalS->mRunning = 0;
     gRaceGoalS->mHiddenRowCount = 0;
     gRaceGoalS->mUpdate = StartRaceGoalS;
     gRaceGoalS->mUpdateFrames = 0;
     gRaceGoalS->mCourseCountReached = 0;
-    gRaceGoalS->mOffsetX = -0x100;
+    gRaceGoalS->mOffsetX = -RACE_GOAL_S_SLIDE_OFFSET;
     for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
         if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
             playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;

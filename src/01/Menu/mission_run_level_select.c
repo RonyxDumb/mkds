@@ -3,6 +3,7 @@
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/System/heap.h"
 #include "Main/Save/buddy_record_time.h"
+#include "Main/Race/race_goal_m.h"
 #include "Main/Menu/menu_screen_switch.h"
 #include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/layout_rect_table.h"
@@ -226,7 +227,7 @@ void RefreshMissionRunLVselReachedLevel(void) {
         levelNumber = levelIndex + 1;
         for (; columnIndex < 9; columnIndex++) {
             levelRecordsFilled &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
-            if (!levelRecordsFilled || recordValue < 5) {
+            if (!levelRecordsFilled || recordValue < MISSION_RECORD_VALUE_THIRD_BEST) {
                 allRecordsAtLeastFive = FALSE;
             }
         }

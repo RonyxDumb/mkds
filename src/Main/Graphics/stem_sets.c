@@ -57,7 +57,7 @@ void InitStemSets(void *heap) {
     timedQuad = &gStemSets->mTimedQuad;
     gStemSets->mTimedQuad.mTimer = 0;
     timedQuad->mAlpha = 0;
-    timedQuad->mColor = TIMED_QUAD_COLOR_WHITE;
+    timedQuad->mColor = COLOR15_WHITE;
     timedQuad->mEnabled = FALSE;
 }
 
@@ -317,7 +317,7 @@ void SetStemSet(s32 setIndex) {
 void StartTimedQuad(TimedQuad *timedQuad) {
     timedQuad->mTimer = 0xau;
     timedQuad->mAlpha = 0xcu;
-    timedQuad->mColor = TIMED_QUAD_COLOR_WHITE;
+    timedQuad->mColor = COLOR15_WHITE;
     timedQuad->mEnabled = 0x1u;
 }
 

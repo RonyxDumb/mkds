@@ -95,10 +95,10 @@ void InitItemBox(ItemBox *itemBox, CourseMapRow *row) {
     itemBox->mPositionSource = &itemBox->mMapObject.mPos;
     random = GetMapObjectRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    itemBox->mBoxRotationIndex = ((u64) (u32) (random->mValue >> 32) * ITEM_BOX_BOX_ROTATION_STEPS) >> 32;
+    itemBox->mBoxRotationIndex = ((u64) (u32) (random->mValue >> 32) * BOX_ROTATION_COUNT) >> 32;
     random = GetMapObjectRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * ITEM_BOX_QUESTION_ROTATION_STEPS) >> 32;
+    itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * QUESTION_ROTATION_COUNT) >> 32;
     itemBox->mFramesSinceHit = ITEM_BOX_HIT_FRAMES_MAX;
     if (row != NULL) {
         if (itemBox->mMapObject.mKind == MAP_OBJECT_KIND_ITEM_BOX_GROUP_SHADOW && row->mGroupIndex >= 0) {

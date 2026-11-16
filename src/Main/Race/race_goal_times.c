@@ -47,10 +47,10 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
     gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond++;
     if (gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond < 0 ||
-        gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond >= RACE_GOAL_TIMES_FIREBALL_CYCLE_FRAMES) {
+        gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond >= RACE_HUD_FIREBALL2_CYCLE_FRAMES) {
         gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond = 0;
     }
-    inFirstHalf = gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond < RACE_GOAL_TIMES_FIREBALL_HALF_FRAMES;
+    inFirstHalf = gRaceHudSubScreenFireball2Cells->mObjectPairs->mSecond < RACE_HUD_FIREBALL2_HALF_FRAMES;
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenFireball2Cells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenFireball2Cells->mObjects[objectIndex];
         position = &object->mPos;

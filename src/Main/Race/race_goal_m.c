@@ -121,7 +121,7 @@ void UpdateRaceGoalM(void) {
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
         if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
-                                                             : RACE_END_KIND_NOT_ENDED) != 0 &&
+                                                             : RACE_END_KIND_NOT_ENDED) != RACE_END_KIND_GOAL &&
             IsEntryKartNormalOrNotMissionRun() == 0 && frame == 0) {
             return;
         }
@@ -168,7 +168,7 @@ void UpdateRaceGoalM(void) {
                 gRaceGoalM->mComputedMissionRecordValue = ComputeMissionRecordValue();
             }
             if ((IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0 ? gRaceProgress->mEntryEndKind
-                                                                 : RACE_END_KIND_NOT_ENDED) == 0) {
+                                                                 : RACE_END_KIND_NOT_ENDED) == RACE_END_KIND_GOAL) {
                 if (frame == 1) {
                     switch (gRaceGoalM->mComputedMissionRecordValue) {
                         case 0:
@@ -661,7 +661,7 @@ void UpdateRaceTaPositions(void) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             kart = GetKart(kartIndex);
             positions = gRaceTaPositions;
-            for (j = 0x27; j != 0; j--) {
+            for (j = RACE_TA_SAMPLE_COUNT - 1; j != 0; j--) {
                 positions->mSamples[kartIndex][j] = positions->mSamples[kartIndex][j - 1];
             }
             GetKartPosFromPosSourceCopy(&gRaceTaPositions->mSamples[kartIndex][0].mPos, kartIndex);

@@ -37,12 +37,6 @@ static inline u8 GetTimeRecordChar(u8 charIndex) {
 #define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_MONTH 12
 #define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_DAY 31
 
-// MissionRecord values that ComputeMissionRecordValue gives for a cup score of 70 or more, 90 or more and 100 or more
-// (cup_records.c:379-387); the values 5 to 7 are the top tiers.
-#define MISSION_RECORD_VALUE_FIRST_HIGH_TIER 5
-#define MISSION_RECORD_VALUE_SECOND_HIGH_TIER 6
-#define MISSION_RECORD_VALUE_TOP_TIER 7
-
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut);
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord);
 void SetRaceResultRecords(void);

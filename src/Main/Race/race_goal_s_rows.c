@@ -120,7 +120,7 @@ void SlideInRaceGoalSTeams(void) {
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < RACE_GOAL_S_SLIDE_FRAMES) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, frame, 0x14);
+        gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, frame, RACE_GOAL_S_SLIDE_FRAMES);
     } else {
         gRaceGoalS->mOffsetX = 0;
         gRaceGoalS->mUpdate = AdvanceRaceGoalSRefreshRows;

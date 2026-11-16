@@ -138,7 +138,7 @@ void AdvanceSelectCupCourseWaitPicked(void) {
             if (gSelectCupCourse->mMode == SELECT_CUP_COURSE_MODE_WITH_GHOSTS) {
                 SetupGhostRecordSetForCupCourse();
                 if (HasNoSelectableGhost() != FALSE) {
-                    ReadGhostRecordsForKind(0);
+                    ReadGhostRecordsForKind(GHOST_RECORD_KIND_COURSE);
                     RequestSelectCupCourseWaitChoices();
                     return;
                 }

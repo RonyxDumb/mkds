@@ -17,6 +17,7 @@
 #include "Main/Race/race_start_sequence.h"
 #include "Main/Race/race_goal_s_running.h"
 #include "Main/Race/race_goal_m.h"
+#include "Main/Race/race_end_condition.h"
 #include "Main/Race/race_new_record_ta.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/System/input_slots.h"
@@ -228,8 +229,8 @@ BOOL IsAllMissionRecords5To7AtGoalEnd(void) {
     s32 isFilled;
 
     isFilled = GetMissionRecordValue(GetMissionRunTableRow(), GetMissionRunTableColumn(), &recordValue);
-    if (GetEntryEndKind() == 0 && gChoisesS->mOtherMissionRecordsFilled5To7 != FALSE && isFilled != 0 &&
-        (u32) (recordValue - 5) <= 2) {
+    if (GetEntryEndKind() == RACE_END_KIND_GOAL && gChoisesS->mOtherMissionRecordsFilled5To7 != FALSE &&
+        isFilled != 0 && (u32) (recordValue - MISSION_RECORD_VALUE_THIRD_BEST) <= 2) {
         return 1;
     }
     return 0;
@@ -319,7 +320,7 @@ s32 GetEntryEndKind(void) {
     if (IsKartEnded((u16) GetEntryIndex()) != 0) {
         return gRaceProgress->mEntryEndKind;
     }
-    return 6;
+    return RACE_END_KIND_NOT_ENDED;
 }
 
 #pragma thumb on
@@ -330,7 +331,7 @@ u32 GetChoisesSListIndex(void) {
     }
     if (GetRaceDone() != 0) {
         if (ChoisesSGetCurrentMode() == MODE_MISSION_RUN) {
-            if (GetEntryEndKind() == 0) {
+            if (GetEntryEndKind() == RACE_END_KIND_GOAL) {
                 return 2;
             }
             return 1;

@@ -15,9 +15,10 @@ typedef struct RaceProgressKart RaceProgressKart;
 // The mission failed: its settings were not met at the end, the shape map object counts failed, or the entry lost the
 // balloon standings.
 #define RACE_END_KIND_FAILED 4
-// Value of mEntryEndKind until the entry has ended.
 // No code ends a race with this kind; it is only a case label of the end kind switch.
 #define RACE_END_KIND_UNUSED 5
+// Value of mEntryEndKind until the entry has ended; also the kind FinishKartInCourseMapMissionEndShape ends a kart
+// with when the shape flag is 0.
 #define RACE_END_KIND_NOT_ENDED 6
 
 void FinishMissionRunKartAtGoal(u16 kartIndex);

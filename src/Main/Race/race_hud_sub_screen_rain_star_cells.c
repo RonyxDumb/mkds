@@ -387,7 +387,7 @@ void UpdateRaceHudSubScreenObPakkunSfCells(void) {
                                                     &gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 0) != FALSE) {
                     gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mCell = GetRaceSNcerEntry(
-                        ((((ObPakkunSf *) object)->mFramesSinceInit & RACE_HUD_PAKKUN_SF_SWAP_FRAME_BIT) >> 4) != 0
+                        ((((ObPakkunSf *) object)->mFramesSinceInit & OB_PAKKUN_SF_FRAME_TOGGLE_BIT) >> 4) != 0
                             ? 0xa2
                             : 0xa1);
                     gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mPriority =

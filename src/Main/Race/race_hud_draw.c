@@ -271,7 +271,7 @@ void UploadRaceHud(void) {
                     break;
             }
             value = GetRaceGoalSOffsetX();
-            if (value < 0x100) {
+            if (value < RACE_GOAL_S_SLIDE_OFFSET) {
                 scrollOffset = -value & 0x1ff;
                 reg_G2S_DB_BG2OFS = scrollOffset;
                 reg_G2S_DB_BG3OFS = scrollOffset;
@@ -297,7 +297,7 @@ void UploadRaceHud(void) {
                 GXS_LoadOBJ(GetRaceNclrNcgr(RACE_NCER_PAIR_GOAL_TEAM_S)->mNcgr->mData, 0, 0x4000);
                 gRaceHud->mSubScreenGoalTeamsUploadRequested = FALSE;
             }
-            if (value < 0x100) {
+            if (value < RACE_GOAL_S_SLIDE_OFFSET) {
                 reg_G2S_DB_BG2OFS = value & 0x1ff;
                 reg_G2S_DB_BG3OFS = -value & 0x1ff;
             }
@@ -1171,7 +1171,7 @@ void UpdateRaceHudSubScreen(void) {
                     } else {
                         value = RACE_END_KIND_NOT_ENDED;
                     }
-                    if (value == 0) {
+                    if (value == RACE_END_KIND_GOAL) {
                         gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MISSION_RUN;
                     }
                 }
@@ -1181,7 +1181,7 @@ void UpdateRaceHudSubScreen(void) {
                 } else {
                     value = RACE_END_KIND_NOT_ENDED;
                 }
-                if (value != 0) {
+                if (value != RACE_END_KIND_GOAL) {
                     gRaceHud->mGoalMEnabled = 1;
                 }
             }

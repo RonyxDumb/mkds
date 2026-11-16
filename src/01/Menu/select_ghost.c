@@ -41,7 +41,8 @@ const u16 gSelectGhostSBnllIndices[5] = {0, 1, 2, 3, 4};
 char *gSelectGhostSBnblName = "ta/select_ghost_s.bnbl";
 const u16 gSelectGhostSLabelHeights[5] = {0xd, 0xd, 0xd, 0xd, 0xf};
 char *gSelectGhostSBNcgrName = "ta/select_ghost_s_b.ncgr";
-const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT] = {4, 0, 1, 2};
+const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT] = {GHOST_RECORD_KIND_OUTSIDE_SET, GHOST_RECORD_KIND_COURSE,
+                                                              GHOST_RECORD_KIND_SLOT, GHOST_RECORD_KIND_GHOST_FILE};
 const u16 gSelectGhostSLabelWidths[5] = {0x3c, 0x50, 0x82, 0xba, 0xba};
 const u16 gSelectGhostMenuMessageIndices[SELECT_GHOST_KIND_COUNT] = {0xa, 0xb, 0xc, 0xd};
 char *gSelectGhostSelectCupCourseTaMBnclName = "common/select_cup_course_ta_m.bncl";

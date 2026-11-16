@@ -235,10 +235,6 @@ typedef struct PosStrips {
     /* 34 */ s32 mPolygonAttrBits;
 } PosStrips;
 
-// The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
-// TimedQuad.mColor: white as a 15-bit color.
-#define TIMED_QUAD_COLOR_WHITE 0x7fff
-
 // A quad with a countdown timer, alpha and 15-bit color, updated and drawn (in a normal race) while mEnabled.
 typedef struct TimedQuad {
     /* 00 */ s16 mTimer;
@@ -513,7 +509,7 @@ enum {
 };
 
 // x offset of the title cells at the slide in start and slide out end, and the mNextState that names no state.
-#define TITLE_OFFSCREEN_X 0xf8
+#define TITLE_SLIDE_OFFSET_X 0xf8
 #define TITLE_NEXT_STATE_NONE 8
 
 // TitleScene.mState, mPrevState and mNextState values, in the order of gTitleStateHandlers.
@@ -847,7 +843,7 @@ typedef struct RaceTaPositions {
     /* 000 */ s32 mVisible;
     /* 004 */ s32 mKartVisible[2];
     /* 00c */ s32 mSampleFrames;
-    /* 010 */ RaceTaPositionSample mSamples[2][0x28];
+    /* 010 */ RaceTaPositionSample mSamples[2][RACE_TA_SAMPLE_COUNT];
     /* 790 */ RaceTaKinokoBoostPoints mKinokoBoostPoints[2];
     /* 810 */ MtxFx22 mRotations[16];
 } RaceTaPositions;

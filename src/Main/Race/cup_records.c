@@ -2,6 +2,7 @@
 #include "Main/System/heap.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race_setup_block.h"
+#include "Main/Race/race_goal_m.h"
 #include "touch_panel_sampling.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
@@ -229,8 +230,8 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
                                  .mTotalPoints;
             }
         }
-        if (points > 9999) {
-            points = 9999;
+        if (points > CUP_RECORD_TOTAL_POINTS_MAX) {
+            points = CUP_RECORD_TOTAL_POINTS_MAX;
         }
         teamRecord->mTotalPoints = points;
     }
@@ -382,13 +383,13 @@ s32 ComputeMissionRecordValue(void) {
 
     score = gCupRecords->mScore;
     if (score >= 100) {
-        return 7;
+        return MISSION_RECORD_VALUE_BEST;
     }
     if (score >= 90) {
-        return 6;
+        return MISSION_RECORD_VALUE_SECOND_BEST;
     }
     if (score >= 70) {
-        return 5;
+        return MISSION_RECORD_VALUE_THIRD_BEST;
     }
     if (score >= 50) {
         return 4;

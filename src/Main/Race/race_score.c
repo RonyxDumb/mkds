@@ -56,7 +56,7 @@ BOOL IsEntryRaceEnded(void) {
                     break;
             }
             if (ended == FALSE) {
-                if (gRaceProgress->mEntryEndKind != 0) {
+                if (gRaceProgress->mEntryEndKind != RACE_END_KIND_GOAL) {
                     return result;
                 }
             }

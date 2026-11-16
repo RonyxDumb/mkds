@@ -240,7 +240,8 @@ void CreateJg(void) {
     }
     gJgTableIndex = 0;
     light = 2;
-    for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[2]; rowIndex < 4; rowIndex++) {
+    for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[JG_KIND_REVERSE]; rowIndex < 4;
+         rowIndex++) {
         if (sourceRow->mNsbmdName != NULL) {
             kindRow->mModel = HeapAlloc(heap, sizeof(Nsbmd));
             file = FindSceneFile(sourceRow->mNsbmdName);
@@ -269,13 +270,13 @@ void CreateJg(void) {
         sourceRow++;
         kindRow++;
     }
-    CreateNsbmdModel(&gJgKindRows[0].mLapModel, FindSceneFile("lap_count.nsbmd"), FindSceneFile("lap_count.nsbtp"),
-                     0);
-    SetNsbmdModelFixedAttributes(gJgKindRows[0].mLapModel);
-    gJgKindRows[0].mLapModel->mPolygonAttributes |= 0xc0;
-    CreateNsbmdModel(&gJgKindRows[1].mLapModel, FindSceneFile("lap_final.nsbmd"), 0, 0);
-    SetNsbmdModelFixedAttributes(gJgKindRows[1].mLapModel);
-    gJgKindRows[1].mLapModel->mPolygonAttributes |= 0xc0;
+    CreateNsbmdModel(&gJgKindRows[JG_KIND_LAP_COUNT].mLapModel, FindSceneFile("lap_count.nsbmd"),
+                     FindSceneFile("lap_count.nsbtp"), 0);
+    SetNsbmdModelFixedAttributes(gJgKindRows[JG_KIND_LAP_COUNT].mLapModel);
+    gJgKindRows[JG_KIND_LAP_COUNT].mLapModel->mPolygonAttributes |= 0xc0;
+    CreateNsbmdModel(&gJgKindRows[JG_KIND_LAP_FINAL].mLapModel, FindSceneFile("lap_final.nsbmd"), 0, 0);
+    SetNsbmdModelFixedAttributes(gJgKindRows[JG_KIND_LAP_FINAL].mLapModel);
+    gJgKindRows[JG_KIND_LAP_FINAL].mLapModel->mPolygonAttributes |= 0xc0;
 }
 #pragma thumb off
 

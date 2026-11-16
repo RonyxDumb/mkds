@@ -21,7 +21,7 @@ void UpdateTitleSlideIn(void) {
     subBase = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
     if (GetTitleStateFrames() < 10) {
         for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
-            titleTable[entryIndex].mOffsetX = InterpolateS16(1, 0xf8, 0, GetTitleStateFrames(), 10);
+            titleTable[entryIndex].mOffsetX = InterpolateS16(1, TITLE_SLIDE_OFFSET_X, 0, GetTitleStateFrames(), 10);
         }
         for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
             titleTable[entryIndex + subBase].mOffsetX = InterpolateS16(1, 0xe4, 0, GetTitleStateFrames(), 10);
@@ -33,7 +33,7 @@ void UpdateTitleSlideIn(void) {
         for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
             titleTable[entryIndex + subBase].mOffsetX = 0;
         }
-        SetTitleState(TITLE_STATE_MENU_INPUT, 8);
+        SetTitleState(TITLE_STATE_MENU_INPUT, TITLE_NEXT_STATE_NONE);
         gTitleScene->mStartedOnSelected = FALSE;
     }
     SetupAndDrawTitleTable();
