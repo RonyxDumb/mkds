@@ -31,7 +31,8 @@ typedef struct NNSG3dResDictTreeNode {
     /* 03 */ u8 mIdxEntry;
 } NNSG3dResDictTreeNode;
 
-// Dictionaries below this many entries are searched one name after the other, larger ones through the tree.
+// Dictionaries below this many entries are searched one name after the other, dictionaries of this many entries or more
+// through the tree.
 #define G3D_DICT_LINEAR_SEARCH_LIMIT 0x10
 
 typedef struct NNSG3dResDict {
@@ -63,8 +64,9 @@ typedef struct NNSG3dResMat {
     /* 04 */ NNSG3dResDict mDict;
 } NNSG3dResMat;
 
-// Bits of NNSG3dResMatData.mFlag. The three NO_TEX bits say that the scale, rotation or translation part is left out
-// of mTexMtxData.
+// Bits of NNSG3dResMatData.mFlag. The three NO_TEX bits say that the scale, rotation or translation part is left out of
+// the words at mTexMtxData; HAS_EXTRA_MTX says that 16 more words follow those parts (only the environment map and
+// projection map commands read them).
 #define G3D_MAT_FLAG_HAS_TEX_MTX 0x1
 #define G3D_MAT_FLAG_NO_TEX_SCALE 0x2
 #define G3D_MAT_FLAG_NO_TEX_ROT 0x4
@@ -72,7 +74,8 @@ typedef struct NNSG3dResMat {
 #define G3D_MAT_FLAG_WIREFRAME 0x20
 #define G3D_MAT_FLAG_HAS_EXTRA_MTX 0x2000
 
-// Polygon attribute fields of NNSG3dResMatData.mPolyAttr and fields of the packed texture words.
+// Polygon attribute fields of NNSG3dResMatData.mPolyAttr, fields of the texture image word (mTexImageParam,
+// mPrmTexImage), of mExtraParam and of the VRAM keys (mVramKey).
 #define G3D_POLY_ATTR_ALPHA_MASK 0x1f0000
 #define G3D_POLY_ATTR_FOG 0x8000
 #define G3D_POLY_ATTR_XL_DEPTH_UPDATE 0x800

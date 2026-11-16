@@ -14,7 +14,9 @@ typedef struct NNSG3dVisAnmResult {
     /* 00 */ BOOL mIsVisible;
 } NNSG3dVisAnmResult;
 
-// Bits of NNSG3dJntAnmResult.mFlag (also set in the first byte of a node's flags in the resource).
+// Bits of NNSG3dJntAnmResult.mFlag: a set bit says that part is at its identity value (scale one, rotation unit,
+// translation zero, the two extra scales one); JNT_RESULT_SEGMENT_SCALE_COMPENSATE says mScaleEx0 holds the inverse scale of
+// the parent node.
 #define G3D_JNT_ANM_SCALE_IS_IDENTITY 0x1
 #define G3D_JNT_ANM_ROT_IS_IDENTITY 0x2
 #define G3D_JNT_ANM_TRANS_IS_IDENTITY 0x4
@@ -77,7 +79,7 @@ struct NNSG3dAnmObj {
     /* 1a */ u16 mMapData[1];
 };
 
-// Bit of NNSG3dRenderObj.mFlag: an animation object was added or removed, so the hint bit sets are rebuilt.
+// Bit of NNSG3dRenderObj.mFlag: an animation object was removed, so NNS_G3dDraw rebuilds the hint bit sets.
 #define G3D_RENDER_OBJ_FLAG_ANM_CHANGED 0x10
 
 // Default priority of an animation object.
@@ -226,9 +228,10 @@ typedef struct NNSG3dResAnmHeader {
 #define G3D_MTX_MODE_POS_VEC 2
 #define G3D_MTX_MODE_TEXTURE 3
 
-// Bits of NNSG3dGlb.mFlag. The first two are tested by the billboard and environment map commands to pick the camera
-// matrices they multiply in (both are cleared by NNS_G3dGlbFlushP). The valid bits say that the cached inverse is up
-// to date; G3D_GLB_BASE_DEPENDENT_CACHES are the bits of the caches that depend on the base transform.
+// Bits of NNSG3dGlb.mFlag. The first two are tested by the billboard, billboard Y, environment map and projection map
+// commands to pick the camera matrices they multiply in (both are cleared by NNS_G3dGlbFlushP). INV_CAMERA_VALID says
+// mInvCameraMtx is up to date and SRT_CAMERA_VALID says mSrtCameraMtx and mInvSrtCameraMtx are;
+// G3D_GLB_BASE_DEPENDENT_CACHES are the bits that setting the base translation or scale clears.
 #define G3D_GLB_FLAG_USE_BASE_SRT_CAMERA 0x1
 #define G3D_GLB_FLAG_USE_CAMERA 0x2
 #define G3D_GLB_FLAG_INV_CAMERA_VALID 0x8
