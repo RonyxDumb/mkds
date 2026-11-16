@@ -539,7 +539,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
     SetSndHandleTrackPitch(&playingSound->mSeqPlayer, playingSound->mPitch + totalPitchOffset);
 }
 
-void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
+void SetItemKouraSoundTrackParams(Kart *kart, PlayingSound *playingSound) {
     Vec3 *vector;
     u32 volume;
     s32 pitchOffset;
@@ -549,13 +549,13 @@ void SetItemKouraSoundTrackParams(Kart *kartArg, PlayingSound *playingSound) {
 
     pitchOffset = 0;
     volume = playingSound->mVolume;
-    if (kartArg->mMotionFlags == 0) {
-        vector = (Vec3 *) &kartArg->mDrawBaseRow2.y;
+    if (kart->mMotionFlags == 0) {
+        vector = (Vec3 *) &kart->mDrawBaseRow2.y;
     } else {
-        vector = (Vec3 *) &kartArg->mCourseContactNormal.z;
+        vector = (Vec3 *) &kart->mCourseContactNormal.z;
     }
     pitchOffset += vector->z;
-    heightAboveWater = GetHeightAboveWaterOrEfct(kartArg->mTurnedForward.y);
+    heightAboveWater = GetHeightAboveWaterOrEfct(kart->mTurnedForward.y);
     if (heightAboveWater < 0) {
         depth = -heightAboveWater;
         depthPitch = 0;
@@ -600,10 +600,10 @@ void SetVehicleSoundTrackParams(struct MapObjectSound *soundSource, PlayingSound
     SetSndHandleTrackPitch(&playingSound->mSeqPlayer, playingSound->mPitch + distanceChange);
 }
 
-void SetNsKiller2SoundTrackParams(struct MapObjectSound *soundSource, PlayingSound *playingSound) {
+void SetNsKiller2SoundTrackParams(struct MapObjectSound *mapSound, PlayingSound *playingSound) {
     u32 distanceChange;
 
-    distanceChange = soundSource->mSoundDistanceSquaredChange.mDifference;
+    distanceChange = mapSound->mSoundDistanceSquaredChange.mDifference;
     SetSndHandleTrackVolume(&playingSound->mSeqPlayer, playingSound->mVolume);
     SetSndHandleTrackPitch(&playingSound->mSeqPlayer, playingSound->mPitch + distanceChange);
 }

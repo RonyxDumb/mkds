@@ -298,7 +298,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     u32 soundHeapSizeCopy;
     u32 seqRowHeapSizeCopy;
     u32 currentHeapSize;
-    u32 heapCursor;
+    u32 value;
 
     gSndHeapSizeKind = heapSizeKind;
     switch (heapSizeKind) {
@@ -331,7 +331,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     }
     CreateSeqRowHeap((void *) buffer, seqRowHeapSize);
     gSeqRowSndHeap = (NNSSndHeap *) buffer;
-    heapCursor = buffer + seqRowHeapSize;
+    value = buffer + seqRowHeapSize;
     currentHeapSize = (heapSizeKind == SND_HEAP_SIZE_LARGE ? 0xc8000 : 0xaf000) -
                       (heapSizeKind == SND_HEAP_SIZE_SMALL ? 0xaf000 : 0xc400);
     switch (heapSizeKind) {
@@ -358,12 +358,12 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             break;
     }
     currentHeapSize = currentHeapSize - soundHeapSizeCopy - seqRowHeapSizeCopy;
-    gCurrentSndHeap = NNS_SndHeapCreate((void *) heapCursor, currentHeapSize);
-    heapCursor = 0;
+    gCurrentSndHeap = NNS_SndHeapCreate((void *) value, currentHeapSize);
+    value = 0;
     if (heapSizeKind == 1) {
-        heapCursor = 1;
+        value = 1;
     }
-    LoadInitialSndGroup(heapCursor);
+    LoadInitialSndGroup(value);
 }
 
 void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
@@ -476,10 +476,10 @@ void InitSceneSounds(s32 unused) {
     s32 sceneSoundRowIndex;
     s32 currentSceneNumber;
     s32 value;
-    BOOL isRaceScene;
+    BOOL isRaceSceneNormalOrReplay;
     u32 raceKindMatches;
     NNSSndHeap *savedHeap;
-    SoundRow buf;
+    SoundRow soundRow;
     ScenePlayersSeqInfo scenePlayersSeqInfo;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
@@ -488,14 +488,14 @@ void InitSceneSounds(s32 unused) {
     ClearSurfaceSoundIds();
     currentSceneNumber = GetCurrentSceneNumber();
     value = 0x69;
-    isRaceScene = FALSE;
+    isRaceSceneNormalOrReplay = FALSE;
     if (GetCurrentSceneNumber() == SCENE_RACE) {
         raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != 0) {
-            isRaceScene = TRUE;
+            isRaceSceneNormalOrReplay = TRUE;
         }
     }
-    if (isRaceScene != FALSE) {
+    if (isRaceSceneNormalOrReplay != FALSE) {
         switch (gRaceSetup->mCourseId) {
             case COURSE_ID_BEACH:
                 value = value + 0x17;
@@ -519,7 +519,7 @@ void InitSceneSounds(s32 unused) {
         value = 0x7f;
     }
     gSceneSeqVolume = value;
-    sceneSoundRowIndex = GetSceneSoundRowIndex(currentSceneNumber, &buf);
+    sceneSoundRowIndex = GetSceneSoundRowIndex(currentSceneNumber, &soundRow);
     if (gCurrentSoundSetPlayer == NULL) {
         ResetSeqVariableReadings();
         SetSeqVariableEnabled(0, 0);
@@ -745,7 +745,7 @@ void InitSceneSounds(s32 unused) {
             }
             SelectCourseSoundTable(value);
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                MissionSettings *setupView = &gRaceSetup->mMissionSettings;
+                MissionSettings *mission = &gRaceSetup->mMissionSettings;
                 switch (gRaceSetup->mMissionKind) {
                     case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
                         gMissionRunCountSeqNo[0] = 0x1d7;
@@ -754,7 +754,7 @@ void InitSceneSounds(s32 unused) {
                     case MISSION_KIND_COUNT_HITS:
                         gMissionRunCountSeqNo[0] = 0x1e0;
                         gMissionRunLimitSeqNo[0] = 0x1e1;
-                        switch (setupView->mMissionTableValue) {
+                        switch (mission->mMissionTableValue) {
                             case MISSION_NUMBER_DONKETU:
                             case MISSION_NUMBER_KING_ICE_DONKETU:
                                 gMissionRunLimitSeqNo[0] = 0xff;
@@ -823,8 +823,8 @@ void InitSceneSounds(s32 unused) {
             break;
     }
     scenePlayersSeqInfo.mUnk_00 = 0xff;
-    scenePlayersSeqInfo.mSeqStartProgress = buf.mSeqStartProgress;
-    scenePlayersSeqInfo.mSeqId = buf.mSeqId;
+    scenePlayersSeqInfo.mSeqStartProgress = soundRow.mSeqStartProgress;
+    scenePlayersSeqInfo.mSeqId = soundRow.mSeqId;
     InitVolumeFade();
     InitSceneSoundState(sceneSoundRowIndex & 0xff, scenePlayersSeqInfo, &gSceneSoundState);
     InitSoundFalloffsAndPlayingSounds();
@@ -833,7 +833,7 @@ void InitSceneSounds(s32 unused) {
     ResetSoundRequestQueues();
     ResetSeqPlayerControl();
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        LoadSceneSoundSet(buf, 0);
+        LoadSceneSoundSet(soundRow, 0);
     }
     if (currentSceneNumber != SCENE_MENU_1) {
         return;
@@ -1764,7 +1764,7 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
     NNS_SndArcLoadSeqArc(4, gCurrentSndHeap);
 }
 
-void UpdateMissionRunMSselSounds(s32 stepId) {
+void UpdateMissionRunMSselSounds(s32 blendFrame) {
     s32 trackVolume;
     u32 startsBankSeq;
     s32 stepCount;
@@ -1775,12 +1775,12 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
         StartScenePlayersSeq(&gScenePlayers);
         return;
     }
-    if (stepId != 0 && stepId != 0x32) {
+    if (blendFrame != 0 && blendFrame != 0x32) {
         return;
     }
     startsBankSeq = 0;
     trackVolume = 0x78;
-    stepCount = (stepId == 0x32) ? gMissionRunMSselStep32Count : gMissionRunMSselStep0Count;
+    stepCount = (blendFrame == 0x32) ? gMissionRunMSselStep32Count : gMissionRunMSselStep0Count;
     if (stepCount < 5) {
         switch (stepCount) {
             case 0:
@@ -1823,7 +1823,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
                 break;
         }
     }
-    if (stepId == 0x32) {
+    if (blendFrame == 0x32) {
         NNSSndSeqPlayer **seqHandle = &gSndHandleSlots[1];
         if (*seqHandle != NULL) {
             NNS_SndPlayerStopSeq(seqHandle, 0);
@@ -1835,7 +1835,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
         gMissionRunMSselStep32Count++;
         return;
     }
-    if (stepId != 0) {
+    if (blendFrame != 0) {
         return;
     }
     if (startsBankSeq != 0) {

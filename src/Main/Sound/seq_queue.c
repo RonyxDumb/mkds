@@ -144,19 +144,19 @@ void AddSeqQueueEntry(u32 pairNo, u32 pairSide) {
 
 void StartSeqPair(s32 pairNo, s32 pairSide) {
     u16 seqIndex;
-    u32 mode;
-    mode = 3;
+    u32 seqArcNo;
+    seqArcNo = 3;
     if (pairNo == 0xc) {
         if (pairSide == 0) {
             seqIndex = 0x47;
         } else {
             seqIndex = 0x48;
         }
-        mode = 0;
+        seqArcNo = 0;
     } else {
         seqIndex = pairSide + pairNo * 2;
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, mode, seqIndex);
+    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
     if (gSharedSeqHandle != NULL) {
         SetSndHandleTrackVolume(&gSharedSeqHandle, 100);
     }
@@ -230,11 +230,11 @@ void InitKingTeresaSoundState(u32 kingTeresaFlag) {
 }
 
 u32 InitKartNearSoundFactors(void) {
-    s32 value;
+    s32 playerVolumeFactor;
     gKartNearSeqVolumeFactor = FX_Div(TO_FIXED12(gSceneSeqVolume - 0x14), 0x8340000);
-    value = FX_Div(0x61000, 0x8340000);
-    gKartNearPlayerVolumeFactor = value;
-    return value;
+    playerVolumeFactor = FX_Div(0x61000, 0x8340000);
+    gKartNearPlayerVolumeFactor = playerVolumeFactor;
+    return playerVolumeFactor;
 }
 
 void InitVolumeFade(void) {

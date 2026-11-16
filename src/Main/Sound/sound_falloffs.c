@@ -376,18 +376,18 @@ void InitSoundFalloffs(void) {
 }
 
 s32 ComputeSoundVolume(SoundParams *soundParams) {
-    Kart *kart;
+    Kart *source;
     SoundFalloff *falloff;
     s32 volume;
     s32 value;
 
-    kart = (Kart *) soundParams->mSource;
+    source = (Kart *) soundParams->mSource;
     volume = 0;
-    if (kart != NULL) {
-        if (kart != NULL && kart->mSoundSource.mFalloffIndex == 0 && kart->mIndex != gRaceSetup->mEntryIndex) {
+    if (source != NULL) {
+        if (source != NULL && source->mSoundSource.mFalloffIndex == 0 && source->mIndex != gRaceSetup->mEntryIndex) {
             falloff = &gOtherKartSoundFalloff;
         } else {
-            falloff = &gSoundFalloffs[kart->mSoundSource.mFalloffIndex];
+            falloff = &gSoundFalloffs[source->mSoundSource.mFalloffIndex];
         }
     } else {
         falloff = &gSoundFalloffs[soundParams->mStartParams->mFalloffIndex];
