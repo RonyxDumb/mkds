@@ -48,12 +48,12 @@ const u8 gSelectBattleStageSecondXCells[2] = {0, 1};
 const u8 gSelectBattleStageMNscrCopyDestination[2] = {9, 7};
 const u8 gSelectBattleStageOffsetYCells[3] = {1, 2, 3};
 const u8 gSelectBattleStageXCells[3] = {4, 5, 6};
-const u8 gSelectBattleStageBnblRectIndices[6] = {0, 1, 2, 3, 4, 5};
-const s8 gSelectBattleStageOffsets[6] = {0, -2, -3, -4, -3, -2};
-const u8 gSelectBattleStageMNscrIndices[6] = {0, 0, 1, 1, 2, 2};
-const u8 gSelectBattleStageSTableIndices[6][3] = {{0, 12, 6}, {1, 13, 7},  {2, 14, 8},
+const u8 gSelectBattleStageBnblRectIndices[SELECT_BATTLE_STAGE_COUNT] = {0, 1, 2, 3, 4, 5};
+const s8 gSelectBattleStageOffsets[SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES] = {0, -2, -3, -4, -3, -2};
+const u8 gSelectBattleStageMNscrIndices[SELECT_BATTLE_STAGE_COUNT] = {0, 0, 1, 1, 2, 2};
+const u8 gSelectBattleStageSTableIndices[SELECT_BATTLE_STAGE_COUNT][3] = {{0, 12, 6}, {1, 13, 7},  {2, 14, 8},
                                                   {3, 15, 9}, {4, 16, 10}, {5, 17, 11}};
-const SelectBattleStageNscrRect gSelectBattleStageNscrRects[6] = {
+const SelectBattleStageNscrRect gSelectBattleStageNscrRects[SELECT_BATTLE_STAGE_COUNT] = {
     {2, 15, 7, 16}, {16, 29, 7, 16}, {2, 15, 7, 16}, {16, 29, 7, 16}, {2, 15, 7, 16}, {16, 29, 7, 16},
 };
 SelectBattleStage *gSelectBattleStage;
@@ -78,7 +78,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     gSelectBattleStage->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     LocateAndQueueSelectBattleStage();
     CopyAndQueueSelectBattleStageNscrRect();
-    for (index = 0; index < 6; index++) {
+    for (index = 0; index < SELECT_BATTLE_STAGE_COUNT; index++) {
         SetCellOamModeXlu(gSelectBattleStageSTableIndices[index][0], 1, gSelectBattleStage->mSelectBattleStageSCells,
                           gSelectBattleStage->mSelectBattleStageCellLayouts[1]);
     }
@@ -93,7 +93,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     gSelectBattleStage->mSelectBattleStageTables[0][0].mOffsetY = -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y;
     gSelectBattleStage->mSlideOffsetY = SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y;
     UpdateSelectBattleStageCellOffsets();
-    for (index = 0; index < 6; index++) {
+    for (index = 0; index < SELECT_BATTLE_STAGE_COUNT; index++) {
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[index][cellIndex]]
                 .mOffsetX = SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE;

@@ -34,9 +34,8 @@ enum {
 #define RECORD_TOP_MENU_SLIDE_DISTANCE 224
 #define RECORD_TOP_MENU_BG0_SLIDE_DISTANCE 192
 
-// Frames of the press animation (GetSelectedPressOffset) of the pressed row, and of all rows after the slide in; the
-// pressed row is switched on at the fifth.
-#define RECORD_TOP_MENU_PRESS_FRAMES 10
+// The press animation (SELECTED_PRESS_FRAMES) runs on the pressed row, and on all rows after the slide in; the pressed
+// row is switched on at the fifth frame.
 #define RECORD_TOP_MENU_ROW_ON_FRAME 5
 
 // The record top menu screen: its layout tables, messages, heap, state, selected index and chosen record screen.
@@ -115,7 +114,7 @@ void LocateAndQueueRecordTopMenu(void);
 extern const u16 gRecordTopMenuGradeSTableIndices[3];
 extern const u16 gRecordTopMenuRowCellIndices[3];
 extern const u16 gRecordTopMenuLabelWidths[3][3];
-extern const s32 gRecordTopMenuTouchRowIndices[3];
+extern const s32 gRecordTopMenuTouchRowIndices[RECORD_TOP_ROW_COUNT];
 extern const u16 gRecordTopMenuLabelHeights[3][3];
 extern const s32 gRecordTopMenuRowRecordScreens[3];
 extern const u16 gRecordTopMenuRecordMessageIndices[3];

@@ -40,18 +40,10 @@ enum {
 #define RECORD_TATT_SLIDE_DISTANCE 256
 #define RECORD_TATT_TOP_SLIDE_DISTANCE 192
 
-// Frames AdvanceRecordTAttPressButton runs the press animation (GetSelectedPressOffset) of its cells before the clear
-// question slides out.
-#define RECORD_TATT_PRESS_FRAMES 10
-
 // Frames into the slide out that hides the cells 12 and 13 of the sub layout table, and into the slide in that shows
 // cell 12 again, when the clear question or the time record characters open or close.
 #define RECORD_TATT_HIDE_CELLS_FRAME 7
 #define RECORD_TATT_SHOW_CELL_FRAME 2
-
-// Frames the Running cells (gRecordTAttRunningSTableIndices) shift after a left or right press
-// (RecordTAtt.mOffsetTimers[0] left, [1] right count them down).
-#define RECORD_TATT_OFFSET_TIMER_FRAMES 6
 
 // Entries of gRecordTAttCourseIds, the courses RecordTAtt.mIndex walks through.
 #define RECORD_TATT_COURSE_COUNT 32

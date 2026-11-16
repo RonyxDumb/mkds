@@ -16,11 +16,11 @@
 #include "card_rom_backup_access.h"
 #include "00/Menu/wi_fi_vs_matching.h"
 
-extern const s32 gRecordTAttCommonMessageIndices[32];
+extern const s32 gRecordTAttCommonMessageIndices[RECORD_TATT_COURSE_COUNT];
 extern const u16 gRecordTAttCharacterCells[13];
 // row 0: character palette slots, row 1: kart palette slots
 extern const u16 gRecordTAttPaletteSlots[2][5];
-extern const s32 gRecordTAttGhostMessageIndices[32];
+extern const s32 gRecordTAttGhostMessageIndices[RECORD_TATT_COURSE_COUNT];
 
 void LocateAndQueueRecordTAtt(void);
 void SetupRecordTAttRowValues(u16 row);

@@ -45,9 +45,9 @@ void AdvanceRecordTAttOffsetTimers(void) {
     s32 timerIndex;
 
     gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[0]].mOffsetX =
-        -LookupFrameOffset(RECORD_TATT_OFFSET_TIMER_FRAMES - gRecordTAtt->mOffsetTimers[0]);
+        -LookupFrameOffset(FRAME_OFFSET_COUNT - gRecordTAtt->mOffsetTimers[0]);
     gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[1]].mOffsetX =
-        LookupFrameOffset(RECORD_TATT_OFFSET_TIMER_FRAMES - gRecordTAtt->mOffsetTimers[1]);
+        LookupFrameOffset(FRAME_OFFSET_COUNT - gRecordTAtt->mOffsetTimers[1]);
     for (timerIndex = 0; timerIndex < 2; timerIndex++) {
         if (gRecordTAtt->mOffsetTimers[timerIndex] > 0) {
             gRecordTAtt->mOffsetTimers[timerIndex]--;
@@ -295,7 +295,7 @@ other:
                (touchBeganRect == 0 && gRecordTAtt->mLeftRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
-        gRecordTAtt->mOffsetTimers[0] = RECORD_TATT_OFFSET_TIMER_FRAMES;
+        gRecordTAtt->mOffsetTimers[0] = FRAME_OFFSET_COUNT;
         gRecordTAtt->mLeftRepeat = TRUE;
         RequestRecordTAttSlideOutSide();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -303,7 +303,7 @@ other:
                (touchBeganRect == 1 && gRecordTAtt->mRightRepeat == FALSE) ||
                (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
-        gRecordTAtt->mOffsetTimers[1] = RECORD_TATT_OFFSET_TIMER_FRAMES;
+        gRecordTAtt->mOffsetTimers[1] = FRAME_OFFSET_COUNT;
         gRecordTAtt->mRightRepeat = TRUE;
         RequestRecordTAttSlideOutSide();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -486,7 +486,7 @@ void AdvanceRecordTAttPressButton(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = offsetX;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = offsetX;
-    if (gRecordTAtt->mStateFrames >= RECORD_TATT_PRESS_FRAMES) {
+    if (gRecordTAtt->mStateFrames >= SELECTED_PRESS_FRAMES) {
         RequestRecordTAttSlideOutForAskClear();
     }
 }

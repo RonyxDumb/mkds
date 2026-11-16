@@ -52,20 +52,6 @@ typedef struct OptionTopMenu {
     /* 3c */ struct Bmg *mCommonMessages;
 } OptionTopMenu;
 
-// Values of RecordGpx.mIndex and the cup arguments of the record screen helpers: the cups in the order of the
-// common.bmg entries 0x25 to 0x2c (gRecordGpxCupMessageIndices). Cups 0, 1, 4 and 5 are always selectable; 2, 3, 6 and
-// 7 only when their backup flags are set (IsRecordGpxCupSelectable).
-enum {
-    RECORD_GPX_CUP_MUSHROOM,
-    RECORD_GPX_CUP_FLOWER,
-    RECORD_GPX_CUP_STAR,
-    RECORD_GPX_CUP_SPECIAL,
-    RECORD_GPX_CUP_SHELL,
-    RECORD_GPX_CUP_BANANA,
-    RECORD_GPX_CUP_LEAF,
-    RECORD_GPX_CUP_LIGHTNING,
-};
-
 // States of RecordGpx.mState and mNextState.
 enum {
     RECORD_GPX_STATE_BG_SLIDE_IN,
@@ -97,10 +83,6 @@ enum {
 
 // RecordGpx.mBg3OffsetY that InitRecordGpx stores when none of the cup backup flags is set; it stores 0 otherwise.
 #define RECORD_GPX_NO_CUP_FLAG_BG3_OFFSET_Y 16
-
-// Frames the Running cells (gRecordGpxRunningSTableIndices) shift after a left or right press
-// (RecordGpx.mOffsetTimers[0] left, [1] right count them down).
-#define RECORD_GPX_OFFSET_TIMER_FRAMES 6
 
 // The Grand Prix record screen: its state, selected index, BG offsets, heap, layout tables and trophy files.
 typedef struct RecordGpx {

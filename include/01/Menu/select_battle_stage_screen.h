@@ -28,7 +28,7 @@ typedef struct SelectBattleStageNscrRect {
 // them down); mOffset moves main cells 1 to 3 and the BG2 layer vertically.
 #define SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES 6
 
-extern const u8 gSelectBattleStageSTableIndices[6][3];
+extern const u8 gSelectBattleStageSTableIndices[SELECT_BATTLE_STAGE_COUNT][3];
 
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "01/Menu/record_time_attack.h"
@@ -52,10 +52,10 @@ extern const u8 gSelectBattleStageSecondXCells[2];
 extern const u8 gSelectBattleStageMNscrCopyDestination[2];
 extern const u8 gSelectBattleStageOffsetYCells[3];
 extern const u8 gSelectBattleStageXCells[3];
-extern const s8 gSelectBattleStageOffsets[6];
-extern const u8 gSelectBattleStageMNscrIndices[6];
-extern const u8 gSelectBattleStageBnblRectIndices[6];
-extern const SelectBattleStageNscrRect gSelectBattleStageNscrRects[6];
+extern const s8 gSelectBattleStageOffsets[SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES];
+extern const u8 gSelectBattleStageMNscrIndices[SELECT_BATTLE_STAGE_COUNT];
+extern const u8 gSelectBattleStageBnblRectIndices[SELECT_BATTLE_STAGE_COUNT];
+extern const SelectBattleStageNscrRect gSelectBattleStageNscrRects[SELECT_BATTLE_STAGE_COUNT];
 
 void WriteSelectBattleStageRegisters(void);
 s32 AdvanceSelectBattleStage(void);

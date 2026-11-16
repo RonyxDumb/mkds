@@ -17,4 +17,6 @@ s16 LookupFrameOffset(s32 index);
 s32 CopyTextWithinWidth(const u16 *source, u16 *destination);
 void GetFontGlyphOfChar(NNSG2dGlyph *glyph, NNSG2dFont *font, u32 code);
 
-extern const s16 gFrameOffsets[6];
+// Entries of gFrameOffsets; the shift of a row after a press runs this many frames.
+#define FRAME_OFFSET_COUNT 6
+extern const s16 gFrameOffsets[FRAME_OFFSET_COUNT];

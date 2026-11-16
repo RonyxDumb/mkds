@@ -201,9 +201,9 @@ void AdvanceRecordGpxOffsetTimers(void) {
     s32 timerIndex;
 
     gRecordGpx->mRecordGpxSTable[gRecordGpxRunningSTableIndices[0]].mOffsetX =
-        -LookupFrameOffset(6 - gRecordGpx->mOffsetTimers[0]);
+        -LookupFrameOffset(FRAME_OFFSET_COUNT - gRecordGpx->mOffsetTimers[0]);
     gRecordGpx->mRecordGpxSTable[gRecordGpxRunningSTableIndices[1]].mOffsetX =
-        LookupFrameOffset(6 - gRecordGpx->mOffsetTimers[1]);
+        LookupFrameOffset(FRAME_OFFSET_COUNT - gRecordGpx->mOffsetTimers[1]);
     for (timerIndex = 0; timerIndex < 2; timerIndex++) {
         if (gRecordGpx->mOffsetTimers[timerIndex] > 0) {
             gRecordGpx->mOffsetTimers[timerIndex]--;
@@ -298,21 +298,24 @@ u32 IsRecordGpxCupBackupFlagSet(s32 cupIndex) {
     return IsBackupFlagSet(gRecordGpxCupFlagIndices[cupIndex]);
 }
 
+// Values of RecordGpx.mIndex and the cup arguments of the record screen helpers are the cups in the order of the
+// common.bmg entries 0x25 to 0x2c (gRecordGpxCupMessageIndices). Cups 0, 1, 4 and 5 are always selectable; 2, 3, 6 and
+// 7 only when their backup flags are set.
 u32 IsRecordGpxCupSelectable(u32 cupIndex) {
     u32 result;
     s32 flagIndex;
 
     result = 0;
     switch (cupIndex) {
-        case RECORD_GPX_CUP_MUSHROOM:
-        case RECORD_GPX_CUP_FLOWER:
-        case RECORD_GPX_CUP_SHELL:
-        case RECORD_GPX_CUP_BANANA:
+        case 0:
+        case 1:
+        case 4:
+        case 5:
             return 1;
-        case RECORD_GPX_CUP_STAR:
-        case RECORD_GPX_CUP_SPECIAL:
-        case RECORD_GPX_CUP_LEAF:
-        case RECORD_GPX_CUP_LIGHTNING:
+        case 2:
+        case 3:
+        case 6:
+        case 7:
             for (flagIndex = 0; flagIndex < 3; flagIndex++) {
                 result |= IsBackupFlagSet(gRecordGpxCupAnyOfFlagIndices[cupIndex][flagIndex]);
             }
@@ -330,7 +333,7 @@ void ResetRecordGpx(void) {
 
     gRecordGpx->mNextState = 0;
     gRecordGpx->mStateFrames = 0;
-    gRecordGpx->mBg0Offset = ~0xbf;
+    gRecordGpx->mBg0Offset = -RECORD_GPX_BG0_SLIDE_DISTANCE;
     gRecordGpx->mBg3OffsetX = ~0xff;
     mainLayoutCount = gRecordGpx->mRecordGpxMCellLayout->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSCellLayout->mCount;

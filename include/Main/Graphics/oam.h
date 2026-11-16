@@ -51,6 +51,8 @@ u16 GetRepeatBits(u32 slotIndex, u32 mask);
 u16 GetInputSlotRepeatBits(InputSlot *inputSlot, u32 mask);
 u16 GetNewBits(u32 slotIndex, u32 mask);
 u16 GetInputSlotNewBits(InputSlot *inputSlot, u32 mask);
+// Frames of the press animation that GetSelectedPressOffset runs.
+#define SELECTED_PRESS_FRAMES 10
 s16 GetSelectedPressOffset(s32 frame);
 s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
 s32 InterpolateGetFixed12Whole(s32 value);

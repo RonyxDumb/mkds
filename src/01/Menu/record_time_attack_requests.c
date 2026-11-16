@@ -294,13 +294,13 @@ void ResetRecordTAtt(void) {
 
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_IN_TOP;
     gRecordTAtt->mStateFrames = 0;
-    gRecordTAtt->mBg0Offset = -192;
-    gRecordTAtt->mBg1OffsetX = -256;
-    gRecordTAtt->mBg1OffsetY = -192;
-    gRecordTAtt->mBg3OffsetX = -256;
+    gRecordTAtt->mBg0Offset = -RECORD_TATT_TOP_SLIDE_DISTANCE;
+    gRecordTAtt->mBg1OffsetX = -RECORD_TATT_SLIDE_DISTANCE;
+    gRecordTAtt->mBg1OffsetY = -RECORD_TATT_TOP_SLIDE_DISTANCE;
+    gRecordTAtt->mBg3OffsetX = -RECORD_TATT_SLIDE_DISTANCE;
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
     subLayoutCount = gRecordTAtt->mRecordTAttSBncl->mCount;
-    gRecordTAtt->mRecordTAttMTable[0].mOffsetY = -192;
+    gRecordTAtt->mRecordTAttMTable[0].mOffsetY = -RECORD_TATT_TOP_SLIDE_DISTANCE;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
@@ -489,7 +489,7 @@ void RequestRecordTAttSlideInAfterTimeRecordChars(void) {
 const u16 gRecordTAttPaletteSlots[2][5] = {{3, 3, 4, 5, 6}, {5, 7, 8, 9, 10}};
 const u16 gRecordTAttCharacterKartCellIndices[5][2] = {{3, 4}, {4, 8}, {5, 9}, {6, 10}, {7, 11}};
 const u16 gRecordTAttCharacterCells[13] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
-const s32 gRecordTAttCommonMessageIndices[32] = {
+const s32 gRecordTAttCommonMessageIndices[RECORD_TATT_COURSE_COUNT] = {
     0x2d, 0x2e, 0x2f, 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a, 0x3b, 0x3c,
     0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c,
 };
@@ -497,7 +497,7 @@ const s32 gRecordTAttCourseIds[RECORD_TATT_COURSE_COUNT] = {
     0x14, 0x16, 0x1f, 0x12, 0x1b, 0x1c, 0x21, 0x18, 0x1e, 0x11, 0x19, 0x13, 0x22, 0x1a, 0x20, 0x1d,
     0x0a, 0x0b, 0x0d, 0x0e, 0x23, 0x10, 0x0c, 0x09, 0x0f, 0x24, 0x25, 0x26, 0x27, 0x17, 0x28, 0x01,
 };
-const s32 gRecordTAttGhostMessageIndices[32] = {
+const s32 gRecordTAttGhostMessageIndices[RECORD_TATT_COURSE_COUNT] = {
     0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f, 0x40, 0x41, 0x42,
     0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d, 0x4e, 0x4f, 0x50, 0x51, 0x52,
 };

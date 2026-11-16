@@ -11,7 +11,7 @@
 #include "font_glyph_layout.h"
 #include "Main/Menu/title_state_handlers.h"
 
-const s16 gFrameOffsets[6] = {2, 4, 8, 4, 2, 0};
+const s16 gFrameOffsets[FRAME_OFFSET_COUNT] = {2, 4, 8, 4, 2, 0};
 
 #pragma optimize_for_size on
 

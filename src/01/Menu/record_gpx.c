@@ -289,7 +289,7 @@ next:
         (touchBeganRect == 0 && gRecordGpx->mLeftRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
-        gRecordGpx->mOffsetTimers[0] = RECORD_GPX_OFFSET_TIMER_FRAMES;
+        gRecordGpx->mOffsetTimers[0] = FRAME_OFFSET_COUNT;
         gRecordGpx->mLeftRepeat = TRUE;
         RequestRecordGpxPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
@@ -299,7 +299,7 @@ next:
         (touchBeganRect == 1 && gRecordGpx->mRightRepeat == FALSE) ||
         (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
-        gRecordGpx->mOffsetTimers[1] = RECORD_GPX_OFFSET_TIMER_FRAMES;
+        gRecordGpx->mOffsetTimers[1] = FRAME_OFFSET_COUNT;
         gRecordGpx->mRightRepeat = TRUE;
         RequestRecordGpxPageSlideOut();
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
