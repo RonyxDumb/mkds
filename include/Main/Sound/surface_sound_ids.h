@@ -9,14 +9,16 @@
 #define SURFACE_SOUND_LAP_PROGRESS_A 0xffd0
 #define SURFACE_SOUND_LAP_PROGRESS_B 0xffd1
 
-// gSurfaceSoundIds is addressed in rows of eight words.
+// One row of gSurfaceSoundIds (indexed by surface kind): per surface variant a pointer to an array of sound ids, or 0
+// when none was set.
 typedef struct SurfaceSoundIdRow {
     /* 0 */ void *mIdArrays[8];
 } SurfaceSoundIdRow;
 
 #include "sound_archive_load.h"
 
-// Addressed at the byte offset NNSFndList.mLinkOffset of the pointer passed to RemoveListObject.
+// The link of a list object: it follows the NNSFndLink words at the list's mLinkOffset and holds the list the object is
+// on, set by TryAppendListObject and cleared by RemoveListObject.
 typedef struct ListObjectLink {
     /* 0 */ u8 mUnk_00[8];
     /* 8 */ void *mList;

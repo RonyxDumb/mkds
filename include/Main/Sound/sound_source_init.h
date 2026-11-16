@@ -4,7 +4,7 @@
 
 typedef struct SoundSource SoundSource;
 
-// Sets up the sound source p: its number a (the volume curve), the pointer v to the owner's position, an empty sound
-// list and the entry in the list of all sound sources (gSoundSources). The source starts not enabled (bit 0 of its
-// mUnk_34 member is clear).
+// Sets up source: falloffIndex picks the volume curve, ownerPosSource points to the owner's position, the sound list is
+// empty, the source is entered in gSoundSources and starts not enabled (SOUND_SOURCE_FLAG_ENABLED is clear in
+// mSourceFlags).
 void InitSoundSource(SoundSource *source, u32 falloffIndex, Vec3 *ownerPosSource);

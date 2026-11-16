@@ -35,8 +35,8 @@ extern s32 gSceneSeqVolume;
 extern u32 gSoundFadeSteps;
 
 extern void *gSoundOutputEffectBuffer;
-// Passed by address to NNS_SndArcPlayerStartSeqArc, SetSndHandleTrackVolume and NNS_SndHandleInit; UpdateSeqQueue tests
-// it for null.
+// The one sequence handle that menus and the seq queue start sequences on; UpdateSeqQueue and StartSeqPair test it for
+// null.
 extern NNSSndSeqPlayer *gSharedSeqHandle;
 extern u32 gFileSndArcOpen;
 

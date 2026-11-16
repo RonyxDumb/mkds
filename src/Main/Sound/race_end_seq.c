@@ -157,8 +157,8 @@ s32 GetRaceEndResultKind(void) {
     return resultKind;
 }
 
-// When the race kind is 0 or 2 and the sound mode is 2, starts the race end seq for the result kind and arms
-// UpdateRaceEndSeq to start the follow-up seq.
+// When the race kind is 0 or 2 and the sound mode is 2, ends the race sounds, starts the seq of the row entry for the
+// result kind, arms UpdateRaceEndSeq to start the follow-up seq, and on three courses also starts a course seq.
 void StartRaceEndSeq(s32 unused) {
     s32 seqId;
     s32 resultKind;
@@ -264,7 +264,7 @@ s32 GetLastLapCourseSoundId(void) {
     return seqId;
 }
 
-// Stops the slot for 0xffff, otherwise restarts it with seqId unless that seq already plays on it.
+// Stops the slot for 0xffff, otherwise restarts it with seqId of seq archive 0 unless that seq already plays on it.
 static inline void SetHandleSlotSeq(NNSSndSeqPlayer **handleSlot, u32 seqId) {
     NNSSndSeqPlayer *currentPlayer;
     u32 sameSeq;

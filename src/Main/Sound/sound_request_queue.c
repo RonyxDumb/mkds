@@ -134,7 +134,6 @@ void ResetSoundRequestQueue(SoundRequestQueue *queue) {
     }
 }
 
-// The standalone copy expands itself twice before it calls itself.
 #pragma inline_depth(2)
 static inline void InsertSoundRequest(SoundRequestQueue *queue, SoundRequest *request, s32 index) {
     SoundRequest displacedRequest;

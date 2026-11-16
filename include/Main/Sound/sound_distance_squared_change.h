@@ -5,10 +5,9 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "sound_archive_load.h"
 #include "Main/Sound/sound_source_list.h"
-// Object of AdvanceSoundDistanceSquaredChange: a value at 0x00, the previous value at 0x04, their difference at 0x08
-// and a shift at 0x0c; 0x1c bytes in all.
-// SoundDistanceSquaredChange.mShift that ResetSoundDistanceSquaredChange sets, and the largest absolute mDifference
-// that AdvanceSoundDistanceSquaredChange keeps (a larger change is replaced by the previous change).
+// SOUND_DISTANCE_CHANGE_SHIFT is the mShift that ResetSoundDistanceSquaredChange sets. SOUND_DISTANCE_CHANGE_LIMIT is
+// the largest absolute mDifference that AdvanceSoundDistanceSquaredChange keeps (a larger one is replaced by the
+// previous mDifference).
 #define SOUND_DISTANCE_CHANGE_SHIFT 6
 #define SOUND_DISTANCE_CHANGE_LIMIT 0x600
 

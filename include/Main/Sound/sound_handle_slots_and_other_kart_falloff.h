@@ -5,5 +5,5 @@
 
 void StopSndHandleSlots7To11(void);
 
-// Volume curve of the Karts other than the selected entry whose sound source number is 0.
+// Volume curve of the Karts other than the entry kart (gRaceSetup.mEntryIndex) whose SoundSource.mFalloffIndex is 0.
 extern SoundFalloff gOtherKartSoundFalloff;

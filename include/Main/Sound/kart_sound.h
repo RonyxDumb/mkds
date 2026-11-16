@@ -21,7 +21,8 @@ typedef struct KartSoundRow {
     /* 24 */ s32 mKeyALowRatioSoundId;
 } KartSoundRow;
 
-// KartSound.mSoundIndex values (also Kart.mSoundIndex): one voice set per character, set by InitKartSoundParams.
+// KartSound.mSoundIndex (set by InitKartSoundParams from the kart model) and Kart.mSoundIndex (set by InitKartSound
+// from the character) values: one sound set per character, 14 sounds each.
 enum {
     KART_SOUND_SET_DONKEY,
     KART_SOUND_SET_KINOPIO,

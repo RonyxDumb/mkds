@@ -71,5 +71,5 @@ u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet);
 
 extern struct NNSSndHeap *gCurrentSndHeap;
 extern SndFileIdList gSndDataFileIdList;
-// Same layout as the list above and goes through the same functions.
+// File ids moved while a sound set is loaded; LoadSoundSetIfChanged clears and refills it.
 extern SndFileIdList gSoundSetFileIdList;

@@ -274,8 +274,8 @@ BOOL IsKingTeresaState0Or2Or5(void) {
     return result;
 }
 
-// Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
-// changed.
+// Sets the target volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume, stores the limited
+// result in gReachedSeqVolume and sets the seq volume when it stepped.
 static inline void StepKingTeresaVolumeFade(NNSSndSeqPlayer **handle, s32 playerVolume, s32 pitch, s32 targetVolume) {
     s32 limitedVolume;
     s32 volume;
@@ -590,8 +590,8 @@ u32 IsKartNear(void) {
     return kartNear;
 }
 
-// Sets the flag that makes UpdateSeqPlayerControl give the scene seq pitch 0x40 and a volume target of 10 less while
-// mRaceState is 1.
+// Sets the flag that makes UpdateSeqPlayerControl give the scene seq pitch 0x40 and, when the target is the scene seq
+// volume, a target of 10 less, while gSceneSoundState.mRaceState is 1 and the thunder shrink flag is not set.
 SeqPlayerControl *SetRestartedSeqPitchFlag(void) {
     SeqPlayerControl *control;
     u32 flags;

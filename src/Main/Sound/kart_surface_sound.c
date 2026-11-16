@@ -95,8 +95,7 @@ void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32
     }
 }
 
-// Sound of the low-speed turn: the vehicle's row sound on every call, plus a surface sound when a direction key is
-// held.
+// Sound of the low-speed turn: the kart's row sound on every call, plus a surface sound when a direction key is held.
 void StartKartLowSpeedTurnSound(Kart *kart, s32 withSurfaceSound, s32 surfaceKind, s32 surfaceVariant) {
     u32 soundId;
 

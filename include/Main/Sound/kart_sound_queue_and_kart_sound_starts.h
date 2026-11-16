@@ -4,7 +4,8 @@
 #include "Main/Kart/kart_drift.h"
 
 // KartSoundQueue.mVolume: the first sound of a run starts at the start volume; each next one that starts exactly the
-// gap frames after the one before is quieter by the step, down to the minimum. After a run the queue waits the delay.
+// gap frames after the one before is quieter by the step, down to the minimum. After the entry kart's own sound is
+// started the queue waits the delay.
 #define KART_SOUND_QUEUE_VOLUME_START 0x5f
 #define KART_SOUND_QUEUE_VOLUME_STEP 0xf
 #define KART_SOUND_QUEUE_VOLUME_MIN 0x1e

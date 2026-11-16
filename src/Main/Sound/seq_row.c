@@ -69,7 +69,8 @@ void CreateSeqRowHeap(void *heapMemory, u32 heapSize) {
     gSeqRowState.mSeqRow = NULL;
 }
 
-// Loads the sequences of the row for index unless that row is already loaded; returns 0 if a load fails.
+// Loads the sequences of the row for index (the boss row for index 4 on mission column 9) unless that row is already
+// loaded; returns 0 if a load fails.
 u32 LoadSeqRowIfChanged(s32 index) {
     SeqRowState *state;
     u32 *row;

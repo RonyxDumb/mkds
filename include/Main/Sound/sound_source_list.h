@@ -6,7 +6,8 @@
 #include "Main/Sound/sound_seq.h"
 
 // Update lists of a SoundSource (SoundSource.mUpdateListIndex): list 0 is walked every call of the sound pass, list 1
-// in turns over four calls; a source with no sound that needs updating is on neither.
+// in turns over four calls; a source with no sound that needs updating is on neither. On the calls in between, a source
+// on list 1 only has the track volume and pitch of its sounds set, on every second call.
 #define SOUND_SOURCE_LIST_EVERY_CALL 0
 #define SOUND_SOURCE_LIST_IN_TURNS 1
 #define SOUND_SOURCE_LIST_NONE 3
@@ -53,20 +54,22 @@ typedef struct SoundSource {
     /* 0c */ NNSFndList mPlayingSounds;
     /* 18 */ u32 mUpdateListIndex;
     /* 1c */ u32 mUnk_1c[3];
-    // Pointer to the owner's position; the distance and the direction to the camera are measured to it.
-    // Without one (0) a sound gets full volume and no direction.
+    // Pointer to the owner's position; the camera's forward and side distance to it set the volume and pan. Without one
+    // (0) a sound gets full volume and pan 0.
     /* 28 */ Vec3 *mOwnerPosSource;
     /* 2c */ void (*mStartSeqFunction)(void *source, void *sound, u32 priority);
     /* 30 */ void (*mTrackParamsFunction)(void *source, void *sound, void *unused);
     /* 34 */ u16 mSourceFlags;
     /* 36 */ u8 mUnk_36[2];
     /* 38 */ u32 mRegistered;
-    // Number of the volume curve (element of gSoundFalloffs) of this source.
+    // Index of the volume curve in gSoundFalloffs; a kart that is not the entry kart and has 0 uses
+    // gOtherKartSoundFalloff instead.
     /* 3c */ u8 mFalloffIndex;
     /* 3d */ u8 mUnk_3d[3];
     // Squared distance from the camera to the owner of the sound source. For a Kart it is the three-axis one, for map
     // and item objects the horizontal one with the low 5 and top 2 bits cleared; InitSoundSource stores 0xffffffff. The
-    // sound pass takes its square root.
+    // sound pass takes its square root. Map objects without a view test store the plain horizontal squared distance
+    // (not masked).
     /* 40 */ u32 mDistanceSquared;
 } SoundSource;
 
@@ -78,12 +81,12 @@ typedef struct PlayingSound {
     /* 0c */ u32 mUnk_0c;
     /* 10 */ NNSFndList *mSourceList;
     /* 14 */ s16 mPitch;
-    // Number of the sound this entry plays.
+    // Index of the sound inside the sequence archive entry mSeqArcNo.
     /* 16 */ u16 mSoundId;
     /* 18 */ u8 mSeqArcNo;
     /* 19 */ u8 mFlags;
-    // Volume the sound was started with, 0 to 0x7f; the library turns it into a track volume through a table of 128
-    // entries.
+    // Volume of the sound, 0 to 0x7f, set when it is started and again when it is requested again; the track volume is
+    // its entry in a table of 128 values.
     /* 1a */ u8 mVolume;
 } PlayingSound;
 

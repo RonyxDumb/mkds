@@ -149,7 +149,8 @@ typedef struct PlayerVolumeFade {
 
 extern PlayerVolumeFade gPlayerVolumeFade;
 
-// View of gSoundHandlePool; IncrementSoundHandleAges takes it.
+// A pool of sound handle entries: the entry count, the index and address of the entry tried next, and the entry storage
+// and size.
 typedef struct SoundHandlePool {
     /* 00 */ s32 mCount;
     /* 04 */ s32 mNextIndex;
@@ -184,7 +185,7 @@ typedef struct SceneSoundState {
 
 extern SceneSoundState gSceneSoundState;
 
-// Object gCurrentSoundSetPlayer points to.
+// A sound set with the sequence player that plays it and the loaded set it was loaded into.
 typedef struct SoundSetPlayer {
     /* 00 */ SoundSet mSoundSet;
     /* 0c */ NNSSndSeqPlayer *mSeqPlayer;
@@ -199,7 +200,8 @@ typedef struct VolumeFade {
     /* 04 */ s32 mVolume;
 } VolumeFade;
 
-// Values of the two switches in InitSound.
+// Values of gSndHeapSizeKind and of the heapSizeKind arguments (CreateSndHeaps, InitSound, GetSndHeapsBufferSize,
+// GetSndInitBufferSize).
 typedef enum { SND_HEAP_SIZE_LARGE = 0, SND_HEAP_SIZE_MEDIUM = 1, SND_HEAP_SIZE_SMALL = 2 } SndHeapSizeKind;
 
 BOOL LoadSndBanksAndWaveArcs(s32 bankMask);

@@ -64,6 +64,8 @@ s32 gOrthoQuadHoldFrameCount;
 s32 gOrthoQuadMoveStartFrameCount;
 BOOL gOrthoQuadUseCreamEffect;
 OrthoQuad *gOrthoQuads;
+// One byte per row of the 8 rows; a bit is set where a placed quad marks cells, and a start cell whose bit is set is
+// skipped.
 u8 gOrthoQuadCells[8];
 OrthoQuadModel gOrthoQuadGesoSumi;
 OrthoQuadModel gOrthoQuadCreamEffect;
