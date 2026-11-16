@@ -43,7 +43,7 @@ BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = DateTimeToSeconds(&date, &time);
+    seconds = ConvertDateTimeToSeconds(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;

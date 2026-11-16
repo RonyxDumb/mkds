@@ -8,7 +8,7 @@
 void CTRDGi_SendtoPxi(u32 data) {
     if (PXI_SendWordByFifo(13, data, 0) != 0) {
         do {
-            WaitByLoop(1);
+            SVC_WaitByLoop(1);
         } while (PXI_SendWordByFifo(13, data, 0) != 0);
     }
 }

@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 TimeToSeconds(const RTCTime *time) {
+u32 ConvertTimeToSeconds(const RTCTime *time) {
     return time->mSecond + 0x3cu * (time->mMinute + 0x3cu * time->mHour);
 }
 

@@ -81,7 +81,7 @@ void CTRDGi_InitModuleInfo(void) {
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);
     while (gCartridgeState.mReplyReceived != 1) {
-        WaitByLoop(1);
+        SVC_WaitByLoop(1);
     }
     reg_OS_IME;
     reg_OS_IME = savedIme;
@@ -122,7 +122,7 @@ void CTRDGi_InitCommon(void) {
     u32 zero;
 
     zero = 0;
-    CpuSet(&zero, &gCartridgeState, 0x05000001);
+    SVC_CpuSet(&zero, &gCartridgeState, 0x05000001);
     gCartridgeState.mLockId = OS_GetLockID();
 }
 
@@ -185,7 +185,7 @@ void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
             break;
         }
         OS_RestoreInterrupts(info->mSavedIrq);
-        WaitByLoop(1);
+        SVC_WaitByLoop(1);
     }
 }
 

@@ -2,22 +2,22 @@
 
 #include "types.h"
 
-void RLUnCompReadByCallbackWrite16bit(void);
-void SoftReset(void);
-void LZ77UnCompReadByCallbackWrite16bit(void);
-void HuffUnCompReadByCallback(void);
-void LZ77UnCompReadNormalWrite8bit(void);
-u32 Sqrt(u32 value);
-void RLUnCompReadNormalWrite8bit(void);
-void BitUnPack(void);
-void WaitByLoop(s32 loopCount);
-s32 Mod(s32 dividend, s32 divisor);
-s32 IsDebugger(void);
-s32 Div(s32 dividend, s32 divisor);
-u16 GetCRC16(void);
-void Halt(void);
-void CpuFastSet(void);
-void IntrWait(void);
+void SVC_UncompressRL16FromDevice(void);
+void SVC_SoftReset(void);
+void SVC_UncompressLZ16FromDevice(void);
+void SVC_UncompressHuffmanFromDevice(void);
+void SVC_UncompressLZ8(void);
+u32 SVC_Sqrt(u32 value);
+void SVC_UncompressRL8(void);
+void SVC_UnpackBits(void);
+void SVC_WaitByLoop(s32 loopCount);
+s32 SVC_DivRem(s32 dividend, s32 divisor);
+s32 SVC_IsMmemExpanded(void);
+s32 SVC_Div(s32 dividend, s32 divisor);
+u16 SVC_GetCRC16(void);
+void SVC_Halt(void);
+void SVC_CpuSetFast(void);
+void SVC_WaitIntr(void);
 
-void CpuSet(const void *src, void *dst, u32 ctrl);
-void VBlankIntrWait(void);
+void SVC_CpuSet(const void *src, void *dst, u32 ctrl);
+void SVC_WaitVBlankIntr(void);

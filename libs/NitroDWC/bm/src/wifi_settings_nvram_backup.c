@@ -221,7 +221,7 @@ BOOL DWC_BACKUPlCheckAddress(const u8 *address) {
     return 0;
 }
 
-static inline u32 sendSixWords(u32 tag, u32 firstWord, u32 secondWord, u32 thirdWord, u32 fourthWord, u32 fifthWord,
+static inline u32 SendSixWords(u32 tag, u32 firstWord, u32 secondWord, u32 thirdWord, u32 fourthWord, u32 fifthWord,
                                u32 sixthWord) {
     if (PXI_SendWordByFifo(tag, firstWord, 0) < 0) {
         return 0;
@@ -312,7 +312,7 @@ BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
             nv_cb_occurred = 0;
             switch (nv_state) {
                 case NVRAM_STATE_READ:
-                    sending = sendSixWords(tag, readHeader, addr, 0x20000, sizeWord, readBufHigh, readBufLow);
+                    sending = SendSixWords(tag, readHeader, addr, 0x20000, sizeWord, readBufHigh, readBufLow);
                     break;
                 case NVRAM_STATE_WRITE_ENABLE:
                     sending = sendOneWord(tag, 0x3002000);
@@ -374,7 +374,7 @@ BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
                     if ((Work[0] & 0x20) != 0 || ((OS_GetTick() - start) * 64) / 33514 > 4000) {
                         nv_state = NVRAM_STATE_WRITE_FAILED;
                     } else {
-                        WaitByLoop(0x4000);
+                        SVC_WaitByLoop(0x4000);
                     }
                     break;
                 case NVRAM_STATE_WRITE_FAILED:
@@ -399,7 +399,7 @@ BOOL readNvram(u32 address, u32 size, void *buf) {
         if (NVRAMm_ExecuteCommand(tag, address, size, buf) == 1) {
             break;
         }
-        WaitByLoop(0x40000);
+        SVC_WaitByLoop(0x40000);
     }
     DC_InvalidateRange(buf, size);
     return 1;
@@ -417,7 +417,7 @@ void writeNvram(u32 address, u16 size, void *data) {
         if (NVRAMm_ExecuteCommand(tag, address, size, data) == 1) {
             break;
         }
-        WaitByLoop(0x40000);
+        SVC_WaitByLoop(0x40000);
     }
 }
 
@@ -448,7 +448,7 @@ BOOL writeDisable(void) {
         if (NVRAMm_ExecuteCommand(tag, zero, zero, (u8 *) zero) == 1) {
             break;
         }
-        WaitByLoop(delay);
+        SVC_WaitByLoop(delay);
     }
     return 1;
 }

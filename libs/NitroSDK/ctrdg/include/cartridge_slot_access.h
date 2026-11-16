@@ -98,7 +98,7 @@ extern CartridgeHeaderCopy gCartridgeHeaderCopy;
 void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info);
 // Loops: stores OS_DisableInterrupts() in the second word of info and the owner id of the lock word at 0x027fffe8
 // (OS_ReadOwnerOfLockWord) & 0x40 in the first word, and returns when that is not 0; otherwise calls
-// OS_TryLockCartridge(lockID) and returns when it gives 0; else calls OS_RestoreInterrupts, WaitByLoop(1) and tries
+// OS_TryLockCartridge(lockID) and returns when it gives 0; else calls OS_RestoreInterrupts, SVC_WaitByLoop(1) and tries
 // again. Returns with the interrupts disabled.
 void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info);
 // Writes the first word of cycleInfo (shifted left by 2) into bits 2 and 3 and the second word (shifted left by 4) into
@@ -113,7 +113,7 @@ void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo);
 // the word at 0x027ffc38. On a difference sets bit 1 of that byte and returns 0, otherwise 1. Its only caller is
 // PM_GoSleepMode.
 s32 CTRDG_IsExisting(void);
-// Zero-fills the 4 bytes of gCartridgeState (CpuSet, one word) and stores OS_GetLockID() in gCartridgeState.mLockId.
+// Zero-fills the 4 bytes of gCartridgeState (SVC_CpuSet, one word) and stores OS_GetLockID() in gCartridgeState.mLockId.
 void CTRDGi_InitCommon(void);
 // Sends the word 2 with CTRDGi_SendtoPxi, then calls OS_Terminate. Its only caller is
 // CTRDGi_PulledOutCallback.
