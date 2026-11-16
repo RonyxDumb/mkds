@@ -122,8 +122,8 @@ void DigitsSubtract(DigitRecord *result, const DigitRecord *minuend, const Digit
     }
     shift = result->mExponent - subtrahend->mExponent;
     length += shift;
-    if (length > 32) {
-        length = 32;
+    if (length > DIGIT_RECORD_MAX_DIGITS) {
+        length = DIGIT_RECORD_MAX_DIGITS;
     }
     if (digitCount < length) {
         do {
@@ -320,8 +320,8 @@ void DoubleToDigitChars(DigitOptions *options, double value, DigitRecord *record
     if (record->mDigits[0] > 9) {
         return;
     }
-    if (digitCount > 32) {
-        digitCount = 32;
+    if (digitCount > DIGIT_RECORD_MAX_DIGITS) {
+        digitCount = DIGIT_RECORD_MAX_DIGITS;
     }
     DigitsRoundTo(record, digitCount);
     while (record->mDigitCount < digitCount) {
@@ -738,7 +738,7 @@ double PowBody(double base, double power) {
             baseAbsHighWord = *(1 + (int *) &absBase);
         }
         baseExponent += (baseAbsHighWord >> 20) - 0x3ff;
-        bits = baseAbsHighWord & 0x000fffff;
+        bits = baseAbsHighWord & DOUBLE_HIGH_MANTISSA_MASK;
         baseAbsHighWord = bits | 0x3ff00000;
         if (bits <= 0x3988e) {
             exponent = 0;
@@ -818,8 +818,8 @@ double PowBody(double base, double power) {
         lowBits = bits + (0x00100000 >> (exponent + 1));
         exponent = ((lowBits & 0x7fffffff) >> 20) - 0x3ff;
         workTerm = 0.0;
-        *(1 + (int *) &workTerm) = lowBits & ~(0x000fffff >> exponent);
-        scaleExp = ((lowBits & 0x000fffff) | 0x00100000) >> (20 - exponent);
+        *(1 + (int *) &workTerm) = lowBits & ~(DOUBLE_HIGH_MANTISSA_MASK >> exponent);
+        scaleExp = ((lowBits & DOUBLE_HIGH_MANTISSA_MASK) | 0x00100000) >> (20 - exponent);
         if (bits < 0) {
             scaleExp = -scaleExp;
         }

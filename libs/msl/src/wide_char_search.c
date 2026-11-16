@@ -14,7 +14,7 @@ u16 *wmemchr(const u16 *buffer, int wideChar, u32 count) {
 }
 
 int fwide(FILE *stream, int mode) {
-    if (stream == 0 || stream->mKind == 0) {
+    if (stream == 0 || stream->mKind == FILE_KIND_NONE) {
         return 0;
     }
     switch (stream->mWideMode) {

@@ -273,16 +273,16 @@ char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
             break;
         case 'u':
             base = 10;
-            sign = 0;
+            sign = FORMAT_SIGN_NONE;
             break;
         case 'x':
         case 'X':
             base = 16;
-            sign = 0;
+            sign = FORMAT_SIGN_NONE;
             break;
         case 'o':
             base = 8;
-            sign = 0;
+            sign = FORMAT_SIGN_NONE;
             break;
     }
     do {
@@ -304,7 +304,7 @@ char *FormatInt32(unsigned long value, char *end, FormatSpec spec) {
     }
     if (spec.mPadKind == FORMAT_PAD_ZEROS) {
         prec = width;
-        if (neg != 0 || sign != 0) {
+        if (neg != 0 || sign != FORMAT_SIGN_NONE) {
             prec--;
         }
         if (base == 16 && alt != 0) {
@@ -367,16 +367,16 @@ char *FormatInt64(u64 value, char *end, FormatSpec spec) {
             break;
         case 'o':
             base = 8;
-            flag = 0;
+            flag = FORMAT_SIGN_NONE;
             break;
         case 'u':
             base = 10;
-            flag = 0;
+            flag = FORMAT_SIGN_NONE;
             break;
         case 'x':
         case 'X':
             base = 16;
-            flag = 0;
+            flag = FORMAT_SIGN_NONE;
             break;
     }
     do {
@@ -398,7 +398,7 @@ char *FormatInt64(u64 value, char *end, FormatSpec spec) {
     }
     if (spec.mPadKind == FORMAT_PAD_ZEROS) {
         precision = wid;
-        if (neg != 0 || flag != 0) {
+        if (neg != 0 || flag != FORMAT_SIGN_NONE) {
             precision--;
         }
         if (base == 16 && alt != 0) {

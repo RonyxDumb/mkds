@@ -205,16 +205,16 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 format++;
                 formatChar = *format;
             } while (IsScanSkippedChar(formatChar));
-            while (chb = fn(source, 0, 0), IsScanSkippedChar(chb)) {
+            while (chb = fn(source, 0, SCAN_OP_READ), IsScanSkippedChar(chb)) {
                 consumedCount++;
             }
-            fn(source, chb, 1);
+            fn(source, chb, SCAN_OP_UNREAD);
             continue;
         }
         if (formatChar != '%') {
-            chb = fn(source, 0, 0);
+            chb = fn(source, 0, SCAN_OP_READ);
             if (formatChar != chb) {
-                fn(source, chb, 1);
+                fn(source, chb, SCAN_OP_UNREAD);
                 goto exit;
             }
             format++;
@@ -229,7 +229,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
             destination = 0;
         }
         if (spec.mSpecChar != 'n') {
-            if (fn(source, 0, 2) != 0) {
+            if (fn(source, 0, SCAN_OP_AT_END) != 0) {
                 goto exit;
             }
         }
@@ -385,7 +385,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 }
                 if (destination != 0) {
                     usedCount = 0;
-                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, 0)) != -1) {
+                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, SCAN_OP_READ)) != -1) {
                         chb = ch;
                         if (spec.mArgKind == SCAN_ARG_WIDE) {
                             mbtowc((u16 *) destination, &chb, 1);
@@ -403,7 +403,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     assignedCount++;
                 } else {
                     usedCount = 0;
-                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, 0)) != -1) {
+                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, SCAN_OP_READ)) != -1) {
                         chb = ch;
                         usedCount++;
                     }
@@ -415,26 +415,26 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                 conversionCount++;
                 break;
             case '%':
-                while (chb = fn(source, 0, 0), IsScanSkippedChar(chb)) {
+                while (chb = fn(source, 0, SCAN_OP_READ), IsScanSkippedChar(chb)) {
                     consumedCount++;
                 }
                 if (chb != '%') {
-                    fn(source, chb, 1);
+                    fn(source, chb, SCAN_OP_UNREAD);
                     goto exit;
                 }
                 consumedCount++;
                 break;
             case 's':
-                chb = fn(source, 0, 0);
+                chb = fn(source, 0, SCAN_OP_READ);
                 while (IsScanSkippedChar(chb)) {
                     consumedCount++;
-                    chb = fn(source, 0, 0);
+                    chb = fn(source, 0, SCAN_OP_READ);
                 }
-                fn(source, chb, 1);
+                fn(source, chb, SCAN_OP_UNREAD);
             case '[':
                 if (destination != 0) {
                     usedCount = 0;
-                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, 0)) != -1) {
+                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, SCAN_OP_READ)) != -1) {
                         chb = ch;
                         if (!(spec.mCharSet[chb >> 3] & (1 << (chb & 7)))) {
                             break;
@@ -449,7 +449,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     }
                     chb = ch;
                     if (usedCount == 0) {
-                        fn(source, chb, 1);
+                        fn(source, chb, SCAN_OP_UNREAD);
                         goto exit;
                     }
                     consumedCount += usedCount;
@@ -461,7 +461,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     assignedCount++;
                 } else {
                     usedCount = 0;
-                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, 0)) != -1) {
+                    while (spec.mMaxLength-- != 0 && (ch = fn(source, 0, SCAN_OP_READ)) != -1) {
                         chb = ch;
                         if (!(spec.mCharSet[chb >> 3] & (1 << (chb & 7)))) {
                             break;
@@ -470,13 +470,13 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
                     }
                     chb = ch;
                     if (usedCount == 0) {
-                        fn(source, chb, 1);
+                        fn(source, chb, SCAN_OP_UNREAD);
                         break;
                     }
                     consumedCount += usedCount;
                 }
                 if (spec.mMaxLength >= 0) {
-                    fn(source, chb, 1);
+                    fn(source, chb, SCAN_OP_UNREAD);
                 }
                 conversionCount++;
                 break;
@@ -507,7 +507,7 @@ int ScanWithSourceFunc(ScanReadCharFunc fn, ScanStringSource *source, const char
         }
     }
 exit:
-    if (fn(source, 0, 2) != 0 && conversionCount == 0) {
+    if (fn(source, 0, SCAN_OP_AT_END) != 0 && conversionCount == 0) {
         return -1;
     }
     return assignedCount;
