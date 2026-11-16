@@ -591,12 +591,12 @@ typedef struct MultiBootStateView {
 // ConnectionWork.mFlags: the connection is being ended; cleared when the end finishes.
 #define CONNECTION_FLAG_ENDING 0x80
 // ConnectionWork.mOperationFlags: set by a child's Disconnect when WM_Disconnect answers WIRELESS_RESULT_OCCUPIED;
-// DisconnectCallback clears it, and a refused result then resets the connection data instead of stopping.
+// DisconnectCallback clears it; while it is set, a refused result resets the connection data instead of stopping.
 #define CONNECTION_OPERATION_DISCONNECT_OCCUPIED 2
 // ConnectionWork.mOperationFlags: scan results are being recorded into the scan slots; set when StartScan starts a scan
 // and when a child presses a member row, cleared by EndScan, a failed start and when an entry is chosen.
 #define CONNECTION_OPERATION_SCANNING 1
-// ConnectionWork.mStatusFlags: set on a parent once every child's record carries the current sync toggle bit; cleared
+// ConnectionWork.mStatusFlags: set on a parent once every child's record has the sync toggle bit its own lacks; cleared
 // when a sync starts or the sharing is reset.
 #define CONNECTION_STATUS_SHARING_SYNCED 1
 // ConnectionWork.mStatusFlags: the child set changed since the game info was last refreshed.
@@ -1500,7 +1500,8 @@ typedef struct Camera {
     // Counts the calls of TryUpdateEntryCamera that reach the angle start test (not in MODE_BATTLE, and after the staff
     // roll, mEntryUpdateHold, mEntryUpdateDisabled and mMissionRunCameraRunning returns) while mAngleStartRunning is
     // TRUE; at CAMERA_ANGLE_START_FRAMES it clears mAngleStartRunning. Only SetupCamera zeroes it, so
-    // StartEntryCameraAngleStart does not restart the count (it stays at CAMERA_ANGLE_START_FRAMES until then).
+    // StartEntryCameraAngleStart does not restart the count: at CAMERA_ANGLE_START_FRAMES the next counted call ends
+    // it.
     /* 22c */ u16 mAngleStartFrames;
     /* 22e */ u8 mUnk_22e[0x2];
     // Set to 1 by SetEntryCameraUpdateHold(1), which only does so while the current entry is

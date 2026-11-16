@@ -353,7 +353,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     }
     uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
     allocFromHeapEnd = gArchiveSlotInfos[slotIndex].mAllocFromHeapEnd;
-    archiveBufferSize = gArchiveSlotInfos[slotIndex].mUnk_14;
+    archiveBufferSize = gArchiveSlotInfos[slotIndex].mArchiveBufferSize;
     bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
     if (bufferIndex != ARCHIVE_BUFFER_NONE) {
         bufferData = gArchiveSlots->mBuffers[bufferIndex].mData;

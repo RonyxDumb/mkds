@@ -17,7 +17,7 @@ typedef struct ArchiveSlotInfo {
     /* 09 */ u8 mUnk_09[0x3];
     /* 0c */ s32 mUncompressSource;
     /* 10 */ s32 mAllocFromHeapEnd;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 mArchiveBufferSize;
 } ArchiveSlotInfo;
 
 // A scene's name string (mName) and the archive buffer size (mArchiveBufferSize) it loads with, -1 for most scenes.
