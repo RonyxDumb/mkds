@@ -17,7 +17,7 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
 
-u32 gSecondTotalLimitBase = 0xf4240;
+u32 gGhostFileRecordsResultTotalMax = 0xf4240;
 
 #pragma opt_loop_invariants off
 
@@ -52,7 +52,7 @@ void AddOtherKartCountToSecondTotal(void) {
     gWiFiSession->mKartCountCopy = gWiFiSession->mKartCount;
     firstBlock = gBackupBuffers->mFirstBlock;
     total = firstBlock->mTotals[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
-    limit = gSecondTotalLimitBase + 3;
+    limit = gGhostFileRecordsResultTotalMax + 3;
     if (total > limit) {
         total = limit;
     }
