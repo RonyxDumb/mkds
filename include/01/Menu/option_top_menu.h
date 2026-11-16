@@ -20,8 +20,8 @@ void AdvanceOptionTopMenuWaitSelectReturn(void);
 void AdvanceOptionTopMenuSlideIn(void);
 void AdvanceOptionTopMenuWaitFade(void);
 void LocateAndQueueOptionTopMenu(void);
-/* slot mRelease of OptionStateCallbacks; only clears the global, the state heap is destroyed by
-   AdvanceOptionStates after it returns */
+/* slot mRelease of OptionStateCallbacks; only clears the global (on a state change AdvanceOptionStates destroys the
+   state heap after it returns) */
 void ReleaseOptionTopMenu(void);
 void InitOptionTopMenu(void *heap);
 

@@ -29,16 +29,21 @@ enum {
 typedef struct OptionTopMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* Init leaves it unset when the previous option state is not 1, 2 or 4 (1, 4 -> 0, 2 -> 1) */
+    /* Init leaves it unset unless the previous option state is OPTION_STATE_SELECT_MENU or OPTION_STATE_SCENE_TITLE
+       (row OPTION_TOP_ROW_SETTINGS) or OPTION_STATE_HENSYU_MENU (row OPTION_TOP_ROW_EDIT) */
     /* 08 */ s32 mIndex;
-    /* counted only in states 1, 4, 5; zeroed when 1 and 4 hand over and 5 hands over to 6; state 5 keeps counting
-       while it requests the next option state */
+    /* counted only in OPTION_TOP_STATE_SLIDE_IN, OPTION_TOP_STATE_PRESS and OPTION_TOP_STATE_SLIDE_OUT; zeroed when
+       SLIDE_IN and PRESS hand over and when SLIDE_OUT hands over to OPTION_TOP_STATE_ASK_RESET; SLIDE_OUT keeps
+       counting while it requests the next option state */
     /* 0c */ s32 mStateFrames;
-    /* option state passed to RequestOptionState (1, 2 or 4); no initial store, set by the input handler (state 3,
-       also state 9), not set for entry 2 (dialog path); also tested inside the screen */
+    /* option state stored by the input handler (state OPTION_TOP_STATE_INPUT, also OPTION_TOP_STATE_RESET_DONE): the
+       select menu or hensyu menu, which SlideOut passes to RequestOptionState, or the title scene, for which SlideOut
+       requests the next scene instead; no initial store; not set for the erase/reset row (OPTION_TOP_ROW_RESET_BACKUP);
+       also tested inside the screen */
     /* 10 */ s32 mNextOptionState;
     /* 14 */ BOOL mHighlightVisible;
-    /* stored to reg_G2_BG0OFS without negation (the other mBg0Offset members are stored negated) */
+    /* stored to reg_G2_BG0OFS without negation (the mBg0Offset of the record, select and time attack menu screens is
+       stored negated) */
     /* 18 */ s32 mBg0Offset;
     /* 1c */ void *mHeap;
     // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
@@ -113,7 +118,7 @@ typedef struct RecordGpx {
     /* 60 */ s32 mState;
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames;
-    // The register receives the negation of this value in its upper half-word.
+    // Stored negated in the upper half-word of reg_G2_BG0OFS (WriteRecordGpxBgOffsets).
     /* 6c */ s32 mBg0Offset;
     // mBg3OffsetX goes to the X half of reg_G2S_DB_BG3OFS (sub engine BG3) negated; mBg3OffsetY goes to the Y half,
     // also negated, and is also the y offset of the S cells.

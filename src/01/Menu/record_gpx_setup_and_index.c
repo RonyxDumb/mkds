@@ -331,7 +331,7 @@ void ResetRecordGpx(void) {
     s32 mainLayoutCount;
     s32 subLayoutCount;
 
-    gRecordGpx->mNextState = 0;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_BG_SLIDE_IN;
     gRecordGpx->mStateFrames = 0;
     gRecordGpx->mBg0Offset = -RECORD_GPX_BG0_SLIDE_DISTANCE;
     gRecordGpx->mBg3OffsetX = -RECORD_GPX_SLIDE_DISTANCE;
