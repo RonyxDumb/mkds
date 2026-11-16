@@ -32,7 +32,7 @@ u32 FS_ChangeDir(const u8 *path);
 enum {
     FILE_SEEK_START = 0,
     FILE_SEEK_CURRENT = 1,
-    FS_SEEK_END = 2,
+    FILE_SEEK_END = 2,
 };
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin);
 s32 FS_ReadFile(FSFile *file, void *dst, s32 len);

@@ -216,7 +216,7 @@ u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
         case FILE_SEEK_CURRENT:
             offset += file->mPosition;
             break;
-        case FS_SEEK_END:
+        case FILE_SEEK_END:
             offset += file->mProp.p.mUnk_08;
             break;
         default:
