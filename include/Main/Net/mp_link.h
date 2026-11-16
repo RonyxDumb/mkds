@@ -22,8 +22,8 @@ typedef struct ScanErrorArgs {
 #include "wireless_link_control.h"
 
 // Values of ScanConnectWork.mState and of the first argument of its state callback: the link to the parent (IDLE to
-// LINK_LOST), the request and the parent's messages that move it on (SEND_REQUEST to SEND_DONE), the reset, the error
-// and the end.
+// LINK_LOST), the request and the parent's messages that move it on (SEND_REQUEST to SEND_DONE and REQUEST_FAILED), the
+// reset, the error and the end.
 typedef enum ScanConnectState {
     SCAN_CONNECT_STATE_IDLE = 0,
     SCAN_CONNECT_STATE_CONNECTING = 1,
@@ -57,7 +57,7 @@ typedef enum ScanConnectError {
 // Size of the object behind gScanConnectWork.
 #define SCAN_CONNECT_WORK_SIZE 0x5f20
 
-// Scan timing and channels: the most channel time of a scan (a locked bssid waits longer) and the channel range
+// Scan timing and channels: the maximum channel time of a scan (a locked bssid waits longer) and the channel range
 // PickScanChannel walks.
 #define SCAN_CHANNEL_TIME_UNLOCKED 10
 #define SCAN_CHANNEL_TIME_LOCKED 0xdc

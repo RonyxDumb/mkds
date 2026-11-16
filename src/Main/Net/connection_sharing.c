@@ -256,8 +256,8 @@ void UpdateConnectionSendTimer(void) {
     QueuePacketToPort();
 }
 
-// Child side; returns 3 while an error code is recorded, 2 when the own index is lost, 0 while a request is pending, 1
-// when finished (a parent returns 1 as soon as no request is pending).
+// Child side; returns 3 while an active, not ending connection has an error code recorded, 2 when the own index is lost
+// during MP set-up, 0 while a request is pending, 1 when finished (a parent returns 1 once no request is pending).
 s32 AdvanceBlockReceive(void) {
     BOOL finished;
 
