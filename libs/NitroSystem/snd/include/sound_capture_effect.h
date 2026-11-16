@@ -5,9 +5,7 @@
 
 typedef void (*NNSSndCaptureCallback)(void *bufferL, void *bufferR, u32 len, u32 format, void *arg);
 
-// 0x54 bytes, sCapParam. NNSi_SndCaptureStart sets it up and passes it to AlarmCallback, which calls mCallback with
-// the two buffer halves, the block size, the format and mCallbackArg.
-// Sound channels (1 and 3) and capture units (both) a capture uses, as bit masks.
+// Sound channels (1 and 3) and capture units (0 and 1) that a capture locks, as bit masks.
 #define SOUND_CAPTURE_CHANNEL_BITS 0xa
 #define SOUND_CAPTURE_UNIT_BITS 0x3
 
