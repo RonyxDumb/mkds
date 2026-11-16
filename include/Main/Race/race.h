@@ -35,11 +35,8 @@ void ClearFadeFogHoldFrames(void);
 void StartFadeFog(void);
 void BuildFadeFog(s32 fadeLevel, s32 flag);
 void InitRaceFog(void);
-// Returns Race.mUpdateFramesMod2; changes nothing.
 unsigned int GetRaceUpdateFramesMod2(void);
-// Returns Race.mUpdateFramesMod8; changes nothing.
 unsigned int GetRaceUpdateFramesMod8(void);
-// Returns Race.mUpdateFramesModKartCount; changes nothing.
 unsigned int GetRaceUpdateFramesModKartCount(void);
 unsigned int GetRaceUpdateFrames(void);
 // Sets Race.mStarted to 1 and starts the race clock (StartRaceClock); called once per race by UpdateRaceStartSequence

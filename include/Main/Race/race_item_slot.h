@@ -14,6 +14,8 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 #define RACE_ITEM_SLOT_STAGE_8_END_FRAME 0x76
 #define RACE_ITEM_SLOT_FINAL_SCROLL_START_FRAME 0xd6
 // The frames where the shown item changes; the first ones come every frame, later ones further apart.
+// UpdateRaceItemSlot also jumps to RACE_ITEM_SLOT_FINAL_SCROLL_START_FRAME at the next of them once the kart's slot has
+// stopped spinning.
 #define RACE_ITEM_SLOT_CHANGE_FRAME_CASES                                                                              \
     case 1:                                                                                                            \
     case 2:                                                                                                            \
@@ -53,8 +55,9 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
     case 182:                                                                                                          \
     case 198:                                                                                                          \
     case 214:
-// Scale spring of the item cells (fixed-point): the target and the per-frame step it starts from at the start and at a
-// mushroom boost, the pull toward the target and the damping per frame.
+// Scale spring of the item cells (fixed-point): the target and the per-frame step stored at InitRaceItemSlot and when a
+// mushroom boost starts, the pull toward the target, the damping per frame, and the frame counts after which the target
+// returns to normal and the spring stops.
 #define RACE_ITEM_SLOT_SCALE_NORMAL TO_FIXED12(1)
 #define RACE_ITEM_SLOT_SCALE_START_TARGET FIXED12_RATIO(1, 2)
 #define RACE_ITEM_SLOT_SCALE_START_Y_PER_FRAME (-FIXED12_RATIO(2, 5))

@@ -73,12 +73,10 @@ void SetStandingsKartHitCallback(s32 (*callback)(u16 kartIndex, u16 hitByKartInd
     gStandings->mKartHitCallback = callback;
 }
 
-// Stores the kart-eliminated callback.
 void SetStandingsKartEliminatedCallback(void (*callback)(u16 kartIndex)) {
     gStandings->mKartEliminatedCallback = callback;
 }
 
-// Stores the end callback.
 void SetStandingsEndCallback(void (*callback)(void)) {
     gStandings->mEndCallback = callback;
 }
@@ -617,12 +615,10 @@ BOOL IsWinnerDecided(void) {
     return FALSE;
 }
 
-// Returns the kart's mRankIndex.
 u16 GetKartStandingRankIndex(int kartIndex) {
     return gStandings->mKarts[kartIndex].mRankIndex;
 }
 
-// Returns mShineCount.
 u32 GetShineCount(void) {
     return (gStandings->mShineCount);
 }

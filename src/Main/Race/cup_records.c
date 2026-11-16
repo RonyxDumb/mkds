@@ -284,7 +284,7 @@ u16 GetKartPreviousTotalPoints(u32 kart) {
     return gCupRecords->mKartResults[previousCourse][(u8) kart].mTotalPoints;
 }
 
-// 0 for the first course; battle, VS and mode 5 wrap to the fourth course.
+// 0 on the first course, except battle, VS and Wi-Fi, which read the fourth course's result.
 u8 GetKartPreviousWinCount(u32 kart) {
     s32 mode;
     s8 previousCourse;

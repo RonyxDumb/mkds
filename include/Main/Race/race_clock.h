@@ -8,5 +8,4 @@ u32 GetKartRank(u32 kartIndex);
 void GetRaceClockTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond);
 void StartRaceInput(void);
 
-// Sets mClockEnabled; its only caller reaches it through a literal-pool pointer, not a BL.
 void StartRaceClock(void);

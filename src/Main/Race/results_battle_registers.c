@@ -698,7 +698,6 @@ void SetupResultsBattleTeamIcons(void *heap) {
 
 #pragma thumb on
 
-// Fills with 0 using a volatile halfword.
 static inline void ResultsBattleMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
     MIi_CpuClear16(fillValue, buffer, byteCount);

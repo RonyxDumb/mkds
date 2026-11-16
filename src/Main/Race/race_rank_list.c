@@ -716,7 +716,9 @@ void ClearRaceLapNumberPointer(void) {
 // Cell DrawRaceLapAndTimeDifference draws for a non-zero or a zero mTimeDifferenceSign.
 typedef enum { RACE_TA_M_SIGN_CELL_FLAG_SET, RACE_TA_M_SIGN_CELL_FLAG_CLEAR } RaceTaMSignCell;
 
-// Plays a sound when the displayed kart starts a lap before the last, and counts 0x78 frames for the lap number blink.
+// Nothing happens in battle or in a mission without laps. When the followed kart's lap changes (and the race has more
+// than one lap) the lap number blink starts and lasts RACE_LAP_NUMBER_BLINK_FRAMES; a lap before the last also plays a
+// sound if the sound kind and sequence start allow it.
 void UpdateRaceLapNumber(void) {
     RaceLapNumber *lapNumber;
     NNSSndSeqPlayer **seqPlayerHandle;
@@ -775,7 +777,9 @@ void UpdateRaceLapNumber(void) {
     }
 }
 
-// Draws the lap label, the lap number while the blink shows it, a cell for last lap index 2 or 4, the time difference.
+// Draws nothing in a start battle, a demo, battle, or a mission run without laps (last lap index below 2); else the lap
+// label, the lap number while the blink shows it, a cell for last lap index 2 or 4, and the time difference while it
+// is in use, shown and in the visible part of its blink.
 void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
     s32 lapPosition[2] = {0xf8, 0x10};
     s32 *timeDifferenceSign;

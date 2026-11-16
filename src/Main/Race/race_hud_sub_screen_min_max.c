@@ -5,7 +5,6 @@
 #include "touch_panel_sampling.h"
 #include "wide_string_functions.h"
 
-// Object not known yet; it only sets the order of the tables below
 const u8 gRaceHudSubScreenMinMaxOrderPad[1] = {1};
 
 // Copies the name of row rowIndex into nameOut, which is cleared first and stays empty when the row has no name: row 0
