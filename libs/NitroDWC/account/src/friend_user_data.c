@@ -58,21 +58,21 @@ void DWC_ReportUserData(const DWCAccUserData *userdata) {
     DWC_ReportFriendData(userdata, &userdata->mAuthentic);
 }
 
-u32 IsLeapYearTwoDigit(u32 year) {
+u32 IsLeapYear(u32 year) {
     if ((year & 3) == 0) {
         return 1;
     }
     return 0;
 }
 
-s32 DateToDayCount(const RTCDate *date) {
+s32 ConvertDateToDays(const RTCDate *date) {
     s32 days;
     if (date->mYear >= 100 || date->mMonth < 1 || date->mMonth > 12 || date->mDay < 1 || date->mDay > 31 ||
         (s32) date->mWeek >= 7 || date->mMonth < 1 || date->mMonth > 12) {
         return -1;
     }
     days = date->mDay - 1 + (sMonthStartDay - 1)[date->mMonth];
-    if (date->mMonth >= ACCOUNT_MARCH && IsLeapYearTwoDigit(date->mYear) != 0) {
+    if (date->mMonth >= ACCOUNT_MARCH && IsLeapYear(date->mYear) != 0) {
         days++;
     }
     days = days + date->mYear * 365;

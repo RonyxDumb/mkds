@@ -14,14 +14,14 @@ const u8 DWCi_util_wifiid_ttable[16] = {5, 9, 1, 14, 12, 2, 10, 0, 11, 13, 3, 4,
 #pragma thumb on
 
 // Seconds since 2000-01-01, or -1 for a bad date.
-s64 DateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
+s64 ConvertDateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
     s32 day;
     s32 sec;
-    day = DateToDayCount(date);
+    day = ConvertDateToDays(date);
     if (day == -1) {
         return -1;
     }
-    sec = TimeToSeconds(time);
+    sec = ConvertTimeToSeconds(time);
     return (s64) sec + (s64) day * 0x15180;
 }
 
@@ -89,7 +89,7 @@ BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {
     if (RTC_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = DateTimeToSeconds(&date, &time);
+    seconds = ConvertDateTimeToSeconds(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;
