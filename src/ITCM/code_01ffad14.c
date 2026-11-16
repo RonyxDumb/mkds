@@ -8,13 +8,13 @@
 #include "Main/Unknown/unk_02154000.h"
 
 void driver_1FFB0CC(Kart *p) {
-    p->mUnk_4fc = p->mUnk_4fc + 1;
-    if (p->mUnk_4fc >= 8) {
-        p->mUnk_4fc = 0;
+    p->field4FC = p->field4FC + 1;
+    if (p->field4FC >= 8) {
+        p->field4FC = 0;
     }
-    p->mUnk_4f0.x = data_02154b64[p->mUnk_4fc];
-    p->mUnk_4f0.y = data_02154b84[p->mUnk_4fc];
-    p->mUnk_4f0.z = data_02154ba4[p->mUnk_4fc];
+    p->field4F0.x = data_02154b64[p->field4FC];
+    p->field4F0.y = data_02154b84[p->field4FC];
+    p->field4F0.z = data_02154ba4[p->field4FC];
 }
 
 s32 driver_1FFAF18(Kart *p) {
@@ -23,24 +23,24 @@ s32 driver_1FFAF18(Kart *p) {
     s32 c;
     s32 g;
     s32 b;
-    u32 f = p->mUnk_48;
+    u32 f = p->field48;
 
     v1 = a < 0;
 
     a = a > 0 ? a : -a;
-    b = p->mUnk_274;
+    b = p->field274;
     c = p->mSpeedLimit - b;
-    if ((f & 4) && (p->mUnk_44 & 0x100)) {
+    if ((f & 4) && (p->field44 & 0x100)) {
         if (c > 0x3000) {
             c = 0x3000;
         }
     }
     g = p->mMapObjectVectorLength +
-        (b + (s32) ((s64) c * (s32) ((s64) p->mSpeedLimitHitFactor * p->mUnk_394 >> 12) >> 12));
+        (b + (s32) ((s64) c * (s32) ((s64) p->mSpeedLimitHitFactor * p->field394 >> 12) >> 12));
     if (a > g) {
         p->mForwardSpeed = g;
     } else {
-        if (a <= (s32) (p->mSpeedLimitHitFactor * (s64) 0x19a >> 12) && !(p->mUnk_44 & 0x80000) && !(f & 6)) {
+        if (a <= (s32) (p->mSpeedLimitHitFactor * (s64) 0x19a >> 12) && !(p->field44 & 0x80000) && !(f & 6)) {
             p->mForwardSpeed = 0;
         } else {
             p->mForwardSpeed = a;
@@ -81,7 +81,7 @@ s32 driver_1FFAF18(Kart *p) {
             }
         }
     }
-    return ((s64) p->mForwardSpeed * (0x1000 - (p->mUnk_274 >> 3)) + 0x800) >> 12;
+    return ((s64) p->mForwardSpeed * (0x1000 - (p->field274 >> 3)) + 0x800) >> 12;
 }
 
 void driver_multiplyDeltaPos(Kart *p, s32 a) {
@@ -120,13 +120,13 @@ void driver_1FFAD14(Kart *p, Vec3 *a) {
             q->y = 0;
             q->z = -v.z;
             q->w = -v.w;
-            p->mUnk_48 = p->mUnk_48 | 0x80000000;
+            p->field48 = p->field48 | 0x80000000;
         } else {
             q->x = v.x;
             q->y = 0;
             q->z = v.z;
             q->w = v.w;
-            p->mUnk_48 = p->mUnk_48 & ~0x80000000;
+            p->field48 = p->field48 & ~0x80000000;
         }
     }
     qrtn_normalize(q, q);

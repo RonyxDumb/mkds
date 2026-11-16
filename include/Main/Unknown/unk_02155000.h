@@ -41,8 +41,8 @@ extern Vec3 data_02155ebc;
 
 // 12-byte entries; cklcr_getCharacterEmblemPath reads the string pointer at 0x00.
 typedef struct CharacterName {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ u8 mUnk_04[8];
+    /* 00 */ const char *field0;
+    /* 04 */ u8 field4[8];
 } CharacterName;
 
 extern const CharacterName gCharacterEmblemNames[];
@@ -51,8 +51,8 @@ extern const CharacterName gCharacterENames[];
 
 // 8-byte entries; cklcr_getKartShadowPath and cklcr_getKartNsbtxPath read the string pointer at 0x00.
 typedef struct Unk02155d88 {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ u8 mUnk_04[4];
+    /* 00 */ const char *field0;
+    /* 04 */ u8 field4[4];
 } Unk02155d88;
 
 extern const Unk02155d88 cklcr_sKartDefs[];
@@ -92,13 +92,13 @@ extern const s32 gCharacterFaceFrames[];
 // 12-byte entries from gCharacterNsbcaStems (a string pointer at 0x00); the second table starts at the word at 0x04 of
 // the first entry.
 typedef struct Unk021551b0 {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ const char *field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
 } Unk021551b0;
 typedef struct Unk021551b4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[8];
+    /* 00 */ s32 field0;
+    /* 04 */ u8 field4[8];
 } Unk021551b4;
 extern const Unk021551b0 gCharacterNsbcaStems[];
 extern const Unk021551b4 gCharacterAnimationLoopFlags[];

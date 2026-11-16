@@ -45,12 +45,12 @@ void func_02039cbc(void) {
     arc_init(backHeap);
     sysdat_init(backHeap);
     InitConnection(backHeap);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         InitWiFiSession(backHeap);
     }
     rconf_init(backHeap);
     savd_init(backHeap);
-    sound_loadSdat(soundBuffer, soundBufferSize, ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2);
+    sound_loadSdat(soundBuffer, soundBufferSize, ((Unk027ffc40 *) 0x027ffc40)->field0 != 2);
     sound_2108E94(1);
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
@@ -63,7 +63,7 @@ void func_02039cbc(void) {
     arc_loadStatic2D(backHeap);
     err_init(backHeap);
     bgwkr_2057ED4();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         InitArchiveBuffers(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
     }
     rconf_reset();

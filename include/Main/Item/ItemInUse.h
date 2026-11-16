@@ -10,25 +10,25 @@
 
 // The object behind the word at 0x20 of a KartModelsEntry: the vectors from 0x48.
 typedef struct KartOffsetData {
-    /* 00 */ char mUnk_00[0x10];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ Vec3 mUnk_14[4];
-    /* 44 */ u8 mUnk_44[4];
-    /* 48 */ Vec3 mUnk_48[1];
+    /* 00 */ char field0[0x10];
+    /* 10 */ s32 field10;
+    /* 14 */ Vec3 field14[4];
+    /* 44 */ u8 field44[4];
+    /* 48 */ Vec3 field48[1];
 } KartOffsetData;
 
 // The object behind the word at 0x590 of a Kart from its first byte:
 // the halfword at 0x40.
 // The object behind the word at 0x08 of a KartModelsEntry: the halfword at 0x1a.
 typedef struct KartModelAnimationView {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[8];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[8];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ s32 **mUnk_1c;
+    /* 00 */ u8 field0[2];
+    /* 02 */ u16 field2;
+    /* 04 */ u8 field4[8];
+    /* 0c */ s32 fieldC;
+    /* 10 */ u8 field10[8];
+    /* 18 */ u16 field18;
+    /* 1a */ u16 field1A;
+    /* 1c */ s32 **field1C;
 } KartModelAnimationView;
 
 // The object behind the word at 0x54 of a KartModelsEntry.
@@ -36,13 +36,13 @@ typedef struct Unk0206bcb0_590_54 {
     union {
         Vec3 mUnk_v[4];
         struct {
-            /* 00 */ s32 mUnk_00;
-            /* 04 */ u8 mUnk_04[8];
-            /* 0c */ s32 mUnk_0c;
-            /* 10 */ u8 mUnk_10[8];
-            /* 18 */ s32 mUnk_18;
-            /* 1c */ u8 mUnk_1c[8];
-            /* 24 */ s32 mUnk_24;
+            /* 00 */ s32 field0;
+            /* 04 */ u8 field4[8];
+            /* 0c */ s32 fieldC;
+            /* 10 */ u8 field10[8];
+            /* 18 */ s32 field18;
+            /* 1c */ u8 field1C[8];
+            /* 24 */ s32 field24;
         };
     };
 } Unk0206bcb0_590_54;
@@ -53,24 +53,24 @@ typedef struct KartModelColorBlend {
     /* 00 */ u16 mDiffColor;
     /* 02 */ u16 mEmiColor;
     /* 04 */ u16 mAmbColor;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ s16 mUnk_0a;
-    /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ s16 mUnk_10;
-    /* 12 */ s16 mUnk_12;
-    /* 14 */ s16 mUnk_14;
-    /* 16 */ s16 mUnk_16;
-    /* 18 */ s16 mUnk_18;
-    /* 1a */ s16 mUnk_1a;
-    /* 1c */ s16 mUnk_1c;
-    /* 1e */ s16 mUnk_1e;
-    /* 20 */ s16 mUnk_20;
-    /* 22 */ s16 mUnk_22;
-    /* 24 */ s16 mUnk_24;
-    /* 26 */ s16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
+    /* 06 */ s16 field6;
+    /* 08 */ s16 field8;
+    /* 0a */ s16 fieldA;
+    /* 0c */ s16 fieldC;
+    /* 0e */ s16 fieldE;
+    /* 10 */ s16 field10;
+    /* 12 */ s16 field12;
+    /* 14 */ s16 field14;
+    /* 16 */ s16 field16;
+    /* 18 */ s16 field18;
+    /* 1a */ s16 field1A;
+    /* 1c */ s16 field1C;
+    /* 1e */ s16 field1E;
+    /* 20 */ s16 field20;
+    /* 22 */ s16 field22;
+    /* 24 */ s16 field24;
+    /* 26 */ s16 field26;
+    /* 28 */ s16 field28;
     /* 2a */ s16 mBlendProgress;
 } KartModelColorBlend;
 
@@ -79,9 +79,9 @@ typedef struct CharacterAnimationState {
     /* 00 */ s32 mTurnFrameOffset;
     /* 04 */ BOOL mAnimationChangeTimerSet;
     /* 08 */ s32 mMiddleFrame;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 0c */ u8 fieldC[4];
     /* 10 */ s16 mAnimationChangeTimer;
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 field12[2];
     /* 14 */ BOOL mNextAnimationPending;
     /* 18 */ s16 mNextAnimationIndex;
 } CharacterAnimationState;
@@ -97,32 +97,32 @@ typedef struct KartModelsEntry {
     /* 01c */ ShadowModel *mShadowModel;
     /* 020 */ KartOffsetData *mKartOffsetData;
     /* 024 */ s32 mTurnFrameOffset;
-    /* 028 */ u8 mUnk_028[4];
+    /* 028 */ u8 field28[4];
     /* 02c */ s32 mMiddleFrame;
     /* 030 */ s32 mMiddleFrameReciprocal;
-    /* 034 */ u8 mUnk_034[0xc];
-    /* 040 */ u16 mUnk_040;
-    /* 042 */ u8 mUnk_042[0x12];
-    /* 054 */ Unk0206bcb0_590_54 *mUnk_054;
-    /* 058 */ s32 mUnk_058;
-    /* 05c */ s32 mUnk_05c;
-    /* 060 */ BOOL mUnk_060;
+    /* 034 */ u8 field34[0xc];
+    /* 040 */ u16 field40;
+    /* 042 */ u8 field42[0x12];
+    /* 054 */ Unk0206bcb0_590_54 *field54;
+    /* 058 */ s32 field58;
+    /* 05c */ s32 field5C;
+    /* 060 */ BOOL field60;
     /* 064 */ BOOL mStarModelsSet;
     /* 068 */ u16 mVariant;
     /* 06a */ KartModelColorBlend mColorBlend;
-    /* 096 */ u8 mUnk_096[2];
-    /* 098 */ u8 mUnk_098[0xc];
-    /* 0a4 */ s32 mUnk_0a4;
-    /* 0a8 */ u8 mUnk_0a8[4];
+    /* 096 */ u8 field96[2];
+    /* 098 */ u8 field98[0xc];
+    /* 0a4 */ s32 fieldA4;
+    /* 0a8 */ u8 fieldA8[4];
     /* 0ac */ BOOL mFaceAnimationRemoved;
-    /* 0b0 */ s32 mUnk_0b0;
+    /* 0b0 */ s32 fieldB0;
 } KartModelsEntry;
 
 // Three vectors at 0x00, 0x0c and 0x18.
 typedef struct {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
+    /* 00 */ Vec3 field0;
+    /* 0c */ Vec3 fieldC;
+    /* 18 */ Vec3 field18;
 } KartOrientation;
 // The item a kart is using: its objects and how they are carried. (replaces the two-line comment above the struct)
 
@@ -141,32 +141,32 @@ typedef struct ItemInUse {
     // Set to 10 to start the objects one by one at 8, 4 and 0. (above mObjectStartFramesLeft)
     /* 024 */ s32 mObjectStartFramesLeft;
     /* 028 */ u16 mKartIndex;
-    /* 02a */ u8 mUnk_02a[2];
+    /* 02a */ u8 field2A[2];
     /* 02c */ KartOrientation mKartOrientation;
     /* 050 */ Vec3 mKartDrawMatrixPos;
     /* 05c */ Vec3 mKartVelocity;
     /* 068 */ s32 mKartVelocityLength;
     /* 06c */ Vec3 mKartMovement;
-    /* 078 */ s32 mUnk_078;
+    /* 078 */ s32 field78;
     /* 07c */ s32 mKartHopHeight;
     /* 080 */ s32 mMovingForward;
     /* 084 */ Vec3 mKartScaleFactorTimesBase;
-    /* 090 */ Vec3 mUnk_090;
+    /* 090 */ Vec3 field90;
     /* 09c */ Vec3 mBehindDirection;
     /* 0a8 */ Vec3 mBehindPos;
-    /* 0b4 */ Vec3 mUnk_0b4;
-    /* 0c0 */ Vec3 mUnk_0c0;
-    /* 0cc */ s32 mUnk_0cc[3];
-    /* 0d8 */ Vec3 mUnk_0d8;
-    /* 0e4 */ s32 mUnk_0e4;
-    /* 0e8 */ s32 mUnk_0e8;
-    /* 0ec */ s32 mUnk_0ec[2][16];
-    /* 16c */ s32 mUnk_16c;
-    /* 170 */ void *mUnk_170;
+    /* 0b4 */ Vec3 fieldB4;
+    /* 0c0 */ Vec3 fieldC0;
+    /* 0cc */ s32 fieldCC[3];
+    /* 0d8 */ Vec3 fieldD8;
+    /* 0e4 */ s32 fieldE4;
+    /* 0e8 */ s32 fieldE8;
+    /* 0ec */ s32 fieldEC[2][16];
+    /* 16c */ s32 field16C;
+    /* 170 */ void *field170;
     /* 174 */ u16 mCircleAngle;
     /* 176 */ u16 mCircleAngleSpeed;
     /* 178 */ s32 mCircleRadius;
-    /* 17c */ s32 mUnk_17c;
+    /* 17c */ s32 field17C;
     /* 180 */ Vec3 mCircleCenter;
     // Which of three places around the circle each object takes. (above mCircleSlots)
     /* 18c */ u16 mCircleSlots[3];

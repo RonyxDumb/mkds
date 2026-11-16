@@ -100,15 +100,15 @@
 #include "code_021471bc.h"
 
 void itkraw_activate(ItemKouraW *item) {
-    item->mUnk_170 = 1;
+    item->field170 = 1;
 }
 
 void itkraw_initInstance(ItemKouraW *item) {
-    sm_init(&item->mUnk_2e8, (UnkFunc *const *) itkraw_sStates, 8, item);
-    MTX_Identity43_((MtxFx43 *) item->mUnk_2b4);
+    sm_init(&item->field2E8, (UnkFunc *const *) itkraw_sStates, 8, item);
+    MTX_Identity43_((MtxFx43 *) item->field2B4);
     item->mRank = 1;
     item->mRankKartIndex = gRaceStatus->mKartAtRank[0];
-    item->mUnk_278 = 0;
+    item->field278 = 0;
     item->mPosStrip = NULL;
     item->mSoundId = 0xdc;
     item->mKartMask = 0;
@@ -116,12 +116,12 @@ void itkraw_initInstance(ItemKouraW *item) {
 }
 
 void itkraw_20FC94C(ItemKouraW *item) {
-    sfx_210B850(&item->mUnk_300);
-    item->mUnk_000.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a67c;
-    item->mUnk_160 = 0;
-    item->mUnk_000.mDrawPos = item->mUnk_000.mPos;
+    sfx_210B850(&item->field300);
+    item->field0.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a67c;
+    item->field160 = 0;
+    item->field0.mDrawPos = item->field0.mPos;
     FreeItemObjectCollisionSlot((s32) item);
-    item->mUnk_000.mFlags |= 0x200000;
+    item->field0.mFlags |= 0x200000;
     ClearItemKouraWKartItemsAndAngle(item);
     if (gRaceStatus->mRaceDone != 0) {
         item->mRank = 1;
@@ -133,16 +133,16 @@ void itkraw_20FC94C(ItemKouraW *item) {
             item->mRankKartIndex = gRaceStatus->mKartAtRank[(item->mRank & 0xff) - 1];
         }
     }
-    item->mUnk_260 = 0x32000;
-    item->mUnk_264 = 0xf000;
+    item->field260 = 0x32000;
+    item->field264 = 0xf000;
     item->mDrawOffsetAngle = 0;
-    item->mUnk_27c = 0x1a000;
-    item->mUnk_298.x = 0;
-    item->mUnk_298.y = 0;
-    item->mUnk_298.z = 0;
-    VEC_Subtract(&item->mUnk_000.mVelocity, &item->mUnk_298, &item->mUnk_28c);
-    item->mUnk_000.mUnk_d0 = &item->mUnk_000.mDrawPos;
-    light_init(&item->mUnk_000.mColorBlend, 1);
+    item->field27C = 0x1a000;
+    item->field298.x = 0;
+    item->field298.y = 0;
+    item->field298.z = 0;
+    VEC_Subtract(&item->field0.mVelocity, &item->field298, &item->field28C);
+    item->field0.fieldD0 = &item->field0.mDrawPos;
+    light_init(&item->field0.mColorBlend, 1);
 }
 
 void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
@@ -153,7 +153,7 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
     }
     SetItemKouraWKartItems(item, kartIndex);
     kart = item->mKartItems->mKart;
-    item->mNextState = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+    item->mNextState = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
     item->mNextStateRequested = 1;
 }
 
@@ -161,23 +161,23 @@ s32 itkraw_20FC79C(ItemInUse *itemInUse, ItemKouraW *item) {
     Kart *kart;
 
     func_020f9114(item);
-    if (itemInUse->mKartItems->mUnk_1f0.mLink != NULL) {
+    if (itemInUse->mKartItems->field1F0.mLink != NULL) {
         InitLinkFollowingItemFromInUse((LinkFollowingItemObject *) item, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000,
                                        item->mRankKartIndex, 1);
-        sm_gotoState(item->mUnk_2e8, 1);
+        sm_gotoState(item->field2E8, 1);
     } else {
         SetItemKouraWKartItems(item, (u16) gRaceStatus->mKartAtRank[0]);
         kart = item->mKartItems->mKart;
-        item->mNextState = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+        item->mNextState = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
         item->mNextStateRequested = 1;
-        if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+        if (item->field0.mFlags & 0x8000000) {
+            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
     }
     itkraw_20FC94C(item);
     // one 36-byte copy of the three vectors (three Vec3 assignments give 0x160 bytes against 0x150)
-    *(MtxFx33 *) &item->mUnk_000.mUnk_94 = *(MtxFx33 *) &itemInUse->mKartOrientation.mUnk_00;
-    if (item->mUnk_000.mFlags & 0x8000000) {
+    *(MtxFx33 *) &item->field0.field94 = *(MtxFx33 *) &itemInUse->mKartOrientation.field0;
+    if (item->field0.mFlags & 0x8000000) {
         item->mNextState = 0;
         item->mNextStateRequested = 1;
     }
@@ -189,44 +189,44 @@ void itkraw_20FC654(ItemKouraW *item) {
     s16 v;
     s32 a;
 
-    a = item->mUnk_260;
-    if (item->mUnk_000.mFlags & 0x40000000) {
+    a = item->field260;
+    if (item->field0.mFlags & 0x40000000) {
         item->mDrawOffsetAngle += 0x5dc;
         v = FX_SinCosTable_[(item->mDrawOffsetAngle >> 4) * 2];
-        VEC_MultAdd(a + (s32) (((s64) item->mUnk_264 * v) >> 12), &item->mUnk_000.mNormal, &item->mUnk_000.mPos, &buf);
-        VEC_Subtract(&buf, &item->mUnk_000.mDrawPos, &buf);
-        VEC_MultAdd(0x333, &buf, &item->mUnk_000.mDrawPos, &item->mUnk_000.mDrawPos);
+        VEC_MultAdd(a + (s32) (((s64) item->field264 * v) >> 12), &item->field0.mNormal, &item->field0.mPos, &buf);
+        VEC_Subtract(&buf, &item->field0.mDrawPos, &buf);
+        VEC_MultAdd(0x333, &buf, &item->field0.mDrawPos, &item->field0.mDrawPos);
     } else {
-        item->mUnk_000.mDrawPos.y += item->mUnk_000.mVelocity.y >> 1;
+        item->field0.mDrawPos.y += item->field0.mVelocity.y >> 1;
         item->mDrawOffsetAngle += 0x5dc;
         v = FX_SinCosTable_[(item->mDrawOffsetAngle >> 4) * 2];
-        a += (s32) (((s64) item->mUnk_264 * v) >> 12);
-        a = a + item->mUnk_000.mPos.y - item->mUnk_000.mDrawPos.y;
-        item->mUnk_000.mDrawPos.y += (s32) (((s64) a * 0x19a) >> 12);
-        item->mUnk_000.mDrawPos.x = item->mUnk_000.mPos.x;
-        item->mUnk_000.mDrawPos.z = item->mUnk_000.mPos.z;
+        a += (s32) (((s64) item->field264 * v) >> 12);
+        a = a + item->field0.mPos.y - item->field0.mDrawPos.y;
+        item->field0.mDrawPos.y += (s32) (((s64) a * 0x19a) >> 12);
+        item->field0.mDrawPos.x = item->field0.mPos.x;
+        item->field0.mDrawPos.z = item->field0.mPos.z;
     }
 }
 
 void itkraw_20FC2E8(ItemKouraW *item, Vec3 *direction, s32 followDelta, Vec3 *normal) {
     Vec3 buf;
     Vec3 v3;
-    Vec3 *previousDirection = &item->mUnk_28c;
-    Vec3 *smoothedDelta = &item->mUnk_298;
+    Vec3 *previousDirection = &item->field28C;
+    Vec3 *smoothedDelta = &item->field298;
     s32 ok;
 
     if (normal != NULL) {
         if ((s64) direction->x * direction->x + (s64) direction->y * direction->y + (s64) direction->z * direction->z >=
             0x10) {
-            vec_normalize(direction, &item->mUnk_000.mUnk_94.mUnk_00[2]);
+            vec_normalize(direction, &item->field0.field94.field0[2]);
         }
         smoothedDelta->x = ((s64) smoothedDelta->x * 0xccd) >> 12;
         smoothedDelta->y = ((s64) smoothedDelta->y * 0xccd) >> 12;
         smoothedDelta->z = ((s64) smoothedDelta->z * 0xccd) >> 12;
         VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
-        vec_crossProduct(&buf, &item->mUnk_000.mUnk_94.mUnk_00[2], &buf);
+        vec_crossProduct(&buf, &item->field0.field94.field0[2], &buf);
         if ((s64) buf.x * buf.x + (s64) buf.y * buf.y + (s64) buf.z * buf.z >= 0x10) {
-            vec_normalize(&buf, &item->mUnk_000.mUnk_94.mUnk_00[0]);
+            vec_normalize(&buf, &item->field0.field94.field0[0]);
         }
     } else {
         if ((s64) direction->x * direction->x + (s64) direction->y * direction->y + (s64) direction->z * direction->z >=
@@ -236,7 +236,7 @@ void itkraw_20FC2E8(ItemKouraW *item, Vec3 *direction, s32 followDelta, Vec3 *no
         if (buf.x * buf.x + buf.z * buf.z < 0x112510) {
             return;
         }
-        item->mUnk_000.mUnk_94.mUnk_00[2] = buf;
+        item->field0.field94.field0[2] = buf;
         if (followDelta != 0) {
             smoothedDelta->x += (s32) (((s64) (direction->x - previousDirection->x - smoothedDelta->x) * 0x148) >> 12);
             smoothedDelta->z += (s32) (((s64) (direction->z - previousDirection->z - smoothedDelta->z) * 0x148) >> 12);
@@ -248,54 +248,54 @@ void itkraw_20FC2E8(ItemKouraW *item, Vec3 *direction, s32 followDelta, Vec3 *no
         v3.x = ((s64) smoothedDelta->x * 0x3000) >> 12;
         v3.z = ((s64) smoothedDelta->z * 0x3000) >> 12;
         buf = v3;
-        vec_crossProduct(&buf, &item->mUnk_000.mUnk_94.mUnk_00[2], &item->mUnk_000.mUnk_94.mUnk_00[0]);
-        if ((s64) item->mUnk_000.mUnk_94.mUnk_00[0].x * item->mUnk_000.mUnk_94.mUnk_00[0].x +
-                (s64) item->mUnk_000.mUnk_94.mUnk_00[0].y * item->mUnk_000.mUnk_94.mUnk_00[0].y +
-                (s64) item->mUnk_000.mUnk_94.mUnk_00[0].z * item->mUnk_000.mUnk_94.mUnk_00[0].z >=
+        vec_crossProduct(&buf, &item->field0.field94.field0[2], &item->field0.field94.field0[0]);
+        if ((s64) item->field0.field94.field0[0].x * item->field0.field94.field0[0].x +
+                (s64) item->field0.field94.field0[0].y * item->field0.field94.field0[0].y +
+                (s64) item->field0.field94.field0[0].z * item->field0.field94.field0[0].z >=
             0x10) {
-            ok = vec_normalize(&item->mUnk_000.mUnk_94.mUnk_00[0],
-                                                    &item->mUnk_000.mUnk_94.mUnk_00[0]);
+            ok = vec_normalize(&item->field0.field94.field0[0],
+                                                    &item->field0.field94.field0[0]);
         } else {
             ok = 0;
         }
         if (ok == 0) {
             Vec3 t = {0, 0, 0};
-            t.x = item->mUnk_000.mUnk_94.mUnk_00[0].z;
-            t.z = -item->mUnk_000.mUnk_94.mUnk_00[0].x;
-            item->mUnk_000.mUnk_94.mUnk_00[0] = t;
+            t.x = item->field0.field94.field0[0].z;
+            t.z = -item->field0.field94.field0[0].x;
+            item->field0.field94.field0[0] = t;
         }
     }
-    vec_crossProduct(&item->mUnk_000.mUnk_94.mUnk_00[2], &item->mUnk_000.mUnk_94.mUnk_00[0],
-                       &item->mUnk_000.mUnk_94.mUnk_00[1]);
+    vec_crossProduct(&item->field0.field94.field0[2], &item->field0.field94.field0[0],
+                       &item->field0.field94.field0[1]);
     *previousDirection = *direction;
 }
 
 void itkraw_20FC2C0(ItemKouraW *item) {
-    sm_execute(item->mUnk_2e8);
-    func_020f9320(&item->mUnk_000, 0x3c000400u);
+    sm_execute(item->field2E8);
+    func_020f9320(&item->field0, 0x3c000400u);
 }
 
 #pragma thumb off
 
 void itkraw_20FC268(ItemKouraW *item) {
     AdvanceItemObjectMotion((DirectedItemObject *) item, 0xd000);
-    if (item->mUnk_000.mFlags & 1) {
+    if (item->field0.mFlags & 1) {
         return;
     }
-    AdvanceSoundDistanceSquaredChange(&item->mUnk_300, item->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
+    AdvanceSoundDistanceSquaredChange(&item->field300, item->field0.mDistanceSquaredAndFlags & ~0xc000001f);
     if (item->mSoundId == 1) {
         return;
     }
-    StartSoundWhileRequested(&item->mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
+    StartSoundWhileRequested(&item->field0.mSoundSource, item->mSoundId, 0x7f, 0);
 }
 
 static inline Vec3 *func_020fbd98_inline(ItemKouraW *item) {
     if (item->mState >= 3) {
-        if (item->mKartItems->mKart->mUnk_48 & 1) {
+        if (item->mKartItems->mKart->field48 & 1) {
             return &item->mKartItems->mKart->mGroundNormal;
         }
-    } else if (item->mUnk_000.mFlags & 0x40000000) {
-        return &item->mUnk_000.mNormal;
+    } else if (item->field0.mFlags & 0x40000000) {
+        return &item->field0.mNormal;
     }
     return NULL;
 }
@@ -308,23 +308,23 @@ void itkraw_20FBD98(ItemKouraW *item) {
     Kart *kart;
 
     if (item->mStateFrames == 8) {
-        item->mPosStrip = trl_createTrail(item->mUnk_000.mUnk_d0);
+        item->mPosStrip = trl_createTrail(item->field0.fieldD0);
     }
-    AdvanceLinkFollowingItem((LinkFollowingItemObject *) item, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
-    if (!(item->mUnk_000.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mUnk_300, item->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
+    AdvanceLinkFollowingItem((LinkFollowingItemObject *) item, item->field27C, 0x21, item->mRankKartIndex, 1);
+    if (!(item->field0.mFlags & 1)) {
+        AdvanceSoundDistanceSquaredChange(&item->field300, item->field0.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->field0.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
-    item->mUnk_000.mVelocity.y -= (s32) (((s64) * (s32 *) item->mUnk_12c * 0x66) >> 12);
-    if (item->mUnk_000.mFlags & 1) {
+    item->field0.mVelocity.y -= (s32) (((s64) * (s32 *) item->field12C * 0x66) >> 12);
+    if (item->field0.mFlags & 1) {
         return;
     }
     itkraw_20FC654(item);
     normal = func_020fbd98_inline(item);
-    itkraw_20FC2E8(item, &item->mUnk_000.mVelocity, 1, normal);
-    if (item->mUnk_278 == 0) {
+    itkraw_20FC2E8(item, &item->field0.mVelocity, 1, normal);
+    if (item->field278 == 0) {
         if (gRaceStatus->mRaceDone != 0) {
             item->mRank = 1;
             item->mRankKartIndex = gRaceStatus->mKartAtRank[(u8) item->mRank - 1];
@@ -336,14 +336,14 @@ void itkraw_20FBD98(ItemKouraW *item) {
             }
         }
         if (item->mRankKartIndex ==
-                (u16) (!(item->mUnk_000.mUnk_78 & 0x8000) ? (u16) (item->mUnk_000.mUnk_78 & ~0xff00) : 8) ||
+                (u16) (!(item->field0.field78 & 0x8000) ? (u16) (item->field0.field78 & ~0xff00) : 8) ||
             func_02068eac(driver_getById(item->mRankKartIndex)) != 0) {
-            item->mUnk_278 = 1;
+            item->field278 = 1;
         } else {
             item->mKartMask |= 1 << item->mRankKartIndex;
         }
     }
-    if (item->mUnk_278 != 0) {
+    if (item->field278 != 0) {
         u32 kartCount;
         kartCount = (u8) gRaceMultiConfig->mKartCount;
         for (i = 1; i <= kartCount; i = (u16) (i + 1)) {
@@ -356,11 +356,11 @@ void itkraw_20FBD98(ItemKouraW *item) {
     }
     if (TrySetItemKouraWKartItems(item, item->mRankKartIndex) != 0) {
         kart = item->mKartItems->mKart;
-        r = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+        r = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
         item->mNextState = r;
         item->mNextStateRequested = 1;
-        if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+        if (item->field0.mFlags & 0x8000000) {
+            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
         return;
     }
@@ -368,11 +368,11 @@ void itkraw_20FBD98(ItemKouraW *item) {
     if ((item->mKartMask & (1 << r)) != 0 && item->mRankKartIndex != r && rstat_hasDriverFinished(r) != 0 &&
         TrySetItemKouraWKartItems(item, r) != 0) {
         kart = item->mKartItems->mKart;
-        v = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+        v = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
         item->mNextState = v;
         item->mNextStateRequested = 1;
-        if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+        if (item->field0.mFlags & 0x8000000) {
+            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
         return;
     }
@@ -388,14 +388,14 @@ void itkraw_20FBD98(ItemKouraW *item) {
     }
     SetItemKouraWKartItems(item, (u16) v);
     kart = item->mKartItems->mKart;
-    r = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+    r = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
     item->mNextState = r;
     item->mNextStateRequested = 1;
 }
 
 void itkraw_20FBD4C(ItemKouraW *item) {
-    item->mUnk_27c = VEC_Mag(&item->mUnk_000.mVelocity);
-    item->mUnk_284 = 0x1e000;
+    item->field27C = VEC_Mag(&item->field0.mVelocity);
+    item->field284 = 0x1e000;
     if (item->mKartItems->mKartIndex == gRaceMultiConfig->mEntryIndex) {
         item->mSoundId = 0xdd;
     }
@@ -408,28 +408,28 @@ void itkraw_20FBC18(ItemKouraW *item) {
 
     kart = item->mKartItems->mKart;
     r = 0x800;
-    if ((item->mUnk_000.mFlags & 0x10000000) && (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+    if ((item->field0.mFlags & 0x10000000) && (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         r += 0x19a;
     }
-    if (item->mUnk_27c > 0xd000) {
-        item->mUnk_27c -= 0xccd;
+    if (item->field27C > 0xd000) {
+        item->field27C -= 0xccd;
     } else {
-        item->mUnk_27c += 0xccd;
+        item->field27C += 0xccd;
     }
-    SteerItemKouraWAtAngleZero(item, r, item->mUnk_27c, item->mUnk_284);
-    if (!(item->mUnk_000.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mUnk_300, item->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
+    SteerItemKouraWAtAngleZero(item, r, item->field27C, item->field284);
+    if (!(item->field0.mFlags & 1)) {
+        AdvanceSoundDistanceSquaredChange(&item->field300, item->field0.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->field0.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
-    if ((s64) item->mUnk_238.x * item->mUnk_238.x + (s64) item->mUnk_238.z * item->mUnk_238.z < 0x1900000000LL) {
+    if ((s64) item->field238.x * item->field238.x + (s64) item->field238.z * item->field238.z < 0x1900000000LL) {
         item->mNextState = 4;
         item->mNextStateRequested = 1;
     }
     itkraw_20FC654(item);
     normal = func_020fbd98_inline(item);
-    itkraw_20FC2E8(item, &item->mUnk_000.mVelocity, 1, normal);
+    itkraw_20FC2E8(item, &item->field0.mVelocity, 1, normal);
 }
 
 void itkraw_20FBAE0(ItemKouraW *item) {
@@ -437,25 +437,25 @@ void itkraw_20FBAE0(ItemKouraW *item) {
     void *normal;
     ItemPointLink *link;
 
-    if (item->mUnk_27c > 0xd000) {
-        item->mUnk_27c -= 0xccd;
+    if (item->field27C > 0xd000) {
+        item->field27C -= 0xccd;
     } else {
-        item->mUnk_27c += 0xccd;
+        item->field27C += 0xccd;
     }
-    AdvanceLinkFollowingItem((LinkFollowingItemObject *) item, item->mUnk_27c, 0x21, item->mRankKartIndex, 1);
-    if (!(item->mUnk_000.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mUnk_300, item->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
+    AdvanceLinkFollowingItem((LinkFollowingItemObject *) item, item->field27C, 0x21, item->mRankKartIndex, 1);
+    if (!(item->field0.mFlags & 1)) {
+        AdvanceSoundDistanceSquaredChange(&item->field300, item->field0.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->field0.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
-    if (item->mUnk_000.mFlags & 1) {
+    if (item->field0.mFlags & 1) {
         return;
     }
     itkraw_20FC654(item);
     normal = func_020fbd98_inline(item);
-    itkraw_20FC2E8(item, &item->mUnk_000.mVelocity, 1, normal);
-    link = item->mKartItems->mUnk_1f0.mLink;
+    itkraw_20FC2E8(item, &item->field0.mVelocity, 1, normal);
+    link = item->mKartItems->field1F0.mLink;
     for (i = 0; i < 4; i++) {
         if (link == item->mTargetLink) {
             item->mNextState = 3;
@@ -466,15 +466,15 @@ void itkraw_20FBAE0(ItemKouraW *item) {
 }
 
 void itkraw_20FBA6C(ItemKouraW *item) {
-    item->mUnk_264 = 0x5000;
-    item->mUnk_288 = 0x3e8;
-    VEC_Subtract(&item->mUnk_238, &item->mUnk_298, &item->mUnk_28c);
+    item->field264 = 0x5000;
+    item->field288 = 0x3e8;
+    VEC_Subtract(&item->field238, &item->field298, &item->field28C);
     if (item->mPosStrip != NULL) {
         trl_killTrail(item->mPosStrip);
         item->mPosStrip = NULL;
     }
-    if (item->mUnk_000.mFlags & 0x8000000) {
-        func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+    if (item->field0.mFlags & 0x8000000) {
+        func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
     }
 }
 
@@ -482,41 +482,41 @@ void itkraw_20FB7F8(ItemKouraW *item) {
     Vec3 direction;
     void *normal;
 
-    if (item->mUnk_27c > 0xd000) {
-        item->mUnk_27c -= 0xccd;
+    if (item->field27C > 0xd000) {
+        item->field27C -= 0xccd;
     } else {
-        item->mUnk_27c += 0xccd;
+        item->field27C += 0xccd;
     }
-    item->mUnk_260 -= 0xccd;
-    item->mUnk_288 += 0x2d;
+    item->field260 -= 0xccd;
+    item->field288 += 0x2d;
     if ((u32) item->mAngle < 0x8000) {
-        item->mUnk_284 -= 0x666;
+        item->field284 -= 0x666;
     } else {
-        item->mUnk_284 -= 0xccd;
+        item->field284 -= 0xccd;
     }
-    SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->mUnk_27c, item->mUnk_284, item->mUnk_288);
-    if (!(item->mUnk_000.mFlags & 1)) {
-        AdvanceSoundDistanceSquaredChange(&item->mUnk_300, item->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f);
+    SteerItemKouraWToNextAnglePoint(item, 0x4cd, item->field27C, item->field284, item->field288);
+    if (!(item->field0.mFlags & 1)) {
+        AdvanceSoundDistanceSquaredChange(&item->field300, item->field0.mDistanceSquaredAndFlags & ~0xc000001f);
         if (item->mSoundId != 1) {
-            StartSoundWhileRequested(&item->mUnk_000.mSoundSource, item->mSoundId, 0x7f, 0);
+            StartSoundWhileRequested(&item->field0.mSoundSource, item->mSoundId, 0x7f, 0);
         }
     }
     itkraw_20FC654(item);
     if ((u32) item->mAngle < 0x11f40) {
         normal = func_020fbd98_inline(item);
         if (normal != NULL) {
-            direction.x = item->mUnk_250.x * 2;
-            direction.y = item->mUnk_250.y * 2;
-            direction.z = item->mUnk_250.z * 2;
+            direction.x = item->field250.x * 2;
+            direction.y = item->field250.y * 2;
+            direction.z = item->field250.z * 2;
             vec_crossProduct(normal, &direction, &direction);
             VEC_MultAdd(((s64) (item->mAngle - 0x10000) * 0xccd) >> 12, normal, &direction, &direction);
         } else {
-            direction.x = ((s64) item->mUnk_250.z * 0x2000) >> 12;
+            direction.x = ((s64) item->field250.z * 0x2000) >> 12;
             direction.y = ((s64) (item->mAngle - 0x10000) * 0xccd) >> 12;
-            direction.z = -(s32) (((s64) item->mUnk_250.x * 0x2000) >> 12);
+            direction.z = -(s32) (((s64) item->field250.x * 0x2000) >> 12);
         }
         if (item->mStateFrames == 0) {
-            VEC_Subtract(&direction, &item->mUnk_298, &item->mUnk_28c);
+            VEC_Subtract(&direction, &item->field298, &item->field28C);
         }
         itkraw_20FC2E8(item, &direction, 1, normal);
         return;
@@ -528,18 +528,18 @@ void itkraw_20FB7F8(ItemKouraW *item) {
 void itkraw_20FB770(ItemKouraW *item) {
     enum { K0 } kind;
 
-    if (item->mUnk_000.mUnk_d0 == &item->mUnk_000.mDrawPos) {
-        item->mUnk_000.mPos = item->mUnk_000.mDrawPos;
-        item->mUnk_000.mUnk_d0 = &item->mUnk_000.mPos;
+    if (item->field0.fieldD0 == &item->field0.mDrawPos) {
+        item->field0.mPos = item->field0.mDrawPos;
+        item->field0.fieldD0 = &item->field0.mPos;
     }
-    item->mUnk_260 = 0x28000;
-    item->mUnk_264 = 0x333;
-    kind = item->mUnk_000.mKind;
-    item->mUnk_000.mUnk_100 = it_sItemParams[kind].mUnk_74;
-    item->mUnk_000.mFlags |= 0x800000;
-    item->mUnk_2a4 = item->mUnk_28c;
-    item->mUnk_27c = 0x3000;
-    item->mUnk_284 = 0x59a;
+    item->field260 = 0x28000;
+    item->field264 = 0x333;
+    kind = item->field0.mKind;
+    item->field0.field100 = it_sItemParams[kind].field74;
+    item->field0.mFlags |= 0x800000;
+    item->field2A4 = item->field28C;
+    item->field27C = 0x3000;
+    item->field284 = 0x59a;
 }
 
 void itkraw_20FB61C(ItemKouraW *item) {
@@ -549,78 +549,78 @@ void itkraw_20FB61C(ItemKouraW *item) {
     s32 y;
     s32 z;
 
-    item->mUnk_260 += 0x4cd;
-    SteerItemKouraWToKartForward(item, item->mUnk_264, item->mUnk_260);
-    if (item->mUnk_264 < 0xb33) {
-        item->mUnk_264 += 0x52;
+    item->field260 += 0x4cd;
+    SteerItemKouraWToKartForward(item, item->field264, item->field260);
+    if (item->field264 < 0xb33) {
+        item->field264 += 0x52;
     }
-    if (item->mUnk_260 > 0x2d000) {
+    if (item->field260 > 0x2d000) {
         item->mNextState = 6;
         item->mNextStateRequested = 1;
     }
-    item->mUnk_27c -= 0xa14;
-    item->mUnk_284 -= 0x102;
-    if (item->mUnk_284 < 0x7b) {
-        item->mUnk_284 = 0x7b;
+    item->field27C -= 0xa14;
+    item->field284 -= 0x102;
+    if (item->field284 < 0x7b) {
+        item->field284 = 0x7b;
     }
     normal = func_020fbd98_inline(item);
     if (normal != NULL) {
-        VEC_MultAdd(item->mUnk_27c, normal, &item->mUnk_22c, &v);
+        VEC_MultAdd(item->field27C, normal, &item->field22C, &v);
     } else {
-        z = item->mUnk_22c.z;
-        y = item->mUnk_27c;
-        x = item->mUnk_22c.x;
+        z = item->field22C.z;
+        y = item->field27C;
+        x = item->field22C.x;
         v.x = x;
         v.y = y;
         v.z = z;
     }
-    VEC_Subtract(&v, &item->mUnk_2a4, &v);
-    VEC_MultAdd(item->mUnk_284, &v, &item->mUnk_2a4, &item->mUnk_2a4);
-    itkraw_20FC2E8(item, &item->mUnk_2a4, 0, normal);
+    VEC_Subtract(&v, &item->field2A4, &v);
+    VEC_MultAdd(item->field284, &v, &item->field2A4, &item->field2A4);
+    itkraw_20FC2E8(item, &item->field2A4, 0, normal);
 }
 
 void itkraw_20FB5DC(ItemKouraW *item) {
     enum { K0 } kind;
 
-    item->mUnk_260 = 0x28000;
-    kind = item->mUnk_000.mKind;
-    item->mUnk_000.mUnk_100 = it_sItemParams[kind].mUnk_74;
-    item->mUnk_000.mUnk_100 += 0x800;
-    func_020f9c6c(&item->mUnk_000);
+    item->field260 = 0x28000;
+    kind = item->field0.mKind;
+    item->field0.field100 = it_sItemParams[kind].field74;
+    item->field0.field100 += 0x800;
+    func_020f9c6c(&item->field0);
 }
 
 void itkraw_20FB46C(ItemKouraW *item) {
     s32 grew;
     Vec3 hitOffset;
 
-    item->mUnk_260 -= 0x7000;
-    SteerItemKouraWToKartForward(item, 0xb33, item->mUnk_260);
-    if (item->mUnk_260 < -0x32000) {
-        func_020f7104(&item->mUnk_000, 0);
-        if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+    item->field260 -= 0x7000;
+    SteerItemKouraWToKartForward(item, 0xb33, item->field260);
+    if (item->field260 < -0x32000) {
+        func_020f7104(&item->field0, 0);
+        if (item->field0.mFlags & 0x8000000) {
+            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
     } else {
         Vec3 *position;
 
-        position = &item->mUnk_000.mPos;
-        if (col_collide(position, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4,
-                          item->mUnk_000.mCollisionSlotIndex, &hitOffset, NULL, NULL, &item->mUnk_000.mCollisionBits,
+        position = &item->field0.mPos;
+        if (col_collide(position, &item->field0.mPrevPos, 0, item->field0.fieldDC, 4,
+                          item->field0.mCollisionSlotIndex, &hitOffset, NULL, NULL, &item->field0.mCollisionBits,
                           NULL, NULL, NULL, NULL) != 0) {
             VEC_Add(&hitOffset, position, position);
-            func_020f7104(&item->mUnk_000, 0);
-            if (item->mUnk_000.mFlags & 0x8000000) {
-                func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+            func_020f7104(&item->field0, 0);
+            if (item->field0.mFlags & 0x8000000) {
+                func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
             }
         }
     }
     grew =
-        GrowItemObjectScale(item, it_sItemParams[item->mUnk_000.mKind].mUnk_74, it_sItemParams[item->mUnk_000.mKind].mUnk_78);
-    if (func_020f9ce8(&item->mUnk_000) != 0) {
+        GrowItemObjectScale(item, it_sItemParams[item->field0.mKind].field74, it_sItemParams[item->field0.mKind].field78);
+    if (func_020f9ce8(&item->field0) != 0) {
         return;
     }
     if (grew) {
-        RefreshItemObjectScale(&item->mUnk_000);
+        RefreshItemObjectScale(&item->field0);
     }
 }
 
@@ -629,11 +629,11 @@ void itkraw_20FB35C(ItemKouraW *param_1) {
     struct ModelEffect *effect;
     s32 *effectScale;
 
-    param_1->mUnk_000.mFlags |= 0x800000;
-    param_1->mUnk_000.mUnk_100 = 0;
-    param_1->mUnk_000.mScale = data_02159d84;
+    param_1->field0.mFlags |= 0x800000;
+    param_1->field0.field100 = 0;
+    param_1->field0.mScale = data_02159d84;
     param_1->mModelEffect =
-        expl_spawnEffect(1, &param_1->mUnk_000.mPos, func_020f9160(&param_1->mUnk_000) == 0 ? 1 : 0);
+        expl_spawnEffect(1, &param_1->field0.mPos, func_020f9160(&param_1->field0) == 0 ? 1 : 0);
     effect = param_1->mModelEffect;
     if (effect != NULL) {
         effectScale = effect->mScale;
@@ -644,7 +644,7 @@ void itkraw_20FB35C(ItemKouraW *param_1) {
     it_20F91FC(param_1, 0xdf);
     if (data_0217c780 & 1) {
         sndHandle = sp_acquireElement(sound_getPoolById(0));
-        if (SoundHandle_217D084.mUnk_0c != 0) {
+        if (SoundHandle_217D084.fieldC != 0) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }
@@ -654,7 +654,7 @@ void itkraw_20FB35C(ItemKouraW *param_1) {
             NNS_SndArcPlayerStartSeqArc(sndHandle, 0, 0xe0);
         }
     }
-    cam_tryImpactShakePlayerCamera(param_1->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+    cam_tryImpactShakePlayerCamera(param_1->field0.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
 void itkraw_20FB2B4(ItemKouraW *item) {
@@ -662,7 +662,7 @@ void itkraw_20FB2B4(ItemKouraW *item) {
 
     stateFrames = item->mStateFrames;
     if (GrowItemObjectScale(item, gKouraWState7ScaleLimit, gKouraWState7ScaleStep)) {
-        func_020f9fa8(&item->mUnk_000);
+        func_020f9fa8(&item->field0);
     }
     if (stateFrames < 0x16) {
         return;
@@ -675,7 +675,7 @@ void itkraw_20FB2B4(ItemKouraW *item) {
     if (stateFrames <= 0x55) {
         return;
     }
-    it_itemsetDestroyItem(&it_sItemsets[item->mUnk_000.mKind], &item->mUnk_000);
+    it_itemsetDestroyItem(&it_sItemsets[item->field0.mKind], &item->field0);
 }
 
 void *itkraw_20FB208(void *param_1, ItemKouraW *item, void *param_3) {
@@ -683,16 +683,16 @@ void *itkraw_20FB208(void *param_1, ItemKouraW *item, void *param_3) {
     void *t;
 
     if (item != NULL && param_3 != NULL) {
-        func_020ff1b8(vec_dotProduct(&item->mUnk_000.mVelocity, (Vec3 *) &item->mDirection) < 0 ? 1 : 0,
-                      &item->mUnk_000.mVelocity.y);
+        func_020ff1b8(vec_dotProduct(&item->field0.mVelocity, (Vec3 *) &item->mDirection) < 0 ? 1 : 0,
+                      &item->field0.mVelocity.y);
     }
     t = CopyItemObjectData(param_1, item, param_3);
     r = CopyItemPointLinkIndex(t, item != NULL ? (void *) &item->mPreviousLink : 0, param_3);
     if (item != NULL && param_3 == NULL) {
-        func_020ff1a0(item->mUnk_000.mVelocity.y, &item->mUnk_2fc);
+        func_020ff1a0(item->field0.mVelocity.y, &item->field2FC);
     }
     if (item != NULL && param_3 != NULL) {
-        return func_020fe8ac(item->mUnk_000.mKind);
+        return func_020fe8ac(item->field0.mKind);
     }
     return r;
 }
@@ -705,15 +705,15 @@ void itkraw_20FB038(ItemKouraW *item) {
 
     func_020f8e78(item);
     if (item->mPreviousLink != 0) {
-        InitLinkFollowingItem((LinkFollowingItemObject *) item, 0x14, 0xcc, 1, 0, item->mUnk_2fc,
+        InitLinkFollowingItem((LinkFollowingItemObject *) item, 0x14, 0xcc, 1, 0, item->field2FC,
                               gRaceStatus->mKartAtRank[0], 1);
-        sm_gotoState(&item->mUnk_2e8, 1);
-    } else if (item->mUnk_000.mFlags & 0x8000000) {
+        sm_gotoState(&item->field2E8, 1);
+    } else if (item->field0.mFlags & 0x8000000) {
         kartIndex = (u16) gRaceStatus->mKartAtRank[0];
         if (item->mKartItems == NULL) {
             SetItemKouraWKartItems(item, kartIndex);
             kart = item->mKartItems->mKart;
-            nextState = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+            nextState = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
             item->mNextState = nextState;
             item->mNextStateRequested = 1;
         }
@@ -721,22 +721,22 @@ void itkraw_20FB038(ItemKouraW *item) {
         kartIndex = (u16) gRaceStatus->mKartAtRank[0];
         SetItemKouraWKartItems(item, kartIndex);
         kart = item->mKartItems->mKart;
-        nextState = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 2 : 3;
+        nextState = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
         item->mNextState = nextState;
         item->mNextStateRequested = 1;
-        if (item->mUnk_000.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->mUnk_000.mId);
+        if (item->field0.mFlags & 0x8000000) {
+            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
     }
     itkraw_20FC94C(item);
-    if ((s64) item->mUnk_000.mVelocity.x * item->mUnk_000.mVelocity.x +
-            (s64) item->mUnk_000.mVelocity.y * item->mUnk_000.mVelocity.y +
-            (s64) item->mUnk_000.mVelocity.z * item->mUnk_000.mVelocity.z >=
+    if ((s64) item->field0.mVelocity.x * item->field0.mVelocity.x +
+            (s64) item->field0.mVelocity.y * item->field0.mVelocity.y +
+            (s64) item->field0.mVelocity.z * item->field0.mVelocity.z >=
         0x10) {
-        vec_normalize(&item->mUnk_000.mVelocity, &directionQuaternion.mDirection);
+        vec_normalize(&item->field0.mVelocity, &directionQuaternion.mDirection);
     }
     qrtn_fromForwardVec(&directionQuaternion.mDirection, &directionQuaternion.mQuaternion);
-    qtrn_toMtx33(&item->mUnk_000.mUnk_94, &directionQuaternion.mQuaternion);
+    qtrn_toMtx33(&item->field0.field94, &directionQuaternion.mQuaternion);
 }
 
 void itkraw_20FAED0(ItemKouraW *item, s32 param_2, s32 param_3) {
@@ -744,36 +744,36 @@ void itkraw_20FAED0(ItemKouraW *item, s32 param_2, s32 param_3) {
     Vec3 scale;
     void *matrix;
 
-    if (item->mUnk_000.mFlags & 0x2000) {
-        if (IsItemObjectFartherFromCameraThan(&item->mUnk_000, 0x6a4) != 0) {
+    if (item->field0.mFlags & 0x2000) {
+        if (IsItemObjectFartherFromCameraThan(&item->field0, 0x6a4) != 0) {
             return;
         }
     }
-    scale.x = scale.z = item->mUnk_000.mScale.x;
-    scale.y = item->mUnk_000.mScale.y;
-    if (item->mUnk_000.mAlpha != 0x1f) {
+    scale.x = scale.z = item->field0.mScale.x;
+    scale.y = item->field0.mScale.y;
+    if (item->field0.mAlpha != 0x1f) {
         u32 i;
         NNSG3dResMdl *o;
 
         o = gKouraW->mResMdl;
-        alpha = (u16) item->mUnk_000.mAlpha;
+        alpha = (u16) item->field0.mAlpha;
         for (i = 0; i < o->mInfo.mNumMat; i++) {
             NNS_G3dMdlSetMdlAlpha(o, i, alpha);
         }
     }
-    if (item->mUnk_000.mFlags & 0x80000) {
-        matrix = BuildItemObjectMatrix(&item->mUnk_000, (Vec3 *) param_2);
+    if (item->field0.mFlags & 0x80000) {
+        matrix = BuildItemObjectMatrix(&item->field0, (Vec3 *) param_2);
     } else {
         Vec3 *position;
 
-        position = item->mUnk_000.mUnk_d0;
-        item->mUnk_000.mUnk_94.mUnk_00[3].x = position->x >> 4;
-        item->mUnk_000.mUnk_94.mUnk_00[3].y = position->y >> 4;
-        item->mUnk_000.mUnk_94.mUnk_00[3].z = position->z >> 4;
-        matrix = &item->mUnk_000.mUnk_94;
+        position = item->field0.fieldD0;
+        item->field0.field94.field0[3].x = position->x >> 4;
+        item->field0.field94.field0[3].y = position->y >> 4;
+        item->field0.field94.field0[3].z = position->z >> 4;
+        matrix = &item->field0.field94;
     }
     model2_renderModel(gKouraW, matrix, &scale, 0x1f);
-    if (item->mUnk_000.mAlpha == 0x1f) {
+    if (item->field0.mAlpha == 0x1f) {
         return;
     }
     {
@@ -798,22 +798,22 @@ void itkraw_20FAE74(ItemKouraW *item, s32 param_2, s32 param_3) {
     if (effect == NULL) {
         return;
     }
-    effect->mVisible = (item->mUnk_000.mFlags & 0x10000) == 0;
+    effect->mVisible = (item->field0.mFlags & 0x10000) == 0;
 }
 
 // Asks for state 7 unless the object is already in it; returns 1.
 s32 itkraw_20FADE4(ItemKouraW *item) {
     if (item->mState != 7) {
-        sm_init(&item->mUnk_2e8, (UnkFunc *const *) itkraw_sStates, 8, item);
+        sm_init(&item->field2E8, (UnkFunc *const *) itkraw_sStates, 8, item);
         item->mNextState = 7;
         item->mNextStateRequested = 1;
-        if ((item->mUnk_000.mFlags & 0x180000) == 0) {
-            item->mUnk_000.mAdvance = (void (*)(struct ItemObject *)) itkraw_20FC2C0;
+        if ((item->field0.mFlags & 0x180000) == 0) {
+            item->field0.mAdvance = (void (*)(struct ItemObject *)) itkraw_20FC2C0;
         }
-        item->mUnk_000.mFlags &= ~0x8000;
-        item->mUnk_000.mFlags |= 0x80000;
-        func_020f9c6c(&item->mUnk_000);
-        item->mUnk_000.mUnk_78 &= ~0x4000;
+        item->field0.mFlags &= ~0x8000;
+        item->field0.mFlags |= 0x80000;
+        func_020f9c6c(&item->field0);
+        item->field0.field78 &= ~0x4000;
     }
     return 1;
 }
@@ -824,8 +824,8 @@ BOOL IsItemKouraWState7(ItemKouraW *item) {
 
 Vec3 *GetItemKouraWState7Info(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
     *stateFrames = item->mStateFrames;
-    *scaleRatio = ((s64) item->mUnk_000.mScale.z * gKouraWState7InverseLimit) >> 12;
-    return &item->mUnk_000.mPos;
+    *scaleRatio = ((s64) item->field0.mScale.z * gKouraWState7InverseLimit) >> 12;
+    return &item->field0.mPos;
 }
 
 #pragma thumb on
@@ -839,7 +839,7 @@ void itkraw_load(void) {
     gKouraWState7InverseLimit = FX_Div(0x1000, gKouraWState7ScaleLimit);
     gKouraWState7ScaleStep = 0x299a;
     scaleLimit = gKouraWState7ScaleLimit;
-    radiusRatio = it_sItemParams[5].mUnk_6c;
+    radiusRatio = it_sItemParams[5].field6C;
     v = ((s64) scaleLimit * radiusRatio) >> 12;
     data_0217bd34 = v;
     v >>= 12;
@@ -855,7 +855,7 @@ void itkraw_load(void) {
 
 BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
     if (itemInfoIndex != 0x13) {
-        return it_sItemsets[it_sItemConfigs[itemInfoIndex].mObjectKind].mUnk_0c -
+        return it_sItemsets[it_sItemConfigs[itemInfoIndex].mObjectKind].fieldC -
                    it_sItemsets[it_sItemConfigs[itemInfoIndex].mObjectKind].mReservedCount >=
                it_sItemConfigs[itemInfoIndex].mObjectCount;
     }
@@ -864,7 +864,7 @@ BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex) {
 
 static inline BOOL func_020fab34_inline(s32 itemInfoIndex) {
     if (itemInfoIndex != 0x13) {
-        return it_sItemsets[it_sItemConfigs[itemInfoIndex].mObjectKind].mUnk_0c -
+        return it_sItemsets[it_sItemConfigs[itemInfoIndex].mObjectKind].fieldC -
                    it_sItemsets[it_sItemConfigs[itemInfoIndex].mObjectKind].mReservedCount >=
                it_sItemConfigs[itemInfoIndex].mObjectCount;
     }
@@ -887,7 +887,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         itemInfo = &it_sItemConfigs[itemInfoIndex];
         objectCount = itemInfo->mObjectCount;
         v = objectCount * func_020fa0e8(itemInfo->mObjectKind, 0);
-        if (func_020fab34_inline(itemInfoIndex) != FALSE && gStruct217AA14->mUnk_724 >= v) {
+        if (func_020fab34_inline(itemInfoIndex) != FALSE && gStruct217AA14->field724 >= v) {
             return FALSE;
         }
     } else {
@@ -910,7 +910,7 @@ BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex) {
     kind = itemInfo->mObjectKind;
     pool = &it_sItemsets[kind];
     objectCount = itemInfo->mObjectCount;
-    while (pool->mUnk_0c - pool->mReservedCount < objectCount) {
+    while (pool->fieldC - pool->mReservedCount < objectCount) {
         if (it_sItemParams[kind].mLimit == 1) {
             return FALSE;
         }
@@ -958,10 +958,10 @@ void it_renderAll(void *a) {
     enum { K0 } poolIndex;
     void *viewAxis;
 
-    viewAxis = &((Unk020e6b38 *) bbm_getBillboardMtx())->mUnk_18;
+    viewAxis = &((Unk020e6b38 *) bbm_getBillboardMtx())->field18;
     bbm_restoreCameraMtx();
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
-        if (it_sItemsets[poolIndex].mTakenCount > 0 && it_sItemsets[poolIndex].mUnk_40 == 0) {
+        if (it_sItemsets[poolIndex].mTakenCount > 0 && it_sItemsets[poolIndex].field40 == 0) {
             it_renderItemset(&it_sItemsets[poolIndex], viewAxis);
         }
     }
@@ -1008,7 +1008,7 @@ static inline s32 func_020fa4c8_inline(ItemObject *item, Kart *kart) {
     if (!(item->mFlags & 0x8000)) {
         return 1;
     }
-    if (kart->mIndex != (u16) (!(item->mUnk_78 & 0x8000) ? (u16) (item->mUnk_78 & ~0xff00) : 8)) {
+    if (kart->mIndex != (u16) (!(item->field78 & 0x8000) ? (u16) (item->field78 & ~0xff00) : 8)) {
         return 1;
     }
     if (item->mVelocity.x != 0 || item->mVelocity.y != 0 || item->mVelocity.z != 0 || kart->mForwardSpeed != 0) {
@@ -1041,7 +1041,7 @@ s32 it_20FA4C8(Kart *kart) {
     enum { K0 } kind;
 
     hitCount = 0;
-    fl = (kart->mUnk_48 & 0x8000000) != 0;
+    fl = (kart->field48 & 0x8000000) != 0;
     lim = 0xf;
     for (i = 0; i < gColQueryResultCount; i++) {
         if (!(gColQueryResultFlags[i] & 0x4000)) {
@@ -1058,15 +1058,15 @@ s32 it_20FA4C8(Kart *kart) {
         if (v == 0) {
             continue;
         }
-        if ((kart->mUnk_7c & 0x2000) && func_020f9880(item) != 0) {
+        if ((kart->field7C & 0x2000) && func_020f9880(item) != 0) {
             continue;
         }
         gCollidedItemObjects[hitCount++] = item;
         if (item->mFlags & 0x1000) {
-            RemoveItemInUseObject(&it_sDriverItemStatus[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
+            RemoveItemInUseObject(&it_sDriverItemStatus[(u16) (item->field78 & ~0xff00)].mItemInUse, item);
         }
         kind = item->mKind;
-        if (it_sItemParams[kind].mUnk_88 != 0) {
+        if (it_sItemParams[kind].field88 != 0) {
             if (func_020f9880(item) != 0) {
                 func_020f6be8(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
                 func_020f6f10(item, 1, (u16) kart->mIndex);
@@ -1105,7 +1105,7 @@ void *it_spawnItem(s32 kind, u16 param_2, void *param_3, void *param_4) {
     it_itemsetAddItem(&it_sItemsets[item->mKind], item);
     it_20F98A0(item, param_3, param_4, 0, 0);
     if (param_2 == 8) {
-        item->mUnk_78 |= data_02159cbc;
+        item->field78 |= data_02159cbc;
     }
     return item;
 }
@@ -1126,7 +1126,7 @@ static inline ItemObject *func_020fa3d0_inline(s32 kind, u16 param_2, void *para
     it_itemsetAddItem(&it_sItemsets[item->mKind], item);
     it_20F98A0(item, param_3, param_4, 0, 0);
     if (param_2 == 8) {
-        item->mUnk_78 |= data_02159cbc;
+        item->field78 |= data_02159cbc;
     }
     return item;
 }
@@ -1145,7 +1145,7 @@ void StartCourseMapItemObjects(void) {
     for (i = 0; i < rowCount; i++) {
         row = &gMapData->mRows[i];
         if (row->mKind == 0x6d) {
-            kind = row->mUnk_28;
+            kind = row->field28;
             if (col_collide(row, 0, 0, 0xa000, 8, -2, 0, &m, 0, 0, 0, 0, 0, &v) == 0) {
                 m = data_02159cb0;
             }
@@ -1257,8 +1257,8 @@ void RefreshItemObjectScale(ItemObject *item) {
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
     kindInfo = &it_sItemParams[kind];
-    radiusRatio = kindInfo->mUnk_6c;
-    item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
+    radiusRatio = kindInfo->field6C;
+    item->fieldDC = ((s64) item->mScale.y * kindInfo->field64) >> 12;
     item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
     col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
@@ -1273,8 +1273,8 @@ void func_020f9fa8(ItemObject *item) {
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
     kindInfo = &it_sItemParams[kind];
-    radiusRatio = kindInfo->mUnk_6c;
-    item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
+    radiusRatio = kindInfo->field6C;
+    item->fieldDC = ((s64) item->mScale.y * kindInfo->field64) >> 12;
     item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
     col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius);
 }
@@ -1285,10 +1285,10 @@ void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio)
     s32 m;
 
     kind = item->mKind;
-    m = it_sItemParams[kind].mUnk_68;
+    m = it_sItemParams[kind].field68;
     item->mScale.x = ((s64) item->mScale.z * xRatio) >> 12;
     item->mScale.y = ((s64) item->mScale.z * yRatio) >> 12;
-    item->mUnk_dc = ((s64) item->mScale.y * it_sItemParams[kind].mUnk_64) >> 12;
+    item->fieldDC = ((s64) item->mScale.y * it_sItemParams[kind].field64) >> 12;
     item->mRadius = ((s64) item->mScale.y * m) >> 12;
     col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
@@ -1298,22 +1298,22 @@ s32 func_020f9dc8(ItemObject *item) {
     enum { K0 } kind;
     s32 radiusRatio;
 
-    if (item->mUnk_100 <= -0x29 || item->mUnk_100 >= 0x29 || item->mScale.x - item->mScale.y <= -0x29 ||
+    if (item->field100 <= -0x29 || item->field100 >= 0x29 || item->mScale.x - item->mScale.y <= -0x29 ||
         item->mScale.x - item->mScale.y >= 0x29) {
         kind = item->mKind;
         item->mFlags |= 0x40;
-        item->mScale.y += item->mUnk_100;
-        item->mUnk_100 += (s32) (((s64) (item->mScale.z - item->mScale.y) * 0x333) >> 12);
-        item->mUnk_100 = ((s64) item->mUnk_100 * 0xc00) >> 12;
+        item->mScale.y += item->field100;
+        item->field100 += (s32) (((s64) (item->mScale.z - item->mScale.y) * 0x333) >> 12);
+        item->field100 = ((s64) item->field100 * 0xc00) >> 12;
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &it_sItemParams[kind];
-        radiusRatio = kindInfo->mUnk_6c;
-        item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
+        radiusRatio = kindInfo->field6C;
+        item->fieldDC = ((s64) item->mScale.y * kindInfo->field64) >> 12;
         item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
         col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;
     }
-    item->mUnk_100 = 0;
+    item->field100 = 0;
     return 0;
 }
 
@@ -1322,14 +1322,14 @@ s32 func_020f9ce8(ItemObject *item) {
     enum { K0 } kind;
     s32 radiusRatio;
 
-    if (item->mUnk_100 != 0) {
+    if (item->field100 != 0) {
         kind = item->mKind;
         item->mFlags |= 0x40;
-        item->mScale.y += (s32) (((s64) (item->mUnk_100 - item->mScale.y) * 0x333) >> 12);
+        item->mScale.y += (s32) (((s64) (item->field100 - item->mScale.y) * 0x333) >> 12);
         item->mScale.x = item->mScale.z * 2 - item->mScale.y;
         kindInfo = &it_sItemParams[kind];
-        radiusRatio = kindInfo->mUnk_6c;
-        item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
+        radiusRatio = kindInfo->field6C;
+        item->fieldDC = ((s64) item->mScale.y * kindInfo->field64) >> 12;
         item->mRadius = ((s64) item->mScale.y * radiusRatio) >> 12;
         col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
         return 1;

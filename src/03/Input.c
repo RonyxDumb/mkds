@@ -129,16 +129,16 @@ BOOL IsTouchDownInRect(const Rect *rect) {
     if (input->mBits.mDown == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->field0 > input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_04 < input->mTouchX) {
+    if (rect->field4 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->field2 > input->mTouchY) {
         return 0;
     }
-    if (rect->mUnk_06 >= input->mTouchY) {
+    if (rect->field6 >= input->mTouchY) {
         return 1;
     }
     return 0;
@@ -149,16 +149,16 @@ BOOL IsTouchPressedInRect(const Rect *rect) {
     if ((((u32) input->mTouchFlags << 30) >> 31) == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->field0 > input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_04 < input->mTouchX) {
+    if (rect->field4 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->field2 > input->mTouchY) {
         return 0;
     }
-    if (rect->mUnk_06 >= input->mTouchY) {
+    if (rect->field6 >= input->mTouchY) {
         return 1;
     }
     return 0;
@@ -169,16 +169,16 @@ BOOL IsTouchPressedOrRepeatedInRect(const Rect *rect) {
     if ((((u32) input->mTouchFlags << 29) >> 31) == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->field0 > input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_04 < input->mTouchX) {
+    if (rect->field4 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->field2 > input->mTouchY) {
         return 0;
     }
-    if (rect->mUnk_06 >= input->mTouchY) {
+    if (rect->field6 >= input->mTouchY) {
         return 1;
     }
     return 0;
@@ -189,16 +189,16 @@ BOOL IsTouchReleasedInRect(const Rect *rect) {
     if ((((u32) input->mTouchFlags << 28) >> 31) == 0) {
         return 0;
     }
-    if (rect->mUnk_00 > input->mTouchX) {
+    if (rect->field0 > input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_04 < input->mTouchX) {
+    if (rect->field4 < input->mTouchX) {
         return 0;
     }
-    if (rect->mUnk_02 > input->mTouchY) {
+    if (rect->field2 > input->mTouchY) {
         return 0;
     }
-    if (rect->mUnk_06 >= input->mTouchY) {
+    if (rect->field6 >= input->mTouchY) {
         return 1;
     }
     return 0;
@@ -206,10 +206,10 @@ BOOL IsTouchReleasedInRect(const Rect *rect) {
 
 BOOL IsTouchPressedInOriginSizeRect(const Rect *input) {
     Rect rect;
-    rect.mUnk_00 = input->mUnk_00;
-    rect.mUnk_02 = input->mUnk_02;
-    rect.mUnk_04 = input->mUnk_00 + input->mUnk_04;
-    rect.mUnk_06 = input->mUnk_02 + input->mUnk_06;
+    rect.field0 = input->field0;
+    rect.field2 = input->field2;
+    rect.field4 = input->field0 + input->field4;
+    rect.field6 = input->field2 + input->field6;
     return IsTouchPressedInRect(&rect);
 }
 

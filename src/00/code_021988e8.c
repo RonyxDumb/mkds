@@ -53,25 +53,25 @@ int func_ov000_02198968(void *a, Gt2Connection **b, u32 c, void *d, int e, u32 f
         }
         return 0;
     }
-    m->mUnk_24++;
+    m->field24++;
     do {
         func_ov000_02198a8c(a);
-        l = m->mUnk_0c >= 5 ? 1 : 0;
+        l = m->fieldC >= 5 ? 1 : 0;
         if (l == 0) {
             func_ov000_0218e8bc(1);
         }
     } while (l == 0);
-    m->mUnk_24--;
-    if (m->mUnk_0c == 5) {
+    m->field24--;
+    if (m->fieldC == 5) {
         *b = m;
     }
     return m->mResult;
 }
 
 void func_ov000_02198914(Gt2Connection *a, u8 *b, int c, int d) {
-    if (a->mUnk_0c == 5) {
+    if (a->fieldC == 5) {
         func_ov000_0219a61c((const char **) &b, &c);
-        if (DarrayGetCount((u32 *) a->mUnk_98) != 0) {
+        if (DarrayGetCount((u32 *) a->field98) != 0) {
             func_ov000_02198098(a, 0, (s32) b, (void *) c, d);
             return;
         }

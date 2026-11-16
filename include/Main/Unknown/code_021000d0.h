@@ -11,8 +11,8 @@ struct MapObjectKindDescriptor;
 // Row of the table searched by mobj_getRenderPart0ForObjectId and mobj_getLogicPartForObjectId.
 typedef struct MapObjectKindRow {
     /* 00 */ u32 mKind;
-    /* 04 */ struct MapObjectKindDescriptor *mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 04 */ struct MapObjectKindDescriptor *field4;
+    /* 08 */ void *field8;
 } MapObjectKindRow;
 
 extern MapObjectKindRow gMapObjTable[];
@@ -75,10 +75,10 @@ extern MapObjectKindRow gMapObjTable[];
 #define MAP_OBJECT_KIND_KURIKING 0x1f7
 #define MAP_OBJECT_KIND_BERRY 0x1b5
 
-// Object behind MapObjectKindRow.mUnk_04.
+// Object behind MapObjectKindRow.field4.
 typedef struct MapObjectKindDescriptor {
     /* 00 */ u16 mObjectCount;
-    /* 02 */ u8 mUnk_02[2];
+    /* 02 */ u8 field2[2];
     /* 04 */ s32 mObjectSize;
     /* 08 */ void (*mInitObject)(MapObject *a, struct CourseMapRow *b, void *c);
     /* 0c */ MapObjectKindData *(*mCreateKindData)(void);

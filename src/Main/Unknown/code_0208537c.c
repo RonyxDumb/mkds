@@ -28,7 +28,7 @@
 
 #pragma thumb on
 
-// Picks the row of 'kartAIparam.bin' for the course and the mode; no row in battle and when mUnk_00c is 5 or 6.
+// Picks the row of 'kartAIparam.bin' for the course and the mode; no row in battle and when fieldC is 5 or 6.
 void loadKartAIParams(void) {
     RaceSetup *raceSetup;
     KartAiParamRow *r;
@@ -69,21 +69,21 @@ void InitKartAiShared(void) {
         gKartAiShared->mNonCpuKartByRank[i] = minusOne;
         gKartAiShared->mTableIndex[i] = zero;
     }
-    gKartAiShared->mUnk_080 = minusOne;
-    gKartAiShared->mUnk_084 = minusOne;
-    gKartAiShared->mUnk_088 = minusOne;
-    gKartAiShared->mUnk_08c = zero;
+    gKartAiShared->field80 = minusOne;
+    gKartAiShared->field84 = minusOne;
+    gKartAiShared->field88 = minusOne;
+    gKartAiShared->field8C = zero;
     if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
         gKartAiShared->mRandom = &gRaceStatus->mLocalRandom;
     } else {
         gKartAiShared->mRandom = &gRaceStatus->mRandom;
     }
     if (gRaceMultiConfig->mKartCount > 1 && gRaceMultiConfig->mKartCount - gRaceMultiConfig->mHumanAndPeerKartCount == 1) {
-        gKartAiShared->mUnk_120 = 1;
-        gKartAiShared->mUnk_124 = ((u32) gRaceMultiConfig->mHumanAndPeerKartCount >> 1) + 1;
+        gKartAiShared->field120 = 1;
+        gKartAiShared->field124 = ((u32) gRaceMultiConfig->mHumanAndPeerKartCount >> 1) + 1;
     } else {
-        gKartAiShared->mUnk_120 = 0;
-        gKartAiShared->mUnk_124 = -1;
+        gKartAiShared->field120 = 0;
+        gKartAiShared->field124 = -1;
     }
     if (gKartAiParamRow != NULL) {
         func_02085bec();
@@ -91,35 +91,35 @@ void InitKartAiShared(void) {
         if (gRaceMultiConfig->mMode == MODE_GRAND_PRIX) {
             switch (gRaceMultiConfig->mEngineIndex) {
                 case 0:
-                    gKartAiShared->mUnk_138 = 0;
+                    gKartAiShared->field138 = 0;
                     break;
                 case 1:
-                    gKartAiShared->mUnk_138 = 1;
+                    gKartAiShared->field138 = 1;
                     break;
                 case 2:
-                    gKartAiShared->mUnk_138 = 2;
+                    gKartAiShared->field138 = 2;
                     break;
                 default:
-                    gKartAiShared->mUnk_138 = 1;
+                    gKartAiShared->field138 = 1;
                     break;
             }
         } else {
             switch (gRaceMultiConfig->mCpuDifficulty) {
                 case CPU_DIFFICULTY_EASY:
-                    gKartAiShared->mUnk_138 = 0;
+                    gKartAiShared->field138 = 0;
                     break;
                 case CPU_DIFFICULTY_NORMAL:
-                    gKartAiShared->mUnk_138 = 1;
+                    gKartAiShared->field138 = 1;
                     break;
                 case CPU_DIFFICULTY_HARD:
-                    gKartAiShared->mUnk_138 = 2;
+                    gKartAiShared->field138 = 2;
                     break;
                 default:
-                    gKartAiShared->mUnk_138 = 1;
+                    gKartAiShared->field138 = 1;
                     break;
             }
         }
-        gKartAiParamRow->mUnk_04 = FX_Div(gKartAiParamRow->mUnk_04, 0x3000);
+        gKartAiParamRow->field4 = FX_Div(gKartAiParamRow->field4, 0x3000);
     }
     InitKartAiNonCpuCounts();
     func_0207fba0();
@@ -182,10 +182,10 @@ void func_02085bec(void) {
     bestNonCpuPoints = 0;
     bestCpuPoints = 0;
     for (; clearIndex < 2; clearIndex++) {
-        gKartAiShared->mUnk_114[clearIndex] = 0;
+        gKartAiShared->field114[clearIndex] = 0;
     }
-    gKartAiShared->mUnk_110 = 1;
-    gKartAiShared->mUnk_11c = 0;
+    gKartAiShared->field110 = 1;
+    gKartAiShared->field11C = 0;
     if (gRaceMultiConfig->mMode == MODE_GRAND_PRIX) {
         for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
             kartIndex = i;
@@ -203,23 +203,23 @@ void func_02085bec(void) {
                 if (previousTotalPoints > bestCpuPoints) {
                     bestCpuPoints = previousTotalPoints;
                 }
-                if (i == gRaceMultiConfig->mUnk_3d5[0]) {
-                    gKartAiShared->mUnk_114[0] = previousTotalPoints;
-                } else if (i == gRaceMultiConfig->mUnk_3d5[1]) {
-                    gKartAiShared->mUnk_114[1] = previousTotalPoints;
+                if (i == gRaceMultiConfig->field3D5[0]) {
+                    gKartAiShared->field114[0] = previousTotalPoints;
+                } else if (i == gRaceMultiConfig->field3D5[1]) {
+                    gKartAiShared->field114[1] = previousTotalPoints;
                 }
             }
         }
         pointsDifference = bestNonCpuPoints - bestCpuPoints;
         if (pointsDifference <= -5) {
-            if (gRaceMultiConfig->mUnk_3d4 > 1) {
-                gKartAiShared->mUnk_110 = 0;
-                if (gKartAiShared->mUnk_114[0] > gKartAiShared->mUnk_114[1]) {
-                    gKartAiShared->mUnk_11c = 1;
+            if (gRaceMultiConfig->field3D4 > 1) {
+                gKartAiShared->field110 = 0;
+                if (gKartAiShared->field114[0] > gKartAiShared->field114[1]) {
+                    gKartAiShared->field11C = 1;
                 }
             }
         } else if (gRaceMultiConfig->mCpuDifficulty != CPU_DIFFICULTY_EASY && pointsDifference >= 4) {
-            gKartAiShared->mUnk_110 = 2;
+            gKartAiShared->field110 = 2;
         }
     }
 }
@@ -241,7 +241,7 @@ void InitKartAiTableIndices(void) {
     nextNonCpuTableIndex = gRaceMultiConfig->mKartCount;
     NNS_FndInitList(&gKartAiShared->mTableIndexList, 4);
     for (i = 0; i < 2; i++) {
-        if (gRaceMultiConfig->mUnk_3d5[i] >= 0) {
+        if (gRaceMultiConfig->field3D5[i] >= 0) {
             a++;
         }
     }
@@ -296,7 +296,7 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
     hasFixedIndex = FALSE;
     tableIndex = -1;
     kartAiShared = gKartAiShared;
-    m = kartAiShared->mUnk_110;
+    m = kartAiShared->field110;
     if (m == 2) {
         g = TRUE;
     } else {
@@ -313,7 +313,7 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
         *nextNonCpuTableIndexPointer = tableIndex - 1;
     } else {
         if (m == 0) {
-            s = kartAiShared->mUnk_11c;
+            s = kartAiShared->field11C;
             if (s != 0) {
                 s = 1;
             } else {
@@ -324,16 +324,16 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
             } else {
                 otherIndex = 0;
             }
-            if (kartIndex == raceSetup->mUnk_3d5[s]) {
+            if (kartIndex == raceSetup->field3D5[s]) {
                 tableIndex = 1;
                 hasFixedIndex = TRUE;
-            } else if (kartIndex == (u16) raceSetup->mUnk_3d5[otherIndex]) {
+            } else if (kartIndex == (u16) raceSetup->field3D5[otherIndex]) {
                 tableIndex = 2;
                 hasFixedIndex = TRUE;
             }
         } else {
             for (k = 0; k < 2; k++) {
-                s = raceSetup->mUnk_3d5[k];
+                s = raceSetup->field3D5[k];
                 if (s == kartIndex) {
                     if (k == 0) {
                         tableIndex = 1;
@@ -432,11 +432,11 @@ void UpdateKartAiShared(void) {
         kartRank = rstat_getPlace(i);
         if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (kartRank == 1) {
-                gKartAiShared->mUnk_088 = i;
+                gKartAiShared->field88 = i;
             }
             if (kartRank >= maxRank) {
                 maxRank = kartRank;
-                gKartAiShared->mUnk_084 = i;
+                gKartAiShared->field84 = i;
             }
         }
     }
@@ -465,21 +465,21 @@ void UpdateKartAiRankLists(void) {
             if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_CPU) {
                 if (kartRank > maxCpuRank) {
                     maxCpuRank = kartRank;
-                    gKartAiShared->mUnk_080 = i;
+                    gKartAiShared->field80 = i;
                 }
             }
             gKartAiShared->mKartAtRank[q] = i;
         }
         if (kartRank == 1) {
             if (w >= 0) {
-                gKartAiShared->mUnk_08c = FX_Div(gKartAiShared->mRaceProgressScaled[i], 0x4ce);
-                if (gKartAiShared->mUnk_08c < 0x19a) {
-                    gKartAiShared->mUnk_08c = 0x19a;
-                } else if (gKartAiShared->mUnk_08c > 0x1000) {
-                    gKartAiShared->mUnk_08c = 0x1000;
+                gKartAiShared->field8C = FX_Div(gKartAiShared->mRaceProgressScaled[i], 0x4ce);
+                if (gKartAiShared->field8C < 0x19a) {
+                    gKartAiShared->field8C = 0x19a;
+                } else if (gKartAiShared->field8C > 0x1000) {
+                    gKartAiShared->field8C = 0x1000;
                 }
             } else {
-                gKartAiShared->mUnk_08c = 0;
+                gKartAiShared->field8C = 0;
             }
         }
     }
@@ -494,7 +494,7 @@ void UpdateKartAiRankLists(void) {
             }
         }
     }
-    if (gKartAiShared->mUnk_120 == 0) {
+    if (gKartAiShared->field120 == 0) {
         return;
     }
     listCount = 0;
@@ -533,7 +533,7 @@ s32 func_020854a0(u32 p0, u32 p1) {
 }
 
 s32 func_0208548c(void) {
-    return gKartAiShared->mUnk_08c;
+    return gKartAiShared->field8C;
 }
 
 s32 GetFirstKind1KartByRank(void) {
@@ -551,7 +551,7 @@ s32 func_02085458(s32 a) {
 }
 
 s32 func_02085434(void) {
-    return gKartAiShared->mNonCpuKartByRank[((gKartAiShared->mUnk_124)) - (0x1u)];
+    return gKartAiShared->mNonCpuKartByRank[((gKartAiShared->field124)) - (0x1u)];
 }
 
 KartAiParamRow *GetKartAiParamRow(void) {
@@ -567,10 +567,10 @@ u32 GetKartAiTableIndex(u32 kartIndex) {
 }
 
 u32 func_020853dc(void) {
-    return (gKartAiShared->mUnk_138);
+    return (gKartAiShared->field138);
 }
 
-// Race progress times CourseMap.mUnk_108 as a 1.12 fixed-point product, rounded.
+// Race progress times CourseMap.field108 as a 1.12 fixed-point product, rounded.
 s32 GetKartRaceProgressScaled(u32 kartIndex) {
     s32 checkpointSumQuotient;
     s32 raceProgress;
@@ -580,7 +580,7 @@ s32 GetKartRaceProgressScaled(u32 kartIndex) {
 }
 
 BOOL func_02085390(void) {
-    return (gKartAiShared->mUnk_120);
+    return (gKartAiShared->field120);
 }
 
 RandomState64 *GetKartAiRandom(void) {

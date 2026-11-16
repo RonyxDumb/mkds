@@ -50,9 +50,9 @@ void SetNextCourseMode(u32 courseListMode) {
 }
 
 void func_020cc9a8(u32 p0) {
-    gStruct217B488->mUnk_78 = p0;
+    gStruct217B488->field78 = p0;
 }
 
 u32 func_020cc994(void) {
-    return (gStruct217B488->mUnk_04);
+    return (gStruct217B488->field4);
 }

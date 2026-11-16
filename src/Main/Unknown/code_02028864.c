@@ -53,7 +53,7 @@ void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
     gSelectKart->mHeap = h;
     gSelectKart->mMode = b;
     gSelectKart->mTouchRect = -1;
-    switch (menu_getRaceConfig()->mUnk_108) {
+    switch (menu_getRaceConfig()->field108) {
         case 1:
             interp_init(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
             interp_init(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
@@ -70,15 +70,15 @@ void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
     interp_init(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
     interp_init(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
     interp_init(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
-    gSelectKart->mUnk_080 = c;
-    gSelectKart->mUnk_084 = d;
+    gSelectKart->field80 = c;
+    gSelectKart->field84 = d;
     if (gSelectKart->mMode != 0 || menu_getRaceConfig()->mMode == 3 || menu_getRaceConfig()->mMode == 2) {
         v = 1;
     } else {
         v = 0;
     }
-    gSelectKart->mUnk_104 = v;
-    if (gSelectKart->mUnk_104 != FALSE) {
+    gSelectKart->field104 = v;
+    if (gSelectKart->field104 != FALSE) {
         switch (gSelectKart->mMode) {
             case 0:
                 m = 0;
@@ -105,7 +105,7 @@ void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
     }
     if (func_020280dc() == 0) {
         gSelectKart->mKartSelectMessages = arc_get2dArcFile(aKart_select_bmg);
-        gSelectKart->mUnk_098 = CreateKartAppear(gSelectKart->mHeap);
+        gSelectKart->field98 = CreateKartAppear(gSelectKart->mHeap);
     }
     g = gSelectKart;
     g->mCharacterIndex = menu_getRaceConfig()->mEntries[g->mEntryIndex].mCharacterIndex;
@@ -118,11 +118,11 @@ void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
         gSelectKart->mKartIndex = 0;
     }
     menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
-    menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 0;
+    menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].field14 = 0;
     gSelectKart->mKartTableIndex = FindKartTableIndex(gSelectKart->mKartIndex);
     if (func_020280dc() == 0) {
         g = gSelectKart;
-        if (g->mUnk_104 == FALSE) {
+        if (g->field104 == FALSE) {
             p = &g->mSelectCharacterGpMParts;
             mutil2_loadLayout(p, aSelect_character_gp_m_nce_ncgr_1, aSelect_character_gp_m_nce_ncer_1,
                               aSelect_character_gp_m_o_nclr_1, aSelect_character_gp_m_bncl_0, NULL, NULL,
@@ -130,13 +130,13 @@ void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
             mutil2_initLayout(0, gSelectKart->mHeap, p);
             mutil2_loadLayout(&e, aSelect_character_gp_title_m_nce_ncg_1, aSelect_character_gp_title_m_nce_nce_1, NULL,
                               aSelect_character_gp_title_m_bncl_0, NULL, NULL, arc_get2dArcFile);
-            jn_ui_fillPlaceholder(1, e.mUnk_08, e.mUnk_00, e.mUnk_0c, 0, 0, p->mUnk_08, p->mUnk_0c);
+            jn_ui_fillPlaceholder(1, e.field8, e.field0, e.fieldC, 0, 0, p->field8, p->fieldC);
             mutil2_loadLayout(&f, aSelect_character_gp_name_m_nce_ncgr_1, aSelect_character_gp_name_m_nce_ncer_1, NULL,
                               aSelect_character_gp_name_m_bncl_0, NULL, NULL, arc_get2dArcFile);
-            jn_ui_fillPlaceholder(data_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 2,
-                           p->mUnk_08, p->mUnk_0c);
-            jn_ui_fillPlaceholder(data_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 1,
-                           p->mUnk_08, p->mUnk_0c);
+            jn_ui_fillPlaceholder(data_021537dc[gSelectKart->mCharacterIndex], f.field8, f.field0, f.fieldC, 0, 2,
+                           p->field8, p->fieldC);
+            jn_ui_fillPlaceholder(data_021537dc[gSelectKart->mCharacterIndex], f.field8, f.field0, f.fieldC, 0, 1,
+                           p->field8, p->fieldC);
         }
     }
     if (func_020280dc() == 0) {
@@ -153,20 +153,20 @@ void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
             n -= mutil2_initLabel(1, gSelectKart->mHeap, p, &data_021537f4[i], n);
         }
         for (i = 0; i < 6; i++) {
-            w = jn_msg_getMessage(gSelectKart->mKartSelectMessages, data_021537f4[i].mUnk_08);
-            n = data_021537f4[i].mUnk_00;
-            jn_ui_212426C(1, n, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-            jn_ui_setLabelPriority(n, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            w = jn_msg_getMessage(gSelectKart->mKartSelectMessages, data_021537f4[i].field8);
+            n = data_021537f4[i].field0;
+            jn_ui_212426C(1, n, p->field14, w, p->fieldC, p->field18);
+            jn_ui_setLabelPriority(n, 1, p->field14, p->field18, p->fieldC);
         }
-        w = jn_msg_getMessage(arc_get2dArcFile(aCommon_bmg_14), data_021537f4[6].mUnk_08);
+        w = jn_msg_getMessage(arc_get2dArcFile(aCommon_bmg_14), data_021537f4[6].field8);
         i = data_02153834[4];
-        jn_ui_212426C(1, i, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-        jn_ui_setLabelColorParam(i, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
-        InitPaletteBlend(gSelectKart->mHeap, (Nclr *) p->mUnk_04, 1);
-        p->mUnk_18[2].mVisible = 0;
-        p->mUnk_18[3].mVisible = p->mUnk_18[2].mVisible;
+        jn_ui_212426C(1, i, p->field14, w, p->fieldC, p->field18);
+        jn_ui_setLabelColorParam(i, 1, p->field14, p->field18, p->fieldC);
+        InitPaletteBlend(gSelectKart->mHeap, (Nclr *) p->field4, 1);
+        p->field18[2].mVisible = 0;
+        p->field18[3].mVisible = p->field18[2].mVisible;
     } else {
-        InitSelectRaceRuleWait(gSelectKart->mHeap, gSelectKart->mUnk_084);
+        InitSelectRaceRuleWait(gSelectKart->mHeap, gSelectKart->field84);
         func_0211f394();
     }
     RefreshKartMenuParamElements();

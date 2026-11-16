@@ -7,16 +7,16 @@
 #include "registers.h"
 
 static inline u32 func_020399a8_inline(void) {
-    return gVramWvrStatus.mUnk_00 == 2;
+    return gVramWvrStatus.field0 == 2;
 }
 
 void vram_initializeWvrStatus(void) {
-    gVramWvrStatus.mUnk_00 = 1;
+    gVramWvrStatus.field0 = 1;
     gVramWvrStatus.mCallback = NULL;
 }
 
 void vram_clearDisableAll(void) {
-    switch (gVramWvrStatus.mUnk_00) {
+    switch (gVramWvrStatus.field0) {
         case 0:
             GX_SetBankForLCDC(0x1f7);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0x60000);
@@ -34,7 +34,7 @@ void vram_clearDisableAll(void) {
 }
 
 void vram_setBankForARM7(u32 bank) {
-    switch (gVramWvrStatus.mUnk_00) {
+    switch (gVramWvrStatus.field0) {
         case 0:
         case 2:
             break;
@@ -58,7 +58,7 @@ void vram_disableAll(void) {
     GX_DisableBankForSubBGExtPltt();
     GX_DisableBankForSubOBJExtPltt();
     GX_DisableBankForLCDC();
-    switch (gVramWvrStatus.mUnk_00) {
+    switch (gVramWvrStatus.field0) {
         case 0:
         case 2:
             break;
@@ -74,7 +74,7 @@ void wvrStartupCallback(u32 state, s32 b) {
     if (b != 0) {
         OS_Terminate();
     }
-    gVramWvrStatus.mUnk_00 = state;
+    gVramWvrStatus.field0 = state;
     if (gVramWvrStatus.mCallback == NULL) {
         return;
     }
@@ -89,8 +89,8 @@ void wvrStartupCallback(u32 state, s32 b) {
 }
 
 void vram_startUpWifiVram(void) {
-    if (gVramWvrStatus.mUnk_00 != 0 && gVramWvrStatus.mUnk_00 != 3) {
-        gVramWvrStatus.mUnk_00 = 2;
+    if (gVramWvrStatus.field0 != 0 && gVramWvrStatus.field0 != 3) {
+        gVramWvrStatus.field0 = 2;
         GX_SetBankForLCDC(8);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
@@ -103,8 +103,8 @@ void vram_startUpWifiVram(void) {
 }
 
 void vram_terminateWifiVram(void) {
-    if (gVramWvrStatus.mUnk_00 != 1 && gVramWvrStatus.mUnk_00 != 3) {
-        gVramWvrStatus.mUnk_00 = 2;
+    if (gVramWvrStatus.field0 != 1 && gVramWvrStatus.field0 != 3) {
+        gVramWvrStatus.field0 = 2;
         if (WVR_TerminateAsync(wvrStartupCallback, 1) != 1) {
             OS_Terminate();
         }
@@ -156,12 +156,12 @@ void vec_crossProduct(const Vec3 *a, const Vec3 *b, Vec3 *axb) {
 }
 
 void func_02039774(void) {
-    data_02175604.mUnk_08 = 0;
-    data_02175604.mUnk_0a = 0;
-    data_02175604.mUnk_0c = 0;
-    data_02175604.mUnk_0e = 3;
-    data_02175604.mUnk_00 = 0;
-    data_02175604.mUnk_02 = 0;
-    data_02175604.mUnk_04 = 0;
-    data_02175604.mUnk_06 = 3;
+    data_02175604.field8 = 0;
+    data_02175604.fieldA = 0;
+    data_02175604.fieldC = 0;
+    data_02175604.fieldE = 3;
+    data_02175604.field0 = 0;
+    data_02175604.field2 = 0;
+    data_02175604.field4 = 0;
+    data_02175604.field6 = 3;
 }

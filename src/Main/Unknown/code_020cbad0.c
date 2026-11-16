@@ -80,13 +80,13 @@ void menu_create(void) {
     func_020cc1ac(displaySettings, 2, 0, 0, 0, 0xf, 0);
     dc_setDisplayConfig(displaySettings);
     gMenuSceneState->mFramesSinceScreenSwitch = 0;
-    gMenuSceneState->mUnk_004 = 1;
+    gMenuSceneState->field4 = 1;
     gMenuSceneState->mPreviousScreenNumber = 0x1f;
     gMenuSceneState->mScreenNumber = 0x1f;
     gMenuSceneState->mNextScreenNumber = 0x1f;
     gMenuSceneState->mScreenInitPending = TRUE;
-    gMenuSceneState->mUnk_958 = TRUE;
-    gMenuSceneState->mUnk_95c = TRUE;
+    gMenuSceneState->field958 = TRUE;
+    gMenuSceneState->field95C = TRUE;
     menu_setupStates();
     oam_clearResetBuffers(gMenuSceneState->mMainOam, gMenuSceneState->mSubOam);
     arc_setHeapGroupId(9);
@@ -110,7 +110,7 @@ void menu_create(void) {
         g2du_unpackCellBankData(&gMenuSceneState->mSinglePlaySelectModeMNcer,
                      m2d_getSceneArcFile("common/single_play_select_mode_m.nce.ncer"));
         gMenuSceneState->mSinglePlaySelectModeMBncl = m2d_getSceneArcFile("common/single_play_select_mode_m.bncl");
-        gMenuSceneState->mUnk_944 = 0;
+        gMenuSceneState->field944 = 0;
         g2du_unpackPaletteData(&gMenuSceneState->mSinglePlaySelectModeSONclr,
                      m2d_getSceneArcFile("common/single_play_select_mode_s_o.NCLR"));
         g2du_unpackCharacterData(&gMenuSceneState->mSinglePlaySelectModeSNcgr,
@@ -138,7 +138,7 @@ void menu_create(void) {
     }
     LoadPlayerEntryListFiles();
     InitPlayerEntryList(menu_process_getCurrentHeapHandle(), gMenuSceneState->mMainOam);
-    gMenuSceneState->mUnk_954 = func_0203bedc(menu_process_getCurrentHeapHandle());
+    gMenuSceneState->field954 = func_0203bedc(menu_process_getCurrentHeapHandle());
     menu_GX_SetOBJVRamModeChar(0x10);
     menu_GXS_SetOBJVRamModeChar(0x10);
     menu_G2_SetBlendAlpha(0, 0x3f, 6, 10);
@@ -160,16 +160,16 @@ void menu_create(void) {
     }
     LoadSelectGameData();
     LoadSelectRaceRuleAndWaitData();
-    config.mUnk_00 = menu_MB_IsMultiBootChild_22();
-    config.mUnk_04 = m2d_getFont(1);
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 1;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 1;
-    config.mUnk_18 = m2d_getFont(2);
-    config.mUnk_1c = 1;
-    config.mUnk_20 = 1;
-    config.mUnk_24 = 0;
+    config.field0 = menu_MB_IsMultiBootChild_22();
+    config.field4 = m2d_getFont(1);
+    config.field8 = 0;
+    config.fieldC = 1;
+    config.field10 = 0;
+    config.field14 = 1;
+    config.field18 = m2d_getFont(2);
+    config.field1C = 1;
+    config.field20 = 1;
+    config.field24 = 0;
     gmenu_unpackData();
     gmenu_init(menu_process_getCurrentHeapHandle(), &config);
     if (menu_sysdat_getOverlayRelatedNum() == 2) {
@@ -258,8 +258,8 @@ void menu_create(void) {
             gMenuSceneState->mSinglePlaySelectModeIndex = 4;
             break;
     }
-    gMenuSceneState->mUnk_934 = FALSE;
-    gMenuSceneState->mUnk_938 = 0;
+    gMenuSceneState->field934 = FALSE;
+    gMenuSceneState->field938 = 0;
 }
 #pragma thumb off
 

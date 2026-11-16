@@ -15,45 +15,45 @@
 
 void s2d_init(void *heap) {
     sStatic2dData = heap_alloc(heap, 0x2c);
-    sStatic2dData->mUnk_00 = arc_get2dArcFile("search_icon_00.bncl");
-    sStatic2dData->mUnk_04 = arc_get2dArcFile("search_icon_layout_00.bncl");
-    g2du_unpackCharacterData(&sStatic2dData->mUnk_08, arc_get2dArcFile("search_icon_00.nce.ncgr"));
-    g2du_unpackCellBankData(&sStatic2dData->mUnk_0c, arc_get2dArcFile("search_icon_00.nce.ncer"));
-    g2du_unpackPaletteData(&sStatic2dData->mUnk_10, arc_get2dArcFile("search_icon_00_o.nclr"));
+    sStatic2dData->field0 = arc_get2dArcFile("search_icon_00.bncl");
+    sStatic2dData->field4 = arc_get2dArcFile("search_icon_layout_00.bncl");
+    g2du_unpackCharacterData(&sStatic2dData->field8, arc_get2dArcFile("search_icon_00.nce.ncgr"));
+    g2du_unpackCellBankData(&sStatic2dData->fieldC, arc_get2dArcFile("search_icon_00.nce.ncer"));
+    g2du_unpackPaletteData(&sStatic2dData->field10, arc_get2dArcFile("search_icon_00_o.nclr"));
     switch (gSystemData->mLanguageIndex) {
         default:
-            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_us.NFTR"));
+            m2d_initFont(&sStatic2dData->field14, arc_get2dArcFile("MBChild_us.NFTR"));
             break;
         case 2:
-            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_fr.NFTR"));
+            m2d_initFont(&sStatic2dData->field14, arc_get2dArcFile("MBChild_fr.NFTR"));
             break;
         case 3:
-            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_ge.NFTR"));
+            m2d_initFont(&sStatic2dData->field14, arc_get2dArcFile("MBChild_ge.NFTR"));
             break;
         case 4:
-            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_it.NFTR"));
+            m2d_initFont(&sStatic2dData->field14, arc_get2dArcFile("MBChild_it.NFTR"));
             break;
         case 5:
-            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_es.NFTR"));
+            m2d_initFont(&sStatic2dData->field14, arc_get2dArcFile("MBChild_es.NFTR"));
             break;
     }
     switch (gSystemData->mLanguageIndex) {
         default:
-            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_us.bmg");
+            sStatic2dData->field20 = arc_get2dArcFile("MBChild_us.bmg");
             break;
         case 2:
-            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_fr.bmg");
+            sStatic2dData->field20 = arc_get2dArcFile("MBChild_fr.bmg");
             break;
         case 3:
-            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_ge.bmg");
+            sStatic2dData->field20 = arc_get2dArcFile("MBChild_ge.bmg");
             break;
         case 4:
-            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_it.bmg");
+            sStatic2dData->field20 = arc_get2dArcFile("MBChild_it.bmg");
             break;
         case 5:
-            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_es.bmg");
+            sStatic2dData->field20 = arc_get2dArcFile("MBChild_es.bmg");
             break;
     }
-    g2du_unpackCharacterDataBG(&sStatic2dData->mUnk_24, arc_get2dArcFile("multi_download_00_b.NCGR"));
-    g2du_unpackPaletteData(&sStatic2dData->mUnk_28, arc_get2dArcFile("multi_download_00_b.NCLR"));
+    g2du_unpackCharacterDataBG(&sStatic2dData->field24, arc_get2dArcFile("multi_download_00_b.NCGR"));
+    g2du_unpackPaletteData(&sStatic2dData->field28, arc_get2dArcFile("multi_download_00_b.NCLR"));
 }

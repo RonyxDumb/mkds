@@ -20,18 +20,18 @@
 
 void GpiReleaseProfile(GpiProfile *a) {
     if (a->mBuddyStatus != NULL) {
-        func_ov000_021a3668(a->mBuddyStatus->mUnk_08);
-        a->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(a->mBuddyStatus->mUnk_0c);
-        a->mBuddyStatus->mUnk_0c = NULL;
+        func_ov000_021a3668(a->mBuddyStatus->field8);
+        a->mBuddyStatus->field8 = NULL;
+        func_ov000_021a3668(a->mBuddyStatus->fieldC);
+        a->mBuddyStatus->fieldC = NULL;
         func_ov000_021a3668(a->mBuddyStatus);
         a->mBuddyStatus = NULL;
     }
     func_ov000_0219210c((Unk021919ac_node *) a);
-    func_ov000_021a3668(a->mUnk_10);
-    a->mUnk_10 = NULL;
-    func_ov000_021a3668(a->mUnk_18);
-    a->mUnk_18 = NULL;
+    func_ov000_021a3668(a->field10);
+    a->field10 = NULL;
+    func_ov000_021a3668(a->field18);
+    a->field18 = NULL;
 }
 
 BOOL GpiInitProfileList(GpConnection *a) {
@@ -39,7 +39,7 @@ BOOL GpiInitProfileList(GpConnection *a) {
 
     r = a->mGpiConnection;
     r->mBuddyCount = 0;
-    r->mProfileList.mUnk_04 = 0;
+    r->mProfileList.field4 = 0;
     r->mProfileList.mTable = func_ov000_0218e0e0(0x1c, 4, GpiHashProfile, GpiCompareProfiles, GpiReleaseProfile);
     if (r->mProfileList.mTable != NULL) {
         return TRUE;
@@ -68,7 +68,7 @@ s32 func_ov000_02194a0c(GpConnection *a, GpiOperation *b, const char *c) {
         return 3;
     }
     v = StrtolBase10(d);
-    p = b->mUnk_0c;
+    p = b->fieldC;
     if (p.mCallback != NULL) {
         m = func_ov000_021a3690(8);
         if (m == NULL) {
@@ -105,13 +105,13 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *a, s32 id) {
 
         s.mProfileId = id;
         s.mUserId = 0;
-        s.mUnk_0c = 0;
-        s.mUnk_10 = NULL;
-        s.mUnk_18 = NULL;
-        s.mUnk_14 = 0;
+        s.fieldC = 0;
+        s.field10 = NULL;
+        s.field18 = NULL;
+        s.field14 = 0;
         HashtableSet(c->mTable, &s);
     }
-    c->mUnk_04 = c->mUnk_04 + 1;
+    c->field4 = c->field4 + 1;
     if (GpiFindProfile(a, id, &e) != 0) {
         return e;
     }

@@ -12,11 +12,11 @@ u32 list_append(void *list, void *object) {
     Unk0210bc54 *link;
 
     link = OFFSET_PTR(Unk0210bc54, object, ((NNSFndList *) list)->mLinkOffset);
-    if (link->mUnk_08 != 0) {
+    if (link->field8 != 0) {
         willAppend = FALSE;
     } else {
         willAppend = TRUE;
-        link->mUnk_08 = list;
+        link->field8 = list;
     }
     if (willAppend != FALSE) {
         NNS_FndAppendListObject(list, object);
@@ -31,8 +31,8 @@ void list_remove(NNSFndList *list, void *object) {
 
     NNS_FndRemoveListObject(list, object);
     link = OFFSET_PTR(Unk0210bc54, object, list->mLinkOffset);
-    if (link->mUnk_08 != 0) {
-        link->mUnk_08 = 0;
+    if (link->field8 != 0) {
+        link->field8 = 0;
     }
 }
 
@@ -66,7 +66,7 @@ u32 csfx_getFloorSfx(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     s32 idArray;
     s32 v;
 
-    idArray = ((Unk0217cd30 *) csfx_sSfxOverrides)[surfaceKind].mUnk_00[surfaceVariant];
+    idArray = ((Unk0217cd30 *) csfx_sSfxOverrides)[surfaceKind].field0[surfaceVariant];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;
@@ -85,7 +85,7 @@ u32 csfx_getWallSfx(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     s32 idArray;
     s32 v;
 
-    idArray = ((Unk0217cd30 *) csfx_sSfxOverrides)[rowIndex].mUnk_00[columnIndex];
+    idArray = ((Unk0217cd30 *) csfx_sSfxOverrides)[rowIndex].field0[columnIndex];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;

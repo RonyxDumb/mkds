@@ -6,9 +6,9 @@ u32 func_ov001_02188260(Unk02188950 *mapObject) {
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         mrcnt_notifyBossDamage();
     }
-    mapObject->mUnk_0ac++;
-    if (mapObject->mUnk_0ac >= mapObject->mPrm->mUnk_000) {
-        mapObject->mUnk_0ac = mapObject->mPrm->mUnk_000;
+    mapObject->fieldAC++;
+    if (mapObject->fieldAC >= mapObject->mPrm->field0) {
+        mapObject->fieldAC = mapObject->mPrm->field0;
         if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             mgcnt_tryFinish();
         }

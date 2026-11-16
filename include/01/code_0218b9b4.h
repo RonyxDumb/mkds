@@ -10,11 +10,11 @@ typedef struct Unk021a7b64 {
     /* 04 */ s32 mObjectSize;
     /* 08 */ void (*mInitObject)(Unk02188950 *);
     /* 0c */ void (*mCreateKindData)(void);
-    /* 10 */ void *(*mUnk_10)(void);
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ void *(*mUnk_1c)(void);
-    /* 20 */ s32 mUnk_20[5];
+    /* 10 */ void *(*field10)(void);
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ void *(*field1C)(void);
+    /* 20 */ s32 field20[5];
 } Unk021a7b64;
 
 #include "01/code_02187000.h"

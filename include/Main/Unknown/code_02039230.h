@@ -2,15 +2,15 @@
 
 #include "types.h"
 
-// Byte stream at gKeyStream: mUnk_00 to mUnk_04 bound the buffer, mUnk_08 is the position, mUnk_0c the highest
-// position written, mUnk_14 the element size, mUnk_18 the mask of bits ReadKeyBitsFromStream and WriteKeyBitsToStream
+// Byte stream at gKeyStream: field0 to field4 bound the buffer, field8 is the position, fieldC the highest
+// position written, field14 the element size, field18 the mask of bits ReadKeyBitsFromStream and WriteKeyBitsToStream
 // move.
 typedef struct KeyStream {
     /* 00 */ u8 *mStart;
     /* 04 */ u8 *mEnd;
     /* 08 */ u8 *mPosition;
     /* 0c */ u8 *mHighestWritten;
-    /* 10 */ u32 mUnk_10;
+    /* 10 */ u32 field10;
     /* 14 */ u32 mElementSize;
     /* 18 */ u16 mKeyMask;
 } KeyStream;

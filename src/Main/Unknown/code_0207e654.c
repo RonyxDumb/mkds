@@ -37,7 +37,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 static inline BOOL func_0207f600_inline(s32 kartIndex) {
-    return (driver_getById(kartIndex)->mUnk_7c & 0x402020) == 0;
+    return (driver_getById(kartIndex)->field7C & 0x402020) == 0;
 }
 
 static inline s32 func_0207f554_inline2(u32 entryIndex) {
@@ -76,18 +76,18 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
         nextLinkIndex = pointLinkCursor->mKartIndex;
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
-    pointLinkCursor->mLink = pointLinkCursor->mLink->mUnk_00[nextLinkIndex];
-    animation = data_021557dc[pointLinkCursor->mLink->mUnk_20->mUnk_04];
-    if (animation != kart->mKartModelsEntry->mCharacterAnimation->mUnk_1a) {
+    pointLinkCursor->mLink = pointLinkCursor->mLink->field0[nextLinkIndex];
+    animation = data_021557dc[pointLinkCursor->mLink->field20->field4];
+    if (animation != kart->mKartModelsEntry->mCharacterAnimation->field1A) {
         driver_2068A64(kart, animation, 1);
     }
-    VEC_Subtract(pointLinkCursor->mLink->mUnk_18, pointLinkCursor->mPreviousLink->mUnk_18,
+    VEC_Subtract(pointLinkCursor->mLink->field18, pointLinkCursor->mPreviousLink->field18,
                  &pointLinkCursor->mDirection);
     vec_normalize(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
 s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor) {
-    s32 fixedValue = pointLinkCursor->mLink->mUnk_20->mUnk_02 << 12;
+    s32 fixedValue = pointLinkCursor->mLink->field20->field2 << 12;
 
     return ((s64) fixedValue * 0x29 + 0x800) >> 12;
 }
@@ -97,30 +97,30 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     u16 nextLinkIndex;
     s32 animation;
 
-    if (pointLinkCursor->mLink->mNextCount > 1 && pointLinkCursor->mUnk_1e < 2) {
-        if (pointLinkCursor->mUnk_1e == 0) {
+    if (pointLinkCursor->mLink->mNextCount > 1 && pointLinkCursor->field1E < 2) {
+        if (pointLinkCursor->field1E == 0) {
             nextLinkIndex = pointLinkCursor->mKartIndex / 3;
         } else {
             nextLinkIndex = pointLinkCursor->mKartIndex % 3;
         }
-        pointLinkCursor->mUnk_1e++;
+        pointLinkCursor->field1E++;
     } else {
         nextLinkIndex = 0;
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
-    pointLinkCursor->mLink = pointLinkCursor->mLink->mUnk_00[nextLinkIndex];
-    animation = data_021557dc[pointLinkCursor->mLink->mUnk_20->mUnk_04];
-    if (animation != kart->mKartModelsEntry->mCharacterAnimation->mUnk_1a) {
+    pointLinkCursor->mLink = pointLinkCursor->mLink->field0[nextLinkIndex];
+    animation = data_021557dc[pointLinkCursor->mLink->field20->field4];
+    if (animation != kart->mKartModelsEntry->mCharacterAnimation->field1A) {
         driver_2068A64(kart, animation, 1);
     }
     if (pointLinkCursor->mKartIndex != 0) {
-        if (pointLinkCursor->mLink->mUnk_20->mUnk_06 == 0) {
-            kart->mUnk_7c &= ~0x40;
+        if (pointLinkCursor->mLink->field20->field6 == 0) {
+            kart->field7C &= ~0x40;
         } else {
-            kart->mUnk_7c |= 0x40;
+            kart->field7C |= 0x40;
         }
     }
-    VEC_Subtract(pointLinkCursor->mLink->mUnk_18, pointLinkCursor->mPreviousLink->mUnk_18,
+    VEC_Subtract(pointLinkCursor->mLink->field18, pointLinkCursor->mPreviousLink->field18,
                  &pointLinkCursor->mDirection);
     vec_normalize(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
@@ -163,55 +163,55 @@ void SetupRaceKartAi(KartAi *kartAi, Kart *kart, s32 a) {
 
     kartAi->mKart = kart;
     kartAi->mIndex = kart->mIndex;
-    kartAi->mUnk_06 = kartAi->mIndex % 4;
+    kartAi->field6 = kartAi->mIndex % 4;
     if (a != 0) {
         v = 0;
     } else {
         v = GetKartAiTableIndex(kartAi->mIndex);
     }
-    kartAi->mUnk_88 = data_0217ae58[v];
+    kartAi->field88 = data_0217ae58[v];
     kartAi->mDriftChargeRandomLimit = gKartAiDriftChargeRandomLimits[v];
     kartAi->mMinVelocityLength = ((s64) kartAi->mKart->mPhysicalParam->mBaseSpeedLimit * 0x99a + 0x800) >> 12;
-    epoi_2080D34(&kartAi->mUnk_08, kartAi->mIndex);
+    epoi_2080D34(&kartAi->field8, kartAi->mIndex);
     ResetKartAi(kartAi, 0);
     kartAiRandom = GetKartAiRandom();
     kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
     v = (s16) (u16) (kartAiRandom->mValue >> 52);
-    kartAi->mUnk_cc = v > 0x800 ? 1 : -1;
+    kartAi->fieldCC = v > 0x800 ? 1 : -1;
 }
 
 void ResetKartAi(KartAi *kartAi, s32 a) {
-    kartAi->mLinkPosWithSideOffset = *kartAi->mUnk_08.mLinkCursor.mLink->mUnk_18;
+    kartAi->mLinkPosWithSideOffset = *kartAi->field8.mLinkCursor.mLink->field18;
     kartAi->mSideOffset = data_021557d0;
-    kartAi->mUnk_6c = 0;
-    kartAi->mUnk_6e = 0;
+    kartAi->field6C = 0;
+    kartAi->field6E = 0;
     kartAi->mTurnAngleDegrees = 0;
     kartAi->mSideOffsetRatio = 0;
-    kartAi->mUnk_78 = 0;
-    kartAi->mUnk_7a = 0;
-    kartAi->mUnk_80 = 0;
-    kartAi->mUnk_7c = 0;
-    kartAi->mUnk_84 = a;
-    kartAi->mUnk_a8 = 0;
-    kartAi->mUnk_ac = 0;
+    kartAi->field78 = 0;
+    kartAi->field7A = 0;
+    kartAi->field80 = 0;
+    kartAi->field7C = 0;
+    kartAi->field84 = a;
+    kartAi->fieldA8 = 0;
+    kartAi->fieldAC = 0;
     kartAi->mTargetKart = NULL;
     kartAi->mTargetAhead = 0;
     kartAi->mTargetDistanceSquared = 0;
     kartAi->mTargetForwardDot = -0x1000;
     kartAi->mBalloonCountGoal = 0;
-    kartAi->mUnk_c2 = 0;
-    kartAi->mUnk_c4 = FALSE;
-    kartAi->mUnk_90 = 0;
+    kartAi->fieldC2 = 0;
+    kartAi->fieldC4 = FALSE;
+    kartAi->field90 = 0;
     kartAi->mTurnSide = 0;
-    kartAi->mUnk_98 = 0;
-    kartAi->mUnk_a0 = FALSE;
+    kartAi->field98 = 0;
+    kartAi->fieldA0 = FALSE;
     SetKartAiSideOffsetFromKart(kartAi);
 }
 
 void ResetRaceKartAiAtPointLink(KartAi *kartAi) {
     PointLink *pointLink;
 
-    epoi_2080CD0(&kartAi->mUnk_08.mLinkCursor, pointLink);
+    epoi_2080CD0(&kartAi->field8.mLinkCursor, pointLink);
     ResetKartAi(kartAi, 1);
 }
 
@@ -224,12 +224,12 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
     PointLink *requestedLink;
 
     func_0207e668(kartAi);
-    linkCursor = &kartAi->mUnk_08.mLinkCursor;
+    linkCursor = &kartAi->field8.mLinkCursor;
     kart = kartAi->mKart;
-    if (kartAi->mUnk_90 == 2) {
+    if (kartAi->field90 == 2) {
         kartForward = &kart->mTurnedForward;
     } else {
-        kartForward = &kart->mUnk_138;
+        kartForward = &kart->field138;
     }
     requestedLink = linkCursor->mRequestedLink;
     driver_getPosition(&kartPos, kartAi->mIndex);
@@ -261,13 +261,13 @@ void func_0207f6f0(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart, PointLink
         return;
     }
     if (race_getFrameCounterModulo8() == kartAi->mIndex) {
-        if (kartAi->mKart->mUnk_44 & 0x2000) {
+        if (kartAi->mKart->field44 & 0x2000) {
             SetKartAiSideOffsetFromKart(kartAi);
         }
-        planeNormal = &kart->mUnk_12c;
+        planeNormal = &kart->field12C;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &toLinkPos);
         normalComponent = VEC_DotProduct(planeNormal, &toLinkPos);
-        toLinkPos.x = toLinkPos.x - (s32) (((s64) kart->mUnk_12c.x * normalComponent) >> 12);
+        toLinkPos.x = toLinkPos.x - (s32) (((s64) kart->field12C.x * normalComponent) >> 12);
         toLinkPos.y = toLinkPos.y - (s32) (((s64) planeNormal->y * normalComponent) >> 12);
         toLinkPos.z = toLinkPos.z - (s32) (((s64) planeNormal->z * normalComponent) >> 12);
         vec_crossProduct(kartForward, &toLinkPos, &crossProduct);
@@ -280,7 +280,7 @@ void func_0207f6f0(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart, PointLink
         kartAi->mTurnAngleDegrees = math_abs(angleDegrees);
     }
     isLinkReached = IsPastPointLink((PointLinkCursor *) linkCursor, kartPos);
-    if (isLinkReached == 0 && (kart->mUnk_48 & 0x40000000) == 0) {
+    if (isLinkReached == 0 && (kart->field48 & 0x40000000) == 0) {
         isLinkReached = IsWithinPointLinkDistance((PointLinkCursor *) linkCursor, kartPos);
     }
     if (isLinkReached == 0) {
@@ -290,16 +290,16 @@ void func_0207f6f0(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart, PointLink
     gAdvanceKartAiPointLinkCursor((PointLinkCursor *) linkCursor);
     gSetKartAiLinkPos(kartAi, linkCursor, kart);
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->field18 = FALSE;
 }
 
 void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart) {
-    kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mUnk_18;
-    if (kart->mUnk_48 & 0x40000000) {
+    kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->field18;
+    if (kart->field48 & 0x40000000) {
         return;
     }
     if (race_getFrameCounter() > 0xb4) {
-        if (kartAi->mUnk_90 == 2) {
+        if (kartAi->field90 == 2) {
             kartAi->mSideOffset = data_021557d0;
             kartAi->mSideOffsetRatio = 0;
         } else {
@@ -310,13 +310,13 @@ void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, LinkCursor *linkCursor, Ka
 }
 
 void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart) {
-    kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mUnk_18;
+    kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->field18;
     kartAi->mSideOffset = data_021557d0;
     kartAi->mSideOffsetRatio = 0;
 }
 
 BOOL func_0207f600(s32 kartIndex) {
-    return (driver_getById(kartIndex)->mUnk_7c & 0x402020) == 0;
+    return (driver_getById(kartIndex)->field7C & 0x402020) == 0;
 }
 
 s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
@@ -334,7 +334,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
             }
         }
         if (isHumanGhostOrPeer != FALSE || func_02085824(kartIndex) <= 0) {
-            if ((driver_getById(targetIndex)->mUnk_7c & 0x402020) == 0) {
+            if ((driver_getById(targetIndex)->field7C & 0x402020) == 0) {
                 result = TRUE;
             }
         }
@@ -398,25 +398,25 @@ void enmy_updateDrift2(KartAi *kartAi) {
     Vec3 g;
     Vec3 unitY;
     Vec3 h;
-    s32 linkValue = epoi_getDriftSetting(&kartAi->mUnk_08.mLinkCursor);
+    s32 linkValue = epoi_getDriftSetting(&kartAi->field8.mLinkCursor);
     BOOL conditionsMet;
     s32 sideRange;
     s32 sidewaysDistance;
     RandomState64 *kartAiRandom;
     s32 randomValue;
 
-    if (kartAi->mUnk_90 == 0 && linkValue >= 1 && linkValue <= 4) {
+    if (kartAi->field90 == 0 && linkValue >= 1 && linkValue <= 4) {
         conditionsMet = FALSE;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
-        if (randomValue <= kartAi->mUnk_88 && kartAi->mKart->mVelocityLength >= kartAi->mMinVelocityLength) {
-            linkPos = *kartAi->mUnk_08.mLinkCursor.mLink->mUnk_18;
+        if (randomValue <= kartAi->field88 && kartAi->mKart->mVelocityLength >= kartAi->mMinVelocityLength) {
+            linkPos = *kartAi->field8.mLinkCursor.mLink->field18;
             unitY = data_021557c4;
-            vec_crossProduct(&kartAi->mUnk_08.mLinkCursor.mDirection, &unitY, &sideAxis);
+            vec_crossProduct(&kartAi->field8.mLinkCursor.mDirection, &unitY, &sideAxis);
             VEC_Subtract(&kartAi->mKart->mPos, &linkPos, &kartOffset);
             sidewaysDistance = vec_dotProduct(&kartOffset, &sideAxis);
-            sideRange = kartAi->mUnk_08.mLinkCursor.mLink->mUnk_1c;
+            sideRange = kartAi->field8.mLinkCursor.mLink->field1C;
             if (math_abs(sidewaysDistance) < sideRange) {
                 conditionsMet = TRUE;
             }
@@ -424,44 +424,44 @@ void enmy_updateDrift2(KartAi *kartAi) {
         if (conditionsMet != FALSE) {
             switch (linkValue) {
                 case 1:
-                    kartAi->mUnk_90 = 1;
+                    kartAi->field90 = 1;
                     kartAi->mTurnSide = 1;
-                    kartAi->mUnk_98 = 0;
-                    kartAi->mUnk_a0 = TRUE;
+                    kartAi->field98 = 0;
+                    kartAi->fieldA0 = TRUE;
                     break;
                 case 2:
-                    kartAi->mUnk_90 = 1;
+                    kartAi->field90 = 1;
                     kartAi->mTurnSide = 1;
-                    kartAi->mUnk_98 = 0;
-                    kartAi->mUnk_a0 = FALSE;
+                    kartAi->field98 = 0;
+                    kartAi->fieldA0 = FALSE;
                     break;
                 case 3:
-                    kartAi->mUnk_90 = 1;
+                    kartAi->field90 = 1;
                     kartAi->mTurnSide = 2;
-                    kartAi->mUnk_98 = 0;
-                    kartAi->mUnk_a0 = TRUE;
+                    kartAi->field98 = 0;
+                    kartAi->fieldA0 = TRUE;
                     break;
                 case 4:
-                    kartAi->mUnk_90 = 1;
+                    kartAi->field90 = 1;
                     kartAi->mTurnSide = 2;
-                    kartAi->mUnk_98 = 0;
-                    kartAi->mUnk_a0 = FALSE;
+                    kartAi->field98 = 0;
+                    kartAi->fieldA0 = FALSE;
                     break;
             }
         }
     }
-    if (kartAi->mUnk_90 != 2) {
+    if (kartAi->field90 != 2) {
         return;
     }
     if (linkValue != 5) {
         return;
     }
-    kartAi->mUnk_90 = 3;
-    e = *kartAi->mUnk_08.mLinkCursor.mLink->mUnk_18;
+    kartAi->field90 = 3;
+    e = *kartAi->field8.mLinkCursor.mLink->field18;
     h = data_021557c4;
-    vec_crossProduct(&kartAi->mUnk_08.mLinkCursor.mDirection, &h, &f);
+    vec_crossProduct(&kartAi->field8.mLinkCursor.mDirection, &h, &f);
     VEC_Subtract(&kartAi->mKart->mPos, &e, &g);
-    kartAi->mSideOffsetRatio = FX_Div(vec_dotProduct(&g, &f), kartAi->mUnk_08.mLinkCursor.mLink->mUnk_1c + 0x1000);
+    kartAi->mSideOffsetRatio = FX_Div(vec_dotProduct(&g, &f), kartAi->field8.mLinkCursor.mLink->field1C + 0x1000);
     if (math_abs(kartAi->mSideOffsetRatio) > 0x1000) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = 0x1000;
@@ -486,29 +486,29 @@ void enmy_updateDrift1(KartAi *kartAi) {
     s32 m;
     BOOL chargeRollPassed;
 
-    epoi_getDriftSetting(&kartAi->mUnk_08.mLinkCursor);
+    epoi_getDriftSetting(&kartAi->field8.mLinkCursor);
     kart = kartAi->mKart;
-    if (kartAi->mUnk_90 == 1) {
+    if (kartAi->field90 == 1) {
         input_pressVirtualPadKeys(kart->mEntryIndex, PAD_KEY_R);
-        kartAi->mUnk_90 = 2;
+        kartAi->field90 = 2;
     }
-    if (kartAi->mUnk_90 == 4) {
-        if (kart->mUnk_44 & 2) {
+    if (kartAi->field90 == 4) {
+        if (kart->field44 & 2) {
             if (kartAi->mTurnSide == 1) {
-                kart->mUnk_48 &= ~KART_48_TURN_RIGHT;
-                kart->mUnk_48 |= KART_48_TURN_LEFT;
+                kart->field48 &= ~KART_48_TURN_RIGHT;
+                kart->field48 |= KART_48_TURN_LEFT;
             } else if (kartAi->mTurnSide == 2) {
-                kart->mUnk_48 &= ~KART_48_TURN_LEFT;
-                kart->mUnk_48 |= KART_48_TURN_RIGHT;
+                kart->field48 &= ~KART_48_TURN_LEFT;
+                kart->field48 |= KART_48_TURN_RIGHT;
             }
         } else {
-            kartAi->mUnk_90 = 0;
+            kartAi->field90 = 0;
             kartAi->mTurnSide = 0;
         }
     }
-    if (kartAi->mUnk_90 == 3 && (kart->mUnk_44 & KART_44_ON_GROUND)) {
-        planeNormal = &kart->mUnk_12c;
-        kartForward = &kart->mUnk_138;
+    if (kartAi->field90 == 3 && (kart->field44 & KART_44_ON_GROUND)) {
+        planeNormal = &kart->field12C;
+        kartForward = &kart->field138;
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
         n = VEC_DotProduct(planeNormal, &flatOffsetToLink);
         flatOffsetToLink.x -= (s32) (((s64) planeNormal->x * n) >> 12);
@@ -524,23 +524,23 @@ void enmy_updateDrift1(KartAi *kartAi) {
             m = m * n;
         }
         kartAi->mTurnAngleDegrees = math_abs(m);
-        kartAi->mUnk_90 = 0;
+        kartAi->field90 = 0;
         kartAi->mTurnSide = 0;
-        kartAi->mUnk_98 = 0;
-        kartAi->mUnk_a0 = FALSE;
+        kartAi->field98 = 0;
+        kartAi->fieldA0 = FALSE;
         driver_endDrift(kart);
         if (math_abs(kartAi->mTurnAngleDegrees) <= 0x32000) {
             return;
         }
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &offsetToLink);
-        kartAi->mUnk_90 = 4;
+        kartAi->field90 = 4;
         q2 = kartAi->mKart;
         driver_getShadowYDirection(q2, &kartUp);
         n = VEC_DotProduct(&kartUp, &offsetToLink);
         offsetOnUpPlane.x = offsetToLink.x - (s32) (((s64) kartUp.x * n) >> 12);
         offsetOnUpPlane.y = offsetToLink.y - (s32) (((s64) kartUp.y * n) >> 12);
         offsetOnUpPlane.z = offsetToLink.z - (s32) (((s64) kartUp.z * n) >> 12);
-        vec_crossProduct(&q2->mUnk_138, &offsetOnUpPlane, &sideCross);
+        vec_crossProduct(&q2->field138, &offsetOnUpPlane, &sideCross);
         m = vec_dotProduct(&kartUp, &sideCross);
         if (m > 0) {
             m = 1;
@@ -552,25 +552,25 @@ void enmy_updateDrift1(KartAi *kartAi) {
         } else {
             kartAi->mTurnSide = 2;
         }
-        kart->mUnk_44 |= 0x20000000;
+        kart->field44 |= 0x20000000;
         return;
     }
-    if (kartAi->mUnk_90 != 2) {
+    if (kartAi->field90 != 2) {
         return;
     }
-    if (kart->mUnk_44 & 2) {
+    if (kart->field44 & 2) {
         if (kartAi->mTurnSide == 1) {
-            kart->mUnk_48 &= ~KART_48_TURN_RIGHT;
-            kart->mUnk_48 |= KART_48_TURN_LEFT;
+            kart->field48 &= ~KART_48_TURN_RIGHT;
+            kart->field48 |= KART_48_TURN_LEFT;
         } else if (kartAi->mTurnSide == 2) {
-            kart->mUnk_48 &= ~KART_48_TURN_LEFT;
-            kart->mUnk_48 |= KART_48_TURN_RIGHT;
+            kart->field48 &= ~KART_48_TURN_LEFT;
+            kart->field48 |= KART_48_TURN_RIGHT;
         }
     }
     input_pressVirtualPadKeys(kart->mEntryIndex, PAD_KEY_R);
-    kartAi->mUnk_98++;
+    kartAi->field98++;
     chargeRollPassed = FALSE;
-    if (kartAi->mUnk_98 == 0x28 && kartAi->mUnk_a0 != FALSE) {
+    if (kartAi->field98 == 0x28 && kartAi->fieldA0 != FALSE) {
         RandomState64 *r = GetKartAiRandom();
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
         if ((s16) (u16) (r->mValue >> 52) <= kartAi->mDriftChargeRandomLimit) {
@@ -582,16 +582,16 @@ void enmy_updateDrift1(KartAi *kartAi) {
     }
     kartAi->mSideOffset = data_021557d0;
     kartAi->mSideOffsetRatio = 0;
-    if (!(kart->mUnk_44 & 0xc00c0)) {
+    if (!(kart->field44 & 0xc00c0)) {
         n = kart->mVelocityLength;
         if (n > (s32) (((s64) kart->mPhysicalParam->mBaseSpeedLimit * 0x8cd) >> 12)) {
             return;
         }
     }
-    kartAi->mUnk_90 = 0;
+    kartAi->field90 = 0;
     kartAi->mTurnSide = 0;
-    kartAi->mUnk_98 = 0;
-    kartAi->mUnk_a0 = FALSE;
+    kartAi->field98 = 0;
+    kartAi->fieldA0 = FALSE;
 }
 
 s32 ComputeAngleToPositionDegrees(Vec3 *targetPos, Vec3 *originPos, Vec3 *planeNormal, Vec3 *forward) {
@@ -622,17 +622,17 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
     Vec3 unitY = data_021557c4;
     s32 sideDistance;
 
-    vec_crossProduct(&kartAi->mUnk_08.mLinkCursor.mDirection, &unitY, &kartAi->mSideOffset);
-    kartAi->mUnk_6c++;
-    if (kartAi->mUnk_6c > kartAi->mUnk_6e) {
+    vec_crossProduct(&kartAi->field8.mLinkCursor.mDirection, &unitY, &kartAi->mSideOffset);
+    kartAi->field6C++;
+    if (kartAi->field6C > kartAi->field6E) {
         RandomState64 *kartAiRandom;
         s32 randomValue;
         s32 newSideOffsetRatio;
 
-        kartAi->mUnk_6c = 0;
+        kartAi->field6C = 0;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
-        kartAi->mUnk_6e = 0;
+        kartAi->field6E = 0;
         kartAiRandom = GetKartAiRandom();
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
@@ -647,7 +647,7 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
         }
         kartAi->mSideOffsetRatio = newSideOffsetRatio;
     }
-    sideDistance = ((s64) kartAi->mSideOffsetRatio * kartAi->mUnk_08.mLinkCursor.mLink->mUnk_1c) >> 12;
+    sideDistance = ((s64) kartAi->mSideOffsetRatio * kartAi->field8.mLinkCursor.mLink->field1C) >> 12;
     kartAi->mSideOffset.x = ((s64) kartAi->mSideOffset.x * sideDistance) >> 12;
     kartAi->mSideOffset.y = ((s64) kartAi->mSideOffset.y * sideDistance) >> 12;
     kartAi->mSideOffset.z = ((s64) kartAi->mSideOffset.z * sideDistance) >> 12;
@@ -663,14 +663,14 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     Vec3 unitY;
     s32 s;
 
-    linkPos = *kartAi->mUnk_08.mLinkCursor.mLink->mUnk_18;
-    linkPosCopy = *kartAi->mUnk_08.mLinkCursor.mLink->mUnk_18;
+    linkPos = *kartAi->field8.mLinkCursor.mLink->field18;
+    linkPosCopy = *kartAi->field8.mLinkCursor.mLink->field18;
     unitY = data_021557c4;
     unitYCopy = *(Vec3 *) &data_021557c4;
-    vec_crossProduct(&kartAi->mUnk_08.mLinkCursor.mDirection, &unitYCopy, &sideAxis);
+    vec_crossProduct(&kartAi->field8.mLinkCursor.mDirection, &unitYCopy, &sideAxis);
     VEC_Subtract(&kartAi->mKart->mPos, &linkPosCopy, &kartOffset);
     s = vec_dotProduct(&kartOffset, &sideAxis);
-    kartAi->mSideOffsetRatio = FX_Div(s, kartAi->mUnk_08.mLinkCursor.mLink->mUnk_1c + 0x1000);
+    kartAi->mSideOffsetRatio = FX_Div(s, kartAi->field8.mLinkCursor.mLink->field1C + 0x1000);
     if (math_abs(kartAi->mSideOffsetRatio) > 0x1000) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = 0x1000;
@@ -678,8 +678,8 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
         kartAi->mSideOffsetRatio = -0x1000;
     }
     g = unitY;
-    vec_crossProduct(&kartAi->mUnk_08.mLinkCursor.mDirection, &g, &kartAi->mSideOffset);
-    s = ((s64) kartAi->mSideOffsetRatio * kartAi->mUnk_08.mLinkCursor.mLink->mUnk_1c) >> 12;
+    vec_crossProduct(&kartAi->field8.mLinkCursor.mDirection, &g, &kartAi->mSideOffset);
+    s = ((s64) kartAi->mSideOffsetRatio * kartAi->field8.mLinkCursor.mLink->field1C) >> 12;
     kartAi->mSideOffset.x = ((s64) kartAi->mSideOffset.x * s) >> 12;
     kartAi->mSideOffset.y = ((s64) kartAi->mSideOffset.y * s) >> 12;
     kartAi->mSideOffset.z = ((s64) kartAi->mSideOffset.z * s) >> 12;
@@ -691,62 +691,62 @@ void func_0207e668(KartAi *kartAi) {
     BOOL timerActive = FALSE;
     Kart *kart;
 
-    kartAi->mUnk_ac--;
-    if (kartAi->mUnk_ac <= 0) {
-        kartAi->mUnk_ac = 0;
+    kartAi->fieldAC--;
+    if (kartAi->fieldAC <= 0) {
+        kartAi->fieldAC = 0;
     } else {
         timerActive = TRUE;
     }
     kart = kartAi->mKart;
     {
         BOOL isTriggered;
-        if ((kart->mUnk_44 & 0xc0) && kart->mVelocityLength < 0x3000) {
+        if ((kart->field44 & 0xc0) && kart->mVelocityLength < 0x3000) {
             isTriggered = TRUE;
         } else {
             isTriggered = FALSE;
         }
         if (isTriggered != FALSE) {
-            kartAi->mUnk_ac = 10;
+            kartAi->fieldAC = 10;
             timerActive = TRUE;
         }
     }
     if (timerActive != FALSE) {
-        kartAi->mUnk_78++;
-        if (kartAi->mUnk_78 >= kartAi->mUnk_7a) {
-            kartAi->mUnk_78 = 0;
+        kartAi->field78++;
+        if (kartAi->field78 >= kartAi->field7A) {
+            kartAi->field78 = 0;
             limitReached = TRUE;
         }
-    } else if (kartAi->mUnk_ac <= 0) {
-        kartAi->mUnk_78 = 0;
-        kartAi->mUnk_a8 = 0;
-        kartAi->mUnk_7a = 0x14;
+    } else if (kartAi->fieldAC <= 0) {
+        kartAi->field78 = 0;
+        kartAi->fieldA8 = 0;
+        kartAi->field7A = 0x14;
     }
     if (limitReached == FALSE) {
         return;
     }
-    switch (kartAi->mUnk_a8) {
+    switch (kartAi->fieldA8) {
         case 0:
-            kartAi->mUnk_a8 = 1;
-            kartAi->mUnk_7a = 0x78;
+            kartAi->fieldA8 = 1;
+            kartAi->field7A = 0x78;
             break;
         case 1:
             if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-                kartAi->mUnk_a8 = 3;
+                kartAi->fieldA8 = 3;
                 enmy_recalculateRoute(kartAi->mKart->mAi);
-                kartAi->mUnk_7a = 0xb4;
+                kartAi->field7A = 0xb4;
             } else {
-                kartAi->mUnk_a8 = 2;
-                kartAi->mUnk_7a = 0xb4;
-                SetRequestedLinkToPreviousIfNone(&kartAi->mUnk_08.mLinkCursor);
+                kartAi->fieldA8 = 2;
+                kartAi->field7A = 0xb4;
+                SetRequestedLinkToPreviousIfNone(&kartAi->field8.mLinkCursor);
             }
             break;
         case 2:
-            kartAi->mUnk_a8 = 3;
+            kartAi->fieldA8 = 3;
             enmy_recalculateRoute(kartAi->mKart->mAi);
-            kartAi->mUnk_7a = 0xb4;
+            kartAi->field7A = 0xb4;
             break;
         case 3:
-            kartAi->mUnk_a8 = 4;
+            kartAi->fieldA8 = 4;
             func_02063a68(kartAi->mKart);
             break;
     }

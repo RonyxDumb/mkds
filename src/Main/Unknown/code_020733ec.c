@@ -130,32 +130,32 @@ void func_020733ec(Kart *kart) {
     u16 i;
 
     heap = proc_getHeap(proc_getCurrent());
-    kart->mUnk_230 = func_02071568;
+    kart->field230 = func_02071568;
     driver_initPhysicalParams(kart);
     driver_initField7C(kart);
-    if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+    if (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
     driver_initSound(kart);
-    func_020e0650((u32 *) &kart->mUnk_208);
+    func_020e0650((u32 *) &kart->field208);
     kart->mAi = heap_alloc(heap, 0x158);
     if (gMapData->mRaceRouteCount != 0 || gMapData->mBattleRouteCount != 0) {
         if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
-            kart->mUnk_7c |= 2;
-            if (kart->mUnk_7c & 2) {
+            kart->field7C |= 2;
+            if (kart->field7C & 2) {
                 for (i = 0; i < 12; i++) {
                     if (i != 0) {
-                        kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[i] << 2;
-                        if (kart->mPhysicalParam->mUnk_38[i] > kart->mPhysicalParam->mUnk_38[0]) {
-                            kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[0];
+                        kart->mPhysicalParam->field38[i] = kart->mPhysicalParam->field38[i] << 2;
+                        if (kart->mPhysicalParam->field38[i] > kart->mPhysicalParam->field38[0]) {
+                            kart->mPhysicalParam->field38[i] = kart->mPhysicalParam->field38[0];
                         }
                     }
                 }
             }
         }
     }
-    kart->mUnk_2ca = -1;
-    kart->mCollisionSlot = kart->mUnk_2ca;
+    kart->field2CA = -1;
+    kart->mCollisionSlot = kart->field2CA;
     if (gRaceMultiConfig->mMode == 5) {
         collisionPos = &kart->mPointAlongUp;
     } else {
@@ -164,19 +164,19 @@ void func_020733ec(Kart *kart) {
     if (kart->mCollisionSlot == -1) {
         kart->mCollisionSlot = col_createColEntry(collisionPos, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
     }
-    if (kart->mUnk_2ca == -1) {
-        kart->mUnk_2ca =
-            col_createColEntry(&kart->mUnk_1f0, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+    if (kart->field2CA == -1) {
+        kart->field2CA =
+            col_createColEntry(&kart->field1F0, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
-    kart->mUnk_44 |= KART_44_ON_GROUND;
-    kart->mUnk_4d0 = 0x64;
+    kart->field44 |= KART_44_ON_GROUND;
+    kart->field4D0 = 0x64;
     kart->mRadius = kart->mPhysicalParam->mRadius;
     driver_initField450(kart);
     if (gRaceMultiConfig->mMode == 5) {
-        kart->mUnk_514 = heap_alloc(heap, 0xb8);
+        kart->field514 = heap_alloc(heap, 0xb8);
         driver_initField514(kart, heap);
     }
     if (race_isAwardStaffRoll() != 0) {
-        kart->mUnk_44 |= 0x1000000;
+        kart->field44 |= 0x1000000;
     }
 }

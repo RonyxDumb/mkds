@@ -26,7 +26,7 @@ u32 MB_GetSegmentLength(FSFile *a) {
     headerPtr = NULL;
     size = 0;
     if (a != NULL) {
-        v4 = a->mUnk_2c - a->mProp.w.mUnk_04;
+        v4 = a->field2C - a->mProp.w.field4;
         if ((u32) FS_ReadFile(a, &header, 0x60) >= 0x60) {
             headerPtr = &header;
         }
@@ -35,7 +35,7 @@ u32 MB_GetSegmentLength(FSFile *a) {
         headerPtr = (Unk02008880 *) 0x027ffe00;
     }
     if (headerPtr != NULL) {
-        size = headerPtr->mUnk_2c + 0x268 + headerPtr->mUnk_3c;
+        size = headerPtr->field2C + 0x268 + headerPtr->field3C;
         if (size < 0x10000) {
             size = 0x10000;
         }

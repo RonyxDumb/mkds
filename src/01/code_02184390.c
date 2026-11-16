@@ -4,5 +4,5 @@
 
 void func_ov001_02184390(Unk02188950 *donketu) {
     SetKartCollisionCallback(donketu, func_ov001_02184874);
-    donketu->mUnk_2d8 = 0xb;
+    donketu->field2D8 = 0xb;
 }

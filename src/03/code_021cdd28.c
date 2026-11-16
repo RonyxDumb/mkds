@@ -19,18 +19,18 @@ void func_ov003_021ce0f0(u32 task) {
 }
 
 void func_ov003_021ce0c4(void) {
-    data_ov003_021da27c->mUnk_18 = 1;
+    data_ov003_021da27c->field18 = 1;
     data_ov003_021da27c->mTask = AddTask(0, func_ov003_021cdf98, NULL, 0x78);
 }
 
 void func_ov003_021ce024(u32 a) {
     s32 i;
     for (i = 0; i < 5; i += 2) {
-        CopyNceImageToOamEntries(1, data_ov003_021d6688[a][i], GetOamRangeEntry(data_ov003_021da27c->mUnk_00[i], 0));
-        func_ov003_021d1790(data_ov003_021da27c->mUnk_00[i], -1, 0);
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, data_ov003_021d66a8[i].mUnk_00,
-                            data_ov003_021d66a8[i].mUnk_02);
-        func_ov003_021d1890(data_ov003_021da27c->mUnk_00[i], -1, 0, data_ov003_021d6698[a][i]);
+        CopyNceImageToOamEntries(1, data_ov003_021d6688[a][i], GetOamRangeEntry(data_ov003_021da27c->field0[i], 0));
+        func_ov003_021d1790(data_ov003_021da27c->field0[i], -1, 0);
+        SetOamRangePosition(data_ov003_021da27c->field0[i], -1, data_ov003_021d66a8[i].field0,
+                            data_ov003_021d66a8[i].field2);
+        func_ov003_021d1890(data_ov003_021da27c->field0[i], -1, 0, data_ov003_021d6698[a][i]);
     }
     func_ov003_021cdcf0(a);
 }
@@ -46,17 +46,17 @@ void func_ov003_021cdf98(TaskEntry *a) {
     s32 i;
     s32 w;
     s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[4], 0, (u32 *) &w, &h);
+    GetOamRangeEntryPosition(data_ov003_021da27c->field0[4], 0, (u32 *) &w, &h);
     w -= 8;
-    if (w > data_ov003_021d66a8[3].mUnk_00) {
+    if (w > data_ov003_021d66a8[3].field0) {
         for (i = 4; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
         }
         return;
     }
-    w = data_ov003_021d66a8[3].mUnk_00;
+    w = data_ov003_021d66a8[3].field0;
     for (i = 4; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
     }
     SetTaskCallback(a, func_ov003_021cdf00);
 }
@@ -65,17 +65,17 @@ void func_ov003_021cdf00(TaskEntry *a) {
     s32 i;
     s32 w;
     s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[3], 0, (u32 *) &w, &h);
+    GetOamRangeEntryPosition(data_ov003_021da27c->field0[3], 0, (u32 *) &w, &h);
     w -= 8;
-    if (w > data_ov003_021d66a8[2].mUnk_00) {
+    if (w > data_ov003_021d66a8[2].field0) {
         for (i = 3; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
         }
         return;
     }
-    w = data_ov003_021d66a8[2].mUnk_00;
+    w = data_ov003_021d66a8[2].field0;
     for (i = 3; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
     }
     SetTaskCallback(a, func_ov003_021cde68);
 }
@@ -84,17 +84,17 @@ void func_ov003_021cde68(TaskEntry *a) {
     s32 i;
     s32 w;
     s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[2], 0, (u32 *) &w, &h);
+    GetOamRangeEntryPosition(data_ov003_021da27c->field0[2], 0, (u32 *) &w, &h);
     w -= 8;
-    if (w > data_ov003_021d66a8[1].mUnk_00) {
+    if (w > data_ov003_021d66a8[1].field0) {
         for (i = 2; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
         }
         return;
     }
-    w = data_ov003_021d66a8[1].mUnk_00;
+    w = data_ov003_021d66a8[1].field0;
     for (i = 2; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
     }
     SetTaskCallback(a, func_ov003_021cddd0);
 }
@@ -103,17 +103,17 @@ void func_ov003_021cddd0(TaskEntry *a) {
     s32 i;
     s32 w;
     s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[1], 0, (u32 *) &w, &h);
+    GetOamRangeEntryPosition(data_ov003_021da27c->field0[1], 0, (u32 *) &w, &h);
     w -= 8;
-    if (w > data_ov003_021d66a8[0].mUnk_00) {
+    if (w > data_ov003_021d66a8[0].field0) {
         for (i = 1; i < 5; i++) {
-            SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+            SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
         }
         return;
     }
-    w = data_ov003_021d66a8[0].mUnk_00;
+    w = data_ov003_021d66a8[0].field0;
     for (i = 1; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
     }
     SetTaskCallback(a, func_ov003_021cdd48);
 }
@@ -122,15 +122,15 @@ void func_ov003_021cdd48(TaskEntry *a) {
     s32 i;
     s32 w;
     s32 h;
-    GetOamRangeEntryPosition(data_ov003_021da27c->mUnk_00[0], 0, (u32 *) &w, &h);
+    GetOamRangeEntryPosition(data_ov003_021da27c->field0[0], 0, (u32 *) &w, &h);
     w -= 8;
     for (i = 0; i < 5; i++) {
-        SetOamRangePosition(data_ov003_021da27c->mUnk_00[i], -1, w, data_ov003_021d66a8[i].mUnk_02);
+        SetOamRangePosition(data_ov003_021da27c->field0[i], -1, w, data_ov003_021d66a8[i].field2);
     }
     if (w <= 0x1d6 && w >= 0x100) {
         RequestTaskRemoval(0, (u32) a);
         for (i = 0; i < 5; i++) {
-            DeleteOamRange(data_ov003_021da27c->mUnk_00[i]);
+            DeleteOamRange(data_ov003_021da27c->field0[i]);
         }
         FreeExpHeapBlockAndClearPointer(&data_ov003_021da27c);
     }
@@ -140,7 +140,7 @@ u32 func_ov003_021cdd28(void) {
     if (data_ov003_021da27c == NULL) {
         return 1;
     }
-    if (data_ov003_021da27c->mUnk_18 == 0) {
+    if (data_ov003_021da27c->field18 == 0) {
         return 1;
     }
     return 0;

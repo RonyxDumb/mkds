@@ -52,11 +52,11 @@ s32 GetKeyboardChosenKeyValue(void) {
 void ibal_init(IronBall *ironBall) {
     Vec3 scale = data_02167974;
 
-    mobj_setScale(&ironBall->mUnk_000, &scale);
-    ironBall->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
-    InitSoundSource(&ironBall->mUnk_000.mSound->mSoundSource, 10, &ironBall->mUnk_000.mPos);
-    ironBall->mUnk_000.mFarDistanceSquared = gSfxParams[10].mUnk_20;
-    ironBall->mUnk_128 = mobj_parseDecimalBits(ironBall->mUnk_000.mCourseMapRow->mUnk_34);
+    mobj_setScale(&ironBall->field0, &scale);
+    ironBall->field0.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
+    InitSoundSource(&ironBall->field0.mSound->mSoundSource, 10, &ironBall->field0.mPos);
+    ironBall->field0.mFarDistanceSquared = gSfxParams[10].field20;
+    ironBall->field128 = mobj_parseDecimalBits(ironBall->field0.mCourseMapRow->field34);
 }
 
 u32 ibal_onDriverCollide(IronBall *ironBall, void *kart, u8 *b, u8 *c) {
@@ -86,12 +86,12 @@ void iball_renderBall(void *a, IronBall *ironBall) {
 
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&ironBall->mUnk_000.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&ironBall->field0.mPos), 0xc);
     if (ironBall->mRotateZAngle != 0) {
         pairIndex = (u16) ironBall->mRotateZAngle >> 4;
         MTX_RotZ33_((s32 *) rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &ironBall->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &ironBall->field0.mScale, 3);
     mobj_renderModel(a, iball_sModel, ironBall);
 }

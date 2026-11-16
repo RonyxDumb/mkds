@@ -10,32 +10,32 @@ typedef s32 (*Unk021a998cFunc)(void *param_1, u32 param_2, struct Unk021a998c *p
 // Record the https functions take; its mHttpsState is the https layer's own state.
 typedef struct Unk021a998c {
     /* 00 */ struct OSThread *mThread;
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u32 field4;
     /* 08 */ u8 mState;
     /* 09 */ u8 mUseHttps;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 fieldA;
     /* 0c */ HttpsState *mHttpsState;
     /* 10 */ u32 mStateStartTime;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
+    /* 14 */ u32 field14;
+    /* 18 */ u16 field18;
+    /* 1a */ u16 field1A;
+    /* 1c */ u32 field1C;
+    /* 20 */ u32 field20;
+    /* 24 */ u32 field24;
+    /* 28 */ u32 field28;
+    /* 2c */ u16 field2C;
+    /* 2e */ u16 field2E;
+    /* 30 */ u32 field30;
+    /* 34 */ u32 field34;
     /* 38 */ Unk021a998cFunc mReceiveCallback;
     /* 3c */ u32 mReceiveBufferSize;
     /* 40 */ u8 *mReceiveBuffer;
     /* 44 */ u32 mReceiveBufferLength;
     /* 48 */ u32 mSendBufferSize;
     /* 4c */ u8 *mSendBuffer;
-    /* 50 */ u8 mUnk_50[0xc];
-    /* 5c */ u8 *mUnk_5c;
-    /* 60 */ u32 mUnk_60;
+    /* 50 */ u8 field50[0xc];
+    /* 5c */ u8 *field5C;
+    /* 60 */ u32 field60;
 } Unk021a998c;
 
 #include "00/unk_021b4000.h"
@@ -59,18 +59,18 @@ typedef struct HttpsState HttpsState;
 
 // Six length and pointer pairs.
 typedef struct Unk021aa880 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ const u8 *mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ const u8 *mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ const u8 *mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ const u8 *mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ const u8 *mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ const u8 *mUnk_2c;
+    /* 00 */ u32 field0;
+    /* 04 */ const u8 *field4;
+    /* 08 */ u32 field8;
+    /* 0c */ const u8 *fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ const u8 *field14;
+    /* 18 */ u32 field18;
+    /* 1c */ const u8 *field1C;
+    /* 20 */ u32 field20;
+    /* 24 */ const u8 *field24;
+    /* 28 */ u32 field28;
+    /* 2c */ const u8 *field2C;
 } Unk021aa880;
 
 typedef struct HttpsState HttpsState;

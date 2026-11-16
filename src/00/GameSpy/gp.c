@@ -29,7 +29,7 @@
 #include "00/GameSpy/gpiSearch.h"
 
 void GpDisconnect(GpConnection *a) {
-    if (a != NULL && a->mGpiConnection != NULL && a->mGpiConnection->mUnk_108 == 0) {
+    if (a != NULL && a->mGpiConnection != NULL && a->mGpiConnection->field108 == 0) {
         GpiCloseConnection(a, 1);
         GpiResetConnection(a);
     }
@@ -44,9 +44,9 @@ u32 func_ov000_0218f0a8(GpConnection *a, s8 *b, s8 *c, s8 *d, s8 *e, s8 *f, s32 
         GpiSetErrorMessage(a, data_ov000_021b242c);
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         Unk0218f0a8Arg k = {0};
-        k.mUnk_08 = 0x601;
+        k.field8 = 0x601;
         i(a, &k, j);
         return 0;
     }
@@ -62,7 +62,7 @@ u32 func_ov000_0218eff8(GpConnection *a, u32 b, s32 c, u32 d, Unk0218eff8Cb e, u
         GpiSetErrorMessage(a, data_ov000_021b242c);
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         Unk0218eff8Arg g = {0};
         e(a, &g, f);
         return 0;
@@ -79,7 +79,7 @@ u32 func_ov000_0218efa8(GpConnection *a, s32 b, const s8 *c) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     if (o->mConnectState == 4) {
@@ -96,7 +96,7 @@ u32 GpWriteAddbuddy(GpConnection *a, u32 b, const char *c) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     if (o->mConnectState == 4) {
@@ -133,7 +133,7 @@ u32 func_ov000_0218ee1c(GpConnection *a, u32 b) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     if (o->mConnectState == 4) {
@@ -151,7 +151,7 @@ u32 func_ov000_0218ed74(GpConnection *b, int c) {
     if ((b == NULL) || (a = b->mGpiConnection, a == NULL)) {
         return 2;
     }
-    if (a->mUnk_108 != 0) {
+    if (a->field108 != 0) {
         return 0;
     }
     if (a->mConnectState == 4) {
@@ -162,10 +162,10 @@ u32 func_ov000_0218ed74(GpConnection *b, int c) {
     if (v1 == 0) {
         return 0;
     }
-    v3->mUnk_14 = v3->mUnk_14 + -1;
-    if ((a->mUnk_100 == 0) && (v3->mUnk_14 <= 0)) {
-        func_ov000_021a3668(v3->mUnk_10);
-        v3->mUnk_10 = NULL;
+    v3->field14 = v3->field14 + -1;
+    if ((a->field100 == 0) && (v3->field14 <= 0)) {
+        func_ov000_021a3668(v3->field10);
+        v3->field10 = NULL;
         v2 = GpiIsProfileEmpty(v3);
         if (v2 != 0) {
             GpiRemoveProfile(b, v3);
@@ -180,7 +180,7 @@ s32 GpGetBuddyCount(GpConnection *object, s32 *output) {
         return 2;
     }
     state = object->mGpiConnection;
-    if (state->mUnk_108 != 0) {
+    if (state->field108 != 0) {
         *output = 0;
         return 0;
     }
@@ -197,7 +197,7 @@ u32 GpGetBuddyStatus(GpConnection *a, s32 b, GpBuddyStatus *c) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         memset(c, 0, 0x210);
         return 0;
     }
@@ -219,22 +219,22 @@ u32 GpGetBuddyStatus(GpConnection *a, s32 b, GpBuddyStatus *c) {
     if (n == NULL) {
         __msl_assertion_failed(data_ov000_021b24c8, data_ov000_021b24d4, NULL, 0x5cf);
     }
-    c->mUnk_000 = e->mProfileId;
-    c->mUnk_004 = n->mUnk_04;
-    v = n->mUnk_08;
+    c->field0 = e->mProfileId;
+    c->field4 = n->field4;
+    v = n->field8;
     if (v != NULL) {
-        GpiCopyString(c->mUnk_008, v, 0x100);
+        GpiCopyString(c->field8, v, 0x100);
     } else {
         *(u8 *) v = 0;
     }
-    v = n->mUnk_0c;
+    v = n->fieldC;
     if (v != NULL) {
-        GpiCopyString(c->mUnk_108, v, 0x100);
+        GpiCopyString(c->field108, v, 0x100);
     } else {
         *(u8 *) v = 0;
     }
-    c->mUnk_208 = n->mUnk_10;
-    c->mUnk_20c = n->mUnk_14;
+    c->field208 = n->field10;
+    c->field20C = n->field14;
     return 0;
 }
 
@@ -244,7 +244,7 @@ u32 GpGetBuddyIndex(GpConnection *a, u32 b, s32 *c) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         *c = 0;
         return 0;
     }
@@ -262,7 +262,7 @@ u32 GpIsBuddy(GpConnection *a, u32 b) {
     if ((a == NULL) || (a->mGpiConnection == NULL)) {
         return 0;
     }
-    if (a->mGpiConnection->mUnk_108 != 0) {
+    if (a->mGpiConnection->field108 != 0) {
         return 0;
     }
     v1 = GpiFindProfile(a, b, v2);
@@ -278,7 +278,7 @@ u32 func_ov000_0218eb44(GpConnection *a, u32 b) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     if (o->mConnectState == 4) {
@@ -300,7 +300,7 @@ u32 GpSetStatus(GpConnection *a, s32 b, const char *c, const char *d) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     if (o->mConnectState == 4) {
@@ -358,7 +358,7 @@ u32 GpSendMessage(GpConnection *a, s32 b, const char *c) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     if (o->mConnectState == 4) {

@@ -13,8 +13,8 @@
 #pragma thumb on
 
 void savd_eraseAllAsync(void) {
-    savd_initSections(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    savd_initSections(((Unk027ffc40 *) 0x027ffc40)->field0 == 2);
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         savd_beginOperation();
         bgwkr_enqueueTask(savd_eraseAllTask);
         gBgWkrState->mRunRequested = 1;
@@ -86,8 +86,8 @@ void savd_loadTask(void) {
 }
 
 void savd_loadAsync(void) {
-    gSaveData->mUnk_44_0 = 1;
-    gSaveData->mUnk_3c = 0;
+    gSaveData->field44_0 = 1;
+    gSaveData->field3C = 0;
     gSaveData->mFailedBlockBits = 0;
     savd_beginOperation();
     bgwkr_enqueueTask(savd_loadTask);
@@ -131,7 +131,7 @@ void savd_repairErrorsTask(void) {
         }
     }
     if (gSaveData->mFailedBlockBits & 1) {
-        savd_initNksy(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
+        savd_initNksy(((Unk027ffc40 *) 0x027ffc40)->field0 == 2);
         savd_writeNksy(gSaveData->mFirstBlock);
         if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();

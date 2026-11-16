@@ -17,7 +17,7 @@ void func_02059034(void) {
     if (gStruct217AA00 == NULL) {
         v1 = 0;
     } else {
-        v1 = gStruct217AA00->mUnk_0000;
+        v1 = gStruct217AA00->field0;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -29,7 +29,7 @@ void UpdateMPState21(void) {
     MPStateMachine *stateMachine;
     result = func_0205910c();
     if (result == 1) {
-        stateMachine = &gStruct217AA00->mUnk_1608;
+        stateMachine = &gStruct217AA00->field1608;
         stateMachine->mNextState = 0x14;
         stateMachine->mNextStateRequested = 1;
     }
@@ -40,7 +40,7 @@ void func_02058fe0(void) {
     if (gStruct217AA00 == NULL) {
         v1 = 0;
     } else {
-        v1 = gStruct217AA00->mUnk_0000;
+        v1 = gStruct217AA00->field0;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -52,7 +52,7 @@ void UpdateMPState18(void) {
     MPStateMachine *stateMachine;
     result = func_0205905c();
     if (result == 1) {
-        stateMachine = &gStruct217AA00->mUnk_1608;
+        stateMachine = &gStruct217AA00->field1608;
         stateMachine->mNextState = 0x13;
         stateMachine->mNextStateRequested = 1;
     }
@@ -63,14 +63,14 @@ void UpdateMPState18(void) {
 #pragma thumb on
 
 void func_02058f7c(void) {
-    gStruct217AA00->mUnk_1e34 = 0;
-    gStruct217AA00->mUnk_1e44 &= ~2;
-    gStruct217AA00->mUnk_164f = 0;
+    gStruct217AA00->field1E34 = 0;
+    gStruct217AA00->field1E44 &= ~2;
+    gStruct217AA00->field164F = 0;
 }
 
 void func_02058f58(void) {
     if (func_0210e524() == 0) {
-        gStruct217AA00->mUnk_164f = 1;
+        gStruct217AA00->field164F = 1;
     }
 }
 
@@ -83,7 +83,7 @@ void UpdateMPState19(void) {
     MPStateMachine *stateMachine;
     result = func_02058dc0(func_02058f58);
     if (result == 1) {
-        stateMachine = &gStruct217AA00->mUnk_1608;
+        stateMachine = &gStruct217AA00->field1608;
         stateMachine->mNextState = 0xf;
         stateMachine->mNextStateRequested = 1;
     }
@@ -105,7 +105,7 @@ void func_02058efc(void) {
     int result;
     result = LoadSndDataFromFile();
     if (result == 0) {
-        gStruct217AA00->mUnk_164f = 1;
+        gStruct217AA00->field164F = 1;
     }
 }
 

@@ -9,7 +9,7 @@
 // object, and other typedefs view the same object: Unk0203a0dc, EmblemSceneNumbersView, Unk02111324,
 // Unk0218052c; several scene functions take it as s16 * or void *.
 typedef struct SceneNumbers {
-    /* 00 */ u8 mUnk_00[0x2];
+    /* 00 */ u8 field0[0x2];
     // Number of the scene being run: the index of scproc_sSceneTable and of the scene-name table
     // sSceneDefs (data_usa_021541a8).
     /* 02 */ s16 mScene;

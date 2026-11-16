@@ -30,14 +30,14 @@ void LoadHlScr(int b) {
 
 void LoadHlSetScr(void) {
     u32 value0;
-    value0 = func_ov003_021cdb6c()->mUnk_f4;
+    value0 = func_ov003_021cdb6c()->fieldF4;
     value0 = (value0) + (5u);
     LoadHlScr(value0);
 }
 
 void LoadHlListScr(void) {
     u32 value0;
-    value0 = func_ov003_021cdb6c()->mUnk_f4;
+    value0 = func_ov003_021cdb6c()->fieldF4;
     value0 = (value0) + (2u);
     LoadHlScr(value0);
 }

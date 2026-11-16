@@ -19,14 +19,14 @@ void OS_GetOwnerInfo(Unk0200fddc *info) {
     u8 *source;
 
     source = (u8 *) 0x27ffc80;
-    info->mUnk_00 = (u32) (*OFFSET_PTR(u16, source, 0x64) << 29) >> 29;
-    info->mUnk_01 = (u32) (source[2] << 28) >> 28;
-    info->mUnk_02 = source[3];
-    info->mUnk_03 = source[4];
-    info->mUnk_18 = source[0x1a];
-    info->mUnk_4e = source[0x50];
-    MIi_CpuCopy16(source + 6, info->mUnk_04, 0x14);
-    MIi_CpuCopy16(source + 0x1c, info->mUnk_1a, 0x34);
+    info->field0 = (u32) (*OFFSET_PTR(u16, source, 0x64) << 29) >> 29;
+    info->field1 = (u32) (source[2] << 28) >> 28;
+    info->field2 = source[3];
+    info->field3 = source[4];
+    info->field18 = source[0x1a];
+    info->field4E = source[0x50];
+    MIi_CpuCopy16(source + 6, info->field4, 0x14);
+    MIi_CpuCopy16(source + 0x1c, info->field1A, 0x34);
 }
 
 // Opens the reset channel once and installs OSi_CommonCallback on it.

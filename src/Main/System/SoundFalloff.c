@@ -11,11 +11,11 @@
 #include "registers.h"
 
 void StopKartSoundWhileRequested(Kart *a) {
-    if (a->mUnk_488 == 0xffff) {
+    if (a->field488 == 0xffff) {
         return;
     }
-    StopSoundEx(&a->mSoundSource, 0, a->mUnk_488, 0);
-    a->mUnk_488 = 0xffff;
+    StopSoundEx(&a->mSoundSource, 0, a->field488, 0);
+    a->field488 = 0xffff;
 }
 
 void sfx_2109468(void) {
@@ -74,233 +74,233 @@ void sfx_2109468(void) {
     if (f != FALSE) {
         b0 = t0;
         b0.mOuterDistance = 0x44c;
-        b0.mUnk_04 = 0x226;
-        b0.mUnk_08 = 0x2f;
+        b0.field4 = 0x226;
+        b0.field8 = 0x2f;
         b0.mMaxVolume = 0x5f;
         t0 = b0;
     }
     c0 = t0;
     gSfxParams[0].mMaxVolume = c0.mMaxVolume;
     gSfxParams[0].mOuterDistance = c0.mOuterDistance;
-    gSfxParams[0].mUnk_04 = c0.mUnk_04;
-    gSfxParams[0].mUnk_08 = c0.mUnk_08;
+    gSfxParams[0].field4 = c0.field4;
+    gSfxParams[0].field8 = c0.field8;
     gSfxParams[0].mInnerDistance = c0.mInnerDistance;
-    gSfxParams[0].mUnk_14 = FX_Div((c0.mUnk_08 - c0.mMaxVolume) << 12, (c0.mUnk_04 - c0.mInnerDistance) << 12);
-    gSfxParams[0].mUnk_18 = FX_Div(c0.mUnk_08 << 12, (c0.mUnk_04 - c0.mOuterDistance) << 12);
-    gSfxParams[0].mUnk_1c = FX_Div(0x666, (gSfxParams[0].mInnerDistance << 12) + 0x36000);
-    gSfxParams[0].mUnk_20 = (((s32) ((((s64) (c0.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[0].field14 = FX_Div((c0.field8 - c0.mMaxVolume) << 12, (c0.field4 - c0.mInnerDistance) << 12);
+    gSfxParams[0].field18 = FX_Div(c0.field8 << 12, (c0.field4 - c0.mOuterDistance) << 12);
+    gSfxParams[0].field1C = FX_Div(0x666, (gSfxParams[0].mInnerDistance << 12) + 0x36000);
+    gSfxParams[0].field20 = (((s32) ((((s64) (c0.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c0.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t1 = s1;
     if (f != FALSE) {
         b1 = t1;
         b1.mOuterDistance = 0x44c;
-        b1.mUnk_04 = 0x226;
-        b1.mUnk_08 = 0x2f;
+        b1.field4 = 0x226;
+        b1.field8 = 0x2f;
         b1.mMaxVolume = 0x5f;
         t1 = b1;
     }
     c1 = t1;
     gOtherKartSoundFalloff.mMaxVolume = c1.mMaxVolume;
     gOtherKartSoundFalloff.mOuterDistance = c1.mOuterDistance;
-    gOtherKartSoundFalloff.mUnk_04 = c1.mUnk_04;
-    gOtherKartSoundFalloff.mUnk_08 = c1.mUnk_08;
+    gOtherKartSoundFalloff.field4 = c1.field4;
+    gOtherKartSoundFalloff.field8 = c1.field8;
     gOtherKartSoundFalloff.mInnerDistance = c1.mInnerDistance;
-    gOtherKartSoundFalloff.mUnk_14 = FX_Div((c1.mUnk_08 - c1.mMaxVolume) << 12, (c1.mUnk_04 - c1.mInnerDistance) << 12);
-    gOtherKartSoundFalloff.mUnk_18 = FX_Div(c1.mUnk_08 << 12, (c1.mUnk_04 - c1.mOuterDistance) << 12);
-    gOtherKartSoundFalloff.mUnk_1c = FX_Div(0x666, (gOtherKartSoundFalloff.mInnerDistance << 12) + 0x36000);
-    gOtherKartSoundFalloff.mUnk_20 = (((s32) ((((s64) (c1.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gOtherKartSoundFalloff.field14 = FX_Div((c1.field8 - c1.mMaxVolume) << 12, (c1.field4 - c1.mInnerDistance) << 12);
+    gOtherKartSoundFalloff.field18 = FX_Div(c1.field8 << 12, (c1.field4 - c1.mOuterDistance) << 12);
+    gOtherKartSoundFalloff.field1C = FX_Div(0x666, (gOtherKartSoundFalloff.mInnerDistance << 12) + 0x36000);
+    gOtherKartSoundFalloff.field20 = (((s32) ((((s64) (c1.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                      (((s32) ((((s64) (c1.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t2 = s2;
     if (f != FALSE) {
         b2 = t2;
         b2.mOuterDistance = 0x514;
-        b2.mUnk_04 = 0x28a;
-        b2.mUnk_08 = 0x2f;
+        b2.field4 = 0x28a;
+        b2.field8 = 0x2f;
         b2.mMaxVolume = 0x5f;
         t2 = b2;
     }
     c2 = t2;
     gSfxParams[1].mMaxVolume = c2.mMaxVolume;
     gSfxParams[1].mOuterDistance = c2.mOuterDistance;
-    gSfxParams[1].mUnk_04 = c2.mUnk_04;
-    gSfxParams[1].mUnk_08 = c2.mUnk_08;
+    gSfxParams[1].field4 = c2.field4;
+    gSfxParams[1].field8 = c2.field8;
     gSfxParams[1].mInnerDistance = c2.mInnerDistance;
-    gSfxParams[1].mUnk_14 = FX_Div((c2.mUnk_08 - c2.mMaxVolume) << 12, (c2.mUnk_04 - c2.mInnerDistance) << 12);
-    gSfxParams[1].mUnk_18 = FX_Div(c2.mUnk_08 << 12, (c2.mUnk_04 - c2.mOuterDistance) << 12);
-    gSfxParams[1].mUnk_1c = FX_Div(0x666, (gSfxParams[1].mInnerDistance << 12) + 0x36000);
-    gSfxParams[1].mUnk_20 = (((s32) ((((s64) (c2.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[1].field14 = FX_Div((c2.field8 - c2.mMaxVolume) << 12, (c2.field4 - c2.mInnerDistance) << 12);
+    gSfxParams[1].field18 = FX_Div(c2.field8 << 12, (c2.field4 - c2.mOuterDistance) << 12);
+    gSfxParams[1].field1C = FX_Div(0x666, (gSfxParams[1].mInnerDistance << 12) + 0x36000);
+    gSfxParams[1].field20 = (((s32) ((((s64) (c2.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c2.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t3 = s3;
     if (f != FALSE) {
         b3 = t3;
         b3.mOuterDistance = 0x44c;
-        b3.mUnk_04 = 0x226;
-        b3.mUnk_08 = 0x2f;
+        b3.field4 = 0x226;
+        b3.field8 = 0x2f;
         b3.mMaxVolume = 0x5f;
         t3 = b3;
     }
     c3 = t3;
     gSfxParams[2].mMaxVolume = c3.mMaxVolume;
     gSfxParams[2].mOuterDistance = c3.mOuterDistance;
-    gSfxParams[2].mUnk_04 = c3.mUnk_04;
-    gSfxParams[2].mUnk_08 = c3.mUnk_08;
+    gSfxParams[2].field4 = c3.field4;
+    gSfxParams[2].field8 = c3.field8;
     gSfxParams[2].mInnerDistance = c3.mInnerDistance;
-    gSfxParams[2].mUnk_14 = FX_Div((c3.mUnk_08 - c3.mMaxVolume) << 12, (c3.mUnk_04 - c3.mInnerDistance) << 12);
-    gSfxParams[2].mUnk_18 = FX_Div(c3.mUnk_08 << 12, (c3.mUnk_04 - c3.mOuterDistance) << 12);
-    gSfxParams[2].mUnk_1c = FX_Div(0x666, (gSfxParams[2].mInnerDistance << 12) + 0x36000);
-    gSfxParams[2].mUnk_20 = (((s32) ((((s64) (c3.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[2].field14 = FX_Div((c3.field8 - c3.mMaxVolume) << 12, (c3.field4 - c3.mInnerDistance) << 12);
+    gSfxParams[2].field18 = FX_Div(c3.field8 << 12, (c3.field4 - c3.mOuterDistance) << 12);
+    gSfxParams[2].field1C = FX_Div(0x666, (gSfxParams[2].mInnerDistance << 12) + 0x36000);
+    gSfxParams[2].field20 = (((s32) ((((s64) (c3.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c3.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t4 = s4;
     if (f != FALSE) {
         b4 = t4;
         b4.mOuterDistance = 0x44c;
-        b4.mUnk_04 = 0x226;
-        b4.mUnk_08 = 0x2f;
+        b4.field4 = 0x226;
+        b4.field8 = 0x2f;
         b4.mMaxVolume = 0x5f;
         t4 = b4;
     }
     c4 = t4;
     gSfxParams[3].mMaxVolume = c4.mMaxVolume;
     gSfxParams[3].mOuterDistance = c4.mOuterDistance;
-    gSfxParams[3].mUnk_04 = c4.mUnk_04;
-    gSfxParams[3].mUnk_08 = c4.mUnk_08;
+    gSfxParams[3].field4 = c4.field4;
+    gSfxParams[3].field8 = c4.field8;
     gSfxParams[3].mInnerDistance = c4.mInnerDistance;
-    gSfxParams[3].mUnk_14 = FX_Div((c4.mUnk_08 - c4.mMaxVolume) << 12, (c4.mUnk_04 - c4.mInnerDistance) << 12);
-    gSfxParams[3].mUnk_18 = FX_Div(c4.mUnk_08 << 12, (c4.mUnk_04 - c4.mOuterDistance) << 12);
-    gSfxParams[3].mUnk_1c = FX_Div(0x666, (gSfxParams[3].mInnerDistance << 12) + 0x36000);
-    gSfxParams[3].mUnk_20 = (((s32) ((((s64) (c4.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[3].field14 = FX_Div((c4.field8 - c4.mMaxVolume) << 12, (c4.field4 - c4.mInnerDistance) << 12);
+    gSfxParams[3].field18 = FX_Div(c4.field8 << 12, (c4.field4 - c4.mOuterDistance) << 12);
+    gSfxParams[3].field1C = FX_Div(0x666, (gSfxParams[3].mInnerDistance << 12) + 0x36000);
+    gSfxParams[3].field20 = (((s32) ((((s64) (c4.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c4.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w5 = s5;
     gSfxParams[4].mMaxVolume = w5.mMaxVolume;
     gSfxParams[4].mOuterDistance = w5.mOuterDistance;
-    gSfxParams[4].mUnk_04 = w5.mUnk_04;
-    gSfxParams[4].mUnk_08 = w5.mUnk_08;
+    gSfxParams[4].field4 = w5.field4;
+    gSfxParams[4].field8 = w5.field8;
     gSfxParams[4].mInnerDistance = w5.mInnerDistance;
-    gSfxParams[4].mUnk_14 = FX_Div((w5.mUnk_08 - w5.mMaxVolume) << 12, (w5.mUnk_04 - w5.mInnerDistance) << 12);
-    gSfxParams[4].mUnk_18 = FX_Div(w5.mUnk_08 << 12, (w5.mUnk_04 - w5.mOuterDistance) << 12);
-    gSfxParams[4].mUnk_1c = FX_Div(0x666, (gSfxParams[4].mInnerDistance << 12) + 0x36000);
-    gSfxParams[4].mUnk_20 = (((s32) ((((s64) (w5.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[4].field14 = FX_Div((w5.field8 - w5.mMaxVolume) << 12, (w5.field4 - w5.mInnerDistance) << 12);
+    gSfxParams[4].field18 = FX_Div(w5.field8 << 12, (w5.field4 - w5.mOuterDistance) << 12);
+    gSfxParams[4].field1C = FX_Div(0x666, (gSfxParams[4].mInnerDistance << 12) + 0x36000);
+    gSfxParams[4].field20 = (((s32) ((((s64) (w5.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w5.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w6 = s6;
     gSfxParams[5].mMaxVolume = w6.mMaxVolume;
     gSfxParams[5].mOuterDistance = w6.mOuterDistance;
-    gSfxParams[5].mUnk_04 = w6.mUnk_04;
-    gSfxParams[5].mUnk_08 = w6.mUnk_08;
+    gSfxParams[5].field4 = w6.field4;
+    gSfxParams[5].field8 = w6.field8;
     gSfxParams[5].mInnerDistance = w6.mInnerDistance;
-    gSfxParams[5].mUnk_14 = FX_Div((w6.mUnk_08 - w6.mMaxVolume) << 12, (w6.mUnk_04 - w6.mInnerDistance) << 12);
-    gSfxParams[5].mUnk_18 = FX_Div(w6.mUnk_08 << 12, (w6.mUnk_04 - w6.mOuterDistance) << 12);
-    gSfxParams[5].mUnk_1c = FX_Div(0x666, (gSfxParams[5].mInnerDistance << 12) + 0x36000);
-    gSfxParams[5].mUnk_20 = (((s32) ((((s64) (w6.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[5].field14 = FX_Div((w6.field8 - w6.mMaxVolume) << 12, (w6.field4 - w6.mInnerDistance) << 12);
+    gSfxParams[5].field18 = FX_Div(w6.field8 << 12, (w6.field4 - w6.mOuterDistance) << 12);
+    gSfxParams[5].field1C = FX_Div(0x666, (gSfxParams[5].mInnerDistance << 12) + 0x36000);
+    gSfxParams[5].field20 = (((s32) ((((s64) (w6.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w6.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w7 = s7;
     gSfxParams[6].mMaxVolume = w7.mMaxVolume;
     gSfxParams[6].mOuterDistance = w7.mOuterDistance;
-    gSfxParams[6].mUnk_04 = w7.mUnk_04;
-    gSfxParams[6].mUnk_08 = w7.mUnk_08;
+    gSfxParams[6].field4 = w7.field4;
+    gSfxParams[6].field8 = w7.field8;
     gSfxParams[6].mInnerDistance = w7.mInnerDistance;
-    gSfxParams[6].mUnk_14 = FX_Div((w7.mUnk_08 - w7.mMaxVolume) << 12, (w7.mUnk_04 - w7.mInnerDistance) << 12);
-    gSfxParams[6].mUnk_18 = FX_Div(w7.mUnk_08 << 12, (w7.mUnk_04 - w7.mOuterDistance) << 12);
-    gSfxParams[6].mUnk_1c = FX_Div(0x666, (gSfxParams[6].mInnerDistance << 12) + 0x36000);
-    gSfxParams[6].mUnk_20 = (((s32) ((((s64) (w7.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[6].field14 = FX_Div((w7.field8 - w7.mMaxVolume) << 12, (w7.field4 - w7.mInnerDistance) << 12);
+    gSfxParams[6].field18 = FX_Div(w7.field8 << 12, (w7.field4 - w7.mOuterDistance) << 12);
+    gSfxParams[6].field1C = FX_Div(0x666, (gSfxParams[6].mInnerDistance << 12) + 0x36000);
+    gSfxParams[6].field20 = (((s32) ((((s64) (w7.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w7.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w8 = s8;
     gSfxParams[7].mMaxVolume = w8.mMaxVolume;
     gSfxParams[7].mOuterDistance = w8.mOuterDistance;
-    gSfxParams[7].mUnk_04 = w8.mUnk_04;
-    gSfxParams[7].mUnk_08 = w8.mUnk_08;
+    gSfxParams[7].field4 = w8.field4;
+    gSfxParams[7].field8 = w8.field8;
     gSfxParams[7].mInnerDistance = w8.mInnerDistance;
-    gSfxParams[7].mUnk_14 = FX_Div((w8.mUnk_08 - w8.mMaxVolume) << 12, (w8.mUnk_04 - w8.mInnerDistance) << 12);
-    gSfxParams[7].mUnk_18 = FX_Div(w8.mUnk_08 << 12, (w8.mUnk_04 - w8.mOuterDistance) << 12);
-    gSfxParams[7].mUnk_1c = FX_Div(0x666, (gSfxParams[7].mInnerDistance << 12) + 0x36000);
-    gSfxParams[7].mUnk_20 = (((s32) ((((s64) (w8.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[7].field14 = FX_Div((w8.field8 - w8.mMaxVolume) << 12, (w8.field4 - w8.mInnerDistance) << 12);
+    gSfxParams[7].field18 = FX_Div(w8.field8 << 12, (w8.field4 - w8.mOuterDistance) << 12);
+    gSfxParams[7].field1C = FX_Div(0x666, (gSfxParams[7].mInnerDistance << 12) + 0x36000);
+    gSfxParams[7].field20 = (((s32) ((((s64) (w8.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w8.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w9 = s9;
     gSfxParams[8].mMaxVolume = w9.mMaxVolume;
     gSfxParams[8].mOuterDistance = w9.mOuterDistance;
-    gSfxParams[8].mUnk_04 = w9.mUnk_04;
-    gSfxParams[8].mUnk_08 = w9.mUnk_08;
+    gSfxParams[8].field4 = w9.field4;
+    gSfxParams[8].field8 = w9.field8;
     gSfxParams[8].mInnerDistance = w9.mInnerDistance;
-    gSfxParams[8].mUnk_14 = FX_Div((w9.mUnk_08 - w9.mMaxVolume) << 12, (w9.mUnk_04 - w9.mInnerDistance) << 12);
-    gSfxParams[8].mUnk_18 = FX_Div(w9.mUnk_08 << 12, (w9.mUnk_04 - w9.mOuterDistance) << 12);
-    gSfxParams[8].mUnk_1c = FX_Div(0x666, (gSfxParams[8].mInnerDistance << 12) + 0x36000);
-    gSfxParams[8].mUnk_20 = (((s32) ((((s64) (w9.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[8].field14 = FX_Div((w9.field8 - w9.mMaxVolume) << 12, (w9.field4 - w9.mInnerDistance) << 12);
+    gSfxParams[8].field18 = FX_Div(w9.field8 << 12, (w9.field4 - w9.mOuterDistance) << 12);
+    gSfxParams[8].field1C = FX_Div(0x666, (gSfxParams[8].mInnerDistance << 12) + 0x36000);
+    gSfxParams[8].field20 = (((s32) ((((s64) (w9.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w9.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w10 = s10;
     gSfxParams[9].mMaxVolume = w10.mMaxVolume;
     gSfxParams[9].mOuterDistance = w10.mOuterDistance;
-    gSfxParams[9].mUnk_04 = w10.mUnk_04;
-    gSfxParams[9].mUnk_08 = w10.mUnk_08;
+    gSfxParams[9].field4 = w10.field4;
+    gSfxParams[9].field8 = w10.field8;
     gSfxParams[9].mInnerDistance = w10.mInnerDistance;
-    gSfxParams[9].mUnk_14 = FX_Div((w10.mUnk_08 - w10.mMaxVolume) << 12, (w10.mUnk_04 - w10.mInnerDistance) << 12);
-    gSfxParams[9].mUnk_18 = FX_Div(w10.mUnk_08 << 12, (w10.mUnk_04 - w10.mOuterDistance) << 12);
-    gSfxParams[9].mUnk_1c = FX_Div(0x666, (gSfxParams[9].mInnerDistance << 12) + 0x36000);
-    gSfxParams[9].mUnk_20 = (((s32) ((((s64) (w10.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[9].field14 = FX_Div((w10.field8 - w10.mMaxVolume) << 12, (w10.field4 - w10.mInnerDistance) << 12);
+    gSfxParams[9].field18 = FX_Div(w10.field8 << 12, (w10.field4 - w10.mOuterDistance) << 12);
+    gSfxParams[9].field1C = FX_Div(0x666, (gSfxParams[9].mInnerDistance << 12) + 0x36000);
+    gSfxParams[9].field20 = (((s32) ((((s64) (w10.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w10.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w11 = s11;
     gSfxParams[10].mMaxVolume = w11.mMaxVolume;
     gSfxParams[10].mOuterDistance = w11.mOuterDistance;
-    gSfxParams[10].mUnk_04 = w11.mUnk_04;
-    gSfxParams[10].mUnk_08 = w11.mUnk_08;
+    gSfxParams[10].field4 = w11.field4;
+    gSfxParams[10].field8 = w11.field8;
     gSfxParams[10].mInnerDistance = w11.mInnerDistance;
-    gSfxParams[10].mUnk_14 = FX_Div((w11.mUnk_08 - w11.mMaxVolume) << 12, (w11.mUnk_04 - w11.mInnerDistance) << 12);
-    gSfxParams[10].mUnk_18 = FX_Div(w11.mUnk_08 << 12, (w11.mUnk_04 - w11.mOuterDistance) << 12);
-    gSfxParams[10].mUnk_1c = FX_Div(0x666, (gSfxParams[10].mInnerDistance << 12) + 0x36000);
-    gSfxParams[10].mUnk_20 = (((s32) ((((s64) (w11.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[10].field14 = FX_Div((w11.field8 - w11.mMaxVolume) << 12, (w11.field4 - w11.mInnerDistance) << 12);
+    gSfxParams[10].field18 = FX_Div(w11.field8 << 12, (w11.field4 - w11.mOuterDistance) << 12);
+    gSfxParams[10].field1C = FX_Div(0x666, (gSfxParams[10].mInnerDistance << 12) + 0x36000);
+    gSfxParams[10].field20 = (((s32) ((((s64) (w11.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w11.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w12 = s12;
     gSfxParams[11].mMaxVolume = w12.mMaxVolume;
     gSfxParams[11].mOuterDistance = w12.mOuterDistance;
-    gSfxParams[11].mUnk_04 = w12.mUnk_04;
-    gSfxParams[11].mUnk_08 = w12.mUnk_08;
+    gSfxParams[11].field4 = w12.field4;
+    gSfxParams[11].field8 = w12.field8;
     gSfxParams[11].mInnerDistance = w12.mInnerDistance;
-    gSfxParams[11].mUnk_14 = FX_Div((w12.mUnk_08 - w12.mMaxVolume) << 12, (w12.mUnk_04 - w12.mInnerDistance) << 12);
-    gSfxParams[11].mUnk_18 = FX_Div(w12.mUnk_08 << 12, (w12.mUnk_04 - w12.mOuterDistance) << 12);
-    gSfxParams[11].mUnk_1c = FX_Div(0x666, (gSfxParams[11].mInnerDistance << 12) + 0x36000);
-    gSfxParams[11].mUnk_20 = (((s32) ((((s64) (w12.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[11].field14 = FX_Div((w12.field8 - w12.mMaxVolume) << 12, (w12.field4 - w12.mInnerDistance) << 12);
+    gSfxParams[11].field18 = FX_Div(w12.field8 << 12, (w12.field4 - w12.mOuterDistance) << 12);
+    gSfxParams[11].field1C = FX_Div(0x666, (gSfxParams[11].mInnerDistance << 12) + 0x36000);
+    gSfxParams[11].field20 = (((s32) ((((s64) (w12.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w12.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w13 = s13;
     gSfxParams[12].mMaxVolume = w13.mMaxVolume;
     gSfxParams[12].mOuterDistance = w13.mOuterDistance;
-    gSfxParams[12].mUnk_04 = w13.mUnk_04;
-    gSfxParams[12].mUnk_08 = w13.mUnk_08;
+    gSfxParams[12].field4 = w13.field4;
+    gSfxParams[12].field8 = w13.field8;
     gSfxParams[12].mInnerDistance = w13.mInnerDistance;
-    gSfxParams[12].mUnk_14 = FX_Div((w13.mUnk_08 - w13.mMaxVolume) << 12, (w13.mUnk_04 - w13.mInnerDistance) << 12);
-    gSfxParams[12].mUnk_18 = FX_Div(w13.mUnk_08 << 12, (w13.mUnk_04 - w13.mOuterDistance) << 12);
-    gSfxParams[12].mUnk_1c = FX_Div(0x666, (gSfxParams[12].mInnerDistance << 12) + 0x36000);
-    gSfxParams[12].mUnk_20 = (((s32) ((((s64) (w13.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[12].field14 = FX_Div((w13.field8 - w13.mMaxVolume) << 12, (w13.field4 - w13.mInnerDistance) << 12);
+    gSfxParams[12].field18 = FX_Div(w13.field8 << 12, (w13.field4 - w13.mOuterDistance) << 12);
+    gSfxParams[12].field1C = FX_Div(0x666, (gSfxParams[12].mInnerDistance << 12) + 0x36000);
+    gSfxParams[12].field20 = (((s32) ((((s64) (w13.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w13.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w14 = s14;
     gSfxParams[13].mMaxVolume = w14.mMaxVolume;
     gSfxParams[13].mOuterDistance = w14.mOuterDistance;
-    gSfxParams[13].mUnk_04 = w14.mUnk_04;
-    gSfxParams[13].mUnk_08 = w14.mUnk_08;
+    gSfxParams[13].field4 = w14.field4;
+    gSfxParams[13].field8 = w14.field8;
     gSfxParams[13].mInnerDistance = w14.mInnerDistance;
-    gSfxParams[13].mUnk_14 = FX_Div((w14.mUnk_08 - w14.mMaxVolume) << 12, (w14.mUnk_04 - w14.mInnerDistance) << 12);
-    gSfxParams[13].mUnk_18 = FX_Div(w14.mUnk_08 << 12, (w14.mUnk_04 - w14.mOuterDistance) << 12);
-    gSfxParams[13].mUnk_1c = FX_Div(0x666, (gSfxParams[13].mInnerDistance << 12) + 0x36000);
-    gSfxParams[13].mUnk_20 = (((s32) ((((s64) (w14.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[13].field14 = FX_Div((w14.field8 - w14.mMaxVolume) << 12, (w14.field4 - w14.mInnerDistance) << 12);
+    gSfxParams[13].field18 = FX_Div(w14.field8 << 12, (w14.field4 - w14.mOuterDistance) << 12);
+    gSfxParams[13].field1C = FX_Div(0x666, (gSfxParams[13].mInnerDistance << 12) + 0x36000);
+    gSfxParams[13].field20 = (((s32) ((((s64) (w14.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w14.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w15 = s15;
     gSfxParams[14].mMaxVolume = w15.mMaxVolume;
     gSfxParams[14].mOuterDistance = w15.mOuterDistance;
-    gSfxParams[14].mUnk_04 = w15.mUnk_04;
-    gSfxParams[14].mUnk_08 = w15.mUnk_08;
+    gSfxParams[14].field4 = w15.field4;
+    gSfxParams[14].field8 = w15.field8;
     gSfxParams[14].mInnerDistance = w15.mInnerDistance;
-    gSfxParams[14].mUnk_14 = FX_Div((w15.mUnk_08 - w15.mMaxVolume) << 12, (w15.mUnk_04 - w15.mInnerDistance) << 12);
-    gSfxParams[14].mUnk_18 = FX_Div(w15.mUnk_08 << 12, (w15.mUnk_04 - w15.mOuterDistance) << 12);
-    gSfxParams[14].mUnk_1c = FX_Div(0x666, (gSfxParams[14].mInnerDistance << 12) + 0x36000);
-    gSfxParams[14].mUnk_20 = (((s32) ((((s64) (w15.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[14].field14 = FX_Div((w15.field8 - w15.mMaxVolume) << 12, (w15.field4 - w15.mInnerDistance) << 12);
+    gSfxParams[14].field18 = FX_Div(w15.field8 << 12, (w15.field4 - w15.mOuterDistance) << 12);
+    gSfxParams[14].field1C = FX_Div(0x666, (gSfxParams[14].mInnerDistance << 12) + 0x36000);
+    gSfxParams[14].field20 = (((s32) ((((s64) (w15.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w15.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w16 = s16;
     gSfxParams[15].mMaxVolume = w16.mMaxVolume;
     gSfxParams[15].mOuterDistance = w16.mOuterDistance;
-    gSfxParams[15].mUnk_04 = w16.mUnk_04;
-    gSfxParams[15].mUnk_08 = w16.mUnk_08;
+    gSfxParams[15].field4 = w16.field4;
+    gSfxParams[15].field8 = w16.field8;
     gSfxParams[15].mInnerDistance = w16.mInnerDistance;
-    gSfxParams[15].mUnk_14 = FX_Div((w16.mUnk_08 - w16.mMaxVolume) << 12, (w16.mUnk_04 - w16.mInnerDistance) << 12);
-    gSfxParams[15].mUnk_18 = FX_Div(w16.mUnk_08 << 12, (w16.mUnk_04 - w16.mOuterDistance) << 12);
-    gSfxParams[15].mUnk_1c = FX_Div(0x666, (gSfxParams[15].mInnerDistance << 12) + 0x36000);
-    gSfxParams[15].mUnk_20 = (((s32) ((((s64) (w16.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[15].field14 = FX_Div((w16.field8 - w16.mMaxVolume) << 12, (w16.field4 - w16.mInnerDistance) << 12);
+    gSfxParams[15].field18 = FX_Div(w16.field8 << 12, (w16.field4 - w16.mOuterDistance) << 12);
+    gSfxParams[15].field1C = FX_Div(0x666, (gSfxParams[15].mInnerDistance << 12) + 0x36000);
+    gSfxParams[15].field20 = (((s32) ((((s64) (w16.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w16.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
 }
 
@@ -319,20 +319,20 @@ s32 sfx_21092B0(SoundParams *p) {
             e = &gSfxParams[k->mSoundSource.mFalloffIndex];
         }
     } else {
-        e = &gSfxParams[p->mUnk_20->mUnk_08];
+        e = &gSfxParams[p->field20->field8];
     }
     a = p->mDistance;
     if (a <= e->mInnerDistance) {
         v = e->mMaxVolume;
-    } else if (a <= e->mUnk_04) {
-        v = e->mMaxVolume + (((s32) ((((s64) e->mUnk_14 * ((a - e->mInnerDistance) << 12)) + 0x800) >> 12)) >> 12);
+    } else if (a <= e->field4) {
+        v = e->mMaxVolume + (((s32) ((((s64) e->field14 * ((a - e->mInnerDistance) << 12)) + 0x800) >> 12)) >> 12);
     } else if (a < e->mOuterDistance) {
-        v = ((s32) ((((s64) e->mUnk_18 * ((a - e->mOuterDistance) << 12)) + 0x800) >> 12)) >> 12;
+        v = ((s32) ((((s64) e->field18 * ((a - e->mOuterDistance) << 12)) + 0x800) >> 12)) >> 12;
     }
-    a = p->mUnk_08;
+    a = p->field8;
     if (a < 0x36) {
         if (a > -e->mInnerDistance) {
-            a = ((s32) ((((s64) e->mUnk_1c * ((a - 0x36) << 12)) + 0x800) >> 12)) + 0x1000;
+            a = ((s32) ((((s64) e->field1C * ((a - 0x36) << 12)) + 0x800) >> 12)) + 0x1000;
             v = ((s32) ((((s64) a * (v << 12)) + 0x800) >> 12)) >> 12;
         } else {
             v = ((s32) ((((s64) (v << 12) * 0x99a) + 0x800) >> 12)) >> 12;
@@ -352,7 +352,7 @@ s32 sfx_210920C(SoundParams *p) {
     u32 a;
     s32 v;
 
-    a = FX_Atan2Idx(p->mUnk_08 << 12, -p->mUnk_0c << 12);
+    a = FX_Atan2Idx(p->field8 << 12, -p->fieldC << 12);
     if (a > 0x7fff) {
         a = (u16) (0xffff - a);
     }
@@ -374,13 +374,13 @@ u32 sfx_2109184(SoundParams *p) {
     if (p->mSource != NULL) {
         a = ((Kart *) p->mSource)->mSoundSource.mDistanceSquared;
     } else {
-        a = p->mUnk_20->mUnk_0c;
+        a = p->field20->fieldC;
     }
     reg_CP_SQRTCNT = 0;
     *(vu32 *) 0x040002b8 = a;
     b = p->mPositionSource;
-    p->mUnk_08 = cam_2073E4C(b) >> 12;
-    p->mUnk_0c = cam_2073E04(b) >> 12;
+    p->field8 = cam_2073E4C(b) >> 12;
+    p->fieldC = cam_2073E04(b) >> 12;
     while (reg_CP_SQRTCNT & 0x8000) {
     }
     return reg_CP_SQRT_RESULT;

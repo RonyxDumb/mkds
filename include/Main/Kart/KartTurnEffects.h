@@ -7,7 +7,7 @@ typedef struct Vec3s16 Vec3s16;
 typedef struct Kart Kart;
 
 // 0x88 bytes. The per-Kart set of effect objects that play while the Kart holds a turn (Kart.mTurnDirection is not 0):
-// a turn start group, a level 2 group and a level 3 group (started when Kart.mUnk_2fc becomes 2 and when it is 3) and a
+// a turn start group, a level 2 group and a level 3 group (started when Kart.field2FC becomes 2 and when it is 3) and a
 // level 4 group (requested at the step from 3 to 4), their counters, ids and the functions that start, stop, hide, show
 // and place them; two variants of the function set are installed by dptc_init.
 typedef struct KartTurnEffects {
@@ -15,16 +15,16 @@ typedef struct KartTurnEffects {
     // dptc_updateDustClouds (the level 2 advance also switches their emission); NULL when the group is not
     // present.
     /* 00 */ Unk0201ca6c *mTurnStartEffects[2];
-    // The two effect objects, one per side, started when Kart.mUnk_2fc becomes 2 (id 0x7e); released when mLevel2Frames
+    // The two effect objects, one per side, started when Kart.field2FC becomes 2 (id 0x7e); released when mLevel2Frames
     // passes 8; NULL when the group is not present.
     /* 08 */ Unk0201ca6c *mLevel2Effects[2];
     // First effect object per side of the level 4 group, started by the restart in dptc_updateContRedSparks after the
-    // request made when Kart.mUnk_2fc is 3 (so Kart.mUnk_2fc is 4 from then on); NULL when the group is not present.
+    // request made when Kart.field2FC is 3 (so Kart.field2FC is 4 from then on); NULL when the group is not present.
     /* 10 */ Unk0201ca6c *mLevel4FirstEffects[2];
     // Second effect object per side of the level 4 group; only started by dptc_startContRedSparksPlayer, NULL for
     // the other variant.
     /* 18 */ Unk0201ca6c *mLevel4SecondEffects[2];
-    // First of the two effect objects per side started when Kart.mUnk_2fc is 3; released when mLevel3Frames passes 10.
+    // First of the two effect objects per side started when Kart.field2FC is 3; released when mLevel3Frames passes 10.
     /* 20 */ Unk0201ca6c *mLevel3FirstEffects[2];
     // Second of the two effect objects per side of the level 3 group.
     /* 28 */ Unk0201ca6c *mLevel3SecondEffects[2];
@@ -46,10 +46,10 @@ typedef struct KartTurnEffects {
     // Calls of dptc_updateBlueSparks since the level 2 group started; the group is released when it passes 8.
     /* 4a */ s16 mLevel2Frames;
     // Id of the effect started for each side of the turn start group: 0x14 for the Kart of the selected entry and for
-    // every Kart in time trial or when RaceSetup.mUnk_00c is 5, 0x15 for the others.
+    // every Kart in time trial or when RaceSetup.fieldC is 5, 0x15 for the others.
     /* 4c */ s32 mTurnStartEffectId;
     // Effect id of mLevel4FirstEffects: 0x11 for the Kart of the selected entry and for every Kart in time trial or
-    // when RaceSetup.mUnk_00c is 5, 0x13 for the others.
+    // when RaceSetup.fieldC is 5, 0x13 for the others.
     /* 50 */ s32 mLevel4FirstEffectId;
     // Effect id of mLevel4SecondEffects: 0x12 for the Karts that use dptc_startContRedSparksPlayer, -1 for the
     // others, which never start it.
@@ -60,10 +60,10 @@ typedef struct KartTurnEffects {
     /* 5c */ s32 mLevel3SecondEffectId;
     // Index of the Kart this record belongs to (the record number); written at init, never read.
     /* 60 */ u16 mIndex;
-    // Calls of dptc_updateContRedSparks with Kart.mUnk_44 bit 8 set since the restart was requested; the group is
+    // Calls of dptc_updateContRedSparks with Kart.field44 bit 8 set since the restart was requested; the group is
     // restarted when it passes 10.
     /* 62 */ u16 mLevel4RestartFrames;
-    // 1 after dptc_208C520 (made when Kart.mUnk_2fc is 3), 0 after every reset;
+    // 1 after dptc_208C520 (made when Kart.field2FC is 3), 0 after every reset;
     // dptc_updateContRedSparks then restarts the group once mLevel4RestartFrames passes 10.
     /* 64 */ s32 mLevel4RestartRequested;
     // The start function of the level 4 group; set per Kart by dptc_init (the variant with the second object
@@ -115,8 +115,8 @@ void dptc_updateRedSparks(KartTurnEffects *p, Vec3s16 *a, Vec3 *b);
 // Starts the level 3 objects, two per side, releasing earlier ones; does nothing when v1 is 0.
 void dptc_emitRedSparks(KartTurnEffects *p, int v1);
 // Each call: counts mLevel4StopFrames while a stop is requested and resets the group when it passes 10; restarts the
-// group after a restart request once Kart.mUnk_44 bit 8 has been set for more than 10 calls; while the group is
-// present, places the objects from the side arrays and switches their emission with Kart.mUnk_44 bit 0x10.
+// group after a restart request once Kart.field44 bit 8 has been set for more than 10 calls; while the group is
+// present, places the objects from the side arrays and switches their emission with Kart.field44 bit 0x10.
 void dptc_updateContRedSparks(KartTurnEffects *p, Kart *q);
 // Releases the level 4 group through mReleaseLevel4Effects when present and clears mLevel4Present, mLevel4StopFrames,
 // mLevel4StopRequested and both restart members.
@@ -147,7 +147,7 @@ void dptc_startContRedSparksCpu(KartTurnEffects *p);
 // Starts the first and the second level 4 object on each side.
 void dptc_startContRedSparksPlayer(KartTurnEffects *p);
 // Each call, for each side: sets the object velocity from Kart.mEffectVelocity, its position from mSidePositions minus
-// that velocity, and its emit-stop bit from Kart.mUnk_44 bit 0x10; does nothing when the group is not present.
+// that velocity, and its emit-stop bit from Kart.field44 bit 0x10; does nothing when the group is not present.
 void dptc_updateDustClouds(KartTurnEffects *p, Kart *q);
 // Sets the library's remove bit of both turn start objects and forgets them; does nothing when the group is not
 // present.
@@ -155,6 +155,6 @@ void dptc_stopDustClouds(KartTurnEffects *p);
 // Starts the two effect objects of the turn start group, replacing any earlier ones.
 void dptc_startDustClouds(KartTurnEffects *p);
 // Allocates one KartTurnEffects per counted Kart in the heap a, installs the function set with the second level 4
-// object for the selected entry, in time trial and when RaceSetup.mUnk_00c is 5 and the set with the first object
+// object for the selected entry, in time trial and when RaceSetup.fieldC is 5 and the set with the first object
 // only for the others, and clears every pointer and counter.
 void dptc_init(void *a);

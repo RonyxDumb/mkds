@@ -31,28 +31,28 @@
 #include "Main/Unknown/code_021000d0.h"
 
 void func_ov001_0218dc20(Unk02188950 *a) {
-    Unk0218dabc *r7 = a->mUnk_0a4;
+    Unk0218dabc *r7 = a->fieldA4;
     int r5;
-    u16 ang = (r7->mUnk_184 + 0x8000);
+    u16 ang = (r7->field184 + 0x8000);
     int idx;
 
-    switch (a->mUnk_0a8) {
+    switch (a->fieldA8) {
         case 1:
-            r5 = a->mPrm->mUnk_0c0;
+            r5 = a->mPrm->fieldC0;
             break;
         case 2:
-            r5 = a->mPrm->mUnk_0c4;
+            r5 = a->mPrm->fieldC4;
             break;
         case 3:
-            r5 = a->mPrm->mUnk_0c8;
+            r5 = a->mPrm->fieldC8;
             break;
         case 4:
-            r5 = a->mPrm->mUnk_0cc;
+            r5 = a->mPrm->fieldCC;
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * FX_SinCosTable_[idx]) >> 12);
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * FX_SinCosTable_[idx + 1]) >> 12);
+    a->field0.mPos.x = r7->field4 + (s32) (((s64) r5 * FX_SinCosTable_[idx]) >> 12);
+    a->field0.mPos.z = a->fieldA4->fieldC + (s32) (((s64) r5 * FX_SinCosTable_[idx + 1]) >> 12);
 }
 
 void func_ov001_0218dba8(Unk02188950 *a) {
@@ -61,11 +61,11 @@ void func_ov001_0218dba8(Unk02188950 *a) {
     int limit;
     s32 cur;
 
-    a->mUnk_13c = a->mUnk_13c - 1;
-    if (a->mUnk_13c <= 0) {
-        a->mUnk_13c = 0;
+    a->field13C = a->field13C - 1;
+    if (a->field13C <= 0) {
+        a->field13C = 0;
         cur = a->mAngle;
-        diff = (u16) (a->mUnk_0a4->mUnk_184 - cur);
+        diff = (u16) (a->fieldA4->field184 - cur);
         if (diff > 0x8000) {
             diff -= 0x10000;
         }
@@ -77,33 +77,33 @@ void func_ov001_0218dba8(Unk02188950 *a) {
 }
 
 void func_ov001_0218dadc(Unk02188950 *a) {
-    Unk0218dabc *r7 = a->mUnk_0a4;
+    Unk0218dabc *r7 = a->fieldA4;
     int r5;
-    u16 ang = (r7->mUnk_184 + 0x8000);
+    u16 ang = (r7->field184 + 0x8000);
     int idx;
 
-    switch (a->mUnk_0a8) {
+    switch (a->fieldA8) {
         case 1:
-            r5 = a->mPrm->mUnk_0c0;
+            r5 = a->mPrm->fieldC0;
             break;
         case 2:
-            r5 = a->mPrm->mUnk_0c4;
+            r5 = a->mPrm->fieldC4;
             break;
         case 3:
-            r5 = a->mPrm->mUnk_0c8;
+            r5 = a->mPrm->fieldC8;
             break;
         case 4:
-            r5 = a->mPrm->mUnk_0cc;
+            r5 = a->mPrm->fieldCC;
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * FX_SinCosTable_[idx]) >> 12);
-    a->mUnk_000.mPos.y = a->mUnk_0a4->mUnk_008;
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * FX_SinCosTable_[idx + 1]) >> 12);
+    a->field0.mPos.x = r7->field4 + (s32) (((s64) r5 * FX_SinCosTable_[idx]) >> 12);
+    a->field0.mPos.y = a->fieldA4->field8;
+    a->field0.mPos.z = a->fieldA4->fieldC + (s32) (((s64) r5 * FX_SinCosTable_[idx + 1]) >> 12);
 }
 
 void func_ov001_0218dabc(Unk02188950 *a) {
-    a->mAngle = a->mUnk_0a4->mUnk_184;
+    a->mAngle = a->fieldA4->field184;
     a->mMoveAngle = a->mAngle;
 }
 
@@ -111,12 +111,12 @@ void func_ov001_0218da1c(Unk02188950 *a) {
     ReleaseEffects(a);
     StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x427, 0xf);
     StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x426, 0xf);
-    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24d);
+    mobj_emitSfxFromEmitter2(&a->field0, 0x24d);
     func_ov001_02188230(a);
     if (func_ov001_02188220(a) == 2) {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24c);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x24c);
     } else if (func_ov001_02188220(a) >= 3) {
-        a->mUnk_0ac = 0;
+        a->fieldAC = 0;
     }
     mobj_setModelNsbtpFrame(a->mNsbmd, func_ov001_02188220(a));
 }
@@ -128,8 +128,8 @@ void func_ov001_0218d9cc(Unk02188950 *a) {
 
     list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (q = list->mUnk_00[i]) != NULL; i++) {
-            StartStateFrameCountCallback(q, (q->mUnk_0a8 * 15), (UnkFunc *) func_ov001_0218da1c);
+        for (i = 0; i < list->field4 && (q = list->field0[i]) != NULL; i++) {
+            StartStateFrameCountCallback(q, (q->fieldA8 * 15), (UnkFunc *) func_ov001_0218da1c);
         }
     }
     func_ov001_0218da1c(a);
@@ -141,16 +141,16 @@ void func_ov001_0218d950(Unk02188950 *a) {
     ModelAnimationView *s;
 
     func_ov001_02187218(a, 1, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
-    prod = a->mPrm->mUnk_0d0 * a->mUnk_0a8;
+    StartAnimationNoEndCallback(a, a->mPrm->field88, a->mPrm->field8C);
+    prod = a->mPrm->fieldD0 * a->fieldA8;
     if (prod > 0) {
         f = 0.5f + (prod << 12);
     } else {
         f = (prod << 12) - 0.5f;
     }
     s = a->mNsbmd->mNsbcaAnimation;
-    s->mUnk_0c = f;
-    *s->mUnk_1c[s->mUnk_1a] = s->mUnk_0c;
+    s->fieldC = f;
+    *s->field1C[s->field1A] = s->fieldC;
 }
 
 void func_ov001_0218d8f4(Unk02188950 *a, int b) {
@@ -159,8 +159,8 @@ void func_ov001_0218d8f4(Unk02188950 *a, int b) {
 
     list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && list->mUnk_00[i] != NULL; i++) {
-            StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, (a->mPrm->mUnk_08c * b / 100));
+        for (i = 0; i < list->field4 && list->field0[i] != NULL; i++) {
+            StartAnimationNoEndCallback(a, a->mPrm->field88, (a->mPrm->field8C * b / 100));
         }
     }
 }
@@ -172,9 +172,9 @@ void func_ov001_0218d87c(Unk02188950 *a, int b) {
 
     list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (q = list->mUnk_00[i]) != NULL; i++) {
-            q->mUnk_13c = q->mPrm->mUnk_0d8 * q->mUnk_0a8 * 100 / b;
-            q->mAnglePerCall = a->mPrm->mUnk_0d4 * b / 100;
+        for (i = 0; i < list->field4 && (q = list->field0[i]) != NULL; i++) {
+            q->field13C = q->mPrm->fieldD8 * q->fieldA8 * 100 / b;
+            q->mAnglePerCall = a->mPrm->fieldD4 * b / 100;
         }
     }
 }
@@ -183,15 +183,15 @@ void func_ov001_0218d824(Unk02188950 *b, int c) {
     MissionRunPrm *a;
 
     a = b->mPrm;
-    SetSpeedTargetAndPerCall(b, (a->mUnk_090 * c / 100), a->mUnk_094);
+    SetSpeedTargetAndPerCall(b, (a->field90 * c / 100), a->field94);
     a = b->mPrm;
-    func_ov001_02188c48(b, a->mUnk_098 * c / 100, a->mUnk_09c);
+    func_ov001_02188c48(b, a->field98 * c / 100, a->field9C);
     SetAnglePointAndMoveAnglePoint(b, &GetNextGroupEntry(b)->mPos);
 }
 
 void func_ov001_0218d800(Unk02188950 *a) {
-    a->mUnk_150 = 1;
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, a->mPrm->mUnk_08c);
+    a->field150 = 1;
+    StartAnimationNoEndCallback(a, a->mPrm->field88, a->mPrm->field8C);
 }
 
 int func_ov001_0218d520(Unk02188950 *a) {
@@ -199,13 +199,13 @@ int func_ov001_0218d520(Unk02188950 *a) {
     s32 t;
     s32 *v;
 
-    if (IsPointInRange(a, &GetCurrentGroupEntry(a)->mPos, a->mPrm->mUnk_0a0, 0)) {
+    if (IsPointInRange(a, &GetCurrentGroupEntry(a)->mPos, a->mPrm->fieldA0, 0)) {
         if (mgcnt_getDriverBalloonShineCount(gRaceMultiConfig->mEntryIndex) <= 1) {
-            r4 = 0x1000 - a->mPrm->mUnk_0ac;
+            r4 = 0x1000 - a->mPrm->fieldAC;
             t = func_ov001_02187f38(a);
             r4 = (((s64) t * r4) >> 12);
         } else if (mgcnt_getDriverBalloonShineCount(gRaceMultiConfig->mEntryIndex) <= 2) {
-            r4 = 0x1000 - a->mPrm->mUnk_0a8;
+            r4 = 0x1000 - a->mPrm->fieldA8;
             t = func_ov001_02187f38(a);
             r4 = (((s64) t * r4) >> 12);
         } else {
@@ -214,20 +214,20 @@ int func_ov001_0218d520(Unk02188950 *a) {
         if (func_ov001_02187f7c(a) >= 1) {
             func_ov001_0218d9cc(a);
         }
-        if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) == FALSE && a->mUnk_0a8 == 0 &&
+        if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) == FALSE && a->fieldA8 == 0 &&
             func_ov001_021871f8(a, 3) != 0) {
-            if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_120, a->mPrm->mUnk_124, a->mPrm->mUnk_128)) {
-                a->mUnk_0a8 = a->mPrm->mUnk_12c;
-                a->mUnk_150 = 3;
-                StartAnimationWithEndCallback(a, a->mPrm->mUnk_118, a->mPrm->mUnk_11c, (UnkFunc *) func_ov001_0218d800);
-                r4 -= a->mPrm->mUnk_130;
-                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24b);
-            } else if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_10c, a->mPrm->mUnk_110, a->mPrm->mUnk_114)) {
-                a->mUnk_0a8 = a->mPrm->mUnk_12c;
-                a->mUnk_150 = 3;
-                StartAnimationWithEndCallback(a, a->mPrm->mUnk_104, a->mPrm->mUnk_108, (UnkFunc *) func_ov001_0218d800);
-                r4 -= a->mPrm->mUnk_130;
-                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24b);
+            if (GetEntryKartInAngleRange(a, a->mPrm->field120, a->mPrm->field124, a->mPrm->field128)) {
+                a->fieldA8 = a->mPrm->field12C;
+                a->field150 = 3;
+                StartAnimationWithEndCallback(a, a->mPrm->field118, a->mPrm->field11C, (UnkFunc *) func_ov001_0218d800);
+                r4 -= a->mPrm->field130;
+                mobj_emitSfxFromEmitter2(&a->field0, 0x24b);
+            } else if (GetEntryKartInAngleRange(a, a->mPrm->field10C, a->mPrm->field110, a->mPrm->field114)) {
+                a->fieldA8 = a->mPrm->field12C;
+                a->field150 = 3;
+                StartAnimationWithEndCallback(a, a->mPrm->field104, a->mPrm->field108, (UnkFunc *) func_ov001_0218d800);
+                r4 -= a->mPrm->field130;
+                mobj_emitSfxFromEmitter2(&a->field0, 0x24b);
             }
         }
         func_ov001_0218d824(a, r4);
@@ -237,24 +237,24 @@ int func_ov001_0218d520(Unk02188950 *a) {
             IncrementEntryGroupIndex(a, 4);
         }
     }
-    if (a->mUnk_0a8 > 0) {
-        a->mUnk_0a8 = a->mUnk_0a8 - 1;
+    if (a->fieldA8 > 0) {
+        a->fieldA8 = a->fieldA8 - 1;
     }
     if (func_ov001_021871f8(a, 5)) {
         if (func_ov001_02188220(a) == 2) {
-            a->mUnk_140 = a->mUnk_140 + 1 >= 6 ? 0 : a->mUnk_140 + 1;
-            if (a->mUnk_140 == 0) {
+            a->field140 = a->field140 + 1 >= 6 ? 0 : a->field140 + 1;
+            if (a->field140 == 0) {
                 StartEffectAtOffset(a, 0, 0, 0, 0x3f9, 0x1c);
             }
-            a->mUnk_144 = a->mUnk_144 + 1 >= 0x12 ? 0 : a->mUnk_144 + 1;
-            if (a->mUnk_144 == 0) {
-                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24f);
+            a->field144 = a->field144 + 1 >= 0x12 ? 0 : a->field144 + 1;
+            if (a->field144 == 0) {
+                mobj_emitSfxFromEmitter2(&a->field0, 0x24f);
             }
         } else if (func_ov001_02188220(a) == 1) {
-            a->mUnk_140 = a->mUnk_140 + 1 >= 0x12 ? 0 : a->mUnk_140 + 1;
-            if (a->mUnk_140 == 0) {
+            a->field140 = a->field140 + 1 >= 0x12 ? 0 : a->field140 + 1;
+            if (a->field140 == 0) {
                 StartEffectAtOffset(a, 0, 0, 0, 0x3f8, 0x1c);
-                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24e);
+                mobj_emitSfxFromEmitter2(&a->field0, 0x24e);
             }
         }
     }

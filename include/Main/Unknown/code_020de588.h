@@ -10,40 +10,40 @@
 
 // Second argument of ibox_init: a Vec3 at 0x00 and halfwords at 0x26, 0x28, 0x2a, 0x2c, 0x2e, 0x30 and 0x34.
 typedef struct Unk020de6a8_1 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ u8 mUnk_0c[0x1a];
-    /* 26 */ s16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-    /* 2c */ s16 mUnk_2c;
-    /* 2e */ s16 mUnk_2e;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u8 mUnk_32[2];
-    /* 34 */ s16 mUnk_34;
+    /* 00 */ Vec3 field0;
+    /* 0c */ u8 fieldC[0x1a];
+    /* 26 */ s16 field26;
+    /* 28 */ s16 field28;
+    /* 2a */ s16 field2A;
+    /* 2c */ s16 field2C;
+    /* 2e */ s16 field2E;
+    /* 30 */ u16 field30;
+    /* 32 */ u8 field32[2];
+    /* 34 */ s16 field34;
 } Unk020de6a8_1;
 
 // Object of 0x108 or more bytes handled by ibox_init.
 typedef struct ItemBox {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject field0;
     /* 0a0 */ u16 mBoxRotationIndex;
     /* 0a2 */ u16 mQuestionRotationIndex;
     /* 0a4 */ u16 mFramesSinceHit;
-    /* 0a6 */ u8 mUnk_0a6[2];
-    /* 0a8 */ s32 mUnk_0a8;
-    /* 0ac */ s32 mUnk_0ac;
-    /* 0b0 */ s16 mUnk_0b0;
-    /* 0b2 */ u8 mUnk_0b2[2];
-    /* 0b4 */ ShadowMatrix mUnk_0b4;
-    /* 0e8 */ s32 mUnk_0e8;
-    /* 0ec */ s32 mUnk_0ec;
+    /* 0a6 */ u8 fieldA6[2];
+    /* 0a8 */ s32 fieldA8;
+    /* 0ac */ s32 fieldAC;
+    /* 0b0 */ s16 fieldB0;
+    /* 0b2 */ u8 fieldB2[2];
+    /* 0b4 */ ShadowMatrix fieldB4;
+    /* 0e8 */ s32 fieldE8;
+    /* 0ec */ s32 fieldEC;
     /* 0f0 */ u16 mPolygonId;
-    /* 0f2 */ u16 mUnk_0f2;
-    /* 0f4 */ u16 mUnk_0f4;
-    /* 0f6 */ u8 mUnk_0f6[2];
-    /* 0f8 */ s32 mUnk_0f8;
-    /* 0fc */ Vec3 *mUnk_0fc;
-    /* 100 */ UnkFunc *mUnk_100;
-    /* 104 */ void *mUnk_104;
+    /* 0f2 */ u16 fieldF2;
+    /* 0f4 */ u16 fieldF4;
+    /* 0f6 */ u8 fieldF6[2];
+    /* 0f8 */ s32 fieldF8;
+    /* 0fc */ Vec3 *fieldFC;
+    /* 100 */ UnkFunc *field100;
+    /* 104 */ void *field104;
     /* 108 */ GroupFollowerWithSpeeds mFollower;
 } ItemBox;
 

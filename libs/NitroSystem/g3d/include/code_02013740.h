@@ -87,7 +87,7 @@ typedef struct NNSG3dResJntAnm {
     /* 08 */ u32 mFlag;
     /* 0c */ u32 mOfsRot3;
     /* 10 */ u32 mOfsRot5;
-    /* 14 */ u16 mUnk_14[1]; // byte offsets from this struct, one per node
+    /* 14 */ u16 field14[1]; // byte offsets from this struct, one per node
 } NNSG3dResJntAnm;
 
 typedef NNSG3dResAnmSet NNSG3dResVisAnmSet;

@@ -31,17 +31,17 @@ u32 func_ov003_021cd1c4(void) {
     Unk021da26c *p;
     // volatile: the only spelling found that stores and reloads the argument on the stack.
     volatile u16 a = 0;
-    MIi_CpuClear16(a, data_ov003_021da26c->mUnk_1300, 0x348);
+    MIi_CpuClear16(a, data_ov003_021da26c->field1300, 0x348);
     if (WM_Initialize(data_ov003_021da26c, func_ov003_021cd080, 3) != 2) {
         return 0;
     }
     do {
-        WM_ReadStatus(&data_ov003_021da26c->mUnk_168c);
-    } while (data_ov003_021da26c->mUnk_168c.mState != 2);
+        WM_ReadStatus(&data_ov003_021da26c->field168C);
+    } while (data_ov003_021da26c->field168C.mState != 2);
     p = data_ov003_021da26c;
-    p->mUnk_1648 = data_ov003_021d6640;
-    p->mUnk_1648.mUnk_00.mUnk_00 = p->mUnk_0f00;
-    data_ov003_021da26c->mUnk_1648.mUnk_00.mUnk_08 = WM_GetDispersionScanPeriod();
+    p->field1648 = data_ov003_021d6640;
+    p->field1648.field0.field0 = p->fieldF00;
+    data_ov003_021da26c->field1648.field0.field8 = WM_GetDispersionScanPeriod();
     if (func_ov003_021cd190() != 0) {
         return 1;
     }
@@ -50,7 +50,7 @@ u32 func_ov003_021cd1c4(void) {
 
 u32 func_ov003_021cd190(void) {
     int v1;
-    v1 = WM_StartScanEx(func_ov003_021cd080, &data_ov003_021da26c->mUnk_1648.mUnk_00);
+    v1 = WM_StartScanEx(func_ov003_021cd080, &data_ov003_021da26c->field1648.field0);
     if (v1 == 2) {
         return 1;
     }
@@ -58,15 +58,15 @@ u32 func_ov003_021cd190(void) {
 }
 
 u32 func_ov003_021cd118(void) {
-    data_ov003_021da26c->mUnk_1e48 = 1;
-    WM_ReadStatus(&data_ov003_021da26c->mUnk_168c);
-    if (data_ov003_021da26c->mUnk_168c.mState != 2) {
+    data_ov003_021da26c->field1E48 = 1;
+    WM_ReadStatus(&data_ov003_021da26c->field168C);
+    if (data_ov003_021da26c->field168C.mState != 2) {
         if (WM_Reset(func_ov003_021cd080) != 2) {
             return 0;
         }
         do {
-            WM_ReadStatus(&data_ov003_021da26c->mUnk_168c);
-        } while (data_ov003_021da26c->mUnk_168c.mState != 2);
+            WM_ReadStatus(&data_ov003_021da26c->field168C);
+        } while (data_ov003_021da26c->field168C.mState != 2);
     }
     if (WM_End(func_ov003_021cd080) != 2) {
         return 0;
@@ -80,7 +80,7 @@ int func_ov003_021cd0d0(int *a) {
     int v3;
     int v4;
     v2 = 0;
-    *a = (s32) data_ov003_021da26c->mUnk_1300;
+    *a = (s32) data_ov003_021da26c->field1300;
     v1 = 0;
     v3 = *a;
     do {

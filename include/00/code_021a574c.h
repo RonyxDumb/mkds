@@ -7,10 +7,10 @@ typedef struct Unk021a586c Unk021a586c;
 typedef struct Unk021b5f50 Unk021b5f50;
 
 typedef struct Unk021a5a78 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 *mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ u32 field0;
+    /* 04 */ u8 *field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
 } Unk021a5a78;
 
 void func_ov000_021a574c(void);

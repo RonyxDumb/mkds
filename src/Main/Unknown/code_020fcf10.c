@@ -17,27 +17,27 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     s32 s;
 
     kart = item->mKartItems->mKart;
-    item->mUnk_22c = kart->mSignedTurnedForward;
-    pos = &item->mUnk_000.mPos;
-    velocity = &item->mUnk_000.mVelocity;
-    toTarget = &item->mUnk_238;
-    if (kart->mUnk_44 & 0x100) {
-        item->mUnk_22c.x = -item->mUnk_22c.x;
-        item->mUnk_22c.y = -item->mUnk_22c.y;
-        item->mUnk_22c.z = -item->mUnk_22c.z;
+    item->field22C = kart->mSignedTurnedForward;
+    pos = &item->field0.mPos;
+    velocity = &item->field0.mVelocity;
+    toTarget = &item->field238;
+    if (kart->field44 & 0x100) {
+        item->field22C.x = -item->field22C.x;
+        item->field22C.y = -item->field22C.y;
+        item->field22C.z = -item->field22C.z;
     }
-    vec_crossProduct(&item->mUnk_22c, &kart->mGroundNormal, &t);
+    vec_crossProduct(&item->field22C, &kart->mGroundNormal, &t);
     s = ((s64) radius * FX_SinCosTable_[(angle >> 4) * 2 + 1]) >> 12;
-    item->mUnk_250.x = ((s64) t.x * s) >> 12;
-    item->mUnk_250.y = ((s64) t.y * s) >> 12;
-    item->mUnk_250.z = ((s64) t.z * s) >> 12;
+    item->field250.x = ((s64) t.x * s) >> 12;
+    item->field250.y = ((s64) t.y * s) >> 12;
+    item->field250.z = ((s64) t.z * s) >> 12;
     s = ((s64) radius * FX_SinCosTable_[(angle >> 4) * 2]) >> 12;
-    VEC_MultAdd(s, &item->mUnk_22c, &item->mUnk_250, &item->mUnk_250);
-    VEC_MultAdd(0x1e000, &item->mUnk_22c, &item->mUnk_250, &t);
+    VEC_MultAdd(s, &item->field22C, &item->field250, &item->field250);
+    VEC_MultAdd(0x1e000, &item->field22C, &item->field250, &t);
     if (func_0206c0b0(kart) == FALSE) {
-        item->mUnk_244 = kart->mDrawMatrixPos;
+        item->field244 = kart->mDrawMatrixPos;
     }
-    VEC_Add(&t, &item->mUnk_244, &t);
+    VEC_Add(&t, &item->field244, &t);
     VEC_Subtract(&t, pos, toTarget);
     t.x = ((s64) toTarget->x * gain) >> 12;
     t.y = ((s64) toTarget->y * gain) >> 12;
@@ -54,11 +54,11 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     velocity->y = (velocity->y * (s32) oldWeight + t.y) >> shift;
     velocity->z = (velocity->z * oldWeight + t.z) >> shift;
     VEC_Add(velocity, pos, pos);
-    if (col_collide(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
+    if (col_collide(pos, &item->field0.mPrevPos, 0, item->field0.fieldDC, 4, item->field0.mCollisionSlotIndex,
                       &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
-    if ((kart->mUnk_48 & 1) == 0) {
+    if ((kart->field48 & 1) == 0) {
         pos->y += t.y;
         return;
     }

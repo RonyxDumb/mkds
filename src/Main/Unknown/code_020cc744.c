@@ -70,7 +70,7 @@ void menu_configureRace(void) {
         }
         SetNextCCMode(menu_getRaceConfig()->mEngineIndex);
         SetNextMirrorMode(menu_getRaceConfig()->mMirrorMode);
-        SetNextTTGhost(menu_getRaceConfig()->mUnk_e0);
+        SetNextTTGhost(menu_getRaceConfig()->fieldE0);
         SetNextBattleMode(menu_getRaceConfig()->mBattleKind);
         SetNextTeamMode(menu_getRaceConfig()->mUseTeams);
         SetNextNrRacesNrWins(menu_getRaceConfig()->mCourseCount);

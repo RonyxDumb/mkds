@@ -4,25 +4,25 @@
 
 // 8 bytes, moved one byte at a time.
 typedef struct Unk0218e3c4 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02[6];
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u8 field2[6];
 } Unk0218e3c4;
 
-// Object func_ov000_021a8f84 returns; mUnk_0c points at a table of pointers to a word.
+// Object func_ov000_021a8f84 returns; fieldC points at a table of pointers to a word.
 typedef struct Unk021a8f84 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u8 *mUnk_04;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ s16 mUnk_0a;
-    /* 0c */ u32 **mUnk_0c;
+    /* 00 */ u8 *field0;
+    /* 04 */ u8 *field4;
+    /* 08 */ s16 field8;
+    /* 0a */ s16 fieldA;
+    /* 0c */ u32 **fieldC;
 } Unk021a8f84;
 
 // 8 bytes: descriptor, requested events and returned events.
 typedef struct Unk0218e68c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
+    /* 00 */ s32 field0;
+    /* 04 */ s16 field4;
+    /* 06 */ s16 field6;
 } Unk0218e68c;
 
 extern u8 data_ov000_021b4e04[];

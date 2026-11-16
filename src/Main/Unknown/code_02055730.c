@@ -78,7 +78,7 @@ void dce_init(void *heap) {
     sDceState->mBlendMin = 0;
     sDceState->mBlendFactor = 0x1000;
     sDceState->mMode = 0;
-    if (gVramWvrStatus.mUnk_00 == 0) {
+    if (gVramWvrStatus.field0 == 0) {
         sDceState->mMode = 0;
     }
 }
@@ -96,12 +96,12 @@ static inline u32 func_02055808_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_02055808_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_02055808_inline() != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -109,7 +109,7 @@ static inline s32 func_02055808_inline2(void) {
 
 static inline s32 func_02055808_inline3(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_02055808_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -117,7 +117,7 @@ static inline s32 func_02055808_inline3(void) {
 
 static inline s32 func_02055808_inline4(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline3() && gStruct217AA00->mUnk_0008 != 9) {
+    if (func_02055808_inline3() && gStruct217AA00->field8 != 9) {
         r = TRUE;
     }
     return r;
@@ -125,7 +125,7 @@ static inline s32 func_02055808_inline4(void) {
 
 void dce_setMode(s32 mode) {
     sDceState->mMode = mode;
-    if (gVramWvrStatus.mUnk_00 == 0) {
+    if (gVramWvrStatus.field0 == 0) {
         sDceState->mMode = 0;
     }
 }
@@ -149,14 +149,14 @@ void dce_setupDouble3D(void) {
     affineMatrix[2] = 0;
     G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, affineMatrix, 0, 0, 0, 0);
     for (clearIndex = 0; clearIndex < 0x80; clearIndex++) {
-        oamBuffer[clearIndex].mUnk_00 = 0;
-        oamBuffer[clearIndex].mUnk_04 = 0;
+        oamBuffer[clearIndex].field0 = 0;
+        oamBuffer[clearIndex].field4 = 0;
     }
     entryIndex = 0;
     for (row = 0; row < 3; row++) {
         for (column = 0; column < 4; column++) {
             oamEntry = &oamBuffer[entryIndex++];
-            oamEntry->mUnk_00 = (u8) (0x40 * row) | 0xc0000c00 | ((column * 0x40 & 0x1ff) << 16);
+            oamEntry->field0 = (u8) (0x40 * row) | 0xc0000c00 | ((column * 0x40 & 0x1ff) << 16);
             oamEntry->mUnk_04_h = (0x100 * row + column * 8) | 0xf000;
         }
     }
@@ -272,9 +272,9 @@ static inline s32 func_02055b1c_inline(void) {
         t = 0;
         r = FALSE;
     } else {
-        t = gStruct217AA00->mUnk_0000;
+        t = gStruct217AA00->field0;
     }
-    if (t != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (t != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -305,7 +305,7 @@ void dce_fadeOutToBlack(u32 frameCount) {
 BOOL dce_2055B1C(void) {
     if (func_02055b1c_inline()) {
         if (func_0204ffbc() != 0) {
-            return (gStruct217AA00->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
+            return (gStruct217AA00->mUnk_15bc_view.fieldC->field6_0 & 4) != 0;
         }
         return FALSE;
     }
@@ -333,9 +333,9 @@ s32 record_run(SceneNumbers *sceneNumbers) {
 void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask) {
     u8 keptBits;
 
-    keptBits = gStruct217AA00->mUnk_043d & keepMask;
-    MI_CpuCopy8(entryName, &gStruct217AA00->mUnk_045c[entryIndex], 0x14);
-    gStruct217AA00->mUnk_043d = keptBits | (1 << entryIndex);
+    keptBits = gStruct217AA00->field43D & keepMask;
+    MI_CpuCopy8(entryName, &gStruct217AA00->field45C[entryIndex], 0x14);
+    gStruct217AA00->field43D = keptBits | (1 << entryIndex);
 }
 
 s32 func_02055808(s32 a) {
@@ -348,11 +348,11 @@ s32 func_02055808(s32 a) {
     if (func_02055808_inline4()) {
         return 3;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 0:
         case 21:
-            gStruct217AA00->mUnk_0454 &= ~0x40;
-            gStruct217AA00->mUnk_0004 = 1;
+            gStruct217AA00->field454 &= ~0x40;
+            gStruct217AA00->field4 = 1;
             Initialize();
             break;
         case 1:
@@ -364,7 +364,7 @@ s32 func_02055808(s32 a) {
                 SetLifeTime(0x14);
             } else {
                 result = TRUE;
-                gStruct217AA00->mUnk_0004 = 3;
+                gStruct217AA00->field4 = 3;
                 StartScan(1, NULL, NULL);
             }
             break;
@@ -383,10 +383,10 @@ s32 func_02055808(s32 a) {
             StartMP();
             break;
         case 11:
-            gStruct217AA00->mUnk_0004 = 2;
-            gStruct217AA00->mUnk_0044.mUnk_3e = 0;
+            gStruct217AA00->field4 = 2;
+            gStruct217AA00->field44.field3E = 0;
             result = TRUE;
-            gStruct217AA00->mUnk_008b &= ~8;
+            gStruct217AA00->field8B &= ~8;
             break;
         default:
             func_020533a0();
@@ -402,17 +402,17 @@ s32 func_0205579c(s32 a, s32 b) {
         }
         return func_02055808(a);
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return func_0204e1a8(a);
     }
     return func_02055808(a);
 }
 
 s32 func_02055730(u16 a) {
-    if (gStruct217AA00->mUnk_0436 & 1) {
-        gStruct217AA00->mUnk_0436 &= ~1;
+    if (gStruct217AA00->field436 & 1) {
+        gStruct217AA00->field436 &= ~1;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204fe90(a) != 0) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2 || func_0204fe90(a) != 0) {
         return func_0204dd24(a);
     }
     return func_02055564(a);

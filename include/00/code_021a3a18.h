@@ -5,35 +5,35 @@
 typedef struct Unk021b5df4 Unk021b5df4;
 
 typedef struct Unk021a3a18 {
-    /* 000 */ u32 mUnk_00;
-    /* 004 */ char mUnk_04[0x80];
-    /* 084 */ s8 mUnk_84[0x18];
-    /* 09c */ void (*mUnk_9c)(s8 a, u8 *b, u32 c);
-    /* 0a0 */ void (*mUnk_a0)(u32 a, u32 b);
-    /* 0a4 */ void (*mUnk_a4)(s8 *a, s32 b, u32 c);
-    /* 0a8 */ s32 mUnk_a8;
-    /* 0ac */ u32 mUnk_ac;
-    /* 0b0 */ u32 mUnk_b0;
-    /* 0b4 */ u32 mUnk_b4;
-    /* 0b8 */ s32 mUnk_b8;
-    /* 0bc */ s32 mUnk_bc;
-    /* 0c0 */ u32 mUnk_c0;
+    /* 000 */ u32 field0;
+    /* 004 */ char field4[0x80];
+    /* 084 */ s8 field84[0x18];
+    /* 09c */ void (*field9C)(s8 a, u8 *b, u32 c);
+    /* 0a0 */ void (*fieldA0)(u32 a, u32 b);
+    /* 0a4 */ void (*fieldA4)(s8 *a, s32 b, u32 c);
+    /* 0a8 */ s32 fieldA8;
+    /* 0ac */ u32 fieldAC;
+    /* 0b0 */ u32 fieldB0;
+    /* 0b4 */ u32 fieldB4;
+    /* 0b8 */ s32 fieldB8;
+    /* 0bc */ s32 fieldBC;
+    /* 0c0 */ u32 fieldC0;
     /* 0c4 */ u8 pad_c4[4];
-    /* 0c8 */ s32 mUnk_c8;
-    /* 0cc */ u8 mUnk_cc[8];
-    /* 0d4 */ void (*mUnk_d4)(s8 *a, s32 b, void *c);
-    /* 0d8 */ s32 mUnk_d8[10];
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ u32 mUnk_104;
-    /* 108 */ u16 mUnk_108;
+    /* 0c8 */ s32 fieldC8;
+    /* 0cc */ u8 fieldCC[8];
+    /* 0d4 */ void (*fieldD4)(s8 *a, s32 b, void *c);
+    /* 0d8 */ s32 fieldD8[10];
+    /* 100 */ s32 field100;
+    /* 104 */ u32 field104;
+    /* 108 */ u16 field108;
     /* 10a */ u8 pad_10a[2];
-    /* 10c */ u32 mUnk_10c;
+    /* 10c */ u32 field10C;
 } Unk021a3a18;
 
 // A buffer and its length, which follows the 0x800 bytes of the buffer.
 typedef struct Unk021a4480 {
-    /* 000 */ u8 mUnk_000[0x800];
-    /* 800 */ s32 mUnk_800;
+    /* 000 */ u8 field0[0x800];
+    /* 800 */ s32 field800;
 } Unk021a4480;
 
 typedef struct Unk021a3a18 Unk021a3a18;
@@ -41,7 +41,7 @@ typedef struct Unk021a3a18 Unk021a3a18;
 typedef struct Unk021a3a18 Unk021a3a18;
 
 typedef struct Unk021a3eb0 {
-    /* 0 */ u8 mUnk_00[6];
+    /* 0 */ u8 field0[6];
 } Unk021a3eb0;
 
 typedef struct Unk021a471c Unk021a471c;
@@ -49,31 +49,31 @@ typedef struct Unk021a4a08 Unk021a4a08;
 
 typedef struct Unk021a8f84 Unk021a8f84;
 
-// Output buffer the string writers append to: bytes at mUnk_000, used length at mUnk_800.
+// Output buffer the string writers append to: bytes at field0, used length at field800.
 typedef struct Unk021a471c {
-    /* 000 */ u8 mUnk_000[0x800];
-    /* 800 */ s32 mUnk_800;
+    /* 000 */ u8 field0[0x800];
+    /* 800 */ s32 field800;
 } Unk021a471c;
 
 // Address record filled by func_ov000_021a4654.
 typedef struct Unk021a4654 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk021a4654;
 
 // Four-byte entry moved by func_ov000_021a46d4.
 typedef struct Unk021a46d4 {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 field0[4];
 } Unk021a46d4;
 
 typedef struct Unk021a4a08 Unk021a4a08;
 
-// List of values and their count; filled by the callback at mUnk_094 of an Unk021a4a08.
+// List of values and their count; filled by the callback at field94 of an Unk021a4a08.
 typedef struct MatchingKeyIds {
-    /* 000 */ u8 mUnk_000[0x100];
-    /* 100 */ s32 mUnk_100;
+    /* 000 */ u8 field0[0x100];
+    /* 100 */ s32 field100;
 } MatchingKeyIds;
 
 typedef void (*Unk021a4a08Func88)(u8 a, Unk021a471c *b, void *c);
@@ -85,34 +85,34 @@ typedef void (*Unk021a4a08Funca8)(u32 a, u16 b, void *c);
 
 // 0x110 bytes; func_ov000_021a4a08 fills it, data_ov000_021b426c points at the one in use.
 typedef struct Unk021a4a08 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x40];
-    /* 044 */ u8 mUnk_044[0x40];
-    /* 084 */ u8 mUnk_084[4];
-    /* 088 */ Unk021a4a08Func88 mUnk_088;
-    /* 08c */ Unk021a4a08Func8c mUnk_08c;
-    /* 090 */ Unk021a4a08Func8c mUnk_090;
-    /* 094 */ Unk021a4a08Func94 mUnk_094;
-    /* 098 */ Unk021a4a08Func98 mUnk_098;
-    /* 09c */ Unk021a4a08Func9c mUnk_09c;
-    /* 0a0 */ UnkFunc *mUnk_0a0;
-    /* 0a4 */ UnkFunc *mUnk_0a4;
-    /* 0a8 */ Unk021a4a08Funca8 mUnk_0a8;
-    /* 0ac */ u32 mUnk_0ac;
-    /* 0b0 */ u32 mUnk_0b0;
-    /* 0b4 */ BOOL mUnk_0b4;
-    /* 0b8 */ s32 mUnk_0b8;
-    /* 0bc */ s32 mUnk_0bc;
-    /* 0c0 */ s32 mUnk_0c0;
-    /* 0c4 */ BOOL mUnk_0c4;
-    /* 0c8 */ s32 mUnk_0c8;
-    /* 0cc */ Unk021a4654 mUnk_0cc;
-    /* 0d4 */ s32 mUnk_0d4;
-    /* 0d8 */ s32 mUnk_0d8[10];
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ u32 mUnk_104;
-    /* 108 */ u16 mUnk_108;
-    /* 10c */ void *mUnk_10c;
+    /* 000 */ s32 field0;
+    /* 004 */ u8 field4[0x40];
+    /* 044 */ u8 field44[0x40];
+    /* 084 */ u8 field84[4];
+    /* 088 */ Unk021a4a08Func88 field88;
+    /* 08c */ Unk021a4a08Func8c field8C;
+    /* 090 */ Unk021a4a08Func8c field90;
+    /* 094 */ Unk021a4a08Func94 field94;
+    /* 098 */ Unk021a4a08Func98 field98;
+    /* 09c */ Unk021a4a08Func9c field9C;
+    /* 0a0 */ UnkFunc *fieldA0;
+    /* 0a4 */ UnkFunc *fieldA4;
+    /* 0a8 */ Unk021a4a08Funca8 fieldA8;
+    /* 0ac */ u32 fieldAC;
+    /* 0b0 */ u32 fieldB0;
+    /* 0b4 */ BOOL fieldB4;
+    /* 0b8 */ s32 fieldB8;
+    /* 0bc */ s32 fieldBC;
+    /* 0c0 */ s32 fieldC0;
+    /* 0c4 */ BOOL fieldC4;
+    /* 0c8 */ s32 fieldC8;
+    /* 0cc */ Unk021a4654 fieldCC;
+    /* 0d4 */ s32 fieldD4;
+    /* 0d8 */ s32 fieldD8[10];
+    /* 100 */ s32 field100;
+    /* 104 */ u32 field104;
+    /* 108 */ u16 field108;
+    /* 10c */ void *field10C;
 } Unk021a4a08;
 
 s32 func_ov000_021a4a08(Unk021a4a08 **a, s32 b, s32 c, const char *d, const char *e, s32 f, s32 g, Unk021a4a08Func88 h,

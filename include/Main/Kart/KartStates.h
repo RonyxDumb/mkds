@@ -6,12 +6,12 @@ typedef struct Kart Kart;
 
 // Object read by driver_tryStartBackwardFlip: vectors at 0x04, 0x28, 0x34 and 0x40.
 typedef struct Unk0206b020 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ u8 mUnk_10[0x18];
-    /* 28 */ Vec3 mUnk_28;
-    /* 34 */ Vec3 mUnk_34;
-    /* 40 */ Vec3 mUnk_40;
+    /* 00 */ u8 field0[4];
+    /* 04 */ Vec3 field4;
+    /* 10 */ u8 field10[0x18];
+    /* 28 */ Vec3 field28;
+    /* 34 */ Vec3 field34;
+    /* 40 */ Vec3 field40;
 } Unk0206b020;
 
 extern const s16 driver_sThunderShrinkTimes[];

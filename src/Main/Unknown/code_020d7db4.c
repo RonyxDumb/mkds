@@ -29,7 +29,7 @@
 
 void pwex_interpolateXZLinearY(void *segmentProgressPointer, Vec3 *position) {
     SegmentProgress *segmentProgress = segmentProgressPointer;
-    pw_interpolateXZLinearY(&segmentProgress->mUnk_00, segmentProgress->mUnk_5c, position);
+    pw_interpolateXZLinearY(&segmentProgress->field0, segmentProgress->field5C, position);
 }
 
 #pragma thumb on
@@ -140,7 +140,7 @@ void pw_setupPath(u32 groupIndex, CourseMapEntryGroup *entryGroup) {
     }
     entryCount = entryGroup->mEntryCount;
     path->mSegmentCount = entryCount;
-    path->mWraps = entryGroup->mUnk_01;
+    path->mWraps = entryGroup->field1;
     if (path->mWraps == 0) {
         path->mSegmentCount = path->mSegmentCount - 1;
     }

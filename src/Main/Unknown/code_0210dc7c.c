@@ -185,8 +185,8 @@ u32 sound_210DCCC(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 second
     SoundSet soundSet;
 
     soundSet.mSeqId = seqId;
-    soundSet.mUnk_04 = firstBankId;
-    soundSet.mUnk_08 = secondBankId;
+    soundSet.field4 = firstBankId;
+    soundSet.field8 = secondBankId;
     player->mSoundSet = soundSet;
     if (IsSoundSetLoaded(loadedSet, player->mSoundSet) == 0) {
         ReleaseSoundSet(loadedSet);

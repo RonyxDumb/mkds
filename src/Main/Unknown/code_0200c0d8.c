@@ -9,7 +9,7 @@
 void SetupPieceSizes(s32 packetSize) {
     gPieceSizes.mPieceSize = packetSize - 2;
     gPieceSizes.mPieceCount = 0x1e / gPieceSizes.mPieceSize;
-    gPieceSizes.mUnk_08 = 0x1e;
+    gPieceSizes.field8 = 0x1e;
 }
 
 #pragma thumb off
@@ -52,10 +52,10 @@ u8 *WriteParentMessage(u8 *input, u8 *output) {
     *cursor++ = message->mKind;
     switch (message->mKind) {
         case 4:
-            *cursor++ = message->mUnk_02;
-            *cursor++ = (message->mUnk_02 & 0xff00) >> 8;
-            *cursor++ = message->mUnk_04;
-            *cursor++ = (message->mUnk_04 & 0xff00) >> 8;
+            *cursor++ = message->field2;
+            *cursor++ = (message->field2 & 0xff00) >> 8;
+            *cursor++ = message->field4;
+            *cursor++ = (message->field4 & 0xff00) >> 8;
             break;
         case 1:
         case 2:
@@ -77,23 +77,23 @@ u8 *ReadChildMessage(u8 *bytes, ChildMessage *message, u32 child) {
             if (AreAllPiecesReceived(child) != 0) {
                 return (u8 *) gPieceBuffer + (child - 1) * 0x20;
             }
-            *(u8 *) &message->mUnk_02 = bytes[1];
-            if (*(u8 *) &message->mUnk_02 > gPieceSizes.mPieceCount) {
+            *(u8 *) &message->field2 = bytes[1];
+            if (*(u8 *) &message->field2 > gPieceSizes.mPieceCount) {
                 return NULL;
             }
             MI_CpuCopy8(bytes + 2, (u8 *) message + 3, gPieceSizes.mPieceSize);
             v1 = StorePiece(message, child);
             break;
         case 8:
-            message->mUnk_02 = bytes[1] & 0xff;
+            message->field2 = bytes[1] & 0xff;
             v1 = bytes + 3;
-            message->mUnk_02 |= (bytes[2] << 8) & 0xff00;
+            message->field2 |= (bytes[2] << 8) & 0xff00;
             break;
         case 9:
-            message->mUnk_02 = bytes[1] & 0xff;
+            message->field2 = bytes[1] & 0xff;
             v1 = bytes + 3;
-            message->mUnk_02 |= (bytes[2] << 8) & 0xff00;
-            MI_CpuCopy8(v1, message->mUnk_04, gPieceSizes.mPieceSize);
+            message->field2 |= (bytes[2] << 8) & 0xff00;
+            MI_CpuCopy8(v1, message->field4, gPieceSizes.mPieceSize);
             v1 += gPieceSizes.mPieceSize;
             break;
         default:
@@ -111,7 +111,7 @@ u8 *StorePiece(ChildMessage *message, u32 child) {
     if (pieceBuffer == NULL) {
         return NULL;
     }
-    pieceIndex = *(u8 *) &message->mUnk_02;
+    pieceIndex = *(u8 *) &message->field2;
     if (pieceIndex > gPieceSizes.mPieceCount) {
         return NULL;
     }
@@ -150,17 +150,17 @@ u8 *WriteChildMessage(ChildMessage *message, u8 *buffer) {
     *cursor++ = message->mKind;
     switch (message->mKind) {
         case 7:
-            *cursor++ = *(u8 *) &message->mUnk_02;
-            if (*(u8 *) &message->mUnk_02 > gPieceSizes.mPieceCount) {
+            *cursor++ = *(u8 *) &message->field2;
+            if (*(u8 *) &message->field2 > gPieceSizes.mPieceCount) {
                 return NULL;
             }
             MI_CpuCopy8((u8 *) message + 3, cursor, gPieceSizes.mPieceSize);
             cursor += gPieceSizes.mPieceSize;
             break;
         case 9:
-            *cursor++ = message->mUnk_02;
-            *cursor++ = (message->mUnk_02 & 0xff00) >> 8;
-            MI_CpuCopy8(message->mUnk_04, cursor, gPieceSizes.mPieceSize);
+            *cursor++ = message->field2;
+            *cursor++ = (message->field2 & 0xff00) >> 8;
+            MI_CpuCopy8(message->field4, cursor, gPieceSizes.mPieceSize);
             cursor += gPieceSizes.mPieceSize;
             break;
         case 8:
@@ -184,12 +184,12 @@ u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer) {
     message->mKind = *buffer++;
     switch (message->mKind) {
         case 4:
-            message->mUnk_02 = buffer[0];
-            message->mUnk_02 |= buffer[1] << 8;
-            message->mUnk_04 = buffer[2];
+            message->field2 = buffer[0];
+            message->field2 |= buffer[1] << 8;
+            message->field4 = buffer[2];
             v1 = buffer + 3;
             buffer += 4;
-            message->mUnk_04 |= *v1 << 8;
+            message->field4 |= *v1 << 8;
             break;
         case 1:
         case 2:

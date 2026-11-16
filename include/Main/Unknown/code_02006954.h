@@ -10,10 +10,10 @@ typedef struct BlockTransfer BlockTransfer;
 typedef struct BlockListNode {
     /* 00 */ u32 mId;
     /* 04 */ s32 mSize;
-    /* 08 */ u8 mUnk_08[0x20];
+    /* 08 */ u8 field8[0x20];
     /* 28 */ struct BlockListNode *mNext;
     /* 2c */ u8 *mData;
-    /* 30 */ u16 mUnk_30;
+    /* 30 */ u16 field30;
     /* 32 */ u16 mHasNoData;
 } BlockListNode;
 

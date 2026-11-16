@@ -9,13 +9,13 @@
 #include "00/GameSpy/gt2Message.h"
 
 BOOL func_ov000_021986ac(Gt2Connection *a, u32 b) {
-    if (a->mUnk_0c < 5) {
+    if (a->fieldC < 5) {
         BOOL r = FALSE;
-        if (a->mUnk_10 != FALSE) {
+        if (a->field10 != FALSE) {
             if (a->mTimeSinceCreateLimit != 0 && b - a->mCreateTime > a->mTimeSinceCreateLimit) {
                 r = TRUE;
             }
-        } else if (a->mUnk_0c < 4) {
+        } else if (a->fieldC < 4) {
             if (b - a->mCreateTime > 60000) {
                 r = TRUE;
             }
@@ -35,10 +35,10 @@ BOOL func_ov000_02198658(Gt2Connection *a, u32 b) {
     int n;
     int i;
     Unk02198af4 *p;
-    n = DarrayGetCount((u32 *) a->mUnk_60);
+    n = DarrayGetCount((u32 *) a->field60);
     for (i = 0; i < n; i++) {
-        p = DarrayGetElement(a->mUnk_60, i);
-        if (b - p->mUnk_0c > 1000) {
+        p = DarrayGetElement(a->field60, i);
+        if (b - p->fieldC > 1000) {
             if (func_ov000_02198af4(a, p) == 0) {
                 return FALSE;
             }
@@ -48,10 +48,10 @@ BOOL func_ov000_02198658(Gt2Connection *a, u32 b) {
 }
 
 BOOL func_ov000_0219861c(Gt2Connection *a, u32 b) {
-    if (a->mUnk_90 == 0) {
+    if (a->field90 == 0) {
         return TRUE;
     }
-    if (b - a->mUnk_94 > 100) {
+    if (b - a->field94 > 100) {
         if (func_ov000_02198c08(a) == 0) {
             return FALSE;
         }

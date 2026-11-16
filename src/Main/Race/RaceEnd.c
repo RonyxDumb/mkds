@@ -131,10 +131,10 @@ void SetCupWinningTeamFromRecords(void) {
         return;
     }
     if (raceSetup->mRuleKind == 1 || raceSetup->mMode == MODE_BATTLE) {
-        firstTeamScore = func_020b3b58_inline(0)->mUnk_02;
+        firstTeamScore = func_020b3b58_inline(0)->field2;
     } else {
         firstTeamRecord = &rres_sRaceResults->mTeamResults[rres_205DB28()].mTeams[0];
-        firstTeamScore = firstTeamRecord->mUnk_00;
+        firstTeamScore = firstTeamRecord->field0;
     }
     raceSetup = gRaceMultiConfig;
     isRuleKind1OrBattle = TRUE;
@@ -142,9 +142,9 @@ void SetCupWinningTeamFromRecords(void) {
         isRuleKind1OrBattle = FALSE;
     }
     if (isRuleKind1OrBattle) {
-        secondTeamScore = func_020b3b58_inline(1)->mUnk_02;
+        secondTeamScore = func_020b3b58_inline(1)->field2;
     } else {
-        secondTeamScore = func_020b3b58_inline2()->mTeams[1].mUnk_00;
+        secondTeamScore = func_020b3b58_inline2()->mTeams[1].field0;
     }
     if (firstTeamScore > secondTeamScore) {
         rres_205D6D0(0);
@@ -203,7 +203,7 @@ void UpdateRaceEnd(void) {
         gRaceEnd->mResultsSet = TRUE;
     }
     followedKartIndex = Race_GetPlayerId();
-    if (gRaceStatus->mUnk_000[followedKartIndex].mStatus != 1 && gRaceStatus->mRaceDone == 0) {
+    if (gRaceStatus->field0[followedKartIndex].mStatus != 1 && gRaceStatus->mRaceDone == 0) {
         return;
     }
     a = gRaceEnd->mEndFrames;
@@ -219,7 +219,7 @@ void UpdateRaceEnd(void) {
                 case MODE_VS:
                 case 5:
                     if (raceSetup->mRuleKind != 1) {
-                        if (gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus == 1) {
+                        if (gRaceStatus->field0[Race_GetPlayerId()].mStatus == 1) {
                             SetStemSet(3);
                         }
                     }
@@ -249,7 +249,7 @@ void UpdateRaceEnd(void) {
                     if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x44);
                     } else {
-                        followedKartStatus = gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus;
+                        followedKartStatus = gRaceStatus->field0[Race_GetPlayerId()].mStatus;
                         if (followedKartStatus == 3) {
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x43);
                         } else {
@@ -263,11 +263,11 @@ void UpdateRaceEnd(void) {
             switch (raceSetup->mMode) {
                 case MODE_VS:
                     if (raceSetup->mRuleKind == 1) {
-                        SetStemSet((driver_getById(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
+                        SetStemSet((driver_getById(raceSetup->mEntryIndex)->field7C & 0x2000000) ? 4 : 5);
                     }
                     break;
                 case MODE_BATTLE:
-                    SetStemSet((driver_getById(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
+                    SetStemSet((driver_getById(raceSetup->mEntryIndex)->field7C & 0x2000000) ? 4 : 5);
                     break;
                 case MODE_MISSION_RUN:
                     if ((rstat_hasDriverFinished((u16) raceSetup->mEntryIndex) ? gRaceStatus->mEntryEndKind : 6) != 0) {

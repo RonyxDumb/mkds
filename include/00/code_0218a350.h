@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct Unk0218a5b0 {
-    /* 00 */ u8 mUnk_00[24];
+    /* 00 */ u8 field0[24];
 } Unk0218a5b0;
 
 extern s8 *data_ov000_021b20ec;

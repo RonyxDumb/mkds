@@ -32,8 +32,8 @@ void RunListNodeCallbacks(void) {
         return;
     }
     do {
-        data_0217eeb0 = n->mUnk_00;
-        ((void (*)(void *, s32)) n->mUnk_04)(n->mUnk_08, -1);
+        data_0217eeb0 = n->field0;
+        ((void (*)(void *, s32)) n->field4)(n->field8, -1);
         n = data_0217eeb0;
     } while (n != 0);
 }

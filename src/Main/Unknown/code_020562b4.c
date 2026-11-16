@@ -16,7 +16,7 @@ void CombineParticipantBits(void) {
     for (i = 0; i < 8; i++) {
         if ((gStruct217AA00->mParticipantMask & (1 << i)) != 0) {
             for (j = 0; j < 4; j++) {
-                entry = &gStruct217AA00->mUnk_045c[i];
+                entry = &gStruct217AA00->field45C[i];
                 bitsByte = &entry->mBits[j];
                 if (i == 0) {
                     gSaveData->mParticipantAndBits[j] = *bitsByte;
@@ -26,7 +26,7 @@ void CombineParticipantBits(void) {
                     gSaveData->mParticipantOrBits[j] |= *bitsByte;
                 }
             }
-            entry = &gStruct217AA00->mUnk_045c[i];
+            entry = &gStruct217AA00->field45C[i];
             value = savd_calcKartUnlockLevel(entry->mBits);
             if (i == 0) {
                 gSaveData->mParticipantMaxValue = value;

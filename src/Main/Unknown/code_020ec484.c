@@ -15,16 +15,16 @@ void rdmo_rotDieStateInit(MapObject *object) {
 }
 
 void rdmo_rotDieStateUpdate(Unk020e43a8 *object) {
-    if (object->mUnk_0a8) {
-        object->mUnk_0ac = object->mUnk_0ac + object->mUnk_0ae;
+    if (object->fieldA8) {
+        object->fieldAC = object->fieldAC + object->fieldAE;
     } else {
-        object->mUnk_0ac = object->mUnk_0ac - object->mUnk_0ae;
+        object->fieldAC = object->fieldAC - object->fieldAE;
     }
-    object->mUnk_00.mUnk_10.y -= object->mUnk_0a4;
-    VEC_Add(&object->mUnk_00.mPos, &object->mUnk_00.mUnk_10, &object->mUnk_00.mPos);
-    if (object->mUnk_00.mPos.y < object->mUnk_0a0) {
-        object->mUnk_00.mStateMachine.mNextState = 2;
-        object->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    object->field0.field10.y -= object->fieldA4;
+    VEC_Add(&object->field0.mPos, &object->field0.field10, &object->field0.mPos);
+    if (object->field0.mPos.y < object->fieldA0) {
+        object->field0.mStateMachine.mNextState = 2;
+        object->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 

@@ -3,12 +3,12 @@
 #include "types.h"
 
 typedef struct Unk021b3bb8 {
-    /* 00 */ s8 mUnk_00[0x24];
+    /* 00 */ s8 field0[0x24];
 } Unk021b3bb8;
 
 // 0x1d bytes written into the buffer of func_ov000_02197a9c when the two strings are too long.
 typedef struct Unk021b3e44 {
-    /* 00 */ s8 mUnk_00[0x1d];
+    /* 00 */ s8 field0[0x1d];
 } Unk021b3e44;
 
 extern const Unk021b3bb8 data_ov000_021b3bb8;

@@ -36,7 +36,7 @@ u32 tesa_init(u32 arg0) {
 void tesa_loadModel(Unk02094db4 *a) {
     tesa_sModel = mobj_loadTexAnimBillboardModel(a, aTeresa_nsbmd, aTeresa_nsbtp);
     mobj_setModelPolygonIdAll(tesa_sModel, 0x3f);
-    a->mUnk_1c = 1;
+    a->field1C = 1;
 }
 
 void tesa_applyMaterial(void *a) {
@@ -58,14 +58,14 @@ void tesa_render(void *a, Teresa *teresa) {
     mobj_setModelFlip(tesa_sModel, teresa->mMirror, 0);
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&teresa->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&teresa->field0.mPos), 0xc);
     if (race_getCameraField250() == 2) {
         v[0] = 0x2000;
         v[1] = 0x2000;
         v[2] = 0x2000;
         NNS_G3dGeBufferOP_N(0x1b, v, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &teresa->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &teresa->field0.mScale, 3);
     mobj_renderModel(a, tesa_sModel, teresa);
 }
 
@@ -155,7 +155,7 @@ void tesa_update(void *a, Teresa *teresa) {
                     teresa->mModelAlpha = teresa->mAlphaFixed12 >> 12;
                 } else {
                     teresa->mModelAlpha = 0;
-                    mobj_setInvisible(&teresa->mUnk_00);
+                    mobj_setInvisible(&teresa->field0);
                     tesa_sActiveInstanceCount--;
                 }
             } else {
@@ -168,33 +168,33 @@ void tesa_update(void *a, Teresa *teresa) {
     }
     teresa->mAngleWobble.mAngle = teresa->mAngleWobble.mAngle + teresa->mAngleWobble.mAnglePerFrame;
     x = tesa_FX_MulInline(teresa->mAngleWobble.mAmplitude, tesa_FX_SinIdx(teresa->mAngleWobble.mAngle));
-    teresa->mAngleWobble.mUnk_08 = teresa->mAngleWobble.mMid + x - teresa->mAngleWobble.mValue;
-    teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.mUnk_08;
+    teresa->mAngleWobble.field8 = teresa->mAngleWobble.mMid + x - teresa->mAngleWobble.mValue;
+    teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.field8;
     func_02094768_inline_2(&teresa->mAngleWobble.mAmplitude, &teresa->mAngleWobble.mAmplitudePerFrame);
-    func_02094768_inline_2(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mUnk_1c);
+    func_02094768_inline_2(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.field1C);
     angleWobbleValue = teresa->mAngleWobble.mValue;
     teresa->mYWobble.mAngle = teresa->mYWobble.mAngle + teresa->mYWobble.mAnglePerFrame;
     anglePairSecond = tesa_FX_CosIdx(teresa->mYWobble.mAngle);
     x = tesa_FX_MulInline(teresa->mYWobble.mAmplitude / 2, 0x1000 - anglePairSecond);
-    teresa->mYWobble.mUnk_08 = teresa->mYWobble.mMid + x - teresa->mYWobble.mValue;
-    teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.mUnk_08;
+    teresa->mYWobble.field8 = teresa->mYWobble.mMid + x - teresa->mYWobble.mValue;
+    teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.field8;
     func_02094768_inline_2(&teresa->mYWobble.mAmplitude, &teresa->mYWobble.mAmplitudePerFrame);
-    func_02094768_inline_2(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mUnk_1c);
+    func_02094768_inline_2(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.field1C);
     yWobbleValue = teresa->mYWobble.mValue;
-    n = teresa->mUnk_10c;
+    n = teresa->field10C;
     if (race_getCameraField250() == 2) {
-        teresa->mUnk_00.mPos.x =
+        teresa->field0.mPos.x =
             teresa->mStartPos.x + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2 + 1]) >> 12);
-        teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
-        teresa->mUnk_00.mPos.z =
+        teresa->field0.mPos.y = teresa->mStartPos.y + yWobbleValue;
+        teresa->field0.mPos.z =
             teresa->mStartPos.z + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2]) >> 12);
     } else {
         kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
-        teresa->mUnk_00.mPos.x =
+        teresa->field0.mPos.x =
             kart->mPos.x +
             (teresa->mStartPos.x + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2 + 1]) >> 12));
-        teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
-        teresa->mUnk_00.mPos.z =
+        teresa->field0.mPos.y = teresa->mStartPos.y + yWobbleValue;
+        teresa->field0.mPos.z =
             kart->mPos.z + (teresa->mStartPos.z + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2]) >> 12));
     }
 }
@@ -237,7 +237,7 @@ static inline void func_02094000_inline_2(TeresaWobble *teresaWobble, u16 angle,
     teresaWobble->mAmplitude = amplitude;
     teresaWobble->mAmplitudePerFrame = amplitudePerFrame;
     teresaWobble->mAnglePerFrame = anglePerFrame;
-    teresaWobble->mUnk_1c = f;
+    teresaWobble->field1C = f;
 }
 
 void tesa_spawn(Vec3 *startPos) {
@@ -278,7 +278,7 @@ void tesa_spawn(Vec3 *startPos) {
     f = func_02094000_inline(&gRaceStatus->mLocalRandom, 0xa000);
     func_02094000_inline_2(&teresa->mYWobble, 0, func_02094000_inline(&gRaceStatus->mLocalRandom, 0x19000) + 0x19000,
                            f + 0xa000, 0, d + 0x100, 0);
-    teresa->mUnk_10c = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x3c000) + 0x3c000;
+    teresa->field10C = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x3c000) + 0x3c000;
     alphaFixed12Max = func_02094000_inline(&gRaceStatus->mLocalRandom, 0xc000) + 0xe000;
     alphaFixed12PerFrame = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x200) + 0x400;
     teresa->mAlphaFixed12 = 0;

@@ -9,16 +9,16 @@
 
 // Object behind sStatic2dData, allocated 0x2c bytes long by s2d_init.
 typedef struct Unk0217b4b0 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ Ncgr *mUnk_08;
-    /* 0c */ Unk02021dc8 *mUnk_0c;
-    /* 10 */ Nclr *mUnk_10;
-    /* 14 */ void *mUnk_14;
-    /* 18 */ u8 mUnk_18[8];
-    /* 20 */ struct Bmg *mUnk_20;
-    /* 24 */ Ncgr *mUnk_24;
-    /* 28 */ Nclr *mUnk_28;
+    /* 00 */ void *field0;
+    /* 04 */ void *field4;
+    /* 08 */ Ncgr *field8;
+    /* 0c */ Unk02021dc8 *fieldC;
+    /* 10 */ Nclr *field10;
+    /* 14 */ void *field14;
+    /* 18 */ u8 field18[8];
+    /* 20 */ struct Bmg *field20;
+    /* 24 */ Ncgr *field24;
+    /* 28 */ Nclr *field28;
 } Unk0217b4b0;
 
 void s2d_init(void *heap);

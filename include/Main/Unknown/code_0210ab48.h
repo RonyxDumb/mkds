@@ -6,7 +6,7 @@
 // Object behind gKartSoundQueue: eight objects, a value for each of them, eight words, then four words.
 typedef struct KartSoundQueue {
     /* 00 */ Kart *mKarts[8];
-    /* 20 */ s32 mUnk_20[8];
+    /* 20 */ s32 field20[8];
     /* 40 */ u32 mFramesSinceStart[8];
     /* 60 */ s32 mCount;
     /* 64 */ BOOL mDisabled;

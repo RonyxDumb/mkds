@@ -4,12 +4,12 @@
 
 // Object passed to func_02059920: a word at 4 and a pointer with its size.
 typedef struct Unk02059920 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[6];
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ u16 mUnk_10;
+    /* 00 */ u8 field0[2];
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[6];
+    /* 0c */ void *fieldC;
+    /* 10 */ u16 field10;
 } Unk02059920;
 
 void func_02059920(Unk02059920 *a);

@@ -18,13 +18,13 @@ void menu_updateModeSelectUI(void) {
     for (i = 10; i <= 14; i++) {
         subCells[i].mVisible = 0;
     }
-    if (menu_getCurState() != 3 || gMenuSceneState->mUnk_934 == FALSE || menu_getFrameCounter() >= 5) {
+    if (menu_getCurState() != 3 || gMenuSceneState->field934 == FALSE || menu_getFrameCounter() >= 5) {
         subCells[selectedIndex + 5].mVisible = 0;
         subCells[selectedIndex + 10].mVisible = 1;
     }
     if (gMenuSceneState->mScreenNumber == 3) {
-        subCells[selectedIndex].mOffsetX = gMenuSceneState->mUnk_938;
-        subCells[selectedIndex + 5].mOffsetX = gMenuSceneState->mUnk_938;
-        subCells[selectedIndex + 10].mOffsetX = gMenuSceneState->mUnk_938;
+        subCells[selectedIndex].mOffsetX = gMenuSceneState->field938;
+        subCells[selectedIndex + 5].mOffsetX = gMenuSceneState->field938;
+        subCells[selectedIndex + 10].mOffsetX = gMenuSceneState->field938;
     }
 }

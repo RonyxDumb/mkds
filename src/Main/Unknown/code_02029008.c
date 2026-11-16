@@ -30,7 +30,7 @@ s32 UpdateSelectKartTouchHold(void) {
         if (func_020291f0(slotIndex) != 0) {
             pairX = func_0202874c(slotIndex);
             pairY = func_02028724(slotIndex);
-            rectIndex = FindRectContainingPoint(pairX, pairY, p->mUnk_10);
+            rectIndex = FindRectContainingPoint(pairX, pairY, p->field10);
             if (rectIndex != gSelectKart->mTouchRect) {
                 gSelectKart->mTouchHeld = FALSE;
                 gSelectKart->mTouchHeldFrames = 0;
@@ -43,7 +43,7 @@ s32 UpdateSelectKartTouchHold(void) {
             gSelectKart->mTouchHeldFrames = 0;
         }
     } else if (func_02028774(slotIndex) != 0) {
-        result = FindRectContainingPoint(func_0202874c(slotIndex), func_02028724(slotIndex), p->mUnk_10);
+        result = FindRectContainingPoint(func_0202874c(slotIndex), func_02028724(slotIndex), p->field10);
         gSelectKart->mTouchHeld = TRUE;
         gSelectKart->mTouchHeldFrames = 0;
     }
@@ -72,18 +72,18 @@ u32 IsSelectKartTouchRepeat(s32 rectIndex) {
 void func_02029008(void) {
     SelectKart *d = gSelectKart;
     Unk02174e50_24 *p;
-    if (d->mUnk_104 == FALSE) {
+    if (d->field104 == FALSE) {
         p = &d->mSelectCharacterGpMParts;
-        p->mUnk_18[1].mOffsetX = interp_interpolate(&d->mInterpolations[0]);
-        p->mUnk_18[2].mOffsetX = p->mUnk_18[1].mOffsetX;
-        p->mUnk_18[0].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[1]);
-        p->mUnk_18[3].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[2]);
-        p->mUnk_18[9].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[3]);
-        p->mUnk_18[8].mOffsetY = p->mUnk_18[9].mOffsetY;
-        p->mUnk_18[7].mOffsetY = p->mUnk_18[8].mOffsetY;
-        p->mUnk_18[6].mOffsetY = p->mUnk_18[7].mOffsetY;
-        p->mUnk_18[5].mOffsetY = p->mUnk_18[6].mOffsetY;
-        p->mUnk_18[4].mOffsetY = p->mUnk_18[5].mOffsetY;
+        p->field18[1].mOffsetX = interp_interpolate(&d->mInterpolations[0]);
+        p->field18[2].mOffsetX = p->field18[1].mOffsetX;
+        p->field18[0].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[1]);
+        p->field18[3].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[2]);
+        p->field18[9].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[3]);
+        p->field18[8].mOffsetY = p->field18[9].mOffsetY;
+        p->field18[7].mOffsetY = p->field18[8].mOffsetY;
+        p->field18[6].mOffsetY = p->field18[7].mOffsetY;
+        p->field18[5].mOffsetY = p->field18[6].mOffsetY;
+        p->field18[4].mOffsetY = p->field18[5].mOffsetY;
     }
 }
 #pragma thumb off

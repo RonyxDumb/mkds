@@ -108,7 +108,7 @@ u32 IsEveryPlayerKartStored(void) {
         offset = 0;
         do {
             setupCopy = ((u32) menu_getRaceConfig());
-            allKartsStored = allKartsStored & ((RaceSetupCopy *) setupCopy)->mEntries[index].mUnk_14;
+            allKartsStored = allKartsStored & ((RaceSetupCopy *) setupCopy)->mEntries[index].field14;
             offset = offset + 0x18;
             index = index + 1;
         } while (index < *(s32 *) (*(s32 *) &gPlayerEntryList + 0x48));
@@ -130,7 +130,7 @@ void func_0202b7c0(s32 kind) {
         case 0:
         case 1:
             for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
+                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->field208 != 0) {
                     SetEntryTargetSlot(i, 1);
                 }
             }
@@ -142,7 +142,7 @@ void func_0202b7c0(s32 kind) {
             for (i = 0; i < 8; i++) {
                 func_0202cb2c(i);
             }
-            gPlayerEntryList->mUnk_20c = TRUE;
+            gPlayerEntryList->field20C = TRUE;
             break;
     }
 }
@@ -154,7 +154,7 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
     if (gPlayerEntryList->mUseTeams != useTeams) {
         if (useTeams != 0) {
             for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
+                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->field208 != 0) {
                     if (gPlayerEntryList->mEntries[i].mTeamIndex == 0) {
                         slot = 1;
                     } else if (gPlayerEntryList->mEntries[i].mTeamIndex == 1) {
@@ -167,7 +167,7 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
             interp_setState(&gPlayerEntryList->mInterpolations[0], 2);
         } else {
             for (i = 0; i < 8; i++) {
-                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
+                if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->field208 != 0) {
                     SetEntryTargetSlot(i, 1);
                 }
             }
@@ -202,7 +202,7 @@ void SetEntryTeamIndex(int entryIndex, int teamIndex) {
 void func_0202b618(s32 a) {
     s32 i;
     s32 slot;
-    if (gPlayerEntryList->mUnk_208 != a) {
+    if (gPlayerEntryList->field208 != a) {
         if (a != 0) {
             for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
                 if (gPlayerEntryList->mUseTeams != 0) {
@@ -223,7 +223,7 @@ void func_0202b618(s32 a) {
             }
         }
     }
-    gPlayerEntryList->mUnk_208 = a;
+    gPlayerEntryList->field208 = a;
 }
 
 #pragma thumb off

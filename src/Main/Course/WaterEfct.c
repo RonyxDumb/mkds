@@ -36,13 +36,13 @@ WaterEfct *gSplashState;
 Water *gWaterState;
 
 // The mInitObject slot of the five water kinds (data_usa_021580a4): stores the map object in gWaterObject, clears
-// mFlags bits 2 and 8, sets mUnk_66 to 0x1f, runs the creator the kind row holds (third argument), then loads the three
+// mFlags bits 2 and 8, sets field66 to 0x1f, runs the creator the kind row holds (third argument), then loads the three
 // water_efct files into gWaterState; once per water map object.
 void water_initWater(Unk020da384 *mapObject, void *unused, UnkFunc *createWater) {
     gWaterObject = mapObject;
-    mapObject->mUnk_02 &= ~2;
-    mapObject->mUnk_02 &= ~8;
-    mapObject->mUnk_66 = 0x1f;
+    mapObject->field2 &= ~2;
+    mapObject->field2 &= ~8;
+    mapObject->field66 = 0x1f;
     createWater();
     gWaterState->mEfctNsbmdFile = arc_getCourseArcFile("MapObj/water_efct.nsbmd");
     gWaterState->mEfctNsbcaFile = arc_getCourseArcFile("MapObj/water_efct.nsbca");
@@ -50,7 +50,7 @@ void water_initWater(Unk020da384 *mapObject, void *unused, UnkFunc *createWater)
 }
 
 // One step per race_update call while the course has water: advances the height swing (4 states) and the two circles;
-// when mUnk_170 is set it also sets a value on entry 10 of data_0217c838 (GetSndHandleSlot) every call (from
+// when field170 is set it also sets a value on entry 10 of data_0217c838 (GetSndHandleSlot) every call (from
 // bsfx_getVolume on course 0x1f, else 0x7f000) and requests sound 0x114 when state 1 ends and 0x113 when state 3 ends.
 void water_update(Water *water) {
     s32 volume;
@@ -61,7 +61,7 @@ void water_update(Water *water) {
     s32 modelAIndex;
     s32 modelCIndex;
     soundHandleSlot = GetSndHandleSlot(10);
-    if (water->mUnk_170 != 0) {
+    if (water->field170 != 0) {
         if (gRaceMultiConfig->mCourseId != COURSE_ID_BEACH) {
             volume = 0x7f000;
         } else {
@@ -77,30 +77,30 @@ void water_update(Water *water) {
             water->mHeight = water->mMidHeight + (s32) (((s64) water->mHeightAmplitude * water->mHeightFactor) >> 12);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
-            water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
+            water->field3A = water->field3A + water->mHeightAnglePerFrame;
             if (water->mHeightAngle > 0x3fff && water->mHeightAngle < 0x7fff) {
                 water->mState = 1;
                 water->mHoldFrames = 0;
-                water->mUnk_3e = water->mHeightAnglePerFrame;
+                water->field3E = water->mHeightAnglePerFrame;
             }
             break;
         case 1:
             water->mHoldFrames = water->mHoldFrames + 1;
             if (water->mHoldFrames > water->mHighHoldFrameCount) {
                 water->mState = 2;
-                if (water->mUnk_170 != 0 && volume >= 0) {
+                if (water->field170 != 0 && volume >= 0) {
                     highSoundRequest.mSoundId = 0x114;
                     highSoundRequest.mPositionSource = NULL;
-                    highSoundRequest.mUnk_08 = 4;
+                    highSoundRequest.field8 = 4;
                     highSoundRequest.mDistanceSquared = mobj_calcXZCamDist(NULL);
                     func_0210b760(&highSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mHighHoldFrameCount >> 1)) {
-                water->mUnk_3e = water->mUnk_3e + 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->field3E = water->field3E + 1;
+                water->field3A = water->field3A + water->field3E;
             } else {
-                water->mUnk_3e = water->mUnk_3e - 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->field3E = water->field3E - 1;
+                water->field3A = water->field3A + water->field3E;
             }
             break;
         case 2:
@@ -108,30 +108,30 @@ void water_update(Water *water) {
             water->mHeight = water->mMidHeight + (s32) (((s64) water->mHeightAmplitude * water->mHeightFactor) >> 12);
             water->mModelCY = water->mHeight;
             water->mHeightAngle = water->mHeightAngle + water->mHeightAnglePerFrame;
-            water->mUnk_3a = water->mUnk_3a + water->mHeightAnglePerFrame;
+            water->field3A = water->field3A + water->mHeightAnglePerFrame;
             if (water->mHeightAngle > 0xbfff) {
                 water->mState = 3;
                 water->mHoldFrames = 0;
-                water->mUnk_3e = water->mHeightAnglePerFrame;
+                water->field3E = water->mHeightAnglePerFrame;
             }
             break;
         case 3:
             water->mHoldFrames = water->mHoldFrames + 1;
             if (water->mHoldFrames > water->mLowHoldFrameCount) {
                 water->mState = 0;
-                if (water->mUnk_170 != 0 && volume >= 0) {
+                if (water->field170 != 0 && volume >= 0) {
                     lowSoundRequest.mSoundId = 0x113;
                     lowSoundRequest.mPositionSource = NULL;
-                    lowSoundRequest.mUnk_08 = 4;
+                    lowSoundRequest.field8 = 4;
                     lowSoundRequest.mDistanceSquared = mobj_calcXZCamDist(NULL);
                     func_0210b760(&lowSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mLowHoldFrameCount >> 1)) {
-                water->mUnk_3e = water->mUnk_3e + 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->field3E = water->field3E + 1;
+                water->field3A = water->field3A + water->field3E;
             } else {
-                water->mUnk_3e = water->mUnk_3e - 1;
-                water->mUnk_3a = water->mUnk_3a + water->mUnk_3e;
+                water->field3E = water->field3E - 1;
+                water->field3A = water->field3A + water->field3E;
             }
             break;
     }
@@ -148,31 +148,31 @@ void water_update(Water *water) {
 }
 
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;
-// returns at once when the water map object's mFlags has bit 0x2 or 0x10; writes only the scratch matrix mUnk_140.
+// returns at once when the water map object's mFlags has bit 0x2 or 0x10; writes only the scratch matrix field140.
 void water_render(Water *water, struct MtxFx43 *unused) {
-    if ((gWaterObject->mUnk_02 & 0x12) != 0) {
+    if ((gWaterObject->field2 & 0x12) != 0) {
         return;
     }
     if (water->mDrawModelAFirst != 0) {
         if (water->mModelAFile != NULL) {
-            water->mDrawMatrix.mUnk_00[3].x = water->mModelAX >> 4;
-            water->mDrawMatrix.mUnk_00[3].y = water->mHeight >> 4;
-            water->mDrawMatrix.mUnk_00[3].z = water->mModelAZ >> 4;
+            water->mDrawMatrix.field0[3].x = water->mModelAX >> 4;
+            water->mDrawMatrix.field0[3].y = water->mHeight >> 4;
+            water->mDrawMatrix.field0[3].z = water->mModelAZ >> 4;
             model_drawTransformed(&water->mModelA, &water->mDrawMatrix, NULL);
         }
-        water->mDrawMatrix.mUnk_00[3].x = water->mModelCX >> 4;
-        water->mDrawMatrix.mUnk_00[3].y = water->mModelCY >> 4;
-        water->mDrawMatrix.mUnk_00[3].z = water->mModelCZ >> 4;
+        water->mDrawMatrix.field0[3].x = water->mModelCX >> 4;
+        water->mDrawMatrix.field0[3].y = water->mModelCY >> 4;
+        water->mDrawMatrix.field0[3].z = water->mModelCZ >> 4;
         model_drawTransformed(&water->mModelC, &water->mDrawMatrix, NULL);
     } else {
-        water->mDrawMatrix.mUnk_00[3].x = water->mModelCX >> 4;
-        water->mDrawMatrix.mUnk_00[3].y = water->mModelCY >> 4;
-        water->mDrawMatrix.mUnk_00[3].z = water->mModelCZ >> 4;
+        water->mDrawMatrix.field0[3].x = water->mModelCX >> 4;
+        water->mDrawMatrix.field0[3].y = water->mModelCY >> 4;
+        water->mDrawMatrix.field0[3].z = water->mModelCZ >> 4;
         model_drawTransformed(&water->mModelC, &water->mDrawMatrix, NULL);
         if (water->mModelAFile != NULL) {
-            water->mDrawMatrix.mUnk_00[3].x = water->mModelAX >> 4;
-            water->mDrawMatrix.mUnk_00[3].y = water->mHeight >> 4;
-            water->mDrawMatrix.mUnk_00[3].z = water->mModelAZ >> 4;
+            water->mDrawMatrix.field0[3].x = water->mModelAX >> 4;
+            water->mDrawMatrix.field0[3].y = water->mHeight >> 4;
+            water->mDrawMatrix.field0[3].z = water->mModelAZ >> 4;
             model_drawTransformed(&water->mModelA, &water->mDrawMatrix, NULL);
         }
     }
@@ -191,7 +191,7 @@ Unk020d9de0 *water_setupSplashCollision(void) {
 #pragma thumb on
 
 // Called once by each Create...Water with 15 constants; sets 28 members of gWaterState (heights, step sizes, radii, hold
-// counts, flags) and resets the matrix mUnk_140, nothing else.
+// counts, flags) and resets the matrix field140, nothing else.
 void water_init(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadius, s32 e, u16 modelCAngleOffset,
                      u16 g, u16 framesPerCycle, u16 highHoldFrameCount, u16 lowHoldFrameCount, u16 drawModelAFirst,
                      u16 modelAAlpha, u16 modelCMaterialAlpha, u16 n, s32 o) {
@@ -200,29 +200,29 @@ void water_init(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelCRadiu
     gWaterState->mModelCY = gWaterState->mHeight;
     gWaterState->mHeightAmplitude = (highHeight - lowHeight) >> 1;
     gWaterState->mHeightAngle = 0;
-    gWaterState->mUnk_3a = 0;
+    gWaterState->field3A = 0;
     gWaterState->mCircleAngle = 0;
     gWaterState->mModelCAngleOffset = modelCAngleOffset;
-    gWaterState->mUnk_52 = g;
+    gWaterState->field52 = g;
     gWaterState->mHeightAnglePerFrame = 0x10000 / framesPerCycle;
     gWaterState->mCircleAnglePerFrame = (u32) gWaterState->mHeightAnglePerFrame >> 2;
     gWaterState->mState = 0;
     gWaterState->mHighHoldFrameCount = highHoldFrameCount;
     gWaterState->mLowHoldFrameCount = lowHoldFrameCount;
     gWaterState->mHeightFactor = 0;
-    gWaterState->mCenterX = gWaterObject->mUnk_04;
+    gWaterState->mCenterX = gWaterObject->field4;
     gWaterState->mModelAX = gWaterState->mCenterX;
-    gWaterState->mCenterZ = gWaterObject->mUnk_0c;
+    gWaterState->mCenterZ = gWaterObject->fieldC;
     gWaterState->mModelAZ = gWaterState->mCenterZ;
     gWaterState->mModelARadius = modelARadius;
     gWaterState->mModelCRadius = modelCRadius;
-    gWaterState->mUnk_4c = e;
+    gWaterState->field4C = e;
     gWaterState->mDrawModelAFirst = drawModelAFirst;
     gWaterState->mModelAAlpha = modelAAlpha;
     gWaterState->mModelCMaterialAlpha = modelCMaterialAlpha;
-    gWaterState->mUnk_5c = n;
+    gWaterState->field5C = n;
     MTX_Identity43_(&gWaterState->mDrawMatrix);
-    gWaterState->mUnk_170 = o;
+    gWaterState->field170 = o;
 }
 
 void water_loadMiniStage3Water(void) {
@@ -266,9 +266,9 @@ void water_loadHyudoroWater(void) {
     mobj_setWaterStatePointer(gWaterState);
 }
 
-// Once per course, from mobj_initAllRenderParts in mobj_init: builds the embedded model of each file (mUnk_68 only when A
-// exists, mUnk_d4) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit values mUnk_58
-// / mUnk_5a through NNS_G3dMdlSetMdlAlpha).
+// Once per course, from mobj_initAllRenderParts in mobj_init: builds the embedded model of each file (field68 only when A
+// exists, fieldD4) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit values field58
+// / field5A through NNS_G3dMdlSetMdlAlpha).
 void water_initModels(Water *water) {
     u32 materialIndex;
     NNSG3dResMdl *modelResMdl;
@@ -316,7 +316,7 @@ void water_initSplash(Unk020da384 *mapObject) {
     WaterEfct *waterEfct;
     waterEfct = heap_alloc(proc_getHeap(proc_getCurrent()), 0x10);
     gSplashState = waterEfct;
-    waterEfct->mHeight = mapObject->mUnk_08;
+    waterEfct->mHeight = mapObject->field8;
     gSplashState->mNsbmdFile = arc_getCourseArcFile("MapObj/water_efct.nsbmd");
     gSplashState->mNsbcaFile = arc_getCourseArcFile("MapObj/water_efct.nsbca");
     gSplashState->mNsbmaFile = arc_getCourseArcFile("MapObj/water_efct.nsbma");

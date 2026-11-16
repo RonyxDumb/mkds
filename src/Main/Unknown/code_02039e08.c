@@ -158,7 +158,7 @@ void racesc_update(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
 }
 
 void racesc_preSleep(void) {
-    gSystemData->mUnk_54 = FALSE;
+    gSystemData->field54 = FALSE;
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
         rchoi_handleSleep(1);
     }
@@ -181,7 +181,7 @@ u32 race_run(SceneNumbers *sceneNumbers) {
     SceneCallbacks callbacks = gRaceSceneCallbacks;
     rconf_setupNext();
     if (gRaceMultiConfig->mMode == 5) {
-        callbacks.mUnk_1c = 1;
+        callbacks.field1C = 1;
     }
     if (gRaceMultiConfig->mRaceKind != RACE_KIND_AWARD) {
         if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
@@ -192,7 +192,7 @@ u32 race_run(SceneNumbers *sceneNumbers) {
         callbacks.mFadeToClearFrameCount = 0x3c;
         callbacks.mFadeToFadedFrameCount = 0x78;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         rconf_loadCharacterSounds(1);
     }
     scene_runScene(sceneNumbers, &callbacks);
@@ -205,7 +205,7 @@ void menudef_create(void) {
 
 void menudef_finish(void) {
     ReleaseMenu();
-    gSystemData->mUnk_50 &= ~1;
+    gSystemData->field50 &= ~1;
     ResetTimeAttackNextEntries();
 }
 
@@ -227,12 +227,12 @@ u32 menu_run(SceneNumbers *sceneNumbers) {
 u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
                   void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         *outBackHeap = heap_createSubFrmHeapWithSizeFromTail(heap, 0x19000);
     } else {
         *outBackHeap = heap_createSubFrmHeapWithSizeFromTail(heap, 0x1b800);
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         *outFirstFrontHeap = NULL;
         *outSecondFrontHeap = NULL;
         *outThirdFrontHeap = NULL;
@@ -241,7 +241,7 @@ u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuff
         *outSecondFrontHeap = heap_createSubFrmHeapWithSize(heap, 0x4b000);
         *outThirdFrontHeap = heap_createSubFrmHeapWithSize(heap, 0x1b800);
     }
-    soundBufferSize = sound_getSomeSize(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 ? 2 : 0);
+    soundBufferSize = sound_getSomeSize(((Unk027ffc40 *) 0x027ffc40)->field0 == 2 ? 2 : 0);
     *outSoundBuffer = heap_alloc(heap, soundBufferSize);
     NNS_FndGetTotalFreeSizeForExpHeap(heap);
     return soundBufferSize;

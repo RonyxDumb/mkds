@@ -30,12 +30,12 @@ void func_ov000_02189f64(Unk02188ec0 *v1) {
     u32 a;
     u32 b;
 
-    if (v1->mUnk_d0d < 6) {
-        e = &v1->mUnk_000[func_ov000_021884d8(v1->mUnk_d0d)];
-        v2 = e->mUnk_c8[3] + (e->mUnk_c8[2] + (e->mUnk_c8[0] + e->mUnk_c8[1]));
-        if (e->mUnk_c0[0] == 0 && v2 != 0) {
-            a = func_ov000_0218a018(e->mUnk_c8);
-            b = func_ov000_0218a018(e->mUnk_cc);
+    if (v1->fieldD0D < 6) {
+        e = &v1->field0[func_ov000_021884d8(v1->fieldD0D)];
+        v2 = e->fieldC8[3] + (e->fieldC8[2] + (e->fieldC8[0] + e->fieldC8[1]));
+        if (e->fieldC0[0] == 0 && v2 != 0) {
+            a = func_ov000_0218a018(e->fieldC8);
+            b = func_ov000_0218a018(e->fieldCC);
             aThanksyouMBg00(&a, &b);
         }
     }
@@ -50,10 +50,10 @@ u8 func_ov000_02189f00(void) {
     t = func_ov000_021a5bfc();
     v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
     if (t == 1) {
-        s.mUnk_00 = v1->mUnk_d0a;
-        s.mUnk_04 = 0;
-        s.mUnk_08 = 0;
-        s.mUnk_0c = 0;
+        s.field0 = v1->fieldD0A;
+        s.field4 = 0;
+        s.field8 = 0;
+        s.fieldC = 0;
         func_ov000_0218973c(0);
         r = func_ov000_021a629c((Unk021a5a78 *) &s, (void (*)(Unk021a586c *)) func_ov000_02188d78);
         if (r == 1 || r >= 4) {
@@ -100,7 +100,7 @@ void func_ov000_02189e54(u32 a) {
     if (a > 0xd) {
         a = 0xd;
     }
-    v1->mUnk_d16 |= 1 << (a - 1);
+    v1->fieldD16 |= 1 << (a - 1);
 }
 
 s8 func_ov000_02189df8(s32 a) {
@@ -110,7 +110,7 @@ s8 func_ov000_02189df8(s32 a) {
     u8 n;
 
     v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
-    m = v1->mUnk_d16;
+    m = v1->fieldD16;
     if (m == 0) {
         return -1;
     }
@@ -132,79 +132,79 @@ void func_ov000_02189d2c(u32 a) {
     v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
     switch (a) {
         case 3:
-            v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->mUnk_d11, 0x200000);
+            v1->fieldCB0 = OS_GetTick();
+            func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->fieldD11, 0x200000);
             break;
         case 4:
-            v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04,
-                                v1->mUnk_300[v1->mUnk_d0f].mUnk_02, 0x300000);
+            v1->fieldCB0 = OS_GetTick();
+            func_ov000_02189868(data_ov000_021b07bc, v1->field300[v1->fieldD0F].field4,
+                                v1->field300[v1->fieldD0F].field2, 0x300000);
             break;
         case 5:
-            v1->mUnk_cb0 = OS_GetTick();
-            func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
+            v1->fieldCB0 = OS_GetTick();
+            func_ov000_02189868(data_ov000_021b07bc, v1->field300[v1->fieldD0F].field4, v1->fieldD11, 0x300000);
             break;
     }
 }
 
 u32 func_ov000_02189cdc(Unk02188ec0 *v1) {
-    v1->mUnk_cb0 = OS_GetTick();
-    v1->mUnk_d11 = 0;
-    v1->mUnk_cb0 = OS_GetTick();
-    func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->mUnk_d11, 0x200000);
+    v1->fieldCB0 = OS_GetTick();
+    v1->fieldD11 = 0;
+    v1->fieldCB0 = OS_GetTick();
+    func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->fieldD11, 0x200000);
     return 3;
 }
 
 u32 func_ov000_02189c50(Unk02188ec0 *v1) {
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x12c) {
-        v1->mUnk_d11 += 2;
-        if (v1->mUnk_d11 >= 0xd) {
+    if ((OS_GetTick() - v1->fieldCB0) * 64 / 0x82ea >= 0x12c) {
+        v1->fieldD11 += 2;
+        if (v1->fieldD11 >= 0xd) {
             return func_ov000_02189998(v1, 3);
         }
-        v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->mUnk_d11, 0x200000);
+        v1->fieldCB0 = OS_GetTick();
+        func_ov000_02189868(data_ov000_021b07bc, data_ov000_021b07c4, v1->fieldD11, 0x200000);
     }
     return 3;
 }
 
 u32 func_ov000_02189c04(Unk02188ec0 *v1) {
-    v1->mUnk_d15 = 0;
-    v1->mUnk_d0b_4 = v1->mUnk_d0b_4 + 1;
+    v1->fieldD15 = 0;
+    v1->fieldD0B_4 = v1->fieldD0B_4 + 1;
     func_ov000_0218973c(0);
-    v1->mUnk_d11 = 1;
+    v1->fieldD11 = 1;
     return 3;
 }
 
 u32 func_ov000_02189b28(Unk02188ec0 *v1) {
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x96 || v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo == 1) {
-        v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo = 0;
-        v1->mUnk_d0f++;
-        if (v1->mUnk_d10 <= v1->mUnk_d0f) {
-            v1->mUnk_d0f = 0;
+    if ((OS_GetTick() - v1->fieldCB0) * 64 / 0x82ea >= 0x96 || v1->field300[v1->fieldD0F].mUnk_00_lo == 1) {
+        v1->field300[v1->fieldD0F].mUnk_00_lo = 0;
+        v1->fieldD0F++;
+        if (v1->fieldD10 <= v1->fieldD0F) {
+            v1->fieldD0F = 0;
             return func_ov000_02189998(v1, 4);
         }
-        v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_300[v1->mUnk_d0f].mUnk_02,
+        v1->fieldCB0 = OS_GetTick();
+        func_ov000_02189868(data_ov000_021b07bc, v1->field300[v1->fieldD0F].field4, v1->field300[v1->fieldD0F].field2,
                             0x300000);
     }
     return 4;
 }
 
 u32 func_ov000_02189a28(Unk02188ec0 *v1) {
-    if ((OS_GetTick() - v1->mUnk_cb0) * 64 / 0x82ea >= 0x96 || v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo == 1) {
-        v1->mUnk_300[v1->mUnk_d0f].mUnk_00_lo = 0;
-        v1->mUnk_d0f++;
-        if (v1->mUnk_d10 == v1->mUnk_d0f) {
-            v1->mUnk_d15++;
-            v1->mUnk_d0f = 0;
-            v1->mUnk_d11 = func_ov000_02189df8(v1->mUnk_d15);
+    if ((OS_GetTick() - v1->fieldCB0) * 64 / 0x82ea >= 0x96 || v1->field300[v1->fieldD0F].mUnk_00_lo == 1) {
+        v1->field300[v1->fieldD0F].mUnk_00_lo = 0;
+        v1->fieldD0F++;
+        if (v1->fieldD10 == v1->fieldD0F) {
+            v1->fieldD15++;
+            v1->fieldD0F = 0;
+            v1->fieldD11 = func_ov000_02189df8(v1->fieldD15);
         }
-        if (v1->mUnk_d11 < 0) {
-            v1->mUnk_d15 = 0;
+        if (v1->fieldD11 < 0) {
+            v1->fieldD15 = 0;
             return func_ov000_02189998(v1, 5);
         }
-        v1->mUnk_cb0 = OS_GetTick();
-        func_ov000_02189868(data_ov000_021b07bc, v1->mUnk_300[v1->mUnk_d0f].mUnk_04, v1->mUnk_d11, 0x300000);
+        v1->fieldCB0 = OS_GetTick();
+        func_ov000_02189868(data_ov000_021b07bc, v1->field300[v1->fieldD0F].field4, v1->fieldD11, 0x300000);
     }
     return 5;
 }
@@ -212,13 +212,13 @@ u32 func_ov000_02189a28(Unk02188ec0 *v1) {
 u32 func_ov000_02189998(Unk02188ec0 *v1, u32 a) {
     switch (a) {
         case 3:
-            if (v1->mUnk_d12 != 0 || v1->mUnk_d16 != 0) {
+            if (v1->fieldD12 != 0 || v1->fieldD16 != 0) {
                 if (func_ov000_0218973c(1) != 0) {
                     a = 4;
                 } else {
                     a = func_ov000_02189888(v1);
                 }
-            } else if (v1->mUnk_d0b_4 < 1) {
+            } else if (v1->fieldD0B_4 < 1) {
                 a = func_ov000_02189c04(v1);
             } else {
                 a = 6;
@@ -228,7 +228,7 @@ u32 func_ov000_02189998(Unk02188ec0 *v1, u32 a) {
             a = func_ov000_02189888(v1);
             break;
         case 5:
-            if (v1->mUnk_d0b_4 < 1) {
+            if (v1->fieldD0B_4 < 1) {
                 a = func_ov000_02189c04(v1);
             } else {
                 a = 6;
@@ -247,9 +247,9 @@ u32 func_ov000_021898dc(Unk02188ec0 *v1, u32 a) {
         return a;
     }
     i = 0;
-    n = v1->mUnk_d12;
+    n = v1->fieldD12;
     for (; i < n; i++) {
-        if (v1->mUnk_444[i].mUnk_00 == 0) {
+        if (v1->field444[i].field0 == 0) {
             break;
         }
     }
@@ -269,13 +269,13 @@ u32 func_ov000_021898dc(Unk02188ec0 *v1, u32 a) {
         if (n == i) {
             return a;
         }
-        if (v1->mUnk_444[i].mUnk_02 < 0x14) {
+        if (v1->field444[i].field2 < 0x14) {
             return a;
         }
     }
-    v1->mUnk_d13 = i;
+    v1->fieldD13 = i;
     if (func_ov000_021a6024() != 1) {
-        v1->mUnk_d0e = a;
+        v1->fieldD0E = a;
         a = 7;
     }
     return a;

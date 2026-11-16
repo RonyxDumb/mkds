@@ -17,7 +17,7 @@
 
 // Address and byte-swapped port of a peer, built by ReceiveMatchingCommand for func_ov000_0219db18.
 typedef struct PeerAddress {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u8 field0[2];
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
 } PeerAddress;

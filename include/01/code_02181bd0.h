@@ -5,20 +5,20 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e005c.h"
 
-// Object updated by coin_update, one state per value of mUnk_0f8.
+// Object updated by coin_update, one state per value of fieldF8.
 typedef struct Coin {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject field0;
     /* 0a0 */ u16 mModelAlpha;
-    /* 0a2 */ u8 mUnk_0a2[0x2];
+    /* 0a2 */ u8 fieldA2[0x2];
     /* 0a4 */ s32 mNsbtpFrameIndex;
-    /* 0a8 */ s32 mUnk_0a8;
+    /* 0a8 */ s32 fieldA8;
     /* 0ac */ s32 mTimer;
     /* 0b0 */ s32 mScaleFactor;
     /* 0b4 */ GroupFollower mFollower;
-    /* 0d8 */ Vec3 mUnk_0d8;
+    /* 0d8 */ Vec3 fieldD8;
     /* 0e4 */ s32 mBounceY;
     /* 0e8 */ Vec3 *mTargetPos;
-    /* 0ec */ Vec3 mUnk_0ec;
+    /* 0ec */ Vec3 fieldEC;
     /* 0f8 */ s32 mState;
     /* 0fc */ void *mEffect;
     /* 100 */ s32 mEffectTimer;

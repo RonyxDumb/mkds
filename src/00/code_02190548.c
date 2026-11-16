@@ -77,7 +77,7 @@ u32 func_ov000_02190548(GpConnection *a, GpiProfile *b) {
     GpiAppendBufferString(a, &o->mOutputBuffer, "\\fromprofileid\\");
     GpiAppendBufferNumber(a, &o->mOutputBuffer, b->mProfileId);
     GpiAppendBufferString(a, &o->mOutputBuffer, "\\sig\\");
-    GpiAppendBufferString(a, &o->mOutputBuffer, b->mUnk_10);
+    GpiAppendBufferString(a, &o->mOutputBuffer, b->field10);
     GpiAppendBufferString(a, &o->mOutputBuffer, data_ov000_021b2778);
     return 0;
 }

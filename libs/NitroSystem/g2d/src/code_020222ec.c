@@ -8,7 +8,7 @@
 #include "code_0202210c.h"
 
 static inline u32 NNSi_G2dIsCellAnimVramTransferHandleValid(const Unk02022030 *pCellAnim) {
-    return pCellAnim->mUnk_34 != -1;
+    return pCellAnim->field34 != -1;
 }
 
 void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
@@ -19,25 +19,25 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     u32 valid;
     Unk02021e40 *pTransferData;
 
-    if (((Unk02022188 *) pCellAnim->mUnk_00)->mUnk_04 == 0) {
+    if (((Unk02022188 *) pCellAnim->field0)->field4 == 0) {
         return;
     }
     animResult = NNS_G2dGetAnimCtrlCurrentElement(pCellAnim);
-    cellBank = pCellAnim->mUnk_30;
-    pCellAnim->mUnk_2c = NNS_G2dGetCellDataByIdx(cellBank, animResult->mUnk_00);
-    animType = pCellAnim->mUnk_18->mUnk_04 & 0xff;
-    NNSi_G2dSrtcInitControl(&pCellAnim->mUnk_38, 1);
+    cellBank = pCellAnim->field30;
+    pCellAnim->field2C = NNS_G2dGetCellDataByIdx(cellBank, animResult->field0);
+    animType = pCellAnim->field18->field4 & 0xff;
+    NNSi_G2dSrtcInitControl(&pCellAnim->field38, 1);
     if (animType != 0) {
         if (animType == 2) {
-            NNSi_G2dSrtcSetTrans(&pCellAnim->mUnk_38, ((Unk020229b4 *) animResult)->mUnk_04,
-                                 ((Unk020229b4 *) animResult)->mUnk_06);
+            NNSi_G2dSrtcSetTrans(&pCellAnim->field38, ((Unk020229b4 *) animResult)->field4,
+                                 ((Unk020229b4 *) animResult)->field6);
         } else {
-            NNSi_G2dSrtcSetSRTScale(&pCellAnim->mUnk_38, animResult->mUnk_04, animResult->mUnk_08);
-            NNSi_G2dSrtcSetSRTRotZ(&pCellAnim->mUnk_38, animResult->mUnk_02);
-            NNSi_G2dSrtcSetTrans(&pCellAnim->mUnk_38, animResult->mUnk_0c, animResult->mUnk_0e);
+            NNSi_G2dSrtcSetSRTScale(&pCellAnim->field38, animResult->field4, animResult->field8);
+            NNSi_G2dSrtcSetSRTRotZ(&pCellAnim->field38, animResult->field2);
+            NNSi_G2dSrtcSetTrans(&pCellAnim->field38, animResult->fieldC, animResult->fieldE);
         }
     }
-    pVramData = cellBank->mUnk_0c;
+    pVramData = cellBank->fieldC;
     valid = pVramData != 0;
     if (valid == 0) {
         return;
@@ -46,14 +46,14 @@ void ApplyCurrentAnimResult_(Unk02022030 *pCellAnim) {
     if (valid == 0) {
         return;
     }
-    pTransferData = &((Unk02021e40 *) pVramData->mUnk_04)[animResult->mUnk_00];
-    NNS_G2dSetCellTransferStateRequested(pCellAnim->mUnk_34, pTransferData->mUnk_00, pTransferData->mUnk_04);
+    pTransferData = &((Unk02021e40 *) pVramData->field4)[animResult->field0];
+    NNS_G2dSetCellTransferStateRequested(pCellAnim->field34, pTransferData->field0, pTransferData->field4);
 }
 
 void NNS_G2dInitCellAnimation(Unk02022030 *pCellAnim, Unk02021dc8 *pAnimSeq, Unk02021dc8 *pCellDataBank) {
-    pCellAnim->mUnk_30 = pCellDataBank;
-    pCellAnim->mUnk_34 = -1;
-    NNSi_G2dSrtcInitControl(&pCellAnim->mUnk_38, 1);
+    pCellAnim->field30 = pCellDataBank;
+    pCellAnim->field34 = -1;
+    NNSi_G2dSrtcInitControl(&pCellAnim->field38, 1);
     NNS_G2dInitAnimCtrl(pCellAnim);
     NNS_G2dSetCellAnimationSequence(pCellAnim, pAnimSeq);
 }
@@ -78,7 +78,7 @@ void NNS_G2dSetCellAnimationCurrentFrame(Unk02022030 *pCellAnim, u16 frameIndex)
 }
 
 void NNS_G2dSetCellAnimationSpeed(Unk02022030 *pCellAnim, s32 speed) {
-    pCellAnim->mUnk_10 = speed;
+    pCellAnim->field10 = speed;
 }
 
 static inline u32 G2_GetOBJEffect(u32 attr) {
@@ -120,16 +120,16 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, Unk020224e0_c *pCe
     s32 halfWidth;
     s32 halfHeight;
 
-    numAttrs = pCell->mUnk_00;
+    numAttrs = pCell->field0;
     if (numDstOam >= numAttrs) {
         numDstOam = numAttrs;
     }
     for (i = 0; i < numDstOam; i++) {
         dstOam = &pDstOams[i];
-        pSrcOam = &pCell->mUnk_04[i];
-        dstOam->mUnk_00[0] = pSrcOam->mUnk_00;
-        dstOam->mUnk_00[1] = pSrcOam->mUnk_02;
-        dstOam->mUnk_00[2] = pSrcOam->mUnk_04;
+        pSrcOam = &pCell->field4[i];
+        dstOam->field0[0] = pSrcOam->field0;
+        dstOam->field0[1] = pSrcOam->field2;
+        dstOam->field0[2] = pSrcOam->field4;
         if (pMtxSR != 0 || pBaseTrans != 0) {
             attr = *(u32 *) dstOam;
             posX = (attr & 0x1ff0000) >> 16;
@@ -184,30 +184,30 @@ u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, Unk020224e0_c *pCe
 }
 
 void NNSi_G2dSrtcSetTrans(Unk02022438 *pCtrl, s16 x, s16 y) {
-    if (pCtrl->mUnk_00 == 1) {
-        pCtrl->mUnk_12 |= 8;
-        pCtrl->mUnk_0c = x;
-        pCtrl->mUnk_0e = y;
+    if (pCtrl->field0 == 1) {
+        pCtrl->field12 |= 8;
+        pCtrl->fieldC = x;
+        pCtrl->fieldE = y;
     }
 }
 
 void NNSi_G2dSrtcSetSRTRotZ(Unk02022438 *pCtrl, u16 rotZ) {
-    if (pCtrl->mUnk_00 == 1) {
-        pCtrl->mUnk_12 |= 4;
-        pCtrl->mUnk_10 = rotZ;
+    if (pCtrl->field0 == 1) {
+        pCtrl->field12 |= 4;
+        pCtrl->field10 = rotZ;
     }
 }
 
 void NNSi_G2dSrtcSetSRTScale(Unk02022438 *pCtrl, s32 x, s32 y) {
-    if (pCtrl->mUnk_00 == 1) {
-        pCtrl->mUnk_12 |= 2;
-        pCtrl->mUnk_04 = x;
-        pCtrl->mUnk_08 = y;
+    if (pCtrl->field0 == 1) {
+        pCtrl->field12 |= 2;
+        pCtrl->field4 = x;
+        pCtrl->field8 = y;
     }
 }
 
 void NNSi_G2dSrtcInitControl(Unk02022438 *pCtrl, u32 type) {
-    pCtrl->mUnk_00 = type;
+    pCtrl->field0 = type;
     NNSi_G2dSrtcSetInitialValue(pCtrl);
 }
 
@@ -215,9 +215,9 @@ void NNSi_G2dSrtcSetInitialValue(Unk02022438 *pCtrl) {
     volatile u16 zero;
 
     zero = 0;
-    MIi_CpuClear16(zero, &pCtrl->mUnk_04, 0x18);
-    pCtrl->mUnk_04 = 0x1000;
-    pCtrl->mUnk_08 = 0x1000;
+    MIi_CpuClear16(zero, &pCtrl->field4, 0x18);
+    pCtrl->field4 = 0x1000;
+    pCtrl->field8 = 0x1000;
 }
 
 void SequenceEdgeHandle_(Unk02022030 *pAnimCtrl) {
@@ -225,24 +225,24 @@ void SequenceEdgeHandle_(Unk02022030 *pAnimCtrl) {
     Unk02021e40 *current;
     Unk02021e40 *last;
 
-    playMode = pAnimCtrl->mUnk_14;
+    playMode = pAnimCtrl->field14;
     if (playMode == 0) {
-        playMode = pAnimCtrl->mUnk_18->mUnk_08;
+        playMode = pAnimCtrl->field18->field8;
     }
     switch (playMode) {
         case 3:
         case 4:
-            pAnimCtrl->mUnk_04 = pAnimCtrl->mUnk_04 ^ 1;
-            if (pAnimCtrl->mUnk_00 <= &pAnimCtrl->mUnk_18->mUnk_0c[pAnimCtrl->mUnk_18->mUnk_02] - 1) {
+            pAnimCtrl->field4 = pAnimCtrl->field4 ^ 1;
+            if (pAnimCtrl->field0 <= &pAnimCtrl->field18->fieldC[pAnimCtrl->field18->field2] - 1) {
                 if (pAnimCtrl->mCallbackFunctor.mType == 1) {
-                    pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, pAnimCtrl->mUnk_0c);
+                    pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, pAnimCtrl->fieldC);
                 }
-                playMode = pAnimCtrl->mUnk_14;
+                playMode = pAnimCtrl->field14;
                 if (playMode == 0) {
-                    playMode = pAnimCtrl->mUnk_18->mUnk_08;
+                    playMode = pAnimCtrl->field18->field8;
                 }
                 if (playMode != 2 && playMode != 4) {
-                    pAnimCtrl->mUnk_08 = 0;
+                    pAnimCtrl->field8 = 0;
                 } else {
                     NNS_G2dResetAnimCtrlState(pAnimCtrl);
                 }
@@ -250,33 +250,33 @@ void SequenceEdgeHandle_(Unk02022030 *pAnimCtrl) {
             break;
         default:
             if (pAnimCtrl->mCallbackFunctor.mType == 1) {
-                pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, pAnimCtrl->mUnk_0c);
+                pAnimCtrl->mCallbackFunctor.mFunc(pAnimCtrl->mCallbackFunctor.mParam, pAnimCtrl->fieldC);
             }
-            playMode = pAnimCtrl->mUnk_14;
+            playMode = pAnimCtrl->field14;
             if (playMode == 0) {
-                playMode = pAnimCtrl->mUnk_18->mUnk_08;
+                playMode = pAnimCtrl->field18->field8;
             }
             if (playMode != 2 && playMode != 4) {
-                pAnimCtrl->mUnk_08 = 0;
+                pAnimCtrl->field8 = 0;
             } else {
                 NNS_G2dResetAnimCtrlState(pAnimCtrl);
             }
             break;
     }
-    current = pAnimCtrl->mUnk_00;
-    last = &pAnimCtrl->mUnk_18->mUnk_0c[pAnimCtrl->mUnk_18->mUnk_00] - 1;
+    current = pAnimCtrl->field0;
+    last = &pAnimCtrl->field18->fieldC[pAnimCtrl->field18->field0] - 1;
     if (current > last) {
-        pAnimCtrl->mUnk_00 = last;
+        pAnimCtrl->field0 = last;
         return;
     }
-    if (current < pAnimCtrl->mUnk_18->mUnk_0c) {
-        pAnimCtrl->mUnk_00 = pAnimCtrl->mUnk_18->mUnk_0c;
+    if (current < pAnimCtrl->field18->fieldC) {
+        pAnimCtrl->field0 = pAnimCtrl->field18->fieldC;
     }
 }
 
 u32 SetAnimCtrlCurrentFrameImpl_(Unk02022030 *pAnimCtrl, u32 index) {
-    if (index < pAnimCtrl->mUnk_18->mUnk_00) {
-        pAnimCtrl->mUnk_00 = &pAnimCtrl->mUnk_18->mUnk_0c[index];
+    if (index < pAnimCtrl->field18->field0) {
+        pAnimCtrl->field0 = &pAnimCtrl->field18->fieldC[index];
         return 1;
     }
     return 0;

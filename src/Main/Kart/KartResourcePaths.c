@@ -17,9 +17,9 @@ char *cklcr_getCharacterNsbmdPath(u16 a, s32 b) {
     const char *ext = "nsbmd";
     const char *name;
     if (b != 0) {
-        name = cklcr_sCharDefs[a].mUnk_00;
+        name = cklcr_sCharDefs[a].field0;
     } else {
-        name = gCharacterENames[a].mUnk_00;
+        name = gCharacterENames[a].field0;
     }
     snprintf(ckldr_sPathResult, 0x100, "%s%s%s", ckldr_sLoadBasePath, cklcr_sCharacterFolder, sCharFolderNames[a]);
     snprintf(ckldr_sPathResult, 0x100, "%s%s.%s", ckldr_sPathResult, name, ext);
@@ -30,9 +30,9 @@ char *cklcr_getCharacterNsbtxPath(u16 a, s32 b) {
     const char *ext = "nsbtx";
     const char *name;
     if (b != 0) {
-        name = cklcr_sCharDefs[a].mUnk_00;
+        name = cklcr_sCharDefs[a].field0;
     } else {
-        name = gCharacterENames[a].mUnk_00;
+        name = gCharacterENames[a].field0;
     }
     snprintf(ckldr_sPathResult, 0x100, "%s%s%s", ckldr_sLoadBasePath, cklcr_sCharacterFolder, sCharFolderNames[a]);
     snprintf(ckldr_sPathResult, 0x100, "%s%s.%s", ckldr_sPathResult, name, ext);
@@ -42,14 +42,14 @@ char *cklcr_getCharacterNsbtxPath(u16 a, s32 b) {
 char *cklcr_getKartNsbmdPath(u16 a) {
     const char *ext = "nsbmd";
     snprintf(ckldr_sPathResult, 0x100, "%s%s%skart_%s.%s", ckldr_sLoadBasePath, cklcr_sKartFolder,
-             a % 3 == 0 ? "mario/" : sCharFolderNames[a / 3], cklcr_sKartDefs[a].mUnk_00, ext);
+             a % 3 == 0 ? "mario/" : sCharFolderNames[a / 3], cklcr_sKartDefs[a].field0, ext);
     return ckldr_sPathResult;
 }
 
 char *cklcr_getKartNsbtxPath(u16 a) {
     const char *ext = "nsbtx";
     snprintf(ckldr_sPathResult, 0x100, "%s%s%skart_%s.%s", ckldr_sLoadBasePath, cklcr_sKartFolder,
-             a % 3 == 0 ? "mario/" : sCharFolderNames[a / 3], cklcr_sKartDefs[a].mUnk_00, ext);
+             a % 3 == 0 ? "mario/" : sCharFolderNames[a / 3], cklcr_sKartDefs[a].field0, ext);
     return ckldr_sPathResult;
 }
 
@@ -67,15 +67,15 @@ char *cklcr_getTireNsbtxPath(u16 a, const char *name) {
 
 char *cklcr_getKartShadowPath(u16 a) {
     snprintf(ckldr_sPathResult, 0x100, "%s%sshadow/sh_%s.nsbmd", ckldr_sLoadBasePath, cklcr_sKartFolder,
-             gKartShadowNames[a].mUnk_00);
+             gKartShadowNames[a].field0);
     return ckldr_sPathResult;
 }
 
 const char *cklcr_getCharacterModelName(s32 a, s32 b) {
     if (b != 0) {
-        return cklcr_sCharDefs[a].mUnk_00;
+        return cklcr_sCharDefs[a].field0;
     } else {
-        return gCharacterENames[a].mUnk_00;
+        return gCharacterENames[a].field0;
     }
 }
 
@@ -91,7 +91,7 @@ s8 *cklcr_getFaceAnimPath(void) {
 }
 
 char *cklcr_getCharacterEmblemPath(u16 a) {
-    snprintf(ckldr_sPathResult, 0x100, aSemblemS_emble, ckldr_sLoadBasePath, gCharacterEmblemNames[a].mUnk_00);
+    snprintf(ckldr_sPathResult, 0x100, aSemblemS_emble, ckldr_sLoadBasePath, gCharacterEmblemNames[a].field0);
     return ckldr_sPathResult;
 }
 

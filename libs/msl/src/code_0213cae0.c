@@ -21,7 +21,7 @@ const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
     s.mHash = 0;
     s.mArgKind = 0;
     s.mMinLength = 0;
-    s.mUnk_0c = 0;
+    s.fieldC = 0;
     p = a + 1;
     ch = *p;
     if (ch == '%') {
@@ -84,14 +84,14 @@ const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
         ch = *++p;
         if (ch == '*') {
             *b += 4;
-            s.mUnk_0c = *(int *) (*b - 4);
-            if (s.mUnk_0c < 0) {
+            s.fieldC = *(int *) (*b - 4);
+            if (s.fieldC < 0) {
                 s.mHasDot = 0;
             }
             ch = *++p;
         } else {
             while ((ch >= 0x80 ? 0 : data_0215d384[ch] & 8) != 0) {
-                s.mUnk_0c = s.mUnk_0c * 10 + (ch - '0');
+                s.fieldC = s.fieldC * 10 + (ch - '0');
                 ch = *++p;
             }
         }
@@ -134,7 +134,7 @@ const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
                 s.mArgKind = 4;
             }
             if (s.mHasDot == 0) {
-                s.mUnk_0c = 1;
+                s.fieldC = 1;
             } else if (s.mPadKind == 2) {
                 s.mPadKind = 1;
             }
@@ -144,27 +144,27 @@ const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
             if (s.mArgKind == 2 || s.mArgKind == 4) {
                 s.mSpecChar = 0xffff;
             } else if (s.mHasDot == 0) {
-                s.mUnk_0c = 6;
+                s.fieldC = 6;
             }
             break;
         case 'g':
         case 'G':
-            if (s.mUnk_0c == 0) {
-                s.mUnk_0c = 1;
+            if (s.fieldC == 0) {
+                s.fieldC = 1;
             }
         case 'e':
         case 'E':
             if (s.mArgKind == 2 || s.mArgKind == 4 || s.mArgKind == 1) {
                 s.mSpecChar = 0xffff;
             } else if (s.mHasDot == 0) {
-                s.mUnk_0c = 6;
+                s.fieldC = 6;
             }
             break;
         case 'p':
             s.mArgKind = 3;
             s.mHash = 1;
             s.mSpecChar = 'x';
-            s.mUnk_0c = 8;
+            s.fieldC = 8;
             break;
         case 'c':
             if (s.mArgKind == 3) {
@@ -194,11 +194,11 @@ const u16 *FormatWideParseSpec(const u16 *a, char **b, FormatWideSpec *c) {
 }
 
 // Writes the digits of v backwards from end (after a 0 terminator) and returns the address of the first one, or 0
-// when more than 0x1fd characters would result. The character s.mUnk_06 picks base 10 ('d', 'i', 'u'), 8 ('o') or
+// when more than 0x1fd characters would result. The character s.field6 picks base 10 ('d', 'i', 'u'), 8 ('o') or
 // 16 ('x', 'X'; digits above 9 start at 'a' for 'x', else at 'A'). Nothing is written but the terminator when v
-// and s.mUnk_0c are 0, unless mUnk_03 is set and the character is 'o'. 'd' and 'i' negate a negative v and put '-'
-// in front; mUnk_00 == 2 pads with '0' to mUnk_08 (less 1 for a sign, less 2 for a 0x prefix); mUnk_01 1 and 2 put
-// '+' and ' ' in front; mUnk_03 puts a '0' in front for base 8 and '0' plus the character for base 16.
+// and s.fieldC are 0, unless field3 is set and the character is 'o'. 'd' and 'i' negate a negative v and put '-'
+// in front; field0 == 2 pads with '0' to field8 (less 1 for a sign, less 2 for a 0x prefix); field1 1 and 2 put
+// '+' and ' ' in front; field3 puts a '0' in front for base 8 and '0' plus the character for base 16.
 u16 *FormatWideInt32(unsigned long v, u16 *end, FormatWideSpec s) {
     unsigned long b;
     u16 *p;
@@ -211,7 +211,7 @@ u16 *FormatWideInt32(unsigned long v, u16 *end, FormatWideSpec s) {
     int d;
     u16 c;
 
-    m = s.mUnk_0c;
+    m = s.fieldC;
     t = s.mHash;
     c = s.mSpecChar;
     k = s.mMinLength;
@@ -312,7 +312,7 @@ u16 *FormatWideInt64(u64 v, u16 *end, FormatWideSpec s) {
     u8 f;
     int e;
 
-    m = s.mUnk_0c;
+    m = s.fieldC;
     t = s.mHash;
     f = s.mSignKind;
     k = s.mMinLength;
@@ -472,14 +472,14 @@ u16 *FormatWideDouble(double v, u16 *a, FormatWideSpec b) {
     int i;
     u8 c;
 
-    k = b.mUnk_0c;
+    k = b.fieldC;
     t = b.mSpecChar;
     x = b.mHash;
     y = b.mSignKind;
     if (k > 509) {
         return 0;
     }
-    g.mUnk_00 = 0;
+    g.field0 = 0;
     g.mDigitCount = 0x20;
     DoubleToDigitChars(&g, v, &h);
     p = h.mDigits + h.mDigitCount;
@@ -764,11 +764,11 @@ int FormatWideWithPutFunc(void *(*a)(void *, const u16 *, u32), void *b, const u
                     }
                     if (s.mHash != 0) {
                         n = (u8) *p++;
-                        if (s.mHasDot != 0 && n > s.mUnk_0c) {
-                            n = s.mUnk_0c;
+                        if (s.mHasDot != 0 && n > s.fieldC) {
+                            n = s.fieldC;
                         }
                     } else if (s.mHasDot != 0) {
-                        n = s.mUnk_0c;
+                        n = s.fieldC;
                         r = wmemchr(p, 0, n);
                         if (r != 0) {
                             n = r - p;
@@ -785,11 +785,11 @@ int FormatWideWithPutFunc(void *(*a)(void *, const u16 *, u32), void *b, const u
                     if (s.mHash != 0) {
                     // reads p (the u16 pointer of the other branch), not bp
                         m = (u8) *p;
-                        if (s.mHasDot != 0 && m > s.mUnk_0c) {
-                            m = s.mUnk_0c;
+                        if (s.mHasDot != 0 && m > s.fieldC) {
+                            m = s.fieldC;
                         }
                     } else if (s.mHasDot != 0) {
-                        m = s.mUnk_0c;
+                        m = s.fieldC;
                         bq = memchr(bp, 0, m);
                         if (bq != 0) {
                             m = bq - bp;

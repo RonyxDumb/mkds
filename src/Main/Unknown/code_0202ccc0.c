@@ -73,7 +73,7 @@ void RefreshGhostListRows(s32 action, s32 slot, s32 row, s32 selectedSlot) {
     s32 i;
     s32 j;
     s32 k;
-    fileSet = &sGhostSendState->mUnk_050[1];
+    fileSet = &sGhostSendState->field50[1];
     if (action == 1) {
         jn_ui_212426C(1, slot, fileSet->mLabelLayout,
                       jn_msg_getMessage(sGhostSendState->mGhostMessages, mutil2_getCourseNameGhostMsgId(GetListedGhostCourseId(row))),
@@ -127,7 +127,7 @@ void gsend_initCounterLabels(void) {
     u16 text[6];
     CellFileSet *fileSet;
     s32 count;
-    fileSet = &sGhostSendState->mUnk_050[1];
+    fileSet = &sGhostSendState->field50[1];
     jn_ui_212426C(1, 0xe, fileSet->mLabelLayout, jn_msg_getMessage(sGhostSendState->mGhostMessages, 0x56),
                   fileSet->mCellLayout, fileSet->mCellTable);
     jn_ui_212426C(1, 0xf, fileSet->mLabelLayout, jn_msg_getMessage(sGhostSendState->mGhostMessages, 0x57),
@@ -170,7 +170,7 @@ void PrintSelectedGhostSendRecord(void) {
     terminatedName[10] = 0;
     characterIndex = GetListedGhostCharacterIndex(sGhostSendState->mSelectedIndex);
     kartIndex = GetListedGhostKartIndex(sGhostSendState->mSelectedIndex);
-    PrintGhostRecordInfo((SelectCharacter *) sGhostSendState->mUnk_050, sGhostSendLabelsA,
+    PrintGhostRecordInfo((SelectCharacter *) sGhostSendState->field50, sGhostSendLabelsA,
                          terminatedName, characterIndex, kartIndex,
                          GetListedGhostCourseId(sGhostSendState->mSelectedIndex), &recordTime);
 }
@@ -194,7 +194,7 @@ void func_0202d5f8(s32 messageIndex, s32 withButton) {
     u16 text[0x100];
     void *message;
     message = jn_msg_getMessage(sGhostSendState->mGhostMessages, messageIndex);
-    MIi_CpuCopy16(sGhostSendState->mUnk_0b8, name, 0x14);
+    MIi_CpuCopy16(sGhostSendState->fieldB8, name, 0x14);
     name[10] = 0;
     FormatMessageWithText(name, message, text, 0x100);
     if (withButton != 0) {
@@ -218,10 +218,10 @@ void SetGhostSendCellsOffsetY(void) {
     s32 subEntryCount;
     s32 i;
     s16 subOffsetY;
-    mainFileSet = &sGhostSendState->mUnk_050[0];
-    subFileSet = &sGhostSendState->mUnk_050[1];
-    mainEntryCount = mainFileSet->mCellLayout->mUnk_06 + mainFileSet->mLabelLayout->mUnk_06;
-    subEntryCount = subFileSet->mCellLayout->mUnk_06 + subFileSet->mLabelLayout->mUnk_06;
+    mainFileSet = &sGhostSendState->field50[0];
+    subFileSet = &sGhostSendState->field50[1];
+    mainEntryCount = mainFileSet->mCellLayout->field6 + mainFileSet->mLabelLayout->field6;
+    subEntryCount = subFileSet->mCellLayout->field6 + subFileSet->mLabelLayout->field6;
     subOffsetY = interp_interpolate(&sGhostSendState->mInterpolation);
     for (i = 0; i < mainEntryCount; i++) {
         mainFileSet->mCellTable[i].mOffsetY = -subOffsetY;
@@ -254,27 +254,27 @@ void gsend_create(void *parentHeap, void *mainOam, void *subOam) {
     InitBlockEntries(sGhostSendState->mHeap, 2);
     mutil2_initBgGraphics(0, sGhostSendState, aTimeattack_ghost_send_m_b_ncgr, aTimeattack_ghost_send_m_b_nclr,
                   aTimeattack_ghost_send_m_nscr, 0, arc_getSceneArcFile);
-    mainFileSet = &sGhostSendState->mUnk_050[0];
+    mainFileSet = &sGhostSendState->field50[0];
     objSizeLeft = GX_GetSizeOfOBJ();
     mutil2_loadLayout(mainFileSet, aTimeattack_ghost_send_m_nce_ncgr, aTimeattack_ghost_send_m_nce_ncer,
                       aTimeattack_ghost_send_m_o_nclr, aTimeattack_ghost_send_m_bncl, aTimeattack_ghost_send_m_bnll,
                       NULL, arc_getSceneArcFile);
     mutil2_initLayout(0, sGhostSendState->mHeap, mainFileSet);
-    for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < mainFileSet->mLabelLayout->field6; i++) {
         objSizeLeft -= mutil2_initLabel(0, sGhostSendState->mHeap, mainFileSet, sGhostSendLabelsA[i],
                                      objSizeLeft);
     }
-    mutil2_initBgGraphics(1, &sGhostSendState->mUnk_024, aTimeattack_ghost_send_s_b_ncgr, aTimeattack_ghost_send_s_b_nclr,
+    mutil2_initBgGraphics(1, &sGhostSendState->field24, aTimeattack_ghost_send_s_b_ncgr, aTimeattack_ghost_send_s_b_nclr,
                   aTimeattack_ghost_send_s_nscr, 3, arc_getSceneArcFile);
-    subFileSet = &sGhostSendState->mUnk_050[1];
+    subFileSet = &sGhostSendState->field50[1];
     objSizeLeft = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
     mutil2_loadLayout(subFileSet, aTimeattack_ghost_send_s_nce_ncgr, aTimeattack_ghost_send_s_nce_ncer,
                       aTimeattack_ghost_send_s_o_nclr, aTimeattack_ghost_send_s_bncl, aTimeattack_ghost_send_s_bnll,
                       aTimeattack_ghost_send_s_bnbl, arc_getSceneArcFile);
     mutil2_initLayout(1, sGhostSendState->mHeap, subFileSet);
-    subCellCount = subFileSet->mCellLayout->mUnk_06;
-    for (i = 0; i < subFileSet->mLabelLayout->mUnk_06; i++) {
+    subCellCount = subFileSet->mCellLayout->field6;
+    for (i = 0; i < subFileSet->mLabelLayout->field6; i++) {
         if (sGhostSendLabelsB[i][3] < 0) {
             sGhostSendLabelsB[i][3] = subCellCount + assignedCount++;
         }
@@ -297,13 +297,13 @@ void gsend_create(void *parentHeap, void *mainOam, void *subOam) {
     }
     mutil2_setElementPositionFromBncl(0xe, (u8 *) subFileSet->mCellTable + 0x380, subFileSet->mCellLayout);
     if (ghost_getTotalGhostCount() != 0) {
-        Unk02174e40_24 *screenMapFileSet = &sGhostSendState->mUnk_024;
+        Unk02174e40_24 *screenMapFileSet = &sGhostSendState->field24;
         r[0] = 0;
         r[1] = 7;
         r[2] = subCellCount;
         r[3] = subCellCount + 7;
         InitScrollList(sGhostSendState->mHeap, 4, r, 0xe, 0xf, 0x7c, subFileSet->mCellTable, subFileSet->mRects,
-                       screenMapFileSet->mUnk_20 + 0xc, 0, 1, 2, ghost_getTotalGhostCount(), RefreshGhostListRows);
+                       screenMapFileSet->field20 + 0xc, 0, 1, 2, ghost_getTotalGhostCount(), RefreshGhostListRows);
     } else {
         for (i = 0; i < subCellCount; i++) {
             subFileSet->mCellTable[i].mVisible = 0;
@@ -312,7 +312,7 @@ void gsend_create(void *parentHeap, void *mainOam, void *subOam) {
             subFileSet->mCellTable[subCellCount + i].mVisible = 0;
         }
     }
-    mutil2_loadPortraits(0, &sGhostSendState->mUnk_050[2]);
+    mutil2_loadPortraits(0, &sGhostSendState->field50[2]);
     interp_init(&sGhostSendState->mInterpolation, 3, 10, -0xc0, 0);
     gmenu_setSeqArcIndex(0xf);
     LEDBlink_Wireless();
@@ -349,9 +349,9 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
     switch (sGhostSendState->mState) {
         case 0:
             if (GetTxtSystemDone() != 0) {
-                gStruct217B488->mUnk_08 = 5;
+                gStruct217B488->field8 = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mUnk_04 = 1;
+                    advanceArg->field4 = 1;
                 }
                 sGhostSendState->mState = 0xe;
             }
@@ -373,7 +373,7 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
             break;
         case 2:
             if (sGhostSendState->mInterpolation.mState == 1) {
-                sGhostSendState->mUnk_0b4 = 0;
+                sGhostSendState->fieldB4 = 0;
                 sGhostSendState->mState = 3;
             } else {
                 SetGhostSendCellsOffsetY();
@@ -399,9 +399,9 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
                 } else {
                     keyB = gInputUnits[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
-                        gStruct217B488->mUnk_08 = 5;
+                        gStruct217B488->field8 = 5;
                         if (advanceArg != NULL) {
-                            advanceArg->mUnk_04 = 1;
+                            advanceArg->field4 = 1;
                         }
                         sGhostSendState->mState = 0xe;
                         RequestSelectReturnState3WithSound(0);
@@ -443,7 +443,7 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
                 gmenu_setSeqArcIndex(0xf);
                 func_02108c04();
                 sGhostSendState->mState = 0xb;
-            } else if (func_0204eb08(sGhostSendState->mUnk_0b8) != 0) {
+            } else if (func_0204eb08(sGhostSendState->fieldB8) != 0) {
                 RequestSelectReturnState4();
                 func_02108c04();
                 NNS_SndArcSetCurrent(&SDATFile);
@@ -478,9 +478,9 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
         case 9:
             if (func_02054f58() == 1) {
                 LEDBlink_Wireless();
-                gStruct217B488->mUnk_08 = 5;
+                gStruct217B488->field8 = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mUnk_04 = 1;
+                    advanceArg->field4 = 1;
                 }
                 sGhostSendState->mState = 0xe;
             }
@@ -501,9 +501,9 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
             break;
         case 13:
             if (GetTxtSystemDone() != 0) {
-                gStruct217B488->mUnk_08 = 5;
+                gStruct217B488->field8 = 5;
                 if (advanceArg != NULL) {
-                    advanceArg->mUnk_04 = 1;
+                    advanceArg->field4 = 1;
                 }
                 sGhostSendState->mState = 0xe;
             }
@@ -511,7 +511,7 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
     }
     func_02054aa0();
     for (i = 0; i < 2; i++) {
-        fileSets = sGhostSendState->mUnk_050;
+        fileSets = sGhostSendState->field50;
         jn_ui_renderElements(fileSets[i].mCellLayout, fileSets[i].mCells, fileSets[i].mLabelLayout,
                         sGhostSendState->mOamLists[i], fileSets[i].mCellTable);
     }

@@ -19,12 +19,12 @@ void func_ov003_021c2840(u32 callback) {
     Unk021d6e24 b;
     data_ov003_021da194 = AllocExpHeapBlock(0x1e2a4, 0x20);
     data_ov003_021da194->mCallback = (void (*)(s32)) callback;
-    data_ov003_021da194->mUnk_1e2a0 = 0;
-    data_ov003_021da194->mUnk_1e2a1 = 0;
+    data_ov003_021da194->field1E2A0 = 0;
+    data_ov003_021da194->field1E2A1 = 0;
     b = data_ov003_021d6e24;
-    b.mUnk_04 = GetMessageEntry(gMessages, 0xf);
-    b.mUnk_08 = GetMessageEntry(gMessages, 0x10);
-    b.mUnk_18 = GetLanguageIndex() + 0x31;
+    b.field4 = GetMessageEntry(gMessages, 0xf);
+    b.field8 = GetMessageEntry(gMessages, 0x10);
+    b.field18 = GetLanguageIndex() + 0x31;
     func_ov003_021d1358((Unk021da2ac *) data_ov003_021da194, (Unk021d1358 *) &b);
     if (func_ov003_021d11d4() == 0) {
         OS_Terminate();
@@ -40,7 +40,7 @@ void func_ov003_021c27f8(u32 task) {
     int result;
     result = func_ov003_021d1290();
     if (result != 0) {
-        data_ov003_021da194->mUnk_1e2a1 = 1;
+        data_ov003_021da194->field1E2A1 = 1;
         RequestTaskRemoval(0, task);
     }
 }
@@ -65,7 +65,7 @@ u32 func_ov003_021c27c8(void) {
 }
 
 u8 *func_ov003_021c27b4(void) {
-    return data_ov003_021da194->mUnk_1e280;
+    return data_ov003_021da194->field1E280;
 }
 
 static inline void func_ov003_021c25e0_inline(const void *source, void *destination, s32 size) {
@@ -77,7 +77,7 @@ void func_ov003_021c25e0(u32 task) {
     Unk021da194 *object;
     func_ov003_021d0ee0();
     object = data_ov003_021da194;
-    if (object->mUnk_1e2a0 != 0 && object->mUnk_1e2a1 == 0) {
+    if (object->field1E2A0 != 0 && object->field1E2A1 == 0) {
         if (object->mCallback == NULL) {
             return;
         }
@@ -95,11 +95,11 @@ void func_ov003_021c25e0(u32 task) {
             if (stateInfo[1] == 0) {
                 break;
             }
-            func_ov003_021c25e0_inline(func_ov003_021d0e90(), data_ov003_021da194->mUnk_1e280, 0x16);
+            func_ov003_021c25e0_inline(func_ov003_021d0e90(), data_ov003_021da194->field1E280, 0x16);
             if (data_ov003_021da194->mCallback != NULL) {
                 data_ov003_021da194->mCallback(0);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                data_ov003_021da194->field1E2A0 = 1;
             }
             break;
         case 13:
@@ -109,7 +109,7 @@ void func_ov003_021c25e0(u32 task) {
             if (data_ov003_021da194->mCallback != NULL) {
                 data_ov003_021da194->mCallback(1);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                data_ov003_021da194->field1E2A0 = 1;
             }
             break;
         case 20:
@@ -120,7 +120,7 @@ void func_ov003_021c25e0(u32 task) {
             if (data_ov003_021da194->mCallback != NULL) {
                 data_ov003_021da194->mCallback(3);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                data_ov003_021da194->field1E2A0 = 1;
             }
             break;
         case 26:
@@ -131,7 +131,7 @@ void func_ov003_021c25e0(u32 task) {
             if (data_ov003_021da194->mCallback != NULL) {
                 data_ov003_021da194->mCallback(4);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                data_ov003_021da194->field1E2A0 = 1;
             }
             break;
         case 12:
@@ -141,7 +141,7 @@ void func_ov003_021c25e0(u32 task) {
             if (data_ov003_021da194->mCallback != NULL) {
                 data_ov003_021da194->mCallback(2);
             } else {
-                data_ov003_021da194->mUnk_1e2a0 = 1;
+                data_ov003_021da194->field1E2A0 = 1;
             }
             break;
         case 34:

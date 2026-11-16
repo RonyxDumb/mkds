@@ -246,7 +246,7 @@ void race_initG3d(void) {
     NNS_G3dGlbInit();
     NNS_G3dGeReleaseBuffer();
     NNS_G3dGeUseFastDma(1);
-    gSystemData->mUnk_1c |= 8;
+    gSystemData->field1C |= 8;
     NNS_G3dGlbLightVector(0, 0, -0x1000, 0);
     NNS_G3dGlbLightVector(1, 0x93d, 0x93d, 0x93d);
     NNS_G3dGlbLightVector(2, 0, -0x1000, 0);
@@ -427,12 +427,12 @@ void race_renderRace(void) {
     currentCamera = race_sCurCamera;
     NNS_G3dGlbLightVector(0, race_sState->mLightVectorX, race_sState->mLightVectorY, race_sState->mLightVectorZ);
     NNS_G3dGlbLightColor(0, 0x7fff);
-    a.x = currentCamera->mViewMatrix.mUnk_00[0].y;
-    a.y = currentCamera->mViewMatrix.mUnk_00[1].y;
-    a.z = currentCamera->mViewMatrix.mUnk_00[2].y;
-    b.x = -currentCamera->mViewMatrix.mUnk_00[0].z;
-    b.y = -currentCamera->mViewMatrix.mUnk_00[1].z;
-    b.z = -currentCamera->mViewMatrix.mUnk_00[2].z;
+    a.x = currentCamera->mViewMatrix.field0[0].y;
+    a.y = currentCamera->mViewMatrix.field0[1].y;
+    a.z = currentCamera->mViewMatrix.field0[2].y;
+    b.x = -currentCamera->mViewMatrix.field0[0].z;
+    b.y = -currentCamera->mViewMatrix.field0[1].z;
+    b.z = -currentCamera->mViewMatrix.field0[2].z;
     VEC_Subtract(&b, &a, &lightVector);
     if ((s64) lightVector.x * lightVector.x + (s64) lightVector.y * lightVector.y +
             (s64) lightVector.z * lightVector.z >=
@@ -475,7 +475,7 @@ void race_finalize(void) {
         heapCreated = TRUE;
     }
     if (heapCreated != FALSE) {
-        wiFiSession->mKartMask = gStruct217AA14->mUnk_749;
+        wiFiSession->mKartMask = gStruct217AA14->field749;
     }
     gStruct217AA14 = NULL;
 }
@@ -554,7 +554,7 @@ void race_setupFog(void) {
         }
         race_sStagFogColor = gMapData->mSettings->mColorAndFogAlpha & 0x7fff;
         race_sStagFogAlpha = ((u32) gMapData->mSettings->mColorAndFogAlpha >> 15) & 31;
-        race_sFogSlope = gMapData->mSettings->mUnk_07;
+        race_sFogSlope = gMapData->mSettings->field7;
         race_sStagFogOffset = gMapData->mSettings->mFogOffset / 512;
         race_sStagFogColorR = race_sStagFogColor & 31;
         race_sStagFogColorG = (race_sStagFogColor >> 5) & 31;

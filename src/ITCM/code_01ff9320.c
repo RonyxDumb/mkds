@@ -25,28 +25,28 @@ void texmtxCalc_flagTS_(s32 *o, const NNSG3dMatAnmResult *v1) {
     s32 b;
     s32 t;
 
-    a = v1->mUnk_2c << 12;
-    b = v1->mUnk_2e << 12;
+    a = v1->field2C << 12;
+    b = v1->field2E << 12;
     FX_DivAsync(b, a);
-    o[0] = v1->mUnk_20[1];
-    o[5] = v1->mUnk_20[1];
-    o[1] = (-v1->mUnk_20[0] * FX_GetDivResult()) >> 12;
+    o[0] = v1->field20[1];
+    o[5] = v1->field20[1];
+    o[1] = (-v1->field20[0] * FX_GetDivResult()) >> 12;
     FX_DivAsync(a, b);
-    t = -(v1->mUnk_20[0] + v1->mUnk_20[1]);
-    o[12] = (v1->mUnk_2c * (t + 0x1000)) << 3;
-    o[13] = (v1->mUnk_2e * (v1->mUnk_20[0] - v1->mUnk_20[1] + 0x1000)) << 3;
-    o[4] = (v1->mUnk_20[0] * FX_GetDivResult()) >> 12;
+    t = -(v1->field20[0] + v1->field20[1]);
+    o[12] = (v1->field2C * (t + 0x1000)) << 3;
+    o[13] = (v1->field2E * (v1->field20[0] - v1->field20[1] + 0x1000)) << 3;
+    o[4] = (v1->field20[0] * FX_GetDivResult()) >> 12;
 }
 
 void texmtxCalc_flagTR_(s32 *o, const NNSG3dMatAnmResult *v1) {
     s32 t;
 
-    o[0] = v1->mUnk_18[0];
-    o[5] = v1->mUnk_18[1];
+    o[0] = v1->field18[0];
+    o[5] = v1->field18[1];
     o[1] = 0;
     o[12] = 0;
-    t = -(v1->mUnk_18[1] << 1);
-    o[13] = (v1->mUnk_2e * (t + 0x2000)) << 3;
+    t = -(v1->field18[1] << 1);
+    o[13] = (v1->field2E * (t + 0x2000)) << 3;
     o[4] = 0;
 }
 
@@ -62,33 +62,33 @@ void texmtxCalc_flagTRS_(s32 *o) {
 void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *p) {
     Unk01ff9320_buf b;
 
-    if (p->mUnk_00 & 8) {
-        b.mUnk_00 = 0x101610;
+    if (p->field0 & 8) {
+        b.field0 = 0x101610;
     } else {
-        b.mUnk_00 = 0x101810;
+        b.field0 = 0x101810;
     }
-    b.mUnk_04 = 3;
-    b.mUnk_48 = 2;
-    b.mUnk_08[14] = 0;
-    b.mUnk_08[11] = 0;
-    b.mUnk_08[10] = 0;
-    b.mUnk_08[9] = 0;
-    b.mUnk_08[8] = 0;
-    b.mUnk_08[7] = 0;
-    b.mUnk_08[6] = 0;
-    b.mUnk_08[3] = 0;
-    b.mUnk_08[2] = 0;
-    b.mUnk_08[15] = 0x1000;
-    calcTexMtx_[p->mUnk_00 & 7](b.mUnk_08, p);
-    if (p->mUnk_30 != 0x1000) {
-        b.mUnk_08[0] = ((s64) p->mUnk_30 * b.mUnk_08[0]) >> 12;
-        b.mUnk_08[1] = ((s64) p->mUnk_30 * b.mUnk_08[1]) >> 12;
-        b.mUnk_08[12] = ((s64) p->mUnk_30 * b.mUnk_08[12]) >> 12;
+    b.field4 = 3;
+    b.field48 = 2;
+    b.field8[14] = 0;
+    b.field8[11] = 0;
+    b.field8[10] = 0;
+    b.field8[9] = 0;
+    b.field8[8] = 0;
+    b.field8[7] = 0;
+    b.field8[6] = 0;
+    b.field8[3] = 0;
+    b.field8[2] = 0;
+    b.field8[15] = 0x1000;
+    calcTexMtx_[p->field0 & 7](b.field8, p);
+    if (p->field30 != 0x1000) {
+        b.field8[0] = ((s64) p->field30 * b.field8[0]) >> 12;
+        b.field8[1] = ((s64) p->field30 * b.field8[1]) >> 12;
+        b.field8[12] = ((s64) p->field30 * b.field8[12]) >> 12;
     }
-    if (p->mUnk_34 != 0x1000) {
-        b.mUnk_08[4] = ((s64) p->mUnk_34 * b.mUnk_08[4]) >> 12;
-        b.mUnk_08[5] = ((s64) p->mUnk_34 * b.mUnk_08[5]) >> 12;
-        b.mUnk_08[13] = ((s64) p->mUnk_34 * b.mUnk_08[13]) >> 12;
+    if (p->field34 != 0x1000) {
+        b.field8[4] = ((s64) p->field34 * b.field8[4]) >> 12;
+        b.field8[5] = ((s64) p->field34 * b.field8[5]) >> 12;
+        b.field8[13] = ((s64) p->field34 * b.field8[13]) >> 12;
     }
-    NNS_G3dGeBufferOP_N(b.mUnk_00, (u32 *) &b + 1, 0x12);
+    NNS_G3dGeBufferOP_N(b.field0, (u32 *) &b + 1, 0x12);
 }

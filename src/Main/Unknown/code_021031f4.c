@@ -55,12 +55,12 @@ void InitBouncingItemBoxMapObjects(void) {
                 box = (BouncingItemBox *) *objectCursor;
                 mapObject = AllocPooledMapObject();
                 box->mPooledMapObject = (PooledMapObject *) mapObject;
-                box->mPooledMapObject->mUnk_fc = &box->mMapObjectPos;
+                box->mPooledMapObject->fieldFC = &box->mMapObjectPos;
                 objectCursor = objectCursor + 1;
                 index = index + 1;
             } while (index < objectCount);
         }
-        pool->mUnk_40 = 1;
+        pool->field40 = 1;
     }
 }
 
@@ -109,7 +109,7 @@ void cspl_dripUpdate(OrthoQuad *quad) {
     if (framesFromMoveStart == 0 && cspl_sUseCustomSplash == 0 && quad == cspl_sSplashes) {
         sndHandle = GetSndHandleSlot(6);
         NNS_SndPlayerStopSeq(sndHandle, 1);
-        if ((data_0217c780 & 1) != 0 && SoundHandle_217D084.mUnk_0c != 0) {
+        if ((data_0217c780 & 1) != 0 && SoundHandle_217D084.fieldC != 0) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }
@@ -214,7 +214,7 @@ void cspl_initialWaitUpdate(OrthoQuad *quad) {
         return;
     }
     sndHandle = sp_acquireElement(sound_getPoolById(0));
-    if (SoundHandle_217D084.mUnk_0c == 0) {
+    if (SoundHandle_217D084.fieldC == 0) {
         return;
     }
     if (*sndHandle != NULL) {
@@ -297,11 +297,11 @@ void cspl_renderSplash(OrthoQuadModel *model) {
         reg_G3_TEXCOORD = 0;
         reg_G3_VTX_16 = *(u32 *) &e->mCorners[0];
         reg_G3_VTX_16 = 0;
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16;
+        reg_G3_TEXCOORD = (u16) ((s32) (model->field1C << 8) >> 16) << 16;
         *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[1];
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16) | ((u16) ((s32) (model->mUnk_1c << 8) >> 16) << 16);
+        reg_G3_TEXCOORD = (u16) ((s32) (model->field18 << 8) >> 16) | ((u16) ((s32) (model->field1C << 8) >> 16) << 16);
         *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[2];
-        reg_G3_TEXCOORD = (u16) ((s32) (model->mUnk_18 << 8) >> 16);
+        reg_G3_TEXCOORD = (u16) ((s32) (model->field18 << 8) >> 16);
         *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[3];
         reg_G3_END_VTXS = 0;
         i++;
@@ -428,34 +428,34 @@ void cspl_emitSplashes(s32 kartIndex, s32 count, s32 useCreamEffect) {
     for (i = 0, placedCount = 0; i < 0x10 && placedCount < count; i++) {
         if (cspl_sUseCustomSplash != 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
+            startPair.mHalf.field0 = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
+            startPair.mHalf.field2 = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
         } else if (cspl_sSplashCount == 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
+            startPair.mHalf.field0 = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 =
-                startPair.mHalf.mUnk_00 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32);
+            startPair.mHalf.field0 =
+                startPair.mHalf.field0 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32);
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 = ((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32;
+            startPair.mHalf.field2 = ((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 =
-                startPair.mHalf.mUnk_02 + (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32);
+            startPair.mHalf.field2 =
+                startPair.mHalf.field2 + (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32);
         } else {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_00 = ((u64) (u32) (random->mValue >> 32) * 0x2000) >> 32;
+            startPair.mHalf.field0 = ((u64) (u32) (random->mValue >> 32) * 0x2000) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mUnk_02 = ((u64) (u32) (random->mValue >> 32) * 0x1800) >> 32;
+            startPair.mHalf.field2 = ((u64) (u32) (random->mValue >> 32) * 0x1800) >> 32;
         }
-        column = startPair.mHalf.mUnk_00 >> 10;
-        row = startPair.mHalf.mUnk_02 >> 10;
+        column = startPair.mHalf.field0 >> 10;
+        row = startPair.mHalf.field2 >> 10;
         if (row >= 3 || column < 3 || column > 4) {
             if ((cspl_sScreenCoverageFlags[row] & (m << column)) == 0) {
                 s32 r = MarkOrthoQuadCellsAndGetOverlap(column, row);
 
-                startPair.mHalf.mUnk_00 -= 0x1000;
-                startPair.mHalf.mUnk_02 -= 0x600;
+                startPair.mHalf.field0 -= 0x1000;
+                startPair.mHalf.field2 -= 0x600;
                 cspl_emitSplash(placedCount, startPair, r);
                 placedCount++;
             }
@@ -668,13 +668,13 @@ void cspl_initSplashTex(OrthoQuadModel *quadModel, NsbmdModel *model) {
     quadModel->mModel = model;
     quadModel->mPolygonAttr = 0x51f80c0;
     quadModel->mPolygonAttr = quadModel->mPolygonAttr & 0xc0ffffff;
-    quadModel->mTeximageParam = *model->mUnk_1c;
-    quadModel->mPlttBase = *model->mUnk_20;
-    quadModel->mDifAmb = model->mUnk_0c;
-    quadModel->mSpeEmi = model->mUnk_10;
+    quadModel->mTeximageParam = *model->field1C;
+    quadModel->mPlttBase = *model->field20;
+    quadModel->mDifAmb = model->fieldC;
+    quadModel->mSpeEmi = model->field10;
     teximageParam = quadModel->mTeximageParam;
-    quadModel->mUnk_18 = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
-    quadModel->mUnk_1c = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
+    quadModel->field18 = 1 << (((teximageParam & 0x3800000) >> 0x17) + 0xf);
+    quadModel->field1C = 1 << (((teximageParam & 0x700000) >> 0x14) + 0xf);
 }
 #pragma thumb off
 
@@ -690,7 +690,7 @@ void itgsso_21031F4(ItemGesso *gesso) {
     u32 ownerRank;
     u16 kartIndex;
 
-    ownerIndex = (u16) ((gesso->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00) : 8);
+    ownerIndex = (u16) ((gesso->field0.field78 & 0x8000) == 0 ? (u16) (gesso->field0.field78 & ~0xff00) : 8);
     entryIndex = gRaceMultiConfig->mEntryIndex;
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         kartCount = gRaceMultiConfig->mKartCount;
@@ -699,13 +699,13 @@ void itgsso_21031F4(ItemGesso *gesso) {
                 continue;
             }
             kart = driver_getById(i);
-            if (kart->mUnk_7c & 0x402020) {
+            if (kart->field7C & 0x402020) {
                 continue;
             }
-            if (kart->mUnk_4c & 0x10000840) {
+            if (kart->field4C & 0x10000840) {
                 continue;
             }
-            if (kart->mUnk_48 & 0x10000) {
+            if (kart->field48 & 0x10000) {
                 continue;
             }
             raceProgress = gRaceStatus;
@@ -719,8 +719,8 @@ void itgsso_21031F4(ItemGesso *gesso) {
         do {
             kartIndex = gRaceStatus->mKartAtRank[(u8) rank - 1];
             kart = driver_getById(kartIndex);
-            if ((kart->mUnk_7c & 0x402020) == 0 && (kart->mUnk_4c & 0x10000840) == 0 &&
-                (kart->mUnk_48 & 0x10000) == 0) {
+            if ((kart->field7C & 0x402020) == 0 && (kart->field4C & 0x10000840) == 0 &&
+                (kart->field48 & 0x10000) == 0) {
                 gesso->mOrthoQuadCounts[kartIndex] = 4 - ((rank - 1) >> 1);
             }
             rank++;

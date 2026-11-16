@@ -76,7 +76,7 @@ void LocateAndQueueSelectGhost(void) {
     g2du_getCharacterDataBG(&b, arc_getSceneArcFile(gSelectGhostSBNcgrName));
     g2du_getScreenData(&d, arc_getSceneArcFile(gSelectGhostSNscrName));
     g2du_getPaletteData(&c, arc_getSceneArcFile(gSelectGhostSBNclrName));
-    gSelectGhost->mUnk_40 = heap_alloc(gSelectGhost->mHeap, 0x800);
+    gSelectGhost->field40 = heap_alloc(gSelectGhost->mHeap, 0x800);
     gSelectGhost->mSelectCupCourseTaMBncl = arc_getSceneArcFile(gSelectCupCourseTaMBnclName);
     gSelectGhost->mSelectCupCourseTaMBnll = arc_getSceneArcFile(gSelectCupCourseTaMBnllName);
     g2du_getCellBankData(&gSelectGhost->mSelectCupCourseMNcer, arc_getSceneArcFile(gSelectCupCourseMNcerName));
@@ -93,7 +93,7 @@ void LocateAndQueueSelectGhost(void) {
     NNS_GfdRegisterNewVramTransferTask(0x17, 0, b->mData, b->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0, c->mData, 0x20);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, d->mData, d->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mUnk_40, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->field40, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, a->mData, a->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData, gSelectGhost->mSelectGhostSONclr->mDataSize);
 }
@@ -111,7 +111,7 @@ void ResetSelectGhost(void) {
     }
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = -0xc0;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = -0xc0;
-    cnt = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    cnt = gSelectGhost->mSelectGhostSBncl->field6;
     for (i = 0; i < 5; i++) {
         gSelectGhost->mSelectGhostSTable[cnt + gSelectGhostSBnllIndices[i]].mOffsetY = -0xc0;
     }
@@ -208,7 +208,7 @@ void RefreshSelectGhostForIndex(void) {
     u16 buf18[16];
 
     q = p->mSelectGhostSBncl;
-    n = q->mUnk_06;
+    n = q->field6;
     jn_ui_212426C(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
                   jn_msg_getMessage(p->mMenuMessages, gSelectGhostMenuMessageIndices[p->mIndex]), q, p->mSelectGhostSTable);
     if (gSelectGhost->mIndex == 0) {
@@ -236,7 +236,7 @@ void RefreshSelectGhostForIndex(void) {
     jn_ui_fillPlaceholder(r, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMNcgr,
                    gSelectGhost->mPlayerCharacterMBncl, 1, a, gSelectGhost->mSelectGhostSONcer,
                    gSelectGhost->mSelectGhostSBncl);
-    blk = gSelectGhost->mPlayerCharacterMONclr->mUnk_0c;
+    blk = gSelectGhost->mPlayerCharacterMONclr->fieldC;
     NNS_GfdRegisterNewVramTransferTask(
         0x1e, 0x100,
         blk + (GetCellPaletteIndex(r, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMBncl) << 5),
@@ -292,7 +292,7 @@ void func_ov001_0219bfc0(void) {
 }
 
 void func_ov001_0219be5c(void) {
-    u16 n = gSelectGhost->mSelectCupCourseTaMBncl->mUnk_06;
+    u16 n = gSelectGhost->mSelectCupCourseTaMBncl->field6;
 
     gSelectGhost->mSelectCupCourseTaMTable[0].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[2].mVisible = 1;
@@ -338,8 +338,8 @@ void InitSelectGhost(void *a, u32 b, u32 c) {
     gSelectGhost->mHeap = heap;
     gSelectGhost->mState = 0;
     gSelectGhost->mIndex = 0;
-    gSelectGhost->mUnk_64 = b;
-    gSelectGhost->mUnk_68 = c;
+    gSelectGhost->field64 = b;
+    gSelectGhost->field68 = c;
     gSelectGhost->mResult = 0;
     LocateAndQueueSelectGhost();
     kic_initForMenu(gSelectGhost->mHeap);
@@ -422,7 +422,7 @@ void AdvanceSelectGhostState0(void) {
     s32 i;
 
     AdvanceSelectGhostOffsetTimers();
-    n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    n = gSelectGhost->mSelectGhostSBncl->field6;
     gSelectGhost->mStateFrames++;
     v = mutil_interpolate(1, ~0xbf, 0, gSelectGhost->mStateFrames, 10);
     gSelectGhost->mBg3Offset = v;
@@ -446,7 +446,7 @@ void AdvanceSelectGhostState1(void) {
     s16 w;
 
     AdvanceSelectGhostOffsetTimers();
-    n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    n = gSelectGhost->mSelectGhostSBncl->field6;
     gSelectGhost->mStateFrames++;
     w = -LookupSelectReturnState1Bg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = w;
@@ -584,7 +584,7 @@ void AdvanceSelectGhostState7(void) {
     gSelectGhost->mStateFrames++;
     v = mutil_interpolate(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
     if (flag) {
-        n = gSelectGhost->mSelectCupCourseTaMBncl->mUnk_06;
+        n = gSelectGhost->mSelectCupCourseTaMBncl->field6;
         gSelectGhost->mBg0Offset = v;
         gSelectGhost->mSelectCupCourseTaMTable[0].mOffsetY = v;
         gSelectGhost->mSelectCupCourseTaMTable[2].mOffsetY = v;
@@ -599,7 +599,7 @@ void AdvanceSelectGhostState7(void) {
         gSelectGhost->mSelectCupCourseTaMTable[n + 4].mOffsetY = v;
         gSelectGhost->mSelectCupCourseTaMTable[n + 5].mOffsetY = v;
     }
-    n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
+    n = gSelectGhost->mSelectGhostSBncl->field6;
     w = -LookupSelectReturnState4Bg2Offset(gSelectGhost->mStateFrames);
     gSelectGhost->mBg3Offset = v;
     for (i = 0; i < 6; i++) {
@@ -648,10 +648,10 @@ int AdvanceSelectGhost(void) {
     AdvancePaletteBlend();
     func_ov001_0219c358();
     jn_ui_renderElements(gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseMNcer,
-                    gSelectGhost->mSelectCupCourseTaMBnll, (void *) gSelectGhost->mUnk_64,
+                    gSelectGhost->mSelectCupCourseTaMBnll, (void *) gSelectGhost->field64,
                     gSelectGhost->mSelectCupCourseTaMTable);
     jn_ui_renderElements(gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBnll,
-                    (void *) gSelectGhost->mUnk_68, gSelectGhost->mSelectGhostSTable);
+                    (void *) gSelectGhost->field68, gSelectGhost->mSelectGhostSTable);
     if (gSelectGhost->mState == 7) {
         switch (gSelectGhost->mResult) {
             case 1:

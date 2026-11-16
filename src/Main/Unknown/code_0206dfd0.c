@@ -83,10 +83,10 @@ void driver_handleDriverCollision(Kart *p) {
             p->mKartCollisionDelayTimer = 0;
         }
     }
-    if (p->mUnk_7c & 0x402000) {
+    if (p->field7C & 0x402000) {
         return;
     }
-    if (p->mUnk_48 & 0x40) {
+    if (p->field48 & 0x40) {
         return;
     }
     for (i = 0; i < gColQueryResultCount; i++) {
@@ -97,10 +97,10 @@ void driver_handleDriverCollision(Kart *p) {
         if (p->mTestedKartMask & (1 << q->mIndex)) {
             continue;
         }
-        if (q->mUnk_7c & 0x402020) {
+        if (q->field7C & 0x402020) {
             continue;
         }
-        if (q->mUnk_48 & 0x40) {
+        if (q->field48 & 0x40) {
             continue;
         }
         r = p->mRadius + q->mRadius;
@@ -120,37 +120,37 @@ void driver_handleDriverCollision(Kart *p) {
             b.z = -a.z;
             k = 0;
             c = FALSE;
-            if (p->mUnk_44 & KART_44_ON_GROUND) {
+            if (p->field44 & KART_44_ON_GROUND) {
                 f = VEC_DotProduct(&p->mGroundNormal, &a);
                 a.x -= (s32) (((s64) p->mGroundNormal.x * f) >> 12);
                 a.y -= (s32) (((s64) p->mGroundNormal.y * f) >> 12);
                 a.z -= (s32) (((s64) p->mGroundNormal.z * f) >> 12);
             }
-            if (p->mUnk_44 & 0x80) {
+            if (p->field44 & 0x80) {
                 if (VEC_DotProduct(&p->mGroundNormal, &a) < 0) {
-                    f = VEC_DotProduct(&p->mUnk_250, &a);
-                    a.x -= (s32) (((s64) p->mUnk_250.x * f) >> 12);
-                    a.y -= (s32) (((s64) p->mUnk_250.y * f) >> 12);
-                    a.z -= (s32) (((s64) p->mUnk_250.z * f) >> 12);
+                    f = VEC_DotProduct(&p->field250, &a);
+                    a.x -= (s32) (((s64) p->field250.x * f) >> 12);
+                    a.y -= (s32) (((s64) p->field250.y * f) >> 12);
+                    a.z -= (s32) (((s64) p->field250.z * f) >> 12);
                 }
             }
-            if (q->mUnk_44 & KART_44_ON_GROUND) {
+            if (q->field44 & KART_44_ON_GROUND) {
                 f = VEC_DotProduct(&q->mGroundNormal, &b);
                 b.x -= (s32) (((s64) q->mGroundNormal.x * f) >> 12);
                 b.y -= (s32) (((s64) q->mGroundNormal.y * f) >> 12);
                 b.z -= (s32) (((s64) q->mGroundNormal.z * f) >> 12);
             }
-            if (q->mUnk_44 & 0x80) {
+            if (q->field44 & 0x80) {
                 if (VEC_DotProduct(&q->mGroundNormal, &b) < 0) {
-                    f = VEC_DotProduct(&q->mUnk_250, &b);
-                    b.x -= (s32) (((s64) q->mUnk_250.x * f) >> 12);
-                    b.y -= (s32) (((s64) q->mUnk_250.y * f) >> 12);
-                    b.z -= (s32) (((s64) q->mUnk_250.z * f) >> 12);
+                    f = VEC_DotProduct(&q->field250, &b);
+                    b.x -= (s32) (((s64) q->field250.x * f) >> 12);
+                    b.y -= (s32) (((s64) q->field250.y * f) >> 12);
+                    b.z -= (s32) (((s64) q->field250.z * f) >> 12);
                 }
             }
-            VEC_Add(p->mUnk_510, &a, p->mUnk_510);
-            VEC_Add(q->mUnk_510, &b, q->mUnk_510);
-            if (q->mUnk_44 & 0xc0) {
+            VEC_Add(p->field510, &a, p->field510);
+            VEC_Add(q->field510, &b, q->field510);
+            if (q->field44 & 0xc0) {
                 VEC_Subtract(&q->mVelocity, &p->mVelocity, &e);
                 f = VEC_DotProduct(&n, &e);
                 e.x = ((s64) n.x * f) >> 12;
@@ -158,7 +158,7 @@ void driver_handleDriverCollision(Kart *p) {
                 e.z = ((s64) n.z * f) >> 12;
                 p->mForwardSpeed += VEC_DotProduct(&p->mTurnedForward, &e);
             }
-            if (p->mUnk_44 & 0xc0) {
+            if (p->field44 & 0xc0) {
                 VEC_Subtract(&p->mVelocity, &q->mVelocity, &g);
                 f = VEC_DotProduct(&n, &g);
                 g.x = ((s64) n.x * f) >> 12;
@@ -169,13 +169,13 @@ void driver_handleDriverCollision(Kart *p) {
             if (gRaceMultiConfig->mMode == MODE_BATTLE) {
                 k = mgcnt_handleDriverDriverCollide(p->mIndex, q->mIndex);
             }
-            w = p->mUnk_4c;
+            w = p->field4C;
             if (w & 0x10000000) {
-                if (!(q->mUnk_4c & 0x10000040)) {
+                if (!(q->field4C & 0x10000040)) {
                     c = TRUE;
                     TryStartKartPushDoubleFlip(p, q);
                 }
-            } else if ((x = q->mUnk_4c) & 0x10000000) {
+            } else if ((x = q->field4C) & 0x10000000) {
                 if (!(w & 0x10000040)) {
                     c = TRUE;
                     TryStartKartPushDoubleFlip(q, p);
@@ -218,8 +218,8 @@ void driver_handleDriverCollision(Kart *p) {
                 }
             }
             if (d > data_021654f4) {
-                p->mUnk_4c |= 0x100000;
-                q->mUnk_4c |= 0x100000;
+                p->field4C |= 0x100000;
+                q->field4C |= 0x100000;
             }
             if (c == FALSE) {
                 u = driverCore_sZeroVec;
@@ -230,8 +230,8 @@ void driver_handleDriverCollision(Kart *p) {
                 OtherKartCollide(p, q, &n, 0, &u);
             }
         }
-        p->mUnk_44 |= KART_44_NEAR_KART;
-        q->mUnk_44 |= KART_44_NEAR_KART;
+        p->field44 |= KART_44_NEAR_KART;
+        q->field44 |= KART_44_NEAR_KART;
         p->mNearKartMask |= 1 << q->mIndex;
         q->mNearKartMask |= 1 << p->mIndex;
     }

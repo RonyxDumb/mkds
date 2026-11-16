@@ -39,7 +39,7 @@ void UpdateWiFiMenuScene(SceneNumbers *a) {
     if (a != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {
-                gSystemData->mUnk_20 = 0;
+                gSystemData->field20 = 0;
             }
             a->mNextScene = GetWiFiNextScene();
         }

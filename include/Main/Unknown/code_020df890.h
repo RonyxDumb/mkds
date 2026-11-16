@@ -15,7 +15,7 @@ void kblock_init(Unk020e005c *koopaBlock, CourseMapRow *courseRow);
 MapObjectKindData *efbub_setupConfig(void);
 MapObjectDrawList *efbub_setupRenderPart(void);
 Unk020dfc44 *efbub_setupLogicPart(void);
-/* writes the polygon alpha cap (mUnk_030 of its effect record), read only by draw routines */
+/* writes the polygon alpha cap (field30 of its effect record), read only by draw routines */
 void efbub_render(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha);
 void efbub_globalPreUpdate(void);
 void efbub_update(void *a,

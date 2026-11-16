@@ -4,9 +4,9 @@
 
 // Login ID, friend key or GS profile ID record.
 typedef struct DWCAccFriendData {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
 } DWCAccFriendData;
 
 typedef struct DWCAccUserData {

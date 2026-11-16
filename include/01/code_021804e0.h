@@ -6,13 +6,13 @@
 
 // Argument of test_update.
 typedef struct Unk0218052c {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u8 field0[4];
+    /* 04 */ u16 field4;
 } Unk0218052c;
 
 // Object at the start of a 0xdc-byte allocation made by dc_createDisplayConfig.
 typedef struct Unk02180774 {
-    /* 00 */ u8 mUnk_00[0x28];
+    /* 00 */ u8 field0[0x28];
     /* 28 */ u8 mMainBgRecords[0x48];
     /* 70 */ u8 mSubBgRecords[0x6c];
 } Unk02180774;

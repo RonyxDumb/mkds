@@ -36,8 +36,8 @@ void func_ov001_021a4fa0(void) {
     GX_LoadBGPltt(gEmblem->mEmblemMBNclr->mData, 0, gEmblem->mEmblemMBNclr->mDataSize);
     DC_FlushRange(gEmblem->mEmblemMBNcgr->mData, gEmblem->mEmblemMBNcgr->mDataSize);
     GX_LoadBG1Char((gEmblem->mEmblemMBNcgr->mData), 0, gEmblem->mEmblemMBNcgr->mDataSize);
-    DC_FlushRange(gEmblem->mUnk_0a7c, 0x200);
-    GX_LoadBG2Char(gEmblem->mUnk_0a7c, 0, 0x200);
+    DC_FlushRange(gEmblem->fieldA7C, 0x200);
+    GX_LoadBG2Char(gEmblem->fieldA7C, 0, 0x200);
     DC_FlushRange(gEmblem->mEmblemMNscr->mData, gEmblem->mEmblemMNscr->mDataSize);
     GX_LoadBG1Scr(gEmblem->mEmblemMNscr->mData, 0, gEmblem->mEmblemMNscr->mDataSize);
     DC_FlushRange(gEmblem->mEmblemMBgNscr->mData, gEmblem->mEmblemMBgNscr->mDataSize);
@@ -111,8 +111,8 @@ void func_ov001_021a4ba0(void) {
 void func_ov001_021a4b28(void) {
     echoi_requestPalCharUpdate();
     echoi_setMenuVisible(1);
-    gEmblem->mUnk_1090 = 10;
-    gEmblem->mUnk_1098 = 14;
+    gEmblem->field1090 = 10;
+    gEmblem->field1098 = 14;
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -3);
@@ -120,19 +120,19 @@ void func_ov001_021a4b28(void) {
 
 void func_ov001_021a4aac(void) {
     echoi_setMenuVisible(0);
-    gEmblem->mUnk_1090 = 0;
-    gEmblem->mUnk_1098 = 15;
-    gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->field1090 = 0;
+    gEmblem->field1098 = 15;
+    gEmblem->field10B0 = FALSE;
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
 void func_ov001_021a4a10(void) {
-    gEmblem->mUnk_1090 = 2;
-    gEmblem->mUnk_1098 = 2;
-    gEmblem->mUnk_10a0 = 0;
-    gEmblem->mUnk_10a4 = 32;
+    gEmblem->field1090 = 2;
+    gEmblem->field1098 = 2;
+    gEmblem->field10A0 = 0;
+    gEmblem->field10A4 = 32;
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemTemplateSLld, 1), 0);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -3);
@@ -140,86 +140,86 @@ void func_ov001_021a4a10(void) {
 }
 
 void func_ov001_021a499c(void) {
-    gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
-    gEmblem->mUnk_10a4 -= 2;
-    if (gEmblem->mUnk_10a0 >= 0xc0) {
-        gEmblem->mUnk_10a0 = 0xc0;
-        gEmblem->mUnk_1090 = 1;
-        gEmblem->mUnk_1098 = 3;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->field10A0 += gEmblem->field10A4;
+    gEmblem->field10A4 -= 2;
+    if (gEmblem->field10A0 >= 0xc0) {
+        gEmblem->field10A0 = 0xc0;
+        gEmblem->field1090 = 1;
+        gEmblem->field1098 = 3;
+        gEmblem->field10B0 = FALSE;
     }
-    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
+    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->field10A0 - 0xc0;
 }
 
 void func_ov001_021a4914(void) {
-    gEmblem->mUnk_1090 = 3;
-    gEmblem->mUnk_1098 = 6;
-    gEmblem->mUnk_10a0 = 0xc0;
-    gEmblem->mUnk_10a4 = -0x20;
+    gEmblem->field1090 = 3;
+    gEmblem->field1098 = 6;
+    gEmblem->field10A0 = 0xc0;
+    gEmblem->field10A4 = -0x20;
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -1);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 2), -1);
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 3), -1);
 }
 
 void func_ov001_021a48a4(void) {
-    gEmblem->mUnk_10a0 += gEmblem->mUnk_10a4;
-    gEmblem->mUnk_10a4 += 2;
-    if (gEmblem->mUnk_10a0 <= 0) {
-        gEmblem->mUnk_10a0 = 0;
-        gEmblem->mUnk_1090 = 0;
-        gEmblem->mUnk_1098 = 7;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->field10A0 += gEmblem->field10A4;
+    gEmblem->field10A4 += 2;
+    if (gEmblem->field10A0 <= 0) {
+        gEmblem->field10A0 = 0;
+        gEmblem->field1090 = 0;
+        gEmblem->field1098 = 7;
+        gEmblem->field10B0 = FALSE;
     }
-    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->mUnk_10a0 - 0xc0;
+    gEmblem->mEmblemTemplateSLld->mOffsetY = gEmblem->field10A0 - 0xc0;
 }
 
 void func_ov001_021a4878(void) {
-    gEmblem->mUnk_1090 = 5;
-    gEmblem->mUnk_1098 = 13;
-    gEmblem->mUnk_109c = 0;
+    gEmblem->field1090 = 5;
+    gEmblem->field1098 = 13;
+    gEmblem->field109C = 0;
 }
 
 void func_ov001_021a4844(void) {
-    gEmblem->mUnk_1090 = 7;
-    gEmblem->mUnk_1098 = 10;
-    gEmblem->mUnk_109c = 0;
+    gEmblem->field1090 = 7;
+    gEmblem->field1098 = 10;
+    gEmblem->field109C = 0;
     func_02110aac(2, 0);
 }
 
 void func_ov001_021a4804(void) {
-    gEmblem->mUnk_109c += 2;
-    if (gEmblem->mUnk_109c > 16) {
-        gEmblem->mUnk_109c = 16;
-        gEmblem->mUnk_1090 = 6;
-        gEmblem->mUnk_1098 = 9;
+    gEmblem->field109C += 2;
+    if (gEmblem->field109C > 16) {
+        gEmblem->field109C = 16;
+        gEmblem->field1090 = 6;
+        gEmblem->field1098 = 9;
     }
 }
 
 void func_ov001_021a47b4(void) {
-    gEmblem->mUnk_109c -= 2;
-    if (gEmblem->mUnk_109c < 0) {
-        gEmblem->mUnk_109c = 0;
-        gEmblem->mUnk_1090 = 4;
-        gEmblem->mUnk_1098 = 11;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->field109C -= 2;
+    if (gEmblem->field109C < 0) {
+        gEmblem->field109C = 0;
+        gEmblem->field1090 = 4;
+        gEmblem->field1098 = 11;
+        gEmblem->field10B0 = FALSE;
     }
 }
 
 void func_ov001_021a4774(void) {
-    gEmblem->mUnk_109c += 2;
-    if (gEmblem->mUnk_109c > 16) {
-        gEmblem->mUnk_109c = 16;
-        gEmblem->mUnk_1090 = 8;
-        gEmblem->mUnk_1098 = 12;
+    gEmblem->field109C += 2;
+    if (gEmblem->field109C > 16) {
+        gEmblem->field109C = 16;
+        gEmblem->field1090 = 8;
+        gEmblem->field1098 = 12;
     }
 }
 
 void func_ov001_021a4724(void) {
-    gEmblem->mUnk_109c -= 2;
-    if (gEmblem->mUnk_109c < 0) {
-        gEmblem->mUnk_109c = 0;
-        gEmblem->mUnk_1090 = 0;
-        gEmblem->mUnk_1098 = 8;
-        gEmblem->mUnk_10b0 = FALSE;
+    gEmblem->field109C -= 2;
+    if (gEmblem->field109C < 0) {
+        gEmblem->field109C = 0;
+        gEmblem->field1090 = 0;
+        gEmblem->field1098 = 8;
+        gEmblem->field10B0 = FALSE;
     }
 }

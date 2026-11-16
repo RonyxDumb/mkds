@@ -28,17 +28,17 @@ u32 menu_GXS_SetVisibleWnd(u32 bits) {
 }
 
 u32 func_020cc120(void) {
-    return (gStruct217B488->mUnk_08);
+    return (gStruct217B488->field8);
 }
 
 void func_020cc10c(u32 value) {
-    gStruct217B488->mUnk_04 = value;
+    gStruct217B488->field4 = value;
 }
 
 u32 func_020cc0f8(void) {
-    return (gStruct217B488->mUnk_10);
+    return (gStruct217B488->field10);
 }
 
 u32 func_020cc0e4(void) {
-    return (gStruct217B488->mUnk_14);
+    return (gStruct217B488->field14);
 }

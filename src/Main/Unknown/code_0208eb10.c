@@ -32,7 +32,7 @@
 #include "registers.h"
 
 void func_02090194(Unk02090194 *itemUse) {
-    itemUse->mUnk_10 = 0x1u;
+    itemUse->field10 = 0x1u;
 }
 
 void func_02090088(KartAiItemUse *itemUse, KartAi *kartAi) {
@@ -81,7 +81,7 @@ void func_0208ffe4(KartAiItemUse *itemUse, KartAi *kartAi) {
 }
 
 void SetItemBitsEveryCall(Unk0208ffd8 *itemUse) {
-    itemUse->mUnk_10 = 0x1u;
+    itemUse->field10 = 0x1u;
 }
 
 void func_0208fefc(KartAiItemUse *itemUse, struct KartAi *kartAi) {
@@ -486,8 +486,8 @@ void trl_init(void *heap) {
     trl_sTexParams.mTexImageParam = trl_sTexParams.mTexImageParam & 0xffff0000;
     trl_sTexParams.mTexImageParam = trl_sTexParams.mTexImageParam | (((u32) textureVramOffset >> 3) & 0xffff);
     trl_sTexParams.mPlttBase = (effectTexture->mPlttInfo.mVramKey & 0xffff) << 3;
-    trl_sTexParams.mUnk_1c = 0x10000;
-    trl_sTexParams.mUnk_20 = 0x8000;
+    trl_sTexParams.field1C = 0x10000;
+    trl_sTexParams.field20 = 0x8000;
     trl_sState->mPolygonAttrBits = gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW ? 0 : 0x8000;
 }
 
@@ -566,17 +566,17 @@ void trl_initPointForDriver(PosStripPoint *posStripPoint, PosStrip *posStrip) {
 
     kart = driver_getById(posStrip->mKartIndex);
     position = kart->mPos;
-    p = &kart->mUnk_120;
+    p = &kart->field120;
     k = posStrip->mOffsetX;
     offsetVectorX.x = ((s64) p->x * k) >> 12;
     offsetVectorX.y = ((s64) p->y * k) >> 12;
     offsetVectorX.z = ((s64) p->z * k) >> 12;
-    p = &kart->mUnk_12c;
+    p = &kart->field12C;
     k = posStrip->mOffsetY;
     offsetVectorY.x = ((s64) p->x * k) >> 12;
     offsetVectorY.y = ((s64) p->y * k) >> 12;
     offsetVectorY.z = ((s64) p->z * k) >> 12;
-    p = &kart->mUnk_138;
+    p = &kart->field138;
     k = posStrip->mOffsetZ;
     offsetVectorZ.x = ((s64) p->x * k) >> 12;
     offsetVectorZ.y = ((s64) p->y * k) >> 12;
@@ -618,7 +618,7 @@ PosStrip *trl_createTrailForDriver(s32 kartIndex) {
         if (strip != NULL) {
             kart = driver_getById(kartIndex);
             kartModelsEntry = kart->mKartModelsEntry;
-            kartOffset = ((Vec3 *) &kartModelsEntry->mKartOffsetData->mUnk_44)[kartModelsEntry->mCharacterIndex];
+            kartOffset = ((Vec3 *) &kartModelsEntry->mKartOffsetData->field44)[kartModelsEntry->mCharacterIndex];
             strip->mFollowedPos = &kart->mPos;
             strip->mStopped = 0;
             strip->mHeight = 0x400;

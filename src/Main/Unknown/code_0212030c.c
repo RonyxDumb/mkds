@@ -52,8 +52,8 @@ void InitWiFiSession(void *heap) {
     StateMachine *stateMachine;
 
     gStruct217D384 = heap_allocEx(heap, 0x1f58, 0x20);
-    sm_init(&gStruct217D384->mUnk_0008, data_0216e21c, 8, NULL);
-    stateMachine = &gStruct217D384->mUnk_0008;
+    sm_init(&gStruct217D384->field8, data_0216e21c, 8, NULL);
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -76,7 +76,7 @@ void DeleteWiFiSessionHeap(void) {
         heap_free(proc_getHeap(proc_getCurrent()), gStruct217D384->mHeapBuffer);
     }
     gStruct217D384->mHeapCreated = FALSE;
-    stateMachine = &gStruct217D384->mUnk_0008;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -86,8 +86,8 @@ void func_021204d0(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
-    gStruct217D384->mUnk_1f34 = TRUE;
-    stateMachine = &gStruct217D384->mUnk_0008;
+    gStruct217D384->field1F34 = TRUE;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -130,13 +130,13 @@ void UpdateWiFiSession(void) {
     }
     UpdateWiFiConnection();
     if (func_ov000_0219c3cc(NULL) != 0) {
-        gStruct217D384->mUnk_1f44 = func_ov000_0219c3cc(&gStruct217D384->mUnk_1f48);
+        gStruct217D384->field1F44 = func_ov000_0219c3cc(&gStruct217D384->field1F48);
         func_ov000_0219c3b0();
     }
-    if (gStruct217D384->mUnk_0008.mState != 0) {
+    if (gStruct217D384->field8.mState != 0) {
         UpdateBuddyStatuses();
     }
-    sm_execute(&gStruct217D384->mUnk_0008);
+    sm_execute(&gStruct217D384->field8);
 }
 
 s32 func_02120340(u32 a, void *b, s32 c, u32 (*d)(void)) {

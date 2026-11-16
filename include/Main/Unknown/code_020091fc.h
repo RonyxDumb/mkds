@@ -10,30 +10,30 @@
 #include "fs_file.h"
 #include "Main/Unknown/code_02008e10.h"
 
-// Entry of the list that gGameInfoList walks (the lists are chained through mUnk_4bc). MB_GetGameInfoRecvList returns one;
+// Entry of the list that gGameInfoList walks (the lists are chained through field4BC). MB_GetGameInfoRecvList returns one;
 // the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.
 typedef struct GameInfoEntry {
-    /* 000 */ u8 mUnk_000[0x220];
-    /* 220 */ u8 mUnk_220[0x16];
-    /* 236 */ u8 mUnk_236;
-    /* 237 */ u8 mUnk_237;
-    /* 238 */ u8 mUnk_238[0x60];
-    /* 298 */ u8 mUnk_298[0xc0];
-    /* 358 */ u8 mUnk_358;
-    /* 359 */ u8 mUnk_359;
-    /* 35a */ u16 mUnk_35a;
-    /* 35c */ u16 mUnk_35c;
-    /* 35e */ u8 mUnk_35e[0x14a];
-    /* 4a8 */ u8 mUnk_4a8[8];
-    /* 4b0 */ u16 mUnk_4b0;
-    /* 4b2 */ u8 mUnk_4b2;
-    /* 4b3 */ u8 mUnk_4b3;
-    /* 4b4 */ u8 mUnk_4b4;
-    /* 4b5 */ u8 mUnk_4b5;
-    /* 4b6 */ u8 mUnk_4b6[2];
-    /* 4b8 */ u32 mUnk_4b8;
+    /* 000 */ u8 field0[0x220];
+    /* 220 */ u8 field220[0x16];
+    /* 236 */ u8 field236;
+    /* 237 */ u8 field237;
+    /* 238 */ u8 field238[0x60];
+    /* 298 */ u8 field298[0xc0];
+    /* 358 */ u8 field358;
+    /* 359 */ u8 field359;
+    /* 35a */ u16 field35A;
+    /* 35c */ u16 field35C;
+    /* 35e */ u8 field35E[0x14a];
+    /* 4a8 */ u8 field4A8[8];
+    /* 4b0 */ u16 field4B0;
+    /* 4b2 */ u8 field4B2;
+    /* 4b3 */ u8 field4B3;
+    /* 4b4 */ u8 field4B4;
+    /* 4b5 */ u8 field4B5;
+    /* 4b6 */ u8 field4B6[2];
+    /* 4b8 */ u32 field4B8;
     /* 4bc */ struct GameInfoEntry *mNext;
-    /* 4c0 */ u8 mUnk_4c0[0xc0];
+    /* 4c0 */ u8 field4C0[0xc0];
 } GameInfoEntry;
 
 // State of the walk over the GameInfoEntry list: the first entry, the current entry, the position in the current
@@ -41,51 +41,51 @@ typedef struct GameInfoEntry {
 typedef struct GameInfoList {
     /* 00 */ GameInfoEntry *mFirst;
     /* 04 */ GameInfoEntry *mCurrent;
-    /* 08 */ u8 *mUnk_08;
+    /* 08 */ u8 *field8;
     /* 0c */ u8 mState;
-    /* 0d */ u8 mUnk_0d;
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
+    /* 0d */ u8 fieldD;
+    /* 0e */ u8 fieldE;
+    /* 0f */ u8 fieldF;
+    /* 10 */ u8 field10;
     /* 11 */ u8 mNextSequence;
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 field12[2];
 } GameInfoList;
 
 // 0x70-byte block that func_020092d0 and func_020094b8 fill and pass to WM_SetGameInfo. The halfword at 0xc and
 // the bytes from 0xe have another layout in func_020094b8.
 typedef struct GameInfoBlock {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 04 */ union {
-        u8 mUnk_04;
+        u8 field4;
         struct {
-            u8 mUnk_04_0 : 2;
-            u8 mUnk_04_2 : 6;
+            u8 field4_0 : 2;
+            u8 field4_2 : 6;
         };
     };
-    /* 05 */ u8 mUnk_05;
-    /* 06 */ u8 mUnk_06;
+    /* 05 */ u8 field5;
+    /* 06 */ u8 field6;
     /* 07 */ u8 mSequence;
     /* 08 */ u16 mChecksum;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
+    /* 0a */ u8 fieldA;
+    /* 0b */ u8 fieldB;
     /* 0c */ union {
-        u16 mUnk_0c;
+        u16 fieldC;
         u8 mUnk_0c_b;
     };
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u8 mUnk_10[0x58];
-    /* 68 */ u8 mUnk_68[8];
+    /* 0e */ u16 fieldE;
+    /* 10 */ u8 field10[0x58];
+    /* 68 */ u8 field68[8];
 } GameInfoBlock;
 
 // Fields func_02009828 reads.
 typedef struct Unk02009828 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ const u16 *mUnk_04;
-    /* 08 */ const u8 *mUnk_08;
-    /* 0c */ const u8 *mUnk_0c;
-    /* 10 */ const u8 *mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u8 mUnk_18;
+    /* 00 */ u8 field0[4];
+    /* 04 */ const u16 *field4;
+    /* 08 */ const u8 *field8;
+    /* 0c */ const u8 *fieldC;
+    /* 10 */ const u8 *field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u8 field18;
 } Unk02009828;
 
 extern u8 data_0216fc30;

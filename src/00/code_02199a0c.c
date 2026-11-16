@@ -4,7 +4,7 @@
 
 u32 func_ov000_02199a0c(Gt2Connection *a, int b, const u8 *c, u32 d) {
     int v1;
-    a->mUnk_66 = a->mUnk_66 + 1;
+    a->field66 = a->field66 + 1;
     if (b == 0) {
         v1 = func_ov000_02199dd0(a, c, d);
         if (v1 == 0) {

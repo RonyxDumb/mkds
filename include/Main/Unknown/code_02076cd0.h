@@ -12,13 +12,13 @@
 // 0x88-byte object built from an entry of the table at CourseMap.mCameras: the entry, two PosCurve and two
 // halfwords.
 typedef struct Unk02077750 {
-    /* 00 */ CourseMapCamera *mUnk_00;
-    /* 04 */ PosCurve mUnk_04;
-    /* 40 */ PosCurve mUnk_40;
-    /* 7c */ s16 mUnk_7c;
-    /* 7e */ s16 mUnk_7e;
-    /* 80 */ s32 mUnk_80;
-    /* 84 */ s32 mUnk_84;
+    /* 00 */ CourseMapCamera *field0;
+    /* 04 */ PosCurve field4;
+    /* 40 */ PosCurve field40;
+    /* 7c */ s16 field7C;
+    /* 7e */ s16 field7E;
+    /* 80 */ s32 field80;
+    /* 84 */ s32 field84;
 } Unk02077750;
 
 // Declared here until the code that defines them is decompiled.
@@ -30,12 +30,12 @@ void cam_updateFrustum(Camera *camera);
 void cam_init(Camera *camera);
 // Allocates cam_sIntroCameraTop (0x270 bytes), sets cam_sIntroCameraBottom to NULL, runs cam_init, sets mKind 2, starts it
 // at CourseMap.mFirstChainStartEntry and sets up its mPosCurve when the entry has a group. With no entry it sets
-// gRaceStatus->mUnk_4d0 to 1 and returns. race_init calls it when gRaceMultiConfig->mUnk_00c is 4.
+// gRaceStatus->field4D0 to 1 and returns. race_init calls it when gRaceMultiConfig->fieldC is 4.
 void cam_setupIntroCamSingle(void);
 // Allocates cam_sIntroCameraTop and cam_sIntroCameraBottom (0x270 bytes each), runs cam_init on both, sets mKind 2, starts
 // them at CourseMap.mFirstChainStartEntry and mSecondChainStartEntry and sets up their mPosCurve when the entries have
-// a group. With no first entry it sets gRaceStatus->mUnk_4d0 to 1 and returns. race_init calls it when
-// gRaceMultiConfig->mUnk_00c is 3 or 5.
+// a group. With no first entry it sets gRaceStatus->field4D0 to 1 and returns. race_init calls it when
+// gRaceMultiConfig->fieldC is 3 or 5.
 void cam_setupIntroCamDouble(void);
 void cam_2077750(Unk02077750 *a, CourseMapCamera *courseMapCamera);
 void cam_20777AC(u32 followedKartIndex);

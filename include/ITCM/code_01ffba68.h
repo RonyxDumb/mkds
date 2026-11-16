@@ -8,14 +8,14 @@ void driver_handleAcceleration(Kart *p);
 void driver_1FFBD9C(Kart *p);
 void driver_1FFBE04(Kart *p);
 void UpdateKartSpeedLimitGoal(Kart *p);
-// Stores the previous collision center: the point mRadius plus 0x400 along the up vector from mUnk_98. Slot 5 of
+// Stores the previous collision center: the point mRadius plus 0x400 along the up vector from field98. Slot 5 of
 // Kart.mSlotFunctions for every Kart except the remote Karts of mode 5; also called once from func_020653d0.
 void SetKartPrevCollisionCenter(Kart *p);
 // Writes the point mRadius + c along the vector at 0x15c, starting from b plus the move since the last step, to a.
 void ComputeKartCollisionCenter(Vec3 *a, const Vec3 *b, s32 c, Kart *p);
 void ComputeKartPointAlongUp(Vec3 *a, const Vec3 *b, s32 c, Kart *p);
 void driver_updateYRot(Kart *p, s32 a);
-// One step of a turn in direction c (1 or -1) with e the mUnk_48 bit set for it; always returns 1.
+// One step of a turn in direction c (1 or -1) with e the field48 bit set for it; always returns 1.
 s32 driver_applySteering(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e);
 s32 driver_handleSteering(Kart *p, s32 a);
 // Multiplies *a by 0xe6a / 0x1000 and sets it to 0 once its size is below 0x7b.
@@ -28,16 +28,16 @@ void driver_1FFC6C0(Kart *p);
 void AdvanceKartCollisionTimer(Kart *p);
 void func_01ffc920(Kart *p);
 // Stores the rank in mRank; returns TRUE when the Kart moved up and the Kart now right behind it is not flagged in
-// mUnk_7c.
+// field7C.
 s32 driver_handlePlaceChanges(Kart *p);
 void func_01ffc9e8(Kart *p, s32 a);
 void driver_1FFCA50(Kart *p);
-// First step of UpdateKarts for one Kart: copies the near-Kart mask, the position, mUnk_1d8, mUnk_2e4 and mUnk_2d8 into
-// their previous values, clears mTestedKartMask, mNearKartMask and some bits of mUnk_44 and mUnk_4c, then runs slot 5
+// First step of UpdateKarts for one Kart: copies the near-Kart mask, the position, field1D8, field2E4 and field2D8 into
+// their previous values, clears mTestedKartMask, mNearKartMask and some bits of field44 and field4C, then runs slot 5
 // of Kart.mSlotFunctions.
 void driver_1FFCAC0(Kart *p);
 // Slot 4 step of one Kart: moves Kart.mCollisionCenter, sweeps it against the course from Kart.mPrevCollisionCenter,
-// counts the step and calls the function in mUnk_230.
+// counts the step and calls the function in field230.
 void AdvanceKartCollision(Kart *p);
 // Slot 3 step of one Kart: speed limits from the physical parameters, the Kart state function, gravity and the velocity
 // added to mPos. Does not test collisions.

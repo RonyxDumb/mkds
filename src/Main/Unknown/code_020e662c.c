@@ -21,15 +21,15 @@
 
 // Copies the view matrix and builds its transposed rotation and three more matrices from it.
 void bbm_updateBaseMatrices(MtxFx43 *viewMatrix) {
-    data_0217b850->mUnk_00[0].x = 0x1000;
-    data_0217b850->mUnk_00[0].y = 0;
-    data_0217b850->mUnk_00[0].z = 0;
-    data_0217b850->mUnk_00[1].x = 0;
-    data_0217b850->mUnk_00[1].y = viewMatrix->mUnk_00[1].y;
-    data_0217b850->mUnk_00[1].z = viewMatrix->mUnk_00[1].z;
-    data_0217b850->mUnk_00[2].x = 0;
-    data_0217b850->mUnk_00[2].y = -viewMatrix->mUnk_00[1].z;
-    data_0217b850->mUnk_00[2].z = viewMatrix->mUnk_00[1].y;
+    data_0217b850->field0[0].x = 0x1000;
+    data_0217b850->field0[0].y = 0;
+    data_0217b850->field0[0].z = 0;
+    data_0217b850->field0[1].x = 0;
+    data_0217b850->field0[1].y = viewMatrix->field0[1].y;
+    data_0217b850->field0[1].z = viewMatrix->field0[1].z;
+    data_0217b850->field0[2].x = 0;
+    data_0217b850->field0[2].y = -viewMatrix->field0[1].z;
+    data_0217b850->field0[2].z = viewMatrix->field0[1].y;
     MTX_Transpose33_(viewMatrix, bbm_sBillboardMtx);
     MTX_Concat33((const s32 *) data_0217b850, (const s32 *) bbm_sBillboardMtx, (s32 *) bbm_sYBillboardMtx);
     {
@@ -39,36 +39,36 @@ void bbm_updateBaseMatrices(MtxFx43 *viewMatrix) {
         s32 axis2Z;
 
         matrix = data_0217b85c;
-        axis2 = &matrix->mUnk_00[2];
-        *axis2 = bbm_sBillboardMtx->mUnk_00[2];
-        axis2X = matrix->mUnk_00[2].x;
+        axis2 = &matrix->field0[2];
+        *axis2 = bbm_sBillboardMtx->field0[2];
+        axis2X = matrix->field0[2].x;
         axis2Z = axis2->z;
-        matrix->mUnk_00[0].z = -axis2X;
-        matrix->mUnk_00[0].x = axis2Z;
-        matrix->mUnk_00[0].y = 0;
+        matrix->field0[0].z = -axis2X;
+        matrix->field0[0].x = axis2Z;
+        matrix->field0[0].y = 0;
     }
-    if ((s64) data_0217b85c->mUnk_00[0].x * data_0217b85c->mUnk_00[0].x +
-            (s64) data_0217b85c->mUnk_00[0].y * data_0217b85c->mUnk_00[0].y +
-            (s64) data_0217b85c->mUnk_00[0].z * data_0217b85c->mUnk_00[0].z >=
+    if ((s64) data_0217b85c->field0[0].x * data_0217b85c->field0[0].x +
+            (s64) data_0217b85c->field0[0].y * data_0217b85c->field0[0].y +
+            (s64) data_0217b85c->field0[0].z * data_0217b85c->field0[0].z >=
         0x10) {
-        vec_normalize(&data_0217b85c->mUnk_00[0], &data_0217b85c->mUnk_00[0]);
+        vec_normalize(&data_0217b85c->field0[0], &data_0217b85c->field0[0]);
     }
-    vec_crossProduct(&data_0217b85c->mUnk_00[2], &data_0217b85c->mUnk_00[0], &data_0217b85c->mUnk_00[1]);
+    vec_crossProduct(&data_0217b85c->field0[2], &data_0217b85c->field0[0], &data_0217b85c->field0[1]);
     *bbm_sCameraMtx = *viewMatrix;
 }
 
 s32 bbm_setupCustomUpAxisBillboard(Vec3 *yAxis) {
-    bbm_sCustomUpAxisBillboardMtx->mUnk_00[1] = *yAxis;
-    bbm_sCustomUpAxisBillboardMtx->mUnk_00[2] = bbm_sYBillboardMtx->mUnk_00[2];
-    vec_crossProduct(&bbm_sCustomUpAxisBillboardMtx->mUnk_00[1], &bbm_sCustomUpAxisBillboardMtx->mUnk_00[2], &bbm_sCustomUpAxisBillboardMtx->mUnk_00[0]);
-    return vec_normalize(&bbm_sCustomUpAxisBillboardMtx->mUnk_00[0], &bbm_sCustomUpAxisBillboardMtx->mUnk_00[0]);
+    bbm_sCustomUpAxisBillboardMtx->field0[1] = *yAxis;
+    bbm_sCustomUpAxisBillboardMtx->field0[2] = bbm_sYBillboardMtx->field0[2];
+    vec_crossProduct(&bbm_sCustomUpAxisBillboardMtx->field0[1], &bbm_sCustomUpAxisBillboardMtx->field0[2], &bbm_sCustomUpAxisBillboardMtx->field0[0]);
+    return vec_normalize(&bbm_sCustomUpAxisBillboardMtx->field0[0], &bbm_sCustomUpAxisBillboardMtx->field0[0]);
 }
 
 s32 bbm_20E6D34(Vec3 *yAxis, MtxFx43 *matrix) {
-    matrix->mUnk_00[1] = *yAxis;
-    matrix->mUnk_00[2] = bbm_sYBillboardMtx->mUnk_00[2];
-    vec_crossProduct(&matrix->mUnk_00[1], &matrix->mUnk_00[2], &matrix->mUnk_00[0]);
-    return vec_normalize(&matrix->mUnk_00[0], &matrix->mUnk_00[0]);
+    matrix->field0[1] = *yAxis;
+    matrix->field0[2] = bbm_sYBillboardMtx->field0[2];
+    vec_crossProduct(&matrix->field0[1], &matrix->field0[2], &matrix->field0[0]);
+    return vec_normalize(&matrix->field0[0], &matrix->field0[0]);
 }
 
 // Sets the position of bbm_sBillboardMtx to each component of a >> 4 and returns the matrix.
@@ -77,7 +77,7 @@ MtxFx43 *bbm_getBillboardAtPos(Vec3 *position) {
     Vec3 *translation;
 
     matrix = bbm_sBillboardMtx;
-    translation = &matrix->mUnk_00[3];
+    translation = &matrix->field0[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
@@ -89,7 +89,7 @@ MtxFx43 *bbm_getYBillboardAtPos(Vec3 *position) {
     Vec3 *translation;
 
     matrix = bbm_sYBillboardMtx;
-    translation = &matrix->mUnk_00[3];
+    translation = &matrix->field0[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
@@ -99,10 +99,10 @@ MtxFx43 *bbm_getYBillboardAtPos(Vec3 *position) {
 MtxFx43 *bbm_getYBillboardAtPosTransformed(Vec3 *position, s32 horizontalFactor, s32 yOffset) {
     Vec3 *translation;
 
-    bbm_sYBillboardMtx->mUnk_00[1].x = (horizontalFactor * bbm_sYBillboardMtx->mUnk_00[0].x) >> 12;
-    bbm_sYBillboardMtx->mUnk_00[1].y = yOffset + 0x1000;
-    bbm_sYBillboardMtx->mUnk_00[1].z = (horizontalFactor * bbm_sYBillboardMtx->mUnk_00[0].z) >> 12;
-    translation = &bbm_sYBillboardMtx->mUnk_00[3];
+    bbm_sYBillboardMtx->field0[1].x = (horizontalFactor * bbm_sYBillboardMtx->field0[0].x) >> 12;
+    bbm_sYBillboardMtx->field0[1].y = yOffset + 0x1000;
+    bbm_sYBillboardMtx->field0[1].z = (horizontalFactor * bbm_sYBillboardMtx->field0[0].z) >> 12;
+    translation = &bbm_sYBillboardMtx->field0[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
@@ -110,9 +110,9 @@ MtxFx43 *bbm_getYBillboardAtPosTransformed(Vec3 *position, s32 horizontalFactor,
 }
 
 void bbm_20E6C0C(void) {
-    bbm_sYBillboardMtx->mUnk_00[1].z = 0;
-    bbm_sYBillboardMtx->mUnk_00[1].x = bbm_sYBillboardMtx->mUnk_00[1].z;
-    bbm_sYBillboardMtx->mUnk_00[1].y = 0x1000;
+    bbm_sYBillboardMtx->field0[1].z = 0;
+    bbm_sYBillboardMtx->field0[1].x = bbm_sYBillboardMtx->field0[1].z;
+    bbm_sYBillboardMtx->field0[1].y = 0x1000;
 }
 
 MtxFx43 *bbm_getCustomUpAxisBillboardAtPos(Vec3 *position) {
@@ -120,7 +120,7 @@ MtxFx43 *bbm_getCustomUpAxisBillboardAtPos(Vec3 *position) {
     Vec3 *translation;
 
     matrix = bbm_sCustomUpAxisBillboardMtx;
-    translation = &matrix->mUnk_00[3];
+    translation = &matrix->field0[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
@@ -132,7 +132,7 @@ MtxFx43 *bbm_20E6B94(Vec3 *position) {
     Vec3 *translation;
 
     matrix = data_0217b85c;
-    translation = &matrix->mUnk_00[3];
+    translation = &matrix->field0[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
@@ -145,7 +145,7 @@ MtxFx43 *bbm_20E6B58(Vec3 *position) {
     Vec3 *translation;
 
     matrix = gTranslationMatrix;
-    translation = &matrix->mUnk_00[3];
+    translation = &matrix->field0[3];
     translation->x = position->x >> 4;
     translation->y = position->y >> 4;
     translation->z = position->z >> 4;
@@ -161,20 +161,20 @@ void *bbm_getBillboardMtx(void) {
 }
 
 Vec3 *bbm_getBillboardRightVec(void) {
-    return &bbm_sBillboardMtx->mUnk_00[0];
+    return &bbm_sBillboardMtx->field0[0];
 }
 
 Vec3 *bbm_getBillboardForwardVec(void) {
-    return &bbm_sBillboardMtx->mUnk_00[2];
+    return &bbm_sBillboardMtx->field0[2];
 }
 
 void bbm_setDefaultMatParams(NsbmdModel *model) {
-    model->mUnk_10 = (u32) ((((model->mUnk_10)) & (0x8000ffffu)));
-    model->mUnk_10 = (u32) ((((model->mUnk_10)) | (0x294a0000u)));
-    model->mUnk_14 = (model->mUnk_14 & ~(0x3f000000u));
-    model->mUnk_14 = (model->mUnk_14 | (0x3f000000u));
-    model->mUnk_14 = (model->mUnk_14 & ~(0xfu));
-    model->mUnk_14 = (model->mUnk_14 | (0x2u));
+    model->field10 = (u32) ((((model->field10)) & (0x8000ffffu)));
+    model->field10 = (u32) ((((model->field10)) | (0x294a0000u)));
+    model->field14 = (model->field14 & ~(0x3f000000u));
+    model->field14 = (model->field14 | (0x3f000000u));
+    model->field14 = (model->field14 & ~(0xfu));
+    model->field14 = (model->field14 | (0x2u));
 }
 
 void bbm_restoreCameraMtx(void) {
@@ -186,11 +186,11 @@ void bbm_restoreCameraMtx(void) {
 
 void bbm_applyMaterial(NsbmdModel *model) {
     if (model->mFrameCount == 1) {
-        NNS_G3dGeBufferOP_N(0x2b, model->mUnk_20, 1);
-        NNS_G3dGeBufferOP_N(0x2a, model->mUnk_1c, 1);
+        NNS_G3dGeBufferOP_N(0x2b, model->field20, 1);
+        NNS_G3dGeBufferOP_N(0x2a, model->field1C, 1);
     }
-    NNS_G3dGeBufferOP_N(0x30, &model->mUnk_0c, 1);
-    NNS_G3dGeBufferOP_N(0x31, &model->mUnk_10, 1);
+    NNS_G3dGeBufferOP_N(0x30, &model->fieldC, 1);
+    NNS_G3dGeBufferOP_N(0x31, &model->field10, 1);
 }
 
 s32 bbm_calcDistanceAlpha(Vec3 *position) {
@@ -198,9 +198,9 @@ s32 bbm_calcDistanceAlpha(Vec3 *position) {
     s64 zDot;
 
     viewMatrix = bbm_sCameraMtx;
-    zDot = (s64) position->x * viewMatrix->mUnk_00[0].z + (s64) position->y * viewMatrix->mUnk_00[1].z +
-           (s64) position->z * viewMatrix->mUnk_00[2].z;
-    return -(viewMatrix->mUnk_00[3].z + (s32) (zDot >> 12)) >> 9;
+    zDot = (s64) position->x * viewMatrix->field0[0].z + (s64) position->y * viewMatrix->field0[1].z +
+           (s64) position->z * viewMatrix->field0[2].z;
+    return -(viewMatrix->field0[3].z + (s32) (zDot >> 12)) >> 9;
 }
 
 void bbm_render(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha) {
@@ -212,11 +212,11 @@ void bbm_render(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha
     u32 polygonId;
     s64 zDot;
 
-    scale[0] = model->mUnk_08;
+    scale[0] = model->field8;
     scale[1] = scale[0];
     scale[2] = scale[0];
     NNS_G3dGeBufferOP_N(0x1b, scale, 3);
-    attributes = model->mUnk_14;
+    attributes = model->field14;
     currentAlpha = (attributes & 0x1f0000) >> 16;
     if (maxAlpha < currentAlpha) {
         attributes &= ~0x1f0000;
@@ -226,9 +226,9 @@ void bbm_render(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha
         attributes |= polygonId << 24;
     } else if (usePosition != 0) {
         viewMatrix = bbm_sCameraMtx;
-        zDot = (s64) position->x * viewMatrix->mUnk_00[0].z + (s64) position->y * viewMatrix->mUnk_00[1].z +
-               (s64) position->z * viewMatrix->mUnk_00[2].z;
-        depthAlpha = -(viewMatrix->mUnk_00[3].z + (s32) (zDot >> 12)) >> 9;
+        zDot = (s64) position->x * viewMatrix->field0[0].z + (s64) position->y * viewMatrix->field0[1].z +
+               (s64) position->z * viewMatrix->field0[2].z;
+        depthAlpha = -(viewMatrix->field0[3].z + (s32) (zDot >> 12)) >> 9;
         if (depthAlpha < currentAlpha) {
             if (depthAlpha == 0) {
                 depthAlpha = 1;
@@ -245,10 +245,10 @@ void bbm_render(NsbmdModel *model, Vec3 *position, s32 usePosition, u32 maxAlpha
         u16 frameIndex;
 
         frameIndex = model->mFrameIndex;
-        NNS_G3dGeBufferOP_N(0x2b, model->mUnk_20 + frameIndex, 1);
-        NNS_G3dGeBufferOP_N(0x2a, model->mUnk_1c + frameIndex, 1);
+        NNS_G3dGeBufferOP_N(0x2b, model->field20 + frameIndex, 1);
+        NNS_G3dGeBufferOP_N(0x2a, model->field1C + frameIndex, 1);
     }
-    NNS_G3dGeSendDL(model->mUnk_00, model->mUnk_04);
+    NNS_G3dGeSendDL(model->field0, model->field4);
 }
 
 void bbm_renderTransformedScaled(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale, s32 usePosition, u16 maxAlpha) {
@@ -270,7 +270,7 @@ void bbm_renderTransformedScaled(NsbmdModel *model, MtxFx43 *matrix, Vec3 *scale
         scaleCopy.z = scaleZ;
         NNS_G3dGeBufferOP_N(0x1b, &scaleCopy, 3);
     }
-    bbm_render(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
+    bbm_render(model, &matrix->field0[3], usePosition, maxAlpha);
 }
 
 void bbm_renderTransformedRotatedScaled(NsbmdModel *model, MtxFx43 *matrix, s32 angle, Vec3 *scale, s32 usePosition, u16 maxAlpha) {
@@ -298,7 +298,7 @@ void bbm_renderTransformedRotatedScaled(NsbmdModel *model, MtxFx43 *matrix, s32 
         scaleCopy.z = scaleZ;
         NNS_G3dGeBufferOP_N(0x1b, &scaleCopy, 3);
     }
-    bbm_render(model, &matrix->mUnk_00[3], usePosition, maxAlpha);
+    bbm_render(model, &matrix->field0[3], usePosition, maxAlpha);
 }
 
 #pragma thumb on

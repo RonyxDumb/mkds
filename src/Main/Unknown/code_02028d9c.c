@@ -20,7 +20,7 @@ void *func_02028f08(s32 index, Unk0201ea30 *cellLayout) {
 void SetKartMenuParamElementOffset(s32 elementIndex, s32 endCellIndex, s32 paramValue, CellFileSet *parts) {
     Unk0201ea84 *startCell = func_02028f08(elementIndex, parts->mCellLayout);
     Unk0201ea84 *endCell = func_02028f08(endCellIndex, parts->mCellLayout);
-    parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->mUnk_00_0 - startCell->mUnk_00_0) / 100;
+    parts->mCellTable[elementIndex].mOffsetX = (100 - paramValue) * (endCell->field0_0 - startCell->field0_0) / 100;
 }
 
 #pragma thumb off
@@ -57,7 +57,7 @@ void func_02028e00(void *destination, u32 size) {
 
 u16 func_02028dd4(void) {
     int index;
-    if (gStruct217AA00->mUnk_0000 == 2) {
+    if (gStruct217AA00->field0 == 2) {
         index = gStruct217AA00->mOwnIndex;
     } else {
         index = 0;
@@ -66,7 +66,7 @@ u16 func_02028dd4(void) {
 }
 
 u32 GetParticipantEntryIndex(u32 participantIndex) {
-    return (gStruct217AA00->mUnk_1e52[participantIndex].mEntryIndex);
+    return (gStruct217AA00->field1E52[participantIndex].mEntryIndex);
 }
 
 u32 GetOwnEntryIndex(void) {

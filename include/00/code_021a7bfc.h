@@ -8,21 +8,21 @@ typedef struct Unk021a6fa8 Unk021a6fa8;
 
 // An Unk021a7064 entry as func_ov000_021a7eec and the functions after it see it.
 typedef struct Unk021a7eec {
-    /* 00 */ Unk021a7064Func mUnk_00;
-    /* 04 */ Unk021a6fa8 *mUnk_04;
-    /* 08 */ OSMessageQueue *mUnk_08;
-    /* 0c */ s8 mUnk_0c;
-    /* 0d */ s8 mUnk_0d;
-    /* 0e */ u8 mUnk_0e[2];
-    /* 10 */ u8 *mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 *mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ u16 mUnk_20;
-    /* 22 */ u8 mUnk_22[2];
-    /* 24 */ u16 mUnk_24;
-    /* 26 */ u16 mUnk_26;
-    /* 28 */ u16 *mUnk_28;
+    /* 00 */ Unk021a7064Func field0;
+    /* 04 */ Unk021a6fa8 *field4;
+    /* 08 */ OSMessageQueue *field8;
+    /* 0c */ s8 fieldC;
+    /* 0d */ s8 fieldD;
+    /* 0e */ u8 fieldE[2];
+    /* 10 */ u8 *field10;
+    /* 14 */ s32 field14;
+    /* 18 */ u8 *field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ u16 field20;
+    /* 22 */ u8 field22[2];
+    /* 24 */ u16 field24;
+    /* 26 */ u16 field26;
+    /* 28 */ u16 *field28;
 } Unk021a7eec;
 
 u8 *func_ov000_021a7bfc(Unk021a6fa8 *a, s32 *b, u16 *c, u16 *d, u32 *e);

@@ -11,7 +11,7 @@
 
 // A pooled effect object: a model, up to three animation objects, a position and a Start and an Update function.
 typedef struct ModelEffect {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 field0[8];
     /* 08 */ Nsbmd mNsbmd;
     /* 74 */ Vec3 mPos;
     // Called at each start with the object and a flag; most kinds start particle effects only when it is non-zero.

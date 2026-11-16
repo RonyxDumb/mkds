@@ -3,40 +3,40 @@
 #include "types.h"
 #include "code_02022030.h"
 
-// Object at Unk021a5a58_2c.mUnk_2c.
+// Object at Unk021a5a58_2c.field2C.
 typedef struct Unk021a5a58_2c_2c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x4];
-    /* 08 */ s16 mUnk_08[4];
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u8 field4[0x4];
+    /* 08 */ s16 field8[4];
 } Unk021a5a58_2c_2c;
 
-// Object at LldEntry.mUnk_2c.
+// Object at LldEntry.field2C.
 typedef struct Unk021a5a58_2c {
-    /* 00 */ u8 mUnk_00[0x8];
-    /* 08 */ BOOL mUnk_08;
-    /* 0c */ u8 mUnk_0c[0x8];
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x14];
-    /* 2c */ Unk021a5a58_2c_2c *mUnk_2c;
-    /* 30 */ u8 mUnk_30[0x24];
+    /* 00 */ u8 field0[0x8];
+    /* 08 */ BOOL field8;
+    /* 0c */ u8 fieldC[0x8];
+    /* 14 */ s32 field14;
+    /* 18 */ u8 field18[0x14];
+    /* 2c */ Unk021a5a58_2c_2c *field2C;
+    /* 30 */ u8 field30[0x24];
 } Unk021a5a58_2c;
 
 // Object that the per-entry update callbacks around func_ov001_021a5a58 work on.
 typedef struct LldEntry {
     /* 00 */ u16 mAnimIndex;
-    /* 02 */ u8 mUnk_02[0x2];
+    /* 02 */ u8 field2[0x2];
     /* 04 */ s32 mPosX;
     /* 08 */ s32 mPosY;
     /* 0c */ BOOL mShown;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
     /* 18 */ s32 mScale;
     /* 1c */ s32 mBoundsLeft;
     /* 20 */ s32 mBoundsRight;
     /* 24 */ s32 mBoundsTop;
     /* 28 */ s32 mBoundsBottom;
-    /* 2c */ Unk02022030 mUnk_2c;
+    /* 2c */ Unk02022030 field2C;
     /* 80 */ struct Lld *mLld;
     /* 84 */ s32 (*mCallback)(struct LldEntry *);
 } LldEntry;

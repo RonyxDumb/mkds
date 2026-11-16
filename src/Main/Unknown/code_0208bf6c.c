@@ -8,7 +8,7 @@ void enmy_initMgEnemy(KartAi *kartAi, s32 kartIndex) {
     mgen_init(kartAi, kart);
     SetupBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
     mgenit_init(&kartAi->mItemUse);
-    PickBattleKartAiRaceStart(kartAi, &kartAi->mUnk_e8);
+    PickBattleKartAiRaceStart(kartAi, &kartAi->fieldE8);
 }
 
 void ResetKartAiForBattle(KartAi *kartAi, PointLink *link) {

@@ -7,5 +7,5 @@
 
 void enmy_updateStaffRollEnemy(KartAi *kartAi) {
     AdvanceStaffRollKartAi(kartAi);
-    enrb_updateForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
+    enrb_updateForAwardStaffRoll(&kartAi->fieldE8, kartAi);
 }

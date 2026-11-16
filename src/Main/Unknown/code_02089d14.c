@@ -41,7 +41,7 @@ void rwrd_init(void *heap) {
     G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x200, 1, &rwrd_sState->mOrthoMtx);
     timedQuad = &rwrd_sState->mTimedQuad;
     rwrd_sState->mTimedQuad.mTimer = 0;
-    timedQuad->mUnk_02 = 0;
+    timedQuad->field2 = 0;
     timedQuad->mColor = 0x7fff;
     timedQuad->mEnabled = FALSE;
 }
@@ -246,14 +246,14 @@ void rwrd_render(void) {
         return;
     }
     if (rwrd_sState->mShownIndex != 9) {
-        baseTranslation = &baseTransform.mUnk_00[3];
+        baseTranslation = &baseTransform.field0[3];
         baseTranslation->x = 0;
         baseTranslation->y = 0;
         baseTranslation->z = 0;
         baseScale = data_0216608c;
-        baseTransform.mUnk_00[3].y = data_02166048;
+        baseTransform.field0[3].y = data_02166048;
         if (rwrd_sState->mShownIndex == 2) {
-            baseTransform.mUnk_00[3].y = 0x50000;
+            baseTransform.field0[3].y = 0x50000;
         }
         MTX_Identity33_(&baseTransform);
         for (nsbmdIndex = 0; nsbmdIndex < rwrd_sState->mSets[8]->mNsbmdCount; nsbmdIndex++) {
@@ -264,7 +264,7 @@ void rwrd_render(void) {
             NNS_G3dGlbSetBaseScale(&baseScale);
             MI_Copy36B(&baseTransform, NNS_G3dGlb.mPrmBaseRot);
             NNS_G3dGlb.mFlag &= ~0xa4;
-            NNS_G3dGlbSetBaseTrans(&baseTransform.mUnk_00[3]);
+            NNS_G3dGlbSetBaseTrans(&baseTransform.field0[3]);
             NNS_G3dGlbFlushP();
             NNS_G3dDraw(nsbmd);
         }
@@ -302,13 +302,13 @@ void SetStemSet(s32 setIndex) {
 
 void StartTimedQuad(Unk02089ecc *timedQuad) {
     timedQuad->mTimer = 0xau;
-    timedQuad->mUnk_02 = 0xcu;
+    timedQuad->field2 = 0xcu;
     timedQuad->mColor = 0x7fffu;
     timedQuad->mEnabled = 0x1u;
 }
 
 void UpdateTimedQuad(Unk02089e68 *timedQuad) {
-    timedQuad->mUnk_02 = (s32) (((s64) ((s32) timedQuad->mTimer << 12) * 0x1333 + 0x800) >> 12) >> 12;
+    timedQuad->field2 = (s32) (((s64) ((s32) timedQuad->mTimer << 12) * 0x1333 + 0x800) >> 12) >> 12;
     timedQuad->mTimer = timedQuad->mTimer - 1;
     if (timedQuad->mTimer <= 0) {
         timedQuad->mEnabled = 0;
@@ -324,7 +324,7 @@ void DrawTimedQuad(TimedQuad *timedQuad) {
     u32 *scaleRegister;
     u32 *beginVtxsRegister;
     scaleRegister = ((u32 *) &reg_G3_MTX_SCALE);
-    reg_G3_POLYGON_ATTR = (0x090000c0u) | timedQuad->mUnk_02 << 0x10;
+    reg_G3_POLYGON_ATTR = (0x090000c0u) | timedQuad->field2 << 0x10;
     *scaleRegister = 0x8c000;
     *scaleRegister = 0x6e000;
     beginVtxsRegister = ((u32 *) &reg_G3_BEGIN_VTXS);

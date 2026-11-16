@@ -6,12 +6,12 @@ typedef struct Kart Kart;
 
 // Stack frame of driver_2068494 from its stack offset 0: a halfword and four vectors.
 typedef struct Unk02068494 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ Vec3 mUnk_28;
+    /* 00 */ s16 field0;
+    /* 02 */ u8 field2[2];
+    /* 04 */ Vec3 field4;
+    /* 10 */ Vec3 field10;
+    /* 1c */ Vec3 field1C;
+    /* 28 */ Vec3 field28;
 } Unk02068494;
 
 void driver_handleDriftingPhases(Kart *kart);

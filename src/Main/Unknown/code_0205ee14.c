@@ -35,7 +35,7 @@ static inline BOOL func_0205f218_inline(void) {
     ConnectionWork *connectionWork;
 
     connectionWork = gStruct217AA00;
-    return (connectionWork == NULL ? 0 : connectionWork->mUnk_0000) != 0 && connectionWork->mUnk_0004 != 13;
+    return (connectionWork == NULL ? 0 : connectionWork->field0) != 0 && connectionWork->field4 != 13;
 }
 
 BOOL FormatTimeRecordChars(u8 *charsOut, TimeRecord *timeRecord, s32 courseId) {
@@ -169,10 +169,10 @@ void AddBuddyRecordResult(u32 entryIndex, s32 *date, u32 matchKind, u32 resultKi
     if (entryIndex == raceSetup->mEntryIndex) {
         return;
     }
-    if (raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20 == 0) {
+    if (raceSetup->mCurrentEntries[entryIndex].mPlayer.field20 == 0) {
         return;
     }
-    foundIndex = FindBuddyIndexByFriendData((const void *) raceSetup->mCurrentEntries[entryIndex].mPlayer.mUnk_20);
+    foundIndex = FindBuddyIndexByFriendData((const void *) raceSetup->mCurrentEntries[entryIndex].mPlayer.field20);
     if (foundIndex == -1) {
         return;
     }
@@ -243,7 +243,7 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceMultiConfig->mEntryIndex == -1) {
         return;
     }
-    if (gRaceStatus->mUnk_000[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
+    if (gRaceStatus->field0[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
         return;
     }
     if (gRaceStatus->mRaceDone == 0) {
@@ -254,8 +254,8 @@ void AddVSBuddyRecordResults(void) {
     if (gRaceMultiConfig->mUseTeams != 0) {
         teamIndex = gRaceMultiConfig->mCurrentEntries[(u16) gRaceMultiConfig->mEntryIndex].mPlayer.mTeamIndex;
     }
-    firstTotal = gSaveData->mFirstBlock->mUnk_34[0];
-    secondTotal = gSaveData->mFirstBlock->mUnk_34[1];
+    firstTotal = gSaveData->mFirstBlock->field34[0];
+    secondTotal = gSaveData->mFirstBlock->field34[1];
     for (entryIndex = 0; entryIndex < (u32) gRaceMultiConfig->mKartCount; entryIndex++) {
         if (entryIndex == gRaceMultiConfig->mEntryIndex) {
             continue;
@@ -276,7 +276,7 @@ void AddVSBuddyRecordResults(void) {
                     case 1:
                         if (teamIndex == rres_205D480()) {
                             outcome = 0;
-                        } else if (gRaceStatus->mUnk_000[entryIndex].mStatus == 4) {
+                        } else if (gRaceStatus->field0[entryIndex].mStatus == 4) {
                             outcome = 2;
                         } else {
                             outcome = 1;
@@ -287,7 +287,7 @@ void AddVSBuddyRecordResults(void) {
         } else {
             outcome = func_0205f700_inline(entryIndex, ownRank);
         }
-        if ((gStruct217AA00->mUnk_0457 & (1 << gStruct217AA00->mUnk_1e8c[gStruct217AA00->mUnk_1e8c[entryIndex]])) == 0) {
+        if ((gStruct217AA00->field457 & (1 << gStruct217AA00->field1E8C[gStruct217AA00->field1E8C[entryIndex]])) == 0) {
             AddBuddyRecordResult(entryIndex, date, 0, outcome);
         }
         if (outcome == 0) {
@@ -303,8 +303,8 @@ void AddVSBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        gSaveData->mFirstBlock->mUnk_34[0] = firstTotal;
-        gSaveData->mFirstBlock->mUnk_34[1] = secondTotal;
+        gSaveData->mFirstBlock->field34[0] = firstTotal;
+        gSaveData->mFirstBlock->field34[1] = secondTotal;
         func_0205edcc();
     } else {
         WriteBackupBuddyRecords();
@@ -327,15 +327,15 @@ void AddBattleBuddyRecordResults(void) {
     if (gRaceMultiConfig->mEntryIndex == -1) {
         return;
     }
-    if (gRaceStatus->mUnk_000[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
+    if (gRaceStatus->field0[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
         return;
     }
     if (mgcnt_hasMgEnded() == 0) {
         return;
     }
     GetDate(date);
-    firstTotal = gSaveData->mFirstBlock->mUnk_34[2];
-    secondTotal = gSaveData->mFirstBlock->mUnk_34[3];
+    firstTotal = gSaveData->mFirstBlock->field34[2];
+    secondTotal = gSaveData->mFirstBlock->field34[3];
     for (entryIndex = 0; entryIndex < (u32) gRaceMultiConfig->mKartCount; entryIndex++) {
         if (entryIndex == gRaceMultiConfig->mEntryIndex) {
             continue;
@@ -350,11 +350,11 @@ void AddBattleBuddyRecordResults(void) {
                 outcome = 0;
             }
         } else if (mgcnt_hasDriverWon(entryIndex) != 0) {
-            if (gRaceStatus->mUnk_000[entryIndex].mStatus != 4) {
+            if (gRaceStatus->field0[entryIndex].mStatus != 4) {
                 outcome = 1;
             }
         }
-        if ((gStruct217AA00->mUnk_0457 & (1 << gStruct217AA00->mUnk_1e8c[gStruct217AA00->mUnk_1e8c[entryIndex]])) == 0) {
+        if ((gStruct217AA00->field457 & (1 << gStruct217AA00->field1E8C[gStruct217AA00->field1E8C[entryIndex]])) == 0) {
             AddBuddyRecordResult(entryIndex, date, 1, outcome);
         }
         if (outcome == 0) {
@@ -370,8 +370,8 @@ void AddBattleBuddyRecordResults(void) {
         }
     }
     if (countsChanged != FALSE) {
-        gSaveData->mFirstBlock->mUnk_34[2] = firstTotal;
-        gSaveData->mFirstBlock->mUnk_34[3] = secondTotal;
+        gSaveData->mFirstBlock->field34[2] = firstTotal;
+        gSaveData->mFirstBlock->field34[3] = secondTotal;
         func_0205edcc();
     } else {
         WriteBackupBuddyRecords();
@@ -394,7 +394,7 @@ void func_0205f218(void) {
     if (gRaceMultiConfig->mEntryIndex == -1) {
         return;
     }
-    if (gRaceStatus->mUnk_000[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
+    if (gRaceStatus->field0[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
         return;
     }
     if (mgcnt_hasMgEnded() == 0) {
@@ -402,8 +402,8 @@ void func_0205f218(void) {
     }
     GetDate(date);
     rstat_getPlace((u16) gRaceMultiConfig->mEntryIndex);
-    firstTotal = gSaveData->mFirstBlock->mUnk_34[2];
-    secondTotal = gSaveData->mFirstBlock->mUnk_34[3];
+    firstTotal = gSaveData->mFirstBlock->field34[2];
+    secondTotal = gSaveData->mFirstBlock->field34[3];
     for (entryIndex = 0; entryIndex < (u32) gRaceMultiConfig->mKartCount; entryIndex++) {
         if (entryIndex == gRaceMultiConfig->mEntryIndex) {
             continue;
@@ -418,11 +418,11 @@ void func_0205f218(void) {
                 outcome = 0;
             }
         } else if (mgcnt_hasDriverWon(entryIndex) != 0) {
-            if (gRaceStatus->mUnk_000[entryIndex].mStatus != 4) {
+            if (gRaceStatus->field0[entryIndex].mStatus != 4) {
                 outcome = 1;
             }
         }
-        if ((gStruct217AA00->mUnk_0457 & (1 << gStruct217AA00->mUnk_1e8c[gStruct217AA00->mUnk_1e8c[entryIndex]])) == 0) {
+        if ((gStruct217AA00->field457 & (1 << gStruct217AA00->field1E8C[gStruct217AA00->field1E8C[entryIndex]])) == 0) {
             AddBuddyRecordResult(entryIndex, date, 1, outcome);
         }
         if (outcome == 0) {
@@ -438,8 +438,8 @@ void func_0205f218(void) {
         }
     }
     if (countsChanged != FALSE) {
-        gSaveData->mFirstBlock->mUnk_34[2] = firstTotal;
-        gSaveData->mFirstBlock->mUnk_34[3] = secondTotal;
+        gSaveData->mFirstBlock->field34[2] = firstTotal;
+        gSaveData->mFirstBlock->field34[3] = secondTotal;
         func_0205edcc();
     } else {
         WriteBackupBuddyRecords();
@@ -471,8 +471,8 @@ void func_0205ef70(void) {
     s8 otherKartCount;
     s32 date[3];
 
-    firstTotal = gSaveData->mFirstBlock->mUnk_34[4];
-    secondTotal = gSaveData->mFirstBlock->mUnk_34[5];
+    firstTotal = gSaveData->mFirstBlock->field34[4];
+    secondTotal = gSaveData->mFirstBlock->field34[5];
     func_0205b32c();
     if (gRaceMultiConfig->mCourseNumber <= 3) {
         return;
@@ -480,7 +480,7 @@ void func_0205ef70(void) {
     if (gRaceStatus->mRaceDone == 0) {
         return;
     }
-    if (gRaceStatus->mUnk_000[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
+    if (gRaceStatus->field0[(u16) gRaceMultiConfig->mEntryIndex].mStatus == 4) {
         return;
     }
     GetDate(date);
@@ -525,8 +525,8 @@ void func_0205ef70(void) {
         }
     }
     gSaveData->mFirstBlock->mElo = GetPlayerRecordElo(func_ov000_0219bb50());
-    gSaveData->mFirstBlock->mUnk_34[4] = firstTotal;
-    gSaveData->mFirstBlock->mUnk_34[5] = secondTotal;
+    gSaveData->mFirstBlock->field34[4] = firstTotal;
+    gSaveData->mFirstBlock->field34[5] = secondTotal;
     func_0205edcc();
 }
 

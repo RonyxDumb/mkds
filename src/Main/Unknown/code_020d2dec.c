@@ -46,7 +46,7 @@
 static inline GrpconfTblRow *func_020d34e4_inline(u16 kind) {
     s32 j;
     for (j = 0; j < 1000; j++) {
-        if (kind == mobj_sGrpconfTbl[j].mUnk_00) {
+        if (kind == mobj_sGrpconfTbl[j].field0) {
             return &mobj_sGrpconfTbl[j];
         }
     }
@@ -70,10 +70,10 @@ MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *sourc
             if (kind != row->mKind) {
                 continue;
             }
-            descriptor = row->mUnk_04;
+            descriptor = row->field4;
             if (descriptor->mObjectCount == 0) {
                 for (j = 0; j < mobj_sAvailableObjectCount; j++) {
-                    otherDescriptor = gMapObjTable[j].mUnk_04;
+                    otherDescriptor = gMapObjTable[j].field4;
                     if (otherDescriptor == NULL) {
                         continue;
                     }
@@ -123,44 +123,44 @@ MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *sourc
                     if (descriptor->mKindData == NULL) {
                         return NULL;
                     }
-                    if (descriptor->mKindData->mUnk_24 == 0) {
-                        descriptor->mKindData->mUnk_24 = -1;
+                    if (descriptor->mKindData->field24 == 0) {
+                        descriptor->mKindData->field24 = -1;
                     }
-                    if (descriptor->mKindData->mUnk_28 == 0) {
-                        descriptor->mKindData->mUnk_28 = -1;
+                    if (descriptor->mKindData->field28 == 0) {
+                        descriptor->mKindData->field28 = -1;
                     }
-                    if (descriptor->mKindData->mUnk_38 == 0) {
-                        descriptor->mKindData->mUnk_38 = 0x64000;
+                    if (descriptor->mKindData->field38 == 0) {
+                        descriptor->mKindData->field38 = 0x64000;
                     }
-                    if (descriptor->mKindData->mUnk_3c == 0) {
-                        descriptor->mKindData->mUnk_3c = -0x64000;
+                    if (descriptor->mKindData->field3C == 0) {
+                        descriptor->mKindData->field3C = -0x64000;
                     }
                     if (gRaceMultiConfig->mRaceKind == 2) {
-                        if (descriptor->mKindData->mUnk_38 < 0x44c000) {
-                            descriptor->mKindData->mUnk_38 = 0x44c000;
+                        if (descriptor->mKindData->field38 < 0x44c000) {
+                            descriptor->mKindData->field38 = 0x44c000;
                         }
                     }
                 }
                 grpconfRow = func_020d34e4_inline(row->mKind);
-                if (grpconfRow->mUnk_02 != 0) {
-                    descriptor->mKindData->mUnk_34 = grpconfRow->mUnk_02 >= 2 ? 1 : 0;
-                    tableValue = grpconfRow->mUnk_04;
-                    descriptor->mKindData->mUnk_2c =
+                if (grpconfRow->field2 != 0) {
+                    descriptor->mKindData->field34 = grpconfRow->field2 >= 2 ? 1 : 0;
+                    tableValue = grpconfRow->field4;
+                    descriptor->mKindData->field2C =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
-                    tableValue = grpconfRow->mUnk_06;
-                    descriptor->mKindData->mUnk_30 =
+                    tableValue = grpconfRow->field6;
+                    descriptor->mKindData->field30 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
                 }
-                if (grpconfRow->mUnk_08 != 0) {
-                    descriptor->mKindData->mShapeKind = grpconfRow->mUnk_08;
-                    tableValue = grpconfRow->mUnk_0a;
-                    descriptor->mKindData->mUnk_0c =
+                if (grpconfRow->field8 != 0) {
+                    descriptor->mKindData->mShapeKind = grpconfRow->field8;
+                    tableValue = grpconfRow->fieldA;
+                    descriptor->mKindData->fieldC =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
-                    tableValue = grpconfRow->mUnk_0c;
-                    descriptor->mKindData->mUnk_10 =
+                    tableValue = grpconfRow->fieldC;
+                    descriptor->mKindData->field10 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
-                    tableValue = grpconfRow->mUnk_0e;
-                    descriptor->mKindData->mUnk_14 =
+                    tableValue = grpconfRow->fieldE;
+                    descriptor->mKindData->field14 =
                         tableValue != 0 ? (tableValue << 12) + 0.5f : (tableValue << 12) - 0.5f;
                 }
                 if (descriptor->mLists[0] == NULL && descriptor->mCreateDrawList0 != NULL) {
@@ -194,44 +194,44 @@ MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *sourc
             }
             object->mCollisionSlotIndex = -1;
             if (courseRow != NULL) {
-                object->mPos.x = courseRow->mUnk_00.x;
-                object->mPos.y = courseRow->mUnk_00.y;
-                object->mPos.z = courseRow->mUnk_00.z;
+                object->mPos.x = courseRow->field0.x;
+                object->mPos.y = courseRow->field0.y;
+                object->mPos.z = courseRow->field0.z;
             } else if (source != NULL) {
                 object->mPos.x = source->mPos.x;
                 object->mPos.y = source->mPos.y;
                 object->mPos.z = source->mPos.z;
             }
-            if (kindData->mUnk_20 == 0 || kindData->mUnk_20 == 2) {
-                object->mUnk_10.x = 0;
-                object->mUnk_10.y = 0;
-                object->mUnk_10.z = 0;
+            if (kindData->field20 == 0 || kindData->field20 == 2) {
+                object->field10.x = 0;
+                object->field10.y = 0;
+                object->field10.z = 0;
             } else {
-                object->mUnk_10.x = 0x270f000;
-                object->mUnk_10.y = 0x270f000;
-                object->mUnk_10.z = 0x270f000;
+                object->field10.x = 0x270f000;
+                object->field10.y = 0x270f000;
+                object->field10.z = 0x270f000;
             }
             if (courseRow != NULL) {
-                object->mAngle = ((s64) courseRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
-                mtx_eulerAnglesToMtx33(&courseRow->mUnk_0c, (s32 *) &object->mMatrix);
+                object->mAngle = ((s64) courseRow->fieldC.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
+                mtx_eulerAnglesToMtx33(&courseRow->fieldC, (s32 *) &object->mMatrix);
             } else if (source != NULL) {
                 object->mAngle = source->mAngle;
                 object->mMatrix = source->mMatrix;
             }
             object->mKindData = kindData;
             if (courseRow != NULL) {
-                mobj_setScale(object, &courseRow->mUnk_18);
+                mobj_setScale(object, &courseRow->field18);
             } else {
                 mobj_setScale(object, &source->mScale);
             }
-            mobj_setFarClip(object, kindData->mUnk_30);
-            object->mUseTwoPlaneViewTest = kindData->mUnk_34;
+            mobj_setFarClip(object, kindData->field30);
+            object->mUseTwoPlaneViewTest = kindData->field34;
             if (kindData->mShapeKind != 0) {
                 object->mFlags &= ~1;
             } else {
                 object->mFlags |= data_021568cc;
             }
-            if (kindData->mUnk_1c != 0) {
+            if (kindData->field1C != 0) {
                 object->mFlags &= ~0x40;
             } else {
                 object->mFlags |= data_021568d0;
@@ -250,8 +250,8 @@ MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *sourc
                 object->mDigitMask = source->mDigitMask;
                 object->mFlags |= source->mFlags & 0x80;
             } else if (courseRow != NULL) {
-                if (courseRow->mUnk_36 != 0) {
-                    mobj_parseObjiFlags(courseRow->mUnk_36, object);
+                if (courseRow->field36 != 0) {
+                    mobj_parseObjiFlags(courseRow->field36, object);
                 }
             }
             if (descriptor->mLists[3] != NULL && descriptor->mLists[3]->mForEachObject != NULL) {
@@ -259,10 +259,10 @@ MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *sourc
             } else {
                 object->mFlags |= data_021568dc;
             }
-            object->mFarDistanceSquared = gSfxParams[2].mUnk_20;
+            object->mFarDistanceSquared = gSfxParams[2].field20;
             if (courseRow != NULL) {
                 if (descriptor->mInitObject != NULL) {
-                    descriptor->mInitObject(object, courseRow, gMapObjTable[i].mUnk_08);
+                    descriptor->mInitObject(object, courseRow, gMapObjTable[i].field8);
                 }
             } else if (source != NULL) {
                 if (descriptor->mInitObject != NULL) {
@@ -271,7 +271,7 @@ MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *sourc
             }
             if (kindData->mShapeKind != 0) {
                 slotFlags = 0x2000;
-                if (kindData->mUnk_20 == 0) {
+                if (kindData->field20 == 0) {
                     slotFlags |= data_021568e0;
                 }
                 if (kblock_isKoopaBlock(object->mKind) != 0 || rotcyl_isRotatingCylinder(object->mKind) != FALSE ||
@@ -334,8 +334,8 @@ void mobj_init(void) {
     mobj_sQueryResult = heap_alloc(heap, 0x80);
     mobj_sQueryPushbacks = heap_alloc(heap, 0x180);
     gMapObjState->mMapObjectCount = 0;
-    gMapObjState->mUnk_130 = FALSE;
-    gMapObjState->mUnk_178 = FALSE;
+    gMapObjState->field130 = FALSE;
+    gMapObjState->field178 = FALSE;
     v = 0;
     if (gRaceMultiConfig->mMode != 5) {
         v = 1;
@@ -344,7 +344,7 @@ void mobj_init(void) {
     mobj_sAvailableObjectCount = 0;
     do {
         row = &gMapObjTable[mobj_sAvailableObjectCount];
-        descriptor = row->mUnk_04;
+        descriptor = row->field4;
         if (row->mKind == 0) {
             break;
         }
@@ -367,9 +367,9 @@ void mobj_init(void) {
     }
     mobj_sUseSimpleHitResponses = v;
     gMapObjState->mHasKoopaBlock = 0;
-    gMapObjState->mUnk_180 = 0;
-    gMapObjState->mUnk_184 = 0;
-    gMapObjState->mUnk_188 = 0;
+    gMapObjState->field180 = 0;
+    gMapObjState->field184 = 0;
+    gMapObjState->field188 = 0;
     gMObjWaterState = NULL;
     gMObjSplashState = NULL;
     cspl_unloadCustomSplashModel();
@@ -379,23 +379,23 @@ void mobj_init(void) {
     mobj_sCurCyclicPolygonId = mobj_sMinCyclicPolygonId;
     mobj_sCurStaticPolygonId = mobj_sMinStaticPolygonId;
     for (i = 0; i < mobj_sAvailableObjectCount; i++) {
-        if (gMapObjTable[i].mUnk_04 != NULL) {
-            gMapObjTable[i].mUnk_04->mObjectCount = 0;
+        if (gMapObjTable[i].field4 != NULL) {
+            gMapObjTable[i].field4->mObjectCount = 0;
         }
     }
     for (i = 0; i < n; i++) {
         courseRow = OFFSET_PTR(CourseMapRow, gMapData->mRows, i * sizeof(CourseMapRow));
-        if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK && (courseRow->mUnk_38 & 1) == 0) {
+        if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK && (courseRow->field38 & 1) == 0) {
             continue;
         }
         mobj_createObject(courseRow->mKind, courseRow, NULL);
         gMapObjState->mHasKoopaBlock |= kblock_isKoopaBlock(courseRow->mKind);
-        gMapObjState->mUnk_180 |= rotcyl_isRotatingCylinder(courseRow->mKind);
-        gMapObjState->mUnk_184 |= bridge_isBridge(courseRow->mKind);
-        gMapObjState->mUnk_188 |= IsWall(courseRow->mKind);
+        gMapObjState->field180 |= rotcyl_isRotatingCylinder(courseRow->mKind);
+        gMapObjState->field184 |= bridge_isBridge(courseRow->mKind);
+        gMapObjState->field188 |= IsWall(courseRow->mKind);
     }
-    if (gMapObjState->mHasKoopaBlock != 0 || gMapObjState->mUnk_180 != 0 || gMapObjState->mUnk_184 != 0 ||
-        gMapObjState->mUnk_188 != 0) {
+    if (gMapObjState->mHasKoopaBlock != 0 || gMapObjState->field180 != 0 || gMapObjState->field184 != 0 ||
+        gMapObjState->field188 != 0) {
         gUsesDynamicCollision = 1;
     }
     CreatePooledMapObjects();
@@ -404,13 +404,13 @@ void mobj_init(void) {
         gMapObjState->mDrawLists[m] = NULL;
     }
     for (i = 0; i < mobj_sAvailableObjectCount; i++) {
-        if (gMapObjTable[i].mUnk_04 == NULL) {
+        if (gMapObjTable[i].field4 == NULL) {
             continue;
         }
-        v = gMapObjTable[i].mUnk_04->mObjectCount;
-        kindLists[0] = gMapObjTable[i].mUnk_04->mLists[0];
-        kindLists[1] = gMapObjTable[i].mUnk_04->mLists[1];
-        kindLists[2] = gMapObjTable[i].mUnk_04->mLists[2];
+        v = gMapObjTable[i].field4->mObjectCount;
+        kindLists[0] = gMapObjTable[i].field4->mLists[0];
+        kindLists[1] = gMapObjTable[i].field4->mLists[1];
+        kindLists[2] = gMapObjTable[i].field4->mLists[2];
         for (j = 0; j < 3; j++) {
             s32 isNewList;
             if (kindLists[j] == NULL) {
@@ -439,9 +439,9 @@ void mobj_init(void) {
         mapObject = gMapObjState->mMapObjects[i];
         for (j = 0; j < mobj_sAvailableObjectCount; j++) {
             if (mapObject->mKind == gMapObjTable[j].mKind) {
-                kindLists[0] = gMapObjTable[j].mUnk_04->mLists[0];
-                kindLists[1] = gMapObjTable[j].mUnk_04->mLists[1];
-                kindLists[2] = gMapObjTable[j].mUnk_04->mLists[2];
+                kindLists[0] = gMapObjTable[j].field4->mLists[0];
+                kindLists[1] = gMapObjTable[j].field4->mLists[1];
+                kindLists[2] = gMapObjTable[j].field4->mLists[2];
                 if (kindLists[0] != NULL) {
                     mobj_renderPartAddInstance(kindLists[0], mapObject);
                 }
@@ -457,7 +457,7 @@ void mobj_init(void) {
     for (i = 0; i < gMapObjState->mDrawListCount; i++) {
         mobj_renderPartCreateAlphaSortList(gMapObjState->mDrawLists[i]);
     }
-    gMapObjState->mUnk_130 = TRUE;
+    gMapObjState->field130 = TRUE;
     mobj_initAllRenderParts();
     n = gMapObjState->mDrawListCount;
     c1 = 0;
@@ -466,10 +466,10 @@ void mobj_init(void) {
     s2 = 0;
     for (t = 0; t < n; t++) {
         list = gMapObjState->mDrawLists[t];
-        if (list->mUnk_20 != 0) {
-            if (list->mUnk_18 == 1) {
+        if (list->field20 != 0) {
+            if (list->field18 == 1) {
                 c1++;
-            } else if (list->mUnk_18 == 2) {
+            } else if (list->field18 == 2) {
                 c2++;
             }
         }
@@ -477,18 +477,18 @@ void mobj_init(void) {
     m = 0;
     for (i = 0; i < n; i++) {
         list = gMapObjState->mDrawLists[i];
-        if (list->mUnk_18 == 1) {
-            listArray = gMapObjState->mUnk_068;
-            gMapObjState->mUnk_12a++;
-            if (list->mUnk_20 != 0) {
+        if (list->field18 == 1) {
+            listArray = gMapObjState->field68;
+            gMapObjState->field12A++;
+            if (list->field20 != 0) {
                 listIndex = s1++;
             } else {
                 listIndex = c1++;
             }
-        } else if (list->mUnk_18 == 2) {
-            listArray = gMapObjState->mUnk_0c8;
-            gMapObjState->mUnk_12c++;
-            if (list->mUnk_20 != 0) {
+        } else if (list->field18 == 2) {
+            listArray = gMapObjState->fieldC8;
+            gMapObjState->field12C++;
+            if (list->field20 != 0) {
                 listIndex = s2++;
             } else {
                 listIndex = c2++;
@@ -501,11 +501,11 @@ void mobj_init(void) {
         gMapObjState->mUpdateLists[i] = NULL;
     }
     for (i = 0; i < mobj_sAvailableObjectCount; i++) {
-        if (gMapObjTable[i].mUnk_04 == NULL) {
+        if (gMapObjTable[i].field4 == NULL) {
             continue;
         }
-        v = gMapObjTable[i].mUnk_04->mObjectCount;
-        list = gMapObjTable[i].mUnk_04->mLists[3];
+        v = gMapObjTable[i].field4->mObjectCount;
+        list = gMapObjTable[i].field4->mLists[3];
         if (list == NULL) {
             continue;
         }
@@ -530,12 +530,12 @@ void mobj_init(void) {
     for (i = 0; i < gMapObjState->mMapObjectCount; i++) {
         mapObject = gMapObjState->mMapObjects[i];
         for (j = 0; j < mobj_sAvailableObjectCount; j++) {
-            if (mapObject->mKind == gMapObjTable[j].mKind && gMapObjTable[j].mUnk_04->mLists[3] != NULL) {
-                mobj_logicPartAddInstance(gMapObjTable[j].mUnk_04->mLists[3], mapObject);
+            if (mapObject->mKind == gMapObjTable[j].mKind && gMapObjTable[j].field4->mLists[3] != NULL) {
+                mobj_logicPartAddInstance(gMapObjTable[j].field4->mLists[3], mapObject);
             }
         }
     }
-    gMapObjState->mUnk_178 = TRUE;
+    gMapObjState->field178 = TRUE;
     mobj_initAllLogicParts();
 }
 

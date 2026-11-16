@@ -70,7 +70,7 @@ static inline CourseMapCheckpoint *func_02043078_inline(u16 i) {
     return &gMapData->mCheckpoints[i];
 }
 
-// Sums mUnk_18 along the route, plus the average of the sums of the routes that follow it.
+// Sums field18 along the route, plus the average of the sums of the routes that follow it.
 s32 mdat_calcCpatLength(u16 routeIndex) {
     u16 followingCount;
     s32 followingSum;
@@ -85,7 +85,7 @@ s32 mdat_calcCpatLength(u16 routeIndex) {
     followingCount = 0;
     total = 0;
     for (entryOffset = 0; entryOffset < route->mEntryCount; entryOffset++) {
-        total += func_02043078_inline(route->mFirstEntry + entryOffset)->mUnk_18;
+        total += func_02043078_inline(route->mFirstEntry + entryOffset)->field18;
     }
     for (nextSlot = 0; nextSlot < 3; nextSlot++) {
         nextRoute = (route->mNextRoutes)[nextSlot];
@@ -172,11 +172,11 @@ void mdat_initIpatNextPrev(ItemPointLink *previousLink, CourseMapRoute *route, u
         }
     }
     link->mPointPos = &itemPoint->mPos;
-    link->mUnk_1c = itemPoint->mUnk_0c;
+    link->field1C = itemPoint->fieldC;
     if (gMapData->mVersion < 0x21) {
-        link->mUnk_20 = 0;
+        link->field20 = 0;
     } else {
-        link->mUnk_20 = itemPoint->mUnk_10;
+        link->field20 = itemPoint->field10;
     }
     for (k = 0; k < 3; k++) {
         if (previousLink->mNextLinks[k] == NULL) {
@@ -231,8 +231,8 @@ void mdat_initItemPaths(void *heap) {
         link->mNextCount = 0;
         link->mPreviousCount = 0;
         link->mPointPos = NULL;
-        link->mUnk_20 = 0;
-        link->mUnk_1c = 0;
+        link->field20 = 0;
+        link->field1C = 0;
     }
     routes = gMapData->mItemRoutes;
     previousRoute = routes + firstRoute->mPreviousRoutes[0];
@@ -251,25 +251,25 @@ void mdat_initEpatNextPrev(RacePointLink *previousLink, CourseMapRoute *route, u
     racePoint = gMapData->mRacePoints + pointIndex;
     link = gMapData->mRacePointLinks + pointIndex;
     for (k = 0; k < 3; k++) {
-        if (previousLink != NULL && link->mUnk_0c[k] == previousLink) {
+        if (previousLink != NULL && link->fieldC[k] == previousLink) {
             return;
         }
     }
-    link->mUnk_18 = racePoint;
-    link->mUnk_1c = racePoint->mUnk_0c;
-    link->mUnk_20 = racePoint->mUnk_10;
+    link->field18 = racePoint;
+    link->field1C = racePoint->fieldC;
+    link->field20 = racePoint->field10;
     if (previousLink != NULL) {
         for (k = 0; k < 3; k++) {
-            if (previousLink->mUnk_00[k] == NULL) {
-                previousLink->mUnk_00[k] = link;
-                previousLink->mUnk_24++;
+            if (previousLink->field0[k] == NULL) {
+                previousLink->field0[k] = link;
+                previousLink->field24++;
                 break;
             }
         }
         for (k = 0; k < 3; k++) {
-            if (link->mUnk_0c[k] == NULL) {
-                link->mUnk_0c[k] = previousLink;
-                link->mUnk_26++;
+            if (link->fieldC[k] == NULL) {
+                link->fieldC[k] = previousLink;
+                link->field26++;
                 break;
             }
         }
@@ -305,14 +305,14 @@ void mdat_initEnemyPaths(void *heap) {
     for (i = 0; i < gMapData->mRacePointCount; i++) {
         link = q[0] + i;
         for (k = 0; k < 3; k++) {
-            link->mUnk_0c[k] = NULL;
-            link->mUnk_00[k] = NULL;
+            link->fieldC[k] = NULL;
+            link->field0[k] = NULL;
         }
-        link->mUnk_24 = 0;
-        link->mUnk_26 = 0;
-        link->mUnk_18 = NULL;
-        link->mUnk_20 = NULL;
-        link->mUnk_1c = 0;
+        link->field24 = 0;
+        link->field26 = 0;
+        link->field18 = NULL;
+        link->field20 = NULL;
+        link->field1C = 0;
     }
     t = gMapData->mRaceRoutes + firstRoute->mPreviousRoutes[0];
     lastEntry = t->mFirstEntry + t->mEntryCount - 1;
@@ -320,7 +320,7 @@ void mdat_initEnemyPaths(void *heap) {
     mdat_initEpatNextPrev(q[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
     for (i = 0; i < gMapData->mRaceRouteCount; i++) {
         t = gMapData->mRaceRoutes + (u16) i;
-        if (q[0][t->mFirstEntry].mUnk_24 == 0) {
+        if (q[0][t->mFirstEntry].field24 == 0) {
             mdat_initEpatNextPrev(NULL, t, t->mFirstEntry);
         }
     }
@@ -355,9 +355,9 @@ void mdat_initMgEnemyPaths(void *heap) {
             link->mLinks[k] = NULL;
         }
         link->mLinkCount = 0;
-        link->mUnk_20 = NULL;
-        link->mUnk_28 = NULL;
-        link->mUnk_24 = 0;
+        link->field20 = NULL;
+        link->field28 = NULL;
+        link->field24 = 0;
     }
     for (pointIndex = 0; pointIndex < gMapData->mBattlePointCount; pointIndex++) {
         battlePoint = gMapData->mBattlePoints + (u16) pointIndex;
@@ -366,42 +366,42 @@ void mdat_initMgEnemyPaths(void *heap) {
         for (routeIndex = 0; routeIndex < gMapData->mBattleRouteCount; routeIndex++) {
             t = gMapData->mBattleRoutes;
             route = t + routeIndex;
-            if (pointIndex >= t[routeIndex].mUnk_00 && pointIndex < route->mUnk_00 + route->mUnk_02) {
+            if (pointIndex >= t[routeIndex].field0 && pointIndex < route->field0 + route->field2) {
                 break;
             }
         }
-        pointLink->mUnk_2e = 0;
-        lastPoint = route->mUnk_00 + route->mUnk_02 - 1;
-        if (pointIndex == route->mUnk_00) {
+        pointLink->field2E = 0;
+        lastPoint = route->field0 + route->field2 - 1;
+        if (pointIndex == route->field0) {
             for (b = 0; b < 8; b++) {
-                if (route->mUnk_0c[b] != 0xff) {
-                    pointLink->mUnk_2e |= 1 << linkCount;
-                    pointLink->mLinks[linkCount++] = q[0] + route->mUnk_0c[b];
+                if (route->fieldC[b] != 0xff) {
+                    pointLink->field2E |= 1 << linkCount;
+                    pointLink->mLinks[linkCount++] = q[0] + route->fieldC[b];
                 }
             }
-            if (route->mUnk_02 > 1) {
+            if (route->field2 > 1) {
                 pointLink->mLinks[linkCount++] = pointLink + 1;
             }
         }
         if (pointIndex == lastPoint) {
             for (c = 0; c < 8; c++) {
-                if (route->mUnk_04[c] != 0xff) {
-                    pointLink->mUnk_2e |= 1 << linkCount;
-                    pointLink->mLinks[linkCount++] = q[0] + route->mUnk_04[c];
+                if (route->field4[c] != 0xff) {
+                    pointLink->field2E |= 1 << linkCount;
+                    pointLink->mLinks[linkCount++] = q[0] + route->field4[c];
                 }
             }
-            if (route->mUnk_02 > 1) {
+            if (route->field2 > 1) {
                 pointLink->mLinks[linkCount++] = pointLink - 1;
             }
         }
-        if (pointIndex != route->mUnk_00 && pointIndex != lastPoint) {
+        if (pointIndex != route->field0 && pointIndex != lastPoint) {
             linkCount = 0;
             pointLink->mLinks[linkCount++] = pointLink + 1;
             pointLink->mLinks[linkCount++] = pointLink - 1;
         }
-        pointLink->mUnk_20 = &battlePoint->mPos;
-        pointLink->mUnk_24 = battlePoint->mUnk_0c;
-        pointLink->mUnk_28 = battlePoint->mUnk_10;
+        pointLink->field20 = &battlePoint->mPos;
+        pointLink->field24 = battlePoint->fieldC;
+        pointLink->field28 = battlePoint->field10;
         pointLink->mLinkCount = linkCount;
     }
 }
@@ -504,8 +504,8 @@ void mdat_shuffleRespawns(RandomState64 *randomState64) {
 }
 
 s32 mdat_loadKtp2(void *section, ...) {
-    gMapData->mUnk_30 = mdat_readSectionHeader(&section);
-    gMapData->mUnk_2c = section;
+    gMapData->field30 = mdat_readSectionHeader(&section);
+    gMapData->field2C = section;
     return 1;
 }
 
@@ -543,15 +543,15 @@ s32 mdat_loadKtpm(void *section, ...) {
     enum { K0 } r = 0;
 
     if (gMapData->mVersion < 0x24) {
-        gMapData->mUnk_40 = r;
-        gMapData->mUnk_3c = NULL;
+        gMapData->field40 = r;
+        gMapData->field3C = NULL;
         return r;
     }
-    gMapData->mUnk_40 = mdat_readSectionHeader(&section);
-    if (gMapData->mUnk_40 != 0) {
-        gMapData->mUnk_3c = section;
+    gMapData->field40 = mdat_readSectionHeader(&section);
+    if (gMapData->field40 != 0) {
+        gMapData->field3C = section;
     } else {
-        gMapData->mUnk_3c = NULL;
+        gMapData->field3C = NULL;
     }
     return 1;
 }
@@ -692,13 +692,13 @@ void mdat_initClipAreas(void) {
     for (shapeIndex = 0; shapeIndex < gMapData->mShapeCount; shapeIndex++) {
         shape = mdat_getAreaEntryByIndex(shapeIndex);
         if (shape->mKind == 3) {
-            nodeSlot = &gMapData->mKind3ShapeLists[(s16) shape->mUnk_3c];
+            nodeSlot = &gMapData->mKind3ShapeLists[(s16) shape->field3C];
             while (*nodeSlot != NULL) {
-                nodeSlot = &(*nodeSlot)->mUnk_04;
+                nodeSlot = &(*nodeSlot)->field4;
             }
             *nodeSlot = heap_alloc(heap, 8);
-            (*nodeSlot)->mUnk_00 = shape;
-            (*nodeSlot)->mUnk_04 = NULL;
+            (*nodeSlot)->field0 = shape;
+            (*nodeSlot)->field4 = NULL;
         }
     }
 }

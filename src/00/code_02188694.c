@@ -14,9 +14,9 @@ void *func_ov000_021886c4(u8 param_1, u32 param_2) {
     Unk021884e4 *v1;
     void *v2;
     v1 = (Unk021884e4 *) func_ov000_02188584(1);
-    if ((v1->mUnk_08 & param_1) == 0) {
-        v1->mUnk_08 = v1->mUnk_08 | param_1;
-        v2 = v1->mUnk_00(param_1, param_2);
+    if ((v1->field8 & param_1) == 0) {
+        v1->field8 = v1->field8 | param_1;
+        v2 = v1->field0(param_1, param_2);
         return v2;
     }
     return NULL;
@@ -24,8 +24,8 @@ void *func_ov000_021886c4(u8 param_1, u32 param_2) {
 
 void func_ov000_02188694(u8 param_1, void *param_2, u32 param_3) {
     Unk021884e4 *v1 = (Unk021884e4 *) func_ov000_02188584(1);
-    if ((v1->mUnk_08 & param_1) != 0) {
-        v1->mUnk_08 = v1->mUnk_08 & ~param_1;
-        v1->mUnk_04(param_1, (u32) param_2, param_3);
+    if ((v1->field8 & param_1) != 0) {
+        v1->field8 = v1->field8 & ~param_1;
+        v1->field4(param_1, (u32) param_2, param_3);
     }
 }

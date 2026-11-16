@@ -36,7 +36,7 @@ void InitDwcArchive(void) {
         OS_Terminate();
     }
     gDwcArchive->mLockId = OS_GetLockID();
-    base = file.mProp.w.mUnk_04;
+    base = file.mProp.w.field4;
     FS_ReadFile(&file, fntRegion, 8);
     FS_ReadFile(&file, fatRegion, 8);
     FS_CloseFile(&file);
@@ -53,7 +53,7 @@ void InitDwcArchive(void) {
     tablesSize = FS_LoadArchiveTables(&gDwcArchive->mArchive, 0, 0);
     gDwcArchive->mTables = AllocExpHeapBlock(tablesSize, 4);
     FS_LoadArchiveTables(&gDwcArchive->mArchive, (u32) gDwcArchive->mTables, tablesSize);
-    gDwcArchive->mUnk_84 = CreateFilledPointerStack(0x20, gDwcArchive->mUnk_04, 4);
+    gDwcArchive->field84 = CreateFilledPointerStack(0x20, gDwcArchive->field4, 4);
     OS_SPrintf(dirPath, data_ov003_021d7bf8, data_ov003_021d67d8);
     FS_ChangeDir((u8 *) dirPath);
 }
@@ -105,12 +105,12 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
     u32 c;
     s32 readAlignment;
 
-    PopPointerStack(gDwcArchive->mUnk_84);
+    PopPointerStack(gDwcArchive->field84);
     FS_InitFile(&file);
     if (FS_OpenFile(&file, path) == 0) {
         OS_Terminate();
     }
-    c = file.mProp.w.mUnk_08 - file.mProp.w.mUnk_04;
+    c = file.mProp.w.field8 - file.mProp.w.field4;
     if (outSize != NULL) {
         *outSize = c;
     }
@@ -140,7 +140,7 @@ void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {
 
 void DeleteLoadedFile(void *block, ...) {
     FreeExpHeapBlockAndClearPointer(&block);
-    PushPointerStack(gDwcArchive->mUnk_84, block);
+    PushPointerStack(gDwcArchive->field84, block);
 }
 
 BOOL AreStringEndsEqual(const u8 *first, const char *second, s32 endLength) {

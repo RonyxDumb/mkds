@@ -34,14 +34,14 @@ Unk021b5f50_2270_0c *func_ov000_021a6614(const u8 *a) {
     Unk021b5f50_2270_0c *e;
 
     g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
+    l = g->field2270;
     e = NULL;
     if (a == NULL) {
         return NULL;
     }
-    if (l != NULL && g->mUnk_2274 > 0xc) {
-        for (e = l->mUnk_04; e != NULL; e = e->mUnk_0c) {
-            if (func_ov000_021a6d1c((u8 *) (void *) e->mUnk_10 + 4, a) != 0) {
+    if (l != NULL && g->field2274 > 0xc) {
+        for (e = l->field4; e != NULL; e = e->fieldC) {
+            if (func_ov000_021a6d1c((u8 *) (void *) e->field10 + 4, a) != 0) {
                 break;
             }
         }
@@ -55,11 +55,11 @@ Unk021b5f50_2270_0c *func_ov000_021a65d8(u32 a) {
     Unk021b5f50_2270_0c *e;
 
     g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
+    l = g->field2270;
     e = NULL;
-    if (l != NULL && g->mUnk_2274 > 0xc) {
-        for (e = l->mUnk_04; e != NULL; e = e->mUnk_0c) {
-            if (e->mUnk_04 == a) {
+    if (l != NULL && g->field2274 > 0xc) {
+        for (e = l->field4; e != NULL; e = e->fieldC) {
+            if (e->field4 == a) {
                 break;
             }
         }
@@ -73,34 +73,34 @@ void func_ov000_021a6558(Unk021b5f50_2270_0c *a) {
     Unk021b5f50_2270_0c *e;
 
     g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
-    if (a != NULL && l != NULL && g->mUnk_2274 > 0xc) {
-        for (e = l->mUnk_04; e != NULL; e = e->mUnk_0c) {
+    l = g->field2270;
+    if (a != NULL && l != NULL && g->field2274 > 0xc) {
+        for (e = l->field4; e != NULL; e = e->fieldC) {
             if (e == a) {
-                if (e->mUnk_08 != NULL) {
-                    e->mUnk_08->mUnk_0c = e->mUnk_0c;
+                if (e->field8 != NULL) {
+                    e->field8->fieldC = e->fieldC;
                 } else {
-                    l->mUnk_04 = e->mUnk_0c;
+                    l->field4 = e->fieldC;
                 }
-                if (e->mUnk_0c != NULL) {
-                    e->mUnk_0c->mUnk_08 = e->mUnk_08;
+                if (e->fieldC != NULL) {
+                    e->fieldC->field8 = e->field8;
                 } else {
-                    l->mUnk_08 = e->mUnk_08;
+                    l->field8 = e->field8;
                 }
                 break;
             }
         }
-        a->mUnk_0c = NULL;
-        a->mUnk_08 = l->mUnk_08;
-        l->mUnk_08 = a;
-        if (a->mUnk_08 != NULL) {
-            a->mUnk_08->mUnk_0c = a;
+        a->fieldC = NULL;
+        a->field8 = l->field8;
+        l->field8 = a;
+        if (a->field8 != NULL) {
+            a->field8->fieldC = a;
         } else {
-            l->mUnk_04 = a;
+            l->field4 = a;
         }
         if (e == NULL) {
-            a->mUnk_04 = l->mUnk_00;
-            l->mUnk_00++;
+            a->field4 = l->field0;
+            l->field0++;
         }
     }
 }
@@ -126,13 +126,13 @@ s32 func_ov000_021a6470(Unk021b5f50 *a, u32 b) {
         return 6;
     }
     data_ov000_021b5f50 = a;
-    a->mUnk_2260 = 1;
-    data_ov000_021b5f50->mUnk_2280 = 0;
-    data_ov000_021b5f50->mUnk_2268 = 0;
-    data_ov000_021b5f50->mUnk_226a = 0;
-    data_ov000_021b5f50->mUnk_226b = 0;
-    data_ov000_021b5f50->mUnk_2282 = 0;
-    data_ov000_021b5f50->mUnk_22f8 = 0;
+    a->field2260 = 1;
+    data_ov000_021b5f50->field2280 = 0;
+    data_ov000_021b5f50->field2268 = 0;
+    data_ov000_021b5f50->field226A = 0;
+    data_ov000_021b5f50->field226B = 0;
+    data_ov000_021b5f50->field2282 = 0;
+    data_ov000_021b5f50->field22F8 = 0;
     func_ov000_021a5930();
     func_ov000_021a6bdc();
     if (OS_IsTickAvailable() == 0) {
@@ -141,7 +141,7 @@ s32 func_ov000_021a6470(Unk021b5f50 *a, u32 b) {
     if (OS_IsAlarmAvailable() == 0) {
         OS_InitAlarm();
     }
-    OS_CreateAlarm(&data_ov000_021b5f50->mUnk_22cc);
+    OS_CreateAlarm(&data_ov000_021b5f50->field22CC);
     OS_RestoreInterrupts(v1);
     return 0;
 }
@@ -156,7 +156,7 @@ BOOL func_ov000_021a6428(void) {
         OS_RestoreInterrupts(v1);
         return TRUE;
     }
-    if (g->mUnk_2260 != 1) {
+    if (g->field2260 != 1) {
         OS_RestoreInterrupts(v1);
         return TRUE;
     }
@@ -176,7 +176,7 @@ s32 func_ov000_021a629c(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 1:
             func_ov000_021a5a78(a, b);
             break;
@@ -190,7 +190,7 @@ s32 func_ov000_021a629c(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
             OS_RestoreInterrupts(v1);
             return 1;
     }
-    switch (WM_Init(data_ov000_021b5f50, data_ov000_021b5f50->mUnk_226c)) {
+    switch (WM_Init(data_ov000_021b5f50, data_ov000_021b5f50->field226C)) {
         case 3:
             func_ov000_021a57fc(0xb);
             OS_RestoreInterrupts(v1);
@@ -227,7 +227,7 @@ s32 func_ov000_021a629c(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
     switch (r) {
         case 2:
             func_ov000_021a57fc(2);
-            data_ov000_021b5f50->mUnk_2280 = 1;
+            data_ov000_021b5f50->field2280 = 1;
             break;
         case 8:
             func_ov000_021a57fc(0xc);
@@ -254,7 +254,7 @@ s32 func_ov000_021a61e4(void) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 4:
             OS_RestoreInterrupts(v1);
             return 2;
@@ -269,7 +269,7 @@ s32 func_ov000_021a61e4(void) {
             switch (r) {
                 case 2:
                     func_ov000_021a57fc(4);
-                    data_ov000_021b5f50->mUnk_2280 = 2;
+                    data_ov000_021b5f50->field2280 = 2;
                     break;
                 case 8:
                     OS_RestoreInterrupts(v1);
@@ -303,7 +303,7 @@ s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 5:
             func_ov000_021a5948(a, b, c);
             OS_RestoreInterrupts(v1);
@@ -317,13 +317,13 @@ s32 func_ov000_021a60a4(const void *a, const u8 *b, u32 c) {
             return 1;
         case 3:
             func_ov000_021a5948(a, b, c);
-            DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mUnk_00, data_ov000_021b5f50->mUnk_2288.mUnk_04);
-            data_ov000_021b5f50->mUnk_2284++;
-            r = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->mUnk_2288);
+            DC_InvalidateRange(data_ov000_021b5f50->field2288.field0, data_ov000_021b5f50->field2288.field4);
+            data_ov000_021b5f50->field2284++;
+            r = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->field2288);
             switch (r) {
                 case 2:
                     func_ov000_021a57fc(5);
-                    data_ov000_021b5f50->mUnk_2280 = 3;
+                    data_ov000_021b5f50->field2280 = 3;
                     break;
                 case 8:
                     OS_RestoreInterrupts(v1);
@@ -349,10 +349,10 @@ s32 func_ov000_021a6024(void) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 6:
             func_ov000_021a57fc(7);
-            data_ov000_021b5f50->mUnk_2280 = 4;
+            data_ov000_021b5f50->field2280 = 4;
             break;
         case 7:
             OS_RestoreInterrupts(v1);
@@ -379,33 +379,33 @@ s32 func_ov000_021a5e84(Unk021a5e84 *a, Unk02188de4 *b, u32 c) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 3:
             if (a == NULL) {
                 OS_RestoreInterrupts(v1);
                 return 1;
             }
-            if (a->mUnk_3c != 0) {
+            if (a->field3C != 0) {
                 OS_RestoreInterrupts(v1);
                 return 1;
             }
             if (b != NULL) {
-                if (b->mUnk_00 >= 4 || b->mUnk_01 >= 4) {
+                if (b->field0 >= 4 || b->field1 >= 4) {
                     OS_RestoreInterrupts(v1);
                     return 1;
                 }
-                g->mUnk_2250 = b->mUnk_00;
-                data_ov000_021b5f50->mUnk_2251 = b->mUnk_01;
-                if (data_ov000_021b5f50->mUnk_2250 == 0) {
-                    MI_CpuFill8(data_ov000_021b5f50->mUnk_2200, 0, 0x50);
+                g->field2250 = b->field0;
+                data_ov000_021b5f50->field2251 = b->field1;
+                if (data_ov000_021b5f50->field2250 == 0) {
+                    MI_CpuFill8(data_ov000_021b5f50->field2200, 0, 0x50);
                 } else {
-                    MI_CpuCopy8(b->mUnk_02, data_ov000_021b5f50->mUnk_2200, 0x50);
+                    MI_CpuCopy8(b->field2, data_ov000_021b5f50->field2200, 0x50);
                 }
             } else {
-                MI_CpuFill8(g->mUnk_2200, 0, 0x52);
+                MI_CpuFill8(g->field2200, 0, 0x52);
             }
-            MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2140, 0xc0);
-            data_ov000_021b5f50->mUnk_2170 = data_ov000_021b5f50->mUnk_216e | 3;
+            MI_CpuCopy8(a, data_ov000_021b5f50->field2140, 0xc0);
+            data_ov000_021b5f50->field2170 = data_ov000_021b5f50->field216E | 3;
             func_ov000_021a5b3c(c);
             break;
         case 8:
@@ -422,7 +422,7 @@ s32 func_ov000_021a5e84(Unk021a5e84 *a, Unk02188de4 *b, u32 c) {
     switch (r) {
         case 2:
             func_ov000_021a57fc(8);
-            data_ov000_021b5f50->mUnk_2280 = 5;
+            data_ov000_021b5f50->field2280 = 5;
             break;
         case 8:
             OS_RestoreInterrupts(v1);
@@ -448,7 +448,7 @@ s32 func_ov000_021a5db0(void) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 10:
             OS_RestoreInterrupts(v1);
             return 2;
@@ -461,15 +461,15 @@ s32 func_ov000_021a5db0(void) {
         case 9:
             break;
     }
-    if (g->mUnk_226b == 1) {
+    if (g->field226B == 1) {
         func_ov000_021a57fc(0xa);
-        data_ov000_021b5f50->mUnk_2280 = 6;
+        data_ov000_021b5f50->field2280 = 6;
     } else {
         r = WM_EndDCF(func_ov000_021a4e28);
         switch (r) {
             case 2:
                 func_ov000_021a57fc(0xa);
-                data_ov000_021b5f50->mUnk_2280 = 6;
+                data_ov000_021b5f50->field2280 = 6;
                 break;
             case 8:
                 OS_RestoreInterrupts(v1);
@@ -497,7 +497,7 @@ s32 func_ov000_021a5c24(void) {
         OS_RestoreInterrupts(v1);
         return 1;
     }
-    switch (g->mUnk_2260) {
+    switch (g->field2260) {
         case 13:
             OS_RestoreInterrupts(v1);
             return 2;
@@ -506,7 +506,7 @@ s32 func_ov000_021a5c24(void) {
             return 0;
         case 6:
             func_ov000_021a57fc(0xd);
-            data_ov000_021b5f50->mUnk_2280 = 9;
+            data_ov000_021b5f50->field2280 = 9;
             OS_RestoreInterrupts(v1);
             return 3;
         case 3:
@@ -517,9 +517,9 @@ s32 func_ov000_021a5c24(void) {
             OS_RestoreInterrupts(v1);
             return 1;
     }
-    if (g->mUnk_226b == 1) {
+    if (g->field226B == 1) {
         func_ov000_021a57fc(0xd);
-        data_ov000_021b5f50->mUnk_2280 = 9;
+        data_ov000_021b5f50->field2280 = 9;
     } else {
         p = WMi_GetStatusAddress();
         DC_InvalidateRange(p, 2);
@@ -528,7 +528,7 @@ s32 func_ov000_021a5c24(void) {
                 r = WM_Finish();
                 if (r == 0) {
                     func_ov000_021a57fc(1);
-                    data_ov000_021b5f50->mUnk_2280 = 0;
+                    data_ov000_021b5f50->field2280 = 0;
                     OS_RestoreInterrupts(v1);
                     return 0;
                 }
@@ -540,14 +540,14 @@ s32 func_ov000_021a5c24(void) {
                 r = WM_PowerOff(func_ov000_021a54b0);
                 break;
             default:
-                data_ov000_021b5f50->mUnk_226b = 1;
+                data_ov000_021b5f50->field226B = 1;
                 r = WM_Reset(func_ov000_021a4bc4);
                 break;
         }
         switch (r) {
             case 2:
                 func_ov000_021a57fc(0xd);
-                data_ov000_021b5f50->mUnk_2280 = 9;
+                data_ov000_021b5f50->field2280 = 9;
                 break;
             case 8:
                 OS_RestoreInterrupts(v1);
@@ -572,7 +572,7 @@ u32 func_ov000_021a5bfc(void) {
     r = 0;
     g = data_ov000_021b5f50;
     if (g != NULL) {
-        r = g->mUnk_2260;
+        r = g->field2260;
     }
     OS_RestoreInterrupts(v1);
     return r;
@@ -587,7 +587,7 @@ u32 func_ov000_021a5b3c(u32 a) {
     v1 = OS_DisableInterrupts();
     b = 0;
     g = data_ov000_021b5f50;
-    v2 = g->mUnk_2264;
+    v2 = g->field2264;
     if (g == NULL) {
         OS_RestoreInterrupts(v1);
         return 0;
@@ -610,7 +610,7 @@ u32 func_ov000_021a5b3c(u32 a) {
     if (a & 0x800000) {
         b |= 0x400000;
     }
-    g->mUnk_2264 = a | (v2 & ~b);
+    g->field2264 = a | (v2 & ~b);
     OS_RestoreInterrupts(v1);
     return v2;
 }
@@ -623,24 +623,24 @@ void func_ov000_021a5a78(Unk021a5a78 *a, void (*b)(Unk021a586c *)) {
     u8 *p;
 
     if (a == NULL) {
-        data_ov000_021b5f50->mUnk_226c = 3;
-        data_ov000_021b5f50->mUnk_2270 = NULL;
-        data_ov000_021b5f50->mUnk_2274 = 0;
-        data_ov000_021b5f50->mUnk_2278 = 0;
+        data_ov000_021b5f50->field226C = 3;
+        data_ov000_021b5f50->field2270 = NULL;
+        data_ov000_021b5f50->field2274 = 0;
+        data_ov000_021b5f50->field2278 = 0;
     } else {
-        data_ov000_021b5f50->mUnk_226c = a->mUnk_00 & 3;
-        p = a->mUnk_04;
-        if ((((4 - ((u32) p & 3)) & 3) + 0xc) > a->mUnk_08) {
-            data_ov000_021b5f50->mUnk_2270 = NULL;
-            data_ov000_021b5f50->mUnk_2274 = 0;
+        data_ov000_021b5f50->field226C = a->field0 & 3;
+        p = a->field4;
+        if ((((4 - ((u32) p & 3)) & 3) + 0xc) > a->field8) {
+            data_ov000_021b5f50->field2270 = NULL;
+            data_ov000_021b5f50->field2274 = 0;
         } else {
-            data_ov000_021b5f50->mUnk_2270 = (Unk021b5f50_2270 *) (((u32) p + 3) & ~3);
-            data_ov000_021b5f50->mUnk_2274 = a->mUnk_08 - ((4 - ((u32) a->mUnk_04 & 3)) & 3);
-            MI_CpuFill8(data_ov000_021b5f50->mUnk_2270, 0, data_ov000_021b5f50->mUnk_2274);
+            data_ov000_021b5f50->field2270 = (Unk021b5f50_2270 *) (((u32) p + 3) & ~3);
+            data_ov000_021b5f50->field2274 = a->field8 - ((4 - ((u32) a->field4 & 3)) & 3);
+            MI_CpuFill8(data_ov000_021b5f50->field2270, 0, data_ov000_021b5f50->field2274);
         }
-        data_ov000_021b5f50->mUnk_2278 = a->mUnk_0c;
+        data_ov000_021b5f50->field2278 = a->fieldC;
     }
-    data_ov000_021b5f50->mUnk_227c = b;
+    data_ov000_021b5f50->field227C = b;
 }
 
 void func_ov000_021a5948(const void *a, const u8 *b, u32 c) {
@@ -648,38 +648,38 @@ void func_ov000_021a5948(const void *a, const u8 *b, u32 c) {
     s32 i;
 
     func_ov000_021a5b3c(c);
-    data_ov000_021b5f50->mUnk_2288.mUnk_00 = data_ov000_021b5f50->mUnk_1500;
-    data_ov000_021b5f50->mUnk_2288.mUnk_04 = 0x400;
-    data_ov000_021b5f50->mUnk_2288.mUnk_06 = (1 << func_ov000_021a58dc(0)) >> 1;
-    v = data_ov000_021b5f50->mUnk_2268;
+    data_ov000_021b5f50->field2288.field0 = data_ov000_021b5f50->field1500;
+    data_ov000_021b5f50->field2288.field4 = 0x400;
+    data_ov000_021b5f50->field2288.field6 = (1 << func_ov000_021a58dc(0)) >> 1;
+    v = data_ov000_021b5f50->field2268;
     if (v == 0) {
         v = WM_GetDispersionScanPeriod();
     }
-    data_ov000_021b5f50->mUnk_2288.mUnk_08 = v;
-    data_ov000_021b5f50->mUnk_2288.mUnk_10 = (data_ov000_021b5f50->mUnk_2264 & 0x300000) != 0x300000;
+    data_ov000_021b5f50->field2288.field8 = v;
+    data_ov000_021b5f50->field2288.field10 = (data_ov000_021b5f50->field2264 & 0x300000) != 0x300000;
     if (a == NULL) {
-        MI_CpuCopy8(data_ov000_021b07bc, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
+        MI_CpuCopy8(data_ov000_021b07bc, data_ov000_021b5f50->field2288.fieldA, 6);
     } else {
-        MI_CpuCopy8(a, data_ov000_021b5f50->mUnk_2288.mUnk_0a, 6);
+        MI_CpuCopy8(a, data_ov000_021b5f50->field2288.fieldA, 6);
     }
     if (b == NULL || b == data_ov000_021b07c4) {
-        MI_CpuCopy8(data_ov000_021b07c4, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);
-        data_ov000_021b5f50->mUnk_2288.mUnk_12 = 0;
+        MI_CpuCopy8(data_ov000_021b07c4, data_ov000_021b5f50->field2288.field14, 0x20);
+        data_ov000_021b5f50->field2288.field12 = 0;
     } else {
-        MI_CpuCopy8(b, data_ov000_021b5f50->mUnk_2288.mUnk_14, 0x20);
+        MI_CpuCopy8(b, data_ov000_021b5f50->field2288.field14, 0x20);
         for (i = 0; i < 0x20; i++) {
             if (*b == 0) {
                 break;
             }
             b++;
         }
-        data_ov000_021b5f50->mUnk_2288.mUnk_12 = i;
+        data_ov000_021b5f50->field2288.field12 = i;
     }
-    data_ov000_021b5f50->mUnk_2284 = 0;
+    data_ov000_021b5f50->field2284 = 0;
 }
 
 void func_ov000_021a5930(void) {
-    data_ov000_021b5f50->mUnk_2264 = 0xaaa082;
+    data_ov000_021b5f50->field2264 = 0xaaa082;
 }
 
 u16 func_ov000_021a58dc(u16 a) {
@@ -689,7 +689,7 @@ u16 func_ov000_021a58dc(u16 a) {
 
     i = 0;
     j = a;
-    f = data_ov000_021b5f50->mUnk_2264;
+    f = data_ov000_021b5f50->field2264;
     do {
         if (f & (1 << (j % 13 + 1))) {
             break;
@@ -703,21 +703,21 @@ u16 func_ov000_021a58dc(u16 a) {
 void func_ov000_021a58a4(u32 b, const void *c, u32 d, u32 e) {
     s16 a;
 
-    a = data_ov000_021b5f50->mUnk_2280;
-    data_ov000_021b5f50->mUnk_2280 = 0;
+    a = data_ov000_021b5f50->field2280;
+    data_ov000_021b5f50->field2280 = 0;
     func_ov000_021a586c(a, b, c, d, e);
 }
 
 void func_ov000_021a586c(s16 a, u32 b, void *c, u32 d, u32 e) {
     Unk021a586c v;
 
-    if (data_ov000_021b5f50->mUnk_227c != NULL) {
-        v.mUnk_00 = a;
-        v.mUnk_02 = b;
-        v.mUnk_04 = c;
-        v.mUnk_08 = d;
-        v.mUnk_0c = e;
-        data_ov000_021b5f50->mUnk_227c(&v);
+    if (data_ov000_021b5f50->field227C != NULL) {
+        v.field0 = a;
+        v.field2 = b;
+        v.field4 = c;
+        v.field8 = d;
+        v.fieldC = e;
+        data_ov000_021b5f50->field227C(&v);
     }
 }
 
@@ -725,14 +725,14 @@ void func_ov000_021a57fc(u32 a) {
     u32 b;
 
     b = OS_DisableInterrupts();
-    if (data_ov000_021b5f50->mUnk_2260 == 9 && a != 9) {
-        OS_CancelAlarm(&data_ov000_021b5f50->mUnk_22cc);
+    if (data_ov000_021b5f50->field2260 == 9 && a != 9) {
+        OS_CancelAlarm(&data_ov000_021b5f50->field22CC);
     }
-    if (data_ov000_021b5f50->mUnk_2260 != 0xb) {
-        data_ov000_021b5f50->mUnk_2260 = a;
+    if (data_ov000_021b5f50->field2260 != 0xb) {
+        data_ov000_021b5f50->field2260 = a;
     }
     if (a == 9) {
-        OS_SetAlarm(&data_ov000_021b5f50->mUnk_22cc, 0x22f5341, func_ov000_021a5794, NULL);
+        OS_SetAlarm(&data_ov000_021b5f50->field22CC, 0x22f5341, func_ov000_021a5794, NULL);
     }
     OS_RestoreInterrupts(b);
 }
@@ -741,9 +741,9 @@ void func_ov000_021a57a8(void) {
     u32 a;
 
     a = OS_DisableInterrupts();
-    OS_CancelAlarm(&data_ov000_021b5f50->mUnk_22cc);
-    if (data_ov000_021b5f50->mUnk_2260 == 9) {
-        OS_SetAlarm(&data_ov000_021b5f50->mUnk_22cc, 0x22f5341, func_ov000_021a5794, NULL);
+    OS_CancelAlarm(&data_ov000_021b5f50->field22CC);
+    if (data_ov000_021b5f50->field2260 == 9) {
+        OS_SetAlarm(&data_ov000_021b5f50->field22CC, 0x22f5341, func_ov000_021a5794, NULL);
     }
     OS_RestoreInterrupts(a);
 }
@@ -754,8 +754,8 @@ void func_ov000_021a5794(void *a) {
 }
 
 void func_ov000_021a574c(void) {
-    if (data_ov000_021b5f50->mUnk_226b == 0) {
-        data_ov000_021b5f50->mUnk_226b = 1;
+    if (data_ov000_021b5f50->field226B == 0) {
+        data_ov000_021b5f50->field226B = 1;
         if (WM_Reset(func_ov000_021a4bc4) != 2) {
             func_ov000_021a57fc(0xb);
             func_ov000_021a58a4(7, NULL, 0, 0x611);
@@ -764,8 +764,8 @@ void func_ov000_021a574c(void) {
 }
 
 void func_ov000_021a56e4(Unk021425e8 *v1) {
-    if (v1->mResultCode == 8 && v1->mUnk_04 == 0x16 && v1->mUnk_06 == 0x25) {
-        switch (data_ov000_021b5f50->mUnk_2260) {
+    if (v1->mResultCode == 8 && v1->field4 == 0x16 && v1->field6 == 0x25) {
+        switch (data_ov000_021b5f50->field2260) {
             case 8:
                 func_ov000_021a57fc(0xc);
                 return;
@@ -814,17 +814,17 @@ void func_ov000_021a54b0(Unk021425e8 *v1) {
                     break;
                 case 0x19:
                     g = data_ov000_021b5f50;
-                    r = WM_SetWEPKeyEx(func_ov000_021a54b0, g->mUnk_2250, g->mUnk_2251, g->mUnk_2200);
+                    r = WM_SetWEPKeyEx(func_ov000_021a54b0, g->field2250, g->field2251, g->field2200);
                     break;
                 case 0x27: {
                     u32 v;
                     u16 e;
                     u32 d;
                     g = data_ov000_021b5f50;
-                    v = g->mUnk_2264;
+                    v = g->field2264;
                     e = (v & 0xc0000) == 0xc0000;
                     d = (v & 0x30000) != 0x30000 ? 1 : 0;
-                    r = WM_StartConnectEx((Unk021425e8Func) func_ov000_021a5088, (u16 *) g->mUnk_2140, NULL, d, e);
+                    r = WM_StartConnectEx((Unk021425e8Func) func_ov000_021a5088, (u16 *) g->field2140, NULL, d, e);
                     break;
                 }
             }
@@ -834,27 +834,27 @@ void func_ov000_021a54b0(Unk021425e8 *v1) {
             switch (r) {
                 case 8:
                     func_ov000_021a57fc(0xc);
-                    func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0,
+                    func_ov000_021a58a4(1, data_ov000_021b5f50->field2280 == 5 ? data_ov000_021b5f50->field2140 : 0, 0,
                                         0x6a7);
                     return;
                 case 3:
                 default:
                     func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0,
+                    func_ov000_021a58a4(7, data_ov000_021b5f50->field2280 == 5 ? data_ov000_021b5f50->field2140 : 0, 0,
                                         0x6b0);
                     return;
             }
             break;
         case 1:
             func_ov000_021a57fc(0xc);
-            func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0, 0x6d0);
+            func_ov000_021a58a4(1, data_ov000_021b5f50->field2280 == 5 ? data_ov000_021b5f50->field2140 : 0, 0, 0x6d0);
             return;
         case 2:
         case 3:
         case 4:
         default:
             func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2280 == 5 ? data_ov000_021b5f50->mUnk_2140 : 0, 0, 0x6da);
+            func_ov000_021a58a4(7, data_ov000_021b5f50->field2280 == 5 ? data_ov000_021b5f50->field2140 : 0, 0, 0x6da);
             return;
     }
 }
@@ -890,38 +890,38 @@ void func_ov000_021a52b0(Unk021a5088 *v1) {
     u32 e;
 
     a = 0x14;
-    switch (v1->mUnk_02) {
+    switch (v1->field2) {
         case 0:
-            if (data_ov000_021b5f50->mUnk_2260 == 5) {
+            if (data_ov000_021b5f50->field2260 == 5) {
                 func_ov000_021a57fc(6);
                 func_ov000_021a58a4(0, 0, 0, 0x6f6);
             }
-            switch (data_ov000_021b5f50->mUnk_2260) {
+            switch (data_ov000_021b5f50->field2260) {
                 case 6:
-                    data_ov000_021b5f50->mUnk_2280 = 7;
-                    if (v1->mUnk_08 == 5) {
-                        DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mUnk_00,
-                                           data_ov000_021b5f50->mUnk_2288.mUnk_04);
-                        for (b = 0; b < v1->mUnk_0e; b++) {
-                            func_ov000_021a671c((Unk021a5e84 *) v1->mUnk_10[b], v1->mUnk_50[b]);
-                            func_ov000_021a586c(7, 0, v1->mUnk_10[b], (u32) v1, 0x70b);
+                    data_ov000_021b5f50->field2280 = 7;
+                    if (v1->field8 == 5) {
+                        DC_InvalidateRange(data_ov000_021b5f50->field2288.field0,
+                                           data_ov000_021b5f50->field2288.field4);
+                        for (b = 0; b < v1->fieldE; b++) {
+                            func_ov000_021a671c((Unk021a5e84 *) v1->field10[b], v1->field50[b]);
+                            func_ov000_021a586c(7, 0, v1->field10[b], (u32) v1, 0x70b);
                         }
                     }
-                    c = data_ov000_021b5f50->mUnk_2264;
+                    c = data_ov000_021b5f50->field2264;
                     if ((c & 0xc00000) == 0xc00000) {
                         d = func_ov000_021a4b98(c & 0x3ffe);
                         if (d != 0) {
-                            e = data_ov000_021b5f50->mUnk_2284;
+                            e = data_ov000_021b5f50->field2284;
                             if (e % d == 0) {
                                 func_ov000_021a586c(8, 0, (void *) e, 0, 0x718);
                             }
                         }
                     }
-                    data_ov000_021b5f50->mUnk_2288.mUnk_06 =
-                        (1 << func_ov000_021a58dc(32 - func_ov000_021a4bbc(v1->mUnk_0a))) >> 1;
-                    DC_InvalidateRange(data_ov000_021b5f50->mUnk_2288.mUnk_00, data_ov000_021b5f50->mUnk_2288.mUnk_04);
-                    data_ov000_021b5f50->mUnk_2284++;
-                    a = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->mUnk_2288);
+                    data_ov000_021b5f50->field2288.field6 =
+                        (1 << func_ov000_021a58dc(32 - func_ov000_021a4bbc(v1->fieldA))) >> 1;
+                    DC_InvalidateRange(data_ov000_021b5f50->field2288.field0, data_ov000_021b5f50->field2288.field4);
+                    data_ov000_021b5f50->field2284++;
+                    a = WM_StartScanEx((Unk021425e8Func) func_ov000_021a52b0, &data_ov000_021b5f50->field2288);
                     break;
                 case 7:
                     a = WM_EndScan((Unk021425e8Func) func_ov000_021a524c);
@@ -979,20 +979,20 @@ void func_ov000_021a5088(Unk021a5088 *v1) {
     u16 a;
     s32 b;
 
-    switch (v1->mUnk_02) {
+    switch (v1->field2) {
         case 0:
-            switch (v1->mUnk_08) {
+            switch (v1->field8) {
                 case 8:
                 case 9:
-                    switch (data_ov000_021b5f50->mUnk_2260 - 8) {
+                    switch (data_ov000_021b5f50->field2260 - 8) {
                         case 2:
-                            data_ov000_021b5f50->mUnk_2282 = 0;
+                            data_ov000_021b5f50->field2282 = 0;
                         case 0:
                             func_ov000_021a57fc(0xc);
                             return;
                         case 1:
-                            data_ov000_021b5f50->mUnk_2282 = 0;
-                            data_ov000_021b5f50->mUnk_2280 = 6;
+                            data_ov000_021b5f50->field2282 = 0;
+                            data_ov000_021b5f50->field2280 = 6;
                         case 4:
                             func_ov000_021a574c();
                             return;
@@ -1001,27 +1001,27 @@ void func_ov000_021a5088(Unk021a5088 *v1) {
                     }
                     break;
                 case 7:
-                    if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
+                    if (data_ov000_021b5f50->field2260 == 0xc) {
                         func_ov000_021a57fc(8);
                         func_ov000_021a574c();
                         return;
                     }
-                    a = v1->mUnk_0a;
+                    a = v1->fieldA;
                     if (a >= 1 && a <= 0x7d7) {
-                        data_ov000_021b5f50->mUnk_2282 = a;
-                        b = WM_StartDCF((Unk021425e8Func) func_ov000_021a4f10, &data_ov000_021b5f50->mUnk_0000[0x1500],
+                        data_ov000_021b5f50->field2282 = a;
+                        b = WM_StartDCF((Unk021425e8Func) func_ov000_021a4f10, &data_ov000_021b5f50->field0[0x1500],
                                         0x620);
                         switch (b) {
                             case 2:
                                 return;
                             case 8:
                                 func_ov000_021a57fc(0xc);
-                                func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, 0, 0x7d7);
+                                func_ov000_021a58a4(1, data_ov000_021b5f50->field2140, 0, 0x7d7);
                                 return;
                             case 3:
                             default:
                                 func_ov000_021a57fc(0xb);
-                                func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x7e0);
+                                func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, 0, 0x7e0);
                                 return;
                         }
                     }
@@ -1031,12 +1031,12 @@ void func_ov000_021a5088(Unk021a5088 *v1) {
                     break;
                 default:
                     func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, v1->mUnk_08, 0x7ee);
+                    func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, v1->field8, 0x7ee);
                     return;
             }
             break;
         case 1:
-            data_ov000_021b5f50->mUnk_22f8 = v1->mUnk_0e;
+            data_ov000_021b5f50->field22F8 = v1->fieldE;
         case 6:
         case 11:
         case 12:
@@ -1053,7 +1053,7 @@ void func_ov000_021a5088(Unk021a5088 *v1) {
         case 10:
         default:
             func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x804);
+            func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, 0, 0x804);
             return;
     }
 }
@@ -1061,14 +1061,14 @@ void func_ov000_021a5088(Unk021a5088 *v1) {
 void func_ov000_021a4fe0(Unk021425e8 *v1) {
     switch (v1->mResultCode) {
         case 0:
-            if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
+            if (data_ov000_021b5f50->field2260 == 0xc) {
                 func_ov000_021a57fc(0xa);
                 func_ov000_021a574c();
                 return;
             }
-            data_ov000_021b5f50->mUnk_2282 = 0;
+            data_ov000_021b5f50->field2282 = 0;
             func_ov000_021a57fc(3);
-            func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 0, 0x827);
+            func_ov000_021a58a4(0, data_ov000_021b5f50->field2140, 0, 0x827);
             return;
         case 1:
         case 3:
@@ -1079,7 +1079,7 @@ void func_ov000_021a4fe0(Unk021425e8 *v1) {
         case 4:
         default:
             func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x839);
+            func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, 0, 0x839);
             return;
     }
 }
@@ -1087,30 +1087,30 @@ void func_ov000_021a4fe0(Unk021425e8 *v1) {
 void func_ov000_021a4f10(Unk021425e8 *v1) {
     switch (v1->mResultCode) {
         case 0:
-            switch (v1->mUnk_04) {
+            switch (v1->field4) {
                 case 0xe:
-                    if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
+                    if (data_ov000_021b5f50->field2260 == 0xc) {
                         func_ov000_021a57fc(8);
                         func_ov000_021a574c();
                         return;
                     }
                     func_ov000_021a57fc(9);
-                    func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 0, 0x85d);
+                    func_ov000_021a58a4(0, data_ov000_021b5f50->field2140, 0, 0x85d);
                     return;
                 case 0xf:
-                    func_ov000_021a6c08(((u16 *) v1->mUnk_08)[7] >> 8);
-                    DC_InvalidateRange(v1->mUnk_08, 0x620);
-                    func_ov000_021a6bb4(v1->mUnk_08);
+                    func_ov000_021a6c08(((u16 *) v1->field8)[7] >> 8);
+                    DC_InvalidateRange(v1->field8, 0x620);
+                    func_ov000_021a6bb4(v1->field8);
                     return;
                 default:
                     func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, v1->mUnk_04, 0x86b);
+                    func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, v1->field4, 0x86b);
                     return;
             }
         case 4:
         default:
             func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x877);
+            func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, 0, 0x877);
             return;
     }
 }
@@ -1120,7 +1120,7 @@ void func_ov000_021a4e28(Unk021425e8 *v1) {
 
     switch (v1->mResultCode) {
         case 0:
-            if (data_ov000_021b5f50->mUnk_2260 == 0xc) {
+            if (data_ov000_021b5f50->field2260 == 0xc) {
                 func_ov000_021a57fc(0xa);
                 func_ov000_021a574c();
                 return;
@@ -1131,7 +1131,7 @@ void func_ov000_021a4e28(Unk021425e8 *v1) {
                     return;
                 case 8:
                     func_ov000_021a57fc(0xc);
-                    func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, 0, 0x8a0);
+                    func_ov000_021a58a4(1, data_ov000_021b5f50->field2140, 0, 0x8a0);
                     return;
                 case 3:
                     func_ov000_021a57fc(0xa);
@@ -1139,7 +1139,7 @@ void func_ov000_021a4e28(Unk021425e8 *v1) {
                     return;
                 default:
                     func_ov000_021a57fc(0xb);
-                    func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x8ac);
+                    func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, 0, 0x8ac);
                     return;
             }
         case 1:
@@ -1151,7 +1151,7 @@ void func_ov000_021a4e28(Unk021425e8 *v1) {
         case 4:
         default:
             func_ov000_021a57fc(0xb);
-            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, 0, 0x8bf);
+            func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, 0, 0x8bf);
             return;
     }
 }
@@ -1164,9 +1164,9 @@ void func_ov000_021a4bc4(Unk021425e8 *v1) {
     u16 f;
 
     if (v1->mResultCode == 0) {
-        data_ov000_021b5f50->mUnk_226b = 0;
-        data_ov000_021b5f50->mUnk_2282 = 0;
-        switch (data_ov000_021b5f50->mUnk_2260) {
+        data_ov000_021b5f50->field226B = 0;
+        data_ov000_021b5f50->field2282 = 0;
+        switch (data_ov000_021b5f50->field2260) {
             case 5:
             case 6:
                 func_ov000_021a57fc(3);
@@ -1177,47 +1177,47 @@ void func_ov000_021a4bc4(Unk021425e8 *v1) {
                 func_ov000_021a58a4(0, 0, 0, 0x8e7);
                 return;
             case 8:
-                a = data_ov000_021b5f50->mUnk_22f8;
-                data_ov000_021b5f50->mUnk_22f8 = 0;
-                if (a == 0x12 && (data_ov000_021b5f50->mUnk_2170 & 0x24) != 0x24) {
-                    data_ov000_021b5f50->mUnk_2170 |= 0x24;
+                a = data_ov000_021b5f50->field22F8;
+                data_ov000_021b5f50->field22F8 = 0;
+                if (a == 0x12 && (data_ov000_021b5f50->field2170 & 0x24) != 0x24) {
+                    data_ov000_021b5f50->field2170 |= 0x24;
                     b = 0;
-                    if ((data_ov000_021b5f50->mUnk_2264 & 0xc0000) == 0xc0000) {
+                    if ((data_ov000_021b5f50->field2264 & 0xc0000) == 0xc0000) {
                         b = 1;
                     }
                     f = b;
-                    if ((data_ov000_021b5f50->mUnk_2264 & 0x30000) == 0x30000) {
+                    if ((data_ov000_021b5f50->field2264 & 0x30000) == 0x30000) {
                         c = 0;
                     } else {
                         c = 1;
                     }
-                    e = WM_StartConnectEx((Unk021425e8Func) func_ov000_021a5088, (u16 *) data_ov000_021b5f50->mUnk_2140,
+                    e = WM_StartConnectEx((Unk021425e8Func) func_ov000_021a5088, (u16 *) data_ov000_021b5f50->field2140,
                                           0, c, f);
                     switch (e) {
                         case 2:
                             return;
                         case 8:
                             func_ov000_021a57fc(0xc);
-                            func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, a, 0x905);
+                            func_ov000_021a58a4(1, data_ov000_021b5f50->field2140, a, 0x905);
                             return;
                         case 3:
                         default:
                             func_ov000_021a57fc(0xb);
-                            func_ov000_021a58a4(7, data_ov000_021b5f50->mUnk_2140, a, 0x90c);
+                            func_ov000_021a58a4(7, data_ov000_021b5f50->field2140, a, 0x90c);
                             return;
                     }
                 }
                 func_ov000_021a57fc(3);
-                func_ov000_021a58a4(1, data_ov000_021b5f50->mUnk_2140, a, 0x913);
+                func_ov000_021a58a4(1, data_ov000_021b5f50->field2140, a, 0x913);
                 return;
             case 9:
             case 12:
                 func_ov000_021a57fc(3);
-                func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 1, 0x91b);
+                func_ov000_021a58a4(0, data_ov000_021b5f50->field2140, 1, 0x91b);
                 return;
             case 10:
                 func_ov000_021a57fc(3);
-                func_ov000_021a58a4(0, data_ov000_021b5f50->mUnk_2140, 0, 0x922);
+                func_ov000_021a58a4(0, data_ov000_021b5f50->field2140, 0, 0x922);
                 return;
             case 13:
                 e = WM_PowerOff((Unk021425e8Func) func_ov000_021a54b0);
@@ -1236,7 +1236,7 @@ void func_ov000_021a4bc4(Unk021425e8 *v1) {
                 }
             default:
                 func_ov000_021a57fc(0xb);
-                func_ov000_021a58a4(7, 0, data_ov000_021b5f50->mUnk_2260, 0x93f);
+                func_ov000_021a58a4(7, 0, data_ov000_021b5f50->field2260, 0x93f);
                 return;
         }
     }

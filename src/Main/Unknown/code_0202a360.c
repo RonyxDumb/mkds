@@ -37,18 +37,18 @@ u32 result_getResultType(void) {
         }
         return 1;
     }
-    switch (gSystemData->mUnk_20) {
+    switch (gSystemData->field20) {
         case 0:
             ownEntryIndex = 0;
             break;
         case 1:
         case 2:
-            if (gStruct217AA00->mUnk_0000 == 2) {
+            if (gStruct217AA00->field0 == 2) {
                 ownIndex = gStruct217AA00->mOwnIndex;
             } else {
                 ownIndex = 0;
             }
-            ownEntryIndex = gStruct217AA00->mUnk_1e52[(u16) ownIndex].mEntryIndex;
+            ownEntryIndex = gStruct217AA00->field1E52[(u16) ownIndex].mEntryIndex;
             break;
         case 3:
             ownEntryIndex = (u16) GetPackedIndex(func_ov000_0219bb50());
@@ -58,12 +58,12 @@ u32 result_getResultType(void) {
         ownTeamIndex = gRaceMultiConfig->mCurrentEntries[ownEntryIndex].mPlayer.mTeamIndex;
         switch (gRaceMultiConfig->mRuleKind) {
             case 1:
-                team0Score = func_0202a360_inline(0)->mUnk_02;
-                team1Score = func_0202a360_inline(1)->mUnk_02;
+                team0Score = func_0202a360_inline(0)->field2;
+                team1Score = func_0202a360_inline(1)->field2;
                 break;
             case 2:
-                team0Score = func_0202a360_inline(0)->mUnk_00;
-                team1Score = func_0202a360_inline(1)->mUnk_00;
+                team0Score = func_0202a360_inline(0)->field0;
+                team1Score = func_0202a360_inline(1)->field0;
                 break;
         }
         if (team0Score == team1Score) {
@@ -84,7 +84,7 @@ u32 result_getResultType(void) {
     maxScore = -1;
     allEqual = 1;
     for (; i < kartCount; i++) {
-        if (gSystemData->mUnk_20 == 3 || gRaceMultiConfig->mRuleKind == 2) {
+        if (gSystemData->field20 == 3 || gRaceMultiConfig->mRuleKind == 2) {
             kartIndex = rres_205DC7C((u16) i);
             courseIndex = rres_205DB28();
             record = &rres_sRaceResults->mKartResults[courseIndex][rres_205DC7C(kartIndex)];

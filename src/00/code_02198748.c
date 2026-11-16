@@ -12,8 +12,8 @@ int func_ov000_0219885c(void *a, Gt2Connection **b, int c, u32 d) {
     if (r != 0) {
         return r;
     }
-    (*b)->mUnk_0c = 0;
-    (*b)->mUnk_10 = TRUE;
+    (*b)->fieldC = 0;
+    (*b)->field10 = TRUE;
     return 0;
 }
 
@@ -22,8 +22,8 @@ int func_ov000_0219883c(void *a, Gt2Connection **b, int c, u32 d) {
     if (r != 0) {
         return r;
     }
-    (*b)->mUnk_0c = 2;
-    (*b)->mUnk_10 = FALSE;
+    (*b)->fieldC = 2;
+    (*b)->field10 = FALSE;
     return 0;
 }
 
@@ -31,34 +31,34 @@ BOOL func_ov000_021987c8(Gt2Connection *a, void *b, int c, Gt2ConnectionCallback
     s8 e[0x24];
     func_ov000_0219a61c((const char **) &b, &c);
     if (c > 0) {
-        a->mUnk_38.mData = func_ov000_021a3690(c);
-        if (a->mUnk_38.mData == NULL) {
+        a->field38.mData = func_ov000_021a3690(c);
+        if (a->field38.mData == NULL) {
             return TRUE;
         }
-        memcpy(a->mUnk_38.mData, b, c);
-        a->mUnk_38.mSize = c;
+        memcpy(a->field38.mData, b, c);
+        a->field38.mSize = c;
     }
     if (d != NULL) {
         a->mCallbacks = *d;
     }
     func_ov000_02197be0(e);
-    menu_ta_updateMainText((s8 *) a->mUnk_68, e);
+    menu_ta_updateMainText((s8 *) a->field68, e);
     func_ov000_02198f24(a, e);
-    a->mUnk_0c = 0;
+    a->fieldC = 0;
     return FALSE;
 }
 
 BOOL func_ov000_02198778(Gt2Connection *a, Gt2ConnectionCallbacks *b) {
-    if (a->mUnk_14 != FALSE) {
-        a->mUnk_14 = FALSE;
+    if (a->field14 != FALSE) {
+        a->field14 = FALSE;
         return FALSE;
     }
-    a->mUnk_14 = FALSE;
-    if (a->mUnk_0c != 4) {
+    a->field14 = FALSE;
+    if (a->fieldC != 4) {
         return FALSE;
     }
     func_ov000_02198df8(a);
-    a->mUnk_0c = 5;
+    a->fieldC = 5;
     if (b != NULL) {
         a->mCallbacks = *b;
     }
@@ -66,10 +66,10 @@ BOOL func_ov000_02198778(Gt2Connection *a, Gt2ConnectionCallbacks *b) {
 }
 
 void func_ov000_02198748(Gt2Connection *a, void *b, u32 c, ...) {
-    a->mUnk_14 = FALSE;
-    if (a->mUnk_0c == 4) {
+    a->field14 = FALSE;
+    if (a->fieldC == 4) {
         func_ov000_0219a61c((const char **) &b, (s32 *) &c);
         func_ov000_02198d9c(a, b, c);
-        a->mUnk_0c = 6;
+        a->fieldC = 6;
     }
 }

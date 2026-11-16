@@ -8,7 +8,7 @@
 void gpres_getCourseTimeAsString(s16 *a, int index) {
     Unk0217aa1c_144_00 *entry;
     entry = &gStruct217B488->mCourseTimes[index];
-    mutil2_timeToString((a), entry->mUnk_02, entry->mUnk_03, gStruct217B488->mCourseTimes[index].mUnk_00);
+    mutil2_timeToString((a), entry->field2, entry->field3, gStruct217B488->mCourseTimes[index].field0);
 }
 
 #pragma thumb off

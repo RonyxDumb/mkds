@@ -6,49 +6,49 @@ typedef struct Kart Kart;
 
 // Six words of a table written by texmtxCalc_flagT_ and the functions after it, at 0x00, 0x04, 0x10, 0x14, 0x30 and 0x34.
 typedef struct Unk01ff9598_A {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[8];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ u8 mUnk_18[0x18];
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ u8 field8[8];
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ u8 field18[0x18];
+    /* 30 */ s32 field30;
+    /* 34 */ s32 field34;
 } Unk01ff9598_A;
 
 // Read by texmtxCalc_flagT_, texmtxCalc_flagRS_, texmtxCalc_flagR_, texmtxCalc_flagS_ and texmtxCalc_flag_.
 typedef struct Unk01ff9598 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s16 mUnk_20;
-    /* 22 */ s16 mUnk_22;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ s16 field20;
+    /* 22 */ s16 field22;
+    /* 24 */ s32 field24;
+    /* 28 */ s32 field28;
+    /* 2c */ u16 field2C;
+    /* 2e */ u16 field2E;
 } Unk01ff9598;
 
 // Object with a flag word at 0x00, vectors at 0x04 and 0x10, and blocks at 0x28 and 0x4c passed to NNS_G3dGeBufferOP_N.
 typedef struct Unk01ff9940 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ Vec3 mUnk_04;
-    /* 10 */ Vec3 mUnk_10;
-    /* 1c */ u8 mUnk_1c[0xc];
-    /* 28 */ u8 mUnk_28[0x24];
-    /* 4c */ u8 mUnk_4c[0xc];
+    /* 00 */ u32 field0;
+    /* 04 */ Vec3 field4;
+    /* 10 */ Vec3 field10;
+    /* 1c */ u8 field1C[0xc];
+    /* 28 */ u8 field28[0x24];
+    /* 4c */ u8 field4C[0xc];
 } Unk01ff9940;
 
 typedef struct Unk01ff9940_B {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
+    /* 00 */ Vec3 field0;
+    /* 0c */ Vec3 fieldC;
 } Unk01ff9940_B;
 
 typedef struct Unk01ff9940_C {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u8 field2;
+    /* 03 */ u8 field3;
 } Unk01ff9940_C;
 
 void texmtxCalc_flagT_(Unk01ff9598_A *a, Unk01ff9598 *b);

@@ -5,7 +5,7 @@
 
 // Kinoko: the mushroom. Object of item kind 3, element of it_sItemsets[3].
 typedef struct ItemKinoko {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject field0;
     /* 130 */ s32 mTimer;
     /* 134 */ BOOL mVisible;
 } ItemKinoko;
@@ -16,29 +16,29 @@ typedef struct ItemKinoko ItemKinoko;
 
 // Koura: a shell. Object of the red shell (item kind 1), element of it_sItemsets[1].
 typedef struct ItemKouraR {
-    /* 000 */ LinkFollowingItemObject mUnk_000;
+    /* 000 */ LinkFollowingItemObject field0;
     /* 228 */ struct KartItems *mKartItems;
-    /* 22c */ Vec3 mUnk_22c;
-    /* 238 */ s32 mUnk_238;
+    /* 22c */ Vec3 field22C;
+    /* 238 */ s32 field238;
     /* 23c */ Unk020e005c_080 mStateMachine;
-    /* 250 */ s32 mUnk_250;
+    /* 250 */ s32 field250;
     /* 254 */ s32 mThrowForward;
-    /* 258 */ SoundDistanceSquaredChange mUnk_258;
-    /* 268 */ u8 mUnk_268[0xc];
+    /* 258 */ SoundDistanceSquaredChange field258;
+    /* 268 */ u8 field268[0xc];
 } ItemKouraR;
 
 // Object of item kind 2, element of it_sItemsets[2].
 typedef struct ItemBanana {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject field0;
     /* 130 */ s32 mThrowForward;
 } ItemBanana;
 
 // Object of the green shell (item kind 0), element of it_sItemsets[0].
 typedef struct ItemKouraG {
-    /* 000 */ DirectedItemObject mUnk_000;
-    /* 168 */ s32 mUnk_168;
-    /* 16c */ SoundDistanceSquaredChange mUnk_16c;
-    /* 17c */ u8 mUnk_17c[0xc];
+    /* 000 */ DirectedItemObject field0;
+    /* 168 */ s32 field168;
+    /* 16c */ SoundDistanceSquaredChange field16C;
+    /* 17c */ u8 field17C[0xc];
 } ItemKouraG;
 
 #include "Main/Unknown/code_020f36d8.h"

@@ -68,7 +68,7 @@ typedef union SPITpData {
 
 // Calibration words in the shared block at 0x027ffc80, read by TP_GetUserInfo.
 typedef struct Unk0214eadc {
-    /* 00 */ u8 mUnk_00[0x58];
+    /* 00 */ u8 field0[0x58];
     /* 58 */ u16 mRawX1;
     /* 5a */ u16 mRawY1;
     /* 5c */ u8 mDx1;
@@ -93,7 +93,7 @@ typedef struct TouchPanelState {
     /* 10 */ TPData *mAutoSampleBuffer;
     // Number of entries in mAutoSampleBuffer.
     /* 14 */ u16 mAutoSampleBufferCount;
-    /* 16 */ u8 mUnk_16[2];
+    /* 16 */ u8 field16[2];
     // The stored calibration; used only while mCalibrated is set.
     /* 18 */ TPiCalibrateParam mCalibration;
     // 1 once a calibration is stored; 0 after init or when TP_SetCalibrateParam gets a null pointer.

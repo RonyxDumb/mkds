@@ -31,15 +31,15 @@ void mpicn_updateItemboxIcon(void) {
     k = 0;
     for (i = 0; i < mpicn_sItemboxIcon->mObjectCount; i++) {
         if (data_0217b3f8 == 0 ||
-            IsRaceHudSubScreenPairNearCenter(&mpicn_sItemboxIcon->mUnk_0c[i]) != FALSE) {
+            IsRaceHudSubScreenPairNearCenter(&mpicn_sItemboxIcon->fieldC[i]) != FALSE) {
             p = mpicn_sItemboxIcon->mObjects[i];
             if ((p->mFlags & 1) == 0) {
                 v = &p->mPos;
                 if (lmap_20B5AE8(v, &mpicn_sItemboxIcon->mCells[k].mDrawPos, c, 0, 0) !=
                     FALSE) {
                     mpicn_sItemboxIcon->mCells[k].mCell = r2d_getRaceSCell(0x4e);
-                    mpicn_sItemboxIcon->mCells[k].mUnk_0c = m2d_isPointOnLowerMap(v) != 0 ? 2 : 3;
-                    mpicn_sItemboxIcon->mCells[k].mUnk_0e = p->mFlags & 0x20;
+                    mpicn_sItemboxIcon->mCells[k].fieldC = m2d_isPointOnLowerMap(v) != 0 ? 2 : 3;
+                    mpicn_sItemboxIcon->mCells[k].fieldE = p->mFlags & 0x20;
                     n++;
                     k++;
                 }

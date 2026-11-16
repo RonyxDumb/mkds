@@ -5,10 +5,10 @@
 typedef struct Gt2Connection Gt2Connection;
 
 typedef struct Unk0219981cEntry {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u16 mUnk_0c;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ u16 fieldC;
 } Unk0219981cEntry;
 
 u32 func_ov000_0219981c(Gt2Connection *a);

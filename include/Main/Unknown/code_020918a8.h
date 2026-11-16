@@ -7,12 +7,12 @@
 
 // Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.
 typedef struct Unk020919e8 {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ u16 mUnk_a0;
-    /* a2 */ u8 mUnk_a2[2];
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
+    /* 00 */ MapObject field0;
+    /* a0 */ u16 fieldA0;
+    /* a2 */ u8 fieldA2[2];
+    /* a4 */ s32 fieldA4;
+    /* a8 */ s32 fieldA8;
+    /* ac */ s32 fieldAC;
 } Unk020919e8;
 
 void cow_setupRenderPart(void);

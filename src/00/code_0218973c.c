@@ -24,9 +24,9 @@ u32 func_ov000_021897bc(void) {
     r = 9;
     switch (func_ov000_021a5bfc()) {
         case 3:
-            r = v1->mUnk_d0e;
-            if (v1->mUnk_d0c_6 == 1) {
-                v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 0;
+            r = v1->fieldD0E;
+            if (v1->fieldD0C_6 == 1) {
+                v1->field444[v1->fieldD13].field0 = 0;
                 r = 7;
             } else if (r >= 3 && r <= 5) {
                 func_ov000_02189d2c(r);
@@ -57,17 +57,17 @@ u8 func_ov000_0218973c(u32 a) {
 
     v1 = (Unk02188ec0 *) func_ov000_02188584(0x10);
     z = 0;
-    MIi_CpuClear32(z, v1->mUnk_300, 0x144);
+    MIi_CpuClear32(z, v1->field300, 0x144);
     switch (a) {
         case 0:
-            v1->mUnk_d10 = func_ov000_021896c4(v1);
+            v1->fieldD10 = func_ov000_021896c4(v1);
             break;
         case 1:
-            v1->mUnk_d10 = func_ov000_021894e4(v1->mUnk_d12, v1->mUnk_444, v1->mUnk_300, v1->mUnk_470);
+            v1->fieldD10 = func_ov000_021894e4(v1->fieldD12, v1->field444, v1->field300, v1->field470);
             break;
         case 2:
-            v1->mUnk_d10 = func_ov000_02189614(v1);
+            v1->fieldD10 = func_ov000_02189614(v1);
             break;
     }
-    return v1->mUnk_d10;
+    return v1->fieldD10;
 }

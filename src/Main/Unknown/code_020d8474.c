@@ -8,7 +8,7 @@ void pwex_interpolateXYZ(SegmentPoints *progressOwner, Vec3 *output) {
     u32 resultAddress;
     u32 unused;
     resultAddress = value1;
-    value1 = progressOwner->mUnk_00.mUnk_5c;
+    value1 = progressOwner->field0.field5C;
     pw_interpolateXYZ(pointsAddress, value1, resultAddress);
 }
 
@@ -18,6 +18,6 @@ void pwex_interpolateXZ(SegmentProgress *segmentProgress, Vec3 *output) {
     u32 resultAddress;
     u32 unused;
     resultAddress = value1;
-    value1 = segmentProgress->mUnk_5c;
+    value1 = segmentProgress->field5C;
     pw_interpolateXZ(pointsAddress, value1, resultAddress);
 }

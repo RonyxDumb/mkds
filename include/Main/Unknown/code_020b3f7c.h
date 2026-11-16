@@ -10,9 +10,9 @@ typedef struct BmgSectionHeader {
 
 // Object setupBmg walks: the number of sections at 0x0c, the first section at 0x20.
 typedef struct Bmg {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ u8 field0[0xc];
     /* 0c */ u32 mSectionCount;
-    /* 10 */ u8 mUnk_10[0x10];
+    /* 10 */ u8 field10[0x10];
     /* 20 */ BmgSectionHeader mFirstSection;
 } Bmg;
 
@@ -20,7 +20,7 @@ typedef struct Bmg {
 typedef struct Unk0217b340 {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;
-    /* 08 */ u8 mUnk_08[8];
+    /* 08 */ u8 field8[8];
     /* 10 */ u32 mEntryOffsets[1];
 } Unk0217b340;
 

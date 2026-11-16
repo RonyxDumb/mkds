@@ -65,7 +65,7 @@ void AdvanceSelectCupCourseIndexChange(void) {
             gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
             RefreshSelectCupCourseForIndex();
         } else if (*(vu16 *) 0x027ffc40 != 2) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->field6;
             offsetY = LookupIndexChangeOffset(7 - gSelectCupCourse->mIndexChangeTimer, 1);
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount].mOffsetY = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 1].mOffsetY = offsetY;
@@ -86,7 +86,7 @@ void RequestSelectCupCourseState0(void) {
     gSelectCupCourse->mStateFrames = 0;
     if (*(vu16 *) 0x027ffc40 != 2) {
         if (menu_getPrevState() != SCREEN_SELECT_GHOST) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->field6;
             gSelectCupCourse->mBg0Offset = -0xc0;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = -0xc0;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = -0xc0;
@@ -106,7 +106,7 @@ void RequestSelectCupCourseState0(void) {
         } else {
             subOffsetY = -0xe0;
         }
-        selectCupMCellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+        selectCupMCellCount = gSelectCupCourse->mSelectCupMBncl->field6;
         gSelectCupCourse->mBg3Offset = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = subOffsetY;
         gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = subOffsetY;
@@ -241,7 +241,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse->mHeap = heap;
     gSelectCupCourse->mState = 0;
     gSelectCupCourse->mIndex = data_0215cb7c[SPM_GetSelectedCourse()];
-    gSelectCupCourse->mUnk_54 = TRUE;
+    gSelectCupCourse->field54 = TRUE;
     gSelectCupCourse->mIndexChangeTimer = 0;
     gSelectCupCourse->mMode = mode;
     gSelectCupCourse->mShownIndex = gSelectCupCourse->mIndex;
@@ -344,7 +344,7 @@ void AdvanceSelectCupCourseState1(void) {
         mutil_interpolate(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
         offsetY = mutil_interpolate(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
         if (menu_getPrevState() != SCREEN_SELECT_GHOST) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->field6;
             gSelectCupCourse->mBg0Offset = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = offsetY;
@@ -360,7 +360,7 @@ void AdvanceSelectCupCourseState1(void) {
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 5].mOffsetY = offsetY;
         }
         if (menu_getPrevState() == SCREEN_SELECT_GHOST) {
-            taOrVsCellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+            taOrVsCellCount = gSelectCupCourse->mSelectCupMBncl->field6;
             gSelectCupCourse->mBg3Offset = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = offsetY - 0x20;

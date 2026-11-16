@@ -7,9 +7,9 @@
 #pragma thumb on
 
 void InitItemObject(ItemObject *a, u32 b, int c) {
-    a->mUnk_48 = b;
-    func_020e0650((u32 *) &a->mUnk_104);
-    InitSoundSource(&a->mSoundSource, it_sItemParams[c].mUnk_a0, &a->mPos);
+    a->field48 = b;
+    func_020e0650((u32 *) &a->field104);
+    InitSoundSource(&a->mSoundSource, it_sItemParams[c].fieldA0, &a->mPos);
     func_02109054(&a->mSoundSource);
 }
 

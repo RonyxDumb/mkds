@@ -31,7 +31,7 @@ void sound_handleMissionValueChange(s32 a, s32 b) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1de);
             return;
         }
-        c = gRaceMultiConfig->mUnk_3c;
+        c = gRaceMultiConfig->field3C;
         if (c == 0x65 || c == 0xc9) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xd4);
         }
@@ -44,7 +44,7 @@ void sound_handleMissionValueChange(s32 a, s32 b) {
             return;
         }
         playingSound = sp_acquireElement(&sound_sPools);
-        if (SoundHandle_217D084.mUnk_0c == 0) {
+        if (SoundHandle_217D084.fieldC == 0) {
             return;
         }
         if (playingSound->mSeqPlayer != NULL) {

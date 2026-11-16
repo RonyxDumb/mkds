@@ -62,10 +62,10 @@ u32 rstat_203C0BC(void) {
     if (entryIndex == -1) {
         return 0;
     }
-    if (gRaceStatus->mUnk_000[0].mUnk_0a >= 7) {
+    if (gRaceStatus->field0[0].fieldA >= 7) {
         return 1;
     }
-    if (irec_isAlmostAtPlayBufferEnd((KeyRecording *) &gInputUnits[entryIndex].mUnk_28) != FALSE) {
+    if (irec_isAlmostAtPlayBufferEnd((KeyRecording *) &gInputUnits[entryIndex].field28) != FALSE) {
         return 1;
     }
     if (race_20617A8(&framesSinceEntryEnd) != 0) {
@@ -122,15 +122,15 @@ void GetTime(RTCTime *time) {
 
 void func_0203bf04(GhostRecordView *courseGhost, SlotGhostBufferView *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
-    MI_CpuCopy8(courseGhost->mUnk_030, slotGhost->mUnk_230, 0xdcc);
-    if (gSaveData->mEmblemRecord->mFilled != 0 && gSaveData->mFirstBlock->mUnk_31_3 == 0) {
-        MI_CpuCopy8(gSaveData->mEmblemRecord->mEmblemData, slotGhost->mUnk_030, 0x200);
-        slotGhost->mUnk_008 |= 2;
+    MI_CpuCopy8(courseGhost->field30, slotGhost->field230, 0xdcc);
+    if (gSaveData->mEmblemRecord->mFilled != 0 && gSaveData->mFirstBlock->field31_3 == 0) {
+        MI_CpuCopy8(gSaveData->mEmblemRecord->mEmblemData, slotGhost->field30, 0x200);
+        slotGhost->field8 |= 2;
     } else {
-        MI_CpuFill8(slotGhost->mUnk_030, 0, 0x200);
-        slotGhost->mUnk_008 &= ~2;
+        MI_CpuFill8(slotGhost->field30, 0, 0x200);
+        slotGhost->field8 &= ~2;
     }
-    slotGhost->mUnk_02f_0 = func_02056208();
+    slotGhost->field2F_0 = func_02056208();
 }
 
 #pragma thumb on

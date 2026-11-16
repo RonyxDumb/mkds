@@ -81,24 +81,24 @@ void trophy_init3d(void) {
         wobble->mAmplitude = 0xaab;
         wobble->mAmplitudePerFrame = 0;
         wobble->mAnglePerFrame = 0x36;
-        wobble->mUnk_1c = 0;
+        wobble->field1C = 0;
         MTX_Identity43_(&trophy_sState->mEffectMatrix);
         if (trophy_sState->mRankIndex == 0) {
-            trophy_sState->mEffect0->mUnk_5c = trophy_sState->mUnk_114;
-            trophy_sState->mEffect0->mUnk_28.x = trophy_sState->mEffectOffset.x + trophy_sState->mEffect0->mUnk_20->mUnk_00->mUnk_04.x;
-            trophy_sState->mEffect0->mUnk_28.y = trophy_sState->mEffectOffset.y + trophy_sState->mEffect0->mUnk_20->mUnk_00->mUnk_04.y;
-            trophy_sState->mEffect0->mUnk_28.z = trophy_sState->mEffectOffset.z + trophy_sState->mEffect0->mUnk_20->mUnk_00->mUnk_04.z;
-            trophy_sState->mEffect4->mUnk_28.x = trophy_sState->mEffect4->mUnk_20->mUnk_00->mUnk_04.x;
-            trophy_sState->mEffect4->mUnk_28.y = trophy_sState->mEffect4->mUnk_20->mUnk_00->mUnk_04.y - 0xcd;
-            trophy_sState->mEffect4->mUnk_28.z = trophy_sState->mEffect4->mUnk_20->mUnk_00->mUnk_04.z - 0x21ec;
-            trophy_sState->mEffect5->mUnk_28.x = trophy_sState->mEffect5->mUnk_20->mUnk_00->mUnk_04.x;
-            trophy_sState->mEffect5->mUnk_28.y = trophy_sState->mEffect5->mUnk_20->mUnk_00->mUnk_04.y - 0xcd;
-            trophy_sState->mEffect5->mUnk_28.z = trophy_sState->mEffect5->mUnk_20->mUnk_00->mUnk_04.z - 0x21ec;
+            trophy_sState->mEffect0->field5C = trophy_sState->field114;
+            trophy_sState->mEffect0->field28.x = trophy_sState->mEffectOffset.x + trophy_sState->mEffect0->field20->field0->field4.x;
+            trophy_sState->mEffect0->field28.y = trophy_sState->mEffectOffset.y + trophy_sState->mEffect0->field20->field0->field4.y;
+            trophy_sState->mEffect0->field28.z = trophy_sState->mEffectOffset.z + trophy_sState->mEffect0->field20->field0->field4.z;
+            trophy_sState->mEffect4->field28.x = trophy_sState->mEffect4->field20->field0->field4.x;
+            trophy_sState->mEffect4->field28.y = trophy_sState->mEffect4->field20->field0->field4.y - 0xcd;
+            trophy_sState->mEffect4->field28.z = trophy_sState->mEffect4->field20->field0->field4.z - 0x21ec;
+            trophy_sState->mEffect5->field28.x = trophy_sState->mEffect5->field20->field0->field4.x;
+            trophy_sState->mEffect5->field28.y = trophy_sState->mEffect5->field20->field0->field4.y - 0xcd;
+            trophy_sState->mEffect5->field28.z = trophy_sState->mEffect5->field20->field0->field4.z - 0x21ec;
         } else if (trophy_sState->mRankIndex == 1) {
-            trophy_sState->mEffect0->mUnk_5c = trophy_sState->mUnk_114;
-            trophy_sState->mEffect0->mUnk_28.x = trophy_sState->mEffectOffset.x + trophy_sState->mEffect0->mUnk_20->mUnk_00->mUnk_04.x;
-            trophy_sState->mEffect0->mUnk_28.y = trophy_sState->mEffectOffset.y + trophy_sState->mEffect0->mUnk_20->mUnk_00->mUnk_04.y;
-            trophy_sState->mEffect0->mUnk_28.z = trophy_sState->mEffectOffset.z + trophy_sState->mEffect0->mUnk_20->mUnk_00->mUnk_04.z;
+            trophy_sState->mEffect0->field5C = trophy_sState->field114;
+            trophy_sState->mEffect0->field28.x = trophy_sState->mEffectOffset.x + trophy_sState->mEffect0->field20->field0->field4.x;
+            trophy_sState->mEffect0->field28.y = trophy_sState->mEffectOffset.y + trophy_sState->mEffect0->field20->field0->field4.y;
+            trophy_sState->mEffect0->field28.z = trophy_sState->mEffectOffset.z + trophy_sState->mEffect0->field20->field0->field4.z;
         }
     }
 }
@@ -126,7 +126,7 @@ void trophy_init(s32 modelIndex, u32 rankIndex) {
         trophy_sState->mEffectOffset.x = 0;
         trophy_sState->mEffectOffset.y = trophy_sSparkleEmitterY[modelIndex];
         trophy_sState->mEffectOffset.z = -0x2000;
-        trophy_sState->mUnk_114 = trophy_sSparkleEmitterRadius[modelIndex];
+        trophy_sState->field114 = trophy_sSparkleEmitterRadius[modelIndex];
         model_initFromNsbmd(&trophy_sState->mModel, modelFile);
         model_setLightEnableFlag(&trophy_sState->mModel, 3);
         if (gRaceMultiConfig->mMirrorMode != 0) {
@@ -145,8 +145,8 @@ void trophy_init(s32 modelIndex, u32 rankIndex) {
             f = (x << 12) - 0.5f;
         }
         modelAnimation = &trophy_sState->mModelAnimation;
-        modelAnimation->mUnk_0c = f;
-        *modelAnimation->mUnk_1c[modelAnimation->mUnk_1a] = modelAnimation->mUnk_0c;
+        modelAnimation->fieldC = f;
+        *modelAnimation->field1C[modelAnimation->field1A] = modelAnimation->fieldC;
         ptcm_init(proc_getHeap(proc_getCurrent()));
         if (rankIndex == 0) {
             Vec3 w0 = {0, 0, 0};
@@ -192,9 +192,9 @@ void trophy_update(void) {
     trophy = trophy_sState;
     wobble = &trophy->mRotateZWobble;
     trophy->mRotateZWobble.mAngle += wobble->mAnglePerFrame;
-    wobble->mUnk_08 =
+    wobble->field8 =
         wobble->mMid + trophy_FX_MulInline(wobble->mAmplitude, trophy_FX_SinIdx(trophy->mRotateZWobble.mAngle)) - wobble->mValue;
-    wobble->mValue += wobble->mUnk_08;
+    wobble->mValue += wobble->field8;
     if (wobble->mAmplitude > 0) {
         v = wobble->mAmplitude + wobble->mAmplitudePerFrame;
         if (v <= 0) {
@@ -209,13 +209,13 @@ void trophy_update(void) {
         wobble->mAmplitude = v;
     }
     if (wobble->mAnglePerFrame > 0) {
-        v = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        v = wobble->mAnglePerFrame + wobble->field1C;
         if (v <= 0) {
             v = 0;
         }
         wobble->mAnglePerFrame = v;
     } else if (wobble->mAnglePerFrame < 0) {
-        v = wobble->mAnglePerFrame + wobble->mUnk_1c;
+        v = wobble->mAnglePerFrame + wobble->field1C;
         if (v >= 0) {
             v = 0;
         }
@@ -267,5 +267,5 @@ s32 mgcnt_20A23A0(Kart *kart) {
 
     kartModelsEntry = kart->mKartModelsEntry;
     return data_02156600[kartModelsEntry->mCharacterIndex] +
-           kartModelsEntry->mKartOffsetData->mUnk_48[kartModelsEntry->mCharacterIndex].x;
+           kartModelsEntry->mKartOffsetData->field48[kartModelsEntry->mCharacterIndex].x;
 }

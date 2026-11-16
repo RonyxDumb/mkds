@@ -51,7 +51,7 @@ u32 func_ov000_0218a294(void) {
                 DWC_Netcheck_Abort();
                 DWC_Netcheck_Destroy();
             default:
-                v1->mUnk_444[v1->mUnk_d13].mUnk_00 = 2;
+                v1->field444[v1->fieldD13].field0 = 2;
                 s = 0xb;
         }
     }

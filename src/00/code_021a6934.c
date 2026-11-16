@@ -15,20 +15,20 @@
 #include "code_02142eac.h"
 
 void func_ov000_021a6bdc(void) {
-    if (data_ov000_021b5f54.mUnk_00 == 0) {
-        data_ov000_021b5f54.mUnk_00 = 1;
-        data_ov000_021b5f54.mUnk_24 = 0;
-        data_ov000_021b5f54.mUnk_04.mTail = NULL;
-        data_ov000_021b5f54.mUnk_04.mHead = NULL;
-        OS_InitMutex(&data_ov000_021b5f54.mUnk_0c);
+    if (data_ov000_021b5f54.field0 == 0) {
+        data_ov000_021b5f54.field0 = 1;
+        data_ov000_021b5f54.field24 = 0;
+        data_ov000_021b5f54.field4.mTail = NULL;
+        data_ov000_021b5f54.field4.mHead = NULL;
+        OS_InitMutex(&data_ov000_021b5f54.fieldC);
     }
 }
 
 void func_ov000_021a6bb4(Unk021a6bb4 *b) {
-    Unk021b5f54Func a = data_ov000_021b5f54.mUnk_28;
+    Unk021b5f54Func a = data_ov000_021b5f54.field28;
 
     if (a != NULL) {
-        a(b->mUnk_1e, b->mUnk_18, b->mUnk_2c, b->mUnk_06);
+        a(b->field1E, b->field18, b->field2C, b->field6);
     }
 }
 
@@ -36,10 +36,10 @@ void func_ov000_021a6b54(void) {
     Unk021b5f50 *a;
 
     a = func_ov000_021a5b30();
-    if (a != NULL && a->mUnk_2260 == 9 && a->mUnk_226b != 1) {
-        if (func_ov000_021a6908(&data_ov000_021b5f54.mUnk_0c) != 0) {
-            if (WM_SetDCFData((Unk021425e8Func) func_ov000_021a6934, a->mUnk_2144, a->mUnk_0f00, 0) != 2) {
-                func_ov000_021a68dc(&data_ov000_021b5f54.mUnk_0c);
+    if (a != NULL && a->field2260 == 9 && a->field226B != 1) {
+        if (func_ov000_021a6908(&data_ov000_021b5f54.fieldC) != 0) {
+            if (WM_SetDCFData((Unk021425e8Func) func_ov000_021a6934, a->field2144, a->fieldF00, 0) != 2) {
+                func_ov000_021a68dc(&data_ov000_021b5f54.fieldC);
             }
         }
     }
@@ -52,8 +52,8 @@ u8 *func_ov000_021a6b10(void) {
 
     b = func_ov000_021a5b30();
     c = OS_DisableInterrupts();
-    if (b != NULL && b->mUnk_2260 == 9 && b->mUnk_226b == 0) {
-        a = b->mUnk_2144;
+    if (b != NULL && b->field2260 == 9 && b->field226B == 0) {
+        a = b->field2144;
     }
     OS_RestoreInterrupts(c);
     return a;
@@ -67,9 +67,9 @@ u8 *func_ov000_021a6abc(u16 *e) {
 
     c = func_ov000_021a5b30();
     d = OS_DisableInterrupts();
-    if (c != NULL && c->mUnk_2260 == 9 && c->mUnk_226b == 0) {
-        a = c->mUnk_214c;
-        b = c->mUnk_214a;
+    if (c != NULL && c->field2260 == 9 && c->field226B == 0) {
+        a = c->field214C;
+        b = c->field214A;
     }
     OS_RestoreInterrupts(d);
     if (e != NULL) {
@@ -100,20 +100,20 @@ s32 func_ov000_021a6974(const void *d, const void *e, s32 f) {
         OS_RestoreInterrupts(a);
         return -1;
     }
-    OS_LockMutex(&data_ov000_021b5f54.mUnk_0c);
+    OS_LockMutex(&data_ov000_021b5f54.fieldC);
     b = func_ov000_021a5b30();
     if (b == NULL) {
-        OS_UnlockMutex(&data_ov000_021b5f54.mUnk_0c);
+        OS_UnlockMutex(&data_ov000_021b5f54.fieldC);
         OS_RestoreInterrupts(a);
         return -1;
     }
-    if (b->mUnk_2260 != 9 || b->mUnk_226b == 1) {
-        OS_UnlockMutex(&data_ov000_021b5f54.mUnk_0c);
+    if (b->field2260 != 9 || b->field226B == 1) {
+        OS_UnlockMutex(&data_ov000_021b5f54.fieldC);
         OS_RestoreInterrupts(a);
         return -4;
     }
-    MI_CpuCopy8(e, b->mUnk_0f00, f);
-    c = WM_SetDCFData(func_ov000_021a6944, d, b->mUnk_0f00, f);
+    MI_CpuCopy8(e, b->fieldF00, f);
+    c = WM_SetDCFData(func_ov000_021a6944, d, b->fieldF00, f);
     switch (c) {
         case 0:
         case 1:
@@ -124,19 +124,19 @@ s32 func_ov000_021a6974(const void *d, const void *e, s32 f) {
         case 7:
         case 8:
         default:
-            OS_UnlockMutex(&data_ov000_021b5f54.mUnk_0c);
+            OS_UnlockMutex(&data_ov000_021b5f54.fieldC);
             OS_RestoreInterrupts(a);
             return -5;
         case 2:
-            OS_SleepThread(&data_ov000_021b5f54.mUnk_04);
-            switch (data_ov000_021b5f54.mUnk_24) {
+            OS_SleepThread(&data_ov000_021b5f54.field4);
+            switch (data_ov000_021b5f54.field24) {
                 case 1:
                 default:
-                    OS_UnlockMutex(&data_ov000_021b5f54.mUnk_0c);
+                    OS_UnlockMutex(&data_ov000_021b5f54.fieldC);
                     OS_RestoreInterrupts(a);
                     return -5;
                 case 0:
-                    OS_UnlockMutex(&data_ov000_021b5f54.mUnk_0c);
+                    OS_UnlockMutex(&data_ov000_021b5f54.fieldC);
                     OS_RestoreInterrupts(a);
                     return f;
             }
@@ -145,11 +145,11 @@ s32 func_ov000_021a6974(const void *d, const void *e, s32 f) {
 
 void func_ov000_021a6944(Unk021425e8 *a) {
     if (a->mCommand == 0x12) {
-        data_ov000_021b5f54.mUnk_24 = a->mResultCode;
+        data_ov000_021b5f54.field24 = a->mResultCode;
         if (a->mResultCode == 0) {
             func_ov000_021a57a8();
         }
-        OS_WakeupThread(&data_ov000_021b5f54.mUnk_04);
+        OS_WakeupThread(&data_ov000_021b5f54.field4);
     }
 }
 

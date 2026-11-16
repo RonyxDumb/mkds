@@ -12,14 +12,14 @@ typedef struct EditAddrKeyboard {
     /* 10 */ OamEntry *mDigitKeys[10];
     /* 38 */ OamEntry *mExtraKeys[2];
     /* 40 */ OamRange *mRow4Keys[2];
-    /* 48 */ OamRange *mUnk_48[4];
+    /* 48 */ OamRange *field48[4];
     /* 58 */ struct OamRange *mCursor;
     /* 5c */ TaskEntry *mStepTask;
     /* 60 */ u8 mInput;
     /* 61 */ s8 mPressedKeyIndex;
     /* 62 */ s8 mHighlightedKeyIndex;
     /* 63 */ s8 mCursorKeyIndex;
-    /* 64 */ s8 mUnk_64;
+    /* 64 */ s8 field64;
     /* 65 */ u8 mRepeatCalls;
     /* 66 */ u8 mRemoveCharEnabled;
     /* 67 */ u8 mAddCharEnabled;
@@ -29,7 +29,7 @@ typedef struct EditAddrKeyboard {
 
 // Five bytes moved as one value.
 typedef struct Unk021c1364_05 {
-    /* 0 */ u8 mUnk_00[5];
+    /* 0 */ u8 field0[5];
 } Unk021c1364_05;
 
 void ReleaseEditAddrKeyboard(u32 task);

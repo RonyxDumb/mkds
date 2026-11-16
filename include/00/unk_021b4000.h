@@ -15,17 +15,17 @@
 
 // Settings func_ov000_021a72c4 reads and func_ov000_021a71c0 applies.
 typedef struct Unk021b49b8 {
-    /* 00 */ s8 mUnk_00;
-    /* 01 */ s8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ Unk021a72a4 mUnk_10;
-    /* 14 */ Unk021a72a4 mUnk_14;
+    /* 00 */ s8 field0;
+    /* 01 */ s8 field1;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
+    /* 10 */ Unk021a72a4 field10;
+    /* 14 */ Unk021a72a4 field14;
 } Unk021b49b8;
 
 // Objects whose layout isn't known yet.
@@ -94,36 +94,36 @@ extern WiFiSelectHeapHolder *gWiFiSelectKartState;
 // Object behind data_ov000_021b4d24; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
 typedef struct SbServerList {
     /* 000 */ s32 mState;
-    /* 004 */ struct Darray *mUnk_004;
-    /* 008 */ struct Darray *mUnk_008;
-    /* 00c */ char mUnk_00c[0x24];
-    /* 030 */ char mUnk_030[0x24];
-    /* 054 */ char mUnk_054[0x20];
-    /* 074 */ s8 mUnk_074[8];
+    /* 004 */ struct Darray *field4;
+    /* 008 */ struct Darray *field8;
+    /* 00c */ char fieldC[0x24];
+    /* 030 */ char field30[0x24];
+    /* 054 */ char field54[0x20];
+    /* 074 */ s8 field74[8];
     /* 07c */ u8 *mInBuffer;
     /* 080 */ s32 mInBufferLength;
-    /* 084 */ char *mUnk_084[0xff];
-    /* 480 */ s32 mUnk_480;
-    /* 484 */ s32 mUnk_484;
+    /* 084 */ char *field84[0xff];
+    /* 480 */ s32 field480;
+    /* 484 */ s32 field484;
     /* 488 */ UnkFunc *mCallback;
-    /* 48c */ UnkFunc *mUnk_48c;
-    /* 490 */ UnkFunc *mUnk_490;
-    /* 494 */ void *mUnk_494;
-    /* 498 */ const char *mUnk_498;
-    /* 49c */ s32 mUnk_49c;
-    /* 4a0 */ s32 mUnk_4a0;
-    /* 4a4 */ u32 mUnk_4a4;
-    /* 4a8 */ u16 mUnk_4a8;
-    /* 4aa */ u8 mUnk_4aa[2];
-    /* 4ac */ char *mUnk_4ac;
-    /* 4b0 */ s32 mUnk_4b0;
-    /* 4b4 */ u32 mUnk_4b4;
-    /* 4b8 */ u32 mUnk_4b8;
-    /* 4bc */ u8 mUnk_4bc[0x108];
-    /* 5c4 */ u32 mUnk_5c4;
-    /* 5c8 */ s32 mUnk_5c8;
-    /* 5cc */ s32 mUnk_5cc;
-    /* 5d0 */ int mUnk_5d0;
+    /* 48c */ UnkFunc *field48C;
+    /* 490 */ UnkFunc *field490;
+    /* 494 */ void *field494;
+    /* 498 */ const char *field498;
+    /* 49c */ s32 field49C;
+    /* 4a0 */ s32 field4A0;
+    /* 4a4 */ u32 field4A4;
+    /* 4a8 */ u16 field4A8;
+    /* 4aa */ u8 field4AA[2];
+    /* 4ac */ char *field4AC;
+    /* 4b0 */ s32 field4B0;
+    /* 4b4 */ u32 field4B4;
+    /* 4b8 */ u32 field4B8;
+    /* 4bc */ u8 field4BC[0x108];
+    /* 5c4 */ u32 field5C4;
+    /* 5c8 */ s32 field5C8;
+    /* 5cc */ s32 field5CC;
+    /* 5d0 */ int field5D0;
 } SbServerList;
 
 extern SbServerList *data_ov000_021b4d24;
@@ -133,15 +133,15 @@ extern char data_ov000_021b4d2c[];
 
 // Object behind data_ov000_021b4dac.
 typedef struct Unk021b4dac {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04[2];
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d[0x3f];
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ u32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
+    /* 00 */ s32 field0;
+    /* 04 */ u8 field4[2];
+    /* 06 */ u16 field6;
+    /* 08 */ u8 field8[4];
+    /* 0c */ u8 fieldC;
+    /* 0d */ u8 fieldD[0x3f];
+    /* 4c */ s32 field4C;
+    /* 50 */ u32 field50;
+    /* 54 */ s32 field54;
 } Unk021b4dac;
 
 extern Unk021b4dac data_ov000_021b4dac;

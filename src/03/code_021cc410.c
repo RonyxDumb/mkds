@@ -47,7 +47,7 @@ void SetupUsb(void) {
     OS_GetOwnerInfo(&b);
     a[0] = 0;
     MIi_CpuClear16(a[0], &a[1], 0x16);
-    MIi_CpuCopy16(b.mUnk_04, &a[1], b.mUnk_18 * 2);
+    MIi_CpuCopy16(b.field4, &a[1], b.field18 * 2);
     PrintMessageAndText((u32) &a[1], 0x6d);
     func_ov003_021beef8(0);
     func_ov003_021ce920(func_ov003_021cc4ec);

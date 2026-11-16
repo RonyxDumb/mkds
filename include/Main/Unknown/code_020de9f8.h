@@ -6,10 +6,10 @@ typedef struct ItemBox ItemBox;
 
 // Second argument of ibox_onDriverCollide: a halfword at 0x74 and a word at 0x7c.
 typedef struct Unk020dea50_1 {
-    /* 00 */ u8 mUnk_00[0x74];
-    /* 74 */ u16 mUnk_74;
-    /* 76 */ u8 mUnk_76[6];
-    /* 7c */ u32 mUnk_7c;
+    /* 00 */ u8 field0[0x74];
+    /* 74 */ u16 field74;
+    /* 76 */ u8 field76[6];
+    /* 7c */ u32 field7C;
 } Unk020dea50_1;
 
 u8 ibox_onDriverCollide(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d);

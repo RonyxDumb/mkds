@@ -72,10 +72,10 @@ s32 err_212B0B8(void) {
         messageScreen = gMessageScreen;
         if (messageScreen->mInputEnabled != 0) {
             if ((u32) (messageScreen->mKind - 4) <= 1) {
-                gStruct217B488->mUnk_58 = TRUE;
+                gStruct217B488->field58 = TRUE;
                 gMessageScreen->mResult = 1;
             } else if (messageScreen->mKind == 6) {
-                gStruct217B488->mUnk_1c = 1;
+                gStruct217B488->field1C = 1;
                 gMessageScreen->mResult = 1;
                 func_02120610();
             } else {
@@ -145,7 +145,7 @@ void *err_getErrorMessageString(void) {
     }
     if (kind == 0) {
         if (*(vu16 *) 0x27ffc40 == 2) {
-            return jn_msg_getMessage(s2d_getData()->mUnk_20, 0);
+            return jn_msg_getMessage(s2d_getData()->field20, 0);
         }
         return jn_msg_getMessage(messages, 0x82);
     }
@@ -156,7 +156,7 @@ void err_renderErrorMessage(void) {
     s32 i;
     err_clearCharData();
     if (*(vu16 *) 0x27ffc40 == 2) {
-        gMessageScreen->mTextCanvas.mFont = &s2d_getData()->mUnk_14;
+        gMessageScreen->mTextCanvas.mFont = &s2d_getData()->field14;
     } else {
         gMessageScreen->mTextCanvas.mFont = m2d_getFont(0);
     }
@@ -230,14 +230,14 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     Unk0217d3fc_00_00 *oam;
     gLinkLevelIcons = heap_alloc(heap, 0x11c);
     gLinkLevelIcons->mOamList = oamList;
-    MI_CpuFill8(gLinkLevelIcons->mUnk_03c, 0, 0x20);
+    MI_CpuFill8(gLinkLevelIcons->field3C, 0, 0x20);
     gLinkLevelIcons->mCycleFrames = 0;
     for (i = 0; i < 5; i++) {
         gLinkLevelIcons->mIconEnabled[i] = 0;
     }
     switch (scproc_getCurrentScene()) {
         case 1:
-            if ((u32) (gSystemData->mUnk_20 - 1) <= 1) {
+            if ((u32) (gSystemData->field20 - 1) <= 1) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
@@ -249,15 +249,15 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
             gLinkLevelIcons->mIconEnabled[4] = 1;
             break;
         case 10:
-            if (gSystemData->mUnk_20 == 3) {
+            if (gSystemData->field20 == 3) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
-            } else if ((u32) (gSystemData->mUnk_20 - 1) <= 1) {
+            } else if ((u32) (gSystemData->field20 - 1) <= 1) {
                 gLinkLevelIcons->mIconEnabled[0] = 1;
             }
             break;
         case 8:
-            if (gSystemData->mUnk_20 == 3) {
+            if (gSystemData->field20 == 3) {
                 gLinkLevelIcons->mIconEnabled[1] = 1;
                 gLinkLevelIcons->mIconEnabled[4] = 1;
             }
@@ -270,9 +270,9 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
     for (i = 0; i < 2; i++) {
         linkLevelIcons = gLinkLevelIcons;
         oam = &linkLevelIcons->mOamRecords[i];
-        oam->mUnk_00 = ((linkLevelIcons->mUnk_028[i].mUnk_00 & 0x1ff) << 16) |
-                       ((linkLevelIcons->mUnk_028[i].mUnk_04 & 0xff) | 0x40000000);
-        oam->mUnk_04 = (0x400 - (i + 1) * 4) | 0xd000;
+        oam->field0 = ((linkLevelIcons->field28[i].field0 & 0x1ff) << 16) |
+                       ((linkLevelIcons->field28[i].field4 & 0xff) | 0x40000000);
+        oam->field4 = (0x400 - (i + 1) * 4) | 0xd000;
     }
 }
 #pragma thumb off
@@ -299,11 +299,11 @@ void SetupLinkLevelIcons(void) {
     CellLayoutEntry *cellEntry;
     s32 j;
     loadedFiles = s2d_getData();
-    a = loadedFiles->mUnk_00;
-    cellLayout = loadedFiles->mUnk_04;
-    chars = loadedFiles->mUnk_08;
-    cells = loadedFiles->mUnk_0c;
-    palette = loadedFiles->mUnk_10;
+    a = loadedFiles->field0;
+    cellLayout = loadedFiles->field4;
+    chars = loadedFiles->field8;
+    cells = loadedFiles->fieldC;
+    palette = loadedFiles->field10;
     for (i = 0; i < 5; i++) {
         for (j = 0; j < data_0215d168[i]; j++) {
             gLinkLevelIcons->mIconChars[i][j] =
@@ -312,11 +312,11 @@ void SetupLinkLevelIcons(void) {
     }
     for (i = 0; i < 2; i++) {
         cellEntry = jn_ui_getBnclElement(cellLayout, data_0215d164[i]);
-        gLinkLevelIcons->mUnk_028[i].mUnk_00 = jn_ui_calcOriginCoordX(cellEntry->mUnk_00_0, 0x10);
-        gLinkLevelIcons->mUnk_028[i].mUnk_04 = jn_ui_calcOriginCoordY(cellEntry->mUnk_00_2, 0x10);
+        gLinkLevelIcons->field28[i].field0 = jn_ui_calcOriginCoordX(cellEntry->field0_0, 0x10);
+        gLinkLevelIcons->field28[i].field4 = jn_ui_calcOriginCoordY(cellEntry->field0_2, 0x10);
     }
     for (i = 0; i < 2; i++) {
-        NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mUnk_03c, 0x80);
+        NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->field3C, 0x80);
     }
     NNS_GfdRegisterNewVramTransferTask(0xe, 0x1a0, palette->mData + 0xd0, 0x20);
 }
@@ -339,7 +339,7 @@ void UpdateLinkLevelIconTiles(void) {
     if (gLinkLevelIcons->mIconEnabled[0] != 0) {
         gLinkLevelIcons->mIconKind[slotCount] = 0;
         linkLevel = 0;
-        if (gStruct217AA00->mUnk_0004 != 0) {
+        if (gStruct217AA00->field4 != 0) {
             linkLevel = WM_GetLinkLevel();
         }
         gLinkLevelIcons->mIconLevel[slotCount] = linkLevel;
@@ -356,7 +356,7 @@ void UpdateLinkLevelIconTiles(void) {
     }
     for (i = 0; i < 2; i++) {
         if (gLinkLevelIcons->mIconKind[i] == -1) {
-            NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->mUnk_03c, 0x80);
+            NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5, gLinkLevelIcons->field3C, 0x80);
         } else {
             NNS_GfdRegisterNewVramTransferTask(0x13, (0x400 - (i + 1) * 4) << 5,
                             gLinkLevelIcons->mIconChars[gLinkLevelIcons->mIconKind[i]][gLinkLevelIcons->mIconLevel[i]],
@@ -377,7 +377,7 @@ void AdvanceLinkLevelIcons(void) {
         slotValue = gLinkLevelIcons->mIconKind[i];
         if (gLinkLevelIcons->mCycleFrames < 0x69 || slotValue <= 1) {
             MIi_CpuCopy16(&gLinkLevelIcons->mOamRecords[i],
-                          &((GXOamAttr *) gLinkLevelIcons->mOamList->mUnk_000)[gLinkLevelIcons->mOamList->mOamCount],
+                          &((GXOamAttr *) gLinkLevelIcons->mOamList->field0)[gLinkLevelIcons->mOamList->mOamCount],
                           6);
             gLinkLevelIcons->mOamList->mOamCount++;
         }

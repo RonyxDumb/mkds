@@ -7,53 +7,53 @@ typedef struct SoundSource SoundSource;
 
 // Ten words at 0x40 of an KartSound, built on the stack by driver_initField450.
 typedef struct Unk02024eec_40 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
+    /* 24 */ s32 field24;
 } Unk02024eec_40;
 
 // The bytes from 0x450 of an Kart, which func_02024a88 and func_02024eec read and write.
 typedef struct KartSound {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05[3];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ u8 mUnk_2c;
-    /* 2d */ u8 mUnk_2d[3];
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ u8 mUnk_3c[4];
+    /* 00 */ s32 field0;
+    /* 04 */ u8 field4;
+    /* 05 */ u8 field5[3];
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
+    /* 24 */ s32 field24;
+    /* 28 */ s32 field28;
+    /* 2c */ u8 field2C;
+    /* 2d */ u8 field2D[3];
+    /* 30 */ s32 field30;
+    /* 34 */ s32 field34;
+    /* 38 */ s32 field38;
+    /* 3c */ u8 field3C[4];
     /* 40 */ union {
         struct {
-            u8 mUnk_40[4];
-            s32 mUnk_44;
-            u8 mUnk_48[8];
-            s32 mUnk_50;
-            s32 mUnk_54;
-            s32 mUnk_58;
-            s32 mUnk_5c;
-            s32 mUnk_60;
-            s32 mUnk_64;
+            u8 field40[4];
+            s32 field44;
+            u8 field48[8];
+            s32 field50;
+            s32 field54;
+            s32 field58;
+            s32 field5C;
+            s32 field60;
+            s32 field64;
         };
         Unk02024eec_40 mUnk_40_m;
     };
-    /* 68 */ s32 mUnk_68;
+    /* 68 */ s32 field68;
 } KartSound;
 
 typedef struct Kart Kart;

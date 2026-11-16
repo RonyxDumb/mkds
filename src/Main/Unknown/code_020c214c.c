@@ -52,30 +52,30 @@ void func_020c3b6c(s32 row, s32 style) {
     m = m != 0 ? 2 : 1;
     switch (style) {
         case 0:
-            spanStart = spans[row].mUnk_00;
-            spanLength = spans[row].mUnk_04 - spanStart + 1;
-            fullStart = fullSpan.mUnk_00;
-            fullLength = fullSpan.mUnk_04 - fullStart + 1;
+            spanStart = spans[row].field0;
+            spanLength = spans[row].field4 - spanStart + 1;
+            fullStart = fullSpan.field0;
+            fullLength = fullSpan.field4 - fullStart + 1;
             m2d_copyCharMapTiles2d(r2d_sResults->mRaceGoalSSpaceNscrCopies[copyIndex], fullStart, spanStart, fullLength,
                                spanLength, r2d_sResults->mRaceGoalSNscrs[m]->mData, fullStart, spanStart);
             m2d_setCharMapPalette2d(r2d_sResults->mRaceGoalSNscrs[m]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 9);
             break;
         case 1:
-            spanStart = spans[row].mUnk_00;
-            spanLength = spans[row].mUnk_04 - spanStart + 1;
-            fullStart = fullSpan.mUnk_00;
-            fullLength = fullSpan.mUnk_04 - fullStart + 1;
+            spanStart = spans[row].field0;
+            spanLength = spans[row].field4 - spanStart + 1;
+            fullStart = fullSpan.field0;
+            fullLength = fullSpan.field4 - fullStart + 1;
             m2d_copyCharMapTiles2d(r2d_sResults->mRaceGoalSSpaceNscrCopies[copyIndex], fullStart, spanStart, fullLength,
                                spanLength, r2d_sResults->mRaceGoalSNscrs[m]->mData, fullStart, spanStart);
             m2d_setCharMapPalette2d(r2d_sResults->mRaceGoalSNscrs[m]->mData, fullStart, spanStart, fullLength,
                                      spanLength, 8);
             break;
         case 2:
-            spanStart = spans[row].mUnk_00;
-            spanLength = spans[row].mUnk_04 - spanStart + 1;
-            fullLength = fullSpan.mUnk_04 - fullSpan.mUnk_00 + 1;
-            m2d_setCharMapCharName2d(r2d_sResults->mRaceGoalSNscrs[m]->mData, fullSpan.mUnk_00, spanStart, fullLength,
+            spanStart = spans[row].field0;
+            spanLength = spans[row].field4 - spanStart + 1;
+            fullLength = fullSpan.field4 - fullSpan.field0 + 1;
+            m2d_setCharMapCharName2d(r2d_sResults->mRaceGoalSNscrs[m]->mData, fullSpan.field0, spanStart, fullLength,
                                      spanLength, 0);
             break;
     }
@@ -205,11 +205,11 @@ void r2dres_init(void) {
         r2d_sResults->mRowKartIndex[i] = 0;
         r2d_sResults->mRankComparison[i] = 1;
     }
-    r2d_sResults->mUnk_00a4 = 0;
+    r2d_sResults->fieldA4 = 0;
     r2d_sResults->mHiddenRowCount = 0;
     r2d_sResults->mUpdate = func_020c1ef8;
     r2d_sResults->mUpdateFrames = 0;
-    r2d_sResults->mUnk_00b4 = 0;
+    r2d_sResults->fieldB4 = 0;
     r2d_sResults->mOffsetX = -0x100;
     for (j = 0; j < gRaceMultiConfig->mKartCount; j = (u16) (j + 1)) {
         if (gRaceMultiConfig->mRuleKind == 1 || gRaceMultiConfig->mMode == MODE_BATTLE) {
@@ -319,7 +319,7 @@ void r2dres_renderResults(RaceHudOamBuffer *oamBuffer) {
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, cell, NULL, cell21Position, 0, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                oam->mUnk_0e = 1;
+                oam->fieldE = 1;
             }
             break;
         case 4:
@@ -333,7 +333,7 @@ void r2dres_renderResults(RaceHudOamBuffer *oamBuffer) {
             oamBuffer->mOamCount +=
                 NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, cell, NULL, cell22Position, 0, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                oam->mUnk_0e = 1;
+                oam->fieldE = 1;
             }
             break;
         case 7:
@@ -349,7 +349,7 @@ void r2dres_renderResults(RaceHudOamBuffer *oamBuffer) {
                 oamBuffer->mOamCount +=
                     NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, cell, NULL, cell2bPosition, 0, 1);
                 for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-                    oam->mUnk_0e = 1;
+                    oam->fieldE = 1;
                 }
             }
             break;
@@ -581,10 +581,10 @@ void r2dres_renderTeamResults(RaceHudOamBuffer *oamBuffer) {
         }
         if (f != FALSE) {
             courseRecords = &rres_sRaceResults->mTeamResults[rres_205DB28()];
-            number = courseRecords->mTeams[i].mUnk_02;
+            number = courseRecords->mTeams[i].field2;
         } else {
             courseRecords = &rres_sRaceResults->mTeamResults[rres_205DB28()];
-            number = courseRecords->mTeams[i].mUnk_00;
+            number = courseRecords->mTeams[i].field0;
         }
         r2dres_renderTeamTotalPoints(oamBuffer, number, numberX[i] + (i == 0 ? -offsetX : offsetX), 0xb6);
     }

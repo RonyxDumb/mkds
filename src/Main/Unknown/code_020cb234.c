@@ -35,7 +35,7 @@ void menu_modeSelectInStateRender(void) {
         }
         menu_gotoState(1, 0x1f);
         gmenu_setSeqArcIndex(0xf);
-        gMenuSceneState->mUnk_934 = FALSE;
+        gMenuSceneState->field934 = FALSE;
     }
     menu_renderModeSelectUI();
 }

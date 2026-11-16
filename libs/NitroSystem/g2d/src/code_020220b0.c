@@ -3,11 +3,11 @@
 
 void NNS_G2dInitAnimCtrl(Unk02022030 *pAnimCtrl) {
     NNS_G2dInitAnimCallBackFunctor(&pAnimCtrl->mCallbackFunctor);
-    pAnimCtrl->mUnk_00 = 0;
-    pAnimCtrl->mUnk_04 = 0;
-    pAnimCtrl->mUnk_08 = 1;
-    pAnimCtrl->mUnk_0c = 0;
-    pAnimCtrl->mUnk_10 = 0x1000;
-    pAnimCtrl->mUnk_14 = 0;
-    pAnimCtrl->mUnk_18 = 0;
+    pAnimCtrl->field0 = 0;
+    pAnimCtrl->field4 = 0;
+    pAnimCtrl->field8 = 1;
+    pAnimCtrl->fieldC = 0;
+    pAnimCtrl->field10 = 0x1000;
+    pAnimCtrl->field14 = 0;
+    pAnimCtrl->field18 = 0;
 }

@@ -5,8 +5,8 @@
 
 // Object blln_loadModel sets the word at 0x1c of.
 typedef struct Unk020a3eb8 {
-    /* 00 */ u8 mUnk_00[0x1c];
-    /* 1c */ s32 mUnk_1c;
+    /* 00 */ u8 field0[0x1c];
+    /* 1c */ s32 field1C;
 } Unk020a3eb8;
 
 void blln_render(void *mapObjectList, Balloon *balloon);

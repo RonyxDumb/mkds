@@ -159,9 +159,9 @@ void func_02035b0c(void) {
 
     mainCellFileSet = &data_02174e68->mCellFileSets[0];
     subCellFileSet = &data_02174e68->mCellFileSets[1];
-    mainEntryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
-    subEntryCount = subCellFileSet->mCellLayout->mUnk_06 + subCellFileSet->mLabelLayout->mUnk_06;
-    offset = interp_interpolate(&data_02174e68->mUnk_90);
+    mainEntryCount = mainCellFileSet->mCellLayout->field6 + mainCellFileSet->mLabelLayout->field6;
+    subEntryCount = subCellFileSet->mCellLayout->field6 + subCellFileSet->mLabelLayout->field6;
+    offset = interp_interpolate(&data_02174e68->field90);
     for (i = 0; i < mainEntryCount; i++) {
         mainCellFileSet->mCellTable[i].mOffsetY = -offset;
     }
@@ -210,8 +210,8 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     data_02174e68 = heap_alloc(heap, 0xa8);
     MemFillWordsByBlock_inline(data_02174e68, 0xa8);
     data_02174e68->mHeap = heap;
-    data_02174e68->mUnk_24[0] = b;
-    data_02174e68->mUnk_24[1] = c;
+    data_02174e68->field24[0] = b;
+    data_02174e68->field24[1] = c;
     data_02174e68->mCommonMessages = arc_get2dArcFile(aCommon_bmg_27);
     data_02174e68->mGhostMessages = arc_getSceneArcFile(aGhost_bmg_1);
     cellFileSet = &data_02174e68->mCellFileSets[0];
@@ -219,7 +219,7 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     mutil2_loadLayout(cellFileSet, aTimeattack_ghost_get_m_nce_ncgr, aTimeattack_ghost_get_m_nce_ncer, aTimeattack_ghost_get_m_o_nclr, aTimeattack_ghost_get_m_bncl, aTimeattack_ghost_get_m_bnll, NULL,
                       arc_getSceneArcFile);
     mutil2_initLayout(0, data_02174e68->mHeap, cellFileSet);
-    for (i = 0; i < cellFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < cellFileSet->mLabelLayout->field6; i++) {
         remainingObjSize -= mutil2_initLabel(0, data_02174e68->mHeap, cellFileSet, data_0215404c[i], remainingObjSize);
     }
     mutil2_initBgGraphics(1, data_02174e68, aTimeattack_ghost_get_s_b_ncgr, aTimeattack_ghost_get_s_b_nclr, aTimeattack_ghost_get_s_nscr, 3, arc_getSceneArcFile);
@@ -229,9 +229,9 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     mutil2_loadLayout(cellFileSet, aTimeattack_ghost_get_s_nce_ncgr, aTimeattack_ghost_get_s_nce_ncer, aTimeattack_ghost_get_s_o_nclr, aTimeattack_ghost_get_s_bncl,
                       aTimeattack_ghost_get_s_bnll, aTimeattack_ghost_get_s_bnbl, arc_getSceneArcFile);
     mutil2_initLayout(1, data_02174e68->mHeap, cellFileSet);
-    cellCount = cellFileSet->mCellLayout->mUnk_06;
+    cellCount = cellFileSet->mCellLayout->field6;
     j = 0;
-    if (j < cellFileSet->mLabelLayout->mUnk_06) {
+    if (j < cellFileSet->mLabelLayout->field6) {
         row = data_02164470[0];
         do {
             if (row[3] < 0) {
@@ -240,7 +240,7 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
             remainingObjSize -= mutil2_initLabel(1, data_02174e68->mHeap, cellFileSet, data_02164470[j], remainingObjSize);
             row += 4;
             j++;
-        } while (j < cellFileSet->mLabelLayout->mUnk_06);
+        } while (j < cellFileSet->mLabelLayout->field6);
     }
     for (i = 0; i < 8; i++) {
         jn_ui_setCellPriority(i, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
@@ -261,10 +261,10 @@ void func_020357dc(void *parentHeap, void *b, void *c) {
     w[1] = cellCount;
     w[2] = cellCount + 7;
     InitScrollList(data_02174e68->mHeap, 3, w, 7, 8, 0x7c, cellFileSet->mCellTable, cellFileSet->mRects,
-                   data_02174e68->mUnk_20 + 0xc, 0, 1, 2, 10, func_02035c50);
-    mutil2_loadPortraits(0, &data_02174e68->mUnk_64);
+                   data_02174e68->field20 + 0xc, 0, 1, 2, 10, func_02035c50);
+    mutil2_loadPortraits(0, &data_02174e68->field64);
     PrintSelectedGhostRecord();
-    interp_init(&data_02174e68->mUnk_90, 0, 10, -0xc0, 0);
+    interp_init(&data_02174e68->field90, 0, 10, -0xc0, 0);
     RequestSelectReturnState1();
     gmenu_setSeqArcIndex(0xf);
     func_02035c14();
@@ -287,7 +287,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
     result = K0;
     slotIndex = input_getDirectInputUnitId();
     touchInReturnRect = 0;
-    interp_update(&data_02174e68->mUnk_90);
+    interp_update(&data_02174e68->field90);
     pairIsNew = FALSE;
     pairRecentlyGone = FALSE;
     hasPair = data_02175674[slotIndex].mPressedBits;
@@ -304,7 +304,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
     object = data_02174e68;
     switch (object->mState) {
         case 0:
-            if (object->mUnk_90.mState == 1) {
+            if (object->field90.mState == 1) {
                 object->mState = 1;
             } else {
                 func_02035b0c();
@@ -333,7 +333,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
                 RequestSelectReturnState3WithSound(1);
-                data_02174e68->mUnk_a0 = FALSE;
+                data_02174e68->fieldA0 = FALSE;
                 data_02174e68->mState = 4;
             }
             break;
@@ -345,7 +345,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
             }
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
+                    ((Unk0202ddd8 *) GetSlotGhostBuffer())->field8_0 = 1;
                     savd_storeDownloadGhost((u8) data_02174e68->mSelectedIndex, GetSlotGhostBuffer());
                     data_02174e68->mState = 3;
                 } else {
@@ -361,13 +361,13 @@ s32 func_0203551c(u16 *sceneNumbers) {
                 buttonText = jn_msg_getMessage(data_02174e68->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                data_02174e68->mUnk_a0 = FALSE;
+                data_02174e68->fieldA0 = FALSE;
                 data_02174e68->mState = 4;
             }
             break;
         case 4:
             if (GetTxtSystemDone() != 0) {
-                gStruct217B488->mUnk_08 = 5;
+                gStruct217B488->field8 = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers[2] = 1;
                 }
@@ -378,7 +378,7 @@ s32 func_0203551c(u16 *sceneNumbers) {
     for (i = 0; i < 2; i++) {
         cellFileSets = data_02174e68->mCellFileSets;
         jn_ui_renderElements(cellFileSets[i].mCellLayout, cellFileSets[i].mCells, cellFileSets[i].mLabelLayout,
-                        data_02174e68->mUnk_24[i], cellFileSets[i].mCellTable);
+                        data_02174e68->field24[i], cellFileSets[i].mCellTable);
     }
     return result;
 }
@@ -400,7 +400,7 @@ void func_020353f8(void) {
     s32 offset;
     s32 negatedOffset;
 
-    offset = interp_interpolate(&data_02174e68->mUnk_90);
+    offset = interp_interpolate(&data_02174e68->field90);
     reg_G2_BG0OFS = (offset << 16) & 0x1ff0000;
     negatedOffset = -offset;
     reg_G2S_DB_BG3OFS = (negatedOffset << 16) & 0x1ff0000;

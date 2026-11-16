@@ -20,25 +20,25 @@ void func_ov000_02188d78(Unk02188d78 *p) {
     Unk02188408 *s;
 
     s = (Unk02188408 *) func_ov000_02188584(0x10);
-    if (p->mUnk_00 == 5) {
-        if (p->mUnk_02 != 0) {
-            switch (p->mUnk_08) {
+    if (p->field0 == 5) {
+        if (p->field2 != 0) {
+            switch (p->field8) {
                 case 0xd:
-                    s->mUnk_d14 = 1;
+                    s->fieldD14 = 1;
                     break;
                 case 0xf:
-                    s->mUnk_d14 = 2;
+                    s->fieldD14 = 2;
                     break;
                 case 0x11:
-                    s->mUnk_d14 = 3;
+                    s->fieldD14 = 3;
                     break;
                 default:
-                    s->mUnk_d14 = 4;
+                    s->fieldD14 = 4;
                     break;
             }
         }
-    } else if (p->mUnk_00 == 7) {
-        func_ov000_02188ca8(p->mUnk_04);
+    } else if (p->field0 == 7) {
+        func_ov000_02188ca8(p->field4);
     }
 }
 
@@ -49,24 +49,24 @@ void func_ov000_02188ca8(Unk02188408Entry0xc0 *p) {
 
     r = -1;
     s = (Unk02188408 *) func_ov000_02188584(0x10);
-    ((Unk021884e4 *) func_ov000_02188584(1))->mUnk_0b = 1;
+    ((Unk021884e4 *) func_ov000_02188584(1))->fieldB = 1;
     a = func_ov000_02188528();
     switch (a) {
         case 3:
-            if (p->mUnk_0a == 0 || p->mUnk_0c[0] == 0) {
-                func_ov000_02189e54(p->mUnk_36);
-            } else if (p->mUnk_0a == 1 || p->mUnk_0c[0] == 0x20) {
-                func_ov000_02189e54(p->mUnk_36);
-                r = func_ov000_02188bc0(p, s->mUnk_d10, s->mUnk_300);
+            if (p->fieldA == 0 || p->fieldC[0] == 0) {
+                func_ov000_02189e54(p->field36);
+            } else if (p->fieldA == 1 || p->fieldC[0] == 0x20) {
+                func_ov000_02189e54(p->field36);
+                r = func_ov000_02188bc0(p, s->fieldD10, s->field300);
             } else {
-                r = func_ov000_02188bc0(p, s->mUnk_d10, s->mUnk_300);
+                r = func_ov000_02188bc0(p, s->fieldD10, s->field300);
             }
             break;
         case 4:
         case 5:
-            r = func_ov000_02188bc0(p, 1, s->mUnk_300 + s->mUnk_d0f);
+            r = func_ov000_02188bc0(p, 1, s->field300 + s->fieldD0F);
             if (r >= 0) {
-                s->mUnk_300[s->mUnk_d0f].mUnk_00 = (s->mUnk_300[s->mUnk_d0f].mUnk_00 & ~0xf) | 1;
+                s->field300[s->fieldD0F].field0 = (s->field300[s->fieldD0F].field0 & ~0xf) | 1;
             }
             break;
         default:
@@ -82,18 +82,18 @@ s32 func_ov000_02188c1c(Unk02188408Entry0xc0 *p) {
     u8 f;
 
     s = (Unk02188408 *) func_ov000_02188584(0x10);
-    if (s->mUnk_d0c_0 == 0 || s->mUnk_d0c_0 == 4) {
-        f = p->mUnk_2c >> 4 & 1;
+    if (s->fieldD0C_0 == 0 || s->fieldD0C_0 == 4) {
+        f = p->field2C >> 4 & 1;
         if (f == 1) {
-            if (func_ov000_0218a658((const u8 *) p->mUnk_0c) == 1) {
+            if (func_ov000_0218a658((const u8 *) p->fieldC) == 1) {
                 return 6;
             }
         }
     }
-    if (s->mUnk_d0c_0 == 0 || s->mUnk_d0c_0 == 5) {
-        f = p->mUnk_2c >> 4 & 1;
+    if (s->fieldD0C_0 == 0 || s->fieldD0C_0 == 5) {
+        f = p->field2C >> 4 & 1;
         if (f == 1) {
-            if (func_ov000_0218a6c8((const u8 *) p->mUnk_0c) == 1) {
+            if (func_ov000_0218a6c8((const u8 *) p->fieldC) == 1) {
                 return 7;
             }
         }
@@ -106,7 +106,7 @@ s32 func_ov000_02188bc0(Unk02188408Entry0xc0 *p, s32 n, Unk02188408Entry24 *t) {
     s32 r;
     u16 h;
 
-    if (p->mUnk_0a == 0x20) {
+    if (p->fieldA == 0x20) {
         r = func_ov000_02188c1c(p);
         if (r > 0) {
             return r;
@@ -114,11 +114,11 @@ s32 func_ov000_02188bc0(Unk02188408Entry0xc0 *p, s32 n, Unk02188408Entry24 *t) {
     }
     i = 0;
     if (n > 0) {
-        h = p->mUnk_0a;
+        h = p->fieldA;
         do {
-            if ((u8) h == t->mUnk_03) {
-                if (strncmp(p->mUnk_0c, t->mUnk_04, h) == 0) {
-                    return t->mUnk_01;
+            if ((u8) h == t->field3) {
+                if (strncmp(p->fieldC, t->field4, h) == 0) {
+                    return t->field1;
                 }
             }
             t++;
@@ -136,23 +136,23 @@ s32 func_ov000_02188b20(u32 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
 
     i = 0;
     r = -1;
-    n = s->mUnk_d12;
+    n = s->fieldD12;
     if (n > 0) {
-        e = s->mUnk_470[0].mUnk_04;
+        e = s->field470[0].field4;
         do {
-            if (p->mUnk_04[0] == e[0] && p->mUnk_04[1] == e[1] && p->mUnk_04[2] == e[2] && p->mUnk_04[3] == e[3] &&
-                p->mUnk_04[4] == e[4] && p->mUnk_04[5] == e[5]) {
+            if (p->field4[0] == e[0] && p->field4[1] == e[1] && p->field4[2] == e[2] && p->field4[3] == e[3] &&
+                p->field4[4] == e[4] && p->field4[5] == e[5]) {
                 r = i;
                 break;
             }
             e += 0xc0;
             i++;
-        } while (i < s->mUnk_d12);
+        } while (i < s->fieldD12);
     }
     if (r == -1) {
         func_ov000_02188ad4(a, p, s);
-        if (s->mUnk_d12 < 10) {
-            s->mUnk_d12++;
+        if (s->fieldD12 < 10) {
+            s->fieldD12++;
         }
         r = 10;
     } else {
@@ -166,12 +166,12 @@ void func_ov000_02188ad4(u8 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
     Unk02188408Entry0xc0 *e;
     u16 h;
 
-    t = &s->mUnk_444[10];
-    e = &s->mUnk_470[10];
-    t->mUnk_01 = a;
-    h = p->mUnk_02;
-    t->mUnk_02 = (h & 2) != 0 ? (u8) (h >> 2) : (u8) ((h >> 2) + 0x19);
-    t->mUnk_03 = s->mUnk_d11 + 1;
+    t = &s->field444[10];
+    e = &s->field470[10];
+    t->field1 = a;
+    h = p->field2;
+    t->field2 = (h & 2) != 0 ? (u8) (h >> 2) : (u8) ((h >> 2) + 0x19);
+    t->field3 = s->fieldD11 + 1;
     MIi_CpuCopy32(p, e, 0xc0);
 }
 
@@ -182,14 +182,14 @@ void func_ov000_02188a74(u32 a, Unk02188408Entry0xc0 *p, Unk02188408 *s) {
     u8 v;
     s32 x;
 
-    t = &s->mUnk_444[a];
-    e = &s->mUnk_470[a];
-    h = p->mUnk_02;
+    t = &s->field444[a];
+    e = &s->field470[a];
+    h = p->field2;
     x = (h & 2) != 0 ? (u8) (h >> 2) : (u8) ((h >> 2) + 0x19);
     v = x;
-    if (v > t->mUnk_02) {
-        t->mUnk_02 = v;
-        t->mUnk_03 = s->mUnk_d11 + 1;
+    if (v > t->field2) {
+        t->field2 = v;
+        t->field3 = s->fieldD11 + 1;
     }
     MIi_CpuCopy32(p, e, 0xc0);
 }
@@ -203,14 +203,14 @@ void func_ov000_021889b0(u32 a, Unk02188408 *s) {
     Unk02188408Entry0xc0 y;
     s32 i;
 
-    t = s->mUnk_444;
-    e = s->mUnk_470;
+    t = s->field444;
+    e = s->field470;
     i = a - 1;
     if (i >= 0) {
         u = &t[i];
         w = &e[i];
         do {
-            if (t[a].mUnk_02 < u->mUnk_02) {
+            if (t[a].field2 < u->field2) {
                 break;
             }
             MIi_CpuCopy32(u, &x, 4);
@@ -236,14 +236,14 @@ u32 func_ov000_02188868(Unk02188868 *p) {
     Unk02188114 *y;
     s32 r;
 
-    data_ov000_021b4d10 = p->mUnk_00(1, 0x18);
+    data_ov000_021b4d10 = p->field0(1, 0x18);
     func_0214d018_inline(data_ov000_021b4d10, 0x18);
     z = data_ov000_021b4d10;
-    z->mUnk_00 = p->mUnk_00;
-    z->mUnk_04 = p->mUnk_04;
-    z->mUnk_09 = 1;
-    z->mUnk_16 = 1;
-    z->mUnk_08 = 1;
+    z->field0 = p->field0;
+    z->field4 = p->field4;
+    z->field9 = 1;
+    z->field16 = 1;
+    z->field8 = 1;
     data_ov000_021b4d00 = func_ov000_021886c4(0x10, 0xd18);
     data_ov000_021b4d04 = func_ov000_021886c4(2, 0x2300);
     data_ov000_021b4d08 = func_ov000_021886c4(4, 0x58);
@@ -253,14 +253,14 @@ u32 func_ov000_02188868(Unk02188868 *p) {
     func_0214d018_inline(data_ov000_021b4d08, 0x58);
     func_0214d018_inline(data_ov000_021b4d0c, 0xc);
     q = data_ov000_021b4d00;
-    q->mUnk_d0a = p->mUnk_08;
-    q->mUnk_d0b_0 = p->mUnk_09;
+    q->fieldD0A = p->field8;
+    q->fieldD0B_0 = p->field9;
     y = data_ov000_021b4d0c;
-    y->mAlloc = p->mUnk_00;
-    y->mFree = p->mUnk_04;
-    y->mUnk_08 = 0;
-    q->mUnk_d0c_0 = p->mUnk_0a;
-    q->mUnk_d0c_4 = p->mUnk_0b;
+    y->mAlloc = p->field0;
+    y->mFree = p->field4;
+    y->field8 = 0;
+    q->fieldD0C_0 = p->fieldA;
+    q->fieldD0C_4 = p->fieldB;
     DWCi_BM_GetApInfo(q);
     r = func_ov000_021a6470(data_ov000_021b4d04, 0x2300);
     if (r == 1 || r >= 4) {

@@ -19,8 +19,8 @@
 
 // Object with a pointer at offset 0xc.
 typedef struct Unk021a9bf4Block {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
+    /* 00 */ u8 field0[0xc];
+    /* 0c */ u8 *fieldC;
 } Unk021a9bf4Block;
 
 // Object behind gSelectGhost.
@@ -41,7 +41,7 @@ typedef struct SelectGhost {
     /* 34 */ LayoutTableEntry *mSelectGhostSTable;
     /* 38 */ struct Bmg *mCommonMessages;
     /* 3c */ struct Bmg *mMenuMessages;
-    /* 40 */ void *mUnk_40;
+    /* 40 */ void *field40;
     /* 44 */ void *mHeap;
     /* 48 */ s32 mState;
     /* 4c */ s32 mNextState;
@@ -53,8 +53,8 @@ typedef struct SelectGhost {
     // Y half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; mBg0Offset is the NitroMain engine's
     /* 5c */ s32 mBg3Offset;
     /* 60 */ s32 mIndex;
-    /* 64 */ u32 mUnk_64;
-    /* 68 */ u32 mUnk_68;
+    /* 64 */ u32 field64;
+    /* 68 */ u32 field68;
     /* 6c */ s32 mResult;
 } SelectGhost;
 

@@ -14,17 +14,17 @@
 
 // Object CTRDGi_SetTask runs LoadDataRange on: the member at 0x10 is the entry of DataRangeTable that is read.
 typedef struct DataRangeLoadJob {
-    /* 00 */ WorkerTask mUnk_00;
+    /* 00 */ WorkerTask field0;
     /* 10 */ DataRange *mDataRange;
     /* 14 */ DataRangeTable *mDataRangeTable;
 } DataRangeLoadJob;
 
 // Six bytes handed to WriteParentMessage.
 typedef struct Unk020074d8_msg {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
 } Unk020074d8_msg;
 
 extern u8 data_02161784;

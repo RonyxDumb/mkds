@@ -129,7 +129,7 @@ void sman_update(void *a, Sman *sman) {
             if (sman->mTopHeightPerFrame < -0x6000) {
                 sman->mTopHeightPerFrame = -0x6000;
             }
-            if (sman->mMapObject.mCourseMapRow->mUnk_28 > 0) {
+            if (sman->mMapObject.mCourseMapRow->field28 > 0) {
                 if (sman->mTopHeight < 0) {
                     mobj_setInvisible(&sman->mMapObject);
                 }
@@ -139,8 +139,8 @@ void sman_update(void *a, Sman *sman) {
                 sman->mState = 2;
                 falloffIndex = 2;
                 if ((sman->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (sman->mMapObject.mFarDistanceSquared != gSfxParams[2].mUnk_20) {
-                        if (sman->mMapObject.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                    if (sman->mMapObject.mFarDistanceSquared != gSfxParams[2].field20) {
+                        if (sman->mMapObject.mFarDistanceSquared == gSfxParams[3].field20) {
                             falloffIndex = 3;
                         } else {
                             falloffIndex = 4;
@@ -148,7 +148,7 @@ void sman_update(void *a, Sman *sman) {
                     }
                     soundRequest.mSoundId = 0x162;
                     soundRequest.mPositionSource = &sman->mMapObject.mPos;
-                    soundRequest.mUnk_08 = falloffIndex;
+                    soundRequest.field8 = falloffIndex;
                     soundRequest.mDistanceSquared = mobj_calcXZCamDist(&sman->mMapObject.mPos);
                     func_0210b7a8(&soundRequest);
                 }
@@ -511,9 +511,9 @@ void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
     kart = driver_getById(kartIndex);
     kartKillerCursor->mKillerKartIndex = kartIndex;
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
-                         (Unk02080b1c_00 *) it_sDriverItemStatus[kartIndex].mUnk_1f0.mLink);
-    kartKillerCursor->mUnk_26 = 0;
-    kartKillerCursor->mUnk_28 = 0;
+                         (Unk02080b1c_00 *) it_sDriverItemStatus[kartIndex].field1F0.mLink);
+    kartKillerCursor->field26 = 0;
+    kartKillerCursor->field28 = 0;
     kart->mTurnAngle = 0;
     driver_endDrift(kart);
 }
@@ -539,8 +539,8 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     kart = driver_getById(kartKillerCursor->mKillerKartIndex);
     position = kart->mPos;
     kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
-        kartKillerCursor->mPointLinkCursor.mLink->mUnk_18, &position, &kart->mUnk_12c, &kart->mUnk_138);
-    if ((kart->mUnk_48 & 0x40000000) != 0 && kart->mSurfaceVariant == 1) {
+        kartKillerCursor->mPointLinkCursor.mLink->field18, &position, &kart->field12C, &kart->field138);
+    if ((kart->field48 & 0x40000000) != 0 && kart->mSurfaceVariant == 1) {
         isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
     } else {
         isPastOrNearLink = IsPastPointLink(&kartKillerCursor->mPointLinkCursor, &position);
@@ -570,7 +570,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     s32 entryIndex;
     kart = driver_getById(kartKillerCursor->mKillerKartIndex);
     angleToLinkDegrees = kartKillerCursor->mAngleToLinkDegrees;
-    if ((kart->mUnk_44 & KART_44_ON_GROUND) != 0) {
+    if ((kart->field44 & KART_44_ON_GROUND) != 0) {
         turnFactor = 0x19a;
     } else {
         turnFactor = 0x52;
@@ -602,25 +602,25 @@ s32 func_020905a8(KartKillerCursor *kartKillerCursor) {
     Kart *kart;
     limitReached = FALSE;
     isCounting = FALSE;
-    kartKillerCursor->mUnk_28 = kartKillerCursor->mUnk_28 - 1;
-    if (kartKillerCursor->mUnk_28 <= 0) {
-        kartKillerCursor->mUnk_28 = 0;
+    kartKillerCursor->field28 = kartKillerCursor->field28 - 1;
+    if (kartKillerCursor->field28 <= 0) {
+        kartKillerCursor->field28 = 0;
     } else {
         isCounting = TRUE;
     }
     kart = driver_getById(kartKillerCursor->mKillerKartIndex);
-    if ((kart->mUnk_44 & 0xc0) != 0) {
+    if ((kart->field44 & 0xc0) != 0) {
         isCounting = TRUE;
-        kartKillerCursor->mUnk_28 = 5;
+        kartKillerCursor->field28 = 5;
     }
     if (isCounting != FALSE) {
-        kartKillerCursor->mUnk_26 = kartKillerCursor->mUnk_26 + 1;
-        if (kartKillerCursor->mUnk_26 >= 0x78) {
-            kartKillerCursor->mUnk_26 = 0;
+        kartKillerCursor->field26 = kartKillerCursor->field26 + 1;
+        if (kartKillerCursor->field26 >= 0x78) {
+            kartKillerCursor->field26 = 0;
             limitReached = TRUE;
         }
-    } else if (kartKillerCursor->mUnk_28 <= 0) {
-        kartKillerCursor->mUnk_26 = 0;
+    } else if (kartKillerCursor->field28 <= 0) {
+        kartKillerCursor->field26 = 0;
     }
     return limitReached;
 }

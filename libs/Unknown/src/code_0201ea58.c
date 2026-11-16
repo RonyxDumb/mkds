@@ -3,8 +3,8 @@
 s32 func_0201ebe8(Unk0201ea84 a, s32 b) {
     s32 v;
 
-    v = a.mUnk_00_0;
-    switch (a.mUnk_00_12) {
+    v = a.field0_0;
+    switch (a.field0_12) {
         case 1:
             v -= (b + 1) / 2;
             break;
@@ -18,8 +18,8 @@ s32 func_0201ebe8(Unk0201ea84 a, s32 b) {
 s32 func_0201eba0(Unk0201ea84 a, s32 b) {
     s32 v;
 
-    v = a.mUnk_00_0;
-    switch (a.mUnk_00_12) {
+    v = a.field0_0;
+    switch (a.field0_12) {
         case 1:
             v -= (b + 1) / 2;
             break;
@@ -31,7 +31,7 @@ s32 func_0201eba0(Unk0201ea84 a, s32 b) {
 }
 
 u16 func_0201eb98(Unk0201ea30 *a) {
-    return a->mUnk_06;
+    return a->field6;
 }
 
 Unk0201eb54 *RectTableGetEntry(Unk0201ea30 *a, s32 b) {
@@ -54,10 +54,10 @@ s32 RectTableFindContaining(Unk0201ea30 *a, s32 b, s32 c) {
 
     p = (Unk0201eb54 *) (a + 1);
     for (i = 0; i < func_0201eb98(a); i++) {
-        x = func_0201ebe8(p->mUnk_00, p->mUnk_04);
-        y = func_0201eba0(p->mUnk_02, p->mUnk_05);
-        x2 = x + p->mUnk_04;
-        y2 = y + p->mUnk_05;
+        x = func_0201ebe8(p->field0, p->field4);
+        y = func_0201eba0(p->field2, p->field5);
+        x2 = x + p->field4;
+        y2 = y + p->field5;
         if (x <= b && b <= x2 && y <= c && c <= y2) {
             return i;
         }
@@ -71,7 +71,7 @@ void *func_0201ea58(Unk0201ea30 *a, s32 b) {
     s32 n;
 
     p = (u8 *) (a + 1);
-    n = a->mUnk_06;
+    n = a->field6;
     if (b < 0 || b >= n) {
         return 0;
     }

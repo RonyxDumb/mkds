@@ -4,20 +4,20 @@
 
 // Fixed-address objects written by InitSelectCupM.
 typedef struct Unk04000008 {
-    /* 00 */ vu16 mUnk_00;
+    /* 00 */ vu16 field0;
 } Unk04000008;
 
 typedef struct Unk0400100e {
-    /* 00 */ vu16 mUnk_00;
+    /* 00 */ vu16 field0;
 } Unk0400100e;
 
 // Fixed-address objects written by WriteSelectCupMBgOffsets.
 typedef struct Unk04000010 {
-    /* 00 */ vu32 mUnk_00;
+    /* 00 */ vu32 field0;
 } Unk04000010;
 
 typedef struct Unk0400101c {
-    /* 00 */ vu32 mUnk_00;
+    /* 00 */ vu32 field0;
 } Unk0400101c;
 
 void WriteSelectCupMBgOffsets(void);

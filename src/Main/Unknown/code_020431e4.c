@@ -22,7 +22,7 @@
 
 static inline s32 func_020431e4_inline(ConnectionWork *p) {
     BOOL r = FALSE;
-    if ((p == NULL ? 0 : p->mUnk_0000) != 0 && p->mUnk_0004 != 13) {
+    if ((p == NULL ? 0 : p->field0) != 0 && p->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -56,21 +56,21 @@ void input_2043410(void) {
         pad_initAutoRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
-        inputSlot->mUnk_44 = 0;
+        inputSlot->field44 = 0;
         inputSlot->mBitMask = 0x2fff;
-        irec_init((KeyRecording *) &inputSlot->mUnk_28);
+        irec_init((KeyRecording *) &inputSlot->field28);
         spi_initTpMic((InputSlotPair *) &inputSlot->mPairX);
     }
     z = gStruct217AA00;
     if (func_020431e4_inline(z) != 0) {
         for (j = 0; j < 8; j++) {
-            if (z->mParticipantMask & (1 << z->mUnk_1e8c[j])) {
+            if (z->mParticipantMask & (1 << z->field1E8C[j])) {
                 gInputUnits[j].mSourceKind = 4;
             }
         }
     }
-    input_sPadData->mUnk_08 = 0;
-    input_sPadData->mUnk_0c = FALSE;
+    input_sPadData->field8 = 0;
+    input_sPadData->fieldC = FALSE;
 }
 
 void input_20431E4(void) {
@@ -90,15 +90,15 @@ void input_20431E4(void) {
         pad_initAutoRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
-        inputSlot->mUnk_44 = 0;
+        inputSlot->field44 = 0;
         inputSlot->mBitMask = 0x2fff;
-        irec_init((KeyRecording *) &inputSlot->mUnk_28);
+        irec_init((KeyRecording *) &inputSlot->field28);
         spi_initTpMic((InputSlotPair *) &inputSlot->mPairX);
     }
     gInputUnits[8].mSourceKind = 5;
     gInputUnits[9].mSourceKind = 6;
-    input_sPadData->mUnk_08 = 0;
-    input_sPadData->mUnk_0c = FALSE;
+    input_sPadData->field8 = 0;
+    input_sPadData->fieldC = FALSE;
     inputSlot = gInputUnits;
     for (k = 0; k < 10; k++) {
         pad_init(inputSlot);

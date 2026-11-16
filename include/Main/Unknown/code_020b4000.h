@@ -10,9 +10,9 @@
 // Unk02021dc8 by g2du_unpackAnimBank, g2du_getCellBankData and g2du_unpackCellBankData (g2du_unpackAnimBank passes it to NNS_G2dUnpackNAN,
 // g2du_unpackCellBankData to NNS_G2dUnpackNCE; g2du_getCellBankData looks up the same block tag as g2du_unpackCellBankData).
 typedef struct Ncgr {
-    /* 0000 */ u16 mUnk_00;
-    /* 0002 */ u16 mUnk_02;
-    /* 0004 */ u8 mUnk_04[0xc];
+    /* 0000 */ u16 field0;
+    /* 0002 */ u16 field2;
+    /* 0004 */ u8 field4[0xc];
     /* 0010 */ u32 mDataSize;
     /* 0014 */ u16 *mData;
 } Ncgr;
@@ -25,7 +25,7 @@ typedef struct Nscr {
 
 typedef struct Nclr {
     /* 0000 */ u8 pad_00[4];
-    /* 0004 */ s32 mUnk_04;
+    /* 0004 */ s32 field4;
     /* 0008 */ u32 mDataSize;
     /* 000c */ u16 *mData;
 } Nclr;

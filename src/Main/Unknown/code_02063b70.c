@@ -20,7 +20,7 @@
 
 void SetKartSoundDistanceSquaredAndChange(Kart *kart) {
     kart->mSoundSource.mDistanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-    AdvanceSoundDistanceSquaredChange(&kart->mUnk_518, GetKartCameraDistanceSquared(kart->mIndex));
+    AdvanceSoundDistanceSquaredChange(&kart->field518, GetKartCameraDistanceSquared(kart->mIndex));
 }
 
 static inline void func_02063cc4_inline(u32 command, s32 value) {
@@ -55,9 +55,9 @@ void driver_render(Kart *kart) {
     Vec3 translation;
     s32 pairIndex;
 
-    c = kart->mUnk_4c;
+    c = kart->field4C;
     b = (c & 0x10) != 0;
-    d = kart->mUnk_7c;
+    d = kart->field7C;
     modelsEntry = kart->mKartModelsEntry;
     if ((d & 0x1008040) != 0 || (c & 0x11800000) != 0) {
         killerItemShown = 0;
@@ -78,8 +78,8 @@ void driver_render(Kart *kart) {
     }
     func_02063cc4_inline(0x14, 0x1e);
     if (b != 0) {
-        func_02063cc4_inline3(&kart->mUnk_144, kart->mPosSource);
-        NNS_G3dGeBufferOP_N(0x19, &kart->mUnk_120, 0xc);
+        func_02063cc4_inline3(&kart->field144, kart->mPosSource);
+        NNS_G3dGeBufferOP_N(0x19, &kart->field120, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &kart->mScale, 3);
         func_02063cc4_inline2(0x1b, kart->mModelScaleX, kart->mModelScaleY, kart->mModelScaleZ);
         driver_renderShadow(modelsEntry->mShadowModel);
@@ -92,48 +92,48 @@ void driver_render(Kart *kart) {
     if (b == 0) {
         driver_renderShadow(modelsEntry->mShadowModel);
     }
-    light_apply(&modelsEntry->mUnk_040);
-    if (modelsEntry->mUnk_058 == 0) {
-        chkrt_setKartTireVisibility(modelsEntry, modelsEntry->mUnk_060 == FALSE);
+    light_apply(&modelsEntry->field40);
+    if (modelsEntry->field58 == 0) {
+        chkrt_setKartTireVisibility(modelsEntry, modelsEntry->field60 == FALSE);
         func_02063cc4_inline(0x13, 0x1c);
-        func_02063cc4_inline2(0x1b, kart->mUnk_4f0.x, kart->mUnk_4f0.y, 0x1000);
+        func_02063cc4_inline2(0x1b, kart->field4F0.x, kart->field4F0.y, 0x1000);
         model_render(modelsEntry->mModels[1]);
         if (modelsEntry->mModels[2] != NULL) {
-            f = kart->mKartModelsEntry->mUnk_054;
-            h = kart->mKartModelsEntry->mKartOffsetData->mUnk_10;
+            f = kart->mKartModelsEntry->field54;
+            h = kart->mKartModelsEntry->mKartOffsetData->field10;
             func_02063cc4_inline(0x14, 0x1c);
-            NNS_G3dGeBufferOP_N(0x1c, &f->mUnk_18, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &f->field18, 3);
             pairIndex = (kart->mTireSpinAngle >> 4) * 2;
             MTX_RotX33_(spinMatrix, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
             NNS_G3dGeBufferOP_N(0x1a, spinMatrix, 9);
             model_render(modelsEntry->mModels[2]);
-            if (f->mUnk_18 != 0) {
-                func_02063cc4_inline2(0x1c, f->mUnk_24, 0, 0);
+            if (f->field18 != 0) {
+                func_02063cc4_inline2(0x1c, f->field24, 0, 0);
                 model_render(modelsEntry->mModels[2]);
             }
             func_02063cc4_inline(0x14, 0x1c);
             NNS_G3dGeBufferOP_N(0x1c, f, 3);
             func_02063cc4_inline2(0x1b, h, h, h);
             NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-            pairIndex = (kart->mUnk_4cc >> 4) * 2;
+            pairIndex = (kart->field4CC >> 4) * 2;
             MTX_RotY33_(k, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
             NNS_G3dGeBufferOP_N(0x1a, k, 9);
             NNS_G3dGeBufferOP_N(0x1a, spinMatrix, 9);
             model_render(modelsEntry->mModels[2]);
-            if (f->mUnk_00 != 0) {
+            if (f->field0 != 0) {
                 func_02063cc4_inline(0x12, 1);
-                func_02063cc4_inline2(0x1c, f->mUnk_0c, 0, 0);
+                func_02063cc4_inline2(0x1c, f->fieldC, 0, 0);
                 NNS_G3dGeBufferOP_N(0x1a, k, 9);
                 NNS_G3dGeBufferOP_N(0x1a, spinMatrix, 9);
                 model_render(modelsEntry->mModels[2]);
             }
         }
     }
-    if (modelsEntry->mUnk_05c != 0) {
+    if (modelsEntry->field5C != 0) {
         return;
     }
-    translation = ((Vec3 *) &modelsEntry->mKartOffsetData->mUnk_44)[modelsEntry->mCharacterIndex];
-    translation.y = translation.y + (kart->mModelOffsetY + kart->mUnk_4f0.z);
+    translation = ((Vec3 *) &modelsEntry->mKartOffsetData->field44)[modelsEntry->mCharacterIndex];
+    translation.y = translation.y + (kart->mModelOffsetY + kart->field4F0.z);
     func_02063cc4_inline(0x14, 0x1d);
     NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     model_render(modelsEntry->mModels[0]);
@@ -152,14 +152,14 @@ BOOL driver_renderKillerItem(Kart *kart) {
     MtxFx43 matrix;
 
     modelsEntry = kart->mKartModelsEntry;
-    drawn = modelsEntry->mUnk_058 == 0;
+    drawn = modelsEntry->field58 == 0;
     if (drawn != FALSE) {
         t = kart->mRadius + 0x5000;
         matrix = *kart->mDrawMatrix;
-        VEC_MultAdd(t, &kart->mUnk_12c, kart->mPosSource, &position);
-        matrix.mUnk_00[3].x = position.x >> 4;
-        matrix.mUnk_00[3].y = position.y >> 4;
-        matrix.mUnk_00[3].z = position.z >> 4;
+        VEC_MultAdd(t, &kart->field12C, kart->mPosSource, &position);
+        matrix.field0[3].x = position.x >> 4;
+        matrix.field0[3].y = position.y >> 4;
+        matrix.field0[3].z = position.z >> 4;
         radiusFactor = kart->mRadiusFactor;
         scale.x = (s64) kart->mScale.x * radiusFactor >> 12;
         scale.y = (s64) kart->mScale.y * radiusFactor >> 12;
@@ -168,12 +168,12 @@ BOOL driver_renderKillerItem(Kart *kart) {
         NNS_G3dGeBufferOP_N(0x14, &f, 1);
         NNS_G3dGeBufferOP_N(0x19, &matrix, 0xc);
         NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
-        light_apply(&modelsEntry->mUnk_040);
+        light_apply(&modelsEntry->field40);
         SetKillerItemKartIndex(kart->mIndex);
-        frame = kart->mKartModelsEntry->mUnk_0a4;
+        frame = kart->mKartModelsEntry->fieldA4;
         killerItemNsbca = chkrt_getKillerItemAnim();
-        killerItemNsbca->mUnk_0c = frame;
-        *killerItemNsbca->mUnk_1c[killerItemNsbca->mUnk_1a] = killerItemNsbca->mUnk_0c;
+        killerItemNsbca->fieldC = frame;
+        *killerItemNsbca->field1C[killerItemNsbca->field1A] = killerItemNsbca->fieldC;
         model_render(chkrt_getKillerItemModel());
         driver_renderShadow(chkrt_getKillerItemShadowModel());
     }

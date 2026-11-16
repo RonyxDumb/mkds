@@ -32,44 +32,44 @@ void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e0
     s32 g;
 
     VEC_Subtract(position, &object->mPos, &offset);
-    f = vec_dotProduct(&offset, &object->mUnk_040);
-    g = vec_dotProduct(&offset, &object->mUnk_034);
-    link->mUnk_04.x = vec_dotProduct(&offset, &object->mUnk_028);
-    link->mUnk_04.y = g;
-    link->mUnk_04.z = f;
-    if (velocity != NULL && object->mUnk_130 != FALSE) {
-        f = vec_dotProduct(velocity, &object->mUnk_040);
-        g = vec_dotProduct(velocity, &object->mUnk_034);
-        link->mUnk_10.x = vec_dotProduct(velocity, &object->mUnk_028);
-        link->mUnk_10.y = g;
-        link->mUnk_10.z = f;
+    f = vec_dotProduct(&offset, &object->field40);
+    g = vec_dotProduct(&offset, &object->field34);
+    link->field4.x = vec_dotProduct(&offset, &object->field28);
+    link->field4.y = g;
+    link->field4.z = f;
+    if (velocity != NULL && object->field130 != FALSE) {
+        f = vec_dotProduct(velocity, &object->field40);
+        g = vec_dotProduct(velocity, &object->field34);
+        link->field10.x = vec_dotProduct(velocity, &object->field28);
+        link->field10.y = g;
+        link->field10.z = f;
     } else {
-        link->mUnk_10.x = 0;
-        link->mUnk_10.y = 0;
-        link->mUnk_10.z = 0;
+        link->field10.x = 0;
+        link->field10.y = 0;
+        link->field10.z = 0;
     }
-    link->mUnk_00 = object;
+    link->field0 = object;
 }
 
 void func_020e0538(Unk020e04b0 *link, Vec3 *outPosition) {
-    Unk020e005c *object = link->mUnk_00;
+    Unk020e005c *object = link->field0;
 
     if (object == NULL) {
         return;
     }
-    MTX_MultVec33(&link->mUnk_04, &object->mUnk_028.x, outPosition);
+    MTX_MultVec33(&link->field4, &object->field28.x, outPosition);
     VEC_Add(&object->mPos, outPosition, outPosition);
 }
 
 BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
-    Unk020e005c *object = link->mUnk_00;
+    Unk020e005c *object = link->field0;
 
     if (object != NULL) {
-        MTX_MultVec33(&link->mUnk_04, &object->mUnk_028.x, outPosition);
+        MTX_MultVec33(&link->field4, &object->field28.x, outPosition);
         VEC_Add(&object->mPos, outPosition, outPosition);
-        if (object->mUnk_130 != FALSE) {
-            MTX_MultVec33(&link->mUnk_10, &object->mUnk_028.x, outVelocity);
-            if (outVelocity->y < object->mUnk_120) {
+        if (object->field130 != FALSE) {
+            MTX_MultVec33(&link->field10, &object->field28.x, outVelocity);
+            if (outVelocity->y < object->field120) {
                 return TRUE;
             }
         }
@@ -78,16 +78,16 @@ BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
 }
 
 s32 func_020e0448(Unk020e0448 *link) {
-    Unk020e3ef4 *object = link->mUnk_00;
+    Unk020e3ef4 *object = link->field0;
     s64 horizontalDistanceSquared;
     s64 limitSquared;
 
-    if (object->mUnk_138 != 0 && object->mUnk_000.mKind == 0xcb) {
-        horizontalDistanceSquared = (s64) link->mUnk_04.x * link->mUnk_04.x + (s64) link->mUnk_04.z * link->mUnk_04.z;
-        limitSquared = (s64) object->mUnk_154 * object->mUnk_154;
+    if (object->field138 != 0 && object->field0.mKind == 0xcb) {
+        horizontalDistanceSquared = (s64) link->field4.x * link->field4.x + (s64) link->field4.z * link->field4.z;
+        limitSquared = (s64) object->field154 * object->field154;
         return horizontalDistanceSquared >= limitSquared;
     }
-    return object->mUnk_138;
+    return object->field138;
 }
 
 void *kblock_setupConfig(void) {
@@ -116,28 +116,28 @@ void *kblock_setupLogicPart(void) {
 }
 
 void kblock_update(void *a0, Unk020e005c *koopaBlock) {
-    GroupFollower *follower = &koopaBlock->mUnk_144;
+    GroupFollower *follower = &koopaBlock->field144;
 
-    if (koopaBlock->mUnk_16c != 0) {
+    if (koopaBlock->field16C != 0) {
         Unk0210b7a8 soundRequest;
         s32 falloffIndex;
 
-        koopaBlock->mUnk_16c--;
-        koopaBlock->mUnk_010.x = 0;
-        koopaBlock->mUnk_010.y = 0;
-        koopaBlock->mUnk_010.z = 0;
-        if (koopaBlock->mUnk_16c != 0) {
+        koopaBlock->field16C--;
+        koopaBlock->field10.x = 0;
+        koopaBlock->field10.y = 0;
+        koopaBlock->field10.z = 0;
+        if (koopaBlock->field16C != 0) {
             return;
         }
         if ((koopaBlock->mDistanceSquaredAndFlags & 4) != 0) {
             return;
         }
-        falloffIndex = koopaBlock->mFarDistanceSquared == gSfxParams[2].mUnk_20
+        falloffIndex = koopaBlock->mFarDistanceSquared == gSfxParams[2].field20
                            ? 2
-                           : (koopaBlock->mFarDistanceSquared == gSfxParams[3].mUnk_20 ? 3 : 4);
+                           : (koopaBlock->mFarDistanceSquared == gSfxParams[3].field20 ? 3 : 4);
         soundRequest.mSoundId = 0x17e;
         soundRequest.mPositionSource = &koopaBlock->mPos;
-        soundRequest.mUnk_08 = falloffIndex;
+        soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&koopaBlock->mPos);
         func_0210b7a8(&soundRequest);
         return;
@@ -147,13 +147,13 @@ void kblock_update(void *a0, Unk020e005c *koopaBlock) {
             koopaBlock->mStateMachine.mNextState = 0;
             koopaBlock->mStateMachine.mNextStateRequested = 1;
         }
-        koopaBlock->mUnk_16c = follower->mFromEntry->mUnk_0e;
+        koopaBlock->field16C = follower->mFromEntry->fieldE;
     }
-    koopaBlock->mUnk_0e8 = koopaBlock->mPos;
+    koopaBlock->fieldE8 = koopaBlock->mPos;
     pw_calcCurrentPointLinearXYZ(follower, &koopaBlock->mPos);
     sm_execute(&koopaBlock->mStateMachine);
-    VEC_Subtract(&koopaBlock->mPos, &koopaBlock->mUnk_0e8, &koopaBlock->mUnk_010);
-    VEC_MultAdd(-koopaBlock->mUnk_104, &koopaBlock->mUnk_034, &koopaBlock->mPos, &koopaBlock->mUnk_0f4);
+    VEC_Subtract(&koopaBlock->mPos, &koopaBlock->fieldE8, &koopaBlock->field10);
+    VEC_MultAdd(-koopaBlock->field104, &koopaBlock->field34, &koopaBlock->mPos, &koopaBlock->fieldF4);
 }
 
 u32 kblock_speedUpStateInit(u32 value) {
@@ -161,11 +161,11 @@ u32 kblock_speedUpStateInit(u32 value) {
 }
 
 void kblock_speedUpStateUpdate(Unk020e005c *koopaBlock) {
-    GroupFollower *follower = &koopaBlock->mUnk_144;
+    GroupFollower *follower = &koopaBlock->field144;
     s32 progress = pw_getProgress(follower);
     s32 angle = (u16) (((s64) progress << 18) >> 12);
     s16 sine = FX_SinCosTable_[(angle >> 4) * 2];
-    s32 speed = ((s64) sine * koopaBlock->mUnk_168) >> 12;
+    s32 speed = ((s64) sine * koopaBlock->field168) >> 12;
     s32 m;
 
     follower->mSpeed = speed > 0x200 ? speed : 0x200;
@@ -181,19 +181,19 @@ void kblock_speedUpStateUpdate(Unk020e005c *koopaBlock) {
 }
 
 void kblock_moveStateInit(Unk020e005c *koopaBlock) {
-    s32 speed = koopaBlock->mUnk_168;
+    s32 speed = koopaBlock->field168;
 
-    koopaBlock->mUnk_144.mSpeed = speed;
-    koopaBlock->mUnk_144.mProgressStep =
+    koopaBlock->field144.mSpeed = speed;
+    koopaBlock->field144.mProgressStep =
         ((s64) speed *
-         koopaBlock->mUnk_144.mPath->mSegments[koopaBlock->mUnk_144.mSegmentIndex].mInverseProgressLength) >>
+         koopaBlock->field144.mPath->mSegments[koopaBlock->field144.mSegmentIndex].mInverseProgressLength) >>
         12;
 }
 
 void kblock_moveStateUpdate(Unk020e005c *koopaBlock) {
-    GroupFollower *follower = &koopaBlock->mUnk_144;
+    GroupFollower *follower = &koopaBlock->field144;
 
-    if (follower->mToEntry->mUnk_0e == 0) {
+    if (follower->mToEntry->fieldE == 0) {
         GroupPath *path = follower->mPath;
         BOOL onEndSegment;
         BOOL onEndSegmentOfOpenPath = FALSE;

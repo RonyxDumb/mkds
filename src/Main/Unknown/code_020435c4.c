@@ -56,15 +56,15 @@ static inline void func_02043c14_inline(void) {
         pad_initAutoRepeat(inputSlot, 0xff3, 0x1e, 0xa);
         inputSlot->mSourceKind = 0;
         inputSlot->mRequestedBits = 0;
-        inputSlot->mUnk_44 = 0;
+        inputSlot->field44 = 0;
         inputSlot->mBitMask = 0x2fff;
-        irec_init((KeyRecording *) &inputSlot->mUnk_28);
+        irec_init((KeyRecording *) &inputSlot->field28);
         spi_initTpMic((InputSlotPair *) &inputSlot->mPairX);
     }
     gInputUnits[8].mSourceKind = 5;
     gInputUnits[9].mSourceKind = 6;
-    input_sPadData->mUnk_08 = 0;
-    input_sPadData->mUnk_0c = FALSE;
+    input_sPadData->field8 = 0;
+    input_sPadData->fieldC = FALSE;
     slot = gInputUnits;
     for (k = 0; k < 10; k++) {
         pad_init(slot);
@@ -83,9 +83,9 @@ void func_0204451c(u32 entryIndex) {
     RaceSetup *raceSetup;
 
     f = 3;
-    if (gRaceMultiConfig->mUnk_3d5[0] == -1) {
+    if (gRaceMultiConfig->field3D5[0] == -1) {
         f = 0;
-    } else if (gRaceMultiConfig->mUnk_3d5[1] == -1) {
+    } else if (gRaceMultiConfig->field3D5[1] == -1) {
         f = 1;
     }
     rconf_setDriverConfigNext(entryIndex, gRaceMultiConfig->mCurrentEntries[entryIndex].mCharacterIndex,
@@ -94,7 +94,7 @@ void func_0204451c(u32 entryIndex) {
     raceSetup = gRaceMultiConfig;
     raceSetup->mCurrentEntries[entryIndex] = raceSetup->mNextEntries[entryIndex];
     if (f < 2) {
-        raceSetup->mUnk_3d5[f] = entryIndex;
+        raceSetup->field3D5[f] = entryIndex;
     }
     gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mNumber = gRaceMultiConfig->mNextCpuNumber;
     gRaceMultiConfig->mNextCpuNumber = gRaceMultiConfig->mNextCpuNumber + 1;
@@ -108,7 +108,7 @@ void rconf_setupMissionRace(MissionFileRow *missionFileRow, u32 tableRow, u32 ta
     gRaceMultiConfig->mNextHeader.mMissionTableColumn = tableColumn;
     gRaceMultiConfig->mNextHeader.mMode = MODE_MISSION_RUN;
     gRaceMultiConfig->mNextHeader.mCourseId = missionFileRow->mCourseId;
-    gRaceMultiConfig->mNextHeader.mMirrorMode = (missionFileRow->mUnk_1c & 0x10) != 0 ? 1 : 0;
+    gRaceMultiConfig->mNextHeader.mMirrorMode = (missionFileRow->field1C & 0x10) != 0 ? 1 : 0;
     gRaceMultiConfig->mNextHeader.mUseTeams = 0;
     gRaceMultiConfig->mNextHeader.mRuleKind = 0;
     gRaceMultiConfig->mNextHeader.mCourseListMode = 0;
@@ -233,10 +233,10 @@ void input_init(void *heap) {
     spi_initTouch();
     spi_init(heap);
     for (i = 0; i <= 1; i++) {
-        irec_allocBuffer((u32) &gInputUnits[i].mUnk_28, (u32) heap);
+        irec_allocBuffer((u32) &gInputUnits[i].field28, (u32) heap);
     }
     for (; i < 10; i++) {
-        irec_setBufferToNull((KeyRecording *) &gInputUnits[i].mUnk_28);
+        irec_setBufferToNull((KeyRecording *) &gInputUnits[i].field28);
     }
     input_sPadData = heap_alloc(heap, 0x10);
     func_02043c14_inline();
@@ -266,7 +266,7 @@ void input_2043B48(void) {
     slot = gInputUnits;
     for (j = 0; j < 10; j++) {
         slot->mHoldLong = 0;
-        slot->mUnk_14 = 0;
+        slot->field14 = 0;
         pad_initAutoRepeat(slot, 0xff3, 0x1e, 0xa);
         slot++;
     }
@@ -316,7 +316,7 @@ u32 input_getPressedKeys(void) {
 
 static inline s32 func_02043648_inline(ConnectionWork *p) {
     BOOL r = FALSE;
-    if ((p == NULL ? 0 : p->mUnk_0000) != 0 && p->mUnk_0004 != 13) {
+    if ((p == NULL ? 0 : p->field0) != 0 && p->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -346,9 +346,9 @@ void input_update(void) {
     b = y;
     k = gSpiData->mMicOverThreshold;
     if (func_02043648_inline(gStruct217AA00) != 0) {
-        a = func_0204ffe8(GetParticipantIndex(input_sPadData->mUnk_08));
-        b = *(u16 *) &gStruct217AA00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(input_sPadData->mUnk_08)].mUnk_00[2];
-        GetParticipantIndex(input_sPadData->mUnk_08);
+        a = func_0204ffe8(GetParticipantIndex(input_sPadData->field8));
+        b = *(u16 *) &gStruct217AA00->mUnk_15bc_view.fieldC[GetParticipantIndex(input_sPadData->field8)].field0[2];
+        GetParticipantIndex(input_sPadData->field8);
     }
     for (slotIndex = 0; slotIndex < 10; slotIndex++) {
         slotKeys = 0;
@@ -362,13 +362,13 @@ void input_update(void) {
         if (!(flags & 8)) {
             sourceKind = inputSlot->mSourceKind;
             if (f == 0) {
-                f = inputSlot->mUnk_44;
+                f = inputSlot->field44;
             }
             switch (sourceKind) {
                 case 1:
                     if (f == 0) {
                         if (c != 0) {
-                            slotKeys = irec_playKeys((KeyRecording *) &inputSlot->mUnk_28);
+                            slotKeys = irec_playKeys((KeyRecording *) &inputSlot->field28);
                         }
                     } else {
                         skipUpdate = TRUE;
@@ -389,7 +389,7 @@ void input_update(void) {
                                     slotKeys |= PAD_KEY_LEFT;
                                 }
                             }
-                            irec_recordKeys((KeyRecording *) &inputSlot->mUnk_28, slotKeys);
+                            irec_recordKeys((KeyRecording *) &inputSlot->field28, slotKeys);
                         }
                     } else {
                         skipUpdate = TRUE;
@@ -431,8 +431,8 @@ void input_update(void) {
                     } else {
                         skipUpdate = TRUE;
                     }
-                    n = *(u16 *) &gStruct217AA00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_00[2];
-                    o = gStruct217AA00->mUnk_15bc_view.mUnk_0c[GetParticipantIndex(slotIndex)].mUnk_06_7;
+                    n = *(u16 *) &gStruct217AA00->mUnk_15bc_view.fieldC[GetParticipantIndex(slotIndex)].field0[2];
+                    o = gStruct217AA00->mUnk_15bc_view.fieldC[GetParticipantIndex(slotIndex)].field6_7;
                     break;
                 case 6:
                     slotKeys = padKeys;

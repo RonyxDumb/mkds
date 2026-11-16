@@ -25,8 +25,8 @@ u32 MB_FakeEntryToParent(u32 entryIndex) {
     if (v1 == NULL) {
         return 0;
     }
-    mbf_work->mUnk_5f08 = v1->mUnk_4b8;
-    mbf_work->mUnk_5f0c = v1->mUnk_4b5;
+    mbf_work->field5F08 = v1->field4B8;
+    mbf_work->field5F0C = v1->field4B5;
     MBi_WMSetBuffer((u32) mbf_work->mMPLink);
     MBi_WMSetCallback((u32) MBFi_WMCallback);
     MBFi_CommChangeChildState(1, 0);
@@ -123,7 +123,7 @@ void MBFi_WMCallback(s32 a, Unk021425e8 *b) {
 
 void MBFi_CommChildRecvData(Unk021425e8 *a) {
     ParentMessage v1;
-    MBi_SetRecvBufferFromParent(&v1, a->mUnk_0c);
+    MBi_SetRecvBufferFromParent(&v1, a->fieldC);
     switch (v1.mKind) {
         case 1:
             if (mbf_work->mState == 2) {
@@ -169,14 +169,14 @@ void MBFi_CommChildSendData(void) {
     u8 *p;
     switch (mbf_work->mState) {
         case 5:
-            v2.mUnk_00 = mbf_work->mUnk_5f08;
-            v2.mUnk_1a = 1;
-            v2.mUnk_1c = mbf_work->mUnk_5f0c;
-            MI_CpuCopy8(mbf_work->mUnk_05c4, v2.mUnk_04, 0x16);
+            v2.field0 = mbf_work->field5F08;
+            v2.field1A = 1;
+            v2.field1C = mbf_work->field5F0C;
+            MI_CpuCopy8(mbf_work->field5C4, v2.field4, 0x16);
             v1.mKind = 7;
             p = &v1.mKind;
             p += 3;
-            *(u8 *) &v1.mUnk_02 = CopyNextPiece(p, &v2);
+            *(u8 *) &v1.field2 = CopyNextPiece(p, &v2);
             if (WriteChildMessage(&v1, mbf_work->mMessageBuffer) != NULL) {
                 QueueMPDataIfReady(8, 0xffff, mbf_work->mMessageBuffer);
             }

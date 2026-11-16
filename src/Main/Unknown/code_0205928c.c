@@ -51,12 +51,12 @@ static inline u32 func_0205955c_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_0205955c_inline2(void) {
     BOOL r = FALSE;
-    if (func_0205955c_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_0205955c_inline() != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -64,7 +64,7 @@ static inline s32 func_0205955c_inline2(void) {
 
 static inline s32 func_0205955c_inline3(void) {
     BOOL r = FALSE;
-    if (func_0205955c_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_0205955c_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -72,7 +72,7 @@ static inline s32 func_0205955c_inline3(void) {
 
 static inline s32 func_0205955c_inline4(void) {
     BOOL r = FALSE;
-    if (func_0205955c_inline3() && gStruct217AA00->mUnk_0008 != 9) {
+    if (func_0205955c_inline3() && gStruct217AA00->field8 != 9) {
         r = TRUE;
     }
     return r;
@@ -82,15 +82,15 @@ void func_020597d0(const void *data, s32 b, s32 playerIndex, s32 d) {
     s32 v;
     s32 playerBit;
 
-    v = gStruct217AA00->mUnk_0004;
+    v = gStruct217AA00->field4;
     if (v != 11) {
         func_020559ec(data, playerIndex, d);
         return;
     }
     playerBit = 1 << playerIndex;
-    if (!(gStruct217AA00->mUnk_164c & playerBit)) {
-        MI_CpuCopy8(data, &gStruct217AA00->mUnk_045c[playerIndex], 0x14);
-        gStruct217AA00->mUnk_164c |= playerBit;
+    if (!(gStruct217AA00->field164C & playerBit)) {
+        MI_CpuCopy8(data, &gStruct217AA00->field45C[playerIndex], 0x14);
+        gStruct217AA00->field164C |= playerBit;
     }
 }
 
@@ -101,7 +101,7 @@ s32 IsAllMPChildSharedDataCopied(void) {
 
     allCopied = 1;
     childIndex = allCopied;
-    childMask = gStruct217AA00->mUnk_0044.mChildMask;
+    childMask = gStruct217AA00->field44.mChildMask;
     for (; childIndex < 8; childIndex++) {
         if ((childMask & (allCopied << childIndex)) &&
             gStruct217AA00->mUnk_15bc_view.mSharedDataCopied[childIndex] == 0) {
@@ -116,20 +116,20 @@ s32 func_02059700(void) {
     BOOL done;
 
     done = FALSE;
-    switch (gStruct217AA00->mUnk_1e34) {
+    switch (gStruct217AA00->field1E34) {
         case 0:
-            gStruct217AA00->mUnk_1e34 = 6;
+            gStruct217AA00->field1E34 = 6;
             break;
         case 6:
-            if (gStruct217AA00->mUnk_0044.mChildMask ==
-                (gStruct217AA00->mUnk_0044.mChildMask & gStruct217AA00->mUnk_1d54)) {
-                gStruct217AA00->mUnk_1e34 = 7;
+            if (gStruct217AA00->field44.mChildMask ==
+                (gStruct217AA00->field44.mChildMask & gStruct217AA00->field1D54)) {
+                gStruct217AA00->field1E34 = 7;
             }
             break;
         case 7:
             if (QueueMPDataHalfword(5, 0xff) != FALSE) {
-                gStruct217AA00->mUnk_1d54 = done;
-                gStruct217AA00->mUnk_1e34 = 1;
+                gStruct217AA00->field1D54 = done;
+                gStruct217AA00->field1E34 = 1;
             }
             break;
         case 1:
@@ -143,14 +143,14 @@ s32 func_020595e8(s32 a, void *b, void *c) {
     BOOL done;
 
     done = FALSE;
-    switch (gStruct217AA00->mUnk_1e34) {
+    switch (gStruct217AA00->field1E34) {
         case 0:
-            if (gStruct217AA00->mUnk_0454 & 1) {
-                gStruct217AA00->mUnk_1e34 = 2;
+            if (gStruct217AA00->field454 & 1) {
+                gStruct217AA00->field1E34 = 2;
             }
             break;
         case 2:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+            if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
                 switch (a) {
                     case 0:
                         func_020473e4();
@@ -165,28 +165,28 @@ s32 func_020595e8(s32 a, void *b, void *c) {
                         RequestMenuDLArchives();
                         break;
                 }
-                gStruct217AA00->mUnk_000c = 0x27;
+                gStruct217AA00->fieldC = 0x27;
                 gStruct217AA00->mRequestPending = 1;
                 gStruct217AA00->mNextLoadIndex = 0;
                 FS_InitFile(&gStruct217AA00->mFile);
-                gStruct217AA00->mUnk_1e34 = 3;
+                gStruct217AA00->field1E34 = 3;
             } else {
-                gStruct217AA00->mUnk_1e34 = 5;
+                gStruct217AA00->field1E34 = 5;
             }
             QueueMPDataHalfword(3, 1);
             break;
         case 3:
             if (LoadPendingFiles() != FALSE) {
-                gStruct217AA00->mUnk_1e34 = 5;
+                gStruct217AA00->field1E34 = 5;
             }
             break;
         case 5:
             if (QueueMPDataHalfword(4, 1) != FALSE) {
-                gStruct217AA00->mUnk_1e34 = 1;
+                gStruct217AA00->field1E34 = 1;
             }
             break;
         case 1:
-            if (gStruct217AA00->mUnk_1e44 & 2) {
+            if (gStruct217AA00->field1E44 & 2) {
                 done = TRUE;
             }
             break;
@@ -215,9 +215,9 @@ u32 func_0205955c(void) {
 // Asks for state 16 with the next race's course and mode.
 void RequestMPState16(void *courseId, void *mode) {
     MPStateMachine *stateMachine;
-    gStruct217AA00->mUnk_1e34 = 0;
-    gStruct217AA00->mUnk_1e44 &= ~2;
-    stateMachine = &gStruct217AA00->mUnk_1608;
+    gStruct217AA00->field1E34 = 0;
+    gStruct217AA00->field1E44 &= ~2;
+    stateMachine = &gStruct217AA00->field1608;
     stateMachine->mNextState = 0x10;
     stateMachine->mNextStateRequested = 1;
     gStruct217AA00->mCourseId = courseId;
@@ -232,12 +232,12 @@ static inline u32 func_020593dc_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_020593dc_inline2(void) {
     BOOL r = FALSE;
-    if (func_020593dc_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_020593dc_inline() != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -245,7 +245,7 @@ static inline s32 func_020593dc_inline2(void) {
 
 static inline s32 func_020593dc_inline3(void) {
     BOOL r = FALSE;
-    if (func_020593dc_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_020593dc_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -253,7 +253,7 @@ static inline s32 func_020593dc_inline3(void) {
 
 static inline s32 func_020593dc_inline4(void) {
     BOOL r = FALSE;
-    if (func_020593dc_inline3() && gStruct217AA00->mUnk_0008 != 9) {
+    if (func_020593dc_inline3() && gStruct217AA00->field8 != 9) {
         r = TRUE;
     }
     return r;
@@ -262,9 +262,9 @@ static inline s32 func_020593dc_inline4(void) {
 void RequestMPState18(void) {
     MPStateMachine *stateMachine;
 
-    gStruct217AA00->mUnk_1e34 = 0;
-    gStruct217AA00->mUnk_1e44 &= ~2;
-    stateMachine = &gStruct217AA00->mUnk_1608;
+    gStruct217AA00->field1E34 = 0;
+    gStruct217AA00->field1E44 &= ~2;
+    stateMachine = &gStruct217AA00->field1608;
     stateMachine->mNextState = 0x12;
     stateMachine->mNextStateRequested = 1;
 }
@@ -272,9 +272,9 @@ void RequestMPState18(void) {
 void RequestMPState21(void) {
     MPStateMachine *stateMachine;
 
-    gStruct217AA00->mUnk_1e34 = 0;
-    gStruct217AA00->mUnk_1e44 &= ~2;
-    stateMachine = &gStruct217AA00->mUnk_1608;
+    gStruct217AA00->field1E34 = 0;
+    gStruct217AA00->field1E44 &= ~2;
+    stateMachine = &gStruct217AA00->field1608;
     stateMachine->mNextState = 0x15;
     stateMachine->mNextStateRequested = 1;
 }
@@ -305,7 +305,7 @@ void EnterMPState16(void) {
     if (gStruct217AA00 == NULL) {
         v1 = 0;
     } else {
-        v1 = gStruct217AA00->mUnk_0000;
+        v1 = gStruct217AA00->field0;
     }
     if (v1 == 1) {
         SetMPFrequency(0);
@@ -317,7 +317,7 @@ void UpdateMPState16(void) {
     MPStateMachine *stateMachine;
     result = func_020593dc();
     if (result == 1) {
-        stateMachine = &gStruct217AA00->mUnk_1608;
+        stateMachine = &gStruct217AA00->field1608;
         stateMachine->mNextState = 0x11;
         stateMachine->mNextStateRequested = 1;
     }
@@ -335,14 +335,14 @@ void func_0205933c(void) {
         rconf_loadCharacterSounds(0);
     }
     if (loaded == 0) {
-        gStruct217AA00->mUnk_164f = 1;
+        gStruct217AA00->field164F = 1;
     }
 }
 
 void func_02059304(void) {
-    gStruct217AA00->mUnk_1e34 = 0;
-    gStruct217AA00->mUnk_1e44 &= ~2;
-    gStruct217AA00->mUnk_164f = 0;
+    gStruct217AA00->field1E34 = 0;
+    gStruct217AA00->field1E44 &= ~2;
+    gStruct217AA00->field164F = 0;
 }
 
 #pragma thumb off
@@ -354,7 +354,7 @@ void UpdateMPState17(void) {
     MPStateMachine *stateMachine;
     result = func_02058dc0(func_0205933c);
     if (result == 1) {
-        stateMachine = &gStruct217AA00->mUnk_1608;
+        stateMachine = &gStruct217AA00->field1608;
         stateMachine->mNextState = 0x14;
         stateMachine->mNextStateRequested = 1;
     }
@@ -365,7 +365,7 @@ void EnterMPState20(void) {
     if (gStruct217AA00 == NULL) {
         v1 = 0;
     } else {
-        v1 = gStruct217AA00->mUnk_0000;
+        v1 = gStruct217AA00->field0;
     }
     if (v1 == 1) {
         SetMPFrequency(1);
@@ -375,7 +375,7 @@ void EnterMPState20(void) {
 void UpdateMPState20(void) {
     MPStateMachine *stateMachine;
     if (gStruct217AA00->mRequestPending == 0) {
-        stateMachine = &gStruct217AA00->mUnk_1608;
+        stateMachine = &gStruct217AA00->field1608;
         stateMachine->mNextState = 0xf;
         stateMachine->mNextStateRequested = 1;
     }

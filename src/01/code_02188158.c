@@ -31,7 +31,7 @@ ItemBomb *FindItemBombInRange(Unk02188950 *mapObject, u32 radius, u32 halfAngle)
         do {
             bomb = func_020fd7a4(index);
             if ((bomb != NULL) &&
-                (inRange = IsPointInRange(mapObject, &bomb->mUnk_000.mItemObject.mPos, radius, halfAngle),
+                (inRange = IsPointInRange(mapObject, &bomb->field0.mItemObject.mPos, radius, halfAngle),
                  inRange != 0)) {
                 return bomb;
             }

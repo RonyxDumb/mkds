@@ -15,7 +15,7 @@
 
 s32 rstat_hasDriverFinished(u32 kartIndex) {
     BOOL ended = FALSE;
-    switch (gRaceStatus->mUnk_000[kartIndex].mStatus) {
+    switch (gRaceStatus->field0[kartIndex].mStatus) {
         case 1:
         case 2:
         case 3:
@@ -44,9 +44,9 @@ void rstat_getDriverTotalTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *
         }
         if (ended != FALSE) {
             Unk0217aa1c_144_00 *finishTime = &kart->mLapTimes[5];
-            *outMinute = finishTime->mUnk_02;
-            *outSecond = finishTime->mUnk_03;
-            *outMillisecond = finishTime->mUnk_00;
+            *outMinute = finishTime->field2;
+            *outSecond = finishTime->field3;
+            *outMillisecond = finishTime->field0;
             return;
         }
     }
@@ -60,9 +60,9 @@ void rstat_getDriverLapTime(s32 kartIndex, u16 lap, u8 *outMinute, u8 *outSecond
     Unk0217aa1c_144_00 *kartLapTimes =
         OFFSET_PTR(Unk0217aa1c_144_00, &gRaceStatus->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
     Unk0217aa1c_144_00 *lapTime = &kartLapTimes[lapSlot];
-    *outMinute = lapTime->mUnk_02;
-    *outSecond = lapTime->mUnk_03;
-    *outMillisecond = lapTime->mUnk_00;
+    *outMinute = lapTime->field2;
+    *outSecond = lapTime->field3;
+    *outMillisecond = lapTime->field0;
 }
 
 u16 rstat_getDriverBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
@@ -86,8 +86,8 @@ u16 rstat_getDriverBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 
             } else {
                 bestTimeRef = &bestTime;
                 isBest = FALSE;
-                if (((lapTime->mUnk_02 * 60 + lapTime->mUnk_03) * 1000 + lapTime->mUnk_00) <=
-                    (u32) ((bestTime.mUnk_02 * 60 + bestTime.mUnk_03) * 1000 + bestTime.mUnk_00)) {
+                if (((lapTime->field2 * 60 + lapTime->field3) * 1000 + lapTime->field0) <=
+                    (u32) ((bestTime.field2 * 60 + bestTime.field3) * 1000 + bestTime.field0)) {
                     isBest = TRUE;
                     if (lapTime != bestTimeRef) {
                         MI_CpuCopy8(lapTime, bestTimeRef, 4);
@@ -105,8 +105,8 @@ u16 rstat_getDriverBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 
             lap++;
         } while (lap <= gMapData->mSettings->mLapCountOrBattleSeconds);
     }
-    *outMinute = bestTime.mUnk_02;
-    *outSecond = bestTime.mUnk_03;
-    *outMillisecond = bestTime.mUnk_00;
+    *outMinute = bestTime.field2;
+    *outSecond = bestTime.field3;
+    *outMillisecond = bestTime.field0;
     return bestLap;
 }

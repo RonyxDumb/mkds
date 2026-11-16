@@ -8,7 +8,7 @@
 typedef struct Unk02080d34 {
     /* 00 */ LinkCursor mLinkCursor;
     /* 1c */ u16 mKartIndex;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 field1E;
 } Unk02080d34;
 
 void epoi_2080CD0(LinkCursor *linkCursor, PointLink *pointLink);

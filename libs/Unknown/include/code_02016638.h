@@ -6,7 +6,7 @@
 typedef struct CallQueueEntry {
     /* 00 */ u32 mFuncIndex;
     /* 04 */ const void *mSource;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 field8;
     /* 0c */ u32 mSize;
 } CallQueueEntry;
 

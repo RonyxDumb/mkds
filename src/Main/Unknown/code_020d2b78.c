@@ -37,7 +37,7 @@ void mobj_finalize(void) {
     index = 0;
     do {
         if (*updateListSlot != NULL) {
-            listSlot = (*updateListSlot)->mUnk_24;
+            listSlot = (*updateListSlot)->field24;
             if (listSlot != NULL) {
                 *listSlot = NULL;
             }
@@ -74,7 +74,7 @@ s32 mobj_collideAsItemDirect(Vec3 *position, Vec3 *velocity, s32 radius, s16 col
             Vec3 zeroHigh = {0, 0, 0};
             highest = zeroHigh;
         }
-        itemObject = &gMapObjState->mUnk_18c;
+        itemObject = &gMapObjState->field18C;
         for (; i < gColQueryResultCount; i++) {
             mapObject = gColQueryResultObjects[i];
             if (mobj_sphereCollide(position, radius, mapObject, &overlapOffset) != FALSE) {
@@ -116,7 +116,7 @@ u32 mobj_getAvailableObjectCount(void) {
     return (mobj_sAvailableObjectCount);
 }
 
-// The water_efct.nsbmd file: WaterEfct's if gMObjSplashState exists, else the Water's own when mUnk_170 is non-zero,
+// The water_efct.nsbmd file: WaterEfct's if gMObjSplashState exists, else the Water's own when field170 is non-zero,
 // else NULL; passed as an effect model file to expl_setModel.
 void *mobj_getWaterEffectNsbmd(void) {
     Water *water;
@@ -124,7 +124,7 @@ void *mobj_getWaterEffectNsbmd(void) {
         return gMObjSplashState->mNsbmdFile;
     }
     water = gMObjWaterState;
-    if ((water != NULL) && (water->mUnk_170 != 0)) {
+    if ((water != NULL) && (water->field170 != 0)) {
         return water->mEfctNsbmdFile;
     }
     return NULL;
@@ -137,7 +137,7 @@ void *mobj_getWaterEffectNsbca(void) {
         return gMObjSplashState->mNsbcaFile;
     }
     water = gMObjWaterState;
-    if ((water != NULL) && (water->mUnk_170 != 0)) {
+    if ((water != NULL) && (water->field170 != 0)) {
         return water->mEfctNsbcaFile;
     }
     return NULL;
@@ -150,7 +150,7 @@ void *mobj_getWaterEffectNsbma(void) {
         return gMObjSplashState->mNsbmaFile;
     }
     water = gMObjWaterState;
-    if ((water != NULL) && (water->mUnk_170 != 0)) {
+    if ((water != NULL) && (water->field170 != 0)) {
         return water->mEfctNsbmaFile;
     }
     return NULL;

@@ -129,7 +129,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     s32 i;
     SndFileIdList *list;
 
-    if (soundSet.mSeqId == 0xff && soundSet.mUnk_04 == 0xff && soundSet.mUnk_08 == 0xff) {
+    if (soundSet.mSeqId == 0xff && soundSet.field4 == 0xff && soundSet.field8 == 0xff) {
         return 1;
     }
     if (IsSoundSetLoaded(sound_getSeqHeapState(), soundSet) != 0) {
@@ -220,7 +220,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
                 }
                 break;
         }
-        if (soundSet.mUnk_04 == 0x10) {
+        if (soundSet.field4 == 0x10) {
             if (NNS_SndArcLoadWaveArc(0x13, gSndHeapHandle) == 0) {
                 loaded = 0;
             } else {
@@ -266,9 +266,9 @@ void func_0210e8f8(u32 moveWaveArcs) {
 void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras) {
     SoundSet soundSet;
 
-    soundSet.mSeqId = soundRow.mUnk_00[1];
-    soundSet.mUnk_04 = soundRow.mUnk_00[2];
-    soundSet.mUnk_08 = soundRow.mUnk_00[3];
+    soundSet.mSeqId = soundRow.field0[1];
+    soundSet.field4 = soundRow.field0[2];
+    soundSet.field8 = soundRow.field0[3];
     LoadSoundSetIfChanged(soundSet, loadExtras);
     if (func_02105504() == 0) {
         return;
@@ -348,9 +348,9 @@ u32 LoadCourseSoundSet(u32 a, u32 b) {
 
     GetSequenceTableIndexAndData(b, &row);
     rowCopy = row;
-    soundSet.mSeqId = rowCopy.mUnk_00[1];
-    soundSet.mUnk_04 = rowCopy.mUnk_00[2];
-    soundSet.mUnk_08 = rowCopy.mUnk_00[3];
+    soundSet.mSeqId = rowCopy.field0[1];
+    soundSet.field4 = rowCopy.field0[2];
+    soundSet.field8 = rowCopy.field0[3];
     NNS_SndArcSetCurrent(&gSdatFileSndArc);
     loaded = LoadSoundSetIfChanged(soundSet, 1) != 0;
     if (loaded != 0) {
@@ -364,11 +364,11 @@ u32 func_0210e524(void) {
     SoundSet soundSet;
 
     row = GetSoundRow(0x29);
-    row.mUnk_00[1] = snd_getResultSceneSeqId();
+    row.field0[1] = snd_getResultSceneSeqId();
     rowCopy = row;
-    soundSet.mSeqId = rowCopy.mUnk_00[1];
-    soundSet.mUnk_04 = rowCopy.mUnk_00[2];
-    soundSet.mUnk_08 = rowCopy.mUnk_00[3];
+    soundSet.mSeqId = rowCopy.field0[1];
+    soundSet.field4 = rowCopy.field0[2];
+    soundSet.field8 = rowCopy.field0[3];
     NNS_SndArcSetCurrent(&gSdatFileSndArc);
     return LoadSoundSetIfChanged(soundSet, 1) != 0;
 }
@@ -390,8 +390,8 @@ void saveHeapState(LoadedSoundSet *loadedSet) {
 void ReleaseSoundSet(LoadedSoundSet *loadedSet) {
     SoundSet emptySet = data_0215c380;
 
-    if (emptySet.mSeqId == loadedSet->mSoundSet.mSeqId && emptySet.mUnk_04 == loadedSet->mSoundSet.mUnk_04 &&
-        emptySet.mUnk_08 == loadedSet->mSoundSet.mUnk_08) {
+    if (emptySet.mSeqId == loadedSet->mSoundSet.mSeqId && emptySet.field4 == loadedSet->mSoundSet.field4 &&
+        emptySet.field8 == loadedSet->mSoundSet.field8) {
         return;
     }
     NNS_SndHeapLoadState(gSndHeapHandle, loadedSet->mHeapState);
@@ -400,8 +400,8 @@ void ReleaseSoundSet(LoadedSoundSet *loadedSet) {
 }
 
 u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet) {
-    if (soundSet.mSeqId == loadedSet->mSoundSet.mSeqId && soundSet.mUnk_04 == loadedSet->mSoundSet.mUnk_04 &&
-        soundSet.mUnk_08 == loadedSet->mSoundSet.mUnk_08) {
+    if (soundSet.mSeqId == loadedSet->mSoundSet.mSeqId && soundSet.field4 == loadedSet->mSoundSet.field4 &&
+        soundSet.field8 == loadedSet->mSoundSet.field8) {
         return 1;
     }
     return 0;
@@ -411,10 +411,10 @@ u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet) {
     if (soundSet.mSeqId != 0xff && NNS_SndArcLoadSeq(soundSet.mSeqId, gSndHeapHandle) == 0) {
         return 0;
     }
-    if (soundSet.mUnk_04 != 0xff && NNS_SndArcLoadBank(soundSet.mUnk_04, gSndHeapHandle) == 0) {
+    if (soundSet.field4 != 0xff && NNS_SndArcLoadBank(soundSet.field4, gSndHeapHandle) == 0) {
         return 0;
     }
-    if (soundSet.mUnk_08 != 0xff && NNS_SndArcLoadBank(soundSet.mUnk_08, gSndHeapHandle) == 0) {
+    if (soundSet.field8 != 0xff && NNS_SndArcLoadBank(soundSet.field8, gSndHeapHandle) == 0) {
         return 0;
     }
     loadedSet->mSoundSet = soundSet;

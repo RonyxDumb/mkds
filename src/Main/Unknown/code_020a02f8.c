@@ -91,25 +91,25 @@ void mgcnt_driverInflateBalloonByMic(u16 kartIndex) {
     if (func_01ffc67c(driver_getById(kartIndex)) != FALSE) {
         return;
     }
-    mgcnt_sMinigameController->mKarts[kartIndex].mUnk_64 = 10;
+    mgcnt_sMinigameController->mKarts[kartIndex].field64 = 10;
 }
 
 void mgcnt_driverStopInflateBalloonByMic(int kartIndex) {
-    mgcnt_sMinigameController->mKarts[kartIndex].mUnk_64 = 0xffffffff;
+    mgcnt_sMinigameController->mKarts[kartIndex].field64 = 0xffffffff;
 }
 
 s32 mgcnt_getDriverMicInflatingCounter(u16 kartIndex) {
     if (mgcnt_sMinigameController->mWinnerTeamId >= 0) {
         return -1;
     }
-    return mgcnt_sMinigameController->mKarts[kartIndex].mUnk_64;
+    return mgcnt_sMinigameController->mKarts[kartIndex].field64;
 }
 
 s32 mgcnt_getDriverKeyInflating(u16 kartIndex) {
     if (mgcnt_sMinigameController->mWinnerTeamId >= 0) {
         return -1;
     }
-    return mgcnt_sMinigameController->mKarts[kartIndex].mUnk_68;
+    return mgcnt_sMinigameController->mKarts[kartIndex].field68;
 }
 
 void mgcnt_setDriverIsInflating(u16 kartIndex, u32 inflating) {
@@ -147,34 +147,34 @@ s32 mgcnt_handleDriverDriverCollide(s32 firstKartIndex, s32 secondKartIndex) {
     secondStanding = &mgcnt_sMinigameController->mKarts[secondKartIndex];
     firstStanding = &mgcnt_sMinigameController->mKarts[firstKartIndex];
     f5 = FALSE;
-    if (secondStanding->mUnk_24[firstKartIndex] == 0) {
-        if ((firstKart->mUnk_48 & 0x100000) != 0) {
+    if (secondStanding->field24[firstKartIndex] == 0) {
+        if ((firstKart->field48 & 0x100000) != 0) {
             f5 = TRUE;
         }
     }
     f4 = 0;
-    if (firstStanding->mUnk_24[secondKartIndex] == 0) {
-        if ((secondKart->mUnk_48 & 0x100000) != 0) {
+    if (firstStanding->field24[secondKartIndex] == 0) {
+        if ((secondKart->field48 & 0x100000) != 0) {
             f4 = 1;
         }
     }
     f11 = TRUE;
-    if ((firstKart->mUnk_4c & 0x400000) == 0) {
+    if ((firstKart->field4C & 0x400000) == 0) {
         if (driver_getCollisionMode(firstKartIndex) != 1) {
             f11 = FALSE;
         }
     }
     t = TRUE;
-    if ((secondKart->mUnk_4c & 0x400000) == 0) {
+    if ((secondKart->field4C & 0x400000) == 0) {
         if (driver_getCollisionMode(secondKartIndex) != 1) {
             t = FALSE;
         }
     }
     if (f4 != 0) {
-        firstStanding->mUnk_24[secondKartIndex] = 1;
+        firstStanding->field24[secondKartIndex] = 1;
     }
     if (f5 != FALSE) {
-        secondStanding->mUnk_24[firstKartIndex] = 1;
+        secondStanding->field24[firstKartIndex] = 1;
     }
     if (f11 == FALSE && t == FALSE && f5 != FALSE && f4 != 0) {
         if (mgcnt_sMinigameController->mKartsHitEachOtherCallback != NULL) {
@@ -184,16 +184,16 @@ s32 mgcnt_handleDriverDriverCollide(s32 firstKartIndex, s32 secondKartIndex) {
     } else if (f11 == FALSE && f4 != 0) {
         f4 = 0;
         if (driver_getCollisionMode(secondKartIndex) == 1) {
-            firstStanding->mUnk_20 = TRUE;
+            firstStanding->field20 = TRUE;
             if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
                 f4 = mgcnt_sMinigameController->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
-                if ((firstKart->mUnk_4c & 0x400000) == 0) {
+                if ((firstKart->field4C & 0x400000) == 0) {
                     func_0206c17c(firstKart);
                 }
             }
         } else if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
             f4 = mgcnt_sMinigameController->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
-            if ((firstKart->mUnk_4c & 0x400000) == 0) {
+            if ((firstKart->field4C & 0x400000) == 0) {
                 func_0206c17c(firstKart);
             }
         }
@@ -201,16 +201,16 @@ s32 mgcnt_handleDriverDriverCollide(s32 firstKartIndex, s32 secondKartIndex) {
     } else if (t == FALSE && f5 != FALSE) {
         f4 = 0;
         if (driver_getCollisionMode(firstKartIndex) == 1) {
-            secondStanding->mUnk_20 = TRUE;
+            secondStanding->field20 = TRUE;
             if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
                 f4 = mgcnt_sMinigameController->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
-                if ((secondKart->mUnk_4c & 0x400000) == 0) {
+                if ((secondKart->field4C & 0x400000) == 0) {
                     func_0206c17c(secondKart);
                 }
             }
         } else if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
             f4 = mgcnt_sMinigameController->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
-            if ((secondKart->mUnk_4c & 0x400000) == 0) {
+            if ((secondKart->field4C & 0x400000) == 0) {
                 func_0206c17c(secondKart);
             }
         }
@@ -231,7 +231,7 @@ void mgcnt_20A1E40(s32 kartIndex, ItemObject *itemObject) {
     if (itemObject->mKind != 0 && itemObject->mKind != 1 && itemObject->mKind != 9) {
         return;
     }
-    v = itemObject->mUnk_78;
+    v = itemObject->field78;
     if ((v & 0x8000) != 0) {
         return;
     }
@@ -248,7 +248,7 @@ void mgcnt_20A1DDC(s32 kartIndex) {
 
     kartCount = gRaceMultiConfig->mKartCount;
     for (i = 0; i < kartCount; i++) {
-        mgcnt_sMinigameController->mKarts[i].mUnk_24[kartIndex] = 0;
+        mgcnt_sMinigameController->mKarts[i].field24[kartIndex] = 0;
     }
 }
 
@@ -391,8 +391,8 @@ void mgcnt_killDriverDirect(u16 kartIndex) {
         driver_killForMg(driver_getById(kartIndex));
     } else if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         kart = driver_getById(kartIndex);
-        kart->mUnk_48 |= 0x2000;
-        kart->mUnk_7c |= 8;
+        kart->field48 |= 0x2000;
+        kart->field7C |= 8;
     }
 }
 
@@ -429,8 +429,8 @@ found:
     }
     for (i = 0; i < kartCount; i++) {
         kart = driver_getById((u16) i);
-        kart->mUnk_48 |= 0x2000;
-        kart->mUnk_7c |= 8;
+        kart->field48 |= 0x2000;
+        kart->field7C |= 8;
     }
     mgcnt_sMinigameController->mWinnerTeamId = teamId;
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
@@ -453,8 +453,8 @@ void mgcnt_20A1748(u16 kartIndex) {
     KartStanding *kartStanding;
 
     kartStanding = &mgcnt_sMinigameController->mKarts[kartIndex];
-    kartStanding->mUnk_1c = -2;
-    kartStanding->mUnk_18 = -2;
+    kartStanding->field1C = -2;
+    kartStanding->field18 = -2;
     kartStanding->mHitByKartIndex = kartIndex;
     mgcnt_sMinigameController->mKartHitCallback(kartIndex, kartIndex);
 }
@@ -497,12 +497,12 @@ u16 mgcnt_handleShineRunnersTimeUp(void) {
     if (mgcnt_sMinigameController->mWinnerTeamId >= 0) {
         return 0;
     }
-    v = mgcnt_sMinigameController->mUnk_3a4 + 1;
+    v = mgcnt_sMinigameController->field3A4 + 1;
     if (v >= 3) {
         v = 3;
     }
-    mgcnt_sMinigameController->mUnk_3a4 = v;
-    mgcnt_sMinigameController->mUnk_3a2 = mgcnt_sShineRunnersRoundDuration[mgcnt_sMinigameController->mUnk_3a4];
+    mgcnt_sMinigameController->field3A4 = v;
+    mgcnt_sMinigameController->field3A2 = mgcnt_sShineRunnersRoundDuration[mgcnt_sMinigameController->field3A4];
     lowestCount = mgcnt_sMinigameController->mLowestBalloonOrShineCount;
     if (lowestCount != mgcnt_sMinigameController->mHighestBalloonOrShineCount) {
         kartCount = gRaceMultiConfig->mKartCount;
@@ -521,7 +521,7 @@ u16 mgcnt_handleShineRunnersTimeUp(void) {
     }
     if (data_0217c780 & 1) {
         seqPlayerHandle = sp_acquireElement(sound_getPoolById(0));
-        if (SoundHandle_217D084.mUnk_0c != 0) {
+        if (SoundHandle_217D084.fieldC != 0) {
             if (seqPlayerHandle[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
             }
@@ -531,7 +531,7 @@ u16 mgcnt_handleShineRunnersTimeUp(void) {
             NNS_SndArcPlayerStartSeqArc(seqPlayerHandle, 0, 0x4b);
         }
     }
-    return mgcnt_sMinigameController->mUnk_3a2;
+    return mgcnt_sMinigameController->field3A2;
 }
 
 void mgcnt_tryFinish(void) {
@@ -729,12 +729,12 @@ CourseMapPoint *mgcnt_getRandomShineMepo(void) {
     randomState = &gRaceStatus->mRandom;
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
     pointStep = (u16) (((u64) (u32) (randomState->mValue >> 32) * 5) >> 32) + 1;
-    pointIndex = mgcnt_sMinigameController->mUnk_3b8 + pointStep;
+    pointIndex = mgcnt_sMinigameController->field3B8 + pointStep;
     if (pointIndex >= gMapData->mBattlePointCount) {
         pointIndex = 0;
     }
-    mgcnt_sMinigameController->mUnk_3b8 = pointIndex;
-    return &gMapData->mBattlePoints[mgcnt_sMinigameController->mUnk_3b8];
+    mgcnt_sMinigameController->field3B8 = pointIndex;
+    return &gMapData->mBattlePoints[mgcnt_sMinigameController->field3B8];
 }
 
 // Allocates the Standings object and fills every entry (rank = own index, side id, status, count; the real karts first,
@@ -746,8 +746,8 @@ void mgcnt_init(void) {
     mgcnt_sMinigameController = heap_alloc(proc_getHeap(proc_getCurrent()), 0x3c0);
     for (i = 0; i < 8; i++) {
         kartStanding = &mgcnt_sMinigameController->mKarts[i];
-        kartStanding->mUnk_1c = -2;
-        kartStanding->mUnk_18 = -2;
+        kartStanding->field1C = -2;
+        kartStanding->field18 = -2;
         kartStanding->mHitByKartIndex = i;
         kartStanding->mRankIndex = i;
         if (i < gRaceMultiConfig->mKartCount) {
@@ -821,82 +821,82 @@ void mgcnt_update(void) {
         } else if (mgcnt_sMinigameController->mWinnerTeamId < 0 && kartStanding->mBalloonOrShineCount > 0) {
             kart = driver_getById((u16) i);
             kartStanding = &mgcnt_sMinigameController->mKarts[i];
-            v = kartStanding->mUnk_64 - 1;
+            v = kartStanding->field64 - 1;
             if (v <= 0) {
                 v = 0;
             }
-            kartStanding->mUnk_64 = v;
-            mgcnt_sMinigameController->mKarts[i].mUnk_68 = -(mgcnt_sMinigameController->mKarts[i].mUnk_68 <= 0);
+            kartStanding->field64 = v;
+            mgcnt_sMinigameController->mKarts[i].field68 = -(mgcnt_sMinigameController->mKarts[i].field68 <= 0);
             if (func_01ffc67c(kart) != FALSE ||
                 (u16) (gInputUnits[kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0) {
-                mgcnt_sMinigameController->mKarts[i].mUnk_68 = -1;
-                mgcnt_sMinigameController->mKarts[i].mUnk_64 = -1;
+                mgcnt_sMinigameController->mKarts[i].field68 = -1;
+                mgcnt_sMinigameController->mKarts[i].field64 = -1;
             } else if (race_getState() == 1) {
                 if ((u16) (gInputUnits[(u32) kart->mEntryIndex].mBits & 4) != 0) {
-                    mgcnt_sMinigameController->mKarts[i].mUnk_68 = 1;
-                } else if (gInputUnits[kart->mEntryIndex].mUnk_5a != 0) {
-                    mgcnt_sMinigameController->mKarts[i].mUnk_64 = 10;
+                    mgcnt_sMinigameController->mKarts[i].field68 = 1;
+                } else if (gInputUnits[kart->mEntryIndex].field5A != 0) {
+                    mgcnt_sMinigameController->mKarts[i].field64 = 10;
                 }
             }
             if (mgcnt_sMinigameController->mKartHitCallback != NULL) {
                 b = TRUE;
-                f = kart->mUnk_48;
+                f = kart->field48;
                 a = (f & 0x200) != 0;
                 if (kart->mState == KART_STATE_NORMAL && (f & 0x4000000) == 0) {
                     b = FALSE;
                 }
-                if (kartStanding->mUnk_04 == FALSE && a != FALSE && (kart->mUnk_4c & 0x400000) == 0) {
-                    kartStanding->mUnk_04 = TRUE;
-                    kartStanding->mUnk_00 = FALSE;
-                    kartStanding->mUnk_18 = -2;
+                if (kartStanding->field4 == FALSE && a != FALSE && (kart->field4C & 0x400000) == 0) {
+                    kartStanding->field4 = TRUE;
+                    kartStanding->field0 = FALSE;
+                    kartStanding->field18 = -2;
                     kartStanding->mHitByKartIndex = i;
-                    kartStanding->mUnk_20 = FALSE;
+                    kartStanding->field20 = FALSE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) ||
                             gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-                            kart->mUnk_7c |= 0x20000000;
-                            kart->mUnk_48 &= ~0x2000000;
+                            kart->field7C |= 0x20000000;
+                            kart->field48 &= ~0x2000000;
                         }
                     }
-                } else if (kartStanding->mUnk_04 == TRUE && (kart->mUnk_44 & 0x10000) != 0) {
-                    kartStanding->mUnk_04 = FALSE;
-                    kartStanding->mUnk_1c = 0;
-                    if ((kart->mUnk_4c & 0x400000) == 0) {
+                } else if (kartStanding->field4 == TRUE && (kart->field44 & 0x10000) != 0) {
+                    kartStanding->field4 = FALSE;
+                    kartStanding->field1C = 0;
+                    if ((kart->field4C & 0x400000) == 0) {
                         func_0206c17c(kart);
                     }
                 }
-                if (kartStanding->mUnk_1c == 0) {
-                    kartStanding->mUnk_1c = -2;
+                if (kartStanding->field1C == 0) {
+                    kartStanding->field1C = -2;
                     mgcnt_sMinigameController->mKartHitCallback(i, 8);
                     kartStanding->mHitByKartIndex = i;
-                } else if (kartStanding->mUnk_1c >= 0) {
-                    kartStanding->mUnk_1c = kartStanding->mUnk_1c + 1;
+                } else if (kartStanding->field1C >= 0) {
+                    kartStanding->field1C = kartStanding->field1C + 1;
                 }
-                if (kartStanding->mUnk_00 == FALSE && b != FALSE && (kart->mUnk_4c & 0x400000) == 0) {
-                    kartStanding->mUnk_00 = TRUE;
+                if (kartStanding->field0 == FALSE && b != FALSE && (kart->field4C & 0x400000) == 0) {
+                    kartStanding->field0 = TRUE;
                     if (kartStanding->mBalloonOrShineCount <= 1) {
                         if ((gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) ||
                             gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-                            kart->mUnk_7c |= 0x20000000;
+                            kart->field7C |= 0x20000000;
                         }
                     }
-                } else if (kartStanding->mUnk_00 == TRUE && b == FALSE && (kart->mUnk_48 & 0x6052840) == 0) {
-                    kartStanding->mUnk_00 = FALSE;
-                    if (kartStanding->mUnk_20 == FALSE) {
-                        kartStanding->mUnk_18 = 0;
-                        if ((kart->mUnk_4c & 0x400000) == 0) {
+                } else if (kartStanding->field0 == TRUE && b == FALSE && (kart->field48 & 0x6052840) == 0) {
+                    kartStanding->field0 = FALSE;
+                    if (kartStanding->field20 == FALSE) {
+                        kartStanding->field18 = 0;
+                        if ((kart->field4C & 0x400000) == 0) {
                             func_0206c17c(kart);
                         }
                     } else {
-                        kartStanding->mUnk_20 = FALSE;
+                        kartStanding->field20 = FALSE;
                     }
                 }
-                if (kartStanding->mUnk_18 == 0) {
-                    kartStanding->mUnk_18 = -2;
+                if (kartStanding->field18 == 0) {
+                    kartStanding->field18 = -2;
                     mgcnt_sMinigameController->mKartHitCallback(i, kartStanding->mHitByKartIndex);
                     kartStanding->mHitByKartIndex = i;
-                } else if (kartStanding->mUnk_18 >= 0) {
-                    kartStanding->mUnk_18 = kartStanding->mUnk_18 + 1;
+                } else if (kartStanding->field18 >= 0) {
+                    kartStanding->field18 = kartStanding->field18 + 1;
                 }
             }
             kartStanding->mPos = kart->mPos;
@@ -929,21 +929,21 @@ void bsfx_globalLogicInit(MapObjectList *mapObjectList) {
     for (i = 0; i < mapObjectList->mMapObjectCount && (mapObject = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (gRaceMultiConfig->mCourseId == COURSE_ID_MANSION) {
             mapObject->mRadius = 0xa28;
-            mapObject->mCenterX = mapObject->mUnk_00.mPos.x + 0x73a000;
-            mapObject->mCenterY = mapObject->mUnk_00.mPos.y;
-            mapObject->mCenterZ = mapObject->mUnk_00.mPos.z - 0x1400000;
+            mapObject->mCenterX = mapObject->field0.mPos.x + 0x73a000;
+            mapObject->mCenterY = mapObject->field0.mPos.y;
+            mapObject->mCenterZ = mapObject->field0.mPos.z - 0x1400000;
             mapObject->mDistanceLevelInverted = TRUE;
         } else if (gRaceMultiConfig->mCourseId == COURSE_ID_BEACH) {
             mapObject->mRadius = 0x546;
-            mapObject->mCenterX = mapObject->mUnk_00.mPos.x + 0x28a000;
-            mapObject->mCenterY = mapObject->mUnk_00.mPos.y;
-            mapObject->mCenterZ = mapObject->mUnk_00.mPos.z - 0x32000;
+            mapObject->mCenterX = mapObject->field0.mPos.x + 0x28a000;
+            mapObject->mCenterY = mapObject->field0.mPos.y;
+            mapObject->mCenterZ = mapObject->field0.mPos.z - 0x32000;
             mapObject->mDistanceLevelInverted = FALSE;
         } else {
             mapObject->mRadius = 0xa28;
-            mapObject->mCenterX = mapObject->mUnk_00.mPos.x;
-            mapObject->mCenterY = mapObject->mUnk_00.mPos.y;
-            mapObject->mCenterZ = mapObject->mUnk_00.mPos.z;
+            mapObject->mCenterX = mapObject->field0.mPos.x;
+            mapObject->mCenterY = mapObject->field0.mPos.y;
+            mapObject->mCenterZ = mapObject->field0.mPos.z;
             mapObject->mDistanceLevelInverted = FALSE;
         }
         randomState = &gRaceStatus->mLocalRandom;
@@ -1006,28 +1006,28 @@ void bsfx_update(void *mapObjectList, Unk020a0318 *mapObject) {
         if (mapObject->mDistanceLevel != 0) {
             if (*GetSndHandleSlot(8) != NULL) {
                 kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
-                mapObject->mUnk_a0 = mapObject->mUnk_a0 - (s32) (((s64) kart->mVelocityLengthRatio * 0x1000) >> 12);
-                if (mapObject->mUnk_a0 < 0xc000) {
-                    mapObject->mUnk_a0 = 0xc000;
+                mapObject->fieldA0 = mapObject->fieldA0 - (s32) (((s64) kart->mVelocityLengthRatio * 0x1000) >> 12);
+                if (mapObject->fieldA0 < 0xc000) {
+                    mapObject->fieldA0 = 0xc000;
                 }
             } else if (mapObject->mSoundTimer-- <= 0) {
                 sndHandleSlot = GetSndHandleSlot(8);
                 slot8Request.mSoundId = mapObject->mSoundId;
                 slot8Request.mPositionSource = NULL;
-                slot8Request.mUnk_08 = 4;
+                slot8Request.field8 = 4;
                 slot8Request.mDistanceSquared = mobj_calcXZCamDist(NULL);
                 func_0210b760(&slot8Request, sndHandleSlot);
                 randomState = &gRaceStatus->mLocalRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
-                mapObject->mUnk_a0 = 0x7f000;
+                mapObject->fieldA0 = 0x7f000;
             }
         } else if (mapObject->mSoundTimer > 0) {
             mapObject->mSoundTimer = mapObject->mSoundTimer - 1;
         }
         if (*GetSndHandleSlot(8) != NULL) {
-            v = mapObject->mDistanceVolumeFixed12 < mapObject->mUnk_a0 ? mapObject->mDistanceVolumeFixed12
-                                                                       : mapObject->mUnk_a0;
+            v = mapObject->mDistanceVolumeFixed12 < mapObject->fieldA0 ? mapObject->mDistanceVolumeFixed12
+                                                                       : mapObject->fieldA0;
             SetSndHandleTrackVolume(GetSndHandleSlot(8), v >> 12);
         }
     }
@@ -1039,7 +1039,7 @@ void bsfx_update(void *mapObjectList, Unk020a0318 *mapObject) {
             sndHandleSlot = GetSndHandleSlot(9);
             slot9Request.mSoundId = mapObject->mSecondSoundId;
             slot9Request.mPositionSource = NULL;
-            slot9Request.mUnk_08 = 4;
+            slot9Request.field8 = 4;
             slot9Request.mDistanceSquared = mobj_calcXZCamDist(NULL);
             func_0210b760(&slot9Request, sndHandleSlot);
         }

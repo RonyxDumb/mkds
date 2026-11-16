@@ -29,7 +29,7 @@ typedef struct KartItems {
     /* 014 */ s32 mActiveItem;
     // Always the record itself (the roulette functions take a part that points to its owner)
     /* 018 */ struct KartItems *mSelf;
-    /* 01c */ BOOL mUnk_01c;
+    /* 01c */ BOOL field1C;
     /* 020 */ BOOL mResultPending;
     /* 024 */ s32 mIsPeer;
     /* 028 */ u32 mSlotFinalScrollFrameCount;
@@ -43,44 +43,44 @@ typedef struct KartItems {
     // Bits set from data words and masks by the kart step; 0x200 / 0x40 / 0x2 / 0x4 combine in the use tests; meanings
     // not read
     /* 1ec */ u16 mFlags;
-    /* 1ee */ u8 mUnk_1ee[2];
-    /* 1f0 */ ItemPointLinkRef mUnk_1f0;
+    /* 1ee */ u8 field1EE[2];
+    /* 1f0 */ ItemPointLinkRef field1F0;
     /* 1f8 */ u16 mKartIndex;
-    /* 1fa */ u8 mUnk_1fa[2];
+    /* 1fa */ u8 field1FA[2];
     /* 1fc */ Kart *mKart;
     /* 200 */ s32 mEntryIndex;
     /* 204 */ BOOL mKinokoBoostStarted;
-    /* 208 */ BOOL mUnk_208;
-    /* 20c */ BOOL mUnk_20c;
+    /* 208 */ BOOL field208;
+    /* 20c */ BOOL field20C;
 } KartItems;
 
 // Element of the table behind data_0217562a.
 typedef struct Unk0217562a {
     /* 00 */ u16 mBits;
-    /* 02 */ u8 mUnk_02[0x5a];
+    /* 02 */ u8 field2[0x5a];
 } Unk0217562a;
 
 extern Unk0217562a data_0217562a[];
 
 // Element at 0x7c of the object behind gRaceMultiConfig.
 typedef struct Unk021759c0_7c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x2c];
+    /* 00 */ u32 field0;
+    /* 04 */ u8 field4[0x2c];
 } Unk021759c0_7c;
 
 // The object behind gRaceMultiConfig from its first byte: the elements at 0x7c.
 typedef struct Unk021759c0_000 {
-    /* 000 */ u8 mUnk_000[0x7c];
-    /* 07c */ Unk021759c0_7c mUnk_07c[17];
+    /* 000 */ u8 field0[0x7c];
+    /* 07c */ Unk021759c0_7c field7C[17];
 } Unk021759c0_000;
 
 // The object behind gMapData from its first byte: the halfword at 0x60
 // and the word at 0xb0.
 typedef struct Unk02175620_060 {
-    /* 000 */ u8 mUnk_000[0x60];
-    /* 060 */ u16 mUnk_060;
-    /* 062 */ u8 mUnk_062[0x4e];
-    /* 0b0 */ void *mUnk_0b0;
+    /* 000 */ u8 field0[0x60];
+    /* 060 */ u16 field60;
+    /* 062 */ u8 field62[0x4e];
+    /* 0b0 */ void *fieldB0;
 } Unk02175620_060;
 
 void InitItemInUse(ItemInUse *itemInUse, KartItems *kartItems);

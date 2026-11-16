@@ -6,7 +6,7 @@
 // side.
 typedef struct MatchingReceiveHeader {
     /* 00 */ char mSignature[4];
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u32 field4;
     /* 08 */ u8 mCommand;
     /* 09 */ u8 mValuesSize;
     /* 0a */ u16 mPort;

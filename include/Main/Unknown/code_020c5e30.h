@@ -6,7 +6,7 @@
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 // Time-attack record handling of the race (mode 1 only), one record behind r2dtar_sStatus (0xe8 bytes, allocated by
-// r2dtar_init, set NULL by r2dtar_finalize): mUnk_00 is the function it runs every frame
+// r2dtar_init, set NULL by r2dtar_finalize): field0 is the function it runs every frame
 // (r2dtar_update), which compares the finished run with the course's saved records, inserts and saves a new one
 // (savd_setNktaEntry) and slides in and draws the new-record page (r2dtar_render).
 typedef struct RaceNewRecordTa {
@@ -16,13 +16,13 @@ typedef struct RaceNewRecordTa {
     /* 0c */ s32 mFinishRecordIndex;
     /* 10 */ s32 mBestLapIsRecord;
     /* 14 */ u16 mBestLapNumber;
-    /* 16 */ u8 mUnk_16[2];
-    /* 18 */ s32 mUnk_18;
+    /* 16 */ u8 field16[2];
+    /* 18 */ s32 field18;
     // The course's six time records, copied from the save by r2dtar_init (savd_getNktaEntry): slots 0..4 are
     // the ranked list (an insert shifts them down and writes through savd_setNktaEntry), slot 5 is a further record
     // shown in a sixth row: the best lap time.
     /* 1c */ TimeRecord mRecords[6];
-    /* dc */ s32 mUnk_dc;
+    /* dc */ s32 fieldDC;
     // X of the whole page: -0x100 at allocation, eased to 0 over 0x14 frames by SlideInRaceNewRecordTa, added to every
     // sprite and row x in the draw.
     /* e0 */ s32 mOffsetX;

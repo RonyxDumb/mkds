@@ -13,7 +13,7 @@ typedef struct StateMachine {
     /* 00 */ StateCallbacks *mStateTable;
     /* 04 */ s32 mStateFrames;
     /* 08 */ void *mObject;
-    /* 0c */ u8 mUnk_0c[0x2];
+    /* 0c */ u8 fieldC[0x2];
     /* 0e */ u16 mState;
     /* 10 */ u16 mNextState;
     /* 12 */ u16 mNextStateRequested;

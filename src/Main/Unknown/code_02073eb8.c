@@ -52,12 +52,12 @@ static inline void func_02076528_inline(Vec3 *vec, s32 scale) {
     vec->z = ((s64) vec->z * scale) >> 12;
 }
 
-// b selects the far plane: non-zero uses the second far value (mUnk_08c).
+// b selects the far plane: non-zero uses the second far value (field8C).
 void cam_applyFrustum(Camera *camera, s32 useSecondFar) {
     s32 farPlane;
 
     if (useSecondFar != 0) {
-        farPlane = camera->mUnk_08c;
+        farPlane = camera->field8C;
     } else {
         farPlane = camera->mFar;
     }
@@ -88,12 +88,12 @@ void cam_resetPlayerCamera(void) {
     kart = driver_getById(gRaceMultiConfig->mEntryIndex);
     cam_init(cam_sPlayerCamera);
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-        if (gRaceMultiConfig->mUnk_044 & 0x20) {
+        if (gRaceMultiConfig->field44 & 0x20) {
             cam_sPlayerCamera->mFollowDirectionSign = -0x1000;
         }
     }
     chaseCamera = cam_sPlayerCamera;
-    qtrn_toMtx33(&axes, &kart->mUnk_e0);
+    qtrn_toMtx33(&axes, &kart->fieldE0);
     behindDistance = ((s64) -cam_sCameraDistance * chaseCamera->mFollowDirectionSign + 0x800) >> 12;
     offset.x = ((s64) axes[2].x * behindDistance) >> 12;
     offset.y = ((s64) axes[2].y * behindDistance) >> 12;
@@ -124,17 +124,17 @@ void cam_updatePlayerCamera(Camera *camera, Kart *kart) {
     Vec3 *p;
 
     scaledHopHeight = ((s64) kart->mHopHeight * 0xcd0) >> 12;
-    if (camera->mUnk_258 == FALSE) {
+    if (camera->field258 == FALSE) {
         camera->mPrevPos = camera->mPos;
     }
-    if (kart->mUnk_4c & KART_4C_HEADING_SWING) {
+    if (kart->field4C & KART_4C_HEADING_SWING) {
         forward = camera->mSavedKartForward;
         func_02076528_inline(&forward, camera->mFollowDirectionSign);
     } else {
         driver_getShadowZDirection(kart, &forward);
         func_02076528_inline(&forward, camera->mFollowDirectionSign);
     }
-    if (kart->mUnk_7c & 0x20) {
+    if (kart->field7C & 0x20) {
         if (mobj_getHasWater() == FALSE) {
             return;
         }
@@ -155,7 +155,7 @@ void cam_updatePlayerCamera(Camera *camera, Kart *kart) {
     camera->mHalfFovAngle = camera->mHalfFovAngle + (s32) (((s64) t * fovEaseRate + 0x800) >> 12);
     camera->mHalfFovPairFirst = FX_SinCosTable_[((u16) camera->mHalfFovAngle >> 4) * 2];
     camera->mHalfFovPairSecond = FX_SinCosTable_[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
-    if (kart->mUnk_48 & 0x10000) {
+    if (kart->field48 & 0x10000) {
         camera->mFollowDistanceScale =
             camera->mFollowDistanceScale + (s32) (((s64) (0x14cd - camera->mFollowDistanceScale) * 0xcd + 0x800) >> 12);
     } else {
@@ -164,12 +164,12 @@ void cam_updatePlayerCamera(Camera *camera, Kart *kart) {
     }
     kartMovement.y = 0;
     driver_getShadowYDirection(kart, &kartUp);
-    cam_20745D4(&camera->mLookAt, &camera->mUnk_0b4, &camera->mLookAtLowering, kart, scaledHopHeight,
+    cam_20745D4(&camera->mLookAt, &camera->fieldB4, &camera->mLookAtLowering, kart, scaledHopHeight,
                             camera->mLookAtHeight);
     kartPos.y = kartPos.y - scaledHopHeight;
     g = kartPos;
     cam_2075FE0(camera, kart, &forward);
-    cam_20741A0(&camera->mPos, &camera->mUnk_0a8, camera, kart, &g, &forward,
+    cam_20741A0(&camera->mPos, &camera->fieldA8, camera, kart, &g, &forward,
                          ((s64) camera->mCollisionOffsetLength * 0x3000) >> 12);
     if (mobj_getHasWater() != FALSE) {
         t = mobj_getWaterPlaneDistance2(camera->mPos.y - 0x5000);
@@ -180,9 +180,9 @@ void cam_updatePlayerCamera(Camera *camera, Kart *kart) {
         }
     }
     cam_applyPlayerCamCollision(camera, kart, &forward);
-    p = &kart->mUnk_120;
+    p = &kart->field120;
     t = 0;
-    if (kart->mUnk_44 & KART_44_DRIFTING) {
+    if (kart->field44 & KART_44_DRIFTING) {
         t = data_021656c4;
         if (kart->mTurnDirection > 0) {
             t *= -1;
@@ -194,7 +194,7 @@ void cam_updatePlayerCamera(Camera *camera, Kart *kart) {
     camera->mPosGoalKartOffset.x = ((s64) p->x * kartOffsetScale) >> 12;
     camera->mPosGoalKartOffset.y = ((s64) p->y * kartOffsetScale) >> 12;
     camera->mPosGoalKartOffset.z = ((s64) p->z * kartOffsetScale) >> 12;
-    if (kart->mUnk_48 & 0x40000000) {
+    if (kart->field48 & 0x40000000) {
         driver_getShadowYDirection(kart, &targetUp);
     } else {
         targetUp = cam_sVecUp;
@@ -233,7 +233,7 @@ void cam_applyPlayerCamCollision(Camera *camera, Kart *kart, Vec3 *forward) {
     s32 l;
 
     data_0217aca0 = 0;
-    camera->mUnk_258 = FALSE;
+    camera->field258 = FALSE;
     if (col_collide(&camera->mPos, (u32 *) &camera->mPrevPos, 0, cam_sColSphereSize, 2, -2, &pushOut, &w, (s32 *) &x,
                       &j, NULL, NULL, NULL, NULL) != 0 &&
         (j & 0xc00) == 0) {
@@ -247,28 +247,28 @@ void cam_applyPlayerCamCollision(Camera *camera, Kart *kart, Vec3 *forward) {
                 if (k != 0) {
                     if (vec_dotProduct(&z, &x) < 0xf5c) {
                         if (vec_dotProduct(&z, forward) > 0xb5c) {
-                            camera->mUnk_254 = 1;
+                            camera->field254 = 1;
                         }
                     }
                 }
             }
-            camera->mUnk_258 = TRUE;
+            camera->field258 = TRUE;
             k = vec_dotProduct(&y, &x);
             m = TRUE;
-            l = camera->mUnk_254;
+            l = camera->field254;
             if (l == 1 || (l == 3 && k < -0xd9a && vec_dotProduct(&y, forward) < 0)) {
                 if (x.y < -0xe66) {
-                    camera->mUnk_254 = 3;
+                    camera->field254 = 3;
                     m = FALSE;
-                    camera->mUnk_258 = FALSE;
+                    camera->field258 = FALSE;
                 } else {
                     camera->mCollisionOffsetLengthGoal = VEC_Mag(&pushOut);
-                    camera->mUnk_254 = 1;
+                    camera->field254 = 1;
                 }
             } else if (vec_dotProduct(forward, &x) > 0) {
-                camera->mUnk_254 = 0;
+                camera->field254 = 0;
             } else {
-                camera->mUnk_25c = TRUE;
+                camera->field25C = TRUE;
                 m = FALSE;
             }
         } else if (j & 0x1e34ef) {
@@ -278,11 +278,11 @@ void cam_applyPlayerCamCollision(Camera *camera, Kart *kart, Vec3 *forward) {
             }
         }
     }
-    if (camera->mUnk_258 == FALSE) {
-        camera->mUnk_25c = FALSE;
+    if (camera->field258 == FALSE) {
+        camera->field25C = FALSE;
     }
-    if (m != FALSE && camera->mUnk_25c == FALSE) {
-        if (camera->mUnk_254 == 0) {
+    if (m != FALSE && camera->field25C == FALSE) {
+        if (camera->field254 == 0) {
             k = (s32) (((s64) (0x1000 - kart->mVelocityLengthRatio) * 0x5000) >> 12) + 0x3000;
             pushOut.x = ((s64) pushOut.x * k) >> 12;
             pushOut.y = ((s64) pushOut.y * k) >> 12;
@@ -297,7 +297,7 @@ void cam_applyPlayerCamCollision(Camera *camera, Kart *kart, Vec3 *forward) {
         t.y = ((s64) t.y * 0x4cd) >> 12;
         t.z = ((s64) t.z * 0x4cd) >> 12;
         VEC_Add(&camera->mPosGoalCollisionOffset, &t, &camera->mPosGoalCollisionOffset);
-        camera->mUnk_254 = 3;
+        camera->field254 = 3;
     }
     camera->mCollisionOffsetLength =
         camera->mCollisionOffsetLength +
@@ -309,16 +309,16 @@ void cam_2075FE0(Camera *camera, Kart *kart, Vec3 *forward) {
     s32 j;
     s32 goalYOffset = 0;
     s32 easeRate = 0x11f;
-    u32 d = kart->mUnk_48;
+    u32 d = kart->field48;
     s32 forwardY;
 
     if (d & 0x10000) {
         e = -0x3c000;
     }
-    if (kart->mUnk_3e8 > 0) {
+    if (kart->field3E8 > 0) {
         easeRate = 0x52;
     }
-    if ((kart->mUnk_44 & KART_44_ON_GROUND) || (d & 0x10000)) {
+    if ((kart->field44 & KART_44_ON_GROUND) || (d & 0x10000)) {
         if ((forwardY = forward->y) > 0) {
             goalYOffset = ((s64) forwardY * e) >> 12;
         } else if (forwardY + 0x4cd < 0) {
@@ -352,7 +352,7 @@ void cam_2075EB8(void) {
     if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
         camr_initRouteStat(&entryCamera->mPosCurve, courseMapCamera);
         if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-            camr_initRouteStatReversed(&entryCamera->mUnk_1d0, courseMapCamera);
+            camr_initRouteStatReversed(&entryCamera->field1D0, courseMapCamera);
         }
     }
     if (rstat_hasDriverFinished(driver_getById(gRaceMultiConfig->mEntryIndex)->mIndex) != 0) {
@@ -399,7 +399,7 @@ void cam_2075D08(s32 hold) {
     if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
         camr_initRouteStat(&entryCamera->mPosCurve, courseMapCamera);
         if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-            camr_initRouteStatReversed(&entryCamera->mUnk_1d0, courseMapCamera);
+            camr_initRouteStatReversed(&entryCamera->field1D0, courseMapCamera);
         }
     }
     if (rstat_hasDriverFinished(driver_getById(gRaceMultiConfig->mEntryIndex)->mIndex) != 0) {
@@ -474,7 +474,7 @@ BOOL cam_updateReplayCamera(Camera *camera) {
                 if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
                     camr_initRouteStat(&camera->mPosCurve, courseMapCamera);
                     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-                        camr_initRouteStatReversed(&camera->mUnk_1d0, courseMapCamera);
+                        camr_initRouteStatReversed(&camera->field1D0, courseMapCamera);
                     }
                 }
                 if (rstat_hasDriverFinished(driver_getById(gRaceMultiConfig->mEntryIndex)->mIndex) != 0) {
@@ -494,11 +494,11 @@ void cam_updateCame(Camera *camera) {
     s32 secondOffset;
     switch (camera->mCourseMapCamera->mKind) {
         case 0:
-            camera->mPos = camera->mCourseMapCamera->mUnk_00;
+            camera->mPos = camera->mCourseMapCamera->field0;
             if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
-                camera->mFollowedKartIndex = (camera->mCourseMapCamera->mUnk_24.z >> 12) - 1;
+                camera->mFollowedKartIndex = (camera->mCourseMapCamera->field24.z >> 12) - 1;
                 driver_getPosition(&camera->mLookAt, camera->mFollowedKartIndex);
-                camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mUnk_18.y;
+                camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->field18.y;
             } else {
                 driver_getPosition(&camera->mLookAt, camera->mFollowedKartIndex);
                 camera->mLookAt.y = camera->mLookAt.y + 0x6000;
@@ -513,7 +513,7 @@ void cam_updateCame(Camera *camera) {
             cam_2074E6C(camera);
             break;
         case 2:
-            camera->mPos = camera->mCourseMapCamera->mUnk_00;
+            camera->mPos = camera->mCourseMapCamera->field0;
             cam_updateCameTarget(camera);
             cam_updateLookAt(camera);
             break;
@@ -566,7 +566,7 @@ void cam_setupMissionFinishCamera(void) {
     if ((s16) courseMapCamera->mEntryGroupIndex != -1) {
         camr_initRouteStat(&entryCamera->mPosCurve, courseMapCamera);
         if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-            camr_initRouteStatReversed(&entryCamera->mUnk_1d0, courseMapCamera);
+            camr_initRouteStatReversed(&entryCamera->field1D0, courseMapCamera);
         }
     }
     if (rstat_hasDriverFinished(driver_getById(gRaceMultiConfig->mEntryIndex)->mIndex) != 0) {
@@ -662,9 +662,9 @@ void cam_updateIntroCam(Camera *camera) {
 void cam_updateCameByRouteAndDriver(Camera *camera) {
     cam_updateCameRoutePos(camera, camera->mCourseMapCamera->mPosCurvePerFrame);
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
-        camera->mFollowedKartIndex = (camera->mCourseMapCamera->mUnk_24.z >> 12) - 1;
+        camera->mFollowedKartIndex = (camera->mCourseMapCamera->field24.z >> 12) - 1;
         driver_getPosition(&camera->mLookAt, camera->mFollowedKartIndex);
-        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mUnk_18.y;
+        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->field18.y;
     } else {
         driver_getPosition(&camera->mLookAt, camera->mFollowedKartIndex);
         camera->mLookAt.y = camera->mLookAt.y + 0x6000;
@@ -698,33 +698,33 @@ void cam_2074E6C(Camera *camera) {
     s32 l;
 
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
-        camera->mFollowedKartIndex = (courseMapCamera->mUnk_24.z >> 12) - 1;
+        camera->mFollowedKartIndex = (courseMapCamera->field24.z >> 12) - 1;
         driver_getPosition(&camera->mLookAt, camera->mFollowedKartIndex);
-        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->mUnk_18.y;
+        camera->mLookAt.y = camera->mLookAt.y + camera->mCourseMapCamera->field18.y;
     } else {
         driver_getPosition(&camera->mLookAt, camera->mFollowedKartIndex);
         camera->mLookAt.y = camera->mLookAt.y + 0x6000;
     }
     kart = driver_getById(camera->mFollowedKartIndex);
-    a = kart->mUnk_138;
-    i = (u16) ((s32) (((s64) courseMapCamera->mUnk_18.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    j = (u16) ((s32) (((s64) courseMapCamera->mUnk_18.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    k = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    l = (u16) ((s32) (((s64) courseMapCamera->mUnk_24.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
-    MTX_RotAxis33((MtxFx43 *) m0, &kart->mUnk_120, FX_SinCosTable_[(kart->mHopTiltAngle >> 4) * 2],
+    a = kart->field138;
+    i = (u16) ((s32) (((s64) courseMapCamera->field18.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    j = (u16) ((s32) (((s64) courseMapCamera->field18.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    k = (u16) ((s32) (((s64) courseMapCamera->field24.x * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    l = (u16) ((s32) (((s64) courseMapCamera->field24.y * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12);
+    MTX_RotAxis33((MtxFx43 *) m0, &kart->field120, FX_SinCosTable_[(kart->mHopTiltAngle >> 4) * 2],
                   FX_SinCosTable_[(kart->mHopTiltAngle >> 4) * 2 + 1]);
     MTX_MultVec33(&a, m0, &a);
     b = a;
     c = b;
     d = b;
-    func_02074b00_inline(&n, &d, -courseMapCamera->mUnk_18.z);
+    func_02074b00_inline(&n, &d, -courseMapCamera->field18.z);
     vec_crossProduct(&cam_sVecUp, &a, &f);
     vec_crossProduct(&c, &f, &g);
     MTX_RotAxis33((MtxFx43 *) m2, &g, FX_SinCosTable_[(i >> 4) * 2], FX_SinCosTable_[(i >> 4) * 2 + 1]);
     MTX_RotAxis33((MtxFx43 *) m3, &f, FX_SinCosTable_[(j >> 4) * 2], FX_SinCosTable_[(j >> 4) * 2 + 1]);
     MTX_Concat33(m3, m2, m4);
     MTX_MultVec33(&d, m4, &d);
-    func_02074b00_inline(&t, &d, courseMapCamera->mUnk_18.z);
+    func_02074b00_inline(&t, &d, courseMapCamera->field18.z);
     VEC_Add(&camera->mLookAt, &t, &camera->mPos);
     f.x = -f.x;
     f.y = -f.y;
@@ -745,9 +745,9 @@ void cam_2074E6C(Camera *camera) {
         if (col_collide(&camera->mPos, (u32 *) &camera->mPrevPos, 0, cam_sColSphereSize >> 1, 2, -2, &pushOut, NULL,
                           NULL, NULL, NULL, NULL, NULL, NULL) != 0) {
             kart = driver_getById(camera->mFollowedKartIndex);
-            v = &kart->mUnk_120;
+            v = &kart->field120;
             k = VEC_DotProduct(v, &pushOut);
-            pushOut.x = ((s64) kart->mUnk_120.x * k) >> 12;
+            pushOut.x = ((s64) kart->field120.x * k) >> 12;
             pushOut.y = ((s64) v->y * k) >> 12;
             pushOut.z = ((s64) v->z * k) >> 12;
             VEC_Add(&pushOut, &camera->mPos, &camera->mPos);
@@ -765,30 +765,30 @@ void cam_updateStaffRollCamera(Camera *camera) {
     Vec3 lightDirection;
     s32 m[9];
 
-    camera->mUnk_0b4 = camera->mLookAt;
+    camera->fieldB4 = camera->mLookAt;
     newLookAt = kart->mPos;
-    VEC_MultAdd(courseMapCamera->mUnk_00.z, &kart->mUnk_120, &kart->mPos, &newPos);
+    VEC_MultAdd(courseMapCamera->field0.z, &kart->field120, &kart->mPos, &newPos);
     newPos.y = 0x1f4000;
     newLookAt.y = 0x1f4000;
-    offset = kart->mUnk_138;
+    offset = kart->field138;
     offset.y = 0;
     if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
         vec_normalize(&offset, &offset);
     }
-    func_02074b00_inline(&offset, &offset, courseMapCamera->mUnk_00.x);
+    func_02074b00_inline(&offset, &offset, courseMapCamera->field0.x);
     VEC_Add(&newPos, &offset, &newPos);
     VEC_Add(&newLookAt, &offset, &newLookAt);
     if (race_getFrameCounter() < courseMapCamera->mFrameCount) {
         camera->mLookAt = newLookAt;
         camera->mPos = newPos;
-    } else if (camera->mUnk_144 < 0x1000) {
+    } else if (camera->field144 < 0x1000) {
         camera->mLookAt = newLookAt;
         camera->mPos = newPos;
-        camera->mUnk_144 = camera->mUnk_144 + 0x52;
-        VEC_Subtract(&camera->mPrevPos, &camera->mPos, &camera->mUnk_0a8);
-        VEC_Subtract(&camera->mUnk_0b4, &camera->mLookAt, &camera->mUnk_0b4);
-        VEC_MultAdd(camera->mUnk_144, &camera->mUnk_0a8, &newPos, &camera->mPos);
-        VEC_MultAdd(camera->mUnk_144, &camera->mUnk_0b4, &newLookAt, &camera->mLookAt);
+        camera->field144 = camera->field144 + 0x52;
+        VEC_Subtract(&camera->mPrevPos, &camera->mPos, &camera->fieldA8);
+        VEC_Subtract(&camera->fieldB4, &camera->mLookAt, &camera->fieldB4);
+        VEC_MultAdd(camera->field144, &camera->fieldA8, &newPos, &camera->mPos);
+        VEC_MultAdd(camera->field144, &camera->fieldB4, &newLookAt, &camera->mLookAt);
     }
     cam_updateLookAtEx(camera);
     VEC_Subtract(&newPos, &newLookAt, &lightDirection);
@@ -880,14 +880,14 @@ void cam_updateCameTarget(Camera *camera) {
 
     if (courseMapCamera->mLookAtBlendPerFrame != 0) {
         blend = camera->mLookAtBlend;
-        startX = courseMapCamera->mUnk_18.x;
-        deltaX = courseMapCamera->mUnk_24.x - startX;
+        startX = courseMapCamera->field18.x;
+        deltaX = courseMapCamera->field24.x - startX;
         scaledDeltaX = (deltaX * blend) >> 12;
-        startY = courseMapCamera->mUnk_18.y;
-        deltaY = courseMapCamera->mUnk_24.y - startY;
+        startY = courseMapCamera->field18.y;
+        deltaY = courseMapCamera->field24.y - startY;
         scaledDeltaY = (deltaY * blend) >> 12;
-        startZ = courseMapCamera->mUnk_18.z;
-        deltaZ = courseMapCamera->mUnk_24.z - startZ;
+        startZ = courseMapCamera->field18.z;
+        deltaZ = courseMapCamera->field24.z - startZ;
         scaledDeltaZ = (deltaZ * blend) >> 12;
         camera->mLookAt.x = startX + scaledDeltaX;
         camera->mLookAt.y = startY + scaledDeltaY;
@@ -897,9 +897,9 @@ void cam_updateCameTarget(Camera *camera) {
             camera->mLookAtBlend = 0x1000;
         }
     } else {
-        camera->mLookAt.x = courseMapCamera->mUnk_18.x;
-        camera->mLookAt.y = courseMapCamera->mUnk_18.y;
-        camera->mLookAt.z = courseMapCamera->mUnk_18.z;
+        camera->mLookAt.x = courseMapCamera->field18.x;
+        camera->mLookAt.y = courseMapCamera->field18.y;
+        camera->mLookAt.z = courseMapCamera->field18.z;
     }
 }
 
@@ -959,13 +959,13 @@ void cam_20745D4(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLowering, Kart *ka
     lookAtGoal = kart->mPos;
     v10 = kart->mPos;
     v10.y = v10.y - scaledHopHeight;
-    VEC_MultAdd(lookAtHeight, &kart->mUnk_12c, &v10, &v10);
+    VEC_MultAdd(lookAtHeight, &kart->field12C, &v10, &v10);
     lookAtGoal.y = lookAtGoal.y + (lookAtHeight - scaledHopHeight);
-    if (!(kart->mUnk_48 & 0x40000000)) {
+    if (!(kart->field48 & 0x40000000)) {
         offsetGoal = cam_sVecNull;
     } else {
         VEC_Subtract(&v10, &lookAtGoal, &offsetGoal);
-        VEC_MultAdd(0xa000, &kart->mUnk_12c, &offsetGoal, &offsetGoal);
+        VEC_MultAdd(0xa000, &kart->field12C, &offsetGoal, &offsetGoal);
     }
     VEC_Subtract(&offsetGoal, lookAtOffset, &offsetStep);
     offsetStep.x = ((s64) offsetStep.x * 0x266) >> 12;
@@ -975,7 +975,7 @@ void cam_20745D4(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLowering, Kart *ka
     VEC_Add(&lookAtGoal, lookAtOffset, &lookAtGoal);
     lookAt->x = lookAtGoal.x;
     lookAt->z = lookAtGoal.z;
-    if (kart->mUnk_48 & 0x10000) {
+    if (kart->field48 & 0x10000) {
         *lookAtLowering = *lookAtLowering + 0x1000;
         if (*lookAtLowering > 0xa000) {
             *lookAtLowering = 0xa000;
@@ -1016,8 +1016,8 @@ void cam_20741A0(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart, Vec3 *k
         followDistance = 500;
     }
     VEC_Subtract(&kart->mPos, &kart->mPrevPos, &kartMovement);
-    if (kart->mUnk_48 & 0x1000) {
-        if (kart->mUnk_4c & 0x4000000) {
+    if (kart->field48 & 0x1000) {
+        if (kart->field4C & 0x4000000) {
             return;
         }
         camera->mKartMoveScale = ((s64) camera->mKartMoveScale * 0xe66) >> 12;
@@ -1038,7 +1038,7 @@ void cam_20741A0(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart, Vec3 *k
     VEC_Add(kartPos, &v2, &v64);
     posGoal = v64;
     posGoal.y = posGoal.y + camera->mPosGoalYOffset;
-    if (!(kart->mUnk_48 & 0x40000000)) {
+    if (!(kart->field48 & 0x40000000)) {
         offsetGoal = cam_sVecNull;
     } else {
         VEC_Subtract(&v70, &posGoal, &offsetGoal);
@@ -1124,7 +1124,7 @@ void cam_tryShakePlayerCamera(s32 baseAmplitude, u32 distance, s32 scale) {
     }
     chaseCamera->mWobbleAmplitude = amplitude;
     chaseCamera->mWobbling = TRUE;
-    chaseCamera->mUnk_144 = 0;
+    chaseCamera->field144 = 0;
     chaseCamera->mWobblePerFrame = 0x800;
     chaseCamera->mWobbleDirection = 1;
     chaseCamera->mWobbleDecay = 0xe66;
@@ -1146,18 +1146,18 @@ void cam_updateShake(Camera *camera) {
     if (camera->mWobbling == FALSE) {
         return;
     }
-    camera->mUnk_144 = camera->mUnk_144 + camera->mWobblePerFrame * camera->mWobbleDirection;
-    t = camera->mUnk_144;
+    camera->field144 = camera->field144 + camera->mWobblePerFrame * camera->mWobbleDirection;
+    t = camera->field144;
     if (t > 0x1000) {
         camera->mWobbleDirection *= -1;
-        camera->mUnk_144 = 0x2000 - camera->mUnk_144;
+        camera->field144 = 0x2000 - camera->field144;
     } else if (t < -0x1000) {
         camera->mWobbleDirection *= -1;
-        camera->mUnk_144 = -0x2000 - camera->mUnk_144;
+        camera->field144 = -0x2000 - camera->field144;
     }
     camera->mWobbleAmplitude = ((s64) camera->mWobbleAmplitude * camera->mWobbleDecay) >> 12;
     camera->mWobbleAmplitude = camera->mWobbleAmplitude - 0x14;
-    camera->mWobbleOffset = ((s64) camera->mUnk_144 * camera->mWobbleAmplitude) >> 12;
+    camera->mWobbleOffset = ((s64) camera->field144 * camera->mWobbleAmplitude) >> 12;
     if (camera->mWobbleAmplitude <= 0) {
         u = FALSE;
         camera->mWobbleOffset = u;

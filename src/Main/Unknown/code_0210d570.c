@@ -8,5 +8,5 @@ u32 func_0210d58c(ScenePlayers *scenePlayers) {
 
 void func_0210d570(ScenePlayers *scenePlayers, s32 unused) {
     ReleaseAllSoundSources();
-    scenePlayers->mUnk_00 = 0;
+    scenePlayers->field0 = 0;
 }

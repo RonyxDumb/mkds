@@ -36,8 +36,8 @@ s32 func_ov000_0219735c(const s8 *a, u32 b) {
     e = sprintf((char *) g, data_ov000_021b3e0c, e, data_ov000_021b4f84);
     func_ov000_0218e0fc((const char *) g, e, f);
     data_ov000_021b3b30 = data_ov000_021b3b98;
-    func_ov000_021971ec(c.mUnk_00, 0x2b);
-    e = sprintf((char *) g, (const char *) c.mUnk_00, data_ov000_021b4e84, f, b);
+    func_ov000_021971ec(c.field0, 0x2b);
+    e = sprintf((char *) g, (const char *) c.field0, data_ov000_021b4e84, f, b);
     if (func_ov000_02197220(g, e) <= 0) {
         func_ov000_0218e53c(data_ov000_021b3b2c);
         return 3;
@@ -138,13 +138,13 @@ const s8 *func_ov000_021970fc(const s8 *v1, const char *v2) {
     s8 *c;
     s8 *e;
     data_ov000_021b4e70 ^= 1;
-    strcat((char *) a.mUnk_00, v2);
-    strcat((char *) a.mUnk_00, data_ov000_021b3e00);
-    b = (const s8 *) strstr((const char *) v1, (const char *) a.mUnk_00);
+    strcat((char *) a.field0, v2);
+    strcat((char *) a.field0, data_ov000_021b3e00);
+    b = (const s8 *) strstr((const char *) v1, (const char *) a.field0);
     if (b == NULL) {
         return NULL;
     }
-    b += strlen((const char *) a.mUnk_00);
+    b += strlen((const char *) a.field0);
     e = data_ov000_021b5084 + (data_ov000_021b4e70 << 8);
     c = e;
     while (*b != 0 && *b != '\\') {
@@ -185,7 +185,7 @@ BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, Unk021a8f84 **d) {
         if (f == NULL) {
             return FALSE;
         }
-        *OFFSET_PTR(u32, c, 4) = **f->mUnk_0c;
+        *OFFSET_PTR(u32, c, 4) = **f->fieldC;
     }
     if (d != NULL) {
         *d = f;
@@ -195,13 +195,13 @@ BOOL func_ov000_02197064(const s8 *a, u32 b, u8 *c, Unk021a8f84 **d) {
 
 void func_ov000_02197020(s32 a, s32 b, s32 c, s32 d, s32 e, UnkFunc *f, s32 g) {
     Unk02197020 h;
-    h.mUnk_18 = f;
-    h.mUnk_14 = g;
-    h.mUnk_04 = b;
-    h.mUnk_00 = a;
-    h.mUnk_08 = c;
-    h.mUnk_0c = d;
-    h.mUnk_10 = e;
+    h.field18 = f;
+    h.field14 = g;
+    h.field4 = b;
+    h.field0 = a;
+    h.field8 = c;
+    h.fieldC = d;
+    h.field10 = e;
     if (data_ov000_021b4e5c == NULL) {
         data_ov000_021b4e5c = DarrayCreate(0x1c, 2, NULL);
     }
@@ -217,9 +217,9 @@ void func_ov000_02196f8c(s8 *a, s32 b, s32 c, UnkFunc *d, s32 e) {
     if (g <= 0) {
         GstatsClose();
         data_ov000_021b3b30 = data_ov000_021b3b98;
-        func_ov000_021971ec(f.mUnk_00, 0xf);
+        func_ov000_021971ec(f.field0, 0xf);
         if (d != NULL) {
-            d(c, 0, 0, f.mUnk_00, e);
+            d(c, 0, 0, f.field0, e);
         }
     } else {
         func_ov000_02197020(0, c, 0, 0, 0, d, e);
@@ -233,14 +233,14 @@ void func_ov000_02196e50(s32 a, s32 b, s32 c, s32 d, const u8 *e, s32 f, UnkFunc
     s8 *n;
     s32 l;
     data_ov000_021b3b30 = data_ov000_021b3b98;
-    func_ov000_021971ec(j.mUnk_00, 0x3e);
+    func_ov000_021971ec(j.field0, 0x3e);
     if (c == 0 || c == 2) {
         if (g != NULL) {
             g(a, b, c, d, 0, 0, h);
         }
         return;
     }
-    m = sprintf((char *) k, (const char *) j.mUnk_00, b, c, d, i, a, f);
+    m = sprintf((char *) k, (const char *) j.field0, b, c, d, i, a, f);
     l = m + f;
     if (l < 0x1e0) {
         memcpy(k + m, e, f);
@@ -299,7 +299,7 @@ s32 func_ov000_02196d84(s32 a, s32 b, s32 c) {
     if (DarrayGetCount((u32 *) data_ov000_021b4e5c) > 0) {
         do {
             e = DarrayGetElement(data_ov000_021b4e5c, d);
-            if (e->mUnk_00 == a && e->mUnk_04 == b && e->mUnk_08 == c) {
+            if (e->field0 == a && e->field4 == b && e->field8 == c) {
                 return d;
             }
             d++;
@@ -315,7 +315,7 @@ void func_ov000_02196d0c(u8 *f, s32 g) {
     s32 d = func_ov000_02196d84(0, b, 0);
     if (d != -1) {
         Unk02196d84 *e = DarrayGetElement(data_ov000_021b4e5c, d);
-        e->mUnk_08 = a;
+        e->field8 = a;
         func_ov000_021969d8(d, a > 0 ? 1 : 0, 0, (const u8 *) c, 0);
     }
 }
@@ -331,7 +331,7 @@ void func_ov000_02196ca4(u8 *c, s32 d) {
     t = func_ov000_02196d84(3, b, 0);
     if (t != -1) {
         p = DarrayGetElement(data_ov000_021b4e5c, t);
-        p->mUnk_08 = a;
+        p->field8 = a;
         func_ov000_021969d8(t, (a > 0) ? 1 : 0, 0, NULL, 0);
     }
 }
@@ -430,19 +430,19 @@ void func_ov000_021969d8(s32 a, s32 b, s32 c, const u8 *d, s32 e) {
 
     if (a >= 0 && a < DarrayGetCount(data_ov000_021b4e5c)) {
         p = DarrayGetElement(data_ov000_021b4e5c, a);
-        if (p->mUnk_18.mUnk_00 != NULL) {
-            switch (p->mUnk_00) {
+        if (p->field18.field0 != NULL) {
+            switch (p->field0) {
                 case 0:
-                    p->mUnk_18.mUnk_00(p->mUnk_04, p->mUnk_08, b, d, p->mUnk_14);
+                    p->field18.field0(p->field4, p->field8, b, d, p->field14);
                     break;
                 case 1:
-                    p->mUnk_18.mUnk_01(p->mUnk_04, p->mUnk_08, p->mUnk_0c, p->mUnk_10, b, c, d, e, p->mUnk_14);
+                    p->field18.field1(p->field4, p->field8, p->fieldC, p->field10, b, c, d, e, p->field14);
                     break;
                 case 2:
-                    p->mUnk_18.mUnk_02(p->mUnk_04, p->mUnk_08, p->mUnk_0c, p->mUnk_10, b, c, p->mUnk_14);
+                    p->field18.field2(p->field4, p->field8, p->fieldC, p->field10, b, c, p->field14);
                     break;
                 case 3:
-                    p->mUnk_18.mUnk_03(p->mUnk_04, p->mUnk_08, b, p->mUnk_14);
+                    p->field18.field3(p->field4, p->field8, b, p->field14);
                     break;
             }
         }
@@ -458,8 +458,8 @@ void func_ov000_02196960(void) {
         for (i = DarrayGetCount(data_ov000_021b4e5c) - 1; i >= 0; i--) {
             k = data_ov000_021b3b78;
             data_ov000_021b3b30 = data_ov000_021b3b98;
-            func_ov000_021971ec((s8 *) k.mUnk_00, 0xf);
-            func_ov000_021969d8(i, 0, 0, k.mUnk_00, 0);
+            func_ov000_021971ec((s8 *) k.field0, 0xf);
+            func_ov000_021969d8(i, 0, 0, k.field0, 0);
         }
         DarrayDelete(data_ov000_021b4e5c);
         data_ov000_021b4e5c = NULL;

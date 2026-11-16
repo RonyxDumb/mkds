@@ -59,7 +59,7 @@ void InitWiFiTopMenu(void *heap) {
             break;
     }
     gWiFiTopMenu->mStateFrames = 0;
-    gWiFiTopMenu->mUnk_18 = TRUE;
+    gWiFiTopMenu->field18 = TRUE;
     gWiFiTopMenu->mWiFiMessages = arc_getSceneArcFile("wifi.bmg");
     gWiFiTopMenu->mCommonMessages = arc_get2dArcFile("common.bmg");
     LocateAndQueueWiFiTopMenu();
@@ -199,7 +199,7 @@ next:
             }
         }
         if (gWiFiTopMenu->mIndex == v4) {
-            gWiFiTopMenu->mUnk_18 = FALSE;
+            gWiFiTopMenu->field18 = FALSE;
         }
         gWiFiTopMenu->mNextState = 4;
         switch (gWiFiTopMenu->mIndex) {
@@ -251,7 +251,7 @@ void AdvanceWiFiTopMenuState4(void) {
         }
         gWiFiTopMenu->mStateFrames = 0;
     } else if (gWiFiTopMenu->mStateFrames >= 5) {
-        gWiFiTopMenu->mUnk_18 = TRUE;
+        gWiFiTopMenu->field18 = TRUE;
     }
 }
 
@@ -263,7 +263,7 @@ void AdvanceWiFiTopMenuState5(void) {
         if (gWiFiTopMenu->mPendingWiFiState == 10 && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
         } else if (gWiFiTopMenu->mPendingWiFiState == 13) {
-            gSystemData->mUnk_20 = 4;
+            gSystemData->field20 = 4;
             SetWiFiNextScene(12);
         }
     }
@@ -364,7 +364,7 @@ void func_ov000_021817e8(void) {
     const u8 *p = data_ov000_021b05c4;
     const u8 *q = data_ov000_021b05c8;
     for (; i < 3; i++) {
-        if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->mUnk_18 != FALSE) {
+        if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->field18 != FALSE) {
             gWiFiTopMenu->mWiFiTopMenuTable[*p].mVisible = 1;
             jn_ui_setCellCparam(*q, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
         } else {

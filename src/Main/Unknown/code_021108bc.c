@@ -25,7 +25,7 @@ void func_02111024(void) {
     if (data_0217d324 == 0) {
         return;
     }
-    if (data_0217d070.mUnk_0c != NULL) {
+    if (data_0217d070.fieldC != NULL) {
         return;
     }
     resultKind = func_02110e58();
@@ -89,7 +89,7 @@ s32 func_02110e58(void) {
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case 5:
-            switch (data_0217d32c.mUnk_0c) {
+            switch (data_0217d32c.fieldC) {
                 case 0:
                     if (rstat_getPlace((u16) raceSetup->mEntryIndex) - 1 == 0) {
                         candidateKind = 0;
@@ -106,9 +106,9 @@ s32 func_02110e58(void) {
             break;
         case MODE_VS:
             if (raceSetup->mRuleKind == 1) {
-                resultKind = (data_0217d32c.mUnk_0c == 0) ? 0 : 2;
+                resultKind = (data_0217d32c.fieldC == 0) ? 0 : 2;
             } else {
-                switch (data_0217d32c.mUnk_0c) {
+                switch (data_0217d32c.fieldC) {
                     case 0:
                         if (rstat_getPlace((u16) raceSetup->mEntryIndex) - 1 == 0) {
                             candidateKind = 0;
@@ -125,13 +125,13 @@ s32 func_02110e58(void) {
             }
             break;
         case MODE_MISSION_RUN:
-            resultKind = (data_0217d32c.mUnk_0c == 0) ? 0 : 2;
+            resultKind = (data_0217d32c.fieldC == 0) ? 0 : 2;
             break;
         case MODE_BATTLE:
-            resultKind = (data_0217d32c.mUnk_0c == 0) ? 0 : 2;
+            resultKind = (data_0217d32c.fieldC == 0) ? 0 : 2;
             break;
         case MODE_TIME_ATTACK:
-            resultKind = (data_0217d32c.mUnk_0c == 0) ? 1 : 2;
+            resultKind = (data_0217d32c.fieldC == 0) ? 1 : 2;
             if (resultKind == IsRaceNewRecordTaFinishRecordFirst()) {
                 resultKind = 0;
             }

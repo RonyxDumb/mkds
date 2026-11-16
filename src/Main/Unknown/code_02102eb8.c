@@ -27,9 +27,9 @@ void itgsso_21031AC(ItemGesso *gesso) {
         gesso->mOrthoQuadCounts[i] = 0;
     }
     gesso->mStepIndex = -1;
-    gesso->mUnk_000.mAlpha = 0x1f;
-    gesso->mUnk_19c = 0;
-    gesso->mUnk_160 = FALSE;
+    gesso->field0.mAlpha = 0x1f;
+    gesso->field19C = 0;
+    gesso->field160 = FALSE;
 }
 
 BOOL itgsso_210300C(ItemGesso *gesso) {
@@ -46,38 +46,38 @@ BOOL itgsso_210300C(ItemGesso *gesso) {
     gesso->mTargetVelocityY = step->mTargetVelocityY;
     gesso->mApproachRate = step->mApproachRate;
     gesso->mDamping = step->mDamping;
-    gesso->mStepTimer = step->mUnk_08;
-    gesso->mUnk_170 = step->mUnk_0a;
+    gesso->mStepTimer = step->field8;
+    gesso->field170 = step->fieldA;
     stepIndex = gesso->mStepIndex;
     if (stepIndex != 0xc && stepIndex != 0xd) {
         if (gesso->mTargetVelocityY > 0) {
-            gesso->mUnk_174 = 0xe66;
-            gesso->mUnk_178 = 0x1266;
-            gesso->mUnk_184.z = 0x4cd;
+            gesso->field174 = 0xe66;
+            gesso->field178 = 0x1266;
+            gesso->field184.z = 0x4cd;
         } else if (stepIndex == 4) {
-            gesso->mUnk_174 = 0x1000;
-            gesso->mUnk_178 = 0x1000;
-            gesso->mUnk_184.z = 0x1000;
+            gesso->field174 = 0x1000;
+            gesso->field178 = 0x1000;
+            gesso->field184.z = 0x1000;
         } else {
-            gesso->mUnk_174 = 0x1333;
-            gesso->mUnk_178 = 0xc29;
-            gesso->mUnk_184.z = 0x28f;
+            gesso->field174 = 0x1333;
+            gesso->field178 = 0xc29;
+            gesso->field184.z = 0x28f;
         }
     } else if (stepIndex == 0xc) {
-        gesso->mUnk_174 = 0x199a;
-        gesso->mUnk_178 = 0x119a;
-        gesso->mUnk_184.z = 0x800;
+        gesso->field174 = 0x199a;
+        gesso->field178 = 0x119a;
+        gesso->field184.z = 0x800;
     } else {
-        gesso->mUnk_174 = 0x800;
-        gesso->mUnk_178 = 0x800;
-        gesso->mUnk_184.z = 0x99a;
+        gesso->field174 = 0x800;
+        gesso->field178 = 0x800;
+        gesso->field184.z = 0x99a;
     }
     stepIndex = gesso->mStepIndex;
     f = TRUE;
     if (stepIndex != 2 && stepIndex != 0x10) {
         f = FALSE;
     }
-    gesso->mUnk_194 = f;
+    gesso->field194 = f;
     if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != 0xe && gesso->mVisible != FALSE) {
         func_020f8e3c((u32) gesso->mKart, 0xf1);
     }
@@ -95,19 +95,19 @@ u32 itgsso_2102EB8(ItemGesso *gesso, s32 fromData) {
     camera = cam_getPlayerCamera();
     func_020f82a4(0);
     if (entryIndex < 0) {
-        kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
+        kartIndex = (u16) (gesso->field0.field78 & ~0xff00);
     } else {
         kartIndex = entryIndex;
     }
     gesso->mKart = driver_getById(kartIndex);
-    gesso->mUnk_000.mPos = gesso->mKart->mDrawMatrixPos;
-    VEC_MultAdd(0x5800, &camera->mUp, &gesso->mUnk_000.mPos, &gesso->mUnk_000.mPos);
-    VEC_MultAdd(rstat_getUncontrollable() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mUnk_000.mPos,
-                &gesso->mUnk_000.mPos);
-    VEC_Subtract(&gesso->mUnk_000.mPos, &camera->mPos, &gesso->mViewOffset);
-    MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mUnk_00[0].x, &gesso->mViewOffset);
+    gesso->field0.mPos = gesso->mKart->mDrawMatrixPos;
+    VEC_MultAdd(0x5800, &camera->mUp, &gesso->field0.mPos, &gesso->field0.mPos);
+    VEC_MultAdd(rstat_getUncontrollable() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->field0.mPos,
+                &gesso->field0.mPos);
+    VEC_Subtract(&gesso->field0.mPos, &camera->mPos, &gesso->mViewOffset);
+    MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.field0[0].x, &gesso->mViewOffset);
     if (fromData != 0) {
-        if (gesso->mUnk_000.mFlags & 0x10000000) {
+        if (gesso->field0.mFlags & 0x10000000) {
             itgsso_210300C(gesso);
             gesso->mStepTimer = gesso->mStepTimer - 1;
         }
@@ -116,14 +116,14 @@ u32 itgsso_2102EB8(ItemGesso *gesso, s32 fromData) {
     }
     gesso->mVelocityX = gesso->mTargetVelocityX;
     gesso->mVelocityY = gesso->mTargetVelocityY;
-    gesso->mUnk_180 = gesso->mUnk_174;
-    gesso->mUnk_184.x = gesso->mUnk_178;
-    if ((gesso->mUnk_000.mUnk_78 & 0x8000) == 0) {
-        kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
+    gesso->field180 = gesso->field174;
+    gesso->field184.x = gesso->field178;
+    if ((gesso->field0.field78 & 0x8000) == 0) {
+        kartIndex = (u16) (gesso->field0.field78 & ~0xff00);
     } else {
         kartIndex = 8;
     }
     gesso->mVisible = entryIndex == (u16) kartIndex;
     FreeItemObjectCollisionSlot((s32) gesso);
-    return (u32) light_init(&gesso->mUnk_000.mColorBlend, 1);
+    return (u32) light_init(&gesso->field0.mColorBlend, 1);
 }

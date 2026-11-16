@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void func_0205b0b4(void) {
-    if ((gStruct217AA14->mUnk_75c & 0x80) != 0) {
+    if ((gStruct217AA14->field75C & 0x80) != 0) {
         func_0205b0f4();
     }
     sm_execute((void *) (u32) gStruct217AA14);

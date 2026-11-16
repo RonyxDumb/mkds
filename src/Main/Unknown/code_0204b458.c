@@ -104,7 +104,7 @@ u32 savc_beginWrite(void) {
     if (savc_lockCardBackup() == 0) {
         return 0;
     }
-    CARDi_RequestStreamCommand(0, (u32) gSaveCore->mUnk_64, 1, (UnkFunc *) savc_writeReadCallback, NULL, 1, 6, 1, 0);
+    CARDi_RequestStreamCommand(0, (u32) gSaveCore->field64, 1, (UnkFunc *) savc_writeReadCallback, NULL, 1, 6, 1, 0);
     return 1;
 }
 
@@ -117,7 +117,7 @@ u32 savc_write(u32 address, u32 *source, u32 byteCount, void (*callback)(u32 *, 
     }
     gSaveCore->mErrorCode = 0;
     gSaveCore->mCommandRunning = 1;
-    gSaveCore->mUnk_00 = 1;
+    gSaveCore->field0 = 1;
     gSaveCore->mWriteAddress = address;
     gSaveCore->mWriteSource = source;
     gSaveCore->mWriteSize = byteCount;

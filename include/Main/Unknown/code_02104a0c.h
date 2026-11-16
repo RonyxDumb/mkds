@@ -12,7 +12,7 @@
 // StartBouncingItemBox: the BouncingItemObject part, words at 0x130 and 0x138, the PooledMapObject at 0x134, a vector
 // at 0x13c and a word at 0x148.
 typedef struct BouncingItemBox {
-    /* 000 */ BouncingItemObject mUnk_000;
+    /* 000 */ BouncingItemObject field0;
     /* 130 */ s32 mThrownForward;
     /* 134 */ PooledMapObject *mPooledMapObject;
     /* 138 */ s32 mKartIsEntry;

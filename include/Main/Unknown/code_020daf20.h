@@ -15,74 +15,74 @@
 
 // Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
 typedef struct Dossun {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject field0;
     /* a0 */ s32 mState;
     /* a4 */ s32 mTimer;
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
+    /* a8 */ s32 fieldA8;
+    /* ac */ s32 fieldAC;
     /* b0 */ BOOL mEnteredState5;
-    /* b4 */ s32 mUnk_b4;
-    /* b8 */ s16 mUnk_b8;
-    /* ba */ s16 mUnk_ba;
-    /* bc */ u32 mUnk_bc;
-    /* c0 */ u16 mUnk_c0;
-    /* c2 */ u16 mUnk_c2;
-    /* c4 */ s32 mUnk_c4;
+    /* b4 */ s32 fieldB4;
+    /* b8 */ s16 fieldB8;
+    /* ba */ s16 fieldBA;
+    /* bc */ u32 fieldBC;
+    /* c0 */ u16 fieldC0;
+    /* c2 */ u16 fieldC2;
+    /* c4 */ s32 fieldC4;
     /* c8 */ GroupFollower mFollower;
     /* ec */ u16 mStartEntryIndex;
-    /* ee */ u8 mUnk_ee[2];
-    /* f0 */ s32 mUnk_f0;
-    /* f4 */ s32 mUnk_f4;
+    /* ee */ u8 fieldEE[2];
+    /* f0 */ s32 fieldF0;
+    /* f4 */ s32 fieldF4;
     /* f8 */ s32 mHeightOffset;
-    /* fc */ s32 mUnk_fc;
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ s32 mUnk_108;
+    /* fc */ s32 fieldFC;
+    /* 100 */ s32 field100;
+    /* 104 */ s32 field104;
+    /* 108 */ s32 field108;
 } Dossun;
 
 // 0x28 bytes: a function at 0x10.
 typedef struct Unk020db1b0 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ void (*mUnk_10)(void *a, Kuribo *p);
-    /* 14 */ u8 mUnk_14[0x14];
+    /* 00 */ u8 field0[0x10];
+    /* 10 */ void (*field10)(void *a, Kuribo *p);
+    /* 14 */ u8 field14[0x14];
 } Unk020db1b0;
 
 // 0x2c bytes: three functions at 0x08, 0x0c and 0x10.
 typedef struct Unk020db20c {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ void (*mUnk_08)(void);
-    /* 0c */ void (*mUnk_0c)(void);
-    /* 10 */ void (*mUnk_10)(void *a, Kuribo *p, void *c, u16 d);
-    /* 14 */ u8 mUnk_14[0x18];
+    /* 00 */ u8 field0[8];
+    /* 08 */ void (*field8)(void);
+    /* 0c */ void (*fieldC)(void);
+    /* 10 */ void (*field10)(void *a, Kuribo *p, void *c, u16 d);
+    /* 14 */ u8 field14[0x18];
 } Unk020db20c;
 
 // 0x40 bytes: two functions at 0x00 and 0x04.
 typedef struct Unk020db268 {
-    /* 00 */ u32 (*mUnk_00)(Kuribo *p, Kart *a, u8 *b, u8 *c);
-    /* 04 */ u32 (*mUnk_04)(Kuribo *p, Kart *a, u8 *b, u8 *c);
-    /* 08 */ u8 mUnk_08[0x38];
+    /* 00 */ u32 (*field0)(Kuribo *p, Kart *a, u8 *b, u8 *c);
+    /* 04 */ u32 (*field4)(Kuribo *p, Kart *a, u8 *b, u8 *c);
+    /* 08 */ u8 field8[0x38];
 } Unk020db268;
 
 // 0x28 bytes: a function at 0x10.
 typedef struct Unk020dbe74 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ void (*mUnk_10)(void *a, Dossun *p);
-    /* 14 */ u8 mUnk_14[0x14];
+    /* 00 */ u8 field0[0x10];
+    /* 10 */ void (*field10)(void *a, Dossun *p);
+    /* 14 */ u8 field14[0x14];
 } Unk020dbe74;
 
 // 0x2c bytes: functions at 0x08 and 0x10.
 typedef struct Unk020dbed0 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ void (*mUnk_08)(void);
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ void (*mUnk_10)(void *a, Dossun *p, void *c, s32 d);
-    /* 14 */ u8 mUnk_14[0x18];
+    /* 00 */ u8 field0[8];
+    /* 08 */ void (*field8)(void);
+    /* 0c */ u8 fieldC[4];
+    /* 10 */ void (*field10)(void *a, Dossun *p, void *c, s32 d);
+    /* 14 */ u8 field14[0x18];
 } Unk020dbed0;
 
 // 0x40 bytes: a function at 0x00.
 typedef struct Unk020dbf2c {
-    /* 00 */ u32 (*mUnk_00)(Dossun *p, Kart *a, u8 *b, u8 *c);
-    /* 04 */ u8 mUnk_04[0x3c];
+    /* 00 */ u32 (*field0)(Dossun *p, Kart *a, u8 *b, u8 *c);
+    /* 04 */ u8 field4[0x3c];
 } Unk020dbf2c;
 
 Unk020dbf2c *dossun_setupConfig(void);

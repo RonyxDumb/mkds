@@ -20,11 +20,11 @@ void CreateEndingScene(void *heap) {
 
     gEndingScene = heap_alloc(heap, 0x470);
     gEndingScene->mHeap = heap;
-    gEndingScene->mUnk_01c = func_021250b0(heap);
+    gEndingScene->field1C = func_021250b0(heap);
     gEndingScene->mNextScene = -1;
     gEndingScene->mState = 0;
     gEndingScene->mNextState = gEndingScene->mState;
-    gEndingScene->mUnk_008 = 0;
+    gEndingScene->field8 = 0;
     if (gRaceMultiConfig->mCourseId == COURSE_ID_STAFFROLLTRUE) {
         gEndingScene->mKind = 1;
     } else {
@@ -151,7 +151,7 @@ void LoadAndQueueEndingSceneData(void) {
             gEndingScene->mEndingThanksBnll = arc_getSceneArcFile("ending_thanks_01.bnll");
             break;
     }
-    if (gStruct217B488->mUnk_70 != 0) {
+    if (gStruct217B488->field70 != 0) {
         func_ov001_0219e5a0();
     } else {
         QueueEndingSceneNcgrNscrNclr(0);
@@ -161,9 +161,9 @@ void LoadAndQueueEndingSceneData(void) {
 
 void AdvanceEndingSceneState0(void) {
     if (mbright_isFadedIn() != 0) {
-        if (gStruct217B488->mUnk_70 != 0) {
+        if (gStruct217B488->field70 != 0) {
             gEndingScene->mNextState = 5;
-            gStruct217B488->mUnk_70 = 0;
+            gStruct217B488->field70 = 0;
             return;
         }
         gEndingScene->mNextState = 1;
@@ -171,10 +171,10 @@ void AdvanceEndingSceneState0(void) {
 }
 
 void AdvanceEndingSceneState1(void) {
-    gEndingScene->mUnk_008++;
-    if (gEndingScene->mUnk_008 > gEndingSceneStateTable[gEndingScene->mState]) {
+    gEndingScene->field8++;
+    if (gEndingScene->field8 > gEndingSceneStateTable[gEndingScene->mState]) {
         gEndingScene->mNextState = 2;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->field8 = 0;
         mbright_fadeToBlack(gEndingSceneStateTable[2]);
     }
 }
@@ -190,11 +190,11 @@ void AdvanceEndingSceneState2(void) {
 void AdvanceEndingSceneState3(void) {
     EndingScene *p;
 
-    gEndingScene->mUnk_008++;
+    gEndingScene->field8++;
     p = gEndingScene;
-    if (p->mUnk_008 > gEndingSceneStateTable[3]) {
+    if (p->field8 > gEndingSceneStateTable[3]) {
         p->mNextState = 4;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->field8 = 0;
         StartFadeToClearNegative(gEndingSceneStateTable[4]);
         func_ov001_0219e5a0();
     }
@@ -215,9 +215,9 @@ void AdvanceEndingSceneState5(void) {
     BOOL b;
     u16 x;
 
-    gEndingScene->mUnk_008++;
-    if (gEndingScene->mUnk_008 > gEndingSceneStateTable[gEndingScene->mState]) {
-        gEndingScene->mUnk_008 = gEndingSceneStateTable[gEndingScene->mState];
+    gEndingScene->field8++;
+    if (gEndingScene->field8 > gEndingSceneStateTable[gEndingScene->mState]) {
+        gEndingScene->field8 = gEndingSceneStateTable[gEndingScene->mState];
         flags = gInputUnits[idx].mPressedBits & 0xc0f;
         if (flags == 0) {
             a = FALSE;
@@ -234,7 +234,7 @@ void AdvanceEndingSceneState5(void) {
             }
         }
         gEndingScene->mNextState = 6;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->field8 = 0;
         mbright_fadeToBlack(gEndingSceneStateTable[6]);
     }
 }
@@ -242,13 +242,13 @@ void AdvanceEndingSceneState5(void) {
 void AdvanceEndingSceneState6(void) {
     if (mbright_isFadedOut() != 0) {
         gEndingScene->mNextState = 7;
-        gEndingScene->mUnk_008 = 0;
+        gEndingScene->field8 = 0;
     }
 }
 
 void AdvanceEndingSceneState7(void) {
-    gEndingScene->mUnk_008++;
-    if (gEndingScene->mUnk_008 > gEndingSceneStateTable[7]) {
+    gEndingScene->field8++;
+    if (gEndingScene->field8 > gEndingSceneStateTable[7]) {
         gEndingScene->mNextScene = 0;
     }
 }
@@ -298,11 +298,11 @@ void func_ov001_0219e0d4(void) {
 }
 
 void func_ov001_0219e0c4(void) {
-    gStruct217B488->mUnk_70 = 1;
+    gStruct217B488->field70 = 1;
 }
 
 s32 func_ov001_0219e0b8(void) {
-    return gStruct217B488->mUnk_70;
+    return gStruct217B488->field70;
 }
 
 int GetEndingSceneNextScene(void) {

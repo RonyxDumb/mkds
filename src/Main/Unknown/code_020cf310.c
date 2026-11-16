@@ -27,7 +27,7 @@ void func_020cfca4(void) {
         case COURSE_ID_OLD_NOKO_SFC:
             for (i = 0; i < 9; i++) {
                 for (j = 0; j < 3; j++) {
-                    data_0217b490->mUnk_02.mUnk_01[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
+                    data_0217b490->field2.field1[i][j] = ((u16 *) 0x05000400)[i * 16 + j + 0x40];
                 }
             }
             break;
@@ -36,42 +36,42 @@ void func_020cfca4(void) {
 
             for (i = 0; i < 5; i++) {
                 for (j = 0; j < 4; j++) {
-                    data_0217b490->mUnk_02.mUnk_02[i][j] = ((u16 *) 0x05000400)[table[i] + j + 0x80];
+                    data_0217b490->field2.field2[i][j] = ((u16 *) 0x05000400)[table[i] + j + 0x80];
                 }
             }
             break;
         }
         case COURSE_ID_TOWN:
             for (i = 0; i < 20; i++) {
-                data_0217b490->mUnk_02.mUnk_00[i] = ((u16 *) 0x05000400)[0x78 + i];
+                data_0217b490->field2.field0[i] = ((u16 *) 0x05000400)[0x78 + i];
             }
-            data_0217b490->mUnk_02.mUnk_00[20] = ((u16 *) 0x05000400)[0];
+            data_0217b490->field2.field0[20] = ((u16 *) 0x05000400)[0];
             break;
         case COURSE_ID_BEACH:
             for (i = 0; i < 3; i++) {
-                data_0217b490->mUnk_02.mUnk_00[i] = ((u16 *) 0x05000400)[0x46 + i];
+                data_0217b490->field2.field0[i] = ((u16 *) 0x05000400)[0x46 + i];
             }
             break;
         case COURSE_ID_KOOPA:
             for (i = 0; i < 6; i++) {
-                data_0217b490->mUnk_02.mUnk_03.mUnk_00[i] = ((u16 *) 0x05000400)[0x54 + i];
+                data_0217b490->field2.field3.field0[i] = ((u16 *) 0x05000400)[0x54 + i];
             }
             for (i = 0; i < 2; i++) {
                 for (j = 0; j < 3; j++) {
-                    data_0217b490->mUnk_02.mUnk_03.mUnk_0c[i][j] = ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
+                    data_0217b490->field2.field3.fieldC[i][j] = ((u16 *) 0x05000400)[i * 3 + j + 0x5a];
                 }
             }
             for (i = 0; i < 2; i++) {
-                data_0217b490->mUnk_02.mUnk_03.mUnk_18[i] = ((u16 *) 0x05000400)[i];
+                data_0217b490->field2.field3.field18[i] = ((u16 *) 0x05000400)[i];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
             for (i = 0; i < 5; i++) {
-                data_0217b490->mUnk_02.mUnk_00[i] = ((u16 *) 0x05000400)[0xfb + i];
+                data_0217b490->field2.field0[i] = ((u16 *) 0x05000400)[0xfb + i];
             }
             break;
     }
-    data_0217b490->mUnk_00 = 0;
+    data_0217b490->field0 = 0;
 }
 
 void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
@@ -88,13 +88,13 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
         case COURSE_ID_OLD_NOKO_SFC:
             v = crsmdl_getNsbtpProgress();
             for (i = 0; i < 3; i++) {
-                palette->mUnk_00[i + 0x40] = data_0217b490->mUnk_02.mUnk_01[v / 10][i];
+                palette->field0[i + 0x40] = data_0217b490->field2.field1[v / 10][i];
             }
-            DC_FlushRange(&palette->mUnk_00[0x40], 6);
+            DC_FlushRange(&palette->field0[0x40], 6);
             GXS_BeginLoadBGExtPltt();
-            GX_LoadOBJExtPltt(&palette->mUnk_00[0x40], 0x4080, 6);
+            GX_LoadOBJExtPltt(&palette->field0[0x40], 0x4080, 6);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GX_LoadOBJExtPltt(&palette->mUnk_00[0x40], 0x6080, 6);
+                GX_LoadOBJExtPltt(&palette->field0[0x40], 0x6080, 6);
             }
             GX_EndLoadOBJExtPltt();
             break;
@@ -115,15 +115,15 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                         shift = (angle * 0x48) >> 16;
                     }
                     for (j = 0; j < 4; j++) {
-                        palette->mUnk_00[table[i] + j + 0x80] = data_0217b490->mUnk_02.mUnk_02[i][(j + shift) % 4];
+                        palette->field0[table[i] + j + 0x80] = data_0217b490->field2.field2[i][(j + shift) % 4];
                     }
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0x80], 0x34);
+            DC_FlushRange(&palette->field0[0x80], 0x34);
             GXS_BeginLoadBGExtPltt();
-            GX_LoadOBJExtPltt(&palette->mUnk_00[0x80], 0x4100, 0x34);
+            GX_LoadOBJExtPltt(&palette->field0[0x80], 0x4100, 0x34);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GX_LoadOBJExtPltt(&palette->mUnk_00[0x80], 0x6100, 0x34);
+                GX_LoadOBJExtPltt(&palette->field0[0x80], 0x6100, 0x34);
             }
             GX_EndLoadOBJExtPltt();
             break;
@@ -153,14 +153,14 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             p = table[j];
             for (i = 0; i < 20; i++) {
-                palette->mUnk_00[i + 0x78] = data_0217b490->mUnk_02.mUnk_00[*p];
+                palette->field0[i + 0x78] = data_0217b490->field2.field0[*p];
                 p++;
             }
-            DC_FlushRange(&palette->mUnk_00[0x78], 0x28);
+            DC_FlushRange(&palette->field0[0x78], 0x28);
             GXS_BeginLoadBGExtPltt();
-            GX_LoadOBJExtPltt(&palette->mUnk_00[0x78], 0x40f0, 0x28);
+            GX_LoadOBJExtPltt(&palette->field0[0x78], 0x40f0, 0x28);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GX_LoadOBJExtPltt(&palette->mUnk_00[0x78], 0x60f0, 0x28);
+                GX_LoadOBJExtPltt(&palette->field0[0x78], 0x60f0, 0x28);
             }
             GX_EndLoadOBJExtPltt();
             break;
@@ -176,20 +176,20 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                     }
                 }
                 for (j = 0; j < k; j++) {
-                    palette->mUnk_00[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[0];
+                    palette->field0[j + 0x50] = data_0217b490->field2.field0[0];
                 }
                 for (j = k; j == k; j++) {
-                    palette->mUnk_00[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[1];
+                    palette->field0[j + 0x50] = data_0217b490->field2.field0[1];
                 }
                 for (j = k + 1; j < 8; j++) {
-                    palette->mUnk_00[j + 0x50] = data_0217b490->mUnk_02.mUnk_00[2];
+                    palette->field0[j + 0x50] = data_0217b490->field2.field0[2];
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0x50], 0x10);
+            DC_FlushRange(&palette->field0[0x50], 0x10);
             GXS_BeginLoadBGExtPltt();
-            GX_LoadOBJExtPltt(&palette->mUnk_00[0x50], 0x40a0, 0x10);
+            GX_LoadOBJExtPltt(&palette->field0[0x50], 0x40a0, 0x10);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GX_LoadOBJExtPltt(&palette->mUnk_00[0x50], 0x60a0, 0x10);
+                GX_LoadOBJExtPltt(&palette->field0[0x50], 0x60a0, 0x10);
             }
             GX_EndLoadOBJExtPltt();
             break;
@@ -203,13 +203,13 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                 objects = mobj_renderPartGetInstanceList(p);
                 v = (objects[1]->mAngle * 0x48) >> 16;
                 for (i = 0; i < 6; i++) {
-                    palette->mUnk_00[i + 0x54] = data_0217b490->mUnk_02.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
+                    palette->field0[i + 0x54] = data_0217b490->field2.field3.field0[(i + 0x48 - v) % 6];
                 }
                 k = (objects[0]->mAngle << 5) >> 16;
                 for (i = 0; i < 2; i++) {
                     for (j = 0; j < 3; j++) {
-                        palette->mUnk_00[j + i * 3 + 0x5a] =
-                            data_0217b490->mUnk_02.mUnk_03.mUnk_0c[i][(j + 0x20 - k) % 3];
+                        palette->field0[j + i * 3 + 0x5a] =
+                            data_0217b490->field2.field3.fieldC[i][(j + 0x20 - k) % 3];
                     }
                 }
             }
@@ -224,21 +224,21 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                         n = 8 - ((v << 3) >> 12);
                     }
                     for (j = 0; j < n; j++) {
-                        palette->mUnk_00[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
+                        palette->field0[i * 16 + j + 0x60] = data_0217b490->field2.field3.field18[0];
                     }
                     for (j = n; j < n + 8; j++) {
-                        palette->mUnk_00[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[1];
+                        palette->field0[i * 16 + j + 0x60] = data_0217b490->field2.field3.field18[1];
                     }
                     for (j = n + 8; j < 16; j++) {
-                        palette->mUnk_00[i * 16 + j + 0x60] = data_0217b490->mUnk_02.mUnk_03.mUnk_18[0];
+                        palette->field0[i * 16 + j + 0x60] = data_0217b490->field2.field3.field18[0];
                     }
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0x54], 0x98);
+            DC_FlushRange(&palette->field0[0x54], 0x98);
             GXS_BeginLoadBGExtPltt();
-            GX_LoadOBJExtPltt(&palette->mUnk_00[0x54], 0x40a8, 0x98);
+            GX_LoadOBJExtPltt(&palette->field0[0x54], 0x40a8, 0x98);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GX_LoadOBJExtPltt(&palette->mUnk_00[0x54], 0x60a8, 0x98);
+                GX_LoadOBJExtPltt(&palette->field0[0x54], 0x60a8, 0x98);
             }
             GX_EndLoadOBJExtPltt();
             break;
@@ -256,31 +256,31 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                 }
                 k += 2;
                 for (j = 0; j < k - 2; j++) {
-                    palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[0];
+                    palette->field0[j + 0xe0] = data_0217b490->field2.field0[0];
                 }
                 for (j = k - 4; j < k - 2; j++) {
                     if (j >= 0) {
-                        palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[1];
+                        palette->field0[j + 0xe0] = data_0217b490->field2.field0[1];
                     }
                 }
                 for (j = k - 2; j <= k; j++) {
-                    palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[2];
+                    palette->field0[j + 0xe0] = data_0217b490->field2.field0[2];
                 }
                 if (waterAngle >= 0x4000 && waterAngle < 0xc000) {
                     for (j = k + 1; j <= k + 2 && j < 0x15; j++) {
-                        palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[3];
+                        palette->field0[j + 0xe0] = data_0217b490->field2.field0[3];
                     }
                     k += 2;
                 }
                 for (j = k + 1; j < 0x15; j++) {
-                    palette->mUnk_00[j + 0xe0] = data_0217b490->mUnk_02.mUnk_00[4];
+                    palette->field0[j + 0xe0] = data_0217b490->field2.field0[4];
                 }
             }
-            DC_FlushRange(&palette->mUnk_00[0xe0], 0x2c);
+            DC_FlushRange(&palette->field0[0xe0], 0x2c);
             GXS_BeginLoadBGExtPltt();
-            GX_LoadOBJExtPltt(&palette->mUnk_00[0xe0], 0x41c0, 0x2c);
+            GX_LoadOBJExtPltt(&palette->field0[0xe0], 0x41c0, 0x2c);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GX_LoadOBJExtPltt(&palette->mUnk_00[0xe0], 0x61c0, 0x2c);
+                GX_LoadOBJExtPltt(&palette->field0[0xe0], 0x61c0, 0x2c);
             }
             GX_EndLoadOBJExtPltt();
             break;

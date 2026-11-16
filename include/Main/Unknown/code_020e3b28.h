@@ -10,7 +10,7 @@ typedef struct Bridge Bridge;
 
 // Block of twelve words.
 typedef struct Unk020e3e48 {
-    /* 00 */ u32 mUnk_00[12];
+    /* 00 */ u32 field0[12];
 } Unk020e3e48;
 
 void rotcyl_state3Update(Unk020e3ef4 *object);

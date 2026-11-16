@@ -5,9 +5,9 @@
 struct Unk0201ca6c;
 
 typedef struct KartFollowEffect {
-    /* 00 */ u8 mUnk_00[0x90];
-    /* 90 */ void (*mUnk_90)(struct Unk0201ca6c *p, s32 a);
-    /* 94 */ u8 mUnk_94[0x5];
+    /* 00 */ u8 field0[0x90];
+    /* 90 */ void (*field90)(struct Unk0201ca6c *p, s32 a);
+    /* 94 */ u8 field94[0x5];
     /* 99 */ u8 mCountLimit;
     /* 9a */ u8 mCount;
     /* 9b */ u8 mKartIndex;
@@ -119,7 +119,7 @@ void func_02084334(Kart *kart);
 void rptc_2084384(Kart *kart);
 void func_020843d8(Kart *kart);
 void rptc_killDriverEffects(Kart *kart);
-// Copies the position source of the Kart into the position of its matrix (Kart.mUnk_174), then computes mSidePositions
+// Copies the position source of the Kart into the position of its matrix (Kart.field174), then computes mSidePositions
 // and mSideDirections of the Kart from the model points 2 and 3 and the Kart matrix.
 void rptc_updateDriverEffects(Kart *kart);
 // Allocates the KartEffects records for a Karts and clears them.

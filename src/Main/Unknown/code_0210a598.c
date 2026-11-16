@@ -9,16 +9,16 @@
 #include "Main/Unknown/unk_021759c0.h"
 
 void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b) {
-    if (kart->mUnk_7c & KART_7C_ENTRY_KIND_2) {
+    if (kart->field7C & KART_7C_ENTRY_KIND_2) {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) func_0210ab44;
     } else {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;
     }
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
     if (scproc_getCurrentScene() == 2 || kart->mIndex != gRaceMultiConfig->mEntryIndex) {
-        b->mUnk_3c = func_0210a63c;
+        b->field3C = func_0210a63c;
     } else {
-        b->mUnk_3c = func_0210aa0c;
+        b->field3C = func_0210aa0c;
     }
 }
 

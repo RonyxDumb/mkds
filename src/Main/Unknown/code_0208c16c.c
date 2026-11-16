@@ -2,13 +2,13 @@
 #include "Main/Unknown/code_020888b4.h"
 
 u32 func_0208c180(KartAi *kartAi) {
-    return kartAi->mUnk_e8.mUnk_28;
+    return kartAi->fieldE8.field28;
 }
 
 u32 GetKartAiBoostsAtRaceStart(KartAi *kartAi) {
-    return kartAi->mUnk_e8.mBoostsAtRaceStart;
+    return kartAi->fieldE8.mBoostsAtRaceStart;
 }
 
 u32 GetKartAiRaceStartBoostChoice(KartAi *kartAi) {
-    return kartAi->mUnk_e8.mRaceStartBoostChoice;
+    return kartAi->fieldE8.mRaceStartBoostChoice;
 }

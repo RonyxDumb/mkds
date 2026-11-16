@@ -28,11 +28,11 @@ void PickRandomKarts(u8 *rawPicks) {
     picks = (CharacterKartPicks *) rawPicks;
     givenBits = picks->mKartGivenBits;
     useSharedRandom = FALSE;
-    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) != 0 && gStruct217AA00->mUnk_0004 != 0xd) {
+    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) != 0 && gStruct217AA00->field4 != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &gStruct217AA00->mUnk_1ee8;
+        random = &gStruct217AA00->field1EE8;
     } else {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();
@@ -120,13 +120,13 @@ void PickRandomCharacters(u8 *rawPicks) {
     if (gStruct217AA00 == NULL) {
         x = 0;
     } else {
-        x = gStruct217AA00->mUnk_0000;
+        x = gStruct217AA00->field0;
     }
-    if (x != 0 && gStruct217AA00->mUnk_0004 != 0xd) {
+    if (x != 0 && gStruct217AA00->field4 != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &gStruct217AA00->mUnk_1ee8;
+        random = &gStruct217AA00->field1EE8;
     } else {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();

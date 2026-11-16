@@ -4,12 +4,12 @@
 
 // 0x104 bytes moved as one value.
 typedef struct Unk021c1fc8_02 {
-    /* 000 */ u16 mUnk_00[0x82];
+    /* 000 */ u16 field0[0x82];
 } Unk021c1fc8_02;
 
 // Stack object of func_ov003_021c1fc8.
 typedef struct Unk021c1fc8 {
-    /* 000 */ u16 mUnk_00;
+    /* 000 */ u16 field0;
     /* 002 */ u8 mItemType;
     /* 003 */ u8 pad_03;
     /* 004 */ u16 mItemLength;

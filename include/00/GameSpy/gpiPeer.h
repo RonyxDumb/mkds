@@ -5,55 +5,55 @@
 
 // Payload at 0x04 of a GpiOperation whose 0x00 is 3.
 typedef struct Unk02193858 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ void *mUnk_18;
+    /* 00 */ u32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ void *field8;
+    /* 0c */ u8 fieldC[0xc];
+    /* 18 */ void *field18;
 } Unk02193858;
 
 // Buffers made by GpiQueueOperationCallback, one for each request type; the first word is taken from the request.
 typedef struct Unk02193954_0 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x18];
+    /* 00 */ s32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u8 field8[0x18];
 } Unk02193954_0;
 
 typedef struct Unk02193954_1 {
-    /* 0 */ s32 mUnk_00;
-    /* 4 */ u8 mUnk_04[4];
+    /* 0 */ s32 field0;
+    /* 4 */ u8 field4[4];
 } Unk02193954_1;
 
 typedef struct Unk02193954_3 {
-    /* 0 */ s32 mUnk_00;
-    /* 4 */ u8 mUnk_04[8];
-    /* c */ u32 mUnk_0c;
+    /* 0 */ s32 field0;
+    /* 4 */ u8 field4[8];
+    /* c */ u32 fieldC;
 } Unk02193954_3;
 
 typedef struct Unk02193954_4 {
-    /* 0 */ s32 mUnk_00;
+    /* 0 */ s32 field0;
 } Unk02193954_4;
 
 // Three words printed by GpiPeerSendXfer.
 typedef struct GpiTransferId {
-    /* 0 */ u32 mUnk_00;
-    /* 4 */ u32 mUnk_04;
-    /* 8 */ u32 mUnk_08;
+    /* 0 */ u32 field0;
+    /* 4 */ u32 field4;
+    /* 8 */ u32 field8;
 } GpiTransferId;
 
 // Output buffer description built by GpiPeerQueueMessage.
 typedef struct Unk02193c74 {
     /* 00 */ GpiBuffer mBuffer;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
 } Unk02193c74;
 
 // Address passed to func_ov000_0218e4b4 by GpiPeerConnect.
 typedef struct Unk02193d64 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk02193d64;
 
 u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *param_4, int param_5, int param_6,
@@ -66,21 +66,21 @@ u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *par
 // Entry of the list behind GpiPeer.mQueuedMessages.
 typedef struct Unk0219405c {
     /* 00 */ const char *mBuffer;
-    /* 04 */ u8 mUnk_04[0xc];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 04 */ u8 field4[0xc];
+    /* 10 */ s32 field10;
+    /* 14 */ u32 field14;
 } Unk0219405c;
 
 // Message handed to GpiQueueCallback by func_ov000_021941c4.
 typedef struct Unk021941c4Msg {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ void *field8;
 } Unk021941c4Msg;
 
 // Entry of the list at 0x38 of GpiPeer.
 typedef struct Unk02194370Entry {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 field0[8];
     /* 08 */ u32 mLength;
     /* 0c */ u32 mPos;
 } Unk02194370Entry;

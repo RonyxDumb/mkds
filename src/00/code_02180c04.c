@@ -36,7 +36,7 @@ void func_ov000_021816b0(void *heap) {
     data_ov000_021b4c68->mState = 0;
     data_ov000_021b4c68->mNextState = 0;
     data_ov000_021b4c68->mPendingWiFiState = -1;
-    data_ov000_021b4c68->mUnk_08 = 0;
+    data_ov000_021b4c68->field8 = 0;
     data_ov000_021b4c68->mWiFiMessages = arc_getSceneArcFile("wifi.bmg");
     data_ov000_021b4c68->mCommonMessages = arc_get2dArcFile("common.bmg");
     func_ov000_021816a0();
@@ -163,7 +163,7 @@ void func_ov000_0218134c(void) {
             data_ov000_021b4c68->mNextState = 7;
             CreateMainMessageBoxBig(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            data_ov000_021b4c68->mUnk_14 = TRUE;
+            data_ov000_021b4c68->field14 = TRUE;
             func_02108bb4();
             return;
         }
@@ -247,7 +247,7 @@ void func_ov000_021810dc(void) {
             data_ov000_021b4c68->mNextState = 7;
             CreateMainMessageBoxBig(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            data_ov000_021b4c68->mUnk_14 = TRUE;
+            data_ov000_021b4c68->field14 = TRUE;
             func_02108bb4();
             return;
         }
@@ -295,7 +295,7 @@ void func_ov000_02180f80(void) {
             data_ov000_021b4c68->mNextState = 7;
             CreateMainMessageBoxBig(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
-            data_ov000_021b4c68->mUnk_14 = FALSE;
+            data_ov000_021b4c68->field14 = FALSE;
             func_02108bb4();
             return;
         }
@@ -331,7 +331,7 @@ void func_ov000_02180e58(void) {
                 break;
             case 1:
                 if (func_ov000_021806a0() != 0) {
-                    if (data_ov000_021b4c68->mUnk_14 != FALSE) {
+                    if (data_ov000_021b4c68->field14 != FALSE) {
                         data_ov000_021b4c68->mNextState = 5;
                         SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x1e),
                                                      jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));

@@ -9,24 +9,24 @@
 
 // Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
 typedef struct Flipper {
-    /* 000 */ MapObject mUnk_00;
-    /* 0a0 */ s32 mUnk_a0;
+    /* 000 */ MapObject field0;
+    /* 0a0 */ s32 fieldA0;
     /* 0a4 */ s32 mMirror;
-    /* 0a8 */ MtxFx43 mUnk_a8[30];
-    /* 648 */ MtxFx43 mUnk_648[30];
-    /* be8 */ Vec3 mUnk_be8[30];
-    /* d50 */ Vec3 mUnk_d50[30];
+    /* 0a8 */ MtxFx43 fieldA8[30];
+    /* 648 */ MtxFx43 field648[30];
+    /* be8 */ Vec3 fieldBE8[30];
+    /* d50 */ Vec3 fieldD50[30];
     /* eb8 */ s32 mState1Timer;
-    /* ebc */ s32 mUnk_ebc;
-    /* ec0 */ s32 mUnk_ec0;
+    /* ebc */ s32 fieldEBC;
+    /* ec0 */ s32 fieldEC0;
     /* ec4 */ u16 mNsbtpFrameIndex;
     /* ec6 */ u16 mNsbtaFrameIndex;
-    /* ec8 */ s32 mUnk_ec8;
+    /* ec8 */ s32 fieldEC8;
     /* State number of this kind's own per-frame switch in flip_update; this object does not use
-       MapObject.mUnk_80's state machine */
+       MapObject.field80's state machine */
     /* ecc */ s32 mState;
-    /* ed0 */ Unk0201ca6c *mUnk_ed0;
-    /* ed4 */ s32 mUnk_ed4[1];
+    /* ed0 */ Unk0201ca6c *fieldED0;
+    /* ed4 */ s32 fieldED4[1];
 } Flipper;
 
 void *flip_setupLogicPart(void);

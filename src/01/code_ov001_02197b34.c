@@ -52,7 +52,7 @@ void menu_ta_loadFiles(void) {
     g2du_getCharacterDataBG(&c, arc_getSceneArcFile(gTimeAttackTopMenuMBNcgrName));
     g2du_getPaletteData(&d, arc_getSceneArcFile(gTimeAttackTopMenuMBNclrName));
     g2du_getScreenData(&e, arc_getSceneArcFile(gTimeAttackTopMenuMNscrName));
-    sMenuTaState->mUnk_10 = heap_alloc(sMenuTaState->mHeap, 0x800);
+    sMenuTaState->field10 = heap_alloc(sMenuTaState->mHeap, 0x800);
     sMenuTaState->mTimeAttackTopMenuSBncl = arc_getSceneArcFile(gTimeAttackTopMenuSBnclName);
     sMenuTaState->mTimeAttackTopMenuSBnbl = arc_getSceneArcFile(gTimeAttackTopMenuSBnblName);
     g2du_getCharacterData(&a, arc_getSceneArcFile(gTimeAttackTopMenuSNcgrName));
@@ -61,7 +61,7 @@ void menu_ta_loadFiles(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, c->mData, c->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, d->mData, 0x20);
     NNS_GfdRegisterNewVramTransferTask(8, 0, &e->mData, e->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, sMenuTaState->mUnk_10, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, sMenuTaState->field10, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, a->mData, a->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1e, 0, b->mData, b->mDataSize);
 }
@@ -132,8 +132,8 @@ void menu_ta_init(void *a, void *b, s32 c) {
     sMenuTaState = heap_alloc(heap, 0x38);
     sMenuTaState->mHeap = heap;
     sMenuTaState->mState = 0;
-    sMenuTaState->mUnk_2c = b;
-    sMenuTaState->mUnk_30 = c;
+    sMenuTaState->field2C = b;
+    sMenuTaState->field30 = c;
     sMenuTaState->mResult = 0;
     menu_ta_initFields();
     if (menu_getPrevState() == 0x1f) {
@@ -150,7 +150,7 @@ void menu_ta_init(void *a, void *b, s32 c) {
         jn_ui_setCellIsTranslucent(sButtonShadowsTable[i], 1, sMenuTaState->mTimeAttackTopMenuSNcer,
                       sMenuTaState->mTimeAttackTopMenuSBncl);
     }
-    oam_clearResetBuffers(sMenuTaState->mUnk_2c, (void *) sMenuTaState->mUnk_30);
+    oam_clearResetBuffers(sMenuTaState->field2C, (void *) sMenuTaState->field30);
     jn_ui_initLayout(sMenuTaState->mHeap, sMenuTaState->mTimeAttackTopMenuSBncl, NULL,
                     &sMenuTaState->mTimeAttackTopMenuSTable);
     for (i = 0; i < 3; i++) {
@@ -378,7 +378,7 @@ s32 menu_ta_modeSelectRender(void) {
             break;
     }
     jn_ui_renderElements(sMenuTaState->mTimeAttackTopMenuSBncl, sMenuTaState->mTimeAttackTopMenuSNcer, NULL,
-                    (void *) sMenuTaState->mUnk_30, sMenuTaState->mTimeAttackTopMenuSTable);
+                    (void *) sMenuTaState->field30, sMenuTaState->mTimeAttackTopMenuSTable);
     if (sMenuTaState->mState == 5 && sMenuTaState->mStateFrames >= 10) {
         return sMenuTaState->mResult;
     }

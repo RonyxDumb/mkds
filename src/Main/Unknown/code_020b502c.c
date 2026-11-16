@@ -35,10 +35,10 @@ void m2d_init(void) {
     UnkPair020b502c bg3Max;
 
     gMap2DStatus = heap_alloc(m2d_proc_getCurrentHeap(), 0x9c);
-    gMap2DStatus->mCenter.mUnk_00 = 0;
-    gMap2DStatus->mCenter.mUnk_04 = 0;
-    gMap2DStatus->mCenterWhole.mUnk_00 = 0;
-    gMap2DStatus->mCenterWhole.mUnk_04 = 0;
+    gMap2DStatus->mCenter.field0 = 0;
+    gMap2DStatus->mCenter.field4 = 0;
+    gMap2DStatus->mCenterWhole.field0 = 0;
+    gMap2DStatus->mCenterWhole.field4 = 0;
     gMap2DStatus->mHalfSize = 0;
     gMap2DStatus->mAnglePairSecond = 0;
     gMap2DStatus->mAnglePairFirst = 0;
@@ -47,20 +47,20 @@ void m2d_init(void) {
     GetGlobalMapScale(&state0Min, &state0Max);
     gMap2DStatus->mState0Min = state0Min;
     gMap2DStatus->mState0Max = state0Max;
-    gMap2DStatus->mState0InverseX = FX_InvFx64c(state0Max.mUnk_00 - state0Min.mUnk_00);
-    gMap2DStatus->mState0InverseZ = FX_InvFx64c(state0Max.mUnk_04 - state0Min.mUnk_04);
+    gMap2DStatus->mState0InverseX = FX_InvFx64c(state0Max.field0 - state0Min.field0);
+    gMap2DStatus->mState0InverseZ = FX_InvFx64c(state0Max.field4 - state0Min.field4);
     GetLocalMapScale(&courseMin, &courseMax);
     gMap2DStatus->mCourseMin = courseMin;
     gMap2DStatus->mCourseMax = courseMax;
-    gMap2DStatus->mCourseInverseX = FX_InvFx64c(courseMax.mUnk_00 - courseMin.mUnk_00);
-    gMap2DStatus->mCourseInverseZ = FX_InvFx64c(courseMax.mUnk_04 - courseMin.mUnk_04);
-    gMap2DStatus->mUnk_28 =
-        lmap_20B502C(FX_Div(courseMax.mUnk_00 - courseMin.mUnk_00, 0x200000), 0xb0000);
+    gMap2DStatus->mCourseInverseX = FX_InvFx64c(courseMax.field0 - courseMin.field0);
+    gMap2DStatus->mCourseInverseZ = FX_InvFx64c(courseMax.field4 - courseMin.field4);
+    gMap2DStatus->field28 =
+        lmap_20B502C(FX_Div(courseMax.field0 - courseMin.field0, 0x200000), 0xb0000);
     Map_20B681C(&bg3Min, &bg3Max);
     gMap2DStatus->mBg3Min = bg3Min;
     gMap2DStatus->mBg3Max = bg3Max;
-    gMap2DStatus->mBg3InverseX = FX_InvFx64c(bg3Max.mUnk_00 - bg3Min.mUnk_00);
-    gMap2DStatus->mBg3InverseZ = FX_InvFx64c(bg3Max.mUnk_04 - bg3Min.mUnk_04);
+    gMap2DStatus->mBg3InverseX = FX_InvFx64c(bg3Max.field0 - bg3Min.field0);
+    gMap2DStatus->mBg3InverseZ = FX_InvFx64c(bg3Max.field4 - bg3Min.field4);
     gMap2DStatus->mScrollTimer = 0;
     gMap2DStatus->mScrollPosition = data_02156874;
 }
@@ -140,7 +140,7 @@ u16 m2d_20B6368(void) {
             } else {
                 camera = cam_getPlayerCamera();
             }
-            a = FX_Atan2Idx(camera->mViewMatrix.mUnk_00[2].z, camera->mViewMatrix.mUnk_00[0].z);
+            a = FX_Atan2Idx(camera->mViewMatrix.field0[2].z, camera->mViewMatrix.field0[0].z);
             angle = (0x14000 - a) % 0x10000;
             gMap2DStatus->mScrollTimer = 0;
             break;
@@ -148,7 +148,7 @@ u16 m2d_20B6368(void) {
             angle = 0;
             break;
         case 3:
-            a = GetFixed12Whole(GetKTP2Pointer()->mUnk_10);
+            a = GetFixed12Whole(GetKTP2Pointer()->field10);
             angle = (a << 16) / 360 + 0x8000;
             break;
         default:
@@ -171,53 +171,53 @@ void RefreshGlobalMapPosition(s32 kartIndex, UnkPair020b502c *out) {
         case COURSE_ID_CROSS:
         case COURSE_ID_OLD_KINOKO_GC:
             if (GetIsMirrorMode() != 0) {
-                out->mUnk_00 = GetFixed12Whole(
-                                   lmap_20B502C(0x80000, MulFx64c(state0Min.mUnk_00 - kartPos.z,
+                out->field0 = GetFixed12Whole(
+                                   lmap_20B502C(0x80000, MulFx64c(state0Min.field0 - kartPos.z,
                                                                        gMap2DStatus->mState0InverseX))) +
                                0xf8;
             } else {
-                out->mUnk_00 = GetFixed12Whole(
-                                   lmap_20B502C(0x80000, MulFx64c(kartPos.z - state0Min.mUnk_00,
+                out->field0 = GetFixed12Whole(
+                                   lmap_20B502C(0x80000, MulFx64c(kartPos.z - state0Min.field0,
                                                                        gMap2DStatus->mState0InverseX))) +
                                0x78;
             }
-            out->mUnk_04 =
+            out->field4 =
                 GetFixed12Whole(lmap_20B502C(
-                    0x98000, MulFx64c(kartPos.x - state0Min.mUnk_04, gMap2DStatus->mState0InverseZ))) +
+                    0x98000, MulFx64c(kartPos.x - state0Min.field4, gMap2DStatus->mState0InverseZ))) +
                 0x28;
             break;
         case COURSE_ID_BANK:
             if (GetIsMirrorMode() != 0) {
-                out->mUnk_00 = GetFixed12Whole(
-                                   lmap_20B502C(0x80000, MulFx64c(state0Min.mUnk_00 - kartPos.z,
+                out->field0 = GetFixed12Whole(
+                                   lmap_20B502C(0x80000, MulFx64c(state0Min.field0 - kartPos.z,
                                                                        gMap2DStatus->mState0InverseX))) +
                                0xf8;
             } else {
-                out->mUnk_00 = GetFixed12Whole(
-                                   lmap_20B502C(0x80000, MulFx64c(kartPos.z - state0Min.mUnk_00,
+                out->field0 = GetFixed12Whole(
+                                   lmap_20B502C(0x80000, MulFx64c(kartPos.z - state0Min.field0,
                                                                        gMap2DStatus->mState0InverseX))) +
                                0x78;
             }
-            out->mUnk_04 =
+            out->field4 =
                 GetFixed12Whole(lmap_20B502C(
-                    0x98000, MulFx64c(kartPos.x - state0Min.mUnk_04, gMap2DStatus->mState0InverseZ))) +
+                    0x98000, MulFx64c(kartPos.x - state0Min.field4, gMap2DStatus->mState0InverseZ))) +
                 0x28;
             break;
         default:
             if (GetIsMirrorMode() != 0) {
-                out->mUnk_00 = GetFixed12Whole(
-                                   lmap_20B502C(0x80000, MulFx64c(state0Min.mUnk_00 - kartPos.x,
+                out->field0 = GetFixed12Whole(
+                                   lmap_20B502C(0x80000, MulFx64c(state0Min.field0 - kartPos.x,
                                                                        gMap2DStatus->mState0InverseX))) +
                                0xf8;
             } else {
-                out->mUnk_00 = GetFixed12Whole(
-                                   lmap_20B502C(0x80000, MulFx64c(kartPos.x - state0Min.mUnk_00,
+                out->field0 = GetFixed12Whole(
+                                   lmap_20B502C(0x80000, MulFx64c(kartPos.x - state0Min.field0,
                                                                        gMap2DStatus->mState0InverseX))) +
                                0x78;
             }
-            out->mUnk_04 =
+            out->field4 =
                 GetFixed12Whole(lmap_20B502C(
-                    0x98000, MulFx64c(kartPos.z - state0Min.mUnk_04, gMap2DStatus->mState0InverseZ))) +
+                    0x98000, MulFx64c(kartPos.z - state0Min.field4, gMap2DStatus->mState0InverseZ))) +
                 0x28;
             break;
     }
@@ -226,18 +226,18 @@ void RefreshGlobalMapPosition(s32 kartIndex, UnkPair020b502c *out) {
 void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, UnkPair020b502c *out) {
     UnkPair020b502c courseMin = gMap2DStatus->mCourseMin;
 
-    out->mUnk_00 = GetFixed12Whole(lmap_20B502C(
-        0x200000, MulFx64c(pos->x - courseMin.mUnk_00, gMap2DStatus->mCourseInverseX)));
-    out->mUnk_04 = GetFixed12Whole(lmap_20B502C(
-        0x200000, MulFx64c(pos->z - courseMin.mUnk_04, gMap2DStatus->mCourseInverseZ)));
+    out->field0 = GetFixed12Whole(lmap_20B502C(
+        0x200000, MulFx64c(pos->x - courseMin.field0, gMap2DStatus->mCourseInverseX)));
+    out->field4 = GetFixed12Whole(lmap_20B502C(
+        0x200000, MulFx64c(pos->z - courseMin.field4, gMap2DStatus->mCourseInverseZ)));
 }
 
 BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position) {
     UnkPair020b502c centerWhole = gMap2DStatus->mCenterWhole;
     s32 halfSize = gMap2DStatus->mHalfSize;
 
-    if (position->mUnk_00 - halfSize < centerWhole.mUnk_00 && centerWhole.mUnk_00 < position->mUnk_00 + halfSize &&
-        position->mUnk_04 - halfSize < centerWhole.mUnk_04 && centerWhole.mUnk_04 < position->mUnk_04 + halfSize) {
+    if (position->field0 - halfSize < centerWhole.field0 && centerWhole.field0 < position->field0 + halfSize &&
+        position->field4 - halfSize < centerWhole.field4 && centerWhole.field4 < position->field4 + halfSize) {
         return TRUE;
     }
     return FALSE;
@@ -245,7 +245,7 @@ BOOL IsRaceHudSubScreenPairNearCenter(const UnkPair020b502c *position) {
 
 void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s32 v1) {
     UnkPair020b502c center = gMap2DStatus->mCenter;
-    s32 centerY = center.mUnk_04;
+    s32 centerY = center.field4;
     s32 pairSecondScaled = gMap2DStatus->mAnglePairSecondScaled;
     s32 pairFirstScaled = gMap2DStatus->mAnglePairFirstScaled;
     UnkPair020b502c courseMin = gMap2DStatus->mCourseMin;
@@ -257,22 +257,22 @@ void ComputeRaceHudSubScreenKartPosition(s32 kartIndex, UnkPair020b502c *out, s3
 
     driver_getPosition(&kartPos, (u8) kartIndex);
     projectedX = lmap_20B502C(
-        0x200000, MulFx64c(kartPos.x - courseMin.mUnk_00, gMap2DStatus->mCourseInverseX));
+        0x200000, MulFx64c(kartPos.x - courseMin.field0, gMap2DStatus->mCourseInverseX));
     projectedY = lmap_20B502C(
-        0x200000, MulFx64c(kartPos.z - courseMin.mUnk_04, gMap2DStatus->mCourseInverseZ));
+        0x200000, MulFx64c(kartPos.z - courseMin.field4, gMap2DStatus->mCourseInverseZ));
     if (GetIsMirrorMode() != 0) {
         dy = projectedY - centerY;
-        dx = projectedX - center.mUnk_00;
-        out->mUnk_00 =
+        dx = projectedX - center.field0;
+        out->field0 =
             GetFixed12Whole(lmap_20B502C(-pairSecondScaled, dx) + lmap_20B502C(pairFirstScaled, dy)) + 0x80;
-        out->mUnk_04 =
+        out->field4 =
             GetFixed12Whole(lmap_20B502C(pairFirstScaled, dx) + lmap_20B502C(pairSecondScaled, dy)) + 0x60;
     } else {
-        dx = projectedX - center.mUnk_00;
+        dx = projectedX - center.field0;
         dy = projectedY - centerY;
-        out->mUnk_00 =
+        out->field0 =
             GetFixed12Whole(lmap_20B502C(pairSecondScaled, dx) - lmap_20B502C(pairFirstScaled, dy)) + 0x80;
-        out->mUnk_04 =
+        out->field4 =
             GetFixed12Whole(lmap_20B502C(pairFirstScaled, dx) + lmap_20B502C(pairSecondScaled, dy)) + 0x60;
     }
 }
@@ -309,26 +309,26 @@ BOOL lmap_20B5AE8(const Vec3 *pos, UnkPair020b502c *out, s32 unk, s32 requireNea
     s32 wholeY;
 
     projectedX =
-        lmap_20B502C(0x200000, MulFx64c(pos->x - courseMin.mUnk_00, gMap2DStatus->mCourseInverseX));
+        lmap_20B502C(0x200000, MulFx64c(pos->x - courseMin.field0, gMap2DStatus->mCourseInverseX));
     projectedY =
-        lmap_20B502C(0x200000, MulFx64c(pos->z - courseMin.mUnk_04, gMap2DStatus->mCourseInverseZ));
+        lmap_20B502C(0x200000, MulFx64c(pos->z - courseMin.field4, gMap2DStatus->mCourseInverseZ));
     if (requireNearCenter != 0) {
         centerWhole = gMap2DStatus->mCenterWhole;
         halfSize = gMap2DStatus->mHalfSize;
         wholeX = GetFixed12Whole(projectedX);
         wholeY = GetFixed12Whole(projectedY);
 
-        if (wholeX - halfSize >= centerWhole.mUnk_00 || centerWhole.mUnk_00 >= wholeX + halfSize ||
-            wholeY - halfSize >= centerWhole.mUnk_04 || centerWhole.mUnk_04 >= wholeY + halfSize) {
+        if (wholeX - halfSize >= centerWhole.field0 || centerWhole.field0 >= wholeX + halfSize ||
+            wholeY - halfSize >= centerWhole.field4 || centerWhole.field4 >= wholeY + halfSize) {
             return FALSE;
         }
     }
     if (exactCenter != 0) {
-        centerX = center.mUnk_00;
-        centerY = center.mUnk_04;
+        centerX = center.field0;
+        centerY = center.field4;
     } else {
-        centerX = ClearFixed12Fraction(center.mUnk_00);
-        centerY = ClearFixed12Fraction(center.mUnk_04);
+        centerX = ClearFixed12Fraction(center.field0);
+        centerY = ClearFixed12Fraction(center.field4);
     }
     if (GetIsMirrorMode() != 0) {
         dx = projectedX - centerX;
@@ -346,12 +346,12 @@ BOOL lmap_20B5AE8(const Vec3 *pos, UnkPair020b502c *out, s32 unk, s32 requireNea
             GetFixed12Whole(lmap_20B502C(pairFirstScaled, dx) + lmap_20B502C(pairSecondScaled, e)) + 0x60;
     }
     if (screenX > -32 && screenX < 0x120 && screenY > -32 && screenY < 0xe0) {
-        out->mUnk_00 = screenX;
-        out->mUnk_04 = screenY;
+        out->field0 = screenX;
+        out->field4 = screenY;
         return TRUE;
     }
-    out->mUnk_00 = screenX;
-    out->mUnk_04 = screenY;
+    out->field0 = screenX;
+    out->field4 = screenY;
     return FALSE;
 }
 
@@ -366,30 +366,30 @@ void RefreshLocalMapPosition(RaceHudSubScreenBgAffine *out) {
         GetKartPosFromPosSourceCopy(&pos, Race_GetPlayerId());
     }
     if (r2d_getMapMode() == 3) {
-        pos = GetKTP2Pointer()->mUnk_00;
+        pos = GetKTP2Pointer()->field0;
     }
-    gMap2DStatus->mCenter.mUnk_00 =
-        lmap_20B502C(0x200000, MulFx64c(pos.x - courseMin.mUnk_00, gMap2DStatus->mCourseInverseX));
-    gMap2DStatus->mCenter.mUnk_04 =
-        lmap_20B502C(0x200000, MulFx64c(pos.z - courseMin.mUnk_04, gMap2DStatus->mCourseInverseZ));
-    gMap2DStatus->mCenterWhole.mUnk_00 = GetFixed12Whole(gMap2DStatus->mCenter.mUnk_00);
-    out->mCenterX = gMap2DStatus->mCenterWhole.mUnk_00;
-    gMap2DStatus->mCenterWhole.mUnk_04 = GetFixed12Whole(gMap2DStatus->mCenter.mUnk_04);
-    out->mCenterY = gMap2DStatus->mCenterWhole.mUnk_04;
+    gMap2DStatus->mCenter.field0 =
+        lmap_20B502C(0x200000, MulFx64c(pos.x - courseMin.field0, gMap2DStatus->mCourseInverseX));
+    gMap2DStatus->mCenter.field4 =
+        lmap_20B502C(0x200000, MulFx64c(pos.z - courseMin.field4, gMap2DStatus->mCourseInverseZ));
+    gMap2DStatus->mCenterWhole.field0 = GetFixed12Whole(gMap2DStatus->mCenter.field0);
+    out->mCenterX = gMap2DStatus->mCenterWhole.field0;
+    gMap2DStatus->mCenterWhole.field4 = GetFixed12Whole(gMap2DStatus->mCenter.field4);
+    out->mCenterY = gMap2DStatus->mCenterWhole.field4;
     out->mX1 = out->mCenterX - 0x80;
     out->mY1 = out->mCenterY - 0x60;
-    if (gMap2DStatus->mCenterWhole.mUnk_00 > 0) {
-        wholePart = 0.5f + (gMap2DStatus->mCenterWhole.mUnk_00 << 12);
+    if (gMap2DStatus->mCenterWhole.field0 > 0) {
+        wholePart = 0.5f + (gMap2DStatus->mCenterWhole.field0 << 12);
     } else {
-        wholePart = (gMap2DStatus->mCenterWhole.mUnk_00 << 12) - 0.5f;
+        wholePart = (gMap2DStatus->mCenterWhole.field0 << 12) - 0.5f;
     }
-    gMap2DStatus->mCenterRemainderX = gMap2DStatus->mCenter.mUnk_00 - (s32) wholePart;
-    if (gMap2DStatus->mCenterWhole.mUnk_04 > 0) {
-        wholePart = 0.5f + (gMap2DStatus->mCenterWhole.mUnk_04 << 12);
+    gMap2DStatus->mCenterRemainderX = gMap2DStatus->mCenter.field0 - (s32) wholePart;
+    if (gMap2DStatus->mCenterWhole.field4 > 0) {
+        wholePart = 0.5f + (gMap2DStatus->mCenterWhole.field4 << 12);
     } else {
-        wholePart = (gMap2DStatus->mCenterWhole.mUnk_04 << 12) - 0.5f;
+        wholePart = (gMap2DStatus->mCenterWhole.field4 << 12) - 0.5f;
     }
-    gMap2DStatus->mCenterRemainderY = gMap2DStatus->mCenter.mUnk_04 - (s32) wholePart;
+    gMap2DStatus->mCenterRemainderY = gMap2DStatus->mCenter.field4 - (s32) wholePart;
 }
 
 void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
@@ -402,18 +402,18 @@ void UpdateRaceHudSubScreenBg3Center(RaceHudSubScreenBgAffine *out) {
         GetKartPosFromPosSourceCopy(&pos, Race_GetPlayerId());
     }
     if (r2d_getMapMode() == 3) {
-        pos = GetKTP2Pointer()->mUnk_00;
+        pos = GetKTP2Pointer()->field0;
     }
     out->mCenterX = GetFixed12Whole(
-        lmap_20B502C(0x200000, MulFx64c(pos.x - bg3Min.mUnk_00, gMap2DStatus->mBg3InverseX)));
+        lmap_20B502C(0x200000, MulFx64c(pos.x - bg3Min.field0, gMap2DStatus->mBg3InverseX)));
     out->mCenterY = GetFixed12Whole(
-        lmap_20B502C(0x200000, MulFx64c(pos.z - bg3Min.mUnk_04, gMap2DStatus->mBg3InverseZ)));
+        lmap_20B502C(0x200000, MulFx64c(pos.z - bg3Min.field4, gMap2DStatus->mBg3InverseZ)));
     out->mX1 = out->mCenterX - 0x80;
     out->mY1 = out->mCenterY - 0x60;
 }
 
 Unk020b57e4 *GetKTP2Pointer(void) {
-    return gMapData->mUnk_2c;
+    return gMapData->field2C;
 }
 
 s32 MulFx64c(s32 value, s64 factor) {
@@ -436,19 +436,19 @@ void UpdateRaceHudSubScreenBg3CenterByFrames(RaceHudSubScreenBgAffine *out) {
         GetKartPosFromPosSourceCopy(&pos, Race_GetPlayerId());
     }
     if (r2d_getMapMode() == 3) {
-        pos = GetKTP2Pointer()->mUnk_00;
+        pos = GetKTP2Pointer()->field0;
     }
-    spanX = bg3Max.mUnk_00 - bg3Min.mUnk_00;
-    spanZ = bg3Max.mUnk_04 - bg3Min.mUnk_04;
+    spanX = bg3Max.field0 - bg3Min.field0;
+    spanZ = bg3Max.field4 - bg3Min.field4;
     framesQuotient = r2d_20B1DD0() / 32;
     offsetX = spanX * framesQuotient;
     offsetZ = spanZ * framesQuotient;
     pos.x -= offsetX / 512;
     pos.z -= offsetZ / 512;
     out->mCenterX = GetFixed12Whole(
-        lmap_20B502C(0x200000, MulFx64c(pos.x - bg3Min.mUnk_00, gMap2DStatus->mBg3InverseX)));
+        lmap_20B502C(0x200000, MulFx64c(pos.x - bg3Min.field0, gMap2DStatus->mBg3InverseX)));
     out->mCenterY = GetFixed12Whole(
-        lmap_20B502C(0x200000, MulFx64c(pos.z - bg3Min.mUnk_04, gMap2DStatus->mBg3InverseZ)));
+        lmap_20B502C(0x200000, MulFx64c(pos.z - bg3Min.field4, gMap2DStatus->mBg3InverseZ)));
     out->mX1 = out->mCenterX - 0x80;
     out->mY1 = out->mCenterY - 0x60;
 }
@@ -471,8 +471,8 @@ void UpdateRaceHudSubScreenScroll(void) {
     if (RaceHudSubScreenGetDownBits(input_getDirectInputUnitId(), PAD_KEY_LEFT) != 0) {
         if (gMap2DStatus->mScrollTimer != 0) {
             gMap2DStatus->mScrollPosition.x -= 0xa000;
-            if (gMap2DStatus->mScrollPosition.x < scrollMin.mUnk_00) {
-                gMap2DStatus->mScrollPosition.x = scrollMin.mUnk_00;
+            if (gMap2DStatus->mScrollPosition.x < scrollMin.field0) {
+                gMap2DStatus->mScrollPosition.x = scrollMin.field0;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gMap2DStatus->mScrollPosition, Race_GetPlayerId());
@@ -482,8 +482,8 @@ void UpdateRaceHudSubScreenScroll(void) {
     if (RaceHudSubScreenGetDownBits(input_getDirectInputUnitId(), PAD_KEY_RIGHT) != 0) {
         if (gMap2DStatus->mScrollTimer != 0) {
             gMap2DStatus->mScrollPosition.x += 0xa000;
-            if (gMap2DStatus->mScrollPosition.x > scrollMax.mUnk_00) {
-                gMap2DStatus->mScrollPosition.x = scrollMax.mUnk_00;
+            if (gMap2DStatus->mScrollPosition.x > scrollMax.field0) {
+                gMap2DStatus->mScrollPosition.x = scrollMax.field0;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gMap2DStatus->mScrollPosition, Race_GetPlayerId());
@@ -493,8 +493,8 @@ void UpdateRaceHudSubScreenScroll(void) {
     if (RaceHudSubScreenGetDownBits(input_getDirectInputUnitId(), PAD_KEY_UP) != 0) {
         if (gMap2DStatus->mScrollTimer != 0) {
             gMap2DStatus->mScrollPosition.z -= 0xa000;
-            if (gMap2DStatus->mScrollPosition.z < scrollMin.mUnk_04) {
-                gMap2DStatus->mScrollPosition.z = scrollMin.mUnk_04;
+            if (gMap2DStatus->mScrollPosition.z < scrollMin.field4) {
+                gMap2DStatus->mScrollPosition.z = scrollMin.field4;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gMap2DStatus->mScrollPosition, Race_GetPlayerId());
@@ -504,8 +504,8 @@ void UpdateRaceHudSubScreenScroll(void) {
     if (RaceHudSubScreenGetDownBits(input_getDirectInputUnitId(), PAD_KEY_DOWN) != 0) {
         if (gMap2DStatus->mScrollTimer != 0) {
             gMap2DStatus->mScrollPosition.z += 0xa000;
-            if (gMap2DStatus->mScrollPosition.z > scrollMax.mUnk_04) {
-                gMap2DStatus->mScrollPosition.z = scrollMax.mUnk_04;
+            if (gMap2DStatus->mScrollPosition.z > scrollMax.field4) {
+                gMap2DStatus->mScrollPosition.z = scrollMax.field4;
             }
         } else {
             GetKartPosFromPosSourceCopy(&gMap2DStatus->mScrollPosition, Race_GetPlayerId());
@@ -531,17 +531,17 @@ void UpdateRaceHudSubScreenScroll(void) {
             }
         }
     }
-    if (gMap2DStatus->mScrollPosition.x < scrollMin.mUnk_00) {
-        gMap2DStatus->mScrollPosition.x = scrollMin.mUnk_00;
+    if (gMap2DStatus->mScrollPosition.x < scrollMin.field0) {
+        gMap2DStatus->mScrollPosition.x = scrollMin.field0;
     }
-    if (gMap2DStatus->mScrollPosition.x > scrollMax.mUnk_00) {
-        gMap2DStatus->mScrollPosition.x = scrollMax.mUnk_00;
+    if (gMap2DStatus->mScrollPosition.x > scrollMax.field0) {
+        gMap2DStatus->mScrollPosition.x = scrollMax.field0;
     }
-    if (gMap2DStatus->mScrollPosition.z < scrollMin.mUnk_04) {
-        gMap2DStatus->mScrollPosition.z = scrollMin.mUnk_04;
+    if (gMap2DStatus->mScrollPosition.z < scrollMin.field4) {
+        gMap2DStatus->mScrollPosition.z = scrollMin.field4;
     }
-    if (gMap2DStatus->mScrollPosition.z > scrollMax.mUnk_04) {
-        gMap2DStatus->mScrollPosition.z = scrollMax.mUnk_04;
+    if (gMap2DStatus->mScrollPosition.z > scrollMax.field4) {
+        gMap2DStatus->mScrollPosition.z = scrollMax.field4;
     }
 }
 

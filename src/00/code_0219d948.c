@@ -18,16 +18,16 @@ u8 func_ov000_0219d9ec(void *a, u8 *b, u8 *c, char *d) {
     char e[4];
     GpBuddyStatus f;
     if (func_ov000_0219d094(a, &f) != 0) {
-        if (f.mUnk_004 == 6) {
+        if (f.field4 == 6) {
             if (b != NULL) {
-                if (func_ov000_021a3530("SCM", e, f.mUnk_008, 0x2f) > 0) {
+                if (func_ov000_021a3530("SCM", e, f.field8, 0x2f) > 0) {
                     *b = strtoul(e, NULL, 10);
                 } else {
                     *b = 0;
                 }
             }
             if (c != NULL) {
-                if (func_ov000_021a3530("SCN", e, f.mUnk_008, 0x2f) > 0) {
+                if (func_ov000_021a3530("SCN", e, f.field8, 0x2f) > 0) {
                     *c = strtoul(e, NULL, 10);
                 } else {
                     *c = 0;
@@ -42,9 +42,9 @@ u8 func_ov000_0219d9ec(void *a, u8 *b, u8 *c, char *d) {
             }
         }
         if (d != NULL) {
-            strcpy(d, f.mUnk_108);
+            strcpy(d, f.field108);
         }
-        return f.mUnk_004;
+        return f.field4;
     }
     if (b != NULL) {
         *b = 0;

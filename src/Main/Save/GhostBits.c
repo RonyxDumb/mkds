@@ -52,12 +52,12 @@ void savd_initNksy(s32 copyOwnerName) {
     if (copyOwnerName != 0) {
         ownerCharCount = gSystemData->mOwnerCharCount;
         ownerText = gSystemData->mOwnerText;
-        gSaveData->mFirstBlock->mUnk_31_0 = 1;
+        gSaveData->mFirstBlock->field31_0 = 1;
         MI_CpuFill8(gSaveData->mFirstBlock->mPlayerName, 0, 0x14);
         MI_CpuCopy8(ownerText, gSaveData->mFirstBlock->mPlayerName, ((u32) ownerCharCount << 17) >> 16);
     }
     gSaveData->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
-    gSaveData->mFirstBlock->mUnk_31_3 = 0;
+    gSaveData->mFirstBlock->field31_3 = 0;
     gSaveData->mFirstBlock->mLocateFriendOff = 0;
     gSaveData->mFirstBlock->mElo = 0x1388;
     unlock_tryUnlock2();

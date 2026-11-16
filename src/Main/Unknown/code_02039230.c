@@ -14,10 +14,10 @@ void func_020394cc(void) {
     data_021755dc.mRepeatDelayLimit = 0x14;
     data_021755dc.mRepeatIntervalLimit = 8;
     data_021755dc.mHoldLong = 0;
-    data_021755dc.mUnk_14 = 0;
+    data_021755dc.field14 = 0;
     data_021755dc.mHoldStartTick = 0;
-    data_021755dc.mUnk_20 = 0;
-    data_021755dc.mUnk_24 = 0;
+    data_021755dc.field20 = 0;
+    data_021755dc.field24 = 0;
 }
 
 void func_02039478(void) {
@@ -31,15 +31,15 @@ void func_02039478(void) {
     data_021755dc.mRepeatDelayLimit = 0x14;
     data_021755dc.mRepeatIntervalLimit = 8;
     data_021755dc.mHoldLong = 0;
-    data_021755dc.mUnk_14 = 0;
+    data_021755dc.field14 = 0;
     data_021755dc.mHoldStartTick = 0;
-    data_021755dc.mUnk_20 = 0;
-    data_021755dc.mUnk_24 = 0;
+    data_021755dc.field20 = 0;
+    data_021755dc.field24 = 0;
 }
 
 void ReadKeysIntoInputSlot(void) {
     u32 keys;
-    if (data_021755dc.mUnk_24 != 0) {
+    if (data_021755dc.field24 != 0) {
         keys = ReadKeyBitsFromStream();
     } else {
         keys = (u16) (((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff);

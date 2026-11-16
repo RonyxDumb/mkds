@@ -3,23 +3,23 @@
 #include "types.h"
 #include "code_02003024.h" // FSArchive
 
-// Record whose first fields ArchiveHeaderMatches checks; mUnk_0c is the offset of the first of mUnk_0e blocks that
+// Record whose first fields ArchiveHeaderMatches checks; fieldC is the offset of the first of fieldE blocks that
 // ArchiveLoadFromMemory walks, each starting with a word and its own size.
 typedef struct Unk02018344 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u8 field8[4];
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
 } Unk02018344;
 
 // FSArchive followed by the three words ArchiveLoadFromMemory sets.
 typedef struct Unk020182c0 {
-    /* 00 */ FSArchive mUnk_00;
-    /* 5c */ Unk02018344 *mUnk_5c;
-    /* 60 */ u8 *mUnk_60;
-    /* 64 */ u8 *mUnk_64;
+    /* 00 */ FSArchive field0;
+    /* 5c */ Unk02018344 *field5C;
+    /* 60 */ u8 *field60;
+    /* 64 */ u8 *field64;
 } Unk020182c0;
 
 void *ArchiveFileGetAddress(const u8 *a);

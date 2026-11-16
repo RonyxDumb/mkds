@@ -47,7 +47,7 @@ void irec_recordKeys(KeyRecording *keyRecording, u16 keys) {
             if (status != 1) {
                 return;
             }
-            buffer->mUnk_00 = (u32) pairIndex * 2;
+            buffer->field0 = (u32) pairIndex * 2;
             keyRecording->mStatus = 3;
             DC_StoreRange(keyRecording->mBuffer, 0xdcc);
             return;
@@ -72,7 +72,7 @@ u16 irec_playKeys(KeyRecording *keyRecording) {
     }
     buffer = keyRecording->mBuffer;
     pairIndex = keyRecording->mPairIndex;
-    if (pairIndex >= buffer->mUnk_00) {
+    if (pairIndex >= buffer->field0) {
         keyRecording->mStatus = 0;
         return 0;
     }
@@ -126,12 +126,12 @@ void emblem_update(EmblemSceneNumbersView *sceneNumbers) {
 
     r = func_ov001_021a23c8();
     if (sceneNumbers != NULL && r != 0) {
-        switch (sceneNumbers->mUnk_00) {
+        switch (sceneNumbers->field0) {
             case 7:
-                sceneNumbers->mUnk_04 = 7;
+                sceneNumbers->field4 = 7;
                 break;
             default:
-                sceneNumbers->mUnk_04 = 0;
+                sceneNumbers->field4 = 0;
                 break;
         }
     }

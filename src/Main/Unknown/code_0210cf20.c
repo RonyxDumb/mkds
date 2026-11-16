@@ -30,7 +30,7 @@ void sfx_initPool(PlayingSound *sounds, s32 count) {
     sp_init(&sfx_sSfxPool, sounds, count, 0x1c);
     for (i = 0; i < count; i++) {
         sp_initHandle(sounds);
-        list_initLink(&sounds->mUnk_08);
+        list_initLink(&sounds->field8);
         sounds->mSeqArcNo = 0;
         sounds->mSoundId = 0;
         sounds->mFlags = 0;
@@ -58,7 +58,7 @@ void sfx_update(void) {
     NNSFndList *secondUpdateList;
     SoundSource *source;
 
-    if (SoundHandle_217D084.mUnk_10 == 0) {
+    if (SoundHandle_217D084.field10 == 0) {
         return;
     }
     if (data_0217d020 != 0) {
@@ -196,7 +196,7 @@ void sfx_210D020(s32 (*volumeFunction)(SoundParams *)) {
 
 void sfx_initSfx(PlayingSound *sound) {
     sp_initHandle(sound);
-    list_initLink(&sound->mUnk_08);
+    list_initLink(&sound->field8);
     sound->mSeqArcNo = 0;
     sound->mSoundId = 0;
     sound->mFlags = 0;
@@ -227,14 +227,14 @@ void sfx_initEmitter(SoundSource *source, u32 positionSource) {
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);
     startFunction = (void *) sfx_startSeqArcEx;
-    source->mUnk_38 = 1;
+    source->field38 = 1;
     trackParamsFunction = (void *) sfx_updateVolumePitch;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
     source->mUpdateListIndex = 3;
-    list_initLink(source->mUnk_1c);
+    list_initLink(source->field1C);
     list_initLink((u32 *) source);
     list_append(&sfx_sActiveEmitterList, source);
 }

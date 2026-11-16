@@ -37,11 +37,11 @@ void func_021170f8(void) {
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(SinglePlayerMenuInfoPointer->mPicks);
-    if (gSystemData->mUnk_20 == 0) {
+    if (gSystemData->field20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
+        if (gStruct217AA00->field4 != 8 && gStruct217AA00->field4 != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
@@ -61,11 +61,11 @@ void func_02117060(void) {
     u32 zeroValue, noIndex;
 
     InitCharacterKartPicks(SinglePlayerMenuInfoPointer->mPicks);
-    if (gSystemData->mUnk_20 == 0) {
+    if (gSystemData->field20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
+        if (gStruct217AA00->field4 != 8 && gStruct217AA00->field4 != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
@@ -88,11 +88,11 @@ void SPM_2116FB0(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (gSystemData->mUnk_20 == 0) {
+    if (gSystemData->field20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
+        if (gStruct217AA00->field4 != 8 && gStruct217AA00->field4 != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
@@ -114,11 +114,11 @@ void FillRandomKartIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (gSystemData->mUnk_20 == 0) {
+    if (gSystemData->field20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
+        if (gStruct217AA00->field4 != 8 && gStruct217AA00->field4 != 9) {
             isEightOrNine = FALSE;
         }
         n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);

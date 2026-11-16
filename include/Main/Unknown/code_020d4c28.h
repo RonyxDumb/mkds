@@ -8,8 +8,8 @@
 
 // Object mobj_updateCameraVectors reads: a vector at 0x24.
 typedef struct Unk020d4f94 {
-    /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ Vec3 mUnk_24;
+    /* 00 */ u8 field0[0x24];
+    /* 24 */ Vec3 field24;
 } Unk020d4f94;
 
 void mobj_updateCameraVectors(Unk020d4f94 *viewMatrix);

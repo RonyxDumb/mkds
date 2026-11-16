@@ -23,7 +23,7 @@ void ClearOptionStateCallbacks(void) {
     gOptionStates->mCallbacks.mInit = NULL;
     gOptionStates->mCallbacks.mRelease = NULL;
     gOptionStates->mCallbacks.mAdvance = NULL;
-    gOptionStates->mCallbacks.mUnk_0c = NULL;
+    gOptionStates->mCallbacks.fieldC = NULL;
 }
 
 void LoadOptionData(void) {
@@ -76,25 +76,25 @@ void InitOptionStates(void *heap, s16 a) {
     Unk02125de0Arg arg;
     gOptionStates = heap_alloc(heap, 0x2c);
     gOptionStates->mHeap = heap;
-    gOptionStates->mUnk_28 = func_021250b0(heap);
+    gOptionStates->field28 = func_021250b0(heap);
     func_ov001_021930ac();
     InitLinkLevelIcons(heap, GetOptionFirstBuffer());
-    arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = m2d_getFont(1);
-    arg.mUnk_08 = 0;
-    arg.mUnk_0c = 1;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = FALSE;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = TRUE;
-    arg.mUnk_20 = TRUE;
-    arg.mUnk_24 = 0;
+    arg.field0 = TRUE;
+    arg.field4 = m2d_getFont(1);
+    arg.field8 = 0;
+    arg.fieldC = 1;
+    arg.field10 = 0;
+    arg.field14 = FALSE;
+    arg.field18 = NULL;
+    arg.field1C = TRUE;
+    arg.field20 = TRUE;
+    arg.field24 = 0;
     gmenu_unpackData();
     gmenu_init(heap, &arg);
     gOptionStates->mStateHeap = heap_createSubExpHeap(gOptionStates->mHeap);
     LoadOptionData();
     ClearOptionStateCallbacks();
-    gOptionStates->mUnk_14 = -1;
+    gOptionStates->field14 = -1;
     switch (a) {
         case 0:
             gOptionStates->mPrevState = 4;
@@ -108,7 +108,7 @@ void InitOptionStates(void *heap, s16 a) {
             break;
         case 3:
             gOptionStates->mPrevState = 6;
-            if (gStruct217B488->mUnk_18 == FALSE) {
+            if (gStruct217B488->field18 == FALSE) {
                 gOptionStates->mState = 2;
                 RegisterOptionHensyuMenuCallbacks();
             } else {
@@ -166,8 +166,8 @@ void AdvanceOptionStates(void) {
 }
 
 void func_ov001_02192ec4(void) {
-    if (gOptionStates->mCallbacks.mUnk_0c != NULL) {
-        (*gOptionStates->mCallbacks.mUnk_0c)();
+    if (gOptionStates->mCallbacks.fieldC != NULL) {
+        (*gOptionStates->mCallbacks.fieldC)();
     }
     gmenu_vblank();
 }
@@ -185,9 +185,9 @@ u32 GetOptionPrevState(void) {
 }
 
 int func_ov001_02192e84(void) {
-    return gOptionStates->mUnk_14;
+    return gOptionStates->field14;
 }
 
 void func_ov001_02192e78(u16 a) {
-    gOptionStates->mUnk_14 = a;
+    gOptionStates->field14 = a;
 }

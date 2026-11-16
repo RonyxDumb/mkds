@@ -4,14 +4,14 @@
 
 // Address block filled in by func_ov000_0218e438.
 typedef struct Unk0218b8f4 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk0218b8f4;
 
-// Entry of the list at SbServerList.mUnk_008.
+// Entry of the list at SbServerList.field8.
 typedef struct Unk0218c0bc {
-    /* 0 */ char *mUnk_00;
-    /* 4 */ s32 mUnk_04;
+    /* 0 */ char *field0;
+    /* 4 */ s32 field4;
 } Unk0218c0bc;

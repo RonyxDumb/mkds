@@ -117,7 +117,7 @@ void BuildCourseList(s32 isVersus) {
     gRaceMultiConfig->mNextHeader.mCourseNumber = 1;
     if (isVersus != 0) {
         gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
-    } else if (gSystemData->mUnk_1c_2) {
+    } else if (gSystemData->field1C_2) {
         gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
         gRaceMultiConfig->mNextHeader.mRaceKind = 4;
@@ -125,10 +125,10 @@ void BuildCourseList(s32 isVersus) {
     for (i = 0; i < 0x21; i++) {
         gRaceMultiConfig->mCourseList[i] = 0;
     }
-    switch (gSystemData->mUnk_20) {
+    switch (gSystemData->field20) {
         case 1:
         case 2:
-            f = (gStruct217AA00->mUnk_0454 & 0x40) != 0;
+            f = (gStruct217AA00->field454 & 0x40) != 0;
             break;
     }
     switch (gRaceMultiConfig->mNextHeader.mCourseListMode) {
@@ -308,7 +308,7 @@ BOOL rconf_setupAward(void) {
     KartCourseResult *courseResult;
     entryIndex = gRaceMultiConfig->mEntryIndex;
     gStruct217B488->mCupRankIndex = rres_getGlobalRank((u16) entryIndex) - 1;
-    gStruct217B488->mUnk_80 = rres_calculateGpRank();
+    gStruct217B488->field80 = rres_calculateGpRank();
     gStruct217B488->mCharacterIndex = gRaceMultiConfig->mCurrentEntries[(u8) entryIndex].mCharacterIndex;
     gStruct217B488->mCupIndex = gRaceMultiConfig->mCupIndex;
     gStruct217B488->mEngineIndex = gRaceMultiConfig->mEngineIndex;
@@ -342,8 +342,8 @@ BOOL rconf_setupAward(void) {
     }
     for (i = 0; i < 8; i++) {
         rankIndex = rres_getGlobalRank(i) - 1;
-        gStruct217B488->mUnk_cc[rankIndex] = gRaceMultiConfig->mCurrentEntries[i].mKartIndex;
-        gStruct217B488->mUnk_ac[rankIndex] = gRaceMultiConfig->mCurrentEntries[i].mCharacterIndex;
+        gStruct217B488->fieldCC[rankIndex] = gRaceMultiConfig->mCurrentEntries[i].mKartIndex;
+        gStruct217B488->fieldAC[rankIndex] = gRaceMultiConfig->mCurrentEntries[i].mCharacterIndex;
     }
     gRaceMultiConfig->mNextHeader.mFollowedKartIndex = rres_getGlobalRank((u16) gRaceMultiConfig->mEntryIndex) - 1;
     return TRUE;
@@ -390,8 +390,8 @@ void rconf_setupStaffRoll(s32 useTrueStaffRoll) {
                 characterIndex = i;
                 kartIndex = i * 3;
             } else {
-                characterIndex = gStruct217B488->mUnk_ac[i];
-                kartIndex = gStruct217B488->mUnk_cc[i];
+                characterIndex = gStruct217B488->fieldAC[i];
+                kartIndex = gStruct217B488->fieldCC[i];
             }
         } else {
             characterIndex = i;
@@ -408,9 +408,9 @@ s32 AdvanceToNextCourse(void) {
     s32 x;
     result = TRUE;
     gRaceMultiConfig->mNextHeader.mCourseNumber++;
-    if (gRaceMultiConfig->mUnk_3d4 > 1) {
+    if (gRaceMultiConfig->field3D4 > 1) {
         for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
-            x = gRaceMultiConfig->mCurrentEntries[i].mPlayer.mUnk_08;
+            x = gRaceMultiConfig->mCurrentEntries[i].mPlayer.field8;
             v = 3;
             if (x != 0) {
                 if (x == 1) {
@@ -419,7 +419,7 @@ s32 AdvanceToNextCourse(void) {
             } else {
                 v = 1;
             }
-            gRaceMultiConfig->mNextEntries[i].mPlayer.mUnk_08 = v;
+            gRaceMultiConfig->mNextEntries[i].mPlayer.field8 = v;
         }
     }
     switch (gRaceMultiConfig->mCourseListMode) {
@@ -443,7 +443,7 @@ s32 func_02045914(void) {
 }
 
 s32 func_020458cc(void) {
-    if (gSystemData->mUnk_1c_2) {
+    if (gSystemData->field1C_2) {
         gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {
         gRaceMultiConfig->mNextHeader.mRaceKind = 4;
@@ -452,7 +452,7 @@ s32 func_020458cc(void) {
 }
 
 BOOL race_2045874(void) {
-    gStruct217B488->mUnk_5c[gRaceMultiConfig->mCourseNumber] = gRaceMultiConfig->mCourseId;
+    gStruct217B488->field5C[gRaceMultiConfig->mCourseNumber] = gRaceMultiConfig->mCourseId;
     gRaceMultiConfig->mNextHeader.mCourseNumber++;
     return gRaceMultiConfig->mNextHeader.mCourseNumber <= 4;
 }

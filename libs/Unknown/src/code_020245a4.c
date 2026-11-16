@@ -12,14 +12,14 @@ u16 CharReadHalfword(u16 **a) {
 }
 
 static inline s32 func_0202469c_inline(Unk02021f9c *a) {
-    if (a != 0 && a->mUnk_00 == 0x4e465452) {
+    if (a != 0 && a->field0 == 0x4e465452) {
         return 1;
     }
     return 0;
 }
 
 static inline s32 func_0202469c_inline2(Unk02021f9c *a, u16 v) {
-    if (a != 0 && a->mUnk_06 == v) {
+    if (a != 0 && a->field6 == v) {
         return 1;
     }
     return 0;
@@ -81,17 +81,17 @@ u32 BitStreamReadBits(Unk020247fc *a, s32 b) {
     u32 r;
     u8 *p;
 
-    n = a->mUnk_04;
-    c = a->mUnk_05;
+    n = a->field4;
+    c = a->field5;
     if (n < b) {
-        p = a->mUnk_00;
-        a->mUnk_00 = p + 1;
+        p = a->field0;
+        a->field0 = p + 1;
         r = c << (b - n);
-        a->mUnk_05 = *p;
-        a->mUnk_04 = 8;
+        a->field5 = *p;
+        a->field4 = 8;
         r = BitStreamReadBits(a, b - n) | r;
     } else {
-        a->mUnk_04 = n - b;
+        a->field4 = n - b;
         r = c >> (n - b);
     }
     return r & (0xff >> (8 - b));
@@ -116,8 +116,8 @@ u32 func_0202469c(Unk02021f9c *a, Unk02022ce4 **b) {
     }
     *b = (Unk02022ce4 *) (p + 1);
     if (r != 0) {
-        (*b)->mUnk_07 = (*b)->mUnk_04.mCharWidth;
-        (*b)->mUnk_04.mCharWidth = 0;
+        (*b)->field7 = (*b)->field4.mCharWidth;
+        (*b)->field4.mCharWidth = 0;
     }
     return r + 1;
 }
@@ -127,34 +127,34 @@ void func_020245a4(Unk02021f9c *a) {
     s32 i;
     Unk020245a4_08 *q;
 
-    p = OFFSET_PTR(Unk02021fd0, a, a->mUnk_0c);
-    for (i = 0; i < a->mUnk_0e; i++) {
-        switch (p->mUnk_00) {
+    p = OFFSET_PTR(Unk02021fd0, a, a->fieldC);
+    for (i = 0; i < a->fieldE; i++) {
+        switch (p->field0) {
             case 0x46494e46:
                 q = (Unk020245a4_08 *) (p + 1);
-                q->mUnk_04[1] += (u32) a;
-                if (q->mUnk_04[2] != 0) {
-                    q->mUnk_04[2] += (u32) a;
+                q->field4[1] += (u32) a;
+                if (q->field4[2] != 0) {
+                    q->field4[2] += (u32) a;
                 }
-                if (q->mUnk_04[3] != 0) {
-                    q->mUnk_04[3] += (u32) a;
+                if (q->field4[3] != 0) {
+                    q->field4[3] += (u32) a;
                 }
                 break;
             case 0x43574448:
                 q = (Unk020245a4_08 *) (p + 1);
-                if (q->mUnk_04[0] != 0) {
-                    q->mUnk_04[0] += (u32) a;
+                if (q->field4[0] != 0) {
+                    q->field4[0] += (u32) a;
                 }
                 break;
             case 0x434d4150:
                 q = (Unk020245a4_08 *) (p + 1);
-                if (q->mUnk_04[1] != 0) {
-                    q->mUnk_04[1] += (u32) a;
+                if (q->field4[1] != 0) {
+                    q->field4[1] += (u32) a;
                 }
                 break;
             case 0x43474c50:
                 break;
         }
-        p = OFFSET_PTR(Unk02021fd0, p, p->mUnk_04);
+        p = OFFSET_PTR(Unk02021fd0, p, p->field4);
     }
 }

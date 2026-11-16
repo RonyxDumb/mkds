@@ -52,73 +52,73 @@ void driver_handleRegularDriving(Kart *p) {
     s32 f;
     u32 w;
 
-    b = p->mUnk_3f8;
-    if (p->mUnk_4c & 0x8000000) {
+    b = p->field3F8;
+    if (p->field4C & 0x8000000) {
         driver_updateGessoInk(p);
     }
-    w = p->mUnk_4c;
+    w = p->field4C;
     if (w & 0x10000000) {
         driver_updateKillerMode(p);
     } else {
         if (w & KART_4C_THUNDER_SHRINK) {
             driver_updateThunderShrinkEffect(p);
         }
-        if (p->mUnk_4c & 0x10000) {
+        if (p->field4C & 0x10000) {
             driver_updateDossunFlatEffect(p);
         }
-        if (p->mUnk_7c & 0x402000) {
+        if (p->field7C & 0x402000) {
             driver_updateTeresaEffect(p);
         }
     }
-    if (p->mUnk_4c & 0x2000) {
-        q = &p->mUnk_538;
-        if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (p->field4C & 0x2000) {
+        q = &p->field538;
+        if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(p->mIndex), func_020718c8, p, 0xa3);
         }
-        q->mUnk_0a++;
-        if (q->mUnk_0a > 0xb4 && (p->mUnk_4c & 0x2000)) {
-            p->mUnk_4c &= ~0x2000;
-            p->mUnk_d8 = 0x1000;
-            if (!(p->mUnk_4c & 0x8000000)) {
+        q->fieldA++;
+        if (q->fieldA > 0xb4 && (p->field4C & 0x2000)) {
+            p->field4C &= ~0x2000;
+            p->fieldD8 = 0x1000;
+            if (!(p->field4C & 0x8000000)) {
                 driver_disableSlipStreamToonMode(p);
             }
             rptc_stopSlipstreamEffect(p);
         }
     }
-    if (p->mUnk_4c & 0x40) {
-        q = &p->mUnk_538;
+    if (p->field4C & 0x40) {
+        q = &p->field538;
         rptc_updateRainbowEffect(p->mIndex);
-        if ((p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) && p->mKartModelsEntry->mCharacterAnimation->mUnk_1a == 0) {
+        if ((p->field7C & KART_7C_MODELS_ENTRY_008_SET) && p->mKartModelsEntry->mCharacterAnimation->field1A == 0) {
             driver_2068A64(p, 2, 1);
         }
-        q->mUnk_06++;
-        if (q->mUnk_06 > 0x1c2) {
-            p->mUnk_4c &= ~0x40;
+        q->field6++;
+        if (q->field6 > 0x1c2) {
+            p->field4C &= ~0x40;
             driver_disableStarToonMode(p);
             p->mItemEffect = 0;
             rptc_stopRainbowEffect(p->mIndex);
             driver_2068A64(p, 0, 1);
-            if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+            if ((p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
                 snd_stopStarMusic();
             }
-            if (p->mUnk_4c & 0x2000) {
+            if (p->field4C & 0x2000) {
                 driver_enableSlipStreamToonMode(p);
             }
         }
     }
-    if ((p->mUnk_48 & 0x800) && driver_handlePreRespawn(p, &b) != 0) {
+    if ((p->field48 & 0x800) && driver_handlePreRespawn(p, &b) != 0) {
         return;
     }
-    if (p->mUnk_7c & 0x20) {
+    if (p->field7C & 0x20) {
         return;
     }
     driver_sReactionUpdateFuncs[p->mState](p);
     driver_applyDeceleration(p);
-    if (p->mUnk_48 & 0x40) {
+    if (p->field48 & 0x40) {
         p->mSinkFrames++;
         if (p->mSinkFrames > 0x41) {
-            p->mUnk_48 &= ~0x240;
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            p->field48 &= ~0x240;
+            if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 jg_finishRespawning();
             }
         } else {
@@ -127,40 +127,40 @@ void driver_handleRegularDriving(Kart *p) {
     } else {
         driver_1FFB9CC(p);
     }
-    if (p->mUnk_44 & KART_44_ON_GROUND) {
+    if (p->field44 & KART_44_ON_GROUND) {
         driver_getShadowZDirection(p, &v2);
-        if (!(p->mUnk_48 & 6) && p->mGroundNormal.y > 0 && (v2.y > 0 ? v2.y : -v2.y) > 0xcd &&
+        if (!(p->field48 & 6) && p->mGroundNormal.y > 0 && (v2.y > 0 ? v2.y : -v2.y) > 0xcd &&
             p->mSpeedLimitHitFactor <= 0) {
             p->mForwardSpeed += (s32) (((s64) -v2.y * 0x19a) >> 12);
         }
     }
-    if ((p->mUnk_44 & KART_44_ON_GROUND) || (p->mUnk_4c & 0x10000000)) {
+    if ((p->field44 & KART_44_ON_GROUND) || (p->field4C & 0x10000000)) {
         MTX_RotAxis33((MtxFx43 *) &m1, &p->mGroundNormal, FX_SinCosTable_[((u16) p->mTurnAngle >> 4) * 2],
                       FX_SinCosTable_[((u16) p->mTurnAngle >> 4) * 2 + 1]);
-        if (p->mUnk_48 & 1) {
-            MTX_RotAxis33((MtxFx43 *) &m2, &p->mUnk_120, FX_SinCosTable_[0xba], FX_SinCosTable_[0xbb]);
-            MTX_Concat33(m2.mUnk_00, m1.mUnk_00, m1.mUnk_00);
+        if (p->field48 & 1) {
+            MTX_RotAxis33((MtxFx43 *) &m2, &p->field120, FX_SinCosTable_[0xba], FX_SinCosTable_[0xbb]);
+            MTX_Concat33(m2.field0, m1.field0, m1.field0);
         }
-        MTX_MultVec33(&p->mForward, m1.mUnk_00, &p->mTurnedForward);
+        MTX_MultVec33(&p->mForward, m1.field0, &p->mTurnedForward);
         d = VEC_DotProduct(&p->mGroundNormal, &p->mTurnedForward);
         v3.x = p->mTurnedForward.x - (s32) (((s64) p->mGroundNormal.x * d) >> 12);
         v3.y = p->mTurnedForward.y - (s32) (((s64) p->mGroundNormal.y * d) >> 12);
         v3.z = p->mTurnedForward.z - (s32) (((s64) p->mGroundNormal.z * d) >> 12);
-        p->mUnk_d4 = VEC_Mag(&v3);
+        p->fieldD4 = VEC_Mag(&v3);
     } else {
         d = vec_dotProduct(&p->mForward, &p->mGroundNormal);
         p->mTurnedForward = p->mForward;
-        if (p->mUnk_3e8 > 0) {
-            p->mUnk_d4 = 0x1000;
+        if (p->field3E8 > 0) {
+            p->fieldD4 = 0x1000;
         } else if (d < 0) {
-            p->mUnk_d4 = 0x1000 - d;
+            p->fieldD4 = 0x1000 - d;
         } else {
-            p->mUnk_d4 = 0x1000;
+            p->fieldD4 = 0x1000;
         }
     }
     a = driver_1FFAF18(p);
     driver_applyTurningSpeedLose(&a, p);
-    if ((p->mUnk_44 & 0x90) || (p->mUnk_4c & 0x10000000)) {
+    if ((p->field44 & 0x90) || (p->field4C & 0x10000000)) {
         k = p->mTurnedForwardEaseFactor;
         VEC_Subtract(&p->mTurnedForward, &p->mEasedTurnedForward, &v4);
         v4.x = ((s64) v4.x * k) >> 12;
@@ -183,47 +183,47 @@ void driver_handleRegularDriving(Kart *p) {
         v1.y = 0;
     }
     p->mVelocity = v1;
-    VEC_Add(&p->mVelocity, &p->mUnk_374, &p->mVelocity);
+    VEC_Add(&p->mVelocity, &p->field374, &p->mVelocity);
     p->mVelocity.y += p->mVerticalSpeed;
-    VEC_MultAdd(p->mUnk_274, &p->mUnk_268, &p->mVelocity, &p->mVelocity);
-    if (!(p->mUnk_44 & KART_44_ON_GROUND) && p->mAirborneFrames > 5 && p->mVelocity.y < -0x6000) {
+    VEC_MultAdd(p->field274, &p->field268, &p->mVelocity, &p->mVelocity);
+    if (!(p->field44 & KART_44_ON_GROUND) && p->mAirborneFrames > 5 && p->mVelocity.y < -0x6000) {
         p->mVelocity.y = -0x6000;
     }
-    VEC_Add(&p->mVelocity, &p->mUnk_2f0, &p->mVelocity);
-    VEC_Add(&p->mVelocity, &p->mUnk_1fc, &p->mVelocity);
+    VEC_Add(&p->mVelocity, &p->field2F0, &p->mVelocity);
+    VEC_Add(&p->mVelocity, &p->field1FC, &p->mVelocity);
     AdvanceKartHop(p);
     driver_multiplyDeltaPos(p, b);
-    if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         SetKartForwardSpeedRatio(vec_dotProduct(&p->mVelocity, &p->mTurnedForward));
-        if ((p->mUnk_44 & 0x1000000) && p->mUnk_4d4 != 0) {
-            p->mUnk_4d4 = ((s64) p->mUnk_4d4 * 0xfae) >> 12;
-            if (p->mUnk_4d4 < 0xcd) {
-                p->mUnk_4d4 = 0;
+        if ((p->field44 & 0x1000000) && p->field4D4 != 0) {
+            p->field4D4 = ((s64) p->field4D4 * 0xfae) >> 12;
+            if (p->field4D4 < 0xcd) {
+                p->field4D4 = 0;
             }
         }
     }
-    if (!(p->mUnk_7c & 0x20)) {
+    if (!(p->field7C & 0x20)) {
         VEC_Add(&p->mPos, &p->mVelocity, &p->mPos);
         p->mSpeedLimitHitFactor = 0x1000;
     }
-    f = (p->mUnk_44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
+    f = (p->field44 & KART_44_ON_GROUND) ? 0xee1 : 0xfae;
     p->mHitVelocity.x = ((s64) p->mHitVelocity.x * f) >> 12;
     p->mHitVelocity.y = ((s64) p->mHitVelocity.y * f) >> 12;
     p->mHitVelocity.z = ((s64) p->mHitVelocity.z * f) >> 12;
     if ((s64) p->mHitVelocity.x * p->mHitVelocity.x + (s64) p->mHitVelocity.y * p->mHitVelocity.y +
             (s64) p->mHitVelocity.z * p->mHitVelocity.z >=
         0xa429) {
-        p->mUnk_44 |= 0x2000;
+        p->field44 |= 0x2000;
     } else {
         p->mHitVelocity = driverCore_sZeroVec;
-        p->mUnk_44 &= ~0x2000;
+        p->field44 &= ~0x2000;
     }
     col_queryByColEntry(p->mCollisionSlot, 0xe800);
     driver_handleMapObjCollision(p);
-    if (p->mUnk_7c & 0x8000000) {
+    if (p->field7C & 0x8000000) {
         return;
     }
-    ComputeKartPointAlongUp(&p->mPointAlongUp, p->mUnk_510, p->mPhysicalParam->mUnk_04, p);
+    ComputeKartPointAlongUp(&p->mPointAlongUp, p->field510, p->mPhysicalParam->field4, p);
     driver_handleItems(p);
     driver_handleDriverCollision(p);
     driver_handleSlipstream(p);

@@ -3,10 +3,10 @@
 #include "Main/Unknown/unk_02165000.h"
 
 void driver_applyDeceleration(Kart *p) {
-    if ((p->mUnk_44 & 0x400) || p->mState != KART_STATE_NORMAL) {
-        p->mForwardSpeed = (s64) p->mForwardSpeed * p->mPhysicalParam->mUnk_2c >> 12;
+    if ((p->field44 & 0x400) || p->mState != KART_STATE_NORMAL) {
+        p->mForwardSpeed = (s64) p->mForwardSpeed * p->mPhysicalParam->field2C >> 12;
     }
-    if (!(p->mUnk_48 & 0x2000)) {
+    if (!(p->field48 & 0x2000)) {
         return;
     }
     p->mForwardSpeed = (s64) p->mForwardSpeed * 0xe66 >> 12;
@@ -24,7 +24,7 @@ void driver_applyTurningSpeedLose(s32 *a, Kart *p) {
     if (p->mState != KART_STATE_NORMAL) {
         return;
     }
-    f = p->mUnk_44;
+    f = p->field44;
     if (f & KART_44_DRIFTING) {
         return;
     }

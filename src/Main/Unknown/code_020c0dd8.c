@@ -82,7 +82,7 @@ void func_020c1060(void) {
                 if (k == r2d_sResults->mRowKartIndex[j]) {
                     m = j;
                     rres_setGlobalPlace(k, (j + 1) & 0xff);
-                    gStruct217B488->mUnk_ec[k] = j;
+                    gStruct217B488->fieldEC[k] = j;
                     break;
                 }
             }
@@ -151,17 +151,17 @@ void func_020c0dd8(void) {
 
     if (gRaceMultiConfig->mRuleKind == 1 || gRaceMultiConfig->mMode == MODE_BATTLE) {
         if (gRaceMultiConfig->mUseTeams != 0) {
-            a = func_020c0dd8_inline(0)->mUnk_02;
-            b = func_020c0dd8_inline(1)->mUnk_02;
+            a = func_020c0dd8_inline(0)->field2;
+            b = func_020c0dd8_inline(1)->field2;
             if (a <= b) {
                 a = b;
             }
         } else {
             a = r2d_sResults->mShownNumbers[r2d_sResults->mRowKartIndex[0]];
         }
-        r2d_sResults->mUnk_00b4 = a >= gRaceMultiConfig->mCourseCount;
+        r2d_sResults->fieldB4 = a >= gRaceMultiConfig->mCourseCount;
     } else {
-        r2d_sResults->mUnk_00b4 = gRaceMultiConfig->mCourseNumber >= gRaceMultiConfig->mCourseCount;
+        r2d_sResults->fieldB4 = gRaceMultiConfig->mCourseNumber >= gRaceMultiConfig->mCourseCount;
     }
     r2d_sResults->mUpdate = func_020c13d0;
     r2d_sResults->mUpdateFrames = 0;

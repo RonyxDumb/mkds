@@ -2,5 +2,5 @@
 #include "code_02147cd8.h"
 
 void blln_addVelocity(Balloon *balloon, const Vec3 *addend) {
-    VEC_Add(&balloon->mUnk_00.mUnk_10, addend, &balloon->mUnk_00.mUnk_10);
+    VEC_Add(&balloon->field0.field10, addend, &balloon->field0.field10);
 }

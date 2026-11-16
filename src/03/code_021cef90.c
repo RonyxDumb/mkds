@@ -40,10 +40,10 @@ u16 func_ov003_021cf1e8(u8 *a) {
             s32 o;
 
             o = (i - 1) * 0x1e;
-            m = s->mRecords[0].mUnk_16;
+            m = s->mRecords[0].field16;
             p = m + o;
             if (a[0] == m[o] && a[1] == p[1] && a[2] == p[2] && a[3] == p[3] && a[4] == p[4] && a[5] == p[5]) {
-                return s->mRecords[i - 1].mUnk_1c;
+                return s->mRecords[i - 1].field1C;
             }
         }
     }
@@ -59,37 +59,37 @@ void func_ov003_021cefc0(u32 a, s32 b, s32 c, u32 d, u32 e) {
     v1 = data_ov003_021d7864;
     v = GetMessageEntryAndWriteDigit(gMessages, a, d, e);
     data_ov003_021da284 = AllocZeroedExpHeapBlock(0x20, 4);
-    data_ov003_021da284->mUnk_1c = b;
-    data_ov003_021da284->mUnk_1b = -2;
-    data_ov003_021da284->mUnk_1e = c;
+    data_ov003_021da284->field1C = b;
+    data_ov003_021da284->field1B = -2;
+    data_ov003_021da284->field1E = c;
     G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x1f, 0);
-    data_ov003_021da284->mUnk_00 = CreateOamRangeFromNceImage(0, data_ov003_021d6718[b], 0);
-    SetOamRangePosition(data_ov003_021da284->mUnk_00, -1, 0x100, 0);
-    func_ov003_021d1790(data_ov003_021da284->mUnk_00, -1, 0);
+    data_ov003_021da284->field0 = CreateOamRangeFromNceImage(0, data_ov003_021d6718[b], 0);
+    SetOamRangePosition(data_ov003_021da284->field0, -1, 0x100, 0);
+    func_ov003_021d1790(data_ov003_021da284->field0, -1, 0);
     for (i = 0; i < data_ov003_021d6720[b]; i++) {
-        data_ov003_021da284->mUnk_08[i] = CreateOamRangeFromNceImage(0, data_ov003_021d6748[b][i], 0);
-        SetOamRangePosition(data_ov003_021da284->mUnk_08[i], -1, 0x100, 0);
-        func_ov003_021d1790(data_ov003_021da284->mUnk_08[i], -1, 0);
+        data_ov003_021da284->field8[i] = CreateOamRangeFromNceImage(0, data_ov003_021d6748[b][i], 0);
+        SetOamRangePosition(data_ov003_021da284->field8[i], -1, 0x100, 0);
+        func_ov003_021d1790(data_ov003_021da284->field8[i], -1, 0);
     }
-    data_ov003_021da284->mUnk_10 = CreateObjTextCanvas(0, 0x20, 0xc, 1, &v2, 0);
-    data_ov003_021da284->mUnk_04 = CreateOamRange(0, v2, 0);
-    DrawCanvasTextRect(data_ov003_021da284->mUnk_10, 0, 0, data_ov003_021d6768[b][0], data_ov003_021d6768[b][1], 2,
+    data_ov003_021da284->field10 = CreateObjTextCanvas(0, 0x20, 0xc, 1, &v2, 0);
+    data_ov003_021da284->field4 = CreateOamRange(0, v2, 0);
+    DrawCanvasTextRect(data_ov003_021da284->field10, 0, 0, data_ov003_021d6768[b][0], data_ov003_021d6768[b][1], 2,
                        GetLanguageTextFlags(), v);
-    ArrangeObjTextCanvasRange(data_ov003_021da284->mUnk_10, 0x100, 0, data_ov003_021da284->mUnk_04, 0);
+    ArrangeObjTextCanvasRange(data_ov003_021da284->field10, 0x100, 0, data_ov003_021da284->field4, 0);
     WriteWinInOutBits(0, 0, 0x1f, 0);
-    WriteWinInOutBits(0, 1, 0x1f, v1.mUnk_00[data_ov003_021da284->mUnk_1c]);
+    WriteWinInOutBits(0, 1, 0x1f, v1.field0[data_ov003_021da284->field1C]);
     WriteWinInOutBits(0, 3, 0x1f, 1);
     WriteWinRect(0, 1, data_ov003_021d6728);
     func_ov003_021cec50(0xc0);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffff1fff) | 0x6000;
     if (c != 0) {
-        data_ov003_021da284->mUnk_14 = AddTask(1, func_ov003_021cef28, NULL, 0x78);
+        data_ov003_021da284->field14 = AddTask(1, func_ov003_021cef28, NULL, 0x78);
     } else {
-        data_ov003_021da284->mUnk_14 = AddTask(1, func_ov003_021cee98, NULL, 0x78);
+        data_ov003_021da284->field14 = AddTask(1, func_ov003_021cee98, NULL, 0x78);
     }
 }
 
 void func_ov003_021cef90(void) {
-    RequestTaskRemoval(0, data_ov003_021da284->mUnk_14);
-    data_ov003_021da284->mUnk_14 = AddTask(1, func_ov003_021ceb54, NULL, 0x78);
+    RequestTaskRemoval(0, data_ov003_021da284->field14);
+    data_ov003_021da284->field14 = AddTask(1, func_ov003_021ceb54, NULL, 0x78);
 }

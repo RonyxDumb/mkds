@@ -9,8 +9,8 @@ void func_ov000_021a91cc(s32 a) {
     i = 0;
     b = (Unk021a91cc *) data_ov000_021b61f4;
     for (; i < 4; i++) {
-        if (b->mUnk_5a != 0 && a - b->mUnk_50 > 0xef) {
-            b->mUnk_5a = 0;
+        if (b->field5A != 0 && a - b->field50 > 0xef) {
+            b->field5A = 0;
         }
         b++;
     }

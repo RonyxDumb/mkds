@@ -53,11 +53,11 @@ BOOL func_ov000_02198c08(Gt2Connection *a) {
     u8 b[3];
     func_ov000_02198ba8_inline(b, data_ov000_021b3fa4);
     b[2] = 0x64;
-    func_ov000_0219a01c(b, 3, a->mUnk_66);
+    func_ov000_0219a01c(b, 3, a->field66);
     if (SendConnectionBytes(a, b, 5) == 0) {
         return FALSE;
     }
-    a->mUnk_90 = 0;
+    a->field90 = 0;
     return TRUE;
 }
 
@@ -107,13 +107,13 @@ BOOL func_ov000_02198b50(Gt2Socket *a, u32 b, int c) {
 }
 
 BOOL func_ov000_02198af4(Gt2Connection *a, Unk02198af4 *b) {
-    func_ov000_0219a01c(a->mSendBuffer.mData, b->mUnk_00 + 5, a->mUnk_66);
-    if (SendConnectionBytes(a, a->mSendBuffer.mData + b->mUnk_00, b->mUnk_04) == 0) {
+    func_ov000_0219a01c(a->mSendBuffer.mData, b->field0 + 5, a->field66);
+    if (SendConnectionBytes(a, a->mSendBuffer.mData + b->field0, b->field4) == 0) {
         return FALSE;
     }
-    b->mUnk_0c = a->mLastSendTime;
-    if (a->mSendBuffer.mData[b->mUnk_00 + 2] == 2) {
-        a->mUnk_8c = a->mLastSendTime;
+    b->fieldC = a->mLastSendTime;
+    if (a->mSendBuffer.mData[b->field0 + 2] == 2) {
+        a->field8C = a->mLastSendTime;
     }
     return TRUE;
 }

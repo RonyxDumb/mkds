@@ -182,7 +182,7 @@ void test_init(void) {
     int i;
 
     gTestScene = heap_alloc(func_ov001_021807e4(), 0x66a8);
-    gTestScene->mUnk_0000 = 0;
+    gTestScene->field0 = 0;
     gTestScene->mState = 1;
     gTestScene->mStateChanged = 1;
     ClearChars(gTestScene->mChars);
@@ -233,7 +233,7 @@ void test_update(Unk0218052c *sceneNumbers) {
     if (sceneNumbers != NULL) {
         slotIndex = func_ov001_021805ec();
         if (func_ov001_021805bc(slotIndex, PAD_KEY_A) != 0) {
-            sceneNumbers->mUnk_04 = 0;
+            sceneNumbers->field4 = 0;
         }
         if (func_ov001_021805bc(slotIndex, PAD_KEY_X) != 0) {
             testScene = gTestScene;

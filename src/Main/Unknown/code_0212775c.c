@@ -407,13 +407,13 @@ s32 gmenu_initSelectChoises(void *heap, void *font, s32 subCharOffset) {
         gSelectChoises->mCharBuffers[i] = heap_alloc(heap, 0x800);
         NNS_G2dCharCanvasInitForBG(&gSelectChoises->mCharCanvases[i], gSelectChoises->mCharBuffers[i], 0x20, 2, 4);
         charCanvas = &gSelectChoises->mCharCanvases[i];
-        charCanvas->mUnk_18(charCanvas, 0);
+        charCanvas->field18(charCanvas, 0);
         charSpacing = g2du_getTextHSpace();
-        textCanvas = &gSelectChoises->mUnk_874[i];
-        textCanvas->mUnk_00 = &gSelectChoises->mCharCanvases[i];
-        textCanvas->mUnk_04 = (u32) font;
-        textCanvas->mUnk_08 = charSpacing;
-        textCanvas->mUnk_0c = 0;
+        textCanvas = &gSelectChoises->field874[i];
+        textCanvas->field0 = &gSelectChoises->mCharCanvases[i];
+        textCanvas->field4 = (u32) font;
+        textCanvas->field8 = charSpacing;
+        textCanvas->fieldC = 0;
     }
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mEnabled = 1;
@@ -492,8 +492,8 @@ s32 gmenu_loadSelectChoises(s32 subCharOffset) {
     DC_FlushRange(gSelectChoises->mNscrCopy, screenMap->mDataSize);
     GXS_LoadBG0Scr(gSelectChoises->mNscrCopy, 0, screenMap->mDataSize);
     tileRect = &gSelectChoisesTileRect;
-    tileRowOffset = tileRect->mUnk_02 * 32;
-    tileColumn = tileRect->mUnk_00;
+    tileRowOffset = tileRect->field2 * 32;
+    tileColumn = tileRect->field0;
     gSelectChoises->mToggleOnFirstTile = gSelectChoises->mFirstTileIndex + (tileColumn + tileRowOffset);
     gSelectChoises->mToggleOffFirstTile = gSelectChoises->mFirstTileIndex + (tileRowOffset + (tileColumn + 3));
     DC_FlushRange(palette->mData, 0x1c0);
@@ -516,8 +516,8 @@ void RefreshSelectChoisesNscrCopy(void) {
     i = 0;
     origin = gSelectChoisesNscrOrigins;
     tileRect = &gSelectChoisesTileRect;
-    lastColumn = tileRect->mUnk_01 - tileRect->mUnk_00;
-    lastRow = tileRect->mUnk_03 - tileRect->mUnk_02;
+    lastColumn = tileRect->field1 - tileRect->field0;
+    lastRow = tileRect->field3 - tileRect->field2;
     for (; i < 2; i++) {
         useToggleOnTiles = FALSE;
         if (i == gSelectChoises->mIndex && gSelectChoises->mToggleOn != 0) {
@@ -555,8 +555,8 @@ void RefreshSelectChoisesPaletteBits(void) {
         if (gSelectChoises->mIndex != i) {
             topNibble = 0xf;
         }
-        for (row = gSelectChoisesPaletteRects[i].mUnk_02; row <= gSelectChoisesPaletteRects[i].mUnk_03; row++) {
-            for (column = gSelectChoisesPaletteRects[i].mUnk_00; column <= gSelectChoisesPaletteRects[i].mUnk_01;
+        for (row = gSelectChoisesPaletteRects[i].field2; row <= gSelectChoisesPaletteRects[i].field3; row++) {
+            for (column = gSelectChoisesPaletteRects[i].field0; column <= gSelectChoisesPaletteRects[i].field1;
                  column++) {
                 entry = gSelectChoises->mNscrCopy[row * 32 + column];
                 entry &= 0xffff0fff;
@@ -655,12 +655,12 @@ void AdvanceSelectChoisesState1(void) {
     }
     hit = -1;
     if (func_02127a84_inline2(inputSlotIndex) != 0) {
-        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[0].mUnk_00, gSelectChoisesHitRects[0].mUnk_01,
-                                 gSelectChoisesHitRects[0].mUnk_02, gSelectChoisesHitRects[0].mUnk_03) != FALSE) {
+        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[0].field0, gSelectChoisesHitRects[0].field1,
+                                 gSelectChoisesHitRects[0].field2, gSelectChoisesHitRects[0].field3) != FALSE) {
             hit = 0;
         }
-        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[1].mUnk_00, gSelectChoisesHitRects[1].mUnk_01,
-                                 gSelectChoisesHitRects[1].mUnk_02, gSelectChoisesHitRects[1].mUnk_03) != FALSE) {
+        if (func_02127a84_inline(touchX, touchY, gSelectChoisesHitRects[1].field0, gSelectChoisesHitRects[1].field1,
+                                 gSelectChoisesHitRects[1].field2, gSelectChoisesHitRects[1].field3) != FALSE) {
             hit = 1;
         }
     }
@@ -793,11 +793,11 @@ void gmenu_startSelectChoices(void *firstText, void *secondText, s32 startOnSeco
     CharCanvas *charCanvas;
 
     charCanvas = &gSelectChoises->mCharCanvases[0];
-    charCanvas->mUnk_18(charCanvas, 5);
+    charCanvas->field18(charCanvas, 5);
     charCanvas = &gSelectChoises->mCharCanvases[1];
-    charCanvas->mUnk_18(charCanvas, 5);
-    jn_ui_drawFormattedTextRect(&gSelectChoises->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
-    jn_ui_drawFormattedTextRect(&gSelectChoises->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
+    charCanvas->field18(charCanvas, 5);
+    jn_ui_drawFormattedTextRect(&gSelectChoises->field874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
+    jn_ui_drawFormattedTextRect(&gSelectChoises->field874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mUseCharBuffers = 1;
     RequestSelectChoisesState1();

@@ -13,7 +13,7 @@
 void func_021112fc(u32 arg0) {
     u32 copy = arg0;
     u32 unused;
-    data_0217d32c.mUnk_0c = copy;
+    data_0217d32c.fieldC = copy;
 }
 
 u32 snd_getResultSceneSeqId(void) {

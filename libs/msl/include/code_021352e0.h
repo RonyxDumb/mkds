@@ -13,7 +13,7 @@ typedef struct FormatSpec {
     /* 04 */ u8 mArgKind;
     /* 05 */ u8 mSpecChar;
     /* 08 */ s32 mMinLength;
-    /* 0c */ s32 mUnk_0c;
+    /* 0c */ s32 fieldC;
 } FormatSpec;
 
 // Strings passed to strcpy by FormatDouble and FormatDoubleHex.

@@ -27,10 +27,10 @@ extern const u8 aRom[];
 typedef struct QueueMPDataToPortParams {
     /* 00 */ void (*mCallback)();
     /* 04 */ u16 mMaxDataSize;
-    /* 06 */ u8 mUnk_06[2];
+    /* 06 */ u8 field6[2];
     /* 08 */ s32 mPort;
     /* 0c */ u16 mPriority;
-    /* 0e */ u8 mUnk_0e[2];
+    /* 0e */ u8 fieldE[2];
 } QueueMPDataToPortParams;
 
 extern QueueMPDataToPortParams data_0216523c;
@@ -91,10 +91,10 @@ extern u32 rptc_sRainbowEffectEmitterIds[];
 
 // Three words, three more words and two halfwords; data_02165ff0, data_0216600c and data_02166028 are one each.
 typedef struct Unk02165ff0 {
-    /* 00 */ s32 mUnk_00[3];
-    /* 0c */ s32 mUnk_0c[3];
-    /* 18 */ s16 mUnk_18;
-    /* 1a */ s16 mUnk_1a;
+    /* 00 */ s32 field0[3];
+    /* 0c */ s32 fieldC[3];
+    /* 18 */ s16 field18;
+    /* 1a */ s16 field1A;
 } Unk02165ff0;
 
 extern Unk02165ff0 data_02165ff0;
@@ -132,7 +132,7 @@ extern const KartFollowEffectIds gKartFollowEffectIds;
 
 // Eight halfwords.
 typedef struct KartKillerEndRankOffsets {
-    /* 00 */ s16 mUnk_00[8];
+    /* 00 */ s16 field0[8];
 } KartKillerEndRankOffsets;
 
 extern const KartKillerEndRankOffsets driver_sKillerPlaceImprovement;
@@ -140,7 +140,7 @@ extern s32 data_021654dc;
 extern const Vec3 data_02165554;
 // 37 words.
 typedef struct Unk02165608 {
-    /* 00 */ s32 mUnk_00[37];
+    /* 00 */ s32 field0[37];
 } Unk02165608;
 
 extern const Unk02165608 data_02165608;

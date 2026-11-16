@@ -19,7 +19,7 @@ void func_ov003_021c6708(void) {
     int v1;
     v1 = func_ov003_021cef6c();
     if (v1 == 0) {
-        gEdit->mUnk_04->mUnk_00 = gEdit->mUnk_04->mUnk_00 & (0xc1fffcffu);
+        gEdit->field4->field0 = gEdit->field4->field0 & (0xc1fffcffu);
         SetUpdateFunction(func_ov003_021c6d0c);
     }
 }

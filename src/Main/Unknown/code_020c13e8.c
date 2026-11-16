@@ -34,7 +34,7 @@ void func_020c1ef8(void) {
     if (gRaceStatus->mRaceDone == 0) {
         return;
     }
-    r2d_sResults->mUnk_00a4 = 1;
+    r2d_sResults->fieldA4 = 1;
     if (gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mUseTeams != 0) {
         r2d_sResults->mUpdate = func_020c0f48;
         r2d_sResults->mUpdateFrames = 0;
@@ -336,17 +336,17 @@ void func_020c13e8(void) {
     } else {
         if (gRaceMultiConfig->mRuleKind == 1 || gRaceMultiConfig->mMode == MODE_BATTLE) {
             if (gRaceMultiConfig->mUseTeams != 0) {
-                a = func_020c13e8_inline(0)->mUnk_02;
-                teamOneValue = func_020c13e8_inline(1)->mUnk_02;
+                a = func_020c13e8_inline(0)->field2;
+                teamOneValue = func_020c13e8_inline(1)->field2;
                 if (a <= teamOneValue) {
                     a = teamOneValue;
                 }
             } else {
                 a = r2d_sResults->mShownNumbers[r2d_sResults->mRowKartIndex[0]];
             }
-            r2d_sResults->mUnk_00b4 = a >= gRaceMultiConfig->mCourseCount;
+            r2d_sResults->fieldB4 = a >= gRaceMultiConfig->mCourseCount;
         } else {
-            r2d_sResults->mUnk_00b4 = gRaceMultiConfig->mCourseNumber >= gRaceMultiConfig->mCourseCount;
+            r2d_sResults->fieldB4 = gRaceMultiConfig->mCourseNumber >= gRaceMultiConfig->mCourseCount;
         }
         r2d_sResults->mUpdate = func_020c13d0;
         r2d_sResults->mUpdateFrames = 0;

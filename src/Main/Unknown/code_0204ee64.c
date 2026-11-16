@@ -8,26 +8,26 @@
 #pragma thumb on
 
 void StartBlockCountRequest(void) {
-    s32 savedValue = gStruct217AA00->mUnk_000c;
+    s32 savedValue = gStruct217AA00->fieldC;
     u8 mask;
-    s32 s = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
+    s32 s = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
     if (s == 1) {
-        mask = gStruct217AA00->mUnk_0044.mChildMask;
+        mask = gStruct217AA00->field44.mChildMask;
     } else {
         mask = 1;
     }
-    gStruct217AA00->mUnk_000c = 0x2a;
+    gStruct217AA00->fieldC = 0x2a;
     gStruct217AA00->mRequestPending = 1;
     if (RequestBlockCount(mask, BlockCountRequestCallback) == 0) {
         gStruct217AA00->mRequestPending = 0;
-        gStruct217AA00->mUnk_000c = savedValue;
+        gStruct217AA00->fieldC = savedValue;
     }
 }
 
 void BlockCountRequestCallback(BlockTransferRecord *record) {
     if (record->mKind == 2) {
         if (record->mCallbackCode == 3) {
-            gStruct217AA00->mBlockCount = *(s16 *) &record->mUnk_14;
+            gStruct217AA00->mBlockCount = *(s16 *) &record->field14;
             gStruct217AA00->mRequestPending = 0;
         } else {
             func_02050e60(8);
@@ -38,11 +38,11 @@ void BlockCountRequestCallback(BlockTransferRecord *record) {
 }
 
 void StartBlockNodeRequest(void) {
-    s32 savedValue = gStruct217AA00->mUnk_000c;
-    gStruct217AA00->mUnk_000c = 0x2b;
+    s32 savedValue = gStruct217AA00->fieldC;
+    gStruct217AA00->fieldC = 0x2b;
     gStruct217AA00->mRequestPending = 1;
     if (RequestBlockNode(1, gStruct217AA00->mBlockIndex, gStruct217AA00->mBlockInfos, BlockNodeRequestCallback) == 0) {
-        gStruct217AA00->mUnk_000c = savedValue;
+        gStruct217AA00->fieldC = savedValue;
         gStruct217AA00->mRequestPending = 0;
     }
 }
@@ -60,14 +60,14 @@ void BlockNodeRequestCallback(BlockTransferRecord *record) {
 }
 
 void StartBlockDataRequest(void) {
-    s32 savedValue = gStruct217AA00->mUnk_000c;
-    gStruct217AA00->mUnk_000c = 0x2c;
+    s32 savedValue = gStruct217AA00->fieldC;
+    gStruct217AA00->fieldC = 0x2c;
     gStruct217AA00->mRequestPending = 1;
-    gStruct217AA00->mUnk_1d60 = gStruct217AA00->mBlockEntries[gStruct217AA00->mBlockIndex].mBuffer;
-    if (RequestBlockData(1, gStruct217AA00->mBlockInfos[0]->mBlockId, &gStruct217AA00->mUnk_1d60,
+    gStruct217AA00->field1D60 = gStruct217AA00->mBlockEntries[gStruct217AA00->mBlockIndex].mBuffer;
+    if (RequestBlockData(1, gStruct217AA00->mBlockInfos[0]->mBlockId, &gStruct217AA00->field1D60,
                          gStruct217AA00->mBlockInfos[0]->mSize, gStruct217AA00->mChunkBitmaps,
                          BlockDataRequestCallback) == 0) {
-        gStruct217AA00->mUnk_000c = savedValue;
+        gStruct217AA00->fieldC = savedValue;
         gStruct217AA00->mRequestPending = 0;
     }
 }
@@ -85,7 +85,7 @@ void BlockDataRequestCallback(BlockTransferRecord *record) {
 }
 
 void SetOwnIndexFromConnection(void) {
-    s32 v = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
+    s32 v = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
     if (v == 2) {
         if (gStruct217AA00->mOwnIndex == 0xffff) {
             func_02050e60(8);
@@ -96,7 +96,7 @@ void SetOwnIndexFromConnection(void) {
 }
 
 void func_0204ef1c(void) {
-    gStruct217AA00->mUnk_000c = 0xb;
+    gStruct217AA00->fieldC = 0xb;
     gStruct217AA00->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gStruct217AA00->mMPReceiveBuffer, gStruct217AA00->mMPReceiveBufferSize,
                      gStruct217AA00->mMPSendBuffer, gStruct217AA00->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {

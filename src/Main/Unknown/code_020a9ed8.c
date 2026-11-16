@@ -340,8 +340,8 @@ KeyboardRect *MoveCursor(u32 a, KeyboardRect *b, KeyboardRect *c) {
                 x2 = x;
                 y2 = y0;
                 g = gKeyboardKeys.mCurrentLayout->mNcgr;
-                h8 = g->mUnk_02 << 3;
-                w8 = g->mUnk_00 << 3;
+                h8 = g->field2 << 3;
+                w8 = g->field0 << 3;
                 v5 = x - v3;
                 k = data_021679f8;
                 m = -k;

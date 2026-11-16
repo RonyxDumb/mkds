@@ -62,10 +62,10 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
 // The part of the rectangle that sub screen state 0 shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
 void ComputeRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
                                          s16 secondX, s16 secondZ) {
-    outFirst->mUnk_00 = (firstX << 12) + (secondX - firstX) * 0xf000 / 32;
-    outFirst->mUnk_04 = (firstZ << 12) + (secondZ - firstZ) * 0x5000 / 24;
-    outSecond->mUnk_00 = (firstX << 12) + (secondX - firstX) * 0x1f000 / 32;
-    outSecond->mUnk_04 = (firstZ << 12) + (secondZ - firstZ) * 0x18000 / 24;
+    outFirst->field0 = (firstX << 12) + (secondX - firstX) * 0xf000 / 32;
+    outFirst->field4 = (firstZ << 12) + (secondZ - firstZ) * 0x5000 / 24;
+    outSecond->field0 = (firstX << 12) + (secondX - firstX) * 0x1f000 / 32;
+    outSecond->field4 = (firstZ << 12) + (secondZ - firstZ) * 0x18000 / 24;
 }
 
 void GetGlobalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
@@ -134,10 +134,10 @@ void GetGlobalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
 
 void SetFixed12MinMaxFromWhole(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
                                s16 secondX, s16 secondZ) {
-    outFirst->mUnk_00 = firstX << 12;
-    outFirst->mUnk_04 = firstZ << 12;
-    outSecond->mUnk_00 = secondX << 12;
-    outSecond->mUnk_04 = secondZ << 12;
+    outFirst->field0 = firstX << 12;
+    outFirst->field4 = firstZ << 12;
+    outSecond->field0 = secondX << 12;
+    outSecond->field4 = secondZ << 12;
 }
 
 void GetLocalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {

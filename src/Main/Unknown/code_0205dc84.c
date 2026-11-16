@@ -72,7 +72,7 @@ void scproc_runWifiUtil(void) {
     if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && scproc_sSceneProc->mSndHeapsBuffer != NULL) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2 && scproc_sSceneProc->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
         heap_free(a, scproc_sSceneProc->mSndHeapsBuffer);
         scproc_sSceneProc->mSndHeapsBuffer = NULL;
@@ -92,7 +92,7 @@ void scproc_runWifiUtil(void) {
 }
 
 static inline BOOL func_0205dd38_inline(void) {
-    if (scproc_sSceneProc->mUnk_04 == 3 || scproc_sSceneProc->mUnk_04 == scproc_sSceneProc->mUnk_00) {
+    if (scproc_sSceneProc->field4 == 3 || scproc_sSceneProc->field4 == scproc_sSceneProc->field0) {
         return TRUE;
     }
     return FALSE;
@@ -103,7 +103,7 @@ s32 scproc_sceneProcMain(s16 *sceneNumber) {
     void *heap;
     scproc_overlay_205E0B0();
     while (func_0205dd38_inline()) {
-        scproc_sSceneProc->mUnk_04 = 3;
+        scproc_sSceneProc->field4 = 3;
         scproc_sSceneManager[0] = scproc_sSceneManager[1];
         scproc_sSceneManager[1] = *sceneNumber;
         scproc_sSceneManager[2] = -1;
@@ -114,28 +114,28 @@ s32 scproc_sceneProcMain(s16 *sceneNumber) {
         } else {
             *sceneNumber = 9;
         }
-        switch (gSystemData->mUnk_20) {
+        switch (gSystemData->field20) {
             case 0:
             case 1:
             case 2:
-                scproc_sSceneProc->mUnk_04 = 0;
+                scproc_sSceneProc->field4 = 0;
                 break;
             case 3:
-                scproc_sSceneProc->mUnk_04 = 1;
+                scproc_sSceneProc->field4 = 1;
                 break;
             case 4:
                 scproc_runWifiUtil();
-                gSystemData->mUnk_20 = 3;
+                gSystemData->field20 = 3;
                 break;
         }
     }
     heap = proc_getHeap(proc_getCurrent());
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && scproc_sSceneProc->mSndHeapsBuffer != NULL) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2 && scproc_sSceneProc->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
         heap_free(heap, scproc_sSceneProc->mSndHeapsBuffer);
         scproc_sSceneProc->mSndHeapsBuffer = NULL;
     }
-    switch (scproc_sSceneProc->mUnk_00) {
+    switch (scproc_sSceneProc->field0) {
         case 0:
             func_02054330();
             break;
@@ -149,16 +149,16 @@ s32 scproc_sceneProcMain(s16 *sceneNumber) {
 void scproc_run(void) {
     HeapCall heapCall;
     scproc_sSceneProc->mSceneNumber = 9;
-    scproc_sSceneProc->mUnk_00 = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        gSystemData->mUnk_20 = 2;
-        gStruct217B488->mUnk_74 = 0;
+    scproc_sSceneProc->field0 = 0;
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
+        gSystemData->field20 = 2;
+        gStruct217B488->field74 = 0;
         scproc_sSceneProc->mSceneNumber = 6;
     }
     do {
-        scproc_sSceneProc->mUnk_04 = 3;
+        scproc_sSceneProc->field4 = 3;
         proc_init(&heapCall, (u32) scproc_sceneProcMain);
         proc_run(&heapCall, (u32) &scproc_sSceneProc->mSceneNumber);
-        scproc_sSceneProc->mUnk_00 = scproc_sSceneProc->mUnk_04;
+        scproc_sSceneProc->field0 = scproc_sSceneProc->field4;
     } while (1);
 }

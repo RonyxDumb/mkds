@@ -43,7 +43,7 @@ s32 func_ov000_021964e4(GpConnection *a, GpiOperation *b, const char *c) {
         GpiQueueErrorCallback(a, 3, 1);
         return 3;
     }
-    p = b->mUnk_0c;
+    p = b->fieldC;
     if (p.mCallback != NULL) {
         m = func_ov000_021a3690(4);
         if (m == NULL) {

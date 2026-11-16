@@ -65,22 +65,22 @@ BOOL driver_startDossunFlatEffect(Kart *kart) {
     KartItemEffectState *effectState;
     s32 mode;
 
-    effectState = &kart->mUnk_538;
-    if ((kart->mUnk_4c & 0x10000040) || (kart->mUnk_48 & 0x10000)) {
+    effectState = &kart->field538;
+    if ((kart->field4C & 0x10000040) || (kart->field48 & 0x10000)) {
         return FALSE;
     }
-    effectState->mUnk_0c = 0;
-    effectState->mUnk_0e = 0x258;
+    effectState->fieldC = 0;
+    effectState->fieldE = 0x258;
     kart->mScaleFactor.x = 0x1000;
     kart->mScaleFactor.y = 0x1000;
     kart->mScaleFactor.z = 0x1000;
     kart->mTireSpinAngle = 0;
-    kart->mUnk_4c |= 0x10000;
-    kart->mUnk_48 |= 0x4000000;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    kart->field4C |= 0x10000;
+    kart->field48 |= 0x4000000;
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         cam_setPlayerCameraTargetFov(0x1f40);
     }
-    kart->mUnk_394 = 0xb33;
+    kart->field394 = 0xb33;
     it_dropDriverItem(&(it_sDriverItemStatus)[kart->mIndex]);
     mode = gRaceMultiConfig->mMode;
     if (mode == MODE_MISSION_RUN) {
@@ -88,7 +88,7 @@ BOOL driver_startDossunFlatEffect(Kart *kart) {
             mrcnt_notifyPlayerDamage();
         }
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->field48 & 0x840)) {
         sfx_emitDriverVoice(kart, kart->mSoundIndex, 0);
     }
     return TRUE;
@@ -97,14 +97,14 @@ BOOL driver_startDossunFlatEffect(Kart *kart) {
 void driver_updateDossunFlatEffect(Kart *kart) {
     KartItemEffectState *effectState;
 
-    effectState = &kart->mUnk_538;
-    if (effectState->mUnk_0e <= 0) {
-        if (effectState->mUnk_0c == 0) {
+    effectState = &kart->field538;
+    if (effectState->fieldE <= 0) {
+        if (effectState->fieldC == 0) {
             sfx_21090C4(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
-        effectState->mUnk_0c++;
-        if (effectState->mUnk_0c >= 0x19) {
-            kart->mUnk_398 = 0x1000;
+        effectState->fieldC++;
+        if (effectState->fieldC >= 0x19) {
+            kart->field398 = 0x1000;
             kart->mScaleYFactor = 0x1000;
             kart->mScaleFactor.x = 0x1000;
             kart->mScaleFactor.y = 0x1000;
@@ -113,21 +113,21 @@ void driver_updateDossunFlatEffect(Kart *kart) {
             kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
             kart->mScale.z = ((s64) kart->mScaleBase.z * kart->mScaleFactor.z) >> 12;
             kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
-            if (effectState->mUnk_0c > 0x19) {
-                kart->mUnk_4c &= ~0x10000;
-                if (!(kart->mUnk_4c & 0x10080)) {
-                    kart->mUnk_394 = 0x1000;
+            if (effectState->fieldC > 0x19) {
+                kart->field4C &= ~0x10000;
+                if (!(kart->field4C & 0x10080)) {
+                    kart->field394 = 0x1000;
                 }
                 return;
             }
-            kart->mUnk_4c |= 0x100;
+            kart->field4C |= 0x100;
             return;
         }
-        kart->mUnk_398 = 0x1000;
-        kart->mUnk_4c |= 0x100;
-        kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->mUnk_0c];
-        kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->mUnk_0c];
-        kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->mUnk_0c];
+        kart->field398 = 0x1000;
+        kart->field4C |= 0x100;
+        kart->mScaleFactor.x = gKartScaleFactorXTable[effectState->fieldC];
+        kart->mScaleFactor.y = gKartScaleFactorYTable[effectState->fieldC];
+        kart->mScaleFactor.z = gKartScaleFactorZTable[effectState->fieldC];
         kart->mScaleYFactor = 0x1000;
         kart->mScale.x = ((s64) kart->mScaleBase.x * kart->mScaleFactor.x) >> 12;
         kart->mScale.y = ((s64) kart->mScaleBase.y * kart->mScaleFactor.y) >> 12;
@@ -135,14 +135,14 @@ void driver_updateDossunFlatEffect(Kart *kart) {
         kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
         return;
     }
-    effectState->mUnk_0e--;
-    if (effectState->mUnk_0e == 0x1c2) {
-        kart->mUnk_48 &= ~0x4000000;
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    effectState->fieldE--;
+    if (effectState->fieldE == 0x1c2) {
+        kart->field48 &= ~0x4000000;
+        if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             cam_resetPlayerCameraTargetFov();
         }
     }
-    if (kart->mUnk_48 & 0x4000000) {
+    if (kart->field48 & 0x4000000) {
         kart->mForwardSpeed = 0;
     }
     if (kart->mScaleYFactor > 0.3f / 4096.0f) {
@@ -158,12 +158,12 @@ void driver_updateDossunFlatEffect(Kart *kart) {
 }
 
 void driver_resetScaleEffects(Kart *kart) {
-    kart->mUnk_398 = 0x1000;
+    kart->field398 = 0x1000;
     kart->mScaleYFactor = 0x1000;
     kart->mScale.y = 0x1000;
-    kart->mUnk_4c &= ~0x10000;
-    if (kart->mUnk_4c & KART_4C_THUNDER_SHRINK) {
-        kart->mUnk_4c &= ~KART_4C_THUNDER_SHRINK;
+    kart->field4C &= ~0x10000;
+    if (kart->field4C & KART_4C_THUNDER_SHRINK) {
+        kart->field4C &= ~KART_4C_THUNDER_SHRINK;
         kart->mScaleBase.x = 0x1000;
         kart->mScaleBase.y = 0x1000;
         kart->mScaleBase.z = 0x1000;
@@ -178,10 +178,10 @@ void driver_resetScaleEffects(Kart *kart) {
     kart->mScaleFactor.x = 0x1000;
     kart->mScaleFactor.y = 0x1000;
     kart->mScaleFactor.z = 0x1000;
-    if (!(kart->mUnk_4c & 0x10080)) {
-        kart->mUnk_394 = 0x1000;
+    if (!(kart->field4C & 0x10080)) {
+        kart->field394 = 0x1000;
     }
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         cam_resetPlayerCameraTargetFov();
     }
 }
@@ -193,10 +193,10 @@ void driver_invokeThunder(Kart *kart) {
     kartIndex = 0;
     race_startDarkening();
     StartEffectsAtOtherKarts(kart->mIndex);
-    bit200 = kart->mUnk_7c & 0x200;
+    bit200 = kart->field7C & 0x200;
     if (bit200 != 0) {
         if (bit200 != 0) {
-            kart->mUnk_514->mUnk_2c ^= 0x4000;
+            kart->field514->field2C ^= 0x4000;
         }
         return;
     }
@@ -209,8 +209,8 @@ void driver_invokeThunder(Kart *kart) {
 
 void driver_startShroomBoost(Kart *kart) {
     driver_addBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x5a);
-    kart->mUnk_48 |= 0x100000;
-    kart->mUnk_538.mUnk_00 = 0x5a;
+    kart->field48 |= 0x100000;
+    kart->field538.field0 = 0x5a;
     if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
@@ -220,42 +220,42 @@ void driver_startShroomBoost(Kart *kart) {
 void driver_startStarInvincibility(Kart *kart) {
     KartItemEffectState *effectState;
 
-    effectState = &kart->mUnk_538;
-    if (kart->mUnk_4c & 0x10000000) {
+    effectState = &kart->field538;
+    if (kart->field4C & 0x10000000) {
         return;
     }
-    if (kart->mUnk_7c & 0x2000) {
-        kart->mUnk_7c &= ~0x2000;
-        kart->mUnk_7c &= ~0xc000;
+    if (kart->field7C & 0x2000) {
+        kart->field7C &= ~0x2000;
+        kart->field7C &= ~0xc000;
         kart->mItemEffect = 0;
-        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
             dptc_showAll(dptc_getControllerForDriver(kart->mIndex));
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
-    if (kart->mUnk_4c & 0x8000000) {
-        kart->mUnk_4c &= ~0x8020000;
-        if (kart->mUnk_4c & 0x2000) {
+    if (kart->field4C & 0x8000000) {
+        kart->field4C &= ~0x8020000;
+        if (kart->field4C & 0x2000) {
             driver_enableSlipStreamToonMode(kart);
         }
         chkrt_applyKartCrsMat(kart->mKartModelsEntry);
     }
     cspl_clearSplashes(kart->mIndex);
-    effectState->mUnk_06 = 0;
-    kart->mUnk_4c |= 0x40;
+    effectState->field6 = 0;
+    kart->field4C |= 0x40;
     kart->mItemEffect = 1;
     driver_enableStarToonMode(kart);
     rptc_startRainbowEffect(kart->mIndex);
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
         snd_startStarMusic();
     }
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         mgcnt_notifyStarInvincibilityStart(kart->mIndex);
     }
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x2000;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x2000;
     }
     driver_2068A64(kart, 2, 1);
 }
@@ -266,46 +266,46 @@ void driver_startTeresaEffect(Kart *kart) {
     KartItemEffectState *effectStateAgain;
     u32 kartBits;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->field538;
     effectState->mTeresaFrames = 0;
-    if (kart->mUnk_4c & 0x10000040) {
-        kart->mUnk_4c &= ~0x40;
+    if (kart->field4C & 0x10000040) {
+        kart->field4C &= ~0x40;
         driver_disableStarToonMode(kart);
         kart->mItemEffect = 0;
         rptc_stopRainbowEffect(kart->mIndex);
         driver_2068A64(kart, 0, 1);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+        if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
             snd_stopStarMusic();
         }
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->field4C & 0x2000) {
             driver_enableSlipStreamToonMode(kart);
         }
     }
-    kart->mUnk_7c |= 0x2000;
+    kart->field7C |= 0x2000;
     kart->mItemEffect = 2;
     cspl_clearSplashes(kart->mIndex);
-    kartBits = kart->mUnk_4c;
+    kartBits = kart->field4C;
     if (!(kartBits & 0x20000) && (kartBits & 0x8000000)) {
-        effectStateAgain = &kart->mUnk_538;
-        if (effectStateAgain->mUnk_1c <= 0x190) {
-            effectStateAgain->mUnk_1c = 0x190;
-            kart->mUnk_4c |= 0x20000;
+        effectStateAgain = &kart->field538;
+        if (effectStateAgain->field1C <= 0x190) {
+            effectStateAgain->field1C = 0x190;
+            kart->field4C |= 0x20000;
             chkrt_setTargetColors(kart->mKartModelsEntry, chkrt_getKartCrsMatDiffuse(), chkrt_getKartCrsMatEmission(),
                                      chkrt_getKartCrsMatAmbient());
         }
     }
-    func_0210fa40(1, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        kart->mUnk_7c |= 0x4000;
+    func_0210fa40(1, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        kart->field7C |= 0x4000;
     } else {
-        effectState->mUnk_12 = 2;
-        effectState->mUnk_14 = 0;
-        effectState->mUnk_18 = 10;
-        effectState->mUnk_16 = 0;
-        effectState->mUnk_1a = 1;
+        effectState->field12 = 2;
+        effectState->field14 = 0;
+        effectState->field18 = 10;
+        effectState->field16 = 0;
+        effectState->field1A = 1;
     }
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x4000000;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x4000000;
     }
 }
 
@@ -318,48 +318,48 @@ void driver_updateTeresaEffect(Kart *kart) {
     s32 diffY;
     s32 diffZ;
 
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if (kartBits & 0x400000) {
         return;
     }
-    effectState = &kart->mUnk_538;
+    effectState = &kart->field538;
     if (!(kartBits & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
-        if (effectState->mUnk_16 < 0x50) {
-            effectState->mUnk_16++;
-            effectState->mUnk_14++;
-            if (effectState->mUnk_14 > effectState->mUnk_18) {
-                effectState->mUnk_14 = 0;
-                effectState->mUnk_12 = effectState->mUnk_12 + effectState->mUnk_1a;
-                effectState->mUnk_18 = effectState->mUnk_18 + effectState->mUnk_1a * 5;
+        if (effectState->field16 < 0x50) {
+            effectState->field16++;
+            effectState->field14++;
+            if (effectState->field14 > effectState->field18) {
+                effectState->field14 = 0;
+                effectState->field12 = effectState->field12 + effectState->field1A;
+                effectState->field18 = effectState->field18 + effectState->field1A * 5;
             }
-            if (effectState->mUnk_16 % effectState->mUnk_12 == 0) {
-                kart->mUnk_7c &= ~0x8000;
+            if (effectState->field16 % effectState->field12 == 0) {
+                kart->field7C &= ~0x8000;
             } else {
-                kart->mUnk_7c |= 0x8000;
+                kart->field7C |= 0x8000;
             }
-            if (effectState->mUnk_16 >= 0x50) {
-                kart->mUnk_7c |= 0x8000;
+            if (effectState->field16 >= 0x50) {
+                kart->field7C |= 0x8000;
             }
         }
         if (effectState->mTeresaFrames == 0x172) {
-            effectState->mUnk_1a = -1;
-            effectState->mUnk_16 = 0;
+            effectState->field1A = -1;
+            effectState->field16 = 0;
         }
         dptc_hideAll(dptc_getControllerForDriver(kart->mIndex));
     }
     effectState->mTeresaFrames++;
-    if (effectState->mTeresaFrames > KART_TERESA_MAX_FRAMES && (kart->mUnk_7c & 0x2000)) {
-        kart->mUnk_7c &= ~0x2000;
-        kart->mUnk_7c &= ~0xc000;
+    if (effectState->mTeresaFrames > KART_TERESA_MAX_FRAMES && (kart->field7C & 0x2000)) {
+        kart->field7C &= ~0x2000;
+        kart->field7C &= ~0xc000;
         kart->mItemEffect = 0;
-        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
             dptc_showAll(dptc_getControllerForDriver(kart->mIndex));
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         return;
     }
     driver_getPosition(&entryPos, (u16) gRaceMultiConfig->mEntryIndex);
@@ -379,60 +379,60 @@ void driver_startKillerMode(Kart *kart) {
     u8 kartCount;
 
     rankOffsets = driver_sKillerPlaceImprovement;
-    effectState = &kart->mUnk_538;
+    effectState = &kart->field538;
     effectState->mKillerFrames = 0;
-    effectState->mUnk_20 = 0;
+    effectState->field20 = 0;
     effectState->mKillerEnding = FALSE;
     SetupKartKillerCursor(&effectState->mKillerCursor, kart->mIndex);
-    kart->mUnk_4c |= 0x10000000;
+    kart->field4C |= 0x10000000;
     kartCount = gRaceMultiConfig->mKartCount;
-    effectState->mKillerEndRank = rstat_getPlace(kart->mIndex) - rankOffsets.mUnk_00[kartCount - 1];
+    effectState->mKillerEndRank = rstat_getPlace(kart->mIndex) - rankOffsets.field0[kartCount - 1];
     if (effectState->mKillerEndRank <= 0) {
         effectState->mKillerEndRank = 1;
     }
-    kart->mKartModelsEntry->mUnk_0a4 = 0;
-    if (kart->mUnk_7c & 0x2000) {
-        kart->mUnk_7c &= ~0x2000;
-        kart->mUnk_7c &= ~0xc000;
+    kart->mKartModelsEntry->fieldA4 = 0;
+    if (kart->field7C & 0x2000) {
+        kart->field7C &= ~0x2000;
+        kart->field7C &= ~0xc000;
         kart->mItemEffect = 0;
-        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
             dptc_showAll(dptc_getControllerForDriver(kart->mIndex));
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
-    if (kart->mUnk_4c & 0x8000000) {
-        kart->mUnk_4c &= ~0x8020000;
-        if (kart->mUnk_4c & 0x2000) {
+    if (kart->field4C & 0x8000000) {
+        kart->field4C &= ~0x8020000;
+        if (kart->field4C & 0x2000) {
             driver_enableSlipStreamToonMode(kart);
         }
         chkrt_applyKartCrsMat(kart->mKartModelsEntry);
     }
     cspl_speedClearSplashes(kart->mIndex);
-    if (kart->mUnk_4c & 0x40) {
-        kart->mUnk_4c &= ~0x40;
+    if (kart->field4C & 0x40) {
+        kart->field4C &= ~0x40;
         driver_disableStarToonMode(kart);
         kart->mItemEffect = 0;
         rptc_stopRainbowEffect(kart->mIndex);
         driver_2068A64(kart, 0, 1);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+        if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
             snd_stopStarMusic();
         }
-        if (kart->mUnk_4c & 0x2000) {
+        if (kart->field4C & 0x2000) {
             driver_enableSlipStreamToonMode(kart);
         }
     }
     kart->mItemEffect = 3;
-    if (kart->mUnk_4c & 0x2000) {
-        kart->mUnk_4c &= ~0x2000;
-        kart->mUnk_d8 = 0x1000;
-        if (!(kart->mUnk_4c & 0x8000000)) {
+    if (kart->field4C & 0x2000) {
+        kart->field4C &= ~0x2000;
+        kart->fieldD8 = 0x1000;
+        if (!(kart->field4C & 0x8000000)) {
             driver_disableSlipStreamToonMode(kart);
         }
         rptc_stopSlipstreamEffect(kart);
     }
-    if (kart->mKartModelsEntry->mUnk_058 == 0) {
+    if (kart->mKartModelsEntry->field58 == 0) {
         effectIds = gKartFollowEffectIds;
         for (i = 0; i < 3; i++) {
             rptc_2081F10(ptcm_createEmitter(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
@@ -440,10 +440,10 @@ void driver_startKillerMode(Kart *kart) {
     }
     rptc_startKillerEffect(kart->mIndex);
     driver_resetScaleEffects(kart);
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x100000;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x100000;
     }
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         cam_setPlayerCameraTargetFov(0x1d4c);
     }
 }
@@ -456,35 +456,35 @@ void driver_updateKillerMode(Kart *kart) {
     BOOL endEarly;
     KartFollowEffectIds effectIds;
 
-    effectState = &kart->mUnk_538;
+    effectState = &kart->field538;
     effectState->mKillerFrames++;
-    if (!(kart->mUnk_7c & 0x400)) {
+    if (!(kart->field7C & 0x400)) {
         if (func_0209081c(&effectState->mKillerCursor) != 0) {
-            effectStateAgain = &kart->mUnk_538;
-            if ((kart->mUnk_4c & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
+            effectStateAgain = &kart->field538;
+            if ((kart->field4C & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
                 effectStateAgain->mKillerEnding = TRUE;
-                if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mUnk_2c ^= 0x200000;
+                if (kart->field7C & 0x200) {
+                    kart->field514->field2C ^= 0x200000;
                 }
             }
         }
     }
-    anim_updateAnimator((ModelAnimation *) &kart->mKartModelsEntry->mUnk_098);
+    anim_updateAnimator((ModelAnimation *) &kart->mKartModelsEntry->field98);
     if (effectState->mKillerEnding != FALSE) {
         kart->mRadiusFactor -= 0x52;
         if (kart->mRadiusFactor > 0x1000) {
             return;
         }
-        kart->mUnk_4c &= ~0x10000000;
+        kart->field4C &= ~0x10000000;
         func_0210515c(kart->mIndex);
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             cam_resetPlayerCameraTargetFov();
         }
         kart->mRadiusFactor = 0x1000;
         kart->mSurfaceGroup = -1;
         i = 0;
         kart->mItemEffect = 0;
-        if (kart->mKartModelsEntry->mUnk_058 == 0) {
+        if (kart->mKartModelsEntry->field58 == 0) {
             effectIds = gKartFollowEffectIds;
             for (i = 0; i < 3; i++) {
                 rptc_2081F10(ptcm_createEmitter(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
@@ -503,7 +503,7 @@ void driver_updateKillerMode(Kart *kart) {
     }
     rankReached = FALSE;
     endEarly = FALSE;
-    if (!(kart->mUnk_7c & 0x400)) {
+    if (!(kart->field7C & 0x400)) {
         if (rstat_getPlace(kart->mIndex) == 1) {
             rankReached = TRUE;
         } else if ((s32) rstat_getPlace(kart->mIndex) <= effectState->mKillerEndRank) {
@@ -517,47 +517,47 @@ void driver_updateKillerMode(Kart *kart) {
         return;
     }
     effectState->mKillerEnding = TRUE;
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x200000;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x200000;
     }
 }
 
 void driver_startGessoInk(Kart *kart, u32 orthoQuadCount) {
     u32 kartBits;
 
-    if (kart->mUnk_7c & 0x400) {
+    if (kart->field7C & 0x400) {
         return;
     }
     if (rstat_hasDriverFinished(kart->mIndex) != 0) {
         return;
     }
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if (kartBits & 0x60) {
         return;
     }
-    if (kart->mUnk_4c & 0x10000040) {
+    if (kart->field4C & 0x10000040) {
         return;
     }
     if (kartBits & 0x2000) {
         return;
     }
-    kart->mUnk_538.mUnk_1c = 0;
-    kart->mUnk_4c |= 0x8000000;
-    kart->mUnk_4c &= ~0x20000;
-    if (kart->mUnk_4c & 0x2000) {
+    kart->field538.field1C = 0;
+    kart->field4C |= 0x8000000;
+    kart->field4C &= ~0x20000;
+    if (kart->field4C & 0x2000) {
         driver_disableSlipStreamToonMode(kart);
     }
     chkrt_setTargetColors(kart->mKartModelsEntry, 0, 0x1084, 0);
-    if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+    if (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) {
         driver_setAnimation(kart, 1, 0);
         driver_setFaceExpression(kart->mKartModelsEntry, 1);
     }
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->field48 & 0x840)) {
         sfx_emitDriverVoice(kart, kart->mSoundIndex, 0);
     }
     cspl_emitGessoSplash(kart->mIndex, orthoQuadCount);
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x80000;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x80000;
     }
 }
 
@@ -565,27 +565,27 @@ void driver_updateGessoInk(Kart *kart) {
     KartItemEffectState *effectState;
     u32 kartBits;
 
-    kartBits = kart->mUnk_4c;
-    effectState = &kart->mUnk_538;
+    kartBits = kart->field4C;
+    effectState = &kart->field538;
     if (!(kartBits & 0x40)) {
-        if (effectState->mUnk_1c == 0x190 && !(kartBits & 0x20000) && (kartBits & 0x8000000) &&
-            effectState->mUnk_1c <= 0x190) {
-            effectState->mUnk_1c = 0x190;
-            kart->mUnk_4c |= 0x20000;
+        if (effectState->field1C == 0x190 && !(kartBits & 0x20000) && (kartBits & 0x8000000) &&
+            effectState->field1C <= 0x190) {
+            effectState->field1C = 0x190;
+            kart->field4C |= 0x20000;
             chkrt_setTargetColors(kart->mKartModelsEntry, chkrt_getKartCrsMatDiffuse(), chkrt_getKartCrsMatEmission(),
                                      chkrt_getKartCrsMatAmbient());
         }
-        chkrt_progressColorInterpolation(kart->mKartModelsEntry, (kart->mUnk_4c & 0x20000) ? 0x52 : 0x19a);
+        chkrt_progressColorInterpolation(kart->mKartModelsEntry, (kart->field4C & 0x20000) ? 0x52 : 0x19a);
     }
-    effectState->mUnk_1c++;
-    if (effectState->mUnk_1c <= 0x1c2) {
+    effectState->field1C++;
+    if (effectState->field1C <= 0x1c2) {
         return;
     }
-    if (!(kart->mUnk_4c & 0x8000000)) {
+    if (!(kart->field4C & 0x8000000)) {
         return;
     }
-    kart->mUnk_4c &= ~0x8020000;
-    if (kart->mUnk_4c & 0x2000) {
+    kart->field4C &= ~0x8020000;
+    if (kart->field4C & 0x2000) {
         driver_enableSlipStreamToonMode(kart);
     }
     chkrt_applyKartCrsMat(kart->mKartModelsEntry);
@@ -594,33 +594,33 @@ void driver_updateGessoInk(Kart *kart) {
 void driver_startSlipstream(Kart *kart) {
     KartItemEffectState *effectState;
 
-    effectState = &kart->mUnk_538;
-    effectState->mUnk_0a = 0;
-    effectState->mUnk_08 = 0;
-    kart->mUnk_d8 = data_021654dc;
-    kart->mUnk_4c &= ~0x4000;
-    if (!(kart->mUnk_4c & 0x2000)) {
-        kart->mUnk_4c |= 0x2000;
-        if (!(kart->mUnk_4c & 0x8000000)) {
+    effectState = &kart->field538;
+    effectState->fieldA = 0;
+    effectState->field8 = 0;
+    kart->fieldD8 = data_021654dc;
+    kart->field4C &= ~0x4000;
+    if (!(kart->field4C & 0x2000)) {
+        kart->field4C |= 0x2000;
+        if (!(kart->field4C & 0x8000000)) {
             driver_enableSlipStreamToonMode(kart);
         }
     }
-    if (kart->mUnk_4c & 0x48000) {
+    if (kart->field4C & 0x48000) {
         rptc_startSlipstreamEffect(kart);
     }
     rptc_stopSlipstreamBeginEffect(kart);
     StopKartSoundWhileRequested(kart);
-    if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+    if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         sfx_21090C4(&kart->mSoundSource, 0xa4, 0x7f, 0);
     }
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x40000;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x40000;
     }
 }
 
 void func_02069044(Kart *kart) {
     func_02068ec0(kart, 1);
-    kart->mUnk_7c |= 0x800000;
+    kart->field7C |= 0x800000;
 }
 
 s32 func_02068ec0(Kart *kart, s32 a) {
@@ -630,12 +630,12 @@ s32 func_02068ec0(Kart *kart, s32 a) {
 
     removed = FALSE;
     if (a != 0) {
-        kartBits = kart->mUnk_7c;
+        kartBits = kart->field7C;
         if (!(kartBits & 0x800000)) {
             removed = TRUE;
         }
     } else {
-        kartBits = kart->mUnk_7c;
+        kartBits = kart->field7C;
         if (!(kartBits & 0x900020)) {
             removed = TRUE;
         }
@@ -643,20 +643,20 @@ s32 func_02068ec0(Kart *kart, s32 a) {
     if (removed != FALSE) {
         if (!(kartBits & 0x4000000)) {
             DecrementKartAiNonCpuCount(kart->mIndex);
-            kart->mUnk_7c |= 0x4000000;
+            kart->field7C |= 0x4000000;
         }
-        kart->mUnk_7c |= 0x20;
+        kart->field7C |= 0x20;
         if (kart->mCollisionSlot != -1) {
             kart->mCollisionSlot = col_deleteColEntry(kart->mCollisionSlot);
         }
-        if (kart->mUnk_2ca != -1) {
-            kart->mUnk_2ca = col_deleteColEntry(kart->mUnk_2ca);
+        if (kart->field2CA != -1) {
+            kart->field2CA = col_deleteColEntry(kart->field2CA);
         }
         if (gRaceMultiConfig->mMode == MODE_BATTLE && a == 0) {
             sfx_21090C4(&kart->mSoundSource, 0xd3, 0x7f, 0);
             if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON && (data_0217c780 & 1)) {
                 seqPlayerHandle = sp_acquireElement(sound_getPoolById(0));
-                if (SoundHandle_217D084.mUnk_0c != 0) {
+                if (SoundHandle_217D084.fieldC != 0) {
                     if (seqPlayerHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
                     }
@@ -667,12 +667,12 @@ s32 func_02068ec0(Kart *kart, s32 a) {
                 }
             }
         }
-        kart->mUnk_3c8 = 0;
+        kart->field3C8 = 0;
         driver_reset(kart);
     }
     return removed;
 }
 
 BOOL func_02068eac(Kart *kart) {
-    return (kart->mUnk_7c & 0x60) != 0;
+    return (kart->field7C & 0x60) != 0;
 }

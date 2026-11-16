@@ -36,7 +36,7 @@ s32 area_updateMissionRivalPassAreas(void) {
     for (i = 0; i < area_sMissionRivalPassAreaStatus->mEntryCount; i++) {
         entry = &area_sMissionRivalPassAreaStatus->mEntries[i];
         courseMapShape = mdat_getAreaEntryByIndex(entry->mShapeIndex);
-        mapObjectCount = mobj_queryBySphere(&courseMapShape->mPos, entry->mRadius, courseMapShape->mUnk_3c);
+        mapObjectCount = mobj_queryBySphere(&courseMapShape->mPos, entry->mRadius, courseMapShape->field3C);
         insideCount = 0;
         for (j = 0; j < mapObjectCount; j++) {
             if (mdat_isPointInsideArea(&mobj_getQueryResult(j)->mPos, courseMapShape) != 0) {
@@ -47,7 +47,7 @@ s32 area_updateMissionRivalPassAreas(void) {
             entry->mIncreaseCount++;
         }
         entry->mMapObjectCount = insideCount;
-        if (entry->mIncreaseCount > courseMapShape->mUnk_3e) {
+        if (entry->mIncreaseCount > courseMapShape->field3E) {
             result = TRUE;
             break;
         }
@@ -57,8 +57,8 @@ s32 area_updateMissionRivalPassAreas(void) {
 
 void scproc_init(void *heap) {
     scproc_sSceneProc = heap_alloc(heap, 0x10);
-    scproc_sSceneProc->mUnk_00 = 0;
-    scproc_sSceneProc->mUnk_04 = 3;
+    scproc_sSceneProc->field0 = 0;
+    scproc_sSceneProc->field4 = 3;
     scproc_sSceneProc->mSndHeapsBuffer = NULL;
 }
 
@@ -66,9 +66,9 @@ void scproc_overlay_205E0B0(void) {
     void *h;
     s32 m;
     h = proc_getHeap(proc_getCurrent());
-    switch (scproc_sSceneProc->mUnk_00) {
+    switch (scproc_sSceneProc->field0) {
         case 0:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+            if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
                 m = 2;
             } else {
                 m = 0;

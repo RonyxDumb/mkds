@@ -50,8 +50,8 @@ void menu_loadLastRaceConfig(void) {
         } else {
             menu_getRaceConfig()->mEntries[i].mTeamIndex = -1;
         }
-        menu_getRaceConfig()->mEntries[i].mUnk_10 = func_020cc6a4(i);
-        menu_getRaceConfig()->mEntries[i].mUnk_14 = 0;
+        menu_getRaceConfig()->mEntries[i].field10 = func_020cc6a4(i);
+        menu_getRaceConfig()->mEntries[i].field14 = 0;
     }
     menu_getRaceConfig()->mCupIndex = RData_GetCurrentCup();
     menu_getRaceConfig()->mCpuDifficulty = RData_GetCurrentCPUMode();
@@ -97,7 +97,7 @@ void menu_setupStates(void) {
     s32 i;
 
     for (i = 0; i < 0x1e; i++) {
-        gMenuSceneState->mScreenCallbacks[i].mUnk_00 = menu_sStates[i].mUnk_00;
+        gMenuSceneState->mScreenCallbacks[i].field0 = menu_sStates[i].field0;
         gMenuSceneState->mScreenCallbacks[i].mUpdate = menu_sStates[i].mUpdate;
     }
 }
@@ -106,9 +106,9 @@ void menu_vblank(void) {
     if (menu_MB_IsMultiBootChild_22() == 0) {
         AdvanceKartModelMenuLoad();
     }
-    gMenuSceneState->mScreenCallbacks[gMenuSceneState->mScreenNumber].mUnk_00();
+    gMenuSceneState->mScreenCallbacks[gMenuSceneState->mScreenNumber].field0();
     gmenu_vblank();
-    gMenuSceneState->mUnk_004 = 0;
+    gMenuSceneState->field4 = 0;
     oam_applyBuffers(gMenuSceneState->mMainOam, gMenuSceneState->mSubOam);
 }
 #pragma thumb off

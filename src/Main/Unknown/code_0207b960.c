@@ -63,10 +63,10 @@ void enrb_updateForAwardStaffRoll(struct KartAiRaceSpeedLimit *raceSpeedLimit, s
     if (kartAi->mKart->mState != KART_STATE_NORMAL) {
         return;
     }
-    if ((kartAi->mKart->mUnk_48 & 0x10000020) != 0) {
+    if ((kartAi->mKart->field48 & 0x10000020) != 0) {
         return;
     }
-    x = GetPointLinkSpeedRatio((PointLinkCursor *) &kartAi->mUnk_08.mLinkCursor);
+    x = GetPointLinkSpeedRatio((PointLinkCursor *) &kartAi->field8.mLinkCursor);
     kartAi->mKart->mSpeedLimitGoal = ((s64) raceSpeedLimit->mSpeedLimit * x + 0x800) >> 12;
 }
 
@@ -139,7 +139,7 @@ void enit_slotItemSingleKouraGBananaUpdateHard(KartAiItemUse *itemUse, struct Ka
 
     raceSetup = gRaceMultiConfig;
     kartIndex = kartAi->mIndex;
-    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0) {
+    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.field14 & 1) != 0) {
         if (itemUse->mRandomValue <= 0xc00) {
             itemUse->mItemBitsEveryCall = 1;
             return;
@@ -153,7 +153,7 @@ void enit_slotItemSingleKouraGBananaUpdateMedium(KartAiItemUse *itemUse, struct 
 
     raceSetup = gRaceMultiConfig;
     kartIndex = kartAi->mIndex;
-    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0) {
+    if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.field14 & 1) != 0) {
         if (itemUse->mRandomValue <= 0x400) {
             itemUse->mItemBitsEveryCall = 1;
             return;
@@ -493,9 +493,9 @@ void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
         if (heldItemIndex != 0x13) {
-            itemUse->mUnk_0c = 1;
+            itemUse->fieldC = 1;
         }
-        if (itemUse->mUnk_0c == 0) {
+        if (itemUse->fieldC == 0) {
             return;
         }
         timerRanOut = FALSE;
@@ -522,9 +522,9 @@ void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
         if (heldItemIndex != 0x13) {
-            itemUse->mUnk_0c = 1;
+            itemUse->fieldC = 1;
         }
-        if (itemUse->mUnk_0c == 0) {
+        if (itemUse->fieldC == 0) {
             return;
         }
         timerRanOut = FALSE;
@@ -673,7 +673,7 @@ void enit_init(KartAiItemUse *itemUse) {
     itemUse->mItemInUseTimer = 0x0u;
     itemUse->mHeldItemEntry = NULL;
     itemUse->mItemInUseEntry = NULL;
-    itemUse->mUnk_0c = 0x0u;
+    itemUse->fieldC = 0x0u;
     itemUse->mItemBitsEveryCall = 0x0u;
     itemUse->mThrowForwardPending = 0x0u;
     itemUse->mThrowBehindPending = 0x0u;
@@ -724,7 +724,7 @@ void enit_updateForRace(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
         return;
     }
     if (it_sDriverItemStatus[kartAi->mIndex].mHeldItem.mItemInfoIndex == 0xe) {
-        if (*(u16 *) &kartAi->mUnk_08.mLinkCursor.mLink->mUnk_24 > 1) {
+        if (*(u16 *) &kartAi->field8.mLinkCursor.mLink->field24 > 1) {
             return;
         }
     }
@@ -829,7 +829,7 @@ void enit_notifyDragItemChanged(struct KartAiItemUse *itemUse, struct KartAi *ka
 
     objectKind = it_sDriverItemStatus[kartAi->mIndex].mItemInUse.mObjectKind;
     itemUse->mItemInUseEntry = &enit_sDragItemParamsPtr[objectKind];
-    itemUse->mUnk_0c = 0;
+    itemUse->fieldC = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
     }
@@ -850,14 +850,14 @@ void camr_initRouteStat(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     u16 i;
 
     posCurve->mParam = 0;
-    posCurve->mUnk_34 = 0;
-    posCurve->mUnk_38 = 0;
+    posCurve->field34 = 0;
+    posCurve->field38 = 0;
     if (entryGroup->mEntryCount < 4) {
         return;
     }
     for (i = 0; i < 4; i++) {
         posCurve->mPoints[i] = mdat_getPathPoint(mapCamera->mEntryGroupIndex, i)->mPos;
-        posCurve->mUnk_34 = i;
+        posCurve->field34 = i;
     }
 }
 
@@ -867,13 +867,13 @@ void camr_initRouteStatReversed(PosCurve *posCurve, struct CourseMapCamera *mapC
     CourseMapEntryGroup *entryGroup = &gMapData->mEntryGroups[mapCamera->mEntryGroupIndex];
 
     posCurve->mParam = 0;
-    posCurve->mUnk_34 = 0;
-    posCurve->mUnk_38 = 0;
+    posCurve->field34 = 0;
+    posCurve->field38 = 0;
     if (entryGroup->mEntryCount < 4) {
         return;
     }
-    posCurve->mUnk_38 = entryGroup->mEntryCount - 1;
-    posCurve->mUnk_34 = 2;
+    posCurve->field38 = entryGroup->mEntryCount - 1;
+    posCurve->field34 = 2;
     entryIndex = 2;
     for (i = 0; i < 3; i++) {
         posCurve->mPoints[(u16) i] = mdat_getPathPoint(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
@@ -890,12 +890,12 @@ void camr_updateRoute(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *m
     entryGroup = &gMapData->mEntryGroups[mapCamera->mEntryGroupIndex];
     posCurve->mParam += paramStep;
     if (posCurve->mParam > 0x1000) {
-        posCurve->mUnk_34++;
-        if (posCurve->mUnk_34 >= entryGroup->mEntryCount) {
-            posCurve->mUnk_34 = entryGroup->mEntryCount;
+        posCurve->field34++;
+        if (posCurve->field34 >= entryGroup->mEntryCount) {
+            posCurve->field34 = entryGroup->mEntryCount;
             posCurve->mParam = 0x1000;
         } else {
-            groupEntry = mdat_getPathPoint(mapCamera->mEntryGroupIndex, posCurve->mUnk_34);
+            groupEntry = mdat_getPathPoint(mapCamera->mEntryGroupIndex, posCurve->field34);
             for (i = 0; i < 3; i++) {
                 posCurve->mPoints[i] = posCurve->mPoints[i + 1];
             }

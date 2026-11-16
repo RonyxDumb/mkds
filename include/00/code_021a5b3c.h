@@ -9,12 +9,12 @@
 
 // Declared here until the code that defines them is decompiled.
 
-// 0xc0 bytes; func_ov000_021a5e84 copies one to mUnk_2140 of an Unk021b5f50, func_ov000_021a671c to a list entry.
+// 0xc0 bytes; func_ov000_021a5e84 copies one to field2140 of an Unk021b5f50, func_ov000_021a671c to a list entry.
 typedef struct Unk021a5e84 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u8 mUnk_04[0x38];
-    /* 3c */ u16 mUnk_3c;
-    /* 3e */ u8 mUnk_3e[0x82];
+    /* 00 */ u8 field0[4];
+    /* 04 */ u8 field4[0x38];
+    /* 3c */ u16 field3C;
+    /* 3e */ u8 field3E[0x82];
 } Unk021a5e84;
 
 u32 func_ov000_021a5b3c(u32 a);

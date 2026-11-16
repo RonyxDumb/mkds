@@ -19,7 +19,7 @@ typedef struct LinkCursor {
     /* 04 */ PointLink *mPreviousLink;
     /* 08 */ Vec3 mDirection;
     /* 14 */ PointLink *mRequestedLink;
-    /* 18 */ BOOL mUnk_18;
+    /* 18 */ BOOL field18;
 } LinkCursor;
 
 #include "Main/Unknown/code_02080b1c.h"

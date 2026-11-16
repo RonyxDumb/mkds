@@ -8,11 +8,11 @@
 // Object of the list mobj_getLogicPartForObjectId(0x70): the shared MapObject part, then the words and the pointer
 // sblln_spawn sets.
 typedef struct ShineBalloonObject {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* 00 */ MapObject field0;
+    /* a0 */ s32 fieldA0;
+    /* a4 */ s32 fieldA4;
     /* a8 */ s32 mTimer;
-    /* ac */ Kart *mUnk_ac;
+    /* ac */ Kart *fieldAC;
     /* b0 */ s32 mState;
 } ShineBalloonObject;
 

@@ -7,10 +7,10 @@
 
 // Data that CreateLld gets for the name it is given.
 typedef struct LldRecord {
-    /* 0 */ u16 mUnk_00;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u16 mUnk_04;
-    /* 6 */ u16 mUnk_06;
+    /* 0 */ u16 field0;
+    /* 2 */ u16 field2;
+    /* 4 */ u16 field4;
+    /* 6 */ u16 field6;
 } LldRecord;
 
 typedef struct LldData {
@@ -20,14 +20,14 @@ typedef struct LldData {
 
 // Group of 0x20 bytes at OamBuffer.mOams.
 typedef struct OamBuffer_000 {
-    /* 00 */ u8 mUnk_00[0x6];
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ u8 mUnk_08[0x6];
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ u8 mUnk_10[0x6];
-    /* 16 */ s16 mUnk_16;
-    /* 18 */ u8 mUnk_18[0x6];
-    /* 1e */ s16 mUnk_1e;
+    /* 00 */ u8 field0[0x6];
+    /* 06 */ s16 field6;
+    /* 08 */ u8 field8[0x6];
+    /* 0e */ s16 fieldE;
+    /* 10 */ u8 field10[0x6];
+    /* 16 */ s16 field16;
+    /* 18 */ u8 field18[0x6];
+    /* 1e */ s16 field1E;
 } OamBuffer_000;
 
 void func_ov001_02184f7c(Unk02188950 *mapObject);

@@ -14,45 +14,45 @@
 void enmy_initRaceEnemy(KartAi *kartAi, s32 kartIndex) {
     Kart *kart = driver_getById(kartIndex);
 
-    kartAi->mUnk_154 = (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0;
-    SetupRaceKartAi(kartAi, kart, kartAi->mUnk_154);
-    enrb_initForRace(&kartAi->mUnk_e8, kartAi);
+    kartAi->field154 = (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field14 & 1) != 0;
+    SetupRaceKartAi(kartAi, kart, kartAi->field154);
+    enrb_initForRace(&kartAi->fieldE8, kartAi);
     enit_init(&kartAi->mItemUse);
-    PickKartAiRaceStart(&kartAi->mUnk_e8, kartAi);
+    PickKartAiRaceStart(&kartAi->fieldE8, kartAi);
 }
 
 void ResetKartAiForRace(KartAi *kartAi) {
     ResetRaceKartAiAtPointLink(kartAi);
-    ResetRaceKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
+    ResetRaceKartAiSpeedLimit(&kartAi->fieldE8, kartAi);
     enit_init(&kartAi->mItemUse);
 }
 
 void enmy_updateRaceEnemy(KartAi *kartAi) {
     AdvanceRaceKartAi(kartAi);
-    enrb_updateForRace(&kartAi->mUnk_e8, kartAi);
+    enrb_updateForRace(&kartAi->fieldE8, kartAi);
     enit_updateForRace(&kartAi->mItemUse, kartAi);
 }
 
 void enmy_recalculateEpoiRoute(KartAi *kartAi) {
-    if (kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL) {
-        if (kartAi->mUnk_08.mLinkCursor.mUnk_18 != FALSE) {
+    if (kartAi->field8.mLinkCursor.mRequestedLink != NULL) {
+        if (kartAi->field8.mLinkCursor.field18 != FALSE) {
             return;
         }
     }
-    kartAi->mUnk_08.mLinkCursor.mRequestedLink = mdat_findEnemyPoint(&kartAi->mKart->mPos);
-    if (kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL) {
-        kartAi->mUnk_08.mLinkCursor.mUnk_18 = TRUE;
+    kartAi->field8.mLinkCursor.mRequestedLink = mdat_findEnemyPoint(&kartAi->mKart->mPos);
+    if (kartAi->field8.mLinkCursor.mRequestedLink != NULL) {
+        kartAi->field8.mLinkCursor.field18 = TRUE;
     }
 }
 
 BOOL enmy_getIsAreaEpoiNotNull(KartAi *kartAi) {
-    return kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL;
+    return kartAi->field8.mLinkCursor.mRequestedLink != NULL;
 }
 
 void enmy_getTargetEpoiPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
-    LinkCursor *cursor = &kartAi->mUnk_08.mLinkCursor;
+    LinkCursor *cursor = &kartAi->field8.mLinkCursor;
 
-    *position = *cursor->mLink->mUnk_18;
+    *position = *cursor->mLink->field18;
     *direction = cursor->mDirection;
 }
 

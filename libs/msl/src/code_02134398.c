@@ -200,7 +200,7 @@ int memcmp(const void *x, const void *y, u32 n) {
 #include "code_02139f70.h"
 
 int mbtowc(u16 *dst, const char *src, u32 n) {
-    return data_0216eccc.mUnk_08->mUnk_00(dst, src, n);
+    return data_0216eccc.field8->field0(dst, src, n);
 }
 
 int MbtowcSingleByte(u16 *dst, const char *src, u32 n) {
@@ -228,7 +228,7 @@ int WctombSingleByte(char *dst, u16 c) {
 }
 
 int wctomb(char *dst, u16 c) {
-    return data_0216eccc.mUnk_08->mUnk_04(dst, c);
+    return data_0216eccc.field8->field4(dst, c);
 }
 
 int mbstowcs(u16 *dst, const char *src, u32 n) {
@@ -303,20 +303,20 @@ int fflush(FILE *a) {
     if (a == 0) {
         return FflushAll();
     }
-    if (a->mFailed != 0 || a->mUnk_04_7 == 0) {
+    if (a->mFailed != 0 || a->field4_7 == 0) {
         return -1;
     }
-    if (a->mUnk_04_2 == 1) {
+    if (a->field4_2 == 1) {
         return 0;
     }
-    if (a->mUnk_08_0 >= 3) {
-        a->mUnk_08_0 = 2;
+    if (a->field8_0 >= 3) {
+        a->field8_0 = 2;
     }
-    if (a->mUnk_08_0 == 2) {
+    if (a->field8_0 == 2) {
         a->mBufferRemaining = 0;
     }
-    if (a->mUnk_08_0 != 1) {
-        a->mUnk_08_0 = 0;
+    if (a->field8_0 != 1) {
+        a->field8_0 = 0;
         return 0;
     }
     if (FileFlushBuffer(a, 0) != 0) {
@@ -324,8 +324,8 @@ int fflush(FILE *a) {
         a->mBufferRemaining = 0;
         return -1;
     }
-    a->mUnk_08_0 = 0;
-    a->mUnk_18 = 0;
+    a->field8_0 = 0;
+    a->field18 = 0;
     a->mBufferRemaining = 0;
     return 0;
 }
@@ -383,23 +383,23 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
         fwide(d, -1);
     }
     n = b * c;
-    if (n == 0 || d->mFailed != 0 || d->mUnk_04_7 == 0) {
+    if (n == 0 || d->mFailed != 0 || d->field4_7 == 0) {
         return 0;
     }
-    if (d->mUnk_04_7 == 2) {
+    if (d->field4_7 == 2) {
         func_02135010();
     }
     m = 1;
-    if (d->mUnk_04_12 != 0) {
-        if (d->mUnk_04_5 != 2 && d->mUnk_04_5 != 1) {
+    if (d->field4_12 != 0) {
+        if (d->field4_5 != 2 && d->field4_5 != 1) {
             m = 0;
         }
     }
-    if (d->mUnk_08_0 == 0 && (d->mUnk_04_2 & 2) != 0) {
-        d->mUnk_08_0 = 1;
+    if (d->field8_0 == 0 && (d->field4_2 & 2) != 0) {
+        d->field8_0 = 1;
         FileResetBuffer(d);
     }
-    if (d->mUnk_08_0 != 1) {
+    if (d->field8_0 != 1) {
         d->mFailed = 1;
         d->mBufferRemaining = 0;
         return 0;
@@ -414,7 +414,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
             if (l > n) {
                 l = n;
             }
-            if (d->mUnk_04_5 == 1 && l != 0) {
+            if (d->field4_5 == 1 && l != 0) {
                 q = MemChrBackward(a, v, l);
                 if (q != 0) {
                     l = q + 1 - a;
@@ -427,7 +427,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
                 d->mBufferNext += l;
                 d->mBufferRemaining -= l;
             }
-            if (d->mBufferRemaining == 0 || q != 0 || d->mUnk_04_5 == 0) {
+            if (d->mBufferRemaining == 0 || q != 0 || d->field4_5 == 0) {
                 if (FileFlushBuffer(d, 0) != 0) {
                     d->mFailed = 1;
                     n = 0;
@@ -455,7 +455,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
         FileResetBuffer(d);
         d->mBufferRemaining = 0;
     }
-    if (d->mUnk_04_5 != 2) {
+    if (d->field4_5 != 2) {
         d->mBufferRemaining = 0;
     }
     return t / b;
@@ -466,8 +466,8 @@ void func_0213453c(u8 *a, u32 *b) {}
 void FileResetBuffer(FILE *a) {
     a->mBufferNext = a->mBuffer;
     a->mBufferRemaining = a->mBufferSize;
-    a->mBufferRemaining = a->mBufferRemaining - (a->mUnk_18 & a->mUnk_2c);
-    a->mUnk_34 = a->mUnk_18;
+    a->mBufferRemaining = a->mBufferRemaining - (a->field18 & a->field2C);
+    a->field34 = a->field18;
 }
 
 int FileFlushBuffer(FILE *a, u32 *b) {
@@ -477,17 +477,17 @@ int FileFlushBuffer(FILE *a, u32 *b) {
     n = a->mBufferNext - a->mBuffer;
     if (n != 0) {
         a->mBufferRemaining = n;
-        if (a->mUnk_04_12 == 0) {
+        if (a->field4_12 == 0) {
             func_0213453c(a->mBuffer, &a->mBufferRemaining);
         }
-        r = a->mWriteFunc(a->mUnk_00, a->mBuffer, &a->mBufferRemaining, a->mUnk_48);
+        r = a->mWriteFunc(a->field0, a->mBuffer, &a->mBufferRemaining, a->field48);
         if (b != 0) {
             *b = a->mBufferRemaining;
         }
         if (r != 0) {
             return r;
         }
-        a->mUnk_18 = a->mUnk_18 + a->mBufferRemaining;
+        a->field18 = a->field18 + a->mBufferRemaining;
     }
     FileResetBuffer(a);
     return 0;
@@ -521,7 +521,7 @@ int FflushAll(void) {
     i = 1;
     p = data_0216eb7c;
     do {
-        if (p->mUnk_04_7 != 0) {
+        if (p->field4_7 != 0) {
             if (fflush(p) != 0) {
                 r = -1;
             }

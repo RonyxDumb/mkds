@@ -540,7 +540,7 @@ s32 SendBytesToAllOnesAddress(s32 descriptor, const void *data, u32 size) {
     SocketAddress address;
     u8 unused[4];
     address.mLength = 8;
-    address.mUnk_01 = 2;
+    address.field1 = 2;
     address.mAddress = -1;
     address.mPort = 0x1e6;
     func_ov000_021a8bb0(func_ov000_021a8830(), unused);
@@ -939,7 +939,7 @@ s32 FillExchangeResultFromKind5Data(void) {
                 result = -7;
                 break;
             }
-            gExchangeResult.mUnk_24 = gKind5Record.mItem205Value;
+            gExchangeResult.field24 = gKind5Record.mItem205Value;
             valueIndex = 0;
             valueText = valueBuffer;
             valueSource = gKind5Values;
@@ -1047,7 +1047,7 @@ s32 RunExchange(void) {
                 }
                 __clear(&bindAddress, 8);
                 bindAddress.mLength = 8;
-                bindAddress.mUnk_01 = 2;
+                bindAddress.field1 = 2;
                 bindAddress.mPort = 0x1e6;
                 bindAddress.mAddress = 0;
                 result = func_ov000_021a916c(descriptor, &bindAddress);
@@ -1192,7 +1192,7 @@ void RunExchangeThread(void) {
 }
 
 typedef struct Unk021bccd0_block {
-    /* 0 */ u8 mUnk_00[8];
+    /* 0 */ u8 field0[8];
 } Unk021bccd0_block;
 
 BOOL func_ov003_021bccd0(u8 *output, u8 *input, u32 inputLength, u8 *key, int keyLength) {

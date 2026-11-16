@@ -64,5 +64,5 @@ void SetupWLMenuCommonMessage(void *heap) {
 #pragma thumb off
 
 u32 func_020360e4(void) {
-    return (gStruct217AA00->mUnk_0454 & 0x40) != 0;
+    return (gStruct217AA00->field454 & 0x40) != 0;
 }

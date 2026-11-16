@@ -30,7 +30,7 @@ HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *a) {
     i = 0;
     e = data_ov000_021b61f4;
     for (; i < 4; i++) {
-        if (e->mInUse != 0 && memcmp(e->mUnk_00, a, 0x20) == 0) {
+        if (e->mInUse != 0 && memcmp(e->field0, a, 0x20) == 0) {
             e->mLastUseTime = OS_GetTick() >> 16;
             return e;
         }
@@ -45,7 +45,7 @@ HttpsEntry *FindEntryByValuePairAndSetLastUseTime(u32 a, u32 b) {
     i = 0;
     e = data_ov000_021b61f4;
     for (; i < 4; i++) {
-        if (e->mInUse != 0 && e->mUnk_54 == a && e->mUnk_58 == b) {
+        if (e->mInUse != 0 && e->field54 == a && e->field58 == b) {
             e->mLastUseTime = OS_GetTick() >> 16;
             return e;
         }
@@ -98,7 +98,7 @@ u32 GetRtcSecondsPlusFixedOffset(void) {
 void SetAuthorityTable(u32 table, u32 count) {
     Unk021a998c *v1;
     HttpsState *v2;
-    v1 = OSi_ThreadInfo.mCurrentThread->mUnk_a4[0];
+    v1 = OSi_ThreadInfo.mCurrentThread->fieldA4[0];
     if ((v1 != NULL) && (v2 = v1->mHttpsState, v2 != NULL)) {
         v2->mAuthorities = table;
         v2->mAuthorityCount = count;
@@ -275,7 +275,7 @@ BOOL ParseTaggedItem(HttpsState *a, u8 **b, s32 depth, s32 index, s32 mode) {
                         case 1:
                         case 2:
                             if (mode == 0) {
-                                a->mUnk_430 = i;
+                                a->field430 = i;
                             }
                             a->mCaptureValues = i;
                             break;
@@ -304,7 +304,7 @@ BOOL ParseTaggedItem(HttpsState *a, u8 **b, s32 depth, s32 index, s32 mode) {
         case 0x16:
             if (mode != 2) {
                 if (a->mDatesSeen != 0) {
-                    AppendCommaSeparatedText(a->mUnk_684, (const s8 *) p, n);
+                    AppendCommaSeparatedText(a->field684, (const s8 *) p, n);
                     if (a->mCopyNextText == 5 && n <= 0x4f) {
                         MI_CpuCopy8(p, a->mHostPattern, n);
                         a->mHostPattern[n] = 0;
@@ -442,7 +442,7 @@ u32 CheckTransformedBytesHoldPaddedDigest(HttpsState *a, AuthorityRecord *b) {
 }
 
 // Flags: 0x8000 when mDateInRange is clear; low byte 1 no authority found, 2 check failed, 3 unknown digest kind, 4
-// mUnk_430 is -1.
+// field430 is -1.
 u32 ComputeParsedItemCheckFlags(HttpsState *a) {
     u32 f;
     Unk021ab728 *h;
@@ -453,7 +453,7 @@ u32 ComputeParsedItemCheckFlags(HttpsState *a) {
     } else {
         f = 0x8000;
     }
-    if (a->mUnk_430 == -1) {
+    if (a->field430 == -1) {
         f |= 4;
         return f;
     }
@@ -532,10 +532,10 @@ void ParseAndCheckItemListMessage(HttpsState *a, u8 *b) {
     RTCDate d;
     n = (((b[0] << 8) + b[1]) << 8) + b[2];
     b += 3;
-    a->mUnk_430 = -1;
+    a->field430 = -1;
     RTC_GetDate(&d);
     a->mCurrentDate = d.mDay + (((d.mYear + 0x7d0) << 16) + (d.mMonth << 8));
-    a->mUnk_684[0] = 0;
+    a->field684[0] = 0;
     a->mFirstValueLength = a->mSecondValueLength = 0;
     m = FALSE;
     i = m;
@@ -547,7 +547,7 @@ void ParseAndCheckItemListMessage(HttpsState *a, u8 *b) {
         a->mCaptureValues = 0;
         a->mDatesSeen = 0;
         a->mDateInRange = 0;
-        a->mUnk_684[0] = 0;
+        a->field684[0] = 0;
         a->mAuthorityName[0] = 0;
         a->mHostPattern[0] = 0;
         a->mItemBytes = b;
@@ -597,7 +597,7 @@ void ParseKind2Message(HttpsState *a, u8 *b) {
     b = (u8 *) b + 0x23;
     n = *q;
     s = a->mEntry;
-    if (s != NULL && n == 0x20 && memcmp(s->mUnk_00, b, 0x20) == 0) {
+    if (s != NULL && n == 0x20 && memcmp(s->field0, b, 0x20) == 0) {
         a->mReusedEntry = 1;
     } else {
         if (s != NULL) {
@@ -707,10 +707,10 @@ void func_ov000_021aa880(u8 *a, const u8 *b, Unk021aa880 *c) {
     u16 *j;
     u16 *k;
     s32 n;
-    if (c == NULL || c->mUnk_00 == 0) {
+    if (c == NULL || c->field0 == 0) {
         return;
     }
-    n = c->mUnk_00 * 2;
+    n = c->field0 * 2;
     n = n / 2 + 1;
     d = (u16 *) data_ov000_021b63a4(n * 0x14);
     if (d == NULL) {
@@ -723,20 +723,20 @@ void func_ov000_021aa880(u8 *a, const u8 *b, Unk021aa880 *c) {
     i = h + n;
     j = i + n;
     k = j + n;
-    func_ov000_021ac4b8(d, b, c->mUnk_00, n);
-    func_ov000_021ac4b8(e, c->mUnk_1c, c->mUnk_18, n);
-    func_ov000_021ac4b8(i, c->mUnk_0c, c->mUnk_08, n);
+    func_ov000_021ac4b8(d, b, c->field0, n);
+    func_ov000_021ac4b8(e, c->field1C, c->field18, n);
+    func_ov000_021ac4b8(i, c->fieldC, c->field8, n);
     func_ov000_021ac4f4(g, d, e, n, i);
-    func_ov000_021ac4b8(e, c->mUnk_24, c->mUnk_20, n);
-    func_ov000_021ac4b8(i, c->mUnk_14, c->mUnk_10, n);
+    func_ov000_021ac4b8(e, c->field24, c->field20, n);
+    func_ov000_021ac4b8(i, c->field14, c->field10, n);
     func_ov000_021ac4f4(h, d, e, n, i);
     func_ov000_021acd24(d, g, h, n);
-    func_ov000_021ac4b8(e, c->mUnk_2c, c->mUnk_28, n);
+    func_ov000_021ac4b8(e, c->field2C, c->field28, n);
     func_ov000_021acbf8(f, d, e, n);
-    func_ov000_021ac4b8(e, c->mUnk_14, c->mUnk_10, n);
+    func_ov000_021ac4b8(e, c->field14, c->field10, n);
     func_ov000_021acbf8(d, f, e, n);
     func_ov000_021ace14(f, d, h, n);
-    func_ov000_021ac4b8(e, c->mUnk_04, c->mUnk_00, n);
+    func_ov000_021ac4b8(e, c->field4, c->field0, n);
     if (func_ov000_021ace90(f, n) < 0) {
         func_ov000_021acda8(f, n);
         func_ov000_021ac900(NULL, f, e, j, n, k);
@@ -755,13 +755,13 @@ void ComputeLabeledDigest16(u8 *a, const u8 *b, HttpsState *c) {
     e = &c->mScratchHash20;
     func_ov000_021abd2c(e);
     func_ov000_021abca0(e, b, strlen((const char *) b));
-    func_ov000_021abca0(e, c->mEntry->mUnk_20, 0x30);
+    func_ov000_021abca0(e, c->mEntry->field20, 0x30);
     func_ov000_021abca0(e, c->mKind1Block, 0x20);
     func_ov000_021abca0(e, c->mKind2Block, 0x20);
     func_ov000_021abc4c(e, d);
     g = &c->mScratchHash16;
     func_ov000_021ab7b4(g);
-    func_ov000_021ab728(g, c->mEntry->mUnk_20, 0x30);
+    func_ov000_021ab728(g, c->mEntry->field20, 0x30);
     func_ov000_021ab728(g, d, 0x14);
     func_ov000_021ab6d4(g, a);
 }
@@ -773,7 +773,7 @@ void ReplaceEntryBytesWithLabeledDigests(HttpsState *a) {
     ComputeLabeledDigest16(v1, gLabelAText, a);
     ComputeLabeledDigest16(v2, gLabelBBText, a);
     ComputeLabeledDigest16(v3, gLabelCCCText, a);
-    MI_CpuCopy8(v1, a->mEntry->mUnk_20, 0x30);
+    MI_CpuCopy8(v1, a->mEntry->field20, 0x30);
 }
 
 // Fills mDerivedBytes from digests, splits it between the send and receive members and seeds the two key stream states.
@@ -810,13 +810,13 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *a) {
             for (j = 0; j < i + 1; j++) {
                 func_ov000_021abca0(h, c, 1);
             }
-            func_ov000_021abca0(h, a->mEntry->mUnk_20, 0x30);
+            func_ov000_021abca0(h, a->mEntry->field20, 0x30);
             func_ov000_021abca0(h, a->mKind2Block, 0x20);
             func_ov000_021abca0(h, a->mKind1Block, 0x20);
             func_ov000_021abc4c(h, c + 1);
             h = &a->mScratchHash16;
             func_ov000_021ab7b4(h);
-            func_ov000_021ab728(h, a->mEntry->mUnk_20, 0x30);
+            func_ov000_021ab728(h, a->mEntry->field20, 0x30);
             func_ov000_021ab728(h, c + 1, 0x14);
             func_ov000_021ab6d4(h, a->mDerivedBytes + o);
             o += 0x10;
@@ -826,17 +826,17 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *a) {
     if (a->mReceivesKind1Record != 0) {
         a->mReceiveDigestBytes = a->mDerivedBytes;
         a->mReceiveKeyStreamBytes = a->mReceiveDigestBytes + x * 2;
-        a->mUnk_1b0 = a->mReceiveKeyStreamBytes + y * 2;
+        a->field1B0 = a->mReceiveKeyStreamBytes + y * 2;
         a->mSendDigestBytes = a->mDerivedBytes + x;
         a->mSendKeyStreamBytes = a->mSendDigestBytes + x + y;
-        a->mUnk_098 = a->mSendKeyStreamBytes + y + z;
+        a->field98 = a->mSendKeyStreamBytes + y + z;
     } else {
         a->mSendDigestBytes = a->mDerivedBytes;
         a->mSendKeyStreamBytes = a->mSendDigestBytes + x * 2;
-        a->mUnk_098 = a->mSendKeyStreamBytes + y * 2;
+        a->field98 = a->mSendKeyStreamBytes + y * 2;
         a->mReceiveDigestBytes = a->mDerivedBytes + x;
         a->mReceiveKeyStreamBytes = a->mReceiveDigestBytes + x + y;
-        a->mUnk_1b0 = a->mReceiveKeyStreamBytes + y + z;
+        a->field1B0 = a->mReceiveKeyStreamBytes + y + z;
     }
     func_ov000_021ac434(a->mReceiveKeyStreamState, a->mReceiveKeyStreamBytes, 0x10);
     func_ov000_021ac434(a->mSendKeyStreamState, a->mSendKeyStreamBytes, 0x10);
@@ -844,7 +844,7 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *a) {
 
 // Recovers the entry's 0x30 bytes from b, derives the key bytes and sets mSetupState to 5.
 void func_ov000_021aa5b0(HttpsState *a, const u8 *b) {
-    func_ov000_021aa880(a->mEntry->mUnk_20, b, a->mUnk_7f0);
+    func_ov000_021aa880(a->mEntry->field20, b, a->field7F0);
     ReplaceEntryBytesWithLabeledDigests(a);
     DeriveBytesAndInitKeyStreamStates(a);
     a->mSetupState = 5;
@@ -859,12 +859,12 @@ void ComputeLabeledMessageDigest16(HttpsState *a, u8 *b, u32 c) {
     } else {
         func_ov000_021ab728(e, gClntText, 4);
     }
-    func_ov000_021ab728(e, a->mEntry->mUnk_20, 0x30);
+    func_ov000_021ab728(e, a->mEntry->field20, 0x30);
     MI_CpuFill8(d, 0x36, 0x30);
     func_ov000_021ab728(e, d, 0x30);
     func_ov000_021ab6d4(e, b);
     func_ov000_021ab7b4(e);
-    func_ov000_021ab728(e, a->mEntry->mUnk_20, 0x30);
+    func_ov000_021ab728(e, a->mEntry->field20, 0x30);
     MI_CpuFill8(d, 0x5c, 0x30);
     func_ov000_021ab728(e, d, 0x30);
     func_ov000_021ab728(e, b, 0x10);
@@ -880,12 +880,12 @@ void ComputeLabeledMessageDigest20(HttpsState *a, u8 *b, u32 c) {
     } else {
         func_ov000_021abca0(e, gClntText, 4);
     }
-    func_ov000_021abca0(e, a->mEntry->mUnk_20, 0x30);
+    func_ov000_021abca0(e, a->mEntry->field20, 0x30);
     MI_CpuFill8(d, 0x36, 0x28);
     func_ov000_021abca0(e, d, 0x28);
     func_ov000_021abc4c(e, b);
     func_ov000_021abd2c(e);
-    func_ov000_021abca0(e, a->mEntry->mUnk_20, 0x30);
+    func_ov000_021abca0(e, a->mEntry->field20, 0x30);
     MI_CpuFill8(d, 0x5c, 0x28);
     func_ov000_021abca0(e, d, 0x28);
     func_ov000_021abca0(e, b, 0x14);
@@ -1403,7 +1403,7 @@ void SendKind1Record(Unk021a998c *a) {
     c->mKind1Block[3] = f;
     FillNonzeroRandomBytes(&c->mKind1Block[4], 0x1c);
     MI_CpuCopy8(c->mKind1Block, d + 2, 0x20);
-    c->mEntry = FindEntryByValuePairAndSetLastUseTime(a->mUnk_1c, a->mUnk_18);
+    c->mEntry = FindEntryByValuePairAndSetLastUseTime(a->field1C, a->field18);
     if (c->mEntry != NULL) {
         d[0x22] = 0x20;
         MI_CpuCopy8(c->mEntry, d + 0x23, 0x20);
@@ -1460,9 +1460,9 @@ void aGpSelect_engine_s_nce_ncer(Unk021a998c *a) {
     s32 m;
     u8 *p;
     u8 *k;
-    c->mEntry->mUnk_20[0] = 3;
-    c->mEntry->mUnk_20[1] = 0;
-    FillNonzeroRandomBytes(&c->mEntry->mUnk_20[2], 0x2e);
+    c->mEntry->field20[0] = 3;
+    c->mEntry->field20[1] = 0;
+    FillNonzeroRandomBytes(&c->mEntry->field20[2], 0x2e);
     b = c->mFirstValueLength;
     d = (b * 2) / 2;
     e = data_ov000_021b63a4(b);
@@ -1474,7 +1474,7 @@ void aGpSelect_engine_s_nce_ncer(Unk021a998c *a) {
     e[1] = 2;
     FillNonzeroRandomBytes(e + 2, b - 0x33);
     e[b - 0x31] = 0;
-    MI_CpuCopy8(c->mEntry->mUnk_20, e + b - 0x30, 0x30);
+    MI_CpuCopy8(c->mEntry->field20, e + b - 0x30, 0x30);
     f = (u16 *) data_ov000_021b63a4(d * 8);
     if (f == NULL) {
         data_ov000_021b63ac(e);
@@ -1579,8 +1579,8 @@ void RunSetupAfterReadingKind1RecordUntilDone(Unk021a998c *a) {
             return;
         }
         func_ov000_021ae0c4(a);
-        a->mUnk_18 = a->mUnk_1a;
-        a->mUnk_1c = a->mUnk_20;
+        a->field18 = a->field1A;
+        a->field1C = a->field20;
     }
 }
 
@@ -1604,8 +1604,8 @@ BOOL RunSetupAfterSendingKind1Record(Unk021a998c *a) {
         }
         aMrMission_run_boss_icon_s_nce_ncgr(a);
     } else {
-        c->mEntry->mUnk_54 = a->mUnk_1c;
-        c->mEntry->mUnk_58 = a->mUnk_18;
+        c->mEntry->field54 = a->field1C;
+        c->mEntry->field58 = a->field18;
         aGpSelect_engine_s_nce_ncer(a);
         ReplaceEntryBytesWithLabeledDigests(c);
         DeriveBytesAndInitKeyStreamStates(c);

@@ -13,35 +13,35 @@
 // Object behind gSystemData (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
 // gSaveData.
 typedef struct Unk021759d0 {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 field0;
     /* 04 */ s32 mLanguageIndex;
     /* 08 */ SoundSetPlayer mSoundSetPlayer;
     /* 1c */ union {
-        s32 mUnk_1c;
+        s32 field1C;
         struct {
             s32 mSoundSetSeqPlaying : 1;
             s32 mSoundSetPlayerInitialized : 1;
-            s32 mUnk_1c_2 : 1;
-            s32 mUnk_1c_3 : 1;
+            s32 field1C_2 : 1;
+            s32 field1C_3 : 1;
         };
     };
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ s32 field20;
     /* 24 */ NNSiFndHeapHead *mHeap;
-    /* 28 */ s16 mUnk_28;
+    /* 28 */ s16 field28;
     /* 2a */ u8 mOwnerText[0x14];
     /* 3e */ u16 mOwnerCharCount;
-    /* 40 */ u8 mUnk_40;
-    /* 41 */ u8 mUnk_41[0x3];
-    /* 44 */ s32 mUnk_44;
+    /* 40 */ u8 field40;
+    /* 41 */ u8 field41[0x3];
+    /* 44 */ s32 field44;
     /* 48 */ u32 mFirstBackLightOn;
     /* 4c */ u32 mSecondBackLightOn;
-    /* 50 */ u16 mUnk_50;
-    /* 52 */ u8 mUnk_52[0x2];
-    /* 54 */ BOOL mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
+    /* 50 */ u16 field50;
+    /* 52 */ u8 field52[0x2];
+    /* 54 */ BOOL field54;
+    /* 58 */ s32 field58;
+    /* 5c */ s32 field5C;
     /* 60 */ RandomState64 mRandom;
-    /* 78 */ s32 mUnk_78;
+    /* 78 */ s32 field78;
 } Unk021759d0;
 
 // The callbacks of one scene (0x20 bytes). scene_runScene copies it to mSceneCallbacks and calls mInit
@@ -64,19 +64,19 @@ typedef struct SceneCallbacks {
     // it frees nothing by itself except in the WiFi scene (the heap of ReleasePlayerEntryList): the scene
     // heap is destroyed by the caller. The Race slot also writes a save block in kind 6.
     /* 08 */ void (*mRelease)();
-    /* 0c */ void (*mUnk_0c)();
+    /* 0c */ void (*fieldC)();
     /* 10 */ void (*mPreSleep)(void);
     /* 14 */ void (*mPostSleep)(void);
     /* 18 */ s16 mFadeToClearFrameCount;
     /* 1a */ s16 mFadeToFadedFrameCount;
-    /* 1c */ int mUnk_1c;
+    /* 1c */ int field1C;
 } SceneCallbacks;
 
 // Object behind scene_sSceneState.
 typedef struct SceneRunState {
     /* 000 */ void *mThreadStack;
     /* 004 */ OSThread mThread;
-    /* 0bc */ u8 mUnk_0bc[8];
+    /* 0bc */ u8 fieldBC[8];
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
@@ -89,11 +89,11 @@ typedef struct SceneRunState {
     // Copy of the running scene's SceneCallbacks, written once by scene_runScene; slots 0x10 / 0x14 and
     // the fade lengths are read from it (code_0204984c.c:125, :132, :431-438).
     /* 0ec */ SceneCallbacks mSceneCallbacks;
-    /* 10c */ s32 mUnk_10c;
+    /* 10c */ s32 field10C;
     /* 110 */ BOOL mLcdOff;
-    /* 114 */ u8 mUnk_114[4];
-    /* 118 */ s32 mUnk_118;
-    /* 11c */ s32 mUnk_11c;
+    /* 114 */ u8 field114[4];
+    /* 118 */ s32 field118;
+    /* 11c */ s32 field11C;
     /* 120 */ s8 mNextScene;
 } SceneRunState;
 
@@ -106,7 +106,7 @@ typedef struct Bg01Cnt {
     /* 08 */ u16 mBgCntVal8;
     /* 0a */ u16 mBgCntVal2;
     /* 0c */ u16 mBgCntVal13;
-    /* 0e */ u8 mUnk_0e[0x2];
+    /* 0e */ u8 fieldE[0x2];
 } Bg01Cnt;
 
 // Object behind member 0x6c of DisplaySettings.
@@ -142,16 +142,16 @@ typedef struct DisplaySettings {
     /* 38 */ Bg01Cnt mMainBg1;
     /* 48 */ Bg23Cnt mMainBg2;
     /* 58 */ Bg23Cnt mMainBg3;
-    /* 68 */ u16 mUnk_68;
-    /* 6a */ u16 mUnk_6a;
+    /* 68 */ u16 field68;
+    /* 6a */ u16 field6A;
     /* 6c */ G3xParams *mG3xParams;
     /* 70 */ Bg01Cnt mSubBg0;
     /* 80 */ Bg01Cnt mSubBg1;
     /* 90 */ Bg23Cnt mSubBg2;
     /* a0 */ Bg23Cnt mSubBg3;
-    /* b0 */ u16 mUnk_b0;
-    /* b2 */ u16 mUnk_b2;
-    /* b4 */ u32 mUnk_b4;
+    /* b0 */ u16 fieldB0;
+    /* b2 */ u16 fieldB2;
+    /* b4 */ u32 fieldB4;
     /* b8 */ void (*mIrqCallback)(void);
     /* bc */ u64 mFrameStartTick;
     /* c4 */ u64 mWaitEndTick;
@@ -169,19 +169,19 @@ extern InputSlot data_021755dc;
 // Set while the pause menu is open during a race; the input slots stop updating.
 #define INPUT_STATE_OPEN_DURING_RACE 1
 typedef struct InputState {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u8 field0[2];
     /* 02 */ u16 mPadKeys;
     /* 04 */ u16 mFlags;
-    /* 06 */ u8 mUnk_06[2];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ BOOL mUnk_0c;
+    /* 06 */ u8 field6[2];
+    /* 08 */ s32 field8;
+    /* 0c */ BOOL fieldC;
 } InputState;
 
 extern InputState *input_sPadData;
 // 0x5c-byte entries; driver_handleCannon writes the halfword at 0x00 of entry Kart.mEntryIndex.
 typedef struct Unk0217566a {
     /* 00 */ u16 mBitMask;
-    /* 02 */ u8 mUnk_02[0x5a];
+    /* 02 */ u8 field2[0x5a];
 } Unk0217566a;
 
 extern Unk0217566a data_0217566a[];
@@ -190,12 +190,12 @@ typedef struct ArchiveBuffer {
     /* 00 */ void *mHeap;
     /* 04 */ void *mData;
     /* 08 */ union {
-        s32 mUnk_08;
+        s32 field8;
         struct {
-            u32 mUnk_08_0 : 29;
+            u32 field8_0 : 29;
             s32 mUncompress : 1;
-            u32 mUnk_08_30 : 1;
-            u32 mUnk_08_31 : 1;
+            u32 field8_30 : 1;
+            u32 field8_31 : 1;
         };
     };
 } ArchiveBuffer;
@@ -214,57 +214,57 @@ typedef struct ArchiveLoadRequest {
     /* 84 */ void *mData;
     /* 88 */ u32 *mReadBuffer;
     /* 8c */ s32 mSlotIndex;
-    /* 90 */ s32 mUnk_90;
+    /* 90 */ s32 field90;
     /* 94 */ s32 mUncompressSource;
-    /* 98 */ s32 mUnk_98;
-    /* 9c */ s32 mUnk_9c;
+    /* 98 */ s32 field98;
+    /* 9c */ s32 field9C;
 } ArchiveLoadRequest;
 
 typedef struct Unk021759c8 {
     union {
-        ArchiveSlot mUnk_00[20];
+        ArchiveSlot field0[20];
         struct {
             /* 00 */ u8 mUnk_00_pad[0xd8];
-            /* d8 */ s32 mUnk_d8;
-            /* 0dc */ u8 mUnk_0dc[0x6c];
-            /* 148 */ s32 mUnk_148;
-            /* 14c */ u8 mUnk_14c[0x1bc];
-            /* 308 */ s32 mUnk_308;
-            /* 30c */ u8 mUnk_30c[0x6c];
-            /* 378 */ s32 mUnk_378;
-            /* 37c */ u8 mUnk_37c[0x6c];
-            /* 3e8 */ s32 mUnk_3e8;
-            /* 3ec */ u8 mUnk_3ec[0x6c];
-            /* 458 */ s32 mUnk_458;
-            /* 45c */ u8 mUnk_45c[0xdc];
-            /* 538 */ s32 mUnk_538;
-            /* 53c */ u8 mUnk_53c[0x6c];
-            /* 5a8 */ s32 mUnk_5a8;
-            /* 5ac */ u8 mUnk_5ac[0xdc];
-            /* 688 */ s32 mUnk_688;
-            /* 68c */ u8 mUnk_68c[0x6c];
-            /* 6f8 */ s32 mUnk_6f8;
-            /* 6fc */ u8 mUnk_6fc[0x6c];
-            /* 768 */ s32 mUnk_768;
-            /* 76c */ u8 mUnk_76c[0x6c];
-            /* 7d8 */ s32 mUnk_7d8;
-            /* 7dc */ u8 mUnk_7dc[0x70];
-            /* 84c */ void *mUnk_84c;
-            /* 850 */ Unk020182c0 mUnk_850;
-            /* 8b8 */ s32 mUnk_8b8;
-            /* 8bc */ void *mUnk_8bc;
+            /* d8 */ s32 fieldD8;
+            /* 0dc */ u8 fieldDC[0x6c];
+            /* 148 */ s32 field148;
+            /* 14c */ u8 field14C[0x1bc];
+            /* 308 */ s32 field308;
+            /* 30c */ u8 field30C[0x6c];
+            /* 378 */ s32 field378;
+            /* 37c */ u8 field37C[0x6c];
+            /* 3e8 */ s32 field3E8;
+            /* 3ec */ u8 field3EC[0x6c];
+            /* 458 */ s32 field458;
+            /* 45c */ u8 field45C[0xdc];
+            /* 538 */ s32 field538;
+            /* 53c */ u8 field53C[0x6c];
+            /* 5a8 */ s32 field5A8;
+            /* 5ac */ u8 field5AC[0xdc];
+            /* 688 */ s32 field688;
+            /* 68c */ u8 field68C[0x6c];
+            /* 6f8 */ s32 field6F8;
+            /* 6fc */ u8 field6FC[0x6c];
+            /* 768 */ s32 field768;
+            /* 76c */ u8 field76C[0x6c];
+            /* 7d8 */ s32 field7D8;
+            /* 7dc */ u8 field7DC[0x70];
+            /* 84c */ void *field84C;
+            /* 850 */ Unk020182c0 field850;
+            /* 8b8 */ s32 field8B8;
+            /* 8bc */ void *field8BC;
         };
     };
     /* 8c0 */ u32 mFileTableSize;
     /* 8c4 */ void *mFileTable;
-    /* 8c8 */ ArchiveLoadRequest mUnk_8c8;
+    /* 8c8 */ ArchiveLoadRequest field8C8;
     /* 968 */ FSFile mFile;
     /* 9b0 */ ArchiveBuffer mBuffers[16];
-    /* a70 */ void *mUnk_a70;
-    /* a74 */ void *mUnk_a74;
-    /* a78 */ NNSiFndHeapHead *mUnk_a78;
+    /* a70 */ void *fieldA70;
+    /* a74 */ void *fieldA74;
+    /* a78 */ NNSiFndHeapHead *fieldA78;
     /* a7c */ NNSiFndHeapHead *mCourseBufferHeap;
-    /* a80 */ NNSiFndHeapHead *mUnk_a80;
+    /* a80 */ NNSiFndHeapHead *fieldA80;
 } Unk021759c8;
 
 extern Unk021759c8 *gArcData;
@@ -275,9 +275,9 @@ extern Unk021759d0 *gSystemData;
 typedef struct FileReadThread {
     /* 000 */ u8 mStack[0x400];
     /* 400 */ OSThread mThread;
-    /* 4b8 */ u8 mUnk_4b8[8];
-    /* 4c0 */ s32 mUnk_4c0;
-    /* 4c4 */ s32 mUnk_4c4;
+    /* 4b8 */ u8 field4B8[8];
+    /* 4c0 */ s32 field4C0;
+    /* 4c4 */ s32 field4C4;
 } FileReadThread;
 
 extern FileReadThread gFileReadThread;
@@ -286,7 +286,7 @@ extern vu16 data_02175928[];
 extern u8 data_02175dd8[];
 // Object at gVramWvrStatus: a word and a function pointer.
 typedef struct WvrState {
-    /* 00 */ volatile s32 mUnk_00;
+    /* 00 */ volatile s32 field0;
     /* 04 */ s32 (*mCallback)();
 } WvrState;
 
@@ -294,14 +294,14 @@ extern WvrState gVramWvrStatus;
 
 // Eight halfwords at data_02175604: two groups of four.
 typedef struct Unk021755e4 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
 } Unk021755e4;
 
 extern Unk021755e4 data_02175604;
@@ -313,10 +313,10 @@ extern KeyRecording data_02175650[];
 // Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
 // words.
 typedef struct RomArchiveParentViewEntry {
-    /* 00 */ u32 mUnk_00_0 : 4;
-    /* 00 */ u32 mUnk_00_4 : 28;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 *mUnk_08;
+    /* 00 */ u32 field0_0 : 4;
+    /* 00 */ u32 field0_4 : 28;
+    /* 04 */ s32 field4;
+    /* 08 */ u8 *field8;
 } RomArchiveParentViewEntry;
 
 // Nine bytes that WFSi_SendAck builds on the stack and passes to RequestSendBytes: two four-bit parts, a
@@ -324,8 +324,8 @@ typedef struct RomArchiveParentViewEntry {
 typedef struct RomArchiveMessage {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mPacketSizeHigh : 4;
-    /* 00 */ u32 mUnk_00_8 : 24;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ u32 field0_8 : 24;
+    /* 04 */ s32 field4;
     /* 08 */ u8 mPacketSizeLow;
 } RomArchiveMessage;
 
@@ -334,31 +334,31 @@ struct FSFile;
 
 // Part of gRomArchiveTransfer from 0x440: the table, then nine words at 0x46cc.
 typedef struct RomArchiveParentView {
-    /* 0000 */ RomArchiveParentViewEntry mUnk_0000[32];
-    /* 0180 */ u8 mUnk_0180[0x97c];
-    /* 0afc */ void *mUnk_0afc;
-    /* 0b00 */ u32 mUnk_0b00;
-    /* 0b04 */ u32 mUnk_0b04;
-    /* 0b08 */ s32 mUnk_0b08;
-    /* 0b0c */ u8 mUnk_0b0c[0x3bb4];
+    /* 0000 */ RomArchiveParentViewEntry field0[32];
+    /* 0180 */ u8 field180[0x97c];
+    /* 0afc */ void *fieldAFC;
+    /* 0b00 */ u32 fieldB00;
+    /* 0b04 */ u32 fieldB04;
+    /* 0b08 */ s32 fieldB08;
+    /* 0b0c */ u8 fieldB0C[0x3bb4];
     /* 46c0 */ struct RomArchiveFileNode *mFreeHead;
     /* 46c4 */ struct RomArchiveFileNode *mActiveHead;
     /* 46c8 */ struct RomArchiveFileNode *mPendingHead;
-    /* 46cc */ s32 mUnk_46cc;
-    /* 46d0 */ s32 mUnk_46d0;
+    /* 46cc */ s32 field46CC;
+    /* 46d0 */ s32 field46D0;
     /* 46d4 */ BOOL mMessageSendPending;
-    /* 46d8 */ s32 mUnk_46d8;
-    /* 46dc */ s32 mUnk_46dc;
-    /* 46e0 */ BOOL mUnk_46e0;
-    /* 46e4 */ s32 mUnk_46e4;
-    /* 46e8 */ s32 mUnk_46e8;
-    /* 46ec */ s32 mUnk_46ec;
+    /* 46d8 */ s32 field46D8;
+    /* 46dc */ s32 field46DC;
+    /* 46e0 */ BOOL field46E0;
+    /* 46e4 */ s32 field46E4;
+    /* 46e8 */ s32 field46E8;
+    /* 46ec */ s32 field46EC;
 } RomArchiveParentView;
 
 // Object at gRomArchiveTransfer.
 typedef struct RomArchiveTransfer {
     /* 0000 */ u32 mIsParent;
-    /* 0004 */ BOOL mUnk_0004;
+    /* 0004 */ BOOL field4;
     /* 0008 */ BOOL mSendPending;
     /* 000c */ s32 mState;
     /* 0010 */ void (*mStateCallback)(s32 a);
@@ -370,9 +370,9 @@ typedef struct RomArchiveTransfer {
     /* 0028 */ s32 mParentPacketSize;
     /* 002c */ s32 mChildPacketSize;
     /* 0030 */ u16 mPort;
-    /* 0032 */ u8 mUnk_0032[0xe];
+    /* 0032 */ u8 field32[0xe];
     /* 0040 */ u8 mPacketBuffer[0x400];
-    /* 0440 */ RomArchiveParentView mUnk_0440;
+    /* 0440 */ RomArchiveParentView field440;
 } RomArchiveTransfer;
 
 extern RomArchiveTransfer gRomArchiveTransfer;

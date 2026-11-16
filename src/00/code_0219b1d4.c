@@ -6,5 +6,5 @@ void func_ov000_0219b1d4(Unk0219b1d4 *object) {
         func_ov000_0218e53c(object->mDescriptor);
     }
     object->mDescriptor = -1;
-    object->mUnk_10 = 4;
+    object->field10 = 4;
 }

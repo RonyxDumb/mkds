@@ -4,11 +4,11 @@
 #pragma thumb off
 
 void func_ov001_02185490(u32 value) {
-    gStruct217B488->mUnk_08 = value;
+    gStruct217B488->field8 = value;
 }
 
 void func_ov001_0218547c(u32 value) {
-    gStruct217B488->mUnk_04 = value;
+    gStruct217B488->field4 = value;
 }
 
 #pragma thumb on

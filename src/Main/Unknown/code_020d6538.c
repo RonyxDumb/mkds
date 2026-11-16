@@ -31,34 +31,34 @@
 #pragma thumb on
 
 void pwex_initFromObject(GroupFollowerWithSpeeds *follower, struct CourseMapRow *courseRow, s32 speed, s32 d) {
-    pw_initFromObject(&follower->mUnk_00, courseRow, speed);
+    pw_initFromObject(&follower->field0, courseRow, speed);
     follower->mSpeedPerEntryUnit = speed / 100;
     follower->mDefaultSpeed = (speed * d) / 100;
     pwex_init(follower, 0, 1);
 }
 
 void func_020d7d18(SegmentProgress *segmentProgress, s32 a, Vec3 **points, s32 rate) {
-    pw_setupPoint(&segmentProgress->mUnk_00, a, 0, points[0], points[1], points[2], points[3]);
+    pw_setupPoint(&segmentProgress->field0, a, 0, points[0], points[1], points[2], points[3]);
     pwex_20D84C0(segmentProgress, rate);
-    segmentProgress->mUnk_5c = 0;
+    segmentProgress->field5C = 0;
 }
 
 BOOL func_020d7c84(SegmentProgress *segmentProgress, s32 a, Vec3 **points) {
     s32 v;
-    segmentProgress->mUnk_5c = segmentProgress->mUnk_5c - 0x1000000;
-    segmentProgress->mUnk_5c = ((s64) segmentProgress->mUnk_5c * (s64) segmentProgress->mUnk_00.mProgressLength) >> 12;
-    pw_setupPoint(&segmentProgress->mUnk_00, a, 0, points[0], points[1], points[2], points[3]);
-    v = segmentProgress->mUnk_00.mInverseProgressLength;
+    segmentProgress->field5C = segmentProgress->field5C - 0x1000000;
+    segmentProgress->field5C = ((s64) segmentProgress->field5C * (s64) segmentProgress->field0.mProgressLength) >> 12;
+    pw_setupPoint(&segmentProgress->field0, a, 0, points[0], points[1], points[2], points[3]);
+    v = segmentProgress->field0.mInverseProgressLength;
     if (v != 0) {
-        segmentProgress->mUnk_5c = ((s64) segmentProgress->mUnk_5c * (s64) v) >> 24;
+        segmentProgress->field5C = ((s64) segmentProgress->field5C * (s64) v) >> 24;
     }
     if (v != 0) {
-        v = ((s64) segmentProgress->mUnk_54 * (s64) v) >> 12;
+        v = ((s64) segmentProgress->field54 * (s64) v) >> 12;
     } else {
         v = 0x1000000;
     }
-    segmentProgress->mUnk_58 = v;
-    if (segmentProgress->mUnk_5c >= 0x1000000) {
+    segmentProgress->field58 = v;
+    if (segmentProgress->field5C >= 0x1000000) {
         return TRUE;
     }
     return FALSE;
@@ -69,7 +69,7 @@ BOOL func_020d7c84(SegmentProgress *segmentProgress, s32 a, Vec3 **points) {
 void SetViewYawQuaternion(MtxFx43 *viewMatrix) {
     s32 angle;
     s32 pairIndex;
-    angle = FX_Atan2(viewMatrix->mUnk_00[0].z, viewMatrix->mUnk_00[2].z);
+    angle = FX_Atan2(viewMatrix->field0[0].z, viewMatrix->field0[2].z);
     angle = (((s64) angle * 0x28BE60DB9391LL) + 0x80000000000LL) >> 44;
     pairIndex = (u16) ((u16) angle >> 1) >> 4;
     gViewYawQuaternion.mComponents[0] = 0;
@@ -404,7 +404,7 @@ s32 mobj_handleDriverCollision(Kart *kart, MapObject *mapObject) {
         kindRemainder -= 100;
         kindHundreds++;
     }
-    if (mapObject->mKindData->mUnk_00 != NULL) {
+    if (mapObject->mKindData->field0 != NULL) {
         response = mobj_sDriverHitObjResponseTable[kindHundreds][kart->mItemEffect][kindRemainder];
         if (flagBit != 0 && response != 2 && response != 4) {
             response = 0;
@@ -416,7 +416,7 @@ s32 mobj_handleDriverCollision(Kart *kart, MapObject *mapObject) {
         }
         buf[1] = response;
         if ((mapObject->mFlags & 0x80) == 0) {
-            buf[1] = mapObject->mKindData->mUnk_00(mapObject, kart, &buf[0], &buf[1]);
+            buf[1] = mapObject->mKindData->field0(mapObject, kart, &buf[0], &buf[1]);
         }
         if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && buf[0] == 1 && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             mrcnt_notifyMObjDamage(mapObject->mKind);
@@ -441,20 +441,20 @@ s32 mobj_handleItemCollision(ItemObject *itemObject, MapObject *mapObject, s32 *
         kindRemainder -= 100;
         kindHundreds++;
     }
-    if (mapObject->mKindData->mUnk_04 != NULL) {
+    if (mapObject->mKindData->field4 != NULL) {
         response = mobj_sItemHitObjResponseTable[kindHundreds][itemObject->mKind][kindRemainder];
         if (flagBit != 0) {
             response = 0;
         }
         buf[0] = response;
-        kindDataValue = mapObject->mKindData->mUnk_20;
+        kindDataValue = mapObject->mKindData->field20;
         response = mobj_sItemHitResponseTable[kindHundreds][itemObject->mKind][kindRemainder];
         if (flagBit != 0 && response == 1 && kindDataValue != 0) {
             response = 2;
         }
         buf[1] = response;
         if ((mapObject->mFlags & 0x80) == 0) {
-            buf[1] = mapObject->mKindData->mUnk_04(mapObject, itemObject, &buf[0], &buf[1]);
+            buf[1] = mapObject->mKindData->field4(mapObject, itemObject, &buf[0], &buf[1]);
         }
         if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && buf[0] == 1 && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             mrcnt_notifyMObjDamage(mapObject->mKind);
@@ -467,7 +467,7 @@ s32 mobj_handleItemCollision(ItemObject *itemObject, MapObject *mapObject, s32 *
     if (firstResponseOut != NULL) {
         *firstResponseOut = 0;
     }
-    kindDataValue = mapObject->mKindData->mUnk_20;
+    kindDataValue = mapObject->mKindData->field20;
     response = mobj_sItemHitResponseTable[kindHundreds][itemObject->mKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
@@ -503,7 +503,7 @@ s32 mobj_getCollidesWithItem(s32 itemKind, MapObject *mapObject) {
         kindHundreds++;
     }
     flagBit = mapObject->mFlags & 0x800;
-    kindDataValue = mapObject->mKindData->mUnk_20;
+    kindDataValue = mapObject->mKindData->field20;
     response = mobj_sItemHitResponseTable[kindHundreds][itemKind][kindRemainder];
     if (flagBit != 0 && response == 1 && kindDataValue != 0) {
         response = 2;
@@ -532,8 +532,8 @@ s32 mobj_getItemHitObjResponseForMObj(s32 itemKind, MapObject *mapObject) {
 MapObjectKindData *rock_setupConfig(void) {
     MapObjectKindData *kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_02156adc;
-    kindData->mUnk_38 = 0x3e8000;
-    kindData->mUnk_3c = -0x3e8000;
+    kindData->field38 = 0x3e8000;
+    kindData->field3C = -0x3e8000;
     return kindData;
 }
 
@@ -563,7 +563,7 @@ RockUpdateList *rock_setupLogicPart(void) {
 
 void roak_globalPreRender(void) {
     s32 pairIndex = (s32) (race_getFrameCounter() << 25 >> 16) >> 4;
-    MTX_RotY33_(data_0217b650->mUnk_2c.mUnk_00, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
+    MTX_RotY33_(data_0217b650->field2C.field0, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
 }
 
 void rock_render(void *a, RockObject *rock, void *c, s32 alpha) {
@@ -574,38 +574,38 @@ void rock_render(void *a, RockObject *rock, void *c, s32 alpha) {
     RockShadowMatrix *shadowMatrix;
     s32 dot;
     if (rchoi_getIsRacePaused() == 0) {
-        xAxis = rock->mMapObject.mMatrix.mUnk_00[0];
-        yAxis = rock->mMapObject.mMatrix.mUnk_00[1];
-        tiltAxis.x = ((s64) rock->mMapObject.mUnk_10.z * (s64) rock->mBottomOffsetReciprocal) >> 12;
-        tiltAxis.z = -(s32) (((s64) rock->mMapObject.mUnk_10.x * (s64) rock->mBottomOffsetReciprocal) >> 12);
+        xAxis = rock->mMapObject.mMatrix.field0[0];
+        yAxis = rock->mMapObject.mMatrix.field0[1];
+        tiltAxis.x = ((s64) rock->mMapObject.field10.z * (s64) rock->mBottomOffsetReciprocal) >> 12;
+        tiltAxis.z = -(s32) (((s64) rock->mMapObject.field10.x * (s64) rock->mBottomOffsetReciprocal) >> 12);
         tiltAxis.y = 0;
         vec_crossProduct(&tiltAxis, &xAxis, &crossProduct);
         VEC_Add(&xAxis, &crossProduct, &xAxis);
-        vec_normalize(&xAxis, &rock->mMapObject.mMatrix.mUnk_00[0]);
+        vec_normalize(&xAxis, &rock->mMapObject.mMatrix.field0[0]);
         vec_crossProduct(&tiltAxis, &yAxis, &crossProduct);
         VEC_Add(&yAxis, &crossProduct, &yAxis);
-        dot = VEC_DotProduct(&rock->mMapObject.mMatrix.mUnk_00[0], &yAxis);
-        yAxis.x = yAxis.x - (s32) (((s64) rock->mMapObject.mMatrix.mUnk_00[0].x * (s64) dot) >> 12);
-        yAxis.y = yAxis.y - (s32) (((s64) rock->mMapObject.mMatrix.mUnk_00[0].y * (s64) dot) >> 12);
-        yAxis.z = yAxis.z - (s32) (((s64) rock->mMapObject.mMatrix.mUnk_00[0].z * (s64) dot) >> 12);
-        vec_normalize(&yAxis, &rock->mMapObject.mMatrix.mUnk_00[1]);
-        vec_crossProduct(&rock->mMapObject.mMatrix.mUnk_00[0], &rock->mMapObject.mMatrix.mUnk_00[1],
-                           &rock->mMapObject.mMatrix.mUnk_00[2]);
+        dot = VEC_DotProduct(&rock->mMapObject.mMatrix.field0[0], &yAxis);
+        yAxis.x = yAxis.x - (s32) (((s64) rock->mMapObject.mMatrix.field0[0].x * (s64) dot) >> 12);
+        yAxis.y = yAxis.y - (s32) (((s64) rock->mMapObject.mMatrix.field0[0].y * (s64) dot) >> 12);
+        yAxis.z = yAxis.z - (s32) (((s64) rock->mMapObject.mMatrix.field0[0].z * (s64) dot) >> 12);
+        vec_normalize(&yAxis, &rock->mMapObject.mMatrix.field0[1]);
+        vec_crossProduct(&rock->mMapObject.mMatrix.field0[0], &rock->mMapObject.mMatrix.field0[1],
+                           &rock->mMapObject.mMatrix.field0[2]);
     }
-    rock->mMapObject.mMatrix.mUnk_00[3].x = rock->mMapObject.mPos.x >> 4;
-    rock->mMapObject.mMatrix.mUnk_00[3].y = rock->mMapObject.mPos.y >> 4;
-    rock->mMapObject.mMatrix.mUnk_00[3].z = rock->mMapObject.mPos.z >> 4;
+    rock->mMapObject.mMatrix.field0[3].x = rock->mMapObject.mPos.x >> 4;
+    rock->mMapObject.mMatrix.field0[3].y = rock->mMapObject.mPos.y >> 4;
+    rock->mMapObject.mMatrix.field0[3].z = rock->mMapObject.mPos.z >> 4;
     model2_renderModel(gRock, &rock->mMapObject.mMatrix, &rock->mMapObject.mScale, alpha);
-    shadowMatrix = &data_0217b650->mUnk_2c;
-    shadowMatrix->mUnk_24.x = rock->mMapObject.mPos.x >> 4;
-    shadowMatrix->mUnk_24.y = rock->mMapObject.mPos.y >> 4;
-    shadowMatrix->mUnk_24.z = rock->mMapObject.mPos.z >> 4;
-    model2_renderShadowModel(gRockShadow, &data_0217b650->mUnk_2c, &rock->mMapObject.mScale, alpha);
+    shadowMatrix = &data_0217b650->field2C;
+    shadowMatrix->field24.x = rock->mMapObject.mPos.x >> 4;
+    shadowMatrix->field24.y = rock->mMapObject.mPos.y >> 4;
+    shadowMatrix->field24.z = rock->mMapObject.mPos.z >> 4;
+    model2_renderShadowModel(gRockShadow, &data_0217b650->field2C, &rock->mMapObject.mScale, alpha);
 }
 
 void func_020d6538(Unk020d6538_a *emitter, EmitterParams *params) {
-    emitter->mUnk_5c = params->mUnk_00;
-    emitter->mUnk_64 = params->mUnk_04;
-    emitter->mUnk_68 = params->mUnk_06;
-    emitter->mUnk_6c = params->mUnk_08;
+    emitter->field5C = params->field0;
+    emitter->field64 = params->field4;
+    emitter->field68 = params->field6;
+    emitter->field6C = params->field8;
 }

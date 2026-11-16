@@ -17,7 +17,7 @@ typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];
     /* 38 */ void *mOamLists[2];
     /* 40 */ s32 mCupIndex;
-    /* 44 */ s32 mUnk_44;
+    /* 44 */ s32 field44;
     /* 48 */ s32 mCupRankIndex;
     /* 4c */ Bmg *mCommonMessages;
     /* 50 */ Bmg *mSecretMessages;

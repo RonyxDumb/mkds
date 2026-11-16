@@ -23,19 +23,19 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     Kart *kart;
 
     kart = item->mKartItems->mKart;
-    flagBit0 = (kart->mUnk_48 & 1) ? 1 : 0;
-    item->mUnk_22c = kart->mSignedTurnedForward;
-    pos = &item->mUnk_000.mPos;
-    velocity = &item->mUnk_000.mVelocity;
-    if (kart->mUnk_44 & 0x100) {
-        item->mUnk_22c.x = -item->mUnk_22c.x;
-        item->mUnk_22c.y = -item->mUnk_22c.y;
-        item->mUnk_22c.z = -item->mUnk_22c.z;
+    flagBit0 = (kart->field48 & 1) ? 1 : 0;
+    item->field22C = kart->mSignedTurnedForward;
+    pos = &item->field0.mPos;
+    velocity = &item->field0.mVelocity;
+    if (kart->field44 & 0x100) {
+        item->field22C.x = -item->field22C.x;
+        item->field22C.y = -item->field22C.y;
+        item->field22C.z = -item->field22C.z;
     }
     if (func_0206c0b0(kart) == FALSE) {
-        item->mUnk_244 = kart->mDrawMatrixPos;
+        item->field244 = kart->mDrawMatrixPos;
     }
-    VEC_MultAdd(0x14ffa, &item->mUnk_22c, &item->mUnk_244, &v);
+    VEC_MultAdd(0x14ffa, &item->field22C, &item->field244, &v);
     if (flagBit0 == 0) {
         v.y += lift;
     } else {
@@ -49,7 +49,7 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     if (flagBit0 == 0) {
         return;
     }
-    if (col_collide(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
+    if (col_collide(pos, &item->field0.mPrevPos, 0, item->field0.fieldDC, 4, item->field0.mCollisionSlotIndex,
                       &v, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
@@ -72,23 +72,23 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     }
     kartItems = &(it_sDriverItemStatus)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
-    if (kartItems->mUnk_1f0.mLink != item->mTargetLink) {
-        shortRange = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
-        VEC_Subtract(kartPos, &item->mUnk_000.mPos, &v);
+    if (kartItems->field1F0.mLink != item->mTargetLink) {
+        shortRange = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 1 : 0;
+        VEC_Subtract(kartPos, &item->field0.mPos, &v);
         offsetX = v.x >> 12;
         offsetZ = v.z >> 12;
         if (offsetX * offsetX + offsetZ * offsetZ > (shortRange ? 0x9c40 : 0x27100)) {
             return FALSE;
         }
-        normalDistance = vec_dotProduct(&item->mUnk_000.mNormal, &v) >> 12;
+        normalDistance = vec_dotProduct(&item->field0.mNormal, &v) >> 12;
         if (normalDistance * normalDistance > 0x9c4) {
             return FALSE;
         }
     }
-    if (item->mUnk_000.mFlags & 0x10000000) {
+    if (item->field0.mFlags & 0x10000000) {
         return FALSE;
     }
     item->mKartItems = kartItems;
-    item->mUnk_244 = *kartPos;
+    item->field244 = *kartPos;
     return TRUE;
 }

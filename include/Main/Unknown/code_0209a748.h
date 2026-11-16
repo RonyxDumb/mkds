@@ -9,7 +9,7 @@ typedef struct ItemObject ItemObject;
 
 // Object of kind 0x1ac (Crab), one state per value of mState; draws crab and crab_hand.
 typedef struct Crab {
-    /* 000 */ MapObject mUnk_000;
+    /* 000 */ MapObject field0;
     /* 0a0 */ u16 mRotateZAnglePerFrame;
     /* 0a2 */ u16 mRotateZAngle;
     /* 0a4 */ s32 mTimer;
@@ -18,7 +18,7 @@ typedef struct Crab {
     /* 0b0 */ TeresaWobble mCrabWobble;
     /* 0d0 */ TeresaWobble mHandWobble;
     /* 0f0 */ GroupFollower mFollower;
-    /* State number of this kind's own per-frame switch in crab_update; this object does not use MapObject.mUnk_80's
+    /* State number of this kind's own per-frame switch in crab_update; this object does not use MapObject.field80's
        state machine; also set by the group init and by the collision push (2) */
     /* 114 */ s32 mState;
 } Crab;

@@ -32,9 +32,9 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     Vec3 endPoint;
 
     wanwan = chainObject->mWanwan;
-    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mUnk_00.mMatrix.mUnk_00[2], &wanwan->mUnk_00.mPos, &endPoint);
+    VEC_MultAdd(-wanwan->fieldF0, &wanwan->field0.mMatrix.field0[2], &wanwan->field0.mPos, &endPoint);
     startPoint = wanwan->mCenterPos;
-    startPoint.y -= wanwan->mUnk_f0 >> 1;
+    startPoint.y -= wanwan->fieldF0 >> 1;
     SetWanwanChainPointsEvenly(&chainObject->mChain, &startPoint, &endPoint);
     if (chainObject->mHasKui != FALSE) {
         return;
@@ -60,31 +60,31 @@ void wwchn_init(WanwanChainObject *chainObject, void *unused, Wanwan *wanwan) {
     s32 d;
 
     chainObject->mPos = wanwan->mCenterPos;
-    chainObject->mHasKui = wanwan->mUnk_fc == 0;
+    chainObject->mHasKui = wanwan->fieldFC == 0;
     if (chainObject->mHasKui != FALSE) {
         d = wanwan->mMaxRadius;
     } else {
         d = 0x55000;
     }
-    InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, d - wanwan->mUnk_f0,
-                    wanwan->mUnk_fc != 0 ? 4 : 7, 0x6000, &chainObject->mUnk_1c);
+    InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, d - wanwan->fieldF0,
+                    wanwan->fieldFC != 0 ? 4 : 7, 0x6000, &chainObject->field1C);
     if (chainObject->mHasKui == FALSE) {
         func_020dda2c(&chainObject->mChain);
         chainObject->mChain.mDownwardStep -= 0xcd;
-        chainObject->mChain.mUnk_10 -= 0x3d;
-        chainObject->mChain.mUnk_14.x += 0x52;
-        chainObject->mChain.mUnk_14.y += 0x35c;
-        chainObject->mChain.mUnk_14.z += 0x52;
+        chainObject->mChain.field10 -= 0x3d;
+        chainObject->mChain.field14.x += 0x52;
+        chainObject->mChain.field14.y += 0x35c;
+        chainObject->mChain.field14.z += 0x52;
         chainObject->mChain.mMinY = 0;
-        chainObject->mUnk_02 |= data_021583d4;
+        chainObject->field2 |= data_021583d4;
     }
     chainObject->mWanwan = wanwan;
     if (chainObject->mHasKui != FALSE) {
-        d = wanwan->mUnk_f8;
+        d = wanwan->fieldF8;
     } else {
         d = 0xc8000;
     }
-    chainObject->mUnk_68 = 1.2f * (d + wanwan->mUnk_f0);
+    chainObject->field68 = 1.2f * (d + wanwan->fieldF0);
 }
 
 #pragma thumb off
@@ -113,8 +113,8 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
     minY = chain->mMinY;
     points = chain->mPoints;
     downwardStep = chain->mDownwardStep;
-    damping = chain->mUnk_10;
-    pullScale = chain->mUnk_14;
+    damping = chain->field10;
+    pullScale = chain->field14;
     reversePointIndex = pointCount - 1;
     for (pointIndex = 1; pointIndex < pointCount; pointIndex++) {
         velocities[pointIndex].y -= downwardStep;
@@ -151,7 +151,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         }
         current--;
     }
-    if (chain->mUnk_08 != 0) {
+    if (chain->field8 != 0) {
         pullIndex = 1;
     } else {
         pullIndex = 2;
@@ -188,9 +188,9 @@ void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16
     bbm_applyMaterial(model);
     for (pointIndex = 1; pointIndex < chain->mPointCount; pointIndex++) {
         polygonId = mobj_getCyclicPolygonId();
-        model->mUnk_14 &= ~0x3f000000;
-        model->mUnk_14 |= polygonId << 24;
-        bbm_renderTransformedScaled(model, bbm_getBillboardAtPos(&chain->mPoints[pointIndex]), &chain->mUnk_34, 1, e);
+        model->field14 &= ~0x3f000000;
+        model->field14 |= polygonId << 24;
+        bbm_renderTransformedScaled(model, bbm_getBillboardAtPos(&chain->mPoints[pointIndex]), &chain->field34, 1, e);
     }
 }
 
@@ -199,7 +199,7 @@ void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s
 
     bbm_applyMaterial(model);
     polygonId = mobj_getCyclicPolygonId();
-    model->mUnk_14 &= ~0x3f000000;
-    model->mUnk_14 |= polygonId << 24;
-    bbm_renderTransformedScaled(model, bbm_getYBillboardAtPos(position), &chain->mUnk_34, 1, e);
+    model->field14 &= ~0x3f000000;
+    model->field14 |= polygonId << 24;
+    bbm_renderTransformedScaled(model, bbm_getYBillboardAtPos(position), &chain->field34, 1, e);
 }

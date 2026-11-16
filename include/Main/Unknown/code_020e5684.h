@@ -6,14 +6,14 @@ typedef struct Unk020e43a8 Unk020e43a8;
 
 // Second argument of shand_init: a vector at 0x0c, halfwords from 0x28.
 typedef struct Unk020e5684 {
-    /* 00 */ u8 mUnk_00[0x0c];
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ u8 mUnk_18[0x10];
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-    /* 2c */ s16 mUnk_2c;
-    /* 2e */ s16 mUnk_2e;
-    /* 30 */ s16 mUnk_30;
+    /* 00 */ u8 field0[0x0c];
+    /* 0c */ Vec3 fieldC;
+    /* 18 */ u8 field18[0x10];
+    /* 28 */ s16 field28;
+    /* 2a */ s16 field2A;
+    /* 2c */ s16 field2C;
+    /* 2e */ s16 field2E;
+    /* 30 */ s16 field30;
 } Unk020e5684;
 
 void shand_loadModel(void);
@@ -22,51 +22,51 @@ typedef struct Unk020e43a8 Unk020e43a8;
 
 // 0x28-byte object shand_setupLogicPart loads from shand_logicPartData.
 typedef struct Unk020e59e4 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
+    /* 20 */ u32 field20;
+    /* 24 */ u32 field24;
 } Unk020e59e4;
 
 // 0x2c-byte object shand_setupRenderPart loads from shand_renderPartData.
 typedef struct Unk020e5a40 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
+    /* 20 */ u32 field20;
+    /* 24 */ u32 field24;
+    /* 28 */ u32 field28;
 } Unk020e5a40;
 
 // 0x40-byte object shand_setupConfig loads from shand_colData.
 typedef struct Unk020e5a9c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
+    /* 20 */ u32 field20;
+    /* 24 */ u32 field24;
+    /* 28 */ u32 field28;
+    /* 2c */ u32 field2C;
+    /* 30 */ u32 field30;
+    /* 34 */ u32 field34;
+    /* 38 */ u32 field38;
+    /* 3c */ u32 field3C;
 } Unk020e5a9c;
 
 void obpak_loadModel(void);

@@ -46,26 +46,26 @@ void driver_206EDAC(Kart *kart, Vec3 *groundNormal) {
     s32 x;
     s32 distanceSquared;
 
-    if (kart->mUnk_44 & 0x40000010) {
+    if (kart->field44 & 0x40000010) {
         return;
     }
-    kart->mUnk_44 |= 0x10000;
+    kart->field44 |= 0x10000;
     if (kart->mLandingTimer <= 0) {
-        k = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
+        k = (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
         x = data_0216ca58[2];
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
         AddSoundRequest(data_0217d26c + k, distanceSquared + x, (void (*)(void *, int)) driver_emitFloorSfx2, kart, 2);
         StartKartModelScaleAnimation(kart, 0);
     }
     kart->mLandingTimer = 7;
-    if (kart->mUnk_48 & 0x2000000) {
-        kart->mUnk_4c &= ~0x800;
-        kart->mUnk_48 &= ~0x2000000;
-        kart->mUnk_40c = race_getFrameCounter();
+    if (kart->field48 & 0x2000000) {
+        kart->field4C &= ~0x800;
+        kart->field48 &= ~0x2000000;
+        kart->field40C = race_getFrameCounter();
         r2d_showMapPathForDriver(kart->mIndex);
         return;
     }
-    if ((!(kart->mUnk_4c & 0x10000000) && kart->mVelocity.y < 0 &&
+    if ((!(kart->field4C & 0x10000000) && kart->mVelocity.y < 0 &&
          (kart->mAirborneFrames > 0x19 || kart->mLastGroundY - kart->mPos.y > 0x1e000)) ||
         kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP) {
         s = VEC_DotProduct(groundNormal, &kart->mVelocity);
@@ -82,8 +82,8 @@ void driver_206EDAC(Kart *kart, Vec3 *groundNormal) {
             if (kart->mVerticalSpeed > m) {
                 kart->mVerticalSpeed = m;
             }
-            bits7c = kart->mUnk_7c;
-            if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
+            bits7c = kart->field7C;
+            if ((bits7c & 0x10) && kart->mKartModelsEntry->field58 == 0) {
                 if ((bits7c & 1) || !(bits7c & 0x402000)) {
                     ptcm_createEmitterNoUpdateSkip(0x4e, &kart->mPos, kart, func_0206c2b4);
                 }
@@ -93,7 +93,7 @@ void driver_206EDAC(Kart *kart, Vec3 *groundNormal) {
     if (kart->mAirborneFrames <= 0x14) {
         return;
     }
-    s = vec_dotProduct(&kart->mUnk_138, groundNormal);
+    s = vec_dotProduct(&kart->field138, groundNormal);
     if (s >= 0) {
         return;
     }
@@ -135,9 +135,9 @@ void driver_handleMapObjCollision(Kart *kart) {
     kart->mMapObjectVectorForwardDot = kart->mMapObjectVectorLength = 0;
     foundCount = mobj_collideDriver(kart, &kart->mCollisionCenter, &positionOffset);
     if (foundCount != 0) {
-        if (!(kart->mUnk_48 & 0x40)) {
+        if (!(kart->field48 & 0x40)) {
             i = foundCount - 1;
-            kart->mUnk_44 |= 0x40000;
+            kart->field44 |= 0x40000;
             if (i >= 0) {
                 z = driverCore_sZeroVec;
                 do {
@@ -150,7 +150,7 @@ void driver_handleMapObjCollision(Kart *kart) {
                             kart, &v2, mapObject);
                     if (handlerResult != 0) {
                         v = z;
-                        u = &mapObject->mUnk_10;
+                        u = &mapObject->field10;
                         foundMapObjectVector = mobj_getQueryPushback(i);
                         d = func_0206e874_inline(foundMapObjectVector, &v);
                         if (d != 0) {
@@ -159,7 +159,7 @@ void driver_handleMapObjCollision(Kart *kart) {
                                                                                                       mapObject);
                             }
                             if (handlerResult & 8) {
-                                HandleWalls(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
+                                HandleWalls(kart, &v, (kart->field44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
                             } else if (handlerResult & 2) {
                                 s = vec_dotProduct(&kart->mTurnedForward, &v) + 0x1000;
                                 if (s > 0x1000) {
@@ -222,11 +222,11 @@ void driver_handleMapObjCollision(Kart *kart) {
                             }
                             if (touchedBefore == FALSE) {
                                 for (j = 0; j < 2; j++) {
-                                    if (mapObject == kart->mPrevTouchingMapObjects[j] || kart->mUnk_444[j] != 0) {
+                                    if (mapObject == kart->mPrevTouchingMapObjects[j] || kart->field444[j] != 0) {
                                         continue;
                                     }
                                     mobj_emitDriverHitSfx(mapObject, &kart->mSoundSource, v2, m);
-                                    kart->mUnk_444[j] = 1;
+                                    kart->field444[j] = 1;
                                     break;
                                 }
                             }
@@ -235,13 +235,13 @@ void driver_handleMapObjCollision(Kart *kart) {
                         }
                     }
                     if (handlerIndex == 0xb) {
-                        kart->mUnk_44c = mapObject;
+                        kart->field44C = mapObject;
                     }
                 } while (--i >= 0);
             }
         }
-        if (kart->mUnk_48 & 0x4000000) {
-            if (kart->mUnk_44c == mapObject) {
+        if (kart->field48 & 0x4000000) {
+            if (kart->field44C == mapObject) {
                 positionOffset.z = 0;
                 positionOffset.x = 0;
             }
@@ -250,17 +250,17 @@ void driver_handleMapObjCollision(Kart *kart) {
     }
     for (j = 0; j < 2; j++) {
         kart->mPrevTouchingMapObjects[j] = touchedMapObjects[j];
-        if (kart->mUnk_444[j] != 0) {
-            kart->mUnk_440[j]++;
-            if (kart->mUnk_440[j] > 10) {
-                kart->mUnk_444[j] = 0;
-                kart->mUnk_440[j] = 0;
+        if (kart->field444[j] != 0) {
+            kart->field440[j]++;
+            if (kart->field440[j] > 10) {
+                kart->field444[j] = 0;
+                kart->field440[j] = 0;
             }
         }
     }
     if (v3 != FALSE) {
-        kart->mUnk_44 |= 0x40;
+        kart->field44 |= 0x40;
     } else {
-        kart->mUnk_44 &= ~0x40;
+        kart->field44 &= ~0x40;
     }
 }

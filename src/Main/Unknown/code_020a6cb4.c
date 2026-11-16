@@ -47,7 +47,7 @@ BOOL shinc_spawnShine(MapObjectList *a) {
         for (i = 0; i < a->mMapObjectCount && (e = a->mMapObjects[i]) != NULL; i++) {
             f = FALSE;
             if (e->mHasShine == FALSE) {
-                if (e->mUnk_a4 == FALSE) {
+                if (e->fieldA4 == FALSE) {
                     f = TRUE;
                 }
             }
@@ -78,9 +78,9 @@ BOOL shinc_spawnShine(MapObjectList *a) {
         k = v2;
         if (a != NULL) {
             for (i = 0; i < a->mMapObjectCount && (e = a->mMapObjects[i]) != NULL; i++) {
-                if (e->mHasShine == FALSE && e->mUnk_a4 == FALSE) {
+                if (e->mHasShine == FALSE && e->fieldA4 == FALSE) {
                     if (k-- == 0) {
-                        shine_spawn(&e->mUnk_00.mPos, i, 1);
+                        shine_spawn(&e->field0.mPos, i, 1);
                         e->mHasShine = TRUE;
                         return TRUE;
                     }
@@ -119,12 +119,12 @@ void shinc_globalLogicInit(MapObjectList *a) {
         return;
     }
     for (j = 0; j < a->mMapObjectCount && (e = a->mMapObjects[j]) != NULL; j++) {
-        e->mUnk_a4 = TRUE;
-        if (e->mUnk_00.mCourseMapRow->mUnk_28 != 0) {
+        e->fieldA4 = TRUE;
+        if (e->field0.mCourseMapRow->field28 != 0) {
             n = gRaceMultiConfig->mKartCount;
             v = mgcnt_getCollectableShineCount();
             if (v + mgcnt_getTotalOwnedShineCount() < n + 1) {
-                shine_spawn(&e->mUnk_00.mPos, j, race_isCamAnimMode());
+                shine_spawn(&e->field0.mPos, j, race_isCamAnimMode());
                 e->mHasShine = TRUE;
             }
         }
@@ -179,9 +179,9 @@ void func_020a6cb4(s32 a) {
     for (i = 0; i < v1->mMapObjectCount && (e = v1->mMapObjects[i]) != NULL; i++) {
         if (i == a) {
             e->mHasShine = FALSE;
-            e->mUnk_a4 = TRUE;
+            e->fieldA4 = TRUE;
         } else {
-            e->mUnk_a4 = FALSE;
+            e->fieldA4 = FALSE;
         }
     }
 }

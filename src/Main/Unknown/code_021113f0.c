@@ -79,7 +79,7 @@ void AdvanceRecordVSState1(void) {
     offset = mutil_interpolate(1, -192, 0, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->field6;
     gRecordVS->mRecordVSMTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[2].mOffsetY = offset;
@@ -93,7 +93,7 @@ void AdvanceRecordVSState1(void) {
             gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = offset;
         }
     }
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->field6;
     gRecordVS->mRecordVSMTransientTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = offset;
@@ -114,7 +114,7 @@ void AdvanceRecordVSState2(void) {
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = mutil_interpolate(1, 0x100, 0, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -196,10 +196,10 @@ void AdvanceRecordVSState4(void) {
                                     data_02175672[inputSlotIndex].mPressedBits);
     }
     if (a != 10) {
-        gRecordVS->mUnk_88 = FALSE;
+        gRecordVS->field88 = FALSE;
     }
     if (a != 11) {
-        gRecordVS->mUnk_8c = FALSE;
+        gRecordVS->field8C = FALSE;
     }
     keySlot = &gInputUnits[inputSlotIndex];
     if ((u16) (gInputUnits[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
@@ -223,15 +223,15 @@ void AdvanceRecordVSState4(void) {
     }
     RequestRecordVSState7();
     if (GetRecordPrevScene() == 12) {
-        gRecordVS->mUnk_90 = 6;
+        gRecordVS->field90 = 6;
         RequestSelectReturnState3WithSound(1);
         return;
     }
-    gRecordVS->mUnk_90 = 0;
+    gRecordVS->field90 = 0;
     RequestSelectReturnState3WithSound(0);
     return;
 l1:
-    if ((a == 10 && gRecordVS->mUnk_88 != FALSE) || (b == 10 && gRecordVS->mUnk_88 == FALSE) ||
+    if ((a == 10 && gRecordVS->field88 != FALSE) || (b == 10 && gRecordVS->field88 == FALSE) ||
         (u16) (data_0217562a[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
@@ -241,12 +241,12 @@ l1:
         }
         gRecordVS->mPageDecrement = 1;
         gRecordVS->mOffsetTimers[0] = 6;
-        gRecordVS->mUnk_88 = TRUE;
+        gRecordVS->field88 = TRUE;
         RequestRecordVSState5();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
     }
-    if ((a == 11 && gRecordVS->mUnk_8c != FALSE) || (b == 11 && gRecordVS->mUnk_8c == FALSE) ||
+    if ((a == 11 && gRecordVS->field8C != FALSE) || (b == 11 && gRecordVS->field8C == FALSE) ||
         (u16) (data_0217562a[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
@@ -256,7 +256,7 @@ l1:
         }
         gRecordVS->mPageDecrement = 0;
         gRecordVS->mOffsetTimers[1] = 6;
-        gRecordVS->mUnk_8c = TRUE;
+        gRecordVS->field8C = TRUE;
         RequestRecordVSState5();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
@@ -285,7 +285,7 @@ l1:
     }
     if (b == 12 || (u16) (keySlot->mPressedBits & PAD_KEY_X) != 0) {
         RequestRecordVSState9();
-        gRecordVS->mUnk_90 = 4;
+        gRecordVS->field90 = 4;
         return;
     }
     if ((u16) (keySlot->mPressedBits & PAD_KEY_A) != 0) {
@@ -321,9 +321,9 @@ void AdvanceRecordVSState5(void) {
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->field6;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->field6;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     offset = mutil_interpolate(1, 0, endOffset, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
@@ -378,9 +378,9 @@ void AdvanceRecordVSState6(void) {
             break;
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->field6;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->field6;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     offset = mutil_interpolate(1, startOffset, 0, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetX = offset;
     gRecordVS->mBg1OffsetX = offset;
@@ -421,7 +421,7 @@ void AdvanceRecordVSState7(void) {
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = mutil_interpolate(1, 0, 0x100, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -450,14 +450,14 @@ void AdvanceRecordVSState8(void) {
     s32 i;
     s32 j;
     s16 offset;
-    if (GetRecordNextScene() == -1 && gRecordVS->mUnk_90 == 6) {
+    if (GetRecordNextScene() == -1 && gRecordVS->field90 == 6) {
         SetRecordNextScene(12);
     }
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = mutil_interpolate(1, 0, -192, gRecordVS->mStateFrames, 10);
     gRecordVS->mBg0OffsetY = offset;
     gRecordVS->mBg1OffsetY = offset;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->field6;
     gRecordVS->mRecordVSMTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTable[2].mOffsetY = offset;
@@ -471,7 +471,7 @@ void AdvanceRecordVSState8(void) {
             gRecordVS->mRecordVSMTable[mainBase + gRecordVSGridLabelIndices[i][j]].mOffsetY = offset;
         }
     }
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->field6;
     gRecordVS->mRecordVSMTransientTable[1].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[0].mOffsetY = offset;
     gRecordVS->mRecordVSMTransientTable[transientBase].mOffsetY = offset;
@@ -480,8 +480,8 @@ void AdvanceRecordVSState8(void) {
     for (j = 0; j < 12; j++) {
         gRecordVS->mRecordVSMTransientTable[transientBase + gRecordVSFriendKeyLabelIndices[j]].mOffsetY = offset;
     }
-    if (gRecordVS->mStateFrames >= 10 && gRecordVS->mUnk_90 != 6) {
-        RequestRecordScreen(gRecordVS->mUnk_90);
+    if (gRecordVS->mStateFrames >= 10 && gRecordVS->field90 != 6) {
+        RequestRecordScreen(gRecordVS->field90);
     }
 }
 
@@ -490,7 +490,7 @@ void AdvanceRecordVSState9(void) {
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = mutil_getButtonOutEffectOffset(gRecordVS->mStateFrames);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[25].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[26].mOffsetX = offset;
@@ -506,7 +506,7 @@ void AdvanceRecordVSState10(void) {
     u16 subBase;
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = mutil_interpolate(1, 0, 0x100, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -521,7 +521,7 @@ void AdvanceRecordVSState10(void) {
         gRecordVS->mRecordVSSTable[subBase + gRecordVSRowLabelIndices[i]].mOffsetX = offset;
     }
     if (gRecordVS->mStateFrames >= 10) {
-        RequestRecordScreen(gRecordVS->mUnk_90);
+        RequestRecordScreen(gRecordVS->field90);
     }
     if (gRecordVS->mStateFrames == 6) {
         gRecordVS->mRecordVSSTable[24].mVisible = 0;
@@ -536,7 +536,7 @@ void AdvanceRecordVSState11(void) {
     AdvanceRecordVSOffsetTimers();
     gRecordVS->mStateFrames = gRecordVS->mStateFrames + 1;
     offset = mutil_interpolate(1, 0x100, 0, gRecordVS->mStateFrames, 10);
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[20].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[21].mOffsetX = offset;
     gRecordVS->mRecordVSSTable[24].mOffsetX = offset;
@@ -781,15 +781,15 @@ void InitRecordSceneObject(void *heap, s16 previousScene) {
     gRecordScene->mIndex = 0;
     func_021250b0(heap);
     InitLinkLevelIcons(heap, GetRecordMainOam());
-    v.mUnk_00 = TRUE;
-    v.mUnk_04 = m2d_getFont(1);
-    v.mUnk_08 = 0;
-    v.mUnk_0c = 1;
-    v.mUnk_10 = 0;
-    v.mUnk_14 = FALSE;
-    v.mUnk_1c = TRUE;
-    v.mUnk_20 = TRUE;
-    v.mUnk_24 = 0;
+    v.field0 = TRUE;
+    v.field4 = m2d_getFont(1);
+    v.field8 = 0;
+    v.fieldC = 1;
+    v.field10 = 0;
+    v.field14 = FALSE;
+    v.field1C = TRUE;
+    v.field20 = TRUE;
+    v.field24 = 0;
     gmenu_unpackData();
     gmenu_init(heap, &v);
     CreateRecordList(gRecordScene->mHeap);

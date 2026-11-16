@@ -11,23 +11,23 @@
 #include "code_02013bdc.h"
 
 u32 anim_getJntFrameCount(Unk020882fc *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->field8->mFrameCount;
 }
 
 u32 anim_getSrtFrameCount(Unk020882fc *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->field8->mFrameCount;
 }
 
 u32 anim_getPatFrameCount(Unk020882fc *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->field8->mFrameCount;
 }
 
 u32 anim_getVisFrameCount(Unk020882fc *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->field8->mFrameCount;
 }
 
 u32 anim_getMatFrameCount(Unk020882fc *anmObj) {
-    return anmObj->mUnk_08->mFrameCount;
+    return anmObj->field8->mFrameCount;
 }
 
 void anim_initManager(u32 kind, void *animation, void *renderObject, u32 anmObjCount, void *heap, void *f) {
@@ -47,7 +47,7 @@ void anim_initManager(u32 kind, void *animation, void *renderObject, u32 anmObjC
         }
     }
     anim_initAnimatorLoop(modelAnimation, 0);
-    renderObj->mUnk_58 = 0;
+    renderObj->field58 = 0;
     modelAnimation->mRenderObj = renderObj;
     modelAnimation->mAnmObjCount = anmObjCount;
     modelAnimation->mCurrentIndex = 0;
@@ -71,7 +71,7 @@ void anim_registerAnim(void *animation, s32 entryIndex, void *anmResource, u32 l
         modelAnimation->mLoopFlags[entryIndex] = loopFlag;
     }
     NNS_G3dAnmObjInit(anmObj, anmResource, modelAnimation->mRenderObj->mResMdl,
-                      (void *) modelAnimation->mRenderObj->mUnk_68);
+                      (void *) modelAnimation->mRenderObj->field68);
 }
 
 void anim_registerAllAnims(void *animation, void *anmFile, void *heap) {
@@ -108,7 +108,7 @@ void anim_registerAllAnims(void *animation, void *anmFile, void *heap) {
             modelAnimation->mLoopFlags[i] = 0;
         }
         NNS_G3dAnmObjInit(anmObj, anmResource, modelAnimation->mRenderObj->mResMdl,
-                          (void *) modelAnimation->mRenderObj->mUnk_68);
+                          (void *) modelAnimation->mRenderObj->field68);
     }
 }
 

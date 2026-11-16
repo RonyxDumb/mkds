@@ -22,39 +22,39 @@ void driver_handleBoost(s32 *acceleration, Kart *kart) {
 
     kart->mBoostTimer = kart->mBoostTimer - 1;
     if (kart->mBoostTimer <= 0) {
-        kart->mUnk_48 &= 0xdfff7fdf;
+        kart->field48 &= 0xdfff7fdf;
         kart->mBoostTimer = 0;
-        if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+        if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
             return;
         }
-        if (!(kart->mUnk_4c & 0x10000000)) {
+        if (!(kart->field4C & 0x10000000)) {
             cam_resetPlayerCameraTargetFov();
         }
         dce_stopBlur();
         return;
     }
     *acceleration = 0x1000;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        secondArgument = (kart->mUnk_48 & 0x8000) ? 0xa0 : 0x9e;
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        secondArgument = (kart->field48 & 0x8000) ? 0xa0 : 0x9e;
         AddSoundRequest(data_0217d26c, GetKartCameraDistanceSquared(kart->mIndex), func_020718c8, kart, secondArgument);
     }
-    if (!(kart->mUnk_48 & 0x20000000)) {
+    if (!(kart->field48 & 0x20000000)) {
         return;
     }
     cspl_speedClearSplashes(kart->mIndex);
-    flags = kart->mUnk_4c;
+    flags = kart->field4C;
     if (flags & 0x20000) {
         return;
     }
     if (!(flags & 0x8000000)) {
         return;
     }
-    q = &kart->mUnk_538;
-    if (q->mUnk_1c > 400) {
+    q = &kart->field538;
+    if (q->field1C > 400) {
         return;
     }
-    q->mUnk_1c = 400;
-    kart->mUnk_4c |= 0x20000;
+    q->field1C = 400;
+    kart->field4C |= 0x20000;
     diffColor = chkrt_getKartCrsMatDiffuse();
     emiColor = chkrt_getKartCrsMatEmission();
     ambColor = chkrt_getKartCrsMatAmbient();
@@ -62,22 +62,22 @@ void driver_handleBoost(s32 *acceleration, Kart *kart) {
 }
 
 void driver_endDrift(Kart *kart) {
-    if (!(kart->mUnk_44 & KART_44_ON_GROUND)) {
-        kart->mUnk_44 |= 0x8000;
+    if (!(kart->field44 & KART_44_ON_GROUND)) {
+        kart->field44 |= 0x8000;
     }
     if (kart->mDriftCharge == 4) {
-        driver_addBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mUnk_0e);
-        kart->mUnk_48 |= KART_48_MINI_TURBO;
-        kart->mMiniTurboTimer = kart->mPhysicalParam->mUnk_0e;
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            driver_getPlayerStatistics()->mUnk_04++;
+        driver_addBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->fieldE);
+        kart->field48 |= KART_48_MINI_TURBO;
+        kart->mMiniTurboTimer = kart->mPhysicalParam->fieldE;
+        if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            driver_getPlayerStatistics()->field4++;
             // placeholder: the same test twice gives the original's two loads and compares
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 mrcnt_notifyPowerSlide();
             }
         }
     }
-    kart->mUnk_44 &= 0xfffff7f4;
+    kart->field44 &= 0xfffff7f4;
     kart->mTurnDirection = 0;
     kart->mDriftCharge = 0;
     kart->mRightTurnCount = 0;
@@ -115,21 +115,21 @@ void driver_handleDrifting(Kart *kart, int fromLowSpeedTurn) {
     if (fromLowSpeedTurn != 0) {
         return;
     }
-    if (kart->mUnk_38a <= 50) {
-        kart->mUnk_38a = 50;
+    if (kart->field38A <= 50) {
+        kart->field38A = 50;
     } else {
-        kart->mUnk_38a = (s32) (((s64) kart->mUnk_38a * 0xf33) >> 12);
+        kart->field38A = (s32) (((s64) kart->field38A * 0xf33) >> 12);
     }
     driver_handleDriftingPhases(kart);
-    if (!(kart->mUnk_44 & KART_44_ON_GROUND)) {
+    if (!(kart->field44 & KART_44_ON_GROUND)) {
         return;
     }
     func_01ffc9e8(kart, 1);
-    kart->mUnk_4c |= 0x2;
+    kart->field4C |= 0x2;
     if (kart->mDriftCharge < 3) {
         return;
     }
-    if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+    if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         return;
     }
     StartSoundWhileRequested(&kart->mSoundSource, 0xd1, 0x7f, 0);
@@ -137,14 +137,14 @@ void driver_handleDrifting(Kart *kart, int fromLowSpeedTurn) {
 
 // Drift step: the hop, the turn held after it, the charge, and the release with the mini-turbo.
 void driver_handleJumpAndDrift(Kart *kart) {
-    u32 bits44 = kart->mUnk_44;
+    u32 bits44 = kart->field44;
     BOOL hasB = (bits44 & 2) != 0;
     u32 g;
     KartTurnEffects *turnEffects;
     int distanceSquared;
     enum { K0 } entryIndex;
 
-    if (kart->mUnk_7c & 0x400) {
+    if (kart->field7C & 0x400) {
         return;
     }
     if (kart->mAirborneFrames >= 5 && !(bits44 & 0x1a)) {
@@ -156,22 +156,22 @@ void driver_handleJumpAndDrift(Kart *kart) {
             if (kart->mTurnDirection != 0) {
                 goto recheck;
             }
-            g = kart->mUnk_48;
+            g = kart->field48;
             if (g & KART_48_TURN_RIGHT) {
                 kart->mTurnDirection = 1;
-                kart->mUnk_44 |= 1;
+                kart->field44 |= 1;
             } else if (g & KART_48_TURN_LEFT) {
                 kart->mTurnDirection = -1;
-                kart->mUnk_44 |= 1;
+                kart->field44 |= 1;
             }
         } else {
-            kart->mUnk_44 &= ~1;
+            kart->field44 &= ~1;
         }
     }
 recheck:
-    if (kart->mUnk_44 & 2) {
+    if (kart->field44 & 2) {
         if (kart->mTurnDirection == 0) {
-            g = kart->mUnk_48;
+            g = kart->field48;
             if (g & KART_48_TURN_RIGHT) {
                 kart->mTurnDirection = 1;
             } else if (g & KART_48_TURN_LEFT) {
@@ -179,13 +179,13 @@ recheck:
             }
         }
     }
-    bits44 = kart->mUnk_44;
+    bits44 = kart->field44;
     g = kart->mTurnDirection;
     if (!(bits44 & KART_44_DRIFTING) && (bits44 & KART_44_ON_GROUND)) {
         if ((bits44 & 3) &&
             kart->mVelocityLength > (s32) (((s64) kart->mPhysicalParam->mBaseSpeedLimit * 0x8cd) >> 12) && g != 0 &&
             (u16) (gInputUnits[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_R)) {
-            kart->mUnk_44 |= KART_44_DRIFTING;
+            kart->field44 |= KART_44_DRIFTING;
             kart->mDriftCharge = 1;
             if (kart->mTurnDirection > 0) {
                 kart->mAwayTurnCounter = &kart->mLeftTurnCount;
@@ -194,7 +194,7 @@ recheck:
                 kart->mAwayTurnCounter = &kart->mRightTurnCount;
                 kart->mTowardTurnCounter = &kart->mLeftTurnCount;
             }
-            if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+            if (kart->field4C & KART_4C_NEAR_PLAYER_RANK) {
                 turnEffects = dptc_getControllerForDriver(kart->mIndex);
                 dptc_killContRedSparks(turnEffects);
                 dptc_startDustClouds(turnEffects);
@@ -202,29 +202,29 @@ recheck:
         } else {
             kart->mTurnDirection = 0;
         }
-        kart->mUnk_44 &= 0xfffff7fc;
+        kart->field44 &= 0xfffff7fc;
     }
-    bits44 = kart->mUnk_44;
+    bits44 = kart->field44;
     if (bits44 & KART_44_DRIFTING) {
         entryIndex = kart->mEntryIndex;
-        if (!((u16) (gInputUnits[entryIndex].mBits & PAD_KEY_R) && (kart->mUnk_48 & 2) &&
+        if (!((u16) (gInputUnits[entryIndex].mBits & PAD_KEY_R) && (kart->field48 & 2) &&
               kart->mVelocityLength >= kart->mPhysicalParam->mBaseSpeedLimit / 2 && !(bits44 & 0x2000c0))) {
             if (!(bits44 & KART_44_ON_GROUND)) {
-                kart->mUnk_44 |= 0x8000;
+                kart->field44 |= 0x8000;
             }
             if (kart->mDriftCharge == 4) {
-                driver_addBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->mUnk_0e);
-                kart->mUnk_48 |= KART_48_MINI_TURBO;
-                kart->mMiniTurboTimer = kart->mPhysicalParam->mUnk_0e;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    driver_getPlayerStatistics()->mUnk_04++;
+                driver_addBoost(kart, KART_BOOST_MINI_TURBO, kart->mPhysicalParam->fieldE);
+                kart->field48 |= KART_48_MINI_TURBO;
+                kart->mMiniTurboTimer = kart->mPhysicalParam->fieldE;
+                if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                    driver_getPlayerStatistics()->field4++;
                     // placeholder: the same test twice gives the original's two loads and compares
                     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                         mrcnt_notifyPowerSlide();
                     }
                 }
             }
-            kart->mUnk_44 &= 0xfffff7f4;
+            kart->field44 &= 0xfffff7f4;
             kart->mTurnDirection = 0;
             kart->mDriftCharge = 0;
             kart->mRightTurnCount = 0;
@@ -235,17 +235,17 @@ recheck:
             driver_handleDrifting(kart, 0);
         }
     }
-    if (hasB && (kart->mUnk_44 & KART_44_ON_GROUND)) {
+    if (hasB && (kart->field44 & KART_44_ON_GROUND)) {
         int turn = 0;
         int dot;
         int ang;
         int len;
         Vec3 v;
         Vec3 w;
-        Vec3 *q = &kart->mUnk_138;
+        Vec3 *q = &kart->field138;
 
         dot = VEC_DotProduct(&kart->mHopStartUp, q);
-        v.x = kart->mUnk_138.x - (s32) (((s64) kart->mHopStartUp.x * dot) >> 12);
+        v.x = kart->field138.x - (s32) (((s64) kart->mHopStartUp.x * dot) >> 12);
         v.y = q->y - (s32) (((s64) kart->mHopStartUp.y * dot) >> 12);
         v.z = q->z - (s32) (((s64) kart->mHopStartUp.z * dot) >> 12);
         if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16 ? vec_normalize(&v, &v)
@@ -264,46 +264,46 @@ recheck:
         } else if (kart->mTurnAngle < -0x2af8) {
             kart->mTurnAngle = -0x2af8;
         }
-        if (!(kart->mUnk_44 & KART_44_DRIFTING)) {
+        if (!(kart->field44 & KART_44_DRIFTING)) {
             return;
         }
-        kart->mUnk_38a = (s32) (((s64) kart->mVelocityLength * 0x1a) >> 12);
+        kart->field38A = (s32) (((s64) kart->mVelocityLength * 0x1a) >> 12);
         return;
     }
     entryIndex = kart->mEntryIndex;
     if (!(u16) (gInputUnits[entryIndex].mPressedBits & PAD_KEY_R)) {
-        if (!(kart->mUnk_44 & 0x20000000)) {
+        if (!(kart->field44 & 0x20000000)) {
             return;
         }
     }
-    if (kart->mUnk_4c & 0x10000000) {
+    if (kart->field4C & 0x10000000) {
         return;
     }
-    if (!(kart->mUnk_44 & KART_44_ON_GROUND)) {
+    if (!(kart->field44 & KART_44_ON_GROUND)) {
         return;
     }
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
         AddSoundRequest(&data_0217d284, distanceSquared + func_0210a578(), driver_emitSfx3, kart, 0xcf);
     }
-    kart->mUnk_44 |= 0x806;
-    kart->mUnk_44 &= 0xffff7ff7;
+    kart->field44 |= 0x806;
+    kart->field44 &= 0xffff7ff7;
     kart->mHopSpeed = 0x1405;
     kart->mVerticalSpeed += 0x21a2;
     kart->mHopHeight = 0;
     kart->mTurnDirection = 0;
-    kart->mUnk_38a = 0;
+    kart->field38A = 0;
     kart->mDriftCharge = 0;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;
     driver_getShadowZDirection(kart, &kart->mHopStartForward);
     driver_getShadowYDirection(kart, &kart->mHopStartUp);
-    if (kart->mUnk_208->mUnk_00 != FALSE) {
-        kart->mUnk_208->mUnk_00 = FALSE;
+    if (kart->field208->field0 != FALSE) {
+        kart->field208->field0 = FALSE;
     }
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c ^= 0x1;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C ^= 0x1;
     }
 }
 
@@ -318,7 +318,7 @@ int driver_handleWheelSpin(Kart *kart) {
     KartTurnEffects *turnEffects;
     enum { K0 } entryIndex;
 
-    if (kart->mVelocityLength < 0x1800 && (kart->mUnk_48 & 0x80)) {
+    if (kart->mVelocityLength < 0x1800 && (kart->field48 & 0x80)) {
         kart->mTurnDirection = 0;
         result = TRUE;
         pending = FALSE;
@@ -333,16 +333,16 @@ int driver_handleWheelSpin(Kart *kart) {
             kart->mTurnDirection = 1;
             delta = -500;
         }
-        if (kart->mUnk_44 & KART_44_ON_GROUND) {
+        if (kart->field44 & KART_44_ON_GROUND) {
             if (dptc_getControllerForDriver(kart->mIndex)->mTurnStartPresent == 0 &&
-                (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK)) {
+                (kart->field4C & KART_4C_NEAR_PLAYER_RANK)) {
                 turnEffects = dptc_getControllerForDriver(kart->mIndex);
                 dptc_killContRedSparks(turnEffects);
                 dptc_startDustClouds(turnEffects);
             }
-            kart->mUnk_48 |= 0x100;
+            kart->field48 |= 0x100;
             if (kart->mTurnDirection != 0) {
-                kart->mUnk_44 |= 0x8000000;
+                kart->field44 |= 0x8000000;
                 kart->mHeadingAngle += delta;
                 driver_handleDrifting(kart, 1);
             }
@@ -360,13 +360,13 @@ void func_0206c488(Unk0201ca6c *emitter, Kart *kart) {
 }
 
 void func_0206c450(Unk0201ca6c *emitter, Kart *kart) {
-    emitter->mUnk_40 = kart->mEffectVelocity;
+    emitter->field40 = kart->mEffectVelocity;
     func_02080e88(emitter, kart);
 }
 
 // Starts the effects of a kart-kart hit at the contact point; flag picks the four-effect set.
 BOOL driver_206C354(Kart *kart, const Vec3 *overlapDirection, int flag) {
-    if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+    if (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) {
         int fourEffectIds[4] = {0x77, 0x76, 0x78, 0x79};
         u16 i = 0;
         u32 effectCount = 1;
@@ -378,7 +378,7 @@ BOOL driver_206C354(Kart *kart, const Vec3 *overlapDirection, int flag) {
             effectCount = 4;
         }
         VEC_MultAdd(-kart->mRadius, overlapDirection, &kart->mPos, &contactPoint);
-        VEC_MultAdd(((s64) kart->mScale.y * 0x8000 + 0x800) >> 12, &kart->mUnk_12c, &contactPoint, &contactPoint);
+        VEC_MultAdd(((s64) kart->mScale.y * 0x8000 + 0x800) >> 12, &kart->field12C, &contactPoint, &contactPoint);
         for (; i < effectCount; i++) {
             ptcm_createEmitterNoUpdateSkip(effectIds[i], &contactPoint, kart, func_0206c450);
         }
@@ -394,7 +394,7 @@ void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart) {
     velocity.x = ((s64) velocity.x * 0xe66) >> 12;
     velocity.y = ((s64) velocity.y * 0xe66) >> 12;
     velocity.z = ((s64) velocity.z * 0xe66) >> 12;
-    emitter->mUnk_40 = velocity;
+    emitter->field40 = velocity;
 }
 
 void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart) {
@@ -402,87 +402,87 @@ void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart) {
     Vec3s16 rot;
     Vec3 *q;
 
-    VEC_MultAdd(((s64) kart->mRadius * -0x1333 + 0x800) >> 12, &kart->mUnk_138, &position, &position);
+    VEC_MultAdd(((s64) kart->mRadius * -0x1333 + 0x800) >> 12, &kart->field138, &position, &position);
     position.x >>= 4;
     position.y >>= 4;
     position.z >>= 4;
-    emitter->mUnk_28.x = emitter->mUnk_20->mUnk_00->mUnk_04.x + position.x;
-    emitter->mUnk_28.y = position.y + emitter->mUnk_20->mUnk_00->mUnk_04.y;
-    emitter->mUnk_28.z = position.z + emitter->mUnk_20->mUnk_00->mUnk_04.z;
-    q = &kart->mUnk_138;
+    emitter->field28.x = emitter->field20->field0->field4.x + position.x;
+    emitter->field28.y = position.y + emitter->field20->field0->field4.y;
+    emitter->field28.z = position.z + emitter->field20->field0->field4.z;
+    q = &kart->field138;
     rot.x = q->x;
     rot.y = q->y;
     rot.z = q->z;
-    emitter->mUnk_50 = rot;
+    emitter->field50 = rot;
 }
 
 void func_0206c17c(Kart *kart) {
-    if (kart->mUnk_7c & 0x40000) {
+    if (kart->field7C & 0x40000) {
         return;
     }
-    kart->mUnk_4c |= 0x400000;
-    kart->mUnk_506 = 0;
-    kart->mUnk_504 = kart->mUnk_506;
+    kart->field4C |= 0x400000;
+    kart->field506 = 0;
+    kart->field504 = kart->field506;
 }
 
 void driver_notifySlotItemChanged(Kart *kart) {
-    if (kart->mUnk_7c & 0x2) {
+    if (kart->field7C & 0x2) {
         enmy_notifySlotItemChanged(kart->mAi);
     }
 }
 
 void driver_notifyDragItemChanged(Kart *kart) {
-    if (kart->mUnk_7c & 0x2) {
+    if (kart->field7C & 0x2) {
         enmy_notifyDragItemChanged(kart->mAi);
     }
 }
 
 BOOL func_0206c0e0(Kart *kart) {
-    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x800) || kart->mState != KART_STATE_NORMAL) {
+    if ((kart->field7C & 0x402020) || (kart->field4C & 0x800) || kart->mState != KART_STATE_NORMAL) {
         return TRUE;
     }
     return FALSE;
 }
 
 BOOL func_0206c0b0(Kart *kart) {
-    if ((kart->mUnk_7c & 0x400020) || (kart->mUnk_4c & 0x800)) {
+    if ((kart->field7C & 0x400020) || (kart->field4C & 0x800)) {
         return TRUE;
     }
     return FALSE;
 }
 
 int func_0206c0a8(Kart *kart) {
-    return kart->mUnk_4c0;
+    return kart->field4C0;
 }
 
 BOOL func_0206c094(Kart *kart) {
-    return (kart->mUnk_4c & KART_4C_OUT_OF_VIEW) != 0;
+    return (kart->field4C & KART_4C_OUT_OF_VIEW) != 0;
 }
 
 void driver_beginColReaction(Kart *kart, KartState mode) {
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->field48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->field538.field0 = 0;
     kart->mMiniTurboTimer = 0;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (!(kart->field4C & 0x10000000) && !(kart->field48 & 0x4000000)) {
             cam_resetPlayerCameraTargetFov();
         }
         dce_stopBlur();
     }
     driver_2068A64(kart, 1, 0);
     kart->mState = mode;
-    kart->mUnk_44 &= 0xfffff7f4;
+    kart->field44 &= 0xfffff7f4;
     kart->mTurnDirection = 0;
     kart->mDriftCharge = 0;
     kart->mRightTurnCount = 0;
     kart->mLeftTurnCount = kart->mRightTurnCount;
     kart->mTurnCountTimer = 0;
     dptc_208C534(dptc_getControllerForDriver(kart->mIndex));
-    if (kart->mUnk_4c & 0x2000) {
-        kart->mUnk_4c &= ~0x2000;
-        kart->mUnk_d8 = 0x1000;
-        if (!(kart->mUnk_4c & 0x8000000)) {
+    if (kart->field4C & 0x2000) {
+        kart->field4C &= ~0x2000;
+        kart->fieldD8 = 0x1000;
+        if (!(kart->field4C & 0x8000000)) {
             driver_disableSlipStreamToonMode(kart);
         }
         rptc_stopSlipstreamEffect(kart);
@@ -494,12 +494,12 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
     BOOL res;
     BOOL t;
     int currentState;
-    u32 bits4c = kart->mUnk_4c;
+    u32 bits4c = kart->field4C;
 
     if (bits4c & 0x400000) {
         ok = FALSE;
-    } else if (kart->mUnk_7c & 0x200) {
-        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {
+    } else if (kart->field7C & 0x200) {
+        if (kart->mState == KART_STATE_NORMAL && !(kart->field48 & 0x1800) && !(bits4c & 0x10000040)) {
             ok = TRUE;
         } else {
             ok = FALSE;
@@ -509,7 +509,7 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
             case KART_STATE_1:
             case KART_STATE_SPIN:
                 res = TRUE;
-                if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
+                if (!(bits4c & 0x10000040) && !(kart->field48 & 0x1800)) {
                     currentState = kart->mState;
                     t = FALSE;
                     if (currentState != KART_STATE_NORMAL && currentState != KART_STATE_1 &&
@@ -524,7 +524,7 @@ BOOL TryStartKartState(Kart *kart, KartState newState) {
                 break;
             default:
                 res = TRUE;
-                if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
+                if (!(bits4c & 0x10000040) && !(kart->field48 & 0x1800)) {
                     currentState = kart->mState;
                     t = FALSE;
                     if (currentState != KART_STATE_NORMAL && currentState != KART_STATE_1 &&
@@ -558,22 +558,22 @@ BOOL driver_tryStartSpinOut(Kart *kart, int rotationCount, int b) {
 
     x = currentState != KART_STATE_1 && currentState != KART_STATE_SPIN;
     if (x == FALSE) {
-        if (kart->mYRotationCount * 0xffff - kart->mYRotationAngleSum > 0xffff || (kart->mUnk_7c & 0x200)) {
+        if (kart->mYRotationCount * 0xffff - kart->mYRotationAngleSum > 0xffff || (kart->field7C & 0x200)) {
             return FALSE;
         }
     }
-    bits4c = kart->mUnk_4c;
+    bits4c = kart->field4C;
     if (bits4c & 0x400000) {
         ok = FALSE;
-    } else if (kart->mUnk_7c & 0x200) {
-        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {
+    } else if (kart->field7C & 0x200) {
+        if (kart->mState == KART_STATE_NORMAL && !(kart->field48 & 0x1800) && !(bits4c & 0x10000040)) {
             ok = TRUE;
         } else {
             ok = FALSE;
         }
     } else {
         res = TRUE;
-        if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
+        if (!(bits4c & 0x10000040) && !(kart->field48 & 0x1800)) {
             v = kart->mState;
             t = FALSE;
             if (v != KART_STATE_NORMAL && currentState != KART_STATE_1 && currentState != KART_STATE_SPIN) {
@@ -592,12 +592,12 @@ BOOL driver_tryStartSpinOut(Kart *kart, int rotationCount, int b) {
         driver_startSpinOut(kart, rotationCount, b);
         if (b == 0) {
             if (rotationCount == 1) {
-                if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mUnk_2c ^= 0x4;
+                if (kart->field7C & 0x200) {
+                    kart->field514->field2C ^= 0x4;
                 }
             } else if (rotationCount == 2) {
-                if (kart->mUnk_7c & 0x200) {
-                    kart->mUnk_514->mUnk_2c ^= 0x8;
+                if (kart->field7C & 0x200) {
+                    kart->field514->field2C ^= 0x8;
                 }
             }
         }

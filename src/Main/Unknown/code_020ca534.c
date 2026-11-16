@@ -32,8 +32,8 @@ void mpicn_updateShine16Icon(void) {
             if (lmap_20B5AE8(&p->mPos, &mpicn_sShine16Icon->mCells[n].mDrawPos, v, 1,
                                                 1)) {
                 mpicn_sShine16Icon->mCells[n].mCell = r2d_getRaceSCell(0xb6);
-                mpicn_sShine16Icon->mCells[n].mUnk_0c = (p->mFlags & 0x20) ? 2 : 1;
-                mpicn_sShine16Icon->mCells[n].mUnk_0e = p->mFlags & 0x20;
+                mpicn_sShine16Icon->mCells[n].fieldC = (p->mFlags & 0x20) ? 2 : 1;
+                mpicn_sShine16Icon->mCells[n].fieldE = p->mFlags & 0x20;
                 n++;
             }
         }

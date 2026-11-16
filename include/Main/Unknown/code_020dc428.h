@@ -8,27 +8,27 @@ typedef struct Wanwan Wanwan;
 // Object of wanwan_setupRenderPart: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
 // it at 0x28.
 typedef struct Unk020dd804 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ void (*mUnk_08)(void);
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ void (*mUnk_10)(void *, Wanwan *, void *, u32);
-    /* 14 */ u8 mUnk_14[4];
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ u8 mUnk_1c[0xc];
-    /* 28 */ struct Unk020dd804 **mUnk_28;
+    /* 00 */ u8 field0[8];
+    /* 08 */ void (*field8)(void);
+    /* 0c */ u8 fieldC[4];
+    /* 10 */ void (*field10)(void *, Wanwan *, void *, u32);
+    /* 14 */ u8 field14[4];
+    /* 18 */ s32 field18;
+    /* 1c */ u8 field1C[0xc];
+    /* 28 */ struct Unk020dd804 **field28;
 } Unk020dd804;
 
 // Object of wanwan_setupCollision: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
 typedef struct Unk020dd860 {
-    /* 00 */ u8 (*mUnk_00)(Wanwan *, void *, u8 *, u8 *);
-    /* 04 */ u8 (*mUnk_04)(Wanwan *, void *, u8 *, u8 *);
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ u8 mUnk_28[0x18];
+    /* 00 */ u8 (*field0)(Wanwan *, void *, u8 *, u8 *);
+    /* 04 */ u8 (*field4)(Wanwan *, void *, u8 *, u8 *);
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ u8 field10[0xc];
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
+    /* 24 */ s32 field24;
+    /* 28 */ u8 field28[0x18];
 } Unk020dd860;
 
 extern const MapObjectList data_02158334;

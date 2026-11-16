@@ -4,9 +4,9 @@
 
 // Object read at 0x00 and written at 0x04 by emblem_update.
 typedef struct EmblemSceneNumbersView {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u8 mUnk_02[0x2];
-    /* 04 */ s16 mUnk_04;
+    /* 00 */ s16 field0;
+    /* 02 */ u8 field2[0x2];
+    /* 04 */ s16 field4;
 } EmblemSceneNumbersView;
 
 #include "Main/Unknown/unk_02175000.h"

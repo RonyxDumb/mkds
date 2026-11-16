@@ -48,7 +48,7 @@ void SPM_LoadBattleStageSelectionMenu(void *c, s32 d, void *e, void *f) {
     gSelectBattleStage->mStateFrames = 0;
     gSelectBattleStage->mOffsetTimer = 0;
     gSelectBattleStage->mOffset = 0;
-    gSelectBattleStage->mUnk_20 = TRUE;
+    gSelectBattleStage->field20 = TRUE;
     gSelectBattleStage->mResult = -4;
     gSelectBattleStage->mMenuMessages = arc_getSceneArcFile("menu.bmg");
     gSelectBattleStage->mCommonMessages = arc_get2dArcFile("common.bmg");
@@ -58,8 +58,8 @@ void SPM_LoadBattleStageSelectionMenu(void *c, s32 d, void *e, void *f) {
         jn_ui_setCellIsTranslucent(gSelectBattleStageSTableIndices[i][0], 1, gSelectBattleStage->mSelectBattleStageSNcer,
                       gSelectBattleStage->mSelectBattleStageBncls[1]);
     }
-    gSelectBattleStage->mUnk_1078 = e;
-    gSelectBattleStage->mUnk_107c = f;
+    gSelectBattleStage->field1078 = e;
+    gSelectBattleStage->field107C = f;
     oam_clearResetBuffers(e, f);
     for (i = 0; i < 2; i++) {
         jn_ui_initLayout(gSelectBattleStage->mHeap, gSelectBattleStage->mSelectBattleStageBncls[i],
@@ -67,7 +67,7 @@ void SPM_LoadBattleStageSelectionMenu(void *c, s32 d, void *e, void *f) {
                         &gSelectBattleStage->mSelectBattleStageTables[i]);
     }
     gSelectBattleStage->mSelectBattleStageTables[0][0].mOffsetY = -0xa0;
-    gSelectBattleStage->mUnk_14 = 0xa0;
+    gSelectBattleStage->field14 = 0xa0;
     func_ov001_0219cec4();
     for (i = 0; i < 6; i++) {
         for (j = 0; j < 3; j++) {
@@ -170,21 +170,21 @@ void CopyAndQueueSelectBattleStageNscrRect(void) {
 
 void func_ov001_0219cec4(void) {
     s32 i;
-    u16 x = gSelectBattleStage->mSelectBattleStageBncls[0]->mUnk_06;
+    u16 x = gSelectBattleStage->mSelectBattleStageBncls[0]->field6;
 
     for (i = 0; i < 1; i++) {
-        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bc4[i]].mOffsetY = -gSelectBattleStage->mUnk_14;
+        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bc4[i]].mOffsetY = -gSelectBattleStage->field14;
     }
     for (i = 0; i < 3; i++) {
         gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bd0[i]].mOffsetY =
-            gSelectBattleStage->mOffset - gSelectBattleStage->mUnk_14;
+            gSelectBattleStage->mOffset - gSelectBattleStage->field14;
     }
     for (i = 0; i < 3; i++) {
-        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bd4[i]].mOffsetX = gSelectBattleStage->mUnk_18;
+        gSelectBattleStage->mSelectBattleStageTables[0][data_ov001_021a6bd4[i]].mOffsetX = gSelectBattleStage->field18;
     }
     for (i = 0; i < 2; i++) {
         (gSelectBattleStage->mSelectBattleStageTables[0] + x)[data_ov001_021a6bc8[i]].mOffsetX =
-            gSelectBattleStage->mUnk_18;
+            gSelectBattleStage->field18;
     }
 }
 
@@ -205,8 +205,8 @@ void AdvanceSelectBattleStageState0(void) {
             }
         }
     } else {
-        gSelectBattleStage->mUnk_14 = mutil_interpolate(1, 0xa0, 0, gSelectBattleStage->mStateFrames, 10);
-        gSelectBattleStage->mUnk_18 = mutil_interpolate(1, -0x100, 0, gSelectBattleStage->mStateFrames, 10);
+        gSelectBattleStage->field14 = mutil_interpolate(1, 0xa0, 0, gSelectBattleStage->mStateFrames, 10);
+        gSelectBattleStage->field18 = mutil_interpolate(1, -0x100, 0, gSelectBattleStage->mStateFrames, 10);
         for (i = 0; i < 6; i++) {
             for (j = 0; j < 3; j++) {
                 gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][j]].mOffsetX =
@@ -266,21 +266,21 @@ void AdvanceSelectBattleStageState2(void) {
             goto next;
         }
     }
-    if (gStruct217B488->mUnk_08 == 2) {
+    if (gStruct217B488->field8 == 2) {
         gSelectBattleStage->mNextState = 4;
         RequestSelectReturnState3WithSound(0);
-        gSelectBattleStage->mUnk_2c = FALSE;
+        gSelectBattleStage->field2C = FALSE;
         return;
     }
     gSelectBattleStage->mNextState = 6;
     gSelectBattleStage->mPendingResult = -3;
-    if (gSystemData->mUnk_20 == 0) {
+    if (gSystemData->field20 == 0) {
         RequestSelectReturnState3WithSound(0);
-        gSelectBattleStage->mUnk_2c = FALSE;
+        gSelectBattleStage->field2C = FALSE;
         return;
     }
     RequestSelectReturnState3WithSound(1);
-    gSelectBattleStage->mUnk_2c = TRUE;
+    gSelectBattleStage->field2C = TRUE;
     return;
 next:
     if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_A) != 0 || sel != -4) {
@@ -289,7 +289,7 @@ next:
             gSelectBattleStage->mIndex = sel;
         }
         if (gSelectBattleStage->mIndex == prev) {
-            gSelectBattleStage->mUnk_20 = FALSE;
+            gSelectBattleStage->field20 = FALSE;
         }
         gSelectBattleStage->mPendingResult = gSelectBattleStage->mIndex;
         gSelectBattleStage->mNextState = 3;
@@ -334,7 +334,7 @@ void AdvanceSelectBattleStageState3(void) {
         SetSelectChoisesSoundId(0, 7);
         SetSelectChoisesSoundId(1, 0x10);
     } else if (gSelectBattleStage->mStateFrames >= 5) {
-        gSelectBattleStage->mUnk_20 = TRUE;
+        gSelectBattleStage->field20 = TRUE;
     }
 }
 
@@ -361,7 +361,7 @@ void AdvanceSelectBattleStageState5(void) {
             if (GetSelectChoisesIndex() == 0) {
                 gSelectBattleStage->mNextState = 6;
                 RequestSelectReturnState4();
-                gSelectBattleStage->mUnk_2c = TRUE;
+                gSelectBattleStage->field2C = TRUE;
             } else {
                 gSelectBattleStage->mNextState = 2;
             }
@@ -376,8 +376,8 @@ void AdvanceSelectBattleStageState6(void) {
 
     gSelectBattleStage->mStateFrames++;
     if (gSelectBattleStage->mStateFrames > 10) {
-        if ((gSelectBattleStage->mUnk_2c != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
-            (gSelectBattleStage->mUnk_2c == FALSE && IsSelectReturnState2NoState3Or4Request() != 0)) {
+        if ((gSelectBattleStage->field2C != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
+            (gSelectBattleStage->field2C == FALSE && IsSelectReturnState2NoState3Or4Request() != 0)) {
             gSelectBattleStage->mResult = gSelectBattleStage->mPendingResult;
             return;
         }
@@ -385,8 +385,8 @@ void AdvanceSelectBattleStageState6(void) {
     if (gSelectBattleStage->mStateFrames > 10) {
         gSelectBattleStage->mStateFrames = 10;
     }
-    gSelectBattleStage->mUnk_14 = mutil_interpolate(1, 0, 0xa0, gSelectBattleStage->mStateFrames, 10);
-    gSelectBattleStage->mUnk_18 = mutil_interpolate(1, 0, -0x100, gSelectBattleStage->mStateFrames, 10);
+    gSelectBattleStage->field14 = mutil_interpolate(1, 0, 0xa0, gSelectBattleStage->mStateFrames, 10);
+    gSelectBattleStage->field18 = mutil_interpolate(1, 0, -0x100, gSelectBattleStage->mStateFrames, 10);
     for (i = 0; i < 6; i++) {
         for (j = 0; j < 3; j++) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][j]].mOffsetX =
@@ -400,7 +400,7 @@ void func_ov001_0219c8ec(void) {
     BOOL zero = FALSE;
 
     for (i = 0; i < 6; i++) {
-        if (i == gSelectBattleStage->mIndex && gSelectBattleStage->mUnk_20 != FALSE) {
+        if (i == gSelectBattleStage->mIndex && gSelectBattleStage->field20 != FALSE) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][1]].mVisible = 1;
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[i][2]].mVisible = 0;
         } else {
@@ -451,7 +451,7 @@ s32 AdvanceSelectBattleStage(void) {
     for (i = 0; i < 2; i++) {
         jn_ui_renderElements(gSelectBattleStage->mSelectBattleStageBncls[i],
                         (&gSelectBattleStage->mSelectBattleStageMNcer)[i],
-                        gSelectBattleStage->mSelectBattleStageBnlls[i], (&gSelectBattleStage->mUnk_1078)[i],
+                        gSelectBattleStage->mSelectBattleStageBnlls[i], (&gSelectBattleStage->field1078)[i],
                         gSelectBattleStage->mSelectBattleStageTables[i]);
     }
     return gSelectBattleStage->mResult;
@@ -463,5 +463,5 @@ void WriteSelectBattleStageRegisters(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~3) | 1;
     reg_G2_BLDCNT = 0;
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
-    reg_G2_BG2OFS = ((gSelectBattleStage->mUnk_14 - gSelectBattleStage->mOffset) << 16) & 0x1ff0000;
+    reg_G2_BG2OFS = ((gSelectBattleStage->field14 - gSelectBattleStage->mOffset) << 16) & 0x1ff0000;
 }

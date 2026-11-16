@@ -14,9 +14,9 @@
 void jn_ui_initLayout(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, LayoutTableEntry **tableOut) {
     u16 count;
 
-    count = cellLayout->mUnk_06;
+    count = cellLayout->field6;
     if (labelLayout != NULL) {
-        count = count + labelLayout->mUnk_06;
+        count = count + labelLayout->field6;
     }
     *tableOut = heap_alloc(heap, count << 6);
     initLayoutElements(*tableOut, count);
@@ -38,40 +38,40 @@ u32 renderElement(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk020
     Unk02124c70_00 *group;
 
     if (entry->mLabelIndex != -1) {
-        renderElement(entry->mLabelIndex + cellLayout->mUnk_06, cells, cellLayout, labelLayout, oamList,
-                        entry - index + cellLayout->mUnk_06 + entry->mLabelIndex, incrementFlag);
+        renderElement(entry->mLabelIndex + cellLayout->field6, cells, cellLayout, labelLayout, oamList,
+                        entry - index + cellLayout->field6 + entry->mLabelIndex, incrementFlag);
     }
     matrix = NULL;
     if (entry->mVisible == 0) {
         return (u32) matrix;
     }
-    if (index >= cellLayout->mUnk_06) {
-        LabelLayoutEntry *labelEntry = jn_ui_getBnllElement(labelLayout, index - cellLayout->mUnk_06);
-        cellData = entry->mLabelCanvas->mUnk_44;
-        axisRecords[0] = labelEntry->mUnk_00;
-        axisRecords[1] = labelEntry->mUnk_02;
-        width = cellData->mUnk_08 - cellData->mUnk_0c;
-        height = cellData->mUnk_0a - cellData->mUnk_0e;
-        position[0] = axisRecords[0].mUnk_00_0 << 12;
-        position[1] = axisRecords[1].mUnk_00_0 << 12;
+    if (index >= cellLayout->field6) {
+        LabelLayoutEntry *labelEntry = jn_ui_getBnllElement(labelLayout, index - cellLayout->field6);
+        cellData = entry->mLabelCanvas->field44;
+        axisRecords[0] = labelEntry->field0;
+        axisRecords[1] = labelEntry->field2;
+        width = cellData->field8 - cellData->fieldC;
+        height = cellData->fieldA - cellData->fieldE;
+        position[0] = axisRecords[0].field0_0 << 12;
+        position[1] = axisRecords[1].field0_0 << 12;
     } else {
         cellEntry = jn_ui_getBnclElement(cellLayout, index);
         cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-        axisRecords[2] = cellEntry->mUnk_00_0;
+        axisRecords[2] = cellEntry->field0_0;
         axisRecords[0] = axisRecords[2];
-        axisRecords[1] = cellEntry->mUnk_00_2;
-        width = cellData->mUnk_08 - cellData->mUnk_0c;
-        height = cellData->mUnk_0a - cellData->mUnk_0e;
+        axisRecords[1] = cellEntry->field0_2;
+        width = cellData->field8 - cellData->fieldC;
+        height = cellData->fieldA - cellData->fieldE;
         position[0] = ((width >> 1) + jn_ui_calcOriginCoordX(axisRecords[2], width)) << 12;
-        position[1] = ((height >> 1) + jn_ui_calcOriginCoordY(cellEntry->mUnk_00_2, height)) << 12;
+        position[1] = ((height >> 1) + jn_ui_calcOriginCoordY(cellEntry->field0_2, height)) << 12;
     }
-    if (entry->mUnk_08 != FALSE) {
-        if (index >= cellLayout->mUnk_06) {
+    if (entry->field8 != FALSE) {
+        if (index >= cellLayout->field6) {
             position[0] = entry->mPositionX << 12;
             position[1] = entry->mPositionY << 12;
         } else {
-            position[0] = (entry->mPositionX + (width >> 1) * (1 - axisRecords[0].mUnk_00_12)) << 12;
-            position[1] = (entry->mPositionY + (height >> 1) * (1 - axisRecords[1].mUnk_00_12)) << 12;
+            position[0] = (entry->mPositionX + (width >> 1) * (1 - axisRecords[0].field0_12)) << 12;
+            position[1] = (entry->mPositionY + (height >> 1) * (1 - axisRecords[1].field0_12)) << 12;
         }
     }
     position[0] += entry->mOffsetX << 12;
@@ -83,31 +83,31 @@ u32 renderElement(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk020
     groupIndex = oam_getAffineCount(oamList);
     if (entry->mUseMatrix != 0) {
         matrix = entry->mMatrix;
-        group = &oamList->mUnk_000[groupIndex];
-        group->mUnk_00[0].mUnk_00[3] = entry->mUnk_14[0] >> 4;
-        group->mUnk_00[1].mUnk_00[3] = entry->mUnk_14[1] >> 4;
-        group->mUnk_00[2].mUnk_00[3] = entry->mUnk_14[2] >> 4;
-        group->mUnk_00[3].mUnk_00[3] = entry->mUnk_14[3] >> 4;
+        group = &oamList->field0[groupIndex];
+        group->field0[0].field0[3] = entry->field14[0] >> 4;
+        group->field0[1].field0[3] = entry->field14[1] >> 4;
+        group->field0[2].field0[3] = entry->field14[2] >> 4;
+        group->field0[3].field0[3] = entry->field14[3] >> 4;
         if (incrementFlag != 0) {
             oam_increaseAffineCount(oamList);
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mUnk_000[0].mUnk_00[oamCount], 0x80 - oamCount, cellData,
-                                                matrix, position, groupIndex, entry->mUnk_34);
+    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->field0[0].field0[oamCount], 0x80 - oamCount, cellData,
+                                                matrix, position, groupIndex, entry->field34);
 }
 
 void jn_ui_renderElements(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
     s32 i;
-    for (i = ((Unk0201ea30 *) cellLayout)->mUnk_06 - 1; i >= 0; i--) {
+    for (i = ((Unk0201ea30 *) cellLayout)->field6 - 1; i >= 0; i--) {
         renderElement(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 1);
     }
 }
 
 void jn_ui_renderElementsNoIncrAffine(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, void *labelLayout, void *oamList, void *table) {
     s32 i;
-    for (i = ((Unk0201ea30 *) cellLayout)->mUnk_06 - 1; i >= 0; i--) {
+    for (i = ((Unk0201ea30 *) cellLayout)->field6 - 1; i >= 0; i--) {
         renderElement(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 0);
     }
 }

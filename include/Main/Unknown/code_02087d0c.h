@@ -29,7 +29,7 @@ typedef struct ModelAnimation {
     /* 1a */ u16 mCurrentIndex;
     /* 1c */ NNSG3dAnmObj **mAnmObjs;
     /* 20 */ u32 *mLoopFlags;
-    /* 24 */ u8 mUnk_24[4];
+    /* 24 */ u8 field24[4];
     /* 28 */ u32 mKind;
     /* 2c */ BOOL mBlending;
     /* 30 */ s32 mBlendRatioStep;
@@ -39,13 +39,13 @@ typedef struct ModelAnimation {
 extern s32 (*anim_sGetFrameCountFuncs[])(NNSG3dAnmObj *a);
 
 typedef struct Unk020882fc_08 {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 field0[4];
     /* 04 */ u16 mFrameCount;
 } Unk020882fc_08;
 
 typedef struct Unk020882fc {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ Unk020882fc_08 *mUnk_08;
+    /* 00 */ u8 field0[8];
+    /* 08 */ Unk020882fc_08 *field8;
 } Unk020882fc;
 
 extern u32 anim_sLastAnmObjAllocSize;

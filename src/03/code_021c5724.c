@@ -67,7 +67,7 @@ void CreateApList(void) {
     func_ov003_021bf5ec(2);
     func_ov003_021c6508();
     func_ov003_021c6400();
-    gApList->mUnk_0c = InitBgTextCanvas(0, 0);
+    gApList->fieldC = InitBgTextCanvas(0, 0);
     gApList->mBgOffsetTask = AddTask(1, WriteApListBgOffset, NULL, 0x6e);
     RefreshApList();
     func_ov003_021c590c();
@@ -97,16 +97,16 @@ void func_ov003_021c6508(void) {
     gApList->mScrollYMax = (gApList->mEntryCount - 4) * 0x1c;
     if (gApList->mEntryCount <= 4) {
         a = 0;
-        gApList->mUnk_53 = 0;
+        gApList->field53 = 0;
     } else if (gApList->mEntryCount <= 8) {
         a = 1;
-        gApList->mUnk_53 = 0x1f;
+        gApList->field53 = 0x1f;
     } else {
         a = 2;
-        gApList->mUnk_53 = 0x37;
+        gApList->field53 = 0x37;
     }
     if (a != 0) {
-        b = FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax);
+        b = FX_DivS32(*(u16 *) &gApListScrollY * gApList->field53, gApList->mScrollYMax);
     }
     func_ov003_021ccea4(a, 0x55, 0xec, 0x3f, b);
 }
@@ -120,23 +120,23 @@ void func_ov003_021c6400(void) {
         n = 5;
     }
     for (i = 0; i < n; i++) {
-        gApList->mUnk_10[i] = CreateOamEntryFromNceImage(0, data_ov003_021d6388[0]);
-        gApList->mUnk_24[i] = CreateOamEntryFromNceImage(0, data_ov003_021d638c[0]);
+        gApList->field10[i] = CreateOamEntryFromNceImage(0, data_ov003_021d6388[0]);
+        gApList->field24[i] = CreateOamEntryFromNceImage(0, data_ov003_021d638c[0]);
     }
     for (j = 0; j < 3; j++) {
-        CopyNceImageToOamEntries(0, data_ov003_021d6388[j], gApList->mUnk_10[0]);
-        gApList->mUnk_42[j] = gApList->mUnk_10[0]->mUnk_04 & 0x3ff;
+        CopyNceImageToOamEntries(0, data_ov003_021d6388[j], gApList->field10[0]);
+        gApList->field42[j] = gApList->field10[0]->field4 & 0x3ff;
     }
     for (j = 0; j < 4; j++) {
-        CopyNceImageToOamEntries(0, data_ov003_021d638c[j], gApList->mUnk_24[0]);
-        gApList->mUnk_48[j] = gApList->mUnk_24[0]->mUnk_04 & 0x3ff;
+        CopyNceImageToOamEntries(0, data_ov003_021d638c[j], gApList->field24[0]);
+        gApList->field48[j] = gApList->field24[0]->field4 & 0x3ff;
     }
     for (i = 0; i < n; i++) {
         OamEntry *q;
-        q = gApList->mUnk_10[i];
-        q->mUnk_04 = (q->mUnk_04 & 0xfffff3ff) | 0xc00;
-        q = gApList->mUnk_24[i];
-        q->mUnk_04 = (q->mUnk_04 & 0xfffff3ff) | 0xc00;
+        q = gApList->field10[i];
+        q->field4 = (q->field4 & 0xfffff3ff) | 0xc00;
+        q = gApList->field24[i];
+        q->field4 = (q->field4 & 0xfffff3ff) | 0xc00;
     }
 }
 
@@ -176,7 +176,7 @@ void func_ov003_021c6184(void) {
     if (gApList->mScrollTask != 0) {
         return;
     }
-    if (gApList->mUnk_57 != 0) {
+    if (gApList->field57 != 0) {
         return;
     }
     if (IsTouchPressedInRect(&data_ov003_021d67e8) != 0) {
@@ -233,7 +233,7 @@ void func_ov003_021c6184(void) {
         return;
     }
     if (AreKeysReleased(0x200) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->field59 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x100) != 0) {
@@ -241,7 +241,7 @@ void func_ov003_021c6184(void) {
         return;
     }
     if (AreKeysReleased(0x100) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->field59 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x40) != 0) {
@@ -249,7 +249,7 @@ void func_ov003_021c6184(void) {
         return;
     }
     if (AreKeysReleased(0x40) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->field59 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x80) != 0) {
@@ -257,7 +257,7 @@ void func_ov003_021c6184(void) {
         return;
     }
     if (AreKeysReleased(0x80) != 0) {
-        gApList->mUnk_59 = 0;
+        gApList->field59 = 0;
     }
 }
 
@@ -273,21 +273,21 @@ void func_ov003_021c5f9c(void) {
     }
     switch (func_ov003_021cce60()) {
         case 1:
-            gApList->mUnk_57 = 1;
+            gApList->field57 = 1;
             DisableButtonTouch();
             break;
         case 2:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
-                *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * func_ov003_021cce6c(), gApList->mUnk_53);
+                *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * func_ov003_021cce6c(), gApList->field53);
                 RefreshApList();
                 gApList->mScrollTimer = 4;
             }
             break;
         case 3:
-            gApList->mUnk_57 = 0;
+            gApList->field57 = 0;
             EnableButtonTouch();
-            *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * func_ov003_021cce6c(), gApList->mUnk_53);
+            *(u16 *) &gApListScrollY = FX_DivS32(gApList->mScrollYMax * func_ov003_021cce6c(), gApList->field53);
             StartSoundSeq(0x13);
             RefreshApList();
             a = FX_ModS32(*(u16 *) &gApListScrollY, 0x1c);
@@ -301,9 +301,9 @@ void func_ov003_021c5f9c(void) {
             break;
         case 4:
             if (*(u16 *) &gApListScrollY == 0) {
-                if (gApList->mUnk_58 == 0) {
+                if (gApList->field58 == 0) {
                     StartSoundSeq(9);
-                    gApList->mUnk_58 = 1;
+                    gApList->field58 = 1;
                 }
             } else {
                 StartSoundSeq(0x13);
@@ -313,9 +313,9 @@ void func_ov003_021c5f9c(void) {
         case 6:
             s = gApList;
             if (s->mEntryCount <= 4 || *(u16 *) &gApListScrollY == s->mScrollYMax) {
-                if (s->mUnk_58 == 0) {
+                if (s->field58 == 0) {
                     StartSoundSeq(9);
-                    gApList->mUnk_58 = 1;
+                    gApList->field58 = 1;
                 }
             } else {
                 StartSoundSeq(0x13);
@@ -324,21 +324,21 @@ void func_ov003_021c5f9c(void) {
             break;
         case 5:
         case 7:
-            gApList->mUnk_58 = 0;
+            gApList->field58 = 0;
             break;
     }
 }
 
 void func_ov003_021c5ec4(void) {
     int b;
-    if (gApList->mScrollTask == 0 && gApList->mUnk_57 == 0) {
+    if (gApList->mScrollTask == 0 && gApList->field57 == 0) {
         switch (GetButtonResult()) {
             case 0:
                 StartSoundSeq(7);
                 break;
             case 1:
                 if (gApListSelectedRow == 4) {
-                    gApList->mUnk_54 = 1;
+                    gApList->field54 = 1;
                     StartSoundSeq(6);
                     func_ov003_021c5724();
                 } else {
@@ -351,7 +351,7 @@ void func_ov003_021c5ec4(void) {
                         SetUpdateFunction(func_ov003_021c56fc);
                         return;
                     }
-                    gApList->mUnk_54 = 1;
+                    gApList->field54 = 1;
                     gApList->mEntryIndex = b;
                     StartSoundSeq(6);
                 }
@@ -371,7 +371,7 @@ void func_ov003_021c5ea4(void) {
 
 void func_ov003_021c5e54(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
-        if (gApList->mUnk_54 != 0) {
+        if (gApList->field54 != 0) {
             StartSlideButtonsOut();
         } else {
             DisableButtonTouch();
@@ -396,14 +396,14 @@ void func_ov003_021c5cdc(void) {
     }
     RemoveTaskEntryWrapper(1, gApList->mBgOffsetTask);
     for (i = 0; i < 5; i++) {
-        if (gApList->mUnk_10[i] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mUnk_10[i]);
+        if (gApList->field10[i] != NULL) {
+            DeleteOamEntry((u32 *) gApList->field10[i]);
         }
-        if (gApList->mUnk_24[i] != NULL) {
-            DeleteOamEntry((u32 *) gApList->mUnk_24[i]);
+        if (gApList->field24[i] != NULL) {
+            DeleteOamEntry((u32 *) gApList->field24[i]);
         }
     }
-    ReleaseBgTextCanvas(gApList->mUnk_0c);
+    ReleaseBgTextCanvas(gApList->fieldC);
     func_ov003_021cce78();
     ReleaseSelectionObjectSlots();
     func_ov003_021bf410();
@@ -415,9 +415,9 @@ void func_ov003_021c5cdc(void) {
     reg_G2_BG0OFS = 0;
     reg_G2_BG2OFS = 0;
     s = gApList;
-    if (s->mUnk_54 == 0) {
+    if (s->field54 == 0) {
         func_ov003_021cd27c();
-        func_ov003_021cd790(func_ov003_021cdb6c()->mUnk_f4);
+        func_ov003_021cd790(func_ov003_021cdb6c()->fieldF4);
         func_ov003_021c2120(2, 0);
         SetUpdateFunction(SetupWay);
     } else if (gApListSelectedRow == 4) {
@@ -447,7 +447,7 @@ void RefreshApList(void) {
     int v4;
     v1 = FX_DivS32(*(u16 *) &gApListScrollY, 0x1c);
     v4 = gApList->mEntryCount;
-    ClearBgTextCanvas(gApList->mUnk_0c, 0);
+    ClearBgTextCanvas(gApList->fieldC, 0);
     if (5 < v4) {
         v4 = 5;
     }
@@ -468,7 +468,7 @@ void RefreshApList(void) {
             v1 = v1 + 1;
         } while (v3 < v4);
     }
-    RequestBgTextCanvasUpload(gApList->mUnk_0c);
+    RequestBgTextCanvasUpload(gApList->fieldC);
     RefreshApListRowPositions();
 }
 
@@ -494,7 +494,7 @@ void PrintApListEntryText(int param_0, int param_1) {
         for (i = 0; i < n; i++) {
             a[i] = (gApList->mEntries + c)[i];
         }
-        DrawCharsCentered(gApList->mUnk_0c, 0xa, param_1, 2, 0xa, a, 1);
+        DrawCharsCentered(gApList->fieldC, 0xa, param_1, 2, 0xa, a, 1);
         if (b > 0x10) {
             MI_CpuFill8(a, 0, 0x22);
             n = b - 0x10;
@@ -502,7 +502,7 @@ void PrintApListEntryText(int param_0, int param_1) {
                 a[i] = (gApList->mEntries + c)[i + 0x10];
             }
             param_1 += 0xc;
-            DrawCharsCentered(gApList->mUnk_0c, 0xa, param_1, 2, 0xa, a, 1);
+            DrawCharsCentered(gApList->fieldC, 0xa, param_1, 2, 0xa, a, 1);
         }
     }
 }
@@ -511,11 +511,11 @@ void func_ov003_021c5b34(int param_0, int param_1) {
     OamEntry *p;
     int m;
     if (param_0 < gApList->mEntryCount) {
-        p = gApList->mUnk_10[param_1];
+        p = gApList->field10[param_1];
         m = param_0 * 0x2a;
-        p->mUnk_04 = (p->mUnk_04 & ~0x3ff) | gApList->mUnk_42[*(gApList->mEntries + m + 0x28)];
-        p = gApList->mUnk_24[param_1];
-        p->mUnk_04 = (p->mUnk_04 & ~0x3ff) | gApList->mUnk_48[*(u16 *) (gApList->mEntries + m + 0x26)];
+        p->field4 = (p->field4 & ~0x3ff) | gApList->field42[*(gApList->mEntries + m + 0x28)];
+        p = gApList->field24[param_1];
+        p->field4 = (p->field4 & ~0x3ff) | gApList->field48[*(u16 *) (gApList->mEntries + m + 0x26)];
     }
 }
 
@@ -530,10 +530,10 @@ void RefreshApListRowPositions(void) {
     }
     for (i = 0; i < b; i++, a += 0x1c) {
         OamEntry *p;
-        p = gApList->mUnk_10[i];
-        p->mUnk_00 = (p->mUnk_00 & 0xfe00ff00) | ((a - 2) & 0xff) | 0xb30000;
-        p = gApList->mUnk_24[i];
-        p->mUnk_00 = (p->mUnk_00 & 0xfe00ff00) | ((a + 1) & 0xff) | 0xd20000;
+        p = gApList->field10[i];
+        p->field0 = (p->field0 & 0xfe00ff00) | ((a - 2) & 0xff) | 0xb30000;
+        p = gApList->field24[i];
+        p->field0 = (p->field0 & 0xfe00ff00) | ((a + 1) & 0xff) | 0xd20000;
     }
     gApList->mBgOffsetPending = 1;
 }
@@ -558,7 +558,7 @@ void AdvanceApListScrollYDecrease(u32 param_0) {
     }
     RefreshApListRowPositions();
     if (a == 0) {
-        func_ov003_021cce58(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
+        func_ov003_021cce58(FX_DivS32(*(u16 *) &gApListScrollY * gApList->field53, gApList->mScrollYMax));
         func_ov003_021cce48();
         func_ov003_021c590c();
         gApList->mScrollTask = 0;
@@ -578,7 +578,7 @@ void AdvanceApListScrollYIncrease(u32 param_0) {
     }
     *(u16 *) &gApListScrollY = *(u16 *) &gApListScrollY - a;
     RefreshApList();
-    func_ov003_021cce58(FX_DivS32(*(u16 *) &gApListScrollY * gApList->mUnk_53, gApList->mScrollYMax));
+    func_ov003_021cce58(FX_DivS32(*(u16 *) &gApListScrollY * gApList->field53, gApList->mScrollYMax));
     func_ov003_021cce48();
     func_ov003_021c590c();
     gApList->mScrollTask = 0;
@@ -660,9 +660,9 @@ void MoveApListSelectedRow(int param_0) {
             break;
     }
     if (a == FALSE) {
-        if (gApList->mUnk_59 == 0) {
+        if (gApList->field59 == 0) {
             StartSoundSeq(9);
-            gApList->mUnk_59 = 1;
+            gApList->field59 = 1;
         }
     } else {
         StartSoundSeq(8);
@@ -672,9 +672,9 @@ void MoveApListSelectedRow(int param_0) {
 
 void StartApListScrollYDecrease(void) {
     if (*(u16 *) &gApListScrollY == 0) {
-        if (gApList->mUnk_59 == 0) {
+        if (gApList->field59 == 0) {
             StartSoundSeq(9);
-            gApList->mUnk_59 = 1;
+            gApList->field59 = 1;
         }
     } else {
         StartSoundSeq(0x13);
@@ -684,9 +684,9 @@ void StartApListScrollYDecrease(void) {
 
 void StartApListScrollYIncrease(void) {
     if (*(u16 *) &gApListScrollY == gApList->mScrollYMax || gApList->mEntryCount <= 4) {
-        if (gApList->mUnk_59 == 0) {
+        if (gApList->field59 == 0) {
             StartSoundSeq(9);
-            gApList->mUnk_59 = 1;
+            gApList->field59 = 1;
         }
     } else {
         StartSoundSeq(0x13);

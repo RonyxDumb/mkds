@@ -19,13 +19,13 @@ void enmy_updateMgEnemy(KartAi *kartAi) {
 
 void enmy_recalculateMepoRoute(KartAi *kartAi) {
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
-        if (kartAi->mBattleLinkCursor.mUnk_18 != FALSE) {
+        if (kartAi->mBattleLinkCursor.field18 != FALSE) {
             return;
         }
     }
     kartAi->mBattleLinkCursor.mRequestedLink = mdat_findMgEnemyPoint(&kartAi->mKart->mPos);
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
-        kartAi->mBattleLinkCursor.mUnk_18 = TRUE;
+        kartAi->mBattleLinkCursor.field18 = TRUE;
     }
 }
 
@@ -36,7 +36,7 @@ BOOL enmy_getIsAreaMepoNotNull(KartAi *kartAi) {
 void enmy_getTargetMepoPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
     LinkCursor *cursor = &kartAi->mBattleLinkCursor;
 
-    *position = *cursor->mLink->mUnk_20;
+    *position = *cursor->mLink->field20;
     *direction = cursor->mDirection;
 }
 
@@ -51,37 +51,37 @@ void enmy_notifyDragItemChangedForMg(KartAi *kartAi) {
 void enmy_initAwardEnemy(KartAi *kartAi, s32 kartIndex) {
     Kart *kart = driver_getById(kartIndex);
 
-    kartAi->mUnk_154 = 0;
-    SetupAwardMissionRunKartAi(kartAi, kart, kartAi->mUnk_154);
-    enrb_initForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
+    kartAi->field154 = 0;
+    SetupAwardMissionRunKartAi(kartAi, kart, kartAi->field154);
+    enrb_initForAwardStaffRoll(&kartAi->fieldE8, kartAi);
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-        kartAi->mUnk_e8.mBoostsAtRaceStart = 1;
-        kartAi->mUnk_e8.mRaceStartBoostChoice = 4;
+        kartAi->fieldE8.mBoostsAtRaceStart = 1;
+        kartAi->fieldE8.mRaceStartBoostChoice = 4;
     } else {
-        kartAi->mUnk_e8.mBoostsAtRaceStart = 0;
-        kartAi->mUnk_e8.mRaceStartBoostChoice = 0;
+        kartAi->fieldE8.mBoostsAtRaceStart = 0;
+        kartAi->fieldE8.mRaceStartBoostChoice = 0;
     }
 }
 
 void func_0208bde0(KartAi *kartAi, PointLink *pointLink) {
     ResetAwardMissionRunKartAi(kartAi, pointLink);
-    enrb_207D7E4(&kartAi->mUnk_e8, kartAi);
+    enrb_207D7E4(&kartAi->fieldE8, kartAi);
 }
 
 void enmy_updateAwardEnemy(KartAi *kartAi) {
     AdvanceAwardMissionRunKartAi(kartAi);
-    enrb_updateForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
+    enrb_updateForAwardStaffRoll(&kartAi->fieldE8, kartAi);
 }
 
 void enmy_initStaffRollEnemy(KartAi *kartAi, s32 kartIndex) {
     Kart *kart = driver_getById(kartIndex);
 
-    kartAi->mUnk_154 = 0;
-    SetupStaffRollKartAi(kartAi, kart, kartAi->mUnk_154);
-    enrb_initForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
-    kartAi->mUnk_e8.mBoostsAtRaceStart = 0;
-    kartAi->mUnk_e8.mRaceStartBoostChoice = 0;
+    kartAi->field154 = 0;
+    SetupStaffRollKartAi(kartAi, kart, kartAi->field154);
+    enrb_initForAwardStaffRoll(&kartAi->fieldE8, kartAi);
+    kartAi->fieldE8.mBoostsAtRaceStart = 0;
+    kartAi->fieldE8.mRaceStartBoostChoice = 0;
     if (kart->mIndex != gRaceMultiConfig->mEntryIndex) {
-        kart->mUnk_7c |= 0x40;
+        kart->field7C |= 0x40;
     }
 }

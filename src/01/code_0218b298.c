@@ -14,14 +14,14 @@ u16 func_ov001_0218b2d4(Unk02188950 *mapObject) {
 }
 
 void func_ov001_0218b2b8(Unk02188950 *mapObject) {
-    mapObject->mUnk_2d8 = 0xb;
-    mapObject->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a6598;
+    mapObject->field2D8 = 0xb;
+    mapObject->field0.mDistanceSquaredAndFlags |= data_ov001_021a6598;
 }
 
 void func_ov001_0218b2a8(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x237);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x237);
 }
 
 void func_ov001_0218b298(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x237);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x237);
 }

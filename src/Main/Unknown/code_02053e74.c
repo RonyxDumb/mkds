@@ -27,12 +27,12 @@ static inline u32 func_02053e74_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_02053e74_inline2(void) {
     BOOL r = FALSE;
-    if (func_02053e74_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_02053e74_inline() != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -40,7 +40,7 @@ static inline s32 func_02053e74_inline2(void) {
 
 static inline s32 func_02053e74_inline3(void) {
     BOOL r = FALSE;
-    if (func_02053e74_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_02053e74_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -48,7 +48,7 @@ static inline s32 func_02053e74_inline3(void) {
 
 static inline s32 func_02053e74_inline4(void) {
     BOOL r = FALSE;
-    if (func_02053e74_inline3() && gStruct217AA00->mUnk_0008 != 9) {
+    if (func_02053e74_inline3() && gStruct217AA00->field8 != 9) {
         r = TRUE;
     }
     return r;
@@ -56,8 +56,8 @@ static inline s32 func_02053e74_inline4(void) {
 
 static inline s32 func_02054754_inline(Unk0217aa00_15c8 *e) {
     BOOL r = FALSE;
-    u8 f = e->mUnk_06_0;
-    if (gStruct217AA00->mUnk_15ec == 0) {
+    u8 f = e->field6_0;
+    if (gStruct217AA00->field15EC == 0) {
         if (f & 1) {
             r = TRUE;
         }
@@ -70,7 +70,7 @@ static inline s32 func_02054754_inline(Unk0217aa00_15c8 *e) {
 }
 
 static inline s32 func_02054754_inline2(DataSharing *dataSharing, Unk0217aa00_15c8 *e) {
-    u8 mask = gStruct217AA00->mUnk_0044.mChildMask;
+    u8 mask = gStruct217AA00->field44.mChildMask;
     u8 i;
     BOOL ok = FALSE;
     u16 m;
@@ -81,8 +81,8 @@ static inline s32 func_02054754_inline2(DataSharing *dataSharing, Unk0217aa00_15
                 ok = FALSE;
                 i = 8;
             } else {
-                m = gStruct217AA00->mUnk_15ec == 0 ? 1 : 2;
-                if ((m & e[i].mUnk_06_0) == 0) {
+                m = gStruct217AA00->field15EC == 0 ? 1 : 2;
+                if ((m & e[i].field6_0) == 0) {
                     ok = FALSE;
                     i = 8;
                 } else {
@@ -98,7 +98,7 @@ static inline u32 func_0205465c_inline(ConnectionWork *p) {
     if (p == NULL) {
         return 0;
     }
-    return p->mUnk_0000;
+    return p->field0;
 }
 
 // Returns 1 once the last step is issued, 2 on failure, 3 when an error has been recorded, 0 otherwise.
@@ -106,10 +106,10 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
     BOOL finished;
 
     finished = FALSE;
-    if (gStruct217AA00->mUnk_1e3c != 0) {
+    if (gStruct217AA00->field1E3C != 0) {
         u16 ownIndex;
 
-        ownIndex = gStruct217AA00->mUnk_0000 == 2 ? gStruct217AA00->mOwnIndex : 0;
+        ownIndex = gStruct217AA00->field0 == 2 ? gStruct217AA00->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -120,15 +120,15 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
     if (gStruct217AA00->mRequestPending != 0) {
         return 0;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 0:
         case 21:
-            gStruct217AA00->mUnk_0454 &= ~0x40;
-            gStruct217AA00->mUnk_0004 = 1;
+            gStruct217AA00->field454 &= ~0x40;
+            gStruct217AA00->field4 = 1;
             Initialize();
             break;
         case 1:
-            gStruct217AA00->mUnk_0004 = 11;
+            gStruct217AA00->field4 = 11;
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
@@ -157,7 +157,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             func_0204ef1c();
             break;
         case 7:
-            if (gStruct217AA00->mUnk_1e45 == -1) {
+            if (gStruct217AA00->field1E45 == -1) {
                 StartScan(0, NULL, NULL);
             } else {
                 EndScan();
@@ -167,7 +167,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             StartConnect(NULL, NULL, NULL, NULL, ResetOwnIndex);
             break;
         case 10:
-            gStruct217AA00->mUnk_1e3c = 1;
+            gStruct217AA00->field1E3C = 1;
             func_0204ef1c();
             break;
         case 11:
@@ -195,10 +195,10 @@ s32 AdvanceBlockCountRequest(void) {
     if (func_02053e74_inline4()) {
         return 3;
     }
-    if (gStruct217AA00->mUnk_1e3c != 0) {
+    if (gStruct217AA00->field1E3C != 0) {
         u16 ownIndex;
 
-        ownIndex = gStruct217AA00->mUnk_0000 == 2 ? gStruct217AA00->mOwnIndex : 0;
+        ownIndex = gStruct217AA00->field0 == 2 ? gStruct217AA00->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -209,7 +209,7 @@ s32 AdvanceBlockCountRequest(void) {
     if (func_02053e74_inline() == 1) {
         return 1;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 0x28:
         case 0x29:
             StartBlockCountRequest();
@@ -217,10 +217,10 @@ s32 AdvanceBlockCountRequest(void) {
         case 0x2a:
             switch (func_02053e74_inline()) {
                 case 1:
-                    gStruct217AA00->mUnk_000c = 0x28;
+                    gStruct217AA00->fieldC = 0x28;
                     break;
                 case 2:
-                    gStruct217AA00->mUnk_000c = 0x29;
+                    gStruct217AA00->fieldC = 0x29;
                     break;
             }
             finished = TRUE;
@@ -233,10 +233,10 @@ void func_02054aa0(void) {
     s32 c0;
     s32 c1;
 
-    if (gStruct217AA00->mUnk_0004 != 11) {
+    if (gStruct217AA00->field4 != 11) {
         return;
     }
-    if (gStruct217AA00->mUnk_000c == 0x2c) {
+    if (gStruct217AA00->fieldC == 0x2c) {
         TryGetBlockReceiveProgress(gStruct217AA00->mBlockInfos[0]->mBlockId, 0, &c0, &c1);
     }
     if (gStruct217AA00->mSendTimer != 0) {
@@ -258,10 +258,10 @@ s32 AdvanceBlockReceive(void) {
     if (func_02053e74_inline4()) {
         return 3;
     }
-    if (gStruct217AA00->mUnk_1e3c != 0) {
+    if (gStruct217AA00->field1E3C != 0) {
         u16 ownIndex;
 
-        ownIndex = gStruct217AA00->mUnk_0000 == 2 ? gStruct217AA00->mOwnIndex : 0;
+        ownIndex = gStruct217AA00->field0 == 2 ? gStruct217AA00->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -272,7 +272,7 @@ s32 AdvanceBlockReceive(void) {
     if (func_02053e74_inline() == 1) {
         return 1;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 0x28:
         case 0x29:
         case 0x2a:
@@ -286,7 +286,7 @@ s32 AdvanceBlockReceive(void) {
             func_0204ead0(1, 0);
             break;
         case 0x2e:
-            gStruct217AA00->mUnk_1e3c = 0;
+            gStruct217AA00->field1E3C = 0;
             finished = TRUE;
             break;
     }
@@ -303,7 +303,7 @@ BOOL FinishDataSharingSync(void) {
     if (!func_02053e74_inline2()) {
         return TRUE;
     }
-    if (!(gStruct217AA00->mUnk_0454 & 4)) {
+    if (!(gStruct217AA00->field454 & 4)) {
         return TRUE;
     }
     if (func_0204ffbc() != 0) {
@@ -313,17 +313,17 @@ BOOL FinishDataSharingSync(void) {
         ConnectionWork *connection;
 
         connection = gStruct217AA00;
-        if (func_02054754_inline(dataSharing->mUnk_0c) != 0) {
-            if ((connection->mUnk_0454 & 8) != 0) {
-                connection->mUnk_0004 = 9;
+        if (func_02054754_inline(dataSharing->fieldC) != 0) {
+            if ((connection->field454 & 8) != 0) {
+                connection->field4 = 9;
             } else {
-                connection->mUnk_0004 = 8;
+                connection->field4 = 8;
             }
             finished = TRUE;
-            gStruct217AA00->mUnk_15f4 = 0;
+            gStruct217AA00->field15F4 = 0;
         } else if (func_02053e74_inline() == 1) {
-            if (func_02054754_inline2(dataSharing, dataSharing->mUnk_0c) != 0) {
-                connection->mUnk_008b |= 1;
+            if (func_02054754_inline2(dataSharing, dataSharing->fieldC) != 0) {
+                connection->field8B |= 1;
             }
         }
     }
@@ -333,12 +333,12 @@ BOOL FinishDataSharingSync(void) {
 // Starts the wait that FinishDataSharingSync completes; always returns 1.
 s32 StartDataSharingSync(void) {
     if (func_02053e74_inline2()) {
-        gStruct217AA00->mUnk_0004 = 7;
-        gStruct217AA00->mUnk_008b &= ~1;
-        if (gStruct217AA00->mUnk_15ec == 0) {
-            gStruct217AA00->mUnk_15ec = 1;
+        gStruct217AA00->field4 = 7;
+        gStruct217AA00->field8B &= ~1;
+        if (gStruct217AA00->field15EC == 0) {
+            gStruct217AA00->field15EC = 1;
         } else {
-            gStruct217AA00->mUnk_15ec = 0;
+            gStruct217AA00->field15EC = 0;
         }
     }
     return 1;
@@ -355,16 +355,16 @@ s32 func_0205465c(void) {
         r = 2;
     } else {
         if (func_0205465c_inline(connection) == 1) {
-            if ((connection->mUnk_0454 & 0x40) != 0) {
-                count = connection->mUnk_1699;
+            if ((connection->field454 & 0x40) != 0) {
+                count = connection->field1699;
             } else {
-                count = connection->mUnk_0044.mChildCount;
+                count = connection->field44.mChildCount;
             }
         } else {
             count = 0;
         }
         if (count == 0) {
-            if (connection->mUnk_1e38 != 0) {
+            if (connection->field1E38 != 0) {
                 r = 1;
             } else {
                 r = 2;
@@ -376,49 +376,49 @@ s32 func_0205465c(void) {
 
 void InitConnection(void *heap) {
     gStruct217AA00 = heap_allocEx(heap, 0x1f00, 0x20);
-    gStruct217AA00->mUnk_0000 = 0;
-    gStruct217AA00->mUnk_0004 = 0;
-    gStruct217AA00->mUnk_0008 = 9;
-    gStruct217AA00->mUnk_000c = 0;
+    gStruct217AA00->field0 = 0;
+    gStruct217AA00->field4 = 0;
+    gStruct217AA00->field8 = 9;
+    gStruct217AA00->fieldC = 0;
     gStruct217AA00->mRequestPending = 0;
-    gStruct217AA00->mUnk_0454 = 0;
-    gStruct217AA00->mUnk_0456_0 = 0;
+    gStruct217AA00->field454 = 0;
+    gStruct217AA00->field456_0 = 0;
 }
 
 void InitConnectionBuffers(void *heap) {
-    gStruct217AA00->mUnk_0014 = heap_allocEx(heap, 0xf00, 0x20);
+    gStruct217AA00->field14 = heap_allocEx(heap, 0xf00, 0x20);
     gStruct217AA00->mParentParameter = heap_allocEx(heap, 0x40, 0x20);
-    gStruct217AA00->mUnk_001c = heap_allocEx(heap, 0x20, 0x20);
-    gStruct217AA00->mUnk_0024 = heap_allocEx(heap, 0xc0, 0x20);
-    gStruct217AA00->mUnk_0028 = heap_allocEx(heap, 0xc0, 0x20);
-    gStruct217AA00->mUnk_0020 = heap_allocEx(heap, 0x44, 0x20);
-    gStruct217AA00->mUnk_002c = heap_allocEx(heap, 0x400, 0x20);
-    gStruct217AA00->mUnk_0030 = 0x1c0;
-    gStruct217AA00->mUnk_0034 = heap_allocEx(heap, gStruct217AA00->mUnk_0030, 0x20);
-    gStruct217AA00->mUnk_0038 = 0x400;
-    gStruct217AA00->mUnk_003c = heap_allocEx(heap, gStruct217AA00->mUnk_0038, 0x20);
-    gStruct217AA00->mUnk_15bc = heap_allocEx(heap, 0x820, 0x20);
-    gStruct217AA00->mUnk_15c0 = heap_allocEx(heap, 0x200, 0x20);
-    gStruct217AA00->mUnk_15c4 = heap_allocEx(heap, 8, 0x20);
-    gStruct217AA00->mUnk_15c8 = heap_allocEx(heap, 0x40, 0x20);
-    gStruct217AA00->mUnk_0040 = heap_allocEx(heap, 0x18, 0x20);
-    gStruct217AA00->mUnk_1664 = 0;
-    gStruct217AA00->mUnk_165c = 0;
-    gStruct217AA00->mUnk_1658 = 0;
-    gStruct217AA00->mUnk_0044.mUnk_38 = heap_allocEx(heap, 0x1c, 0x20);
+    gStruct217AA00->field1C = heap_allocEx(heap, 0x20, 0x20);
+    gStruct217AA00->field24 = heap_allocEx(heap, 0xc0, 0x20);
+    gStruct217AA00->field28 = heap_allocEx(heap, 0xc0, 0x20);
+    gStruct217AA00->field20 = heap_allocEx(heap, 0x44, 0x20);
+    gStruct217AA00->field2C = heap_allocEx(heap, 0x400, 0x20);
+    gStruct217AA00->field30 = 0x1c0;
+    gStruct217AA00->field34 = heap_allocEx(heap, gStruct217AA00->field30, 0x20);
+    gStruct217AA00->field38 = 0x400;
+    gStruct217AA00->field3C = heap_allocEx(heap, gStruct217AA00->field38, 0x20);
+    gStruct217AA00->field15BC = heap_allocEx(heap, 0x820, 0x20);
+    gStruct217AA00->field15C0 = heap_allocEx(heap, 0x200, 0x20);
+    gStruct217AA00->field15C4 = heap_allocEx(heap, 8, 0x20);
+    gStruct217AA00->field15C8 = heap_allocEx(heap, 0x40, 0x20);
+    gStruct217AA00->field40 = heap_allocEx(heap, 0x18, 0x20);
+    gStruct217AA00->field1664 = 0;
+    gStruct217AA00->field165C = 0;
+    gStruct217AA00->field1658 = 0;
+    gStruct217AA00->field44.field38 = heap_allocEx(heap, 0x1c, 0x20);
     gStruct217AA00->mHeap = NNS_FndCreateExpHeapEx(heap_alloc(heap, 0x7800), 0x7800, 1);
     gStruct217AA00->mMPReceiveBuffer = 0;
     gStruct217AA00->mMPReceiveBufferSize = 0;
     gStruct217AA00->mMPSendBuffer = 0;
     gStruct217AA00->mMPSendBufferSize = 0;
-    gStruct217AA00->mUnk_0456_0 = 1;
+    gStruct217AA00->field456_0 = 1;
     func_02053d00();
 }
 
 void func_02054330(void) {
     while (func_02054f58() != 1) {
     }
-    gStruct217AA00->mUnk_0456_0 = 0;
+    gStruct217AA00->field456_0 = 0;
 }
 
 void ResetDataSharing(DataSharing *dataSharing) {
@@ -427,30 +427,30 @@ void ResetDataSharing(DataSharing *dataSharing) {
     s32 j;
 
     dataSharing->mParticipantMask = 0;
-    MI_CpuFill8(gStruct217AA00->mUnk_15c4, 0, 8);
+    MI_CpuFill8(gStruct217AA00->field15C4, 0, 8);
     for (i = 0; i < 8; i++) {
         dataSharing->mSharedDataCopied[i] = 0;
-        MI_CpuFill8(&dataSharing->mUnk_0c[i], 0, 8);
+        MI_CpuFill8(&dataSharing->fieldC[i], 0, 8);
     }
-    dataSharing->mUnk_3c[0] = 0;
+    dataSharing->field3C[0] = 0;
     for (i = 0; i < 7; i++) {
-        dataSharing->mUnk_3c[i] = 0;
+        dataSharing->field3C[i] = 0;
     }
-    dataSharing->mUnk_4a = 0;
-    dataSharing->mUnk_34 = 5;
-    dataSharing->mUnk_38 = 0;
-    dataSharing->mUnk_30 = 0;
-    gStruct217AA00->mUnk_0454 &= ~0x10;
-    gStruct217AA00->mUnk_008b &= ~1;
+    dataSharing->field4A = 0;
+    dataSharing->field34 = 5;
+    dataSharing->field38 = 0;
+    dataSharing->field30 = 0;
+    gStruct217AA00->field454 &= ~0x10;
+    gStruct217AA00->field8B &= ~1;
     q = &gStruct217AA00->mUnk_1e4c_view;
-    q->mUnk_60 = 0;
-    q->mUnk_68 = 0;
+    q->field60 = 0;
+    q->field68 = 0;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 3; j++) {
-            q->mUnk_00[i].mUnk_00[j] = 0;
+            q->field0[i].field0[j] = 0;
         }
     }
-    gStruct217AA00->mUnk_0454 &= ~0x10;
+    gStruct217AA00->field454 &= ~0x10;
 }
 
 void ResetConnectionData(void) {
@@ -461,49 +461,49 @@ void ResetConnectionData(void) {
     s32 l;
 
     for (i = 0; i < 7; i++) {
-        gStruct217AA00->mUnk_0044.mEntries[i].mAid = 0xffff;
-        q = gStruct217AA00->mUnk_0044.mEntries[i].mUnk_00;
+        gStruct217AA00->field44.mEntries[i].mAid = 0xffff;
+        q = gStruct217AA00->field44.mEntries[i].field0;
         for (j = 0; j < 6; j++) {
             q[j] = 0;
         }
     }
-    gStruct217AA00->mUnk_0044.mUnk_42 = 0;
-    gStruct217AA00->mUnk_0044.mChildMask = 0;
-    gStruct217AA00->mUnk_0044.mChildCount = 0;
-    gStruct217AA00->mUnk_0044.mUnk_3c = 0;
-    gStruct217AA00->mUnk_0044.mDisconnectingIndex = -1;
-    gStruct217AA00->mUnk_0088 = -1;
-    gStruct217AA00->mUnk_008a = 0;
-    gStruct217AA00->mUnk_008b = 0;
-    gStruct217AA00->mUnk_0044.mUnk_3e = 0;
-    MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, gStruct217AA00->mUnk_0044.mUnk_38, 0x14);
-    gStruct217AA00->mUnk_0044.mUnk_38->mUnk_0e.mUnk_06_4 = gSystemData->mLanguageIndex;
-    gStruct217AA00->mUnk_0044.mUnk_38->mUnk_0e.mUnk_06_0 = 0;
+    gStruct217AA00->field44.field42 = 0;
+    gStruct217AA00->field44.mChildMask = 0;
+    gStruct217AA00->field44.mChildCount = 0;
+    gStruct217AA00->field44.field3C = 0;
+    gStruct217AA00->field44.mDisconnectingIndex = -1;
+    gStruct217AA00->field88 = -1;
+    gStruct217AA00->field8A = 0;
+    gStruct217AA00->field8B = 0;
+    gStruct217AA00->field44.field3E = 0;
+    MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, gStruct217AA00->field44.field38, 0x14);
+    gStruct217AA00->field44.field38->fieldE.field6_4 = gSystemData->mLanguageIndex;
+    gStruct217AA00->field44.field38->fieldE.field6_0 = 0;
     for (j = 0; j < 4; j++) {
-        gStruct217AA00->mUnk_00ac[j].mUnk_dc_0 = 0;
-        gStruct217AA00->mUnk_00ac[j].mUnk_db = 0;
-        q = gStruct217AA00->mUnk_00ac[j].mUnk_c0;
+        gStruct217AA00->fieldAC[j].fieldDC_0 = 0;
+        gStruct217AA00->fieldAC[j].fieldDB = 0;
+        q = gStruct217AA00->fieldAC[j].fieldC0;
         for (k = 0; k < 6; k++) {
             q[k] = 0;
         }
     }
     gStruct217AA00->mOwnIndex = 0xffff;
-    gStruct217AA00->mUnk_0438 = 0;
-    gStruct217AA00->mUnk_0434 = 0;
-    gStruct217AA00->mUnk_0439 = 1;
-    gStruct217AA00->mUnk_043a = 0;
-    gStruct217AA00->mUnk_0436 = 0;
-    gStruct217AA00->mUnk_043c = 0;
-    gStruct217AA00->mUnk_043d = 0;
-    gStruct217AA00->mUnk_043b = 0;
-    q = gStruct217AA00->mUnk_00ac_view.mUnk_380;
+    gStruct217AA00->field438 = 0;
+    gStruct217AA00->field434 = 0;
+    gStruct217AA00->field439 = 1;
+    gStruct217AA00->field43A = 0;
+    gStruct217AA00->field436 = 0;
+    gStruct217AA00->field43C = 0;
+    gStruct217AA00->field43D = 0;
+    gStruct217AA00->field43B = 0;
+    q = gStruct217AA00->mUnk_00ac_view.field380;
     for (l = 0; l < 6; l++) {
         q[l] = 0;
     }
-    gStruct217AA00->mUnk_0457 = 0;
-    gStruct217AA00->mUnk_0458 = 0;
-    gStruct217AA00->mUnk_1699 = 0;
-    gStruct217AA00->mUnk_0454 &= ~1;
+    gStruct217AA00->field457 = 0;
+    gStruct217AA00->field458 = 0;
+    gStruct217AA00->field1699 = 0;
+    gStruct217AA00->field454 &= ~1;
     ClearParticipantBits();
     ResetDataSharing(&gStruct217AA00->mUnk_15bc_view);
 }
@@ -518,32 +518,32 @@ void func_02053e74(void) {
     s32 b;
 
     q = &gStruct217AA00->mUnk_1e4c_view;
-    q->mUnk_60 = 0;
-    q->mUnk_68 = 0;
+    q->field60 = 0;
+    q->field68 = 0;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 3; j++) {
-            q->mUnk_00[i].mUnk_00[j] = 0;
+            q->field0[i].field0[j] = 0;
         }
     }
-    gStruct217AA00->mUnk_0454 &= ~0x10;
-    gStruct217AA00->mUnk_0454 |= 8;
+    gStruct217AA00->field454 &= ~0x10;
+    gStruct217AA00->field454 |= 8;
     connection = gStruct217AA00;
     a = 0;
     switch (func_02053e74_inline()) {
         case 1:
-            a = connection->mParentParameter->mUnk_0c;
+            a = connection->mParentParameter->fieldC;
             break;
         case 2:
-            a = connection->mUnk_0024->mUnk_48;
+            a = connection->field24->field48;
             break;
     }
     b = 0;
     switch (func_02053e74_inline()) {
         case 1:
-            b = connection->mParentParameter->mUnk_0c;
+            b = connection->mParentParameter->fieldC;
             break;
         case 2:
-            b = connection->mUnk_0024->mUnk_48;
+            b = connection->field24->field48;
             break;
     }
     connection->mRandom.mStateLow = b + (a << 10);

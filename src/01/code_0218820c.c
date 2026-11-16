@@ -9,5 +9,5 @@
 #include "Main/Unknown/code_02147000.h"
 
 u16 func_ov001_0218820c(Unk02188950 *mapObject) {
-    return mapObject->mUnk_0b4;
+    return mapObject->fieldB4;
 }

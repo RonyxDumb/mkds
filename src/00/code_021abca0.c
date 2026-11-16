@@ -7,22 +7,22 @@ void func_ov000_021abca0(void *f, const u8 *b, u32 c) {
     Hash20Context *a = f;
     u32 d;
     u32 e;
-    d = (a->mUnk_18 >> 3) & 0x3f;
-    a->mUnk_18 += c << 3;
-    if (a->mUnk_18 < (c << 3)) {
-        a->mUnk_14++;
+    d = (a->field18 >> 3) & 0x3f;
+    a->field18 += c << 3;
+    if (a->field18 < (c << 3)) {
+        a->field14++;
     }
-    a->mUnk_14 += c >> 29;
+    a->field14 += c >> 29;
     e = 64 - d;
     if (c >= e) {
-        MI_CpuCopy8(b, &a->mUnk_1c[d], e);
+        MI_CpuCopy8(b, &a->field1C[d], e);
         d = 0;
-        func_ov000_021abd68(a, a->mUnk_1c);
+        func_ov000_021abd68(a, a->field1C);
         for (; e + 63 < c; e += 64) {
             func_ov000_021abd68(a, b + e);
         }
     } else {
         e = 0;
     }
-    MI_CpuCopy8(b + e, &a->mUnk_1c[d], c - e);
+    MI_CpuCopy8(b + e, &a->field1C[d], c - e);
 }

@@ -125,7 +125,7 @@ void ReleaseEffects(Unk02188950 *mapObject) {
             ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
         }
     }
-    mapObject->mUnk_0b8 = 0;
+    mapObject->fieldB8 = 0;
 }
 
 // Writes a point for one entry of the object's table; the entry's type (1-5) picks how, others write nothing.
@@ -138,15 +138,15 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
 
     switch (mapObject->mEffects[effectIndex].mKind) {
         case 1:
-            position->x = mapObject->mUnk_000.mPos.x +
+            position->x = mapObject->field0.mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
-            position->y = mapObject->mUnk_000.mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
-            position->z = mapObject->mUnk_000.mPos.z +
+            position->y = mapObject->field0.mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
+            position->z = mapObject->field0.mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
@@ -155,17 +155,17 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
                                  12);
             break;
         case 3:
-            // As case 1 with mUnk_024 of the object from race_getCamera added, then halved.
+            // As case 1 with field24 of the object from race_getCamera added, then halved.
             camera = race_getCamera();
-            position->x = mapObject->mUnk_000.mPos.x + camera->mPos.x +
+            position->x = mapObject->field0.mPos.x + camera->mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
-            position->y = mapObject->mUnk_000.mPos.y + camera->mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
-            position->z = mapObject->mUnk_000.mPos.z + camera->mPos.z +
+            position->y = mapObject->field0.mPos.y + camera->mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
+            position->z = mapObject->field0.mPos.z + camera->mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
@@ -177,31 +177,31 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
             position->z >>= 1;
             break;
         case 2:
-            // The entry's mUnk_08 is first multiplied per component by param_1->mUnk_01c, mUnk_020 and mUnk_024.
+            // The entry's field8 is first multiplied per component by param_1->field1C, field20 and field24.
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.y;
-            scaledY = (((s64) offsetComponent * mapObject->mUnk_000.mScale.y) >> 12);
+            scaledY = (((s64) offsetComponent * mapObject->field0.mScale.y) >> 12);
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.x;
-            scaledX = (((s64) offsetComponent * mapObject->mUnk_000.mScale.x) >> 12);
+            scaledX = (((s64) offsetComponent * mapObject->field0.mScale.x) >> 12);
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.z;
-            scaledZ = (((s64) offsetComponent * mapObject->mUnk_000.mScale.z) >> 12);
-            position->x = mapObject->mUnk_000.mPos.x +
+            scaledZ = (((s64) offsetComponent * mapObject->field0.mScale.z) >> 12);
+            position->x = mapObject->field0.mPos.x +
                           (s32) (((s64) scaledZ * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >> 12) +
                           (s32) (((s64) scaledX * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >> 12);
-            position->y = mapObject->mUnk_000.mPos.y + scaledY;
-            position->z = mapObject->mUnk_000.mPos.z +
+            position->y = mapObject->field0.mPos.y + scaledY;
+            position->z = mapObject->field0.mPos.z +
                           (s32) (((s64) scaledZ * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >> 12) -
                           (s32) (((s64) scaledX * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >> 12);
             break;
         case 4:
-            position->x = mapObject->mUnk_000.mPos.x +
+            position->x = mapObject->field0.mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
-            position->y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mEffects[effectIndex].mOffset.y;
-            position->z = mapObject->mUnk_000.mPos.z +
+            position->y = mapObject->field0.mCourseMapRow->field0.y + mapObject->mEffects[effectIndex].mOffset.y;
+            position->z = mapObject->field0.mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
@@ -210,7 +210,7 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
                                  12);
             break;
         case 5:
-            position->x = mapObject->mUnk_000.mPos.x +
+            position->x = mapObject->field0.mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
@@ -218,7 +218,7 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
             position->y = mapObject->mEffects[effectIndex].mOffset.y - mobj_getWaterPlaneDistance1(0);
-            position->z = mapObject->mUnk_000.mPos.z +
+            position->z = mapObject->field0.mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
                                   FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
@@ -234,7 +234,7 @@ void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32
     Vec3 position;
 
     mapObject->mEffects[effectIndex].mTimer = timer;
-    if ((mapObject->mUnk_000.mFlags & 0x400) != 0) {
+    if ((mapObject->field0.mFlags & 0x400) != 0) {
         offsetX = -offsetX;
     }
     mapObject->mEffects[effectIndex].mOffset.x = offsetX << 4;
@@ -302,9 +302,9 @@ void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, 
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
-            mapObject->mEffects[effectIndex].mOffset.x = mapObject->mUnk_000.mPos.x;
+            mapObject->mEffects[effectIndex].mOffset.x = mapObject->field0.mPos.x;
             mapObject->mEffects[effectIndex].mOffset.y = -mobj_getWaterPlaneDistance1(0);
-            mapObject->mEffects[effectIndex].mOffset.z = mapObject->mUnk_000.mPos.z;
+            mapObject->mEffects[effectIndex].mOffset.z = mapObject->field0.mPos.z;
             if (mapObject->mEffects[effectIndex].mEffect != NULL) {
                 ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
             }
@@ -317,7 +317,7 @@ void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, 
 }
 
 void func_ov001_0218742c(Unk0201ca6c *a, const Vec3s16 *b) {
-    a->mUnk_50 = *b;
+    a->field50 = *b;
 }
 
 void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
@@ -350,25 +350,25 @@ void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int o
 }
 
 void func_ov001_02187218(Unk02188950 *mapObject, int b, s32 (*nextFunc)(Unk02188950 *)) {
-    mapObject->mUnk_158 = NULL;
-    mapObject->mUnk_15c = nextFunc;
-    mapObject->mUnk_150 = b;
+    mapObject->field158 = NULL;
+    mapObject->field15C = nextFunc;
+    mapObject->field150 = b;
     mapObject->mStateFrames = 0;
-    mapObject->mUnk_0b4 = mapObject->mUnk_0b4 > 0 ? mapObject->mUnk_0b4 - 1 : 0;
+    mapObject->fieldB4 = mapObject->fieldB4 > 0 ? mapObject->fieldB4 - 1 : 0;
     mapObject->mBounceEnabled = FALSE;
     mapObject->mGravityEnabled = TRUE;
-    if (mapObject->mUnk_2c4 == FALSE) {
+    if (mapObject->field2C4 == FALSE) {
         mapObject->mAnimationFrameCallbackFrameIndex = 0;
         mapObject->mAnimationEndCallback = NULL;
         mapObject->mAnimationFrameCallback = NULL;
-        mapObject->mUnk_1e0 = 0;
-        mapObject->mUnk_1e4 = NULL;
-        mapObject->mUnk_1e8 = 0;
-        mapObject->mUnk_1ec = NULL;
+        mapObject->field1E0 = 0;
+        mapObject->field1E4 = NULL;
+        mapObject->field1E8 = 0;
+        mapObject->field1EC = NULL;
         mapObject->mStateFrameCount = 0;
         mapObject->mStateFrameCountCallback = NULL;
         mapObject->mPointInRangeCallback = NULL;
-        mapObject->mUnk_224 = NULL;
+        mapObject->field224 = NULL;
         mapObject->mStoppedCallback = NULL;
         mapObject->mCourseCollisionCallback = NULL;
         ReleaseEffects(mapObject);
@@ -380,7 +380,7 @@ void DisableMissionRunMapObjectGravity(Unk02188950 *mapObject) {
 }
 
 u32 func_ov001_021871f8(Unk02188950 *mapObject, int b) {
-    if (mapObject->mUnk_150 < b) {
+    if (mapObject->field150 < b) {
         return 1;
     }
     return 0;
@@ -405,18 +405,18 @@ void boss_21870E4(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmd
         mapObject->mPrm = LoadFileInMissionRunFolder(prmName);
     }
     mapObject->mAngle =
-        (u16) (((s64) mapObject->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
+        (u16) (((s64) mapObject->field0.mCourseMapRow->fieldC.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
     mapObject->mAlphaLimit = 0x1f000;
     if (mapObject->mPrm != NULL) {
-        mobj_setSizeX(&mapObject->mUnk_000, mapObject->mPrm->mUnk_00c << 2);
-        mapObject->mUnk_000.mScale.x = mapObject->mPrm->mScale;
-        mapObject->mUnk_000.mScale.y = mapObject->mPrm->mScale;
-        mapObject->mUnk_000.mScale.z = mapObject->mPrm->mScale;
+        mobj_setSizeX(&mapObject->field0, mapObject->mPrm->fieldC << 2);
+        mapObject->field0.mScale.x = mapObject->mPrm->mScale;
+        mapObject->field0.mScale.y = mapObject->mPrm->mScale;
+        mapObject->field0.mScale.z = mapObject->mPrm->mScale;
     }
-    mapObject->mPosWithOffset = mapObject->mUnk_000.mPos;
+    mapObject->mPosWithOffset = mapObject->field0.mPos;
     mapObject->mBounceEnabled = FALSE;
     mapObject->mGravityEnabled = TRUE;
-    mapObject->mEntryGroupIndex = mapObject->mUnk_000.mCourseMapRow->mUnk_26;
+    mapObject->mEntryGroupIndex = mapObject->field0.mCourseMapRow->field26;
 }
 
 void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName) {
@@ -522,15 +522,15 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
     s32 pairWordIndex;
     s64 speed;
 
-    if (mapObject->mUnk_158 == NULL && mapObject->mUnk_15c != NULL) {
-        mapObject->mUnk_158 = mapObject->mUnk_15c;
-        mapObject->mUnk_15c = NULL;
+    if (mapObject->field158 == NULL && mapObject->field15C != NULL) {
+        mapObject->field158 = mapObject->field15C;
+        mapObject->field15C = NULL;
     }
-    if (mapObject->mUnk_158 != NULL && mapObject->mUnk_158(mapObject)) {
-        mapObject->mUnk_158 = NULL;
-        mapObject->mUnk_154 = 0;
+    if (mapObject->field158 != NULL && mapObject->field158(mapObject)) {
+        mapObject->field158 = NULL;
+        mapObject->field154 = 0;
         mapObject->mStateFrames = 0;
-        mapObject->mUnk_150 = 0;
+        mapObject->field150 = 0;
     }
 
     switch (mapObject->mAngleState) {
@@ -543,7 +543,7 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
                     mapObject->mAnglePerCallTarget, mapObject->mAnglePerCallIncrement, mapObject->mAnglePerCall);
             }
             if (mapObject->mAnglePerCall > 0) {
-                mapObject->mAngle = StepAngleTowardDirection(&mapObject->mAnglePoint, &mapObject->mUnk_000.mPos,
+                mapObject->mAngle = StepAngleTowardDirection(&mapObject->mAnglePoint, &mapObject->field0.mPos,
                                                              mapObject->mAnglePerCall, mapObject->mAngle);
             }
             break;
@@ -553,7 +553,7 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
                     mapObject->mAnglePerCallTarget, mapObject->mAnglePerCallIncrement, mapObject->mAnglePerCall);
             }
             if (mapObject->mAnglePerCall > 0) {
-                mapObject->mAngle = StepAngleTowardDirection(&mapObject->mUnk_000.mPos, &mapObject->mAnglePoint,
+                mapObject->mAngle = StepAngleTowardDirection(&mapObject->field0.mPos, &mapObject->mAnglePoint,
                                                              mapObject->mAnglePerCall, mapObject->mAngle);
             }
             break;
@@ -564,8 +564,8 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
             }
             if (mapObject->mAnglePerCall > 0) {
                 mapObject->mAngle =
-                    StepAngleSidewaysToPoint(&mapObject->mAnglePoint, &mapObject->mUnk_000.mPos,
-                                             mapObject->mAnglePerCall, mapObject->mUnk_1a0, mapObject->mAngle);
+                    StepAngleSidewaysToPoint(&mapObject->mAnglePoint, &mapObject->field0.mPos,
+                                             mapObject->mAnglePerCall, mapObject->field1A0, mapObject->mAngle);
             }
             break;
         case 5:
@@ -585,7 +585,7 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
                     mapObject->mAnglePerCallTarget, mapObject->mAnglePerCallIncrement, mapObject->mAnglePerCall);
             }
             if (mapObject->mAngleState == 6) {
-                if (StepAngleTowardDirection(&mapObject->mAnglePoint, &mapObject->mUnk_000.mPos,
+                if (StepAngleTowardDirection(&mapObject->mAnglePoint, &mapObject->field0.mPos,
                                              mapObject->mAnglePerCall, mapObject->mAngle) -
                         mapObject->mAngle >=
                     0) {
@@ -613,7 +613,7 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
                                         mapObject->mMoveAnglePerCall);
             }
             if (mapObject->mMoveAnglePerCall > 0) {
-                mapObject->mMoveAngle = StepAngleTowardDirection(&mapObject->mMoveAnglePoint, &mapObject->mUnk_000.mPos,
+                mapObject->mMoveAngle = StepAngleTowardDirection(&mapObject->mMoveAnglePoint, &mapObject->field0.mPos,
                                                                  mapObject->mMoveAnglePerCall, mapObject->mMoveAngle);
             }
             break;
@@ -624,7 +624,7 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
                                         mapObject->mMoveAnglePerCall);
             }
             if (mapObject->mMoveAnglePerCall > 0) {
-                mapObject->mMoveAngle = StepAngleTowardDirection(&mapObject->mUnk_000.mPos, &mapObject->mMoveAnglePoint,
+                mapObject->mMoveAngle = StepAngleTowardDirection(&mapObject->field0.mPos, &mapObject->mMoveAnglePoint,
                                                                  mapObject->mMoveAnglePerCall, mapObject->mMoveAngle);
             }
             break;
@@ -636,8 +636,8 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
             }
             if (mapObject->mMoveAnglePerCall > 0) {
                 mapObject->mMoveAngle =
-                    StepAngleSidewaysToPoint(&mapObject->mMoveAnglePoint, &mapObject->mUnk_000.mPos,
-                                             mapObject->mMoveAnglePerCall, mapObject->mUnk_1c4, mapObject->mMoveAngle);
+                    StepAngleSidewaysToPoint(&mapObject->mMoveAnglePoint, &mapObject->field0.mPos,
+                                             mapObject->mMoveAnglePerCall, mapObject->field1C4, mapObject->mMoveAngle);
             }
             break;
     }
@@ -681,18 +681,18 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
     if (mapObject->mGravityEnabled != FALSE) {
         mapObject->mVelocity.y -= mapObject->mPrm->mGravity;
     }
-    if (-mapObject->mPrm->mUnk_018 < *(s32 *) &mapObject->mVelocity &&
-        *(s32 *) &mapObject->mVelocity < mapObject->mPrm->mUnk_018 &&
-        -mapObject->mPrm->mUnk_018 < mapObject->mVelocity.z && mapObject->mVelocity.z < mapObject->mPrm->mUnk_018) {
+    if (-mapObject->mPrm->field18 < *(s32 *) &mapObject->mVelocity &&
+        *(s32 *) &mapObject->mVelocity < mapObject->mPrm->field18 &&
+        -mapObject->mPrm->field18 < mapObject->mVelocity.z && mapObject->mVelocity.z < mapObject->mPrm->field18) {
         mapObject->mVelocity.x = 0;
         mapObject->mVelocity.z = 0;
     } else if (mapObject->mCollisionBits & 0x1e34ef) {
-        velocityScale = mapObject->mPrm->mUnk_010;
+        velocityScale = mapObject->mPrm->field10;
         mapObject->mVelocity.x = (((s64) mapObject->mVelocity.x * velocityScale) >> 12);
         mapObject->mVelocity.y = (((s64) mapObject->mVelocity.y * velocityScale) >> 12);
         mapObject->mVelocity.z = (((s64) mapObject->mVelocity.z * velocityScale) >> 12);
     } else {
-        velocityScale = mapObject->mPrm->mUnk_014;
+        velocityScale = mapObject->mPrm->field14;
         mapObject->mVelocity.x = (((s64) mapObject->mVelocity.x * velocityScale) >> 12);
         mapObject->mVelocity.y = (((s64) mapObject->mVelocity.y * velocityScale) >> 12);
         mapObject->mVelocity.z = (((s64) mapObject->mVelocity.z * velocityScale) >> 12);
@@ -703,38 +703,38 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
     dy = mapObject->mVelocity.y;
     dz = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
     dx = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
-    mapObject->mUnk_000.mPos.x += dx;
-    mapObject->mUnk_000.mPos.y += dy;
-    mapObject->mUnk_000.mPos.z += dz;
+    mapObject->field0.mPos.x += dx;
+    mapObject->field0.mPos.y += dy;
+    mapObject->field0.mPos.z += dz;
 
-    probePosition.x = mapObject->mUnk_000.mPos.x;
-    probePosition.y = mapObject->mUnk_000.mPos.y + 0x14000;
-    probePosition.z = mapObject->mUnk_000.mPos.z;
+    probePosition.x = mapObject->field0.mPos.x;
+    probePosition.y = mapObject->field0.mPos.y + 0x14000;
+    probePosition.z = mapObject->field0.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (col_collide(&probePosition, NULL, 0, 0x14000, mapObject->mUnk_2b8 == 1 ? (u16) 4 : (u16) 1, -2, &pushOut,
+    if (col_collide(&probePosition, NULL, 0, 0x14000, mapObject->field2B8 == 1 ? (u16) 4 : (u16) 1, -2, &pushOut,
                       &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
-        if (mapObject->mUnk_2b8 == 2 || mapObject->mUnk_2b8 == 3) {
-            mapObject->mUnk_000.mPos.y += pushOut.y;
+        if (mapObject->field2B8 == 2 || mapObject->field2B8 == 3) {
+            mapObject->field0.mPos.y += pushOut.y;
         } else {
-            mapObject->mUnk_000.mPos.x += pushOut.x;
-            mapObject->mUnk_000.mPos.y += pushOut.y;
-            mapObject->mUnk_000.mPos.z += pushOut.z;
+            mapObject->field0.mPos.x += pushOut.x;
+            mapObject->field0.mPos.y += pushOut.y;
+            mapObject->field0.mPos.z += pushOut.z;
         }
     }
-    if (mapObject->mUnk_2b8 != 2 && (mapObject->mCollisionBits & 0x214300)) {
+    if (mapObject->field2B8 != 2 && (mapObject->mCollisionBits & 0x214300)) {
         if ((s64) v5c.x * v5c.x + (s64) v5c.y * v5c.y + (s64) v5c.z * v5c.z >= 0x10) {
             vec_normalize(&v5c, &pushDirection);
         }
         pushDirection.y = 0;
-        VEC_MultAdd(mapObject->mPrm->mUnk_030, &pushDirection, &mapObject->mVelocity, &mapObject->mVelocity);
+        VEC_MultAdd(mapObject->mPrm->field30, &pushDirection, &mapObject->mVelocity, &mapObject->mVelocity);
     }
 
     if (mapObject->mCollisionBits & 0x1e34ef) {
         if (mapObject->mVelocity.y > 0) {
             mapObject->mCollisionBits &= ~0x1e34ef;
         } else if (mapObject->mBounceEnabled != FALSE) {
-            mapObject->mVelocity.y = (((s64) mapObject->mVelocity.y * -mapObject->mPrm->mUnk_020) >> 12);
-            if (mapObject->mVelocity.y < mapObject->mPrm->mUnk_018) {
+            mapObject->mVelocity.y = (((s64) mapObject->mVelocity.y * -mapObject->mPrm->field20) >> 12);
+            if (mapObject->mVelocity.y < mapObject->mPrm->field18) {
                 mapObject->mBounceEnabled = FALSE;
                 mapObject->mVelocity.y = 0;
             }
@@ -742,8 +742,8 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
             mapObject->mVelocity.y = 0;
         }
     }
-    if (mapObject->mUnk_000.mPos.y < 0) {
-        mapObject->mUnk_000.mPos.y = 0;
+    if (mapObject->field0.mPos.y < 0) {
+        mapObject->field0.mPos.y = 0;
         mapObject->mCollisionBits |= data_ov001_021a6584;
     }
     if (mapObject->mAlphaLimitPerCall > 0) {
@@ -754,20 +754,20 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
         }
     }
     if (mapObject->mScalePerCall > 0) {
-        mapObject->mUnk_000.mScale.x = mapObject->mUnk_000.mScale.y = mapObject->mUnk_000.mScale.z =
-            StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->mUnk_000.mScale.x);
+        mapObject->field0.mScale.x = mapObject->field0.mScale.y = mapObject->field0.mScale.z =
+            StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->field0.mScale.x);
     }
     if (mapObject->mCollisionShape == 1) {
-        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mUnk_00[0].x, FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2],
+        MTX_RotY33_(&mapObject->field0.mMatrix.field0[0].x, FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2],
                     FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]);
-        MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mUnk_00[0].x, &mapObject->mPosWithOffset);
-        VEC_Add(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPos, &mapObject->mPosWithOffset);
+        MTX_MultVec33(&mapObject->mOffset, &mapObject->field0.mMatrix.field0[0].x, &mapObject->mPosWithOffset);
+        VEC_Add(&mapObject->mPosWithOffset, &mapObject->field0.mPos, &mapObject->mPosWithOffset);
     } else {
-        mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + mapObject->mOffset.x;
-        mapObject->mPosWithOffset.y = mapObject->mUnk_000.mPos.y + mapObject->mOffset.y;
-        mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + mapObject->mOffset.z;
+        mapObject->mPosWithOffset.x = mapObject->field0.mPos.x + mapObject->mOffset.x;
+        mapObject->mPosWithOffset.y = mapObject->field0.mPos.y + mapObject->mOffset.y;
+        mapObject->mPosWithOffset.z = mapObject->field0.mPos.z + mapObject->mOffset.z;
     }
-    mapObject->mUnk_000.mAngle = mapObject->mAngle;
+    mapObject->field0.mAngle = mapObject->mAngle;
 
     if (mapObject->mNsbmd != NULL) {
         previousFrame = mobj_getModelCurNsbcaFrame(mapObject->mNsbmd);
@@ -783,20 +783,20 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
                 ClearAndRunCallback(mapObject, &mapObject->mAnimationFrameCallback);
             }
         }
-        if (mapObject->mUnk_1e0 != 0) {
-            if (previousFrame < mapObject->mUnk_1e0 && mapObject->mUnk_1e0 <= currentFrame) {
-                mapObject->mUnk_1e4(mapObject);
+        if (mapObject->field1E0 != 0) {
+            if (previousFrame < mapObject->field1E0 && mapObject->field1E0 <= currentFrame) {
+                mapObject->field1E4(mapObject);
             } else if (currentFrame < (u32) previousFrame &&
-                       (mapObject->mUnk_1e0 <= currentFrame || previousFrame < mapObject->mUnk_1e0)) {
-                mapObject->mUnk_1e4(mapObject);
+                       (mapObject->field1E0 <= currentFrame || previousFrame < mapObject->field1E0)) {
+                mapObject->field1E4(mapObject);
             }
         }
-        if (mapObject->mUnk_1e8 != 0) {
-            if (previousFrame < mapObject->mUnk_1e8 && mapObject->mUnk_1e8 <= currentFrame) {
-                mapObject->mUnk_1ec(mapObject);
+        if (mapObject->field1E8 != 0) {
+            if (previousFrame < mapObject->field1E8 && mapObject->field1E8 <= currentFrame) {
+                mapObject->field1EC(mapObject);
             } else if (currentFrame < (u32) previousFrame &&
-                       (mapObject->mUnk_1e8 <= currentFrame || previousFrame < mapObject->mUnk_1e8)) {
-                mapObject->mUnk_1ec(mapObject);
+                       (mapObject->field1E8 <= currentFrame || previousFrame < mapObject->field1E8)) {
+                mapObject->field1EC(mapObject);
             }
         }
         if (!func_ov001_0219b240(mapObject->mNsbmd)) {
@@ -814,14 +814,14 @@ void boss_update(u32 a, Unk02188950 *mapObject) {
         IsPointInRange(mapObject, &mapObject->mPoint, mapObject->mPointRadius, mapObject->mPointHalfAngle)) {
         ClearAndRunCallback(mapObject, &mapObject->mPointInRangeCallback);
     }
-    if (mapObject->mUnk_224 != NULL &&
-        !IsPointInRange(mapObject, &mapObject->mUnk_218, mapObject->mUnk_210, mapObject->mUnk_214)) {
-        ClearAndRunCallback(mapObject, &mapObject->mUnk_224);
+    if (mapObject->field224 != NULL &&
+        !IsPointInRange(mapObject, &mapObject->field218, mapObject->field210, mapObject->field214)) {
+        ClearAndRunCallback(mapObject, &mapObject->field224);
     }
     if (mapObject->mStoppedCallback != NULL && mapObject->mVelocity.y == 0 &&
-        -mapObject->mPrm->mUnk_018 < mapObject->mSpeed && mapObject->mPrm->mUnk_018 > mapObject->mSpeed &&
-        -mapObject->mPrm->mUnk_018 < mapObject->mVelocity.x && mapObject->mPrm->mUnk_018 > mapObject->mVelocity.x &&
-        -mapObject->mPrm->mUnk_018 < mapObject->mVelocity.z && mapObject->mPrm->mUnk_018 > mapObject->mVelocity.z &&
+        -mapObject->mPrm->field18 < mapObject->mSpeed && mapObject->mPrm->field18 > mapObject->mSpeed &&
+        -mapObject->mPrm->field18 < mapObject->mVelocity.x && mapObject->mPrm->field18 > mapObject->mVelocity.x &&
+        -mapObject->mPrm->field18 < mapObject->mVelocity.z && mapObject->mPrm->field18 > mapObject->mVelocity.z &&
         (mapObject->mCollisionBits & 0x1e34ef)) {
         ClearAndRunCallback(mapObject, &mapObject->mStoppedCallback);
     }
@@ -856,9 +856,9 @@ void boss_render(void *mapObjectList, Unk02188950 *mapObject) {
     s32 pairIndex;
 
     alphaLimit = mapObject->mAlphaLimit >> 12;
-    shiftedPosition.x = mapObject->mUnk_000.mPos.x >> 4;
-    shiftedPosition.y = mapObject->mUnk_000.mPos.y >> 4;
-    shiftedPosition.z = mapObject->mUnk_000.mPos.z >> 4;
+    shiftedPosition.x = mapObject->field0.mPos.x >> 4;
+    shiftedPosition.y = mapObject->field0.mPos.y >> 4;
+    shiftedPosition.z = mapObject->field0.mPos.z >> 4;
     alpha = bbm_calcDistanceAlpha(&shiftedPosition);
     if (alpha >= alphaLimit) {
         alpha = alphaLimit;
@@ -870,7 +870,7 @@ void boss_render(void *mapObjectList, Unk02188950 *mapObject) {
         if (alpha >= 0x1f) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             mobj_setModelPolygonIdAll(mapObject->mNsbmd, 3);
-        } else if (mapObject->mUnk_27c <= 1) {
+        } else if (mapObject->field27C <= 1) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
             mobj_setModelPolygonIdAll(mapObject->mNsbmd, 3);
         } else {
@@ -882,15 +882,15 @@ void boss_render(void *mapObjectList, Unk02188950 *mapObject) {
         }
         value = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &value, 1);
-        NNS_G3dGeBufferOP_N(0x19, bbm_20E6B58(&mapObject->mUnk_000.mPos), 0xc);
-        if (mapObject->mUnk_000.mAngle != 0) {
-            pairIndex = mapObject->mUnk_000.mAngle >> 4;
+        NNS_G3dGeBufferOP_N(0x19, bbm_20E6B58(&mapObject->field0.mPos), 0xc);
+        if (mapObject->field0.mAngle != 0) {
+            pairIndex = mapObject->field0.mAngle >> 4;
             MTX_RotY33_(rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
             NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
         }
-        NNS_G3dGeBufferOP_N(0x1b, &mapObject->mUnk_000.mScale.x, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &mapObject->field0.mScale.x, 3);
         mobj_setModelAlpha(mapObject->mNsbmd, alpha);
-        mobj_setModelFlip(mapObject->mNsbmd, mapObject->mUnk_000.mFlags & 0x400, 0);
+        mobj_setModelFlip(mapObject->mNsbmd, mapObject->field0.mFlags & 0x400, 0);
         mobj_renderModel(mapObjectList, mapObject->mNsbmd, mapObject);
     }
 }
@@ -901,26 +901,26 @@ void boss_renderShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDe
     Vec3 shadowPosition;
 
     depth = mapObject->mAlphaLimit >> 12;
-    if (mapObject->mUnk_27c == 2) {
-        shadowPosition.x = mapObject->mUnk_000.mPos.x;
-        shadowPosition.y = mapObject->mUnk_000.mPos.y;
-        shadowPosition.z = mapObject->mUnk_000.mPos.z;
-    } else if (mapObject->mUnk_27c == 3) {
-        shadowPosition.x = mapObject->mUnk_2e8.x;
-        shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y;
-        shadowPosition.z = mapObject->mUnk_2e8.z;
+    if (mapObject->field27C == 2) {
+        shadowPosition.x = mapObject->field0.mPos.x;
+        shadowPosition.y = mapObject->field0.mPos.y;
+        shadowPosition.z = mapObject->field0.mPos.z;
+    } else if (mapObject->field27C == 3) {
+        shadowPosition.x = mapObject->field2E8.x;
+        shadowPosition.y = mapObject->field0.mCourseMapRow->field0.y;
+        shadowPosition.z = mapObject->field2E8.z;
     } else {
         if (depth >= 4) {
-            s32 t = depth - ((mapObject->mUnk_000.mPos.y - mapObject->mUnk_000.mCourseMapRow->mUnk_00.y) >> 15);
+            s32 t = depth - ((mapObject->field0.mPos.y - mapObject->field0.mCourseMapRow->field0.y) >> 15);
 
             if (t <= 4) {
                 t = 4;
             }
             depth = (u16) t;
         }
-        shadowPosition.x = mapObject->mUnk_000.mPos.x;
-        shadowPosition.y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y;
-        shadowPosition.z = mapObject->mUnk_000.mPos.z;
+        shadowPosition.x = mapObject->field0.mPos.x;
+        shadowPosition.y = mapObject->field0.mCourseMapRow->field0.y;
+        shadowPosition.z = mapObject->field0.mPos.z;
     }
     if (depth > 0x10) {
         depth = 0x10;
@@ -982,12 +982,12 @@ s32 boss_collide(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
             return 0;
         case 2:
             return col_collideSphereCylinder(sphereCenter, &mapObject->mPosWithOffset,
-                                                     &mapObject->mUnk_000.mMatrix.mUnk_00[0],
+                                                     &mapObject->field0.mMatrix.field0[0],
                                                      mapObject->mCollisionExtent.x, mapObject->mCollisionExtent.y,
                                                      mapObject->mCollisionExtent.y, sphereRadius, overlapOffset);
         case 1:
             return col_collideSphereBox(sphereCenter, &mapObject->mPosWithOffset,
-                                                &mapObject->mUnk_000.mMatrix.mUnk_00[0], &mapObject->mCollisionExtent,
+                                                &mapObject->field0.mMatrix.field0[0], &mapObject->mCollisionExtent,
                                                 &mapObject->mCollisionExtent, sphereRadius, overlapOffset);
         default:
             return 0;
@@ -1001,23 +1001,23 @@ s32 boss_onDriverCollide(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d) {
     UnkFunc *collisionCallback;
 
     mode = *c;
-    mapObject->mUnk_2d8 = *d;
-    mapObject->mUnk_000.mUnk_10.x = 0;
-    mapObject->mUnk_000.mUnk_10.y = 0;
-    mapObject->mUnk_000.mUnk_10.z = 0;
+    mapObject->field2D8 = *d;
+    mapObject->field0.field10.x = 0;
+    mapObject->field0.field10.y = 0;
+    mapObject->field0.field10.z = 0;
     if (mode == 1) {
-        awayDirection.x = mapObject->mUnk_000.mPos.x - kart->mPos.x;
+        awayDirection.x = mapObject->field0.mPos.x - kart->mPos.x;
         awayDirection.y = 0;
-        awayDirection.z = mapObject->mUnk_000.mPos.z - kart->mPos.z;
+        awayDirection.z = mapObject->field0.mPos.z - kart->mPos.z;
         if ((s64) awayDirection.z * awayDirection.z +
                 ((s64) awayDirection.x * awayDirection.x + (s64) awayDirection.y * awayDirection.y) >=
             16) {
             vec_normalize(&awayDirection, &awayDirection);
-            pushStrength = -mapObject->mPrm->mUnk_024;
-            mapObject->mUnk_000.mUnk_10.x = (((s64) awayDirection.x * pushStrength) >> 12);
-            mapObject->mUnk_000.mUnk_10.y = (((s64) awayDirection.y * pushStrength) >> 12);
-            mapObject->mUnk_000.mUnk_10.z = (((s64) awayDirection.z * pushStrength) >> 12);
-            VEC_MultAdd(mapObject->mPrm->mUnk_028, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
+            pushStrength = -mapObject->mPrm->field24;
+            mapObject->field0.field10.x = (((s64) awayDirection.x * pushStrength) >> 12);
+            mapObject->field0.field10.y = (((s64) awayDirection.y * pushStrength) >> 12);
+            mapObject->field0.field10.z = (((s64) awayDirection.z * pushStrength) >> 12);
+            VEC_MultAdd(mapObject->mPrm->field28, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
         }
         collisionCallback = mapObject->mKartCollisionCallback;
         mapObject->mKartCollisionCallback = NULL;
@@ -1028,29 +1028,29 @@ s32 boss_onDriverCollide(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d) {
     if (mapObject->mTimer == 0) {
         mapObject->mTimer = 0x1f;
     }
-    return mapObject->mUnk_2d8;
+    return mapObject->field2D8;
 }
 
 s32 boss_onItemCollide(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d) {
     Vec3 awayDirection;
     UnkFunc *collisionCallback;
 
-    mapObject->mUnk_2e0 = *d;
-    awayDirection.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
+    mapObject->field2E0 = *d;
+    awayDirection.x = mapObject->field0.mPos.x - itemObject->mPos.x;
     awayDirection.y = 0;
-    awayDirection.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
+    awayDirection.z = mapObject->field0.mPos.z - itemObject->mPos.z;
     if ((s64) awayDirection.z * awayDirection.z +
             ((s64) awayDirection.x * awayDirection.x + (s64) awayDirection.y * awayDirection.y) >=
         16) {
         vec_normalize(&awayDirection, &awayDirection);
-        VEC_MultAdd(mapObject->mPrm->mUnk_02c, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
+        VEC_MultAdd(mapObject->mPrm->field2C, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
     }
     collisionCallback = mapObject->mItemCollisionCallback;
     mapObject->mItemCollisionCallback = NULL;
     if (collisionCallback) {
         collisionCallback(mapObject, itemObject);
     }
-    return mapObject->mUnk_2e0;
+    return mapObject->field2E0;
 }
 
 void *CreateEmptyMapObjectUpdateList(void) {

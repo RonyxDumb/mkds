@@ -50,7 +50,7 @@ void CreateEditAddr(void) {
     b[4] = data_ov003_021d7300[4];
     gEditAddr = AllocZeroedExpHeapBlock(0x18, 4);
     func_ov003_021c20dc(&c, NULL);
-    a.mUnk_00[c](gEditAddr->mText);
+    a.field0[c](gEditAddr->mText);
     d = gEditAddr;
     if (memcmp(d->mText, data_ov003_021d73ac, 3) != 0) {
         d->mGroupIndex = 3;
@@ -62,9 +62,9 @@ void CreateEditAddr(void) {
     LoadHlScr(c + 0xb);
     func_ov003_021bf43c(b[c], -1, 0);
     func_ov003_021bf5ec(2);
-    gEditAddr->mUnk_00 = InitBgTextCanvas(0, 0);
-    gEditAddr->mUnk_04 = CreateOamEntryFromNceImage(0, 0x3f);
-    gEditAddr->mUnk_04->mUnk_04 = (gEditAddr->mUnk_04->mUnk_04 & 0xfffff3ff) | 0xc00;
+    gEditAddr->field0 = InitBgTextCanvas(0, 0);
+    gEditAddr->field4 = CreateOamEntryFromNceImage(0, 0x3f);
+    gEditAddr->field4->field4 = (gEditAddr->field4->field4 & 0xfffff3ff) | 0xc00;
     func_ov003_021c7160();
     PrintEditAddrText();
     SetUpdateFunction(func_ov003_021c7678);
@@ -204,20 +204,20 @@ void UpdateEditAddrInput(void) {
             SetEditAddrKeyboardNextGroupEnabled(0);
             break;
         case 0x12:
-            gEditAddr->mUnk_15 = 0;
+            gEditAddr->field15 = 0;
             StartSoundSeq(7);
             SetUpdateFunction(func_ov003_021c733c);
             return;
         case 0x13:
             if (func_ov003_021c6f64() != FALSE) {
                 StartSoundSeq(6);
-                gEditAddr->mUnk_15 = 1;
+                gEditAddr->field15 = 1;
             } else {
-                gEditAddr->mUnk_15 = 2;
+                gEditAddr->field15 = 2;
                 StartSoundSeq(9);
             }
             gEditAddr->mGroupIndex = 3;
-            gEditAddr->mUnk_04->mUnk_00 = (gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff) | 0x200;
+            gEditAddr->field4->field0 = (gEditAddr->field4->field0 & 0xc1fffcff) | 0x200;
             func_ov003_021c7160();
             func_ov003_021c7050();
             SetUpdateFunction(func_ov003_021c733c);
@@ -316,7 +316,7 @@ void func_ov003_021c7314(void) {
 void func_ov003_021c72a4(void) {
     u8 a;
     if (HasEditAddrKeyboard() == 0) {
-        a = gEditAddr->mUnk_15;
+        a = gEditAddr->field15;
         if (a == 0) {
             SetUpdateFunction(func_ov003_021c722c);
             return;
@@ -334,7 +334,7 @@ void func_ov003_021c72a4(void) {
 void func_ov003_021c722c(void) {
     int v1[1];
     func_ov003_021bf410();
-    DeleteOamEntry((u32 *) (u32) (gEditAddr->mUnk_04));
+    DeleteOamEntry((u32 *) (u32) (gEditAddr->field4));
     ReleaseBgTextCanvasOfScreen(0);
     LoadFileToVram(&gYbObjMainNclName3, &GX_LoadOBJPltt);
     ClearDispcntBits(1, 1);
@@ -361,7 +361,7 @@ void PrintEditAddrText(void) {
     a[3] = data_ov003_021d7308[3];
     a[2] = data_ov003_021d63f8[0];
     a[3] = data_ov003_021d63f8[1];
-    ClearBgTextCanvas(gEditAddr->mUnk_00, 0);
+    ClearBgTextCanvas(gEditAddr->field0, 0);
     b = 0;
     a[5] = 0;
     c = gEditAddrCharX;
@@ -370,11 +370,11 @@ void PrintEditAddrText(void) {
         a[4] = s->mText[b];
         d = *c;
         a[0] = d;
-        DrawCanvasTextRect(s->mUnk_00, d, a[1], a[2], a[3], 2, 0x480, &a[4]);
+        DrawCanvasTextRect(s->field0, d, a[1], a[2], a[3], 2, 0x480, &a[4]);
         c++;
         b++;
     } while (b < 12);
-    RequestBgTextCanvasUpload(gEditAddr->mUnk_00);
+    RequestBgTextCanvasUpload(gEditAddr->field0);
 }
 
 void func_ov003_021c7160(void) {
@@ -387,14 +387,14 @@ void func_ov003_021c7160(void) {
     if (b > 3) {
         b = 3;
     }
-    p = a->mUnk_04;
+    p = a->field4;
     t = (gEditAddrCharX[b * 3 + 2] & 0x1ff) << 16;
-    p->mUnk_00 = t | ((p->mUnk_00 & 0xfe00ff00) | 0x28);
+    p->field0 = t | ((p->field0 & 0xfe00ff00) | 0x28);
 }
 
 void func_ov003_021c7118(void) {
-    gEditAddr->mUnk_15 = func_ov003_021cef80();
-    switch (gEditAddr->mUnk_15) {
+    gEditAddr->field15 = func_ov003_021cef80();
+    switch (gEditAddr->field15) {
         case 0:
             StartSoundSeq(7);
             break;
@@ -413,13 +413,13 @@ void func_ov003_021c70a4(void) {
     s32 b;
     a = data_ov003_021d7324;
     if (func_ov003_021cef6c() == 0) {
-        if (gEditAddr->mUnk_15 == 0) {
-            gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & 0xc1fffcff;
+        if (gEditAddr->field15 == 0) {
+            gEditAddr->field4->field0 = gEditAddr->field4->field0 & 0xc1fffcff;
             SetUpdateFunction(func_ov003_021c7614);
             return;
         }
         func_ov003_021c20dc(&b, NULL);
-        a.mUnk_00[b](gEditAddr->mText);
+        a.field0[b](gEditAddr->mText);
         SetUpdateFunction(func_ov003_021c722c);
     }
 }
@@ -533,7 +533,7 @@ void func_ov003_021c6f08(void) {
     int v1;
     v1 = func_ov003_021cef6c();
     if (v1 == 0) {
-        gEditAddr->mUnk_04->mUnk_00 = gEditAddr->mUnk_04->mUnk_00 & (0xc1fffcffu);
+        gEditAddr->field4->field0 = gEditAddr->field4->field0 & (0xc1fffcffu);
         SetUpdateFunction(func_ov003_021c7614);
     }
 }

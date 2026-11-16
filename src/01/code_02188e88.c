@@ -49,9 +49,9 @@ void mpicn_updateKingIceDonketuIcon(void) {
             if (lmap_20B5AE8(pos, &mpicn_sKingIceDonketuIcon->mCells[cellCount].mDrawPos,
                                                 v, 1, 1) != FALSE) {
                 mpicn_sKingIceDonketuIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
-                mpicn_sKingIceDonketuIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(pos) ? 2 : 3;
-                mpicn_sKingIceDonketuIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                mpicn_sKingIceDonketuIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(pos) ? 2 : 3;
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].field10 = object->mAngle;
                 cellCount++;
             }
         }
@@ -85,9 +85,9 @@ void mpicn_updateKingTeresaIcon(void) {
             if (lmap_20B5AE8(pos, &mpicn_sKingTeresaIcon->mCells[cellCount].mDrawPos, v, 1, 1) !=
                 FALSE) {
                 mpicn_sKingTeresaIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
-                mpicn_sKingTeresaIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(pos) ? 2 : 3;
-                mpicn_sKingTeresaIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                mpicn_sKingTeresaIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+                mpicn_sKingTeresaIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(pos) ? 2 : 3;
+                mpicn_sKingTeresaIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+                mpicn_sKingTeresaIcon->mCells[cellCount].field10 = object->mAngle;
                 cellCount++;
             }
         }
@@ -109,9 +109,9 @@ BOOL IsWithinXzDistanceOfPoint(Unk02188950 *mapObject, Vec3 *point, s32 radius) 
     float radiusAsFloatCopy;
 
     if (point != NULL) {
-        VEC_Subtract(point, &mapObject->mUnk_000.mPos, &unusedOffset);
-        dx = mapObject->mUnk_000.mPos.x - point->x;
-        dz = mapObject->mUnk_000.mPos.z - point->z;
+        VEC_Subtract(point, &mapObject->field0.mPos, &unusedOffset);
+        dx = mapObject->field0.mPos.x - point->x;
+        dz = mapObject->field0.mPos.z - point->z;
         if (radius > 0) {
             radiusAsFloat = 0.5f + (radius << 12);
         } else {
@@ -135,7 +135,7 @@ BOOL IsDirectionToPointWithinAngle(Unk02188950 *mapObject, s32 angle, Vec3 *poin
 
     if (point != NULL) {
         angleDifference =
-            (u16) (FX_Atan2Idx(point->x - mapObject->mUnk_000.mPos.x, point->z - mapObject->mUnk_000.mPos.z) - angle);
+            (u16) (FX_Atan2Idx(point->x - mapObject->field0.mPos.x, point->z - mapObject->field0.mPos.z) - angle);
         if (angleDifference > 0x8000) {
             angleDifference -= 0x10000;
         }

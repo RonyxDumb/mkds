@@ -87,21 +87,21 @@ void MoveWaySelection(int param_1) {
         gWaySelectedIndex = b;
     }
     StartSoundSeq(8);
-    PlaceSelectionCorners(data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_00,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_04,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_02,
-                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].mUnk_06);
+    PlaceSelectionCorners(data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].field0,
+                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].field4,
+                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].field2,
+                          data_ov003_021d65e0[func_ov003_021c20a8(1)][gWaySelectedIndex].field6);
 }
 
 void func_ov003_021cb2e0(void) {
     Unk021d7650 a = data_ov003_021d7650;
-    func_ov003_021cc948(gYbBgStep21Ncl, a.mUnk_00[gWaySelectedIndex], a.mUnk_00[gWaySelectedIndex]);
+    func_ov003_021cc948(gYbBgStep21Ncl, a.field0[gWaySelectedIndex], a.field0[gWaySelectedIndex]);
 }
 
 void CreateAp(void) {
     Ap *a = AllocZeroedExpHeapBlock(0x20, 4);
     gAp = a;
-    a->mUnk_1d = 0;
+    a->field1D = 0;
     LoadApFilesAndSetBgCnt();
     LoadHlScr(1);
     func_ov003_021bf43c(0x7b, -1, 0);
@@ -133,13 +133,13 @@ void func_ov003_021cb11c(void) {
         if (a == 0xff) {
             a = 3;
         } else {
-            gAp->mUnk_10[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
-            SetOamRangePosition(gAp->mUnk_10[i], -1, data_ov003_021d64f0[i + 3].mUnk_00,
-                                data_ov003_021d64f0[i + 3].mUnk_02);
-            func_ov003_021d1790(gAp->mUnk_10[i], -1, 3);
+            gAp->field10[i] = CreateOamRangeFromNceImage(0, 0x11, 1);
+            SetOamRangePosition(gAp->field10[i], -1, data_ov003_021d64f0[i + 3].field0,
+                                data_ov003_021d64f0[i + 3].field2);
+            func_ov003_021d1790(gAp->field10[i], -1, 3);
         }
-        gAp->mUnk_04[i] = CreateOamRangeFromNceImage(0, data_ov003_021d64e4[a], 1);
-        SetOamRangePosition(gAp->mUnk_04[i], -1, data_ov003_021d64f0[i].mUnk_00, data_ov003_021d64f0[i].mUnk_02);
-        func_ov003_021d1790(gAp->mUnk_04[i], -1, 3);
+        gAp->field4[i] = CreateOamRangeFromNceImage(0, data_ov003_021d64e4[a], 1);
+        SetOamRangePosition(gAp->field4[i], -1, data_ov003_021d64f0[i].field0, data_ov003_021d64f0[i].field2);
+        func_ov003_021d1790(gAp->field4[i], -1, 3);
     }
 }

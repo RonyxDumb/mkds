@@ -22,25 +22,25 @@ void func_ov001_0218acb4(Unk02188950 *mapObject) {
 
     IncrementEntryIndex(mapObject);
     func_ov001_02187218(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1c0, mapObject->mPrm->mUnk_1c4);
-    func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_1d0, mapObject->mPrm->mUnk_1d4);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field1C0, mapObject->mPrm->field1C4);
+    func_ov001_02188c48(mapObject, mapObject->mPrm->field1D0, mapObject->mPrm->field1D4);
     SetAnglePointAndMoveAnglePoint(mapObject, &GetCurrentGroupEntry(mapObject)->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1c8, mapObject->mPrm->mUnk_1cc);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->field1C8, mapObject->mPrm->field1CC);
     SetVelocity(mapObject, &velocity);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1d8, func_ov001_0218ad68);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->field1D8, func_ov001_0218ad68);
     mapObject->mGravityEnabled = FALSE;
 }
 
 void func_ov001_0218ac04(Unk02188950 *mapObject) {
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mUnk_1b8;
+    velocity.y = mapObject->mPrm->field1B8;
     func_ov001_02187218(mapObject, 3, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_1a8, mapObject->mPrm->mUnk_1ac);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field1A8, mapObject->mPrm->field1AC);
     SetVelocity(mapObject, &velocity);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1b0, mapObject->mPrm->mUnk_1b4);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->field1B0, mapObject->mPrm->field1B4);
     SetCourseCollisionCallback(mapObject, func_ov001_0218ae60);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1bc, func_ov001_0218acb4);
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x239);
-    mapObject->mUnk_000.mFlags |= data_ov001_021a6594;
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->field1BC, func_ov001_0218acb4);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x239);
+    mapObject->field0.mFlags |= data_ov001_021a6594;
 }

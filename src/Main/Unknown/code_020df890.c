@@ -49,11 +49,11 @@ void kblock_slowDownStateUpdate(Unk020e005c *koopaBlock) {
     u16 angle;
     s32 sine;
 
-    follower = &koopaBlock->mUnk_144;
+    follower = &koopaBlock->field144;
     progress = pw_getProgress(follower);
     angle = (s32) (((s64) progress * 0x40000) >> 12);
     sine = FX_SinCosTable_[(angle >> 4) * 2];
-    speed = ((s64) -sine * koopaBlock->mUnk_168) >> 12;
+    speed = ((s64) -sine * koopaBlock->field168) >> 12;
     follower->mSpeed = speed > 0x200 ? speed : 0x200;
     if (speed <= 0x200) {
         speed = 0x200;
@@ -79,7 +79,7 @@ s32 kblock_getRouteProgress(Unk020e005c *koopaBlock) {
     s32 progress;
     GroupFollower *follower;
 
-    follower = &koopaBlock->mUnk_144;
+    follower = &koopaBlock->field144;
     progress = pw_getProgress(follower);
     if (follower->mForward == 0) {
         progress = 0x1000 - progress;
@@ -99,35 +99,35 @@ void kblock_loadModel(void) {
 
 void kblock_init(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
     sm_init(&koopaBlock->mStateMachine, kblock_sStates, 3, koopaBlock);
-    koopaBlock->mUnk_168 = (courseRow->mUnk_28 << 12) / 100;
-    pw_initFromObject(&koopaBlock->mUnk_144, courseRow, koopaBlock->mUnk_168);
-    koopaBlock->mUnk_16c = 0;
-    *(Unk020e43a8_28 *) &koopaBlock->mUnk_0a0 = *(Unk020e43a8_28 *) &koopaBlock->mUnk_028;
-    koopaBlock->mUnk_124.x = 0;
-    koopaBlock->mUnk_124.y = 0;
-    koopaBlock->mUnk_124.z = 0;
-    koopaBlock->mUnk_130 = FALSE;
-    koopaBlock->mUnk_100 = ((s64) koopaBlock->mUnk_01c * 0x190000) >> 12;
-    koopaBlock->mUnk_104 = (s32) (((s64) koopaBlock->mUnk_020 * 0x64000) >> 12) >> 1;
-    koopaBlock->mUnk_108 = ((s64) koopaBlock->mUnk_024 * 0xaf000) >> 12;
-    koopaBlock->mUnk_10c = ((s64) koopaBlock->mUnk_024 * 0xaf000) >> 12;
-    koopaBlock->mUnk_110 = 0;
-    koopaBlock->mUnk_114.x = 1;
-    koopaBlock->mUnk_114.y = 0;
-    koopaBlock->mUnk_114.z = 0;
-    koopaBlock->mUnk_120 = 0x800;
-    pw_init(&koopaBlock->mUnk_144, 0, 1);
-    pw_calcCurrentPointLinearXYZSpecial(&koopaBlock->mUnk_144, &koopaBlock->mPos, &koopaBlock->mUnk_010);
-    koopaBlock->mUnk_0e8 = koopaBlock->mPos;
-    koopaBlock->mUnk_134 = 0;
-    koopaBlock->mUnk_138 = 0;
+    koopaBlock->field168 = (courseRow->field28 << 12) / 100;
+    pw_initFromObject(&koopaBlock->field144, courseRow, koopaBlock->field168);
+    koopaBlock->field16C = 0;
+    *(Unk020e43a8_28 *) &koopaBlock->fieldA0 = *(Unk020e43a8_28 *) &koopaBlock->field28;
+    koopaBlock->field124.x = 0;
+    koopaBlock->field124.y = 0;
+    koopaBlock->field124.z = 0;
+    koopaBlock->field130 = FALSE;
+    koopaBlock->field100 = ((s64) koopaBlock->field1C * 0x190000) >> 12;
+    koopaBlock->field104 = (s32) (((s64) koopaBlock->field20 * 0x64000) >> 12) >> 1;
+    koopaBlock->field108 = ((s64) koopaBlock->field24 * 0xaf000) >> 12;
+    koopaBlock->field10C = ((s64) koopaBlock->field24 * 0xaf000) >> 12;
+    koopaBlock->field110 = 0;
+    koopaBlock->field114.x = 1;
+    koopaBlock->field114.y = 0;
+    koopaBlock->field114.z = 0;
+    koopaBlock->field120 = 0x800;
+    pw_init(&koopaBlock->field144, 0, 1);
+    pw_calcCurrentPointLinearXYZSpecial(&koopaBlock->field144, &koopaBlock->mPos, &koopaBlock->field10);
+    koopaBlock->fieldE8 = koopaBlock->mPos;
+    koopaBlock->field134 = 0;
+    koopaBlock->field138 = 0;
     koopaBlock->mFlags |= data_0215881c;
     koopaBlock->mFlags &= ~2;
     koopaBlock->mFlags &= ~8;
     koopaBlock->mAlpha = 0x1f;
     koopaBlock->mStateMachine.mNextState = 0;
     koopaBlock->mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mFarDistanceSquared = gSfxParams[3].mUnk_20;
+    koopaBlock->mFarDistanceSquared = gSfxParams[3].field20;
 }
 #pragma thumb off
 
@@ -150,7 +150,7 @@ Unk020dfc44 *efbub_setupLogicPart(void) {
     data_0217b76c = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     *data_0217b76c = data_02158784;
     mobj_logicPartSetThisPointer(&data_0217b76c);
-    data_0217b76c->mUnk_28 = FX_Div(0x4000000, 0x1333);
+    data_0217b76c->field28 = FX_Div(0x4000000, 0x1333);
     return data_0217b76c;
 }
 
@@ -160,35 +160,35 @@ void efbub_render(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     s32 rotationMatrix[9];
     s32 n;
 
-    if (bubble->mUnk_00.mStateMachine.mState != 0) {
+    if (bubble->field0.mStateMachine.mState != 0) {
         return;
     }
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&bubble->mUnk_00.mPos), 0xc);
-    if (bubble->mUnk_a8 != 0) {
-        n = bubble->mUnk_a8 >> 4;
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&bubble->field0.mPos), 0xc);
+    if (bubble->fieldA8 != 0) {
+        n = bubble->fieldA8 >> 4;
         MTX_RotZ33_(rotationMatrix, FX_SinCosTable_[n * 2], FX_SinCosTable_[n * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bubble->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bubble->field0.mScale, 3);
     DrawNsbmdWithMaxAlpha(gMkdEfBubble, alpha);
-    v = bubble->mUnk_00.mPos.y - bubble->mUnk_ac;
+    v = bubble->field0.mPos.y - bubble->fieldAC;
     if (v > 0x10000) {
         v = 0x1000 - ((v - 0x10000) >> 8);
-        bubble->mUnk_b0.mUnk_030 = 0xd;
+        bubble->fieldB0.field30 = 0xd;
     } else {
         n = 0xd - ((0x10000 - v) >> 13);
         v = 0x1000;
         if (n < 1) {
             n = 1;
         }
-        bubble->mUnk_b0.mUnk_030 = n;
+        bubble->fieldB0.field30 = n;
     }
     if (v <= 0) {
         return;
     }
-    oshd_renderMat(&bubble->mUnk_b0, &v, 0, alpha);
+    oshd_renderMat(&bubble->fieldB0, &v, 0, alpha);
 }
 
 void efbub_globalPreUpdate(void) {
@@ -196,19 +196,19 @@ void efbub_globalPreUpdate(void) {
 }
 
 void efbub_update(void *a, MkdEfBubbleObject *bubble) {
-    sm_execute(&bubble->mUnk_00.mStateMachine);
-    if (bubble->mUnk_f0 != 0) {
+    sm_execute(&bubble->field0.mStateMachine);
+    if (bubble->fieldF0 != 0) {
         return;
     }
-    if ((bubble->mUnk_00.mFlags & 0x12) != 0) {
-        bubble->mUnk_e8->mUnk_24 |= 8;
-        bubble->mUnk_ec->mUnk_24 |= 8;
+    if ((bubble->field0.mFlags & 0x12) != 0) {
+        bubble->fieldE8->field24 |= 8;
+        bubble->fieldEC->field24 |= 8;
         return;
     }
-    bubble->mUnk_e8->mUnk_24 &= ~8;
-    bubble->mUnk_ec->mUnk_24 &= ~8;
-    ptcm_setEmitterPosition(bubble->mUnk_e8, &bubble->mUnk_00.mPos);
-    ptcm_setEmitterPosition(bubble->mUnk_ec, &bubble->mUnk_00.mPos);
+    bubble->fieldE8->field24 &= ~8;
+    bubble->fieldEC->field24 &= ~8;
+    ptcm_setEmitterPosition(bubble->fieldE8, &bubble->field0.mPos);
+    ptcm_setEmitterPosition(bubble->fieldEC, &bubble->field0.mPos);
 }
 
 void efbub_state0Init(MkdEfBubbleObject *bubble) {
@@ -216,56 +216,56 @@ void efbub_state0Init(MkdEfBubbleObject *bubble) {
     s32 falloffIndex;
     BOOL effectMissing;
 
-    bubble->mUnk_a8 = 0;
-    bubble->mUnk_00.mPos.y = bubble->mUnk_a4;
-    bubble->mUnk_00.mUnk_10.y = 0x4b33;
-    bubble->mUnk_00.mFlags &= ~2;
-    bubble->mUnk_00.mFlags &= ~8;
-    bubble->mUnk_00.mAlpha = 0x1f;
-    if ((bubble->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (bubble->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    bubble->fieldA8 = 0;
+    bubble->field0.mPos.y = bubble->fieldA4;
+    bubble->field0.field10.y = 0x4b33;
+    bubble->field0.mFlags &= ~2;
+    bubble->field0.mFlags &= ~8;
+    bubble->field0.mAlpha = 0x1f;
+    if ((bubble->field0.mDistanceSquaredAndFlags & 4) == 0) {
+        if (bubble->field0.mFarDistanceSquared == gSfxParams[2].field20) {
             falloffIndex = 2;
-        } else if (bubble->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+        } else if (bubble->field0.mFarDistanceSquared == gSfxParams[3].field20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
         }
         soundRequest.mSoundId = 0x18c;
-        soundRequest.mPositionSource = &bubble->mUnk_00.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&bubble->mUnk_00.mPos);
+        soundRequest.mPositionSource = &bubble->field0.mPos;
+        soundRequest.field8 = falloffIndex;
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&bubble->field0.mPos);
         func_0210b7a8(&soundRequest);
     }
-    bubble->mUnk_e4 = 0;
-    if (bubble->mUnk_e8 == NULL) {
-        bubble->mUnk_e8 = ptcm_createEmitter(0x45, &bubble->mUnk_00.mPos);
+    bubble->fieldE4 = 0;
+    if (bubble->fieldE8 == NULL) {
+        bubble->fieldE8 = ptcm_createEmitter(0x45, &bubble->field0.mPos);
     }
-    if (bubble->mUnk_ec == NULL) {
-        bubble->mUnk_ec = ptcm_createEmitter(0x46, &bubble->mUnk_00.mPos);
+    if (bubble->fieldEC == NULL) {
+        bubble->fieldEC = ptcm_createEmitter(0x46, &bubble->field0.mPos);
     }
-    if (bubble->mUnk_e8 == NULL || bubble->mUnk_ec == NULL) {
+    if (bubble->fieldE8 == NULL || bubble->fieldEC == NULL) {
         effectMissing = TRUE;
     } else {
         effectMissing = FALSE;
     }
-    bubble->mUnk_f0 = effectMissing;
+    bubble->fieldF0 = effectMissing;
 }
 
 void efbub_state0Update(MkdEfBubbleObject *bubble) {
-    if (bubble->mUnk_00.mUnk_10.y < 0x1333) {
-        if (bubble->mUnk_00.mUnk_10.y <= -0x1333) {
-            bubble->mUnk_a8 = 0x8000;
+    if (bubble->field0.field10.y < 0x1333) {
+        if (bubble->field0.field10.y <= -0x1333) {
+            bubble->fieldA8 = 0x8000;
         } else {
-            bubble->mUnk_a8 = (s32) (((s64) (0x1333 - bubble->mUnk_00.mUnk_10.y) * data_0217b76c->mUnk_28) >> 12) >> 12;
+            bubble->fieldA8 = (s32) (((s64) (0x1333 - bubble->field0.field10.y) * data_0217b76c->field28) >> 12) >> 12;
         }
     }
-    bubble->mUnk_00.mUnk_10.y -= 0x199;
-    if (bubble->mUnk_00.mUnk_10.y < -0x3000) {
-        bubble->mUnk_00.mUnk_10.y = -0x3000;
+    bubble->field0.field10.y -= 0x199;
+    if (bubble->field0.field10.y < -0x3000) {
+        bubble->field0.field10.y = -0x3000;
     }
-    bubble->mUnk_00.mPos.y += bubble->mUnk_00.mUnk_10.y;
-    if (bubble->mUnk_00.mPos.y < bubble->mUnk_a4) {
-        bubble->mUnk_00.mStateMachine.mNextState = 1;
-        bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    bubble->field0.mPos.y += bubble->field0.field10.y;
+    if (bubble->field0.mPos.y < bubble->fieldA4) {
+        bubble->field0.mStateMachine.mNextState = 1;
+        bubble->field0.mStateMachine.mNextStateRequested = 1;
     }
 }

@@ -81,7 +81,7 @@ int DigitsRoundCompare(const DigitRecord *a, int n) {
 }
 
 // Adds 1 to the digit at index n - 1, carrying into the digits before it; a carry out of the first digit sets it to 1
-// and adds 1 to mUnk_02.
+// and adds 1 to field2.
 void DigitsIncrement(DigitRecord *a, int n) {
     char *base;
     char *p;
@@ -102,7 +102,7 @@ void DigitsIncrement(DigitRecord *a, int n) {
     }
 }
 
-// For 0 < n < mUnk_04: keeps the first n digits and adds 1 to the last one (DigitsIncrement) when DigitsRoundCompare is
+// For 0 < n < field4: keeps the first n digits and adds 1 to the last one (DigitsIncrement) when DigitsRoundCompare is
 // not negative.
 void DigitsRoundTo(DigitRecord *a, int n) {
     int r;
@@ -121,7 +121,7 @@ void DigitsRoundTo(DigitRecord *a, int n) {
     DigitsIncrement(a, n);
 }
 
-// Writes the decimal digits of v, most significant first, with mUnk_02 = digit count - 1.
+// Writes the decimal digits of v, most significant first, with field2 = digit count - 1.
 void DigitsFromU64(DigitRecord *out, u64 v) {
     char *p;
     char *q;
@@ -141,7 +141,7 @@ void DigitsFromU64(DigitRecord *out, u64 v) {
     out->mExponent = out->mDigitCount - 1;
 }
 
-// Multiplies the digits of a and b (mUnk_02 = the sum of theirs), keeps the first 32 and adds 1 to the last kept one
+// Multiplies the digits of a and b (field2 = the sum of theirs), keeps the first 32 and adds 1 to the last kept one
 // (DigitsIncrement) when the digits after them are above 5 followed by 0s, or equal to it and the last kept digit is
 // odd.
 void DigitsMultiply(DigitRecord *out, const DigitRecord *a, const DigitRecord *b) {
@@ -210,7 +210,7 @@ round:
     DigitsIncrement(out, out->mDigitCount);
 }
 
-// Reads up to 32 digit characters of s into out with mUnk_02 = n. Then adds 1 to the last digit (DigitsIncrement) when
+// Reads up to 32 digit characters of s into out with field2 = n. Then adds 1 to the last digit (DigitsIncrement) when
 // the next byte is above 5, or is 5 with only '0' bytes after it and the last digit odd.
 void DigitsFromString(DigitRecord *out, const char *s, int n) {
     int i;

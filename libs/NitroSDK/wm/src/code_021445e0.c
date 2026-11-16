@@ -260,15 +260,15 @@ void WmDataSharingSetDataCallback(Unk02144920 *callback) {
 
     work = WMi_GetSystemWork();
     status = work->mStatusArea;
-    registered = work->mPortCallbacks[callback->mUnk_0a];
-    share = work->mPortCallbackArgs[callback->mUnk_0a];
+    registered = work->mPortCallbacks[callback->fieldA];
+    share = work->mPortCallbackArgs[callback->fieldA];
     if (registered != WmDataSharingReceiveCallback_Parent && registered != WmDataSharingReceiveCallback_Child) {
         return;
     }
     if (share == 0) {
         return;
     }
-    if (share != callback->mUnk_20) {
+    if (share != callback->field20) {
         return;
     }
     DC_InvalidateRange(&status->mOwnMemberIndex, 2);
@@ -278,7 +278,7 @@ void WmDataSharingSetDataCallback(Unk02144920 *callback) {
         if (ownIndex != 0) {
             return;
         }
-        share->mSeqNum[share->mSendIndex] = callback->mUnk_1a >> 1;
+        share->mSeqNum[share->mSendIndex] = callback->field1A >> 1;
         share->mSendIndex = (share->mSendIndex + 1) & 3;
         return;
     }
@@ -303,21 +303,21 @@ void WmDataSharingReceiveCallback_Parent(Unk02144920 *callback) {
     u32 mask;
     u16 next;
 
-    share = callback->mUnk_1c;
+    share = callback->field1C;
     if (share == 0) {
         return;
     }
     if (callback->mResultCode == 0) {
-        switch (callback->mUnk_04) {
+        switch (callback->field4) {
             case 0x15:
-                WmDataSharingReceiveData(share, callback->mUnk_12, callback->mUnk_0c);
+                WmDataSharingReceiveData(share, callback->field12, callback->fieldC);
                 WmDataSharingSendDataSet(share, 0);
                 return;
             case 7:
                 WmDataSharingSendDataSet(share, 0);
                 return;
             case 9:
-                member = callback->mUnk_12;
+                member = callback->field12;
                 bit = 1;
                 enabled = OS_DisableInterrupts();
                 current = share->mWriteIndex;
@@ -349,23 +349,23 @@ void WmDataSharingReceiveCallback_Child(Unk02144920 *callback) {
     u16 *data;
 
     status = WMi_GetSystemWork()->mStatusArea;
-    share = callback->mUnk_1c;
+    share = callback->field1C;
     if (share == 0) {
         return;
     }
     if (callback->mResultCode == 0) {
-        if (callback->mUnk_04 == 7) {
+        if (callback->field4 == 7) {
             return;
         }
-        if (callback->mUnk_04 == 9) {
+        if (callback->field4 == 9) {
             return;
         }
-        if (callback->mUnk_04 != 0x15) {
+        if (callback->field4 != 0x15) {
             return;
         }
-        data = callback->mUnk_0c;
+        data = callback->fieldC;
         blockMask = *data;
-        size = callback->mUnk_10;
+        size = callback->field10;
         DC_InvalidateRange(&status->mOwnMemberIndex, 2);
         ownIndex = status->mOwnMemberIndex;
         if (size != share->mDataSetLength) {
@@ -380,7 +380,7 @@ void WmDataSharingReceiveCallback_Child(Unk02144920 *callback) {
             return;
         }
         MIi_CpuCopy16(data, &share->mDs[share->mWriteIndex], size);
-        share->mSeqNum[share->mWriteIndex] = callback->mUnk_1a >> 1;
+        share->mSeqNum[share->mWriteIndex] = callback->field1A >> 1;
         share->mWriteIndex = (share->mWriteIndex + 1) & 3;
     } else {
         share->mStatus = 5;

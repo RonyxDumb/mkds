@@ -76,9 +76,9 @@ void dptc_startDustClouds(KartTurnEffects *p) {
     p->mTurnStartPresent = 0;
     for (i = 0; i < 2; i++) {
         p->mTurnStartEffects[i] = ptcm_createEmitter(p->mTurnStartEffectId, &data_02155fcc);
-        p->mTurnStartEffects[i]->mUnk_72 = 0x7fff;
-        p->mTurnStartEffects[i]->mUnk_80_8 = 0x1c;
-        p->mTurnStartEffects[i]->mUnk_6c = 0x1000;
+        p->mTurnStartEffects[i]->field72 = 0x7fff;
+        p->mTurnStartEffects[i]->field80_8 = 0x1c;
+        p->mTurnStartEffects[i]->field6C = 0x1000;
     }
     p->mTurnStartPresent = 1;
 }
@@ -90,7 +90,7 @@ void dptc_stopDustClouds(KartTurnEffects *p) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i]->mUnk_24.mUnk_00_0 = 1;
+        p->mTurnStartEffects[i]->field24.field0_0 = 1;
         p->mTurnStartEffects[i] = NULL;
     }
     p->mTurnStartPresent = 0;
@@ -112,19 +112,19 @@ void dptc_updateDustClouds(KartTurnEffects *p, Kart *q) {
         a.x = ((s64) q->mEffectVelocity.x * 0xb33) >> 12;
         a.y = ((s64) q->mEffectVelocity.y * 0xb33) >> 12;
         a.z = ((s64) q->mEffectVelocity.z * 0xb33) >> 12;
-        p->mTurnStartEffects[i]->mUnk_40 = a;
+        p->mTurnStartEffects[i]->field40 = a;
         b.x = -a.x;
         b.y = -a.y;
         b.z = -a.z;
         VEC_Add(&e->mSidePositions[i], &b, &c);
         f = p->mTurnStartEffects[i];
-        f->mUnk_28.x = c.x + f->mUnk_20->mUnk_00->mUnk_04.x;
-        f->mUnk_28.y = c.y + f->mUnk_20->mUnk_00->mUnk_04.y;
-        f->mUnk_28.z = c.z + f->mUnk_20->mUnk_00->mUnk_04.z;
-        if ((q->mUnk_44 & KART_44_ON_GROUND) == 0) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 1;
+        f->field28.x = c.x + f->field20->field0->field4.x;
+        f->field28.y = c.y + f->field20->field0->field4.y;
+        f->field28.z = c.z + f->field20->field0->field4.z;
+        if ((q->field44 & KART_44_ON_GROUND) == 0) {
+            p->mTurnStartEffects[i]->field24.field0_1 = 1;
         } else {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 0;
+            p->mTurnStartEffects[i]->field24.field0_1 = 0;
         }
     }
 }
@@ -150,8 +150,8 @@ void dptc_suspendContRedSparksPlayer(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 1;
-        p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_1 = 1;
+        p->mLevel4FirstEffects[i]->field24.field0_1 = 1;
+        p->mLevel4SecondEffects[i]->field24.field0_1 = 1;
     }
 }
 
@@ -159,7 +159,7 @@ void dptc_suspendContRedSparksCpu(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 1;
+        p->mLevel4FirstEffects[i]->field24.field0_1 = 1;
     }
 }
 
@@ -167,8 +167,8 @@ void dptc_resumeContRedSparksPlayer(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 0;
-        p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_1 = 0;
+        p->mLevel4FirstEffects[i]->field24.field0_1 = 0;
+        p->mLevel4SecondEffects[i]->field24.field0_1 = 0;
     }
 }
 
@@ -176,7 +176,7 @@ void dptc_resumeContRedSparksCpu(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 0;
+        p->mLevel4FirstEffects[i]->field24.field0_1 = 0;
     }
 }
 
@@ -207,8 +207,8 @@ void dptc_208D234(KartTurnEffects *p) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_1 = 1;
-        p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_1 = 1;
+        p->mLevel4FirstEffects[i]->field24.field0_1 = 1;
+        p->mLevel4SecondEffects[i]->field24.field0_1 = 1;
     }
 }
 
@@ -232,22 +232,22 @@ void dptc_updateContRedSparksPlayer(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     s32 n;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i]->mUnk_50 = a[i];
-        p->mLevel4SecondEffects[i]->mUnk_50 = a[i];
+        p->mLevel4FirstEffects[i]->field50 = a[i];
+        p->mLevel4SecondEffects[i]->field50 = a[i];
         e = p->mLevel4FirstEffects[i];
         n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
+        e->field28.x = n + e->field20->field0->field4.x;
         n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
+        e->field28.y = n + e->field20->field0->field4.y;
         n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
+        e->field28.z = n + e->field20->field0->field4.z;
         e = p->mLevel4SecondEffects[i];
         n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
+        e->field28.x = n + e->field20->field0->field4.x;
         n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
+        e->field28.y = n + e->field20->field0->field4.y;
         n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
+        e->field28.z = n + e->field20->field0->field4.z;
     }
 }
 
@@ -258,14 +258,14 @@ void dptc_updateContRedSparksCpu(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
 
     for (i = 0; i < 2; i++) {
         e = p->mLevel4FirstEffects[i];
-        e->mUnk_50 = a[i];
+        e->field50 = a[i];
         e = p->mLevel4FirstEffects[i];
         t = b[i].x;
-        e->mUnk_28.x = t + e->mUnk_20->mUnk_00->mUnk_04.x;
+        e->field28.x = t + e->field20->field0->field4.x;
         t = b[i].y;
-        e->mUnk_28.y = t + e->mUnk_20->mUnk_00->mUnk_04.y;
+        e->field28.y = t + e->field20->field0->field4.y;
         t = b[i].z;
-        e->mUnk_28.z = t + e->mUnk_20->mUnk_00->mUnk_04.z;
+        e->field28.z = t + e->field20->field0->field4.z;
     }
 }
 
@@ -274,20 +274,20 @@ void dptc_hideDustRedBlueSparks(KartTurnEffects *p) {
 
     if (p->mTurnStartPresent != 0) {
         for (i = 0; i < 2; i++) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_3 = 1;
+            p->mTurnStartEffects[i]->field24.field0_3 = 1;
         }
     }
     if (p->mLevel3Present != 0) {
         for (i = 0; i < 2; i++) {
-            p->mLevel3FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
-            p->mLevel3SecondEffects[i]->mUnk_24.mUnk_00_3 = 1;
+            p->mLevel3FirstEffects[i]->field24.field0_3 = 1;
+            p->mLevel3SecondEffects[i]->field24.field0_3 = 1;
         }
     }
     if (p->mLevel2Present == FALSE) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mLevel2Effects[i]->mUnk_24.mUnk_00_3 = 1;
+        p->mLevel2Effects[i]->field24.field0_3 = 1;
     }
 }
 
@@ -296,8 +296,8 @@ void dptc_hideAllPlayer(KartTurnEffects *p) {
 
     if (p->mLevel4Present != 0) {
         for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
-            p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_3 = 1;
+            p->mLevel4FirstEffects[i]->field24.field0_3 = 1;
+            p->mLevel4SecondEffects[i]->field24.field0_3 = 1;
         }
     }
     dptc_hideDustRedBlueSparks(p);
@@ -308,7 +308,7 @@ void dptc_hideAllCpu(KartTurnEffects *p) {
 
     if (p->mLevel4Present != 0) {
         for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
+            p->mLevel4FirstEffects[i]->field24.field0_3 = 1;
         }
     }
     dptc_hideDustRedBlueSparks(p);
@@ -319,20 +319,20 @@ void dptc_showDustRedBlueSparks(KartTurnEffects *p) {
 
     if (p->mTurnStartPresent != 0) {
         for (i = 0; i < 2; i++) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_3 = 0;
+            p->mTurnStartEffects[i]->field24.field0_3 = 0;
         }
     }
     if (p->mLevel3Present != 0) {
         for (i = 0; i < 2; i++) {
-            p->mLevel3FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
-            p->mLevel3SecondEffects[i]->mUnk_24.mUnk_00_3 = 0;
+            p->mLevel3FirstEffects[i]->field24.field0_3 = 0;
+            p->mLevel3SecondEffects[i]->field24.field0_3 = 0;
         }
     }
     if (p->mLevel2Present == FALSE) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mLevel2Effects[i]->mUnk_24.mUnk_00_3 = 0;
+        p->mLevel2Effects[i]->field24.field0_3 = 0;
     }
 }
 
@@ -341,8 +341,8 @@ void dptc_showAllPlayer(KartTurnEffects *p) {
 
     if (p->mLevel4Present != 0) {
         for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
-            p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_3 = 0;
+            p->mLevel4FirstEffects[i]->field24.field0_3 = 0;
+            p->mLevel4SecondEffects[i]->field24.field0_3 = 0;
         }
     }
     dptc_showDustRedBlueSparks(p);
@@ -353,7 +353,7 @@ void dptc_showAllCpu(KartTurnEffects *p) {
 
     if (p->mLevel4Present != 0) {
         for (i = 0; i < 2; i++) {
-            p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
+            p->mLevel4FirstEffects[i]->field24.field0_3 = 0;
         }
     }
     dptc_showDustRedBlueSparks(p);
@@ -386,7 +386,7 @@ void dptc_updateContRedSparks(KartTurnEffects *p, Kart *q) {
             p->mLevel4RestartRequested = 0;
         }
     }
-    if ((q->mUnk_44 & KART_44_DRIFTING) && p->mLevel4RestartRequested != 0) {
+    if ((q->field44 & KART_44_DRIFTING) && p->mLevel4RestartRequested != 0) {
         p->mLevel4RestartFrames++;
         if (p->mLevel4RestartFrames > 10) {
             if (p->mLevel4Present != 0) {
@@ -408,7 +408,7 @@ void dptc_updateContRedSparks(KartTurnEffects *p, Kart *q) {
     }
     e = rptc_getEffectControllerForDriver(q->mIndex);
     p->mPlaceLevel4Effects(p, e->mSideDirections, e->mSidePositions);
-    if ((q->mUnk_44 & KART_44_ON_GROUND) == 0) {
+    if ((q->field44 & KART_44_ON_GROUND) == 0) {
         p->mStopLevel4Emission(p);
         return;
     }
@@ -463,22 +463,22 @@ void dptc_updateRedSparks(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mLevel3FirstEffects[i]->mUnk_50 = a[i];
-        p->mLevel3SecondEffects[i]->mUnk_50 = a[i];
+        p->mLevel3FirstEffects[i]->field50 = a[i];
+        p->mLevel3SecondEffects[i]->field50 = a[i];
         e = p->mLevel3FirstEffects[i];
         n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
+        e->field28.x = n + e->field20->field0->field4.x;
         n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
+        e->field28.y = n + e->field20->field0->field4.y;
         n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
+        e->field28.z = n + e->field20->field0->field4.z;
         e = p->mLevel3SecondEffects[i];
         n = b[i].x;
-        e->mUnk_28.x = n + e->mUnk_20->mUnk_00->mUnk_04.x;
+        e->field28.x = n + e->field20->field0->field4.x;
         n = b[i].y;
-        e->mUnk_28.y = n + e->mUnk_20->mUnk_00->mUnk_04.y;
+        e->field28.y = n + e->field20->field0->field4.y;
         n = b[i].z;
-        e->mUnk_28.z = n + e->mUnk_20->mUnk_00->mUnk_04.z;
+        e->field28.z = n + e->field20->field0->field4.z;
     }
 }
 
@@ -524,26 +524,26 @@ void dptc_updateBlueSparks(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
             return;
         }
         for (i = 0; i < 2; i++) {
-            p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 0;
+            p->mTurnStartEffects[i]->field24.field0_1 = 0;
         }
         return;
     }
     for (i = 0; i < 2; i++) {
         e = p->mLevel2Effects[i];
-        e->mUnk_50 = a[i];
+        e->field50 = a[i];
         e = p->mLevel2Effects[i];
         t = b[i].x;
-        e->mUnk_28.x = t + e->mUnk_20->mUnk_00->mUnk_04.x;
+        e->field28.x = t + e->field20->field0->field4.x;
         t = b[i].y;
-        e->mUnk_28.y = t + e->mUnk_20->mUnk_00->mUnk_04.y;
+        e->field28.y = t + e->field20->field0->field4.y;
         t = b[i].z;
-        e->mUnk_28.z = t + e->mUnk_20->mUnk_00->mUnk_04.z;
+        e->field28.z = t + e->field20->field0->field4.z;
     }
     if (p->mTurnStartPresent == 0) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i]->mUnk_24.mUnk_00_1 = 1;
+        p->mTurnStartEffects[i]->field24.field0_1 = 1;
     }
 }
 
@@ -604,7 +604,7 @@ void dptc_208C534(KartTurnEffects *p) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i]->mUnk_24.mUnk_00_0 = 1;
+        p->mTurnStartEffects[i]->field24.field0_0 = 1;
         p->mTurnStartEffects[i] = NULL;
     }
     p->mTurnStartPresent = 0;

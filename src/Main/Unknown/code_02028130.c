@@ -115,8 +115,8 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
-                p->mUnk_18[18].mVisible = 0;
-                jn_ui_setLabelColorParam(data_02153834[4], 0, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+                p->field18[18].mVisible = 0;
+                jn_ui_setLabelColorParam(data_02153834[4], 0, p->field14, p->field18, p->fieldC);
                 func_021106a8(func_02025eb0(gSelectKart->mCharacterIndex), 1);
                 func_02077f48(1);
                 StopPaletteBlend();
@@ -136,14 +136,14 @@ int AdvanceSelectKart(void) {
                 RequestSelectReturnState3WithSound(v);
             } else if (mutil_checkKeys(t, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
-                gSelectKart->mUnk_114 = 3;
-                p->mUnk_18[1].mVisible = 0;
-                p->mUnk_18[3].mVisible = 1;
+                gSelectKart->field114 = 3;
+                p->field18[1].mVisible = 0;
+                p->field18[3].mVisible = 1;
             } else if (mutil_checkKeys(t, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
-                gSelectKart->mUnk_114 = 2;
-                p->mUnk_18[0].mVisible = 0;
-                p->mUnk_18[2].mVisible = 1;
+                gSelectKart->field114 = 2;
+                p->field18[0].mVisible = 0;
+                p->field18[2].mVisible = 1;
             }
             if (e != gSelectKart->mKartIndex) {
                 func_02110698();
@@ -158,17 +158,17 @@ int AdvanceSelectKart(void) {
             if (gSelectKart->mStateFrames > 6) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mState = 2;
-                p->mUnk_18[gSelectKart->mUnk_114].mOffsetX = 0;
-                p->mUnk_18[1].mVisible = 1;
-                p->mUnk_18[0].mVisible = 1;
-                p->mUnk_18[3].mVisible = 0;
-                p->mUnk_18[2].mVisible = 0;
+                p->field18[gSelectKart->field114].mOffsetX = 0;
+                p->field18[1].mVisible = 1;
+                p->field18[0].mVisible = 1;
+                p->field18[3].mVisible = 0;
+                p->field18[2].mVisible = 0;
             } else {
                 v = func_020adc64(gSelectKart->mStateFrames);
-                if (gSelectKart->mUnk_114 == 2) {
+                if (gSelectKart->field114 == 2) {
                     v = -v;
                 }
-                p->mUnk_18[gSelectKart->mUnk_114].mOffsetX = v;
+                p->field18[gSelectKart->field114].mOffsetX = v;
             }
             break;
         case 4:
@@ -178,7 +178,7 @@ int AdvanceSelectKart(void) {
                 switch (d->mMode) {
                     case 0:
                         menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mKartIndex = d->mKartIndex;
-                        menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 1;
+                        menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].field14 = 1;
                         FillRandomKartIndices();
                         gSelectKart->mState = 6;
                         break;
@@ -194,8 +194,8 @@ int AdvanceSelectKart(void) {
                         break;
                 }
                 gSelectKart->mStateFrames = 0;
-                p->mUnk_18[18].mVisible = 1;
-                jn_ui_setLabelColorParam(data_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+                p->field18[18].mVisible = 1;
+                jn_ui_setLabelColorParam(data_02153834[4], 1, p->field14, p->field18, p->fieldC);
             }
             break;
         case 5:
@@ -229,7 +229,7 @@ int AdvanceSelectKart(void) {
             break;
         case 7:
             if (d->mInterpolations[4].mState == 3) {
-                menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = d->mResult == 1;
+                menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].field14 = d->mResult == 1;
                 gSelectKart->mState = 8;
             }
             func_02028fac();
@@ -245,25 +245,25 @@ int AdvanceSelectKart(void) {
         SPM_RenderCharacterSelect3D();
     }
     d = gSelectKart;
-    if (d->mUnk_104 != FALSE) {
+    if (d->field104 != FALSE) {
         AdvancePlayerEntryList();
     } else {
-        jn_ui_renderElements(q->mUnk_0c, q->mUnk_08, NULL, d->mUnk_080, q->mUnk_18);
+        jn_ui_renderElements(q->fieldC, q->field8, NULL, d->field80, q->field18);
     }
     if (func_020280dc() == 0) {
         d = gSelectKart;
         if (d->mState != 8) {
-            jn_ui_renderElements(p->mUnk_0c, p->mUnk_08, p->mUnk_14, d->mUnk_084, p->mUnk_18);
+            jn_ui_renderElements(p->fieldC, p->field8, p->field14, d->field84, p->field18);
         }
     } else {
         AdvanceSelectRaceRuleWait();
     }
     switch (r) {
         case 1:
-            menu_getRaceConfig()->mUnk_108 = 0;
+            menu_getRaceConfig()->field108 = 0;
             break;
         case 2:
-            menu_getRaceConfig()->mUnk_108 = 2;
+            menu_getRaceConfig()->field108 = 2;
             break;
     }
     return r;

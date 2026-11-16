@@ -32,7 +32,7 @@ void DWC_Netcheck_Abort(void) {
         if (gNetcheck->mThread.mId != 0) {
             OS_JoinThread(&gNetcheck->mThread);
         }
-        gNetcheck->mUnk_04 = 0xfffffff9;
+        gNetcheck->field4 = 0xfffffff9;
     }
 }
 
@@ -61,14 +61,14 @@ void DWCi_Netcheck_Thread(void) {
     p2 = NULL;
     p3 = NULL;
     for (;;) {
-        data_ov000_021b4cb4.mUnk_00 = data_ov000_021b1384;
-        data_ov000_021b4cb4.mUnk_04 = TRUE;
-        data_ov000_021b4cb4.mUnk_08 = NULL;
-        data_ov000_021b4cb4.mUnk_0c = 0x1000;
-        data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-        data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-        data_ov000_021b4cb4.mUnk_1c = 20000;
-        gNetcheck->mUnk_04 = -2;
+        data_ov000_021b4cb4.field0 = data_ov000_021b1384;
+        data_ov000_021b4cb4.field4 = TRUE;
+        data_ov000_021b4cb4.field8 = NULL;
+        data_ov000_021b4cb4.fieldC = 0x1000;
+        data_ov000_021b4cb4.field10 = gNetcheck->mParam.mAlloc;
+        data_ov000_021b4cb4.field14 = gNetcheck->mParam.mFree;
+        data_ov000_021b4cb4.field1C = 20000;
+        gNetcheck->field4 = -2;
         if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
@@ -86,7 +86,7 @@ void DWCi_Netcheck_Thread(void) {
         o = gHttp;
         switch (o->mResult) {
             case 2:
-                gNetcheck->mUnk_04 = -1;
+                gNetcheck->field4 = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
@@ -108,17 +108,17 @@ void DWCi_Netcheck_Thread(void) {
             if (r == 0x12e) {
                 q = gNetcheck;
                 if (q->mBodyWayport != NULL) {
-                    q->mUnk_04 = -6;
+                    q->field4 = -6;
                     ReleaseHttp(gHttp);
-                    data_ov000_021b4cb4.mUnk_00 = data_ov000_021b1040.mUnk_00;
-                    data_ov000_021b4cb4.mUnk_04 = FALSE;
-                    data_ov000_021b4cb4.mUnk_08 = NULL;
-                    data_ov000_021b4cb4.mUnk_0c = 0x200;
-                    data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-                    data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-                    data_ov000_021b4cb4.mUnk_1c = 20000;
-                    if (strcmp(data_ov000_021b4cb4.mUnk_00, data_ov000_021b1400) != 0) {
-                        data_ov000_021b4cb4.mUnk_18 = TRUE;
+                    data_ov000_021b4cb4.field0 = data_ov000_021b1040.field0;
+                    data_ov000_021b4cb4.field4 = FALSE;
+                    data_ov000_021b4cb4.field8 = NULL;
+                    data_ov000_021b4cb4.fieldC = 0x200;
+                    data_ov000_021b4cb4.field10 = gNetcheck->mParam.mAlloc;
+                    data_ov000_021b4cb4.field14 = gNetcheck->mParam.mFree;
+                    data_ov000_021b4cb4.field1C = 20000;
+                    if (strcmp(data_ov000_021b4cb4.field0, data_ov000_021b1400) != 0) {
+                        data_ov000_021b4cb4.field18 = TRUE;
                     }
                     if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
                         ReleaseHttp(gHttp);
@@ -167,7 +167,7 @@ void DWCi_Netcheck_Thread(void) {
                     o = gHttp;
                     switch (o->mResult) {
                         case 2:
-                            gNetcheck->mUnk_04 = -1;
+                            gNetcheck->field4 = -1;
                         default:
                             ReleaseHttp(gHttp);
                             DWCi_Netcheck_SetError(3);
@@ -201,7 +201,7 @@ void DWCi_Netcheck_Thread(void) {
         ReleaseHttp(gHttp);
         DWCi_BM_GetWiFiInfo(&c);
         if (c.mAttestedUserId == 0) {
-            gNetcheck->mUnk_04 = -3;
+            gNetcheck->field4 = -3;
             data_ov000_021b4cd4.mIngamesn[0] = 0;
             data_ov000_021b4cd4.mGsbrcd[0] = 0;
             data_ov000_021b4cd4.mAlloc = gNetcheck->mParam.mAlloc;
@@ -213,10 +213,10 @@ void DWCi_Netcheck_Thread(void) {
             DWC_Auth_Join();
             if (DWC_Auth_GetError() != 20) {
                 if (DWC_Auth_GetError() == 9) {
-                    gNetcheck->mUnk_04 = -1;
+                    gNetcheck->field4 = -1;
                 } else {
-                    func_ov000_0218635c(&e.mUnk_000);
-                    gNetcheck->mUnk_04 = e.mUnk_000;
+                    func_ov000_0218635c(&e.field0);
+                    gNetcheck->field4 = e.field0;
                 }
                 DWCi_Netcheck_SetError(6);
                 break;
@@ -224,20 +224,20 @@ void DWCi_Netcheck_Thread(void) {
             DWC_Auth_Destroy();
         }
         if (r == 200) {
-            gNetcheck->mUnk_04 = 0;
+            gNetcheck->field4 = 0;
             DWCi_Netcheck_SetError(11);
             break;
         }
-        gNetcheck->mUnk_04 = -4;
-        data_ov000_021b4cb4.mUnk_00 = data_ov000_021b1040.mUnk_00;
-        data_ov000_021b4cb4.mUnk_04 = FALSE;
-        data_ov000_021b4cb4.mUnk_08 = NULL;
-        data_ov000_021b4cb4.mUnk_0c = 0x1000;
-        data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-        data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-        data_ov000_021b4cb4.mUnk_1c = 40000;
-        if (strcmp(data_ov000_021b4cb4.mUnk_00, data_ov000_021b1400) != 0) {
-            data_ov000_021b4cb4.mUnk_18 = TRUE;
+        gNetcheck->field4 = -4;
+        data_ov000_021b4cb4.field0 = data_ov000_021b1040.field0;
+        data_ov000_021b4cb4.field4 = FALSE;
+        data_ov000_021b4cb4.field8 = NULL;
+        data_ov000_021b4cb4.fieldC = 0x1000;
+        data_ov000_021b4cb4.field10 = gNetcheck->mParam.mAlloc;
+        data_ov000_021b4cb4.field14 = gNetcheck->mParam.mFree;
+        data_ov000_021b4cb4.field1C = 40000;
+        if (strcmp(data_ov000_021b4cb4.field0, data_ov000_021b1400) != 0) {
+            data_ov000_021b4cb4.field18 = TRUE;
         }
         if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
             ReleaseHttp(gHttp);
@@ -286,7 +286,7 @@ void DWCi_Netcheck_Thread(void) {
         o = gHttp;
         switch (o->mResult) {
             case 2:
-                gNetcheck->mUnk_04 = -1;
+                gNetcheck->field4 = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
@@ -394,14 +394,14 @@ void DWCi_Netcheck_Thread(void) {
             }
         }
         ReleaseHttp(gHttp);
-        gNetcheck->mUnk_04 = -5;
-        data_ov000_021b4cb4.mUnk_00 = p1;
-        data_ov000_021b4cb4.mUnk_04 = FALSE;
-        data_ov000_021b4cb4.mUnk_08 = NULL;
-        data_ov000_021b4cb4.mUnk_0c = 0x1000;
-        data_ov000_021b4cb4.mUnk_10 = gNetcheck->mParam.mAlloc;
-        data_ov000_021b4cb4.mUnk_14 = gNetcheck->mParam.mFree;
-        data_ov000_021b4cb4.mUnk_1c = 40000;
+        gNetcheck->field4 = -5;
+        data_ov000_021b4cb4.field0 = p1;
+        data_ov000_021b4cb4.field4 = FALSE;
+        data_ov000_021b4cb4.field8 = NULL;
+        data_ov000_021b4cb4.fieldC = 0x1000;
+        data_ov000_021b4cb4.field10 = gNetcheck->mParam.mAlloc;
+        data_ov000_021b4cb4.field14 = gNetcheck->mParam.mFree;
+        data_ov000_021b4cb4.field1C = 40000;
         if (DWC_Http_Create(gHttp, &data_ov000_021b4cb4) != 0) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(1);
@@ -424,7 +424,7 @@ void DWCi_Netcheck_Thread(void) {
         o = gHttp;
         switch (o->mResult) {
             case 2:
-                gNetcheck->mUnk_04 = -1;
+                gNetcheck->field4 = -1;
             default:
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(3);
@@ -481,27 +481,27 @@ void DWCi_Netcheck_SetError(u32 a) {
 }
 
 u32 func_ov000_02187484(void) {
-    return gNetcheck->mUnk_04;
+    return gNetcheck->field4;
 }
 
 s32 DWC_Http_Create(Http *p, const Unk021b4cb4 *q) {
     MI_CpuFill8(p, 0, 0x1a60);
     p->mContentLength = -1;
-    p->mUnk_04 = *q;
-    p->mLowReceiveBuffer = p->mUnk_04.mUnk_10(gHttpLowReceiveBufferName, 0xb68);
+    p->field4 = *q;
+    p->mLowReceiveBuffer = p->field4.field10(gHttpLowReceiveBufferName, 0xb68);
     if (p->mLowReceiveBuffer == NULL) {
         p->mResult = 1;
         return 1;
     }
-    p->mLowSendBuffer = p->mUnk_04.mUnk_10(gHttpLowSendBufferName, 0x5ea);
+    p->mLowSendBuffer = p->field4.field10(gHttpLowSendBufferName, 0x5ea);
     if (p->mLowSendBuffer == NULL) {
         p->mResult = 1;
         return 1;
     }
-    DWCi_Http_SetHostinfo(p, q->mUnk_00);
+    DWCi_Http_SetHostinfo(p, q->field0);
     p->mResult = DWCi_Http_WriteBasicHeader(p);
     if (p->mResult == 0) {
-        p->mUnk_00 = 0xff;
+        p->field0 = 0xff;
     }
     return p->mResult;
 }
@@ -525,25 +525,25 @@ u32 DWC_Http_FinishHeader(Http *p) {
 void DWC_Http_StartThread(Http *p) {
     u32 n;
     n = OS_GetThreadPriority(OSi_ThreadInfo.mCurrentThread);
-    p->mUnk_a40 = FALSE;
-    OS_InitMutex(&p->mUnk_a28);
-    OS_InitMutex(&p->mUnk_948);
-    if (p->mUnk_04.mUnk_18 == 1) {
+    p->fieldA40 = FALSE;
+    OS_InitMutex(&p->fieldA28);
+    OS_InitMutex(&p->field948);
+    if (p->field4.field18 == 1) {
         data_ov000_021b4ca8 = 1;
     } else {
         data_ov000_021b4ca8 = 0;
     }
     if (p->mThread.mId == 0 || OS_IsThreadTerminated(&p->mThread) != 0) {
-        OS_CreateThread(&p->mThread, DWCi_Http_Thread, p, p->mUnk_1a60, 0x1000, n - 1);
+        OS_CreateThread(&p->mThread, DWCi_Http_Thread, p, p->field1A60, 0x1000, n - 1);
         OS_WakeupThreadDirect(&p->mThread);
     }
 }
 
 void DWC_Http_Abort(Http *p) {
-    if (p->mUnk_00 == 0xff) {
-        OS_LockMutex(&p->mUnk_a28);
-        p->mUnk_a40 = TRUE;
-        OS_UnlockMutex(&p->mUnk_a28);
+    if (p->field0 == 0xff) {
+        OS_LockMutex(&p->fieldA28);
+        p->fieldA40 = TRUE;
+        OS_UnlockMutex(&p->fieldA28);
         if (p->mThread.mId != 0) {
             OS_JoinThread(&p->mThread);
         }
@@ -551,12 +551,12 @@ void DWC_Http_Abort(Http *p) {
 }
 
 u32 func_ov000_02187230(Http *a) {
-    OS_LockMutex(&a->mUnk_a28);
-    if (a->mUnk_a40 == TRUE) {
-        OS_UnlockMutex(&a->mUnk_a28);
+    OS_LockMutex(&a->fieldA28);
+    if (a->fieldA40 == TRUE) {
+        OS_UnlockMutex(&a->fieldA28);
         return 0;
     }
-    OS_UnlockMutex(&a->mUnk_a28);
+    OS_UnlockMutex(&a->fieldA28);
     OS_Sleep(10);
     return 1;
 }
@@ -584,10 +584,10 @@ void DWCi_Http_Thread(void *l) {
     const char *y;
 
     f = 0;
-    a = &p->mUnk_b4;
-    b = &p->mUnk_118;
+    a = &p->fieldB4;
+    b = &p->field118;
     c = &p->mReceiveBuffer;
-    d = p->mUnk_04.mUnk_1c;
+    d = p->field4.field1C;
     if (d <= 0) {
         d = 60000;
     }
@@ -605,9 +605,9 @@ void DWCi_Http_Thread(void *l) {
     func_ov000_021ae270();
     if (p->mUseHttps == 1) {
         MI_CpuFill8(b, 0, 0x804);
-        b->mUnk_7e4 = func_ov000_02186a84;
-        b->mUnk_7d4 = p->mHost;
-        a->mUnk_0c = b;
+        b->field7E4 = func_ov000_02186a84;
+        b->field7D4 = p->mHost;
+        a->fieldC = b;
         SetAuthorityTable((u32) data_ov000_021b1204, 0xb);
         func_ov000_021a9200(1);
         h = 0x1bb;
@@ -664,37 +664,37 @@ void DWCi_Http_Thread(void *l) {
         }
     }
     FreeHttpBuffer(p, &p->mSendBuffer);
-    OS_LockMutex(&p->mUnk_948);
-    if (p->mUnk_04.mUnk_08 == NULL) {
-        if (InitHttpBuffer(p, &p->mReceiveBuffer, p->mUnk_04.mUnk_0c) == 0) {
+    OS_LockMutex(&p->field948);
+    if (p->field4.field8 == NULL) {
+        if (InitHttpBuffer(p, &p->mReceiveBuffer, p->field4.fieldC) == 0) {
             p->mResult = 1;
-            OS_UnlockMutex(&p->mUnk_948);
+            OS_UnlockMutex(&p->field948);
             goto fail;
         }
     } else {
-        p->mReceiveBuffer.mStart = p->mUnk_04.mUnk_08;
+        p->mReceiveBuffer.mStart = p->field4.field8;
         p->mReceiveBuffer.mCursor = p->mReceiveBuffer.mStart;
-        p->mReceiveBuffer.mEnd = p->mReceiveBuffer.mStart + p->mUnk_04.mUnk_0c;
-        p->mReceiveBuffer.mSize = p->mUnk_04.mUnk_0c;
+        p->mReceiveBuffer.mEnd = p->mReceiveBuffer.mStart + p->field4.fieldC;
+        p->mReceiveBuffer.mSize = p->field4.fieldC;
     }
     c->mCursor = c->mStart;
     c->mEnd = c->mStart + c->mSize;
-    OS_UnlockMutex(&p->mUnk_948);
+    OS_UnlockMutex(&p->field948);
     while (1) {
         if (data_ov000_021b63b4 == 0) {
             p->mResult = 5;
             goto fail;
         }
-        OS_LockMutex(&p->mUnk_948);
+        OS_LockMutex(&p->field948);
         if (c->mCursor >= c->mEnd - 1) {
-            OS_UnlockMutex(&p->mUnk_948);
+            OS_UnlockMutex(&p->field948);
             break;
         }
         n = func_ov000_021adbac();
         if (n > 0) {
             x = func_ov000_021adf78((u32 *) &n);
             if (x == NULL) {
-                OS_UnlockMutex(&p->mUnk_948);
+                OS_UnlockMutex(&p->field948);
                 break;
             }
             r = c->mEnd - 1 - c->mCursor;
@@ -723,23 +723,23 @@ void DWCi_Http_Thread(void *l) {
             }
             if (n > m) {
                 func_ov000_021adf00(n);
-                OS_UnlockMutex(&p->mUnk_948);
+                OS_UnlockMutex(&p->field948);
                 break;
             }
             func_ov000_021adf00(m);
         }
         if (n < 0) {
-            OS_UnlockMutex(&p->mUnk_948);
+            OS_UnlockMutex(&p->field948);
             break;
         }
         if (p->mContentLength > 0 && n > 0 && p->mBodyStart + p->mContentLength <= c->mCursor) {
-            OS_UnlockMutex(&p->mUnk_948);
+            OS_UnlockMutex(&p->field948);
             break;
         }
         t = OS_GetTick();
         if ((u64) d < (t - t0) * 64 / 0x82ea) {
             p->mResult = 6;
-            OS_UnlockMutex(&p->mUnk_948);
+            OS_UnlockMutex(&p->field948);
             goto fail;
         }
         if (p->mUseHttps == 1) {
@@ -749,7 +749,7 @@ void DWCi_Http_Thread(void *l) {
                 t1 = t;
             }
         }
-        OS_UnlockMutex(&p->mUnk_948);
+        OS_UnlockMutex(&p->field948);
         if (func_ov000_02187230(p) == 0) {
             p->mResult = 7;
             goto fail;
@@ -770,16 +770,16 @@ fail:
 
 void ReleaseHttp(Http *a) {
     if (a != NULL) {
-        if (a->mUnk_04.mUnk_08 == NULL) {
+        if (a->field4.field8 == NULL) {
             FreeHttpBuffer(a, &a->mReceiveBuffer);
         }
         FreeHttpBuffer(a, &a->mSendBuffer);
         if (a->mLowReceiveBuffer != NULL) {
-            a->mUnk_04.mUnk_14(gHttpLowReceiveBufferName, a->mLowReceiveBuffer, 0);
+            a->field4.field14(gHttpLowReceiveBufferName, a->mLowReceiveBuffer, 0);
             a->mLowReceiveBuffer = NULL;
         }
         if (a->mLowSendBuffer != NULL) {
-            a->mUnk_04.mUnk_14(gHttpLowSendBufferName, a->mLowSendBuffer, 0);
+            a->field4.field14(gHttpLowSendBufferName, a->mLowSendBuffer, 0);
             a->mLowSendBuffer = NULL;
         }
         MI_CpuFill8(a, 0, 0x1a60);

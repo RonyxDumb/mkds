@@ -13,8 +13,8 @@ typedef struct ParticipantKartRecord {
     /* 08 */ s16 mTurnAngle;
     /* 0a */ u16 mHeadingAngle;
     /* 0c */ u32 mFlags;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
 } ParticipantKartRecord;
 
 void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount);

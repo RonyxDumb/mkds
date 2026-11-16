@@ -56,7 +56,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 u32 mpicn_getMinPriority(void) {
-    return (mpicn_sIconData->mUnk_000);
+    return (mpicn_sIconData->field0);
 }
 
 u32 mpicn_20C0DB0(void) {
@@ -64,7 +64,7 @@ u32 mpicn_20C0DB0(void) {
 }
 
 u32 mpicn_20C0D9C(void) {
-    return (mpicn_sIconData->mUnk_008);
+    return (mpicn_sIconData->field8);
 }
 
 BOOL mpicn_createMapObjIcon(RaceHudSubScreenCells **outCells, s32 kind) {
@@ -105,9 +105,9 @@ BOOL mpicn_createMapObjIcon(RaceHudSubScreenCells **outCells, s32 kind) {
     }
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
-    (*outCells)->mUnk_0c = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 8);
+    (*outCells)->fieldC = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 8);
     for (i = 0; i < objectCount; i++) {
-        ComputeRaceHudSubScreenCoursePosition(&(*outCells)->mObjects[i]->mPos, &(*outCells)->mUnk_0c[i]);
+        ComputeRaceHudSubScreenCoursePosition(&(*outCells)->mObjects[i]->mPos, &(*outCells)->fieldC[i]);
     }
     (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount * 2, 0x14);
     return TRUE;
@@ -120,14 +120,14 @@ BOOL mpicn_20C0BA8(RaceHudSubScreenCells **outCells, s32 objectCount) {
     *outCells = heap_alloc(proc_getHeap(proc_getCurrent()), 0x14);
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
-    (*outCells)->mUnk_0c = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 8);
+    (*outCells)->fieldC = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 8);
     (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount, 0x14);
     return TRUE;
 }
 
 void mpicn_destroyMObjIcon(RaceHudSubScreenCells **cellsPointerAddress) {
     (*cellsPointerAddress)->mObjects = NULL;
-    (*cellsPointerAddress)->mUnk_0c = NULL;
+    (*cellsPointerAddress)->fieldC = NULL;
     (*cellsPointerAddress)->mCells = NULL;
     *cellsPointerAddress = NULL;
 }
@@ -148,31 +148,31 @@ void mpicn_renderMObjIcon(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *ce
     s32 screenY;
     void *cellData;
 
-    l = mpicn_sIconData->mUnk_000;
+    l = mpicn_sIconData->field0;
     if (useRotation != 0) {
         angle = m2d_20B6368();
     }
     for (i = 0; i < cells->mCellCount; i++) {
-        p = cells->mCells[i].mUnk_0c;
+        p = cells->mCells[i].fieldC;
         if (l <= p) {
-            q = cells->mCells[i].mUnk_0e;
+            q = cells->mCells[i].fieldE;
             matrixIndex = 0;
             if (useRotation != 0) {
                 if (gRaceMultiConfig->mMirrorMode != 0) {
-                    lmap_rotMtx22(rotationMatrix, (u16) (cells->mCells[i].mUnk_10 + 0x8000 - angle));
+                    lmap_rotMtx22(rotationMatrix, (u16) (cells->mCells[i].field10 + 0x8000 - angle));
                 } else {
-                    lmap_rotMtx22(rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].mUnk_10)));
+                    lmap_rotMtx22(rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].field10)));
                 }
                 matrixIndex = oam_getAffineId(oamBuffer);
-                oamBuffer->mMatrices[matrixIndex].mUnk_06 = rotationMatrix[0] >> 4;
-                oamBuffer->mMatrices[matrixIndex].mUnk_0e = rotationMatrix[1] >> 4;
-                oamBuffer->mMatrices[matrixIndex].mUnk_16 = rotationMatrix[2] >> 4;
-                oamBuffer->mMatrices[matrixIndex].mUnk_1e = rotationMatrix[3] >> 4;
+                oamBuffer->mMatrices[matrixIndex].field6 = rotationMatrix[0] >> 4;
+                oamBuffer->mMatrices[matrixIndex].fieldE = rotationMatrix[1] >> 4;
+                oamBuffer->mMatrices[matrixIndex].field16 = rotationMatrix[2] >> 4;
+                oamBuffer->mMatrices[matrixIndex].field1E = rotationMatrix[3] >> 4;
             }
             cell = &cells->mCells[i];
-            screenX = cell->mDrawPos.mUnk_00;
+            screenX = cell->mDrawPos.field0;
             cellData = cell->mCell;
-            screenY = cell->mDrawPos.mUnk_04;
+            screenY = cell->mDrawPos.field4;
             oamIndex = oamBuffer->mOamCount;
             drawPosition[0] = screenX << 12;
             drawPosition[1] = screenY << 12;
@@ -182,10 +182,10 @@ void mpicn_renderMObjIcon(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *ce
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                 if ((q != 0 ? 1 : -1) != -1) {
-                    oam->mUnk_0a = q != 0 ? 1 : -1;
+                    oam->fieldA = q != 0 ? 1 : -1;
                 }
                 if (p != -1) {
-                    oam->mUnk_0e = p;
+                    oam->fieldE = p;
                 }
             }
         }
@@ -208,34 +208,34 @@ void mpicn_20C06C4(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s3
     s32 screenY;
     void *cellData;
 
-    l = mpicn_sIconData->mUnk_000;
+    l = mpicn_sIconData->field0;
     if (useRotation != 0) {
         angle = m2d_20B6368();
     }
     for (i = 0; i < cells->mCellCount; i++) {
-        p = cells->mCells[i].mUnk_0c;
+        p = cells->mCells[i].fieldC;
         if (l <= p) {
-            q = cells->mCells[i].mUnk_0e;
+            q = cells->mCells[i].fieldE;
             if (useRotation != 0) {
                 if (gRaceMultiConfig->mMirrorMode != 0) {
-                    lmap_rotScaleMtx22(matrix, cells->mUnk_0c[i].mUnk_00,
-                                                     (u16) (cells->mCells[i].mUnk_10 - angle));
+                    lmap_rotScaleMtx22(matrix, cells->fieldC[i].field0,
+                                                     (u16) (cells->mCells[i].field10 - angle));
                 } else {
-                    lmap_rotScaleMtx22(matrix, cells->mUnk_0c[i].mUnk_00,
-                                                     (u16) (angle - cells->mCells[i].mUnk_10));
+                    lmap_rotScaleMtx22(matrix, cells->fieldC[i].field0,
+                                                     (u16) (angle - cells->mCells[i].field10));
                 }
             } else {
-                lmap_scaleMtx22(matrix, cells->mUnk_0c[i].mUnk_00);
+                lmap_scaleMtx22(matrix, cells->fieldC[i].field0);
             }
             matrixIndex = oam_getAffineId(oamBuffer);
-            oamBuffer->mMatrices[matrixIndex].mUnk_06 = matrix[0] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mUnk_0e = matrix[1] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mUnk_16 = matrix[2] >> 4;
-            oamBuffer->mMatrices[matrixIndex].mUnk_1e = matrix[3] >> 4;
+            oamBuffer->mMatrices[matrixIndex].field6 = matrix[0] >> 4;
+            oamBuffer->mMatrices[matrixIndex].fieldE = matrix[1] >> 4;
+            oamBuffer->mMatrices[matrixIndex].field16 = matrix[2] >> 4;
+            oamBuffer->mMatrices[matrixIndex].field1E = matrix[3] >> 4;
             cell = &cells->mCells[i];
-            screenX = cell->mDrawPos.mUnk_00;
+            screenX = cell->mDrawPos.field0;
             cellData = cell->mCell;
-            screenY = cell->mDrawPos.mUnk_04;
+            screenY = cell->mDrawPos.field4;
             oamIndex = oamBuffer->mOamCount;
             drawPosition[0] = screenX << 12;
             drawPosition[1] = screenY << 12;
@@ -244,10 +244,10 @@ void mpicn_20C06C4(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s3
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                 if ((q != 0 ? 1 : -1) != -1) {
-                    oam->mUnk_0a = q != 0 ? 1 : -1;
+                    oam->fieldA = q != 0 ? 1 : -1;
                 }
                 if (p != -1) {
-                    oam->mUnk_0e = p;
+                    oam->fieldE = p;
                 }
             }
         }
@@ -256,9 +256,9 @@ void mpicn_20C06C4(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s3
 
 void mpicn_init(void) {
     mpicn_sIconData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x25c);
-    mpicn_sIconData->mUnk_000 = 0;
+    mpicn_sIconData->field0 = 0;
     mpicn_sIconData->mScale = 0;
-    mpicn_sIconData->mUnk_008 = 0;
+    mpicn_sIconData->field8 = 0;
     mpicn_sIconData->mGroupCount = 0;
     if (mpicn_createDriverIcon()) {
         s32 groupIndex;
@@ -924,11 +924,11 @@ void mpicn_update(void) {
             }
             n = f;
             mpicn_sIconData->mScale = ((s64) n * 20) >> 12;
-            mpicn_sIconData->mUnk_008 = FX_Div(0x2400, mpicn_sIconData->mScale);
+            mpicn_sIconData->field8 = FX_Div(0x2400, mpicn_sIconData->mScale);
             RefreshLocalMap(GetRaceHudSubScreenBgAffine(),
                                                         mpicn_sIconData->mScale);
             GetKartPosFromPosSourceCopy(&followedKartPosition, Race_GetPlayerId());
-            mpicn_sIconData->mUnk_000 = m2d_isPointOnLowerMap(&followedKartPosition) != 0 ? 0 : 3;
+            mpicn_sIconData->field0 = m2d_isPointOnLowerMap(&followedKartPosition) != 0 ? 0 : 3;
             for (i = 0; i < mpicn_sIconData->mGroupCount; i++) {
                 mpicn_sIconData->mUpdateFunctions[i]();
             }

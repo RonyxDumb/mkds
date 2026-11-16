@@ -17,7 +17,7 @@ void SetNextRaceEntriesFromRaceSetupCopy(void) {
             teamIndex = menu_getRaceConfig()->mUseTeams != 0 ? menu_getRaceConfig()->mEntries[i].mTeamIndex : -1;
             rconf_setDriverConfigNext(i, menu_getRaceConfig()->mEntries[i].mCharacterIndex,
                              menu_getRaceConfig()->mEntries[i].mKartIndex, menu_getRaceConfig()->mEntries[i].mPlayerKind,
-                             teamIndex, menu_getRaceConfig()->mEntries[i].mUnk_10);
+                             teamIndex, menu_getRaceConfig()->mEntries[i].field10);
         }
     }
 }

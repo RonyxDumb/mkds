@@ -16,15 +16,15 @@ void OS_WaitIrq(u32 clear, u32 irqFlags) {
     enabled = OS_DisableInterrupts();
     p = (Unk027e0000 *) 0x027e0000;
     if (clear != 0) {
-        p->mUnk_3ff8 &= ~irqFlags;
+        p->field3FF8 &= ~irqFlags;
     }
     OS_RestoreInterrupts(enabled);
     p = (Unk027e0000 *) 0x027e0000;
-    if ((irqFlags & p->mUnk_3ff8) != 0) {
+    if ((irqFlags & p->field3FF8) != 0) {
         return;
     }
-    q = &p->mUnk_3ff8;
+    q = &p->field3FF8;
     do {
-        OS_SleepThread(&data_027e0000.mUnk_0000);
+        OS_SleepThread(&data_027e0000.field0);
     } while ((irqFlags & *q) == 0);
 }

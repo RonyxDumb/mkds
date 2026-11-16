@@ -16,13 +16,13 @@ extern struct Unk020dbed0 data_02158260;
 extern struct Unk020dbf2c data_0215828c;
 // Object of 0x2c bytes made by wwchn_setupRenderPart and the other factories that copy a template from 0x02158xxx.
 typedef struct MapObjectDrawList {
-    /* 00 */ u32 mUnk_00[11];
+    /* 00 */ u32 field0[11];
 } MapObjectDrawList;
 
 // Object of 0x2c bytes made by efbub_setupLogicPart; a word at 0x28.
 typedef struct Unk020dfc44 {
-    /* 00 */ u32 mUnk_00[10];
-    /* 28 */ s32 mUnk_28;
+    /* 00 */ u32 field0[10];
+    /* 28 */ s32 field28;
 } Unk020dfc44;
 
 extern MapObjectList data_0215840c;

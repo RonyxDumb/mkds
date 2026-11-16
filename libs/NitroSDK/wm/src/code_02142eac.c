@@ -351,20 +351,20 @@ s32 WM_SetParentParameter(Unk021425e8Func callback, Unk02143c30 *pparaBuf) {
     if (pparaBuf == 0) {
         return 6;
     }
-    if (pparaBuf->mUnk_04 != 0) {
-        if (pparaBuf->mUnk_00 == 0) {
+    if (pparaBuf->field4 != 0) {
+        if (pparaBuf->field0 == 0) {
             return 6;
         }
     }
-    if (pparaBuf->mUnk_34 + (pparaBuf->mUnk_14 != 0 ? 0x2a : 0) > 0x200 ||
-        pparaBuf->mUnk_36 + (pparaBuf->mUnk_14 != 0 ? 6 : 0) > 0x200) {
+    if (pparaBuf->field34 + (pparaBuf->field14 != 0 ? 0x2a : 0) > 0x200 ||
+        pparaBuf->field36 + (pparaBuf->field14 != 0 ? 6 : 0) > 0x200) {
         return 6;
     }
     WmCheckParentParameter(pparaBuf);
     WMi_SetCallbackTable(7, callback);
     DC_StoreRange(pparaBuf, 0x40);
-    if (pparaBuf->mUnk_04 != 0) {
-        DC_StoreRange(pparaBuf->mUnk_00, pparaBuf->mUnk_04);
+    if (pparaBuf->field4 != 0) {
+        DC_StoreRange(pparaBuf->field0, pparaBuf->field4);
     }
     result = WMi_SendCommand(7, 1, pparaBuf);
     if (result == 0) {
@@ -375,13 +375,13 @@ s32 WM_SetParentParameter(Unk021425e8Func callback, Unk02143c30 *pparaBuf) {
 
 // Returns 1 when the game info length, beacon period and channel of param are in range, otherwise 0.
 u32 WmCheckParentParameter(const Unk02143c30 *param) {
-    if (param->mUnk_04 > 0x70) {
+    if (param->field4 > 0x70) {
         return 0;
     }
-    if (param->mUnk_18 < 10 || param->mUnk_18 > 0x3e8) {
+    if (param->field18 < 10 || param->field18 > 0x3e8) {
         return 0;
     }
-    if (param->mUnk_32 < 1 || param->mUnk_32 > 0xe) {
+    if (param->field32 < 1 || param->field32 > 0xe) {
         return 0;
     }
     return 1;
@@ -436,24 +436,24 @@ s32 WM_StartScan(Unk021425e8Func callback, Unk02143a78 *param) {
     if (param == 0) {
         return 6;
     }
-    if (param->mUnk_00 == 0) {
+    if (param->field0 == 0) {
         return 6;
     }
-    if (param->mUnk_04 < 1 || param->mUnk_04 > 0xe) {
+    if (param->field4 < 1 || param->field4 > 0xe) {
         return 6;
     }
     WMi_SetCallbackTable(0xa, callback);
     request = (Unk02143a78_0c *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0xa;
-    request->mChannel = param->mUnk_04;
-    request->mScanBuf = param->mUnk_00;
-    request->mMaxChannelTime = param->mUnk_06;
-    request->mBssid[0] = param->mUnk_08[0];
-    request->mBssid[1] = param->mUnk_08[1];
-    request->mBssid[2] = param->mUnk_08[2];
-    request->mBssid[3] = param->mUnk_08[3];
-    request->mBssid[4] = param->mUnk_08[4];
-    request->mBssid[5] = param->mUnk_08[5];
+    request->mChannel = param->field4;
+    request->mScanBuf = param->field0;
+    request->mMaxChannelTime = param->field6;
+    request->mBssid[0] = param->field8[0];
+    request->mBssid[1] = param->field8[1];
+    request->mBssid[2] = param->field8[2];
+    request->mBssid[3] = param->field8[3];
+    request->mBssid[4] = param->field8[4];
+    request->mBssid[5] = param->field8[5];
     result = WMi_SendCommand(0xa, 0);
     if (result == 0) {
         return 2;
@@ -474,36 +474,36 @@ s32 WM_StartScanEx(Unk021425e8Func callback, Unk021438f0 *param) {
     if (param == 0) {
         return 6;
     }
-    if (param->mUnk_00 == 0) {
+    if (param->field0 == 0) {
         return 6;
     }
-    if (param->mUnk_04 > 0x400) {
+    if (param->field4 > 0x400) {
         return 6;
     }
-    if (param->mUnk_12 > 0x20) {
+    if (param->field12 > 0x20) {
         return 6;
     }
-    scanType = param->mUnk_10;
+    scanType = param->field10;
     if (scanType != 0 && scanType != 1 && scanType != 2 && scanType != 3) {
         return 6;
     }
     if ((u16) (scanType + 0xfffe) <= 1) {
-        if (param->mUnk_34 > 0x20) {
+        if (param->field34 > 0x20) {
             return 6;
         }
     }
     WMi_SetCallbackTable(0x26, callback);
     request = (Unk021438f0_0c *) WMi_GetSystemWork()->mRequestArea;
     request->mApiid = 0x26;
-    request->mChannelList = param->mUnk_06;
-    request->mScanBuf = param->mUnk_00;
-    request->mScanBufSize = param->mUnk_04;
-    request->mMaxChannelTime = param->mUnk_08;
-    MI_CpuCopy8(param->mUnk_0a, request->mBssid, 6);
-    request->mScanType = param->mUnk_10;
-    request->mSsidMatchLength = param->mUnk_34;
-    request->mSsidLength = param->mUnk_12;
-    MI_CpuCopy8(param->mUnk_14, request->mSsid, 0x20);
+    request->mChannelList = param->field6;
+    request->mScanBuf = param->field0;
+    request->mScanBufSize = param->field4;
+    request->mMaxChannelTime = param->field8;
+    MI_CpuCopy8(param->fieldA, request->mBssid, 6);
+    request->mScanType = param->field10;
+    request->mSsidMatchLength = param->field34;
+    request->mSsidLength = param->field12;
+    MI_CpuCopy8(param->field14, request->mSsid, 0x20);
     result = WMi_SendCommand(0x26, 0);
     if (result == 0) {
         return 2;
@@ -704,8 +704,8 @@ s32 WM_GetMPReceiveBufferSize(void) {
     if (isHost != 1) {
         return ((maxRecvSize + 0x51) & ~0x1f) << 1;
     }
-    DC_InvalidateRange(&work->mStatusArea->mUnk_0f4, 2);
-    return (((maxRecvSize + 0xc) * work->mStatusArea->mUnk_0f4 + 0x29) & ~0x1f) << 1;
+    DC_InvalidateRange(&work->mStatusArea->fieldF4, 2);
+    return (((maxRecvSize + 0xc) * work->mStatusArea->fieldF4 + 0x29) & ~0x1f) << 1;
 }
 
 // Returns the record of station aid in the MP receive data header, or NULL when there is none.
@@ -725,18 +725,18 @@ void *WM_ReadMPData(const Unk021432ac *header, u16 aid) {
     if ((work->mStatusArea->mConnectedChildren & (1 << aid)) == 0) {
         return 0;
     }
-    if (header->mUnk_04 == 0) {
+    if (header->field4 == 0) {
         return 0;
     }
-    records[0] = (u32) header->mUnk_0a;
+    records[0] = (u32) header->fieldA;
     i = 0;
     do {
         if (aid == *(u16 *) (records[i] + 4)) {
             return (void *) records[i];
         }
         i++;
-        records[i] = header->mUnk_06 + records[i - 1];
-    } while (i < header->mUnk_04);
+        records[i] = header->field6 + records[i - 1];
+    } while (i < header->field4);
     return 0;
 }
 
@@ -812,27 +812,27 @@ WMOtherElements WM_GetOtherElements(const u16 *bssDesc) {
     u8 size;
 
     if (bssDesc[0x1e] != 0) {
-        elements.mUnk_00 = 0;
+        elements.field0 = 0;
         return elements;
     }
-    elements.mUnk_00 = bssDesc[0x1f];
-    if (elements.mUnk_00 == 0) {
+    elements.field0 = bssDesc[0x1f];
+    if (elements.field0 == 0) {
         return elements;
     }
-    if (elements.mUnk_00 > 0x10) {
-        elements.mUnk_00 = 0x10;
+    if (elements.field0 > 0x10) {
+        elements.field0 = 0x10;
     }
     body = (const u8 *) bssDesc + 0x40;
     bodyLength = bssDesc[0] * 2 - 0x40;
     total = 0;
-    for (i = 0; i < elements.mUnk_00; i++) {
-        elements.mUnk_04[i].mUnk_00 = body[0];
-        elements.mUnk_04[i].mUnk_01 = body[1];
-        elements.mUnk_04[i].mUnk_04 = body + 2;
-        size = elements.mUnk_04[i].mUnk_01 + 2;
+    for (i = 0; i < elements.field0; i++) {
+        elements.field4[i].field0 = body[0];
+        elements.field4[i].field1 = body[1];
+        elements.field4[i].field4 = body + 2;
+        size = elements.field4[i].field1 + 2;
         total = total + size;
         if (total > bodyLength) {
-            elements.mUnk_00 = 0;
+            elements.field0 = 0;
             return elements;
         }
         body = body + size;

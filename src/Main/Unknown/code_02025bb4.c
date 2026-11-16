@@ -31,18 +31,18 @@ void mutil2_setElementPositionFromBncl(u32 entryId, void *outputPointer, Unk0201
     Unk02025bb4Entry *output = outputPointer;
     short *layoutEntry;
     layoutEntry = jn_ui_getBnclElement(cellLayout, entryId);
-    output->mUnk_08 = 1;
-    output->mUnk_0c = ((*layoutEntry << 0x14) >> 0x14);
-    output->mUnk_0e = ((layoutEntry[1] << 0x14) >> 0x14);
+    output->field8 = 1;
+    output->fieldC = ((*layoutEntry << 0x14) >> 0x14);
+    output->fieldE = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
 void mutil2_setElementPositionFromBnll(u32 entryId, void *outputPointer, Unk0201ea30 *labelLayout) {
     Unk02025bb4Entry *output = outputPointer;
     short *layoutEntry;
     layoutEntry = jn_ui_getBnllElement(labelLayout, entryId);
-    output->mUnk_08 = 1;
-    output->mUnk_0c = ((*layoutEntry << 0x14) >> 0x14);
-    output->mUnk_0e = ((layoutEntry[1] << 0x14) >> 0x14);
+    output->field8 = 1;
+    output->fieldC = ((*layoutEntry << 0x14) >> 0x14);
+    output->fieldE = ((layoutEntry[1] << 0x14) >> 0x14);
 }
 
 void RectTableSetEntryXY(int id, int x, int y, Unk0201ea30 *graphics) {

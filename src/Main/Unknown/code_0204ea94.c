@@ -10,15 +10,15 @@
 #pragma thumb on
 
 void func_0204eca0(void) {
-    gStruct217AA00->mUnk_000c = 0x2d;
+    gStruct217AA00->fieldC = 0x2d;
     gStruct217AA00->mRequestPending = 1;
     StopBlockTransfer();
-    gStruct217AA00->mUnk_0454 &= ~0x200;
+    gStruct217AA00->field454 &= ~0x200;
     gStruct217AA00->mRequestPending = 0;
 }
 
 void SetScanGhostInfo(u32 entryIndex, Unk0217aa00_24_50 *gameInfo) {
-    gStruct217AA00->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mUnk_0e.mKartIndex;
+    gStruct217AA00->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->fieldE.mKartIndex;
     gStruct217AA00->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
     gStruct217AA00->mScanGhostInfos[entryIndex].mCourseId = GetCupCourseIdAtIndex((u8) gameInfo->mCupCourseIndex);
     gStruct217AA00->mScanGhostInfos[entryIndex].mMinute = gameInfo->mMinute;
@@ -30,7 +30,7 @@ static inline u32 func_0204eb08_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *characterIndex, u8 *courseId, u8 *minute,
@@ -55,10 +55,10 @@ BOOL func_0204eb08(void *destination) {
 
     found = FALSE;
     if (func_0204eb08_inline() == 1) {
-        if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
-            childCount = gStruct217AA00->mUnk_1699;
+        if ((gStruct217AA00->field454 & 0x40) != 0) {
+            childCount = gStruct217AA00->field1699;
         } else {
-            childCount = gStruct217AA00->mUnk_0044.mChildCount;
+            childCount = gStruct217AA00->field44.mChildCount;
         }
     } else {
         childCount = 0;
@@ -70,10 +70,10 @@ BOOL func_0204eb08(void *destination) {
         return FALSE;
     }
     index = 1;
-    childMask = gStruct217AA00->mUnk_0044.mChildMask;
+    childMask = gStruct217AA00->field44.mChildMask;
     do {
         if ((childMask & (1 << index)) != 0) {
-            MI_CpuCopy8(&gStruct217AA00->mUnk_045c[index], destination, 0x14);
+            MI_CpuCopy8(&gStruct217AA00->field45C[index], destination, 0x14);
             found = TRUE;
             break;
         }
@@ -86,7 +86,7 @@ void func_0204ead0(u16 a, s32 b) {
     s32 v;
 
     v = b;
-    gStruct217AA00->mUnk_000c = 0x2e;
+    gStruct217AA00->fieldC = 0x2e;
     gStruct217AA00->mRequestPending = 1;
     if (RequestSendBytes(a, &v, 4, (void (*)(void)) func_0204ea94) == 0) {
         gStruct217AA00->mRequestPending = 0;

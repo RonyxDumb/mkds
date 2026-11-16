@@ -8,7 +8,7 @@ struct Gt2Connection;
 typedef struct Gt2ConnectionCallbacks {
     /* 00 */ void (*mResultCallback)(struct Gt2Connection *a, int b, void *c, int d);
     /* 04 */ void (*mDataCallback)(struct Gt2Connection *a, void *b, int c, int d);
-    /* 08 */ void (*mUnk_08)(struct Gt2Connection *a, void *b);
+    /* 08 */ void (*field8)(struct Gt2Connection *a, void *b);
     /* 0c */ UnkWordFunc *mElapsedTimeCallback;
 } Gt2ConnectionCallbacks;
 
@@ -17,26 +17,26 @@ typedef struct Gt2Socket {
     /* 00 */ s32 mDescriptor;
     /* 04 */ u32 mAddress;
     /* 08 */ u16 mPort;
-    /* 0a */ u8 mUnk_0a[2];
+    /* 0a */ u8 fieldA[2];
     /* 0c */ struct Hashtable *mConnections;
     /* 10 */ void *mConnectionsToFree;
     /* 14 */ BOOL mDeletePending;
-    /* 18 */ BOOL mUnk_18;
+    /* 18 */ BOOL field18;
     /* 1c */ s32 mRunningCallbackCount;
     /* 20 */ void (*mIncomingConnectionCallback)(struct Gt2Socket *a, struct Gt2Connection *b, int c, int d, int e,
                                                  const u8 *f, int g);
-    /* 24 */ void (*mUnk_24)(struct Gt2Socket *a);
+    /* 24 */ void (*field24)(struct Gt2Socket *a);
     /* 28 */ UnkWordFunc *mSentCallback;
-    /* 2c */ UnkWordFunc *mUnk_2c;
+    /* 2c */ UnkWordFunc *field2C;
     /* 30 */ UnkWordFunc *mUnmatchedDataCallback;
-    /* 34 */ UnkWordFunc *mUnk_34;
+    /* 34 */ UnkWordFunc *field34;
     /* 38 */ u32 mSendBufferSize;
-    /* 3c */ u32 mUnk_3c;
-    /* 40 */ u8 mUnk_40[4];
+    /* 3c */ u32 field3C;
+    /* 40 */ u8 field40[4];
 } Gt2Socket;
 
 typedef struct Unk02197fe8Entry {
-    /* 00 */ UnkWordFunc *mUnk_00;
+    /* 00 */ UnkWordFunc *field0;
 } Unk02197fe8Entry;
 
 typedef struct Gt2Buffer {
@@ -48,30 +48,30 @@ typedef struct Gt2Buffer {
 typedef struct Gt2Connection {
     /* 00 */ u32 mAddress;
     /* 04 */ u16 mPort;
-    /* 06 */ u8 mUnk_06[2];
+    /* 06 */ u8 field6[2];
     /* 08 */ Gt2Socket *mSocket;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ BOOL mUnk_10;
-    /* 14 */ BOOL mUnk_14;
+    /* 0c */ s32 fieldC;
+    /* 10 */ BOOL field10;
+    /* 14 */ BOOL field14;
     /* 18 */ s32 mResult;
     /* 1c */ u32 mCreateTime;
     /* 20 */ u32 mTimeSinceCreateLimit;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 field24;
     /* 28 */ Gt2ConnectionCallbacks mCallbacks;
-    /* 38 */ Gt2Buffer mUnk_38;
-    /* 44 */ Gt2Buffer mUnk_44;
+    /* 38 */ Gt2Buffer field38;
+    /* 44 */ Gt2Buffer field44;
     /* 50 */ Gt2Buffer mSendBuffer;
-    /* 5c */ struct Darray *mUnk_5c;
-    /* 60 */ void *mUnk_60;
-    /* 64 */ u16 mUnk_64;
-    /* 66 */ u16 mUnk_66;
-    /* 68 */ u8 mUnk_68[0x20];
+    /* 5c */ struct Darray *field5C;
+    /* 60 */ void *field60;
+    /* 64 */ u16 field64;
+    /* 66 */ u16 field66;
+    /* 68 */ u8 field68[0x20];
     /* 88 */ u32 mLastSendTime;
-    /* 8c */ u32 mUnk_8c;
-    /* 90 */ u32 mUnk_90;
-    /* 94 */ u32 mUnk_94;
-    /* 98 */ void *mUnk_98;
-    /* 9c */ void *mUnk_9c;
+    /* 8c */ u32 field8C;
+    /* 90 */ u32 field90;
+    /* 94 */ u32 field94;
+    /* 98 */ void *field98;
+    /* 9c */ void *field9C;
 } Gt2Connection;
 
 BOOL CallUnmatchedDataCallback(Gt2Socket *a, s32 b, s32 c, void *d, s32 e, s32 *f);
@@ -81,10 +81,10 @@ typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
 
 typedef struct Unk02198af4 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u8 field8[4];
+    /* 0c */ u32 fieldC;
 } Unk02198af4;
 
 BOOL Gt2CallDataCallback(Gt2Connection *connection, void *b, int c, int d);

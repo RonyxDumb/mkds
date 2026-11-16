@@ -3,6 +3,6 @@
 
 #pragma thumb on
 u32 DWCi_Acc_GetFlags(const DWCAccFriendData *friendData) {
-    return (friendData->mUnk_00 >> 11) & 0x1fffff;
+    return (friendData->field0 >> 11) & 0x1fffff;
 }
 #pragma thumb off

@@ -4,7 +4,7 @@
 
 // The 0x1e8 bytes at the start of the object behind gRaceMultiConfig, taken from 0x1e8.
 typedef struct RaceSetupBlock {
-    /* 000 */ u32 mUnk_000[0x7a];
+    /* 000 */ u32 field0[0x7a];
 } RaceSetupBlock;
 
 u16 rconf_getLapCount(void);

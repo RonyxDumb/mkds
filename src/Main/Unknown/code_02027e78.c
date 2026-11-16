@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0202b604.h"
 
 u32 func_0202811c(void) {
-    return (gSystemData->mUnk_20);
+    return (gSystemData->field20);
 }
 
 u16 *func_02028110(void) {
@@ -167,7 +167,7 @@ void WriteSelectKartRegisters(void) {
     } else {
         func_02027fb8(0);
     }
-    if (gSelectKart->mUnk_104 != FALSE) {
+    if (gSelectKart->field104 != FALSE) {
         WritePlayerEntryListRegisters();
     }
 }

@@ -129,8 +129,8 @@ void srol_init(void *heap) {
     srol_sStatus->mScrollYRemaining = -1;
     srol_sStatus->mScrollYPerFrame = 0x70a;
     srol_sStatus->mCharSpacing = 1;
-    srol_sStatus->mUnk_850 = 1;
-    srol_sStatus->mUnk_854 = 0x240;
+    srol_sStatus->field850 = 1;
+    srol_sStatus->field854 = 0x240;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x100;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 1;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x1000;
@@ -213,16 +213,16 @@ void srol_updateInternal(void) {
                 }
                 switch (variant) {
                     case 0:
-                        staffRollText->mUnk_854 = 0x40;
+                        staffRollText->field854 = 0x40;
                         switch (argument) {
                             case 0:
-                                srol_sStatus->mUnk_854 |= 0x200;
+                                srol_sStatus->field854 |= 0x200;
                                 break;
                             case 1:
-                                srol_sStatus->mUnk_854 |= 0x400;
+                                srol_sStatus->field854 |= 0x400;
                                 break;
                             case 2:
-                                srol_sStatus->mUnk_854 |= 0x800;
+                                srol_sStatus->field854 |= 0x800;
                                 break;
                         }
                         break;
@@ -231,7 +231,7 @@ void srol_updateInternal(void) {
                         staffRollText->mNextReadScrollY += argument << 16;
                         break;
                     case 2:
-                        staffRollText->mUnk_850 = argument * 2 + 1;
+                        staffRollText->field850 = argument * 2 + 1;
                         break;
                     case 3:
                         staffRollText->mCharSpacing = argument;
@@ -261,12 +261,12 @@ void srol_updateInternal(void) {
         }
     } while (lineDone == FALSE);
     MI_CpuFill8(srol_sStatus->mCharBuffer, 0, 0x800);
-    v = srol_sStatus->mUnk_850;
+    v = srol_sStatus->field850;
     c = 0;
     if (v == 3) {
         c = 2;
     }
-    NNSi_G2dTextCanvasDrawTextRect(&srol_sStatus->mTextCanvas, 8, c, 0xf0, 0x10, v, srol_sStatus->mUnk_854,
+    NNSi_G2dTextCanvasDrawTextRect(&srol_sStatus->mTextCanvas, 8, c, 0xf0, 0x10, v, srol_sStatus->field854,
                                    lineText);
     staffRollText = srol_sStatus;
     a = (((staffRollText->mScrollYFixed >> 12) % 256) + 0xc0) >> 3;

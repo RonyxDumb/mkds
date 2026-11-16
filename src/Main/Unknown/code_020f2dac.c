@@ -35,7 +35,7 @@ void UpdateHeldItem(HeldItem *rec) {
     s32 reservedCount;
 
     StartNextHeldItemObject(rec);
-    if (rec->mUnk_0c == 0) {
+    if (rec->fieldC == 0) {
         return;
     }
     if (rec->mTimer == 0) {
@@ -62,9 +62,9 @@ void UpdateHeldItem(HeldItem *rec) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
-        rec->mUnk_0c = 0;
+        rec->fieldC = 0;
         rec->mTimer = 0;
-        rec->mUnk_12 = 0;
+        rec->field12 = 0;
         for (i = 0; i < 3; i++) {
             rec->mObjects[i] = NULL;
         }
@@ -81,9 +81,9 @@ void SetHeldItem(HeldItem *rec, s32 kind) {
     rec->mObjectCount = k;
     rec->mObjectStartFramesLeft = 0;
     driver_notifySlotItemChanged(rec->mKartItems->mKart);
-    rec->mUnk_0c = it_sItemConfigs[kind].mUnk_10;
+    rec->fieldC = it_sItemConfigs[kind].field10;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->field12 = 0;
     k = it_sItemConfigs[kind].mObjectKind;
     reservedCount = it_sItemsets[k].mReservedCount;
     it_sItemsets[(s32) k].mReservedCount = reservedCount + rec->mObjectCount;
@@ -100,9 +100,9 @@ void it_takeSlotItems(HeldItem *rec, s32 n) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
         rec->mObjectStartFramesLeft = 0;
-        rec->mUnk_0c = 0;
+        rec->fieldC = 0;
         rec->mTimer = 0;
-        rec->mUnk_12 = 0;
+        rec->field12 = 0;
         for (i = 0; i < 3; i++) {
             rec->mObjects[i] = NULL;
         }
@@ -115,9 +115,9 @@ void it_resetSlot(HeldItem *rec) {
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
-    rec->mUnk_0c = 0;
+    rec->fieldC = 0;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->field12 = 0;
     for (i = 0; i < 3; i++) {
         rec->mObjects[i] = NULL;
     }
@@ -135,7 +135,7 @@ void it_destroySlotItem(HeldItem *rec, s32 keep) {
 
     if (gRaceMultiConfig->mMode == 5) {
         objectCount = rec->mObjectCount;
-        if (rec->mUnk_24 == FALSE) {
+        if (rec->field24 == FALSE) {
             for (i = 0; i < objectCount; i++) {
                 func_020fe828(poolIndex);
             }
@@ -153,9 +153,9 @@ void it_destroySlotItem(HeldItem *rec, s32 keep) {
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
-    rec->mUnk_0c = 0;
+    rec->fieldC = 0;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->field12 = 0;
     for (i = 0; i < 3; i++) {
         rec->mObjects[i] = NULL;
     }
@@ -174,8 +174,8 @@ static inline u32 TakeHeldItemObjects_inline(RandomState64 *generator, u32 range
 void TakeHeldItemObjects(HeldItem *rec) {
     Kart *owner = rec->mKartItems->mKart;
     CourseColorBlend *halves = OFFSET_PTR(CourseColorBlend, owner->mKartModelsEntry, 0x40);
-    Vec3 *dir = &owner->mUnk_168;
-    Vec3 *axis = &owner->mUnk_150;
+    Vec3 *dir = &owner->field168;
+    Vec3 *axis = &owner->field150;
     s32 i;
     s32 count;
     RandomState64 *generator;
@@ -201,7 +201,7 @@ void TakeHeldItemObjects(HeldItem *rec) {
     angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
     angle >>= 4;
     poolIndex = it_sItemConfigs[kind].mObjectKind;
-    if (it_sItemParams[poolIndex].mUnk_80 != 0) {
+    if (it_sItemParams[poolIndex].field80 != 0) {
         radius = 0x2000;
     } else {
         radius = 0x1800;
@@ -214,8 +214,8 @@ void TakeHeldItemObjects(HeldItem *rec) {
     if (i < count) {
         row = &gItemSpreadRows[count - 1];
         do {
-            rowX = row->mUnk_00[i].mUnk_00;
-            rowY = row->mUnk_00[i].mUnk_04;
+            rowX = row->field0[i].field0;
+            rowY = row->field0[i].field4;
             w1 = ((s64) rowX * (0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333))) >> 12;
             w2 = ((s64) rowY * (0x1000 + (s32) TakeHeldItemObjects_inline(generator, 0x333))) >> 12;
             d = (s32) (((s64) w1 * vb) >> 12) - (s32) (((s64) w2 * va) >> 12);
@@ -249,7 +249,7 @@ BOOL it_setSlotTimeout(HeldItem *rec, s32 v) {
 }
 
 void it_20F4188(HeldItem *rec, s32 v) {
-    rec->mUnk_12 = rec->mTimer - v;
+    rec->field12 = rec->mTimer - v;
 }
 
 void it_stealSlotItem(HeldItem *rec, s32 *kind, s32 *count) {
@@ -260,9 +260,9 @@ void it_stealSlotItem(HeldItem *rec, s32 *kind, s32 *count) {
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
     rec->mObjectStartFramesLeft = 0;
-    rec->mUnk_0c = 0;
+    rec->fieldC = 0;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->field12 = 0;
     for (i = 0; i < 3; i++) {
         rec->mObjects[i] = NULL;
     }
@@ -274,9 +274,9 @@ void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count) {
     rec->mObjectCount = count;
     rec->mObjectStartFramesLeft = 0;
     driver_notifySlotItemChanged(rec->mKartItems->mKart);
-    rec->mUnk_0c = it_sItemConfigs[kind].mUnk_10;
+    rec->fieldC = it_sItemConfigs[kind].field10;
     rec->mTimer = 0;
-    rec->mUnk_12 = 0;
+    rec->field12 = 0;
 }
 
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
@@ -293,25 +293,25 @@ void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        segmentPoints->mUnk_64[i] = &segmentPoints->mUnk_74[i];
-        segmentPoints->mUnk_74[i] = points[i];
+        segmentPoints->field64[i] = &segmentPoints->field74[i];
+        segmentPoints->field74[i] = points[i];
     }
-    segmentPoints->mUnk_60 = 0;
-    func_020d7d18(&segmentPoints->mUnk_00, 1, segmentPoints->mUnk_64, scale);
+    segmentPoints->field60 = 0;
+    func_020d7d18(&segmentPoints->field0, 1, segmentPoints->field64, scale);
 }
 
 s32 PushSegmentPoint(SegmentPoints *segmentPoints, Vec3 *point) {
     Vec3 *first;
 
-    segmentPoints->mUnk_74[segmentPoints->mUnk_60] = *point;
-    segmentPoints->mUnk_60 += 1;
-    segmentPoints->mUnk_60 &= 3;
-    first = segmentPoints->mUnk_64[0];
-    segmentPoints->mUnk_64[0] = segmentPoints->mUnk_64[1];
-    segmentPoints->mUnk_64[1] = segmentPoints->mUnk_64[2];
-    segmentPoints->mUnk_64[2] = segmentPoints->mUnk_64[3];
-    segmentPoints->mUnk_64[3] = first;
-    return func_020d7c84(&segmentPoints->mUnk_00, 1, segmentPoints->mUnk_64);
+    segmentPoints->field74[segmentPoints->field60] = *point;
+    segmentPoints->field60 += 1;
+    segmentPoints->field60 &= 3;
+    first = segmentPoints->field64[0];
+    segmentPoints->field64[0] = segmentPoints->field64[1];
+    segmentPoints->field64[1] = segmentPoints->field64[2];
+    segmentPoints->field64[2] = segmentPoints->field64[3];
+    segmentPoints->field64[3] = first;
+    return func_020d7c84(&segmentPoints->field0, 1, segmentPoints->field64);
 }
 
 // Writes the link nearest pos among the link, its neighbours and their neighbours.
@@ -656,8 +656,8 @@ void InitItemPointLinkDirections(void) {
         data_0217bc38[i] = 0;
     }
     for (i = 0; i < linkCount; i++, link++) {
-        if (link->mUnk_1c >= 0x3e8000) {
-            data_0217bc38[link->mUnk_20] = (s32) link;
+        if (link->field1C >= 0x3e8000) {
+            data_0217bc38[link->field20] = (s32) link;
         }
     }
     link = gMapData->mItemPointLinks;
@@ -691,8 +691,8 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     s32 dy;
     s32 dz;
 
-    n = vec_dotProduct(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_18);
-    m = (itemInUse->mKart->mUnk_48 & 1) != 0;
+    n = vec_dotProduct(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.field18);
+    m = (itemInUse->mKart->field48 & 1) != 0;
     n = ((s64) n * 0x1ec) >> 12;
     if (n < 0x666) {
         n = 0x666;
@@ -723,19 +723,19 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             dx = itemInUse->mKartMovement.y > 0 ? 0x666 : 0x1333;
             n += (s32) (((s64) dx * itemInUse->mKartMovement.y) >> 12);
         }
-        VEC_MultAdd(n, &itemInUse->mKartOrientation.mUnk_0c, &v, &item->mItemObject.mVelocity);
+        VEC_MultAdd(n, &itemInUse->mKartOrientation.fieldC, &v, &item->mItemObject.mVelocity);
     }
     if (throwForward == 0) {
-        VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->mUnk_1fc, &item->mItemObject.mVelocity);
+        VEC_Add(&item->mItemObject.mVelocity, &itemInUse->mKart->field1FC, &item->mItemObject.mVelocity);
     }
     if (throwForward != 0) {
         item->mItemObject.mPos = itemInUse->mKart->mCollisionCenter;
-        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.mUnk_18, &item->mItemObject.mPos,
+        VEC_MultAdd(item->mItemObject.mScale.z * 10, &itemInUse->mKartOrientation.field18, &item->mItemObject.mPos,
                     &item->mItemObject.mPos);
     } else {
         if (itemInUse->mKartHopHeight != 0 && itemInUse->mKartVelocityLength < 0x2000 &&
             item->mItemObject.mScale.z < 0xccd) {
-            VEC_Subtract(&itemInUse->mKartOrientation.mUnk_0c, &itemInUse->mKartOrientation.mUnk_18, &v);
+            VEC_Subtract(&itemInUse->mKartOrientation.fieldC, &itemInUse->mKartOrientation.field18, &v);
             VEC_MultAdd(0x2000, &v, &item->mItemObject.mPos, &item->mItemObject.mPos);
         }
     }
@@ -751,14 +751,14 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     if (!m) {
         return;
     }
-    n = VEC_DotProduct(&itemInUse->mKartOrientation.mUnk_0c, &item->mItemObject.mVelocity);
-    dx = ((s64) itemInUse->mKartOrientation.mUnk_0c.x * n) >> 12;
-    dy = ((s64) itemInUse->mKartOrientation.mUnk_0c.y * n) >> 12;
-    dz = ((s64) itemInUse->mKartOrientation.mUnk_0c.z * n) >> 12;
+    n = VEC_DotProduct(&itemInUse->mKartOrientation.fieldC, &item->mItemObject.mVelocity);
+    dx = ((s64) itemInUse->mKartOrientation.fieldC.x * n) >> 12;
+    dy = ((s64) itemInUse->mKartOrientation.fieldC.y * n) >> 12;
+    dz = ((s64) itemInUse->mKartOrientation.fieldC.z * n) >> 12;
     item->mItemObject.mVelocity.x -= dx;
     item->mItemObject.mVelocity.y -= dy;
     item->mItemObject.mVelocity.z -= dz;
-    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.mUnk_0c,
+    VEC_MultAdd(throwForward != 0 ? 0x8800 : -0x1000, &itemInUse->mKartOrientation.fieldC,
                 &item->mItemObject.mVelocity, &item->mItemObject.mVelocity);
     item->mBouncesRemaining = 0;
 }
@@ -792,7 +792,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
     velocity->x = ((s64) velocity->x * velocityFactor) >> 12;
     velocity->y = ((s64) velocity->y * velocityFactor) >> 12;
     velocity->z = ((s64) velocity->z * velocityFactor) >> 12;
-    if (col_collide(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
+    if (col_collide(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.fieldDC, 0x24,
                       item->mItemObject.mCollisionSlotIndex, &t, &hitNormal, (s32 *) &wallNormal,
                       &item->mItemObject.mCollisionBits, NULL, NULL, NULL, e) != 0) {
         VEC_Add(&t, pos, pos);
@@ -823,7 +823,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             if (func_020f9290(item, &wallNormal) != FALSE) {
                 return;
             }
-            item->mItemObject.mUnk_78 &= ~0x4000;
+            item->mItemObject.field78 &= ~0x4000;
         }
         if (item->mItemObject.mCollisionBits & 0x8000) {
             func_020f7070(item, 1);
@@ -847,7 +847,7 @@ void BounceItemObject(ItemObject *item, Vec3 *b, Vec3 *awayDirection) {
         return;
     }
     item->mFlags |= 0x1000000;
-    item->mUnk_108.x = 0;
-    item->mUnk_108.y = 0;
-    item->mUnk_108.z = 0;
+    item->field108.x = 0;
+    item->field108.y = 0;
+    item->field108.z = 0;
 }

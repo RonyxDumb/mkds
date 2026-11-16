@@ -12,24 +12,24 @@ typedef struct MapObjects {
     /* 000 */ MapObject **mMapObjects;
     // Pinned at 0xff when the 0x100-pointer array is full.
     /* 004 */ vu16 mMapObjectCount;
-    /* 006 */ u8 mUnk_006[2];
+    /* 006 */ u8 field6[2];
     /* 008 */ MapObjectList *mDrawLists[24];
-    /* 068 */ MapObjectList *mUnk_068[24];
-    /* 0c8 */ MapObjectList *mUnk_0c8[24];
+    /* 068 */ MapObjectList *field68[24];
+    /* 0c8 */ MapObjectList *fieldC8[24];
     /* 128 */ u16 mDrawListCount;
-    /* 12a */ u16 mUnk_12a;
-    /* 12c */ u16 mUnk_12c;
-    /* 12e */ u8 mUnk_12e[2];
-    /* 130 */ BOOL mUnk_130;
+    /* 12a */ u16 field12A;
+    /* 12c */ u16 field12C;
+    /* 12e */ u8 field12E[2];
+    /* 130 */ BOOL field130;
     /* 134 */ MapObjectList *mUpdateLists[16];
     /* 174 */ u16 mUpdateListCount;
-    /* 176 */ u8 mUnk_176[2];
-    /* 178 */ BOOL mUnk_178;
+    /* 176 */ u8 field176[2];
+    /* 178 */ BOOL field178;
     /* 17c */ s32 mHasKoopaBlock;
-    /* 180 */ s32 mUnk_180;
-    /* 184 */ s32 mUnk_184;
-    /* 188 */ s32 mUnk_188;
-    /* 18c */ ItemObject mUnk_18c;
+    /* 180 */ s32 field180;
+    /* 184 */ s32 field184;
+    /* 188 */ s32 field188;
+    /* 18c */ ItemObject field18C;
     /* 2b8 */ s32 mRunUpdateLists;
 } MapObjects;
 

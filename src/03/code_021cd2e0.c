@@ -24,7 +24,7 @@ void func_ov003_021cdb90(void) {
     Unk021cd5e0 *v1;
     v1 = AllocExpHeapBlock(0x6f8, 0x20);
     data_ov003_021da270 = v1;
-    Crc16InitTable(&v1->mUnk_400.mUnk_f8, 0xa001);
+    Crc16InitTable(&v1->field400.fieldF8, 0xa001);
     DWCi_BACKUPlRead(data_ov003_021da270);
 }
 
@@ -33,35 +33,35 @@ void func_ov003_021cdb80(void) {
 }
 
 Unk021cd5e0_400 *func_ov003_021cdb6c(void) {
-    return &data_ov003_021da270->mUnk_400;
+    return &data_ov003_021da270->field400;
 }
 
 void func_ov003_021cdb58(u32 a) {
-    data_ov003_021da270->mUnk_400.mUnk_f5 = a;
+    data_ov003_021da270->field400.fieldF5 = a;
 }
 
 void func_ov003_021cdb44(u32 a) {
-    data_ov003_021da270->mUnk_400.mUnk_f6 = a;
+    data_ov003_021da270->field400.fieldF6 = a;
 }
 
 void func_ov003_021cdb14(const u8 *a) {
-    MI_CpuCopy8(a, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_40, 0x20);
-    data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e7 = 0;
+    MI_CpuCopy8(a, data_ov003_021da270->field400.field0.field40, 0x20);
+    data_ov003_021da270->field400.field0.fieldE7 = 0;
 }
 
 void func_ov003_021cd9dc(const u8 *a) {
     s32 i;
     s32 n;
     u8 *p;
-    MI_CpuFill8(data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0], 0, 0x10);
+    MI_CpuFill8(data_ov003_021da270->field400.field0.field80[0], 0, 0x10);
     n = GetStringLengthWithLimit(a, 0x20);
     switch (n) {
         case 0:
         case 10:
         case 26:
         case 32:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_2 = 0;
-            p = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0];
+            data_ov003_021da270->field400.field0.fieldE6_2 = 0;
+            p = data_ov003_021da270->field400.field0.field80[0];
             i = 0;
             for (; i < n;) {
                 *p = (func_ov003_021cd2cc(a[i]) << 4) + func_ov003_021cd2cc(a[i + 1]);
@@ -70,54 +70,54 @@ void func_ov003_021cd9dc(const u8 *a) {
             }
             break;
         default:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_2 = 1;
-            MI_CpuCopy8(a, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_80[0], 0x10);
+            data_ov003_021da270->field400.field0.fieldE6_2 = 1;
+            MI_CpuCopy8(a, data_ov003_021da270->field400.field0.field80[0], 0x10);
             break;
     }
     switch (n) {
         case 0:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 0;
+            data_ov003_021da270->field400.field0.fieldE6_0 = 0;
             break;
         case 5:
         case 10:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 1;
+            data_ov003_021da270->field400.field0.fieldE6_0 = 1;
             break;
         case 13:
         case 26:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 2;
+            data_ov003_021da270->field400.field0.fieldE6_0 = 2;
             break;
         default:
-            data_ov003_021da270->mUnk_400.mUnk_00.mUnk_e6_0 = 3;
+            data_ov003_021da270->field400.field0.fieldE6_0 = 3;
             break;
     }
 }
 
 void func_ov003_021cd9c4(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c0);
+    func_ov003_021cd2e0(input, data_ov003_021da270->field400.field0.fieldC0);
 }
 
 void func_ov003_021cd9ac(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_f0);
+    func_ov003_021cd2e0(input, data_ov003_021da270->field400.fieldF0);
 }
 
 void func_ov003_021cd994(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c4);
+    func_ov003_021cd2e0(input, data_ov003_021da270->field400.field0.fieldC4);
 }
 
 void func_ov003_021cd97c(const char *input) {
-    func_ov003_021cd2e0(input, data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8);
+    func_ov003_021cd2e0(input, data_ov003_021da270->field400.field0.fieldC8);
 }
 
 void func_ov003_021cd964(const char *input) {
-    func_ov003_021cd2e0(input, &data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8[4]);
+    func_ov003_021cd2e0(input, &data_ov003_021da270->field400.field0.fieldC8[4]);
 }
 
 void func_ov003_021cd948(void *output) {
-    MI_CpuCopy8(data_ov003_021da270->mUnk_400.mUnk_00.mUnk_40, output, 0x20);
+    MI_CpuCopy8(data_ov003_021da270->field400.field0.field40, output, 0x20);
 }
 
 void func_ov003_021cd918(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c0;
+    u8 *v5 = data_ov003_021da270->field400.field0.fieldC0;
     u32 v6 = (v5[2]);
     u32 v8 = (v5[3]);
     const char *v10 = data_ov003_021d77c4;
@@ -127,7 +127,7 @@ void func_ov003_021cd918(char *p0) {
 }
 
 void func_ov003_021cd8e8(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_f0;
+    u8 *v5 = data_ov003_021da270->field400.fieldF0;
     u32 v6 = (v5[2]);
     u32 v8 = (v5[3]);
     const char *v10 = data_ov003_021d77c4;
@@ -137,7 +137,7 @@ void func_ov003_021cd8e8(char *p0) {
 }
 
 void func_ov003_021cd8b8(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c4;
+    u8 *v5 = data_ov003_021da270->field400.field0.fieldC4;
     u32 v6 = (v5[2]);
     u32 v8 = (v5[3]);
     const char *v10 = data_ov003_021d77c4;
@@ -147,7 +147,7 @@ void func_ov003_021cd8b8(char *p0) {
 }
 
 void func_ov003_021cd888(char *p0) {
-    u8 *v5 = data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8;
+    u8 *v5 = data_ov003_021da270->field400.field0.fieldC8;
     u32 v6 = (v5[2]);
     u32 v8 = (v5[3]);
     const char *v10 = data_ov003_021d77c4;
@@ -157,7 +157,7 @@ void func_ov003_021cd888(char *p0) {
 }
 
 void func_ov003_021cd858(char *p0) {
-    u8 *v5 = &data_ov003_021da270->mUnk_400.mUnk_00.mUnk_c8[4];
+    u8 *v5 = &data_ov003_021da270->field400.field0.fieldC8[4];
     u32 v6 = (v5[2]);
     u32 v8 = (v5[3]);
     const char *v10 = data_ov003_021d77c4;
@@ -167,46 +167,46 @@ void func_ov003_021cd858(char *p0) {
 }
 
 u8 func_ov003_021cd844(int a) {
-    return data_ov003_021da270->mUnk_000[a].mUnk_00.mUnk_e7;
+    return data_ov003_021da270->field0[a].field0.fieldE7;
 }
 
 void func_ov003_021cd790(s32 a) {
     Unk021cd5e0 *o = data_ov003_021da270;
-    Unk021cd5e0_entry *q = &o->mUnk_000[a].mUnk_00;
-    o->mUnk_400.mUnk_00 = *q;
-    o->mUnk_400.mUnk_f4 = a;
-    if (memcmp(q->mUnk_c0, data_ov003_021d6684, 4) != 0) {
-        data_ov003_021da270->mUnk_400.mUnk_f5 = 0;
+    Unk021cd5e0_entry *q = &o->field0[a].field0;
+    o->field400.field0 = *q;
+    o->field400.fieldF4 = a;
+    if (memcmp(q->fieldC0, data_ov003_021d6684, 4) != 0) {
+        data_ov003_021da270->field400.fieldF5 = 0;
     } else {
-        data_ov003_021da270->mUnk_400.mUnk_f5 = 1;
+        data_ov003_021da270->field400.fieldF5 = 1;
     }
-    if (memcmp(q->mUnk_c8, data_ov003_021d6684, 4) != 0 || memcmp(q->mUnk_c8 + 4, data_ov003_021d6684, 4) != 0) {
-        data_ov003_021da270->mUnk_400.mUnk_f6 = 0;
+    if (memcmp(q->fieldC8, data_ov003_021d6684, 4) != 0 || memcmp(q->fieldC8 + 4, data_ov003_021d6684, 4) != 0) {
+        data_ov003_021da270->field400.fieldF6 = 0;
     } else {
-        data_ov003_021da270->mUnk_400.mUnk_f6 = 1;
+        data_ov003_021da270->field400.fieldF6 = 1;
     }
-    DWCi_BACKUPlConvMaskAddr(q->mUnk_d0, data_ov003_021da270->mUnk_400.mUnk_f0);
+    DWCi_BACKUPlConvMaskAddr(q->fieldD0, data_ov003_021da270->field400.fieldF0);
 }
 
 void func_ov003_021cd6d0(void) {
-    Unk021cd5e0_400 *p = &data_ov003_021da270->mUnk_400;
-    Unk021cd5e0_entry *q = &data_ov003_021da270->mUnk_000[p->mUnk_f4].mUnk_00;
-    *q = p->mUnk_00;
-    if (p->mUnk_f5 != 0) {
-        MI_CpuFill8(q->mUnk_c0, 0, 4);
-        MI_CpuFill8(q->mUnk_c4, 0, 4);
-        q->mUnk_d0 = 0;
+    Unk021cd5e0_400 *p = &data_ov003_021da270->field400;
+    Unk021cd5e0_entry *q = &data_ov003_021da270->field0[p->fieldF4].field0;
+    *q = p->field0;
+    if (p->fieldF5 != 0) {
+        MI_CpuFill8(q->fieldC0, 0, 4);
+        MI_CpuFill8(q->fieldC4, 0, 4);
+        q->fieldD0 = 0;
     } else {
-        MI_CpuCopy8(p->mUnk_00.mUnk_c0, q->mUnk_c0, 4);
-        MI_CpuCopy8(p->mUnk_00.mUnk_c4, q->mUnk_c4, 4);
-        q->mUnk_d0 = DWCi_BACKUPlConvMaskCidr(p->mUnk_f0);
+        MI_CpuCopy8(p->field0.fieldC0, q->fieldC0, 4);
+        MI_CpuCopy8(p->field0.fieldC4, q->fieldC4, 4);
+        q->fieldD0 = DWCi_BACKUPlConvMaskCidr(p->fieldF0);
     }
-    if (p->mUnk_f6 != 0) {
-        MI_CpuFill8(q->mUnk_c8, 0, 8);
+    if (p->fieldF6 != 0) {
+        MI_CpuFill8(q->fieldC8, 0, 8);
     } else {
-        MI_CpuCopy8(p->mUnk_00.mUnk_c8, q->mUnk_c8, 8);
+        MI_CpuCopy8(p->field0.fieldC8, q->fieldC8, 8);
     }
-    func_ov003_021cd338(p->mUnk_f4);
+    func_ov003_021cd338(p->fieldF4);
 }
 
 void func_ov003_021cd5e0(const Unk021cd5e0_arg *a) {
@@ -215,40 +215,40 @@ void func_ov003_021cd5e0(const Unk021cd5e0_arg *a) {
     s32 i;
     u8 *v1;
     u8 *v2;
-    p = &data_ov003_021da270->mUnk_400;
+    p = &data_ov003_021da270->field400;
     MI_CpuFill8(p, 0, 0xef);
-    MI_CpuCopy8(a, p->mUnk_00.mUnk_40, 0x20);
-    switch (a->mUnk_20) {
+    MI_CpuCopy8(a, p->field0.field40, 0x20);
+    switch (a->field20) {
         case 1:
-            p->mUnk_00.mUnk_e6_0 = 1;
+            p->field0.fieldE6_0 = 1;
             n = 5;
             break;
         case 2:
-            p->mUnk_00.mUnk_e6_0 = 2;
+            p->field0.fieldE6_0 = 2;
             n = 0xd;
             break;
         case 3:
-            p->mUnk_00.mUnk_e6_0 = 3;
+            p->field0.fieldE6_0 = 3;
             n = 0x10;
             break;
         default:
-            p->mUnk_00.mUnk_e6_0 = 0;
+            p->field0.fieldE6_0 = 0;
             n = 0;
             break;
     }
-    p->mUnk_00.mUnk_e6_2 = 0;
+    p->field0.fieldE6_2 = 0;
     i = 0;
-    v2 = p->mUnk_00.mUnk_80[0];
-    v1 = (u8 *) a->mUnk_28;
+    v2 = p->field0.field80[0];
+    v1 = (u8 *) a->field28;
     for (; i < 4; i++) {
         MI_CpuCopy8(v1, v2, n);
         v2 += 0x10;
         v1 += 0x20;
     }
-    p->mUnk_00.mUnk_e7 = 2;
-    MI_CpuFill8(p->mUnk_f0, 0, 4);
-    p->mUnk_f5 = 1;
-    p->mUnk_f6 = 1;
+    p->field0.fieldE7 = 2;
+    MI_CpuFill8(p->fieldF0, 0, 4);
+    p->fieldF5 = 1;
+    p->fieldF6 = 1;
     func_ov003_021cd6d0();
 }
 
@@ -367,9 +367,9 @@ struct Unk021cd5e0 *func_ov003_021cd4dc(void) {
 
 void func_ov003_021cd4ac(int a) {
     Unk021cd5e0_entry *v1;
-    v1 = &data_ov003_021da270->mUnk_000[a].mUnk_00;
+    v1 = &data_ov003_021da270->field0[a].field0;
     MI_CpuFill8(v1, 0, 0xef);
-    v1->mUnk_e7 = 0xff;
+    v1->fieldE7 = 0xff;
     func_ov003_021cd338(a);
 }
 
@@ -380,12 +380,12 @@ void func_ov003_021cd42c(void) {
     s32 i;
     MIi_CpuClear16(a, data_ov003_021da270, 0x400);
     for (i = 0; i < 3; i++) {
-        data_ov003_021da270->mUnk_000[i].mUnk_00.mUnk_e7 = 0xff;
+        data_ov003_021da270->field0[i].field0.fieldE7 = 0xff;
     }
     DWCi_AUTH_GetNewWiFiInfo(&b);
     c = DWCi_BACKUPlConvWifiInfo(&b);
     for (i = 0; i < 2; i++) {
-        MI_CpuCopy8(c, data_ov003_021da270->mUnk_000[i].mUnk_f0, 0xe);
+        MI_CpuCopy8(c, data_ov003_021da270->field0[i].fieldF0, 0xe);
     }
     for (i = 0; i < 4; i++) {
         func_ov003_021cd338(i);
@@ -393,7 +393,7 @@ void func_ov003_021cd42c(void) {
 }
 
 void func_ov003_021cd338(s32 param_1) {
-    u32 a = data_ov003_021da270->mUnk_000[param_1].mUnk_00.mUnk_e7;
+    u32 a = data_ov003_021da270->field0[param_1].field0.fieldE7;
     u32 b = 1 << param_1;
     BOOL c = FALSE;
     s32 d[4];
@@ -404,27 +404,27 @@ void func_ov003_021cd338(s32 param_1) {
     d[param_1] = 1;
     if (param_1 <= 2) {
         p = data_ov003_021da270;
-        if ((p->mUnk_000[0].mUnk_00.mUnk_e8[7] & b) != 0) {
+        if ((p->field0[0].field0.fieldE8[7] & b) != 0) {
             c = TRUE;
         }
         if (a == 0xff && c != FALSE) {
-            p->mUnk_000[0].mUnk_00.mUnk_e8[7] = p->mUnk_000[0].mUnk_00.mUnk_e8[7] & ~b;
-            data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] =
-                data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] & ~b;
+            p->field0[0].field0.fieldE8[7] = p->field0[0].field0.fieldE8[7] & ~b;
+            data_ov003_021da270->field0[1].field0.fieldE8[7] =
+                data_ov003_021da270->field0[1].field0.fieldE8[7] & ~b;
             d[1] = 1;
             d[0] = 1;
         } else if (a != 0xff && c == FALSE) {
-            p->mUnk_000[0].mUnk_00.mUnk_e8[7] = p->mUnk_000[0].mUnk_00.mUnk_e8[7] | b;
-            data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] =
-                data_ov003_021da270->mUnk_000[1].mUnk_00.mUnk_e8[7] | b;
+            p->field0[0].field0.fieldE8[7] = p->field0[0].field0.fieldE8[7] | b;
+            data_ov003_021da270->field0[1].field0.fieldE8[7] =
+                data_ov003_021da270->field0[1].field0.fieldE8[7] | b;
             d[1] = 1;
             d[0] = 1;
         }
     }
     for (i = 0; i < 4; i++) {
         if (d[i] != 0) {
-            data_ov003_021da270->mUnk_000[i].mUnk_fe =
-                MATH_CalcCRC16(&data_ov003_021da270->mUnk_400.mUnk_f8, data_ov003_021da270->mUnk_000[i].mUnk_00.mUnk_00, 0xfe);
+            data_ov003_021da270->field0[i].fieldFE =
+                MATH_CalcCRC16(&data_ov003_021da270->field400.fieldF8, data_ov003_021da270->field0[i].field0.field0, 0xfe);
         }
     }
     e = AllocExpHeapBlock(0x100, 0x20);

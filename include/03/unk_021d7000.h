@@ -6,40 +6,40 @@ typedef struct Unk021d6974 Unk021d6974;
 
 // Bytes moved as one value.
 typedef struct Unk021d73e0 {
-    /* 00 */ u8 mUnk_00[0x15];
+    /* 00 */ u8 field0[0x15];
 } Unk021d73e0;
 
 typedef struct Unk021d73f8 {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 field0[0x16];
 } Unk021d73f8;
 
 typedef struct Unk021d7410 {
-    /* 00 */ u8 mUnk_00[0x17];
+    /* 00 */ u8 field0[0x17];
 } Unk021d7410;
 
 // Six bytes moved as one value.
 typedef struct Unk021d7864 {
-    /* 0 */ u8 mUnk_00[6];
+    /* 0 */ u8 field0[6];
 } Unk021d7864;
 
 // Twenty-two bytes moved as one value.
 typedef struct Unk021d75c8 {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 field0[0x16];
 } Unk021d75c8;
 
 // Twenty-two bytes moved as one value.
 typedef struct Unk021d7654 {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 field0[0x16];
 } Unk021d7654;
 
 // Four bytes moved as one value.
 typedef struct Unk021d7650 {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 field0[4];
 } Unk021d7650;
 
 // Three words moved as one value.
 typedef struct Unk021d7708 {
-    /* 00 */ u32 mUnk_00[3];
+    /* 00 */ u32 field0[3];
 } Unk021d7708;
 
 // Objects whose layout isn't known yet.

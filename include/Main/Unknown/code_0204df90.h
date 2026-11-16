@@ -7,14 +7,14 @@ typedef struct Unk0217aa00_1658 Unk0217aa00_1658;
 // Twenty bytes after a two-byte head.
 typedef struct Unk0204e4d8 {
     /* 00 */ union {
-        u8 mUnk_00;
+        u8 field0;
         struct {
-            u8 mUnk_00_0 : 4;
-            u8 mUnk_00_4 : 4;
+            u8 field0_0 : 4;
+            u8 field0_4 : 4;
         };
     };
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02[0x14];
+    /* 01 */ u8 field1;
+    /* 02 */ u8 field2[0x14];
 } Unk0204e4d8;
 
 void func_0204df90(void);

@@ -45,12 +45,12 @@ static inline u32 func_020487fc_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_020487fc_inline2(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_020487fc_inline() != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -58,7 +58,7 @@ static inline s32 func_020487fc_inline2(void) {
 
 static inline s32 func_020487fc_inline3(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_020487fc_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -66,7 +66,7 @@ static inline s32 func_020487fc_inline3(void) {
 
 static inline s32 func_020487fc_inline4(void) {
     BOOL r = FALSE;
-    if (func_020487fc_inline3() && (gStruct217AA00->mUnk_0454 & 0x10)) {
+    if (func_020487fc_inline3() && (gStruct217AA00->field454 & 0x10)) {
         r = TRUE;
     }
     return r;
@@ -74,7 +74,7 @@ static inline s32 func_020487fc_inline4(void) {
 
 static inline s32 func_020487fc_inline5(void) {
     BOOL r = FALSE;
-    if (gStruct217AA14 != NULL && (gStruct217AA14->mUnk_75c & 0x10)) {
+    if (gStruct217AA14 != NULL && (gStruct217AA14->field75C & 0x10)) {
         r = TRUE;
     }
     return r;
@@ -136,7 +136,7 @@ static inline u32 func_020487fc_inline8(void) {
 }
 
 static inline BOOL func_020487fc_inline12(void) {
-    return func_020487fc_inline() != 0 && gStruct217AA00->mUnk_0004 != 13;
+    return func_020487fc_inline() != 0 && gStruct217AA00->field4 != 13;
 }
 
 static inline void func_020487fc_inline9(const SceneCallbacks *b) {
@@ -144,7 +144,7 @@ static inline void func_020487fc_inline9(const SceneCallbacks *b) {
     if (v == 1 || v == 10) {
         dc_2037498(!func_020487fc_inline12() || !func_020487fc_inline6());
     } else {
-        dc_2037658(b->mUnk_1c);
+        dc_2037658(b->field1C);
     }
 }
 
@@ -165,7 +165,7 @@ static inline s32 func_020487fc_inline11(void) {
 
 static inline BOOL func_020487fc_inline13(void) {
     if (func_020487fc_inline11()) {
-        if (gStruct217D384->mUnk_0008.mState != 0) {
+        if (gStruct217D384->field8.mState != 0) {
             return FALSE;
         }
         return TRUE;
@@ -192,10 +192,10 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
     scene_sSceneState->mSceneFrames = v;
     scene_sSceneState->mPassCount = v;
     scene_sSceneState->mSceneCallbacks = *b;
-    scene_sSceneState->mUnk_10c = 6;
+    scene_sSceneState->field10C = 6;
     scene_sSceneState->mNextScene = 0;
-    scene_sSceneState->mUnk_118 = -1;
-    scene_sSceneState->mUnk_11c = 0;
+    scene_sSceneState->field118 = -1;
+    scene_sSceneState->field11C = 0;
     t = OS_DisableInterrupts();
     if (PM_GetLCDPower() == 1) {
         scene_sSceneState->mLcdOff = FALSE;
@@ -203,7 +203,7 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         scene_sSceneState->mLcdOff = TRUE;
     }
     OS_RestoreInterrupts(t);
-    scene_sSceneState->mUnk_10c = 0;
+    scene_sSceneState->field10C = 0;
     arc_setHeapGroupId(0);
     arc_loadArchivesForScene(a->mScene);
     arc_setHeapGroupId(9);
@@ -215,12 +215,12 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
     InitSceneSounds(0);
     input_2043410();
     if (func_020487fc_inline2()) {
-        gStruct217AA00->mUnk_0454 |= 4;
+        gStruct217AA00->field454 |= 4;
     }
     m2d_load();
     input_2043B48();
     CARD_SetPulledOutCallback(scene_cardPulledOutCallbackDontStop);
-    gSystemData->mUnk_78 = 0;
+    gSystemData->field78 = 0;
     if (b->mInit != NULL) {
         b->mInit(a);
     }
@@ -229,14 +229,14 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
     sysdat_startSeq();
     snd_handleRaceStart();
     dc_enableDisplay();
-    scene_sSceneState->mUnk_10c = 1;
+    scene_sSceneState->field10C = 1;
     do {
         dc_handleStartOfFrame();
         func_020487fc_inline7();
         sound_main();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, scene_sSceneState->mUnk_10c != 4);
+        r = func_0204984c(a, scene_sSceneState->field10C != 4);
         NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = scene_sSceneState->mNextScene;
@@ -248,7 +248,7 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
     } while (FinishDataSharingSync() != 1);
     input_clearPads();
     mbright_fadeIn(b->mFadeToClearFrameCount);
-    scene_sSceneState->mUnk_10c = 2;
+    scene_sSceneState->field10C = 2;
     do {
         dc_handleStartOfFrame();
         func_020487fc_inline7();
@@ -258,14 +258,14 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         sound_main();
         v = func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, scene_sSceneState->mUnk_10c != 4);
+        r = func_0204984c(a, scene_sSceneState->field10C != 4);
         NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = scene_sSceneState->mNextScene;
             goto end;
         }
-        if (b->mUnk_0c != NULL) {
-            b->mUnk_0c(a, scene_sSceneState->mSceneFrames);
+        if (b->fieldC != NULL) {
+            b->fieldC(a, scene_sSceneState->mSceneFrames);
         }
         UpdateWiFiSession();
         if (!func_020487fc_inline6()) {
@@ -274,17 +274,17 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         scene_sSceneState->mPassCount++;
         dc_handleEndOfFrame();
     } while (a->mNextScene == -1 && v == 0);
-    scene_sSceneState->mUnk_10c = 3;
+    scene_sSceneState->field10C = 3;
     StopSceneSounds();
     if (gSystemData->mSoundSetSeqPlaying) {
         if (a == NULL || scene_getShouldStopUnloadMusic(a->mScene, a->mNextScene)) {
             sysdat_stopSeq();
         }
     }
-    if ((v != 0 || scproc_getNextScene() == 0) && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if ((v != 0 || scproc_getNextScene() == 0) && ((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         scene_reportErrorIntern(0);
     }
-    if (gSystemData->mUnk_20 == 4) {
+    if (gSystemData->field20 == 4) {
         mbright_fadeToWhite(b->mFadeToFadedFrameCount);
     } else {
         mbright_fadeToBlack(b->mFadeToFadedFrameCount);
@@ -298,10 +298,10 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         sound_main();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        func_0204984c(a, scene_sSceneState->mUnk_10c != 4);
+        func_0204984c(a, scene_sSceneState->field10C != 4);
         NNS_GfdDoVramTransfer();
-        if (b->mUnk_0c != NULL) {
-            b->mUnk_0c(0, scene_sSceneState->mSceneFrames);
+        if (b->fieldC != NULL) {
+            b->fieldC(0, scene_sSceneState->mSceneFrames);
         }
         UpdateWiFiSession();
         if (!func_020487fc_inline6()) {
@@ -313,8 +313,8 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
 end:
     input_2043AE0();
     if (func_020487fc_inline13() && (v != 0 || scproc_getNextScene() == 0)) {
-        scene_sSceneState->mUnk_10c = 4;
-        gSystemData->mUnk_20 = 0;
+        scene_sSceneState->field10C = 4;
+        gSystemData->field20 = 0;
         c = FALSE;
         LEDBlink_NoPattern();
         do {
@@ -327,16 +327,16 @@ end:
                     c = TRUE;
                 }
             }
-            func_0204984c(a, scene_sSceneState->mUnk_10c != 4);
+            func_0204984c(a, scene_sSceneState->field10C != 4);
             NNS_GfdDoVramTransfer();
             UpdateWiFiSession();
             dc_handleEndOfFrame();
         } while (!c);
     }
-    scene_sSceneState->mUnk_10c = 5;
+    scene_sSceneState->field10C = 5;
     gCurDisplayConfig->mIrqCallback = NULL;
     if (func_020487fc_inline2()) {
-        gStruct217AA00->mUnk_0454 &= ~4;
+        gStruct217AA00->field454 &= ~4;
     }
     StartDataSharingSync();
     func_02055340();
@@ -358,7 +358,7 @@ end:
     if (v != 0) {
         a->mNextScene = 0;
     } else {
-        w = scene_sSceneState->mUnk_118;
+        w = scene_sSceneState->field118;
         if (w != -1) {
             switch (w) {
                 case 4:
@@ -374,5 +374,5 @@ end:
     }
     sysdat_resetDtcmHeap();
     scene_sSceneState->mSceneFrames = 0;
-    scene_sSceneState->mUnk_10c = 6;
+    scene_sSceneState->field10C = 6;
 }

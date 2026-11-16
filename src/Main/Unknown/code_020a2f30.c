@@ -49,7 +49,7 @@ void blln_loadModel(Unk020a3eb8 *a) {
     mobj_setModelPolygonIdAll(blln_sModel, 0x3f);
     mobj_setModelAlpha(blln_sModel, 0x1a);
     mobj_setModelFogEnableFlag(blln_sModel, 0);
-    a->mUnk_1c = 1;
+    a->field1C = 1;
 }
 
 void blln_globalPreRender(void *mapObjectList) {
@@ -92,26 +92,26 @@ void blln_render(void *mapObjectList, Balloon *balloon) {
     }
     drawCount = balloon->mDrawCount;
     if (drawCount == 1 && balloon->mDrawList == NULL) {
-        distanceSquared = balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
+        distanceSquared = balloon->field0.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
-            balloon->mDrawPos.x = data_0217b214.x + (balloon->mUnk_00.mPos.x >> 1);
-            balloon->mDrawPos.y = data_0217b214.y + (balloon->mUnk_00.mPos.y >> 1);
-            balloon->mDrawPos.z = data_0217b214.z + (balloon->mUnk_00.mPos.z >> 1);
+            balloon->mDrawPos.x = data_0217b214.x + (balloon->field0.mPos.x >> 1);
+            balloon->mDrawPos.y = data_0217b214.y + (balloon->field0.mPos.y >> 1);
+            balloon->mDrawPos.z = data_0217b214.z + (balloon->field0.mPos.z >> 1);
             balloon->mDrawScale = 0x800;
         } else if (distanceSquared < 0x9c40) {
-            balloon->mDrawPos.x = data_0217b208.x + balloon->mUnk_00.mPos.x - (balloon->mUnk_00.mPos.x >> 3);
-            balloon->mDrawPos.y = data_0217b208.y + balloon->mUnk_00.mPos.y - (balloon->mUnk_00.mPos.y >> 3);
-            balloon->mDrawPos.z = data_0217b208.z + balloon->mUnk_00.mPos.z - (balloon->mUnk_00.mPos.z >> 3);
+            balloon->mDrawPos.x = data_0217b208.x + balloon->field0.mPos.x - (balloon->field0.mPos.x >> 3);
+            balloon->mDrawPos.y = data_0217b208.y + balloon->field0.mPos.y - (balloon->field0.mPos.y >> 3);
+            balloon->mDrawPos.z = data_0217b208.z + balloon->field0.mPos.z - (balloon->field0.mPos.z >> 3);
             balloon->mDrawScale = 0xe00;
         } else {
-            balloon->mDrawPos = balloon->mUnk_00.mPos;
+            balloon->mDrawPos = balloon->field0.mPos;
             balloon->mDrawScale = 0x1000;
         }
         w0 = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &w0, 1);
         NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&balloon->mDrawPos), 12);
-        if (balloon->mUnk_00.mAngle != 0) {
-            i = (balloon->mUnk_00.mAngle >> 4) * 2;
+        if (balloon->field0.mAngle != 0) {
+            i = (balloon->field0.mAngle >> 4) * 2;
             MTX_RotZ33_(m0, FX_SinCosTable_[i + 1], FX_SinCosTable_[i]);
             NNS_G3dGeBufferOP_N(0x1a, m0, 9);
         }
@@ -120,7 +120,7 @@ void blln_render(void *mapObjectList, Balloon *balloon) {
         f0[1] = drawScale;
         f0[2] = drawScale;
         NNS_G3dGeBufferOP_N(0x1b, f0, 3);
-        t = balloon->mScaleFactor + balloon->mUnk_d8;
+        t = balloon->mScaleFactor + balloon->fieldD8;
         if (t != 0x1000) {
             g0[0] = t;
             g0[1] = t;
@@ -131,7 +131,7 @@ void blln_render(void *mapObjectList, Balloon *balloon) {
         mobj_setModelNsbtpFrame(blln_sModel, balloon->mNsbtpFrameIndex);
         mobj_renderModel(mapObjectList, blln_sModel, balloon);
     } else if (drawCount > 0) {
-        distanceSquared = balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
+        distanceSquared = balloon->field0.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
             balloon->mDrawPos.x = data_0217b214.x + (balloon->mTargetPos.x >> 1);
             balloon->mDrawPos.y = data_0217b214.y + (balloon->mTargetPos.y >> 1);
@@ -182,7 +182,7 @@ void blln_render(void *mapObjectList, Balloon *balloon) {
 }
 
 void blln_setParticleColor(Unk0201ca6c *effect, Balloon *balloon) {
-    effect->mUnk_72 = func_0208606c(balloon->mNsbtpFrameIndex);
+    effect->field72 = func_0208606c(balloon->mNsbtpFrameIndex);
 }
 
 void func_020a36a8(Balloon *balloon) {
@@ -200,35 +200,35 @@ void func_020a36a8(Balloon *balloon) {
     s32 v7;
 
     if (balloon->mKartIndex < 0) {
-        balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + 0x1800;
+        balloon->field0.field10.y = balloon->field0.field10.y + 0x1800;
     } else {
         kart = driver_getById((u16) balloon->mKartIndex);
-        q = &kart->mUnk_12c;
-        balloon->mUnk_00.mUnk_10.x = balloon->mUnk_00.mUnk_10.x + (q->x + (q->x >> 1));
-        balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + (q->y + (q->y >> 1));
-        balloon->mUnk_00.mUnk_10.z = balloon->mUnk_00.mUnk_10.z + (q->z + (q->z >> 1));
+        q = &kart->field12C;
+        balloon->field0.field10.x = balloon->field0.field10.x + (q->x + (q->x >> 1));
+        balloon->field0.field10.y = balloon->field0.field10.y + (q->y + (q->y >> 1));
+        balloon->field0.field10.z = balloon->field0.field10.z + (q->z + (q->z >> 1));
     }
-    v1 = (balloon->mUnk_00.mPos.x + balloon->mUnk_00.mUnk_10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
-    v3 = (balloon->mUnk_00.mPos.z + balloon->mUnk_00.mUnk_10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
-    t = ((s64) 0xa000 * (balloon->mScaleFactor + balloon->mUnk_d8)) >> 12;
+    v1 = (balloon->field0.mPos.x + balloon->field0.field10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
+    v3 = (balloon->field0.mPos.z + balloon->field0.field10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
+    t = ((s64) 0xa000 * (balloon->mScaleFactor + balloon->fieldD8)) >> 12;
     v6 = v3 < 0 ? -v3 : v3;
     v4 = v1 < 0 ? -v1 : v1;
     v7 = v4 / 2 + v6 / 2;
     if (v7 <= t) {
-        balloon->mUnk_e0 = 1;
-    } else if (balloon->mUnk_e0 != 0) {
+        balloon->fieldE0 = 1;
+    } else if (balloon->fieldE0 != 0) {
         if (v7 > t) {
             s = FX_Div(v7 - t, v7);
             v.x = ((s64) v1 * s) >> 12;
             v.y = 0;
             v.z = ((s64) v3 * s) >> 12;
-            VEC_Subtract(&balloon->mUnk_00.mPos, &v, &balloon->mUnk_00.mPos);
+            VEC_Subtract(&balloon->field0.mPos, &v, &balloon->field0.mPos);
         }
     }
-    v1 = (balloon->mUnk_00.mPos.x + balloon->mUnk_00.mUnk_10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
-    v2 = (balloon->mUnk_00.mPos.y + balloon->mUnk_00.mUnk_10.y) - (balloon->mTargetPos.y + balloon->mTargetVelocity.y);
-    v3 = (balloon->mUnk_00.mPos.z + balloon->mUnk_00.mUnk_10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
-    t = (balloon->mScaleFactor + balloon->mUnk_d8) << 4;
+    v1 = (balloon->field0.mPos.x + balloon->field0.field10.x) - (balloon->mTargetPos.x + balloon->mTargetVelocity.x);
+    v2 = (balloon->field0.mPos.y + balloon->field0.field10.y) - (balloon->mTargetPos.y + balloon->mTargetVelocity.y);
+    v3 = (balloon->field0.mPos.z + balloon->field0.field10.z) - (balloon->mTargetPos.z + balloon->mTargetVelocity.z);
+    t = (balloon->mScaleFactor + balloon->fieldD8) << 4;
     v5 = v2 < 0 ? -v2 : v2;
     v4 = v1 < 0 ? -v1 : v1;
     v6 = v3 < 0 ? -v3 : v3;
@@ -239,21 +239,21 @@ void func_020a36a8(Balloon *balloon) {
         v.y = ((s64) v2 * s) >> 12;
         v.z = ((s64) v3 * s) >> 12;
         if (balloon->mKartIndex >= 0) {
-            VEC_Subtract(&balloon->mUnk_00.mUnk_10, &v, &balloon->mUnk_00.mUnk_10);
+            VEC_Subtract(&balloon->field0.field10, &v, &balloon->field0.field10);
         } else {
             VEC_Add(&balloon->mTargetVelocity, &v, &balloon->mTargetVelocity);
         }
     }
-    VEC_Add(&balloon->mUnk_00.mPos, &balloon->mUnk_00.mUnk_10, &balloon->mUnk_00.mPos);
+    VEC_Add(&balloon->field0.mPos, &balloon->field0.field10, &balloon->field0.mPos);
     VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
 }
 
 u32 func_020a369c(Balloon *balloon) {
-    return balloon->mUnk_00.mFlags & 0x12;
+    return balloon->field0.mFlags & 0x12;
 }
 
 u32 GetBalloonDistanceSquared(Balloon *balloon) {
-    return balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001fu;
+    return balloon->field0.mDistanceSquaredAndFlags & ~0xc000001fu;
 }
 
 void UpdateBalloonAngle(Balloon *balloon) {
@@ -270,7 +270,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
 
     currentCamera = race_getCamera();
     cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
-    VEC_Subtract(&balloon->mUnk_00.mPos, &currentCamera->mPos, &v);
+    VEC_Subtract(&balloon->field0.mPos, &currentCamera->mPos, &v);
     i = (cameraAngle >> 4) * 2;
     s = FX_SinCosTable_[i];
     c = FX_SinCosTable_[i + 1];
@@ -279,7 +279,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
     u = v.y;
     VEC_Subtract(&balloon->mTargetPos, &currentCamera->mPos, &v);
     w = (s32) (((s64) v.x * s) >> 12) + (s32) (((s64) v.z * c) >> 12);
-    balloon->mUnk_00.mAngle = FX_Atan2Idx(u - v.y, -(y + x - w));
+    balloon->field0.mAngle = FX_Atan2Idx(u - v.y, -(y + x - w));
 }
 
 void blln_update(void *mapObjectList, Balloon *balloon) {
@@ -288,24 +288,24 @@ void blln_update(void *mapObjectList, Balloon *balloon) {
     if (balloon->mKartIndex >= 0) {
         switch (balloon->mState) {
             case 0:
-                balloon->mUnk_d8 = balloon->mUnk_d8 + balloon->mUnk_dc;
-                if (balloon->mUnk_d8 >= 0) {
-                    if (balloon->mUnk_dc < 0) {
-                        balloon->mUnk_dc = -50;
+                balloon->fieldD8 = balloon->fieldD8 + balloon->fieldDC;
+                if (balloon->fieldD8 >= 0) {
+                    if (balloon->fieldDC < 0) {
+                        balloon->fieldDC = -50;
                     } else {
-                        balloon->mUnk_dc = balloon->mUnk_dc - 10;
+                        balloon->fieldDC = balloon->fieldDC - 10;
                     }
                 } else {
-                    if (balloon->mUnk_dc >= 0) {
-                        balloon->mUnk_dc = 50;
+                    if (balloon->fieldDC >= 0) {
+                        balloon->fieldDC = 50;
                     } else {
-                        balloon->mUnk_dc = balloon->mUnk_dc + 10;
+                        balloon->fieldDC = balloon->fieldDC + 10;
                     }
                 }
                 if (balloon->mKartIndex == gRaceMultiConfig->mEntryIndex) {
                     if (race_getState() == 1) {
                         kart = driver_getById((u16) balloon->mKartIndex);
-                        snd_emitBalloonInflationSfx(kart, balloon->mScaleFactor + balloon->mUnk_d8, balloon->mUnk_d4);
+                        snd_emitBalloonInflationSfx(kart, balloon->mScaleFactor + balloon->fieldD8, balloon->fieldD4);
                     }
                 }
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
@@ -318,18 +318,18 @@ void blln_update(void *mapObjectList, Balloon *balloon) {
                     }
                     UpdateBalloonAngle(balloon);
                 } else {
-                    balloon->mUnk_00.mPos.x = balloon->mTargetPos.x;
-                    balloon->mUnk_00.mPos.y = balloon->mTargetPos.y + 0xf666;
-                    balloon->mUnk_00.mPos.z = balloon->mTargetPos.z;
+                    balloon->field0.mPos.x = balloon->mTargetPos.x;
+                    balloon->field0.mPos.y = balloon->mTargetPos.y + 0xf666;
+                    balloon->field0.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
             case 1:
-                balloon->mUnk_d8 = 0;
-                balloon->mScaleFactor = balloon->mScaleFactor + balloon->mUnk_d4;
+                balloon->fieldD8 = 0;
+                balloon->mScaleFactor = balloon->mScaleFactor + balloon->fieldD4;
                 if (balloon->mScaleFactor >= 0x1000) {
-                    balloon->mUnk_d4 = balloon->mUnk_d4 - 200;
+                    balloon->fieldD4 = balloon->fieldD4 - 200;
                 }
-                if (balloon->mUnk_d4 < 0) {
+                if (balloon->fieldD4 < 0) {
                     if (balloon->mScaleFactor <= 0x1000) {
                         balloon->mScaleFactor = 0x1000;
                         balloon->mState = 2;
@@ -345,13 +345,13 @@ void blln_update(void *mapObjectList, Balloon *balloon) {
                     }
                     UpdateBalloonAngle(balloon);
                 } else {
-                    balloon->mUnk_00.mPos.x = balloon->mTargetPos.x;
-                    balloon->mUnk_00.mPos.y = balloon->mTargetPos.y + 0xf666;
-                    balloon->mUnk_00.mPos.z = balloon->mTargetPos.z;
+                    balloon->field0.mPos.x = balloon->mTargetPos.x;
+                    balloon->field0.mPos.y = balloon->mTargetPos.y + 0xf666;
+                    balloon->field0.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
             case 2:
-                balloon->mUnk_d8 = 0;
+                balloon->fieldD8 = 0;
                 balloon->mScaleFactor = 0x1000;
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
                     func_020a36a8(balloon);
@@ -363,46 +363,46 @@ void blln_update(void *mapObjectList, Balloon *balloon) {
                     }
                     UpdateBalloonAngle(balloon);
                 } else {
-                    balloon->mUnk_00.mPos.x = balloon->mTargetPos.x;
-                    balloon->mUnk_00.mPos.y = balloon->mTargetPos.y + 0xf666;
-                    balloon->mUnk_00.mPos.z = balloon->mTargetPos.z;
+                    balloon->field0.mPos.x = balloon->mTargetPos.x;
+                    balloon->field0.mPos.y = balloon->mTargetPos.y + 0xf666;
+                    balloon->field0.mPos.z = balloon->mTargetPos.z;
                 }
                 break;
             default:
                 return;
         }
     } else {
-        balloon->mUnk_d8 = 0;
+        balloon->fieldD8 = 0;
         balloon->mScaleFactor = 0x1000;
         if (balloon->mNoKartTimer-- <= 0) {
-            ptcm_createEmitterNoUpdateSkip(0x5b, &balloon->mUnk_00.mPos, balloon, blln_setParticleColor);
-            ptcm_createEmitterNoUpdateSkip(0x5c, &balloon->mUnk_00.mPos, balloon, blln_setParticleColor);
-            ptcm_createEmitterNoUpdateSkip(0x5d, &balloon->mUnk_00.mPos, balloon, blln_setParticleColor);
-            func_0210b8f4(&balloon->mUnk_00.mPos, mobj_calcXZCamDist(&balloon->mUnk_00.mPos));
-            mobj_setInvisible(&balloon->mUnk_00);
+            ptcm_createEmitterNoUpdateSkip(0x5b, &balloon->field0.mPos, balloon, blln_setParticleColor);
+            ptcm_createEmitterNoUpdateSkip(0x5c, &balloon->field0.mPos, balloon, blln_setParticleColor);
+            ptcm_createEmitterNoUpdateSkip(0x5d, &balloon->field0.mPos, balloon, blln_setParticleColor);
+            func_0210b8f4(&balloon->field0.mPos, mobj_calcXZCamDist(&balloon->field0.mPos));
+            mobj_setInvisible(&balloon->field0);
         } else {
-            balloon->mUnk_c8 = balloon->mUnk_c8 + balloon->mUnk_cc;
-            if (balloon->mUnk_c8 >= 0) {
-                if (balloon->mUnk_cc < 0) {
-                    balloon->mUnk_cc = -0x640;
+            balloon->fieldC8 = balloon->fieldC8 + balloon->fieldCC;
+            if (balloon->fieldC8 >= 0) {
+                if (balloon->fieldCC < 0) {
+                    balloon->fieldCC = -0x640;
                 } else {
-                    balloon->mUnk_cc = balloon->mUnk_cc - 200;
+                    balloon->fieldCC = balloon->fieldCC - 200;
                 }
             } else {
-                if (balloon->mUnk_cc >= 0) {
-                    balloon->mUnk_cc = 0x640;
+                if (balloon->fieldCC >= 0) {
+                    balloon->fieldCC = 0x640;
                 } else {
-                    balloon->mUnk_cc = balloon->mUnk_cc + 200;
+                    balloon->fieldCC = balloon->fieldCC + 200;
                 }
             }
         }
-        balloon->mUnk_00.mAngle = balloon->mUnk_c8 + 0x4000;
-        balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + 0x59a;
+        balloon->field0.mAngle = balloon->fieldC8 + 0x4000;
+        balloon->field0.field10.y = balloon->field0.field10.y + 0x59a;
         balloon->mTargetVelocity.y = balloon->mTargetVelocity.y - 0x2000;
-        balloon->mUnk_00.mUnk_10.x = ((s64) balloon->mUnk_00.mUnk_10.x * 0xc00) >> 12;
-        balloon->mUnk_00.mUnk_10.y = ((s64) balloon->mUnk_00.mUnk_10.y * 0xc00) >> 12;
-        balloon->mUnk_00.mUnk_10.z = ((s64) balloon->mUnk_00.mUnk_10.z * 0xc00) >> 12;
-        VEC_Add(&balloon->mUnk_00.mPos, &balloon->mUnk_00.mUnk_10, &balloon->mUnk_00.mPos);
+        balloon->field0.field10.x = ((s64) balloon->field0.field10.x * 0xc00) >> 12;
+        balloon->field0.field10.y = ((s64) balloon->field0.field10.y * 0xc00) >> 12;
+        balloon->field0.field10.z = ((s64) balloon->field0.field10.z * 0xc00) >> 12;
+        VEC_Add(&balloon->field0.mPos, &balloon->field0.field10, &balloon->field0.mPos);
         VEC_Add(&balloon->mTargetPos, &balloon->mTargetVelocity, &balloon->mTargetPos);
     }
 }
@@ -428,12 +428,12 @@ void func_020a305c(void) {
         if (balloon->mKartIndex >= 0) {
             balloon->mKartIndex = (u16) gRaceMultiConfig->mEntryIndex;
             balloon->mScaleFactor = 0x1000;
-            balloon->mUnk_d4 = 0;
-            balloon->mUnk_d8 = 0;
-            balloon->mUnk_dc = 0;
+            balloon->fieldD4 = 0;
+            balloon->fieldD8 = 0;
+            balloon->fieldDC = 0;
             balloon->mState = 2;
-        } else if ((balloon->mUnk_00.mFlags & 0x100) == 0) {
-            mobj_setInvisible(&balloon->mUnk_00);
+        } else if ((balloon->field0.mFlags & 0x100) == 0) {
+            mobj_setInvisible(&balloon->field0);
         }
     }
 }
@@ -446,12 +446,12 @@ Balloon *blln_spawn(u16 nsbtpFrameIndex, Vec3 *targetPos) {
         return NULL;
     }
     balloon->mTargetPos = *targetPos;
-    balloon->mUnk_00.mPos = balloon->mTargetPos;
+    balloon->field0.mPos = balloon->mTargetPos;
     balloon->mScaleFactor = 0;
-    balloon->mUnk_d4 = 0;
-    balloon->mUnk_d8 = 0;
-    balloon->mUnk_dc = 0;
-    balloon->mUnk_e0 = 0;
+    balloon->fieldD4 = 0;
+    balloon->fieldD8 = 0;
+    balloon->fieldDC = 0;
+    balloon->fieldE0 = 0;
     balloon->mNsbtpFrameIndex = nsbtpFrameIndex;
     balloon->mState = 0;
     return balloon;
@@ -459,30 +459,30 @@ Balloon *blln_spawn(u16 nsbtpFrameIndex, Vec3 *targetPos) {
 
 void blln_inflate(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = kartIndex;
-    balloon->mUnk_d4 = scaleStep;
-    balloon->mScaleFactor = balloon->mScaleFactor + balloon->mUnk_d4;
-    balloon->mUnk_d8 = 0;
-    balloon->mUnk_dc = 0;
+    balloon->fieldD4 = scaleStep;
+    balloon->mScaleFactor = balloon->mScaleFactor + balloon->fieldD4;
+    balloon->fieldD8 = 0;
+    balloon->fieldDC = 0;
     balloon->mState = 0;
     if (balloon->mScaleFactor >= 0x1000) {
-        balloon->mUnk_d8 = 0;
-        balloon->mUnk_d4 = 0x258;
+        balloon->fieldD8 = 0;
+        balloon->fieldD4 = 0x258;
         balloon->mState = 1;
     }
 }
 
 void blln_deflate(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = kartIndex;
-    balloon->mUnk_d4 = -scaleStep;
-    balloon->mScaleFactor = balloon->mScaleFactor + balloon->mUnk_d4;
+    balloon->fieldD4 = -scaleStep;
+    balloon->mScaleFactor = balloon->mScaleFactor + balloon->fieldD4;
     balloon->mState = 0;
     if (balloon->mScaleFactor > 0) {
         return;
     }
-    balloon->mUnk_d8 = 0;
+    balloon->fieldD8 = 0;
     balloon->mScaleFactor = 0;
     balloon->mKartIndex = -1;
     balloon->mDrawCount = 1;
     balloon->mDrawList = NULL;
-    mobj_setInvisible(&balloon->mUnk_00);
+    mobj_setInvisible(&balloon->field0);
 }

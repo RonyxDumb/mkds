@@ -8,18 +8,18 @@ void NNS_G2dUnpackNAN(Unk02021dc8 *bank) {
     u32 frames;
     s32 contents;
 
-    bank->mUnk_04 += (u32) bank;
-    bank->mUnk_08 += (u32) bank;
-    bank->mUnk_0c = OFFSET_PTR(Unk02021e40, bank->mUnk_0c, (u32) bank);
-    sequences = (Unk02021e1c *) bank->mUnk_04;
-    contents = (u32) bank->mUnk_0c;
-    frames = bank->mUnk_08;
-    for (seq = 0; seq < bank->mUnk_00; seq++) {
-        offset = sequences[seq].mUnk_0c;
-        sequences[seq].mUnk_0c = frames + offset;
-        for (frame = 0; frame < sequences[seq].mUnk_00; frame++) {
-            ((Unk02021e40 *) sequences[seq].mUnk_0c)[frame].mUnk_00 =
-                contents + ((Unk02021e40 *) sequences[seq].mUnk_0c)[(u32) frame].mUnk_00;
+    bank->field4 += (u32) bank;
+    bank->field8 += (u32) bank;
+    bank->fieldC = OFFSET_PTR(Unk02021e40, bank->fieldC, (u32) bank);
+    sequences = (Unk02021e1c *) bank->field4;
+    contents = (u32) bank->fieldC;
+    frames = bank->field8;
+    for (seq = 0; seq < bank->field0; seq++) {
+        offset = sequences[seq].fieldC;
+        sequences[seq].fieldC = frames + offset;
+        for (frame = 0; frame < sequences[seq].field0; frame++) {
+            ((Unk02021e40 *) sequences[seq].fieldC)[frame].field0 =
+                contents + ((Unk02021e40 *) sequences[seq].fieldC)[(u32) frame].field0;
         }
     }
 }
@@ -27,8 +27,8 @@ void NNS_G2dUnpackNAN(Unk02021dc8 *bank) {
 void *NNS_G2dGetAnimSequenceByIdx(void *bank, u32 idx) {
     Unk02021dc8 *header = bank;
 
-    if (header->mUnk_00 > idx) {
-        return (Unk02021e1c *) header->mUnk_04 + idx;
+    if (header->field0 > idx) {
+        return (Unk02021e1c *) header->field4 + idx;
     }
     return 0;
 }

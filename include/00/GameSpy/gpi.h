@@ -6,7 +6,7 @@ typedef struct GpConnection GpConnection;
 
 // Zeroed by func_ov000_0218f15c and passed to the callback.
 typedef struct Unk0218f15cArg {
-    /* 00 */ u32 mUnk_00[8];
+    /* 00 */ u32 field0[8];
 } Unk0218f15cArg;
 
 typedef void (*Unk0218f15cCb)(GpConnection *a, Unk0218f15cArg *b, u32 c);

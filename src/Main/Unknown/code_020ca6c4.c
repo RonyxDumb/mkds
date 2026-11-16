@@ -28,28 +28,28 @@ void echoi_init(void) {
 
     echoi_sState = heap_alloc(echoi_proc_getCurrentHeap(), 0x6c);
     echoi_sState->mShown = 0;
-    echoi_sState->mUnk_04 = 1;
+    echoi_sState->field4 = 1;
     echoi_sState->mGraphicsUploadRequested = FALSE;
-    echoi_sState->mUnk_0c = NULL;
+    echoi_sState->fieldC = NULL;
     echoi_resetSelectedOption();
-    echoi_sState->mUnk_24 = 0;
-    echoi_sState->mUnk_10 = FALSE;
-    echoi_sState->mUnk_14 = 0;
-    echoi_sState->mUnk_18 = 0;
+    echoi_sState->field24 = 0;
+    echoi_sState->field10 = FALSE;
+    echoi_sState->field14 = 0;
+    echoi_sState->field18 = 0;
     echoi_sState->mChoisesCount = 3;
     g2du_unpackPaletteData(&echoi_sState->mChoisesSBNclr, m2d_getSceneArcFile("choises_s_b.NCLR"));
     g2du_unpackCharacterDataBG(&echoi_sState->mChoisesSBNcgr, m2d_getSceneArcFile("choises_s_b.NCGR"));
     g2du_unpackScreenData(&echoi_sState->mChoisesS3Nscr, m2d_getSceneArcFile("choises_s_3.NSCR"));
-    echoi_sState->mUnk_2c = m2d_getFont(2);
-    NNS_G2dCharCanvasInitForBG(&echoi_sState->mUnk_30, echoi_sState->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
+    echoi_sState->field2C = m2d_getFont(2);
+    NNS_G2dCharCanvasInitForBG(&echoi_sState->field30, echoi_sState->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
     emblemChoises = echoi_sState;
-    echoi_NNS_G2dTextCanvasInit(&emblemChoises->mUnk_50, &emblemChoises->mUnk_30, emblemChoises->mUnk_2c, g2du_getTextHSpace(), 0);
+    echoi_NNS_G2dTextCanvasInit(&emblemChoises->field50, &emblemChoises->field30, emblemChoises->field2C, g2du_getTextHSpace(), 0);
     {
         s32 bmgIndices[3] = {2, 0, 1};
         s32 i;
 
         for (i = 0; i < echoi_sState->mChoisesCount; i++) {
-            echoi_NNS_G2dTextCanvasDrawText(&echoi_sState->mUnk_50, 0x90, i * 16 + 9, 12, 0x412,
+            echoi_NNS_G2dTextCanvasDrawText(&echoi_sState->field50, 0x90, i * 16 + 9, 12, 0x412,
                           jn_msg_getMessage(m2d_getSceneArcFile("emblem.bmg"), bmgIndices[i]));
         }
     }

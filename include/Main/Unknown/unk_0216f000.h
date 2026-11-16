@@ -8,7 +8,7 @@
 typedef struct PieceSizes {
     /* 00 */ s32 mPieceSize;
     /* 04 */ s32 mPieceCount;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 field8;
 } PieceSizes;
 
 // Object behind gPieceBuffer: the words from 0x1e0 on are indexed like the 0x20-byte entries before them.

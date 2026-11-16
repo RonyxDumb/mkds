@@ -39,38 +39,38 @@ void mobj0008_initLogicPart(Unk020a8a6c *a) {
             switch (gRaceMultiConfig->mCourseId) {
                 case COURSE_ID_CROSS:
                     p->mState = 4;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z1 = q->mUnk_00.z + (-0x4a6000);
-                    y1 = q->mUnk_00.y;
-                    x1 = q->mUnk_00.x + (-0x2c6000);
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x103;
-                    p->mUnk_0a0.mUnk_00.mUnk_08 = 5;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = x1;
-                    p->mUnk_0a0.mSourcePos.y = y1;
-                    p->mUnk_0a0.mSourcePos.z = z1;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z2 = q->mUnk_00.z + 0x726000;
-                    y2 = q->mUnk_00.y;
-                    x2 = q->mUnk_00.x + (-0x7ee000);
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x103;
-                    p->mUnk_0c8.mUnk_00.mUnk_08 = 5;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = x2;
-                    p->mUnk_0c8.mSourcePos.y = y2;
-                    p->mUnk_0c8.mSourcePos.z = z2;
+                    q = p->field0.mCourseMapRow;
+                    z1 = q->field0.z + (-0x4a6000);
+                    y1 = q->field0.y;
+                    x1 = q->field0.x + (-0x2c6000);
+                    p->fieldA0.field0.mSoundId = 0x103;
+                    p->fieldA0.field0.field8 = 5;
+                    p->fieldA0.field0.mPositionSource = &p->fieldA0.mSourcePos;
+                    p->fieldA0.mSndHandleSlot = GetSndHandleSlot(8);
+                    p->fieldA0.mSourcePos.x = x1;
+                    p->fieldA0.mSourcePos.y = y1;
+                    p->fieldA0.mSourcePos.z = z1;
+                    q = p->field0.mCourseMapRow;
+                    z2 = q->field0.z + 0x726000;
+                    y2 = q->field0.y;
+                    x2 = q->field0.x + (-0x7ee000);
+                    p->fieldC8.field0.mSoundId = 0x103;
+                    p->fieldC8.field0.field8 = 5;
+                    p->fieldC8.field0.mPositionSource = &p->fieldC8.mSourcePos;
+                    p->fieldC8.mSndHandleSlot = GetSndHandleSlot(9);
+                    p->fieldC8.mSourcePos.x = x2;
+                    p->fieldC8.mSourcePos.y = y2;
+                    p->fieldC8.mSourcePos.z = z2;
                     break;
                 case COURSE_ID_BANK:
                     p->mState = 5;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z3 = q->mUnk_00.z;
-                    y3 = q->mUnk_00.y;
-                    x3 = q->mUnk_00.x;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x109;
-                    p->mUnk_0a0.mUnk_00.mUnk_08 = 4;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
+                    q = p->field0.mCourseMapRow;
+                    z3 = q->field0.z;
+                    y3 = q->field0.y;
+                    x3 = q->field0.x;
+                    p->fieldA0.field0.mSoundId = 0x109;
+                    p->fieldA0.field0.field8 = 4;
+                    p->fieldA0.field0.mPositionSource = &p->fieldA0.mSourcePos;
                     if (i == 0) {
                         v1 = 8;
                     } else if (i == 1) {
@@ -78,16 +78,16 @@ void mobj0008_initLogicPart(Unk020a8a6c *a) {
                     } else {
                         v1 = 10;
                     }
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(v1);
-                    p->mUnk_0a0.mSourcePos.x = x3;
-                    p->mUnk_0a0.mSourcePos.y = y3;
-                    p->mUnk_0a0.mSourcePos.z = z3;
-                    VEC_MultAdd(((s64) p->mUnk_000.mScale.z * 0x5000) >> 12, &p->mUnk_000.mMatrix.mUnk_00[2],
-                                &p->mUnk_0a0.mSourcePos, &p->mUnk_0a0.mSourcePos);
+                    p->fieldA0.mSndHandleSlot = GetSndHandleSlot(v1);
+                    p->fieldA0.mSourcePos.x = x3;
+                    p->fieldA0.mSourcePos.y = y3;
+                    p->fieldA0.mSourcePos.z = z3;
+                    VEC_MultAdd(((s64) p->field0.mScale.z * 0x5000) >> 12, &p->field0.mMatrix.field0[2],
+                                &p->fieldA0.mSourcePos, &p->fieldA0.mSourcePos);
                     break;
                 default:
-                    if ((p->mUnk_000.mFlags & 0x100) == 0) {
-                        mobj_setInvisible(&p->mUnk_000);
+                    if ((p->field0.mFlags & 0x100) == 0) {
+                        mobj_setInvisible(&p->field0);
                     }
                     break;
             }
@@ -95,72 +95,72 @@ void mobj0008_initLogicPart(Unk020a8a6c *a) {
             switch (gRaceMultiConfig->mCourseId) {
                 case COURSE_ID_CROSS:
                     p->mState = 1;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x108;
-                    p->mUnk_0a0.mUnk_00.mUnk_08 = 8;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = 0;
-                    p->mUnk_0a0.mSourcePos.y = 0;
-                    p->mUnk_0a0.mSourcePos.z = 0;
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x107;
-                    p->mUnk_0c8.mUnk_00.mUnk_08 = 8;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = 0;
-                    p->mUnk_0c8.mSourcePos.y = 0;
-                    p->mUnk_0c8.mSourcePos.z = 0;
-                    mobj0008_20A8ED8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+                    p->fieldA0.field0.mSoundId = 0x108;
+                    p->fieldA0.field0.field8 = 8;
+                    p->fieldA0.field0.mPositionSource = &p->fieldA0.mSourcePos;
+                    p->fieldA0.mSndHandleSlot = GetSndHandleSlot(8);
+                    p->fieldA0.mSourcePos.x = 0;
+                    p->fieldA0.mSourcePos.y = 0;
+                    p->fieldA0.mSourcePos.z = 0;
+                    p->fieldC8.field0.mSoundId = 0x107;
+                    p->fieldC8.field0.field8 = 8;
+                    p->fieldC8.field0.mPositionSource = &p->fieldC8.mSourcePos;
+                    p->fieldC8.mSndHandleSlot = GetSndHandleSlot(9);
+                    p->fieldC8.mSourcePos.x = 0;
+                    p->fieldC8.mSourcePos.y = 0;
+                    p->fieldC8.mSourcePos.z = 0;
+                    mobj0008_20A8ED8(&p->fieldA0, &p->field0.mPos);
                     break;
                 case COURSE_ID_MARIO:
                     p->mState = 1;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x1a0;
-                    p->mUnk_0a0.mUnk_00.mUnk_08 = 8;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = 0;
-                    p->mUnk_0a0.mSourcePos.y = 0;
-                    p->mUnk_0a0.mSourcePos.z = 0;
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x19f;
-                    p->mUnk_0c8.mUnk_00.mUnk_08 = 8;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = 0;
-                    p->mUnk_0c8.mSourcePos.y = 0;
-                    p->mUnk_0c8.mSourcePos.z = 0;
-                    mobj0008_20A8ED8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+                    p->fieldA0.field0.mSoundId = 0x1a0;
+                    p->fieldA0.field0.field8 = 8;
+                    p->fieldA0.field0.mPositionSource = &p->fieldA0.mSourcePos;
+                    p->fieldA0.mSndHandleSlot = GetSndHandleSlot(8);
+                    p->fieldA0.mSourcePos.x = 0;
+                    p->fieldA0.mSourcePos.y = 0;
+                    p->fieldA0.mSourcePos.z = 0;
+                    p->fieldC8.field0.mSoundId = 0x19f;
+                    p->fieldC8.field0.field8 = 8;
+                    p->fieldC8.field0.mPositionSource = &p->fieldC8.mSourcePos;
+                    p->fieldC8.mSndHandleSlot = GetSndHandleSlot(9);
+                    p->fieldC8.mSourcePos.x = 0;
+                    p->fieldC8.mSourcePos.y = 0;
+                    p->fieldC8.mSourcePos.z = 0;
+                    mobj0008_20A8ED8(&p->fieldA0, &p->field0.mPos);
                     break;
                 case COURSE_ID_BANK:
                     p->mState = 6;
-                    q = p->mUnk_000.mCourseMapRow;
-                    z4 = q->mUnk_00.z;
-                    y4 = q->mUnk_00.y;
-                    x4 = q->mUnk_00.x;
-                    p->mUnk_0a0.mUnk_00.mSoundId = 0x109;
-                    p->mUnk_0a0.mUnk_00.mUnk_08 = 6;
-                    p->mUnk_0a0.mUnk_00.mPositionSource = &p->mUnk_0a0.mSourcePos;
-                    p->mUnk_0a0.mSndHandleSlot = GetSndHandleSlot(8);
-                    p->mUnk_0a0.mSourcePos.x = x4;
-                    p->mUnk_0a0.mSourcePos.y = y4;
-                    p->mUnk_0a0.mSourcePos.z = z4;
-                    VEC_MultAdd(((s64) p->mUnk_000.mScale.z * 0x5000) >> 12, &p->mUnk_000.mMatrix.mUnk_00[2],
-                                &p->mUnk_0a0.mSourcePos, &p->mUnk_0a0.mSourcePos);
-                    q = p->mUnk_000.mCourseMapRow;
-                    z5 = q->mUnk_00.z;
-                    y5 = q->mUnk_00.y;
-                    x5 = q->mUnk_00.x;
-                    p->mUnk_0c8.mUnk_00.mSoundId = 0x109;
-                    p->mUnk_0c8.mUnk_00.mUnk_08 = 6;
-                    p->mUnk_0c8.mUnk_00.mPositionSource = &p->mUnk_0c8.mSourcePos;
-                    p->mUnk_0c8.mSndHandleSlot = GetSndHandleSlot(9);
-                    p->mUnk_0c8.mSourcePos.x = x5;
-                    p->mUnk_0c8.mSourcePos.y = y5;
-                    p->mUnk_0c8.mSourcePos.z = z5;
-                    VEC_MultAdd(((s64) p->mUnk_000.mScale.z * -0x5000) >> 12, &p->mUnk_000.mMatrix.mUnk_00[2],
-                                &p->mUnk_0c8.mSourcePos, &p->mUnk_0c8.mSourcePos);
+                    q = p->field0.mCourseMapRow;
+                    z4 = q->field0.z;
+                    y4 = q->field0.y;
+                    x4 = q->field0.x;
+                    p->fieldA0.field0.mSoundId = 0x109;
+                    p->fieldA0.field0.field8 = 6;
+                    p->fieldA0.field0.mPositionSource = &p->fieldA0.mSourcePos;
+                    p->fieldA0.mSndHandleSlot = GetSndHandleSlot(8);
+                    p->fieldA0.mSourcePos.x = x4;
+                    p->fieldA0.mSourcePos.y = y4;
+                    p->fieldA0.mSourcePos.z = z4;
+                    VEC_MultAdd(((s64) p->field0.mScale.z * 0x5000) >> 12, &p->field0.mMatrix.field0[2],
+                                &p->fieldA0.mSourcePos, &p->fieldA0.mSourcePos);
+                    q = p->field0.mCourseMapRow;
+                    z5 = q->field0.z;
+                    y5 = q->field0.y;
+                    x5 = q->field0.x;
+                    p->fieldC8.field0.mSoundId = 0x109;
+                    p->fieldC8.field0.field8 = 6;
+                    p->fieldC8.field0.mPositionSource = &p->fieldC8.mSourcePos;
+                    p->fieldC8.mSndHandleSlot = GetSndHandleSlot(9);
+                    p->fieldC8.mSourcePos.x = x5;
+                    p->fieldC8.mSourcePos.y = y5;
+                    p->fieldC8.mSourcePos.z = z5;
+                    VEC_MultAdd(((s64) p->field0.mScale.z * -0x5000) >> 12, &p->field0.mMatrix.field0[2],
+                                &p->fieldC8.mSourcePos, &p->fieldC8.mSourcePos);
                     break;
                 default:
-                    if ((p->mUnk_000.mFlags & 0x100) == 0) {
-                        mobj_setInvisible(&p->mUnk_000);
+                    if ((p->field0.mFlags & 0x100) == 0) {
+                        mobj_setInvisible(&p->field0);
                     }
                     break;
             }

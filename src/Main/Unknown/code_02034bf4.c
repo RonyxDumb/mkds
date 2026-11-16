@@ -69,7 +69,7 @@ void func_02035060(void) {
     s16 v;
 
     subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
-    cellCount = subCellFileSet->mCellLayout->mUnk_06;
+    cellCount = subCellFileSet->mCellLayout->field6;
     for (i = 0; i < 4; i++) {
         interp_update(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation);
         interpolatedValue = interp_interpolate(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation);
@@ -94,9 +94,9 @@ void func_02034fec(void) {
 
     mainCellFileSet = &sGhostReceiveState->mCellFileSets[0];
     subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
-    mainEntryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
-    subEntryCount = subCellFileSet->mCellLayout->mUnk_06 + subCellFileSet->mLabelLayout->mUnk_06;
-    offset = interp_interpolate(&sGhostReceiveState->mUnk_194);
+    mainEntryCount = mainCellFileSet->mCellLayout->field6 + mainCellFileSet->mLabelLayout->field6;
+    subEntryCount = subCellFileSet->mCellLayout->field6 + subCellFileSet->mLabelLayout->field6;
+    offset = interp_interpolate(&sGhostReceiveState->field194);
     for (i = 0; i < mainEntryCount; i++) {
         mainCellFileSet->mCellTable[i].mOffsetY = -offset;
     }
@@ -114,7 +114,7 @@ void func_02034f60(void) {
 
     mainCellFileSet = &sGhostReceiveState->mCellFileSets[0];
     selectedEntry = &sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex];
-    entryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
+    entryCount = mainCellFileSet->mCellLayout->field6 + mainCellFileSet->mLabelLayout->field6;
     for (i = 0; i < entryCount; i++) {
         if (sGhostReceiveState->mSelectedIndex >= 0) {
             hasSelection = TRUE;
@@ -125,8 +125,8 @@ void func_02034f60(void) {
     }
     if (sGhostReceiveState->mSelectedIndex >= 0) {
         PrintGhostRecordInfo((SelectCharacter *) &sGhostReceiveState->mCellFileSets[0], data_02154034, selectedEntry,
-                             selectedEntry->mInfo.mUnk_18[0], selectedEntry->mInfo.mUnk_18[1],
-                             selectedEntry->mInfo.mUnk_18[2],
+                             selectedEntry->mInfo.field18[0], selectedEntry->mInfo.field18[1],
+                             selectedEntry->mInfo.field18[2],
                              (MinuteSecondMillisecondTime *) &selectedEntry->mInfo.mMillisecond);
     }
 }
@@ -169,8 +169,8 @@ BOOL AreGhostRecordInfosDifferent(GhostRecordInfo *storedInfo, GhostRecordInfo *
         }
         nameDiffers |= halfwordDiffers;
     }
-    if (nameDiffers != 0 || storedInfo->mUnk_18[1] != newInfo->mUnk_18[1] ||
-        storedInfo->mUnk_18[0] != newInfo->mUnk_18[0] || storedInfo->mUnk_18[2] != newInfo->mUnk_18[2] ||
+    if (nameDiffers != 0 || storedInfo->field18[1] != newInfo->field18[1] ||
+        storedInfo->field18[0] != newInfo->field18[0] || storedInfo->field18[2] != newInfo->field18[2] ||
         storedInfo->mMinute != newInfo->mMinute || storedInfo->mSecond != newInfo->mSecond ||
         storedInfo->mMillisecond != newInfo->mMillisecond) {
         return TRUE;
@@ -193,8 +193,8 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     sGhostReceiveState = heap_alloc(heap, 0x1a8);
     MemFillWordsByBlock_inline(sGhostReceiveState, 0x1a8);
     sGhostReceiveState->mHeap = heap;
-    sGhostReceiveState->mUnk_024[0] = b;
-    sGhostReceiveState->mUnk_024[1] = c;
+    sGhostReceiveState->field24[0] = b;
+    sGhostReceiveState->field24[1] = c;
     sGhostReceiveState->mCommonMessages = arc_get2dArcFile(aCommon_bmg_34);
     sGhostReceiveState->mGhostMessages = arc_getSceneArcFile(aGhost_bmg_2);
     InitBlockEntries(sGhostReceiveState->mHeap, 2);
@@ -210,15 +210,15 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     z = FALSE;
     mutil2_initLayout(0, sGhostReceiveState->mHeap, cellFileSet);
     i = 0;
-    if (i < cellFileSet->mLabelLayout->mUnk_06) {
+    if (i < cellFileSet->mLabelLayout->field6) {
         row = (s16 *) data_02154034;
         do {
             remainingObjSize -= mutil2_initLabel(z, sGhostReceiveState->mHeap, cellFileSet, row, remainingObjSize);
             row += 4;
             i++;
-        } while (i < cellFileSet->mLabelLayout->mUnk_06);
+        } while (i < cellFileSet->mLabelLayout->field6);
     }
-    j = cellFileSet->mCellLayout->mUnk_06 + cellFileSet->mLabelLayout->mUnk_06;
+    j = cellFileSet->mCellLayout->field6 + cellFileSet->mLabelLayout->field6;
     for (i = 0; i < j; i++) {
         cellFileSet->mCellTable[i].mVisible = 0;
     }
@@ -228,9 +228,9 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     mutil2_loadLayout(cellFileSet, aTimeattack_ghost_get_s_nce_ncgr_0, aTimeattack_ghost_get_s_nce_ncer_0, aTimeattack_ghost_get_s_o_nclr_0, aTimeattack_ghost_get_s_sel_bncl,
                       aTimeattack_ghost_get_s_sel_bnll, aTimeattack_ghost_get_s_sel_bnbl, arc_getSceneArcFile);
     mutil2_initLayout(1, sGhostReceiveState->mHeap, cellFileSet);
-    cellCount = cellFileSet->mCellLayout->mUnk_06;
+    cellCount = cellFileSet->mCellLayout->field6;
     i = 0;
-    if (i < cellFileSet->mLabelLayout->mUnk_06) {
+    if (i < cellFileSet->mLabelLayout->field6) {
         row = (s16 *) data_02164254;
         do {
             if (row[3] < 0) {
@@ -239,14 +239,14 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
             remainingObjSize -= mutil2_initLabel(1, sGhostReceiveState->mHeap, cellFileSet, data_02164254[i], remainingObjSize);
             row += 4;
             i++;
-        } while (i < cellFileSet->mLabelLayout->mUnk_06);
+        } while (i < cellFileSet->mLabelLayout->field6);
     }
     for (j = 0; j < cellCount; j++) {
         jn_ui_setCellPriority(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
     cellFileSet->mCellTable[4].mVisible = 0;
-    mutil2_loadPortraits(0, &sGhostReceiveState->mUnk_064);
-    interp_init(&sGhostReceiveState->mUnk_194, 3, 10, -0xc0, 0);
+    mutil2_loadPortraits(0, &sGhostReceiveState->field64);
+    interp_init(&sGhostReceiveState->field194, 3, 10, -0xc0, 0);
     gmenu_setSeqArcIndex(0xf);
     heap_adjustSubFrmHeap(sGhostReceiveState->mHeap);
 }

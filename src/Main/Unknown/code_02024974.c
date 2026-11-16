@@ -44,8 +44,8 @@ u32 func_020250a8(void) {
 void func_0202506c(Kart *kart, KartSound *soundRecord) {
     PlayingSound *playingSound;
 
-    playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mUnk_00, soundRecord->mUnk_04,
-                                            (soundRecord->mUnk_08 << 4) >> 16);
+    playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->field0, soundRecord->field4,
+                                            (soundRecord->field8 << 4) >> 16);
     if (playingSound != NULL) {
         playingSound->mFlags |= 0x80;
     }
@@ -54,8 +54,8 @@ void func_0202506c(Kart *kart, KartSound *soundRecord) {
 void func_02025030(Kart *kart, KartSound *soundRecord) {
     PlayingSound *playingSound;
 
-    playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mUnk_58, soundRecord->mUnk_04,
-                                            (soundRecord->mUnk_08 << 4) >> 16);
+    playingSound = StartSoundWhileRequested(&kart->mSoundSource, soundRecord->field58, soundRecord->field4,
+                                            (soundRecord->field8 << 4) >> 16);
     if (playingSound != NULL) {
         playingSound->mFlags |= 0x80;
     }
@@ -65,17 +65,17 @@ void func_02024fe8(Kart *kart, KartSound *soundRecord) {
     u32 soundId;
 
     soundId = csfx_getFloorSfx(3, kart->mSurfaceKind, kart->mSurfaceVariant);
-    StartSoundWhileRequested(&kart->mSoundSource, soundId, soundRecord->mUnk_04, (soundRecord->mUnk_08 << 4) >> 16);
+    StartSoundWhileRequested(&kart->mSoundSource, soundId, soundRecord->field4, (soundRecord->field8 << 4) >> 16);
 }
 
 void func_02024fc0(Kart *kart, KartSound *soundRecord) {
     s32 clampedValue;
 
-    clampedValue = soundRecord->mUnk_08;
+    clampedValue = soundRecord->field8;
     if (clampedValue > 0x440000) {
         clampedValue = 0x440000;
     }
-    StartSoundWhileRequested(&kart->mSoundSource, soundRecord->mUnk_5c, soundRecord->mUnk_04,
+    StartSoundWhileRequested(&kart->mSoundSource, soundRecord->field5C, soundRecord->field4,
                              (clampedValue << 4) >> 16);
 }
 
@@ -86,20 +86,20 @@ s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c) {
     s32 targetHighBits;
     s32 factor;
 
-    currentValue = soundRecord->mUnk_08;
-    previousTarget = soundRecord->mUnk_0c;
-    step = soundRecord->mUnk_10;
+    currentValue = soundRecord->field8;
+    previousTarget = soundRecord->fieldC;
+    step = soundRecord->field10;
     if (currentValue == -1) {
         b = 0;
         step = b;
-        soundRecord->mUnk_0c = b;
+        soundRecord->fieldC = b;
     } else {
         targetHighBits = b & 0x7fff0000;
         if ((currentValue & 0x7fff0000) == targetHighBits) {
-            soundRecord->mUnk_0c = b;
+            soundRecord->fieldC = b;
             step = 0;
         } else if ((previousTarget & 0x7fff0000) != targetHighBits) {
-            soundRecord->mUnk_0c = b;
+            soundRecord->fieldC = b;
             if (b < currentValue) {
                 factor = data_02174e0c;
             } else if (c != 0) {
@@ -119,7 +119,7 @@ s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c) {
     if (b < 0) {
         b = 0;
     }
-    soundRecord->mUnk_10 = step;
+    soundRecord->field10 = step;
     return b;
 }
 
@@ -134,21 +134,21 @@ void func_02024a88(Kart *kart) {
     s32 aboveSpeedLimit;
     s32 kartFlags;
 
-    soundRecord = (KartSound *) &kart->mUnk_450;
-    kartFlags = kart->mUnk_48;
+    soundRecord = (KartSound *) &kart->field450;
+    kartFlags = kart->field48;
     f = (kartFlags & 2) != 0 ? 1 : 0;
     g = (kartFlags & 4) != 0 ? 1 : 0;
-    if ((kart->mUnk_4c & 0x10000000) != 0) {
-        soundRecord->mUnk_08 = 0x6c0000;
-        soundRecord->mUnk_0c = 0x6c0000;
-        soundRecord->mUnk_10 = 0;
+    if ((kart->field4C & 0x10000000) != 0) {
+        soundRecord->field8 = 0x6c0000;
+        soundRecord->fieldC = 0x6c0000;
+        soundRecord->field10 = 0;
         if (f != 0) {
-            soundRecord->mUnk_00 = soundRecord->mUnk_60;
+            soundRecord->field0 = soundRecord->field60;
         } else {
-            soundRecord->mUnk_00 = soundRecord->mUnk_50;
+            soundRecord->field0 = soundRecord->field50;
         }
-        soundRecord->mUnk_14 = f;
-        soundRecord->mUnk_04 = 0x46;
+        soundRecord->field14 = f;
+        soundRecord->field4 = 0x46;
         StartSoundWhileRequested(&kart->mSoundSource, 0xfc, 0x7f, 0);
         return;
     }
@@ -156,84 +156,84 @@ void func_02024a88(Kart *kart) {
         return;
     }
     if (gSceneSoundState.mRaceState == 0) {
-        h = kart->mUnk_4d4;
+        h = kart->field4D4;
         if (h > 0xcd && gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (f != 0) {
-                if ((kart->mUnk_4c & KART_4C_HEADING_SWING) != 0) {
+                if ((kart->field4C & KART_4C_HEADING_SWING) != 0) {
                     i = 0;
                 } else {
                     i = ((s64) h * 0x580000 + 0x800) >> 12;
                 }
-                g = func_02024eec((KartSound *) &kart->mUnk_450, i, 0);
-                soundRecord->mUnk_04 = 0x7f;
-                soundRecord->mUnk_00 = soundRecord->mUnk_44;
+                g = func_02024eec((KartSound *) &kart->field450, i, 0);
+                soundRecord->field4 = 0x7f;
+                soundRecord->field0 = soundRecord->field44;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) func_02024fc0, kart, (s32) soundRecord);
             } else {
                 i = ((s64) h * 0x480000 + 0x800) >> 12;
-                g = func_02024eec((KartSound *) &kart->mUnk_450, i, 0);
-                soundRecord->mUnk_04 = 0x46;
-                soundRecord->mUnk_00 = soundRecord->mUnk_44;
+                g = func_02024eec((KartSound *) &kart->field450, i, 0);
+                soundRecord->field4 = 0x46;
+                soundRecord->field0 = soundRecord->field44;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) func_02024fc0, kart, (s32) soundRecord);
             }
         } else {
-            soundRecord->mUnk_0c = 0;
-            soundRecord->mUnk_10 = 0;
-            soundRecord->mUnk_04 = 0x3c;
+            soundRecord->fieldC = 0;
+            soundRecord->field10 = 0;
+            soundRecord->field4 = 0x3c;
             AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                             (void (*)(void *, int)) func_02025030, kart, (s32) soundRecord);
             g = -1;
         }
-        soundRecord->mUnk_08 = g;
-        soundRecord->mUnk_14 = f;
+        soundRecord->field8 = g;
+        soundRecord->field14 = f;
         return;
     }
     baseSpeedLimit = kart->mPhysicalParam->mBaseSpeedLimit;
     velocityLength = kart->mVelocityLength;
     h = velocityLength - baseSpeedLimit;
     aboveSpeedLimit = h > 0 ? 1 : 0;
-    if (g != 0 && kart->mForwardSpeed > 0 && (kart->mUnk_44 & KART_44_ON_GROUND) != 0) {
-        g = ((s64) soundRecord->mUnk_24 * velocityLength + 0x800) >> 12;
+    if (g != 0 && kart->mForwardSpeed > 0 && (kart->field44 & KART_44_ON_GROUND) != 0) {
+        g = ((s64) soundRecord->field24 * velocityLength + 0x800) >> 12;
         if (g > 0x280000) {
             g = 0x280000;
         }
-        soundRecord->mUnk_04 = data_02153158[(kart->mVelocityLengthRatio >> 8) & 0xff];
+        soundRecord->field4 = data_02153158[(kart->mVelocityLengthRatio >> 8) & 0xff];
         AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) func_02024fe8, kart, (s32) soundRecord);
     } else if (f != 0 || (g != 0 && kart->mForwardSpeed < 0)) {
         if (aboveSpeedLimit != 0) {
-            i = (s32) (((s64) h * soundRecord->mUnk_18 + 0x800) >> 12) + 0x580000;
+            i = (s32) (((s64) h * soundRecord->field18 + 0x800) >> 12) + 0x580000;
         } else {
-            i = ((s64) soundRecord->mUnk_1c * velocityLength + 0x800) >> 12;
+            i = ((s64) soundRecord->field1C * velocityLength + 0x800) >> 12;
         }
-        g = func_02024eec((KartSound *) &kart->mUnk_450, i, aboveSpeedLimit);
-        soundRecord->mUnk_04 = 0x7f;
-        if (soundRecord->mUnk_14 == 0) {
-            soundRecord->mUnk_00 = kart->mVelocityLengthRatio < 0x333 ? soundRecord->mUnk_64 : soundRecord->mUnk_60;
+        g = func_02024eec((KartSound *) &kart->field450, i, aboveSpeedLimit);
+        soundRecord->field4 = 0x7f;
+        if (soundRecord->field14 == 0) {
+            soundRecord->field0 = kart->mVelocityLengthRatio < 0x333 ? soundRecord->field64 : soundRecord->field60;
         }
         AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) func_0202506c, kart, (s32) soundRecord);
     } else {
         if (aboveSpeedLimit != 0) {
-            i = (s32) (((s64) h * soundRecord->mUnk_18 + 0x800) >> 12) + 0x480000;
+            i = (s32) (((s64) h * soundRecord->field18 + 0x800) >> 12) + 0x480000;
         } else {
-            i = ((s64) soundRecord->mUnk_20 * velocityLength + 0x800) >> 12;
+            i = ((s64) soundRecord->field20 * velocityLength + 0x800) >> 12;
         }
-        g = func_02024eec((KartSound *) &kart->mUnk_450, i, aboveSpeedLimit);
-        soundRecord->mUnk_04 = 0x32;
+        g = func_02024eec((KartSound *) &kart->field450, i, aboveSpeedLimit);
+        soundRecord->field4 = 0x32;
         if (kart->mVelocityLengthRatio < 0x19a) {
-            soundRecord->mUnk_00 = soundRecord->mUnk_58;
+            soundRecord->field0 = soundRecord->field58;
         } else if (kart->mVelocityLengthRatio < 0x4cd) {
-            soundRecord->mUnk_00 = soundRecord->mUnk_54;
+            soundRecord->field0 = soundRecord->field54;
         } else {
-            soundRecord->mUnk_00 = soundRecord->mUnk_50;
+            soundRecord->field0 = soundRecord->field50;
         }
         AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                         (void (*)(void *, int)) func_0202506c, kart, (s32) soundRecord);
     }
-    soundRecord->mUnk_08 = g;
-    soundRecord->mUnk_14 = f;
+    soundRecord->field8 = g;
+    soundRecord->field14 = f;
 }
 
 void snd_emitDriverMObjHitSfx(SoundSource *soundSource, u16 soundId, s32 b, s32 c) {

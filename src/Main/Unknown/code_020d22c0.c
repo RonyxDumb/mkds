@@ -22,7 +22,7 @@ void mobj_setInvisible(MapObject *mapObject) {
     mapObject->mFlags |= data_021568c4;
 }
 
-// Brings a parked map object back: restores the low flag nibble from the high one, sets mUnk_66 to 0x1f unless the
+// Brings a parked map object back: restores the low flag nibble from the high one, sets field66 to 0x1f unless the
 // restored flags contain 2, enables its collision slot if it has one and clears the parked bit 0x100.
 void mobj_setVisible(MapObject *mapObject) {
     mapObject->mFlags &= ~0xf;

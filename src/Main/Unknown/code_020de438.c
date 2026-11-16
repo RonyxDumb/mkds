@@ -12,14 +12,14 @@
 
 void epipe_render(u32 unused0, Unk020e43a8 *pipe, u32 unused1, u16 d) {
     MtxFx43 *matrix;
-    if (pipe->mUnk_00.mStateMachine.mState == 0) {
-        matrix = bbm_getYBillboardAtPos(&pipe->mUnk_00.mPos);
-        bbm_renderTransformedScaled(epipe_sModel1, matrix, &pipe->mUnk_00.mScale, 0, d);
+    if (pipe->field0.mStateMachine.mState == 0) {
+        matrix = bbm_getYBillboardAtPos(&pipe->field0.mPos);
+        bbm_renderTransformedScaled(epipe_sModel1, matrix, &pipe->field0.mScale, 0, d);
         return;
     }
     bbm_applyMaterial(epipe_sModel2);
-    matrix = bbm_getYBillboardAtPos(&pipe->mUnk_00.mPos);
-    bbm_renderTransformedRotatedScaled(epipe_sModel2, matrix, *(u16 *) &pipe->mUnk_a0.mUnk_0c.x, &pipe->mUnk_00.mScale, 0, d);
+    matrix = bbm_getYBillboardAtPos(&pipe->field0.mPos);
+    bbm_renderTransformedRotatedScaled(epipe_sModel2, matrix, *(u16 *) &pipe->fieldA0.fieldC.x, &pipe->field0.mScale, 0, d);
     bbm_applyMaterial(epipe_sModel1);
 }
 
@@ -33,7 +33,7 @@ void epipe_update(u32 unused, u32 object) {
 
 u8 epipe_onDriverCollide(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
     if (rdmo_onDriverCollide(pipe, kart, c) != FALSE) {
-        mobj_tryDestroyByDriver(&pipe->mUnk_00, kart);
+        mobj_tryDestroyByDriver(&pipe->field0, kart);
     }
     return *d;
 }

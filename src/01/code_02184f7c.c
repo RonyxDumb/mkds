@@ -46,20 +46,20 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     for (i = 0; i < list->mEntryCount; i++) {
         entry = &list->mEntries[i];
         entry->mLld = list;
-        entry->mAnimIndex = rec[i].mUnk_00;
-        entry->mPosX = rec[i].mUnk_02 > 0 ? 0.5f + (rec[i].mUnk_02 << 12) : (rec[i].mUnk_02 << 12) - 0.5f;
-        entry->mPosY = rec[i].mUnk_04 > 0 ? 0.5f + (rec[i].mUnk_04 << 12) : (rec[i].mUnk_04 << 12) - 0.5f;
+        entry->mAnimIndex = rec[i].field0;
+        entry->mPosX = rec[i].field2 > 0 ? 0.5f + (rec[i].field2 << 12) : (rec[i].field2 << 12) - 0.5f;
+        entry->mPosY = rec[i].field4 > 0 ? 0.5f + (rec[i].field4 << 12) : (rec[i].field4 << 12) - 0.5f;
         entry->mScale = 0x1000;
-        entry->mShown = rec[i].mUnk_06 != 0;
-        NNS_G2dInitCellAnimation(&entry->mUnk_2c, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[i].mUnk_00), cells);
-        if (rec[i].mUnk_06 > 1) {
-            entry->mUnk_2c.mUnk_08 = TRUE;
+        entry->mShown = rec[i].field6 != 0;
+        NNS_G2dInitCellAnimation(&entry->field2C, NNS_G2dGetAnimSequenceByIdx(cellAnims, rec[i].field0), cells);
+        if (rec[i].field6 > 1) {
+            entry->field2C.field8 = TRUE;
         } else {
-            entry->mUnk_2c.mUnk_08 = FALSE;
+            entry->field2C.field8 = FALSE;
         }
-        cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
-        if ((cell->mUnk_02 >> 11) & 1) {
-            box = cell->mUnk_08;
+        cell = (Unk021a5a58_2c_2c *) entry->field2C.field2C;
+        if ((cell->field2 >> 11) & 1) {
+            box = cell->field8;
             entry->mBoundsLeft = box[2] << 12;
             entry->mBoundsTop = box[3] << 12;
             entry->mBoundsRight = box[0] << 12;
@@ -81,7 +81,7 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
 
     for (i = 0; i < lld->mEntryCount; i++) {
         entry = &lld->mEntries[i];
-        cellAnim = &entry->mUnk_2c;
+        cellAnim = &entry->field2C;
         if (entry->mCallback != NULL) {
             if (entry->mCallback(entry) != 0) {
                 entry->mCallback = NULL;
@@ -97,20 +97,20 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
 
                     mtx[0] = FX_Div(0x1000, entry->mScale);
                     mtx[3] = FX_Div(0x1000, entry->mScale);
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_06 = mtx[0] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_0e = mtx[1] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_16 = mtx[2] >> 4;
-                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].mUnk_1e = mtx[3] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].field6 = mtx[0] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].fieldE = mtx[1] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].field16 = mtx[2] >> 4;
+                    ((OamBuffer_000 *) oamBuffer->mOams)[idx].field1E = mtx[3] >> 4;
                     mtx[0] = entry->mScale;
                     mtx[3] = entry->mScale;
-                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
+                    cell = (Unk021a5a58_2c_2c *) entry->field2C.field2C;
                     pos_a[0] = screenX << 12;
                     pos_a[1] = screenY << 12;
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
                                               0x80 - oamBuffer->mOamCount, (Unk020224e0_c *) cell, mtx, pos_a, idx, 1);
                 } else {
-                    cell = (Unk021a5a58_2c_2c *) entry->mUnk_2c.mUnk_2c;
+                    cell = (Unk021a5a58_2c_2c *) entry->field2C.field2C;
                     pos_b[0] = screenX << 12;
                     pos_b[1] = screenY << 12;
                     oamBuffer->mOamCount +=
@@ -119,9 +119,9 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                 }
             }
         }
-        if (cellAnim->mUnk_08 != FALSE) {
-            NNS_G2dSetCellAnimationSpeed(&entry->mUnk_2c, 0x1000);
-            NNS_G2dTickCellAnimation(&entry->mUnk_2c, 0x1000);
+        if (cellAnim->field8 != FALSE) {
+            NNS_G2dSetCellAnimationSpeed(&entry->field2C, 0x1000);
+            NNS_G2dTickCellAnimation(&entry->field2C, 0x1000);
         }
     }
 }
@@ -151,22 +151,22 @@ s32 FindLldEntryAtPoint(Lld *lld, s32 startIndex, s32 pointX, s32 pointY) {
 
 void func_ov001_021850a4(LldEntry *entry, s32 (*callback)(LldEntry *)) {
     entry->mCallback = callback;
-    entry->mUnk_10 = 0;
-    entry->mUnk_14 = 0;
+    entry->field10 = 0;
+    entry->field14 = 0;
 }
 
 void func_ov001_02185018(LldEntry *entry, s32 frameOrCommand) {
-    Unk02022030 *cellAnim = &entry->mUnk_2c;
+    Unk02022030 *cellAnim = &entry->field2C;
 
     if (frameOrCommand == -1) {
-        cellAnim->mUnk_14 = 2;
-        entry->mUnk_2c.mUnk_08 = TRUE;
+        cellAnim->field14 = 2;
+        entry->field2C.field8 = TRUE;
     } else if (frameOrCommand == -2) {
         NNS_G2dResetAnimCtrlState(cellAnim);
-        cellAnim->mUnk_14 = 1;
-        entry->mUnk_2c.mUnk_08 = TRUE;
+        cellAnim->field14 = 1;
+        entry->field2C.field8 = TRUE;
     } else if (frameOrCommand == -3) {
-        entry->mUnk_2c.mUnk_08 = FALSE;
+        entry->field2C.field8 = FALSE;
     } else if (frameOrCommand == -4) {
         entry->mShown = TRUE;
     } else if (frameOrCommand == -5) {
@@ -179,7 +179,7 @@ void func_ov001_02185018(LldEntry *entry, s32 frameOrCommand) {
 
 s32 GetLldEntryFrameIndex(LldEntry *entry) {
     if (entry->mShown != FALSE) {
-        return NNS_G2dGetAnimCtrlCurrentFrame(&entry->mUnk_2c);
+        return NNS_G2dGetAnimCtrlCurrentFrame(&entry->field2C);
     }
     return -5;
 }
@@ -213,9 +213,9 @@ void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom
 }
 
 void func_ov001_02184f8c(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x210);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x210);
 }
 
 void func_ov001_02184f7c(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x210);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x210);
 }

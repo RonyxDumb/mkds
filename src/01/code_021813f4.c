@@ -67,7 +67,7 @@ void mpicn_updateCoinIcon(void) {
             if (lmap_20B5AE8(position, &mpicn_sCoinIcon->mCells[cellCount].mDrawPos, v, 1,
                                                 1)) {
                 mpicn_sCoinIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x58);
-                mpicn_sCoinIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
+                mpicn_sCoinIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
                 cellCount++;
             }
         }

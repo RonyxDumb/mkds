@@ -22,7 +22,7 @@ typedef struct KartAiItemUse {
     /* 02 */ s16 mItemInUseTimer;
     /* 04 */ KartAiItemUseEntry *mHeldItemEntry;
     /* 08 */ KartAiItemUseEntry *mItemInUseEntry;
-    /* 0c */ s32 mUnk_0c;
+    /* 0c */ s32 fieldC;
 // While non-zero, the item bits are requested on every call.
     /* 10 */ s32 mItemBitsEveryCall;
 // While set, enit_update sends ITEM_THROW_FORWARD_BIT on its calls that do not run the entry function;

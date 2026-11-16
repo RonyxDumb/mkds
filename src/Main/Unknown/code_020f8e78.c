@@ -25,7 +25,7 @@
 
 BOOL func_020f9290(void *itemParam, Vec3 *normal) {
     ItemObject *item = itemParam;
-    if ((item->mFlags & 0x2000000) != 0 && vec_dotProduct(normal, &item->mUnk_108) < 0 && (item->mFlags & 8) == 0) {
+    if ((item->mFlags & 0x2000000) != 0 && vec_dotProduct(normal, &item->field108) < 0 && (item->mFlags & 8) == 0) {
         func_020f6fc4(item, 1);
         return TRUE;
     }
@@ -39,7 +39,7 @@ void it_20F91FC(void *itemParam, s32 soundId) {
     if (soundId == 1) {
         return;
     }
-    if ((s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) >= gSfxParams[1].mUnk_20) {
+    if ((s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) >= gSfxParams[1].field20) {
         return;
     }
     if (soundId == 1) {
@@ -85,7 +85,7 @@ void func_020f9114(void *itemParam) {
     ItemObject *item = itemParam;
     enum { K0 } kind = item->mKind;
 
-    sfx_2109038(item, it_sItemParams[kind].mUnk_a0, &item->mPos);
+    sfx_2109038(item, it_sItemParams[kind].fieldA0, &item->mPos);
     sfx_210CF9C(&item->mSoundSource, 1);
     item->mFlags |= 0x400000;
 }
@@ -132,27 +132,27 @@ void func_020f8e78(void *itemParam) {
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
     kindInfo = &it_sItemParams[kind];
-    kindRadius = kindInfo->mUnk_6c;
-    item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
+    kindRadius = kindInfo->field6C;
+    item->fieldDC = ((s64) item->mScale.y * kindInfo->field64) >> 12;
     item->mRadius = ((s64) item->mScale.y * kindRadius) >> 12;
     col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
     light_init(&item->mColorBlend, 1);
-    item->mUnk_90 = NULL;
+    item->field90 = NULL;
     item->mNormal = data_02159ca0;
     item->mCollisionBits = 0;
-    item->mUnk_100 = 0;
-    item->mUnk_104->mUnk_00 = NULL;
-    item->mUnk_108.x = 0;
-    item->mUnk_108.y = 0;
-    item->mUnk_108.z = 0;
-    item->mUnk_114 = 5;
-    item->mUnk_116 = 0;
-    item->mUnk_118 = 0;
-    item->mUnk_11a = 0;
+    item->field100 = 0;
+    item->field104->field0 = NULL;
+    item->field108.x = 0;
+    item->field108.y = 0;
+    item->field108.z = 0;
+    item->field114 = 5;
+    item->field116 = 0;
+    item->field118 = 0;
+    item->field11A = 0;
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {
         kind = item->mKind;
-        sfx_2109038(item, it_sItemParams[kind].mUnk_a0, &item->mPos);
+        sfx_2109038(item, it_sItemParams[kind].fieldA0, &item->mPos);
         sfx_210CF9C(&item->mSoundSource, 1);
         item->mFlags |= 0x400000;
     }
@@ -161,11 +161,11 @@ void func_020f8e78(void *itemParam) {
     if ((item->mFlags & 0x180000) == 0) {
         item->mAdvance = advance;
     }
-    if ((item->mUnk_78 & 0xf00) != 0) {
+    if ((item->field78 & 0xf00) != 0) {
         return;
     }
     kind = item->mKind;
-    if (it_sItemParams[kind].mUnk_54 != 0) {
+    if (it_sItemParams[kind].field54 != 0) {
         return;
     }
     hasCollisionSlot = item->mCollisionSlotIndex != -1;

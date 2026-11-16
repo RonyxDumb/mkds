@@ -95,7 +95,7 @@ void AdvanceSelectCupCourseState3(void) {
     if ((u32) touchedRectIndex <= 3) {
         courseIndex = data_0215caac[touchedRectIndex];
         if (gSelectCupCourse->mIndex == courseIndex) {
-            gSelectCupCourse->mUnk_54 = FALSE;
+            gSelectCupCourse->field54 = FALSE;
         }
         gSelectCupCourse->mIndex = courseIndex;
         RequestSelectCupCourseState4();
@@ -107,7 +107,7 @@ void AdvanceSelectCupCourseState3(void) {
     }
     if ((u16) (gInputUnits[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectCupCourseState4();
-        gSelectCupCourse->mUnk_54 = FALSE;
+        gSelectCupCourse->field54 = FALSE;
         return;
     }
     if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
@@ -134,7 +134,7 @@ void AdvanceSelectCupCourseState3(void) {
 void AdvanceSelectCupCourseState4(void) {
     AdvanceSelectCupCourseIndexChange();
     if (gSelectCupCourse->mStateFrames == 5) {
-        gSelectCupCourse->mUnk_54 = TRUE;
+        gSelectCupCourse->field54 = TRUE;
     }
     gSelectCupCourse->mStateFrames++;
     if (gSelectCupCourse->mStateFrames >= 10) {
@@ -269,7 +269,7 @@ void AdvanceSelectCupCourseState8(void) {
     mutil_interpolate(1, 0, 0x100, gSelectCupCourse->mStateFrames, 10);
     offsetY = mutil_interpolate(1, 0, -0xc0, gSelectCupCourse->mStateFrames, 10);
     if (a != FALSE) {
-        w = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
+        w = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->field6;
         gSelectCupCourse->mBg0Offset = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[2].mOffsetY = offsetY;
@@ -285,7 +285,7 @@ void AdvanceSelectCupCourseState8(void) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMTable[w + 5].mOffsetY = offsetY;
     }
     if (gSelectCupCourse->mResult != 2) {
-        w = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+        w = gSelectCupCourse->mSelectCupMBncl->field6;
         gSelectCupCourse->mBg3Offset = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;
         gSelectCupCourse->mSelectCupMTable[0x13].mOffsetY = offsetY - 0x20;
@@ -412,7 +412,7 @@ void func_02118b48(void) {
     g2du_getCharacterDataBG(&selectCupMBChars, arc_getSceneArcFile(data_0216d690));
     g2du_getPaletteData(&selectCupMBPalette, arc_getSceneArcFile(data_0216d6b8));
     g2du_getScreenData(&selectCupMScreenMap, arc_getSceneArcFile(data_0216d6bc));
-    CupSelectionMenuInfoPointer->mUnk_20 = heap_alloc(CupSelectionMenuInfoPointer->mHeap, 0x800);
+    CupSelectionMenuInfoPointer->field20 = heap_alloc(CupSelectionMenuInfoPointer->mHeap, 0x800);
     CupSelectionMenuInfoPointer->mSelectCupMBncl = arc_getSceneArcFile(data_0216d698);
     CupSelectionMenuInfoPointer->mSelectCupMBnll = arc_getSceneArcFile(data_0216d6a8);
     g2du_getCharacterData(&selectCupMChars, arc_getSceneArcFile(data_0216d6ac));
@@ -428,7 +428,7 @@ void func_02118b48(void) {
         NNS_GfdRegisterNewVramTransferTask(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectCupMBPalette->mData, 0x100);
         NNS_GfdRegisterNewVramTransferTask(8, 0, &selectCupMScreenMap->mData, selectCupMScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(8, 0x800, CupSelectionMenuInfoPointer->mUnk_20, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(8, 0x800, CupSelectionMenuInfoPointer->field20, 0x800);
     }
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectCupMChars->mData, selectCupMChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectCupMOPalette->mData, 0x1a0);

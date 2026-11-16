@@ -10,8 +10,8 @@ typedef struct FSArchive FSArchive;
 // Two words read as a pair: data_0216f35c, data_0216f364 and the blocks FSi_InitRom and FS_LoadOverlayInfo read
 // at fixed addresses.
 typedef struct Unk02005704 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u8 *field0;
+    /* 04 */ u32 field4;
 } Unk02005704;
 
 // Record of 0x2c bytes: the first 0x20 bytes are read from a table entry of 0x20 bytes.
@@ -25,20 +25,20 @@ typedef struct FSOverlayInfo {
     /* 18 */ s32 mFileId;
     /* 1c */ union {
         struct {
-            u32 mUnk_00_0 : 24;
+            u32 field0_0 : 24;
         } f;
         u8 b[4];
-    } mUnk_1c;
+    } field1C;
     /* 20 */ u32 mTarget;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
+    /* 24 */ u32 field24;
+    /* 28 */ u32 field28;
 } FSOverlayInfo;
 
 // Node of the list at data_0217eeb0 that FS_EndOverlay walks.
 typedef struct Unk02005210 {
-    /* 00 */ struct Unk02005210 *mUnk_00;
-    /* 04 */ void (*mUnk_04)(void *);
-    /* 08 */ void *mUnk_08;
+    /* 00 */ struct Unk02005210 *field0;
+    /* 04 */ void (*field4)(void *);
+    /* 08 */ void *field8;
 } Unk02005210;
 
 extern u32 data_0216f350;

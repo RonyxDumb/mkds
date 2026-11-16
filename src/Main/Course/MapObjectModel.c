@@ -15,7 +15,7 @@ void *mobj_loadModel(void *a, const char *b) {
 
     o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 1;
+        ((Unk0209bc74_a *) a)->field18 = 1;
     }
     o->mNsbmdFile = mobj_getMapObjFile(b);
     o->mAnimatedModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
@@ -65,7 +65,7 @@ void *mobj_loadShadowModel(void *a, const char *b) {
     o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     x = mobj_getMapObjFile(b);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 1;
+        ((Unk0209bc74_a *) a)->field18 = 1;
     }
     o->mShadowModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x74);
     InitShadowModel(o->mShadowModel, x, 0x3f);
@@ -83,16 +83,16 @@ void *mobj_loadBillboardModel(void *a, const char *b) {
     o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     x = mobj_getMapObjFile(b);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 2;
+        ((Unk0209bc74_a *) a)->field18 = 2;
     }
     o->mNsbmdModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     bbm_initFromNsbmd(o->mNsbmdModel, x, NULL, 0);
     m = o->mNsbmdModel;
-    m->mUnk_10 &= 0x8000ffff;
-    m->mUnk_10 |= 0x294a0000;
+    m->field10 &= 0x8000ffff;
+    m->field10 |= 0x294a0000;
     m = o->mNsbmdModel;
-    m->mUnk_14 &= ~0xf;
-    m->mUnk_14 |= 2;
+    m->field14 &= ~0xf;
+    m->field14 |= 2;
     o->mScale = data_021565ac;
     return o;
 }
@@ -110,16 +110,16 @@ void *mobj_loadTexAnimBillboardModel(void *a, const char *b, const char *c) {
     x = mobj_getMapObjFile(b);
     y = mobj_getMapObjFile(c);
     if (a != NULL) {
-        ((Unk0209bc74_a *) a)->mUnk_18 = 2;
+        ((Unk0209bc74_a *) a)->field18 = 2;
     }
     o->mNsbmdModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     bbm_initFromNsbmd(o->mNsbmdModel, x, y, 0);
     m = o->mNsbmdModel;
-    m->mUnk_10 &= 0x8000ffff;
-    m->mUnk_10 |= 0x294a0000;
+    m->field10 &= 0x8000ffff;
+    m->field10 |= 0x294a0000;
     m = o->mNsbmdModel;
-    m->mUnk_14 &= ~0xf;
-    m->mUnk_14 |= 2;
+    m->field14 &= ~0xf;
+    m->field14 |= 2;
     o->mScale = data_021565a0;
     return o;
 }

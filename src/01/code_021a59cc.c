@@ -278,11 +278,11 @@ s32 func_ov001_021a5f70(s32 down, s32 x, s32 y, s32 d, s32 dx, s32 dy) {
 }
 
 BOOL func_ov001_021a5ef4(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->field10 <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->field10++;
+    if (entry->field10 <= 5) {
         func_ov001_02185018(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -291,7 +291,7 @@ BOOL func_ov001_021a5ef4(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->field10 <= 10) {
         SetLldEntryScale(entry, 0);
         return FALSE;
     }
@@ -299,14 +299,14 @@ BOOL func_ov001_021a5ef4(LldEntry *entry) {
 }
 
 BOOL func_ov001_021a5e60(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->field10 <= 0) {
         SetLldEntryScale(entry, 0);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->field10++;
+    if (entry->field10 <= 5) {
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->field10 <= 10) {
         func_ov001_02185018(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -315,9 +315,9 @@ BOOL func_ov001_021a5e60(LldEntry *entry) {
         return FALSE;
     }
     SetLldEntryScale(entry, 0x1000);
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->field108C != NULL) {
+        gEmblem->field108C();
+        gEmblem->field108C = NULL;
     }
     return TRUE;
 }
@@ -334,11 +334,11 @@ void func_ov001_021a5df0(void *obj, s32 index) {
 }
 
 BOOL func_ov001_021a5d18(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->field10 <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->field10++;
+    if (entry->field10 <= 5) {
         func_ov001_02185018(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -346,7 +346,7 @@ BOOL func_ov001_021a5d18(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->field10 <= 10) {
         func_ov001_02185018(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -354,14 +354,14 @@ BOOL func_ov001_021a5d18(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 == 11) {
-        if (gEmblem->mUnk_108c != NULL) {
-            gEmblem->mUnk_108c();
-            gEmblem->mUnk_108c = NULL;
+    if (entry->field10 == 11) {
+        if (gEmblem->field108C != NULL) {
+            gEmblem->field108C();
+            gEmblem->field108C = NULL;
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 20) {
+    if (entry->field10 <= 20) {
         return FALSE;
     }
     func_ov001_02185018(entry, 0);
@@ -373,11 +373,11 @@ void func_ov001_021a5d00(void *obj, s32 index) {
 }
 
 BOOL func_ov001_021a5c40(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->field10 <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->field10++;
+    if (entry->field10 <= 5) {
         func_ov001_02185018(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -385,7 +385,7 @@ BOOL func_ov001_021a5c40(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->field10 <= 10) {
         func_ov001_02185018(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -393,9 +393,9 @@ BOOL func_ov001_021a5c40(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->field108C != NULL) {
+        gEmblem->field108C();
+        gEmblem->field108C = NULL;
     }
     func_ov001_02185018(entry, 0);
     return TRUE;
@@ -406,11 +406,11 @@ void func_ov001_021a5c28(void *obj, s32 index) {
 }
 
 BOOL func_ov001_021a5b70(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->field10 <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 5) {
+    entry->field10++;
+    if (entry->field10 <= 5) {
         func_ov001_02185018(entry, 0);
         SetLldEntryScale(entry, GetLldEntryScale(entry) - 0x19a);
         if (GetLldEntryScale(entry) <= 0) {
@@ -418,7 +418,7 @@ BOOL func_ov001_021a5b70(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (entry->mUnk_10 <= 10) {
+    if (entry->field10 <= 10) {
         func_ov001_02185018(entry, 1);
         SetLldEntryScale(entry, GetLldEntryScale(entry) + 0x19a);
         if (GetLldEntryScale(entry) >= 0x1000) {
@@ -426,9 +426,9 @@ BOOL func_ov001_021a5b70(LldEntry *entry) {
         }
         return FALSE;
     }
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->field108C != NULL) {
+        gEmblem->field108C();
+        gEmblem->field108C = NULL;
     }
     return TRUE;
 }
@@ -454,17 +454,17 @@ void func_ov001_021a5ab0(void *obj, s32 index) {
 }
 
 BOOL func_ov001_021a5a58(LldEntry *entry) {
-    if (entry->mUnk_10 <= 0) {
+    if (entry->field10 <= 0) {
         SetLldEntryScale(entry, 0x1000);
     }
-    entry->mUnk_10++;
-    if (entry->mUnk_10 <= 10) {
+    entry->field10++;
+    if (entry->field10 <= 10) {
         func_ov001_02185018(entry, 1);
         return FALSE;
     }
-    if (gEmblem->mUnk_108c != NULL) {
-        gEmblem->mUnk_108c();
-        gEmblem->mUnk_108c = NULL;
+    if (gEmblem->field108C != NULL) {
+        gEmblem->field108C();
+        gEmblem->field108C = NULL;
     }
     return TRUE;
 }

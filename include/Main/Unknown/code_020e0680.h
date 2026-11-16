@@ -10,14 +10,14 @@
 
 // Block of ten words.
 typedef struct Unk020e0340 {
-    /* 00 */ u32 mUnk_00[10];
+    /* 00 */ u32 field0[10];
 } Unk020e0340;
 
 extern const Unk020e0340 data_02158a54;
 
 // Block of sixteen words.
 typedef struct Unk020e03f8 {
-    /* 00 */ u32 mUnk_00[16];
+    /* 00 */ u32 field0[16];
 } Unk020e03f8;
 
 extern const Unk020e03f8 data_02158a7c;
@@ -27,170 +27,170 @@ extern const Unk020e03f8 data_02158b3c;
 
 // Three vectors of twelve bytes each.
 typedef struct Unk020e38a0_28 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
+    /* 00 */ Vec3 field0;
+    /* 0c */ Vec3 fieldC;
+    /* 18 */ Vec3 field18;
 } Unk020e38a0_28;
 
 // Object dcol_collideBox and dcol_collideCylinder compare against: seven words and a vector.
 typedef struct Unk020e0764 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ Vec3 mUnk_1c;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ Vec3 field1C;
 } Unk020e0764;
 
 // Object with a vector at 0x2c and words at 0x38 and 0x3c.
 typedef struct Unk020e20a8 {
-    /* 000 */ u8 mUnk_000[0x2c];
-    /* 02c */ Vec3 mUnk_02c;
-    /* 038 */ BOOL mUnk_038;
-    /* 03c */ BOOL mUnk_03c;
+    /* 000 */ u8 field0[0x2c];
+    /* 02c */ Vec3 field2C;
+    /* 038 */ BOOL field38;
+    /* 03c */ BOOL field3C;
 } Unk020e20a8;
 
 // Object with vectors at 0x50 and 0x80.
 typedef struct Unk020e246c {
-    /* 000 */ u8 mUnk_000[0x50];
-    /* 050 */ Vec3 mUnk_050;
-    /* 05c */ s32 mUnk_05c;
-    /* 060 */ u8 mUnk_060[0x4];
-    /* 064 */ s32 mUnk_064;
-    /* 068 */ u8 mUnk_068[0xc];
-    /* 074 */ u16 mUnk_074;
-    /* 076 */ u8 mUnk_076[0xa];
-    /* 080 */ Vec3 mUnk_080;
-    /* 08c */ u8 mUnk_08c[0x18];
-    /* 0a4 */ s32 mUnk_0a4;
-    /* 0a8 */ u8 mUnk_0a8[0x4];
-    /* 0ac */ s32 mUnk_0ac;
+    /* 000 */ u8 field0[0x50];
+    /* 050 */ Vec3 field50;
+    /* 05c */ s32 field5C;
+    /* 060 */ u8 field60[0x4];
+    /* 064 */ s32 field64;
+    /* 068 */ u8 field68[0xc];
+    /* 074 */ u16 field74;
+    /* 076 */ u8 field76[0xa];
+    /* 080 */ Vec3 field80;
+    /* 08c */ u8 field8C[0x18];
+    /* 0a4 */ s32 fieldA4;
+    /* 0a8 */ u8 fieldA8[0x4];
+    /* 0ac */ s32 fieldAC;
 } Unk020e246c;
 
 // Object behind traf_sCarModel, traf_sTruckModel, traf_sBusModel and traf_sCarTireModel.
 typedef struct Unk0217b7a0 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ NNSG3dResMdl *mUnk_04;
+    /* 00 */ u32 field0;
+    /* 04 */ NNSG3dResMdl *field4;
 } Unk0217b7a0;
 
 // Object a pointer at 0x12c of Unk020e1e98 points to (also behind bridge_sNsbcaAnim).
 typedef struct Unk020e1e98_12c {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0xa];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ s32 **mUnk_1c;
+    /* 00 */ u8 field0[0xc];
+    /* 0c */ s32 fieldC;
+    /* 10 */ u8 field10[0xa];
+    /* 1a */ u16 field1A;
+    /* 1c */ s32 **field1C;
 } Unk020e1e98_12c;
 
 // Object a pointer at 0x154 of Unk020e1e98 points to.
 typedef struct Unk020e1e98_154 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ u32 *mUnk_20;
-    /* 24 */ u32 *mUnk_24;
-    /* 28 */ Unk020e1e98_12c **mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ u32 *field20;
+    /* 24 */ u32 *field24;
+    /* 28 */ Unk020e1e98_12c **field28;
+    /* 2c */ s32 field2C;
+    /* 30 */ s32 field30;
 } Unk020e1e98_154;
 
 // Four words at 0xb4 of Unk020e1e98.
 typedef struct Unk020e1e98_0b4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x2];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 00 */ s32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[0x2];
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
 } Unk020e1e98_0b4;
 
 // 0x164 bytes.
 typedef struct Unk020e1e98 {
-    /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ s32 mUnk_0a0;
-    /* 0a4 */ s32 mUnk_0a4;
-    /* 0a8 */ s32 mUnk_0a8;
-    /* 0ac */ s32 mUnk_0ac;
-    /* 0b0 */ s32 mUnk_0b0;
-    /* 0b4 */ Unk020e1e98_0b4 mUnk_0b4;
-    /* 0c4 */ s32 mUnk_0c4;
-    /* 0c8 */ s32 mUnk_0c8;
-    /* 0cc */ s32 mUnk_0cc;
-    /* 0d0 */ u8 mUnk_0d0[0x4];
-    /* 0d4 */ s32 mUnk_0d4;
-    /* 0d8 */ GroupFollower mUnk_0d8;
-    /* 0fc */ u16 mUnk_0fc;
-    /* 0fe */ s16 mUnk_0fe;
-    /* 100 */ s32 mUnk_100[3];
-    /* 10c */ u16 mUnk_10c;
-    /* 10e */ u8 mUnk_10e[0x2];
-    /* 110 */ s32 mUnk_110;
-    /* 114 */ Vec3 mUnk_114;
-    /* 120 */ s32 mUnk_120;
-    /* 124 */ u32 mUnk_124;
-    /* 128 */ u32 mUnk_128;
-    /* 12c */ Unk020e1e98_12c *mUnk_12c;
-    /* 130 */ u16 mUnk_130;
-    /* 132 */ u16 mUnk_132;
-    /* 134 */ u8 mUnk_134[0xc];
-    /* 140 */ void *mUnk_140;
-    /* 144 */ Vec3 mUnk_144;
-    /* 150 */ u16 mUnk_150;
-    /* 152 */ u16 mUnk_152;
-    /* 154 */ Unk020e1e98_154 *mUnk_154;
-    /* 158 */ SoundDistanceSquaredChange *mUnk_158;
-    /* 15c */ u32 mUnk_15c;
-    /* 160 */ u32 mUnk_160;
+    /* 000 */ MapObject field0;
+    /* 0a0 */ s32 fieldA0;
+    /* 0a4 */ s32 fieldA4;
+    /* 0a8 */ s32 fieldA8;
+    /* 0ac */ s32 fieldAC;
+    /* 0b0 */ s32 fieldB0;
+    /* 0b4 */ Unk020e1e98_0b4 fieldB4;
+    /* 0c4 */ s32 fieldC4;
+    /* 0c8 */ s32 fieldC8;
+    /* 0cc */ s32 fieldCC;
+    /* 0d0 */ u8 fieldD0[0x4];
+    /* 0d4 */ s32 fieldD4;
+    /* 0d8 */ GroupFollower fieldD8;
+    /* 0fc */ u16 fieldFC;
+    /* 0fe */ s16 fieldFE;
+    /* 100 */ s32 field100[3];
+    /* 10c */ u16 field10C;
+    /* 10e */ u8 field10E[0x2];
+    /* 110 */ s32 field110;
+    /* 114 */ Vec3 field114;
+    /* 120 */ s32 field120;
+    /* 124 */ u32 field124;
+    /* 128 */ u32 field128;
+    /* 12c */ Unk020e1e98_12c *field12C;
+    /* 130 */ u16 field130;
+    /* 132 */ u16 field132;
+    /* 134 */ u8 field134[0xc];
+    /* 140 */ void *field140;
+    /* 144 */ Vec3 field144;
+    /* 150 */ u16 field150;
+    /* 152 */ u16 field152;
+    /* 154 */ Unk020e1e98_154 *field154;
+    /* 158 */ SoundDistanceSquaredChange *field158;
+    /* 15c */ u32 field15C;
+    /* 160 */ u32 field160;
 } Unk020e1e98;
 
 // Object behind data_0217b79c and the argument of traf_prepareRoutes.
 typedef struct Unk0217b79c {
-    /* 00 */ Unk020e1e98 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ Unk020e1e98 **field0;
+    /* 04 */ u16 field4;
 } Unk0217b79c;
 
 // Object rotcyl_init fills.
 typedef struct Unk020e3ef4 {
-    /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
-    /* 0c4 */ Unk020e38a0_28 mUnk_0c4;
-    /* 0e8 */ Vec3 mUnk_0e8;
-    /* 0f4 */ Vec3 mUnk_0f4;
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ u8 mUnk_108[0x8];
-    /* 110 */ BOOL mUnk_110;
-    /* 114 */ Vec3 mUnk_114;
-    /* 120 */ s32 mUnk_120;
-    /* 124 */ Vec3 mUnk_124;
-    /* 130 */ s32 mUnk_130;
-    /* 134 */ s32 mUnk_134;
-    /* 138 */ s32 mUnk_138;
-    /* 13c */ u8 mUnk_13c[0x4];
+    /* 000 */ MapObject field0;
+    /* 0a0 */ Unk020e38a0_28 fieldA0;
+    /* 0c4 */ Unk020e38a0_28 fieldC4;
+    /* 0e8 */ Vec3 fieldE8;
+    /* 0f4 */ Vec3 fieldF4;
+    /* 100 */ s32 field100;
+    /* 104 */ s32 field104;
+    /* 108 */ u8 field108[0x8];
+    /* 110 */ BOOL field110;
+    /* 114 */ Vec3 field114;
+    /* 120 */ s32 field120;
+    /* 124 */ Vec3 field124;
+    /* 130 */ s32 field130;
+    /* 134 */ s32 field134;
+    /* 138 */ s32 field138;
+    /* 13c */ u8 field13C[0x4];
     /* 140 */ struct Nsbmd *mModel;
-    /* 144 */ u16 mUnk_144;
-    /* 146 */ u16 mUnk_146;
-    /* 148 */ u16 mUnk_148;
-    /* 14a */ s16 mUnk_14a;
-    /* 14c */ s32 mUnk_14c;
-    /* 150 */ s32 mUnk_150;
-    /* 154 */ s32 mUnk_154;
-    /* 158 */ s32 mUnk_158;
-    /* 15c */ s32 mUnk_15c;
+    /* 144 */ u16 field144;
+    /* 146 */ u16 field146;
+    /* 148 */ u16 field148;
+    /* 14a */ s16 field14A;
+    /* 14c */ s32 field14C;
+    /* 150 */ s32 field150;
+    /* 154 */ s32 field154;
+    /* 158 */ s32 field158;
+    /* 15c */ s32 field15C;
 } Unk020e3ef4;
 
 // Object behind bridge_sRenderPart.
 typedef struct Unk020e1dc0 {
-    /* 00 */ Unk020e3ef4 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[0x26];
-    /* 2c */ s32 mUnk_2c;
+    /* 00 */ Unk020e3ef4 **field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[0x26];
+    /* 2c */ s32 field2C;
 } Unk020e1dc0;
 
 void choro_init(Unk020e1e98 *choropu, struct CourseMapRow *courseRow);

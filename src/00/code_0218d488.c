@@ -15,45 +15,45 @@
 
 BOOL func_ov000_0218d7bc(const char *a, u32 b, Unk0218ce14 *c) {
     Unk021a8f84 *e;
-    c->mUnk_01 = 2;
-    c->mUnk_02 = (((u16) b >> 8) & 0xff) | (((u16) b << 8) & 0xff00);
-    c->mUnk_04 = func_ov000_0218e374((u32) a);
-    if (c->mUnk_04 == -1) {
+    c->field1 = 2;
+    c->field2 = (((u16) b >> 8) & 0xff) | (((u16) b << 8) & 0xff00);
+    c->field4 = func_ov000_0218e374((u32) a);
+    if (c->field4 == -1) {
         e = func_ov000_021a8f84(a);
         if (e == NULL) {
             return FALSE;
         }
-        c->mUnk_04 = **e->mUnk_0c;
+        c->field4 = **e->fieldC;
     }
     return TRUE;
 }
 
 void func_ov000_0218d788(void) {
-    func_ov000_0218e3e4(data_ov000_021b4dac.mUnk_00, data_ov000_021b4db8, data_ov000_021b4dac.mUnk_4c, 0,
+    func_ov000_0218e3e4(data_ov000_021b4dac.field0, data_ov000_021b4db8, data_ov000_021b4dac.field4C, 0,
                         data_ov000_021b4db0, 8);
-    data_ov000_021b4dac.mUnk_50 = func_ov000_0218e8c4();
+    data_ov000_021b4dac.field50 = func_ov000_0218e8c4();
 }
 
 void func_ov000_0218d6e4(const char *a) {
     char v1[0x40];
     s8 c;
     strcpy(data_ov000_021b4d6c, a);
-    data_ov000_021b4dac.mUnk_00 = -1;
+    data_ov000_021b4dac.field0 = -1;
     func_ov000_0218e8b8();
     c = data_ov000_021b4d2c[0];
     if (c == 0) {
         sprintf(v1, data_ov000_021b22b4, a);
     }
     if (func_ov000_0218d7bc(c != 0 ? data_ov000_021b4d2c : v1, 0x6cfc, (Unk0218ce14 *) data_ov000_021b4db0) != FALSE) {
-        data_ov000_021b4dac.mUnk_00 = func_ov000_0218e554(2, 2, 0);
-        if (data_ov000_021b4dac.mUnk_00 != -1) {
+        data_ov000_021b4dac.field0 = func_ov000_0218e554(2, 2, 0);
+        if (data_ov000_021b4dac.field0 != -1) {
             u32 n;
-            data_ov000_021b4dac.mUnk_0c = 9;
+            data_ov000_021b4dac.fieldC = 9;
             n = strlen(a);
             memcpy(data_ov000_021b4dbd, a, n + 1);
-            data_ov000_021b4dac.mUnk_4c = n + 6;
+            data_ov000_021b4dac.field4C = n + 6;
             func_ov000_0218d788();
-            data_ov000_021b4dac.mUnk_54 = 0;
+            data_ov000_021b4dac.field54 = 0;
         }
     }
 }
@@ -66,7 +66,7 @@ BOOL func_ov000_0218d644(const s8 *a, s32 b, u8 *c, u32 *d) {
     if (memcmp(c + 4, data_ov000_021b4db4, 4) != 0) {
         return TRUE;
     }
-    if (*OFFSET_PTR(u16, c, 2) !=data_ov000_021b4dac.mUnk_06) {
+    if (*OFFSET_PTR(u16, c, 2) !=data_ov000_021b4dac.field6) {
         return TRUE;
     }
     if (memcmp((const u8 *) a, data_ov000_021b22b0, 3) != 0) {
@@ -86,14 +86,14 @@ s32 func_ov000_0218d574(void) {
     u32 v3;
     s8 v4[0x40];
     v2 = 8;
-    if (data_ov000_021b4dac.mUnk_00 == -1) {
+    if (data_ov000_021b4dac.field0 == -1) {
         data_ov000_021b4d28 = 1;
         return 1;
     }
-    if (func_ov000_0218e668(data_ov000_021b4dac.mUnk_00) != 0 &&
-        func_ov000_0218d644(v4, func_ov000_0218e438(data_ov000_021b4dac.mUnk_00, v4, 0x40, 0, (u8 *) &v1, &v2),
+    if (func_ov000_0218e668(data_ov000_021b4dac.field0) != 0 &&
+        func_ov000_0218d644(v4, func_ov000_0218e438(data_ov000_021b4dac.field0, v4, 0x40, 0, (u8 *) &v1, &v2),
                             (u8 *) &v1, &v3) == FALSE) {
-        func_ov000_0218e53c(data_ov000_021b4dac.mUnk_00);
+        func_ov000_0218e53c(data_ov000_021b4dac.field0);
         if ((v3 & 1) != 0) {
             data_ov000_021b4d28 = 2;
         } else if ((v3 & 2) != 0) {
@@ -103,14 +103,14 @@ s32 func_ov000_0218d574(void) {
         }
         return data_ov000_021b4d28;
     }
-    if (func_ov000_0218e8c4() > data_ov000_021b4dac.mUnk_50 + 0x7d0) {
-        if (data_ov000_021b4dac.mUnk_54 == 1) {
-            func_ov000_0218e53c(data_ov000_021b4dac.mUnk_00);
+    if (func_ov000_0218e8c4() > data_ov000_021b4dac.field50 + 0x7d0) {
+        if (data_ov000_021b4dac.field54 == 1) {
+            func_ov000_0218e53c(data_ov000_021b4dac.field0);
             data_ov000_021b4d28 = 1;
             return 1;
         }
         func_ov000_0218d788();
-        data_ov000_021b4dac.mUnk_54 = data_ov000_021b4dac.mUnk_54 + 1;
+        data_ov000_021b4dac.field54 = data_ov000_021b4dac.field54 + 1;
     }
     return 0;
 }
@@ -122,9 +122,9 @@ s32 func_ov000_0218d528(u32 *a, u32 *b) {
     s32 r;
     e = *a;
     f = *b;
-    x = SbServerGetInt((SbServer *) e, data_ov000_021b4d24->mUnk_498, 0);
-    r = x - SbServerGetInt((SbServer *) f, data_ov000_021b4d24->mUnk_498, 0);
-    if (data_ov000_021b4d24->mUnk_49c == 0) {
+    x = SbServerGetInt((SbServer *) e, data_ov000_021b4d24->field498, 0);
+    r = x - SbServerGetInt((SbServer *) f, data_ov000_021b4d24->field498, 0);
+    if (data_ov000_021b4d24->field49C == 0) {
         r = -r;
     }
     return r;
@@ -138,10 +138,10 @@ s32 func_ov000_0218d488(u32 *a, u32 *b) {
     double d;
     e = *a;
     f = *b;
-    x = SbServerGetDouble((SbServer *) e, data_ov000_021b4d24->mUnk_498, 0);
-    y = SbServerGetDouble((SbServer *) f, data_ov000_021b4d24->mUnk_498, 0);
+    x = SbServerGetDouble((SbServer *) e, data_ov000_021b4d24->field498, 0);
+    y = SbServerGetDouble((SbServer *) f, data_ov000_021b4d24->field498, 0);
     d = x - y;
-    if (data_ov000_021b4d24->mUnk_49c == 0) {
+    if (data_ov000_021b4d24->field49C == 0) {
         d = 0 - d;
     }
     if ((float) d > 0) {

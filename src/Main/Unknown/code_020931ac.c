@@ -32,8 +32,8 @@ u8 efbnr_onDriverCollide(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d) {
     u8 v;
 
     v = *d;
-    if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 && mobj_tryDestroyByDriver(&mkdEfBurner->mUnk_00, kart) != 0) {
-        mkdEfBurner->mUnk_00.mDistanceSquaredAndFlags |= data_02156470;
+    if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 && mobj_tryDestroyByDriver(&mkdEfBurner->field0, kart) != 0) {
+        mkdEfBurner->field0.mDistanceSquaredAndFlags |= data_02156470;
         mkdEfBurner->mKartTimers[kart->mIndex] = 0x1f;
     }
     return v;
@@ -43,7 +43,7 @@ void efbnr_loadModel(Unk02093708 *p) {
     efbnr_sModel = mobj_loadModel(p, aMkd_ef_burner_);
     mobj_loadNsbtaAnim(efbnr_sModel, aMkd_ef_burne_0);
     mobj_setModelPolygonIdAll(efbnr_sModel, 0x3f);
-    p->mUnk_1c = 1;
+    p->field1C = 1;
 }
 
 void efbnr_applyMaterial(void *a) {
@@ -61,8 +61,8 @@ void efbnr_render(void *a, MkdEfBurner *mkdEfBurner) {
     mobj_setModelPolygonIdAll(efbnr_sModel, mobj_getCyclicPolygonId());
     s0 = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s0, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&mkdEfBurner->mUnk_00.mPos), 0xc);
-    s4.y = mkdEfBurner->mUnk_00.mExtent.y >> 4;
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&mkdEfBurner->field0.mPos), 0xc);
+    s4.y = mkdEfBurner->field0.mExtent.y >> 4;
     s4.x = 0;
     s4.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &s4, 3);
@@ -70,7 +70,7 @@ void efbnr_render(void *a, MkdEfBurner *mkdEfBurner) {
     s10.y = s10.x;
     s10.z = s10.x;
     NNS_G3dGeBufferOP_N(0x1b, &s10, 3);
-    NNS_G3dGeBufferOP_N(0x1b, &mkdEfBurner->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &mkdEfBurner->field0.mScale, 3);
     mobj_setModelNsbtaFrame(efbnr_sModel, mkdEfBurner->mNsbtaFrameIndex);
     mobj_renderModel(a, efbnr_sModel, mkdEfBurner);
 }
@@ -88,30 +88,30 @@ void efbnr_globalLogicInit(MapObjectList *mapObjectList) {
     z = FALSE;
     f = data_0215646c;
     for (i = 0; i < mapObjectList->mMapObjectCount && (mkdEfBurner = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        mkdEfBurner->mUnk_00.mPos.y = mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_00.y - mkdEfBurner->mUnk_00.mExtent.y;
-        if (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_26 < 0) {
+        mkdEfBurner->field0.mPos.y = mkdEfBurner->field0.mCourseMapRow->field0.y - mkdEfBurner->field0.mExtent.y;
+        if (mkdEfBurner->field0.mCourseMapRow->field26 < 0) {
             mkdEfBurner->mFollower.mGroupIndex = 0xffff;
         } else {
-            pw_initFromObject(&mkdEfBurner->mFollower, mkdEfBurner->mUnk_00.mCourseMapRow, z);
-            speed = (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2e << 12) / 100;
+            pw_initFromObject(&mkdEfBurner->mFollower, mkdEfBurner->field0.mCourseMapRow, z);
+            speed = (mkdEfBurner->field0.mCourseMapRow->field2E << 12) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
             mkdEfBurner->mFollower.mProgressStep =
                 ((s64) speed * mkdEfBurner->mFollower.mPath->mSegments[mkdEfBurner->mFollower.mSegmentIndex]
                                    .mInverseProgressLength) >>
                 12;
         }
-        if (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_28 == 0 && mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2a == 0 &&
-            mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2c == 0) {
+        if (mkdEfBurner->field0.mCourseMapRow->field28 == 0 && mkdEfBurner->field0.mCourseMapRow->field2A == 0 &&
+            mkdEfBurner->field0.mCourseMapRow->field2C == 0) {
             mkdEfBurner->mScaleFixed12 = 0x1000;
             mkdEfBurner->mState = 4;
-            mkdEfBurner->mUnk_00.mFlags &= ~1;
+            mkdEfBurner->field0.mFlags &= ~1;
         } else {
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2c) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->field0.mCourseMapRow->field2C) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
-                mkdEfBurner->mUnk_00.mFlags |= f;
-                mkdEfBurner->mUnk_00.mExtent.y = 0;
+                mkdEfBurner->field0.mFlags |= f;
+                mkdEfBurner->field0.mExtent.y = 0;
             }
         }
     }
@@ -125,10 +125,10 @@ void efbnr_update(void *a, MkdEfBurner *mkdEfBurner) {
     switch (mkdEfBurner->mState) {
         case 0:
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2a) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->field0.mCourseMapRow->field2A) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 1;
-                mkdEfBurner->mUnk_00.mFlags &= ~1;
+                mkdEfBurner->field0.mFlags &= ~1;
             }
             break;
         case 1:
@@ -137,29 +137,29 @@ void efbnr_update(void *a, MkdEfBurner *mkdEfBurner) {
                 mkdEfBurner->mScaleFixed12 = 0x1000;
                 mkdEfBurner->mState = 2;
             }
-            mkdEfBurner->mUnk_00.mExtent.y =
-                ((s64) mkdEfBurner->mUnk_00.mKindData->mUnk_10 * mkdEfBurner->mScaleFixed12) >> 12;
+            mkdEfBurner->field0.mExtent.y =
+                ((s64) mkdEfBurner->field0.mKindData->field10 * mkdEfBurner->mScaleFixed12) >> 12;
             break;
         case 2:
             mkdEfBurner->mStateFrames++;
-            if (mkdEfBurner->mStateFrames >= mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_28) {
+            if (mkdEfBurner->mStateFrames >= mkdEfBurner->field0.mCourseMapRow->field28) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 3;
             }
-            mobj_emitSfxFromEmitter(&mkdEfBurner->mUnk_00, 0x170);
+            mobj_emitSfxFromEmitter(&mkdEfBurner->field0, 0x170);
             break;
         case 3:
             mkdEfBurner->mScaleFixed12 -= 0x29;
             if (mkdEfBurner->mScaleFixed12 <= 0) {
                 mkdEfBurner->mScaleFixed12 = 0;
                 mkdEfBurner->mState = 0;
-                mkdEfBurner->mUnk_00.mFlags |= data_0215646c;
+                mkdEfBurner->field0.mFlags |= data_0215646c;
             }
-            mkdEfBurner->mUnk_00.mExtent.y =
-                ((s64) mkdEfBurner->mUnk_00.mKindData->mUnk_10 * mkdEfBurner->mScaleFixed12) >> 12;
+            mkdEfBurner->field0.mExtent.y =
+                ((s64) mkdEfBurner->field0.mKindData->field10 * mkdEfBurner->mScaleFixed12) >> 12;
             break;
         case 4:
-            mobj_emitSfxFromEmitter(&mkdEfBurner->mUnk_00, 0x170);
+            mobj_emitSfxFromEmitter(&mkdEfBurner->field0, 0x170);
             break;
     }
     nsbtaFrameCount = mobj_getModelNsbtaFrameCount(efbnr_sModel);
@@ -169,10 +169,10 @@ void efbnr_update(void *a, MkdEfBurner *mkdEfBurner) {
     }
     if (mkdEfBurner->mFollower.mGroupIndex != 0xffff) {
         pw_update(&mkdEfBurner->mFollower);
-        pw_calcCurrentPointLinearXYZ(&mkdEfBurner->mFollower, &mkdEfBurner->mUnk_00.mPos);
-        mkdEfBurner->mUnk_00.mPos.y = mkdEfBurner->mUnk_00.mPos.y - mkdEfBurner->mUnk_00.mExtent.y;
+        pw_calcCurrentPointLinearXYZ(&mkdEfBurner->mFollower, &mkdEfBurner->field0.mPos);
+        mkdEfBurner->field0.mPos.y = mkdEfBurner->field0.mPos.y - mkdEfBurner->field0.mExtent.y;
     } else {
-        mkdEfBurner->mUnk_00.mPos.y = mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_00.y - mkdEfBurner->mUnk_00.mExtent.y;
+        mkdEfBurner->field0.mPos.y = mkdEfBurner->field0.mCourseMapRow->field0.y - mkdEfBurner->field0.mExtent.y;
     }
     kartCount = gRaceMultiConfig->mKartCount;
     for (i = 0; i < kartCount; i++) {
@@ -195,11 +195,11 @@ void efbnr_setupLogicPart(void) {
 }
 
 u16 efbnr_getMapIconType(Unk0217b498_00 *a) {
-    if (a->mUnk_a8 >= 0x1000) {
+    if (a->fieldA8 >= 0x1000) {
         return 3;
     }
-    if (a->mUnk_a8 >= 0x99a) {
+    if (a->fieldA8 >= 0x99a) {
         return 2;
     }
-    return a->mUnk_a8 >= 0x4cd;
+    return a->fieldA8 >= 0x4cd;
 }

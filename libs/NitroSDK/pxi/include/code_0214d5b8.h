@@ -15,7 +15,7 @@ typedef void (*PXIFifoCallback)();
 
 // Fixed-address object; PXI_IsCallbackReady and PXI_SetFifoRecvCallback read and write mPxiHandleChecker.
 typedef struct Unk027ffc00 {
-    /* 000 */ u8 mUnk_000[0x388];
+    /* 000 */ u8 field0[0x388];
     /* 388 */ u32 mPxiHandleChecker[2];
 } Unk027ffc00;
 

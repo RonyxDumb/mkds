@@ -7,7 +7,7 @@ typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 
 // Object whose halfword at 0x04 racesc_update and race_handleMenuOption write.
 typedef struct Unk0203a0dc {
-    /* 00 */ u8 mUnk_00[0x4];
+    /* 00 */ u8 field0[0x4];
     /* 04 */ u16 mNextScene;
 } Unk0203a0dc;
 
@@ -19,7 +19,7 @@ u32 menu_run(SceneNumbers *sceneNumbers);
 void menudef_render(void);
 void menudef_vblank(void);
 // Slot mRelease: releases the current screen (ReleaseMenu, clears gMenuSceneState), clears bit 0 of
-// gSystemData->mUnk_50 and, in mode 1, resets the CPU entries 1..7 of mNextEntries
+// gSystemData->field50 and, in mode 1, resets the CPU entries 1..7 of mNextEntries
 // (ResetTimeAttackNextEntries).
 void menudef_finish(void);
 // Wrapper of menu_create, which allocates gMenuSceneState and loads the single_play_select_mode

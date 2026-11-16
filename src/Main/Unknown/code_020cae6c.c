@@ -4,7 +4,7 @@
 #pragma thumb on
 void menu_gotoGhostStateRender(Unk020cadf4 *a) {
     if (a != NULL) {
-        a->mUnk_04 = 0xd;
+        a->field4 = 0xd;
     }
 }
 #pragma thumb off

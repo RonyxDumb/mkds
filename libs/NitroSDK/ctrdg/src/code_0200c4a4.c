@@ -76,13 +76,13 @@ void CTRDGi_InitModuleInfo(void) {
     CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &lockInfo);
     chb = &gCartridgeHeaderCopy;
     idInfo = (Unk027ffc30 *) 0x027ffc30;
-    idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mUnk_3e;
+    idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.field3E;
     for (i = 0; i < 3; i++) {
-        ((u8 *) 0x027ffc32)[i] = chb->mHeaderTailCopy.mUnk_35[i];
+        ((u8 *) 0x027ffc32)[i] = chb->mHeaderTailCopy.field35[i];
     }
-    idInfo->mUnk_06 = chb->mHeaderTailCopy.mUnk_30;
-    idInfo->mIdWord = chb->mHeaderTailCopy.mUnk_2c;
-    MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mUnk_04, 0x9c);
+    idInfo->field6 = chb->mHeaderTailCopy.field30;
+    idInfo->mIdWord = chb->mHeaderTailCopy.field2C;
+    MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.field4, 0x9c);
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);
     while (gCartridgeState.mReplyReceived != 1) {
@@ -144,15 +144,15 @@ s32 CTRDG_IsExisting(void) {
     if (idInfo->mIdHalfword == 0xffff) {
         return 0;
     }
-    if (idInfo->mUnk_05_1 == 1) {
+    if (idInfo->field5_1 == 1) {
         return 0;
     }
     CTRDGi_LockByProcessor(gCartridgeState.mLockId, &lockInfo);
     CTRDGi_ChangeLatestAccessCycle(&romCycle);
     if ((romHeader->mIdSelector == 0x96 && idInfo->mIdHalfword != romHeader->mIdHalfword) ||
         (romHeader->mIdSelector != 0x96 && idInfo->mIdHalfword != *(u16 *) 0x0801fffe) ||
-        (idInfo->mIdWord != romHeader->mIdWord && idInfo->mUnk_05_0)) {
-        idInfo->mUnk_05_1 = 1;
+        (idInfo->mIdWord != romHeader->mIdWord && idInfo->field5_0)) {
+        idInfo->field5_1 = 1;
         exists = 0;
     }
     CTRDGi_RestoreAccessCycle(&romCycle);
@@ -161,8 +161,8 @@ s32 CTRDG_IsExisting(void) {
 }
 
 void CTRDGi_ChangeLatestAccessCycle(Unk0200c4a4 *r) {
-    r->mUnk_00 = (reg_MI_EXMEMCNT & 0xc) >> 2;
-    r->mUnk_04 = (reg_MI_EXMEMCNT & 0x10) >> 4;
+    r->field0 = (reg_MI_EXMEMCNT & 0xc) >> 2;
+    r->field4 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
     reg_MI_EXMEMCNT &= ~0x10;
 }
@@ -171,30 +171,30 @@ void CTRDGi_RestoreAccessCycle(Unk0200c4a4 *r) {
     u32 cycle1;
     u32 cycle2;
 
-    cycle1 = r->mUnk_00;
+    cycle1 = r->field0;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | (cycle1 << 2);
-    cycle2 = r->mUnk_04;
+    cycle2 = r->field4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x10) | (cycle2 << 4);
 }
 
 void CTRDGi_LockByProcessor(u16 lockID, Unk0200c4a4 *info) {
     for (;;) {
-        info->mUnk_04 = OS_DisableInterrupts();
-        info->mUnk_00 = OS_ReadOwnerOfLockWord((OSLockWord *) 0x027fffe8) & 0x40;
-        if (info->mUnk_00 != 0) {
+        info->field4 = OS_DisableInterrupts();
+        info->field0 = OS_ReadOwnerOfLockWord((OSLockWord *) 0x027fffe8) & 0x40;
+        if (info->field0 != 0) {
             break;
         }
         if (OS_TryLockCartridge(lockID) == 0) {
             break;
         }
-        OS_RestoreInterrupts(info->mUnk_04);
+        OS_RestoreInterrupts(info->field4);
         WaitByLoop(1);
     }
 }
 
 void CTRDGi_UnlockByProcessor(u16 lockID, Unk0200c4a4 *info) {
-    if (info->mUnk_00 == 0) {
+    if (info->field0 == 0) {
         OS_UnLockCartridge(lockID);
     }
-    OS_RestoreInterrupts(info->mUnk_04);
+    OS_RestoreInterrupts(info->field4);
 }

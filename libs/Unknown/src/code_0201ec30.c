@@ -88,7 +88,7 @@ u8 func_0201ec30(void) {
 
     cnt = 0;
     n = 0;
-    len = data_02173290->mUnk_08;
+    len = data_02173290->field8;
     last = 9999;
     maxv = 0;
     lim = 2;
@@ -101,13 +101,13 @@ u8 func_0201ec30(void) {
     }
     mind = len;
     p = MIC_GetLastSamplingAddress();
-    buf = data_02173290->mUnk_04;
+    buf = data_02173290->field4;
     pos = p - buf;
     if (pos >= len / 8) {
         i = pos - len / 8;
         DC_InvalidateRange(buf + i, pos);
         for (; i < pos; i++) {
-            if (data_02173290->mUnk_00 == 0) {
+            if (data_02173290->field0 == 0) {
                 v = func_02020498(func_020204b4(buf[i]));
             } else {
                 v = (s8) buf[i];
@@ -126,7 +126,7 @@ u8 func_0201ec30(void) {
         i = len - (len / 8 - pos);
         DC_InvalidateRange(buf + i, (u16) len);
         for (; i < len; i++) {
-            if (data_02173290->mUnk_00 == 0) {
+            if (data_02173290->field0 == 0) {
                 v = func_02020498(func_020204b4(buf[i]));
             } else {
                 v = (s8) buf[i];
@@ -143,7 +143,7 @@ u8 func_0201ec30(void) {
         }
         DC_InvalidateRange(buf, pos);
         for (i = 0; i < pos; i++) {
-            if (data_02173290->mUnk_00 == 0) {
+            if (data_02173290->field0 == 0) {
                 v = func_02020498(func_020204b4(buf[i]));
             } else {
                 v = (s8) buf[i];
@@ -163,7 +163,7 @@ u8 func_0201ec30(void) {
         data_021732a0[j] = 0;
     }
     for (i = pos; i < len; i++) {
-        if (data_02173290->mUnk_00 != 0) {
+        if (data_02173290->field0 != 0) {
             v = (s8) buf[i] + 127;
         } else {
             v = func_020204b4(buf[i]);
@@ -202,7 +202,7 @@ u8 func_0201ec30(void) {
     }
     cnt3 = last - len;
     for (i = 0; i < pos; i++) {
-        if (data_02173290->mUnk_00 != 0) {
+        if (data_02173290->field0 != 0) {
             v = (s8) buf[i] + 127;
         } else {
             v = func_020204b4(buf[i]);
@@ -246,7 +246,7 @@ u8 func_0201ec30(void) {
     ok = 0;
     data_02173288 = 0;
     if (m > 99) {
-        if (data_02173290->mUnk_00 == 0) {
+        if (data_02173290->field0 == 0) {
             func_02020498(func_020204b4(*p));
         }
         n = m;

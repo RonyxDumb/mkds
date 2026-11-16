@@ -6,17 +6,17 @@ typedef struct BgTextCanvas BgTextCanvas;
 
 // Object at 0x04 of Edit.
 typedef struct Unk021da1f8_04 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
 } Unk021da1f8_04;
 
 typedef struct Edit {
-    /* 00 */ BgTextCanvas *mUnk_00;
-    /* 04 */ Unk021da1f8_04 *mUnk_04;
+    /* 00 */ BgTextCanvas *field0;
+    /* 04 */ Unk021da1f8_04 *field4;
     /* 08 */ u8 mText[0x20];
-    /* 28 */ u8 mUnk_28;
+    /* 28 */ u8 field28;
     /* 29 */ u8 mCharCount;
-    /* 2a */ u8 mUnk_2a;
+    /* 2a */ u8 field2A;
 } Edit;
 
 extern u8 gEditLineY[];

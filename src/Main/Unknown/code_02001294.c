@@ -29,12 +29,12 @@ void logo_waitSaveBusyStateUpdate(void) {
     v3 = gSaveData->mReadStatus;
     if (v3 != 0) {
         if (v3 == 3) {
-            logo_sLogoState->mUnk_2c_1 = 1;
+            logo_sLogoState->field2C_1 = 1;
             stateMachine = &logo_sLogoState->mStateMachine;
             stateMachine->mNextState = 2;
             stateMachine->mNextStateRequested = 1;
         } else if (gSaveCore->mErrorCode == 4) {
-            logo_sLogoState->mUnk_2c_1 = 0;
+            logo_sLogoState->field2C_1 = 0;
             stateMachine = &logo_sLogoState->mStateMachine;
             stateMachine->mNextState = 6;
             stateMachine->mNextStateRequested = 1;
@@ -45,7 +45,7 @@ void logo_waitSaveBusyStateUpdate(void) {
         }
     } else {
         scene = logo_sLogoState;
-        if (scene->mUnk_2c_0 != 0) {
+        if (scene->field2C_0 != 0) {
             stateMachine = &scene->mStateMachine;
             stateMachine->mNextState = 5;
             stateMachine->mNextStateRequested = 1;
@@ -171,7 +171,7 @@ void logo_eraseAllConfirmStateUpdate(void) {
 void logo_eraseAllErasingMsgStateInit(void) {
     void *message;
     savd_eraseAllAsync();
-    if (logo_sLogoState->mUnk_2c_0 == 0) {
+    if (logo_sLogoState->field2C_0 == 0) {
         return;
     }
     message = jn_msg_getMessage(logo_sLogoState->mCommonMessages, 126);
@@ -185,7 +185,7 @@ void logo_eraseAllErasingMsgStateUpdate(void) {
     StateMachine *stateMachine;
     logo_sLogoState->mSubTextFrames = logo_sLogoState->mSubTextFrames + 1;
     scene = logo_sLogoState;
-    if (scene->mUnk_2c_0 != 0) {
+    if (scene->field2C_0 != 0) {
         if (IsTxtSystemState2AfterState1() != 0) {
             sfx_2105AC0(34);
         }

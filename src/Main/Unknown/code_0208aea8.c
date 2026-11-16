@@ -99,10 +99,10 @@ void ptcm_updateCameraFlashes(void) {
         position.z = tablePosition->z >> 4;
         emitter = spa_createEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                emitter->mUnk_80_16 = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                emitter->mUnk_80_16 = 2;
+            if (emitter->field20->field0->field54 & 0x80) {
+                emitter->field80_16 = 1;
+            } else if (emitter->field20->field0->field54 & 0x40) {
+                emitter->field80_16 = 2;
             }
         }
         ptcm_sCamFlashes->mEmitters[emitterIndex] = emitter;
@@ -126,16 +126,16 @@ void ptcm_initAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         Unk0201ca6c *emitter;
-        SPLManager *manager = ptcm_sGetParticleSetByIdFunc(&effectIndex, firstEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = ptcm_sGetParticleSetByIdFunc(&effectIndex, firstEffectIds.field0[emitterIndex]);
         position.x = emitX;
         position.y = emitY;
         position.z = emitZ;
         emitter = spa_createEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                emitter->mUnk_80_16 = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                emitter->mUnk_80_16 = 2;
+            if (emitter->field20->field0->field54 & 0x80) {
+                emitter->field80_16 = 1;
+            } else if (emitter->field20->field0->field54 & 0x40) {
+                emitter->field80_16 = 2;
             }
         }
     }
@@ -143,16 +143,16 @@ void ptcm_initAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         Unk0201ca6c *emitter;
-        SPLManager *manager = ptcm_sGetParticleSetByIdFunc(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = ptcm_sGetParticleSetByIdFunc(&effectIndex, secondEffectIds.field0[emitterIndex]);
         position.x = baseX >> 4;
         position.y = emitY;
         position.z = emitZ;
         emitter = spa_createEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
-            if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-                emitter->mUnk_80_16 = 1;
-            } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-                emitter->mUnk_80_16 = 2;
+            if (emitter->field20->field0->field54 & 0x80) {
+                emitter->field80_16 = 1;
+            } else if (emitter->field20->field0->field54 & 0x40) {
+                emitter->field80_16 = 2;
             }
         }
     }

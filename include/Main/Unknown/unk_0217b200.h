@@ -14,7 +14,7 @@ typedef struct Trophy {
     /* 008 */ TeresaWobble mRotateZWobble;
     /* 028 */ u8 mModel[0x6c];
     /* 094 */ ModelAnimationView mModelAnimation;
-    /* 0b4 */ u8 mUnk_0b4[0x18];
+    /* 0b4 */ u8 fieldB4[0x18];
     /* 0cc */ MtxFx43 mEffectMatrix;
     /* 0fc */ s16 mLight0X;
     /* 0fe */ s16 mLight1X;
@@ -23,7 +23,7 @@ typedef struct Trophy {
     /* 104 */ s16 mLight0Z;
     /* 106 */ s16 mLight1Z;
     /* 108 */ Vec3 mEffectOffset;
-    /* 114 */ s32 mUnk_114;
+    /* 114 */ s32 field114;
     /* 118 */ Unk0201ca6c *mEffect0;
     /* 11c */ Unk0201ca6c *mEffect4;
     /* 120 */ Unk0201ca6c *mEffect5;

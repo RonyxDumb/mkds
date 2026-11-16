@@ -4,7 +4,7 @@
 #pragma thumb on
 
 void mobj_logicPartSetThisPointer(void *listSlot) {
-    (*(MapObjectList **) listSlot)->mUnk_24 = listSlot;
+    (*(MapObjectList **) listSlot)->field24 = listSlot;
 }
 
 #pragma thumb off

@@ -32,12 +32,12 @@ u32 pknf_onDriverCollide(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {
     u32 v1 = *c;
     u8 result = *d;
     if (v1 == 1) {
-        a->mUnk_00.mFlags = a->mUnk_00.mFlags | data_02156590;
+        a->field0.mFlags = a->field0.mFlags | data_02156590;
         a->mState = 1;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            a->mUnk_00.mDistanceSquaredAndFlags = a->mUnk_00.mDistanceSquaredAndFlags | data_02156594;
+            a->field0.mDistanceSquaredAndFlags = a->field0.mDistanceSquaredAndFlags | data_02156594;
         }
-        mobj_tryDestroyByDriver(&a->mUnk_00, kart);
+        mobj_tryDestroyByDriver(&a->field0, kart);
     }
     return result;
 }
@@ -48,50 +48,50 @@ void pknf_update(void *a, Unk0209905c *p) {
     Unk0209905c_d0_08 *entry;
     switch (p->mState) {
         case 0:
-            p->mHeightOffset = p->mHeightOffset + p->mUnk_c8;
-            p->mUnk_c8 = p->mUnk_c8 - 0x1000;
+            p->mHeightOffset = p->mHeightOffset + p->fieldC8;
+            p->fieldC8 = p->fieldC8 - 0x1000;
             if (p->mHeightOffset <= 0) {
                 p->mHeightOffset = 0;
-                p->mUnk_c8 = 0x5800;
-                if ((p->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (p->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                p->fieldC8 = 0x5800;
+                if ((p->field0.mDistanceSquaredAndFlags & 4) == 0) {
+                    if (p->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                         falloffIndex = 2;
-                    } else if (p->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                    } else if (p->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;
                     }
                     soundRequest.mSoundId = 0x1af;
-                    soundRequest.mPositionSource = &p->mUnk_00.mPos;
-                    soundRequest.mUnk_08 = falloffIndex;
-                    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_00.mPos);
+                    soundRequest.mPositionSource = &p->field0.mPos;
+                    soundRequest.field8 = falloffIndex;
+                    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
                     func_0210b7a8(&soundRequest);
                 }
             }
             if (pw_update(&p->mFollower) != FALSE && p->mFollower.mForward == 0) {
                 p->mState = 1;
             } else {
-                pw_calcCurrentPointLinearXYZSpecial(&p->mFollower, &p->mUnk_00.mPos, &p->mUnk_00.mUnk_10);
-                p->mUnk_00.mPos.y = p->mUnk_00.mPos.y + (p->mHeightOffset + 0xf000);
+                pw_calcCurrentPointLinearXYZSpecial(&p->mFollower, &p->field0.mPos, &p->field0.field10);
+                p->field0.mPos.y = p->field0.mPos.y + (p->mHeightOffset + 0xf000);
             }
             if (p->mEmitter == NULL) {
                 return;
             }
-            if ((p->mUnk_00.mFlags & 0x12) != 0) {
-                p->mEmitter->mUnk_24 |= 2;
+            if ((p->field0.mFlags & 0x12) != 0) {
+                p->mEmitter->field24 |= 2;
                 return;
             }
-            ptcm_setEmitterPosition(p->mEmitter, &p->mUnk_00.mPos);
-            p->mEmitter->mUnk_24 &= ~2;
+            ptcm_setEmitterPosition(p->mEmitter, &p->field0.mPos);
+            p->mEmitter->field24 &= ~2;
             return;
         case 1:
             if (p->mEmitter != NULL) {
-                for (entry = p->mEmitter->mUnk_08; entry != NULL; entry = entry->mUnk_00) {
-                    entry->mUnk_26 = entry->mUnk_24;
+                for (entry = p->mEmitter->field8; entry != NULL; entry = entry->field0) {
+                    entry->field26 = entry->field24;
                 }
                 ptcm_killEmitter((void **) &p->mEmitter);
             }
-            mobj_setInvisible(&p->mUnk_00);
+            mobj_setInvisible(&p->field0);
             return;
     }
 }

@@ -315,7 +315,7 @@ u32 func_0200e77c(void) {
 }
 
 // clang-format off
-// Calls CP_SaveContext with the address of mUnk_48, stores the status register and the registers (r0 = 1 saved) into
+// Calls CP_SaveContext with the address of field48, stores the status register and the registers (r0 = 1 saved) into
 // the words from 0, the banked sp of mode 0xd3 at 0x44 and the address of the return point at 0x3c, and returns 0.
 asm BOOL OS_SaveContext(OSThread *t) {
     stmdb sp!, {r0, lr}
@@ -338,7 +338,7 @@ asm BOOL OS_SaveContext(OSThread *t) {
     bx lr
 }
 
-// Calls CPi_RestoreContext with the address of mUnk_48, then switches to mode 0xd3 and restores the registers and the
+// Calls CPi_RestoreContext with the address of field48, then switches to mode 0xd3 and restores the registers and the
 // status word saved by OS_SaveContext.
 asm void OS_LoadContext(OSThread *t) {
     stmdb sp!, {r0, lr}

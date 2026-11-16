@@ -78,10 +78,10 @@ void SortRecordRange(s32 first, u16 count) {
             }
         }
         for (j = maxIndex; j > i; j--) {
-            previousEntry = gRecordList->mUnk_04 + j - 1;
+            previousEntry = gRecordList->field4 + j - 1;
             swapEntry = *previousEntry;
-            *previousEntry = gRecordList->mUnk_04[j];
-            gRecordList->mUnk_04[j] = swapEntry;
+            *previousEntry = gRecordList->field4[j];
+            gRecordList->field4[j] = swapEntry;
         }
     }
 }
@@ -96,11 +96,11 @@ void CreateRecordList(void *heap) {
     listAddress = ((u32) heap_alloc(heap, 0x10));
     *(s32 *) &gRecordList = listAddress;
     v2 = heap_alloc(heap, 0x78);
-    gRecordList->mUnk_04 = v2;
+    gRecordList->field4 = v2;
     v2 = CreateEmblemBlock(heap);
     gRecordList->mEmblemBlock = v2;
     v2 = arc_getSceneArcFile(aEmblem2_bin);
-    gRecordList->mUnk_0c = v2;
+    gRecordList->fieldC = v2;
 }
 
 #pragma thumb off
@@ -125,31 +125,31 @@ void BuildRecordList(void) {
     s32 nextUnflaggedIndex;
 
     flaggedCount = 0;
-    gRecordList->mUnk_00 = 0;
+    gRecordList->field0 = 0;
     for (i = 0; i < 0x3c; i++) {
         if (IsBuddyRecordFilled(i)) {
-            gRecordList->mUnk_00++;
+            gRecordList->field0++;
             if (IsBuddyRecordFlagged(i)) {
                 flaggedCount++;
             }
         }
     }
-    if (gRecordList->mUnk_00 != 0) {
+    if (gRecordList->field0 != 0) {
         nextFlaggedIndex = 0;
         nextUnflaggedIndex = flaggedCount;
         for (i = 0; i < 0x3c; i++) {
             if (IsBuddyRecordFilled(i)) {
                 if (IsBuddyRecordFlagged(i)) {
-                    gRecordList->mUnk_04[nextFlaggedIndex].mUnk_00 = (u8) i;
+                    gRecordList->field4[nextFlaggedIndex].field0 = (u8) i;
                     nextFlaggedIndex++;
                 } else {
-                    gRecordList->mUnk_04[nextUnflaggedIndex].mUnk_00 = (u8) i;
+                    gRecordList->field4[nextUnflaggedIndex].field0 = (u8) i;
                     nextUnflaggedIndex++;
                 }
             }
         }
         SortRecordRange(0, flaggedCount);
-        SortRecordRange(flaggedCount, gRecordList->mUnk_00 - flaggedCount);
+        SortRecordRange(flaggedCount, gRecordList->field0 - flaggedCount);
     }
 }
 
@@ -166,69 +166,69 @@ u16 GetRecordCount(void) {
         }
         return count;
     }
-    return gRecordList->mUnk_00;
+    return gRecordList->field0;
 }
 
 s32 IsRecordFlagged(u16 listIndex) {
-    return IsBuddyRecordFlagged(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return IsBuddyRecordFlagged(gRecordList->field4[listIndex].field0);
 }
 
 s32 func_0211437c(u16 listIndex) {
-    return func_02060ac8(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060ac8(gRecordList->field4[listIndex].field0);
 }
 
 s32 func_02114360(u16 listIndex) {
-    return func_02060a60(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060a60(gRecordList->field4[listIndex].field0);
 }
 
 s32 func_02114344(u16 listIndex) {
-    return func_020609f8(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_020609f8(gRecordList->field4[listIndex].field0);
 }
 
 s32 func_02114328(u16 listIndex) {
-    return func_02060a94(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060a94(gRecordList->field4[listIndex].field0);
 }
 
 s32 func_0211430c(u16 listIndex) {
-    return func_02060a2c(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_02060a2c(gRecordList->field4[listIndex].field0);
 }
 
 s32 func_021142f0(u16 listIndex) {
-    return func_020609c4(gRecordList->mUnk_04[listIndex].mUnk_00);
+    return func_020609c4(gRecordList->field4[listIndex].field0);
 }
 
 s32 GetRecordDate(u16 listIndex, void *dateBytes) {
-    return GetBuddyRecordDate(gRecordList->mUnk_04[listIndex].mUnk_00, dateBytes);
+    return GetBuddyRecordDate(gRecordList->field4[listIndex].field0, dateBytes);
 }
 
 void CopyRecordText(u16 listIndex, void *buffer, u32 bufferSize) {
     u8 name[0x14];
 
-    GetBuddyRecordName(gRecordList->mUnk_04[listIndex].mUnk_00, name);
+    GetBuddyRecordName(gRecordList->field4[listIndex].field0, name);
     MI_CpuFill8(buffer, 0, bufferSize);
     MIi_CpuCopy16(name, buffer, 0x14);
 }
 
 s32 SetRecordFlag(u16 listIndex) {
-    return SetBuddyRecordFlag(gRecordList->mUnk_04[listIndex].mUnk_00, 1);
+    return SetBuddyRecordFlag(gRecordList->field4[listIndex].field0, 1);
 }
 
 s32 ClearRecordFlag(u16 listIndex) {
-    return SetBuddyRecordFlag(gRecordList->mUnk_04[listIndex].mUnk_00, 0);
+    return SetBuddyRecordFlag(gRecordList->field4[listIndex].field0, 0);
 }
 
 // Reads the slot's emblem into b, uses the emblem2.bin picture when it has none, and converts the pixels into c.
 void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
     u8 d;
 
-    SetupEmblemBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mUnk_00);
+    SetupEmblemBlock(gRecordList->mEmblemBlock, gRecordList->field4[listIndex].field0);
     d = gSaveData->mBusy;
     do {
     } while (d == 0 ? (gSaveCore->mBackupEnabled != 0 ? gSaveCore->mCommandRunning : 0) : 1);
-    if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mUnk_00, emblem) ||
-        emblem->mUnk_200 == 0) {
-        emblem->mUnk_200 = 1;
-        MIi_CpuCopyFast(gRecordList->mUnk_0c, emblem, 0x200);
+    if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->field4[listIndex].field0, emblem) ||
+        emblem->field200 == 0) {
+        emblem->field200 = 1;
+        MIi_CpuCopyFast(gRecordList->fieldC, emblem, 0x200);
     }
     CopyBytesIntoTiles(emblem, tiles, 0x20);
 }
@@ -237,7 +237,7 @@ void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
 void EraseRecord(u16 listIndex) {
     u8 d;
 
-    RemoveBuddyRecord(gRecordList->mUnk_04[listIndex].mUnk_00);
+    RemoveBuddyRecord(gRecordList->field4[listIndex].field0);
     d = gSaveData->mBusy;
     do {
     } while (d == 0 ? (gSaveCore->mBackupEnabled != 0 ? gSaveCore->mCommandRunning : 0) : 1);
@@ -246,7 +246,7 @@ void EraseRecord(u16 listIndex) {
 
 // Writes the entry's friend key as digits into b; returns TRUE only for a used entry with valid friend data.
 s32 GetRecordFriendKeyText(u16 listIndex, void *text) {
-    return GetBuddyFriendKeyText(gRecordList->mUnk_04[listIndex].mUnk_00, text);
+    return GetBuddyFriendKeyText(gRecordList->field4[listIndex].field0, text);
 }
 
 #pragma thumb off
@@ -349,7 +349,7 @@ void AdvanceRecordVSRowObjects(void) {
     u16 firstIndex;
     u16 subBase;
 
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     firstIndex = GetRecordVSFirstRecordIndex();
     for (i = 0; i < 5; i++) {
         gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mVisible = 0;
@@ -614,8 +614,8 @@ void AdvanceRecordVSIndexChange(void) {
             gRecordVS->mShownIndex = gRecordVS->mIndex;
             PrintRecordVSShownRecord();
         } else {
-            mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-            transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
+            mainBase = gRecordVS->mRecordVSMBncl->field6;
+            transientBase = gRecordVS->mRecordVSMTransientBncl->field6;
             offset = LookupIndexChangeOffset(7 - gRecordVS->mIndexChangeTimer, 0);
             gRecordVS->mBg0OffsetY = offset;
             gRecordVS->mRecordVSMTable[3].mOffsetY = offset;
@@ -645,9 +645,9 @@ void RequestRecordVSState0(void) {
     gRecordVS->mBg0OffsetY = -192;
     gRecordVS->mBg1OffsetX = 0;
     gRecordVS->mBg1OffsetY = -192;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
-    transientBase = gRecordVS->mRecordVSMTransientBncl->mUnk_06;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->field6;
+    transientBase = gRecordVS->mRecordVSMTransientBncl->field6;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSMTable[0].mOffsetY = -192;
     gRecordVS->mRecordVSMTable[1].mOffsetY = -192;
     gRecordVS->mRecordVSMTable[2].mOffsetY = -192;
@@ -747,7 +747,7 @@ void RequestRecordVSState8(void) {
     gRecordVS->mNextState = 8;
     i = 0;
     gRecordVS->mStateFrames = 0;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[21].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[24].mOffsetX = 0x100;
@@ -787,7 +787,7 @@ void RequestRecordVSState11AndRefreshPage(void) {
     gRecordVS->mNextState = 11;
     i = 0;
     gRecordVS->mStateFrames = 0;
-    subBase = gRecordVS->mRecordVSSBncl->mUnk_06;
+    subBase = gRecordVS->mRecordVSSBncl->field6;
     gRecordVS->mRecordVSSTable[20].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[21].mOffsetX = 0x100;
     gRecordVS->mRecordVSSTable[24].mOffsetX = -256;
@@ -826,8 +826,8 @@ void InitRecordVS(void *heap) {
     gRecordVS->mIndexChangeTimer = 0;
     gRecordVS->mShownIndex = gRecordVS->mIndex;
     gRecordVS->mShowsFriendKey = 0;
-    gRecordVS->mUnk_88 = FALSE;
-    gRecordVS->mUnk_8c = FALSE;
+    gRecordVS->field88 = FALSE;
+    gRecordVS->field8C = FALSE;
     for (i = 0; i < 2; i++) {
         gRecordVS->mOffsetTimers[i] = 0;
     }
@@ -852,7 +852,7 @@ void InitRecordVS(void *heap) {
     remaining -= jn_ui_initLabel(heap, 0xc, gRecordVS->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
     objectIndex = 4;
-    mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
+    mainBase = gRecordVS->mRecordVSMBncl->field6;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             remaining -=
@@ -913,9 +913,9 @@ void InitRecordVS(void *heap) {
             gRecordVS->mState = 8;
             RequestRecordVSState8();
             if (GetRecordPrevScene() == 12) {
-                gRecordVS->mUnk_90 = 6;
+                gRecordVS->field90 = 6;
             } else {
-                gRecordVS->mUnk_90 = 0;
+                gRecordVS->field90 = 0;
             }
         }
     } else {
@@ -929,7 +929,7 @@ void InitRecordVS(void *heap) {
 
 void ReleaseRecordVS(void) {
     u32 planeBits;
-    if (gRecordVS->mUnk_90 == 4) {
+    if (gRecordVS->field90 == 4) {
         SetRecordScenePageIndex(gRecordVS->mPageIndex);
         SetRecordSceneIndex(gRecordVS->mIndex);
     } else {

@@ -8,26 +8,26 @@ static inline void func_0210d614_inline(ScenePlayers *scenePlayers, u32 seqNo, N
     if (handle == NULL) {
         handle = &data_0217d07c;
     }
-    if (scenePlayers->mUnk_0b == 0xff) {
+    if (scenePlayers->fieldB == 0xff) {
         return;
     }
     sound_startSeq(seqNo, data_0216cb28, handle);
 }
 
 void MKDS_SND_210D6CC(ScenePlayers *scenePlayers) {
-    scenePlayers->mUnk_00 = 2;
-    if (scenePlayers->mUnk_0a != 2) {
+    scenePlayers->field0 = 2;
+    if (scenePlayers->fieldA != 2) {
         return;
     }
-    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.fieldB, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
 void MKDS_SND_210D65C(ScenePlayers *scenePlayers) {
-    scenePlayers->mUnk_00 = 3;
-    if (scenePlayers->mUnk_0a != 3) {
+    scenePlayers->field0 = 3;
+    if (scenePlayers->fieldA != 3) {
         return;
     }
-    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.fieldB, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
 void MKDS_SND_210D614(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **handle) {
@@ -35,12 +35,12 @@ void MKDS_SND_210D614(ScenePlayers *scenePlayers, u32 seqNo, NNSSndSeqPlayer **h
 }
 
 void MKDS_SND_210D5C0(ScenePlayers *scenePlayers) {
-    func_0210d614_inline(scenePlayers, data_0217d070.mUnk_0b, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
+    func_0210d614_inline(scenePlayers, data_0217d070.fieldB, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
 void func_0210d590(ScenePlayers *scenePlayers, u32 fadeSteps) {
-    if (scenePlayers->mUnk_0b == 0xff) {
+    if (scenePlayers->fieldB == 0xff) {
         return;
     }
-    NNS_SndPlayerStopSeq(&scenePlayers->mUnk_0c, fadeSteps);
+    NNS_SndPlayerStopSeq(&scenePlayers->fieldC, fadeSteps);
 }

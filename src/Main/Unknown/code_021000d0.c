@@ -8,7 +8,7 @@ void *mobj_getLogicPartForObjectId(u32 a) {
 
     for (i = 0; i < n; i++) {
         if (gMapObjTable[i].mKind == a) {
-            return gMapObjTable[i].mUnk_04->mLists[3];
+            return gMapObjTable[i].field4->mLists[3];
         }
     }
     return NULL;
@@ -20,7 +20,7 @@ void *mobj_getRenderPart0ForObjectId(u32 a) {
 
     for (i = 0; i < n; i++) {
         if (gMapObjTable[i].mKind == a) {
-            return gMapObjTable[i].mUnk_04->mLists[0];
+            return gMapObjTable[i].field4->mLists[0];
         }
     }
     return NULL;

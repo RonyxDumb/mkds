@@ -21,17 +21,17 @@ typedef struct RecordTAtt {
     /* 00 */ Ncgr *mRecordTAttMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordTAttMNcer;
     /* 08 */ Unk0201ea30 *mRecordTAttMBncl;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 0c */ u8 fieldC[4];
     /* 10 */ Unk0201ea30 *mRecordTAttMBnll;
     /* 14 */ Ncgr *mRecordTAttSNcgr;
     /* 18 */ struct Unk02021dc8 *mRecordTAttSNcer;
     /* 1c */ Unk0201ea30 *mRecordTAttSBncl;
     /* 20 */ struct Unk0201ea30 *mRecordTAttSBnbl;
     /* 24 */ Unk0201ea30 *mRecordTAttSBnll;
-    /* 28 */ void *mUnk_28;
-    /* 2c */ struct Unk02021dc8 *mUnk_2c;
-    /* 30 */ Nclr *mUnk_30;
-    /* 34 */ struct Unk0201ea30 *mUnk_34;
+    /* 28 */ void *field28;
+    /* 2c */ struct Unk02021dc8 *field2C;
+    /* 30 */ Nclr *field30;
+    /* 34 */ struct Unk0201ea30 *field34;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 38 */ LayoutTableEntry *mRecordTAttMTable;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
@@ -39,7 +39,7 @@ typedef struct RecordTAtt {
     /* 40 */ struct Bmg *mCommonMessages;
     /* 44 */ void *mGhostMessages;
     /* 48 */ struct Bmg *mRecordMessages;
-    /* 4c */ void *mUnk_4c;
+    /* 4c */ void *field4C;
     /* 50 */ s32 mState;
     /* 54 */ s32 mNextState;
     /* 58 */ s32 mStateFrames; /* counted only in states 0, 1, 3-8, 11, 12, 13, 17 */
@@ -51,20 +51,20 @@ typedef struct RecordTAtt {
     // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; Y is not written
     /* 68 */ s32 mBg3OffsetX;
     /* 6c */ s32 mIndex;
-    /* 70 */ s32 mUnk_70;
-    /* 74 */ BOOL mUnk_74;
-    /* 78 */ s32 mUnk_78[2];
-    /* 80 */ s16 mUnk_80;
-    /* 82 */ u8 mUnk_82[2];
-    /* 84 */ BOOL mUnk_84;
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
-    /* 90 */ s32 mUnk_90;
+    /* 70 */ s32 field70;
+    /* 74 */ BOOL field74;
+    /* 78 */ s32 field78[2];
+    /* 80 */ s16 field80;
+    /* 82 */ u8 field82[2];
+    /* 84 */ BOOL field84;
+    /* 88 */ BOOL field88;
+    /* 8c */ BOOL field8C;
+    /* 90 */ s32 field90;
 } RecordTAtt;
 
 // Object behind gSaveCore.
 typedef struct BackupAccess {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 field0;
     /* 04 */ s32 mErrorCode;
     /* 08 */ s32 mLockId;
     /* 0c */ s32 mBackupEnabled;
@@ -74,25 +74,25 @@ typedef struct BackupAccess {
     /* 1c */ s32 mFirstPassResult;
     /* 20 */ u32 *mFirstPassBuffer;
     /* 24 */ u16 mFirstPassTailHalfword;
-    /* 26 */ u8 mUnk_26[0x2];
+    /* 26 */ u8 field26[0x2];
     /* 28 */ u32 *mReadDestination;
     /* 2c */ u32 mReadAddress;
     /* 30 */ u32 mReadSize;
     /* 34 */ u32 mExpectedFirstWord;
     /* 38 */ s32 mReadHasPrefix;
-    /* 3c */ u8 mUnk_3c[0x4];
+    /* 3c */ u8 field3C[0x4];
     /* 40 */ u32 *mWriteSource;
     /* 44 */ u32 mWriteAddress;
     /* 48 */ u32 mWriteSize;
-    /* 4c */ u8 mUnk_4c[0x4];
+    /* 4c */ u8 field4C[0x4];
     /* 50 */ s32 mWriteHasPrefix;
     /* 54 */ void (*mWriteCallback)(u32 *, u32);
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
+    /* 58 */ s32 field58;
+    /* 5c */ s32 field5C;
     /* 60 */ void *mBuffer;
-    /* 64 */ void *mUnk_64;
+    /* 64 */ void *field64;
     /* 68 */ void *mReadTarget;
-    /* 6c */ u8 mUnk_6c;
+    /* 6c */ u8 field6C;
 } BackupAccess;
 
 extern u16 data_ov001_021a6850[][2];

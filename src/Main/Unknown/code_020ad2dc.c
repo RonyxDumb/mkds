@@ -96,19 +96,19 @@ u32 title_GXS_SetVisibleWnd(u32 bits) {
 }
 
 void title_struct217B488_setField4(u32 value) {
-    gStruct217B488->mUnk_04 = value;
+    gStruct217B488->field4 = value;
 }
 
 void title_struct217B488_setSinglePlayerMenuTarget(u32 value) {
-    gStruct217B488->mUnk_08 = value;
+    gStruct217B488->field8 = value;
 }
 
 void title_struct217B488_setField10(u32 value) {
-    gStruct217B488->mUnk_10 = value;
+    gStruct217B488->field10 = value;
 }
 
 void title_struct217B488_setField14(u32 value) {
-    gStruct217B488->mUnk_14 = value;
+    gStruct217B488->field14 = value;
 }
 
 #pragma thumb on
@@ -193,16 +193,16 @@ void title_init(void) {
     title_G2S_SetBlendAlpha(0, 0x3f, 6, 10);
     title_GX_SetVisibleWnd(0);
     title_GXS_SetVisibleWnd(0);
-    config.mUnk_00 = 0;
-    config.mUnk_04 = NULL;
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 0;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 0;
-    config.mUnk_18 = m2d_getFont(0);
-    config.mUnk_1c = 0;
-    config.mUnk_20 = 0;
-    config.mUnk_24 = 0;
+    config.field0 = 0;
+    config.field4 = NULL;
+    config.field8 = 0;
+    config.fieldC = 0;
+    config.field10 = 0;
+    config.field14 = 0;
+    config.field18 = m2d_getFont(0);
+    config.field1C = 0;
+    config.field20 = 0;
+    config.field24 = 0;
     gmenu_unpackData();
     gmenu_init(title_proc_getCurrentHeap(), &config);
     sTitleSceneState->mCharacterKartPicks = func_0203bedc(title_proc_getCurrentHeap());

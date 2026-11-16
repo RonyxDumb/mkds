@@ -4,9 +4,9 @@
 
 // State of the generator in func_ov000_021a3448.
 typedef struct Unk021b5dd4 {
-    /* 00 */ u64 mUnk_00;
-    /* 08 */ u64 mUnk_08;
-    /* 10 */ u64 mUnk_10;
+    /* 00 */ u64 field0;
+    /* 08 */ u64 field8;
+    /* 10 */ u64 field10;
 } Unk021b5dd4;
 
 extern Unk021b5dd4 data_ov000_021b5dd4;

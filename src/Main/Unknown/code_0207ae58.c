@@ -23,13 +23,13 @@ char *GetCharacterNsbcaPath(u16 characterIndex, s32 animationIndex) {
     const char *pName = cklcr_getCharacterModelName(characterIndex, 1);
 
     snprintf(aCharacterMarioP_mr_lose_nsbca, 0x100, aSS_S_nsbca, dirPath, pName,
-             gCharacterNsbcaStems[animationIndex].mUnk_00);
+             gCharacterNsbcaStems[animationIndex].field0);
     return aCharacterMarioP_mr_lose_nsbca;
 }
 
 // Returns 0 for the driving animation and 1 for the other three (the ones that loop).
 u32 GetCharacterAnimationLoopFlag(int animationIndex) {
-    return gCharacterAnimationLoopFlags[animationIndex].mUnk_00;
+    return gCharacterAnimationLoopFlags[animationIndex].field0;
 }
 
 void ClearCharacterTurnAndNextAnimation(struct KartModelsEntry *kartModelsEntry) {
@@ -55,8 +55,8 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
     animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
     characterAnimation = modelsEntry->mCharacterAnimation;
     turnFrameLimit = animationState->mMiddleFrame;
-    turnFrameStep = (kart->mUnk_44 & KART_44_DRIFTING) != 0 ? 0x2000 : 0x1000;
-    bits48 = kart->mUnk_48;
+    turnFrameStep = (kart->field44 & KART_44_DRIFTING) != 0 ? 0x2000 : 0x1000;
+    bits48 = kart->field48;
     if ((bits48 & KART_48_TURN_LEFT) != 0) {
         if (gRaceMultiConfig->mRaceKind != RACE_KIND_STAFF_ROLL) {
             animationState->mTurnFrameOffset += turnFrameStep;
@@ -85,22 +85,22 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
             }
         }
     }
-    if (characterAnimation->mUnk_1a != 0) {
+    if (characterAnimation->field1A != 0) {
         anim_update(characterAnimation);
         if (animationState->mNextAnimationPending == FALSE) {
             return;
         }
-        if (characterAnimation->mUnk_02 != 1) {
+        if (characterAnimation->field2 != 1) {
             return;
         }
-        anim_setLoop(characterAnimation, characterAnimation->mUnk_1a, 1);
+        anim_setLoop(characterAnimation, characterAnimation->field1A, 1);
         anim_setAnimWithBlend(modelsEntry->mCharacterAnimation, animationState->mNextAnimationIndex);
         faceAnimation = modelsEntry->mFaceAnimation;
-        faceAnimation->mUnk_0c = gCharacterFaceFrames[0];
-        *faceAnimation->mUnk_1c[faceAnimation->mUnk_1a] = faceAnimation->mUnk_0c;
+        faceAnimation->fieldC = gCharacterFaceFrames[0];
+        *faceAnimation->field1C[faceAnimation->field1A] = faceAnimation->fieldC;
         animationState->mNextAnimationPending = FALSE;
     } else {
-        characterAnimation->mUnk_0c = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
+        characterAnimation->fieldC = animationState->mTurnFrameOffset + animationState->mMiddleFrame;
         anim_updateBlend((ModelAnimation *) characterAnimation);
     }
 }
@@ -108,8 +108,8 @@ void AdvanceKartCharacterAnimation(Kart *kart) {
 void driver_setFaceExpression(struct KartModelsEntry *kartModelsEntry, s32 faceFrameIndex) {
     KartModelAnimationView *faceAnimation = kartModelsEntry->mFaceAnimation;
 
-    faceAnimation->mUnk_0c = gCharacterFaceFrames[faceFrameIndex];
-    *faceAnimation->mUnk_1c[faceAnimation->mUnk_1a] = faceAnimation->mUnk_0c;
+    faceAnimation->fieldC = gCharacterFaceFrames[faceFrameIndex];
+    *faceAnimation->field1C[faceAnimation->field1A] = faceAnimation->fieldC;
 }
 
 void driver_setAnim(struct KartModelsEntry *kartModelsEntry, s32 animationIndex, s32 useBlend) {
@@ -141,7 +141,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
     isRuleKindWinner = 0;
     b = gRaceMultiConfig->mKartCount;
 
-    bits7c = kart->mUnk_7c;
+    bits7c = kart->field7C;
     if ((bits7c & 0x10) == 0) {
         return;
     }
@@ -159,14 +159,14 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
                 finishResult = 2;
             } else {
                 finishResult = 0;
-                kart->mUnk_7c |= 0x2000000;
+                kart->field7C |= 0x2000000;
                 isRuleKindWinner = c;
             }
         } else if (kart->mIndex != b) {
             finishResult = 2;
         } else {
             finishResult = 0;
-            kart->mUnk_7c |= 0x2000000;
+            kart->field7C |= 0x2000000;
             isRuleKindWinner = c;
         }
     } else if (mode == MODE_TIME_ATTACK) {
@@ -186,7 +186,7 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
         anim_setLoop(modelsEntry->mCharacterAnimation, (u16) finishResult, 1);
         driver_2068A64(kart, 2, 1);
         if (isRuleKindWinner != 0) {
-            kart->mUnk_7c |= 0x10000;
+            kart->field7C |= 0x10000;
         } else {
             animationState->mAnimationChangeTimerSet = TRUE;
             localRandom = &gRaceStatus->mLocalRandom;
@@ -195,10 +195,10 @@ void StartKartWinOrLoseAnimation(Kart *kart) {
             animationState->mAnimationChangeTimer += 0x96;
         }
     } else if (finishResult == 2) {
-        kart->mUnk_7c |= 0x20000;
+        kart->field7C |= 0x20000;
         driver_2068A64(kart, 3, 1);
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         normalizedResult = 1;
         if (finishResult != 0) {
             if (finishResult == 2) {
@@ -224,9 +224,9 @@ void AdvanceKartAnimationChangeTimer(Kart *kart) {
         return;
     }
     modelsEntry = kart->mKartModelsEntry;
-    if ((kart->mUnk_7c & 0x40) != 0 || modelsEntry->mCharacterAnimation->mUnk_1a == 2) {
+    if ((kart->field7C & 0x40) != 0 || modelsEntry->mCharacterAnimation->field1A == 2) {
         driver_2068A64(kart, 0, 1);
-    } else if (modelsEntry->mCharacterAnimation->mUnk_1a == 0) {
+    } else if (modelsEntry->mCharacterAnimation->field1A == 0) {
         driver_2068A64(kart, 2, 1);
     }
     localRandom = &gRaceStatus->mLocalRandom;
@@ -244,7 +244,7 @@ void driver_enableStarToonMode(Kart *kart) {
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
     NNS_G3dReleaseMdlTex(resMdl);
     if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved == FALSE) {
-        NNS_G3dRenderObjRemoveAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->mUnk_1c[0]);
+        NNS_G3dRenderObjRemoveAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->field1C[0]);
         modelsEntry->mFaceAnimationRemoved = TRUE;
     }
     ConfigureFullNSBMDColors(resMdl, 2);
@@ -273,7 +273,7 @@ void driver_disableStarToonMode(Kart *kart) {
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
     NNS_G3dBindMdlTex(resMdl, firstModel->mResFileEntry.mTexture);
     if (faceAnimation != NULL && modelsEntry->mFaceAnimationRemoved != FALSE) {
-        NNS_G3dRenderObjAddAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->mUnk_1c[0]);
+        NNS_G3dRenderObjAddAnmObj((NNSG3dRenderObj *) firstModel, (NNSG3dAnmObj *) faceAnimation->field1C[0]);
         modelsEntry->mFaceAnimationRemoved = FALSE;
     }
     ConfigureFullNSBMDColors(resMdl, 0);
@@ -329,8 +329,8 @@ void driver_setAnimation(Kart *kart, s32 animationIndex, s32 nextAnimationIndex)
     CharacterAnimationState *animationState = (CharacterAnimationState *) &modelsEntry->mTurnFrameOffset;
 
     characterAnimation = modelsEntry->mCharacterAnimation;
-    if (animationState->mNextAnimationPending != FALSE && characterAnimation->mUnk_1a != 0) {
-        anim_setLoop(characterAnimation, characterAnimation->mUnk_1a, 1);
+    if (animationState->mNextAnimationPending != FALSE && characterAnimation->field1A != 0) {
+        anim_setLoop(characterAnimation, characterAnimation->field1A, 1);
     }
     animationState->mNextAnimationPending = TRUE;
     animationState->mNextAnimationIndex = nextAnimationIndex;

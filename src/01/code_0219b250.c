@@ -27,10 +27,10 @@ const Vec3 data_ov001_021a6b2c = {4096, 4096, 4096};
 
 void *func_ov001_0219b510(void *p0, void *p1, void *p2, u32 p3, u16 p4, u16 p5, u16 p6) {
     MapObjectKindData *r = mobj_createConfig(p0, p1, p2, p3, p4);
-    r->mUnk_24 = p5;
-    r->mUnk_28 = p6;
-    r->mUnk_38 = 0x270f000;
-    r->mUnk_3c = 0xfd8f1000;
+    r->field24 = p5;
+    r->field28 = p6;
+    r->field38 = 0x270f000;
+    r->field3C = 0xfd8f1000;
     return r;
 }
 
@@ -46,7 +46,7 @@ void *LoadFileInMissionRunFolder(const char *p0) {
 Unk0219b250 *LoadMapObjectModelAnimated(Unk0219b478 *p0, const char *p1) {
     Unk0219b250 *o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     if (p0 != NULL) {
-        p0->mUnk_18 = 1;
+        p0->field18 = 1;
     }
     o->mNsbmdFile = LoadFileInMissionRunFolder((p1));
     o->mAnimatedModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
@@ -61,7 +61,7 @@ Unk0219b250 *LoadMapObjectModelShadow(Unk0219b478 *p0, const char *p1) {
     Unk0219b250 *o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     void *r = LoadFileInMissionRunFolder((p1));
     if (p0 != NULL) {
-        p0->mUnk_18 = 1;
+        p0->field18 = 1;
     }
     o->mShadowModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x74);
     InitShadowModel(o->mShadowModel, r, 0x3f);

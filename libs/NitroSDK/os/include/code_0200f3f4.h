@@ -4,8 +4,8 @@
 
 // Object at a fixed address in OS_InitException, which sets its word at 0xfdc.
 typedef struct Unk0200f4f0 {
-    /* 000 */ u8 mUnk_000[0xfdc];
-    /* fdc */ UnkFunc *mUnk_fdc;
+    /* 000 */ u8 field0[0xfdc];
+    /* fdc */ UnkFunc *fieldFDC;
 } Unk0200f4f0;
 
 void OSi_SetExContext(u32 exinfo);

@@ -18,7 +18,7 @@ s32 func_0204dd24(u16 a) {
     s32 result = 0;
     ConnectionWork *g = gStruct217AA00;
 
-    switch (g->mUnk_000c) {
+    switch (g->fieldC) {
         case 29:
             if (func_020501b0(a) == 0) {
                 func_02050e60(5);
@@ -30,8 +30,8 @@ s32 func_0204dd24(u16 a) {
             }
             break;
         case 10:
-            g->mUnk_1692 = g->mUnk_1692 + 1;
-            if (gStruct217AA00->mUnk_1692 > 0x4b0) {
+            g->field1692 = g->field1692 + 1;
+            if (gStruct217AA00->field1692 > 0x4b0) {
                 func_02050e60(5);
                 return 3;
             }
@@ -41,8 +41,8 @@ s32 func_0204dd24(u16 a) {
             break;
         case 30: {
             s32 scanEntryIndex;
-            g->mUnk_1692 = g->mUnk_1692 + 1;
-            if (gStruct217AA00->mUnk_1692 > 0x4b0) {
+            g->field1692 = g->field1692 + 1;
+            if (gStruct217AA00->field1692 > 0x4b0) {
                 func_02050e60(5);
             } else {
                 scanEntryIndex = FindScanEntryIndex(a);
@@ -58,16 +58,16 @@ s32 func_0204dd24(u16 a) {
     if (g->mRequestPending != 0) {
         return 0;
     }
-    switch (g->mUnk_000c) {
+    switch (g->fieldC) {
         case 7:
-            g->mUnk_0454 |= 0x40;
+            g->field454 |= 0x40;
             EndScan();
             break;
         case 9:
             SetupScanConnect();
             break;
         case 28:
-            g->mUnk_1692 = 0;
+            g->field1692 = 0;
             func_0204e474();
             break;
         case 30:
@@ -81,7 +81,7 @@ s32 func_0204dd24(u16 a) {
             }
             break;
         case 34:
-            if (g->mUnk_169c != 0) {
+            if (g->field169C != 0) {
                 if (g->mScanEntryIndex == -1) {
                     func_0204dfe0(a);
                 } else {
@@ -95,7 +95,7 @@ s32 func_0204dd24(u16 a) {
             StartCloseScanConnect();
             break;
         case 1:
-            g->mUnk_1692 = 0;
+            g->field1692 = 0;
         case 2:
             if (*(u16 *) 0x027ffc40 == 2) {
                 func_0204df90();
@@ -104,10 +104,10 @@ s32 func_0204dd24(u16 a) {
             }
             break;
         case 31:
-            if (g->mUnk_1692 < 0x3c) {
-                g->mUnk_1692 = g->mUnk_1692 + 1;
+            if (g->field1692 < 0x3c) {
+                g->field1692 = g->field1692 + 1;
             } else {
-                g->mUnk_000c = 32;
+                g->fieldC = 32;
             }
             break;
         case 26:
@@ -121,7 +121,7 @@ s32 func_0204dd24(u16 a) {
             StartMP();
             break;
         case 11:
-            g->mUnk_0004 = 6;
+            g->field4 = 6;
             func_02059878();
             result = 1;
             break;
@@ -146,29 +146,29 @@ u8 CompactMaskBits(u8 mask) {
 s32 func_0204dc8c(void) {
     BOOL result = FALSE;
     ConnectionWork *g = gStruct217AA00;
-    u32 a = g->mUnk_1695;
-    u8 childMask = g->mUnk_0044.mChildMask;
+    u32 a = g->field1695;
+    u8 childMask = g->field44.mChildMask;
 
     if (a == (a & childMask)) {
         result = TRUE;
-    } else if (g->mUnk_1692 > 0x708) {
+    } else if (g->field1692 > 0x708) {
         if (childMask == 0) {
             func_02050e60(5);
         } else {
-            gStruct217AA00->mUnk_1695 = CompactMaskBits(childMask);
+            gStruct217AA00->field1695 = CompactMaskBits(childMask);
             result = TRUE;
         }
     } else {
-        g->mUnk_1692 = g->mUnk_1692 + 1;
+        g->field1692 = g->field1692 + 1;
     }
     return result;
 }
 
 s32 func_0204db6c(void) {
     BOOL result = FALSE;
-    switch (gStruct217AA00->mUnk_0004) {
+    switch (gStruct217AA00->field4) {
         case 2:
-            gStruct217AA00->mUnk_0004 = 5;
+            gStruct217AA00->field4 = 5;
             break;
         case 5:
             break;
@@ -180,7 +180,7 @@ s32 func_0204db6c(void) {
     if (gStruct217AA00->mRequestPending != 0) {
         return 0;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 22:
             func_0204e128();
             break;
@@ -209,8 +209,8 @@ s32 func_0204db6c(void) {
             StartParent(NULL);
             break;
         case 6:
-            gStruct217AA00->mUnk_1695 = CompactMaskBits(gStruct217AA00->mUnk_1695);
-            gStruct217AA00->mUnk_1692 = 0;
+            gStruct217AA00->field1695 = CompactMaskBits(gStruct217AA00->field1695);
+            gStruct217AA00->field1692 = 0;
             StartMP();
             break;
         case 11:

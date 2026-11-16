@@ -34,18 +34,18 @@ void SPLRandom_VecFx32_XY(Vec3 *vec) {
 }
 
 void SPLList_PushFront(Unk0201e494 *list, Unk0201e3c8 *node) {
-    if (list->mUnk_00 == 0) {
-        list->mUnk_00 = node;
-        list->mUnk_08 = node;
-        node->mUnk_00 = 0;
-        node->mUnk_04 = node->mUnk_00;
+    if (list->field0 == 0) {
+        list->field0 = node;
+        list->field8 = node;
+        node->field0 = 0;
+        node->field4 = node->field0;
     } else {
-        node->mUnk_00 = list->mUnk_00;
-        node->mUnk_04 = 0;
-        list->mUnk_00->mUnk_04 = node;
-        list->mUnk_00 = node;
+        node->field0 = list->field0;
+        node->field4 = 0;
+        list->field0->field4 = node;
+        list->field0 = node;
     }
-    list->mUnk_04++;
+    list->field4++;
 }
 
 Unk0201e3c8 *SPLList_PopFront(Unk0201e494 *list) {
@@ -53,17 +53,17 @@ Unk0201e3c8 *SPLList_PopFront(Unk0201e494 *list) {
     Unk0201e3c8 *node;
 
     node = 0;
-    first = list->mUnk_00;
+    first = list->field0;
     if (first != 0) {
         node = first;
-        list->mUnk_00 = first->mUnk_00;
-        if (list->mUnk_00 != 0) {
-            first->mUnk_00->mUnk_04 = 0;
+        list->field0 = first->field0;
+        if (list->field0 != 0) {
+            first->field0->field4 = 0;
         } else {
-            list->mUnk_00 = 0;
-            list->mUnk_08 = 0;
+            list->field0 = 0;
+            list->field8 = 0;
         }
-        list->mUnk_04--;
+        list->field4--;
     }
     return node;
 }
@@ -71,25 +71,25 @@ Unk0201e3c8 *SPLList_PopFront(Unk0201e494 *list) {
 Unk0201e3c8 *SPLList_Erase(Unk0201e494 *list, Unk0201e3c8 *node) {
     Unk0201e3c8 *next;
 
-    next = node->mUnk_00;
+    next = node->field0;
     if (next == 0) {
-        if (list->mUnk_00 == node) {
-            list->mUnk_00 = 0;
-            list->mUnk_08 = 0;
+        if (list->field0 == node) {
+            list->field0 = 0;
+            list->field8 = 0;
         } else {
-            node->mUnk_04->mUnk_00 = 0;
-            list->mUnk_08 = list->mUnk_08->mUnk_04;
+            node->field4->field0 = 0;
+            list->field8 = list->field8->field4;
         }
     } else {
-        if (list->mUnk_00 == node) {
-            list->mUnk_00 = next;
-            list->mUnk_00->mUnk_04 = 0;
+        if (list->field0 == node) {
+            list->field0 = next;
+            list->field0->field4 = 0;
         } else {
-            next->mUnk_04 = node->mUnk_04;
-            node->mUnk_04->mUnk_00 = node->mUnk_00;
+            next->field4 = node->field4;
+            node->field4->field0 = node->field0;
         }
     }
-    list->mUnk_04--;
+    list->field4--;
     return node;
 }
 
@@ -100,88 +100,88 @@ void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, Unk0201e3c8 *ptcl, Vec3 *a
 }
 
 void SPLBehavior_ApplyRandom(const Unk0201e2cc *rng, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    if (ptcl->mUnk_26 % rng->mUnk_06 != 0) {
+    if (ptcl->field26 % rng->field6 != 0) {
         return;
     }
-    acc->x = acc->x + ((rng->mUnk_00 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mUnk_00 << 8)) >>
+    acc->x = acc->x + ((rng->field0 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (rng->field0 << 8)) >>
                        8);
-    acc->y = acc->y + ((rng->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mUnk_02 << 8)) >>
+    acc->y = acc->y + ((rng->field2 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (rng->field2 << 8)) >>
                        8);
-    acc->z = acc->z + ((rng->mUnk_04 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mUnk_04 << 8)) >>
+    acc->z = acc->z + ((rng->field4 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (rng->field4 << 8)) >>
                        8);
 }
 
 void SPLBehavior_ApplyMagnet(const Unk0201e248 *magnet, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    acc->x = acc->x + ((magnet->mUnk_0c * (magnet->mUnk_00.x - ptcl->mUnk_08.x - ptcl->mUnk_14.x)) >> 12);
-    acc->y = acc->y + ((magnet->mUnk_0c * (magnet->mUnk_00.y - ptcl->mUnk_08.y - ptcl->mUnk_14.y)) >> 12);
-    acc->z = acc->z + ((magnet->mUnk_0c * (magnet->mUnk_00.z - ptcl->mUnk_08.z - ptcl->mUnk_14.z)) >> 12);
+    acc->x = acc->x + ((magnet->fieldC * (magnet->field0.x - ptcl->field8.x - ptcl->field14.x)) >> 12);
+    acc->y = acc->y + ((magnet->fieldC * (magnet->field0.y - ptcl->field8.y - ptcl->field14.y)) >> 12);
+    acc->z = acc->z + ((magnet->fieldC * (magnet->field0.z - ptcl->field8.z - ptcl->field14.z)) >> 12);
 }
 
 void SPLBehavior_ApplySpin(const Unk0201e170 *spin, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
     s32 buf[9];
 
-    switch (spin->mUnk_02) {
+    switch (spin->field2) {
         case 0:
-            MTX_RotX33_(buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotX33_(buf, gPairsByAngle[(spin->field0 >> 4) * 2], gPairsByAngle[(spin->field0 >> 4) * 2 + 1]);
             break;
         case 1:
-            MTX_RotY33_(buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotY33_(buf, gPairsByAngle[(spin->field0 >> 4) * 2], gPairsByAngle[(spin->field0 >> 4) * 2 + 1]);
             break;
         case 2:
-            MTX_RotZ33_(buf, gPairsByAngle[(spin->mUnk_00 >> 4) * 2], gPairsByAngle[(spin->mUnk_00 >> 4) * 2 + 1]);
+            MTX_RotZ33_(buf, gPairsByAngle[(spin->field0 >> 4) * 2], gPairsByAngle[(spin->field0 >> 4) * 2 + 1]);
             break;
     }
-    MTX_MultVec33(&ptcl->mUnk_08, buf, &ptcl->mUnk_08);
+    MTX_MultVec33(&ptcl->field8, buf, &ptcl->field8);
 }
 
 void SPLBehavior_ApplyCollisionPlane(const Unk0201e054 *plane, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
     s32 lim;
     s32 y;
 
-    lim = plane->mUnk_00;
-    if (emtr->mUnk_74 != 0x80000000) {
-        lim = emtr->mUnk_74;
+    lim = plane->field0;
+    if (emtr->field74 != 0x80000000) {
+        lim = emtr->field74;
     }
-    switch (plane->mUnk_06_0) {
+    switch (plane->field6_0) {
         case 0:
-            y = ptcl->mUnk_38.y;
+            y = ptcl->field38.y;
             if (y < lim) {
-                if (y + ptcl->mUnk_08.y > lim) {
-                    ptcl->mUnk_08.y = lim - y;
-                    ptcl->mUnk_26 = ptcl->mUnk_24;
+                if (y + ptcl->field8.y > lim) {
+                    ptcl->field8.y = lim - y;
+                    ptcl->field26 = ptcl->field24;
                     return;
                 }
             }
             if (y >= lim) {
-                if (y + ptcl->mUnk_08.y < lim) {
-                    ptcl->mUnk_08.y = lim - y;
-                    ptcl->mUnk_26 = ptcl->mUnk_24;
+                if (y + ptcl->field8.y < lim) {
+                    ptcl->field8.y = lim - y;
+                    ptcl->field26 = ptcl->field24;
                 }
             }
             break;
         case 1:
-            y = ptcl->mUnk_38.y;
-            if (y < lim && y + ptcl->mUnk_08.y > lim) {
-                ptcl->mUnk_08.y = lim - y;
-                ptcl->mUnk_14.y = -(s32) (((s64) ptcl->mUnk_14.y * plane->mUnk_04 + 0x800) >> 12);
-            } else if (y >= lim && y + ptcl->mUnk_08.y < lim) {
-                ptcl->mUnk_08.y = lim - y;
-                ptcl->mUnk_14.y = -(s32) (((s64) ptcl->mUnk_14.y * plane->mUnk_04 + 0x800) >> 12);
+            y = ptcl->field38.y;
+            if (y < lim && y + ptcl->field8.y > lim) {
+                ptcl->field8.y = lim - y;
+                ptcl->field14.y = -(s32) (((s64) ptcl->field14.y * plane->field4 + 0x800) >> 12);
+            } else if (y >= lim && y + ptcl->field8.y < lim) {
+                ptcl->field8.y = lim - y;
+                ptcl->field14.y = -(s32) (((s64) ptcl->field14.y * plane->field4 + 0x800) >> 12);
             }
             break;
     }
 }
 
 void SPLBehavior_ApplyConvergence(const Unk0201e248 *conv, Unk0201e3c8 *ptcl, Vec3 *acc, Unk0201ca6c *emtr) {
-    ptcl->mUnk_08.x =
-        ptcl->mUnk_08.x + (s32) (((s64) conv->mUnk_0c * (conv->mUnk_00.x - ptcl->mUnk_08.x) + 0x800) >> 12);
-    ptcl->mUnk_08.y =
-        ptcl->mUnk_08.y + (s32) (((s64) conv->mUnk_0c * (conv->mUnk_00.y - ptcl->mUnk_08.y) + 0x800) >> 12);
-    ptcl->mUnk_08.z =
-        ptcl->mUnk_08.z + (s32) (((s64) conv->mUnk_0c * (conv->mUnk_00.z - ptcl->mUnk_08.z) + 0x800) >> 12);
+    ptcl->field8.x =
+        ptcl->field8.x + (s32) (((s64) conv->fieldC * (conv->field0.x - ptcl->field8.x) + 0x800) >> 12);
+    ptcl->field8.y =
+        ptcl->field8.y + (s32) (((s64) conv->fieldC * (conv->field0.y - ptcl->field8.y) + 0x800) >> 12);
+    ptcl->field8.z =
+        ptcl->field8.z + (s32) (((s64) conv->fieldC * (conv->field0.z - ptcl->field8.z) + 0x800) >> 12);
 }
 
 void SPLAnim_Scale(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
@@ -190,20 +190,20 @@ void SPLAnim_Scale(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
     s32 lo;
     s32 hi;
 
-    scaleAnim = res->mUnk_04;
-    lo = scaleAnim->mUnk_06;
-    hi = scaleAnim->mUnk_07;
+    scaleAnim = res->field4;
+    lo = scaleAnim->field6;
+    hi = scaleAnim->field7;
     if (lifeRate < lo) {
-        a = scaleAnim->mUnk_00;
-        ptcl->mUnk_34 = a + (lifeRate * (scaleAnim->mUnk_02 - a)) / lo;
+        a = scaleAnim->field0;
+        ptcl->field34 = a + (lifeRate * (scaleAnim->field2 - a)) / lo;
         return;
     }
     if (lifeRate < hi) {
-        ptcl->mUnk_34 = scaleAnim->mUnk_02;
+        ptcl->field34 = scaleAnim->field2;
         return;
     }
-    a = scaleAnim->mUnk_04;
-    ptcl->mUnk_34 = a + ((lifeRate - 0xff) * (a - scaleAnim->mUnk_02)) / (0xff - hi);
+    a = scaleAnim->field4;
+    ptcl->field34 = a + ((lifeRate - 0xff) * (a - scaleAnim->field2)) / (0xff - hi);
 }
 
 void SPLAnim_Color(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
@@ -221,29 +221,29 @@ void SPLAnim_Color(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
     s32 n;
     s32 m;
 
-    colorAnim = res->mUnk_08;
-    header = res->mUnk_00;
-    lo = colorAnim->mUnk_04;
-    mid = colorAnim->mUnk_05;
-    hi = colorAnim->mUnk_06;
+    colorAnim = res->field8;
+    header = res->field0;
+    lo = colorAnim->field4;
+    mid = colorAnim->field5;
+    hi = colorAnim->field6;
     if (lifeRate < lo) {
-        ptcl->mUnk_36 = colorAnim->mUnk_00;
+        ptcl->field36 = colorAnim->field0;
         return;
     }
     if (lifeRate < mid) {
-        ar = colorAnim->mUnk_00 & 0x1f;
-        ag = (colorAnim->mUnk_00 >> 5) & 0x1f;
-        ab = (colorAnim->mUnk_00 >> 10) & 0x1f;
-        br = header->mUnk_22 & 0x1f;
-        bg = (header->mUnk_22 >> 5) & 0x1f;
-        bb = (header->mUnk_22 >> 10) & 0x1f;
-        if (colorAnim->mUnk_08_2 == 0) {
-            ptcl->mUnk_36 = br | (bg << 5) | (bb << 10);
+        ar = colorAnim->field0 & 0x1f;
+        ag = (colorAnim->field0 >> 5) & 0x1f;
+        ab = (colorAnim->field0 >> 10) & 0x1f;
+        br = header->field22 & 0x1f;
+        bg = (header->field22 >> 5) & 0x1f;
+        bb = (header->field22 >> 10) & 0x1f;
+        if (colorAnim->field8_2 == 0) {
+            ptcl->field36 = br | (bg << 5) | (bb << 10);
             return;
         }
         n = lifeRate - lo;
         m = mid - lo;
-        ptcl->mUnk_36 =
+        ptcl->field36 =
             (ar + (n * (br - ar)) / m) | ((ag + (n * (bg - ag)) / m) << 5) | ((ab + (n * (bb - ab)) / m) << 10);
         return;
     }
@@ -254,23 +254,23 @@ void SPLAnim_Color(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
         s32 eg; // PERM
         s32 cg; // PERM
         s32 eb; // PERM
-        er = header->mUnk_22 & 0x1f;
-        eg = (header->mUnk_22 >> 5) & 0x1f;
-        eb = (header->mUnk_22 >> 10) & 0x1f;
-        cr = colorAnim->mUnk_02 & 0x1f;
-        cg = (colorAnim->mUnk_02 >> 5) & 0x1f;
-        cb = (colorAnim->mUnk_02 >> 10) & 0x1f;
-        if (colorAnim->mUnk_08_2 == 0) {
-            ptcl->mUnk_36 = cr | (cg << 5) | (cb << 10);
+        er = header->field22 & 0x1f;
+        eg = (header->field22 >> 5) & 0x1f;
+        eb = (header->field22 >> 10) & 0x1f;
+        cr = colorAnim->field2 & 0x1f;
+        cg = (colorAnim->field2 >> 5) & 0x1f;
+        cb = (colorAnim->field2 >> 10) & 0x1f;
+        if (colorAnim->field8_2 == 0) {
+            ptcl->field36 = cr | (cg << 5) | (cb << 10);
             return;
         }
         n = lifeRate - mid;
         m = hi - mid;
-        ptcl->mUnk_36 =
+        ptcl->field36 =
             (er + (n * (cr - er)) / m) | ((eg + (n * (cg - eg)) / m) << 5) | ((eb + (n * (cb - eb)) / m) << 10);
         return;
     }
-    ptcl->mUnk_36 = colorAnim->mUnk_02;
+    ptcl->field36 = colorAnim->field2;
 }
 
 void SPLAnim_Alpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
@@ -279,20 +279,20 @@ void SPLAnim_Alpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
     s32 lo;
     s32 hi;
 
-    alphaAnim = res->mUnk_0c;
-    lo = alphaAnim->mUnk_04;
-    hi = alphaAnim->mUnk_05;
+    alphaAnim = res->fieldC;
+    lo = alphaAnim->field4;
+    hi = alphaAnim->field5;
     if (lifeRate < lo) {
-        a = alphaAnim->mUnk_00_0 + (lifeRate * (alphaAnim->mUnk_00_5 - alphaAnim->mUnk_00_0)) / lo;
+        a = alphaAnim->field0_0 + (lifeRate * (alphaAnim->field0_5 - alphaAnim->field0_0)) / lo;
     } else if (lifeRate < hi) {
-        a = alphaAnim->mUnk_00_5;
+        a = alphaAnim->field0_5;
     } else {
-        a = alphaAnim->mUnk_00_10 + ((lifeRate - 0xff) * (alphaAnim->mUnk_00_10 - alphaAnim->mUnk_00_5)) / (0xff - hi);
+        a = alphaAnim->field0_10 + ((lifeRate - 0xff) * (alphaAnim->field0_10 - alphaAnim->field0_5)) / (0xff - hi);
     }
-    ptcl->mUnk_2e_5 =
+    ptcl->field2E_5 =
         (a *
          (0xff -
-          ((alphaAnim->mUnk_02_0 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8))) >>
+          ((alphaAnim->field2_0 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8))) >>
         8;
 }
 
@@ -303,20 +303,20 @@ void SPLAnim_Texture(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
     s32 w;
     s32 n;
 
-    texAnim = res->mUnk_10;
+    texAnim = res->field10;
     i = 0;
-    n = texAnim->mUnk_08_0;
+    n = texAnim->field8_0;
     if (n <= 0) {
         return;
     }
-    w = texAnim->mUnk_08_8;
+    w = texAnim->field8_8;
     s = 0;
     do {
         if (lifeRate < s + w) {
-            ptcl->mUnk_2c = texAnim->mUnk_00[i];
+            ptcl->field2C = texAnim->field0[i];
             return;
         }
-        s += texAnim->mUnk_08_8;
+        s += texAnim->field8_8;
         i++;
     } while (i < n);
 }
@@ -324,12 +324,12 @@ void SPLAnim_Texture(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
 void SPLAnim_ChildScale(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
     s32 a;
 
-    a = res->mUnk_14->mUnk_04;
-    ptcl->mUnk_34 = a + ((a - 0x1000) * (lifeRate - 0xff)) / 0xff;
+    a = res->field14->field4;
+    ptcl->field34 = a + ((a - 0x1000) * (lifeRate - 0xff)) / 0xff;
 }
 
 void SPLAnim_ChildAlpha(Unk0201e3c8 *ptcl, Unk0201ca6c_20 *res, s32 lifeRate) {
-    ptcl->mUnk_2e_5 = ((0xff - lifeRate) * 0x1f) / 0xff;
+    ptcl->field2E_5 = ((0xff - lifeRate) * 0x1f) / 0xff;
 }
 
 void SPLEmitter_ComputeOrthogonalAxes(Unk0201ca6c *emtr) {
@@ -338,7 +338,7 @@ void SPLEmitter_ComputeOrthogonalAxes(Unk0201ca6c *emtr) {
     s32 dot;
 
     up = data_02161ad0;
-    switch (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_6) {
+    switch (emtr->field20->field0->field0.field0_6) {
         case 2:
             axis.x = 0x1000;
             axis.y = 0;
@@ -355,7 +355,7 @@ void SPLEmitter_ComputeOrthogonalAxes(Unk0201ca6c *emtr) {
             axis.z = 0x1000;
             break;
         default:
-            VEC_Fx16Normalize(&emtr->mUnk_50, &axis);
+            VEC_Fx16Normalize(&emtr->field50, &axis);
             break;
     }
     dot = VEC_Fx16DotProduct(&up, &axis);
@@ -364,33 +364,33 @@ void SPLEmitter_ComputeOrthogonalAxes(Unk0201ca6c *emtr) {
         up.y = 0;
         up.z = 0;
     }
-    emtr->mUnk_84.x = (s32) (((s64) axis.y * up.z + 0x800) >> 12) - (s32) (((s64) axis.z * up.y + 0x800) >> 12);
-    emtr->mUnk_84.y = (s32) (((s64) axis.z * up.x + 0x800) >> 12) - (s32) (((s64) axis.x * up.z + 0x800) >> 12);
-    emtr->mUnk_84.z = (s32) (((s64) axis.x * up.y + 0x800) >> 12) - (s32) (((s64) axis.y * up.x + 0x800) >> 12);
-    emtr->mUnk_8a.x =
-        (s32) (((s64) axis.y * emtr->mUnk_84.z + 0x800) >> 12) - (s32) (((s64) axis.z * emtr->mUnk_84.y + 0x800) >> 12);
-    emtr->mUnk_8a.y =
-        (s32) (((s64) axis.z * emtr->mUnk_84.x + 0x800) >> 12) - (s32) (((s64) axis.x * emtr->mUnk_84.z + 0x800) >> 12);
-    emtr->mUnk_8a.z =
-        (s32) (((s64) axis.x * emtr->mUnk_84.y + 0x800) >> 12) - (s32) (((s64) axis.y * emtr->mUnk_84.x + 0x800) >> 12);
-    VEC_Fx16Normalize(&emtr->mUnk_84, &emtr->mUnk_84);
-    VEC_Fx16Normalize(&emtr->mUnk_8a, &emtr->mUnk_8a);
+    emtr->field84.x = (s32) (((s64) axis.y * up.z + 0x800) >> 12) - (s32) (((s64) axis.z * up.y + 0x800) >> 12);
+    emtr->field84.y = (s32) (((s64) axis.z * up.x + 0x800) >> 12) - (s32) (((s64) axis.x * up.z + 0x800) >> 12);
+    emtr->field84.z = (s32) (((s64) axis.x * up.y + 0x800) >> 12) - (s32) (((s64) axis.y * up.x + 0x800) >> 12);
+    emtr->field8A.x =
+        (s32) (((s64) axis.y * emtr->field84.z + 0x800) >> 12) - (s32) (((s64) axis.z * emtr->field84.y + 0x800) >> 12);
+    emtr->field8A.y =
+        (s32) (((s64) axis.z * emtr->field84.x + 0x800) >> 12) - (s32) (((s64) axis.x * emtr->field84.z + 0x800) >> 12);
+    emtr->field8A.z =
+        (s32) (((s64) axis.x * emtr->field84.y + 0x800) >> 12) - (s32) (((s64) axis.y * emtr->field84.x + 0x800) >> 12);
+    VEC_Fx16Normalize(&emtr->field84, &emtr->field84);
+    VEC_Fx16Normalize(&emtr->field8A, &emtr->field8A);
 }
 
 void SPLUtil_TiltCoordinates(Vec3 *ptclPos, const Vec3 *pos, Unk0201ca6c *emtr) {
     Vec3s16 cross;
 
-    VEC_Fx16CrossProduct(&emtr->mUnk_84, &emtr->mUnk_8a, &cross);
+    VEC_Fx16CrossProduct(&emtr->field84, &emtr->field8A, &cross);
     VEC_Fx16Normalize(&cross, &cross);
     ptclPos->x =
-        (s32) (((s64) pos->z * cross.x + 0x800) >> 12) + ((s32) (((s64) pos->x * emtr->mUnk_84.x + 0x800) >> 12) +
-                                                          (s32) (((s64) pos->y * emtr->mUnk_8a.x + 0x800) >> 12));
+        (s32) (((s64) pos->z * cross.x + 0x800) >> 12) + ((s32) (((s64) pos->x * emtr->field84.x + 0x800) >> 12) +
+                                                          (s32) (((s64) pos->y * emtr->field8A.x + 0x800) >> 12));
     ptclPos->y =
-        (s32) (((s64) pos->z * cross.y + 0x800) >> 12) + ((s32) (((s64) pos->x * emtr->mUnk_84.y + 0x800) >> 12) +
-                                                          (s32) (((s64) pos->y * emtr->mUnk_8a.y + 0x800) >> 12));
+        (s32) (((s64) pos->z * cross.y + 0x800) >> 12) + ((s32) (((s64) pos->x * emtr->field84.y + 0x800) >> 12) +
+                                                          (s32) (((s64) pos->y * emtr->field8A.y + 0x800) >> 12));
     ptclPos->z =
-        (s32) (((s64) pos->z * cross.z + 0x800) >> 12) + ((s32) (((s64) pos->x * emtr->mUnk_84.z + 0x800) >> 12) +
-                                                          (s32) (((s64) pos->y * emtr->mUnk_8a.z + 0x800) >> 12));
+        (s32) (((s64) pos->z * cross.z + 0x800) >> 12) + ((s32) (((s64) pos->x * emtr->field84.z + 0x800) >> 12) +
+                                                          (s32) (((s64) pos->y * emtr->field8A.z + 0x800) >> 12));
 }
 
 void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
@@ -416,14 +416,14 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
     Vec3 u;
     Vec3 w;
 
-    c = emtr->mUnk_20;
-    t = emtr->mUnk_58 + emtr->mUnk_4e;
-    d = c->mUnk_00;
-    emtr->mUnk_4e = t & 0xfff;
+    c = emtr->field20;
+    t = emtr->field58 + emtr->field4E;
+    d = c->field0;
+    emtr->field4E = t & 0xfff;
     n = t >> 12;
-    if (d->mUnk_00.mUnk_00_0 == 2 || d->mUnk_00.mUnk_00_0 == 3 || d->mUnk_00.mUnk_00_0 == 5 ||
-        d->mUnk_00.mUnk_00_0 == 6 || d->mUnk_00.mUnk_00_0 == 7 || d->mUnk_00.mUnk_00_0 == 8 ||
-        d->mUnk_00.mUnk_00_0 == 9) {
+    if (d->field0.field0_0 == 2 || d->field0.field0_0 == 3 || d->field0.field0_0 == 5 ||
+        d->field0.field0_0 == 6 || d->field0.field0_0 == 7 || d->field0.field0_0 == 8 ||
+        d->field0.field0_0 == 9) {
         SPLEmitter_ComputeOrthogonalAxes(emtr);
     }
     i = 0;
@@ -434,23 +434,23 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
             if (n0 == 0) {
                 return;
             }
-            SPLList_PushFront(&emtr->mUnk_08, n0);
-            switch (d->mUnk_00.mUnk_00_0) {
+            SPLList_PushFront(&emtr->field8, n0);
+            switch (d->field0.field0_0) {
                 case 0:
-                    n0->mUnk_08.x = n0->mUnk_08.y = n0->mUnk_08.z = 0;
+                    n0->field8.x = n0->field8.y = n0->field8.z = 0;
                     break;
                 case 1:
-                    SPLRandom_VecFx32(&n0->mUnk_08);
-                    n0->mUnk_08.x = ((s64) n0->mUnk_08.x * emtr->mUnk_5c + 0x800) >> 12;
-                    n0->mUnk_08.y = ((s64) n0->mUnk_08.y * emtr->mUnk_5c + 0x800) >> 12;
-                    n0->mUnk_08.z = ((s64) n0->mUnk_08.z * emtr->mUnk_5c + 0x800) >> 12;
+                    SPLRandom_VecFx32(&n0->field8);
+                    n0->field8.x = ((s64) n0->field8.x * emtr->field5C + 0x800) >> 12;
+                    n0->field8.y = ((s64) n0->field8.y * emtr->field5C + 0x800) >> 12;
+                    n0->field8.z = ((s64) n0->field8.z * emtr->field5C + 0x800) >> 12;
                     break;
                 case 2: {
                     SPLRandom_VecFx32_XY(&v2);
-                    v2.x = ((s64) v2.x * emtr->mUnk_5c + 0x800) >> 12;
-                    v2.y = ((s64) v2.y * emtr->mUnk_5c + 0x800) >> 12;
+                    v2.x = ((s64) v2.x * emtr->field5C + 0x800) >> 12;
+                    v2.y = ((s64) v2.y * emtr->field5C + 0x800) >> 12;
                     v2.z = 0;
-                    SPLUtil_TiltCoordinates(&n0->mUnk_08, &v2, emtr);
+                    SPLUtil_TiltCoordinates(&n0->field8, &v2, emtr);
                     break;
                 }
                 case 3: {
@@ -462,30 +462,30 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     k >>= 4;
                     a = gPairsByAngle[k * 2];
                     b = gPairsByAngle[k * 2 + 1];
-                    v3.x = ((s64) a * emtr->mUnk_5c + 0x800) >> 12;
-                    v3.y = ((s64) b * emtr->mUnk_5c + 0x800) >> 12;
+                    v3.x = ((s64) a * emtr->field5C + 0x800) >> 12;
+                    v3.y = ((s64) b * emtr->field5C + 0x800) >> 12;
                     v3.z = 0;
-                    SPLUtil_TiltCoordinates(&n0->mUnk_08, &v3, emtr);
+                    SPLUtil_TiltCoordinates(&n0->field8, &v3, emtr);
                     break;
                 }
                 case 4: {
-                    SPLRandom_VecFx32(&n0->mUnk_08);
-                    n0->mUnk_08.x =
-                        ((s64) (s32) (((s64) n0->mUnk_08.x * emtr->mUnk_5c + 0x800) >> 12) *
+                    SPLRandom_VecFx32(&n0->field8);
+                    n0->field8.x =
+                        ((s64) (s32) (((s64) n0->field8.x * emtr->field5C + 0x800) >> 12) *
                              ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                      0x100000) >>
                               8) +
                          0x800) >>
                         12;
-                    n0->mUnk_08.y =
-                        ((s64) (s32) (((s64) n0->mUnk_08.y * emtr->mUnk_5c + 0x800) >> 12) *
+                    n0->field8.y =
+                        ((s64) (s32) (((s64) n0->field8.y * emtr->field5C + 0x800) >> 12) *
                              ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                      0x100000) >>
                               8) +
                          0x800) >>
                         12;
-                    n0->mUnk_08.z =
-                        ((s64) (s32) (((s64) n0->mUnk_08.z * emtr->mUnk_5c + 0x800) >> 12) *
+                    n0->field8.z =
+                        ((s64) (s32) (((s64) n0->field8.z * emtr->field5C + 0x800) >> 12) *
                              ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                      0x100000) >>
                               8) +
@@ -495,66 +495,66 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                 }
                 case 5: {
                     SPLRandom_VecFx32_XY(&v5);
-                    v5.x = ((s64) (s32) (((s64) v5.x * emtr->mUnk_5c + 0x800) >> 12) *
+                    v5.x = ((s64) (s32) (((s64) v5.x * emtr->field5C + 0x800) >> 12) *
                                 ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                         0x100000) >>
                                  8) +
                             0x800) >>
                            12;
-                    v5.y = ((s64) (s32) (((s64) v5.y * emtr->mUnk_5c + 0x800) >> 12) *
+                    v5.y = ((s64) (s32) (((s64) v5.y * emtr->field5C + 0x800) >> 12) *
                                 ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                         0x100000) >>
                                  8) +
                             0x800) >>
                            12;
-                    SPLUtil_TiltCoordinates(&n0->mUnk_08, &v5, emtr);
+                    SPLUtil_TiltCoordinates(&n0->field8, &v5, emtr);
                     break;
                 }
                 case 8: {
-                    SPLRandom_VecFx32(&n0->mUnk_08);
-                    VEC_Fx16CrossProduct(&emtr->mUnk_84, &emtr->mUnk_8a, &a8);
+                    SPLRandom_VecFx32(&n0->field8);
+                    VEC_Fx16CrossProduct(&emtr->field84, &emtr->field8A, &a8);
                     v8.x = a8.x;
                     v8.y = a8.y;
                     v8.z = a8.z;
-                    if (VEC_DotProduct(&v8, &n0->mUnk_08) <= 0) {
-                        n0->mUnk_08.x = -n0->mUnk_08.x;
-                        n0->mUnk_08.y = -n0->mUnk_08.y;
-                        n0->mUnk_08.z = -n0->mUnk_08.z;
+                    if (VEC_DotProduct(&v8, &n0->field8) <= 0) {
+                        n0->field8.x = -n0->field8.x;
+                        n0->field8.y = -n0->field8.y;
+                        n0->field8.z = -n0->field8.z;
                     }
-                    n0->mUnk_08.x = ((s64) n0->mUnk_08.x * emtr->mUnk_5c + 0x800) >> 12;
-                    n0->mUnk_08.y = ((s64) n0->mUnk_08.y * emtr->mUnk_5c + 0x800) >> 12;
-                    n0->mUnk_08.z = ((s64) n0->mUnk_08.z * emtr->mUnk_5c + 0x800) >> 12;
+                    n0->field8.x = ((s64) n0->field8.x * emtr->field5C + 0x800) >> 12;
+                    n0->field8.y = ((s64) n0->field8.y * emtr->field5C + 0x800) >> 12;
+                    n0->field8.z = ((s64) n0->field8.z * emtr->field5C + 0x800) >> 12;
                     break;
                 }
                 case 9: {
-                    SPLRandom_VecFx32(&n0->mUnk_08);
-                    VEC_Fx16CrossProduct(&emtr->mUnk_84, &emtr->mUnk_8a, &a9);
+                    SPLRandom_VecFx32(&n0->field8);
+                    VEC_Fx16CrossProduct(&emtr->field84, &emtr->field8A, &a9);
                     v9.x = a9.x;
                     v9.y = a9.y;
                     v9.z = a9.z;
-                    if (VEC_DotProduct(&v9, &n0->mUnk_08) < 0) {
-                        n0->mUnk_08.x = -n0->mUnk_08.x;
-                        n0->mUnk_08.y = -n0->mUnk_08.y;
-                        n0->mUnk_08.z = -n0->mUnk_08.z;
+                    if (VEC_DotProduct(&v9, &n0->field8) < 0) {
+                        n0->field8.x = -n0->field8.x;
+                        n0->field8.y = -n0->field8.y;
+                        n0->field8.z = -n0->field8.z;
                     }
-                    n0->mUnk_08.x =
-                        ((s64) (s32) (((s64) n0->mUnk_08.x * emtr->mUnk_5c + 0x800) >> 12) *
+                    n0->field8.x =
+                        ((s64) (s32) (((s64) n0->field8.x * emtr->field5C + 0x800) >> 12) *
                              (((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                       0x100000) >>
                                9) +
                               0x800) +
                          0x800) >>
                         12;
-                    n0->mUnk_08.y =
-                        ((s64) (s32) (((s64) n0->mUnk_08.y * emtr->mUnk_5c + 0x800) >> 12) *
+                    n0->field8.y =
+                        ((s64) (s32) (((s64) n0->field8.y * emtr->field5C + 0x800) >> 12) *
                              (((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                       0x100000) >>
                                9) +
                               0x800) +
                          0x800) >>
                         12;
-                    n0->mUnk_08.z =
-                        ((s64) (s32) (((s64) n0->mUnk_08.z * emtr->mUnk_5c + 0x800) >> 12) *
+                    n0->field8.z =
+                        ((s64) (s32) (((s64) n0->field8.z * emtr->field5C + 0x800) >> 12) *
                              (((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                       0x100000) >>
                                9) +
@@ -564,150 +564,150 @@ void SPLEmitter_EmitParticles(Unk0201ca6c *emtr, Unk0201e494 *list) {
                     break;
                 }
                 case 6: {
-                    SPLRandom_VecFx32_XY(&n0->mUnk_14);
-                    v6.x = ((s64) n0->mUnk_14.x * emtr->mUnk_5c + 0x800) >> 12;
-                    v6.y = ((s64) n0->mUnk_14.y * emtr->mUnk_5c + 0x800) >> 12;
-                    v6.z = (emtr->mUnk_60 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                            emtr->mUnk_60 * 0x100) >>
+                    SPLRandom_VecFx32_XY(&n0->field14);
+                    v6.x = ((s64) n0->field14.x * emtr->field5C + 0x800) >> 12;
+                    v6.y = ((s64) n0->field14.y * emtr->field5C + 0x800) >> 12;
+                    v6.z = (emtr->field60 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                            emtr->field60 * 0x100) >>
                            8;
-                    SPLUtil_TiltCoordinates(&n0->mUnk_08, &v6, emtr);
+                    SPLUtil_TiltCoordinates(&n0->field8, &v6, emtr);
                     break;
                 }
                 case 7: {
-                    SPLRandom_VecFx32_XY(&n0->mUnk_14);
-                    v7.x = ((s64) (s32) (((s64) n0->mUnk_14.x * emtr->mUnk_5c + 0x800) >> 12) *
+                    SPLRandom_VecFx32_XY(&n0->field14);
+                    v7.x = ((s64) (s32) (((s64) n0->field14.x * emtr->field5C + 0x800) >> 12) *
                                 ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                         0x100000) >>
                                  8) +
                             0x800) >>
                            12;
-                    v7.y = ((s64) (s32) (((s64) n0->mUnk_14.y * emtr->mUnk_5c + 0x800) >> 12) *
+                    v7.y = ((s64) (s32) (((s64) n0->field14.y * emtr->field5C + 0x800) >> 12) *
                                 ((s32) (((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) * 0x1000 -
                                         0x100000) >>
                                  8) +
                             0x800) >>
                            12;
-                    v7.z = (emtr->mUnk_60 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                            emtr->mUnk_60 * 0x100) >>
+                    v7.z = (emtr->field60 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                            emtr->field60 * 0x100) >>
                            8;
-                    SPLUtil_TiltCoordinates(&n0->mUnk_08, &v7, emtr);
+                    SPLUtil_TiltCoordinates(&n0->field8, &v7, emtr);
                     break;
                 }
             }
 
-            s1 = ((d->mUnk_42 + 0xff -
-                   ((d->mUnk_42 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
-                  emtr->mUnk_64) >>
+            s1 = ((d->field42 + 0xff -
+                   ((d->field42 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
+                  emtr->field64) >>
                  8;
-            s2 = ((d->mUnk_42 + 0xff -
-                   ((d->mUnk_42 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
-                  emtr->mUnk_68) >>
+            s2 = ((d->field42 + 0xff -
+                   ((d->field42 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
+                  emtr->field68) >>
                  8;
 
-            if (d->mUnk_00.mUnk_00_0 == 6) {
-                w.x = (s32) (((s64) n0->mUnk_14.x * emtr->mUnk_84.x + 0x800) >> 12) +
-                      (s32) (((s64) n0->mUnk_14.y * emtr->mUnk_8a.x + 0x800) >> 12);
-                w.y = (s32) (((s64) n0->mUnk_14.x * emtr->mUnk_84.y + 0x800) >> 12) +
-                      (s32) (((s64) n0->mUnk_14.y * emtr->mUnk_8a.y + 0x800) >> 12);
-                w.z = (s32) (((s64) n0->mUnk_14.x * emtr->mUnk_84.z + 0x800) >> 12) +
-                      (s32) (((s64) n0->mUnk_14.y * emtr->mUnk_8a.z + 0x800) >> 12);
+            if (d->field0.field0_0 == 6) {
+                w.x = (s32) (((s64) n0->field14.x * emtr->field84.x + 0x800) >> 12) +
+                      (s32) (((s64) n0->field14.y * emtr->field8A.x + 0x800) >> 12);
+                w.y = (s32) (((s64) n0->field14.x * emtr->field84.y + 0x800) >> 12) +
+                      (s32) (((s64) n0->field14.y * emtr->field8A.y + 0x800) >> 12);
+                w.z = (s32) (((s64) n0->field14.x * emtr->field84.z + 0x800) >> 12) +
+                      (s32) (((s64) n0->field14.y * emtr->field8A.z + 0x800) >> 12);
                 VEC_Normalize(&w, &u);
-            } else if (n0->mUnk_08.x == 0 && n0->mUnk_08.y == 0 && n0->mUnk_08.z == 0) {
+            } else if (n0->field8.x == 0 && n0->field8.y == 0 && n0->field8.z == 0) {
                 SPLRandom_VecFx32(&u);
             } else {
-                VEC_Normalize(&n0->mUnk_08, &u);
+                VEC_Normalize(&n0->field8, &u);
             }
 
-            n0->mUnk_14.x = emtr->mUnk_40.x + ((s32) (((s64) u.x * s1 + 0x800) >> 12) +
-                                               (s32) (((s64) emtr->mUnk_50.x * s2 + 0x800) >> 12));
-            n0->mUnk_14.y = emtr->mUnk_40.y + ((s32) (((s64) u.y * s1 + 0x800) >> 12) +
-                                               (s32) (((s64) emtr->mUnk_50.y * s2 + 0x800) >> 12));
-            n0->mUnk_14.z = emtr->mUnk_40.z + ((s32) (((s64) u.z * s1 + 0x800) >> 12) +
-                                               (s32) (((s64) emtr->mUnk_50.z * s2 + 0x800) >> 12));
-            n0->mUnk_38 = emtr->mUnk_28;
+            n0->field14.x = emtr->field40.x + ((s32) (((s64) u.x * s1 + 0x800) >> 12) +
+                                               (s32) (((s64) emtr->field50.x * s2 + 0x800) >> 12));
+            n0->field14.y = emtr->field40.y + ((s32) (((s64) u.y * s1 + 0x800) >> 12) +
+                                               (s32) (((s64) emtr->field50.y * s2 + 0x800) >> 12));
+            n0->field14.z = emtr->field40.z + ((s32) (((s64) u.z * s1 + 0x800) >> 12) +
+                                               (s32) (((s64) emtr->field50.z * s2 + 0x800) >> 12));
+            n0->field38 = emtr->field28;
 
-            n0->mUnk_30 =
-                ((d->mUnk_40 + 0xff -
-                  ((d->mUnk_40 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
-                 emtr->mUnk_6c) >>
+            n0->field30 =
+                ((d->field40 + 0xff -
+                  ((d->field40 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 7)) *
+                 emtr->field6C) >>
                 8;
-            n0->mUnk_34 = 0x1000;
+            n0->field34 = 0x1000;
 
-            if (d->mUnk_00.mUnk_00_9 && c->mUnk_08->mUnk_08_0) {
+            if (d->field0.field0_9 && c->field8->field8_0) {
                 Unk0201ca6c_20_08 *q;
                 u32 r;
                 r = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20;
-                q = c->mUnk_08;
-                ch[0] = q->mUnk_00;
-                ch[1] = d->mUnk_22;
-                ch[2] = q->mUnk_02;
-                n0->mUnk_36 = ch[r % 3];
+                q = c->field8;
+                ch[0] = q->field0;
+                ch[1] = d->field22;
+                ch[2] = q->field2;
+                n0->field36 = ch[r % 3];
             } else {
-                n0->mUnk_36 = d->mUnk_22;
+                n0->field36 = d->field22;
             }
 
-            n0->mUnk_2e_0 = emtr->mUnk_80_8;
-            n0->mUnk_2e_5 = 0x1f;
+            n0->field2E_0 = emtr->field80_8;
+            n0->field2E_5 = 0x1f;
 
-            if (d->mUnk_00.mUnk_00_13) {
-                n0->mUnk_20 = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173);
+            if (d->field0.field0_13) {
+                n0->field20 = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173);
             } else {
-                n0->mUnk_20 = emtr->mUnk_56;
+                n0->field20 = emtr->field56;
             }
 
-            if (d->mUnk_00.mUnk_00_12) {
-                n0->mUnk_22 =
-                    ((d->mUnk_36 - d->mUnk_34) * ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20) +
-                     (d->mUnk_34 << 12)) >>
+            if (d->field0.field0_12) {
+                n0->field22 =
+                    ((d->field36 - d->field34) * ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20) +
+                     (d->field34 << 12)) >>
                     12;
             } else {
-                n0->mUnk_22 = 0;
+                n0->field22 = 0;
             }
 
-            n0->mUnk_24 =
+            n0->field24 =
                 (((0xff -
-                   ((d->mUnk_41 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8)) *
-                  emtr->mUnk_70) >>
+                   ((d->field41 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24)) >> 8)) *
+                  emtr->field70) >>
                  8) +
                 1;
-            n0->mUnk_26 = 0;
+            n0->field26 = 0;
 
-            if (d->mUnk_00.mUnk_00_11 && c->mUnk_10->mUnk_08_16) {
+            if (d->field0.field0_11 && c->field10->field8_16) {
                 Unk0201ca6c_20_10 *q;
                 u32 r;
                 r = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 20;
-                q = c->mUnk_10;
-                n0->mUnk_2c = q->mUnk_00[r % q->mUnk_08_0];
-            } else if (d->mUnk_00.mUnk_00_11 && !c->mUnk_10->mUnk_08_16) {
-                n0->mUnk_2c = c->mUnk_10->mUnk_00[0];
+                q = c->field10;
+                n0->field2C = q->field0[r % q->field8_0];
+            } else if (d->field0.field0_11 && !c->field10->field8_16) {
+                n0->field2C = c->field10->field0[0];
             } else {
-                n0->mUnk_2c = d->mUnk_47;
+                n0->field2C = d->field47;
             }
 
-            n0->mUnk_28 = 0xffff / c->mUnk_00->mUnk_48.mUnk_00_0;
-            n0->mUnk_2a = 0xffff / n0->mUnk_24;
-            n0->mUnk_2d = 0;
-            if (d->mUnk_00.mUnk_00_20) {
-                n0->mUnk_2d = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24;
+            n0->field28 = 0xffff / c->field0->field48.field0_0;
+            n0->field2A = 0xffff / n0->field24;
+            n0->field2D = 0;
+            if (d->field0.field0_20) {
+                n0->field2D = (data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 24;
             }
         } while (++i < n);
     }
 }
 
 static inline s32 func_0201c74c_inline(s32 k0, Unk0201e3c8 *a) {
-    return ((s64) a->mUnk_14.z * (s64) k0 + 0x800) >> 12;
+    return ((s64) a->field14.z * (s64) k0 + 0x800) >> 12;
 }
 
 static inline s32 func_0201c74c_inline2(s32 k0, Unk0201e3c8 *a) {
-    return ((s64) a->mUnk_14.y * (s64) k0 + 0x800) >> 12;
+    return ((s64) a->field14.y * (s64) k0 + 0x800) >> 12;
 }
 
 static inline s32 func_0201c74c_inline3(s32 k0, Unk0201e3c8 *a) {
-    return ((s64) a->mUnk_14.x * (s64) k0 + 0x800) >> 12;
+    return ((s64) a->field14.x * (s64) k0 + 0x800) >> 12;
 }
 
 static inline s32 func_0201c74c_inline4(Unk0201ca6c_20_14 *e) {
-    return e->mUnk_09 + 1;
+    return e->field9 + 1;
 }
 
 void SPLEmitter_EmitChildren(Unk0201e3c8 *ptcl, Unk0201ca6c *emtr, Unk0201e494 *list) {
@@ -718,60 +718,60 @@ void SPLEmitter_EmitChildren(Unk0201e3c8 *ptcl, Unk0201ca6c *emtr, Unk0201e494 *
     Vec3 *d;
     u32 b;
 
-    e = emtr->mUnk_20->mUnk_14;
-    k0 = ((s64) (e->mUnk_08 << 12) * 16 + 0x800) >> 12;
-    for (i = 0; i < e->mUnk_0c; i++) {
+    e = emtr->field20->field14;
+    k0 = ((s64) (e->field8 << 12) * 16 + 0x800) >> 12;
+    for (i = 0; i < e->fieldC; i++) {
         {
             n = SPLList_PopFront(list);
             if (n == NULL) {
                 return;
             }
-            SPLList_PushFront(&emtr->mUnk_14, n);
-            d = &n->mUnk_38;
-            n->mUnk_08 = ptcl->mUnk_08;
-            n->mUnk_14.x = func_0201c74c_inline3(k0, ptcl) +
-                           ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                             (e->mUnk_02 << 8)) >>
+            SPLList_PushFront(&emtr->field14, n);
+            d = &n->field38;
+            n->field8 = ptcl->field8;
+            n->field14.x = func_0201c74c_inline3(k0, ptcl) +
+                           ((e->field2 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                             (e->field2 << 8)) >>
                             8);
-            n->mUnk_14.y = func_0201c74c_inline2(k0, ptcl) +
-                           ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                             (e->mUnk_02 << 8)) >>
+            n->field14.y = func_0201c74c_inline2(k0, ptcl) +
+                           ((e->field2 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                             (e->field2 << 8)) >>
                             8);
-            n->mUnk_14.z = func_0201c74c_inline(k0, ptcl) +
-                           ((e->mUnk_02 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                             (e->mUnk_02 << 8)) >>
+            n->field14.z = func_0201c74c_inline(k0, ptcl) +
+                           ((e->field2 * (s32) ((data_02173274 = data_02173274 * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                             (e->field2 << 8)) >>
                             8);
-            *d = ptcl->mUnk_38;
-            n->mUnk_30 = (((ptcl->mUnk_30 * ptcl->mUnk_34) >> 12) * func_0201c74c_inline4(e)) >> 6;
-            n->mUnk_34 = 0x1000;
-            if (e->mUnk_00_6) {
-                n->mUnk_36 = e->mUnk_0a;
+            *d = ptcl->field38;
+            n->field30 = (((ptcl->field30 * ptcl->field34) >> 12) * func_0201c74c_inline4(e)) >> 6;
+            n->field34 = 0x1000;
+            if (e->field0_6) {
+                n->field36 = e->fieldA;
             } else {
-                n->mUnk_36 = ptcl->mUnk_36;
+                n->field36 = ptcl->field36;
             }
-            n->mUnk_2e_0 = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-            n->mUnk_2e_5 = 0x1f;
-            switch (e->mUnk_00_3) {
+            n->field2E_0 = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+            n->field2E_5 = 0x1f;
+            switch (e->field0_3) {
                 case 2:
-                    n->mUnk_20 = ptcl->mUnk_20;
-                    n->mUnk_22 = ptcl->mUnk_22;
+                    n->field20 = ptcl->field20;
+                    n->field22 = ptcl->field22;
                     break;
                 case 0:
-                    n->mUnk_20 = 0;
-                    n->mUnk_22 = 0;
+                    n->field20 = 0;
+                    n->field22 = 0;
                     break;
                 case 1:
-                    n->mUnk_20 = ptcl->mUnk_20;
-                    n->mUnk_22 = 0;
+                    n->field20 = ptcl->field20;
+                    n->field22 = 0;
                     break;
             }
-            n->mUnk_24 = e->mUnk_06;
-            n->mUnk_26 = 0;
-            n->mUnk_2c = e->mUnk_0f;
-            b = ptcl->mUnk_24;
-            n->mUnk_28 = 0xffff / (s32) (b >> 1);
-            n->mUnk_2a = 0xffff / ptcl->mUnk_24;
-            n->mUnk_2d = 0;
+            n->field24 = e->field6;
+            n->field26 = 0;
+            n->field2C = e->fieldF;
+            b = ptcl->field24;
+            n->field28 = 0xffff / (s32) (b >> 1);
+            n->field2A = 0xffff / ptcl->field24;
+            n->field2D = 0;
         }
     }
 }
@@ -832,33 +832,33 @@ void SPLUtil_RotateXYZ(s32 sinValue, s32 cosValue, MtxFx43 *mtx) {
     y = t1 + t2;
     z = t1 - t2;
     x = t1 + cosValue;
-    mtx->mUnk_00[0].x = x;
-    mtx->mUnk_00[1].x = y;
-    mtx->mUnk_00[2].x = z;
-    mtx->mUnk_00[3].x = 0;
-    mtx->mUnk_00[0].y = z;
-    mtx->mUnk_00[1].y = x;
-    mtx->mUnk_00[2].y = y;
-    mtx->mUnk_00[3].y = 0;
-    mtx->mUnk_00[0].z = y;
-    mtx->mUnk_00[1].z = z;
-    mtx->mUnk_00[2].z = x;
-    mtx->mUnk_00[3].z = 0;
+    mtx->field0[0].x = x;
+    mtx->field0[1].x = y;
+    mtx->field0[2].x = z;
+    mtx->field0[3].x = 0;
+    mtx->field0[0].y = z;
+    mtx->field0[1].y = x;
+    mtx->field0[2].y = y;
+    mtx->field0[3].y = 0;
+    mtx->field0[0].z = y;
+    mtx->field0[1].z = z;
+    mtx->field0[2].z = x;
+    mtx->field0[3].z = 0;
 }
 
 void SPLUtil_RotateY(s32 sinValue, s32 cosValue, MtxFx43 *mtx) {
-    mtx->mUnk_00[0].x = cosValue;
-    mtx->mUnk_00[1].x = 0;
-    mtx->mUnk_00[2].x = sinValue;
-    mtx->mUnk_00[3].x = 0;
-    mtx->mUnk_00[0].y = 0;
-    mtx->mUnk_00[1].y = 0x1000;
-    mtx->mUnk_00[2].y = 0;
-    mtx->mUnk_00[3].y = 0;
-    mtx->mUnk_00[0].z = -sinValue;
-    mtx->mUnk_00[1].z = 0;
-    mtx->mUnk_00[2].z = cosValue;
-    mtx->mUnk_00[3].z = 0;
+    mtx->field0[0].x = cosValue;
+    mtx->field0[1].x = 0;
+    mtx->field0[2].x = sinValue;
+    mtx->field0[3].x = 0;
+    mtx->field0[0].y = 0;
+    mtx->field0[1].y = 0x1000;
+    mtx->field0[2].y = 0;
+    mtx->field0[3].y = 0;
+    mtx->field0[0].z = -sinValue;
+    mtx->field0[1].z = 0;
+    mtx->field0[2].z = cosValue;
+    mtx->field0[3].z = 0;
 }
 
 void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -879,19 +879,19 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     u8 w;
     s32 h;
 
-    s = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
+    s = mgr->mRenderStateEmitter->field20->field0->field30;
     q = mgr->mRenderStateViewMatrix;
-    w = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28;
-    h = ptcl->mUnk_34;
-    c0 = ptcl->mUnk_36;
-    c1 = mgr->mRenderStateEmitter->mUnk_72;
-    k = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
+    w = mgr->mRenderStateEmitter->field20->field0->field48.field0_28;
+    h = ptcl->field34;
+    c0 = ptcl->field36;
+    c1 = mgr->mRenderStateEmitter->field72;
+    k = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (k == 0) {
         return;
     }
-    f1 = ptcl->mUnk_30;
+    f1 = ptcl->field30;
     f0 = ((s64) f1 * s + 0x800) >> 12;
     if (w == 0) {
         f0 = ((s64) f0 * h + 0x800) >> 12;
@@ -901,50 +901,50 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     } else {
         f1 = ((s64) f1 * h + 0x800) >> 12;
     }
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        t.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+    if (mgr->mRenderStateEmitter->field20->field0->field0.field0_23 == 0) {
+        t.x = ptcl->field8.x + ptcl->field38.x;
+        t.y = ptcl->field8.y + ptcl->field38.y;
+        t.z = ptcl->field8.z + ptcl->field38.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = ((s64) t1 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].y = ((s64) t0 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].y = ((s64) t1 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        t0 = gPairsByAngle[(ptcl->field20 >> 4) * 2];
+        t1 = gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1];
+        m.field0[0].x = ((s64) t1 * f0 + 0x800) >> 12;
+        m.field0[0].y = ((s64) t0 * f0 + 0x800) >> 12;
+        m.field0[0].z = 0;
+        m.field0[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
+        m.field0[1].y = ((s64) t1 * f1 + 0x800) >> 12;
+        m.field0[1].z = 0;
+        m.field0[2].x = 0;
+        m.field0[2].y = 0;
+        m.field0[2].z = 0x1000;
+        m.field0[3].x = t.x;
+        m.field0[3].y = t.y;
+        m.field0[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&m);
     } else {
-        t.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        t.x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        t.y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        t.z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = ((s64) t1 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].y = ((s64) t0 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].y = ((s64) t1 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        t0 = gPairsByAngle[(ptcl->field20 >> 4) * 2];
+        t1 = gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1];
+        m.field0[0].x = ((s64) t1 * f0 + 0x800) >> 12;
+        m.field0[0].y = ((s64) t0 * f0 + 0x800) >> 12;
+        m.field0[0].z = 0;
+        m.field0[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
+        m.field0[1].y = ((s64) t1 * f1 + 0x800) >> 12;
+        m.field0[1].z = 0;
+        m.field0[2].x = 0;
+        m.field0[2].y = 0;
+        m.field0[2].z = 0x1000;
+        m.field0[3].x = t.x;
+        m.field0[3].y = t.y;
+        m.field0[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
-        z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        x = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        z = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        y = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        x = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = x;
         reg_G3_MTX_TRANS = y;
         reg_G3_MTX_TRANS = z;
@@ -952,9 +952,9 @@ void SPLDraw_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     }
     reg_G3_COLOR = (u16) ((((c0 & 0x1f) * (c1 & 0x1f)) >> 5) | ((((c0 & 0x3e0) * (c1 & 0x3e0)) >> 15) << 5) |
                           ((((c0 & 0x7c00) * (c1 & 0x7c00)) >> 25) << 10));
-    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mUnk_78, mgr->mRenderStateEmitter->mUnk_7a,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_52);
+    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->field78, mgr->mRenderStateEmitter->field7A,
+                        mgr->mRenderStateEmitter->field20->field0->field50,
+                        mgr->mRenderStateEmitter->field20->field0->field52);
 }
 
 void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -973,82 +973,82 @@ void SPLDraw_Child_Billboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 s;
     MtxFx43 *q;
 
-    s = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
+    s = mgr->mRenderStateEmitter->field20->field0->field30;
     q = mgr->mRenderStateViewMatrix;
-    k = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
+    k = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (k == 0) {
         return;
     }
-    f1 = ptcl->mUnk_30;
+    f1 = ptcl->field30;
     f0 = ((s64) f1 * s + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
     }
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        t.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+    if (mgr->mRenderStateEmitter->field20->field0->field0.field0_23 == 0) {
+        t.x = ptcl->field8.x + ptcl->field38.x;
+        t.y = ptcl->field8.y + ptcl->field38.y;
+        t.z = ptcl->field8.z + ptcl->field38.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = ((s64) t1 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].y = ((s64) t0 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].y = ((s64) t1 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        t0 = gPairsByAngle[(ptcl->field20 >> 4) * 2];
+        t1 = gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1];
+        m.field0[0].x = ((s64) t1 * f0 + 0x800) >> 12;
+        m.field0[0].y = ((s64) t0 * f0 + 0x800) >> 12;
+        m.field0[0].z = 0;
+        m.field0[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
+        m.field0[1].y = ((s64) t1 * f1 + 0x800) >> 12;
+        m.field0[1].z = 0;
+        m.field0[2].x = 0;
+        m.field0[2].y = 0;
+        m.field0[2].z = 0x1000;
+        m.field0[3].x = t.x;
+        m.field0[3].y = t.y;
+        m.field0[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(&m);
     } else {
-        t.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        t.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        t.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        t.x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        t.y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        t.z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
         MTX_MultVec43(&t, q, &t);
-        t0 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2];
-        t1 = gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1];
-        m.mUnk_00[0].x = ((s64) t1 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].y = ((s64) t0 * f0 + 0x800) >> 12;
-        m.mUnk_00[0].z = 0;
-        m.mUnk_00[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].y = ((s64) t1 * f1 + 0x800) >> 12;
-        m.mUnk_00[1].z = 0;
-        m.mUnk_00[2].x = 0;
-        m.mUnk_00[2].y = 0;
-        m.mUnk_00[2].z = 0x1000;
-        m.mUnk_00[3].x = t.x;
-        m.mUnk_00[3].y = t.y;
-        m.mUnk_00[3].z = t.z;
+        t0 = gPairsByAngle[(ptcl->field20 >> 4) * 2];
+        t1 = gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1];
+        m.field0[0].x = ((s64) t1 * f0 + 0x800) >> 12;
+        m.field0[0].y = ((s64) t0 * f0 + 0x800) >> 12;
+        m.field0[0].z = 0;
+        m.field0[1].x = ((s64) -t0 * f1 + 0x800) >> 12;
+        m.field0[1].y = ((s64) t1 * f1 + 0x800) >> 12;
+        m.field0[1].z = 0;
+        m.field0[2].x = 0;
+        m.field0[2].y = 0;
+        m.field0[2].z = 0x1000;
+        m.field0[3].x = t.x;
+        m.field0[3].y = t.y;
+        m.field0[3].z = t.z;
         reg_G3_MTX_IDENTITY = 0;
-        z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        x = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        z = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        y = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        x = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = x;
         reg_G3_MTX_TRANS = y;
         reg_G3_MTX_TRANS = z;
         G3_MultMtx43(&m);
     }
-    c0 = ptcl->mUnk_36;
-    c1 = mgr->mRenderStateEmitter->mUnk_72;
+    c0 = ptcl->field36;
+    c1 = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((c0 & 0x1f) * (c1 & 0x1f)) >> 5) | ((((c0 & 0x3e0) * (c1 & 0x3e0)) >> 15) << 5) |
                           ((((c0 & 0x7c00) * (c1 & 0x7c00)) >> 25) << 10));
-    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mUnk_7c, mgr->mRenderStateEmitter->mUnk_7e, 0, 0);
+    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->field7C, mgr->mRenderStateEmitter->field7E, 0, 0);
 }
 
 void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -1073,35 +1073,35 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 n;
 
     m = mgr->mRenderStateViewMatrix;
-    s = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
-    a = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (a << 16);
+    s = mgr->mRenderStateEmitter->field20->field0->field30;
+    a = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (a << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (a == 0) {
         return;
     }
-    w = ptcl->mUnk_30;
+    w = ptcl->field30;
     h = ((s64) w * s + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            h = ((s64) h * ptcl->mUnk_34 + 0x800) >> 12;
-            w = ((s64) w * ptcl->mUnk_34 + 0x800) >> 12;
+            h = ((s64) h * ptcl->field34 + 0x800) >> 12;
+            w = ((s64) w * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            h = ((s64) h * ptcl->mUnk_34 + 0x800) >> 12;
+            h = ((s64) h * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            w = ((s64) w * ptcl->mUnk_34 + 0x800) >> 12;
+            w = ((s64) w * ptcl->field34 + 0x800) >> 12;
             break;
     }
-    if (!mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23) {
-        pos.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
-        v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+    if (!mgr->mRenderStateEmitter->field20->field0->field0.field0_23) {
+        pos.x = ptcl->field8.x + ptcl->field38.x;
+        pos.y = ptcl->field8.y + ptcl->field38.y;
+        pos.z = ptcl->field8.z + ptcl->field38.z;
+        v = ptcl->field14;
+        col.x = m->field0[0].z;
+        col.y = m->field0[1].z;
+        col.z = m->field0[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1110,14 +1110,14 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MI_Copy36B(m, m33);
         MTX_MultVec33(&v, m33, &v);
         MTX_MultVec43(&pos, m, &pos);
-        c = ptcl->mUnk_14;
+        c = ptcl->field14;
         VEC_Normalize(&c, &c);
-        t = (s32) (((s64) c.x * -m->mUnk_00[0].z + 0x800) >> 12) +
-            (s32) (((s64) c.y * -m->mUnk_00[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->mUnk_00[2].z + 0x800) >> 12);
+        t = (s32) (((s64) c.x * -m->field0[0].z + 0x800) >> 12) +
+            (s32) (((s64) c.y * -m->field0[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->field0[2].z + 0x800) >> 12);
         if (t < 0) {
             t = -t;
         }
-        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
+        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->field20->field0->field48.field0_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
         buf[0] = ((s64) v.x * h + 0x800) >> 12;
         buf[3] = ((s64) -v.y * x + 0x800) >> 12;
@@ -1134,13 +1134,13 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(buf);
     } else {
-        pos.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+        pos.x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        pos.y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        pos.z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
+        v = ptcl->field14;
+        col.x = m->field0[0].z;
+        col.y = m->field0[1].z;
+        col.z = m->field0[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1149,14 +1149,14 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MI_Copy36B(m, m33);
         MTX_MultVec33(&v, m33, &v);
         MTX_MultVec43(&pos, m, &pos);
-        c = ptcl->mUnk_14;
+        c = ptcl->field14;
         VEC_Normalize(&c, &c);
-        t = (s32) (((s64) c.x * -m->mUnk_00[0].z + 0x800) >> 12) +
-            (s32) (((s64) c.y * -m->mUnk_00[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->mUnk_00[2].z + 0x800) >> 12);
+        t = (s32) (((s64) c.x * -m->field0[0].z + 0x800) >> 12) +
+            (s32) (((s64) c.y * -m->field0[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->field0[2].z + 0x800) >> 12);
         if (t < 0) {
             t = -t;
         }
-        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
+        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->field20->field0->field48.field0_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
         buf[0] = ((s64) v.x * h + 0x800) >> 12;
         buf[3] = ((s64) -v.y * x + 0x800) >> 12;
@@ -1171,21 +1171,21 @@ void SPLDraw_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         buf[8] = 0x1000;
         buf[11] = pos.z;
         reg_G3_MTX_IDENTITY = 0;
-        n = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        j = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        i = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        n = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        j = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        i = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = i;
         reg_G3_MTX_TRANS = j;
         reg_G3_MTX_TRANS = n;
         G3_MultMtx43(buf);
     }
-    q = ptcl->mUnk_36;
-    k = mgr->mRenderStateEmitter->mUnk_72;
+    q = ptcl->field36;
+    k = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((q & 0x1f) * (k & 0x1f)) >> 5) | ((((q & 0x3e0) * (k & 0x3e0)) >> 15) << 5) |
                           ((((q & 0x7c00) * (k & 0x7c00)) >> 25) << 10));
-    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mUnk_78, mgr->mRenderStateEmitter->mUnk_7a,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50,
-                        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_52);
+    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->field78, mgr->mRenderStateEmitter->field7A,
+                        mgr->mRenderStateEmitter->field20->field0->field50,
+                        mgr->mRenderStateEmitter->field20->field0->field52);
 }
 
 void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -1210,35 +1210,35 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 n;
 
     m = mgr->mRenderStateViewMatrix;
-    s = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30;
-    a = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (a << 16);
+    s = mgr->mRenderStateEmitter->field20->field0->field30;
+    a = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (a << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (a == 0) {
         return;
     }
-    w = ptcl->mUnk_30;
+    w = ptcl->field30;
     h = ((s64) w * s + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            h = ((s64) h * ptcl->mUnk_34 + 0x800) >> 12;
-            w = ((s64) w * ptcl->mUnk_34 + 0x800) >> 12;
+            h = ((s64) h * ptcl->field34 + 0x800) >> 12;
+            w = ((s64) w * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            h = ((s64) h * ptcl->mUnk_34 + 0x800) >> 12;
+            h = ((s64) h * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            w = ((s64) w * ptcl->mUnk_34 + 0x800) >> 12;
+            w = ((s64) w * ptcl->field34 + 0x800) >> 12;
             break;
     }
-    if (!mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23) {
-        pos.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
-        v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+    if (!mgr->mRenderStateEmitter->field20->field0->field0.field0_23) {
+        pos.x = ptcl->field8.x + ptcl->field38.x;
+        pos.y = ptcl->field8.y + ptcl->field38.y;
+        pos.z = ptcl->field8.z + ptcl->field38.z;
+        v = ptcl->field14;
+        col.x = m->field0[0].z;
+        col.y = m->field0[1].z;
+        col.z = m->field0[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1247,14 +1247,14 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MI_Copy36B(m, m33);
         MTX_MultVec33(&v, m33, &v);
         MTX_MultVec43(&pos, m, &pos);
-        c = ptcl->mUnk_14;
+        c = ptcl->field14;
         VEC_Normalize(&c, &c);
-        t = (s32) (((s64) c.x * -m->mUnk_00[0].z + 0x800) >> 12) +
-            (s32) (((s64) c.y * -m->mUnk_00[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->mUnk_00[2].z + 0x800) >> 12);
+        t = (s32) (((s64) c.x * -m->field0[0].z + 0x800) >> 12) +
+            (s32) (((s64) c.y * -m->field0[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->field0[2].z + 0x800) >> 12);
         if (t < 0) {
             t = -t;
         }
-        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
+        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->field20->field0->field48.field0_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
         buf[0] = ((s64) v.x * h + 0x800) >> 12;
         buf[3] = ((s64) -v.y * x + 0x800) >> 12;
@@ -1271,13 +1271,13 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         reg_G3_MTX_IDENTITY = 0;
         G3_MultMtx43(buf);
     } else {
-        pos.x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        pos.y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        pos.z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        v = ptcl->mUnk_14;
-        col.x = m->mUnk_00[0].z;
-        col.y = m->mUnk_00[1].z;
-        col.z = m->mUnk_00[2].z;
+        pos.x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        pos.y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        pos.z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
+        v = ptcl->field14;
+        col.x = m->field0[0].z;
+        col.y = m->field0[1].z;
+        col.z = m->field0[2].z;
         VEC_CrossProduct(&v, &col, &v);
         if (v.x == 0 && v.y == 0 && v.z == 0) {
             return;
@@ -1286,14 +1286,14 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         MI_Copy36B(m, m33);
         MTX_MultVec33(&v, m33, &v);
         MTX_MultVec43(&pos, m, &pos);
-        c = ptcl->mUnk_14;
+        c = ptcl->field14;
         VEC_Normalize(&c, &c);
-        t = (s32) (((s64) c.x * -m->mUnk_00[0].z + 0x800) >> 12) +
-            (s32) (((s64) c.y * -m->mUnk_00[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->mUnk_00[2].z + 0x800) >> 12);
+        t = (s32) (((s64) c.x * -m->field0[0].z + 0x800) >> 12) +
+            (s32) (((s64) c.y * -m->field0[1].z + 0x800) >> 12) + (s32) (((s64) c.z * -m->field0[2].z + 0x800) >> 12);
         if (t < 0) {
             t = -t;
         }
-        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_8 + 0x800) >> 12;
+        u = ((s64) (0x1000 - t) * (s32) mgr->mRenderStateEmitter->field20->field0->field48.field0_8 + 0x800) >> 12;
         x = ((s64) w * (u + 0x1000) + 0x800) >> 12;
         buf[0] = ((s64) v.x * h + 0x800) >> 12;
         buf[3] = ((s64) -v.y * x + 0x800) >> 12;
@@ -1308,19 +1308,19 @@ void SPLDraw_Child_DirectionalBillboard(SPLManager *mgr, Unk0201e3c8 *ptcl) {
         buf[8] = 0x1000;
         buf[11] = pos.z;
         reg_G3_MTX_IDENTITY = 0;
-        n = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        j = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        i = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        n = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        j = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        i = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = i;
         reg_G3_MTX_TRANS = j;
         reg_G3_MTX_TRANS = n;
         G3_MultMtx43(buf);
     }
-    q = ptcl->mUnk_36;
-    k = mgr->mRenderStateEmitter->mUnk_72;
+    q = ptcl->field36;
+    k = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((q & 0x1f) * (k & 0x1f)) >> 5) | ((((q & 0x3e0) * (k & 0x3e0)) >> 15) << 5) |
                           ((((q & 0x7c00) * (k & 0x7c00)) >> 25) << 10));
-    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->mUnk_7c, mgr->mRenderStateEmitter->mUnk_7e, 0, 0);
+    SPLUtil_DrawXYPlane(mgr->mRenderStateEmitter->field7C, mgr->mRenderStateEmitter->field7E, 0, 0);
 }
 
 void SPLDraw_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -1336,57 +1336,57 @@ void SPLDraw_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 y;
     s32 z;
 
-    k = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
+    k = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_17](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
-    f1 = ptcl->mUnk_30;
-    f0 = ((s64) f1 * mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30 + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    data_02161ac8[mgr->mRenderStateEmitter->field20->field0->field0.field0_17](
+        gPairsByAngle[(ptcl->field20 >> 4) * 2], gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1], &b);
+    f1 = ptcl->field30;
+    f0 = ((s64) f1 * mgr->mRenderStateEmitter->field20->field0->field30 + 0x800) >> 12;
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
     }
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&c, &b, &a);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+    if (mgr->mRenderStateEmitter->field20->field0->field0.field0_23 == 0) {
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
         reg_G3_MTX_IDENTITY = 0;
-        z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        x = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        z = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        y = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        x = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = x;
         reg_G3_MTX_TRANS = y;
         reg_G3_MTX_TRANS = z;
         G3_MultMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     }
-    c0 = ptcl->mUnk_36;
-    c1 = mgr->mRenderStateEmitter->mUnk_72;
+    c0 = ptcl->field36;
+    c1 = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((c0 & 0x1f) * (c1 & 0x1f)) >> 5) | ((((c0 & 0x3e0) * (c1 & 0x3e0)) >> 15) << 5) |
                           ((((c0 & 0x7c00) * (c1 & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_19](
-        mgr->mRenderStateEmitter->mUnk_78, mgr->mRenderStateEmitter->mUnk_7a,
-        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_52);
+    data_02161ac0[mgr->mRenderStateEmitter->field20->field0->field0.field0_19](
+        mgr->mRenderStateEmitter->field78, mgr->mRenderStateEmitter->field7A,
+        mgr->mRenderStateEmitter->field20->field0->field50, mgr->mRenderStateEmitter->field20->field0->field52);
 }
 
 void SPLDraw_Child_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -1402,56 +1402,56 @@ void SPLDraw_Child_Polygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 y;
     s32 z;
 
-    k = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
+    k = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
-    f1 = ptcl->mUnk_30;
-    f0 = ((s64) f1 * mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30 + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    data_02161ac8[mgr->mRenderStateEmitter->field20->field14->field0_9](
+        gPairsByAngle[(ptcl->field20 >> 4) * 2], gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1], &b);
+    f1 = ptcl->field30;
+    f0 = ((s64) f1 * mgr->mRenderStateEmitter->field20->field0->field30 + 0x800) >> 12;
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
     }
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&b, &c, &a);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+    if (mgr->mRenderStateEmitter->field20->field0->field0.field0_23 == 0) {
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
         reg_G3_MTX_IDENTITY = 0;
-        z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        x = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        z = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        y = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        x = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = x;
         reg_G3_MTX_TRANS = y;
         reg_G3_MTX_TRANS = z;
         G3_MultMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     }
-    c0 = ptcl->mUnk_36;
-    c1 = mgr->mRenderStateEmitter->mUnk_72;
+    c0 = ptcl->field36;
+    c1 = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((c0 & 0x1f) * (c1 & 0x1f)) >> 5) | ((((c0 & 0x3e0) * (c1 & 0x3e0)) >> 15) << 5) |
                           ((((c0 & 0x7c00) * (c1 & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_11](mgr->mRenderStateEmitter->mUnk_7c,
-                                                                          mgr->mRenderStateEmitter->mUnk_7e, 0, 0);
+    data_02161ac0[mgr->mRenderStateEmitter->field20->field14->field0_11](mgr->mRenderStateEmitter->field7C,
+                                                                          mgr->mRenderStateEmitter->field7E, 0, 0);
 }
 
 void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -1473,19 +1473,19 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 y;
     s32 z;
 
-    k = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
+    k = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_17](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
+    data_02161ac8[mgr->mRenderStateEmitter->field20->field0->field0.field0_17](
+        gPairsByAngle[(ptcl->field20 >> 4) * 2], gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1], &b);
     MTX_Identity43_(&d);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_31 == 0) {
-        VEC_Normalize(&ptcl->mUnk_14, &v);
+    if (mgr->mRenderStateEmitter->field20->field0->field48.field0_31 == 0) {
+        VEC_Normalize(&ptcl->field14, &v);
     } else {
-        VEC_Normalize(&ptcl->mUnk_08, &v);
+        VEC_Normalize(&ptcl->field8, &v);
         v.x = -v.x;
         v.y = -v.y;
         v.z = -v.z;
@@ -1501,59 +1501,59 @@ void SPLDraw_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     }
     VEC_CrossProduct(&v, &e, &u);
     VEC_CrossProduct(&v, &u, &w);
-    d.mUnk_00[0].x = u.x;
-    d.mUnk_00[0].y = u.y;
-    d.mUnk_00[0].z = u.z;
-    d.mUnk_00[1].x = v.x;
-    d.mUnk_00[1].y = v.y;
-    d.mUnk_00[1].z = v.z;
-    d.mUnk_00[2].x = w.x;
-    d.mUnk_00[2].y = w.y;
-    d.mUnk_00[2].z = w.z;
+    d.field0[0].x = u.x;
+    d.field0[0].y = u.y;
+    d.field0[0].z = u.z;
+    d.field0[1].x = v.x;
+    d.field0[1].y = v.y;
+    d.field0[1].z = v.z;
+    d.field0[2].x = w.x;
+    d.field0[2].y = w.y;
+    d.field0[2].z = w.z;
     MTX_Concat43(&b, &d, &b);
-    f1 = ptcl->mUnk_30;
-    f0 = ((s64) f1 * mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30 + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    f1 = ptcl->field30;
+    f0 = ((s64) f1 * mgr->mRenderStateEmitter->field20->field0->field30 + 0x800) >> 12;
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
     }
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&c, &b, &a);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+    if (mgr->mRenderStateEmitter->field20->field0->field0.field0_23 == 0) {
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
         reg_G3_MTX_IDENTITY = 0;
-        z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        x = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        z = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        y = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        x = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = x;
         reg_G3_MTX_TRANS = y;
         reg_G3_MTX_TRANS = z;
         G3_MultMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     }
-    c0 = ptcl->mUnk_36;
-    c1 = mgr->mRenderStateEmitter->mUnk_72;
+    c0 = ptcl->field36;
+    c1 = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((c0 & 0x1f) * (c1 & 0x1f)) >> 5) | ((((c0 & 0x3e0) * (c1 & 0x3e0)) >> 15) << 5) |
                           ((((c0 & 0x7c00) * (c1 & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_19](
-        mgr->mRenderStateEmitter->mUnk_78, mgr->mRenderStateEmitter->mUnk_7a,
-        mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_50, mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_52);
+    data_02161ac0[mgr->mRenderStateEmitter->field20->field0->field0.field0_19](
+        mgr->mRenderStateEmitter->field78, mgr->mRenderStateEmitter->field7A,
+        mgr->mRenderStateEmitter->field20->field0->field50, mgr->mRenderStateEmitter->field20->field0->field52);
 }
 
 void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
@@ -1575,19 +1575,19 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     s32 y;
     s32 z;
 
-    k = (ptcl->mUnk_2e_0 * (ptcl->mUnk_2e_5 + 1)) >> 5;
-    reg_G3_POLYGON_ATTR = (ptcl->mUnk_2e_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
+    k = (ptcl->field2E_0 * (ptcl->field2E_5 + 1)) >> 5;
+    reg_G3_POLYGON_ATTR = (ptcl->field2E_10 << 24) | (mgr->mMiscPolygonAttr | 0xc0) | (k << 16);
     reg_G3_POLYGON_ATTR; // read back after the write
     if (k == 0) {
         return;
     }
-    data_02161ac8[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_9](
-        gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2], gPairsByAngle[(ptcl->mUnk_20 >> 4) * 2 + 1], &b);
+    data_02161ac8[mgr->mRenderStateEmitter->field20->field14->field0_9](
+        gPairsByAngle[(ptcl->field20 >> 4) * 2], gPairsByAngle[(ptcl->field20 >> 4) * 2 + 1], &b);
     MTX_Identity43_(&d);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_10.mUnk_00_6 == 0) {
-        VEC_Normalize(&ptcl->mUnk_14, &v);
+    if (mgr->mRenderStateEmitter->field20->field14->field10.field0_6 == 0) {
+        VEC_Normalize(&ptcl->field14, &v);
     } else {
-        VEC_Normalize(&ptcl->mUnk_08, &v);
+        VEC_Normalize(&ptcl->field8, &v);
         v.x = -v.x;
         v.y = -v.y;
         v.z = -v.z;
@@ -1603,58 +1603,58 @@ void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, Unk0201e3c8 *ptcl) {
     }
     VEC_CrossProduct(&v, &e, &u);
     VEC_CrossProduct(&v, &u, &w);
-    d.mUnk_00[0].x = u.x;
-    d.mUnk_00[0].y = u.y;
-    d.mUnk_00[0].z = u.z;
-    d.mUnk_00[1].x = v.x;
-    d.mUnk_00[1].y = v.y;
-    d.mUnk_00[1].z = v.z;
-    d.mUnk_00[2].x = w.x;
-    d.mUnk_00[2].y = w.y;
-    d.mUnk_00[2].z = w.z;
+    d.field0[0].x = u.x;
+    d.field0[0].y = u.y;
+    d.field0[0].z = u.z;
+    d.field0[1].x = v.x;
+    d.field0[1].y = v.y;
+    d.field0[1].z = v.z;
+    d.field0[2].x = w.x;
+    d.field0[2].y = w.y;
+    d.field0[2].z = w.z;
     MTX_Concat43(&b, &d, &b);
-    f1 = ptcl->mUnk_30;
-    f0 = ((s64) f1 * mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_30 + 0x800) >> 12;
-    switch (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_48.mUnk_00_28) {
+    f1 = ptcl->field30;
+    f0 = ((s64) f1 * mgr->mRenderStateEmitter->field20->field0->field30 + 0x800) >> 12;
+    switch (mgr->mRenderStateEmitter->field20->field0->field48.field0_28) {
         case 0:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
         case 1:
-            f0 = ((s64) f0 * ptcl->mUnk_34 + 0x800) >> 12;
+            f0 = ((s64) f0 * ptcl->field34 + 0x800) >> 12;
             break;
         case 2:
-            f1 = ((s64) f1 * ptcl->mUnk_34 + 0x800) >> 12;
+            f1 = ((s64) f1 * ptcl->field34 + 0x800) >> 12;
             break;
     }
     MTX_Scale43_(&c, f0, f1, f1);
     MTX_Concat43(&b, &c, &a);
-    if (mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_00.mUnk_00_23 == 0) {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z;
+    if (mgr->mRenderStateEmitter->field20->field0->field0.field0_23 == 0) {
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z;
         G3_LoadMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     } else {
-        a.mUnk_00[3].x = ptcl->mUnk_08.x + ptcl->mUnk_38.x - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
-        a.mUnk_00[3].y = ptcl->mUnk_08.y + ptcl->mUnk_38.y - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        a.mUnk_00[3].z = ptcl->mUnk_08.z + ptcl->mUnk_38.z - mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
+        a.field0[3].x = ptcl->field8.x + ptcl->field38.x - mgr->mRenderStateEmitter->field20->field0->field4.x;
+        a.field0[3].y = ptcl->field8.y + ptcl->field38.y - mgr->mRenderStateEmitter->field20->field0->field4.y;
+        a.field0[3].z = ptcl->field8.z + ptcl->field38.z - mgr->mRenderStateEmitter->field20->field0->field4.z;
         reg_G3_MTX_IDENTITY = 0;
-        z = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.z;
-        y = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.y;
-        x = mgr->mRenderStateEmitter->mUnk_20->mUnk_00->mUnk_04.x;
+        z = mgr->mRenderStateEmitter->field20->field0->field4.z;
+        y = mgr->mRenderStateEmitter->field20->field0->field4.y;
+        x = mgr->mRenderStateEmitter->field20->field0->field4.x;
         reg_G3_MTX_TRANS = x;
         reg_G3_MTX_TRANS = y;
         reg_G3_MTX_TRANS = z;
         G3_MultMtx43(mgr->mRenderStateViewMatrix);
         G3_MultMtx43(&a);
     }
-    c0 = ptcl->mUnk_36;
-    c1 = mgr->mRenderStateEmitter->mUnk_72;
+    c0 = ptcl->field36;
+    c1 = mgr->mRenderStateEmitter->field72;
     reg_G3_COLOR = (u16) ((((c0 & 0x1f) * (c1 & 0x1f)) >> 5) | ((((c0 & 0x3e0) * (c1 & 0x3e0)) >> 15) << 5) |
                           ((((c0 & 0x7c00) * (c1 & 0x7c00)) >> 25) << 10));
-    data_02161ac0[mgr->mRenderStateEmitter->mUnk_20->mUnk_14->mUnk_00_11](mgr->mRenderStateEmitter->mUnk_7c,
-                                                                          mgr->mRenderStateEmitter->mUnk_7e, 0, 0);
+    data_02161ac0[mgr->mRenderStateEmitter->field20->field14->field0_11](mgr->mRenderStateEmitter->field7C,
+                                                                          mgr->mRenderStateEmitter->field7E, 0, 0);
 }
 
 typedef enum { UNK_02019DF8_KIND_0 } Unk02019df8_Kind;
@@ -1670,13 +1670,13 @@ void SPLUtil_SetTexture(Unk020184e4_2c *tex) {
     u32 sx;
     u32 sy;
 
-    w = tex->mUnk_0c;
-    func_02019df8_inline(tex->mUnk_04, w.mUnk_00_0, w.mUnk_00_4, w.mUnk_00_8, w.mUnk_00_12, w.mUnk_00_14, w.mUnk_00_16);
-    reg_G3_PLTT_BASE = tex->mUnk_08 >> (4 - (w.mUnk_00_0 == 2 ? 1 : 0));
+    w = tex->fieldC;
+    func_02019df8_inline(tex->field4, w.field0_0, w.field0_4, w.field0_8, w.field0_12, w.field0_14, w.field0_16);
+    reg_G3_PLTT_BASE = tex->field8 >> (4 - (w.field0_0 == 2 ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
-    sx = tex->mUnk_10 << 12;
-    sy = tex->mUnk_12 << 12;
+    sx = tex->field10 << 12;
+    sy = tex->field12 << 12;
     reg_G3_MTX_SCALE = sx;
     reg_G3_MTX_SCALE = sy;
     reg_G3_MTX_SCALE = 0;
@@ -1688,57 +1688,57 @@ void SPLUtil_SetTexture_Stub(Unk020184e4_2c *tex) {}
 void SPLEmitter_Init(Unk0201ca6c *emtr, Unk0201ca6c_20 *res, Vec3 *pos) {
     Unk0201ca6c_20_00 *d;
 
-    emtr->mUnk_20 = res;
-    *(u32 *) &emtr->mUnk_24 = 0;
-    emtr->mUnk_28.x = pos->x + emtr->mUnk_20->mUnk_00->mUnk_04.x;
-    emtr->mUnk_28.y = pos->y + emtr->mUnk_20->mUnk_00->mUnk_04.y;
-    emtr->mUnk_28.z = pos->z + emtr->mUnk_20->mUnk_00->mUnk_04.z;
-    emtr->mUnk_40.x = 0;
-    emtr->mUnk_40.y = 0;
-    emtr->mUnk_40.z = 0;
-    emtr->mUnk_34.x = emtr->mUnk_34.y = emtr->mUnk_34.z = 0;
-    emtr->mUnk_4c = 0;
-    emtr->mUnk_4e = 0;
-    d = emtr->mUnk_20->mUnk_00;
-    emtr->mUnk_50 = d->mUnk_1c;
-    emtr->mUnk_56 = emtr->mUnk_20->mUnk_00->mUnk_38;
-    emtr->mUnk_58 = emtr->mUnk_20->mUnk_00->mUnk_10;
-    emtr->mUnk_5c = emtr->mUnk_20->mUnk_00->mUnk_14;
-    emtr->mUnk_60 = emtr->mUnk_20->mUnk_00->mUnk_18;
-    emtr->mUnk_64 = emtr->mUnk_20->mUnk_00->mUnk_24;
-    emtr->mUnk_68 = emtr->mUnk_20->mUnk_00->mUnk_28;
-    emtr->mUnk_6c = emtr->mUnk_20->mUnk_00->mUnk_2c;
-    emtr->mUnk_70 = emtr->mUnk_20->mUnk_00->mUnk_3e;
-    emtr->mUnk_72 = 0x7fff;
-    emtr->mUnk_80_0 = emtr->mUnk_20->mUnk_00->mUnk_44;
-    emtr->mUnk_80_8 = emtr->mUnk_20->mUnk_00->mUnk_45;
-    emtr->mUnk_80_16 = 0;
-    emtr->mUnk_80_19 = 0;
-    emtr->mUnk_74 = 0x80000000;
-    emtr->mUnk_78 = 0x1000 << emtr->mUnk_20->mUnk_00->mUnk_48.mUnk_00_24;
-    emtr->mUnk_7a = 0x1000 << emtr->mUnk_20->mUnk_00->mUnk_48.mUnk_00_26;
-    if (emtr->mUnk_20->mUnk_00->mUnk_4c_0) {
-        emtr->mUnk_78 *= -1;
+    emtr->field20 = res;
+    *(u32 *) &emtr->field24 = 0;
+    emtr->field28.x = pos->x + emtr->field20->field0->field4.x;
+    emtr->field28.y = pos->y + emtr->field20->field0->field4.y;
+    emtr->field28.z = pos->z + emtr->field20->field0->field4.z;
+    emtr->field40.x = 0;
+    emtr->field40.y = 0;
+    emtr->field40.z = 0;
+    emtr->field34.x = emtr->field34.y = emtr->field34.z = 0;
+    emtr->field4C = 0;
+    emtr->field4E = 0;
+    d = emtr->field20->field0;
+    emtr->field50 = d->field1C;
+    emtr->field56 = emtr->field20->field0->field38;
+    emtr->field58 = emtr->field20->field0->field10;
+    emtr->field5C = emtr->field20->field0->field14;
+    emtr->field60 = emtr->field20->field0->field18;
+    emtr->field64 = emtr->field20->field0->field24;
+    emtr->field68 = emtr->field20->field0->field28;
+    emtr->field6C = emtr->field20->field0->field2C;
+    emtr->field70 = emtr->field20->field0->field3E;
+    emtr->field72 = 0x7fff;
+    emtr->field80_0 = emtr->field20->field0->field44;
+    emtr->field80_8 = emtr->field20->field0->field45;
+    emtr->field80_16 = 0;
+    emtr->field80_19 = 0;
+    emtr->field74 = 0x80000000;
+    emtr->field78 = 0x1000 << emtr->field20->field0->field48.field0_24;
+    emtr->field7A = 0x1000 << emtr->field20->field0->field48.field0_26;
+    if (emtr->field20->field0->field4C_0) {
+        emtr->field78 *= -1;
     }
-    if (emtr->mUnk_20->mUnk_00->mUnk_4c_1) {
-        emtr->mUnk_7a *= -1;
+    if (emtr->field20->field0->field4C_1) {
+        emtr->field7A *= -1;
     }
-    if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_16) {
-        emtr->mUnk_7c = 0x1000 << emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_0;
-        emtr->mUnk_7e = 0x1000 << emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_2;
-        if (emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_4) {
-            emtr->mUnk_7c *= -1;
+    if (emtr->field20->field0->field0.field0_16) {
+        emtr->field7C = 0x1000 << emtr->field20->field14->field10.field0_0;
+        emtr->field7E = 0x1000 << emtr->field20->field14->field10.field0_2;
+        if (emtr->field20->field14->field10.field0_4) {
+            emtr->field7C *= -1;
         }
-        if (emtr->mUnk_20->mUnk_14->mUnk_10.mUnk_00_5) {
-            emtr->mUnk_7e *= -1;
+        if (emtr->field20->field14->field10.field0_5) {
+            emtr->field7E *= -1;
         }
     }
-    emtr->mUnk_00 = emtr->mUnk_04 = 0;
-    emtr->mUnk_08.mUnk_00 = emtr->mUnk_14.mUnk_00 = 0;
-    emtr->mUnk_08.mUnk_04 = emtr->mUnk_14.mUnk_04 = 0;
-    emtr->mUnk_90 = 0;
-    emtr->mUnk_94 = 0;
-    emtr->mUnk_98 = 0;
+    emtr->field0 = emtr->field4 = 0;
+    emtr->field8.field0 = emtr->field14.field0 = 0;
+    emtr->field8.field4 = emtr->field14.field4 = 0;
+    emtr->field90 = 0;
+    emtr->field94 = 0;
+    emtr->field98 = 0;
 }
 
 void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
@@ -1758,142 +1758,142 @@ void SPLEmitter_Update(SPLManager *mgr, Unk0201ca6c *emtr) {
     Unk020192e0_28 tbl2[4];
     Vec3 v;
 
-    c = emtr->mUnk_20;
-    e = c->mUnk_14;
-    d = c->mUnk_00;
-    flags = d->mUnk_00;
+    c = emtr->field20;
+    e = c->field14;
+    d = c->field0;
+    flags = d->field0;
     n = 0;
-    k0 = d->mUnk_46 + 0x180;
-    cnt = c->mUnk_1c;
+    k0 = d->field46 + 0x180;
+    cnt = c->field1C;
 
-    if (emtr->mUnk_90) {
-        emtr->mUnk_90(emtr, 0);
+    if (emtr->field90) {
+        emtr->field90(emtr, 0);
     }
 
-    if (d->mUnk_3c == 0 || emtr->mUnk_4c < d->mUnk_3c) {
-        if (emtr->mUnk_4c % emtr->mUnk_80_0 == 0 && !emtr->mUnk_24.mUnk_00_0 && !emtr->mUnk_24.mUnk_00_1 &&
-            emtr->mUnk_24.mUnk_00_4) {
-            SPLEmitter_EmitParticles(emtr, &mgr->mUnk_04[2]);
+    if (d->field3C == 0 || emtr->field4C < d->field3C) {
+        if (emtr->field4C % emtr->field80_0 == 0 && !emtr->field24.field0_0 && !emtr->field24.field0_1 &&
+            emtr->field24.field0_4) {
+            SPLEmitter_EmitParticles(emtr, &mgr->field4[2]);
         }
     }
 
-    if (flags.mUnk_00_8) {
-        tbl[n].mUnk_00 = SPLAnim_Scale;
-        tbl[n++].mUnk_04 = c->mUnk_04->mUnk_08_0;
+    if (flags.field0_8) {
+        tbl[n].field0 = SPLAnim_Scale;
+        tbl[n++].field4 = c->field4->field8_0;
     }
-    if (flags.mUnk_00_9 && !c->mUnk_08->mUnk_08_0) {
-        tbl[n].mUnk_00 = SPLAnim_Color;
-        tbl[n++].mUnk_04 = c->mUnk_08->mUnk_08_1;
+    if (flags.field0_9 && !c->field8->field8_0) {
+        tbl[n].field0 = SPLAnim_Color;
+        tbl[n++].field4 = c->field8->field8_1;
     }
-    if (flags.mUnk_00_10) {
-        tbl[n].mUnk_00 = SPLAnim_Alpha;
-        tbl[n++].mUnk_04 = c->mUnk_0c->mUnk_02_8;
+    if (flags.field0_10) {
+        tbl[n].field0 = SPLAnim_Alpha;
+        tbl[n++].field4 = c->fieldC->field2_8;
     }
-    if (flags.mUnk_00_11 && !c->mUnk_10->mUnk_08_16) {
-        tbl[n].mUnk_00 = SPLAnim_Texture;
-        tbl[n++].mUnk_04 = c->mUnk_10->mUnk_08_17;
+    if (flags.field0_11 && !c->field10->field8_16) {
+        tbl[n].field0 = SPLAnim_Texture;
+        tbl[n++].field4 = c->field10->field8_17;
     }
 
-    for (n0 = emtr->mUnk_08.mUnk_00; n0; n0 = next) {
-        next = n0->mUnk_00;
-        b[0] = (n0->mUnk_2a * n0->mUnk_26) >> 8;
-        b[1] = n0->mUnk_2d + ((n0->mUnk_28 * n0->mUnk_26) >> 8);
+    for (n0 = emtr->field8.field0; n0; n0 = next) {
+        next = n0->field0;
+        b[0] = (n0->field2A * n0->field26) >> 8;
+        b[1] = n0->field2D + ((n0->field28 * n0->field26) >> 8);
         for (i = 0; i < n; i++) {
-            tbl[i].mUnk_00(n0, c, b[tbl[i].mUnk_04]);
+            tbl[i].field0(n0, c, b[tbl[i].field4]);
         }
         v.x = v.y = v.z = 0;
-        if (flags.mUnk_00_15) {
-            n0->mUnk_38 = emtr->mUnk_28;
+        if (flags.field0_15) {
+            n0->field38 = emtr->field28;
         }
         for (i = 0; i < cnt; i++) {
-            c->mUnk_18[i].mUnk_00(c->mUnk_18[i].mUnk_04, n0, &v, emtr);
+            c->field18[i].field0(c->field18[i].field4, n0, &v, emtr);
         }
-        n0->mUnk_20 += n0->mUnk_22;
-        n0->mUnk_14.x = (n0->mUnk_14.x * k0) >> 9;
-        n0->mUnk_14.y = (n0->mUnk_14.y * k0) >> 9;
-        n0->mUnk_14.z = (n0->mUnk_14.z * k0) >> 9;
-        n0->mUnk_14.x += v.x;
-        n0->mUnk_14.y += v.y;
-        n0->mUnk_14.z += v.z;
-        n0->mUnk_08.x += n0->mUnk_14.x + emtr->mUnk_34.x;
-        n0->mUnk_08.y += n0->mUnk_14.y + emtr->mUnk_34.y;
-        n0->mUnk_08.z += n0->mUnk_14.z + emtr->mUnk_34.z;
-        if (flags.mUnk_00_16) {
-            t = (n0->mUnk_26 << 12) - ((s32) (((s64) (n0->mUnk_24 << 12) * (e->mUnk_0d << 12) + 0x800) >> 12) >> 8);
-            if (t >= 0 && (t >> 12) % e->mUnk_0e == 0) {
-                SPLEmitter_EmitChildren(n0, emtr, &mgr->mUnk_04[2]);
+        n0->field20 += n0->field22;
+        n0->field14.x = (n0->field14.x * k0) >> 9;
+        n0->field14.y = (n0->field14.y * k0) >> 9;
+        n0->field14.z = (n0->field14.z * k0) >> 9;
+        n0->field14.x += v.x;
+        n0->field14.y += v.y;
+        n0->field14.z += v.z;
+        n0->field8.x += n0->field14.x + emtr->field34.x;
+        n0->field8.y += n0->field14.y + emtr->field34.y;
+        n0->field8.z += n0->field14.z + emtr->field34.z;
+        if (flags.field0_16) {
+            t = (n0->field26 << 12) - ((s32) (((s64) (n0->field24 << 12) * (e->fieldD << 12) + 0x800) >> 12) >> 8);
+            if (t >= 0 && (t >> 12) % e->fieldE == 0) {
+                SPLEmitter_EmitChildren(n0, emtr, &mgr->field4[2]);
             }
         }
-        if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_30) {
-            n0->mUnk_2e_10 = mgr->mPolygonIDFix;
+        if (emtr->field20->field0->field0.field0_30) {
+            n0->field2E_10 = mgr->mPolygonIDFix;
         } else {
-            n0->mUnk_2e_10 = mgr->mPolygonIDCurrent;
+            n0->field2E_10 = mgr->mPolygonIDCurrent;
             mgr->mPolygonIDCurrent++;
             if (mgr->mPolygonIDCurrent > mgr->mPolygonIDMax) {
                 mgr->mPolygonIDCurrent = mgr->mPolygonIDMin;
             }
         }
-        n0->mUnk_26++;
-        if (n0->mUnk_26 > n0->mUnk_24) {
-            SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mUnk_08, n0));
+        n0->field26++;
+        if (n0->field26 > n0->field24) {
+            SPLList_PushFront(&mgr->field4[2], SPLList_Erase(&emtr->field8, n0));
         }
     }
 
-    if (flags.mUnk_00_16) {
+    if (flags.field0_16) {
         n = 0;
-        if (e->mUnk_00_1) {
-            tbl2[n].mUnk_00 = SPLAnim_ChildScale;
-            tbl2[n++].mUnk_04 = 0;
+        if (e->field0_1) {
+            tbl2[n].field0 = SPLAnim_ChildScale;
+            tbl2[n++].field4 = 0;
         }
-        if (e->mUnk_00_2) {
-            tbl2[n].mUnk_00 = SPLAnim_ChildAlpha;
-            tbl2[n++].mUnk_04 = 0;
+        if (e->field0_2) {
+            tbl2[n].field0 = SPLAnim_ChildAlpha;
+            tbl2[n++].field4 = 0;
         }
-        if (!e->mUnk_00_0) {
+        if (!e->field0_0) {
             cnt = 0;
         }
-        for (n0 = emtr->mUnk_14.mUnk_00; n0; n0 = next) {
-            next = n0->mUnk_00;
-            b[0] = (n0->mUnk_26 << 8) / n0->mUnk_24;
+        for (n0 = emtr->field14.field0; n0; n0 = next) {
+            next = n0->field0;
+            b[0] = (n0->field26 << 8) / n0->field24;
             for (i = 0; i < n; i++) {
-                tbl2[i].mUnk_00(n0, c, b[0]);
+                tbl2[i].field0(n0, c, b[0]);
             }
             v.x = v.y = v.z = 0;
-            if (e->mUnk_00_5) {
-                n0->mUnk_38 = emtr->mUnk_28;
+            if (e->field0_5) {
+                n0->field38 = emtr->field28;
             }
             for (i = 0; i < cnt; i++) {
-                c->mUnk_18[i].mUnk_00(c->mUnk_18[i].mUnk_04, n0, &v, emtr);
+                c->field18[i].field0(c->field18[i].field4, n0, &v, emtr);
             }
-            n0->mUnk_20 += n0->mUnk_22;
-            n0->mUnk_14.x = (n0->mUnk_14.x * k0) >> 9;
-            n0->mUnk_14.y = (n0->mUnk_14.y * k0) >> 9;
-            n0->mUnk_14.z = (n0->mUnk_14.z * k0) >> 9;
-            n0->mUnk_14.x += v.x;
-            n0->mUnk_14.y += v.y;
-            n0->mUnk_14.z += v.z;
-            n0->mUnk_08.x += n0->mUnk_14.x + emtr->mUnk_34.x;
-            n0->mUnk_08.y += n0->mUnk_14.y + emtr->mUnk_34.y;
-            n0->mUnk_08.z += n0->mUnk_14.z + emtr->mUnk_34.z;
-            if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_31) {
-                n0->mUnk_2e_10 = mgr->mPolygonIDFix;
+            n0->field20 += n0->field22;
+            n0->field14.x = (n0->field14.x * k0) >> 9;
+            n0->field14.y = (n0->field14.y * k0) >> 9;
+            n0->field14.z = (n0->field14.z * k0) >> 9;
+            n0->field14.x += v.x;
+            n0->field14.y += v.y;
+            n0->field14.z += v.z;
+            n0->field8.x += n0->field14.x + emtr->field34.x;
+            n0->field8.y += n0->field14.y + emtr->field34.y;
+            n0->field8.z += n0->field14.z + emtr->field34.z;
+            if (emtr->field20->field0->field0.field0_31) {
+                n0->field2E_10 = mgr->mPolygonIDFix;
             } else {
-                n0->mUnk_2e_10 = mgr->mPolygonIDCurrent;
+                n0->field2E_10 = mgr->mPolygonIDCurrent;
                 mgr->mPolygonIDCurrent++;
                 if (mgr->mPolygonIDCurrent > mgr->mPolygonIDMax) {
                     mgr->mPolygonIDCurrent = mgr->mPolygonIDMin;
                 }
             }
-            n0->mUnk_26++;
-            if (n0->mUnk_26 > n0->mUnk_24) {
-                SPLList_PushFront(&mgr->mUnk_04[2], SPLList_Erase(&emtr->mUnk_14, n0));
+            n0->field26++;
+            if (n0->field26 > n0->field24) {
+                SPLList_PushFront(&mgr->field4[2], SPLList_Erase(&emtr->field14, n0));
             }
         }
     }
 
-    emtr->mUnk_4c++;
-    if (emtr->mUnk_90) {
-        emtr->mUnk_90(emtr, 1);
+    emtr->field4C++;
+    if (emtr->field90) {
+        emtr->field90(emtr, 1);
     }
 }
 
@@ -1905,10 +1905,10 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
     Unk0201e3c8 *e;
 
     n = mgr->mRenderStateEmitter;
-    d = n->mUnk_20->mUnk_00;
+    d = n->field20->field0;
     f = 0;
-    SPLUtil_SetTexture(mgr->mTextures + d->mUnk_47);
-    switch (d->mUnk_00.mUnk_00_4) {
+    SPLUtil_SetTexture(mgr->mTextures + d->field47);
+    switch (d->field0.field0_4) {
         case 0:
             f = SPLDraw_Billboard;
             break;
@@ -1925,13 +1925,13 @@ void SPLManager_DrawParticles(SPLManager *mgr) {
             f = SPLDraw_DirectionalPolygon;
             break;
     }
-    if (d->mUnk_00.mUnk_00_11) {
+    if (d->field0.field0_11) {
         g = SPLUtil_SetTexture;
     } else {
         g = SPLUtil_SetTexture_Stub;
     }
-    for (e = n->mUnk_08.mUnk_00; e != 0; e = e->mUnk_00) {
-        g(mgr->mTextures + e->mUnk_2c);
+    for (e = n->field8.field0; e != 0; e = e->field0) {
+        g(mgr->mTextures + e->field2C);
         f(mgr, e);
     }
 }
@@ -1944,12 +1944,12 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
 
     n = mgr->mRenderStateEmitter;
     f = 0;
-    c = n->mUnk_20;
-    if (c->mUnk_00->mUnk_00.mUnk_00_16 == 0) {
+    c = n->field20;
+    if (c->field0->field0.field0_16 == 0) {
         return;
     }
-    SPLUtil_SetTexture(mgr->mTextures + c->mUnk_14->mUnk_0f);
-    switch (c->mUnk_14->mUnk_00_7) {
+    SPLUtil_SetTexture(mgr->mTextures + c->field14->fieldF);
+    switch (c->field14->field0_7) {
         case 0:
             f = SPLDraw_Child_Billboard;
             break;
@@ -1966,7 +1966,7 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
             f = SPLDraw_Child_DirectionalPolygon;
             break;
     }
-    for (e = n->mUnk_14.mUnk_00; e != 0; e = e->mUnk_00) {
+    for (e = n->field14.field0; e != 0; e = e->field0) {
         f(mgr, e);
     }
 }
@@ -1974,15 +1974,15 @@ void SPLManager_DrawChildParticles(SPLManager *mgr) {
 void SPLManager_DoDraw(SPLManager *mgr) {
     Unk0201ca6c_20_00 *d;
 
-    d = mgr->mRenderStateEmitter->mUnk_20->mUnk_00;
-    if (d->mUnk_00.mUnk_00_21) {
+    d = mgr->mRenderStateEmitter->field20->field0;
+    if (d->field0.field0_21) {
         SPLManager_DrawChildParticles(mgr);
-        if (d->mUnk_00.mUnk_00_22) {
+        if (d->field0.field0_22) {
             return;
         }
         SPLManager_DrawParticles(mgr);
     } else {
-        if (d->mUnk_00.mUnk_00_22 == 0) {
+        if (d->field0.field0_22 == 0) {
             SPLManager_DrawParticles(mgr);
         }
         SPLManager_DrawChildParticles(mgr);
@@ -1992,20 +1992,20 @@ void SPLManager_DoDraw(SPLManager *mgr) {
 void SPLUtil_SetCylinderEmitterDir(Unk0201ca6c *emtr, Vec3 *p1, Vec3 *p2) {
     Vec3 dir;
 
-    if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_0 - 6 > 1) {
+    if (emtr->field20->field0->field0.field0_0 - 6 > 1) {
         return;
     }
-    emtr->mUnk_28.x = (p2->x + p1->x) / 2;
-    emtr->mUnk_28.y = (p2->y + p1->y) / 2;
-    emtr->mUnk_28.z = (p2->z + p1->z) / 2;
-    emtr->mUnk_60 = VEC_Distance(p1, p2) / 2;
+    emtr->field28.x = (p2->x + p1->x) / 2;
+    emtr->field28.y = (p2->y + p1->y) / 2;
+    emtr->field28.z = (p2->z + p1->z) / 2;
+    emtr->field60 = VEC_Distance(p1, p2) / 2;
     dir.x = p2->x - p1->x;
     dir.y = p2->y - p1->y;
     dir.z = p2->z - p1->z;
     VEC_Normalize(&dir, &dir);
-    emtr->mUnk_50.x = dir.x;
-    emtr->mUnk_50.y = dir.y;
-    emtr->mUnk_50.z = dir.z;
+    emtr->field50.x = dir.x;
+    emtr->field50.y = dir.y;
+    emtr->field50.z = dir.z;
 }
 
 u32 SPLUtil_AllocTextureVRAM(s32 size, s32 is4x4) {
@@ -2031,26 +2031,26 @@ SPLManager *SPLManager_New(void *(*alloc)(u32 size), u16 maxEmitters, u16 maxPar
     mgr->mPolygonIDCurrent = mgr->mPolygonIDMin;
     mgr->mPolygonIDFix = fixPolyId;
     mgr->mPolygonIDDrawOrder = 0;
-    mgr->mUnk_38_25 = 0;
+    mgr->field38_25 = 0;
     mgr->mAlloc = alloc;
-    mgr->mUnk_04[0].mUnk_04 = 0;
-    mgr->mUnk_04[1].mUnk_04 = 0;
-    mgr->mUnk_04[2].mUnk_04 = 0;
-    mgr->mUnk_04[0].mUnk_00 = 0;
-    mgr->mUnk_04[1].mUnk_00 = 0;
-    mgr->mUnk_04[2].mUnk_00 = 0;
+    mgr->field4[0].field4 = 0;
+    mgr->field4[1].field4 = 0;
+    mgr->field4[2].field4 = 0;
+    mgr->field4[0].field0 = 0;
+    mgr->field4[1].field0 = 0;
+    mgr->field4[2].field0 = 0;
     mgr->mMiscPolygonAttr = 0;
     mgr->mCurrentCycle = 0;
     block = alloc(maxEmitters * 0x9c);
     MI_CpuFill8(block, 0, maxEmitters * 0x9c);
     for (i = 0; i < maxEmitters; i++) {
-        SPLList_PushFront(&mgr->mUnk_04[1], (Unk0201e3c8 *) block);
+        SPLList_PushFront(&mgr->field4[1], (Unk0201e3c8 *) block);
         block += 0x9c;
     }
     block = alloc(maxParticles * 0x44);
     MI_CpuFill8(block, 0, maxParticles * 0x44);
     for (i = 0; i < maxParticles; i++) {
-        SPLList_PushFront(&mgr->mUnk_04[2], (Unk0201e3c8 *) block);
+        SPLList_PushFront(&mgr->field4[2], (Unk0201e3c8 *) block);
         block += 0x44;
     }
     mgr->mResources = 0;
@@ -2070,87 +2070,87 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     Unk020184e4_2c_00 *d;
 
     off = 0x20;
-    mgr->mResCount = data->mUnk_08;
-    mgr->mTexCount = data->mUnk_0a;
+    mgr->mResCount = data->field8;
+    mgr->mTexCount = data->fieldA;
     mgr->mResources = mgr->mAlloc(mgr->mResCount << 5);
     MI_CpuFill8(mgr->mResources, 0, mgr->mResCount << 5);
     for (i = 0; i < mgr->mResCount; i++) {
         e = mgr->mResources + i;
-        e->mUnk_00 = OFFSET_PTR(Unk0201ca6c_20_00, data, off);
+        e->field0 = OFFSET_PTR(Unk0201ca6c_20_00, data, off);
         off += 0x58;
-        flags = e->mUnk_00->mUnk_00;
-        if (flags.mUnk_00_8) {
-            e->mUnk_04 = OFFSET_PTR(Unk0201ca6c_20_04, data, off);
+        flags = e->field0->field0;
+        if (flags.field0_8) {
+            e->field4 = OFFSET_PTR(Unk0201ca6c_20_04, data, off);
             off += 0xc;
         } else {
-            e->mUnk_04 = 0;
+            e->field4 = 0;
         }
-        if (flags.mUnk_00_9) {
-            e->mUnk_08 = OFFSET_PTR(Unk0201ca6c_20_08, data, off);
+        if (flags.field0_9) {
+            e->field8 = OFFSET_PTR(Unk0201ca6c_20_08, data, off);
             off += 0xc;
         } else {
-            e->mUnk_08 = 0;
+            e->field8 = 0;
         }
-        if (flags.mUnk_00_10) {
-            e->mUnk_0c = OFFSET_PTR(Unk0201ca6c_20_0c, data, off);
+        if (flags.field0_10) {
+            e->fieldC = OFFSET_PTR(Unk0201ca6c_20_0c, data, off);
             off += 8;
         } else {
-            e->mUnk_0c = 0;
+            e->fieldC = 0;
         }
-        if (flags.mUnk_00_11) {
-            e->mUnk_10 = OFFSET_PTR(Unk0201ca6c_20_10, data, off);
+        if (flags.field0_11) {
+            e->field10 = OFFSET_PTR(Unk0201ca6c_20_10, data, off);
             off += 0xc;
         } else {
-            e->mUnk_10 = 0;
+            e->field10 = 0;
         }
-        if (flags.mUnk_00_16) {
-            e->mUnk_14 = OFFSET_PTR(Unk0201ca6c_20_14, data, off);
+        if (flags.field0_16) {
+            e->field14 = OFFSET_PTR(Unk0201ca6c_20_14, data, off);
             off += 0x14;
         } else {
-            e->mUnk_14 = 0;
+            e->field14 = 0;
         }
-        e->mUnk_1c = flags.mUnk_00_24 + flags.mUnk_00_25 + flags.mUnk_00_26 + flags.mUnk_00_27 + flags.mUnk_00_28 +
-                     flags.mUnk_00_29;
-        if (e->mUnk_1c != 0) {
-            e->mUnk_18 = mgr->mAlloc(e->mUnk_1c << 3);
-            g = e->mUnk_18;
-            if (flags.mUnk_00_24) {
-                g->mUnk_04 = (u8 *) data + off;
-                g->mUnk_00 = SPLBehavior_ApplyGravity;
+        e->field1C = flags.field0_24 + flags.field0_25 + flags.field0_26 + flags.field0_27 + flags.field0_28 +
+                     flags.field0_29;
+        if (e->field1C != 0) {
+            e->field18 = mgr->mAlloc(e->field1C << 3);
+            g = e->field18;
+            if (flags.field0_24) {
+                g->field4 = (u8 *) data + off;
+                g->field0 = SPLBehavior_ApplyGravity;
                 off += 8;
                 g++;
             }
-            if (flags.mUnk_00_25) {
-                g->mUnk_04 = (u8 *) data + off;
-                g->mUnk_00 = SPLBehavior_ApplyRandom;
+            if (flags.field0_25) {
+                g->field4 = (u8 *) data + off;
+                g->field0 = SPLBehavior_ApplyRandom;
                 off += 8;
                 g++;
             }
-            if (flags.mUnk_00_26) {
-                g->mUnk_04 = (u8 *) data + off;
-                g->mUnk_00 = SPLBehavior_ApplyMagnet;
+            if (flags.field0_26) {
+                g->field4 = (u8 *) data + off;
+                g->field0 = SPLBehavior_ApplyMagnet;
                 off += 0x10;
                 g++;
             }
-            if (flags.mUnk_00_27) {
-                g->mUnk_04 = (u8 *) data + off;
-                g->mUnk_00 = SPLBehavior_ApplySpin;
+            if (flags.field0_27) {
+                g->field4 = (u8 *) data + off;
+                g->field0 = SPLBehavior_ApplySpin;
                 off += 4;
                 g++;
             }
-            if (flags.mUnk_00_28) {
-                g->mUnk_04 = (u8 *) data + off;
-                g->mUnk_00 = SPLBehavior_ApplyCollisionPlane;
+            if (flags.field0_28) {
+                g->field4 = (u8 *) data + off;
+                g->field0 = SPLBehavior_ApplyCollisionPlane;
                 off += 8;
                 g++;
             }
-            if (flags.mUnk_00_29) {
-                g->mUnk_04 = (u8 *) data + off;
-                g->mUnk_00 = SPLBehavior_ApplyConvergence;
+            if (flags.field0_29) {
+                g->field4 = (u8 *) data + off;
+                g->field0 = SPLBehavior_ApplyConvergence;
                 off += 0x10;
             }
         } else {
-            e->mUnk_18 = 0;
+            e->field18 = 0;
         }
     }
     mgr->mTextures = mgr->mAlloc(mgr->mTexCount * 0x14);
@@ -2158,11 +2158,11 @@ void SPLManager_LoadResources(SPLManager *mgr, Unk02018a1c *data) {
     for (i = 0; i < mgr->mTexCount; i++) {
         h = mgr->mTextures + i;
         d = OFFSET_PTR(Unk020184e4_2c_00, data, off);
-        h->mUnk_00 = d;
-        h->mUnk_10 = 1 << (d->mUnk_04.mUnk_00_4 + 3);
-        h->mUnk_12 = 1 << (d->mUnk_04.mUnk_00_8 + 3);
-        h->mUnk_0c = d->mUnk_04;
-        off += d->mUnk_1c;
+        h->field0 = d;
+        h->field10 = 1 << (d->field4.field0_4 + 3);
+        h->field12 = 1 << (d->field4.field0_8 + 3);
+        h->fieldC = d->field4;
+        off += d->field1C;
     }
 }
 
@@ -2175,13 +2175,13 @@ s32 SPLManager_UploadTexturesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
     GX_BeginLoadTex();
     for (i = 0; i < mgr->mTexCount; i++) {
         e = mgr->mTextures + i;
-        d = e->mUnk_00;
-        if (d->mUnk_04.mUnk_00_17) {
-            e->mUnk_04 = mgr->mTextures[d->mUnk_04.mUnk_00_18].mUnk_04;
+        d = e->field0;
+        if (d->field4.field0_17) {
+            e->field4 = mgr->mTextures[d->field4.field0_18].field4;
         } else {
-            t = vramAlloc(d->mUnk_08, d->mUnk_04.mUnk_00_0 == 5 ? 1 : 0);
-            GX_LoadTex((u8 *) e->mUnk_00 + 0x20, t, d->mUnk_08);
-            e->mUnk_04 = t;
+            t = vramAlloc(d->field8, d->field4.field0_0 == 5 ? 1 : 0);
+            GX_LoadTex((u8 *) e->field0 + 0x20, t, d->field8);
+            e->field4 = t;
         }
     }
     GX_EndLoadTex();
@@ -2197,13 +2197,13 @@ s32 SPLManager_UploadPalettesEx(SPLManager *mgr, u32 (*vramAlloc)(s32 size, s32 
     GX_BeginLoadTexPltt();
     for (i = 0; i < mgr->mTexCount; i++) {
         e = mgr->mTextures + i;
-        d = e->mUnk_00;
+        d = e->field0;
         t = 0;
-        if (d->mUnk_10 != 0) {
-            t = vramAlloc(d->mUnk_10, d->mUnk_04.mUnk_00_0 == 2 ? 1 : 0);
-            GX_LoadTexPltt((u8 *) e->mUnk_00 + d->mUnk_0c, t, d->mUnk_10);
+        if (d->field10 != 0) {
+            t = vramAlloc(d->field10, d->field4.field0_0 == 2 ? 1 : 0);
+            GX_LoadTexPltt((u8 *) e->field0 + d->fieldC, t, d->field10);
         }
-        e->mUnk_08 = t;
+        e->field8 = t;
     }
     GX_EndLoadTexPltt();
     return 1;
@@ -2222,25 +2222,25 @@ void SPLManager_Update(SPLManager *mgr) {
     Unk0201ca6c *next;
     Unk0201ca6c_20_00 *header;
 
-    for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mUnk_00; emtr != 0; emtr = next) {
-        header = emtr->mUnk_20->mUnk_00;
-        next = emtr->mUnk_00;
-        if (emtr->mUnk_24.mUnk_00_4 == 0) {
-            if (emtr->mUnk_4c >= header->mUnk_32) {
-                emtr->mUnk_24.mUnk_00_4 = 1;
-                emtr->mUnk_4c = 0;
+    for (emtr = (Unk0201ca6c *) mgr->field4[0].field0; emtr != 0; emtr = next) {
+        header = emtr->field20->field0;
+        next = emtr->field0;
+        if (emtr->field24.field0_4 == 0) {
+            if (emtr->field4C >= header->field32) {
+                emtr->field24.field0_4 = 1;
+                emtr->field4C = 0;
             }
         }
-        if (emtr->mUnk_24.mUnk_00_2 == 0) {
-            if (emtr->mUnk_80_16 == 0 || mgr->mCurrentCycle == emtr->mUnk_80_16 - 1) {
+        if (emtr->field24.field0_2 == 0) {
+            if (emtr->field80_16 == 0 || mgr->mCurrentCycle == emtr->field80_16 - 1) {
                 SPLEmitter_Update(mgr, emtr);
             }
         }
-        if ((header->mUnk_00.mUnk_00_14 && header->mUnk_3c != 0 && emtr->mUnk_24.mUnk_00_4 != 0 &&
-             emtr->mUnk_4c > header->mUnk_3c) ||
-            emtr->mUnk_24.mUnk_00_0 != 0) {
-            if (emtr->mUnk_08.mUnk_04 == 0 && emtr->mUnk_14.mUnk_04 == 0) {
-                SPLList_PushFront(&mgr->mUnk_04[1], SPLList_Erase(&mgr->mUnk_04[0], (Unk0201e3c8 *) emtr));
+        if ((header->field0.field0_14 && header->field3C != 0 && emtr->field24.field0_4 != 0 &&
+             emtr->field4C > header->field3C) ||
+            emtr->field24.field0_0 != 0) {
+            if (emtr->field8.field4 == 0 && emtr->field14.field4 == 0) {
+                SPLList_PushFront(&mgr->field4[1], SPLList_Erase(&mgr->field4[0], (Unk0201e3c8 *) emtr));
             }
         }
     }
@@ -2256,16 +2256,16 @@ void SPLManager_Draw(SPLManager *mgr, MtxFx43 *viewMatrix) {
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
     mgr->mRenderStateViewMatrix = viewMatrix;
     if (mgr->mPolygonIDDrawOrder == 0) {
-        for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mUnk_00; emtr != 0; emtr = emtr->mUnk_00) {
+        for (emtr = (Unk0201ca6c *) mgr->field4[0].field0; emtr != 0; emtr = emtr->field0) {
             mgr->mRenderStateEmitter = emtr;
-            if (emtr->mUnk_24.mUnk_00_3 == 0) {
+            if (emtr->field24.field0_3 == 0) {
                 SPLManager_DoDraw(mgr);
             }
         }
     } else {
-        for (emtr = (Unk0201ca6c *) mgr->mUnk_04[0].mUnk_08; emtr != 0; emtr = emtr->mUnk_04) {
+        for (emtr = (Unk0201ca6c *) mgr->field4[0].field8; emtr != 0; emtr = emtr->field4) {
             mgr->mRenderStateEmitter = emtr;
-            if (emtr->mUnk_24.mUnk_00_3 == 0) {
+            if (emtr->field24.field0_3 == 0) {
                 SPLManager_DoDraw(mgr);
             }
         }
@@ -2276,11 +2276,11 @@ Unk0201ca6c *SPLManager_CreateEmitter(SPLManager *mgr, s32 resourceId, Vec3 *pos
     Unk0201ca6c *emtr;
 
     emtr = 0;
-    if (mgr->mUnk_04[1].mUnk_00 != 0) {
-        emtr = (Unk0201ca6c *) SPLList_PopFront(&mgr->mUnk_04[1]);
+    if (mgr->field4[1].field0 != 0) {
+        emtr = (Unk0201ca6c *) SPLList_PopFront(&mgr->field4[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
-        SPLList_PushFront(&mgr->mUnk_04[0], (Unk0201e3c8 *) emtr);
-        if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_14) {
+        SPLList_PushFront(&mgr->field4[0], (Unk0201e3c8 *) emtr);
+        if (emtr->field20->field0->field0.field0_14) {
             emtr = 0;
         }
     }
@@ -2292,14 +2292,14 @@ Unk0201ca6c *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourc
     Unk0201ca6c *emtr;
 
     emtr = 0;
-    if (mgr->mUnk_04[1].mUnk_00 != 0) {
-        emtr = (Unk0201ca6c *) SPLList_PopFront(&mgr->mUnk_04[1]);
+    if (mgr->field4[1].field0 != 0) {
+        emtr = (Unk0201ca6c *) SPLList_PopFront(&mgr->field4[1]);
         SPLEmitter_Init(emtr, mgr->mResources + resourceId, pos);
         if (initCallback != 0) {
             initCallback(emtr, param);
         }
-        SPLList_PushFront(&mgr->mUnk_04[0], (Unk0201e3c8 *) emtr);
-        if (emtr->mUnk_20->mUnk_00->mUnk_00.mUnk_00_14) {
+        SPLList_PushFront(&mgr->field4[0], (Unk0201e3c8 *) emtr);
+        if (emtr->field20->field0->field0.field0_14) {
             emtr = 0;
         }
     }
@@ -2309,12 +2309,12 @@ Unk0201ca6c *SPLManager_CreateEmitterWithCallbackEx(SPLManager *mgr, s32 resourc
 void SPLManager_DeleteEmitter(SPLManager *mgr, Unk0201ca6c *emtr) {
     Unk0201e3c8 *particle;
 
-    while ((particle = SPLList_PopFront(&emtr->mUnk_08)) != 0) {
-        SPLList_PushFront(&mgr->mUnk_04[2], particle);
+    while ((particle = SPLList_PopFront(&emtr->field8)) != 0) {
+        SPLList_PushFront(&mgr->field4[2], particle);
     }
-    while ((particle = SPLList_PopFront(&emtr->mUnk_14)) != 0) {
-        SPLList_PushFront(&mgr->mUnk_04[2], particle);
+    while ((particle = SPLList_PopFront(&emtr->field14)) != 0) {
+        SPLList_PushFront(&mgr->field4[2], particle);
     }
-    SPLList_Erase(&mgr->mUnk_04[0], (Unk0201e3c8 *) emtr);
-    SPLList_PushFront(&mgr->mUnk_04[1], (Unk0201e3c8 *) emtr);
+    SPLList_Erase(&mgr->field4[0], (Unk0201e3c8 *) emtr);
+    SPLList_PushFront(&mgr->field4[1], (Unk0201e3c8 *) emtr);
 }

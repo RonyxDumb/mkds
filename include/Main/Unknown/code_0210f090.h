@@ -8,7 +8,7 @@
 typedef struct MicBuffer {
     /* 000 */ u8 mSamples[0x400];
     /* 400 */ MICAutoParam mAutoParam;
-    /* 41c */ s32 mUnk_41c;
+    /* 41c */ s32 field41C;
 } MicBuffer;
 
 u32 mic_update(MicBuffer *micBuffer);

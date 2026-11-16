@@ -26,19 +26,19 @@ typedef struct NNSG3dJntAnmResult {
 
 // Result of a material animation: the colors, polygon attributes and texture parameters of one material.
 struct NNSG3dMatAnmResult {
-    /* 00 */ u32 mUnk_00; // bit 3 set means the texture matrix is set from this result
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10; // bits 30 and 31 are read and set
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ s32 mUnk_18[2];
-    /* 20 */ s16 mUnk_20[2];
-    /* 24 */ u32 mUnk_24[2];
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
+    /* 00 */ u32 field0; // bit 3 set means the texture matrix is set from this result
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10; // bits 30 and 31 are read and set
+    /* 14 */ u32 field14;
+    /* 18 */ s32 field18[2];
+    /* 20 */ s16 field20[2];
+    /* 24 */ u32 field24[2];
+    /* 2c */ u16 field2C;
+    /* 2e */ u16 field2E;
+    /* 30 */ s32 field30;
+    /* 34 */ s32 field34;
 };
 
 typedef BOOL (*NNSG3dFuncAnmBlendMat)(NNSG3dMatAnmResult *, const NNSG3dAnmObj *, u32);
@@ -82,10 +82,10 @@ typedef struct NNSG3dRenderObj {
     /* 3c */ u32 mHintMatAnmExist[2];
     /* 44 */ u32 mHintJntAnmExist[2];
     /* 4c */ u32 mHintVisAnmExist[2];
-    /* 54 */ u8 mUnk_54[4];
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ u8 mUnk_5c[0xc];
-    /* 68 */ u32 mUnk_68;
+    /* 54 */ u8 field54[4];
+    /* 58 */ s32 field58;
+    /* 5c */ u8 field5C[0xc];
+    /* 68 */ u32 field68;
 } NNSG3dRenderObj;
 
 // Render state of the SBC interpreter. mC points into the byte sequence that the SBC functions advance.
@@ -150,7 +150,7 @@ typedef struct NNSG3dGlb {
     /* 100 */ MtxFx43 mInvCameraMtx;
     /* 130 */ MtxFx43 mSrtCameraMtx;
     /* 160 */ MtxFx43 mInvSrtCameraMtx;
-    /* 190 */ u8 mUnk_190[0xb0]; // inverse base matrix, inverse projection matrix and inverse camera-projection matrix
+    /* 190 */ u8 field190[0xb0]; // inverse base matrix, inverse projection matrix and inverse camera-projection matrix
     /* 240 */ Vec3 mCamPos;
     /* 24c */ Vec3 mCamUp;
     /* 258 */ Vec3 mCamTarget;

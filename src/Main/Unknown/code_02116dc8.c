@@ -43,7 +43,7 @@ void wait_init(void *heap, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinatio
     sWaitData->mDestinationBncl = destinationBncl;
     sWaitData->mDestinationBnclIndex = destinationBnclIndex;
     sWaitData->mPaletteIndex = paletteIndex;
-    sWaitData->mUnk_20 = f;
+    sWaitData->field20 = f;
     sWaitData->mFrameIndex = 2;
     sWaitData->mFrameIndexFrames = 3;
 }

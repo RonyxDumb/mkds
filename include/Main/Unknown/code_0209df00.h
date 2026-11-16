@@ -7,36 +7,36 @@
 
 // Element of 0x10 bytes: a position, then two halfwords.
 typedef struct Unk0209df84_c4 {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
+    /* 00 */ Vec3 field0;
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
 } Unk0209df84_c4;
 
 // Object of kind 0x1af (Fireball2); Unk0209e950 is a view of the draw group record (word +0x1c), not of this
 // object. After the shared part, the counts at 0xa0 and 0xa2, a grid of elements from 0xc4 (rows of
 // 0x140 bytes, 0xa0 rows of 0xa2 elements) and the words from 0x19c4.
 typedef struct Fireball2 {
-    /* 0000 */ MapObject mUnk_00;
-    /* 00a0 */ u16 mUnk_a0;
-    /* 00a2 */ u16 mUnk_a2;
-    /* 00a4 */ u16 mUnk_a4;
-    /* 00a6 */ u8 mUnk_a6[2];
-    /* 00a8 */ s32 mUnk_a8;
-    /* 00ac */ s32 mUnk_ac;
-    /* 00b0 */ u16 mUnk_b0;
-    /* 00b2 */ u16 mUnk_b2;
-    /* 00b4 */ Vec3 mUnk_b4;
-    /* 00c0 */ u8 mUnk_c0[2];
-    /* 00c2 */ u16 mUnk_c2;
-    /* 00c4 */ Unk0209df84_c4 mUnk_c4[20][20];
-    /* 19c4 */ s32 mUnk_19c4[8];
-    /* 19e4 */ s32 mUnk_19e4;
+    /* 0000 */ MapObject field0;
+    /* 00a0 */ u16 fieldA0;
+    /* 00a2 */ u16 fieldA2;
+    /* 00a4 */ u16 fieldA4;
+    /* 00a6 */ u8 fieldA6[2];
+    /* 00a8 */ s32 fieldA8;
+    /* 00ac */ s32 fieldAC;
+    /* 00b0 */ u16 fieldB0;
+    /* 00b2 */ u16 fieldB2;
+    /* 00b4 */ Vec3 fieldB4;
+    /* 00c0 */ u8 fieldC0[2];
+    /* 00c2 */ u16 fieldC2;
+    /* 00c4 */ Unk0209df84_c4 fieldC4[20][20];
+    /* 19c4 */ s32 field19C4[8];
+    /* 19e4 */ s32 field19E4;
 } Fireball2;
 
 // Object given to fbal2_loadModel, which sets the word at 0x1c.
 typedef struct Unk0209e950 {
-    /* 00 */ u8 mUnk_00[0x1c];
-    /* 1c */ s32 mUnk_1c;
+    /* 00 */ u8 field0[0x1c];
+    /* 1c */ s32 field1C;
 } Unk0209e950;
 
 void *fbal2_setupLogicPart(void);

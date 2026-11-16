@@ -3,9 +3,9 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 u32 func_020cef08(void) {
-    return (gSystemData->mUnk_20);
+    return (gSystemData->field20);
 }
 
 RandomState64 *func_020ceeec(void) {
-    return &gStruct217AA00->mUnk_1ee8;
+    return &gStruct217AA00->field1EE8;
 }

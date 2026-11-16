@@ -19,10 +19,10 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
     s32 loaded;
 
     if (path[0] == '/' || path[0] == '\\') {
-        pos.h.mUnk_00 = data_0216f344.h.mUnk_00;
-        pos.h.mUnk_04 = 0;
-        pos.h.mUnk_08 = 0;
-        pos.h.mUnk_06 = 0;
+        pos.h.field0 = data_0216f344.h.field0;
+        pos.h.field4 = 0;
+        pos.h.field8 = 0;
+        pos.h.field6 = 0;
         path++;
     } else {
         pos = data_0216f344;
@@ -43,10 +43,10 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
                 if (loaded == 0) {
                     return 0;
                 }
-                pos.h.mUnk_00 = archive;
-                pos.h.mUnk_08 = 0;
-                pos.h.mUnk_06 = 0;
-                pos.h.mUnk_04 = 0;
+                pos.h.field0 = archive;
+                pos.h.field8 = 0;
+                pos.h.field6 = 0;
+                pos.h.field4 = 0;
                 path += i + 1;
                 if (*path == '/' || *path == '\\') {
                     path++;
@@ -55,7 +55,7 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
             }
         }
     }
-    dir->mArc = pos.h.mUnk_00;
+    dir->mArc = pos.h.field0;
     dir->mPath = path;
     dir->mArg = pos;
     if (dirPos != 0) {
@@ -73,24 +73,24 @@ s32 FSi_ReadFileCore(FSFile *file, void *dst, s32 len, u32 async) {
     s32 start;
     s32 requested;
 
-    start = file->mUnk_2c;
+    start = file->field2C;
     requested = len;
-    if (len > file->mProp.p.mUnk_08 - start) {
-        len = file->mProp.p.mUnk_08 - start;
+    if (len > file->mProp.p.field8 - start) {
+        len = file->mProp.p.field8 - start;
     }
     if (len < 0) {
         len = 0;
     }
-    file->mArg.p.mUnk_00 = dst;
-    file->mArg.p.mUnk_04 = requested;
-    file->mArg.p.mUnk_08 = len;
+    file->mArg.p.field0 = dst;
+    file->mArg.p.field4 = requested;
+    file->mArg.p.field8 = len;
     if (async == 0) {
         file->mStat |= 4;
     }
     FSi_SendCommand(file, 0);
     if (async == 0) {
         if (FS_WaitAsync(file) != 0) {
-            len = file->mUnk_2c - start;
+            len = file->field2C - start;
         } else {
             len = -1;
         }
@@ -109,9 +109,9 @@ u32 FS_ConvertPathToFileID(FSFileID *fileID, const u8 *path) {
 // Opens a file from an archive by byte range and file index.
 u32 FS_OpenFileDirect(FSFile *file, FSArchive *archive, u32 imageTop, u32 imageBottom, u32 fileIndex) {
     file->mArc = archive;
-    file->mArg.w.mUnk_08 = fileIndex;
-    file->mArg.w.mUnk_00 = imageTop;
-    file->mArg.w.mUnk_04 = imageBottom;
+    file->mArg.w.field8 = fileIndex;
+    file->mArg.w.field0 = imageTop;
+    file->mArg.w.field4 = imageBottom;
     if (FSi_SendCommand(file, 7) == 0) {
         return 0;
     }
@@ -126,7 +126,7 @@ u32 FS_OpenFileFast(FSFile *file, FSFileID fileID) {
         return 0;
     }
     file->mArc = fileID.mArc;
-    file->mArg.d.mUnk_00 = fileID;
+    file->mArg.d.field0 = fileID;
     if (FSi_SendCommand(file, 6) == 0) {
         return 0;
     }
@@ -211,24 +211,24 @@ s32 FS_ReadFile(FSFile *file, void *dst, s32 len) {
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     switch (origin) {
         case 0:
-            offset += file->mProp.p.mUnk_04;
+            offset += file->mProp.p.field4;
             break;
         case 1:
-            offset += file->mUnk_2c;
+            offset += file->field2C;
             break;
         case 2:
-            offset += file->mProp.p.mUnk_08;
+            offset += file->mProp.p.field8;
             break;
         default:
             return 0;
     }
-    if (offset < file->mProp.p.mUnk_04) {
-        offset = file->mProp.p.mUnk_04;
+    if (offset < file->mProp.p.field4) {
+        offset = file->mProp.p.field4;
     }
-    if (offset > file->mProp.p.mUnk_08) {
-        offset = file->mProp.p.mUnk_08;
+    if (offset > file->mProp.p.field8) {
+        offset = file->mProp.p.field8;
     }
-    file->mUnk_2c = offset;
+    file->field2C = offset;
     return 1;
 }
 
@@ -485,10 +485,10 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     if (FS_FindArchive(name, nameLen) == 0) {
         if (data_0216f340 == 0) {
             data_0216f340 = archive;
-            data_0216f344.h.mUnk_00 = archive;
-            data_0216f344.h.mUnk_08 = 0;
-            data_0216f344.h.mUnk_06 = 0;
-            data_0216f344.h.mUnk_04 = 0;
+            data_0216f344.h.field0 = archive;
+            data_0216f344.h.field8 = 0;
+            data_0216f344.h.field6 = 0;
+            data_0216f344.h.field4 = 0;
         } else {
             tail = data_0216f340;
             while (tail->mNext != 0) {
@@ -523,11 +523,11 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
     archive->mPrev = 0;
     archive->mNext = archive->mPrev;
     archive->mFlag &= ~1;
-    if (data_0216f344.h.mUnk_00 == archive) {
-        data_0216f344.h.mUnk_08 = 0;
-        data_0216f344.h.mUnk_06 = 0;
-        data_0216f344.h.mUnk_00 = data_0216f340;
-        data_0216f344.h.mUnk_04 = 0;
+    if (data_0216f344.h.field0 == archive) {
+        data_0216f344.h.field8 = 0;
+        data_0216f344.h.field6 = 0;
+        data_0216f344.h.field0 = data_0216f340;
+        data_0216f344.h.field4 = 0;
     }
     OS_RestoreInterrupts(enabled);
 }

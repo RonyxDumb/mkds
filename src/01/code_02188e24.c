@@ -8,10 +8,10 @@ void SetAnimationFrameCallback(Unk02188950 *mapObject, s32 frameIndex, UnkFunc *
 
 void func_ov001_02188e48(Unk02188950 *mapObject, s32 firstFrameIndex, void (*firstCallback)(Unk02188950 *),
                          s32 secondFrameIndex, void (*secondCallback)(Unk02188950 *)) {
-    mapObject->mUnk_1e0 = firstFrameIndex;
-    mapObject->mUnk_1e4 = firstCallback;
-    mapObject->mUnk_1e8 = secondFrameIndex;
-    mapObject->mUnk_1ec = secondCallback;
+    mapObject->field1E0 = firstFrameIndex;
+    mapObject->field1E4 = firstCallback;
+    mapObject->field1E8 = secondFrameIndex;
+    mapObject->field1EC = secondCallback;
 }
 
 void StartStateFrameCountCallback(Unk02188950 *mapObject, s32 frameCount, void (*callback)(Unk02188950 *)) {

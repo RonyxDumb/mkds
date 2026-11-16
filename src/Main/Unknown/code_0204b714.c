@@ -30,7 +30,7 @@ void WFSi_TaskThread(void *a) {
     while (1) {
         waitIrqState = OS_DisableInterrupts();
         b = (Unk021762e0 *) &data_02176300;
-        r = b->mUnk_46c8;
+        r = b->field46C8;
         if (r == NULL) {
             do {
                 if (g->mState == 0) {
@@ -38,7 +38,7 @@ void WFSi_TaskThread(void *a) {
                     return;
                 }
                 OS_SleepThread(NULL);
-                r = b->mUnk_46c8;
+                r = b->field46C8;
             } while (r == NULL);
         }
         OS_RestoreInterrupts(waitIrqState);
@@ -53,9 +53,9 @@ void WFSi_TaskThread(void *a) {
                 offset += 0x400;
                 chunk += 0x400;
             }
-            r->mUnk_098 = 0;
-            r->mUnk_0a0 = 1;
-            r->mUnk_09c = 2;
+            r->field98 = 0;
+            r->fieldA0 = 1;
+            r->field9C = 2;
             updateIrqState = OS_DisableInterrupts();
             WFSi_SendOpenAck(&data_02176300, r, 1);
             OS_RestoreInterrupts(updateIrqState);
@@ -71,8 +71,8 @@ void WFSi_TaskThread(void *a) {
 void WFSi_CreateTaskThread(void) {
     FileReadThread *fileReadThread;
     fileReadThread = (FileReadThread *) &gFileReadThread;
-    fileReadThread->mUnk_4c4 = 0;
-    fileReadThread->mUnk_4c0 = fileReadThread->mUnk_4c4;
+    fileReadThread->field4C4 = 0;
+    fileReadThread->field4C0 = fileReadThread->field4C4;
     OS_CreateThread(&fileReadThread->mThread, (void (*)(void *)) WFSi_TaskThread, fileReadThread,
                     (u8 *) &fileReadThread->mThread, 0x400, 15);
     OS_WakeupThreadDirect(&fileReadThread->mThread);
@@ -93,20 +93,20 @@ void WFSi_EndTaskThread(void) {
 #pragma thumb on
 
 void savc_resetStatus(void) {
-    gSaveCore->mUnk_00 = 0;
+    gSaveCore->field0 = 0;
 }
 
 void savc_init(void *heap) {
     gSaveCore = heap_alloc(heap, 0x70);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         gSaveCore->mBuffer = heap_allocEx(heap, 0x2c00, 0x20);
-        gSaveCore->mUnk_64 = heap_allocEx(heap, 1, 0x20);
+        gSaveCore->field64 = heap_allocEx(heap, 1, 0x20);
     }
     gSaveCore->mBackupEnabled = 0;
 }
 
 void savc_initBackup(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || OS_IsRunOnEmulator() != 0) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2 || OS_IsRunOnEmulator() != 0) {
         gSaveCore->mBackupEnabled = 0;
         return;
     }
@@ -114,7 +114,7 @@ void savc_initBackup(void) {
     savc_lockCardBackup();
     CARD_IdentifyBackup(0x1202);
     savc_unlockCardBackup();
-    gSaveCore->mUnk_00 = 0;
+    gSaveCore->field0 = 0;
     gSaveCore->mErrorCode = 0;
     gSaveCore->mLockId = -3;
     gSaveCore->mCommandRunning = 0;
@@ -123,8 +123,8 @@ void savc_initBackup(void) {
     gSaveCore->mReadSize = 0;
     gSaveCore->mWriteSource = NULL;
     gSaveCore->mWriteSize = 0;
-    gSaveCore->mUnk_58 = -1;
-    gSaveCore->mUnk_5c = -1;
+    gSaveCore->field58 = -1;
+    gSaveCore->field5C = -1;
 }
 
 BOOL savc_checkHeaderSignature(u8 *cursor) {
@@ -262,7 +262,7 @@ u32 savc_read(u32 address, u32 *destination, u32 byteCount, void (*callback)(u32
     }
     gSaveCore->mErrorCode = 0;
     gSaveCore->mCommandRunning = 1;
-    gSaveCore->mUnk_00 = 3;
+    gSaveCore->field0 = 3;
     gSaveCore->mReadAddress = address;
     gSaveCore->mReadDestination = destination;
     gSaveCore->mReadSize = byteCount;

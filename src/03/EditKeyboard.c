@@ -40,13 +40,13 @@ void CreateEditKeyboard(void) {
     gEditKeyboard->mAddCharEnabled = 1;
     for (i = 0; i < 0x2f; i++) {
         gEditKeyboard->mKeys[i] = CreateOamEntryFromNceImage(0, 0x34);
-        gEditKeyboard->mKeys[i]->mUnk_00 = (gEditKeyboard->mKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditKeyboard->mKeys[i]->mUnk_04 = (gEditKeyboard->mKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditKeyboard->mKeys[i]->field0 = (gEditKeyboard->mKeys[i]->field0 & 0xc1fffcff) | 0x200;
+        gEditKeyboard->mKeys[i]->field4 = (gEditKeyboard->mKeys[i]->field4 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 4; i++) {
         gEditKeyboard->mExtraKeys[i] = CreateOamEntryFromNceImage(0, data_ov003_021d5f70[i]);
-        gEditKeyboard->mExtraKeys[i]->mUnk_00 = (gEditKeyboard->mExtraKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditKeyboard->mExtraKeys[i]->mUnk_04 = (gEditKeyboard->mExtraKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditKeyboard->mExtraKeys[i]->field0 = (gEditKeyboard->mExtraKeys[i]->field0 & 0xc1fffcff) | 0x200;
+        gEditKeyboard->mExtraKeys[i]->field4 = (gEditKeyboard->mExtraKeys[i]->field4 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 2; i++) {
         gEditKeyboard->mRow4Keys[i] = CreateOamRangeFromNceImage(0, data_ov003_021d5f68[i], 1);
@@ -65,7 +65,7 @@ void CreateEditKeyboard(void) {
                                    2, 0x480, text);
             }
             if (i == 0) {
-                gEditKeyboard->mUnk_104[j] = CreateOamRange(0, w, 1);
+                gEditKeyboard->field104[j] = CreateOamRange(0, w, 1);
             }
         }
     }
@@ -101,8 +101,8 @@ BOOL HasEditKeyboard(void) {
 }
 
 static inline void func_ov003_021c0ab0_inline(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->field0 & 0x1ff0000) >> 16;
+    *y = object->field0 & 0xff;
 }
 
 void AdvanceEditKeyboardSlideInRow0(TaskEntry *task) {

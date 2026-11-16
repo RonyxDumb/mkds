@@ -137,7 +137,7 @@ BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio
         NNSi_SndPlayerFreeSeqPlayer(player);
         return 0;
     }
-    NNSi_SndPlayerStartSeq(player, (u8 *) seq + seq->mUnk_18, 0, bank);
+    NNSi_SndPlayerStartSeq(player, (u8 *) seq + seq->field18, 0, bank);
     NNS_SndPlayerSetInitialVolume(handle, info->mParam.mVolume);
     NNS_SndPlayerSetChannelPriority(handle, info->mParam.mChannelPrio);
     NNS_SndPlayerSetSeqNo(handle, seqNo);
@@ -159,7 +159,7 @@ BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerP
         NNSi_SndPlayerFreeSeqPlayer(player);
         return 0;
     }
-    NNSi_SndPlayerStartSeq(player, (u8 *) seqArc + seqArc->mUnk_18, sound->mOffset, bank);
+    NNSi_SndPlayerStartSeq(player, (u8 *) seqArc + seqArc->field18, sound->mOffset, bank);
     NNS_SndPlayerSetInitialVolume(handle, sound->mParam.mVolume);
     NNS_SndPlayerSetChannelPriority(handle, sound->mParam.mChannelPrio);
     NNS_SndPlayerSetSeqArcNo(handle, seqArcNo, index);
@@ -446,7 +446,7 @@ Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
         if (NNS_SndArcReadFile(fileId, data_0217dec8, 0x3c, 0) != 0x3c) {
             return 0;
         }
-        tableSize = ((Unk02021968 *) data_0217dec8)->mUnk_38 * 4;
+        tableSize = ((Unk02021968 *) data_0217dec8)->field38 * 4;
         len = tableSize * 2 + 0x3c;
         if (heap == 0) {
             return 0;
@@ -460,8 +460,8 @@ Unk02021968 *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
         if (readSize != tableSize + 0x3c) {
             return 0;
         }
-        MI_CpuCopy8(waveArc->mUnk_3c, waveArc->mUnk_3c + waveArc->mUnk_38, tableSize);
-        MI_CpuFill8(waveArc->mUnk_3c, 0, tableSize);
+        MI_CpuCopy8(waveArc->field3C, waveArc->field3C + waveArc->field38, tableSize);
+        MI_CpuFill8(waveArc->field3C, 0, tableSize);
         DC_StoreRange(waveArc, len);
         if (bSetAddr != 0) {
             NNS_SndArcSetFileAddress(fileId, waveArc);
@@ -530,9 +530,9 @@ BOOL LoadSingleWave(Unk02021968 *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *he
         return 1;
     }
     waveCount = SND_GetWaveDataCount(waveArc);
-    entry = (u32 *) waveArc + (waveArc->mUnk_38 + waveNo);
+    entry = (u32 *) waveArc + (waveArc->field38 + waveNo);
     begin = entry[15];
-    end = waveNo < waveCount - 1 ? entry[16] : waveArc->mUnk_08;
+    end = waveNo < waveCount - 1 ? entry[16] : waveArc->field8;
     len = end - begin;
     if (heap == 0) {
         return 0;
@@ -561,8 +561,8 @@ BOOL LoadSingleWaves(Unk02021968 *waveArc, Unk02021968 *bank, s32 waveArcNo, u32
     }
     if (SND_GetNextInstData(bank, &inst, &pos) != 0) {
         do {
-            if (inst.mUnk_00 == 1 && waveArcNo == inst.mUnk_04) {
-                if (LoadSingleWave(waveArc, inst.mUnk_02, fileId, heap) == 0) {
+            if (inst.field0 == 1 && waveArcNo == inst.field4) {
+                if (LoadSingleWave(waveArc, inst.field2, fileId, heap) == 0) {
                     return 0;
                 }
             }

@@ -50,13 +50,13 @@ static inline u16 func_0209f800_inline(u32 n) {
 }
 
 static inline void func_0209f6d8_inline(TownMonte *townMonte) {
-    townMonte->mUnk_a4 += townMonte->mUnk_a8;
-    townMonte->mUnk_a8 += 0x4000;
-    if (townMonte->mUnk_a4 == 0) {
-        townMonte->mUnk_a4 += townMonte->mUnk_a8;
-        townMonte->mUnk_a8 += 0x4000;
-    } else if (townMonte->mUnk_a4 >= 0x16c000) {
-        townMonte->mUnk_a8 = 0x4000 - townMonte->mUnk_a8;
+    townMonte->fieldA4 += townMonte->fieldA8;
+    townMonte->fieldA8 += 0x4000;
+    if (townMonte->fieldA4 == 0) {
+        townMonte->fieldA4 += townMonte->fieldA8;
+        townMonte->fieldA8 += 0x4000;
+    } else if (townMonte->fieldA4 >= 0x16c000) {
+        townMonte->fieldA8 = 0x4000 - townMonte->fieldA8;
         townMonte->mMirror = townMonte->mMirror == 0 ? 1 : 0;
     }
 }
@@ -65,11 +65,11 @@ static inline void func_0209fdb4_inline(Airship *airship) {
     s32 t;
 
     airship->mWobbleAngle = (u16) airship->mWobbleAngle + airship->mWobbleAnglePerFrame;
-    airship->mUnk_b0 =
+    airship->fieldB0 =
         airship->mWobbleMid +
         aship_FX_MulInline(airship->mWobbleAmplitude / 2, 0x1000 - aship_FX_CosIdx((u16) airship->mWobbleAngle)) -
         airship->mWobbleOffset;
-    airship->mWobbleOffset += airship->mUnk_b0;
+    airship->mWobbleOffset += airship->fieldB0;
     if (airship->mWobbleAmplitude > 0) {
         t = airship->mWobbleAmplitude + airship->mWobbleAmplitudePerFrame;
         if (t <= 0) {
@@ -84,13 +84,13 @@ static inline void func_0209fdb4_inline(Airship *airship) {
         airship->mWobbleAmplitude = t;
     }
     if (airship->mWobbleAnglePerFrame > 0) {
-        t = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
+        t = airship->mWobbleAnglePerFrame + airship->fieldC4;
         if (t <= 0) {
             t = 0;
         }
         airship->mWobbleAnglePerFrame = t;
     } else if (airship->mWobbleAnglePerFrame < 0) {
-        t = airship->mWobbleAnglePerFrame + airship->mUnk_c4;
+        t = airship->mWobbleAnglePerFrame + airship->fieldC4;
         if (t >= 0) {
             t = 0;
         }
@@ -117,20 +117,20 @@ void aship_update(void *a, Airship *airship) {
             }
             break;
         case 1:
-            airship->mUnk_a0 += 0x1000;
-            if (airship->mUnk_a0 >= 0) {
-                airship->mUnk_a0 = 0;
+            airship->fieldA0 += 0x1000;
+            if (airship->fieldA0 >= 0) {
+                airship->fieldA0 = 0;
                 airship->mState = 2;
             }
             func_0209fdb4_inline(airship);
             break;
         case 2:
-            pw_update(&airship->mUnk_c8);
-            pw_20D8BF8_XYZ(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
+            pw_update(&airship->fieldC8);
+            pw_20D8BF8_XYZ(&airship->fieldC8, &airship->field0.mPos, &airship->field0.field10);
             func_0209fdb4_inline(airship);
             break;
     }
-    airship->mUnk_00.mAngle = FX_Atan2Idx(airship->mUnk_00.mUnk_10.x, airship->mUnk_00.mUnk_10.z);
+    airship->field0.mAngle = FX_Atan2Idx(airship->field0.field10.x, airship->field0.field10.z);
 }
 
 void *aship_setupRenderPart(void) {
@@ -144,23 +144,23 @@ void *aship_setupLogicPart(void) {
 void pole_init(MapObject *mapObject) {
     s32 i;
 
-    i = mapObject->mCourseMapRow->mUnk_28;
+    i = mapObject->mCourseMapRow->field28;
     if (pole_sConfigs[i] == NULL) {
         pole_sConfigs[i] = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
         *pole_sConfigs[i] = *pole_sConfigs[0];
     }
     switch (i) {
         case 0x10:
-            pole_sConfigs[i]->mUnk_24 = 0x127;
+            pole_sConfigs[i]->field24 = 0x127;
             break;
         case 0x11:
-            pole_sConfigs[i]->mUnk_24 = 0x100;
+            pole_sConfigs[i]->field24 = 0x100;
             break;
         case 0x12:
-            pole_sConfigs[i]->mUnk_24 = 0x1da;
+            pole_sConfigs[i]->field24 = 0x1da;
             break;
         default:
-            pole_sConfigs[i]->mUnk_24 = csfx_getWallSfx(0, 8, i);
+            pole_sConfigs[i]->field24 = csfx_getWallSfx(0, 8, i);
             break;
     }
     mapObject->mKindData = pole_sConfigs[i];
@@ -190,17 +190,17 @@ void tmon_render(void *a, TownMonte *townMonte) {
     s32 d;
     MtxFx43 *h;
 
-    d = (0x16c000 - townMonte->mUnk_a4) >> 12;
+    d = (0x16c000 - townMonte->fieldA4) >> 12;
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
     if (townMonte->mMirror != 0) {
-        h = bbm_getYBillboardAtPosTransformed(&townMonte->mUnk_00.mPos, -d, d);
+        h = bbm_getYBillboardAtPosTransformed(&townMonte->field0.mPos, -d, d);
         NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     } else {
-        h = bbm_getYBillboardAtPosTransformed(&townMonte->mUnk_00.mPos, d, d);
+        h = bbm_getYBillboardAtPosTransformed(&townMonte->field0.mPos, d, d);
         NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &townMonte->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &townMonte->field0.mScale, 3);
     mobj_setModelNsbtpFrame(tmon_sModel, townMonte->mNsbtpFrameIndex);
     mobj_bbModelApplyMaterial(a, tmon_sModel);
     mobj_renderModel(a, tmon_sModel, townMonte);
@@ -217,9 +217,9 @@ void tmon_globalInitLogic(Unk0209f800 *a) {
     if (a == NULL) {
         return;
     }
-    for (i = 0; i < a->mUnk_04 && (townMonte = a->mUnk_00[i]) != NULL; i++) {
-        townMonte->mUnk_a4 = 0;
-        townMonte->mUnk_a8 = 0;
+    for (i = 0; i < a->field4 && (townMonte = a->field0[i]) != NULL; i++) {
+        townMonte->fieldA4 = 0;
+        townMonte->fieldA8 = 0;
         nsbtpFrameCount = mobj_getModelNsbtpFrameCount(tmon_sModel);
         townMonte->mNsbtpFrameIndex = func_0209f800_inline(nsbtpFrameCount);
         mapObjectRandom = mobj_getRng1();
@@ -228,7 +228,7 @@ void tmon_globalInitLogic(Unk0209f800 *a) {
         for (j = 0; j < m; j++) {
             func_0209f6d8_inline(townMonte);
         }
-        if (townMonte->mUnk_00.mCourseMapRow->mUnk_28 != 0) {
+        if (townMonte->field0.mCourseMapRow->field28 != 0) {
             if (townMonte->mNsbtpFrameIndex == 0) {
                 townMonte->mSoundId = 0x1a7;
             } else if (townMonte->mNsbtpFrameIndex == 1) {
@@ -252,24 +252,24 @@ void tmon_update(void *a, TownMonte *townMonte) {
     if (townMonte->mSoundId == 0) {
         return;
     }
-    if (townMonte->mUnk_00.mCourseMapRow->mUnk_28 != sndvar_getVarField4(0)) {
+    if (townMonte->field0.mCourseMapRow->field28 != sndvar_getVarField4(0)) {
         return;
     }
     w = townMonte->mSoundId;
-    if (townMonte->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    if (townMonte->field0.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (townMonte->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    if (townMonte->field0.mFarDistanceSquared == gSfxParams[2].field20) {
         t = 2;
-    } else if (townMonte->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+    } else if (townMonte->field0.mFarDistanceSquared == gSfxParams[3].field20) {
         t = 3;
     } else {
         t = 4;
     }
     s.mSoundId = w;
-    s.mPositionSource = &townMonte->mUnk_00.mPos;
-    s.mUnk_08 = t;
-    s.mDistanceSquared = mobj_calcXZCamDist(&townMonte->mUnk_00.mPos);
+    s.mPositionSource = &townMonte->field0.mPos;
+    s.field8 = t;
+    s.mDistanceSquared = mobj_calcXZCamDist(&townMonte->field0.mPos);
     func_0210b7a8(&s);
 }
 

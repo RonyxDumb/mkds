@@ -4,11 +4,11 @@
 #include "code_0214a390.h"
 
 void func_020cbabc(u32 value) {
-    gStruct217B488->mUnk_08 = value;
+    gStruct217B488->field8 = value;
 }
 
 void func_020cbaa8(u32 value) {
-    gStruct217B488->mUnk_10 = value;
+    gStruct217B488->field10 = value;
 }
 
 void menu_G2_SetBlendAlpha(u32 plane1, u32 plane2, u32 ev1, u32 ev2) {

@@ -73,20 +73,20 @@ u64 func_ov000_021a350c(void) {
 u32 func_ov000_021a3448(u32 a) {
     u64 s;
     u64 t;
-    if (data_ov000_021b5dd4.mUnk_00 == 0 && data_ov000_021b5dd4.mUnk_08 == 0 && data_ov000_021b5dd4.mUnk_10 == 0) {
+    if (data_ov000_021b5dd4.field0 == 0 && data_ov000_021b5dd4.field8 == 0 && data_ov000_021b5dd4.field10 == 0) {
         OS_GetMacAddress(&s);
         t = OS_GetTick();
         s = ((s >> 24) & 0xffffff) | (t << 24);
-        data_ov000_021b5dd4.mUnk_00 = s;
-        data_ov000_021b5dd4.mUnk_08 = 0x5d588b656c078965;
-        data_ov000_021b5dd4.mUnk_10 = 0x269ec3;
+        data_ov000_021b5dd4.field0 = s;
+        data_ov000_021b5dd4.field8 = 0x5d588b656c078965;
+        data_ov000_021b5dd4.field10 = 0x269ec3;
     }
-    data_ov000_021b5dd4.mUnk_00 =
-        data_ov000_021b5dd4.mUnk_08 * data_ov000_021b5dd4.mUnk_00 + data_ov000_021b5dd4.mUnk_10;
+    data_ov000_021b5dd4.field0 =
+        data_ov000_021b5dd4.field8 * data_ov000_021b5dd4.field0 + data_ov000_021b5dd4.field10;
     if (a == 0) {
-        return data_ov000_021b5dd4.mUnk_00 >> 32;
+        return data_ov000_021b5dd4.field0 >> 32;
     }
-    return ((data_ov000_021b5dd4.mUnk_00 >> 32) * a) >> 32;
+    return ((data_ov000_021b5dd4.field0 >> 32) * a) >> 32;
 }
 
 BOOL func_ov000_021a33e4(u32 a, s32 b) {
@@ -117,7 +117,7 @@ BOOL StartPeerMessageSend(u16 a, u32 b, u8 *c, s32 d) {
     if (func_ov000_021a33e4(b, a) == FALSE) {
         return FALSE;
     }
-    e->mUnk_1c = 1;
+    e->field1C = 1;
     e->mSendBuffer = c;
     e->mSentSize = 0;
     e->mSendSize = d;
@@ -136,7 +136,7 @@ BOOL StartPeerMessageSend(u16 a, u32 b, u8 *c, s32 d) {
         if (gWiFiMessageLayer->mSendCallback != NULL && a == 1) {
             gWiFiMessageLayer->mSendCallback(e->mSendSize, b);
         }
-        e->mUnk_1c = 0;
+        e->field1C = 0;
         e->mSendBuffer = NULL;
         e->mSentSize = 0;
         e->mSendSize = 0;

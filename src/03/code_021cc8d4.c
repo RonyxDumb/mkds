@@ -16,17 +16,17 @@ u8 data_ov003_021da260[8];
 void func_ov003_021cca30(const void *b) {
     Unk021da25c *a = AllocZeroedExpHeapBlock(0x608, 4);
     data_ov003_021da25c = a;
-    MIi_CpuCopyFast(b, a->mUnk_004, 0x600);
-    data_ov003_021da25c->mUnk_000 = AddTask(1, func_ov003_021cc97c, NULL, 0x78);
+    MIi_CpuCopyFast(b, a->field4, 0x600);
+    data_ov003_021da25c->field0 = AddTask(1, func_ov003_021cc97c, NULL, 0x78);
 }
 
 void func_ov003_021cca10(void) {
-    RemoveTaskEntryWrapper(1, data_ov003_021da25c->mUnk_000);
+    RemoveTaskEntryWrapper(1, data_ov003_021da25c->field0);
     FreeExpHeapBlockAndClearPointer(&data_ov003_021da25c);
 }
 
 void func_ov003_021cc9fc(void) {
-    data_ov003_021da25c->mUnk_604 = 1;
+    data_ov003_021da25c->field604 = 1;
 }
 
 void func_ov003_021cc9c0(int a, int b, int c, int d) {
@@ -45,10 +45,10 @@ void func_ov003_021cc9c0(int a, int b, int c, int d) {
 }
 
 void func_ov003_021cc97c(void) {
-    if (data_ov003_021da25c->mUnk_604 != 0) {
-        DC_FlushRange(data_ov003_021da25c->mUnk_004, (0x00000600u));
-        GX_LoadBG2Scr(data_ov003_021da25c->mUnk_004, 0, (0x00000600u));
-        data_ov003_021da25c->mUnk_604 = 0;
+    if (data_ov003_021da25c->field604 != 0) {
+        DC_FlushRange(data_ov003_021da25c->field4, (0x00000600u));
+        GX_LoadBG2Scr(data_ov003_021da25c->field4, 0, (0x00000600u));
+        data_ov003_021da25c->field604 = 0;
     }
 }
 

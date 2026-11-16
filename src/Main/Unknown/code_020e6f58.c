@@ -13,16 +13,16 @@ void mobj_logicPartAddInstance(MapObjectList *p, MapObject *q) {
     n = p->mMapObjectCount;
     p->mMapObjectCount = n + 1;
     p->mMapObjects[n] = q;
-    if (p->mUnk_18 == 3) {
+    if (p->field18 == 3) {
         t = q->mKindData;
-        p->mUnk_18 = t->mUnk_20;
+        p->field18 = t->field20;
     }
-    if (p->mUnk_1c == NULL) {
+    if (p->field1C == NULL) {
         t = q->mKindData;
-        p->mUnk_1c = t->mUnk_04;
+        p->field1C = t->field4;
     }
-    if (p->mUnk_20 == 3) {
-        p->mUnk_20 = mobj_getItemHitObjResponseForMObj(6, q);
+    if (p->field20 == 3) {
+        p->field20 = mobj_getItemHitObjResponseForMObj(6, q);
     }
 }
 #pragma thumb off

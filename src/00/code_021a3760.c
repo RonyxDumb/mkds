@@ -27,10 +27,10 @@ Unk021b5df4 *data_ov000_021b5df4;
 void func_ov000_021a39d8(Unk021b5df4 *a, u16 b, u32 c, u32 d) {
     if (data_ov000_021b5df4 == NULL) {
         MI_CpuFill8(a, 0, 12);
-        a->mUnk_08 = b;
-        a->mUnk_0a = 1;
-        a->mUnk_04 = 1;
-        a->mUnk_06 = 0;
+        a->field8 = b;
+        a->fieldA = 1;
+        a->field4 = 1;
+        a->field6 = 0;
         data_ov000_021b5df4 = a;
         func_ov000_021a397c(0);
         data_ov000_021b49f4 = d;
@@ -58,15 +58,15 @@ void func_ov000_021a397c(s32 a) {
 void func_ov000_021a3910(void) {
     Unk021a3910 t;
     if (data_ov000_021b5df4 != NULL) {
-        if (data_ov000_021b5df4->mUnk_04 != 1) {
+        if (data_ov000_021b5df4->field4 != 1) {
             return;
         }
         MI_CpuFill8(&t, 0, 12);
-        t.mUnk_08 = data_ov000_021b5df4->mUnk_08;
-        t.mUnk_09 = data_ov000_021b5df4->mUnk_0a;
-        t.mUnk_00 = func_ov000_021a372c;
-        t.mUnk_04 = func_ov000_021a3704;
-        data_ov000_021b5df4->mUnk_04 = 2;
+        t.field8 = data_ov000_021b5df4->field8;
+        t.field9 = data_ov000_021b5df4->fieldA;
+        t.field0 = func_ov000_021a372c;
+        t.field4 = func_ov000_021a3704;
+        data_ov000_021b5df4->field4 = 2;
         if (func_ov000_02188868((Unk02188868 *) &t) != 0) {
             return;
         }
@@ -82,8 +82,8 @@ u32 func_ov000_021a38d8(void) {
     if (v1 == NULL) {
         return 0;
     }
-    if (v1->mUnk_00 != 0) {
-        v1->mUnk_04 = 3;
+    if (v1->field0 != 0) {
+        v1->field4 = 3;
         func_ov000_021a3810();
         return 1;
     }
@@ -92,11 +92,11 @@ u32 func_ov000_021a38d8(void) {
 
 void func_ov000_021a3884(void) {
     Unk021b5df4 *p = data_ov000_021b5df4;
-    if (p != NULL && p->mUnk_04 == 2) {
-        data_ov000_021b5df4->mUnk_00 = func_ov000_021887cc();
-    } else if (p != NULL && p->mUnk_04 == 4 && p->mUnk_06 != 0 && func_ov000_021a5bfc() != 9) {
-        data_ov000_021b5df4->mUnk_06 = 0;
-        data_ov000_021b5df4->mUnk_04 = 6;
+    if (p != NULL && p->field4 == 2) {
+        data_ov000_021b5df4->field0 = func_ov000_021887cc();
+    } else if (p != NULL && p->field4 == 4 && p->field6 != 0 && func_ov000_021a5bfc() != 9) {
+        data_ov000_021b5df4->field6 = 0;
+        data_ov000_021b5df4->field4 = 6;
     }
 }
 
@@ -106,18 +106,18 @@ u32 func_ov000_021a3810(void) {
     if (data_ov000_021b5df4 != NULL) {
         r = func_ov000_02188758();
         if (r == 5) {
-            data_ov000_021b5df4->mUnk_04 = 4;
-            data_ov000_021b5df4->mUnk_06 = 1;
+            data_ov000_021b5df4->field4 = 4;
+            data_ov000_021b5df4->field6 = 1;
             return 4;
         }
         if (r < 0) {
             if (r >= -10) {
                 func_ov000_0219c384(0xb, r - 0x2bc);
-                data_ov000_021b5df4->mUnk_04 = 8;
+                data_ov000_021b5df4->field4 = 8;
                 return 8;
             }
             func_ov000_0219c384(5, r);
-            data_ov000_021b5df4->mUnk_04 = 7;
+            data_ov000_021b5df4->field4 = 7;
             return 7;
         }
         v = 2;
@@ -142,9 +142,9 @@ BOOL func_ov000_021a377c(void) {
     if (p == NULL) {
         return TRUE;
     }
-    if (p->mUnk_04 == 4) {
-        p->mUnk_04 = 5;
-    } else if (p->mUnk_04 != 5) {
+    if (p->field4 == 4) {
+        p->field4 = 5;
+    } else if (p->field4 != 5) {
         return TRUE;
     }
     if (func_ov000_021a86e8() != 0) {
@@ -158,7 +158,7 @@ BOOL func_ov000_021a377c(void) {
 }
 
 u32 func_ov000_021a3760(void) {
-    if ((data_ov000_021b5df4 != NULL) && (data_ov000_021b5df4->mUnk_04 == 6)) {
+    if ((data_ov000_021b5df4 != NULL) && (data_ov000_021b5df4->field4 == 6)) {
         return 1;
     }
     return 0;

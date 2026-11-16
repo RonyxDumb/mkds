@@ -46,7 +46,7 @@ void LoadJb2MenuFilesAndSetBgCnt(void) {
     LoadFileToVram(gJbBgStep1NcgName2, GX_LoadBG2Char);
     LoadFileToVram(gJbBgStep1NclName2, GX_LoadBGPltt);
     LoadFileToVram(gJb2MenuNscName, GX_LoadBG2Scr);
-    gYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage(ybBgStep11NclName.mUnk_00), NULL, 4);
+    gYbBgStep11Ncl = LoadFile(BuildFilePathWithLanguage(ybBgStep11NclName.field0), NULL, 4);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~3) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~3) | 3;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 3;
@@ -176,6 +176,6 @@ void func_ov003_021c2c94(void) {
     Unk021d6fd0 a;
     u8 tableByte;
     a = data_ov003_021d6fd0;
-    tableByte = a.mUnk_00[gJb2MenuSelectedIndex];
+    tableByte = a.field0[gJb2MenuSelectedIndex];
     func_ov003_021cc948(gYbBgStep11Ncl, tableByte, tableByte);
 }

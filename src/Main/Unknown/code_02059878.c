@@ -26,11 +26,11 @@ static inline u32 func_02059878_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline void func_02059878_inline2(u16 v) {
-    MPStateMachine *p = &gStruct217AA00->mUnk_1608;
+    MPStateMachine *p = &gStruct217AA00->field1608;
     p->mNextState = v;
     p->mNextStateRequested = 1;
 }
@@ -66,7 +66,7 @@ void ProcessMPChunk(u8 *chunk) {
     u8 playerBit;
 
     playerIndex = chunk[0];
-    entry = &gStruct217AA00->mUnk_045c[playerIndex];
+    entry = &gStruct217AA00->field45C[playerIndex];
     finished = 0;
     if (func_02059878_inline() == 1) {
         byteOffset = chunk[1] << 5;
@@ -81,24 +81,24 @@ void ProcessMPChunk(u8 *chunk) {
             break;
         case 0xfe:
             if (func_02059878_inline() == 2) {
-                gStruct217AA00->mUnk_043a = *(u16 *) (chunk + 2);
+                gStruct217AA00->field43A = *(u16 *) (chunk + 2);
             }
             break;
         case 0xfd:
             if (func_02059878_inline() == 1) {
-                gStruct217AA00->mUnk_162a |= 1 << playerIndex;
-                if (gStruct217AA00->mUnk_0044.mChildMask ==
-                    (gStruct217AA00->mUnk_0044.mChildMask & gStruct217AA00->mUnk_162a)) {
+                gStruct217AA00->field162A |= 1 << playerIndex;
+                if (gStruct217AA00->field44.mChildMask ==
+                    (gStruct217AA00->field44.mChildMask & gStruct217AA00->field162A)) {
                     func_02059878_inline2(10);
                 }
             }
             break;
         case 0xfc:
-            gStruct217AA00->mUnk_045c[playerIndex].mUnk_214 = 0;
+            gStruct217AA00->field45C[playerIndex].field214 = 0;
             finished = 1;
             break;
         default:
-            MI_CpuCopy8(chunk + 4, entry->mUnk_000 + byteOffset, *(u16 *) (chunk + 2));
+            MI_CpuCopy8(chunk + 4, entry->field0 + byteOffset, *(u16 *) (chunk + 2));
             gStruct217AA00->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
             if (IsAllMPChunksReceived(chunk[0]) != 0) {
                 finished = 1;
@@ -109,13 +109,13 @@ void ProcessMPChunk(u8 *chunk) {
         playerBit = 1U << chunk[0];
         if (func_02059878_inline() == 1) {
             if (QueueMPChunk(0xff, NULL, 0, 0, playerBit) != FALSE) {
-                gStruct217AA00->mUnk_162a |= 1 << chunk[0];
+                gStruct217AA00->field162A |= 1 << chunk[0];
                 return;
             }
         } else {
-            gStruct217AA00->mUnk_162a |= 1 << chunk[0];
-            if (gStruct217AA00->mUnk_043a == (gStruct217AA00->mUnk_043a & gStruct217AA00->mUnk_162a)) {
-                ownIndex = gStruct217AA00->mUnk_0000 == 2 ? gStruct217AA00->mOwnIndex : 0;
+            gStruct217AA00->field162A |= 1 << chunk[0];
+            if (gStruct217AA00->field43A == (gStruct217AA00->field43A & gStruct217AA00->field162A)) {
+                ownIndex = gStruct217AA00->field0 == 2 ? gStruct217AA00->mOwnIndex : 0;
                 if (QueueMPChunk(0xfd, NULL, 0, ownIndex, 1) != FALSE) {
                     func_02059878_inline2(10);
                 }
@@ -125,14 +125,14 @@ void ProcessMPChunk(u8 *chunk) {
 }
 
 void func_02059920(Unk02059920 *a) {
-    if (a->mUnk_02 == 0 && a->mUnk_0c != NULL && a->mUnk_10 >= 4) {
-        DC_StoreRange(a->mUnk_0c, a->mUnk_10);
-        switch (a->mUnk_04) {
+    if (a->field2 == 0 && a->fieldC != NULL && a->field10 >= 4) {
+        DC_StoreRange(a->fieldC, a->field10);
+        switch (a->field4) {
             case 7:
             case 9:
                 break;
             case 0x15:
-                ProcessMPChunk(a->mUnk_0c);
+                ProcessMPChunk(a->fieldC);
                 break;
         }
     }
@@ -142,22 +142,22 @@ void func_02059878(void) {
     ConnectionWork *p;
     u32 v;
 
-    sm_init(&gStruct217AA00->mUnk_1608, gMPStateTable, 0x17, NULL);
-    gStruct217AA00->mUnk_164e = 0;
-    gStruct217AA00->mUnk_1608.mUnk_14 = 0;
-    gStruct217AA00->mUnk_1608.mUnk_1a = 0;
+    sm_init(&gStruct217AA00->field1608, gMPStateTable, 0x17, NULL);
+    gStruct217AA00->field164E = 0;
+    gStruct217AA00->field1608.field14 = 0;
+    gStruct217AA00->field1608.field1A = 0;
     gStruct217AA00->mEntryChunkIndex = 0;
-    gStruct217AA00->mUnk_162a = 0;
-    gStruct217AA00->mUnk_164c = 0;
+    gStruct217AA00->field162A = 0;
+    gStruct217AA00->field164C = 0;
     p = gStruct217AA00;
     v = 0;
     if (p != NULL) {
-        v = p->mUnk_0000;
+        v = p->field0;
     }
     if (v == 1) {
-        p->mUnk_0044.mUnk_42 = (p->mUnk_0454 & 0x40) != 0 ? p->mUnk_1695 : p->mUnk_0044.mChildMask;
+        p->field44.field42 = (p->field454 & 0x40) != 0 ? p->field1695 : p->field44.mChildMask;
     }
-    gStruct217AA00->mUnk_1eb0 = 0;
+    gStruct217AA00->field1EB0 = 0;
 }
 
 #pragma thumb off

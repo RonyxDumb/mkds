@@ -45,11 +45,11 @@ u32 GetRaceNewRecordTaBestLapNumber(void) {
 }
 
 s32 r2dtar_isSaving(void) {
-    return r2dtar_sStatus != NULL ? r2dtar_sStatus->mUnk_18 : 0;
+    return r2dtar_sStatus != NULL ? r2dtar_sStatus->field18 : 0;
 }
 
 s32 func_020c70a0(void) {
-    return r2dtar_sStatus != NULL ? r2dtar_sStatus->mUnk_dc : 0;
+    return r2dtar_sStatus != NULL ? r2dtar_sStatus->fieldDC : 0;
 }
 
 void r2dtar_init(void) {
@@ -65,12 +65,12 @@ void r2dtar_init(void) {
     r2dtar_sStatus->mFinishRecordIndex = -1;
     r2dtar_sStatus->mBestLapIsRecord = 0;
     r2dtar_sStatus->mBestLapNumber = 0;
-    r2dtar_sStatus->mUnk_18 = 0;
+    r2dtar_sStatus->field18 = 0;
     for (i = 0; i < 6; i++) {
         savd_getNktaEntry(gRaceMultiConfig->mCourseId, i, &r2dtar_sStatus->mRecords[i]);
     }
-    r2dtar_sStatus->mUnk_18 = 0;
-    r2dtar_sStatus->mUnk_dc = 0;
+    r2dtar_sStatus->field18 = 0;
+    r2dtar_sStatus->fieldDC = 0;
     r2dtar_sStatus->mOffsetX = -0x100;
     r2dtar_sStatus->mCycleFrames = 0;
 }
@@ -372,7 +372,7 @@ void r2dtar_20C610C(void) {
         r2dtar_sStatus->mFinishTimeIsRecord = r2dtar_20C657C(1);
         r2dtar_sStatus->mBestLapIsRecord = r2dtar_20C6428(1);
         if (r2dtar_sStatus->mFinishTimeIsRecord != 0 || r2dtar_sStatus->mBestLapIsRecord != 0) {
-            r2dtar_sStatus->mUnk_18 = 1;
+            r2dtar_sStatus->field18 = 1;
             savd_flushNkta();
             r2dtar_sStatus->mUpdate = func_020c5f7c;
             r2dtar_sStatus->mUpdateFrames = 0;
@@ -396,7 +396,7 @@ void r2dtar_20C610C(void) {
                 }
             }
             if (r != FALSE) {
-                r2dtar_sStatus->mUnk_18 = 1;
+                r2dtar_sStatus->field18 = 1;
                 savd_storePersonalGhost(gRaceMultiConfig->mCourseId, gRaceMultiConfig->mEntryIndex);
                 r2dtar_sStatus->mUpdate = func_020c5f08;
                 r2dtar_sStatus->mUpdateFrames = 0;
@@ -433,7 +433,7 @@ void r2dtar_20C610C(void) {
         r2dtar_sStatus->mUpdate = SlideInRaceNewRecordTa;
         r2dtar_sStatus->mUpdateFrames = 0;
     }
-    r2dtar_sStatus->mUnk_dc = 1;
+    r2dtar_sStatus->fieldDC = 1;
 }
 
 void func_020c5f7c(void) {
@@ -470,12 +470,12 @@ void func_020c5f7c(void) {
         }
     }
     if (r != FALSE) {
-        r2dtar_sStatus->mUnk_18 = 1;
+        r2dtar_sStatus->field18 = 1;
         savd_storePersonalGhost(gRaceMultiConfig->mCourseId, gRaceMultiConfig->mEntryIndex);
         r2dtar_sStatus->mUpdate = func_020c5f08;
         r2dtar_sStatus->mUpdateFrames = 0;
     } else {
-        r2dtar_sStatus->mUnk_18 = 0;
+        r2dtar_sStatus->field18 = 0;
         r2dtar_sStatus->mUpdate = ShowRaceNewRecordTaSubScreen;
         r2dtar_sStatus->mUpdateFrames = 0;
     }
@@ -492,7 +492,7 @@ void func_020c5f08(void) {
     if (waiting != 0) {
         return;
     }
-    r2dtar_sStatus->mUnk_18 = 0;
+    r2dtar_sStatus->field18 = 0;
     r2dtar_sStatus->mUpdate = ShowRaceNewRecordTaSubScreen;
     r2dtar_sStatus->mUpdateFrames = 0;
 }

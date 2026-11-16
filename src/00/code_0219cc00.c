@@ -32,45 +32,45 @@ void func_ov000_0219ce48(GpConnection *a, Unk0219c400 *b, u32 c) {
     s32 i;
     s32 k;
     s32 n;
-    if (b->mUnk_00 == 0 && b->mUnk_04 != 0 && DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[c]) != 0) {
+    if (b->field0 == 0 && b->field4 != 0 && DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[c]) != 0) {
         if (gWiFiBuddySync->mState == 1) {
             gWiFiBuddySync->mBuddiesChanged = 1;
-            for (i = 0; i < b->mUnk_04; i++) {
-                if (func_ov000_0219d210(gWiFiBuddySync->mBuddies, c, b->mUnk_0c[i].mUnk_00) != FALSE) {
+            for (i = 0; i < b->field4; i++) {
+                if (func_ov000_0219d210(gWiFiBuddySync->mBuddies, c, b->fieldC[i].field0) != FALSE) {
                     gWiFiBuddySync->mSyncIndex++;
-                    gWiFiBuddySync->mUnk_1e = 1;
-                    b->mUnk_08 = 0x601;
+                    gWiFiBuddySync->field1E = 1;
+                    b->field8 = 0x601;
                     return;
                 }
             }
             k = 0;
-            for (i = 0; i < b->mUnk_04; i++) {
-                ReportBuddySyncGpResult(GpGetBuddyIndex(a, b->mUnk_0c[i].mUnk_00, &n));
+            for (i = 0; i < b->field4; i++) {
+                ReportBuddySyncGpResult(GpGetBuddyIndex(a, b->fieldC[i].field0, &n));
                 if (n == ~k) {
-                    AddBuddy(b->mUnk_0c[i].mUnk_00);
+                    AddBuddy(b->fieldC[i].field0);
                 } else {
-                    DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[c], b->mUnk_0c[0].mUnk_00);
+                    DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[c], b->fieldC[0].field0);
                     DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[c]);
                     func_ov000_0219d504(c);
                     gWiFiBuddySync->mSyncIndex++;
-                    gWiFiBuddySync->mUnk_1e = 1;
-                    b->mUnk_08 = 0x601;
+                    gWiFiBuddySync->field1E = 1;
+                    b->field8 = 0x601;
                     return;
                 }
             }
-            if (b->mUnk_08 != 0x600) {
+            if (b->field8 != 0x600) {
                 gWiFiBuddySync->mSyncIndex++;
-                gWiFiBuddySync->mUnk_1e = 1;
+                gWiFiBuddySync->field1E = 1;
             }
         }
     } else {
-        if (b->mUnk_00 != 0) {
-            if (ReportBuddySyncGpResult(b->mUnk_00) != 0) {
+        if (b->field0 != 0) {
+            if (ReportBuddySyncGpResult(b->field0) != 0) {
                 return;
             }
         } else if (gWiFiBuddySync->mState == 1 || DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[c]) == 0) {
             gWiFiBuddySync->mSyncIndex++;
-            gWiFiBuddySync->mUnk_1e = 1;
+            gWiFiBuddySync->field1E = 1;
         }
     }
 }
@@ -86,14 +86,14 @@ void func_ov000_0219cd74(GpConnection *a, Unk0219c400 *b, u32 c) {
     for (; i < gWiFiBuddySync->mBuddyEntryCount; i++) {
         if (DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 1) {
             DWC_LoginIdToUserName(func_ov000_0219c9c4(), &gWiFiBuddySync->mBuddies[i], s);
-            if (strcmp(s, (const char *) b->mUnk_8e) == 0) {
-                func_ov000_0218ee1c(h, b->mUnk_04);
-                DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[i], b->mUnk_04);
+            if (strcmp(s, (const char *) b->field8E) == 0) {
+                func_ov000_0218ee1c(h, b->field4);
+                DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[i], b->field4);
                 f = TRUE;
             }
         } else if (DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 3 ||
                    DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 2) {
-            t = b->mUnk_04;
+            t = b->field4;
             if (t == DWC_GetGsProfileId(func_ov000_0219c9c4(), &gWiFiBuddySync->mBuddies[i])) {
                 func_ov000_0218ee1c(h, t);
                 f = TRUE;
@@ -101,9 +101,9 @@ void func_ov000_0219cd74(GpConnection *a, Unk0219c400 *b, u32 c) {
         }
     }
     if (f != FALSE) {
-        AddBuddy(b->mUnk_04);
+        AddBuddy(b->field4);
     } else {
-        func_ov000_0218ed74(h, b->mUnk_04);
+        func_ov000_0218ed74(h, b->field4);
     }
 }
 
@@ -117,14 +117,14 @@ void func_ov000_0219cc94(GpConnection *a, Unk0219c400 *b, u32 c) {
     for (; i < gWiFiBuddySync->mBuddyEntryCount; i++) {
         if (DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 1) {
             DWC_LoginIdToUserName(func_ov000_0219c9c4(), &gWiFiBuddySync->mBuddies[i], s);
-            if (strcmp(s, (const char *) b->mUnk_8e) == 0) {
-                DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[i], b->mUnk_04);
+            if (strcmp(s, (const char *) b->field8E) == 0) {
+                DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[i], b->field4);
                 DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[i]);
                 f = TRUE;
             }
         } else if (DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 3 ||
                    DWC_GetFriendDataType(&gWiFiBuddySync->mBuddies[i]) == 2) {
-            t = b->mUnk_04;
+            t = b->field4;
             if (t == DWC_GetGsProfileId(func_ov000_0219c9c4(), &gWiFiBuddySync->mBuddies[i])) {
                 DWC_SetGsProfileId(&gWiFiBuddySync->mBuddies[i], t);
                 DWCi_SetBuddyFriendData(&gWiFiBuddySync->mBuddies[i]);
@@ -134,7 +134,7 @@ void func_ov000_0219cc94(GpConnection *a, Unk0219c400 *b, u32 c) {
     }
     if (f != FALSE) {
         func_ov000_0219d504(
-            func_ov000_0219d14c(gWiFiBuddySync->mBuddies, gWiFiBuddySync->mBuddyEntryCount, b->mUnk_04));
+            func_ov000_0219d14c(gWiFiBuddySync->mBuddies, gWiFiBuddySync->mBuddyEntryCount, b->field4));
         gWiFiBuddySync->mBuddiesChanged = 1;
     }
 }
@@ -146,9 +146,9 @@ void func_ov000_0219cc30(u32 a, u32 b, u32 c) {
         ReportBuddySyncError(6, -72200);
         return;
     }
-    gWiFiBuddySync->mUnk_24 = b;
-    OS_SNPrintf(s, 0x40, "\\dwc_name\\%s", gWiFiBuddySync->mUnk_28);
-    func_ov000_0219cc00(gWiFiBuddySync->mUnk_24, 3, (u32) s, 0x80000001);
+    gWiFiBuddySync->field24 = b;
+    OS_SNPrintf(s, 0x40, "\\dwc_name\\%s", gWiFiBuddySync->field28);
+    func_ov000_0219cc00(gWiFiBuddySync->field24, 3, (u32) s, 0x80000001);
 }
 
 void func_ov000_0219cc00(u32 a, u32 b, u32 c, u32 d) {

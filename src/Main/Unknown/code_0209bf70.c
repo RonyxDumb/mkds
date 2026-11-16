@@ -88,21 +88,21 @@ void sun_render(void *a, Unk0209d3fc *b) {
 
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->field0.mPos), 0xc);
     if (b->mState == 3 || b->mState == 4) {
-        t = (s32) (((s64) FX_SinCosTable_[((u16) b->mUnk_ac >> 4) * 2 + 1] * -0x14000) >> 12) + 0x14000;
-        k = (b->mUnk_b0 >> 4) * 2;
+        t = (s32) (((s64) FX_SinCosTable_[((u16) b->fieldAC >> 4) * 2 + 1] * -0x14000) >> 12) + 0x14000;
+        k = (b->fieldB0 >> 4) * 2;
         v.x = (s32) (((s64) t * FX_SinCosTable_[k + 1]) >> 12) >> 4;
         v.y = (s32) (((s64) t * FX_SinCosTable_[k]) >> 12) >> 4;
         v.z = 0;
         NNS_G3dGeBufferOP_N(0x1c, &v, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->field0.mScale, 3);
     if (race_getCameraField250() == 2) {
         mobj_bbModelApplyMaterial(a, sun_sModel);
         mobj_setModelNsbcaFrame(sun_sModel, b->mNsbcaFrameIndex);
         mobj_renderModel(a, sun_sModel, b);
-    } else if ((s32) (b->mUnk_00.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d0900) {
+    } else if ((s32) (b->field0.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d0900) {
         mobj_bbModelApplyMaterial(a, sun_sModel);
         mobj_setModelNsbcaFrame(sun_sModel, b->mNsbcaFrameIndex);
         mobj_renderModel(a, sun_sModel, b);
@@ -126,9 +126,9 @@ void sun_globalLogicInit(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (sun = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
-            sun->mTimer = (u16) sun->mUnk_000.mCourseMapRow->mUnk_28;
+            sun->mTimer = (u16) sun->field0.mCourseMapRow->field28;
         } else if (gRaceMultiConfig->mMode == 5) {
-            sun->mTimer = (u16) sun->mUnk_000.mCourseMapRow->mUnk_2a;
+            sun->mTimer = (u16) sun->field0.mCourseMapRow->field2A;
         }
     }
 }
@@ -154,8 +154,8 @@ static inline BOOL UpdateSun_inline_b(Sun *sun) {
     for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
         kart = driver_getById((u16) i);
         q = &kart->mPos;
-        x = q->x - sun->mUnk_000.mPos.x;
-        z = q->z - sun->mUnk_000.mPos.z;
+        x = q->x - sun->field0.mPos.x;
+        z = q->z - sun->field0.mPos.z;
         if ((s64) x * x + (s64) z * z < 0x15f900000000LL) {
             return TRUE;
         }
@@ -171,7 +171,7 @@ void sun_update(MapObjectList *mapObjectList, Sun *sun) {
 
     switch (sun->mState) {
         case 0:
-            if (sun->mUnk_000.mFlags & 0x800) {
+            if (sun->field0.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
                     sun->mState = 1;
                 }
@@ -180,76 +180,76 @@ void sun_update(MapObjectList *mapObjectList, Sun *sun) {
             }
             break;
         case 1:
-            sun->mUnk_0b8.mSpeed = 0x3c000;
-            sun->mUnk_0b8.mProgressStep =
-                ((s64) sun->mUnk_0b8.mPath->mSegments[sun->mUnk_0b8.mSegmentIndex].mInverseProgressLength * 0x3c000) >>
+            sun->fieldB8.mSpeed = 0x3c000;
+            sun->fieldB8.mProgressStep =
+                ((s64) sun->fieldB8.mPath->mSegments[sun->fieldB8.mSegmentIndex].mInverseProgressLength * 0x3c000) >>
                 12;
-            if (pw_update(&sun->mUnk_0b8) != FALSE && (t = sun->mUnk_0b8.mFromEntry->mUnk_0e) != 0) {
-                if (sun->mUnk_000.mFlags & 0x800) {
+            if (pw_update(&sun->fieldB8) != FALSE && (t = sun->fieldB8.mFromEntry->fieldE) != 0) {
+                if (sun->field0.mFlags & 0x800) {
                     k = gRaceMultiConfig->mMode;
                     if (k == MODE_TIME_ATTACK) {
                         sun->mTimer = t;
                     } else if (k == 5) {
-                        sun->mTimer = sun->mUnk_0b8.mFromEntry->mUnk_10;
+                        sun->mTimer = sun->fieldB8.mFromEntry->field10;
                     }
                 }
                 sun->mState = 2;
             }
-            pw_calcCurrentPointLinearXYZ(&sun->mUnk_0b8, &sun->mUnk_000.mPos);
+            pw_calcCurrentPointLinearXYZ(&sun->fieldB8, &sun->field0.mPos);
             break;
         case 2:
-            if (sun->mUnk_000.mFlags & 0x800) {
+            if (sun->field0.mFlags & 0x800) {
                 if (sun->mTimer-- <= 0) {
-                    sun->mUnk_0b0 = 0;
-                    sun->mUnk_0ac = sun->mUnk_0b0;
+                    sun->fieldB0 = 0;
+                    sun->fieldAC = sun->fieldB0;
                     sun->mTimer = 5;
                     sun->mState = 3;
                 }
             } else if (UpdateSun_inline_b(sun)) {
-                sun->mUnk_0b0 = 0;
-                sun->mUnk_0ac = sun->mUnk_0b0;
+                sun->fieldB0 = 0;
+                sun->fieldAC = sun->fieldB0;
                 sun->mTimer = 5;
                 sun->mState = 3;
             }
             break;
         case 3:
-            sun->mUnk_0b0 += 0xe39;
-            if (sun->mUnk_0ac < 0x8000) {
-                sun->mUnk_0ac += 0x222;
+            sun->fieldB0 += 0xe39;
+            if (sun->fieldAC < 0x8000) {
+                sun->fieldAC += 0x222;
             }
             if (sun->mTimer-- > 0) {
                 break;
             }
-            if (sun->mUnk_0a0 == 0) {
-                sun->mUnk_0a4 = ((u64) CollideKartWithBound_inline(mobj_getRng1()) * 0x10000) >> 32;
+            if (sun->fieldA0 == 0) {
+                sun->fieldA4 = ((u64) CollideKartWithBound_inline(mobj_getRng1()) * 0x10000) >> 32;
             } else {
-                sun->mUnk_0a4 += 0x8000;
+                sun->fieldA4 += 0x8000;
             }
-            position.x = sun->mUnk_000.mPos.x;
-            position.y = sun->mUnk_000.mPos.y - 0x1e000;
-            position.z = sun->mUnk_000.mPos.z;
-            direction.x = FX_SinCosTable_[(sun->mUnk_0a4 >> 4) * 2];
+            position.x = sun->field0.mPos.x;
+            position.y = sun->field0.mPos.y - 0x1e000;
+            position.z = sun->field0.mPos.z;
+            direction.x = FX_SinCosTable_[(sun->fieldA4 >> 4) * 2];
             direction.y = 0;
-            direction.z = FX_SinCosTable_[(sun->mUnk_0a4 >> 4) * 2 + 1];
+            direction.z = FX_SinCosTable_[(sun->fieldA4 >> 4) * 2 + 1];
             sfsn_spawn(&position, &direction);
-            sun->mUnk_0a0 += 1;
-            if (sun->mUnk_0a0 >= 2) {
-                sun->mUnk_0a0 = 0;
+            sun->fieldA0 += 1;
+            if (sun->fieldA0 >= 2) {
+                sun->fieldA0 = 0;
                 sun->mState = 4;
             } else {
                 sun->mTimer = 0x1e;
             }
             break;
         case 4:
-            sun->mUnk_0b0 += 0xe39;
-            sun->mUnk_0ac += 0x222;
-            if (sun->mUnk_0ac > 0x10000) {
+            sun->fieldB0 += 0xe39;
+            sun->fieldAC += 0x222;
+            if (sun->fieldAC > 0x10000) {
                 sun->mTimer = 0x1e;
                 sun->mState = 0;
             }
             break;
     }
-    if ((s32) (sun->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
+    if ((s32) (sun->field0.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
         return;
     }
     if (sun->mState == 3) {
@@ -280,9 +280,9 @@ void sun_setupLogicPart(void) {
 }
 
 void bnd_init(Bound *bound) {
-    bound->mUnk_000.mFlags |= data_021565d4;
+    bound->field0.mFlags |= data_021565d4;
     mobj_setDirectionFromFloor(bound);
-    bound->mInitialScaleX = bound->mUnk_000.mScale.x;
+    bound->mInitialScaleX = bound->field0.mScale.x;
 }
 
 // Shared by Bound, Cream and Berry: sets the object's motion from the Kart, starts the wobble and plays a sound.
@@ -300,7 +300,7 @@ s32 bnd_onDriverCollide(Bound *bound, Kart *kart, u8 *b, u8 *c) {
     d = *c;
     if (e == 3 || e == 4) {
         if (bound->mKartTimers[kart->mIndex] == 0) {
-            VEC_Subtract(&kart->mPos, &bound->mUnk_000.mPos, &v2);
+            VEC_Subtract(&kart->mPos, &bound->field0.mPos, &v2);
             t = VEC_DotProduct(&kart->mVelocityDirection, &v2);
             v0.x = ((s64) kart->mVelocityDirection.x * t) >> 12;
             v0.y = ((s64) kart->mVelocityDirection.y * t) >> 12;
@@ -308,34 +308,34 @@ s32 bnd_onDriverCollide(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             v1.x = v2.x - v0.x;
             v1.y = v2.y - v0.y;
             v1.z = v2.z - v0.z;
-            t = VEC_DotProduct(&bound->mUnk_000.mMatrix.mUnk_00[1], &v1);
-            v0.x = ((s64) bound->mUnk_000.mMatrix.mUnk_00[1].x * t) >> 12;
-            v0.y = ((s64) bound->mUnk_000.mMatrix.mUnk_00[1].y * t) >> 12;
-            v0.z = ((s64) bound->mUnk_000.mMatrix.mUnk_00[1].z * t) >> 12;
+            t = VEC_DotProduct(&bound->field0.mMatrix.field0[1], &v1);
+            v0.x = ((s64) bound->field0.mMatrix.field0[1].x * t) >> 12;
+            v0.y = ((s64) bound->field0.mMatrix.field0[1].y * t) >> 12;
+            v0.z = ((s64) bound->field0.mMatrix.field0[1].z * t) >> 12;
             v1.x -= v0.x;
             v1.y -= v0.y;
             v1.z -= v0.z;
             if ((s64) v1.x * v1.x + (s64) v1.y * v1.y + (s64) v1.z * v1.z < 0x10) {
-                q = &kart->mUnk_120;
-                bound->mUnk_000.mUnk_10.x = ((s64) kart->mUnk_120.x * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.y = ((s64) q->y * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.z = ((s64) q->z * 0xc000) >> 12;
+                q = &kart->field120;
+                bound->field0.field10.x = ((s64) kart->field120.x * 0xc000) >> 12;
+                bound->field0.field10.y = ((s64) q->y * 0xc000) >> 12;
+                bound->field0.field10.z = ((s64) q->z * 0xc000) >> 12;
             } else {
                 vec_normalize(&v1, &v1);
-                bound->mUnk_000.mUnk_10.x = ((s64) v1.x * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.y = ((s64) v1.y * 0xc000) >> 12;
-                bound->mUnk_000.mUnk_10.z = ((s64) v1.z * 0xc000) >> 12;
+                bound->field0.field10.x = ((s64) v1.x * 0xc000) >> 12;
+                bound->field0.field10.y = ((s64) v1.y * 0xc000) >> 12;
+                bound->field0.field10.z = ((s64) v1.z * 0xc000) >> 12;
             }
-            VEC_Subtract(&v0, &bound->mUnk_000.mMatrix.mUnk_00[1], &v0);
-            VEC_MultAdd(0x19a, &v0, &bound->mUnk_000.mUnk_10, &bound->mUnk_000.mUnk_10);
+            VEC_Subtract(&v0, &bound->field0.mMatrix.field0[1], &v0);
+            VEC_MultAdd(0x19a, &v0, &bound->field0.field10, &bound->field0.field10);
             bound->mKartTimers[kart->mIndex] = 0x1f;
             if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-                mgcnt_applyForceToDriverBalloons(kart->mIndex, (s32) &bound->mUnk_000.mUnk_10);
+                mgcnt_applyForceToDriverBalloons(kart->mIndex, (s32) &bound->field0.field10);
             }
         } else {
-            bound->mUnk_000.mUnk_10.x = 0;
-            bound->mUnk_000.mUnk_10.y = 0;
-            bound->mUnk_000.mUnk_10.z = 0;
+            bound->field0.field10.x = 0;
+            bound->field0.field10.y = 0;
+            bound->field0.field10.z = 0;
         }
         if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST && bound->mWobbling == FALSE) {
             bound->mWobbleXAngle = 0x8000;
@@ -343,15 +343,15 @@ s32 bnd_onDriverCollide(Bound *bound, Kart *kart, u8 *b, u8 *c) {
             bound->mWobbleXAmplitude = 0x400;
             bound->mWobbleXAmplitudePerFrame = -0x29;
             bound->mWobbleXAnglePerFrame = 0x1000;
-            bound->mUnk_0d4 = 0;
+            bound->fieldD4 = 0;
             bound->mWobbleYAngle = 0;
             bound->mWobbleYMid = 0x1000;
             bound->mWobbleYAmplitude = 0x400;
             bound->mWobbleYAmplitudePerFrame = -0x29;
             bound->mWobbleYAnglePerFrame = 0x1000;
-            bound->mUnk_0f4 = 0;
+            bound->fieldF4 = 0;
             bound->mWobbling = TRUE;
-            switch (bound->mUnk_000.mKind) {
+            switch (bound->field0.mKind) {
                 case MAP_OBJECT_KIND_CREAM:
                     mobj_driverEmitSfx2(kart, 0x156);
                     break;
@@ -362,11 +362,11 @@ s32 bnd_onDriverCollide(Bound *bound, Kart *kart, u8 *b, u8 *c) {
                     mobj_driverEmitSfx2(kart, 0x1cf);
                     break;
             }
-            if ((u16) (bound->mUnk_000.mKind + 0xfe4c) <= 1) {
+            if ((u16) (bound->field0.mKind + 0xfe4c) <= 1) {
                 cspl_emitCustomSplash(
                     kart->mIndex,
                     (u16) (((u64) CollideKartWithBound_inline(&gRaceStatus->mLocalRandom) * 3) >> 32) + 1);
-                VEC_Subtract(&bound->mUnk_000.mPos, &kart->mCollisionCenter, &v3);
+                VEC_Subtract(&bound->field0.mPos, &kart->mCollisionCenter, &v3);
                 if (!((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z < 0x10)) {
                     vec_normalize(&v3, &v3);
                 }
@@ -380,9 +380,9 @@ s32 bnd_onDriverCollide(Bound *bound, Kart *kart, u8 *b, u8 *c) {
         }
         return d;
     }
-    bound->mUnk_000.mUnk_10.x = 0;
-    bound->mUnk_000.mUnk_10.y = 0;
-    bound->mUnk_000.mUnk_10.z = 0;
+    bound->field0.field10.x = 0;
+    bound->field0.field10.y = 0;
+    bound->field0.field10.z = 0;
     return 2;
 }
 
@@ -397,29 +397,29 @@ u8 bnd_onItemCollide(Bound *bound, void *a, u8 *b, u8 *c) {
         bound->mWobbleXAmplitude = 0x200;
         bound->mWobbleXAmplitudePerFrame = -0x14;
         bound->mWobbleXAnglePerFrame = 0x1000;
-        bound->mUnk_0d4 = 0;
+        bound->fieldD4 = 0;
         bound->mWobbleYAngle = 0;
         bound->mWobbleYMid = 0x1000;
         bound->mWobbleYAmplitude = 0x200;
         bound->mWobbleYAmplitudePerFrame = -0x14;
         bound->mWobbleYAnglePerFrame = 0x1000;
-        bound->mUnk_0f4 = 0;
+        bound->fieldF4 = 0;
         bound->mWobbling = TRUE;
-        bound->mUnk_000.mDistanceSquaredAndFlags |= data_021565d0;
+        bound->field0.mDistanceSquaredAndFlags |= data_021565d0;
     }
     return d;
 }
 
 BOOL bnd_collide(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut) {
-    if ((bound->mUnk_000.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
+    if ((bound->field0.mFlags & 0x800) == 0 && bound->mWobbling == TRUE) {
         bound->mSphereHit =
-            col_collideSphereCylinder(sphereCenter, &bound->mUnk_000.mPos, &bound->mUnk_000.mMatrix.mUnk_00[0],
-                                              ((s64) bound->mUnk_000.mExtent.x * bound->mWobbleScaleX) >> 12,
-                                              bound->mUnk_000.mExtent.y, 0, sphereRadius, pushOut);
+            col_collideSphereCylinder(sphereCenter, &bound->field0.mPos, &bound->field0.mMatrix.field0[0],
+                                              ((s64) bound->field0.mExtent.x * bound->mWobbleScaleX) >> 12,
+                                              bound->field0.mExtent.y, 0, sphereRadius, pushOut);
     } else {
         bound->mSphereHit = col_collideSphereCylinder(
-            sphereCenter, &bound->mUnk_000.mPos, &bound->mUnk_000.mMatrix.mUnk_00[0], bound->mUnk_000.mExtent.x,
-            bound->mUnk_000.mExtent.y, 0, sphereRadius, pushOut);
+            sphereCenter, &bound->field0.mPos, &bound->field0.mMatrix.field0[0], bound->field0.mExtent.x,
+            bound->field0.mExtent.y, 0, sphereRadius, pushOut);
     }
     return bound->mSphereHit != 0;
 }
@@ -436,10 +436,10 @@ void bnd_renderBound(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    bound->field0.mMatrix.field0[3].x = bound->field0.mPos.x >> 4;
+    bound->field0.mMatrix.field0[3].y = bound->field0.mPos.y >> 4;
+    bound->field0.mMatrix.field0[3].z = bound->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bound->field0.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
@@ -448,7 +448,7 @@ void bnd_renderBound(MapObjectList *mapObjectList, Bound *bound) {
         v[3] = x;
         NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->field0.mScale, 3);
     mobj_setModelNsbtpFrame(bnd_sBoundModel, bound->mNsbtpFrameIndex);
     mobj_renderModel(mapObjectList, bnd_sBoundModel, bound);
 }
@@ -470,10 +470,10 @@ void bnd_renderCream(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    bound->field0.mMatrix.field0[3].x = bound->field0.mPos.x >> 4;
+    bound->field0.mMatrix.field0[3].y = bound->field0.mPos.y >> 4;
+    bound->field0.mMatrix.field0[3].z = bound->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bound->field0.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
@@ -482,7 +482,7 @@ void bnd_renderCream(MapObjectList *mapObjectList, Bound *bound) {
         v[3] = x;
         NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->field0.mScale, 3);
     mobj_renderModel(mapObjectList, bnd_sCreamModel, bound);
 }
 
@@ -493,10 +493,10 @@ void bnd_renderBerry(MapObjectList *mapObjectList, Bound *bound) {
 
     v[0] = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v[0], 1);
-    bound->mUnk_000.mMatrix.mUnk_00[3].x = bound->mUnk_000.mPos.x >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].y = bound->mUnk_000.mPos.y >> 4;
-    bound->mUnk_000.mMatrix.mUnk_00[3].z = bound->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bound->mUnk_000.mMatrix, 0xc);
+    bound->field0.mMatrix.field0[3].x = bound->field0.mPos.x >> 4;
+    bound->field0.mMatrix.field0[3].y = bound->field0.mPos.y >> 4;
+    bound->field0.mMatrix.field0[3].z = bound->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bound->field0.mMatrix, 0xc);
     if (bound->mWobbling == TRUE) {
         x = bound->mWobbleScaleX;
         y = bound->mWobbleScaleY;
@@ -505,7 +505,7 @@ void bnd_renderBerry(MapObjectList *mapObjectList, Bound *bound) {
         v[3] = x;
         NNS_G3dGeBufferOP_N(0x1b, &v[1], 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &bound->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bound->field0.mScale, 3);
     mobj_renderModel(mapObjectList, bnd_sBerryModel, bound);
 }
 
@@ -517,15 +517,15 @@ void bnd_globalLogicInit(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bound = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (bound->mUnk_000.mCourseMapRow->mUnk_26 >= 0) {
-            pw_initFromObject(&bound->mUnk_0f8, bound->mUnk_000.mCourseMapRow, 0);
-            bound->mUnk_0f8.mSpeed = 0x3000;
-            bound->mUnk_0f8.mProgressStep =
-                ((s64) bound->mUnk_0f8.mPath->mSegments[bound->mUnk_0f8.mSegmentIndex].mInverseProgressLength *
+        if (bound->field0.mCourseMapRow->field26 >= 0) {
+            pw_initFromObject(&bound->fieldF8, bound->field0.mCourseMapRow, 0);
+            bound->fieldF8.mSpeed = 0x3000;
+            bound->fieldF8.mProgressStep =
+                ((s64) bound->fieldF8.mPath->mSegments[bound->fieldF8.mSegmentIndex].mInverseProgressLength *
                  0x3000) >>
                 12;
         } else {
-            bound->mUnk_0f8.mGroupIndex = 0xffff;
+            bound->fieldF8.mGroupIndex = 0xffff;
         }
     }
 }
@@ -544,25 +544,25 @@ void bnd_update(MapObjectList *mapObjectList, Bound *bound) {
     s32 i;
     s32 kartCount;
 
-    if (bound->mUnk_0f8.mGroupIndex != 0xffff) {
-        pw_update(&bound->mUnk_0f8);
-        pw_20D8BF8_XYZ(&bound->mUnk_0f8, &bound->mUnk_000.mPos, &bound->mUnk_000.mUnk_10);
+    if (bound->fieldF8.mGroupIndex != 0xffff) {
+        pw_update(&bound->fieldF8);
+        pw_20D8BF8_XYZ(&bound->fieldF8, &bound->field0.mPos, &bound->field0.field10);
         nsbtpFrameCount = mobj_getModelNsbtpFrameCount(bnd_sBoundModel);
         bound->mNsbtpFrameIndex += 1;
         if (bound->mNsbtpFrameIndex >= nsbtpFrameCount) {
             bound->mNsbtpFrameIndex = 1;
         }
     } else {
-        bound->mUnk_000.mUnk_10.x = 0;
-        bound->mUnk_000.mUnk_10.y = 0;
-        bound->mUnk_000.mUnk_10.z = 0;
+        bound->field0.field10.x = 0;
+        bound->field0.field10.y = 0;
+        bound->field0.field10.z = 0;
         bound->mNsbtpFrameIndex = 0;
     }
     if (bound->mWobbling == TRUE) {
         bound->mWobbleXAngle += bound->mWobbleXAnglePerFrame;
         t = bnd_FX_MulInline(bound->mWobbleXAmplitude, bnd_FX_SinIdx(bound->mWobbleXAngle));
-        bound->mUnk_0c0 = bound->mWobbleXMid + t - bound->mWobbleScaleX;
-        bound->mWobbleScaleX += bound->mUnk_0c0;
+        bound->fieldC0 = bound->mWobbleXMid + t - bound->mWobbleScaleX;
+        bound->mWobbleScaleX += bound->fieldC0;
         if (bound->mWobbleXAmplitude > 0) {
             t = bound->mWobbleXAmplitude + bound->mWobbleXAmplitudePerFrame;
             if (t <= 0) {
@@ -577,13 +577,13 @@ void bnd_update(MapObjectList *mapObjectList, Bound *bound) {
             bound->mWobbleXAmplitude = t;
         }
         if (bound->mWobbleXAnglePerFrame > 0) {
-            t = bound->mWobbleXAnglePerFrame + bound->mUnk_0d4;
+            t = bound->mWobbleXAnglePerFrame + bound->fieldD4;
             if (t <= 0) {
                 t = 0;
             }
             bound->mWobbleXAnglePerFrame = t;
         } else if (bound->mWobbleXAnglePerFrame < 0) {
-            t = bound->mWobbleXAnglePerFrame + bound->mUnk_0d4;
+            t = bound->mWobbleXAnglePerFrame + bound->fieldD4;
             if (t >= 0) {
                 t = 0;
             }
@@ -591,8 +591,8 @@ void bnd_update(MapObjectList *mapObjectList, Bound *bound) {
         }
         bound->mWobbleYAngle += bound->mWobbleYAnglePerFrame;
         t = bnd_FX_MulInline(bound->mWobbleYAmplitude, bnd_FX_SinIdx(bound->mWobbleYAngle));
-        bound->mUnk_0e0 = bound->mWobbleYMid + t - bound->mWobbleScaleY;
-        bound->mWobbleScaleY += bound->mUnk_0e0;
+        bound->fieldE0 = bound->mWobbleYMid + t - bound->mWobbleScaleY;
+        bound->mWobbleScaleY += bound->fieldE0;
         if (bound->mWobbleYAmplitude > 0) {
             t = bound->mWobbleYAmplitude + bound->mWobbleYAmplitudePerFrame;
             if (t <= 0) {
@@ -607,13 +607,13 @@ void bnd_update(MapObjectList *mapObjectList, Bound *bound) {
             bound->mWobbleYAmplitude = t;
         }
         if (bound->mWobbleYAnglePerFrame > 0) {
-            t = bound->mWobbleYAnglePerFrame + bound->mUnk_0f4;
+            t = bound->mWobbleYAnglePerFrame + bound->fieldF4;
             if (t <= 0) {
                 t = 0;
             }
             bound->mWobbleYAnglePerFrame = t;
         } else if (bound->mWobbleYAnglePerFrame < 0) {
-            t = bound->mWobbleYAnglePerFrame + bound->mUnk_0f4;
+            t = bound->mWobbleYAnglePerFrame + bound->fieldF4;
             if (t >= 0) {
                 t = 0;
             }
@@ -621,12 +621,12 @@ void bnd_update(MapObjectList *mapObjectList, Bound *bound) {
         }
         if (bound->mWobbleXAmplitude == 0 && bound->mWobbleYAmplitude == 0) {
             bound->mWobbling = FALSE;
-            bound->mUnk_000.mScale.x = bound->mInitialScaleX;
+            bound->field0.mScale.x = bound->mInitialScaleX;
         } else {
-            bound->mUnk_000.mScale.x = ((s64) bound->mInitialScaleX * bound->mWobbleScaleX) >> 12;
+            bound->field0.mScale.x = ((s64) bound->mInitialScaleX * bound->mWobbleScaleX) >> 12;
         }
     } else {
-        bound->mUnk_000.mScale.x = bound->mInitialScaleX;
+        bound->field0.mScale.x = bound->mInitialScaleX;
     }
     kartCount = gRaceMultiConfig->mKartCount;
     for (i = 0; i < kartCount; i++) {
@@ -640,21 +640,21 @@ void bnd_setupBoundConfig(void) {
     MapObjectKindData *kindData;
 
     kindData = mobj_createConfig(bnd_onDriverCollide, bnd_onItemCollide, bnd_collide, 1, 1);
-    kindData->mUnk_28 = 0x1cf;
+    kindData->field28 = 0x1cf;
 }
 
 void bnd_setupCreamConfig(void) {
     MapObjectKindData *kindData;
 
     kindData = mobj_createConfig(bnd_onDriverCollide, bnd_onItemCollide, bnd_collide, 1, 1);
-    kindData->mUnk_28 = 0x156;
+    kindData->field28 = 0x156;
 }
 
 void bnd_setupBerryConfig(void) {
     MapObjectKindData *kindData;
 
     kindData = mobj_createConfig(bnd_onDriverCollide, bnd_onItemCollide, bnd_collide, 1, 1);
-    kindData->mUnk_28 = 0x155;
+    kindData->field28 = 0x155;
 }
 
 void bnd_setupBoundRenderPart(void) {
@@ -686,26 +686,26 @@ BOOL bnd_handleBallHit(s32 a) {
         bound->mWobbleXAmplitude = 0x400;
         bound->mWobbleXAmplitudePerFrame = -0x29;
         bound->mWobbleXAnglePerFrame = 0x1000;
-        bound->mUnk_0d4 = 0;
+        bound->fieldD4 = 0;
         bound->mWobbleYAngle = 0;
         bound->mWobbleYMid = 0x1000;
         bound->mWobbleYAmplitude = 0x400;
         bound->mWobbleYAmplitudePerFrame = -0x29;
         bound->mWobbleYAnglePerFrame = 0x1000;
-        bound->mUnk_0f4 = 0;
+        bound->fieldF4 = 0;
         bound->mWobbling = TRUE;
-        if ((bound->mUnk_000.mDistanceSquaredAndFlags & 4) == 0) {
-            if (bound->mUnk_000.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+        if ((bound->field0.mDistanceSquaredAndFlags & 4) == 0) {
+            if (bound->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                 k = 2;
-            } else if (bound->mUnk_000.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+            } else if (bound->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                 k = 3;
             } else {
                 k = 4;
             }
             s.mSoundId = 0x1cf;
-            s.mPositionSource = &bound->mUnk_000.mPos;
-            s.mUnk_08 = k;
-            s.mDistanceSquared = mobj_calcXZCamDist(&bound->mUnk_000.mPos);
+            s.mPositionSource = &bound->field0.mPos;
+            s.field8 = k;
+            s.mDistanceSquared = mobj_calcXZCamDist(&bound->field0.mPos);
             func_0210b7a8(&s);
         }
         return TRUE;
@@ -721,10 +721,10 @@ void *mobj_createConfig(void *collideKartCallback, void *collideItemObjectCallba
 
     proc_getHeap(proc_getCurrent());
     kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
-    kindData->mUnk_00 = collideKartCallback;
-    kindData->mUnk_04 = collideItemObjectCallback;
-    kindData->mUnk_20 = param_4;
-    kindData->mUnk_1c = param_5;
+    kindData->field0 = collideKartCallback;
+    kindData->field4 = collideItemObjectCallback;
+    kindData->field20 = param_4;
+    kindData->field1C = param_5;
     kindData->mSphereHitTest = sphereHitCallback;
     return kindData;
 }
@@ -738,6 +738,6 @@ MapObjectKindData *mobj_createConfigEx(void *collideKartCallback, void *collideI
     MapObjectKindData *kindData;
 
     kindData = mobj_createConfig(collideKartCallback, collideItemObjectCallback, sphereHitCallback, d, e);
-    kindData->mUnk_24 = f;
+    kindData->field24 = f;
     return kindData;
 }

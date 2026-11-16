@@ -24,7 +24,7 @@
 void savd_packNkmrEntry(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
     if (unpackedMissionRecord->mFilled != 0) {
         missionRecord->mFilled = 1;
-        missionRecord->mUnk_00_1 = unpackedMissionRecord->mValue;
+        missionRecord->field0_1 = unpackedMissionRecord->mValue;
     } else {
         missionRecord->mFilled = 0;
     }
@@ -33,7 +33,7 @@ void savd_packNkmrEntry(MissionRecord *missionRecord, UnpackedMissionRecord *unp
 void savd_unpackNkmrEntry(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
     if (missionRecord->mFilled != 0) {
         unpackedMissionRecord->mFilled = 1;
-        unpackedMissionRecord->mValue = missionRecord->mUnk_00_1;
+        unpackedMissionRecord->mValue = missionRecord->field0_1;
     } else {
         unpackedMissionRecord->mFilled = 0;
     }
@@ -85,16 +85,16 @@ void savd_storePersonalGhost(s32 courseId, u16 entryIndex) {
     tempValue = gRaceMultiConfig->mCourseId;
     ghostRecord->mCourseId = (u8) tempValue;
     ghostRecord->mFilled = 1;
-    ghostRecord->mUnk_08_1 = 0;
-    ghostRecord->mUnk_08_2 = gSystemData->mUnk_00;
-    ghostRecord->mUnk_08_4 = 0;
-    ghostRecord->mUnk_2f_0 = func_02056208();
+    ghostRecord->field8_1 = 0;
+    ghostRecord->field8_2 = gSystemData->field0;
+    ghostRecord->field8_4 = 0;
+    ghostRecord->field2F_0 = func_02056208();
     rstat_getDriverTotalTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
     ghostRecord->mMinute = kartTime.mMinute;
     ghostRecord->mSecond = kartTime.mSecond;
     ghostRecord->mMillisecond = kartTime.mMillisecond;
     MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, ghostRecord->mName, 0x14);
-    MI_CpuCopy8(gInputUnits[playerIndex].mUnk_28, ghostRecord->mUnk_30, 0xdcc);
+    MI_CpuCopy8(gInputUnits[playerIndex].field28, ghostRecord->field30, 0xdcc);
     MI_CpuFill8(lapBytes, 0, 0xf);
     for (lapNumber = 1; lapNumber <= rconf_getLapCount(); lapNumber++) {
         byteOffset = (lapNumber - 1) * 3;

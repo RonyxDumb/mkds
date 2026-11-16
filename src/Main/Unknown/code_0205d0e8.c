@@ -19,31 +19,31 @@ void rres_reset(void) {
     for (course = 0; course < 4; course++) {
         for (kart = 0; kart < 8; kart++) {
             record = &cupRecords->mKartResults[course][kart];
-            record->mUnk_03 = 0;
-            record->mUnk_04 = 0;
+            record->field3 = 0;
+            record->field4 = 0;
             record->mTotalPoints = 0;
             record->mWinCount = 0;
-            record->mUnk_02 = 0;
-            record->mUnk_08 = 0;
-            record->mUnk_09 = 0;
-            record->mUnk_06 = 0;
+            record->field2 = 0;
+            record->field8 = 0;
+            record->field9 = 0;
+            record->field6 = 0;
         }
         for (team = 0; team < 2; team++) {
             teamRecord = &cupRecords->mTeamResults[course].mTeams[team];
-            teamRecord->mUnk_00 = 0;
-            teamRecord->mUnk_02 = 0;
+            teamRecord->field0 = 0;
+            teamRecord->field2 = 0;
         }
     }
     x = FALSE;
-    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) != 0 && gStruct217AA00->field4 != 13) {
         x = TRUE;
     }
     if (x != FALSE) {
-        rres_sRaceResults->mUnk_164_0 = 1;
+        rres_sRaceResults->field164_0 = 1;
     } else {
-        rres_sRaceResults->mUnk_164_0 = 0;
+        rres_sRaceResults->field164_0 = 0;
     }
-    cupRecords->mUnk_140 = 0;
+    cupRecords->field140 = 0;
 }
 
 u8 rres_205DB28(void) {
@@ -86,8 +86,8 @@ void rres_setPlaceAndPoints(u32 kart, s32 rank, u32 points) {
         winCount = rres_sRaceResults->mKartResults[j][(u8) kart].mWinCount;
     }
     record = &rres_sRaceResults->mKartResults[(u8) course][(u8) kart];
-    record->mUnk_03 = rank;
-    record->mUnk_04 = points;
+    record->field3 = rank;
+    record->field4 = points;
     record->mTotalPoints = previousTotal + points;
     if (record->mTotalPoints > 9999) {
         record->mTotalPoints = 9999;
@@ -128,8 +128,8 @@ void rres_setBattleResult(u32 kart, s32 b) {
         winCount = rres_sRaceResults->mKartResults[i][(u8) kart].mWinCount;
     }
     record = &rres_sRaceResults->mKartResults[(u8) course][(u8) kart];
-    record->mUnk_04 = 0;
-    record->mUnk_03 = 1;
+    record->field4 = 0;
+    record->field3 = 1;
     record->mTotalPoints = 0;
     if (b != 0) {
         winCount = winCount + 1;
@@ -145,10 +145,10 @@ void rres_setRaceTime(u32 kart, Unk0217aa1c_144_00 *finishTime) {
     Unk0217aa1c_144_00 *recordTime;
 
     record = &rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) kart];
-    recordTime = (Unk0217aa1c_144_00 *) &record->mUnk_06;
-    recordTime->mUnk_02 = finishTime->mUnk_02;
-    recordTime->mUnk_03 = finishTime->mUnk_03;
-    recordTime->mUnk_00 = finishTime->mUnk_00;
+    recordTime = (Unk0217aa1c_144_00 *) &record->field6;
+    recordTime->field2 = finishTime->field2;
+    recordTime->field3 = finishTime->field3;
+    recordTime->field0 = finishTime->field0;
 }
 
 void rres_getRaceTime(Unk0217aa1c_144_00 *finishTime, u32 kart, u32 course) {
@@ -156,14 +156,14 @@ void rres_getRaceTime(Unk0217aa1c_144_00 *finishTime, u32 kart, u32 course) {
     Unk0217aa1c_144_00 *recordTime;
 
     record = &rres_sRaceResults->mKartResults[course][(u8) kart];
-    recordTime = (Unk0217aa1c_144_00 *) &record->mUnk_06;
-    finishTime->mUnk_02 = recordTime->mUnk_02;
-    finishTime->mUnk_03 = recordTime->mUnk_03;
-    finishTime->mUnk_00 = recordTime->mUnk_00;
+    recordTime = (Unk0217aa1c_144_00 *) &record->field6;
+    finishTime->field2 = recordTime->field2;
+    finishTime->field3 = recordTime->field3;
+    finishTime->field0 = recordTime->field0;
 }
 
 void rres_setGlobalPlace(s32 kart, u8 rank) {
-    rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) kart].mUnk_02 = rank;
+    rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) kart].field2 = rank;
 }
 
 // Flags the team as winning this course and clears the flag of the other team.
@@ -176,9 +176,9 @@ void rres_205D6D0(s32 team) {
         otherTeam = 1;
     }
     p = rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)].mTeams;
-    p[team].mUnk_03_0 = 1;
+    p[team].field3_0 = 1;
     q = rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)].mTeams;
-    q[otherTeam].mUnk_03_0 = 0;
+    q[otherTeam].field3_0 = 0;
 }
 
 // Stores each team's win count (the winning team gains one, max 99) and its karts' total points (max 9999).
@@ -203,7 +203,7 @@ void rres_setTeamsResult(s32 winningTeam) {
         if (previousCourse < 0) {
             winCount = 0;
         } else {
-            winCount = rres_sRaceResults->mTeamResults[previousCourse].mTeams[team].mUnk_02;
+            winCount = rres_sRaceResults->mTeamResults[previousCourse].mTeams[team].field2;
         }
         if (team == winningTeam) {
             winCount = (u8) (winCount + 1);
@@ -211,7 +211,7 @@ void rres_setTeamsResult(s32 winningTeam) {
         if (winCount > 99) {
             winCount = 99;
         }
-        teamRecord->mUnk_02 = winCount;
+        teamRecord->field2 = winCount;
         for (kart = 0; kart < (u32) gRaceMultiConfig->mKartCount; kart++) {
             if (team == gRaceMultiConfig->mCurrentEntries[kart].mPlayer.mTeamIndex) {
                 points =
@@ -222,7 +222,7 @@ void rres_setTeamsResult(s32 winningTeam) {
         if (points > 9999) {
             points = 9999;
         }
-        teamRecord->mUnk_00 = points;
+        teamRecord->field0 = points;
     }
 }
 
@@ -236,7 +236,7 @@ s32 rres_getGlobalRank(u32 kart) {
     if (mode == MODE_GRAND_PRIX || mode == MODE_VS || mode == 5) {
         courseRecords = rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)];
         record = &courseRecords[(u8) kart];
-        return record->mUnk_02;
+        return record->field2;
     }
     return 0;
 }
@@ -248,7 +248,7 @@ s32 rres_205D480(void) {
     winningTeam = -1;
     courseTeams = &rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)];
     for (team = 0; team < 2; team++) {
-        if (courseTeams->mTeams[(u32) team].mUnk_03_0) {
+        if (courseTeams->mTeams[(u32) team].field3_0) {
             winningTeam = team;
             break;
         }
@@ -311,7 +311,7 @@ u8 rres_getPlace(u32 kart) {
         if (previousCourse < 0) {
             rank = raceSetup->mKartCount - kart;
         } else {
-            rank = rres_sRaceResults->mKartResults[previousCourse][(u8) kart].mUnk_03;
+            rank = rres_sRaceResults->mKartResults[previousCourse][(u8) kart].field3;
         }
     } else {
         rank = raceSetup->mKartCount - kart;
@@ -332,7 +332,7 @@ s32 rres_calculateGpRank(void) {
     raceSetup = gRaceMultiConfig;
     cupRecords = rres_sRaceResults;
     entryIndex = raceSetup->mEntryIndex;
-    a = cupRecords->mUnk_140;
+    a = cupRecords->field140;
     d = (u8) entryIndex;
     totalPoints = cupRecords->mKartResults[(u8) ((raceSetup->mCourseNumber - 1) % 4)][(u8) d].mTotalPoints;
     if (a >= 1000) {
@@ -369,7 +369,7 @@ s32 rres_calculateGpRank(void) {
 s32 rres_calculateMrRank(void) {
     s32 a;
 
-    a = rres_sRaceResults->mUnk_140;
+    a = rres_sRaceResults->field140;
     if (a >= 100) {
         return 7;
     }

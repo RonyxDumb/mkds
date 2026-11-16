@@ -59,8 +59,8 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32
     t = 0;
     if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
         for (i = 0; i < 0xe; i++) {
-            t += (u16) (it_sItemParams[(s32) i].mUnk_90 *
-                        (it_sItemsets[(s32) i].mReservedCount - it_sItemsets[(s32) i].mUnk_18));
+            t += (u16) (it_sItemParams[(s32) i].field90 *
+                        (it_sItemsets[(s32) i].mReservedCount - it_sItemsets[(s32) i].field18));
         }
     }
     for (j = 0; j < itemCount; j++) {
@@ -68,7 +68,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32
         if (!((j == 8 && data_0217bc60 > 0) || (j == 7 && data_0217bc5c > 0) || (j == 0xf && data_0217bc58 > 0))) {
             if (it_sItemsets[objectKind].mLimit - it_sItemsets[objectKind].mReservedCount > 0 &&
                 it_sItemConfigs[(s32) j].mEnabled != FALSE) {
-                x = it_sItemParams[objectKind].mUnk_90 * it_sItemConfigs[(s32) j].mObjectCount;
+                x = it_sItemParams[objectKind].field90 * it_sItemConfigs[(s32) j].mObjectCount;
                 if (x == 0 || x + t <= 0x28) {
                     if (j >= 9 && variant != 0) {
                         if (variant == 1) {
@@ -148,19 +148,19 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
         StopRaceRankListItemInUse(slot->mSelf->mKartIndex);
     }
     if (isMode5) {
-        slot->mUnk_01c = FALSE;
+        slot->field1C = FALSE;
         slot->mSlotFrames = 0;
         slot->mSlotFrameCount = 0x85;
         slot->mSlotFinalScrollFrameCount = 0x10;
         slot->mSlotFinalScrollFrameShift = 4;
     } else if (shortSpin != 0) {
-        slot->mUnk_01c = TRUE;
+        slot->field1C = TRUE;
         slot->mSlotFrames = 0x4d;
         slot->mSlotFrameCount = 0x65;
         slot->mSlotFinalScrollFrameCount = 8;
         slot->mSlotFinalScrollFrameShift = 3;
     } else {
-        slot->mUnk_01c = FALSE;
+        slot->field1C = FALSE;
         slot->mSlotFrames = 0;
         slot->mSlotFrameCount = 0xd5;
         slot->mSlotFinalScrollFrameCount = 0x10;
@@ -254,7 +254,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
                 return FALSE;
             }
             if (slot->mSlotFrames > 0x3c &&
-                (((kartItems->mFlags & 0x241) == 0x241 && mode != 5 && slot->mUnk_01c == FALSE) ||
+                (((kartItems->mFlags & 0x241) == 0x241 && mode != 5 && slot->field1C == FALSE) ||
                  slot->mSlotFrames > slot->mSlotFrameCount)) {
                 slot->mSlotFrames = 0;
                 slot->mSlotState = 2;

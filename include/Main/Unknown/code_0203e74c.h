@@ -20,6 +20,6 @@ void rstat_tryFinishNt(void);
 void rstat_tryFinishGpVs(void);
 // Returns non-zero when the end condition of the current mode holds: Grand Prix when every entry whose mKind is 0, 2 or
 // 3 has status 1 to 3; Time Attack when entry 0 has ended; Battle when every such entry is eliminated; mode 5 and
-// Versus by the counts of finished and removed karts; mission run when RaceSetup.mUnk_2f is 6 and a kart has
+// Versus by the counts of finished and removed karts; mission run when RaceSetup.field2F is 6 and a kart has
 // finished; changes nothing.
 s32 rstat_shouldTryFinish(void);

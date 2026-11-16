@@ -58,17 +58,17 @@ void func_ov001_0218a30c(Unk02188950 *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0x2000, 0, 0x40d, 0);
     StartEffectAtOffset(mapObject, 0, 0x2000, 0, 0x40f, 0);
     soundRequest = data_ov001_021a7ad0;
-    soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
-    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&mapObject->mUnk_000.mPos);
+    soundRequest.mPositionSource = &mapObject->field0.mPos;
+    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&mapObject->field0.mPos);
     func_0210b734(&soundRequest, func_02108e7c());
-    mapObject->mUnk_000.mFlags |= data_ov001_021a6588;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a658c;
-    mapObject->mUnk_000.mFlags |= data_ov001_021a6590;
+    mapObject->field0.mFlags |= data_ov001_021a6588;
+    mapObject->field0.mFlags |= data_ov001_021a658c;
+    mapObject->field0.mFlags |= data_ov001_021a6590;
 }
 
 void func_ov001_0218a2dc(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_070, mapObject->mPrm->mUnk_074);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field70, mapObject->mPrm->field74);
     StartStateFrameCountCallback(mapObject, 0x3c, &func_ov001_0218a30c);
 }
 
@@ -87,33 +87,33 @@ s32 func_ov001_0218a2b8(Unk02188950 *mapObject) {
 
 void StartBombKingWaitForRaceStart(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, func_ov001_0218a2b8);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_064, mapObject->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field64, mapObject->mPrm->field68);
 }
 
 void func_ov001_0218a250(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, NULL);
-    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_058, mapObject->mPrm->mUnk_05c,
+    StartAnimationWithEndCallback(mapObject, mapObject->mPrm->field58, mapObject->mPrm->field5C,
                                   (UnkFunc *) &StartBombKingWaitForRaceStart);
-    SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->mUnk_148), func_ov001_0218b034);
+    SetAnimationFrameCallback(mapObject, ((u32) mapObject->mPrm->field148), func_ov001_0218b034);
 }
 
 void func_ov001_0218a20c(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &func_ov001_0218a250);
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x00000235u);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field4C, mapObject->mPrm->field50);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->field54, &func_ov001_0218a250);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x00000235u);
 }
 
 void func_ov001_0218a1d0(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_040, mapObject->mPrm->mUnk_044);
-    SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_148, func_ov001_0218affc);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field40, mapObject->mPrm->field44);
+    SetAnimationFrameCallback(mapObject, mapObject->mPrm->field148, func_ov001_0218affc);
 }
 
 void func_ov001_0218a19c(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, NULL);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_034, mapObject->mPrm->mUnk_038);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_03c, &func_ov001_0218a1d0);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->field34, mapObject->mPrm->field38);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->field3C, &func_ov001_0218a1d0);
 }
 
 void InitBombKingObjects(Unk0218d87c *list) {
@@ -121,10 +121,10 @@ void InitBombKingObjects(Unk0218d87c *list) {
     Unk02188950 *mapObject;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (mapObject = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->field4 && (mapObject = list->field0[i]) != NULL; i++) {
             Vec3 offset = {0, 0, 0};
-            offset.x = mapObject->mPrm->mUnk_0fc;
-            offset.y = mapObject->mPrm->mUnk_100;
+            offset.x = mapObject->mPrm->fieldFC;
+            offset.y = mapObject->mPrm->field100;
             func_ov001_02187c88(mapObject, 5, (&offset));
             if (race_isCamAnimMode() != 0) {
                 func_ov001_0218a19c(mapObject);
@@ -175,13 +175,13 @@ void UpdateBombKing(u32 a, Unk02188950 *mapObject) {
 
 void func_ov001_0218a034(Unk02188950 *mapObject) {
     mobj_createSubObjects(0xc9, 0xa, mapObject);
-    mapObject->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
-    InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
-    mapObject->mUnk_000.mFarDistanceSquared = data_0217cbec[0x50 / 4];
+    mapObject->field0.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
+    InitSoundSource((SoundSource *) mapObject->field0.mSound, 0xc, &mapObject->field0.mPos);
+    mapObject->field0.mFarDistanceSquared = data_0217cbec[0x50 / 4];
 }
 
 void func_ov001_0218a028(Unk0201ca6c *emitter) {
-    emitter->mUnk_6c = 0x2000;
+    emitter->field6C = 0x2000;
 }
 
 void func_ov001_02189fe0(Unk02188950 *mapObject, ItemObject *itemObject) {
@@ -190,7 +190,7 @@ void func_ov001_02189fe0(Unk02188950 *mapObject, ItemObject *itemObject) {
             ptcm_createEmitterNoUpdateSkip(0x3a, &itemObject->mPos, NULL, func_ov001_0218a028);
         }
     }
-    mapObject->mUnk_2e0 = 1;
+    mapObject->field2E0 = 1;
     SetItemCollisionCallback(mapObject, (UnkFunc *) func_ov001_02189fe0);
 }
 
@@ -201,20 +201,20 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
     if (IsItemBombStored(mapObject) != 0) {
         func_ov001_02187bfc(mapObject, NULL, 0);
     }
-    mapObject->mUnk_2e0 = 2;
+    mapObject->field2E0 = 2;
     SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
     if (func_ov001_021871f8(mapObject, 7) != 0) {
-        velocity.x = mapObject->mUnk_000.mPos.x - itemObject->mPos.x;
+        velocity.x = mapObject->field0.mPos.x - itemObject->mPos.x;
         velocity.y = 0;
-        velocity.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
+        velocity.z = mapObject->field0.mPos.z - itemObject->mPos.z;
         if ((s64) velocity.x * velocity.x + (s64) velocity.y * velocity.y + (s64) velocity.z * velocity.z >= 0x10) {
             vec_normalize(&velocity, &velocity);
         }
-        scale = mapObject->mPrm->mUnk_16c;
+        scale = mapObject->mPrm->field16C;
         velocity.x = (s64) velocity.x * scale >> 12;
         velocity.y = (s64) velocity.y * scale >> 12;
         velocity.z = (s64) velocity.z * scale >> 12;
-        velocity.y = mapObject->mPrm->mUnk_170;
+        velocity.y = mapObject->mPrm->field170;
         SetVelocity(mapObject, &velocity);
         func_ov001_0218a41c(mapObject);
     }
@@ -225,14 +225,14 @@ void LoadBomb_king(Unk0218d87c *list) {
     int i;
 
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (mapObject = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->field4 && (mapObject = list->field0[i]) != NULL; i++) {
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
             boss_21870E4(list, mapObject, aBomb_king_nsbm, aBomb_king_nsbc, aBomb_king_prm);
             LoadMissionRunMapObjectShadow(list, mapObject, aSh_circle_ns_1);
             prm = mapObject->mPrm;
-            SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_20c);
+            SetCollisionOffsetAndExtent(mapObject, prm->field8, prm->fieldC, prm->field20C);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);
             SetItemCollisionCallback(mapObject, (UnkFunc *) BombKingItemHitCallback);
         }

@@ -68,7 +68,7 @@ MapObjectKindData *bbobj_setupConfig(void) {
     MapObjectKindData *kindData;
 
     kindData = (MapObjectKindData *) mobj_createDummyConfig();
-    kindData->mUnk_24 = 0x84;
+    kindData->field24 = 0x84;
     return kindData;
 }
 

@@ -5,11 +5,11 @@
 // Object func_020d6538 fills from 0x5c on; only the words it writes are seen.
 typedef struct Unk020d6538_a {
     /* 00 */ u8 pad_00[0x5c];
-    /* 5c */ u32 mUnk_5c;
+    /* 5c */ u32 field5C;
     /* 60 */ u8 pad_60[4];
-    /* 64 */ u32 mUnk_64;
-    /* 68 */ u32 mUnk_68;
-    /* 6c */ u32 mUnk_6c;
+    /* 64 */ u32 field64;
+    /* 68 */ u32 field68;
+    /* 6c */ u32 field6C;
 } Unk020d6538_a;
 
 #include "Main/Unknown/code_020f36d8.h"
@@ -18,23 +18,23 @@ typedef struct Unk020d6538_a {
 
 // Second half of the 0x5c-byte object behind data_0217b650: the words from 0x2c, then three more.
 typedef struct RockShadowMatrix {
-    /* 00 */ s32 mUnk_00[9];
-    /* 24 */ Vec3 mUnk_24;
+    /* 00 */ s32 field0[9];
+    /* 24 */ Vec3 field24;
 } RockShadowMatrix;
 
 // 0x5c-byte object that rock_setupRock2RenderPart and rock_setupRockRenderPart allocate and fill from a table; mobj_renderPartSetThisPointer stores
 // the address of its pointer at 0x28.
 typedef struct RockDrawList {
-    /* 00 */ u8 mUnk_00[0x28];
-    /* 28 */ struct RockDrawList **mUnk_28;
-    /* 2c */ RockShadowMatrix mUnk_2c;
+    /* 00 */ u8 field0[0x28];
+    /* 28 */ struct RockDrawList **field28;
+    /* 2c */ RockShadowMatrix field2C;
 } RockDrawList;
 
 // 0x28-byte object that rock_setupLogicPart allocates and fills from a table; mobj_logicPartSetThisPointer stores the address of
 // its pointer at 0x24.
 typedef struct RockUpdateList {
-    /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ struct RockUpdateList **mUnk_24;
+    /* 00 */ u8 field0[0x24];
+    /* 24 */ struct RockUpdateList **field24;
 } RockUpdateList;
 
 #include "Main/Unknown/code_020d50ec.h" // EmitterParams, RockObject

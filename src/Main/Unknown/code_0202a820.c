@@ -93,7 +93,7 @@ void func_0202b3f4(void) {
     s32 i;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
-    cellCount = fileSet->mCellLayout->mUnk_06;
+    cellCount = fileSet->mCellLayout->field6;
     for (i = 0; i < gWiFiVSCourseSelect->mPlayerCount; i++) {
         fileSet->mCellTable[gWiFiVSCourseSelectMLabelTextRows[i].mCellIndex].mOffsetY = mutil_interpolate(
             1, 0,
@@ -118,7 +118,7 @@ void ShowWiFiSessionCourse(void) {
     u16 *text;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
-    cellCount = fileSet->mCellLayout->mUnk_06;
+    cellCount = fileSet->mCellLayout->field6;
     courseId = GetWiFiSessionCourseId();
     text = jn_msg_getMessage(gWiFiVSCourseSelect->mCommonMessages, mutil2_getCourseNameCommonMsgId(courseId));
     for (i = 0; i < 4; i++) {
@@ -138,10 +138,10 @@ void ShowWiFiSessionCourse(void) {
                   fileSet->mCellLayout, fileSet->mCellTable);
     gWiFiVSCourseSelect->mCourseId = courseId;
     gWiFiVSCourseSelect->mCourseMessageIndex = mutil2_getCourseNameCommonMsgId(courseId);
-    gWiFiVSCourseSelect->mUnk_14c[0] = text[0];
-    gWiFiVSCourseSelect->mUnk_14c[1] = text[1];
-    gWiFiVSCourseSelect->mUnk_14c[2] = text[2];
-    gWiFiVSCourseSelect->mUnk_14c[3] = text[3];
+    gWiFiVSCourseSelect->field14C[0] = text[0];
+    gWiFiVSCourseSelect->field14C[1] = text[1];
+    gWiFiVSCourseSelect->field14C[2] = text[2];
+    gWiFiVSCourseSelect->field14C[3] = text[3];
 }
 
 void AdvanceSubCellsOffsetY(void) {
@@ -150,7 +150,7 @@ void AdvanceSubCellsOffsetY(void) {
     s32 i;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectSParts;
-    entryCount = fileSet->mCellLayout->mUnk_06 + fileSet->mLabelLayout->mUnk_06;
+    entryCount = fileSet->mCellLayout->field6 + fileSet->mLabelLayout->field6;
     interp_update(&gWiFiVSCourseSelect->mInterpolations[0]);
     gWiFiVSCourseSelect->mSubOffsetY = interp_interpolate(&gWiFiVSCourseSelect->mInterpolations[0]);
     for (i = 0; i < entryCount; i++) {
@@ -166,7 +166,7 @@ void AdvancePickedCourseRows(void) {
     void *text;
 
     fileSet = &gWiFiVSCourseSelect->mWiFiVSCourseSelectMParts;
-    cellCount = fileSet->mCellLayout->mUnk_06;
+    cellCount = fileSet->mCellLayout->field6;
     for (i = 0; i < gWiFiVSCourseSelect->mPlayerCount; i++) {
         interp_update(&gWiFiVSCourseSelect->mRowInterpolations[i]);
         if (GetIndexOfPackedIndex(i) >= 0) {
@@ -317,11 +317,11 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
                       aWifi_vs_cou_16, aWifi_vs_cou_17, aWifi_vs_cou_18, NULL,
                       arc_getSceneArcFile);
     mutil2_initLayout(0, gWiFiVSCourseSelect->mHeap, mainFileSet);
-    n = mainFileSet->mCellLayout->mUnk_06;
+    n = mainFileSet->mCellLayout->field6;
     for (i = 0; i < n; i++) {
         jn_ui_setCellPriority(i, 1, mainFileSet->mCells, mainFileSet->mCellLayout);
     }
-    for (i = 0; i < mainFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < mainFileSet->mLabelLayout->field6; i++) {
         objSizeLeft -= mutil2_initLabel(0, gWiFiVSCourseSelect->mHeap, mainFileSet, &gWiFiVSCourseSelectMLabelTextRows[i],
                                      objSizeLeft);
     }
@@ -342,11 +342,11 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
                       aWifi_vs_cou_24, aWifi_vs_cou_25, aWifi_vs_cou_26,
                       aWifi_vs_cou_27, arc_getSceneArcFile);
     mutil2_initLayout(1, gWiFiVSCourseSelect->mHeap, subFileSet);
-    subCellCount = subFileSet->mCellLayout->mUnk_06;
+    subCellCount = subFileSet->mCellLayout->field6;
     for (j = 0; j < subCellCount; j++) {
         jn_ui_setCellPriority(j, 1, subFileSet->mCells, subFileSet->mCellLayout);
     }
-    for (j = 0; j < subFileSet->mLabelLayout->mUnk_06; j++) {
+    for (j = 0; j < subFileSet->mLabelLayout->field6; j++) {
         objSizeLeft -= mutil2_initLabel(1, gWiFiVSCourseSelect->mHeap, subFileSet, &gWiFiVSCourseSelectSLabelTextRows[j],
                                      objSizeLeft);
     }
@@ -403,7 +403,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             }
             SetWiFiSessionOwnPickedCourseId(WifiCourseOrder[v]);
             gWiFiVSCourseSelect->mState = 2;
-            gWiFiVSCourseSelect->mUnk_0b0 = 1;
+            gWiFiVSCourseSelect->fieldB0 = 1;
             SetScrollListEnabled(0);
             break;
         case 2:
@@ -448,7 +448,7 @@ s32 AdvanceWiFiVSCourseSelect(void) {
             }
             break;
         case 7:
-            result = gWiFiVSCourseSelect->mUnk_0b0;
+            result = gWiFiVSCourseSelect->fieldB0;
             break;
     }
     AdvanceWiFiVSCourseSelectTimer();

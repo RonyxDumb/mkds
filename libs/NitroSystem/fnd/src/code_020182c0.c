@@ -4,13 +4,13 @@
 #include "code_02139f70.h"
 
 u32 ArchiveHeaderMatches(Unk02018344 *a) {
-    if (a->mUnk_00 != 0x4352414e) {
+    if (a->field0 != 0x4352414e) {
         return 0;
     }
-    if (a->mUnk_04 != 0xfffe) {
+    if (a->field4 != 0xfffe) {
         return 0;
     }
-    return a->mUnk_06 == 0x100 ? 1 : 0;
+    return a->field6 == 0x100 ? 1 : 0;
 }
 
 u32 ArchiveLoadFromMemory(Unk020182c0 *a, const u8 *b, Unk02018344 *c) {
@@ -27,8 +27,8 @@ u32 ArchiveLoadFromMemory(Unk020182c0 *a, const u8 *b, Unk02018344 *c) {
     if (ArchiveHeaderMatches(c) == 0) {
         return 0;
     }
-    p = (u8 *) c + c->mUnk_0c;
-    n = c->mUnk_0e;
+    p = (u8 *) c + c->fieldC;
+    n = c->fieldE;
     for (i = 0; i < n; i++) {
         switch (*(u32 *) p) {
             case 0x46415442:
@@ -43,19 +43,19 @@ u32 ArchiveLoadFromMemory(Unk020182c0 *a, const u8 *b, Unk02018344 *c) {
         }
         p += *OFFSET_PTR(u32, p, 4);
     }
-    FS_InitArchive(&a->mUnk_00);
-    a->mUnk_5c = c;
-    a->mUnk_60 = p6;
+    FS_InitArchive(&a->field0);
+    a->field5C = c;
+    a->field60 = p6;
     p4 = (u8 *) p4 + 8;
-    a->mUnk_64 = p4;
-    if (FS_RegisterArchiveName(&a->mUnk_00, b, strlen((const char *) b)) == 0) {
+    a->field64 = p4;
+    if (FS_RegisterArchiveName(&a->field0, b, strlen((const char *) b)) == 0) {
         return 0;
     }
-    if (FS_LoadArchive(&a->mUnk_00, p4, p6 + 0xc - p4, *(u32 *) (p6 + 4) - 0xc, p5 + 8 - p4, *(u32 *) (p5 + 4) - 8, 0,
+    if (FS_LoadArchive(&a->field0, p4, p6 + 0xc - p4, *(u32 *) (p6 + 4) - 0xc, p5 + 8 - p4, *(u32 *) (p5 + 4) - 8, 0,
                        0) != 0) {
         return 1;
     }
-    FS_ReleaseArchiveName(&a->mUnk_00);
+    FS_ReleaseArchiveName(&a->field0);
     return 0;
 }
 
@@ -74,7 +74,7 @@ void *ArchiveFileGetAddress(const u8 *a) {
     r = NULL;
     FS_InitFile(&s);
     if (FS_OpenFile(&s, a) != 0) {
-        r = ((Unk020182c0 *) s.mArc)->mUnk_64 + s.mProp.w.mUnk_04;
+        r = ((Unk020182c0 *) s.mArc)->field64 + s.mProp.w.field4;
         FS_CloseFile(&s);
     }
     return r;

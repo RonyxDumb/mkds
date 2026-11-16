@@ -13,18 +13,18 @@ typedef struct HashtableNameEntry {
 typedef struct SbServer SbServer;
 
 typedef struct Unk021b21ac {
-    /* 0 */ const char *mUnk_00[2];
+    /* 0 */ const char *field0[2];
 } Unk021b21ac;
 
 typedef struct Unk0218b010 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ char mUnk_02[0x86];
+    /* 00 */ u8 field0[2];
+    /* 02 */ char field2[0x86];
 } Unk0218b010;
 
 typedef struct SbServer SbServer;
 
 typedef struct Unk0218b30c {
-    /* 0 */ const char *mUnk_00;
+    /* 0 */ const char *field0;
 } Unk0218b30c;
 
 // Declared here until the code that defines it is decompiled.
@@ -43,12 +43,12 @@ typedef struct SbServerList SbServerList;
 
 // Object func_ov000_0218ba88 builds.
 typedef struct Unk0218ba88 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05[4];
-    /* 09 */ u8 mUnk_09[2];
-    /* 0b */ u8 mUnk_0b[8];
+    /* 00 */ u16 field0;
+    /* 02 */ u8 field2[2];
+    /* 04 */ u8 field4;
+    /* 05 */ u8 field5[4];
+    /* 09 */ u8 field9[2];
+    /* 0b */ u8 fieldB[8];
 } Unk0218ba88;
 
 typedef struct SbServerList SbServerList;
@@ -57,17 +57,17 @@ typedef struct SbServerList SbServerList;
 
 // Four bytes copied byte by byte (func_ov000_0218ce14_inline in code_0218cdd8.c); the target may be unaligned.
 typedef struct Unk0218cd94 {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 field0[4];
 } Unk0218cd94;
 
 typedef struct SbServerList SbServerList;
 
 // Object func_ov000_0218ce14 builds.
 typedef struct Unk0218ce14 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk0218ce14;
 
 // Declared here until the code that defines it is decompiled.
@@ -84,15 +84,15 @@ unsigned int func_ov000_0218b570(MatchingServerList *p0, unsigned int p1, unsign
 // Object of 0x638 bytes func_ov000_0218b668 allocates. func_ov000_0218acb0 passes 0x20 to func_ov000_0218e53c and
 // the addresses of 0x14 and 0x08 to func_ov000_0218ae5c.
 typedef struct MatchingServerList {
-    /* 000 */ Unk0218a9bc mUnk_000;
-    /* 04c */ SbServerList mUnk_04c;
-    /* 620 */ u32 mUnk_620;
-    /* 624 */ u32 mUnk_624;
-    /* 628 */ u32 mUnk_628;
-    /* 62c */ u16 mUnk_62c;
-    /* 62e */ u8 mUnk_62e[2];
-    /* 630 */ UnkFunc *mUnk_630;
-    /* 634 */ u32 mUnk_634;
+    /* 000 */ Unk0218a9bc field0;
+    /* 04c */ SbServerList field4C;
+    /* 620 */ u32 field620;
+    /* 624 */ u32 field624;
+    /* 628 */ u32 field628;
+    /* 62c */ u16 field62C;
+    /* 62e */ u8 field62E[2];
+    /* 630 */ UnkFunc *field630;
+    /* 634 */ u32 field634;
 } MatchingServerList;
 
 struct MatchingServerList;

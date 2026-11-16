@@ -10,7 +10,7 @@
 // pool list is walked. Object reached through mobj_getLogicPartForObjectId(0x6a), set up by shine_spawn and updated by
 // shine_update: the shared MapObject part, then words up to 0xe8. shine_update switches on the word at 0xe0 (0 to 6).
 typedef struct Shine16 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject field0;
     // Height of the shine above the followed kart's position: 0 at spawn and pickup, then grows by the shine's vertical
     // speed each frame.
     /* a0 */ s32 mHeightAboveKart;
@@ -18,11 +18,11 @@ typedef struct Shine16 {
     // fall state reads it.
     /* a4 */ s32 mFloorY;
     /* a8 */ s32 mDrawScale;
-    /* ac */ u8 mUnk_ac[4];
+    /* ac */ u8 fieldAC[4];
     // Frame index of the shine's .nsbtp animation, stepped every few frames and wrapped at the animation's frame count;
     // the draw passes it to the frame setter.
     /* b0 */ s32 mNsbtpFrameIndex;
-    /* b4 */ s32 mUnk_b4;
+    /* b4 */ s32 fieldB4;
     /* b8 */ s32 mMirror;
     /* bc */ s32 mNsbtpFramesSinceMirror;
     // Set to 0x19 when a kart takes the shine (a second pickup is refused while it is above 0), counted down while the
@@ -31,12 +31,12 @@ typedef struct Shine16 {
     /* c4 */ s32 mSpawnObjectIndex;
     // Index of the kart the shine follows in states 2 and 3: the kart that took it, or the kart it was released from.
     /* c8 */ u16 mKartIndex;
-    /* ca */ u16 mUnk_ca;
-    /* cc */ Vec3 mUnk_cc;
-    /* d8 */ s32 mUnk_d8;
-    /* dc */ s32 mUnk_dc;
+    /* ca */ u16 fieldCA;
+    /* cc */ Vec3 fieldCC;
+    /* d8 */ s32 fieldD8;
+    /* dc */ s32 fieldDC;
     /* State number of this kind's own per-frame switch in shine_update; this object does not use
-       MapObject.mUnk_80's state machine; also read in the second draw callback func_020a683c */
+       MapObject.field80's state machine; also read in the second draw callback func_020a683c */
     /* e0 */ s32 mState;
     /* e4 */ void *mEffect;
     /* e8 */ s32 mEffectTimer;

@@ -4,10 +4,10 @@
 
 typedef struct KartIconRow {
     /* 00 */ u16 mBnclIndex;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 field2;
     /* 04 */ u32 mNclrIndex;
     /* 08 */ u16 mNclrStart;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 fieldA;
 } KartIconRow;
 
 // Objects whose layout isn't known yet.
@@ -85,7 +85,7 @@ extern u16 aDxdxdx[][2];
 
 // Element of data_0215cd74: read as a word and as two halfwords.
 typedef union Unk0215cd74 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 00 */ u16 h[2];
 } Unk0215cd74;
 

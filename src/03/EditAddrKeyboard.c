@@ -27,12 +27,12 @@ void CreateEditAddrKeyboard(void) {
     int i;
     int textIndex;
     int column;
-    textArgs.mUnk_00[0] = data_ov003_021d6dd8[0];
-    textArgs.mUnk_00[1] = data_ov003_021d6dd8[1];
-    textArgs.mUnk_00[2] = data_ov003_021d6dd8[2];
-    textArgs.mUnk_00[3] = data_ov003_021d6dd8[3];
-    textArgs.mUnk_00[2] = gEditAddrKeyboardDigitKeySize[0];
-    textArgs.mUnk_00[3] = gEditAddrKeyboardDigitKeySize[1];
+    textArgs.field0[0] = data_ov003_021d6dd8[0];
+    textArgs.field0[1] = data_ov003_021d6dd8[1];
+    textArgs.field0[2] = data_ov003_021d6dd8[2];
+    textArgs.field0[3] = data_ov003_021d6dd8[3];
+    textArgs.field0[2] = gEditAddrKeyboardDigitKeySize[0];
+    textArgs.field0[3] = gEditAddrKeyboardDigitKeySize[1];
     keyboard = AllocZeroedExpHeapBlock(0x6c, 4);
     gEditAddrKeyboard = keyboard;
     keyboard->mInput = 0x1f;
@@ -42,30 +42,30 @@ void CreateEditAddrKeyboard(void) {
     gEditAddrKeyboard->mNextGroupEnabled = 1;
     for (i = 0; i < 10; i++) {
         gEditAddrKeyboard->mDigitKeys[i] = CreateOamEntryFromNceImage(0, 0x36);
-        gEditAddrKeyboard->mDigitKeys[i]->mUnk_00 = (gEditAddrKeyboard->mDigitKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditAddrKeyboard->mDigitKeys[i]->mUnk_04 = (gEditAddrKeyboard->mDigitKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditAddrKeyboard->mDigitKeys[i]->field0 = (gEditAddrKeyboard->mDigitKeys[i]->field0 & 0xc1fffcff) | 0x200;
+        gEditAddrKeyboard->mDigitKeys[i]->field4 = (gEditAddrKeyboard->mDigitKeys[i]->field4 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 2; i++) {
         gEditAddrKeyboard->mExtraKeys[i] = CreateOamEntryFromNceImage(0, data_ov003_021d6218[i]);
-        gEditAddrKeyboard->mExtraKeys[i]->mUnk_00 = (gEditAddrKeyboard->mExtraKeys[i]->mUnk_00 & 0xc1fffcff) | 0x200;
-        gEditAddrKeyboard->mExtraKeys[i]->mUnk_04 = (gEditAddrKeyboard->mExtraKeys[i]->mUnk_04 & 0xfffff3ff) | 0xc00;
+        gEditAddrKeyboard->mExtraKeys[i]->field0 = (gEditAddrKeyboard->mExtraKeys[i]->field0 & 0xc1fffcff) | 0x200;
+        gEditAddrKeyboard->mExtraKeys[i]->field4 = (gEditAddrKeyboard->mExtraKeys[i]->field4 & 0xfffff3ff) | 0xc00;
     }
     for (i = 0; i < 2; i++) {
         gEditAddrKeyboard->mRow4Keys[i] = CreateOamRangeFromNceImage(0, data_ov003_021d621c[i], 1);
         SetOamRangeEffect(gEditAddrKeyboard->mRow4Keys[i], -1, 0x200, 0);
         func_ov003_021d1790(gEditAddrKeyboard->mRow4Keys[i], -1, 3);
     }
-    textArgs.mUnk_0c[1] = 0;
+    textArgs.fieldC[1] = 0;
     for (i = 0; i < 4; i++) {
         gEditAddrKeyboard->mRowTexts[i] =
-            CreateObjTextCanvas(0, data_ov003_021d6230[0], data_ov003_021d6230[1], 0, &textArgs.mUnk_08, 0);
+            CreateObjTextCanvas(0, data_ov003_021d6230[0], data_ov003_021d6230[1], 0, &textArgs.field8, 0);
         textIndex = i * 3;
-        for (column = 0, textArgs.mUnk_00[0] = 0; column < 3; column++, textIndex++, textArgs.mUnk_00[0] += 0x20) {
-            textArgs.mUnk_0c[0] = gEditAddrKeyboardKeyTexts[textIndex];
-            DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[i], textArgs.mUnk_00[0], textArgs.mUnk_00[1],
-                               textArgs.mUnk_00[2], textArgs.mUnk_00[3], 2, 0x480, textArgs.mUnk_0c);
+        for (column = 0, textArgs.field0[0] = 0; column < 3; column++, textIndex++, textArgs.field0[0] += 0x20) {
+            textArgs.fieldC[0] = gEditAddrKeyboardKeyTexts[textIndex];
+            DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[i], textArgs.field0[0], textArgs.field0[1],
+                               textArgs.field0[2], textArgs.field0[3], 2, 0x480, textArgs.fieldC);
         }
-        gEditAddrKeyboard->mUnk_48[i] = CreateOamRange(0, textArgs.mUnk_08, 0);
+        gEditAddrKeyboard->field48[i] = CreateOamRange(0, textArgs.field8, 0);
     }
     gEditAddrKeyboard->mCursor = CreateOamRangeFromNceImage(0, 0x44, 1);
     SetOamRangeEffect(gEditAddrKeyboard->mCursor, -1, 0x200, 0);
@@ -103,8 +103,8 @@ BOOL HasEditAddrKeyboard(void) {
 }
 
 static inline void func_ov003_021c1b8c_inline(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->field0 & 0x1ff0000) >> 16;
+    *y = object->field0 & 0xff;
 }
 
 void AdvanceEditAddrKeyboardSlideInRow0(TaskEntry *task) {
@@ -346,8 +346,8 @@ void ChangeEditAddrKeyboardHighlight(int keyIndex) {
 }
 
 static inline void func_ov003_021c105c_inline(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->field0 & 0x1ff0000) >> 16;
+    *y = object->field0 & 0xff;
 }
 
 void AdvanceEditAddrKeyboardKeys(void) {
@@ -413,21 +413,21 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     keyIndex = row * 3;
     for (i = 0; i < digitKeyCounts[(u32) row]; i++, keyIndex++) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mUnk_00 = key->mUnk_00 & 0xc1fffcff;
+        key->field0 = key->field0 & 0xc1fffcff;
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mUnk_00 = ((gEditAddrKeyboardDigitKeyPositions[keyIndex][0] & 0x1ff) << 16) |
-                       ((key->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
+        key->field0 = ((gEditAddrKeyboardDigitKeyPositions[keyIndex][0] & 0x1ff) << 16) |
+                       ((key->field0 & 0xfe00ff00) | (yPos & 0xff));
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditAddrKeyboard->mRowTexts[row], gEditAddrKeyboardDigitKeyPositions[row * 3][0],
-                                  yPos, gEditAddrKeyboard->mUnk_48[row], 2);
+                                  yPos, gEditAddrKeyboard->field48[row], 2);
     }
     for (i = 0; i < extraKeyCounts[(u32) row]; i++) {
         key = gEditAddrKeyboard->mExtraKeys[i];
-        key->mUnk_00 = key->mUnk_00 & 0xc1fffcff;
+        key->field0 = key->field0 & 0xc1fffcff;
         key = gEditAddrKeyboard->mExtraKeys[i];
-        key->mUnk_00 =
-            ((gEditAddrKeyboardExtraKeyPositions[i][0] & 0x1ff) << 16) | ((key->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
+        key->field0 =
+            ((gEditAddrKeyboardExtraKeyPositions[i][0] & 0x1ff) << 16) | ((key->field0 & 0xfe00ff00) | (yPos & 0xff));
     }
     b = FALSE;
     for (i = 0; i < row4KeyCounts[(u32) row]; i++) {
@@ -444,15 +444,15 @@ void SetEditAddrKeyboardKeyHighlight(int keyIndex, int highlight) {
     }
     if (keyIndex < 10) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mUnk_00 &= 0xfffff3ff;
-        key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (data_ov003_021d6220[highlight] << 12);
+        key->field0 &= 0xfffff3ff;
+        key->field4 = (key->field4 & 0xffff0fff) | (data_ov003_021d6220[highlight] << 12);
         return;
     }
     extraKeyIndex = keyIndex - 10;
     if (extraKeyIndex < 2) {
         key = gEditAddrKeyboard->mExtraKeys[extraKeyIndex];
-        key->mUnk_00 &= 0xfffff3ff;
-        key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (data_ov003_021d6220[highlight] << 12);
+        key->field0 &= 0xfffff3ff;
+        key->field4 = (key->field4 & 0xffff0fff) | (data_ov003_021d6220[highlight] << 12);
         return;
     }
     func_ov003_021d1890(gEditAddrKeyboard->mRow4Keys[keyIndex - 12], -1, 0, data_ov003_021d6214[highlight]);
@@ -479,15 +479,15 @@ void MoveEditAddrKeyboardCursor(u32 direction) {
     gEditAddrKeyboard->mCursorKeyIndex = (gEditAddrKeyboardCursorMoves + previousKeyIndex * 4)[direction];
     nextKeyIndex = gEditAddrKeyboard->mCursorKeyIndex;
     if (nextKeyIndex == 0xd && (direction == 1 || direction == 3)) {
-        gEditAddrKeyboard->mUnk_64 = previousKeyIndex;
+        gEditAddrKeyboard->field64 = previousKeyIndex;
     } else if (nextKeyIndex == -1) {
-        if (gEditAddrKeyboard->mUnk_64 == 1 || gEditAddrKeyboard->mUnk_64 == 10) {
+        if (gEditAddrKeyboard->field64 == 1 || gEditAddrKeyboard->field64 == 10) {
             gEditAddrKeyboard->mCursorKeyIndex = 10;
         } else {
             gEditAddrKeyboard->mCursorKeyIndex = 11;
         }
     } else if (nextKeyIndex == -2) {
-        if (gEditAddrKeyboard->mUnk_64 == 1 || gEditAddrKeyboard->mUnk_64 == 10) {
+        if (gEditAddrKeyboard->field64 == 1 || gEditAddrKeyboard->field64 == 10) {
             gEditAddrKeyboard->mCursorKeyIndex = 1;
         } else {
             gEditAddrKeyboard->mCursorKeyIndex = 2;
@@ -557,7 +557,7 @@ void ReleaseEditAddrKeyboard(u32 task) {
     RequestTaskRemoval(0, task);
     index = 0;
     do {
-        DeleteOamRange(gEditAddrKeyboard->mUnk_48[index]);
+        DeleteOamRange(gEditAddrKeyboard->field48[index]);
         DeleteObjTextCanvas(gEditAddrKeyboard->mRowTexts[index]);
         index = index + 1;
     } while (index < 4);

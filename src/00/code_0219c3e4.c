@@ -81,7 +81,7 @@ void UpdateWiFiLogin(void) {
 
 DWCAccUserData *func_ov000_0219c9c4(void) {
     if (gWiFiLogin != NULL) {
-        return gWiFiLogin->mUnk_20;
+        return gWiFiLogin->field20;
     }
     return NULL;
 }
@@ -156,25 +156,25 @@ s32 ReportWiFiLoginGpResult(s32 a) {
 // profile id and func_ov000_0219c400 as its callback; a GP error goes to ReportWiFiLoginGpResult.
 void WiFiLoginGpConnectCallback(GpConnection *a, Unk0219c400 *b, u32 c) {
     gWiFiLogin->mConnectPending = FALSE;
-    if (b->mUnk_00 == 0) {
+    if (b->field0 == 0) {
         if (gWiFiLogin->mState == 2) {
             if (ReportWiFiLoginGpResult(func_ov000_0219d558(1, data_ov000_021b4064, NULL)) == 0) {
-                if (gWiFiLogin->mUnk_20->mGsProfileId == b->mUnk_04) {
-                    if (func_ov000_0219ba20() == 0 && func_ov000_021a2768(b->mUnk_04) == 0) {
+                if (gWiFiLogin->field20->mGsProfileId == b->field4) {
+                    if (func_ov000_0219ba20() == 0 && func_ov000_021a2768(b->field4) == 0) {
                         gWiFiLogin->mState = 5;
-                        gWiFiLogin->mResultCallback(0, b->mUnk_04, gWiFiLogin->mResultCallbackArg);
+                        gWiFiLogin->mResultCallback(0, b->field4, gWiFiLogin->mResultCallbackArg);
                     }
                 } else {
                     ReportWiFiLoginError(6, -60000);
                 }
             }
         } else if (gWiFiLogin->mState == 3) {
-            if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
+            if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->field4, 0, 0, func_ov000_0219c400, 0)) != 0) {
                 return;
             }
         }
     } else {
-        ReportWiFiLoginGpResult(b->mUnk_00);
+        ReportWiFiLoginGpResult(b->field0);
     }
 }
 
@@ -195,13 +195,13 @@ void StartWiFiLoginGpConnect(char *a, char *b, void (*c)(), s32 d) {
     u64 v3;
     WiFiLogin *v4;
     strcpy(gWiFiLogin->mAuthToken, a);
-    strcpy(gWiFiLogin->mUnk_14c, b);
+    strcpy(gWiFiLogin->field14C, b);
     v4 = gWiFiLogin;
     v3 = OS_GetTick();
     v4->mConnectStartTime = v3;
     v4->mConnectPending = TRUE;
     v1 = gWiFiLogin;
-    v2 = ReportWiFiLoginGpResult(func_ov000_0218f15c(v1->mGpConnection, v1->mAuthToken, v1->mUnk_14c, 1, 0, c, 0));
+    v2 = ReportWiFiLoginGpResult(func_ov000_0218f15c(v1->mGpConnection, v1->mAuthToken, v1->field14C, 1, 0, c, 0));
     if (v2 == 0) {
         gWiFiLogin->mState = d;
     }
@@ -218,22 +218,22 @@ void StartWiFiLoginRequest(void (*a)(), void *b) {
     MI_CpuFill8(&s, 0, 0x2c);
     data_ov000_021b5660 = a;
     data_ov000_021b5658 = b;
-    if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUnk_20) != 0) {
-        DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mUnk_20->mAuthentic, gWiFiLogin->mUnk_20->mGamecode,
-                                   gWiFiLogin->mUnk_24c);
+    if (DWCi_Acc_IsAuthentic(gWiFiLogin->field20) != 0) {
+        DWCi_Acc_LoginIdToUserName(&gWiFiLogin->field20->mAuthentic, gWiFiLogin->field20->mGamecode,
+                                   gWiFiLogin->field24C);
     } else {
-        if (DWCi_Acc_IsValidLoginId(&gWiFiLogin->mUnk_40) == 0) {
-            if (DWCi_Acc_CheckConsoleUserId(&gWiFiLogin->mUnk_20->mPseudo) != 0) {
-                gWiFiLogin->mUnk_40 = gWiFiLogin->mUnk_20->mPseudo;
+        if (DWCi_Acc_IsValidLoginId(&gWiFiLogin->field40) == 0) {
+            if (DWCi_Acc_CheckConsoleUserId(&gWiFiLogin->field20->mPseudo) != 0) {
+                gWiFiLogin->field40 = gWiFiLogin->field20->mPseudo;
             } else {
-                DWCi_Acc_CreateTempLoginId(&gWiFiLogin->mUnk_40);
+                DWCi_Acc_CreateTempLoginId(&gWiFiLogin->field40);
             }
         } else {
-            DWCi_Acc_SetPlayerId(&gWiFiLogin->mUnk_40, ((s64) OS_GetTick() * 0x5d588b656c078965 + 0x269ec3) >> 32);
+            DWCi_Acc_SetPlayerId(&gWiFiLogin->field40, ((s64) OS_GetTick() * 0x5d588b656c078965 + 0x269ec3) >> 32);
         }
-        DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mUnk_40, gWiFiLogin->mUnk_0c, gWiFiLogin->mUnk_24c);
+        DWCi_Acc_LoginIdToUserName(&gWiFiLogin->field40, gWiFiLogin->fieldC, gWiFiLogin->field24C);
     }
-    strcpy(s.mGsbrcd, gWiFiLogin->mUnk_255);
+    strcpy(s.mGsbrcd, gWiFiLogin->field255);
     s.mAlloc = (void *(*) (const void *, u32)) func_ov000_021a372c;
     s.mFree = (void (*)(const void *, void *, u32)) func_ov000_021a3704;
     h = func_ov000_021a3718(0, 0x1a60, 4);
@@ -252,28 +252,28 @@ void UpdateWiFiLoginRequest(void) {
     Unk0218635c x;
     Unk0218635c y;
     if (DWC_Auth_GetError() == 0x14) {
-        func_ov000_0218635c(&x.mUnk_000);
-        strcpy(gWiFiLogin->mAuthToken, x.mUnk_04a);
-        strcpy(gWiFiLogin->mUnk_14c, x.mUnk_177);
+        func_ov000_0218635c(&x.field0);
+        strcpy(gWiFiLogin->mAuthToken, x.field4A);
+        strcpy(gWiFiLogin->field14C, x.field177);
         DWC_Auth_Destroy();
         func_ov000_021a3704(0, (u32) gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
-        if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUnk_20) != 0) {
-            data_ov000_021b5660(gWiFiLogin->mAuthToken, gWiFiLogin->mUnk_14c, data_ov000_021b5658);
+        if (DWCi_Acc_IsAuthentic(gWiFiLogin->field20) != 0) {
+            data_ov000_021b5660(gWiFiLogin->mAuthToken, gWiFiLogin->field14C, data_ov000_021b5658);
         } else {
-            StartWiFiLoginGpConnect(gWiFiLogin->mAuthToken, gWiFiLogin->mUnk_14c, WiFiLoginGpConnectCallback, 3);
+            StartWiFiLoginGpConnect(gWiFiLogin->mAuthToken, gWiFiLogin->field14C, WiFiLoginGpConnectCallback, 3);
         }
     } else if (DWC_Auth_GetError() != 0) {
         if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
-            func_ov000_0218635c(&y.mUnk_000);
+            func_ov000_0218635c(&y.field0);
             DWC_Auth_Destroy();
             func_ov000_021a3704(0, (u32) gWiFiLogin->mHttp, 0);
             gWiFiLogin->mHttp = NULL;
-            ReportWiFiLoginError(2, y.mUnk_000);
+            ReportWiFiLoginError(2, y.field0);
         } else {
             DWC_Auth_Destroy();
             MI_CpuFill8(&s, 0, 0x2c);
-            strcpy(s.mGsbrcd, gWiFiLogin->mUnk_255);
+            strcpy(s.mGsbrcd, gWiFiLogin->field255);
             s.mAlloc = (void *(*) (const void *, u32)) func_ov000_021a372c;
             s.mFree = (void (*)(const void *, void *, u32)) func_ov000_021a3704;
             DWC_Auth_Create(&s, gWiFiLogin->mHttp);
@@ -286,16 +286,16 @@ void func_ov000_0219c400(GpConnection *a, Unk0219c400 *b, u32 f) {
     char d[0x15];
     char e[0x15];
     WiFiLogin *p;
-    if (b->mUnk_00 != 0) {
+    if (b->field0 != 0) {
         return;
     }
     p = gWiFiLogin;
     if (p->mState == 3) {
-        if (b->mUnk_8e[0] == 0) {
-            DWCi_Acc_LoginIdToUserName(&p->mUnk_20->mPseudo, p->mUnk_0c, c);
+        if (b->field8E[0] == 0) {
+            DWCi_Acc_LoginIdToUserName(&p->field20->mPseudo, p->fieldC, c);
             if (ReportWiFiLoginGpResult(func_ov000_0218efa8(a, 0x705, (const s8 *) c)) == 0) {
                 gWiFiLogin->mState = 4;
-                if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
+                if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->field4, 0, 0, func_ov000_0219c400, 0)) != 0) {
                     return;
                 }
             }
@@ -305,14 +305,14 @@ void func_ov000_0219c400(GpConnection *a, Unk0219c400 *b, u32 f) {
             gWiFiLogin->mState = 1;
         }
     } else if (p->mState == 4) {
-        DWCi_Acc_LoginIdToUserName(&p->mUnk_20->mPseudo, p->mUnk_0c, d);
-        if (strcmp((const char *) b->mUnk_8e, d) == 0) {
-            DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mUnk_40, gWiFiLogin->mUnk_0c, e);
-            DWCi_Acc_SetLoginIdToUserData(gWiFiLogin->mUnk_20, &gWiFiLogin->mUnk_40, b->mUnk_04);
+        DWCi_Acc_LoginIdToUserName(&p->field20->mPseudo, p->fieldC, d);
+        if (strcmp((const char *) b->field8E, d) == 0) {
+            DWCi_Acc_LoginIdToUserName(&gWiFiLogin->field40, gWiFiLogin->fieldC, e);
+            DWCi_Acc_SetLoginIdToUserData(gWiFiLogin->field20, &gWiFiLogin->field40, b->field4);
             GpDisconnect(a);
-            data_ov000_021b5660(gWiFiLogin->mAuthToken, gWiFiLogin->mUnk_14c, data_ov000_021b5658);
+            data_ov000_021b5660(gWiFiLogin->mAuthToken, gWiFiLogin->field14C, data_ov000_021b5658);
         } else {
-            if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->mUnk_04, 0, 0, func_ov000_0219c400, 0)) != 0) {
+            if (ReportWiFiLoginGpResult(func_ov000_0218eff8(a, b->field4, 0, 0, func_ov000_0219c400, 0)) != 0) {
                 return;
             }
         }

@@ -4,16 +4,16 @@
 
 // Argument block of gmenu_init (ten words read from it).
 typedef struct Unk02125de0Arg {
-    /* 00 */ BOOL mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ BOOL mUnk_14;
-    /* 18 */ void *mUnk_18;
-    /* 1c */ BOOL mUnk_1c;
-    /* 20 */ BOOL mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 00 */ BOOL field0;
+    /* 04 */ void *field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ BOOL field14;
+    /* 18 */ void *field18;
+    /* 1c */ BOOL field1C;
+    /* 20 */ BOOL field20;
+    /* 24 */ s32 field24;
 } Unk02125de0Arg;
 
 void gmenu_init(void *heap, Unk02125de0Arg *config);

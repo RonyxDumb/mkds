@@ -20,7 +20,7 @@
 #pragma opt_arithtransformation off
 
 void func_02121dec(u32 a) {
-    gStruct217D384->mIndexMessages[func_ov000_0219bb50()].mUnk_40 = a != 0 ? 1 : 2;
+    gStruct217D384->mIndexMessages[func_ov000_0219bb50()].field40 = a != 0 ? 1 : 2;
 }
 
 s32 GetWiFiSessionCourseId(void) {
@@ -45,7 +45,7 @@ s32 func_02121d0c(void) {
     s32 step = session->mStep;
 
     if (step < 7) {
-        if (session->mUnk_19ad != 1 || step != 0xc) {
+        if (session->field19AD != 1 || step != 0xc) {
             result = FALSE;
         }
     }
@@ -58,7 +58,7 @@ s32 func_02121cd0(void) {
     s32 step = session->mStep;
 
     if (step < 10) {
-        if (session->mUnk_19ad != 1 || step != 0xc) {
+        if (session->field19AD != 1 || step != 0xc) {
             result = FALSE;
         }
     }
@@ -75,7 +75,7 @@ s32 func_02121c78(void) {
         }
         return 2;
     }
-    if (gStruct217D384->mUnk_19ad == 1) {
+    if (gStruct217D384->field19AD == 1) {
         if (step == 0xc) {
             return 2;
         }
@@ -239,32 +239,32 @@ u8 func_021216a8(void) {
     u8 i;
     u8 callCount;
 
-    callCount = gStruct217D384->mUnk_19ac;
+    callCount = gStruct217D384->field19AC;
     if (callCount < 2) {
-        gStruct217D384->mUnk_19ac = callCount + 1;
+        gStruct217D384->field19AC = callCount + 1;
         return gStruct217D384->mStartKartCount;
     }
-    for (i = gStruct217D384->mUnk_1999; i < gStruct217D384->mStartKartCount; i++) {
+    for (i = gStruct217D384->field1999; i < gStruct217D384->mStartKartCount; i++) {
         if (i != func_ov000_0219bb50()) {
             if (gStruct217D384->mKartMask & (1 << i)) {
                 break;
             }
         }
     }
-    if (gStruct217D384->mUnk_1999 >= gStruct217D384->mStartKartCount) {
-        for (i = 0; i < gStruct217D384->mUnk_1999; i++) {
+    if (gStruct217D384->field1999 >= gStruct217D384->mStartKartCount) {
+        for (i = 0; i < gStruct217D384->field1999; i++) {
             if (i != func_ov000_0219bb50()) {
                 if (gStruct217D384->mKartMask & (1 << i)) {
                     break;
                 }
             }
         }
-        if (i >= gStruct217D384->mUnk_1999) {
+        if (i >= gStruct217D384->field1999) {
             return gStruct217D384->mStartKartCount;
         }
     }
-    gStruct217D384->mUnk_1999 = i + 1;
-    gStruct217D384->mUnk_19ac = 0;
+    gStruct217D384->field1999 = i + 1;
+    gStruct217D384->field19AC = 0;
     return i;
 }
 
@@ -289,7 +289,7 @@ BOOL func_02121580(void) {
         }
     }
     if (checkedCount == 0) {
-        gStruct217D384->mUnk_19ad = 1;
+        gStruct217D384->field19AD = 1;
         func_ov000_021a2ccc();
         func_ov000_0219bbfc();
         gStruct217D384->mStep = 0xb;
@@ -327,7 +327,7 @@ void EndWiFiSessionOnPicksMismatch(u32 index) {
     if (differs == 0) {
         return;
     }
-    gStruct217D384->mUnk_19ad = 1;
+    gStruct217D384->field19AD = 1;
     func_ov000_021a2ccc();
     func_ov000_0219bbfc();
     gStruct217D384->mStep = 0xb;
@@ -351,7 +351,7 @@ u32 func_021213e8(void) {
 
 BOOL func_021213a0(void) {
     if (func_ov000_021a2c64() != 0) {
-        if (gStruct217D384->mUnk_0008.mState == 3) {
+        if (gStruct217D384->field8.mState == 3) {
             return TRUE;
         }
     }
@@ -370,8 +370,8 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
     MI_CpuFill8(&gStruct217D384->mKeys[1], 0, 0x18);
     MI_CpuFill8(&gStruct217D384->mKeys[2], 0, 0x18);
     MI_CpuFill8(&gStruct217D384->mKeys[3], 0, 0x18);
-    gStruct217D384->mUnk_194e = 0;
-    gStruct217D384->mUnk_194c = 0;
+    gStruct217D384->field194E = 0;
+    gStruct217D384->field194C = 0;
     gStruct217D384->mStatus4BuddyCount = 0;
     gStruct217D384->mKartCount = 0;
     gStruct217D384->mStartKartCount = 0;
@@ -380,24 +380,24 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
     gStruct217D384->mKartRemoveMask = 0;
     MI_CpuFill8(&gStruct217D384->mStep, 0, 0x60);
     gStruct217D384->mKeys[1].mValue = kartType;
-    gStruct217D384->mUnk_194c = 4;
+    gStruct217D384->field194C = 4;
     if (b == 0) {
-        gStruct217D384->mUnk_18e0.mUnk_00 = 1;
-        gStruct217D384->mUnk_18e0.mUnk_01 = 2;
-        gStruct217D384->mUnk_18e0.mUnk_04 = 1;
+        gStruct217D384->field18E0.field0 = 1;
+        gStruct217D384->field18E0.field1 = 2;
+        gStruct217D384->field18E0.field4 = 1;
     } else {
-        gStruct217D384->mUnk_18e0.mUnk_00 = 1;
-        gStruct217D384->mUnk_18e0.mUnk_01 = 2;
-        gStruct217D384->mUnk_18e0.mUnk_04 = 0xea60;
+        gStruct217D384->field18E0.field0 = 1;
+        gStruct217D384->field18E0.field1 = 2;
+        gStruct217D384->field18E0.field4 = 0xea60;
     }
-    func_ov000_021a299c(0, &gStruct217D384->mUnk_18e0, 0);
-    stateMachine = &gStruct217D384->mUnk_0008;
+    func_ov000_021a299c(0, &gStruct217D384->field18E0, 0);
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 3;
     stateMachine->mNextStateRequested = 1;
 }
 
 s32 func_0212111c(void) {
-    if ((gStruct217D384->mUnk_194e != 0 && func_ov000_0219bb68() <= 1) || gStruct217D384->mUnk_1f44 == 7) {
+    if ((gStruct217D384->field194E != 0 && func_ov000_0219bb68() <= 1) || gStruct217D384->field1F44 == 7) {
         return -1;
     }
     return func_02121d48() != FALSE;
@@ -441,18 +441,18 @@ void RegisterKartKeysAndStart(void) {
     }
     switch (gStruct217D384->mKeys[1].mValue) {
         case 3:
-            StartWiFiMatchingWithFilter(gStruct217D384->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+            StartWiFiMatchingWithFilter(gStruct217D384->field194C, gKartFilterString, KartKeysStartCallback, NULL,
                                         ComputeRegionEval, 0);
             break;
         case 4:
-            StartWiFiMatchingWithFilter(gStruct217D384->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+            StartWiFiMatchingWithFilter(gStruct217D384->field194C, gKartFilterString, KartKeysStartCallback, NULL,
                                         ComputeRegionEloEval, 0);
             break;
         case 0:
-            StartWiFiMatchingWithBuddies(NULL, 0, gStruct217D384->mUnk_194c, 1, KartKeysStartCallback, NULL, 0, 0);
+            StartWiFiMatchingWithBuddies(NULL, 0, gStruct217D384->field194C, 1, KartKeysStartCallback, NULL, 0, 0);
             break;
         case 1:
-            StartWiFiMatchingWithFilter(gStruct217D384->mUnk_194c, gKartFilterString, KartKeysStartCallback, NULL,
+            StartWiFiMatchingWithFilter(gStruct217D384->field194C, gKartFilterString, KartKeysStartCallback, NULL,
                                         ComputeEloEval, 0);
             break;
     }
@@ -581,8 +581,8 @@ void KartKeysStartCallback(u32 a, s32 b) {
 }
 
 void func_021208e8(s32 a) {
-    gStruct217D384->mUnk_1f40 = a;
-    if (gStruct217D384->mUnk_1f40 != 2) {
+    gStruct217D384->field1F40 = a;
+    if (gStruct217D384->field1F40 != 2) {
         return;
     }
     func_ov000_021a2ccc();
@@ -590,7 +590,7 @@ void func_021208e8(s32 a) {
 }
 
 void ResetWiFiSession(void) {
-    MI_CpuFill8(gStruct217D384->mUnk_001c, 0, 0x200);
+    MI_CpuFill8(gStruct217D384->field1C, 0, 0x200);
     MI_CpuFill8(gStruct217D384->mPlayerRecords, 0, 0x910);
     MI_CpuFill8(gStruct217D384->mConnection, 0, 0xe24);
     MI_CpuFill8(&gStruct217D384->mStep, 0, 0x60);
@@ -598,14 +598,14 @@ void ResetWiFiSession(void) {
     MI_CpuFill8(gStruct217D384->mReceiveBuffers, 0, 0x110);
     MI_CpuFill8(gStruct217D384->mIndexMessages, 0, 0x110);
     MI_CpuFill8(&gStruct217D384->mLogin, 0, 0x10);
-    gStruct217D384->mUnk_1f34 = FALSE;
-    gStruct217D384->mUnk_1f38 = FALSE;
-    gStruct217D384->mUnk_1f3c = 0;
-    gStruct217D384->mUnk_1f40 = 0;
-    gStruct217D384->mUnk_1f44 = 0;
-    gStruct217D384->mUnk_1f48 = 0;
-    gStruct217D384->mUnk_1f4c = 0;
-    gStruct217D384->mUnk_1f4d = 0;
+    gStruct217D384->field1F34 = FALSE;
+    gStruct217D384->field1F38 = FALSE;
+    gStruct217D384->field1F3C = 0;
+    gStruct217D384->field1F40 = 0;
+    gStruct217D384->field1F44 = 0;
+    gStruct217D384->field1F48 = 0;
+    gStruct217D384->field1F4C = 0;
+    gStruct217D384->field1F4D = 0;
     MI_CpuFill8(gStruct217D384->mPackedIndices, 0, 4);
     gStruct217D384->mKartCount = 0;
     gStruct217D384->mStartKartCount = 0;
@@ -621,20 +621,20 @@ u32 func_02120644(void) {
     s32 v;
 
     session = gStruct217D384;
-    if (session->mUnk_0008.mState != 0) {
-        v = session->mUnk_1f44;
+    if (session->field8.mState != 0) {
+        v = session->field1F44;
         if (v == 6 || v == 3 || v == 4 || v == 0xb) {
             return 3;
         }
-        if (session->mUnk_1f40 == 2) {
+        if (session->field1F40 == 2) {
             if (func_ov000_0219bb68() <= 1) {
-                stateMachine = &gStruct217D384->mUnk_0008;
+                stateMachine = &gStruct217D384->field8;
                 stateMachine->mNextState = 2;
                 stateMachine->mNextStateRequested = 1;
                 return 2;
             }
-        } else if (session->mUnk_1f40 == 1) {
-            stateMachine = &session->mUnk_0008;
+        } else if (session->field1F40 == 1) {
+            stateMachine = &session->field8;
             stateMachine->mNextState = 2;
             stateMachine->mNextStateRequested = 1;
             return 1;
@@ -644,7 +644,7 @@ u32 func_02120644(void) {
 }
 
 void func_02120610(void) {
-    gStruct217D384->mUnk_1f44 = 0;
-    gStruct217D384->mUnk_1f40 = 0;
-    gStruct217D384->mUnk_1f48 = 0;
+    gStruct217D384->field1F44 = 0;
+    gStruct217D384->field1F40 = 0;
+    gStruct217D384->field1F48 = 0;
 }

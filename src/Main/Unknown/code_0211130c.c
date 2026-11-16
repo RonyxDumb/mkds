@@ -60,7 +60,7 @@ void recordsMenu_onDraw(Unk02111324 *sceneNumbers) {
     AdvanceRecordScene();
     oam_prepareBuffers(gRecordMainOam, gRecordSubOam);
     if (sceneNumbers != NULL && GetRecordNextScene() != -1) {
-        sceneNumbers->mUnk_04 = GetRecordNextScene();
+        sceneNumbers->field4 = GetRecordNextScene();
     }
 }
 

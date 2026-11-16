@@ -28,31 +28,31 @@ void ibox_loadModels(void) {
     bbm_setDefaultMatParams(ibox_sBoxModel);
     bbm_setDefaultMatParams(ibox_sQuestionModel);
     p = ibox_sBoxModel;
-    p->mUnk_10 = p->mUnk_10 & 0x8000ffff;
-    p->mUnk_10 = p->mUnk_10 | 0x52940000;
+    p->field10 = p->field10 & 0x8000ffff;
+    p->field10 = p->field10 | 0x52940000;
     p = ibox_sQuestionModel;
-    p->mUnk_10 = p->mUnk_10 & 0x8000ffff;
-    p->mUnk_10 = p->mUnk_10 | 0x52940000;
+    p->field10 = p->field10 & 0x8000ffff;
+    p->field10 = p->field10 | 0x52940000;
     gBoxRotations = heap_alloc(proc_getHeap(proc_getCurrent()), 0x1770);
     for (boxIndex = 0; boxIndex < 0x12c; boxIndex++) {
         angleIndex = (u16) (((u32) boxIndex << 16) / 0x12c) >> 4;
         cosine = FX_SinCosTable_[angleIndex * 2 + 1];
         sine = FX_SinCosTable_[angleIndex * 2];
-        gBoxRotations[boxIndex].mUnk_00 = cosine;
-        gBoxRotations[boxIndex].mUnk_04 = sine;
-        gBoxRotations[boxIndex].mUnk_08 = ((s64) cosine * cosine) >> 12;
-        gBoxRotations[boxIndex].mUnk_0c = ((s64) sine * sine) >> 12;
-        gBoxRotations[boxIndex].mUnk_10 = ((s64) cosine * sine) >> 12;
+        gBoxRotations[boxIndex].field0 = cosine;
+        gBoxRotations[boxIndex].field4 = sine;
+        gBoxRotations[boxIndex].field8 = ((s64) cosine * cosine) >> 12;
+        gBoxRotations[boxIndex].fieldC = ((s64) sine * sine) >> 12;
+        gBoxRotations[boxIndex].field10 = ((s64) cosine * sine) >> 12;
     }
     gQuestionRotations = heap_alloc(proc_getHeap(proc_getCurrent()), 0x410);
     for (questionIndex = 0; questionIndex < 0x82; questionIndex++) {
         angleIndex = (u16) (((u32) questionIndex << 16) / 0x82) >> 4;
-        gQuestionRotations[questionIndex].mUnk_00 = FX_SinCosTable_[angleIndex * 2 + 1];
-        gQuestionRotations[questionIndex].mUnk_04 = FX_SinCosTable_[angleIndex * 2];
+        gQuestionRotations[questionIndex].field0 = FX_SinCosTable_[angleIndex * 2 + 1];
+        gQuestionRotations[questionIndex].field4 = FX_SinCosTable_[angleIndex * 2];
     }
     if (gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW) {
-        ibox_sBoxModel->mUnk_14 &= 0xffff7fff;
-        ibox_sQuestionModel->mUnk_14 &= 0xffff7fff;
+        ibox_sBoxModel->field14 &= 0xffff7fff;
+        ibox_sQuestionModel->field14 &= 0xffff7fff;
     }
 }
 
@@ -61,8 +61,8 @@ void ibox_init(ItemBox *itemBox, Unk020de6a8_1 *row) {
     Vec3 shadowPos;
     BOOL v1;
 
-    itemBox->mUnk_000.mPos.y += 0xc000;
-    itemBox->mUnk_0fc = &itemBox->mUnk_000.mPos;
+    itemBox->field0.mPos.y += 0xc000;
+    itemBox->fieldFC = &itemBox->field0.mPos;
     random = mobj_getRng1();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     itemBox->mBoxRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x12c) >> 32;
@@ -71,47 +71,47 @@ void ibox_init(ItemBox *itemBox, Unk020de6a8_1 *row) {
     itemBox->mQuestionRotationIndex = ((u64) (u32) (random->mValue >> 32) * 0x82) >> 32;
     itemBox->mFramesSinceHit = 0x80;
     if (row != NULL) {
-        if (itemBox->mUnk_000.mKind == 0xc9 && row->mUnk_26 >= 0) {
+        if (itemBox->field0.mKind == 0xc9 && row->field26 >= 0) {
             v1 = TRUE;
         } else {
             v1 = FALSE;
         }
-        itemBox->mUnk_0a8 = v1;
-        itemBox->mUnk_0ac = row->mUnk_34;
-        itemBox->mUnk_0f8 = 0;
+        itemBox->fieldA8 = v1;
+        itemBox->fieldAC = row->field34;
+        itemBox->fieldF8 = 0;
     } else {
-        itemBox->mUnk_0a8 = 1;
-        itemBox->mUnk_0ac = 0;
-        itemBox->mUnk_0f8 = 1;
-        mobj_setScale(&itemBox->mUnk_000, (Vec3 *) ItemBoxScale);
+        itemBox->fieldA8 = 1;
+        itemBox->fieldAC = 0;
+        itemBox->fieldF8 = 1;
+        mobj_setScale(&itemBox->field0, (Vec3 *) ItemBoxScale);
     }
-    if (itemBox->mUnk_0f8 != 0) {
-        itemBox->mUnk_0f2 = 0;
-        itemBox->mUnk_0f4 = 0;
+    if (itemBox->fieldF8 != 0) {
+        itemBox->fieldF2 = 0;
+        itemBox->fieldF4 = 0;
     } else {
-        itemBox->mUnk_0f2 = row->mUnk_2a;
-        itemBox->mUnk_0f4 = row->mUnk_2c;
+        itemBox->fieldF2 = row->field2A;
+        itemBox->fieldF4 = row->field2C;
     }
-    if (itemBox->mUnk_0f8 != 0) {
-        itemBox->mUnk_0b0 = 1;
+    if (itemBox->fieldF8 != 0) {
+        itemBox->fieldB0 = 1;
     } else {
-        itemBox->mUnk_0b0 = row->mUnk_2e;
-        if (itemBox->mUnk_0b0 == 0) {
-            shadowPos = row->mUnk_00;
-            if (itemBox->mUnk_0a8 != 0) {
+        itemBox->fieldB0 = row->field2E;
+        if (itemBox->fieldB0 == 0) {
+            shadowPos = row->field0;
+            if (itemBox->fieldA8 != 0) {
                 shadowPos.y += 0x800;
             }
-            if (oshd_setParams(&itemBox->mUnk_0b4, &shadowPos, 0x14000, 0xd) == 0) {
-                itemBox->mUnk_0b0 = 2;
+            if (oshd_setParams(&itemBox->fieldB4, &shadowPos, 0x14000, 0xd) == 0) {
+                itemBox->fieldB0 = 2;
             }
         }
     }
     if (row != NULL) {
-        if (oshd_20E512C(&row->mUnk_00) != 0) {
-            itemBox->mUnk_000.mFlags |= data_02158568;
+        if (oshd_20E512C(&row->field0) != 0) {
+            itemBox->field0.mFlags |= data_02158568;
         }
     }
-    itemBox->mUnk_000.mDistanceSquaredAndFlags |= data_0215856c;
+    itemBox->field0.mDistanceSquaredAndFlags |= data_0215856c;
 }
 #pragma thumb off
 

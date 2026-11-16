@@ -9,7 +9,7 @@ s32 menu_getFrameCounter(void) {
 }
 
 u32 menu_getField4(void) {
-    return (gMenuSceneState->mUnk_004);
+    return (gMenuSceneState->field4);
 }
 
 u32 menu_getPrevState(void) {

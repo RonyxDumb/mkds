@@ -13,17 +13,17 @@ OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 // Returns the processor mode (low five bits of the status register).
 u32 OS_GetProcMode(void);
 
-// Filled by OS_GetOwnerInfo from the bytes of a fixed-address block: mUnk_04 holds the 0x14 bytes at offset 0x06 of the
-// block and mUnk_1a the 0x34 bytes at offset 0x1c.
+// Filled by OS_GetOwnerInfo from the bytes of a fixed-address block: field4 holds the 0x14 bytes at offset 0x06 of the
+// block and field1A the 0x34 bytes at offset 0x1c.
 typedef struct Unk0200fddc {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u8 mUnk_04[0x14];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u8 mUnk_1a[0x34];
-    /* 4e */ u16 mUnk_4e;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u8 field2;
+    /* 03 */ u8 field3;
+    /* 04 */ u8 field4[0x14];
+    /* 18 */ u16 field18;
+    /* 1a */ u8 field1A[0x34];
+    /* 4e */ u16 field4E;
 } Unk0200fddc;
 
 // Disables interrupts and halts forever.

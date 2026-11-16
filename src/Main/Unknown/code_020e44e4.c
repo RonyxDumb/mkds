@@ -24,23 +24,23 @@
 #pragma thumb on
 
 void puku_init(Unk020e43a8 *pukupuku, Vec3 *position) {
-    sm_init(&pukupuku->mUnk_00.mStateMachine, (UnkFunc *const *) puku_sStates, 4, pukupuku);
-    pukupuku->mUnk_00.mPos.y = pukupuku->mUnk_00.mPos.y + (s32) (((s64) pukupuku->mUnk_00.mScale.y * 0xa000) >> 12);
-    pukupuku->mUnk_a0.mUnk_18 = pukupuku->mUnk_00.mPos;
-    pukupuku->mUnk_c4 = 4;
-    pukupuku->mUnk_00.mUnk_10.x = 0;
-    pukupuku->mUnk_00.mUnk_10.y = 0;
-    pukupuku->mUnk_00.mUnk_10.z = 0;
-    rdmo_initParams(pukupuku, pukupuku->mUnk_00.mPos.y - 0x1e000, 0x400, 0x400, 0x4000, 0x1800);
-    pukupuku->mUnk_00.mStateMachine.mNextState = 0;
-    pukupuku->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    oshd_setParams((ShadowMatrix *) &pukupuku->mUnk_c8, position,
-                        ((s64) pukupuku->mUnk_00.mScale.x * 0x12000) >> 12, 0xd);
-    pukupuku->mUnk_f4.z = position->y;
+    sm_init(&pukupuku->field0.mStateMachine, (UnkFunc *const *) puku_sStates, 4, pukupuku);
+    pukupuku->field0.mPos.y = pukupuku->field0.mPos.y + (s32) (((s64) pukupuku->field0.mScale.y * 0xa000) >> 12);
+    pukupuku->fieldA0.field18 = pukupuku->field0.mPos;
+    pukupuku->fieldC4 = 4;
+    pukupuku->field0.field10.x = 0;
+    pukupuku->field0.field10.y = 0;
+    pukupuku->field0.field10.z = 0;
+    rdmo_initParams(pukupuku, pukupuku->field0.mPos.y - 0x1e000, 0x400, 0x400, 0x4000, 0x1800);
+    pukupuku->field0.mStateMachine.mNextState = 0;
+    pukupuku->field0.mStateMachine.mNextStateRequested = 1;
+    oshd_setParams((ShadowMatrix *) &pukupuku->fieldC8, position,
+                        ((s64) pukupuku->field0.mScale.x * 0x12000) >> 12, 0xd);
+    pukupuku->fieldF4.z = position->y;
     {
-        s32 *secondRow = &pukupuku->mUnk_d4;
-        pukupuku->mUnk_104 = -FX_Div(secondRow[0], secondRow[1]);
-        pukupuku->mUnk_108 = -FX_Div(secondRow[2], secondRow[1]);
+        s32 *secondRow = &pukupuku->fieldD4;
+        pukupuku->field104 = -FX_Div(secondRow[0], secondRow[1]);
+        pukupuku->field108 = -FX_Div(secondRow[2], secondRow[1]);
     }
 }
 
@@ -50,7 +50,7 @@ Unk020e46c8 *rotcyl_setupGearConfig(void) {
     Unk020e46c8 *kindData;
     kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = *(Unk020e46c8 *) data_02158f70;
-    kindData->mUnk_38 = 0x2bc000;
+    kindData->field38 = 0x2bc000;
     return kindData;
 }
 
@@ -89,29 +89,29 @@ Unk020e4610 *rotcyl_setupLogicPart(void) {
 void rotcyl_update(u32 unused, Unk020e43a8 *object) {
     s32 previousAngle;
     s32 angleChange;
-    previousAngle = object->mUnk_00.mAngle;
-    sm_execute(&object->mUnk_00.mStateMachine);
-    angleChange = object->mUnk_00.mAngle - previousAngle;
+    previousAngle = object->field0.mAngle;
+    sm_execute(&object->field0.mStateMachine);
+    angleChange = object->field0.mAngle - previousAngle;
     if (angleChange > 0x8000) {
         angleChange -= 0x10000;
     }
     if (angleChange < -0x8000) {
         angleChange += 0x10000;
     }
-    object->mUnk_124 = ((s64) object->mUnk_00.mMatrix.mUnk_00[1].x * angleChange) >> 12;
-    object->mUnk_128 = ((s64) object->mUnk_00.mMatrix.mUnk_00[1].y * angleChange) >> 12;
-    object->mUnk_12c = ((s64) object->mUnk_00.mMatrix.mUnk_00[1].z * angleChange) >> 12;
-    object->mUnk_a0 = *(Unk020e43a8_28 *) &object->mUnk_00.mMatrix;
-    MTX_RotY33_((s32 *) &object->mUnk_00.mMatrix, FX_SinCosTable_[(object->mUnk_00.mAngle >> 4) * 2],
-                FX_SinCosTable_[(object->mUnk_00.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33((const s32 *) &object->mUnk_00.mMatrix, (const s32 *) &object->mUnk_c4,
-                 (s32 *) &object->mUnk_00.mMatrix);
-    VEC_MultAdd(-object->mUnk_104, &object->mUnk_00.mMatrix.mUnk_00[1], &object->mUnk_00.mPos, &object->mUnk_f4);
-    if (object->mUnk_00.mStateMachine.mState == 3) {
+    object->field124 = ((s64) object->field0.mMatrix.field0[1].x * angleChange) >> 12;
+    object->field128 = ((s64) object->field0.mMatrix.field0[1].y * angleChange) >> 12;
+    object->field12C = ((s64) object->field0.mMatrix.field0[1].z * angleChange) >> 12;
+    object->fieldA0 = *(Unk020e43a8_28 *) &object->field0.mMatrix;
+    MTX_RotY33_((s32 *) &object->field0.mMatrix, FX_SinCosTable_[(object->field0.mAngle >> 4) * 2],
+                FX_SinCosTable_[(object->field0.mAngle >> 4) * 2 + 1]);
+    MTX_Concat33((const s32 *) &object->field0.mMatrix, (const s32 *) &object->fieldC4,
+                 (s32 *) &object->field0.mMatrix);
+    VEC_MultAdd(-object->field104, &object->field0.mMatrix.field0[1], &object->field0.mPos, &object->fieldF4);
+    if (object->field0.mStateMachine.mState == 3) {
         return;
     }
-    if (object->mUnk_15c == -1) {
+    if (object->field15C == -1) {
         return;
     }
-    mobj_emitSfxFromEmitter(&object->mUnk_00, object->mUnk_15c);
+    mobj_emitSfxFromEmitter(&object->field0, object->field15C);
 }

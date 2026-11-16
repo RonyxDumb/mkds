@@ -27,11 +27,11 @@ void pict_render(void *a, Picture *b) {
 
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &b->mUnk_00.mMatrix, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+    b->field0.mMatrix.field0[3].x = b->field0.mPos.x >> 4;
+    b->field0.mMatrix.field0[3].y = b->field0.mPos.y >> 4;
+    b->field0.mMatrix.field0[3].z = b->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &b->field0.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->field0.mScale, 3);
     switch (b->mPictureIndex) {
         case 0:
             mobj_setModelNsbcaFrame(pict_sPicture1Model, b->mNsbcaFrameIndex);
@@ -69,49 +69,49 @@ void pict_update(void *a, Picture *b) {
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0 || b->mNsbcaFrameIndex == 0xf || b->mNsbcaFrameIndex == 0x1f ||
                     b->mNsbcaFrameIndex == 0x37 || b->mNsbcaFrameIndex == 0x51) {
-                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->field0) == FALSE) {
+                        if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                        } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s1.mSoundId = 0x116;
-                        s1.mPositionSource = &b->mUnk_00.mPos;
-                        s1.mUnk_08 = t;
-                        s1.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+                        s1.mPositionSource = &b->field0.mPos;
+                        s1.field8 = t;
+                        s1.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
                         func_0210b7a8(&s1);
                     }
                 } else if (b->mNsbcaFrameIndex == 8 || b->mNsbcaFrameIndex == 0x14 || b->mNsbcaFrameIndex == 0x2c ||
                            b->mNsbcaFrameIndex == 0x44) {
-                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->field0) == FALSE) {
+                        if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                        } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s2.mSoundId = 0x117;
-                        s2.mPositionSource = &b->mUnk_00.mPos;
-                        s2.mUnk_08 = t;
-                        s2.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+                        s2.mPositionSource = &b->field0.mPos;
+                        s2.field8 = t;
+                        s2.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
                         func_0210b7a8(&s2);
                     }
                 } else if (b->mNsbcaFrameIndex == 0x78) {
-                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->field0) == FALSE) {
+                        if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                        } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s3.mSoundId = 0x115;
-                        s3.mPositionSource = &b->mUnk_00.mPos;
-                        s3.mUnk_08 = t;
-                        s3.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+                        s3.mPositionSource = &b->field0.mPos;
+                        s3.field8 = t;
+                        s3.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
                         func_0210b7a8(&s3);
                     }
                 }
@@ -122,18 +122,18 @@ void pict_update(void *a, Picture *b) {
                 }
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0) {
-                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->field0) == FALSE) {
+                        if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                        } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s4.mSoundId = 0x118;
-                        s4.mPositionSource = &b->mUnk_00.mPos;
-                        s4.mUnk_08 = t;
-                        s4.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+                        s4.mPositionSource = &b->field0.mPos;
+                        s4.field8 = t;
+                        s4.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
                         func_0210b7a8(&s4);
                     }
                 }

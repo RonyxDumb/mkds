@@ -22,7 +22,7 @@
 
 void mobj_emitDriverHitSfx(MapObject *mapObject, SoundSource *soundSource, s32 d, s32 e) {
     s32 soundId;
-    soundId = mapObject->mKindData->mUnk_24;
+    soundId = mapObject->mKindData->field24;
     if (soundId == -1) {
         return;
     }
@@ -40,12 +40,12 @@ void mobj_20D2600(s32 soundId, Vec3 *position, s32 falloffKind) {
     s32 distanceSquared;
     Unk0210b7a8 request;
     distanceSquared = mobj_calcXZCamDist(position);
-    if (distanceSquared >= (falloffKind == 2 ? gSfxParams[2].mUnk_20 : gSfxParams[4].mUnk_20)) {
+    if (distanceSquared >= (falloffKind == 2 ? gSfxParams[2].field20 : gSfxParams[4].field20)) {
         return;
     }
     request.mSoundId = soundId;
     request.mPositionSource = position;
-    request.mUnk_08 = falloffKind;
+    request.field8 = falloffKind;
     request.mDistanceSquared = distanceSquared;
     func_0210b7a8(&request);
 }

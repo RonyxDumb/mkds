@@ -41,13 +41,13 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     s32 scaleUnchanged;
 
     kart = itemInUse->mKart;
-    itemInUse->mKartOrientation = *(KartOrientation *) &kart->mUnk_150;
+    itemInUse->mKartOrientation = *(KartOrientation *) &kart->field150;
     itemInUse->mKartDrawMatrixPos = kart->mDrawMatrixPos;
     itemInUse->mKartVelocity = kart->mVelocity;
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
-    itemInUse->mUnk_078 = ((s64) kart->mPhysicalParam->mUnk_08 * kart->mScale.z + 0x800) >> 12;
+    itemInUse->field78 = ((s64) kart->mPhysicalParam->field8 * kart->mScale.z + 0x800) >> 12;
     itemInUse->mKartHopHeight = kart->mHopHeight;
-    itemInUse->mMovingForward = vec_dotProduct(&itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartVelocity) > 0;
+    itemInUse->mMovingForward = vec_dotProduct(&itemInUse->mKartOrientation.field18, &itemInUse->mKartVelocity) > 0;
     VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
     scale.x = ((s64) kart->mScaleFactor.x * kart->mScaleBase.x) >> 12;
     scale.y = ((s64) kart->mScaleFactor.y * kart->mScaleBase.y) >> 12;
@@ -80,8 +80,8 @@ void it_20EE2E4(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInfoIndex = heldItem->mItemInfoIndex;
     useKind = it_sItemConfigs[itemInfoIndex].mUseKind;
     isMode5 = gRaceMultiConfig->mMode == 5;
-    if (heldItem->mUnk_0c != 0) {
-        if (heldItem->mTimer > heldItem->mUnk_12) {
+    if (heldItem->fieldC != 0) {
+        if (heldItem->mTimer > heldItem->field12) {
             return;
         }
     }
@@ -104,8 +104,8 @@ void it_20EE2E4(ItemInUse *itemInUse, HeldItem *heldItem) {
     itemInUse->mObjectCount = it_sItemConfigs[itemInfoIndex].mObjectCount;
     itemInUse->mUseKind = useKind;
     itemInUse->mItemInfoIndex = itemInfoIndex;
-    itemInUse->mUnk_170 = NULL;
-    itemInUse->mUnk_0e8 = it_sItemConfigs[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
+    itemInUse->field170 = NULL;
+    itemInUse->fieldE8 = it_sItemConfigs[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
     poolIndex = *(vs32 *) &itemInUse->mObjectKind;
     it_itemsetAcquireItems(&it_sItemsets[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
                         &itemInUse->mKartDrawMatrixPos);
@@ -118,11 +118,11 @@ void it_20EE2E4(ItemInUse *itemInUse, HeldItem *heldItem) {
     }
     driver_notifyDragItemChanged(itemInUse->mKart);
     it_resetSlot(heldItem);
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->field170 != NULL) {
         SetActiveItem(itemInUse->mKartItems, itemInUse->mItemInfoIndex);
     }
     objects = itemInUse->mObjects;
-    kartModelHalfwords = &itemInUse->mKart->mKartModelsEntry->mUnk_040;
+    kartModelHalfwords = &itemInUse->mKart->mKartModelsEntry->field40;
     objectCount = itemInUse->mObjectCount;
     for (i = 0; i < objectCount; i++) {
         object = objects[i];
@@ -131,7 +131,7 @@ void it_20EE2E4(ItemInUse *itemInUse, HeldItem *heldItem) {
         object->mVelocity = itemInUse->mKartVelocity;
         SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
                                    itemInUse->mKartScaleFactorTimesBase.y);
-        object->mUnk_90 = kartModelHalfwords;
+        object->field90 = kartModelHalfwords;
         object->mFlags |= 0x1000;
     }
 }
@@ -156,7 +156,7 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     s32 m;
 
     if ((other->mFlags & 0x1000) != 0) {
-        if (object->mUnk_48 > other->mUnk_48) {
+        if (object->field48 > other->field48) {
             return;
         }
     }
@@ -199,7 +199,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         VEC_Subtract(&object->mPos, &object->mPrevPos, &object->mVelocity);
         object->mPrevPos = object->mPos;
         if (itemInUse->mObjectStartFramesLeft == 0) {
-            object->mNormal = itemInUse->mKartOrientation.mUnk_0c;
+            object->mNormal = itemInUse->mKartOrientation.fieldC;
             if (object->mNormal.y < 0xff4) {
                 object->mFlags |= 0x80;
             }
@@ -220,7 +220,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         if (object->mCollisionSlotIndex == -1) {
             if (func_020f91e0(object) != FALSE) {
                 idx = object->mKind;
-                if (it_sItemParams[idx].mUnk_68 != 0) {
+                if (it_sItemParams[idx].field68 != 0) {
                     CreateItemObjectCollisionSlot(object);
                 }
             }
@@ -233,7 +233,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
-                if ((other->mUnk_78 & 0x4000) != 0 && itemInUse->mKartIndex == (u16) (other->mUnk_78 & ~0xff00)) {
+                if ((other->field78 & 0x4000) != 0 && itemInUse->mKartIndex == (u16) (other->field78 & ~0xff00)) {
                     continue;
                 }
                 CollideItemObjects(object, other);
@@ -289,8 +289,8 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
     StartItemInUseObject(itemInUse, object);
     it_startThrowAnim(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
     kind = object->mKind;
-    if (it_sItemParams[kind].mUnk_38 != NULL) {
-        it_sItemParams[kind].mUnk_38(object);
+    if (it_sItemParams[kind].field38 != NULL) {
+        it_sItemParams[kind].field38(object);
     }
     if (itemInUse->mObjectCount != 0) {
         return;
@@ -307,22 +307,22 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
         speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
-        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartMovement, &throwDirection);
+        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.field18, &itemInUse->mKartMovement, &throwDirection);
     } else {
         Vec3 *kartVector;
 
-        kartVector = &itemInUse->mKart->mUnk_1fc;
+        kartVector = &itemInUse->mKart->field1FC;
         if ((s64) kartVector->x * kartVector->x + (s64) kartVector->y * kartVector->y +
                 (s64) kartVector->z * kartVector->z >=
             0x10) {
             speed = baseSpeed + (s32) (((s64) kartMoveLength * speedFactor) >> 12);
-            VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, kartVector, &throwDirection);
+            VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.field18, kartVector, &throwDirection);
         } else {
             speed = baseSpeed - kartMoveLength;
-            throwDirection = itemInUse->mKartOrientation.mUnk_18;
+            throwDirection = itemInUse->mKartOrientation.field18;
         }
     }
-    if ((itemInUse->mKart->mUnk_48 & 1) == 0) {
+    if ((itemInUse->mKart->field48 & 1) == 0) {
         throwDirection.y = 0;
     }
     if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
@@ -340,18 +340,18 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     kartMoveLength = VEC_Mag(&itemInUse->mKartMovement);
     if (itemInUse->mMovingForward != 0) {
         speed -= kartMoveLength;
-        VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->mUnk_1fc, &throwDirection);
-        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.mUnk_18, &throwDirection, &throwDirection);
+        VEC_Subtract(&itemInUse->mKartMovement, &itemInUse->mKart->field1FC, &throwDirection);
+        VEC_MultAdd(forwardWeight, &itemInUse->mKartOrientation.field18, &throwDirection, &throwDirection);
         throwDirection.x = -throwDirection.x;
         throwDirection.y = -throwDirection.y;
         throwDirection.z = -throwDirection.z;
     } else {
         speed += (s32) (((s64) kartMoveLength * speedFactor) >> 12);
-        throwDirection.x = -itemInUse->mKartOrientation.mUnk_18.x;
-        throwDirection.y = -itemInUse->mKartOrientation.mUnk_18.y;
-        throwDirection.z = -itemInUse->mKartOrientation.mUnk_18.z;
+        throwDirection.x = -itemInUse->mKartOrientation.field18.x;
+        throwDirection.y = -itemInUse->mKartOrientation.field18.y;
+        throwDirection.z = -itemInUse->mKartOrientation.field18.z;
     }
-    if ((itemInUse->mKart->mUnk_48 & 1) == 0) {
+    if ((itemInUse->mKart->field48 & 1) == 0) {
         throwDirection.y = 0;
     }
     if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
@@ -369,17 +369,17 @@ void it_destroyDragItem(ItemInUse *itemInUse) {
                               itemInUse->mObjects[itemInUse->mObjectCount]);
     }
     it_resetDragItem(itemInUse);
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->field170 != NULL) {
         itemInUse->mKartItems->mActiveItem = 0x13;
-        itemInUse->mUnk_170 = NULL;
+        itemInUse->field170 = NULL;
     }
 }
 
 void StartItemInUseObjectCountdown(ItemInUse *itemInUse) {
     itemInUse->mObjectStartFramesLeft = 0xa;
-    if (itemInUse->mUnk_170 != NULL) {
+    if (itemInUse->field170 != NULL) {
         itemInUse->mKartItems->mActiveItem = 0x13;
-        itemInUse->mUnk_170 = NULL;
+        itemInUse->field170 = NULL;
     }
 }
 
@@ -405,26 +405,26 @@ void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
 
 void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
     if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
-        object->mUnk_94.mUnk_00[2] = *viewAxis;
-        vec_crossProduct(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
-        if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
-                (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
-                (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
+        object->field94.field0[2] = *viewAxis;
+        vec_crossProduct(&object->mNormal, &object->field94.field0[2], &object->field94.field0[0]);
+        if ((s64) object->field94.field0[0].x * object->field94.field0[0].x +
+                (s64) object->field94.field0[0].y * object->field94.field0[0].y +
+                (s64) object->field94.field0[0].z * object->field94.field0[0].z >=
             0x10) {
-            vec_normalize(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
+            vec_normalize(&object->field94.field0[0], &object->field94.field0[0]);
         }
-        vec_crossProduct(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
+        vec_crossProduct(&object->field94.field0[2], &object->field94.field0[0], &object->field94.field0[1]);
         {
             Vec3 *position;
 
-            position = object->mUnk_d0;
-            object->mUnk_94.mUnk_00[3].x = position->x >> 4;
-            object->mUnk_94.mUnk_00[3].y = position->y >> 4;
-            object->mUnk_94.mUnk_00[3].z = position->z >> 4;
+            position = object->fieldD0;
+            object->field94.field0[3].x = position->x >> 4;
+            object->field94.field0[3].y = position->y >> 4;
+            object->field94.field0[3].z = position->z >> 4;
         }
-        return &object->mUnk_94.mUnk_00[0];
+        return &object->field94.field0[0];
     } else {
-        return bbm_20E6B94(object->mUnk_d0);
+        return bbm_20E6B94(object->fieldD0);
     }
 }
 
@@ -441,52 +441,52 @@ void it_20ED79C(ItemPool *pool, Vec3 *viewAxis) {
     takenCount = pool->mTakenCount;
     activeCount = pool->mActiveCount;
     bbm_applyMaterial(model);
-    model->mUnk_14 &= ~0x3f000000;
-    model->mUnk_14 |= 0x4000000;
+    model->field14 &= ~0x3f000000;
+    model->field14 |= 0x4000000;
     for (i = 0; i < takenCount; i++) {
         object = pool->mObjects[i];
         if ((object->mFlags & 0x10000) != 0) {
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            light_apply(object->mUnk_90);
+            light_apply(object->field90);
         } else {
             light_apply(&object->mColorBlend.mColor);
         }
         if ((d8 = object->mAlpha) != 0x1f) {
-            model->mUnk_14 &= ~0x1f0000;
-            model->mUnk_14 |= (u16) d8 << 16;
+            model->field14 &= ~0x1f0000;
+            model->field14 |= (u16) d8 << 16;
         }
         if (i == activeCount) {
-            model->mUnk_14 &= ~0x3f000000;
-            model->mUnk_14 |= 0x3000000;
+            model->field14 &= ~0x3f000000;
+            model->field14 |= 0x3000000;
         }
         if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
-            object->mUnk_94.mUnk_00[2] = *viewAxis;
-            vec_crossProduct(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
-            if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
-                    (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
-                    (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
+            object->field94.field0[2] = *viewAxis;
+            vec_crossProduct(&object->mNormal, &object->field94.field0[2], &object->field94.field0[0]);
+            if ((s64) object->field94.field0[0].x * object->field94.field0[0].x +
+                    (s64) object->field94.field0[0].y * object->field94.field0[0].y +
+                    (s64) object->field94.field0[0].z * object->field94.field0[0].z >=
                 0x10) {
-                vec_normalize(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
+                vec_normalize(&object->field94.field0[0], &object->field94.field0[0]);
             }
-            vec_crossProduct(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
+            vec_crossProduct(&object->field94.field0[2], &object->field94.field0[0], &object->field94.field0[1]);
             {
                 Vec3 *position;
 
-                position = object->mUnk_d0;
-                object->mUnk_94.mUnk_00[3].x = position->x >> 4;
-                object->mUnk_94.mUnk_00[3].y = position->y >> 4;
-                object->mUnk_94.mUnk_00[3].z = position->z >> 4;
+                position = object->fieldD0;
+                object->field94.field0[3].x = position->x >> 4;
+                object->field94.field0[3].y = position->y >> 4;
+                object->field94.field0[3].z = position->z >> 4;
             }
-            matrix = &object->mUnk_94.mUnk_00[0];
+            matrix = &object->field94.field0[0];
         } else {
-            matrix = bbm_20E6B94(object->mUnk_d0);
+            matrix = bbm_20E6B94(object->fieldD0);
         }
         bbm_renderTransformedScaled(model, matrix, &object->mScale, 0, 0x1f);
         if ((d8 = object->mAlpha) != 0x1f) {
-            model->mUnk_14 &= ~0x1f0000;
-            model->mUnk_14 |= 0x1f0000;
+            model->field14 &= ~0x1f0000;
+            model->field14 |= 0x1f0000;
         }
     }
 }
@@ -503,7 +503,7 @@ void it_20ED718(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, 
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            light_apply(object->mUnk_90);
+            light_apply(object->field90);
         } else {
             light_apply(&object->mColorBlend.mColor);
         }
@@ -516,35 +516,35 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
     void *matrix;
 
     if ((d = object->mAlpha) != 0x1f) {
-        model->mUnk_14 &= ~0x1f0000;
-        model->mUnk_14 |= (u16) d << 16;
+        model->field14 &= ~0x1f0000;
+        model->field14 |= (u16) d << 16;
     }
     bbm_applyMaterial(model);
     if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
-        object->mUnk_94.mUnk_00[2] = *viewAxis;
-        vec_crossProduct(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
-        if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
-                (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
-                (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
+        object->field94.field0[2] = *viewAxis;
+        vec_crossProduct(&object->mNormal, &object->field94.field0[2], &object->field94.field0[0]);
+        if ((s64) object->field94.field0[0].x * object->field94.field0[0].x +
+                (s64) object->field94.field0[0].y * object->field94.field0[0].y +
+                (s64) object->field94.field0[0].z * object->field94.field0[0].z >=
             0x10) {
-            vec_normalize(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
+            vec_normalize(&object->field94.field0[0], &object->field94.field0[0]);
         }
-        vec_crossProduct(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
+        vec_crossProduct(&object->field94.field0[2], &object->field94.field0[0], &object->field94.field0[1]);
         {
             Vec3 *position;
 
-            position = object->mUnk_d0;
-            object->mUnk_94.mUnk_00[3].x = position->x >> 4;
-            object->mUnk_94.mUnk_00[3].y = position->y >> 4;
-            object->mUnk_94.mUnk_00[3].z = position->z >> 4;
+            position = object->fieldD0;
+            object->field94.field0[3].x = position->x >> 4;
+            object->field94.field0[3].y = position->y >> 4;
+            object->field94.field0[3].z = position->z >> 4;
         }
-        matrix = &object->mUnk_94.mUnk_00[0];
+        matrix = &object->field94.field0[0];
     } else {
-        matrix = bbm_20E6B94(object->mUnk_d0);
+        matrix = bbm_20E6B94(object->fieldD0);
     }
     bbm_renderTransformedScaled(model, matrix, &object->mScale, 0, 0x1f);
     if ((d = object->mAlpha) != 0x1f) {
-        model->mUnk_14 &= ~0x1f0000;
-        model->mUnk_14 |= 0x1f0000;
+        model->field14 &= ~0x1f0000;
+        model->field14 |= 0x1f0000;
     }
 }

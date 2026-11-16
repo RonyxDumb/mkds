@@ -33,7 +33,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 0;
     sysdat_setIsMBChild(1);
-    gWLMenuMessage->mMBChildMessages = s2d_getData()->mUnk_20;
+    gWLMenuMessage->mMBChildMessages = s2d_getData()->field20;
     gWLMenuMessage->mFont = (u8 *) s2d_getData() + 0x14;
     charBase = G2S_GetBG1CharPtr();
     text = jn_msg_getMessage(gWLMenuMessage->mMBChildMessages, 1);

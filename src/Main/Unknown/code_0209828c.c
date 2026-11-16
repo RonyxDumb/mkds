@@ -47,11 +47,11 @@ void pknf_spawn(GroupFollower *groupFollower, s32 b) {
     if (p == NULL) {
         return;
     }
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~1;
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~8;
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~2;
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags & ~8;
-    p->mUnk_00.mAlpha = 0x1f;
+    p->field0.mFlags = p->field0.mFlags & ~1;
+    p->field0.mFlags = p->field0.mFlags & ~8;
+    p->field0.mFlags = p->field0.mFlags & ~2;
+    p->field0.mFlags = p->field0.mFlags & ~8;
+    p->field0.mAlpha = 0x1f;
     p->mFollower.mGroupIndex = groupFollower->mGroupIndex;
     p->mFollower.mPath = groupFollower->mPath;
     pw_init(&p->mFollower, 0, 1);
@@ -59,9 +59,9 @@ void pknf_spawn(GroupFollower *groupFollower, s32 b) {
     p->mFollower.mProgressStep =
         ((s64) p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength * 0x7800) >> 12;
     p->mHeightOffset = b;
-    p->mUnk_c8 = -0x5000;
+    p->fieldC8 = -0x5000;
     p->mState = 0;
-    p->mEmitter = ptcm_createEmitter(0x33, &p->mUnk_00.mPos);
+    p->mEmitter = ptcm_createEmitter(0x33, &p->field0.mPos);
 }
 
 void pakn_init(Pakkun *pakkun) {
@@ -70,42 +70,42 @@ void pakn_init(Pakkun *pakkun) {
     Vec3 position;
     Vec3 step;
     s32 i;
-    pakkun->mUnk_1d8 =
-        (u32) (((s64) pakkun->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 32 << 4) >> 16;
-    pakkun->mUnk_1e4 = TRUE;
-    pakkun->mUnk_1e8 = 0x1000;
-    pakkun->mUnk_1ec = 0;
-    pakkun->mUnk_1f0 = 0x1000;
-    pakkun->mUnk_1f4 = 0;
-    pakkun->mUnk_1f8 = 0x46000;
+    pakkun->field1D8 =
+        (u32) (((s64) pakkun->field0.mCourseMapRow->fieldC.y * 0xb60b60b60bLL + 0x80000000000LL) >> 32 << 4) >> 16;
+    pakkun->field1E4 = TRUE;
+    pakkun->field1E8 = 0x1000;
+    pakkun->field1EC = 0;
+    pakkun->field1F0 = 0x1000;
+    pakkun->field1F4 = 0;
+    pakkun->field1F8 = 0x46000;
     for (i = 0; i < 7; i++) {
         pakkun->mFollowers[i].mGroupIndex = 0xffff;
     }
     for (i = 0; i < 7; i++) {
         if (i == 0) {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_28;
+            v = pakkun->field0.mCourseMapRow->field28;
         } else if (i == 1) {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_2a;
+            v = pakkun->field0.mCourseMapRow->field2A;
         } else if (i == 2) {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_2c;
+            v = pakkun->field0.mCourseMapRow->field2C;
         } else if (i == 3) {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_2e;
+            v = pakkun->field0.mCourseMapRow->field2E;
         } else if (i == 4) {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_30;
+            v = pakkun->field0.mCourseMapRow->field30;
         } else if (i == 5) {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_32;
+            v = pakkun->field0.mCourseMapRow->field32;
         } else {
-            v = pakkun->mUnk_000.mCourseMapRow->mUnk_34;
+            v = pakkun->field0.mCourseMapRow->field34;
         }
         if (v >= 0) {
             pw_initFromPathId(&pakkun->mFollowers[pakkun->mFollowerCount], v, 100);
             pw_calcCurrentPointLinearXYZSpecial(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
-            d = FX_Atan2Idx(step.x, step.z) - pakkun->mUnk_1d8;
+            d = FX_Atan2Idx(step.x, step.z) - pakkun->field1D8;
             if (d > 0x8000) {
                 d -= 0x10000;
             }
-            pakkun->mUnk_1bc[pakkun->mFollowerCount] = d;
-            pakkun->mUnk_1fc = pakkun->mUnk_000.mPos.y - position.y;
+            pakkun->field1BC[pakkun->mFollowerCount] = d;
+            pakkun->field1FC = pakkun->field0.mPos.y - position.y;
             pakkun->mFollowerCount++;
         }
     }
@@ -154,32 +154,32 @@ void pakn_renderMouth(void *a, Pakkun *pakkun) {
     s32 t;
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    pakkun->mUnk_000.mMatrix.mUnk_00[3].x = pakkun->mUnk_000.mPos.x >> 4;
-    pakkun->mUnk_000.mMatrix.mUnk_00[3].y = pakkun->mUnk_000.mPos.y >> 4;
-    pakkun->mUnk_000.mMatrix.mUnk_00[3].z = pakkun->mUnk_000.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &pakkun->mUnk_000.mMatrix, 12);
-    f[1] = pakkun->mUnk_1f8 >> 4;
+    pakkun->field0.mMatrix.field0[3].x = pakkun->field0.mPos.x >> 4;
+    pakkun->field0.mMatrix.field0[3].y = pakkun->field0.mPos.y >> 4;
+    pakkun->field0.mMatrix.field0[3].z = pakkun->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &pakkun->field0.mMatrix, 12);
+    f[1] = pakkun->field1F8 >> 4;
     f[0] = 0;
     f[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, f, 3);
-    if (pakkun->mUnk_1dc != 0) {
-        MTX_RotY33_(m, FX_SinCosTable_[((u16) pakkun->mUnk_1dc >> 4) * 2],
-                    FX_SinCosTable_[((u16) pakkun->mUnk_1dc >> 4) * 2 + 1]);
+    if (pakkun->field1DC != 0) {
+        MTX_RotY33_(m, FX_SinCosTable_[((u16) pakkun->field1DC >> 4) * 2],
+                    FX_SinCosTable_[((u16) pakkun->field1DC >> 4) * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, m, 9);
     }
-    if (pakkun->mUnk_1e0 != 0) {
-        MTX_RotX33_(n, FX_SinCosTable_[((u16) pakkun->mUnk_1e0 >> 4) * 2],
-                    FX_SinCosTable_[((u16) pakkun->mUnk_1e0 >> 4) * 2 + 1]);
+    if (pakkun->field1E0 != 0) {
+        MTX_RotX33_(n, FX_SinCosTable_[((u16) pakkun->field1E0 >> 4) * 2],
+                    FX_SinCosTable_[((u16) pakkun->field1E0 >> 4) * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, n, 9);
     }
-    t = pakkun->mUnk_1f0;
+    t = pakkun->field1F0;
     g[0] = t;
     g[1] = t;
     g[2] = t;
     NNS_G3dGeBufferOP_N(0x1b, g, 3);
-    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->field0.mScale, 3);
     mobj_setModelPolygonIdAll(gPakkunMouth, pakkun->mPolygonId);
-    mobj_setModelNsbcaFrame(gPakkunMouth, pakkun->mUnk_0a4 >> 12);
+    mobj_setModelNsbcaFrame(gPakkunMouth, pakkun->fieldA4 >> 12);
     mobj_renderModel(a, gPakkunMouth, pakkun);
 }
 
@@ -197,18 +197,18 @@ void pakn_renderHead(void *a, Pakkun *pakkun) {
     Vec3 position;
     s32 f[3];
     s32 t;
-    position.x = pakkun->mUnk_000.mPos.x;
-    position.y = pakkun->mUnk_000.mPos.y + pakkun->mUnk_1f8;
-    position.z = pakkun->mUnk_000.mPos.z;
+    position.x = pakkun->field0.mPos.x;
+    position.y = pakkun->field0.mPos.y + pakkun->field1F8;
+    position.z = pakkun->field0.mPos.z;
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
     NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&position), 12);
-    t = pakkun->mUnk_1f0;
+    t = pakkun->field1F0;
     f[0] = t;
     f[1] = t;
     f[2] = t;
     NNS_G3dGeBufferOP_N(0x1b, f, 3);
-    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->field0.mScale, 3);
     mobj_setModelPolygonIdAll(gPakkunZHead, pakkun->mPolygonId);
     mobj_renderModel(a, gPakkunZHead, pakkun);
 }
@@ -229,17 +229,17 @@ void pakn_renderBody(void *a, Pakkun *pakkun) {
     s32 d;
     s32 y;
     s32 x;
-    x = pakkun->mUnk_1e8;
-    y = pakkun->mUnk_1f0;
+    x = pakkun->field1E8;
+    y = pakkun->field1F0;
     d = 0x3000 - x - y;
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&pakkun->mUnk_000.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&pakkun->field0.mPos), 12);
     v[0] = d;
     v[1] = x + y - 0x1000;
     v[2] = d;
     NNS_G3dGeBufferOP_N(0x1b, v, 3);
-    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->field0.mScale, 3);
     mobj_renderModel(a, gPakkunBody, pakkun);
 }
 
@@ -256,11 +256,11 @@ void pakn_globalLogicInit(void) {
         } else {
             f = ((mobj_getModelNsbcaFrameCount(gPakkunMouth) - 1) << 12) - 0.5f;
         }
-        pakkun->mUnk_0a4 = 0;
-        pakkun->mUnk_0a8 = 0x1000;
-        pakkun->mUnk_0ac = 0;
-        pakkun->mUnk_0b0 = f;
-        pakkun->mUnk_1e0 = -0xa4;
+        pakkun->fieldA4 = 0;
+        pakkun->fieldA8 = 0x1000;
+        pakkun->fieldAC = 0;
+        pakkun->fieldB0 = f;
+        pakkun->field1E0 = -0xa4;
     }
 }
 
@@ -279,14 +279,14 @@ void pakn_update(void *a, Pakkun *pakkun) {
             pakkun->mState = 1;
         case 1:
             f = FALSE;
-            if (pakkun->mUnk_1dc < pakkun->mUnk_1bc[pakkun->mFollowerIndex]) {
-                pakkun->mUnk_1dc = pakkun->mUnk_1dc + 0x6d;
-                if (pakkun->mUnk_1dc >= pakkun->mUnk_1bc[pakkun->mFollowerIndex]) {
+            if (pakkun->field1DC < pakkun->field1BC[pakkun->mFollowerIndex]) {
+                pakkun->field1DC = pakkun->field1DC + 0x6d;
+                if (pakkun->field1DC >= pakkun->field1BC[pakkun->mFollowerIndex]) {
                     f = TRUE;
                 }
             } else {
-                pakkun->mUnk_1dc = pakkun->mUnk_1dc - 0x6d;
-                if (pakkun->mUnk_1dc <= pakkun->mUnk_1bc[pakkun->mFollowerIndex]) {
+                pakkun->field1DC = pakkun->field1DC - 0x6d;
+                if (pakkun->field1DC <= pakkun->field1BC[pakkun->mFollowerIndex]) {
                     f = TRUE;
                 }
             }
@@ -299,7 +299,7 @@ void pakn_update(void *a, Pakkun *pakkun) {
             }
             break;
         case 2:
-            if (pakkun->mUnk_1ec >= -4 && pakkun->mUnk_1ec <= 4) {
+            if (pakkun->field1EC >= -4 && pakkun->field1EC <= 4) {
                 pakkun->mTimer = 0x1e;
                 pakkun->mState = 3;
             }
@@ -307,53 +307,53 @@ void pakn_update(void *a, Pakkun *pakkun) {
         case 3:
             if (pakkun->mTimer-- <= 0) {
                 pakkun->mTimer = 0;
-                if (pakkun->mUnk_1e8 >= 0xffc) {
-                    pakkun->mUnk_1e8 = 0x1000;
-                    pakkun->mUnk_1e4 = FALSE;
-                    pakkun->mUnk_1f4 = 0x7b;
+                if (pakkun->field1E8 >= 0xffc) {
+                    pakkun->field1E8 = 0x1000;
+                    pakkun->field1E4 = FALSE;
+                    pakkun->field1F4 = 0x7b;
                     pakkun->mState = 4;
                 }
             } else {
-                pakkun->mUnk_1e0 = pakkun->mUnk_1e0 + 0xa4;
+                pakkun->field1E0 = pakkun->field1E0 + 0xa4;
             }
             break;
         case 4:
-            pakkun->mUnk_1f0 = pakkun->mUnk_1f0 + pakkun->mUnk_1f4;
-            pakkun->mUnk_1f4 = pakkun->mUnk_1f4 - 8;
-            if (pakkun->mUnk_1f4 <= 0) {
-                if (pakkun->mUnk_1f0 <= 0x119a) {
+            pakkun->field1F0 = pakkun->field1F0 + pakkun->field1F4;
+            pakkun->field1F4 = pakkun->field1F4 - 8;
+            if (pakkun->field1F4 <= 0) {
+                if (pakkun->field1F0 <= 0x119a) {
                     pakkun->mState = 5;
                 }
             }
             break;
         case 5:
-            pakkun->mUnk_1f0 = pakkun->mUnk_1f0 + pakkun->mUnk_1f4;
-            pakkun->mUnk_1f4 = pakkun->mUnk_1f4 - 8;
-            if (pakkun->mUnk_1f0 <= 0x1000) {
-                pakkun->mUnk_1f0 = 0x1000;
-                pakkun->mUnk_1e4 = TRUE;
+            pakkun->field1F0 = pakkun->field1F0 + pakkun->field1F4;
+            pakkun->field1F4 = pakkun->field1F4 - 8;
+            if (pakkun->field1F0 <= 0x1000) {
+                pakkun->field1F0 = 0x1000;
+                pakkun->field1E4 = TRUE;
             }
-            pakkun->mUnk_0a4 = pakkun->mUnk_0a4 + pakkun->mUnk_0a8;
-            if (pakkun->mUnk_0a4 >= pakkun->mUnk_0b0) {
-                pakkun->mUnk_0a4 = pakkun->mUnk_0ac;
+            pakkun->fieldA4 = pakkun->fieldA4 + pakkun->fieldA8;
+            if (pakkun->fieldA4 >= pakkun->fieldB0) {
+                pakkun->fieldA4 = pakkun->fieldAC;
             }
-            if ((pakkun->mUnk_0a4 >> 12) == 10) {
-                pknf_spawn(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
-                if ((pakkun->mUnk_000.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (pakkun->mUnk_000.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+            if ((pakkun->fieldA4 >> 12) == 10) {
+                pknf_spawn(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->field1FC + 0x46000);
+                if ((pakkun->field0.mDistanceSquaredAndFlags & 4) == 0) {
+                    if (pakkun->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                         t = 2;
-                    } else if (pakkun->mUnk_000.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                    } else if (pakkun->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                         t = 3;
                     } else {
                         t = 4;
                     }
                     s.mSoundId = 0x171;
-                    s.mPositionSource = &pakkun->mUnk_000.mPos;
-                    s.mUnk_08 = t;
-                    s.mDistanceSquared = mobj_calcXZCamDist(&pakkun->mUnk_000.mPos);
+                    s.mPositionSource = &pakkun->field0.mPos;
+                    s.field8 = t;
+                    s.mDistanceSquared = mobj_calcXZCamDist(&pakkun->field0.mPos);
                     func_0210b7a8(&s);
                 }
-            } else if (pakkun->mUnk_0a4 == 0) {
+            } else if (pakkun->fieldA4 == 0) {
                 pakkun->mTimer = 0x1e;
                 pakkun->mState = 6;
             }
@@ -363,25 +363,25 @@ void pakn_update(void *a, Pakkun *pakkun) {
                 pakkun->mTimer = 0;
                 pakkun->mState = 0;
             } else {
-                pakkun->mUnk_1e0 = pakkun->mUnk_1e0 - 0xa4;
+                pakkun->field1E0 = pakkun->field1E0 - 0xa4;
             }
             break;
     }
-    if (pakkun->mUnk_1e4 != FALSE) {
-        pakkun->mUnk_1e8 = pakkun->mUnk_1e8 + pakkun->mUnk_1ec;
-        pakkun->mUnk_1ec = pakkun->mUnk_1ec + 4;
-        if (pakkun->mUnk_1e8 >= 0x1000) {
-            pakkun->mUnk_1ec = -0x52;
+    if (pakkun->field1E4 != FALSE) {
+        pakkun->field1E8 = pakkun->field1E8 + pakkun->field1EC;
+        pakkun->field1EC = pakkun->field1EC + 4;
+        if (pakkun->field1E8 >= 0x1000) {
+            pakkun->field1EC = -0x52;
         }
     }
-    x = ((s64) (pakkun->mUnk_1e8 + pakkun->mUnk_1f0 - 0x1000) * 0x2f000) >> 12;
-    y = ((s64) pakkun->mUnk_1f0 * 0x17000) >> 12;
-    pakkun->mUnk_1f8 = x + y;
+    x = ((s64) (pakkun->field1E8 + pakkun->field1F0 - 0x1000) * 0x2f000) >> 12;
+    y = ((s64) pakkun->field1F0 * 0x17000) >> 12;
+    pakkun->field1F8 = x + y;
 }
 
 void *pakn_setupMouthRenderPart(void) {
     pakn_sMouthRenderPart = mobj_createRenderPart3d(pakn_loadMouthModel, pakn_renderMouth, NULL);
-    pakn_sMouthRenderPart->mUnk_1c = TRUE;
+    pakn_sMouthRenderPart->field1C = TRUE;
     mobj_renderPartSetThisPointer(&pakn_sMouthRenderPart);
     return pakn_sMouthRenderPart;
 }
@@ -394,7 +394,7 @@ void *pakn_setupBodyRenderPart(void) {
 
 void *pakn_setupZHeadRenderPart(void) {
     pakn_sHeadRenderPart = mobj_createRenderPart2d(pakn_loadHeadModel, pakn_renderHead, pakn_applyHeadMaterial);
-    pakn_sHeadRenderPart->mUnk_1c = TRUE;
+    pakn_sHeadRenderPart->field1C = TRUE;
     mobj_renderPartSetThisPointer(&pakn_sHeadRenderPart);
     return pakn_sHeadRenderPart;
 }

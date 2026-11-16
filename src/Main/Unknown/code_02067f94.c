@@ -13,18 +13,18 @@ void driver_handleSingleBackwardFlip1Reaction(Kart *kart, const Vec3 *direction)
     u32 kartBits;
     s32 state;
 
-    kartBits = kart->mUnk_4c;
+    kartBits = kart->field4C;
     if ((kartBits & 0x400000) != 0) {
         c = 0;
-    } else if ((kart->mUnk_7c & 0x200) != 0) {
-        if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
+    } else if ((kart->field7C & 0x200) != 0) {
+        if (kart->mState == KART_STATE_NORMAL && (kart->field48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
             c = 1;
         } else {
             c = 0;
         }
     } else {
         d = TRUE;
-        if ((kartBits & 0x10000040) == 0 && (kart->mUnk_48 & 0x1800) == 0) {
+        if ((kartBits & 0x10000040) == 0 && (kart->field48 & 0x1800) == 0) {
             e = 0;
             state = kart->mState;
             if (state != KART_STATE_NORMAL && state != KART_STATE_1 && state != KART_STATE_SPIN) {
@@ -45,20 +45,20 @@ void driver_handleSingleBackwardFlip1Reaction(Kart *kart, const Vec3 *direction)
     if (started == FALSE) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        driver_getPlayerStatistics()->mUnk_14++;
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        driver_getPlayerStatistics()->field14++;
     }
-    kart->mUnk_48 |= 0x20000;
+    kart->field48 |= 0x20000;
 }
 
 void driver_handleSingleBackwardFlip2Reaction(Kart *kart, s32 b, Unk0206b020 *mapObject) {
     if (driver_tryStartBackwardFlip(kart, mapObject) == FALSE) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        driver_getPlayerStatistics()->mUnk_14++;
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        driver_getPlayerStatistics()->field14++;
     }
-    kart->mUnk_48 |= 0x20000;
+    kart->field48 |= 0x20000;
 }
 
 void driver_handleDoubleBackwardFlipReaction(Kart *kart, const Vec3 *direction) {
@@ -69,18 +69,18 @@ void driver_handleDoubleBackwardFlipReaction(Kart *kart, const Vec3 *direction) 
     u32 kartBits;
     s32 state;
 
-    kartBits = kart->mUnk_4c;
+    kartBits = kart->field4C;
     if ((kartBits & 0x400000) != 0) {
         c = 0;
-    } else if ((kart->mUnk_7c & 0x200) != 0) {
-        if (kart->mState == KART_STATE_NORMAL && (kart->mUnk_48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
+    } else if ((kart->field7C & 0x200) != 0) {
+        if (kart->mState == KART_STATE_NORMAL && (kart->field48 & 0x1800) == 0 && (kartBits & 0x10000040) == 0) {
             c = 1;
         } else {
             c = 0;
         }
     } else {
         d = TRUE;
-        if ((kartBits & 0x10000040) == 0 && (kart->mUnk_48 & 0x1800) == 0) {
+        if ((kartBits & 0x10000040) == 0 && (kart->field48 & 0x1800) == 0) {
             e = 0;
             state = kart->mState;
             if (state != KART_STATE_NORMAL && state != KART_STATE_1 && state != KART_STATE_SPIN) {
@@ -101,8 +101,8 @@ void driver_handleDoubleBackwardFlipReaction(Kart *kart, const Vec3 *direction) 
     if (started == FALSE) {
         return;
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        driver_getPlayerStatistics()->mUnk_14++;
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        driver_getPlayerStatistics()->field14++;
     }
-    kart->mUnk_48 |= 0x20000;
+    kart->field48 |= 0x20000;
 }

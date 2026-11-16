@@ -4,7 +4,7 @@
 #pragma thumb on
 
 u32 m2d_arc_isArchiveLoaded(u32 slotIndex) {
-    return (gArcData->mUnk_00[slotIndex].mLoaded);
+    return (gArcData->field0[slotIndex].mLoaded);
 }
 
 #pragma thumb off

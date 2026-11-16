@@ -7,7 +7,7 @@ typedef struct Rect Rect;
 
 // Table of bytes func_ov003_021c81b8 reads.
 typedef struct Unk021d73d0 {
-    /* 00 */ u8 mUnk_00[0xe];
+    /* 00 */ u8 field0[0xe];
 } Unk021d73d0;
 
 extern u8 data_ov003_021d6430[];

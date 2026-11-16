@@ -27,8 +27,8 @@ void func_ov000_021a6894(void) {
         OS_RestoreInterrupts(v1);
         return;
     }
-    if (g->mUnk_2270 != NULL && (s32) g->mUnk_2274 > 0) {
-        MI_CpuFill8(g->mUnk_2270, 0, g->mUnk_2274);
+    if (g->field2270 != NULL && (s32) g->field2274 > 0) {
+        MI_CpuFill8(g->field2270, 0, g->field2274);
     }
     OS_RestoreInterrupts(v1);
 }
@@ -45,8 +45,8 @@ u32 func_ov000_021a6844(void) {
         OS_RestoreInterrupts(v1);
         return r;
     }
-    if (g->mUnk_2270 != NULL && g->mUnk_2274 > 0xc) {
-        r = g->mUnk_2270->mUnk_00;
+    if (g->field2270 != NULL && g->field2274 > 0xc) {
+        r = g->field2270->field0;
     }
     OS_RestoreInterrupts(v1);
     return r;
@@ -63,11 +63,11 @@ u32 func_ov000_021a67dc(u32 a) {
         return 0;
     }
     if (a != 0) {
-        a = g->mUnk_226a != 0;
-        g->mUnk_226a = 1;
+        a = g->field226A != 0;
+        g->field226A = 1;
     } else {
-        a = g->mUnk_226a != 0;
-        g->mUnk_226a = 0;
+        a = g->field226A != 0;
+        g->field226A = 0;
     }
     OS_RestoreInterrupts(v1);
     return a;
@@ -88,7 +88,7 @@ u8 *func_ov000_021a6788(u16 a) {
         return NULL;
     }
     OS_RestoreInterrupts(v1);
-    return e->mUnk_10;
+    return e->field10;
 }
 
 void func_ov000_021a671c(Unk021a5e84 *a, u16 b) {
@@ -96,17 +96,17 @@ void func_ov000_021a671c(Unk021a5e84 *a, u16 b) {
     Unk021b5f50_2270_0c *e;
 
     g = func_ov000_021a5b30();
-    if (g != NULL && g->mUnk_226a == 0 && a->mUnk_3c == 0) {
-        e = func_ov000_021a6614(a->mUnk_04);
+    if (g != NULL && g->field226A == 0 && a->field3C == 0) {
+        e = func_ov000_021a6614(a->field4);
         if (e == NULL) {
             e = func_ov000_021a669c();
         }
-        if (e == NULL && g->mUnk_2278 == 1) {
+        if (e == NULL && g->field2278 == 1) {
             e = func_ov000_021a666c();
         }
         if (e != NULL) {
-            e->mUnk_02 = b;
-            MIi_CpuCopyFast(a, e->mUnk_10, 0xc0);
+            e->field2 = b;
+            MIi_CpuCopyFast(a, e->field10, 0xc0);
             func_ov000_021a6558(e);
         }
     }
@@ -120,29 +120,29 @@ Unk021b5f50_2270_0c *func_ov000_021a669c(void) {
     s32 i;
 
     g = func_ov000_021a5b30();
-    l = g->mUnk_2270;
+    l = g->field2270;
     e = NULL;
-    if (l != NULL && g->mUnk_2274 > 0xc) {
-        n = (g->mUnk_2274 - 0xc) / 0xd0;
-        if (n != 0 && n > l->mUnk_00) {
+    if (l != NULL && g->field2274 > 0xc) {
+        n = (g->field2274 - 0xc) / 0xd0;
+        if (n != 0 && n > l->field0) {
             for (i = 0; i < n; i++) {
-                e = &l->mUnk_0c[(u32) i];
-                if (e->mUnk_00 == 0) {
+                e = &l->fieldC[(u32) i];
+                if (e->field0 == 0) {
                     break;
                 }
             }
             if (i < n) {
-                e->mUnk_00 = 1;
-                e->mUnk_04 = l->mUnk_00;
-                e->mUnk_0c = NULL;
-                e->mUnk_08 = l->mUnk_08;
-                l->mUnk_08 = e;
-                if (e->mUnk_08 != NULL) {
-                    e->mUnk_08->mUnk_0c = e;
+                e->field0 = 1;
+                e->field4 = l->field0;
+                e->fieldC = NULL;
+                e->field8 = l->field8;
+                l->field8 = e;
+                if (e->field8 != NULL) {
+                    e->field8->fieldC = e;
                 } else {
-                    l->mUnk_04 = e;
+                    l->field4 = e;
                 }
-                l->mUnk_00++;
+                l->field0++;
             }
         }
     }

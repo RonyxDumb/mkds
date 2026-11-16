@@ -199,10 +199,10 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
     }
     matrix = gRaceRankList->mMatrix;
     oams = &oamBuffer->mOams[gRaceRankList->mOamMatrixIndex * 4];
-    oams[0].mUnk_00[3] = matrix[0] >> 4;
-    oams[1].mUnk_00[3] = matrix[1] >> 4;
-    oams[2].mUnk_00[3] = matrix[2] >> 4;
-    oams[3].mUnk_00[3] = matrix[3] >> 4;
+    oams[0].field0[3] = matrix[0] >> 4;
+    oams[1].field0[3] = matrix[1] >> 4;
+    oams[2].field0[3] = matrix[2] >> 4;
+    oams[3].field0[3] = matrix[3] >> 4;
 }
 
 // Returns the cell index beside the kart (0xc9 = none): cell 0x24 or 0x25, the item just used, the held item or 0x16.
@@ -693,11 +693,11 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
 
 void r2d_initLapAndTimeDiff(void) {
     gRaceLapNumber = heap_alloc(proc_getHeap(proc_getCurrent()), 0x14);
-    gRaceLapNumber->mUnk_00 = 0;
-    gRaceLapNumber->mUnk_04 = 0;
-    gRaceLapNumber->mUnk_08 = (u16) (rconf_getLapCount() - 1);
-    gRaceLapNumber->mUnk_0c = 0;
-    gRaceLapNumber->mUnk_10 = 1;
+    gRaceLapNumber->field0 = 0;
+    gRaceLapNumber->field4 = 0;
+    gRaceLapNumber->field8 = (u16) (rconf_getLapCount() - 1);
+    gRaceLapNumber->fieldC = 0;
+    gRaceLapNumber->field10 = 1;
 }
 
 u32 r2d_finalizeLapAndTimeDiff(void) {
@@ -732,17 +732,17 @@ void r2d_updateLapAndTimeDiff(void) {
                 return;
         }
     }
-    gRaceLapNumber->mUnk_04 = gRaceLapNumber->mUnk_00;
-    gRaceLapNumber->mUnk_00 = rstat_getDriverHighestReachedLap(Race_GetPlayerId()) - 1;
-    if (gRaceLapNumber->mUnk_00 != gRaceLapNumber->mUnk_04 && gRaceLapNumber->mUnk_08 > 0) {
-        if (gRaceLapNumber->mUnk_00 < gRaceLapNumber->mUnk_08) {
+    gRaceLapNumber->field4 = gRaceLapNumber->field0;
+    gRaceLapNumber->field0 = rstat_getDriverHighestReachedLap(Race_GetPlayerId()) - 1;
+    if (gRaceLapNumber->field0 != gRaceLapNumber->field4 && gRaceLapNumber->field8 > 0) {
+        if (gRaceLapNumber->field0 < gRaceLapNumber->field8) {
             seqIndex = 0x41;
             if (gRaceMultiConfig->mCourseId == COURSE_ID_PINBALL) {
                 seqIndex = 0x1c7;
             }
             if (data_0217c780 & 1) {
                 seqPlayerHandle = sp_acquireElement(sound_getPoolById(0));
-                if (SoundHandle_217D084.mUnk_0c != 0) {
+                if (SoundHandle_217D084.fieldC != 0) {
                     if (*seqPlayerHandle != NULL) {
                         NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
                     }
@@ -753,21 +753,21 @@ void r2d_updateLapAndTimeDiff(void) {
                 }
             }
         }
-        gRaceLapNumber->mUnk_0c = 1;
+        gRaceLapNumber->fieldC = 1;
     }
     lapNumber = gRaceLapNumber;
-    if (lapNumber->mUnk_0c != 0) {
-        if ((lapNumber->mUnk_0c - 1) % 12 < 8) {
-            lapNumber->mUnk_10 = 1;
+    if (lapNumber->fieldC != 0) {
+        if ((lapNumber->fieldC - 1) % 12 < 8) {
+            lapNumber->field10 = 1;
         } else {
-            lapNumber->mUnk_10 = 0;
+            lapNumber->field10 = 0;
         }
-        gRaceLapNumber->mUnk_0c++;
-        if (gRaceLapNumber->mUnk_0c > 0x78) {
-            gRaceLapNumber->mUnk_0c = 0;
+        gRaceLapNumber->fieldC++;
+        if (gRaceLapNumber->fieldC > 0x78) {
+            gRaceLapNumber->fieldC = 0;
         }
     } else {
-        lapNumber->mUnk_10 = 1;
+        lapNumber->field10 = 1;
     }
 }
 
@@ -795,7 +795,7 @@ void r2d_renderLapAndTimeDiff(RaceHudOamBuffer *oamBuffer) {
             case 4:
             case 6:
             case 10:
-                if (gRaceLapNumber->mUnk_08 < 2) {
+                if (gRaceLapNumber->field8 < 2) {
                     return;
                 }
                 break;
@@ -811,15 +811,15 @@ void r2d_renderLapAndTimeDiff(RaceHudOamBuffer *oamBuffer) {
     lapLabelDrawPosition[1] = lapPosition[1] << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, lapLabelDrawPosition, 0, 1);
-    if (gRaceLapNumber->mUnk_10 != 0) {
-        cell = r2d_getRaceMCell(gRaceLapNumber->mUnk_00 + 0x21);
+    if (gRaceLapNumber->field10 != 0) {
+        cell = r2d_getRaceMCell(gRaceLapNumber->field0 + 0x21);
         lapNumberDrawPosition[0] = lapPosition[0] << 12;
         lapNumberDrawPosition[1] = lapPosition[1] << 12;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   lapNumberDrawPosition, 0, 1);
     }
-    switch (gRaceLapNumber->mUnk_08) {
+    switch (gRaceLapNumber->field8) {
         case 2:
             cell = r2d_getRaceMCell(0x26);
             lastLapIndexTwoDrawPosition[0] = lapPosition[0] << 12;

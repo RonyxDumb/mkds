@@ -6,7 +6,7 @@ typedef struct Bg1Files Bg1Files;
 
 // Object whose halfword at 0x04 logo_render clears.
 typedef struct SceneNumbersView {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 field0[4];
     /* 04 */ u16 mNextScene;
 } SceneNumbersView;
 

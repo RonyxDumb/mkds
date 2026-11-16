@@ -4,9 +4,9 @@
 
 // Table of entries of 4 bytes.
 typedef struct Unk021548e0 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s8 mUnk_02;
-    /* 03 */ s8 mUnk_03;
+    /* 00 */ s16 field0;
+    /* 02 */ s8 field2;
+    /* 03 */ s8 field3;
 } Unk021548e0;
 
 extern Unk021548e0 data_021548e0[9];

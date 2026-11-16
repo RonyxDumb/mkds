@@ -72,9 +72,9 @@ s32 mutil2_initLabel(u32 a, void *heap, void *fileSetPointer, void *entryPointer
     Unk02153918 *entry = entryPointer;
     CellFileSet *fileSet = fileSetPointer;
     s32 result;
-    result = jn_ui_initLabel(heap, entry->mUnk_00, fileSet->mLabelLayout, entry->mUnk_02, entry->mUnk_04,
-                             entry->mUnk_06, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, e);
-    jn_ui_21241C0(a, entry->mUnk_00, fileSet->mLabelLayout, fileSet->mCellLayout, fileSet->mCellTable);
+    result = jn_ui_initLabel(heap, entry->field0, fileSet->mLabelLayout, entry->field2, entry->field4,
+                             entry->field6, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, e);
+    jn_ui_21241C0(a, entry->field0, fileSet->mLabelLayout, fileSet->mCellLayout, fileSet->mCellTable);
     return result;
 }
 

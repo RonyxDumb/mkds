@@ -7,54 +7,54 @@
 
 // Six bytes at data_ov000_021b400c, written at the start of each buffer.
 typedef struct Unk021b400c {
-    /* 0 */ u8 mUnk_00[6];
+    /* 0 */ u8 field0[6];
 } Unk021b400c;
 
 // Message of 0x14 bytes; made of bytes so a copy of it is bytewise.
 typedef struct Unk0219ade4 {
-    /* 00 */ Unk021b400c mUnk_00;
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c[4];
-    /* 10 */ u8 mUnk_10[2];
-    /* 12 */ u8 mUnk_12;
-    /* 13 */ u8 mUnk_13;
+    /* 00 */ Unk021b400c field0;
+    /* 06 */ u8 field6;
+    /* 07 */ u8 field7;
+    /* 08 */ u8 field8[4];
+    /* 0c */ u8 fieldC[4];
+    /* 10 */ u8 field10[2];
+    /* 12 */ u8 field12;
+    /* 13 */ u8 field13;
 } Unk0219ade4;
 
 // Message of 0x15 bytes.
 typedef struct Unk0219aa64 {
-    /* 00 */ Unk021b400c mUnk_00;
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d;
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
-    /* 11 */ u8 mUnk_11;
-    /* 12 */ u8 mUnk_12;
-    /* 13 */ u8 mUnk_13;
-    /* 14 */ u8 mUnk_14;
+    /* 00 */ Unk021b400c field0;
+    /* 06 */ u8 field6;
+    /* 07 */ u8 field7;
+    /* 08 */ u8 field8[4];
+    /* 0c */ u8 fieldC;
+    /* 0d */ u8 fieldD;
+    /* 0e */ u8 fieldE;
+    /* 0f */ u8 fieldF;
+    /* 10 */ u8 field10;
+    /* 11 */ u8 field11;
+    /* 12 */ u8 field12;
+    /* 13 */ u8 field13;
+    /* 14 */ u8 field14;
 } Unk0219aa64;
 
 // Message of 0x15 bytes followed by a string.
 typedef struct Unk0219aeb0 {
-    /* 00 */ Unk021b400c mUnk_00;
-    /* 06 */ u8 mUnk_06;
-    /* 07 */ u8 mUnk_07;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d;
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
-    /* 11 */ u8 mUnk_11;
-    /* 12 */ u8 mUnk_12;
-    /* 13 */ u8 mUnk_13;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ char mUnk_15[0x40];
+    /* 00 */ Unk021b400c field0;
+    /* 06 */ u8 field6;
+    /* 07 */ u8 field7;
+    /* 08 */ u8 field8[4];
+    /* 0c */ u8 fieldC;
+    /* 0d */ u8 fieldD;
+    /* 0e */ u8 fieldE;
+    /* 0f */ u8 fieldF;
+    /* 10 */ u8 field10;
+    /* 11 */ u8 field11;
+    /* 12 */ u8 field12;
+    /* 13 */ u8 field13;
+    /* 14 */ u8 field14;
+    /* 15 */ char field15[0x40];
 } Unk0219aeb0;
 
 // Declared here until the code that defines them is decompiled.

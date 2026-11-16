@@ -9,17 +9,17 @@ typedef struct MtxFx43 MtxFx43;
 
 // A registered resource file and its texture; the entries form the list sModelResList (links at 0x00 and 0x04).
 typedef struct ResFileEntry {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
+    /* 00 */ void *field0;
+    /* 04 */ void *field4;
     /* 08 */ NNSG3dResFileHeader *mFile;
     /* 0c */ NNSG3dResTex *mTexture;
 } ResFileEntry;
 
 // 0x6c-byte model object: a render object up to 0x53, then mCullModesSwapped, mDrawKind and the file entry.
 typedef struct Nsbmd {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 field0[4];
     /* 04 */ NNSG3dResMdl *mResMdl;
-    /* 08 */ u8 mUnk_08[0x4c];
+    /* 08 */ u8 field8[0x4c];
     /* 54 */ s32 mCullModesSwapped;
     /* 58 */ s32 mDrawKind;
     /* 5c */ ResFileEntry mResFileEntry;

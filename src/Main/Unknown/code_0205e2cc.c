@@ -46,26 +46,26 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
         return FALSE;
     }
     MI_CpuCopy8(&gSaveData->mBuddyRecordBlock->mRecords[buddyIndex], &buddyRecord, 0x24);
-    if (buddyRecord.mFilled == 0 || buddyRecord.mUnk_22_2 == 0) {
+    if (buddyRecord.mFilled == 0 || buddyRecord.field22_2 == 0) {
         return FALSE;
     }
-    emblemData->mUnk_200 = (emblemBlock->mUnk_04.mFilledBits & (1 << slotIndex)) != 0;
-    if (emblemData->mUnk_200 != 0) {
-        MI_CpuCopy8(emblemBlock->mUnk_04.mEmblems[slotIndex], emblemData, 0x200);
+    emblemData->field200 = (emblemBlock->field4.mFilledBits & (1 << slotIndex)) != 0;
+    if (emblemData->field200 != 0) {
+        MI_CpuCopy8(emblemBlock->field4.mEmblems[slotIndex], emblemData, 0x200);
     }
     return TRUE;
 }
 
 void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex) {
     u8 blockIndex = buddyIndex / 5;
-    if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2) == 0) {
+    if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->field2C[2], 2) == 0) {
         emblemBlock->mBlockIndex = -1;
         return;
     }
     if (blockIndex == emblemBlock->mBlockIndex) {
         return;
     }
-    savd_readNkfe(&emblemBlock->mUnk_04, blockIndex);
+    savd_readNkfe(&emblemBlock->field4, blockIndex);
     emblemBlock->mBlockIndex = blockIndex;
 }
 
@@ -88,18 +88,18 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     }
     for (playerIndex = 0; playerIndex < 8; playerIndex++) {
         buddyIndexOfPlayer[playerIndex] = -1;
-        if (gStruct217AA00->mUnk_0000 == 2) {
+        if (gStruct217AA00->field0 == 2) {
             ownIndex = gStruct217AA00->mOwnIndex;
         } else {
             ownIndex = 0;
         }
         if (playerIndex != (u16) ownIndex) {
-            if ((gStruct217AA00->mUnk_0457 & (1 << gStruct217AA00->mUnk_1e8c[playerIndex])) == 0) {
+            if ((gStruct217AA00->field457 & (1 << gStruct217AA00->field1E8C[playerIndex])) == 0) {
                 if ((gStruct217AA00->mParticipantMask & (1 << playerIndex)) != 0) {
-                    playerEntry = &gStruct217AA00->mUnk_045c[playerIndex];
+                    playerEntry = &gStruct217AA00->field45C[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
                     if (buddyIndex != -1) {
-                        if (playerEntry->mUnk_214 != 0) {
+                        if (playerEntry->field214 != 0) {
                             buddyIndexOfPlayer[playerIndex] = buddyIndex;
                             blockHasEmblem[buddyIndex / 5] = 1;
                         }
@@ -115,14 +115,14 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
         if (blockHasEmblem[blockIndex] != 0) {
             blockData = gSaveData->mEmblemBlockData;
-            if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2) != 0) {
+            if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->field2C[2], 2) != 0) {
                 savd_readNkfe(blockData, blockIndex);
                 if (gSaveCore->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             } else {
                 MI_CpuFill8(blockData, 0, 0xb00);
-                savd_setBit(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2);
+                savd_setBit(blockIndex, &gSaveData->mFirstBlock->field2C[2], 2);
                 blockCreated = TRUE;
             }
             firstBuddyIndex = blockIndex * 5;
@@ -132,7 +132,7 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     blockData->mFilledBits |= 1 << slotIndex;
-                    MI_CpuCopy8((u8 *) &gStruct217AA00->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
+                    MI_CpuCopy8((u8 *) &gStruct217AA00->field45C[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
                 }
             }
             savd_writeNkfe(blockData, blockIndex);
@@ -173,7 +173,7 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
             if (playerRecordData != NULL) {
                 buddyIndex = SetBuddyRecordFromPlayer(playerRecordData, 0);
                 if (buddyIndex != -1) {
-                    if (playerRecordData->mUnk_214 != 0) {
+                    if (playerRecordData->field214 != 0) {
                         buddyIndexOfPlayer[playerIndex] = buddyIndex;
                         blockHasEmblem[buddyIndex / 5] = 1;
                     }
@@ -188,14 +188,14 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
         if (blockHasEmblem[blockIndex] != 0) {
             blockData = gSaveData->mEmblemBlockData;
-            if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2) != 0) {
+            if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->field2C[2], 2) != 0) {
                 savd_readNkfe(blockData, blockIndex);
                 if (gSaveCore->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             } else {
                 MI_CpuFill8(blockData, 0, 0xb00);
-                savd_setBit(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2);
+                savd_setBit(blockIndex, &gSaveData->mFirstBlock->field2C[2], 2);
             }
             firstBuddyIndex = blockIndex * 5;
             endBuddyIndex = (blockIndex + 1) * 5;
@@ -222,7 +222,7 @@ static inline s32 func_0205e5c4_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 void StartCopyOtherEmblems(s32 useConnection) {
@@ -233,7 +233,7 @@ void StartCopyOtherEmblems(s32 useConnection) {
         connectionReady = FALSE;
         d = func_0205e5c4_inline();
         if (d != 0) {
-            if (gStruct217AA00->mUnk_0004 != 13) {
+            if (gStruct217AA00->field4 != 13) {
                 connectionReady = TRUE;
             }
         }

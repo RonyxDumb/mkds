@@ -58,7 +58,7 @@ void savd_readNkdg(u32 index, GhostRecord *ghostRecord) {
     backupEnabled = backupAccess->mBackupEnabled;
     if (backupEnabled != 0) {
         backupAccess->mReadTarget = ghostRecord;
-        gSaveCore->mUnk_6c = index;
+        gSaveCore->field6C = index;
         savc_readBlock(offset + 0x26f00, gSaveCore->mBuffer, 0x1000, CopyBackupReadToBlock, 0x47444b4e);
     }
 }

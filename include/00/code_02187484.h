@@ -18,7 +18,7 @@ typedef struct OSThread OSThread;
 // Object behind gNetcheck.
 typedef struct DWCNetcheck {
     /* 000 */ u32 mError;
-    /* 004 */ s32 mUnk_04;
+    /* 004 */ s32 field4;
     /* 008 */ DWCHttpLabelValue mHttpLabelvalue[0x20];
     /* 108 */ Unk02188114 mParam;
     /* 114 */ void *mBody302;
@@ -27,15 +27,15 @@ typedef struct DWCNetcheck {
     /* 1d4 */ u8 pad_1d4[8];
     /* 1dc */ OSMutex mMutex;
     /* 1f4 */ u8 pad_1f4[0x100c];
-    /* 1200 */ u8 mUnk_1200[0x1000];
+    /* 1200 */ u8 field1200[0x1000];
 } DWCNetcheck;
 
 // Object filled by func_ov000_0218635c.
 typedef struct Unk0218635c {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ u8 mUnk_004[0x46];
-    /* 04a */ char mUnk_04a[0x12d];
-    /* 177 */ char mUnk_177[0x4d];
+    /* 000 */ s32 field0;
+    /* 004 */ u8 field4[0x46];
+    /* 04a */ char field4A[0x12d];
+    /* 177 */ char field177[0x4d];
 } Unk0218635c;
 
 #include "os_thread.h"

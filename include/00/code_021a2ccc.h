@@ -20,21 +20,21 @@ typedef struct WiFiPeerMessage {
     /* 14 */ s32 mSendSize;
     // Total size of the message being received, from the header (code_021a2ccc.c:239); 0 after the message is complete.
     /* 18 */ s32 mReceiveSize;
-    /* 1c */ u8 mUnk_1c;
+    /* 1c */ u8 field1C;
     // Receive state, switched on once per received packet in func_ov000_021a2eec (code_021a2ccc.c:181, through the
     // getter func_ov000_021a2fb4): 0 initial (only a control header, kind 2 to 4, is accepted); 1 expecting a header
     // (SetPeerReceiveBuffer, end of a message); 2 header of a data message (kind 1) accepted, body packets are copied
     // into the buffer; 3 control header (kind 2 to 4) taken, the next packet is the control body (state restored from
-    // mUnk_1e); 4 data header refused (no buffer or too small): the next packet is dropped and the state returns to 1.
+    // field1E); 4 data header refused (no buffer or too small): the next packet is dropped and the state returns to 1.
     // Not a per-frame switch.
     /* 1d */ u8 mReceiveState;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 field1E;
     /* 1f */ u8 pad_1f[3];
     // Kind from the header of the current message: 1 for a data message, 2 to 4 for the messages
     // ReceiveMatchingPeerMessage takes.
     /* 22 */ u16 mMessageKind;
-    /* 24 */ u64 mUnk_24;
-    /* 2c */ u32 mUnk_2c;
+    /* 24 */ u64 field24;
+    /* 2c */ u32 field2C;
 } WiFiPeerMessage;
 
 // Message framing on top of the Gt2 socket, embedded in WiFiConnection at 0x7a0 (0x614 bytes = sizeof, zeroed by
@@ -47,8 +47,8 @@ typedef struct WiFiMessageLayer {
     /* 600 */ void (*mSendCallback)(s32 a, u32 b);
     // Called with (index, buffer, size) when a received message is complete.
     /* 604 */ void (*mReceiveCallback)(u32 a, u8 *b, s32 c);
-    /* 608 */ void (*mUnk_608)(u32 a);
-    /* 60c */ void (*mUnk_60c)(u32 a, u32 b);
+    /* 608 */ void (*field608)(u32 a);
+    /* 60c */ void (*field60C)(u32 a, u32 b);
     // u16 0x5b9 (1465), set by InitWiFiMessageLayer: the most the layer hands the socket in one call. A message is cut
     // into chunks of at most this size (code_021a3264.c:124, code_021a2ccc.c:114; a size equal to it is
     // allowed, the last chunk is shorter) and a single-packet send above it is refused (code_021a3264.c:152).
@@ -58,9 +58,9 @@ typedef struct WiFiMessageLayer {
 
 // Local of func_ov000_021a31e8, filled by a copy of eight bytes.
 typedef struct Unk021a31e8 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[2];
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[2];
 } Unk021a31e8;
 
 // Points at WiFiConnection.mMessageLayer: set by InitWiFiMessageLayer, set to NULL by func_ov000_021a2fec

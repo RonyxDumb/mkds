@@ -48,18 +48,18 @@ void rstat_storeRaceResults(void) {
                 u8 rank;
                 u32 rankPoints = 0;
                 if (raceSetup->mMode == 5) {
-                    t = gStruct217AA14->mUnk_104[gStruct217AA18->mParticipantOfKart[kartIndex & 0xff]].mRank;
+                    t = gStruct217AA14->field104[gStruct217AA18->mParticipantOfKart[kartIndex & 0xff]].mRank;
                 } else {
                     t = gRaceStatus->mKarts[kartIndex].mRank;
                 }
                 rank = t;
-                if (gRaceStatus->mUnk_000[kartIndex].mStatus != 4) {
+                if (gRaceStatus->field0[kartIndex].mStatus != 4) {
                     rankPoints = rstat_getRankPoints(rank);
                 }
                 rres_setPlaceAndPoints(kartIndex, rank, rankPoints);
                 rres_setRaceTime(kartIndex, &gRaceStatus->mKarts[kartIndex].mLapTimes[5]);
                 if (gRaceMultiConfig->mMode == 5) {
-                    if (gRaceStatus->mUnk_000[kartIndex].mStatus == 4) {
+                    if (gRaceStatus->field0[kartIndex].mStatus == 4) {
                         rres_clearTotalRankPoints(kartIndex);
                     }
                 }
@@ -79,7 +79,7 @@ void rstat_storeRaceResults(void) {
                 if (kartIndex < raceSetup->mKartCount) {
                     raceProgress = gRaceStatus;
                     do {
-                        if (raceProgress->mUnk_000[kartIndex].mStatus == 1) {
+                        if (raceProgress->field0[kartIndex].mStatus == 1) {
                             if (usesTeams != FALSE) {
                                 if (winningTeamIndex == -1) {
                                     raceSetup = gRaceMultiConfig;
@@ -92,8 +92,8 @@ void rstat_storeRaceResults(void) {
                 }
             }
             for (kartIndex = 0; kartIndex < gRaceMultiConfig->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-                gRaceStatus->mUnk_000[kartIndex].mFlags |= 2;
-                if (gRaceStatus->mUnk_000[kartIndex].mStatus == 1) {
+                gRaceStatus->field0[kartIndex].mFlags |= 2;
+                if (gRaceStatus->field0[kartIndex].mStatus == 1) {
                     if (usesTeams != FALSE) {
                         e = winningTeamIndex == gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
@@ -107,8 +107,8 @@ void rstat_storeRaceResults(void) {
                         e = 0;
                     }
                     rres_setBattleResult(kartIndex, 0);
-                    if (gRaceStatus->mUnk_000[kartIndex].mStatus == 0) {
-                        gRaceStatus->mUnk_000[kartIndex].mStatus = 2;
+                    if (gRaceStatus->field0[kartIndex].mStatus == 0) {
+                        gRaceStatus->field0[kartIndex].mStatus = 2;
                     }
                 }
                 func_02068640(driver_getById(kartIndex), e);
@@ -188,7 +188,7 @@ BOOL rstat_shouldStoreMgResults(void) {
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         racingCount = 0;
         for (kartIndex = 0; kartIndex < gRaceMultiConfig->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            if (raceProgress->mUnk_000[kartIndex].mStatus == 0) {
+            if (raceProgress->field0[kartIndex].mStatus == 0) {
                 racingCount++;
                 if (racingCount > 0) {
                     noneRacing = FALSE;
@@ -257,13 +257,13 @@ void rstat_handleMissionMode(void) {
         }
         return;
     }
-    if ((raceSetup->mUnk_044 & 2) != 0) {
+    if ((raceSetup->field44 & 2) != 0) {
         if (driver_isPlayerHit() != FALSE) {
             endFound = TRUE;
         }
     }
     if (endFound == FALSE) {
-        if ((gRaceMultiConfig->mUnk_044 & 4) != 0) {
+        if ((gRaceMultiConfig->field44 & 4) != 0) {
             if (driver_isPlayerHittingWall() != 0) {
                 endKind = 3;
                 endFound = TRUE;
@@ -271,7 +271,7 @@ void rstat_handleMissionMode(void) {
         }
     }
     if (endFound == FALSE) {
-        if ((gRaceMultiConfig->mUnk_044 & 8) != 0) {
+        if ((gRaceMultiConfig->field44 & 8) != 0) {
             if (driver_isPlayerRespawning() != 0) {
                 endFound = TRUE;
             }
@@ -339,13 +339,13 @@ void rstat_update(void) {
                 }
                 break;
         }
-        gRaceStatus->mUnk_4f0 = t;
+        gRaceStatus->field4F0 = t;
     }
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         for (i = 0; i < gRaceMultiConfig->mKartCount; i = (u16) (i + 1)) {
             u16 *q;
             u8 standingRank = func_0203ca38_inline(i);
-            q = OFFSET_PTR(u16, &gRaceStatus->mUnk_000[0].mUnk_50, i * 0x8c);
+            q = OFFSET_PTR(u16, &gRaceStatus->field0[0].field50, i * 0x8c);
             *q = (*q & ~0xf) | (standingRank & 0xf);
         }
         for (i = 0; i < 8; i = (u16) (i + 1)) {
@@ -361,7 +361,7 @@ void rstat_update(void) {
     }
     if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
         BOOL f = FALSE;
-        switch (gRaceStatus->mUnk_000[0].mStatus) {
+        switch (gRaceStatus->field0[0].mStatus) {
             case 1:
             case 2:
             case 3:
@@ -376,7 +376,7 @@ void rstat_update(void) {
         }
         return;
     }
-    if ((u32) gRaceStatus->mUnk_000[0].mFinishedCount < gRaceMultiConfig->mKartCount) {
+    if ((u32) gRaceStatus->field0[0].mFinishedCount < gRaceMultiConfig->mKartCount) {
         return;
     }
     if (gRaceStatus->mRaceDone != 0) {

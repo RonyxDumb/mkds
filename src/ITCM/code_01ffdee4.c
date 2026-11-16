@@ -76,22 +76,22 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
     if (b != NULL) {
         pb = *(Vec3 *) b;
     }
-    x = (pa.x - kp->mUnk_14) >> 12;
+    x = (pa.x - kp->field14) >> 12;
     ss = (s64) r * r;
-    if (x & kp->mUnk_20) {
+    if (x & kp->field20) {
         return FALSE;
     }
-    y = (pa.y - kp->mUnk_18) >> 12;
-    if (y & kp->mUnk_24) {
+    y = (pa.y - kp->field18) >> 12;
+    if (y & kp->field24) {
         return FALSE;
     }
-    z = (pa.z - kp->mUnk_1c) >> 12;
-    if (z & kp->mUnk_28) {
+    z = (pa.z - kp->field1C) >> 12;
+    if (z & kp->field28) {
         return FALSE;
     }
-    sh = kp->mUnk_2c;
-    v = ((z >> sh) << kp->mUnk_34) | ((y >> sh) << kp->mUnk_30) | (x >> sh);
-    p = kp->mUnk_0c;
+    sh = kp->field2C;
+    v = ((z >> sh) << kp->field34) | ((y >> sh) << kp->field30) | (x >> sh);
+    p = kp->fieldC;
     v = ((s32 *) p)[v];
     while (v >= 0) {
         p += v;
@@ -99,46 +99,46 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
         v = ((s32 *) p)[((x >> sh) & 1) | ((((z >> sh) & 1) << 2) | (((y >> sh) & 1) << 1))];
     }
     p += v & 0x7fffffff;
-    ta = kp->mUnk_08;
-    tb = kp->mUnk_00;
-    tc = kp->mUnk_04;
+    ta = kp->field8;
+    tb = kp->field0;
+    tc = kp->field4;
     pl = (u16 *) p;
     while ((ix = *++pl) != 0) {
         tr = ta[ix];
-        vt = tb[tr.mUnk_04];
+        vt = tb[tr.field4];
         VEC_Subtract(&pa, &vt, &ua);
-        n[3].x = tc[tr.mUnk_0c].x;
-        n[3].y = tc[tr.mUnk_0c].y;
-        n[3].z = tc[tr.mUnk_0c].z;
+        n[3].x = tc[tr.fieldC].x;
+        n[3].y = tc[tr.fieldC].y;
+        n[3].z = tc[tr.fieldC].z;
         dt = vec_dotProduct(&ua, &n[3]);
         if (dt < -r) {
             continue;
         }
-        d3 = dt - tr.mUnk_00;
+        d3 = dt - tr.field0;
         if (d3 >= r) {
             continue;
         }
-        n[1].x = tc[tr.mUnk_08].x;
-        n[1].y = tc[tr.mUnk_08].y;
-        n[1].z = tc[tr.mUnk_08].z;
+        n[1].x = tc[tr.field8].x;
+        n[1].y = tc[tr.field8].y;
+        n[1].z = tc[tr.field8].z;
         d1 = vec_dotProduct(&ua, &n[1]);
         if (d1 >= r) {
             continue;
         }
-        n[2].x = tc[tr.mUnk_0a].x;
-        n[2].y = tc[tr.mUnk_0a].y;
-        n[2].z = tc[tr.mUnk_0a].z;
+        n[2].x = tc[tr.fieldA].x;
+        n[2].y = tc[tr.fieldA].y;
+        n[2].z = tc[tr.fieldA].z;
         d2 = vec_dotProduct(&ua, &n[2]);
         if (d2 >= r) {
             continue;
         }
-        n[0].x = tc[tr.mUnk_06].x;
-        n[0].y = tc[tr.mUnk_06].y;
-        n[0].z = tc[tr.mUnk_06].z;
+        n[0].x = tc[tr.field6].x;
+        n[0].y = tc[tr.field6].y;
+        n[0].z = tc[tr.field6].z;
         d0 = vec_dotProduct(&ua, &n[0]);
         pe = r - d0;
         if (pe >= 0 && pe <= 0x1e000) {
-            at = tr.mUnk_0e;
+            at = tr.fieldE;
             if (at & 0x2010) {
                 if ((fl & 4) && (at & 0x2000)) {
                     continue;
@@ -241,7 +241,7 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
                 if (vec_dotProduct(&ub, &n[0]) < 0) {
                     continue;
                 }
-                if (vec_dotProduct(&ub, &n[3]) > tr.mUnk_00) {
+                if (vec_dotProduct(&ub, &n[3]) > tr.field0) {
                     continue;
                 }
             }
@@ -328,7 +328,7 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
                     if (vec_dotProduct(&ub, &n[2]) > 0) {
                         continue;
                     }
-                    if (vec_dotProduct(&ub, &n[3]) > tr.mUnk_00) {
+                    if (vec_dotProduct(&ub, &n[3]) > tr.field0) {
                         continue;
                     }
                 }
@@ -393,26 +393,26 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
                 uc.y = ((s64) pe * n[0].y) >> 2;
                 uc.z = ((s64) pe * n[0].z) >> 2;
                 if (bt & 0x1e34ef) {
-                    if (uc.x > wa.mUnk_00) {
-                        wa.mUnk_00 = uc.x;
-                    } else if (uc.x < wa.mUnk_0c) {
-                        wa.mUnk_0c = uc.x;
+                    if (uc.x > wa.field0) {
+                        wa.field0 = uc.x;
+                    } else if (uc.x < wa.fieldC) {
+                        wa.fieldC = uc.x;
                     }
-                    if (uc.y > wa.mUnk_04) {
-                        wa.mUnk_04 = uc.y;
-                    } else if (uc.y < wa.mUnk_10) {
-                        wa.mUnk_10 = uc.y;
+                    if (uc.y > wa.field4) {
+                        wa.field4 = uc.y;
+                    } else if (uc.y < wa.field10) {
+                        wa.field10 = uc.y;
                     }
-                    if (uc.z > wa.mUnk_08) {
-                        wa.mUnk_08 = uc.z;
-                    } else if (uc.z < wa.mUnk_14) {
-                        wa.mUnk_14 = uc.z;
+                    if (uc.z > wa.field8) {
+                        wa.field8 = uc.z;
+                    } else if (uc.z < wa.field14) {
+                        wa.field14 = uc.z;
                     }
-                    if (g != NULL && pe >= wa.mUnk_18) {
-                        wa.mUnk_18 = pe;
-                        wa.mUnk_1c.x = n[0].x;
-                        wa.mUnk_1c.y = n[0].y;
-                        wa.mUnk_1c.z = n[0].z;
+                    if (g != NULL && pe >= wa.field18) {
+                        wa.field18 = pe;
+                        wa.field1C.x = n[0].x;
+                        wa.field1C.y = n[0].y;
+                        wa.field1C.z = n[0].z;
                     }
                 } else if (bt & 0x214300) {
                     if (bt & 0x10000) {
@@ -433,27 +433,27 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
                             cb.z = uc.z;
                         }
                     } else {
-                        if (uc.x > wb.mUnk_00) {
-                            wb.mUnk_00 = uc.x;
-                        } else if (uc.x < wb.mUnk_0c) {
-                            wb.mUnk_0c = uc.x;
+                        if (uc.x > wb.field0) {
+                            wb.field0 = uc.x;
+                        } else if (uc.x < wb.fieldC) {
+                            wb.fieldC = uc.x;
                         }
-                        if (uc.y > wb.mUnk_04) {
-                            wb.mUnk_04 = uc.y;
-                        } else if (uc.y < wb.mUnk_10) {
-                            wb.mUnk_10 = uc.y;
+                        if (uc.y > wb.field4) {
+                            wb.field4 = uc.y;
+                        } else if (uc.y < wb.field10) {
+                            wb.field10 = uc.y;
                         }
-                        if (uc.z > wb.mUnk_08) {
-                            wb.mUnk_08 = uc.z;
-                        } else if (uc.z < wb.mUnk_14) {
-                            wb.mUnk_14 = uc.z;
+                        if (uc.z > wb.field8) {
+                            wb.field8 = uc.z;
+                        } else if (uc.z < wb.field14) {
+                            wb.field14 = uc.z;
                         }
                     }
-                    if (h != NULL && pe >= wb.mUnk_18) {
-                        wb.mUnk_18 = pe;
-                        wb.mUnk_1c.x = n[0].x;
-                        wb.mUnk_1c.y = n[0].y;
-                        wb.mUnk_1c.z = n[0].z;
+                    if (h != NULL && pe >= wb.field18) {
+                        wb.field18 = pe;
+                        wb.field1C.x = n[0].x;
+                        wb.field1C.y = n[0].y;
+                        wb.field1C.z = n[0].z;
                     }
                     if (c != 0) {
                         if (((s32 *) &uc)[0] > cc.x) {
@@ -532,17 +532,17 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
         return rv;
     }
     if (g != NULL) {
-        *(Vec3 *) g = wa.mUnk_1c;
+        *(Vec3 *) g = wa.field1C;
     }
     if (h != NULL) {
-        *(Vec3 *) h = wb.mUnk_1c;
+        *(Vec3 *) h = wb.field1C;
     }
     if (j != NULL) {
         *(Vec3 *) j = ud;
     }
     if (f != NULL) {
-        uc.y = wa.mUnk_04 > wb.mUnk_04 ? wa.mUnk_04 : wb.mUnk_04;
-        uc.y += wa.mUnk_10 < wb.mUnk_10 ? wa.mUnk_10 : wb.mUnk_10;
+        uc.y = wa.field4 > wb.field4 ? wa.field4 : wb.field4;
+        uc.y += wa.field10 < wb.field10 ? wa.field10 : wb.field10;
         if (ra & 0x10000) {
             if (j != NULL && (ra & 0x1e34ef) && !(ra & 0x400) && !(ra & 0x800)) {
                 ud.x >>= 4;
@@ -566,24 +566,24 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
             if (ca.y > uc.y) {
                 uc.y = ca.y;
             }
-            if (ca.x > wb.mUnk_00) {
-                wb.mUnk_00 = ca.x;
+            if (ca.x > wb.field0) {
+                wb.field0 = ca.x;
             }
-            if (cb.x < wb.mUnk_0c) {
-                wb.mUnk_0c = cb.x;
+            if (cb.x < wb.fieldC) {
+                wb.fieldC = cb.x;
             }
-            if (ca.z > wb.mUnk_08) {
-                wb.mUnk_08 = ca.z;
+            if (ca.z > wb.field8) {
+                wb.field8 = ca.z;
             }
-            if (cb.z < wb.mUnk_14) {
-                wb.mUnk_14 = cb.z;
+            if (cb.z < wb.field14) {
+                wb.field14 = cb.z;
             }
         }
     lo:
-        uc.x = wa.mUnk_00 > wb.mUnk_00 ? wa.mUnk_00 : wb.mUnk_00;
-        uc.x += wa.mUnk_0c < wb.mUnk_0c ? wa.mUnk_0c : wb.mUnk_0c;
-        uc.z = wa.mUnk_08 > wb.mUnk_08 ? wa.mUnk_08 : wb.mUnk_08;
-        uc.z += wa.mUnk_14 < wb.mUnk_14 ? wa.mUnk_14 : wb.mUnk_14;
+        uc.x = wa.field0 > wb.field0 ? wa.field0 : wb.field0;
+        uc.x += wa.fieldC < wb.fieldC ? wa.fieldC : wb.fieldC;
+        uc.z = wa.field8 > wb.field8 ? wa.field8 : wb.field8;
+        uc.z += wa.field14 < wb.field14 ? wa.field14 : wb.field14;
         ((Vec3 *) f)->x = uc.x >> 10;
         ((Vec3 *) f)->y = uc.y >> 10;
         ((Vec3 *) f)->z = uc.z >> 10;
@@ -596,7 +596,7 @@ BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, voi
                 cd.z = ((s64) cc.z * (c)->z) >> 12;
                 cc.x = cc.x - (s32) (((s64) cd.x * (c)->x) >> 12);
                 cc.z = cc.z - (s32) (((s64) cd.z * (c)->z) >> 12);
-                VEC_Add((Vec3 *) &wa.mUnk_00, (Vec3 *) &wa.mUnk_0c, &ua);
+                VEC_Add((Vec3 *) &wa.field0, (Vec3 *) &wa.fieldC, &ua);
                 if (vec_dotProduct(&cc, &ua) >= 0) {
                     if ((s64) cc.x * cc.x + (s64) cc.y * cc.y + (s64) cc.z * cc.z >= 16) {
                         vec_normalize(&cc, &cc);

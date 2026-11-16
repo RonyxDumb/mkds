@@ -18,8 +18,8 @@ void ResetPendingFiles(void) {
         entry->mPath = 0;
         entry->mBuffer = NULL;
         entry->mUncompressedBuffer = NULL;
-        entry->mUnk_84 = entry->mUnk_84 & clearPendingMask;
-        entry->mUnk_84 = entry->mUnk_84 & flagBitsMask;
+        entry->field84 = entry->field84 & clearPendingMask;
+        entry->field84 = entry->field84 & flagBitsMask;
         entry = entry + 1;
         i = i + 1;
     } while (i < 0xc);

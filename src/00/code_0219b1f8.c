@@ -33,7 +33,7 @@ void WiFiGpMessageCallback(GpConnection *a, Unk0219b4b4 *b, u32 g) {
     u32 e;
     WiFiConnection *f;
 
-    d = b->mUnk_08;
+    d = b->field8;
     if (func_ov000_0219d6c4(a, (u32 *) b, g) == 0) {
         if (memcmp(d, data_ov000_021b4058, strlen(data_ov000_021b4058)) == 0) {
             d += strlen(data_ov000_021b4058);
@@ -46,7 +46,7 @@ void WiFiGpMessageCallback(GpConnection *a, Unk0219b4b4 *b, u32 g) {
                         f = gWiFiConnection;
                         if (f->mState == 5 || f->mMatching.mMode == 2 || f->mMatching.mMode == 3) {
                             d += strlen(data_ov000_021b4060);
-                            ParseMatchingGpMessage(a, b->mUnk_00, d);
+                            ParseMatchingGpMessage(a, b->field0, d);
                         }
                     }
                 }
@@ -108,9 +108,9 @@ void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
         e = func_ov000_0219b868(h);
         data_ov000_021b54d0[g[0]] = NULL;
         gWiFiConnection->mMatching.mLastParticipantPos--;
-        gWiFiConnection->mMatching.mUnk_14--;
+        gWiFiConnection->mMatching.field14--;
     }
-    if (gWiFiConnection->mUnk_2d == 0 && gWiFiConnection->mState == 6 && i == 0) {
+    if (gWiFiConnection->field2D == 0 && gWiFiConnection->mState == 6 && i == 0) {
         if (gWiFiConnection->mMatching.mMode == 2 && c == 0) {
             func_ov000_021a1488();
             func_ov000_021a1798(e);
@@ -125,7 +125,7 @@ void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
         return;
     }
     if (gWiFiConnection->mMatching.mMode == 2) {
-        if (gWiFiConnection->mUnk_2d == 0) {
+        if (gWiFiConnection->field2D == 0) {
             func_ov000_021a1488();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             func_ov000_0219d558(1, data_ov000_021b4054, NULL);
@@ -134,21 +134,21 @@ void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
         func_ov000_0219d558(1, data_ov000_021b4054, NULL);
     }
     if (gWiFiConnection->mMatching.mMode == 0 || gWiFiConnection->mMatching.mMode == 1) {
-        gWiFiConnection->mMatching.mUnk_16 = gWiFiConnection->mMatching.mUnk_14;
-        func_ov000_021a4818(gWiFiConnection->mMatching.mUnk_10);
+        gWiFiConnection->mMatching.field16 = gWiFiConnection->mMatching.field14;
+        func_ov000_021a4818(gWiFiConnection->mMatching.field10);
     }
     j = gWiFiConnection;
-    if (j->mUnk_7c != NULL && i != 0) {
+    if (j->field7C != NULL && i != 0) {
         if (b == 0) {
             b = 1;
         } else {
             b = 0;
         }
         k = FindBuddyEntryIndex(e);
-        m = &j->mUnk_80;
-        gWiFiConnection->mUnk_7c(c, b, f, h, k, *m);
+        m = &j->field80;
+        gWiFiConnection->field7C(c, b, f, h, k, *m);
     }
-    if (gWiFiConnection->mUnk_2d != 0 || gWiFiConnection->mMatching.mMode != 2) {
+    if (gWiFiConnection->field2D != 0 || gWiFiConnection->mMatching.mMode != 2) {
         if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
             func_ov000_0219b110();
             func_ov000_021a1a10();
@@ -158,7 +158,7 @@ void func_ov000_0219b27c(Unk0219887c *a, u32 b) {
 }
 
 // Slot 3 of the record (Gt2CallElapsedTimeCallback, code_02197e58.c:196): the body only forwards (connection,
-// elapsed time) to func_ov000_021a314c, which calls the layer's mUnk_60c with the time and the peer index.
+// elapsed time) to func_ov000_021a314c, which calls the layer's field60C with the time and the peer index.
 void WiFiGt2ElapsedTimeCallback(Unk0219887c *a, u32 b) {
     func_ov000_021a314c(a, b);
 }
@@ -178,7 +178,7 @@ Unk0219b1d4 *func_ov000_0219b1f8(u32 a) {
     }
     for (b = 0; b < DarrayGetCount((u32 *) data_ov000_021b52c4); b++) {
         c = DarrayGetElement(data_ov000_021b52c4, b);
-        if (c->mUnk_08 == a) {
+        if (c->field8 == a) {
             return c;
         }
     }

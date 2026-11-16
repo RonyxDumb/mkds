@@ -6,9 +6,9 @@ typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 
 // 8-byte entries of two words: a string and a number.
 typedef struct Unk02154228 {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05[0x3];
+    /* 00 */ const char *field0;
+    /* 04 */ u8 field4;
+    /* 05 */ u8 field5[0x3];
 } Unk02154228;
 
 extern Unk02154228 sCourseDefs[];

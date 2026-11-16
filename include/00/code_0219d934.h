@@ -14,7 +14,7 @@ struct GpConnection;
 // rewritten and must be saved). UpdateBuddySync also pumps GpUpdate every 300 ms in connection states 3 to 6, and the
 // object answers the GP buddy request and buddy status callbacks.
 typedef struct WiFiBuddySync {
-    // 0 idle, 1 running, 2 finished; only compared (the per-frame step does not switch on it). mUnk_1e (0..3) is the
+    // 0 idle, 1 running, 2 finished; only compared (the per-frame step does not switch on it). field1E (0..3) is the
     // phase inside state 1 and stays address-based.
     /* 00 */ s32 mState;
     /* 04 */ struct GpConnection *mGpConnection;
@@ -32,10 +32,10 @@ typedef struct WiFiBuddySync {
     // (func_ov000_0219ce48).
     /* 1c */ u8 mSyncIndex;
     // 1 when the sync rewrote or merged an entry; given to the result callback, whose receiver sets
-    // WiFiSession.mUnk_1cfc so the list is saved (code_0211f6cc.c). Set early in the reply handler
+    // WiFiSession.field1CFC so the list is saved (code_0211f6cc.c). Set early in the reply handler
     // func_ov000_0219ce48, so it can be 1 without a change.
     /* 1d */ u8 mBuddiesChanged;
-    /* 1e */ u8 mUnk_1e;
+    /* 1e */ u8 field1E;
     // Parts of the sync that ended; at 2 UpdateBuddySync calls FinishBuddySync (the finish step). Part 1 is the
     // name part (only run when a name was given: the one caller passes NULL, so it is counted at once); part 2 is the
     // list part.
@@ -44,8 +44,8 @@ typedef struct WiFiBuddySync {
     // is nonzero and the stats link is gone (UpdateBuddySync). Only live when a name was given to StartBuddySync (the
     // one caller passes NULL).
     /* 20 */ u32 mPendingStatsRequestCount;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ char *mUnk_28;
+    /* 24 */ s32 field24;
+    /* 28 */ char *field28;
     // Set by StartBuddySync (the owner passes WiFiBuddySyncCallback); called with (code, mBuddiesChanged, arg) by the
     // finish step FinishBuddySync (code 0) and the error reporter ReportBuddySyncError (error).
     /* 2c */ void (*mResultCallback)(s32, u8, void *);
@@ -64,8 +64,8 @@ typedef struct WiFiBuddySync {
     // caller passes BuddyChangedCallback (a C body exists: src/Main/Unknown/code_0211f6b0.c).
     /* 44 */ void *mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
-    /* 4c */ void (*mUnk_4c)(s32 a, s32 b, u32 c);
-    /* 50 */ u32 mUnk_50;
+    /* 4c */ void (*field4C)(s32 a, s32 b, u32 c);
+    /* 50 */ u32 field50;
 } WiFiBuddySync;
 
 // Written by InitBuddySync and cleared by func_ov000_0219d4f8, the release half.

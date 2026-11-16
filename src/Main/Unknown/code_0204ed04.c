@@ -49,18 +49,18 @@ u32 func_0204ee30(void) {
 void func_0204ed84(void) {
     u16 packetSize;
     u16 destMask;
-    if (!(gStruct217AA00->mUnk_1e44 & 1)) {
+    if (!(gStruct217AA00->field1E44 & 1)) {
         u32 v;
         if (gStruct217AA00 == NULL) {
             v = 0;
         } else {
-            v = gStruct217AA00->mUnk_0000;
+            v = gStruct217AA00->field0;
         }
         switch (v) {
             case 1:
                 data_0216522c.mMaxDataSize = 0x192;
                 packetSize = WBT_MpParentSendHook(gStruct217AA00->mPacketBuffer, 0x192);
-                destMask = gStruct217AA00->mUnk_0044.mChildMask;
+                destMask = gStruct217AA00->field44.mChildMask;
                 break;
             case 2:
                 data_0216522c.mMaxDataSize = 0xe;
@@ -70,7 +70,7 @@ void func_0204ed84(void) {
         }
         if (QueueMPDataToPort(gStruct217AA00->mPacketBuffer, packetSize, destMask, NULL, &data_0216522c) == FALSE) {
             gStruct217AA00->mSendTimer = data_02165228;
-            gStruct217AA00->mUnk_1e44 &= ~1;
+            gStruct217AA00->field1E44 &= ~1;
         }
     }
 }
@@ -78,27 +78,27 @@ void func_0204ed84(void) {
 void PacketPortCallback(Unk021425e8 *result) {
     u8 packet[0x192];
     u32 v;
-    if (result->mResultCode == 0 && result->mUnk_0c != NULL && result->mUnk_10 <= 0x192) {
-        DC_InvalidateRange(result->mUnk_0c, result->mUnk_10);
-        MI_CpuCopy8(result->mUnk_0c, packet, result->mUnk_10);
-        if (result->mUnk_04 == 7) {
+    if (result->mResultCode == 0 && result->fieldC != NULL && result->field10 <= 0x192) {
+        DC_InvalidateRange(result->fieldC, result->field10);
+        MI_CpuCopy8(result->fieldC, packet, result->field10);
+        if (result->field4 == 7) {
             return;
         }
-        if (result->mUnk_04 == 9) {
+        if (result->field4 == 9) {
             return;
         }
-        if (result->mUnk_04 == 0x15) {
+        if (result->field4 == 0x15) {
             if (gStruct217AA00 == NULL) {
                 v = 0;
             } else {
-                v = gStruct217AA00->mUnk_0000;
+                v = gStruct217AA00->field0;
             }
             switch (v) {
                 case 1:
-                    WBT_MpParentRecvHook(packet, result->mUnk_10, result->mUnk_12);
+                    WBT_MpParentRecvHook(packet, result->field10, result->field12);
                     break;
                 case 2:
-                    WBT_MpChildRecvHook(packet, result->mUnk_10);
+                    WBT_MpChildRecvHook(packet, result->field10);
                     break;
             }
         }

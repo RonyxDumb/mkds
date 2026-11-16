@@ -4,7 +4,7 @@
 
 // Matrix of three direction vectors and a position.
 typedef struct MtxFx43 {
-    /* 00 */ Vec3 mUnk_00[4];
+    /* 00 */ Vec3 field0[4];
 } MtxFx43;
 
 typedef struct NNSG3dResDictTreeNode {

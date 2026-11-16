@@ -39,16 +39,16 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     BOOL result;
 
     result = FALSE;
-    pos = &item->mUnk_000.mUnk_000.mUnk_000.mPos;
-    velocity = &item->mUnk_000.mUnk_000.mUnk_000.mVelocity;
-    if ((item->mUnk_000.mUnk_000.mUnk_000.mUnk_48 & 1) == race_getIsOddFrame()) {
+    pos = &item->field0.field0.field0.mPos;
+    velocity = &item->field0.field0.field0.mVelocity;
+    if ((item->field0.field0.field0.field48 & 1) == race_getIsOddFrame()) {
         kart = item->mKartItems->mKart;
-        if (!(item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x20000)) {
+        if (!(item->field0.field0.field0.mFlags & 0x20000)) {
             if (func_0206c0e0(kart) != FALSE) {
                 speed >>= 1;
             }
             VEC_Subtract(&kart->mDrawMatrixPos, pos, &t);
-            t.y = vec_dotProduct(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &t) >> 12;
+            t.y = vec_dotProduct(&item->field0.field0.field0.mNormal, &t) >> 12;
             if (t.y * t.y > 0xbd1) {
                 if ((s64) t.x * t.x + (s64) t.z * t.z < (s64) 0xe1000000u) {
                     result = TRUE;
@@ -62,10 +62,10 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             t.x = ((s64) t.x * speed) >> 12;
             t.y = ((s64) t.y * speed) >> 12;
             t.z = ((s64) t.z * speed) >> 12;
-            if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x8000000) {
+            if (item->field0.field0.field0.mFlags & 0x8000000) {
                 if (n < (s32) (((s64) kart->mPhysicalParam->mRadius * kart->mScale.z + 0x800) >> 12)) {
-                    item->mUnk_238 = item->mUnk_238 + 1;
-                    if (item->mUnk_238 > 0x5a) {
+                    item->field238 = item->field238 + 1;
+                    if (item->field238 > 0x5a) {
                         func_020f7070(item, 1);
                         return FALSE;
                     }
@@ -74,14 +74,14 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                     t.z = 0;
                 }
             }
-            VEC_Subtract(&t, &item->mUnk_22c, &t);
+            VEC_Subtract(&t, &item->field22C, &t);
             if (0x64000 - n > 0) {
                 gain += (s32) (((s64) (0x64000 - n) * 16) >> 12);
             }
             t.x = ((s64) t.x * gain) >> 12;
             t.y = ((s64) t.y * gain) >> 12;
             t.z = ((s64) t.z * gain) >> 12;
-            VEC_Add(&item->mUnk_22c, &t, &item->mUnk_22c);
+            VEC_Add(&item->field22C, &t, &item->field22C);
             VEC_Subtract(&item->mKartItems->mKart->mVelocity, velocity, &t);
             t.y = 0;
             t.x = ((s64) t.x * gain) >> 12;
@@ -90,29 +90,29 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
             VEC_Add(velocity, &t, velocity);
         }
     }
-    item->mKartItems->mUnk_208 = TRUE;
-    VEC_Add(&item->mUnk_22c, pos, pos);
+    item->mKartItems->field208 = TRUE;
+    VEC_Add(&item->field22C, pos, pos);
     VEC_Add(velocity, pos, pos);
-    if (col_collide(&pos->x, (u32 *) &item->mUnk_000.mUnk_000.mUnk_000.mPrevPos, 0,
-                      item->mUnk_000.mUnk_000.mUnk_000.mUnk_dc, 4, item->mUnk_000.mUnk_000.mUnk_000.mCollisionSlotIndex,
-                      &t, &firstNormal, (s32 *) &secondNormal, &item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits, NULL,
+    if (col_collide(&pos->x, (u32 *) &item->field0.field0.field0.mPrevPos, 0,
+                      item->field0.field0.field0.fieldDC, 4, item->field0.field0.field0.mCollisionSlotIndex,
+                      &t, &firstNormal, (s32 *) &secondNormal, &item->field0.field0.field0.mCollisionBits, NULL,
                       NULL, NULL, NULL) != 0) {
         VEC_Add(&t, pos, pos);
-        if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x1e34ef) {
+        if (item->field0.field0.field0.mCollisionBits & 0x1e34ef) {
             n = VEC_DotProduct(&firstNormal, velocity);
             velocity->x = velocity->x - (s32) (((s64) firstNormal.x * n) >> 12);
             velocity->y = velocity->y - (s32) (((s64) firstNormal.y * n) >> 12);
             velocity->z = velocity->z - (s32) (((s64) firstNormal.z * n) >> 12);
-            sameNormal = (firstNormal.x == item->mUnk_000.mUnk_000.mUnk_000.mNormal.x &&
-                          firstNormal.y == item->mUnk_000.mUnk_000.mUnk_000.mNormal.y &&
-                          firstNormal.z == item->mUnk_000.mUnk_000.mUnk_000.mNormal.z);
+            sameNormal = (firstNormal.x == item->field0.field0.field0.mNormal.x &&
+                          firstNormal.y == item->field0.field0.field0.mNormal.y &&
+                          firstNormal.z == item->field0.field0.field0.mNormal.z);
             if (sameNormal == FALSE) {
-                item->mUnk_000.mUnk_000.mUnk_000.mNormal = firstNormal;
-                item->mUnk_000.mUnk_000.mUnk_000.mFlags |= 0x100;
+                item->field0.field0.field0.mNormal = firstNormal;
+                item->field0.field0.field0.mFlags |= 0x100;
             }
         }
-        if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x214300) {
-            if (item->mUnk_000.mUnk_000.mUnk_158 == 0 && d != 0) {
+        if (item->field0.field0.field0.mCollisionBits & 0x214300) {
+            if (item->field0.field0.field158 == 0 && d != 0) {
                 n = VEC_DotProduct(&secondNormal, velocity);
                 t.x = ((s64) secondNormal.x * n) >> 12;
                 t.y = ((s64) secondNormal.y * n) >> 12;
@@ -128,12 +128,12 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 return FALSE;
             }
         }
-        if (item->mUnk_000.mUnk_000.mUnk_000.mCollisionBits & 0x8000) {
+        if (item->field0.field0.field0.mCollisionBits & 0x8000) {
             func_020f7070(item, 1);
             return FALSE;
         }
     }
-    func_020f2028(&item->mUnk_000.mUnk_000.mUnk_000);
+    func_020f2028(&item->field0.field0.field0);
     return result;
 }
 
@@ -151,8 +151,8 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
     s64 lengthProduct;
 
     kart = driver_getById(kartIndex);
-    ownerIndex = !(item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & 0x8000)
-                     ? (u16) (item->mUnk_000.mUnk_000.mUnk_000.mUnk_78 & ~0xff00)
+    ownerIndex = !(item->field0.field0.field0.field78 & 0x8000)
+                     ? (u16) (item->field0.field0.field0.field78 & ~0xff00)
                      : 8;
     kartRank = rstat_getPlace(kartIndex);
     if (ownerIndex < 8 && checkRank != 0) {
@@ -166,39 +166,39 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
             }
         }
     }
-    if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x800) || (kartRank != 1 && kart->mState != KART_STATE_NORMAL)) {
+    if ((kart->field7C & 0x402020) || (kart->field4C & 0x800) || (kartRank != 1 && kart->mState != KART_STATE_NORMAL)) {
         return 0;
     }
     driver_getPosition(&offset, kartIndex);
-    VEC_Subtract(&offset, &item->mUnk_000.mUnk_000.mUnk_000.mPos, &offset);
+    VEC_Subtract(&offset, &item->field0.field0.field0.mPos, &offset);
     distanceSquared = (offset.x >> 12) * (offset.x >> 12);
     distanceSquared += (offset.z >> 12) * (offset.z >> 12);
     if (distanceSquared > 0x27100 || (maxDistanceSquared != 0 && distanceSquared > maxDistanceSquared)) {
         return 0;
     }
-    dot = vec_dotProduct(&item->mUnk_000.mUnk_000.mUnk_000.mVelocity, &offset);
+    dot = vec_dotProduct(&item->field0.field0.field0.mVelocity, &offset);
     if (dot < 0) {
         return 0;
     }
     offsetSquared = vec_dotProduct(&offset, &offset) >> 12;
     velocitySquared =
-        vec_dotProduct(&item->mUnk_000.mUnk_000.mUnk_000.mVelocity, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity);
+        vec_dotProduct(&item->field0.field0.field0.mVelocity, &item->field0.field0.field0.mVelocity);
     lengthProduct = (s64) velocitySquared * offsetSquared;
     dotSquared = (s64) dot * (dot >> 12);
     if ((s32) (dotSquared >> 12) < (s32) (((s64) (s32) (lengthProduct >> 12) * 0x400) >> 12)) {
         return 0;
     }
-    dot = vec_dotProduct(&item->mUnk_000.mUnk_000.mUnk_000.mNormal, &offset);
+    dot = vec_dotProduct(&item->field0.field0.field0.mNormal, &offset);
     if ((dot >> 12) * (dot >> 12) > 0x9c4) {
         return 0;
     }
-    if (item->mUnk_000.mUnk_000.mUnk_000.mFlags & 0x10000000) {
+    if (item->field0.field0.field0.mFlags & 0x10000000) {
         return 0;
     }
     item->mKartItems = &it_sDriverItemStatus[kartIndex];
-    item->mUnk_22c.x = 0;
-    item->mUnk_22c.y = 0;
-    item->mUnk_22c.z = 0;
-    item->mUnk_238 = 0;
+    item->field22C.x = 0;
+    item->field22C.y = 0;
+    item->field22C.z = 0;
+    item->field238 = 0;
     return distanceSquared;
 }

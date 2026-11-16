@@ -7,7 +7,7 @@ typedef struct WiFiStateCallbacks {
     /* 00 */ void (*mInit)(void *);
     /* 04 */ void (*mRelease)(void);
     /* 08 */ void (*mAdvance)(void);
-    /* 0c */ void (*mUnk_0c)(void);
+    /* 0c */ void (*fieldC)(void);
 } WiFiStateCallbacks;
 
 typedef struct WiFiStates {
@@ -16,14 +16,14 @@ typedef struct WiFiStates {
     /* 08 */ u32 mState;
     /* 0c */ s32 mNextState;
     /* 10 */ u32 mPrevState;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 field14;
     // Scene number the WiFi screens ask for (-1 = none); UpdateWiFiMenuScene copies it to SceneNumbers.mNextScene.
     /* 18 */ s16 mNextScene;
     /* 1a */ u8 pad_1a[2];
     /* 1c */ WiFiStateCallbacks mCallbacks;
-    /* 2c */ void *mUnk_2c;
+    /* 2c */ void *field2C;
     /* 30 */ u32 mWiFiVSSettingIndex;
-    /* 34 */ s32 mUnk_34;
+    /* 34 */ s32 field34;
     /* 38 */ u8 pad_38[4];
 } WiFiStates;
 

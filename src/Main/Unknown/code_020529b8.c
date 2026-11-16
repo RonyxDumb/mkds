@@ -44,28 +44,28 @@ void func_02053d00(void) {
     if (gStruct217AA00 == NULL) {
         return;
     }
-    gStruct217AA00->mUnk_0000 = 0;
-    gStruct217AA00->mUnk_0004 = 0;
-    gStruct217AA00->mUnk_0008 = 9;
-    gStruct217AA00->mUnk_000c = 0;
+    gStruct217AA00->field0 = 0;
+    gStruct217AA00->field4 = 0;
+    gStruct217AA00->field8 = 9;
+    gStruct217AA00->fieldC = 0;
     gStruct217AA00->mRequestPending = 0;
-    gStruct217AA00->mUnk_0454 = 0;
-    scanParams = gStruct217AA00->mUnk_001c;
-    scanParams->mUnk_00 = gStruct217AA00->mUnk_0028;
-    scanParams->mUnk_04 = 0;
-    scanParams->mUnk_06 = 0;
+    gStruct217AA00->field454 = 0;
+    scanParams = gStruct217AA00->field1C;
+    scanParams->field0 = gStruct217AA00->field28;
+    scanParams->field4 = 0;
+    scanParams->field6 = 0;
     for (i = 0; i < 6; i++) {
-        scanParams->mUnk_08[i] = 0xff;
+        scanParams->field8[i] = 0xff;
     }
-    scanExParams = gStruct217AA00->mUnk_0020;
-    scanExParams->mUnk_00 = gStruct217AA00->mUnk_002c;
-    scanExParams->mUnk_04 = 0x400;
-    scanExParams->mUnk_06 = 0;
-    scanExParams->mUnk_08 = 0;
-    scanExParams->mUnk_10 = 1;
-    scanExParams->mUnk_12 = 0;
+    scanExParams = gStruct217AA00->field20;
+    scanExParams->field0 = gStruct217AA00->field2C;
+    scanExParams->field4 = 0x400;
+    scanExParams->field6 = 0;
+    scanExParams->field8 = 0;
+    scanExParams->field10 = 1;
+    scanExParams->field12 = 0;
     for (i = 0; i < 6; i++) {
-        scanExParams->mUnk_0a[i] = 0xff;
+        scanExParams->fieldA[i] = 0xff;
     }
     ResetConnectionData();
     blocks = &gStruct217AA00->mUnk_16a0_view;
@@ -75,10 +75,10 @@ void func_02053d00(void) {
         blockEntry->mBuffer = NULL;
         blockEntry++;
     }
-    blocks->mUnk_6b4 = 0;
-    blocks->mUnk_660 = 0;
-    blocks->mUnk_798 = FALSE;
-    blocks->mUnk_79c = FALSE;
+    blocks->field6B4 = 0;
+    blocks->field660 = 0;
+    blocks->field798 = FALSE;
+    blocks->field79C = FALSE;
     func_0204e65c(&gStruct217AA00->mUnk_1658_view);
     func_02059878();
     FillParentParameter(1);
@@ -91,48 +91,48 @@ void StepDataSharing(void) {
     s32 result;
 
     scene_getSceneFrameCounter();
-    sendData = gStruct217AA00->mUnk_15c4;
-    if (gStruct217AA00->mUnk_0004 == 8) {
-        sendData->mUnk_05 = gStruct217AA00->mUnk_15f7;
+    sendData = gStruct217AA00->field15C4;
+    if (gStruct217AA00->field4 == 8) {
+        sendData->field5 = gStruct217AA00->field15F7;
     } else {
-        sendData->mUnk_05 = 0;
+        sendData->field5 = 0;
     }
-    sendData->mUnk_04 = (gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) == 1 ? gStruct217AA00->mUnk_1eac[0] : 0;
-    sendData->mUnk_00 = input_getPressedKeys();
-    sendData->mUnk_06_0 = 0;
-    sendData->mUnk_07 = 0;
+    sendData->field4 = (gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) == 1 ? gStruct217AA00->field1EAC[0] : 0;
+    sendData->field0 = input_getPressedKeys();
+    sendData->field6_0 = 0;
+    sendData->field7 = 0;
     role = 0;
-    if (gStruct217AA00->mUnk_0004 == 9) {
+    if (gStruct217AA00->field4 == 9) {
         if (gStruct217AA00 != NULL) {
-            role = gStruct217AA00->mUnk_0000;
+            role = gStruct217AA00->field0;
         }
         if (role == 1) {
             if (dce_2055AFC() != FALSE) {
-                sendData->mUnk_06_0 |= 4;
+                sendData->field6_0 |= 4;
             } else {
-                sendData->mUnk_06_0 &= ~4;
+                sendData->field6_0 &= ~4;
             }
         }
     }
-    role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
-    if (role != 1 || (gStruct217AA00->mUnk_008b & 1) != 0) {
-        if (gStruct217AA00->mUnk_15ec == 0) {
-            sendData->mUnk_06_0 |= 1;
-            sendData->mUnk_06_0 &= ~2;
+    role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
+    if (role != 1 || (gStruct217AA00->field8B & 1) != 0) {
+        if (gStruct217AA00->field15EC == 0) {
+            sendData->field6_0 |= 1;
+            sendData->field6_0 &= ~2;
         } else {
-            sendData->mUnk_06_0 |= 2;
-            sendData->mUnk_06_0 &= ~1;
+            sendData->field6_0 |= 2;
+            sendData->field6_0 &= ~1;
         }
     }
-    sendData->mUnk_06_7 = gSpiData->mMicOverThreshold;
-    sendData->mUnk_02 = spi_getTouchPos();
-    result = WM_StepDataSharing(gStruct217AA00->mUnk_15bc, sendData, gStruct217AA00->mUnk_15c0);
+    sendData->field6_7 = gSpiData->mMicOverThreshold;
+    sendData->field2 = spi_getTouchPos();
+    result = WM_StepDataSharing(gStruct217AA00->field15BC, sendData, gStruct217AA00->field15C0);
     if (result == 0) {
-        if (gStruct217AA00->mUnk_0004 == 8) {
-            gStruct217AA00->mUnk_15f7 = 0;
+        if (gStruct217AA00->field4 == 8) {
+            gStruct217AA00->field15F7 = 0;
         }
     }
-    gStruct217AA00->mUnk_15f0 = result;
+    gStruct217AA00->field15F0 = result;
 }
 
 BOOL UpdateDataSharing(void) {
@@ -148,11 +148,11 @@ BOOL UpdateDataSharing(void) {
     u16 entryIndex;
 
     dataSharing = &gStruct217AA00->mUnk_15bc_view;
-    gStruct217AA00->mUnk_1606 = gStruct217AA00->mUnk_15bc->mDs[gStruct217AA00->mUnk_15bc->mWriteIndex].mArrivedMembers;
-    gStruct217AA00->mUnk_0454 &= ~0x10;
-    switch (gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) {
+    gStruct217AA00->field1606 = gStruct217AA00->field15BC->mDs[gStruct217AA00->field15BC->mWriteIndex].mArrivedMembers;
+    gStruct217AA00->field454 &= ~0x10;
+    switch (gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) {
         case 1:
-            if (gStruct217AA00->mUnk_0044.mChildCount != 0) {
+            if (gStruct217AA00->field44.mChildCount != 0) {
                 StepDataSharing();
             } else {
                 return FALSE;
@@ -166,22 +166,22 @@ BOOL UpdateDataSharing(void) {
             }
             break;
     }
-    switch (gStruct217AA00->mUnk_0004) {
+    switch (gStruct217AA00->field4) {
         case 8:
-            if (dataSharing->mUnk_34 != 0 && dataSharing->mUnk_34 == 5) {
+            if (dataSharing->field34 != 0 && dataSharing->field34 == 5) {
                 return FALSE;
             }
             break;
         case 9:
-            if (dataSharing->mUnk_34 != 0) {
-                if (dataSharing->mUnk_34 == 5) {
+            if (dataSharing->field34 != 0) {
+                if (dataSharing->field34 == 5) {
                     return FALSE;
                 }
             } else {
-                if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) == 1) {
+                if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) == 1) {
                     for (j = 1; j < 8; j++) {
                         if ((gStruct217AA00->mParticipantMask & (1 << j)) != 0) {
-                            gStruct217AA00->mUnk_15f8[j - 1] = 0;
+                            gStruct217AA00->field15F8[j - 1] = 0;
                         }
                     }
                 }
@@ -189,21 +189,21 @@ BOOL UpdateDataSharing(void) {
             break;
     }
     allRead = TRUE;
-    sharedData = WM_GetSharedDataAddress(gStruct217AA00->mUnk_15bc, gStruct217AA00->mUnk_15c0, 0);
+    sharedData = WM_GetSharedDataAddress(gStruct217AA00->field15BC, gStruct217AA00->field15C0, 0);
     if (sharedData != NULL) {
         m = sharedData[4];
         if (m != 0) {
             for (i = 0; i < 8; i++) {
                 bit = 1 << i;
                 participantMask = gStruct217AA00->mParticipantMask;
-                entryIndex = gStruct217AA00->mUnk_1e52[i].mEntryIndex;
+                entryIndex = gStruct217AA00->field1E52[i].mEntryIndex;
                 if ((participantMask & bit) != 0 && (m & bit) != 0) {
                     gStruct217AA00->mParticipantMask = participantMask & ~bit;
-                    if (gStruct217AA00->mUnk_0004 == 9) {
+                    if (gStruct217AA00->field4 == 9) {
                         rstat_203C2E4(entryIndex);
                     }
-                    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) == 1) {
-                        gStruct217AA00->mUnk_1eac[0] &= ~bit;
+                    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) == 1) {
+                        gStruct217AA00->field1EAC[0] &= ~bit;
                     }
                 }
             }
@@ -215,7 +215,7 @@ BOOL UpdateDataSharing(void) {
     if (allRead != FALSE) {
         for (i = 1; i < 8; i++) {
             if ((gStruct217AA00->mParticipantMask & (1 << i)) != 0) {
-                sharedData = WM_GetSharedDataAddress(gStruct217AA00->mUnk_15bc, gStruct217AA00->mUnk_15c0, i);
+                sharedData = WM_GetSharedDataAddress(gStruct217AA00->field15BC, gStruct217AA00->field15C0, i);
                 if (sharedData != NULL) {
                     MI_CpuCopy8(sharedData, &buf[i], 8);
                 } else {
@@ -227,7 +227,7 @@ BOOL UpdateDataSharing(void) {
     }
     for (i = 0; i < 8; i++) {
         if (allRead != FALSE && (gStruct217AA00->mParticipantMask & (1 << i)) != 0) {
-            MI_CpuCopy8(&buf[i], &dataSharing->mUnk_0c[i], 8);
+            MI_CpuCopy8(&buf[i], &dataSharing->fieldC[i], 8);
             dataSharing->mSharedDataCopied[i] = 1;
         } else {
             dataSharing->mSharedDataCopied[i] = 0;
@@ -237,9 +237,9 @@ BOOL UpdateDataSharing(void) {
 }
 
 void Initialize(void) {
-    gStruct217AA00->mUnk_000c = 1;
+    gStruct217AA00->fieldC = 1;
     gStruct217AA00->mRequestPending = 1;
-    if (WM_Initialize(gStruct217AA00->mUnk_0014, InitializeCallback, 2) != 2) {
+    if (WM_Initialize(gStruct217AA00->field14, InitializeCallback, 2) != 2) {
         gStruct217AA00->mRequestPending = 0;
     }
 }
@@ -255,7 +255,7 @@ void InitializeCallback(Unk021425e8 *event) {
     if (event->mResultCode != 0) {
         return;
     }
-    if (gStruct217AA00->mUnk_1d00 != 0) {
+    if (gStruct217AA00->field1D00 != 0) {
         WM_SetIndCallback(1, PacketPortCallback, NULL);
     }
     ResetConnectionData();
@@ -266,14 +266,14 @@ void func_020533a0(void) {
     BOOL shouldStop;
     BOOL c;
 
-    if ((gStruct217AA00->mUnk_0454 & 0x100) != 0) {
-        gStruct217AA00->mUnk_000c = 0x26;
+    if ((gStruct217AA00->field454 & 0x100) != 0) {
+        gStruct217AA00->fieldC = 0x26;
         gStruct217AA00->mRequestPending = 1;
         shouldStop = FALSE;
-        if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+        if ((gStruct217AA00->field454 & 0x40) != 0) {
             c = TRUE;
-            role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
-            if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
+            if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
                 c = FALSE;
             }
             if (c != FALSE) {
@@ -282,27 +282,27 @@ void func_020533a0(void) {
         }
         if (shouldStop != FALSE) {
             WFS_End();
-            gStruct217AA00->mUnk_0454 &= ~0x100;
+            gStruct217AA00->field454 &= ~0x100;
         }
         gStruct217AA00->mRequestPending = 0;
         return;
     }
-    if ((gStruct217AA00->mUnk_0454 & 0x200) != 0) {
+    if ((gStruct217AA00->field454 & 0x200) != 0) {
         func_0204eca0();
         return;
     }
-    gStruct217AA00->mUnk_000c = 2;
+    gStruct217AA00->fieldC = 2;
     gStruct217AA00->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gStruct217AA00->mUnk_000c = 0x15;
+    gStruct217AA00->fieldC = 0x15;
     gStruct217AA00->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((gStruct217AA00->mUnk_0454 & 0x100) != 0) {
-        gStruct217AA00->mUnk_000c = 0x26;
+    if ((gStruct217AA00->field454 & 0x100) != 0) {
+        gStruct217AA00->fieldC = 0x26;
         gStruct217AA00->mRequestPending = 1;
         if (func_020510e4() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
             c = TRUE;
@@ -311,30 +311,30 @@ void func_020533a0(void) {
         }
         if (c != FALSE) {
             WFS_End();
-            gStruct217AA00->mUnk_0454 &= ~0x100;
+            gStruct217AA00->field454 &= ~0x100;
         }
         gStruct217AA00->mRequestPending = 0;
         return;
     }
-    if ((gStruct217AA00->mUnk_0454 & 0x200) != 0) {
+    if ((gStruct217AA00->field454 & 0x200) != 0) {
         func_0204eca0();
         return;
     }
-    gStruct217AA00->mUnk_000c = 2;
+    gStruct217AA00->fieldC = 2;
     gStruct217AA00->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
-    gStruct217AA00->mUnk_000c = 0x15;
+    gStruct217AA00->fieldC = 0x15;
     gStruct217AA00->mRequestPending = 1;
     if (WM_End(EndCallback) == 2) {
         return;
     }
-    if ((gStruct217AA00->mUnk_0454 & 0x100) != 0) {
+    if ((gStruct217AA00->field454 & 0x100) != 0) {
         StopRomArchiveTransfer();
         return;
     }
-    if ((gStruct217AA00->mUnk_0454 & 0x200) != 0) {
+    if ((gStruct217AA00->field454 & 0x200) != 0) {
         func_0204eca0();
         return;
     }
@@ -348,7 +348,7 @@ void func_020533a0(void) {
 void ResetCallback(Unk021425e8 *event) {
     gStruct217AA00->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        gStruct217AA00->mUnk_0008 = 1;
+        gStruct217AA00->field8 = 1;
         gStruct217AA00->mRequestPending = 0;
     } else {
         ResetConnectionData();
@@ -356,7 +356,7 @@ void ResetCallback(Unk021425e8 *event) {
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    gStruct217AA00->mUnk_000c = 3;
+    gStruct217AA00->fieldC = 3;
     gStruct217AA00->mRequestPending = 1;
     if (WM_SetLifeTime(func_0205329c, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         func_020533a0();
@@ -376,45 +376,45 @@ void MeasureChannel(u16 measuredChannel) {
     u16 channel;
     s32 i;
 
-    gStruct217AA00->mUnk_000c = 4;
+    gStruct217AA00->fieldC = 4;
     gStruct217AA00->mRequestPending = 1;
     channel = measuredChannel;
     allowedChannels = WM_GetAllowedChannel();
     if (allowedChannels == 0) {
         gStruct217AA00->mRequestPending = 0;
-        gStruct217AA00->mUnk_0008 = 3;
+        gStruct217AA00->field8 = 3;
         gStruct217AA00->mRequestPending = 0;
     } else if (allowedChannels == 0x8000) {
         gStruct217AA00->mRequestPending = 0;
-        gStruct217AA00->mUnk_0008 = 8;
+        gStruct217AA00->field8 = 8;
         gStruct217AA00->mRequestPending = 0;
     }
     if (channel == 0) {
-        gStruct217AA00->mUnk_0089_0 = 1;
-        gStruct217AA00->mUnk_0089_4 = 1;
+        gStruct217AA00->field89_0 = 1;
+        gStruct217AA00->field89_4 = 1;
         for (i = 1; i < 0xe; i++) {
-            gStruct217AA00->mUnk_008c[i] = -1;
+            gStruct217AA00->field8C[i] = -1;
         }
         channel = 1;
-    } else if (gStruct217AA00->mUnk_0089_0 >= 7) {
+    } else if (gStruct217AA00->field89_0 >= 7) {
         channel = channel + 1;
-        gStruct217AA00->mUnk_0089_0 = 1;
+        gStruct217AA00->field89_0 = 1;
         if (((1 << (channel - 1)) & allowedChannels) == 0) {
             do {
                 channel = channel + 1;
                 if (channel > 0xe) {
-                    if (gStruct217AA00->mUnk_0089_4 >= 2) {
+                    if (gStruct217AA00->field89_4 >= 2) {
                         gStruct217AA00->mRequestPending = 0;
                         return;
                     }
-                    gStruct217AA00->mUnk_0089_4 += 1;
+                    gStruct217AA00->field89_4 += 1;
                     channel = 1;
-                    gStruct217AA00->mUnk_0089_0 = 1;
+                    gStruct217AA00->field89_0 = 1;
                 }
             } while (((1 << (channel - 1)) & allowedChannels) == 0);
         }
     } else {
-        gStruct217AA00->mUnk_0089_0 += 1;
+        gStruct217AA00->field89_0 += 1;
     }
     if (WM_MeasureChannel(MeasureChannelCallback, 3, 0x11, channel, 0x14) != 2) {
         func_020533a0();
@@ -428,12 +428,12 @@ void MeasureChannelCallback(Unk021425e8 *event) {
         func_020533a0();
         return;
     }
-    channelSum = &gStruct217AA00->mUnk_008c[event->mUnk_08_0];
+    channelSum = &gStruct217AA00->field8C[event->field8_0];
     if (*channelSum < 0) {
         *channelSum = 0;
     }
-    *channelSum = *channelSum + event->mUnk_08_2;
-    MeasureChannel(event->mUnk_08_0);
+    *channelSum = *channelSum + event->field8_2;
+    MeasureChannel(event->field8_0);
 }
 
 void *RomArchiveAllocFunc(s32 a, u32 size, void *block) {
@@ -456,13 +456,13 @@ void StartRomArchiveTransfer(void) {
     BOOL c;
     BOOL shouldStart;
 
-    gStruct217AA00->mUnk_000c = 0x24;
+    gStruct217AA00->fieldC = 0x24;
     gStruct217AA00->mRequestPending = 1;
     shouldStart = FALSE;
-    if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+    if ((gStruct217AA00->field454 & 0x40) != 0) {
         c = TRUE;
-        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
-        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
+        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
             c = FALSE;
         }
         if (c != FALSE) {
@@ -470,7 +470,7 @@ void StartRomArchiveTransfer(void) {
         }
     }
     if (shouldStart != FALSE) {
-        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
+        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
         WFS_Init(role == 1 ? 1 : 0, 4, 0x154, RomArchiveStateCallback, RomArchiveAllocFunc, 0);
     }
     gStruct217AA00->mRequestPending = 0;
@@ -478,7 +478,7 @@ void StartRomArchiveTransfer(void) {
 }
 
 void RomArchiveStateCallback(s32 a) {
-    if (gStruct217AA00->mUnk_000c == 0x24) {
+    if (gStruct217AA00->fieldC == 0x24) {
         if (WFS_GetStatus() == 2) {
             gStruct217AA00->mRequestPending = 0;
             ResetPendingFiles();
@@ -493,13 +493,13 @@ void func_02052da4(void) {
     BOOL c;
     BOOL shouldStart;
 
-    gStruct217AA00->mUnk_000c = 0x25;
+    gStruct217AA00->fieldC = 0x25;
     gStruct217AA00->mRequestPending = 1;
     shouldStart = FALSE;
-    if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+    if ((gStruct217AA00->field454 & 0x40) != 0) {
         c = TRUE;
-        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
-        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
+        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
             c = FALSE;
         }
         if (c != FALSE) {
@@ -508,8 +508,8 @@ void func_02052da4(void) {
     }
     if (shouldStart != FALSE) {
         WFS_Start();
-        gStruct217AA00->mUnk_1e34 = 0;
-        gStruct217AA00->mUnk_0454 |= 0x100;
+        gStruct217AA00->field1E34 = 0;
+        gStruct217AA00->field454 |= 0x100;
     }
     gStruct217AA00->mRequestPending = 0;
 }
@@ -519,13 +519,13 @@ void StopRomArchiveTransfer(void) {
     BOOL c;
     BOOL shouldStop;
 
-    gStruct217AA00->mUnk_000c = 0x26;
+    gStruct217AA00->fieldC = 0x26;
     gStruct217AA00->mRequestPending = 1;
     shouldStop = FALSE;
-    if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+    if ((gStruct217AA00->field454 & 0x40) != 0) {
         c = TRUE;
-        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
-        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+        role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
+        if (role != 1 && ((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
             c = FALSE;
         }
         if (c != FALSE) {
@@ -534,7 +534,7 @@ void StopRomArchiveTransfer(void) {
     }
     if (shouldStop != FALSE) {
         WFS_End();
-        gStruct217AA00->mUnk_0454 &= ~0x100;
+        gStruct217AA00->field454 &= ~0x100;
     }
     gStruct217AA00->mRequestPending = 0;
 }
@@ -560,8 +560,8 @@ u16 func_02052c5c(u32 a) {
 
 // Calls WM_SetParentParameter; also stores 1 in the first session word.
 void SetParentParameter(void) {
-    gStruct217AA00->mUnk_0000 = 1;
-    gStruct217AA00->mUnk_000c = 5;
+    gStruct217AA00->field0 = 1;
+    gStruct217AA00->fieldC = 5;
     gStruct217AA00->mRequestPending = 1;
     if (WM_SetParentParameter(func_02052bb8, gStruct217AA00->mParentParameter) != 2) {
         func_020533a0();
@@ -579,7 +579,7 @@ void StartParent(Unk021425e8Func callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    gStruct217AA00->mUnk_000c = 6;
+    gStruct217AA00->fieldC = 6;
     gStruct217AA00->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         func_020533a0();
@@ -594,35 +594,35 @@ void StartParentCallback(Unk021425e8 *event) {
     u32 aid;
 
     if (event->mResultCode == 0) {
-        switch (event->mUnk_08_0) {
+        switch (event->field8_0) {
             case 7:
-                AddChild(event->mUnk_10, &event->mUnk_0a[0], (Unk0217aa00_45c *) event->mUnk_14);
+                AddChild(event->field10, &event->fieldA[0], (Unk0217aa00_45c *) event->field14);
                 break;
             case 0:
-                MI_CpuCopy8(&gSaveData->mFirstBlock->mPlayerName, &gStruct217AA00->mUnk_045c[0], 0x14);
-                MI_CpuCopy8(&gSaveData->mFirstBlock->mFlags, &gStruct217AA00->mUnk_045c[0].mBits, 4);
+                MI_CpuCopy8(&gSaveData->mFirstBlock->mPlayerName, &gStruct217AA00->field45C[0], 0x14);
+                MI_CpuCopy8(&gSaveData->mFirstBlock->mFlags, &gStruct217AA00->field45C[0].mBits, 4);
                 v = 0;
-                role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
+                role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
                 switch (role) {
                     case 1:
-                        v = gStruct217AA00->mParentParameter->mUnk_0c;
+                        v = gStruct217AA00->mParentParameter->fieldC;
                         break;
                     case 2:
-                        v = gStruct217AA00->mUnk_0024->mUnk_48;
+                        v = gStruct217AA00->field24->field48;
                         break;
                 }
-                randomState = &gStruct217AA00->mUnk_1ee8;
+                randomState = &gStruct217AA00->field1EE8;
                 randomState->mValue = (u32) (v * 3 | v << 16);
                 randomState->mMultiplier = 0x5d588b656c078965ull;
                 randomState->mIncrement = 0x269ec3;
                 gStruct217AA00->mRequestPending = 0;
                 break;
             case 9:
-                RemoveChild(event->mUnk_10);
-                aid = event->mUnk_10;
-                role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
-                if (role == 1 && gStruct217AA00->mUnk_0004 == 9) {
-                    gStruct217AA00->mUnk_1eac[0] |= 1 << aid;
+                RemoveChild(event->field10);
+                aid = event->field10;
+                role = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
+                if (role == 1 && gStruct217AA00->field4 == 9) {
+                    gStruct217AA00->field1EAC[0] |= 1 << aid;
                 }
                 break;
         }

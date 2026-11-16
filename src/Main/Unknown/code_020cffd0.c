@@ -54,12 +54,12 @@ void mpicn_updateFireball2Icon(void) {
 
     cellCount = 0;
     a = mpicn_20C0DB0();
-    mpicn_sFireball2Icon->mUnk_0c->mUnk_04++;
-    if (mpicn_sFireball2Icon->mUnk_0c->mUnk_04 < 0 ||
-        mpicn_sFireball2Icon->mUnk_0c->mUnk_04 >= 0x14) {
-        mpicn_sFireball2Icon->mUnk_0c->mUnk_04 = 0;
+    mpicn_sFireball2Icon->fieldC->field4++;
+    if (mpicn_sFireball2Icon->fieldC->field4 < 0 ||
+        mpicn_sFireball2Icon->fieldC->field4 >= 0x14) {
+        mpicn_sFireball2Icon->fieldC->field4 = 0;
     }
-    inFirstHalf = mpicn_sFireball2Icon->mUnk_0c->mUnk_04 < 10;
+    inFirstHalf = mpicn_sFireball2Icon->fieldC->field4 < 10;
     for (i = 0; i < mpicn_sFireball2Icon->mObjectCount; i++) {
         object = mpicn_sFireball2Icon->mObjects[i];
         position = &object->mPos;
@@ -69,9 +69,9 @@ void mpicn_updateFireball2Icon(void) {
         }
         mpicn_sFireball2Icon->mCells[cellCount].mCell =
             r2d_getRaceSCell(inFirstHalf != FALSE ? 0xa5 : 0xa6);
-        mpicn_sFireball2Icon->mCells[cellCount].mUnk_0c = 1;
-        mpicn_sFireball2Icon->mCells[cellCount].mUnk_0e = 0;
-        mpicn_sFireball2Icon->mCells[cellCount].mUnk_10 = object->mAngle;
+        mpicn_sFireball2Icon->mCells[cellCount].fieldC = 1;
+        mpicn_sFireball2Icon->mCells[cellCount].fieldE = 0;
+        mpicn_sFireball2Icon->mCells[cellCount].field10 = object->mAngle;
         cellCount++;
     }
     mpicn_sFireball2Icon->mCellCount = cellCount;
@@ -101,7 +101,7 @@ void InitRaceGoalTimes(void) {
         gRaceGoalTimes->mLapTimes[i].mDigits[5] = 0;
         gRaceGoalTimes->mLapTimes[i].mDigits[6] = 0;
     }
-    gRaceGoalTimes->mUnk_a8 = 0;
+    gRaceGoalTimes->fieldA8 = 0;
     gRaceGoalTimes->mCellIndexAdd = 0;
 }
 
@@ -136,11 +136,11 @@ void UpdateRaceGoalTimes(void) {
     if (IsRaceNewRecordTaFinishRecord() == 0 && IsRaceNewRecordTaBestLapRecord() == 0) {
         return;
     }
-    gRaceGoalTimes->mUnk_a8++;
-    if (gRaceGoalTimes->mUnk_a8 >= 0x10) {
-        gRaceGoalTimes->mUnk_a8 = 0;
+    gRaceGoalTimes->fieldA8++;
+    if (gRaceGoalTimes->fieldA8 >= 0x10) {
+        gRaceGoalTimes->fieldA8 = 0;
     }
-    cycleStep = gRaceGoalTimes->mUnk_a8 % 16;
+    cycleStep = gRaceGoalTimes->fieldA8 % 16;
     if (cycleStep < 4) {
         gRaceGoalTimes->mCellIndexAdd = 0;
         return;
@@ -304,9 +304,9 @@ void mpicn_updateBerryIcon(void) {
             continue;
         }
         mpicn_sBerryIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xb8);
-        mpicn_sBerryIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
-        mpicn_sBerryIcon->mCells[cellCount].mUnk_10 = object->mAngle;
-        mpicn_sBerryIcon->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+        mpicn_sBerryIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
+        mpicn_sBerryIcon->mCells[cellCount].field10 = object->mAngle;
+        mpicn_sBerryIcon->fieldC[cellCount].field0 = object->mScaleX / 6;
         cellCount++;
     }
     mpicn_sBerryIcon->mCellCount = cellCount;
@@ -342,9 +342,9 @@ void mpicn_updateCreamIcon(void) {
         if (lmap_20B5AE8(position, &mpicn_sCreamIcon->mCells[cellCount].mDrawPos, v, 1,
                                             1) != FALSE) {
             mpicn_sCreamIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xb7);
-            mpicn_sCreamIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
-            mpicn_sCreamIcon->mCells[cellCount].mUnk_10 = object->mAngle;
-            mpicn_sCreamIcon->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+            mpicn_sCreamIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
+            mpicn_sCreamIcon->mCells[cellCount].field10 = object->mAngle;
+            mpicn_sCreamIcon->fieldC[cellCount].field0 = object->mScaleX / 6;
             cellCount++;
         }
     }

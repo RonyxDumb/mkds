@@ -4,32 +4,32 @@
 #include "code_0212bcac.h"
 #include "code_0212d214.h"
 
-// Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as
+// Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.field94 embed it as
 // their first member. It holds the list of the sounds started on it, the pointer to the position the distance to the
-// camera is measured to, and the number of its volume curve. A sound is started on it only while bit 0 of its mUnk_34
+// camera is measured to, and the number of its volume curve. A sound is started on it only while bit 0 of its field34
 // member is set; InitSoundSource clears that bit. data_0217d048 is addressed in rows of twelve bytes;
 // sfx_updateEmitterStatus and func_0210c0bc address the container of one of those rows. Kart and the it_sItemsets
 // elements (ItemObject) start with it: StartSoundWhileRequested and sfx_21090C4 pass either one to
 // StartSoundWhileRequestedEx and sfx_emitSfx. InitSoundSource writes the byte at 0x3c and the word at 0x40.
 typedef struct SoundSource {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[8];
+    /* 00 */ u8 field0[2];
+    /* 02 */ u16 field2;
+    /* 04 */ u8 field4[8];
     // The sounds started on this source, as a list of PlayingSound entries.
     /* 0c */ NNSFndList mPlayingSounds;
     /* 18 */ u32 mUpdateListIndex;
-    /* 1c */ u32 mUnk_1c[3];
+    /* 1c */ u32 field1C[3];
     // Pointer to the owner's position (declared u32); the distance and the direction to the camera are measured to it.
     // Without one (0) a sound gets full volume and no direction.
     /* 28 */ u32 mOwnerPosSource;
     /* 2c */ void (*mStartSeqFunction)(void *a, void *b, u32 c);
     /* 30 */ void (*mTrackParamsFunction)(void *a, void *b, void *c);
     /* 34 */ u16 mSourceFlags;
-    /* 36 */ u8 mUnk_36[2];
-    /* 38 */ u32 mUnk_38;
+    /* 36 */ u8 field36[2];
+    /* 38 */ u32 field38;
     // Number of the volume curve (element of gSfxParams) of this source.
     /* 3c */ u8 mFalloffIndex;
-    /* 3d */ u8 mUnk_3d[3];
+    /* 3d */ u8 field3D[3];
     // Squared distance from the camera to the owner of the sound source. For a Kart it is the three-axis one, for map
     // and item objects the horizontal one with the low 5 and top 2 bits cleared; InitSoundSource stores 0xffffffff. The
     // sound pass takes its square root.
@@ -37,15 +37,15 @@ typedef struct SoundSource {
 } SoundSource;
 
 // One sound started on a SoundSource, from the start request until it is stopped. The entries are taken from a pool of
-// twelve and linked into the list of the source. The mUnk_00 member is the library player handle, NULL until the player
+// twelve and linked into the list of the source. The field0 member is the library player handle, NULL until the player
 // is started. Returned by sp_acquireElement and passed to func_0210bcf4; sfx_stopSfxStandalone writes its byte at 0x19.
-// sfx_210BF24 subtracts one NNSFndList from mUnk_10 to reach the SoundSource holding it.
+// sfx_210BF24 subtracts one NNSFndList from field10 to reach the SoundSource holding it.
 typedef struct PlayingSound {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ NNSFndList *mUnk_10;
+    /* 04 */ s32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ NNSFndList *field10;
     /* 14 */ s16 mPitch;
     // Number of the sound this entry plays.
     /* 16 */ u16 mSoundId;
@@ -58,9 +58,9 @@ typedef struct PlayingSound {
 
 // Object at 0x20 of SoundParams: words at 0x08 and 0x0c.
 typedef struct Unk0210bcf4_20 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 00 */ u8 field0[8];
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
 } Unk0210bcf4_20;
 
 // Held on the stack by func_0210bcf4 and sfx_updateEmitter and passed to the three functions
@@ -68,13 +68,13 @@ typedef struct Unk0210bcf4_20 {
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
     /* 04 */ u32 mPositionSource;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
     /* 10 */ s32 mDistance;
     /* 14 */ s32 mVolume;
     /* 18 */ u32 mPan;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ Unk0210bcf4_20 *mUnk_20;
+    /* 1c */ u32 field1C;
+    /* 20 */ Unk0210bcf4_20 *field20;
 } SoundParams;
 
 u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);

@@ -31,10 +31,10 @@ u32 func_020072c0(void) {
     v11 = 0;
     do {
         work = data_0216fdac;
-        work->mUnk_1525 = (work->mUnk_1525 + 1) % 16;
+        work->field1525 = (work->field1525 + 1) % 16;
         v13 = (Unk0216fdac *) *(u32 *) &data_0216fdac;
-        childEntry = OFFSET_PTR(Unk0216fdac, v13, v13->mUnk_1525 * 0x5d4);
-        if (childEntry->mEntryUsed != 0 && childEntry->mUnk_1d4c != 0) {
+        childEntry = OFFSET_PTR(Unk0216fdac, v13, v13->field1525 * 0x5d4);
+        if (childEntry->mEntryUsed != 0 && childEntry->field1D4C != 0) {
             break;
         }
         v11++;
@@ -42,32 +42,32 @@ u32 func_020072c0(void) {
     if (v11 == 16) {
         return 21;
     }
-    func_02007154(v13->mUnk_1525);
+    func_02007154(v13->field1525);
     work = data_0216fdac;
-    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4);
-    if (MBi_get_blockinfo(&v2, work->mUnk_1d2c + work->mUnk_1525 * 0x5d4, childEntry->mUnk_1d48,
-                      work->mUnk_1788 + work->mUnk_1525 * 0x5d4) == FALSE) {
+    childEntry = OFFSET_PTR(Unk0216fdac, work, work->field1525 * 0x5d4);
+    if (MBi_get_blockinfo(&v2, work->field1D2C + work->field1525 * 0x5d4, childEntry->field1D48,
+                      work->field1788 + work->field1525 * 0x5d4) == FALSE) {
         return 21;
     }
-    message.mUnk_00 = 4;
+    message.field0 = 4;
     work = data_0216fdac;
-    message.mUnk_02 = work->mUnk_1525;
-    message.mUnk_04 = (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d48;
+    message.field2 = work->field1525;
+    message.field4 = (OFFSET_PTR(Unk0216fdac, work, work->field1525 * 0x5d4))->field1D48;
     v9 = WriteParentMessage((u8 *) &message, (u8 *) work);
-    v14 = v2.mUnk_0c;
+    v14 = v2.fieldC;
     work = data_0216fdac;
-    v10 = v2.mUnk_08 - ((u32 *) (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d2c)[v14] +
-          (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d58[v14];
-    childEntry = OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4);
-    rangeTable = childEntry->mUnk_1d54;
-    if (CopyFromDataRanges(rangeTable, v10, v9, v2.mUnk_04) == 0) {
-        loadJob = (DataRangeLoadJob *) data_0216fdac->mUnk_7ce0;
-        if (CTRDGi_IsTaskBusy(&loadJob->mUnk_00) == 0) {
-            if (rangeTable->mUnk_00 != 0) {
-                range = rangeTable->mUnk_30;
+    v10 = v2.field8 - ((u32 *) (OFFSET_PTR(Unk0216fdac, work, work->field1525 * 0x5d4))->field1D2C)[v14] +
+          (OFFSET_PTR(Unk0216fdac, work, work->field1525 * 0x5d4))->field1D58[v14];
+    childEntry = OFFSET_PTR(Unk0216fdac, work, work->field1525 * 0x5d4);
+    rangeTable = childEntry->field1D54;
+    if (CopyFromDataRanges(rangeTable, v10, v9, v2.field4) == 0) {
+        loadJob = (DataRangeLoadJob *) data_0216fdac->field7CE0;
+        if (CTRDGi_IsTaskBusy(&loadJob->field0) == 0) {
+            if (rangeTable->field0 != 0) {
+                range = rangeTable->field30;
                 lowestRange = NULL;
                 for (i = 0; i < 4; range++, i++) {
-                    if (range->mUnk_0c == 2) {
+                    if (range->fieldC == 2) {
                         if (lowestRange == NULL || lowestRange->mOffset > range->mOffset) {
                             lowestRange = range;
                         }
@@ -76,18 +76,18 @@ u32 func_020072c0(void) {
                 if (lowestRange == NULL) {
                     OS_Terminate();
                 }
-                rangeTable->mUnk_00 = 0;
-                lowestRange->mUnk_0c = 1;
+                rangeTable->field0 = 0;
+                lowestRange->fieldC = 1;
                 lowestRange->mOffset = v10 & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
-                CTRDGi_SetTask(&loadJob->mUnk_00, (void *) LoadDataRange, NULL, 4);
+                CTRDGi_SetTask(&loadJob->field0, (void *) LoadDataRange, NULL, 4);
             }
         }
         return 21;
     }
     work = data_0216fdac;
-    return MBi_BlockHeaderEnd(v2.mUnk_04 + 6, (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d4c,
+    return MBi_BlockHeaderEnd(v2.field4 + 6, (OFFSET_PTR(Unk0216fdac, work, work->field1525 * 0x5d4))->field1D4C,
                               (u32) work);
 }
 
@@ -101,7 +101,7 @@ int func_020071b4(void) {
     i = 1;
     work = data_0216fdac;
     for (; i <= 15; i++) {
-        switch (work->mUnk_14e8[i - 1]) {
+        switch (work->field14E8[i - 1]) {
             case 2:
                 childMasks[1] |= 1 << i;
                 break;

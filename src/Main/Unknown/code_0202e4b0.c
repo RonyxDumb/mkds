@@ -27,8 +27,8 @@ void InitScrollList(void *heap, s32 b, const void *groupFirstEntries, u16 cursor
     func_0202e680(groupFirstEntries, gScrollList->mGroupFirstEntries, b);
     func_0202e680(screenMap, gScrollList->mScreenMap, 0x600);
     gScrollList->mCursorEntry = cursorEntry;
-    gScrollList->mUnk_02e = e;
-    gScrollList->mUnk_030 = f;
+    gScrollList->field2E = e;
+    gScrollList->field30 = f;
     gScrollList->mEntries = entries;
     gScrollList->mRowCount = rowCount;
     gScrollList->mCallback = callback;
@@ -49,7 +49,7 @@ void InitScrollList(void *heap, s32 b, const void *groupFirstEntries, u16 cursor
     for (row = gScrollList->mRowCount; row < 5; row++) {
         SetScrollListSlotVisible(row + 1, 0);
     }
-    gScrollList->mEntries[gScrollList->mUnk_02e].mVisible = gScrollList->mRowCount > 5;
+    gScrollList->mEntries[gScrollList->field2E].mVisible = gScrollList->mRowCount > 5;
     if (gScrollList->mRowCount == 0) {
         gScrollList->mEntries[gScrollList->mCursorEntry].mVisible = 0;
     }

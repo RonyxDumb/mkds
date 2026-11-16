@@ -22,20 +22,20 @@ typedef enum { PLAYER_KIND_HUMAN, PLAYER_KIND_CPU, PLAYER_KIND_GHOST, PLAYER_KIN
 typedef struct KartEntryPlayer {
     /* 00 */ u32 mKind;
     /* 04 */ s32 mTeamIndex;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 field8;
     /* 0c */ s32 mIndex;
     /* 10 */ s32 mGhostRecordIndex;
-    /* 14 */ u16 mUnk_14;
+    /* 14 */ u16 field14;
 // Running number among the kind-1 entries; -1 when the entry has none.
     /* 16 */ s8 mNumber;
-    /* 17 */ u8 mUnk_17;
+    /* 17 */ u8 field17;
     /* 18 */ void *mName;
     /* 1c */ void *mEmblemData;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ u8 mUnk_24;
-    /* 25 */ u8 mUnk_25;
-    /* 26 */ u8 mUnk_26;
-    /* 27 */ u8 mUnk_27;
+    /* 20 */ s32 field20;
+    /* 24 */ u8 field24;
+    /* 25 */ u8 field25;
+    /* 26 */ u8 field26;
+    /* 27 */ u8 field27;
 } KartEntryPlayer;
 
 // 0x30-byte entries at 0x68 and 0x250 of the object behind gRaceMultiConfig.
@@ -143,33 +143,33 @@ typedef struct RaceSetupHeader {
     /* 28 */ MissionFileRow mMissionFileRow;
     /* 54 */ s8 mMissionTableRow;
     /* 55 */ s8 mMissionTableColumn;
-    /* 56 */ u8 mUnk_56[0x1];
+    /* 56 */ u8 field56[0x1];
     /* 57 */ s8 mMirrorMode;
     /* 58 */ u8 mUseTeams;
-    /* 59 */ u8 mUnk_59[0x3];
-    /* 5c */ s32 mUnk_5c;
+    /* 59 */ u8 field59[0x3];
+    /* 5c */ s32 field5C;
     /* 60 */ u16 mCourseNumber;
     /* 62 */ s8 mEntryIndex;
     /* 63 */ u8 mFollowedKartIndex;
     /* 64 */ s8 mLapCount;
-    /* 65 */ u8 mUnk_65[0x3];
+    /* 65 */ u8 field65[0x3];
 } RaceSetupHeader;
 
-// The 0x10 bytes at 0x28 of the object behind gRaceMultiConfig (the same bytes as its mUnk_028 to mUnk_37).
+// The 0x10 bytes at 0x28 of the object behind gRaceMultiConfig (the same bytes as its field28 to field37).
 typedef struct Unk021759c0_28 {
     /* 00 */ u16 mMissionTimeLimitFrameCount;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
+    /* 02 */ u16 field2;
+    /* 04 */ s16 field4;
     /* 06 */ u8 mMissionTableValue;
     /* 07 */ u8 mMissionKind;
-    /* 08 */ u8 mUnk_08[6];
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
+    /* 08 */ u8 field8[6];
+    /* 0e */ u8 fieldE;
+    /* 0f */ u8 fieldF;
 } Unk021759c0_28;
 
 #define CPU_DIFFICULTY_HARD 3
 #define CPU_DIFFICULTY_NORMAL 2
-// Difficulty of the CPU karts, the value of the CPU KART row (RaceSetup.mUnk_014 and the setup copy); 0 is not named.
+// Difficulty of the CPU karts, the value of the CPU KART row (RaceSetup.field14 and the setup copy); 0 is not named.
 #define CPU_DIFFICULTY_EASY 1
 // Object behind gRaceMultiConfig.
 typedef struct RaceSetup {
@@ -185,53 +185,53 @@ typedef struct RaceSetup {
     /* 018 */ s32 mBattleKind;
     /* 01c */ s32 mRuleKind;
     /* 020 */ s32 mCourseListMode;
-    /* 024 */ u8 mUnk_024[0x4];
+    /* 024 */ u8 field24[0x4];
     union {
         Unk021759c0_28 mUnk_28_view;
         struct {
             /* 028 */ u16 mMissionTimeLimitFrameCount;
-            /* 02a */ u16 mUnk_02a;
-            /* 02c */ s16 mUnk_02c;
+            /* 02a */ u16 field2A;
+            /* 02c */ s16 field2C;
             /* 02e */ u8 mMissionTableValue;
             /* 2f */ u8 mMissionKind;
-            /* 030 */ u8 mUnk_030[0x6];
-            /* 036 */ u8 mUnk_036;
+            /* 030 */ u8 field30[0x6];
+            /* 036 */ u8 field36;
             /* 37 */ u8 mMissionRunCountLimit;
         };
     };
     /* 038 */ u16 mFinishWaitFrameCount;
-    /* 03a */ u8 mUnk_03a[0x2];
-    /* 3c */ u16 mUnk_3c;
-    /* 3e */ u16 mUnk_3e;
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u16 mUnk_42;
-    /* 044 */ u16 mUnk_044;
-    /* 046 */ u8 mUnk_046[0x2];
+    /* 03a */ u8 field3A[0x2];
+    /* 3c */ u16 field3C;
+    /* 3e */ u16 field3E;
+    /* 40 */ u16 field40;
+    /* 42 */ u16 field42;
+    /* 044 */ u16 field44;
+    /* 046 */ u8 field46[0x2];
     /* 048 */ char mMissionRunStem[0xc];
     /* 54 */ s8 mMissionTableRow;
     /* 55 */ s8 mMissionTableColumn;
-    /* 056 */ u8 mUnk_056[0x1];
+    /* 056 */ u8 field56[0x1];
 // Nonzero in mirror mode: the side distance of the camera and the map object models are flipped.
     /* 57 */ s8 mMirrorMode;
     /* 58 */ s8 mUseTeams;
-    /* 059 */ u8 mUnk_059[0x3];
-    /* 05c */ s32 mUnk_05c;
+    /* 059 */ u8 field59[0x3];
+    /* 05c */ s32 field5C;
     /* 60 */ u16 mCourseNumber;
     /* 62 */ s8 mEntryIndex;
     /* 063 */ u8 mFollowedKartIndex;
 // Laps to run; 0 or less means the count of the course setting.
     /* 064 */ s8 mLapCount;
-    /* 065 */ u8 mUnk_065[0x3];
+    /* 065 */ u8 field65[0x3];
     /* 68 */ KartEntry mCurrentEntries[8];
     /* 1e8 */ RaceSetupHeader mNextHeader;
     /* 250 */ KartEntry mNextEntries[8];
     /* 3d0 */ u8 mKartCount;
     /* 3d1 */ u8 mHumanAndPeerKartCount;
     /* 3d2 */ u8 mTeamKartCounts[2];
-    /* 3d4 */ u8 mUnk_3d4;
-    /* 3d5 */ s8 mUnk_3d5[3];
+    /* 3d4 */ u8 field3D4;
+    /* 3d5 */ s8 field3D5[3];
     /* 3d8 */ u16 mCourseCount;
-    /* 3da */ u8 mUnk_3da[0x2];
+    /* 3da */ u8 field3DA[0x2];
     /* 3dc */ u8 *mCourseList;
     /* 3e0 */ u8 mCourseListIndex;
     /* 3e1 */ u8 mNextCpuNumber;
@@ -239,7 +239,7 @@ typedef struct RaceSetup {
     /* 3e4 */ u8 mFirstGhostRecordMinute;
     /* 3e5 */ u8 mFirstGhostRecordSecond;
     /* 3e6 */ s8 mFirstGhostRecordFilled;
-    /* 3e7 */ u8 mUnk_3e7[0x1];
+    /* 3e7 */ u8 field3E7[0x1];
     /* 3e8 */ MinuteSecondMillisecondTime mGhostTime;
     /* 3ec */ MinuteSecondMillisecondTime mGhostLapTimes[5];
 } RaceSetup;
@@ -251,15 +251,15 @@ typedef struct TouchMicInput {
     /* 00 */ TPData mAutoSamples[5];
     /* 28 */ TPData mCalibratedPoint;
     /* 30 */ union {
-        u32 mUnk_30;
+        u32 field30;
         struct {
             s32 mTouchAutoSampling : 1;
             s32 mMicAutoSampling : 1;
-            s32 mUnk_30_2 : 1;
+            s32 field30_2 : 1;
             s32 mMicOverThreshold : 1;
         };
     };
-    /* 34 */ u8 mUnk_34[0x8];
+    /* 34 */ u8 field34[0x8];
     /* 3c */ MicBuffer *mMicBuffer;
 } TouchMicInput;
 

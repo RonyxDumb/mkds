@@ -43,16 +43,16 @@ void func_ov000_021a323c(void (*arg0)(u32, void *, u32)) {
 }
 
 void func_ov000_021a321c(Unk021a31e8 *a, u16 b, u32 c) {
-    strncpy((char *) a->mUnk_06, data_ov000_021b41f0, 2);
-    a->mUnk_04 = b;
-    a->mUnk_00 = c;
+    strncpy((char *) a->field6, data_ov000_021b41f0, 2);
+    a->field4 = b;
+    a->field0 = c;
 }
 
 u16 func_ov000_021a31e8(const void *a) {
     Unk021a31e8 t;
     MI_CpuCopy8(a, &t, 8);
-    if (memcmp(t.mUnk_06, data_ov000_021b41f0, 2) == 0) {
-        return t.mUnk_04;
+    if (memcmp(t.field6, data_ov000_021b41f0, 2) == 0) {
+        return t.field4;
     }
     return 0;
 }
@@ -86,14 +86,14 @@ void func_ov000_021a317c(Unk0219887c *a, void *b, s32 c, u32 d) {
 }
 
 void func_ov000_021a314c(Unk0219887c *a, u32 b) {
-    if (gWiFiMessageLayer->mUnk_60c != NULL) {
-        gWiFiMessageLayer->mUnk_60c(b, func_ov000_0219b9c4(a));
+    if (gWiFiMessageLayer->field60C != NULL) {
+        gWiFiMessageLayer->field60C(b, func_ov000_0219b9c4(a));
     }
 }
 
 // One step per frame in connection state 6 (returns at once when the layer is NULL): for each participant (except the
 // own index) continues the chunked send and, when the elapsed time since the last receive exceeds the peer's limit,
-// calls the timeout callback func (mUnk_608; no writer in src).
+// calls the timeout callback func (field608; no writer in src).
 void UpdateWiFiMessageLayer(void) {
     u8 *l;
     s32 n;
@@ -123,7 +123,7 @@ void UpdateWiFiMessageLayer(void) {
                     if (gWiFiMessageLayer->mSendCallback != NULL) {
                         gWiFiMessageLayer->mSendCallback(e->mSendSize, d);
                     }
-                    e->mUnk_1c = 0;
+                    e->field1C = 0;
                     e->mSendBuffer = NULL;
                     e->mSentSize = 0;
                     e->mSendSize = 0;
@@ -131,11 +131,11 @@ void UpdateWiFiMessageLayer(void) {
             }
             if (func_ov000_0219bac8(d) != 0) {
                 e = func_ov000_021a2fdc(d);
-                if (gWiFiMessageLayer->mUnk_608 != NULL && e->mUnk_2c != 0) {
+                if (gWiFiMessageLayer->field608 != NULL && e->field2C != 0) {
                     t = OS_GetTick();
-                    if ((u32) _ll_udiv((t - e->mUnk_24) << 6, 0x82ea) > e->mUnk_2c) {
-                        gWiFiMessageLayer->mUnk_608(d);
-                        e->mUnk_24 = t;
+                    if ((u32) _ll_udiv((t - e->field24) << 6, 0x82ea) > e->field2C) {
+                        gWiFiMessageLayer->field608(d);
+                        e->field24 = t;
                     }
                 }
             }
@@ -149,7 +149,7 @@ void func_ov000_021a2ff8(int a) {
         gWiFiMessageLayer->mPeers[a].mReceivedSize = 0;
         gWiFiMessageLayer->mPeers[a].mSendSize = 0;
         gWiFiMessageLayer->mPeers[a].mReceiveSize = 0;
-        gWiFiMessageLayer->mPeers[a].mUnk_1c = 0;
+        gWiFiMessageLayer->mPeers[a].field1C = 0;
         gWiFiMessageLayer->mPeers[a].mMessageKind = 0;
     }
 }
@@ -163,7 +163,7 @@ WiFiPeerMessage *func_ov000_021a2fdc(int a) {
 }
 
 u8 func_ov000_021a2fc8(int a) {
-    return gWiFiMessageLayer->mPeers[a].mUnk_1c;
+    return gWiFiMessageLayer->mPeers[a].field1C;
 }
 
 u8 func_ov000_021a2fb4(int a) {
@@ -217,9 +217,9 @@ void func_ov000_021a2e7c(Unk0219887c *a, const void *b, int c) {
         if (gWiFiMessageLayer->mReceiveCallback != NULL) {
             gWiFiMessageLayer->mReceiveCallback(v1, v2->mReceiveBuffer, c);
         }
-        if ((gWiFiMessageLayer->mUnk_608 != NULL) && (v2->mUnk_2c != 0)) {
+        if ((gWiFiMessageLayer->field608 != NULL) && (v2->field2C != 0)) {
             v3 = OS_GetTick();
-            v2->mUnk_24 = v3;
+            v2->field24 = v3;
         }
     }
 }
@@ -228,7 +228,7 @@ void func_ov000_021a2dfc(int a, void *b, s32 c) {
     WiFiPeerMessage *e = &gWiFiMessageLayer->mPeers[a];
     u32 t[2];
     u16 n;
-    e->mUnk_1e = func_ov000_021a2fb4(a);
+    e->field1E = func_ov000_021a2fb4(a);
     n = func_ov000_021a31e8(b);
     switch (n) {
         case 1:
@@ -272,14 +272,14 @@ void func_ov000_021a2d68(int a, void *b, s32 c) {
             gWiFiMessageLayer->mReceiveCallback(a, e->mReceiveBuffer, n);
         }
     }
-    if (gWiFiMessageLayer->mUnk_608 != NULL && e->mUnk_2c != 0) {
-        e->mUnk_24 = OS_GetTick();
+    if (gWiFiMessageLayer->field608 != NULL && e->field2C != 0) {
+        e->field24 = OS_GetTick();
     }
 }
 
 void func_ov000_021a2d38(u32 a, void *b, s32 c) {
     WiFiPeerMessage *e = func_ov000_021a2fdc(a);
-    e->mReceiveState = e->mUnk_1e;
+    e->mReceiveState = e->field1E;
     switch (e->mMessageKind) {
         case 2:
         case 3:

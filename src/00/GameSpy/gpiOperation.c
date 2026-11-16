@@ -52,7 +52,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     if (operation == NULL) {
         __msl_assertion_failed(data_ov000_021b3318, data_ov000_021b32b0, NULL, 0x24);
     }
-    b = operation->mUnk_0c;
+    b = operation->fieldC;
     if (b.mCallback != NULL) {
         switch (operation->mType) {
             case 0:
@@ -62,9 +62,9 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(c, 0, 0x20);
-                c->mUnk_00 = operation->mUnk_1c;
+                c->field0 = operation->field1C;
                 if (a->mErrorNumber == 0x201) {
-                    c->mUnk_04 = a->mProfileId;
+                    c->field4 = a->mProfileId;
                     a->mProfileId = 0;
                 }
                 g = GpiQueueCallback(connection, b, c, operation, 0);
@@ -79,7 +79,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(d, 0, 8);
-                d->mUnk_00 = operation->mUnk_1c;
+                d->field0 = operation->field1C;
                 g = GpiQueueCallback(connection, b, d, operation, 0);
                 if (g != 0) {
                     return g;
@@ -92,7 +92,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(c, 0, 0x204);
-                c->mUnk_00 = operation->mUnk_1c;
+                c->field0 = operation->field1C;
                 g = GpiQueueCallback(connection, b, c, operation, 0);
                 if (g != 0) {
                     return g;
@@ -105,8 +105,8 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(e, 0, 0x10);
-                e->mUnk_00 = operation->mUnk_1c;
-                e->mUnk_0c = 0;
+                e->field0 = operation->field1C;
+                e->fieldC = 0;
                 g = GpiQueueCallback(connection, b, e, operation, 0);
                 if (g != 0) {
                     return g;
@@ -119,7 +119,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                     return 1;
                 }
                 memset(f, 0, 4);
-                f->mUnk_00 = operation->mUnk_1c;
+                f->field0 = operation->field1C;
                 g = GpiQueueCallback(connection, b, f, operation, 0);
                 if (g != 0) {
                     return g;
@@ -143,9 +143,9 @@ u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *par
         return 1;
     }
     b->mType = param_2;
-    b->mUnk_04 = (void *) param_3;
-    b->mUnk_08 = param_5;
-    b->mUnk_14 = 0;
+    b->field4 = (void *) param_3;
+    b->field8 = param_5;
+    b->field14 = 0;
     if (param_2 == 0) {
         b->mId = 1;
     } else {
@@ -154,9 +154,9 @@ u32 GpiCreateOperation(GpConnection *param_1, int param_2, int param_3, int *par
             a->mNextOperationId = 2;
         }
     }
-    b->mUnk_1c = 0;
-    b->mUnk_0c.mCallback = (void (*)(void *, void *, u32)) param_6;
-    b->mUnk_0c.mUnk_04 = param_7;
+    b->field1C = 0;
+    b->fieldC.mCallback = (void (*)(void *, void *, u32)) param_6;
+    b->fieldC.field4 = param_7;
     b->mNext = a->mOperationList;
     a->mOperationList = b;
     *param_4 = (s32) b;
@@ -168,20 +168,20 @@ void GpiDeleteOperation(GpConnection *param_1, GpiOperation *param_2) {
     Unk02193858 *b;
 
     if (param_2->mType == 3) {
-        b = (Unk02193858 *) param_2->mUnk_04;
+        b = (Unk02193858 *) param_2->field4;
         a->mSearchCount--;
         if (a->mSearchCount < 0) {
             __msl_assertion_failed(data_ov000_021b32c0, data_ov000_021b32b0, NULL, 0xb6);
         }
-        func_ov000_0218e524(b->mUnk_04, 2);
-        func_ov000_0218e53c(b->mUnk_04);
-        func_ov000_021a3668(b->mUnk_18);
-        b->mUnk_18 = NULL;
-        func_ov000_021a3668(b->mUnk_08);
-        b->mUnk_08 = NULL;
+        func_ov000_0218e524(b->field4, 2);
+        func_ov000_0218e53c(b->field4);
+        func_ov000_021a3668(b->field18);
+        b->field18 = NULL;
+        func_ov000_021a3668(b->field8);
+        b->field8 = NULL;
     }
-    func_ov000_021a3668(param_2->mUnk_04);
-    param_2->mUnk_04 = NULL;
+    func_ov000_021a3668(param_2->field4);
+    param_2->field4 = NULL;
     func_ov000_021a3668(param_2);
 }
 
@@ -225,7 +225,7 @@ BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key) {
 BOOL func_ov000_021937c0(GpConnection *object) {
     GpiOperation *node = object->mGpiConnection->mOperationList;
     while (node != NULL) {
-        if (node->mUnk_08 != 0 && node->mType != 3) {
+        if (node->field8 != 0 && node->mType != 3) {
             return TRUE;
         }
         node = node->mNext;
@@ -256,7 +256,7 @@ s32 GpiProcessOperation(GpConnection *c, GpiOperation *d, const char *e) {
             break;
     }
     if (a != 0) {
-        d->mUnk_1c = a;
+        d->field1C = a;
     }
     return a;
 }
