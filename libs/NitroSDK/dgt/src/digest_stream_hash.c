@@ -93,7 +93,7 @@ void DGT_Hash1GetDigest_R(void *digest, DGTHash1Context *ctx) {
 void ProcessBlock(DGTHash1Context *ctx) {
     const u32 *word;
     const u32 *order;
-    s32 roundIndex;
+    s32 stepGroup;
     u32 hashA;
     u32 hashB;
     u32 hashC;
@@ -108,7 +108,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
     hashC = ctx->mState[2];
     hashD = ctx->mState[3];
     constant = gHash1RoundConstants;
-    for (roundIndex = 0, word = block; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0, word = block; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += *word++ + (hashA + ((hashB & hashC) | (~hashB & hashD)));
         hashA = hashB + ((sum << 7) | (sum >> 25));
@@ -122,7 +122,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += *word++ + (hashB + ((hashC & hashD) | (~hashC & hashA)));
         hashB = hashC + ((sum << 22) | (sum >> 10));
     }
-    for (roundIndex = 0, order = gHash1WordOrder; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0, order = gHash1WordOrder; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + ((hashB & hashD) | (hashC & ~hashD)));
         hashA = hashB + ((sum << 5) | (sum >> 27));
@@ -136,7 +136,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += block[*order++] + (hashB + ((hashC & hashA) | (hashD & ~hashA)));
         hashB = hashC + ((sum << 20) | (sum >> 12));
     }
-    for (roundIndex = 0; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + (hashB ^ hashC ^ hashD));
         hashA = hashB + ((sum << 4) | (sum >> 28));
@@ -150,7 +150,7 @@ void ProcessBlock(DGTHash1Context *ctx) {
         sum += block[*order++] + (hashB + (hashC ^ hashD ^ hashA));
         hashB = hashC + ((sum << 23) | (sum >> 9));
     }
-    for (roundIndex = 0; roundIndex < 4; roundIndex++) {
+    for (stepGroup = 0; stepGroup < 4; stepGroup++) {
         sum = *constant++;
         sum += block[*order++] + (hashA + (hashC ^ (hashB | ~hashD)));
         hashA = hashB + ((sum << 6) | (sum >> 26));

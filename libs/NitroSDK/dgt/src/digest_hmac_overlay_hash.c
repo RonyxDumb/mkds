@@ -37,31 +37,31 @@ void DGT_Hash2Reset(DGTHash2Context *ctx) {
 // Adds length bytes of input to the SHA-1 computation, hashing each full 64-byte block as it fills.
 void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     u8 *buffer;
-    u32 newLow;
-    u32 num;
+    u32 lowSum;
+    u32 buffered;
     u32 chunk;
 
     buffer = ctx->mBlock;
     if (length == 0) {
         return;
     }
-    newLow = ctx->mBitCountLow + (length << 3);
-    if (newLow < ctx->mBitCountLow) {
+    lowSum = ctx->mBitCountLow + (length << 3);
+    if (lowSum < ctx->mBitCountLow) {
         ctx->mBitCountHigh++;
     }
     ctx->mBitCountHigh += length >> 29;
-    ctx->mBitCountLow = newLow;
-    num = ctx->mBufferLen;
-    if (num != 0) {
-        if (num + length >= 0x40) {
-            chunk = 0x40 - num;
-            MI_CpuCopy8(input, buffer + num, chunk);
+    ctx->mBitCountLow = lowSum;
+    buffered = ctx->mBufferLen;
+    if (buffered != 0) {
+        if (buffered + length >= 0x40) {
+            chunk = 0x40 - buffered;
+            MI_CpuCopy8(input, buffer + buffered, chunk);
             length -= chunk;
             input += chunk;
             DGTi_Hash2ProcessMessageBlockFunc(ctx, buffer, 0x40);
             ctx->mBufferLen = 0;
         } else {
-            MI_CpuCopy8(input, buffer + num, length);
+            MI_CpuCopy8(input, buffer + buffered, length);
             ctx->mBufferLen += length;
             return;
         }
@@ -187,39 +187,39 @@ void DGTi_Hash2ProcessMessageBlock(DGTHash2Context *ctx, u8 *source, int length)
 }
 
 // HMAC-SHA-1 of bin with key, written to digest. A key longer than 64 bytes is hashed down first.
-void DGT_Hash2CalcHmac(u8 *digest, const u8 *bin, u32 binLen, const u8 *key, s32 keyLen) {
-    u8 ipad[0x40];
-    u8 opad[0x40];
-    u8 inner[0x14];
+void DGT_Hash2CalcHmac(u8 *digest, const u8 *binPtr, u32 binLen, const u8 *keyPtr, s32 keyLen) {
+    u8 innerKeyBlock[0x40];
+    u8 outerKeyBlock[0x40];
+    u8 tempDigest[0x14];
     DGTHash2Context ctx;
-    u8 *innerPtr;
+    u8 *tempDigestPtr;
     s32 keyIndex;
 
-    innerPtr = inner;
-    if (digest == 0 || bin == 0 || binLen == 0 || key == 0 || keyLen == 0) {
+    tempDigestPtr = tempDigest;
+    if (digest == 0 || binPtr == 0 || binLen == 0 || keyPtr == 0 || keyLen == 0) {
         return;
     }
     if (keyLen > 0x40) {
         DGT_Hash2Reset(&ctx);
-        DGT_Hash2SetSource(&ctx, key, keyLen);
-        DGT_Hash2GetDigest(&ctx, innerPtr);
-        key = innerPtr;
+        DGT_Hash2SetSource(&ctx, keyPtr, keyLen);
+        DGT_Hash2GetDigest(&ctx, tempDigestPtr);
+        keyPtr = tempDigestPtr;
         keyLen = 0x14;
     }
     for (keyIndex = 0; keyIndex < keyLen; keyIndex++) {
-        ipad[keyIndex] = *key ^ 0x36;
-        opad[keyIndex] = *key++ ^ 0x5c;
+        innerKeyBlock[keyIndex] = *keyPtr ^ 0x36;
+        outerKeyBlock[keyIndex] = *keyPtr++ ^ 0x5c;
     }
     for (; keyIndex < 0x40; keyIndex++) {
-        ipad[keyIndex] = 0x36;
-        opad[keyIndex] = 0x5c;
+        innerKeyBlock[keyIndex] = 0x36;
+        outerKeyBlock[keyIndex] = 0x5c;
     }
     DGT_Hash2Reset(&ctx);
-    DGT_Hash2SetSource(&ctx, ipad, 0x40);
-    DGT_Hash2SetSource(&ctx, bin, binLen);
-    DGT_Hash2GetDigest(&ctx, innerPtr);
+    DGT_Hash2SetSource(&ctx, innerKeyBlock, 0x40);
+    DGT_Hash2SetSource(&ctx, binPtr, binLen);
+    DGT_Hash2GetDigest(&ctx, tempDigestPtr);
     DGT_Hash2Reset(&ctx);
-    DGT_Hash2SetSource(&ctx, opad, 0x40);
-    DGT_Hash2SetSource(&ctx, innerPtr, 0x14);
+    DGT_Hash2SetSource(&ctx, outerKeyBlock, 0x40);
+    DGT_Hash2SetSource(&ctx, tempDigestPtr, 0x14);
     DGT_Hash2GetDigest(&ctx, digest);
 }
