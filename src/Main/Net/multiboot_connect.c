@@ -263,7 +263,6 @@ s32 FindScanEntryIndex(u32 entryIndex) {
     return result;
 }
 
-// Codes: 2 is an error, 3 the end of the scan; 0 and 1 carry a table entry and are ignored.
 void RepeatedScanCallback(u32 code, void *args) {
     switch (code) {
         case SCAN_EVENT_ENTRY_COMPLETE:

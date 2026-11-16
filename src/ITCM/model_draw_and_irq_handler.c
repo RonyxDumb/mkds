@@ -10,7 +10,7 @@
 #include "irq_wait_handler.h"
 #include "thread_scheduler.h"
 #include "multiboot_piece_buffers.h"
-#include "Main/Graphics/nsbmd_render_obj.h" // NNSG3dRenderObj
+#include "Main/Graphics/nsbmd_render_obj.h"
 #include "interrupt_control.h"
 #include "model_draw_state.h"
 #include "dma_copy_fill_wait.h"
@@ -36,7 +36,6 @@ GxCommandBuffer *NNS_G3dGeReleaseBuffer(void) {
     NNS_G3dGeBuffer = 0;
     return commandBuffer;
 }
-// clang-format on
 
 void NNS_G3dGeFlushBuffer(void) {
     if (NNS_G3dFlagGXDmaAsync != 0) {
@@ -622,9 +621,10 @@ void NNSi_G3dFuncSbc_POSSCALE(NNSG3dRS *renderState, u32 option) {
 }
 
 // clang-format off
-// Interrupt dispatch: reads the interrupt flag and enable registers (0x04000210), takes the highest set bit with clz,
-// acknowledges it, and runs the function in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch.
-// Not compiled code: it jumps with a set return address instead of a call (ldr lr, bx).
+// Interrupt dispatch: returns at once if reg_OS_IME is zero or no enabled interrupt is pending; otherwise takes the
+// lowest pending bit of reg_OS_IE and reg_OS_IF (found with clz), acknowledges it in reg_OS_IF, and runs the function
+// in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch. It is asm because it jumps with a set return
+// address instead of a call (ldr lr, bx).
 asm void OS_IrqHandler(void) {
     stmdb sp!, {lr}
     mov ip, #0x4000000
@@ -651,10 +651,10 @@ L_loop:
 // clang-format on
 
 // clang-format off
-// OSThread switch after an interrupt: clears the pending flags of the thread list at OSi_IrqThreadQueue, then saves the
-// registers of the running thread in its context and loads those of the first runnable thread.
-// Not compiled code: it switches processor modes and moves the whole register set with the user-bank forms of stm and
-// ldm (msr, mrs, ^).
+// OSThread switch after an interrupt: makes the threads queued at OSi_IrqThreadQueue runnable and empties the queue,
+// then, if a reschedule is asked for and the first runnable thread is a different one, saves the registers of the
+// running thread in its context and loads those of that thread. It is asm because it switches processor modes and moves
+// the whole register set with the user-bank forms of stm and ldm (msr, mrs, ^).
 asm void OS_IrqHandler_ThreadSwitch(void) {
     mov r2, #0x1
     mov r3, #0x0

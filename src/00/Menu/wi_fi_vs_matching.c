@@ -602,7 +602,7 @@ void AdvanceWiFiVSMatchingPauseBetweenOthers(void) {
 
 void AdvanceWiFiVSMatchingWaitResultShown(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    // mUnk_30 is 1 to 3 here and indexes the table from 1.
+    // mOtherCount is 1 to 3 here and indexes the table from 1.
     if (gWiFiVSMatching->mStateFrames >= (gWiFiVSMatchingResultWaitFrames - 1)[gWiFiVSMatching->mOtherCount]) {
         if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT;

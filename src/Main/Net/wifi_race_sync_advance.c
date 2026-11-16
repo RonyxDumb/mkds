@@ -137,7 +137,6 @@ void InitWiFiRaceSync(void *heap) {
     gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mParticipantMask;
     MI_CpuFill8(gWiFiRaceSync->mSendBuffer, 0, WIFI_RACE_SYNC_SEND_BUFFER_SIZE);
     for (entryIndex = 0; entryIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; entryIndex++) {
-        // Clears the record part of the entry.
         MI_CpuFill8(&gWiFiRaceSync->mEntries[entryIndex], 0, WIFI_RACE_SYNC_RECORD_SIZE);
         gWiFiRaceSync->mEntries[entryIndex].mRecordReceived = 0;
     }

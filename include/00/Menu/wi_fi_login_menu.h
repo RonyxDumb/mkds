@@ -4,7 +4,7 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-// Values of WiFiLoginMenu.mState and mNextState: which message sequence runs.
+// Values of WiFiLoginMenu.mState and mNextState: which handler AdvanceWiFiLoginMenu runs.
 enum {
     WIFI_LOGIN_MENU_STATE_START,
     WIFI_LOGIN_MENU_STATE_NO_FRIEND_KEY_ASK_LOGIN,

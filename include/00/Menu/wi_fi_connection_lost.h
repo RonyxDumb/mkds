@@ -11,7 +11,7 @@ enum {
     WIFI_CONNECTION_LOST_STATE_WAIT_FADE_IN,
 };
 
-// mState selects the handler run by AdvanceWiFiConnectionLost.
+// The Wi-Fi connection lost state: mState and mNextState pick the fade handler AdvanceWiFiConnectionLost runs.
 typedef struct WiFiConnectionLost {
     /* 0 */ s32 mState;
     /* 4 */ s32 mNextState;

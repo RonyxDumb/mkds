@@ -22,7 +22,7 @@ void ReleaseDwcArchive(void);
 void InitDwcArchive(void);
 
 extern const u8 gDwcArchiveName[4];
-// Character data in the overlay's data.
+// File name ending of LZ-compressed files; LoadFile decompresses a path that ends with it.
 extern char gLzFileSuffix[3];
 extern u8 gRomDir[5];
 extern u8 gDwcUtilityBinName[21];

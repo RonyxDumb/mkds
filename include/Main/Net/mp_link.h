@@ -21,7 +21,9 @@ typedef struct ScanErrorArgs {
 
 #include "wireless_link_control.h"
 
-// ScanConnectWork.mState; the child steps through the parent's messages.
+// Values of ScanConnectWork.mState and of the first argument of its state callback: the link to the parent (IDLE to
+// LINK_LOST), the request and the parent's messages that move it on (SEND_REQUEST to SEND_DONE), the reset, the error
+// and the end.
 typedef enum ScanConnectState {
     SCAN_CONNECT_STATE_IDLE = 0,
     SCAN_CONNECT_STATE_CONNECTING = 1,
@@ -31,7 +33,8 @@ typedef enum ScanConnectState {
     SCAN_CONNECT_STATE_SEND_REQUEST = 5,
     SCAN_CONNECT_STATE_REQUEST_REJECTED = 6,
     SCAN_CONNECT_STATE_ACCEPTED = 7,
-    SCAN_CONNECT_STATE_WAIT_START = 8, // the START message moves ACCEPTED on to SEND_START in the same call
+    // PARENT_MESSAGE_BEGIN_SEND moves ACCEPTED through WAIT_START to SEND_START in the same call
+    SCAN_CONNECT_STATE_WAIT_START = 8,
     SCAN_CONNECT_STATE_SEND_START = 9,
     SCAN_CONNECT_STATE_SEND_DONE = 10,
     SCAN_CONNECT_STATE_RESET_DONE = 11,
@@ -47,15 +50,15 @@ typedef enum ScanConnectError {
     SCAN_CONNECT_ERROR_WM_REJECTED = 9,
 } ScanConnectError;
 
-// Port of the MP link, and the result QueueMPDataIfReady returns when no data was queued.
+// Port of the MP link, and the result QueueMPDataIfReady returns when IsMPReadyToQueueData says the link is not ready.
 #define MP_LINK_PORT 1
 #define MP_LINK_QUEUE_NOT_READY 1
 
 // Size of the object behind gScanConnectWork.
 #define SCAN_CONNECT_WORK_SIZE 0x5f20
 
-// Scan timing and channels: the most time in milliseconds spent on a channel (a locked bssid waits longer) and the
-// channel range PickScanChannel walks.
+// Scan timing and channels: the most channel time of a scan (a locked bssid waits longer) and the channel range
+// PickScanChannel walks.
 #define SCAN_CHANNEL_TIME_UNLOCKED 10
 #define SCAN_CHANNEL_TIME_LOCKED 0xdc
 #define SCAN_CHANNEL_FIRST 1
