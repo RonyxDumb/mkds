@@ -16,7 +16,7 @@ typedef struct Camera Camera;
 #define CAMERA_EFFECT_AHEAD_DISTANCE TO_FIXED12(88)
 
 // Values of EffectMapObject.mCameraEffectState for the camera effect: START starts its effects once, FOLLOW then moves
-// the effect in mEffectHandle every update.
+// the effect in mEffectHandle every update (kind NONE has none).
 enum {
     CAMERA_EFFECT_STATE_START,
     CAMERA_EFFECT_STATE_FOLLOW,

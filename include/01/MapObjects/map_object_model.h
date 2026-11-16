@@ -8,7 +8,8 @@
 
 // The model bundle a map object kind or a mission run map object loads: its scale, models and animations.
 typedef struct MapObjectModel {
-    // mScale: three words, 0x1000 each from the creators; both draw functions send them as command 0x1b, and
+    // mScale: three words, 0x1000 each from the creators; DrawMapObjectModel and DrawMapObjectModelWithPos send them as
+    // command 0x1b, and
     // SetMapObjectModelMirror sets x and y to -0x1000 or 0x1000.
     /* 00 */ Vec3 mScale;
     // NsbmdModel made by CreateMapObjectModelNsbmd, or with an .nsbtp by CreateMapObjectModelNsbmdNsbtp; the other

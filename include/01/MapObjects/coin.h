@@ -18,14 +18,16 @@ enum {
     COIN_STATE_HIDDEN_WAIT,
 };
 
-// Coin.mScaleFactor: scale a coin starts with when it leaves a kart, its full scale and the growth added each frame
-// while it drops or flies to the boss.
+// Coin.mScaleFactor: scale a coin starts with when it rises over a kart or leaves one, its full scale and the growth
+// added each frame
+// while it drops or transfers to the boss.
 #define COIN_SCALE_START 0x99a
 #define COIN_SCALE_FULL TO_FIXED12(1)
 #define COIN_SCALE_GROW_PER_FRAME 0x29
 
-// mTimer start of a coin that rises over a kart (parked on the call that finds it below 0, the 31st) and of a boss
-// transfer coin (counted only in the transfer fly state, which fades the coin once it is below 0); the kart follow
+// mTimer start of a coin that rises over a kart (parked on the call that finds it 0 or below, the 31st) and of a boss
+// transfer coin (counted only in the transfer fly state, which fades the coin from the call that finds it 0 or below);
+// the kart follow
 // effect starts when mTimer reaches COIN_RISE_KART_EFFECT_TIMER after its decrement, and the coin's own effect stops on
 // the call that finds mEffectTimer below 0 (the 15th call).
 #define COIN_RISE_TIMER_START 0x1e

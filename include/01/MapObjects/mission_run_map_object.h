@@ -748,7 +748,7 @@ enum {
 };
 
 // Values of MissionRunMapObject.mCourseCollisionMode: how the object is moved out of the course. ALT_FILTER uses the
-// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_BITS also skips the wall-hit
+// other course collision filter; PUSH_Y_ONLY moves it only up or down and PUSH_Y_ONLY_NO_WALL also skips the wall-hit
 // push.
 enum {
     MAP_OBJECT_COURSE_COLLISION_PUSH_OUT,
@@ -890,7 +890,7 @@ typedef struct MissionRunMapObject {
     /* 2d4 */ MissionRunMapObjectKartCollisionCallback mKartCollisionCallback;
     /* 2d8 */ s32 mKartResponse;
     /* 2dc */ MissionRunMapObjectItemCollisionCallback mItemCollisionCallback;
-    // ITEM_HIT_TYPE_BOUNCE or ITEM_HIT_TYPE_FADE_OUT, returned by CollideItemWithMissionRunMapObject
+    // ITEM_HIT_TYPE_BOUNCE, ITEM_HIT_TYPE_FADE_OUT or 0 (no hit type), returned by CollideItemWithMissionRunMapObject
     /* 2e0 */ s32 mItemResponse;
     /* 2e4 */ s32 mNodeMatchValue;
     /* 2e8 */ Vec3 mNodePosition;
