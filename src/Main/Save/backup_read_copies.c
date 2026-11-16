@@ -102,7 +102,7 @@ void StopFileReadThread(void) {
 #pragma thumb on
 
 void ClearBackupAccessStatus(void) {
-    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
+    gBackupAccess->mStatus = BACKUP_STATUS_CLEARED;
 }
 
 void CreateBackupAccess(void *heap) {
@@ -123,7 +123,7 @@ void InitBackupAccess(void) {
     TryLockBackup();
     CARD_IdentifyBackup(0x1202);
     UnlockBackup();
-    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
+    gBackupAccess->mStatus = BACKUP_STATUS_CLEARED;
     gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
     gBackupAccess->mLockId = -3;
     gBackupAccess->mCommandRunning = 0;

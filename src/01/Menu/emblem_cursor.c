@@ -544,7 +544,7 @@ void StartEmblemButtonHold(void *lld, s32 index) {
 
 void StartEmblemButtonBounceAndToggle(void *lld, s32 index) {
     void *pressedEntry = GetLldEntry(lld, index);
-    void *toggleEntry = GetLldEntry(lld, EMBLEM_ENTRY_TOGGLED_BY_BUTTON);
+    void *toggleEntry = GetLldEntry(lld, EMBLEM_ENTRY_TOGGLE_TARGET);
 
     if (GetLldEntryFrameIndex(toggleEntry) >= 0) {
         SetLldEntryCallback(pressedEntry, (s32(*)(LldEntry *)) AdvanceEmblemButtonBounceThenWait);
@@ -1551,12 +1551,12 @@ void AdvanceEmblemChoisesScreen(void) {
             SetEmblemChoisesShownAndReset(0);
             JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mRecordBytes, GetEmblemGridSide());
             SetEmblemRecordAndWriteBackup(gEmblem->mRecordBytes);
-            gEmblem->mState = EMBLEM_STATE_SAVING;
+            gEmblem->mState = EMBLEM_STATE_WAIT_BACKUP;
             gEmblem->mDisplayState = EMBLEM_DISPLAY_IDLE;
             break;
         case EMBLEM_CHOISE_DISCARD:
             SetEmblemChoisesShownAndReset(0);
-            gEmblem->mState = EMBLEM_STATE_SAVING;
+            gEmblem->mState = EMBLEM_STATE_WAIT_BACKUP;
             gEmblem->mDisplayState = EMBLEM_DISPLAY_IDLE;
             break;
     }
@@ -1641,7 +1641,7 @@ void AdvanceEmblem(void) {
             AdvanceEmblemChoisesScreen();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
-        case EMBLEM_STATE_SAVING:
+        case EMBLEM_STATE_WAIT_BACKUP:
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {

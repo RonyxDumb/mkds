@@ -244,7 +244,7 @@ void AdvanceOptionSelectMenuSlideIn(void) {
         }
     }
     if (gOptionSelectMenu->mStateFrames >= OPTION_SELECT_SLIDE_FRAMES) {
-        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN_BG2;
+        gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_IN_OK_GROUP;
         gOptionSelectMenu->mStateFrames = 0;
     }
 }
@@ -608,7 +608,7 @@ void AdvanceOptionSelectMenu(void) {
         case OPTION_SELECT_STATE_SLIDE_IN:
             AdvanceOptionSelectMenuSlideIn();
             break;
-        case OPTION_SELECT_STATE_SLIDE_IN_BG2:
+        case OPTION_SELECT_STATE_SLIDE_IN_OK_GROUP:
             AdvanceOptionSelectMenuSlideInBg2();
             break;
         case OPTION_SELECT_STATE_WAIT_INPUT:

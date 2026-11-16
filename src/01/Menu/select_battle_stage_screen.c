@@ -66,8 +66,8 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     heap = CreateExpHeapFromMaxFree(parentHeap);
     gSelectBattleStage = HeapAlloc(heap, sizeof(SelectBattleStage));
     gSelectBattleStage->mHeap = heap;
-    gSelectBattleStage->mState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
-    gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
+    gSelectBattleStage->mState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN_AND_SETTLE;
+    gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN_AND_SETTLE;
     gSelectBattleStage->mIndex = 0;
     gSelectBattleStage->mStateFrames = 0;
     gSelectBattleStage->mOffsetTimer = 0;
@@ -219,7 +219,7 @@ void AdvanceSelectBattleStageSlideIn(void) {
     s32 stageIndex, cellIndex;
 
     gSelectBattleStage->mStateFrames++;
-    if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES + SELECT_BATTLE_STAGE_SETTLE_FRAMES) {
+    if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES + SELECT_BATTLE_STAGE_PRESS_FRAMES) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
         gSelectBattleStage->mStateFrames = 0;
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN;
@@ -301,7 +301,7 @@ void AdvanceSelectBattleStageInput(void) {
         }
     }
     if (gMenuShared->mMenuEntryKind == 2) {
-        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES;
+        gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_RETURN_PRESS;
         RequestSelectReturnPressWithSound(0);
         gSelectBattleStage->mWaitForReturnHidden = FALSE;
         return;
@@ -361,7 +361,7 @@ void AdvanceSelectBattleStagePressStage(void) {
             ->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[gSelectBattleStage->mIndex][cellIndex]]
             .mOffsetX = offsetX;
     }
-    if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_SETTLE_FRAMES) {
+    if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_PRESS_FRAMES) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_CHOISES;
         gSelectBattleStage->mStateFrames = 0;
         StartSelectChoises(GetBmgEntry(gSelectBattleStage->mCommonMessages, 4),
@@ -465,7 +465,7 @@ s32 AdvanceSelectBattleStage(void) {
 
     gSelectBattleStage->mState = gSelectBattleStage->mNextState;
     switch (gSelectBattleStage->mState) {
-        case SELECT_BATTLE_STAGE_STATE_SLIDE_IN:
+        case SELECT_BATTLE_STAGE_STATE_SLIDE_IN_AND_SETTLE:
             AdvanceSelectBattleStageSlideIn();
             break;
         case SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN:
@@ -477,7 +477,7 @@ s32 AdvanceSelectBattleStage(void) {
         case SELECT_BATTLE_STAGE_STATE_PRESS_STAGE:
             AdvanceSelectBattleStagePressStage();
             break;
-        case SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES:
+        case SELECT_BATTLE_STAGE_STATE_RETURN_PRESS:
             AdvanceSelectBattleStageWaitSelectReturnThenChoises();
             break;
         case SELECT_BATTLE_STAGE_STATE_CHOISES:

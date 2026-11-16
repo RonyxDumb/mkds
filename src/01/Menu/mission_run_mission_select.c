@@ -487,7 +487,7 @@ void ResetMissionRunMSselOffsets(void) {
 
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
-    gMissionRunMSsel->mNextState = MSSEL_STATE_WAIT_FADE;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_WAIT_FADE;
     gMissionRunMSsel->mStateFrames = 0;
     gMissionRunMSsel->mBg0OffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gMissionRunMSsel->mBg0OffsetY = 0;
@@ -524,12 +524,12 @@ void ResetMissionRunMSselOffsets(void) {
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
 // mState and runs AdvanceMissionRunMSselSlideIn.
 void RequestMissionRunMSselSlideIn(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_IN;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_SLIDE_IN;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
 void RequestMissionRunMSselWaitSelectReturn(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_WAIT_SELECT_RETURN;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_WAIT_SELECT_RETURN;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnSlideIn();
 }
@@ -537,12 +537,12 @@ void RequestMissionRunMSselWaitSelectReturn(void) {
 // Requests state 3: stores mNextState = 3 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
 // mState and runs AdvanceMissionRunMSselInput.
 void RequestMissionRunMSselInput(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_INPUT;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_INPUT;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
 s32 RequestMissionRunMSselPressMission(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_PRESS_MISSION;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_PRESS_MISSION;
     gMissionRunMSsel->mStateFrames = 0;
     return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -551,7 +551,7 @@ void RequestMissionRunMSselChoisesOpen(void) {
     s32 missionIndex;
     void *firstText;
 
-    gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_OPEN;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_CHOISES_OPEN;
     gMissionRunMSsel->mStateFrames = 0;
     firstText = GetBmgEntry(gMissionRunMSsel->mCommonMessages, 4);
     StartSelectChoises(firstText, GetBmgEntry(gMissionRunMSsel->mCommonMessages, 2), 0);
@@ -563,18 +563,18 @@ void RequestMissionRunMSselChoisesOpen(void) {
 // Requests state 6: stores mNextState = 6 and zeroes mStateFrames; the next AdvanceMissionRunMSsel call copies it to
 // mState and runs AdvanceMissionRunMSselChoisesInput.
 void RequestMissionRunMSselChoisesInput(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_INPUT;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_CHOISES_INPUT;
     gMissionRunMSsel->mStateFrames = 0;
 }
 
 void RequestMissionRunMSselChoisesClose(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_CHOISES_CLOSE;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_CHOISES_CLOSE;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectChoisesHidden();
 }
 
 void RequestMissionRunMSselSlideOut(void) {
-    gMissionRunMSsel->mNextState = MSSEL_STATE_SLIDE_OUT;
+    gMissionRunMSsel->mNextState = MISSION_RUN_MSSEL_STATE_SLIDE_OUT;
     gMissionRunMSsel->mStateFrames = 0;
     RequestSelectReturnSlideOut();
     switch (gMissionRunMSsel->mResult) {
@@ -600,7 +600,7 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     heap = CreateFrmHeapFromMaxFree(parentHeap);
     gMissionRunMSsel = HeapAlloc(heap, sizeof(MissionRunMSsel));
     gMissionRunMSsel->mHeap = heap;
-    gMissionRunMSsel->mState = MSSEL_STATE_WAIT_FADE;
+    gMissionRunMSsel->mState = MISSION_RUN_MSSEL_STATE_WAIT_FADE;
     gMissionRunMSsel->mIndex = GetMissionTableColumn() - 1;
     gMissionRunMSsel->mExitOffsetX = 0;
     gMissionRunMSsel->mIndexChangeTimer = 0;
@@ -949,31 +949,31 @@ void AdvanceMissionRunMSselSlideOut(void) {
 s32 AdvanceMissionRunMSsel(void) {
     gMissionRunMSsel->mState = gMissionRunMSsel->mNextState;
     switch (gMissionRunMSsel->mState) {
-        case MSSEL_STATE_WAIT_FADE:
+        case MISSION_RUN_MSSEL_STATE_WAIT_FADE:
             AdvanceMissionRunMSselWaitFade();
             break;
-        case MSSEL_STATE_SLIDE_IN:
+        case MISSION_RUN_MSSEL_STATE_SLIDE_IN:
             AdvanceMissionRunMSselSlideIn();
             break;
-        case MSSEL_STATE_WAIT_SELECT_RETURN:
+        case MISSION_RUN_MSSEL_STATE_WAIT_SELECT_RETURN:
             AdvanceMissionRunMSselWaitSelectReturn();
             break;
-        case MSSEL_STATE_INPUT:
+        case MISSION_RUN_MSSEL_STATE_INPUT:
             AdvanceMissionRunMSselInput();
             break;
-        case MSSEL_STATE_PRESS_MISSION:
+        case MISSION_RUN_MSSEL_STATE_PRESS_MISSION:
             AdvanceMissionRunMSselPressMission();
             break;
-        case MSSEL_STATE_CHOISES_OPEN:
+        case MISSION_RUN_MSSEL_STATE_CHOISES_OPEN:
             AdvanceMissionRunMSselChoisesOpen();
             break;
-        case MSSEL_STATE_CHOISES_INPUT:
+        case MISSION_RUN_MSSEL_STATE_CHOISES_INPUT:
             AdvanceMissionRunMSselChoisesInput();
             break;
-        case MSSEL_STATE_CHOISES_CLOSE:
+        case MISSION_RUN_MSSEL_STATE_CHOISES_CLOSE:
             AdvanceMissionRunMSselChoisesClose();
             break;
-        case MSSEL_STATE_SLIDE_OUT:
+        case MISSION_RUN_MSSEL_STATE_SLIDE_OUT:
             AdvanceMissionRunMSselSlideOut();
             break;
     }
@@ -985,7 +985,7 @@ s32 AdvanceMissionRunMSsel(void) {
     DrawLayoutTable(gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSNcer,
                     gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSsel->mSubOamList,
                     gMissionRunMSsel->mMissionRunMSselSTable);
-    if (gMissionRunMSsel->mState == MSSEL_STATE_SLIDE_OUT &&
+    if (gMissionRunMSsel->mState == MISSION_RUN_MSSEL_STATE_SLIDE_OUT &&
         gMissionRunMSsel->mStateFrames >= MISSION_RUN_MSSEL_SLIDE_FRAMES) {
         return gMissionRunMSsel->mResult;
     }

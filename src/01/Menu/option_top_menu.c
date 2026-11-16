@@ -124,7 +124,7 @@ void AdvanceOptionTopMenuSlideIn(void) {
             }
         }
     }
-    if (GetOptionPrevState() == OPTION_STATE_SELECT_MENU && gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA) {
+    if (GetOptionPrevState() == OPTION_STATE_SELECT_MENU && gOptionTopMenu->mIndex != OPTION_TOP_ROW_RESET_BACKUP) {
         gOptionTopMenu->mBg0Offset =
             InterpolateS16(1, OPTION_TOP_BG0_SLIDE_DISTANCE, 0, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     }
@@ -199,8 +199,8 @@ void AdvanceOptionTopMenuInput(void) {
                 case OPTION_TOP_ROW_EDIT:
                     gOptionTopMenu->mIndex = OPTION_TOP_ROW_EDIT;
                     break;
-                case OPTION_TOP_ROW_ERASE_DATA:
-                    gOptionTopMenu->mIndex = OPTION_TOP_ROW_ERASE_DATA;
+                case OPTION_TOP_ROW_RESET_BACKUP:
+                    gOptionTopMenu->mIndex = OPTION_TOP_ROW_RESET_BACKUP;
                     break;
             }
         }
@@ -212,7 +212,7 @@ void AdvanceOptionTopMenuInput(void) {
             case OPTION_TOP_ROW_EDIT:
                 gOptionTopMenu->mNextOptionState = OPTION_STATE_HENSYU_MENU;
                 break;
-            case OPTION_TOP_ROW_ERASE_DATA:
+            case OPTION_TOP_ROW_RESET_BACKUP:
                 break;
         }
         if (gOptionTopMenu->mIndex == previousIndex) {
@@ -222,12 +222,12 @@ void AdvanceOptionTopMenuInput(void) {
     } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         gOptionTopMenu->mIndex--;
         if (gOptionTopMenu->mIndex < 0) {
-            gOptionTopMenu->mIndex = OPTION_TOP_ROW_ERASE_DATA;
+            gOptionTopMenu->mIndex = OPTION_TOP_ROW_RESET_BACKUP;
         }
         StartSoundOncePerFrame(0);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
         gOptionTopMenu->mIndex++;
-        if (gOptionTopMenu->mIndex > OPTION_TOP_ROW_ERASE_DATA) {
+        if (gOptionTopMenu->mIndex > OPTION_TOP_ROW_RESET_BACKUP) {
             gOptionTopMenu->mIndex = OPTION_TOP_ROW_SETTINGS;
         }
         StartSoundOncePerFrame(0);
@@ -239,7 +239,7 @@ void AdvanceOptionTopMenuPress(void) {
     if (gOptionTopMenu->mStateFrames >= OPTION_TOP_PRESS_FRAMES) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_SLIDE_OUT;
         gOptionTopMenu->mStateFrames = 0;
-        if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
+        if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_RESET_BACKUP) {
             RequestSelectReturnSlideOut();
         }
     } else if (gOptionTopMenu->mStateFrames >= OPTION_TOP_HIGHLIGHT_FRAME) {
@@ -277,9 +277,9 @@ void AdvanceOptionTopMenuSlideOut(void) {
             InterpolateS16(1, 0, OPTION_TOP_BG0_SLIDE_DISTANCE, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     }
     if (gOptionTopMenu->mStateFrames >= OPTION_TOP_SLIDE_FRAMES &&
-        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnHiddenNoSlideInRequest() != 0) &&
+        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_RESET_BACKUP || IsSelectReturnHiddenNoSlideInRequest() != 0) &&
         GetOptionNextScene() == -1) {
-        if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
+        if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_RESET_BACKUP) {
             gOptionTopMenu->mNextState = OPTION_TOP_STATE_ASK_RESET;
             gOptionTopMenu->mStateFrames = 0;
             SetupTxtSystemSubTextTwoButtons(GetBmgEntry(gOptionTopMenu->mOptionMessages, 3),

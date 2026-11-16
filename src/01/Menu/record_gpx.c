@@ -59,7 +59,7 @@ void RequestRecordGpxCellsSlideInAndSetup(void) {
 // Requests state 2: stores mNextState and zeroes mStateFrames; the next AdvanceRecordGpx call copies it to mState
 // and runs AdvanceRecordGpxSelect.
 void RequestRecordGpxSelect(void) {
-    gRecordGpx->mNextState = RECORD_GPX_STATE_SELECT;
+    gRecordGpx->mNextState = RECORD_GPX_STATE_WAIT_INPUT;
     gRecordGpx->mStateFrames = 0;
 }
 
@@ -152,7 +152,7 @@ void InitRecordGpx(void *heap) {
         anyFlagSet |= IsRecordGpxCupBackupFlagSet(index);
     }
     if (anyFlagSet == 0) {
-        gRecordGpx->mBg3OffsetY = RECORD_GPX_NO_CUP_BG3_OFFSET_Y;
+        gRecordGpx->mBg3OffsetY = RECORD_GPX_NO_CUP_FLAG_BG3_OFFSET_Y;
     }
     gRecordGpx->mZeroBuffer = HeapAlloc(heap, RECORD_GPX_MAP_STRIP_BYTES);
     zero = 0;
@@ -459,7 +459,7 @@ void AdvanceRecordGpx(void) {
         case RECORD_GPX_STATE_CELLS_SLIDE_IN:
             AdvanceRecordGpxCellsSlideIn();
             break;
-        case RECORD_GPX_STATE_SELECT:
+        case RECORD_GPX_STATE_WAIT_INPUT:
             AdvanceRecordGpxSelect();
             break;
         case RECORD_GPX_STATE_PAGE_SLIDE_OUT:

@@ -545,7 +545,7 @@ next:
 
 void AdvanceSelectEnginePress(void) {
     AdvanceSelectEngineIndexChange();
-    if (gSelectEngine->mStateFrames == SELECT_ENGINE_HIGHLIGHT_FRAME) {
+    if (gSelectEngine->mStateFrames == SELECT_ENGINE_ALTERNATE_CELL_SHOWN_FRAME) {
         gSelectEngine->mAlternateCellShown = TRUE;
     }
     gSelectEngine->mStateFrames++;

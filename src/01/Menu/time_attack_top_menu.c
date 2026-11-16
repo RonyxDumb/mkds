@@ -105,7 +105,7 @@ void RequestTimeAttackTopMenuPress(void) {
     gTimeAttackTopMenu->mStateFrames = 0;
     switch (gTimeAttackTopMenu->mIndex) {
         case TIME_ATTACK_TOP_ROW_SEND_GHOST:
-        case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
+        case TIME_ATTACK_TOP_ROW_GET_GHOST:
             RequestSelectReturnSlideOut();
             break;
     }
@@ -148,10 +148,10 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
         if (gMenuShared->mGhostSceneInitialCallbacksIndex == 0) {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
         } else {
-            gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
+            gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;
         }
     } else {
-        gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
+        gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
     }
     LocateAndQueueTimeAttackTopMenu();
     for (index = 0; index < 3; index++) {
@@ -286,14 +286,14 @@ next:
         if ((u16) pressedBits == 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             switch (touchedRectIndex) {
-                case TIME_ATTACK_TOP_ROW_TIME_TRIALS:
-                    newIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
+                case TIME_ATTACK_TOP_ROW_SELECT_CHARACTER:
+                    newIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
                     break;
                 case TIME_ATTACK_TOP_ROW_SEND_GHOST:
                     newIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
                     break;
-                case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
-                    newIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
+                case TIME_ATTACK_TOP_ROW_GET_GHOST:
+                    newIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;
                     break;
             }
             if (gTimeAttackTopMenu->mIndex != newIndex) {
@@ -304,14 +304,14 @@ next:
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
         }
         switch (gTimeAttackTopMenu->mIndex) {
-            case TIME_ATTACK_TOP_ROW_TIME_TRIALS:
-                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_TIME_TRIALS;
+            case TIME_ATTACK_TOP_ROW_SELECT_CHARACTER:
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_SELECT_CHARACTER;
                 break;
             case TIME_ATTACK_TOP_ROW_SEND_GHOST:
                 gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_SEND_GHOST;
                 break;
-            case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
-                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST;
+            case TIME_ATTACK_TOP_ROW_GET_GHOST:
+                gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_GET_GHOST;
                 break;
         }
         RequestTimeAttackTopMenuPress();
@@ -320,7 +320,7 @@ next:
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex--;
             if (gTimeAttackTopMenu->mIndex < 0) {
-                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
+                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_GET_GHOST;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
@@ -328,7 +328,7 @@ next:
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex++;
             if (gTimeAttackTopMenu->mIndex >= TIME_ATTACK_TOP_ROW_COUNT) {
-                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
+                gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
@@ -353,7 +353,7 @@ void AdvanceTimeAttackTopMenuPress(void) {
         case TIME_ATTACK_TOP_ROW_SEND_GHOST:
             gTimeAttackTopMenu->mTimeAttackTopMenuSTable[12].mOffsetX = selectedPressOffset;
             break;
-        case TIME_ATTACK_TOP_ROW_RECEIVE_GHOST:
+        case TIME_ATTACK_TOP_ROW_GET_GHOST:
             gTimeAttackTopMenu->mTimeAttackTopMenuSTable[13].mOffsetX = selectedPressOffset;
             break;
     }

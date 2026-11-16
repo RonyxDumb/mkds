@@ -107,7 +107,7 @@ typedef struct RecordTAtt {
 
 // Values of BackupAccess.mStatus. No code sets the second writing value; EndBackupAccessWithError treats it as writing.
 enum {
-    BACKUP_STATUS_IDLE,
+    BACKUP_STATUS_CLEARED,
     BACKUP_STATUS_WRITING,
     BACKUP_STATUS_WRITING_UNUSED,
     BACKUP_STATUS_READING,

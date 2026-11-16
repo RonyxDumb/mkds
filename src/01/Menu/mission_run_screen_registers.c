@@ -96,14 +96,14 @@ void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
 
 void UpdateTimeAttackTopMenu(void) {
     switch (AdvanceTimeAttackTopMenu()) {
-        case TIME_ATTACK_TOP_RESULT_TIME_TRIALS:
+        case TIME_ATTACK_TOP_RESULT_SELECT_CHARACTER:
             SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, 0x1f);
             break;
         case TIME_ATTACK_TOP_RESULT_SEND_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
             SetGhostSceneInitialCallbacksIndex(0);
             break;
-        case TIME_ATTACK_TOP_RESULT_RECEIVE_GHOST:
+        case TIME_ATTACK_TOP_RESULT_GET_GHOST:
             SwitchMenuScreen(0x1c, 0x1f);
             SetGhostSceneInitialCallbacksIndex(1);
             break;

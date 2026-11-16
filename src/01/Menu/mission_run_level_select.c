@@ -302,7 +302,7 @@ void RequestMissionRunLVselWaitSelectReturn(void) {
 // Requests the select state: stores mNextState and zeroes mStateFrames; the next AdvanceMissionRunLVsel call copies
 // it to mState and runs AdvanceMissionRunLVselSelect.
 void RequestMissionRunLVselSelect(void) {
-    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_SELECT;
+    gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_INPUT;
     gMissionRunLVsel->mStateFrames = 0;
 }
 
@@ -587,7 +587,7 @@ s32 AdvanceMissionRunLVsel(void) {
         case MISSION_RUN_LVSEL_STATE_WAIT_SELECT_RETURN:
             AdvanceMissionRunLVselWaitSelectReturn();
             break;
-        case MISSION_RUN_LVSEL_STATE_SELECT:
+        case MISSION_RUN_LVSEL_STATE_INPUT:
             AdvanceMissionRunLVselSelect();
             break;
         case MISSION_RUN_LVSEL_STATE_HOLD_CHOSEN:

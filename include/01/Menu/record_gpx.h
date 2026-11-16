@@ -22,7 +22,7 @@ enum {
 enum {
     OPTION_TOP_ROW_SETTINGS,
     OPTION_TOP_ROW_EDIT,
-    OPTION_TOP_ROW_ERASE_DATA,
+    OPTION_TOP_ROW_RESET_BACKUP,
 };
 
 // The top menu of the options: its state, selected index, heap and layout tables.
@@ -70,7 +70,7 @@ enum {
 enum {
     RECORD_GPX_STATE_BG_SLIDE_IN,
     RECORD_GPX_STATE_CELLS_SLIDE_IN,
-    RECORD_GPX_STATE_SELECT,
+    RECORD_GPX_STATE_WAIT_INPUT,
     RECORD_GPX_STATE_PAGE_SLIDE_OUT,
     RECORD_GPX_STATE_PAGE_SLIDE_IN,
     RECORD_GPX_STATE_CELLS_SLIDE_OUT,
@@ -96,7 +96,7 @@ enum {
 #define RECORD_GPX_BG0_SLIDE_DISTANCE 192
 
 // RecordGpx.mBg3OffsetY that InitRecordGpx stores when none of the cup backup flags is set; it stores 0 otherwise.
-#define RECORD_GPX_NO_CUP_BG3_OFFSET_Y 16
+#define RECORD_GPX_NO_CUP_FLAG_BG3_OFFSET_Y 16
 
 // Frames the Running cells (gRecordGpxRunningSTableIndices) shift after a left or right press
 // (RecordGpx.mOffsetTimers[0] left, [1] right count them down).
