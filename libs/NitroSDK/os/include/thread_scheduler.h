@@ -11,7 +11,7 @@ enum {
     THREAD_PRIORITY_IDLE = 0x20,
 };
 
-// Check words written at the two ends of a stack; a changed word means the stack overflowed.
+// Words written at the two ends of a thread stack and of the interrupt stack.
 #define STACK_CHECK_BOTTOM 0xfddb597d
 #define STACK_CHECK_TOP 0x7bf9dd5b
 

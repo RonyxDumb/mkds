@@ -6,7 +6,7 @@ void OSi_GetAndDisplayContext(u32 exinfo);
 
 #define HW_EXCP_VECTOR_MAIN ((u32 *) 0x027ffd9c)
 
-// The end of the data TCM block: mExceptionHandler is the exception function.
+// A view of the data TCM that holds mExceptionHandler, where OS_InitException stores OSi_ExceptionHandler.
 typedef struct DtcmTail {
     /* 000 */ u8 mUnk_000[0xfdc];
     /* fdc */ void (*mExceptionHandler)(void);

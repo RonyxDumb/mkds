@@ -11,13 +11,15 @@ typedef u32 OSIntrMode;
 
 #define BOOT_TYPE_MULTIBOOT 2
 
-// The boot information block in shared memory: the boot type and the parent BSS description the game copies.
+// The boot information block in shared memory: the boot type and the parent BSS description that
+// MB_ReadMultiBootParentBssDesc copies.
 typedef struct BootInfo {
     /* 00 */ u16 mBootType;
     /* 02 */ u8 mParentBssDesc[0x3e];
 } BootInfo;
 
-// The user settings the system keeps in shared memory: colour, birthday, names, touch calibration, MAC, channel.
+// The user settings the system keeps in shared memory: language option, favorite color, birthday, nickname, comment,
+// touch calibration, MAC address, allowed channel.
 typedef struct NvramUserInfo {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u8 mFavoriteColor;
@@ -47,7 +49,8 @@ typedef struct NvramUserInfo {
     /* 7c */ u8 mUnk_7c[0x84];
 } NvramUserInfo;
 
-// OSSystemWork.mButtonXY bit that is set while the console is closed; the sleep wait and the pad readers test it.
+// OSSystemWork.mButtonXY bit 15: when it is set the connection-end wait calls PM_GoSleepMode and the race pad read
+// returns no keys.
 #define SYSTEM_BUTTON_XY_CLOSED 0x8000
 
 // The shared system memory block both processors use: cartridge, boot, user, arena and clock info, ROM header, locks.
@@ -68,7 +71,7 @@ typedef struct OSSystemWork {
     /* 394 */ u16 mMicSamplingData;
     /* 396 */ u16 mWmCallbackControl;
     /* 398 */ u8 mUnk_398[0x10];
-    // Bit 15 (SYSTEM_BUTTON_XY_CLOSED) is set while the console is closed.
+    // Bit 15 (SYSTEM_BUTTON_XY_CLOSED) is set when the game should go to sleep mode.
     /* 3a8 */ vu16 mButtonXY;
     /* 3aa */ u16 mTouchPanel[2];
     /* 3ae */ u8 mUnk_3ae[2];
