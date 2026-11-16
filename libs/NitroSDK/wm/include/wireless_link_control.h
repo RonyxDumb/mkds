@@ -156,8 +156,7 @@ typedef struct WMGameInfo {
     /* 10 */ UserGameInfo mUserGameInfo;
 } WMGameInfo;
 
-// 0xc0 bytes. MB_ReadMultiBootParentBssDesc and MB_FakeReadParentBssDesc fill it. Also the buffer behind member 0x24
-// of ConnectionWork and the first 0xc0 bytes of each ScanSlot.
+// The description of a wireless network: its length, signal strength, BSSID, SSID and the rest of the BSS data.
 typedef struct WMBssDesc {
     /* 00 */ u16 mLength;
     /* 02 */ u16 mRssi;
@@ -219,7 +218,7 @@ enum {
     WIRELESS_UNIT_STATE_CHILD_WITH_DCF = 11,
 };
 
-// Wireless status area written by the other processor; WM_ReadStatus copies 0x7bc bytes of it.
+// The wireless status area the other processor writes; WM_ReadStatus copies it.
 typedef struct WMStatus {
     /* 000 */ u16 mState;
     /* 002 */ u8 mBusyApiid[2];
@@ -318,8 +317,7 @@ struct WirelessMessage {
     /* 38 */ WMGameInfo mGameInfo;
 };
 
-// 0x40 bytes. The port callback message WmReceiveFifo builds for gPortCallbackEvent: the first 0x3c bytes have the
-// members of the same offsets in WirelessMessage.
+// The message WmReceiveFifo builds for a port receive callback: the command, result, state, port, buffer and data.
 typedef struct WMPortRecvCallback {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
@@ -407,7 +405,7 @@ typedef struct StartScanExRequest {
     /* 36 */ u16 mSsidMatchLength;
 } StartScanExRequest;
 
-// 0x20 bytes. Scan parameters of WM_StartScan.
+// The scan parameters of WM_StartScan: the scan buffer, channel, channel time and BSSID.
 typedef struct ScanParam {
     /* 00 */ void *mScanBuf;
     /* 04 */ u16 mChannel;

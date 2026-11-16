@@ -82,7 +82,7 @@ typedef struct MBUserInfo {
     /* 02 */ u16 mName[MB_USER_NAME_LENGTH];
 } MBUserInfo;
 
-// Object behind gReceivedGameInfo.
+// A multiboot game info beacon: the game group id, data attribute, file number, sequence numbers and checksum.
 typedef struct MbBeacon {
     /* 00 */ u32 mGgid;
     /* 04 */ u8 mDataAttr : 2;

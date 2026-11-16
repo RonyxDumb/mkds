@@ -24,7 +24,7 @@ typedef struct CTRDGWork {
     /* 02 */ u16 mLockId;
 } CTRDGWork;
 
-// 0x40 bytes that CTRDGi_InitModuleInfo flushes and fills with a copy, then reads fields from.
+// The tail of the cartridge header, which CTRDGi_InitModuleInfo copies and reads: game, maker and module ids.
 typedef struct CartridgeHeaderTail {
     /* 00 */ u8 mUnk_00[0x2c];
     /* 2c */ u32 mGameCode;

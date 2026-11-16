@@ -4,7 +4,7 @@
 #include "thread_scheduler.h"
 #include "wireless_link_control.h"
 
-// 0x10-byte object MBi_SetTask links by the bits above bit 0 of its member 4, in increasing order.
+// A multiboot worker task: the link to the next task, an in-use flag and a priority; tasks are linked by priority.
 typedef struct WorkerTask {
     /* 00 */ struct WorkerTask *mNext;
     /* 04 */ union {

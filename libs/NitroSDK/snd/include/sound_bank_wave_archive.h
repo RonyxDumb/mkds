@@ -10,8 +10,7 @@ typedef struct UnsignedHalfwordPair {
     /* 02 */ u16 mSecond;
 } UnsignedHalfwordPair;
 
-// 10 bytes that SND_GetNextInstData copies to mWave..mReleaseAndPan of its record (original key, attack, decay,
-// sustain; release, pan).
+// A simple instrument: its wave, original key and envelope, release and pan.
 typedef struct InstSimple {
     /* 00 */ UnsignedHalfwordPair mWave;
     /* 04 */ UnsignedHalfwordPair mKeyAndEnvelope;
@@ -29,7 +28,7 @@ enum {
     INSTRUMENT_TYPE_KEY_SPLIT,
 };
 
-// 12-byte instrument entry: a type byte then 10 bytes. SND_GetNextInstData writes it to its record.
+// An instrument entry: its type, wave, key and envelope, release and pan.
 typedef struct SNDInstData {
     /* 00 */ u8 mType;
     /* 02 */ UnsignedHalfwordPair mWave;

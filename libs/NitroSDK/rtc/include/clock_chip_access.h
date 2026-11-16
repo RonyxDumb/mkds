@@ -147,7 +147,7 @@ typedef union RTCRawData {
     } mAlarm;
 } RTCRawData;
 
-// The one request in flight, 0x24 bytes.
+// The clock chip request in flight: its lock, callback, result buffers and which request it is.
 typedef struct RTCWork {
     // Nonzero while a request is in flight.
     /* 00 */ vu32 mLock;

@@ -14,7 +14,7 @@ typedef struct CARDRomRegion {
     /* 04 */ u32 mLength;
 } CARDRomRegion;
 
-// The first 0x60 bytes of the ROM header, the part FS_ReadFile reads to find the tables.
+// The start of the ROM header, the part FS_ReadFile reads to find the file tables.
 typedef struct RomHeaderStart {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u32 mMainRomOffset;
@@ -54,8 +54,7 @@ typedef struct RomHeaderStart {
     };
 } RomHeaderStart;
 
-// The 0x160-byte ROM header the card leaves in OSSystemWork.mRomHeader, and the copy of it kept for the
-// application.
+// The ROM header the card leaves in OSSystemWork.mRomHeader, and the copy of it kept for the application.
 typedef struct CARDRomHeader {
     /* 00 */ RomHeaderStart mHead;
     /* 60 */ u32 mRomCtrl;
@@ -143,7 +142,7 @@ enum {
 #define CARD_ROM_PAGE_SIZE 0x200
 #define ROM_CARD_LAST_DMA_CHANNEL 3
 
-// 0x620 bytes at gAccessState; mThread is started with the 0x400 bytes at mUnk_220 as its stack.
+// The common state of the card access: the command, lock, transfer arguments, callback, thread and its stack.
 typedef struct CARDiCommon {
     /* 000 */ CARDiCommandArg *mCmd;
     /* 004 */ s32 mCommand;

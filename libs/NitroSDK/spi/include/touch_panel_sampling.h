@@ -3,8 +3,7 @@
 #include "types.h"
 #include "reset_interrupts_halt.h"
 
-// One reading, 8 bytes: x, y, touched flag and validity. The values from the other processor are raw;
-// TP_GetCalibratedPoint converts x and y to screen coordinates.
+// One touch panel reading: x, y, touched flag and validity; raw until TP_GetCalibratedPoint converts x and y.
 typedef struct TPData {
     // Horizontal position: a 12-bit raw value in a raw sample, 0..0xff after TP_GetCalibratedPoint.
     /* 00 */ u16 mX;
@@ -19,8 +18,7 @@ typedef struct TPData {
 // TPData.mValidity of a reading with neither x nor y usable.
 #define TP_VALIDITY_INVALID_XY 3
 
-// Stored conversion for TP_GetCalibratedPoint: the origin, the size of a screen dot and 0x10000000 divided by that
-// size, for x and then y.
+// The stored conversion for TP_GetCalibratedPoint: the origin and the size of a screen dot, for x and then y.
 typedef struct TPCalibrateParam {
     /* 00 */ s16 mX0;
     /* 02 */ s16 mY0;
@@ -86,7 +84,7 @@ typedef union SPITpData {
     } e;
 } SPITpData;
 
-// State of the touch panel channel, 0x38 bytes, one instance.
+// The state of the touch panel channel: its callback, the last sample and the automatic sampling ring and settings.
 typedef struct TouchPanelState {
     // Called when a request finishes or a sample arrives; 0 for none. Nothing sets it in this game.
     /* 00 */ TPRecvCallback mCallback;

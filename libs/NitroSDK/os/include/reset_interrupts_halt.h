@@ -11,7 +11,7 @@ typedef u32 OSIntrMode;
 
 #define BOOT_TYPE_MULTIBOOT 2
 
-// The boot information block in shared memory: the first halfword, then 0x3e bytes the game copies.
+// The boot information block in shared memory: the boot type and the parent BSS description the game copies.
 typedef struct BootInfo {
     /* 00 */ u16 mBootType;
     /* 02 */ u8 mParentBssDesc[0x3e];
@@ -98,8 +98,7 @@ OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
 // Returns the processor mode (low five bits of the status register).
 u32 OS_GetProcMode(void);
 
-// Filled by OS_GetOwnerInfo from the bytes of a fixed-address block: mUnk_04 holds the 0x14 bytes at offset 0x06 of the
-// block and mUnk_1a the 0x34 bytes at offset 0x1c.
+// The owner info of the console: language, favorite color, birthday, nickname and comment with their lengths.
 typedef struct OwnerInfo {
     /* 00 */ u8 mLanguage;
     /* 01 */ u8 mFavoriteColor;

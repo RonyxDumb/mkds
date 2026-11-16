@@ -132,7 +132,7 @@ enum {
 #define FILE_RECORD_BUSY 0x1
 #define FILE_RECORD_OPEN 0x10
 
-// 0x48-byte record, set up by FS_InitFile (also used as a local); mArc is the archive it works through.
+// A file system file: its link, archive, status, command, error, thread queue and file location.
 typedef struct FSFile {
     // FSi_ReleaseCommand links mLink.mPrev and mLink.mNext to each other, then clears both.
     /* 00 */ FSFileLink mLink;
@@ -152,10 +152,7 @@ typedef struct FSFile {
     /* 44 */ FileLocation *mResult;
 } FSFile;
 
-// 0x5c-byte object (FS_InitArchive clears 0x5c bytes; fsi_arc_rom) at mArc of FSFile. Links at mNext and mPrev
-// (FS_RegisterArchiveName, FS_ReleaseArchiveName), flags at mFlag, the list of FSFile at mList; the addresses of
-// mSyncQ and mStatQ go to OS_WakeupThread and OS_SleepThread; mRead to mProc are called from FSi_TranslateCommand,
-// FSi_WriteFileCommand, FSi_ReadFileCommand, FSi_ReadTable, FSi_SendCommand and FSi_NextCommand.
+// A file system archive: its name, links to other archives, flags, file list, thread queues and its access functions.
 typedef struct FSArchive {
     /* 00 */ u32 mName;
     /* 04 */ FSArchive *mNext;

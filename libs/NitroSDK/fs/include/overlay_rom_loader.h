@@ -8,7 +8,7 @@ typedef struct FSFileID FSFileID;
 typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
 
-// Record of 0x2c bytes: the first 0x20 bytes are read from a table entry of 0x20 bytes.
+// The info of one overlay: its id, RAM address and sizes, static initializers, file id and compressed size.
 typedef struct FSOverlayInfo {
     /* 00 */ u32 mId;
     /* 04 */ u8 *mRamAddress;

@@ -28,7 +28,7 @@ typedef struct ScanEntry {
     /* 178 */ u8 mUnk_178[8];
 } ScanEntry;
 
-// Object behind gWirelessWork (0x1e00 bytes).
+// The multiboot wireless work: the game group id, entry and multiboot flags, the child limit and the key sharing flags.
 typedef struct MBiParam {
     /* 000 */ u8 mUnk_000[8];
     /* 008 */ u32 mGgid;

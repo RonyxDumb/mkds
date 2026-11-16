@@ -4,8 +4,7 @@
 
 typedef void (*OSAlarmHandler)(void *);
 
-// 0x2c bytes. Entry of a doubly linked list ordered by mFire; gAlarmList holds the first and last entry. An alarm with
-// mHandler 0 is not armed.
+// An alarm in a list ordered by mFire, with its handler, argument, tag, period and start; no mHandler means not armed.
 typedef struct OSAlarm {
     /* 00 */ OSAlarmHandler mHandler; // called with mArg
     /* 04 */ void *mArg;

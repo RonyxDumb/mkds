@@ -23,7 +23,7 @@ typedef struct MB_BlockInfoTable {
     /* 0c */ u16 mChunkStarts[4];
 } MB_BlockInfoTable;
 
-// 0x10-byte entry of MBDownloadFileInfo.
+// A segment of a multiboot download file: its receive and load address, size and target.
 typedef struct MbSegmentInfo {
     /* 00 */ u32 mRecvAddr;
     /* 04 */ u32 mLoadAddr;

@@ -7,8 +7,7 @@ typedef struct SNDSharedWork SNDSharedWork;
 // Command id whose first argument is the address of the shared work area.
 #define SOUND_COMMAND_SET_SHARED_WORK 0x1d
 
-// 0x18 bytes, linked through mNext. sCommandArray holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
-// takes one.
+// A sound command: the link to the next command, its id and four arguments; free commands are chained in a list.
 typedef struct SNDCommand {
     /* 00 */ struct SNDCommand *mNext;
     /* 04 */ u32 mId;
@@ -17,7 +16,7 @@ typedef struct SNDCommand {
 
 typedef void (*SNDAlarmHandler)(void *);
 
-// 12 bytes; SNDi_SetAlarmHandler sets mFunc and mArg and adds 1 to mId, SNDi_CallAlarmHandler calls mFunc with mArg.
+// The callback of a sound alarm: its function and argument, and an id that counts how often they were set.
 typedef struct AlarmCallbackInfo {
     /* 00 */ SNDAlarmHandler mFunc;
     /* 04 */ void *mArg;

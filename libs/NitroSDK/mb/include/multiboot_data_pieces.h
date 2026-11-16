@@ -36,8 +36,7 @@ typedef struct ParentMessage {
     /* 4 */ u16 mSeqno;
 } ParentMessage;
 
-// 0x14 bytes that MBi_MakeChildSendBuffer writes out and MBi_SetRecvBufferFromChild fills; the bytes from 3 or 4 on are
-// moved from or to the entry in the word at gPieceSizes.
+// A message from a multiboot child: its kind and the piece request with the piece data.
 typedef struct ChildMessage {
     /* 00 */ u8 mKind;
     /* 01 */ u8 mPad1;
@@ -53,7 +52,7 @@ typedef struct ChildMessage {
     };
 } ChildMessage;
 
-// 0x20-byte entry that MBi_SendRequestDataPiece copies.
+// A data request of a multiboot child: its game group id, user info, version and file id.
 typedef struct MBCommRequestData {
     /* 00 */ u32 mGgid;
     /* 04 */ u8 mUserInfo[0x16];

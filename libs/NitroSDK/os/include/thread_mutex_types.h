@@ -15,8 +15,7 @@ typedef struct OSThreadQueue {
     /* 04 */ struct OSThread *mTail;
 } OSThreadQueue;
 
-// 0x18 bytes; OS_InitMutex clears mQueue to mLockCount. OSi_EnqueueTail and OSi_DequeueItem link it through
-// OSMutex.mNext and OSMutex.mPrev into OSThread.mMutexQueue of the holder.
+// A mutex: its thread queue, the holder, the lock count and the links into the mutex queue of the holder thread.
 typedef struct OSMutex {
     /* 00 */ OSThreadQueue mQueue;
     /* 08 */ struct OSThread *mHolder; // set by OS_TryLockMutex and OS_LockMutex

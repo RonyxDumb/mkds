@@ -38,9 +38,7 @@ typedef enum MICSamplingType {
 
 typedef void (*MICCallback)(MICResult result, void *arg);
 
-// Argument of MIC_StartAutoSampling and MIC_StartAutoSamplingAsync, 0x1c bytes: the sampling type, the buffer
-// (32-byte aligned) with its size (a multiple of 32), the rate (at least 0x400), whether it loops, and the callback
-// with its argument that runs when the buffer is full.
+// The parameters of microphone auto sampling: the type, buffer and size, rate, looping and the buffer full callback.
 typedef struct MICAutoParam {
     /* 00 */ MICSamplingType mType;
     /* 04 */ void *mBuffer;
@@ -51,7 +49,7 @@ typedef struct MICAutoParam {
     /* 18 */ void *mFullArg;
 } MICAutoParam;
 
-// The one microphone command in flight, 0x1c bytes.
+// The microphone command in flight: its lock, callback, last result and the buffer full callback.
 typedef struct MICWork {
     // Nonzero while a command is in flight.
     /* 00 */ u32 mLock;
