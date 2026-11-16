@@ -327,8 +327,8 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
             oamIndex = oamBuffer->mOamCount;
             drawPosition[0] = TO_FIXED12(screenX);
             drawPosition[1] = TO_FIXED12(screenY);
-            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cellData,
-                                                          &matrix, drawPosition, matrixIndex, 1);
+            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex,
+                                                          cellData, &matrix, drawPosition, matrixIndex, 1);
             oam = &oamBuffer->mOamBits[oamIndex];
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
                 if ((flag != 0 ? RACE_HUD_OBJ_MODE_TRANSLUCENT : -1) != -1) {

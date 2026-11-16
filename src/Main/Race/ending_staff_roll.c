@@ -84,8 +84,8 @@ void DrawEndingStaffRoll(void) {
         position[0] = 0x80000;
         position[1] = 0x60000;
         oamBits = &oamBuffer->mOamBits[oamIndex];
-        oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, position, 0, 1);
+        oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell,
+                                                      NULL, position, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
             oamBits->mObjMode = RACE_HUD_OBJ_MODE_TRANSLUCENT;
             oamBits->mPriority = 1;

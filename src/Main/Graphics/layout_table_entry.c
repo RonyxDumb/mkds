@@ -119,8 +119,8 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], RACE_HUD_OAM_COUNT - oamCount, cellData, matrix, position,
-                                                groupIndex, entry->mDoubleAffine);
+    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], RACE_HUD_OAM_COUNT - oamCount, cellData,
+                                                matrix, position, groupIndex, entry->mDoubleAffine);
 }
 
 void DrawLayoutTable(LayoutEntryTable *cellLayout, NNSG2dCellDataBank *cells, LayoutEntryTable *labelLayout,
