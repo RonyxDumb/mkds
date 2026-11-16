@@ -2,6 +2,7 @@
 #include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/Item/item_objects_and_race_progress.h"
+#include "Main/Item/item_object_bounce_hit_release_fade.h"
 #include "Main/Item/item_object_release.h"
 #include "Main/Item/item_f_box.h"
 #include "Main/MapObjects/attractor_distance_flag.h"
@@ -468,7 +469,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
 
     kouraR = kouraParam;
     other = otherParam;
-    if ((u32) (hitType - 1) > 1) {
+    if ((u32) (hitType - ITEM_HIT_TYPE_BOUNCE) > ITEM_HIT_TYPE_FADE_OUT - ITEM_HIT_TYPE_BOUNCE) {
         return;
     }
     kartItems = kouraR->mKartItems;
