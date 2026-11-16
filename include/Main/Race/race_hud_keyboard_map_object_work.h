@@ -364,7 +364,7 @@ typedef struct Standings {
 // The Standings object, allocated by InitStandings in MODE_BATTLE and MODE_MISSION_RUN.
 extern Standings *gStandings;
 
-static inline KartStanding *GetStandingsKart(u16 kartIndex) {
+static inline KartStanding *GetKartStanding(u16 kartIndex) {
     return &gStandings->mKarts[kartIndex];
 }
 // One key rectangle of a keyboard layout: its position and size, the offset to the next rect of the same key

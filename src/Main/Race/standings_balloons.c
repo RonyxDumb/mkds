@@ -643,7 +643,7 @@ u16 GetTotalBalloonOrShineCount(void) {
     total = 0;
     kartCount = gRaceSetup->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
-        count = GetStandingsKart(kartIndex)->mBalloonOrShineCount;
+        count = GetKartStanding(kartIndex)->mBalloonOrShineCount;
         if (count <= 0) {
             count = 0;
         }

@@ -100,7 +100,7 @@ BOOL IsCourseWithMap2DLocal3(void) {
     return result;
 }
 
-BOOL IsCourseWithSubBg3AreaOverflow(void) {
+BOOL IsCourseWithSubBg3CntBit13(void) {
     BOOL result = FALSE;
 
     switch (RaceHudSubScreenGetCurrentCourseId()) {

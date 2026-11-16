@@ -103,7 +103,7 @@ void InitSubScreenGraphicsMode5(void) {
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 3;
     reg_G2S_DB_BG3CNT &= ~REG_G2S_DB_BG3CNT_MOSAIC_MASK;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) |
-                        0x8810 | ((IsCourseWithSubBg3AreaOverflow() != 0) << 13);
+                        0x8810 | ((IsCourseWithSubBg3CntBit13() != 0) << 13);
 }
 
 void InitSubScreenGraphicsMode0(void) {

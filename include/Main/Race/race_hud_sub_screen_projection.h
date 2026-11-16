@@ -467,7 +467,7 @@ void ComputeRaceHudSubScreenCoursePosition(const Vec3 *pos, IntPair *out);
 void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out);
 u16 GetRaceHudSubScreenKartAngle(s32 kartIndex);
 u16 GetSubScreenAngleAndClearScrollTimer(void);
-BOOL IsCourseWithSubBg3AreaOverflow(void);
+BOOL IsCourseWithSubBg3CntBit13(void);
 BOOL IsCourseWithMap2DLocal3(void);
 void ClearRaceHudSubScreenProjection(void);
 

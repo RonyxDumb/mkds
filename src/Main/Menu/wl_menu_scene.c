@@ -86,7 +86,7 @@ void InitWLMenuScene(void *heap) {
             break;
         case WL_MENU_KIND_TO_RACE:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RACE;
-            InitWLMenuRequestMPWaitRaceArchives(heap);
+            InitWLMenuRequestMPWaitRaceArchivesForNextRace(heap);
             break;
         case WL_MENU_KIND_TO_RESULT:
             gWLMenuScene->mRequestedCallbacksIndex = WL_MENU_CALLBACKS_MESSAGE_TO_RESULT;

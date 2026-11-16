@@ -37,7 +37,7 @@ void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer) {
         return;
     }
     if (gRaceMNumberPair->mCourseCount >= 10) {
-        DrawRaceMNumberPairTwoDigit(oamBuffer);
+        DrawRaceMNumberPairTwoDigitCount(oamBuffer);
         return;
     }
     DrawRaceMNumberPairOneDigit(oamBuffer);
@@ -90,7 +90,7 @@ void SetRaceMNumberPairAnimation(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
     gRaceMNumberPair->mMatrixIndex = 0;
 }
 
-void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer) {
+void DrawRaceMNumberPairTwoDigitCount(RaceHudOamBuffer *oamBuffer) {
     s32 spriteX[5] = {175, 190, 203, 216, 231};
     NNSG2dCellDataWithBR *cell;
     MtxFx22 *matrix = NULL;

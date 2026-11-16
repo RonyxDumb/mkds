@@ -167,7 +167,7 @@ u32 TrySetMissionRecord(void) {
     return stored;
 }
 
-void InitWLMenuRequestMPWaitRaceArchives(void *heap) {
+void InitWLMenuRequestMPWaitRaceArchivesForNextRace(void *heap) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         InitBlockEntries(heap, 1);
     }
