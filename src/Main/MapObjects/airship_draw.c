@@ -21,9 +21,9 @@ MapObjectKindDescriptor gCourseMapRowKindDescriptor = {0,
 MapObjectKindDescriptor gAirshipKindDescriptor = {
     0, {0, 0}, 0xf0, 0, CreateEmptyMapObjectKindData, CreateAirshipDrawList, 0, 0, CreateAirshipUpdateList};
 
-void CreateAirship(void *mapObjectList) {
-    gAirship = CreateMapObjectModelAnimated(mapObjectList, "airship.nsbmd");
-    SetMapObjectModelPolygonId(gAirship, 0x3f);
+void LoadAirshipMapObject(void *mapObjectList) {
+    gAirship = CreateMapObjectFromModel_from_thumb(mapObjectList, "airship.nsbmd");
+    StructMapObject_MaybeSetPolygonId(gAirship, 0x3f);
 }
 
 void DrawAirship(void *mapObjectList, Airship *airship) {
@@ -42,7 +42,7 @@ void DrawAirship(void *mapObjectList, Airship *airship) {
     airship->mMapObject.mMatrix.mRows[3].z = airship->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &airship->mMapObject.mMatrix, 0xc);
     if (airship->mMapObject.mAngle != 0) {
-        MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(airship->mMapObject.mAngle),
+        MTX_RotY33__from_thumb(&rotationMatrix, SIN_OF_ANGLE(airship->mMapObject.mAngle),
                     COS_OF_ANGLE(airship->mMapObject.mAngle));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }

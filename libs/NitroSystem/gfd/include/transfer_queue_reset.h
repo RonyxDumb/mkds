@@ -4,4 +4,4 @@
 
 typedef struct NNSGfdVramTransferTaskQueue NNSGfdVramTransferTaskQueue;
 
-void ResetTaskQueue_(NNSGfdVramTransferTaskQueue *queue);
+void StructTEQ_Initialize(NNSGfdVramTransferTaskQueue *queue);

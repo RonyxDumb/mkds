@@ -4,9 +4,9 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-void InitRaceTimeDigits(void);
+void YetAlloc(void);
 void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer);
-void UpdateRaceLapNumber(void);
+void MaybeWhenLapIsCompleted(void);
 void ClearRaceLapNumberPointer(void);
 void InitRaceLapNumber(void);
 void DrawRaceRankListBattleMapRows(RaceHudOamBuffer *oamBuffer);

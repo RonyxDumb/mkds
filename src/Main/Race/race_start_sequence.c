@@ -34,27 +34,27 @@
 #include "Main/Race/race_start_sequence_work.h"
 #include "Main/Save/ghost_record_file.h"
 
-RaceStartSequence *gRaceStartSequence;
+RaceStartSequence *g_GlobalB358;
 
-void InitRaceStartSequence(void) {
-    gRaceStartSequence = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xc);
-    gRaceStartSequence->mCounting = FALSE;
-    gRaceStartSequence->mDone = 0;
-    gRaceStartSequence->mSequenceFrames = 0;
+void InitializeGlobalB358(void) {
+    g_GlobalB358 = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 0xc);
+    g_GlobalB358->mCounting = FALSE;
+    g_GlobalB358->mDone = 0;
+    g_GlobalB358->mSequenceFrames = 0;
 }
 
-void ClearRaceStartSequencePointer(void) {
-    gRaceStartSequence = NULL;
+void ResetGlobalB358(void) {
+    g_GlobalB358 = NULL;
 }
 
-void ResetRaceStartSequenceFrames(void) {
-    gRaceStartSequence->mCounting = FALSE;
-    gRaceStartSequence->mSequenceFrames = -0x78;
+void MaybeClearGlobalB358(void) {
+    g_GlobalB358->mCounting = FALSE;
+    g_GlobalB358->mSequenceFrames = -0x78;
 }
 
-// Per-frame step from UpdateRaceHud: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
-void UpdateRaceStartSequence(void) {
-    RaceStartSequence *sequence = gRaceStartSequence;
+// Per-frame step from SomeUpdateFn: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
+void IncreaseB358Countdown(void) {
+    RaceStartSequence *sequence = g_GlobalB358;
     s32 frames;
     s32 *framesAddress;
 
@@ -71,7 +71,7 @@ void UpdateRaceStartSequence(void) {
             }
             StartRaceSounds();
             StartRace();
-            gRaceStartSequence->mDone = 1;
+            g_GlobalB358->mDone = 1;
             return;
         }
         framesAddress = &sequence->mSequenceFrames;
@@ -80,8 +80,8 @@ void UpdateRaceStartSequence(void) {
         }
         return;
     }
-    if (gRaceSetup->mMode == MODE_WIFI) {
-        if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_IN_RACE) == 0) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
+        if ((g_GlobalAA->mFlags & WIFI_RACE_SYNC_FLAG_IN_RACE) == 0) {
             return;
         }
         sequence->mCounting = TRUE;
@@ -90,13 +90,13 @@ void UpdateRaceStartSequence(void) {
         return;
     }
     if (FinishDataSharingSync() == 1) {
-        gRaceStartSequence->mCounting = TRUE;
+        g_GlobalB358->mCounting = TRUE;
     }
 }
 
 void UpdateRaceStartSequenceSounds(void) {
     NNSSndSeqPlayer **seqPlayer;
-    s32 frames = gRaceStartSequence->mSequenceFrames;
+    s32 frames = g_GlobalB358->mSequenceFrames;
 
     if (frames < -21) {
         return;
@@ -114,7 +114,7 @@ void UpdateRaceStartSequenceSounds(void) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
-                NNS_SndArcPlayerStartSeqArc(seqPlayer, 0, 0x27);
+                PlaySseqFromSarc(seqPlayer, 0, 0x27);
             }
         }
     }
@@ -128,7 +128,7 @@ void UpdateRaceStartSequenceSounds(void) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
-                NNS_SndArcPlayerStartSeqArc(seqPlayer, 0, 0x28);
+                PlaySseqFromSarc(seqPlayer, 0, 0x28);
             }
         }
     }
@@ -141,16 +141,16 @@ void UpdateRaceStartSequenceSounds(void) {
     SetStemSet(STEM_SET_START);
 }
 
-s32 GetRaceStartSequenceFrames(void) {
-    if (gRaceStartSequence != NULL) {
-        return gRaceStartSequence->mSequenceFrames;
+s32 GetRaceStartCountdown(void) {
+    if (g_GlobalB358 != NULL) {
+        return g_GlobalB358->mSequenceFrames;
     }
     return -0x78;
 }
 
-s32 IsRaceStartSequenceDone(void) {
-    if (gRaceStartSequence != NULL) {
-        return gRaceStartSequence->mDone;
+s32 IsRaceCountdownEnded(void) {
+    if (g_GlobalB358 != NULL) {
+        return g_GlobalB358->mDone;
     }
     return 0;
 }

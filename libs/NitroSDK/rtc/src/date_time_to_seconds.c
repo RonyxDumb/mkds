@@ -4,7 +4,7 @@
 #include "multiboot_piece_buffers.h"
 #include "vram_bank_display_setup.h"
 
-s32 RTC_ConvertDateToDay(const RTCDate *date) {
+s32 Rtc_Date_GetDays(const RTCDate *date) {
     s32 days;
 
     if (date->mYear >= CLOCK_YEAR_COUNT || date->mMonth < 1 || date->mMonth > CLOCK_MONTH_MAX || date->mDay < 1 ||
@@ -23,19 +23,19 @@ s32 RTC_ConvertDateToDay(const RTCDate *date) {
     return days;
 }
 
-s32 RTCi_ConvertTimeToSecond(const RTCTime *time) {
+s32 Rtc_Time_GetSeconds(const RTCTime *time) {
     return (time->mHour * 60 + time->mMinute) * 60 + time->mSecond;
 }
 
-s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time) {
+s64 Rtc_DateTime_GetSeconds(const RTCDate *date, const RTCTime *time) {
     s32 day;
     s32 sec;
 
-    day = RTC_ConvertDateToDay(date);
+    day = Rtc_Date_GetDays(date);
     if (day == -1) {
         return -1;
     }
-    sec = RTCi_ConvertTimeToSecond(time);
+    sec = Rtc_Time_GetSeconds(time);
     if (sec == -1) {
         return -1;
     }

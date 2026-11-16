@@ -48,7 +48,7 @@ void InitKartMapObjectResponses(void) {
     void **secondResponseSlot;
 
     gLowestOffsetFarCheck = IsLowestOffsetFarOnHitBit;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     responseIndex = 0;
     responseSlot = gCollideKartWithMapObjectResponses;
     secondResponseSlot = gKartMapObjectSecondResponses;
@@ -101,7 +101,7 @@ void InitKartMapObjectResponses(void) {
                 break;
             case 8:
                 *responseSlot = CollideKartWithMapObjectResponse8;
-                *secondResponseSlot = StartKartPushFlipOnHit;
+                *secondResponseSlot = StructMQRacerEntry_SomeFn_72;
                 break;
             case 10:
                 *responseSlot = CollideKartWithMapObjectResponse10;
@@ -129,26 +129,26 @@ void InitKartMapObjectResponses(void) {
                 break;
         }
     }
-    gFirstBaseSpeedLimitReciprocal = FX_Div(0x1000, MUL_FIXED12_NO_ROUND(GetFirstBaseSpeedLimit(), 0xd9aLL));
+    gFirstBaseSpeedLimitReciprocal = FX_Div(0x1000, MUL_FIXED12_NO_ROUND(GetFATGigi(), 0xd9aLL));
 }
 
-void InitKartResources(Kart *kart) {
+void StructMQRacerEntry_Fn0(Kart *kart) {
     void *heap;
     Vec3 *collisionPos;
     u16 entryIndex;
 
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     kart->mAdvanceOffsetCycle = AdvanceKartOffsetCycle;
-    InitKartPhysicalParams(kart);
-    InitKartFlags(kart);
+    StructMQRacerEntry_SomeFn_43(kart);
+    StructMQRacerEntry_SomeFn_44(kart);
     if (kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
-    InitKartSound(kart);
+    StructMQRacerEntry_SomeFn_49(kart);
     CreateCollisionHitLink(&kart->mCollisionHitLink);
-    kart->mAi = HeapAlloc(heap, sizeof(*kart->mAi));
-    if (gCourseMap->mRaceRouteCount != 0 || gCourseMap->mBattleRouteCount != 0) {
-        if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
+    kart->mAi = Mem_AllocateHeap(heap, sizeof(*kart->mAi));
+    if (g_GlobalPE->mRaceRouteCount != 0 || g_GlobalPE->mBattleRouteCount != 0) {
+        if (g_GlobalCO->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
             kart->mEntryFlags |= KART_ENTRY_CPU;
             if (kart->mEntryFlags & KART_ENTRY_CPU) {
                 for (entryIndex = 0; entryIndex < 12; entryIndex++) {
@@ -167,7 +167,7 @@ void InitKartResources(Kart *kart) {
     }
     kart->mSecondCollisionSlot = -1;
     kart->mCollisionSlot = kart->mSecondCollisionSlot;
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         collisionPos = &kart->mPointAlongUp;
     } else {
         collisionPos = &kart->mCollisionCenter;
@@ -182,12 +182,12 @@ void InitKartResources(Kart *kart) {
     kart->mMotionFlags |= KART_MOTION_ON_GROUND;
     kart->mCollisionStepFrames = KART_COLLISION_STEP_FRAMES_FULL;
     kart->mRadius = kart->mPhysicalParam->mRadius;
-    InitKartSoundParams(kart);
-    if (gRaceSetup->mMode == MODE_WIFI) {
-        kart->mParticipantRecordData = HeapAlloc(heap, sizeof(*kart->mParticipantRecordData));
-        InitParticipantKartRecordState(kart, heap);
+    StructMQRacerEntry_SomeFn_24(kart);
+    if (g_GlobalCO->mMode == MODE_WIFI) {
+        kart->mParticipantRecordData = Mem_AllocateHeap(heap, sizeof(*kart->mParticipantRecordData));
+        StructMQRacerEntry_InitializeSub(kart, heap);
     }
-    if (IsRaceAwardOrStaffRoll() != 0) {
+    if (IsAwardOrStaffRoll_0() != 0) {
         kart->mMotionFlags |= KART_MOTION_START_DONE;
     }
 }

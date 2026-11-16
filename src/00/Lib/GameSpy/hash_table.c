@@ -12,24 +12,24 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*h
     Hashtable *table;
     s32 bucketIndex;
     if (hashFn == NULL) {
-        AssertionFailed("hashFn", "hashtable.c", NULL, 0x38);
+        LogThrowAssertion("hashFn", "hashtable.c", NULL, 0x38);
     }
     if (compFn == NULL) {
-        AssertionFailed("compFn", "hashtable.c", NULL, 0x39);
+        LogThrowAssertion("compFn", "hashtable.c", NULL, 0x39);
     }
     if (elemSize == 0) {
-        AssertionFailed("elemSize", "hashtable.c", NULL, 0x3a);
+        LogThrowAssertion("elemSize", "hashtable.c", NULL, 0x3a);
     }
     if (nBuckets == 0) {
-        AssertionFailed("nBuckets", "hashtable.c", NULL, 0x3b);
+        LogThrowAssertion("nBuckets", "hashtable.c", NULL, 0x3b);
     }
     table = DWCi_GsMalloc(0x14);
     if (table == NULL) {
-        AssertionFailed("table", "hashtable.c", NULL, 0x3e);
+        LogThrowAssertion("table", "hashtable.c", NULL, 0x3e);
     }
     table->mBuckets = DWCi_GsMalloc(nBuckets * 4);
     if (table->mBuckets == NULL) {
-        AssertionFailed("table->buckets", "hashtable.c", NULL, 0x41);
+        LogThrowAssertion("table->buckets", "hashtable.c", NULL, 0x41);
     }
     for (bucketIndex = 0; bucketIndex < nBuckets; bucketIndex++) {
         table->mBuckets[bucketIndex] = DarrayCreate(elemSize, initialCount, freeElement);
@@ -45,7 +45,7 @@ void HashtableDelete(void *tableArg) {
     Hashtable *table = tableArg;
     s32 bucketIndex;
     if (table == NULL) {
-        AssertionFailed("table", "hashtable.c", NULL, 0x51);
+        LogThrowAssertion("table", "hashtable.c", NULL, 0x51);
     }
     if (table != NULL) {
         for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
@@ -60,7 +60,7 @@ s32 HashtableGetCount(Hashtable *table) {
     s32 total = 0;
     s32 bucketIndex;
     if (table == NULL) {
-        AssertionFailed("table", "hashtable.c", NULL, 0x61);
+        LogThrowAssertion("table", "hashtable.c", NULL, 0x61);
     }
     if (table == NULL) {
         return 0;
@@ -75,7 +75,7 @@ void HashtableSet(Hashtable *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
-        AssertionFailed("table", "hashtable.c", NULL, 0x71);
+        LogThrowAssertion("table", "hashtable.c", NULL, 0x71);
     }
     if (table != NULL) {
         bucketNo = table->mHashFn(elem, table->mBucketCount);
@@ -92,7 +92,7 @@ BOOL HashtableRemove(Hashtable *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
-        AssertionFailed("table", "hashtable.c", NULL, 0x82);
+        LogThrowAssertion("table", "hashtable.c", NULL, 0x82);
     }
     if (table == NULL) {
         return FALSE;
@@ -110,7 +110,7 @@ void *HashtableFind(Hashtable *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
-        AssertionFailed("table", "hashtable.c", NULL, 0x94);
+        LogThrowAssertion("table", "hashtable.c", NULL, 0x94);
     }
     if (table == NULL) {
         return NULL;
@@ -126,7 +126,7 @@ void *HashtableFind(Hashtable *table, void *elem) {
 void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userData) {
     s32 bucketIndex;
     if (fn == NULL) {
-        AssertionFailed("fn", "hashtable.c", NULL, 0xb6);
+        LogThrowAssertion("fn", "hashtable.c", NULL, 0xb6);
     }
     for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
         DarrayForEachReverse(table->mBuckets[bucketIndex], fn, userData);
@@ -137,7 +137,7 @@ void *HashtableFindByFn(Hashtable *table, int fn, const void *userData) {
     void *foundElement;
     int bucketIndex;
     if (fn == 0) {
-        AssertionFailed("fn", "hashtable.c", NULL, 0xd3);
+        LogThrowAssertion("fn", "hashtable.c", NULL, 0xd3);
     }
     bucketIndex = 0;
     if (0 < table->mBucketCount) {

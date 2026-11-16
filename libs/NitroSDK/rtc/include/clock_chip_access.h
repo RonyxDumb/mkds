@@ -35,7 +35,7 @@ enum {
     CLOCK_REPLY_STATUS_FATAL_ERROR,
 };
 
-// Which request is in flight; RtcCommonCallback decodes the reply by it.
+// Which request is in flight; Rtc_FifoHandler decodes the reply by it.
 typedef enum RTCSequence {
     RTC_SEQ_GET_DATE = 0,
     RTC_SEQ_GET_TIME,
@@ -153,7 +153,7 @@ typedef struct RTCWork {
     /* 00 */ vu32 mLock;
     // Called once with the result and mCallbackArg when the request finishes (cleared first).
     /* 04 */ RTCCallback mCallback;
-    // Where RtcCommonCallback writes the decoded words; the second one is for the date and time request.
+    // Where Rtc_FifoHandler writes the decoded words; the second one is for the date and time request.
     /* 08 */ void *mBuffer[2];
     /* 10 */ void *mCallbackArg;
     // Which request is in flight.
@@ -166,40 +166,40 @@ typedef struct RTCWork {
     /* 20 */ RTCResult mCommonResult;
 } RTCWork;
 
-// Set to 1 by RTC_Init; a second call returns at once.
-extern u16 gClockInitialized;
+// Set to 1 by Rtc_Initialize; a second call returns at once.
+extern u16 g_Rtc_Initialized;
 // The one request object.
-extern RTCWork gClockRequest;
+extern RTCWork g_Rtc_Context;
 
-// Spins while mLock of gClockRequest is 1.
-void RtcWaitBusy(void);
-// Stores the result in mCommonResult of gClockRequest; the callback of the waiting forms.
-void RtcGetResultCallback(RTCResult result, void *arg);
+// Spins while mLock of g_Rtc_Context is 1.
+void Rtc_WaitBusy(void);
+// Stores the result in mCommonResult of g_Rtc_Context; the callback of the waiting forms.
+void Rtc_GetTimeAsync_ErrorFunction(RTCResult result, void *arg);
 // Returns the value of x read as 8 decimal digits (4 bits each, least significant first), or 0 when a digit is above 9.
 u32 RtcBCD2HEX(u32 bcd);
 // Receive handler of the clock channel. Command 0x30 calls mInterrupt. Otherwise a zero status byte decodes the shared
 // date and time words into the buffer by mSequence, and a nonzero byte maps 1, 2, 3 and anything else to 4, 5, 1 and 6.
 // A transport error finishes the request with 6. Then clears mLock and calls mCallback once, unless a status register
 // write is waiting for its reply.
-void RtcCommonCallback(u32 tag, u32 data, BOOL err);
-// RTC_GetTimeAsync, then waits for the reply; returns the result.
-RTCResult RTC_GetTime(RTCTime *time);
-// Starts a read of the time into time and returns at once; same arguments and return values as RTC_GetDateAsync.
-RTCResult RTC_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg);
-// RTC_GetDateAsync, then waits for the reply; returns the result.
-RTCResult RTC_GetDate(RTCDate *date);
+void Rtc_FifoHandler(u32 tag, u32 data, BOOL err);
+// Rtc_GetTimeAsync, then waits for the reply; returns the result.
+RTCResult Rtc_GetTime(RTCTime *time);
+// Starts a read of the time into time and returns at once; same arguments and return values as Rtc_GetDateAsync.
+RTCResult Rtc_GetTimeAsync(RTCTime *time, RTCCallback callback, void *arg);
+// Rtc_GetDateAsync, then waits for the reply; returns the result.
+RTCResult Rtc_GetDate(RTCDate *date);
 // Starts a read of the date into date and returns at once; callback is called with the result and arg when the reply
 // is in. Returns RTC_RESULT_BUSY when a request is already in flight, RTC_RESULT_SEND_ERROR when the command could not
 // be sent, otherwise RTC_RESULT_SUCCESS.
-RTCResult RTC_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg);
+RTCResult Rtc_GetDateAsync(RTCDate *date, RTCCallback callback, void *arg);
 // Runs once: clears the request object, opens the clock channel (PXI tag 5), waits for the other processor and installs
-// RtcCommonCallback as its handler.
-void RTC_Init(void);
+// Rtc_FifoHandler as its handler.
+void Rtc_Initialize(void);
 // Sends command number command on tag 5; returns 1 when the FIFO accepted the word, 0 when not.
-BOOL RtcSendPxiCommand(u32 command);
+BOOL Rtc_SendFifoWord(u32 command);
 // Sends command 0x27.
-BOOL RTCi_WriteRawStatus2Async(void);
+BOOL Rtc_WriteRawStatus2Async(void);
 // Sends command 0x12.
-BOOL RTCi_ReadRawTimeAsync(void);
+BOOL Rtc_ReadRawTimeAsync(void);
 // Sends command 0x11.
-BOOL RTCi_ReadRawDateAsync(void);
+BOOL Rtc_ReadRawDateAsync(void);

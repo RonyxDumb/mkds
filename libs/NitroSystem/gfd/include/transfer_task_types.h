@@ -10,9 +10,9 @@ typedef struct NNSGfdVramTransferTask {
     /* 0c */ u32 mSzByte;
 } NNSGfdVramTransferTask;
 
-// Object at s_VramTransferManager: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08
-// and 0a that GetNextIndex_ advances modulo the length, and a count at 0c (IsVramTransferTaskQueueFull_ compares it
-// with the length, IsVramTransferTaskQueueEmpty_ tests it for zero).
+// Object at g_GlobalTEQ: a pointer to an array of NNSGfdVramTransferTask, its length at 04, two indices at 08
+// and 0a that StructTEQ_IncrementValidateIndex advances modulo the length, and a count at 0c (StructTEQ_IsTEQSubListFull compares it
+// with the length, StructTEQ_IsCounterEmpty tests it for zero).
 typedef struct NNSGfdVramTransferTaskQueue {
     /* 00 */ NNSGfdVramTransferTask *mPTaskArray;
     /* 04 */ u32 mLengthOfArray;
@@ -22,45 +22,45 @@ typedef struct NNSGfdVramTransferTaskQueue {
     /* 10 */ u32 mTotalSize;
 } NNSGfdVramTransferTaskQueue;
 
-extern void (*const transFunc[36])(const void *pSrc, u32 offset, u32 szByte);
+extern void (*const g_TEQSubFnList[36])(const void *pSrc, u32 offset, u32 szByte);
 
-void DoTransfer_(NNSGfdVramTransferTask *task);
-void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjOamSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBGExtPlttSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjExtPlttSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBGPlttSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjPlttSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG3BmpSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG2BmpSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG3ScrSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG2ScrSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG1ScrSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG0ScrSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG3CharSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG2CharSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG1CharSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG0CharSub(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjCharMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjOamMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBGExtPlttMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjExtPlttMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBGPlttMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dObjPlttMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG3BmpMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG2BmpMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG3ScrMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG2ScrMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG1ScrMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG0ScrMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG3CharMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG2CharMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG1CharMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer2dBG0CharMain(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer3dClearImageDepth(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer3dClearImageColor(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer3dTexPltt(const void *pSrc, u32 offset, u32 szByte);
-void DoTransfer3dTex(const void *pSrc, u32 offset, u32 szByte);
-s32 IsVramTransferTaskQueueEmpty_(NNSGfdVramTransferTaskQueue *queue);
-s32 IsVramTransferTaskQueueFull_(NNSGfdVramTransferTaskQueue *queue);
-u16 GetNextIndex_(NNSGfdVramTransferTaskQueue *queue, u32 index);
+void StructTEQSub_HandleTEQSub(NNSGfdVramTransferTask *task);
+void TEQSub_Fn35(const void *pSrc, u32 offset, u32 szByte);
+void j_CopyToOamB(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn33(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn32(const void *pSrc, u32 offset, u32 szByte);
+void j_CopyPaletteBottom(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn30(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn29(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn28(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn27(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn26(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn25(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn24(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn23(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn22(const void *pSrc, u32 offset, u32 szByte);
+void j_CopyTileDataBottom(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn20(const void *pSrc, u32 offset, u32 szByte);
+void j_CopySomeTileData(const void *pSrc, u32 offset, u32 szByte);
+void j_CopyToOamA(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn17(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn16(const void *pSrc, u32 offset, u32 szByte);
+void j_CopyPaletteTop(const void *pSrc, u32 offset, u32 szByte);
+void j_CopySomePaletteData(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn13(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn12(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn11(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn10(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn9(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn8(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn7(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn6(const void *pSrc, u32 offset, u32 szByte);
+void j_CopyTileDataTop(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn4(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn3(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn2(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn1(const void *pSrc, u32 offset, u32 szByte);
+void TEQSub_Fn0(const void *pSrc, u32 offset, u32 szByte);
+s32 StructTEQ_IsCounterEmpty(NNSGfdVramTransferTaskQueue *queue);
+s32 StructTEQ_IsTEQSubListFull(NNSGfdVramTransferTaskQueue *queue);
+u16 StructTEQ_IncrementValidateIndex(NNSGfdVramTransferTaskQueue *queue, u32 index);

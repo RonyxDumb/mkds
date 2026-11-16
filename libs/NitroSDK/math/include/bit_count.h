@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CountSetBits(u32 value);
+u32 Math_CountPopulation(u32 value);

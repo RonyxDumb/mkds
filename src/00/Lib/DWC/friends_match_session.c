@@ -106,14 +106,14 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 titleNumbe
     } else {
         gameNameLength = 0xff;
     }
-    MI_CpuCopy8(gameName, gcd_gamename, gameNameLength);
+    Mem_CpuCopy8(gameName, gcd_gamename, gameNameLength);
     gcd_gamename[gameNameLength] = 0;
     if (strlen(secretKey) < 0x100) {
         secretKeyLength = strlen(secretKey);
     } else {
         secretKeyLength = 0xff;
     }
-    MI_CpuCopy8(secretKey, gcd_secret_key, secretKeyLength);
+    Mem_CpuCopy8(secretKey, gcd_secret_key, secretKeyLength);
     gcd_secret_key[secretKeyLength] = 0;
 }
 
@@ -289,7 +289,7 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
         } else {
             playerNameLength = 0x1f;
         }
-        MI_CpuCopy8(playerName, wiFiConnection->mPlayerName, playerNameLength);
+        Mem_CpuCopy8(playerName, wiFiConnection->mPlayerName, playerNameLength);
     }
     gWiFiConnection->mPlayerName[playerNameLength] = 0;
     gWiFiConnection->mBuddySyncCallback = updateCallback;
@@ -739,14 +739,14 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
 
     message = arg->mUnk_08;
     if (DWCi_GPRecvBuddyAuthCallback(connection, arg, param) == 0) {
-        if (memcmp(message, "GPCM", strlen("GPCM")) == 0) {
+        if (StructDC_SomeFn_6(message, "GPCM", strlen("GPCM")) == 0) {
             message += strlen("GPCM");
             versionLength = strchr(message, 0x76) - message;
-            strncpy(versionText, message, versionLength);
+            SomeStrncpy_0(versionText, message, versionLength);
             if (versionLength <= 10) {
                 if (strtoul(versionText, NULL, 10) == 3) {
                     message += versionLength + 1;
-                    if (memcmp(message, "MAT", strlen("MAT")) == 0) {
+                    if (StructDC_SomeFn_6(message, "MAT", strlen("MAT")) == 0) {
                         wiFiConnection = gWiFiConnection;
                         if (wiFiConnection->mState == WIFI_CONNECTION_PARTNER_SEARCH ||
                             wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||

@@ -4,19 +4,19 @@
 
 typedef struct ModelAnimation ModelAnimation;
 
-void UpdateJgArrive(void *stateObject);
-void EnterJgArrive(void *stateObject);
-void UpdateJgLeave(void *stateObject);
-void EnterJgLeave(void *stateObject);
-void UpdateJgFollowKart(void *stateObject);
-void EnterJgFollowKart(void *stateObject);
-void UpdateJgFlag(void *stateObject);
-void EnterJgFlag(void *stateObject);
-void UpdateJgLap(void *stateObject);
-void EnterJgLap(void *stateObject);
-void UpdateJgReverse(void *stateObject);
-void EnterJgReverse(void *stateObject);
-void JgOffNop(void *stateObject);
+void E7Fn2_13(void *stateObject);
+void E7Fn2_12(void *stateObject);
+void E7Fn2_11(void *stateObject);
+void E7Fn2_10(void *stateObject);
+void E7Fn2_9(void *stateObject);
+void E7Fn2_8(void *stateObject);
+void E7Fn2_7(void *stateObject);
+void E7Fn2_6(void *stateObject);
+void E7Fn2_5(void *stateObject);
+void E7Fn2_4(void *stateObject);
+void E7Fn2_3(void *stateObject);
+void E7Fn2_2(void *stateObject);
+void E7Fn2_1(void *stateObject);
 void UpdateJgPosition(void);
 void ComputeJgMatrixAndInverse(void);
 void DrawJg(void);
@@ -26,7 +26,7 @@ void InitJgOffsets(void);
 void CreateModelAnimation(u32 animationKind, void *model, ModelAnimation **animationSlot, void *nsbmdFile,
                           void *animationFile);
 
-void EnterJgOff(void *stateObject);
+void E7Fn2_0(void *stateObject);
 
 extern const Vec3 gJgVelocityDamping;
 extern const Vec3 gJgVelocityFactors;

@@ -5,7 +5,7 @@
 #include "thread_scheduler.h"
 #include "Main/Save/ghost_record_file.h"
 
-void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {
+void (*WorkerGetNextTaskFn(ThreadFunctionQueue *queue))(void) {
     void (**lastFilledSlot)(void) = NULL;
     void (*callback)(void) = NULL;
     s32 filledCount = 0;
@@ -29,16 +29,16 @@ void (*DequeueThreadFunction(ThreadFunctionQueue *queue))(void) {
     return callback;
 }
 
-void InitThreadFunctionQueue(void *heap) {
+void InitializeWorker(void *heap) {
     ThreadFunctionQueue *queue;
     s32 functionIndex;
-    gThreadFunctionQueue = HeapAlloc(heap, sizeof(*gThreadFunctionQueue));
-    gThreadFunctionQueue->mThreadStack = HeapAllocAligned(heap, 0x800, HEAP_ALIGN_CACHE_LINE);
-    OS_CreateThread(&gThreadFunctionQueue->mThread, RunQueuedThreadFunctions, NULL,
-                    gThreadFunctionQueue->mThreadStack + 0x800, 0x800, 0x11);
-    OS_WakeupThreadDirect(&gThreadFunctionQueue->mThread);
-    gThreadFunctionQueue->mRunRequested = 0;
-    queue = gThreadFunctionQueue;
+    g_WorkerContext = Mem_AllocateHeap(heap, sizeof(*g_WorkerContext));
+    g_WorkerContext->mThreadStack = Mem_AllocateHeapAligned(heap, 0x800, HEAP_ALIGN_CACHE_LINE);
+    Os_Thread_Create(&g_WorkerContext->mThread, WorkerThread_Main, NULL,
+                    g_WorkerContext->mThreadStack + 0x800, 0x800, 0x11);
+    Os_Thread_WakeUpDirect(&g_WorkerContext->mThread);
+    g_WorkerContext->mRunRequested = 0;
+    queue = g_WorkerContext;
     for (functionIndex = 0; functionIndex < 10; functionIndex++) {
         queue->mFunctions[functionIndex] = NULL;
     }

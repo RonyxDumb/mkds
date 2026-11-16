@@ -114,7 +114,7 @@ void InitSoundRequestQueue(SoundRequestQueue *queue, s32 count, NNSSndHeap *heap
     s32 requestIndex;
 
     queue->mCapacity = count;
-    queue->mRequests = NNS_SndHeapAlloc(heap, count << 4, NULL, NULL, 0);
+    queue->mRequests = Sound_Context_Allocate(heap, count << 4, NULL, NULL, 0);
     for (requestIndex = 0; requestIndex < queue->mCapacity; requestIndex++) {
         queue->mRequests[requestIndex].mSortKey = -1;
         queue->mRequests[requestIndex].mFunction = NULL;

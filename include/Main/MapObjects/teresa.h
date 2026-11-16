@@ -59,5 +59,5 @@ void CreateTeresa(MapObjectList *mapObjectList); /* also sets word +0x1c of the 
 void InitTeresa(MapObject *mapObject); /* parks the pooled object (ParkMapObject) and zeroes the live-Teresa count
                                           gUnparkedTeresaCount */
 
-extern struct MapObjectModel *gTeresa;
+extern struct MapObjectModel *g_SomeMapObject;
 extern u32 gUnparkedTeresaCount;

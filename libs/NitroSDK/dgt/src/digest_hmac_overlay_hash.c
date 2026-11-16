@@ -4,7 +4,7 @@
 #include "digest_hash_block.h"
 
 s32 sMonthStartDay[12] = {0, 0x1f, 0x3b, 0x5a, 0x78, 0x97, 0xb5, 0xd4, 0xf3, 0x111, 0x130, 0x14e};
-void (*DGTi_Hash2ProcessMessageBlockFunc)(DGTHash2Context *ctx, u8 *source, int length) = DGTi_hash2_arm4_small;
+void (*g_YearDaysElapsedUntilMonth)(DGTHash2Context *ctx, u8 *source, int length) = DGTi_hash2_arm4_small;
 u32 DGTi_OverlayTableMode;
 
 // Selects the block routine DGT_Hash2SetSource and DGT_Hash2GetDigest call: the overlay-table one when flag is
@@ -15,9 +15,9 @@ u32 DGT_SetOverlayTableMode(u32 flag) {
     prev = DGTi_OverlayTableMode;
     DGTi_OverlayTableMode = flag;
     if (flag != 0) {
-        DGTi_Hash2ProcessMessageBlockFunc = DGTi_Hash2ProcessMessageBlock;
+        g_YearDaysElapsedUntilMonth = DGTi_Hash2ProcessMessageBlock;
     } else {
-        DGTi_Hash2ProcessMessageBlockFunc = DGTi_hash2_arm4_small;
+        g_YearDaysElapsedUntilMonth = DGTi_hash2_arm4_small;
     }
     return prev;
 }
@@ -55,13 +55,13 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     if (num != 0) {
         if (num + length >= 0x40) {
             chunk = 0x40 - num;
-            MI_CpuCopy8(input, buffer + num, chunk);
+            Mem_CpuCopy8(input, buffer + num, chunk);
             length -= chunk;
             input += chunk;
-            DGTi_Hash2ProcessMessageBlockFunc(ctx, buffer, 0x40);
+            g_YearDaysElapsedUntilMonth(ctx, buffer, 0x40);
             ctx->mBufferLen = 0;
         } else {
-            MI_CpuCopy8(input, buffer + num, length);
+            Mem_CpuCopy8(input, buffer + num, length);
             ctx->mBufferLen += length;
             return;
         }
@@ -70,13 +70,13 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
         chunk = length & ~0x3f;
         length -= chunk;
         if (((u32) input & 3) == 0) {
-            DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) input, chunk);
+            g_YearDaysElapsedUntilMonth(ctx, (u8 *) input, chunk);
             input += chunk;
         } else {
             do {
-                MI_CpuCopy8(input, buffer, 0x40);
+                Mem_CpuCopy8(input, buffer, 0x40);
                 input += 0x40;
-                DGTi_Hash2ProcessMessageBlockFunc(ctx, buffer, 0x40);
+                g_YearDaysElapsedUntilMonth(ctx, buffer, 0x40);
                 chunk -= 0x40;
             } while ((int) chunk > 0);
         }
@@ -85,7 +85,7 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     if (length == 0) {
         return;
     }
-    MI_CpuCopy8(input, buffer, length);
+    Mem_CpuCopy8(input, buffer, length);
 }
 
 // Callers pass ctx and digest only. The prologue pushes r0-r3, and the call
@@ -116,7 +116,7 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
         for (; wordIndex < 16; wordIndex++) {
             blockWords[wordIndex] = 0;
         }
-        DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) blockWords, 0x40);
+        g_YearDaysElapsedUntilMonth(ctx, (u8 *) blockWords, 0x40);
         wordIndex = 0;
     }
     for (; wordIndex < 14; wordIndex++) {
@@ -132,7 +132,7 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     blockBytes[0x3a] = value >> 8;
     blockBytes[0x39] = value >> 16;
     blockBytes[0x38] = value >> 24;
-    DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) blockWords, 0x40);
+    g_YearDaysElapsedUntilMonth(ctx, (u8 *) blockWords, 0x40);
     value = ctx->mWords[0];
     digest[0] = value >> 24;
     digest[1] = value >> 16;

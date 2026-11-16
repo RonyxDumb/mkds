@@ -20,6 +20,6 @@ typedef struct DownloadScreenFiles {
     /* 28 */ Nclr *mMultiDownloadPalette;
 } DownloadScreenFiles;
 
-void CreateSearchIconMBChildAndMultiDownload(void *heap);
+void LoadStatic2DContents(void *heap);
 
-extern struct DownloadScreenFiles *gDownloadScreenFiles;
+extern struct DownloadScreenFiles *g_Global2D;

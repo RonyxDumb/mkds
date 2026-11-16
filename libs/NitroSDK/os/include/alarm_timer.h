@@ -21,29 +21,29 @@ typedef struct OSiAlarmQueue {
     /* 04 */ OSAlarm *mTail;
 } OSiAlarmQueue;
 
-// Timer 1 handler registered by OSi_SetTimer; calls OSi_ArrangeTimer.
-void OSi_AlarmHandler(void);
+// Timer 1 handler registered by Os_SetAlarmTimer; calls Os_AlarmHandlerImpl.
+void Os_AlarmHandler(void);
 // Timer 1 interrupt body: stops timer 1 and clears its interrupt enable. Restarts the timer when the first alarm is not
 // due yet. Otherwise unlinks that alarm, calls its handler with OSAlarm.mArg and re-inserts it when OSAlarm.mPeriod is
 // set; then starts the timer for the next first alarm.
-void OSi_ArrangeTimer(void);
-// Does nothing when OSAlarm.mHandler is 0. Otherwise unlinks the alarm from gAlarmList (starting the timer for a new
+void Os_AlarmHandlerImpl(void);
+// Does nothing when OSAlarm.mHandler is 0. Otherwise unlinks the alarm from g_Os_AlarmQueue (starting the timer for a new
 // first alarm), then clears OSAlarm.mHandler and OSAlarm.mPeriod.
-void OS_CancelAlarm(OSAlarm *alarm);
+void Os_Alarm_Cancel(OSAlarm *alarm);
 // Halts when the alarm is null or already armed. Otherwise sets a one-shot alarm that fires tick ticks from now and
 // calls handler with arg.
-void OS_SetAlarm(OSAlarm *alarm, u64 tick, OSAlarmHandler handler, void *arg);
-// Inserts the alarm into gAlarmList in order of OSAlarm.mFire, after alarms with an equal time. A periodic alarm
+void Os_Alarm_Set(OSAlarm *alarm, u64 tick, OSAlarmHandler handler, void *arg);
+// Inserts the alarm into g_Os_AlarmQueue in order of OSAlarm.mFire, after alarms with an equal time. A periodic alarm
 // ignores fire and takes OSAlarm.mStart moved forward by whole periods to the first time after now. Starts the timer
 // when the alarm became the first one.
-void OSi_InsertAlarm(OSAlarm *alarm, u64 fire);
+void Os_InsertAlarm(OSAlarm *alarm, u64 fire);
 // Clears OSAlarm.mHandler and OSAlarm.mTag.
-void OS_CreateAlarm(OSAlarm *alarm);
-// Returns gAlarmInitialized.
+void Os_Alarm_Create(OSAlarm *alarm);
+// Returns g_AlarmInitialized.
 u32 OS_IsAlarmAvailable(void);
-// Runs once: reserves timer 1 (OSi_SetTimerReserved), empties gAlarmList and clears the timer 1 interrupt enable.
-void OS_InitAlarm(void);
-// Starts timer 1 for the alarm: stops it, registers OSi_AlarmHandler, sets the count from the time left until
+// Runs once: reserves timer 1 (Os_ReserveTimer), empties g_Os_AlarmQueue and clears the timer 1 interrupt enable.
+void Os_InitializeAlarm(void);
+// Starts timer 1 for the alarm: stops it, registers Os_AlarmHandler, sets the count from the time left until
 // OSAlarm.mFire (the next tick when it has passed, 0 when it is 0x10000 ticks or more away), starts it and enables its
 // interrupt.
-void OSi_SetTimer(OSAlarm *alarm);
+void Os_SetAlarmTimer(OSAlarm *alarm);

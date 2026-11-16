@@ -13,8 +13,8 @@ s32 gCupPictureNumberTable[81] = {0, 1, 0x10, 2, 0, 2, 0,   2, 0,   2, 0,   2, 0
                                   2, 1, 0xe,  0, 8, 0, 0xb, 0, 0xe, 0, 5,   0, 6,   0, 0x10, 0, 9,   0, 3, 0, 0xf, 0,
                                   7, 0, 0xd,  1, 5, 1, 0xa, 1, 0xb, 1, 0xc, 1, 0xd, 1, 0xf};
 
-void RequestThreadFunctionQueueRun(void) {
-    gThreadFunctionQueue->mRunRequested = 1;
+void WorkerNotifyTaskPending(void) {
+    g_WorkerContext->mRunRequested = 1;
 }
 
 #pragma thumb on
@@ -25,12 +25,12 @@ u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
     if (gCupPictureNumberTable[cupPictureIndex * 2] == 0) {
         result = 0;
     } else if (IsCupPictureReady() != FALSE) {
-        if (gCupPicture->mCupPictureIndex != cupPictureIndex) {
-            gCupPicture->mCupPictureIndex = cupPictureIndex;
-            QueueThreadFunction(LoadCupPictureNclr);
-            QueueThreadFunction(LoadCupPictureNcgr);
-            QueueThreadFunction(LoadCupPictureNscr);
-            RequestThreadFunctionQueueRun();
+        if (g_GlobalB4A4->mCupPictureIndex != cupPictureIndex) {
+            g_GlobalB4A4->mCupPictureIndex = cupPictureIndex;
+            WorkerInsertTask(LoadCupPictureNclr);
+            WorkerInsertTask(LoadCupPictureNcgr);
+            WorkerInsertTask(LoadCupPictureNscr);
+            WorkerNotifyTaskPending();
         }
     } else {
         result = 0;
@@ -39,6 +39,6 @@ u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
 }
 #pragma thumb off
 
-u32 GetThreadFunctionQueueRunRequested(void) {
-    return (gThreadFunctionQueue->mRunRequested);
+u32 WorkerHasPendingTask(void) {
+    return (g_WorkerContext->mRunRequested);
 }

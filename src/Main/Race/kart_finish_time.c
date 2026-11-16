@@ -3,5 +3,5 @@
 #include "Main/System/init_after_startup.h"
 
 u32 GetKartFinishTimeMs(u32 kart) {
-    return gRaceProgress->mKarts[kart].mFinishTimeMs;
+    return g_GlobalMV->mKarts[kart].mFinishTimeMs;
 }

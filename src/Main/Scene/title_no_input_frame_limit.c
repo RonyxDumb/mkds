@@ -4,6 +4,6 @@ u32 GetTitleNoInputFrameLimit(void) {
     return 0x2b2u;
 }
 
-u32 GetDemoRaceFrameLimit(void) {
+u32 GetSomeFrameCount_2500(void) {
     return 0x9c4u;
 }

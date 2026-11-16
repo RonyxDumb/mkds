@@ -1,4 +1,4 @@
-// Compiler probe (docs/compiler.md): Thumb switch dispatch in main. Matches on 1.2 b56 and base only.
+// Compiler probe (docs/compiler.md): Thumb switch dispatch in NtrMain. Matches on 1.2 b56 and base only.
 // python3 tools/probe_compilers.py docs/probes/thumb_switch_main.c --flags="-O4,p -inline on,noauto"
 
 typedef struct {
@@ -34,7 +34,7 @@ int GetCharacterKartIndexByMode(int idx) {
     return result;
 }
 
-// PROBE: RepeatedScanCallback main 0x0204e3b4
+// PROBE: RepeatedScanCallback NtrMain 0x0204e3b4
 void RepeatedScanCallback(int arg) {
     switch (arg) {
         case 0:

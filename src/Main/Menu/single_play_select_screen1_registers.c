@@ -37,16 +37,16 @@ void SetupSinglePlaySelectGraphics(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         MenuGX_SetVisiblePlane(0x18);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
-        GX_LoadOBJPltt(gMenuScene->mSinglePlaySelectModeMONclr->mData, 0, (0x000001a0u));
-        GX_LoadOBJPltt(&gMenuScene->mSinglePlaySelectModeMONclr->mData[0xe0], 0x1c0, 0x40);
-        GX_LoadOBJ(gMenuScene->mSinglePlaySelectModeMNcgr->mData, 0, gMenuScene->mSinglePlaySelectModeMNcgr->mDataSize);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        CopySomePaletteData(g_GlobalB43C->mSinglePlaySelectModeMONclr->mData, 0, (0x000001a0u));
+        CopySomePaletteData(&g_GlobalB43C->mSinglePlaySelectModeMONclr->mData[0xe0], 0x1c0, 0x40);
+        CopyTileDataTop_0(g_GlobalB43C->mSinglePlaySelectModeMNcgr->mData, 0, g_GlobalB43C->mSinglePlaySelectModeMNcgr->mDataSize);
         MenuGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
-        GXS_LoadOBJPltt(gMenuScene->mSinglePlaySelectModeSONclr->mData, 0,
-                        gMenuScene->mSinglePlaySelectModeSONclr->mDataSize);
-        GXS_LoadOBJ(gMenuScene->mSinglePlaySelectModeSNcgr->mData, 0,
-                    gMenuScene->mSinglePlaySelectModeSNcgr->mDataSize);
+        SetDispcntSubBgMode(GX_BGMODE_0);
+        TEQSub_Fn30Impl(g_GlobalB43C->mSinglePlaySelectModeSONclr->mData, 0,
+                        g_GlobalB43C->mSinglePlaySelectModeSONclr->mDataSize);
+        TEQSub_Fn35Impl(g_GlobalB43C->mSinglePlaySelectModeSNcgr->mData, 0,
+                    g_GlobalB43C->mSinglePlaySelectModeSNcgr->mDataSize);
     }
 }
 
@@ -59,8 +59,8 @@ void UpdateSinglePlaySelectSubCells(void) {
     s32 selectedIndex;
     s32 cellIndex;
 
-    subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
-    selectedIndex = gMenuScene->mSinglePlaySelectModeIndex;
+    subCells = g_GlobalB43C->mSinglePlaySelectModeSLayoutTable;
+    selectedIndex = g_GlobalB43C->mSinglePlaySelectModeIndex;
     for (cellIndex = 0; cellIndex <= 9; cellIndex++) {
         subCells[cellIndex].mVisible = 1;
     }
@@ -68,15 +68,15 @@ void UpdateSinglePlaySelectSubCells(void) {
         subCells[cellIndex].mVisible = 0;
     }
     if (GetMenuScreenNumber() != SCREEN_SINGLE_PLAY_SELECT_PRESS ||
-        gMenuScene->mSinglePlaySelectStartedOnSelected == FALSE ||
+        g_GlobalB43C->mSinglePlaySelectStartedOnSelected == FALSE ||
         GetFramesSinceMenuScreenSwitch() >= 5) {
         subCells[selectedIndex + 5].mVisible = 0;
         subCells[selectedIndex + 10].mVisible = 1;
     }
-    if (gMenuScene->mScreenNumber == SCREEN_SINGLE_PLAY_SELECT_PRESS) {
-        subCells[selectedIndex].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
-        subCells[selectedIndex + 5].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
-        subCells[selectedIndex + 10].mOffsetX = gMenuScene->mSinglePlaySelectModePressOffset;
+    if (g_GlobalB43C->mScreenNumber == SCREEN_SINGLE_PLAY_SELECT_PRESS) {
+        subCells[selectedIndex].mOffsetX = g_GlobalB43C->mSinglePlaySelectModePressOffset;
+        subCells[selectedIndex + 5].mOffsetX = g_GlobalB43C->mSinglePlaySelectModePressOffset;
+        subCells[selectedIndex + 10].mOffsetX = g_GlobalB43C->mSinglePlaySelectModePressOffset;
     }
 }
 #pragma thumb off
@@ -86,10 +86,10 @@ void UpdateSinglePlaySelectSubCells(void) {
 void DrawSinglePlaySelectCells(void) {
     MenuScene *menu;
     UpdateSinglePlaySelectSubCells();
-    menu = gMenuScene;
+    menu = g_GlobalB43C;
     DrawLayoutTable(menu->mSinglePlaySelectModeMBncl, menu->mSinglePlaySelectModeMNcer, NULL, menu->mMainOam,
                     menu->mSinglePlaySelectModeMLayoutTable);
-    menu = gMenuScene;
+    menu = g_GlobalB43C;
     DrawLayoutTable(menu->mSinglePlaySelectModeSBncl, menu->mSinglePlaySelectModeSNcer, NULL, menu->mSubOam,
                     menu->mSinglePlaySelectModeSLayoutTable);
 }
@@ -113,11 +113,11 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
     s16 offset;
 
     frame = GetFramesSinceMenuScreenSwitch();
-    mainCells = gMenuScene->mSinglePlaySelectModeMLayoutTable;
-    subCells = gMenuScene->mSinglePlaySelectModeSLayoutTable;
+    mainCells = g_GlobalB43C->mSinglePlaySelectModeMLayoutTable;
+    subCells = g_GlobalB43C->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
-        mainCells->mOffsetY = InterpolateS16(1, -0x28, 0, frame, 10);
-        offset = InterpolateS16(1, 0xf0, 0, frame, 10);
+        mainCells->mOffsetY = ComputeValueInterpolation_from_thumb(1, -0x28, 0, frame, 10);
+        offset = ComputeValueInterpolation_from_thumb(1, 0xf0, 0, frame, 10);
         for (cellIndex = 0; cellIndex <= 14; cellIndex++) {
             subCells[cellIndex].mOffsetX = offset;
         }
@@ -129,7 +129,7 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
         }
         SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_CHOOSE, SCREEN_NONE);
         SetSelectReturnSoundId(0xf);
-        gMenuScene->mSinglePlaySelectStartedOnSelected = FALSE;
+        g_GlobalB43C->mSinglePlaySelectStartedOnSelected = FALSE;
     }
     DrawSinglePlaySelectCells();
 }

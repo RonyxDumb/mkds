@@ -33,13 +33,13 @@ void WriteMainBg1CntFields(u32 screenSize, u32 colorMode, u32 screenBase, u32 ch
 void WriteSelectGhostScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         TimeAttackGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         WriteMainBg1Offset(0, 0);
         WriteMainBg1CntLowBits(0);
         WriteMainBg1CntFlag(0);
         WriteMainBg1CntFields(0, 0, 0xc, 0, 0);
         TimeAttackGXS_SetVisiblePlane(0x1f);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectGhostRegisters();
 }
@@ -70,9 +70,9 @@ void TimeAttackGXS_SetVisiblePlane(u32 bits) {
 void WriteSelectCupMScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         TimeAttackGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         TimeAttackGXS_SetVisiblePlane(0x1e);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectCupMBgOffsets();
 }
@@ -91,9 +91,9 @@ void UpdateSelectCupM(void) {
 void WriteSelectEngineScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         SelectGX_SetVisiblePlane(0x1b);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         SelectGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectEngineBg0Offset();
 }
@@ -112,9 +112,9 @@ void UpdateSelectEngine(void) {
 void WriteSelectCharacterScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         SelectGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         SelectGXS_SetVisiblePlane(8);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectCharacterRegisters();
 }
@@ -133,9 +133,9 @@ void UpdateSelectCharacter(void) {
 void WriteSelectKartScreenRegisters(void) {
     if (GetMenuScreenSwitched() != 0) {
         SelectGX_SetVisiblePlane(9);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         SelectGXS_SetVisiblePlane(8);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectKartRegisters();
 }

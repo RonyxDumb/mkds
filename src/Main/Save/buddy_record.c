@@ -19,7 +19,7 @@
 static inline s32 TryGetFilledTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
     BOOL isFilled;
 
-    if (GetCourseTimeRecord(courseId, recordIndex, timeRecord) != 0 && timeRecord->mFilled != 0) {
+    if (TimeTrialRecord_CopyFrom_from_thumb(courseId, recordIndex, timeRecord) != 0 && timeRecord->mFilled != 0) {
         isFilled = TRUE;
     } else {
         isFilled = FALSE;
@@ -27,9 +27,9 @@ static inline s32 TryGetFilledTimeRecord(s32 courseId, s32 recordIndex, TimeReco
     return isFilled;
 }
 
-void CopyWiFiBuddiesToRecordBlock(DWCAccFriendData *buddies) {
-    MI_CpuCopy8(buddies, gBackupBuffers->mBuddyRecordBlock->mFriendData,
-                sizeof(gBackupBuffers->mBuddyRecordBlock->mFriendData));
+void CopyFriendCodesToSaveData(DWCAccFriendData *buddies) {
+    Mem_CpuCopy8(buddies, g_SaveDataHolder->mBuddyRecordBlock->mFriendData,
+                sizeof(g_SaveDataHolder->mBuddyRecordBlock->mFriendData));
 }
 
 void RefreshNotYetBuddyFlags(void) {
@@ -37,11 +37,11 @@ void RefreshNotYetBuddyFlags(void) {
     u8 recordIndex;
 
     for (recordIndex = 0; recordIndex < 60; recordIndex++) {
-        GetBuddyRecord(recordIndex, &buddyRecord);
+        GlobalZ_GetOI(recordIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 &&
-            DWC_IsBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
+            FriendCode_SomeFn_from_thumb(&g_SaveDataHolder->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
             buddyRecord.mNotYetBuddy = 0;
-            SetBuddyRecord(recordIndex, &buddyRecord);
+            GlobalZ_SetOI(recordIndex, &buddyRecord);
         }
     }
 }
@@ -49,7 +49,7 @@ void RefreshNotYetBuddyFlags(void) {
 BOOL IsBuddyRecordFilled(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return TRUE;
     }
@@ -59,7 +59,7 @@ BOOL IsBuddyRecordFilled(u8 recordIndex) {
 s32 IsBuddyRecordFlagged(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mFlagged;
     }
@@ -69,7 +69,7 @@ s32 IsBuddyRecordFlagged(u8 recordIndex) {
 s32 GetBuddyRecordVsWinCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mResultCounts[0][0];
     }
@@ -79,7 +79,7 @@ s32 GetBuddyRecordVsWinCount(u8 recordIndex) {
 s32 GetBuddyRecordVsLossCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mResultCounts[0][1];
     }
@@ -89,7 +89,7 @@ s32 GetBuddyRecordVsLossCount(u8 recordIndex) {
 s32 GetBuddyRecordBattleWinCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mResultCounts[1][0];
     }
@@ -99,7 +99,7 @@ s32 GetBuddyRecordBattleWinCount(u8 recordIndex) {
 s32 GetBuddyRecordBattleLossCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mResultCounts[1][1];
     }
@@ -109,7 +109,7 @@ s32 GetBuddyRecordBattleLossCount(u8 recordIndex) {
 s32 GetBuddyRecordWiFiRaceWinCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mResultCounts[2][0];
     }
@@ -119,7 +119,7 @@ s32 GetBuddyRecordWiFiRaceWinCount(u8 recordIndex) {
 s32 GetBuddyRecordWiFiRaceLossCount(u8 recordIndex) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         return buddyRecord.mResultCounts[2][1];
     }
@@ -129,7 +129,7 @@ s32 GetBuddyRecordWiFiRaceLossCount(u8 recordIndex) {
 BOOL GetBuddyRecordDate(u8 recordIndex, u8 *dateOut) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled != 1) {
         return FALSE;
     }
@@ -142,21 +142,21 @@ BOOL GetBuddyRecordDate(u8 recordIndex, u8 *dateOut) {
 BOOL GetBuddyRecordName(u8 recordIndex, void *nameOut) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled != 1) {
         return FALSE;
     }
-    MI_CpuCopy8(buddyRecord.mName, nameOut, sizeof(buddyRecord.mName));
+    Mem_CpuCopy8(buddyRecord.mName, nameOut, sizeof(buddyRecord.mName));
     return TRUE;
 }
 
 BOOL SetBuddyRecordFlag(u8 recordIndex, s32 flag) {
     BuddyRecord buddyRecord;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     if (buddyRecord.mFilled == 1) {
         buddyRecord.mFlagged = flag != 0;
-        SetBuddyRecord(recordIndex, &buddyRecord);
+        GlobalZ_SetOI(recordIndex, &buddyRecord);
         return TRUE;
     }
     return FALSE;
@@ -166,28 +166,28 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     BuddyRecord buddyRecord;
     BOOL wasFilled;
 
-    GetBuddyRecord(recordIndex, &buddyRecord);
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
     wasFilled = buddyRecord.mFilled == 1;
-    MI_CpuFill8(&buddyRecord, 0, sizeof(BuddyRecord));
+    Mem_CpuFill8(&buddyRecord, 0, sizeof(BuddyRecord));
     buddyRecord.mFilled = 0;
-    SetBuddyRecord(recordIndex, &buddyRecord);
-    if (gWiFiSession->mStateMachine.mState != 0) {
-        DWC_DeleteBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]);
+    GlobalZ_SetOI(recordIndex, &buddyRecord);
+    if (g_GlobalB->mStateMachine.mState != 0) {
+        DWC_DeleteBuddyFriendData(&g_SaveDataHolder->mBuddyRecordBlock->mFriendData[recordIndex]);
     } else {
-        MI_CpuFill8(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);
+        Mem_CpuFill8(&g_SaveDataHolder->mBuddyRecordBlock->mFriendData[recordIndex], 0, 0xc);
     }
-    WriteBackupBuddyRecords();
+    WriteFriendListSaveDataSection();
     return wasFilled;
 }
 
-void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
+void OI_JoinInSlot1FreeSlot2(u8 keptIndex, u8 mergedIndex) {
     BuddyRecord keptRecord;
     BuddyRecord mergedRecord;
     BuddyRecord combinedRecord;
 
-    GetBuddyRecord(keptIndex, &keptRecord);
-    GetBuddyRecord(mergedIndex, &mergedRecord);
-    ResetBuddyRecord(&combinedRecord);
+    GlobalZ_GetOI(keptIndex, &keptRecord);
+    GlobalZ_GetOI(mergedIndex, &mergedRecord);
+    StructOI_Initialize_from_thumb(&combinedRecord);
     if (mergedRecord.mNotYetBuddy == 0) {
         combinedRecord.mResultCounts[0][0] = combinedRecord.mResultCounts[0][0] + mergedRecord.mResultCounts[0][0];
         combinedRecord.mResultCounts[0][1] = combinedRecord.mResultCounts[0][1] + mergedRecord.mResultCounts[0][1];
@@ -195,7 +195,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
         combinedRecord.mResultCounts[1][1] = combinedRecord.mResultCounts[1][1] + mergedRecord.mResultCounts[1][1];
         combinedRecord.mResultCounts[2][0] = combinedRecord.mResultCounts[2][0] + mergedRecord.mResultCounts[2][0];
         combinedRecord.mResultCounts[2][1] = combinedRecord.mResultCounts[2][1] + mergedRecord.mResultCounts[2][1];
-        MI_CpuCopy8(mergedRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
+        Mem_CpuCopy8(mergedRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
         combinedRecord.mYear = mergedRecord.mYear;
         combinedRecord.mMonth = mergedRecord.mMonth;
         combinedRecord.mDay = mergedRecord.mDay;
@@ -207,7 +207,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
         combinedRecord.mResultCounts[1][1] = combinedRecord.mResultCounts[1][1] + keptRecord.mResultCounts[1][1];
         combinedRecord.mResultCounts[2][0] = combinedRecord.mResultCounts[2][0] + keptRecord.mResultCounts[2][0];
         combinedRecord.mResultCounts[2][1] = combinedRecord.mResultCounts[2][1] + mergedRecord.mResultCounts[2][1];
-        MI_CpuCopy8(keptRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
+        Mem_CpuCopy8(keptRecord.mName, combinedRecord.mName, sizeof(combinedRecord.mName));
         combinedRecord.mYear = keptRecord.mYear;
         combinedRecord.mMonth = keptRecord.mMonth;
         combinedRecord.mDay = keptRecord.mDay;
@@ -216,10 +216,10 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
     combinedRecord.mNotYetBuddy = 0;
     combinedRecord.mHasEmblem = keptRecord.mHasEmblem;
     combinedRecord.mFlagged = keptRecord.mFlagged == 1 || mergedRecord.mFlagged == 1;
-    SetBuddyRecord(keptIndex, &combinedRecord);
-    MI_CpuFill8(&mergedRecord, 0, sizeof(BuddyRecord));
+    GlobalZ_SetOI(keptIndex, &combinedRecord);
+    Mem_CpuFill8(&mergedRecord, 0, sizeof(BuddyRecord));
     mergedRecord.mFilled = 0;
-    SetBuddyRecord(mergedIndex, &mergedRecord);
+    GlobalZ_SetOI(mergedIndex, &mergedRecord);
 }
 
 BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut) {
@@ -229,26 +229,26 @@ BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut) {
     BuddyRecord buddyRecord;
 
     found = FALSE;
-    GetBuddyRecord(recordIndex, &buddyRecord);
-    friendData = &gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex];
-    if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 && IsFriendDataTypeNonZero(friendData) != 0) {
+    GlobalZ_GetOI(recordIndex, &buddyRecord);
+    friendData = &g_SaveDataHolder->mBuddyRecordBlock->mFriendData[recordIndex];
+    if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 && FriendCode_HasNonzeroState_from_thumb(friendData) != 0) {
         hasFriendKey = TRUE;
     } else {
         hasFriendKey = FALSE;
     }
     if (hasFriendKey != FALSE) {
-        u64 friendKey = DWC_GetFriendKey(friendData);
+        u64 friendKey = FriendCode_GetFriendCodePacked_0_from_thumb(friendData);
 
-        FormatFriendKey(friendKey, friendKey >> 32, (u32) textOut);
+        PrintfUll_from_thumb(friendKey, friendKey >> 32, (u32) textOut);
         found = TRUE;
     }
     return found;
 }
 
-s32 IsGrandPrixRecordFilled(s32 cup, s32 engineClass) {
+s32 CupHasRecord(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled == 0) {
         return 0;
     }
@@ -258,7 +258,7 @@ s32 IsGrandPrixRecordFilled(s32 cup, s32 engineClass) {
 s32 GetGrandPrixRecordCharacterIndex(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mCharacterIndex;
     }
@@ -268,17 +268,17 @@ s32 GetGrandPrixRecordCharacterIndex(s32 cup, s32 engineClass) {
 s32 GetGrandPrixRecordKartIndex(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mKartIndex;
     }
     return -1;
 }
 
-s32 GetGrandPrixRecordCupRank(s32 cup, s32 engineClass) {
+s32 CupGetResult(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mCupRank;
     }
@@ -288,7 +288,7 @@ s32 GetGrandPrixRecordCupRank(s32 cup, s32 engineClass) {
 s32 GetGrandPrixRecordTotalPoints(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return (s8) timeRecord.mTotalPoints;
     }
@@ -296,10 +296,10 @@ s32 GetGrandPrixRecordTotalPoints(s32 cup, s32 engineClass) {
 }
 
 // The grade of a Grand Prix record, 0 to 7, or 9 when the record is empty.
-s32 GetGrandPrixRecordGrade(s32 cup, s32 engineClass) {
+s32 GetCupEntryRank(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mGrade;
     }
@@ -309,27 +309,27 @@ s32 GetGrandPrixRecordGrade(s32 cup, s32 engineClass) {
 BOOL GetGrandPrixRecordTime(s32 cup, s32 engineClass, void *timeOut) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    CopyCupEntryTo_from_thumb(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled == 0) {
         return FALSE;
     }
-    MI_CpuCopy8(&timeRecord, timeOut, 4);
+    Mem_CpuCopy8(&timeRecord, timeOut, 4);
     return TRUE;
 }
 
 // FALSE when the course has a saved ghost and at least one filled time record, TRUE otherwise.
-BOOL IsCourseGhostRecordMissing(s32 courseId) {
+BOOL CourseTimeTrialRecordsEmpty(s32 courseId) {
     u8 recordIndex;
     BOOL noRecords;
     s32 cupCourseIndex;
     TimeRecord timeRecord;
 
     noRecords = TRUE;
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = GetCourseIdFromInternalId(courseId);
     if (cupCourseIndex == -1) {
         return noRecords;
     }
-    if (IsCourseGhostBitSet(cupCourseIndex) == 0) {
+    if (MaybeHasPersonalGhostForCourse_from_thumb(cupCourseIndex) == 0) {
         return noRecords;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
@@ -344,7 +344,7 @@ BOOL IsCourseGhostRecordMissing(s32 courseId) {
 BOOL IsTimeRecordFilled(s32 courseId, s32 recordIndex) {
     TimeRecord timeRecord;
 
-    if (GetCourseTimeRecord(courseId, recordIndex, &timeRecord) != 0 && timeRecord.mFilled != 0) {
+    if (TimeTrialRecord_CopyFrom_from_thumb(courseId, recordIndex, &timeRecord) != 0 && timeRecord.mFilled != 0) {
         return TRUE;
     }
     return FALSE;
@@ -388,12 +388,12 @@ BOOL GetTimeRecordName(s32 courseId, s32 recordIndex, void *nameOut) {
     if (!TryGetFilledTimeRecord(courseId, recordIndex, &timeRecord)) {
         return FALSE;
     }
-    MI_CpuCopy8(timeRecord.mName, nameOut, sizeof(timeRecord.mName));
+    Mem_CpuCopy8(timeRecord.mName, nameOut, sizeof(timeRecord.mName));
     return TRUE;
 }
 
 s32 IsCourseCupMessageFlagSet(s32 courseId) {
-    return IsCupAlwaysOrSecretMessageFlagSet(FindCupIndexOfCourse(courseId));
+    return IsCupAlwaysOrSecretMessageFlagSet(GetCupForCourse(courseId));
 }
 
 void ClearCourseTimeRecords(s32 courseId) {
@@ -403,23 +403,23 @@ void ClearCourseTimeRecords(s32 courseId) {
     s32 cupCourseIndex;
     TimeRecord timeRecord;
 
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = GetCourseIdFromInternalId(courseId);
     ghostBitCleared = FALSE;
     if (cupCourseIndex == -1) {
         return;
     }
     ghostCourseIndex = cupCourseIndex;
-    if (IsCourseGhostBitSet(ghostCourseIndex) != 0) {
+    if (MaybeHasPersonalGhostForCourse_from_thumb(ghostCourseIndex) != 0) {
         ClearCourseGhostBit(ghostCourseIndex);
         ghostBitCleared = TRUE;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
-        MI_CpuFill8(&timeRecord, 0, sizeof(TimeRecord));
-        SetCourseTimeRecord(courseId, recordIndex, &timeRecord);
+        Mem_CpuFill8(&timeRecord, 0, sizeof(TimeRecord));
+        TimeTrialCopyToSaveData_from_thumb(courseId, recordIndex, &timeRecord);
     }
     if (ghostBitCleared != FALSE) {
-        WriteCourseTimeRecordsAndFirstBlock();
+        WriteTimeTrialsSaveDataSectionAndHeader_from_thumb();
     } else {
-        WriteBackupCourseTimeRecords();
+        WriteTimeTrialsSaveDataSection_from_thumb();
     }
 }

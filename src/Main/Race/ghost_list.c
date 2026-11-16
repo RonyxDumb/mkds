@@ -33,7 +33,7 @@ void GetListedGhostTime(u32 index, void *time) {
     if (IsSlotGhostIndex(index) == 0) {
         courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
+        cupCourseIndex = GetCourseIdFromInternalId(courseId);
         GetGhostRecordTime(&courseRecords[cupCourseIndex], time);
     } else {
         index -= gGhostScene->mCourseGhostCount;
@@ -48,7 +48,7 @@ void GetListedGhostName(u32 index, void *name) {
     if (IsSlotGhostIndex(index) == 0) {
         courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
+        cupCourseIndex = GetCourseIdFromInternalId(courseId);
         GetGhostRecordName(&courseRecords[cupCourseIndex], name);
     } else {
         index -= gGhostScene->mCourseGhostCount;
@@ -63,7 +63,7 @@ u32 GetListedGhostCharacterIndex(u32 index) {
     if (IsSlotGhostIndex(index) == 0) {
         courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
+        cupCourseIndex = GetCourseIdFromInternalId(courseId);
         return GetGhostRecordCharacterIndex(&courseRecords[cupCourseIndex]);
     }
     index -= gGhostScene->mCourseGhostCount;
@@ -77,7 +77,7 @@ u32 GetListedGhostKartIndex(u32 index) {
     if (IsSlotGhostIndex(index) == 0) {
         courseId = GhostSceneGetCupCourseIdAtIndex(gGhostScene->mCupCourseIndices[index]);
         courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
+        cupCourseIndex = GetCourseIdFromInternalId(courseId);
         return GetGhostRecordKartIndex(&courseRecords[cupCourseIndex]);
     }
     index -= gGhostScene->mCourseGhostCount;

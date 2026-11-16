@@ -15,11 +15,11 @@
 #include "Main/Menu/menu_shared_clear.h"
 
 u32 ShuffledIndicesGetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+    return (g_GlobalP->mConnectionKind);
 }
 
 RandomState64 *ShuffledIndicesGetConnectionWorkRandomState(void) {
-    return &gConnectionWork->mRandomState;
+    return &g_GlobalZE->mRandomState;
 }
 
 #pragma optimize_for_size on
@@ -34,7 +34,7 @@ void FillShuffledIndices(void) {
     RandomState64 *random;
 
     remainingCount = 8;
-    if (gMenuShared->mIndicesShuffled == 0) {
+    if (g_GlobalB488->mIndicesShuffled == 0) {
         if (ShuffledIndicesGetConnectionKind() == 1 || ShuffledIndicesGetConnectionKind() == 2) {
             random = ShuffledIndicesGetConnectionWorkRandomState();
             for (index = 0; index < 8; index++) {
@@ -42,26 +42,26 @@ void FillShuffledIndices(void) {
             }
             for (index = 0; index < 8; index++) {
                 pickIndex = (NextRandomU16(random) >> 8) % remainingCount;
-                gMenuShared->mShuffledIndices[index] = remaining[pickIndex];
+                g_GlobalB488->mShuffledIndices[index] = remaining[pickIndex];
                 remainingCount--;
                 for (shiftIndex = pickIndex; shiftIndex < remainingCount; shiftIndex++) {
                     remaining[shiftIndex] = remaining[shiftIndex + 1];
                 }
             }
-            gMenuShared->mIndicesShuffled = 1;
+            g_GlobalB488->mIndicesShuffled = 1;
         }
     }
 }
 
-void ClearShuffledIndices(void) {
+void ResetB488HeyhoPaletteRows_from_thumb(void) {
     s32 index;
     BOOL clearValue;
 
     clearValue = FALSE;
     for (index = 0; index < 8; index++) {
-        gMenuShared->mShuffledIndices[index] = clearValue;
+        g_GlobalB488->mShuffledIndices[index] = clearValue;
     }
-    gMenuShared->mIndicesShuffled = clearValue;
+    g_GlobalB488->mIndicesShuffled = clearValue;
 }
 #pragma thumb off
 

@@ -9,24 +9,24 @@
 u16 gPowerInitialized;
 vu32 PMi_SleepEndFlag;
 PMSleepCallbackInfo *gPowerPostSleepCallbacks;
-u32 PMi_LCDCount;
+u32 g_FrameCounterValue;
 PMSleepCallbackInfo *gPowerPreSleepCallbacks;
 vu32 gPowerSleepHandshakeReplyReceived;
 PMiWork gPowerCommand;
-OSMutex PMi_Mutex;
+OSMutex g_GlobalVStr;
 PMData16 gPowerRegisterSlots[4];
 
 // Marks a command as in flight and returns 1; returns 0 when one already is.
 BOOL PMi_Lock(void) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (gPowerCommand.mLock != 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 0;
     }
     gPowerCommand.mLock = 1;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
@@ -64,8 +64,8 @@ void PMi_CallCallbackAndUnlock(u32 result) {
 }
 
 // Runs once: opens the power-management channel (PXI tag 8), waits for the other processor, installs
-// PMi_CommonCallback as its handler and clears the register buffers.
-void PM_Init(void) {
+// Fifo8Handler as its handler and clears the register buffers.
+void PM_Initialize(void) {
     int slotIndex;
 
     if (gPowerInitialized != 0) {
@@ -74,21 +74,21 @@ void PM_Init(void) {
     gPowerInitialized = 1;
     gPowerCommand.mLock = 0;
     gPowerCommand.mCallback = 0;
-    PXI_Init();
-    while (PXI_IsCallbackReady(8, 1) == 0) {
+    j_Fifo_Initialize();
+    while (Fifo_IsHandlerReady(8, 1) == 0) {
     }
-    PXI_SetFifoRecvCallback(8, PMi_CommonCallback);
+    Fifo_RegisterHandler(8, Fifo8Handler);
     for (slotIndex = 0; slotIndex < 4; slotIndex++) {
         gPowerRegisterSlots[slotIndex].mFlag = 0;
     }
-    OS_InitMutex(&PMi_Mutex);
-    PMi_LCDCount = SYSTEM_WORK->mVblankCount;
+    Os_Mutex_Initialize(&g_GlobalVStr);
+    g_FrameCounterValue = SYSTEM_WORK->mVblankCount;
 }
 
 // Receive handler of the tag-8 channel. An error finishes the command with 2. Replies 0x70-0x73 store their byte
 // through PMData16.mBuffer (result 0); 0x60 sets gPowerSleepHandshakeReplyReceived; 0x62 sets PMi_SleepEndFlag; 0x67
 // stores through PMiWork.mWork (result 0). Then finishes the command with the result.
-void PMi_CommonCallback(u32 tag, u32 data, u32 err) {
+void Fifo8Handler(u32 tag, u32 data, u32 err) {
     u16 reply;
     u16 pxiCommand;
     u32 *work;
@@ -136,7 +136,7 @@ u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData) {
     }
     gPowerSleepHandshakeReplyReceived = 0;
     PMi_SleepEndFlag = 0;
-    PMi_SetLCDPower(0, 2, 0, 0);
+    PM_SetLCDPower(0, 2, 0, 0);
     PMi_SendPxiData((trigger & 0xff) | 0x2006100);
     PMi_SendPxiData((keyIntrData & 0xffff) | 0x1010000);
     return 0;
@@ -337,7 +337,7 @@ u32 PM_GetBackLight(u32 *top, u32 *bottom) {
 
 // Sends one word on tag 8, retrying until the FIFO accepts it.
 void PMi_SendPxiData(u32 data) {
-    while (PXI_SendWordByFifo(8, data, 0) != 0) {
+    while (Fifo_SendWord(8, data, 0) != 0) {
     }
 }
 
@@ -367,10 +367,10 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     PMi_ExecuteList(gPowerPreSleepCallbacks);
     savedIme = reg_OS_IME;
     reg_OS_IME = 0;
-    intrMode = OS_DisableInterrupts();
-    intrMask = OS_DisableIrqMask(0x3fffff);
-    OS_SetIrqMask(0x40000);
-    OS_RestoreInterrupts(intrMode);
+    intrMode = Os_DisableIrq();
+    intrMask = Os_DisableIrqHandler(0x3fffff);
+    SetIE(0x40000);
+    Os_RestoreIrq(intrMode);
     ime = reg_OS_IME;
     reg_OS_IME = 1;
     if ((trigger & 8) != 0) {
@@ -379,7 +379,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
         }
     }
     if ((trigger & 0x10) != 0) {
-        if (CTRDG_IsExisting() == 0) {
+        if (MaybeDebuggerOrAddonCode_from_thumb() == 0) {
             trigger &= ~0x10;
         }
     }
@@ -402,8 +402,8 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     param = trigger | (topBacklightOn << 5) | (bottomBacklightOn << 6);
     while (PMi_SendSleepStart(param, logic | keyPattern) != 0) {
     }
-    OS_Halt();
-    OS_SpinWait(0x332340);
+    Os_Halt();
+    Os_SpinWait(0x332340);
     if ((trigger & 8) != 0) {
         if ((reg_OS_IF & 0x100000) != 0) {
             shutdownRequested = 1;
@@ -411,16 +411,16 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
     }
     if (shutdownRequested == 0) {
         if (lcdPower == 1) {
-            PMi_SetLCDPower(1, 1, 1, 0);
+            PM_SetLCDPower(1, 1, 1, 0);
         } else {
             PMi_SetLED(POWER_LED_STATUS_ON);
         }
         reg_GX_DISPCNT = savedMainDispCnt;
         reg_GXS_DB_DISPCNT = savedSubDispCnt;
     }
-    OS_DisableInterrupts();
-    OS_SetIrqMask(intrMask);
-    OS_RestoreInterrupts(intrMode);
+    Os_DisableIrq();
+    SetIE(intrMask);
+    Os_RestoreIrq(intrMode);
     ime = reg_OS_IME;
     reg_OS_IME = savedIme;
     if (shutdownRequested != 0) {
@@ -432,11 +432,11 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
 // sw = 1 turns the screens on, sw = 0 off. On: returns 0 and changes nothing when fewer than 8 counts of the shared
 // counter at 0x27ffc3c have passed since the last turn-off, unless skip is nonzero. led != 0 also sets that LED
 // (waiting for it when isSync is nonzero). Off: stores the counter for that guard. Returns 1 when done.
-BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
+BOOL PM_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
     switch (sw) {
         case 1:
             if (skip == 0) {
-                if (SYSTEM_WORK->mVblankCount - PMi_LCDCount <= 7) {
+                if (SYSTEM_WORK->mVblankCount - g_FrameCounterValue <= 7) {
                     return 0;
                 }
             }
@@ -451,7 +451,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
             break;
         case 0:
             reg_GX_POWCNT &= ~1;
-            PMi_LCDCount = SYSTEM_WORK->mVblankCount;
+            g_FrameCounterValue = SYSTEM_WORK->mVblankCount;
             if (led != 0) {
                 if (isSync != 0) {
                     PMi_SetLED(led);
@@ -465,12 +465,12 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
 }
 
 // Anything but 1 counts as 0. Switches the screens on or off with no LED change; returns 0 when the turn-on guard of
-// PMi_SetLCDPower refuses.
-BOOL PM_SetLCDPower(u32 sw) {
+// PM_SetLCDPower refuses.
+BOOL PMi_SetLCDPower(u32 sw) {
     if (sw != 1) {
         sw = 0;
     }
-    return PMi_SetLCDPower(sw, 0, 0, 1);
+    return PM_SetLCDPower(sw, 0, 0, 1);
 }
 
 // Returns bit 0 of reg_GX_POWCNT: 1 while the screens are powered.

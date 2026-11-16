@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 RaceHudSubScreenGetCurrentCourseId(void);
+s32 GetCurrentInternalCourseId_0(void);

@@ -49,7 +49,7 @@ void InitWiFiTopMenu(void *heap) {
     s32 rowIndex;
     s32 cellIndex;
 
-    gWiFiTopMenu = HeapAlloc(heap, sizeof(WiFiTopMenu));
+    gWiFiTopMenu = Mem_AllocateHeap(heap, sizeof(WiFiTopMenu));
     gWiFiTopMenu->mHeap = heap;
     gWiFiTopMenu->mState = WIFI_TOP_MENU_STATE_WAIT_FADE;
     gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_FADE;
@@ -68,14 +68,14 @@ void InitWiFiTopMenu(void *heap) {
     }
     gWiFiTopMenu->mStateFrames = 0;
     gWiFiTopMenu->mHighlightVisible = TRUE;
-    gWiFiTopMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
-    gWiFiTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gWiFiTopMenu->mWiFiMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("wifi.bmg");
+    gWiFiTopMenu->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     LocateAndQueueWiFiTopMenu();
     for (index = 0; index < 3; index++) {
-        SetCellOamModeXlu(gWiFiTopMenuXluCellIndices[index], 1, gWiFiTopMenu->mWiFiTopMenuSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gWiFiTopMenuXluCellIndices[index], 1, gWiFiTopMenu->mWiFiTopMenuSNcer,
                           gWiFiTopMenu->mWiFiTopMenuBncl);
     }
-    ResetOamLists(GetWiFiMenuMainOamList(), GetWiFiMenuSubOamList());
+    OamBuffer_SomeFn_from_thumb(GetWiFiMenuMainOamList(), GetWiFiMenuSubOamList());
     InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (cellIndex = 0; cellIndex < gWiFiTopMenuOffsetCellCounts[rowIndex]; cellIndex++) {
@@ -94,19 +94,19 @@ void ClearWiFiTopMenuPointer(void) {
 
 void LocateAndQueueWiFiTopMenu(void) {
     void *sceneFile;
-    sceneFile = FindSceneFile("WiFi_top_menu_s.bncl");
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_top_menu_s.bncl");
     gWiFiTopMenu->mWiFiTopMenuBncl = sceneFile;
-    sceneFile = FindSceneFile("WiFi_top_menu_s.bnbl");
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_top_menu_s.bnbl");
     gWiFiTopMenu->mWiFiTopMenuBnbl = sceneFile;
-    sceneFile = FindSceneFile("WiFi_top_menu_s.nce.ncgr");
-    LocateNcgr2(&gWiFiTopMenu->mWiFiTopMenuSNcgr, sceneFile);
-    sceneFile = FindSceneFile("WiFi_top_menu_s.nce.ncer");
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_top_menu_s.nce.ncgr");
+    Gfx_ReadCharGraphicsRelative(&gWiFiTopMenu->mWiFiTopMenuSNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_top_menu_s.nce.ncer");
     LocateNcer(&gWiFiTopMenu->mWiFiTopMenuSNcer, sceneFile);
-    sceneFile = FindSceneFile("WiFi_top_menu_s_o.nclr");
-    LocateNclr(&gWiFiTopMenu->mWiFiTopMenuSONclr, sceneFile);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData),
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("WiFi_top_menu_s_o.nclr");
+    Gfx_ReadPaletteRelative(&gWiFiTopMenu->mWiFiTopMenuSONclr, sceneFile);
+    AllocateReserveTEQSub(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData),
                                        gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData),
+    AllocateReserveTEQSub(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData),
                                        gWiFiTopMenu->mWiFiTopMenuSONclr->mDataSize);
 }
 
@@ -116,7 +116,7 @@ s32 IsUserDataFriendKeyNonZeroWrapper(void) {
 
 void AdvanceWiFiTopMenuWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
     }
@@ -135,7 +135,7 @@ void AdvanceWiFiTopMenuSlideIn(void) {
     } else if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_SLIDE_FRAMES) {
         offsetX = GetSelectedPressOffset(gWiFiTopMenu->mStateFrames - WIFI_TOP_MENU_SLIDE_FRAMES);
     } else {
-        offsetX = InterpolateS16(1, WIFI_TOP_MENU_OFFSET_HIDDEN, offsetX, gWiFiTopMenu->mStateFrames,
+        offsetX = ComputeValueInterpolation_from_thumb(1, WIFI_TOP_MENU_OFFSET_HIDDEN, offsetX, gWiFiTopMenu->mStateFrames,
                                  WIFI_TOP_MENU_SLIDE_FRAMES);
     }
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
@@ -164,32 +164,32 @@ void AdvanceWiFiTopMenuBrowse(void) {
     BOOL backPairNewUnlessRecentlyLost;
     s32 backPairRecentlyLost;
 
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         pairRecentlyLost = TRUE;
     }
-    if (pairRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+    if (pairRecentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
         pairNewUnlessRecentlyLost = TRUE;
     }
     if (pairNewUnlessRecentlyLost != FALSE) {
-        hitIndex = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                           gInputSlots[slotIndex].mPair.mPairY);
+        hitIndex = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                           g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    pressedKeys = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B;
     if ((u16) pressedKeys == 0) {
         backPairRecentlyLost = backPairNewUnlessRecentlyLost = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             backPairRecentlyLost = 1;
         }
-        if (backPairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (backPairRecentlyLost == 0 && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             backPairNewUnlessRecentlyLost = TRUE;
         }
         if (backPairNewUnlessRecentlyLost == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -200,7 +200,7 @@ void AdvanceWiFiTopMenuBrowse(void) {
     }
     return;
 next:
-    pressedKeys = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+    pressedKeys = g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A;
     if ((u16) pressedKeys != 0 || hitIndex <= 2) {
         previousIndex = gWiFiTopMenu->mIndex;
         if ((u16) pressedKeys == 0) {
@@ -235,20 +235,20 @@ next:
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_SCENE_WIFI_MENU;
                 break;
         }
-        StartSoundOncePerFrame(5);
+        MaybePlaySomeSseqFromSarc0(5);
     } else {
         if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
             gWiFiTopMenu->mIndex--;
             if (gWiFiTopMenu->mIndex < 0) {
                 gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
             }
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
             gWiFiTopMenu->mIndex++;
             if (gWiFiTopMenu->mIndex > WIFI_TOP_MENU_ITEM_WIFI_MENU) {
                 gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_VS;
             }
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         }
     }
 }
@@ -282,14 +282,14 @@ void AdvanceWiFiTopMenuSlideOut(void) {
         if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
         } else if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) {
-            gStartupWork->mConnectionKind = CONNECTION_KIND_WIFI_TOP_MENU;
+            g_GlobalP->mConnectionKind = CONNECTION_KIND_WIFI_TOP_MENU;
             SetWiFiNextScene(12);
         }
     }
     gWiFiTopMenu->mStateFrames++;
     offsetX = gWiFiTopMenu->mStateFrames;
     if (offsetX <= WIFI_TOP_MENU_SLIDE_FRAMES) {
-        offsetX = InterpolateS16(1, WIFI_TOP_MENU_OFFSET_HIDDEN, 0, WIFI_TOP_MENU_SLIDE_FRAMES - offsetX,
+        offsetX = ComputeValueInterpolation_from_thumb(1, WIFI_TOP_MENU_OFFSET_HIDDEN, 0, WIFI_TOP_MENU_SLIDE_FRAMES - offsetX,
                                  WIFI_TOP_MENU_SLIDE_FRAMES);
     } else {
         offsetX = WIFI_TOP_MENU_OFFSET_HIDDEN;
@@ -309,7 +309,7 @@ void AdvanceWiFiTopMenuSlideOut(void) {
             if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_AIKOTOBA && IsUserDataFriendKeyNonZeroWrapper() == 0) {
                 gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_MESSAGE;
                 gWiFiTopMenu->mPendingWiFiState = WIFI_STATE_NONE;
-                SetupTxtSystemMainText(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
+                SetupTxtSystemMainText(Bmg_GetRawStringPointer_from_thumb(gWiFiTopMenu->mWiFiMessages, 0x12));
                 gWiFiTopMenu->mStateFrames = 0;
                 SetSelectReturnSoundId(0xe);
                 return;
@@ -321,16 +321,16 @@ void AdvanceWiFiTopMenuSlideOut(void) {
 
 void AdvanceWiFiTopMenuWaitChoice(void) {
     int queryResult;
-    queryResult = GetTxtSystemDone();
+    queryResult = TextSystem_WasAnyDialogButtonPressed_from_thumb();
     if (queryResult != 0) {
-        RequestTxtSystemClose();
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    queryResult = IsTxtSystemClosedNoOpenRequest();
+    queryResult = TextSystem_IsDialogFinished_from_thumb();
     if (queryResult != 0) {
-        queryResult = GetTxtSystemSelectedIndex();
+        queryResult = TextSystem_IsButton2Focused_from_thumb();
         if (queryResult == 0) {
-            ReleaseWiFiSession();
+            OnSomeMultiplayError();
             gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE;
             return;
         }
@@ -355,28 +355,28 @@ void AdvanceWiFiTopMenuWaitMessage(void) {
     s32 pairRecentlyLost;
     BOOL pairNewUnlessRecentlyLost;
     u32 hasPair;
-    if (IsTxtSystemOpenAfterOpening() != 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x15);
+    if (TextSystem_JustFadedIn_from_thumb() != 0) {
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x15);
     }
-    if (IsTxtSystemOpenNoCloseRequest() != 0 && IsSelectReturnShownNoRequest() != 0) {
-        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if (TextSystem_IsDialogIdle_from_thumb() != 0 && IsSelectReturnShownNoRequest() != 0) {
+        if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
             pairRecentlyLost = pairNewUnlessRecentlyLost = FALSE;
-            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
                 pairRecentlyLost = 1;
             }
-            if (pairRecentlyLost == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            if (pairRecentlyLost == 0 && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                 pairNewUnlessRecentlyLost = TRUE;
             }
             if (pairNewUnlessRecentlyLost == FALSE ||
-                IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                      gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+                IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                      g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
                 return;
             }
         }
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
         RequestSelectReturnPressWithSound(0);
-        RequestTxtSystemClose();
+        TextSystem_CloseDialog_from_thumb();
     }
 }
 

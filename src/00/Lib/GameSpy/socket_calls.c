@@ -34,17 +34,17 @@ static s32 GSINitroErrno;
 
 u32 GetElapsedMilliseconds(void) {
     u64 ticks;
-    if (OS_IsTickAvailable() != 1) {
-        AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x109);
+    if (Os_IsTickInitialized() != 1) {
+        LogThrowAssertion("Os_IsTickInitialized() == TRUE", "nonport.c", NULL, 0x109);
     }
-    ticks = OS_GetTick();
+    ticks = Os_GetTick();
     return (ticks << 6) / 0x82ea;
 }
 
 void msleep(u32 msec) {
     u32 sleepMsec = msec;
     u32 unusedValue;
-    OS_Sleep(sleepMsec);
+    Os_Sleep(sleepMsec);
 }
 
 void SocketStartUp(void) {}
@@ -293,7 +293,7 @@ s32 sendto(s32 sock, void *buf, s32 len, s32 flags, void *addr, s32 tolen) {
 }
 
 s32 getsockopt(s32 sock, s32 level, s32 optname, void *optval, s32 *optlen) {
-    MI_CpuFill8(optval, 0, *optlen);
+    Mem_CpuFill8(optval, 0, *optlen);
     return CheckRcode(0, -1);
 }
 
@@ -341,10 +341,10 @@ u32 GOAGetLastError(s32 sock) {
 
 u32 GetUnixTime(u32 *timer) {
     u32 seconds;
-    if (OS_IsTickAvailable() != 1) {
-        AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x667);
+    if (Os_IsTickInitialized() != 1) {
+        LogThrowAssertion("Os_IsTickInitialized() == TRUE", "nonport.c", NULL, 0x667);
     }
-    seconds = (OS_GetTick() << 6) / 0x1ff6210;
+    seconds = (Os_GetTick() << 6) / 0x1ff6210;
     if (timer != NULL) {
         *timer = seconds;
     }

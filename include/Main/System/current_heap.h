@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 GetCurrentHeap(void);
+u32 GetActiveExecutionContextHeapHandle_1(void);

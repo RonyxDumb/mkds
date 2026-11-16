@@ -1,6 +1,6 @@
 #include "Main/System/state_machine_init.h"
 
-void InitStateMachine(StateMachine *stateMachine, const StateCallbacks *stateTable, s32 stateCount, void *object) {
+void StateDualHandler_Create(StateMachine *stateMachine, const StateCallbacks *stateTable, s32 stateCount, void *object) {
     stateMachine->mObject = object;
     stateMachine->mStateTable = stateTable;
     stateMachine->mStateCount = stateCount;

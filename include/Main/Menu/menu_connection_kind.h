@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int MenuGetConnectionKind(void);
+unsigned int GetPMaybeState_1(void);

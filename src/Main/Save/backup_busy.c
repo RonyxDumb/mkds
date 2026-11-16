@@ -6,23 +6,23 @@
 
 #pragma thumb on
 
-void SetBackupBusy(void) {
-    gBackupBuffers->mBusy = 1;
+void EnableMKDSSVSomeFlag_from_thumb(void) {
+    g_SaveDataHolder->mBusy = 1;
 }
 
-void ClearBackupBusy(void) {
-    gBackupBuffers->mBusy = 0;
+void ResetSaveDataHolderTaskPendingFlag_from_thumb(void) {
+    g_SaveDataHolder->mBusy = 0;
 }
 
-void WriteBackupFirstBlockAndWait(void) {
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+void Task_WriteSaveDataHeader_from_thumb(void) {
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    WriteSaveDataSection_Header_from_thumb(g_SaveDataHolder->mFirstBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    ClearBackupBusy();
+    ResetSaveDataHolderTaskPendingFlag_from_thumb();
 }
 
 #pragma thumb off

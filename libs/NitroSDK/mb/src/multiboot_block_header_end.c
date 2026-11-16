@@ -5,8 +5,8 @@
 #pragma thumb on
 
 int MBi_BlockHeaderEnd(int size, u32 childMask, u32 data) {
-    DC_FlushRange((const void *) data, (size + 0x1fU & 0xffffffe0));
-    DC_WaitWriteBufferEmpty();
+    Arm_FlushRange((const void *) data, (size + 0x1fU & 0xffffffe0));
+    Mem_DcDrainWriteBuffer();
     return MBi_SendMP((void *) data, size, childMask);
 }
 

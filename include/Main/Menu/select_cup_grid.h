@@ -23,7 +23,7 @@ s32 AdvanceSelectCupGrid(void);
 // Slides the cups out over 10 steps (mStateFrames counts the calls); AdvanceSelectCupGrid returns mResult after the
 // tenth.
 void AdvanceSelectCupGridSlideOut(void);
-// Waits for the answer to the exit message: answers -1 and 0 go back to Choose, answer 1 sets mResult to 3 and
+// Waits for the answer to the CheckZetaInvokeBeta message: answers -1 and 0 go back to Choose, answer 1 sets mResult to 3 and
 // requests SlideOut.
 void AdvanceSelectCupGridWaitExitAnswer(void);
 // Runs AdvanceSelectCupGridShownCourse; when GetSelectChoisesDone returns non-zero it requests WaitExitAnswer (and
@@ -50,8 +50,8 @@ void AdvanceSelectCupGridWaitConfirmOpen(void);
 // Waits 10 steps after the cup was chosen; in mode 0 it then requests WaitConfirmOpen, otherwise it stores the
 // choice, sets mResult to 1 and requests SlideOut.
 void AdvanceSelectCupGridWaitChosen(void);
-// Reads the touch rectangles and the keys: the exit input ends the screen with mResult 2 (in modes 2 to 4 it first
-// opens the message of WaitExitOpen when gMenuShared.mMenuEntryKind is 2 or 3), choosing an enabled cup requests
+// Reads the touch rectangles and the keys: the CheckZetaInvokeBeta input ends the screen with mResult 2 (in modes 2 to 4 it first
+// opens the message of WaitExitOpen when g_GlobalB488.mMenuEntryKind is 2 or 3), choosing an enabled cup requests
 // WaitChosen, touching a disabled cup plays the error sound, and a direction key moves mIndex to the neighbour cup
 // when that cup is enabled.
 void AdvanceSelectCupGridChoose(void);
@@ -62,7 +62,7 @@ void AdvanceSelectCupGridWaitReturn(void);
 // Slides the cups in over 10 steps (mStateFrames counts the calls), then requests WaitReturn.
 void AdvanceSelectCupGridSlideIn(void);
 
-// Waits until AreBrightnessFadesClear returns non-zero, then requests SlideIn (the first state after InitSelectCupGrid:
+// Waits until Bright_IsBothScreensFadedIn returns non-zero, then requests SlideIn (the first state after InitSelectCupGrid:
 // mState is 0 from the allocation).
 void AdvanceSelectCupGridWaitFade(void);
 

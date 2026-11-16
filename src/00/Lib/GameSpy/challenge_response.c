@@ -65,7 +65,7 @@ u8 *gti2GetChallenge(u8 *buffer) {
     u32 previousMask;
     u8 *current;
     if (buffer == NULL) {
-        AssertionFailed("buffer", "gt2Auth.c", NULL, 0x2b);
+        LogThrowAssertion("buffer", "gt2Auth.c", NULL, 0x2b);
     }
     srand(GetElapsedMilliseconds());
     buffer[0] = (s32) rand() % 0x5d + 0x21;
@@ -134,7 +134,7 @@ u8 *gti2GetResponse(u8 *buffer, const u8 *challenge) {
             challengeIndex =
                 (gGt2ChallengeKey[(index + challenge[index]) % secretLen] + index * challenge[index]) % 0x20;
             buffer[index] =
-                (s32) Abs(challenge[challengeIndex] ^ gGt2ChallengeKey[(prevByte * scaledIndex) % secretLen]) % 0x5d +
+                (s32) abs(challenge[challengeIndex] ^ gGt2ChallengeKey[(prevByte * scaledIndex) % secretLen]) % 0x5d +
                 0x21;
         }
         scaledIndex += 0x4647;

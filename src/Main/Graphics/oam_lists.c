@@ -7,23 +7,23 @@
 
 #pragma thumb on
 
-void ResetOamLists(void *mainOam, void *subOam) {
+void OamBuffer_SomeFn_from_thumb(void *mainOam, void *subOam) {
     OamEntryList *mainOamList = mainOam;
     OamEntryList *subOamList = subOam;
 
     if (mainOamList != NULL) {
         mainOamList->mOamCount = 0;
         mainOamList->mMatrixCount = 0;
-        MI_DmaFill32(3, mainOamList, 0xc0, 0x400);
+        Mem_DmaFill32(3, mainOamList, 0xc0, 0x400);
     }
     if (subOamList != NULL) {
         subOamList->mOamCount = 0;
         subOamList->mMatrixCount = 0;
-        MI_DmaFill32(3, subOamList, 0xc0, 0x400);
+        Mem_DmaFill32(3, subOamList, 0xc0, 0x400);
     }
 }
 
-void ClearOamListCounts(void *mainOam, void *subOam) {
+void OamBuffer_ResetValues16_from_thumb(void *mainOam, void *subOam) {
     OamEntryList *mainOamList = mainOam;
     OamEntryList *subOamList = subOam;
 
@@ -38,7 +38,7 @@ void ClearOamListCounts(void *mainOam, void *subOam) {
 }
 
 // Hides every entry past the used count in both lists.
-void HideUnusedOams(void *mainOam, void *subOam) {
+void OamBuffer_SomeFn2_from_thumb(void *mainOam, void *subOam) {
     OamEntryList *mainOamList = mainOam;
     OamEntryList *subOamList = subOam;
     u16 usedEntryCount;
@@ -46,7 +46,7 @@ void HideUnusedOams(void *mainOam, void *subOam) {
 
     if (mainOamList != NULL) {
         usedEntryCount = mainOamList->mOamCount;
-        DC_FlushRange(mainOamList, 0x400);
+        Arm_FlushRange(mainOamList, 0x400);
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
             mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
                 (mainOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_MASK) | OAM_ENTRY_HIDDEN_X;
@@ -55,7 +55,7 @@ void HideUnusedOams(void *mainOam, void *subOam) {
     }
     if (subOamList != NULL) {
         usedEntryCount = subOamList->mOamCount;
-        DC_FlushRange(subOamList, 0x400);
+        Arm_FlushRange(subOamList, 0x400);
         for (hiddenIndex = 0; hiddenIndex < 0x80 - usedEntryCount; hiddenIndex++) {
             subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 =
                 (subOamList->mEntries[usedEntryCount + hiddenIndex].mUnk_00 & ~OAM_ENTRY_X_MASK) | OAM_ENTRY_HIDDEN_X;

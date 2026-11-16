@@ -176,7 +176,7 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
     return objCount;
 }
 
-u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
+u32 NFTR_CharacterMap_GetTileIndexForCharacter(FontCodeMap *pMap, u32 code) {
     u32 index;
     UnsignedHalfwordPair *first;
     UnsignedHalfwordPair *last;
@@ -211,37 +211,37 @@ u32 GetGlyphIndex(FontCodeMap *pMap, u32 code) {
     return index;
 }
 
-void NNS_G2dFontInitAuto(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
+void NFTR_LoadImpl(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
     u32 result;
     u32 encodingId;
 
-    result = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes);
+    result = NFTR_Process(pNftrFile, &pFont->mPRes);
     encodingId = pFont->mPRes->mEncoding;
     pFont->mFileVersionIndex = result - 1;
     pFont->mWidthEntrySize = pFont->mFileVersionIndex != 0 ? 2 : 3;
-    pFont->mCbCharSpliter = spliterTable[encodingId];
+    pFont->mCbCharSpliter = g_FontEncodingAdvanceCharacterFunctionTable[encodingId];
 }
 
-void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
-    pFont->mFileVersionIndex = NNSi_G2dGetUnpackedFont(pNftrFile, &pFont->mPRes) - 1;
+void NFTR_LoadV2(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
+    pFont->mFileVersionIndex = NFTR_Process(pNftrFile, &pFont->mPRes) - 1;
     pFont->mWidthEntrySize = pFont->mFileVersionIndex != 0 ? 2 : 3;
-    pFont->mCbCharSpliter = NNSi_G2dSplitCharUTF16;
+    pFont->mCbCharSpliter = FontEncoding_Unicode_NextCharacter;
 }
 
-u32 NNS_G2dFontFindGlyphIndex(NNSG2dFont *pFont, u32 code) {
+u32 NFTR_GetTileIndexForCharacter(NNSG2dFont *pFont, u32 code) {
     FontCodeMap *charMap;
 
     charMap = pFont->mPRes->mPMap;
     while (charMap != 0) {
         if (charMap->mCcodeBegin <= code && code <= charMap->mCcodeEnd) {
-            return GetGlyphIndex(charMap, code);
+            return NFTR_CharacterMap_GetTileIndexForCharacter(charMap, code);
         }
         charMap = charMap->mPNext;
     }
     return 0xffff;
 }
 
-NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(NNSG2dFont *pFont, u32 idx) {
+NNSG2dCharWidths *NFTR_GetCharacterWidthTileEntry(NNSG2dFont *pFont, u32 idx) {
     NNSG2dFontWidth *pRange;
     NNSG2dFontInformation *pRes;
 
@@ -256,7 +256,7 @@ NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(NNSG2dFont *pFont, u32 idx) 
     return &pRes->mDefaultWidth;
 }
 
-s32 NNSi_G2dFontGetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos) {
+s32 NFTR_GetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos) {
     u8 *pos = str;
     s32 width;
     SplitCharFunc *readChar;
@@ -272,11 +272,11 @@ s32 NNSi_G2dFontGetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos
         if (code == 10) {
             break;
         }
-        glyph = NNS_G2dFontFindGlyphIndex(pFont, code);
+        glyph = NFTR_GetTileIndexForCharacter(pFont, code);
         if (glyph == 0xffff) {
             glyph = pFont->mPRes->mAlterCharIndex;
         }
-        pWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyph);
+        pWidths = NFTR_GetCharacterWidthTileEntry(pFont, glyph);
         if (pFont->mFileVersionIndex != 0) {
             charWidth = pWidths->mLeft + pWidths->mGlyphWidth;
         } else {
@@ -294,7 +294,7 @@ s32 NNSi_G2dFontGetStringWidth(NNSG2dFont *pFont, s32 hSpace, u8 *str, u8 **pPos
     return width;
 }
 
-s32 NNSi_G2dFontGetTextHeight(NNSG2dFont *pFont, s32 vSpace, u8 *txt) {
+s32 NFTR_SomeFn_0(NNSG2dFont *pFont, s32 vSpace, u8 *txt) {
     u8 *pos = txt;
     NNSG2dTextRect unusedState = {0, 0};
     s32 lineCount;
@@ -313,14 +313,14 @@ s32 NNSi_G2dFontGetTextHeight(NNSG2dFont *pFont, s32 vSpace, u8 *txt) {
     return lineCount * (vSpace + pFont->mPRes->mLinefeed) - vSpace;
 }
 
-void NNSi_G2dFontGetTextRect(NNSG2dTextRect *pRect, NNSG2dFont *pFont, s32 hSpace, s32 vSpace, u8 *txt) {
+void G2d_ComputeMaxWidthHeight(NNSG2dTextRect *pRect, NNSG2dFont *pFont, s32 hSpace, s32 vSpace, u8 *txt) {
     NNSG2dTextRect rect = {0, 0};
     s32 lineCount;
     s32 width;
 
     lineCount = 1;
     while (txt != 0) {
-        width = NNSi_G2dFontGetStringWidth(pFont, hSpace, txt, &txt);
+        width = NFTR_GetStringWidth(pFont, hSpace, txt, &txt);
         if (width > rect.mWidth) {
             rect.mWidth = width;
         }

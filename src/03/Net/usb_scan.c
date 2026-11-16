@@ -39,9 +39,9 @@ BOOL InitUsbScan(void (*callback)(u32)) {
     gUsbScan = AllocZeroedExpHeapBlock(0x1ba0, HEAP_ALIGN_CACHE_LINE);
     gUsbScan->mResultCallback = callback;
     scan = gUsbScan;
-    tick = OS_GetTick();
+    tick = Os_GetTick();
     scan->mStartTick = tick;
-    if (WM_Initialize(scan, UsbScanCallback, 3) == 2) {
+    if (StructWM_SomeFn(scan, UsbScanCallback, 3) == 2) {
         do {
             WM_ReadStatus(&gUsbScan->mWmStatus);
         } while (gUsbScan->mWmStatus.mState != WIRELESS_UNIT_STATE_POWERED_ON);
@@ -49,10 +49,10 @@ BOOL InitUsbScan(void (*callback)(u32)) {
         scan->mScanParam = gUsbScanParamTemplate;
         scan->mScanParam.mScanBuf = scan->mScanBuffer;
         gUsbScan->mScanParam.mMaxChannelTime = WM_GetDispersionScanPeriod();
-        OS_GetOwnerInfo(&ownerInfo);
-        MI_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mScanParam.mSsid[0], 8);
+        Os_GetPersonalData(&ownerInfo);
+        Mem_CpuCopy8(gUsbSsidPrefix, &gUsbScan->mScanParam.mSsid[0], 8);
         gUsbScan->mScanParam.mSsid[9] = 1;
-        MI_CpuCopy8(ownerInfo.mNickName, &gUsbScan->mScanParam.mSsid[0xc], ownerInfo.mNickNameLength * 2);
+        Mem_CpuCopy8(ownerInfo.mNickName, &gUsbScan->mScanParam.mSsid[0xc], ownerInfo.mNickNameLength * 2);
         if (StartUsbScan() != 0) {
             gUsbScan->mReportTask = AddTask(0, AdvanceUsbScanReport, NULL, 0x78);
             return 1;
@@ -131,7 +131,7 @@ void UsbScanCallback(WirelessMessage *message) {
             StartUsbScan();
             break;
         default:
-            OS_Terminate();
+            Os_Terminate();
             break;
     }
 }
@@ -148,15 +148,15 @@ void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
         UsbScan *scan;
 
         bssDesc = scanResult->mBssDesc[descIndex];
-        DC_InvalidateRange(bssDesc, 0xc0);
-        if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
+        DC_InvalidateRangeNoClean(bssDesc, 0xc0);
+        if (StructDC_SomeFn_6(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
             continue;
         }
         entryIndex = 0;
         scan = gUsbScan;
         slotBssid = scan->mEntries[0].mBssid;
         for (; entryIndex < 16; entryIndex++) {
-            if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
+            if (StructDC_SomeFn_6(bssDesc->mBssid, slotBssid, 6) == 0) {
                 if (scan->mEntries[entryIndex].mFlag != 0) {
                     goto next;
                 }
@@ -173,8 +173,8 @@ void StoreUsbScanEntries(WMStartScanExCallback *scanResult) {
         emptyEntryIndex = 0;
         freeSlotBssid = scan->mEntries[0].mBssid;
         for (; emptyEntryIndex < 16; emptyEntryIndex++) {
-            if (memcmp(freeSlotBssid, gUsbScanEmptyBssid, 6) == 0) {
-                MI_CpuCopy8(bssDesc->mBssid, scan->mEntries[emptyEntryIndex].mBssid, 6);
+            if (StructDC_SomeFn_6(freeSlotBssid, gUsbScanEmptyBssid, 6) == 0) {
+                Mem_CpuCopy8(bssDesc->mBssid, scan->mEntries[emptyEntryIndex].mBssid, 6);
                 gUsbScan->mEntries[emptyEntryIndex].mFlag = (bssDesc->mSsid[9] & 1) ? 1 : 0;
                 goto next;
             }
@@ -197,7 +197,7 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
         }
         return;
     }
-    DC_InvalidateRange(scan->mScanBuffer, 0x400);
+    DC_InvalidateRangeNoClean(scan->mScanBuffer, 0x400);
     descIndex = 0;
     resultCount = scanResult->mBssDescCount;
     if (resultCount > 0) {
@@ -208,14 +208,14 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
             WMBssDesc *bssDesc;
 
             bssDesc = scanResult->mBssDesc[descIndex];
-            if (memcmp(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
+            if (StructDC_SomeFn_6(bssDesc->mSsid, gUsbSsidPrefix, 8) != 0) {
                 continue;
             }
             if ((bssDesc->mSsid[9] & 1) == 0) {
                 continue;
             }
             for (entryIndex = 0, slotBssid = usbScan->mEntries[0].mBssid; entryIndex < 16; entryIndex++) {
-                if (memcmp(bssDesc->mBssid, slotBssid, 6) == 0) {
+                if (StructDC_SomeFn_6(bssDesc->mBssid, slotBssid, 6) == 0) {
                     if (usbScan->mEntries[entryIndex].mFlag != 0) {
                         break;
                     }

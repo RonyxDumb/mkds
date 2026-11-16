@@ -60,14 +60,14 @@ u32 SOCL_GetStatus(SOCLSocket *socket) {
         }
         if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE ||
             (volatileSocket->mStatusFlags & SOCL_STATUS_CONNECTED) != 0) {
-            interruptState = OS_DisableInterrupts();
+            interruptState = Os_DisableIrq();
             if (SOCLi_GetReadBufferOccpiedSize(socket) > 0) {
                 status |= 1;
             }
             if (SOCLi_GetWriteBufferFreeSize(socket) > 0) {
                 status |= 8;
             }
-            OS_RestoreInterrupts(interruptState);
+            Os_RestoreIrq(interruptState);
         }
         isTcp = TRUE;
         if (socket->mFlagMode != SOCKET_MODE_STREAM && socket->mFlagMode != SOCKET_MODE_STREAM_DIRECT_READ) {
@@ -117,7 +117,7 @@ s32 SOCL_Resolve(const char *hostname) {
     if (memory == NULL) {
         return 0;
     }
-    MI_CpuFill8(&soc, 0, sizeof(soc));
+    Mem_CpuFill8(&soc, 0, sizeof(soc));
     soc.mReceiveBuffer.mStart = memory;
     soc.mReceiveBuffer.mSize = 0xb68;
     soc.mSendBuffer.mStart = memory + 0xb68;
@@ -130,7 +130,7 @@ s32 SOCL_Resolve(const char *hostname) {
 }
 
 s32 SOCL_InetAtoH(const char *hostname) {
-    u32 interruptState = OS_DisableInterrupts();
+    u32 interruptState = Os_DisableIrq();
     u32 savedFirstDns = CPSDnsIp[0];
     u32 savedSecondDns = CPSDnsIp[1];
     s32 resolvedAddr;
@@ -139,7 +139,7 @@ s32 SOCL_InetAtoH(const char *hostname) {
     resolvedAddr = CPS_Resolve(hostname);
     CPSDnsIp[0] = savedFirstDns;
     CPSDnsIp[1] = savedSecondDns;
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return resolvedAddr;
 }
 
@@ -155,8 +155,8 @@ s32 SOCL_SetResolver(u32 firstDns, u32 secondDns) {
 s32 SOCL_GetHostID(void) {
     if (CPSMyIp == 0) {
         if ((SOCLiDhcpState & 3) == 1) {
-            if (OS_GetProcMode() != 0x12) {
-                OS_Sleep(10);
+            if (Arm_GetProcessorMode() != 0x12) {
+                Os_Sleep(10);
             }
         }
     } else if (SOCLiRequestedIP == 0) {
@@ -175,7 +175,7 @@ s32 SOCL_Cleanup(void) {
     inProgressCode = -0x1a;
     if (result == inProgressCode) {
         do {
-            OS_Sleep(100);
+            Os_Sleep(100);
         } while (SOCL_CalmDown() == inProgressCode);
     }
     result = SOCLi_CleanupCommandPacketQueue();
@@ -195,7 +195,7 @@ s32 SOCL_CloseAll(void) {
     SOCLSocket *udpSendSocket;
     u32 interruptState;
     for (;;) {
-        interruptState = OS_DisableInterrupts();
+        interruptState = Os_DisableIrq();
         sockObj = SOCLiSocketList;
         if (sockObj != NULL) {
             udpSendSocket = SOCLiUDPSendSocket;
@@ -206,7 +206,7 @@ s32 SOCL_CloseAll(void) {
                 sockObj = sockObj->mNext;
             } while (sockObj != NULL);
         }
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
         if (sockObj == NULL) {
             break;
         }
@@ -302,7 +302,7 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
     void *block;
     u32 interruptState;
     if (SOCL_SocketIsTCP(sockObj) != 0) {
-        OS_JoinThread(&sockObj->mSendBlock->mCommandPipe.mThread);
+        Os_Thread_Join(&sockObj->mSendBlock->mCommandPipe.mThread);
         CPS_TcpShutdown();
         CPS_TcpClose();
         CPS_SocRelease();
@@ -315,10 +315,10 @@ s32 SOCLi_CloseCallBack(SOCLiCommandPacket *command) {
         block = sockObj->mReceiveBlock;
     }
     SOCLi_SendCommandPacket(block, NULL);
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     SOCLi_SocketUnregister(sockObj);
     SOCLi_SocketRegisterTrash(sockObj);
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     sockObj->mStatusFlags |= SOCL_STATUS_WAIT_RELEASE;
     return 0;
 }
@@ -342,16 +342,16 @@ void SOCLi_CleanupSocket(SOCLSocket *socket) {
             socket->mReceiveBlock->mUdpDataSize = 0;
             socket->mReceiveBlock->mUdpDataIn = NULL;
             socket->mReceiveBlock->mUdpDataOut = NULL;
-            OS_WakeupThread(&socket->mReceiveBlock->mUdpDataWaiting);
+            Os_Thread_WakeUp(&socket->mReceiveBlock->mUdpDataWaiting);
             SOCLi_FreeCommandPipe(&socket->mReceiveBlock->mCommandPipe);
         } else if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_SEND) {
             SOCLi_FreeCommandPipe(&socket->mSendBlock->mCommandPipe);
         }
-        interruptState = OS_DisableInterrupts();
+        interruptState = Os_DisableIrq();
         SOCLi_SocketUnregister(socket);
         SOCLi_SocketUnregisterTrash(socket);
         SOCLiConfigPtr->mFree(socket);
-        OS_RestoreInterrupts(interruptState);
+        Os_RestoreIrq(interruptState);
     }
 }
 
@@ -359,31 +359,31 @@ void SOCLi_FreeCommandPipe(SOCLiSocketCommandPipe *pipe) {
     SOCLiCommandPacket *cmdPacket;
     u32 interruptState;
     if (pipe != NULL) {
-        OS_JoinThread(&pipe->mThread);
-        interruptState = OS_DisableInterrupts();
-        OS_DisableScheduler();
-        if (OS_ReceiveMessage(&pipe->mQueue, (void **) &cmdPacket, 0) != 0) {
+        Os_Thread_Join(&pipe->mThread);
+        interruptState = Os_DisableIrq();
+        Os_DisableScheduler();
+        if (Os_ReceiveMessage(&pipe->mQueue, (void **) &cmdPacket, 0) != 0) {
             do {
                 if (cmdPacket != NULL) {
                     if (cmdPacket->mResponse != NULL) {
-                        OS_SendMessage(cmdPacket->mResponse, (void *) -11, 0);
+                        Os_MessageQueue_Send(cmdPacket->mResponse, (void *) -11, 0);
                     }
                     SOCLi_FreeCommandPacket(cmdPacket);
                 }
-            } while (OS_ReceiveMessage(&pipe->mQueue, (void **) &cmdPacket, 0) != 0);
+            } while (Os_ReceiveMessage(&pipe->mQueue, (void **) &cmdPacket, 0) != 0);
         }
-        OS_EnableScheduler();
-        OS_RestoreInterrupts(interruptState);
-        OSi_RescheduleThread();
+        Os_EnableScheduler();
+        Os_RestoreIrq(interruptState);
+        Os_RescheduleThread();
     }
 }
 
 void SOCLi_TrashSocket(void) {
-    u32 interruptState = OS_DisableInterrupts();
+    u32 interruptState = Os_DisableIrq();
     while (SOCLiSocketListTrash != NULL) {
         SOCLi_CleanupSocket(SOCLiSocketListTrash);
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
 }
 
 s32 SOCL_Shutdown(s32 socketHandle) {
@@ -442,16 +442,16 @@ s32 SOCL_WriteTo(u32 socketHandle, void *buffer, u32 length, u16 remotePort, u32
     }
     outPipe = sockObj->mSendBlock;
     if ((flags & 4) != 0 || sockObj->mFlagBlock == 0) {
-        if (OS_TryLockMutex(&outPipe->mCommandPipe.mInUse) == 0) {
+        if (Os_Mutex_TryLock(&outPipe->mCommandPipe.mInUse) == 0) {
             return -6;
         }
         isBlocking = FALSE;
     } else {
-        OS_LockMutex(&outPipe->mCommandPipe.mInUse);
+        Os_Mutex_Lock(&outPipe->mCommandPipe.mInUse);
         isBlocking = TRUE;
     }
     result = SOCLi_WriteBuffer(sockObj, buffer, length, remotePort, peerAddr, isBlocking);
-    OS_UnlockMutex(&outPipe->mCommandPipe.mInUse);
+    Os_Mutex_Unlock(&outPipe->mCommandPipe.mInUse);
     return result;
 }
 
@@ -501,7 +501,7 @@ s32 SOCLi_AllocWriteBuffer(SOCLSocket *socket, s32 maxSize, s32 lowestSize, u32 
     if (lowestSize > maxSize) {
         lowestSize = maxSize;
     }
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     for (;;) {
         freeSize = SOCLi_GetWriteBufferFreeSize(socket);
         if (freeSize >= lowestSize) {
@@ -515,9 +515,9 @@ s32 SOCLi_AllocWriteBuffer(SOCLSocket *socket, s32 maxSize, s32 lowestSize, u32 
             freeSize = 0;
             break;
         }
-        OS_SleepThread((OSThreadQueue *) &outPipe->mBufferWaitingHead);
+        Os_Thread_Sleep((OSThreadQueue *) &outPipe->mBufferWaitingHead);
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return freeSize;
 }
 
@@ -561,9 +561,9 @@ s32 SOCLi_ExecWriteCommand(SOCLSocket *socket, u8 *buffer, s32 length, s32 ringI
         writePacket->mBuffer2 = ringStart;
         writePacket->mBuffer2Len = length - writePacket->mBuffer1Len;
         ringIn = writePacket->mBuffer2Len;
-        MI_CpuCopy8(buffer + writePacket->mBuffer1Len, writePacket->mBuffer2, ringIn);
+        Mem_CpuCopy8(buffer + writePacket->mBuffer1Len, writePacket->mBuffer2, ringIn);
     }
-    MI_CpuCopy8(buffer, writePacket->mBuffer1, writePacket->mBuffer1Len);
+    Mem_CpuCopy8(buffer, writePacket->mBuffer1, writePacket->mBuffer1Len);
     writePacket->mWriteBufferAfter = ringIn;
     outPipe->mBufferIn = writePacket->mWriteBufferAfter;
     if (socket->mFlagMode == SOCKET_MODE_DATAGRAM_RECEIVE) {
@@ -627,7 +627,7 @@ s32 SOCLi_WriteCallBack(SOCLiCommandPacket *packet) {
         written = -0x4c;
     }
     outPipe->mBufferOut = command->mWriteBufferAfter;
-    OS_WakeupThread((OSThreadQueue *) &outPipe->mBufferWaitingHead);
+    Os_Thread_WakeUp((OSThreadQueue *) &outPipe->mBufferWaitingHead);
     return written;
 }
 
@@ -641,12 +641,12 @@ s32 SOCLi_MemCpy(const void *destination, s32 capacity, SOCLiCommandWrite *comma
         secondLength = capacity - firstLength;
     }
     if (firstLength > 0) {
-        MI_CpuCopy8(command->mBuffer1, destination, firstLength);
+        Mem_CpuCopy8(command->mBuffer1, destination, firstLength);
         command->mBuffer1 += firstLength;
         command->mBuffer1Len -= firstLength;
     }
     if (secondLength > 0) {
-        MI_CpuCopy8(command->mBuffer2, (u8 *) destination + firstLength, secondLength);
+        Mem_CpuCopy8(command->mBuffer2, (u8 *) destination + firstLength, secondLength);
         command->mBuffer2 += secondLength;
         command->mBuffer2Len -= secondLength;
     }
@@ -668,7 +668,7 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u
         }
         value = 0;
     } else {
-        if (OS_GetProcMode() == 0x12) {
+        if (Arm_GetProcessorMode() == 0x12) {
             return -0x1c;
         }
         value = 1;
@@ -684,14 +684,14 @@ s32 SOCL_ReadFrom(u32 socketHandle, void *buffer, u32 length, u16 *remotePort, u
     }
     inPipe = sockObj->mReceiveBlock;
     if (value == 0) {
-        if (OS_TryLockMutex(&inPipe->mCommandPipe.mInUse) == 0) {
+        if (Os_Mutex_TryLock(&inPipe->mCommandPipe.mInUse) == 0) {
             return -6;
         }
     } else {
-        OS_LockMutex(&inPipe->mCommandPipe.mInUse);
+        Os_Mutex_Lock(&inPipe->mCommandPipe.mInUse);
     }
     value = SOCLi_ReadAndConsumeBuffer(sockObj, buffer, length, remotePort, peerAddr, value, flags);
-    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
+    Os_Mutex_Unlock(&inPipe->mCommandPipe.mInUse);
     return value;
 }
 
@@ -737,7 +737,7 @@ s32 SOCLi_ReadBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePo
 }
 
 s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remotePort, u32 *peerAddr) {
-    u32 interruptState = OS_DisableInterrupts();
+    u32 interruptState = Os_DisableIrq();
     u16 ports[2];
     s32 available;
     u32 remoteAddress;
@@ -755,7 +755,7 @@ s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
             if (SOCL_SocketIsTCP(socket) != 0) {
                 result = length;
             }
-            MI_CpuCopy8(source, buffer, length);
+            Mem_CpuCopy8(source, buffer, length);
             if (socket->mReceiveBlock->mNoConsume == 0) {
                 socket->mReceiveBlock->mConsumed = socket->mReceiveBlock->mConsumed + result;
             }
@@ -777,7 +777,7 @@ s32 SOCLi_CopyCPSBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
             socket->mLocalPort = ports[0];
         }
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return result;
 }
 
@@ -838,7 +838,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
             gotData = NULL;
             break;
         }
-        OS_Sleep(10);
+        Os_Sleep(10);
     }
     if (sockObj->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         if (gotData == NULL) {
@@ -847,7 +847,7 @@ s32 SOCLi_ReadCallBack(SOCLiCommandPacket *packet) {
         if (length > cpsLength) {
             length = cpsLength;
         }
-        MI_CpuCopy8(gotData, buffer, length);
+        Mem_CpuCopy8(gotData, buffer, length);
         CPS_SocConsume(length);
         return length;
     }
@@ -892,13 +892,13 @@ s32 SOCLi_ConsumeCallBack(SOCLiCommandPacket *command) {
 
 s32 SOCLi_ConsumeCPSBuffer(SOCLSocket *socket) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
-    u32 interruptState = OS_DisableInterrupts();
+    u32 interruptState = Os_DisableIrq();
     s32 used = inPipe->mConsumed;
     if (used != 0) {
         inPipe->mConsumed = 0;
         CPS_SocConsume(used);
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return used;
 }
 
@@ -908,14 +908,14 @@ s32 SOCLi_ReadUdpBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
     s32 result;
     SOCLiSocketUdpData *datagram;
     *(SOCLiSocketUdpData *volatile *) &inPipe->mUdpDataOut;
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     datagram = inPipe->mUdpDataOut;
     while (datagram == NULL) {
         if (isBlocking == 0) {
             result = -6;
             break;
         }
-        OS_SleepThread(&inPipe->mUdpDataWaiting);
+        Os_Thread_Sleep(&inPipe->mUdpDataWaiting);
         if (SOCL_SocketIsInvalid(socket) != 0 || ReadUdpSOCL_SocketIsCreated(socket) == 0) {
             result = -0x38;
             break;
@@ -926,7 +926,7 @@ s32 SOCLi_ReadUdpBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
         if (length > datagram->mSize) {
             length = datagram->mSize;
         }
-        MI_CpuCopy8(datagram->mData, buffer, length);
+        Mem_CpuCopy8(datagram->mData, buffer, length);
         if (remotePort != NULL) {
             *remotePort = datagram->mRemotePort;
         }
@@ -943,13 +943,13 @@ s32 SOCLi_ReadUdpBuffer(SOCLSocket *socket, void *buffer, s32 length, u16 *remot
             inPipe->mUdpDataSize -= result;
         }
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return result;
 }
 
 s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
     SOCLiSocketRecvCommandPipe *inPipe = socket->mReceiveBlock;
-    u32 interruptState = OS_DisableInterrupts();
+    u32 interruptState = Os_DisableIrq();
     if (inPipe->mUdpDataSizeMax >= inPipe->mUdpDataSize + length) {
         SOCLiSocketUdpData *datagram = SOCLiConfigPtr->mAlloc(length + 0xc);
         if (datagram != NULL) {
@@ -958,7 +958,7 @@ s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
             datagram->mSize = length;
             datagram->mRemotePort = socket->mCps.mRemotePort;
             datagram->mRemoteIp = socket->mCps.mRemoteIp;
-            MI_CpuCopy8(data, datagram->mData, length);
+            Mem_CpuCopy8(data, datagram->mData, length);
             if (socket->mLocalPort == 0) {
                 socket->mLocalPort = socket->mCps.mLocalPort;
             }
@@ -977,7 +977,7 @@ s32 SOCLi_UdpRecvCallback(void *data, u32 length, SOCLSocket *socket) {
     } else {
         SOCLi_CheckCount[1]++;
     }
-    OS_WakeupThread(&inPipe->mUdpDataWaiting);
-    OS_RestoreInterrupts(interruptState);
+    Os_Thread_WakeUp(&inPipe->mUdpDataWaiting);
+    Os_RestoreIrq(interruptState);
     return 1;
 }

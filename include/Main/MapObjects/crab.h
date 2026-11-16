@@ -40,7 +40,7 @@ typedef struct Crab {
     /* 0d0 */ TeresaWobble mHandWobble;
     /* 0f0 */ GroupFollower mFollower;
     /* State number of this kind's own per-frame switch in UpdateCrab; this object does not use
-       MapObject.mStateMachine's state machine; also set by the group init and by the collision push (2) */
+       MapObject.mStateMachine's state machine; also set by the group StructDC_SomeFn_from_thumb and by the collision push (2) */
     /* 114 */ s32 mState;
 } Crab;
 

@@ -31,7 +31,7 @@ void G2x_SetBlendBrightness_(vu16 *reg, u32 plane, s32 brightness) {
 }
 
 // As G2x_SetBlendBrightness_, with a second target plane and the two blend coefficients written as well.
-void G2x_SetBlendBrightnessExt_(vu16 *reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2, s32 brightness) {
+void UpdateBldcntBldalphaBldy(vu16 *reg, u32 plane1, u32 plane2, u32 ev1, u32 ev2, s32 brightness) {
     reg[1] = ev1 | (ev2 << 8);
     if (brightness < 0) {
         reg[0] = plane1 | 0xc0 | (plane2 << 8);

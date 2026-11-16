@@ -6,12 +6,12 @@
 
 #pragma thumb on
 
-void *AllocArrayFromCurrentHeap(s32 count, s32 elementSize) {
+void *AllocateActiveHeapSizeCount_from_thumb(s32 count, s32 elementSize) {
     void *memory;
 
     memory = NULL;
     if (count > 0) {
-        memory = HeapAlloc((void *) GetCurrentHeap(), elementSize * count);
+        memory = Mem_AllocateHeap((void *) GetActiveExecutionContextHeapHandle_1(), elementSize * count);
     }
     return memory;
 }

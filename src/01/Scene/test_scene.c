@@ -31,7 +31,7 @@
 #pragma thumb off
 
 u32 GetDisplaySettings(void) {
-    return ((u32) gDisplaySettings);
+    return ((u32) g_GlobalDisplayConfig);
 }
 
 void TestSceneMTX_Identity22_(s32 *matrix) {
@@ -105,7 +105,7 @@ void ClearCharCanvas(u8 *charCanvas, u32 color) {
 #pragma thumb off
 
 u32 TestSceneDrawTextOnCanvas(TextCanvas *textCanvas, u32 drawX, u32 drawY, u32 color, u32 flags, u16 *text) {
-    return NNSi_G2dTextCanvasDrawText(textCanvas, drawX, drawY, color, flags, text);
+    return G2d_Text_PrintString(textCanvas, drawX, drawY, color, flags, text);
 }
 
 #pragma thumb on
@@ -119,7 +119,7 @@ void DrawTestScene(void) {
         switch (gTestScene->mState) {
             case TEST_SCENE_STATE_CHOISES:
                 TestSceneGXS_SetVisiblePlane(1);
-                GXS_SetGraphicsMode(GX_BGMODE_0);
+                SetDispcntSubBgMode(GX_BGMODE_0);
                 WriteSubBg0Offset(0, 0);
                 WriteSubBg0CntBits(0);
                 WriteSubBg0CntMosaic(0);
@@ -131,7 +131,7 @@ void DrawTestScene(void) {
             case TEST_SCENE_STATE_CHAR_TABLE_1:
             case TEST_SCENE_STATE_CHAR_TABLE_2:
                 TestSceneGXS_SetVisiblePlane(2);
-                GXS_SetGraphicsMode(GX_BGMODE_0);
+                SetDispcntSubBgMode(GX_BGMODE_0);
                 WriteSubBg1Offset(0, 0);
                 WriteSubBg1CntBits(0);
                 WriteSubBg1CntMosaic(0);
@@ -145,7 +145,7 @@ void DrawTestScene(void) {
                 *(u16 *) 0x500040c = 0;
                 *(u16 *) 0x500040e = 0xffff;
                 ClearChars(gTestScene->mChars);
-                GXS_LoadBG1Scr(gTestScene->mScreenMap, 0, 0x600);
+                TEQSub_Fn25Impl(gTestScene->mScreenMap, 0, 0x600);
                 break;
         }
     }
@@ -202,7 +202,7 @@ void DrawTestScene(void) {
                                       gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_2 ? 6 : 7, 0x412,
                                       gTestSceneCharText);
         }
-        GXS_LoadBG1Char(gTestScene->mChars, 0, 0x6000);
+        CopyBgData_Bg1_Bottom(gTestScene->mChars, 0, 0x6000);
     }
     switch (gTestScene->mStateChanged) {
         case 0:
@@ -220,22 +220,22 @@ void DrawTestScene(void) {
 #pragma thumb off
 
 void *TestSceneGetCurrentHeap(void) {
-    return GetHeap(GetCurrentHeapCall());
+    return ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
 }
 
 void TestSceneSetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                                u32 cntVal8, u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
 void TestSceneSetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14,
                                      u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    DisplayEngineConfig_SetBg2Config2(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
 void TestSceneSetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14,
                                     u32 cntVal7Or13, u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    DisplayEngineConfig_SetBg2Config2(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
 void TestSceneInitTextCanvas(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
@@ -252,22 +252,22 @@ void InitTestSceneObject(void) {
     DisplaySettings *displaySettings;
     int canvasIndex;
 
-    gTestScene = HeapAlloc(TestSceneGetCurrentHeap(), sizeof(TestScene));
+    gTestScene = Mem_AllocateHeap(TestSceneGetCurrentHeap(), sizeof(TestScene));
     gTestScene->mUnk_0000 = 0;
     gTestScene->mState = TEST_SCENE_STATE_CHAR_TABLE_0;
     gTestScene->mStateChanged = 1;
     ClearChars(gTestScene->mChars);
     FillScreenMapIndices(gTestScene->mScreenMap);
-    displaySettings = CreateDisplaySettings(TestSceneGetCurrentHeap(), &displaySettingsDesc);
+    displaySettings = CreateDisplayConfig(TestSceneGetCurrentHeap(), &displaySettingsDesc);
     TestSceneSetMainBg1Record(displaySettings, 0, 0, 0, 0, 4, 0, 0);
     TestSceneSetMainBg2RecordParams(displaySettings, 2, 0, 0, 0, 0xe, 1);
     TestSceneSetSubBg2RecordParams(displaySettings, 2, 0, 0, 0, 4, 4);
-    InitDisplayFromSettings(displaySettings);
-    gTestScene->mFonts[0] = GetFontByIndex(0);
-    gTestScene->mFonts[1] = GetFontByIndex(1);
-    gTestScene->mFonts[2] = GetFontByIndex(2);
+    SetGlobalDisplayConfig(displaySettings);
+    gTestScene->mFonts[0] = GetLoadedFont_from_thumb(0);
+    gTestScene->mFonts[1] = GetLoadedFont_from_thumb(1);
+    gTestScene->mFonts[2] = GetLoadedFont_from_thumb(2);
     for (canvasIndex = 0; canvasIndex < 3; canvasIndex++) {
-        NNS_G2dCharCanvasInitForBG(gTestScene->mCharCanvases[canvasIndex], gTestScene->mChars, 0x20, 0x18, 4);
+        G2d_Sprite_CreateFromTiles(gTestScene->mCharCanvases[canvasIndex], gTestScene->mChars, 0x20, 0x18, 4);
         TestSceneInitTextCanvas(&gTestScene->mTextCanvases[canvasIndex], gTestScene->mCharCanvases[canvasIndex],
                                 gTestScene->mFonts[canvasIndex], 0, 0);
     }
@@ -275,7 +275,7 @@ void InitTestSceneObject(void) {
 }
 
 void ReleaseTestSceneObject(void) {
-    GetCurrentHeapCall();
+    GetActiveExecutionContext();
     ClearEmblemChoisesPointer();
     gTestScene = NULL;
 }
@@ -291,7 +291,7 @@ u16 TestSceneGetInputSlotNewBits(InputSlot *inputSlot, u32 mask) {
 }
 
 u32 GetInputSlotNewBitsByIndex(u32 slotIndex, u32 mask) {
-    return TestSceneGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return TestSceneGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 #pragma thumb on
@@ -348,6 +348,6 @@ int RunTestScene(void *sceneNumbers) {
     SceneCallbacks callbacks = {
         InitTestScene, UpdateTestScene, ReleaseTestScene, DrawTestSceneWrapper, 0, 0, 0x1e, 0x1e, 0};
 
-    RunScene(sceneNumbers, &callbacks);
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }

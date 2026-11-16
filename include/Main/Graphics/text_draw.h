@@ -10,7 +10,7 @@
 #define TEXT_TAG_KIND_KEEP 0xff
 // TextTag.mVariant of a name tag: the player name, the player name cut to the width the canvas allows, the owner text,
 // the owner text cut to the width; and the variant of the tag (in TextTagWithCharCode) that marks where
-// FormatMessageWithText inserts its text.
+// MaybeHandleBmgFormatting_from_thumb inserts its text.
 #define TEXT_TAG_NAME_PLAYER 0
 #define TEXT_TAG_NAME_PLAYER_FIT 1
 #define TEXT_TAG_NAME_OWNER_TEXT 10
@@ -25,7 +25,7 @@ typedef struct TextTagWithCharCode {
     /* 04 */ u16 mVariant;
 } TextTagWithCharCode;
 
-// Tag that MeasureAndExpandText and DrawTextLines read through the pointer they pass to the function at member 4 of
+// Tag that G2d_Text_SomeFn_3_from_thumb and G2d_Text_SomeFn_4_from_thumb read through the pointer they pass to the function at member 4 of
 // NNSG2dFont: a byte (the number of bytes), a byte, a halfword and a byte.
 typedef struct TextTag {
     /* 00 */ u8 mSize;
@@ -42,23 +42,23 @@ static inline s32 IsDigitOrDash(u16 character) {
     return 0;
 }
 
-void DrawTextInRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
+void G2d_Text_SomeFn_2_from_thumb(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
                     s32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance, s32 colorZeroIsTwo);
-void DrawTextInRectNoFixedAdvance(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
+void G2d_Text_SomeFn_from_thumb(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
                                   u32 lineAlign, void *text);
-void DrawTextInRectFixedAdvance(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color,
+void G2d_Text_SomeFn_5_from_thumb(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color,
                                 u32 alignFlags, u32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance);
-void DrawButtonTextInRect(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
+void G2d_Text_SomeFn_1_from_thumb(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags,
                           u32 lineAlign, void *text);
-void MeasureAndExpandText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
+void G2d_Text_SomeFn_3_from_thumb(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
                           u16 *expandedText, s32 fixedDigitsOnly, s32 fixedAdvance);
 s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidth, s32 lineWidth);
-void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
+void G2d_Text_SomeFn_4_from_thumb(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 colorZeroIsTwo);
-void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 formattedCapacity);
-DisplaySettings *CreateSceneDisplaySettings(void *heap);
+void MaybeHandleBmgFormatting_from_thumb(u16 *insertText, u16 *message, u16 *formattedText, u32 formattedCapacity);
+DisplaySettings *CreateLoadSomeDisplayConfig_from_thumb(void *heap);
 DisplaySettings *CreateWiFiStatesDisplaySettings(void *heap);
 s32 CountDecimalDigits(u32 number);
-s32 FormatAsciiNumber(u32 number, u16 *buffer);
+s32 FormatIntegerInString16_from_thumb(u32 number, u16 *buffer);
 s32 FormatFullWidthNumber(u32 number, u16 *buffer);

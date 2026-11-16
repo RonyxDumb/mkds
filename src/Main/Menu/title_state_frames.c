@@ -4,7 +4,7 @@
 #pragma thumb on
 
 s32 GetTitleStateFrames(void) {
-    return ((u32) gTitleScene->mStateFrames);
+    return ((u32) g_SceneTitleContext->mStateFrames);
 }
 
 #pragma thumb off

@@ -6,18 +6,18 @@
 
 #pragma thumb on
 
-void WriteBackupFirstBlock(BackupFirstBlock *block) {
-    u32 *buffer = gBackupAccess->mBuffer;
-    if (gBackupAccess->mBackupEnabled != 0) {
+void WriteSaveDataSection_Header_from_thumb(BackupFirstBlock *block) {
+    u32 *buffer = g_SaveDataIoManager->mBuffer;
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
         enum { BACKUP_MAGIC_MKDS = 0x53444b4d } firstWord;
         enum { BACKUP_MAGIC_SV10 = 0x30315653 } secondWord;
-        MI_CpuCopy8(block, buffer, sizeof(BackupFirstBlock));
+        Mem_CpuCopy8(block, buffer, sizeof(BackupFirstBlock));
         firstWord = BACKUP_MAGIC_MKDS;
         secondWord = BACKUP_MAGIC_SV10;
         buffer[0] = firstWord;
         buffer[1] = secondWord;
         buffer[2] = 0x59534b4e;
-        StartBackupWriteTwoCopies(0, 0x30f00, buffer, 0x100, NULL, 1);
+        SV_MaybeCompressWriteTwoOffsetsFlagC_from_thumb(0, 0x30f00, buffer, 0x100, NULL, 1);
     }
 }
 

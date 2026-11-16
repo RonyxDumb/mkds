@@ -9,71 +9,71 @@
 #include "Main/Graphics/oam.h"
 
 void StartTouchAutoSampling(void) {
-    if (gTouchMicInput->mTouchAutoSampling != 0) {
+    if (g_Global59C4->mTouchAutoSampling != 0) {
         return;
     }
-    TP_RequestAutoSamplingStartAsync(0xa, 4, gTouchMicInput->mAutoSamples, 5);
-    TP_WaitBusy(2);
+    TP_RequestAutoSamplingStartAsync(0xa, 4, g_Global59C4->mAutoSamples, 5);
+    WaitForTPFlags(2);
     TP_CheckError(2);
-    gTouchMicInput->mTouchAutoSampling = 1;
+    g_Global59C4->mTouchAutoSampling = 1;
 }
 
-void StartMicInput(void *heap) {
-    if (gTouchMicInput->mMicAutoSampling != 0) {
+void CreateGlobal59C4Sub(void *heap) {
+    if (g_Global59C4->mMicAutoSampling != 0) {
         return;
     }
-    gTouchMicInput->mMicBuffer = HeapAllocAligned(heap, sizeof(MicBuffer), HEAP_ALIGN_CACHE_LINE);
-    SetupMicAutoSampling(gTouchMicInput->mMicBuffer);
-    StartMicAutoSampling(gTouchMicInput->mMicBuffer);
-    gTouchMicInput->mMicAutoSampling = 1;
-    gTouchMicInput->mMicPreSleepDone = 0;
-    gTouchMicInput->mMicOverThreshold = 0;
+    g_Global59C4->mMicBuffer = Mem_AllocateHeapAligned(heap, sizeof(MicBuffer), HEAP_ALIGN_CACHE_LINE);
+    Struct59C4Sub_Initialize(g_Global59C4->mMicBuffer);
+    Struct59C4Sub_SomeFn(g_Global59C4->mMicBuffer);
+    g_Global59C4->mMicAutoSampling = 1;
+    g_Global59C4->mMicPreSleepDone = 0;
+    g_Global59C4->mMicOverThreshold = 0;
 }
 
 void StopTouchAutoSampling(void) {
-    if (gTouchMicInput->mTouchAutoSampling == 0) {
+    if (g_Global59C4->mTouchAutoSampling == 0) {
         return;
     }
     TP_RequestAutoSamplingStopAsync();
-    TP_WaitBusy(4);
+    WaitForTPFlags(4);
     TP_CheckError(4);
-    gTouchMicInput->mTouchAutoSampling = 0;
+    g_Global59C4->mTouchAutoSampling = 0;
 }
 
-void StopMicInput(void) {
-    if (gTouchMicInput->mMicAutoSampling == 0) {
+void ResetGlobal59C4Sub(void) {
+    if (g_Global59C4->mMicAutoSampling == 0) {
         return;
     }
-    StopMicAutoSampling(gTouchMicInput->mMicBuffer);
-    gTouchMicInput->mMicBuffer = NULL;
-    gTouchMicInput->mMicAutoSampling = 0;
-    gTouchMicInput->mMicPreSleepDone = 0;
+    StopMicAutoSampling(g_Global59C4->mMicBuffer);
+    g_Global59C4->mMicBuffer = NULL;
+    g_Global59C4->mMicAutoSampling = 0;
+    g_Global59C4->mMicPreSleepDone = 0;
 }
 
 void PreSleepMicInput(void) {
     TouchMicInput *touchMicInput;
 
-    touchMicInput = gTouchMicInput;
+    touchMicInput = g_Global59C4;
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
     if (touchMicInput->mMicPreSleepDone == 0) {
-        PreSleepMicBuffer(touchMicInput->mMicBuffer);
+        Struct59C4Sub_SomeFn_2(touchMicInput->mMicBuffer);
     }
-    gTouchMicInput->mMicPreSleepDone = 1;
+    g_Global59C4->mMicPreSleepDone = 1;
 }
 
-void PostSleepMicInput(void) {
+void Scene_Race_PostSleepImpl(void) {
     TouchMicInput *touchMicInput;
 
-    touchMicInput = gTouchMicInput;
+    touchMicInput = g_Global59C4;
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
     if (touchMicInput->mMicPreSleepDone) {
-        PostSleepMicBuffer(touchMicInput->mMicBuffer);
+        Struct59C4Sub_SomeFn_3(touchMicInput->mMicBuffer);
     }
-    gTouchMicInput->mMicPreSleepDone = 0;
+    g_Global59C4->mMicPreSleepDone = 0;
 }
 
 void UpdateTouchMicInput(void) {
@@ -81,11 +81,11 @@ void UpdateTouchMicInput(void) {
     u32 latestIndex;
 
     latestIndex = TP_GetLatestIndexInAuto();
-    touchMicInput = gTouchMicInput;
+    touchMicInput = g_Global59C4;
     touchMicInput->mCalibratedPoint = touchMicInput->mAutoSamples[latestIndex];
     TP_GetCalibratedPoint(&touchMicInput->mCalibratedPoint, &touchMicInput->mCalibratedPoint);
-    if (gTouchMicInput->mMicAutoSampling) {
-        gTouchMicInput->mMicOverThreshold = UpdateMicBufferInput(gTouchMicInput->mMicBuffer) > 0x14;
+    if (g_Global59C4->mMicAutoSampling) {
+        g_Global59C4->mMicOverThreshold = Struct59C4Sub_SomeFn_1(g_Global59C4->mMicBuffer) > 0x14;
     }
 }
 
@@ -94,7 +94,7 @@ void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverT
     u32 pointY;
     s32 pointX;
 
-    if (gTouchMicInput->mTouchAutoSampling) {
+    if (g_Global59C4->mTouchAutoSampling) {
         pointX = (packedTouchPoint >> 8) & 0xff;
         pointY = packedTouchPoint & 0xff;
         if (pointY > 0xbf) {
@@ -114,14 +114,14 @@ void UpdateInputSlotPair(InputSlotPair *pair, s32 packedTouchPoint, s32 micOverT
             pair->mNoPairCount++;
         }
     }
-    if (gTouchMicInput->mMicAutoSampling) {
+    if (g_Global59C4->mMicAutoSampling) {
         pair->mMicOverThreshold[0] = micOverThreshold;
     }
 }
 
-void ReleaseTouchMicInput(void) {
-    TouchMicInputStopMicAutoSampling(gTouchMicInput->mMicBuffer);
-    gTouchMicInput = NULL;
+void ResetGlobal59C4(void) {
+    TouchMicInputStopMicAutoSampling(g_Global59C4->mMicBuffer);
+    g_Global59C4 = NULL;
 }
 
 u16 GetPackedTouchPoint(void) {
@@ -130,7 +130,7 @@ u16 GetPackedTouchPoint(void) {
     u32 pointX;
     u32 pointY;
 
-    touchMicInput = gTouchMicInput;
+    touchMicInput = g_Global59C4;
     calibratedPoint = &touchMicInput->mCalibratedPoint;
     if (!touchMicInput->mTouchAutoSampling || calibratedPoint->mTouch == 0 || calibratedPoint->mValidity != 0) {
         pointX = 0xff;

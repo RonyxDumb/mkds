@@ -50,15 +50,15 @@ const MapObjectKindDescriptor gRock2KindDescriptor = {
 const MapObjectKindDescriptor gRockKindDescriptor = {
     0, {0, 0}, 0x124, InitRock, CreateRockKindData, CreateRockDrawList, 0, 0, CreateRockUpdateList};
 s16 gFoundCollisionSlotCount;
-s16 gFirstFreeCollisionSlot;
-s16 gCollisionSlotCount;
-s16 *gCollisionSlotNextFree;
-struct CollisionSlotEnd *gCollisionSlotLowEnds;
-struct CollisionSlot *gCollisionSlots;
-struct CollisionSlotEnd *gCollisionSlotHighEnds;
-s16 *gFoundCollisionSlotIndices;
-u16 *gFoundCollisionSlotFlags;
-void **gFoundCollisionSlotObjects;
+s16 g_Some16;
+s16 g_Another16;
+s16 *g_SomePointer4Size200;
+struct CollisionSlotEnd *g_SomePointer2Size400;
+struct CollisionSlot *g_SomePointer3Size1C00;
+struct CollisionSlotEnd *g_SomePointer1Size400;
+s16 *g_SomePointer5Size100;
+u16 *g_SomePointer6Size100;
+void **g_SomePointer7Size200;
 void *gSphereHitObjects[16];
 
 // Calls StartEffectWithCallback twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
@@ -274,10 +274,10 @@ void ResetRock(RockObject *rock) {
 
 #pragma thumb on
 void CreateNsbmdAndShadowNsbmd(void *mapObjectList, const char *name, const char *shadowName) {
-    CreateNsbmd(&gRock, FindCourseMapObjFile(name), NULL);
-    CreateShadowModel(&gRockShadow, FindCourseMapObjFile(shadowName), 7);
-    SetNsbmdPolygonIdLightEmiAll(gRock, 0x3f, 2, 0x294a);
-    SetNsbmdPolygonIdAll(gRock, 7);
+    CreateNsbmd(&gRock, FormatFindMapObjFileBuffer_from_thumb(name), NULL);
+    CreateShadowModel(&gRockShadow, FormatFindMapObjFileBuffer_from_thumb(shadowName), 7);
+    StructML_SomeFn_1(gRock, 0x3f, 2, 0x294a);
+    StructML_MaybeProcessModelAnimations(gRock, 7);
 }
 #pragma thumb off
 
@@ -303,7 +303,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     InitGroupFollowerWithSpeeds(&rock->mFollower, courseRow, 0x3000, courseRow->mSettings[1]);
     rock->mDelayFrames = courseRow->mSettings[0];
     rock->mSideVectors = CreateCourseMapGroupSideVectors(courseRow);
-    startEntry = GetCourseMapGroupEntry(courseRow->mGroupIndex, 0);
+    startEntry = GetLoadedNkmPathEntryPOIT(courseRow->mGroupIndex, 0);
     rock->mStartY = startEntry->mPos.y;
     rock->mStartScale = rock->mMapObject.mScale.y;
     rowValue = courseRow->mSettings[3];
@@ -343,7 +343,7 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
 
 #pragma thumb on
 // Turns the stored offsets of the loaded collision file into pointers.
-void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) {
+void CopyKclHeaderAbsolute_from_thumb(CourseCollision *collision, CourseCollision *file) {
     *collision = *file;
     collision->mPoints = OFFSET_PTR(Vec3, file, (u32) collision->mPoints);
     collision->mNormals = OFFSET_PTR(Vec3s16, file, (u32) collision->mNormals);
@@ -354,8 +354,8 @@ void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) 
 #pragma thumb off
 
 #pragma thumb on
-void InitCourseCollision(void) {
-    LoadCourseCollisionData(&gCourseCollision, FindCourseFile("course_collision.kcl"));
+void LoadCourseKcl_from_thumb(void) {
+    CopyKclHeaderAbsolute_from_thumb(&g_LoadedCourseKclHeader, FindFileBuffer_CRS_CST_from_thumb("course_collision.kcl"));
 }
 #pragma thumb off
 
@@ -430,29 +430,29 @@ u16 PickCollisionHitValue(u32 mask) {
     return gCollisionHitValues[bestIndex];
 }
 
-void InitCollisionSlots(void) {
+void AllocateSomePointers(void) {
     void *heap;
     s16 nextFreeIndex;
     s16 slotIndex;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gCollisionSlotCount = 0;
-    gFirstFreeCollisionSlot = 0;
-    gCollisionSlotHighEnds = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlotHighEnds));
-    gCollisionSlotLowEnds = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlotLowEnds));
-    gCollisionSlots = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlots));
-    gCollisionSlotNextFree = HeapAlloc(heap, COLLISION_SLOT_COUNT * sizeof(*gCollisionSlotNextFree));
-    gFoundCollisionSlotIndices = HeapAlloc(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*gFoundCollisionSlotIndices));
-    gFoundCollisionSlotFlags = HeapAlloc(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*gFoundCollisionSlotFlags));
-    gFoundCollisionSlotObjects = HeapAlloc(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*gFoundCollisionSlotObjects));
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    g_Another16 = 0;
+    g_Some16 = 0;
+    g_SomePointer1Size400 = Mem_AllocateHeap(heap, COLLISION_SLOT_COUNT * sizeof(*g_SomePointer1Size400));
+    g_SomePointer2Size400 = Mem_AllocateHeap(heap, COLLISION_SLOT_COUNT * sizeof(*g_SomePointer2Size400));
+    g_SomePointer3Size1C00 = Mem_AllocateHeap(heap, COLLISION_SLOT_COUNT * sizeof(*g_SomePointer3Size1C00));
+    g_SomePointer4Size200 = Mem_AllocateHeap(heap, COLLISION_SLOT_COUNT * sizeof(*g_SomePointer4Size200));
+    g_SomePointer5Size100 = Mem_AllocateHeap(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*g_SomePointer5Size100));
+    g_SomePointer6Size100 = Mem_AllocateHeap(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*g_SomePointer6Size100));
+    g_SomePointer7Size200 = Mem_AllocateHeap(heap, FOUND_COLLISION_SLOT_CAPACITY * sizeof(*g_SomePointer7Size200));
     nextFreeIndex = 0;
     do {
-        gCollisionSlotNextFree[nextFreeIndex] = nextFreeIndex + 1;
+        g_SomePointer4Size200[nextFreeIndex] = nextFreeIndex + 1;
         nextFreeIndex++;
     } while (nextFreeIndex < COLLISION_SLOT_COUNT);
     slotIndex = 0;
     do {
-        gCollisionSlots[slotIndex].mCenterPos = NULL;
+        g_SomePointer3Size1C00[slotIndex].mCenterPos = NULL;
         slotIndex++;
     } while (slotIndex < COLLISION_SLOT_COUNT);
 }
@@ -472,12 +472,12 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     CollisionSlotEnd *endEntry;
     CollisionSlotEnd *otherEnd;
 
-    if (gCollisionSlotCount >= COLLISION_SLOT_COUNT) {
+    if (g_Another16 >= COLLISION_SLOT_COUNT) {
         return -1;
     }
-    slotIndex = gFirstFreeCollisionSlot;
-    gFirstFreeCollisionSlot = gCollisionSlotNextFree[slotIndex];
-    slot = &gCollisionSlots[slotIndex];
+    slotIndex = g_Some16;
+    g_Some16 = g_SomePointer4Size200[slotIndex];
+    slot = &g_SomePointer3Size1C00[slotIndex];
     slot->mHighZ = centerPos->z + radius;
     slot->mLowZ = centerPos->z - radius;
     slot->mCenterPos = centerPos;
@@ -486,32 +486,32 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     slot->mObject = object;
     hi = (centerPos->x + radius) >> 11;
     lo = (centerPos->x - radius) >> 11;
-    if (gCollisionSlotCount == 0) {
-        gCollisionSlotHighEnds[0].mOtherEndIndex = 0;
-        gCollisionSlotHighEnds[0].mSlotIndexOrScanLimit = 0;
-        gCollisionSlotHighEnds[0].mEndX = hi;
-        gCollisionSlotLowEnds[0].mOtherEndIndex = 0;
-        gCollisionSlotLowEnds[0].mSlotIndexOrScanLimit = slotIndex;
-        gCollisionSlotLowEnds[0].mEndX = lo;
-        gCollisionSlots[0].mHighEndIndex = 0;
-        gCollisionSlots[0].mLowEndIndex = 0;
-        gCollisionSlotCount = 1;
+    if (g_Another16 == 0) {
+        g_SomePointer1Size400[0].mOtherEndIndex = 0;
+        g_SomePointer1Size400[0].mSlotIndexOrScanLimit = 0;
+        g_SomePointer1Size400[0].mEndX = hi;
+        g_SomePointer2Size400[0].mOtherEndIndex = 0;
+        g_SomePointer2Size400[0].mSlotIndexOrScanLimit = slotIndex;
+        g_SomePointer2Size400[0].mEndX = lo;
+        g_SomePointer3Size1C00[0].mHighEndIndex = 0;
+        g_SomePointer3Size1C00[0].mLowEndIndex = 0;
+        g_Another16 = 1;
         return slotIndex;
     }
     highPosition = 0;
     lowPosition = 0;
-    searchStep = gCollisionSlotCount;
-    endIndex = gCollisionSlotCount;
+    searchStep = g_Another16;
+    endIndex = g_Another16;
     for (;;) {
         highProbe = highPosition + searchStep;
         index = lowPosition + searchStep;
         if (highProbe <= endIndex) {
-            if (hi > gCollisionSlotHighEnds[highProbe - 1].mEndX) {
+            if (hi > g_SomePointer1Size400[highProbe - 1].mEndX) {
                 highPosition = highProbe;
             }
         }
         if (index <= endIndex) {
-            if (lo > gCollisionSlotLowEnds[index - 1].mEndX) {
+            if (lo > g_SomePointer2Size400[index - 1].mEndX) {
                 lowPosition = index;
             }
         }
@@ -522,47 +522,47 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     }
     slot->mHighEndIndex = highPosition;
     slot->mLowEndIndex = lowPosition;
-    endIndex = gCollisionSlotCount;
+    endIndex = g_Another16;
     if (endIndex > highPosition) {
         do {
-            endEntry = &gCollisionSlotHighEnds[endIndex];
-            *endEntry = gCollisionSlotHighEnds[endIndex - 1];
-            otherEnd = &gCollisionSlotLowEnds[endEntry->mOtherEndIndex];
+            endEntry = &g_SomePointer1Size400[endIndex];
+            *endEntry = g_SomePointer1Size400[endIndex - 1];
+            otherEnd = &g_SomePointer2Size400[endEntry->mOtherEndIndex];
             otherEnd->mOtherEndIndex += 1;
-            gCollisionSlots[otherEnd->mSlotIndexOrScanLimit].mHighEndIndex += 1;
+            g_SomePointer3Size1C00[otherEnd->mSlotIndexOrScanLimit].mHighEndIndex += 1;
             endIndex--;
             if (endEntry->mSlotIndexOrScanLimit >= lowPosition) {
                 endEntry->mSlotIndexOrScanLimit += 1;
             }
         } while (endIndex > highPosition);
     }
-    gCollisionSlotHighEnds[highPosition].mOtherEndIndex = lowPosition;
-    gCollisionSlotHighEnds[highPosition].mEndX = hi;
-    if (highPosition == gCollisionSlotCount ||
-        gCollisionSlotHighEnds[highPosition + 1].mSlotIndexOrScanLimit > lowPosition) {
-        gCollisionSlotHighEnds[highPosition].mSlotIndexOrScanLimit = lowPosition;
-        for (index = highPosition - 1; index >= 0 && gCollisionSlotHighEnds[index].mSlotIndexOrScanLimit > lowPosition;
+    g_SomePointer1Size400[highPosition].mOtherEndIndex = lowPosition;
+    g_SomePointer1Size400[highPosition].mEndX = hi;
+    if (highPosition == g_Another16 ||
+        g_SomePointer1Size400[highPosition + 1].mSlotIndexOrScanLimit > lowPosition) {
+        g_SomePointer1Size400[highPosition].mSlotIndexOrScanLimit = lowPosition;
+        for (index = highPosition - 1; index >= 0 && g_SomePointer1Size400[index].mSlotIndexOrScanLimit > lowPosition;
              index--) {
-            gCollisionSlotHighEnds[index].mSlotIndexOrScanLimit = lowPosition;
+            g_SomePointer1Size400[index].mSlotIndexOrScanLimit = lowPosition;
         }
     } else {
-        gCollisionSlotHighEnds[highPosition].mSlotIndexOrScanLimit =
-            gCollisionSlotHighEnds[highPosition + 1].mSlotIndexOrScanLimit;
+        g_SomePointer1Size400[highPosition].mSlotIndexOrScanLimit =
+            g_SomePointer1Size400[highPosition + 1].mSlotIndexOrScanLimit;
     }
-    endIndex = gCollisionSlotCount;
+    endIndex = g_Another16;
     if (endIndex > lowPosition) {
         do {
-            endEntry = &gCollisionSlotLowEnds[endIndex];
-            *endEntry = gCollisionSlotLowEnds[endIndex - 1];
-            gCollisionSlotHighEnds[endEntry->mOtherEndIndex].mOtherEndIndex += 1;
-            gCollisionSlots[endEntry->mSlotIndexOrScanLimit].mLowEndIndex += 1;
+            endEntry = &g_SomePointer2Size400[endIndex];
+            *endEntry = g_SomePointer2Size400[endIndex - 1];
+            g_SomePointer1Size400[endEntry->mOtherEndIndex].mOtherEndIndex += 1;
+            g_SomePointer3Size1C00[endEntry->mSlotIndexOrScanLimit].mLowEndIndex += 1;
             endIndex--;
         } while (endIndex > lowPosition);
     }
-    gCollisionSlotLowEnds[lowPosition].mOtherEndIndex = highPosition;
-    gCollisionSlotLowEnds[lowPosition].mSlotIndexOrScanLimit = slotIndex;
-    gCollisionSlotLowEnds[lowPosition].mEndX = lo;
-    gCollisionSlotCount += 1;
+    g_SomePointer2Size400[lowPosition].mOtherEndIndex = highPosition;
+    g_SomePointer2Size400[lowPosition].mSlotIndexOrScanLimit = slotIndex;
+    g_SomePointer2Size400[lowPosition].mEndX = lo;
+    g_Another16 += 1;
     return slotIndex;
 }
 
@@ -580,51 +580,51 @@ u32 FreeCollisionSlot(s32 slotIndex) {
     if (slotIndex < 0 || slotIndex >= 0x100) {
         return -1;
     }
-    slot = &gCollisionSlots[slotIndex];
+    slot = &g_SomePointer3Size1C00[slotIndex];
     highIndex = slot->mHighEndIndex;
     lowIndex = slot->mLowEndIndex;
     if (slot->mCenterPos == NULL) {
         return -1;
     }
     endIndex = highIndex;
-    if (endIndex < gCollisionSlotCount - 1) {
+    if (endIndex < g_Another16 - 1) {
         do {
-            endEntry = &gCollisionSlotHighEnds[endIndex];
-            *endEntry = gCollisionSlotHighEnds[endIndex + 1];
-            otherEnd = &gCollisionSlotLowEnds[endEntry->mOtherEndIndex];
+            endEntry = &g_SomePointer1Size400[endIndex];
+            *endEntry = g_SomePointer1Size400[endIndex + 1];
+            otherEnd = &g_SomePointer2Size400[endEntry->mOtherEndIndex];
             otherEnd->mOtherEndIndex -= 1;
-            gCollisionSlots[otherEnd->mSlotIndexOrScanLimit].mHighEndIndex -= 1;
+            g_SomePointer3Size1C00[otherEnd->mSlotIndexOrScanLimit].mHighEndIndex -= 1;
             if (endEntry->mSlotIndexOrScanLimit > lowIndex) {
                 endEntry->mSlotIndexOrScanLimit -= 1;
             }
             endIndex++;
-        } while (endIndex < gCollisionSlotCount - 1);
+        } while (endIndex < g_Another16 - 1);
     }
     endIndex = lowIndex;
-    if (endIndex < gCollisionSlotCount - 1) {
+    if (endIndex < g_Another16 - 1) {
         do {
-            endEntry = &gCollisionSlotLowEnds[endIndex];
-            *endEntry = gCollisionSlotLowEnds[endIndex + 1];
-            gCollisionSlotHighEnds[endEntry->mOtherEndIndex].mOtherEndIndex -= 1;
-            gCollisionSlots[endEntry->mSlotIndexOrScanLimit].mLowEndIndex -= 1;
+            endEntry = &g_SomePointer2Size400[endIndex];
+            *endEntry = g_SomePointer2Size400[endIndex + 1];
+            g_SomePointer1Size400[endEntry->mOtherEndIndex].mOtherEndIndex -= 1;
+            g_SomePointer3Size1C00[endEntry->mSlotIndexOrScanLimit].mLowEndIndex -= 1;
             otherIndex = endEntry->mOtherEndIndex;
             if (otherIndex < highIndex) {
-                otherEnd = &gCollisionSlotHighEnds[otherIndex];
+                otherEnd = &g_SomePointer1Size400[otherIndex];
                 index = otherEnd->mSlotIndexOrScanLimit;
                 if (index == lowIndex) {
-                    while (gCollisionSlotLowEnds[index].mOtherEndIndex < (u32) otherIndex) {
+                    while (g_SomePointer2Size400[index].mOtherEndIndex < (u32) otherIndex) {
                         index++;
                     }
                     otherEnd->mSlotIndexOrScanLimit = index;
                 }
             }
             endIndex++;
-        } while (endIndex < gCollisionSlotCount - 1);
+        } while (endIndex < g_Another16 - 1);
     }
     slot->mCenterPos = NULL;
-    gCollisionSlotNextFree[slotIndex] = gFirstFreeCollisionSlot;
-    gFirstFreeCollisionSlot = slotIndex;
-    gCollisionSlotCount -= 1;
+    g_SomePointer4Size200[slotIndex] = g_Some16;
+    g_Some16 = slotIndex;
+    g_Another16 -= 1;
     return -1;
 }
 
@@ -646,7 +646,7 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
     CollisionSlot *slot;
     s32 slotFlags;
 
-    slotCount = gCollisionSlotCount;
+    slotCount = g_Another16;
     value = centerPos->x;
     centerZ = centerPos->z;
     hi = (s16) ((value + radius) >> 11);
@@ -661,12 +661,12 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
         highProbe = highEndIndex + searchStep;
         lowProbe = value + searchStep;
         if (highProbe <= slotCount) {
-            if (lo > gCollisionSlotHighEnds[highProbe - 1].mEndX) {
+            if (lo > g_SomePointer1Size400[highProbe - 1].mEndX) {
                 highEndIndex = highProbe;
             }
         }
         if (lowProbe <= slotCount) {
-            if (hi >= gCollisionSlotLowEnds[lowProbe].mEndX) {
+            if (hi >= g_SomePointer2Size400[lowProbe].mEndX) {
                 value = lowProbe;
             }
         }
@@ -675,20 +675,20 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
         }
         searchStep = (searchStep + 1) >> 1;
     }
-    searchStep = gCollisionSlotHighEnds[highEndIndex].mSlotIndexOrScanLimit;
+    searchStep = g_SomePointer1Size400[highEndIndex].mSlotIndexOrScanLimit;
     if (value < searchStep) {
         return;
     }
     do {
-        if (gCollisionSlotLowEnds[value].mOtherEndIndex >= highEndIndex) {
-            slot = &gCollisionSlots[gCollisionSlotLowEnds[value].mSlotIndexOrScanLimit];
+        if (g_SomePointer2Size400[value].mOtherEndIndex >= highEndIndex) {
+            slot = &g_SomePointer3Size1C00[g_SomePointer2Size400[value].mSlotIndexOrScanLimit];
             slotFlags = slot->mFlags;
             if (slot->mHighZ >= zlo && slot->mLowZ <= zhi && (slotFlags & flagMask) &&
                 !(slotFlags & COLLISION_SLOT_FLAG_DISABLED)) {
-                gFoundCollisionSlotIndices[gFoundCollisionSlotCount] =
-                    gCollisionSlotLowEnds[value].mSlotIndexOrScanLimit;
-                gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = slotFlags;
-                gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = slot->mObject;
+                g_SomePointer5Size100[gFoundCollisionSlotCount] =
+                    g_SomePointer2Size400[value].mSlotIndexOrScanLimit;
+                g_SomePointer6Size100[gFoundCollisionSlotCount] = slotFlags;
+                g_SomePointer7Size200[gFoundCollisionSlotCount] = slot->mObject;
                 gFoundCollisionSlotCount++;
                 if (gFoundCollisionSlotCount == 0x80) {
                     return;
@@ -707,7 +707,7 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
 void SetCollisionSlotRadius(s16 slotIndex, s32 radius) {
     CollisionSlot *slot;
 
-    slot = &gCollisionSlots[slotIndex];
+    slot = &g_SomePointer3Size1C00[slotIndex];
     slot->mRadius = radius;
     if (slot->mFlags & COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE) {
         slot->mFlags |= gCollisionSlotRadiusFlag;
@@ -715,11 +715,11 @@ void SetCollisionSlotRadius(s16 slotIndex, s32 radius) {
 }
 
 void DisableCollisionSlot(s16 slotIndex) {
-    gCollisionSlots[slotIndex].mFlags |= gCollisionSlotDisabledFlag;
+    g_SomePointer3Size1C00[slotIndex].mFlags |= gCollisionSlotDisabledFlag;
 }
 
 void EnableCollisionSlot(s16 slotIndex) {
-    gCollisionSlots[slotIndex].mFlags &= ~COLLISION_SLOT_FLAG_DISABLED;
+    g_SomePointer3Size1C00[slotIndex].mFlags &= ~COLLISION_SLOT_FLAG_DISABLED;
 }
 
 const u16 gRockFirstFlag = 2;

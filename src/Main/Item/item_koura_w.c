@@ -156,10 +156,10 @@ void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
 }
 
 void ResetItemKouraW(ItemKouraW *item) {
-    InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
+    StateDualHandler_Create(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
     MTX_Identity43_(&item->mMatrix);
     item->mRank = 1;
-    item->mRankKartIndex = gRaceProgress->mKartAtRank[0];
+    item->mRankKartIndex = g_GlobalMV->mKartAtRank[0];
     item->mRankTargetSkipped = 0;
     item->mPosStrip = NULL;
     item->mSoundId = ITEM_KOURA_W_SOUND_ID_DEFAULT;
@@ -177,14 +177,14 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     FreeItemObjectCollisionSlot(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_HITS_FAR_KARTS;
     ClearItemKouraWKartItemsAndAngle(item);
-    if (gRaceProgress->mRaceDone != 0) {
+    if (g_GlobalMV->mRaceDone != 0) {
         item->mRank = 1;
-        item->mRankKartIndex = gRaceProgress->mKartAtRank[(item->mRank & 0xff) - 1];
+        item->mRankKartIndex = g_GlobalMV->mKartAtRank[(item->mRank & 0xff) - 1];
     } else {
-        item->mRankKartIndex = gRaceProgress->mKartAtRank[(item->mRank & 0xff) - 1];
-        while (IsKartEnded(item->mRankKartIndex) != 0 && item->mRank < (u32) gRaceSetup->mKartCount) {
+        item->mRankKartIndex = g_GlobalMV->mKartAtRank[(item->mRank & 0xff) - 1];
+        while (IsRacerFinishedRace(item->mRankKartIndex) != 0 && item->mRank < (u32) g_GlobalCO->mKartCount) {
             item->mRank++;
-            item->mRankKartIndex = gRaceProgress->mKartAtRank[(item->mRank & 0xff) - 1];
+            item->mRankKartIndex = g_GlobalMV->mKartAtRank[(item->mRank & 0xff) - 1];
         }
     }
     item->mLift = ITEM_KOURA_W_START_LIFT;
@@ -194,7 +194,7 @@ void InitItemKouraWCommon(ItemKouraW *item) {
     item->mSmoothedDirectionDelta.x = 0;
     item->mSmoothedDirectionDelta.y = 0;
     item->mSmoothedDirectionDelta.z = 0;
-    VEC_Subtract(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+    VecFx32_Subtract(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
                  &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer =
         &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos;
@@ -224,9 +224,9 @@ s32 InitItemKouraW(ItemInUse *itemInUse, ItemKouraW *item) {
     if (itemInUse->mKartItems->mItemLink.mLink != NULL) {
         InitLinkFollowingItemFromInUse(&item->mLinkFollowingItemObject, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000,
                                        item->mRankKartIndex, 1);
-        SetStateMachineState(&item->mStateMachine, ITEM_KOURA_W_STATE_PICK_TARGET);
+        StateDualHandler_SetState(&item->mStateMachine, ITEM_KOURA_W_STATE_PICK_TARGET);
     } else {
-        SetItemKouraWKartItems(item, (u16) gRaceProgress->mKartAtRank[0]);
+        SetItemKouraWKartItems(item, (u16) g_GlobalMV->mKartAtRank[0]);
         kart = item->mKartItems->mKart;
         item->mStateMachine.mNextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
                                            ITEM_OBJECT_FLAG_ON_BOOST_SURFACE) ||
@@ -258,11 +258,11 @@ void UpdateItemKouraWDrawPos(ItemKouraW *item) {
     if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_ON_BOOST_SURFACE) {
         item->mDrawOffsetAngle += 0x5dc;
         angleFactor = FX_SinIdx(item->mDrawOffsetAngle);
-        VEC_MultAdd(liftOffset + MUL_FIXED12_NO_ROUND(item->mBobAmplitudeOrGain, angleFactor),
+        VecFx32_AddScale1(liftOffset + MUL_FIXED12_NO_ROUND(item->mBobAmplitudeOrGain, angleFactor),
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mNormal,
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos, &buf);
-        VEC_Subtract(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos, &buf);
-        VEC_MultAdd(0x333, &buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos,
+        VecFx32_Subtract(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos, &buf);
+        VecFx32_AddScale1(0x333, &buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos,
                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos);
     } else {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDrawPos.y +=
@@ -290,22 +290,22 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
 
     if (normal != NULL) {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(
+            Vector3_MaybeNormalize(
                 direction, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2]);
         }
         smoothedDelta->x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0xccd);
         smoothedDelta->y = MUL_FIXED12_NO_ROUND(smoothedDelta->y, 0xccd);
         smoothedDelta->z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0xccd);
-        VEC_MultAdd(0x3000, smoothedDelta, normal, &buf);
-        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
+        VecFx32_AddScale1(0x3000, smoothedDelta, normal, &buf);
+        Vector3_Cross(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
                            &buf);
         if (LENGTH_SQUARED(buf) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(
+            Vector3_MaybeNormalize(
                 &buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         }
     } else {
         if (LENGTH_SQUARED(*direction) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(direction, &buf);
+            Vector3_MaybeNormalize(direction, &buf);
         }
         if (buf.x * buf.x + buf.z * buf.z < 0x112510) {
             return;
@@ -322,7 +322,7 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
         tiltedDirection.x = MUL_FIXED12_NO_ROUND(smoothedDelta->x, 0x3000);
         tiltedDirection.z = MUL_FIXED12_NO_ROUND(smoothedDelta->z, 0x3000);
         buf = tiltedDirection;
-        Vec3CrossUnrounded(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
+        Vector3_Cross(&buf, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
                            &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         if ((s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].x *
                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].x +
@@ -331,7 +331,7 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
                 (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z *
                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0].z >=
             0x10) {
-            ok = Vec3NormalizeAndGetLengthUnchecked(
+            ok = Vector3_MaybeNormalize(
                 &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0],
                 &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0]);
         } else {
@@ -344,14 +344,14 @@ void UpdateItemKouraWOrientation(ItemKouraW *item, Vec3 *direction, s32 followDe
             item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0] = sideDirection;
         }
     }
-    Vec3CrossUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
+    Vector3_Cross(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[2],
                        &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[0],
                        &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mTransformMtx.mRows[1]);
     *previousDirection = *direction;
 }
 
 void AdvanceItemKouraW(ItemKouraW *item) {
-    AdvanceStateMachine(&item->mStateMachine);
+    StateDualHandler_Execute(&item->mStateMachine);
     ClearItemObjectCollisionBits(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0x3c000400u);
 }
 
@@ -416,12 +416,12 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
     UpdateItemKouraWOrientation(item, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity, 1,
                                 normal);
     if (item->mRankTargetSkipped == 0) {
-        if (gRaceProgress->mRaceDone != 0) {
+        if (g_GlobalMV->mRaceDone != 0) {
             item->mRank = 1;
             item->mRankKartIndex = GetKartAtRank(item->mRank);
         } else {
             item->mRankKartIndex = GetKartAtRank(item->mRank);
-            while (IsKartEnded(item->mRankKartIndex) != 0 && (u32) item->mRank < gRaceSetup->mKartCount) {
+            while (IsRacerFinishedRace(item->mRankKartIndex) != 0 && (u32) item->mRank < g_GlobalCO->mKartCount) {
                 (item->mRank)++;
                 item->mRankKartIndex = GetKartAtRank(item->mRank);
             }
@@ -433,7 +433,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
                                         .mOwnerKartIndexAndFlags &
                                     ~ITEM_OWNER_FLAGS_MASK)
                            : ITEM_NO_KART_INDEX) ||
-            IsKartRemoved(GetKart(item->mRankKartIndex)) != 0) {
+            StructMQRacerEntry_HasFlags0x60(GetRacerMQEntry(item->mRankKartIndex)) != 0) {
             item->mRankTargetSkipped = 1;
         } else {
             item->mKartMask |= 1 << item->mRankKartIndex;
@@ -441,10 +441,10 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
     }
     if (item->mRankTargetSkipped != 0) {
         u32 kartCount;
-        kartCount = (u8) gRaceSetup->mKartCount;
+        kartCount = (u8) g_GlobalCO->mKartCount;
         for (rank = 1; rank <= kartCount; rank++) {
             item->mRankKartIndex = GetKartAtRank(rank);
-            if (IsKartRemoved(GetKart(item->mRankKartIndex)) == 0) {
+            if (StructMQRacerEntry_HasFlags0x60(GetRacerMQEntry(item->mRankKartIndex)) == 0) {
                 break;
             }
         }
@@ -466,7 +466,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
         return;
     }
     value = (u16) GetRaceUpdateFramesMod8();
-    if (BIT_IS_SET(item->mKartMask, value) && item->mRankKartIndex != value && IsKartEnded(value) != 0 &&
+    if (BIT_IS_SET(item->mKartMask, value) && item->mRankKartIndex != value && IsRacerFinishedRace(value) != 0 &&
         TrySetItemKouraWKartItems(item, value) != 0) {
         kart = item->mKartItems->mKart;
         entry = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
@@ -485,7 +485,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
     if (item->mStateMachine.mStateFrames <= ITEM_KOURA_W_PICK_TARGET_LIMIT_FRAMES) {
         return;
     }
-    entry = (u16) gRaceProgress->mKartAtRank[0];
+    entry = (u16) g_GlobalMV->mKartAtRank[0];
     if (item->mKartItems != NULL) {
         return;
     }
@@ -505,9 +505,9 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
 
 void EnterItemKouraWSteerToTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
-    item->mSpeed = VEC_Mag(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
+    item->mSpeed = VecFx32_Norm(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity);
     item->mRadiusOrEaseFactor = TO_FIXED12(30);
-    if (item->mKartItems->mKartIndex == gRaceSetup->mEntryIndex) {
+    if (item->mKartItems->mKartIndex == g_GlobalCO->mEntryIndex) {
         item->mSoundId = ITEM_KOURA_W_SOUND_ID_ENTRY_STEERING;
     }
 }
@@ -591,7 +591,7 @@ void EnterItemKouraWCircleTarget(void *stateObject) {
     ItemKouraW *item = stateObject;
     item->mBobAmplitudeOrGain = TO_FIXED12(5);
     item->mAngleStep = ITEM_KOURA_W_CIRCLE_START_ANGLE_STEP;
-    VEC_Subtract(&item->mToTarget, &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
+    VecFx32_Subtract(&item->mToTarget, &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
     if (item->mPosStrip != NULL) {
         StopPosStrip(item->mPosStrip);
         item->mPosStrip = NULL;
@@ -636,15 +636,15 @@ void UpdateItemKouraWCircleTarget(void *stateObject) {
             direction.x = item->mAnglePointOffset.x * 2;
             direction.y = item->mAnglePointOffset.y * 2;
             direction.z = item->mAnglePointOffset.z * 2;
-            Vec3CrossUnrounded(normal, &direction, &direction);
-            VEC_MultAdd(MUL_FIXED12_NO_ROUND(item->mAngle - 0x10000, 0xccd), normal, &direction, &direction);
+            Vector3_Cross(normal, &direction, &direction);
+            VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(item->mAngle - 0x10000, 0xccd), normal, &direction, &direction);
         } else {
             direction.x = MUL_FIXED12_NO_ROUND(item->mAnglePointOffset.z, 0x2000);
             direction.y = MUL_FIXED12_NO_ROUND(item->mAngle - 0x10000, 0xccd);
             direction.z = -MUL_FIXED12_NO_ROUND(item->mAnglePointOffset.x, 0x2000);
         }
         if (item->mStateMachine.mStateFrames == 0) {
-            VEC_Subtract(&direction, &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
+            VecFx32_Subtract(&direction, &item->mSmoothedDirectionDelta, &item->mPreviousDirection);
         }
         UpdateItemKouraWOrientation(item, &direction, 1, normal);
         return;
@@ -698,7 +698,7 @@ void UpdateItemKouraWRise(void *stateObject) {
     }
     normal = GetItemKouraWNormalOrNull(item);
     if (normal != NULL) {
-        VEC_MultAdd(item->mSpeed, normal, &item->mKartForward, &targetDirection);
+        VecFx32_AddScale1(item->mSpeed, normal, &item->mKartForward, &targetDirection);
     } else {
         directionZ = item->mKartForward.z;
         speed = item->mSpeed;
@@ -707,8 +707,8 @@ void UpdateItemKouraWRise(void *stateObject) {
         targetDirection.y = speed;
         targetDirection.z = directionZ;
     }
-    VEC_Subtract(&targetDirection, &item->mEasedDirection, &targetDirection);
-    VEC_MultAdd(item->mRadiusOrEaseFactor, &targetDirection, &item->mEasedDirection, &item->mEasedDirection);
+    VecFx32_Subtract(&targetDirection, &item->mEasedDirection, &targetDirection);
+    VecFx32_AddScale1(item->mRadiusOrEaseFactor, &targetDirection, &item->mEasedDirection, &item->mEasedDirection);
     UpdateItemKouraWOrientation(item, &item->mEasedDirection, 0, normal);
 }
 
@@ -746,7 +746,7 @@ void UpdateItemKouraWFall(void *stateObject) {
                                     &hitOffset, NULL, NULL,
                                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits,
                                     NULL, NULL, NULL, NULL) != 0) {
-            VEC_Add(&hitOffset, position, position);
+            VecFx32_Add(&hitOffset, position, position);
             FadeOutEndedItemObject(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0);
             if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
                 AddItemDataItemIdAndKart(ITEM_OBJECT_KIND_KOURA_W, item->mKartItems->mKartIndex,
@@ -775,7 +775,7 @@ void EnterItemKouraWBurst(void *stateObject) {
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_FIXED_SCALE;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = 0;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale = gKouraWBurstStartScale;
-    item->mModelEffect = StartModelEffect(
+    item->mModelEffect = MaybeRecreateExplosionInstance(
         MODEL_EFFECT_BOMBCORE2, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos,
         IsItemObjectTooFarForEffects(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject) == 0 ? 1 : 0);
     effect = item->mModelEffect;
@@ -795,7 +795,7 @@ void EnterItemKouraWBurst(void *stateObject) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(sndHandle, 0, 0xe0);
+            PlaySseqFromSarc(sndHandle, 0, 0xe0);
         }
     }
     StartCameraWobbleAtDistance(
@@ -831,7 +831,7 @@ void *CopyItemKouraWData(void *cursor, ItemKouraW *item, void *toData) {
     void *cursorAfterObject;
 
     if (item != NULL && toData != NULL) {
-        StoreItemDataFlagBit(Vec3DotUnrounded(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+        StoreItemDataFlagBit(VecFx32_CrossProduct_0(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
                                               &item->mLinkFollowingItemObject.mDirectedItemObject.mDirection) < 0
                                  ? 1
                                  : 0,
@@ -859,10 +859,10 @@ void InitItemKouraWFromData(ItemKouraW *item) {
     SetupItemObjectFromData(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     if (item->mLinkFollowingItemObject.mPreviousLink.mLink != NULL) {
         InitLinkFollowingItem(&item->mLinkFollowingItemObject, 0x14, 0xcc, 1, 0, item->mReverse,
-                              gRaceProgress->mKartAtRank[0], 1);
-        SetStateMachineState(&item->mStateMachine, ITEM_KOURA_W_STATE_PICK_TARGET);
+                              g_GlobalMV->mKartAtRank[0], 1);
+        StateDualHandler_SetState(&item->mStateMachine, ITEM_KOURA_W_STATE_PICK_TARGET);
     } else if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
-        kartIndex = (u16) gRaceProgress->mKartAtRank[0];
+        kartIndex = (u16) g_GlobalMV->mKartAtRank[0];
         if (item->mKartItems == NULL) {
             SetItemKouraWKartItems(item, kartIndex);
             kart = item->mKartItems->mKart;
@@ -875,7 +875,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
             item->mStateMachine.mNextStateRequested = 1;
         }
     } else {
-        kartIndex = (u16) gRaceProgress->mKartAtRank[0];
+        kartIndex = (u16) g_GlobalMV->mKartAtRank[0];
         SetItemKouraWKartItems(item, kartIndex);
         kart = item->mKartItems->mKart;
         nextState = ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags &
@@ -898,7 +898,7 @@ void InitItemKouraWFromData(ItemKouraW *item) {
             (s64) item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.z *
                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+        Vector3_MaybeNormalize(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
                                            &directionQuaternion.mDirection);
     }
     QuaternionFromYAxisToVec3(&directionQuaternion.mDirection, &directionQuaternion.mQuaternion);
@@ -973,7 +973,7 @@ void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
 // Asks for state 7 unless the object is already in it; returns 1.
 s32 RequestItemKouraWBurst(ItemKouraW *item) {
     if (item->mStateMachine.mState != ITEM_KOURA_W_STATE_BURST) {
-        InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
+        StateDualHandler_Create(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
         item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_BURST;
         item->mStateMachine.mNextStateRequested = 1;
         if ((item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
@@ -1017,7 +1017,7 @@ void SetupItemKouraWKind(void) {
     gKouraWBurstMaxRadiusSquared = maxRadius;
     gKouraWBurstMaxRadiusSquared = maxRadius * maxRadius;
     gKouraW = CreateItemNsbmd("koura_w.nsbmd", "koura_w.nsbtx");
-    if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
+    if (g_GlobalCO->mCourseId == COURSE_ID_RAINBOW) {
         NNS_G3dMdlSetMdlFogEnableFlagAll(gKouraW->mResMdl, 0);
     }
 }
@@ -1054,11 +1054,11 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
     if (itemInfoIndex == ITEM_INFO_NONE) {
         goto done;
     }
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         itemInfo = &gItemInfos[itemInfoIndex];
         objectCount = itemInfo->mObjectCount;
         dataSize = objectCount * GetItemDataSize(itemInfo->mObjectKind, 0);
-        if (ItemsIsItemInfoObjectCountFree(itemInfoIndex) != FALSE && gWiFiRaceSync->mUnusedItemDataBytes >= dataSize) {
+        if (ItemsIsItemInfoObjectCountFree(itemInfoIndex) != FALSE && g_GlobalAA->mUnusedItemDataBytes >= dataSize) {
             return FALSE;
         }
     } else {
@@ -1067,7 +1067,7 @@ BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer) {
         }
     }
 done:
-    *itemInfoIndexPointer = gRaceSetup->mMode == MODE_WIFI ? 4 : 2;
+    *itemInfoIndexPointer = g_GlobalCO->mMode == MODE_WIFI ? 4 : 2;
     return TRUE;
 }
 
@@ -1108,7 +1108,7 @@ void UpdateItems(void) {
     enum { POOL_INDEX_FIRST } poolIndex;
     u16 kartIndex;
 
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         AddQueuedItemData();
         ProcessDelayedItemData();
     }
@@ -1145,11 +1145,11 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
     if (gKartItems[kartIndex].mHeldItem.mItemInfoIndex != ITEM_INFO_NONE) {
         return;
     }
-    playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
+    playerKind = g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind;
     if (playerKind == PLAYER_KIND_PEER) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         isHumanGhostOrPeer = FALSE;
         if ((u32) playerKind > 3) {
         } else if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
@@ -1163,7 +1163,7 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
         } else if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
-        StartItemSlot(&gKartItems[kartIndex], forcedRowHandle, GetKartRank(kartIndex), isHumanGhostOrPeer ? 1 : 0,
+        StartItemSlot(&gKartItems[kartIndex], forcedRowHandle, GetSomeRacerFlags(kartIndex), isHumanGhostOrPeer ? 1 : 0,
                       shortSpin);
     }
 }
@@ -1186,12 +1186,12 @@ static inline s32 IsItemObjectHitKart(ItemObject *item, Kart *kart) {
         return 1;
     }
     if (item->mVelocity.x != 0 || item->mVelocity.y != 0 || item->mVelocity.z != 0 || kart->mForwardSpeed != 0) {
-        VEC_Subtract(&item->mPrevPos, &kart->mPrevPointAlongUp, &previousDelta);
+        VecFx32_Subtract(&item->mPrevPos, &kart->mPrevPointAlongUp, &previousDelta);
         previousDelta.y = 0;
-        VEC_Subtract(&item->mPos, &kart->mPointAlongUp, &delta);
+        VecFx32_Subtract(&item->mPos, &kart->mPointAlongUp, &delta);
         delta.y = 0;
-        previousDistanceSquared = Vec3DotUnrounded(&previousDelta, &previousDelta);
-        distanceSquared = Vec3DotUnrounded(&delta, &delta);
+        previousDistanceSquared = VecFx32_CrossProduct_0(&previousDelta, &previousDelta);
+        distanceSquared = VecFx32_CrossProduct_0(&delta, &delta);
         if (previousDistanceSquared - 0x1000 > distanceSquared) {
             return 1;
         }
@@ -1218,10 +1218,10 @@ s32 CollideKartWithItemObjects(Kart *kart) {
     isFarFromEntryKart = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
     hitCountCap = 0xf;
     for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
-        if (!(gFoundCollisionSlotFlags[overlapIndex] & 0x4000)) {
+        if (!(g_SomePointer6Size100[overlapIndex] & 0x4000)) {
             continue;
         }
-        item = gFoundCollisionSlotObjects[overlapIndex];
+        item = g_SomePointer7Size200[overlapIndex];
         if (isFarFromEntryKart && !(item->mFlags & ITEM_OBJECT_FLAG_HITS_FAR_KARTS)) {
             continue;
         }
@@ -1316,9 +1316,9 @@ void StartCourseMapItemObjects(void) {
     enum { KIND_FIRST } kind;
     CourseMapRow *row;
 
-    rowCount = gCourseMap->mRowCount;
+    rowCount = g_GlobalPE->mRowCount;
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-        row = &gCourseMap->mRows[rowIndex];
+        row = &g_GlobalPE->mRows[rowIndex];
         if (row->mKind == MAP_OBJECT_KIND_ITEM_PLACEMENT) {
             kind = row->mSettings[0];
             if (CollideSphereWithCourse(&row->mPosition, 0, 0, 0xa000, 8, -2, 0, &normal, 0, 0, 0, 0, 0,
@@ -1343,7 +1343,7 @@ void StartCourseMapItemObjects(void) {
 // Most item objects that one hit check can collect.
 #define COLLIDED_ITEM_OBJECT_CAPACITY 0x10
 
-void InitItems(void) {
+void MaybeLoadSlotListAndRacerPrs_from_thumb(void) {
     void *heap;
     s32 objectIdCounter;
     s32 kartIndex;
@@ -1351,7 +1351,7 @@ void InitItems(void) {
     HeldItem *heldItem;
     u8 kartCount;
 
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     objectIdCounter = 0;
     CreateItemSlotTables();
     StartThunderBlockTimer(1);
@@ -1361,26 +1361,26 @@ void InitItems(void) {
     InitItemKinds();
     CreateItemPushVector();
     InitItemPointLinkDirections();
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     gKartItemsCount = kartCount;
-    gKartItems = HeapAlloc(heap, kartCount * 0x210);
+    gKartItems = Mem_AllocateHeap(heap, kartCount * 0x210);
     for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
-        InitKartItems(&gKartItems[kartIndex], kartIndex);
+        StructPR_Load_from_thumb(&gKartItems[kartIndex], kartIndex);
     }
-    gItemPools = HeapAlloc(heap, ITEM_OBJECT_KIND_COUNT * sizeof(*gItemPools));
+    gItemPools = Mem_AllocateHeap(heap, ITEM_OBJECT_KIND_COUNT * sizeof(*gItemPools));
     for (kind = 0; kind < ITEM_OBJECT_KIND_COUNT; kind++) {
         CreateItemPool(&gItemPools[kind], kind, &objectIdCounter);
     }
-    CreateItemModels();
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    LoadItems_from_thumb();
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         InitItemDataQueueLinks();
         InitItemDataDelayedLinks();
     }
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+    if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
         for (kartIndex = 0; kartIndex < gKartItemsCount; kartIndex++) {
             heldItem = &gKartItems[kartIndex].mHeldItem;
             SetHeldItem(heldItem, ITEM_INFO_KINOKO_THREE);
-            switch (GetKartVariant(kartIndex)) {
+            switch (GetAD00SubKartIndexMod3(kartIndex)) {
                 case 0:
                     RemoveHeldItemObjects(heldItem, 1);
                     break;
@@ -1391,7 +1391,7 @@ void InitItems(void) {
         }
     }
     gCollidedItemObjects =
-        HeapAlloc(GetHeap(GetCurrentHeapCall()), COLLIDED_ITEM_OBJECT_CAPACITY * sizeof(*gCollidedItemObjects));
+        Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), COLLIDED_ITEM_OBJECT_CAPACITY * sizeof(*gCollidedItemObjects));
     StartCourseMapItemObjects();
     CreateItemTeresaFrameScaleTable();
     InitOrthoQuads();

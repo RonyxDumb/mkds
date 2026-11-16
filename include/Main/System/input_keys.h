@@ -3,13 +3,13 @@
 #include "types.h"
 #include "Main/System/input_slots.h"
 
-// A byte stream of pad key bits (gKeyStream): buffer bounds, position, highest position written, element size and mask.
+// A byte stream of pad key bits (g_GlobalIG): buffer bounds, position, highest position written, element size and mask.
 typedef struct KeyStream {
     /* 00 */ u8 *mStart;
     /* 04 */ u8 *mEnd;
     /* 08 */ u8 *mPosition;
     /* 0c */ u8 *mHighestWritten;
-    /* 10 */ u32 mUnk_10;
+    /* 10 */ u32 mFlipX;
     /* 14 */ u32 mElementSize;
     /* 18 */ u16 mKeyMask;
 } KeyStream;
@@ -23,12 +23,12 @@ typedef struct KeyStream {
 #define KEY_STREAM_SEEK_CURRENT 1
 #define KEY_STREAM_SEEK_END 2
 
-u32 ReadKeyBitsFromStream(void);
+u32 GetSomeInput(void);
 void WriteKeyBitsToStream(u32 keys);
 void SeekKeyStream(u32 count, u32 origin);
-void ReadKeysIntoInputSlot(void);
-void ResetKeysInputSlot(void);
-void StartupResetKeysInputSlot(void);
+void UpdateInput(void);
+void InitializeGlobalG_2(void);
+void InitializeGlobalG_M1(void);
 
-extern KeyStream gKeyStream;
-extern InputSlotHead gKeysInputSlot;
+extern KeyStream g_GlobalIG;
+extern InputSlotHead g_GlobalG;

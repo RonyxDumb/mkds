@@ -24,12 +24,12 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer);
 void InitKartAiTableIndices(void);
 void InitKartAiGrandPrixPoints(void);
 void InitKartAiNonCpuCounts(void);
-void InitKartAiShared(void);
-void SetKartAiParamRow(void);
+void CreateGlobalAEBC_from_thumb(void);
+void MaybeLoadKartAIData_from_thumb(void);
 
 // The row of 'kartAIparam.bin' for this race; NULL in battle and when RaceSetup.mRaceKind is 5 or 6.
-extern KartAiParamRow *gKartAiParamRow;
-extern struct KartAiShared *gKartAiShared;
+extern KartAiParamRow *g_KartAIParamPtr;
+extern struct KartAiShared *g_GlobalAEBC;
 
 // Values of KartAiShared.mEngineOrDifficultyIndex, the row of the CPU tables: slow engine or easy, medium or normal,
 // fast engine or hard.

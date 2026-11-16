@@ -47,7 +47,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
 
 u16 *GetKartIndicesByDistance(void);
 u16 GetKartPaletteColorFromTable(int index);
-u32 GetKartCameraDistanceSquared(int kartIndex);
+u32 GetAED0PlayerUnk(int kartIndex);
 void DrawKartNameTags(MtxFx43 *viewMatrix);
 void SortKartsByDistanceOnePass(void);
 void SortKartsByDistanceAlongViewOnePass(void);
@@ -71,14 +71,14 @@ extern s32 gKartNameTagLineXOffset;
 extern const Vec3 gChaseDistanceLimitsSquared;
 extern const Vec3 gOtherCameraDistanceLimitsSquared;
 
-extern u8 *gKartEntryNameTexBuffer;
-extern u16 *gKartEntryNamePlltBuffer;
-extern u8 *gKartNameTagMaskedTexBuffer;
-extern struct KartNameTags *gKartNameTags;
-extern u16 *gKartEmblemPlltBuffer;
+extern u8 *g_TempBuffer2_0x100;
+extern u16 *g_TempBuffer3_0x8;
+extern u8 *g_TempBuffer4_0x200;
+extern struct KartNameTags *g_GlobalAED0;
+extern u16 *g_TempBuffer1_0x20;
 extern const Vec3 *gKartDistanceLimitsSquared;
 extern s32 gKartNameTagsUnusedWord;
-extern MtxFx44 gKartNameTagProjection;
+extern MtxFx44 g_SomeMatrix4x4;
 
 extern const u16 gKartNameTagColorQuadPalette[4];
 

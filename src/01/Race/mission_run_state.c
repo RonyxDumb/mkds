@@ -47,7 +47,7 @@ void AddMissionRunMapObject(MissionRunMapObject *mapObject) {
     u8 kartCount;
     u16 entryIndex;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     entryIndex = gMissionRunData->mMapObjectCount + kartCount;
     gMissionRunData->mMapObjects[entryIndex - kartCount] = mapObject;
     ClearStandingEliminationStatus(entryIndex);
@@ -55,22 +55,22 @@ void AddMissionRunMapObject(MissionRunMapObject *mapObject) {
 }
 
 MissionRunMapObject *GetMissionRunMapObject(int entryIndex) {
-    return gMissionRunData->mMapObjects[entryIndex - gRaceSetup->mKartCount];
+    return gMissionRunData->mMapObjects[entryIndex - g_GlobalCO->mKartCount];
 }
 
 u8 MissionRunGetCurrentKartCount(void) {
-    return gRaceSetup->mKartCount;
+    return g_GlobalCO->mKartCount;
 }
 
 u16 GetMissionRunMapObjectLastIndex(void) {
-    return gMissionRunData->mMapObjectCount + gRaceSetup->mKartCount - 1;
+    return gMissionRunData->mMapObjectCount + g_GlobalCO->mKartCount - 1;
 }
 
 void AddMissionRunCount(void) {
     MissionRunData *missionRunData;
     u32 countLimit;
 
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
+    if ((g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
         return;
     }
     missionRunData = gMissionRunData;
@@ -80,7 +80,7 @@ void AddMissionRunCount(void) {
     }
     missionRunData->mCount = missionRunData->mCount + 1;
     StartMissionRunCountSeq(gMissionRunData->mCount, GetMissionRunCountLimit());
-    switch (gRaceSetup->mMissionKind) {
+    switch (g_GlobalCO->mMissionKind) {
         case MISSION_KIND_COUNT_SHAPE_ENTRIES:
         case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
         case MISSION_KIND_COUNT_MAP_OBJECTS:
@@ -88,7 +88,7 @@ void AddMissionRunCount(void) {
         case MISSION_KIND_COUNT_HITS:
             countLimit = GetMissionRunCountLimit();
             if (gMissionRunData->mCount >= countLimit) {
-                FinishMissionRunKartAtGoal(gRaceSetup->mEntryIndex);
+                FinishMissionRunKartAtGoal(g_GlobalCO->mEntryIndex);
             }
             break;
     }
@@ -114,8 +114,8 @@ void CreateMissionRunData(void) {
     Kart *kart;
     MissionRunData *missionRunData;
 
-    gMissionRunData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MissionRunData));
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    gMissionRunData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MissionRunData));
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     missionRunData = gMissionRunData;
     missionRunData->mPrevKartPos = kart->mPos;
     missionRunData->mKartPos = missionRunData->mPrevKartPos;
@@ -128,7 +128,7 @@ void UpdateMissionRunData(void) {
     Kart *kart;
     MissionRunData *missionRunData;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     if ((kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0) {
         missionRunData = gMissionRunData;
         missionRunData->mPrevKartPos = missionRunData->mKartPos;
@@ -137,13 +137,13 @@ void UpdateMissionRunData(void) {
         missionRunData->mKartPos = kart->mPos;
         missionRunData->mKartHeadingAngle = kart->mHeadingAngle;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
-        if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
-            if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex)) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) g_GlobalCO->mEntryIndex) : 0) {
+            if (GetBalloonOrShineCount(g_GlobalCO->mEntryIndex)) {
                 gMissionRunData->mSinceHitCallbackFrames += 1;
                 if (gMissionRunData->mSinceHitCallbackFrames > MISSION_RUN_SELF_HIT_CALLBACK_FRAMES) {
                     gMissionRunData->mSinceHitCallbackFrames = 0;
-                    CallKartHitCallbackForSelf(gRaceSetup->mEntryIndex);
+                    CallKartHitCallbackForSelf(g_GlobalCO->mEntryIndex);
                     return;
                 }
             }
@@ -151,7 +151,7 @@ void UpdateMissionRunData(void) {
         return;
     }
     {
-        u32 missionKind = gRaceSetup->mMissionKind;
+        u32 missionKind = g_GlobalCO->mMissionKind;
         if (missionKind == MISSION_KIND_COUNT_PENDING_WITH_SEQ || missionKind == MISSION_KIND_COUNT_PENDING) {
             if (GetRaceUpdateFramesMod8() == 0) {
                 missionRunData = gMissionRunData;
@@ -218,7 +218,7 @@ u32 GetMissionRunCount(void) {
 }
 
 u32 GetMissionRunCountLimit(void) {
-    u32 countLimit = gRaceSetup->mMissionRunCountLimit;
+    u32 countLimit = g_GlobalCO->mMissionRunCountLimit;
     if (countLimit == 0) {
         countLimit = 1;
     }
@@ -230,13 +230,13 @@ s32 GetMissionRunBossCount(void) {
 }
 
 void AddMissionRunCountForHit(void) {
-    if (gRaceSetup->mMissionKind == MISSION_KIND_COUNT_HITS) {
+    if (g_GlobalCO->mMissionKind == MISSION_KIND_COUNT_HITS) {
         AddMissionRunCount();
     }
 }
 
 void AddMissionRunCountForMapObjectKind(s32 mapObjectKind) {
-    RaceSetup *raceSetup = gRaceSetup;
+    RaceSetup *raceSetup = g_GlobalCO;
     u32 missionKind = raceSetup->mMissionKind;
     if (missionKind == MISSION_KIND_COUNT_MAP_OBJECTS || missionKind == MISSION_KIND_COUNT_HITS ||
         missionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
@@ -256,19 +256,19 @@ void AddMissionRunCountForMapObjectKind(s32 mapObjectKind) {
 }
 
 void AddMissionRunPendingDropOnKartHit(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AddMissionRunPendingDrop(5);
     }
 }
 
 void AddMissionRunCountForMiniTurbo(void) {
-    if (gRaceSetup->mMissionKind == MISSION_KIND_LAPS_MINI_TURBO_COUNT) {
+    if (g_GlobalCO->mMissionKind == MISSION_KIND_LAPS_MINI_TURBO_COUNT) {
         AddMissionRunCount();
     }
 }
 
 void AddMissionRunCountForShapeEntry(void) {
-    if (gRaceSetup->mMissionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
+    if (g_GlobalCO->mMissionKind == MISSION_KIND_COUNT_SHAPE_ENTRIES) {
         AddMissionRunCount();
     }
 }

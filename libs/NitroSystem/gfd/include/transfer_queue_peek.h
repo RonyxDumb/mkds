@@ -5,5 +5,5 @@
 
 typedef struct NNSGfdVramTransferTaskQueue NNSGfdVramTransferTaskQueue;
 
-NNSGfdVramTransferTask *NNSi_GfdGetEndVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue);
-NNSGfdVramTransferTask *NNSi_GfdGetFrontVramTransferTaskQueue(NNSGfdVramTransferTaskQueue *queue);
+NNSGfdVramTransferTask *StructTEQ_GetNextFreeTEQSub(NNSGfdVramTransferTaskQueue *queue);
+NNSGfdVramTransferTask *StructTEQ_GetTopUsedTEQSub(NNSGfdVramTransferTaskQueue *queue);

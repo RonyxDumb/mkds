@@ -13,8 +13,8 @@ s32 IsScanBlockGameInfoMatch(WMBssDesc *bssDesc) {
     if (bssDesc->mGameInfoLength == 0) {
         return 0;
     }
-    MI_CpuCopy8(&bssDesc->mGameInfo.mUserGameInfo, userGameInfo, 8);
-    DC_StoreRange(userGameInfo, 8);
+    Mem_CpuCopy8(&bssDesc->mGameInfo.mUserGameInfo, userGameInfo, 8);
+    DC_SomeClean(userGameInfo, 8);
     if (bssDesc->mGameInfo.mGgid == 0) {
         if (userGameInfo[0] == 0x2348 || userGameInfo[0] == 0xbd8a) {
             if (userGameInfo[3] == 4) {

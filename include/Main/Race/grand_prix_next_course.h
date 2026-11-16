@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetNextGrandPrixCourse(void);
+void PrepareForCourseIntro(void);

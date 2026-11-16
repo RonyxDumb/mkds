@@ -50,21 +50,21 @@ void LoadKartIconData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gKartIconNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gKartIconNcerName);
-    LoadNcerData(&cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gKartIconNcgrName);
+    Gfx_ReadCharGraphicsV2(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gKartIconNcerName);
+    LoadCellBankFrom(&cells, sceneFile);
     paletteCount = 0;
     nclrNameCursor = gKartIconNclrNames;
     do {
-        sceneFile = FindSceneFile(*nclrNameCursor);
-        LoadNclrData(palette, sceneFile);
+        sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(*nclrNameCursor);
+        Gfx_ReadPalette(palette, sceneFile);
         nclrNameCursor = nclrNameCursor + 1;
         paletteCount = paletteCount + 1;
     } while (paletteCount < 3);
 }
 
-void LoadCommonKartIconData(void) {
+void VerifyKartIconFiles_from_thumb(void) {
     void *sceneFile;
     int paletteCount;
     const char **nclrNameCursor;
@@ -74,15 +74,15 @@ void LoadCommonKartIconData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gCommonKartIconNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gCommonKartIconNcerName);
-    LoadNcerData(&cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonKartIconNcgrName);
+    Gfx_ReadCharGraphicsV2(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonKartIconNcerName);
+    LoadCellBankFrom(&cells, sceneFile);
     paletteCount = 0;
     nclrNameCursor = gCommonKartIconNclrNames;
     do {
-        sceneFile = FindSceneFile(*nclrNameCursor);
-        LoadNclrData(palette, sceneFile);
+        sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(*nclrNameCursor);
+        Gfx_ReadPalette(palette, sceneFile);
         nclrNameCursor = nclrNameCursor + 1;
         paletteCount = paletteCount + 1;
     } while (paletteCount < 3);
@@ -95,13 +95,13 @@ void LoadCommonKartIconData(void) {
 void CreateKartIcon(void *heap) {
     int nclrIndex;
 
-    gKartIcon = HeapAlloc(heap, sizeof(*gKartIcon));
-    LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gKartIconNcgrName));
-    LocateNcer(&gKartIcon->mNcer, FindSceneFile(gKartIconNcerName));
+    gKartIcon = Mem_AllocateHeap(heap, sizeof(*gKartIcon));
+    Gfx_ReadCharGraphicsRelative(&gKartIcon->mNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gKartIconNcgrName));
+    LocateNcer(&gKartIcon->mNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gKartIconNcerName));
     for (nclrIndex = 0; nclrIndex < 3; nclrIndex++) {
-        LocateNclr(&gKartIcon->mNclrs[nclrIndex], FindSceneFile(gKartIconNclrNames[nclrIndex]));
+        Gfx_ReadPaletteRelative(&gKartIcon->mNclrs[nclrIndex], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gKartIconNclrNames[nclrIndex]));
     }
-    gKartIcon->mBncl = FindSceneFile(gKartIconBnclName);
+    gKartIcon->mBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gKartIconBnclName);
 }
 
 #pragma thumb off
@@ -111,13 +111,13 @@ void CreateKartIcon(void *heap) {
 void CreateCommonKartIcon(void *heap) {
     s32 nclrIndex;
 
-    gKartIcon = HeapAlloc(heap, sizeof(*gKartIcon));
-    LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gCommonKartIconNcgrName));
-    LocateNcer(&gKartIcon->mNcer, FindSceneFile(gCommonKartIconNcerName));
+    gKartIcon = Mem_AllocateHeap(heap, sizeof(*gKartIcon));
+    Gfx_ReadCharGraphicsRelative(&gKartIcon->mNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonKartIconNcgrName));
+    LocateNcer(&gKartIcon->mNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonKartIconNcerName));
     for (nclrIndex = 0; nclrIndex < 3; nclrIndex++) {
-        LocateNclr(&gKartIcon->mNclrs[nclrIndex], FindSceneFile(gCommonKartIconNclrNames[nclrIndex]));
+        Gfx_ReadPaletteRelative(&gKartIcon->mNclrs[nclrIndex], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonKartIconNclrNames[nclrIndex]));
     }
-    gKartIcon->mBncl = FindSceneFile(gCommonKartIconBnclName);
+    gKartIcon->mBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gCommonKartIconBnclName);
 }
 
 #pragma thumb off
@@ -145,7 +145,7 @@ void QueueKartIcon(s32 iconIndex, NNSG2dCellDataBank *destinationNcer, LayoutEnt
     }
     QueueCellChars(gKartIconRows[iconIndex].mBnclIndex, gKartIcon->mNcer, gKartIcon->mNcgr, gKartIcon->mBncl,
                    queueSelector, destinationBnclIndex, destinationNcer, destinationBncl);
-    NNS_GfdRegisterNewVramTransferTask(
+    AllocateReserveTEQSub(
         queueKind, paletteIndex * 32,
         gKartIcon->mNclrs[gKartIconRows[iconIndex].mNclrIndex]->mData + gKartIconRows[iconIndex].mNclrStart * 16, 0x20);
 }

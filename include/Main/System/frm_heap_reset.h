@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ResetFrmHeap(void);
+void ResetDTCMFrameHeap(void);

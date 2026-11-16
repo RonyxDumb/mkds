@@ -3,7 +3,7 @@
 #include "types.h"
 #include "fixed_vector_math.h" // Vec3s16
 
-// Sixteen bytes; gCourseCollision.mUnk_08 points to an array of these, which CollideSphereWithCourse indexes by
+// Sixteen bytes; g_LoadedCourseKclHeader.mUnk_08 points to an array of these, which CollideSphereWithCourse indexes by
 // halfwords.
 typedef struct CourseTriangle {
     /* 00 */ s32 mThirdEdgeOffset;

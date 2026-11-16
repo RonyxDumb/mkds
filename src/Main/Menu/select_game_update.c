@@ -14,9 +14,9 @@ void WriteSelectGameRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         BattleGX_SetVisiblePlane(0x18);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         BattleGXS_SetVisiblePlane(0x12);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectGameMainRegisters();
 }
@@ -28,7 +28,7 @@ void WriteSelectGameRegisters(void) {
 void UpdateSelectGame(void) {
     switch (AdvanceSelectGame()) {
         case MENU_SCREEN_RESULT_NEXT:
-            switch (GetRaceSetupCopy()->mMode) {
+            switch (GetGlobalCA_from_thumb()->mMode) {
                 case MODE_VS:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_VS, SCREEN_NONE);
                     break;

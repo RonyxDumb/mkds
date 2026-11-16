@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void WriteBackupCourseTimeRecords(void);
-void WriteBackupGrandPrixRecords(void);
+void WriteTimeTrialsSaveDataSection_from_thumb(void);
+void SaveNKGPChunk_from_thumb(void);
 void WriteBackupEmblem(void);

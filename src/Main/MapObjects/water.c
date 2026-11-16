@@ -42,7 +42,7 @@
 #include "Main/MapObjects/kuribo_init.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-const u32 gWaterCMaterialName[4] = {0x65746177, 0x4372, 0, 0};
+const u32 g_str_waterC[4] = {0x65746177, 0x4372, 0, 0};
 const MapObjectKindDescriptor gWaterKindDescriptor = {0,
                                                    {0, 0},
                                                    0xa0,
@@ -69,9 +69,9 @@ void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
     mapObject->mFlags &= ~8;
     mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
     createWater();
-    gWater->mEfctNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
-    gWater->mEfctNsbcaFile = FindCourseFile("MapObj/water_efct.nsbca");
-    gWater->mEfctNsbmaFile = FindCourseFile("MapObj/water_efct.nsbma");
+    gWater->mEfctNsbmdFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/water_efct.nsbmd");
+    gWater->mEfctNsbcaFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/water_efct.nsbca");
+    gWater->mEfctNsbmaFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/water_efct.nsbma");
 }
 
 // One step per UpdateRace call while the course has water: advances the height swing (4 states) and the two circles;
@@ -88,7 +88,7 @@ void UpdateWater(Water *water) {
     s32 modelCIndex;
     soundHandleSlot = GetSndHandleSlot(10);
     if (water->mIsHeightUsed != 0) {
-        if (gRaceSetup->mCourseId != COURSE_ID_BEACH) {
+        if (g_GlobalCO->mCourseId != COURSE_ID_BEACH) {
             volume = 0x7f000;
         } else {
             volume = GetDistanceSoundInverseVolume();
@@ -165,13 +165,13 @@ void UpdateWater(Water *water) {
     modelCAngle = water->mCircleAngle - water->mModelCAngleOffset;
     if (water->mModelAFile != NULL) {
         modelAIndex = (water->mCircleAngle >> 4) * 2;
-        water->mModelAX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelARadius, FX_SinCosTable_[modelAIndex]);
+        water->mModelAX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelARadius, g_SinFx16Table_AndCos[modelAIndex]);
         water->mModelAZ =
-            water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelARadius, FX_SinCosTable_[modelAIndex + 1]);
+            water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelARadius, g_SinFx16Table_AndCos[modelAIndex + 1]);
     }
     modelCIndex = (modelCAngle >> 4) * 2;
-    water->mModelCX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelCRadius, FX_SinCosTable_[modelCIndex]);
-    water->mModelCZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelCRadius, FX_SinCosTable_[modelCIndex + 1]);
+    water->mModelCX = water->mCenterX + MUL_FIXED12_NO_ROUND(water->mModelCRadius, g_SinFx16Table_AndCos[modelCIndex]);
+    water->mModelCZ = water->mCenterZ + MUL_FIXED12_NO_ROUND(water->mModelCRadius, g_SinFx16Table_AndCos[modelCIndex + 1]);
 }
 
 // Draws model A (when it exists) and model C at their circle positions and mHeight, in the order of mDrawModelAFirst;
@@ -207,7 +207,7 @@ void DrawWater(Water *water, struct MtxFx43 *unused) {
 
 MapObjectKindData *CreateWaterEfctKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     {
         MapObjectKindData emptyKindData = {0};
         *kindData = emptyKindData;
@@ -254,48 +254,48 @@ void InitWaterFields(s32 highHeight, s32 lowHeight, s32 modelARadius, s32 modelC
 }
 
 void CreateMiniStage3Water(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
+    gWater = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gWater));
     InitWaterFields(0xe8000, 0xc5000, 0x50000, 0x32000, 0x3c000, 0x7fff, 0x3fff, 0x1f4, 0x12c, 0x12c, 1, 5, 0xa, 0xa,
                     1);
-    gWater->mModelAFile = FindCourseMapObjFile("mini_stage3_waterA.nsbmd");
-    gWater->mModelCFile = FindCourseMapObjFile("mini_stage3_waterC.nsbmd");
+    gWater->mModelAFile = FormatFindMapObjFileBuffer_from_thumb("mini_stage3_waterA.nsbmd");
+    gWater->mModelCFile = FormatFindMapObjFileBuffer_from_thumb("mini_stage3_waterC.nsbmd");
     SetCourseWater(gWater);
 }
 
 void CreateBeachWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
+    gWater = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gWater));
     InitWaterFields(0x78000, 0x62000, 0x50000, 0x43000, 0x3c000, 0x7fff, 0x3fff, 0x1f4, 0x96, 0x96, 1, 6, 0xa, 0xa, 1);
-    gWater->mModelAFile = FindCourseMapObjFile("beach_waterA.nsbmd");
-    gWater->mModelCFile = FindCourseMapObjFile("beach_waterC.nsbmd");
+    gWater->mModelAFile = FormatFindMapObjFileBuffer_from_thumb("beach_waterA.nsbmd");
+    gWater->mModelCFile = FormatFindMapObjFileBuffer_from_thumb("beach_waterC.nsbmd");
     SetCourseWater(gWater);
 }
 
 void CreateTownWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
+    gWater = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gWater));
     InitWaterFields(0, 0, 0x29000, 0x1e000, 0xb000, 0x4e20, 0x3fff, 0x12c, 0x78, 0x1e, 1, 0xd, 0x19, 0x10, 0);
-    gWater->mModelAFile = FindCourseMapObjFile("town_waterA.nsbmd");
-    gWater->mModelCFile = FindCourseMapObjFile("town_waterC.nsbmd");
+    gWater->mModelAFile = FormatFindMapObjFileBuffer_from_thumb("town_waterA.nsbmd");
+    gWater->mModelCFile = FormatFindMapObjFileBuffer_from_thumb("town_waterC.nsbmd");
     SetCourseWater(gWater);
 }
 
 void CreateYoshiWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
+    gWater = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gWater));
     InitWaterFields(0, 0, 0xc8000, 0x55000, 0x3c000, 0x7fff, 0x3fff, 0x1c2, 0x78, 0x1e, 1, 0xa, 0x17, 0x10, 0);
     gWater->mModelAFile = NULL;
-    gWater->mModelCFile = FindCourseMapObjFile("yoshi_waterC.nsbmd");
+    gWater->mModelCFile = FormatFindMapObjFileBuffer_from_thumb("yoshi_waterC.nsbmd");
     SetCourseWater(gWater);
 }
 
 void CreateHyudoroWater(void) {
-    gWater = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gWater));
+    gWater = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gWater));
     InitWaterFields(0, 0, 0x63000, 0x4d000, 0x1e000, 0x7fff, 0x3fff, 0x1c2, 0x78, 0x1e, 1, 0xf, 0x19, 0x10, 0);
-    gWater->mModelAFile = FindCourseMapObjFile("hyudoro_waterA.nsbmd");
-    gWater->mModelCFile = FindCourseMapObjFile("hyudoro_waterC.nsbmd");
+    gWater->mModelAFile = FormatFindMapObjFileBuffer_from_thumb("hyudoro_waterA.nsbmd");
+    gWater->mModelCFile = FormatFindMapObjFileBuffer_from_thumb("hyudoro_waterC.nsbmd");
     SetCourseWater(gWater);
 }
 
 // Once per course, from RunMapObjectDrawListInits in InitMapObjects: builds the embedded model of each file (mModelA
-// only when A exists, mModelC) and sets material values (NNS_G3dMdlSetMdlPolygonID: 1 for A, 2 for C; the two 5-bit
+// only when A exists, mModelC) and sets material values (ModelBlock_SomeTexPltFn_3: 1 for A, 2 for C; the two 5-bit
 // values mModelAAlpha / mModelCMaterialAlpha through NNS_G3dMdlSetMdlAlpha).
 void InitWaterModels(Water *water) {
     u32 materialIndex;
@@ -304,32 +304,32 @@ void InitWaterModels(Water *water) {
     s32 alphaMaterialIndex;
     u32 modelAAlpha;
     if (water->mModelAFile != NULL) {
-        InitNsbmd(&water->mModelA, water->mModelAFile);
+        StructML_LoadModel2(&water->mModelA, water->mModelAFile);
         materialIndex = 0;
         modelResMdl = water->mModelA.mResMdl;
         for (; materialIndex < modelResMdl->mInfo.mNumMat; materialIndex++) {
-            NNS_G3dMdlSetMdlEmi(modelResMdl, materialIndex, 0x294a);
+            ModelBlock_SomeTexPltFn_7(modelResMdl, materialIndex, 0x294a);
         }
         materialIndex = 0;
         modelResMdl = water->mModelA.mResMdl;
         for (; materialIndex < modelResMdl->mInfo.mNumMat; materialIndex++) {
-            NNS_G3dMdlSetMdlPolygonID(modelResMdl, materialIndex, 1);
+            ModelBlock_SomeTexPltFn_3(modelResMdl, materialIndex, 1);
         }
     }
-    InitNsbmd(&water->mModelC, water->mModelCFile);
+    StructML_LoadModel2(&water->mModelC, water->mModelCFile);
     materialIndex = 0;
     modelResMdl = water->mModelC.mResMdl;
     for (; materialIndex < modelResMdl->mInfo.mNumMat; materialIndex++) {
-        NNS_G3dMdlSetMdlEmi(modelResMdl, materialIndex, 0x294a);
+        ModelBlock_SomeTexPltFn_7(modelResMdl, materialIndex, 0x294a);
     }
     materialIndex = 0;
     modelResMdl = water->mModelC.mResMdl;
     for (; materialIndex < modelResMdl->mInfo.mNumMat; materialIndex++) {
-        NNS_G3dMdlSetMdlPolygonID(modelResMdl, materialIndex, 2);
+        ModelBlock_SomeTexPltFn_3(modelResMdl, materialIndex, 2);
     }
     modelCResMdl = water->mModelC.mResMdl;
     alphaMaterialIndex =
-        NNS_G3dGetResDictIdxByName((u8 *) modelCResMdl + modelCResMdl->mOfsMat + 4, gWaterCMaterialName);
+        Dict_SomeFn_0((u8 *) modelCResMdl + modelCResMdl->mOfsMat + 4, g_str_waterC);
     if (water->mModelAFile != NULL) {
         modelAAlpha = water->mModelAAlpha;
         materialIndex = 0;
@@ -343,12 +343,12 @@ void InitWaterModels(Water *water) {
 
 void CreateWaterEfct(MapObject *mapObject) {
     WaterEfct *waterEfct;
-    waterEfct = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(WaterEfct));
+    waterEfct = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(WaterEfct));
     gWaterEfct = waterEfct;
     waterEfct->mHeight = mapObject->mPos.y;
-    gWaterEfct->mNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
-    gWaterEfct->mNsbcaFile = FindCourseFile("MapObj/water_efct.nsbca");
-    gWaterEfct->mNsbmaFile = FindCourseFile("MapObj/water_efct.nsbma");
+    gWaterEfct->mNsbmdFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/water_efct.nsbmd");
+    gWaterEfct->mNsbcaFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/water_efct.nsbca");
+    gWaterEfct->mNsbmaFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/water_efct.nsbma");
     SetCourseWaterEfct(gWaterEfct);
 }
 

@@ -1,7 +1,7 @@
 #include "cpu_copy_clear_16.h"
 
 // Copies size bytes from srcp to destp, a halfword at a time.
-void MIi_CpuCopy16(const void *srcp, void *destp, s32 size) {
+void CopyMemory16(const void *srcp, void *destp, s32 size) {
     s32 offset;
 
     offset = 0;
@@ -15,7 +15,7 @@ void MIi_CpuCopy16(const void *srcp, void *destp, s32 size) {
 }
 
 // Stores data at destp, a halfword at a time, for size bytes.
-void MIi_CpuClear16(u16 data, void *destp, s32 size) {
+void Mem_CpuFill16(u16 data, void *destp, s32 size) {
     s32 offset;
 
     offset = 0;

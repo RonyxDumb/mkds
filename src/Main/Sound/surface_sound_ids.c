@@ -35,7 +35,7 @@ const u16 gSurfaceSoundColumnIndices[24][8] = {{0, 3, 4, 1, 0xa, 9, 0xc, 0xe},
                                                {0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14},
                                                {0, 0, 0, 0, 0, 0, 0, 0}};
 const LoadedSoundBanks gLoadedSoundBanksAfterRelease = {0, {0, 0}, 0xff00};
-const u8 gOnMemorySdat[6909] __attribute__((aligned(32))) = {
+const u8 g_OnmemSdatPtr[6909] __attribute__((aligned(32))) = {
     0x53, 0x44, 0x41, 0x54, 0xff, 0xfe, 0,    1,    0,    0x1b, 0,    0,    0x40, 0,    4,    0,    0x40, 0,    0,
     0,    0x24, 2,    0,    0,    0x64, 2,    0,    0,    0x8c, 0,    0,    0,    0xf0, 2,    0,    0,    0x3c, 0,
     0,    0,    0x2c, 3,    0,    0,    0xd4, 0x17, 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
@@ -413,9 +413,9 @@ u8 gSurfaceSoundIdRowTable[152] = {
     0,    0x67, 0,    0x71, 0,    0x6d, 0,    0x67, 0,    0x67, 0,    0x67, 0,    0x6e, 0,    0x67, 0,    0x67, 0,
     0x8f, 0,    0x90, 0,    0x91, 0,    0x91, 0,    0x92, 0,    0x91, 0,    0x93, 0,    0x94, 0,    0x95, 0,    0x94,
     0,    0x96, 0,    0x97, 0,    0x98, 0,    0x99, 0,    0x9a, 0,    0x9b, 0,    0x9c, 0,    0x8f, 0,    0x8f, 0};
-SurfaceSoundIdRow gSurfaceSoundIds[23];
+SurfaceSoundIdRow g_GlobalVA[23];
 
-u32 TryAppendListObject(void *list, void *object) {
+u32 StructMQRacerEntry_MaybeInsertChildEntry(void *list, void *object) {
     BOOL willAppend;
     ListObjectLink *link;
 
@@ -427,7 +427,7 @@ u32 TryAppendListObject(void *list, void *object) {
         link->mList = list;
     }
     if (willAppend != FALSE) {
-        NNS_FndAppendListObject(list, object);
+        IntrusiveListWrapper_InsertLast(list, object);
     } else {
         return 0;
     }
@@ -437,30 +437,30 @@ u32 TryAppendListObject(void *list, void *object) {
 void RemoveListObject(NNSFndList *list, void *object) {
     ListObjectLink *link;
 
-    NNS_FndRemoveListObject(list, object);
+    IntrusiveListWrapper_RemoveItem(list, object);
     link = OFFSET_PTR(ListObjectLink, object, list->mLinkOffset);
     if (link->mList != 0) {
         link->mList = 0;
     }
 }
 
-void ClearSurfaceSoundIds(void) {
-    __clear(gSurfaceSoundIds, 0x17 * sizeof(SurfaceSoundIdRow));
+void ClearGlobalVA(void) {
+    __clear(g_GlobalVA, 0x17 * sizeof(SurfaceSoundIdRow));
 }
 
 void SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries) {
-    gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex] = entries;
+    g_GlobalVA[rowIndex].mIdArrays[columnIndex] = entries;
 }
 
-void CourseEntrySetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries) {
-    gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex] = entries;
+void SetSomeVAVO(u32 rowIndex, u32 columnIndex, CourseSurfaceSoundEntry *entries) {
+    g_GlobalVA[rowIndex].mIdArrays[columnIndex] = entries;
 }
 
 u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     void *idArray;
     s32 value;
 
-    idArray = gSurfaceSoundIds[surfaceKind].mIdArrays[surfaceVariant];
+    idArray = g_GlobalVA[surfaceKind].mIdArrays[surfaceVariant];
     value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : SURFACE_SOUND_NONE;
     if (value != SURFACE_SOUND_NONE) {
         return (u16) value;
@@ -479,7 +479,7 @@ u32 GetSurfaceSoundIdShortRows(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     void *idArray;
     s32 value;
 
-    idArray = gSurfaceSoundIds[rowIndex].mIdArrays[columnIndex];
+    idArray = g_GlobalVA[rowIndex].mIdArrays[columnIndex];
     value = idArray != 0 ? ((u32 *) idArray)[entryIndex] : SURFACE_SOUND_NONE;
     if (value != SURFACE_SOUND_NONE) {
         return (u16) value;

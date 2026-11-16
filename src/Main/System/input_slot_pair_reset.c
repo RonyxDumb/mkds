@@ -1,6 +1,6 @@
 #include "Main/System/input_slot_pair_reset.h"
 
-void ResetInputSlotPair(InputSlotPair *pair) {
+void StructCYA_SomeFn(InputSlotPair *pair) {
     pair->mNoPairCount = 0xffffu;
     pair->mMicOverThreshold[0] = 0x0u;
     pair->mPairX = 0xffu;

@@ -52,7 +52,7 @@ extern s32 gSeqZeroLoopOn;
 
 extern NNSSndSeqPlayer *gSndHandleSlots[12];
 
-extern struct NNSSndArc gOnMemorySndArc;
+extern struct NNSSndArc g_MainSdat;
 
 extern u32 gRaceSoundKind;
 
@@ -62,7 +62,7 @@ extern s32 gOrthoQuadFrames;
 
 extern OrthoQuad *gOrthoQuads;
 
-extern u16 gOrthoQuadKartIndex;
+extern u16 g_AnotherRacerId;
 
 // TRUE for the cream effect, FALSE for geso_sumi; chosen by the call that started the quads.
 extern BOOL gOrthoQuadUseCreamEffect;
@@ -82,15 +82,15 @@ static inline void SetBouncingItemBoxTimer(u16 kartIndex, u32 timer) {
 
 extern s32 gOrthoQuadMoveStartFrameCount;
 
-extern NNSSndHeap *gSndHeap;
+extern NNSSndHeap *g_SomeSoundContext;
 
 extern u32 gSceneSeqRestartAfterStar;
 
-extern NNSSndHeap *gSeqRowSndHeap;
+extern NNSSndHeap *g_AnotherSoundContext;
 
 extern u32 gSoundStartedThisFrame;
 
-extern u32 gSndHeapSavedState[];
+extern u32 g_BackupSoundHeapStateId[];
 
 extern u32 gKartStarSeqStartPending;
 

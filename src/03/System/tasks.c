@@ -88,7 +88,7 @@ TaskEntry *AddTaskEx(u32 listIndex, TaskCallback function, void *arg, u32 priori
     entry->mArg = arg;
     entry->mPriority = priority;
     entry->mFreesArg = freesArg;
-    savedIrqMask = OS_DisableIrqMask(1);
+    savedIrqMask = Os_DisableIrqHandler(1);
     following = gTaskLists[listIndex].mListStart.mNext;
     while (1) {
         if (priority < following->mPriority) {
@@ -97,7 +97,7 @@ TaskEntry *AddTaskEx(u32 listIndex, TaskCallback function, void *arg, u32 priori
         }
         following = following->mNext;
     }
-    OS_EnableIrqMask(savedIrqMask);
+    Os_EnableIrqHandler(savedIrqMask);
     return entry;
 }
 

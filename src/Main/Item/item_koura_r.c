@@ -153,7 +153,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
-    InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
+    StateDualHandler_Create(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (itemInUse->mKartItems->mFlags & KART_ITEMS_DOWN) {
         kouraR->mThrowForward = 0;
         InitItemObjectThrow(kouraR, itemInUse, 0, 0, 0, 0x5000);
@@ -163,7 +163,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
         kouraR->mLinkFollowingItemObject.mPreviousLink.mNextLinksUsed = 1;
     } else {
         kouraR->mThrowForward = 1;
-        if (gRaceSetup->mMode != MODE_BATTLE && itemInUse->mKartItems->mItemLink.mLink != NULL) {
+        if (g_GlobalCO->mMode != MODE_BATTLE && itemInUse->mKartItems->mItemLink.mLink != NULL) {
             ownerKartIndex =
                 !(kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
                   ITEM_OWNER_NO_OWNER)
@@ -173,9 +173,9 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
             if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
                 targetKartIndex = ITEM_NO_KART_INDEX;
             } else {
-                rankAhead = GetKartRank(ownerKartIndex) - 1;
+                rankAhead = GetSomeRacerFlags(ownerKartIndex) - 1;
                 if (rankAhead < 1) {
-                    rankAhead = gRaceSetup->mKartCount;
+                    rankAhead = g_GlobalCO->mKartCount;
                 }
                 targetKartIndex = GetKartAtRank(rankAhead);
             }
@@ -201,7 +201,7 @@ s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR) {
 }
 
 void AdvanceItemKouraR(ItemKouraR *kouraR) {
-    AdvanceStateMachine(&kouraR->mStateMachine);
+    StateDualHandler_Execute(&kouraR->mStateMachine);
 }
 
 void UpdateItemKouraRStraight(void *stateObject) {
@@ -299,9 +299,9 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
         targetKartIndex = ITEM_NO_KART_INDEX;
     } else {
-        rankAhead = GetKartRank(ownerKartIndex) - 1;
+        rankAhead = GetSomeRacerFlags(ownerKartIndex) - 1;
         if (rankAhead < 1) {
-            rankAhead = gRaceSetup->mKartCount;
+            rankAhead = g_GlobalCO->mKartCount;
         }
         targetKartIndex = GetKartAtRank(rankAhead);
     }
@@ -406,7 +406,7 @@ void UpdateItemKouraRHoming(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Checks IsKartNotNormal of the Kart, then the 0x240 counter and the sum of the two
+// Checks StructMQRacerEntry_SomeFn_86 of the Kart, then the 0x240 counter and the sum of the two
 // squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
 void UpdateItemKouraRCloseIn(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
@@ -418,7 +418,7 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
-    if (IsKartNotNormal(kart) != FALSE) {
+    if (StructMQRacerEntry_SomeFn_86(kart) != FALSE) {
         FadeOutItemObjectHitByKart(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 0, 8);
     } else {
         SteerItemKouraRToKart(kouraR, 0x10000, 0x333, 0);
@@ -455,7 +455,7 @@ void UpdateItemKouraRGlideToKartVelocity(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Runs StartKartSeqArcSoundOffset8 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
+// Runs StructMQRacerEntry_SomeFn_66 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
 // third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
 void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam) {
     ItemKouraR *kouraR;
@@ -493,7 +493,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
             return;
         }
     }
-    StartKartSeqArcSoundOffset8(kart, kart->mSoundIndex);
+    StructMQRacerEntry_SomeFn_66(kart, kart->mSoundIndex);
 }
 
 // Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
@@ -503,7 +503,7 @@ void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     void *result;
 
     if (kouraR != NULL && toBuffer != NULL) {
-        dot = Vec3DotUnrounded(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
+        dot = VecFx32_CrossProduct_0(&kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity,
                                &kouraR->mLinkFollowingItemObject.mDirectedItemObject.mDirection);
         StoreItemDataFlagBit(dot < 0, &kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mVelocity.y);
         StoreItemDataFlagBit(kouraR->mThrowForward,
@@ -536,7 +536,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     ResetSoundDistanceSquaredChange(&kouraR->mSoundDistanceSquaredChange);
     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) SetItemKouraSoundTrackParams;
-    InitStateMachine(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
+    StateDualHandler_Create(&kouraR->mStateMachine, gItemKouraRStateTable, 7, kouraR);
     if (kouraR->mThrowForward != 0) {
         if (kouraR->mLinkFollowingItemObject.mPreviousLink.mLink != NULL) {
             kouraR->mStateMachine.mNextState = ITEM_KOURA_R_STATE_FOLLOW_LINK;
@@ -550,12 +550,12 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
             if (ownerKartIndex >= ITEM_NO_KART_INDEX) {
                 targetKartIndex = ITEM_NO_KART_INDEX;
             } else {
-                rank = GetKartRank(ownerKartIndex);
+                rank = GetSomeRacerFlags(ownerKartIndex);
                 rankAhead = rank - 1;
                 if (rankAhead < 1) {
-                    rankAhead = gRaceSetup->mKartCount;
+                    rankAhead = g_GlobalCO->mKartCount;
                 }
-                targetKartIndex = gRaceProgress->mKartAtRank[(rankAhead & 0xff) - 1];
+                targetKartIndex = g_GlobalMV->mKartAtRank[(rankAhead & 0xff) - 1];
             }
             InitLinkFollowingItem(&kouraR->mLinkFollowingItemObject, 0x2d, 0x5b, 0, 1, kouraR->mReverse,
                                   targetKartIndex, 0);
@@ -573,7 +573,7 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     ResetItemKouraRKartItems(kouraR);
 }
 
-// Returns 1 while GetKart(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
+// Returns 1 while GetRacerMQEntry(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
 // words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
 // Returns FALSE when it requested CloseIn because the shell is not yet at the kart.
 BOOL RequestItemKouraRCloseInIfFar(void *kouraParam, s32 kartIndex) {
@@ -584,7 +584,7 @@ BOOL RequestItemKouraRCloseInIfFar(void *kouraParam, s32 kartIndex) {
     s32 deltaX;
 
     kouraR = kouraParam;
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     hitRadius = kart->mRadius + ((kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mRadius * 3) >> 1);
     deltaZ = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.z - kart->mPointAlongUp.z;
     deltaX = kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos.x - kart->mPointAlongUp.x;

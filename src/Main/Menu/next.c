@@ -38,14 +38,14 @@ void SetNextGrandPrixEntries(void) {
     if (firstPick <= secondPick) {
         secondPick++;
     }
-    SetGivenCharacterAndKart(gMenuScene->mCharacterKartPicks, 0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex,
-                             GetRaceSetupCopy()->mEntries[0].mKartIndex);
-    PickRandomCharactersAndKarts(gMenuScene->mCharacterKartPicks);
-    SetNextRaceEntry(0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex, GetRaceSetupCopy()->mEntries[0].mKartIndex, 0,
+    SetGivenCharacterAndKart(g_GlobalB43C->mCharacterKartPicks, 0, GetGlobalCA_from_thumb()->mEntries[0].mCharacterIndex,
+                             GetGlobalCA_from_thumb()->mEntries[0].mKartIndex);
+    PickRandomCharactersAndKarts(g_GlobalB43C->mCharacterKartPicks);
+    StructCO_ConfigureRacerDefault(0, GetGlobalCA_from_thumb()->mEntries[0].mCharacterIndex, GetGlobalCA_from_thumb()->mEntries[0].mKartIndex, 0,
                      -1, 3);
     for (entryIndex = 1; entryIndex < 8; entryIndex++) {
-        GetEntryCharacterAndKart(gMenuScene->mCharacterKartPicks, entryIndex, &characterIndex, &kartIndex);
-        SetNextRaceEntry(entryIndex, characterIndex, kartIndex, 1, -1,
+        GetEntryCharacterAndKart(g_GlobalB43C->mCharacterKartPicks, entryIndex, &characterIndex, &kartIndex);
+        StructCO_ConfigureRacerDefault(entryIndex, characterIndex, kartIndex, 1, -1,
                          entryIndex == firstPick    ? 0
                          : entryIndex == secondPick ? 1
                                                     : 3);
@@ -59,9 +59,9 @@ void SetNextTimeAttackEntries(void) {
     u8 entryIndex;
     RaceSetupCopy *setupCopy;
     RaceSetupCopy *setupCopyForKart;
-    setupCopy = GetRaceSetupCopy();
-    setupCopyForKart = GetRaceSetupCopy();
-    SetNextRaceEntry(0, setupCopy->mEntries[0].mCharacterIndex, setupCopyForKart->mEntries[0].mKartIndex, 0, 0xffffffff,
+    setupCopy = GetGlobalCA_from_thumb();
+    setupCopyForKart = GetGlobalCA_from_thumb();
+    StructCO_ConfigureRacerDefault(0, setupCopy->mEntries[0].mCharacterIndex, setupCopyForKart->mEntries[0].mKartIndex, 0, 0xffffffff,
                      3);
     entryIndex = 1;
     do {
@@ -73,7 +73,7 @@ void SetNextTimeAttackEntries(void) {
 #pragma thumb off
 
 void SetNextRaceEntryNone(u32 entryIndex) {
-    SetNextRaceEntry(entryIndex, 0xffffffff, 0xffffffff, 4, 0xffffffff, 3);
+    StructCO_ConfigureRacerDefault(entryIndex, 0xffffffff, 0xffffffff, 4, 0xffffffff, 3);
 }
 
 #pragma optimize_for_size on
@@ -83,73 +83,73 @@ void SetNextRaceEntriesFromRaceSetupCopy(void) {
     s32 teamIndex;
 
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        if (GetRaceSetupCopy()->mCpuDifficulty == 0 && GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind == 1) {
+        if (GetGlobalCA_from_thumb()->mCpuDifficulty == 0 && GetGlobalCA_from_thumb()->mEntries[entryIndex].mPlayerKind == 1) {
             SetNextRaceEntryNone(entryIndex);
         } else {
-            teamIndex = GetRaceSetupCopy()->mUseTeams != 0 ? GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex : -1;
-            SetNextRaceEntry(entryIndex, GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex,
-                             GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex,
-                             GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind, teamIndex,
-                             GetRaceSetupCopy()->mEntries[entryIndex].mListedCpuSlot);
+            teamIndex = GetGlobalCA_from_thumb()->mUseTeams != 0 ? GetGlobalCA_from_thumb()->mEntries[entryIndex].mTeamIndex : -1;
+            StructCO_ConfigureRacerDefault(entryIndex, GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex,
+                             GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartIndex,
+                             GetGlobalCA_from_thumb()->mEntries[entryIndex].mPlayerKind, teamIndex,
+                             GetGlobalCA_from_thumb()->mEntries[entryIndex].mListedCpuSlot);
         }
     }
 }
 #pragma thumb off
 
-void SetNextCpuDifficulty(u32 cpuDifficulty) {
-    gRaceSetup->mNextHeader.mCpuDifficulty = cpuDifficulty;
+void SetNextCpuMode(u32 cpuDifficulty) {
+    g_GlobalCO->mNextHeader.mCpuDifficulty = cpuDifficulty;
 }
 
-void SetNextMode(u32 mode) {
-    gRaceSetup->mNextHeader.mMode = mode;
+void SetNextRaceMode(u32 mode) {
+    g_GlobalCO->mNextHeader.mMode = mode;
 }
 
-void SetNextCupIndex(u32 cupIndex) {
-    gRaceSetup->mNextHeader.mCupIndex = cupIndex;
+void SetNextCupId(u32 cupIndex) {
+    g_GlobalCO->mNextHeader.mCupIndex = cupIndex;
 }
 
-void SetNextCourseId(u32 courseId) {
-    gRaceSetup->mNextHeader.mCourseId = courseId;
+void SetNextCourse(u32 courseId) {
+    g_GlobalCO->mNextHeader.mCourseId = courseId;
 }
 
-void SetNextEngineIndex(u32 engineIndex) {
-    gRaceSetup->mNextHeader.mEngineIndex = engineIndex;
+void SetNextCcMode(u32 engineIndex) {
+    g_GlobalCO->mNextHeader.mEngineIndex = engineIndex;
 }
 
 void SetNextMirrorMode(u32 mirrorMode) {
-    gRaceSetup->mNextHeader.mMirrorMode = (u8) mirrorMode;
+    g_GlobalCO->mNextHeader.mMirrorMode = (u8) mirrorMode;
 }
 
-void SetNextGhostRecordIndex(u32 ghostRecordIndex) {
-    gRaceSetup->mNextHeader.mGhostRecordIndex = ghostRecordIndex;
+void SetNextTimeTrialGhost(u32 ghostRecordIndex) {
+    g_GlobalCO->mNextHeader.mGhostRecordIndex = ghostRecordIndex;
 }
 
-void SetNextBattleKind(u32 battleKind) {
-    gRaceSetup->mNextHeader.mBattleKind = battleKind;
+void SetNextBattleMode(u32 battleKind) {
+    g_GlobalCO->mNextHeader.mBattleKind = battleKind;
 }
 
-void SetNextUseTeams(u32 useTeams) {
-    gRaceSetup->mNextHeader.mUseTeams = useTeams;
+void SetNextTeamMode(u32 useTeams) {
+    g_GlobalCO->mNextHeader.mUseTeams = useTeams;
 }
 
-void SetCourseCount(u32 courseCount) {
-    gRaceSetup->mCourseCount = courseCount;
+void MaybeSetNextRuleParam(u32 courseCount) {
+    g_GlobalCO->mCourseCount = courseCount;
 }
 
-void SetNextRuleKind(u32 ruleKind) {
-    gRaceSetup->mNextHeader.mRuleKind = ruleKind;
+void SetNextRules(u32 ruleKind) {
+    g_GlobalCO->mNextHeader.mRuleKind = ruleKind;
 }
 
-void SetNextCourseListMode(u32 courseListMode) {
-    gRaceSetup->mNextHeader.mCourseListMode = courseListMode;
+void SetNextCourseMode(u32 courseListMode) {
+    g_GlobalCO->mNextHeader.mCourseListMode = courseListMode;
 }
 
 void SetResultArchiveDl(u32 resultArchiveDl) {
-    gMenuShared->mResultArchiveDl = resultArchiveDl;
+    g_GlobalB488->mResultArchiveDl = resultArchiveDl;
 }
 
 u32 GetRaceSetupRequested(void) {
-    return (gMenuShared->mRaceSetupRequested);
+    return (g_GlobalB488->mRaceSetupRequested);
 }
 
 #pragma thumb on
@@ -160,25 +160,25 @@ void SetNextRaceSetupFromCopy(void) {
     u16 rowIndex;
     u8 tableRowColumn[2];
 
-    if (GetMenuEntryKind() != 2) {
-        if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
-            switch (GetRaceSetupCopy()->mEngineIndex) {
+    if (GetB488_SinglePlayerMenuTarget() != 2) {
+        if (GetGlobalCA_from_thumb()->mMode == MODE_GRAND_PRIX) {
+            switch (GetGlobalCA_from_thumb()->mEngineIndex) {
                 case ENGINE_CLASS_SLOW:
-                    GetRaceSetupCopy()->mCpuDifficulty = CPU_DIFFICULTY_EASY;
+                    GetGlobalCA_from_thumb()->mCpuDifficulty = CPU_DIFFICULTY_EASY;
                     break;
                 case ENGINE_CLASS_MEDIUM:
-                    GetRaceSetupCopy()->mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
+                    GetGlobalCA_from_thumb()->mCpuDifficulty = CPU_DIFFICULTY_NORMAL;
                     break;
                 case ENGINE_CLASS_FAST:
-                    GetRaceSetupCopy()->mCpuDifficulty = CPU_DIFFICULTY_HARD;
+                    GetGlobalCA_from_thumb()->mCpuDifficulty = CPU_DIFFICULTY_HARD;
                     break;
             }
         }
-        SetNextCpuDifficulty(GetRaceSetupCopy()->mCpuDifficulty);
-        if (GetRaceSetupCopy()->mMode != MODE_BATTLE && GetRaceSetupCopy()->mMode != MODE_VS) {
-            GetRaceSetupCopy()->mUseTeams = 0;
+        SetNextCpuMode(GetGlobalCA_from_thumb()->mCpuDifficulty);
+        if (GetGlobalCA_from_thumb()->mMode != MODE_BATTLE && GetGlobalCA_from_thumb()->mMode != MODE_VS) {
+            GetGlobalCA_from_thumb()->mUseTeams = 0;
         }
-        switch (GetRaceSetupCopy()->mMode) {
+        switch (GetGlobalCA_from_thumb()->mMode) {
             case MODE_GRAND_PRIX:
                 SetNextGrandPrixEntries();
                 break;
@@ -191,48 +191,48 @@ void SetNextRaceSetupFromCopy(void) {
                 SetNextRaceEntriesFromRaceSetupCopy();
                 break;
         }
-        SetNextMode(GetRaceSetupCopy()->mMode);
-        SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
-        if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
-            GetRaceSetupCopy()->mCourseId = GetCupCourseId(GetRaceSetupCopy()->mCupIndex, 0);
+        SetNextRaceMode(GetGlobalCA_from_thumb()->mMode);
+        SetNextCupId(GetGlobalCA_from_thumb()->mCupIndex);
+        if (GetGlobalCA_from_thumb()->mMode == MODE_GRAND_PRIX) {
+            GetGlobalCA_from_thumb()->mCourseId = GetCupCourseId(GetGlobalCA_from_thumb()->mCupIndex, 0);
         }
-        SetNextCourseId(GetRaceSetupCopy()->mCourseId);
-        if (GetRaceSetupCopy()->mMode == MODE_TIME_ATTACK) {
-            GetRaceSetupCopy()->mEngineIndex = ENGINE_CLASS_FAST;
-        } else if (GetRaceSetupCopy()->mMode == MODE_BATTLE) {
-            GetRaceSetupCopy()->mEngineIndex = ENGINE_CLASS_SLOW;
-        } else if (GetRaceSetupCopy()->mMode == MODE_VS) {
-            if (MenuGetConnectionKind() != CONNECTION_KIND_NONE && GetMultiSimple() != 0) {
-                GetRaceSetupCopy()->mEngineIndex = ENGINE_CLASS_MEDIUM;
+        SetNextCourse(GetGlobalCA_from_thumb()->mCourseId);
+        if (GetGlobalCA_from_thumb()->mMode == MODE_TIME_ATTACK) {
+            GetGlobalCA_from_thumb()->mEngineIndex = ENGINE_CLASS_FAST;
+        } else if (GetGlobalCA_from_thumb()->mMode == MODE_BATTLE) {
+            GetGlobalCA_from_thumb()->mEngineIndex = ENGINE_CLASS_SLOW;
+        } else if (GetGlobalCA_from_thumb()->mMode == MODE_VS) {
+            if (GetPMaybeState_1() != CONNECTION_KIND_NONE && GetMultiSimple() != 0) {
+                GetGlobalCA_from_thumb()->mEngineIndex = ENGINE_CLASS_MEDIUM;
             }
         }
-        SetNextEngineIndex(GetRaceSetupCopy()->mEngineIndex);
-        SetNextMirrorMode(GetRaceSetupCopy()->mMirrorMode);
-        SetNextGhostRecordIndex(GetRaceSetupCopy()->mGhostRecordIndex);
-        SetNextBattleKind(GetRaceSetupCopy()->mBattleKind);
-        SetNextUseTeams(GetRaceSetupCopy()->mUseTeams);
-        SetCourseCount(GetRaceSetupCopy()->mCourseCount);
-        SetNextRuleKind(GetRaceSetupCopy()->mRuleKind);
-        SetNextCourseListMode(GetRaceSetupCopy()->mCourseListMode);
-        if (GetRaceSetupCopy()->mMode == MODE_MISSION_RUN && MenuMB_IsMultiBootChildWrapper() == 0) {
-            rowIndex = GetRaceSetupCopy()->mMissionFileRowIndex;
-            FindMissionTableCell(GetRaceSetupCopy()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
+        SetNextCcMode(GetGlobalCA_from_thumb()->mEngineIndex);
+        SetNextMirrorMode(GetGlobalCA_from_thumb()->mMirrorMode);
+        SetNextTimeTrialGhost(GetGlobalCA_from_thumb()->mGhostRecordIndex);
+        SetNextBattleMode(GetGlobalCA_from_thumb()->mBattleKind);
+        SetNextTeamMode(GetGlobalCA_from_thumb()->mUseTeams);
+        MaybeSetNextRuleParam(GetGlobalCA_from_thumb()->mCourseCount);
+        SetNextRules(GetGlobalCA_from_thumb()->mRuleKind);
+        SetNextCourseMode(GetGlobalCA_from_thumb()->mCourseListMode);
+        if (GetGlobalCA_from_thumb()->mMode == MODE_MISSION_RUN && j_IsDwc_0() == 0) {
+            rowIndex = GetGlobalCA_from_thumb()->mMissionFileRowIndex;
+            FindMissionTableCell(GetGlobalCA_from_thumb()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
                                  &tableRowColumn[1]);
-            SetNextRaceFromMissionRow(&GetRaceSetupCopy()->mMissionFileRows[rowIndex], tableRowColumn[0],
+            SetNextRaceFromMissionRow(&GetGlobalCA_from_thumb()->mMissionFileRows[rowIndex], tableRowColumn[0],
                                       tableRowColumn[1]);
         }
     } else {
-        SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
-        SetNextCourseId(GetRaceSetupCopy()->mCourseId);
+        SetNextCupId(GetGlobalCA_from_thumb()->mCupIndex);
+        SetNextCourse(GetGlobalCA_from_thumb()->mCourseId);
     }
-    if (GetRaceSetupCopy()->mMode == MODE_GRAND_PRIX) {
+    if (GetGlobalCA_from_thumb()->mMode == MODE_GRAND_PRIX) {
         SetResultArchiveDl(0);
     } else {
         SetResultArchiveDl(1);
     }
     if (GetRaceSetupRequested() != 0) {
         AssignCpuNumbersAndSetupFirstCourse();
-        SetRaceSetupRequested(0);
+        SetB488_B2(0);
     }
 }
 #pragma thumb off

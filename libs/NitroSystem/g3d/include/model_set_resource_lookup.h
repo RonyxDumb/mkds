@@ -5,7 +5,7 @@
 
 typedef struct NNSG3dResMdlSet NNSG3dResMdlSet;
 
-NNSG3dResMdlSet *NNS_G3dGetMdlSet(const NNSG3dResFileHeader *header);
+NNSG3dResMdlSet *Nsbmd_GetMDL0Block(const NNSG3dResFileHeader *header);
 
 extern u32 gSbcBillboardPackedOps[1];
 extern u32 gSbcBillboardOpArgs[2];

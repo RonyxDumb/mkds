@@ -13,16 +13,16 @@
 PMSleepCallbackInfo sPostSleepCallback;
 PMSleepCallbackInfo sPreSleepCallback;
 u32 sDriverInfoFirstFlag;
-u32 sNnsSndInitialized;
+u32 g_SoundInitialized;
 s8 sCurDriverInfo;
 
 // Sets up the sound driver, the sleep callbacks and the resource, capture and player state once.
-void NNS_SndInit(void) {
-    if (sNnsSndInitialized != 0) {
+void Sound_EnsureInitialized(void) {
+    if (g_SoundInitialized != 0) {
         return;
     }
-    sNnsSndInitialized = 1;
-    SND_Init();
+    g_SoundInitialized = 1;
+    Sound_InitializeImpl();
     sPreSleepCallback.mCallback = BeginSleep;
     sPreSleepCallback.mArg = 0;
     sPostSleepCallback.mCallback = EndSleep;
@@ -38,12 +38,12 @@ void NNS_SndInit(void) {
 
 // Handles the driver replies, then runs the player and capture updates and sends the queued commands.
 void NNS_SndMain(void) {
-    while (SND_RecvCommandReply(0) != 0) {
+    while (Sound_CommandReceiveAndReply(0) != 0) {
     }
     NNSi_SndPlayerMain();
     NNSi_SndCaptureMain();
     NNSi_SndArcStrmMain();
-    SND_FlushCommand(0);
+    Sound_FlushCommand(0);
 }
 
 // Sets the master volume.

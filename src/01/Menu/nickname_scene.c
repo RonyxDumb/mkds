@@ -19,11 +19,11 @@ NicknameScene *gNicknameScene;
 void InitNicknameSceneObject(void *heap, s16 previousScene) {
     SceneTextInitParams textParams;
 
-    gNicknameScene = HeapAlloc(heap, sizeof(NicknameScene));
+    gNicknameScene = Mem_AllocateHeap(heap, sizeof(NicknameScene));
     gNicknameScene->mHeap = heap;
-    gNicknameScene->mSceneDisplaySettings = CreateSceneDisplaySettings(heap);
+    gNicknameScene->mSceneDisplaySettings = CreateLoadSomeDisplayConfig_from_thumb(heap);
     textParams.mUseTxtSystem = TRUE;
-    textParams.mTxtSystemFont = GetFontByIndex(1);
+    textParams.mTxtSystemFont = GetLoadedFont_from_thumb(1);
     textParams.mUseCanvas1 = 0;
     textParams.mUseCanvas2 = 1;
     textParams.mUseCanvas3 = 0;
@@ -32,17 +32,17 @@ void InitNicknameSceneObject(void *heap, s16 previousScene) {
     textParams.mUseSelectReturn = TRUE;
     textParams.mUseBackScreen = TRUE;
     textParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &textParams);
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(heap, &textParams);
     gNicknameScene->mPreviousScene = previousScene;
     gNicknameScene->mNextScene = NICKNAME_SCENE_NEXT_NONE;
     gNicknameScene->mState = NICKNAME_SCENE_STATE_WAIT_FADE;
     gNicknameScene->mNextState = gNicknameScene->mState;
-    gNicknameScene->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gNicknameScene->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
 }
 
 void ReleaseNicknameSceneObject(void) {
-    ReleaseSceneText();
+    DisposeNavigationContext_from_thumb();
     gNicknameScene = NULL;
 }
 
@@ -50,12 +50,12 @@ void AdvanceNicknameSceneWaitFade(void) {
     void *messageText;
     void *firstButtonText;
     void *secondButtonText;
-    if (AreBrightnessFadesClear() != 0) {
+    if (Bright_IsBothScreensFadedIn() != 0) {
         gNicknameScene->mNextState = NICKNAME_SCENE_STATE_FIRST_MESSAGE;
-        messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xc);
-        firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
-        secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
-        SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 0);
+        messageText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 0xc);
+        firstButtonText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 0);
+        secondButtonText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 1);
+        TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb(messageText, firstButtonText, secondButtonText, 0);
     }
 }
 
@@ -63,17 +63,17 @@ void AdvanceNicknameSceneFirstMessage(void) {
     void *messageText;
     void *firstButtonText;
     void *secondButtonText;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
-        if (GetTxtSystemSelectedIndex() == 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
             gNicknameScene->mNextState = NICKNAME_SCENE_STATE_SECOND_MESSAGE;
-            messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0xd);
-            firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
-            secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
-            SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 0);
+            messageText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 0xd);
+            firstButtonText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 0);
+            secondButtonText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 1);
+            TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb(messageText, firstButtonText, secondButtonText, 0);
         } else {
             gNicknameScene->mNextScene = SCENE_KEYBOARD;
         }
@@ -85,23 +85,23 @@ void AdvanceNicknameSceneSecondMessage(void) {
     void *firstButtonText;
     void *secondButtonText;
     u16 *ownerText;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
-        if (GetTxtSystemSelectedIndex() == 0) {
-            ownerText = gStartupWork->mOwnerText;
-            gBackupBuffers->mFirstBlock->mHasPlayerName = 1;
-            MI_CpuFill8(gBackupBuffers->mFirstBlock->mPlayerName, 0, sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
-            MI_CpuCopy8(ownerText, gBackupBuffers->mFirstBlock->mPlayerName,
-                        sizeof(gBackupBuffers->mFirstBlock->mPlayerName));
-            WriteBackupFirstBlockWrapper();
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
+        if (TextSystem_IsButton2Focused_from_thumb() == 0) {
+            ownerText = g_GlobalP->mOwnerText;
+            g_SaveDataHolder->mFirstBlock->mHasPlayerName = 1;
+            Mem_CpuFill8(g_SaveDataHolder->mFirstBlock->mPlayerName, 0, sizeof(g_SaveDataHolder->mFirstBlock->mPlayerName));
+            Mem_CpuCopy8(ownerText, g_SaveDataHolder->mFirstBlock->mPlayerName,
+                        sizeof(g_SaveDataHolder->mFirstBlock->mPlayerName));
+            WriteSaveDataSectionHeaderToSaveData_from_thumb();
             gNicknameScene->mNextState = NICKNAME_SCENE_STATE_THIRD_MESSAGE;
-            messageText = GetBmgEntry(gNicknameScene->mCommonMessages, 0x13);
-            firstButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 0);
-            secondButtonText = GetBmgEntry(gNicknameScene->mCommonMessages, 1);
-            SetupTxtSystemSubTextTwoButtons(messageText, firstButtonText, secondButtonText, 1);
+            messageText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 0x13);
+            firstButtonText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 0);
+            secondButtonText = Bmg_GetRawStringPointer_from_thumb(gNicknameScene->mCommonMessages, 1);
+            TextSystem_DisplayDoubleButtonDialog_Simple_from_thumb(messageText, firstButtonText, secondButtonText, 1);
         } else {
             gNicknameScene->mNextScene = SCENE_KEYBOARD;
         }
@@ -110,14 +110,14 @@ void AdvanceNicknameSceneSecondMessage(void) {
 
 void AdvanceNicknameSceneThirdMessage(void) {
     s32 backupBusy;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() != 0) {
-        if (gBackupBuffers->mBusy == 0) {
-            if (gBackupAccess->mBackupEnabled != 0) {
-                backupBusy = gBackupAccess->mCommandRunning;
+    if (TextSystem_IsDialogFinished_from_thumb() != 0) {
+        if (g_SaveDataHolder->mBusy == 0) {
+            if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                backupBusy = g_SaveDataIoManager->mCommandRunning;
             } else {
                 backupBusy = 0;
             }
@@ -125,7 +125,7 @@ void AdvanceNicknameSceneThirdMessage(void) {
             backupBusy = 1;
         }
         if (backupBusy == 0) {
-            if (GetTxtSystemSelectedIndex() == 0) {
+            if (TextSystem_IsButton2Focused_from_thumb() == 0) {
                 gNicknameScene->mNextScene = SCENE_EMBLEM;
             } else {
                 gNicknameScene->mNextScene = SCENE_TITLE;
@@ -135,7 +135,7 @@ void AdvanceNicknameSceneThirdMessage(void) {
 }
 
 void AdvanceNicknameScene(void) {
-    AdvanceSceneText();
+    NavigationContext_OnSceneUpdate_from_thumb();
     gNicknameScene->mState = gNicknameScene->mNextState;
     switch (gNicknameScene->mState) {
         case NICKNAME_SCENE_STATE_WAIT_FADE:
@@ -154,7 +154,7 @@ void AdvanceNicknameScene(void) {
 }
 
 void NicknameWriteSceneTextRegistersWrapper(void) {
-    WriteSceneTextRegisters();
+    NavigationContext_OnSceneVblank_from_thumb();
 }
 
 int GetNicknameSceneNextScene(void) {

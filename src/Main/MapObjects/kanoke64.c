@@ -93,14 +93,14 @@ static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
 }
 
 void CreateKanoke64(void *mapObjectList) {
-    gKanoke64 = CreateMapObjectModelAnimated(mapObjectList, "kanoke_64.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gKanoke64, "kanoke_64.nsbca");
+    gKanoke64 = CreateMapObjectFromModel_from_thumb(mapObjectList, "kanoke_64.nsbmd");
+    StructMapObject_AddAnimationNsbca_from_thumb(gKanoke64, "kanoke_64.nsbca");
 }
 
 void DrawKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
     s32 commandArg;
 
-    SetMapObjectModelNsbcaFrameIndex(gKanoke64, kanoke64->mNsbcaFrameIndex);
+    StructMapObject_MaybeSetNsbcaFrame(gKanoke64, kanoke64->mNsbcaFrameIndex);
     commandArg = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
     kanoke64->mMapObject.mMatrix.mRows[3].x = kanoke64->mMapObject.mPos.x >> 4;
@@ -162,21 +162,21 @@ static inline BOOL Kanoke64IsKartNearInAngle(Kanoke64 *kanoke64, s32 objectAngle
     s32 angleDifference;
     Kart *kart;
 
-    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
         isHumanGhostOrPeer = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
-            ((1 << gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if (g_GlobalCO->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
+            ((1 << g_GlobalCO->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isHumanGhostOrPeer = TRUE;
         }
-        if (isHumanGhostOrPeer == FALSE && kartIndex != gRaceSetup->mEntryIndex) {
+        if (isHumanGhostOrPeer == FALSE && kartIndex != g_GlobalCO->mEntryIndex) {
             continue;
         }
-        kart = GetKart((u16) kartIndex);
+        kart = GetRacerMQEntry((u16) kartIndex);
         if (XzDistanceSquared(&kart->mPos, &kanoke64->mMapObject.mPos) >= 0x225510000000LL) {
             continue;
         }
         angleDifference =
-            FX_Atan2Idx(kart->mPos.x - kanoke64->mMapObject.mPos.x, kart->mPos.z - kanoke64->mMapObject.mPos.z) -
+            FX_Atan2(kart->mPos.x - kanoke64->mMapObject.mPos.x, kart->mPos.z - kanoke64->mMapObject.mPos.z) -
             objectAngle;
         if (angleDifference < -0x1f40) {
             continue;
@@ -252,7 +252,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
         }
     }
     nextFrameIndex = kanoke64->mNsbcaFrameIndex + 1;
-    if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gKanoke64)) {
+    if (nextFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(gKanoke64)) {
         nextFrameIndex = 0;
     }
     kanoke64->mNsbcaFrameIndex = nextFrameIndex;

@@ -13,91 +13,91 @@
 #include "model_texture_bind.h"
 #include "registers.h"
 
-KeyStream gKeyStream;
-InputSlotHead gKeysInputSlot;
+KeyStream g_GlobalIG;
+InputSlotHead g_GlobalG;
 
-void StartupResetKeysInputSlot(void) {
-    gKeysInputSlot.mPressedBits = 0;
-    gKeysInputSlot.mBits = 0;
-    gKeysInputSlot.mClearedBits = 0;
-    gKeysInputSlot.mRepeatBits = 0;
-    gKeysInputSlot.mRepeatState = 0;
-    gKeysInputSlot.mRepeatCallCount = 0;
-    gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
-    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
-    gKeysInputSlot.mHoldLong = 0;
-    gKeysInputSlot.mLongHoldEnabled = 0;
-    gKeysInputSlot.mHoldStartTick = 0;
-    gKeysInputSlot.mWritesKeyBits = 0;
-    gKeysInputSlot.mReadsKeyBits = 0;
+void InitializeGlobalG_M1(void) {
+    g_GlobalG.mPressedBits = 0;
+    g_GlobalG.mBits = 0;
+    g_GlobalG.mClearedBits = 0;
+    g_GlobalG.mRepeatBits = 0;
+    g_GlobalG.mRepeatState = 0;
+    g_GlobalG.mRepeatCallCount = 0;
+    g_GlobalG.mRepeatMask = 0;
+    g_GlobalG.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
+    g_GlobalG.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
+    g_GlobalG.mHoldLong = 0;
+    g_GlobalG.mLongHoldEnabled = 0;
+    g_GlobalG.mHoldStartTick = 0;
+    g_GlobalG.mWritesKeyBits = 0;
+    g_GlobalG.mReadsKeyBits = 0;
 }
 
-void ResetKeysInputSlot(void) {
-    gKeysInputSlot.mPressedBits = 0;
-    gKeysInputSlot.mBits = 0;
-    gKeysInputSlot.mClearedBits = 0;
-    gKeysInputSlot.mRepeatBits = 0;
-    gKeysInputSlot.mRepeatState = 0;
-    gKeysInputSlot.mRepeatCallCount = 0;
-    gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
-    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
-    gKeysInputSlot.mHoldLong = 0;
-    gKeysInputSlot.mLongHoldEnabled = 0;
-    gKeysInputSlot.mHoldStartTick = 0;
-    gKeysInputSlot.mWritesKeyBits = 0;
-    gKeysInputSlot.mReadsKeyBits = 0;
+void InitializeGlobalG_2(void) {
+    g_GlobalG.mPressedBits = 0;
+    g_GlobalG.mBits = 0;
+    g_GlobalG.mClearedBits = 0;
+    g_GlobalG.mRepeatBits = 0;
+    g_GlobalG.mRepeatState = 0;
+    g_GlobalG.mRepeatCallCount = 0;
+    g_GlobalG.mRepeatMask = 0;
+    g_GlobalG.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
+    g_GlobalG.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
+    g_GlobalG.mHoldLong = 0;
+    g_GlobalG.mLongHoldEnabled = 0;
+    g_GlobalG.mHoldStartTick = 0;
+    g_GlobalG.mWritesKeyBits = 0;
+    g_GlobalG.mReadsKeyBits = 0;
 }
 
-void ReadKeysIntoInputSlot(void) {
+void UpdateInput(void) {
     u32 keys;
-    if (gKeysInputSlot.mReadsKeyBits != 0) {
-        keys = ReadKeyBitsFromStream();
+    if (g_GlobalG.mReadsKeyBits != 0) {
+        keys = GetSomeInput();
     } else {
         keys = (u16) (((reg_PAD_KEYINPUT | SYSTEM_WORK->mButtonXY) ^ 0x2fff) & 0x2fff);
     }
-    UpdateInputSlot(keys, &gKeysInputSlot);
+    StructG_UpdateInput(keys, &g_GlobalG);
 }
 
 void SeekKeyStream(u32 count, u32 origin) {
-    u32 elementSize = gKeyStream.mElementSize;
+    u32 elementSize = g_GlobalIG.mElementSize;
     u8 *newPosition;
     u8 *start;
     switch (origin) {
         case KEY_STREAM_SEEK_END:
-            newPosition = gKeyStream.mHighestWritten - count * elementSize;
+            newPosition = g_GlobalIG.mHighestWritten - count * elementSize;
             break;
         case KEY_STREAM_SEEK_START:
-            newPosition = gKeyStream.mStart + count * elementSize;
+            newPosition = g_GlobalIG.mStart + count * elementSize;
             break;
         case KEY_STREAM_SEEK_CURRENT:
-            newPosition = gKeyStream.mPosition + count * elementSize;
+            newPosition = g_GlobalIG.mPosition + count * elementSize;
             break;
     }
-    start = gKeyStream.mStart;
+    start = g_GlobalIG.mStart;
     if (newPosition < start) {
         newPosition = start;
     }
-    if (gKeyStream.mEnd < newPosition + elementSize) {
-        newPosition = start + elementSize * ((u32) (gKeyStream.mEnd - start) / elementSize);
+    if (g_GlobalIG.mEnd < newPosition + elementSize) {
+        newPosition = start + elementSize * ((u32) (g_GlobalIG.mEnd - start) / elementSize);
     }
-    gKeyStream.mPosition = newPosition;
+    g_GlobalIG.mPosition = newPosition;
 }
 
 void WriteKeyBitsToStream(u32 keys) {
-    u32 elementSize = gKeyStream.mElementSize;
+    u32 elementSize = g_GlobalIG.mElementSize;
     u32 keyBit;
     u32 packedBit;
-    u8 *position = gKeyStream.mPosition;
+    u8 *position = g_GlobalIG.mPosition;
     u16 keyMask;
     u16 keyBitCopy;
     u32 packed;
-    if (position + elementSize > gKeyStream.mEnd) {
+    if (position + elementSize > g_GlobalIG.mEnd) {
         return;
     }
     if (elementSize == 1) {
-        keyMask = gKeyStream.mKeyMask;
+        keyMask = g_GlobalIG.mKeyMask;
         keyBit = 1;
         packedBit = 1;
         packed = 0;
@@ -118,25 +118,25 @@ void WriteKeyBitsToStream(u32 keys) {
         *(u16 *) position = keys;
     }
     SeekKeyStream(1, 1);
-    if (gKeyStream.mPosition > gKeyStream.mHighestWritten) {
-        gKeyStream.mHighestWritten = gKeyStream.mPosition;
+    if (g_GlobalIG.mPosition > g_GlobalIG.mHighestWritten) {
+        g_GlobalIG.mHighestWritten = g_GlobalIG.mPosition;
     }
 }
 
-u32 ReadKeyBitsFromStream(void) {
+u32 GetSomeInput(void) {
     u32 keys;
     u32 keyBit;
     u32 packedBit;
     s32 packed;
     u16 keyBitCopy;
     u16 keyMask;
-    if (gKeyStream.mPosition + gKeyStream.mElementSize > gKeyStream.mEnd) {
+    if (g_GlobalIG.mPosition + g_GlobalIG.mElementSize > g_GlobalIG.mEnd) {
         return 0;
     }
-    if (gKeyStream.mElementSize == 1) {
-        packed = *gKeyStream.mPosition;
+    if (g_GlobalIG.mElementSize == 1) {
+        packed = *g_GlobalIG.mPosition;
         keyBit = 1;
-        keyMask = gKeyStream.mKeyMask;
+        keyMask = g_GlobalIG.mKeyMask;
         packedBit = 1;
         keys = 0;
         for (; keyBit < 0x10000; keyBit <<= 1) {
@@ -152,7 +152,7 @@ u32 ReadKeyBitsFromStream(void) {
             }
         }
     } else {
-        keys = *(u16 *) gKeyStream.mPosition;
+        keys = *(u16 *) g_GlobalIG.mPosition;
     }
     SeekKeyStream(1, 1);
     return keys;

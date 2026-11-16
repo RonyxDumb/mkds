@@ -19,18 +19,18 @@ typedef struct MIiGXDmaParams {
 
 extern MIiGXDmaParams MIi_GXDmaParams;
 
-// Does nothing unless the channel is 0. For channel 0 it calls OS_Terminate when the top byte of the
+// Does nothing unless the channel is 0. For channel 0 it calls Os_Terminate when the top byte of the
 // source address, or of the address at the other end of the range (source + length, source - length when the mode
 // word is 0x800000, the source itself for any other nonzero mode word), is 0x04 or at least 0x08.
 void MIi_CheckDma0SourceAddress(u32 dmaNo, const void *src, u32 size, u32 dir);
 // Looks at the control word of each of channels 0-2 other than the given one. When one is enabled (bit 31) and its
-// start-timing bits (mask 0x38000000) differ from the wanted timing, it calls OS_Terminate for any nonzero
+// start-timing bits (mask 0x38000000) differ from the wanted timing, it calls Os_Terminate for any nonzero
 // timing; 0x08000000 and 0x10000000 count as the same timing.
 void MIi_CheckAnotherAutoDMA(u32 dmaNo, u32 dmaType);
 // Disables interrupts, clears bits 9, 11, 12 and 13 and then bit 15 of the control halfword of the channel
 // (0x40000b0 + channel * 12 + 10), reads it twice and, for channel 0, stores the dummy transfer 0, 0, 0x81400001 in
 // the channel 0 registers.
-void MI_StopDma(u32 dmaNo);
+void Mem_DmaStop(u32 dmaNo);
 // Disables interrupts, waits until bit 31 of the control word of the channel (0x40000b0 + channel * 12 + 8) is
 // clear and, for channel 0, stores the dummy transfer 0, 0, 0x81400001 in the channel 0 registers.
 void MI_WaitDma(u32 dmaNo);
@@ -56,9 +56,9 @@ void MI_DmaCopy32(u32 dmaNo, const void *src, void *dest, u32 size);
 // with interrupts disabled stores the fill value at 0x40000e0 + channel * 4 and starts length / 4 words from that
 // address with control 0x85000000 (StartDmaTransferAndChannel0DummyWithoutIrqDisable), and waits until bit 31 is
 // clear again.
-void MI_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size);
+void Mem_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size);
 void MIi_DMAFastCallback(void *arg);
 void MI_SendGXCommandAsyncFast(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);
-void MIi_DMACallback(void *arg);
+void SomeDmaIrqHandler(void *arg);
 void MIi_FIFOCallback(void);
 void MI_SendGXCommandAsync(u32 dmaNo, const void *src, u32 commandLength, MIDmaCallback callback, void *arg);

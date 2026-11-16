@@ -82,7 +82,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
     if (isPublic != 0) {
         hostOverride = gQr2Hostname[0];
         if (hostOverride == 0) {
-            sprintf(hostText, "%s.master.gs.nintendowifi.net", gamename);
+            MaybeStrcpy(hostText, "%s.master.gs.nintendowifi.net", gamename);
         }
         resolved =
             ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, MASTER_PORT, &record->mHbAddr, NULL);
@@ -226,7 +226,7 @@ static inline u16 Qr2SwapBytes16(u16 port) {
 void qr2_buffer_add_int(QueryBuffer *outbuf, s32 value) {
     char text[0x18];
 
-    sprintf(text, "%d", value);
+    MaybeStrcpy(text, "%d", value);
     qr2_buffer_addA(outbuf, text);
 }
 
@@ -629,7 +629,7 @@ void qr_build_partial_old_query_reply(QueryRecord *qrec, QueryBuffer *buf, s32 k
                 playerIdx = firstPindex;
                 if (teamTotal > 0) {
                     do {
-                        sprintf(keyNameBuf, "%s%d", keyName, playerIdx);
+                        MaybeStrcpy(keyNameBuf, "%s%d", keyName, playerIdx);
                         qr2_buffer_addA(buf, keyNameBuf);
                         buf->mBuffer[buf->mLen - 1] = '\\';
                         bufferLength = buf->mLen;
@@ -823,7 +823,7 @@ void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
     buf.mLen = 0;
     qr_add_packet_header((u32) &buf, PACKET_HEARTBEAT, (u32) qrec->mInstanceKey);
     for (index = 0; index < gNumLocalIps; index++) {
-        sprintf(keyText, "localip%d", index);
+        MaybeStrcpy(keyText, "localip%d", index);
         qr2_buffer_addA(&buf, keyText);
         qr2_buffer_addA(&buf, SOC_InetNtoA(((SOCInAddr *) gLocalIpList)[index]));
     }

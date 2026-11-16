@@ -4,4 +4,4 @@
 
 #include "Main/Save/slot_ghost_records.h" // GhostListEntry
 
-GhostListEntry *CreateGhostFileRecords(void *heap);
+GhostListEntry *AllocateGhostHolder(void *heap);

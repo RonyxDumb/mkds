@@ -87,8 +87,8 @@ s32 gItemBombExplodeScaleStep;
 void ResetItemBomb(ItemBomb *bomb) {
     u32 initialDistanceSquared;
     MTX_Identity43_(&bomb->mMatrix);
-    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
-    SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
+    StateDualHandler_Create(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+    StateDualHandler_SetState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
     bomb->mTimer = ITEM_BOMB_FUSE_FRAMES;
     bomb->mModelFrameTimer = 0;
     initialDistanceSquared = ITEM_BOMB_NO_KART_DISTANCE_SQUARED;
@@ -118,7 +118,7 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb) {
     } else {
         ThrowBouncingItem(&bomb->mBouncingItemObject, inUse, ITEM_BOMB_THROWN_BOUNCES, 1, 0x6000, 0x5000, 0x59a);
     }
-    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StructMQRacerEntry_SomeFn_8(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
     bomb->mIsThrown = 1;
     return bomb->mIsThrown;
 }
@@ -183,7 +183,7 @@ void EnterItemBombExplode(void *stateObject) {
     bomb->mBouncingItemObject.mItemObject.mScaleTargetOrSpeed = 0;
     bomb->mBouncingItemObject.mItemObject.mScale = gItemBombExplodeStartScale;
     bomb->mModelEffect =
-        StartModelEffect(MODEL_EFFECT_BOMBCORE, &bomb->mBouncingItemObject.mItemObject.mPos,
+        MaybeRecreateExplosionInstance(MODEL_EFFECT_BOMBCORE, &bomb->mBouncingItemObject.mItemObject.mPos,
                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
@@ -204,7 +204,7 @@ void EnterItemBombExplode(void *stateObject) {
             if (seqPlayerPointer[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(seqPlayerPointer, 0, 0xe0);
+            PlaySseqFromSarc(seqPlayerPointer, 0, 0xe0);
         }
     }
     StartCameraWobbleAtDistance(bomb->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
@@ -245,7 +245,7 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
     s32 deltaZ;
 
     candidateKartIndex = (u16) GetRaceUpdateFramesMod8();
-    if (candidateKartIndex >= gRaceSetup->mKartCount) {
+    if (candidateKartIndex >= g_GlobalCO->mKartCount) {
         return;
     }
     skippedKartIndex =
@@ -255,12 +255,12 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
     if (candidateKartIndex == skippedKartIndex) {
         return;
     }
-    kart = GetKart(candidateKartIndex);
-    if (IsKartNotNormal(kart) != 0) {
+    kart = GetRacerMQEntry(candidateKartIndex);
+    if (StructMQRacerEntry_SomeFn_86(kart) != 0) {
         return;
     }
     if (bomb->mNearestKartDistanceSquared < ITEM_BOMB_NEAREST_REMEASURE_DISTANCE_SQUARED) {
-        GetKartPos(&kartPosition, bomb->mNearestKartIndex);
+        LoadRacerMQVectorB(&kartPosition, bomb->mNearestKartIndex);
         deltaX = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.x - kartPosition.x);
         deltaY = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.y - kartPosition.y);
         deltaZ = FROM_FIXED12(bomb->mBouncingItemObject.mItemObject.mPos.z - kartPosition.z);
@@ -310,7 +310,7 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
     ItemBox *mapObjectToPark;
 
     bombAlias->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags |= gItemObjectDistanceSquaredMask;
-    AdvanceStateMachine(&bomb->mStateMachine);
+    StateDualHandler_Execute(&bomb->mStateMachine);
     if (pooledMapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_PARKED) {
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
@@ -353,7 +353,7 @@ void AdvanceItemBomb(ItemBomb *bomb) {
         AdvanceItemBombWithMapObject(bomb, bomb, bomb->mPooledMapObject);
         return;
     }
-    AdvanceStateMachine(&bomb->mStateMachine);
+    StateDualHandler_Execute(&bomb->mStateMachine);
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADING_OUT) || bomb->mTimer < 0) {
         FadeOutEndedItemObject(&bomb->mBouncingItemObject.mItemObject, 1);
     }
@@ -409,14 +409,14 @@ void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData) {
 void InitItemBombFromData(ItemBomb *bomb) {
     SetupItemObjectFromData(&bomb->mBouncingItemObject.mItemObject);
     StartItemObjectBouncing(&bomb->mBouncingItemObject, bomb->mIsThrown != 0 ? 3 : 2);
-    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+    StateDualHandler_Create(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if (!(bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FROM_DATA)) {
         return;
     }
     if (bomb->mIsThrown == 0) {
         return;
     }
-    StartSound(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    StructMQRacerEntry_SomeFn_8(&bomb->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
 void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
@@ -440,7 +440,7 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
 
 int RequestItemBombExplode(ItemBomb *bomb) {
     if (bomb->mStateMachine.mState != ITEM_BOMB_STATE_EXPLODE) {
-        InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+        StateDualHandler_Create(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
         bomb->mStateMachine.mNextState = ITEM_BOMB_STATE_EXPLODE;
         bomb->mStateMachine.mNextStateRequested = 1;
         if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
@@ -457,7 +457,7 @@ void RequestItemBombRest(ItemBomb *bomb) {
     if (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADING_OUT) {
         return;
     }
-    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+    StateDualHandler_Create(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAGS_ENDING) == 0) {
         bomb->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
@@ -507,7 +507,7 @@ void ParkItemBomb(void *object) {
     }
     FreeItemObjectCollisionSlot(&bomb->mBouncingItemObject.mItemObject);
     bomb->mVisible = FALSE;
-    SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_PARKED);
+    StateDualHandler_SetState(&bomb->mStateMachine, ITEM_BOMB_STATE_PARKED);
     bomb->mModelFrameTimer = 0;
 }
 
@@ -532,7 +532,7 @@ void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position) {
         return;
     }
     bomb->mBouncingItemObject.mItemObject.mPos = *positionAlias;
-    VEC_Subtract(&bomb->mBouncingItemObject.mItemObject.mPos, &bomb->mBouncingItemObject.mItemObject.mPrevPos,
+    VecFx32_Subtract(&bomb->mBouncingItemObject.mItemObject.mPos, &bomb->mBouncingItemObject.mItemObject.mPrevPos,
                  &bomb->mBouncingItemObject.mItemObject.mVelocity);
     if (bomb->mPooledMapObject == NULL) {
         return;
@@ -557,8 +557,8 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
         bomb->mVisible = TRUE;
     }
     StartItemObjectSoundSource(&bomb->mBouncingItemObject.mItemObject);
-    InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
-    SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
+    StateDualHandler_Create(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
+    StateDualHandler_SetState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
     bomb->mTimer = ITEM_BOMB_FUSE_FRAMES;
     bomb->mModelFrameTimer = 0;
     bomb->mNearestKartIndex = ITEM_NO_KART_INDEX;
@@ -596,7 +596,7 @@ void ReleaseItemBomb(void **bombSlot) {
     ItemBox *pooledMapObject;
 
     bomb = *bombSlot;
-    SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
+    StateDualHandler_SetState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
     pooledMapObject = bomb->mPooledMapObject;
     if (pooledMapObject != NULL) {
         pooledMapObject->mMapObject.mFlags &= ~1;
@@ -623,7 +623,7 @@ void *StartItemBomb(void) {
     }
     FreeItemObjectCollisionSlot(&bomb->mBouncingItemObject.mItemObject);
     bomb->mVisible = FALSE;
-    SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_PARKED);
+    StateDualHandler_SetState(&bomb->mStateMachine, ITEM_BOMB_STATE_PARKED);
     bomb->mModelFrameTimer = 0;
     return bomb;
 }
@@ -642,7 +642,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
         }
         FreeItemObjectCollisionSlot(&bomb->mBouncingItemObject.mItemObject);
         bomb->mVisible = FALSE;
-        SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_PARKED);
+        StateDualHandler_SetState(&bomb->mStateMachine, ITEM_BOMB_STATE_PARKED);
         bomb->mModelFrameTimer = 0;
     }
     if (bomb == NULL) {
@@ -675,7 +675,7 @@ void SetupItemBombKind(void) {
     gItemBombExplodeMaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombExplodeScaleLimit, gItemKinds[9].mRadius);
     gItemBombExplodeMaxRadiusSquared >>= 12;
     gItemBombExplodeMaxRadiusSquared *= gItemBombExplodeMaxRadiusSquared;
-    engineIndex = gRaceSetup->mEngineIndex;
+    engineIndex = g_GlobalCO->mEngineIndex;
     switch (engineIndex) {
         case ENGINE_CLASS_SLOW:
             gItemBombTimerLimit = 0xb4;

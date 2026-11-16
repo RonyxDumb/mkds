@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u64 _u32_div_f(u32 dividend, u32 divisor);
+u64 MaybeBoundsCheck(u32 dividend, u32 divisor);

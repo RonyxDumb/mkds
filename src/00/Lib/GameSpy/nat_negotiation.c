@@ -53,7 +53,7 @@ void NNFreeNegotiateList(void) {
 }
 
 BOOL CheckMagic(const u8 *data) {
-    if (memcmp(data, NNMagicData, 6) == 0) {
+    if (StructDC_SomeFn_6(data, NNMagicData, 6) == 0) {
         return TRUE;
     }
     return FALSE;
@@ -225,7 +225,7 @@ u32 ResolveServer(char *overrideHostname, const char *defaultHostname) {
     char fullHostname[0x80];
 
     if (overrideHostname == NULL) {
-        snprintf(fullHostname, 0x80, "%s.%s", gGsiAcGamename, defaultHostname);
+        _snprintf(fullHostname, 0x80, "%s.%s", gGsiAcGamename, defaultHostname);
         overrideHostname = fullHostname;
     }
     return NameToIp(overrideHostname);

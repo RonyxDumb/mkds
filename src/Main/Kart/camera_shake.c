@@ -22,7 +22,7 @@ static inline s32 CameraShakeNormalizeLengthOrZero(Vec3 *vector, Vec3 *normalize
     if (LENGTH_SQUARED(*vector) < 0x10) {
         return 0;
     }
-    return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);
+    return Vector3_MaybeNormalize(vector, normalized);
 }
 
 void UpdateCameraShake(Camera *camera) {
@@ -41,11 +41,11 @@ void UpdateCameraShake(Camera *camera) {
     s32 counterScale;
 
     if (GetRaceUpdateFramesMod2() == 0) {
-        VEC_Subtract(&camera->mPos, &camera->mLookAt, &lookDirection);
+        VecFx32_Subtract(&camera->mPos, &camera->mLookAt, &lookDirection);
         lookDistance = CameraShakeNormalizeLengthOrZero(&lookDirection, &lookDirection);
         if (lookDistance != 0) {
             posShakeScale = gCameraShakePosScale;
-            random = &gRaceProgress->mLocalRandom;
+            random = &g_GlobalMV->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             scale = MUL_FIXED12_NO_ROUND(gCameraShakeLookAtDistanceScale, lookDistance);
             randomValue = (s16) (u16) (random->mValue >> 52);
@@ -54,48 +54,48 @@ void UpdateCameraShake(Camera *camera) {
             sideOffset.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, offsetScale);
             sideOffset.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, offsetScale);
             sideOffset.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, offsetScale);
-            random = &gRaceProgress->mLocalRandom;
+            random = &g_GlobalMV->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             randomValue = (s16) (u16) (random->mValue >> 52);
             offsetScale = MUL_FIXED12_NO_ROUND(scale, (randomValue - 0x800) * 2);
             upOffset.x = MUL_FIXED12_NO_ROUND(camera->mUp.x, offsetScale);
             upOffset.y = MUL_FIXED12_NO_ROUND(camera->mUp.y, offsetScale);
             upOffset.z = MUL_FIXED12_NO_ROUND(camera->mUp.z, offsetScale);
-            VEC_Add(&sideOffset, &upOffset, &camera->mShakeLookAtOffsetGoal);
-            random = &gRaceProgress->mLocalRandom;
+            VecFx32_Add(&sideOffset, &upOffset, &camera->mShakeLookAtOffsetGoal);
+            random = &g_GlobalMV->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             randomValue = (s16) (u16) (random->mValue >> 52);
             offsetScale = MUL_FIXED12_NO_ROUND(posShakeScale, (randomValue - 0x800) * 2);
             sideOffset.x = MUL_FIXED12_NO_ROUND(camera->mSide.x, offsetScale);
             sideOffset.y = MUL_FIXED12_NO_ROUND(camera->mSide.y, offsetScale);
             sideOffset.z = MUL_FIXED12_NO_ROUND(camera->mSide.z, offsetScale);
-            random = &gRaceProgress->mLocalRandom;
+            random = &g_GlobalMV->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             randomValue = (s16) (u16) (random->mValue >> 52);
             offsetScale = MUL_FIXED12_NO_ROUND(posShakeScale, (randomValue - 0x800) * 2);
             upOffset.x = MUL_FIXED12_NO_ROUND(camera->mUp.x, offsetScale);
             upOffset.y = MUL_FIXED12_NO_ROUND(camera->mUp.y, offsetScale);
             upOffset.z = MUL_FIXED12_NO_ROUND(camera->mUp.z, offsetScale);
-            VEC_Add(&sideOffset, &upOffset, &camera->mShakePosOffsetGoal);
+            VecFx32_Add(&sideOffset, &upOffset, &camera->mShakePosOffsetGoal);
         }
     }
     scale = gCameraShakePosOffsetStepScale;
-    VEC_Subtract(&camera->mShakePosOffsetGoal, &camera->mShakePosOffset, &posOffsetStep);
+    VecFx32_Subtract(&camera->mShakePosOffsetGoal, &camera->mShakePosOffset, &posOffsetStep);
     posOffsetStep.x = MUL_FIXED12_NO_ROUND(posOffsetStep.x, scale);
     posOffsetStep.y = MUL_FIXED12_NO_ROUND(posOffsetStep.y, scale);
     posOffsetStep.z = MUL_FIXED12_NO_ROUND(posOffsetStep.z, scale);
-    VEC_Add(&camera->mShakePosOffset, &posOffsetStep, &camera->mShakePosOffset);
+    VecFx32_Add(&camera->mShakePosOffset, &posOffsetStep, &camera->mShakePosOffset);
     scale = gCameraShakeLookAtStepScale;
-    VEC_Subtract(&camera->mShakeLookAtOffsetGoal, &camera->mShakeLookAtOffset, &lookAtOffsetStep);
+    VecFx32_Subtract(&camera->mShakeLookAtOffsetGoal, &camera->mShakeLookAtOffset, &lookAtOffsetStep);
     lookAtOffsetStep.x = MUL_FIXED12_NO_ROUND(lookAtOffsetStep.x, scale);
     lookAtOffsetStep.y = MUL_FIXED12_NO_ROUND(lookAtOffsetStep.y, scale);
     lookAtOffsetStep.z = MUL_FIXED12_NO_ROUND(lookAtOffsetStep.z, scale);
-    VEC_Add(&camera->mShakeLookAtOffset, &lookAtOffsetStep, &camera->mShakeLookAtOffset);
+    VecFx32_Add(&camera->mShakeLookAtOffset, &lookAtOffsetStep, &camera->mShakeLookAtOffset);
     counterScale = -gCameraShakeCounterScales[camera->mShakeKind - 1];
     counterStep.x = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtOffset.x, counterScale);
     counterStep.y = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtOffset.y, counterScale);
     counterStep.z = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtOffset.z, counterScale);
-    VEC_Add(&counterStep, &camera->mShakeLookAtCounterOffset, &camera->mShakeLookAtCounterOffset);
+    VecFx32_Add(&counterStep, &camera->mShakeLookAtCounterOffset, &camera->mShakeLookAtCounterOffset);
     scale = gCameraShakeCounterOffsetScale;
     camera->mShakeLookAtCounterOffset.x = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtCounterOffset.x, scale);
     camera->mShakeLookAtCounterOffset.y = MUL_FIXED12_NO_ROUND(camera->mShakeLookAtCounterOffset.y, scale);

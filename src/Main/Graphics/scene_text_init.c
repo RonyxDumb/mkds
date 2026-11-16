@@ -17,39 +17,39 @@
 #include "Main/Sound/sound_seq.h"
 #include "01/Menu/option_select_menu.h"
 
-SceneText *gSceneText;
+SceneText *g_NavigationContext;
 
 #pragma thumb on
 
-void InitSceneText(void *heap, SceneTextInitParams *config) {
+void InitializeNavigationContext_from_thumb(void *heap, SceneTextInitParams *config) {
     TxtSystemArgs txtConfig;
 
-    gSceneText = HeapAlloc(heap, sizeof(*gSceneText));
-    gSceneText->mSubCharOffset = SCENE_TEXT_SUB_CHAR_OFFSET;
-    gSceneText->mUseTxtSystem = FALSE;
-    gSceneText->mUseSelectChoises = FALSE;
-    gSceneText->mUseSelectReturn = FALSE;
+    g_NavigationContext = Mem_AllocateHeap(heap, sizeof(*g_NavigationContext));
+    g_NavigationContext->mSubCharOffset = SCENE_TEXT_SUB_CHAR_OFFSET;
+    g_NavigationContext->mUseTxtSystem = FALSE;
+    g_NavigationContext->mUseSelectChoises = FALSE;
+    g_NavigationContext->mUseSelectReturn = FALSE;
     if (config->mUseTxtSystem != FALSE) {
         txtConfig.mFont = config->mTxtSystemFont;
         txtConfig.mUseCanvas1 = config->mUseCanvas1;
         txtConfig.mUseCanvas2 = config->mUseCanvas2;
         txtConfig.mUseCanvas3 = config->mUseCanvas3;
-        txtConfig.mSubCharOffset = gSceneText->mSubCharOffset;
-        gSceneText->mUseTxtSystem = TRUE;
-        gSceneText->mSubCharOffset = InitTxtSystem(heap, &txtConfig);
+        txtConfig.mSubCharOffset = g_NavigationContext->mSubCharOffset;
+        g_NavigationContext->mUseTxtSystem = TRUE;
+        g_NavigationContext->mSubCharOffset = TextSystemContext_Initialize_from_thumb(heap, &txtConfig);
     }
     if (config->mUseSelectChoises != FALSE) {
-        gSceneText->mUseSelectChoises = TRUE;
-        gSceneText->mSubCharOffset = InitSelectChoises(heap, config->mSelectChoisesFont, gSceneText->mSubCharOffset);
+        g_NavigationContext->mUseSelectChoises = TRUE;
+        g_NavigationContext->mSubCharOffset = SelectChoisesContext_Initialize_from_thumb(heap, config->mSelectChoisesFont, g_NavigationContext->mSubCharOffset);
     }
     if (config->mUseSelectReturn != FALSE) {
-        gSceneText->mUseSelectReturn = TRUE;
-        gSceneText->mSubCharOffset = InitSelectReturn(heap, gSceneText->mSubCharOffset);
+        g_NavigationContext->mUseSelectReturn = TRUE;
+        g_NavigationContext->mSubCharOffset = InitializeSelectReturn_from_thumb(heap, g_NavigationContext->mSubCharOffset);
     }
     if (config->mUseBackScreen != FALSE) {
-        gSceneText->mBackScreenKind = config->mBackScreenKind;
+        g_NavigationContext->mBackScreenKind = config->mBackScreenKind;
         InitBackScreenDisplay();
-        gSceneText->mSubCharOffset = LoadBackScreen(gSceneText->mSubCharOffset);
+        g_NavigationContext->mSubCharOffset = InitializeBackScreen_from_thumb(g_NavigationContext->mSubCharOffset);
     }
 }
 
@@ -57,17 +57,17 @@ void InitSceneText(void *heap, SceneTextInitParams *config) {
 
 #pragma thumb on
 
-void ReleaseSceneText(void) {
-    if (gSceneText->mUseTxtSystem != FALSE) {
-        ClearTxtSystemPointer();
+void DisposeNavigationContext_from_thumb(void) {
+    if (g_NavigationContext->mUseTxtSystem != FALSE) {
+        TextSystemContext_Dispose_from_thumb();
     }
-    if (gSceneText->mUseSelectChoises != FALSE) {
-        ClearSelectChoisesPointer();
+    if (g_NavigationContext->mUseSelectChoises != FALSE) {
+        SelectChoisesContext_Dispose_from_thumb();
     }
-    if (gSceneText->mUseSelectReturn != FALSE) {
-        ClearSelectReturnPointer();
+    if (g_NavigationContext->mUseSelectReturn != FALSE) {
+        SelectReturnContext_Dispose_from_thumb();
     }
-    *&gSceneText = NULL;
+    *&g_NavigationContext = NULL;
 }
 
 #pragma thumb off

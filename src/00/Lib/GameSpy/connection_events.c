@@ -57,7 +57,7 @@ void gti2ConnectionCleanup(Gt2Connection *connection) {
 
 BOOL gti2SocketErrorCallback(Gt2Socket *socket) {
     if (socket == NULL) {
-        AssertionFailed("socket", "gt2Callback.c", NULL, 0x1b);
+        LogThrowAssertion("socket", "gt2Callback.c", NULL, 0x1b);
     }
     if (socket == NULL) {
         return TRUE;
@@ -78,7 +78,7 @@ BOOL gti2SocketErrorCallback(Gt2Socket *socket) {
 BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection, int address, int port, int latency,
                                     const u8 *message, int len) {
     if (socket == NULL || connection == NULL) {
-        AssertionFailed("socket && connection", "gt2Callback.c", NULL, 0x3d);
+        LogThrowAssertion("socket && connection", "gt2Callback.c", NULL, 0x3d);
     }
     if (socket == NULL || connection == NULL) {
         return TRUE;
@@ -104,7 +104,7 @@ BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection
 
 BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, void *message, int len) {
     if (connection == NULL) {
-        AssertionFailed("connection", "gt2Callback.c", NULL, 0x69);
+        LogThrowAssertion("connection", "gt2Callback.c", NULL, 0x69);
     }
     if (connection == NULL) {
         return TRUE;
@@ -131,7 +131,7 @@ BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, vo
 
 BOOL Gt2CallDataCallback(Gt2Connection *connection, void *message, int len, int reliable) {
     if (connection == NULL) {
-        AssertionFailed("connection", "gt2Callback.c", NULL, 0x94);
+        LogThrowAssertion("connection", "gt2Callback.c", NULL, 0x94);
     }
     if (connection == NULL) {
         return TRUE;
@@ -157,7 +157,7 @@ BOOL Gt2CallDataCallback(Gt2Connection *connection, void *message, int len, int 
 
 BOOL gti2ClosedCallback(Gt2Connection *connection, void *reason) {
     if (connection == NULL) {
-        AssertionFailed("connection", "gt2Callback.c", NULL, 0xba);
+        LogThrowAssertion("connection", "gt2Callback.c", NULL, 0xba);
     }
     if (connection == NULL) {
         return TRUE;
@@ -179,7 +179,7 @@ BOOL gti2ClosedCallback(Gt2Connection *connection, void *reason) {
 
 BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 latency) {
     if (connection == NULL) {
-        AssertionFailed("connection", "gt2Callback.c", NULL, 0xd9);
+        LogThrowAssertion("connection", "gt2Callback.c", NULL, 0xd9);
     }
     if (connection == NULL) {
         return TRUE;
@@ -202,7 +202,7 @@ BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 latency) {
 BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable) {
     Gt2Filter *filter;
     if (connection == NULL) {
-        AssertionFailed("connection", "gt2Callback.c", NULL, 0x101);
+        LogThrowAssertion("connection", "gt2Callback.c", NULL, 0x101);
     }
     if (connection == NULL) {
         return TRUE;
@@ -230,7 +230,7 @@ BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, void *messa
 BOOL gti2ReceiveFilterCallback(Gt2Connection *connection, s32 filterId, void *message, s32 len, s32 reliable) {
     Gt2Filter *filter;
     if (connection == NULL) {
-        AssertionFailed("connection", "gt2Callback.c", NULL, 0x12d);
+        LogThrowAssertion("connection", "gt2Callback.c", NULL, 0x12d);
     }
     if (connection == NULL) {
         return TRUE;
@@ -259,7 +259,7 @@ u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, 
                      int len, int send) {
     Gt2DumpCallback callback;
     if (socket == NULL) {
-        AssertionFailed("socket", "gt2Callback.c", NULL, 0x160);
+        LogThrowAssertion("socket", "gt2Callback.c", NULL, 0x160);
     }
     if (socket == NULL) {
         return 1;
@@ -295,7 +295,7 @@ u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, 
 BOOL CallUnmatchedDataCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 len, s32 *handled) {
     *handled = 0;
     if (socket == NULL) {
-        AssertionFailed("socket", "gt2Callback.c", NULL, 0x197);
+        LogThrowAssertion("socket", "gt2Callback.c", NULL, 0x197);
     }
     if (socket == NULL) {
         return TRUE;

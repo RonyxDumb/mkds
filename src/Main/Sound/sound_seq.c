@@ -74,11 +74,11 @@
 const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
 const Vec3 gPooledMapObjectVec3Zero = {0, 0, 0};
 const u16 gChoisesSValueSeqNos[6] = {0xc, 0xc, 0xc, 0x13, 7, 7};
-s32 gSndHeapSizeKind = 4;
+s32 g_BootMode = 4;
 LoadedSoundBanks gLoadedSoundBanks = {0, {0, 0}, 0xff00};
 SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup = {{0x7a, 0x66, 0x67, 0x9d}, 0, 0};
-s32 gSndBankIdsByBit[13] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
-s32 gSndWaveArcIdsByBit[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
+s32 g_CharacterEffectSbnkIdTable[13] = {3, 4, 5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf};
+s32 g_CharacterEffectSwarIdTable[13] = {5, 6, 7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe, 0xf, 0x10, 0x11};
 CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[14] = {
     {0x8d, 2}, {0x8e, 2}, {0x8d, 7},   {0x8d, 7}, {0x8e, 2}, {0x8e, 2}, {0x8d, 7},
     {0x8d, 2}, {0x8e, 2}, {0x8e, 2}, {0x8d, 2}, {0x8d, 2}, {0x158, 1}, {0x8e, 2}};
@@ -89,7 +89,7 @@ NNSSndSeqPlayer *gSeqZeroLoopHandle;
 u32 gSceneSeqRestartAfterStar;
 s32 gMissionRunMSselStep0Count;
 s32 gMissionRunMSselStep32Count;
-u32 gSndHeapSavedState[1];
+u32 g_BackupSoundHeapStateId[1];
 NNSSndSeqPlayer *gChoisesSSeqHandle;
 NNSSndSeqPlayer *gMatchingEntrySeqHandle;
 u32 gRaceSeqStarted;
@@ -97,64 +97,64 @@ s32 gSeqZeroLoopOn;
 u32 gSoundStartedThisFrame;
 u32 gRaceSoundKind;
 u32 gMissionRunSelMode;
-NNSSndHeap *gSndHeap;
-NNSSndHeap *gSeqRowSndHeap;
+NNSSndHeap *g_SomeSoundContext;
+NNSSndHeap *g_AnotherSoundContext;
 u32 gKartStarSeqStartPending;
 LoadedSoundSet gLoadedSoundSet;
 SoundHandlePool gSoundHandlePool;
 u8 gSoundHandlePoolEntries[21];
 SceneSoundState gSceneSoundState;
 NNSSndSeqPlayer *gSndHandleSlots[12];
-NNSSndArc gOnMemorySndArc;
+NNSSndArc g_MainSdat;
 PlayerVolumeFade gPlayerVolumeFade;
 
-// Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.
+// Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; LoopFn_Sound restarts it.
 void StartSeqZeroLoop(void) {
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     gSeqZeroLoopOn = 1;
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void StopSeqZeroLoop(void) {
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0xd);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void BootInfoStartMessageScreenSeq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
-    NNS_SndArcSetCurrent(&gFileSndArc);
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 1);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void StartMessageScreenSeq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
-    NNS_SndArcSetCurrent(&gFileSndArc);
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 1);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void StartTimeAttackGhostSendSeq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
-    NNS_SndArcSetCurrent(&gOnMemorySndArc);
+    Sound_MaybeSetActiveSdat(&g_MainSdat);
     if (gSeqZeroLoopHandle != NULL) {
         NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 8);
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    PlaySseqFromSarc(&gSeqZeroLoopHandle, 0, 8);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
 }
 
 void StopTimeAttackGhostSendSeq(void) {
@@ -166,12 +166,12 @@ void StartWiFiSessionLoginSeq(void) {
     if (gSeqZeroLoopHandle != NULL) {
         NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 0x202);
+    PlaySseqFromSarc(&gSeqZeroLoopHandle, 0, 0x202);
 }
 
 void StartWiFiSessionLoginResult1Seq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x203);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x203);
 }
 
 void StartWiFiSessionMatchingSeq(void) {
@@ -179,7 +179,7 @@ void StartWiFiSessionMatchingSeq(void) {
     if (gSeqZeroLoopHandle != NULL) {
         NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 0x204);
+    PlaySseqFromSarc(&gSeqZeroLoopHandle, 0, 0x204);
 }
 
 void StartWiFiMatchingEntryShowSeq(void) {
@@ -187,7 +187,7 @@ void StartWiFiMatchingEntryShowSeq(void) {
     if (gMatchingEntrySeqHandle != NULL) {
         NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gMatchingEntrySeqHandle, 0, 0x205);
+    PlaySseqFromSarc(&gMatchingEntrySeqHandle, 0, 0x205);
 }
 
 void StartWiFiMatchingEntryHideSeq(void) {
@@ -195,19 +195,19 @@ void StartWiFiMatchingEntryHideSeq(void) {
     if (gMatchingEntrySeqHandle != NULL) {
         NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gMatchingEntrySeqHandle, 0, 0x206);
+    PlaySseqFromSarc(&gMatchingEntrySeqHandle, 0, 0x206);
 }
 
 void StartPlayerEntryListSetupSeq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x207);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x207);
 }
 
 void StartWiFiLoginErrorSeq(void) {
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (0x0000020au));
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, (0x0000020au));
 }
 
 void StartWiFiNoOpponentsSeq(void) {
@@ -215,7 +215,7 @@ void StartWiFiNoOpponentsSeq(void) {
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x20a);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x20a);
 }
 
 void StopBothSeqHandles(void) {
@@ -227,72 +227,72 @@ LoadedSoundSet *GetLoadedSoundSet(void) {
     return &gLoadedSoundSet;
 }
 
-BOOL LoadSndBanksAndWaveArcs(s32 bankMask) {
+BOOL MaybeLoadRacerSbnksSwars(s32 bankMask) {
     s32 bankIndex;
     NNSSndHeap *savedHeap;
 
-    savedHeap = gCurrentSndHeap;
-    gCurrentSndHeap = gSndHeap;
-    if (gSndHeapSizeKind != SND_HEAP_SIZE_SMALL) {
-        NNS_SndArcLoadBank(1, gSndHeap);
+    savedHeap = g_SoundContext;
+    g_SoundContext = g_SomeSoundContext;
+    if (g_BootMode != SND_HEAP_SIZE_SMALL) {
+        Sound_LoadSbnk(1, g_SomeSoundContext);
     }
     for (bankIndex = 0; bankIndex < 0xd; bankIndex++) {
         if (((bankMask >> bankIndex) & 1) != 0) {
-            if (NNS_SndArcLoadBankEx(gSndBankIdsByBit[bankIndex], 2, gSndHeap) == 0) {
-                gCurrentSndHeap = savedHeap;
+            if (Sound_LoadSbnkWithFlags(g_CharacterEffectSbnkIdTable[bankIndex], 2, g_SomeSoundContext) == 0) {
+                g_SoundContext = savedHeap;
                 return FALSE;
             }
-            if (NNS_SndArcLoadWaveArc(gSndWaveArcIdsByBit[bankIndex], gSndHeap) == 0) {
-                gCurrentSndHeap = savedHeap;
+            if (Sound_LoadSwar(g_CharacterEffectSwarIdTable[bankIndex], g_SomeSoundContext) == 0) {
+                g_SoundContext = savedHeap;
                 return FALSE;
             }
         }
     }
-    gCurrentSndHeap = savedHeap;
+    g_SoundContext = savedHeap;
     return TRUE;
 }
 
-BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask) {
+BOOL MaybeReloadRacerSbnksSwars(s32 bankMask) {
     if (bankMask == 0) {
         return TRUE;
     }
     if (gLoadedSoundBanks.mLoadMarker != LOADED_SOUND_BANKS_NONE && gLoadedSoundBanks.mBankMask == bankMask) {
         return TRUE;
     }
-    NNS_SndHeapClear(gSndHeap);
+    Sound_Context_DisposeLoadedStuff(g_SomeSoundContext);
     gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_NONE;
     gLoadedSoundBanks.mBankMask = 0;
     gLoadedSoundBanks.mBankMask = bankMask;
     gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_LOADED;
-    if (LoadSndBanksAndWaveArcs(bankMask) == FALSE) {
+    if (MaybeLoadRacerSbnksSwars(bankMask) == FALSE) {
         return FALSE;
     }
     return TRUE;
 }
 
-// Total size of the buffer CreateSndHeaps carves into its three parts.
-int GetSndHeapsBufferSize(int heapSizeKind) {
+// Total size of the buffer SomeAudioInit carves into its three parts.
+int ComputeRAudioBufferAllocSize(int heapSizeKind) {
     return (heapSizeKind == 0 ? 0xc8000 : 0xaf000) - (heapSizeKind == 2 ? 0xaf000 : 0xc400);
 }
 
-int GetSndInitBufferSize(int heapSizeKind) {
+int GetSoundBufferAllocationSize(int heapSizeKind) {
     return heapSizeKind == 2 ? 0xaf000 : 0xc400;
 }
 
-void ReleaseSndHeaps(void) {
-    NNS_SndHeapDestroy(gCurrentSndHeap);
-    gCurrentSndHeap = NULL;
-    NNS_SndHeapDestroy(gSndHeap);
-    gSndHeap = NULL;
-    NNS_SndHeapDestroy(gSeqRowSndHeap);
-    gSeqRowSndHeap = NULL;
+void DisposeSomeSoundStuff(void) {
+    Sound_Context_Dispose(g_SoundContext);
+    g_SoundContext = NULL;
+    Sound_Context_Dispose(g_SomeSoundContext);
+    g_SomeSoundContext = NULL;
+    Sound_Context_Dispose(g_AnotherSoundContext);
+    g_AnotherSoundContext = NULL;
     ClearSndFileAddresses(GetSndDataFileIdList());
     ClearSndFileIdList(GetSndDataFileIdList());
     gLoadedSoundBanks = gLoadedSoundBanksAfterRelease;
     ResetLoadedSoundSet(&gLoadedSoundSet);
 }
 
-void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
+void SomeAudioInit(u32 heapSizeKind, u32 buffer) {
     u32 soundHeapSize;
     u32 seqRowHeapSize;
     u32 soundHeapSizeCopy;
@@ -300,7 +300,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     u32 currentHeapSize;
     u32 heapCursor;
 
-    gSndHeapSizeKind = heapSizeKind;
+    g_BootMode = heapSizeKind;
     switch (heapSizeKind) {
         case SND_HEAP_SIZE_LARGE:
             soundHeapSize = 0x36f3c;
@@ -314,9 +314,9 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     }
     gLoadedSoundBanks = gLoadedSoundBanksAfterHeapCreate;
     ResetLoadedSoundSet(&gLoadedSoundSet);
-    gSndHeap = NNS_SndHeapCreate((void *) buffer, soundHeapSize);
+    g_SomeSoundContext = Sound_InitializeContext((void *) buffer, soundHeapSize);
     seqRowHeapSize = 0;
-    gCurrentSndHeap = NULL;
+    g_SoundContext = NULL;
     buffer = buffer + soundHeapSize;
     switch (heapSizeKind) {
         case SND_HEAP_SIZE_LARGE:
@@ -329,8 +329,8 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             seqRowHeapSize = 0x35a0;
             break;
     }
-    CreateSeqRowHeap((void *) buffer, seqRowHeapSize);
-    gSeqRowSndHeap = (NNSSndHeap *) buffer;
+    CreateSetGlobalCX((void *) buffer, seqRowHeapSize);
+    g_AnotherSoundContext = (NNSSndHeap *) buffer;
     heapCursor = buffer + seqRowHeapSize;
     currentHeapSize = (heapSizeKind == SND_HEAP_SIZE_LARGE ? 0xc8000 : 0xaf000) -
                       (heapSizeKind == SND_HEAP_SIZE_SMALL ? 0xaf000 : 0xc400);
@@ -358,7 +358,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
             break;
     }
     currentHeapSize = currentHeapSize - soundHeapSizeCopy - seqRowHeapSizeCopy;
-    gCurrentSndHeap = NNS_SndHeapCreate((void *) heapCursor, currentHeapSize);
+    g_SoundContext = Sound_InitializeContext((void *) heapCursor, currentHeapSize);
     heapCursor = 0;
     if (heapSizeKind == 1) {
         heapCursor = 1;
@@ -366,7 +366,7 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     LoadInitialSndGroup(heapCursor);
 }
 
-void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
+void InitializeAudio(void *buffer, u32 bufferSize, u32 useFileArchive) {
     u32 soundHeapSize;
     u32 seqRowHeapSize;
     SndHeapSizeKind heapSizeKind;
@@ -399,22 +399,22 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
                 break;
         }
         bufferSize = bufferSize - soundHeapSize;
-        gSndHeapSizeKind = SND_HEAP_SIZE_SMALL;
+        g_BootMode = SND_HEAP_SIZE_SMALL;
         bufferSize = bufferSize - seqRowHeapSize;
     }
-    InitSoundSystem(buffer, bufferSize, useFileArchive != 0 ? gSoundDataSdatPath : 0);
+    Sound_InitializeWithData(buffer, bufferSize, useFileArchive != 0 ? g_str_data_Sound_sound_data_sdat : 0);
     InitSoundRequestQueues();
-    NNS_SndArcInitOnMemory(&gOnMemorySndArc, gOnMemorySdat);
-    NNS_SndArcSetCurrent(&gFileSndArc);
+    Sound_ReadSdatFromMemory(&g_MainSdat, g_OnmemSdatPtr);
+    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
     if (useFileArchive != 0) {
-        LoadInitialSndArcs();
+        LoadCertainSwarSbnkSarc();
     } else {
         gLoadedSoundBanks = gLoadedSoundBanksAfterOnMemoryInit;
-        gSndHeap = NNS_SndHeapCreate((buffer + bufferSize), 0x25a5c);
-        CreateSeqRowHeap((buffer + bufferSize + 0x25a5c), 0x35a0);
+        g_SomeSoundContext = Sound_InitializeContext((buffer + bufferSize), 0x25a5c);
+        CreateSetGlobalCX((buffer + bufferSize + 0x25a5c), 0x35a0);
     }
     gSceneSeqVolume = 0x69;
-    StartSoundOutputEffect(1);
+    MaybeSendArm7SoundShit(1);
     InitKartSoundPitchFactors();
     ClearSndFileIdList(GetSndDataFileIdList());
     ClearSndFileIdList(GetSoundSetFileIdList());
@@ -440,7 +440,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
 }
 
 // Per-frame sound step; runs once per iteration of every scene frame loop.
-void UpdateSounds(void) {
+void LoopFn_Sound(void) {
     s32 queueIndex;
     BOOL seqZeroPlaying;
     NNSSndSeqPlayer *seqPlayer;
@@ -459,12 +459,12 @@ void UpdateSounds(void) {
         seqPlayer = gSeqZeroLoopHandle;
         seqZeroPlaying = seqPlayer != NULL && seqPlayer->mSeqArcIndex == 0 && seqPlayer->mSeqNo == 0;
         if (seqZeroPlaying == FALSE) {
-            NNS_SndArcSetCurrent(&gOnMemorySndArc);
+            Sound_MaybeSetActiveSdat(&g_MainSdat);
             if (gSeqZeroLoopHandle != NULL) {
                 NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 0);
-            NNS_SndArcSetCurrent(&gFileSndArc);
+            PlaySseqFromSarc(&gSeqZeroLoopHandle, 0, 0);
+            Sound_MaybeSetActiveSdat(&g_GlobalSdat);
         }
     }
     UpdateSndMain();
@@ -472,7 +472,7 @@ void UpdateSounds(void) {
 }
 
 // Loads the sound data of the scene that is starting; the parameter is not used.
-void InitSceneSounds(s32 unused) {
+void MaybeChangeAudioForMenu(s32 unused) {
     s32 sceneSoundRowIndex;
     s32 currentSceneNumber;
     s32 value;
@@ -482,21 +482,21 @@ void InitSceneSounds(s32 unused) {
     SoundRow buf;
     ScenePlayersSeqInfo scenePlayersSeqInfo;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneId() == 6) {
         return;
     }
-    ClearSurfaceSoundIds();
-    currentSceneNumber = GetCurrentSceneNumber();
+    ClearGlobalVA();
+    currentSceneNumber = GetCurrentSceneId();
     value = 0x69;
     isRaceScene = FALSE;
-    if (GetCurrentSceneNumber() == SCENE_RACE) {
-        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
+    if (GetCurrentSceneId() == SCENE_RACE) {
+        raceKindMatches = g_GlobalCO->mRaceKind == RACE_KIND_NORMAL || g_GlobalCO->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != 0) {
             isRaceScene = TRUE;
         }
     }
     if (isRaceScene != FALSE) {
-        switch (gRaceSetup->mCourseId) {
+        switch (g_GlobalCO->mCourseId) {
             case COURSE_ID_BEACH:
                 value = value + 0x17;
                 break;
@@ -519,7 +519,7 @@ void InitSceneSounds(s32 unused) {
         value = 0x7f;
     }
     gSceneSeqVolume = value;
-    sceneSoundRowIndex = GetSceneSoundRowIndex(currentSceneNumber, &buf);
+    sceneSoundRowIndex = MaybeGetMusicForMenu(currentSceneNumber, &buf);
     if (gCurrentSoundSetPlayer == NULL) {
         ResetSeqVariableReadings();
         SetSeqVariableEnabled(0, 0);
@@ -533,192 +533,192 @@ void InitSceneSounds(s32 unused) {
     InitVolumeFade();
     switch (currentSceneNumber) {
         case SCENE_RACE:
-            value = gRaceSetup->mCourseId;
+            value = g_GlobalCO->mCourseId;
             switch (value) {
                 case COURSE_ID_TOWN:
                     SetSeqVariableEnabled(0, 1);
                     SetSeqVariableEnabled(1, 1);
                     break;
                 case COURSE_ID_MANSION:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[0].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[0]);
                     break;
                 case COURSE_ID_PINBALL:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[1].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[1]);
                     break;
                 case COURSE_ID_RIDGE:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[2].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[2]);
                     break;
                 case COURSE_ID_SNOW:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[3].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[3]);
                     break;
                 case COURSE_ID_CLOCK:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[4].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[4]);
                     break;
                 case COURSE_ID_AIRSHIP:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[5].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[5]);
                     break;
                 case COURSE_ID_STADIUM:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[6].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[6]);
                     break;
                 case COURSE_ID_GARDEN:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[7].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[7]);
                     break;
                 case COURSE_ID_KOOPA:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[8].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[8]);
                     break;
                 case COURSE_ID_OLD_BABY_GC:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[9].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[9]);
                     break;
                 case COURSE_ID_OLD_KINOKO_GC:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[10].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[10]);
                     break;
                 case COURSE_ID_OLD_HYUDORO_64:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[11].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[11]);
                     break;
                 case COURSE_ID_MINI_STAGE4:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[12].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[12]);
                     break;
                 case COURSE_ID_OLD_LUIGI_AGB:
@@ -726,27 +726,27 @@ void InitSceneSounds(s32 unused) {
                                        gOldLuigiAgbSurfaceSoundSetup.mColumnIndex, &gOldLuigiAgbSurfaceSoundSetup);
                     break;
                 case COURSE_ID_MR_STAGE3:
-                    CourseEntrySetSurfaceSoundIds(0x15, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
+                    SetSomeVAVO(0x15, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0x8, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
+                    SetSomeVAVO(0x8, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0x9, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
+                    SetSomeVAVO(0x9, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0xd, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
+                    SetSomeVAVO(0xd, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0xe, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
+                    SetSomeVAVO(0xe, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    CourseEntrySetSurfaceSoundIds(0x10, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
+                    SetSomeVAVO(0x10, gCourseSurfaceSoundEntries[13].mSurfaceVariant,
                                                   &gCourseSurfaceSoundEntries[13]);
-                    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
+                    if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
                         InitKingTeresaSoundState(1);
                     }
                     break;
             }
             SelectCourseSoundTable(value);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                MissionSettings *setupView = &gRaceSetup->mMissionSettings;
-                switch (gRaceSetup->mMissionKind) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+                MissionSettings *setupView = &g_GlobalCO->mMissionSettings;
+                switch (g_GlobalCO->mMissionKind) {
                     case MISSION_KIND_COUNT_PENDING_WITH_SEQ:
                         gMissionRunCountSeqNo[0] = 0x1d7;
                         gMissionRunLimitSeqNo[0] = 0x1d7;
@@ -785,16 +785,16 @@ void InitSceneSounds(s32 unused) {
             { break; }
         case SCENE_MENU_1:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                savedHeap = gCurrentSndHeap;
+                savedHeap = g_SoundContext;
                 if (gLoadedSoundBanks.mLoadMarker == LOADED_SOUND_BANKS_NONE ||
                     gLoadedSoundBanks.mBankMask != LOADED_SOUND_BANKS_MENU_SET) {
-                    NNS_SndHeapClear(gSndHeap);
+                    Sound_Context_DisposeLoadedStuff(g_SomeSoundContext);
                     gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_NONE;
                     gLoadedSoundBanks.mBankMask = 0;
-                    gCurrentSndHeap = gSndHeap;
-                    if (NNS_SndArcLoadBank(0x2c, gSndHeap) != 0) {
-                        if (NNS_SndArcLoadSeqArc(3, gCurrentSndHeap) != 0) {
-                            gCurrentSndHeap = savedHeap;
+                    g_SoundContext = g_SomeSoundContext;
+                    if (Sound_LoadSbnk(0x2c, g_SomeSoundContext) != 0) {
+                        if (Sound_LoadSarc(3, g_SoundContext) != 0) {
+                            g_SoundContext = savedHeap;
                             gLoadedSoundBanks.mBankMask = LOADED_SOUND_BANKS_MENU_SET;
                             gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_LOADED;
                         }
@@ -803,16 +803,16 @@ void InitSceneSounds(s32 unused) {
             }
             { break; }
         case SCENE_WIFI_MENU:
-            savedHeap = gCurrentSndHeap;
+            savedHeap = g_SoundContext;
             if (gLoadedSoundBanks.mLoadMarker == LOADED_SOUND_BANKS_NONE ||
                 gLoadedSoundBanks.mBankMask != LOADED_SOUND_BANKS_MENU_SET) {
-                NNS_SndHeapClear(gSndHeap);
+                Sound_Context_DisposeLoadedStuff(g_SomeSoundContext);
                 gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_NONE;
                 gLoadedSoundBanks.mBankMask = 0;
-                gCurrentSndHeap = gSndHeap;
-                if (NNS_SndArcLoadBank(0x2c, gSndHeap) != 0) {
-                    if (NNS_SndArcLoadSeqArc(3, gCurrentSndHeap) != 0) {
-                        gCurrentSndHeap = savedHeap;
+                g_SoundContext = g_SomeSoundContext;
+                if (Sound_LoadSbnk(0x2c, g_SomeSoundContext) != 0) {
+                    if (Sound_LoadSarc(3, g_SoundContext) != 0) {
+                        g_SoundContext = savedHeap;
                         gLoadedSoundBanks.mBankMask = LOADED_SOUND_BANKS_MENU_SET;
                         gLoadedSoundBanks.mLoadMarker = LOADED_SOUND_BANKS_LOADED;
                     }
@@ -828,7 +828,7 @@ void InitSceneSounds(s32 unused) {
     InitVolumeFade();
     InitSceneSoundState(sceneSoundRowIndex & 0xff, scenePlayersSeqInfo, &gSceneSoundState);
     InitSoundFalloffsAndPlayingSounds();
-    InitSceneSoundsNop();
+    nullsub_13();
     InitKartSoundQueue();
     ResetSoundRequestQueues();
     ResetSeqPlayerControl();
@@ -839,16 +839,16 @@ void InitSceneSounds(s32 unused) {
         return;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        NNS_SndArcLoadBank(2, gCurrentSndHeap);
+        Sound_LoadSbnk(2, g_SoundContext);
     }
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         return;
     }
-    gSndHeapSavedState[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
-    if (GetCurrentSceneNumber() != SCENE_MENU_1) {
+    g_BackupSoundHeapStateId[0] = Sound_Context_BackupFrameState(g_SoundContext);
+    if (GetCurrentSceneId() != SCENE_MENU_1) {
         return;
     }
-    if (gMenuShared->mMenuEntryKind == MENU_ENTRY_MISSION_SELECT) {
+    if (g_GlobalB488->mMenuEntryKind == MENU_ENTRY_MISSION_SELECT) {
         gScenePlayers.mSeqInfo.mSeqStartProgress = SCENE_PLAYERS_SEQ_START_NEVER;
     }
 }
@@ -871,7 +871,7 @@ void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, Sc
     SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_STOPPED);
 }
 
-void StartSceneSounds(void) {
+void PlayBgEffectsAndMore(void) {
     s32 flag;
     u32 raceKindMatches;
     s32 value;
@@ -881,7 +881,7 @@ void StartSceneSounds(void) {
     s32 playerId2;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        if (GetCurrentSceneNumber() == 6) {
+        if (GetCurrentSceneId() == 6) {
             return;
         }
     }
@@ -893,8 +893,8 @@ void StartSceneSounds(void) {
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = SOUND_VOLUME_MAX;
     gPlayerVolumeFade.mTargetVolumeAfterRaceStart = SOUND_VOLUME_MAX;
     gPlayerVolumeFade.mRaceStarted = 0;
-    if (GetCurrentSceneNumber() == SCENE_RACE) {
-        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
+    if (GetCurrentSceneId() == SCENE_RACE) {
+        raceKindMatches = g_GlobalCO->mRaceKind == RACE_KIND_NORMAL || g_GlobalCO->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != 0) {
             flag = 1;
         }
@@ -902,11 +902,11 @@ void StartSceneSounds(void) {
     if (flag != 0) {
         SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
         gRaceSoundKind = 1;
-        StartScenePlayersSeqNo(&gScenePlayers, GetSeqRowSceneSeq(), NULL);
+        StartScenePlayersSeqNo(&gScenePlayers, GetSomeCXSseqId(), NULL);
         gRaceSeqStarted = 0;
         value = 0xffff;
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            switch (gRaceSetup->mMissionTableValue) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+            switch (g_GlobalCO->mMissionTableValue) {
                 case MISSION_NUMBER_DONKETU:
                     value = 0x20e;
                     break;
@@ -922,7 +922,7 @@ void StartSceneSounds(void) {
             }
         }
         if (value == 0xffff) {
-            switch (gRaceSetup->mCourseId) {
+            switch (g_GlobalCO->mCourseId) {
                 case COURSE_ID_AIRSHIP:
                     value = 0x1d2;
                     break;
@@ -945,53 +945,53 @@ void StartSceneSounds(void) {
                     if (*seqHandle != NULL) {
                         NNS_SndPlayerStopSeq(seqHandle, 0);
                     }
-                    NNS_SndArcPlayerStartSeqArc(seqHandle, 0, value);
+                    PlaySseqFromSarc(seqHandle, 0, value);
                 }
             }
             gRaceSeqStarted = 1;
         }
-        if (gRaceSetup->mMode != MODE_BATTLE) {
-            SetLapProgressSoundGaps(gCourseMap->mCheckpointSum);
-            gSceneSoundState.mLapCount = GetLapCount();
+        if (g_GlobalCO->mMode != MODE_BATTLE) {
+            SetLapProgressSoundGaps(g_GlobalPE->mCheckpointSum);
+            gSceneSoundState.mLapCount = GetCurrentLapCount();
         }
     } else {
-        if (GetCurrentSceneNumber() == SCENE_RACE) {
-            if (gRaceSetup->mRaceKind - 3 <= 1) {
+        if (GetCurrentSceneId() == SCENE_RACE) {
+            if (g_GlobalCO->mRaceKind - 3 <= 1) {
                 SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
                 gRaceSoundKind = 2;
             } else {
-                if (IsFileSndArcOpen() != 0) {
-                    savedArc = NNS_SndArcGetCurrent();
-                    NNS_SndArcSetCurrent(&gFileSndArc);
+                if (Sound_IsGlobalSdatUsed() != 0) {
+                    savedArc = Sound_GetActiveSdat();
+                    Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                     value = 0xffff;
                     flag = 0x7f;
                     for (playerId = 1; playerId <= 7; playerId++) {
-                        if (NNS_SndArcGetPlayerInfo(playerId) != NULL) {
+                        if (Sound_GetPlayerInfoEntry(playerId) != NULL) {
                             if (((value >> playerId) & 1) != 0) {
-                                NNS_SndPlayerSetPlayerVolume(playerId, flag);
+                                MaybeSetPlayerVolume(playerId, flag);
                             }
                         }
                     }
-                    NNS_SndArcSetCurrent(savedArc);
+                    Sound_MaybeSetActiveSdat(savedArc);
                 }
                 gPlayerVolumeFade.mVolume = TO_FIXED12(SOUND_VOLUME_MAX);
                 SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY);
                 gRaceSoundKind = 0;
             }
         } else {
-            if (IsFileSndArcOpen() != 0) {
-                savedArc = NNS_SndArcGetCurrent();
-                NNS_SndArcSetCurrent(&gFileSndArc);
+            if (Sound_IsGlobalSdatUsed() != 0) {
+                savedArc = Sound_GetActiveSdat();
+                Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                 value = 0xffff;
                 flag = 0x7f;
                 for (playerId2 = 1; playerId2 <= 7; playerId2++) {
-                    if (NNS_SndArcGetPlayerInfo(playerId2) != NULL) {
+                    if (Sound_GetPlayerInfoEntry(playerId2) != NULL) {
                         if (((value >> playerId2) & 1) != 0) {
-                            NNS_SndPlayerSetPlayerVolume(playerId2, flag);
+                            MaybeSetPlayerVolume(playerId2, flag);
                         }
                     }
                 }
-                NNS_SndArcSetCurrent(savedArc);
+                Sound_MaybeSetActiveSdat(savedArc);
             }
             gPlayerVolumeFade.mVolume = TO_FIXED12(SOUND_VOLUME_MAX);
             SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
@@ -1011,7 +1011,7 @@ void StartRaceSounds(void) {
     if (gRaceSeqStarted != 0) {
         NNS_SndPlayerStopSeq(&gSndHandleSlots[7], 0x14);
     }
-    if (gRaceSetup->mCourseId != COURSE_ID_STADIUM) {
+    if (g_GlobalCO->mCourseId != COURSE_ID_STADIUM) {
         return;
     }
     for (slotIndex = 7; slotIndex < 12; slotIndex++) {
@@ -1030,7 +1030,7 @@ void StartRaceSounds(void) {
     if (*handle != NULL) {
         NNS_SndPlayerStopSeq(handle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(handle, 0, 0x1c0);
+    PlaySseqFromSarc(handle, 0, 0x1c0);
 }
 
 void StartKartStarSeq(void) {
@@ -1042,12 +1042,12 @@ void StartKartStarSeq(void) {
         gKartStarSeqStartPending = 1;
         return;
     }
-    NNS_SndPlayerSetTrackMuteEx(&gScenePlayers.mSeqPlayer, 0xffff, 1);
+    NNS_SndPlayerSetTrackMute(&gScenePlayers.mSeqPlayer, 0xffff, 1);
     StartScenePlayersSeqNo(&gScenePlayers, 0x49, &gSceneSoundState.mKartStarSeq);
 }
 
 void StopKartStarSeq(void) {
-    NNS_SndPlayerSetTrackMuteEx(&gScenePlayers.mSeqPlayer, 0xffff, 0);
+    NNS_SndPlayerSetTrackMute(&gScenePlayers.mSeqPlayer, 0xffff, 0);
     NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
     if (gSceneSeqRestartAfterStar != 0) {
         if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_RUNNING) {
@@ -1069,7 +1069,7 @@ void EndRaceSounds(void) {
 
     gSceneSoundState.mRaceState = SCENE_RACE_STATE_ENDED;
     StopScenePlayersSeq(&gScenePlayers, GetEndRaceFadeSteps());
-    NNS_SndPlayerSetTrackMuteEx(&gScenePlayers.mSeqPlayer, 0xffff, 0);
+    NNS_SndPlayerSetTrackMute(&gScenePlayers.mSeqPlayer, 0xffff, 0);
     NNS_SndPlayerStopSeq(&gSceneSoundState.mKartStarSeq, 0);
     if (gSceneSeqRestartAfterStar != 0) {
         if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_RUNNING) {
@@ -1102,12 +1102,12 @@ void AdvanceSceneSoundLap(void) {
     NNSSndSeqPlayer **seqHandle;
 
     finishedAllLaps = FALSE;
-    if (GetCurrentSceneNumber() == SCENE_RACE) {
-        if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (GetCurrentSceneId() == SCENE_RACE) {
+        if (g_GlobalCO->mRaceKind == RACE_KIND_DEMO) {
             return;
         }
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         return;
     }
     gSceneSoundState.mLapsDone = gSceneSoundState.mLapsDone + 1;
@@ -1118,12 +1118,12 @@ void AdvanceSceneSoundLap(void) {
         gSceneSoundState.mOnLastLap = 1;
         StopScenePlayersSeq(&gScenePlayers, 0);
         if (gSceneSoundState.mKartStarSeq != NULL) {
-            NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 1);
+            NNS_SndPlayerSetTrackMute(&gSceneSoundState.mKartStarSeq, 0xffff, 1);
         }
         StartScenePlayersSeqNo(&gScenePlayers, 0x3e, NULL);
         gSceneSoundState.mLastLapSeqState = SCENE_LAST_LAP_SEQ_PLAYING;
     }
-    if (gRaceSetup->mCourseId != COURSE_ID_STADIUM) {
+    if (g_GlobalCO->mCourseId != COURSE_ID_STADIUM) {
         return;
     }
     if (finishedAllLaps != FALSE) {
@@ -1145,7 +1145,7 @@ void AdvanceSceneSoundLap(void) {
     if (*seqHandle != NULL) {
         NNS_SndPlayerStopSeq(seqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(seqHandle, 0, 0x1c1);
+    PlaySseqFromSarc(seqHandle, 0, 0x1c1);
 }
 
 // Stores the selected kart's new place; in some courses it starts a seq when the place improves.
@@ -1160,8 +1160,8 @@ void SetSceneSoundRank(u8 rankIndex) {
     NNSSndSeqPlayer **seqHandle;
 
     flag = FALSE;
-    if (GetCurrentSceneNumber() == SCENE_RACE) {
-        raceKindMatches = gRaceSetup->mRaceKind == RACE_KIND_NORMAL || gRaceSetup->mRaceKind == RACE_KIND_REPLAY;
+    if (GetCurrentSceneId() == SCENE_RACE) {
+        raceKindMatches = g_GlobalCO->mRaceKind == RACE_KIND_NORMAL || g_GlobalCO->mRaceKind == RACE_KIND_REPLAY;
         if (raceKindMatches != FALSE) {
             flag = TRUE;
         }
@@ -1169,7 +1169,7 @@ void SetSceneSoundRank(u8 rankIndex) {
     if (flag == FALSE) {
         return;
     }
-    if ((u32) gRaceSetup->mMode - 1 <= 1) {
+    if ((u32) g_GlobalCO->mMode - 1 <= 1) {
         return;
     }
     seqNo = -1;
@@ -1178,7 +1178,7 @@ void SetSceneSoundRank(u8 rankIndex) {
         gSceneSoundState.mRankIndex = rankIndex;
         return;
     }
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_STADIUM:
             if (gSceneSoundState.mOnLastLap != 0) {
                 seqNo = 0x1c2;
@@ -1222,7 +1222,7 @@ void SetSceneSoundRank(u8 rankIndex) {
                         if (*seqHandle != NULL) {
                             NNS_SndPlayerStopSeq(seqHandle, 0);
                         }
-                        NNS_SndArcPlayerStartSeqArc(seqHandle, 0, (u16) seqNo);
+                        PlaySseqFromSarc(seqHandle, 0, (u16) seqNo);
                     }
                 }
                 gSceneSoundState.mRankIndexAtSeq = rankIndex;
@@ -1256,15 +1256,15 @@ void UpdateRaceSounds(void) {
                 steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeFade.mTargetVolumes[tableRow]);
                 if (steppedVolume != -1) {
                     playerMask = gPlayerVolumeFade.mPlayerMasks[tableRow];
-                    if (IsFileSndArcOpen() != 0) {
-                        savedArc = NNS_SndArcGetCurrent();
-                        NNS_SndArcSetCurrent(&gFileSndArc);
+                    if (Sound_IsGlobalSdatUsed() != 0) {
+                        savedArc = Sound_GetActiveSdat();
+                        Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                         for (playerNo = 1; playerNo <= 7; playerNo++) {
-                            if (NNS_SndArcGetPlayerInfo(playerNo) != NULL && ((playerMask >> playerNo) & 1) != 0) {
-                                NNS_SndPlayerSetPlayerVolume(playerNo, steppedVolume);
+                            if (Sound_GetPlayerInfoEntry(playerNo) != NULL && ((playerMask >> playerNo) & 1) != 0) {
+                                MaybeSetPlayerVolume(playerNo, steppedVolume);
                             }
                         }
-                        NNS_SndArcSetCurrent(savedArc);
+                        Sound_MaybeSetActiveSdat(savedArc);
                     }
                 }
             }
@@ -1275,17 +1275,17 @@ void UpdateRaceSounds(void) {
             UpdateRaceEndSeq();
             break;
     }
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (g_GlobalCO->mMode != MODE_BATTLE) {
         sceneSeqHandle = &gScenePlayers.mSeqPlayer;
         if (IsAnySeqVariableEnabled() != 0) {
             UpdateSeqVariableReadings(sceneSeqHandle);
-            if (gRaceSetup->mCourseId == COURSE_ID_TOWN) {
+            if (g_GlobalCO->mCourseId == COURSE_ID_TOWN) {
                 if (IsSeqVariableChanged(0) != 0 || IsSeqVariableChanged(1) != 0) {
                     StartCourseSoundAtVolume(0, 0x1a9);
                 }
             }
         }
-        if (gRaceSetup->mCourseId == COURSE_ID_KOOPA) {
+        if (g_GlobalCO->mCourseId == COURSE_ID_KOOPA) {
             UpdateCourseSound(0, 0x16b);
         }
         if (gSceneSoundState.mRankSeqFrames != -1) {
@@ -1299,14 +1299,14 @@ void UpdateRaceSounds(void) {
                 if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_RUNNING) {
                     gSceneSoundState.mKartStarSeqOn = 1;
                     if ((gSceneSoundState.mLastLapSeqState & 1) == 0) {
-                        NNS_SndPlayerSetTrackMuteEx(&gScenePlayers.mSeqPlayer, 0xffff, 1);
+                        NNS_SndPlayerSetTrackMute(&gScenePlayers.mSeqPlayer, 0xffff, 1);
                         StartScenePlayersSeqNo(&gScenePlayers, 0x49, &gSceneSoundState.mKartStarSeq);
                     }
                 }
                 gKartStarSeqStartPending = 0;
                 gSceneSeqRestartAfterStar = 1;
             } else if (gSceneSoundState.mKartStarSeq != NULL) {
-                NNS_SndPlayerSetTrackMuteEx(&gSceneSoundState.mKartStarSeq, 0xffff, 0);
+                NNS_SndPlayerSetTrackMute(&gSceneSoundState.mKartStarSeq, 0xffff, 0);
                 gSceneSeqRestartAfterStar = 1;
             } else if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_RUNNING) {
                 StartScenePlayersSeq(&gScenePlayers);
@@ -1326,7 +1326,7 @@ void UpdateCourseSeqAtSceneFrames(void) {
     NNSSndSeqPlayer **seqHandle;
 
     seqNo = 0xffff;
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_STADIUM:
             if (gSceneSoundState.mSceneFrames == SCENE_COURSE_SEQ_START_FRAMES) {
                 seqNo = 0x1bc;
@@ -1428,7 +1428,7 @@ void UpdateCourseSeqAtSceneFrames(void) {
     if (*seqHandle != NULL) {
         NNS_SndPlayerStopSeq(seqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(seqHandle, 0, seqNo);
+    PlaySseqFromSarc(seqHandle, 0, seqNo);
 }
 
 void UpdateSceneSoundState(void) {
@@ -1446,20 +1446,20 @@ void UpdateSceneSoundState(void) {
         steppedVolume = StepValueTowardTarget(volumeFade, gPlayerVolumeFade.mTargetVolumes[tableRow]);
         if (steppedVolume != -1) {
             playerMask = gPlayerVolumeFade.mPlayerMasks[tableRow];
-            if (IsFileSndArcOpen() != 0) {
-                savedArc = NNS_SndArcGetCurrent();
-                NNS_SndArcSetCurrent(&gFileSndArc);
+            if (Sound_IsGlobalSdatUsed() != 0) {
+                savedArc = Sound_GetActiveSdat();
+                Sound_MaybeSetActiveSdat(&g_GlobalSdat);
                 for (playerNo = 1; playerNo <= 7; playerNo++) {
-                    if (NNS_SndArcGetPlayerInfo(playerNo) != NULL && ((playerMask >> playerNo) & 1) != 0) {
-                        NNS_SndPlayerSetPlayerVolume(playerNo, steppedVolume);
+                    if (Sound_GetPlayerInfoEntry(playerNo) != NULL && ((playerMask >> playerNo) & 1) != 0) {
+                        MaybeSetPlayerVolume(playerNo, steppedVolume);
                     }
                 }
-                NNS_SndArcSetCurrent(savedArc);
+                Sound_MaybeSetActiveSdat(savedArc);
             }
         }
     }
-    if (GetCurrentSceneNumber() == SCENE_RACE) {
-        switch (gRaceSetup->mRaceKind) {
+    if (GetCurrentSceneId() == SCENE_RACE) {
+        switch (g_GlobalCO->mRaceKind) {
             case RACE_KIND_NORMAL:
             case RACE_KIND_REPLAY:
                 UpdateRaceSounds();
@@ -1469,15 +1469,15 @@ void UpdateSceneSoundState(void) {
                 UpdateCourseSeqAtSceneFrames();
                 break;
         }
-    } else if (GetCurrentSceneNumber() == SCENE_LOGO) {
+    } else if (GetCurrentSceneId() == SCENE_LOGO) {
         if (gSceneSoundState.mSceneFrames == SCENE_LOGO_SEQ_STOP_FRAMES) {
             NNS_SndPlayerStopSeq(&gScenePlayers.mSeqPlayer, 0x1b);
         }
-    } else if (GetCurrentSceneNumber() == SCENE_MENU_1 || GetCurrentSceneNumber() == SCENE_WIFI_MENU) {
+    } else if (GetCurrentSceneId() == SCENE_MENU_1 || GetCurrentSceneId() == SCENE_WIFI_MENU) {
         if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             UpdateSeqQueue();
         }
-    } else if (GetCurrentSceneNumber() == SCENE_EMBLEM) {
+    } else if (GetCurrentSceneId() == SCENE_EMBLEM) {
         UpdateEmblemSound();
     }
     if (gCurrentSoundSetPlayer != NULL && gCurrentSoundSetPlayer->mSoundSet.mSeqId == 0 &&
@@ -1493,12 +1493,12 @@ void StopSceneSounds(void) {
     s32 poolIndex;
     u8 *playerCursor;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneId() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
     gPlayerVolumeFade.mRaceStarted = 0;
-    ScenePlayersNop(&gScenePlayers);
+    nullsub_14(&gScenePlayers);
     SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_FADED_OUT);
     for (slotIndex = 0; slotIndex < 12; slotIndex++) {
         NNS_SndPlayerStopSeq(gSndHandleSlots + slotIndex, GetSoundFadeSteps());
@@ -1520,7 +1520,7 @@ void StopSceneSoundsAtOnce(void) {
     u8 *playerCursor;
     SoundHandlePool *playerTable;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneId() == 6) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
@@ -1562,7 +1562,7 @@ void LowerSndHandleVolumes(void) {
     if (gChoisesSSeqHandle != NULL) {
         NNS_SndPlayerStopSeq(&gChoisesSSeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gChoisesSSeqHandle, 0, 0x11);
+    PlaySseqFromSarc(&gChoisesSSeqHandle, 0, 0x11);
     if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_ENDED) {
         return;
     }
@@ -1600,7 +1600,7 @@ void RaiseSndHandleVolumes(void) {
     if (gChoisesSSeqHandle != NULL) {
         NNS_SndPlayerStopSeq(&gChoisesSSeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gChoisesSSeqHandle, 0, 0x12);
+    PlaySseqFromSarc(&gChoisesSSeqHandle, 0, 0x12);
     if (gSceneSoundState.mRaceState == SCENE_RACE_STATE_ENDED) {
         return;
     }
@@ -1635,7 +1635,7 @@ void StartChoisesSValueSeq(s32 valueIndex) {
     if (gChoisesSSeqHandle != NULL) {
         NNS_SndPlayerStopSeq(&gChoisesSSeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gChoisesSSeqHandle, 0, seqNo);
+    PlaySseqFromSarc(&gChoisesSSeqHandle, 0, seqNo);
     if (valueIndex == 4) {
         return;
     }
@@ -1666,12 +1666,12 @@ void SetSndHandleTrackPitch(NNSSndSeqPlayer **handle, u32 pitch) {
 }
 
 // Starts sound a on the shared handle unless one was already started this frame.
-void StartSoundOncePerFrame(s32 seqNo) {
+void MaybePlaySomeSseqFromSarc0(s32 seqNo) {
     if (gSoundStartedThisFrame != 0) {
         return;
     }
     gSoundStartedThisFrame = 1;
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, seqNo);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, seqNo);
 }
 
 void StartMissionRunLVselSeq(u32 mode) {
@@ -1682,9 +1682,9 @@ void StartMissionRunLVselSeq(u32 mode) {
         return;
     }
     seqNo = (mode == 1) ? 0x47 : 0x48;
-    NNS_SndHeapLoadState(gCurrentSndHeap, gSndHeapSavedState[0]);
-    NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
-    NNS_SndArcLoadSeq(seqNo, gCurrentSndHeap);
+    Sound_MaybeRestoreHeapState(g_SoundContext, g_BackupSoundHeapStateId[0]);
+    Sound_Context_GetMaybeSavedFrameHeapStateId(g_SoundContext);
+    CheckMaybeLoadSseqOk(seqNo, g_SoundContext);
     NNS_SndPlayerStopSeq(&gScenePlayers.mSeqPlayer, 2);
     StartSeqAtVolume(seqNo, 0x7f, &gSndHandleSlots[1]);
 }
@@ -1758,11 +1758,11 @@ void LoadMissionRunMSselSoundData(u32 mode, u32 missionRow) {
             bankNo = 0x17;
             break;
     }
-    NNS_SndHeapLoadState(gCurrentSndHeap, gSndHeapSavedState[0]);
-    NNS_SndHeapGetCurrentLevel(gCurrentSndHeap);
-    NNS_SndArcLoadBank(bankNo, gCurrentSndHeap);
-    NNS_SndArcLoadBank(0x2a, gCurrentSndHeap);
-    NNS_SndArcLoadSeqArc(4, gCurrentSndHeap);
+    Sound_MaybeRestoreHeapState(g_SoundContext, g_BackupSoundHeapStateId[0]);
+    Sound_Context_GetMaybeSavedFrameHeapStateId(g_SoundContext);
+    Sound_LoadSbnk(bankNo, g_SoundContext);
+    Sound_LoadSbnk(0x2a, g_SoundContext);
+    Sound_LoadSarc(4, g_SoundContext);
 }
 
 void UpdateMissionRunMSselSounds(s32 stepId) {
@@ -1829,7 +1829,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
         if (*seqHandle != NULL) {
             NNS_SndPlayerStopSeq(seqHandle, 0);
         }
-        NNS_SndArcPlayerStartSeqArc(seqHandle, 4, 0);
+        PlaySseqFromSarc(seqHandle, 4, 0);
         if (*seqHandle != NULL) {
             NNS_SndPlayerSetTrackVolume(seqHandle, gSeqTrackMask, trackVolume & 0xff);
         }
@@ -1846,7 +1846,7 @@ void UpdateMissionRunMSselSounds(s32 stepId) {
             if (*bankSeqHandle != NULL) {
                 NNS_SndPlayerStopSeq(bankSeqHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(bankSeqHandle, 4, seqIndex);
+            PlaySseqFromSarc(bankSeqHandle, 4, seqIndex);
         }
     }
     gMissionRunMSselStep0Count++;

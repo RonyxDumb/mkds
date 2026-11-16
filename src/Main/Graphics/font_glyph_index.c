@@ -2,16 +2,16 @@
 #include "font_glyph_layout.h"
 #include "cpu_copy_clear_16.h"
 
-void FillHalfwords(void *destination, u16 value, s32 size) {
+void DoFill16(void *destination, u16 value, s32 size) {
     volatile u16 valueCopy = value;
 
-    MIi_CpuClear16(valueCopy, destination, size);
+    Mem_CpuFill16(valueCopy, destination, size);
 }
 
-u32 GetFontGlyphIndex(NNSG2dFont *font, u32 code) {
+u32 NFTR_SomeFn(NNSG2dFont *font, u32 code) {
     u32 glyphIndex;
 
-    glyphIndex = NNS_G2dFontFindGlyphIndex(font, code);
+    glyphIndex = NFTR_GetTileIndexForCharacter(font, code);
     if (glyphIndex == 0xffff) {
         glyphIndex = font->mPRes->mAlterCharIndex;
     }

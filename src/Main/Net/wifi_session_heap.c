@@ -9,9 +9,9 @@ void *WiFiSessionHeapAlloc(u32 unused, u32 size, s32 alignment) {
     u32 enabled;
     void *memory;
 
-    enabled = OS_DisableInterrupts();
-    memory = HeapAllocAligned(gWiFiSession->mHeap, size, alignment);
-    OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    memory = Mem_AllocateHeapAligned(g_GlobalB->mHeap, size, alignment);
+    Os_RestoreIrq(enabled);
     return memory;
 }
 
@@ -21,7 +21,7 @@ void WiFiSessionHeapFree(u32 unused, void *memory, u32 unusedSize) {
     if (memory == NULL) {
         return;
     }
-    enabled = OS_DisableInterrupts();
-    HeapFree(gWiFiSession->mHeap, memory);
-    OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    Mem_FreeHeap(g_GlobalB->mHeap, memory);
+    Os_RestoreIrq(enabled);
 }

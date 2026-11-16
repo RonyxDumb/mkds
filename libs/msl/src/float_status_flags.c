@@ -4,16 +4,16 @@
 #include "swi_runtime_support.h"
 
 // clang-format off
-// Clears the floating-point status word (GetFloatStatus) and the five words from offset 4 of the block
-// GetFloatTrapTable
+// Clears the floating-point status word (GetAlphaFlagsRef) and the five words from offset 4 of the block
+// GetGammaFuncsRef
 // returns.
 // Kept as asm: it saves lr alone with `stmdb sp!, {lr}`, a 4-byte frame with no padding word.
-asm void _fp_init(void) {
+asm void Crt0_Reset32sAndAlphaFlags(void) {
     stmdb sp!, {lr}
-    bl GetFloatStatus
+    bl GetAlphaFlagsRef
     mov r1, #0
     str r1, [r0]
-    bl GetFloatTrapTable
+    bl GetGammaFuncsRef
     mov r1, #0
     str r1, [r0, #4]
     str r1, [r0, #8]
@@ -27,9 +27,9 @@ asm void _fp_init(void) {
 // Updates the floating-point status word: clears the bits in clearMask, then flips the bits in xorMask; returns the old
 // value.
 // Kept as asm: it saves r0-r2, ip and lr around its call, inside the body (a 20-byte frame).
-asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
+asm u32 ChangeSomeAlphaFlags(u32 clearMask, u32 xorMask) {
     stmfd sp!, {r0, r1, r2, ip, lr}
-    bl GetFloatStatus
+    bl GetAlphaFlagsRef
     mov r3, r0
     ldmfd sp!, {r0, r1, r2, ip, lr}
     ldr r2, [r3]
@@ -40,7 +40,7 @@ asm u32 FloatStatusClearXor(u32 clearMask, u32 xorMask) {
     bx lr
 }
 
-// Like FloatStatusClearXor, for the flag bits only: clearFlags and xorFlags hold flags in bits 0-4 and trap enables in
+// Like ChangeSomeAlphaFlags, for the flag bits only: clearFlags and xorFlags hold flags in bits 0-4 and trap enables in
 // bits 16-20, which are
 // moved down to bits 8-12 first. Returns the old flags (bits 0-4), the old trap enables moved up to bits 16-20, and bit
 // 30 set.
@@ -53,7 +53,7 @@ asm u32 FloatFlagsClearXor(u32 clearFlags, u32 xorFlags) {
     and r3, r1, #0x1f0000
     orr r1, r2, r3, lsr #8
     stmfd sp!, {r0, r1, r2, ip, lr}
-    bl GetFloatStatus
+    bl GetAlphaFlagsRef
     mov r3, r0
     ldmfd sp!, {r0, r1, r2, ip, lr}
     ldr r2, [r3]

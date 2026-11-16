@@ -5,7 +5,7 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-void DrawRaceHudSubScreenCellGroups(RaceHudOamBuffer *oamBuffer);
+void OamBuffer_SomeFn_0(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCellGroups(void);
 void ClearRaceHudSubScreenCellGroups(void);
 

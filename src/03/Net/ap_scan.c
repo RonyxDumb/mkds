@@ -41,8 +41,8 @@ void ReleaseApScan(void) {
 BOOL InitApScan(void) {
     ApScan *apScan;
     volatile u16 zeroValue = 0;
-    MIi_CpuClear16(zeroValue, gApScan->mEntries, 0x348);
-    if (WM_Initialize(gApScan, ApScanCallback, 3) != 2) {
+    Mem_CpuFill16(zeroValue, gApScan->mEntries, 0x348);
+    if (StructWM_SomeFn(gApScan, ApScanCallback, 3) != 2) {
         return 0;
     }
     do {
@@ -94,7 +94,7 @@ int CountApScanEntries(ApScanEntry **entriesOut) {
     slotIndex = 0;
     entry = *entriesOut;
     do {
-        bssidDiff = memcmp(entry->mBssid, gApScanEmptyBssid, 6);
+        bssidDiff = StructDC_SomeFn_6(entry->mBssid, gApScanEmptyBssid, 6);
         if (bssidDiff != 0) {
             entryCount = entryCount + 1;
         }

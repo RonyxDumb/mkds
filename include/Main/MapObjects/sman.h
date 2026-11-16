@@ -12,5 +12,5 @@
 
 #define SMAN_SOUND_ID 0x162
 
-extern struct MapObjectModel *gSmanTop;
-extern struct MapObjectModel *gSmanBottom;
+extern struct MapObjectModel *g_SmanTopMapObject;
+extern struct MapObjectModel *g_SmanBottomMapObject;

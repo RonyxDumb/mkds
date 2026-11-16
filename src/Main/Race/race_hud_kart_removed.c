@@ -4,51 +4,51 @@
 #include "Main/Race/race_hud_accessors.h"
 #include "Main/Race/race_hud_draw.h"
 
-s32 GetRaceHudUpdateFrames(void) {
+s32 GetB350_T5(void) {
     u32 updateFrames;
-    updateFrames = gRaceHud->mUpdateFrames;
+    updateFrames = g_GlobalB350->mUpdateFrames;
     return updateFrames;
 }
 
-// No NULL check: only valid while gRaceHud exists (race code only).
+// No NULL check: only valid while g_GlobalB350 exists (race code only).
 s32 GetRaceHudSubScreenState(void) {
     u32 subScreenState;
-    subScreenState = gRaceHud->mSubScreenState;
+    subScreenState = g_GlobalB350->mSubScreenState;
     return subScreenState;
 }
 
 void RequestRaceHudSubScreenGoalTeams(void) {
-    gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_TEAMS;
-    gRaceHud->mSubScreenEnabled = TRUE;
-    gRaceHud->mSubScreenGoalTeamsLoadPending = TRUE;
+    g_GlobalB350->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_TEAMS;
+    g_GlobalB350->mSubScreenEnabled = TRUE;
+    g_GlobalB350->mSubScreenGoalTeamsLoadPending = TRUE;
 }
 
 void RequestRaceHudSubScreenNewRecord(void) {
-    gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_NEW_RECORD;
-    gRaceHud->mSubScreenEnabled = TRUE;
-    gRaceHud->mSubScreenNewRecordLoadPending = TRUE;
+    g_GlobalB350->mSubScreenState = RACE_HUD_SUB_SCREEN_NEW_RECORD;
+    g_GlobalB350->mSubScreenEnabled = TRUE;
+    g_GlobalB350->mSubScreenNewRecordLoadPending = TRUE;
 }
 
 s32 GetRaceHudSubScreenCourseScale(void) {
-    return (gRaceHud->mSubScreenCourseScale);
+    return (g_GlobalB350->mSubScreenCourseScale);
 }
 
 RaceHudSubScreenBgAffine *GetRaceHudSubScreenBgAffine(void) {
-    return gRaceHud->mSubScreenBgAffines;
+    return g_GlobalB350->mSubScreenBgAffines;
 }
 
 BOOL IsRaceHudGoalMUploaded(void) {
-    return (gRaceHud->mGoalMUploaded);
+    return (g_GlobalB350->mGoalMUploaded);
 }
 
 BOOL IsRaceHudGoalMEnabled(void) {
-    return (gRaceHud->mGoalMEnabled);
+    return (g_GlobalB350->mGoalMEnabled);
 }
 
 u32 GetRaceHudKartRemoved(u32 kartIndex) {
-    return (gRaceHud->mKartRemoved[kartIndex]);
+    return (g_GlobalB350->mKartRemoved[kartIndex]);
 }
 
 void SetRaceHudKartRemoved(u32 kartIndex, u32 removed) {
-    gRaceHud->mKartRemoved[kartIndex] = removed;
+    g_GlobalB350->mKartRemoved[kartIndex] = removed;
 }

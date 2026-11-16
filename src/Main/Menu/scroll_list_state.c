@@ -67,7 +67,7 @@ u32 ScrollListIsPairNewUnlessLost(InputSlotPair *pair) {
 }
 
 u32 ScrollListIsSlotPairNew(u32 slotIndex) {
-    return ScrollListIsPairNewUnlessLost(&gInputSlots[slotIndex].mPair);
+    return ScrollListIsPairNewUnlessLost(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u32 ScrollListGetPairX(InputSlotPair *pair) {
@@ -75,7 +75,7 @@ u32 ScrollListGetPairX(InputSlotPair *pair) {
 }
 
 u32 ScrollListGetSlotPairX(u32 slot) {
-    return ScrollListGetPairX(&gInputSlots[slot].mPair);
+    return ScrollListGetPairX(&g_GlobalCYT[slot].mPair);
 }
 
 u32 ScrollListGetPairY(InputSlotPair *pair) {
@@ -83,7 +83,7 @@ u32 ScrollListGetPairY(InputSlotPair *pair) {
 }
 
 u32 ScrollListGetSlotPairY(u32 slot) {
-    return ScrollListGetPairY(&gInputSlots[slot].mPair);
+    return ScrollListGetPairY(&g_GlobalCYT[slot].mPair);
 }
 
 #pragma optimize_for_size on
@@ -113,13 +113,13 @@ u32 ScrollListHasPairOrLost(InputSlotPair *pair) {
 }
 
 u32 ScrollListSlotHasPairOrLost(u32 slotIndex) {
-    return ScrollListHasPairOrLost(&gInputSlots[slotIndex].mPair);
+    return ScrollListHasPairOrLost(&g_GlobalCYT[slotIndex].mPair);
 }
 
 #pragma thumb on
 
 void AdvanceScrollListInput(void) {
-    u32 slotIndex = GetPadInputSlot();
+    u32 slotIndex = GetSomeCYId_9();
     u32 pairX;
     u32 pairY;
     s32 rectIndex;
@@ -235,7 +235,7 @@ void SetScrollListRightColumnHighBits(s32 highBits) {
     }
     gScrollList->mRightColumnHighBitsTimer = SCROLL_LIST_HIGH_BITS_FRAMES;
     gScrollList->mRightColumnHighBits = highBits;
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gScrollList->mScreenMap, 0x600);
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gScrollList->mScreenMap, 0x600);
 }
 
 void AdvanceScrollListRightColumnTimer(void) {
@@ -258,11 +258,11 @@ u16 ScrollListGetInputSlotNewBits(InputSlot *slot, u32 mask) {
 }
 
 u16 ScrollListGetNewBits(u32 slotIndex, u32 mask) {
-    return ScrollListGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return ScrollListGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 u32 ScrollListStartSeqArc(u32 index, u32 archiveNo) {
-    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, archiveNo, index);
+    return PlaySseqFromSarc(&gSharedSeqHandle, archiveNo, index);
 }
 
 u32 ScrollListStartSeqArcWrapper(u32 index) {
@@ -276,14 +276,14 @@ u16 GetSlotDownBits(InputSlot *slot, u32 mask) {
 }
 
 u16 ScrollListGetDownBits(u32 slotIndex, u32 mask) {
-    return GetSlotDownBits(&gInputSlots[slotIndex], mask);
+    return GetSlotDownBits(&g_GlobalCYT[slotIndex], mask);
 }
 
 #pragma thumb on
 
 // Idle state: starts a pick, a selection move or a scroll from the keys and the touch.
 void AdvanceScrollListIdle(void) {
-    u32 slotIndex = GetPadInputSlot();
+    u32 slotIndex = GetSomeCYId_9();
     BOOL rowChanged;
     if (gScrollList->mEnabled == 0) {
         return;
@@ -411,7 +411,7 @@ void AdvanceScrollListScrollUp(void) {
                 entry->mOffsetY = distance;
             } else {
                 entry->mOffsetY =
-                    InterpolateS16(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
+                    ComputeValueInterpolation_from_thumb(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
             }
         }
     }
@@ -453,7 +453,7 @@ void AdvanceScrollListScrollDown(void) {
                 entry->mOffsetY = distance;
             } else {
                 entry->mOffsetY =
-                    InterpolateS16(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
+                    ComputeValueInterpolation_from_thumb(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
             }
         }
     }
@@ -498,7 +498,7 @@ void AdvanceScrollListPick(void) {
 
 void ScrollListMI_CpuFillFast(void *dest, u32 value, u32 size) {
     volatile u32 valueCopy = value;
-    MIi_CpuClearFast(valueCopy, dest, size);
+    Mem_CpuFastMemorySet(valueCopy, dest, size);
 }
 
 void ScrollListMI_CpuClearFast(void *dest, u32 size) {
@@ -506,7 +506,7 @@ void ScrollListMI_CpuClearFast(void *dest, u32 size) {
 }
 
 void ScrollListMI_CpuCopy16(const void *src, void *dst, u32 size) {
-    MIi_CpuCopy16(src, dst, size);
+    CopyMemory16(src, dst, size);
 }
 
 #pragma optimize_for_size on
@@ -518,11 +518,11 @@ void InitScrollList(void *heap, s32 groupCount, const void *groupFirstEntries, u
                     s32 upRectIndex, s32 downRectIndex, s32 firstRowRectIndex, s32 rowCount,
                     void (*callback)(int action, int slot, int row, int selectedSlot)) {
     s32 row;
-    gScrollList = HeapAlloc(heap, sizeof(*gScrollList));
+    gScrollList = Mem_AllocateHeap(heap, sizeof(*gScrollList));
     ScrollListMI_CpuClearFast(gScrollList, 0x674);
     gScrollList->mGroupCount = groupCount;
     groupCount = groupCount * 2;
-    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, groupCount, HEAP_ALIGN_CACHE_LINE);
+    gScrollList->mGroupFirstEntries = Mem_AllocateHeapAligned(heap, groupCount, HEAP_ALIGN_CACHE_LINE);
     ScrollListMI_CpuCopy16(groupFirstEntries, gScrollList->mGroupFirstEntries, groupCount);
     ScrollListMI_CpuCopy16(screenMap, gScrollList->mScreenMap, 0x600);
     gScrollList->mCursorEntry = cursorEntry;

@@ -42,9 +42,9 @@
 #pragma thumb on
 
 NNSG3dResMatData *gSpecialKartBodyMaterial;
-Nclr *gEmblemSBNclr;
-KartModels *gKartModels;
-KartModelMenuData *gKartModelMenu;
+Nclr *g_EmblemPalettte;
+KartModels *g_GlobalAD00;
+KartModelMenuData *g_GlobalCE;
 
 const s32 gCameraDefaultRows[2][3] = {{0x3a000, 0x22000, 0x14000}, {0x62000, 0x37000, 0x22000}};
 u16 gKartModelMenuTiltAngleOffset = 0xd12;
@@ -56,28 +56,28 @@ u32 gKartModelMenuSpinStep = 0x19a;
 Vec3 gKartModelMenuLookAtTarget = {0, -685, 0x4c};
 Vec3 gKartModelMenuCameraPosition = {0, -2665, 0x5000};
 Vec3 gKartModelMenuLightDirection = {-1051, -1565, -1873};
-char gEmblemSBNclrName[16] = "emblem_s_b.NCLR";
-char gCharMenuParamBinName[20] = "charmenuparam.bin";
-char gKartMenuParamBinName[20] = "kartmenuparam.bin";
-char gKartOffsetDataBinName[20] = "kartoffsetdata.bin";
-char gKartSelectNsbmdName[28] = "kart/select/select.nsbmd";
-char gKartSelectNsbtxName[28] = "kart/select/select.nsbtx";
+char g_str_emblem_s_b_NCLR[16] = "emblem_s_b.NCLR";
+char g_str_charmenuparam_bin[20] = "charmenuparam.bin";
+char g_str_kartmenuparam_bin[20] = "kartmenuparam.bin";
+char g_str_kartoffsetdata_bin_0[20] = "kartoffsetdata.bin";
+char g_str_kart_select_select_nsbmd[28] = "kart/select/select.nsbmd";
+char g_str_kart_select_select_nsbtx[28] = "kart/select/select.nsbtx";
 
 void QueueKartModelMenuLoad(void) {
-    if (gKartModelMenu->mCharacterRequested != 0 || gKartModelMenu->mKartRequested != 0) {
-        gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested = TRUE;
-        gKartModelMenu->mLoadSlot->mCharacterIndex = gKartModelMenu->mView.mCharacterIndex;
-        gKartModelMenu->mLoadSlot->mKartIndex = gKartModelMenu->mView.mKartIndex;
-        gKartModelMenu->mLoadSlot->mKartOffsetData =
-            gKartModelMenu->mKartOffsetTable + gKartModelMenu->mView.mKartIndex;
-        QueueThreadFunction(LoadKartAndCharacterFiles);
-        gThreadFunctionQueue->mRunRequested = 1;
+    if (g_GlobalCE->mCharacterRequested != 0 || g_GlobalCE->mKartRequested != 0) {
+        g_GlobalCE->mFiles[g_GlobalCE->mLoadSlotIndex].mLoadRequested = TRUE;
+        g_GlobalCE->mLoadSlot->mCharacterIndex = g_GlobalCE->mView.mCharacterIndex;
+        g_GlobalCE->mLoadSlot->mKartIndex = g_GlobalCE->mView.mKartIndex;
+        g_GlobalCE->mLoadSlot->mKartOffsetData =
+            g_GlobalCE->mKartOffsetTable + g_GlobalCE->mView.mKartIndex;
+        WorkerInsertTask(LoadKartAndCharacterFiles);
+        g_WorkerContext->mRunRequested = 1;
     }
 }
 
 void ClearKartModelMenuRequests(void) {
-    gKartModelMenu->mKartRequested = 0;
-    gKartModelMenu->mCharacterRequested = gKartModelMenu->mKartRequested;
+    g_GlobalCE->mKartRequested = 0;
+    g_GlobalCE->mCharacterRequested = g_GlobalCE->mKartRequested;
 }
 
 BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
@@ -100,10 +100,10 @@ BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
                 backupFlagIndex = 0x17;
                 break;
         }
-        if (IsBackupFlagSet(backupFlagIndex) == 0) {
+        if (CheckSavedSecretFlag_from_thumb(backupFlagIndex) == 0) {
             *characterIndex = -1;
             for (candidateCharacter = 0; candidateCharacter < 8; candidateCharacter++) {
-                if (IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, candidateCharacter, kartIndex) != 0) {
+                if (IsKartAppearWithinLimit(g_GlobalCE->mKartAppear, candidateCharacter, kartIndex) != 0) {
                     *characterIndex = candidateCharacter;
                     break;
                 }
@@ -114,22 +114,22 @@ BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
             return 0;
         }
     }
-    return IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, *characterIndex, kartIndex);
+    return IsKartAppearWithinLimit(g_GlobalCE->mKartAppear, *characterIndex, kartIndex);
 }
 
 u16 GetKartListNumber(void) {
-    return gKartModelMenu->mKartListPos + 1;
+    return g_GlobalCE->mKartListPos + 1;
 }
 
 u16 GetKartListCount(void) {
-    return gKartModelMenu->mKartListCount;
+    return g_GlobalCE->mKartListCount;
 }
 
-void LoadEmblemSBNclr(void *section) {
+void ReadEmblemPalette_from_thumb(void *section) {
     void *nclrFile;
 
-    LoadKartModelMenuFile(section, gEmblemSBNclrName, &nclrFile);
-    LoadNclrData(&gEmblemSBNclr, nclrFile);
+    ReadKartModelMenuFile_from_thumb(section, g_str_emblem_s_b_NCLR, &nclrFile);
+    Gfx_ReadPalette(&g_EmblemPalettte, nclrFile);
 }
 
 void InitCameraGlobals(void) {
@@ -138,8 +138,8 @@ void InitCameraGlobals(void) {
     *(u32 *) 0x4000580 = 0xbfff0000;
     gCameraEntryChanged = 1;
     tableIndex = gEntryCameraUpdateRan = 0;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        tableIndex = gRaceSetup->mMissionCameraTableIndex;
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        tableIndex = g_GlobalCO->mMissionCameraTableIndex;
         tableIndex = (u16) tableIndex;
     } else {
         tableIndex = (u16) tableIndex;
@@ -148,24 +148,24 @@ void InitCameraGlobals(void) {
     gDefaultFollowDistance = gCameraDefaultRows[tableIndex][0];
     gFollowHeight = gCameraDefaultRows[tableIndex][1];
     gDefaultLookAtHeight = gCameraDefaultRows[tableIndex][2];
-    if (gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
+    if (g_GlobalCO->mCourseId == COURSE_ID_AIRSHIP) {
         gCourseWobbleAmplitude = 0xa000;
     } else {
         gCourseWobbleAmplitude = 0x5000;
     }
 }
 
-void CreateChaseCamera(void) {
-    Kart *kart = GetKart(gRaceSetup->mEntryIndex);
+void CreateGlobalHD5_from_thumb(void) {
+    Kart *kart = GetRacerMQEntry(g_GlobalCO->mEntryIndex);
 
-    gChaseCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gChaseCamera));
+    g_GlobalHD5 = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*g_GlobalHD5));
     SetupCameraBehindKart();
-    GetKartForward(kart, &gChaseCamera->mSavedKartForward);
-    RefreshCameraProjection(gChaseCamera);
+    GetMQRacerVector333(kart, &g_GlobalHD5->mSavedKartForward);
+    StructHD_SomeFn_2(g_GlobalHD5);
 }
 
-void CreateEntryCamera(u32 followedKartIndex) {
-    void *heap = GetHeap(GetCurrentHeapCall());
+void CreateAnotherGlobalHD_from_thumb(u32 followedKartIndex) {
+    void *heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     u16 cameraIndex;
     u16 kind7EntryCount;
     CourseMapCamera *courseMapCamera;
@@ -173,53 +173,53 @@ void CreateEntryCamera(u32 followedKartIndex) {
     u16 listIndex;
     s32 nextIndex;
 
-    gEntryCamera = HeapAlloc(heap, sizeof(Camera));
-    SetupCamera(gEntryCamera);
-    gEntryCamera->mFollowedKartIndex = followedKartIndex;
-    gEntryCamera->mCourseMapCamera = NULL;
-    gEntryCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
-    gEntryCamera->mKind = CAMERA_KIND_ENTRY;
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-        gEntryCamera->mCourseMapCamera = gCourseMap->mCameras;
+    g_AnotherGlobalHD = Mem_AllocateHeap(heap, sizeof(Camera));
+    StructHD_SomeFn(g_AnotherGlobalHD);
+    g_AnotherGlobalHD->mFollowedKartIndex = followedKartIndex;
+    g_AnotherGlobalHD->mCourseMapCamera = NULL;
+    g_AnotherGlobalHD->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
+    g_AnotherGlobalHD->mKind = CAMERA_KIND_ENTRY;
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
+        g_AnotherGlobalHD->mCourseMapCamera = g_GlobalPE->mCameras;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        gEntryCamera->mCourseMapCamera = gCourseMap->mFirstBattleSequenceCamera;
-        if (gEntryCamera->mCourseMapCamera != NULL) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        g_AnotherGlobalHD->mCourseMapCamera = g_GlobalPE->mFirstBattleSequenceCamera;
+        if (g_AnotherGlobalHD->mCourseMapCamera != NULL) {
             kind7EntryCount = 0;
             nextIndex = -1;
-            for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
-                if (gCourseMap->mCameras[cameraIndex].mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
+            for (cameraIndex = 0; cameraIndex < g_GlobalPE->mCameraCount; cameraIndex++) {
+                if (g_GlobalPE->mCameras[cameraIndex].mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
                     kind7EntryCount++;
                 }
             }
             gSequenceEntryCount = kind7EntryCount;
-            gEntryCamera->mSequenceEntries = HeapAlloc(heap, kind7EntryCount * 0x88);
-            courseMapCamera = gEntryCamera->mCourseMapCamera;
+            g_AnotherGlobalHD->mSequenceEntries = Mem_AllocateHeap(heap, kind7EntryCount * 0x88);
+            courseMapCamera = g_AnotherGlobalHD->mCourseMapCamera;
             index = 0;
             listIndex = 0;
-            for (; index < gCourseMap->mCameraCount; index++) {
+            for (; index < g_GlobalPE->mCameraCount; index++) {
                 if (nextIndex != -1) {
                     courseMapCamera = GetCourseMapCamera(nextIndex);
-                    if (courseMapCamera == gEntryCamera->mCourseMapCamera) {
+                    if (courseMapCamera == g_AnotherGlobalHD->mCourseMapCamera) {
                         break;
                     }
                 }
                 if (courseMapCamera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
-                    InitSequenceCameraEntry(&gEntryCamera->mSequenceEntries[listIndex], courseMapCamera);
+                    InitSequenceCameraEntry(&g_AnotherGlobalHD->mSequenceEntries[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            gEntryCamera->mCurrentSequenceEntry = gEntryCamera->mSequenceEntries;
-            gEntryCamera->mUnk_224 = 0;
-            gEntryCamera->mKind = CAMERA_KIND_ENTRY_SEQUENCE;
+            g_AnotherGlobalHD->mCurrentSequenceEntry = g_AnotherGlobalHD->mSequenceEntries;
+            g_AnotherGlobalHD->mUnk_224 = 0;
+            g_AnotherGlobalHD->mKind = CAMERA_KIND_ENTRY_SEQUENCE;
             gCameraEntryChanged = 1;
         }
     }
 }
 
 void InitSequenceCameraEntry(SequenceCameraEntry *kind7Entry, CourseMapCamera *courseMapCamera) {
-    CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[courseMapCamera->mEntryGroupIndex];
+    CourseMapEntryGroup *entryGroup = &g_GlobalPE->mEntryGroups[courseMapCamera->mEntryGroupIndex];
 
     kind7Entry->mPosCurveStep = courseMapCamera->mPosCurvePerFrame;
     kind7Entry->mUnk_7e = 2;
@@ -227,54 +227,54 @@ void InitSequenceCameraEntry(SequenceCameraEntry *kind7Entry, CourseMapCamera *c
     kind7Entry->mUnk_80 = 0;
     kind7Entry->mUnk_84 = 0;
     if (entryGroup->mEntryCount >= 4) {
-        SetupPosCurve(&kind7Entry->mPosCurve, courseMapCamera);
+        StructVC_SomeFnLinkedRouteRelated(&kind7Entry->mPosCurve, courseMapCamera);
         SetupReversePosCurve(&kind7Entry->mReversePosCurve, courseMapCamera);
     }
 }
 
-void CreateChainCameraPair(void) {
-    void *heap = GetHeap(GetCurrentHeapCall());
+void CreateGlobalHD_HD2_V2_from_thumb(void) {
+    void *heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
 
-    gFirstChainCamera = HeapAlloc(heap, sizeof(Camera));
-    gSecondChainCamera = HeapAlloc(heap, sizeof(Camera));
-    SetupCamera(gFirstChainCamera);
-    SetupCamera(gSecondChainCamera);
-    gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
-    gSecondChainCamera->mCourseMapCamera = gCourseMap->mSecondChainStartEntry;
-    gFirstChainCamera->mKind = CAMERA_KIND_CHAIN;
-    gSecondChainCamera->mKind = CAMERA_KIND_CHAIN;
-    if (gFirstChainCamera->mCourseMapCamera == NULL) {
-        gRaceProgress->mCameraChainEnded = 1;
+    g_GlobalHD = Mem_AllocateHeap(heap, sizeof(Camera));
+    g_GlobalHD2 = Mem_AllocateHeap(heap, sizeof(Camera));
+    StructHD_SomeFn(g_GlobalHD);
+    StructHD_SomeFn(g_GlobalHD2);
+    g_GlobalHD->mCourseMapCamera = g_GlobalPE->mFirstChainStartEntry;
+    g_GlobalHD2->mCourseMapCamera = g_GlobalPE->mSecondChainStartEntry;
+    g_GlobalHD->mKind = CAMERA_KIND_CHAIN;
+    g_GlobalHD2->mKind = CAMERA_KIND_CHAIN;
+    if (g_GlobalHD->mCourseMapCamera == NULL) {
+        g_GlobalMV->mCameraChainEnded = 1;
         return;
     }
-    if ((s16) gFirstChainCamera->mCourseMapCamera->mEntryGroupIndex != -1) {
-        SetupPosCurve(&gFirstChainCamera->mPosCurve, gFirstChainCamera->mCourseMapCamera);
+    if ((s16) g_GlobalHD->mCourseMapCamera->mEntryGroupIndex != -1) {
+        StructVC_SomeFnLinkedRouteRelated(&g_GlobalHD->mPosCurve, g_GlobalHD->mCourseMapCamera);
     }
-    if ((s16) gSecondChainCamera->mCourseMapCamera->mEntryGroupIndex != -1) {
-        SetupPosCurve(&gSecondChainCamera->mPosCurve, gSecondChainCamera->mCourseMapCamera);
+    if ((s16) g_GlobalHD2->mCourseMapCamera->mEntryGroupIndex != -1) {
+        StructVC_SomeFnLinkedRouteRelated(&g_GlobalHD2->mPosCurve, g_GlobalHD2->mCourseMapCamera);
     }
 }
 
-void CreateFirstChainCamera(void) {
-    gFirstChainCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Camera));
-    gSecondChainCamera = NULL;
-    SetupCamera(gFirstChainCamera);
-    gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
-    gFirstChainCamera->mKind = CAMERA_KIND_CHAIN;
-    gFirstChainCamera->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
-    if (gFirstChainCamera->mCourseMapCamera == NULL) {
-        gRaceProgress->mCameraChainEnded = 1;
+void CreateGlobalHD_HD2_from_thumb(void) {
+    g_GlobalHD = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(Camera));
+    g_GlobalHD2 = NULL;
+    StructHD_SomeFn(g_GlobalHD);
+    g_GlobalHD->mCourseMapCamera = g_GlobalPE->mFirstChainStartEntry;
+    g_GlobalHD->mKind = CAMERA_KIND_CHAIN;
+    g_GlobalHD->mFrustumShift = CAMERA_FRUSTUM_SHIFT_NONE;
+    if (g_GlobalHD->mCourseMapCamera == NULL) {
+        g_GlobalMV->mCameraChainEnded = 1;
         return;
     }
-    if ((s16) gFirstChainCamera->mCourseMapCamera->mEntryGroupIndex != -1) {
-        SetupPosCurve(&gFirstChainCamera->mPosCurve, gFirstChainCamera->mCourseMapCamera);
+    if ((s16) g_GlobalHD->mCourseMapCamera->mEntryGroupIndex != -1) {
+        StructVC_SomeFnLinkedRouteRelated(&g_GlobalHD->mPosCurve, g_GlobalHD->mCourseMapCamera);
     }
 }
 
 #pragma thumb off
 
 // Writes the default values of 76 members; re-run by SetupCameraBehindKart when a kart is placed.
-void SetupCamera(Camera *camera) {
+void StructHD_SomeFn(Camera *camera) {
     Vec3 worldUp;
     volatile Vec3 initialLookAt;
     Vec3 zero;
@@ -297,7 +297,7 @@ void SetupCamera(Camera *camera) {
     camera->mAspectRatio = FIXED12_RATIO(4, 3);
     camera->mNear = FIXED12_RATIO(1, 4);
     camera->mSecondFar = CAMERA_DEFAULT_FAR;
-    camera->mFar = gCourseMap->mSettings->mCameraFar;
+    camera->mFar = g_GlobalPE->mSettings->mCameraFar;
     if (camera->mFar < TO_FIXED12(1)) {
         camera->mFar = CAMERA_DEFAULT_FAR;
     }
@@ -356,7 +356,7 @@ void SetupCamera(Camera *camera) {
     camera->mSavedKartForward = zero;
     camera->mPosOffset = zero;
     camera->mLookAtOffset = zero;
-    camera->mSideDistanceSign = gRaceSetup->mMirrorMode ? -1 : 1;
+    camera->mSideDistanceSign = g_GlobalCO->mMirrorMode ? -1 : 1;
     camera->mSequenceEntries = NULL;
     camera->mCurrentSequenceEntry = NULL;
     camera->mUnk_20c = 0;
@@ -365,17 +365,17 @@ void SetupCamera(Camera *camera) {
     camera->mKartMoveScale = TO_FIXED12(1);
 }
 
-void RefreshCameraProjection(Camera *camera) {
+void StructHD_SomeFn_2(Camera *camera) {
     s32 top;
     s32 bottom;
     s32 staffRollShift;
     s32 unused;
 
-    if (camera == gChaseCamera) {
+    if (camera == g_GlobalHD5) {
         if (camera->mHalfFovAngle == camera->mHalfFovAngleGoal && gEntryCameraUpdateRan == 0) {
             return;
         }
-        if (GetAbsoluteValue(camera->mHalfFovAngle - camera->mHalfFovAngleGoal) < 10) {
+        if (AbsValue(camera->mHalfFovAngle - camera->mHalfFovAngleGoal) < 10) {
             camera->mHalfFovAngle = camera->mHalfFovAngleGoal;
         }
     }
@@ -399,11 +399,11 @@ void RefreshCameraProjection(Camera *camera) {
             camera->mFrustumTop = MUL_FIXED12_NO_ROUND(bottom, gCameraFrustumShiftScale);
             break;
     }
-    if (gRaceSetup->mMirrorMode != 0) {
+    if (g_GlobalCO->mMirrorMode != 0) {
         camera->mFrustumLeft = -camera->mFrustumLeft;
     }
     camera->mFrustumRight = -camera->mFrustumLeft;
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
         staffRollShift = MUL_FIXED12_ROUNDED(camera->mFrustumTop, camera->mCourseMapCamera->mPosOrParams.y);
         camera->mFrustumBottom += staffRollShift;
         camera->mFrustumTop += staffRollShift;
@@ -415,7 +415,7 @@ void RefreshCameraProjection(Camera *camera) {
                   camera->mNear, camera->mFar, 0x1000, 1, &gProjectionMatrix);
 }
 
-void UpdateCameraViewWithWorldUp(Camera *camera) {
+void StructHD_SomeFn_10(Camera *camera) {
     Vec3 side;
     Vec3 forward;
     Vec3 worldUp;
@@ -423,20 +423,20 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
     Vec3 lookAtPos;
 
     worldUp = gCameraVec3UnitY;
-    VEC_Subtract(&camera->mLookAt, &camera->mPos, &forward);
+    VecFx32_Subtract(&camera->mLookAt, &camera->mPos, &forward);
     if (LENGTH_SQUARED(forward) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);
+        Vector3_MaybeNormalize(&forward, &forward);
     }
     camera->mForward = forward;
-    Vec3CrossUnrounded(&worldUp, &forward, &side);
-    Vec3CrossUnrounded(&forward, &side, &camera->mUp);
+    Vector3_Cross(&worldUp, &forward, &side);
+    Vector3_Cross(&forward, &side, &camera->mUp);
     if (camera->mUp.x == 0 && camera->mUp.y == 0 && camera->mUp.z == 0) {
         camera->mUp.x = 0x1000;
         camera->mUp.y = 0x1000;
         camera->mUp.z = 0x1000;
         if (SQUARE_SUM3(camera->mUp.x, camera->mUp.y, camera->mUp.z) >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
+            Vector3_MaybeNormalize(&camera->mUp, &camera->mUp);
         }
     }
     reg_G3_MTX_MODE = 2;
@@ -450,7 +450,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
 }
 
 // Per frame for each camera in use: axes, shake, view position and look-at in 1/16 scale, loads the view matrix.
-void UpdateCameraView(Camera *camera) {
+void StructHD_SomeLookAt(Camera *camera) {
     Vec3 forward;
     Vec3 baseUp;
     Vec3 eyePos;
@@ -460,27 +460,27 @@ void UpdateCameraView(Camera *camera) {
     eyePos = camera->mPos;
     lookAtPos = camera->mLookAt;
     lookAtPos.y += camera->mWobbleOffset;
-    VEC_Subtract(&lookAtPos, &eyePos, &forward);
+    VecFx32_Subtract(&lookAtPos, &eyePos, &forward);
     if (LENGTH_SQUARED(forward) >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);
+        Vector3_MaybeNormalize(&forward, &forward);
     }
     camera->mForward = forward;
-    Vec3CrossUnrounded(&baseUp, &forward, &camera->mSide);
-    Vec3CrossUnrounded(&forward, &camera->mSide, &camera->mUp);
+    Vector3_Cross(&baseUp, &forward, &camera->mSide);
+    Vector3_Cross(&forward, &camera->mSide, &camera->mUp);
     if (camera->mUp.x == 0 && camera->mUp.y == 0 && camera->mUp.z == 0) {
         camera->mUp.x = 0x1000;
         camera->mUp.y = 0x1000;
         camera->mUp.z = 0x1000;
         if (SQUARE_SUM3(camera->mUp.x, camera->mUp.y, camera->mUp.z) >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
+            Vector3_MaybeNormalize(&camera->mUp, &camera->mUp);
         }
     }
     if (camera->mShakeKind != 0) {
         UpdateCameraShake(camera);
-        VEC_Add(&eyePos, &camera->mShakePosOffset, &eyePos);
-        VEC_Add(&lookAtPos, &camera->mShakeLookAtOffset, &lookAtPos);
-        VEC_Add(&camera->mShakeLookAtCounterOffset, &lookAtPos, &lookAtPos);
+        VecFx32_Add(&eyePos, &camera->mShakePosOffset, &eyePos);
+        VecFx32_Add(&lookAtPos, &camera->mShakeLookAtOffset, &lookAtPos);
+        VecFx32_Add(&camera->mShakeLookAtCounterOffset, &lookAtPos, &lookAtPos);
     }
     camera->mViewPos.x = eyePos.x >> 4;
     camera->mViewPos.y = eyePos.y >> 4;

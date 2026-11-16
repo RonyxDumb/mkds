@@ -7,8 +7,8 @@ typedef struct RankTimeGp RankTimeGp;
 
 void StopRaceInput(void);
 // In mode 4 also creates the mission object.
-void CreateRaceProgress(void *heap);
-void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp);
+void InitializeGlobalMV(void *heap);
+void LoadCurrentCourseRanktime(RankTimeGp *rankTimeGp);
 // Updates every kart's progress, the rank order, the first place frames and the pending finishes, and consumes flag 8.
 void UpdateRaceProgressKarts(void);
 void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart);

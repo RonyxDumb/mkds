@@ -4,5 +4,5 @@
 
 typedef struct FSFile FSFile;
 
-void FS_InitFile(FSFile *file);
-u32 FS_IsAvailable(void);
+void Fs_File_Initialize(FSFile *file);
+u32 Fs_IsInitialized(void);

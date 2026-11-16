@@ -50,33 +50,33 @@
 #include "00/Scene/wi_fi_menu_scene.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-const u8 gDWCUtilityLanguageTable[6] = {0, 1, 2, 3, 4, 5};
-const u32 gSceneFuncs[16] = {
-    (u32) RunTitleScene,
-    (u32) RunMenuScene,
-    (u32) RunRaceScene,
-    (u32) RunEmblemScene,
-    (u32) RunSecondMenuScene,
+const u8 g_LangConversionTable[6] = {0, 1, 2, 3, 4, 5};
+const u32 g_SceneFnTable[16] = {
+    (u32) SceneFn_Title,
+    (u32) SceneFn_Menu,
+    (u32) SceneFn_Race,
+    (u32) SceneFn_Emblem,
+    (u32) SceneFn_Menu2,
     (u32) RunTestScene,
-    (u32) RunWLMenuScene,
+    (u32) SceneFn_WLMenu,
     (u32) RunOptionScene,
-    (u32) RunRecordScene,
-    (u32) RunLogoScene,
-    (u32) RunResultScene,
+    (u32) SceneFn_Record,
+    (u32) SceneFn_Logo,
+    (u32) SceneFn_Result,
     (u32) RunNicknameScene,
     (u32) RunWiFiMenuScene,
     (u32) RunGhostScene,
-    (u32) RunKeyboardScene,
+    (u32) SceneFn_Keyboard_from_thumb,
     (u32) RunEndingScene,
 };
-s16 gSceneNumbers[3] = {-1, -1, -1};
-RunScenesState *gRunScenesState;
-ShapeMapObjectCountList *gShapeMapObjectCountList;
+s16 g_SceneExecutionContext[3] = {-1, -1, -1};
+RunScenesState *g_SceneOverlayConfig;
+ShapeMapObjectCountList *g_GlobalAR;
 
 // Scene functions in scene-number order.
 
-void ClearShapeMapObjectCountListPointer(void) {
-    gShapeMapObjectCountList = NULL;
+void ResetGlobalAR(void) {
+    g_GlobalAR = NULL;
 }
 
 s32 UpdateShapeMapObjectCounts(void) {
@@ -87,11 +87,11 @@ s32 UpdateShapeMapObjectCounts(void) {
     s32 mapObjectCount;
     u16 mapObjectIndex;
     u8 insideCount;
-    for (shapeIndex = 0; shapeIndex < gShapeMapObjectCountList->mEntryCount; shapeIndex++) {
-        entry = &gShapeMapObjectCountList->mEntries[shapeIndex];
-        courseMapShape = GetCourseMapShape(entry->mShapeIndex);
+    for (shapeIndex = 0; shapeIndex < g_GlobalAR->mEntryCount; shapeIndex++) {
+        entry = &g_GlobalAR->mEntries[shapeIndex];
+        courseMapShape = GetGlobalPENkmAREAByIndex_from_thumb(entry->mShapeIndex);
         mapObjectCount =
-            FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindValue);
+            GetAreaSomeCount(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindValue);
         insideCount = 0;
         for (mapObjectIndex = 0; mapObjectIndex < mapObjectCount; mapObjectIndex++) {
             if (IsPosInCourseMapShape(&GetFoundMapObject(mapObjectIndex)->mPos, courseMapShape) != 0) {
@@ -110,49 +110,49 @@ s32 UpdateShapeMapObjectCounts(void) {
     return result;
 }
 
-void CreateRunScenesState(void *heap) {
-    gRunScenesState = HeapAlloc(heap, sizeof(*gRunScenesState));
-    gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
-    gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
-    gRunScenesState->mSndHeapsBuffer = NULL;
+void InitializeSceneOverlayConfig(void *heap) {
+    g_SceneOverlayConfig = Mem_AllocateHeap(heap, sizeof(*g_SceneOverlayConfig));
+    g_SceneOverlayConfig->mKind = RUN_SCENES_KIND_CONNECTION;
+    g_SceneOverlayConfig->mNextKind = RUN_SCENES_KIND_NONE;
+    g_SceneOverlayConfig->mSndHeapsBuffer = NULL;
 }
 
 void InitRunScenesKind(void) {
     void *heap;
     s32 sndHeapsKind;
-    heap = GetHeap(GetCurrentHeapCall());
-    switch (gRunScenesState->mKind) {
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    switch (g_SceneOverlayConfig->mKind) {
         case RUN_SCENES_KIND_CONNECTION:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 sndHeapsKind = 2;
             } else {
                 sndHeapsKind = 0;
-                StartLoadOverlay(OVERLAY_SLOT_OV001);
-                FinishOverlayLoad();
+                UpdateOverlayStatusWithKind(OVERLAY_SLOT_OV001);
+                WaitOverlayLoadedStarted();
             }
-            InitConnectionBuffers(heap);
+            InitializeSomeZEPointers(heap);
             break;
         case RUN_SCENES_KIND_WIFI_SESSION:
             sndHeapsKind = 1;
-            StartLoadOverlay(OVERLAY_SLOT_OV000);
-            FinishOverlayLoad();
-            CreateWiFiSessionHeap(heap);
+            UpdateOverlayStatusWithKind(OVERLAY_SLOT_OV000);
+            WaitOverlayLoadedStarted();
+            CreateStructBHeap_from_thumb(heap);
             break;
     }
     if (sndHeapsKind == 2) {
         return;
     }
-    heap = HeapAlloc(heap, GetSndHeapsBufferSize(sndHeapsKind));
-    CreateSndHeaps(sndHeapsKind, (u32) heap);
-    gRunScenesState->mSndHeapsBuffer = heap;
+    heap = Mem_AllocateHeap(heap, ComputeRAudioBufferAllocSize(sndHeapsKind));
+    SomeAudioInit(sndHeapsKind, (u32) heap);
+    g_SceneOverlayConfig->mSndHeapsBuffer = heap;
 }
 
-int GetCurrentSceneNumber(void) {
-    return gSceneNumbers[1];
+int GetCurrentSceneId(void) {
+    return g_SceneExecutionContext[1];
 }
 
-u32 GetNextSceneNumber(void) {
-    return gSceneNumbers[2];
+u32 GetNextSceneId(void) {
+    return g_SceneExecutionContext[2];
 }
 
 #pragma opt_loop_invariants off
@@ -160,103 +160,103 @@ u32 GetNextSceneNumber(void) {
 static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayId) {
     u8 languageIndex;
     u32 languageValue;
-    if (FS_LoadOverlay(0, (u32) overlayId) != 0) {
-        OS_SetIrqFunction(1, NULL);
-        OS_DisableIrqMask(1);
+    if (Fs_LoadOverlay(0, (u32) overlayId) != 0) {
+        Os_SetIrqHandler(1, NULL);
+        Os_DisableIrqHandler(1);
         reg_OS_IME;
         reg_OS_IME = 0;
-        OS_DisableInterrupts();
+        Os_DisableIrq();
         GX_VBlankIntr(0);
         DWC_SetAuthServer(2);
         languageValue = 1;
-        languageIndex = gStartupWork->mLanguageIndex;
+        languageIndex = g_GlobalP->mLanguageIndex;
         if (languageIndex < 6) {
-            languageValue = gDWCUtilityLanguageTable[languageIndex];
+            languageValue = g_LangConversionTable[languageIndex];
         }
 #ifdef version_EUR
         RunMainLoop(utilityWork, languageValue, 0);
 #else
         RunMainLoop(utilityWork, languageValue, 0x20);
 #endif
-        EnableVBlankIrq();
-        FS_UnloadOverlay(0, (u32) overlayId);
+        EnableVblankIRQ();
+        Fs_UnloadOverlay(0, (u32) overlayId);
     }
 }
 
 // Runs the DWC utility from overlay 3, then rebuilds the sound heaps.
-void RunDWCUtility(void) {
+void LoadExecuteOverlay1(void) {
     void *expHeapFromMaxFree;
     void *utilityWork;
     void *heap;
-    heap = GetHeap(GetCurrentHeapCall());
-    WaitThreadFunctionsDone();
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    WaitForWorkerTask();
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
-    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && gRunScenesState->mSndHeapsBuffer != NULL) {
-        ReleaseSndHeaps();
-        HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
-        gRunScenesState->mSndHeapsBuffer = NULL;
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && g_SceneOverlayConfig->mSndHeapsBuffer != NULL) {
+        DisposeSomeSoundStuff();
+        Mem_FreeHeap(heap, g_SceneOverlayConfig->mSndHeapsBuffer);
+        g_SceneOverlayConfig->mSndHeapsBuffer = NULL;
     }
-    RunScenesSoundNop();
-    expHeapFromMaxFree = CreateExpHeapFromMaxFree(heap);
-    utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, HEAP_ALIGN_CACHE_LINE);
+    nullsub_12();
+    expHeapFromMaxFree = Mem_CreateChildExpHeap(heap);
+    utilityWork = Mem_AllocateHeapAligned(expHeapFromMaxFree, 0x40000, HEAP_ALIGN_CACHE_LINE);
     LoadOverlayAndRunDWCUtility(utilityWork, SDK_OVERLAY_OV003_ID);
-    HeapDestroy(expHeapFromMaxFree);
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
-    WaitIrqAndTurnOnDisplays();
-    SetCurrentSndArc();
-    heap = HeapAlloc(heap, GetSndHeapsBufferSize(1));
-    CreateSndHeaps(1, (u32) heap);
-    gRunScenesState->mSndHeapsBuffer = heap;
+    Mem_DestroyHeap(expHeapFromMaxFree);
+    SetBrightness(&reg_GX_MASTER_BRIGHT, 0x10);
+    SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
+    EnableGreenSwap();
+    SetGlobalSdatActive();
+    heap = Mem_AllocateHeap(heap, ComputeRAudioBufferAllocSize(1));
+    SomeAudioInit(1, (u32) heap);
+    g_SceneOverlayConfig->mSndHeapsBuffer = heap;
 }
 
 static inline BOOL IsRunScenesNextKindSameOrKindThree(void) {
-    if (gRunScenesState->mNextKind == RUN_SCENES_KIND_NONE || gRunScenesState->mNextKind == gRunScenesState->mKind) {
+    if (g_SceneOverlayConfig->mNextKind == RUN_SCENES_KIND_NONE || g_SceneOverlayConfig->mNextKind == g_SceneOverlayConfig->mKind) {
         return TRUE;
     }
     return FALSE;
 }
 
-s32 RunScenes(s16 *sceneNumber) {
+s32 SceneLoopExecuteFunction(s16 *sceneNumber) {
     HeapCall heapCall;
     void *heap;
     InitRunScenesKind();
     while (IsRunScenesNextKindSameOrKindThree()) {
-        gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
-        gSceneNumbers[0] = gSceneNumbers[1];
-        gSceneNumbers[1] = *sceneNumber;
-        gSceneNumbers[2] = -1;
-        InitHeapCall(&heapCall, gSceneFuncs[*sceneNumber]);
-        RunHeapCall(&heapCall, (u32) gSceneNumbers);
-        if (gSceneNumbers[2] != -1) {
-            *sceneNumber = gSceneNumbers[2];
+        g_SceneOverlayConfig->mNextKind = RUN_SCENES_KIND_NONE;
+        g_SceneExecutionContext[0] = g_SceneExecutionContext[1];
+        g_SceneExecutionContext[1] = *sceneNumber;
+        g_SceneExecutionContext[2] = -1;
+        ExecutionContext_Create(&heapCall, g_SceneFnTable[*sceneNumber]);
+        ExecutionContext_Execute(&heapCall, (u32) g_SceneExecutionContext);
+        if (g_SceneExecutionContext[2] != -1) {
+            *sceneNumber = g_SceneExecutionContext[2];
         } else {
             *sceneNumber = 9;
         }
-        switch (gStartupWork->mConnectionKind) {
+        switch (g_GlobalP->mConnectionKind) {
             case CONNECTION_KIND_NONE:
             case CONNECTION_KIND_MEMBER_SELECT:
             case CONNECTION_KIND_WL_MENU:
-                gRunScenesState->mNextKind = RUN_SCENES_KIND_CONNECTION;
+                g_SceneOverlayConfig->mNextKind = RUN_SCENES_KIND_CONNECTION;
                 break;
             case CONNECTION_KIND_WIFI_MENU:
-                gRunScenesState->mNextKind = RUN_SCENES_KIND_WIFI_SESSION;
+                g_SceneOverlayConfig->mNextKind = RUN_SCENES_KIND_WIFI_SESSION;
                 break;
             case CONNECTION_KIND_WIFI_TOP_MENU:
-                RunDWCUtility();
-                gStartupWork->mConnectionKind = CONNECTION_KIND_WIFI_MENU;
+                LoadExecuteOverlay1();
+                g_GlobalP->mConnectionKind = CONNECTION_KIND_WIFI_MENU;
                 break;
         }
     }
-    heap = GetHeap(GetCurrentHeapCall());
-    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && gRunScenesState->mSndHeapsBuffer != NULL) {
-        ReleaseSndHeaps();
-        HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
-        gRunScenesState->mSndHeapsBuffer = NULL;
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT && g_SceneOverlayConfig->mSndHeapsBuffer != NULL) {
+        DisposeSomeSoundStuff();
+        Mem_FreeHeap(heap, g_SceneOverlayConfig->mSndHeapsBuffer);
+        g_SceneOverlayConfig->mSndHeapsBuffer = NULL;
     }
-    switch (gRunScenesState->mKind) {
+    switch (g_SceneOverlayConfig->mKind) {
         case RUN_SCENES_KIND_CONNECTION:
             FinishConnectionEnd();
             break;
@@ -267,19 +267,19 @@ s32 RunScenes(s16 *sceneNumber) {
     return 0;
 }
 
-void RunScenesForever(void) {
+void RunMain(void) {
     HeapCall heapCall;
-    gRunScenesState->mSceneNumber = SCENE_LOGO;
-    gRunScenesState->mKind = RUN_SCENES_KIND_CONNECTION;
+    g_SceneOverlayConfig->mSceneNumber = SCENE_LOGO;
+    g_SceneOverlayConfig->mKind = RUN_SCENES_KIND_CONNECTION;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        gStartupWork->mConnectionKind = CONNECTION_KIND_WL_MENU;
-        gMenuShared->mWLMenuKind = 0;
-        gRunScenesState->mSceneNumber = SCENE_WL_MENU;
+        g_GlobalP->mConnectionKind = CONNECTION_KIND_WL_MENU;
+        g_GlobalB488->mWLMenuKind = 0;
+        g_SceneOverlayConfig->mSceneNumber = SCENE_WL_MENU;
     }
     do {
-        gRunScenesState->mNextKind = RUN_SCENES_KIND_NONE;
-        InitHeapCall(&heapCall, (u32) RunScenes);
-        RunHeapCall(&heapCall, (u32) &gRunScenesState->mSceneNumber);
-        gRunScenesState->mKind = gRunScenesState->mNextKind;
+        g_SceneOverlayConfig->mNextKind = RUN_SCENES_KIND_NONE;
+        ExecutionContext_Create(&heapCall, (u32) SceneLoopExecuteFunction);
+        ExecutionContext_Execute(&heapCall, (u32) &g_SceneOverlayConfig->mSceneNumber);
+        g_SceneOverlayConfig->mKind = g_SceneOverlayConfig->mNextKind;
     } while (1);
 }

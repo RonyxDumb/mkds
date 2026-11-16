@@ -32,13 +32,13 @@ void SetupXb3Multi(void) {
 
 void LoadXb3MultiFilesAndSetBgCnt(void) {
     void *ncgName = &"char/jbBgStep2.ncg.l";
-    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    void *loadBg2CharFunc = &CopyBgData_Bg2_Top;
     u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
     void *nclName = &"char/ybBgStep2.ncl.l";
-    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    void *loadBgPlttFunc = &CopyPaletteTop;
     u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
     void *nscName = &"char/xb3Multi.nsc.l";
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));

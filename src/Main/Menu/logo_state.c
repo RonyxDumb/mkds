@@ -12,72 +12,72 @@
                                  ".bss" abs32 RWX
 #pragma section MAIN_TEXT begin
 
-StateCallbacks gLogoStateTable[12] = {
-    {EnterLogoReadBackup, UpdateLogoReadBackup},
-    {EnterLogoWaitBackupReadNop, UpdateLogoWaitBackupRead},
-    {EnterLogoResetNotice, UpdateLogoResetNotice},
-    {EnterLogoResetFailedBlocks, UpdateLogoResetFailedBlocks},
-    {EnterLogoResetFailedBlocksDone, UpdateLogoResetFailedBlocksDone},
-    {EnterLogoAskResetBackup, UpdateLogoAskResetBackup},
-    {EnterLogoResetBackup, UpdateLogoResetBackup},
-    {EnterLogoResetBackupDone, UpdateLogoResetBackupDone},
-    {EnterLogoCheckDwcInitNop, UpdateLogoCheckDwcInit},
-    {EnterLogoDwcNoticeFirst, UpdateLogoDwcNoticeFirst},
-    {EnterLogoDwcNoticeSecond, UpdateLogoDwcNoticeSecond},
+StateCallbacks g_E7FnList0[12] = {
+    {Logo_StateHandler_ReadSaveData_First, Logo_StateHandler_ReadSaveData_Second},
+    {Logo_StateHandler_WaitCheckSaveData_First, Logo_StateHandler_WaitCheckSaveData_Second},
+    {Logo_StateHandler_NotifySaveDataCorrupted_First, Logo_StateHandler_NotifySaveDataCorrupted_Second},
+    {Logo_StateHandler_EraseCorruptedSaveData_First, Logo_StateHandler_EraseCorruptedSaveData_Second},
+    {Logo_StateHandler_NotifyCorruptedSaveDataErased_First, Logo_StateHandler_NotifyCorruptedSaveDataErased_Second},
+    {Logo_StateHandler_AskEraseSaveData_First, Logo_StateHandler_AskEraseSaveData_Second},
+    {Logo_StateHandler_EraseSaveData_First, Logo_StateHandler_EraseSaveData_Second},
+    {Logo_StateHandler_NotifySaveDataErased_First, Logo_StateHandler_NotifySaveDataErased_Second},
+    {Logo_StateHandler_CheckWiFiStatus_First, Logo_StateHandler_CheckWiFiStatus_Second},
+    {Logo_StateHandler_NotifyWiFiIdIssue_First, Logo_StateHandler_NotifyWiFiIdIssue_Second},
+    {Logo_StateHandler_NotifyWiFiHelp_First, Logo_StateHandler_NotifyWiFiHelp_Second},
     {NULL, NULL},
 };
 
 #pragma section MAIN_TEXT end
 
-void UpdateLogoCheckDwcInit(void *stateObject) {
+void Logo_StateHandler_CheckWiFiStatus_Second(void *stateObject) {
     StateMachine *stateMachine;
-    if (gDwcInitResult == 3) {
-        stateMachine = &gLogoScene->mStateMachine;
+    if (g_DwcStatus == 3) {
+        stateMachine = &g_LogoContext->mStateMachine;
         stateMachine->mNextState = LOGO_STATE_DWC_NOTICE_FIRST;
         stateMachine->mNextStateRequested = 1;
         return;
     }
-    stateMachine = &gLogoScene->mStateMachine;
+    stateMachine = &g_LogoContext->mStateMachine;
     stateMachine->mNextState = LOGO_STATE_END;
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoDwcNoticeFirst(void *stateObject) {
+void Logo_StateHandler_NotifyWiFiIdIssue_First(void *stateObject) {
     void *message;
-    message = GetBmgEntry(gLogoScene->mCommonMessages, 137);
-    SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 6));
+    message = Bmg_GetRawStringPointer_from_thumb(g_LogoContext->mCommonMessages, 137);
+    TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, Bmg_GetRawStringPointer_from_thumb(g_LogoContext->mCommonMessages, 6));
 }
 
-void UpdateLogoDwcNoticeFirst(void *stateObject) {
+void Logo_StateHandler_NotifyWiFiIdIssue_Second(void *stateObject) {
     StateMachine *stateMachine;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() == 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() == 0) {
         return;
     }
-    stateMachine = &gLogoScene->mStateMachine;
+    stateMachine = &g_LogoContext->mStateMachine;
     stateMachine->mNextState = LOGO_STATE_DWC_NOTICE_SECOND;
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoDwcNoticeSecond(void *stateObject) {
+void Logo_StateHandler_NotifyWiFiHelp_First(void *stateObject) {
     void *message;
-    message = GetBmgEntry(gLogoScene->mCommonMessages, 138);
-    SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
+    message = Bmg_GetRawStringPointer_from_thumb(g_LogoContext->mCommonMessages, 138);
+    TextSystem_DisplaySingleButtonDialog_Simple_from_thumb(message, Bmg_GetRawStringPointer_from_thumb(g_LogoContext->mCommonMessages, 4));
 }
 
-void UpdateLogoDwcNoticeSecond(void *stateObject) {
+void Logo_StateHandler_NotifyWiFiHelp_Second(void *stateObject) {
     StateMachine *stateMachine;
-    if (GetTxtSystemDone() != 0) {
-        RequestTxtSystemClose();
+    if (TextSystem_WasAnyDialogButtonPressed_from_thumb() != 0) {
+        TextSystem_CloseDialog_from_thumb();
         return;
     }
-    if (IsTxtSystemClosedNoOpenRequest() == 0) {
+    if (TextSystem_IsDialogFinished_from_thumb() == 0) {
         return;
     }
-    stateMachine = &gLogoScene->mStateMachine;
+    stateMachine = &g_LogoContext->mStateMachine;
     stateMachine->mNextState = LOGO_STATE_END;
     stateMachine->mNextStateRequested = 1;
 }

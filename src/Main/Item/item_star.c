@@ -73,9 +73,9 @@ const ItemKind gItemKindStar = {
     1, 0, 1, {0}, 0, 1, 1, 1, 1, 0};
 
 void StartItemStar(ItemInUse *itemInUse, HeldItem *heldItem) {
-    StartKartStar(heldItem->mKartItems->mKart);
+    StructMQRacerEntry_SomeFn_55(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
-    if (gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_WIFI) {
         return;
     }
     AddItemDataFrameOnly(4);

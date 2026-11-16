@@ -21,52 +21,52 @@
 #include "extra_arena_start.h"
 #include "memory_protection.h"
 
-u32 gArena2Enabled;
-u32 OSi_Initialized;
+u32 g_MainExRegionEnabled;
+u32 g_MemoryRegionsInit;
 
-// Fills in the arena bounds on the first call only; the extra main memory arena starts out empty.
-void OS_InitArena(void) {
-    if (OSi_Initialized != 0) {
+// Fills in the arena bounds on the first call only; the extra NtrMain memory arena starts out empty.
+void Os_InitializeMemoryRegionAddresses(void) {
+    if (g_MemoryRegionsInit != 0) {
         return;
     }
-    OSi_Initialized = 1;
-    OS_SetArenaHi(OS_ARENA_MAIN, OS_GetInitArenaHi(OS_ARENA_MAIN));
-    OS_SetArenaLo(OS_ARENA_MAIN, OS_GetInitArenaLo(OS_ARENA_MAIN));
-    OS_SetArenaLo(OS_ARENA_MAINEX, NULL);
-    OS_SetArenaHi(OS_ARENA_MAINEX, NULL);
-    OS_SetArenaHi(OS_ARENA_ITCM, OS_GetInitArenaHi(OS_ARENA_ITCM));
-    OS_SetArenaLo(OS_ARENA_ITCM, OS_GetInitArenaLo(OS_ARENA_ITCM));
-    OS_SetArenaHi(OS_ARENA_DTCM, OS_GetInitArenaHi(OS_ARENA_DTCM));
-    OS_SetArenaLo(OS_ARENA_DTCM, OS_GetInitArenaLo(OS_ARENA_DTCM));
-    OS_SetArenaHi(OS_ARENA_SHARED, OS_GetInitArenaHi(OS_ARENA_SHARED));
-    OS_SetArenaLo(OS_ARENA_SHARED, OS_GetInitArenaLo(OS_ARENA_SHARED));
-    OS_SetArenaHi(OS_ARENA_WRAM_MAIN, OS_GetInitArenaHi(OS_ARENA_WRAM_MAIN));
-    OS_SetArenaLo(OS_ARENA_WRAM_MAIN, OS_GetInitArenaLo(OS_ARENA_WRAM_MAIN));
+    g_MemoryRegionsInit = 1;
+    Os_SetMemoryRegionEndAddress(OS_ARENA_MAIN, Os_ComputeMemoryRegionEndAddress(OS_ARENA_MAIN));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_MAIN, Os_ComputeMemoryRegionStartAddress(OS_ARENA_MAIN));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_MAINEX, NULL);
+    Os_SetMemoryRegionEndAddress(OS_ARENA_MAINEX, NULL);
+    Os_SetMemoryRegionEndAddress(OS_ARENA_ITCM, Os_ComputeMemoryRegionEndAddress(OS_ARENA_ITCM));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_ITCM, Os_ComputeMemoryRegionStartAddress(OS_ARENA_ITCM));
+    Os_SetMemoryRegionEndAddress(OS_ARENA_DTCM, Os_ComputeMemoryRegionEndAddress(OS_ARENA_DTCM));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_DTCM, Os_ComputeMemoryRegionStartAddress(OS_ARENA_DTCM));
+    Os_SetMemoryRegionEndAddress(OS_ARENA_SHARED, Os_ComputeMemoryRegionEndAddress(OS_ARENA_SHARED));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_SHARED, Os_ComputeMemoryRegionStartAddress(OS_ARENA_SHARED));
+    Os_SetMemoryRegionEndAddress(OS_ARENA_WRAM_MAIN, Os_ComputeMemoryRegionEndAddress(OS_ARENA_WRAM_MAIN));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_WRAM_MAIN, Os_ComputeMemoryRegionStartAddress(OS_ARENA_WRAM_MAIN));
 }
 
-// Sets up the extra main memory arena, and the memory protection regions when that arena is off.
-void OS_InitArenaEx(void) {
-    OS_SetArenaHi(OS_ARENA_MAINEX, OS_GetInitArenaHi(OS_ARENA_MAINEX));
-    OS_SetArenaLo(OS_ARENA_MAINEX, OS_GetInitArenaLo(OS_ARENA_MAINEX));
-    if (gArena2Enabled != 0 && (OS_GetConsoleType() & 3) != 1) {
+// Sets up the extra NtrMain memory arena, and the memory protection regions when that arena is off.
+void Os_InitializeMainExMemoryRegionAddress(void) {
+    Os_SetMemoryRegionEndAddress(OS_ARENA_MAINEX, Os_ComputeMemoryRegionEndAddress(OS_ARENA_MAINEX));
+    Os_SetMemoryRegionStartAddress(OS_ARENA_MAINEX, Os_ComputeMemoryRegionStartAddress(OS_ARENA_MAINEX));
+    if (g_MainExRegionEnabled != 0 && (Os_GetSystemFlags() & 3) != 1) {
         return;
     }
-    OS_SetProtectionRegion1(0x200002b);
-    OS_SetProtectionRegion2(0x23e0021);
+    Os_SetSystemRomPU(0x200002b);
+    Os_SetVectorBasePU(0x23e0021);
 }
 
 // Returns the Hi bound of the arena.
-void *OS_GetArenaHi(OSArenaId id) {
+void *Os_GetMemoryRegionEndAddress(OSArenaId id) {
     return SYSTEM_WORK->mArenaInfo.hi[id];
 }
 
 // Returns the Lo bound of the arena.
-void *OS_GetArenaLo(OSArenaId id) {
+void *Os_GetMemoryRegionStartAddress(OSArenaId id) {
     return SYSTEM_WORK->mArenaInfo.lo[id];
 }
 
 // Returns the Hi bound an arena starts out with.
-void *OS_GetInitArenaHi(OSArenaId id) {
+void *Os_ComputeMemoryRegionEndAddress(OSArenaId id) {
     u32 dtcmStart;
     s32 sysStackSize;
     u32 irqStackBottom;
@@ -75,14 +75,14 @@ void *OS_GetInitArenaHi(OSArenaId id) {
         case OS_ARENA_MAIN:
             return (void *) 0x23e0000;
         case OS_ARENA_MAINEX:
-            if (gArena2Enabled == 0 || (OS_GetConsoleType() & 3) == 1) {
+            if (g_MainExRegionEnabled == 0 || (Os_GetSystemFlags() & 3) == 1) {
                 return NULL;
             }
             return (void *) 0x2700000;
         case OS_ARENA_ITCM:
             return (void *) 0x2000000;
         case OS_ARENA_DTCM:
-            dtcmStart = (u32) &OSi_IrqThreadQueue;
+            dtcmStart = (u32) &g_DTCM;
             irqStackBottom = dtcmStart + 0x3f80 - (u32) SDK_IRQ_STACKSIZE;
             sysStackSize = (s32) SDK_SYS_STACKSIZE;
             if (sysStackSize == 0) {
@@ -101,7 +101,7 @@ void *OS_GetInitArenaHi(OSArenaId id) {
 }
 
 // Returns the Lo bound an arena starts out with.
-void *OS_GetInitArenaLo(OSArenaId id) {
+void *Os_ComputeMemoryRegionStartAddress(OSArenaId id) {
     switch (id) {
         case OS_ARENA_MAIN:
 #ifdef version_EUR
@@ -110,7 +110,7 @@ void *OS_GetInitArenaLo(OSArenaId id) {
             return (void *) 0x21da300;
 #endif
         case OS_ARENA_MAINEX:
-            if (gArena2Enabled == 0 || (OS_GetConsoleType() & 3) == 1) {
+            if (g_MainExRegionEnabled == 0 || (Os_GetSystemFlags() & 3) == 1) {
                 return NULL;
             }
             return SDK_SECTION_ARENA_EX_START;
@@ -127,38 +127,38 @@ void *OS_GetInitArenaLo(OSArenaId id) {
 }
 
 // Stores the Hi bound of the arena.
-void OS_SetArenaHi(OSArenaId id, void *newHi) {
+void Os_SetMemoryRegionEndAddress(OSArenaId id, void *newHi) {
     SYSTEM_WORK->mArenaInfo.hi[id] = newHi;
 }
 
 // Stores the Lo bound of the arena.
-void OS_SetArenaLo(OSArenaId id, void *newLo) {
+void Os_SetMemoryRegionStartAddress(OSArenaId id, void *newLo) {
     SYSTEM_WORK->mArenaInfo.lo[id] = newLo;
 }
 
-// Turns the extra main memory arena off; must run before OS_Init.
-void OS_DisableMainExArena(void) {
-    gArena2Enabled = 0;
+// Turns the extra NtrMain memory arena off; must run before Os_Initialize.
+void Os_DisableMainExRegion(void) {
+    g_MainExRegionEnabled = 0;
 }
 
 // Starts up the OS: arenas, PXI, locks, interrupts, exceptions, memory, threads, reset, cartridge, card and power
 // management.
-void OS_Init(void) {
-    OS_InitArena();
-    PXI_Init();
-    OS_InitLock();
-    OS_InitArenaEx();
-    OS_InitIrqTable();
-    OS_SetIrqStackChecker();
-    OS_InitException();
-    MI_Init();
-    OS_InitVAlarm();
+void Os_Initialize(void) {
+    Os_InitializeMemoryRegionAddresses();
+    j_Fifo_Initialize();
+    Os_InitializeLock();
+    Os_InitializeMainExMemoryRegionAddress();
+    Os_InitializeIrqThreadQueue();
+    Os_InitializeSvcStack();
+    Os_InitializeExceptionHandler();
+    Mem_Initialize();
+    Os_InitializeVAlarm();
     OSi_InitVramExclusive();
-    OS_InitThread();
-    OS_InitReset();
-    CTRDG_Init();
-    CARD_Init();
-    PM_Init();
+    Os_InitializeThread();
+    Os_InitializeResetFifoHandler();
+    CTRDG_Initialize_from_thumb();
+    Card_Initialize();
+    PM_Initialize();
 }
 
 // clang-format off
@@ -199,7 +199,7 @@ loop_inner:
 }
 
 // Not compiled code: C has no way to write a coprocessor 15 register (mcr).
-asm void DC_InvalidateRange(void *address, u32 size) {
+asm void DC_InvalidateRangeNoClean(void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
 loop:
@@ -211,7 +211,7 @@ loop:
 }
 
 // Not compiled code: C has no way to write a coprocessor 15 register (mcr).
-asm void DC_StoreRange(const void *address, u32 size) {
+asm void DC_SomeClean(const void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
 loop:
@@ -223,7 +223,7 @@ loop:
 }
 
 // Not compiled code: C has no way to write a coprocessor 15 register (mcr).
-asm void DC_FlushRange(const void *address, int size) {
+asm void Arm_FlushRange(const void *address, int size) {
     mov ip, #0x0
     add r1, r1, r0
     bic r0, r0, #0x1f
@@ -237,14 +237,14 @@ loop:
 }
 
 // Not compiled code: C has no way to write a coprocessor 15 register (mcr).
-asm void DC_WaitWriteBufferEmpty(void) {
+asm void Mem_DcDrainWriteBuffer(void) {
     mov r0, #0x0
     mcr p15, 0, r0, c7, c10, 4
     bx lr
 }
 
 // Not compiled code: C has no way to write a coprocessor 15 register (mcr).
-asm void IC_InvalidateRange(void *address, u32 size) {
+asm void IC_InvalidateRangeNoClean(void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
 loop:

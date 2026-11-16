@@ -36,13 +36,13 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     s32 result;
 
     if (connection == NULL) {
-        AssertionFailed("connection != NULL", "gpiOperation.c", NULL, 0x22);
+        LogThrowAssertion("connection != NULL", "gpiOperation.c", NULL, 0x22);
     }
     if (connection->mGpiConnection == NULL) {
-        AssertionFailed("*connection != NULL", "gpiOperation.c", NULL, 0x23);
+        LogThrowAssertion("*connection != NULL", "gpiOperation.c", NULL, 0x23);
     }
     if (operation == NULL) {
-        AssertionFailed("operation != NULL", "gpiOperation.c", NULL, 0x24);
+        LogThrowAssertion("operation != NULL", "gpiOperation.c", NULL, 0x24);
     }
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
@@ -118,7 +118,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             default:
-                AssertionFailed("0", "gpiOperation.c", NULL, 0x6b);
+                LogThrowAssertion("0", "gpiOperation.c", NULL, 0x6b);
                 break;
         }
     }
@@ -163,7 +163,7 @@ void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation) {
         searchData = operation->mData;
         gpState->mSearchCount--;
         if (gpState->mSearchCount < 0) {
-            AssertionFailed("iconnection->numSearches >= 0", "gpiOperation.c", NULL, 0xb6);
+            LogThrowAssertion("iconnection->numSearches >= 0", "gpiOperation.c", NULL, 0xb6);
         }
         shutdown(searchData->mSocket, 2);
         closesocket(searchData->mSocket);
@@ -244,7 +244,7 @@ s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const
             break;
         default:
             gpiDebug(connection, "gpiProcessOperation was passed an operation with an invalid type (%d)\n", type);
-            AssertionFailed("0", "gpiOperation.c", NULL, 0x146);
+            LogThrowAssertion("0", "gpiOperation.c", NULL, 0x146);
             break;
     }
     if (result != 0) {

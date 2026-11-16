@@ -86,7 +86,7 @@ void CreateItemInfos(void) {
     ItemInfo *infos;
     s32 infoIndex;
 
-    infos = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_INFO_COUNT * sizeof(*infos));
+    infos = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), ITEM_INFO_COUNT * sizeof(*infos));
     gItemInfos = infos;
     infos[0] = gItemInfoKouraG;
     infos[1] = gItemInfoKouraR;
@@ -106,7 +106,7 @@ void CreateItemInfos(void) {
     infos[15] = gItemInfoGesso;
     infos[16] = gItemInfoTeresa;
     infos[17] = gItemInfoBouncingItemBox;
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_BATTLE:
             infos[17].mEnabled = TRUE;
             break;
@@ -118,14 +118,14 @@ void CreateItemInfos(void) {
             }
             break;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_DEMO) {
         gItemInfos[ITEM_INFO_GESSO].mEnabled = FALSE;
     }
 }
 
 #pragma thumb off
 
-void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
+void StructPRSub_Create2(HeldItem *heldItem, KartItems *kartItems) {
     s32 slotIndex;
 
     heldItem->mKartItems = kartItems;
@@ -138,7 +138,7 @@ void InitHeldItem(HeldItem *heldItem, KartItems *kartItems) {
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
         heldItem->mObjects[slotIndex] = NULL;
     }
-    heldItem->mIsPeerEntry = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
+    heldItem->mIsPeerEntry = g_GlobalCO->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
 }
 
 // Starts one held object at counts 7, 5 and 3 of the countdown that StartHeldItemObjects sets.
@@ -167,7 +167,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     kartVelocity = &kart->mVelocity;
     StartItemObject(gItemPools + item->mKind, item);
     CopyKartPlacementToItemObject(heldItem->mKartItems, item);
-    VEC_MultAdd(0xb33, kartVelocity, &item->mVelocity, &item->mVelocity);
+    VecFx32_AddScale1(0xb33, kartVelocity, &item->mVelocity, &item->mVelocity);
     item->mPos = *kartDrawPos;
     LaunchItemObjectFromPos(item, 0, kartDrawPos, kartVelocity, &kart->mGroundNormal);
     kind = item->mKind;

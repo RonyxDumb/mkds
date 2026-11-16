@@ -41,7 +41,7 @@ ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *
     range = PopPointerStack(gObjCharRanges[screen].mFreeRanges);
     unitCount = (charCount + 3 & ~3) >> 2;
     range->mLength = unitCount;
-    savedIrqMask = OS_DisableIrqMask(1);
+    savedIrqMask = Os_DisableIrqHandler(1);
     if (fromFront != 0) {
         ranges = gObjCharRanges;
         node = &ranges[screen].mListStart;
@@ -58,7 +58,7 @@ ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *
             } while (node != &ranges[screen].mListEnd);
         }
         if (node == &gObjCharRanges[screen].mListEnd) {
-            OS_Terminate();
+            Os_Terminate();
         }
     } else {
         ranges = gObjCharRanges;
@@ -76,11 +76,11 @@ ObjCharRange *CreateObjCharRange(u32 screen, s32 charCount, s32 fromFront, u32 *
             } while (node != &ranges[screen].mListStart);
         }
         if (node == &gObjCharRanges[screen].mListStart) {
-            OS_Terminate();
+            Os_Terminate();
         }
     }
     *outStart = range->mStart;
-    OS_EnableIrqMask(savedIrqMask);
+    Os_EnableIrqHandler(savedIrqMask);
     return range;
 }
 
@@ -103,7 +103,7 @@ void InitOamBuffers(void) {
 
     gOamBuffers = buffers;
     fillValue = 0x200;
-    MIi_CpuClearFast(fillValue, buffers, 0x800);
+    Mem_CpuFastMemorySet(fillValue, buffers, 0x800);
     for (bufferIndex = 0; bufferIndex < 2; bufferIndex++) {
         gOamBuffers->mFreeEntries[bufferIndex] = CreateFilledPointerStack(0x40, gOamBuffers->mBuffers[bufferIndex], 8);
     }
@@ -111,7 +111,7 @@ void InitOamBuffers(void) {
 }
 
 void UploadOamBuffers(TaskEntry *task, void *arg) {
-    DC_FlushRange((u8 *) gOamBuffers, 0x800);
-    GX_LoadOAM(gOamBuffers->mBuffers[0], 0, 0x400);
-    GXS_LoadOAM(gOamBuffers->mBuffers[1], 0, 0x400);
+    Arm_FlushRange((u8 *) gOamBuffers, 0x800);
+    CopyToOamA(gOamBuffers->mBuffers[0], 0, 0x400);
+    CopyToOamB(gOamBuffers->mBuffers[1], 0, 0x400);
 }

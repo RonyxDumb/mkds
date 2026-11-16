@@ -253,7 +253,7 @@ void AdvanceAnimatedIcon(TaskEntry *task, void *arg) {
     u32 imageOrPalette;
 
     gAnimatedIcon->mStepFrames = FX_ModS32(gAnimatedIcon->mStepFrames + 1, 0x28);
-    imageOrPalette = FX_DivS32(gAnimatedIcon->mStepFrames, 5) + 0x47;
+    imageOrPalette = Fx_DivS32(gAnimatedIcon->mStepFrames, 5) + 0x47;
     CopyNceImageToOamEntries(0, imageOrPalette, gAnimatedIcon->mOamEntry);
     innerObject = gAnimatedIcon->mOamEntry;
     innerObject->mAttr2 = (innerObject->mAttr2 & OAM_ATTR2_NOT_PRIORITY_MASK) | 0x400;

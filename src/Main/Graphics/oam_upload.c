@@ -5,14 +5,14 @@
 
 #pragma thumb on
 
-void UploadOamLists(void *mainOamList, void *subOamList) {
+void CopyOamBuffersToMemory_from_thumb(void *mainOamList, void *subOamList) {
     if (mainOamList != NULL) {
-        DC_FlushRange(mainOamList, 0x00000400u);
-        GX_LoadOAM(mainOamList, 0, 0x00000400u);
+        Arm_FlushRange(mainOamList, 0x00000400u);
+        CopyToOamA(mainOamList, 0, 0x00000400u);
     }
     if (subOamList != NULL) {
-        DC_FlushRange(subOamList, 0x00000400u);
-        GXS_LoadOAM(subOamList, 0, 0x00000400u);
+        Arm_FlushRange(subOamList, 0x00000400u);
+        CopyToOamB(subOamList, 0, 0x00000400u);
     }
 }
 

@@ -13,7 +13,7 @@
 
 #define ROCK_HEIGHT_RANGE_MAX 0x3e8000
 
-// Slots in the table behind gCollisionSlots and in the tables of the two ends; found lists hold up to half of them.
+// Slots in the table behind g_SomePointer3Size1C00 and in the tables of the two ends; found lists hold up to half of them.
 #define COLLISION_SLOT_COUNT 0x100
 #define FOUND_COLLISION_SLOT_CAPACITY 0x80
 
@@ -24,7 +24,7 @@
 #define COLLISION_SLOT_FLAG_DISABLED 0x200 // the searches skip the slot
 #define COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE 0x400 // SetCollisionSlotRadius also sets the radius changed bit
 
-// One entry of the table behind gCollisionSlots: its end indices, z range, center, radius, flags and object.
+// One entry of the table behind g_SomePointer3Size1C00: its end indices, z range, center, radius, flags and object.
 typedef struct CollisionSlot {
     /* 00 */ s16 mHighEndIndex;
     /* 02 */ s16 mLowEndIndex;
@@ -33,15 +33,15 @@ typedef struct CollisionSlot {
     /* 0c */ Vec3 *mCenterPos;
     /* 10 */ s32 mRadius;
     /* 14 */ u16 mFlags;
-    /* 16 */ u8 mUnk_16[2];
+    /* 16 */ u8 mFlags[2];
     /* 18 */ void *mObject;
 } CollisionSlot;
 
 static inline CollisionSlot *GetCollisionSlot(s16 slotId) {
-    return &gCollisionSlots[slotId];
+    return &g_SomePointer3Size1C00[slotId];
 }
 
-// One end of a collision slot (gCollisionSlotHighEnds, gCollisionSlotLowEnds): the other end's index, a slot index, x.
+// One end of a collision slot (g_SomePointer1Size400, g_SomePointer2Size400): the other end's index, a slot index, x.
 typedef struct CollisionSlotEnd {
     /* 00 */ u32 mOtherEndIndex : 8;
 // Low-end list: the slot index. High-end list: the lowest low-end index the search scans down to.
@@ -99,12 +99,12 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow);
 void CreateNsbmdAndShadowNsbmd(void *mapObjectList, const char *name, const char *shadowName);
 void CreateRock(void *mapObjectList);
 void CreateRock2(void *mapObjectList);
-void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file);
-void InitCourseCollision(void);
+void CopyKclHeaderAbsolute_from_thumb(CourseCollision *collision, CourseCollision *file);
+void LoadCourseKcl_from_thumb(void);
 void UpdateCollisionHitLink(void *hitListPtr, u32 collisionBits, CollisionHitLink *link, Vec3 *position, Vec3 *normal);
 BOOL IsCollisionHitLinkOutdated(void *hitListPtr, u32 collisionBits, CollisionHitLink *link);
 u16 PickCollisionHitValue(u32 mask);
-void InitCollisionSlots(void);
+void AllocateSomePointers(void);
 void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask);
 void SetCollisionSlotRadius(s16 slotIndex, s32 radius);
 void DisableCollisionSlot(s16 slotIndex);

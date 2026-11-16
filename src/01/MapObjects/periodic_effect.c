@@ -46,7 +46,7 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
     if (objectList != NULL) {
         objectIndex = 0;
         while (objectIndex < objectList->mMapObjectCount && (object = objectList->mMapObjects[objectIndex]) != NULL) {
-            raceProgress = gRaceProgress;
+            raceProgress = g_GlobalMV;
             localRandom = &raceProgress->mLocalRandom;
             localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
             object->mEffectDelayFrames =
@@ -65,7 +65,7 @@ void UpdatePeriodicEffect(void *mapObjectList, EffectMapObject *object) {
 
     object->mEffectDelayFrames -= 1;
     if (object->mEffectDelayFrames < 0) {
-        raceProgress = gRaceProgress;
+        raceProgress = g_GlobalMV;
         localRandom = &raceProgress->mLocalRandom;
         localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
         object->mEffectDelayFrames = (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_SPREAD) >> 32) +
@@ -90,7 +90,7 @@ void UpdateCameraEffect(void *mapObjectList, EffectMapObject *object) {
     Camera *camera;
     Vec3 effectPosition = {0, 0, 0};
 
-    camera = GetCurrentCamera();
+    camera = GetGlobalHD4();
     switch (object->mCameraEffectState) {
         case CAMERA_EFFECT_STATE_START:
             object->mCameraEffectState = CAMERA_EFFECT_STATE_FOLLOW;

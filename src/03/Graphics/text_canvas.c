@@ -35,7 +35,7 @@ void InitTextCanvases(void) {
     outSize = NULL;
     for (fontIndex = 0; fontIndex < 2; fontIndex++) {
         gTextCanvases->mFontFiles[fontIndex] = LoadFile(gTextCanvasNftrNames[fontIndex], outSize, 4);
-        NNS_G2dFontInitUTF16(&gTextCanvases->mFonts[fontIndex], gTextCanvases->mFontFiles[fontIndex]);
+        NFTR_LoadV2(&gTextCanvases->mFonts[fontIndex], gTextCanvases->mFontFiles[fontIndex]);
     }
 }
 
@@ -66,7 +66,7 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
         charBase = 0x6400000;
     }
     charBase += charName << 7;
-    NNS_G2dCharCanvasInitForOBJ1D(canvas, (void *) charBase, areaWidth, areaHeight, 4);
+    G2d_Sprite_CreateFrom2(canvas, (void *) charBase, areaWidth, areaHeight, 4);
     canvas->mPClear(canvas, 0);
     font = &gTextCanvases->mFonts[fontIndex];
     canvas->mCharCanvas = canvas;
@@ -99,14 +99,14 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
         *bgControl &= ~0x40;
         *bgControl = (*bgControl & 0x43) | 0xc00;
     }
-    NNS_G2dCharCanvasInitForBG(canvas, canvas->mChars, areaWidth, areaHeight, 4);
+    G2d_Sprite_CreateFromTiles(canvas, canvas->mChars, areaWidth, areaHeight, 4);
     font = &gTextCanvases->mFonts[fontIndex];
     canvas->mTextCanvas.mCharCanvas = canvas;
     canvas->mTextCanvas.mFont = font;
     canvas->mTextCanvas.mCharSpacing = 1;
     canvas->mTextCanvas.mLineSpacing = 1;
     if (screen == 1) {
-        screenBase = G2S_GetBG0ScrPtr();
+        screenBase = GetAnotherSubEngineBGOffset();
     } else {
         screenBase = G2_GetBG0ScrPtr();
     }
@@ -126,12 +126,12 @@ void AdvanceBgTextCanvasUpload(TaskEntry *task, void *arg) {
         canvases = gTextCanvases;
         if (flag == &canvases->mBgUploadPending[0]) {
             size = (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5;
-            DC_FlushRange(canvases->mBgTextCanvases[0].mChars, size);
-            GX_LoadBG0Char(gTextCanvases->mBgTextCanvases[0].mChars, gBgTextCanvasCharOffsets[0] << 5, size);
+            Arm_FlushRange(canvases->mBgTextCanvases[0].mChars, size);
+            CopyBgData_Bg0_Top(gTextCanvases->mBgTextCanvases[0].mChars, gBgTextCanvasCharOffsets[0] << 5, size);
         } else {
             size = (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5;
-            DC_FlushRange(canvases->mBgTextCanvases[1].mChars, size);
-            GXS_LoadBG0Char(gTextCanvases->mBgTextCanvases[1].mChars, gBgTextCanvasCharOffsets[1] << 5, size);
+            Arm_FlushRange(canvases->mBgTextCanvases[1].mChars, size);
+            CopyBgData_Bg0_Bottom(gTextCanvases->mBgTextCanvases[1].mChars, gBgTextCanvasCharOffsets[1] << 5, size);
         }
         *flag = 0;
     }
@@ -144,13 +144,13 @@ void ReleaseBgTextCanvas(BgTextCanvas *canvas) {
 
     RemoveTaskEntryWrapper(1, canvas->mUploadTask);
     if (canvas == gTextCanvases->mBgTextCanvases) {
-        charBase = (void *) G2_GetBG0CharPtr();
+        charBase = (void *) GetVramBg0BaseOffset_Top();
         clearValueFirst = 0;
-        MIi_CpuClear16(clearValueFirst, charBase, (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5);
+        Mem_CpuFill16(clearValueFirst, charBase, (gBgTextCanvasSizes[0] * gBgTextCanvasSizes[1]) << 5);
     } else {
-        charBase = (void *) G2_GetBG0CharPtr();
+        charBase = (void *) GetVramBg0BaseOffset_Top();
         clearValueSecond = 0;
-        MIi_CpuClear16(clearValueSecond, charBase, (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5);
+        Mem_CpuFill16(clearValueSecond, charBase, (gBgTextCanvasSizes[2] * gBgTextCanvasSizes[3]) << 5);
     }
     FreeExpHeapBlockAndClearPointer(&canvas->mChars);
 }
@@ -161,11 +161,11 @@ void ReleaseBgTextCanvasOfScreen(u32 index) {
 
 void DrawCanvasText(BgTextCanvas *canvas, u32 xPos, u32 yPos, u32 color, u32 flags, void *text) {
     u32 textFlags = flags;
-    u32 drawResult = NNSi_G2dTextCanvasDrawText(&canvas->mTextCanvas, xPos, yPos, color, textFlags, text);
+    u32 drawResult = G2d_Text_PrintString(&canvas->mTextCanvas, xPos, yPos, color, textFlags, text);
 }
 
 void DrawCanvasChar(void *canvas, u32 xPos, u32 yPos, u32 color, u16 charCode, int fontIndex) {
-    NNS_G2dCharCanvasDrawChar(canvas, gTextCanvases->mFonts + fontIndex, xPos, yPos, color, charCode);
+    G2d_Sprite_MaybePutChar(canvas, gTextCanvases->mFonts + fontIndex, xPos, yPos, color, charCode);
 }
 
 void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidth, u16 *text, s32 fontIndex) {
@@ -176,11 +176,11 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
 
     while (*text != 0) {
         font = gTextCanvases->mFonts + fontIndex;
-        glyphIndex = NNS_G2dFontFindGlyphIndex(font, *text);
+        glyphIndex = NFTR_GetTileIndexForCharacter(font, *text);
         if (glyphIndex == 0xffff) {
             glyphIndex = font->mPRes->mAlterCharIndex;
         }
-        widths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
+        widths = NFTR_GetCharacterWidthTileEntry(font, glyphIndex);
         if (font->mFileVersionIndex != 0) {
             charWidth = widths->mLeft + widths->mGlyphWidth;
         } else {
@@ -194,7 +194,7 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
 
 void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32 height, u32 color, u32 flags,
                         void *text) {
-    NNSi_G2dTextCanvasDrawTextRect(&canvas->mTextCanvas, xPos, yPos, width, height, color, flags, text);
+    G2d_Text_PrintString4(&canvas->mTextCanvas, xPos, yPos, width, height, color, flags, text);
 }
 
 void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color) {

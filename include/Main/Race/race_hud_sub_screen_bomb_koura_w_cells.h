@@ -13,7 +13,7 @@ s32 CreateRaceHudSubScreenBombKouraWCells(void);
 void UpdateRaceHudSubScreenBgPalette(u16 *palette);
 void CopyRaceHudSubScreenBgColors(void);
 
-void InitRaceHudSubScreenBgColors(void);
+void SomeAlloc(void);
 
 extern struct RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;

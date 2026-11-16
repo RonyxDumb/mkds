@@ -5,9 +5,9 @@
 
 #pragma thumb on
 
-void CreateMenuShared(void *heap) {
-    gMenuShared = HeapAlloc(heap, (0x00000130u));
-    ClearMenuShared();
+void InitializeGlobalB488_from_thumb(void *heap) {
+    g_GlobalB488 = Mem_AllocateHeap(heap, (0x00000130u));
+    CreateGlobalB488_from_thumb();
 }
 
 #pragma thumb off

@@ -10,7 +10,7 @@
 #pragma optimize_for_size on
 void RequestRaceOrWLMenuScene(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
-        if (MenuGetConnectionKind() != CONNECTION_KIND_NONE && GetMultiSimple() != 0) {
+        if (GetPMaybeState_1() != CONNECTION_KIND_NONE && GetMultiSimple() != 0) {
             sceneNumbers->mNextScene = SCENE_WL_MENU;
             SetWLMenuKind(WL_MENU_KIND_TO_RACE);
         } else {

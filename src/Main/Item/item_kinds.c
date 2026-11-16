@@ -39,7 +39,7 @@ void CreateItemKinds(void) {
     u32 value;
     u32 (*getFar)(void);
 
-    kinds = HeapAlloc(GetHeap(GetCurrentHeapCall()), ITEM_OBJECT_KIND_COUNT * sizeof(*kinds));
+    kinds = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), ITEM_OBJECT_KIND_COUNT * sizeof(*kinds));
     gItemKinds = kinds;
     kinds[0] = gItemKindKouraG;
     kinds[1] = gItemKindKouraR;
@@ -65,7 +65,7 @@ void CreateItemKinds(void) {
         }
         gItemKinds[kindIndex].mFarDistanceSquared = value;
     }
-    mode = gRaceSetup->mMode;
+    mode = g_GlobalCO->mMode;
     switch (mode) {
         case MODE_BATTLE:
             gItemKinds[ITEM_OBJECT_KIND_BOUNCING_ITEM_BOX].mLimit = ITEM_BATTLE_BOUNCING_ITEM_BOX_LIMIT;
@@ -104,7 +104,7 @@ void ComputeItemKindObjectCounts(void) {
         gItemKinds[kindIndex].mObjectBudget = gItemKinds[kindIndex].mObjectBudget + maxObjectCounts[kindIndex];
         gItemKinds[kindIndex].mObjectCount = gItemKinds[kindIndex].mObjectBudget;
     }
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         for (kindIndex = 0; kindIndex < 0xe; kindIndex++) {
             gItemKinds[kindIndex].mObjectCount = gItemKinds[kindIndex].mObjectCount + 3;
         }

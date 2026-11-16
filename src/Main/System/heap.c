@@ -4,152 +4,152 @@
 #include "heap_list_common_head.h"
 #include "reset_interrupts_halt.h"
 
-void *HeapAlloc(void *heap, u32 size) {
+void *Mem_AllocateHeap(void *heap, u32 size) {
     NNSiFndHeapHead *heapHead = heap;
     void *block = NULL;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            block = NNS_FndAllocFromExpHeapEx(heap, size, 4);
+            block = Mem_Exp_Allocate(heap, size, 4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            block = NNS_FndAllocFromFrmHeapEx(heap, size, 4);
+            block = Mem_Frame_Allocate(heap, size, 4);
             break;
     }
     return block;
 }
 
-void *HeapAllocAligned(void *heap, u32 size, s32 alignment) {
+void *Mem_AllocateHeapAligned(void *heap, u32 size, s32 alignment) {
     NNSiFndHeapHead *heapHead = heap;
     void *block = NULL;
     u32 irqState;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            block = NNS_FndAllocFromExpHeapEx(heap, size, alignment);
+            block = Mem_Exp_Allocate(heap, size, alignment);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            irqState = OS_DisableInterrupts();
-            block = NNS_FndAllocFromFrmHeapEx(heap, size, alignment);
-            OS_RestoreInterrupts(irqState);
+            irqState = Os_DisableIrq();
+            block = Mem_Frame_Allocate(heap, size, alignment);
+            Os_RestoreIrq(irqState);
             break;
     }
     return block;
 }
 
-void HeapFree(void *heap, void *block) {
+void Mem_FreeHeap(void *heap, void *block) {
     NNSiFndHeapHead *heapHead = heap;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            NNS_FndFreeToExpHeap(heap, block);
+            Mem_Exp_Free(heap, block);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
             break;
     }
 }
 
-void HeapDestroy(NNSiFndHeapHead *heap) {
+void Mem_DestroyHeap(NNSiFndHeapHead *heap) {
     NNSiFndHeapHead *heapHead = heap;
     NNSiFndHeapHead *parentHeap;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            NNS_FndDestroyExpHeap(heap);
+            Mem_Exp_Finalize(heap);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            NNS_FndDestroyFrmHeap(heap);
+            Mem_Frame_Finalize(heap);
             break;
     }
-    parentHeap = NNS_FndFindContainHeap(heap);
+    parentHeap = Mem_FindGlobalTopParentHeapHead(heap);
     if (parentHeap == NULL) {
         return;
     }
     switch (parentHeap->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            NNS_FndFreeToExpHeap(parentHeap, heap);
+            Mem_Exp_Free(parentHeap, heap);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
             break;
     }
 }
 
-void *CreateExpHeapFromMaxFree(void *parent) {
+void *Mem_CreateChildExpHeap(void *parent) {
     NNSiFndHeapHead *heapHead = parent;
     u32 size = 0;
     void *block;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            size = NNS_FndGetAllocatableSizeForExpHeapEx(parent, 4);
+            size = Mem_Exp_GetAllocatableSize(parent, 4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            size = NNS_FndGetAllocatableSizeForFrmHeapEx(parent, 4);
+            size = Mem_Frame_GetAllocatableSize(parent, 4);
             break;
     }
     block = NULL;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            block = NNS_FndAllocFromExpHeapEx(parent, size, 4);
+            block = Mem_Exp_Allocate(parent, size, 4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            block = NNS_FndAllocFromFrmHeapEx(parent, size, 4);
+            block = Mem_Frame_Allocate(parent, size, 4);
             break;
     }
-    return NNS_FndCreateExpHeapEx(block, size, 1);
+    return Mem_Exp_Create(block, size, 1);
 }
 
-void *CreateFrmHeapFromMaxFree(void *parent) {
+void *Mem_CreateOrphanChildHeap(void *parent) {
     NNSiFndHeapHead *heapHead = parent;
     u32 size = 0;
     void *block;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            size = NNS_FndGetAllocatableSizeForExpHeapEx(parent, 4);
+            size = Mem_Exp_GetAllocatableSize(parent, 4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            size = NNS_FndGetAllocatableSizeForFrmHeapEx(parent, 4);
+            size = Mem_Frame_GetAllocatableSize(parent, 4);
             break;
     }
     block = NULL;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            block = NNS_FndAllocFromExpHeapEx(parent, size, 4);
+            block = Mem_Exp_Allocate(parent, size, 4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            block = NNS_FndAllocFromFrmHeapEx(parent, size, 4);
+            block = Mem_Frame_Allocate(parent, size, 4);
             break;
     }
-    return NNS_FndCreateFrmHeapEx(block, size, 1);
+    return Mem_Frame_Create(block, size, 1);
 }
 
-void *CreateFrmHeapFromFront(void *parent, u32 size) {
+void *Mem_CreateChildFrameHeapFromHead(void *parent, u32 size) {
     NNSiFndHeapHead *heapHead = parent;
     void *block = NULL;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            block = NNS_FndAllocFromExpHeapEx(parent, size, 4);
+            block = Mem_Exp_Allocate(parent, size, 4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            block = NNS_FndAllocFromFrmHeapEx(parent, size, 4);
+            block = Mem_Frame_Allocate(parent, size, 4);
             break;
     }
-    return NNS_FndCreateFrmHeapEx(block, size, 1);
+    return Mem_Frame_Create(block, size, 1);
 }
 
-void *CreateFrmHeapFromBack(void *parent, u32 size) {
+void *Mem_CreateChildFrameHeapFromTail(void *parent, u32 size) {
     NNSiFndHeapHead *heapHead = parent;
     void *block = NULL;
     u32 irqState;
     switch (heapHead->mSignature) {
         case HEAP_SIGNATURE_EXP_HEAP:
-            block = NNS_FndAllocFromExpHeapEx(parent, size, -4);
+            block = Mem_Exp_Allocate(parent, size, -4);
             break;
         case HEAP_SIGNATURE_FRAME_HEAP:
-            irqState = OS_DisableInterrupts();
-            block = NNS_FndAllocFromFrmHeapEx(parent, size, -4);
-            OS_RestoreInterrupts(irqState);
+            irqState = Os_DisableIrq();
+            block = Mem_Frame_Allocate(parent, size, -4);
+            Os_RestoreIrq(irqState);
             break;
     }
-    return NNS_FndCreateFrmHeapEx(block, size, 1);
+    return Mem_Frame_Create(block, size, 1);
 }
 
 void FrmHeapShrinkInParent(void *heap) {
-    u32 newSize = NNS_FndAdjustFrmHeap(heap);
-    NNS_FndResizeForMBlockExpHeap(NNS_FndFindContainHeap(heap), heap, newSize);
+    u32 newSize = Mem_Frame_SomeFn4(heap);
+    Mem_ResizeExpHeap(Mem_FindGlobalTopParentHeapHead(heap), heap, newSize);
 }

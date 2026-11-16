@@ -30,13 +30,13 @@ void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
 
     iconnection = connection->mGpiConnection;
     if (iconnection == NULL) {
-        AssertionFailed("iconnection != NULL", "gpiCallback.c", NULL, 0x23);
+        LogThrowAssertion("iconnection != NULL", "gpiCallback.c", NULL, 0x23);
     }
     if (result == 0) {
-        AssertionFailed("result != GP_NO_ERROR", "gpiCallback.c", NULL, 0x24);
+        LogThrowAssertion("result != GP_NO_ERROR", "gpiCallback.c", NULL, 0x24);
     }
     if (fatal != 1 && fatal != 0) {
-        AssertionFailed("(fatal == GP_FATAL) || (fatal == GP_NON_FATAL)", "gpiCallback.c", NULL, 0x25);
+        LogThrowAssertion("(fatal == GP_FATAL) || (fatal == GP_NON_FATAL)", "gpiCallback.c", NULL, 0x25);
     }
     if (fatal == 1) {
         iconnection->mFatal = TRUE;
@@ -89,10 +89,10 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
     s32 entryIndex;
 
     if (data->mCallback.mCallback == NULL) {
-        AssertionFailed("data->callback.callback != NULL", "gpiCallback.c", NULL, 0x6e);
+        LogThrowAssertion("data->callback.callback != NULL", "gpiCallback.c", NULL, 0x6e);
     }
     if (data->mArg == NULL) {
-        AssertionFailed("data->arg != NULL", "gpiCallback.c", NULL, 0x6f);
+        LogThrowAssertion("data->arg != NULL", "gpiCallback.c", NULL, 0x6f);
     }
     data->mCallback.mCallback(connection, data->mArg, data->mCallback.mParam);
     if (data->mType == PROFILE_CALLBACK_TYPE_FREE_MESSAGE_TEXT) {

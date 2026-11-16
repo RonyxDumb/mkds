@@ -17,7 +17,7 @@ void CreateCommonKartIcon(void *heap);
 
 void CreateKartIcon(void *heap);
 
-void LoadCommonKartIconData(void);
+void VerifyKartIconFiles_from_thumb(void);
 void LoadKartIconData(void);
 
 extern const char *gKartIconNcgrName;

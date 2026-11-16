@@ -10,17 +10,17 @@
 const Vec3 gKartTurnEffectsStartPosition = {0, 0, 0};
 struct KartTurnEffects *gKartTurnEffects;
 
-void InitKartTurnEffects(void *heap) {
+void AndAnotherAlloc(void *heap) {
     u16 kartIndex;
     u16 sideIndex;
     KartTurnEffects *turnEffects;
 
-    gKartTurnEffects = HeapAlloc(heap, gRaceSetup->mKartCount * 0x88);
-    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+    gKartTurnEffects = Mem_AllocateHeap(heap, g_GlobalCO->mKartCount * 0x88);
+    for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
         turnEffects = &gKartTurnEffects[kartIndex];
         turnEffects->mIndex = kartIndex;
-        if (kartIndex == gRaceSetup->mEntryIndex || gRaceSetup->mRaceKind == RACE_KIND_AWARD ||
-            gRaceSetup->mMode == MODE_TIME_ATTACK) {
+        if (kartIndex == g_GlobalCO->mEntryIndex || g_GlobalCO->mRaceKind == RACE_KIND_AWARD ||
+            g_GlobalCO->mMode == MODE_TIME_ATTACK) {
             turnEffects->mTurnStartEffectId = KART_TURN_START_EFFECT_ID_WITH_SECOND;
             turnEffects->mLevel4FirstEffectId = KART_LEVEL4_FIRST_EFFECT_ID_WITH_SECOND;
             turnEffects->mLevel4SecondEffectId = KART_LEVEL4_SECOND_EFFECT_ID;
@@ -119,7 +119,7 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *turnEffects, Kart *kart) {
         negVelocity.x = -velocity.x;
         negVelocity.y = -velocity.y;
         negVelocity.z = -velocity.z;
-        VEC_Add(&kartEffects->mSidePositions[sideIndex], &negVelocity, &position);
+        VecFx32_Add(&kartEffects->mSidePositions[sideIndex], &negVelocity, &position);
         effect = turnEffects->mTurnStartEffects[sideIndex];
         effect->mPosition.x = position.x + effect->mResource->mHeader->mPositionOffset.x;
         effect->mPosition.y = position.y + effect->mResource->mHeader->mPositionOffset.y;

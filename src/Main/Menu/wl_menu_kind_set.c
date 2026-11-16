@@ -3,5 +3,5 @@
 #include "Main/Menu/menu_shared_clear.h"
 
 void SetWLMenuKind(u32 value) {
-    gMenuShared->mWLMenuKind = value;
+    g_GlobalB488->mWLMenuKind = value;
 }

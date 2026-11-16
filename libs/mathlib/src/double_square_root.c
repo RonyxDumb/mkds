@@ -4,7 +4,7 @@
 
 // clang-format off
 // Returns the square root of the double r1:r0, computed one bit at a time and rounded as the floating-point status word
-// says (GetFloatStatus; see double_add_and_to_float.s). Zero and +infinity return themselves, a quiet NaN returns
+// says (GetAlphaFlagsRef; see double_add_and_to_float.s). Zero and +infinity return themselves, a quiet NaN returns
 // itself; negative numbers and signalling NaNs raise invalid (or trap with event code 0x04000097).
 // Kept as asm: it counts leading zeros with clz, tests bits with tst, and saves ip and the argument registers
 // around its call in the middle of the body.
@@ -80,7 +80,7 @@ sqrt_low_next:
     biceq r0, r0, #1
     beq sqrt_pack
     stmfd sp!, {r0, r1, r2, r3, ip, lr}
-    bl GetFloatStatus
+    bl GetAlphaFlagsRef
     mov r5, r0
     ldmfd sp!, {r0, r1, r2, r3, ip, lr}
     ldr r6, [r5]
@@ -156,7 +156,7 @@ sqrt_nan:
 sqrt_invalid:
     ldr r2, =0x7ff80000
     stmfd sp!, {r0, r1, r2, r3, lr}
-    bl GetFloatStatus
+    bl GetAlphaFlagsRef
     mov ip, r0
     ldmfd sp!, {r0, r1, r2, r3, lr}
     ldr r3, [ip]

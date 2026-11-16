@@ -6,11 +6,11 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
 
-const u16 gCrcXorValue = 0x1021;
+const u16 g_SomeCRCConst = 0x1021;
 
 #pragma thumb on
 
-void FinishBackupWrite(void *arg) {
+void dma_fn_from_thumb(void *arg) {
     void (*callback)(u32 *, u32) = arg;
     u32 *buffer;
     u32 byteCount;
@@ -18,10 +18,10 @@ void FinishBackupWrite(void *arg) {
     BOOL finished;
     u32 resultCode;
     finished = TRUE;
-    resultCode = CARD_GetResultCode();
-    UnlockBackup();
+    resultCode = Card_GetResult();
+    CleanupUnlockBackup_from_thumb();
     result = BACKUP_ERROR_NONE;
-    gBackupAccess->mCommandRunning = 0;
+    g_SaveDataIoManager->mCommandRunning = 0;
     switch (resultCode) {
         case BACKUP_RESULT_OK:
             result = BACKUP_ERROR_NONE;
@@ -39,30 +39,30 @@ void FinishBackupWrite(void *arg) {
             result = BACKUP_ERROR_ACCESS_FAILED;
             break;
     }
-    buffer = gBackupAccess->mWriteSource;
-    byteCount = gBackupAccess->mWriteSize;
-    switch (gBackupAccess->mCopyPass) {
+    buffer = g_SaveDataIoManager->mWriteSource;
+    byteCount = g_SaveDataIoManager->mWriteSize;
+    switch (g_SaveDataIoManager->mCopyPass) {
         case BACKUP_COPY_PASS_SINGLE:
             finished = TRUE;
             break;
         case BACKUP_COPY_PASS_FIRST:
-            gBackupAccess->mFirstPassResult = result;
-            gBackupAccess->mFirstPassBuffer = gBackupAccess->mWriteSource;
-            gBackupAccess->mFirstPassTailHalfword = 0;
-            StartBackupWrite(gBackupAccess->mSecondPassAddress, gBackupAccess->mWriteSource, gBackupAccess->mWriteSize,
-                             callback, BACKUP_COPY_PASS_SECOND, gBackupAccess->mWriteHasPrefix);
+            g_SaveDataIoManager->mFirstPassResult = result;
+            g_SaveDataIoManager->mFirstPassBuffer = g_SaveDataIoManager->mWriteSource;
+            g_SaveDataIoManager->mFirstPassTailHalfword = 0;
+            SV_MaybeCompressWriteImpl_from_thumb(g_SaveDataIoManager->mSecondPassAddress, g_SaveDataIoManager->mWriteSource, g_SaveDataIoManager->mWriteSize,
+                             callback, BACKUP_COPY_PASS_SECOND, g_SaveDataIoManager->mWriteHasPrefix);
             finished = FALSE;
             break;
         case BACKUP_COPY_PASS_SECOND:
             if (result != BACKUP_ERROR_NONE) {
-                if (gBackupAccess->mFirstPassResult == BACKUP_ERROR_NONE) {
-                    buffer = gBackupAccess->mFirstPassBuffer;
+                if (g_SaveDataIoManager->mFirstPassResult == BACKUP_ERROR_NONE) {
+                    buffer = g_SaveDataIoManager->mFirstPassBuffer;
                     result = BACKUP_ERROR_NONE;
                 } else if (result == BACKUP_ERROR_UNAVAILABLE ||
-                           gBackupAccess->mFirstPassResult == BACKUP_ERROR_UNAVAILABLE) {
+                           g_SaveDataIoManager->mFirstPassResult == BACKUP_ERROR_UNAVAILABLE) {
                     result = BACKUP_ERROR_UNAVAILABLE;
                 } else if (result != BACKUP_ERROR_ACCESS_FAILED &&
-                           gBackupAccess->mFirstPassResult != BACKUP_ERROR_ACCESS_FAILED) {
+                           g_SaveDataIoManager->mFirstPassResult != BACKUP_ERROR_ACCESS_FAILED) {
                     result = BACKUP_ERROR_BAD_DATA;
                 } else {
                     result = BACKUP_ERROR_ACCESS_FAILED;
@@ -75,11 +75,11 @@ void FinishBackupWrite(void *arg) {
             if (callback != NULL) {
                 callback(buffer, byteCount);
             }
-            ClearBackupAccessStatus();
+            SX1Zero_from_thumb();
             return;
         }
         if (result == BACKUP_ERROR_UNAVAILABLE) {
-            gBackupAccess->mBackupEnabled = 0;
+            g_SaveDataIoManager->mBackupEnabled = 0;
         }
         EndBackupAccessWithError(result);
     }
@@ -88,49 +88,49 @@ void FinishBackupWrite(void *arg) {
 void FinishBackupOneByteRead(void *arg) {
     BOOL failed;
     failed = FALSE;
-    if (CARD_GetResultCode() != 0) {
+    if (Card_GetResult() != 0) {
         failed = TRUE;
     }
     if (failed == FALSE) {
-        ClearBackupAccessStatus();
-        CARDi_RequestStreamCommand((u32) gBackupAccess->mWriteSource, gBackupAccess->mWriteAddress,
-                                   gBackupAccess->mWriteSize, FinishBackupWrite, gBackupAccess->mWriteCallback, 1, 7,
+        SX1Zero_from_thumb();
+        Card_RequestStreamCommand((u32) g_SaveDataIoManager->mWriteSource, g_SaveDataIoManager->mWriteAddress,
+                                   g_SaveDataIoManager->mWriteSize, dma_fn_from_thumb, g_SaveDataIoManager->mWriteCallback, 1, 7,
                                    10, 2);
     } else {
-        UnlockBackup();
-        gBackupAccess->mCommandRunning = 0;
+        CleanupUnlockBackup_from_thumb();
+        g_SaveDataIoManager->mCommandRunning = 0;
         EndBackupAccessWithError(failed);
     }
 }
 
 u32 StartBackupOneByteRead(void) {
-    if (gBackupAccess->mBackupEnabled == 0 || CARD_TryWaitBackupAsync() == 0) {
+    if (g_SaveDataIoManager->mBackupEnabled == 0 || CardIsNotBusy() == 0) {
         return 0;
     }
-    if (TryLockBackup() == 0) {
+    if (AllocateLockCardBackupResource_from_thumb() == 0) {
         return 0;
     }
-    CARDi_RequestStreamCommand(0, (u32) gBackupAccess->mOneByteReadBuffer, 1, FinishBackupOneByteRead, NULL, 1, 6, 1,
+    Card_RequestStreamCommand(0, (u32) g_SaveDataIoManager->mOneByteReadBuffer, 1, FinishBackupOneByteRead, NULL, 1, 6, 1,
                                0);
     return 1;
 }
 
-u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u32 *, u32), s32 copyPass,
+u32 SV_MaybeCompressWriteImpl_from_thumb(u32 address, u32 *source, u32 byteCount, void (*callback)(u32 *, u32), s32 copyPass,
                      s32 hasPrefix) {
     u32 *xorStart;
     u32 xorByteCount;
-    if (gBackupAccess->mBackupEnabled == 0 || CARD_TryWaitBackupAsync() == 0) {
+    if (g_SaveDataIoManager->mBackupEnabled == 0 || CardIsNotBusy() == 0) {
         return 0;
     }
-    gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
-    gBackupAccess->mCommandRunning = 1;
-    gBackupAccess->mStatus = BACKUP_STATUS_WRITING;
-    gBackupAccess->mWriteAddress = address;
-    gBackupAccess->mWriteSource = source;
-    gBackupAccess->mWriteSize = byteCount;
-    gBackupAccess->mWriteHasPrefix = hasPrefix;
-    gBackupAccess->mWriteCallback = callback;
-    gBackupAccess->mCopyPass = copyPass;
+    g_SaveDataIoManager->mErrorCode = BACKUP_ERROR_NONE;
+    g_SaveDataIoManager->mCommandRunning = 1;
+    g_SaveDataIoManager->mStatus = BACKUP_STATUS_WRITING;
+    g_SaveDataIoManager->mWriteAddress = address;
+    g_SaveDataIoManager->mWriteSource = source;
+    g_SaveDataIoManager->mWriteSize = byteCount;
+    g_SaveDataIoManager->mWriteHasPrefix = hasPrefix;
+    g_SaveDataIoManager->mWriteCallback = callback;
+    g_SaveDataIoManager->mCopyPass = copyPass;
     if (copyPass != BACKUP_COPY_PASS_SECOND) {
         if (hasPrefix != 0) {
             xorStart = source + 2;
@@ -139,12 +139,12 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
             xorStart = source;
             xorByteCount = byteCount;
         }
-        WriteBlockTail((u8 *) source, byteCount, 0);
-        XorBackupWordsAtTickIndex(xorStart, xorByteCount);
-        DC_StoreRange(source, byteCount);
+        CalculateCRCChecksum_from_thumb((u8 *) source, byteCount, 0);
+        EncryptSaveData_from_thumb(xorStart, xorByteCount);
+        DC_SomeClean(source, byteCount);
         return StartBackupOneByteRead();
     }
-    CARDi_RequestStreamCommand((u32) source, address, byteCount, FinishBackupWrite, callback, 1, 7, 10, 2);
+    Card_RequestStreamCommand((u32) source, address, byteCount, dma_fn_from_thumb, callback, 1, 7, 10, 2);
     return 1;
 }
 
@@ -152,14 +152,14 @@ u32 StartBackupWrite(u32 address, u32 *source, u32 byteCount, void (*callback)(u
 
 #pragma thumb on
 
-void StartBackupWriteTwoCopies(u32 firstAddress, u32 secondAddress, u32 *source, u32 byteCount,
+void SV_MaybeCompressWriteTwoOffsetsFlagC_from_thumb(u32 firstAddress, u32 secondAddress, u32 *source, u32 byteCount,
                                void (*callback)(u32 *, u32), s32 hasPrefix) {
-    gBackupAccess->mSecondPassAddress = secondAddress;
-    StartBackupWrite(firstAddress, source, byteCount, callback, BACKUP_COPY_PASS_FIRST, hasPrefix);
+    g_SaveDataIoManager->mSecondPassAddress = secondAddress;
+    SV_MaybeCompressWriteImpl_from_thumb(firstAddress, source, byteCount, callback, BACKUP_COPY_PASS_FIRST, hasPrefix);
 }
 
-void StartBackupWriteOneCopy(u32 address, void *source, u32 byteCount, void (*callback)(u32 *, u32)) {
-    u32 started = StartBackupWrite(address, source, byteCount, callback, BACKUP_COPY_PASS_SINGLE, 0x0u);
+void SV_MaybeCompressWriteNoFlagsBC_from_thumb(u32 address, void *source, u32 byteCount, void (*callback)(u32 *, u32)) {
+    u32 started = SV_MaybeCompressWriteImpl_from_thumb(address, source, byteCount, callback, BACKUP_COPY_PASS_SINGLE, 0x0u);
 }
 
 #pragma thumb off

@@ -52,11 +52,11 @@ u32 SkipOrthoQuadsHold(u32 kartIndex);
 
 extern const s32 gOrthoQuadTimersByIndex[4];
 extern const s32 gOrthoQuadTableScales[13];
-extern char gGesoSumiModelNsbmdName[16];
-extern char gGesoSumiTextureNsbmdName[16];
+extern char g_str_geso_sumi_nsbmd[16];
+extern char g_str_geso_sumi_nsbmd_0[16];
 
 extern s32 gOrthoQuadCount;
 extern u8 gOrthoQuadCells[8];
 extern OrthoQuadModel gOrthoQuadCreamEffect;
 extern OrthoQuadModel gOrthoQuadGesoSumi;
-extern MtxFx44 gOrthoQuadMatrix;
+extern MtxFx44 g_AnotherMatrix4x4;

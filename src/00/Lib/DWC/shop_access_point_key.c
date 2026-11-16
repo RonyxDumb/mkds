@@ -26,7 +26,7 @@ BOOL DWCi_AC_CheckNintendoShopAP(const u8 *ssid) {
     int compare;
     u8 decoded[24];
     DecodeSsid(ssid, decoded);
-    compare = memcmp((const u8 *) ((u32) decoded), gShopSsidPrefix, 8);
+    compare = StructDC_SomeFn_6((const u8 *) ((u32) decoded), gShopSsidPrefix, 8);
     if (compare == 0) {
         return 1;
     }
@@ -42,7 +42,7 @@ void DWCi_AC_GetNintendoShopWepKey(const u8 *ssid, u8 *wepKey) {
 void DWCi_AC_GetPostalCode(const u8 *ssid, char *postalCode) {
     u8 decoded[24];
     DecodeSsid(ssid, decoded);
-    if (memcmp(decoded, gShopSsidPrefix, 8) == 0) {
-        MI_CpuCopy8(decoded + 8, postalCode, 10);
+    if (StructDC_SomeFn_6(decoded, gShopSsidPrefix, 8) == 0) {
+        Mem_CpuCopy8(decoded + 8, postalCode, 10);
     }
 }

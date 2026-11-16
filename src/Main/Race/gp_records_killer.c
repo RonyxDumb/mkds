@@ -164,7 +164,7 @@ const KartAiItemUseEntry *gBattleHeldItemEntries;
 void (*gUseItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gUseItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gThrowItemNotCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-s32 *gStaffGhostTime;
+s32 *g_StaffGhostTimeBin;
 const KartAiItemUseEntry *gBattleItemInUseEntries;
 void (*gThrowItemCircleKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 void (*gThrowItemNotTrailKindCallback)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
@@ -176,7 +176,7 @@ static inline BOOL AreAllGrandPrixRecordsTopRank(void) {
     enum { ENGINE_CLASS_FIRST } engineClass;
     for (cup = 0; cup < 8; cup++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
-            if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
+            if (CupHasRecord(cup, engineClass) != 0 && CupGetResult(cup, engineClass) == 0) {
                 isFilledTopRank = TRUE;
             } else {
                 isFilledTopRank = FALSE;
@@ -190,43 +190,43 @@ static inline BOOL AreAllGrandPrixRecordsTopRank(void) {
 }
 
 static inline BOOL IsGrandPrixRecordFilledTopRank(s32 cup, s32 engineClass) {
-    if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
+    if (CupHasRecord(cup, engineClass) != 0 && CupGetResult(cup, engineClass) == 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-u32 SetAndWriteSecretMessageFlags(void) {
+u32 GetCurrentUnlockedSecretFlagsAndSaveIfResultScene(void) {
     u32 setFlagBits;
     setFlagBits = 0;
-    if (GetCurrentSceneNumber() == 10) {
-        setFlagBits = SetSecretMessageFlags();
-        WriteBackupFirstBlockWrapper();
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
-            CARD_WaitBackupAsync();
+    if (GetCurrentSceneId() == 10) {
+        setFlagBits = GetCurrentUnlockedSecretFlags();
+        WriteSaveDataSectionHeaderToSaveData_from_thumb();
+        WaitForWorkerTask();
+        if (g_SaveDataIoManager->mBackupEnabled != 0) {
+            j_WaitForPendingCardOperation();
         }
     }
     return setFlagBits;
 }
 
-u32 SetSecretMessageFlagsWrapper(void) {
-    return SetSecretMessageFlags();
+u32 j_GetCurrentUnlockedSecretFlags(void) {
+    return GetCurrentUnlockedSecretFlags();
 }
 
 // Sets the backup flags and kart appear limit earned by top-rank records; returns one bit per new secret message.
-u32 SetSecretMessageFlags(void) {
+u32 GetCurrentUnlockedSecretFlags(void) {
     u32 setFlagBits;
     u32 limitRaiseBit;
     BOOL isLimitRaised;
     setFlagBits = 0;
-    setFlagBits = setFlagBits | SetSecretMessageFlagsPerEngineClass();
-    setFlagBits = setFlagBits | SetSecretMessageFlagsFromCups3And7();
+    setFlagBits = setFlagBits | GetCurrentCupUnlockSecretFlags();
+    setFlagBits = setFlagBits | GetCurrentCharacterUnlockSecretFlags();
     limitRaiseBit = 0;
     isLimitRaised = FALSE;
-    if (GetKartAppearLimit() < 2) {
-        if ((IsGrandPrixRecordFilled(3, 1) != 0 && GetGrandPrixRecordCupRank(3, 1) == 0) ? 1 : 0) {
-            RaiseKartAppearLimit(2);
+    if (CheckExtraKartUnlockFlags_from_thumb() < 2) {
+        if ((CupHasRecord(3, 1) != 0 && CupGetResult(3, 1) == 0) ? 1 : 0) {
+            SetMKDSSVExtraKartUnlockFlagsByState_from_thumb(2);
             isLimitRaised = TRUE;
         }
     }
@@ -234,9 +234,9 @@ u32 SetSecretMessageFlags(void) {
         limitRaiseBit = 0x200;
     }
     isLimitRaised = FALSE;
-    if (GetKartAppearLimit() < 3) {
+    if (CheckExtraKartUnlockFlags_from_thumb() < 3) {
         BOOL isFilledTopRank;
-        if (IsGrandPrixRecordFilled(3, 2) != 0 && GetGrandPrixRecordCupRank(3, 2) == 0) {
+        if (CupHasRecord(3, 2) != 0 && CupGetResult(3, 2) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
@@ -244,14 +244,14 @@ u32 SetSecretMessageFlags(void) {
         if (isFilledTopRank != FALSE) {
             goto raiseLimit;
         }
-        if (IsGrandPrixRecordFilled(7, 2) != 0 && GetGrandPrixRecordCupRank(7, 2) == 0) {
+        if (CupHasRecord(7, 2) != 0 && CupGetResult(7, 2) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
         raiseLimit:
-            RaiseKartAppearLimit(3);
+            SetMKDSSVExtraKartUnlockFlagsByState_from_thumb(3);
             isLimitRaised = TRUE;
         }
     }
@@ -259,10 +259,10 @@ u32 SetSecretMessageFlags(void) {
         limitRaiseBit = 0x400;
     }
     isLimitRaised = FALSE;
-    if (GetKartAppearLimit() < 4) {
-        if ((IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) ? 1 : 0) {
-            if ((IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) ? 1 : 0) {
-                RaiseKartAppearLimit(4);
+    if (CheckExtraKartUnlockFlags_from_thumb() < 4) {
+        if ((CupHasRecord(3, 3) != 0 && CupGetResult(3, 3) == 0) ? 1 : 0) {
+            if ((CupHasRecord(7, 3) != 0 && CupGetResult(7, 3) == 0) ? 1 : 0) {
+                SetMKDSSVExtraKartUnlockFlagsByState_from_thumb(4);
                 isLimitRaised = TRUE;
             }
         }
@@ -273,7 +273,7 @@ u32 SetSecretMessageFlags(void) {
     return setFlagBits | limitRaiseBit;
 }
 
-u32 SetSecretMessageFlagsPerEngineClass(void) {
+u32 GetCurrentCupUnlockSecretFlags(void) {
     enum { ENGINE_CLASS_FIRST } engineClass;
     u32 setFlagBits;
     u32 lastGroupBit;
@@ -284,61 +284,61 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
     setFlagBits = 0;
     for (engineClass = 0; engineClass < 4; engineClass++) {
         newBit = 0;
-        if (IsBackupFlagSet(engineClass) == 0) {
+        if (CheckSavedSecretFlag_from_thumb(engineClass) == 0) {
             if (IsGrandPrixRecordFilledTopRank(0, engineClass) != FALSE &&
                 IsGrandPrixRecordFilledTopRank(1, engineClass) != FALSE) {
-                SetBackupFlag(engineClass);
+                SetSavedSecretFlag_from_thumb(engineClass);
                 newBit = 1;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
         firstFlag = engineClass + 4;
-        if (IsBackupFlagSet(firstFlag) == 0) {
+        if (CheckSavedSecretFlag_from_thumb(firstFlag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(2, engineClass) != FALSE) {
-                SetBackupFlag(firstFlag);
+                SetSavedSecretFlag_from_thumb(firstFlag);
                 newBit = 2;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
         secondFlag = engineClass + 8;
-        if (IsBackupFlagSet(secondFlag) == 0) {
+        if (CheckSavedSecretFlag_from_thumb(secondFlag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(4, engineClass) != FALSE &&
                 IsGrandPrixRecordFilledTopRank(5, engineClass) != FALSE) {
-                SetBackupFlag(secondFlag);
+                SetSavedSecretFlag_from_thumb(secondFlag);
                 newBit = 4;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
         thirdFlag = engineClass + 12;
-        if (IsBackupFlagSet(thirdFlag) == 0) {
+        if (CheckSavedSecretFlag_from_thumb(thirdFlag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(6, engineClass) != FALSE) {
-                SetBackupFlag(thirdFlag);
+                SetSavedSecretFlag_from_thumb(thirdFlag);
                 newBit = 8;
             }
         }
         setFlagBits = setFlagBits | newBit;
     }
     lastGroupBit = 0;
-    if (IsBackupFlagSet(0x10) == 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x10) == 0) {
         if (IsGrandPrixRecordFilledTopRank(3, 2) != FALSE && IsGrandPrixRecordFilledTopRank(7, 2) != FALSE) {
-            SetBackupFlag(0x10);
+            SetSavedSecretFlag_from_thumb(0x10);
             lastGroupBit = 0x10;
         }
     }
     return setFlagBits | lastGroupBit;
 }
 
-u32 SetSecretMessageFlagsFromCups3And7(void) {
+u32 GetCurrentCharacterUnlockSecretFlags(void) {
     u32 setFlagBits;
     BOOL flag;
     setFlagBits = 0;
     flag = FALSE;
-    if (IsBackupFlagSet(0x14) == 0) {
-        if ((IsGrandPrixRecordFilled(3, 0) != 0 && GetGrandPrixRecordCupRank(3, 0) == 0) ? 1 : 0) {
-            SetBackupFlag(0x14);
+    if (CheckSavedSecretFlag_from_thumb(0x14) == 0) {
+        if ((CupHasRecord(3, 0) != 0 && CupGetResult(3, 0) == 0) ? 1 : 0) {
+            SetSavedSecretFlag_from_thumb(0x14);
             flag = TRUE;
         }
     }
@@ -346,9 +346,9 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
         setFlagBits = setFlagBits | 0x20;
     }
     flag = FALSE;
-    if (IsBackupFlagSet(0x15) == 0) {
-        if ((IsGrandPrixRecordFilled(7, flag) != 0 && GetGrandPrixRecordCupRank(7, flag) == 0) ? 1 : 0) {
-            SetBackupFlag(0x15);
+    if (CheckSavedSecretFlag_from_thumb(0x15) == 0) {
+        if ((CupHasRecord(7, flag) != 0 && CupGetResult(7, flag) == 0) ? 1 : 0) {
+            SetSavedSecretFlag_from_thumb(0x15);
             flag = TRUE;
         }
     }
@@ -356,9 +356,9 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
         setFlagBits = setFlagBits | 0x40;
     }
     flag = FALSE;
-    if (IsBackupFlagSet(0x16) == 0) {
-        if ((IsGrandPrixRecordFilled(7, 1) != 0 && GetGrandPrixRecordCupRank(7, 1) == 0) ? 1 : 0) {
-            SetBackupFlag(0x16);
+    if (CheckSavedSecretFlag_from_thumb(0x16) == 0) {
+        if ((CupHasRecord(7, 1) != 0 && CupGetResult(7, 1) == 0) ? 1 : 0) {
+            SetSavedSecretFlag_from_thumb(0x16);
             flag = TRUE;
         }
     }
@@ -366,9 +366,9 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
         setFlagBits = setFlagBits | 0x80;
     }
     flag = FALSE;
-    if (IsBackupFlagSet(0x17) == 0) {
+    if (CheckSavedSecretFlag_from_thumb(0x17) == 0) {
         BOOL isFilledTopRank;
-        if (IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) {
+        if (CupHasRecord(3, 3) != 0 && CupGetResult(3, 3) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
@@ -376,14 +376,14 @@ u32 SetSecretMessageFlagsFromCups3And7(void) {
         if (isFilledTopRank != FALSE) {
             goto setSecretFlag;
         }
-        if (IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) {
+        if (CupHasRecord(7, 3) != 0 && CupGetResult(7, 3) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
         setSecretFlag:
-            SetBackupFlag(0x17);
+            SetSavedSecretFlag_from_thumb(0x17);
             flag = TRUE;
         }
     }
@@ -402,7 +402,7 @@ s32 GetStaffRollKindAfterGp(void) {
     BOOL conditionMet;
     BOOL flag;
     result = 0;
-    menuShared = gMenuShared;
+    menuShared = g_GlobalB488;
     engineClass = menuShared->mEngineIndex;
     cupIndex = menuShared->mCupIndex;
     if (menuShared->mMirrorMode != 0) {
@@ -412,7 +412,7 @@ s32 GetStaffRollKindAfterGp(void) {
     flag = AreAllGrandPrixRecordsTopRank();
     if (flag != FALSE) {
         if (cupIndex == 3 || cupIndex == 7) {
-            if (gMenuShared->mCupRankIndex == 0) {
+            if (g_GlobalB488->mCupRankIndex == 0) {
                 conditionMet = TRUE;
             }
         }
@@ -427,14 +427,14 @@ s32 GetStaffRollKindAfterGp(void) {
             } else {
                 cupIndex = 7;
             }
-            if (IsGrandPrixRecordFilled(cupIndex, engineClass) != 0 &&
-                GetGrandPrixRecordCupRank(cupIndex, engineClass) <= 2) {
+            if (CupHasRecord(cupIndex, engineClass) != 0 &&
+                CupGetResult(cupIndex, engineClass) <= 2) {
                 flag = TRUE;
             } else {
                 flag = FALSE;
             }
             if (flag != FALSE) {
-                if (gMenuShared->mCupRankIndex <= CUP_RANK_TROPHY_COUNT - 1) {
+                if (g_GlobalB488->mCupRankIndex <= CUP_RANK_TROPHY_COUNT - 1) {
                     conditionMet = TRUE;
                 }
             }
@@ -446,22 +446,22 @@ s32 GetStaffRollKindAfterGp(void) {
     return result;
 }
 
-BOOL IsAllGrandPrixRecordsTopRank(void) {
+BOOL IsTitleTrue(void) {
     return AreAllGrandPrixRecordsTopRank();
 }
 
-void LoadStaffGhostTime(void *heap) {
-    LoadFileIntoHeap("/data/Ghost/staff_ghost_time.bin", heap, (void **) &gStaffGhostTime);
+void ReadStaffGhostTimeBin(void *heap) {
+    ReadFileFromMountManagerHandle_from_thumb("/data/Ghost/staff_ghost_time.bin", heap, (void **) &g_StaffGhostTimeBin);
 }
 
 // TRUE when the time is smaller than entry a - 1 of the staff ghost times.
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time) {
-    return TIME_TO_MS(time->mMinute, time->mSecond, time->mMillisecond) < gStaffGhostTime[entryNumber - 1];
+    return TIME_TO_MS(time->mMinute, time->mSecond, time->mMillisecond) < g_StaffGhostTimeBin[entryNumber - 1];
 }
 
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
     Kart *kart;
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     kartKillerCursor->mKillerKartIndex = kartIndex;
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
                          (RacePointLink *) gKartItems[kartIndex].mItemLink.mLink);
@@ -489,7 +489,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     Kart *kart;
     Vec3 position;
     s32 isPastOrNearLink;
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
+    kart = GetRacerMQEntry(kartKillerCursor->mKillerKartIndex);
     position = kart->mPos;
     kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
         kartKillerCursor->mPointLinkCursor.mLink->mPoint, &position, &kart->mRotationRow1, &kart->mRotationRow2);
@@ -521,7 +521,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     s32 angleDifference;
     s32 angleDifferenceAbs;
     s32 entryIndex;
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
+    kart = GetRacerMQEntry(kartKillerCursor->mKillerKartIndex);
     angleToLinkDegrees = kartKillerCursor->mAngleToLinkDegrees;
     if ((kart->mMotionFlags & KART_MOTION_ON_GROUND) != 0) {
         turnFactor = 0x19a;
@@ -530,7 +530,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     }
     targetHeadingAngle = kart->mHeadingAngle + (s16) MUL_FIXED12_ROUNDED(angleToLinkDegrees, 0xb6);
     entryIndex = *(volatile s32 *) &kart->mEntryIndex;
-    padBits = gInputSlots[entryIndex].mBits;
+    padBits = g_GlobalCYT[entryIndex].mBits;
     if ((u16) (padBits & PAD_KEY_LEFT) != 0) {
         kart->mHeadingAngle = kart->mHeadingAngle + 0xa0;
     } else if ((u16) (padBits & PAD_KEY_RIGHT) != 0) {
@@ -561,7 +561,7 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
     } else {
         isCounting = TRUE;
     }
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
+    kart = GetRacerMQEntry(kartKillerCursor->mKillerKartIndex);
     if ((kart->mMotionFlags & (KART_MOTION_OBJECT_CONTACT | KART_MOTION_COURSE_CONTACT)) != 0) {
         isCounting = TRUE;
         kartKillerCursor->mEndCountHoldTimer = KART_KILLER_END_HOLD_FRAMES;
@@ -580,7 +580,7 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
 
 // Stores one of three sets of battle item entry tables and callbacks; any value other than 1 or 2 takes the third set.
 void SetupBattleItemEntries(void) {
-    switch (gRaceSetup->mCpuDifficulty) {
+    switch (g_GlobalCO->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
             gBattleHeldItemEntries = gBattleEasyHeldItemEntries;
             gBattleItemInUseEntries = gBattleEasyItemInUseEntries;

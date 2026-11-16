@@ -36,13 +36,13 @@ void AdvanceUsbScanReport(TaskEntry *task, void *arg) {
     UsbScan *scan;
     u32 flagClearFound;
     s32 entryIndex;
-    u64 tick = OS_GetTick();
+    u64 tick = Os_GetTick();
     scan = gUsbScan;
     if (tick >= scan->mStartTick + 0x17f898) {
         flagClearFound = 0;
         flagSetFound = 0;
         for (entryIndex = 0; entryIndex < 0x10; entryIndex++) {
-            if (memcmp(scan->mEntries[entryIndex].mBssid, gUsbScanEmptyBssid, 6) != 0) {
+            if (StructDC_SomeFn_6(scan->mEntries[entryIndex].mBssid, gUsbScanEmptyBssid, 6) != 0) {
                 if (scan->mEntries[entryIndex].mFlag != 0) {
                     flagSetFound = 1;
                 } else {
@@ -339,8 +339,8 @@ void LoadMenuPairScreenMap(u32 pathIndex) {
 }
 
 void AdvanceUploadMenuPairScreenMap(TaskEntry *task, void *arg) {
-    DC_FlushRange(gMenuPairScreenMap, (0x00000600u));
-    GXS_LoadBG1Scr(gMenuPairScreenMap, 0, (0x00000600u));
+    Arm_FlushRange(gMenuPairScreenMap, (0x00000600u));
+    TEQSub_Fn25Impl(gMenuPairScreenMap, 0, (0x00000600u));
     DeleteLoadedFile(gMenuPairScreenMap);
     RequestTaskRemoval(1, task);
 }

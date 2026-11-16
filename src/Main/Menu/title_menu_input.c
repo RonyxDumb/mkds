@@ -22,7 +22,7 @@ u32 TitleGetPairX(InputSlotPair *pair) {
 }
 
 u32 TitleGetSlotPairX(u32 slotIndex) {
-    return TitleGetPairX(&gInputSlots[slotIndex].mPair);
+    return TitleGetPairX(&g_GlobalCYT[slotIndex].mPair);
 }
 
 u32 TitleGetPairY(InputSlotPair *pair) {
@@ -30,7 +30,7 @@ u32 TitleGetPairY(InputSlotPair *pair) {
 }
 
 u32 TitleGetSlotPairY(u32 slotIndex) {
-    return TitleGetPairY(&gInputSlots[slotIndex].mPair);
+    return TitleGetPairY(&g_GlobalCYT[slotIndex].mPair);
 }
 
 #pragma thumb on
@@ -45,85 +45,85 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
         if (TitleGetNewBits(slotIndex, PAD_KEY_A) != 0) {
             SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
             StartTitleSelectedSound();
-            gTitleScene->mStartedOnSelected = TRUE;
+            g_SceneTitleContext->mStartedOnSelected = TRUE;
         } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
-            switch (gTitleScene->mSelectedIndex) {
+            switch (g_SceneTitleContext->mSelectedIndex) {
                 case TITLE_ENTRY_OPTION:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
-                    gTitleScene->mPreferRecordEntry = TRUE;
-                    StartSoundOncePerFrame(0);
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_RECORD;
+                    g_SceneTitleContext->mPreferRecordEntry = TRUE;
+                    MaybePlaySomeSseqFromSarc0(0);
                     break;
                 case TITLE_ENTRY_RECORD:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
-                    gTitleScene->mPreferRecordEntry = FALSE;
-                    StartSoundOncePerFrame(0);
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_OPTION;
+                    g_SceneTitleContext->mPreferRecordEntry = FALSE;
+                    MaybePlaySomeSseqFromSarc0(0);
                     break;
             }
-            gTitleScene->mNoInputFrames = 0;
+            g_SceneTitleContext->mNoInputFrames = 0;
         } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
-            switch (gTitleScene->mSelectedIndex) {
+            switch (g_SceneTitleContext->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
-                    if (gTitleScene->mPreferRecordEntry != FALSE) {
-                        gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
+                    if (g_SceneTitleContext->mPreferRecordEntry != FALSE) {
+                        g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_RECORD;
                     } else {
-                        gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
+                        g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_OPTION;
                     }
                     break;
                 case TITLE_ENTRY_WL_MENU:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_FIRST;
                     break;
                 case TITLE_ENTRY_WIFI_MENU:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WL_MENU;
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_WL_MENU;
                     break;
                 case TITLE_ENTRY_OPTION:
                 case TITLE_ENTRY_RECORD:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
                     break;
             }
-            StartSoundOncePerFrame(0);
-            gTitleScene->mNoInputFrames = 0;
+            MaybePlaySomeSseqFromSarc0(0);
+            g_SceneTitleContext->mNoInputFrames = 0;
         } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
-            switch (gTitleScene->mSelectedIndex) {
+            switch (g_SceneTitleContext->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WL_MENU;
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_WL_MENU;
                     break;
                 case TITLE_ENTRY_WL_MENU:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_WIFI_MENU;
                     break;
                 case TITLE_ENTRY_WIFI_MENU:
-                    if (gTitleScene->mPreferRecordEntry != FALSE) {
-                        gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
+                    if (g_SceneTitleContext->mPreferRecordEntry != FALSE) {
+                        g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_RECORD;
                     } else {
-                        gTitleScene->mSelectedIndex = TITLE_ENTRY_OPTION;
+                        g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_OPTION;
                     }
                     break;
                 case TITLE_ENTRY_OPTION:
                 case TITLE_ENTRY_RECORD:
-                    gTitleScene->mSelectedIndex = TITLE_ENTRY_FIRST;
+                    g_SceneTitleContext->mSelectedIndex = TITLE_ENTRY_FIRST;
                     break;
             }
-            StartSoundOncePerFrame(0);
-            gTitleScene->mNoInputFrames = 0;
+            MaybePlaySomeSseqFromSarc0(0);
+            g_SceneTitleContext->mNoInputFrames = 0;
         } else if (TitleIsSlotPairNew(slotIndex) != 0) {
             u32 pointX = TitleGetSlotPairX(slotIndex);
             u32 pointY = TitleGetSlotPairY(slotIndex);
-            previousIndex = gTitleScene->mSelectedIndex;
-            rectIndex = FindRectContainingPoint(pointX, pointY, gTitleScene->mTitleSBnbl);
+            previousIndex = g_SceneTitleContext->mSelectedIndex;
+            rectIndex = FindRectContainingPoint(pointX, pointY, g_SceneTitleContext->mTitleSBnbl);
             if (rectIndex != -1) {
                 if (previousIndex == rectIndex) {
-                    gTitleScene->mStartedOnSelected = TRUE;
+                    g_SceneTitleContext->mStartedOnSelected = TRUE;
                 }
-                gTitleScene->mSelectedIndex = rectIndex;
+                g_SceneTitleContext->mSelectedIndex = rectIndex;
                 SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
                 StartTitleSelectedSound();
             }
         } else {
             s32 noInputFrameLimit = GetTitleNoInputFrameLimit();
-            gTitleScene->mNoInputFrames++;
-            if (gTitleScene->mNoInputFrames > noInputFrameLimit) {
+            g_SceneTitleContext->mNoInputFrames++;
+            if (g_SceneTitleContext->mNoInputFrames > noInputFrameLimit) {
                 if (IsSeqVariableChanged(0) != 0) {
                     sceneNumbers->mNextScene = SCENE_RACE;
-                    SetNextDemoRace(gTitleScene->mCharacterKartPicks);
+                    SetNextDemoRace(g_SceneTitleContext->mCharacterKartPicks);
                 }
             }
         }

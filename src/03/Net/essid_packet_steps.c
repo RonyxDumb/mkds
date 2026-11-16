@@ -1630,7 +1630,7 @@ s32 StartSocketsWithAddress(u32 address, u32 mask, u32 router) {
         return -1;
     }
     while (CPSMyIp == 0) {
-        OS_Sleep(100);
+        Os_Sleep(100);
     }
     return 0;
 }
@@ -1652,7 +1652,7 @@ s32 CompareBytes(const u8 *left, const u8 *right, s32 count) {
 }
 
 void CopyBytes(void *destination, const void *source, u32 size) {
-    MI_CpuCopy8(source, destination, size);
+    Mem_CpuCopy8(source, destination, size);
 }
 
 void FillBytes(void *destination, s32 fillValue, u32 size) {
@@ -1661,7 +1661,7 @@ void FillBytes(void *destination, s32 fillValue, u32 size) {
     u32 sizeCopy = size;
     byteValue = (byteValue << 24);
     byteValue = (byteValue >> 24);
-    MI_CpuFill8(destinationCopy, byteValue, sizeCopy);
+    Mem_CpuFill8(destinationCopy, byteValue, sizeCopy);
 }
 
 s32 RecvFromSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAddress *address, s32 *addressLength) {
@@ -1777,7 +1777,7 @@ u16 NextRandomValue(void) {
     if (gRandomSeeded == 0) {
         seed = 0;
         FillBytes(&time, 0, 12);
-        if (RTC_GetTime(&time) == 0) {
+        if (Rtc_GetTime(&time) == 0) {
             seed += time.mHour << 10;
             seed += time.mMinute << 3;
             seed += time.mSecond;

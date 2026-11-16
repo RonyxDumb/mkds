@@ -14,7 +14,7 @@ typedef struct MapObject MapObject;
 void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject);
 
 u16 AllocPolygonIdWrapping(void);
-u16 AllocPolygonId(void);
+u16 GetIncrementSomeItemCounter(void);
 u16 CountMapObjectsOfKind(u32 kind);
 void ParkFlaggedMapObjects(void);
 void UnparkFlaggedMapObjects(void);
@@ -44,7 +44,7 @@ void UpdateMapObjects(void);
 void DrawMapObjects(Camera *view);
 void DrawKoopaBlocksRotariesAndBridges(Camera *view);
 s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset);
-s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind);
+s32 GetAreaSomeCount(Vec3 *position, s32 radius, s32 kind);
 
 typedef struct Water Water;
 
@@ -73,7 +73,7 @@ void InitMapObjectViewState(void);
 void UpdateViewFrustum(MtxFx43 *viewMatrix);
 u32 ComputeDistanceViewTest(Vec3 *position, s32 radius, s32 drawDistance, s32 distanceLimitSquared);
 s32 GetHorizontalCameraDistanceSquared(Vec3 *position);
-void SetItemObjectSoundByViewRange(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
+void StructMQRacerEntry_SomeFn_91(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
 BOOL IsMapObjectOutOfRange(MapObject *mapObject);
 BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceSquared);
 void SetupMapObjectView(MtxFx43 *viewMatrix);

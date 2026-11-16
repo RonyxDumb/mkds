@@ -45,11 +45,11 @@ void AdvanceWait(void) {
         paletteData = wait->mNclr->mData;
         switch (wait->mQueueSelector) {
             case 0:
-                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, wait->mPaletteIndex << 5,
+                AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, wait->mPaletteIndex << 5,
                                                    paletteData + 0xe0, 0x20);
                 break;
             case 1:
-                NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, wait->mPaletteIndex << 5,
+                AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, wait->mPaletteIndex << 5,
                                                    paletteData + 0xe0, 0x20);
                 break;
         }

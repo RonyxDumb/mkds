@@ -3,7 +3,7 @@
 #include "types.h"
 
 void TitleSetWLMenuKind(unsigned int value);
-void SetConnectionKind(unsigned int value);
+void SetGlobalPMaybeState(unsigned int value);
 
 void TitleLeaveNop(void);
 void UpdateTitleSelectPress(void);

@@ -64,7 +64,7 @@ const ItemKind gItemKindKiller = {
 void CreatePooledMapObjects(void) {
     Vec3 buf;
     s32 objectIndex;
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_BATTLE:
             gPooledMapObjectCount = 0xb;
             break;
@@ -78,7 +78,7 @@ void CreatePooledMapObjects(void) {
             gPooledMapObjectCount = 3;
             break;
     }
-    gPooledMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), gPooledMapObjectCount * 4);
+    gPooledMapObjects = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), gPooledMapObjectCount * 4);
     buf = gPooledMapObjectVec3Zero;
     gPooledMapObjectRow.mPosition = buf;
     gPooledMapObjectRow.mRotationDegrees = buf;
@@ -94,17 +94,17 @@ void CreatePooledMapObjects(void) {
 #pragma thumb off
 
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
-    StartKartKiller(heldItem->mKartItems->mKart);
+    StructMQRacerEntry_SomeFn_42(heldItem->mKartItems->mKart);
     RemoveHeldItemObjects(heldItem, 1);
     SetActiveItem(itemInUse->mKartItems, 0xe);
 }
 
 void ResetKartActiveItemAfterKiller(s32 kartIndex) {
     gKartItems[kartIndex].mActiveItem = ITEM_INFO_NONE;
-    if (gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_WIFI) {
         return;
     }
-    if (kartIndex == gRaceSetup->mEntryIndex) {
+    if (kartIndex == g_GlobalCO->mEntryIndex) {
         return;
     }
     SetKartItemsHeldItemByInfoIndex(&gKartItems[kartIndex], ITEM_INFO_KILLER);
@@ -119,7 +119,7 @@ void UpdateBouncingItemBoxTimers(void) {
     NNSSndSeqPlayer **sndHandle;
     u32 fadeFrame = 0;
     u32 seqArcNo = 0;
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (g_GlobalCO->mMode != MODE_BATTLE) {
         return;
     }
     for (kartIndex = 0; kartIndex < 8; kartIndex++) {
@@ -135,7 +135,7 @@ void UpdateBouncingItemBoxTimers(void) {
         if (timer == 0) {
             SetHeldItem(heldItem, ITEM_INFO_BOUNCING_ITEM_BOX);
             gBouncingItemBoxTimerRunning[kartIndex] = 0;
-            if (kartIndex == gRaceSetup->mEntryIndex && (gRaceSoundKind & 1)) {
+            if (kartIndex == g_GlobalCO->mEntryIndex && (gRaceSoundKind & 1)) {
                 sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
                 if (gSoundModeHolder.mSeqStartEnabled != 0) {
                     if (sndHandle[0] != NULL) {
@@ -144,7 +144,7 @@ void UpdateBouncingItemBoxTimers(void) {
                     if (sndHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(sndHandle, fadeFrame);
                     }
-                    NNS_SndArcPlayerStartSeqArc(sndHandle, seqArcNo, 0x3f);
+                    PlaySseqFromSarc(sndHandle, seqArcNo, 0x3f);
                 }
             }
         } else if (gBouncingItemBoxTimerRunning[kartIndex] != 0 && timer > 0) {
@@ -156,7 +156,7 @@ void UpdateBouncingItemBoxTimers(void) {
 // Battle: the first time a removed kart gets here it sets its bouncing item box timer from -1 to 0 and releases its
 // items.
 void ReleaseEliminatedKartItems(s32 kartIndex) {
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (g_GlobalCO->mMode != MODE_BATTLE) {
         return;
     }
     if ((s32) gBouncingItemBoxTimers[kartIndex] >= 0) {
@@ -192,7 +192,7 @@ void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = BOUNCING_ITEM_BOX_START_SCALE_RATIO;
     ResetPooledMapObject(box->mPooledMapObject);
     box->mKartIsEntry = (u16) (box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK) ==
-                        gRaceSetup->mEntryIndex;
+                        g_GlobalCO->mEntryIndex;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mShadowMode = ITEM_BOX_SHADOW_NONE;
     }
@@ -205,7 +205,7 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     ItemBox *mapObject = box->mPooledMapObject;
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
-        VEC_MultAdd(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, -28877),
+        VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(itemInUse->mKartScaleFactorTimesBase.z, -28877),
                     &itemInUse->mKartOrientation.mRows[1], &box->mBouncingItemObject.mItemObject.mPos,
                     &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
@@ -229,7 +229,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        StructMQRacerEntry_SomeFn_8(&box->mBouncingItemObject.mItemObject.mSoundSource, 0xda, 0x7f, 0);
         box->mThrownForward = 1;
         return box->mThrownForward;
     } else {
@@ -260,7 +260,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
             AdvanceItemObjectReleaseTimer(&box->mBouncingItemObject.mItemObject);
         }
     } else if ((box->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_RESTING) != 0) {
-        if (gRaceSetup->mMode == MODE_BATTLE) {
+        if (g_GlobalCO->mMode == MODE_BATTLE) {
             kartIndex = box->mBouncingItemObject.mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK;
             framesLeft = gBouncingItemBoxTimers[kartIndex] - 0x3c;
             if (framesLeft < box->mBouncingItemObject.mItemObject.mAlpha) {
@@ -303,8 +303,8 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
         scale.x = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.x, scaleRatio);
         scale.y = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.y, scaleRatio);
         scale.z = MUL_FIXED12_NO_ROUND(box->mBouncingItemObject.mItemObject.mScale.z, scaleRatio);
-        VEC_Subtract(&box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos, &offset);
-        VEC_MultAdd(MUL_FIXED12_NO_ROUND(box->mScaleRatio, box->mScaleRatio), &offset, &box->mMapObjectPos,
+        VecFx32_Subtract(&box->mBouncingItemObject.mItemObject.mPos, &box->mMapObjectPos, &offset);
+        VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(box->mScaleRatio, box->mScaleRatio), &offset, &box->mMapObjectPos,
                     &box->mMapObjectPos);
         SetPooledMapObjectFromItem(mapObject, box->mBouncingItemObject.mItemObject.mAlpha, &scale);
     } else {

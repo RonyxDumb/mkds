@@ -6,22 +6,22 @@
 #include "file_handle_setup.h"
 #include "Main/Sound/sound_set_load.h"
 
-u32 SetupSndArcFromFile(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, u32 symbolLoadFlag) {
+u32 Sound_ReadSdatFromPathImplV2(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, u32 symbolLoadFlag) {
     arc->mInfo = NULL;
     arc->mFat = NULL;
     arc->mSymbol = NULL;
-    if (FS_ConvertPathToFileID(&arc->mFileId, filePath) == 0) {
+    if (Fs_FileId_LoadFromPath(&arc->mFileId, filePath) == 0) {
         return 0;
     }
-    FS_InitFile(&arc->mFile);
-    if (FS_OpenFileFast(&arc->mFile, arc->mFileId) == 0) {
+    Fs_File_Initialize(&arc->mFile);
+    if (Fs_File_OpenById(&arc->mFile, arc->mFileId) == 0) {
         return 0;
     }
     arc->mFileOpen = 1;
-    if (NNS_SndArcSetup(arc, heap, symbolLoadFlag) == 0) {
+    if (Sound_ReadSdatFromOpenedFile(arc, heap, symbolLoadFlag) == 0) {
         return 0;
     }
-    NNS_SndArcSetCurrent(arc);
+    Sound_MaybeSetActiveSdat(arc);
     return 1;
 }
 
@@ -38,6 +38,6 @@ void ClearSndFileAddresses(SndFileIdList *fileIdList) {
     s32 fileIndex;
 
     for (fileIndex = 0; fileIndex < fileIdList->mCount; fileIndex++) {
-        NNS_SndArcSetFileAddress(fileIdList->mFileIds[fileIndex], NULL);
+        Sound_SetFileFatDynamicOffsetField(fileIdList->mFileIds[fileIndex], NULL);
     }
 }

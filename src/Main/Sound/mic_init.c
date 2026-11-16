@@ -15,24 +15,24 @@
 #include "power_management_commands.h"
 #include "Main/Sound/mic_buffer_sleep.h"
 
-u32 gMicInitialized;
+u32 g_BalloonHardwareInit;
 
-void InitMicAndAmp(void) {
-    MIC_Init();
-    PM_Init();
+void InitializeBalloonHardware(void) {
+    RegisterFifoMicrophone();
+    PM_Initialize();
     PM_SetAmp(1);
-    gMicInitialized = 1;
+    g_BalloonHardwareInit = 1;
 }
 
-void SetupMicAutoSampling(MicBuffer *micBuffer) {
+void Struct59C4Sub_Initialize(MicBuffer *micBuffer) {
     MICAutoParam *autoParam;
     s32 sampleIndex;
 
-    if (gMicInitialized == 0) {
-        MIC_Init();
-        PM_Init();
+    if (g_BalloonHardwareInit == 0) {
+        RegisterFifoMicrophone();
+        PM_Initialize();
         PM_SetAmp(1);
-        gMicInitialized = 1;
+        g_BalloonHardwareInit = 1;
     }
     micBuffer->mSkipFrames = 0;
     for (sampleIndex = 0; sampleIndex < 0x400; sampleIndex++) {

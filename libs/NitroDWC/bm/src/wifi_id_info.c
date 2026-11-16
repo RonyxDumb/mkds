@@ -14,14 +14,14 @@ const u8 DWCi_util_wifiid_ttable[16] = {5, 9, 1, 14, 12, 2, 10, 0, 11, 13, 3, 4,
 #pragma thumb on
 
 // Seconds since 2000-01-01, or -1 for a bad date.
-s64 DateTimeToSeconds(const RTCDate *date, const RTCTime *time) {
+s64 ComputeTotalSeconds_EpochMaybe_from_thumb(const RTCDate *date, const RTCTime *time) {
     s32 day;
     s32 sec;
     day = DateToDayCount(date);
     if (day == -1) {
         return -1;
     }
-    sec = TimeToSeconds(time);
+    sec = ComputeTimeSeconds_from_thumb(time);
     return (s64) sec + (s64) day * 0x15180;
 }
 
@@ -48,7 +48,7 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
         *src = (DWCi_util_wifiid_ttable[(*src >> 4) & 0xf] << 4) | DWCi_util_wifiid_ttable[*src & 0xf];
         src++;
     }
-    MI_CpuCopy8(value.bytes, copy, 8);
+    Mem_CpuCopy8(value.bytes, copy, 8);
     byteIndex = 0;
     dst = copy;
     order = DWCi_util_wifiid_exctable;
@@ -73,7 +73,7 @@ u64 DWCi_Util_WiFiId_scrambleUid(u16 rand, u32 mac, u8 vend, u8 mainunit) {
     return value.bits;
 }
 
-BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {
+BOOL StructDW_SomeFn_from_thumb(DWCWiFiInfo *info) {
     u8 vendor;
     u32 macLow;
     u8 mac[6];
@@ -81,23 +81,23 @@ BOOL DWCi_AUTH_GetNewWiFiInfo(DWCWiFiInfo *info) {
     RTCTime time;
     s64 seconds;
     u32 seed;
-    DWCi_BM_GetWiFiInfo(info);
-    RTC_Init();
-    if (RTC_GetDate(&date) != 0) {
+    StructDW_MaybeCreate_from_thumb(info);
+    Rtc_Initialize();
+    if (Rtc_GetDate(&date) != 0) {
         return 0;
     }
-    if (RTC_GetTime(&time) != 0) {
+    if (Rtc_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = DateTimeToSeconds(&date, &time);
+    seconds = ComputeTotalSeconds_EpochMaybe_from_thumb(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;
     }
-    if (OS_IsTickAvailable() != 0) {
-        seed += (u32) OS_GetTick;
+    if (Os_IsTickInitialized() != 0) {
+        seed += (u32) Os_GetTick;
     }
-    OS_GetMacAddress(mac);
+    Os_GetMacAddress(mac);
     vendor = (mac[0] << 16 | mac[1] << 8 | mac[2]) != 0x9bf;
     macLow = mac[5];
     macLow |= (mac[3] << 16 | mac[4] << 8);

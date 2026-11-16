@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int IsArchiveSlotLoaded(unsigned int slotIndex);
+unsigned int IsMountEntryLoaded_from_thumb(unsigned int slotIndex);

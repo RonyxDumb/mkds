@@ -70,8 +70,8 @@ s32 DWC_Auth_Base64Encode(const u8 *src, u32 srcLength, char *dst, u32 dstLength
         if (inputBytes >= 3) {
             inputBytes = 3;
         }
-        MI_CpuFill8(readBuffer, 0, 3);
-        MI_CpuCopy8(src, readBuffer, inputBytes);
+        Mem_CpuFill8(readBuffer, 0, 3);
+        Mem_CpuCopy8(src, readBuffer, inputBytes);
         dstCursor[0] = gBase64Alphabet[readBuffer[0] >> 2];
         if (outputChars >= 2) {
             dstCursor[1] = gBase64Alphabet[(readBuffer[0] << 4 & 0x3f) | readBuffer[1] >> 4];

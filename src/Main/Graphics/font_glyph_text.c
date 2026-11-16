@@ -15,13 +15,13 @@ const s16 gFrameOffsets[6] = {2, 4, 8, 4, 2, 0};
 
 #pragma optimize_for_size on
 
-void GetFontGlyphOfChar(NNSG2dGlyph *glyph, NNSG2dFont *font, u32 code) {
-    GetFontGlyph(glyph, font, GetFontGlyphIndex(font, code));
+void MaybeGetNftrCodepointPixelSize(NNSG2dGlyph *glyph, NNSG2dFont *font, u32 code) {
+    GetFontGlyph(glyph, font, NFTR_SomeFn(font, code));
 }
 
 #pragma thumb on
 
-s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
+s32 GetClampedString10LengthForFontIndex0_from_thumb(const u16 *source, u16 *destination) {
     s32 charIndex;
     s32 widthSum;
     s32 charWidth;
@@ -29,13 +29,13 @@ s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
     void *font;
 
     widthSum = 0;
-    font = GetFontByIndex(0);
-    FillHalfwords(destination, 0, 0x14);
+    font = GetLoadedFont_from_thumb(0);
+    DoFill16(destination, 0, 0x14);
     for (charIndex = 0; charIndex < 10; charIndex++) {
         if (source[charIndex] == 0) {
             return charIndex;
         }
-        GetFontGlyphOfChar(&glyph, font, source[charIndex]);
+        MaybeGetNftrCodepointPixelSize(&glyph, font, source[charIndex]);
         charWidth = glyph.mPWidths->mCharWidth;
         if (widthSum + charWidth > 0x30) {
             return charIndex;
@@ -56,7 +56,7 @@ s16 LookupFrameOffset(s32 index) {
     return gFrameOffsets[index];
 }
 
-BOOL IsTimeLessThan(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisecondTime *secondTime) {
+BOOL StructRCTime_SmallerThan_from_thumb(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisecondTime *secondTime) {
     s32 firstMilliseconds;
     s32 secondMilliseconds;
 
@@ -68,28 +68,28 @@ BOOL IsTimeLessThan(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisec
     return FALSE;
 }
 
-BOOL IsMissionRunRecordFilled(void) {
+BOOL IsCurrentMissionLevelStageBeaten_from_thumb(void) {
     s32 value;
     s32 row;
     s32 column;
 
-    row = MissionRecordGetMissionRunTableRow();
-    column = MissionRecordGetMissionRunTableColumn();
-    return GetMissionRecordValue(row, column, &value);
+    row = GetCurrentMissionLevel();
+    column = GetCurrentMissionLevelStage();
+    return IsMissionStageBeaten(row, column, &value);
 }
 
 #pragma thumb off
 
-s32 MissionRecordGetMissionRunTableRow(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        return gRaceSetup->mMissionTableRow;
+s32 GetCurrentMissionLevel(void) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        return g_GlobalCO->mMissionTableRow;
     }
     return -1;
 }
 
-s32 MissionRecordGetMissionRunTableColumn(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        return gRaceSetup->mMissionTableColumn;
+s32 GetCurrentMissionLevelStage(void) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        return g_GlobalCO->mMissionTableColumn;
     }
     return -1;
 }
@@ -97,20 +97,20 @@ s32 MissionRecordGetMissionRunTableColumn(void) {
 #pragma thumb on
 
 // TRUE only when all 53 other cells hold 5 to 7 and the current Mission Run cell does not.
-BOOL AreOtherMissionRecordsFilled5To7(void) {
+BOOL MaybeAllMissionStagesBeatenWithStarRank_from_thumb(void) {
     s32 row;
     s32 column;
     s32 isFilled;
     s32 value;
 
-    if (MissionRecordGetMissionRunTableRow() < 1 || MissionRecordGetMissionRunTableRow() > 6 ||
-        MissionRecordGetMissionRunTableColumn() < 1 || MissionRecordGetMissionRunTableColumn() > 9) {
+    if (GetCurrentMissionLevel() < 1 || GetCurrentMissionLevel() > 6 ||
+        GetCurrentMissionLevelStage() < 1 || GetCurrentMissionLevelStage() > 9) {
         return FALSE;
     }
     for (row = 1; row <= 6; row++) {
         for (column = 1; column <= 9; column++) {
-            isFilled = GetMissionRecordValue(row, column, &value);
-            if (row == MissionRecordGetMissionRunTableRow() && column == MissionRecordGetMissionRunTableColumn()) {
+            isFilled = IsMissionStageBeaten(row, column, &value);
+            if (row == GetCurrentMissionLevel() && column == GetCurrentMissionLevelStage()) {
                 if (isFilled != 0 && (u32) (value - 5) <= 2) {
                     return FALSE;
                 }
@@ -133,12 +133,12 @@ BOOL AreOtherMissionRecordsFilled5To7(void) {
     return TRUE;
 }
 
-void InitTitleStateHandlers(void) {
+void Title_CopyFunctionList_from_thumb(void) {
     s32 handlerIndex;
 
     for (handlerIndex = 0; handlerIndex < 7; handlerIndex++) {
-        gTitleScene->mStateHandlers[handlerIndex].mWriteRegisters = gTitleStateHandlers[handlerIndex].mWriteRegisters;
-        gTitleScene->mStateHandlers[handlerIndex].mUpdate = gTitleStateHandlers[handlerIndex].mUpdate;
+        g_SceneTitleContext->mStateHandlers[handlerIndex].mWriteRegisters = g_HUFunctionList[handlerIndex].mWriteRegisters;
+        g_SceneTitleContext->mStateHandlers[handlerIndex].mUpdate = g_HUFunctionList[handlerIndex].mUpdate;
     }
 }
 

@@ -8,11 +8,11 @@
 #include "Main/Sound/surface_sound_ids.h"
 #include "Main/Sound/sound_source_list.h"
 
-PlayingSound *StartSound(SoundSource *source, u32 soundId, u32 volume, s16 pitch) {
+PlayingSound *StructMQRacerEntry_SomeFn_8(SoundSource *source, u32 soundId, u32 volume, s16 pitch) {
     if (!(gRaceSoundKind & 1)) {
         return NULL;
     }
-    return ((PlayingSound * (*) (SoundSource *, u32, u32, u32, s32)) StartSoundEx)(source, 0, soundId, volume, pitch);
+    return ((PlayingSound * (*) (SoundSource *, u32, u32, u32, s32)) StructMQRacerEntry_SomeFn_6)(source, 0, soundId, volume, pitch);
 }
 
 PlayingSound *StartSoundWhileRequested(SoundSource *source, u32 soundId, u32 volume, s32 pitch) {
@@ -24,7 +24,7 @@ PlayingSound *StartSoundWhileRequested(SoundSource *source, u32 soundId, u32 vol
 }
 
 void StopSound(SoundSource *source, u32 soundId) {
-    StopSoundEx(source, 0, soundId, 0);
+    StructMQRacerEntry_SomeFn_75(source, 0, soundId, 0);
 }
 
 void ReleaseSoundSourceWrapper(SoundSource *source) {

@@ -76,20 +76,20 @@ void FreePlayer(NNSSndStrmPlayer *player) {
 
 // Stops the player with the thread mutexes held.
 void ForceStopStrm_(NNSSndStrmPlayer *player) {
-    OS_LockMutex(&sStrmThread.mMutex);
+    Os_Mutex_Lock(&sStrmThread.mMutex);
     if (sPrepareThread != 0) {
-        OS_LockMutex(&sPrepareThread->mMutex);
+        Os_Mutex_Lock(&sPrepareThread->mMutex);
     }
     if (player->mPlayFlag) {
         NNS_SndStrmStop(&player->mStream);
     }
     if (player->mActiveFlag) {
-        FS_CancelFile(&player->mFile);
+        File_If1Set2AndUnk20(&player->mFile);
     }
     ShutdownPlayer_(player);
-    OS_UnlockMutex(&sStrmThread.mMutex);
+    Os_Mutex_Unlock(&sStrmThread.mMutex);
     if (sPrepareThread != 0) {
-        OS_UnlockMutex(&sPrepareThread->mMutex);
+        Os_Mutex_Unlock(&sPrepareThread->mMutex);
     }
 }
 
@@ -99,7 +99,7 @@ void ShutdownPlayer_(NNSSndStrmPlayer *player) {
         return;
     }
     FreeChannel(player);
-    FS_CloseFile(&player->mFile);
+    Fs_File_Close(&player->mFile);
     RemoveCommandByPlayer(&sStrmThread.mCommandList, player);
     if (sPrepareThread != 0) {
         RemoveCommandByPlayer(&sPrepareThread->mCommandList, player);
@@ -124,25 +124,25 @@ void RemoveCommandByPlayer(NNSFndList *commandList, NNSSndStrmPlayer *player) {
     LoadCommand *request;
     LoadCommand *next;
 
-    enabled = OS_DisableInterrupts();
-    request = NNS_FndGetNextListObject(commandList, 0);
+    enabled = Os_DisableIrq();
+    request = IntrusiveListWrapper_NextItem(commandList, 0);
     if (request != 0) {
         do {
-            next = NNS_FndGetNextListObject(commandList, request);
+            next = IntrusiveListWrapper_NextItem(commandList, request);
             if (request->mPlayer == player) {
-                NNS_FndRemoveListObject(commandList, request);
+                IntrusiveListWrapper_RemoveItem(commandList, request);
                 FreeCommandBuffer(request);
             }
             request = next;
         } while (request != 0);
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 void FreeCommandBuffer(LoadCommand *command) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
-    NNS_FndAppendListObject(&sFreeCommandList, command);
-    OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    IntrusiveListWrapper_InsertLast(&sFreeCommandList, command);
+    Os_RestoreIrq(enabled);
 }

@@ -27,10 +27,10 @@ BOOL TryInitLinkFollowingSegments(LinkFollowingItemObject *follower);
 void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse *inUse, s32 rampCount,
                                     s32 rampWeightPerCount, s32 throwForward, s32 pushOutMode, s32 endsOnFirstHit,
                                     s32 baseSpeed, u16 targetKartIndex, s32 flag);
-void CreateItemModels(void);
+void LoadItems_from_thumb(void);
 void *CreateItemNsbmd(char *modelName, char *textureName);
-NsbmdModel *CreateItemModel(char *modelName, char *animationName, char *textureName);
-void *FindItemFile(char *fileName);
+NsbmdModel *CreateLoadItem_from_thumb(char *modelName, char *animationName, char *textureName);
+void *FindItemFileBuffer_from_thumb(char *fileName);
 
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
-extern NsbmdModel *gItemModels[14];
+extern NsbmdModel *g_ItemHolder[14];

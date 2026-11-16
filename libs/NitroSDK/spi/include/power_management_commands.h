@@ -50,20 +50,20 @@ typedef struct PMData16 {
     /* 04 */ u16 *mBuffer;
 } PMData16;
 
-// Set to 1 by PM_Init; a second call returns at once.
+// Set to 1 by PM_Initialize; a second call returns at once.
 extern u16 gPowerInitialized;
-// Cleared before the handshake word is sent in PMi_SendSleepStart, set by PMi_CommonCallback when the reply (0x60)
+// Cleared before the handshake word is sent in PMi_SendSleepStart, set by Fifo8Handler when the reply (0x60)
 // arrives.
 extern vu32 gPowerSleepHandshakeReplyReceived;
 extern vu32 PMi_SleepEndFlag;
 // List of PMSleepCallbackInfo run first by PM_GoSleepMode.
 extern PMSleepCallbackInfo *gPowerPreSleepCallbacks;
-extern u32 PMi_LCDCount;
+extern u32 g_FrameCounterValue;
 // List of PMSleepCallbackInfo run last by PM_GoSleepMode.
 extern PMSleepCallbackInfo *gPowerPostSleepCallbacks;
 // The command in flight.
 extern PMiWork gPowerCommand;
-extern OSMutex PMi_Mutex;
+extern OSMutex g_GlobalVStr;
 // The four register buffers.
 extern PMData16 gPMData16s[4];
 
@@ -96,12 +96,12 @@ u32 PMi_SendLEDPatternCommandAsync(u32 pattern, PMCallback callback, void *arg);
 // Returns bit 0 of reg_GX_POWCNT: 1 while the screens are powered.
 int PM_GetLCDPower(void);
 // Anything but 1 counts as 0. Switches the screens on or off with no LED change; returns 0 when the turn-on guard of
-// PMi_SetLCDPower refuses.
-BOOL PM_SetLCDPower(u32 sw);
+// PM_SetLCDPower refuses.
+BOOL PMi_SetLCDPower(u32 sw);
 // sw = 1 turns the screens on, sw = 0 off. On: returns 0 and changes nothing when fewer than 8 counts of the shared
 // counter at 0x27ffc3c have passed since the last turn-off, unless skip is nonzero. led != 0 also sets that LED
 // (waiting for it when isSync is nonzero). Off: stores the counter for that guard. Returns 1 when done.
-BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync);
+BOOL PM_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync);
 // Runs the pre-sleep callbacks, switches both backlights and the screens off, asks the other processor to sleep (wake
 // triggers trigger, key data logic | keyPattern), halts, then restores the screens and runs the post-sleep callbacks.
 // When bit 0x8 of trigger is set and IRQ request bit 0x100000 is pending after the wake, it powers off instead of
@@ -144,10 +144,10 @@ u32 PMi_SendSleepStart(u16 trigger, u16 keyIntrData);
 // Receive handler of the tag-8 channel. An error finishes the command with 2. Replies 0x70-0x73 store their byte
 // through PMData16.mBuffer (result 0); 0x60 sets gPowerSleepHandshakeReplyReceived; 0x62 sets PMi_SleepEndFlag; 0x67
 // stores through PMiWork.mWork (result 0). Then finishes the command with the result.
-void PMi_CommonCallback(u32 tag, u32 data, u32 err);
+void Fifo8Handler(u32 tag, u32 data, u32 err);
 // Runs once: opens the power-management channel (PXI tag 8), waits for the other processor, installs
-// PMi_CommonCallback as its handler and clears the register buffers.
-void PM_Init(void);
+// Fifo8Handler as its handler and clears the register buffers.
+void PM_Initialize(void);
 // Clears the in-flight mark, then calls the stored callback once with the result and PMiWork.mCallbackArg.
 void PMi_CallCallbackAndUnlock(u32 result);
 // Callback of the blocking commands: stores the result through arg.

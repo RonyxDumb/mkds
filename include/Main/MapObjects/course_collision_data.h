@@ -4,4 +4,4 @@
 #include "ITCM/sphere_collision.h"
 
 extern s32 gSearchCollisionSlots;
-extern CourseCollision gCourseCollision;
+extern CourseCollision g_LoadedCourseKclHeader;

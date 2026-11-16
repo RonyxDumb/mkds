@@ -12,19 +12,19 @@ typedef s32 (*FS_ARCHIVE_PROC_FUNC)(FSFile *file, u32 command);
 
 struct FSDirEntry;
 
-// An archive and a file number in it, as stored by FS_GetOverlayFileID and FSi_FindPathCommand and read by
-// FS_OpenFileFast.
+// An archive and a file number in it, as stored by Fs_GetOverlayFileId and Fs_File_DefaultOperation_FindPath and read by
+// Fs_File_OpenById.
 typedef struct FSFileID {
     /* 00 */ FSArchive *mArc;
     /* 04 */ u32 mFileId;
 } FSFileID;
 
-// 12 bytes at 0x20 and at 0x30 of FSFile (assigned as a whole by FSi_SeekDirCommand, FSi_FindPath and
-// FS_ChangeDir; current_dir_pos). Different functions use the region with different types: an FSArchive pointer
-// (FSi_SeekDirDirect, FSi_ReadDirCommand, FSi_FindPath), an FSDirEntry pointer (FSi_FindPathCommand,
-// FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
-// FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words
-// (FS_SeekFile, FSi_ReadFileCore, FSi_ReadFileCommand).
+// 12 bytes at 0x20 and at 0x30 of FSFile (assigned as a whole by Fs_File_DefaultOperation_SeekDirectory, Fs_File_FindPath and
+// Fs_Chdir; g_CurrentDirectoryPosition). Different functions use the region with different types: an FSArchive pointer
+// (Fs_File_DoSeekDirectory, Fs_File_DefaultOperation_ReadDirectory, Fs_File_FindPath), an FSDirEntry pointer (Fs_File_DefaultOperation_FindPath,
+// Fs_File_DefaultOperation_GetPath), three words (Fs_File_DefaultOperation_OpenFileById, Fs_File_OpenRaw), an FSFileID (Fs_File_DefaultOperation_FindPath,
+// Fs_File_OpenById), a u8 pointer with two lengths (Fs_File_DefaultOperation_GetPath) and a pointer with two signed words
+// (Fs_File_Seek, Fs_File_DoRead, Fs_File_DefaultOperation_ReadFile).
 typedef union FileLocation {
     struct {
         /* 00 */ u32 mUnk_00;
@@ -64,7 +64,7 @@ typedef struct FSFileLink {
     /* 04 */ FSFile *mNext;
 } FSFileLink;
 
-// Command indexes: FSFile.mCommand and the second argument of FSi_TranslateCommand, which picks the archive handler.
+// Command indexes: FSFile.mCommand and the second argument of Fs_File_DoExecuteOperation, which picks the archive handler.
 typedef enum ArchiveCommand {
     ARCHIVE_COMMAND_MOVE_DIR_CURSOR = 2,
     ARCHIVE_COMMAND_LIST_DIR_ENTRY = 3,
@@ -81,7 +81,7 @@ enum {
     ARCHIVE_PROC_STOP_RUN = 1 << ARCHIVE_COMMAND_STOP_RUN,
 };
 
-// Commands 2 to 8 are always waited for by the caller (FSi_SendCommand sets FILE_STAT_SYNC for them).
+// Commands 2 to 8 are always waited for by the caller (Fs_File_SendOperation sets FILE_STAT_SYNC for them).
 #define ARCHIVE_SYNC_COMMANDS_MASK 0x1fc
 
 // Results of the archive handlers and of the commands. FSFile.mError holds the final ones.
@@ -134,12 +134,12 @@ enum {
 
 // A file system file: its link, archive, status, command, error, thread queue and file location.
 typedef struct FSFile {
-    // FSi_ReleaseCommand links mLink.mPrev and mLink.mNext to each other, then clears both.
+    // Fs_File_ReleaseOperation links mLink.mPrev and mLink.mNext to each other, then clears both.
     /* 00 */ FSFileLink mLink;
     /* 08 */ FSArchive *mArc;
-    /* 0c */ volatile u32 mStat; // bit 2 selects the path in FSi_TranslateCommand; FSi_ReleaseCommand clears 0x4f
-    /* 10 */ u32 mCommand; // index passed to FSi_TranslateCommand by FSi_ExecuteSyncCommand and FSi_ExecuteAsyncCommand
-    /* 14 */ s32 mError; // set from a return value in FSi_TranslateCommand and FSi_ReleaseCommand
+    /* 0c */ volatile u32 mStat; // bit 2 selects the path in Fs_File_DoExecuteOperation; Fs_File_ReleaseOperation clears 0x4f
+    /* 10 */ u32 mCommand; // index passed to Fs_File_DoExecuteOperation by Fs_File_ExecuteSyncOperation and Fs_File_ExecuteAsyncOperation
+    /* 14 */ s32 mError; // set from a return value in Fs_File_DoExecuteOperation and Fs_File_ReleaseOperation
     /* 18 */ OSThreadQueue mQueue;
     /* 20 */ FileLocation mProp;
     union {
@@ -176,34 +176,34 @@ typedef struct FSArchive {
     /* 58 */ u32 mProcFlag;
 } FSArchive;
 
-// Called by FSi_TranslateCommand with its second argument as the index.
+// Called by Fs_File_DoExecuteOperation with its second argument as the index.
 extern s32 (*fsi_default_command[])(FSFile *file);
 
-s32 FSi_TranslateCommand(FSFile *file, u32 command);
-void FSi_ReleaseCommand(FSFile *file, s32 result);
-s32 FSi_OpenFileDirectCommand(FSFile *file);
-s32 FSi_CloseFileCommand(FSFile *file);
+s32 Fs_File_DoExecuteOperation(FSFile *file, u32 command);
+void Fs_File_ReleaseOperation(FSFile *file, s32 result);
+s32 Fs_File_DefaultOperation_OpenFileRaw(FSFile *file);
+s32 Fs_File_DefaultOperation_CloseFile(FSFile *file);
 
-// Two words FSi_OpenFileFastCommand reads into FSFile.mArg.
+// Two words Fs_File_DefaultOperation_OpenFileById reads into FSFile.mArg.
 typedef struct FSArchiveFAT {
     /* 00 */ u32 mTop;
     /* 04 */ u32 mBottom;
 } FSArchiveFAT;
 
-// FSi_ReadTable passes mPos to FSArchive.mTable of mArc and adds the count to it.
+// Fs_SyncReader_Read passes mPos to FSArchive.mTable of mArc and adds the count to it.
 typedef struct FSiSyncReadParam {
     /* 00 */ FSArchive *mArc;
     /* 04 */ u32 mPos;
 } FSiSyncReadParam;
 
-// Eight bytes read by FSi_SeekDirCommand.
+// Eight bytes read by Fs_File_DefaultOperation_SeekDirectory.
 typedef struct FSArchiveFNT {
     /* 00 */ u32 mStart;
     /* 04 */ u16 mIndex;
     /* 06 */ u16 mParent;
 } FSArchiveFNT;
 
-// Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a FileLocation, then a flag, a length
+// Entry read by Fs_File_DefaultOperation_FindPath, Fs_File_DefaultOperation_ReadDirectory and Fs_File_DefaultOperation_GetPath: a FileLocation, then a flag, a length
 // and the bytes.
 typedef struct FSDirEntry {
     /* 00 */ FileLocation mId;
@@ -212,13 +212,13 @@ typedef struct FSDirEntry {
     /* 14 */ u8 mName[0x80];
 } FSDirEntry;
 
-s32 FSi_OpenFileFastCommand(FSFile *file);
-s32 FSi_GetPathCommand(FSFile *file);
-s32 FSi_FindPathCommand(FSFile *dir);
-s32 FSi_ReadDirCommand(FSFile *dir);
-s32 FSi_SeekDirCommand(FSFile *dir);
-s32 FSi_WriteFileCommand(FSFile *file);
-s32 FSi_ReadFileCommand(FSFile *file);
-s32 FSi_SeekDirDirect(FSFile *dir, u32 id);
-void FSi_ReadTable(FSiSyncReadParam *param, void *dst, u32 len);
-s32 FSi_StrNICmp(const u8 *str1, const u8 *str2, u32 len);
+s32 Fs_File_DefaultOperation_OpenFileById(FSFile *file);
+s32 Fs_File_DefaultOperation_GetPath(FSFile *file);
+s32 Fs_File_DefaultOperation_FindPath(FSFile *dir);
+s32 Fs_File_DefaultOperation_ReadDirectory(FSFile *dir);
+s32 Fs_File_DefaultOperation_SeekDirectory(FSFile *dir);
+s32 Fs_File_DefaultOperation_WriteFile(FSFile *file);
+s32 Fs_File_DefaultOperation_ReadFile(FSFile *file);
+s32 Fs_File_DoSeekDirectory(FSFile *dir, u32 id);
+void Fs_SyncReader_Read(FSiSyncReadParam *param, void *dst, u32 len);
+s32 Fs_Strcasecmp(const u8 *str1, const u8 *str2, u32 len);

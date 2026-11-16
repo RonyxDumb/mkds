@@ -36,79 +36,79 @@
 #include "overlay_rom_loader.h"
 #include "registers.h"
 
-DisplaySettings *gDisplaySettings;
+DisplaySettings *g_GlobalDisplayConfig;
 
-void VBlankIrqHandler(void) {
-    if (gDisplaySettings != NULL) {
+void VblankIRQHandler(void) {
+    if (g_GlobalDisplayConfig != NULL) {
         ClearFrameFinishedFlag();
-        if (gDisplaySettings->mIrqCallback != NULL) {
-            gDisplaySettings->mIrqCallback();
+        if (g_GlobalDisplayConfig->mIrqCallback != NULL) {
+            g_GlobalDisplayConfig->mIrqCallback();
         }
     }
     IRQ_CHECK_FLAGS |= 1;
 }
 
-void EnableVBlankIrq(void) {
-    OS_SetIrqFunction(1, VBlankIrqHandler);
-    OS_EnableIrqMask(1);
+void EnableVblankIRQ(void) {
+    Os_SetIrqHandler(1, VblankIRQHandler);
+    Os_EnableIrqHandler(1);
     reg_OS_IME;
     reg_OS_IME = 1;
-    OS_EnableInterrupts();
+    Os_EnableIrq();
     GX_VBlankIntr(1);
 }
 
-void InitStartupLibraries(void) {
-    OS_DisableMainExArena();
-    OS_Init();
-    gStartupMemory.mUnk_00 = 0;
-    OS_InitTick();
-    OS_InitAlarm();
-    FX_Init();
-    GX_Init();
-    InitWvrState();
-    ClearLcdcBanksByState();
-    GX_DispOff();
+void InitializeSDKModules(void) {
+    Os_DisableMainExRegion();
+    Os_Initialize();
+    g_GlobalGG.mUnk_00 = 0;
+    Os_InitializeTick();
+    Os_InitializeAlarm();
+    FX_Initialize();
+    Gfx_Initialize();
+    SomeVramInit();
+    MaybePrepareVram();
+    SomeDispcntInit();
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0x10000;
-    OS_SetIrqFunction(1, VBlankIrqHandler);
-    OS_EnableIrqMask(1);
+    Os_SetIrqHandler(1, VblankIRQHandler);
+    Os_EnableIrqHandler(1);
     reg_OS_IME;
     reg_OS_IME = 1;
-    OS_EnableInterrupts();
+    Os_EnableIrq();
     GX_VBlankIntr(1);
-    FS_Init(-1);
-    InitUnreadHalfwordGroups();
-    gDwcInitResult = DWC_Init(gDwcInitWork);
-    ClearLcdcBankAndStartWvrAndWait();
+    Fs_Initialize(-1);
+    InitializeGlobalHN();
+    g_DwcStatus = MaybeInitializeDwc_from_thumb(gDwcInitWork);
+    SomeVramConfig();
 }
 
-void GetArenaLoHiNop(void) {
-    OS_GetArenaLo(0);
-    OS_GetArenaHi(0);
-    OS_GetArenaLo(3);
-    OS_GetArenaHi(3);
-    OS_GetArenaLo(4);
-    OS_GetArenaHi(4);
+void MemoryRegionAddressAccess(void) {
+    Os_GetMemoryRegionStartAddress(0);
+    Os_GetMemoryRegionEndAddress(0);
+    Os_GetMemoryRegionStartAddress(3);
+    Os_GetMemoryRegionEndAddress(3);
+    Os_GetMemoryRegionStartAddress(4);
+    Os_GetMemoryRegionEndAddress(4);
 }
 
-void InitStartup(void) {
+void InitializeEverything(void) {
     u8 *arenaLo;
-    InitStartupLibraries();
-    InitBrightnessFades();
-    gStartupMemory.mArm9TextStart = (u32) ARM9_TEXT_START;
-    gStartupMemory.mArenaLo = OS_GetArenaLo(0);
-    GetArenaLoHiNop();
-    arenaLo = OS_GetArenaLo(0);
-    gStartupMemory.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
-    InitHeapCall(&gStartupMemory.mRootHeapCall, 0);
-    gStartupMemory.mRootHeapCall.mName = "MainProc";
-    StartupResetKeysInputSlot();
+    InitializeSDKModules();
+    InitializeBrightnessContexts();
+    g_GlobalGG.mArm9TextStart = (u32) ARM9_TEXT_START;
+    g_GlobalGG.mArenaLo = Os_GetMemoryRegionStartAddress(0);
+    MemoryRegionAddressAccess();
+    arenaLo = Os_GetMemoryRegionStartAddress(0);
+    g_GlobalGG.mHeap = Mem_CreateExpHeap(arenaLo, (u8 *) Os_GetMemoryRegionEndAddress(0) - arenaLo);
+    ExecutionContext_Create(&g_GlobalGG.mRootHeapCall, 0);
+    g_GlobalGG.mRootHeapCall.mName = "MainProc";
+    InitializeGlobalG_M1();
 }
 
-void RunRootHeapCall(u32 func) {
-    SetHeapCallFunc(&gStartupMemory.mRootHeapCall, func);
-    RunHeapCall(&gStartupMemory.mRootHeapCall, 0xbeef);
+void SetExecuteStart(u32 func) {
+    ExecutionContext_SetFunction(&g_GlobalGG.mRootHeapCall, func);
+    ExecutionContext_Execute(&g_GlobalGG.mRootHeapCall, 0xbeef);
 }
 
-void *GetArenaHeap(void) {
-    return gStartupMemory.mHeap;
+void *GetGlobalHeapHandle(void) {
+    return g_GlobalGG.mHeap;
 }

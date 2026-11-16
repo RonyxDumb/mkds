@@ -42,10 +42,10 @@ struct SPLManager *gRaceEffectFogOffSPLManager;
 void (*gAdvanceEmittersFunction)(void);
 
 void *HeapAllocForSPLManager(u32 size) {
-    return HeapAlloc(gSPLManagerHeap, size);
+    return Mem_AllocateHeap(gSPLManagerHeap, size);
 }
 
-void InitEffects(void *defaultHeap) {
+void SomeEffectFileStuff(void *defaultHeap) {
     s32 maxParticles = 0x78;
     s32 maxEmitters = 0x28;
     void *effectHeap = defaultHeap;
@@ -59,11 +59,11 @@ void InitEffects(void *defaultHeap) {
     Vec3 *emitterDirection;
 
     gGetSPLManagerFunction = GetRaceEffectSPLManager;
-    if (GetCurrentSceneNumber() == 2) {
-        raceSetup = gRaceSetup;
+    if (GetCurrentSceneId() == 2) {
+        raceSetup = g_GlobalCO;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
             gGetSPLManagerFunction = GetSPLManagerForEffectId;
-            effectHeap = gOverlayLoader->mExpHeap;
+            effectHeap = g_OverlayManager->mExpHeap;
             maxParticles = 0x96;
         }
         if (raceSetup->mCourseId == COURSE_ID_AWARD) {
@@ -74,26 +74,26 @@ void InitEffects(void *defaultHeap) {
     gSPLManagerHeap = effectHeap;
     gRaceEffectSPLManager =
         SPLManager_New(HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
-    raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
+    raceEffectFile = FindFileBuffer_MAR_EFT_from_thumb(g_str_RaceEffect_spa);
     SPLManager_LoadResources(gRaceEffectSPLManager, raceEffectFile);
     SPLManager_UploadTextures(gRaceEffectSPLManager);
     SPLManager_UploadPalettes(gRaceEffectSPLManager);
-    ResizeMainEffectArchiveBlock(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
+    ResizeActiveExecutionContextHeapHandle_from_thumb(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
     gRaceEffectFogOffSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
-    raceEffectFogOffFile = FindMainRaceOrMainEffectFile(gRaceEffectFogOffSpaName);
+    raceEffectFogOffFile = FindFileBuffer_MAR_EFT_from_thumb(g_path_effect_RaceEffectFogOff_spa);
     SPLManager_LoadResources(gRaceEffectFogOffSPLManager, raceEffectFogOffFile);
     SPLManager_UploadTextures(gRaceEffectFogOffSPLManager);
     SPLManager_UploadPalettes(gRaceEffectFogOffSPLManager);
     gMissionRunSPLManager = NULL;
     gAdvanceEmittersFunction = NULL;
     gStadiumEmitters = NULL;
-    if (GetCurrentSceneNumber() != 2) {
+    if (GetCurrentSceneId() != 2) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         missionEffectFile = NULL;
         gMissionRunSPLManager = SPLManager_New(HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
-        LoadFileIntoHeap(gMissionEffectSpaName, effectHeap, &missionEffectFile);
+        ReadFileFromMountManagerHandle_from_thumb(g_path_data_MissionRun_MissionEffect_spa, effectHeap, &missionEffectFile);
         SPLManager_LoadResources(gMissionRunSPLManager, missionEffectFile);
         SPLManager_UploadTextures(gMissionRunSPLManager);
         SPLManager_UploadPalettes(gMissionRunSPLManager);
@@ -104,23 +104,23 @@ void InitEffects(void *defaultHeap) {
     if (gMissionRunSPLManager != NULL) {
         gMissionRunSPLManager->mPolygonIDDrawOrder = 1;
     }
-    InitKartTurnEffects(defaultHeap);
-    if (gRaceSetup->mCourseId != COURSE_ID_RAINBOW) {
+    AndAnotherAlloc(defaultHeap);
+    if (g_GlobalCO->mCourseId != COURSE_ID_RAINBOW) {
         gRaceEffectSPLManager->mMiscPolygonAttr = EFFECT_POLYGON_ATTR_FOG;
     } else {
         gRaceEffectSPLManager->mMiscPolygonAttr = 0;
     }
     InitCourseCameraEffects();
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_STADIUM:
             directionOrigin = gStadiumEmitterDirectionOrigin;
-            gStadiumEmitters = HeapAlloc(effectHeap, sizeof(*gStadiumEmitters));
+            gStadiumEmitters = Mem_AllocateHeap(effectHeap, sizeof(*gStadiumEmitters));
             for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
                 gStadiumEmitters->mEmitters[emitterIndex] = NULL;
-                VEC_Subtract(&gStadiumEmitterPositions[emitterIndex], &directionOrigin, &offset);
+                VecFx32_Subtract(&gStadiumEmitterPositions[emitterIndex], &directionOrigin, &offset);
                 emitterDirection = &gStadiumEmitters->mDirections[emitterIndex];
                 if (LENGTH_SQUARED(offset) >= 0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&offset, emitterDirection);
+                    Vector3_MaybeNormalize(&offset, emitterDirection);
                 }
             }
             gStadiumEmitters->mEmitterTimer = 1;
@@ -247,7 +247,7 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
         }
     }
     if (emitter != NULL) {
-        velocity = GetKart(kartIndex)->mEffectVelocity;
+        velocity = GetRacerMQEntry(kartIndex)->mEffectVelocity;
         velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, velocityScale);
         velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, velocityScale);
         velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, velocityScale);

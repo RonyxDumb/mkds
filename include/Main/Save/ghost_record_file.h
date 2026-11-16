@@ -5,11 +5,11 @@
 
 typedef struct SlotGhostRecord SlotGhostRecord;
 
-SlotGhostRecord *LoadGhostRecordFile(const char *path);
+SlotGhostRecord *GetReadStaffGhost_from_thumb(const char *path);
 
-extern struct CupRecords *gCupRecords;
-extern struct BackupBuffers *gBackupBuffers;
-extern struct ThreadFunctionQueue *gThreadFunctionQueue;
-extern struct OverlayLoader *gOverlayLoader;
-extern struct WiFiRaceSync *gWiFiRaceSync;
-extern struct ParticipantKartMap *gParticipantKartMap;
+extern struct CupRecords *g_GlobalLU;
+extern struct BackupBuffers *g_SaveDataHolder;
+extern struct ThreadFunctionQueue *g_WorkerContext;
+extern struct OverlayLoader *g_OverlayManager;
+extern struct WiFiRaceSync *g_GlobalAA;
+extern struct ParticipantKartMap *g_GlobalRE;

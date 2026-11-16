@@ -9,7 +9,7 @@
 #include "Main/Graphics/nsbmd_render_obj.h"
 
 void StartKartSpinSideEffects(s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+    Kart *kart = GetRacerMQEntry(kartIndex);
     ParticleEmitter *effect;
     u16 effectIndex;
 
@@ -18,7 +18,7 @@ void StartKartSpinSideEffects(s32 kartIndex) {
     }
     effectIndex = 0;
     do {
-        effect = StartEffect(0x58, &gKartEffectVec3Zero);
+        effect = StartEffect(0x58, &g_SomeVec);
         effect->mCallbackData = kart;
         effect->mCallbackBytes.mSideIndex = effectIndex;
         effectIndex = effectIndex + 1;
@@ -39,13 +39,13 @@ void AdvanceKartSpinSideEffect(ParticleEmitter *effect, s32 phase) {
 }
 
 void StartKartSpinFollowEffect(u32 kartIndex) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    KartEffects *kartEffects = &g_SomeH[kartIndex];
     ParticleEmitter *effect;
 
     if (kartEffects->mSpinFollowEffect != NULL) {
         DeleteEffect(kartEffects->mSpinFollowEffect);
     }
-    kartEffects->mSpinFollowEffect = StartEffect(0x5e, &gKartEffectVec3Zero);
+    kartEffects->mSpinFollowEffect = StartEffect(0x5e, &g_SomeVec);
     effect = kartEffects->mSpinFollowEffect;
     effect->mStepCount = 0;
     effect->mStepLimit = KART_SPIN_FOLLOW_EFFECT_STEPS;
@@ -68,7 +68,7 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
     kartIndex = effect->mKartIndex;
     elapsedFrames = effect->mStepCount;
     ended = 0;
-    kartPosition = GetKart(kartIndex)->mPosSource;
+    kartPosition = GetRacerMQEntry(kartIndex)->mPosSource;
     kartX = kartPosition->x;
     kartY = kartPosition->y;
     kartZ = kartPosition->z;
@@ -84,14 +84,14 @@ void AdvanceKartSpinFollowEffect(ParticleEmitter *effect, s32 phase) {
         effect->mStepCount = elapsedFrames + 1;
     }
     if (ended != 0) {
-        gKartEffects[kartIndex].mSpinFollowEffect = NULL;
+        g_SomeH[kartIndex].mSpinFollowEffect = NULL;
         return;
     }
-    effect->mSizeScale = (s16) GetKart(kartIndex)->mScale.z;
+    effect->mSizeScale = (s16) GetRacerMQEntry(kartIndex)->mScale.z;
 }
 
 void ReleaseKartSpinFollowEffect(u32 kartIndex) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    KartEffects *kartEffects = &g_SomeH[kartIndex];
     if (kartEffects->mSpinFollowEffect == NULL) {
         return;
     }

@@ -10,7 +10,7 @@
 #include "Main/Kart/kart_effects.h"
 
 void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
-    ParticleEmitter *effect = gKartEffects[kartIndex].mKillerEffect;
+    ParticleEmitter *effect = g_SomeH[kartIndex].mKillerEffect;
 
     if (effect == NULL) {
         return;
@@ -22,8 +22,8 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     Vec3s16 directionHalfwords;
     Vec3 effectVelocity;
     Vec3 effectPos;
-    Kart *kart = GetKart(kartIndex);
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    Kart *kart = GetRacerMQEntry(kartIndex);
+    KartEffects *kartEffects = &g_SomeH[kartIndex];
     ParticleEmitter *effect;
 
     if ((kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) && kartEffects->mContactEffect == NULL &&
@@ -40,7 +40,7 @@ void StartAndPlaceKartContactEffect(s32 kartIndex, Vec3 *direction) {
     effectVelocity.y = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.y, 0xccd);
     effectVelocity.z = MUL_FIXED12_NO_ROUND(kart->mEffectVelocity.z, 0xccd);
     kartEffects->mContactEffect->mVelocity = effectVelocity;
-    VEC_MultAdd(-kart->mRadius, direction, kart->mPosSource, &effectPos);
+    VecFx32_AddScale1(-kart->mRadius, direction, kart->mPosSource, &effectPos);
     PlaceEffect(kartEffects->mContactEffect, &effectPos);
     directionHalfwords.x = direction->x;
     directionHalfwords.y = direction->y;
@@ -62,7 +62,7 @@ void AdvanceKartContactEffect(ParticleEmitter *effect, s32 flag) {
             return;
         }
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &g_SomeH[kart->mIndex];
     if (effect == kartEffects->mContactEffect) {
         effect->mFlags.mEnding = 1;
         kartEffects->mContactEffect = NULL;
@@ -70,7 +70,7 @@ void AdvanceKartContactEffect(ParticleEmitter *effect, s32 flag) {
 }
 
 void ReleaseKartContactEffect(u32 kartIndex) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    KartEffects *kartEffects = &g_SomeH[kartIndex];
     if (kartEffects->mContactEffect == NULL) {
         return;
     }

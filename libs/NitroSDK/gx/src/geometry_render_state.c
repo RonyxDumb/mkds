@@ -9,7 +9,7 @@
 #include "vram_bank_display_setup.h"
 
 void G3X_SetToonTable(const u16 *toonTable) {
-    MIi_CpuCopy16(toonTable, (void *) 0x4000380, 0x40);
+    CopyMemory16(toonTable, (void *) 0x4000380, 0x40);
 }
 
 void G3X_SetClearColor(u32 rgb, u32 alpha, u16 depth, u32 polygonID, s32 fog) {
@@ -24,15 +24,15 @@ void G3X_SetClearColor(u32 rgb, u32 alpha, u16 depth, u32 polygonID, s32 fog) {
 }
 
 // Zeroes the edge color table (16 bytes at 0x4000330) and the fog table (96 bytes at 0x4000360), by DMA when
-// GXi_DmaId is not -1 and by CPU otherwise, then writes 0 to the shininess command 32 times.
-void G3X_InitTable(void) {
+// g_GfxDmaChannel is not -1 and by CPU otherwise, then writes 0 to the shininess command 32 times.
+void G3X_InitializeTable(void) {
     volatile u32 zero0;
     volatile u32 zero1;
     s32 writeIndex;
 
-    if (GXi_DmaId != -1) {
-        MI_DmaFill32Async(GXi_DmaId, (void *) 0x4000330, 0, 0x10, 0, 0);
-        MI_DmaFill32(GXi_DmaId, (void *) 0x4000360, 0, 0x60);
+    if (g_GfxDmaChannel != -1) {
+        MI_DmaFill32Async(g_GfxDmaChannel, (void *) 0x4000330, 0, 0x10, 0, 0);
+        Mem_DmaFill32(g_GfxDmaChannel, (void *) 0x4000360, 0, 0x60);
     } else {
         zero0 = 0;
         MIi_CpuClear32(zero0, (void *) 0x4000330, 0x10);
@@ -64,7 +64,7 @@ s32 G3X_GetMtxStackLevelPJ(s32 *level) {
     return 0;
 }
 
-void G2Bg0OfsWrite(u32 offset) {
+void G3X_SetHOffset(u32 offset) {
     reg_G2_BG0OFS = offset;
 }
 

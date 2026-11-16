@@ -5,23 +5,23 @@
 #pragma thumb on
 
 s32 GetFramesSinceMenuScreenSwitch(void) {
-    return gMenuScene->mFramesSinceScreenSwitch;
+    return g_GlobalB43C->mFramesSinceScreenSwitch;
 }
 
 u32 GetMenuScreenSwitched(void) {
-    return (gMenuScene->mScreenSwitched);
+    return (g_GlobalB43C->mScreenSwitched);
 }
 
 u32 GetPreviousMenuScreenNumber(void) {
-    return (gMenuScene->mPreviousScreenNumber);
+    return (g_GlobalB43C->mPreviousScreenNumber);
 }
 
 u32 GetMenuScreenNumber(void) {
-    return (gMenuScene->mScreenNumber);
+    return (g_GlobalB43C->mScreenNumber);
 }
 
 u32 GetNextMenuScreenNumber(void) {
-    return (gMenuScene->mNextScreenNumber);
+    return (g_GlobalB43C->mNextScreenNumber);
 }
 
 #pragma thumb off
@@ -29,10 +29,10 @@ u32 GetNextMenuScreenNumber(void) {
 #pragma optimize_for_size on
 #pragma thumb on
 void SwitchMenuScreen(s32 screenNumber, s32 nextScreenNumber) {
-    gMenuScene->mFramesSinceScreenSwitch = 0;
-    gMenuScene->mScreenSwitched = 1;
-    gMenuScene->mPreviousScreenNumber = gMenuScene->mScreenNumber;
-    gMenuScene->mScreenNumber = screenNumber;
-    gMenuScene->mNextScreenNumber = nextScreenNumber;
+    g_GlobalB43C->mFramesSinceScreenSwitch = 0;
+    g_GlobalB43C->mScreenSwitched = 1;
+    g_GlobalB43C->mPreviousScreenNumber = g_GlobalB43C->mScreenNumber;
+    g_GlobalB43C->mScreenNumber = screenNumber;
+    g_GlobalB43C->mNextScreenNumber = nextScreenNumber;
 }
 #pragma thumb off

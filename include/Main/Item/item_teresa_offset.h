@@ -92,7 +92,7 @@ typedef struct ItemTeresa {
     /* 15c */ BOOL mFollowsPath;
     /* 160 */ s32 mItemObjectKind;
     /* 164 */ s16 mItemModelAlpha;
-    /* 166 */ u8 mUnk_166[0x2];
+    /* 166 */ u8 mLayoutBncl[0x2];
     /* 168 */ Kart *mKart;
     /* 16c */ union {
         Vec3 mOffset;

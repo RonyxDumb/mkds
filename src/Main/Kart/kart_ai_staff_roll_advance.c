@@ -20,7 +20,7 @@ void (*gKartAiRequestLinkCallback)(struct KartAi *kartAi);
 
 // Stores the CPU kart callbacks for Award and Mission Run, Staff Roll, Battle, or else the race ones.
 void RegisterKartAiCallbacks(void) {
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD || g_GlobalCO->mMode == MODE_MISSION_RUN) {
         gKartAiSetupCallback = SetupKartAiForAwardMissionRun;
         gKartAiResetCallback = ResetKartAiForAwardMissionRun;
         gKartAiAdvanceCallback = AdvanceKartAiForAwardMissionRun;
@@ -29,7 +29,7 @@ void RegisterKartAiCallbacks(void) {
         gKartAiLinkPosAndDirectionCallback = CopyKartAiLinkPosAndDirection;
         gKartAiSetupHeldItemEntryCallback = SetupNonBattleKartAiHeldItemEntry;
         gKartAiSetupItemInUseEntryCallback = SetupNonBattleKartAiItemInUseEntry;
-    } else if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    } else if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         gKartAiSetupCallback = SetupKartAiForStaffRoll;
         gKartAiResetCallback = ResetKartAiForStaffRollNop;
         gKartAiAdvanceCallback = AdvanceKartAiForStaffRoll;
@@ -38,7 +38,7 @@ void RegisterKartAiCallbacks(void) {
         gKartAiLinkPosAndDirectionCallback = CopyKartAiLinkPosAndDirection;
         gKartAiSetupHeldItemEntryCallback = SetupNonBattleKartAiHeldItemEntry;
         gKartAiSetupItemInUseEntryCallback = SetupNonBattleKartAiItemInUseEntry;
-    } else if (gRaceSetup->mMode == MODE_BATTLE) {
+    } else if (g_GlobalCO->mMode == MODE_BATTLE) {
         gKartAiSetupCallback = SetupKartAiForBattle;
         gKartAiResetCallback = ResetKartAiForBattle;
         gKartAiAdvanceCallback = AdvanceKartAiForBattle;
@@ -100,10 +100,10 @@ u32 GetKartAiRaceStartBoostChoice(KartAi *kartAi) {
 }
 
 void SetupKartAiForRace(KartAi *kartAi, s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+    Kart *kart = GetRacerMQEntry(kartIndex);
 
     kartAi->mListedCpu =
-        (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0;
+        (g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0;
     SetupRaceKartAi(kartAi, kart, kartAi->mListedCpu);
     SetupRaceKartAiSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
     ClearKartAiItemUse(&kartAi->mItemUse);
@@ -155,7 +155,7 @@ void SetupNonBattleKartAiItemInUseEntry(KartAi *kartAi) {
 
 void SetupKartAiForBattle(KartAi *kartAi, s32 kartIndex) {
     Kart *kart;
-    kart = GetKart(kartIndex);
+    kart = GetRacerMQEntry(kartIndex);
     SetupBattleKartAi(kartAi, kart);
     SetupBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
     ClearKartAiItemUseWrapper(&kartAi->mItemUse);
@@ -206,12 +206,12 @@ void SetupBattleKartAiItemInUseEntry(KartAi *kartAi) {
 }
 
 void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+    Kart *kart = GetRacerMQEntry(kartIndex);
 
     kartAi->mListedCpu = 0;
     SetupAwardMissionRunKartAi(kartAi, kart, kartAi->mListedCpu);
     InitKartAiRaceSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         kartAi->mRaceSpeedLimit.mBoostsAtRaceStart = 1;
         kartAi->mRaceSpeedLimit.mRaceStartBoostChoice = 4;
     } else {
@@ -231,14 +231,14 @@ void AdvanceKartAiForAwardMissionRun(KartAi *kartAi) {
 }
 
 void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+    Kart *kart = GetRacerMQEntry(kartIndex);
 
     kartAi->mListedCpu = 0;
     SetupStaffRollKartAi(kartAi, kart, kartAi->mListedCpu);
     InitKartAiRaceSpeedLimit(&kartAi->mRaceSpeedLimit, kartAi);
     kartAi->mRaceSpeedLimit.mBoostsAtRaceStart = 0;
     kartAi->mRaceSpeedLimit.mRaceStartBoostChoice = 0;
-    if (kart->mIndex != gRaceSetup->mEntryIndex) {
+    if (kart->mIndex != g_GlobalCO->mEntryIndex) {
         kart->mEntryFlags |= KART_ENTRY_HIDDEN;
     }
 }

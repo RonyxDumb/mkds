@@ -4,12 +4,12 @@
 #include "Main/Scene/scene_display_archive_work.h"
 
 
-void *GetArenaHeap(void);
-void RunRootHeapCall(u32 func);
-void InitStartup(void);
-void GetArenaLoHiNop(void);
-void InitStartupLibraries(void);
-void EnableVBlankIrq(void);
-void VBlankIrqHandler(void);
+void *GetGlobalHeapHandle(void);
+void SetExecuteStart(u32 func);
+void InitializeEverything(void);
+void MemoryRegionAddressAccess(void);
+void InitializeSDKModules(void);
+void EnableVblankIRQ(void);
+void VblankIRQHandler(void);
 
-extern struct DisplaySettings *gDisplaySettings;
+extern struct DisplaySettings *g_GlobalDisplayConfig;

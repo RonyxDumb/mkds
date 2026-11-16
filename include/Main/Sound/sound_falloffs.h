@@ -23,7 +23,7 @@ typedef struct SoundFalloffSettings {
     /* 10 */ s32 mMaxVolume;
 } SoundFalloffSettings;
 
-void StopKartSoundWhileRequested(Kart *kart);
+void StructMQRacerEntry_SomeFn_70(Kart *kart);
 void InitSoundFalloffs(void);
 // Returns the volume of a source from the distance in the mDistance member of soundParams and the forward distance in
 // its mUnk_08 member, by the SoundFalloff of the source: the maximum up to the inner distance, falling to 0 at the

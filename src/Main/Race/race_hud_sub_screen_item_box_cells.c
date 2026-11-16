@@ -39,9 +39,9 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mDrawPos,
                                                     subScreenScale, 0, 0) != FALSE) {
-                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mCell = GetRaceSNcerEntry(0x4e);
+                    gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mCell = GetB3C4_Cell_RaceS(0x4e);
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mXlu = mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                     cellCount++;
                     cellIndex++;
@@ -68,19 +68,19 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     TimeRecord *record;
     TimeRecord *records;
 
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (g_GlobalCO->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    if (gRaceNewRecordTa == NULL) {
+    if (g_GlobalE8 == NULL) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        gRaceNewRecordTa->mFinishTimeIsRecord = TryStoreRaceNewRecordTaFinishTime(0);
-        gRaceNewRecordTa->mBestLapIsRecord = TryStoreRaceNewRecordTaBestLap(0);
+    if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL) {
+        g_GlobalE8->mFinishTimeIsRecord = CheckHandleSaveTimeTrialRecord2(0);
+        g_GlobalE8->mBestLapIsRecord = CheckHandleSaveTimeTrialRecord_LeastLap(0);
         return;
     }
-    GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
-    records = gRaceNewRecordTa->mRecords;
+    GetPlayerTotalTime(GetCurrentPlayerRacerId(), &minute, &second, &millisecond);
+    records = g_GlobalE8->mRecords;
     finishMs = TIME_TO_MS(minute, second, millisecond);
     for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
         record = &records[recordIndex];
@@ -92,23 +92,23 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     }
     recordIndex = 0;
 found:
-    gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
-    record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
-    gRaceNewRecordTa->mBestLapNumber =
-        GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestMinute, &bestSecond, &bestMillisecond);
-    gRaceNewRecordTa->mBestLapIsRecord =
+    g_GlobalE8->mFinishTimeIsRecord = recordIndex;
+    record = &g_GlobalE8->mRecords[TIME_RECORD_BEST_LAP];
+    g_GlobalE8->mBestLapNumber =
+        GetLeastTimeLap(GetCurrentPlayerRacerId(), &bestMinute, &bestSecond, &bestMillisecond);
+    g_GlobalE8->mBestLapIsRecord =
         (bestMinute == record->mMinute && bestSecond == record->mSecond && bestMillisecond == record->mMillisecond) ? 1
                                                                                                                     : 0;
 }
 
 s32 IsRaceNewRecordTaFinishRecord(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mFinishTimeIsRecord : 0;
+    return g_GlobalE8 != NULL ? g_GlobalE8->mFinishTimeIsRecord : 0;
 }
 
 BOOL IsRaceNewRecordTaFinishRecordFirst(void) {
-    if (gRaceNewRecordTa != NULL) {
-        if (gRaceNewRecordTa->mFinishTimeIsRecord != 0) {
-            if (gRaceNewRecordTa->mFinishRecordIndex == 0) {
+    if (g_GlobalE8 != NULL) {
+        if (g_GlobalE8->mFinishTimeIsRecord != 0) {
+            if (g_GlobalE8->mFinishRecordIndex == 0) {
                 return TRUE;
             }
         }
@@ -117,6 +117,6 @@ BOOL IsRaceNewRecordTaFinishRecordFirst(void) {
     return FALSE;
 }
 
-s32 IsRaceNewRecordTaBestLapRecord(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mBestLapIsRecord : 0;
+s32 GetLastTimeTrialWasRecord(void) {
+    return g_GlobalE8 != NULL ? g_GlobalE8->mBestLapIsRecord : 0;
 }

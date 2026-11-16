@@ -96,7 +96,7 @@ void MD5Print(const u8 *digest, char *output) {
     count = 0;
     offset = 0;
     for (; count < 16; count++) {
-        sprintf(output + offset, "%02x", digest[count]);
+        MaybeStrcpy(output + offset, "%02x", digest[count]);
         offset += 2;
     }
 }

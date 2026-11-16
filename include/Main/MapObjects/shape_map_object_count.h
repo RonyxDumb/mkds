@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-s32 GetFixed12Of50(void);
-s32 GetFixed12Of100(void);
-s32 ShapeMapObjectCountGetFixed12Of50(void);
+s32 Const204800(void);
+s32 Const409600(void);
+s32 Const204800_0(void);

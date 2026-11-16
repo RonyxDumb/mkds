@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-// Runs once: clears the vertical count alarm list (OSi_VAlarmQueue), OSi_VFrameCount and OSi_PreviousVCount and the
+// Runs once: clears the vertical count alarm list (g_VAlarmQueue), g_VAlarm_FrameCount and g_VAlarm_PrevVCount and the
 // V-count interrupt enable.
-void OS_InitVAlarm(void);
+void Os_InitializeVAlarm(void);

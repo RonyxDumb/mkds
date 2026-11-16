@@ -17,21 +17,21 @@
 #include "heap_frame_allocator.h"
 #include "Main/Save/ghost_record_file.h"
 
-SceneCallbacks gResultSceneCallbacks = {
-    InitResultScene, UpdateResultScene, ReleaseResultScene, WriteResultSceneRegistersCallback, NULL, NULL, 0xa, 0xa, 0};
+SceneCallbacks g_Scene_Result = {
+    Scene_Result_Initialize, Scene_Result_Update, Scene_Result_Finalize, Scene_Result_VBlank, NULL, NULL, 0xa, 0xa, 0};
 
 static inline void SetOverlayLoaderEntry(s32 entryIndex, s32 overlayId, u32 startAddress, u32 endAddress) {
     OverlayLoaderEntry *entry;
 
-    entry = &gOverlayLoader->mEntries[entryIndex];
+    entry = &g_OverlayManager->mEntries[entryIndex];
     entry->mOverlayId = overlayId;
     entry->mStart = startAddress;
     entry->mEnd = endAddress;
-    if (entry->mStart < gOverlayLoader->mLowestStart) {
-        gOverlayLoader->mLowestStart = entry->mStart;
+    if (entry->mStart < g_OverlayManager->mLowestStart) {
+        g_OverlayManager->mLowestStart = entry->mStart;
     }
-    if (entry->mEnd > gOverlayLoader->mHighestEnd) {
-        gOverlayLoader->mHighestEnd = entry->mEnd;
+    if (entry->mEnd > g_OverlayManager->mHighestEnd) {
+        g_OverlayManager->mHighestEnd = entry->mEnd;
     }
 }
 
@@ -39,7 +39,7 @@ void StartSlotResultSync(SlotResultSyncState *syncState, s32 itemInfoIndex) {
     s32 syncFrames;
 
     syncState->mSendCount = 0;
-    syncFrames = gWiFiRaceSync->mSyncFrames;
+    syncFrames = g_GlobalAA->mSyncFrames;
     syncState->mState = SLOT_RESULT_SYNC_STATE_SENDING;
     syncState->mItemInfoIndex = itemInfoIndex;
     syncState->mEndSyncFrame = syncFrames + SLOT_RESULT_SYNC_SEND_FRAMES;
@@ -55,7 +55,7 @@ void UpdateSlotResultSyncs(void) {
 
     for (participantIndex = 0; participantIndex < WIFI_RACE_SYNC_PARTICIPANT_COUNT; participantIndex++) {
         if (IsInParticipantMask(participantIndex) != 0) {
-            syncState = &gWiFiRaceSync->mEntries[participantIndex].mSlotResultSyncState;
+            syncState = &g_GlobalAA->mEntries[participantIndex].mSlotResultSyncState;
             receivedHalfword = GetEntrySlotResultSyncHalfword(participantIndex, participantIndex);
             switch (syncState->mState) {
                 case SLOT_RESULT_SYNC_STATE_IDLE:
@@ -65,7 +65,7 @@ void UpdateSlotResultSyncs(void) {
                     }
                     break;
                 case SLOT_RESULT_SYNC_STATE_SENDING:
-                    remainingFrames = syncState->mEndSyncFrame - gWiFiRaceSync->mSyncFrames;
+                    remainingFrames = syncState->mEndSyncFrame - g_GlobalAA->mSyncFrames;
                     if ((s32) syncState->mSendCount < SLOT_RESULT_SYNC_MAX_SENDS) {
                         SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex,
                                               SLOT_RESULT_SYNC_STATE_SENDING);
@@ -97,7 +97,7 @@ BOOL IsParticipantSlotResultSyncing(s32 participantIndex) {
     BOOL isSyncing;
     WiFiRaceSyncEntry *entry;
 
-    entry = &gWiFiRaceSync->mEntries[participantIndex];
+    entry = &g_GlobalAA->mEntries[participantIndex];
     isSyncing = FALSE;
     if ((u16) (entry->mState + 0xffff) <= 1) {
         isSyncing = TRUE;
@@ -111,45 +111,45 @@ s32 GetParticipantSlotResult(s32 participantIndex) {
 
     itemInfoIndex = SLOT_RESULT_SYNC_NO_ITEM;
     isSyncing = FALSE;
-    if ((u16) (gWiFiRaceSync->mEntries[participantIndex].mState + 0xffff) <= 1) {
+    if ((u16) (g_GlobalAA->mEntries[participantIndex].mState + 0xffff) <= 1) {
         isSyncing = TRUE;
     }
     if (isSyncing == FALSE) {
-        itemInfoIndex = gWiFiRaceSync->mEntries[participantIndex].mItemInfoIndex;
+        itemInfoIndex = g_GlobalAA->mEntries[participantIndex].mItemInfoIndex;
     }
     return itemInfoIndex;
 }
 
 // Allocates the overlay record and fills the table of the three overlays and the address range they cover.
-void InitOverlayTable(void *heap) {
-    gOverlayLoader = HeapAlloc(heap, sizeof(*gOverlayLoader));
-    gOverlayLoader->mLowestStart = -1;
-    gOverlayLoader->mHighestEnd = 0;
+void InitializeOverlayManager(void *heap) {
+    g_OverlayManager = Mem_AllocateHeap(heap, sizeof(*g_OverlayManager));
+    g_OverlayManager->mLowestStart = -1;
+    g_OverlayManager->mHighestEnd = 0;
     SetOverlayLoaderEntry(OVERLAY_SLOT_OV000, (s32) SDK_OVERLAY_OV000_ID, (u32) OV000_TEXT_START, (u32) OV000_BSS_END);
     SetOverlayLoaderEntry(OVERLAY_SLOT_OV001, (s32) SDK_OVERLAY_OV001_ID, (u32) OV001_TEXT_START, (u32) OV001_BSS_END);
     SetOverlayLoaderEntry(OVERLAY_SLOT_OV002, (s32) SDK_OVERLAY_OV002_ID, (u32) OV002_CTOR_START, (u32) OV002_BSS_END);
-    gOverlayLoader->mFrmHeap = NULL;
-    gOverlayLoader->mExpHeap = NULL;
+    g_OverlayManager->mFrmHeap = NULL;
+    g_OverlayManager->mExpHeap = NULL;
 }
 
 // Creates the frame heap in a fixed 0x50000-byte buffer.
 void CreateOverlayFrmHeap(void) {
-    gOverlayLoader->mFrmHeap = NNS_FndCreateFrmHeapEx(gOverlayFrmHeapBuffer, 0x50000, 0);
+    g_OverlayManager->mFrmHeap = Mem_Frame_Create(gOverlayFrmHeapBuffer, 0x50000, 0);
 }
 
 // Marks no overlay as current: index 4 is past the three table entries.
-void ResetCurrentOverlay(void) {
-    gOverlayLoader->mCurrentOverlay = OVERLAY_SLOT_NONE;
-    gOverlayLoader->mLoadState = OVERLAY_LOAD_IDLE;
+void ResetOverlayManager(void) {
+    g_OverlayManager->mCurrentOverlay = OVERLAY_SLOT_NONE;
+    g_OverlayManager->mLoadState = OVERLAY_LOAD_IDLE;
 }
 
 // Starts loading the overlay: nothing while a load runs; a loaded overlay is unloaded first.
-void StartLoadOverlay(s32 overlay) {
+void UpdateOverlayStatusWithKind(s32 overlay) {
     OverlayLoader *loader;
     s32 current;
     s32 state;
 
-    loader = gOverlayLoader;
+    loader = g_OverlayManager;
     current = loader->mCurrentOverlay;
     if (current == overlay) {
         return;
@@ -157,11 +157,11 @@ void StartLoadOverlay(s32 overlay) {
     state = loader->mLoadState;
     switch (state) {
         case OVERLAY_LOAD_IDLE:
-            FS_LoadOverlayInfo(&loader->mInfo, 0, loader->mEntries[overlay].mOverlayId);
-            FS_InitFile(&gOverlayLoader->mFile);
-            FS_LoadOverlayImageAsync(&gOverlayLoader->mInfo, &gOverlayLoader->mFile);
-            gOverlayLoader->mLoadState = OVERLAY_LOAD_READING;
-            gOverlayLoader->mCurrentOverlay = overlay;
+            Fs_OverlayInfo_Load(&loader->mInfo, 0, loader->mEntries[overlay].mOverlayId);
+            Fs_File_Initialize(&g_OverlayManager->mFile);
+            Fs_OverlayInfo_LoadImageAsync(&g_OverlayManager->mInfo, &g_OverlayManager->mFile);
+            g_OverlayManager->mLoadState = OVERLAY_LOAD_READING;
+            g_OverlayManager->mCurrentOverlay = overlay;
             break;
         case OVERLAY_LOAD_READING:
             break;
@@ -169,60 +169,60 @@ void StartLoadOverlay(s32 overlay) {
             switch (state) {
                 case OVERLAY_LOAD_READING:
                 case OVERLAY_LOAD_STARTED:
-                    if (FS_UnloadOverlay(0, loader->mEntries[current].mOverlayId) != 0) {
-                        gOverlayLoader->mCurrentOverlay = OVERLAY_SLOT_NONE;
-                        gOverlayLoader->mLoadState = OVERLAY_LOAD_IDLE;
-                        if (gOverlayLoader->mExpHeap != NULL) {
-                            NNS_FndDestroyExpHeap(gOverlayLoader->mExpHeap);
-                            gOverlayLoader->mExpHeap = NULL;
+                    if (Fs_UnloadOverlay(0, loader->mEntries[current].mOverlayId) != 0) {
+                        g_OverlayManager->mCurrentOverlay = OVERLAY_SLOT_NONE;
+                        g_OverlayManager->mLoadState = OVERLAY_LOAD_IDLE;
+                        if (g_OverlayManager->mExpHeap != NULL) {
+                            Mem_Exp_Finalize(g_OverlayManager->mExpHeap);
+                            g_OverlayManager->mExpHeap = NULL;
                         }
                     }
                     break;
             }
-            FS_LoadOverlayInfo(&gOverlayLoader->mInfo, 0, gOverlayLoader->mEntries[overlay].mOverlayId);
-            FS_InitFile(&gOverlayLoader->mFile);
-            FS_LoadOverlayImageAsync(&gOverlayLoader->mInfo, &gOverlayLoader->mFile);
-            gOverlayLoader->mLoadState = OVERLAY_LOAD_READING;
-            gOverlayLoader->mCurrentOverlay = overlay;
+            Fs_OverlayInfo_Load(&g_OverlayManager->mInfo, 0, g_OverlayManager->mEntries[overlay].mOverlayId);
+            Fs_File_Initialize(&g_OverlayManager->mFile);
+            Fs_OverlayInfo_LoadImageAsync(&g_OverlayManager->mInfo, &g_OverlayManager->mFile);
+            g_OverlayManager->mLoadState = OVERLAY_LOAD_READING;
+            g_OverlayManager->mCurrentOverlay = overlay;
             break;
         case OVERLAY_LOAD_UNUSED:
             switch (state) {
                 case OVERLAY_LOAD_READING:
                 case OVERLAY_LOAD_STARTED:
-                    if (FS_UnloadOverlay(0, loader->mEntries[current].mOverlayId) != 0) {
-                        gOverlayLoader->mCurrentOverlay = OVERLAY_SLOT_NONE;
-                        gOverlayLoader->mLoadState = OVERLAY_LOAD_IDLE;
-                        if (gOverlayLoader->mExpHeap != NULL) {
-                            NNS_FndDestroyExpHeap(gOverlayLoader->mExpHeap);
-                            gOverlayLoader->mExpHeap = NULL;
+                    if (Fs_UnloadOverlay(0, loader->mEntries[current].mOverlayId) != 0) {
+                        g_OverlayManager->mCurrentOverlay = OVERLAY_SLOT_NONE;
+                        g_OverlayManager->mLoadState = OVERLAY_LOAD_IDLE;
+                        if (g_OverlayManager->mExpHeap != NULL) {
+                            Mem_Exp_Finalize(g_OverlayManager->mExpHeap);
+                            g_OverlayManager->mExpHeap = NULL;
                         }
                     }
                     break;
             }
-            FS_LoadOverlayInfo(&gOverlayLoader->mInfo, 0, gOverlayLoader->mEntries[overlay].mOverlayId);
-            FS_InitFile(&gOverlayLoader->mFile);
-            FS_LoadOverlayImageAsync(&gOverlayLoader->mInfo, &gOverlayLoader->mFile);
-            gOverlayLoader->mLoadState = OVERLAY_LOAD_READING;
-            gOverlayLoader->mCurrentOverlay = overlay;
+            Fs_OverlayInfo_Load(&g_OverlayManager->mInfo, 0, g_OverlayManager->mEntries[overlay].mOverlayId);
+            Fs_File_Initialize(&g_OverlayManager->mFile);
+            Fs_OverlayInfo_LoadImageAsync(&g_OverlayManager->mInfo, &g_OverlayManager->mFile);
+            g_OverlayManager->mLoadState = OVERLAY_LOAD_READING;
+            g_OverlayManager->mCurrentOverlay = overlay;
             break;
     }
 }
 
 // Waits in a loop for the read to end, then starts the overlay and closes the file.
-void FinishOverlayLoad(void) {
+void WaitOverlayLoadedStarted(void) {
     BOOL finished;
     s32 loadState;
 
     do {
         finished = FALSE;
-        loadState = gOverlayLoader->mLoadState;
+        loadState = g_OverlayManager->mLoadState;
         if (loadState == OVERLAY_LOAD_STARTED) {
             finished = TRUE;
         } else if (loadState == OVERLAY_LOAD_READING) {
-            if (((gOverlayLoader->mFile.mStat & 1) ? 1 : 0) == 0) {
-                FS_StartOverlay(&gOverlayLoader->mInfo);
-                FS_CloseFile(&gOverlayLoader->mFile);
-                gOverlayLoader->mLoadState = OVERLAY_LOAD_STARTED;
+            if (((g_OverlayManager->mFile.mStat & 1) ? 1 : 0) == 0) {
+                Fs_OverlayInfo_Start(&g_OverlayManager->mInfo);
+                Fs_File_Close(&g_OverlayManager->mFile);
+                g_OverlayManager->mLoadState = OVERLAY_LOAD_STARTED;
                 finished = TRUE;
             }
         }
@@ -230,19 +230,19 @@ void FinishOverlayLoad(void) {
 }
 
 // Creates the expandable heap only while overlay 1 is the current one.
-void CreateOverlayExpHeap(void) {
-    if (gOverlayLoader->mCurrentOverlay != OVERLAY_SLOT_OV001) {
+void CreateRegionHeapHandleForOverlay1(void) {
+    if (g_OverlayManager->mCurrentOverlay != OVERLAY_SLOT_OV001) {
         return;
     }
-    gOverlayLoader->mExpHeap = NNS_FndCreateExpHeapEx(gOverlayExpHeapBuffer, 0x20800, 1);
+    g_OverlayManager->mExpHeap = Mem_Exp_Create(g_Overlay3Region, 0x20800, 1);
 }
 
-void FreeOverlayExpHeap(void) {
-    if (gOverlayLoader->mExpHeap == NULL) {
+void DisposeOverlayManagerHeap(void) {
+    if (g_OverlayManager->mExpHeap == NULL) {
         return;
     }
-    NNS_FndDestroyExpHeap(gOverlayLoader->mExpHeap);
-    gOverlayLoader->mExpHeap = NULL;
+    Mem_Exp_Finalize(g_OverlayManager->mExpHeap);
+    g_OverlayManager->mExpHeap = NULL;
 }
 
 // Same finish as the wait loop without waiting: returns 1 when the overlay is loaded, else 0.
@@ -252,7 +252,7 @@ s32 TryFinishOverlayLoad(void) {
     OverlayLoader *loader;
 
     result = 0;
-    loader = gOverlayLoader;
+    loader = g_OverlayManager;
     state = loader->mLoadState;
     if (state == OVERLAY_LOAD_STARTED) {
         return 1;
@@ -268,56 +268,56 @@ s32 TryFinishOverlayLoad(void) {
     if (state != 0) {
         return result;
     }
-    FS_StartOverlay(&loader->mInfo);
-    FS_CloseFile(&gOverlayLoader->mFile);
-    gOverlayLoader->mLoadState = OVERLAY_LOAD_STARTED;
+    Fs_OverlayInfo_Start(&loader->mInfo);
+    Fs_File_Close(&g_OverlayManager->mFile);
+    g_OverlayManager->mLoadState = OVERLAY_LOAD_STARTED;
     return 1;
 }
 
-void ReleaseCurrentOverlay(void) {
-    if (gOverlayLoader->mLoadState != OVERLAY_LOAD_READING && gOverlayLoader->mLoadState != OVERLAY_LOAD_STARTED) {
+void DisposeLoadedOverlay(void) {
+    if (g_OverlayManager->mLoadState != OVERLAY_LOAD_READING && g_OverlayManager->mLoadState != OVERLAY_LOAD_STARTED) {
         return;
     }
-    if (FS_UnloadOverlay(0, gOverlayLoader->mEntries[gOverlayLoader->mCurrentOverlay].mOverlayId) == 0) {
+    if (Fs_UnloadOverlay(0, g_OverlayManager->mEntries[g_OverlayManager->mCurrentOverlay].mOverlayId) == 0) {
         return;
     }
-    gOverlayLoader->mCurrentOverlay = OVERLAY_SLOT_NONE;
-    gOverlayLoader->mLoadState = OVERLAY_LOAD_IDLE;
-    if (gOverlayLoader->mExpHeap != NULL) {
-        NNS_FndDestroyExpHeap(gOverlayLoader->mExpHeap);
-        gOverlayLoader->mExpHeap = NULL;
+    g_OverlayManager->mCurrentOverlay = OVERLAY_SLOT_NONE;
+    g_OverlayManager->mLoadState = OVERLAY_LOAD_IDLE;
+    if (g_OverlayManager->mExpHeap != NULL) {
+        Mem_Exp_Finalize(g_OverlayManager->mExpHeap);
+        g_OverlayManager->mExpHeap = NULL;
     }
 }
 
 // 1 when the address lies between the lowest start and the highest end of the three overlays.
-u32 IsInOverlayRange(struct MapObjectKindDescriptor *address) {
+u32 IsAddressInOverlayRegion(struct MapObjectKindDescriptor *address) {
     u32 inRange;
 
     inRange = 0;
-    if ((u32) address >= gOverlayLoader->mLowestStart) {
-        if ((u32) address <= gOverlayLoader->mHighestEnd) {
+    if ((u32) address >= g_OverlayManager->mLowestStart) {
+        if ((u32) address <= g_OverlayManager->mHighestEnd) {
             inRange = 1;
         }
     }
     return inRange;
 }
 
-void InitResultScene(void) {
-    InitResultsByMode(GetHeap(GetCurrentHeapCall()));
+void Scene_Result_Initialize(void) {
+    InstanceStructN_from_thumb(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
 }
 
-void ReleaseResultScene(void) {
+void Scene_Result_Finalize(void) {
     u32 unusedValue;
-    ReleaseResultsByMode();
+    Scene_Result_FinalizeImpl_from_thumb();
 }
 
-void WriteResultSceneRegistersCallback(void) {
+void Scene_Result_VBlank(void) {
     u32 unusedValue;
-    WriteResultsByMode();
+    Scene_Result_VBlankImpl_from_thumb();
 }
 
-void UpdateResultScene(SceneNumbers *sceneNumbers) {
+void Scene_Result_Update(SceneNumbers *sceneNumbers) {
     SceneNumbers *numbers = sceneNumbers;
     u32 unusedValue;
-    AdvanceResultsByMode(numbers);
+    Scene_Result_UpdateImpl_from_thumb(numbers);
 }

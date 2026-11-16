@@ -554,7 +554,7 @@ u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len) {
     if (len != 8) {
         return 1;
     }
-    if (memcmp(message, gPingTimeId, 4) != 0) {
+    if (StructDC_SomeFn_6(message, gPingTimeId, 4) != 0) {
         return 1;
     }
     startTimeBytes = (u8 *) &pingSentTime;
@@ -619,7 +619,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
             return 0;
         }
     }
-    if (len > 2 && memcmp(message, gGti2MagicString, 2) == 0) {
+    if (len > 2 && StructDC_SomeFn_6(message, gGti2MagicString, 2) == 0) {
         hasMagic = TRUE;
     } else {
         hasMagic = FALSE;
@@ -660,7 +660,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         }
         return 1;
     }
-    if (hasMagic != FALSE && len >= 4 && memcmp(message + 2, gGti2MagicString, 2) == 0) {
+    if (hasMagic != FALSE && len >= 4 && StructDC_SomeFn_6(message + 2, gGti2MagicString, 2) == 0) {
         message += 2;
         len -= 2;
         hasMagic = FALSE;
@@ -800,7 +800,7 @@ u32 gti2EndReliableMessage(Gt2Connection *connection) {
     int *messageInfo;
     messageCount = DarrayGetCount(connection->mOutgoingBufferMessages);
     if (messageCount <= 0) {
-        AssertionFailed("len > 0", "gt2Message.c", NULL, 0x475);
+        LogThrowAssertion("len > 0", "gt2Message.c", NULL, 0x475);
     }
     messageInfo = DarrayGetElement(connection->mOutgoingBufferMessages, messageCount + -1);
     checkResult = SendConnectionBytes(connection, connection->mSendBuffer.mData + *messageInfo, messageInfo[1]);
@@ -967,7 +967,7 @@ static inline void CopyUnalignedHalfword(void *destination, const void *source) 
 BOOL gti2SendAppUnreliable(Gt2Connection *connection, u8 *message, int len) {
     int totalLength;
     u8 *start;
-    if (len < 2 || memcmp(message, gGti2MagicString, 2) != 0) {
+    if (len < 2 || StructDC_SomeFn_6(message, gGti2MagicString, 2) != 0) {
         if (SendConnectionBytes(connection, message, len) == 0) {
             return FALSE;
         }

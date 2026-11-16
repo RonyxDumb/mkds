@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-struct DownloadScreenFiles *GetDownloadScreenFiles(void);
+struct DownloadScreenFiles *GetGlobal2DObject(void);

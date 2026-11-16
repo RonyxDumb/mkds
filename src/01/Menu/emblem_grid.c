@@ -30,34 +30,34 @@ void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount) {
     s32 row;
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gEmblemGrid = HeapAllocAligned(heap, sizeof(EmblemGrid), HEAP_ALIGN_CACHE_LINE);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gEmblemGrid = Mem_AllocateHeapAligned(heap, sizeof(EmblemGrid), HEAP_ALIGN_CACHE_LINE);
     gEmblemGrid->mSide = side;
     gEmblemGrid->mScrSide = scrSide;
     gEmblemGrid->mTableCount = tableCount;
-    heap = GetHeap(GetCurrentHeapCall());
-    gEmblemGrid->mTableHalfwordBuffer = HeapAllocAligned(heap, gEmblemGrid->mTableCount * 2, HEAP_ALIGN_CACHE_LINE);
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gEmblemGrid->mTableHalfwordBuffer = Mem_AllocateHeapAligned(heap, gEmblemGrid->mTableCount * 2, HEAP_ALIGN_CACHE_LINE);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     gEmblemGrid->mBuffers[0] =
-        HeapAllocAligned(heap, gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8), HEAP_ALIGN_CACHE_LINE);
-    MI_CpuFill8(gEmblemGrid->mBuffers[0], gEmblemGrid->mSide / 8 * gEmblemGrid->mSide / 8,
+        Mem_AllocateHeapAligned(heap, gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8), HEAP_ALIGN_CACHE_LINE);
+    Mem_CpuFill8(gEmblemGrid->mBuffers[0], gEmblemGrid->mSide / 8 * gEmblemGrid->mSide / 8,
                 gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8));
     for (row = 0; row < gEmblemGrid->mSide / 8; row++) {
         for (column = 0; column < gEmblemGrid->mSide / 8; column++) {
             gEmblemGrid->mBuffers[0][row * gEmblemGrid->mScrSide / 8 + column] = column + row * gEmblemGrid->mSide / 8;
         }
     }
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     gEmblemGrid->mBuffers[1] =
-        HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide + EMBLEM_GRID_TILE_BYTES, HEAP_ALIGN_CACHE_LINE);
-    heap = GetHeap(GetCurrentHeapCall());
+        Mem_AllocateHeapAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide + EMBLEM_GRID_TILE_BYTES, HEAP_ALIGN_CACHE_LINE);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     gEmblemGrid->mBuffers[2] =
-        HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide + EMBLEM_GRID_TILE_BYTES, HEAP_ALIGN_CACHE_LINE);
-    heap = GetHeap(GetCurrentHeapCall());
-    gEmblemGrid->mBuffers[3] = HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide, HEAP_ALIGN_CACHE_LINE);
-    heap = GetHeap(GetCurrentHeapCall());
+        Mem_AllocateHeapAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide + EMBLEM_GRID_TILE_BYTES, HEAP_ALIGN_CACHE_LINE);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gEmblemGrid->mBuffers[3] = Mem_AllocateHeapAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide, HEAP_ALIGN_CACHE_LINE);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     gEmblemGrid->mPointStack =
-        HeapAllocAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide * 2, HEAP_ALIGN_CACHE_LINE);
+        Mem_AllocateHeapAligned(heap, gEmblemGrid->mSide * gEmblemGrid->mSide * 2, HEAP_ALIGN_CACHE_LINE);
 }
 
 u32 GetEmblemGridSide(void) {

@@ -12,14 +12,14 @@
 
 #pragma thumb on
 
-void UncompressLZ8AndStoreRange(const void *source, void *destination, u32 size) {
-    MI_UncompressLZ8(source, destination);
-    DC_StoreRange(destination, size);
+void DecompressLzssAndDCClean_from_thumb(const void *source, void *destination, u32 size) {
+    DecompressLzss(source, destination);
+    DC_SomeClean(destination, size);
 }
 
-void ResetArchiveBuffer(int bufferIndex) {
+void InitializeMountDatas_from_thumb(int bufferIndex) {
     ArchiveBuffer *buffer;
-    buffer = &gArchiveSlots->mBuffers[bufferIndex];
+    buffer = &g_MountManager->mBuffers[bufferIndex];
     buffer->mHeap = NULL;
     buffer->mUnk_08 = buffer->mUnk_08 & (0xe0000000u);
     buffer->mUnk_08 = buffer->mUnk_08 | (0x20000000u);

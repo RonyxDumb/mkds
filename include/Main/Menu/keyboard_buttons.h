@@ -23,7 +23,7 @@ typedef enum KeyboardMessage {
     KEYBOARD_MESSAGE_SAVING = 0x81,
 } KeyboardMessage;
 
-// Results of CheckFriendKeyString: the message of the friend code screen that goes with a rejected key.
+// Results of CheckFriendCode: the message of the friend code screen that goes with a rejected key.
 #define FRIEND_KEY_CHECK_INCORRECT 1
 #define FRIEND_KEY_CHECK_ALREADY_REGISTERED 2
 
@@ -39,9 +39,9 @@ typedef enum KeyboardMessage {
 #define KEYBOARD_NAME_RECT_FIRST_BUTTON 5
 #define KEYBOARD_NAME_RECT_SECOND_BUTTON 6
 
-// Returns the scene number the Keyboard screen asks for (-1 = none yet); UpdateKeyboardScene copies it into
+// Returns the scene number the Keyboard screen asks for (-1 = none yet); Scene_Keyboard_Update_from_thumb copies it into
 // SceneNumbers.mNextScene when it is not -1.
-u32 GetKeyboardNextScene(void);
+u32 GetKeyboardContextNextSceneId_from_thumb(void);
 void WriteKeyboardRegisters(void);
 // Advances the Keyboard screen by one step: takes mNextState as mState, runs the handler of that state
 // (one AdvanceKeyboard handler per KEYBOARD_STATE_* value) and then runs the cell and drawing helpers of the screen.
@@ -53,36 +53,36 @@ void ShowKeyboardDisabledButtonObjects(void);
 void ShowKeyboardCursorButtonObjects(void);
 void PrintKeyboardTextChars(void);
 // Handler of KEYBOARD_STATE_ASK_EMBLEM.
-void AdvanceKeyboardAskEmblem(void);
+void Keyboard_SwitchFn13_from_thumb(void);
 // Handler of KEYBOARD_STATE_WAIT_BACKUP.
-void AdvanceKeyboardWaitBackup(void);
+void Keyboard_SwitchFn12_from_thumb(void);
 // Handler of KEYBOARD_STATE_SHOW_SAVING.
-void AdvanceKeyboardShowSaving(void);
+void Keyboard_SwitchFn11_from_thumb(void);
 // Handler of KEYBOARD_STATE_ANSWER_CONFIRM.
-void AdvanceKeyboardAnswerConfirm(void);
+void Keyboard_SwitchFn10_from_thumb(void);
 // Handler of KEYBOARD_STATE_SLIDE_IN_CONFIRM.
-void AdvanceKeyboardSlideInConfirm(void);
+void Keyboard_SwitchFn9_from_thumb(void);
 // Handler of KEYBOARD_STATE_SLIDE_OUT_NAME.
-void AdvanceKeyboardSlideOutName(void);
+void Keyboard_SwitchFn8_from_thumb(void);
 // Handler of KEYBOARD_STATE_ENTER_NAME.
-void AdvanceKeyboardEnterName(void);
+void Keyboard_SwitchFn7_from_thumb(void);
 // Handler of KEYBOARD_STATE_SLIDE_IN_NAME.
-void AdvanceKeyboardSlideInName(void);
+void Keyboard_SwitchFn6_from_thumb(void);
 void UpdateKeyboardNameButtons(void);
 
 // Handler of KEYBOARD_STATE_WAIT_FADE_NAME.
-void AdvanceKeyboardWaitFadeName(void);
+void Keyboard_SwitchFn5_from_thumb(void);
 // Handler of KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR.
-void AdvanceKeyboardShowFriendKeyError(void);
+void Keyboard_SwitchFn4_from_thumb(void);
 // Handler of KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY.
-void AdvanceKeyboardSlideOutFriendKey(void);
+void Keyboard_SwitchFn3_from_thumb(void);
 // Handler of KEYBOARD_STATE_ENTER_FRIEND_KEY.
-void AdvanceKeyboardEnterFriendKey(void);
+void Keyboard_SwitchFn2_from_thumb(void);
 // Handler of KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY.
-void AdvanceKeyboardSlideInFriendKey(void);
+void Keyboard_SwitchFn1_from_thumb(void);
 void UpdateKeyboardFriendKeyButtons(void);
 // Handler of KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY.
-void AdvanceKeyboardWaitFadeFriendKey(void);
+void Keyboard_SwitchFn0_from_thumb(void);
 void InitKeyboardDisplay(void);
 
 void LoadKeyboardFiles(void);
@@ -90,7 +90,7 @@ void QueueKeyboardScreenMap(void);
 
 void WriteKeyboardObjectOffsets(void);
 
-// Releases the helper objects of the Keyboard screen and clears gKeyboard; the memory is freed with the scene heap.
+// Releases the helper objects of the Keyboard screen and clears g_KeyboardContext; the memory is freed with the scene heap.
 void ReleaseKeyboard(void);
 
 void PrintKeyboardButtonTexts(void);
@@ -100,18 +100,18 @@ void SetKeyboardTextFromFriendKey(void);
 void SetKeyboardTextFromName(void);
 void SetKeyboardTextFromPlayerName(void);
 void CopyKeyboardTextAsBytes(void);
-void InitKeyboard(void *heap, s32 mode);
+void InitializeKeyboardContext_from_thumb(void *heap, s32 mode);
 
 void SetKeyboardButtonCorners(void);
 
 BOOL IsLocateFriendOnWithBuddyStatus4(void);
 void InitKeyboardLabelCanvases(void);
 
-extern Keyboard *gKeyboard;
+extern Keyboard *g_KeyboardContext;
 
 extern const u8 gKeyboardKindEntryCounts[2];
 extern const u8 gKeyboardKindEntryIndices[2][1];
-extern const u8 gKeyboardTextLimits[2];
+extern const u8 g_KeyboardMaxSizeArray[2];
 extern const u8 gKeyboardButtonLabelIndices[2][2];
 extern const u8 gKeyboardLayoutEntryIndices[6];
 extern const u8 gKeyboardRemainingEntryIndices[6];

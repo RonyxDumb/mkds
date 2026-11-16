@@ -2,5 +2,5 @@
 #include "Main/System/backup_net_camera_work.h"
 
 void ClearRequestPending(WirelessMessage *event) {
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mRequestPending = 0;
 }

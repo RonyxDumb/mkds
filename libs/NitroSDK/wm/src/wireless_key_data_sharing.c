@@ -31,12 +31,12 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
     WMDataSet *block;
 
     readyMembers = 1;
-    status = WMi_GetSystemWork()->mStatusArea;
+    status = Wm_GetGlobal()->mStatusArea;
     result = WMi_CheckStateEx(2, 9, 10);
     if (result != 0) {
         return result;
     }
-    DC_InvalidateRange(&status->mMpFlag, 4);
+    DC_InvalidateRangeNoClean(&status->mMpFlag, 4);
     if (status->mMpFlag == 0) {
         return 3;
     }
@@ -49,10 +49,10 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
     if (aidBitmap == 0) {
         return 6;
     }
-    DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+    DC_InvalidateRangeNoClean(&status->mOwnMemberIndex, 2);
     ownIndex = status->mOwnMemberIndex;
     if (ownIndex == 0) {
-        DC_InvalidateRange(&status->mMpReadyBitmap, 2);
+        DC_InvalidateRangeNoClean(&status->mMpReadyBitmap, 2);
         readyMembers = status->mMpReadyBitmap;
     }
     MemFillWordsByBlock_inline(dsInfo, 0x820);
@@ -65,7 +65,7 @@ int WM_StartDataSharing(WMDataSharingInfo *dsInfo, u16 port, u16 aidBitmap, u16 
     dsInfo->mDoubleMode = doubleMode != 0;
     mask = aidBitmap | (1 << ownIndex);
     dsInfo->mMemberMask = mask;
-    count = CountSetBits(mask);
+    count = Math_CountPopulation(mask);
     dsInfo->mStationNumber = count;
     dsInfo->mDataSetLength = dataLength * count;
     if (dsInfo->mDataSetLength > WIRELESS_DATA_SHARING_MAX_SET_LENGTH) {
@@ -105,7 +105,7 @@ int WM_EndDataSharing(WMDataSharingInfo *dsInfo) {
     WirelessPortCallback registered;
     int result;
 
-    work = WMi_GetSystemWork();
+    work = Wm_GetGlobal();
     result = WMi_CheckStateEx(2, 9, 10);
     if (result != 0) {
         return result;
@@ -139,12 +139,12 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
     u16 previous;
     u8 *outgoing;
 
-    status = WMi_GetSystemWork()->mStatusArea;
+    status = Wm_GetGlobal()->mStatusArea;
     result = WMi_CheckStateEx(2, 9, 10);
     if (result != 0) {
         return result;
     }
-    DC_InvalidateRange(&status->mMpFlag, 4);
+    DC_InvalidateRangeNoClean(&status->mMpFlag, 4);
     if (status->mMpFlag == 0) {
         return 3;
     }
@@ -157,10 +157,10 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
     if (receiveData == 0) {
         return 6;
     }
-    DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+    DC_InvalidateRangeNoClean(&status->mOwnMemberIndex, 2);
     ownIndex = status->mOwnMemberIndex;
     if (ownIndex == 0) {
-        DC_InvalidateRange(&status->mMpReadyBitmap, 2);
+        DC_InvalidateRangeNoClean(&status->mMpReadyBitmap, 2);
         readyMembers = status->mMpReadyBitmap;
     }
     mode = dsInfo->mStatus;
@@ -194,7 +194,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
         }
         if (dsInfo->mReadIndex != dsInfo->mSendIndex) {
             dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap |= 1;
-            MIi_CpuCopy16(&dsInfo->mDs[dsInfo->mReadIndex], receiveData, 0x200);
+            CopyMemory16(&dsInfo->mDs[dsInfo->mReadIndex], receiveData, 0x200);
             dsInfo->mCurrentSeqNum = dsInfo->mSeqNum[dsInfo->mReadIndex];
             dsInfo->mReadIndex = (dsInfo->mReadIndex + 1) & 3;
             delivered = 1;
@@ -221,7 +221,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
             if ((dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap & 1) == 0) {
                 dsInfo->mDs[dsInfo->mReadIndex].mAidBitmap |= 1;
             } else {
-                MIi_CpuCopy16(&dsInfo->mDs[dsInfo->mReadIndex], receiveData, 0x200);
+                CopyMemory16(&dsInfo->mDs[dsInfo->mReadIndex], receiveData, 0x200);
                 dsInfo->mCurrentSeqNum = dsInfo->mSeqNum[dsInfo->mReadIndex];
                 dsInfo->mReadIndex = (dsInfo->mReadIndex + 1) & 3;
                 sendOwn = 1;
@@ -230,7 +230,7 @@ int WM_StepDataSharing(WMDataSharingInfo *dsInfo, void *sendData, WMDataSet *rec
         }
         if (sendOwn != 0) {
             outgoing = &dsInfo->mDs[dsInfo->mSendIndex].mData[0x1c];
-            MIi_CpuCopy16(sendData, outgoing, dsInfo->mMemberDataSize);
+            CopyMemory16(sendData, outgoing, dsInfo->mMemberDataSize);
             sendResult = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, outgoing, dsInfo->mMemberDataSize,
                                               dsInfo->mMemberMask, dsInfo->mPort, 1);
             dsInfo->mSendIndex = (dsInfo->mSendIndex + 1) & 3;
@@ -255,7 +255,7 @@ void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
     u32 code;
     u32 ownIndex;
 
-    work = WMi_GetSystemWork();
+    work = Wm_GetGlobal();
     status = work->mStatusArea;
     registered = work->mPortCallbacks[callback->mPort];
     share = work->mPortCallbackArgs[callback->mPort];
@@ -268,7 +268,7 @@ void WmDataSharingSetDataCallback(PortSendCallbackMessage *callback) {
     if (share != callback->mDataSharingInfo) {
         return;
     }
-    DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+    DC_InvalidateRangeNoClean(&status->mOwnMemberIndex, 2);
     code = callback->mResultCode;
     ownIndex = status->mOwnMemberIndex;
     if (code == 0) {
@@ -317,7 +317,7 @@ void WmDataSharingReceiveCallback_Parent(void *portMessage) {
             case WIRELESS_STATE_UNLINKED:
                 member = callback->mAid;
                 bit = 1;
-                enabled = OS_DisableInterrupts();
+                enabled = Os_DisableIrq();
                 current = share->mWriteIndex;
                 mask = ~(bit << member);
                 share->mDs[current].mAidBitmap &= mask;
@@ -325,7 +325,7 @@ void WmDataSharingReceiveCallback_Parent(void *portMessage) {
                     next = (current + 1) & 3;
                     share->mDs[next].mAidBitmap &= mask;
                 }
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 WmDataSharingSendDataSet(share, 0);
                 if (share->mDoubleMode == 1) {
                     WmDataSharingSendDataSet(share, 0);
@@ -347,7 +347,7 @@ void WmDataSharingReceiveCallback_Child(void *portMessage) {
     u32 ownIndex;
     u16 *data;
 
-    status = WMi_GetSystemWork()->mStatusArea;
+    status = Wm_GetGlobal()->mStatusArea;
     share = callback->mArg;
     if (share == 0) {
         return;
@@ -365,7 +365,7 @@ void WmDataSharingReceiveCallback_Child(void *portMessage) {
         data = callback->mData;
         blockMask = *data;
         size = callback->mLength;
-        DC_InvalidateRange(&status->mOwnMemberIndex, 2);
+        DC_InvalidateRangeNoClean(&status->mOwnMemberIndex, 2);
         ownIndex = status->mOwnMemberIndex;
         if (size != share->mDataSetLength) {
             if (size > 0x200) {
@@ -378,7 +378,7 @@ void WmDataSharingReceiveCallback_Child(void *portMessage) {
         if ((blockMask & (1 << ownIndex)) == 0) {
             return;
         }
-        MIi_CpuCopy16(data, &share->mDs[share->mWriteIndex], size);
+        CopyMemory16(data, &share->mDs[share->mWriteIndex], size);
         share->mSeqNum[share->mWriteIndex] = callback->mSeqNo >> 1;
         share->mWriteIndex = (share->mWriteIndex + 1) & 3;
     } else {
@@ -410,15 +410,15 @@ void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u32 aid, const void *da
     }
     target = WmGetSharedDataAddress(dsInfo, dsInfo->mMemberMask, dsInfo->mDs[block].mData, aid);
     if (data != 0) {
-        MIi_CpuCopy16(data, target, dsInfo->mMemberDataSize);
+        CopyMemory16(data, target, dsInfo->mMemberDataSize);
     } else {
         zero = 0;
-        MIi_CpuClear16(zero, target, dsInfo->mMemberDataSize);
+        Mem_CpuFill16(zero, target, dsInfo->mMemberDataSize);
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     dsInfo->mDs[block].mAidBitmap &= ~mask;
     dsInfo->mDs[block].mArrivedMembers |= mask;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // When the current data set is complete, makes the next one current and sends the finished one to the other stations.
@@ -432,10 +432,10 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
     int result;
     volatile u16 zero;
 
-    status = WMi_GetSystemWork()->mStatusArea;
-    enabled = OS_DisableInterrupts();
+    status = Wm_GetGlobal()->mStatusArea;
+    enabled = Os_DisableIrq();
     if (dsInfo->mDs[dsInfo->mWriteIndex].mAidBitmap == 0) {
-        DC_InvalidateRange(&status->mMpReadyBitmap, 2);
+        DC_InvalidateRangeNoClean(&status->mMpReadyBitmap, 2);
         done = dsInfo->mWriteIndex;
         ready = status->mMpReadyBitmap;
         next = (done + 1) & 3;
@@ -445,14 +445,14 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
             ahead = next;
         }
         zero = 0;
-        MIi_CpuClear16(zero, &dsInfo->mDs[ahead], 0x200);
+        Mem_CpuFill16(zero, &dsInfo->mDs[ahead], 0x200);
         dsInfo->mDs[ahead].mAidBitmap = dsInfo->mMemberMask & (ready | 1);
         dsInfo->mWriteIndex = next;
         dsInfo->mDs[done].mAidBitmap = dsInfo->mMemberMask;
         if (delayed == 1) {
             dsInfo->mDs[done].mAidBitmap &= ~1;
         }
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         result = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, &dsInfo->mDs[done], dsInfo->mDataSetLength,
                                       dsInfo->mMemberMask & ready, dsInfo->mPort, 1);
         if (result == 7) {
@@ -464,7 +464,7 @@ void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, u32 delayed) {
             }
         }
     } else {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
     }
 }
 
@@ -494,5 +494,5 @@ u8 *WM_GetSharedDataAddress(WMDataSharingInfo *dsInfo, WMDataSet *receiveData, u
 
 // Returns the data of station aid in receiveBuf: the data of the stations in aidBitmap that come before it are skipped.
 u8 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u8 *receiveBuf, u32 aid) {
-    return receiveBuf + dsInfo->mMemberDataSize * CountSetBits(aidBitmap & ((1 << aid) - 1));
+    return receiveBuf + dsInfo->mMemberDataSize * Math_CountPopulation(aidBitmap & ((1 << aid) - 1));
 }

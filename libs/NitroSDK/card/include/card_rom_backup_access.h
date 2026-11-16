@@ -8,13 +8,13 @@ typedef void (*CARDCallback)(void *arg);
 typedef struct CARDRomStat CARDRomStat;
 typedef void (*CARDRomReadFunc)(CARDRomStat *romStat);
 
-// Two words read as a pair: fsi_ovt9, fsi_ovt7 and the tables in the ROM header.
+// Two words read as a pair: g_Overlay9, g_Overlay7 and the tables in the ROM header.
 typedef struct CARDRomRegion {
     /* 00 */ u8 *mOffset;
     /* 04 */ u32 mLength;
 } CARDRomRegion;
 
-// The start of the ROM header, the part FS_ReadFile reads to find the file tables.
+// The start of the ROM header, the part Fs_File_Read reads to find the file tables.
 typedef struct RomHeaderStart {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u32 mMainRomOffset;
@@ -179,31 +179,31 @@ typedef struct CARDRomStat {
     /* 20 */ u32 mCacheBuf[0x80];
 } CARDRomStat;
 
-// Added to the offset of every ROM read in CARDi_ReadRom; CARD_Init writes 0 and nothing else writes it.
-extern u32 gRomBaseOffset;
-extern CARDRomStat gRomReadState;
+// Added to the offset of every ROM read in CARDi_ReadRom; Card_Initialize writes 0 and nothing else writes it.
+extern u32 g_SomeOffsetBase;
+extern CARDRomStat g_Card_RomContext;
 
-void CARDi_InitCommon(void);
-void CARDi_UnlockResource(u32 owner, u32 target);
-void CARDi_LockResource(u32 owner, u32 target);
-void CARDi_SetTask(void (*task)(CARDiCommon *));
+void Card_InitializeContext(void);
+void Card_UnlockResource(u32 owner, u32 target);
+void Card_LockResource(u32 owner, u32 target);
+void Card_SetTask(void (*task)(CARDiCommon *));
 void CARDi_IdentifyBackupCore(s32 type);
-int CARD_TryWaitBackupAsync(void);
-int CARD_WaitBackupAsync(void);
-int CARD_IdentifyBackup(s32 type);
-int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
+int CardIsNotBusy(void);
+int j_WaitForPendingCardOperation(void);
+int MaybeInitializeBackup(s32 type);
+int Card_RequestStreamCommand(u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync,
                                u32 reqType, u32 reqRetry, u32 reqMode);
-void CARDi_RequestStreamCommandCore(CARDiCommon *common);
-CARDRomReadFunc CARDi_GetRomAccessor(void);
-int CARD_WaitRomAsync(void);
-void CARD_Init(void);
+void Card_BackupCommandTask(CARDiCommon *common);
+CARDRomReadFunc Card_GetRomAccessFunction(void);
+int j_WaitForPendingCardOperation_0(void);
+void Card_Initialize(void);
 void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, CARDCallback callback, void *callbackArg, u32 isAsync);
 void CARDi_ReadRomSyncCore(CARDiCommon *taskCommon);
-void CARDi_ReadCard(CARDRomStat *romStat);
-int CARDi_TryReadCardDma(CARDRomStat *romStat);
-void CARDi_OnReadCard(void);
-void CARDi_SetCardDma(void);
-void CARDi_SetRomOp(u32 cmd1, u32 cmd2);
-int CARDi_ReadFromCache(CARDRomStat *romStat);
-int CARDi_Request(CARDiCommon *common, int reqType, int retryCount);
-void CARDi_TaskThread(void *arg);
+void Card_DefaultRomAccess(CARDRomStat *romStat);
+int StructSZ_SomeFn(CARDRomStat *romStat);
+void CardIRQHandler(void);
+void MaybeGamecardTransferSY(void);
+void Card_WriteRomOperation(u32 cmd1, u32 cmd2);
+int GlobalSZ_SomeFn(CARDRomStat *romStat);
+int Card_Request(CARDiCommon *common, int reqType, int retryCount);
+void Card_ContextThreadMain(void *arg);

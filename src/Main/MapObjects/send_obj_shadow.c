@@ -111,9 +111,9 @@ void CreateObjShadowAndJgShadow(void) {
     NNSG3dResShp *resShp;
     NNSG3dResDictEntryHeader *entries;
 
-    CreateNsbmd(&gObjShadow, FindMainRaceOrMainEffectMapObjFile("obj_shadow.nsbmd"), NULL);
-    SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
-    SetNsbmdLightEnableFlagAll(gObjShadow, 0);
+    CreateNsbmd(&gObjShadow, FormatFindMapObjFileBuffer_0_from_thumb("obj_shadow.nsbmd"), NULL);
+    StructML_MaybeProcessModelAnimations(gObjShadow, 0x3f);
+    StructML_SomeFn_8(gObjShadow, 0);
     resMdl = gObjShadow->mResMdl;
     resMat = OFFSET_PTR(NNSG3dResMat, resMdl, resMdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resMat->mDict, resMat->mDict.mOfsEntry);
@@ -122,8 +122,8 @@ void CreateObjShadowAndJgShadow(void) {
     resShp = OFFSET_PTR(NNSG3dResShp, resMdl, resMdl->mOfsShp);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &resShp->mDict, resShp->mDict.mOfsEntry);
     gObjShadowShape = OFFSET_PTR(NNSG3dResShpData, resShp, *DICT_ENTRY(u32, entries, 0));
-    if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        CreateShadowModel(&gJgShadow, FindSceneFile("jg_shadow.nsbmd"), 0x3f);
+    if (g_GlobalCO->mRaceKind != RACE_KIND_STAFF_ROLL) {
+        CreateShadowModel(&gJgShadow, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("jg_shadow.nsbmd"), 0x3f);
     }
 }
 

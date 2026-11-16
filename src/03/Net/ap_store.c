@@ -25,8 +25,8 @@ void CreateApStore(void) {
     ApStore *store;
     store = AllocExpHeapBlock(0x6f8, HEAP_ALIGN_CACHE_LINE);
     gApStore = store;
-    Crc16InitTable(&store->mWorkCopy.mCrcTable, 0xa001);
-    ReadNvramEntries(gApStore);
+    SomeHashing(&store->mWorkCopy.mCrcTable, 0xa001);
+    StructDC_SomeFn_1_from_thumb(gApStore);
 }
 
 void ReleaseApStore(void) {
@@ -46,7 +46,7 @@ void SetApWorkDnsNone(u32 dnsNone) {
 }
 
 void StoreApWorkSsid(const u8 *ssid) {
-    MI_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsids[0], sizeof(gApStore->mWorkCopy.mEntry.mSsids[0]));
+    Mem_CpuCopy8(ssid, gApStore->mWorkCopy.mEntry.mSsids[0], sizeof(gApStore->mWorkCopy.mEntry.mSsids[0]));
     gApStore->mWorkCopy.mEntry.mSetType = AP_SET_TYPE_ENTERED;
 }
 
@@ -54,7 +54,7 @@ void StoreApWorkWepKey(const u8 *text) {
     s32 charIndex;
     s32 textLength;
     u8 *keyCursor;
-    MI_CpuFill8(gApStore->mWorkCopy.mEntry.mWepKeys[0], 0, sizeof(gApStore->mWorkCopy.mEntry.mWepKeys[0]));
+    Mem_CpuFill8(gApStore->mWorkCopy.mEntry.mWepKeys[0], 0, sizeof(gApStore->mWorkCopy.mEntry.mWepKeys[0]));
     textLength = GetStringLengthWithLimit(text, 0x20);
     switch (textLength) {
         case 0:
@@ -72,7 +72,7 @@ void StoreApWorkWepKey(const u8 *text) {
             break;
         default:
             gApStore->mWorkCopy.mEntry.mWepNotation = 1;
-            MI_CpuCopy8(text, gApStore->mWorkCopy.mEntry.mWepKeys[0], sizeof(gApStore->mWorkCopy.mEntry.mWepKeys[0]));
+            Mem_CpuCopy8(text, gApStore->mWorkCopy.mEntry.mWepKeys[0], sizeof(gApStore->mWorkCopy.mEntry.mWepKeys[0]));
             break;
     }
     switch (textLength) {
@@ -114,7 +114,7 @@ void StoreApWorkDnsSecondText(const char *input) {
 }
 
 void CopyApWorkSsid(void *output) {
-    MI_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsids[0], output, sizeof(gApStore->mWorkCopy.mEntry.mSsids[0]));
+    Mem_CpuCopy8(gApStore->mWorkCopy.mEntry.mSsids[0], output, sizeof(gApStore->mWorkCopy.mEntry.mSsids[0]));
 }
 
 void FormatApWorkIpText(char *output) {
@@ -124,7 +124,7 @@ void FormatApWorkIpText(char *output) {
     const char *format = gAddressTextFormat;
     u32 firstByte = (addressBytes[0]);
     u32 secondByte = (addressBytes[1]);
-    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
+    u32 length = MaybeUtil_SPrintF(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
 void FormatApWorkNetmaskText(char *output) {
@@ -134,7 +134,7 @@ void FormatApWorkNetmaskText(char *output) {
     const char *format = gAddressTextFormat;
     u32 firstByte = (addressBytes[0]);
     u32 secondByte = (addressBytes[1]);
-    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
+    u32 length = MaybeUtil_SPrintF(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
 void FormatApWorkGatewayText(char *output) {
@@ -144,7 +144,7 @@ void FormatApWorkGatewayText(char *output) {
     const char *format = gAddressTextFormat;
     u32 firstByte = (addressBytes[0]);
     u32 secondByte = (addressBytes[1]);
-    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
+    u32 length = MaybeUtil_SPrintF(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
 void FormatApWorkDnsFirstText(char *output) {
@@ -154,7 +154,7 @@ void FormatApWorkDnsFirstText(char *output) {
     const char *format = gAddressTextFormat;
     u32 firstByte = (addressBytes[0]);
     u32 secondByte = (addressBytes[1]);
-    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
+    u32 length = MaybeUtil_SPrintF(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
 void FormatApWorkDnsSecondText(char *output) {
@@ -164,7 +164,7 @@ void FormatApWorkDnsSecondText(char *output) {
     const char *format = gAddressTextFormat;
     u32 firstByte = (addressBytes[0]);
     u32 secondByte = (addressBytes[1]);
-    u32 length = OS_SPrintf(output, format, firstByte, secondByte, thirdByte, fourthByte);
+    u32 length = MaybeUtil_SPrintF(output, format, firstByte, secondByte, thirdByte, fourthByte);
 }
 
 u8 GetApEntrySetType(int entryIndex) {
@@ -176,12 +176,12 @@ void CopyApEntryToWorkCopy(s32 entryIndex) {
     ApEntry *entry = &store->mPages[entryIndex].mEntry;
     store->mWorkCopy.mEntry = *entry;
     store->mWorkCopy.mEntryIndex = entryIndex;
-    if (memcmp(entry->mIp, gSettingNone, 4) != 0) {
+    if (StructDC_SomeFn_6(entry->mIp, gSettingNone, 4) != 0) {
         gApStore->mWorkCopy.mIpNone = 0;
     } else {
         gApStore->mWorkCopy.mIpNone = 1;
     }
-    if (memcmp(entry->mDns, gSettingNone, 4) != 0 || memcmp(entry->mDns + 4, gSettingNone, 4) != 0) {
+    if (StructDC_SomeFn_6(entry->mDns, gSettingNone, 4) != 0 || StructDC_SomeFn_6(entry->mDns + 4, gSettingNone, 4) != 0) {
         gApStore->mWorkCopy.mDnsNone = 0;
     } else {
         gApStore->mWorkCopy.mDnsNone = 1;
@@ -194,18 +194,18 @@ void WriteApWorkCopy(void) {
     ApEntry *entry = &gApStore->mPages[workCopy->mEntryIndex].mEntry;
     *entry = workCopy->mEntry;
     if (workCopy->mIpNone != 0) {
-        MI_CpuFill8(entry->mIp, 0, 4);
-        MI_CpuFill8(entry->mGateway, 0, 4);
+        Mem_CpuFill8(entry->mIp, 0, 4);
+        Mem_CpuFill8(entry->mGateway, 0, 4);
         entry->mNetmaskCidr = 0;
     } else {
-        MI_CpuCopy8(workCopy->mEntry.mIp, entry->mIp, 4);
-        MI_CpuCopy8(workCopy->mEntry.mGateway, entry->mGateway, 4);
+        Mem_CpuCopy8(workCopy->mEntry.mIp, entry->mIp, 4);
+        Mem_CpuCopy8(workCopy->mEntry.mGateway, entry->mGateway, 4);
         entry->mNetmaskCidr = DWCi_BACKUPlConvMaskCidr(workCopy->mNetmask);
     }
     if (workCopy->mDnsNone != 0) {
-        MI_CpuFill8(entry->mDns, 0, 8);
+        Mem_CpuFill8(entry->mDns, 0, 8);
     } else {
-        MI_CpuCopy8(workCopy->mEntry.mDns, entry->mDns, 8);
+        Mem_CpuCopy8(workCopy->mEntry.mDns, entry->mDns, 8);
     }
     WriteApEntryToNvram(workCopy->mEntryIndex);
 }
@@ -217,8 +217,8 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     const u8 *sourceKey;
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
-    MI_CpuFill8(workCopy, 0, sizeof(ApEntry) - 1);
-    MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsids[0], sizeof(workCopy->mEntry.mSsids[0]));
+    Mem_CpuFill8(workCopy, 0, sizeof(ApEntry) - 1);
+    Mem_CpuCopy8(exchangeResult, workCopy->mEntry.mSsids[0], sizeof(workCopy->mEntry.mSsids[0]));
     switch (exchangeResult->mKind) {
         case AP_WEP_MODE_KEY_5_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
@@ -242,12 +242,12 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     destinationKey = workCopy->mEntry.mWepKeys[0];
     sourceKey = exchangeResult->mValueBytes[0];
     for (; entryIndex < 4; entryIndex++) {
-        MI_CpuCopy8(sourceKey, destinationKey, keyLength);
+        Mem_CpuCopy8(sourceKey, destinationKey, keyLength);
         destinationKey += 0x10;
         sourceKey += 0x20;
     }
     workCopy->mEntry.mSetType = AP_SET_TYPE_EXCHANGED;
-    MI_CpuFill8(workCopy->mNetmask, 0, 4);
+    Mem_CpuFill8(workCopy->mNetmask, 0, 4);
     workCopy->mIpNone = 1;
     workCopy->mDnsNone = 1;
     WriteApWorkCopy();
@@ -267,65 +267,65 @@ void WriteApWorkFromAossResult(int response) {
     firstArg = (recordBase) + (0u);
     secondArg = 0u;
     thirdArg = 239u;
-    MI_CpuFill8((void *) firstArg, secondArg, thirdArg);
+    Mem_CpuFill8((void *) firstArg, secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 209u;
     thirdArg = 5u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (6u);
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 214u;
     thirdArg = 5u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 12u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 219u;
     thirdArg = 5u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 18u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 224u;
     thirdArg = 5u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 24u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 96u;
     thirdArg = 32u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 57u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 128u;
     thirdArg = 13u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 71u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 144u;
     thirdArg = 13u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 85u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 160u;
     thirdArg = 13u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (responseBase) + (0u);
     firstArg = (firstArg) + 99u;
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 176u;
     thirdArg = 13u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     responseBase = (responseBase) + 113u;
     firstArg = (responseBase) + (0u);
     secondArg = (recordBase) + (0u);
     secondArg = (secondArg) + 64u;
     thirdArg = 32u;
-    MI_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
+    Mem_CpuCopy8((const void *) firstArg, (void *) secondArg, thirdArg);
     firstArg = (recordBase) + (0u);
     firstArg = (firstArg) + 230u;
     secondArg = *(const u8 *) ((firstArg) + 0u);
@@ -352,7 +352,7 @@ void WriteApWorkFromAossResult(int response) {
     firstArg = (firstArg) + 240u;
     secondArg = 0u;
     thirdArg = 4u;
-    MI_CpuFill8((void *) firstArg, secondArg, thirdArg);
+    Mem_CpuFill8((void *) firstArg, secondArg, thirdArg);
     secondArg = 1u;
     firstArg = (recordBase) + (0u);
     firstArg = (firstArg) + 245u;
@@ -369,7 +369,7 @@ struct ApStore *GetApStore(void) {
 void ResetApEntry(int entryIndex) {
     ApEntry *entry;
     entry = &gApStore->mPages[entryIndex].mEntry;
-    MI_CpuFill8(entry, 0, sizeof(ApEntry) - 1);
+    Mem_CpuFill8(entry, 0, sizeof(ApEntry) - 1);
     entry->mSetType = AP_SET_TYPE_EMPTY;
     WriteApEntryToNvram(entryIndex);
 }
@@ -379,14 +379,14 @@ void ResetApEntries(void) {
     DWCWiFiInfo wifiInfo;
     u8 *packedWifiInfo;
     s32 entryIndex;
-    MIi_CpuClear16(zeroValue, gApStore, 0x400);
+    Mem_CpuFill16(zeroValue, gApStore, 0x400);
     for (entryIndex = 0; entryIndex < 3; entryIndex++) {
         gApStore->mPages[entryIndex].mEntry.mSetType = AP_SET_TYPE_EMPTY;
     }
-    DWCi_AUTH_GetNewWiFiInfo(&wifiInfo);
-    packedWifiInfo = DWCi_BACKUPlConvWifiInfo(&wifiInfo);
+    StructDW_SomeFn_from_thumb(&wifiInfo);
+    packedWifiInfo = StructDW_SomeFn_2_from_thumb(&wifiInfo);
     for (entryIndex = 0; entryIndex < 2; entryIndex++) {
-        MI_CpuCopy8(packedWifiInfo, gApStore->mPages[entryIndex].mPackedWiFiInfo, 0xe);
+        Mem_CpuCopy8(packedWifiInfo, gApStore->mPages[entryIndex].mPackedWiFiInfo, 0xe);
     }
     for (entryIndex = 0; entryIndex < 4; entryIndex++) {
         WriteApEntryToNvram(entryIndex);
@@ -401,7 +401,7 @@ void WriteApEntryToNvram(s32 entryIndex) {
     void *workBuffer;
     ApStore *store;
     s32 slotIndex;
-    MI_CpuFill8(entryFlags, 0, sizeof(entryFlags));
+    Mem_CpuFill8(entryFlags, 0, sizeof(entryFlags));
     entryFlags[entryIndex] = 1;
     if (entryIndex <= 2) {
         store = gApStore;
@@ -436,9 +436,9 @@ void ParseAddressText(const char *input, u8 *output) {
     s32 groupIndex;
     s32 charIndex;
     u8 *cursor;
-    MI_CpuFill8(group, 0, 4);
+    Mem_CpuFill8(group, 0, 4);
     for (groupIndex = 0; groupIndex < 4; groupIndex++) {
-        MI_CpuCopy8(input + groupIndex * 3, group, 3);
+        Mem_CpuCopy8(input + groupIndex * 3, group, 3);
         charIndex = 0;
         cursor = group;
         for (; charIndex < 3; charIndex++) {

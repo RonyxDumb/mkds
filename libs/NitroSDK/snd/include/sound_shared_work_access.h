@@ -20,8 +20,8 @@ typedef struct SNDSharedWork {
 
 extern SNDSharedWork *SNDi_SharedWork;
 
-u32 SNDi_IncAlarmId(u32 alarmNo);
-void SND_AlarmInit(void);
+u32 IncreaseMDCounter(u32 alarmNo);
+void Sound_InitializeAlarms(void);
 void SNDi_InitSharedWork(SNDSharedWork *work);
 u32 SNDi_GetFinishedCommandTag(void);
 s16 SND_GetPlayerLocalVariable(s32 playerNo, s32 varNo);

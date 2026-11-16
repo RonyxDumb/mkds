@@ -22,10 +22,10 @@ int WM_SetWEPKey(WirelessMessageCallback callback, u32 wepmode, void *wepkey) {
         if (wepkey == 0) {
             return 6;
         }
-        DC_StoreRange(wepkey, 0x50);
+        DC_SomeClean(wepkey, 0x50);
     }
-    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_BASIC_CIPHER_KEY, callback);
-    result = WMi_SendCommand(WIRELESS_REQUEST_SET_BASIC_CIPHER_KEY, 2, wepmode, wepkey);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_SET_BASIC_CIPHER_KEY, callback);
+    result = WM_SomeFn(WIRELESS_REQUEST_SET_BASIC_CIPHER_KEY, 2, wepmode, wepkey);
     if (result == 0) {
         result = 2;
     }
@@ -47,10 +47,10 @@ int WM_SetWEPKeyEx(WirelessMessageCallback callback, u16 wepmode, u16 wepkeyid, 
         if (wepkey == 0) {
             return 6;
         }
-        DC_StoreRange(wepkey, 0x50);
+        DC_SomeClean(wepkey, 0x50);
     }
-    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_CIPHER_KEY, callback);
-    result = WMi_SendCommand(WIRELESS_REQUEST_SET_CIPHER_KEY, 3, wepmode, wepkey, wepkeyid);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_SET_CIPHER_KEY, callback);
+    result = WM_SomeFn(WIRELESS_REQUEST_SET_CIPHER_KEY, 3, wepmode, wepkey, wepkeyid);
     if (result == 0) {
         result = 2;
     }
@@ -72,11 +72,11 @@ int WM_SetGameInfo(WirelessMessageCallback callback, const void *userGameInfo, u
     if (userGameInfoSize > 0x70) {
         return 6;
     }
-    MIi_CpuCopy16(userGameInfo, tmpUserGameInfoBuf, userGameInfoSize);
-    DC_StoreRange(tmpUserGameInfoBuf, userGameInfoSize);
-    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_HOST_ADVERT, callback);
+    CopyMemory16(userGameInfo, tmpUserGameInfoBuf, userGameInfoSize);
+    DC_SomeClean(tmpUserGameInfoBuf, userGameInfoSize);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_SET_HOST_ADVERT, callback);
     result =
-        WMi_SendCommand(WIRELESS_REQUEST_SET_HOST_ADVERT, 5, tmpUserGameInfoBuf, userGameInfoSize, ggid, tgid, attr);
+        WM_SomeFn(WIRELESS_REQUEST_SET_HOST_ADVERT, 5, tmpUserGameInfoBuf, userGameInfoSize, ggid, tgid, attr);
     if (result == 0) {
         result = 2;
     }
@@ -94,8 +94,8 @@ int WM_SetBeaconIndication(WirelessMessageCallback callback, u16 flag) {
     if (flag != 0 && flag != 1) {
         return 6;
     }
-    WMi_SetCallbackTable(WIRELESS_REQUEST_WATCH_BEACONS, callback);
-    result = WMi_SendCommand(WIRELESS_REQUEST_WATCH_BEACONS, 1, flag);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_WATCH_BEACONS, callback);
+    result = WM_SomeFn(WIRELESS_REQUEST_WATCH_BEACONS, 1, flag);
     if (result == 0) {
         result = 2;
     }
@@ -111,8 +111,8 @@ int WM_SetLifeTime(WirelessMessageCallback callback, u32 tableNumber, u32 camLif
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_TIMEOUT, callback);
-    result = WMi_SendCommand(WIRELESS_REQUEST_SET_TIMEOUT, 4, tableNumber, camLifeTime, frameLifeTime, mpLifeTime);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_SET_TIMEOUT, callback);
+    result = WM_SomeFn(WIRELESS_REQUEST_SET_TIMEOUT, 4, tableNumber, camLifeTime, frameLifeTime, mpLifeTime);
     if (result == 0) {
         result = 2;
     }
@@ -125,19 +125,19 @@ int WM_MeasureChannel(WirelessMessageCallback callback, u16 ccaMode, u16 edThres
     u16 *request;
     int result;
 
-    work = WMi_GetSystemWork();
+    work = Wm_GetGlobal();
     result = WMi_CheckStateEx(1, 2);
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(WIRELESS_REQUEST_MEASURE_CHANNEL, callback);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_MEASURE_CHANNEL, callback);
     request = work->mRequestArea;
     request[0] = 0x1e;
     request[1] = ccaMode;
     request[2] = edThreshold;
     request[3] = channel;
     request[4] = measureTime;
-    result = WMi_SendCommand(WIRELESS_REQUEST_MEASURE_CHANNEL, 0);
+    result = WM_SomeFn(WIRELESS_REQUEST_MEASURE_CHANNEL, 0);
     if (result == 0) {
         result = 2;
     }
@@ -152,8 +152,8 @@ int WM_SetEntry(WirelessMessageCallback callback, BOOL enabled) {
     if (result != 0) {
         return result;
     }
-    WMi_SetCallbackTable(WIRELESS_REQUEST_SET_JOIN_ALLOWED, callback);
-    result = WMi_SendCommand(WIRELESS_REQUEST_SET_JOIN_ALLOWED, 1, enabled);
+    SetSomeFunctionPtr(WIRELESS_REQUEST_SET_JOIN_ALLOWED, callback);
+    result = WM_SomeFn(WIRELESS_REQUEST_SET_JOIN_ALLOWED, 1, enabled);
     if (result == 0) {
         result = 2;
     }

@@ -26,9 +26,9 @@ void WriteVsSelectCharacterRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         VsSelectGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         VsSelectGXS_SetVisiblePlane(8);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     VsSelectGXS_SetVisiblePlane(0x12);
     WriteSelectCharacterRegisters();
@@ -60,7 +60,7 @@ void WriteVsSelectKartRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         VsSelectGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
     }
     VsSelectGXS_SetVisiblePlane(0x12);
     WriteSelectKartRegisters();
@@ -89,7 +89,7 @@ void WriteVsSelectRaceRuleRegisters(void) {
     screenChanged = GetMenuScreenSwitched();
     if (screenChanged != 0) {
         VsSelectGXS_SetVisiblePlane(0x1f);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectRaceRuleRegisters();
 }
@@ -101,8 +101,8 @@ void WriteVsSelectRaceRuleRegisters(void) {
 void UpdateVsSelectRaceRule(void) {
     switch (AdvanceSelectRaceRule()) {
         case MENU_SCREEN_RESULT_NEXT:
-            if (GetRaceSetupCopy()->mCourseListMode == COURSE_LIST_MODE_SHUFFLED) {
-                GetRaceSetupCopy()->mCourseId = COURSE_ID_CROSS;
+            if (GetGlobalCA_from_thumb()->mCourseListMode == COURSE_LIST_MODE_SHUFFLED) {
+                GetGlobalCA_from_thumb()->mCourseId = COURSE_ID_CROSS;
                 SwitchMenuScreen(SCREEN_NEXT_RACE_SETUP, SCREEN_NONE);
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_VS, SCREEN_NONE);
@@ -124,14 +124,14 @@ void WriteVsSelectCupGridRegisters(void) {
         flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
             VsSelectGX_SetVisiblePlane(0x19);
-            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+            ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x16);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
         } else {
             VsSelectGX_SetVisiblePlane(0x18);
-            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+            ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x12);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
         }
     }
     WriteSelectCupGridRegisters();
@@ -140,15 +140,15 @@ void WriteVsSelectCupGridRegisters(void) {
 #pragma thumb off
 
 u32 VsSelectCupGetConnectionKind(void) {
-    return (gStartupWork->mConnectionKind);
+    return (g_GlobalP->mConnectionKind);
 }
 
 void VsSelectCupSetMenuEntryKind(u32 entryKind) {
-    gMenuShared->mMenuEntryKind = entryKind;
+    g_GlobalB488->mMenuEntryKind = entryKind;
 }
 
 void VsSelectCupSetRaceSetupRequested(u32 requested) {
-    gMenuShared->mRaceSetupRequested = requested;
+    g_GlobalB488->mRaceSetupRequested = requested;
 }
 
 #pragma optimize_for_size on
@@ -183,14 +183,14 @@ void WriteVsSelectCupCourseRegisters(void) {
         flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
             VsSelectGX_SetVisiblePlane(0x19);
-            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+            ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x1e);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
         } else {
             VsSelectGX_SetVisiblePlane(0x1c);
-            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+            ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x12);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
         }
     }
     WriteSelectCupCourseBgOffsets();
@@ -212,12 +212,12 @@ void UpdateVsSelectCupCourse(void) {
 }
 #pragma thumb off
 
-BootInfo *VsSelectCupMB_GetMultiBootParam(void) {
+BootInfo *GetBootIndicatorPointer_2(void) {
     return gBootInfo;
 }
 
 BOOL VsSelectCupMB_IsMultiBootChild(void) {
-    return VsSelectCupMB_GetMultiBootParam()->mBootType == BOOT_TYPE_MULTIBOOT ? 1 : 0;
+    return GetBootIndicatorPointer_2()->mBootType == BOOT_TYPE_MULTIBOOT ? 1 : 0;
 }
 
 BOOL VsSelectCupMB_IsMultiBootChildWrapper(void) {
@@ -251,14 +251,14 @@ void WriteVsSelectCupMRegisters(void) {
         flag = VsSelectCupMB_IsMultiBootChildWrapper();
         if (flag == 0) {
             VsSelectGX_SetVisiblePlane(0x19);
-            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+            ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x1e);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
         } else {
             VsSelectGX_SetVisiblePlane(0x18);
-            GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+            ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
             VsSelectGXS_SetVisiblePlane(0x12);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
         }
     }
     WriteSelectCupMBgOffsets();

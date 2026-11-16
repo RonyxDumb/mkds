@@ -109,7 +109,7 @@ void UpdateSeqQueue(void) {
             } else {
                 seqIndex = (u16) (pairSide + pairNo * 2);
             }
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
+            PlaySseqFromSarc(&gSharedSeqHandle, seqArcNo, seqIndex);
             if (gSharedSeqHandle != NULL) {
                 SetSndHandleTrackVolume(&gSharedSeqHandle, 0x3c);
             }
@@ -156,15 +156,15 @@ void StartSeqPair(s32 pairNo, s32 pairSide) {
     } else {
         seqIndex = pairSide + pairNo * 2;
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, mode, seqIndex);
+    PlaySseqFromSarc(&gSharedSeqHandle, mode, seqIndex);
     if (gSharedSeqHandle != NULL) {
         SetSndHandleTrackVolume(&gSharedSeqHandle, 100);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 4);
 }
 
 void StartCursorMoveSound(void) {
-    StartSoundOncePerFrame(0);
+    MaybePlaySomeSseqFromSarc0(0);
 }
 
 s32 StepValueTowardTarget(PlayerVolumeFade *volumeFade, s32 target) {
@@ -194,7 +194,7 @@ void InitSoundRequestQueues(void) {
     SoundRequestQueue *queue;
     for (queueIndex = 0, queue = gSoundRequestQueues; queueIndex < 7; queueIndex++, queue++) {
         s32 capacities[7] = {1, 3, 2, 1, 3, 2, 3};
-        InitSoundRequestQueue(queue, capacities[queueIndex], gCurrentSndHeap);
+        InitSoundRequestQueue(queue, capacities[queueIndex], g_SoundContext);
     }
 }
 
@@ -398,7 +398,7 @@ void StartSeqOnHandleIfEnabled(u32 soundId, NNSSndSeqPlayer **handle) {
     if (*handle != NULL) {
         NNS_SndPlayerStopSeq(handle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
+    PlaySseqFromSarc(handle, 0, soundId);
 }
 
 // Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
@@ -569,7 +569,7 @@ void StartKartRemovalSeqEffect(void) {
     NNSSndSeqPlayer **handle;
     handle = &gScenePlayers.mSeqPlayer;
     gSeqPlayerControl.mVolumeOverride = SEQ_VOLUME_OVERRIDE_FULL;
-    NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
+    NNS_SndPlayerSetTrackMute(handle, 1, 1);
     NNS_SndPlayerSetTempoRatio(&gScenePlayers.mSeqPlayer, 0xd9);
 }
 
@@ -622,7 +622,7 @@ void SetTeresaSoundFlag(u32 enabled, u32 isSelectedEntry) {
     }
 }
 
-void KartThunderShrinkNop(void) {}
+void nullsub_16(void) {}
 
 u32 *ResetThunderShrinkSoundCounter(void) {
     gThunderShrinkSoundCounter = 0;
@@ -633,15 +633,15 @@ void StartThunderShrinkSound(void *kartAddress, int secondArgument) {
     Kart *kart = kartAddress;
     u32 counter = gThunderShrinkSoundCounter;
     gThunderShrinkSoundCounter = counter + 1;
-    StartSound(&kart->mSoundSource, counter + 0xea, 0x7f, 0);
+    StructMQRacerEntry_SomeFn_8(&kart->mSoundSource, counter + 0xea, 0x7f, 0);
 }
 
-void RequestThunderShrinkSound(Kart *kart) {
-    AddSoundRequest(&gSoundRequestQueues[4], GetKartCameraDistanceSquared(kart->mIndex),
+void StructMQRacerEntry_SomeFn_28(Kart *kart) {
+    AddSoundRequest(&gSoundRequestQueues[4], GetAED0PlayerUnk(kart->mIndex),
                     StartThunderShrinkSound, kart, 0);
 }
 
-void InitSoundSetPlayerWithVariables(SoundSetPlayer *player, s32 seqId, s32 firstBankId) {
+void LoadSomeSseq(SoundSetPlayer *player, s32 seqId, s32 firstBankId) {
     u8 variableIndex;
     s32 enabledIndex;
     ReleaseLoadedSoundSet();

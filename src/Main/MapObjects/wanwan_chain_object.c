@@ -57,7 +57,7 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     Vec3 endPoint;
 
     wanwan = chainObject->mWanwan;
-    VEC_MultAdd(-wanwan->mScaledLength, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
+    VecFx32_AddScale1(-wanwan->mScaledLength, &wanwan->mMapObject.mMatrix.mRows[2], &wanwan->mMapObject.mPos, &endPoint);
     startPoint = wanwan->mCenterPos;
     startPoint.y -= wanwan->mScaledLength >> 1;
     SetWanwanChainPointsEvenly(&chainObject->mChain, &startPoint, &endPoint);
@@ -72,12 +72,12 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
 void CreateWanwanChainAndWanwanKui(void) {
     void *kuiFile;
 
-    CreateNsbmdModel(&gWanwanChain, FindCourseMapObjFile("wanwan_chain.nsbmd"), 0, 0);
-    SetNsbmdModelFixedAttributes(gWanwanChain);
-    kuiFile = FindCourseFile("MapObj/wanwan_kui.nsbmd");
+    CreateMapObjectSubFrom_from_thumb(&gWanwanChain, FormatFindMapObjFileBuffer_from_thumb("wanwan_chain.nsbmd"), 0, 0);
+    StructMapObjectSub_SomeFn_1(gWanwanChain);
+    kuiFile = FindFileBuffer_CRS_CST_from_thumb("MapObj/wanwan_kui.nsbmd");
     if (kuiFile != NULL) {
-        CreateNsbmdModel(&gWanwanKui, kuiFile, 0, 0);
-        SetNsbmdModelFixedAttributes(gWanwanKui);
+        CreateMapObjectSubFrom_from_thumb(&gWanwanKui, kuiFile, 0, 0);
+        StructMapObjectSub_SomeFn_1(gWanwanKui);
     }
 }
 
@@ -145,27 +145,27 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         velocities[pointIndex].y -= downwardStep;
     }
     for (pointIndex = 1; pointIndex < pointCount; pointIndex++) {
-        VEC_MultAdd((pointCount - pointIndex) * -damping, &velocities[pointIndex], &velocities[pointIndex],
+        VecFx32_AddScale1((pointCount - pointIndex) * -damping, &velocities[pointIndex], &velocities[pointIndex],
                     &velocities[pointIndex]);
     }
     for (pointIndex = 1; pointIndex < pointCount; pointIndex++) {
-        VEC_Add(&points[pointIndex], &velocities[pointIndex], &points[pointIndex]);
+        VecFx32_Add(&points[pointIndex], &velocities[pointIndex], &points[pointIndex]);
     }
     current = &points[reversePointIndex];
     *current = *endPoint;
     for (; reversePointIndex > 1; reversePointIndex--) {
-        VEC_Subtract(&points[reversePointIndex - 1], current, &delta);
+        VecFx32_Subtract(&points[reversePointIndex - 1], current, &delta);
         excessSquared =
             SQUARE_SUM3(delta.x, delta.y, delta.z) - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) FROM_FIXED12(excessSquared);
         if (excess != 0) {
-            Vec3NormalizeAndGetLengthUnchecked(&delta, &offset);
+            Vector3_MaybeNormalize(&delta, &offset);
             linkLength = chain->mLinkLength;
             offset.x = MUL_FIXED12_NO_ROUND(offset.x, linkLength);
             offset.y = MUL_FIXED12_NO_ROUND(offset.y, linkLength);
             offset.z = MUL_FIXED12_NO_ROUND(offset.z, linkLength);
-            VEC_Add(current, &offset, &points[reversePointIndex - 1]);
-            VEC_Subtract(&offset, &delta, &delta);
+            VecFx32_Add(current, &offset, &points[reversePointIndex - 1]);
+            VecFx32_Subtract(&offset, &delta, &delta);
             delta.x = MUL_FIXED12_NO_ROUND(delta.x, pullScale.x);
             delta.y = MUL_FIXED12_NO_ROUND(delta.y, pullScale.y);
             delta.z = MUL_FIXED12_NO_ROUND(delta.z, pullScale.z);
@@ -173,7 +173,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
             delta.x = MUL_FIXED12_NO_ROUND(delta.x, weight);
             delta.y = MUL_FIXED12_NO_ROUND(delta.y, weight);
             delta.z = MUL_FIXED12_NO_ROUND(delta.z, weight);
-            VEC_Add(&velocities[reversePointIndex - 1], &delta, &velocities[reversePointIndex - 1]);
+            VecFx32_Add(&velocities[reversePointIndex - 1], &delta, &velocities[reversePointIndex - 1]);
         }
         current--;
     }
@@ -183,17 +183,17 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         pullIndex = 2;
     }
     for (; pullIndex < pointCount; pullIndex++) {
-        VEC_Subtract(&points[pullIndex], &points[pullIndex - 1], &delta);
+        VecFx32_Subtract(&points[pullIndex], &points[pullIndex - 1], &delta);
         excessSquared =
             SQUARE_SUM3(delta.x, delta.y, delta.z) - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) FROM_FIXED12(excessSquared);
         if (excess != 0) {
-            Vec3NormalizeAndGetLengthUnchecked(&delta, &offset);
+            Vector3_MaybeNormalize(&delta, &offset);
             linkLength = chain->mLinkLength;
             offset.x = MUL_FIXED12_NO_ROUND(offset.x, linkLength);
             offset.y = MUL_FIXED12_NO_ROUND(offset.y, linkLength);
             offset.z = MUL_FIXED12_NO_ROUND(offset.z, linkLength);
-            VEC_Add(&points[pullIndex - 1], &offset, &points[pullIndex]);
+            VecFx32_Add(&points[pullIndex - 1], &offset, &points[pullIndex]);
         }
     }
     for (pointIndex = 1; pointIndex < pointCount - 2; pointIndex++) {
@@ -229,5 +229,5 @@ void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s
     polygonId = AllocPolygonIdWrapping();
     model->mPolygonAttributes &= ~0x3f000000;
     model->mPolygonAttributes |= polygonId << 24;
-    DrawNsbmdModelWithMatrixAndMaxAlpha(model, SetViewRotatedMatrixPos(position), &chain->mModelScale, 1, maxAlpha);
+    DrawNsbmdModelWithMatrixAndMaxAlpha(model, MaybeGetBBMtxAtPosition(position), &chain->mModelScale, 1, maxAlpha);
 }

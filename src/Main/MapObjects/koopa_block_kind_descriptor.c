@@ -117,14 +117,14 @@ s32 GetKoopaBlockProgress(KoopaBlock *koopaBlock) {
 void CreateKoopaBlock(void) {
     void *file;
 
-    file = FindCourseMapObjFile("koopa_block.nsbmd");
+    file = FormatFindMapObjFileBuffer_from_thumb("koopa_block.nsbmd");
     CreateNsbmd(&gKoopaBlock, file, NULL);
-    SetNsbmdPolygonIdLightEmiAll(gKoopaBlock, 0x3f, 2, 0x294a);
+    StructML_SomeFn_1(gKoopaBlock, 0x3f, 2, 0x294a);
     SetMapObjectsModel(&gKoopaBlockDrawList->mList, gKoopaBlock);
 }
 
 void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
-    InitStateMachine(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine, gKoopaBlockStateTable, 3, koopaBlock);
+    StateDualHandler_Create(&koopaBlock->mCollisionMapObject.mMapObject.mStateMachine, gKoopaBlockStateTable, 3, koopaBlock);
     koopaBlock->mFollowSpeed = TO_FIXED12(courseRow->mSettings[0]) / 100;
     InitGroupFollower(&koopaBlock->mFollower, courseRow, koopaBlock->mFollowSpeed);
     koopaBlock->mPauseTimer = 0;

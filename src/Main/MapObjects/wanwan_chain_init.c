@@ -14,10 +14,10 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
 
     chain->mLength = length;
     chain->mPointCount = pointCount;
-    heap = GetHeap(GetCurrentHeapCall());
-    chain->mPoints = HeapAlloc(heap, pointCount * 12);
-    heap = GetHeap(GetCurrentHeapCall());
-    chain->mVelocities = HeapAlloc(heap, pointCount * 12);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    chain->mPoints = Mem_AllocateHeap(heap, pointCount * 12);
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    chain->mVelocities = Mem_AllocateHeap(heap, pointCount * 12);
     chain->mModelScale = *modelScale;
     chain->mMinYOffset = MUL_FIXED12_NO_ROUND(value, modelScale->y);
     segmentCount = pointCount - 1;
@@ -38,7 +38,7 @@ void SetWanwanChainPointsEvenly(WanwanChain *chain, Vec3 *start, Vec3 *end) {
     s32 index;
     s32 stepFraction;
 
-    VEC_Subtract(end, start, &step);
+    VecFx32_Subtract(end, start, &step);
     stepFraction = chain->mStepFraction;
     step.x = MUL_FIXED12_NO_ROUND(step.x, stepFraction);
     step.y = MUL_FIXED12_NO_ROUND(step.y, stepFraction);
@@ -49,7 +49,7 @@ void SetWanwanChainPointsEvenly(WanwanChain *chain, Vec3 *start, Vec3 *end) {
     zeroedPoints->y = 0;
     zeroedPoints->z = 0;
     for (index = 1; index < chain->mPointCount; index++) {
-        VEC_Add(&chain->mPoints[index - 1], &step, &chain->mPoints[index]);
+        VecFx32_Add(&chain->mPoints[index - 1], &step, &chain->mPoints[index]);
         zeroedPoints = chain->mVelocities;
         zeroedPoints[index].x = 0;
         zeroedPoints[index].y = 0;

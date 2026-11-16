@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearCourseAndFirstSlotGhost(void);
+void ClearSaveDataGhosts_from_thumb(void);

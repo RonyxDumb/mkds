@@ -16,13 +16,13 @@ vu16 wvrLockId = 0;
 s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
     u32 enabled;
 
-    PXI_Init();
-    if (PXI_IsCallbackReady(0xf, 1) == 0) {
+    j_Fifo_Initialize();
+    if (Fifo_IsHandlerReady(0xf, 1) == 0) {
         return 2;
     }
     if (wvrLockId == 0) {
         do {
-            s32 id = OS_GetLockID();
+            s32 id = Os_AllocateLockId();
 
             if (id == -3) {
                 return 7;
@@ -30,19 +30,19 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
             wvrLockId = id;
         } while (wvrLockId == 0);
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (wvrCallback != 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 5;
     }
     if (wvrVRam != 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 5;
     }
     switch (vram) {
         case WIRELESS_VRAM_BANK_C:
             if (OSi_TryLockVram(WIRELESS_VRAM_BANK_C, wvrLockId) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 6;
             }
             wvrVRam = WIRELESS_VRAM_BANK_C;
@@ -50,7 +50,7 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
             break;
         case WIRELESS_VRAM_BANK_D:
             if (OSi_TryLockVram(WIRELESS_VRAM_BANK_D, wvrLockId) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 6;
             }
             wvrVRam = WIRELESS_VRAM_BANK_D;
@@ -58,7 +58,7 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
             break;
         case WIRELESS_VRAM_BANK_C_AND_D:
             if (OSi_TryLockVram(WIRELESS_VRAM_BANK_C_AND_D, wvrLockId) == 0) {
-                OS_RestoreInterrupts(enabled);
+                Os_RestoreIrq(enabled);
                 return 6;
             }
             wvrVRam = WIRELESS_VRAM_BANK_C_AND_D;
@@ -66,11 +66,11 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
             *(vu8 *) 0x4000243 = 0x8a;
             break;
         default:
-            OS_RestoreInterrupts(enabled);
+            Os_RestoreIrq(enabled);
             return 3;
     }
-    if (PXI_IsCallbackReady(0xf, 0) == 0) {
-        PXI_SetFifoRecvCallback(0xf, WvrReceiveCallback);
+    if (Fifo_IsHandlerReady(0xf, 0) == 0) {
+        Fifo_RegisterHandler(0xf, Fifo15Handler);
     }
     if (callback == 0) {
         wvrCallback = WvrDummyAsyncCallback;
@@ -78,31 +78,31 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
         wvrCallback = callback;
     }
     wvrArg = arg;
-    if (PXI_SendWordByFifo(0xf, WIRELESS_DRIVER_COMMAND_START_UP, 0) < 0) {
-        OSi_UnlockVram(wvrVRam, wvrLockId);
+    if (Fifo_SendWord(0xf, WIRELESS_DRIVER_COMMAND_START_UP, 0) < 0) {
+        Os_UnlockVram(wvrVRam, wvrLockId);
         wvrVRam = 0;
         wvrCallback = 0;
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 4;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
-s32 WVR_TerminateAsync(void (*callback)(u32, s32), u32 arg) {
+s32 SetWvrFifoShit(void (*callback)(u32, s32), u32 arg) {
     u32 enabled;
 
-    PXI_Init();
-    if (PXI_IsCallbackReady(0xf, 1) == 0) {
+    j_Fifo_Initialize();
+    if (Fifo_IsHandlerReady(0xf, 1) == 0) {
         return 2;
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if (wvrCallback != 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 5;
     }
-    if (PXI_IsCallbackReady(0xf, 0) == 0) {
-        PXI_SetFifoRecvCallback(0xf, WvrReceiveCallback);
+    if (Fifo_IsHandlerReady(0xf, 0) == 0) {
+        Fifo_RegisterHandler(0xf, Fifo15Handler);
     }
     if (callback == 0) {
         wvrCallback = WvrDummyAsyncCallback;
@@ -110,16 +110,16 @@ s32 WVR_TerminateAsync(void (*callback)(u32, s32), u32 arg) {
         wvrCallback = callback;
     }
     wvrArg = arg;
-    if (PXI_SendWordByFifo(0xf, WIRELESS_DRIVER_COMMAND_TERMINATE, 0) < 0) {
+    if (Fifo_SendWord(0xf, WIRELESS_DRIVER_COMMAND_TERMINATE, 0) < 0) {
         wvrCallback = 0;
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 4;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
-void WvrReceiveCallback(u32 tag, u32 data) {
+void Fifo15Handler(u32 tag, u32 data) {
     void (*callback)(u32, s32);
     u32 callbackArg;
     u32 command;
@@ -132,16 +132,16 @@ void WvrReceiveCallback(u32 tag, u32 data) {
     switch (command) {
         case WIRELESS_DRIVER_COMMAND_START_UP:
             if (result == 7 && wvrVRam != 0 && wvrLockId != 0) {
-                OSi_UnlockVram(wvrVRam, wvrLockId);
+                Os_UnlockVram(wvrVRam, wvrLockId);
                 wvrVRam = 0;
             }
             break;
         case WIRELESS_DRIVER_COMMAND_TERMINATE:
             if (result == 0 && wvrVRam != 0 && wvrLockId != 0) {
-                OSi_UnlockVram(wvrVRam, wvrLockId);
+                Os_UnlockVram(wvrVRam, wvrLockId);
                 wvrVRam = 0;
             }
-            PXI_SetFifoRecvCallback(0xf, 0);
+            Fifo_RegisterHandler(0xf, 0);
             break;
     }
     if (callback != 0) {

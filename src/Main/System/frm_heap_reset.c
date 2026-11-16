@@ -8,6 +8,6 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
-void ResetFrmHeap(void) {
-    NNS_FndFreeToFrmHeap(gStartupWork->mHeap, 3);
+void ResetDTCMFrameHeap(void) {
+    Mem_ResetFrameHeap(g_GlobalP->mHeap, 3);
 }

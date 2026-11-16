@@ -147,11 +147,11 @@ const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {
     {gResultsBattleVsRedBNcgrName, gResultsBattleVsRedBNclrName, gResultsBattleVsRedUpperNscrName,
      gResultsBattleVsRedLowerNscrName, gResultsBattleVsRedNcgrName, gResultsBattleVsRedNcerName,
      gResultsBattleVsRedONclrName, gResultsBattleVsRedBnclName, NULL}};
-ResultsBattle *gResultsBattle;
+ResultsBattle *g_GlobalV;
 
-// Reads the table of gCupRecords, a row chosen by one call and a column by another.
+// Reads the table of g_GlobalLU, a row chosen by one call and a column by another.
 static inline KartCourseResult *ResultsBattleGetKartCourseResult(u32 entryIndex) {
-    return &gCupRecords->mKartResults[GetCourseIndexInCup()][GetLowByte(entryIndex)];
+    return &g_GlobalLU->mKartResults[GetSomeLUMaxIndex()][Int32ToInt8(entryIndex)];
 }
 
 #pragma thumb on
@@ -204,13 +204,13 @@ void AssignResultsBattleTeamOrder(void) {
 
     nextOrderIndex = 0;
     team1Count = 0;
-    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+    for (entryIndex = 0; entryIndex < g_GlobalV->mKartCount; entryIndex++) {
         if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 0) {
-            gResultsBattle->mEntries[entryIndex].mOrderIndex = nextOrderIndex;
+            g_GlobalV->mEntries[entryIndex].mOrderIndex = nextOrderIndex;
             nextOrderIndex++;
         }
     }
-    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+    for (entryIndex = 0; entryIndex < g_GlobalV->mKartCount; entryIndex++) {
         if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 1) {
             team1Count++;
         }
@@ -218,9 +218,9 @@ void AssignResultsBattleTeamOrder(void) {
     if (nextOrderIndex < 4 && team1Count <= 4) {
         nextOrderIndex = 4;
     }
-    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+    for (entryIndex = 0; entryIndex < g_GlobalV->mKartCount; entryIndex++) {
         if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 1) {
-            gResultsBattle->mEntries[entryIndex].mOrderIndex = nextOrderIndex;
+            g_GlobalV->mEntries[entryIndex].mOrderIndex = nextOrderIndex;
             nextOrderIndex++;
         }
     }
@@ -246,10 +246,10 @@ void AssignResultsBattleTeamOrderByScore(void) {
     nextOrderIndex = 0;
     team0Count = 0;
     team1Count = 0;
-    for (kartIndex = 0; kartIndex < (resultsBattle = gResultsBattle)->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < (resultsBattle = g_GlobalV)->mKartCount; kartIndex++) {
         scores[kartIndex] = resultsBattle->mEntries[kartIndex].mScore;
     }
-    for (kartIndex = 0; kartIndex < (resultsBattle = *(ResultsBattle **) &gResultsBattle)->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < (resultsBattle = *(ResultsBattle **) &g_GlobalV)->mKartCount; kartIndex++) {
         if (GetCurrentEntry(kartIndex)->mPlayer.mTeamIndex == 0) {
             team0Entries[team0Count] = kartIndex;
             team0Count = team0Count + 1;
@@ -267,7 +267,7 @@ void AssignResultsBattleTeamOrderByScore(void) {
                 team0BestIndex = memberIndex;
             }
         }
-        gResultsBattle->mEntries[team0Entries[team0BestIndex]].mOrderIndex = nextOrderIndex++;
+        g_GlobalV->mEntries[team0Entries[team0BestIndex]].mOrderIndex = nextOrderIndex++;
         scores[team0Entries[team0BestIndex]] = -2;
     }
     if (nextOrderIndex < 4 && team1Count <= 4) {
@@ -282,7 +282,7 @@ void AssignResultsBattleTeamOrderByScore(void) {
                 team1BestIndex = memberIndex;
             }
         }
-        gResultsBattle->mEntries[team1Entries[team1BestIndex]].mOrderIndex = nextOrderIndex++;
+        g_GlobalV->mEntries[team1Entries[team1BestIndex]].mOrderIndex = nextOrderIndex++;
         scores[team1Entries[team1BestIndex]] = -2;
     }
 }
@@ -292,38 +292,38 @@ void FillResultsBattleEntries(void) {
     u16 kartIndex;
     s32 higherCount;
 
-    for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-        if (gResultsBattle->mMode == CONNECTION_KIND_WIFI_MENU || gRaceSetup->mRuleKind == RULE_KIND_RACE_COUNT) {
-            gResultsBattle->mEntries[kartIndex].mScore =
-                ResultsBattleGetKartCourseResult(GetLowByte(kartIndex))->mTotalPoints;
+    for (kartIndex = 0; kartIndex < g_GlobalV->mKartCount; kartIndex++) {
+        if (g_GlobalV->mMode == CONNECTION_KIND_WIFI_MENU || g_GlobalCO->mRuleKind == RULE_KIND_RACE_COUNT) {
+            g_GlobalV->mEntries[kartIndex].mScore =
+                ResultsBattleGetKartCourseResult(Int32ToInt8(kartIndex))->mTotalPoints;
         } else {
-            gResultsBattle->mEntries[kartIndex].mScore =
-                ResultsBattleGetKartCourseResult(GetLowByte(kartIndex))->mWinCount;
+            g_GlobalV->mEntries[kartIndex].mScore =
+                ResultsBattleGetKartCourseResult(Int32ToInt8(kartIndex))->mWinCount;
         }
     }
-    for (rankKartIndex = 0; rankKartIndex < gResultsBattle->mKartCount; rankKartIndex++) {
+    for (rankKartIndex = 0; rankKartIndex < g_GlobalV->mKartCount; rankKartIndex++) {
         higherCount = 0;
-        for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
+        for (kartIndex = 0; kartIndex < g_GlobalV->mKartCount; kartIndex++) {
             if (rankKartIndex != kartIndex &&
-                gResultsBattle->mEntries[rankKartIndex].mScore < gResultsBattle->mEntries[kartIndex].mScore) {
+                g_GlobalV->mEntries[rankKartIndex].mScore < g_GlobalV->mEntries[kartIndex].mScore) {
                 higherCount++;
             }
         }
-        gResultsBattle->mEntries[rankKartIndex].mRank = higherCount;
+        g_GlobalV->mEntries[rankKartIndex].mRank = higherCount;
     }
-    if (gRaceSetup->mUseTeams != 0) {
-        if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
+    if (g_GlobalCO->mUseTeams != 0) {
+        if (g_GlobalCO->mMode == MODE_BATTLE && g_GlobalCO->mRuleKind == RULE_KIND_WIN_COUNT) {
             AssignResultsBattleTeamOrder();
         } else {
             AssignResultsBattleTeamOrderByScore();
         }
-    } else if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-            gResultsBattle->mEntries[kartIndex].mOrderIndex = gMenuShared->mOrderIndices[kartIndex];
+    } else if (g_GlobalCO->mMode == MODE_BATTLE) {
+        for (kartIndex = 0; kartIndex < g_GlobalV->mKartCount; kartIndex++) {
+            g_GlobalV->mEntries[kartIndex].mOrderIndex = g_GlobalB488->mOrderIndices[kartIndex];
         }
     } else {
-        for (kartIndex = 0; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-            gResultsBattle->mEntries[kartIndex].mOrderIndex = GetKartCupRank(kartIndex) - 1;
+        for (kartIndex = 0; kartIndex < g_GlobalV->mKartCount; kartIndex++) {
+            g_GlobalV->mEntries[kartIndex].mOrderIndex = GetSomeRacerPosition(kartIndex) - 1;
         }
     }
 }
@@ -334,8 +334,8 @@ s32 AreResultsBattleRanksAllZero(void) {
 
     allRanksZero = 1;
     kartIndex = 0;
-    for (; kartIndex < gResultsBattle->mKartCount; kartIndex++) {
-        allRanksZero &= gResultsBattle->mEntries[kartIndex].mRank == 0 ? 1 : 0;
+    for (; kartIndex < g_GlobalV->mKartCount; kartIndex++) {
+        allRanksZero &= g_GlobalV->mEntries[kartIndex].mRank == 0 ? 1 : 0;
     }
     return allRanksZero;
 }
@@ -344,7 +344,7 @@ s32 IsResultsBattleTimerRunOut(void) {
     BOOL result;
 
     result = FALSE;
-    if (gResultsBattle->mUseTimer != FALSE && gResultsBattle->mTimer == 0) {
+    if (g_GlobalV->mUseTimer != FALSE && g_GlobalV->mTimer == 0) {
         result = TRUE;
     }
     return result;
@@ -354,7 +354,7 @@ s32 IsResultsBattleTimerBelowChoiceStart(void) {
     BOOL result;
 
     result = FALSE;
-    if (gResultsBattle->mUseTimer != FALSE && gResultsBattle->mTimer < RESULTS_BATTLE_TIMER_CHOICE_FRAMES) {
+    if (g_GlobalV->mUseTimer != FALSE && g_GlobalV->mTimer < RESULTS_BATTLE_TIMER_CHOICE_FRAMES) {
         result = TRUE;
     }
     return result;
@@ -367,8 +367,8 @@ s32 IsResultsBattleTimerBelowChoiceStart(void) {
 void StartResultsBattleChoices(void) {
     void *firstText;
     void *secondText;
-    firstText = GetBmgEntry(gResultsBattle->mCommonMessages, 0x5d);
-    secondText = GetBmgEntry(gResultsBattle->mCommonMessages, 0x5f);
+    firstText = Bmg_GetRawStringPointer_from_thumb(g_GlobalV->mCommonMessages, 0x5d);
+    secondText = Bmg_GetRawStringPointer_from_thumb(g_GlobalV->mCommonMessages, 0x5f);
     StartSelectChoises(firstText, secondText, 0);
 }
 
@@ -376,7 +376,7 @@ void StartResultsBattleChoices(void) {
 
 static inline void ResultsBattleEntryMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
-    MIi_CpuClear16(fillValue, buffer, byteCount);
+    Mem_CpuFill16(fillValue, buffer, byteCount);
 }
 
 #pragma thumb on
@@ -389,14 +389,14 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
     BOOL isOwnEntry;
     BOOL isOwnNotTeam1;
 
-    subCellFileSet = &gResultsBattle->mCellFileSets[1];
-    if (gResultsBattle->mOwnEntryIndex == entryIndex) {
+    subCellFileSet = &g_GlobalV->mCellFileSets[1];
+    if (g_GlobalV->mOwnEntryIndex == entryIndex) {
         isOwnEntry = TRUE;
     } else {
         isOwnEntry = FALSE;
     }
-    orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
-    if (gRaceSetup->mUseTeams != 0) {
+    orderIndex = g_GlobalV->mEntries[entryIndex].mOrderIndex;
+    if (g_GlobalCO->mUseTeams != 0) {
         if (GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex == 1) {
             isTeamIndex1 = TRUE;
         } else {
@@ -454,11 +454,11 @@ void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
     s32 length;
     u16 scoreText[4];
 
-    subCellFileSet = &gResultsBattle->mCellFileSets[1];
-    orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
-    score = gResultsBattle->mEntries[entryIndex].mScore;
-    if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mUseTeams != 0 &&
-        gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
+    subCellFileSet = &g_GlobalV->mCellFileSets[1];
+    orderIndex = g_GlobalV->mEntries[entryIndex].mOrderIndex;
+    score = g_GlobalV->mEntries[entryIndex].mScore;
+    if (g_GlobalCO->mMode == MODE_BATTLE && g_GlobalCO->mUseTeams != 0 &&
+        g_GlobalCO->mRuleKind == RULE_KIND_WIN_COUNT) {
         subCellFileSet->mCellTable[orderIndex + 0x38].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex + 0x48].mVisible = 0;
         return;
@@ -477,7 +477,7 @@ void PrintResultsBattleScoreAndShowRank(s32 entryIndex) {
                                     subCellFileSet->mCellLayout, subCellFileSet->mCellTable, 6);
     orderIndex += 0x38;
     subCellFileSet->mCellTable[orderIndex].mVisible = 1;
-    CopyCellLayoutEntryCellIndex(orderIndex, gResultsBattle->mEntries[entryIndex].mRank + 0x40,
+    CopyCellLayoutEntryCellIndex(orderIndex, g_GlobalV->mEntries[entryIndex].mRank + 0x40,
                                  subCellFileSet->mCellLayout);
 }
 
@@ -490,11 +490,11 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
     u8 cellPaletteIndex;
     u32 shuffledIndex;
 
-    cellFileSet = &gResultsBattle->mCellFileSets[cellFileSetIndex];
+    cellFileSet = &g_GlobalV->mCellFileSets[cellFileSetIndex];
     if (iconSetSelector == 1) {
-        iconCellFileSet = &gResultsBattle->mCellFileSets[2];
+        iconCellFileSet = &g_GlobalV->mCellFileSets[2];
     } else {
-        iconCellFileSet = &gResultsBattle->mCellFileSets[3];
+        iconCellFileSet = &g_GlobalV->mCellFileSets[3];
     }
     characterIndex = GetCurrentEntry(entryIndex)->mCharacterIndex;
     QueueCellCharsAndFirstPalette(characterIndex, iconCellFileSet->mCells, iconCellFileSet->mChars,
@@ -502,18 +502,18 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
                                   cellFileSet->mCells, cellFileSet->mCellLayout);
     if (characterIndex == 0xc) {
         if (iconSetSelector == 1) {
-            palette = gResultsBattle->mCellFileSet2ShyguyPalette;
+            palette = g_GlobalV->mCellFileSet2ShyguyPalette;
         } else {
-            palette = gResultsBattle->mCellFileSet3ShyguyPalette;
+            palette = g_GlobalV->mCellFileSet3ShyguyPalette;
         }
         cellPaletteIndex = GetCellPaletteIndex(cellIndex, cellFileSet->mCells, cellFileSet->mCellLayout);
-        shuffledIndex = gMenuShared->mShuffledIndices[entryIndex];
+        shuffledIndex = g_GlobalB488->mShuffledIndices[entryIndex];
         paletteBlock = shuffledIndex * 0x20 + palette->mBytes;
         if (cellFileSetIndex == 0) {
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
                                                0x20);
         } else {
-            NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
+            AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, cellPaletteIndex << 5, paletteBlock,
                                                0x20);
         }
     }
@@ -527,9 +527,9 @@ void SetupResultsBattleOwnEntry(void *heap) {
     u16 entryName[11];
 
     remainingObjSize = GX_GetSizeOfOBJ();
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    gResultsBattle->mTimerDigitCellBase = 1;
-    gResultsBattle->mTimerTensCell = 0xb;
+    mainCellFileSet = &g_GlobalV->mCellFileSets[0];
+    g_GlobalV->mTimerDigitCellBase = 1;
+    g_GlobalV->mTimerTensCell = 0xb;
     index = 0;
     if ((s32) mainCellFileSet->mLabelLayout->mCount > 0) {
         labelEntry = (u8 *) gResultsBattleOwnEntryLabelTextRows;
@@ -540,10 +540,10 @@ void SetupResultsBattleOwnEntry(void *heap) {
         } while (index < mainCellFileSet->mLabelLayout->mCount);
     }
     ResultsBattleEntryMI_CpuClear16(entryName, 0x16);
-    CopyKartEntryName((u16) gResultsBattle->mOwnEntryIndex, entryName, 1);
+    FormatRacerNameString_from_thumb((u16) g_GlobalV->mOwnEntryIndex, entryName, 1);
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout, entryName, mainCellFileSet->mCellLayout,
                                        mainCellFileSet->mCellTable);
-    QueueResultsBattleCharacterIcon(0, gResultsBattle->mOwnEntryIndex, 0, 1);
+    QueueResultsBattleCharacterIcon(0, g_GlobalV->mOwnEntryIndex, 0, 1);
 }
 
 void SetupResultsBattleRankZeroNames(void *heap) {
@@ -558,12 +558,12 @@ void SetupResultsBattleRankZeroNames(void *heap) {
     s32 labelCount;
     LayoutTableEntry *cell;
 
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
+    mainCellFileSet = &g_GlobalV->mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
     rowIndex = 0;
     cellCount = mainCellFileSet->mCellLayout->mCount;
-    gResultsBattle->mTimerDigitCellBase = 8;
-    gResultsBattle->mTimerTensCell = 0x12;
+    g_GlobalV->mTimerDigitCellBase = 8;
+    g_GlobalV->mTimerTensCell = 0x12;
     labelIndex = 0;
     labelCount = mainCellFileSet->mLabelLayout->mCount;
     if (labelCount > 0) {
@@ -575,12 +575,12 @@ void SetupResultsBattleRankZeroNames(void *heap) {
         } while (labelIndex < mainCellFileSet->mLabelLayout->mCount);
     }
     PrintLabelLayoutTextNoFixedAdvance(0, 0, mainCellFileSet->mLabelLayout,
-                                       GetBmgEntry(gResultsBattle->mCommonMessages, 0x7a), mainCellFileSet->mCellLayout,
+                                       Bmg_GetRawStringPointer_from_thumb(g_GlobalV->mCommonMessages, 0x7a), mainCellFileSet->mCellLayout,
                                        mainCellFileSet->mCellTable);
-    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
-        if (gResultsBattle->mEntries[entryIndex].mRank == 0) {
+    for (entryIndex = 0; entryIndex < g_GlobalV->mKartCount; entryIndex++) {
+        if (g_GlobalV->mEntries[entryIndex].mRank == 0) {
             ResultsBattleEntryMI_CpuClear16(entryName, 0x16);
-            CopyKartEntryName((u16) entryIndex, entryName, 1);
+            FormatRacerNameString_from_thumb((u16) entryIndex, entryName, 1);
             rowIndex++;
             PrintLabelLayoutTextNoFixedAdvance(0, rowIndex, mainCellFileSet->mLabelLayout, entryName,
                                                mainCellFileSet->mCellLayout, mainCellFileSet->mCellTable);
@@ -602,26 +602,26 @@ void SetupResultsBattleKartIcons(void *heap) {
     BOOL iconSetSelector;
     s32 index;
 
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    count = gResultsBattle->mIconKartCount;
+    mainCellFileSet = &g_GlobalV->mCellFileSets[0];
+    count = g_GlobalV->mIconKartCount;
     iconCellBase = count + gResultsBattleKartFirstCellIndices[count - 2];
     if (count > 4) {
         iconSetSelector = FALSE;
     } else {
         iconSetSelector = TRUE;
     }
-    gResultsBattle->mTimerDigitCellBase = 0x46;
-    gResultsBattle->mTimerTensCell = 0x50;
+    g_GlobalV->mTimerDigitCellBase = 0x46;
+    g_GlobalV->mTimerTensCell = 0x50;
     for (index = 0; index < 0x46; index++) {
         mainCellFileSet->mCellTable[index].mVisible = 0;
     }
-    for (index = gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2];
+    for (index = gResultsBattleKartFirstCellIndices[g_GlobalV->mIconKartCount - 2];
          index <
-         gResultsBattleKartFirstCellIndices[gResultsBattle->mIconKartCount - 2] + gResultsBattle->mIconKartCount * 2;
+         gResultsBattleKartFirstCellIndices[g_GlobalV->mIconKartCount - 2] + g_GlobalV->mIconKartCount * 2;
          index++) {
         mainCellFileSet->mCellTable[index].mVisible = 1;
     }
-    for (index = 0; index < gResultsBattle->mIconKartCount; index++) {
+    for (index = 0; index < g_GlobalV->mIconKartCount; index++) {
         QueueResultsBattleCharacterIcon(0, index, iconCellBase + index, iconSetSelector);
     }
 }
@@ -640,7 +640,7 @@ void SetupResultsBattleTeamIcons(void *heap) {
     s32 iconCellIndex;
     s32 entryIndex;
 
-    results = gResultsBattle;
+    results = g_GlobalV;
     mainCellFileSet = &results->mCellFileSets[0];
     switch (results->mFileSetKind) {
         case RESULTS_BATTLE_FILES_VS_BLUE:
@@ -661,29 +661,29 @@ void SetupResultsBattleTeamIcons(void *heap) {
         sourceCellIndex = 0x39;
     }
     results->mTimerDigitCellBase = 0x3a;
-    gResultsBattle->mTimerTensCell = 0x44;
+    g_GlobalV->mTimerTensCell = 0x44;
     for (hiddenCellIndex = 0; hiddenCellIndex < 0x38; hiddenCellIndex++) {
         mainCellFileSet->mCellTable[hiddenCellIndex].mVisible = 0;
     }
-    shownCellIndex = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+    shownCellIndex = gResultsBattleTeamFirstCellIndices[g_GlobalV->mIconKartCount - 1];
     shownCellIndex = (u32) shownCellIndex;
     if (shownCellIndex <
-        gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] + gResultsBattle->mIconKartCount * 2) {
+        gResultsBattleTeamFirstCellIndices[g_GlobalV->mIconKartCount - 1] + g_GlobalV->mIconKartCount * 2) {
         do {
             mainCellFileSet->mCellTable[shownCellIndex].mVisible = 1;
             shownCellIndex++;
-        } while (shownCellIndex < gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1] +
-                                      gResultsBattle->mIconKartCount * 2);
+        } while (shownCellIndex < gResultsBattleTeamFirstCellIndices[g_GlobalV->mIconKartCount - 1] +
+                                      g_GlobalV->mIconKartCount * 2);
     }
-    if (gResultsBattle->mFileSetKind == RESULTS_BATTLE_FILES_VS_BLUE) {
-        for (iconCellIndex = gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+    if (g_GlobalV->mFileSetKind == RESULTS_BATTLE_FILES_VS_BLUE) {
+        for (iconCellIndex = gResultsBattleTeamFirstCellIndices[g_GlobalV->mIconKartCount - 1];
              iconCellIndex <
-             gResultsBattle->mIconKartCount + gResultsBattleTeamFirstCellIndices[gResultsBattle->mIconKartCount - 1];
+             g_GlobalV->mIconKartCount + gResultsBattleTeamFirstCellIndices[g_GlobalV->mIconKartCount - 1];
              iconCellIndex++) {
             CopyCellLayoutEntryCellIndex(iconCellIndex, sourceCellIndex, mainCellFileSet->mCellLayout);
         }
     }
-    for (entryIndex = 0; entryIndex < gResultsBattle->mKartCount; entryIndex++) {
+    for (entryIndex = 0; entryIndex < g_GlobalV->mKartCount; entryIndex++) {
         if (teamIndex == GetCurrentEntry(entryIndex)->mPlayer.mTeamIndex) {
             QueueResultsBattleCharacterIcon(0, entryIndex, iconCellBase + placedCount, iconSetSelector);
             placedCount++;
@@ -700,18 +700,18 @@ void SetupResultsBattleTeamIcons(void *heap) {
 // Fills with 0 using a volatile halfword.
 static inline void ResultsBattleMI_CpuClear16(void *buffer, s32 byteCount) {
     volatile u16 fillValue = 0;
-    MIi_CpuClear16(fillValue, buffer, byteCount);
+    Mem_CpuFill16(fillValue, buffer, byteCount);
 }
 
 static inline CourseTeamResult *ResultsBattleGetCourseTeamResult(s32 teamIndex) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
+    return &g_GlobalLU->mTeamResults[GetSomeLUMaxIndex()].mTeams[teamIndex];
 }
 
 static inline CourseTeamResults *GetCourseTeamResults(void) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()];
+    return &g_GlobalLU->mTeamResults[GetSomeLUMaxIndex()];
 }
 
-void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
+void InstanceStructV_from_thumb(void *heap, void *mainOam, void *subOam) {
     DisplaySettings *displaySettings;
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
@@ -728,65 +728,65 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     SceneTextInitParams sceneTextInitParams;
     s32 orderUsed[8];
 
-    gResultsBattle = HeapAlloc(heap, sizeof(*gResultsBattle));
-    MemFillWordsByBlock_inline(gResultsBattle, 0x154);
-    gResultsBattle->mOamLists[0] = mainOam;
-    gResultsBattle->mOamLists[1] = subOam;
-    gResultsBattle->mMode = gStartupWork->mConnectionKind;
-    if (gResultsBattle->mMode == CONNECTION_KIND_WIFI_MENU) {
+    g_GlobalV = Mem_AllocateHeap(heap, sizeof(*g_GlobalV));
+    MemFillWordsByBlock_inline(g_GlobalV, 0x154);
+    g_GlobalV->mOamLists[0] = mainOam;
+    g_GlobalV->mOamLists[1] = subOam;
+    g_GlobalV->mMode = g_GlobalP->mConnectionKind;
+    if (g_GlobalV->mMode == CONNECTION_KIND_WIFI_MENU) {
         SetupWiFiSession(WIFI_SESSION_SETUP_CONTINUE_CHOICES);
     }
     Init3dEngine();
-    displaySettings = CreateDisplaySettings(heap, gResultsDisplaySettingsDesc);
-    SetBg0Record(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
-    SetBg1Record(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);
-    SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = CreateDisplayConfig(heap, gResultsDisplaySettingsDesc);
+    DisplayEngineConfig_SetBg0Config(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
+    DisplayEngineConfig_SetBg2Config2(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
+    SetGlobalDisplayConfig(displaySettings);
     sceneTextInitParams.mUseTxtSystem = 0;
     sceneTextInitParams.mTxtSystemFont = NULL;
     sceneTextInitParams.mUseCanvas1 = 0;
     sceneTextInitParams.mUseCanvas2 = 0;
     sceneTextInitParams.mUseCanvas3 = 0;
     sceneTextInitParams.mUseSelectChoises = 1;
-    sceneTextInitParams.mSelectChoisesFont = GetFontByIndex(2);
+    sceneTextInitParams.mSelectChoisesFont = GetLoadedFont_from_thumb(2);
     sceneTextInitParams.mUseSelectReturn = 0;
     sceneTextInitParams.mUseBackScreen = 0;
     sceneTextInitParams.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(heap, &sceneTextInitParams);
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(heap, &sceneTextInitParams);
     InitFrmVramManagers();
-    gResultsBattle->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    switch (gResultsBattle->mMode) {
+    g_GlobalV->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    switch (g_GlobalV->mMode) {
         case CONNECTION_KIND_NONE:
-            gResultsBattle->mOwnEntryIndex = 0;
-            gResultsBattle->mKartCount = gRaceSetup->mKartCount;
-            gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
+            g_GlobalV->mOwnEntryIndex = 0;
+            g_GlobalV->mKartCount = g_GlobalCO->mKartCount;
+            g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             break;
         case CONNECTION_KIND_MEMBER_SELECT:
         case CONNECTION_KIND_WL_MENU:
             SetSelectChoisesSoundId(1, 0xf);
-            gResultsBattle->mOwnEntryIndex =
+            g_GlobalV->mOwnEntryIndex =
                 GetParticipantPosByIndex(
-                    gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0)
+                    g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0)
                     ->mEntryIndex;
-            gResultsBattle->mKartCount = gRaceSetup->mKartCount;
-            gResultsBattle->mState = RESULTS_BATTLE_STATE_START_SYNC;
+            g_GlobalV->mKartCount = g_GlobalCO->mKartCount;
+            g_GlobalV->mState = RESULTS_BATTLE_STATE_START_SYNC;
             break;
         case CONNECTION_KIND_WIFI_MENU:
-            gResultsBattle->mOwnEntryIndex = GetPackedIndex(DWC_GetMyAID());
-            gResultsBattle->mKartCount = gWiFiSession->mKartCount;
-            gResultsBattle->mUseTimer = TRUE;
-            gResultsBattle->mTimer = RESULTS_BATTLE_TIMER_START_FRAMES;
-            gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
+            g_GlobalV->mOwnEntryIndex = GetPackedIndex(DWC_GetMyAID());
+            g_GlobalV->mKartCount = g_GlobalB->mKartCount;
+            g_GlobalV->mUseTimer = TRUE;
+            g_GlobalV->mTimer = RESULTS_BATTLE_TIMER_START_FRAMES;
+            g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             break;
     }
     FillResultsBattleEntries();
-    if (gRaceSetup->mUseTeams != 0) {
+    if (g_GlobalCO->mUseTeams != 0) {
         firstTeamScore = 0;
         value = 0;
-        switch (gRaceSetup->mRuleKind) {
+        switch (g_GlobalCO->mRuleKind) {
             case RULE_KIND_WIN_COUNT:
                 firstTeamScore = ResultsBattleGetCourseTeamResult(0)->mWinCount;
                 value = ResultsBattleGetCourseTeamResult(1)->mWinCount;
@@ -797,45 +797,45 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
                 break;
         }
         if (firstTeamScore == value) {
-            gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
-            gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_DRAW;
+            g_GlobalV->mIconKartCount = g_GlobalV->mKartCount;
+            g_GlobalV->mFileSetKind = RESULTS_BATTLE_FILES_DRAW;
         } else if (firstTeamScore > value) {
-            gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[0];
-            gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_VS_BLUE;
+            g_GlobalV->mIconKartCount = g_GlobalCO->mTeamKartCounts[0];
+            g_GlobalV->mFileSetKind = RESULTS_BATTLE_FILES_VS_BLUE;
         } else if (value > firstTeamScore) {
-            gResultsBattle->mIconKartCount = gRaceSetup->mTeamKartCounts[1];
-            gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_VS_RED;
+            g_GlobalV->mIconKartCount = g_GlobalCO->mTeamKartCounts[1];
+            g_GlobalV->mFileSetKind = RESULTS_BATTLE_FILES_VS_RED;
         }
     } else if (AreResultsBattleRanksAllZero() != 0) {
-        gResultsBattle->mIconKartCount = gResultsBattle->mKartCount;
-        gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_DRAW;
-    } else if (gResultsBattle->mEntries[gResultsBattle->mOwnEntryIndex].mRank == 0) {
-        gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_VICTORY;
+        g_GlobalV->mIconKartCount = g_GlobalV->mKartCount;
+        g_GlobalV->mFileSetKind = RESULTS_BATTLE_FILES_DRAW;
+    } else if (g_GlobalV->mEntries[g_GlobalV->mOwnEntryIndex].mRank == 0) {
+        g_GlobalV->mFileSetKind = RESULTS_BATTLE_FILES_VICTORY;
     } else {
-        gResultsBattle->mFileSetKind = RESULTS_BATTLE_FILES_LOSE;
+        g_GlobalV->mFileSetKind = RESULTS_BATTLE_FILES_LOSE;
     }
-    SetPlayerCharacterCellFileSet(1, &gResultsBattle->mCellFileSets[2]);
-    SetPlayerCharacterCellFileSet(0, &gResultsBattle->mCellFileSets[3]);
-    gResultsBattle->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyguyNclr(1);
-    gResultsBattle->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyguyNclr(0);
-    screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
-    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNcgrName,
-                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNclrName,
-                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mLowerNscrName, 3, FindSceneFile);
-    LoadNscrData(&screenMapFileSet->mScreenMaps[2],
-                 FindSceneFile(gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mUpperNscrName));
-    GX_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
-    GX_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
-    GX_LoadBG2Scr(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
-    GX_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    LoadCellFileSet(mainCellFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcgrName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcerName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mONclrName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnclName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
+    LoadPlayerGfxData_from_thumb(1, &g_GlobalV->mCellFileSets[2]);
+    LoadPlayerGfxData_from_thumb(0, &g_GlobalV->mCellFileSets[3]);
+    g_GlobalV->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyGuyPalette_from_thumb(1);
+    g_GlobalV->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyGuyPalette_from_thumb(0);
+    screenMapFileSet = &g_GlobalV->mScreenMapFileSets[0];
+    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mBNcgrName,
+                         gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mBNclrName,
+                         gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mLowerNscrName, 3, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
+    MaybeReadScreenBlock_0(&screenMapFileSet->mScreenMaps[2],
+                 FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mUpperNscrName));
+    CopyBgData_Bg3_Top(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
+    CopyPaletteTop(screenMapFileSet->mPalette->mData, 0, 0x140);
+    TEQSub_Fn10Impl_Fn12Impl(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
+    TEQSub_Fn11Impl_Fn13Impl(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
+    mainCellFileSet = &g_GlobalV->mCellFileSets[0];
+    PlayerGfxData_Create_from_thumb(mainCellFileSet, gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mNcgrName,
+                    gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mNcerName,
+                    gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mONclrName,
+                    gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mBnclName,
+                    gResultsBattleVictoryFileNames[g_GlobalV->mFileSetKind].mBnllName, NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainCellFileSet);
-    switch (gResultsBattle->mFileSetKind) {
+    switch (g_GlobalV->mFileSetKind) {
         case RESULTS_BATTLE_FILES_VICTORY:
             SetupResultsBattleOwnEntry(heap);
             break;
@@ -854,20 +854,20 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     for (itemIndex = 0; itemIndex < cellLayout->mCount; itemIndex++) {
         GetCellLayoutEntry(mainCellFileSet->mCellLayout, itemIndex);
     }
-    screenMapFileSet = &gResultsBattle->mScreenMapFileSets[1];
+    screenMapFileSet = &g_GlobalV->mScreenMapFileSets[1];
     LoadScreenMapFileSet(screenMapFileSet, "results_battle_s_b.NCGR", "results_battle_s_b.NCLR",
-                         "results_battle_s_bg.NSCR", 3, FindSceneFile);
-    GXS_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
-    GXS_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
-    GXS_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
+                         "results_battle_s_bg.NSCR", 3, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
+    CopyBgData_Bg3_Bottom(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
+    CopyPaletteBottom(screenMapFileSet->mPalette->mData, 0, 0x140);
+    TEQSub_Fn27Impl_Fn29Impl(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
     remainingObjSize = GX_GetSizeOfSubOBJ();
-    results = gResultsBattle;
+    results = g_GlobalV;
     subCellFileSet = &results->mCellFileSets[1];
-    LoadCellFileSet(subCellFileSet, "results_battle_s.nce.ncgr", "results_battle_s.nce.ncer", "results_battle_s_o.NCLR",
-                    "results_battle_s.bncl", "results_battle_s.bnll", NULL, FindSceneFile);
+    PlayerGfxData_Create_from_thumb(subCellFileSet, "results_battle_s.nce.ncgr", "results_battle_s.nce.ncer", "results_battle_s_o.NCLR",
+                    "results_battle_s.bncl", "results_battle_s.bnll", NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     InitLayoutTable(heap, subCellFileSet->mCellLayout, subCellFileSet->mLabelLayout, &subCellFileSet->mCellTable);
-    GXS_LoadOBJ(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
-    GXS_LoadOBJPltt(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
+    TEQSub_Fn35Impl(results->mCellFileSets[1].mChars->mData, 0, results->mCellFileSets[1].mChars->mDataSize);
+    TEQSub_Fn30Impl(subCellFileSet->mPalette->mData, 0, subCellFileSet->mPalette->mDataSize);
     for (itemIndex = 0; itemIndex < subCellFileSet->mLabelLayout->mCount; itemIndex++) {
         remainingObjSize -= SetupLabelCanvas(SCREEN_SIDE_SUB, heap, subCellFileSet,
                                              gResultsBattleSubLabelCanvasEntries[itemIndex], remainingObjSize);
@@ -879,13 +879,13 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
         orderUsed[itemIndex] = 0;
     }
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
-        value = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        orderIndex = g_GlobalV->mEntries[entryIndex].mOrderIndex;
+        value = g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind;
         if ((value == PLAYER_KIND_HUMAN || value == PLAYER_KIND_CPU || value == PLAYER_KIND_PEER) &&
-            (gResultsBattle->mMode != CONNECTION_KIND_WIFI_MENU || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
+            (g_GlobalV->mMode != CONNECTION_KIND_WIFI_MENU || g_GlobalV->mEntries[entryIndex].mScore != 0)) {
             QueueResultsBattleCharacterIcon(1, entryIndex, orderIndex + 0x30, 1);
             ResultsBattleMI_CpuClear16(entryName, 0x16);
-            CopyKartEntryName(entryIndex, entryName, 0);
+            FormatRacerNameString_from_thumb(entryIndex, entryName, 0);
             PrintLabelLayoutTextNoFixedAdvance(1, orderIndex, subCellFileSet->mLabelLayout, entryName,
                                                subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
             PrintResultsBattleScoreAndShowRank(entryIndex);
@@ -913,16 +913,16 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
             subCellFileSet->mCellTable[itemIndex].mVisible = subCellFileSet->mCellTable[itemIndex + 0x08].mVisible;
         }
     }
-    switch (gResultsBattle->mFileSetKind) {
+    switch (g_GlobalV->mFileSetKind) {
         case RESULTS_BATTLE_FILES_VS_BLUE:
-            if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 0) {
+            if (GetCurrentEntry(g_GlobalV->mOwnEntryIndex)->mPlayer.mTeamIndex == 0) {
                 value = 0;
             } else {
                 value = 7;
             }
             break;
         case RESULTS_BATTLE_FILES_VS_RED:
-            if (GetCurrentEntry(gResultsBattle->mOwnEntryIndex)->mPlayer.mTeamIndex == 1) {
+            if (GetCurrentEntry(g_GlobalV->mOwnEntryIndex)->mPlayer.mTeamIndex == 1) {
                 value = 0;
             } else {
                 value = 7;
@@ -935,7 +935,7 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
             value = 7;
             break;
     }
-    InitTrophy(8, value);
+    LoadCupTrophyModel(8, value);
 }
 
 #pragma thumb off
@@ -955,117 +955,117 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
     s32 drawIndex;
     s32 frameLimit;
 
-    subCellFileSet = &gResultsBattle->mCellFileSets[1];
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    if (gResultsBattle->mUseTimer != FALSE) {
-        if (gResultsBattle->mTimer != 0) {
-            gResultsBattle->mTimer = gResultsBattle->mTimer - 1;
-            shownTimer = (gResultsBattle->mTimer + RESULTS_BATTLE_TIMER_STEP_FRAMES) / RESULTS_BATTLE_TIMER_STEP_FRAMES;
-            mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell].mVisible = shownTimer >= 10 ? 1 : 0;
-            if (gResultsBattle->mTimer == 0) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
-            } else if ((gResultsBattle->mTimer + RESULTS_BATTLE_TIMER_STEP_FRAMES) % RESULTS_BATTLE_TIMER_STEP_FRAMES ==
+    subCellFileSet = &g_GlobalV->mCellFileSets[1];
+    mainCellFileSet = &g_GlobalV->mCellFileSets[0];
+    if (g_GlobalV->mUseTimer != FALSE) {
+        if (g_GlobalV->mTimer != 0) {
+            g_GlobalV->mTimer = g_GlobalV->mTimer - 1;
+            shownTimer = (g_GlobalV->mTimer + RESULTS_BATTLE_TIMER_STEP_FRAMES) / RESULTS_BATTLE_TIMER_STEP_FRAMES;
+            mainCellFileSet->mCellTable[g_GlobalV->mTimerTensCell].mVisible = shownTimer >= 10 ? 1 : 0;
+            if (g_GlobalV->mTimer == 0) {
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x51);
+            } else if ((g_GlobalV->mTimer + RESULTS_BATTLE_TIMER_STEP_FRAMES) % RESULTS_BATTLE_TIMER_STEP_FRAMES ==
                            0 &&
                        shownTimer <= 4) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x50);
             }
         } else {
             shownTimer = 0;
         }
         tensCellLayout = mainCellFileSet->mCellLayout;
         tensCells = mainCellFileSet->mCells;
-        QueueCellChars(gResultsBattle->mTimerDigitCellBase + (shownTimer / 10) % 10, tensCells, mainCellFileSet->mChars,
-                       tensCellLayout, 0, gResultsBattle->mTimerTensCell, tensCells, tensCellLayout);
+        QueueCellChars(g_GlobalV->mTimerDigitCellBase + (shownTimer / 10) % 10, tensCells, mainCellFileSet->mChars,
+                       tensCellLayout, 0, g_GlobalV->mTimerTensCell, tensCells, tensCellLayout);
         unitsCellLayout = mainCellFileSet->mCellLayout;
         unitsCells = mainCellFileSet->mCells;
-        QueueCellChars(gResultsBattle->mTimerDigitCellBase + shownTimer % 10, unitsCells, mainCellFileSet->mChars,
-                       unitsCellLayout, 0, gResultsBattle->mTimerTensCell + 1, unitsCells, unitsCellLayout);
+        QueueCellChars(g_GlobalV->mTimerDigitCellBase + shownTimer % 10, unitsCells, mainCellFileSet->mChars,
+                       unitsCellLayout, 0, g_GlobalV->mTimerTensCell + 1, unitsCells, unitsCellLayout);
     } else {
-        mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell + 1].mVisible = 0;
-        mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell].mVisible =
-            mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell + 1].mVisible;
+        mainCellFileSet->mCellTable[g_GlobalV->mTimerTensCell + 1].mVisible = 0;
+        mainCellFileSet->mCellTable[g_GlobalV->mTimerTensCell].mVisible =
+            mainCellFileSet->mCellTable[g_GlobalV->mTimerTensCell + 1].mVisible;
     }
-    switch (gResultsBattle->mState) {
+    switch (g_GlobalV->mState) {
         case RESULTS_BATTLE_STATE_START_SYNC:
-            gResultsBattle->mSyncAndWaitFrames = gResultsBattle->mSyncAndWaitFrames + 1;
+            g_GlobalV->mSyncAndWaitFrames = g_GlobalV->mSyncAndWaitFrames + 1;
             if (StartDataSharingSync() == 1) {
-                gResultsBattle->mState = RESULTS_BATTLE_STATE_FINISH_SYNC;
+                g_GlobalV->mState = RESULTS_BATTLE_STATE_FINISH_SYNC;
             }
             break;
         case RESULTS_BATTLE_STATE_FINISH_SYNC:
-            gResultsBattle->mSyncAndWaitFrames = gResultsBattle->mSyncAndWaitFrames + 1;
+            g_GlobalV->mSyncAndWaitFrames = g_GlobalV->mSyncAndWaitFrames + 1;
             if (FinishDataSharingSync() == 1) {
-                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
+                g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_FRAMES;
             }
             break;
         case RESULTS_BATTLE_STATE_WAIT_FRAMES:
             frameLimit = GetResultsBattleFrameLimit();
-            gResultsBattle->mSyncAndWaitFrames = gResultsBattle->mSyncAndWaitFrames + 1;
-            if (gResultsBattle->mSyncAndWaitFrames > frameLimit) {
-                gResultsBattle->mSyncAndWaitFrames = 0;
-                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
+            g_GlobalV->mSyncAndWaitFrames = g_GlobalV->mSyncAndWaitFrames + 1;
+            if (g_GlobalV->mSyncAndWaitFrames > frameLimit) {
+                g_GlobalV->mSyncAndWaitFrames = 0;
+                g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
             }
             break;
         case RESULTS_BATTLE_STATE_WAIT_CONFIRM:
-            switch (gResultsBattle->mMode) {
+            switch (g_GlobalV->mMode) {
                 case CONNECTION_KIND_NONE:
-                    if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+                    if ((u16) (g_GlobalCYT[GetSomeCYId_9()].mPressedBits & PAD_KEY_A) != 0) {
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
                         if (sceneNumbers != NULL) {
                             sceneNumbers->mNextScene = SCENE_MENU_1;
                         }
-                        gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
+                        g_GlobalV->mState = RESULTS_BATTLE_STATE_DONE;
                     }
                     break;
                 case CONNECTION_KIND_MEMBER_SELECT:
                 case CONNECTION_KIND_WL_MENU:
                     inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-                    if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
+                    if ((u16) (g_GlobalCYT[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
                         StartResultsBattleChoices();
-                        gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+                        g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
                     }
                     break;
                 case CONNECTION_KIND_WIFI_MENU:
                     if (IsResultsBattleTimerRunOut() != 0) {
                         SetWiFiSessionOwnContinueChoice(1);
-                        gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE;
-                    } else if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0 ||
+                        g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE;
+                    } else if ((u16) (g_GlobalCYT[GetSomeCYId_9()].mPressedBits & PAD_KEY_A) != 0 ||
                                IsResultsBattleTimerBelowChoiceStart() != 0) {
                         StartResultsBattleChoices();
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
-                        gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
+                        g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_CHOICE;
                     }
                     break;
             }
             break;
         case RESULTS_BATTLE_STATE_WAIT_CHOICE:
-            switch (gResultsBattle->mMode) {
+            switch (g_GlobalV->mMode) {
                 case CONNECTION_KIND_MEMBER_SELECT:
                 case CONNECTION_KIND_WL_MENU:
                     if (GetSelectChoisesDone() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                if (gStartupWork->mMultiSimple != 0) {
-                                    gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
-                                    gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
+                                if (g_GlobalP->mMultiSimple != 0) {
+                                    g_GlobalB488->mWLMenuKind = WL_MENU_KIND_TO_MENU;
+                                    g_GlobalB488->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = SCENE_WL_MENU;
                                     }
                                 } else {
-                                    gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
+                                    g_GlobalB488->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = SCENE_MENU_1;
                                     }
                                 }
-                                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
+                                g_GlobalV->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
                             case 1:
-                                gConnectionWork->mFlags = gConnectionWork->mFlags | CONNECTION_FLAG_ENDING;
-                                gResultsBattle->mState = RESULTS_BATTLE_STATE_END_CONNECTION;
+                                g_GlobalZE->mFlags = g_GlobalZE->mFlags | CONNECTION_FLAG_ENDING;
+                                g_GlobalV->mState = RESULTS_BATTLE_STATE_END_CONNECTION;
                                 break;
                             case -1:
-                                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
+                                g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
                         RequestSelectChoisesHidden();
@@ -1075,19 +1075,19 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if (GetSelectChoisesDone() != 0 || IsResultsBattleTimerRunOut() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE;
+                                g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE;
                                 SetWiFiSessionOwnContinueChoice(1);
                                 break;
                             case 1:
                                 SetWiFiSessionOwnContinueChoice(0);
-                                gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
+                                g_GlobalB488->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = SCENE_WIFI_MENU;
                                 }
-                                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
+                                g_GlobalV->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
                             case -1:
-                                gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
+                                g_GlobalV->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
                         RequestSelectChoisesHidden();
@@ -1099,16 +1099,16 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
             if (GetWiFiSessionContinueResult() != 0) {
                 switch (GetWiFiSessionContinueResult()) {
                     case WIFI_CONTINUE_RESULT_KARTS_LEFT:
-                        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_SELECT_CHARACTER;
+                        g_GlobalB488->mWiFiMenuStartKind = WIFI_MENU_START_SELECT_CHARACTER;
                         break;
                     case WIFI_CONTINUE_RESULT_ENDED:
-                        gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
+                        g_GlobalB488->mWiFiMenuStartKind = WIFI_MENU_START_VS_SETTING;
                         break;
                 }
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = SCENE_WIFI_MENU;
                 }
-                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
+                g_GlobalV->mState = RESULTS_BATTLE_STATE_DONE;
             }
             break;
         case RESULTS_BATTLE_STATE_END_CONNECTION:
@@ -1116,17 +1116,17 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0;
                 }
-                gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
+                g_GlobalV->mState = RESULTS_BATTLE_STATE_DONE;
             }
             break;
     }
     AdvanceTrophy();
     DrawTrophy();
     for (drawIndex = 0; drawIndex < 2; drawIndex++) {
-        DrawLayoutTable(gResultsBattle->mCellFileSets[drawIndex].mCellLayout,
-                        gResultsBattle->mCellFileSets[drawIndex].mCells,
-                        gResultsBattle->mCellFileSets[drawIndex].mLabelLayout, gResultsBattle->mOamLists[drawIndex],
-                        gResultsBattle->mCellFileSets[drawIndex].mCellTable);
+        DrawLayoutTable(g_GlobalV->mCellFileSets[drawIndex].mCellLayout,
+                        g_GlobalV->mCellFileSets[drawIndex].mCells,
+                        g_GlobalV->mCellFileSets[drawIndex].mLabelLayout, g_GlobalV->mOamLists[drawIndex],
+                        g_GlobalV->mCellFileSets[drawIndex].mCellTable);
     }
     cellCount = subCellFileSet->mCellLayout->mCount;
     for (drawIndex = 0; drawIndex < 8; drawIndex++) {
@@ -1135,25 +1135,25 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
         SetLabelPaletteIndex(drawIndex, 0xe, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
         DrawLayoutTableEntry(drawIndex + cellCount, subCellFileSet->mCellLayout, subCellFileSet->mCells,
-                             subCellFileSet->mLabelLayout, gResultsBattle->mOamLists[1], subCellFileSet->mCellTable);
+                             subCellFileSet->mLabelLayout, g_GlobalV->mOamLists[1], subCellFileSet->mCellTable);
         SetLabelPaletteIndex(drawIndex, 0xf, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
         subCellFileSet->mCellTable[drawIndex + cellCount].mOffsetY =
             subCellFileSet->mCellTable[drawIndex + cellCount].mOffsetY - 1;
     }
-    AdvanceSceneText();
+    NavigationContext_OnSceneUpdate_from_thumb();
 }
 
 void ReleaseResultsBattle(void) {
-    gMenuShared->mRaceSetupRequested = 1;
-    ReleaseSceneText();
+    g_GlobalB488->mRaceSetupRequested = 1;
+    DisposeNavigationContext_from_thumb();
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void ResultsBattleWriteSceneTextRegistersWrapper(void) {
+void j_NavigationContext_OnSceneVblank_0_from_thumb(void) {
     u32 unused;
-    WriteSceneTextRegisters();
+    NavigationContext_OnSceneVblank_from_thumb();
 }
 #pragma thumb off

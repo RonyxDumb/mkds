@@ -102,20 +102,20 @@ struct Nsbmd *gMkdEfBubble;
 MapObjectKindData *CreateMkdEfBubbleKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gMkdEfBubbleKindData;
     return kindData;
 }
 
 MapObjectList *CreateMkdEfBubbleDrawList(void) {
-    gMkdEfBubbleDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    gMkdEfBubbleDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     *gMkdEfBubbleDrawList = gMkdEfBubbleDrawListData;
     SetDrawListSlot(&gMkdEfBubbleDrawList);
     return &gMkdEfBubbleDrawList->mList;
 }
 
 MapObjectList *CreateMkdEfBubbleUpdateList(void) {
-    gMkdEfBubbleUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MkdEfBubbleUpdateList));
+    gMkdEfBubbleUpdateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MkdEfBubbleUpdateList));
     *gMkdEfBubbleUpdateList = gMkdEfBubbleUpdateListData;
     SetUpdateListSlot(&gMkdEfBubbleUpdateList);
     gMkdEfBubbleUpdateList->mAngleScale = FX_Div(0x4000000, 0x1333);
@@ -135,7 +135,7 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&bubble->mMapObject.mPos), 0xc);
     if (bubble->mAngleZ != 0) {
-        MTX_RotZ33_(&rotationMatrix, SIN_OF_ANGLE(bubble->mAngleZ), COS_OF_ANGLE(bubble->mAngleZ));
+        MTX_RotZ33__from_thumb(&rotationMatrix, SIN_OF_ANGLE(bubble->mAngleZ), COS_OF_ANGLE(bubble->mAngleZ));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     }
     NNS_G3dGeBufferOP_N(0x1b, &bubble->mMapObject.mScale, 3);
@@ -159,11 +159,11 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
 }
 
 void AdvanceMkdEfBubbleAnimation(void) {
-    AdvanceModelAnimation(gMkdEfBubbleNsbta);
+    StructAM_SomeFn_MaybeMoveNextFrame(gMkdEfBubbleNsbta);
 }
 
 void UpdateMkdEfBubble(void *unused, MkdEfBubbleObject *bubble) {
-    AdvanceStateMachine(&bubble->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&bubble->mMapObject.mStateMachine);
     if (bubble->mEffectMissing != 0) {
         return;
     }

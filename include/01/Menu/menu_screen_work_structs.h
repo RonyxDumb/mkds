@@ -25,7 +25,7 @@ enum {
     ENDING_SCENE_STATE_HOLD_THEN_LEAVE,
 };
 
-// The ending scene: its state, heap, thanks layout, logo graphics and main screen OAM.
+// The ending scene: its state, heap, thanks layout, logo graphics and NtrMain screen OAM.
 typedef struct EndingScene {
     /* 000 */ s32 mState;
     /* 004 */ s32 mNextState;
@@ -169,11 +169,11 @@ typedef struct MissionRunMSsel {
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames; /* counted only in states 1, 4, 8; zeroed by the next-state setter */
     /* 6c */ s32 mIndexCellTimers[9];
-    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // X half of reg_G2_BG0OFS (0x04000010, NtrMain engine BG0), stored negated
     /* 90 */ s32 mBg0OffsetX;
-    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // Y half of reg_G2_BG0OFS (0x04000010, NtrMain engine BG0), stored negated
     /* 94 */ s32 mBg0OffsetY;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated; X is not written
+    // Y half of reg_G2_BG1OFS (0x04000014, NtrMain engine BG1), stored negated; X is not written
     /* 98 */ s32 mBg1Offset;
     /* 9c */ s16 mExitOffsetX;
     /* 9e */ s16 mIndex; /* mission number - 1, 8 = ninth mission */
@@ -232,15 +232,15 @@ typedef struct SelectEngine {
     /* 00 */ struct NNSG2dCellDataBank *mSelectEngineMNcer;
     /* 04 */ struct LayoutEntryTable *mSelectEngineMBncl;
     /* 08 */ struct NNSG2dCellDataBank *mSelectEngineSNcer;
-    // gp/select_engine_B_s.bncl when IsBackupFlagSet(0x10) != 0, else gp/select_engine_A_s.bncl; the same flag hides
+    // gp/select_engine_B_s.bncl when CheckSavedSecretFlag_from_thumb(0x10) != 0, else gp/select_engine_A_s.bncl; the same flag hides
     // item 3 (A layout has no fourth item); the cells of item 3 are zeroed when
-    // IsBackupFlagSet(0x10) is 0
+    // CheckSavedSecretFlag_from_thumb(0x10) is 0
     /* 0c */ struct LayoutEntryTable *mSelectEngineAOrBSBncl;
     // same variant as mSelectEngineAOrBSBncl (.bnbl)
     /* 10 */ void *mSelectEngineAOrBSBnbl;
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 14 */ LayoutTableEntry *mSelectEngineMTable;
-    // cell records of mSelectEngineAOrBSBncl (variant chosen by IsBackupFlagSet(0x10))
+    // cell records of mSelectEngineAOrBSBncl (variant chosen by CheckSavedSecretFlag_from_thumb(0x10))
     /* 18 */ LayoutTableEntry *mSelectEngineAOrBSTable;
     /* 1c */ void *mVramTransferBuffer;
     /* 20 */ void *mHeap;
@@ -319,7 +319,7 @@ typedef struct EmblemCursor {
     /* 00 */ s32 mMode;
     /* 04 */ s32 mSizeIndex;
     /* 08 */ u8 mCellValue;
-    /* 09 */ u8 mUnk_09[0x3];
+    /* 09 */ u8 mDiffAmb[0x3];
     /* 0c */ s32 mCellShift;
     /* 10 */ s32 mOriginX;
     /* 14 */ s32 mOriginY;

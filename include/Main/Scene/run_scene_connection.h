@@ -13,17 +13,17 @@
 // The scene numbers: the previous scene, the scene being run and the next scene to run (-1 until set).
 typedef struct SceneNumbers {
     /* 00 */ s16 mPreviousScene;
-    // Number of the scene being run: the index of gSceneFuncs and of the scene-name table
-    // gSceneNames.
+    // Number of the scene being run: the index of g_SceneFnTable and of the scene-name table
+    // g_SceneArchiveNameTable.
     /* 02 */ s16 mScene;
     // Scene to run next, -1 until set. Written by the update slots (also through the other typedef
-    // views and as a[2]) and by RunScene when the scene ends;
-    // read by RunScene and RunScenes.
+    // views and as a[2]) and by OnSceneLoop when the scene ends;
+    // read by OnSceneLoop and SceneLoopExecuteFunction.
     /* 04 */ s16 mNextScene;
 } SceneNumbers;
 
-// Runs one scene to its end: loads the scene's archives from a.mScene (LoadArchiveSlotsForScene), generic
+// Runs one scene to its end: loads the scene's archives from a.mScene (MountArchivesForScene_from_thumb), generic
 // set-up, mInit once, a wait loop without slots, the update loop (mUpdate, then slot 0x0c, every
 // frame) until a slot sets a.mNextScene or GetVolatileHalfwordIndex39 is non-zero, the fade-out loop, a wait
 // loop, mRelease once, generic tear-down.
-void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks);
+void OnSceneLoop(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks);

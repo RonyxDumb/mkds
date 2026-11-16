@@ -11,7 +11,7 @@ typedef struct SoundModeHolder SoundModeHolder;
 #define SCENE_SOUND_MODE_SEQUENCES_ONLY 1
 // Sounds and sequences on (race running, and after resuming from a pause).
 #define SCENE_SOUND_MODE_PLAYING 2
-// Sounds and the second sequence fade out; the main sequence keeps playing (the start of the cup results scene).
+// Sounds and the second sequence fade out; the NtrMain sequence keeps playing (the start of the cup results scene).
 #define SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY 3
 // Every sound and sequence fades out.
 #define SCENE_SOUND_MODE_FADED_OUT 4

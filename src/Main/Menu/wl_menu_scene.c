@@ -34,17 +34,17 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Scene/display_settings_descs.h"
 
-struct WLMenuCallbacks *gWLMenuCallbacks[WL_MENU_CALLBACKS_COUNT] = {
+struct WLMenuCallbacks *g_SomeFnTable[WL_MENU_CALLBACKS_COUNT] = {
     &gMultiSelectMemberGroupCallbacks, &gMultiSelectNSCallbacks,        &gMemberKeyStartCallbacks,
     &gMemberNoKeyStartCallbacks,       &gWLMenuMBChildMessageCallbacks, &gWLMenuMessageToRaceCallbacks,
     &gWLMenuMessageToResultCallbacks,  &gWLMenuMessageToMenuCallbacks};
 struct WLMenuScene *gWLMenuScene;
 
-void WLMenuGX_SetOBJVRamModeChar(u32 bits) {
+void SetSomeDispcntTopMask(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
-void WLMenuGXS_SetOBJVRamModeChar(u32 bits) {
+void SetSomeDispcntSubMask(u32 bits) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
@@ -55,30 +55,30 @@ void InitWLMenuScene(void *heap) {
     DisplaySettings *displaySettings;
     SceneTextInitParams sceneTextInitParams;
 
-    gWLMenuScene = HeapAllocAligned(heap, 0x874, HEAP_ALIGN_CACHE_LINE);
+    gWLMenuScene = Mem_AllocateHeapAligned(heap, 0x874, HEAP_ALIGN_CACHE_LINE);
     WLMenuMI_CpuClearFast(gWLMenuScene, 0x874);
-    displaySettings = CreateDisplaySettings(heap, gWLMenuSceneDisplaySettingsDesc);
-    WLMenuSetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
-    WLMenuSetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 6);
-    InitDisplayFromSettings(displaySettings);
-    if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
+    displaySettings = CreateDisplayConfig(heap, gWLMenuSceneDisplaySettingsDesc);
+    DisplayConfig_SetTopEngineBg1Config_0(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
+    DisplayConfig_SetBottomEngineBg3Config_0(displaySettings, 2, 0, 0, 0, 0xf, 6);
+    SetGlobalDisplayConfig(displaySettings);
+    if (j_IsDwc_2() == 0) {
         sceneTextInitParams.mUseTxtSystem = 1;
-        sceneTextInitParams.mTxtSystemFont = GetFontByIndex(1);
+        sceneTextInitParams.mTxtSystemFont = GetLoadedFont_from_thumb(1);
         sceneTextInitParams.mUseCanvas1 = 0;
         sceneTextInitParams.mUseCanvas2 = 1;
         sceneTextInitParams.mUseCanvas3 = 0;
         sceneTextInitParams.mUseSelectChoises = 0;
         sceneTextInitParams.mSelectChoisesFont = NULL;
         sceneTextInitParams.mUseSelectReturn = 1;
-        sceneTextInitParams.mUseBackScreen = GetWLMenuKind() == 0;
+        sceneTextInitParams.mUseBackScreen = GetB488SomeMode() == 0;
         sceneTextInitParams.mBackScreenKind = 0;
-        LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-        InitSceneText(heap, &sceneTextInitParams);
+        PrepareNavigationContextFiles_from_thumb();
+        InitializeNavigationContext_from_thumb(heap, &sceneTextInitParams);
     }
-    InitLinkLevelIcons(heap, gWLMenuScene);
-    switch (GetWLMenuKind()) {
+    CreateGlobalNN_from_thumb(heap, gWLMenuScene);
+    switch (GetB488SomeMode()) {
         case WL_MENU_KIND_JOIN_GROUP:
-            gWLMenuScene->mRequestedCallbacksIndex = WLMenuMB_IsMultiBootChildWrapper() != 0
+            gWLMenuScene->mRequestedCallbacksIndex = j_IsDwc_2() != 0
                                                          ? WL_MENU_CALLBACKS_MB_CHILD_MESSAGE
                                                          : WL_MENU_CALLBACKS_MEMBER_GROUP;
             InitWLMenuResetRaceSetup(heap);
@@ -98,38 +98,38 @@ void InitWLMenuScene(void *heap) {
             break;
     }
     gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
-    gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[gWLMenuScene->mRequestedCallbacksIndex];
-    gWLMenuScene->mHeap = CreateExpHeapFromMaxFree(heap);
-    if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
-        LoadMultiSelectFiles();
+    gWLMenuScene->mCurrentCallbacks = g_SomeFnTable[gWLMenuScene->mRequestedCallbacksIndex];
+    gWLMenuScene->mHeap = Mem_CreateChildExpHeap(heap);
+    if (j_IsDwc_2() == 0) {
+        MaybeVerifyMultiSelectFiles_from_thumb();
     }
-    ResetOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
-    WLMenuGX_SetOBJVRamModeChar(0x10);
-    WLMenuGXS_SetOBJVRamModeChar(0x10);
+    OamBuffer_SomeFn_from_thumb(gWLMenuScene, gWLMenuScene->mSubOam);
+    SetSomeDispcntTopMask(0x10);
+    SetSomeDispcntSubMask(0x10);
     gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
-void AdvanceWLMenuScene(void *sceneNumbers) {
+void Scene_WLMenu_UpdateImpl_from_thumb(void *sceneNumbers) {
     s32 callbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
     WLMenuCallbacks *previousCallbacks;
 
     if (gWLMenuScene->mCurrentCallbacksIndex != callbacksIndex) {
         previousCallbacks = gWLMenuScene->mCurrentCallbacks;
-        gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[callbacksIndex];
+        gWLMenuScene->mCurrentCallbacks = g_SomeFnTable[callbacksIndex];
         gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
         previousCallbacks->mRelease();
         gWLMenuScene->mCurrentCallbacks->mInit(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
     } else {
-        ClearOamListCounts(gWLMenuScene, gWLMenuScene->mSubOam);
+        OamBuffer_ResetValues16_from_thumb(gWLMenuScene, gWLMenuScene->mSubOam);
         callbacksIndex = gWLMenuScene->mCurrentCallbacks->mAdvance(sceneNumbers);
         if (callbacksIndex != -1) {
             gWLMenuScene->mRequestedCallbacksIndex = callbacksIndex;
         }
         AdvanceLinkLevelIcons();
-        HideUnusedOams(gWLMenuScene, gWLMenuScene->mSubOam);
+        OamBuffer_SomeFn2_from_thumb(gWLMenuScene, gWLMenuScene->mSubOam);
     }
-    if (WLMenuMB_IsMultiBootChildWrapper() == 0) {
-        AdvanceSceneText();
+    if (j_IsDwc_2() == 0) {
+        NavigationContext_OnSceneUpdate_from_thumb();
     }
 }
 
@@ -137,40 +137,40 @@ void AdvanceWLMenuScene(void *sceneNumbers) {
 
 #pragma thumb on
 
-void ReleaseWLMenuScene(void) {
+void Scene_WLMenu_FinalizeImpl_from_thumb(void) {
     int isMultiBootChild;
     gWLMenuScene->mCurrentCallbacks->mRelease();
-    isMultiBootChild = WLMenuMB_IsMultiBootChildWrapper();
+    isMultiBootChild = j_IsDwc_2();
     if (isMultiBootChild == 0) {
-        ReleaseSceneText();
+        DisposeNavigationContext_from_thumb();
     }
-    ClearLinkLevelIconsPointer();
+    ResetGlobalNN_from_thumb();
 }
 
 #pragma thumb off
 
-u16 *WLMenuMB_GetMultiBootParam(void) {
+u16 *GetBiosBootIndicatorRef(void) {
     return &gBootInfo->mBootType;
 }
 
-u32 WLMenuMB_IsMultiBootChild(void) {
-    return *WLMenuMB_GetMultiBootParam() == 2;
+u32 IsDwc_2(void) {
+    return *GetBiosBootIndicatorRef() == 2;
 }
 
-u32 WLMenuMB_IsMultiBootChildWrapper(void) {
-    return WLMenuMB_IsMultiBootChild();
+u32 j_IsDwc_2(void) {
+    return IsDwc_2();
 }
 
 #pragma thumb on
 
-void WriteWLMenuSceneRegisters(void) {
+void Scene_WLMenu_VblankImpl_from_thumb(void) {
     int isMultiBootChild;
-    isMultiBootChild = WLMenuMB_IsMultiBootChildWrapper();
+    isMultiBootChild = j_IsDwc_2();
     if (isMultiBootChild == 0) {
-        WriteSceneTextRegisters();
+        NavigationContext_OnSceneVblank_from_thumb();
     }
     gWLMenuScene->mCurrentCallbacks->mWriteRegisters();
-    UploadOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
+    CopyOamBuffersToMemory_from_thumb(gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
 WLMenuScanSlotPick *GetWLMenuSceneScanSlotPick(void) {

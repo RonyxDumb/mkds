@@ -8,13 +8,13 @@ u32 FinishWiFiRaceSyncSend(void) {
     u32 flags;
     u32 testedValue;
     u32 zero;
-    result = gWiFiSession->mRaceSyncEnabled;
+    result = g_GlobalB->mRaceSyncEnabled;
     testedValue = result;
     zero = 0u;
     if (testedValue == zero) {
         return result;
     }
-    result = (u32) gWiFiRaceSync;
+    result = (u32) g_GlobalAA;
     result = (result) + (0x700u);
     flags = *OFFSET_PTR(u16, result, 92);
     flags = (flags) & ~(4u);

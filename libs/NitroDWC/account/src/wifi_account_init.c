@@ -7,15 +7,15 @@
 
 #pragma thumb on
 
-u32 DWC_Init(u8 *work) {
+u32 MaybeInitializeDwc_from_thumb(u8 *work) {
     u32 created;
     s32 result;
 
     created = 0;
-    OSi_ReferSymbol(BuildInfo.mDwc);
-    result = DWC_BM_Init(work);
+    Os_ReferSymbol(g_StartModuleParams.mDwc);
+    result = StructDC_SomeFn_2_from_thumb(work);
     if (DWC_Auth_CheckWiFiIDNeedCreate() != 0) {
-        WriteNewWiFiInfoToNvram((u32) work);
+        StructDC_SomeFn_4_from_thumb((u32) work);
         created = 1;
     }
     if (result < 0) {
@@ -30,7 +30,7 @@ u32 DWC_Init(u8 *work) {
     return 0;
 }
 
-BOOL DWCi_Acc_SetMaskBits(u32 *ptr, u32 data, u32 shift, u32 mask) {
+BOOL FriendCode_SetFlagsImpl_from_thumb(u32 *ptr, u32 data, u32 shift, u32 mask) {
     if ((data & ~mask) != 0) {
         return 0;
     }
@@ -38,7 +38,7 @@ BOOL DWCi_Acc_SetMaskBits(u32 *ptr, u32 data, u32 shift, u32 mask) {
     return 1;
 }
 
-u64 DWCi_Acc_GetUserId(const DWCAccFriendData *userdata) {
+u64 FriendCode_GetSomePackedValue_from_thumb(const DWCAccFriendData *userdata) {
     return (u64) (userdata->mIdData & ACCOUNT_USER_ID_HIGH_MASK) << 32 | userdata->mUserIdLo;
 }
 

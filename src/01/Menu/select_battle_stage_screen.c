@@ -19,28 +19,28 @@
 void LoadSelectBattleStageData(void) {
     void *sceneFile;
     LoadedPartPointer loaded;
-    sceneFile = FindSceneFile("mg/select_battle_stage_m_b.ncgr");
-    LoadNcgrData(&loaded.mNcgr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m_00.nscr");
-    LoadNscrData(&loaded.mNscr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m_01.nscr");
-    LoadNscrData(&loaded.mNscr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m_02.nscr");
-    LoadNscrData(&loaded.mNscr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m_b.nclr");
-    LoadNclrData(&loaded.mNclr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m.nce.ncgr");
-    LoadNcgrData2(&loaded.mNcgr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m.nce.ncer");
-    LoadNcerData(&loaded.mNcer, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_m_o.nclr");
-    LoadNclrData(&loaded.mNclr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_s.nce.ncgr");
-    LoadNcgrData2(&loaded.mNcgr, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_s.nce.ncer");
-    LoadNcerData(&loaded.mNcer, sceneFile);
-    sceneFile = FindSceneFile("mg/select_battle_stage_s_o.nclr");
-    LoadNclrData(&loaded.mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_b.ncgr");
+    Gfx_ReadCharGraphicsV2(&loaded.mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_00.nscr");
+    MaybeReadScreenBlock_0(&loaded.mNscr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_01.nscr");
+    MaybeReadScreenBlock_0(&loaded.mNscr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_02.nscr");
+    MaybeReadScreenBlock_0(&loaded.mNscr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_b.nclr");
+    Gfx_ReadPalette(&loaded.mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m.nce.ncgr");
+    Gfx_ReadCharGraphics(&loaded.mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m.nce.ncer");
+    LoadCellBankFrom(&loaded.mNcer, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_o.nclr");
+    Gfx_ReadPalette(&loaded.mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s.nce.ncgr");
+    Gfx_ReadCharGraphics(&loaded.mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s.nce.ncer");
+    LoadCellBankFrom(&loaded.mNcer, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s_o.nclr");
+    Gfx_ReadPalette(&loaded.mNclr, sceneFile);
 }
 
 const u8 gSelectBattleStageNegatedYCells[1] = {0};
@@ -63,8 +63,8 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     void *heap;
     void *bmgEntry;
 
-    heap = CreateExpHeapFromMaxFree(parentHeap);
-    gSelectBattleStage = HeapAlloc(heap, sizeof(SelectBattleStage));
+    heap = Mem_CreateChildExpHeap(parentHeap);
+    gSelectBattleStage = Mem_AllocateHeap(heap, sizeof(SelectBattleStage));
     gSelectBattleStage->mHeap = heap;
     gSelectBattleStage->mState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
     gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_IN;
@@ -74,17 +74,17 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
     gSelectBattleStage->mOffset = 0;
     gSelectBattleStage->mHighlightVisible = TRUE;
     gSelectBattleStage->mResult = -4;
-    gSelectBattleStage->mMenuMessages = FindSceneFile("menu.bmg");
-    gSelectBattleStage->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gSelectBattleStage->mMenuMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("menu.bmg");
+    gSelectBattleStage->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     LocateAndQueueSelectBattleStage();
     CopyAndQueueSelectBattleStageNscrRect();
     for (index = 0; index < 6; index++) {
-        SetCellOamModeXlu(gSelectBattleStageSTableIndices[index][0], 1, gSelectBattleStage->mSelectBattleStageSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gSelectBattleStageSTableIndices[index][0], 1, gSelectBattleStage->mSelectBattleStageSNcer,
                           gSelectBattleStage->mSelectBattleStageBncls[1]);
     }
     gSelectBattleStage->mMainOamList = mainOam;
     gSelectBattleStage->mSubOamList = subOam;
-    ResetOamLists(mainOam, subOam);
+    OamBuffer_SomeFn_from_thumb(mainOam, subOam);
     for (index = 0; index < 2; index++) {
         InitLayoutTable(gSelectBattleStage->mHeap, gSelectBattleStage->mSelectBattleStageBncls[index],
                         gSelectBattleStage->mSelectBattleStageBnlls[index],
@@ -104,9 +104,9 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
         u8 layoutEntryIndices[2] = {5, 6};
         s32 rem = 0x8000;
 
-        bmgEntry = GetBmgEntry(gSelectBattleStage->mMenuMessages, 6);
+        bmgEntry = Bmg_GetRawStringPointer_from_thumb(gSelectBattleStage->mMenuMessages, 6);
         if (variant == 0) {
-            bmgEntry = GetBmgEntry(gSelectBattleStage->mMenuMessages, 7);
+            bmgEntry = Bmg_GetRawStringPointer_from_thumb(gSelectBattleStage->mMenuMessages, 7);
         }
         for (index = 0; index < 2; index++) {
             rem -= InitLabelCanvas(
@@ -130,7 +130,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
 void ReleaseSelectBattleStage(void) {
     reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0x1e10;
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x1800;
-    HeapDestroy(gSelectBattleStage->mHeap);
+    Mem_DestroyHeap(gSelectBattleStage->mHeap);
     gSelectBattleStage = NULL;
 }
 
@@ -141,35 +141,35 @@ void LocateAndQueueSelectBattleStage(void) {
     Nclr *nclrMO;
     Nclr *nclrSO;
 
-    LocateNcgr(&ncgrMB, FindSceneFile("mg/select_battle_stage_m_b.ncgr"));
-    LocateNscr(&gSelectBattleStage->mSelectBattleStageMNscrs[0], FindSceneFile("mg/select_battle_stage_m_00.nscr"));
-    LocateNscr(&gSelectBattleStage->mSelectBattleStageMNscrs[1], FindSceneFile("mg/select_battle_stage_m_01.nscr"));
-    LocateNscr(&gSelectBattleStage->mSelectBattleStageMNscrs[2], FindSceneFile("mg/select_battle_stage_m_02.nscr"));
-    LocateNclr(&nclrMB, FindSceneFile("mg/select_battle_stage_m_b.nclr"));
-    gSelectBattleStage->mSelectBattleStageBncls[0] = FindSceneFile("mg/select_battle_stage_m.bncl");
+    MaybeReadCharBlock_1(&ncgrMB, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_b.ncgr"));
+    MaybeReadScreenBlock(&gSelectBattleStage->mSelectBattleStageMNscrs[0], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_00.nscr"));
+    MaybeReadScreenBlock(&gSelectBattleStage->mSelectBattleStageMNscrs[1], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_01.nscr"));
+    MaybeReadScreenBlock(&gSelectBattleStage->mSelectBattleStageMNscrs[2], FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_02.nscr"));
+    Gfx_ReadPaletteRelative(&nclrMB, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_b.nclr"));
+    gSelectBattleStage->mSelectBattleStageBncls[0] = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m.bncl");
     gSelectBattleStage->mSelectBattleStageBnbls[0] = NULL;
-    gSelectBattleStage->mSelectBattleStageBnlls[0] = FindSceneFile("mg/select_battle_stage_m.bnll");
-    gSelectBattleStage->mSelectBattleStageBncls[1] = FindSceneFile("mg/select_battle_stage_s.bncl");
-    gSelectBattleStage->mSelectBattleStageBnbls[1] = FindSceneFile("mg/select_battle_stage_s.bnbl");
+    gSelectBattleStage->mSelectBattleStageBnlls[0] = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m.bnll");
+    gSelectBattleStage->mSelectBattleStageBncls[1] = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s.bncl");
+    gSelectBattleStage->mSelectBattleStageBnbls[1] = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s.bnbl");
     gSelectBattleStage->mSelectBattleStageBnlls[1] = NULL;
-    LocateNcgr2(&gSelectBattleStage->mSelectBattleStageMNcgr, FindSceneFile("mg/select_battle_stage_m.nce.ncgr"));
-    LocateNcer(&gSelectBattleStage->mSelectBattleStageMNcer, FindSceneFile("mg/select_battle_stage_m.nce.ncer"));
-    LocateNclr(&nclrMO, FindSceneFile("mg/select_battle_stage_m_o.nclr"));
-    LocateNcgr2(&gSelectBattleStage->mSelectBattleStageSNcgr, FindSceneFile("mg/select_battle_stage_s.nce.ncgr"));
-    LocateNcer(&gSelectBattleStage->mSelectBattleStageSNcer, FindSceneFile("mg/select_battle_stage_s.nce.ncer"));
-    LocateNclr(&nclrSO, FindSceneFile("mg/select_battle_stage_s_o.nclr"));
+    Gfx_ReadCharGraphicsRelative(&gSelectBattleStage->mSelectBattleStageMNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m.nce.ncgr"));
+    LocateNcer(&gSelectBattleStage->mSelectBattleStageMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m.nce.ncer"));
+    Gfx_ReadPaletteRelative(&nclrMO, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_m_o.nclr"));
+    Gfx_ReadCharGraphicsRelative(&gSelectBattleStage->mSelectBattleStageSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s.nce.ncgr"));
+    LocateNcer(&gSelectBattleStage->mSelectBattleStageSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s.nce.ncer"));
+    Gfx_ReadPaletteRelative(&nclrSO, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mg/select_battle_stage_s_o.nclr"));
     clearValue = 0;
-    MIi_CpuClear16(clearValue, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
-    NNS_GfdRegisterNewVramTransferTask(6, 0, ncgrMB->mData, ncgrMB->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
-    NNS_GfdRegisterNewVramTransferTask(15, 0, nclrMB->mData, 0x180);
-    NNS_GfdRegisterNewVramTransferTask(19, 0, gSelectBattleStage->mSelectBattleStageMNcgr->mData,
+    Mem_CpuFill16(clearValue, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
+    AllocateReserveTEQSub(6, 0, ncgrMB->mData, ncgrMB->mDataSize);
+    AllocateReserveTEQSub(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x1000);
+    AllocateReserveTEQSub(15, 0, nclrMB->mData, 0x180);
+    AllocateReserveTEQSub(19, 0, gSelectBattleStage->mSelectBattleStageMNcgr->mData,
                                        gSelectBattleStage->mSelectBattleStageMNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(14, 0, nclrMO->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, nclrMO->mData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(35, 0, gSelectBattleStage->mSelectBattleStageSNcgr->mData,
+    AllocateReserveTEQSub(14, 0, nclrMO->mData, 0x1a0);
+    AllocateReserveTEQSub(14, 0x1c0, nclrMO->mData + 0xe0, 0x40);
+    AllocateReserveTEQSub(35, 0, gSelectBattleStage->mSelectBattleStageSNcgr->mData,
                                        gSelectBattleStage->mSelectBattleStageSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(30, 0, nclrSO->mData, nclrSO->mDataSize);
+    AllocateReserveTEQSub(30, 0, nclrSO->mData, nclrSO->mDataSize);
 }
 
 void CopyAndQueueSelectBattleStageNscrRect(void) {
@@ -190,7 +190,7 @@ void CopyAndQueueSelectBattleStageNscrRect(void) {
                   (gSelectBattleStageNscrRects[gSelectBattleStage->mIndex].mFirstRow + row) * 32);
         }
     }
-    NNS_GfdRegisterNewVramTransferTask(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x600);
+    AllocateReserveTEQSub(10, 0, gSelectBattleStage->mSelectBattleStageMNscrCopy, 0x600);
 }
 
 void UpdateSelectBattleStageCellOffsets(void) {
@@ -234,15 +234,15 @@ void AdvanceSelectBattleStageSlideIn(void) {
         }
     } else {
         gSelectBattleStage->mSlideOffsetY =
-            InterpolateS16(1, SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y, 0, gSelectBattleStage->mStateFrames,
+            ComputeValueInterpolation_from_thumb(1, SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y, 0, gSelectBattleStage->mStateFrames,
                            SELECT_BATTLE_STAGE_SLIDE_FRAMES);
         gSelectBattleStage->mSlideOffsetX =
-            InterpolateS16(1, -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X, 0, gSelectBattleStage->mStateFrames,
+            ComputeValueInterpolation_from_thumb(1, -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X, 0, gSelectBattleStage->mStateFrames,
                            SELECT_BATTLE_STAGE_SLIDE_FRAMES);
         for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
             for (cellIndex = 0; cellIndex < 3; cellIndex++) {
                 gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[stageIndex][cellIndex]]
-                    .mOffsetX = InterpolateS16(1, SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE, 0,
+                    .mOffsetX = ComputeValueInterpolation_from_thumb(1, SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE, 0,
                                                gSelectBattleStage->mStateFrames, SELECT_BATTLE_STAGE_SLIDE_FRAMES);
             }
         }
@@ -268,39 +268,39 @@ void AdvanceSelectBattleStageInput(void) {
     u16 hasPair;
 
     recentlyLost = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
         touchedRect = RectTableFindContaining(gSelectBattleStage->mSelectBattleStageBnbls[1],
-                                              gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
+                                              g_GlobalCYT[slotIndex].mPair.mPairX, g_GlobalCYT[slotIndex].mPair.mPairY);
     }
     for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
         if (touchedRect == gSelectBattleStageBnblRectIndices[stageIndex]) {
             touchedStage = stageIndex;
         }
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
-        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchBegan = TRUE;
         }
         if (touchBegan == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
-    if (gMenuShared->mMenuEntryKind == 2) {
+    if (g_GlobalB488->mMenuEntryKind == 2) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_WAIT_SELECT_RETURN_THEN_CHOISES;
         RequestSelectReturnPressWithSound(0);
         gSelectBattleStage->mWaitForReturnHidden = FALSE;
@@ -308,7 +308,7 @@ void AdvanceSelectBattleStageInput(void) {
     }
     gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_SLIDE_OUT;
     gSelectBattleStage->mPendingResult = -3;
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_NONE) {
         RequestSelectReturnPressWithSound(0);
         gSelectBattleStage->mWaitForReturnHidden = FALSE;
         return;
@@ -317,9 +317,9 @@ void AdvanceSelectBattleStageInput(void) {
     gSelectBattleStage->mWaitForReturnHidden = TRUE;
     return;
 next:
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedStage != -4) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedStage != -4) {
         previousIndex = gSelectBattleStage->mIndex;
-        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) == 0) {
+        if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) == 0) {
             gSelectBattleStage->mIndex = touchedStage;
         }
         if (gSelectBattleStage->mIndex == previousIndex) {
@@ -328,7 +328,7 @@ next:
         gSelectBattleStage->mPendingResult = gSelectBattleStage->mIndex;
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_PRESS_STAGE;
         gSelectBattleStage->mOffsetTimer = SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES;
-        StartSoundOncePerFrame(5);
+        MaybePlaySomeSseqFromSarc0(5);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
@@ -337,7 +337,7 @@ next:
             gSelectBattleStage->mIndex = SELECT_BATTLE_STAGE_COUNT - 1;
         }
         gSelectBattleStage->mOffsetTimer = SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES;
-        StartSoundOncePerFrame(0);
+        MaybePlaySomeSseqFromSarc0(0);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
@@ -346,7 +346,7 @@ next:
             gSelectBattleStage->mIndex = 0;
         }
         gSelectBattleStage->mOffsetTimer = SELECT_BATTLE_STAGE_OFFSET_TIMER_FRAMES;
-        StartSoundOncePerFrame(0);
+        MaybePlaySomeSseqFromSarc0(0);
     }
 }
 
@@ -364,8 +364,8 @@ void AdvanceSelectBattleStagePressStage(void) {
     if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_SETTLE_FRAMES) {
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_CHOISES;
         gSelectBattleStage->mStateFrames = 0;
-        StartSelectChoises(GetBmgEntry(gSelectBattleStage->mCommonMessages, 4),
-                           GetBmgEntry(gSelectBattleStage->mCommonMessages, 2), 0);
+        StartSelectChoises(Bmg_GetRawStringPointer_from_thumb(gSelectBattleStage->mCommonMessages, 4),
+                           Bmg_GetRawStringPointer_from_thumb(gSelectBattleStage->mCommonMessages, 2), 0);
         SetSelectChoisesSoundId(0, 7);
         SetSelectChoisesSoundId(1, 0x10);
     } else if (gSelectBattleStage->mStateFrames >= SELECT_BATTLE_STAGE_HIGHLIGHT_FRAME) {
@@ -376,8 +376,8 @@ void AdvanceSelectBattleStagePressStage(void) {
 void AdvanceSelectBattleStageWaitSelectReturnThenChoises(void) {
     if (IsSelectReturnShownNoRequest() != 0) {
         gSelectBattleStage->mPendingResult = -2;
-        StartSelectChoises(GetBmgEntry(gSelectBattleStage->mMenuMessages, 0x14),
-                           GetBmgEntry(gSelectBattleStage->mMenuMessages, 0x15), 0);
+        StartSelectChoises(Bmg_GetRawStringPointer_from_thumb(gSelectBattleStage->mMenuMessages, 0x14),
+                           Bmg_GetRawStringPointer_from_thumb(gSelectBattleStage->mMenuMessages, 0x15), 0);
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xc);
         gSelectBattleStage->mNextState = SELECT_BATTLE_STAGE_STATE_CHOISES;
@@ -420,15 +420,15 @@ void AdvanceSelectBattleStageSlideOut(void) {
     if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES) {
         gSelectBattleStage->mStateFrames = SELECT_BATTLE_STAGE_SLIDE_FRAMES;
     }
-    gSelectBattleStage->mSlideOffsetY = InterpolateS16(
+    gSelectBattleStage->mSlideOffsetY = ComputeValueInterpolation_from_thumb(
         1, 0, SELECT_BATTLE_STAGE_SLIDE_DISTANCE_Y, gSelectBattleStage->mStateFrames, SELECT_BATTLE_STAGE_SLIDE_FRAMES);
     gSelectBattleStage->mSlideOffsetX =
-        InterpolateS16(1, 0, -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X, gSelectBattleStage->mStateFrames,
+        ComputeValueInterpolation_from_thumb(1, 0, -SELECT_BATTLE_STAGE_SLIDE_DISTANCE_X, gSelectBattleStage->mStateFrames,
                        SELECT_BATTLE_STAGE_SLIDE_FRAMES);
     for (stageIndex = 0; stageIndex < SELECT_BATTLE_STAGE_COUNT; stageIndex++) {
         for (cellIndex = 0; cellIndex < 3; cellIndex++) {
             gSelectBattleStage->mSelectBattleStageTables[1][gSelectBattleStageSTableIndices[stageIndex][cellIndex]]
-                .mOffsetX = InterpolateS16(1, 0, SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE,
+                .mOffsetX = ComputeValueInterpolation_from_thumb(1, 0, SELECT_BATTLE_STAGE_CELL_SLIDE_DISTANCE,
                                            gSelectBattleStage->mStateFrames, SELECT_BATTLE_STAGE_SLIDE_FRAMES);
         }
     }

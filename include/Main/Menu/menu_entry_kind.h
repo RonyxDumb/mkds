@@ -6,13 +6,13 @@
 #define MENU_BLEND_FIRST_COEFFICIENT 6
 #define MENU_BLEND_SECOND_COEFFICIENT 10
 
-void MenuWriteSubBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
-void WriteMainBlendAlpha(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
-void SetUnfilledNotEliminated(unsigned int value);
-void SetMenuEntryKind(unsigned int entryKind);
+void EnableAlphaSetBldcntBldalphaSub(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
+void EnableAlphaSetBldcntBldalphaTop(u32 firstPlane, u32 secondPlane, u32 firstCoefficient, u32 secondCoefficient);
+void SetB488_B5(unsigned int value);
+void SetSinglePlayerMenuTarget(unsigned int entryKind);
 
-// Values of MenuShared.mMenuEntryKind: which screen the menu opens on (InitMenu), set by the screens that leave the
-// menu and by the race scene for the way back. The mode's screens are the ones InitMenu switches to.
+// Values of MenuShared.mMenuEntryKind: which screen the menu opens on (Scene_Menu_InitializeImpl_from_thumb), set by the screens that leave the
+// menu and by the race scene for the way back. The mode's screens are the ones Scene_Menu_InitializeImpl_from_thumb switches to.
 typedef enum MenuEntryKind {
     MENU_ENTRY_FIRST_SCREEN = 0,
     // The select character screen of the race mode.

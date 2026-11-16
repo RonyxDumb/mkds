@@ -3,4 +3,4 @@
 #include "types.h"
 
 u32 GetKartCourseHitAttributeBitOrGhost(int kartIndex);
-unsigned int RaceHudSubScreenGetCurrentMode(void);
+unsigned int GetCurrentRaceMode_2(void);

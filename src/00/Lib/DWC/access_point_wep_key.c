@@ -16,7 +16,7 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
             userInfo++;
         case AUTO_CONNECT_AP_TYPE_USER_FIRST_SSID:
             wepKey->mMode = userInfo->mWepMode;
-            MI_CpuCopy8(userInfo->mWepKeys, wepKey->mKey, sizeof(wepKey->mKey));
+            Mem_CpuCopy8(userInfo->mWepKeys, wepKey->mKey, sizeof(wepKey->mKey));
             break;
         case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID + 2:
             userInfo++;
@@ -24,7 +24,7 @@ u32 FillApWepKey(struct ACWORK *work, u32 type, WCMWepDesc *wepKey) {
             userInfo++;
         case AUTO_CONNECT_AP_TYPE_USER_SECOND_SSID:
             wepKey->mMode = WEP_KEY_MODE_SHORT;
-            MI_CpuCopy8(userInfo->mWep2Keys, wepKey->mKey, sizeof(userInfo->mWep2Keys));
+            Mem_CpuCopy8(userInfo->mWep2Keys, wepKey->mKey, sizeof(userInfo->mWep2Keys));
             wepKey->mKey[0x14] = 0;
             break;
         case AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID:

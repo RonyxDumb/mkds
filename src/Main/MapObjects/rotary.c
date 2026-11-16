@@ -124,24 +124,24 @@ void CreateRotary(BridgeDrawList *list) {
         if (modelLoaded[object->mModelIndex] == 0) {
             switch (object->mModelIndex) {
                 case ROTARY_MODEL_TEST_CYLINDER:
-                    CreateNsbmd(&gTestCylinder, FindCourseMapObjFile("test_cylinder.nsbmd"), NULL);
-                    SetNsbmdPolygonIdLightEmiAll(gTestCylinder, 0x3f, 2, 0x294a);
+                    CreateNsbmd(&gTestCylinder, FormatFindMapObjFileBuffer_from_thumb("test_cylinder.nsbmd"), NULL);
+                    StructML_SomeFn_1(gTestCylinder, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_GEAR_BLACK:
-                    CreateNsbmd(&gGearBlack, FindCourseMapObjFile("gear_black.nsbmd"), NULL);
-                    SetNsbmdPolygonIdLightEmiAll(gGearBlack, 0x3f, 2, 0x294a);
+                    CreateNsbmd(&gGearBlack, FormatFindMapObjFileBuffer_from_thumb("gear_black.nsbmd"), NULL);
+                    StructML_SomeFn_1(gGearBlack, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_GEAR_WHITE:
-                    CreateNsbmd(&gGearWhite, FindCourseMapObjFile("gear_white.nsbmd"), NULL);
-                    SetNsbmdPolygonIdLightEmiAll(gGearWhite, 0x3f, 2, 0x294a);
+                    CreateNsbmd(&gGearWhite, FormatFindMapObjFileBuffer_from_thumb("gear_white.nsbmd"), NULL);
+                    StructML_SomeFn_1(gGearWhite, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_ROOM:
-                    CreateNsbmd(&gRotaryRoom, FindCourseMapObjFile("rotary_room.nsbmd"), NULL);
-                    SetNsbmdPolygonIdLightEmiAll(gRotaryRoom, 0x3f, 2, 0x294a);
+                    CreateNsbmd(&gRotaryRoom, FormatFindMapObjFileBuffer_from_thumb("rotary_room.nsbmd"), NULL);
+                    StructML_SomeFn_1(gRotaryRoom, 0x3f, 2, 0x294a);
                     break;
                 case ROTARY_MODEL_BRIDGE:
-                    CreateNsbmd(&gRotaryBridge, FindCourseMapObjFile("rotary_bridge.nsbmd"), NULL);
-                    SetNsbmdPolygonIdLightEmiAll(gRotaryBridge, 0x3f, 2, 0x294a);
+                    CreateNsbmd(&gRotaryBridge, FormatFindMapObjFileBuffer_from_thumb("rotary_bridge.nsbmd"), NULL);
+                    StructML_SomeFn_1(gRotaryBridge, 0x3f, 2, 0x294a);
                     break;
             }
             *loadedFlagSlot = 1;
@@ -193,10 +193,10 @@ void InitRotaryObjects(BridgeDrawList *list) {
                 object->mCollisionMapObject.mCollisionData.mCollisionFlag = zeroFlag;
             } else {
                 previousObject = objects[previousIndex];
-                VEC_Subtract(&previousObject->mCollisionMapObject.mMapObject.mPos,
+                VecFx32_Subtract(&previousObject->mCollisionMapObject.mMapObject.mPos,
                              &object->mCollisionMapObject.mMapObject.mPos, &offset);
                 offset.y = zeroHeight;
-                object->mGearRadius = VEC_Mag(&offset);
+                object->mGearRadius = VecFx32_Norm(&offset);
                 previousObject = objects[previousIndex];
                 object->mGearRadius -= previousObject->mCollisionMapObject.mMapObject.mExtent.x;
             }
@@ -208,7 +208,7 @@ void InitRotaryObjects(BridgeDrawList *list) {
 // Rotary: turns up to full speed, keeps that speed, slows down, pauses, then turns the other way; the course row sets
 // the timings.
 void InitRotary(Rotary *object, struct CourseMapRow *courseRow, RotaryKindInfo *kindInfo) {
-    InitStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
+    StateDualHandler_Create(&object->mCollisionMapObject.mMapObject.mStateMachine, gRotaryStateTable, 4, object);
     object->mCollisionMapObject.mCollisionData.mPreviousPos = object->mCollisionMapObject.mMapObject.mPos;
     object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
     object->mCollisionMapObject.mCollisionData.mInitialMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;

@@ -19,34 +19,34 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Save/ghost_record_file.h"
 
-SceneCallbacks gLogoSceneCallbacks = {InitLogoSceneCallback,
-                                      UpdateLogoSceneCallback,
-                                      ApplySavedSoundModeCallback,
-                                      WriteLogoSceneRegistersCallback,
+SceneCallbacks g_Scene_Logo = {Scene_Logo_Initialize,
+                                      Scene_Logo_Update,
+                                      Scene_Logo_Finalize,
+                                      Scene_Logo_VBlank,
                                       NULL,
                                       NULL,
                                       0x1e,
                                       1,
                                       0};
 
-void RunQueuedThreadFunctions(void *threadArgument) {
+void WorkerThread_Main(void *threadArgument) {
     for (;;) {
-        if (gThreadFunctionQueue->mRunRequested != 0) {
-            void (*queuedFunction)(void) = DequeueThreadFunction(gThreadFunctionQueue);
+        if (g_WorkerContext->mRunRequested != 0) {
+            void (*queuedFunction)(void) = WorkerGetNextTaskFn(g_WorkerContext);
             if (queuedFunction == NULL) {
-                gThreadFunctionQueue->mRunRequested = 0;
+                g_WorkerContext->mRunRequested = 0;
             } else {
                 queuedFunction();
             }
         }
-        OS_Sleep(2);
+        Os_Sleep(2);
     }
 }
 
-u32 QueueThreadFunction(void (*function)(void)) {
+u32 WorkerInsertTask(void (*function)(void)) {
     s32 checkedCount;
     s32 searchIndex;
-    ThreadFunctionQueue *queue = gThreadFunctionQueue;
+    ThreadFunctionQueue *queue = g_WorkerContext;
     u8 slotIndex;
     void (*slotFunction)(void);
     if (queue->mRunRequested != 0) {
@@ -71,31 +71,31 @@ u32 QueueThreadFunction(void (*function)(void)) {
     return 1;
 }
 
-void WaitThreadFunctionsDone(void) {
-    while (gThreadFunctionQueue->mRunRequested != 0) {
-        OS_WaitIrq(1, 1);
+void WaitForWorkerTask(void) {
+    while (g_WorkerContext->mRunRequested != 0) {
+        WaitForIRQ(1, 1);
     }
 }
 
-void InitLogoSceneCallback(void) {
-    InitLogoScene(GetHeap(GetCurrentHeapCall()));
+void Scene_Logo_Initialize(void) {
+    InitializeLogoContext(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
 }
 
-void ApplySavedSoundModeCallback(void) {
-    ApplySavedSoundMode();
+void Scene_Logo_Finalize(void) {
+    Scene_Logo_FinalizeImpl();
 }
 
-void WriteLogoSceneRegistersCallback(void) {
-    WriteLogoSceneRegisters();
+void Scene_Logo_VBlank(void) {
+    Scene_Logo_VBlankImpl();
 }
 
-void UpdateLogoSceneCallback(void *sceneNumbers) {
-    UpdateLogoScene(sceneNumbers);
+void Scene_Logo_Update(void *sceneNumbers) {
+    Scene_Logo_UpdateImpl(sceneNumbers);
 }
 
-s32 RunLogoScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = gLogoSceneCallbacks;
+s32 SceneFn_Logo(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = g_Scene_Logo;
 
-    RunScene(sceneNumbers, &callbacks);
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }

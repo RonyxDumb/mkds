@@ -20,7 +20,7 @@ u16 MBi_calc_cksum(const u16 *data, s32 byteCount) {
     return (folded + (folded >> 16)) ^ 0xffff;
 }
 
-u32 MB_GetSegmentLength(FSFile *file) {
+u32 ComputeRomBinarySize_from_thumb(FSFile *file) {
     RomHeaderStart header;
     RomHeaderStart *headerPtr;
     u32 size;
@@ -29,10 +29,10 @@ u32 MB_GetSegmentLength(FSFile *file) {
     size = 0;
     if (file != NULL) {
         backupPosition = file->mPosition - file->mProp.w.mUnk_04;
-        if ((u32) FS_ReadFile(file, &header, 0x60) >= 0x60) {
+        if ((u32) Fs_File_Read(file, &header, 0x60) >= 0x60) {
             headerPtr = &header;
         }
-        FS_SeekFile(file, backupPosition, 0);
+        Fs_File_Seek(file, backupPosition, 0);
     } else {
         headerPtr = &SYSTEM_WORK->mRomHeader.mHead;
     }

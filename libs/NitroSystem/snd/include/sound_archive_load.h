@@ -157,7 +157,7 @@ typedef struct NNSFndList {
     /* 0a */ u16 mLinkOffset;
 } NNSFndList;
 
-// Called with the memory of a block, its size and the two values given to NNS_SndHeapAlloc when the heap frees it.
+// Called with the memory of a block, its size and the two values given to Sound_Context_Allocate when the heap frees it.
 typedef void (*NNSSndHeapDisposeCallback)(void *mem, u32 size, void *data1, u32 data2);
 
 // One section of a sound heap: the blocks allocated since the previous state was saved.
@@ -172,7 +172,7 @@ typedef struct NNSSndHeap {
     /* 04 */ NNSFndList mSectionList;
 } NNSSndHeap;
 
-// The header before each block NNS_SndHeapAlloc returns: its link, size, dispose callback and data.
+// The header before each block Sound_Context_Allocate returns: its link, size, dispose callback and data.
 typedef struct NNSSndHeapBlock {
     /* 00 */ NNSFndLink mLink;
     /* 08 */ u32 mSize;
@@ -217,37 +217,37 @@ typedef struct SNDWaveArc {
     /* 3c */ u32 mWaveOffset[];
 } SNDWaveArc;
 
-void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level);
-s32 NNS_SndHeapSaveState(NNSSndHeap *heap);
-void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, void *data1, u32 data2);
-void NNS_SndHeapClear(NNSSndHeap *heap);
-void NNS_SndHeapDestroy(NNSSndHeap *heap);
-NNSSndHeap *NNS_SndHeapCreate(void *startAddress, u32 size);
+void Sound_MaybeRestoreHeapState(NNSSndHeap *heap, s32 level);
+s32 Sound_Context_BackupFrameState(NNSSndHeap *heap);
+void *Sound_Context_Allocate(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, void *data1, u32 data2);
+void Sound_Context_DisposeLoadedStuff(NNSSndHeap *heap);
+void Sound_Context_Dispose(NNSSndHeap *heap);
+NNSSndHeap *Sound_InitializeContext(void *startAddress, u32 size);
 
 void SymbolDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void FatDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void InfoDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
-void NNS_SndArcSetFileAddress(u32 fileId, void *address);
-void *NNS_SndArcGetFileAddress(u32 fileId);
-s32 NNS_SndArcReadFile(u32 fileId, void *buffer, u32 size, u32 offset);
-u32 NNS_SndArcGetFileSize(u32 fileId);
-NNSSndArcGroupInfo *NNS_SndArcGetGroupInfo(s32 groupNo);
-NNSSndArcPlayerInfo *NNS_SndArcGetPlayerInfo(s32 playerNo);
-NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(s32 waveArcNo);
-NNSSndArcBankInfo *NNS_SndArcGetBankInfo(s32 bankNo);
-NNSSndArcSeqArcInfo *NNS_SndArcGetSeqArcInfo(s32 seqArcNo);
-NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(s32 seqNo);
+void Sound_SetFileFatDynamicOffsetField(u32 fileId, void *address);
+void *Sound_MaybeGetRawFilePointer(u32 fileId);
+s32 Sound_ReadFile(u32 fileId, void *buffer, u32 size, u32 offset);
+u32 Sound_GetFileSize(u32 fileId);
+NNSSndArcGroupInfo *Sound_GetGroupInfoEntry(s32 groupNo);
+NNSSndArcPlayerInfo *Sound_GetPlayerInfoEntry(s32 playerNo);
+NNSSndArcWaveArcInfo *Sound_GetSwarInfoEntry(s32 waveArcNo);
+NNSSndArcBankInfo *Sound_GetSbnkInfoEntry(s32 bankNo);
+NNSSndArcSeqArcInfo *Sound_GetSarcInfoEntry(s32 seqArcNo);
+NNSSndArcSeqInfo *Sound_GetSseqInfoEntry(s32 seqNo);
 NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index);
-NNSSndArc *NNS_SndArcGetCurrent(void);
-NNSSndArc *NNS_SndArcSetCurrent(NNSSndArc *arc);
-void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data);
-BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag);
-void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL symbolLoadFlag);
+NNSSndArc *Sound_GetActiveSdat(void);
+NNSSndArc *Sound_MaybeSetActiveSdat(NNSSndArc *arc);
+void Sound_ReadSdatFromMemory(NNSSndArc *arc, void *data);
+BOOL Sound_ReadSdatFromOpenedFile(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag);
+void Sound_ReadSdatFromPathImpl(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL symbolLoadFlag);
 void InitHeapSection(NNSSndHeapSection *section);
 BOOL LoadSingleWaves(SNDWaveArc *waveArc, SNDBankData *bank, s32 waveArcNo, u32 fileId, NNSSndHeap *heap);
 BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *heap);
-void SingleWaveDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
+void AndAndAnotherSoundDtorFn(void *mem, u32 size, void *data1, u32 data2);
 
 typedef struct NNSSndHeap NNSSndHeap;
 
-s32 NNS_SndHeapGetCurrentLevel(NNSSndHeap *heap);
+s32 Sound_Context_GetMaybeSavedFrameHeapStateId(NNSSndHeap *heap);

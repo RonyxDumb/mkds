@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteCourseTimeRecordsAndFirstBlock(void);
+void WriteTimeTrialsSaveDataSectionAndHeader_from_thumb(void);

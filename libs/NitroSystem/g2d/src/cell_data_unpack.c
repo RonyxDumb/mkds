@@ -1,13 +1,13 @@
 #include "cell_data_unpack.h"
 
-NNSG2dCellOAMAttrData *GetPtrOamArrayHead_(NNSG2dCellDataBank *bank) {
+NNSG2dCellOAMAttrData *CellBank_GetObjectTable(NNSG2dCellDataBank *bank) {
     if (bank->mCellBankAttr & 1) {
         return OFFSET_PTR(NNSG2dCellOAMAttrData, bank->mPCellDataArrayHead, bank->mNumCells * 16);
     }
     return OFFSET_PTR(NNSG2dCellOAMAttrData, bank->mPCellDataArrayHead, bank->mNumCells * 8);
 }
 
-NNSG2dCellDataWithBR *NNS_G2dGetCellDataByIdx(NNSG2dCellDataBank *bank, u32 idx) {
+NNSG2dCellDataWithBR *CellBank_GetMetatileEntry(NNSG2dCellDataBank *bank, u32 idx) {
     if (idx >= bank->mNumCells) {
         return 0;
     }
@@ -17,16 +17,16 @@ NNSG2dCellDataWithBR *NNS_G2dGetCellDataByIdx(NNSG2dCellDataBank *bank, u32 idx)
     return (NNSG2dCellDataWithBR *) (bank->mPCellDataArrayHead + idx * 8);
 }
 
-void NNS_G2dUnpackNCE(NNSG2dCellDataBank *bank) {
+void CellBank_InitializeLoad(NNSG2dCellDataBank *bank) {
     NNSG2dCellOAMAttrData *oamHead;
     NNSG2dCellDataWithBR *cell;
     NNSG2dVramTransferData *transfer;
     u16 cellIndex;
 
     bank->mPCellDataArrayHead += (u32) bank;
-    oamHead = GetPtrOamArrayHead_(bank);
+    oamHead = CellBank_GetObjectTable(bank);
     for (cellIndex = 0; cellIndex < bank->mNumCells; cellIndex++) {
-        cell = NNS_G2dGetCellDataByIdx(bank, cellIndex);
+        cell = CellBank_GetMetatileEntry(bank, cellIndex);
         cell->mPOamAttrArray = OFFSET_PTR(NNSG2dCellOAMAttrData, cell->mPOamAttrArray, (u32) oamHead);
     }
     if (bank->mPVramTransferData != 0) {

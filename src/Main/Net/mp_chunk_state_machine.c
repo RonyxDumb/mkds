@@ -22,7 +22,7 @@
 #include "cpu_copy_fill.h"
 #include "Main/Net/mp_link.h"
 
-StateCallbacks gMPStateTable[MP_STATE_COUNT] = {{EnterMPFillOwnRecord, UpdateMPFillOwnRecord},
+StateCallbacks g_E7FnList1[MP_STATE_COUNT] = {{E7Fn1_0_from_thumb, UpdateMPFillOwnRecord},
                                                 {NULL, UpdateMPWaitRomArchive},
                                                 {EnterMPLoadOverlay, UpdateMPLoadOverlay},
                                                 {EnterMPLoadDlArchives, UpdateMPLoadDlArchives},
@@ -38,34 +38,34 @@ StateCallbacks gMPStateTable[MP_STATE_COUNT] = {{EnterMPFillOwnRecord, UpdateMPF
                                                 {EnterMPExchangePlayerBits, UpdateMPExchangePlayerBits},
                                                 {EnterMPSendPlayerBits, UpdateMPSendPlayerBits},
                                                 {EnterMPReadyNop, NULL},
-                                                {EnterMPWaitRaceArchives, UpdateMPWaitRaceArchives},
-                                                {EnterMPLoadCourseSound, UpdateMPLoadCourseSound},
-                                                {EnterMPWaitResultArchives, UpdateMPWaitResultArchives},
-                                                {EnterMPLoadResultSound, UpdateMPLoadResultSound},
-                                                {EnterMPWaitRequestDone, UpdateMPWaitRequestDone},
-                                                {EnterMPWaitMenuArchives, UpdateMPWaitMenuArchives},
-                                                {EnterMPChildDelay, UpdateMPChildDelay}};
+                                                {StructZE_E7Fn_16_1_from_thumb, StructZE_E7Fn_16_2_from_thumb},
+                                                {StructZE_E7Fn_17_1_from_thumb, StructZE_E7Fn_17_2_from_thumb},
+                                                {StructZE_E7Fn_18_1_from_thumb, StructZE_E7Fn_18_2_from_thumb},
+                                                {StructZE_E7Fn_19_1_from_thumb, StructZE_E7Fn_19_2_from_thumb},
+                                                {StructZE_E7Fn_20_1_from_thumb, StructZE_E7Fn_20_2_from_thumb},
+                                                {StructZE_E7Fn_21_1_from_thumb, StructZE_E7Fn_21_2_from_thumb},
+                                                {StructZE_E7Fn_22_1_from_thumb, StructZE_E7Fn_22_2_from_thumb}};
 
 #pragma opt_rebuildconditionals off
 
-s32 RunResultScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks resultSceneCallbacks = gResultSceneCallbacks;
+s32 SceneFn_Result(SceneNumbers *sceneNumbers) {
+    SceneCallbacks resultSceneCallbacks = g_Scene_Result;
 
-    RunScene(sceneNumbers, &resultSceneCallbacks);
+    OnSceneLoop(sceneNumbers, &resultSceneCallbacks);
     return 0;
 }
 
 #pragma thumb on
 
 static inline u32 MPChunkGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline void MPChunkRequestMPState(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
+    MPStateMachine *stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = nextState;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
@@ -76,7 +76,7 @@ u32 IsAllMPChunksReceived(u32 slot) {
     u32 allReceived;
     u32 chunkIndex;
 
-    receivedFlags = gConnectionWork->mChunkReceivedFlags[slot];
+    receivedFlags = g_GlobalZE->mChunkReceivedFlags[slot];
     allReceived = 1;
     if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
         chunkCount = MP_CHUNK_FLAGS_PER_SLOT;
@@ -101,7 +101,7 @@ void ProcessMPChunk(u8 *chunk) {
     u8 playerBit;
 
     playerIndex = chunk[0];
-    entry = &gConnectionWork->mPlayerRecords[playerIndex];
+    entry = &g_GlobalZE->mPlayerRecords[playerIndex];
     finished = 0;
     if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
         byteOffset = chunk[1] << 5;
@@ -116,25 +116,25 @@ void ProcessMPChunk(u8 *chunk) {
             break;
         case MP_CHUNK_HELD_RECORDS_MASK:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_CHILD) {
-                gConnectionWork->mExpectedRecordMask = *(u16 *) (chunk + 2);
+                g_GlobalZE->mExpectedRecordMask = *(u16 *) (chunk + 2);
             }
             break;
         case MP_CHUNK_ALL_RECORDS_HELD:
             if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
-                BIT_SET(gConnectionWork->mRecordReceivedMask, playerIndex);
-                if (gConnectionWork->mChildren.mChildMask ==
-                    (gConnectionWork->mChildren.mChildMask & gConnectionWork->mRecordReceivedMask)) {
+                BIT_SET(g_GlobalZE->mRecordReceivedMask, playerIndex);
+                if (g_GlobalZE->mChildren.mChildMask ==
+                    (g_GlobalZE->mChildren.mChildMask & g_GlobalZE->mRecordReceivedMask)) {
                     MPChunkRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
                 }
             }
             break;
         case MP_CHUNK_NO_EMBLEM:
-            gConnectionWork->mPlayerRecords[playerIndex].mHasEmblem = 0;
+            g_GlobalZE->mPlayerRecords[playerIndex].mHasEmblem = 0;
             finished = 1;
             break;
         default:
-            MI_CpuCopy8(chunk + 4, entry->mName + byteOffset, *(u16 *) (chunk + 2));
-            gConnectionWork->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
+            Mem_CpuCopy8(chunk + 4, entry->mName + byteOffset, *(u16 *) (chunk + 2));
+            g_GlobalZE->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
             if (IsAllMPChunksReceived(chunk[0]) != 0) {
                 finished = 1;
             }
@@ -144,14 +144,14 @@ void ProcessMPChunk(u8 *chunk) {
         playerBit = 1U << chunk[0];
         if (MPChunkGetConnectionMode() == CONNECTION_MODE_PARENT) {
             if (QueueMPChunk(MP_CHUNK_RECORD_ARRIVED, NULL, 0, 0, playerBit) != FALSE) {
-                gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
+                g_GlobalZE->mRecordReceivedMask |= 1 << chunk[0];
                 return;
             }
         } else {
-            gConnectionWork->mRecordReceivedMask |= 1 << chunk[0];
-            if (gConnectionWork->mExpectedRecordMask ==
-                (gConnectionWork->mExpectedRecordMask & gConnectionWork->mRecordReceivedMask)) {
-                ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
+            g_GlobalZE->mRecordReceivedMask |= 1 << chunk[0];
+            if (g_GlobalZE->mExpectedRecordMask ==
+                (g_GlobalZE->mExpectedRecordMask & g_GlobalZE->mRecordReceivedMask)) {
+                ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
                 if (QueueMPChunk(MP_CHUNK_ALL_RECORDS_HELD, NULL, 0, ownIndex, 1) != FALSE) {
                     MPChunkRequestMPState(MP_STATE_SEND_ROM_ARCHIVE);
                 }
@@ -164,7 +164,7 @@ void MPChunkPortCallback(void *portMessage) {
     WirelessMessage *event = portMessage;
     if (event->mResultCode == WIRELESS_RESULT_SUCCEEDED && event->mData != NULL &&
         event->mLength >= MP_CHUNK_HEADER_SIZE) {
-        DC_StoreRange(event->mData, event->mLength);
+        DC_SomeClean(event->mData, event->mLength);
         switch (event->mState) {
             case WIRELESS_STATE_LINKED:
             case WIRELESS_STATE_UNLINKED:
@@ -180,14 +180,14 @@ void InitMPStateMachine(void) {
     ConnectionWork *connectionWork;
     u32 connectionMode;
 
-    InitStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine, gMPStateTable, MP_STATE_COUNT, NULL);
-    gConnectionWork->mPlayerSendIndex = 0;
-    gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;
-    gConnectionWork->mMPStateMachine.mChunkSendFlags = 0;
-    gConnectionWork->mEntryChunkIndex = 0;
-    gConnectionWork->mRecordReceivedMask = 0;
-    gConnectionWork->mNamesStoredMask = 0;
-    connectionWork = gConnectionWork;
+    StateDualHandler_Create(&g_GlobalZE->mMPStateMachine.mStateMachine, g_E7FnList1, MP_STATE_COUNT, NULL);
+    g_GlobalZE->mPlayerSendIndex = 0;
+    g_GlobalZE->mMPStateMachine.mChildDataWaitFrames = 0;
+    g_GlobalZE->mMPStateMachine.mChunkSendFlags = 0;
+    g_GlobalZE->mEntryChunkIndex = 0;
+    g_GlobalZE->mRecordReceivedMask = 0;
+    g_GlobalZE->mNamesStoredMask = 0;
+    connectionWork = g_GlobalZE;
     connectionMode = CONNECTION_MODE_NONE;
     if (connectionWork != NULL) {
         connectionMode = connectionWork->mConnectionMode;
@@ -197,7 +197,7 @@ void InitMPStateMachine(void) {
                                                             ? connectionWork->mMultiBootChildMask
                                                             : connectionWork->mChildren.mChildMask;
     }
-    gConnectionWork->mRaceSeed = 0;
+    g_GlobalZE->mRaceSeed = 0;
 }
 
 #pragma thumb off

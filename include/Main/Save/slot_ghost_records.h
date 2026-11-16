@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-void StartReadSlotGhostRecords(void *records);
-void ReadSlotGhostRecords(void);
+void RunSomeATFunction(void *records);
+void Task_StructFXRelated(void);
 
 typedef struct GhostListEntry GhostListEntry;
 
-GhostListEntry *CreateSlotGhostRecords(void *heap);
+GhostListEntry *AllocateFX(void *heap);

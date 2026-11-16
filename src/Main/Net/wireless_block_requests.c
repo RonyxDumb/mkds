@@ -14,7 +14,7 @@ s32 gLastReplyIndex = 1;
 u8 gRequestId[1];
 s16 gReceiveChunkSize;
 s16 gSendChunkSize;
-struct WBTBlockInfoList *gBlockListHead;
+struct WBTBlockInfoList *g_GlobalGO;
 BlockTransfer gBlockTransfer;
 
 #pragma thumb on
@@ -50,18 +50,18 @@ WBTCommand *GetNextRequestAddress(void) {
 u32 TrySetNextRequest(const WBTCommand *request) {
     u32 savedInterrupts;
     WBTCommand *nextRequest;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (wbt_initialize_flag != 1) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     nextRequest = GetNextRequestAddress();
     if (nextRequest == NULL || nextRequest->mCommand != XFER_COMMAND_UNUSED) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
-    MIi_CpuCopy32(request, &gBlockTransfer.mNextRequest, 0x9c);
-    OS_RestoreInterrupts(savedInterrupts);
+    Mem_CpuCopy32(request, &gBlockTransfer.mNextRequest, 0x9c);
+    Os_RestoreIrq(savedInterrupts);
     return 1;
 }
 
@@ -69,21 +69,21 @@ u32 TrySetNextRequest(const WBTCommand *request) {
 
 #pragma thumb on
 
-WBTBlockInfoList *GetBlockListHead(void) {
-    return gBlockListHead;
+WBTBlockInfoList *GetGlobalGO_from_thumb(void) {
+    return g_GlobalGO;
 }
 
-void SetBlockListHead(WBTBlockInfoList *head) {
-    gBlockListHead = head;
+void SetGlobalGO_from_thumb(WBTBlockInfoList *head) {
+    g_GlobalGO = head;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-WBTBlockInfoList *FindBlockById(u32 blockId) {
+WBTBlockInfoList *FindGlobalGOBy_from_thumb(u32 blockId) {
     WBTBlockInfoList *node;
-    for (node = GetBlockListHead(); node != NULL; node = node->mNext) {
+    for (node = GetGlobalGO_from_thumb(); node != NULL; node = node->mNext) {
         if (node->mDataInfo.mId == blockId) {
             return node;
         }
@@ -158,7 +158,7 @@ int WBT_NumOfRegisteredBlock(void) {
     int count;
     WBTBlockInfoList *node;
     count = 0;
-    for (node = GetBlockListHead(); node != NULL; node = node->mNext) {
+    for (node = GetGlobalGO_from_thumb(); node != NULL; node = node->mNext) {
         count = count + 1;
     }
     return count;
@@ -168,14 +168,14 @@ int WBT_NumOfRegisteredBlock(void) {
 
 #pragma thumb on
 
-s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 permissionBmp) {
+s32 StructGO_SomeFn_from_thumb(WBTBlockInfoList *node, u32 blockId, const void *info, u8 *data, u32 size, u16 permissionBmp) {
     WBTBlockInfoList *lastNode;
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
-    if (GetBlockListHead() == NULL) {
-        SetBlockListHead(node);
+    savedInterrupts = Os_DisableIrq();
+    if (GetGlobalGO_from_thumb() == NULL) {
+        SetGlobalGO_from_thumb(node);
     } else {
-        for (lastNode = GetBlockListHead(); lastNode->mNext != NULL; lastNode = lastNode->mNext) {
+        for (lastNode = GetGlobalGO_from_thumb(); lastNode->mNext != NULL; lastNode = lastNode->mNext) {
         }
         lastNode->mNext = node;
     }
@@ -190,11 +190,11 @@ s32 WBT_RegisterBlock(WBTBlockInfoList *node, u32 blockId, const void *info, u8 
     node->mDataInfo.mBlockSize = size;
     node->mPermissionBmp = permissionBmp;
     if (info != NULL) {
-        MI_CpuCopy8(info, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
+        Mem_CpuCopy8(info, node->mDataInfo.mUserId, sizeof(node->mDataInfo.mUserId));
     } else {
-        MI_CpuFill8(node->mDataInfo.mUserId, 0, sizeof(node->mDataInfo.mUserId));
+        Mem_CpuFill8(node->mDataInfo.mUserId, 0, sizeof(node->mDataInfo.mUserId));
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 1;
 }
 
@@ -202,26 +202,26 @@ WBTBlockInfoList *WBT_UnregisterBlock(u32 blockId) {
     WBTBlockInfoList *previousBlock;
     WBTBlockInfoList *currentBlock;
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
-    previousBlock = GetBlockListHead();
+    savedInterrupts = Os_DisableIrq();
+    previousBlock = GetGlobalGO_from_thumb();
     if (previousBlock == NULL) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return NULL;
     }
     if (previousBlock->mDataInfo.mId == blockId) {
-        SetBlockListHead(previousBlock->mNext);
-        OS_RestoreInterrupts(savedInterrupts);
+        SetGlobalGO_from_thumb(previousBlock->mNext);
+        Os_RestoreIrq(savedInterrupts);
         return previousBlock;
     }
     for (currentBlock = previousBlock->mNext; currentBlock != NULL;
          previousBlock = currentBlock, currentBlock = currentBlock->mNext) {
         if (currentBlock->mDataInfo.mId == blockId) {
             previousBlock->mNext = currentBlock->mNext;
-            OS_RestoreInterrupts(savedInterrupts);
+            Os_RestoreIrq(savedInterrupts);
             return currentBlock;
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return NULL;
 }
 
@@ -240,7 +240,7 @@ u32 WBT_GetBlockInfo(u16 indexMask, u32 blockIdOrPosition, const void *buffers, 
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockIdOrPosition;
     request.mData.mGet.mRecvDataSize = BLOCK_TRANSFER_BLOCK_INFO_BYTES;
-    MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
+    Mem_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
     return TrySetNextRequest(&request);
 }
 
@@ -252,8 +252,8 @@ u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize,
     request.mCallback = callback;
     request.mData.mGet.mBlockId = blockId;
     request.mData.mGet.mRecvDataSize = blockSize;
-    MIi_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
-    MIi_CpuCopy32(chunkBitmaps, request.mData.mGet.mPktBmp, 0x40);
+    Mem_CpuCopy32(buffers, request.mData.mGet.mRecvBuf, 0x40);
+    Mem_CpuCopy32(chunkBitmaps, request.mData.mGet.mPktBmp, 0x40);
     return TrySetNextRequest(&request);
 }
 
@@ -267,7 +267,7 @@ u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*call
     requestPointer = &request;
     requestPointer->mTargetBmp = indexMask;
     requestPointer->mCallback = callback;
-    MI_CpuCopy8(bytes, requestPointer->mData.mUserData.mData, byteCount);
+    Mem_CpuCopy8(bytes, requestPointer->mData.mUserData.mData, byteCount);
     requestPointer->mData.mUserData.mSize = byteCount;
     return TrySetNextRequest(&request);
 }
@@ -386,14 +386,14 @@ void WBT_InitParent(s32 sendSize, s32 receiveSize, void (*callback)(WBTCommand *
     BlockTransfer *transfer;
     s32 entryIndex;
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (wbt_initialize_flag == 1) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return;
     }
     wbt_initialize_flag = 1;
     WBT_SetOwnAid(0);
-    SetBlockListHead(NULL);
+    SetGlobalGO_from_thumb(NULL);
     transfer = GetBlockTransfer();
     transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCurrentRequest.mTargetBmp = 0;
@@ -411,7 +411,7 @@ void WBT_InitParent(s32 sendSize, s32 receiveSize, void (*callback)(WBTCommand *
     ResetRequestId();
     SetSendChunkSize(sendSize - 0xe);
     SetReceiveChunkSize(receiveSize - 0xe);
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 void WBT_InitChild(void (*callback)(WBTCommand *)) {
@@ -419,14 +419,14 @@ void WBT_InitChild(void (*callback)(WBTCommand *)) {
     BlockTransfer *transfer;
     s32 entryIndex;
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (wbt_initialize_flag == 1) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return;
     }
     wbt_initialize_flag = 1;
     WBT_SetOwnAid(-1);
-    SetBlockListHead(NULL);
+    SetGlobalGO_from_thumb(NULL);
     transfer = GetBlockTransfer();
     transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCurrentRequest.mTargetBmp = 0;
@@ -444,7 +444,7 @@ void WBT_InitChild(void (*callback)(WBTCommand *)) {
     ResetRequestId();
     SetSendChunkSize(0);
     SetReceiveChunkSize(0);
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 void WBT_End(void) {
@@ -452,14 +452,14 @@ void WBT_End(void) {
     BlockTransfer *transfer;
     s32 entryIndex;
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (wbt_initialize_flag == 0) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return;
     }
     wbt_initialize_flag = 0;
     WBT_SetOwnAid(-1);
-    SetBlockListHead(NULL);
+    SetGlobalGO_from_thumb(NULL);
     transfer = GetBlockTransfer();
     transfer->mCurrentRequest.mCommand = XFER_COMMAND_UNUSED;
     transfer->mCurrentRequest.mTargetBmp = 0;
@@ -477,7 +477,7 @@ void WBT_End(void) {
     ResetRequestId();
     SetSendChunkSize(-1);
     SetReceiveChunkSize(-1);
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 u32 WBT_MpParentSendHook(u8 *buffer, s32 bufferSize) {

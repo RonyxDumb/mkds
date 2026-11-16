@@ -16,7 +16,7 @@
 // MICAutoParam.mRate of the microphone buffer: the ARM7 clock (33,513,982 Hz) divided by 8000 samples per second.
 #define MICROPHONE_AUTO_SAMPLING_RATE 0x105d
 
-void InitMicAndAmp(void);
-void SetupMicAutoSampling(MicBuffer *micBuffer);
+void InitializeBalloonHardware(void);
+void Struct59C4Sub_Initialize(MicBuffer *micBuffer);
 
-extern u32 gMicInitialized;
+extern u32 g_BalloonHardwareInit;

@@ -57,7 +57,7 @@ void *SND_GetWaveDataAddress(SNDWaveArc *waveArc, u32 index) {
     u32 entry;
     u8 *address;
 
-    SNDi_LockMutex();
+    Sound_LockMutex();
     entry = waveArc->mWaveOffset[index];
     if (entry != 0) {
         address = (u8 *) entry;
@@ -67,7 +67,7 @@ void *SND_GetWaveDataAddress(SNDWaveArc *waveArc, u32 index) {
     } else {
         address = 0;
     }
-    SNDi_UnlockMutex();
+    Sound_UnlockMutex();
     return address;
 }
 

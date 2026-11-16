@@ -181,15 +181,15 @@ void AdvanceKartCollision(Kart *kart) {
     kart->mGroundNormal = groundNormal;
     kart->mCollisionStepFrames = kart->mCollisionStepFrames + 1;
     if (kart->mEffectFlags & KART_EFFECT_NEAR_PLAYER_RANK) {
-        ComputeKartSidePoints(kart);
+        StructMQRacerEntry_SomeFn_61(kart);
     }
-    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && IsRaceStarted() == 1) {
+    if ((kart->mEntryFlags & KART_ENTRY_SELECTED) && IsAwardOrStaffRoll() == 1) {
         SetKartZoneMask(kart->mIndex);
     }
     UpdateKartSoundWrapper(kart);
     AdvanceKartCollisionTimer(kart);
     if (kart->mEffectFlags & KART_EFFECT_MODEL_SCALE_ANIM) {
-        AdvanceKartModelScaleAnimation(kart);
+        StructMQRacerEntry_SomeFn_85(kart);
     }
     kart->mAdvanceOffsetCycle(kart);
 }
@@ -229,7 +229,7 @@ void AddKartSurfaceSoundRequest(Kart *kart, s32 entryIndex) {
 
     queueIndex = (kart->mEntryFlags & KART_ENTRY_SELECTED) ? 3 : 2;
     sortOffset = gKartSurfaceSoundSortOffsets[entryIndex];
-    kartCameraDistanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
+    kartCameraDistanceSquared = GetAED0PlayerUnk(kart->mIndex);
     AddSoundRequest(&(gSoundRequestQueues)[queueIndex], kartCameraDistanceSquared + sortOffset,
                     StartKartSurfaceSoundWhileRequestedFromKart, kart, entryIndex);
 }
@@ -241,15 +241,15 @@ s32 AdvanceKartRank(Kart *kart) {
     Kart *aheadKart;
 
     passedKart = FALSE;
-    newRank = GetKartRank(kart->mIndex);
+    newRank = GetSomeRacerFlags(kart->mIndex);
     if (newRank != kart->mRank) {
         if (kart->mEntryFlags & KART_ENTRY_SELECTED) {
             SetSceneSoundRank((newRank - 1));
         }
-        if (newRank < kart->mRank && newRank < gRaceSetup->mKartCount) {
+        if (newRank < kart->mRank && newRank < g_GlobalCO->mKartCount) {
             aheadKartIndex = GetKartAtRank(newRank + 1);
             if (aheadKartIndex >= 0) {
-                aheadKart = GetKart((u16) aheadKartIndex);
+                aheadKart = GetRacerMQEntry((u16) aheadKartIndex);
                 if (!(aheadKart->mEntryFlags & (KART_ENTRY_GHOST | KART_ENTRY_TERESA | KART_ENTRY_PARKED))) {
                     passedKart = TRUE;
                 }
@@ -288,23 +288,23 @@ void AdvanceKartInputAndTurn(Kart *kart) {
             kart->mDriveFlags &= ~(KART_DRIVE_STATE_END_TIMER | KART_DRIVE_INPUT_LOCKED);
         }
     }
-    if (IsRaceStarted() == 1) {
+    if (IsAwardOrStaffRoll() == 1) {
         inputValue = 0;
         if (IsKartNotNormalOrFlagged(kart) != FALSE) {
             entryIndex = kart->mEntryIndex;
-            gInputSlots[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT;
+            g_GlobalCYT[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT;
             if (kart->mEffectFlags & KART_EFFECT_KILLER) {
                 entryIndex = kart->mEntryIndex;
-                gInputSlots[entryIndex].mBitMask =
+                g_GlobalCYT[entryIndex].mBitMask =
                     PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_LEFT | PAD_KEY_RIGHT | PAD_KEY_SELECT;
             }
             if (kart->mDriveFlags & KART_DRIVE_RESPAWN_LANDING) {
                 entryIndex = kart->mEntryIndex;
-                gInputSlots[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT | PAD_KEY_A;
+                g_GlobalCYT[entryIndex].mBitMask = PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_SELECT | PAD_KEY_A;
             }
         } else {
             entryIndex = kart->mEntryIndex;
-            gInputSlots[entryIndex].mBitMask = PAD_KEYS_NO_START;
+            g_GlobalCYT[entryIndex].mBitMask = PAD_KEYS_NO_START;
             SetKartMissionRunInputMask(kart);
         }
         UpdateKartInputFlags(kart);
@@ -324,14 +324,14 @@ void AdvanceKartInputAndTurn(Kart *kart) {
         if (kart->mDriveFlags & (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT)) {
             return;
         }
-        StartKartSeqArcSound(kart, kart->mSoundIndex, 8);
+        StructMQRacerEntry_SomeFn_5(kart, kart->mSoundIndex, 8);
         return;
     }
     AdvanceKartRank(kart);
     SetKartMissionRunInputMask(kart);
     UpdateKartInputFlags(kart);
     entryIndex = kart->mEntryIndex;
-    inputValue = gInputSlots[entryIndex].mBits;
+    inputValue = g_GlobalCYT[entryIndex].mBits;
     if ((u16) (inputValue & PAD_KEY_LEFT)) {
         kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
     } else if ((u16) (inputValue & PAD_KEY_RIGHT)) {
@@ -360,11 +360,11 @@ void UpdateKartInputFlags(Kart *kart) {
     kart->mMotionFlags &= ~(KART_MOTION_REVERSING | KART_MOTION_COASTING | KART_MOTION_MOVED_BY_OBJECT);
     flagsPointer = (u32 *) &kart->mDriveFlags;
     entryIndex = kart->mEntryIndex;
-    if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_A)) {
+    if ((u16) (g_GlobalCYT[entryIndex].mBits & PAD_KEY_A)) {
         *flagsPointer |= KART_DRIVE_ACCEL_HELD;
     }
     entryIndex = kart->mEntryIndex;
-    if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_B)) {
+    if ((u16) (g_GlobalCYT[entryIndex].mBits & PAD_KEY_B)) {
         keyBFlagsPointer = (u32 *) &kart->mDriveFlags;
         kart->mDriveFlags |= KART_DRIVE_BRAKE_HELD;
         flags = kart->mDriveFlags;
@@ -382,7 +382,7 @@ void SetKartMissionRunInputMask(Kart *kart) {
     RaceSetup *raceSetup;
     enum { ENTRY_INDEX_FIRST } entryIndex;
 
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     if (raceSetup->mMode != MODE_MISSION_RUN) {
         return;
     }
@@ -390,7 +390,7 @@ void SetKartMissionRunInputMask(Kart *kart) {
         return;
     }
     entryIndex = kart->mEntryIndex;
-    gInputSlots[entryIndex].mBitMask = PAD_KEYS_NO_START & ~PAD_KEY_A;
+    g_GlobalCYT[entryIndex].mBitMask = PAD_KEYS_NO_START & ~PAD_KEY_A;
 }
 
 void DecayValueToZero(s32 *value) {
@@ -432,7 +432,7 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
         }
         kart->mHeadingAngle = kart->mHeadingAngle - speedMagnitude;
         entryIndex = kart->mEntryIndex;
-        keyBits = gInputSlots[entryIndex].mBits;
+        keyBits = g_GlobalCYT[entryIndex].mBits;
         if ((u16) (keyBits & PAD_KEY_LEFT)) {
             kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
         } else if ((u16) (keyBits & PAD_KEY_RIGHT)) {
@@ -442,7 +442,7 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
     }
     if (!(kartFlags & KART_MOTION_ON_GROUND)) {
         entryIndex = kart->mEntryIndex;
-        keyBits = gInputSlots[entryIndex].mBits;
+        keyBits = g_GlobalCYT[entryIndex].mBits;
         if ((u16) (keyBits & PAD_KEY_UP)) {
             kart->mAirTiltAngle += 0x96;
             if (kart->mAirTiltAngle > KART_AIR_TILT_LIMIT) {
@@ -459,13 +459,13 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
     kartFlagsCopy = kart->mMotionFlags;
     kartFlags = kartFlagsCopy;
     if (((kartFlags & KART_MOTION_REVERSING) &&
-         (u16) (gInputSlots[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_B)) ||
+         (u16) (g_GlobalCYT[entryIndex = kart->mEntryIndex].mBits & PAD_KEY_B)) ||
         ((kartFlags & KART_MOTION_REVERSING) && !(kartFlags & (KART_MOTION_HOPPING | KART_MOTION_DRIFTING)))) {
         turnSign = -1;
         turnRate = (s16) ((s16) turnRate * (s16) turnSign);
     }
     entryIndex = kart->mEntryIndex;
-    keyBits = gInputSlots[entryIndex].mBits;
+    keyBits = g_GlobalCYT[entryIndex].mBits;
     if ((u16) (keyBits & PAD_KEY_LEFT)) {
         turned = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) ApplyKartTurn)(kart, turnRate, turnSign, 1, airborne,
                                                                            KART_DRIVE_TURN_LEFT);
@@ -540,25 +540,25 @@ void AdvanceKartTurnHeading(Kart *kart, s32 turnApplied) {
 }
 
 // Writes base + (mRadius + extra) * up to the out vector, where up is row 1 of the matrix at 0x120 (the vector
-// GetKartUp returns), and nothing else.
+// StructMQRacerEntry_GetVec555 returns), and nothing else.
 void ComputeKartPointAlongUp(Vec3 *result, const Vec3 *base, s32 extra, Kart *kart) {
-    VEC_MultAdd(kart->mRadius + extra, &kart->mRotationRow1, base, result);
+    VecFx32_AddScale1(kart->mRadius + extra, &kart->mRotationRow1, base, result);
 }
 
 void ComputeKartCollisionCenter(Vec3 *result, const Vec3 *drawPos, s32 extra, Kart *kart) {
     Vec3 moveDelta;
     Vec3 shiftedPos;
 
-    VEC_Subtract(&kart->mPos, &kart->mPrevPos, &moveDelta);
-    VEC_Add(&moveDelta, drawPos, &shiftedPos);
-    VEC_MultAdd(kart->mRadius + extra, &kart->mDrawBaseRow1, &shiftedPos, result);
+    VecFx32_Subtract(&kart->mPos, &kart->mPrevPos, &moveDelta);
+    VecFx32_Add(&moveDelta, drawPos, &shiftedPos);
+    VecFx32_AddScale1(kart->mRadius + extra, &kart->mDrawBaseRow1, &shiftedPos, result);
 }
 
 void SetKartPrevCollisionCenter(Kart *kart) {
-    VEC_MultAdd(kart->mRadius + 0x400, &kart->mDrawBaseRow1, &kart->mDrawMatrixPos, &kart->mPrevCollisionCenter);
+    VecFx32_AddScale1(kart->mRadius + 0x400, &kart->mDrawBaseRow1, &kart->mDrawMatrixPos, &kart->mPrevCollisionCenter);
 }
 
-// Called once per step of the driving states (AdvanceKartMotion, AdvancePeerKartMotion); also writes mUnk_dc in five
+// Called once per step of the driving states (AdvanceKartMotion, StructMQRacerEntry_SomeFn_90); also writes mUnk_dc in five
 // branches.
 void UpdateKartSpeedLimitGoal(Kart *kart) {
     s32 *goalPointer;
@@ -611,9 +611,9 @@ void UpdateKartSpeedLimit(Kart *kart) {
 void UpdateKartForwardAndLengthRatio(Kart *kart) {
     FX_DivAsync(kart->mVelocityLength, kart->mSpeedLimit);
     if (kart->mMotionFlags & KART_MOTION_ON_GROUND) {
-        Vec3CrossUnrounded(&kart->mRotationRow0, &kart->mGroundNormal, &kart->mForward);
+        Vector3_Cross(&kart->mRotationRow0, &kart->mGroundNormal, &kart->mForward);
     } else {
-        GetKartForward(kart, &kart->mForward);
+        GetMQRacerVector333(kart, &kart->mForward);
     }
     kart->mVelocityLengthRatio = FX_GetDivResult();
     if (kart->mVelocityLengthRatio > FIXED12_UNIT) {

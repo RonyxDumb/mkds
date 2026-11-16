@@ -23,8 +23,8 @@
 #include "Main/Scene/scene_run_forever.h"
 
 void (*gFrameCallback)(s32);
-BrightnessFade gMainBrightnessFade;
-BrightnessFade gSubBrightnessFade;
+BrightnessFade g_TopBrightnessContext;
+BrightnessFade g_BottomBrightnessContext;
 
 void InitDisplaySettingsDesc(DisplaySettingsDesc *displaySettingsDesc) {
     displaySettingsDesc->mWaitIrqCount = 0x1u;
@@ -49,7 +49,7 @@ void InitDisplaySettingsDesc(DisplaySettingsDesc *displaySettingsDesc) {
     displaySettingsDesc->mBankForLCDC = 0x0u;
 }
 
-void UpdateBrightnessFade(BrightnessFade *fade) {
+void Bright_UpdateContext(BrightnessFade *fade) {
     switch (fade->mState) {
         case BRIGHTNESS_FADE_FADED:
             break;
@@ -83,28 +83,28 @@ void UpdateBrightnessFade(BrightnessFade *fade) {
     }
 }
 
-void InitBrightnessFades(void) {
-    gMainBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
-    gMainBrightnessFade.mPositive = TRUE;
-    gMainBrightnessFade.mFadeFrames = 0;
-    gMainBrightnessFade.mFadeFrameCount = 0;
-    gMainBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_FADED;
-    gSubBrightnessFade.mState = BRIGHTNESS_FADE_FADED;
-    gSubBrightnessFade.mPositive = TRUE;
-    gSubBrightnessFade.mFadeFrames = 0;
-    gSubBrightnessFade.mFadeFrameCount = 0;
-    gSubBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_FADED;
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
+void InitializeBrightnessContexts(void) {
+    g_TopBrightnessContext.mState = BRIGHTNESS_FADE_FADED;
+    g_TopBrightnessContext.mPositive = TRUE;
+    g_TopBrightnessContext.mFadeFrames = 0;
+    g_TopBrightnessContext.mFadeFrameCount = 0;
+    g_TopBrightnessContext.mBrightness = BRIGHTNESS_LEVEL_FADED;
+    g_BottomBrightnessContext.mState = BRIGHTNESS_FADE_FADED;
+    g_BottomBrightnessContext.mPositive = TRUE;
+    g_BottomBrightnessContext.mFadeFrames = 0;
+    g_BottomBrightnessContext.mFadeFrameCount = 0;
+    g_BottomBrightnessContext.mBrightness = BRIGHTNESS_LEVEL_FADED;
+    SetBrightness(&reg_GX_MASTER_BRIGHT, g_TopBrightnessContext.mBrightness);
+    SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, g_BottomBrightnessContext.mBrightness);
 }
 
-void WaitIrqAndTurnOnDisplays(void) {
-    OS_WaitIrq(1, 1);
+void EnableGreenSwap(void) {
+    WaitForIRQ(1, 1);
     GX_DispOn();
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT | 0x10000;
 }
 
-void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
+void DisplayEngineConfig_SomeClearFn(DisplayBgRecords *records, u32 bgMode) {
     u32 bgCntMode;
     records->mBg0.mBgCntLow2 = DISPLAY_BG0_DEFAULT_PRIORITY;
     records->mBg0.mBgCntMosaic = 0;
@@ -210,11 +210,11 @@ void InitDisplayBgRecords(DisplayBgRecords *records, u32 bgMode) {
     records->mObjVRamModeBmp = 0;
 }
 
-void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase) {
+void DisplayConfig_SomeFn(DisplaySettings *settings, void *descriptorBase) {
     DisplaySettingsDesc *descriptor = descriptorBase;
     *(DisplaySettingsDesc *) settings = *descriptor;
-    InitDisplayBgRecords(&settings->mMainBgRecords, descriptor->mMainBgMode);
-    InitDisplayBgRecords(&settings->mSubBgRecords, descriptor->mSubBgMode);
+    DisplayEngineConfig_SomeClearFn(&settings->mMainBgRecords, descriptor->mMainBgMode);
+    DisplayEngineConfig_SomeClearFn(&settings->mSubBgRecords, descriptor->mSubBgMode);
     settings->mG3xParams = NULL;
     settings->mFrameStartTick = 0;
     settings->mWaitEndTick = 0;
@@ -226,12 +226,12 @@ void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase) {
     settings->mFrameFlags = 0;
 }
 
-DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
-    DisplaySettings *settings = HeapAlloc(heap, sizeof(DisplaySettings));
+DisplaySettings *CreateDisplayConfig(void *heap, void *descriptor) {
+    DisplaySettings *settings = Mem_AllocateHeap(heap, sizeof(DisplaySettings));
     G3xParams *g3xParams;
-    InitDisplaySettings(settings, descriptor);
+    DisplayConfig_SomeFn(settings, descriptor);
     if (settings->mBg0As == GX_BG0_AS_3D) {
-        g3xParams = HeapAlloc(heap, 8);
+        g3xParams = Mem_AllocateHeap(heap, 8);
         g3xParams->mClearColor = DISPLAY_3D_CLEAR_COLOR;
         g3xParams->mSortMode = 1;
         g3xParams->mBufferMode = 1;
@@ -240,7 +240,7 @@ DisplaySettings *CreateDisplaySettings(void *heap, void *descriptor) {
     return settings;
 }
 
-void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void DisplayEngineConfig_SetBg0Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13) {
     records->mBg0.mBgCntLow2 = cntLow2;
     records->mBg0.mBgCntVal14 = cntVal14;
@@ -251,7 +251,7 @@ void SetBg0Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cnt
     records->mBg0.mBgCntVal13 = cntVal13;
 }
 
-void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
+void DisplayEngineConfig_SetBg1Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                   u32 cntVal2, u32 cntVal13) {
     records->mBg1.mBgCntLow2 = cntLow2;
     records->mBg1.mBgCntVal14 = cntVal14;
@@ -262,7 +262,7 @@ void SetBg1Record(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cnt
     records->mBg1.mBgCntVal13 = cntVal13;
 }
 
-void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayEngineConfig_SetBg2Config2(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                         u32 cntVal8, u32 cntVal2) {
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
     records->mBg2.mFields.mBgCntMosaic = cntMosaic;
@@ -272,7 +272,7 @@ void SetBg2RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u
     records->mBg2.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayEngineConfig_SetBg3Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                         u32 cntVal8, u32 cntVal2) {
     records->mBg3.mFields.mBgCntLow2 = cntLow2;
     records->mBg3.mFields.mBgCntMosaic = cntMosaic;
@@ -282,7 +282,7 @@ void SetBg3RecordParams(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u
     records->mBg3.mFields.mBgCntVal2 = cntVal2;
 }
 
-void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayEngineConfig_SetBg2Config(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                        u32 cntVal8) {
     records->mBg2.mMode = BG23_MODE_DC_BMP;
     records->mBg2.mFields.mBgCntLow2 = cntLow2;
@@ -292,12 +292,12 @@ void SetBg2RecordMode5(DisplayBgRecords *records, u32 cntLow2, u32 cntMosaic, u3
     records->mBg2.mFields.mBgCntVal8 = cntVal8;
 }
 
-void SetG3xSwapBits(DisplaySettings *settings, u32 sortMode, u32 bufferMode) {
+void DisplayConfig_SetSwapBufferValues(DisplaySettings *settings, u32 sortMode, u32 bufferMode) {
     settings->mG3xParams->mSortMode = sortMode;
     settings->mG3xParams->mBufferMode = bufferMode;
 }
 
-void SetSubObjVRamModeBmp(DisplaySettings *settings, u32 value) {
+void DisplayConfig_SetBottomEngineObjVramModeBmp(DisplaySettings *settings, u32 value) {
     settings->mSubBgRecords.mObjVRamModeBmp = value;
 }
 
@@ -384,7 +384,7 @@ static inline void SetBg2ControlDCBmp(vu16 *cntReg, Bg3ControlField screenSize, 
     *cntReg = (*cntReg & 0x43) | (screenSize << 14) | 0x84 | (screenBase << 8) | (overflowMode << 13);
 }
 
-void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
+void SetGlobalDisplayConfig_Bg2(Bg23Cnt *cnt, s32 isMainScreen) {
     s32 matrix[4];
     Bg23CntFields *fields;
 
@@ -470,7 +470,7 @@ void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
     }
 }
 
-void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
+void SetGlobalDisplayConfig_Bg3(Bg23Cnt *cnt, s32 isMainScreen) {
     s32 matrix[4];
     Bg23CntFields *fields;
 
@@ -559,10 +559,10 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
 // Enum-typed parameters of the inlines below: their values are read before the register.
 typedef enum { DISPLAY_REGISTER_FIELD_0 } DisplayRegisterField;
 
-// Calls MIi_CpuClearFast with the value read from a volatile copy.
+// Calls Mem_CpuFastMemorySet with the value read from a volatile copy.
 static inline void DisplayFillMemoryFast(u32 fillValue, void *destination, u32 size) {
     volatile u32 fillValueCopy = fillValue;
-    MIi_CpuClearFast(fillValueCopy, destination, size);
+    Mem_CpuFastMemorySet(fillValueCopy, destination, size);
 }
 
 // Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of q.
@@ -598,64 +598,64 @@ static inline void SetBg01Control(vu16 *cntReg, DisplayRegisterField screenSize,
               (overflowMode << 13);
 }
 
-void InitDisplayFromSettings(DisplaySettings *settings) {
+void SetGlobalDisplayConfig(DisplaySettings *settings) {
     Bg01Cnt *cnt;
     u16 clearColor;
 
-    gDisplaySettings = settings;
-    ClearLcdcBanksByState();
+    g_GlobalDisplayConfig = settings;
+    MaybePrepareVram();
     DisplayFillMemoryFast(0xc0, HW_OAM, 0x400);
     DisplayFillMemoryFast(0xc0, HW_DB_OAM, 0x400);
     DisplayFillMemoryFast(0, HW_BG_PLTT, 0x400);
     DisplayFillMemoryFast(0, HW_DB_BG_PLTT, 0x400);
-    if (gDisplaySettings->mBankForBG != 0) {
-        GX_SetBankForBG(gDisplaySettings->mBankForBG);
+    if (g_GlobalDisplayConfig->mBankForBG != 0) {
+        GX_SetBankForBG(g_GlobalDisplayConfig->mBankForBG);
     }
-    if (gDisplaySettings->mBankForOBJ != 0) {
-        GX_SetBankForOBJ(gDisplaySettings->mBankForOBJ);
+    if (g_GlobalDisplayConfig->mBankForOBJ != 0) {
+        GX_SetBankForOBJ(g_GlobalDisplayConfig->mBankForOBJ);
     }
-    if (gDisplaySettings->mBankForBGExtPltt != 0) {
-        GX_SetBankForBGExtPltt(gDisplaySettings->mBankForBGExtPltt);
+    if (g_GlobalDisplayConfig->mBankForBGExtPltt != 0) {
+        GX_SetBankForBGExtPltt(g_GlobalDisplayConfig->mBankForBGExtPltt);
     }
-    if (gDisplaySettings->mBankForOBJExtPltt != 0) {
-        GX_SetBankForOBJExtPltt(gDisplaySettings->mBankForOBJExtPltt);
+    if (g_GlobalDisplayConfig->mBankForOBJExtPltt != 0) {
+        GX_SetBankForOBJExtPltt(g_GlobalDisplayConfig->mBankForOBJExtPltt);
     }
-    if (gDisplaySettings->mBankForTex != 0) {
-        GX_SetBankForTex(gDisplaySettings->mBankForTex);
+    if (g_GlobalDisplayConfig->mBankForTex != 0) {
+        GX_SetBankForTex(g_GlobalDisplayConfig->mBankForTex);
     }
-    if (gDisplaySettings->mBankForTexPltt != 0) {
-        GX_SetBankForTexPltt(gDisplaySettings->mBankForTexPltt);
+    if (g_GlobalDisplayConfig->mBankForTexPltt != 0) {
+        GX_SetBankForTexPltt(g_GlobalDisplayConfig->mBankForTexPltt);
     }
-    if (gDisplaySettings->mBankForClearImage != 0) {
-        GX_SetBankForClearImage(gDisplaySettings->mBankForClearImage);
+    if (g_GlobalDisplayConfig->mBankForClearImage != 0) {
+        GX_SetBankForClearImage(g_GlobalDisplayConfig->mBankForClearImage);
     }
-    if (gDisplaySettings->mBankForSubBG != 0) {
-        GX_SetBankForSubBG(gDisplaySettings->mBankForSubBG);
+    if (g_GlobalDisplayConfig->mBankForSubBG != 0) {
+        GX_SetBankForSubBG(g_GlobalDisplayConfig->mBankForSubBG);
     }
-    if (gDisplaySettings->mBankForSubOBJ != 0) {
-        GX_SetBankForSubOBJ(gDisplaySettings->mBankForSubOBJ);
+    if (g_GlobalDisplayConfig->mBankForSubOBJ != 0) {
+        GX_SetBankForSubOBJ(g_GlobalDisplayConfig->mBankForSubOBJ);
     }
-    if (gDisplaySettings->mBankForSubBGExtPltt != 0) {
-        GX_SetBankForSubBGExtPltt(gDisplaySettings->mBankForSubBGExtPltt);
+    if (g_GlobalDisplayConfig->mBankForSubBGExtPltt != 0) {
+        GX_SetBankForSubBGExtPltt(g_GlobalDisplayConfig->mBankForSubBGExtPltt);
     }
-    if (gDisplaySettings->mBankForSubOBJExtPltt != 0) {
-        GX_SetBankForSubOBJExtPltt(gDisplaySettings->mBankForSubOBJExtPltt);
+    if (g_GlobalDisplayConfig->mBankForSubOBJExtPltt != 0) {
+        GX_SetBankForSubOBJExtPltt(g_GlobalDisplayConfig->mBankForSubOBJExtPltt);
     }
-    if (gDisplaySettings->mBankForARM7 != 0) {
-        SetBankForARM7ByState(gDisplaySettings->mBankForARM7);
+    if (g_GlobalDisplayConfig->mBankForARM7 != 0) {
+        SetBankForARM7ByState(g_GlobalDisplayConfig->mBankForARM7);
     }
-    if (gDisplaySettings->mBankForLCDC != 0) {
-        GX_SetBankForLCDC(gDisplaySettings->mBankForLCDC);
+    if (g_GlobalDisplayConfig->mBankForLCDC != 0) {
+        GX_SetBankForLCDC(g_GlobalDisplayConfig->mBankForLCDC);
     }
-    gWvrState.mState;
-    GX_SetGraphicsMode(settings->mDispMode, settings->mMainBgMode, settings->mBg0As);
+    g_SomeVramConfigMode.mState;
+    ConfigureDispcntDisplay(settings->mDispMode, settings->mMainBgMode, settings->mBg0As);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (settings->mMainDisplayMask << 8);
-    GXS_SetGraphicsMode(settings->mSubBgMode);
+    SetDispcntSubBgMode(settings->mSubBgMode);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | (settings->mSubDisplayMask << 8);
     if (settings->mBg0As == GX_BG0_AS_3D) {
-        G3X_Init();
-        G3X_InitTable();
-        G3X_InitMtxStack();
+        G3X_Initialize();
+        G3X_InitializeTable();
+        G3X_InitializeMatrixStack();
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_THS_MASK);
         reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 0x10;
         reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 4;
@@ -670,7 +670,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
         cnt = &settings->mMainBgRecords.mBg0;
         SetBg01PriorityAndMosaic(&reg_G2_BG0CNT, cnt);
         if (settings->mBg0As == GX_BG0_AS_3D) {
-            G2Bg0OfsWrite(0);
+            G3X_SetHOffset(0);
         } else {
             reg_G2_BG0OFS = 0;
             SetBg01Control(&reg_G2_BG0CNT, (DisplayRegisterField) cnt->mBgCntVal14,
@@ -703,16 +703,16 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
                        (DisplayRegisterField) cnt->mBgCntVal2, (DisplayRegisterField) cnt->mBgCntVal13);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_BG2) {
-        ApplyBg2Cnt(&settings->mMainBgRecords.mBg2, 1);
+        SetGlobalDisplayConfig_Bg2(&settings->mMainBgRecords.mBg2, 1);
     }
     if (settings->mSubDisplayMask & GX_PLANEMASK_BG2) {
-        ApplyBg2Cnt(&settings->mSubBgRecords.mBg2, 0);
+        SetGlobalDisplayConfig_Bg2(&settings->mSubBgRecords.mBg2, 0);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_BG3) {
-        ApplyBg3Cnt(&settings->mMainBgRecords.mBg3, 1);
+        SetGlobalDisplayConfig_Bg3(&settings->mMainBgRecords.mBg3, 1);
     }
     if (settings->mSubDisplayMask & GX_PLANEMASK_BG3) {
-        ApplyBg3Cnt(&settings->mSubBgRecords.mBg3, 0);
+        SetGlobalDisplayConfig_Bg3(&settings->mSubBgRecords.mBg3, 0);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_OBJ) {
         SetDispcntObjVRamModeChar(&reg_GX_DISPCNT, (DisplayRegisterField) settings->mMainBgRecords.mObjVRamModeChar);
@@ -725,19 +725,19 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
     reg_GX_POWCNT |= 0x8000;
 }
 
-void DisableAllBanksAndNullDisplaySettings(void) {
-    DisableAllBanks();
-    gDisplaySettings = NULL;
+void ResetDisplayConfig(void) {
+    ResetSomeVram();
+    g_GlobalDisplayConfig = NULL;
 }
 
-void PrepareDisplayFrame(void) {
+void LoopFn_Some3D(void) {
     DisplaySettings *settings;
     u64 tick;
-    settings = gDisplaySettings;
-    tick = OS_GetTick();
+    settings = g_GlobalDisplayConfig;
+    tick = Os_GetTick();
     settings->mFrameStartTick = tick;
     if (settings->mBg0As == GX_BG0_AS_3D) {
-        G3X_Reset();
+        G3X_ResetMatrixStack();
     }
     if (gFrameCallback != NULL) {
         gFrameCallback(0);
@@ -745,14 +745,14 @@ void PrepareDisplayFrame(void) {
 }
 
 u32 IsFrameSpanningVBlank(void) {
-    return (gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_SPANNED_VBLANK) ? 1 : 0;
+    return (g_GlobalDisplayConfig->mFrameFlags & DISPLAY_FRAME_FLAG_SPANNED_VBLANK) ? 1 : 0;
 }
 
 void ClearFrameFinishedFlag(void) {
     u32 frameFlags;
-    frameFlags = gDisplaySettings->mFrameFlags;
+    frameFlags = g_GlobalDisplayConfig->mFrameFlags;
     frameFlags = (frameFlags) & ~(u32) DISPLAY_FRAME_FLAG_FINISHED;
-    gDisplaySettings->mFrameFlags = frameFlags;
+    g_GlobalDisplayConfig->mFrameFlags = frameFlags;
 }
 
 static inline void StartBrightnessFadeToFadedPositive(BrightnessFade *fade, s16 frameCount) {
@@ -815,43 +815,43 @@ static inline void StartBrightnessFadeToClear(BrightnessFade *fade, s16 frameCou
     fade->mFadeFrameCount = frameCount;
 }
 
-void FinishDisplayFrame(void) {
+void LoopFn_Brightness(void) {
     DisplaySettings *settings;
     u64 tick;
     s16 prevMainBrightness;
     s16 prevSubBrightness;
     u16 waitIndex;
-    prevMainBrightness = gMainBrightnessFade.mBrightness;
-    prevSubBrightness = gSubBrightnessFade.mBrightness;
+    prevMainBrightness = g_TopBrightnessContext.mBrightness;
+    prevSubBrightness = g_BottomBrightnessContext.mBrightness;
     if (gFrameCallback != NULL) {
         gFrameCallback(1);
     }
-    UpdateBrightnessFade(&gMainBrightnessFade);
-    UpdateBrightnessFade(&gSubBrightnessFade);
+    Bright_UpdateContext(&g_TopBrightnessContext);
+    Bright_UpdateContext(&g_BottomBrightnessContext);
     DC_StoreAll();
-    settings = gDisplaySettings;
+    settings = g_GlobalDisplayConfig;
     if (settings->mBg0As == GX_BG0_AS_3D) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
-    if ((gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
-        gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+    if ((g_GlobalDisplayConfig->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
+        g_GlobalDisplayConfig->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
     } else {
-        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
-        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
+        g_GlobalDisplayConfig->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+        g_GlobalDisplayConfig->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
     }
-    settings = gDisplaySettings;
-    tick = OS_GetTick();
+    settings = g_GlobalDisplayConfig;
+    tick = Os_GetTick();
     settings->mTimeBeforeWait = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
-    for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
-        OS_WaitIrq(1, 1);
+    for (waitIndex = 0; waitIndex < g_GlobalDisplayConfig->mWaitIrqCount; waitIndex++) {
+        WaitForIRQ(1, 1);
     }
-    gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
-    gDisplaySettings->mWaitEndTick = OS_GetTick();
-    if (prevMainBrightness != gMainBrightnessFade.mBrightness) {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
+    g_GlobalDisplayConfig->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
+    g_GlobalDisplayConfig->mWaitEndTick = Os_GetTick();
+    if (prevMainBrightness != g_TopBrightnessContext.mBrightness) {
+        SetBrightness(&reg_GX_MASTER_BRIGHT, g_TopBrightnessContext.mBrightness);
     }
-    if (prevSubBrightness != gSubBrightnessFade.mBrightness) {
-        GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
+    if (prevSubBrightness != g_BottomBrightnessContext.mBrightness) {
+        SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, g_BottomBrightnessContext.mBrightness);
     }
     if (gFrameCallback != NULL) {
         gFrameCallback(2);
@@ -865,182 +865,182 @@ void FinishDisplayFrameUnlessSpanned(s32 skipWhenSpanned) {
     u16 waitIndex;
     BOOL swapAndWait;
     DisplaySettings *settings;
-    prevMainBrightness = gMainBrightnessFade.mBrightness;
-    prevSubBrightness = gSubBrightnessFade.mBrightness;
+    prevMainBrightness = g_TopBrightnessContext.mBrightness;
+    prevSubBrightness = g_BottomBrightnessContext.mBrightness;
     if (gFrameCallback != NULL) {
         gFrameCallback(1);
     }
-    UpdateBrightnessFade(&gMainBrightnessFade);
-    UpdateBrightnessFade(&gSubBrightnessFade);
+    Bright_UpdateContext(&g_TopBrightnessContext);
+    Bright_UpdateContext(&g_BottomBrightnessContext);
     DC_StoreAll();
-    if ((gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
-        gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+    if ((g_GlobalDisplayConfig->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
+        g_GlobalDisplayConfig->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
     } else {
-        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
-        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
+        g_GlobalDisplayConfig->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+        g_GlobalDisplayConfig->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
     }
-    if (skipWhenSpanned == 0 || (gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_SPANNED_VBLANK) == 0) {
+    if (skipWhenSpanned == 0 || (g_GlobalDisplayConfig->mFrameFlags & DISPLAY_FRAME_FLAG_SPANNED_VBLANK) == 0) {
         swapAndWait = TRUE;
     } else {
         swapAndWait = FALSE;
     }
-    settings = gDisplaySettings;
+    settings = g_GlobalDisplayConfig;
     if (settings->mBg0As == GX_BG0_AS_3D && swapAndWait != FALSE) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
-    settings = gDisplaySettings;
-    tick = OS_GetTick();
+    settings = g_GlobalDisplayConfig;
+    tick = Os_GetTick();
     settings->mTimeBeforeWait = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
     if (swapAndWait != FALSE) {
-        for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
-            OS_WaitIrq(1, 1);
+        for (waitIndex = 0; waitIndex < g_GlobalDisplayConfig->mWaitIrqCount; waitIndex++) {
+            WaitForIRQ(1, 1);
         }
     }
-    gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
-    gDisplaySettings->mWaitEndTick = OS_GetTick();
-    if (prevMainBrightness != gMainBrightnessFade.mBrightness) {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
+    g_GlobalDisplayConfig->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
+    g_GlobalDisplayConfig->mWaitEndTick = Os_GetTick();
+    if (prevMainBrightness != g_TopBrightnessContext.mBrightness) {
+        SetBrightness(&reg_GX_MASTER_BRIGHT, g_TopBrightnessContext.mBrightness);
     }
-    if (prevSubBrightness != gSubBrightnessFade.mBrightness) {
-        GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
+    if (prevSubBrightness != g_BottomBrightnessContext.mBrightness) {
+        SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, g_BottomBrightnessContext.mBrightness);
     }
     if (gFrameCallback != NULL) {
         gFrameCallback(2);
     }
 }
 
-void FinishDisplayFrameSwapIf(s32 doSwap) {
+void UpdateBrightnessContextsAndMore(s32 doSwap) {
     DisplaySettings *settings;
     u64 tick;
     s16 prevMainBrightness;
     s16 prevSubBrightness;
     u16 waitIndex;
-    prevMainBrightness = gMainBrightnessFade.mBrightness;
-    prevSubBrightness = gSubBrightnessFade.mBrightness;
+    prevMainBrightness = g_TopBrightnessContext.mBrightness;
+    prevSubBrightness = g_BottomBrightnessContext.mBrightness;
     if (gFrameCallback != NULL) {
         gFrameCallback(1);
     }
-    UpdateBrightnessFade(&gMainBrightnessFade);
-    UpdateBrightnessFade(&gSubBrightnessFade);
+    Bright_UpdateContext(&g_TopBrightnessContext);
+    Bright_UpdateContext(&g_BottomBrightnessContext);
     DC_StoreAll();
-    if ((gDisplaySettings->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
-        gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+    if ((g_GlobalDisplayConfig->mFrameFlags & DISPLAY_FRAME_FLAG_FINISHED) == 0) {
+        g_GlobalDisplayConfig->mFrameFlags |= DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
     } else {
-        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
-        gDisplaySettings->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
+        g_GlobalDisplayConfig->mFrameFlags &= ~DISPLAY_FRAME_FLAG_SPANNED_VBLANK;
+        g_GlobalDisplayConfig->mFrameFlags &= ~DISPLAY_FRAME_FLAG_FINISHED;
     }
-    settings = gDisplaySettings;
+    settings = g_GlobalDisplayConfig;
     if (settings->mBg0As == GX_BG0_AS_3D && doSwap != 0) {
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
     }
-    settings = gDisplaySettings;
-    tick = OS_GetTick();
+    settings = g_GlobalDisplayConfig;
+    tick = Os_GetTick();
     settings->mTimeBeforeWait = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
-    for (waitIndex = 0; waitIndex < gDisplaySettings->mWaitIrqCount; waitIndex++) {
-        OS_WaitIrq(1, 1);
+    for (waitIndex = 0; waitIndex < g_GlobalDisplayConfig->mWaitIrqCount; waitIndex++) {
+        WaitForIRQ(1, 1);
     }
-    gDisplaySettings->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
-    gDisplaySettings->mWaitEndTick = OS_GetTick();
-    if (prevMainBrightness != gMainBrightnessFade.mBrightness) {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
+    g_GlobalDisplayConfig->mFrameFlags |= DISPLAY_FRAME_FLAG_FINISHED;
+    g_GlobalDisplayConfig->mWaitEndTick = Os_GetTick();
+    if (prevMainBrightness != g_TopBrightnessContext.mBrightness) {
+        SetBrightness(&reg_GX_MASTER_BRIGHT, g_TopBrightnessContext.mBrightness);
     }
-    if (prevSubBrightness != gSubBrightnessFade.mBrightness) {
-        GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
+    if (prevSubBrightness != g_BottomBrightnessContext.mBrightness) {
+        SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, g_BottomBrightnessContext.mBrightness);
     }
     if (gFrameCallback != NULL) {
         gFrameCallback(2);
     }
 }
 
-void RecordFrameTimes(void) {
+void LoopFn_DisplayConfig(void) {
     u64 tick;
     DisplaySettings *settings;
-    tick = OS_GetTick();
+    tick = Os_GetTick();
     if (gFrameCallback != NULL) {
         gFrameCallback(3);
     }
-    settings = gDisplaySettings;
+    settings = g_GlobalDisplayConfig;
     settings->mTimeSinceWaitEnd = (tick - settings->mWaitEndTick) * 0xfa00 / 0x82ea;
-    settings = gDisplaySettings;
+    settings = g_GlobalDisplayConfig;
     settings->mTimeSinceFrameStart = (tick - settings->mFrameStartTick) * 0xfa00 / 0x82ea;
 }
 
 void StartFadeToClearOneScreen(s16 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        StartBrightnessFadeToClear(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToClear(&g_TopBrightnessContext, frameCount);
     } else {
-        StartBrightnessFadeToClear(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToClear(&g_BottomBrightnessContext, frameCount);
     }
 }
 
-void StartFadeToClear(s16 frameCount) {
-    StartBrightnessFadeToClear(&gMainBrightnessFade, frameCount);
-    StartBrightnessFadeToClear(&gSubBrightnessFade, frameCount);
+void BrightCtx_SomeFnTopBottom(s16 frameCount) {
+    StartBrightnessFadeToClear(&g_TopBrightnessContext, frameCount);
+    StartBrightnessFadeToClear(&g_BottomBrightnessContext, frameCount);
 }
 
-void StartFadeToClearNegativeOneScreen(s32 frameCount, s32 isMainScreen) {
+void BrightCtx_SomeFn_1(s32 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        StartBrightnessFadeToClearNegative(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToClearNegative(&g_TopBrightnessContext, frameCount);
     } else {
-        StartBrightnessFadeToClearNegative(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToClearNegative(&g_BottomBrightnessContext, frameCount);
     }
 }
 
 void StartFadeToClearNegative(s16 frameCount) {
-    StartBrightnessFadeToClearNegative(&gMainBrightnessFade, frameCount);
-    StartBrightnessFadeToClearNegative(&gSubBrightnessFade, frameCount);
+    StartBrightnessFadeToClearNegative(&g_TopBrightnessContext, frameCount);
+    StartBrightnessFadeToClearNegative(&g_BottomBrightnessContext, frameCount);
 }
 
-void StartFadeToFadedNegativeOneScreen(s32 frameCount, s32 isMainScreen) {
+void BrightCtx_SomeFn_0(s32 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        StartBrightnessFadeToFadedNegative(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedNegative(&g_TopBrightnessContext, frameCount);
     } else {
-        StartBrightnessFadeToFadedNegative(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedNegative(&g_BottomBrightnessContext, frameCount);
     }
 }
 
-void StartFadeToFadedNegative(s16 frameCount) {
-    StartBrightnessFadeToFadedNegative(&gMainBrightnessFade, frameCount);
-    StartBrightnessFadeToFadedNegative(&gSubBrightnessFade, frameCount);
+void Bright_FadeOutBlack(s16 frameCount) {
+    StartBrightnessFadeToFadedNegative(&g_TopBrightnessContext, frameCount);
+    StartBrightnessFadeToFadedNegative(&g_BottomBrightnessContext, frameCount);
 }
 
 void StartFadeToFadedPositiveOneScreen(s16 frameCount, s32 isMainScreen) {
     if (isMainScreen != 0) {
-        StartBrightnessFadeToFadedPositive(&gMainBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedPositive(&g_TopBrightnessContext, frameCount);
     } else {
-        StartBrightnessFadeToFadedPositive(&gSubBrightnessFade, frameCount);
+        StartBrightnessFadeToFadedPositive(&g_BottomBrightnessContext, frameCount);
     }
 }
 
-void StartFadeToFadedPositive(s16 frameCount) {
-    StartBrightnessFadeToFadedPositive(&gMainBrightnessFade, frameCount);
-    StartBrightnessFadeToFadedPositive(&gSubBrightnessFade, frameCount);
+void Bright_FadeOutWhite(s16 frameCount) {
+    StartBrightnessFadeToFadedPositive(&g_TopBrightnessContext, frameCount);
+    StartBrightnessFadeToFadedPositive(&g_BottomBrightnessContext, frameCount);
 }
 
-u32 AreBrightnessFadesFaded(void) {
-    if (gMainBrightnessFade.mState == BRIGHTNESS_FADE_FADED && gSubBrightnessFade.mState == BRIGHTNESS_FADE_FADED) {
+u32 Bright_IsBothScreensFadedOut(void) {
+    if (g_TopBrightnessContext.mState == BRIGHTNESS_FADE_FADED && g_BottomBrightnessContext.mState == BRIGHTNESS_FADE_FADED) {
         return 1;
     }
     return 0;
 }
 
-void SetBrightnessFadesClear(void) {
-    gMainBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
-    gMainBrightnessFade.mPositive = FALSE;
-    gMainBrightnessFade.mFadeFrames = 0;
-    gMainBrightnessFade.mFadeFrameCount = 0;
-    gMainBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_CLEAR;
-    gSubBrightnessFade.mState = BRIGHTNESS_FADE_CLEAR;
-    gSubBrightnessFade.mPositive = FALSE;
-    gSubBrightnessFade.mFadeFrames = 0;
-    gSubBrightnessFade.mFadeFrameCount = 0;
-    gSubBrightnessFade.mBrightness = BRIGHTNESS_LEVEL_CLEAR;
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, gMainBrightnessFade.mBrightness);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, gSubBrightnessFade.mBrightness);
+void Bright_ResetBlackBothScreens(void) {
+    g_TopBrightnessContext.mState = BRIGHTNESS_FADE_CLEAR;
+    g_TopBrightnessContext.mPositive = FALSE;
+    g_TopBrightnessContext.mFadeFrames = 0;
+    g_TopBrightnessContext.mFadeFrameCount = 0;
+    g_TopBrightnessContext.mBrightness = BRIGHTNESS_LEVEL_CLEAR;
+    g_BottomBrightnessContext.mState = BRIGHTNESS_FADE_CLEAR;
+    g_BottomBrightnessContext.mPositive = FALSE;
+    g_BottomBrightnessContext.mFadeFrames = 0;
+    g_BottomBrightnessContext.mFadeFrameCount = 0;
+    g_BottomBrightnessContext.mBrightness = BRIGHTNESS_LEVEL_CLEAR;
+    SetBrightness(&reg_GX_MASTER_BRIGHT, g_TopBrightnessContext.mBrightness);
+    SetBrightness(&reg_GXS_DB_MASTER_BRIGHT, g_BottomBrightnessContext.mBrightness);
 }
 
-u32 AreBrightnessFadesClear(void) {
-    if ((gMainBrightnessFade.mState == BRIGHTNESS_FADE_CLEAR) && (gSubBrightnessFade.mState == BRIGHTNESS_FADE_CLEAR)) {
+u32 Bright_IsBothScreensFadedIn(void) {
+    if ((g_TopBrightnessContext.mState == BRIGHTNESS_FADE_CLEAR) && (g_BottomBrightnessContext.mState == BRIGHTNESS_FADE_CLEAR)) {
         return 1;
     }
     return 0;

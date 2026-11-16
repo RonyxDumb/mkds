@@ -9,7 +9,7 @@ typedef struct MICompressionHeader {
     /* 00 */ u32 mDestSize : 24;
 } MICompressionHeader;
 
-// State of an LZ expansion done in steps (MI_ReadUncompLZ8).
+// State of an LZ expansion done in steps (LzDecompressContext_DoCycle).
 typedef struct MIUncompContextLZ {
     /* 00 */ u8 *mDestp;
     /* 04 */ s32 mDestCount;
@@ -21,4 +21,4 @@ typedef struct MIUncompContextLZ {
     /* 0e */ u8 mLengthFlg;
 } MIUncompContextLZ;
 
-void MI_InitUncompContextLZ(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header);
+void LzDecompressContext_Create(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header);

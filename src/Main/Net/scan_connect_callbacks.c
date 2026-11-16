@@ -32,7 +32,7 @@ u32 StartConnectToEntry(u32 entryIndex) {
     SetupMPLink(&gScanConnectWork->mMPLink);
     SetMPLinkCallback(MPLinkCallback);
     SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_CONNECTING, 0);
-    MI_CpuCopy8(&entry->mScanBuffer, &gScanConnectWork->mScanBuffer, sizeof(WMBssDesc));
+    Mem_CpuCopy8(&entry->mScanBuffer, &gScanConnectWork->mScanBuffer, sizeof(WMBssDesc));
     ScanConnectStartConnect(&gScanConnectWork->mScanBuffer);
     return 1;
 }
@@ -175,7 +175,7 @@ void QueueStateMessage(void) {
             requestData.mGgid = gScanConnectWork->mGgid;
             requestData.mVersion = 1;
             requestData.mFileId = gScanConnectWork->mFileId;
-            MI_CpuCopy8(gScanConnectWork->mUserInfo, requestData.mUserInfo, sizeof(requestData.mUserInfo));
+            Mem_CpuCopy8(gScanConnectWork->mUserInfo, requestData.mUserInfo, sizeof(requestData.mUserInfo));
             childMessage.mKind = CHILD_MESSAGE_REQUEST;
             payload = &childMessage.mKind;
             payload += 3;

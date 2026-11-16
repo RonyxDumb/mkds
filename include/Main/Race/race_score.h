@@ -13,10 +13,10 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 
 // Writes mNextHeader.mSeed; shuffles the respawn slots in mode 2.
-void InitRaceProgress(void);
-void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex);
-s16 ComputeRaceProgressKartScore(s32 kartIndex);
-void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartIndex);
+void CreateGlobalMV(void);
+void StructRC_SomeFn_2(RaceProgressKart *raceProgressKart, s32 kartIndex);
+s16 MaybeComputeRacerScore(s32 kartIndex);
+void MaybeComputeGPScore(RaceProgressScoreTerms *scoreTerms, s32 kartIndex);
 BOOL IsEntryRaceEnded(void);
 s64 ComputeDotOfPairsRoundedS64(const IntPair *first, const IntPair *second);
 s32 ComputeDotOfPairsRounded(const IntPair *first, const IntPair *second);

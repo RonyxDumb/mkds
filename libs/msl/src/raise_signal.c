@@ -18,29 +18,29 @@ int raise(int signalNumber) {
     if (signalNumber < 1 || signalNumber > 7) {
         return -1;
     }
-    if (OS_TryLockMutex((OSMutex *) gLockMutexes[7]) == 0) {
-        gLockOwnerThreadIds[7] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[7] = 1;
-    } else if (gLockOwnerThreadIds[7] == OSi_ThreadInfo.mListHead->mId) {
-        gLockHoldCounts[7]++;
+    if (Os_Mutex_TryLock((OSMutex *) g_AnotherMutex[7]) == 0) {
+        g_SomeThreadId[7] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[7] = 1;
+    } else if (g_SomeThreadId[7] == g_Os_ThreadInfo.mListHead->mId) {
+        g_SomeCounter[7]++;
     } else {
-        OS_LockMutex((OSMutex *) gLockMutexes[7]);
-        gLockOwnerThreadIds[7] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[7] = 1;
+        Os_Mutex_Lock((OSMutex *) g_AnotherMutex[7]);
+        g_SomeThreadId[7] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[7] = 1;
     }
     handler = gRaiseHandlers[signalNumber - 1];
     if (handler != RAISE_HANDLER_IGNORE) {
         gRaiseHandlers[signalNumber - 1] = 0;
     }
-    gLockHoldCounts[7]--;
-    if (gLockHoldCounts[7] == 0) {
-        OS_UnlockMutex((OSMutex *) gLockMutexes[7]);
+    g_SomeCounter[7]--;
+    if (g_SomeCounter[7] == 0) {
+        Os_Mutex_Unlock((OSMutex *) g_AnotherMutex[7]);
     }
     if (handler == RAISE_HANDLER_IGNORE || (handler == 0 && signalNumber == 1)) {
         return 0;
     }
     if (handler == 0) {
-        exit(0);
+        CheckZetaInvokeBeta(0);
     }
     handler(signalNumber);
     return 0;

@@ -9,27 +9,27 @@
 #pragma thumb on
 
 void EndWbtStep(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_BLOCK_TRANSFER;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_STOPPING_BLOCK_TRANSFER;
+    g_GlobalZE->mRequestPending = 1;
     WBT_End();
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_BLOCK_TRANSFER;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_BLOCK_TRANSFER;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void SetScanGhostInfo(u32 entryIndex, UserGameInfo *gameInfo) {
-    gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mGameInfoPart.mKartIndex;
-    gConnectionWork->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
-    gConnectionWork->mScanGhostInfos[entryIndex].mCourseId = GetCupCourseIdAtIndex(gameInfo->mCupCourseIndex);
-    gConnectionWork->mScanGhostInfos[entryIndex].mMinute = gameInfo->mMinute;
-    gConnectionWork->mScanGhostInfos[entryIndex].mSecond = gameInfo->mSecond;
-    gConnectionWork->mScanGhostInfos[entryIndex].mMillisecond = gameInfo->mMillisecond;
+    g_GlobalZE->mScanGhostInfos[entryIndex].mKartIndex = gameInfo->mGameInfoPart.mKartIndex;
+    g_GlobalZE->mScanGhostInfos[entryIndex].mCharacterIndex = gameInfo->mCharacterIndex;
+    g_GlobalZE->mScanGhostInfos[entryIndex].mCourseId = GetSomeInternalCourseId(gameInfo->mCupCourseIndex);
+    g_GlobalZE->mScanGhostInfos[entryIndex].mMinute = gameInfo->mMinute;
+    g_GlobalZE->mScanGhostInfos[entryIndex].mSecond = gameInfo->mSecond;
+    g_GlobalZE->mScanGhostInfos[entryIndex].mMillisecond = gameInfo->mMillisecond;
 }
 
 static inline u32 ChildNameGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *characterIndex, u8 *courseId, u8 *minute,
@@ -37,12 +37,12 @@ BOOL TryGetScanGhostInfo(u8 entryIndex, void *destination, u8 *kartIndex, u8 *ch
     if (TryGetScanSlotName(entryIndex, destination) == 0) {
         return FALSE;
     }
-    *kartIndex = gConnectionWork->mScanGhostInfos[entryIndex].mKartIndex;
-    *characterIndex = gConnectionWork->mScanGhostInfos[entryIndex].mCharacterIndex;
-    *courseId = gConnectionWork->mScanGhostInfos[entryIndex].mCourseId;
-    *minute = gConnectionWork->mScanGhostInfos[entryIndex].mMinute;
-    *second = gConnectionWork->mScanGhostInfos[entryIndex].mSecond;
-    *millisecond = gConnectionWork->mScanGhostInfos[entryIndex].mMillisecond;
+    *kartIndex = g_GlobalZE->mScanGhostInfos[entryIndex].mKartIndex;
+    *characterIndex = g_GlobalZE->mScanGhostInfos[entryIndex].mCharacterIndex;
+    *courseId = g_GlobalZE->mScanGhostInfos[entryIndex].mCourseId;
+    *minute = g_GlobalZE->mScanGhostInfos[entryIndex].mMinute;
+    *second = g_GlobalZE->mScanGhostInfos[entryIndex].mSecond;
+    *millisecond = g_GlobalZE->mScanGhostInfos[entryIndex].mMillisecond;
     return TRUE;
 }
 
@@ -54,10 +54,10 @@ BOOL CopySingleChildName(void *destination) {
 
     found = FALSE;
     if (ChildNameGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        if ((gConnectionWork->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
-            childCount = gConnectionWork->mWaitToSendCount;
+        if ((g_GlobalZE->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
+            childCount = g_GlobalZE->mWaitToSendCount;
         } else {
-            childCount = gConnectionWork->mChildren.mChildCount;
+            childCount = g_GlobalZE->mChildren.mChildCount;
         }
     } else {
         childCount = 0;
@@ -69,10 +69,10 @@ BOOL CopySingleChildName(void *destination) {
         return FALSE;
     }
     index = 1;
-    childMask = gConnectionWork->mChildren.mChildMask;
+    childMask = g_GlobalZE->mChildren.mChildMask;
     do {
         if (BIT_IS_SET(childMask, index)) {
-            MI_CpuCopy8(&gConnectionWork->mPlayerRecords[index], destination, PLAYER_NAME_BYTES);
+            Mem_CpuCopy8(&g_GlobalZE->mPlayerRecords[index], destination, PLAYER_NAME_BYTES);
             found = TRUE;
             break;
         }
@@ -85,17 +85,17 @@ void StartSendWordRequest(u16 indexMask, s32 value) {
     s32 valueCopy;
 
     valueCopy = value;
-    gConnectionWork->mStep = CONNECTION_STEP_SEND_WORD_REQUEST;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_SEND_WORD_REQUEST;
+    g_GlobalZE->mRequestPending = 1;
     if (WBT_PutUserData(indexMask, &valueCopy, 4, SendWordRequestCallback) == 0) {
-        gConnectionWork->mRequestPending = 0;
+        g_GlobalZE->mRequestPending = 0;
     }
 }
 
 void SendWordRequestCallback(WBTCommand *record) {
     if (record->mCommand == XFER_COMMAND_SEND_CUSTOM) {
         if (record->mEvent == XFER_EVENT_CUSTOM_ENDED) {
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             return;
         }
         SetRequestErrorCode(CONNECTION_ERROR_OPERATION_FAILED);

@@ -4,7 +4,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 
 void LocateAndQueueSelectRaceRule(void);
-void LoadSelectRaceRuleAndWaitData(void);
+void VerifyCommonSelectRaceRuleFiles_from_thumb(void);
 
 extern const u16 gSelectRaceRuleStepCellsChanging[5][2];
 extern const u16 gSelectRaceRuleStepCellsPlain[5][2];

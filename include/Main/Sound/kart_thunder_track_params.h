@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-void SetKartThunderShrinkTrackParamsFunction(Kart *kart);
+void StructMQRacerEntry_SomeFn_29(Kart *kart);

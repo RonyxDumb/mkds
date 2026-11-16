@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-unsigned int GetWLMenuKind(void);
+unsigned int GetB488SomeMode(void);
 
 // Values of MenuShared.mWLMenuKind: what the wireless menu opens for. The scene starts the message screen named after
 // the next step (InitWLMenuScene); the title leaves 0, the race scene and the results set the others.

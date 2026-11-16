@@ -46,52 +46,52 @@ void LocateAndQueueRecordGpx(void) {
     Nclr *recordGpxSBNclr = NULL;
     u16 *paletteData;
 
-    LocateNcgr2(&gRecordGpx->mRecordGpxMNcgr, FindSceneFile(gRecordGpxMNcgrName));
-    LocateNcer(&gRecordGpx->mRecordGpxMNcer, FindSceneFile(gRecordGpxMNcerName));
-    LocateNclr(&recordGpxMONclr, FindSceneFile(gRecordGpxMONclrName));
-    gRecordGpx->mRecordGpxMBncl = FindSceneFile(gRecordGpxMBnclName);
-    gRecordGpx->mRecordGpxMBnll = FindSceneFile(gRecordGpxMBnllName);
-    LocateNcgr2(&gRecordGpx->mRecordGpxSNcgr, FindSceneFile(gRecordGpxSNcgrName));
-    LocateNcer(&gRecordGpx->mRecordGpxSNcer, FindSceneFile(gRecordGpxSNcerName));
-    LocateNclr(&recordGpxSONclr, FindSceneFile(gRecordGpxSONclrName));
-    gRecordGpx->mRecordGpxSBncl = FindSceneFile(gRecordGpxSBnclName);
-    gRecordGpx->mRecordGpxSBnbl = FindSceneFile(gRecordGpxSBnblName);
-    gRecordGpx->mRecordGpxSBnll = FindSceneFile(gRecordGpxSBnllName);
-    LocateNcgr2(&gRecordGpx->mRecordTrophyONcgr, FindSceneFile(gRecordTrophyONcgrName));
-    LocateNcer(&gRecordGpx->mRecordTrophyONcer, FindSceneFile(gRecordTrophyONcerName));
-    LocateNclr(&gRecordGpx->mRecordTrophySONclr, FindSceneFile(gRecordTrophySONclrName));
-    gRecordGpx->mRecordTrophySOBncl = FindSceneFile(gRecordTrophySOBnclName);
-    gRecordGpx->mPlayerCharacterMNcgr = GetPlayerCharacterNcgr(0);
-    gRecordGpx->mPlayerCharacterMNcer = GetPlayerCharacterNcer(0);
-    gRecordGpx->mPlayerCharacterMONclr = GetPlayerCharacterNclr(0);
-    gRecordGpx->mPlayerCharacterMBncl = GetPlayerCharacterBncl(0);
-    LocateNcgr(&recordGpxMBNcgr, FindSceneFile(gRecordGpxMBNcgrName));
-    LocateNclr(&recordGpxMBNclr, FindSceneFile(gRecordGpxMBNclrName));
-    LocateNscr(&recordGpxMNscr, FindSceneFile(gRecordGpxMNscrName));
-    LocateNcgr(&recordGpxSBNcgr, FindSceneFile(gRecordGpxSBNcgrName));
-    LocateNclr(&recordGpxSBNclr, FindSceneFile(gRecordGpxSBNclrName));
-    LocateNscr(&gRecordGpx->mRecordGpxSNscr, FindSceneFile(gRecordGpxSNscrName));
+    Gfx_ReadCharGraphicsRelative(&gRecordGpx->mRecordGpxMNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMNcgrName));
+    LocateNcer(&gRecordGpx->mRecordGpxMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMNcerName));
+    Gfx_ReadPaletteRelative(&recordGpxMONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMONclrName));
+    gRecordGpx->mRecordGpxMBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMBnclName);
+    gRecordGpx->mRecordGpxMBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMBnllName);
+    Gfx_ReadCharGraphicsRelative(&gRecordGpx->mRecordGpxSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSNcgrName));
+    LocateNcer(&gRecordGpx->mRecordGpxSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSNcerName));
+    Gfx_ReadPaletteRelative(&recordGpxSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSONclrName));
+    gRecordGpx->mRecordGpxSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBnclName);
+    gRecordGpx->mRecordGpxSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBnblName);
+    gRecordGpx->mRecordGpxSBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBnllName);
+    Gfx_ReadCharGraphicsRelative(&gRecordGpx->mRecordTrophyONcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophyONcgrName));
+    LocateNcer(&gRecordGpx->mRecordTrophyONcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophyONcerName));
+    Gfx_ReadPaletteRelative(&gRecordGpx->mRecordTrophySONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophySONclrName));
+    gRecordGpx->mRecordTrophySOBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTrophySOBnclName);
+    gRecordGpx->mPlayerCharacterMNcgr = GetPlayerCharacterNceNcgr_from_thumb(0);
+    gRecordGpx->mPlayerCharacterMNcer = GetPlayerCharacterNceNcer_from_thumb(0);
+    gRecordGpx->mPlayerCharacterMONclr = GetPlayerCharacterPalette_from_thumb(0);
+    gRecordGpx->mPlayerCharacterMBncl = GetPlayerCharacterBNCL_from_thumb(0);
+    MaybeReadCharBlock_1(&recordGpxMBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMBNcgrName));
+    Gfx_ReadPaletteRelative(&recordGpxMBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMBNclrName));
+    MaybeReadScreenBlock(&recordGpxMNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxMNscrName));
+    MaybeReadCharBlock_1(&recordGpxSBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBNcgrName));
+    Gfx_ReadPaletteRelative(&recordGpxSBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSBNclrName));
+    MaybeReadScreenBlock(&gRecordGpx->mRecordGpxSNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordGpxSNscrName));
     paletteData = recordGpxMONclr->mData;
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gRecordGpx->mRecordGpxMNcgr->mData,
+    AllocateReserveTEQSub(0x13, 0, gRecordGpx->mRecordGpxMNcgr->mData,
                                        gRecordGpx->mRecordGpxMNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, recordGpxMONclr->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gRecordGpx->mRecordGpxSNcgr->mData,
+    AllocateReserveTEQSub(0xe, 0, recordGpxMONclr->mData, 0x1a0);
+    AllocateReserveTEQSub(0xe, 0x1c0, paletteData + 0xe0, 0x40);
+    AllocateReserveTEQSub(0x23, 0, gRecordGpx->mRecordGpxSNcgr->mData,
                                        gRecordGpx->mRecordGpxSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, recordGpxSONclr->mData, recordGpxSONclr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(4, 0, recordGpxMBNcgr->mData, recordGpxMBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, recordGpxMBNclr->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, recordGpxMNscr->mData, recordGpxMNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x17, 0, recordGpxSBNcgr->mData, recordGpxSBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, recordGpxSBNclr->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gRecordGpx->mRecordGpxSNscr->mData,
+    AllocateReserveTEQSub(0x1e, 0, recordGpxSONclr->mData, recordGpxSONclr->mDataSize);
+    AllocateReserveTEQSub(4, 0, recordGpxMBNcgr->mData, recordGpxMBNcgr->mDataSize);
+    AllocateReserveTEQSub(0xf, 0, recordGpxMBNclr->mData, 0x40);
+    AllocateReserveTEQSub(8, 0, recordGpxMNscr->mData, recordGpxMNscr->mDataSize);
+    AllocateReserveTEQSub(0x17, 0, recordGpxSBNcgr->mData, recordGpxSBNcgr->mDataSize);
+    AllocateReserveTEQSub(0x1f, 0, recordGpxSBNclr->mData, 0x40);
+    AllocateReserveTEQSub(0x1b, 0, gRecordGpx->mRecordGpxSNscr->mData,
                                        gRecordGpx->mRecordGpxSNscr->mDataSize);
     paletteData = gRecordGpx->mRecordTrophySONclr->mData;
-    NNS_GfdRegisterNewVramTransferTask(0x1e, gRecordGpxTrophyPaletteIndices[0] << 5,
+    AllocateReserveTEQSub(0x1e, gRecordGpxTrophyPaletteIndices[0] << 5,
                                        (u8 *) paletteData + (gRecordGpxTrophyNclrPaletteIndices[0] << 5), 0x20);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, gRecordGpxTrophyPaletteIndices[1] << 5,
+    AllocateReserveTEQSub(0x1e, gRecordGpxTrophyPaletteIndices[1] << 5,
                                        (u8 *) paletteData + (gRecordGpxTrophyNclrPaletteIndices[1] << 5), 0x20);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, gRecordGpxTrophyPaletteIndices[2] << 5,
+    AllocateReserveTEQSub(0x1e, gRecordGpxTrophyPaletteIndices[2] << 5,
                                        (u8 *) paletteData + (gRecordGpxTrophyNclrPaletteIndices[2] << 5), 0x20);
 }
 
@@ -105,7 +105,7 @@ void SetupRecordGpxValues(s32 row) {
     u16 buf[16];
     u16 *paletteData;
 
-    recordValue = GetGrandPrixRecordCupRank(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
+    recordValue = CupGetResult(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
     gRecordGpx->mRecordGpxSTable[gRecordGpxTrophyCellIndices[row]].mVisible = 1;
     QueueCellChars(gRecordGpxCupTrophyCells[gRecordGpx->mIndex], (gRecordGpx->mRecordTrophyONcer),
                    (gRecordGpx->mRecordTrophyONcgr), (gRecordGpx->mRecordTrophySOBncl), 1,
@@ -120,7 +120,7 @@ void SetupRecordGpxValues(s32 row) {
                    gRecordGpxCharacterKartCellIndices[row][0], (gRecordGpx->mRecordGpxSNcer),
                    (gRecordGpx->mRecordGpxSBncl));
     paletteData = gRecordGpx->mPlayerCharacterMONclr->mData;
-    NNS_GfdRegisterNewVramTransferTask(0x1e, gRecordGpxCharacterPaletteSlots[row] << 5,
+    AllocateReserveTEQSub(0x1e, gRecordGpxCharacterPaletteSlots[row] << 5,
                                        (u8 *) paletteData + (GetCellPaletteIndex(gRecordGpxCharacterCells[recordValue],
                                                                                  (gRecordGpx->mPlayerCharacterMNcer),
                                                                                  (gRecordGpx->mPlayerCharacterMBncl))
@@ -138,7 +138,7 @@ void SetupRecordGpxValues(s32 row) {
                                     gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
     grandPrixRecordTotalPoints =
         (u16) GetGrandPrixRecordTotalPoints(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
-    FormatAsciiNumber(grandPrixRecordTotalPoints, buf);
+    FormatIntegerInString16_from_thumb(grandPrixRecordTotalPoints, buf);
     gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[row]].mVisible = 1;
     PrintLabelLayoutTextFixedAdvance(1, gRecordGpxTotalPointsLabelIndices[row], gRecordGpx->mRecordGpxSBnll, buf,
                                      gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSTable, 7);
@@ -161,7 +161,7 @@ void SetupRecordGpxValues(s32 row) {
         gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[row][cellIndex]].mVisible = 0;
     }
     grandPrixRecordGrade =
-        GetGrandPrixRecordGrade(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
+        GetCupEntryRank(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
     if (grandPrixRecordGrade < 5) {
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[row]].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(1, gRecordGpxGradeLabelIndices[row], gRecordGpx->mRecordGpxSBnll,
@@ -225,7 +225,7 @@ void SetupRecordGpx(void) {
 
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
     if (IsRecordGpxCupBackupFlagSet(gRecordGpx->mIndex) != 0) {
-        NNS_GfdRegisterNewVramTransferTask(
+        AllocateReserveTEQSub(
             0x1b, RECORD_GPX_MAP_STRIP_OFFSET,
             OFFSET_PTR(u8, gRecordGpx->mRecordGpxSNscr, 0xc) + RECORD_GPX_MAP_STRIP_OFFSET, RECORD_GPX_MAP_STRIP_BYTES);
         gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[3]].mVisible = 1;
@@ -237,7 +237,7 @@ void SetupRecordGpx(void) {
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxTotalPointsLabelIndices[3]].mVisible = 1;
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[3]].mVisible = 1;
     } else {
-        NNS_GfdRegisterNewVramTransferTask(0x1b, RECORD_GPX_MAP_STRIP_OFFSET,
+        AllocateReserveTEQSub(0x1b, RECORD_GPX_MAP_STRIP_OFFSET,
                                            gRecordGpx->mZeroBuffer + RECORD_GPX_MAP_STRIP_OFFSET,
                                            RECORD_GPX_MAP_STRIP_BYTES);
         gRecordGpx->mRecordGpxSTable[gRecordGpxLowSTableIndices[3]].mVisible = 0;
@@ -253,11 +253,11 @@ void SetupRecordGpx(void) {
     cellPaletteIndex = GetCellPaletteIndex(1, (recordGpx->mRecordGpxMNcer), (recordGpx->mRecordGpxMBncl));
     QueueCupMark(recordGpx->mIndex, recordGpx->mRecordGpxMNcer, recordGpx->mRecordGpxMBncl, 1, cellPaletteIndex, 0);
     recordGpx = gRecordGpx;
-    bmgEntry = GetBmgEntry(recordGpx->mCommonMessages, gRecordGpxCupMessageIndices[recordGpx->mIndex]);
+    bmgEntry = Bmg_GetRawStringPointer_from_thumb(recordGpx->mCommonMessages, gRecordGpxCupMessageIndices[recordGpx->mIndex]);
     PrintLabelLayoutTextNoFixedAdvance(0, 0, gRecordGpx->mRecordGpxMBnll, bmgEntry, recordGpx->mRecordGpxMBncl,
                                        recordGpx->mRecordGpxMTable);
     for (cellIndex = 0; cellIndex < 4; cellIndex++) {
-        if (IsGrandPrixRecordFilled(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[cellIndex]) !=
+        if (CupHasRecord(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[cellIndex]) !=
             0) {
             SetupRecordGpxValues(cellIndex);
         } else {
@@ -295,7 +295,7 @@ void DecrementRecordGpxIndex(void) {
 }
 
 u32 IsRecordGpxCupBackupFlagSet(s32 cupIndex) {
-    return IsBackupFlagSet(gRecordGpxCupFlagIndices[cupIndex]);
+    return CheckSavedSecretFlag_from_thumb(gRecordGpxCupFlagIndices[cupIndex]);
 }
 
 u32 IsRecordGpxCupSelectable(u32 cupIndex) {
@@ -314,7 +314,7 @@ u32 IsRecordGpxCupSelectable(u32 cupIndex) {
         case RECORD_GPX_CUP_LEAF:
         case RECORD_GPX_CUP_LIGHTNING:
             for (flagIndex = 0; flagIndex < 3; flagIndex++) {
-                result |= IsBackupFlagSet(gRecordGpxCupAnyOfFlagIndices[cupIndex][flagIndex]);
+                result |= CheckSavedSecretFlag_from_thumb(gRecordGpxCupAnyOfFlagIndices[cupIndex][flagIndex]);
             }
             result |= IsRecordGpxCupBackupFlagSet(cupIndex);
             break;

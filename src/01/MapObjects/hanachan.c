@@ -209,7 +209,7 @@ void AdvanceHanachanCounter(MissionRunMapObject *mapObject) {
     } else if (GetAbsoluteCounter(mapObject) >= 3) {
         mapObject->mCounter = 0;
     }
-    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
+    StructMapObject_SomeFn_0(mapObject->mNsbmd, GetAbsoluteCounter(mapObject));
 }
 
 void AdvanceHanachanCounterForAll(MissionRunMapObject *mapObject) {
@@ -302,11 +302,11 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
 
     if (IsPointInRange(mapObject, &GetCurrentGroupEntry(mapObject)->mPos, mapObject->mPrm->mHanachan.mMoveRangeRadius,
                        0)) {
-        if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
+        if (GetBalloonOrShineCount(g_GlobalCO->mEntryIndex) <= 1) {
             speedPercent = 0x1000 - mapObject->mPrm->mHanachan.mOneBalloonSpeedReduction;
             entryPercent = GetCurrentGroupEntryPercent(mapObject);
             speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
-        } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
+        } else if (GetBalloonOrShineCount(g_GlobalCO->mEntryIndex) <= 2) {
             speedPercent = 0x1000 - mapObject->mPrm->mHanachan.mTwoBalloonSpeedReduction;
             entryPercent = GetCurrentGroupEntryPercent(mapObject);
             speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, speedPercent);
@@ -316,7 +316,7 @@ int UpdateHanachanMoveState(MissionRunMapObject *mapObject) {
         if (GetCurrentGroupEntryValue(mapObject) >= 1) {
             AdvanceHanachanCounterForAll(mapObject);
         }
-        if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE &&
+        if ((g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE &&
             mapObject->mKartRangeCooldown == 0 && IsStateNumberBelow(mapObject, HANACHAN_STATE_KART_IN_RANGE) != 0) {
             if (GetEntryKartInAngleRange(mapObject, mapObject->mPrm->mHanachan.mFirstKartRangeAngleOffset,
                                          mapObject->mPrm->mHanachan.mFirstKartRangeRadius,
@@ -392,11 +392,11 @@ void StartHanachanMoveStateByBalloons(MissionRunMapObject *mapObject) {
     s32 scaleFactor;
     s32 entryPercent;
 
-    if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
+    if (GetBalloonOrShineCount(g_GlobalCO->mEntryIndex) <= 1) {
         scaleFactor = 0x1000 - mapObject->mPrm->mHanachan.mOneBalloonSpeedReduction;
         entryPercent = GetCurrentGroupEntryPercent(mapObject);
         speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
-    } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
+    } else if (GetBalloonOrShineCount(g_GlobalCO->mEntryIndex) <= 2) {
         scaleFactor = 0x1000 - mapObject->mPrm->mHanachan.mTwoBalloonSpeedReduction;
         entryPercent = GetCurrentGroupEntryPercent(mapObject);
         speedPercent = MUL_FIXED12_NO_ROUND(entryPercent, scaleFactor);
@@ -444,7 +444,7 @@ void StartHanachanKartNotEliminatedState(MissionRunMapObject *mapObject) {
     StartMapObjectState(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mHanachan.mKartNotEliminatedAnimationEntry,
                                 mapObject->mPrm->mHanachan.mKartNotEliminatedFrameStep);
-    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, 0);
+    StructMapObject_SomeFn_0(mapObject->mNsbmd, 0);
     list = FindMapObjectKindUpdateList(0x1fe);
     if (list != NULL) {
         for (objectIndex = 0;
@@ -453,7 +453,7 @@ void StartHanachanKartNotEliminatedState(MissionRunMapObject *mapObject) {
             StartMapObjectState(follower, 1, NULL);
             StartAnimationNoEndCallback(follower, follower->mPrm->mHanachan.mKartNotEliminatedAnimationEntry,
                                         follower->mPrm->mHanachan.mKartNotEliminatedFrameStep);
-            SetMapObjectModelNsbtpFrameIndex((follower->mNsbmd), 0);
+            StructMapObject_SomeFn_0((follower->mNsbmd), 0);
         }
     }
     soundRequest = gHanachanEndSoundParams;
@@ -481,7 +481,7 @@ void HanachanStandingsEndCallback(void) {
 
 s32 UpdateHanachanWaitForRaceStart(MissionRunMapObject *mapObject) {
     int raceStarted;
-    raceStarted = IsRaceStarted();
+    raceStarted = IsAwardOrStaffRoll();
     if (raceStarted == 1) {
         StartHanachanMoveState(mapObject);
     }
@@ -524,7 +524,7 @@ void StartHanachanChainStartupFirst(MissionRunMapObject *mapObject) {
 
 s32 UpdateFollowerWaitForRaceStart(MissionRunMapObject *mapObject) {
     int raceStarted;
-    raceStarted = IsRaceStarted();
+    raceStarted = IsAwardOrStaffRoll();
     if (raceStarted == 1) {
         StartHanachanFollowerMoveState(mapObject);
     }
@@ -598,7 +598,7 @@ void InitHanachanObjects(MapObjectList *mapObjectList) {
                               (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
             mapObject->mKeepCallbacks = TRUE;
-            if (GetRaceUseChainCameras() != 0) {
+            if (IsNotStaffRoll() != 0) {
                 StartHanachanChainStartupFirst(mapObject);
             } else {
                 StartHanachanStartupFirst(mapObject);
@@ -611,15 +611,15 @@ void InitHanachanObjects(MapObjectList *mapObjectList) {
 void UpdateHanachan(u32 unused, MissionRunMapObject *mapObject) {
     int result;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         result = IsWinnerDecided();
     } else {
         result = 0;
     }
     if (result != 0) {
         if (IsStateNumberBelow(mapObject, 1) != 0) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                result = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+                result = IsKartEliminated((u16) g_GlobalCO->mEntryIndex);
             } else {
                 result = 0;
             }
@@ -650,7 +650,7 @@ void InitHanachanFollowerObjects(MapObjectList *mapObjectList) {
         for (objectIndex = 0; objectIndex < mapObjectList->mMapObjectCount &&
                               (mapObject = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (GetRaceUseChainCameras() != 0) {
+            if (IsNotStaffRoll() != 0) {
                 StartFollowerChainStartupFirst(mapObject);
             } else if (objectIndex == 0) {
                 StartHanachanFollowerStartupFirst(mapObject);
@@ -688,14 +688,14 @@ void InitHanachanMapObject(MissionRunMapObject *mapObject) {
     secondFollower->mPreviousObject = firstFollower;
     thirdFollower->mPreviousObject = secondFollower;
     fourthFollower->mPreviousObject = thirdFollower;
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
 void InitHanachanFollowerMapObject(MissionRunMapObject *mapObject) {
-    mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
+    mapObject->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&mapObject->mMapObject.mSound->mSoundSource, 0xd, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[13].mFarDistanceSquared;
 }
 
@@ -708,7 +708,7 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
             mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
         } else {
             moveAngle = mapObject->mMoveAngle;
-            diff = (u16) (FX_Atan2Idx(kart->mPos.x - mapObject->mMapObject.mPos.x,
+            diff = (u16) (FX_Atan2(kart->mPos.x - mapObject->mMapObject.mPos.x,
                                       kart->mPos.z - mapObject->mMapObject.mPos.z) -
                           moveAngle);
             if (diff > 0x8000) {
@@ -751,7 +751,7 @@ void InitHanachan(MapObjectList *mapObjectList) {
         for (objectIndex = 0;
              objectIndex < mapObjectList->mMapObjectCount && (obj = mapObjectList->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
             InitMissionRunMapObject(mapObjectList, obj, "hanachan.nsbmd", "hanachan.nsbca", "hanachan.prm");
@@ -777,9 +777,9 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     firstNsbca = LoadMissionRunFile("hanachan_1.nsbca");
     secondNsbca = LoadMissionRunFile("hanachan_2.nsbca");
     firstNsbtp = LoadMissionRunFile("hanachan_1.nsbtp");
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         sourceObject =
-            GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
+            GetMissionRunMapObject(g_GlobalCO->mMode == MODE_MISSION_RUN ? MissionRunGetCurrentKartCount() : 0);
     } else {
         sourceObject = NULL;
     }
@@ -787,7 +787,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     obj = mapObjectList->mMapObjects[0];
     obj->mPrm = sourceObject->mPrm;
     obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_1.nsbmd", NULL, NULL);
@@ -803,7 +803,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     obj = mapObjectList->mMapObjects[1];
     obj->mPrm = sourceObject->mPrm;
     obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_2.nsbmd", NULL, NULL);
@@ -819,7 +819,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     obj = mapObjectList->mMapObjects[2];
     obj->mPrm = sourceObject->mPrm;
     obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_3.nsbmd", NULL, NULL);
@@ -835,7 +835,7 @@ void InitHanachanFollower(MapObjectList *mapObjectList) {
     obj = mapObjectList->mMapObjects[3];
     obj->mPrm = sourceObject->mPrm;
     obj->mShadowNsbmd = sourceObject->mShadowNsbmd;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AddMissionRunMapObject(obj);
     }
     InitMissionRunMapObject(mapObjectList, obj, "hanachan_4.nsbmd", NULL, NULL);

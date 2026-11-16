@@ -4,5 +4,5 @@
 
 struct Kart;
 
-void CallKartReleaseFunction(struct Kart *kart);
-void SetKillerItemRenderCallback(void *model);
+void StructMQRacerEntry_Dispose(struct Kart *kart);
+void StructML_SetSomeDefaultFields(void *model);

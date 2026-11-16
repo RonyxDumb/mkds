@@ -73,7 +73,7 @@ typedef struct ItemKouraG {
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 
 void StartNextHeldItemObject(HeldItem *heldItem);
-void InitHeldItem(HeldItem *heldItem, KartItems *kartItems);
+void StructPRSub_Create2(HeldItem *heldItem, KartItems *kartItems);
 void CreateItemInfos(void);
 void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *velocity, s32 timer);
 void ShowItemKinokoAt(ItemKinoko *kinoko, Vec3 *normal, Vec3 *pos);

@@ -17,30 +17,30 @@
 #include "Main/Net/wifi_session.h"
 #include "Main/Save/ghost_record_file.h"
 
-u32 gSecondTotalLimitBase = 0xf4240;
+u32 g_dec_1000000_0 = 0xf4240;
 
 #pragma opt_loop_invariants off
 
-void ReadGhostFileRecords(void) {
+void Task_ReadGhostBins(void) {
     u8 ghostIndex;
     GhostListEntry *records;
     char path[0x80];
 
     ghostIndex = 0;
-    records = gBackupBuffers->mReadDestination;
+    records = g_SaveDataHolder->mReadDestination;
     for (; ghostIndex < 0x20; ghostIndex++) {
-        FormatGhostFilePath(ghostIndex, path, 0x80);
-        ReadFileBytes(path, &records[ghostIndex], 0x230);
+        FormatGhostBinPath(ghostIndex, path, 0x80);
+        OpenReadFileBufferSize_from_thumb(path, &records[ghostIndex], 0x230);
     }
-    ClearBackupBusy();
-    gBackupBuffers->mReadDestination = NULL;
+    ResetSaveDataHolderTaskPendingFlag_from_thumb();
+    g_SaveDataHolder->mReadDestination = NULL;
 }
 
-void StartReadGhostFileRecords(void *records) {
-    gBackupBuffers->mReadDestination = records;
-    SetBackupBusy();
-    QueueThreadFunction(ReadGhostFileRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void RunReadGhostBinsFn(void *records) {
+    g_SaveDataHolder->mReadDestination = records;
+    EnableMKDSSVSomeFlag_from_thumb();
+    WorkerInsertTask(Task_ReadGhostBins);
+    g_WorkerContext->mRunRequested = 1;
 }
 
 // Counts the other karts of a Wi-Fi race on the second total before the race, as the race end takes them off again.
@@ -49,29 +49,29 @@ void AddOtherKartCountToSecondTotal(void) {
     u32 total;
     u32 limit;
 
-    gWiFiSession->mKartCountCopy = gWiFiSession->mKartCount;
-    firstBlock = gBackupBuffers->mFirstBlock;
-    total = firstBlock->mTotals[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
-    limit = gSecondTotalLimitBase + 3;
+    g_GlobalB->mKartCountCopy = g_GlobalB->mKartCount;
+    firstBlock = g_SaveDataHolder->mFirstBlock;
+    total = firstBlock->mTotals[5] + (u8) (g_GlobalB->mKartCountCopy - 1);
+    limit = g_dec_1000000_0 + 3;
     if (total > limit) {
         total = limit;
     }
-    gBackupBuffers->mFirstBlock->mTotals[5] = total;
-    WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
-        CARD_WaitBackupAsync();
+    g_SaveDataHolder->mFirstBlock->mTotals[5] = total;
+    WriteSaveDataSection_Header_from_thumb(g_SaveDataHolder->mFirstBlock);
+    if (g_SaveDataIoManager->mBackupEnabled != 0) {
+        j_WaitForPendingCardOperation();
     }
 }
 
 s32 CheckUserDataValidConsole(void) {
-    return DWC_CheckValidConsole(&gBackupBuffers->mFirstBlock->mUserData);
+    return PlayerProfileInfo_SomeFn_4_from_thumb(&g_SaveDataHolder->mFirstBlock->mUserData);
 }
 
 BOOL IsUserDataFriendKeyNonZero(void) {
     u64 friendKey;
     s32 result;
 
-    friendKey = DWC_CreateFriendKey(&gBackupBuffers->mFirstBlock->mUserData);
+    friendKey = PlayerProfileInfo_GetProfileId_from_thumb(&g_SaveDataHolder->mFirstBlock->mUserData);
     result = 0;
     if (friendKey != result) {
         result = 1;
@@ -82,11 +82,11 @@ BOOL IsUserDataFriendKeyNonZero(void) {
 void FormatUserDataFriendKey(u32 buffer) {
     u64 friendKey;
 
-    friendKey = DWC_CreateFriendKey(&gBackupBuffers->mFirstBlock->mUserData);
-    FormatFriendKey(friendKey, friendKey >> 32, buffer);
+    friendKey = PlayerProfileInfo_GetProfileId_from_thumb(&g_SaveDataHolder->mFirstBlock->mUserData);
+    PrintfUll_from_thumb(friendKey, friendKey >> 32, buffer);
 }
 
-s32 CheckFriendKeyString(const void *keyString) {
+s32 CheckFriendCode(const void *keyString) {
     DWCAccFriendData friendData;
     BuddyRecord buddyRecord;
     u64 friendKey;
@@ -94,23 +94,23 @@ s32 CheckFriendKeyString(const void *keyString) {
     u8 buddyIndex;
     DWCAccFriendData *friendDataList;
 
-    friendKey = DWC_StringToFriendKey(keyString);
-    if (DWC_Acc_CheckFriendKey(friendKey, 0x414d434a) == 0) {
+    friendKey = ConvertFriendCodeTo64_from_thumb(keyString);
+    if (Friend_VerifyChecksum_from_thumb(friendKey, 0x414d434a) == 0) {
         return 1;
     }
-    if (friendKey == DWC_CreateFriendKey(&gBackupBuffers->mFirstBlock->mUserData)) {
+    if (friendKey == PlayerProfileInfo_GetProfileId_from_thumb(&g_SaveDataHolder->mFirstBlock->mUserData)) {
         return 1;
     }
-    InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
-    friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
+    FriendCode_SetProfileIdAndChecksum_from_thumb(&friendData, friendKey, friendKey >> 32);
+    friendDataList = g_SaveDataHolder->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
     for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
         DWCAccFriendData *entry;
 
-        GetBuddyRecord(buddyIndex, &buddyRecord);
+        GlobalZ_GetOI(buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
             entry = friendDataList + buddyIndex;
-            if (IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, &friendData) != 0) {
+            if (FriendCode_HasNonzeroState_0_from_thumb(entry) != 0 && FriendCode_SameAs_from_thumb(entry, &friendData) != 0) {
                 foundIndex = (s8) buddyIndex;
                 break;
             }
@@ -122,21 +122,21 @@ s32 CheckFriendKeyString(const void *keyString) {
     return 0;
 }
 
-s32 FindBuddyIndexByFriendData(const void *friendData) {
+s32 FindSomeOI_FriendCode_Index(const void *friendData) {
     BuddyRecord buddyRecord;
     s32 foundIndex;
     u8 buddyIndex;
     DWCAccFriendData *friendDataList;
 
-    friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
+    friendDataList = g_SaveDataHolder->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
     for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
         DWCAccFriendData *entry;
 
-        GetBuddyRecord(buddyIndex, &buddyRecord);
+        GlobalZ_GetOI(buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
             entry = friendDataList + buddyIndex;
-            if (IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
+            if (FriendCode_HasNonzeroState_0_from_thumb(entry) != 0 && FriendCode_SameAs_from_thumb(entry, friendData) != 0) {
                 foundIndex = (s8) buddyIndex;
                 break;
             }
@@ -163,15 +163,15 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
 
     slotIndex = -1;
     found = FALSE;
-    GetClockDateOrDefault(today);
+    GetCurrentDate(today);
     year = today[0];
     month = today[1];
     day = today[2];
     entry = friendDataList;
     for (buddyIndex = 0; buddyIndex < 60; buddyIndex++, entry++) {
-        GetBuddyRecord((u8) buddyIndex, &buddyRecord);
-        if (buddyRecord.mFilled == 1 && IsFriendDataTypeNonZeroWrapper(friendData) != 0 &&
-            IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
+        GlobalZ_GetOI((u8) buddyIndex, &buddyRecord);
+        if (buddyRecord.mFilled == 1 && FriendCode_HasNonzeroState_0_from_thumb(friendData) != 0 &&
+            FriendCode_HasNonzeroState_0_from_thumb(entry) != 0 && FriendCode_SameAs_from_thumb(entry, friendData) != 0) {
             slotIndex = buddyIndex;
             found = TRUE;
             break;
@@ -185,7 +185,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     }
     if (slotIndex == -1) {
         for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
-            GetBuddyRecord((u8) buddyIndex, &buddyRecord);
+            GlobalZ_GetOI((u8) buddyIndex, &buddyRecord);
             if (buddyRecord.mFilled == 0) {
                 slotIndex = buddyIndex;
                 break;
@@ -198,7 +198,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         oldestDate.mMonth = BUDDY_RECORD_LATEST_MONTH;
         oldestDate.mDay = BUDDY_RECORD_LATEST_DAY;
         for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
-            GetBuddyRecord((u8) buddyIndex, &buddyRecord);
+            GlobalZ_GetOI((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;
             recordDate.mMonth = buddyRecord.mMonth;
             recordDate.mDay = buddyRecord.mDay;
@@ -215,11 +215,11 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     if (slotIndex == -1) {
         return -1;
     }
-    MI_CpuCopy8(friendData, friendDataList + slotIndex, sizeof(DWCAccFriendData));
+    Mem_CpuCopy8(friendData, friendDataList + slotIndex, sizeof(DWCAccFriendData));
     slot = slotIndex;
-    GetBuddyRecord(slot, &buddyRecord);
+    GlobalZ_GetOI(slot, &buddyRecord);
     if (found == FALSE) {
-        ResetBuddyRecord(&buddyRecord);
+        StructOI_Initialize_from_thumb(&buddyRecord);
     }
     buddyRecord.mYear = year;
     buddyRecord.mMonth = month;
@@ -229,10 +229,10 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     } else {
         buddyRecord.mNotYetBuddy = 0;
     }
-    MI_CpuCopy8(name, buddyRecord.mName, sizeof(buddyRecord.mName));
+    Mem_CpuCopy8(name, buddyRecord.mName, sizeof(buddyRecord.mName));
     buddyRecord.mHasEmblem = hasEmblem != 0;
     buddyRecord.mFilled = 1;
-    SetBuddyRecord(slot, &buddyRecord);
+    GlobalZ_SetOI(slot, &buddyRecord);
     return slotIndex;
 }
 
@@ -240,7 +240,7 @@ s32 AddBuddyFromFriendKey(const void *keyString, void *name) {
     DWCAccFriendData friendData;
     u64 friendKey;
 
-    friendKey = DWC_StringToFriendKey(keyString);
-    InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
-    return AddOrUpdateBuddyRecord(gBackupBuffers->mBuddyRecordBlock->mFriendData, name, &friendData, 1, 0, 1);
+    friendKey = ConvertFriendCodeTo64_from_thumb(keyString);
+    FriendCode_SetProfileIdAndChecksum_from_thumb(&friendData, friendKey, friendKey >> 32);
+    return AddOrUpdateBuddyRecord(g_SaveDataHolder->mBuddyRecordBlock->mFriendData, name, &friendData, 1, 0, 1);
 }

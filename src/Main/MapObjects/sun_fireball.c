@@ -125,14 +125,14 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
                     stepValue = -0x8000;
                 }
                 sunFireball->mMapObject.mPosStep.y = stepValue;
-                VEC_Add(&sunFireball->mMapObject.mPos, &sunFireball->mMapObject.mPosStep,
+                VecFx32_Add(&sunFireball->mMapObject.mPos, &sunFireball->mMapObject.mPosStep,
                         &sunFireball->mMapObject.mPos);
                 if (sunFireball->mTimer > SUN_FIREBALL_NO_BOUNCE_FRAMES && sunFireball->mMapObject.mPosStep.y < 0) {
                     if (CollideSphereWithCourse(&sunFireball->mMapObject.mPos, NULL, 0,
                                                 sunFireball->mMapObject.mExtent.x, 8, -2, &pushOut, NULL, NULL,
                                                 &collisionFlags, NULL, NULL, NULL, NULL) != 0 &&
                         (collisionFlags & 0x3f77ef) != 0) {
-                        VEC_Add(&sunFireball->mMapObject.mPos, &pushOut, &sunFireball->mMapObject.mPos);
+                        VecFx32_Add(&sunFireball->mMapObject.mPos, &pushOut, &sunFireball->mMapObject.mPos);
                         stepValue = sunFireball->mMapObject.mPos.x - sunFireball->mStartPos.x;
                         tableIndex = sunFireball->mMapObject.mPos.z - sunFireball->mStartPos.z;
                         if (SQUARE_SUM2(stepValue, tableIndex) < 0x2710000000LL) {

@@ -5,15 +5,15 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-// Scene function of gSceneFuncs[9] (scene 'Logo' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
-s32 RunLogoScene(SceneNumbers *sceneNumbers);
-void UpdateLogoSceneCallback(void *sceneNumbers);
-void WriteLogoSceneRegistersCallback(void);
-void ApplySavedSoundModeCallback(void);
-void InitLogoSceneCallback(void);
-void WaitThreadFunctionsDone(void);
-u32 QueueThreadFunction(void (*function)(void));
-void RunQueuedThreadFunctions(void *threadArgument);
+// Scene function of g_SceneFnTable[9] (scene 'Logo' in g_SceneArchiveNameTable): copies the callbacks and calls
+// OnSceneLoop. Returns 0.
+s32 SceneFn_Logo(SceneNumbers *sceneNumbers);
+void Scene_Logo_Update(void *sceneNumbers);
+void Scene_Logo_VBlank(void);
+void Scene_Logo_Finalize(void);
+void Scene_Logo_Initialize(void);
+void WaitForWorkerTask(void);
+u32 WorkerInsertTask(void (*function)(void));
+void WorkerThread_Main(void *threadArgument);
 
-extern SceneCallbacks gLogoSceneCallbacks;
+extern SceneCallbacks g_Scene_Logo;

@@ -37,7 +37,7 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "fixed_vector_math.h"
 
-MapObjectModel *gBasabasa;
+MapObjectModel *g_BasabasaMapObject;
 
 MapObjectKindDescriptor gBasabasaKindDescriptor = {0,
                                                    {0, 0},
@@ -71,7 +71,7 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedFirstResp
     kartBit = 1 << kart->mIndex;
     result = *inOutResult;
     if ((basabasa->mHitKartMask & kartBit) == 0) {
-        VEC_Subtract(&kart->mPos, &basabasa->mMapObject.mPos, &offsetToKart);
+        VecFx32_Subtract(&kart->mPos, &basabasa->mMapObject.mPos, &offsetToKart);
         forwardDot = DOT2_FIXED12(basabasa->mMapObject.mMatrix.mRows[2].x, offsetToKart.x,
                                   basabasa->mMapObject.mMatrix.mRows[2].z, offsetToKart.z);
         sideX = offsetToKart.x - MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, forwardDot);
@@ -84,7 +84,7 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedFirstResp
             basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].y, 0x1333);
             basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x1333);
         } else {
-            Vec3NormalizeAndGetLengthUnchecked(&sideDirection, &sideDirection);
+            Vector3_MaybeNormalize(&sideDirection, &sideDirection);
             basabasa->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(sideDirection.x, 0x1333);
             basabasa->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(sideDirection.y, 0x1333);
             basabasa->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(sideDirection.z, 0x1333);
@@ -94,13 +94,13 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *unusedFirstResp
     return result;
 }
 
-void CreateBasabasa(void *mapObjectList) {
-    gBasabasa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "basabasa.nsbmd", "basabasa.nsbtp");
-    SetMapObjectModelPolygonId(gBasabasa, 0x3f);
+void LoadBasabasaMapObject(void *mapObjectList) {
+    g_BasabasaMapObject = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "basabasa.nsbmd", "basabasa.nsbtp");
+    StructMapObject_MaybeSetPolygonId(g_BasabasaMapObject, 0x3f);
 }
 
 void SetupDrawBasabasa(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gBasabasa);
+    StructMapObject_SomeFn_9(mapObjectList, g_BasabasaMapObject);
 }
 
 void DrawBasabasa(void *mapObjectList, Basabasa *basabasa) {
@@ -113,14 +113,14 @@ void DrawBasabasa(void *mapObjectList, Basabasa *basabasa) {
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&basabasa->mMapObject.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
-        MTX_RotZ33_(&rotationMatrix, FX_SinIdx((u16) -drawAngle), FX_CosIdx((u16) -drawAngle));
+        MTX_RotZ33__from_thumb(&rotationMatrix, FX_SinIdx((u16) -drawAngle), FX_CosIdx((u16) -drawAngle));
     } else {
-        MTX_RotZ33_(&rotationMatrix, FX_SinIdx((u16) drawAngle), FX_CosIdx((u16) drawAngle));
+        MTX_RotZ33__from_thumb(&rotationMatrix, FX_SinIdx((u16) drawAngle), FX_CosIdx((u16) drawAngle));
     }
     NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     NNS_G3dGeBufferOP_N(0x1b, &basabasa->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gBasabasa, basabasa->mNsbtpFrameIndex);
-    DrawMapObjectModel(mapObjectList, gBasabasa, basabasa);
+    StructMapObject_SomeFn_0(g_BasabasaMapObject, basabasa->mNsbtpFrameIndex);
+    DrawMapObjectModel(mapObjectList, g_BasabasaMapObject, basabasa);
 }
 
 void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
@@ -147,7 +147,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x19a);
             basabasa->mVelocity.y += -0x19a;
             basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x19a);
-            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
+            VecFx32_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mFallTimer-- <= 0) {
                 basabasa->mState = BASABASA_STATE_SLOW_FALL;
             }
@@ -156,14 +156,14 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x19a);
             basabasa->mVelocity.y += 0x19a;
             basabasa->mVelocity.z += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0x19a);
-            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
+            VecFx32_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mVelocity.y > 0) {
                 basabasa->mVelocity.y = 0;
                 basabasa->mState = BASABASA_STATE_GLIDE;
             }
             break;
         case BASABASA_STATE_GLIDE:
-            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
+            VecFx32_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mGlideTimer-- <= 0) {
                 basabasa->mState = BASABASA_STATE_CLIMB;
             }
@@ -172,7 +172,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             basabasa->mVelocity.x -= MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0xcd);
             basabasa->mVelocity.y += 0x1000;
             basabasa->mVelocity.z -= MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].z, 0xcd);
-            VEC_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
+            VecFx32_Add(&basabasa->mMapObject.mPos, &basabasa->mVelocity, &basabasa->mMapObject.mPos);
             if (basabasa->mMapObject.mPos.y >= 0x1b8000) {
                 ParkMapObject(&basabasa->mMapObject);
             }
@@ -182,7 +182,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
         return;
     }
     nextFrameIndex = basabasa->mNsbtpFrameIndex + 1;
-    if (nextFrameIndex >= GetMapObjectModelNsbtpFrameCount(gBasabasa)) {
+    if (nextFrameIndex >= StructMapObject_SomeFn_1(g_BasabasaMapObject)) {
         nextFrameIndex = 0;
     }
     basabasa->mNsbtpFrameIndex = nextFrameIndex;
@@ -193,7 +193,7 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
 }
 
 MapObjectKindData *CreateBasabasaKindData(void) {
-    return CreateMapObjectKindData(&CollideKartWithBasabasa, NULL, NULL, 1, 0);
+    return CreateAllocateSomeObject_from_thumb(&CollideKartWithBasabasa, NULL, NULL, 1, 0);
 }
 
 static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
@@ -224,7 +224,7 @@ static inline u16 BasabasaMapObjectRandomBelowU16(u32 limit) {
 }
 
 MapObjectList *CreateBasabasaDrawList(void) {
-    return CreateMapObjectDrawList2(CreateBasabasa, DrawBasabasa, SetupDrawBasabasa);
+    return CreateAllocateMapObject_from_thumb(LoadBasabasaMapObject, DrawBasabasa, SetupDrawBasabasa);
 }
 
 MapObjectList *CreateBasabasaUpdateList(void) {

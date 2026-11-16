@@ -7,12 +7,12 @@
 void SetMapObjectScale(MapObject *mapObject, const Vec3 *scale);
 void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize);
 // Allocates mSound (0x44 bytes) with volume curve 2 and copies the curve's mFarDistanceSquared into the map object.
-// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, SetSoundSourceFlagBit.
+// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, StructMQRacerEntry_SomeFn_47.
 void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject);
 SoundDistanceSquaredChange *CreateVehicleSoundSource(MapObject *mapObject);
 // Allocates mSound (0x44 bytes) with volume curve 3 and copies the curve's mFarDistanceSquared into the map object.
-// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, SetSoundSourceFlagBit.
+// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, StructMQRacerEntry_SomeFn_47.
 void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject);
 // Allocates mSound (0x44 bytes) with volume curve 4 and copies the curve's mFarDistanceSquared into the map object.
-// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, SetSoundSourceFlagBit.
+// Then it calls SetSoundSourceEnabled and, when bit 0 of mSourceFlags is set, StructMQRacerEntry_SomeFn_47.
 void CreateMapObjectSoundSourceFalloff4(MapObject *mapObject);

@@ -44,7 +44,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-MapObjectModel *gMoveTree;
+MapObjectModel *g_MoveTreeMapObject;
 
 MapObjectKindDescriptor gMoveTreeKindDescriptor = {0,
                                                    {0, 0},
@@ -70,10 +70,10 @@ u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8
     return responseValue;
 }
 
-void CreateMoveTree(void *mapObjectList) {
-    gMoveTree = CreateMapObjectModelAnimated(mapObjectList, "move_tree.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gMoveTree, "move_tree.nsbca");
-    SetMapObjectModelPolygonId(gMoveTree, 0x3f);
+void LoadMoveTreeMapObject(void *mapObjectList) {
+    g_MoveTreeMapObject = CreateMapObjectFromModel_from_thumb(mapObjectList, "move_tree.nsbmd");
+    StructMapObject_AddAnimationNsbca_from_thumb(g_MoveTreeMapObject, "move_tree.nsbca");
+    StructMapObject_MaybeSetPolygonId(g_MoveTreeMapObject, 0x3f);
 }
 
 void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha) {
@@ -81,13 +81,13 @@ void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha
 
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&moveTree->mMapObject.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&moveTree->mMapObject.mPos), 12);
     NNS_G3dGeBufferOP_N(0x1b, &moveTree->mMapObject.mScale, 3);
     if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
-        SetMapObjectModelNsbcaFrameIndex(gMoveTree, moveTree->mNsbcaFrameIndex);
-        DrawMapObjectModel(mapObjectList, gMoveTree, moveTree);
+        StructMapObject_MaybeSetNsbcaFrame(g_MoveTreeMapObject, moveTree->mNsbcaFrameIndex);
+        DrawMapObjectModel(mapObjectList, g_MoveTreeMapObject, moveTree);
     } else {
-        DrawMapObjectModel1Mat1Shp(mapObjectList, gMoveTree, moveTree);
+        DrawMapObjectModel1Mat1Shp(mapObjectList, g_MoveTreeMapObject, moveTree);
     }
     if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
         return;
@@ -130,7 +130,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if (moveTree->mKartHitFramesLeft-- > 0) {
                 moveTree->mNsbcaFrameStep = MOVE_TREE_HIT_FRAME_STEP;
                 moveTree->mNsbcaFrameIndex += moveTree->mNsbcaFrameStep;
-                if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
+                if (moveTree->mNsbcaFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(g_MoveTreeMapObject)) {
                     moveTree->mNsbcaFrameIndex = 0;
                 }
                 return;
@@ -139,7 +139,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
                 return;
             }
             moveTree->mNsbcaFrameIndex += moveTree->mNsbcaFrameStep;
-            if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
+            if (moveTree->mNsbcaFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(g_MoveTreeMapObject)) {
                 moveTree->mNsbcaFrameIndex = 0;
             }
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != MOVE_TREE_HIT_REST_FRAME) {
@@ -180,7 +180,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
                 moveTree->mNsbcaFrameStep = 1;
             }
             moveTree->mNsbcaFrameIndex += moveTree->mNsbcaFrameStep;
-            if (moveTree->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gMoveTree)) {
+            if (moveTree->mNsbcaFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(g_MoveTreeMapObject)) {
                 moveTree->mNsbcaFrameIndex = 0;
             }
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != MOVE_TREE_HIT_REST_FRAME) {
@@ -209,7 +209,7 @@ MapObjectKindData *CreateMoveTreeKindData(void) {
 }
 
 MapObjectList *CreateMoveTreeDrawList(void) {
-    return CreateMapObjectDrawList1(CreateMoveTree, DrawMoveTree, NULL);
+    return CreateMapObjectDrawList1(LoadMoveTreeMapObject, DrawMoveTree, NULL);
 }
 
 MapObjectList *CreateMoveTreeUpdateList(void) {

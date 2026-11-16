@@ -14,7 +14,7 @@ typedef struct PosStripPoint {
 
 // A strip: a list of points that follows a position; the draw joins neighbouring points with quads.
 typedef struct PosStrip {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 mPosition[8];
     /* 08 */ NNSFndList mPoints;
     /* 14 */ const Vec3 *mFollowedPos;
     /* 18 */ u32 mStopped;

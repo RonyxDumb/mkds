@@ -65,7 +65,7 @@ void updateHintVec_(u32 *pVec, const NNSG3dAnmObj *pAnmObj) {
     }
 }
 
-void NNS_G3dRenderObjAddAnmObj(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmObj) {
+void StructML_SomeFn_3(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmObj) {
     NNSG3dResAnmHeader *header;
 
     header = pAnmObj->mResAnm;
@@ -111,29 +111,29 @@ int removeLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {
     return 0;
 }
 
-void NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmObj) {
+void StructML_SomeFn_2(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmObj) {
     if (removeLink_(&pRenderObj->mAnmMat, pAnmObj) != 0 || removeLink_(&pRenderObj->mAnmJnt, pAnmObj) != 0 ||
         removeLink_(&pRenderObj->mAnmVis, pAnmObj) != 0) {
         pRenderObj->mFlag |= G3D_RENDER_OBJ_FLAG_ANM_CHANGED;
     }
 }
 
-void NNS_G3dRenderObjSetCallBack(NNSG3dRenderObj *pRenderObj, NNSG3dSbcCallBackFunc func, u8 *unused, u8 cmd,
+void StructML_SetSomeFields(NNSG3dRenderObj *pRenderObj, NNSG3dSbcCallBackFunc func, u8 *unused, u8 cmd,
                                  u32 timing) {
     pRenderObj->mCbFunc = func;
     pRenderObj->mCbCmd = cmd;
     pRenderObj->mCbTiming = timing;
 }
 
-u32 NNS_G3dTexGetRequiredSize(const NNSG3dResTex *pTex) {
+u32 Tex0Block_GetTextureDataSize(const NNSG3dResTex *pTex) {
     return pTex->mTexInfo.mSizeTex << 3;
 }
 
-u32 NNS_G3dTex4x4GetRequiredSize(const NNSG3dResTex *pTex) {
+u32 Tex0Block_GetCompressedTextureDataSize(const NNSG3dResTex *pTex) {
     return pTex->mTex4x4Info.mSizeTex << 3;
 }
 
-void NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, NNSG3dTexKey texKey, NNSG3dTexKey tex4x4Key) {
+void Tex0Block_SetTexturesVramKeys(NNSG3dResTex *pTex, NNSG3dTexKey texKey, NNSG3dTexKey tex4x4Key) {
     if (texKey != 0) {
         pTex->mTexInfo.mVramKey = texKey;
     }
@@ -142,7 +142,7 @@ void NNS_G3dTexSetTexKey(NNSG3dResTex *pTex, NNSG3dTexKey texKey, NNSG3dTexKey t
     }
 }
 
-void NNS_G3dTexLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
+void Tex0Block_MaybeCopyTexturesToMem(NNSG3dResTex *pTex, BOOL execBeginEnd) {
     u32 texSize;
     u32 tex4x4Size;
     u32 keyAddr;
@@ -173,7 +173,7 @@ void NNS_G3dTexLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
     }
 }
 
-void NNS_G3dTexReleaseTexKey(NNSG3dResTex *pTex, NNSG3dTexKey *texKey, NNSG3dTexKey *tex4x4Key) {
+void Tex0_CleanGetKeys(NNSG3dResTex *pTex, NNSG3dTexKey *texKey, NNSG3dTexKey *tex4x4Key) {
     pTex->mTexInfo.mFlag &= ~1;
     pTex->mTex4x4Info.mFlag &= ~1;
     *texKey = pTex->mTexInfo.mVramKey;
@@ -182,19 +182,19 @@ void NNS_G3dTexReleaseTexKey(NNSG3dResTex *pTex, NNSG3dTexKey *texKey, NNSG3dTex
     pTex->mTex4x4Info.mVramKey = 0;
 }
 
-u32 NNS_G3dPlttGetRequiredSize(const NNSG3dResTex *pTex) {
+u32 Tex0Block_GetPaletteDataSize(const NNSG3dResTex *pTex) {
     return pTex->mPlttInfo.mSizePltt << 3;
 }
 
-void NNS_G3dPlttSetPlttKey(NNSG3dResTex *pTex, NNSG3dPlttKey plttKey) {
+void Tex0Block_SetPaletteVramKey(NNSG3dResTex *pTex, NNSG3dPlttKey plttKey) {
     pTex->mPlttInfo.mVramKey = plttKey;
 }
 
-void NNS_G3dPlttLoad(NNSG3dResTex *pTex, BOOL execBeginEnd) {
+void Tex0Block_MaybeCopyPaletteToMem(NNSG3dResTex *pTex, BOOL execBeginEnd) {
     if (execBeginEnd != 0) {
         GX_BeginLoadTexPltt();
     }
-    GX_LoadTexPltt((u8 *) pTex + pTex->mPlttInfo.mOfsPlttData,
+    SomeDmaCopy_0((u8 *) pTex + pTex->mPlttInfo.mOfsPlttData,
                    (pTex->mPlttInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK) << 3, pTex->mPlttInfo.mSizePltt << 3);
     pTex->mPlttInfo.mFlag |= 1;
     if (execBeginEnd != 0) {

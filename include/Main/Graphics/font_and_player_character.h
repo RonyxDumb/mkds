@@ -44,18 +44,18 @@ typedef union LoadedPartPointer {
     NNSG2dCellDataBank *mNcer;
 } LoadedPartPointer;
 
-void *GetPlayerCharacterBncl(int index);
-NNSG2dCellDataBank *GetPlayerCharacterNcer(int index);
-Ncgr *GetPlayerCharacterNcgr(int index);
-void *GetPlayerCharacterNclr(int index);
+void *GetPlayerCharacterBNCL_from_thumb(int index);
+NNSG2dCellDataBank *GetPlayerCharacterNceNcer_from_thumb(int index);
+Ncgr *GetPlayerCharacterNceNcgr_from_thumb(int index);
+void *GetPlayerCharacterPalette_from_thumb(int index);
 #include "Main/Graphics/chars_block.h"
 #include "Main/Race/graphic_file_loaders_and_matrix2x2.h"
 #include "Main/Race/point_along_line.h"
-NNSG2dFont *GetFontByIndex(s32 index);
-Nclr *GetPlayerCharacterShyguyNclr(u32 index);
+NNSG2dFont *GetLoadedFont_from_thumb(s32 index);
+Nclr *GetPlayerCharacterShyGuyPalette_from_thumb(u32 index);
 
-void LoadFontAndPlayerCharacterData(void);
-void ClearFontAndPlayerCharacterTables(void);
+void LoadMA2ContentIfMounted_from_thumb(void);
+void CleanupPlayerGfxDataFontsEtc_from_thumb(void);
 
 #include "Main/Race/followed_kart_outside_box.h"
 #include "font_glyph_layout.h" // NNSG2dFont

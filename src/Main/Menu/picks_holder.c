@@ -28,21 +28,21 @@
 #include "Main/System/heap.h"
 
 const u32 gCharacterKartIndices[13] = {0, 3, 6, 9, 0xc, 0xf, 0x12, 0x15, 0x18, 0x1b, 0x1e, 0x21, 0x24};
-PicksHolder *gPicksHolder;
+PicksHolder *g_GlobalKTB;
 
 #pragma thumb on
 
-void CreatePicksHolder(void *heap) {
-    gPicksHolder = HeapAlloc(heap, 4);
-    gPicksHolder->mPicks = CreateCharacterKartPicks(heap);
+void CreateSetGlobalKTB_from_thumb(void *heap) {
+    g_GlobalKTB = Mem_AllocateHeap(heap, 4);
+    g_GlobalKTB->mPicks = AllocateKartAppearTableData_from_thumb(heap);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void ClearPicksHolderPointer(void) {
-    gPicksHolder = NULL;
+void ResetGlobalKTB_from_thumb(void) {
+    g_GlobalKTB = NULL;
 }
 
 // Resets the picks and clears the character index of every entry from the participant count up.
@@ -51,16 +51,16 @@ void ClearNonParticipantCharacterIndices(void) {
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
 
-    InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
+    StructKTB_SomeFn_from_thumb(g_GlobalKTB->mPicks);
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_NONE) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+        if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+            g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
-        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? Math_CountPopulation(g_GlobalZE->mParticipantMask) : 0);
     }
     zeroValue = 0;
     noIndex = ~0;
@@ -77,19 +77,19 @@ void ClearNonParticipantKartIndices(void) {
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
 
-    InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
+    StructKTB_SomeFn_from_thumb(g_GlobalKTB->mPicks);
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_NONE) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+        if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+            g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
-        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? Math_CountPopulation(g_GlobalZE->mParticipantMask) : 0);
     }
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        SetGivenCharacter(gPicksHolder->mPicks, (u8) entryIndex, GetCharacterIndex(entryIndex));
+        SetGivenCharacter(g_GlobalKTB->mPicks, (u8) entryIndex, GetCharacterIndex(entryIndex));
     }
     zeroValue = 0;
     noIndex = ~0;
@@ -106,22 +106,22 @@ void FillRandomCharacterIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_NONE) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+        if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+            g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
-        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? Math_CountPopulation(g_GlobalZE->mParticipantMask) : 0);
     }
     for (participantIndex = 0; participantIndex < participantCount; participantIndex++) {
-        SetGivenCharacter(gPicksHolder->mPicks, (u8) participantIndex, GetCharacterIndex(participantIndex));
+        SetGivenCharacter(g_GlobalKTB->mPicks, (u8) participantIndex, GetCharacterIndex(participantIndex));
     }
-    PickRandomCharacters(gPicksHolder->mPicks);
+    PickRandomCharacters(g_GlobalKTB->mPicks);
     for (; participantCount < 8; participantCount++) {
-        GetEntryCharacterAndKart(gPicksHolder->mPicks, participantCount, &pickedIndex, NULL);
+        GetEntryCharacterAndKart(g_GlobalKTB->mPicks, participantCount, &pickedIndex, NULL);
         SetCharacterIndex(participantCount, pickedIndex);
     }
 }
@@ -133,22 +133,22 @@ void FillRandomKartIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_NONE) {
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_NONE) {
         participantCount = 1;
     } else {
         isEightOrNine = TRUE;
-        if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-            gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+        if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+            g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
             isEightOrNine = FALSE;
         }
-        participantCount = (u8) (isEightOrNine != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0);
+        participantCount = (u8) (isEightOrNine != FALSE ? Math_CountPopulation(g_GlobalZE->mParticipantMask) : 0);
     }
     for (participantIndex = 0; participantIndex < participantCount; participantIndex++) {
-        SetGivenKart(gPicksHolder->mPicks, (u8) participantIndex, GetKartIndex(participantIndex));
+        SetGivenKart(g_GlobalKTB->mPicks, (u8) participantIndex, GetKartIndex(participantIndex));
     }
-    PickRandomKarts(gPicksHolder->mPicks);
+    PickRandomKarts(g_GlobalKTB->mPicks);
     for (; participantCount < 8; participantCount++) {
-        GetEntryCharacterAndKart(gPicksHolder->mPicks, participantCount, NULL, &pickedIndex);
+        GetEntryCharacterAndKart(g_GlobalKTB->mPicks, participantCount, NULL, &pickedIndex);
         SetKartIndex(participantCount, pickedIndex);
         SetKartStored(participantCount, 1);
     }

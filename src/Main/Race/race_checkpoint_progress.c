@@ -42,7 +42,7 @@ void UpdateRaceClock(void) {
     u32 lapFrames;
 
     frameFraction = 0;
-    raceProgress = gRaceProgress;
+    raceProgress = g_GlobalMV;
     raceProgressForRandom = raceProgress;
     if (raceProgress->mHeader.mClockEnabled != 0) {
         timeLimitFrames = raceProgress->mTimeLimitFrameCount;
@@ -53,11 +53,11 @@ void UpdateRaceClock(void) {
             frameLimit = timeLimitFrames;
             hasTimeLimit = TRUE;
         }
-        if (gRaceSetup->mMode == MODE_WIFI && elapsedFrames > 0x4650) {
-            ownKartIndex = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
+        if (g_GlobalCO->mMode == MODE_WIFI && elapsedFrames > 0x4650) {
+            ownKartIndex = g_GlobalRE->mKartOfParticipant[DWC_GetMyAID()];
             if (ownKartIndex >= 0) {
                 flag = FALSE;
-                switch (gRaceProgress->mKarts[(u8) ownKartIndex].mStatus) {
+                switch (g_GlobalMV->mKarts[(u8) ownKartIndex].mStatus) {
                     case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
                     case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
                     case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
@@ -65,22 +65,22 @@ void UpdateRaceClock(void) {
                         break;
                 }
                 if (flag == FALSE) {
-                    FinishRaceProgressKart(&gRaceProgress->mKarts[ownKartIndex], 0);
+                    RegisterNewRacer(&g_GlobalMV->mKarts[ownKartIndex], 0);
                     if (IsRaceEndConditionMet() != 0) {
-                        switch (gRaceSetup->mMode) {
+                        switch (g_GlobalCO->mMode) {
                             case MODE_TIME_ATTACK:
                                 break;
                             case MODE_BATTLE:
-                                EliminateKartsUntilWinnerDecided();
+                                RaceModeBattle_OrMissionRun_SomeFn();
                                 break;
                             case MODE_MISSION_RUN:
-                                FinishRemainingMissionRunKarts();
+                                RaceModeMissionRun_SomeFn();
                                 break;
                             case MODE_WIFI:
-                                FinishRemainingWiFiRaceKarts();
+                                RaceModeNet_SomeFn();
                                 break;
                             default:
-                                FinishRemainingRaceProgressKarts();
+                                RaceModeDefault_SomeFn();
                                 break;
                         }
                     }
@@ -94,38 +94,38 @@ void UpdateRaceClock(void) {
             frameFraction = 1;
         }
         raceProgress->mHeader.mElapsedFrames = elapsedFrames;
-        for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
-            lapFrames = gRaceProgress->mKarts[kartIndex].mLapFrames;
+        for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
+            lapFrames = g_GlobalMV->mKarts[kartIndex].mLapFrames;
             if (lapFrames <= 0x57e40) {
                 lapFrames++;
             }
-            gRaceProgress->mKarts[kartIndex].mLapFrames = lapFrames;
+            g_GlobalMV->mKarts[kartIndex].mLapFrames = lapFrames;
         }
         if (frameFraction != 0) {
-            switch (gRaceSetup->mMode) {
+            switch (g_GlobalCO->mMode) {
                 case MODE_MISSION_RUN:
-                    FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, RACE_END_KIND_TIME_UP);
+                    FinishRaceProgressKartWithEndKind((u16) g_GlobalCO->mEntryIndex, RACE_END_KIND_TIME_UP);
                     flag = gSoundModeHolder.mMode == SCENE_SOUND_MODE_PLAYING ||
                            gSoundModeHolder.mMode == SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY;
                     if (flag) {
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x4a);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x4a);
                     }
                     break;
                 case MODE_BATTLE:
-                    if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
-                        gRaceProgress->mTimeLimitFrameCount = AdvanceShineBattleTimeLimit() * 0x3c;
+                    if (g_GlobalCO->mBattleKind == BATTLE_KIND_SHINE) {
+                        g_GlobalMV->mTimeLimitFrameCount = AdvanceShineBattleTimeLimit() * 0x3c;
                         raceProgress->mHeader.mElapsedFrames = 0;
                     }
                     break;
             }
         }
-        raceProgressForRandom = gRaceProgress;
+        raceProgressForRandom = g_GlobalMV;
         random = &raceProgressForRandom->mRandom;
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
         frameFraction = -(s16) (u16) (random->mValue >> 32 >> 20);
     }
     clock = &raceProgressForRandom->mHeader.mClockMillisecond;
-    ComputeRaceTime((u8 *) clock + 2, (u8 *) clock + 3, clock, frameFraction, raceProgress->mHeader.mElapsedFrames);
+    MaybeConvertElapsedTime((u8 *) clock + 2, (u8 *) clock + 3, clock, frameFraction, raceProgress->mHeader.mElapsedFrames);
 }
 
 BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *fromCheckpoint,
@@ -159,8 +159,8 @@ s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toInde
     s64 numerator;
     s64 denominator;
 
-    fromCheckpoint = &gCourseMap->mCheckpoints[fromIndex];
-    toCheckpoint = &gCourseMap->mCheckpoints[toIndex];
+    fromCheckpoint = &g_GlobalPE->mCheckpoints[fromIndex];
+    toCheckpoint = &g_GlobalPE->mCheckpoints[toIndex];
     if (IsPointBetweenCheckpointLines(pos, fromCheckpoint, toCheckpoint) == FALSE) {
         return -0x1000;
     }
@@ -180,7 +180,7 @@ s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toInde
     return FX_Div(numerator, denominator);
 }
 
-BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+BOOL StructRC_SomeFn_0(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                                   u16 checkpointIndex) {
     BOOL found;
     u32 testedBit;
@@ -194,21 +194,21 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progr
     testedWord = checkpointIndex >> 5;
     testedBit = 1 << (checkpointIndex & 0x1f);
     found = FALSE;
-    forwardLink = gCourseMap->mCheckpoints[checkpointIndex].mForwardLink;
+    forwardLink = g_GlobalPE->mCheckpoints[checkpointIndex].mForwardLink;
     testedBits = raceProgressKart->mCheckpointTestedBits[testedWord];
     if ((testedBits & testedBit) != 0) {
         return FALSE;
     }
     if (forwardLink != COURSE_MAP_CHECKPOINT_NO_LINK) {
-        route = &gCourseMap->mCheckpointRoutes[routeIndex];
+        route = &g_GlobalPE->mCheckpointRoutes[routeIndex];
         for (linkIndex = 0; linkIndex < 3; linkIndex++) {
             nextRoute = (route->mNextRoutes)[linkIndex];
             if (nextRoute != COURSE_MAP_ROUTE_NONE_S8) {
                 *progressOut =
                     ComputeProgressBetweenCheckpoints(pos, checkpointIndex, GetCheckpointRoute(nextRoute)->mFirstEntry);
                 if (*progressOut >= -2 && *progressOut <= 0x1002) {
-                    if ((gCourseMap->mCheckpoints[checkpointIndex].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
-                        if (gRaceSetup->mMode == MODE_WIFI) {
+                    if ((g_GlobalPE->mCheckpoints[checkpointIndex].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
+                        if (g_GlobalCO->mMode == MODE_WIFI) {
                             *progressOut = 0x1000 - (DWC_GetMyAID() + 1) * 0x190;
                         } else {
                             *progressOut =
@@ -223,7 +223,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progr
     } else {
         *progressOut = ComputeProgressBetweenCheckpoints(pos, checkpointIndex, checkpointIndex + 1);
         if (*progressOut >= -2 && *progressOut <= 0x1002) {
-            if ((gCourseMap->mCheckpoints[checkpointIndex].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
+            if ((g_GlobalPE->mCheckpoints[checkpointIndex].mFlags & COURSE_MAP_CHECKPOINT_FLAG_STAGGER) != 0) {
                 *progressOut = 0x1000 - ((u32) (raceProgressKart->mRankIndexRequestBits << 28) >> 28) * 0x190;
             }
             if (*progressOut < 0) {
@@ -239,7 +239,7 @@ BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progr
     return found;
 }
 
-s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+s16 StructRC_SomeFn(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                               u16 checkpointIndex, s32 depth) {
     s16 forwardLink;
     s8 nextRoute;
@@ -247,20 +247,20 @@ s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *progressO
     s16 found;
     CourseMapRoute *route;
 
-    forwardLink = gCourseMap->mCheckpoints[checkpointIndex].mForwardLink;
-    if (TryGetKartCheckpointProgress(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex) != 0) {
+    forwardLink = g_GlobalPE->mCheckpoints[checkpointIndex].mForwardLink;
+    if (StructRC_SomeFn_0(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex) != 0) {
         return checkpointIndex;
     }
     if (depth == 0) {
         return -1;
     }
     if (forwardLink != COURSE_MAP_CHECKPOINT_NO_LINK) {
-        route = &gCourseMap->mCheckpointRoutes[routeIndex];
+        route = &g_GlobalPE->mCheckpointRoutes[routeIndex];
         found = -1;
         for (linkIndex = 0; linkIndex < 3; linkIndex++) {
             nextRoute = (route->mNextRoutes)[linkIndex];
             if (nextRoute != COURSE_MAP_ROUTE_NONE_S8) {
-                found = FindKartCheckpointForward(raceProgressKart, progressOut, pos, nextRoute,
+                found = StructRC_SomeFn(raceProgressKart, progressOut, pos, nextRoute,
                                                   GetCheckpointRoute(nextRoute)->mFirstEntry, depth - 1);
                 if (found != -1) {
                     return found;
@@ -269,10 +269,10 @@ s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *progressO
         }
         return found;
     }
-    return FindKartCheckpointForward(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex + 1, depth - 1);
+    return StructRC_SomeFn(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex + 1, depth - 1);
 }
 
-s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+s16 StructRC_SomeFn_1(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                                u16 checkpointIndex, s32 depth) {
     s16 backwardLink;
     s8 previousRoute;
@@ -280,20 +280,20 @@ s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *progress
     s16 found;
     CourseMapRoute *route;
 
-    backwardLink = gCourseMap->mCheckpoints[checkpointIndex].mBackwardLink;
-    if (TryGetKartCheckpointProgress(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex) != 0) {
+    backwardLink = g_GlobalPE->mCheckpoints[checkpointIndex].mBackwardLink;
+    if (StructRC_SomeFn_0(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex) != 0) {
         return checkpointIndex;
     }
     if (depth == 0) {
         return -1;
     }
     if (backwardLink != COURSE_MAP_CHECKPOINT_NO_LINK) {
-        route = &gCourseMap->mCheckpointRoutes[routeIndex];
+        route = &g_GlobalPE->mCheckpointRoutes[routeIndex];
         found = -1;
         for (linkIndex = 0; linkIndex < 3; linkIndex++) {
             previousRoute = route->mPreviousRoutes[linkIndex];
             if (previousRoute != COURSE_MAP_ROUTE_NONE_S8) {
-                found = FindKartCheckpointBackward(raceProgressKart, progressOut, pos, previousRoute,
+                found = StructRC_SomeFn_1(raceProgressKart, progressOut, pos, previousRoute,
                                                    GetCheckpointRoute(previousRoute)->mFirstEntry +
                                                        GetCheckpointRoute(previousRoute)->mEntryCount - 1,
                                                    depth - 1);
@@ -304,10 +304,10 @@ s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *progress
         }
         return found;
     }
-    return FindKartCheckpointBackward(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex - 1, depth - 1);
+    return StructRC_SomeFn_1(raceProgressKart, progressOut, pos, routeIndex, checkpointIndex - 1, depth - 1);
 }
 
-void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 frameFraction, u32 frames) {
+void MaybeConvertElapsedTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 frameFraction, u32 frames) {
     RaceProgress *raceProgress;
     s8 minutes;
     s8 seconds;
@@ -317,7 +317,7 @@ void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 fram
     s32 totalSeconds;
     s32 fractionMs;
 
-    raceProgress = gRaceProgress;
+    raceProgress = g_GlobalMV;
     if (raceProgress->mTimeCountsDown != FALSE) {
         if (raceProgress->mTimeLimitFrameCount > frames) {
             frames = raceProgress->mTimeLimitFrameCount - frames;
@@ -367,7 +367,7 @@ void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 fram
     *millisecondOut = milliseconds;
 }
 
-void AddLapTimes(const MinuteSecondMillisecondTime *augend, const MinuteSecondMillisecondTime *addend,
+void AddRCTimes(const MinuteSecondMillisecondTime *augend, const MinuteSecondMillisecondTime *addend,
                  MinuteSecondMillisecondTime *result) {
     s16 minutes;
     s16 milliseconds;
@@ -407,15 +407,15 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *raceProgressKart, s32 pastFi
     u16 checkpointIndex;
     s16 forwardLink;
 
-    forwardLink = gCourseMap->mCheckpoints->mForwardLink;
+    forwardLink = g_GlobalPE->mCheckpoints->mForwardLink;
     lapTimes = raceProgressKart->mLapTimes;
     stepCount = 0;
     if (raceProgressKart->mLap <= 1) {
         return;
     }
-    GetKartPos(&kartPos, (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
-    GetKartPrevPos(&kartPrevPos, (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
-    VEC_Subtract(&kartPos, &kartPrevPos, &step);
+    LoadRacerMQVectorB(&kartPos, (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
+    LoadRacerMQVectorA(&kartPrevPos, (u32) (raceProgressKart->mRankIndexRequestBits << 24) >> 28);
+    VecFx32_Subtract(&kartPos, &kartPrevPos, &step);
     step.x = MUL_FIXED12_NO_ROUND(step.x, -240);
     step.y = MUL_FIXED12_NO_ROUND(step.y, -240);
     step.z = MUL_FIXED12_NO_ROUND(step.z, -240);
@@ -426,10 +426,10 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *raceProgressKart, s32 pastFi
     checkpointIndex = forwardLink;
     do {
         progress = ComputeProgressBetweenCheckpoints(&probePos, 0, checkpointIndex);
-        VEC_Add(&probePos, &step, &probePos);
+        VecFx32_Add(&probePos, &step, &probePos);
         stepCount++;
     } while (progress > 0 && stepCount < 0x11);
-    ComputeRaceTime(&lapTimes[raceProgressKart->mLap - 2].mMinute, &lapTimes[raceProgressKart->mLap - 2].mSecond,
+    MaybeConvertElapsedTime(&lapTimes[raceProgressKart->mLap - 2].mMinute, &lapTimes[raceProgressKart->mLap - 2].mSecond,
                     &lapTimes[raceProgressKart->mLap - 2].mMillisecond, -stepCount * 0xf0,
                     raceProgressKart->mLapFrames);
     raceProgressKart->mLapFrames = 0;
@@ -438,7 +438,7 @@ void StoreRaceProgressKartLapTime(RaceProgressKart *raceProgressKart, s32 pastFi
     totalTime->mSecond = 0;
     lapTimes[5].mMillisecond = 0;
     for (lapIndex = 0; lapIndex < raceProgressKart->mLap - 1; lapIndex++) {
-        AddLapTimes(&lapTimes[lapIndex], totalTime, totalTime);
+        AddRCTimes(&lapTimes[lapIndex], totalTime, totalTime);
     }
     if (pastFinalLap != 0) {
         return;

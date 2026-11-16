@@ -15,8 +15,8 @@ SoundHandlePool *GetSoundHandlePool(u32 index);
 
 void SetPlayerVolumeTarget(u32 index, u32 value);
 
-NNSSndArc *SetCurrentSndArc(void);
+NNSSndArc *SetGlobalSdatActive(void);
 
-void RunScenesSoundNop(void);
+void nullsub_12(void);
 
 void StartMissionRunCountSeq(s32 count, s32 countLimit);

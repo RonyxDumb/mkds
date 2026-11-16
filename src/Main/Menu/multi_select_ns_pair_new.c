@@ -27,5 +27,5 @@ BOOL MultiSelectNSIsPairNewUnlessLost(InputSlotPair *pair) {
 }
 
 BOOL MultiSelectNSIsSlotPairNew(u32 slotIndex) {
-    return MultiSelectNSIsPairNewUnlessLost(&gInputSlots[slotIndex].mPair);
+    return MultiSelectNSIsPairNewUnlessLost(&g_GlobalCYT[slotIndex].mPair);
 }

@@ -42,9 +42,9 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
-                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
+                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xc5);
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(pos) ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
@@ -79,9 +79,9 @@ void UpdateRaceHudSubScreenKingTeresaCells(void) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
-                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
+                gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xc5);
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(pos) ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(pos) ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
@@ -105,7 +105,7 @@ BOOL IsWithinXzDistanceOfPoint(MissionRunMapObject *mapObject, Vec3 *point, s32 
     float radiusAsFloatCopy;
 
     if (point != NULL) {
-        VEC_Subtract(point, &mapObject->mMapObject.mPos, &unusedOffset);
+        VecFx32_Subtract(point, &mapObject->mMapObject.mPos, &unusedOffset);
         dx = mapObject->mMapObject.mPos.x - point->x;
         dz = mapObject->mMapObject.mPos.z - point->z;
         if (radius > 0) {
@@ -131,7 +131,7 @@ BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Ve
 
     if (point != NULL) {
         angleDifference =
-            (u16) (FX_Atan2Idx(point->x - mapObject->mMapObject.mPos.x, point->z - mapObject->mMapObject.mPos.z) -
+            (u16) (FX_Atan2(point->x - mapObject->mMapObject.mPos.x, point->z - mapObject->mMapObject.mPos.z) -
                    angle);
         if (angleDifference > 0x8000) {
             angleDifference -= 0x10000;

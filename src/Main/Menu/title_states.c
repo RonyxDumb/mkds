@@ -6,14 +6,14 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void AdvanceTitleStates(s32 flag) {
+void StructHU_InvokeFunc_from_thumb(s32 flag) {
     enum { STATE_INDEX_FIRST } stateIndex;
-    ClearOamListCounts(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
-    stateIndex = gTitleScene->mState;
-    gTitleScene->mStateHandlers[stateIndex].mUpdate(flag);
-    IncrementCounterSaturating(&gTitleScene->mStateFrames);
-    AdvanceSceneText();
-    HideUnusedOams(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
+    OamBuffer_ResetValues16_from_thumb(&g_SceneTitleContext->mMainOam, &g_SceneTitleContext->mSubOam);
+    stateIndex = g_SceneTitleContext->mState;
+    g_SceneTitleContext->mStateHandlers[stateIndex].mUpdate(flag);
+    StructHU_IncrementSomeCounter(&g_SceneTitleContext->mStateFrames);
+    NavigationContext_OnSceneUpdate_from_thumb();
+    OamBuffer_SomeFn2_from_thumb(&g_SceneTitleContext->mMainOam, &g_SceneTitleContext->mSubOam);
 }
 
 #pragma thumb off

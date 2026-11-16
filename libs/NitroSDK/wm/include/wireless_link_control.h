@@ -181,8 +181,8 @@ typedef struct WMBssDesc {
     /* 40 */ WMGameInfo mGameInfo;
 } WMBssDesc;
 
-// System work area set up by WmInitCore. The callback tables are indexed by the command number of the message that
-// WmReceiveFifo takes.
+// System work area set up by Wm_InitializeImpl. The callback tables are indexed by the command number of the message that
+// Wm_FifoHandler takes.
 // Bytes of the system buffer that the WMArm9Buf occupies; the arm7 area follows.
 #define WIRELESS_ARM9_BUF_SIZE 0x200
 
@@ -190,9 +190,9 @@ typedef struct WMArm9Buf {
     /* 000 */ void *mWM7;
     /* 004 */ struct WMStatus *mStatusArea;
     /* 008 */ u32 mIndBuf;
-    // Command request area; the command functions fill it in and WMi_SendCommand copies it for a command with no words.
+    // Command request area; the command functions fill it in and WM_SomeFn copies it for a command with no words.
     /* 00c */ void *mRequestArea;
-    // Message area for replies; WmReceiveFifo does not mark it free after handling.
+    // Message area for replies; Wm_FifoHandler does not mark it free after handling.
     /* 010 */ WirelessMessage *mMessageArea;
     /* 014 */ u16 mDmaNo;
     /* 016 */ u16 mScanOnlyFlag;
@@ -278,7 +278,7 @@ typedef enum WirelessState {
     WIRELESS_STATE_EVENT_IGNORED = 0x17,
 } WirelessState;
 
-// Message the other processor passes to WmReceiveFifo and to the callbacks. Several layouts overlay it: port and
+// Message the other processor passes to Wm_FifoHandler and to the callbacks. Several layouts overlay it: port and
 // indication messages hold the state at 0x04, command replies at 0x08 (mReplyState); names with Or cover both.
 struct WirelessMessage {
     // Command number; 0x80, 0x81 and 0x82 are indications and port messages. Bit 15 marks a ring message as free.
@@ -317,7 +317,7 @@ struct WirelessMessage {
     /* 38 */ WMGameInfo mGameInfo;
 };
 
-// The message WmReceiveFifo builds for a port receive callback: the command, result, state, port, buffer and data.
+// The message Wm_FifoHandler builds for a port receive callback: the command, result, state, port, buffer and data.
 typedef struct WMPortRecvCallback {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
@@ -466,7 +466,7 @@ s32 WM_Enable(WirelessMessageCallback callback);
 s32 WM_Disable(WirelessMessageCallback callback);
 s32 WM_PowerOn(WirelessMessageCallback callback);
 s32 WM_PowerOff(WirelessMessageCallback callback);
-s32 WM_Initialize(void *wmSysBuf, WirelessMessageCallback callback, u16 dmaNo);
+s32 StructWM_SomeFn(void *wmSysBuf, WirelessMessageCallback callback, u16 dmaNo);
 s32 WM_Reset(WirelessMessageCallback callback);
 s32 WM_End(WirelessMessageCallback callback);
 s32 WM_SetParentParameter(WirelessMessageCallback callback, ParentParameter *pparaBuf);
@@ -488,7 +488,7 @@ s32 WM_GetMPReceiveBufferSize(void);
 void *WM_ReadMPData(const WMMpRecvHeader *header, u16 aid);
 u16 WM_GetAllowedChannel(void);
 u16 WM_GetLinkLevel(void);
-u16 WM_GetDispersionBeaconPeriod(void);
+u16 MaybeGeneratePseudoRandomValue(void);
 u16 WM_GetDispersionScanPeriod(void);
 WMOtherElements WM_GetOtherElements(const u16 *bssDesc);
 u16 WM_GetNextTgid(void);

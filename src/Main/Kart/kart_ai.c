@@ -26,19 +26,19 @@
 
 #pragma thumb on
 
-KartAiParamRow *gKartAiParamRow;
-KartAiShared *gKartAiShared;
+KartAiParamRow *g_KartAIParamPtr;
+KartAiShared *g_GlobalAEBC;
 
 // Picks the row of 'kartAIparam.bin' for the course and mode; none in battle or when RaceSetup.mRaceKind is 5 or 6.
-void SetKartAiParamRow(void) {
+void MaybeLoadKartAIData_from_thumb(void) {
     RaceSetup *raceSetup;
     KartAiParamRow *paramRow;
-    gKartAiParamRow = NULL;
-    raceSetup = gRaceSetup;
+    g_KartAIParamPtr = NULL;
+    raceSetup = g_GlobalCO;
     if (raceSetup->mRaceKind != RACE_KIND_AWARD && raceSetup->mMode != MODE_BATTLE &&
         raceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        paramRow = GetKartModelFile("kartAIparam.bin");
-        raceSetup = gRaceSetup;
+        paramRow = FindFileBufferGeneric_KME_KM1_KM2_KSB_from_thumb("kartAIparam.bin");
+        raceSetup = g_GlobalCO;
         if (raceSetup->mMode == MODE_GRAND_PRIX) {
             paramRow = &paramRow[(raceSetup->mCourseId - 1) * 12 + raceSetup->mEngineIndex];
         } else {
@@ -52,81 +52,81 @@ void SetKartAiParamRow(void) {
                     break;
             }
         }
-        gKartAiParamRow = paramRow;
+        g_KartAIParamPtr = paramRow;
     }
 }
 
-void InitKartAiShared(void) {
+void CreateGlobalAEBC_from_thumb(void) {
     u16 kartIndex;
     BOOL zero;
     s32 minusOne;
-    gKartAiShared = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gKartAiShared));
+    g_GlobalAEBC = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*g_GlobalAEBC));
     zero = FALSE;
     minusOne = -1;
     for (kartIndex = 0; kartIndex < 8; kartIndex++) {
-        gKartAiShared->mRaceProgressScaled[kartIndex] = zero;
-        gKartAiShared->mKartAtRank[kartIndex] = minusOne;
-        gKartAiShared->mCpuKartByRank[kartIndex] = minusOne;
-        gKartAiShared->mNonCpuKartByRank[kartIndex] = minusOne;
-        gKartAiShared->mTableIndex[kartIndex] = zero;
+        g_GlobalAEBC->mRaceProgressScaled[kartIndex] = zero;
+        g_GlobalAEBC->mKartAtRank[kartIndex] = minusOne;
+        g_GlobalAEBC->mCpuKartByRank[kartIndex] = minusOne;
+        g_GlobalAEBC->mNonCpuKartByRank[kartIndex] = minusOne;
+        g_GlobalAEBC->mTableIndex[kartIndex] = zero;
     }
-    gKartAiShared->mLastRankCpuKart = minusOne;
-    gKartAiShared->mLastRankNotCpuKart = minusOne;
-    gKartAiShared->mFirstRankNotCpuKart = minusOne;
-    gKartAiShared->mFirstRankProgressRatio = zero;
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        gKartAiShared->mRandom = &gRaceProgress->mLocalRandom;
+    g_GlobalAEBC->mLastRankCpuKart = minusOne;
+    g_GlobalAEBC->mLastRankNotCpuKart = minusOne;
+    g_GlobalAEBC->mFirstRankNotCpuKart = minusOne;
+    g_GlobalAEBC->mFirstRankProgressRatio = zero;
+    if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
+        g_GlobalAEBC->mRandom = &g_GlobalMV->mLocalRandom;
     } else {
-        gKartAiShared->mRandom = &gRaceProgress->mRandom;
+        g_GlobalAEBC->mRandom = &g_GlobalMV->mRandom;
     }
-    if (gRaceSetup->mKartCount > 1 && gRaceSetup->mKartCount - gRaceSetup->mHumanAndPeerKartCount == 1) {
-        gKartAiShared->mOneKartNotHumanOrPeer = 1;
-        gKartAiShared->mNonCpuRank = ((u32) gRaceSetup->mHumanAndPeerKartCount >> 1) + 1;
+    if (g_GlobalCO->mKartCount > 1 && g_GlobalCO->mKartCount - g_GlobalCO->mHumanAndPeerKartCount == 1) {
+        g_GlobalAEBC->mOneKartNotHumanOrPeer = 1;
+        g_GlobalAEBC->mNonCpuRank = ((u32) g_GlobalCO->mHumanAndPeerKartCount >> 1) + 1;
     } else {
-        gKartAiShared->mOneKartNotHumanOrPeer = 0;
-        gKartAiShared->mNonCpuRank = -1;
+        g_GlobalAEBC->mOneKartNotHumanOrPeer = 0;
+        g_GlobalAEBC->mNonCpuRank = -1;
     }
-    if (gKartAiParamRow != NULL) {
+    if (g_KartAIParamPtr != NULL) {
         InitKartAiGrandPrixPoints();
         InitKartAiTableIndices();
-        if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
-            switch (gRaceSetup->mEngineIndex) {
+        if (g_GlobalCO->mMode == MODE_GRAND_PRIX) {
+            switch (g_GlobalCO->mEngineIndex) {
                 case ENGINE_CLASS_SLOW:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_LOW;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_LOW;
                     break;
                 case ENGINE_CLASS_MEDIUM:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
                 case ENGINE_CLASS_FAST:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_HIGH;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_HIGH;
                     break;
                 default:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
             }
         } else {
-            switch (gRaceSetup->mCpuDifficulty) {
+            switch (g_GlobalCO->mCpuDifficulty) {
                 case CPU_DIFFICULTY_EASY:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_LOW;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_LOW;
                     break;
                 case CPU_DIFFICULTY_NORMAL:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
                 case CPU_DIFFICULTY_HARD:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_HIGH;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_HIGH;
                     break;
                 default:
-                    gKartAiShared->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
+                    g_GlobalAEBC->mEngineOrDifficultyIndex = KART_AI_LEVEL_MEDIUM;
                     break;
             }
         }
-        gKartAiParamRow->mGapTableScale = FX_Div(gKartAiParamRow->mGapTableScale, 0x3000);
+        g_KartAIParamPtr->mGapTableScale = FX_Div(g_KartAIParamPtr->mGapTableScale, 0x3000);
     }
     InitKartAiNonCpuCounts();
     SetupKartAiGlobals();
     InitKartAiTables();
     SetupRaceItemEntries();
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
         SetupBattleKartAiParams();
         SetupBattleItemEntries();
     }
@@ -139,32 +139,32 @@ void InitKartAiNonCpuCounts(void) {
     BOOL isNonCpuWithoutTeams;
     KartEntryPlayer *player;
     kartIndex = 0;
-    gKartAiShared->mNonCpuKartCount = kartIndex;
+    g_GlobalAEBC->mNonCpuKartCount = kartIndex;
     for (teamIndex = 0; teamIndex < 2; teamIndex++) {
-        gKartAiShared->mTeamNonCpuKartCounts[teamIndex] = kartIndex;
+        g_GlobalAEBC->mTeamNonCpuKartCounts[teamIndex] = kartIndex;
     }
-    for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-        if (gRaceSetup->mUseTeams != 0) {
+    for (kartIndex = 0; (u32) kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
+        if (g_GlobalCO->mUseTeams != 0) {
             for (teamIndex = 0; teamIndex < 2; teamIndex++) {
                 isNonCpu = FALSE;
-                if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind > PLAYER_KIND_PEER) {
-                } else if ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) &
+                if (g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind > PLAYER_KIND_PEER) {
+                } else if ((1 << g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind) &
                            PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     isNonCpu = TRUE;
                 }
-                if (isNonCpu != FALSE && teamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
-                    gKartAiShared->mTeamNonCpuKartCounts[teamIndex]++;
+                if (isNonCpu != FALSE && teamIndex == g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
+                    g_GlobalAEBC->mTeamNonCpuKartCounts[teamIndex]++;
                     break;
                 }
             }
         } else {
             isNonCpuWithoutTeams = FALSE;
-            player = &gRaceSetup->mCurrentEntries[kartIndex].mPlayer;
+            player = &g_GlobalCO->mCurrentEntries[kartIndex].mPlayer;
             if (player->mKind <= PLAYER_KIND_PEER && ((1 << player->mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isNonCpuWithoutTeams = TRUE;
             }
             if (isNonCpuWithoutTeams != FALSE) {
-                gKartAiShared->mNonCpuKartCount++;
+                g_GlobalAEBC->mNonCpuKartCount++;
             }
         }
     }
@@ -184,17 +184,17 @@ void InitKartAiGrandPrixPoints(void) {
     bestNonCpuPoints = 0;
     bestCpuPoints = 0;
     for (; clearIndex < 2; clearIndex++) {
-        gKartAiShared->mListedCpuKartPoints[clearIndex] = 0;
+        g_GlobalAEBC->mListedCpuKartPoints[clearIndex] = 0;
     }
-    gKartAiShared->mPointsGapKind = KART_AI_POINTS_GAP_NONE;
-    gKartAiShared->mLowerPointsListedCpuIndex = 0;
-    if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
-        for (entryIndex = 0; entryIndex < gRaceSetup->mKartCount; entryIndex++) {
+    g_GlobalAEBC->mPointsGapKind = KART_AI_POINTS_GAP_NONE;
+    g_GlobalAEBC->mLowerPointsListedCpuIndex = 0;
+    if (g_GlobalCO->mMode == MODE_GRAND_PRIX) {
+        for (entryIndex = 0; entryIndex < g_GlobalCO->mKartCount; entryIndex++) {
             kartIndex = entryIndex;
             previousTotalPoints = GetKartPreviousTotalPoints(kartIndex);
             isNonCpu = FALSE;
-            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
-                ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+            if (g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
+                ((1 << g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isNonCpu = TRUE;
             }
             if (isNonCpu != FALSE) {
@@ -205,23 +205,23 @@ void InitKartAiGrandPrixPoints(void) {
                 if (previousTotalPoints > bestCpuPoints) {
                     bestCpuPoints = previousTotalPoints;
                 }
-                if (entryIndex == gRaceSetup->mListedCpuEntryIndices[0]) {
-                    gKartAiShared->mListedCpuKartPoints[0] = previousTotalPoints;
-                } else if (entryIndex == gRaceSetup->mListedCpuEntryIndices[1]) {
-                    gKartAiShared->mListedCpuKartPoints[1] = previousTotalPoints;
+                if (entryIndex == g_GlobalCO->mListedCpuEntryIndices[0]) {
+                    g_GlobalAEBC->mListedCpuKartPoints[0] = previousTotalPoints;
+                } else if (entryIndex == g_GlobalCO->mListedCpuEntryIndices[1]) {
+                    g_GlobalAEBC->mListedCpuKartPoints[1] = previousTotalPoints;
                 }
             }
         }
         pointsDifference = bestNonCpuPoints - bestCpuPoints;
         if (pointsDifference <= -5) {
-            if (gRaceSetup->mListedCpuCount > 1) {
-                gKartAiShared->mPointsGapKind = KART_AI_POINTS_GAP_NON_CPU_BEHIND;
-                if (gKartAiShared->mListedCpuKartPoints[0] > gKartAiShared->mListedCpuKartPoints[1]) {
-                    gKartAiShared->mLowerPointsListedCpuIndex = 1;
+            if (g_GlobalCO->mListedCpuCount > 1) {
+                g_GlobalAEBC->mPointsGapKind = KART_AI_POINTS_GAP_NON_CPU_BEHIND;
+                if (g_GlobalAEBC->mListedCpuKartPoints[0] > g_GlobalAEBC->mListedCpuKartPoints[1]) {
+                    g_GlobalAEBC->mLowerPointsListedCpuIndex = 1;
                 }
             }
-        } else if (gRaceSetup->mCpuDifficulty != CPU_DIFFICULTY_EASY && pointsDifference >= 4) {
-            gKartAiShared->mPointsGapKind = KART_AI_POINTS_GAP_NON_CPU_AHEAD;
+        } else if (g_GlobalCO->mCpuDifficulty != CPU_DIFFICULTY_EASY && pointsDifference >= 4) {
+            g_GlobalAEBC->mPointsGapKind = KART_AI_POINTS_GAP_NON_CPU_AHEAD;
         }
     }
 }
@@ -240,18 +240,18 @@ void InitKartAiTableIndices(void) {
     u32 nextNonCpuTableIndex;
     count = 0;
     nonCpuKartCount = 0;
-    nextNonCpuTableIndex = gRaceSetup->mKartCount;
-    NNS_FndInitList(&gKartAiShared->mTableIndexList, 4);
+    nextNonCpuTableIndex = g_GlobalCO->mKartCount;
+    IntrusiveListWrapper_InitializeEmpty(&g_GlobalAEBC->mTableIndexList, 4);
     for (listedIndex = 0; listedIndex < 2; listedIndex++) {
-        if (gRaceSetup->mListedCpuEntryIndices[listedIndex] >= 0) {
+        if (g_GlobalCO->mListedCpuEntryIndices[listedIndex] >= 0) {
             count++;
         }
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     for (kartIndex = 0; (u32) kartIndex < kartCount; kartIndex++) {
         isNonCpu = FALSE;
-        if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
-            ((1 << gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if (g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
+            ((1 << g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isNonCpu = TRUE;
         }
         if (isNonCpu != FALSE) {
@@ -261,19 +261,19 @@ void InitKartAiTableIndices(void) {
     tableEntryCount = kartCount - nonCpuKartCount - count;
     tableEntryIndex = 0;
     for (; tableEntryIndex < tableEntryCount; tableEntryIndex++) {
-        gKartAiShared->mTableIndexEntries[tableEntryIndex].mTableIndex = (u16) (tableEntryIndex + count + 1);
-        NNS_FndAppendListObject(&gKartAiShared->mTableIndexList, &gKartAiShared->mTableIndexEntries[tableEntryIndex]);
+        g_GlobalAEBC->mTableIndexEntries[tableEntryIndex].mTableIndex = (u16) (tableEntryIndex + count + 1);
+        IntrusiveListWrapper_InsertLast(&g_GlobalAEBC->mTableIndexList, &g_GlobalAEBC->mTableIndexEntries[tableEntryIndex]);
     }
     count = 0;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     for (; (u32) count < raceSetup->mKartCount; count++) {
         if (raceSetup->mMode == MODE_TIME_ATTACK) {
             tableIndex = count;
         } else {
             tableIndex = PickKartAiTableIndex(count, &nextNonCpuTableIndex);
         }
-        gKartAiShared->mTableIndex[count] = tableIndex;
-        raceSetup = gRaceSetup;
+        g_GlobalAEBC->mTableIndex[count] = tableIndex;
+        raceSetup = g_GlobalCO;
     }
 }
 
@@ -297,7 +297,7 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
     KartAiTableIndexEntry *entry;
     hasFixedIndex = FALSE;
     tableIndex = -1;
-    kartAiShared = gKartAiShared;
+    kartAiShared = g_GlobalAEBC;
     pointsGapKind = kartAiShared->mPointsGapKind;
     if (pointsGapKind == KART_AI_POINTS_GAP_NON_CPU_AHEAD) {
         isNonCpuAhead = TRUE;
@@ -305,7 +305,7 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
         isNonCpuAhead = FALSE;
     }
     isNonCpu = FALSE;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     value = raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
     if ((u32) value <= 3 && ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
         isNonCpu = TRUE;
@@ -351,9 +351,9 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
             }
         }
         if (hasFixedIndex == FALSE) {
-            tableIndexList = &gKartAiShared->mTableIndexList;
+            tableIndexList = &g_GlobalAEBC->mTableIndexList;
             listCount = tableIndexList->mCount;
-            random = gKartAiShared->mRandom;
+            random = g_GlobalAEBC->mRandom;
             randomLimit = listCount - 1;
             if (randomLimit == 0) {
                 listPosition = 0;
@@ -366,9 +366,9 @@ s32 PickKartAiTableIndex(u16 kartIndex, u32 *nextNonCpuTableIndexPointer) {
                     listPosition = (s64) (u32) (random->mValue >> 32) * (s64) (u32) randomLimitCopy >> 32;
                 }
             }
-            entry = NNS_FndGetNthListObject(tableIndexList, listPosition);
+            entry = IntrusiveListWrapper_GetAtIndex(tableIndexList, listPosition);
             tableIndex = entry->mTableIndex;
-            NNS_FndRemoveListObject(tableIndexList, entry);
+            IntrusiveListWrapper_RemoveItem(tableIndexList, entry);
         }
     }
     return tableIndex;
@@ -380,7 +380,7 @@ void DecrementKartAiNonCpuCount(u32 kartIndex) {
     RaceSetup *raceSetup;
     BOOL isNonCpu;
     s16 teamIndex;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     isNonCpu = FALSE;
     if (raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
         ((1 << raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
@@ -392,15 +392,15 @@ void DecrementKartAiNonCpuCount(u32 kartIndex) {
     if (raceSetup->mUseTeams != 0) {
         for (teamIndex = 0; teamIndex < 2; teamIndex++) {
             if (teamIndex == raceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
-                if (gKartAiShared->mTeamNonCpuKartCounts[teamIndex] > 0) {
-                    gKartAiShared->mTeamNonCpuKartCounts[teamIndex]--;
+                if (g_GlobalAEBC->mTeamNonCpuKartCounts[teamIndex] > 0) {
+                    g_GlobalAEBC->mTeamNonCpuKartCounts[teamIndex]--;
                 }
                 break;
             }
         }
     } else {
-        if (gKartAiShared->mNonCpuKartCount > 0) {
-            gKartAiShared->mNonCpuKartCount--;
+        if (g_GlobalAEBC->mNonCpuKartCount > 0) {
+            g_GlobalAEBC->mNonCpuKartCount--;
         }
     }
 }
@@ -409,14 +409,14 @@ s16 GetNonCpuKartCountOutsideKartTeam(u32 kartIndex) {
     s16 count;
     u16 teamIndex;
     count = 0;
-    if (gRaceSetup->mUseTeams != 0) {
+    if (g_GlobalCO->mUseTeams != 0) {
         for (teamIndex = 0; teamIndex < 2; teamIndex++) {
-            if (teamIndex != gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
-                count = count + gKartAiShared->mTeamNonCpuKartCounts[teamIndex];
+            if (teamIndex != g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mTeamIndex) {
+                count = count + g_GlobalAEBC->mTeamNonCpuKartCounts[teamIndex];
             }
         }
     } else {
-        count = gKartAiShared->mNonCpuKartCount;
+        count = g_GlobalAEBC->mNonCpuKartCount;
     }
     return count;
 }
@@ -425,20 +425,20 @@ void UpdateKartAiShared(void) {
     u32 maxRank;
     u16 kartIndex;
     u32 kartRank;
-    if (gKartAiParamRow == NULL) {
+    if (g_KartAIParamPtr == NULL) {
         return;
     }
     UpdateKartAiRankLists();
     maxRank = 1;
-    for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-        kartRank = GetKartRank(kartIndex);
-        if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
+    for (kartIndex = 0; (u32) kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
+        kartRank = GetSomeRacerFlags(kartIndex);
+        if (g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (kartRank == 1) {
-                gKartAiShared->mFirstRankNotCpuKart = kartIndex;
+                g_GlobalAEBC->mFirstRankNotCpuKart = kartIndex;
             }
             if (kartRank >= maxRank) {
                 maxRank = kartRank;
-                gKartAiShared->mLastRankNotCpuKart = kartIndex;
+                g_GlobalAEBC->mLastRankNotCpuKart = kartIndex;
             }
         }
     }
@@ -456,61 +456,61 @@ void UpdateKartAiRankLists(void) {
     u16 index;
     BOOL isNonCpu;
     maxCpuRank = 1;
-    for (kartIndex = 0; (u32) kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-        scaledProgress = gCourseMap->mCheckpointSumQuotient;
-        value = GetKartRaceProgress(kartIndex);
+    for (kartIndex = 0; (u32) kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
+        scaledProgress = g_GlobalPE->mCheckpointSumQuotient;
+        value = GetSomeRacerValue(kartIndex);
         scaledProgress = MUL_FIXED12_ROUNDED(value, scaledProgress);
-        kartRank = GetKartRank(kartIndex);
-        gKartAiShared->mRaceProgressScaled[kartIndex] = scaledProgress;
+        kartRank = GetSomeRacerFlags(kartIndex);
+        g_GlobalAEBC->mRaceProgressScaled[kartIndex] = scaledProgress;
         if (kartRank > 0) {
             index = kartRank - 1;
-            if (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
+            if (g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
                 if (kartRank > maxCpuRank) {
                     maxCpuRank = kartRank;
-                    gKartAiShared->mLastRankCpuKart = kartIndex;
+                    g_GlobalAEBC->mLastRankCpuKart = kartIndex;
                 }
             }
-            gKartAiShared->mKartAtRank[index] = kartIndex;
+            g_GlobalAEBC->mKartAtRank[index] = kartIndex;
         }
         if (kartRank == 1) {
             if (scaledProgress >= 0) {
-                gKartAiShared->mFirstRankProgressRatio = FX_Div(gKartAiShared->mRaceProgressScaled[kartIndex], 0x4ce);
-                if (gKartAiShared->mFirstRankProgressRatio < KART_AI_FIRST_RANK_RATIO_MIN) {
-                    gKartAiShared->mFirstRankProgressRatio = KART_AI_FIRST_RANK_RATIO_MIN;
-                } else if (gKartAiShared->mFirstRankProgressRatio > TO_FIXED12(1)) {
-                    gKartAiShared->mFirstRankProgressRatio = TO_FIXED12(1);
+                g_GlobalAEBC->mFirstRankProgressRatio = FX_Div(g_GlobalAEBC->mRaceProgressScaled[kartIndex], 0x4ce);
+                if (g_GlobalAEBC->mFirstRankProgressRatio < KART_AI_FIRST_RANK_RATIO_MIN) {
+                    g_GlobalAEBC->mFirstRankProgressRatio = KART_AI_FIRST_RANK_RATIO_MIN;
+                } else if (g_GlobalAEBC->mFirstRankProgressRatio > TO_FIXED12(1)) {
+                    g_GlobalAEBC->mFirstRankProgressRatio = TO_FIXED12(1);
                 }
             } else {
-                gKartAiShared->mFirstRankProgressRatio = 0;
+                g_GlobalAEBC->mFirstRankProgressRatio = 0;
             }
         }
     }
     listCount = 0;
-    for (rankIndex = 0; rankIndex < gRaceSetup->mKartCount; rankIndex++) {
-        value = gKartAiShared->mKartAtRank[rankIndex];
+    for (rankIndex = 0; rankIndex < g_GlobalCO->mKartCount; rankIndex++) {
+        value = g_GlobalAEBC->mKartAtRank[rankIndex];
         if (value >= 0) {
             index = value;
-            if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind == PLAYER_KIND_CPU) {
-                gKartAiShared->mCpuKartByRank[listCount] = value;
+            if (g_GlobalCO->mCurrentEntries[index].mPlayer.mKind == PLAYER_KIND_CPU) {
+                g_GlobalAEBC->mCpuKartByRank[listCount] = value;
                 listCount++;
             }
         }
     }
-    if (gKartAiShared->mOneKartNotHumanOrPeer == 0) {
+    if (g_GlobalAEBC->mOneKartNotHumanOrPeer == 0) {
         return;
     }
     listCount = 0;
-    for (rankIndex = 0; rankIndex < gRaceSetup->mKartCount; rankIndex++) {
-        kartAtRank = gKartAiShared->mKartAtRank[rankIndex];
+    for (rankIndex = 0; rankIndex < g_GlobalCO->mKartCount; rankIndex++) {
+        kartAtRank = g_GlobalAEBC->mKartAtRank[rankIndex];
         if (kartAtRank >= 0) {
             index = kartAtRank;
             isNonCpu = FALSE;
-            if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
-                ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+            if (g_GlobalCO->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
+                ((1 << g_GlobalCO->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                 isNonCpu = TRUE;
             }
             if (isNonCpu != FALSE) {
-                gKartAiShared->mNonCpuKartByRank[listCount] = kartAtRank;
+                g_GlobalAEBC->mNonCpuKartByRank[listCount] = kartAtRank;
                 listCount++;
             }
         }
@@ -521,8 +521,8 @@ s32 GetKartRankAmongCpuKarts(u16 kartIndex) {
     s32 rank;
     u16 rankIndex;
     rank = -1;
-    for (rankIndex = 0; (u32) rankIndex < gRaceSetup->mKartCount; rankIndex++) {
-        if (kartIndex == (u16) gKartAiShared->mCpuKartByRank[rankIndex]) {
+    for (rankIndex = 0; (u32) rankIndex < g_GlobalCO->mKartCount; rankIndex++) {
+        if (kartIndex == (u16) g_GlobalAEBC->mCpuKartByRank[rankIndex]) {
             rank = rankIndex + 1;
             break;
         }
@@ -531,15 +531,15 @@ s32 GetKartRankAmongCpuKarts(u16 kartIndex) {
 }
 
 s32 GetCpuKartByRankPlusOffset(u32 rank, u32 offset) {
-    return gKartAiShared->mCpuKartByRank[(((offset) + (rank))) - (0x1u)];
+    return g_GlobalAEBC->mCpuKartByRank[(((offset) + (rank))) - (0x1u)];
 }
 
 s32 GetFirstRankProgressRatio(void) {
-    return gKartAiShared->mFirstRankProgressRatio;
+    return g_GlobalAEBC->mFirstRankProgressRatio;
 }
 
 s32 GetFirstCpuKartByRank(void) {
-    return gKartAiShared->mCpuKartByRank[0];
+    return g_GlobalAEBC->mCpuKartByRank[0];
 }
 
 s32 GetCpuKartAheadOfRank(s32 rank) {
@@ -547,44 +547,44 @@ s32 GetCpuKartAheadOfRank(s32 rank) {
     s32 result = -1;
 
     if (listIndex >= 0) {
-        result = gKartAiShared->mCpuKartByRank[listIndex];
+        result = g_GlobalAEBC->mCpuKartByRank[listIndex];
     }
     return result;
 }
 
 s32 GetKartAtNonCpuRank(void) {
-    return gKartAiShared->mNonCpuKartByRank[((gKartAiShared->mNonCpuRank)) - (0x1u)];
+    return g_GlobalAEBC->mNonCpuKartByRank[((g_GlobalAEBC->mNonCpuRank)) - (0x1u)];
 }
 
 KartAiParamRow *GetKartAiParamRow(void) {
-    return gKartAiParamRow;
+    return g_KartAIParamPtr;
 }
 
 s32 GetKartIndexAtRank(u32 rank) {
-    return gKartAiShared->mKartAtRank[(rank) - (0x1u)];
+    return g_GlobalAEBC->mKartAtRank[(rank) - (0x1u)];
 }
 
 u32 GetKartAiTableIndex(u32 kartIndex) {
-    return (gKartAiShared->mTableIndex[kartIndex]);
+    return (g_GlobalAEBC->mTableIndex[kartIndex]);
 }
 
 u32 GetKartAiEngineOrDifficultyIndex(void) {
-    return (gKartAiShared->mEngineOrDifficultyIndex);
+    return (g_GlobalAEBC->mEngineOrDifficultyIndex);
 }
 
 // Race progress times CourseMap.mUnk_108 as a 1.12 fixed-point product, rounded.
 s32 GetKartRaceProgressScaled(u16 kartIndex) {
     s32 checkpointSumQuotient;
     s32 raceProgress;
-    checkpointSumQuotient = gCourseMap->mCheckpointSumQuotient;
-    raceProgress = GetKartRaceProgress(kartIndex);
+    checkpointSumQuotient = g_GlobalPE->mCheckpointSumQuotient;
+    raceProgress = GetSomeRacerValue(kartIndex);
     return MUL_FIXED12_ROUNDED(raceProgress, checkpointSumQuotient);
 }
 
 BOOL IsOneKartNotHumanOrPeer(void) {
-    return (gKartAiShared->mOneKartNotHumanOrPeer);
+    return (g_GlobalAEBC->mOneKartNotHumanOrPeer);
 }
 
 RandomState64 *GetKartAiRandom(void) {
-    return gKartAiShared->mRandom;
+    return g_GlobalAEBC->mRandom;
 }

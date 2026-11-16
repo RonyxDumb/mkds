@@ -30,7 +30,7 @@ typedef enum KeyboardLayoutId {
 #define KEYBOARD_KEY_ID_CONVERT_SECOND 7
 #define KEYBOARD_KEY_ID_CONVERT_THIRD 8
 #define KEYBOARD_KEY_ID_CYCLE 0xffff
-// Rect ids above this are not keys; SetKeyboardRect gives the rect KEYBOARD_RECT_ID_PLAIN.
+// Rect ids above this are not keys; Struct78Sub_Create_from_thumb gives the rect KEYBOARD_RECT_ID_PLAIN.
 #define KEYBOARD_KEY_ID_LAST_KEY 0xff
 #define KEYBOARD_RECT_ID_PLAIN 0xff00
 
@@ -69,7 +69,7 @@ void SetKeyboardButton0Rect(u32 left, u32 top, u32 right, u32 bottom);
 
 typedef struct KeyboardRect KeyboardRect;
 
-void SetKeyboardRect(KeyboardRect *rect, u32 left, u32 top, u32 right, u32 bottom);
+void Struct78Sub_Create_from_thumb(KeyboardRect *rect, u32 left, u32 top, u32 right, u32 bottom);
 
 void SetupKeyboardLayoutOther3(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount);
 void SetupKeyboardLayoutOther2(KeyboardRect *rects, struct Ncgr *ncgr, u32 rectCount);
@@ -129,7 +129,7 @@ void SetupKeyboardKeyRepeat(u16 keyMask);
 BOOL IsRepeatCounterFiring(RepeatCounter *repeatCounter);
 void ResetRepeatCounter(RepeatCounter *repeatCounter);
 void AdvanceKeyboardTextEntry(void);
-void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapacity);
+void CreateGlobal78_from_thumb(s32 screenMapWidth, s32 screenMapHeight, s32 textCapacity);
 u16 KeyboardCursorCallback(s32 rectValue, u16 keys);
 s32 KeyboardKeyCallback(u32 keyValue, s32 newPress);
 s32 GetKeyboardLastCharIndex(void);

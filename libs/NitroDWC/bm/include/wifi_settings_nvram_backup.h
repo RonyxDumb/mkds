@@ -25,16 +25,16 @@ extern u16 nv_result;
 extern u8 Work[32];
 extern u32 nv_cb_occurred;
 
-u8 *DWCi_BACKUPlConvWifiInfo(const DWCWiFiInfo *info);
-u16 Callback_NVRAM(u32 tag, u32 data, u32 err);
+u8 *StructDW_SomeFn_2_from_thumb(const DWCWiFiInfo *info);
+u16 FifoHandler_4_from_thumb(u32 tag, u32 data, u32 err);
 BOOL writeDisable(void);
-BOOL verify(const u8 *src, u32 address, u32 size, const u8 *work);
+BOOL StructDC_SomeFn_5_from_thumb(const u8 *src, u32 address, u32 size, const u8 *work);
 void writeNvram(u32 address, u16 size, void *data);
 BOOL readNvram(u32 address, u32 size, void *buf);
 BOOL NVRAMm_ExecuteCommand(u32 state, u32 addr, u16 size, u8 *srcp);
 BOOL DWC_BACKUPlCheckAddress(const u8 *address);
 BOOL DWC_BACKUPlCheckIp(const u8 *ip, const u8 *mask);
-BOOL DWC_BACKUPlCheckSsid(const u8 *ssid);
+BOOL StructDCInner_HasAnyUnk_from_thumb(const u8 *ssid);
 void DWCi_BACKUPlConvMaskAddr(u32 mask, u8 *buf);
 u8 DWCi_BACKUPlConvMaskCidr(const u8 *mask);
 
@@ -42,10 +42,10 @@ void WritePackedWiFiInfo(const u8 *packedWiFiInfo);
 
 typedef struct DWCWiFiInfo DWCWiFiInfo;
 
-void DWCi_BM_GetWiFiInfo(DWCWiFiInfo *info);
-BOOL DWCi_BM_SetWiFiInfo(const DWCWiFiInfo *info, u8 *work);
+void StructDW_MaybeCreate_from_thumb(DWCWiFiInfo *info);
+BOOL StructDW_SomeFn_0_from_thumb(const DWCWiFiInfo *info, u8 *work);
 
-u32 WriteNvramEntriesWithCrc16(u8 *data);
+u32 StructDC_SomeFn_0_from_thumb(u8 *data);
 u32 WriteFlaggedNvramEntries(void *data, int *flags, void *verifyBuffer);
-u32 ReadNvramEntries(void *buffer);
-u32 ReadNvramEntriesOffset(u16 *buffer);
+u32 StructDC_SomeFn_1_from_thumb(void *buffer);
+u32 StructDC_SomeFn_3_from_thumb(u16 *buffer);

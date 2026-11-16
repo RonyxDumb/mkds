@@ -42,7 +42,7 @@ u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
     if (gNetcheck == NULL) {
         return 4;
     }
-    MI_CpuFill8(gNetcheck, 0, 0x1200);
+    Mem_CpuFill8(gNetcheck, 0, 0x1200);
     gNetcheck->mReturnCode = -99999;
     gNetcheck->mParam = *param;
     if (gHttp != NULL) {
@@ -52,7 +52,7 @@ u32 DWC_Netcheck_Create(DWCNetcheckParam *param) {
     if (gHttp == NULL) {
         return 4;
     }
-    OS_InitMutex(&gNetcheck->mMutex);
+    Os_Mutex_Initialize(&gNetcheck->mMutex);
     DWCi_Netcheck_StartThread();
     return 0;
 }
@@ -79,10 +79,10 @@ void DWC_Netcheck_Destroy(void) {
 }
 
 void DWCi_Netcheck_StartThread(void) {
-    if (gNetcheck->mThread.mId == 0 || OS_IsThreadTerminated(&gNetcheck->mThread) != 0) {
-        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck,
+    if (gNetcheck->mThread.mId == 0 || Os_Thread_IsTerminated(&gNetcheck->mThread) != 0) {
+        Os_Thread_Create(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck,
                         gNetcheck->mThreadStack, 0x1000, 0x10);
-        OS_WakeupThreadDirect(&gNetcheck->mThread);
+        Os_Thread_WakeUpDirect(&gNetcheck->mThread);
     }
 }
 
@@ -93,7 +93,7 @@ void DWC_Netcheck_Abort(void) {
         }
         DWC_Auth_Abort();
         if (gNetcheck->mThread.mId != 0) {
-            OS_JoinThread(&gNetcheck->mThread);
+            Os_Thread_Join(&gNetcheck->mThread);
         }
         gNetcheck->mReturnCode = 0xfffffff9;
     }
@@ -144,7 +144,7 @@ void DWCi_Netcheck_Thread(void) {
         }
         DWC_Http_StartThread(gHttp);
         if (gHttp->mThread.mId != 0) {
-            OS_JoinThread(&gHttp->mThread);
+            Os_Thread_Join(&gHttp->mThread);
         }
         http = gHttp;
         switch (http->mResult) {
@@ -198,11 +198,11 @@ void DWCi_Netcheck_Thread(void) {
                         DWCi_Netcheck_SetError(8);
                         break;
                     }
-                    interruptState = OS_DisableInterrupts();
-                    MI_CpuFill8(ssidText, 0, 0x21);
+                    interruptState = Os_DisableIrq();
+                    Mem_CpuFill8(ssidText, 0, 0x21);
                     WCM_GetApEssid(&ssidLength);
-                    MI_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
-                    OS_RestoreInterrupts(interruptState);
+                    Mem_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
+                    Os_RestoreIrq(interruptState);
                     if (DWC_Http_Add_PostBase64Item(gHttp, "ssid", ssidText, strlen(ssidText)) != FALSE) {
                         ReleaseHttp(gHttp);
                         DWCi_Netcheck_SetError(8);
@@ -224,7 +224,7 @@ void DWCi_Netcheck_Thread(void) {
                     }
                     DWC_Http_StartThread(gHttp);
                     if (gHttp->mThread.mId != 0) {
-                        OS_JoinThread(&gHttp->mThread);
+                        Os_Thread_Join(&gHttp->mThread);
                     }
                     http = gHttp;
                     switch (http->mResult) {
@@ -253,7 +253,7 @@ void DWCi_Netcheck_Thread(void) {
                     DWCi_Netcheck_SetError(4);
                     break;
                 }
-                strncpy(copyDest, bodyText, strlen(bodyText));
+                SomeStrncpy_0(copyDest, bodyText, strlen(bodyText));
             } else {
                 ReleaseHttp(gHttp);
                 DWCi_Netcheck_SetError(10);
@@ -261,7 +261,7 @@ void DWCi_Netcheck_Thread(void) {
             }
         }
         ReleaseHttp(gHttp);
-        DWCi_BM_GetWiFiInfo(&wiFiInfo);
+        StructDW_MaybeCreate_from_thumb(&wiFiInfo);
         if (wiFiInfo.mAttestedUserId == 0) {
             gNetcheck->mReturnCode = -3;
             gAuthParam.mIngamesn[0] = 0;
@@ -316,11 +316,11 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(8);
             break;
         }
-        interruptState = OS_DisableInterrupts();
-        MI_CpuFill8(ssidText, 0, 0x21);
+        interruptState = Os_DisableIrq();
+        Mem_CpuFill8(ssidText, 0, 0x21);
         WCM_GetApEssid(&ssidLength);
-        MI_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
-        OS_RestoreInterrupts(interruptState);
+        Mem_CpuCopy8(WCM_GetApEssid(NULL), ssidText, ssidLength);
+        Os_RestoreIrq(interruptState);
         if (DWC_Http_Add_PostBase64Item(gHttp, "ssid", ssidText, strlen(ssidText)) != FALSE) {
             ReleaseHttp(gHttp);
             DWCi_Netcheck_SetError(8);
@@ -342,7 +342,7 @@ void DWCi_Netcheck_Thread(void) {
         }
         DWC_Http_StartThread(gHttp);
         if (gHttp->mThread.mId != 0) {
-            OS_JoinThread(&gHttp->mThread);
+            Os_Thread_Join(&gHttp->mThread);
         }
         http = gHttp;
         switch (http->mResult) {
@@ -483,7 +483,7 @@ void DWCi_Netcheck_Thread(void) {
         }
         DWC_Http_StartThread(gHttp);
         if (gHttp->mThread.mId != 0) {
-            OS_JoinThread(&gHttp->mThread);
+            Os_Thread_Join(&gHttp->mThread);
         }
         http = gHttp;
         switch (http->mResult) {
@@ -514,9 +514,9 @@ void DWCi_Netcheck_Thread(void) {
             DWCi_Netcheck_SetError(4);
             break;
         }
-        strncpy(copyDest, bodyText, strlen(bodyText));
+        SomeStrncpy_0(copyDest, bodyText, strlen(bodyText));
         ReleaseHttp(gHttp);
-        OS_Sleep(waitMillis);
+        Os_Sleep(waitMillis);
     }
 end:
     if (urlText != NULL) {
@@ -548,16 +548,16 @@ void UnusedAllocLiterals(void) {
 
 u32 DWC_Netcheck_GetError(void) {
     u32 error;
-    OS_LockMutex(&gNetcheck->mMutex);
+    Os_Mutex_Lock(&gNetcheck->mMutex);
     error = gNetcheck->mError;
-    OS_UnlockMutex(&gNetcheck->mMutex);
+    Os_Mutex_Unlock(&gNetcheck->mMutex);
     return error;
 }
 
 void DWCi_Netcheck_SetError(u32 error) {
-    OS_LockMutex(&gNetcheck->mMutex);
+    Os_Mutex_Lock(&gNetcheck->mMutex);
     gNetcheck->mError = error;
-    OS_UnlockMutex(&gNetcheck->mMutex);
+    Os_Mutex_Unlock(&gNetcheck->mMutex);
 }
 
 u32 DWC_Netcheck_GetReturnCode(void) {

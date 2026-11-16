@@ -53,7 +53,7 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
     BOOL battleKind;
 
     if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
-        GetRaceSetupCopy()->mMode = MODE_BATTLE;
+        GetGlobalCA_from_thumb()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 0:
                 battleKind = FALSE;
@@ -62,11 +62,11 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
                 battleKind = TRUE;
                 break;
         }
-        GetRaceSetupCopy()->mBattleKind = battleKind;
+        GetGlobalCA_from_thumb()->mBattleKind = battleKind;
     } else if (gSelectGame->mSelectedIndex == 0) {
-        GetRaceSetupCopy()->mMode = MODE_VS;
+        GetGlobalCA_from_thumb()->mMode = MODE_VS;
     } else {
-        GetRaceSetupCopy()->mMode = MODE_BATTLE;
+        GetGlobalCA_from_thumb()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 1:
                 battleKind = FALSE;
@@ -75,11 +75,11 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
                 battleKind = TRUE;
                 break;
         }
-        GetRaceSetupCopy()->mBattleKind = battleKind;
+        GetGlobalCA_from_thumb()->mBattleKind = battleKind;
     }
     gSelectGame->mResult = 1;
     gSelectGame->mState = SELECT_GAME_STATE_WAIT_PRESS;
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
 }
 
 void SetSelectGameRowCellsVisible(s32 visible) {
@@ -167,8 +167,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     const LabelMessageRow *canvasRow;
     const LabelMessageRow *printRow;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectGame = HeapAlloc(heap, sizeof(SelectGame));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectGame = Mem_AllocateHeap(heap, sizeof(SelectGame));
     MemFillWordsByBlock_inline(gSelectGame, 0x6c);
     gSelectGame->mHeap = heap;
     gSelectGame->mMode = mode;
@@ -177,7 +177,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectGame->mSubOffsetX = SELECT_GAME_SUB_OFFSCREEN_X;
     gSelectGame->mMainOffsetY = -0xc0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        gSelectGame->mMenuMessages = FindSceneFile("menu.bmg");
+        gSelectGame->mMenuMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("menu.bmg");
     }
     switch (gSelectGame->mMode) {
         case SELECT_GAME_MODE_NO_CONNECTION:
@@ -195,14 +195,14 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "common/select_game_m_b.NCGR",
                                        "common/select_game_m_b.NCLR",
-                                       gSelectGameFileNames[gSelectGame->mMode].mScreenMapName, 1, FindSceneFile);
+                                       gSelectGameFileNames[gSelectGame->mMode].mScreenMapName, 1, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         mainObjSizeLeft = GX_GetSizeOfOBJ();
         selectGame = gSelectGame;
         LocateCellFileSet(selectGame, "common/select_game_m.nce.ncgr", "common/select_game_m.nce.ncer",
                           "common/select_game_m_o.NCLR", "common/select_game_m.bncl", "common/select_game_m.bnll", NULL,
-                          FindSceneFile);
+                          FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
         SetupCellFileSet(SCREEN_SIDE_MAIN, gSelectGame->mHeap, selectGame->mCellFileSets);
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mCount;
         mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mCount;
@@ -214,7 +214,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
                 mainObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_MAIN, gSelectGame->mHeap, selectGame->mCellFileSets,
                                                     canvasRow, mainObjSizeLeft);
                 PrintLabelLayoutTextNoFixedAdvance(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
-                                                   GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
+                                                   Bmg_GetRawStringPointer_from_thumb(gSelectGame->mMenuMessages, printRow->mMessageIndex),
                                                    selectGame->mCellFileSets[0].mCellLayout,
                                                    selectGame->mCellFileSets[0].mCellTable);
                 canvasRow++;
@@ -237,7 +237,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     subFileSet = &gSelectGame->mCellFileSets[1];
     LocateCellFileSet(subFileSet, "common/select_game_s.nce.ncgr", "common/select_game_s.nce.ncer",
                       "common/select_game_s_o.NCLR", gSelectGameFileNames[gSelectGame->mMode].mCellLayoutName, NULL,
-                      gSelectGameFileNames[gSelectGame->mMode].mRectsName, FindSceneFile);
+                      gSelectGameFileNames[gSelectGame->mMode].mRectsName, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     SetupCellFileSet(SCREEN_SIDE_SUB, gSelectGame->mHeap, subFileSet);
     SetSelectGameSubCellsVisible(0);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -250,7 +250,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
     }
-    gMenuShared->mMenuEntryKind = 0;
+    g_GlobalB488->mMenuEntryKind = 0;
     FrmHeapShrinkInParent(gSelectGame->mHeap);
 }
 
@@ -282,10 +282,10 @@ s32 AdvanceSelectGame(void) {
             gSelectGame->mStateFrames = gSelectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < SELECT_GAME_SLIDE_STEPS) {
                 gSelectGame->mSubOffsetX =
-                    InterpolateS16(1, SELECT_GAME_SUB_OFFSCREEN_X, value, gSelectGame->mStateFrames,
+                    ComputeValueInterpolation_from_thumb(1, SELECT_GAME_SUB_OFFSCREEN_X, value, gSelectGame->mStateFrames,
                                    SELECT_GAME_SLIDE_STEPS);
                 gSelectGame->mMainOffsetY =
-                    InterpolateS16(1, -0xc0, value, gSelectGame->mStateFrames, SELECT_GAME_SLIDE_STEPS);
+                    ComputeValueInterpolation_from_thumb(1, -0xc0, value, gSelectGame->mStateFrames, SELECT_GAME_SLIDE_STEPS);
             } else {
                 gSelectGame->mStateFrames = value;
                 gSelectGame->mSubOffsetX = value;
@@ -300,20 +300,20 @@ s32 AdvanceSelectGame(void) {
             touchInReturnRect = 0;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-            if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+            hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+            if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            if (pairRecentlyGone == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                touchValue = gInputSlots[slotIndex].mPair.mPairX;
-                pairY = gInputSlots[slotIndex].mPair.mPairY;
+                touchValue = g_GlobalCYT[slotIndex].mPair.mPairX;
+                pairY = g_GlobalCYT[slotIndex].mPair.mPairY;
                 touchInReturnRect = IsSelectReturnShownNoRequestAndInRect(touchValue, pairY);
                 touchValue = RectTableFindContaining(subFileSet->mRects, touchValue, pairY);
             }
-            if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
+            if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
                 SetSelectGameSelectedRowVisible(0);
                 WriteSelectGameRowToRaceSetupCopy();
             } else if (touchValue >= 0) {
@@ -325,7 +325,7 @@ s32 AdvanceSelectGame(void) {
                         break;
                     }
                 }
-            } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+            } else if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (gSelectGame->mMode == SELECT_GAME_MODE_NO_CONNECTION) {
                     gSelectGame->mResult = MENU_SCREEN_RESULT_BACK;
                     gSelectGame->mState = SELECT_GAME_STATE_SLIDE_OUT;
@@ -333,8 +333,8 @@ s32 AdvanceSelectGame(void) {
                     firstChoiceText = " ";
                     secondChoiceText = " ";
                     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-                        firstChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x14);
-                        secondChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x16);
+                        firstChoiceText = Bmg_GetRawStringPointer_from_thumb(gSelectGame->mMenuMessages, 0x14);
+                        secondChoiceText = Bmg_GetRawStringPointer_from_thumb(gSelectGame->mMenuMessages, 0x16);
                     }
                     StartSelectChoises(firstChoiceText, secondChoiceText, 0);
                     gSelectGame->mState = SELECT_GAME_STATE_ASK_LEAVE;
@@ -360,7 +360,7 @@ s32 AdvanceSelectGame(void) {
             }
             if (touchValue < 0 && previousSelectedIndex != gSelectGame->mSelectedIndex) {
                 SetSelectGameSelectedRowVisible(1);
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
             }
             break;
         case SELECT_GAME_STATE_ASK_LEAVE:
@@ -368,7 +368,7 @@ s32 AdvanceSelectGame(void) {
                 if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~value) {
                     gSelectGame->mState = SELECT_GAME_STATE_CHOOSE_ROW;
                 } else {
-                    gConnectionWork->mFlags |= CONNECTION_FLAG_ENDING;
+                    g_GlobalZE->mFlags |= CONNECTION_FLAG_ENDING;
                     gSelectGame->mResult = MENU_SCREEN_RESULT_LEAVE;
                     gSelectGame->mState = SELECT_GAME_STATE_WAIT_CONNECTION_END;
                 }
@@ -407,10 +407,10 @@ s32 AdvanceSelectGame(void) {
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < SELECT_GAME_SLIDE_STEPS) {
                 gSelectGame->mSubOffsetX =
-                    InterpolateS16(1, value, SELECT_GAME_SUB_OFFSCREEN_X, gSelectGame->mStateFrames,
+                    ComputeValueInterpolation_from_thumb(1, value, SELECT_GAME_SUB_OFFSCREEN_X, gSelectGame->mStateFrames,
                                    SELECT_GAME_SLIDE_STEPS);
                 gSelectGame->mMainOffsetY =
-                    InterpolateS16(1, value, -0xc0, gSelectGame->mStateFrames, SELECT_GAME_SLIDE_STEPS);
+                    ComputeValueInterpolation_from_thumb(1, value, -0xc0, gSelectGame->mStateFrames, SELECT_GAME_SLIDE_STEPS);
             } else {
                 gSelectGame->mSubOffsetX = value;
                 gSelectGame->mMainOffsetY = value;
@@ -437,11 +437,11 @@ s32 AdvanceSelectGame(void) {
 void ReleaseSelectGame(void) {
     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
         RequestPlayerEntryListSetup();
-        if (gStartupWork->mMultiSimple != 0) {
+        if (g_GlobalP->mMultiSimple != 0) {
             FillShuffledIndices();
         }
     }
-    HeapDestroy(gSelectGame->mHeap);
+    Mem_DestroyHeap(gSelectGame->mHeap);
     gSelectGame = NULL;
 }
 
@@ -477,24 +477,24 @@ void WriteSelectGameMainRegisters(void) {
     }
 }
 
-void LoadSelectGameData(void) {
+void VerifyCommonSelectGameFiles_from_thumb(void) {
     Ncgr *chars;
     Nclr *palette;
     NNSG2dCellDataBank *cells;
     Nscr *screenMap;
 
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        LoadNcgrData(&chars, FindSceneFile("common/select_game_m_b.NCGR"));
-        LoadNcgrData2(&chars, FindSceneFile("common/select_game_m.nce.ncgr"));
-        LoadNcerData(&cells, FindSceneFile("common/select_game_m.nce.ncer"));
-        LoadNclrData(&palette, FindSceneFile("common/select_game_m_b.NCLR"));
-        LoadNclrData(&palette, FindSceneFile("common/select_game_m_o.NCLR"));
-        LoadNscrData(&screenMap, FindSceneFile("common/select_game_m_multi.NSCR"));
-        LoadNscrData(&screenMap, FindSceneFile("common/select_game_m_single.NSCR"));
+        Gfx_ReadCharGraphicsV2(&chars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m_b.NCGR"));
+        Gfx_ReadCharGraphics(&chars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m.nce.ncgr"));
+        LoadCellBankFrom(&cells, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m.nce.ncer"));
+        Gfx_ReadPalette(&palette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m_b.NCLR"));
+        Gfx_ReadPalette(&palette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m_o.NCLR"));
+        MaybeReadScreenBlock_0(&screenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m_multi.NSCR"));
+        MaybeReadScreenBlock_0(&screenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_m_single.NSCR"));
     }
-    LoadNcgrData2(&chars, FindSceneFile("common/select_game_s.nce.ncgr"));
-    LoadNcerData(&cells, FindSceneFile("common/select_game_s.nce.ncer"));
-    LoadNclrData(&palette, FindSceneFile("common/select_game_s_o.NCLR"));
+    Gfx_ReadCharGraphics(&chars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_s.nce.ncgr"));
+    LoadCellBankFrom(&cells, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_s.nce.ncer"));
+    Gfx_ReadPalette(&palette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("common/select_game_s_o.NCLR"));
 }
 
 #pragma thumb off

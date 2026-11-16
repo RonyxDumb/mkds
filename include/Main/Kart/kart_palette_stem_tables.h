@@ -7,13 +7,13 @@ struct Vec4;
 
 extern const struct Vec4 gQuaternionIdentity;
 
-extern const u16 gKartPaletteColors[8];
+extern const u16 g_DefaultRacerIndicatorColors[8];
 
-extern const char gKartEmblemTextureName[16];
+extern const char g_str_kart_emblem[16];
 
-extern const u16 gTeamPaletteColors[];
+extern const u16 g_TeamRacerIndicatorColors[];
 
-extern const u16 gRegionPaletteColors[];
+extern const u16 g_NetRacerIndicatorColors[];
 
 struct ParticleEmitter;
 

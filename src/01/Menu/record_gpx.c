@@ -112,7 +112,7 @@ void InitRecordGpx(void *heap) {
         (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0x1018;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x5810;
-    gRecordGpx = HeapAlloc(heap, sizeof(RecordGpx));
+    gRecordGpx = Mem_AllocateHeap(heap, sizeof(RecordGpx));
     gRecordGpx->mHeap = heap;
     gRecordGpx->mState = RECORD_GPX_STATE_BG_SLIDE_IN;
     gRecordGpx->mIndex = 0;
@@ -126,10 +126,10 @@ void InitRecordGpx(void *heap) {
     CreateKartIcon(heap);
     CreateCupMark(heap);
     recordMainOam = GetRecordMainOam();
-    ResetOamLists(recordMainOam, GetRecordSubOam());
+    OamBuffer_SomeFn_from_thumb(recordMainOam, GetRecordSubOam());
     InitLayoutTable(heap, gRecordGpx->mRecordGpxMBncl, gRecordGpx->mRecordGpxMBnll, &gRecordGpx->mRecordGpxMTable);
     InitLayoutTable(heap, gRecordGpx->mRecordGpxSBncl, gRecordGpx->mRecordGpxSBnll, &gRecordGpx->mRecordGpxSTable);
-    gRecordGpx->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gRecordGpx->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     InitLabelCanvas(heap, 0, gRecordGpx->mRecordGpxMBnll, 200, 16, 0, gRecordGpx->mRecordGpxMNcer,
                     gRecordGpx->mRecordGpxMBncl, gRecordGpx->mRecordGpxMTable, 0x8000);
     remainingSize = GX_GetSizeOfSubOBJ();
@@ -154,9 +154,9 @@ void InitRecordGpx(void *heap) {
     if (anyFlagSet == 0) {
         gRecordGpx->mBg3OffsetY = RECORD_GPX_NO_CUP_BG3_OFFSET_Y;
     }
-    gRecordGpx->mZeroBuffer = HeapAlloc(heap, RECORD_GPX_MAP_STRIP_BYTES);
+    gRecordGpx->mZeroBuffer = Mem_AllocateHeap(heap, RECORD_GPX_MAP_STRIP_BYTES);
     zero = 0;
-    MIi_CpuClear16(zero, gRecordGpx->mZeroBuffer, RECORD_GPX_MAP_STRIP_BYTES);
+    Mem_CpuFill16(zero, gRecordGpx->mZeroBuffer, RECORD_GPX_MAP_STRIP_BYTES);
     ResetRecordGpx();
 }
 
@@ -177,7 +177,7 @@ void ReleaseRecordGpx(void) {
 void AdvanceRecordGpxBgSlideIn(void) {
     gRecordGpx->mStateFrames++;
     gRecordGpx->mBg0Offset =
-        InterpolateS16(1, -RECORD_GPX_BG0_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, -RECORD_GPX_BG0_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordGpxCellsSlideInAndSetup();
     }
@@ -192,7 +192,7 @@ void AdvanceRecordGpxCellsSlideIn(void) {
 
     AdvanceRecordGpxOffsetTimers();
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, RECORD_GPX_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, RECORD_GPX_SLIDE_DISTANCE, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -232,30 +232,30 @@ void AdvanceRecordGpxSelect(void) {
     AdvanceRecordGpxOffsetTimers();
     touchActive = TRUE;
     recentlyLost = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mHasPair == 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mHasPair == 0) {
         touchActive = FALSE;
     }
     if (touchActive != FALSE) {
-        touchedRect = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                              gInputSlots[slotIndex].mPair.mPairY);
+        touchedRect = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                              g_GlobalCYT[slotIndex].mPair.mPairY);
     }
     touchBegan = FALSE;
     lostBeforeBegan = FALSE;
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         lostBeforeBegan = TRUE;
     }
-    if (lostBeforeBegan == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+    if (lostBeforeBegan == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchBeganRect = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                                 gInputSlots[slotIndex].mPair.mPairY);
+        touchBeganRect = RectTableFindContaining(gRecordGpx->mRecordGpxSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                 g_GlobalCYT[slotIndex].mPair.mPairY);
     }
     if (touchedRect != 0) {
         gRecordGpx->mLeftRepeat = FALSE;
@@ -263,20 +263,20 @@ void AdvanceRecordGpxSelect(void) {
     if (touchedRect != 1) {
         gRecordGpx->mRightRepeat = FALSE;
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         confirmTouchBegan = FALSE;
         lostBeforeConfirm = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             lostBeforeConfirm = TRUE;
         }
-        if (lostBeforeConfirm == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (lostBeforeConfirm == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             confirmTouchBegan = TRUE;
         }
         if (confirmTouchBegan == FALSE ||
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -287,22 +287,22 @@ void AdvanceRecordGpxSelect(void) {
 next:
     if ((touchedRect == 0 && gRecordGpx->mLeftRepeat != FALSE) ||
         (touchBeganRect == 0 && gRecordGpx->mLeftRepeat == FALSE) ||
-        (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (g_GlobalCYT[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordGpx->mOffsetTimers[0] = RECORD_GPX_OFFSET_TIMER_FRAMES;
         gRecordGpx->mLeftRepeat = TRUE;
         RequestRecordGpxPageSlideOut();
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
         return;
     }
     if ((touchedRect == 1 && gRecordGpx->mRightRepeat != FALSE) ||
         (touchBeganRect == 1 && gRecordGpx->mRightRepeat == FALSE) ||
-        (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (g_GlobalCYT[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordGpx->mOffsetTimers[1] = RECORD_GPX_OFFSET_TIMER_FRAMES;
         gRecordGpx->mRightRepeat = TRUE;
         RequestRecordGpxPageSlideOut();
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 2);
     }
 }
 
@@ -324,7 +324,7 @@ void AdvanceRecordGpxPageSlideOut(void) {
             break;
     }
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, targetOffsetX, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -371,7 +371,7 @@ void AdvanceRecordGpxPageSlideIn(void) {
             break;
     }
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, startOffsetX, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, startOffsetX, 0, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -408,7 +408,7 @@ void AdvanceRecordGpxCellsSlideOut(void) {
     s32 subLayoutCount;
 
     gRecordGpx->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, RECORD_GPX_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, RECORD_GPX_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     gRecordGpx->mBg3OffsetX = offsetX;
     mainLayoutCount = gRecordGpx->mRecordGpxMBncl->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSBncl->mCount;
@@ -442,7 +442,7 @@ void AdvanceRecordGpxCellsSlideOut(void) {
 void AdvanceRecordGpxBgSlideOut(void) {
     gRecordGpx->mStateFrames++;
     gRecordGpx->mBg0Offset =
-        InterpolateS16(1, 0, -RECORD_GPX_BG0_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
+        ComputeValueInterpolation_from_thumb(1, 0, -RECORD_GPX_BG0_SLIDE_DISTANCE, gRecordGpx->mStateFrames, RECORD_GPX_SLIDE_FRAMES);
     if (gRecordGpx->mStateFrames >= RECORD_GPX_SLIDE_FRAMES) {
         RequestRecordScreen(gRecordGpx->mNextScreen);
     }

@@ -10,8 +10,8 @@ const s32 gKartAiGapLimitsKartCount7[7] = {0, 0x19a, 0x2b8, 0x400, 0x666, 0x8cd,
 const s32 gKartAiGapLimitsKartCount8[8] = {0, 0x19a, 0x2b8, 0x400, 0x59a, 0x800, 0xa66, 0xccd};
 u16 gKartAiRankOffset = 3;
 const s32 *gKartAiEndedGapLimits = gKartAiGapLimitsKartCount8;
-u16 gKartAiRaceStartBoostNormalChoices[3] = {2, 3, 4};
-u16 gKartAiRaceStartBoostEasyChoices[3] = {1, 2, 3};
+u16 g_CpuMode2SomeArray[3] = {2, 3, 4};
+u16 g_CpuMode1SomeArray[3] = {1, 2, 3};
 u16 gKartAiRaceStartBoostHardChoices[3] = {3, 4, 5};
 const s32 *gKartAiGapLimitTables[9] = {NULL,
                                        gKartAiGapLimitsKartCount1,

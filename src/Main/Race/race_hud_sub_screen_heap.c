@@ -1,9 +1,9 @@
 #include "Main/Race/race_hud_sub_screen_heap.h"
 #include "Main/System/heap_call.h"
 
-void *RaceHudSubScreenGetCurrentHeap(void) {
+void *GetActiveExecutionContextHeapHandle_2(void) {
     void *heap;
-    heap = GetCurrentHeapCall();
-    heap = GetHeap(heap);
+    heap = GetActiveExecutionContext();
+    heap = ExecutionContext_GetHeapHandle(heap);
     return heap;
 }

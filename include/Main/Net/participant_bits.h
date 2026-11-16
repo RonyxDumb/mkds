@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void ClearParticipantBits(void);
+void CleanSaveDataHolderFlagBytes_from_thumb(void);
 void CombineParticipantBits(void);

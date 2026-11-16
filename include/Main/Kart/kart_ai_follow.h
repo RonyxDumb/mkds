@@ -17,7 +17,7 @@ void AdvanceKartAiDrift(KartAi *kartAi);
 void PickKartAiDriftAtLink(KartAi *kartAi);
 void PickKartAiTargetKart(KartAi *kartAi);
 s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex);
-BOOL IsKartTargetable(s32 kartIndex);
+BOOL GetSomeMQRacerAnotherFlags(s32 kartIndex);
 void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart);
 void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart);
 void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart, RacePointLink *requestedLink,

@@ -11,11 +11,11 @@ u32 InitMapObjectUpdateList(MapObjectList *list) {
     u32 valueB;
     u32 listPointer;
     listPointer = (valueA) + (0u);
-    valueA = (u32) GetCurrentHeapCall();
-    valueA = (u32) GetHeap((void *) valueA);
+    valueA = (u32) GetActiveExecutionContext();
+    valueA = (u32) ExecutionContext_GetHeapHandle((void *) valueA);
     valueB = *(const u16 *) ((listPointer) + 4u);
     valueB = (valueB << 2);
-    valueA = (u32) HeapAlloc((void *) valueA, valueB);
+    valueA = (u32) Mem_AllocateHeap((void *) valueA, valueB);
     *(u32 *) ((listPointer) + 0u) = valueA;
     valueB = 0u;
     *(u16 *) ((listPointer) + 4u) = valueB;

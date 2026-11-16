@@ -9,7 +9,7 @@
 #include "Main/Menu/title_input.h"
 #include "Main/Menu/title_table_draw.h"
 
-TitleStateHandlers gTitleStateHandlers[7] = {
+TitleStateHandlers g_HUFunctionList[7] = {
     {TitleBlendInNop, (void (*)(s32)) UpdateTitleBlendIn},
     {(void (*)(void)) TitleSlideInReturnArgumentWrapper, (void (*)(s32)) UpdateTitleSlideIn},
     {(void (*)(void)) TitleMenuInputReturnArgumentWrapper, (void (*)(s32)) UpdateTitleMenuInput},

@@ -11,7 +11,7 @@ void CPSi_big_mult(u16 *result, const u16 *first, const u16 *second, s32 digitCo
     const u16 *firstCursor;
     const u16 *secondCursor;
 
-    MI_CpuFill8(result, 0, digitCount * 2);
+    Mem_CpuFill8(result, 0, digitCount * 2);
     firstDigits = count_digits(first, digitCount);
     secondDigits = count_digits(second, digitCount);
     secondCursor = second;

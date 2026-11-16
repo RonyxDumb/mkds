@@ -76,7 +76,7 @@ typedef struct SelectGameFileNames {
 } SelectGameFileNames;
 
 void WriteSelectGameMainRegisters(void);
-void LoadSelectGameData(void);
+void VerifyCommonSelectGameFiles_from_thumb(void);
 void ReleaseSelectGame(void);
 s32 AdvanceSelectGame(void);
 void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam);

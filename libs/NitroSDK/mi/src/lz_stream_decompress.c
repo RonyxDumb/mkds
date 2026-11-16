@@ -1,7 +1,7 @@
 #include "lz_stream_decompress.h"
 #include "uncompress_contexts.h"
 
-void MI_InitUncompContextLZ(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header) {
+void LzDecompressContext_Create(MIUncompContextLZ *context, u8 *dest, const MICompressionHeader *header) {
     context->mDestp = dest;
     context->mDestCount = header->mDestSize;
     context->mFlags = 0;
@@ -12,7 +12,7 @@ void MI_InitUncompContextLZ(MIUncompContextLZ *context, u8 *dest, const MICompre
     context->mDestTmpCnt = 0;
 }
 
-asm s32 MI_ReadUncompLZ8(MIUncompContextLZ *context, const u8 *data, u32 len) {
+asm s32 LzDecompressContext_DoCycle(MIUncompContextLZ *context, const u8 *data, u32 len) {
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10}
     ldr r3, [r0, #0x0]
     ldr r4, [r0, #0x4]

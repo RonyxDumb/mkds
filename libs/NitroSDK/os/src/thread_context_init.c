@@ -2,7 +2,7 @@
 
 // clang-format off
 // Kept as asm: the instruction order and register choice are fixed.
-asm void ThreadInitContext(OSThread *thread, void (*entry)(void *), u32 value) {
+asm void Arm_Context_Create(OSThread *thread, void (*entry)(void *), u32 value) {
     add r1, r1, #0x4
     str r1, [r0, #0x40]
     str r2, [r0, #0x44]

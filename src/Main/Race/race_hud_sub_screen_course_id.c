@@ -2,8 +2,8 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 
-s32 RaceHudSubScreenGetCurrentCourseId(void) {
+s32 GetCurrentInternalCourseId_0(void) {
     u32 courseId;
-    courseId = gRaceSetup->mCourseId;
+    courseId = g_GlobalCO->mCourseId;
     return courseId;
 }

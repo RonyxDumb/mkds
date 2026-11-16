@@ -2,10 +2,10 @@
 #include "irq_wait_handler.h"
 
 // Empties the queue of threads waiting for an interrupt.
-void OS_InitIrqTable(void) {
+void Os_InitializeIrqThreadQueue(void) {
     OSThreadQueue *queue;
 
-    queue = &OSi_IrqThreadQueue;
+    queue = &g_DTCM;
     queue->mTail = 0;
     queue->mHead = 0;
 }

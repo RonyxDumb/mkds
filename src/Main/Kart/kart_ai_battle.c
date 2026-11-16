@@ -53,7 +53,7 @@
 
 const Vec3 gBattleKartAiZeroVector = {0, 0, 0};
 const Vec3 gVec3UnitY = {0, 0x1000, 0};
-char gKartModelSlashPrefix[2] = "/";
+char g_str_Slash[2] = "/";
 BattleKartAiParams gBattleKartAiParamsHard = {{0, 0xccd, 0x1000}, {0, 0xccd, 0x1000}, 8, 0};
 BattleKartAiParams gBattleKartAiParamsDefault = {{0, 0x800, 0x1000}, {0x554, 0xaa8, 0x1000}, 0xc, 2};
 BattleKartAiParams gBattleKartAiParamsNormal = {{0, 0x800, 0x1000}, {0, 0x800, 0x1000}, 0xa, 1};
@@ -139,7 +139,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
     raceSpeedLimit->mHeadingSwingAtRaceStart = 0;
     raceSpeedLimit->mBoostsAtRaceStart = 0;
     raceSpeedLimit->mRaceStartBoostChoice = 0;
-    value = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
+    value = g_GlobalCO->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
     if ((u32) value <= 3) {
         if ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
@@ -148,14 +148,14 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
     if (isHumanGhostOrPeer != FALSE) {
         return;
     }
-    if (gRaceSetup->mBattleKind != BATTLE_KIND_SHINE) {
+    if (g_GlobalCO->mBattleKind != BATTLE_KIND_SHINE) {
         return;
     }
     kartAiRandom = GetKartAiRandom();
     kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
     value = (s16) (u16) (kartAiRandom->mValue >> 52);
     boostChanceLimit = 0x333;
-    switch (gRaceSetup->mCpuDifficulty) {
+    switch (g_GlobalCO->mCpuDifficulty) {
         case CPU_DIFFICULTY_NORMAL:
             boostChanceLimit = 0x666;
             break;
@@ -167,7 +167,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
         return;
     }
     raceSpeedLimit->mBoostsAtRaceStart = 1;
-    raceSpeedLimit->mRaceStartBoostChoice = PickKartAiRaceStartBoost(0);
+    raceSpeedLimit->mRaceStartBoostChoice = SomeCpuModeStuff(0);
 }
 
 void SetupBattleKartAiParams(void) {
@@ -175,7 +175,7 @@ void SetupBattleKartAiParams(void) {
 
     gSearchStartIndex = 0;
     gBattleKartAiParams = &gBattleKartAiParamsDefault;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     if (raceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         switch (raceSetup->mCpuDifficulty) {
             case CPU_DIFFICULTY_NORMAL:
@@ -236,7 +236,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     ResetBattlePointLinkCursorNear(&kartAi->mBattleLinkCursor, &kart->mPos, &kart->mRotationRow2, kart->mIndex);
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
-    if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if (g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) {
         kartAiParams = gBattleKartAiParams;
         balloonCountGoal = 0;
         kartAiRandom = GetKartAiRandom();
@@ -267,7 +267,7 @@ void AdvanceBattleKartAi(KartAi *kartAi) {
         AdvanceKartAiContactStages(kartAi);
     }
     AdvanceBattleKartAiAlongPointLinks(kartAi);
-    if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if (g_GlobalCO->mBattleKind == BATTLE_KIND_BALLOON) {
         AdvanceBattleKartAiTargetKart(kartAi);
         return;
     }
@@ -296,7 +296,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
     linkCursor = &kartAi->mBattleLinkCursor;
     kartForward = &kart->mRotationRow2;
     requestedLink = linkCursor->mRequestedLink;
-    GetKartPos(&kartPos, kartAi->mIndex);
+    LoadRacerMQVectorB(&kartPos, kartAi->mIndex);
     if (kart->mDriveFlags &
         (KART_DRIVE_SINKING | KART_DRIVE_RESPAWN_WAIT | KART_DRIVE_RESPAWN_FALL | KART_DRIVE_SLOWING_STOP)) {
         return;
@@ -306,18 +306,18 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
         kartAi->mLinkSpeedLimit = GetBattlePointLinkSpeedLimit(linkCursor);
         AdvanceBattleKartAiSideOffset(kartAi);
         kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
-        VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
+        VecFx32_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
     } else {
         if (kartAi->mIndex == GetRaceUpdateFramesMod8()) {
             headingPos = kartAi->mHeadingPos;
             kartForwardFlat = *kartForward;
-            VEC_Subtract(headingPos, &kart->mPos, &headingOffsetFlat);
+            VecFx32_Subtract(headingPos, &kart->mPos, &headingOffsetFlat);
             kartForwardFlat.y = 0;
             headingOffsetFlat.y = 0;
-            VEC_CrossProduct(&kartForwardFlat, &headingOffsetFlat, &crossProduct);
-            crossLength = VEC_Mag(&crossProduct);
+            VecFx32_CrossProduct(&kartForwardFlat, &headingOffsetFlat, &crossProduct);
+            crossLength = VecFx32_Norm(&crossProduct);
             kartAi->mTurnAngleDegrees =
-                ((s64) FX_Atan2(crossLength, VEC_DotProduct(&kartForwardFlat, &headingOffsetFlat)) * 0x394bb834c8LL +
+                ((s64) FX_Atan2(crossLength, Vector3_DotProduct(&kartForwardFlat, &headingOffsetFlat)) * 0x394bb834c8LL +
                  0x80000000LL) >>
                 32;
         }
@@ -337,7 +337,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
             kartAi->mLinkSpeedLimit = GetBattlePointLinkSpeedLimit(linkCursor);
             AdvanceBattleKartAiSideOffset(kartAi);
             kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mPoint;
-            VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
+            VecFx32_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
             linkCursor->mRequestedLink = NULL;
             linkCursor->mRequestPending = FALSE;
         }
@@ -349,7 +349,7 @@ void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
         return;
     }
     RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
-    VEC_Subtract(kartAi->mHeadingPos, &kartPos, &headingOffset);
+    VecFx32_Subtract(kartAi->mHeadingPos, &kartPos, &headingOffset);
     AdvanceKartAiHeading(kartAi, &headingOffset, kartForward);
 }
 
@@ -362,7 +362,7 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
     s32 newSideOffsetRatio;
     s32 sideOffsetScale;
 
-    VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &kartAi->mSideOffset);
+    VecFx32_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &kartAi->mSideOffset);
     kartAi->mSideOffsetFrames++;
     if (kartAi->mSideOffsetFrames > kartAi->mSideOffsetFrameLimit) {
         kartAi->mSideOffsetFrames = 0;
@@ -375,7 +375,7 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
         centeredRandom = MUL_FIXED12_ROUNDED(randomValue, 0x2000) - 0x1000;
         ratioChange = MUL_FIXED12_ROUNDED(centeredRandom, 0x4ce);
         newSideOffsetRatio = kartAi->mSideOffsetRatio + ratioChange;
-        if (GetAbsoluteValue(newSideOffsetRatio) > 0xb36) {
+        if (AbsValue(newSideOffsetRatio) > 0xb36) {
             if (newSideOffsetRatio > 0) {
                 newSideOffsetRatio = 0xb36;
             } else {
@@ -414,26 +414,26 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     if (kartIndex != GetRaceUpdateFramesMod8()) {
         return;
     }
-    if (gRaceSetup->mCpuDifficulty == CPU_DIFFICULTY_EASY) {
+    if (g_GlobalCO->mCpuDifficulty == CPU_DIFFICULTY_EASY) {
         return;
     }
     if (kartAi->mTargetKart == NULL) {
         kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
         candidateKartIndex = gSearchStartIndex;
-        for (searchIndex = 0; searchIndex < (u32) gRaceSetup->mKartCount; searchIndex++) {
+        for (searchIndex = 0; searchIndex < (u32) g_GlobalCO->mKartCount; searchIndex++) {
             if (ShouldKartAiTargetKart(kartAi->mIndex, candidateKartIndex) != 0) {
-                targetKart = GetKart(candidateKartIndex);
+                targetKart = GetRacerMQEntry(candidateKartIndex);
                 kartPos = &kartAi->mKart->mPos;
                 distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, &targetKart->mPos);
                 value = 0;
                 if (distanceSquared < 0x895440) {
-                    if (GetAbsoluteValue(kartAi->mKart->mPos.y - targetKart->mPos.y) < 0x3c000) {
+                    if (AbsValue(kartAi->mKart->mPos.y - targetKart->mPos.y) < 0x3c000) {
                         value = 1;
                         kartAi->mTargetDistanceSquared = distanceSquared;
                     }
                 }
                 if (value != 0) {
-                    kartCount = gRaceSetup->mKartCount;
+                    kartCount = g_GlobalCO->mKartCount;
                     gSearchStartIndex++;
                     if (gSearchStartIndex >= kartCount) {
                         gSearchStartIndex = 0;
@@ -442,7 +442,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
                 }
             }
             candidateKartIndex++;
-            if (candidateKartIndex >= (u32) gRaceSetup->mKartCount) {
+            if (candidateKartIndex >= (u32) g_GlobalCO->mKartCount) {
                 candidateKartIndex = 0;
             }
         }
@@ -457,7 +457,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         (kartAi->mKart->mEffectFlags & KART_EFFECT_STAR) == 0) {
         goto clear;
     }
-    if (IsKartTargetable(kartAi->mTargetKart->mIndex) == FALSE) {
+    if (GetSomeMQRacerAnotherFlags(kartAi->mTargetKart->mIndex) == FALSE) {
         goto clear;
     }
     kart = kartAi->mKart;
@@ -466,7 +466,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, &targetKart->mPos);
     value = 0;
     if (distanceSquared < 0xf42400) {
-        if (GetAbsoluteValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) < 0x3c000) {
+        if (AbsValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) < 0x3c000) {
             kartAi->mTargetDistanceSquared = distanceSquared;
             value = 1;
         }
@@ -474,16 +474,16 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     if (value == 0) {
         goto clear;
     }
-    if (GetAbsoluteValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) >= 0x3c000) {
+    if (AbsValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) >= 0x3c000) {
         goto clear;
     }
     value = 0;
-    VEC_Subtract(&kartAi->mTargetKart->mPos, &kartAi->mKart->mPos, &toTarget);
-    if (VEC_DotProduct(&toTarget, &kartAi->mKart->mRotationRow2) > 0) {
+    VecFx32_Subtract(&kartAi->mTargetKart->mPos, &kartAi->mKart->mPos, &toTarget);
+    if (Vector3_DotProduct(&toTarget, &kartAi->mKart->mRotationRow2) > 0) {
         if (LENGTH_SQUARED(toTarget) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&toTarget, &toTarget);
+            Vector3_MaybeNormalize(&toTarget, &toTarget);
         }
-        kartAi->mTargetForwardDot = VEC_DotProduct(&toTarget, &kartAi->mKart->mRotationRow2);
+        kartAi->mTargetForwardDot = Vector3_DotProduct(&toTarget, &kartAi->mKart->mRotationRow2);
         value = 1;
     }
     kartAi->mTargetAhead = value != 0;
@@ -492,7 +492,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         value = 1;
         if (kartItems->mItemInUse.mObjectKind == ITEM_OBJECT_KIND_NONE &&
             kartItems->mHeldItem.mItemInfoIndex == ITEM_INFO_NONE) {
-            if ((GetKart(kartAi->mIndex)->mEffectFlags & KART_EFFECT_STAR) == 0) {
+            if ((GetRacerMQEntry(kartAi->mIndex)->mEffectFlags & KART_EFFECT_STAR) == 0) {
                 value = 0;
             }
         }
@@ -503,11 +503,11 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
             targetPos.y = kartAi->mLinkPosWithSideOffset.y;
             linkPos = *kartAi->mBattleLinkCursor.mLink->mPoint;
             vec3UnitY = gVec3UnitY;
-            VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
-            VEC_Subtract(&targetPos, &linkPos, &linkToTarget);
-            distanceSquared = Vec3DotUnrounded(&linkToTarget, &sideDirection);
+            VecFx32_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
+            VecFx32_Subtract(&targetPos, &linkPos, &linkToTarget);
+            distanceSquared = VecFx32_CrossProduct_0(&linkToTarget, &sideDirection);
             value = kartAi->mBattleLinkCursor.mLink->mRadius;
-            if (GetAbsoluteValue(distanceSquared) >= value) {
+            if (AbsValue(distanceSquared) >= value) {
                 kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
             } else {
                 kartAi->mTargetKartPos = targetPos;
@@ -531,7 +531,7 @@ void AdvanceBattleKartAiMicInflate(KartAi *kartAi) {
     BOOL balloonsLeftTestPassed;
 
     kartAi->mInflatePending = FALSE;
-    if (gRaceSetup->mBattleKind != BATTLE_KIND_BALLOON) {
+    if (g_GlobalCO->mBattleKind != BATTLE_KIND_BALLOON) {
         return;
     }
     if (IsKartNotNormalOrFlagged(kartAi->mKart) != FALSE) {
@@ -602,19 +602,19 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
             kartPos = &kartAi->mKart->mPos;
             distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, mapObjectPos);
             value = gEntryYDifferenceLimit;
-            if (distanceSquared < 0x15f900 && GetAbsoluteValue(kartAi->mKart->mPos.y - targetShine->mPos.y) < value) {
+            if (distanceSquared < 0x15f900 && AbsValue(kartAi->mKart->mPos.y - targetShine->mPos.y) < value) {
                 isInRange = TRUE;
             } else {
                 isInRange = FALSE;
             }
             if (isInRange != FALSE) {
                 isAhead = FALSE;
-                VEC_Subtract(&targetShine->mPos, &kartAi->mKart->mPos, &toShine);
-                if (VEC_DotProduct(&toShine, &kartAi->mKart->mRotationRow2) > 0) {
+                VecFx32_Subtract(&targetShine->mPos, &kartAi->mKart->mPos, &toShine);
+                if (Vector3_DotProduct(&toShine, &kartAi->mKart->mRotationRow2) > 0) {
                     if (LENGTH_SQUARED(toShine) >= 0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&toShine, &toShine);
+                        Vector3_MaybeNormalize(&toShine, &toShine);
                     }
-                    kartAi->mEntryForwardDot = VEC_DotProduct(&toShine, &kartAi->mKart->mRotationRow2);
+                    kartAi->mEntryForwardDot = Vector3_DotProduct(&toShine, &kartAi->mKart->mRotationRow2);
                     isAhead = TRUE;
                 }
                 if (isAhead != FALSE && kartAi->mEntryForwardDot > KART_AI_AHEAD_DOT) {
@@ -622,11 +622,11 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
                     shinePos.y = kartAi->mLinkPosWithSideOffset.y;
                     linkPos = *kartAi->mBattleLinkCursor.mLink->mPoint;
                     vec3UnitY = gVec3UnitY;
-                    VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
-                    VEC_Subtract(&shinePos, &linkPos, &linkToShine);
-                    value = Vec3DotUnrounded(&linkToShine, &sideDirection);
+                    VecFx32_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
+                    VecFx32_Subtract(&shinePos, &linkPos, &linkToShine);
+                    value = VecFx32_CrossProduct_0(&linkToShine, &sideDirection);
                     linkRadius = kartAi->mBattleLinkCursor.mLink->mRadius;
-                    if (GetAbsoluteValue(value) >= linkRadius) {
+                    if (AbsValue(value) >= linkRadius) {
                         kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
                     } else {
                         kartAi->mTargetShinePos = shinePos;
@@ -684,7 +684,7 @@ BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDiffer
             kartPos = &kartAi->mKart->mPos;
             distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, shinePos);
             if (distanceSquared < distanceSquaredLimit &&
-                GetAbsoluteValue(kartAi->mKart->mPos.y - shine->mPos.y) < yDifferenceLimit) {
+                AbsValue(kartAi->mKart->mPos.y - shine->mPos.y) < yDifferenceLimit) {
                 isInRange = TRUE;
             } else {
                 isInRange = FALSE;

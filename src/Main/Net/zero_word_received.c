@@ -5,7 +5,7 @@
 
 void SetZeroWordReceived(u32 *payload, int length) {
     if ((length == 4) && (*payload == 0)) {
-        gConnectionWork->mZeroWordReceived = 1;
+        g_GlobalZE->mZeroWordReceived = 1;
     }
 }
 

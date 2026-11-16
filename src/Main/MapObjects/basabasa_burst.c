@@ -86,21 +86,21 @@ static inline BOOL BasabasaBurstIsKartNearInAngle(BasabasaBurst *burst, s32 burs
     s32 angleDifference;
     Kart *kart;
 
-    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
         isHumanGhostOrPeer = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
-            ((1 << gRaceSetup->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if (g_GlobalCO->mCurrentEntries[(u16) kartIndex].mPlayer.mKind <= PLAYER_KIND_PEER &&
+            ((1 << g_GlobalCO->mCurrentEntries[(u16) kartIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isHumanGhostOrPeer = TRUE;
         }
-        if (isHumanGhostOrPeer == FALSE && kartIndex != gRaceSetup->mEntryIndex) {
+        if (isHumanGhostOrPeer == FALSE && kartIndex != g_GlobalCO->mEntryIndex) {
             continue;
         }
-        kart = GetKart((u16) kartIndex);
+        kart = GetRacerMQEntry((u16) kartIndex);
         if (BasabasaBurstXzDistanceSquared(&kart->mPos, &burst->mMapObject.mPos) >= 0x15f900000000LL) {
             continue;
         }
         angleDifference =
-            FX_Atan2Idx(kart->mPos.x - burst->mMapObject.mPos.x, kart->mPos.z - burst->mMapObject.mPos.z) - burstAngle;
+            FX_Atan2(kart->mPos.x - burst->mMapObject.mPos.x, kart->mPos.z - burst->mMapObject.mPos.z) - burstAngle;
         if (angleDifference < -0x1f40) {
             continue;
         }

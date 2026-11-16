@@ -4,8 +4,8 @@
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 
-SplitCharFunc *const spliterTable[4] = {NNSi_G2dSplitCharUTF8, NNSi_G2dSplitCharUTF16, NNSi_G2dSplitCharShiftJIS,
-                                        NNSi_G2dSplitChar1Byte};
+SplitCharFunc *const g_FontEncodingAdvanceCharacterFunctionTable[4] = {FontEncoding_UTF8_NextCharacter, FontEncoding_Unicode_NextCharacter, FontEncoding_SJIS_NextCharacter,
+                                        FontEncoding_CP1252_NextCharacter};
 const u8 objs[4][4][2] = {{{0, 0}, {1, 0}, {2, 0}, {2, 0}},
                           {{0, 1}, {1, 1}, {2, 1}, {2, 1}},
                           {{0, 2}, {1, 2}, {2, 2}, {3, 2}},
@@ -37,7 +37,7 @@ void ClearChar(u8 *pChar, s32 startX, s32 startY, s32 width, s32 height, u32 cl8
 
     if (width == 8 && height == 8) {
         fill = cl8;
-        MIi_CpuClearFast(fill, pChar, bpp << 3);
+        Mem_CpuFastMemorySet(fill, pChar, bpp << 3);
         return;
     }
     if (bpp == 4) {
@@ -183,7 +183,7 @@ void LetterChar(LetterCharInfo *pInfo) {
     }
 }
 
-void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
+void G2d_Sprite_Fn1(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
     LetterCharInfo info;
     s32 inkWidth;
     s32 rowSkip;
@@ -277,7 +277,7 @@ void DrawGlyphLine(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 
     }
 }
 
-void DrawGlyph1D(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
+void G2d_Sprite_AnotherFn1(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, NNSG2dGlyph *pGlyph) {
     LetterCharInfo info;
     s32 inkWidth;
     u32 canvasW;
@@ -381,7 +381,7 @@ void DrawGlyph1D(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 dr
     }
 }
 
-void ClearContinuous(NNSG2dCharCanvas *pCanvas, u32 cl) {
+void G2d_Sprite_Fn2(NNSG2dCharCanvas *pCanvas, u32 cl) {
     volatile u32 fill;
     s32 bytes;
 
@@ -396,10 +396,10 @@ void ClearContinuous(NNSG2dCharCanvas *pCanvas, u32 cl) {
     fill = cl;
     bytes = pCanvas->mAreaWidth * pCanvas->mAreaHeight;
     bytes *= (pCanvas->mDstBpp * 0x40) / 8;
-    MIi_CpuClearFast(fill, pCanvas->mCharBase, bytes);
+    Mem_CpuFastMemorySet(fill, pCanvas->mCharBase, bytes);
 }
 
-void ClearAreaLine(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
+void G2d_Sprite_Fn3(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
     s32 pixelY;
     s32 xEnd;
     s32 yEnd;
@@ -465,7 +465,7 @@ void ClearAreaLine(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 
     }
 }
 
-void ClearArea1D(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
+void G2d_Sprite_AnotherFn3(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 areaWidth, s32 areaHeight) {
     s32 pixelY;
     s32 rows;
     s32 rowEnd;
@@ -546,7 +546,7 @@ void ClearArea1D(NNSG2dCharCanvas *pCanvas, u32 cl, s32 areaX, s32 areaY, s32 ar
     }
 }
 
-void InitCharCanvas(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
+void G2d_Sprite_CreateImpl(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s32 areaHeight, u32 bpp,
                     void (*drawGlyph)(NNSG2dCharCanvas *, NNSG2dFont *, s32, s32, u32, NNSG2dGlyph *),
                     void (*clearAll)(NNSG2dCharCanvas *, u32),
                     void (*clearArea)(NNSG2dCharCanvas *, u32, s32, s32, s32, s32), u32 stride) {
@@ -560,16 +560,16 @@ void InitCharCanvas(NNSG2dCharCanvas *pCanvas, void *charBase, s32 areaWidth, s3
     pCanvas->mParam = stride;
 }
 
-s32 NNS_G2dCharCanvasDrawChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode) {
+s32 G2d_Sprite_MaybePutChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 drawX, s32 drawY, u32 cl, u16 ccode) {
     NNSG2dGlyph glyphInfo;
     u32 glyphIdx;
     FontGlyph *pRes;
 
-    glyphIdx = NNS_G2dFontFindGlyphIndex(pFont, ccode);
+    glyphIdx = NFTR_GetTileIndexForCharacter(pFont, ccode);
     if (glyphIdx == 0xffff) {
         glyphIdx = pFont->mPRes->mAlterCharIndex;
     }
-    glyphInfo.mPWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyphIdx);
+    glyphInfo.mPWidths = NFTR_GetCharacterWidthTileEntry(pFont, glyphIdx);
     pRes = pFont->mPRes->mPGlyph;
     glyphInfo.mImage = &pRes->mGlyphTable[glyphIdx * pRes->mCellSize];
     pCanvas->mPDrawGlyph(pCanvas, pFont, drawX + glyphInfo.mPWidths->mLeft, drawY, cl, &glyphInfo);
@@ -579,14 +579,14 @@ s32 NNS_G2dCharCanvasDrawChar(NNSG2dCharCanvas *pCanvas, NNSG2dFont *pFont, s32 
     return glyphInfo.mPWidths->mCharWidth;
 }
 
-void NNS_G2dCharCanvasInitForBG(void *pCC, void *charBase, u32 areaWidth, u32 areaHeight, u32 colorMode) {
-    InitCharCanvas(pCC, charBase, areaWidth, areaHeight, colorMode, DrawGlyphLine, ClearContinuous, ClearAreaLine,
+void G2d_Sprite_CreateFromTiles(void *pCC, void *charBase, u32 areaWidth, u32 areaHeight, u32 colorMode) {
+    G2d_Sprite_CreateImpl(pCC, charBase, areaWidth, areaHeight, colorMode, G2d_Sprite_Fn1, G2d_Sprite_Fn2, G2d_Sprite_Fn3,
                    areaWidth);
 }
 
 // clang-format off
 // Sets up an OBJ-order canvas; written as assembly because it uses clz.
-asm void NNS_G2dCharCanvasInitForOBJ1D(void *pCC, void *charBase, s32 areaWidth, s32 areaHeight, s32 colorMode) {
+asm void G2d_Sprite_CreateFrom2(void *pCC, void *charBase, s32 areaWidth, s32 areaHeight, s32 colorMode) {
     stmfd sp!, {r4, r5, r6, lr}
     sub sp, sp, #0x18
     cmp r2, #0x8
@@ -604,11 +604,11 @@ asm void NNS_G2dCharCanvasInitForOBJ1D(void *pCC, void *charBase, s32 areaWidth,
     add r4, r4, r6, lsl #0x3
     ldrb r6, [r4, ip, lsl #0x1]
     add ip, r4, ip, lsl #0x1
-    ldr r4, =DrawGlyph1D
+    ldr r4, =G2d_Sprite_AnotherFn1
     strb r6, [sp, #0x14]
     ldrb r6, [ip, #0x1]
-    ldr lr, =ClearContinuous
-    ldr ip, =ClearArea1D
+    ldr lr, =G2d_Sprite_Fn2
+    ldr ip, =G2d_Sprite_AnotherFn3
     strb r6, [sp, #0x15]
     str r5, [sp, #0x0]
     str r4, [sp, #0x4]
@@ -616,7 +616,7 @@ asm void NNS_G2dCharCanvasInitForOBJ1D(void *pCC, void *charBase, s32 areaWidth,
     str ip, [sp, #0xc]
     ldr ip, [sp, #0x14]
     str ip, [sp, #0x10]
-    bl InitCharCanvas
+    bl G2d_Sprite_CreateImpl
     add sp, sp, #0x18
     ldmfd sp!, {r4, r5, r6, lr}
     bx lr

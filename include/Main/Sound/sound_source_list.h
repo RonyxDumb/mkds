@@ -63,7 +63,7 @@ typedef struct SoundSource {
     /* 3c */ u8 mFalloffIndex;
     /* 3d */ u8 mUnk_3d[3];
     // Squared distance from the camera to the owner of the sound source. For a Kart it is the three-axis one, for map
-    // and item objects the horizontal one with the low 5 and top 2 bits cleared; InitSoundSource stores 0xffffffff. The
+    // and item objects the horizontal one with the low 5 and top 2 bits cleared; StructMQRacerEntry_SomeFn_45 stores 0xffffffff. The
     // sound pass takes its square root.
     /* 40 */ u32 mDistanceSquared;
 } SoundSource;

@@ -8,5 +8,5 @@ u16 MenuGetInputSlotNewBits(InputSlot *slot, u32 mask) {
 }
 
 u16 MenuGetNewBits(u32 slotIndex, u32 mask) {
-    return MenuGetInputSlotNewBits(&gInputSlots[slotIndex], mask);
+    return MenuGetInputSlotNewBits(&g_GlobalCYT[slotIndex], mask);
 }

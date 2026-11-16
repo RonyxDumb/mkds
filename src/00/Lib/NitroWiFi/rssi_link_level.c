@@ -17,13 +17,13 @@ u32 WCM_GetLinkLevel(void) {
     WCMWork *work;
     u32 level;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     work = WCMi_GetSystemWork();
     level = 0;
     if (work != NULL && work->mPhase == WIFI_LINK_PHASE_CONNECTED) {
         level = WcmGetLinkLevel();
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return level;
 }
 

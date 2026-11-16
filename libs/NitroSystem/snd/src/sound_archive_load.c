@@ -27,8 +27,8 @@
 #include "sound_archive_load_result.h"
 #include "sound_wave_channel_volume.h"
 
-NNSSndArc *sCurrent;
-SNDWaveArc sWaveArcHeader;
+NNSSndArc *g_ActiveSdat;
+SNDWaveArc g_SomeSwarHeader;
 
 // Sets each player's sequence count and channels and creates its heaps.
 BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
@@ -36,9 +36,9 @@ BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
     NNSSndArcPlayerInfo *playerEntry;
     s32 seqIndex;
 
-    NNS_SndArcGetCurrent();
+    Sound_GetActiveSdat();
     for (playerIndex = 0; playerIndex < 32; playerIndex++) {
-        playerEntry = NNS_SndArcGetPlayerInfo(playerIndex);
+        playerEntry = Sound_GetPlayerInfoEntry(playerIndex);
         if (playerEntry == 0) {
             continue;
         }
@@ -59,23 +59,23 @@ BOOL NNS_SndArcPlayerSetup(NNSSndHeap *heap) {
 BOOL NNS_SndArcPlayerStartSeq(NNSSndSeqPlayer **handle, s32 seqNo) {
     NNSSndArcSeqInfo *info;
 
-    info = NNS_SndArcGetSeqInfo(seqNo);
+    info = Sound_GetSseqInfoEntry(seqNo);
     if (info == 0) {
         return 0;
     }
-    return StartSeq(handle, info->mParam.mPlayerNo, info->mParam.mBankNo, info->mParam.mPlayerPrio, info, seqNo);
+    return MaybeStartSeq(handle, info->mParam.mPlayerNo, info->mParam.mBankNo, info->mParam.mPlayerPrio, info, seqNo);
 }
 
-BOOL NNS_SndArcPlayerStartSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 index) {
+BOOL PlaySseqFromSarc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 index) {
     NNSSndSeqArc *seqArcData;
     NNSSndSeqArcSeqInfo *seqEntry;
     NNSSndArcSeqArcInfo *info;
 
-    info = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    info = Sound_GetSarcInfoEntry(seqArcNo);
     if (info == 0) {
         return 0;
     }
-    seqArcData = NNS_SndArcGetFileAddress(info->mFileId);
+    seqArcData = Sound_MaybeGetRawFilePointer(info->mFileId);
     if (seqArcData == 0) {
         return 0;
     }
@@ -94,11 +94,11 @@ BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 b
     NNSSndSeqArcSeqInfo *seqEntry;
     NNSSndArcSeqArcInfo *info;
 
-    info = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    info = Sound_GetSarcInfoEntry(seqArcNo);
     if (info == 0) {
         return 0;
     }
-    seqArcData = NNS_SndArcGetFileAddress(info->mFileId);
+    seqArcData = Sound_MaybeGetRawFilePointer(info->mFileId);
     if (seqArcData == 0) {
         return 0;
     }
@@ -118,7 +118,7 @@ BOOL NNS_SndArcPlayerStartSeqArcEx(NNSSndSeqPlayer **handle, s32 playerNo, s32 b
     return StartSeqArc(handle, playerNo, bankNo, playerPrio, seqEntry, seqArcData, seqArcNo, index);
 }
 
-BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndArcSeqInfo *info, s32 seqNo) {
+BOOL MaybeStartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio, NNSSndArcSeqInfo *info, s32 seqNo) {
     NNSSndSeqPlayer *seqPlayer;
     NNSSndSeqData *seq;
     SNDBankData *bank;
@@ -129,11 +129,11 @@ BOOL StartSeq(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerPrio
         return 0;
     }
     heap = NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
-    if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &bank) != 0) {
+    if (Sound_GetSbnkPointer(bankNo, 6, heap, 0, &bank) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
-    if (NNSi_SndArcLoadSeq(seqNo, 1, heap, 0, &seq) != 0) {
+    if (Sound_GetSseqPointer(seqNo, 1, heap, 0, &seq) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
@@ -155,7 +155,7 @@ BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerP
         return 0;
     }
     heap = NNSi_SndPlayerAllocHeap(playerNo, seqPlayer);
-    if (NNSi_SndArcLoadBank(bankNo, 6, heap, 0, &bank) != 0) {
+    if (Sound_GetSbnkPointer(bankNo, 6, heap, 0, &bank) != 0) {
         NNSi_SndPlayerFreeSeqPlayer(seqPlayer);
         return 0;
     }
@@ -166,37 +166,37 @@ BOOL StartSeqArc(NNSSndSeqPlayer **handle, s32 playerNo, s32 bankNo, s32 playerP
     return 1;
 }
 
-BOOL NNS_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
-    return NNSi_SndArcLoadGroup(groupNo, heap) == 0;
+BOOL Sound_LoadGroup(s32 groupNo, NNSSndHeap *heap) {
+    return Sound_LoadGroupImpl(groupNo, heap) == 0;
 }
 
-BOOL NNS_SndArcLoadSeq(s32 seqNo, NNSSndHeap *heap) {
-    return NNSi_SndArcLoadSeq(seqNo, 0xff, heap, 1, 0) == 0;
+BOOL CheckMaybeLoadSseqOk(s32 seqNo, NNSSndHeap *heap) {
+    return Sound_GetSseqPointer(seqNo, 0xff, heap, 1, 0) == 0;
 }
 
-BOOL NNS_SndArcLoadSeqArc(s32 seqArcNo, NNSSndHeap *heap) {
-    return NNSi_SndArcLoadSeqArc(seqArcNo, 0xff, heap, 1, 0) == 0;
+BOOL Sound_LoadSarc(s32 seqArcNo, NNSSndHeap *heap) {
+    return Sound_GetSarcPointer(seqArcNo, 0xff, heap, 1, 0) == 0;
 }
 
-BOOL NNS_SndArcLoadBank(s32 bankNo, NNSSndHeap *heap) {
-    return NNSi_SndArcLoadBank(bankNo, 0xff, heap, 1, 0) == 0;
+BOOL Sound_LoadSbnk(s32 bankNo, NNSSndHeap *heap) {
+    return Sound_GetSbnkPointer(bankNo, 0xff, heap, 1, 0) == 0;
 }
 
-BOOL NNS_SndArcLoadWaveArc(s32 waveArcNo, NNSSndHeap *heap) {
-    return NNSi_SndArcLoadWaveArc(waveArcNo, 0xff, heap, 1, 0) == 0;
+BOOL Sound_LoadSwar(s32 waveArcNo, NNSSndHeap *heap) {
+    return Sound_GetSwarPointer(waveArcNo, 0xff, heap, 1, 0) == 0;
 }
 
-BOOL NNS_SndArcLoadBankEx(s32 bankNo, u32 loadFlag, NNSSndHeap *heap) {
-    return NNSi_SndArcLoadBank(bankNo, loadFlag, heap, 1, 0) == 0;
+BOOL Sound_LoadSbnkWithFlags(s32 bankNo, u32 loadFlag, NNSSndHeap *heap) {
+    return Sound_GetSbnkPointer(bankNo, loadFlag, heap, 1, 0) == 0;
 }
 
-NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
+NNSSndArcLoadResult Sound_LoadGroupImpl(s32 groupNo, NNSSndHeap *heap) {
     NNSSndArcGroupInfo *info;
     u32 itemIndex;
     NNSSndArcGroupItem *item;
     NNSSndArcLoadResult result;
 
-    info = NNS_SndArcGetGroupInfo(groupNo);
+    info = Sound_GetGroupInfoEntry(groupNo);
     if (info == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_GROUP_NO;
     }
@@ -204,25 +204,25 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
         item = &info->mItem[itemIndex];
         switch (item->mType) {
             case GROUP_ITEM_SEQUENCE:
-                result = NNSi_SndArcLoadSeq(item->mIndex, item->mLoadFlag, heap, 1, 0);
+                result = Sound_GetSseqPointer(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
                 break;
             case GROUP_ITEM_SEQUENCE_SET:
-                result = NNSi_SndArcLoadSeqArc(item->mIndex, item->mLoadFlag, heap, 1, 0);
+                result = Sound_GetSarcPointer(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
                 break;
             case GROUP_ITEM_SOUND_BANK:
-                result = NNSi_SndArcLoadBank(item->mIndex, item->mLoadFlag, heap, 1, 0);
+                result = Sound_GetSbnkPointer(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
                 break;
             case GROUP_ITEM_WAVE_SET:
-                result = NNSi_SndArcLoadWaveArc(item->mIndex, item->mLoadFlag, heap, 1, 0);
+                result = Sound_GetSwarPointer(item->mIndex, item->mLoadFlag, heap, 1, 0);
                 if (result != NNS_SND_ARC_LOAD_SUCESS) {
                     return result;
                 }
@@ -232,27 +232,27 @@ NNSSndArcLoadResult NNSi_SndArcLoadGroup(s32 groupNo, NNSSndHeap *heap) {
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
-NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
+NNSSndArcLoadResult Sound_GetSseqPointer(s32 seqNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                        NNSSndSeqData **pData) {
     NNSSndArcSeqInfo *seqEntry;
     NNSSndSeqData *loadedSeq;
     NNSSndArcLoadResult result;
 
-    seqEntry = NNS_SndArcGetSeqInfo(seqNo);
+    seqEntry = Sound_GetSseqInfoEntry(seqNo);
     if (seqEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_SEQ_NO;
     }
-    result = NNSi_SndArcLoadBank(seqEntry->mParam.mBankNo, loadFlag, heap, bSetAddr, 0);
+    result = Sound_GetSbnkPointer(seqEntry->mParam.mBankNo, loadFlag, heap, bSetAddr, 0);
     if (result != NNS_SND_ARC_LOAD_SUCESS) {
         return result;
     }
     if (loadFlag & 1) {
-        loadedSeq = LoadSeq(seqEntry->mFileId, heap, bSetAddr);
+        loadedSeq = Sound_PrepareSseqData(seqEntry->mFileId, heap, bSetAddr);
         if (loadedSeq == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_SEQ;
         }
     } else {
-        loadedSeq = NNS_SndArcGetFileAddress(seqEntry->mFileId);
+        loadedSeq = Sound_MaybeGetRawFilePointer(seqEntry->mFileId);
     }
     if (pData != 0) {
         *pData = loadedSeq;
@@ -260,22 +260,22 @@ NNSSndArcLoadResult NNSi_SndArcLoadSeq(s32 seqNo, u32 loadFlag, NNSSndHeap *heap
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
-NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
+NNSSndArcLoadResult Sound_GetSarcPointer(s32 seqArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                           NNSSndSeqArc **pData) {
     NNSSndArcSeqArcInfo *arcEntry;
     NNSSndSeqArc *loadedArc;
 
-    arcEntry = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    arcEntry = Sound_GetSarcInfoEntry(seqArcNo);
     if (arcEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_SEQARC_NO;
     }
     if (loadFlag & 8) {
-        loadedArc = LoadSeqArc(arcEntry->mFileId, heap, bSetAddr);
+        loadedArc = Sound_PrepareSarcData(arcEntry->mFileId, heap, bSetAddr);
         if (loadedArc == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_SEQARC;
         }
     } else {
-        loadedArc = NNS_SndArcGetFileAddress(arcEntry->mFileId);
+        loadedArc = Sound_MaybeGetRawFilePointer(arcEntry->mFileId);
     }
     if (pData != 0) {
         *pData = loadedArc;
@@ -284,7 +284,7 @@ NNSSndArcLoadResult NNSi_SndArcLoadSeqArc(s32 seqArcNo, u32 loadFlag, NNSSndHeap
 }
 
 // Loads the bank and its wave archives, and assigns them to the bank.
-NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
+NNSSndArcLoadResult Sound_GetSbnkPointer(s32 bankNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                         SNDBankData **pData) {
     NNSSndArcBankInfo *bankEntry;
     NNSSndArcWaveArcInfo *waveEntry;
@@ -294,27 +294,27 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
     u32 loadWave;
     NNSSndArcLoadResult result;
 
-    bankEntry = NNS_SndArcGetBankInfo(bankNo);
+    bankEntry = Sound_GetSbnkInfoEntry(bankNo);
     if (bankEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_BANK_NO;
     }
     if (loadFlag & 2) {
-        bank = LoadBank(bankEntry->mFileId, heap, bSetAddr);
+        bank = Sound_PrepareSbnkData(bankEntry->mFileId, heap, bSetAddr);
         if (bank == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_BANK;
         }
     } else {
-        bank = NNS_SndArcGetFileAddress(bankEntry->mFileId);
+        bank = Sound_MaybeGetRawFilePointer(bankEntry->mFileId);
     }
     loadWave = loadFlag & 4;
     for (waveArcIndex = 0; waveArcIndex < 4; waveArcIndex++) {
         if (bankEntry->mWaveArcNo[waveArcIndex] != 0xffff) {
-            waveEntry = NNS_SndArcGetWaveArcInfo(bankEntry->mWaveArcNo[waveArcIndex]);
+            waveEntry = Sound_GetSwarInfoEntry(bankEntry->mWaveArcNo[waveArcIndex]);
             if (waveEntry == 0) {
                 return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
             }
             result =
-                NNSi_SndArcLoadWaveArc(bankEntry->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &loadedWaveArc);
+                Sound_GetSwarPointer(bankEntry->mWaveArcNo[waveArcIndex], loadFlag, heap, bSetAddr, &loadedWaveArc);
             if (result != NNS_SND_ARC_LOAD_SUCESS) {
                 return result;
             }
@@ -334,26 +334,26 @@ NNSSndArcLoadResult NNSi_SndArcLoadBank(s32 bankNo, u32 loadFlag, NNSSndHeap *he
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
-NNSSndArcLoadResult NNSi_SndArcLoadWaveArc(s32 waveArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
+NNSSndArcLoadResult Sound_GetSwarPointer(s32 waveArcNo, u32 loadFlag, NNSSndHeap *heap, BOOL bSetAddr,
                                            SNDWaveArc **pData) {
     NNSSndArcWaveArcInfo *waveEntry;
     SNDWaveArc *loadedWaveArc;
 
-    waveEntry = NNS_SndArcGetWaveArcInfo(waveArcNo);
+    waveEntry = Sound_GetSwarInfoEntry(waveArcNo);
     if (waveEntry == 0) {
         return NNS_SND_ARC_LOAD_ERROR_INVALID_WAVEARC_NO;
     }
     if (loadFlag & 4) {
         if (waveEntry->mFlags & 1) {
-            loadedWaveArc = LoadWaveArcTable(waveEntry->mFileId, heap, bSetAddr);
+            loadedWaveArc = Sound_PrepareSwarDataImpl(waveEntry->mFileId, heap, bSetAddr);
         } else {
-            loadedWaveArc = LoadWaveArc(waveEntry->mFileId, heap, bSetAddr);
+            loadedWaveArc = Sound_PrepareSwarData(waveEntry->mFileId, heap, bSetAddr);
         }
         if (loadedWaveArc == 0) {
             return NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE;
         }
     } else {
-        loadedWaveArc = NNS_SndArcGetFileAddress(waveEntry->mFileId);
+        loadedWaveArc = Sound_MaybeGetRawFilePointer(waveEntry->mFileId);
     }
     if (pData != 0) {
         *pData = loadedWaveArc;
@@ -361,157 +361,157 @@ NNSSndArcLoadResult NNSi_SndArcLoadWaveArc(s32 waveArcNo, u32 loadFlag, NNSSndHe
     return NNS_SND_ARC_LOAD_SUCESS;
 }
 
-void *NNSi_SndArcLoadFile(u32 fileId, NNSSndHeapDisposeCallback callback, void *data1, u32 data2, NNSSndHeap *heap) {
+void *Sound_AllocateReadEntireFile(u32 fileId, NNSSndHeapDisposeCallback callback, void *data1, u32 data2, NNSSndHeap *heap) {
     u32 size;
     u8 *buffer;
 
-    size = NNS_SndArcGetFileSize(fileId);
+    size = Sound_GetFileSize(fileId);
     if (size == 0) {
         return 0;
     }
     if (heap == 0) {
         return 0;
     }
-    buffer = NNS_SndHeapAlloc(heap, size + 0x20, callback, data1, data2);
+    buffer = Sound_Context_Allocate(heap, size + 0x20, callback, data1, data2);
     if (buffer == 0) {
         return 0;
     }
-    if (NNS_SndArcReadFile(fileId, buffer, size, 0) != size) {
+    if (Sound_ReadFile(fileId, buffer, size, 0) != size) {
         return 0;
     }
-    DC_StoreRange(buffer, size);
+    DC_SomeClean(buffer, size);
     return buffer;
 }
 
-NNSSndSeqData *LoadSeq(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+NNSSndSeqData *Sound_PrepareSseqData(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     void *buffer;
 
-    buffer = NNS_SndArcGetFileAddress(fileId);
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
     if (buffer == 0) {
-        buffer = NNSi_SndArcLoadFile(fileId, SeqDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0, fileId, heap);
+        buffer = Sound_AllocateReadEntireFile(fileId, Sound_DtorFn_SomeSarcPointer, bSetAddr ? Sound_GetActiveSdat() : 0, fileId, heap);
         if (bSetAddr != 0 && buffer != 0) {
-            NNS_SndArcSetFileAddress(fileId, buffer);
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
         }
     }
     return buffer;
 }
 
-NNSSndSeqArc *LoadSeqArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+NNSSndSeqArc *Sound_PrepareSarcData(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     void *buffer;
 
-    buffer = NNS_SndArcGetFileAddress(fileId);
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
     if (buffer == 0) {
-        buffer = NNSi_SndArcLoadFile(fileId, SeqDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0, fileId, heap);
+        buffer = Sound_AllocateReadEntireFile(fileId, Sound_DtorFn_SomeSarcPointer, bSetAddr ? Sound_GetActiveSdat() : 0, fileId, heap);
         if (bSetAddr != 0 && buffer != 0) {
-            NNS_SndArcSetFileAddress(fileId, buffer);
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
         }
     }
     return buffer;
 }
 
-SNDBankData *LoadBank(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+SNDBankData *Sound_PrepareSbnkData(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     void *buffer;
 
-    buffer = NNS_SndArcGetFileAddress(fileId);
+    buffer = Sound_MaybeGetRawFilePointer(fileId);
     if (buffer == 0) {
-        buffer = NNSi_SndArcLoadFile(fileId, BankDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0, fileId, heap);
+        buffer = Sound_AllocateReadEntireFile(fileId, SomeSoundDtorFn, bSetAddr ? Sound_GetActiveSdat() : 0, fileId, heap);
         if (bSetAddr != 0 && buffer != 0) {
-            NNS_SndArcSetFileAddress(fileId, buffer);
+            Sound_SetFileFatDynamicOffsetField(fileId, buffer);
         }
     }
     return buffer;
 }
 
-SNDWaveArc *LoadWaveArc(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+SNDWaveArc *Sound_PrepareSwarData(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     SNDWaveArc *waveArc;
 
-    waveArc = NNS_SndArcGetFileAddress(fileId);
+    waveArc = Sound_MaybeGetRawFilePointer(fileId);
     if (waveArc == 0) {
         waveArc =
-            NNSi_SndArcLoadFile(fileId, WaveArcDisposeCallback, bSetAddr ? NNS_SndArcGetCurrent() : 0, fileId, heap);
+            Sound_AllocateReadEntireFile(fileId, AnotherSoundDtorFn, bSetAddr ? Sound_GetActiveSdat() : 0, fileId, heap);
         if (bSetAddr != 0 && waveArc != 0) {
-            NNS_SndArcSetFileAddress(fileId, waveArc);
+            Sound_SetFileFatDynamicOffsetField(fileId, waveArc);
         }
     }
     return waveArc;
 }
 
 // Loads the wave archive header and tables; the waves load one by one.
-SNDWaveArc *LoadWaveArcTable(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
+SNDWaveArc *Sound_PrepareSwarDataImpl(u32 fileId, NNSSndHeap *heap, BOOL bSetAddr) {
     SNDWaveArc *tableArc;
     u32 len;
     u32 offsetBytes;
     s32 bytesRead;
 
-    tableArc = NNS_SndArcGetFileAddress(fileId);
+    tableArc = Sound_MaybeGetRawFilePointer(fileId);
     if (tableArc == 0) {
-        if (NNS_SndArcReadFile(fileId, &sWaveArcHeader, 0x3c, 0) != 0x3c) {
+        if (Sound_ReadFile(fileId, &g_SomeSwarHeader, 0x3c, 0) != 0x3c) {
             return 0;
         }
-        offsetBytes = sWaveArcHeader.mWaveCount * 4;
+        offsetBytes = g_SomeSwarHeader.mWaveCount * 4;
         len = offsetBytes * 2 + 0x3c;
         if (heap == 0) {
             return 0;
         }
-        tableArc = NNS_SndHeapAlloc(heap, len + 0x20, WaveArcTableDisposeCallback,
-                                    bSetAddr ? NNS_SndArcGetCurrent() : 0, fileId);
+        tableArc = Sound_Context_Allocate(heap, len + 0x20, Sound_DtorFn_SwarHeader,
+                                    bSetAddr ? Sound_GetActiveSdat() : 0, fileId);
         if (tableArc == 0) {
             return 0;
         }
-        bytesRead = NNS_SndArcReadFile(fileId, tableArc, offsetBytes + 0x3c, 0);
+        bytesRead = Sound_ReadFile(fileId, tableArc, offsetBytes + 0x3c, 0);
         if (bytesRead != offsetBytes + 0x3c) {
             return 0;
         }
-        MI_CpuCopy8(tableArc->mWaveOffset, tableArc->mWaveOffset + tableArc->mWaveCount, offsetBytes);
-        MI_CpuFill8(tableArc->mWaveOffset, 0, offsetBytes);
-        DC_StoreRange(tableArc, len);
+        Mem_CpuCopy8(tableArc->mWaveOffset, tableArc->mWaveOffset + tableArc->mWaveCount, offsetBytes);
+        Mem_CpuFill8(tableArc->mWaveOffset, 0, offsetBytes);
+        DC_SomeClean(tableArc, len);
         if (bSetAddr != 0) {
-            NNS_SndArcSetFileAddress(fileId, tableArc);
+            Sound_SetFileFatDynamicOffsetField(fileId, tableArc);
         }
     }
     return tableArc;
 }
 
 // Clears the file address when mem is still the loaded copy.
-void DisposeCallback(void *mem, NNSSndArc *arc, u32 fileId) {
+void Sound_DisposeFile(void *mem, NNSSndArc *arc, u32 fileId) {
     NNSSndArc *previousArc;
     u32 enabled;
 
     if (arc == 0) {
         return;
     }
-    enabled = OS_DisableInterrupts();
-    previousArc = NNS_SndArcSetCurrent(arc);
-    if (mem == NNS_SndArcGetFileAddress(fileId)) {
-        NNS_SndArcSetFileAddress(fileId, 0);
+    enabled = Os_DisableIrq();
+    previousArc = Sound_MaybeSetActiveSdat(arc);
+    if (mem == Sound_MaybeGetRawFilePointer(fileId)) {
+        Sound_SetFileFatDynamicOffsetField(fileId, 0);
     }
-    NNS_SndArcSetCurrent(previousArc);
-    OS_RestoreInterrupts(enabled);
+    Sound_MaybeSetActiveSdat(previousArc);
+    Os_RestoreIrq(enabled);
 }
 
-void SeqDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
-    DisposeCallback(mem, data1, data2);
+void Sound_DtorFn_SomeSarcPointer(void *mem, u32 size, void *data1, u32 data2) {
+    Sound_DisposeFile(mem, data1, data2);
     SND_InvalidateSeqData(mem, (u8 *) mem + size);
 }
 
-void BankDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
-    DisposeCallback(mem, data1, data2);
+void SomeSoundDtorFn(void *mem, u32 size, void *data1, u32 data2) {
+    Sound_DisposeFile(mem, data1, data2);
     SND_InvalidateBankData(mem, (u8 *) mem + size);
     SND_DestroyBank(mem);
 }
 
-void WaveArcDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
-    DisposeCallback(mem, data1, data2);
+void AnotherSoundDtorFn(void *mem, u32 size, void *data1, u32 data2) {
+    Sound_DisposeFile(mem, data1, data2);
     SND_InvalidateWaveData(mem, (u8 *) mem + size);
     SND_DestroyWaveArc(mem);
 }
 
-void WaveArcTableDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
-    DisposeCallback(mem, data1, data2);
+void Sound_DtorFn_SwarHeader(void *mem, u32 size, void *data1, u32 data2) {
+    Sound_DisposeFile(mem, data1, data2);
     SND_DestroyWaveArc(mem);
 }
 
-void SingleWaveDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
+void AndAndAnotherSoundDtorFn(void *mem, u32 size, void *data1, u32 data2) {
     u8 *wave = mem;
 
     if (wave == SND_GetWaveDataAddress(data1, data2)) {
@@ -539,14 +539,14 @@ BOOL LoadSingleWave(SNDWaveArc *waveArc, s32 waveNo, u32 fileId, NNSSndHeap *hea
     if (heap == 0) {
         return 0;
     }
-    buffer = NNS_SndHeapAlloc(heap, len + 32, SingleWaveDisposeCallback, waveArc, waveNo);
+    buffer = Sound_Context_Allocate(heap, len + 32, AndAndAnotherSoundDtorFn, waveArc, waveNo);
     if (buffer == 0) {
         return 0;
     }
-    if (NNS_SndArcReadFile(fileId, buffer, len, startOffset) != len) {
+    if (Sound_ReadFile(fileId, buffer, len, startOffset) != len) {
         return 0;
     }
-    DC_StoreRange(buffer, len);
+    DC_SomeClean(buffer, len);
     SND_SetWaveDataAddress(waveArc, waveNo, buffer);
     return 1;
 }
@@ -573,7 +573,7 @@ BOOL LoadSingleWaves(SNDWaveArc *waveArc, SNDBankData *bank, s32 waveArcNo, u32 
     return 1;
 }
 
-NNSSndHeap *NNS_SndHeapCreate(void *startAddress, u32 size) {
+NNSSndHeap *Sound_InitializeContext(void *startAddress, u32 size) {
     NNSSndHeap *heap;
     void *handle;
     u32 end;
@@ -588,31 +588,31 @@ NNSSndHeap *NNS_SndHeapCreate(void *startAddress, u32 size) {
     if (remaining < 16) {
         return 0;
     }
-    handle = NNS_FndCreateFrmHeapEx(heap + 1, remaining - 16, 0);
+    handle = Mem_Frame_Create(heap + 1, remaining - 16, 0);
     if (handle == 0) {
         return 0;
     }
-    if (InitHeap(heap, handle) != 0) {
+    if (Sound_Context_SetHeap(heap, handle) != 0) {
         return heap;
     }
-    NNS_FndDestroyFrmHeap(handle);
+    Mem_Frame_Finalize(handle);
     return 0;
 }
 
-void NNS_SndHeapDestroy(NNSSndHeap *heap) {
-    NNS_SndHeapClear(heap);
-    NNS_FndDestroyFrmHeap(heap->mHandle);
+void Sound_Context_Dispose(NNSSndHeap *heap) {
+    Sound_Context_DisposeLoadedStuff(heap);
+    Mem_Frame_Finalize(heap->mHandle);
 }
 
-void NNS_SndHeapClear(NNSSndHeap *heap) {
+void Sound_Context_DisposeLoadedStuff(NNSSndHeap *heap) {
     NNSSndHeapSection *heapSection;
     void *listItem;
     u32 calledBack = 0;
 
-    for (heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0); heapSection != 0;
-         heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0)) {
-        for (listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, 0); listItem != 0;
-             listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, listItem)) {
+    for (heapSection = IntrusiveListWrapper_GetPrevItem(&heap->mSectionList, 0); heapSection != 0;
+         heapSection = IntrusiveListWrapper_GetPrevItem(&heap->mSectionList, 0)) {
+        for (listItem = IntrusiveListWrapper_GetPrevItem(&heapSection->mBlockList, 0); listItem != 0;
+             listItem = IntrusiveListWrapper_GetPrevItem(&heapSection->mBlockList, listItem)) {
             NNSSndHeapBlock *heapBlock = listItem;
 
             if (heapBlock->mCallback != 0) {
@@ -620,60 +620,60 @@ void NNS_SndHeapClear(NNSSndHeap *heap) {
                 calledBack = 1;
             }
         }
-        NNS_FndRemoveListObject(&heap->mSectionList, heapSection);
+        IntrusiveListWrapper_RemoveItem(&heap->mSectionList, heapSection);
     }
-    NNS_FndFreeToFrmHeap(heap->mHandle, 3);
+    Mem_ResetFrameHeap(heap->mHandle, 3);
     if (calledBack != 0) {
         EraseSync();
     }
-    NewSection(heap);
+    Sound_Context_MaybeReset(heap);
 }
 
 // Allocates behind a 32-byte block header holding the dispose callback.
-void *NNS_SndHeapAlloc(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, void *data1, u32 data2) {
+void *Sound_Context_Allocate(NNSSndHeap *heap, u32 size, NNSSndHeapDisposeCallback callback, void *data1, u32 data2) {
     NNSSndHeapBlock *heapBlock;
     NNSSndHeapSection *heapSection;
 
-    heapBlock = NNS_FndAllocFromFrmHeapEx(heap->mHandle, ((size + 31) & ~31) + 32, 32);
+    heapBlock = Mem_Frame_Allocate(heap->mHandle, ((size + 31) & ~31) + 32, 32);
     if (heapBlock == 0) {
         return 0;
     }
-    heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0);
+    heapSection = IntrusiveListWrapper_GetPrevItem(&heap->mSectionList, 0);
     heapBlock->mSize = size;
     heapBlock->mCallback = callback;
     heapBlock->mData1 = data1;
     heapBlock->mData2 = data2;
-    NNS_FndAppendListObject(&heapSection->mBlockList, heapBlock);
+    IntrusiveListWrapper_InsertLast(&heapSection->mBlockList, heapBlock);
     return heapBlock + 1;
 }
 
-// Returns the level for NNS_SndHeapLoadState, or -1.
-s32 NNS_SndHeapSaveState(NNSSndHeap *heap) {
-    if (NNS_FndRecordStateForFrmHeap(heap->mHandle, heap->mSectionList.mCount) == 0) {
+// Returns the level for Sound_MaybeRestoreHeapState, or -1.
+s32 Sound_Context_BackupFrameState(NNSSndHeap *heap) {
+    if (Mem_CreateFrameHeapState(heap->mHandle, heap->mSectionList.mCount) == 0) {
         return -1;
     }
-    if (NewSection(heap) != 0) {
+    if (Sound_Context_MaybeReset(heap) != 0) {
         return heap->mSectionList.mCount - 1;
     }
-    NNS_FndFreeByStateToFrmHeap(heap->mHandle, 0);
+    Mem_RestoreFrameHeapState(heap->mHandle, 0);
     return -1;
 }
 
 // Frees the sections above level; level 0 clears the heap.
-void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level) {
+void Sound_MaybeRestoreHeapState(NNSSndHeap *heap, s32 level) {
     NNSSndHeapSection *heapSection;
     void *listItem = 0;
     u32 calledBack = 0;
 
     if (level == 0) {
-        NNS_SndHeapClear(heap);
+        Sound_Context_DisposeLoadedStuff(heap);
         return;
     }
     if (level < heap->mSectionList.mCount) {
         do {
-            heapSection = NNS_FndGetPrevListObject(&heap->mSectionList, 0);
-            for (listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, listItem); listItem != 0;
-                 listItem = NNS_FndGetPrevListObject(&heapSection->mBlockList, listItem)) {
+            heapSection = IntrusiveListWrapper_GetPrevItem(&heap->mSectionList, 0);
+            for (listItem = IntrusiveListWrapper_GetPrevItem(&heapSection->mBlockList, listItem); listItem != 0;
+                 listItem = IntrusiveListWrapper_GetPrevItem(&heapSection->mBlockList, listItem)) {
                 NNSSndHeapBlock *heapBlock = listItem;
 
                 if (heapBlock->mCallback != 0) {
@@ -681,40 +681,40 @@ void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level) {
                     calledBack = 1;
                 }
             }
-            NNS_FndRemoveListObject(&heap->mSectionList, heapSection);
+            IntrusiveListWrapper_RemoveItem(&heap->mSectionList, heapSection);
         } while (level < heap->mSectionList.mCount);
     }
-    NNS_FndFreeByStateToFrmHeap(heap->mHandle, level);
+    Mem_RestoreFrameHeapState(heap->mHandle, level);
     if (calledBack != 0) {
         EraseSync();
     }
-    NNS_FndRecordStateForFrmHeap(heap->mHandle, heap->mSectionList.mCount);
-    NewSection(heap);
+    Mem_CreateFrameHeapState(heap->mHandle, heap->mSectionList.mCount);
+    Sound_Context_MaybeReset(heap);
 }
 
-s32 NNS_SndHeapGetCurrentLevel(NNSSndHeap *heap) {
+s32 Sound_Context_GetMaybeSavedFrameHeapStateId(NNSSndHeap *heap) {
     return heap->mSectionList.mCount - 1;
 }
 
 void InitHeapSection(NNSSndHeapSection *section) {
-    NNS_FndInitList(&section->mBlockList, 0);
+    IntrusiveListWrapper_InitializeEmpty(&section->mBlockList, 0);
 }
 
-BOOL InitHeap(NNSSndHeap *heap, void *handle) {
-    NNS_FndInitList(&heap->mSectionList, 12);
+BOOL Sound_Context_SetHeap(NNSSndHeap *heap, void *handle) {
+    IntrusiveListWrapper_InitializeEmpty(&heap->mSectionList, 12);
     heap->mHandle = handle;
-    return NewSection(heap) != 0;
+    return Sound_Context_MaybeReset(heap) != 0;
 }
 
-BOOL NewSection(NNSSndHeap *heap) {
+BOOL Sound_Context_MaybeReset(NNSSndHeap *heap) {
     NNSSndHeapSection *newSection;
 
-    newSection = NNS_FndAllocFromFrmHeapEx(heap->mHandle, 0x14, 4);
+    newSection = Mem_Frame_Allocate(heap->mHandle, 0x14, 4);
     if (newSection == 0) {
         return 0;
     }
     InitHeapSection(newSection);
-    NNS_FndAppendListObject(&heap->mSectionList, newSection);
+    IntrusiveListWrapper_InsertLast(&heap->mSectionList, newSection);
     return 1;
 }
 
@@ -722,68 +722,68 @@ void EraseSync(void) {
     u32 pendingTag;
 
     pendingTag = SND_GetCurrentCommandTag();
-    SND_FlushCommand(1);
+    Sound_FlushCommand(1);
     SND_WaitForCommandProc(pendingTag);
 }
 
-void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL symbolLoadFlag) {
+void Sound_ReadSdatFromPathImpl(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL symbolLoadFlag) {
     arc->mInfo = 0;
     arc->mFat = 0;
     arc->mSymbol = 0;
-    if (FS_ConvertPathToFileID(&arc->mFileId, filePath) == 0) {
+    if (Fs_FileId_LoadFromPath(&arc->mFileId, filePath) == 0) {
         return;
     }
-    FS_InitFile(&arc->mFile);
-    if (FS_OpenFileFast(&arc->mFile, arc->mFileId) == 0) {
+    Fs_File_Initialize(&arc->mFile);
+    if (Fs_File_OpenById(&arc->mFile, arc->mFileId) == 0) {
         return;
     }
     arc->mFileOpen = 1;
-    if (NNS_SndArcSetup(arc, heap, symbolLoadFlag) != 0) {
-        sCurrent = arc;
+    if (Sound_ReadSdatFromOpenedFile(arc, heap, symbolLoadFlag) != 0) {
+        g_ActiveSdat = arc;
     }
 }
 
-BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
+BOOL Sound_ReadSdatFromOpenedFile(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
     s32 bytesRead;
 
-    if (FS_SeekFile(&arc->mFile, 0, 0) == 0) {
+    if (Fs_File_Seek(&arc->mFile, 0, 0) == 0) {
         return 0;
     }
-    if (FS_ReadFile(&arc->mFile, &arc->mHeader, 0x30) != 0x30) {
+    if (Fs_File_Read(&arc->mFile, &arc->mHeader, 0x30) != 0x30) {
         return 0;
     }
     if (heap != 0) {
-        arc->mInfo = NNS_SndHeapAlloc(heap, arc->mHeader.mInfoSize, InfoDisposeCallback, arc, 0);
+        arc->mInfo = Sound_Context_Allocate(heap, arc->mHeader.mInfoSize, InfoDisposeCallback, arc, 0);
         if (arc->mInfo == 0) {
             return 0;
         }
-        if (FS_SeekFile(&arc->mFile, arc->mHeader.mInfoOffset, 0) == 0) {
+        if (Fs_File_Seek(&arc->mFile, arc->mHeader.mInfoOffset, 0) == 0) {
             return 0;
         }
-        bytesRead = FS_ReadFile(&arc->mFile, arc->mInfo, arc->mHeader.mInfoSize);
+        bytesRead = Fs_File_Read(&arc->mFile, arc->mInfo, arc->mHeader.mInfoSize);
         if (bytesRead != arc->mHeader.mInfoSize) {
             return 0;
         }
-        arc->mFat = NNS_SndHeapAlloc(heap, arc->mHeader.mFatSize, FatDisposeCallback, arc, 0);
+        arc->mFat = Sound_Context_Allocate(heap, arc->mHeader.mFatSize, FatDisposeCallback, arc, 0);
         if (arc->mFat == 0) {
             return 0;
         }
-        if (FS_SeekFile(&arc->mFile, arc->mHeader.mFatOffset, 0) == 0) {
+        if (Fs_File_Seek(&arc->mFile, arc->mHeader.mFatOffset, 0) == 0) {
             return 0;
         }
-        bytesRead = FS_ReadFile(&arc->mFile, arc->mFat, arc->mHeader.mFatSize);
+        bytesRead = Fs_File_Read(&arc->mFile, arc->mFat, arc->mHeader.mFatSize);
         if (bytesRead != arc->mHeader.mFatSize) {
             return 0;
         }
         if (symbolLoadFlag != 0 && arc->mHeader.mSymbolDataSize != 0) {
-            arc->mSymbol = NNS_SndHeapAlloc(heap, arc->mHeader.mSymbolDataSize, SymbolDisposeCallback, arc, 0);
+            arc->mSymbol = Sound_Context_Allocate(heap, arc->mHeader.mSymbolDataSize, SymbolDisposeCallback, arc, 0);
             if (arc->mSymbol == 0) {
                 return 0;
             }
-            if (FS_SeekFile(&arc->mFile, arc->mHeader.mSymbolDataOffset, 0) == 0) {
+            if (Fs_File_Seek(&arc->mFile, arc->mHeader.mSymbolDataOffset, 0) == 0) {
                 return 0;
             }
-            bytesRead = FS_ReadFile(&arc->mFile, arc->mSymbol, arc->mHeader.mSymbolDataSize);
+            bytesRead = Fs_File_Read(&arc->mFile, arc->mSymbol, arc->mHeader.mSymbolDataSize);
             if (bytesRead != arc->mHeader.mSymbolDataSize) {
                 return 0;
             }
@@ -793,10 +793,10 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
 }
 
 // Points the blocks and files into an archive already in memory.
-void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data) {
+void Sound_ReadSdatFromMemory(NNSSndArc *arc, void *data) {
     u32 fileIndex;
 
-    MIi_CpuCopy32(data, &arc->mHeader, 0x30);
+    Mem_CpuCopy32(data, &arc->mHeader, 0x30);
     arc->mInfo = arc->mHeader.mInfoOffset == 0 ? 0 : OFFSET_PTR(NNSSndArcInfo, data, arc->mHeader.mInfoOffset);
     arc->mFat = arc->mHeader.mFatOffset == 0 ? 0 : OFFSET_PTR(NNSSndArcFat, data, arc->mHeader.mFatOffset);
     arc->mSymbol =
@@ -807,18 +807,18 @@ void NNS_SndArcInitOnMemory(NNSSndArc *arc, void *data) {
         file->mMem = file->mOffset == 0 ? 0 : (u8 *) data + file->mOffset;
     }
     arc->mFileOpen = 0;
-    sCurrent = arc;
+    g_ActiveSdat = arc;
 }
 
-NNSSndArc *NNS_SndArcSetCurrent(NNSSndArc *arc) {
-    NNSSndArc *previousArc = sCurrent;
+NNSSndArc *Sound_MaybeSetActiveSdat(NNSSndArc *arc) {
+    NNSSndArc *previousArc = g_ActiveSdat;
 
-    sCurrent = arc;
+    g_ActiveSdat = arc;
     return previousArc;
 }
 
-NNSSndArc *NNS_SndArcGetCurrent(void) {
-    return sCurrent;
+NNSSndArc *Sound_GetActiveSdat(void) {
+    return g_ActiveSdat;
 }
 
 NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
@@ -826,11 +826,11 @@ NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
     NNSSndSeqArc *seqArcData;
     NNSSndSeqArcSeqInfo *seqEntry;
 
-    info = NNS_SndArcGetSeqArcInfo(seqArcNo);
+    info = Sound_GetSarcInfoEntry(seqArcNo);
     if (info == 0) {
         return 0;
     }
-    seqArcData = NNS_SndArcGetFileAddress(info->mFileId);
+    seqArcData = Sound_MaybeGetRawFilePointer(info->mFileId);
     if (seqArcData == 0) {
         return 0;
     }
@@ -841,8 +841,8 @@ NNSSndSeqParam *NNS_SndArcGetSeqArcParam(s32 seqArcNo, s32 index) {
     return &seqEntry->mParam;
 }
 
-NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(s32 seqNo) {
-    NNSSndArc *arc = sCurrent;
+NNSSndArcSeqInfo *Sound_GetSseqInfoEntry(s32 seqNo) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
@@ -863,8 +863,8 @@ NNSSndArcSeqInfo *NNS_SndArcGetSeqInfo(s32 seqNo) {
     return offset == 0 ? 0 : (NNSSndArcSeqInfo *) (base + offset);
 }
 
-NNSSndArcSeqArcInfo *NNS_SndArcGetSeqArcInfo(s32 seqArcNo) {
-    NNSSndArc *arc = sCurrent;
+NNSSndArcSeqArcInfo *Sound_GetSarcInfoEntry(s32 seqArcNo) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
@@ -885,8 +885,8 @@ NNSSndArcSeqArcInfo *NNS_SndArcGetSeqArcInfo(s32 seqArcNo) {
     return offset == 0 ? 0 : (NNSSndArcSeqArcInfo *) (base + offset);
 }
 
-NNSSndArcBankInfo *NNS_SndArcGetBankInfo(s32 bankNo) {
-    NNSSndArc *arc = sCurrent;
+NNSSndArcBankInfo *Sound_GetSbnkInfoEntry(s32 bankNo) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
@@ -907,8 +907,8 @@ NNSSndArcBankInfo *NNS_SndArcGetBankInfo(s32 bankNo) {
     return offset == 0 ? 0 : (NNSSndArcBankInfo *) (base + offset);
 }
 
-NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(s32 waveArcNo) {
-    NNSSndArc *arc = sCurrent;
+NNSSndArcWaveArcInfo *Sound_GetSwarInfoEntry(s32 waveArcNo) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
@@ -929,8 +929,8 @@ NNSSndArcWaveArcInfo *NNS_SndArcGetWaveArcInfo(s32 waveArcNo) {
     return offset == 0 ? 0 : (NNSSndArcWaveArcInfo *) (base + offset);
 }
 
-NNSSndArcPlayerInfo *NNS_SndArcGetPlayerInfo(s32 playerNo) {
-    NNSSndArc *arc = sCurrent;
+NNSSndArcPlayerInfo *Sound_GetPlayerInfoEntry(s32 playerNo) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
@@ -951,8 +951,8 @@ NNSSndArcPlayerInfo *NNS_SndArcGetPlayerInfo(s32 playerNo) {
     return offset == 0 ? 0 : (NNSSndArcPlayerInfo *) (base + offset);
 }
 
-NNSSndArcGroupInfo *NNS_SndArcGetGroupInfo(s32 groupNo) {
-    NNSSndArc *arc = sCurrent;
+NNSSndArcGroupInfo *Sound_GetGroupInfoEntry(s32 groupNo) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcOffsetTable *offsetTable;
     u32 offset;
     u8 *base;
@@ -973,8 +973,8 @@ NNSSndArcGroupInfo *NNS_SndArcGetGroupInfo(s32 groupNo) {
     return offset == 0 ? 0 : (NNSSndArcGroupInfo *) (base + offset);
 }
 
-u32 NNS_SndArcGetFileSize(u32 fileId) {
-    NNSSndArcFat *fat = sCurrent->mFat;
+u32 Sound_GetFileSize(u32 fileId) {
+    NNSSndArcFat *fat = g_ActiveSdat->mFat;
 
     if (fileId >= fat->mCount) {
         return 0;
@@ -983,8 +983,8 @@ u32 NNS_SndArcGetFileSize(u32 fileId) {
 }
 
 // Returns the number of bytes read, or -1.
-s32 NNS_SndArcReadFile(u32 fileId, void *buffer, u32 size, u32 offset) {
-    NNSSndArc *arc = sCurrent;
+s32 Sound_ReadFile(u32 fileId, void *buffer, u32 size, u32 offset) {
+    NNSSndArc *arc = g_ActiveSdat;
     NNSSndArcFat *fat;
     NNSSndArcFileInfo *file;
     u32 left;
@@ -998,14 +998,14 @@ s32 NNS_SndArcReadFile(u32 fileId, void *buffer, u32 size, u32 offset) {
     if (size > left) {
         size = left;
     }
-    if (FS_SeekFile(&arc->mFile, file->mOffset + offset, 0) == 0) {
+    if (Fs_File_Seek(&arc->mFile, file->mOffset + offset, 0) == 0) {
         return -1;
     }
-    return FS_ReadFile(&arc->mFile, buffer, size);
+    return Fs_File_Read(&arc->mFile, buffer, size);
 }
 
-void *NNS_SndArcGetFileAddress(u32 fileId) {
-    NNSSndArcFat *fat = sCurrent->mFat;
+void *Sound_MaybeGetRawFilePointer(u32 fileId) {
+    NNSSndArcFat *fat = g_ActiveSdat->mFat;
 
     if (fileId >= fat->mCount) {
         return 0;
@@ -1013,8 +1013,8 @@ void *NNS_SndArcGetFileAddress(u32 fileId) {
     return fat->mFiles[fileId].mMem;
 }
 
-void NNS_SndArcSetFileAddress(u32 fileId, void *address) {
-    sCurrent->mFat->mFiles[fileId].mMem = address;
+void Sound_SetFileFatDynamicOffsetField(u32 fileId, void *address) {
+    g_ActiveSdat->mFat->mFiles[fileId].mMem = address;
 }
 
 void InfoDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {

@@ -204,7 +204,7 @@ typedef struct NNSG3dRSOnGlb {
     } /* 1400 */ mEvpCache[64];
 } NNSG3dRSOnGlb;
 
-// One animation format of the table of animation formats: its categories and its init function.
+// One animation format of the table of animation formats: its categories and its StructDC_SomeFn_from_thumb function.
 typedef struct NNSG3dAnmObjInitFunc {
     /* 00 */ u8 mCategory0;
     /* 01 */ u8 mDummy_;
@@ -268,9 +268,9 @@ typedef struct NNSG3dGlb {
     /* 258 */ Vec3 mCamTarget;
 } NNSG3dGlb;
 
-void NNS_G3dRenderObjInit(NNSG3dRenderObj *renderObj, NNSG3dResMdl *resMdl);
-void NNS_G3dAnmObjInit(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *resMdl, void *resTex);
-u32 NNS_G3dAnmObjCalcSizeRequired(const NNSG3dResAnmHeader *anm, const NNSG3dResMdl *mdl);
+void StructML_MaybeSetModel(NNSG3dRenderObj *renderObj, NNSG3dResMdl *resMdl);
+void MaybeCreateAnimationBlock(NNSG3dAnmObj *anmObj, void *resAnm, const NNSG3dResMdl *resMdl, void *resTex);
+u32 Anim_GetNeededBlockSize(const NNSG3dResAnmHeader *anm, const NNSG3dResMdl *mdl);
 MtxFx43 *NNS_G3dGlbGetInvWV(void);
 MtxFx43 *NNS_G3dGlbGetWV(void);
 void calcSrtCameraMtx_(void);

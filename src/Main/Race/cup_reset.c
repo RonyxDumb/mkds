@@ -4,6 +4,6 @@
 #include "touch_panel_sampling.h"
 
 void ResetCupToFirstCourse(void) {
-    ResetCupRecords();
-    gRaceSetup->mNextHeader.mCourseNumber = 1;
+    CreateGlobalLU();
+    g_GlobalCO->mNextHeader.mCourseNumber = 1;
 }

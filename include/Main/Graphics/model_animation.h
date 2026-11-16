@@ -15,7 +15,7 @@ typedef enum {
 } ModelAnimationKind;
 
 // One model's animations: a table of animation objects and one loop flag per entry; one entry plays at a time.
-// A change of entry can fade from the old one (StartModelAnimationBlend).
+// A change of entry can fade from the old one (StructAM_SomeFn_MaybeForceLoadBlock).
 typedef struct ModelAnimationFrameLoop {
     /* 00 */ u16 mLoopMode;
     /* 02 */ u16 mDone;
@@ -44,24 +44,24 @@ typedef struct ModelAnimation {
     /* 34 */ NNSG3dAnmObj *mPreviousAnmObj;
 } ModelAnimation;
 
-s32 GetModelAnimationFrameCountFixed(ModelAnimation *modelAnimation);
-void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation);
-void AdvanceModelAnimation(ModelAnimation *modelAnimation);
-void StartModelAnimationBlend(ModelAnimation *modelAnimation, u16 entryIndex);
-void SetModelAnimation(ModelAnimation *modelAnimation, s32 entryIndex);
-void InitModelAnimationEntries(ModelAnimation *modelAnimation, void *anmFile, void *heap);
-void InitModelAnimationEntry(ModelAnimation *modelAnimation, s32 entryIndex, void *anmResource, u32 loopFlag,
+s32 StructAM_GetFrameCount_Times4096(ModelAnimation *modelAnimation);
+void StructAM_SomeFn_5(ModelAnimation *modelAnimation);
+void StructAM_SomeFn_MaybeMoveNextFrame(ModelAnimation *modelAnimation);
+void StructAM_SomeFn_MaybeForceLoadBlock(ModelAnimation *modelAnimation, u16 entryIndex);
+void StructAM_SomeFn_MaybeLoadFrame(ModelAnimation *modelAnimation, s32 entryIndex);
+void StructAM_MaybeLoadAnimation(ModelAnimation *modelAnimation, void *anmFile, void *heap);
+void StructAM_SomeFn_2(ModelAnimation *modelAnimation, s32 entryIndex, void *anmResource, u32 loopFlag,
                              void *heap);
-void InitModelAnimation(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
+void StructAM_CreateFrom(u32 kind, ModelAnimation *modelAnimation, Nsbmd *renderObj, u32 anmObjCount, void *heap,
                         void *file);
-s32 MatCGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
-s32 VisGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
-s32 TexPatGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
-s32 TexSrtGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
-s32 JointGetAnmObjFrameCount(NNSG3dAnmObj *anmObj);
+s32 AnimFormatHandler_BMA(NNSG3dAnmObj *anmObj);
+s32 AnimFormatHandler_BVA(NNSG3dAnmObj *anmObj);
+s32 AnimFormatHandler_BTP(NNSG3dAnmObj *anmObj);
+s32 AnimFormatHandler_BTA(NNSG3dAnmObj *anmObj);
+s32 Anim_GetFrameCount_BCA(NNSG3dAnmObj *anmObj);
 
-extern u32 gAnmObjSizeRequired;
+extern u32 g_LastLoadedAnimationBlockSize;
 
 typedef s32 (*AnmFrameCountGetter)(NNSG3dAnmObj *anmObj);
 
-extern const AnmFrameCountGetter gAnmFrameCountGetters[5];
+extern const AnmFrameCountGetter g_Anim_GetFrameCountFnTable[5];

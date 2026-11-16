@@ -14,21 +14,21 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 MPStatesGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline void MPStatesRequestMPState(u16 nextState) {
-    MPStateMachine *stateMachine = &gConnectionWork->mMPStateMachine;
+    MPStateMachine *stateMachine = &g_GlobalZE->mMPStateMachine;
     stateMachine->mStateMachine.mNextState = nextState;
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
 static inline s32 MPStatesIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (MPStatesGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if (MPStatesGetConnectionMode() != CONNECTION_MODE_NONE && g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -36,7 +36,7 @@ static inline s32 MPStatesIsConnectionActive(void) {
 
 static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (MPStatesIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (MPStatesIsConnectionActive() && !(g_GlobalZE->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -44,7 +44,7 @@ static inline s32 MPStatesIsConnectionActiveNotEnding(void) {
 
 static inline s32 MPStatesIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (MPStatesIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
+    if (MPStatesIsConnectionActiveNotEnding() && g_GlobalZE->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -56,55 +56,55 @@ s32 AdvanceSyncedCallback(void (*callback)(void)) {
     BOOL done;
 
     done = FALSE;
-    switch (gConnectionWork->mSyncState) {
+    switch (g_GlobalZE->mSyncState) {
         case CONNECTION_SYNC_START:
-            if (gConnectionWork->mFlags & CONNECTION_FLAG_SEND_READY) {
+            if (g_GlobalZE->mFlags & CONNECTION_FLAG_SEND_READY) {
                 switch (MPStatesGetConnectionMode()) {
                     case CONNECTION_MODE_PARENT:
-                        gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_WAIT_CHILDREN;
+                        g_GlobalZE->mSyncState = CONNECTION_SYNC_PARENT_WAIT_CHILDREN;
                         break;
                     case CONNECTION_MODE_CHILD:
-                        gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD;
+                        g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_LOAD;
                         break;
                 }
             }
             break;
         case CONNECTION_SYNC_PARENT_ANNOUNCE:
             QueueMPDataHalfword(MP_MESSAGE_TRANSFER_SYNC_DONE, 0xff);
-            gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
-            gConnectionWork->mSyncDoneChildMask = done;
-            gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
+            g_GlobalZE->mTransferFlags |= CONNECTION_TRANSFER_SYNC_DONE;
+            g_GlobalZE->mSyncDoneChildMask = done;
+            g_GlobalZE->mSyncState = CONNECTION_SYNC_DONE;
             break;
         case CONNECTION_SYNC_PARENT_WAIT_CHILDREN:
-            if (gConnectionWork->mChildren.mChildMask ==
-                (gConnectionWork->mChildren.mChildMask & gConnectionWork->mSyncDoneChildMask)) {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_PARENT_ANNOUNCE;
+            if (g_GlobalZE->mChildren.mChildMask ==
+                (g_GlobalZE->mChildren.mChildMask & g_GlobalZE->mSyncDoneChildMask)) {
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_PARENT_ANNOUNCE;
             }
             break;
         case CONNECTION_SYNC_CHILD_LOAD:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-                QueueThreadFunction(callback);
-                gThreadFunctionQueue->mRunRequested = 1;
+                WorkerInsertTask(callback);
+                g_WorkerContext->mRunRequested = 1;
             }
-            gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
+            g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_LOAD_WAIT;
             QueueMPDataHalfword(MP_MESSAGE_SYNC_NOT_DONE, 1);
             break;
         case CONNECTION_SYNC_CHILD_LOAD_WAIT:
-            if (gThreadFunctionQueue->mRunRequested == 0) {
-                if (gConnectionWork->mCallbackFailed != 0) {
+            if (g_WorkerContext->mRunRequested == 0) {
+                if (g_GlobalZE->mCallbackFailed != 0) {
                     SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
                 } else {
-                    gConnectionWork->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
+                    g_GlobalZE->mSyncState = CONNECTION_SYNC_CHILD_REPORT;
                 }
             }
             break;
         case CONNECTION_SYNC_CHILD_REPORT:
             if (QueueMPDataHalfword(MP_MESSAGE_SYNC_DONE, 1) != FALSE) {
-                gConnectionWork->mSyncState = CONNECTION_SYNC_DONE;
+                g_GlobalZE->mSyncState = CONNECTION_SYNC_DONE;
             }
             break;
         case CONNECTION_SYNC_DONE:
-            if (gConnectionWork->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
+            if (g_GlobalZE->mTransferFlags & CONNECTION_TRANSFER_SYNC_DONE) {
                 done = TRUE;
             }
             break;
@@ -120,8 +120,8 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     if (!MPStatesIsConnectionActive()) {
         return 1;
     }
-    ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == CONNECTION_MODE_CHILD
-                   ? gConnectionWork->mOwnIndex
+    ownIndex = ((const ConnectionWork *) g_GlobalZE)->mConnectionMode == CONNECTION_MODE_CHILD
+                   ? g_GlobalZE->mOwnIndex
                    : 0;
     if (ownIndex == 0xffff && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -130,34 +130,34 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
         }
         return 2;
     }
-    AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
+    StateDualHandler_Execute(&g_GlobalZE->mMPStateMachine.mStateMachine);
     if (!MPStatesIsConnectionActiveNotEndingWithError()) {
-        if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT && gConnectionWork->mChildren.mChildCount == 0) {
+        if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT && g_GlobalZE->mChildren.mChildCount == 0) {
             SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
         }
     }
-    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == MP_STATE_READY) {
+    if (g_GlobalZE->mMPStateMachine.mStateMachine.mState == MP_STATE_READY) {
         finished = TRUE;
     }
     return finished;
 }
 
-void EnterMPFillOwnRecord(void *stateObject) {
+void E7Fn1_0_from_thumb(void *stateObject) {
     u16 ownIndex;
 
-    ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-    FillPlayerRecord(&gConnectionWork->mPlayerRecords[ownIndex]);
+    ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+    StructTK_SomeFn_from_thumb(&g_GlobalZE->mPlayerRecords[ownIndex]);
 }
 
 void UpdateMPFillOwnRecord(void *stateObject) {
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return;
     }
     if (MPStatesGetConnectionMode() != CONNECTION_MODE_PARENT) {
         MPStatesRequestMPState(MP_STATE_CHILD_DELAY);
         return;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_STARTING_EXCHANGE:
         case CONNECTION_STEP_PUBLISHING_GAME_INFO:
             SetEntry(0);
@@ -168,33 +168,33 @@ void UpdateMPFillOwnRecord(void *stateObject) {
     }
 }
 
-void EnterMPChildDelay(void *stateObject) {
+void StructZE_E7Fn_22_1_from_thumb(void *stateObject) {
     u64 randomState;
 
-    randomState = (u32) OS_GetTick() << 8;
+    randomState = (u32) Os_GetTick() << 8;
     randomState = (u32) randomState & ~(u32) (randomState >> 32);
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         randomState = randomState * RANDOM_STATE64_MULTIPLIER + RANDOM_STATE64_INCREMENT;
-        gConnectionWork->mMPStateMachine.mDelayTimer =
+        g_GlobalZE->mMPStateMachine.mDelayTimer =
             (u16) (((randomState >> 32) * MP_CHILD_DELAY_RANDOM_SPREAD_FRAMES) >> 32) +
             MP_CHILD_DELAY_RANDOM_MIN_FRAMES;
     } else {
-        gConnectionWork->mMPStateMachine.mDelayTimer = MP_CHILD_DELAY_FRAMES;
+        g_GlobalZE->mMPStateMachine.mDelayTimer = MP_CHILD_DELAY_FRAMES;
     }
 }
 
-void UpdateMPChildDelay(void *stateObject) {
-    gConnectionWork->mMPStateMachine.mDelayTimer = gConnectionWork->mMPStateMachine.mDelayTimer - 1;
-    if (gConnectionWork->mMPStateMachine.mDelayTimer < 0) {
+void StructZE_E7Fn_22_2_from_thumb(void *stateObject) {
+    g_GlobalZE->mMPStateMachine.mDelayTimer = g_GlobalZE->mMPStateMachine.mDelayTimer - 1;
+    if (g_GlobalZE->mMPStateMachine.mDelayTimer < 0) {
         MPStatesRequestMPState(MP_STATE_START_EXCHANGE);
     }
 }
 
 void EnterMPSendParticipantMask(void *stateObject) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
-        gConnectionWork->mParticipantMask = gConnectionWork->mChildren.mChildMask | 1;
+        g_GlobalZE->mParticipantMask = g_GlobalZE->mChildren.mChildMask | 1;
     }
-    gConnectionWork->mMPStateMachine.mChildDataWaitFrames = 0;
+    g_GlobalZE->mMPStateMachine.mChildDataWaitFrames = 0;
 }
 
 #pragma thumb off

@@ -47,7 +47,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
     s32 value;
     BOOL rotationExceeded;
 
-    secondNormal = gKartVec3UnitY;
+    secondNormal = g_UnitY_VecFx32;
     bit100000WasSet = (kart->mMotionFlags & KART_MOTION_ATTRACTOR_PULL) ? 1 : 0;
     bit200000WasSet = (kart->mDriveFlags & KART_DRIVE_COURSE_SOUND_PLAYED) ? 1 : 0;
     *groundNormal = kart->mGroundNormal;
@@ -58,7 +58,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                                 kart->mRadius, 1, kart->mCollisionSlot, &pushOut, &normal, &secondNormal,
                                 &collisionFlags, &lowestOffset, &pointMotion, &headingDelta, &hitObjects) != 0) {
         collisionMask = collisionFlags & 0x1e34ef;
-        VEC_Add(&kart->mPos, &pushOut, &kart->mPos);
+        VecFx32_Add(&kart->mPos, &pushOut, &kart->mPos);
         AdvanceCourseColorBlend(&kart->mKartModelsEntry->mCourseColorBlend, (collisionFlags & 0x3c000000) >> 26,
                                 kart->mVelocityLength);
         SetKartCourseHitAttributeBit(kart, collisionFlags);
@@ -66,11 +66,11 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
         if (collisionFlags & 0x200300) {
             ApplyKartCourseContact(kart, collisionFlags, &secondNormal);
             if (collisionMask != 0) {
-                dot = VEC_DotProduct(&normal, &kart->mHitVelocity);
+                dot = Vector3_DotProduct(&normal, &kart->mHitVelocity);
                 kart->mHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, dot);
                 kart->mHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, dot);
                 kart->mHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, dot);
-                dot = VEC_DotProduct(&normal, &kart->mPrevHitVelocity);
+                dot = Vector3_DotProduct(&normal, &kart->mPrevHitVelocity);
                 kart->mPrevHitVelocity.x -= MUL_FIXED12_NO_ROUND(normal.x, dot);
                 kart->mPrevHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, dot);
                 kart->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, dot);
@@ -80,7 +80,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 (kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG)) {
                 lowestOffsetLength = 0;
                 if (LENGTH_SQUARED(lowestOffset) >= 0x10) {
-                    lowestOffsetLength = Vec3NormalizeAndGetLengthUnchecked(&lowestOffset, &pushVector);
+                    lowestOffsetLength = Vector3_MaybeNormalize(&lowestOffset, &pushVector);
                 }
                 if (lowestOffsetLength != 0) {
                     pushStrength = 0x802;
@@ -161,7 +161,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                         0) {
                         lowestOffsetLength = 0;
                         if (LENGTH_SQUARED(lowestOffset) >= 0x10) {
-                            lowestOffsetLength = Vec3NormalizeAndGetLengthUnchecked(&lowestOffset, &landingPushVector);
+                            lowestOffsetLength = Vector3_MaybeNormalize(&lowestOffset, &landingPushVector);
                         }
                         if (lowestOffsetLength != 0) {
                             pushStrength = 0x802;

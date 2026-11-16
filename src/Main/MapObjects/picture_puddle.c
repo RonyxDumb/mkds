@@ -23,11 +23,11 @@ MapObjectModel *gPuddle;
 MapObjectKindDescriptor gPuddleKindDescriptor = {0, {0, 0}, 0xa0, 0, CreatePuddleKindData, CreatePuddleDrawList};
 
 void CreatePuddle(void *mapObjectList) {
-    gPuddle = CreateMapObjectModelNsbmd(mapObjectList, "puddle.nsbmd");
+    gPuddle = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "puddle.nsbmd");
 }
 
 void SetupDrawPuddle(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gPuddle);
+    StructMapObject_SomeFn_9(mapObjectList, gPuddle);
 }
 
 void DrawPuddle(void *mapObjectList, MapObject *mapObject) {

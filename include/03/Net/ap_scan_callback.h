@@ -9,10 +9,10 @@
 
 // The result of an access point scan: the error code, state, channel list and the found devices with their link levels.
 typedef struct WMStartScanExCallback {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 mobj;
     /* 02 */ u16 mErrcode;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 04 */ u16 mNsbtaFrame;
+    /* 06 */ u16 mScale;
     /* 08 */ u16 mState;
     /* 0a */ u16 mChannelList;
     /* 0c */ u16 mUnk_0c;

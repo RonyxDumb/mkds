@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-u32 GetChoisesSListCharsSize(int valueCount);
+u32 ComputeSomeMESize_from_thumb(int valueCount);
 
 void StartChoisesSSelectedValueSeq(void);
 
@@ -11,5 +11,5 @@ typedef struct Nclr Nclr;
 
 unsigned int IsChoisesSPickLocked(void);
 void *GetChoisesSListScreenMapData(void);
-Ncgr *GetChoisesSBNcgrWithListChars(void);
-Nclr *GetChoisesSBNclr(void);
+Ncgr *GetSomeBgTileData_from_thumb(void);
+Nclr *GetChoises_s_b_Pallette_from_thumb(void);

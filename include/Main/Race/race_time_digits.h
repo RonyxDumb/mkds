@@ -6,7 +6,7 @@
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer);
-void UpdateRaceTimeDigits(void);
+void MaybeWhenFewSecondsRemaining(void);
 
 void ClearRaceTimeDigitsPointer(void);
 

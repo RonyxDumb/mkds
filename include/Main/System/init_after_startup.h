@@ -7,9 +7,9 @@
 #include "Main/System/input_slots.h"
 
 
-void InitAfterStartup(void);
+void InitializeGeneralObjects(void);
 
-extern struct RaceProgress *gRaceProgress;
-extern struct InputState *gInputState;
-extern struct CourseMap *gCourseMap;
-extern InputSlot gInputSlots[10];
+extern struct RaceProgress *g_GlobalMV;
+extern struct InputState *g_Global5624;
+extern struct CourseMap *g_GlobalPE;
+extern InputSlot g_GlobalCYT[10];

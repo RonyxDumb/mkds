@@ -260,12 +260,12 @@ typedef struct RaceProgressKart {
     // Frames of the current lap, counted while the clock gate is on (about 0x57e40 at most); read and reset at each lap
     // pass.
     /* 04 */ s32 mLapFrames;
-    /* 08 */ s32 mUnk_08;
-    // Slot k-1 holds lap k, slot 5 the finish time. Laps not yet run still hold the value written at init, so
-    // GetKartBestLapTime is only meaningful after all laps.
+    /* 08 */ s32 mPrismDataOffset;
+    // Slot k-1 holds lap k, slot 5 the finish time. Laps not yet run still hold the value written at StructDC_SomeFn_from_thumb, so
+    // GetLeastTimeLap is only meaningful after all laps.
     /* 0c */ MinuteSecondMillisecondTime mLapTimes[6];
     /* 24 */ s32 mLap;
-    // Counted for the leader at each ranking step (kart 0 in a one-kart race); read by ComputeGrandPrixScoreTerms.
+    // Counted for the leader at each ranking step (kart 0 in a one-kart race); read by MaybeComputeGPScore.
     /* 28 */ s32 mFirstPlaceFrames;
     /* 2c */ s32 mFinishTimeMs;
     // 0x1 local entry, 0x2 ended by the mode 2 end, 0x4 facing against the checkpoint, 0x8 finish just happened, 0x10
@@ -290,14 +290,14 @@ typedef struct RaceProgressKart {
             u16 mFinishRequest : 2;
         };
     };
-    // Set by FinishRaceProgressKart for the local entry in modes 0 and 4; 0 otherwise.
+    // Set by RegisterNewRacer for the local entry in modes 0 and 4; 0 otherwise.
     /* 3e */ s16 mScore;
     // Position between the kart's checkpoint and the next one as of the last update, fixed point about 0 to 0x1000 (the
     // tests accept -2 to 0x1002); it is used again as the position when the checkpoint search found no new one.
     /* 40 */ s32 mCheckpointProgress;
     // ((mLap - 1) << 12 + mLapProgress) scaled by 1/laps, fixed point; the rank sort uses it after mLap.
     /* 44 */ s32 mRaceProgress;
-    // Position within the lap, fixed point, scaled by 1/(gCourseMap.mLapProgressBaseMax + 1).
+    // Position within the lap, fixed point, scaled by 1/(g_GlobalPE.mLapProgressBaseMax + 1).
     /* 48 */ s32 mLapProgress;
     // One bit per checkpoint index over 16 words: set when the checkpoint was already tested in this update's search,
     // tested to skip it, cleared for all words before each update.
@@ -320,11 +320,11 @@ typedef struct RaceProgressHeader {
     };
     // Frames from the file, 0 = course absent. Compared with mElapsedFrames.
     /* 0c */ u16 mRankTime;
-    // Calls of FinishRaceProgressKart; set to the kart count when the race is over.
+    // Calls of RegisterNewRacer; set to the kart count when the race is over.
     /* 0e */ u16 mFinishedCount;
     // Only karts removed while not ended.
     /* 10 */ u16 mRemovedCount;
-    /* 12 */ u8 mUnk_12[0x2];
+    /* 12 */ u8 mId[0x2];
 } RaceProgressHeader;
 
 // Nine words.
@@ -349,7 +349,7 @@ typedef struct RankTimeGpEntry {
     /* 06 */ u16 mRankTimeEngine2;
 } RankTimeGpEntry;
 
-// The Grand Prix rank time file: the score weights ComputeGrandPrixScoreTerms reads, then mEntryCount entries.
+// The Grand Prix rank time file: the score weights MaybeComputeGPScore reads, then mEntryCount entries.
 typedef struct RankTimeGp {
     /* 00 */ u8 mUnk_00[0x8];
     /* 08 */ u16 mEntryCount;
@@ -370,17 +370,17 @@ typedef struct RankPointRow {
     /* 00 */ u8 mPoints[8];
 } RankPointRow;
 
-// The race progress (gRaceProgress): per-kart progress and status, the rank order, the race clock and the generators.
+// The race progress (g_GlobalMV): per-kart progress and status, the rank order, the race clock and the generators.
 typedef struct RaceProgress {
     /* 000 */ RaceProgressHeader mHeader;
     /* 014 */ RaceProgressKart mKarts[8];
     /* 474 */ s8 mKartAtRank[8];
     // Synced random generator; also stepped at each clock update while the clock gate is on, for the jitter that
-    // GetRaceClockTime shows.
+    // GetSomeMVTime shows.
     /* 47c */ RandomState64 mRandom;
     // Written once, never read; mNextHeader.mSeed holds the same value.
     /* 494 */ s32 mSeed;
-    // Random generator seeded from three OS_GetTick calls, not from mSeed. Local means this console, not the local
+    // Random generator seeded from three Os_GetTick calls, not from mSeed. Local means this console, not the local
     // player (mFlags bit 1 is the local entry). Mode 1 uses it where the other modes use mRandom.
     /* 498 */ RandomState64 mLocalRandom;
     // Random generator seeded with the constant 0xa094a2f; the map objects draw from it in mode 5 (from mRandom
@@ -397,13 +397,13 @@ typedef struct RaceProgress {
     // How the race of the entry flagged local in RaceProgressKart.mFlags ended: the second argument of
     // FinishRaceProgressKartWithEndKind (0 goal reached, other values the other ends), 6 until it has ended.
     /* 4e0 */ s32 mEntryEndKind;
-    // Reciprocal of one more than gCourseMap's mLapProgressBaseMax, as a fixed-point factor: multiplied with a position
+    // Reciprocal of one more than g_GlobalPE's mLapProgressBaseMax, as a fixed-point factor: multiplied with a position
     // in the route to get RaceProgressKart.mLapProgress and mCheckpointLapProgress.
     /* 4e4 */ s32 mLapProgressScale;
     // Reciprocal of the lap count as a fixed-point factor: multiplied with (mLap - 1, mLapProgress) to get
     // RaceProgressKart.mRaceProgress.
     /* 4e8 */ s32 mRaceProgressScale;
-    // Read only by ComputeRaceTime: when set, the clock counts down from mTimeLimitFrameCount. Set at init in mode 4
+    // Read only by MaybeConvertElapsedTime: when set, the clock counts down from mTimeLimitFrameCount. Set at StructDC_SomeFn_from_thumb in mode 4
     // (unless mUnk_2f is 6) and in mode 2 when mUnk_18 is 1.
     /* 4ec */ BOOL mTimeCountsDown;
     /* 4f0 */ s32 mEntryRaceEnded;
@@ -412,7 +412,7 @@ typedef struct RaceProgress {
     /* 4f8 */ u8 mStartPlacementOffset;
     /* 4f9 */ u8 mUnk_4f9;
     // Mode 4 only: counted while the local entry ended with flag 0x10, zeroed by FinishRaceProgressKartWithEndKind. No
-    // init write (zero from the allocation).
+    // StructDC_SomeFn_from_thumb write (zero from the allocation).
     /* 4fa */ u16 mFramesSinceFinish;
     // Calls of the end step, counted while IsEntryKartNormalOrNotMissionRun returns non-zero, since the selected entry
     // ended without the goal; the step waits for 0x3c and then takes the entry out.
@@ -632,14 +632,14 @@ typedef struct HeldItem {
 
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 
-extern struct RaceProgress *gRaceProgress;
+extern struct RaceProgress *g_GlobalMV;
 
 static inline RaceProgressKart *GetRaceProgressKart(u16 kartIndex) {
-    return &gRaceProgress->mKarts[kartIndex];
+    return &g_GlobalMV->mKarts[kartIndex];
 }
 
 static inline s8 GetKartAtRank(u8 rank) {
-    return gRaceProgress->mKartAtRank[rank - 1];
+    return g_GlobalMV->mKartAtRank[rank - 1];
 }
 extern ItemInfo *gItemInfos;
 

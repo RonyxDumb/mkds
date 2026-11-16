@@ -8,8 +8,8 @@ void FillRandomKartIndices(void);
 void FillRandomCharacterIndices(void);
 void ClearNonParticipantKartIndices(void);
 void ClearNonParticipantCharacterIndices(void);
-void ClearPicksHolderPointer(void);
-void CreatePicksHolder(void *heap);
+void ResetGlobalKTB_from_thumb(void);
+void CreateSetGlobalKTB_from_thumb(void *heap);
 
 extern const u32 gCharacterKartIndices[13];
-extern struct PicksHolder *gPicksHolder;
+extern struct PicksHolder *g_GlobalKTB;

@@ -3,10 +3,10 @@
 #include "types.h"
 
 void EnterMPSendParticipantMask(void *stateObject);
-void UpdateMPChildDelay(void *stateObject);
-void EnterMPChildDelay(void *stateObject);
+void StructZE_E7Fn_22_2_from_thumb(void *stateObject);
+void StructZE_E7Fn_22_1_from_thumb(void *stateObject);
 void UpdateMPFillOwnRecord(void *stateObject);
-void EnterMPFillOwnRecord(void *stateObject);
+void E7Fn1_0_from_thumb(void *stateObject);
 // Results of AdvanceMPStateMachineWithOwnIndex besides 0 (still running): the state machine is ready or no connection
 // is active, a child lost its own index, a multiboot child lost it and the error code was set.
 #define MP_STATE_ADVANCE_READY 1

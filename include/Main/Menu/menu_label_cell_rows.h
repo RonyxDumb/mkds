@@ -33,7 +33,7 @@ typedef struct SelectCharacterRow {
     /* 06 */ u8 mUnk_06[2];
 } SelectCharacterRow;
 
-// 4-byte entries of the table at gSoundRowTable.
+// 4-byte entries of the table at g_CourseBgmTable.
 typedef struct SoundRow {
     /* 00 */ u8 mSeqStartProgress;
     /* 01 */ u8 mSeqId;

@@ -11,7 +11,7 @@ void NNSi_G2dSrtcInitControl(NNSG2dSRTControl *pCtrl, u32 type);
 void NNSi_G2dSrtcSetSRTScale(NNSG2dSRTControl *pCtrl, s32 x, s32 y);
 void NNSi_G2dSrtcSetSRTRotZ(NNSG2dSRTControl *pCtrl, u16 rotZ);
 void NNSi_G2dSrtcSetTrans(NNSG2dSRTControl *pCtrl, s16 x, s16 y);
-u16 NNS_G2dMakeCellToOams(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWithBR *pCell, MtxFx22 *pMtxSR,
+u16 MaybeMakeOamSlot(GXOamAttr *pDstOams, u16 numDstOam, NNSG2dCellDataWithBR *pCell, MtxFx22 *pMtxSR,
                           s32 *pBaseTrans, u16 affineIndex, s32 bDoubleAffine);
 void NNS_G2dSetCellAnimationSpeed(NNSG2dCellAnimation *pCellAnim, s32 speed);
 void NNS_G2dSetCellAnimationCurrentFrame(NNSG2dCellAnimation *pCellAnim, u16 frameIndex);

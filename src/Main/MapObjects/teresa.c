@@ -44,7 +44,7 @@
 #include "Main/MapObjects/bound.h"
 #include "Main/System/init_after_startup.h"
 
-MapObjectModel *gTeresa;
+MapObjectModel *g_SomeMapObject;
 u32 gUnparkedTeresaCount;
 
 MapObjectKindDescriptor gTeresaKindDescriptor = {0,
@@ -63,13 +63,13 @@ void InitTeresa(MapObject *mapObject) {
 }
 
 void CreateTeresa(MapObjectList *mapObjectList) {
-    gTeresa = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "teresa.nsbmd", "teresa.nsbtp");
-    SetMapObjectModelPolygonId(gTeresa, 0x3f);
+    g_SomeMapObject = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "teresa.nsbmd", "teresa.nsbtp");
+    StructMapObject_MaybeSetPolygonId(g_SomeMapObject, 0x3f);
     mapObjectList->mSortByDistance = 1;
 }
 
 void SetupDrawTeresa(void *mapObjectList) {
-    QueueMapObjectModelMaterial(mapObjectList, gTeresa);
+    StructMapObject_SomeFn_9(mapObjectList, g_SomeMapObject);
 }
 
 void DrawTeresa(void *mapObjectList, Teresa *teresa) {
@@ -79,12 +79,12 @@ void DrawTeresa(void *mapObjectList, Teresa *teresa) {
     if (teresa->mModelAlpha == 0) {
         return;
     }
-    GetKart((u16) gRaceSetup->mEntryIndex);
-    SetMapObjectModelPolygonId(gTeresa, AllocPolygonIdWrapping());
-    SetMapObjectModelNsbtpFrameIndex(gTeresa, teresa->mNsbtpFrameIndex);
-    SetMapObjectModelAlpha(gTeresa, teresa->mModelAlpha);
-    SetMapObjectModelFogEnabled(gTeresa, IsFadeFogActive());
-    SetMapObjectModelMirror(gTeresa, teresa->mMirror, 0);
+    GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
+    StructMapObject_MaybeSetPolygonId(g_SomeMapObject, AllocPolygonIdWrapping());
+    StructMapObject_SomeFn_0(g_SomeMapObject, teresa->mNsbtpFrameIndex);
+    StructMapObject_SomeFn_6(g_SomeMapObject, teresa->mModelAlpha);
+    StructMapObject_SomeFn_7(g_SomeMapObject, IsFadeFogActive());
+    StructMapObject_SomeFn_8(g_SomeMapObject, teresa->mMirror, 0);
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&teresa->mMapObject.mPos), 0xc);
@@ -95,7 +95,7 @@ void DrawTeresa(void *mapObjectList, Teresa *teresa) {
         NNS_G3dGeBufferOP_N(0x1b, gxScale, 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &teresa->mMapObject.mScale, 3);
-    DrawMapObjectModel(mapObjectList, gTeresa, teresa);
+    DrawMapObjectModel(mapObjectList, g_SomeMapObject, teresa);
 }
 
 static inline void AdvanceTeresaAlpha(Teresa *teresa) {
@@ -218,7 +218,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mMapObject.mPos.z = teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(radius, FX_SinIdx(angleWobbleValue));
     } else {
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
         teresa->mMapObject.mPos.x =
             kart->mPos.x + (teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(radius, FX_CosIdx(angleWobbleValue)));
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
@@ -228,7 +228,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
 }
 
 MapObjectList *CreateTeresaDrawList(void) {
-    return CreateMapObjectDrawList2(CreateTeresa, DrawTeresa, SetupDrawTeresa);
+    return CreateAllocateMapObject_from_thumb(CreateTeresa, DrawTeresa, SetupDrawTeresa);
 }
 
 MapObjectList *CreateTeresaUpdateList(void) {
@@ -289,29 +289,29 @@ void StartTeresa(Vec3 *startPos) {
     teresa->mModelAlpha = 0;
     teresa->mStartPos = *startPos;
     if (GetCurrentCameraKind() == 0) {
-        chaseCamera = GetChaseCamera();
-        angleSpeedRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x30);
-        amplitudeRandom = (u16) (TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0) >> 20);
-        angleRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x5555);
+        chaseCamera = GetGlobalHD5();
+        angleSpeedRandom = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x30);
+        amplitudeRandom = (u16) (TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0) >> 20);
+        angleRandom = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x5555);
         midAngle =
-            FX_Atan2Idx(chaseCamera->mLookAt.z - chaseCamera->mPos.z, chaseCamera->mLookAt.x - chaseCamera->mPos.x) +
+            FX_Atan2(chaseCamera->mLookAt.z - chaseCamera->mPos.z, chaseCamera->mLookAt.x - chaseCamera->mPos.x) +
             angleRandom - 0x2aaa;
-        SetTeresaWobble(&teresa->mAngleWobble, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x10000), midAngle,
+        SetTeresaWobble(&teresa->mAngleWobble, TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x10000), midAngle,
                         amplitudeRandom + 0x1000, 0, angleSpeedRandom + 0x60, 0);
     } else {
-        angleSpeedRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x30);
-        amplitudeRandom = (u16) (TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0) >> 20);
-        SetTeresaWobble(&teresa->mAngleWobble, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x10000),
-                        (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x10000), amplitudeRandom + 0x1000, 0,
+        angleSpeedRandom = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x30);
+        amplitudeRandom = (u16) (TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0) >> 20);
+        SetTeresaWobble(&teresa->mAngleWobble, TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x10000),
+                        (u16) TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x10000), amplitudeRandom + 0x1000, 0,
                         angleSpeedRandom + 0x60, 0);
     }
-    ySpeedRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x80);
-    yMidRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0xa000);
-    SetTeresaWobble(&teresa->mYWobble, 0, TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x19000) + 0x19000,
+    ySpeedRandom = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x80);
+    yMidRandom = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0xa000);
+    SetTeresaWobble(&teresa->mYWobble, 0, TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x19000) + 0x19000,
                     yMidRandom + 0xa000, 0, ySpeedRandom + 0x100, 0);
-    teresa->mRadius = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x3c000) + 0x3c000;
-    alphaFixed12Max = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0xc000) + 0xe000;
-    alphaFixed12PerFrame = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x200) + 0x400;
+    teresa->mRadius = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x3c000) + 0x3c000;
+    alphaFixed12Max = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0xc000) + 0xe000;
+    alphaFixed12PerFrame = TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x200) + 0x400;
     teresa->mAlphaFixed12 = 0;
     teresa->mAlphaFixed12PerFrame = alphaFixed12PerFrame;
     teresa->mAlphaFixed12Min = TERESA_ALPHA_FIXED12_MIN;
@@ -321,8 +321,8 @@ void StartTeresa(Vec3 *startPos) {
         teresa->mFadeOutDelayFrames = TERESA_NEVER_FRAMES;
         teresa->mState = 0;
     } else {
-        teresa->mFadeInDelayFrames = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);
-        teresa->mFadeOutDelayFrames = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
+        teresa->mFadeInDelayFrames = (u16) TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x4b);
+        teresa->mFadeOutDelayFrames = (u16) TeresaNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x96) + 0x12c;
         teresa->mState = 1;
     }
     gUnparkedTeresaCount++;

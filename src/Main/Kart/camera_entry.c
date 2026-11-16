@@ -13,9 +13,9 @@ u32 GetCameraEntryChanged(void) {
 int GetCameraForwardDistance(const Vec3 *position) {
     Camera *currentCamera;
     Vec3 offset;
-    currentCamera = GetCurrentCamera();
-    VEC_Subtract(position, &currentCamera->mPos, &offset);
-    return Vec3DotUnrounded(&currentCamera->mForward, &offset);
+    currentCamera = GetGlobalHD4();
+    VecFx32_Subtract(position, &currentCamera->mPos, &offset);
+    return VecFx32_CrossProduct_0(&currentCamera->mForward, &offset);
 }
 
 // Distance of the point a along mSide of the current camera, times mSideDistanceSign (-1 in mirror mode).
@@ -23,8 +23,8 @@ int GetCameraSideDistance(const Vec3 *position) {
     Camera *currentCamera;
     int sideDistance;
     Vec3 offset;
-    currentCamera = GetCurrentCamera();
-    VEC_Subtract(position, &currentCamera->mPos, &offset);
-    sideDistance = ((u32) Vec3DotUnrounded(&currentCamera->mSide, &offset));
+    currentCamera = GetGlobalHD4();
+    VecFx32_Subtract(position, &currentCamera->mPos, &offset);
+    sideDistance = ((u32) VecFx32_CrossProduct_0(&currentCamera->mSide, &offset));
     return currentCamera->mSideDistanceSign * sideDistance;
 }

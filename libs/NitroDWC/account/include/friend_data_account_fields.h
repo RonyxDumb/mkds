@@ -44,81 +44,81 @@ typedef struct DWCAccUserData {
     /* 3c */ u32 mCrc32;
 } DWCAccUserData;
 
-void DWC_CreateExchangeToken(const DWCAccUserData *userdata, DWCAccFriendData *token);
+void PlayerProfileInfo_CopyFriendCode_from_thumb(const DWCAccUserData *userdata, DWCAccFriendData *token);
 
-void InitFriendDataFromFriendKey(void *friendData, u32 friendKeyLow, u32 friendKeyHigh);
+void FriendCode_SetProfileIdAndChecksum_from_thumb(void *friendData, u32 friendKeyLow, u32 friendKeyHigh);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 typedef struct DWCAccUserData DWCAccUserData;
 
-u64 DWC_CreateFriendKey(const DWCAccUserData *userdata);
+u64 PlayerProfileInfo_GetProfileId_from_thumb(const DWCAccUserData *userdata);
 int DWC_GetGsProfileId(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata);
-u64 DWC_GetFriendKey(const DWCAccFriendData *frienddata);
-void DWCi_Acc_ClearDirty(DWCAccUserData *userdata);
-BOOL DWCi_Acc_IsDirty(const DWCAccUserData *userdata);
+u64 FriendCode_GetFriendCodePacked_0_from_thumb(const DWCAccFriendData *frienddata);
+void PlayerProfileInfo_PrepareForSave_from_thumb(DWCAccUserData *userdata);
+BOOL PlayerProfileInfo_NeedsSaving_from_thumb(const DWCAccUserData *userdata);
 void DWCi_Acc_SetLoginIdToUserData(DWCAccUserData *userdata, const DWCAccFriendData *loginid, int gsProfileId);
-BOOL DWC_CheckValidConsole(const DWCAccUserData *userdata);
-void DWC_CreateUserData(DWCAccUserData *userdata, u32 gamecode);
+BOOL PlayerProfileInfo_SomeFn_4_from_thumb(const DWCAccUserData *userdata);
+void j_PlayerProfileInfo_Create_from_thumb(DWCAccUserData *userdata, u32 gamecode);
 
-u32 IsFriendDataTypeNonZeroWrapper(const void *friendData);
+u32 FriendCode_HasNonzeroState_0_from_thumb(const void *friendData);
 
-u32 IsFriendDataTypeNonZero(const void *friendData);
+u32 FriendCode_HasNonzeroState_from_thumb(const void *friendData);
 
 typedef struct DWCAccUserData DWCAccUserData;
 
-BOOL DWCi_Acc_IsAuthentic(const DWCAccUserData *userdata);
+BOOL PlayerProfileInfo_FriendCode2_HasState1_from_thumb(const DWCAccUserData *userdata);
 
-u32 IsFriendDataLoginId(const DWCAccFriendData *friendData);
+u32 FriendCode_IsState1_from_thumb(const DWCAccFriendData *friendData);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 typedef struct DWCAccUserData DWCAccUserData;
 
 BOOL DWCi_Acc_CheckConsoleUserId(const DWCAccFriendData *loginid);
-void DWCi_Acc_CreateTempLoginId(DWCAccFriendData *loginid);
-void DWCi_Acc_CreateUserData(DWCAccUserData *userdata, u32 gamecode);
-void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, char *username);
+void FriendCode_CreateFrom_from_thumb(DWCAccFriendData *loginid);
+void PlayerProfileInfo_Create_from_thumb(DWCAccUserData *userdata, u32 gamecode);
+void FriendCode_SomeFn_7_from_thumb(const DWCAccFriendData *loginid, u32 gamecode, char *username);
 void DWCi_Acc_U64ToString32(u64 num, s32 bitnum, char *result);
-u64 DWC_StringToFriendKey(const char *string);
+u64 ConvertFriendCodeTo64_from_thumb(const char *string);
 
-void FormatFriendKey(u32 low, u32 high, u32 buffer);
+void PrintfUll_from_thumb(u32 low, u32 high, u32 buffer);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
 int DWC_Acc_FriendKeyToGsProfileId(u64 friendkey, u32 gamecode);
-BOOL DWC_Acc_CheckFriendKey(u64 friendkey, u32 gamecode);
-u64 DWC_Acc_CreateFriendKey(int gsProfileId, u32 gamecode);
+BOOL Friend_VerifyChecksum_from_thumb(u64 friendkey, u32 gamecode);
+u64 VerifyChecksumGetProfileId_from_thumb(int gsProfileId, u32 gamecode);
 void DWCi_SetBuddyFriendData(DWCAccFriendData *frienddata);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-void SetFriendDataType(DWCAccFriendData *friendData, u32 dataType);
+void FriendCode_SetState_from_thumb(DWCAccFriendData *friendData, u32 dataType);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-void SetFriendDataFlags(DWCAccFriendData *friendData, u32 flags);
+void FriendCode_SetFlags_from_thumb(DWCAccFriendData *friendData, u32 flags);
 
 u32 GetFriendDataType(const DWCAccFriendData *friendData);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-BOOL DWC_IsBuddyFriendData(const DWCAccFriendData *frienddata);
-u32 DWCi_Acc_GetFlag_DataType(const DWCAccFriendData *frienddata);
+BOOL FriendCode_SomeFn_from_thumb(const DWCAccFriendData *frienddata);
+u32 FriendCode_GetState_from_thumb(const DWCAccFriendData *frienddata);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-u32 GetFriendDataFlags(const DWCAccFriendData *friendData);
+u32 FriendCode_GetFlags_from_thumb(const DWCAccFriendData *friendData);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-void DWCi_Acc_SetGsProfileId(DWCAccFriendData *data, u32 gsProfileId);
-void DWCi_Acc_SetFriendKey(DWCAccFriendData *data, u32 friendkeyLo, u32 friendkeyHi);
-void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid);
-void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi);
+void FriendCode_SetProfileId_from_thumb(DWCAccFriendData *data, u32 gsProfileId);
+void FriendCode_SetFriendCodeValues_from_thumb(DWCAccFriendData *data, u32 friendkeyLo, u32 friendkeyHi);
+void FriendCode_SetCrcChecksum_from_thumb(DWCAccFriendData *loginid, u32 playerid);
+void FriendCode_SetProfileIdAndFlags_from_thumb(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-u32 GetFriendDataGsProfileId(const DWCAccFriendData *friendData);
+u32 FriendCode_GetProfileId_from_thumb(const DWCAccFriendData *friendData);
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-u64 DWCi_Acc_GetFriendKey(const DWCAccFriendData *data);
+u64 FriendCode_GetFriendCodePacked_from_thumb(const DWCAccFriendData *data);

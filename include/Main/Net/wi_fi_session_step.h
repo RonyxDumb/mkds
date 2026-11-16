@@ -20,5 +20,5 @@ void AdvanceWiFiSessionStep4(void);
 void AdvanceWiFiSessionStep3(void);
 void AdvanceWiFiSessionStep1(void);
 void AdvanceWiFiSessionStep0(void);
-s32 UpdateWiFiSessionStep(void);
+s32 GlobalB_E7Fn_4BImpl(void);
 void SetupWiFiSession(u32 mode);

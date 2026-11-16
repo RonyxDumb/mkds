@@ -18,19 +18,19 @@
 #include "sound_archive_load.h"
 #include "Main/Net/friend_data_player_id.h"
 
-u32 is_init;
-u32 fsi_card_lock_id;
-u32 fsi_default_dma_no;
-CARDRomRegion fsi_ovt7;
-CARDRomRegion fsi_ovt9;
-FSArchive fsi_arc_rom;
+u32 g_Fs_Init;
+u32 g_CardLockId;
+u32 g_CardDmaChannel;
+CARDRomRegion g_Overlay7;
+CARDRomRegion g_Overlay9;
+FSArchive g_Fs_RomArchive;
 
-void *fsi_digest_key_ptr = fsi_def_digest_key;
-u8 gRomArchiveLabel[4] = "rom";
+void *g_SomeCompCode = fsi_def_digest_key;
+u8 g_str_rom[4] = "rom";
 u32 fsi_digest_key_len = 0x40;
 
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
-s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
+s32 Fs_OverlayInfo_GetBinarySize(FSOverlayInfo *info) {
     if (info->mCompressedSizeAndFlags.bytes[3] & 1) {
         return info->mCompressedSizeAndFlags.f.mCompressedSize;
     }
@@ -38,7 +38,7 @@ s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
 }
 
 // Invalidates the caches over the overlay and zeroes its uninitialized part.
-void FS_ClearOverlayImage(FSOverlayInfo *info) {
+void Fs_OverlayInfo_ClearImage(FSOverlayInfo *info) {
     u8 *image;
     s32 imageSize;
     s32 totalSize;
@@ -46,22 +46,22 @@ void FS_ClearOverlayImage(FSOverlayInfo *info) {
     imageSize = info->mRamSize;
     totalSize = imageSize + info->mBssSize;
     image = info->mRamAddress;
-    IC_InvalidateRange(image, totalSize);
-    DC_InvalidateRange(image, totalSize);
-    MI_CpuFill8(image + imageSize, 0, totalSize - imageSize);
+    IC_InvalidateRangeNoClean(image, totalSize);
+    DC_InvalidateRangeNoClean(image, totalSize);
+    Mem_CpuFill8(image + imageSize, 0, totalSize - imageSize);
 }
 
 // Gives the archive and file number of an overlay.
-void FS_GetOverlayFileID(FSFileID *fileID, FSOverlayInfo *info) {
+void Fs_GetOverlayFileId(FSFileID *fileID, FSOverlayInfo *info) {
     FSFileID id;
 
-    id.mArc = &fsi_arc_rom;
+    id.mArc = &g_Fs_RomArchive;
     id.mFileId = info->mFileId;
     *fileID = id;
 }
 
 // Reads an overlay entry from the overlay table in ROM, then looks up where its file lies.
-u32 FSi_LoadOverlayInfoCore(FSOverlayInfo *info, u32 selector, u32 index, FSArchive *archive, u8 *base0, u32 size0,
+u32 Fs_OverlayInfo_DoLoad(FSOverlayInfo *info, u32 selector, u32 index, FSArchive *archive, u8 *base0, u32 size0,
                             u8 *base1, u32 size1) {
     FSFile file;
     FSFileID fileID;
@@ -80,28 +80,28 @@ u32 FSi_LoadOverlayInfoCore(FSOverlayInfo *info, u32 selector, u32 index, FSArch
     if (offset >= size) {
         return 0;
     }
-    FS_InitFile(&file);
-    if (FS_OpenFileDirect(&file, archive, (u32) (base + offset), (u32) (base + size), -1) == 0) {
+    Fs_File_Initialize(&file);
+    if (Fs_File_OpenRaw(&file, archive, (u32) (base + offset), (u32) (base + size), -1) == 0) {
         return 0;
     }
-    if (FS_ReadFile(&file, info, 0x20) != 0x20) {
-        FS_CloseFile(&file);
+    if (Fs_File_Read(&file, info, 0x20) != 0x20) {
+        Fs_File_Close(&file);
         return 0;
     }
-    FS_CloseFile(&file);
+    Fs_File_Close(&file);
     info->mTarget = selector;
-    FS_GetOverlayFileID(&fileID, info);
-    if (FS_OpenFileFast(&file, fileID) == 0) {
+    Fs_GetOverlayFileId(&fileID, info);
+    if (Fs_File_OpenById(&file, fileID) == 0) {
         return 0;
     }
     info->mFileOffset = file.mProp.p.mUnk_04;
     info->mFileLength = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
-    FS_CloseFile(&file);
+    Fs_File_Close(&file);
     return 1;
 }
 
 // Fills in an overlay record from the attached overlay table, or from the ROM table when none is attached.
-u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
+u32 Fs_OverlayInfo_Load(FSOverlayInfo *info, u32 selector, u32 index) {
     FSFile file;
     FSFileID fileID;
     CARDRomRegion *table;
@@ -109,80 +109,80 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     CARDRomRegion *region1;
 
     if (selector == 0) {
-        table = &fsi_ovt9;
+        table = &g_Overlay9;
     } else {
-        table = &fsi_ovt7;
+        table = &g_Overlay7;
     }
     if (table->mOffset != 0) {
         if (index * 32 >= table->mLength) {
             return 0;
         }
-        MI_CpuCopy8(table->mOffset + index * 32, info, 0x20);
+        Mem_CpuCopy8(table->mOffset + index * 32, info, 0x20);
         info->mTarget = selector;
-        FS_InitFile(&file);
-        FS_GetOverlayFileID(&fileID, info);
-        if (FS_OpenFileFast(&file, fileID) == 0) {
+        Fs_File_Initialize(&file);
+        Fs_GetOverlayFileId(&fileID, info);
+        if (Fs_File_OpenById(&file, fileID) == 0) {
             return 0;
         }
         info->mFileOffset = file.mProp.p.mUnk_04;
         info->mFileLength = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
-        FS_CloseFile(&file);
+        Fs_File_Close(&file);
         return 1;
     }
     region0 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable0;
     region1 = &SYSTEM_WORK->mRomHeader.mHead.mOverlayTable1;
-    return FSi_LoadOverlayInfoCore(info, selector, index, &fsi_arc_rom, region0->mOffset, region0->mLength,
+    return Fs_OverlayInfo_DoLoad(info, selector, index, &g_Fs_RomArchive, region0->mOffset, region0->mLength,
                                    region1->mOffset, region1->mLength);
 }
 
 // Starts reading an overlay image without waiting; the file stays open until the read ends.
-u32 FS_LoadOverlayImageAsync(FSOverlayInfo *info, FSFile *file) {
+u32 Fs_OverlayInfo_LoadImageAsync(FSOverlayInfo *info, FSFile *file) {
     FSFileID fileID;
     s32 size;
 
-    FS_InitFile(file);
-    FS_GetOverlayFileID(&fileID, info);
-    if (FS_OpenFileFast(file, fileID) == 0) {
+    Fs_File_Initialize(file);
+    Fs_GetOverlayFileId(&fileID, info);
+    if (Fs_File_OpenById(file, fileID) == 0) {
         return 0;
     }
-    size = FSi_GetOverlayBinarySize(info);
-    FS_ClearOverlayImage(info);
-    if (size == FS_ReadFileAsync(file, info->mRamAddress, size)) {
+    size = Fs_OverlayInfo_GetBinarySize(info);
+    Fs_OverlayInfo_ClearImage(info);
+    if (size == Fs_File_ReadAsync(file, info->mRamAddress, size)) {
         return 1;
     }
-    FS_CloseFile(file);
+    Fs_File_Close(file);
     return 0;
 }
 
 // Reads an overlay image into memory and waits for it.
-u32 FS_LoadOverlayImage(FSOverlayInfo *info) {
+u32 Fs_OverlayInfo_LoadImage(FSOverlayInfo *info) {
     FSFileID fileID;
     FSFile file;
     s32 size;
 
-    FS_InitFile(&file);
-    FS_GetOverlayFileID(&fileID, info);
-    if (FS_OpenFileFast(&file, fileID) == 0) {
+    Fs_File_Initialize(&file);
+    Fs_GetOverlayFileId(&fileID, info);
+    if (Fs_File_OpenById(&file, fileID) == 0) {
         return 0;
     }
-    size = FSi_GetOverlayBinarySize(info);
-    FS_ClearOverlayImage(info);
-    if (size != FS_ReadFile(&file, info->mRamAddress, size)) {
-        FS_CloseFile(&file);
+    size = Fs_OverlayInfo_GetBinarySize(info);
+    Fs_OverlayInfo_ClearImage(info);
+    if (size != Fs_File_Read(&file, info->mRamAddress, size)) {
+        Fs_File_Close(&file);
         return 0;
     }
-    FS_CloseFile(&file);
+    Fs_File_Close(&file);
     return 1;
 }
 
 // Computes the digest of a block and compares it with the expected one.
-u32 FSi_CompareDigest(const u8 *expected, const u8 *data, u32 size) {
+u32 Fs_ComputeCompareDigest(const u8 *expected, const u8 *data, u32 size) {
     u8 hmac[0x14];
     u8 key[0x40];
     u32 byteOffset;
 
-    MI_CpuFill8(hmac, 0, sizeof(hmac));
-    MI_CpuCopy8(fsi_digest_key_ptr, key, fsi_digest_key_len);
+    Mem_CpuFill8(hmac, 0, sizeof(hmac));
+    Mem_CpuCopy8(g_SomeCompCode, key, fsi_digest_key_len);
     DGT_Hash2CalcHmac(hmac, data, size, key, fsi_digest_key_len);
     for (byteOffset = 0; byteOffset < 0x14; byteOffset += 4) {
         if (*(u32 *) (hmac + byteOffset) != *(u32 *) (expected + byteOffset)) {
@@ -193,30 +193,30 @@ u32 FSi_CompareDigest(const u8 *expected, const u8 *data, u32 size) {
 }
 
 // Checks the overlay when authentication is required, flushes it and runs its initializers.
-void FS_StartOverlay(FSOverlayInfo *info) {
+void Fs_OverlayInfo_Start(FSOverlayInfo *info) {
     u32 size;
     u32 verified;
     void (**initFunc)(void);
     void (**initEnd)(void);
 
-    size = FSi_GetOverlayBinarySize(info);
+    size = Fs_OverlayInfo_GetBinarySize(info);
     if (SYSTEM_WORK->mWmBootBuf.mBootType == BOOT_TYPE_MULTIBOOT) {
         verified = 0;
         if (info->mCompressedSizeAndFlags.bytes[3] & 2) {
-            if (info->mId < ((u8 *) &arc_list - (u8 *) OverlaySignatures) / 20) {
-                verified = FSi_CompareDigest(OverlaySignatures[info->mId], info->mRamAddress, size);
+            if (info->mId < ((u8 *) &g_ArchiveList - (u8 *) OverlaySignatures) / 20) {
+                verified = Fs_ComputeCompareDigest(OverlaySignatures[info->mId], info->mRamAddress, size);
             }
         }
         if (verified == 0) {
-            MI_CpuFill8(info->mRamAddress, 0, size);
-            OS_Terminate();
+            Mem_CpuFill8(info->mRamAddress, 0, size);
+            Os_Terminate();
             return;
         }
     }
     if (info->mCompressedSizeAndFlags.bytes[3] & 1) {
-        MIi_UncompressBackward(info->mRamAddress + size);
+        Crt0_DecompressFlushCode(info->mRamAddress + size);
     }
-    DC_FlushRange(info->mRamAddress, info->mRamSize);
+    Arm_FlushRange(info->mRamAddress, info->mRamSize);
     initFunc = info->mSinitInit;
     initEnd = info->mSinitInitEnd;
     if (initFunc >= initEnd) {
@@ -231,7 +231,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
 }
 
 // Runs and removes the end handlers whose function or object lies inside the overlay.
-void FS_EndOverlay(FSOverlayInfo *info) {
+void Fs_OverlayInfo_End(FSOverlayInfo *info) {
     MWiDestructorChain *prev;
     MWiDestructorChain *base;
     MWiDestructorChain *cur;
@@ -249,7 +249,7 @@ void FS_EndOverlay(FSOverlayInfo *info) {
         high = low + (info->mRamSize + info->mBssSize);
         first = 0;
         removedLast = 0;
-        enabled = OS_DisableInterrupts();
+        enabled = Os_DisableIrq();
         prev = 0;
         base = gGlobalDestructorChain;
         cur = base;
@@ -279,7 +279,7 @@ void FS_EndOverlay(FSOverlayInfo *info) {
                 cur = next;
             } while (cur != 0);
         }
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         if (first == 0) {
             return;
         }
@@ -294,27 +294,27 @@ void FS_EndOverlay(FSOverlayInfo *info) {
 }
 
 // Ends the overlay.
-u32 FS_UnloadOverlayImage(FSOverlayInfo *info) {
-    FS_EndOverlay(info);
+u32 Fs_OverlayInfo_UnloadImage(FSOverlayInfo *info) {
+    Fs_OverlayInfo_End(info);
     return 1;
 }
 
 // Loads an overlay and starts it.
-u32 FS_LoadOverlay(u32 selector, u32 index) {
+u32 Fs_LoadOverlay(u32 selector, u32 index) {
     FSOverlayInfo info;
 
-    if (FS_LoadOverlayInfo(&info, selector, index) == 0 || FS_LoadOverlayImage(&info) == 0) {
+    if (Fs_OverlayInfo_Load(&info, selector, index) == 0 || Fs_OverlayInfo_LoadImage(&info) == 0) {
         return 0;
     }
-    FS_StartOverlay(&info);
+    Fs_OverlayInfo_Start(&info);
     return 1;
 }
 
 // Ends a loaded overlay.
-u32 FS_UnloadOverlay(u32 selector, u32 index) {
+u32 Fs_UnloadOverlay(u32 selector, u32 index) {
     FSOverlayInfo info;
 
-    if (FS_LoadOverlayInfo(&info, selector, index) == 0 || FS_UnloadOverlayImage(&info) == 0) {
+    if (Fs_OverlayInfo_Load(&info, selector, index) == 0 || Fs_OverlayInfo_UnloadImage(&info) == 0) {
         return 0;
     }
     return 1;
@@ -327,47 +327,47 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
 
     if (data != 0 && selector == 0) {
         saved = DGT_SetOverlayTableMode(1);
-        if (FSi_CompareDigest(SDK_OVERLAYTABLE_DIGEST, data, size) == 0) {
-            OS_Terminate();
+        if (Fs_ComputeCompareDigest(g_SomeDigest, data, size) == 0) {
+            Os_Terminate();
         }
         DGT_SetOverlayTableMode(saved);
     }
     if (selector == 0) {
-        table = &fsi_ovt9;
+        table = &g_Overlay9;
     } else {
-        table = &fsi_ovt7;
+        table = &g_Overlay7;
     }
-    saved = OS_DisableInterrupts();
+    saved = Os_DisableIrq();
     table->mOffset = data;
     table->mLength = size;
-    OS_RestoreInterrupts(saved);
+    Os_RestoreIrq(saved);
 }
 
 // Ends the asynchronous ROM read of an archive.
-void FSi_OnRomReadDone(void *arg) {
+void UnkStructRelated_SaveFnPtr(void *arg) {
     FSArchive *archive = arg;
-    FS_NotifyArchiveAsyncEnd(archive, 0);
+    Fs_Archive_NotifyAsyncEnded(archive, 0);
 }
 
 // Archive read callback that reads from the card in the background.
-s32 FSi_ReadRomCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
-    CARDi_ReadRom(fsi_default_dma_no, src, (u32) dst, len, FSi_OnRomReadDone, archive, 1);
+s32 Fs_RomArchive_ReadFn_Default(FSArchive *archive, void *dst, u32 src, u32 len) {
+    CARDi_ReadRom(g_CardDmaChannel, src, (u32) dst, len, UnkStructRelated_SaveFnPtr, archive, 1);
     return 6;
 }
 
 // Archive write callback that always fails.
-s32 FSi_WriteDummyCallback(FSArchive *archive, const void *src, u32 dst, u32 len) {
+s32 Fs_RomArchive_WriteFn_RomDisable(FSArchive *archive, const void *src, u32 dst, u32 len) {
     return 1;
 }
 
 // ROM archive callback: locks and unlocks the card.
-s32 FSi_RomArchiveProc(FSFile *file, u32 command) {
+s32 Fs_RomArchive_ExtraFileOperationHandler_Default(FSFile *file, u32 command) {
     switch (command) {
         case ARCHIVE_COMMAND_START_RUN:
-            CARD_LockRom(fsi_card_lock_id);
+            Card_LockRomResource(g_CardLockId);
             return 0;
         case ARCHIVE_COMMAND_STOP_RUN:
-            CARD_UnlockRom(fsi_card_lock_id);
+            Card_UnlockRomResource(g_CardLockId);
             return 0;
         case 1:
             return 4;
@@ -377,40 +377,40 @@ s32 FSi_RomArchiveProc(FSFile *file, u32 command) {
 }
 
 // Archive read callback that always fails.
-s32 FSi_ReadDummyCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
+s32 Fs_RomArchive_ReadFn_RomDisable(FSArchive *archive, void *dst, u32 src, u32 len) {
     return 1;
 }
 
 // Archive callback that rejects every command.
-s32 FSi_EmptyArchiveProc(FSFile *file, u32 command) {
+s32 Fs_RomArchive_ExtraFileOperationHandler_AllDisable(FSFile *file, u32 command) {
     return 4;
 }
 
 // Registers the "rom" archive and loads its tables from the ROM header.
-void FSi_InitRom(u32 dmaNo) {
+void Fs_InitializeMountRom(u32 dmaNo) {
     enum { ROM_REGION_ADDRESS_NONE } fntRegion, fatRegion;
 
-    fsi_default_dma_no = dmaNo;
-    fsi_card_lock_id = OS_GetLockID();
-    fsi_ovt9.mOffset = 0;
-    fsi_ovt9.mLength = 0;
-    fsi_ovt7.mOffset = 0;
-    fsi_ovt7.mLength = 0;
-    CARD_Init();
-    FS_InitArchive(&fsi_arc_rom);
-    FS_RegisterArchiveName(&fsi_arc_rom, gRomArchiveLabel, 3);
+    g_CardDmaChannel = dmaNo;
+    g_CardLockId = Os_AllocateLockId();
+    g_Overlay9.mOffset = 0;
+    g_Overlay9.mLength = 0;
+    g_Overlay7.mOffset = 0;
+    g_Overlay7.mLength = 0;
+    Card_Initialize();
+    Fs_Archive_Initialize(&g_Fs_RomArchive);
+    Fs_RegisterArchive(&g_Fs_RomArchive, g_str_rom, 3);
     if (SYSTEM_WORK->mWmBootBuf.mBootType == BOOT_TYPE_MULTIBOOT) {
-        fsi_ovt9.mOffset = (u8 *) -1;
-        fsi_ovt9.mLength = 0;
-        fsi_ovt7.mOffset = (u8 *) -1;
-        fsi_ovt7.mLength = 0;
-        FS_SetArchiveProc(&fsi_arc_rom, FSi_EmptyArchiveProc, -1);
-        FS_LoadArchive(&fsi_arc_rom, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
+        g_Overlay9.mOffset = (u8 *) -1;
+        g_Overlay9.mLength = 0;
+        g_Overlay7.mOffset = (u8 *) -1;
+        g_Overlay7.mLength = 0;
+        Fs_Archive_SetExtraFileOperationHandler(&g_Fs_RomArchive, Fs_RomArchive_ExtraFileOperationHandler_AllDisable, -1);
+        Fs_Archive_LoadFromFatFnt(&g_Fs_RomArchive, 0, 0, 0, 0, 0, Fs_RomArchive_ReadFn_RomDisable, Fs_RomArchive_WriteFn_RomDisable);
         return;
     }
     fntRegion = 0x27ffe40;
     fatRegion = 0x27ffe48;
-    FS_SetArchiveProc(&fsi_arc_rom, FSi_RomArchiveProc, 0x602);
+    Fs_Archive_SetExtraFileOperationHandler(&g_Fs_RomArchive, Fs_RomArchive_ExtraFileOperationHandler_Default, 0x602);
     if (((CARDRomRegion *) fntRegion)->mOffset == (u8 *) -1) {
         return;
     }
@@ -423,21 +423,21 @@ void FSi_InitRom(u32 dmaNo) {
     if (((CARDRomRegion *) fatRegion)->mOffset == 0) {
         return;
     }
-    FS_LoadArchive(&fsi_arc_rom, 0, (u32) ((CARDRomRegion *) fatRegion)->mOffset,
+    Fs_Archive_LoadFromFatFnt(&g_Fs_RomArchive, 0, (u32) ((CARDRomRegion *) fatRegion)->mOffset,
                    ((CARDRomRegion *) fatRegion)->mLength, (u32) ((CARDRomRegion *) fntRegion)->mOffset,
-                   ((CARDRomRegion *) fntRegion)->mLength, FSi_ReadRomCallback, FSi_WriteDummyCallback);
+                   ((CARDRomRegion *) fntRegion)->mLength, Fs_RomArchive_ReadFn_Default, Fs_RomArchive_WriteFn_RomDisable);
 }
 
 // Copies the ROM archive tables into the given memory.
-u32 FS_TryLoadTable(u32 mem, u32 size) {
-    return FS_LoadArchiveTables(&fsi_arc_rom, mem, size);
+u32 Fs_LoadRomArchiveFatFnt(u32 mem, u32 size) {
+    return Fs_Archive_LoadFatFnt(&g_Fs_RomArchive, mem, size);
 }
 
 // Initializes the file system once.
-void FS_Init(u32 dmaNo) {
-    if (is_init != 0) {
+void Fs_Initialize(u32 dmaNo) {
+    if (g_Fs_Init != 0) {
         return;
     }
-    is_init = 1;
-    FSi_InitRom(dmaNo);
+    g_Fs_Init = 1;
+    Fs_InitializeMountRom(dmaNo);
 }

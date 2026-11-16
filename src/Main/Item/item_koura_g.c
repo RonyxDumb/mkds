@@ -126,7 +126,7 @@ void StartItemKouraGSound(void *kouraParam, s32 unused) {
 BOOL InitItemKouraG(ItemInUse *itemInUse, ItemKouraG *koura) {
     BOOL isBattle;
 
-    isBattle = gRaceSetup->mMode == MODE_BATTLE;
+    isBattle = g_GlobalCO->mMode == MODE_BATTLE;
     StartItemObjectSoundSource(&koura->mDirectedItemObject.mItemObject);
     ResetSoundDistanceSquaredChange(&koura->mSoundDistanceSquaredChange);
     koura->mDirectedItemObject.mItemObject.mSoundSource.mTrackParamsFunction =
@@ -156,7 +156,7 @@ void *CopyItemKouraGData(void *buffer, ItemKouraG *koura, void *toBuffer) {
     void *result;
 
     if (koura != NULL && toBuffer != NULL) {
-        StoreItemDataFlagBit(Vec3DotUnrounded(&koura->mDirectedItemObject.mItemObject.mVelocity,
+        StoreItemDataFlagBit(VecFx32_CrossProduct_0(&koura->mDirectedItemObject.mItemObject.mVelocity,
                                               &koura->mDirectedItemObject.mDirection) < 0,
                              &koura->mDirectedItemObject.mItemObject.mVelocity.y);
     }

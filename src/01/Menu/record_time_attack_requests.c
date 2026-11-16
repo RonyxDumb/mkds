@@ -41,43 +41,43 @@ void LocateAndQueueRecordTAtt(void) {
     Nscr *recordTAttSNscr = NULL;
     u16 *paletteData;
 
-    LocateNcgr2(&gRecordTAtt->mRecordTAttMNcgr, FindSceneFile(gRecordTAttMNcgrName));
-    LocateNcer(&gRecordTAtt->mRecordTAttMNcer, FindSceneFile(gRecordTAttMNcerName));
-    LocateNclr(&recordTAttMONclr, FindSceneFile(gRecordTAttMONclrName));
-    gRecordTAtt->mRecordTAttMBncl = FindSceneFile(gRecordTAttMBnclName);
-    gRecordTAtt->mRecordTAttMBnll = FindSceneFile(gRecordTAttMBnllName);
-    LocateNcgr2(&gRecordTAtt->mRecordTAttSNcgr, FindSceneFile(gRecordTAttSNcgrName));
-    LocateNcer(&gRecordTAtt->mRecordTAttSNcer, FindSceneFile(gRecordTAttSNcerName));
-    LocateNclr(&recordTAttSONclr, FindSceneFile(gRecordTAttSONclrName));
-    gRecordTAtt->mRecordTAttSBncl = FindSceneFile(gRecordTAttSBnclName);
-    gRecordTAtt->mRecordTAttSBnbl = FindSceneFile(gRecordTAttSBnblName);
-    gRecordTAtt->mRecordTAttSBnll = FindSceneFile(gRecordTAttSBnllName);
-    gRecordTAtt->mPlayerCharacterChars = GetPlayerCharacterNcgr(0);
-    gRecordTAtt->mPlayerCharacterCells = GetPlayerCharacterNcer(0);
-    gRecordTAtt->mPlayerCharacterPalette = GetPlayerCharacterNclr(0);
-    gRecordTAtt->mPlayerCharacterCellLayout = GetPlayerCharacterBncl(0);
-    LocateNcgr(&recordTAttMBNcgr, FindSceneFile(gRecordTAttMBNcgrName));
-    LocateNscr(&recordTAttMNscr, FindSceneFile(gRecordTAttMNscrName));
-    LocateNscr(&recordTAttMScoreNscr, FindSceneFile(gRecordTAttMScoreNscrName));
-    LocateNclr(&recordTAttMBNclr, FindSceneFile(gRecordTAttMBNclrName));
-    LocateNcgr(&recordTAttSBNcgr, FindSceneFile(gRecordTAttSBNcgrName));
-    LocateNclr(&recordTAttSBNclr, FindSceneFile(gRecordTAttSBNclrName));
-    LocateNscr(&recordTAttSNscr, FindSceneFile(gRecordTAttSNscrName));
+    Gfx_ReadCharGraphicsRelative(&gRecordTAtt->mRecordTAttMNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMNcgrName));
+    LocateNcer(&gRecordTAtt->mRecordTAttMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMNcerName));
+    Gfx_ReadPaletteRelative(&recordTAttMONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMONclrName));
+    gRecordTAtt->mRecordTAttMBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMBnclName);
+    gRecordTAtt->mRecordTAttMBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMBnllName);
+    Gfx_ReadCharGraphicsRelative(&gRecordTAtt->mRecordTAttSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSNcgrName));
+    LocateNcer(&gRecordTAtt->mRecordTAttSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSNcerName));
+    Gfx_ReadPaletteRelative(&recordTAttSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSONclrName));
+    gRecordTAtt->mRecordTAttSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBnclName);
+    gRecordTAtt->mRecordTAttSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBnblName);
+    gRecordTAtt->mRecordTAttSBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBnllName);
+    gRecordTAtt->mPlayerCharacterChars = GetPlayerCharacterNceNcgr_from_thumb(0);
+    gRecordTAtt->mPlayerCharacterCells = GetPlayerCharacterNceNcer_from_thumb(0);
+    gRecordTAtt->mPlayerCharacterPalette = GetPlayerCharacterPalette_from_thumb(0);
+    gRecordTAtt->mPlayerCharacterCellLayout = GetPlayerCharacterBNCL_from_thumb(0);
+    MaybeReadCharBlock_1(&recordTAttMBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMBNcgrName));
+    MaybeReadScreenBlock(&recordTAttMNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMNscrName));
+    MaybeReadScreenBlock(&recordTAttMScoreNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMScoreNscrName));
+    Gfx_ReadPaletteRelative(&recordTAttMBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttMBNclrName));
+    MaybeReadCharBlock_1(&recordTAttSBNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBNcgrName));
+    Gfx_ReadPaletteRelative(&recordTAttSBNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSBNclrName));
+    MaybeReadScreenBlock(&recordTAttSNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gRecordTAttSNscrName));
     paletteData = recordTAttMONclr->mData;
-    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gRecordTAtt->mRecordTAttMNcgr->mData,
+    AllocateReserveTEQSub(0x13, 0, gRecordTAtt->mRecordTAttMNcgr->mData,
                                        gRecordTAtt->mRecordTAttMNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0, recordTAttMONclr->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gRecordTAtt->mRecordTAttSNcgr->mData,
+    AllocateReserveTEQSub(0xe, 0, recordTAttMONclr->mData, 0x1a0);
+    AllocateReserveTEQSub(0xe, 0x1c0, paletteData + 0xe0, 0x40);
+    AllocateReserveTEQSub(0x23, 0, gRecordTAtt->mRecordTAttSNcgr->mData,
                                        gRecordTAtt->mRecordTAttSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, recordTAttSONclr->mData, recordTAttSONclr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(4, 0, recordTAttMBNcgr->mData, recordTAttMBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, recordTAttMNscr->mData, recordTAttMNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(9, 0, recordTAttMScoreNscr->mData, recordTAttMScoreNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, recordTAttMBNclr->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x17, 0, recordTAttSBNcgr->mData, recordTAttSBNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, recordTAttSBNclr->mData, 0x40);
-    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, recordTAttSNscr->mData, recordTAttSNscr->mDataSize);
+    AllocateReserveTEQSub(0x1e, 0, recordTAttSONclr->mData, recordTAttSONclr->mDataSize);
+    AllocateReserveTEQSub(4, 0, recordTAttMBNcgr->mData, recordTAttMBNcgr->mDataSize);
+    AllocateReserveTEQSub(8, 0, recordTAttMNscr->mData, recordTAttMNscr->mDataSize);
+    AllocateReserveTEQSub(9, 0, recordTAttMScoreNscr->mData, recordTAttMScoreNscr->mDataSize);
+    AllocateReserveTEQSub(0xf, 0, recordTAttMBNclr->mData, 0x40);
+    AllocateReserveTEQSub(0x17, 0, recordTAttSBNcgr->mData, recordTAttSBNcgr->mDataSize);
+    AllocateReserveTEQSub(0x1f, 0, recordTAttSBNclr->mData, 0x40);
+    AllocateReserveTEQSub(0x1b, 0, recordTAttSNscr->mData, recordTAttSNscr->mDataSize);
 }
 
 void SetupRecordTAttRowValues(u16 row) {
@@ -104,7 +104,7 @@ void SetupRecordTAttRowValues(u16 row) {
                        gRecordTAtt->mPlayerCharacterCellLayout, 0, index, gRecordTAtt->mRecordTAttMNcer,
                        gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
-        NNS_GfdRegisterNewVramTransferTask(
+        AllocateReserveTEQSub(
             0xe, gRecordTAttPaletteSlots[0][0] << 5,
             palette +
                 (GetCellPaletteIndex(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
@@ -123,8 +123,8 @@ void SetupRecordTAttRowValues(u16 row) {
         PrintLabelLayoutTextFixedDigits(0, labelIndex, gRecordTAtt->mRecordTAttMBnll, str,
                                         gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, name);
-        MI_CpuFill8(str, 0, sizeof(str));
-        MIi_CpuCopy16(name, str, sizeof(name));
+        Mem_CpuFill8(str, 0, sizeof(str));
+        CopyMemory16(name, str, sizeof(name));
         labelIndex = gRecordTAttNameLabelIndices[0];
         gRecordTAtt->mRecordTAttMTable[cnt + labelIndex].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(0, labelIndex, gRecordTAtt->mRecordTAttMBnll, str,
@@ -141,7 +141,7 @@ void SetupRecordTAttRowValues(u16 row) {
                        gRecordTAtt->mPlayerCharacterCellLayout, 1, index, gRecordTAtt->mRecordTAttSNcer,
                        gRecordTAtt->mRecordTAttSBncl);
         palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
-        NNS_GfdRegisterNewVramTransferTask(
+        AllocateReserveTEQSub(
             0x1e, gRecordTAttPaletteSlots[0][row] << 5,
             palette +
                 (GetCellPaletteIndex(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
@@ -160,8 +160,8 @@ void SetupRecordTAttRowValues(u16 row) {
         PrintLabelLayoutTextFixedDigits(1, labelIndex, gRecordTAtt->mRecordTAttSBnll, str,
                                         gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
         GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, name);
-        MI_CpuFill8(str, 0, sizeof(str));
-        MIi_CpuCopy16(name, str, sizeof(name));
+        Mem_CpuFill8(str, 0, sizeof(str));
+        CopyMemory16(name, str, sizeof(name));
         labelIndex = gRecordTAttNameLabelIndices[row];
         gRecordTAtt->mRecordTAttSTable[cnt + labelIndex].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(1, labelIndex, gRecordTAtt->mRecordTAttSBnll, str,
@@ -205,7 +205,7 @@ void SetupRecordTAtt(void) {
     recordTAtt = gRecordTAtt;
     PrintLabelLayoutTextNoFixedAdvance(
         0, 0, gRecordTAtt->mRecordTAttMBnll,
-        GetBmgEntry(recordTAtt->mCommonMessages, gRecordTAttCommonMessageIndices[recordTAtt->mIndex]),
+        Bmg_GetRawStringPointer_from_thumb(recordTAtt->mCommonMessages, gRecordTAttCommonMessageIndices[recordTAtt->mIndex]),
         recordTAtt->mRecordTAttMBncl, recordTAtt->mRecordTAttMTable);
     for (recordIndex = 0; recordIndex < 5; recordIndex++) {
         if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], gRecordTAttRecordIndices[recordIndex])) {
@@ -223,7 +223,7 @@ void SetupRecordTAtt(void) {
                        gRecordTAtt->mPlayerCharacterCellLayout, 0, 5, gRecordTAtt->mRecordTAttMNcer,
                        gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
-        NNS_GfdRegisterNewVramTransferTask(
+        AllocateReserveTEQSub(
             0xe, 0x80,
             palette +
                 (GetCellPaletteIndex(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
@@ -238,8 +238,8 @@ void SetupRecordTAtt(void) {
         PrintLabelLayoutTextFixedDigits(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                                         gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5, name);
-        MI_CpuFill8(str, 0, sizeof(str));
-        MIi_CpuCopy16(name, str, sizeof(name));
+        Mem_CpuFill8(str, 0, sizeof(str));
+        CopyMemory16(name, str, sizeof(name));
         gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(0, 4, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                                            gRecordTAtt->mRecordTAttMTable);
@@ -277,10 +277,10 @@ BOOL CheckRecordTAttFirstRecordFormat(void) {
     u8 buf[0x14];
 
     if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], gRecordTAttRecordIndices[0]) != FALSE) {
-        if (FormatFirstCourseTimeRecord(gRecordTAttCourseIds[gRecordTAtt->mIndex], buf) != 0) {
+        if (GenerateTimeTrialCode(gRecordTAttCourseIds[gRecordTAtt->mIndex], buf) != 0) {
             return TRUE;
         }
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x16);
         return FALSE;
     }
     return FALSE;
@@ -385,7 +385,7 @@ void RequestRecordTAttPressButton(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_PRESS_BUTTON;
     gRecordTAtt->mStateFrames = 0;
     gRecordTAtt->mRecordTAttSTable[13].mVisible = 1;
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 4);
 }
 
 void RequestRecordTAttSlideOutForClearPrompt(void) {
@@ -403,13 +403,13 @@ void RequestRecordTAttWaitClearPromptOpen(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_OPEN;
     gRecordTAtt->mStateFrames = 0;
     buf[0] = 0;
-    MIi_CpuClear16(buf[0], &buf[1], 0x200);
+    Mem_CpuFill16(buf[0], &buf[1], 0x200);
     recordTAtt = gRecordTAtt;
-    text = GetBmgEntry(recordTAtt->mGhostMessages, gRecordTAttGhostMessageIndices[recordTAtt->mIndex]);
-    FormatMessageWithText(text, GetBmgEntry(recordTAtt->mRecordMessages, 10), &buf[1], 0x200);
-    text = GetBmgEntry(gRecordTAtt->mCommonMessages, 0);
-    secondButtonText = GetBmgEntry(gRecordTAtt->mCommonMessages, 1);
-    SetupTxtSystemSubTextTwoButtonsEx(&buf[1], text, secondButtonText, 1, 0, 1, 1, 1);
+    text = Bmg_GetRawStringPointer_from_thumb(recordTAtt->mGhostMessages, gRecordTAttGhostMessageIndices[recordTAtt->mIndex]);
+    MaybeHandleBmgFormatting_from_thumb(text, Bmg_GetRawStringPointer_from_thumb(recordTAtt->mRecordMessages, 10), &buf[1], 0x200);
+    text = Bmg_GetRawStringPointer_from_thumb(gRecordTAtt->mCommonMessages, 0);
+    secondButtonText = Bmg_GetRawStringPointer_from_thumb(gRecordTAtt->mCommonMessages, 1);
+    TextSystem_DisplayDoubleButtonDialog_from_thumb(&buf[1], text, secondButtonText, 1, 0, 1, 1, 1);
 }
 
 void RequestRecordTAttWaitClearAnswer(void) {
@@ -421,7 +421,7 @@ void RequestRecordTAttWaitClearAnswer(void) {
 void RequestRecordTAttWaitClearPromptClose(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_CLEAR_PROMPT_CLOSE;
     gRecordTAtt->mStateFrames = 0;
-    RequestTxtSystemClose();
+    TextSystem_CloseDialog_from_thumb();
     SetTxtSystemSoundId(0, 5);
 }
 
@@ -436,7 +436,7 @@ void RequestRecordTAttSlideInAfterClearPrompt(void) {
 void RequestRecordTAttSlideOutForTimeText(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_SLIDE_OUT_FOR_TIME_TEXT;
     gRecordTAtt->mStateFrames = 0;
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 6);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 6);
 }
 
 void RequestRecordTAttWaitTimeTextOpen(void) {
@@ -451,7 +451,7 @@ void RequestRecordTAttWaitTimeTextOpen(void) {
     groupPosition = 0;
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_TIME_TEXT_OPEN;
     gRecordTAtt->mStateFrames = sourceIndex;
-    FormatFirstCourseTimeRecord(gRecordTAttCourseIds[gRecordTAtt->mIndex], buf);
+    GenerateTimeTrialCode(gRecordTAttCourseIds[gRecordTAtt->mIndex], buf);
     while (destIndex < 19) {
         groupPosition++;
         if (groupPosition > 4) {
@@ -465,7 +465,7 @@ void RequestRecordTAttWaitTimeTextOpen(void) {
         }
     }
     str[destIndex] = 0;
-    SetupTxtSystemSubTextEx(str, 0, 1, 0, 0, 0);
+    TextSystem_DisplayProgressDialog_from_thumb(str, 0, 1, 0, 0, 0);
 }
 
 // Requests state 15.
@@ -477,7 +477,7 @@ void RequestRecordTAttWaitTimeTextInput(void) {
 void RequestRecordTAttWaitTimeTextClose(void) {
     gRecordTAtt->mNextState = RECORD_TATT_STATE_WAIT_TIME_TEXT_CLOSE;
     gRecordTAtt->mStateFrames = 0;
-    RequestTxtSystemClose();
+    TextSystem_CloseDialog_from_thumb();
 }
 
 // Requests state 17.

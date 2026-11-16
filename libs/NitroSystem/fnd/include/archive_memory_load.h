@@ -3,8 +3,8 @@
 #include "types.h"
 #include "file_command_handlers.h" // FSArchive
 
-// Record whose first fields ArchiveHeaderMatches checks; mUnk_0c is the offset of the first of mUnk_0e blocks that
-// ArchiveLoadFromMemory walks, each starting with a word and its own size.
+// Record whose first fields ArcEntry_ValidateNarcHeader checks; mUnk_0c is the offset of the first of mUnk_0e blocks that
+// MountMountEntryFrom walks, each starting with a word and its own size.
 typedef struct NNSiFndArchiveHeader {
     /* 00 */ u32 mSignature;
     /* 04 */ u16 mByteOrder;
@@ -14,7 +14,7 @@ typedef struct NNSiFndArchiveHeader {
     /* 0e */ u16 mDataBlocks;
 } NNSiFndArchiveHeader;
 
-// Values of NNSiFndArchiveHeader.mSignature, mByteOrder and mVersion that ArchiveHeaderMatches accepts, and the kind
+// Values of NNSiFndArchiveHeader.mSignature, mByteOrder and mVersion that ArcEntry_ValidateNarcHeader accepts, and the kind
 // words of the three blocks (the ASCII tags "NARC", "BTAF", "BTNF" and "GMIF" as words).
 #define ARCHIVE_SIGNATURE 0x4352414e
 #define ARCHIVE_BYTE_ORDER 0xfffe
@@ -26,7 +26,7 @@ typedef struct NNSiFndArchiveHeader {
 // Bytes at the start of each block of the archive: its kind word and its size.
 #define ARCHIVE_BLOCK_HEADER_SIZE 8
 
-// FSArchive followed by the three words ArchiveLoadFromMemory sets.
+// FSArchive followed by the three words MountMountEntryFrom sets.
 typedef struct NNSFndArchive {
     /* 00 */ FSArchive mFsArchive;
     /* 5c */ NNSiFndArchiveHeader *mArcBinary;
@@ -34,7 +34,7 @@ typedef struct NNSFndArchive {
     /* 64 */ u8 *mFileImage;
 } NNSFndArchive;
 
-void *ArchiveFileGetAddress(const u8 *path);
-u32 ArchiveUnload(FSArchive *archive);
-u32 ArchiveLoadFromMemory(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header);
-u32 ArchiveHeaderMatches(NNSiFndArchiveHeader *header);
+void *GetFileBuffer(const u8 *path);
+u32 Fs_Archive_Dispose(FSArchive *archive);
+u32 MountMountEntryFrom(NNSFndArchive *archive, const u8 *name, NNSiFndArchiveHeader *header);
+u32 ArcEntry_ValidateNarcHeader(NNSiFndArchiveHeader *header);

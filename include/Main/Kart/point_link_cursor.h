@@ -61,13 +61,13 @@ extern const KartAiItemUseEntry gRaceEasyHeldItemEntries[18];
 // by the uniform cubic B-spline basis.
 void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve);
 // Adds d to the curve parameter (0x1000 = one segment); past 0x1000 it shifts the four control points on to the next
-// point of the entry's group (clamped after the last) and writes the point on the curve to a. UpdateCameraPosCurve
+// point of the entry's group (clamped after the last) and writes the point on the curve to a. StructHD_SomeFn_11
 // calls it for groups of four or more points.
 void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep);
 void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
 // Restarts the curve a on the entry b: clears its parameter and counters and, when the entry's group has four or more
 // points, loads the first four as its control points (nothing is loaded for fewer).
-void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
+void StructVC_SomeFnLinkedRouteRelated(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
 void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
 s32 DecrementItemInUseTimer(struct KartAiItemUse *itemUse);
 void ResetItemInUseTimer(struct KartAiItemUse *itemUse, const struct KartAiItemUseEntry *unusedEntry);
@@ -107,7 +107,7 @@ struct Kart;
 struct RacePointLink;
 
 void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
-u16 PickKartAiRaceStartBoost(s32 pickLast);
+u16 SomeCpuModeStuff(s32 pickLast);
 void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi,
                                    s32 speedLimitCap);
 void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);

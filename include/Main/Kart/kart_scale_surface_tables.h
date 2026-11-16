@@ -4,8 +4,8 @@
 typedef struct Kart Kart;
 
 
-// The 16 scene functions, indexed by scene number; the names are in gSceneNames.
-extern const u32 gSceneFuncs[16];
+// The 16 scene functions, indexed by scene number; the names are in g_SceneArchiveNameTable.
+extern const u32 g_SceneFnTable[16];
 
 extern const s32 gKartScaleFactorXTable[25];
 

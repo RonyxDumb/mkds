@@ -6,7 +6,7 @@
 #include "Main/Sound/sound_system.h"
 
 u32 MenuStartSeqArc(u32 seqIndex, u32 seqArcNo) {
-    return NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, seqArcNo, seqIndex);
+    return PlaySseqFromSarc(&gSharedSeqHandle, seqArcNo, seqIndex);
 }
 
 u32 StartMenuSound(u32 seqIndex) {

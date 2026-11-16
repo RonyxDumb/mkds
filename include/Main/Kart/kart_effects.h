@@ -75,9 +75,9 @@ void AdvanceKartSideEffectWithVelocity(ParticleEmitter *effect, s32 phase);
 void AdvanceKartSideEffect(ParticleEmitter *effect, s32 phase);
 void AdvanceKartCurrentEffect(ParticleEmitter *effect, s32 phase);
 void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase);
-void ReleaseKartSurfaceEffects(Kart *kart);
+void StructMQRacerEntry_SomeFn_17(Kart *kart);
 void StopKartWaterEffects(Kart *kart);
-void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce);
+void StructMQRacerEntry_SomeFn_18(Kart *kart, s32 deleteAtOnce);
 void StopKartCurrentEffects(Kart *kart);
 BOOL StartKartWaterEffects(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
 s32 StartKartSideEffectsWithVelocity(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);
@@ -98,7 +98,7 @@ void ApplyKartCurrentEffectRow0(Kart *kart);
 void SurfaceEffectStopKartCurrentEffects(Kart *kart);
 // Copies the position source of the Kart into the position of its matrix (Kart.mDrawBaseRow3), then computes
 // mSidePositions and mSideDirections of the Kart from the model points 2 and 3 and the Kart matrix.
-void ComputeKartSidePoints(Kart *kart);
+void StructMQRacerEntry_SomeFn_61(Kart *kart);
 // Allocates the KartEffects records for a Karts and clears them.
 void InitKartEffects(u32 kartCount);
 // Returns the KartEffects record of Kart number n.
@@ -139,7 +139,7 @@ extern struct ParticleEmitter **gKartNearRankEffects;
 extern s32 gCourseCameraEffectSpeedReciprocal;
 extern ParticleEmitter *gSecondCourseCameraEffect;
 // Per-Kart effect records, allocated for every Kart by InitKartEffects and indexed by Kart.mIndex.
-extern KartEffects *gKartEffects;
+extern KartEffects *g_SomeH;
 extern u16 *gKartEffectIdSetIndex;
 extern s32 gOtherKartOddCount;
 extern struct KartStarEffects *gKartStarEffects;

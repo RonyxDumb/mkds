@@ -67,7 +67,7 @@ s32 DWC_GetNumFriend(void *friendList, s32 friendListLength) {
         return 0;
     }
     for (index = 0; index < friendListLength; index++) {
-        if (IsFriendDataTypeNonZeroWrapper(entry) != 0) {
+        if (FriendCode_HasNonzeroState_0_from_thumb(entry) != 0) {
             count++;
         }
         entry++;
@@ -85,5 +85,5 @@ void DWC_DeleteBuddyFriendData(void *friendData) {
             GpDeleteBuddy(gWiFiBuddySync->mGpConnection, profileId);
         }
     }
-    MI_CpuFill8(friendData, 0, 12);
+    Mem_CpuFill8(friendData, 0, 12);
 }

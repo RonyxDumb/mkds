@@ -16,15 +16,15 @@
 #include "Main/Menu/select_race_rule_state.h"
 
 static inline u32 ConnectGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline s32 ConnectIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (ConnectGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if (ConnectGetConnectionMode() != CONNECTION_MODE_NONE && g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -32,7 +32,7 @@ static inline s32 ConnectIsConnectionActive(void) {
 
 static inline s32 ConnectIsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (ConnectIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (ConnectIsConnectionActive() && !(g_GlobalZE->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -40,7 +40,7 @@ static inline s32 ConnectIsConnectionActiveNotEnding(void) {
 
 static inline s32 ConnectIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (ConnectIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
+    if (ConnectIsConnectionActiveNotEnding() && g_GlobalZE->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -50,8 +50,8 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
     s32 status;
 
     status = 0;
-    if (gConnectionWork->mRequestPending != 0) {
-        if (gConnectionWork->mStep == CONNECTION_STEP_SEARCHING && gConnectionWork->mKeepScanning == 1) {
+    if (g_GlobalZE->mRequestPending != 0) {
+        if (g_GlobalZE->mStep == CONNECTION_STEP_SEARCHING && g_GlobalZE->mKeepScanning == 1) {
             if (TrySelectScanSlot(entryIndex) == 0) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             }
@@ -61,7 +61,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
     if (ConnectIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_SEARCHING:
             EndScan();
             break;
@@ -70,7 +70,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
             break;
         case CONNECTION_STEP_RESTARTING:
         case CONNECTION_STEP_JOINING:
-            if (gConnectionWork->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
+            if (g_GlobalZE->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                     SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                     return 3;
@@ -81,7 +81,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
             }
             break;
         case CONNECTION_STEP_STARTING_EXCHANGE:
-            gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
+            g_GlobalZE->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
             status = 1;
             break;
@@ -90,18 +90,18 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
 }
 
 s32 AdvanceGameInfoOnChildChange(void) {
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_STARTING_EXCHANGE:
-            if (gConnectionWork->mStatusFlags & CONNECTION_STATUS_CHILDREN_CHANGED) {
+            if (g_GlobalZE->mStatusFlags & CONNECTION_STATUS_CHILDREN_CHANGED) {
                 SetGameInfo();
             }
             break;
         case CONNECTION_STEP_PUBLISHING_GAME_INFO:
-            gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
-            gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+            g_GlobalZE->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
+            g_GlobalZE->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
             break;
     }
     return 0;
@@ -115,14 +115,14 @@ void AdvanceConnection(void) {
     if (!ConnectIsConnectionActive()) {
         return;
     }
-    switch (gConnectionWork->mState) {
+    switch (g_GlobalZE->mState) {
         case CONNECTION_STATE_SYNC_WAIT:
         case CONNECTION_STATE_SYNCED:
         case CONNECTION_STATE_SYNCED_RACE:
             if (UpdateDataSharing() == FALSE) {
-                gConnectionWork->mFlags |= CONNECTION_FLAG_SHARING_NOT_UPDATED;
+                g_GlobalZE->mFlags |= CONNECTION_FLAG_SHARING_NOT_UPDATED;
             }
-            if (gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+            if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
                 return;
             }
             if (ConnectGetConnectionMode() != CONNECTION_MODE_PARENT) {
@@ -131,23 +131,23 @@ void AdvanceConnection(void) {
             DisconnectRemovedChildren();
             break;
         case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
-            childMask = gConnectionWork->mChildren.mChildMask;
+            childMask = g_GlobalZE->mChildren.mChildMask;
             participantMask = childMask | 1;
-            if (gConnectionWork->mChildren.mNameSendIndex >= CHILD_LIST_NAME_SEND_PAUSE_FIRST) {
-                gConnectionWork->mChildren.mNameSendIndex++;
-                if ((s32) gConnectionWork->mChildren.mNameSendIndex > CHILD_LIST_NAME_SEND_PAUSE_LAST) {
-                    gConnectionWork->mChildren.mNameSendIndex = 0;
+            if (g_GlobalZE->mChildren.mNameSendIndex >= CHILD_LIST_NAME_SEND_PAUSE_FIRST) {
+                g_GlobalZE->mChildren.mNameSendIndex++;
+                if ((s32) g_GlobalZE->mChildren.mNameSendIndex > CHILD_LIST_NAME_SEND_PAUSE_LAST) {
+                    g_GlobalZE->mChildren.mNameSendIndex = 0;
                 }
                 return;
             }
-            participantIndex = gConnectionWork->mChildren.mNameSendIndex % 8;
+            participantIndex = g_GlobalZE->mChildren.mNameSendIndex % 8;
             if (participantMask & (1 << participantIndex)) {
                 if (QueueMPDataPlayerName(participantIndex, childMask) == FALSE) {
                     return;
                 }
-                gConnectionWork->mChildren.mNameSendIndex++;
+                g_GlobalZE->mChildren.mNameSendIndex++;
             } else {
-                gConnectionWork->mChildren.mNameSendIndex++;
+                g_GlobalZE->mChildren.mNameSendIndex++;
             }
             break;
     }
@@ -157,17 +157,17 @@ s32 AdvanceConnectionEnd(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (gConnectionWork->mState == CONNECTION_STATE_IDLE) {
-        gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
+    if (g_GlobalZE->mState == CONNECTION_STATE_IDLE) {
+        g_GlobalZE->mFlags &= ~CONNECTION_FLAG_ENDING;
         return 1;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
         case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY:
             StartRequestEndScan();
             break;
         case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
-            StartCloseScanConnect();
+            StructZE_StateFn_28_29_30_33_34_35_from_thumb();
             break;
         case CONNECTION_STEP_MULTIBOOT_START_PARENT:
         case CONNECTION_STEP_MULTIBOOT_UNUSED:
@@ -180,31 +180,31 @@ s32 AdvanceConnectionEnd(void) {
         case CONNECTION_STEP_BLOCK_NODE_REQUEST:
         case CONNECTION_STEP_BLOCK_DATA_REQUEST:
         case CONNECTION_STEP_SEND_WORD_REQUEST:
-            gConnectionWork->mRequestPending = 0;
+            g_GlobalZE->mRequestPending = 0;
             break;
     }
-    if (gConnectionWork->mRequestPending != 0 && gConnectionWork->mStep == CONNECTION_STEP_SEARCHING &&
-        gConnectionWork->mKeepScanning == 1) {
-        gConnectionWork->mKeepScanning = 0;
+    if (g_GlobalZE->mRequestPending != 0 && g_GlobalZE->mStep == CONNECTION_STEP_SEARCHING &&
+        g_GlobalZE->mKeepScanning == 1) {
+        g_GlobalZE->mKeepScanning = 0;
     }
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
     if (ConnectIsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_ROM_ARCHIVE_STOP:
             End();
             break;
         case CONNECTION_STEP_SHUTTING_DOWN:
-            gConnectionWork->mStep = CONNECTION_STEP_NOTHING;
+            g_GlobalZE->mStep = CONNECTION_STEP_NOTHING;
             break;
         case CONNECTION_STEP_NOTHING:
-            ClearParticipantBits();
-            gConnectionWork->mState = CONNECTION_STATE_IDLE;
+            CleanSaveDataHolderFlagBytes_from_thumb();
+            g_GlobalZE->mState = CONNECTION_STATE_IDLE;
             finished = TRUE;
-            gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
+            g_GlobalZE->mFlags &= ~CONNECTION_FLAG_ENDING;
             break;
         case CONNECTION_STEP_STARTING_UP:
         case CONNECTION_STEP_RESTARTING:
@@ -252,7 +252,7 @@ s32 AdvanceConnectionEnd(void) {
         case CONNECTION_STEP_MULTIBOOT_UNUSED:
         case CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN:
         case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
-            StartEndToIdle();
+            StructZE_StateFn22_23_24_25_from_thumb();
             break;
         case CONNECTION_STEP_SCAN_CONNECT_SETUP:
         case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
@@ -260,7 +260,7 @@ s32 AdvanceConnectionEnd(void) {
         case CONNECTION_STEP_SCAN_CONNECT_END_SCAN:
         case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
         case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
-            StartCloseScanConnect();
+            StructZE_StateFn_28_29_30_33_34_35_from_thumb();
             break;
         case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
         case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
@@ -288,12 +288,12 @@ s32 AdvanceConnectionEndStopOnError(void) {
     status = 0;
     result = AdvanceConnectionEnd();
     if (result == 3) {
-        switch (gConnectionWork->mStep) {
+        switch (g_GlobalZE->mStep) {
             case CONNECTION_STEP_MULTIBOOT_START_PARENT:
             case CONNECTION_STEP_MULTIBOOT_UNUSED:
             case CONNECTION_STEP_MULTIBOOT_SEND_TO_CHILDREN:
             case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
-                StartEndToIdle();
+                StructZE_StateFn22_23_24_25_from_thumb();
                 break;
             case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
             case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
@@ -310,13 +310,13 @@ s32 AdvanceConnectionEndStopOnError(void) {
             case CONNECTION_STEP_SCAN_CONNECT_END_SCAN:
             case CONNECTION_STEP_SCAN_CONNECT_CONNECT_ENTRY:
             case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
-                StartCloseScanConnect();
+                StructZE_StateFn_28_29_30_33_34_35_from_thumb();
                 break;
             default:
                 StopConnection();
                 break;
         }
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_NONE;
     } else {
         status = result;
     }

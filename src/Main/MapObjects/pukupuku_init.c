@@ -34,7 +34,7 @@ const MapObjectKindData gRotaryGearTestCylinderKindData = {NULL, NULL, 5, 0x12c0
 
 MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*kindData));
     *kindData = gRotaryGearTestCylinderKindData;
     kindData->mHeightRangeMax = PUKUPUKU_HEIGHT_RANGE_MAX;
     return kindData;
@@ -42,21 +42,21 @@ MapObjectKindData *CreateRotaryGearTestCylinderKindData(void) {
 
 MapObjectKindData *CreateRotaryRoomKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*kindData));
     *kindData = gRotaryRoomKindData;
     return kindData;
 }
 
 MapObjectKindData *CreateRotaryBridgeKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*kindData));
     *kindData = gRotaryBridgeKindData;
     return kindData;
 }
 
 MapObjectDrawList *CreateRotaryDrawList(void) {
     MapObjectDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     gRotaryDrawList = drawList;
     *drawList = gRotaryDrawListData;
     SetDrawListSlot(&gRotaryDrawList);
@@ -65,7 +65,7 @@ MapObjectDrawList *CreateRotaryDrawList(void) {
 
 MapObjectList *CreateRotaryUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gRotaryUpdateList = updateList;
     *updateList = gRotaryUpdateListData;
     SetUpdateListSlot(&gRotaryUpdateList);
@@ -76,7 +76,7 @@ void UpdateRotary(u32 unused, Rotary *object) {
     s32 previousAngle;
     s32 angleChange;
     previousAngle = object->mCollisionMapObject.mMapObject.mAngle;
-    AdvanceStateMachine(&object->mCollisionMapObject.mMapObject.mStateMachine);
+    StateDualHandler_Execute(&object->mCollisionMapObject.mMapObject.mStateMachine);
     angleChange = object->mCollisionMapObject.mMapObject.mAngle - previousAngle;
     if (angleChange > 0x8000) {
         angleChange -= 0x10000;
@@ -91,13 +91,13 @@ void UpdateRotary(u32 unused, Rotary *object) {
     object->mCollisionMapObject.mCollisionData.mAngleChangeVector.z =
         MUL_FIXED12_NO_ROUND(object->mCollisionMapObject.mMapObject.mMatrix.mRows[1].z, angleChange);
     object->mCollisionMapObject.mCollisionData.mPrevMatrix = object->mCollisionMapObject.mMapObject.mMatrix.mAxes;
-    MTX_RotY33_(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
+    MTX_RotY33__from_thumb(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                 FX_SinIdx(object->mCollisionMapObject.mMapObject.mAngle),
                 FX_CosIdx(object->mCollisionMapObject.mMapObject.mAngle));
     MTX_Concat33(&object->mCollisionMapObject.mMapObject.mMatrix.mAxes,
                  &object->mCollisionMapObject.mCollisionData.mInitialMatrix,
                  &object->mCollisionMapObject.mMapObject.mMatrix.mAxes);
-    VEC_MultAdd(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
+    VecFx32_AddScale1(-object->mCollisionMapObject.mCollisionData.mHalfSizeY,
                 &object->mCollisionMapObject.mMapObject.mMatrix.mRows[1], &object->mCollisionMapObject.mMapObject.mPos,
                 &object->mCollisionMapObject.mCollisionData.mCenterPos);
     if (object->mCollisionMapObject.mMapObject.mStateMachine.mState == ROTARY_STATE_PAUSE) {

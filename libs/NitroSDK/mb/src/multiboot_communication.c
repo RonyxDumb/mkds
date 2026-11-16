@@ -33,11 +33,11 @@ u16 gMultibootGameName[10] = {0x6d, 0x75, 0x6c, 0x74, 0x69, 0x62, 0x6f, 0x6f, 0x
 void MBi_AttachCacheBuffer(MBiCacheList *table, u32 offset, u32 size, u8 *data, u32 value) {
     u32 savedInterrupts;
     MBiCacheInfo *range;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     range = table->mList;
     for (;;) {
         if (range >= table->mList + 4) {
-            OS_Terminate();
+            Os_Terminate();
         }
         if (range->mState == MULTIBOOT_CACHE_EMPTY) {
             range->mSrc = offset;
@@ -48,7 +48,7 @@ void MBi_AttachCacheBuffer(MBiCacheList *table, u32 offset, u32 size, u8 *data, 
         }
         range++;
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 byteCount) {
@@ -57,19 +57,19 @@ u32 MBi_ReadFromCache(MBiCacheList *table, u32 offset, void *destination, u32 by
     MBiCacheInfo *range;
     s32 offsetInRange;
     found = 0;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     for (range = table->mList; range < table->mList + 4; range++) {
         if (range->mState >= MULTIBOOT_CACHE_LOADED) {
             offsetInRange = offset - range->mSrc;
             if (offsetInRange >= 0 && offsetInRange + byteCount <= range->mLen) {
-                MI_CpuCopy8(range->mPtr + offsetInRange, destination, byteCount);
+                Mem_CpuCopy8(range->mPtr + offsetInRange, destination, byteCount);
                 found = 1;
                 table->mLifetime = found;
                 break;
             }
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return found;
 }
 
@@ -247,7 +247,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
                     }
                 }
                 if (nonZeroCount == 1) {
-                    OS_SpinWait(0x32c8);
+                    Os_SpinWait(0x32c8);
                 }
             }
             gWirelessWork->mDataQueued = 0;
@@ -307,7 +307,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
                     gWirelessWork->mCallback(0x21, result);
                     return;
                 case WIRELESS_STATE_EVENT_FATAL:
-                    OS_Terminate();
+                    Os_Terminate();
                     break;
                 case WIRELESS_STATE_EVENT_IGNORED:
                     break;
@@ -395,7 +395,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
                                 result->mMacAddress[5] == entry->mMessage.mMacAddress[5]) {
                                 entries[entryIndex].mMessage.mGameInfoLength = result->mGameInfoLength;
                                 entries[entryIndex].mMessage.mGameInfo = result->mGameInfo;
-                                DC_InvalidateRange(&work->mScanEntries[entryIndex], 0xc0);
+                                DC_InvalidateRangeNoClean(&work->mScanEntries[entryIndex], 0xc0);
                                 MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, &work->mScanEntries[entryIndex], 0xc0);
                                 work->mLastScanEntry = entryIndex;
                                 goto done;
@@ -406,9 +406,9 @@ void MBi_ChildCallback(WirelessMessage *result) {
                     }
                     if (entryIndex < 16) {
                         work->mScanEntryCount = entryIndex + 1;
-                        MIi_CpuCopy16(result, &entries[entryIndex].mMessage, 0xb8);
+                        CopyMemory16(result, &entries[entryIndex].mMessage, 0xb8);
                         entry = &work->mScanEntries[entryIndex];
-                        DC_InvalidateRange(entry, 0xc0);
+                        DC_InvalidateRangeNoClean(entry, 0xc0);
                         MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer, entry, 0xc0);
                         work->mLastScanEntry = entryIndex;
                     }
@@ -536,7 +536,7 @@ void MBi_ChildCallback(WirelessMessage *result) {
         case WIRELESS_REQUEST_EVENT_REPORT:
             switch (result->mState) {
                 case WIRELESS_STATE_EVENT_FATAL:
-                    OS_Terminate();
+                    Os_Terminate();
                     break;
                 case WIRELESS_STATE_EVENT_IGNORED:
                     break;
@@ -553,7 +553,7 @@ u32 MBi_GetBeaconPeriodDispersion(void) {
     u8 macAddress[6];
     u32 byteSum;
     s32 byteIndex;
-    OS_GetMacAddress(macAddress);
+    Os_GetMacAddress(macAddress);
     byteIndex = 0;
     byteSum = 0;
     for (; byteIndex < 6; byteIndex++) {
@@ -562,7 +562,7 @@ u32 MBi_GetBeaconPeriodDispersion(void) {
     return (byteSum + SYSTEM_WORK->mVblankCount) * 7 % 0x14;
 }
 
-s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
+s32 SetupSomePointer_from_thumb(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     MBiParam *wirelessWork;
     MB_CommPWork *parentWork;
     u32 savedInterrupts;
@@ -578,14 +578,14 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     if (tgid == 0x10000) {
         tgid = WM_GetNextTgid();
     }
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     gWirelessDmaNo = dmaNo;
     gWirelessWork = wirelessWork;
     mbc = parentWork;
     clearValue32 = 0;
     MIi_CpuClear32(clearValue32, wirelessWork, 0x1e00);
     clearValue16 = 0;
-    MIi_CpuClear16(clearValue16, parentWork, 0x1340);
+    Mem_CpuFill16(clearValue16, parentWork, 0x1340);
     cursor = wirelessWork->mUname;
     for (index = 0; index < user->mNameLength; index++) {
         *cursor = user->mName[index];
@@ -599,7 +599,7 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
         *cursor = *gMultibootGameNameCursor++;
         cursor++;
     }
-    MI_CpuCopy8(user, &parentWork->mUser, sizeof(MBUserInfo));
+    Mem_CpuCopy8(user, &parentWork->mUser, sizeof(MBUserInfo));
     if (user->mNameLength < MB_USER_NAME_LENGTH) {
         parentWork->mUser.mName[user->mNameLength] = 0;
     }
@@ -621,7 +621,7 @@ s32 MB_Init(void *buffer, MBUserInfo *user, u32 ggid, u32 tgid, u32 dmaNo) {
     wirelessWork->mMbIsStarted = 0;
     parentWork->mIsMbInitialized = 1;
     parentWork->mStartMpBusy = 0;
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 0;
 }
 
@@ -644,19 +644,19 @@ u32 MBi_IsCommSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren) 
 // fit.
 u32 MB_SetParentCommParam(u32 sendDataSize, u32 maxChildren) {
     u32 savedInterrupts;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (gWirelessWork->mMbIsStarted != 0) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     if (MBi_IsCommSizeValid(sendDataSize, 8, maxChildren) == 0) {
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
         return 0;
     }
     gWirelessWork->mMaxChildren = maxChildren;
     gWirelessWork->mSendDataSize = sendDataSize;
     gWirelessWork->mReceiveDataSize = MULTIBOOT_PARENT_RECEIVE_DATA_SIZE;
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return 1;
 }
 
@@ -669,7 +669,7 @@ s32 MBi_StartCommon(void) {
     if (mbc->mIsStartedEx == 0) {
         s32 result;
         do {
-            result = WM_Initialize(gWMSysBuf, gWirelessWork->mCommandCallback, gWirelessDmaNo);
+            result = StructWM_SomeFn(gWMSysBuf, gWirelessWork->mCommandCallback, gWirelessDmaNo);
         } while (result == 4);
         if (result != 2) {
             return 8;
@@ -693,13 +693,13 @@ s32 MBi_StartParentCore(u16 channel) {
     s32 childIndex;
     MB_CommPWork *parentWork;
     MBiParam *wirelessWork;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     gWirelessWork->mChannel = channel;
     parentWork = mbc;
     gWMSysBuf = (void *) (((u32) parentWork + 0x7d1f) & ~0x1f);
     callback = parentWork->mCallback;
     clearValues[0] = 0;
-    MIi_CpuClear16(clearValues[0], parentWork->mChildUser, 0x69c0);
+    Mem_CpuFill16(clearValues[0], parentWork->mChildUser, 0x69c0);
     MB_CommSetParentStateCallback(callback);
     mbc->mBlockSizeMax = gWirelessWork->mSendDataSize - 6;
     MBi_SetChildMPMaxSize(gWirelessWork->mReceiveDataSize);
@@ -710,8 +710,8 @@ s32 MBi_StartParentCore(u16 channel) {
     }
     mbc->mEntryCount = 0;
     clearValues[1] = 0;
-    MIi_CpuClear16(clearValues[1], mbc->mFileInfo, 0x5d40);
-    MI_CpuFill8(mbc->mReq2child, 0, sizeof(mbc->mReq2child));
+    Mem_CpuFill16(clearValues[1], mbc->mFileInfo, 0x5d40);
+    Mem_CpuFill8(mbc->mReq2child, 0, sizeof(mbc->mReq2child));
     gWirelessWork->mMode = MB_MODE_PARENT;
     gWirelessWork->mCallback = MBi_CommParentCallback;
     gWirelessWork->mCommandCallback = MBi_ParentCallback;
@@ -723,8 +723,8 @@ s32 MBi_StartParentCore(u16 channel) {
     wirelessWork->mReceiveBufferSize = (((wirelessWork->mChildMaxSize + 0xe) * 0xf + 0x29) & ~0x1f) << 1;
     MB_InitSendGameInfoStatus();
     value = MBi_StartCommon();
-    OS_RestoreInterrupts(savedInterrupts);
-    mbc->mUseWvrFlag = PXI_IsCallbackReady(0xf, 1);
+    Os_RestoreIrq(savedInterrupts);
+    mbc->mUseWvrFlag = Fifo_IsHandlerReady(0xf, 1);
     return value;
 }
 
@@ -737,7 +737,7 @@ s32 MB_StartParentFromIdle(u16 channel) {
 
 #pragma thumb on
 
-int MBi_CallReset(void) {
+int SomeAnnFnPtr_Impl_from_thumb(void) {
     int result;
     result = WM_Reset(gWirelessWork->mCommandCallback);
     MBi_CheckWmErrcode(WIRELESS_REQUEST_RESTART, result);
@@ -750,8 +750,8 @@ int MBi_CallReset(void) {
 #pragma thumb off
 
 #pragma thumb on
-u32 MBi_OnReset(void) {
-    return MBi_CallReset();
+u32 SomeAnnFnPtr_from_thumb(void) {
+    return SomeAnnFnPtr_Impl_from_thumb();
 }
 #pragma thumb off
 
@@ -762,18 +762,18 @@ u32 MBi_CommEnd(void) {
     u32 result;
     u32 savedInterrupts;
     result = 1;
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     if (gWirelessWork->mResetting == 0) {
         result = 0;
         *(u32 *) ((u32) gWirelessWork + 0x5e4LL) = result;
         gWirelessWork->mResetting = 1;
-        if (MBi_IsTaskAvailable() != 0) {
-            MBi_EndTaskThread(MBi_OnReset);
+        if (IsGlobalANSet_from_thumb() != 0) {
+            MBi_EndTaskThread(SomeAnnFnPtr_from_thumb);
         } else {
-            result = MBi_CallReset();
+            result = SomeAnnFnPtr_Impl_from_thumb();
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
     return result;
 }
 
@@ -783,12 +783,12 @@ u32 MBi_CommEnd(void) {
 
 void MB_EndToIdle(void) {
     u32 savedInterrupts;
-    savedInterrupts = ((s64) OS_DisableInterrupts());
+    savedInterrupts = ((s64) Os_DisableIrq());
     if (mbc->mIsStartedEx == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
     MBi_CommEnd();
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 #pragma thumb off
@@ -804,8 +804,8 @@ void MB_DisconnectChild(u32 childIndex) {
     if (childIndex != 0 && childIndex < 16) {
         slot = childIndex - 1;
         mbc->mChildversion[slot] = 0;
-        MI_CpuFill8(mbc->mChildggid + slot, 0, 4);
-        MI_CpuFill8(OFFSET_PTR(MBUserInfo, mbc->mChildUser, slot * 0x16), 0, sizeof(MBUserInfo));
+        Mem_CpuFill8(mbc->mChildggid + slot, 0, 4);
+        Mem_CpuFill8(OFFSET_PTR(MBUserInfo, mbc->mChildUser, slot * 0x16), 0, sizeof(MBUserInfo));
         MBi_ClearParentPieceBuffer(childIndex);
         value = 0;
         mbc->mReq2child[slot] = value;

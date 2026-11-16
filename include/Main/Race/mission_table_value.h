@@ -4,7 +4,7 @@
 
 // missionTable.mtbl: byte table, mUnk_06 is the row width.
 typedef struct MissionTable {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mLink[4];
     /* 04 */ u16 mRowCount;
     /* 06 */ u16 mColumnCount;
     /* 08 */ u8 mValues[];

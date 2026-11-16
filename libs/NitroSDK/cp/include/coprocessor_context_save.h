@@ -11,5 +11,5 @@ typedef struct CPContext {
     /* 1a */ u16 mSqrtMode;
 } CPContext;
 
-void CPi_RestoreContext(const CPContext *context);
-void CP_SaveContext(CPContext *context);
+void Arm_MathContext_Load(const CPContext *context);
+void Arm_MathContext_Save(CPContext *context);

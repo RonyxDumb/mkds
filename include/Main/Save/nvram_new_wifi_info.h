@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 WriteNewWiFiInfoToNvram(u32 work);
+u32 StructDC_SomeFn_4_from_thumb(u32 work);

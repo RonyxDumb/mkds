@@ -26,18 +26,18 @@
 #include "registers.h"
 
 PaletteBlend *gPaletteBlend;
-StaffRollText *gStaffRollText;
+StaffRollText *g_GlobalSTF;
 
 #pragma thumb on
 void InitPaletteBlend(void *heap, Nclr *nclr, u32 paletteIndex) {
     s32 colorIndex;
     s32 color;
-    gPaletteBlend = HeapAlloc(heap, sizeof(*gPaletteBlend));
+    gPaletteBlend = Mem_AllocateHeap(heap, sizeof(*gPaletteBlend));
     gPaletteBlend->mCycleFrames = 0;
     gPaletteBlend->mStopped = FALSE;
     gPaletteBlend->mPaletteIndex = paletteIndex;
     gPaletteBlend->mFirstBlend = TRUE;
-    MI_CpuCopy8(nclr->mData + paletteIndex * 0x10, gPaletteBlend->mPalette, 0x20);
+    Mem_CpuCopy8(nclr->mData + paletteIndex * 0x10, gPaletteBlend->mPalette, 0x20);
     for (colorIndex = 0; colorIndex < 4; colorIndex++) {
         color = gPaletteBlend->mFromColors[colorIndex];
         gPaletteBlend->mBlendFrom[colorIndex].mBits0To4 = color & 0x1f;
@@ -79,7 +79,7 @@ void BlendPaletteColors(s32 weight) {
               << 5));
     }
     if (gPaletteBlend->mFirstBlend == FALSE) {
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, gPaletteBlend->mPaletteIndex << 5,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, gPaletteBlend->mPaletteIndex << 5,
                                            gPaletteBlend->mPalette, 0x20);
     } else {
         gPaletteBlend->mFirstBlend = FALSE;
@@ -121,54 +121,54 @@ void StartPaletteBlend(void) {
 // Entries of the VRAM transfer task array that the staff roll text sets up.
 #define STAFF_ROLL_VRAM_TASK_COUNT 0xa
 
-void InitStaffRollText(void *heap) {
+void LoadStaffRollStuff(void *heap) {
     s32 screenEntryIndex;
     s32 charSpacing;
     Nclr *nclr;
     StaffRollText *staffRollText;
     TextCanvas *textCanvas;
     void *font;
-    gStaffRollText = HeapAlloc(heap, sizeof(*gStaffRollText));
-    gStaffRollText->mHeap = heap;
-    gStaffRollText->mState = STAFF_ROLL_TEXT_IDLE;
-    gStaffRollText->mNextState = STAFF_ROLL_TEXT_IDLE;
-    NNS_GfdInitVramTransferManager(HeapAlloc(heap, STAFF_ROLL_VRAM_TASK_COUNT * sizeof(NNSGfdVramTransferTask)),
+    g_GlobalSTF = Mem_AllocateHeap(heap, sizeof(*g_GlobalSTF));
+    g_GlobalSTF->mHeap = heap;
+    g_GlobalSTF->mState = STAFF_ROLL_TEXT_IDLE;
+    g_GlobalSTF->mNextState = STAFF_ROLL_TEXT_IDLE;
+    InitializeGlobalTEQ(Mem_AllocateHeap(heap, STAFF_ROLL_VRAM_TASK_COUNT * sizeof(NNSGfdVramTransferTask)),
                                    STAFF_ROLL_VRAM_TASK_COUNT);
-    gStaffRollText->mScrollYFixed = 0;
-    gStaffRollText->mNextReadScrollY = 0;
-    gStaffRollText->mScrollYRemaining = -1;
-    gStaffRollText->mScrollYPerFrame = STAFF_ROLL_SCROLL_Y_PER_FRAME_DEFAULT;
-    gStaffRollText->mCharSpacing = 1;
-    gStaffRollText->mTextColor = 1;
-    gStaffRollText->mAlignFlags = TEXT_CANVAS_FLAG_TOP | TEXT_CANVAS_FLAG_LEFT;
+    g_GlobalSTF->mScrollYFixed = 0;
+    g_GlobalSTF->mNextReadScrollY = 0;
+    g_GlobalSTF->mScrollYRemaining = -1;
+    g_GlobalSTF->mScrollYPerFrame = STAFF_ROLL_SCROLL_Y_PER_FRAME_DEFAULT;
+    g_GlobalSTF->mCharSpacing = 1;
+    g_GlobalSTF->mTextColor = 1;
+    g_GlobalSTF->mAlignFlags = TEXT_CANVAS_FLAG_TOP | TEXT_CANVAS_FLAG_LEFT;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x100;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 1;
     reg_G2S_DB_BG0CNT =
         (reg_G2S_DB_BG0CNT & (REG_G2S_DB_BG0CNT_PRIORITY_MASK | REG_G2S_DB_BG0CNT_MOSAIC_MASK)) | 0x1000;
-    MemFillWordsByBlock_inline((void *) G2S_GetBG0CharPtr(), 0x8000);
+    MemFillWordsByBlock_inline((void *) GetVramBg0BaseOffset_Bottom(), 0x8000);
     for (screenEntryIndex = 0; screenEntryIndex < 0x400; screenEntryIndex++) {
-        ((u16 *) G2S_GetBG0ScrPtr())[screenEntryIndex] = screenEntryIndex | 0xf000;
+        ((u16 *) GetAnotherSubEngineBGOffset())[screenEntryIndex] = screenEntryIndex | 0xf000;
     }
-    LoadNclrData(&nclr, FindSceneFile("ending_staffRoll_b_00.nclr"));
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0x1e0, nclr->mData + 0xf0, 0x20);
-    NNS_G2dCharCanvasInitForBG(gStaffRollText->mCharCanvas, gStaffRollText->mCharBuffer, 0x20, 2, 4);
-    charSpacing = gStaffRollText->mCharSpacing;
-    font = GetFontByIndex(2);
-    staffRollText = gStaffRollText;
+    Gfx_ReadPalette(&nclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("ending_staffRoll_b_00.nclr"));
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG_PALETTE, 0x1e0, nclr->mData + 0xf0, 0x20);
+    G2d_Sprite_CreateFromTiles(g_GlobalSTF->mCharCanvas, g_GlobalSTF->mCharBuffer, 0x20, 2, 4);
+    charSpacing = g_GlobalSTF->mCharSpacing;
+    font = GetLoadedFont_from_thumb(2);
+    staffRollText = g_GlobalSTF;
     textCanvas = &staffRollText->mTextCanvas;
     staffRollText->mTextCanvas.mCharCanvas = staffRollText->mCharCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = 0;
-    MI_CpuFill8(gStaffRollText->mCharBuffer, 0, sizeof(gStaffRollText->mCharBuffer));
-    gStaffRollText->mTextPosition = GetBmgEntry(FindSceneFile("staffRoll.bmg"), 0);
+    Mem_CpuFill8(g_GlobalSTF->mCharBuffer, 0, sizeof(g_GlobalSTF->mCharBuffer));
+    g_GlobalSTF->mTextPosition = Bmg_GetRawStringPointer_from_thumb(FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("staffRoll.bmg"), 0);
 }
 
-void ClearStaffRollTextPointer(void) {
-    gStaffRollText = NULL;
+void ResetStaffRollStuffObject(void) {
+    g_GlobalSTF = NULL;
 }
 
-void AdvanceStaffRollTextScrolling(void) {
+void FormatSomeStaffRollBmgString(void) {
     s32 tagSize;
     s32 value;
     s32 charCount;
@@ -182,18 +182,18 @@ void AdvanceStaffRollTextScrolling(void) {
     u32 character;
     s32 bgPositionY;
     StaffRollTag *tag;
-    gStaffRollText->mScrollYFixed += gStaffRollText->mScrollYPerFrame;
-    bgPositionY = FROM_FIXED12(gStaffRollText->mScrollYFixed) - 8;
+    g_GlobalSTF->mScrollYFixed += g_GlobalSTF->mScrollYPerFrame;
+    bgPositionY = FROM_FIXED12(g_GlobalSTF->mScrollYFixed) - 8;
     if (bgPositionY < 0) {
         bgPositionY += 0x100;
     }
     bgPositionY = bgPositionY % 256;
-    MemFillWordsByBlock_inline((void *) (G2S_GetBG0CharPtr() + ((bgPositionY >> 3) << 10)), 0x400);
-    staffRollText = gStaffRollText;
+    MemFillWordsByBlock_inline((void *) (GetVramBg0BaseOffset_Bottom() + ((bgPositionY >> 3) << 10)), 0x400);
+    staffRollText = g_GlobalSTF;
     if (staffRollText->mScrollYRemaining > 0) {
         staffRollText->mScrollYRemaining -= staffRollText->mScrollYPerFrame;
-        if (gStaffRollText->mScrollYRemaining <= 0) {
-            gStaffRollText->mNextState = STAFF_ROLL_TEXT_SCROLL_DONE;
+        if (g_GlobalSTF->mScrollYRemaining <= 0) {
+            g_GlobalSTF->mNextState = STAFF_ROLL_TEXT_SCROLL_DONE;
         }
         return;
     }
@@ -202,9 +202,9 @@ void AdvanceStaffRollTextScrolling(void) {
     }
     charCount = 0;
     lineDone = FALSE;
-    MI_CpuFill8(lineText, 0, sizeof(lineText));
+    Mem_CpuFill8(lineText, 0, sizeof(lineText));
     do {
-        staffRollText = gStaffRollText;
+        staffRollText = g_GlobalSTF;
         textPosition = staffRollText->mTextPosition;
         tag = (StaffRollTag *) textPosition;
         character = tag->mCharacter;
@@ -222,13 +222,13 @@ void AdvanceStaffRollTextScrolling(void) {
                         staffRollText->mAlignFlags = TEXT_CANVAS_FLAG_TOP;
                         switch (argument) {
                             case STAFF_ROLL_ALIGN_LEFT:
-                                gStaffRollText->mAlignFlags |= TEXT_CANVAS_FLAG_LEFT;
+                                g_GlobalSTF->mAlignFlags |= TEXT_CANVAS_FLAG_LEFT;
                                 break;
                             case STAFF_ROLL_ALIGN_CENTER:
-                                gStaffRollText->mAlignFlags |= TEXT_CANVAS_FLAG_CENTER;
+                                g_GlobalSTF->mAlignFlags |= TEXT_CANVAS_FLAG_CENTER;
                                 break;
                             case STAFF_ROLL_ALIGN_RIGHT:
-                                gStaffRollText->mAlignFlags |= TEXT_CANVAS_FLAG_RIGHT;
+                                g_GlobalSTF->mAlignFlags |= TEXT_CANVAS_FLAG_RIGHT;
                                 break;
                         }
                         break;
@@ -253,11 +253,11 @@ void AdvanceStaffRollTextScrolling(void) {
                         break;
                 }
             }
-            gStaffRollText->mTextPosition += tagSize;
+            g_GlobalSTF->mTextPosition += tagSize;
         } else if (character == 0xa) {
             lineDone = TRUE;
             staffRollText->mNextReadScrollY += 0x10000;
-            gStaffRollText->mTextPosition += 2;
+            g_GlobalSTF->mTextPosition += 2;
         } else if (character == 0) {
             staffRollText->mTextPosition = textPosition + 2;
         } else {
@@ -266,38 +266,38 @@ void AdvanceStaffRollTextScrolling(void) {
             staffRollText->mTextPosition += 2;
         }
     } while (lineDone == FALSE);
-    MI_CpuFill8(gStaffRollText->mCharBuffer, 0, sizeof(gStaffRollText->mCharBuffer));
-    color = gStaffRollText->mTextColor;
+    Mem_CpuFill8(g_GlobalSTF->mCharBuffer, 0, sizeof(g_GlobalSTF->mCharBuffer));
+    color = g_GlobalSTF->mTextColor;
     value = 0;
     if (color == 3) {
         value = 2;
     }
-    NNSi_G2dTextCanvasDrawTextRect(&gStaffRollText->mTextCanvas, 8, value, 0xf0, 0x10, color,
-                                   gStaffRollText->mAlignFlags, lineText);
-    staffRollText = gStaffRollText;
+    G2d_Text_PrintString4(&g_GlobalSTF->mTextCanvas, 8, value, 0xf0, 0x10, color,
+                                   g_GlobalSTF->mAlignFlags, lineText);
+    staffRollText = g_GlobalSTF;
     bgPositionY = ((FROM_FIXED12(staffRollText->mScrollYFixed) % 256) + 0xc0) >> 3;
     bgPositionY = bgPositionY << 3;
     if (bgPositionY >= 0x100) {
         bgPositionY -= 0x100;
     }
     if (bgPositionY + 0x10 > 0x100) {
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, bgPositionY << 7, staffRollText->mCharBuffer,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG0_TILES, bgPositionY << 7, staffRollText->mCharBuffer,
                                            (0x100 - bgPositionY) << 7);
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, 0,
-                                           &gStaffRollText->mCharBuffer[bgPositionY << 7], (bgPositionY - 0xf0) << 7);
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG0_TILES, 0,
+                                           &g_GlobalSTF->mCharBuffer[bgPositionY << 7], (bgPositionY - 0xf0) << 7);
     } else {
-        NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG0_TILES, bgPositionY << 7, staffRollText->mCharBuffer,
+        AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG0_TILES, bgPositionY << 7, staffRollText->mCharBuffer,
                                            0x800);
     }
 }
 
 void AdvanceStaffRollText(void) {
-    gStaffRollText->mState = gStaffRollText->mNextState;
-    switch (gStaffRollText->mState) {
+    g_GlobalSTF->mState = g_GlobalSTF->mNextState;
+    switch (g_GlobalSTF->mState) {
         case STAFF_ROLL_TEXT_IDLE:
             break;
         case STAFF_ROLL_TEXT_SCROLLING:
-            AdvanceStaffRollTextScrolling();
+            FormatSomeStaffRollBmgString();
             break;
         case STAFF_ROLL_TEXT_SCROLL_DONE:
             break;
@@ -305,10 +305,10 @@ void AdvanceStaffRollText(void) {
 }
 
 void SetStaffRollScrollAndDrainQueue(void) {
-    reg_G2S_DB_BG0OFS = ((FROM_FIXED12(gStaffRollText->mScrollYFixed) % 256) << 16) & 0x1ff0000;
-    NNS_GfdDoVramTransfer();
+    reg_G2S_DB_BG0OFS = ((FROM_FIXED12(g_GlobalSTF->mScrollYFixed) % 256) << 16) & 0x1ff0000;
+    HandleAllGlobalTEQSubs();
 }
 
-void StartStaffRollText(void) {
-    gStaffRollText->mNextState = STAFF_ROLL_TEXT_SCROLLING;
+void RunWhenStaffRollCount(void) {
+    g_GlobalSTF->mNextState = STAFF_ROLL_TEXT_SCROLLING;
 }

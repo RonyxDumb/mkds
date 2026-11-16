@@ -49,13 +49,13 @@ JgKindFileNames gJgKindFileNames[4] = {{NULL, NULL, NULL},
                                        {NULL, NULL, NULL},
                                        {gJgReverseNsbmdName, NULL, gJgReverseNsbmaName},
                                        {gJgFlagNsbmdName, gJgFlagNsbcaName, NULL}};
-StateCallbacks gJgStateTable[7] = {{EnterJgOff, JgOffNop},
-                                   {EnterJgReverse, UpdateJgReverse},
-                                   {EnterJgLap, UpdateJgLap},
-                                   {EnterJgFlag, UpdateJgFlag},
-                                   {EnterJgFollowKart, UpdateJgFollowKart},
-                                   {EnterJgLeave, UpdateJgLeave},
-                                   {EnterJgArrive, UpdateJgArrive}};
+StateCallbacks g_E7FnList2[7] = {{E7Fn2_0, E7Fn2_1},
+                                   {E7Fn2_2, E7Fn2_3},
+                                   {E7Fn2_4, E7Fn2_5},
+                                   {E7Fn2_6, E7Fn2_7},
+                                   {E7Fn2_8, E7Fn2_9},
+                                   {E7Fn2_10, E7Fn2_11},
+                                   {E7Fn2_12, E7Fn2_13}};
 Vec3 **gAttractorPositions;
 u16 *gAttractorStrengths;
 struct MapObjectList *gAttractorUpdateList;
@@ -64,7 +64,7 @@ void SetJgFollowKart(void) {
     u32 raceKindValue;
     u32 raceKind;
     u32 staffRollKind;
-    raceKindValue = gRaceSetup->mRaceKind;
+    raceKindValue = g_GlobalCO->mRaceKind;
     raceKind = raceKindValue;
     staffRollKind = 6u;
     if (raceKind == staffRollKind) {
@@ -74,22 +74,22 @@ void SetJgFollowKart(void) {
     if (raceKind == staffRollKind) {
         return;
     }
-    SetStateMachineState(&gJgStateMachine, JG_STATE_FOLLOW_KART);
+    StateDualHandler_SetState(&g_SomeE7, JG_STATE_FOLLOW_KART);
 }
 
 #pragma thumb off
 void SetJgFollowKartCountdown(void) {
-    if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+    if (g_GlobalCO->mRaceKind != RACE_KIND_STAFF_ROLL) {
         gJgStateCounter = 0x14;
     }
 }
 
 void ReleaseJg(void) {
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
     NNS_SndPlayerStopSeq(GetSndHandleSlot(4), 1);
-    gJgKart = NULL;
+    g_SomeDriverEntry = NULL;
 }
 
 #pragma thumb on
@@ -100,20 +100,20 @@ void InitJg(void) {
     const Vec3 *sourcePoint;
     BOOL flag;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
-        gJgKart = NULL;
+    if (g_GlobalCO->mRaceKind == RACE_KIND_START_GP) {
+        g_SomeDriverEntry = NULL;
         return;
     }
-    if (gRaceSetup->mEntryIndex < 0) {
-        gJgKart = NULL;
+    if (g_GlobalCO->mEntryIndex < 0) {
+        g_SomeDriverEntry = NULL;
         return;
     }
-    gJgKartIndex = gRaceSetup->mEntryIndex;
-    kart = GetKart(gJgKartIndex);
-    gJgKart = kart;
+    g_SomeRacerId = g_GlobalCO->mEntryIndex;
+    kart = GetRacerMQEntry(g_SomeRacerId);
+    g_SomeDriverEntry = kart;
     gJgKartCourseColor = &kart->mKartModelsEntry->mCourseColorBlend.mColor;
     gJgTargetPos.x = 0;
     gJgTargetPos.y = 0;
@@ -139,13 +139,13 @@ void InitJg(void) {
     gJgInView = flag;
     gJgNearKart = flag;
     gJgReverseAngleActive = 0;
-    if (gCourseMap->mSettings->mStartSideFlipped != 0) {
+    if (g_GlobalPE->mSettings->mStartSideFlipped != 0) {
         flag = FALSE;
     }
     gJgStartSideNotFlipped = flag;
     gJgKind = JG_KIND_NONE;
     gJgHighestLap = 1;
-    gJgFinalLap = GetLapCount();
+    g_SomeLapCount = GetCurrentLapCount();
     InitJgOffsets();
     gJgPoints[0].x = 0;
     gJgPoints[0].y = 0;
@@ -161,7 +161,7 @@ void InitJg(void) {
         }
         sourcePoint++;
     }
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_BATTLE:
             gJgLapAndReverseEnabled = 0;
             break;
@@ -169,11 +169,11 @@ void InitJg(void) {
             BOOL enabled;
 
             enabled = FALSE;
-            if ((u8) (gRaceSetup->mMissionKind + 0xfe) <= 8 &&
+            if ((u8) (g_GlobalCO->mMissionKind + 0xfe) <= 8 &&
                 ((1 << 0 | 1 << (MISSION_KIND_LAPS_MINI_TURBO_COUNT - MISSION_KIND_LAPS) |
                   1 << (MISSION_KIND_LAPS_FIRST_PLACE - MISSION_KIND_LAPS) |
                   1 << (MISSION_KIND_LAPS_NO_LAP_PROGRESS - MISSION_KIND_LAPS)) &
-                 (1 << (u8) (gRaceSetup->mMissionKind + 0xfe))) != 0) {
+                 (1 << (u8) (g_GlobalCO->mMissionKind + 0xfe))) != 0) {
                 enabled = TRUE;
             }
             gJgLapAndReverseEnabled = enabled;
@@ -183,7 +183,7 @@ void InitJg(void) {
             gJgLapAndReverseEnabled = 1;
             break;
     }
-    switch (gRaceSetup->mEngineIndex) {
+    switch (g_GlobalCO->mEngineIndex) {
         case ENGINE_CLASS_SLOW:
             gJgLapFrameCount = 0x50;
             break;
@@ -198,8 +198,8 @@ void InitJg(void) {
     gJgSoundStartParams.mSoundId = JG_SOUND_ID;
     gJgSoundStartParams.mPositionSource = &gJgPos;
     gJgSoundStartParams.mFalloffIndex = 1;
-    InitStateMachine(&gJgStateMachine, gJgStateTable, 7, NULL);
-    SetStateMachineState(&gJgStateMachine, JG_STATE_OFF);
+    StateDualHandler_Create(&g_SomeE7, g_E7FnList2, 7, NULL);
+    StateDualHandler_SetState(&g_SomeE7, JG_STATE_OFF);
 }
 
 void CreateJg(void) {
@@ -213,21 +213,21 @@ void CreateJg(void) {
     s32 light;
     s32 tableAngle;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    InitNsbmdModel(&gJgMain, FindSceneFile("jg_main.nsbmd"), FindSceneFile("jg_main.nsbtp"), 0);
-    SetNsbmdModelFixedAttributes(&gJgMain);
-    gJgMain.mPolygonAttributes |= 0xc0;
-    InitNsbmdModel(&gJgCloud, FindSceneFile("jg_cloud.nsbmd"), NULL, 0);
-    SetNsbmdModelFixedAttributes(&gJgCloud);
-    gJgCloud.mPolygonAttributes |= 0xc0;
-    gJgCloudOffsetYTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudOffsetYTable));
-    gJgMainRotationSineTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgMainRotationSineTable));
-    gJgMainRotationCosineTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgMainRotationCosineTable));
-    gJgCloudScaleYTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudScaleYTable));
-    gJgCloudScaleXTable = HeapAlloc(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudScaleXTable));
+    StructMapObjectSub_SomeFn_from_thumb(&g_JgMainMapObject, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("jg_main.nsbmd"), FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("jg_main.nsbtp"), 0);
+    StructMapObjectSub_SomeFn_1(&g_JgMainMapObject);
+    g_JgMainMapObject.mPolygonAttributes |= 0xc0;
+    StructMapObjectSub_SomeFn_from_thumb(&g_JgCloudMapObject, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("jg_cloud.nsbmd"), NULL, 0);
+    StructMapObjectSub_SomeFn_1(&g_JgCloudMapObject);
+    g_JgCloudMapObject.mPolygonAttributes |= 0xc0;
+    gJgCloudOffsetYTable = Mem_AllocateHeap(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudOffsetYTable));
+    gJgMainRotationSineTable = Mem_AllocateHeap(heap, JG_TABLE_LENGTH * sizeof(*gJgMainRotationSineTable));
+    gJgMainRotationCosineTable = Mem_AllocateHeap(heap, JG_TABLE_LENGTH * sizeof(*gJgMainRotationCosineTable));
+    gJgCloudScaleYTable = Mem_AllocateHeap(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudScaleYTable));
+    gJgCloudScaleXTable = Mem_AllocateHeap(heap, JG_TABLE_LENGTH * sizeof(*gJgCloudScaleXTable));
     for (index = 0, angle = 0; index < JG_TABLE_LENGTH; index++) {
         gJgCloudOffsetYTable[index] = (u16) MUL_FIXED12_NO_ROUND(FX_SinIdx(angle), 0x4c);
         tableAngle = (u16) (((u64) (s64) SIN_OF_ANGLE((u16) (angle + 0xa218)) * 0xb60b60b60b + 0x80000000000) >> 44);
@@ -241,39 +241,39 @@ void CreateJg(void) {
     light = 2;
     for (rowIndex = light, sourceRow = &gJgKindFileNames[light], kindRow = &gJgKindRows[2]; rowIndex < 4; rowIndex++) {
         if (sourceRow->mNsbmdName != NULL) {
-            kindRow->mModel = HeapAlloc(heap, sizeof(Nsbmd));
-            file = FindSceneFile(sourceRow->mNsbmdName);
-            InitNsbmd(kindRow->mModel, file);
-            SetNsbmdPolygonIdLightEmiAll(kindRow->mModel, 0x3f, light, 0x294a);
-            SetNsbmdCullModeAll(kindRow->mModel, 3);
+            kindRow->mModel = Mem_AllocateHeap(heap, sizeof(Nsbmd));
+            file = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(sourceRow->mNsbmdName);
+            StructML_LoadModel2(kindRow->mModel, file);
+            StructML_SomeFn_1(kindRow->mModel, 0x3f, light, 0x294a);
+            StructML_SomeFn_0(kindRow->mModel, 3);
         } else {
             kindRow->mModel = NULL;
         }
         if (sourceRow->mNsbcaName != NULL) {
-            kindRow->mNsbcaAnimation = HeapAlloc(heap, sizeof(ModelAnimation));
-            InitModelAnimationWithEntries(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
-                                          FindSceneFile(sourceRow->mNsbcaName));
-            SetModelAnimationEntryLoopMode(kindRow->mNsbcaAnimation, 0, 1);
+            kindRow->mNsbcaAnimation = Mem_AllocateHeap(heap, sizeof(ModelAnimation));
+            SomeAnimationLoadWrapper_from_thumb(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
+                                          FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(sourceRow->mNsbcaName));
+            StructAM_SetSomeValueAt(kindRow->mNsbcaAnimation, 0, 1);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
         if (sourceRow->mNsbmaName != NULL) {
-            kindRow->mNsbmaAnimation = HeapAlloc(heap, sizeof(ModelAnimation));
-            InitModelAnimationWithEntries(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
-                                          FindSceneFile(sourceRow->mNsbmaName));
-            SetModelAnimationEntryLoopMode(kindRow->mNsbmaAnimation, 0, 1);
+            kindRow->mNsbmaAnimation = Mem_AllocateHeap(heap, sizeof(ModelAnimation));
+            SomeAnimationLoadWrapper_from_thumb(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
+                                          FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(sourceRow->mNsbmaName));
+            StructAM_SetSomeValueAt(kindRow->mNsbmaAnimation, 0, 1);
         } else {
             kindRow->mNsbmaAnimation = NULL;
         }
         sourceRow++;
         kindRow++;
     }
-    CreateNsbmdModel(&gJgKindRows[0].mLapModel, FindSceneFile("lap_count.nsbmd"), FindSceneFile("lap_count.nsbtp"),
+    CreateMapObjectSubFrom_from_thumb(&gJgKindRows[0].mLapModel, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("lap_count.nsbmd"), FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("lap_count.nsbtp"),
                      0);
-    SetNsbmdModelFixedAttributes(gJgKindRows[0].mLapModel);
+    StructMapObjectSub_SomeFn_1(gJgKindRows[0].mLapModel);
     gJgKindRows[0].mLapModel->mPolygonAttributes |= 0xc0;
-    CreateNsbmdModel(&gJgKindRows[1].mLapModel, FindSceneFile("lap_final.nsbmd"), 0, 0);
-    SetNsbmdModelFixedAttributes(gJgKindRows[1].mLapModel);
+    CreateMapObjectSubFrom_from_thumb(&gJgKindRows[1].mLapModel, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("lap_final.nsbmd"), 0, 0);
+    StructMapObjectSub_SomeFn_1(gJgKindRows[1].mLapModel);
     gJgKindRows[1].mLapModel->mPolygonAttributes |= 0xc0;
 }
 #pragma thumb off
@@ -281,7 +281,7 @@ void CreateJg(void) {
 MapObjectKindData *CreateAttractorKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gAttractorKindData;
     return kindData;
 }
@@ -289,7 +289,7 @@ MapObjectKindData *CreateAttractorKindData(void) {
 MapObjectList *CreateAttractorUpdateList(void) {
     MapObjectList *list;
 
-    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    list = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gAttractorUpdateList = list;
     *list = gAttractorUpdateListData;
     SetUpdateListSlot(&gAttractorUpdateList);
@@ -311,8 +311,8 @@ void BuildAttractorTables(void) {
     s32 objectIndex;
 
     objectCount = gAttractorUpdateList->mMapObjectCount;
-    gAttractorPositions = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
-    gAttractorStrengths = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 2);
+    gAttractorPositions = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), objectCount * 4);
+    gAttractorStrengths = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), objectCount * 2);
     for (objectIndex = 0; objectIndex < gAttractorUpdateList->mMapObjectCount; objectIndex++) {
         s32 tableIndex;
 
@@ -325,7 +325,7 @@ void BuildAttractorTables(void) {
 
 void InitAttractorMapObject(AttractorMapObject *object, struct CourseMapRow *courseRow) {
     object->mTableIndex = courseRow->mSettings[0];
-    switch (gRaceSetup->mEngineIndex) {
+    switch (g_GlobalCO->mEngineIndex) {
         case ENGINE_CLASS_SLOW:
             object->mStrength = courseRow->mSettings[1];
             break;
@@ -363,7 +363,7 @@ void UpdateMapObjectSoundSource(MapObject *object) {
             return;
         }
     call:
-        SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
+        StructMQRacerEntry_SomeFn_47(&sound->mSoundSource, 2, 1);
     } else {
         s32 distanceSquared;
 
@@ -372,10 +372,10 @@ void UpdateMapObjectSoundSource(MapObject *object) {
         if (IsMapObjectOutOfRangeOrMaskedAtDistance(object, distanceSquared) != FALSE) {
             object->mDistanceSquaredAndFlags |= gAttractorDistanceFlag;
             if ((sound->mSoundSource.mSourceFlags & 1) != 0) {
-                SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
+                StructMQRacerEntry_SomeFn_47(&sound->mSoundSource, 2, 1);
             }
         } else if ((sound->mSoundSource.mSourceFlags & 1) == 0) {
-            SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
+            StructMQRacerEntry_SomeFn_47(&sound->mSoundSource, 2, 1);
         }
     }
 }
@@ -409,7 +409,7 @@ void UpdateMapObjectList(MapObjectList *list) {
             if ((object->mFlags & MAP_OBJECT_FLAG_NO_UPDATE) == 0) {
                 previousPos = object->mPos;
                 callback(list, object);
-                VEC_Subtract(&object->mPos, &previousPos, &object->mPosStep);
+                VecFx32_Subtract(&object->mPos, &previousPos, &object->mPosStep);
                 if (object->mSound != NULL) {
                     UpdateMapObjectSoundSource(object);
                 }

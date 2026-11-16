@@ -3,18 +3,18 @@
 #include "build_info_layout.h"
 #include "ITCM/model_draw_and_irq_handler.h"
 
-asm void _start(void) {
+asm void start(void) {
     mov ip, #0x4000000
     str ip, [ip, #0x208]
-    bl init_cp15
+    bl Crt0_InitializePU
     mov r0, #0x13
     msr cpsr_c, r0
-    ldr r0, =OSi_IrqThreadQueue
+    ldr r0, =g_DTCM
     add r0, r0, #0x3fc0
     mov sp, r0
     mov r0, #0x12
     msr cpsr_c, r0
-    ldr r0, =OSi_IrqThreadQueue
+    ldr r0, =g_DTCM
     add r0, r0, #0x3fc0
     sub r0, r0, #0x40
     sub sp, r0, #0x4
@@ -24,22 +24,22 @@ asm void _start(void) {
     msr cpsr_fsxc, r0
     sub sp, r1, #0x4
     mov r0, #0x0
-    ldr r1, =OSi_IrqThreadQueue
+    ldr r1, =g_DTCM
     mov r2, #0x4000
-    bl INITi_CpuClear32
+    bl Crt0_MemorySet32
     mov r0, #0x0
     ldr r1, =0x5000000
     mov r2, #0x400
-    bl INITi_CpuClear32
+    bl Crt0_MemorySet32
     mov r0, #0x200
     ldr r1, =0x7000000
     mov r2, #0x400
-    bl INITi_CpuClear32
-    ldr r1, =BuildInfo
+    bl Crt0_MemorySet32
+    ldr r1, =g_StartModuleParams
     ldr r0, [r1, #0x14]
-    bl MIi_UncompressBackward
-    bl do_autoload
-    ldr r0, =BuildInfo
+    bl Crt0_DecompressFlushCode
+    bl Crt0_RegionCopy
+    ldr r0, =g_StartModuleParams
     ldr r1, [r0, #0xc]
     ldr r2, [r0, #0x10]
     mov r3, r1
@@ -58,20 +58,20 @@ flush_line:
     blt flush_line
     ldr r1, =0x27fff9c
     str r0, [r1, #0x0]
-    ldr r1, =OSi_IrqThreadQueue
+    ldr r1, =g_DTCM
     add r1, r1, #0x3fc0
     add r1, r1, #0x3c
     ldr r0, =OS_IrqHandler
     str r0, [r1, #0x0]
-    bl _fp_init
-    bl NitroStartUp
-    bl __call_static_initializers
-    ldr r1, =main
+    bl Crt0_Reset32sAndAlphaFlags
+    bl NtrStartup
+    bl Crt0_RunInitArray
+    ldr r1, =NtrMain
     ldr lr, =0xffff0000
     bx r1
 }
 
-asm void INITi_CpuClear32(u32 value, u32 *dest, u32 byteCount) {
+asm void Crt0_MemorySet32(u32 value, u32 *dest, u32 byteCount) {
     add ip, r1, r2
 loop:
     cmp r1, ip
@@ -84,7 +84,7 @@ loop:
 // the packed and unpacked extents; each flag byte selects, per bit from the top, a literal byte or a copy of 3 to 18
 // earlier bytes. Then cleans and invalidates the cache lines of the unpacked range.
 // Kept as asm: it reads the two words with `ldmdb`, writes coprocessor 15 (mcr) and tests with `tst`.
-asm void MIi_UncompressBackward(void *compressedEnd) {
+asm void Crt0_DecompressFlushCode(void *compressedEnd) {
     cmp r0, #0x0
     beq done
     stmdb sp!, {r4, r5, r6, r7}
@@ -138,11 +138,11 @@ done:
     bx lr
 }
 
-// Walks the block list in BuildInfo (start, end, source): for each block copies its words from the source, clears
+// Walks the block list in g_StartModuleParams (start, end, source): for each block copies its words from the source, clears
 // the words after them and cleans and invalidates the cache lines; then continues in AutoloadCallback.
 // Kept as asm: it writes coprocessor 15 (mcr), tests a `cmp` with mi, and ends in a branch to another function.
-asm void do_autoload(void) {
-    ldr r0, =BuildInfo
+asm void Crt0_RegionCopy(void) {
+    ldr r0, =g_StartModuleParams
     ldr r1, [r0, #0x0]
     ldr r2, [r0, #0x4]
     ldr r3, [r0, #0x8]

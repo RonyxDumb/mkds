@@ -1,4 +1,4 @@
-OSi_IrqThreadQueue kind:data(byte[8]) addr:0x027e0000
+g_DTCM kind:data(byte[8]) addr:0x027e0000
 OS_IRQTable kind:data(byte[88]) addr:0x027e0008
 gCollisionHitCount kind:data(byte[4]) addr:0x027e0060
 gCollisionHitValues kind:data(byte[32]) addr:0x027e0064

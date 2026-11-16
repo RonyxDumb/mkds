@@ -35,10 +35,10 @@ void SetupMPLink(MPLink *link) {
 #pragma thumb on
 
 void SetMPLinkCallback(MPLinkEventCallback callback) {
-    u32 irqState = (OS_DisableInterrupts());
+    u32 irqState = (Os_DisableIrq());
     u32 restoredIrq;
     gMPLink->mCallback = callback;
-    restoredIrq = (OS_RestoreInterrupts(irqState));
+    restoredIrq = (Os_RestoreIrq(irqState));
 }
 
 #pragma thumb off
@@ -269,8 +269,8 @@ void PortCallback(void *portMessage) {
 
 s32 QueueMPDataIfReady(u32 dataSize, u16 destBitmap, u8 *data) {
     s32 wmResult;
-    DC_FlushRange(data, 4);
-    DC_WaitWriteBufferEmpty();
+    Arm_FlushRange(data, 4);
+    Mem_DcDrainWriteBuffer();
     if (IsMPReadyToQueueData() == 0) {
         return MP_LINK_QUEUE_NOT_READY;
     }
@@ -309,10 +309,10 @@ void ClearPortCallback(void) {
 void InitScanConnectWork(ScanConnectWork *work, void *initData) {
     if (gScanConnectInitialized == FALSE) {
         gScanConnectInitialized = TRUE;
-        MI_CpuFill8(work, 0, SCAN_CONNECT_WORK_SIZE);
+        Mem_CpuFill8(work, 0, SCAN_CONNECT_WORK_SIZE);
         gScanConnectWork = work;
         work->mState = SCAN_CONNECT_STATE_IDLE;
-        MI_CpuCopy8(initData, gScanConnectWork->mUserInfo, 0x16);
+        Mem_CpuCopy8(initData, gScanConnectWork->mUserInfo, 0x16);
         MBi_SetBeaconRecvStatusBuffer(gScanConnectWork->mBeaconRecvStatus);
         MB_InitRecvGameInfoStatus();
         MBi_SetScanLockFunc(SetScanBssid, ClearUseScanBssid);
@@ -355,7 +355,7 @@ void CloseScanConnect(void) {
                 FinishScanConnect();
                 break;
             default:
-                OS_Terminate();
+                Os_Terminate();
                 break;
         }
     }
@@ -372,15 +372,15 @@ void FinishScanConnect(void) {
     SetScanConnectStateAndNotify(SCAN_CONNECT_STATE_FINISHED, NULL);
 }
 
-u32 GetScanConnectWorkSize(void) {
+u32 Const5F20_from_thumb(void) {
     return SCAN_CONNECT_WORK_SIZE;
 }
 
 void SetScanConnectStateCallback(ScanConnectStateFunc callback) {
-    u32 irqState = (OS_DisableInterrupts());
+    u32 irqState = (Os_DisableIrq());
     u32 restoredIrq;
     gScanConnectWork->mStateCallback = callback;
-    restoredIrq = (OS_RestoreInterrupts(irqState));
+    restoredIrq = (Os_RestoreIrq(irqState));
 }
 
 #pragma thumb off
@@ -389,9 +389,9 @@ void SetScanConnectStateCallback(ScanConnectStateFunc callback) {
 
 void SetScanConnectStateAndNotify(u32 state, void *info) {
     u32 irqState;
-    irqState = OS_DisableInterrupts();
+    irqState = Os_DisableIrq();
     gScanConnectWork->mState = state;
-    OS_RestoreInterrupts(irqState);
+    Os_RestoreIrq(irqState);
     if (gScanConnectWork->mStateCallback != NULL) {
         gScanConnectWork->mStateCallback(state, info);
     }
@@ -458,7 +458,7 @@ void ScanConnectStartScanCallback(WirelessMessage *result) {
             break;
         case WIRELESS_STATE_HOST_SIGHTED:
             if (result->mGameInfo.mGgid == gScanConnectWork->mScanGgid) {
-                DC_InvalidateRange(&gScanConnectWork->mScanBuffer, sizeof(gScanConnectWork->mScanBuffer));
+                DC_InvalidateRangeNoClean(&gScanConnectWork->mScanBuffer, sizeof(gScanConnectWork->mScanBuffer));
                 MB_RecvGameInfoBeacon(EntryCallback, result->mAid, &gScanConnectWork->mScanBuffer);
                 MB_CountGameInfoLifetime(EntryCallback, 1);
             }

@@ -9,7 +9,7 @@
 
 NNS_GfdLnkTexVramManager gTexVramManager;
 
-int NNS_GfdGetLnkTexVramManagerWorkSize(int numMemBlk) {
+int ComputeSomeAllocSize_0(int numMemBlk) {
     return numMemBlk << 4;
 }
 

@@ -14,15 +14,15 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 
 void StoreRaceProgressKartLapTime(RaceProgressKart *raceProgressKart, s32 pastFinalLap);
-void AddLapTimes(const MinuteSecondMillisecondTime *augend, const MinuteSecondMillisecondTime *addend,
+void AddRCTimes(const MinuteSecondMillisecondTime *augend, const MinuteSecondMillisecondTime *addend,
                  MinuteSecondMillisecondTime *result);
 // d is a sub-frame correction.
-void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 frameFraction, u32 frames);
-s16 FindKartCheckpointBackward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+void MaybeConvertElapsedTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 frameFraction, u32 frames);
+s16 StructRC_SomeFn_1(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                                u16 checkpointIndex, s32 depth);
-s16 FindKartCheckpointForward(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+s16 StructRC_SomeFn(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                               u16 checkpointIndex, s32 depth);
-BOOL TryGetKartCheckpointProgress(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
+BOOL StructRC_SomeFn_0(RaceProgressKart *raceProgressKart, s32 *progressOut, Vec3 *pos, u16 routeIndex,
                                   u16 checkpointIndex);
 s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toIndex);
 BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *fromCheckpoint,

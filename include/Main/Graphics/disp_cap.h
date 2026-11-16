@@ -33,11 +33,11 @@ s32 AdvanceConnectByMultiBoot(u16 entryIndex);
 s32 AdvanceSetupByMultiBoot(s32 isParent, s32 isMultiBoot);
 s32 AdvanceNonMultiBootSetup(s32 isParent);
 void StoreReceivedPlayerName(const void *entryName, s32 entryIndex, s32 keepMask);
-// Scene function of gSceneFuncs[8] (scene 'Record' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
-s32 RunRecordScene(SceneNumbers *sceneNumbers);
+// Scene function of g_SceneFnTable[8] (scene 'Record' in g_SceneArchiveNameTable): copies the callbacks and calls
+// OnSceneLoop. Returns 0.
+s32 SceneFn_Record(SceneNumbers *sceneNumbers);
 void SetDispCapFadeFlag(void);
-BOOL IsDispCapFadeFlagSet(void);
+BOOL HasAAFlag8(void);
 BOOL IsSharedDispCapFadeFlagSet(void);
 void StartDispCapFadeToClear(u32 frameCount);
 void StartDispCapFadeToFaded(u32 frameCount);
@@ -49,9 +49,9 @@ void ToggleDispCapBanks(void);
 void SetupDispCap(void);
 void SetupDispCapMode1(void);
 void SetDispCapMode(s32 mode);
-void ClearDispCapPointer(void);
-void InitDispCap(void *heap);
-u8 GetLowestGrandPrixRecordValue(void);
+void ResetGlobalAA04(void);
+void InitializeGlobalAA04(void *heap);
+u8 GetWorstStarRank_from_thumb(void);
 
-extern SceneCallbacks gRecordSceneCallbacks;
-extern struct DispCap *gDispCap;
+extern SceneCallbacks g_Scene_Record;
+extern struct DispCap *g_GlobalAA04;

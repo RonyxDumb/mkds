@@ -57,7 +57,7 @@
 
 u16 gOrthoQuadFirstPolygonId;
 u16 gOrthoQuadAlpha;
-u16 gOrthoQuadKartIndex;
+u16 g_AnotherRacerId;
 s32 gOrthoQuadCount;
 s32 gOrthoQuadFrames;
 s32 gOrthoQuadHoldFrameCount;
@@ -67,13 +67,13 @@ OrthoQuad *gOrthoQuads;
 u8 gOrthoQuadCells[8];
 OrthoQuadModel gOrthoQuadGesoSumi;
 OrthoQuadModel gOrthoQuadCreamEffect;
-MtxFx44 gOrthoQuadMatrix;
+MtxFx44 g_AnotherMatrix4x4;
 
 const s32 gOrthoQuadTimersByIndex[4] = {5, 0xb, 0x11, 0x19};
 const s32 gOrthoQuadTableScales[13] = {0,     0x986, 0x1000, 0x1143, 0x117c, 0x1107, 0x1041,
                                        0xf87, 0xf34, 0xf52,  0xf95,  0xfd8,  0xff7};
-char gGesoSumiTextureNsbmdName[16] = "geso_sumi.nsbmd";
-char gGesoSumiModelNsbmdName[16] = "geso_sumi.nsbmd";
+char g_str_geso_sumi_nsbmd_0[16] = "geso_sumi.nsbmd";
+char g_str_geso_sumi_nsbmd[16] = "geso_sumi.nsbmd";
 
 #pragma thumb on
 
@@ -112,7 +112,7 @@ void InitBouncingItemBoxTimers(void) {
     u32 *timerCursor;
     u32 *runningFlagCursor;
 
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (g_GlobalCO->mMode != MODE_BATTLE) {
         return;
     }
     timerIndex = 0;
@@ -155,7 +155,7 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(sndHandle, 0, 0xef);
+            PlaySseqFromSarc(sndHandle, 0, 0xef);
         }
     }
     if (quad->mVelocityMode != 0) {
@@ -203,7 +203,7 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     }
     quad->mTimer = quad->mTimer - 1;
     if ((quad->mTimer & ORTHO_QUAD_CORNER_PICK_MASK) == 0) {
-        RandomState64 *random = &gRaceProgress->mLocalRandom;
+        RandomState64 *random = &g_GlobalMV->mLocalRandom;
 
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
         quad->mPickedCornerIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 6) >> 32);
@@ -262,7 +262,7 @@ void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
     if (*sndHandle != NULL) {
         NNS_SndPlayerStopSeq(sndHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(sndHandle, 0, (u16) seqNo);
+    PlaySseqFromSarc(sndHandle, 0, (u16) seqNo);
 }
 
 void UpdateOrthoQuads(void) {
@@ -316,7 +316,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     reg_G3_DIF_AMB = model->mDifAmb;
     reg_G3_SPE_EMI = model->mSpeEmi;
     reg_G3_MTX_MODE = 0;
-    G3_LoadMtx44(&gOrthoQuadMatrix);
+    G3_LoadMtx44(&g_AnotherMatrix4x4);
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     reg_G3_MTX_MODE = 2;
@@ -395,7 +395,7 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     s16 velocityX;
     s16 velocityY;
 
-    raceProgress = gRaceProgress;
+    raceProgress = g_GlobalMV;
     quad = &gOrthoQuads[index];
     random = &raceProgress->mLocalRandom;
     velocities = quad->mCornerVelocities;
@@ -446,12 +446,12 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     s32 row;
     RandomState64 *random;
 
-    random = &gRaceProgress->mLocalRandom;
-    GetKart(kartIndex);
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+    random = &g_GlobalMV->mLocalRandom;
+    GetRacerMQEntry(kartIndex);
+    if (kartIndex != g_GlobalCO->mEntryIndex) {
         return;
     }
-    gOrthoQuadKartIndex = kartIndex;
+    g_AnotherRacerId = kartIndex;
     if (gOrthoQuadCount != 0) {
         if (useCreamEffect != 0) {
             return;
@@ -522,7 +522,7 @@ void StartOrthoQuadsGesoSumi(u32 kartIndex, u32 count) {
 }
 
 void StopOrthoQuads(int kartIndex) {
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+    if (kartIndex != g_GlobalCO->mEntryIndex) {
         return;
     }
     gOrthoQuadCount = 0;
@@ -534,7 +534,7 @@ void StopOrthoQuads(int kartIndex) {
 u32 SkipOrthoQuadsHold(u32 kartIndex) {
     s32 hold;
     s32 *frames;
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+    if (kartIndex != g_GlobalCO->mEntryIndex) {
         return kartIndex;
     }
     if (gOrthoQuadCount == 0) {
@@ -616,7 +616,7 @@ void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex) {
     s32 holdFrameCount;
     s32 frames;
 
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+    if (kartIndex != g_GlobalCO->mEntryIndex) {
         return;
     }
     quadCount = gOrthoQuadCount;
@@ -649,8 +649,8 @@ OrthoQuadModel *ClearOrthoQuadCreamEffectPointer(void) {
 void CreateOrthoQuadCreamEffect(const char *fileName) {
     NsbmdModel *model;
 
-    CreateNsbmdModel(&model, FindCourseMapObjFile(fileName), 0, 0);
-    SetNsbmdModelFixedAttributes(model);
+    CreateMapObjectSubFrom_from_thumb(&model, FormatFindMapObjFileBuffer_from_thumb(fileName), 0, 0);
+    StructMapObjectSub_SomeFn_1(model);
     SetupOrthoQuadModel(&gOrthoQuadCreamEffect, model);
 }
 
@@ -663,20 +663,20 @@ void InitOrthoQuads(void) {
     NsbmdModel *model;
     s32 index;
 
-    gOrthoQuads = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4 * sizeof(OrthoQuad));
-    gOrthoQuadKartIndex = 0xffff;
+    gOrthoQuads = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), 4 * sizeof(OrthoQuad));
+    g_AnotherRacerId = 0xffff;
     gOrthoQuadCount = 0;
     gOrthoQuadUseCreamEffect = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
-    model = CreateItemModel(gGesoSumiModelNsbmdName, NULL, gGesoSumiTextureNsbmdName);
+    model = CreateLoadItem_from_thumb(g_str_geso_sumi_nsbmd, NULL, g_str_geso_sumi_nsbmd_0);
     SetupOrthoQuadModel(&gOrthoQuadGesoSumi, model);
-    gOrthoQuadFirstPolygonId = AllocPolygonId();
+    gOrthoQuadFirstPolygonId = GetIncrementSomeItemCounter();
     for (index = 0; index < 3; index++) {
-        AllocPolygonId();
+        GetIncrementSomeItemCounter();
     }
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_PUSH = 0;
-    G3i_OrthoW_(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, &gOrthoQuadMatrix);
+    G3i_OrthoW_(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, &g_AnotherMatrix4x4);
     reg_G3_MTX_POP = 1;
 }
 
@@ -711,14 +711,14 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
     ownerIndex = (u16) ((gesso->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                             ? (u16) (gesso->mItemObject.mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
                             : ITEM_NO_KART_INDEX);
-    entryIndex = gRaceSetup->mEntryIndex;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        kartCount = gRaceSetup->mKartCount;
+    entryIndex = g_GlobalCO->mEntryIndex;
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        kartCount = g_GlobalCO->mKartCount;
         for (candidateIndex = 0; candidateIndex < kartCount; candidateIndex++) {
             if (candidateIndex == ownerIndex) {
                 continue;
             }
-            kart = GetKart(candidateIndex);
+            kart = GetRacerMQEntry(candidateIndex);
             if (kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) {
                 continue;
             }
@@ -728,7 +728,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             if (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) {
                 continue;
             }
-            raceProgress = gRaceProgress;
+            raceProgress = g_GlobalMV;
             random = &raceProgress->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             gesso->mOrthoQuadCounts[candidateIndex] =
@@ -736,10 +736,10 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
         }
     } else {
         rank = 1;
-        ownerRank = GetKartRank(ownerIndex);
+        ownerRank = GetSomeRacerFlags(ownerIndex);
         do {
             kartIndex = GetKartAtRank(rank);
-            kart = GetKart(kartIndex);
+            kart = GetRacerMQEntry(kartIndex);
             if ((kart->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0 &&
                 (kart->mEffectFlags & (KART_EFFECT_STAR | KART_EFFECT_RESPAWN_DROP | KART_EFFECT_KILLER)) == 0 &&
                 (kart->mDriveFlags & KART_DRIVE_KEYED_PLACEMENT) == 0) {
@@ -753,6 +753,6 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
         return;
     }
     gesso->mVisible = TRUE;
-    gesso->mKart = GetKart(entryIndex);
+    gesso->mKart = GetRacerMQEntry(entryIndex);
     StartEntryKartSound(gesso->mKart, 0xf3);
 }

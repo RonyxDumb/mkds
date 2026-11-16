@@ -65,7 +65,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
             state = coverPooHole->mState;
             if (state == COVER_POO_HOLE_STATE_WAIT_SHORT || state == COVER_POO_HOLE_STATE_WAIT_TALL) {
                 coverPooHole->mKartHitMask = coverPooHole->mKartHitMask | kartMask;
-                if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
+                if (g_GlobalCO->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
                     if ((coverPooHole->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) ==
                         0) {
                         if (coverPooHole->mMapObject.mFarDistanceSquared == gSoundFalloffs[2].mFarDistanceSquared) {
@@ -94,7 +94,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                                     state == COVER_POO_HOLE_STATE_RAISE_SHORT)) {
                 coverPooHole->mKartHitMask = coverPooHole->mKartHitMask | kartMask;
                 if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0 ||
-                    kart->mIndex == gRaceSetup->mEntryIndex) {
+                    kart->mIndex == g_GlobalCO->mEntryIndex) {
                     coverPooHole->mHitState = COVER_POO_HOLE_HIT_THROWN;
                     coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
                     coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
@@ -113,13 +113,13 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
                     coverPooHole->mTiltWobbleAngleStep = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP;
                     coverPooHole->mTiltWobbleAngleStepChange = COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE;
                     StartSoundIfKartStarOrKiller(&coverPooHole->mMapObject, kart);
-                    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                         effectPosition.x = (coverPooHole->mMapObject.mPos.x + kart->mPos.x) >> 1;
                         effectPosition.y = (coverPooHole->mMapObject.mPos.y + kart->mPos.y) >> 1;
                         effectPosition.z = (coverPooHole->mMapObject.mPos.z + kart->mPos.z) >> 1;
                         StartEffect(0x442, &effectPosition);
                         StartEffect(0x443, &effectPosition);
-                        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                             AddMissionRunCountForMapObjectKind(coverPooHole->mMapObject.mKind);
                         }
                     }
@@ -139,7 +139,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *firs
             if (state == COVER_POO_HOLE_STATE_RAISE_SHORT) {
                 coverPooHole->mKartHitMask = coverPooHole->mKartHitMask | kartMask;
                 if ((coverPooHole->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) == 0 ||
-                    kart->mIndex == gRaceSetup->mEntryIndex) {
+                    kart->mIndex == g_GlobalCO->mEntryIndex) {
                     coverPooHole->mHitState = COVER_POO_HOLE_HIT_THROWN;
                     coverPooHole->mHitCoverHeight = coverPooHole->mCoverHeight;
                     coverPooHole->mHitPooHeight = coverPooHole->mPooHeight;
@@ -237,11 +237,11 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *it
 BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut) {
     Vec3 offset;
     s32 distance;
-    VEC_Subtract(position, &coverPooHole->mMapObject.mPos, &offset);
+    VecFx32_Subtract(position, &coverPooHole->mMapObject.mPos, &offset);
     if (offset.y >= coverPooHole->mCoverHeight + radius) {
         return FALSE;
     }
-    distance = VEC_Mag(&offset);
+    distance = VecFx32_Norm(&offset);
     if (distance >= coverPooHole->mMapObject.mExtent.x + radius) {
         return FALSE;
     }
@@ -255,7 +255,7 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
         (coverPooHole->mState == COVER_POO_HOLE_STATE_LOWER_TALL &&
          coverPooHole->mCoverHeight > COVER_POO_HOLE_SHORT_HEIGHT)) {
         if (LENGTH_SQUARED(offset) >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+            Vector3_MaybeNormalize(&offset, &offset);
         }
         distance = coverPooHole->mMapObject.mExtent.x + radius - distance;
         pushOut->x = MUL_FIXED12_NO_ROUND(offset.x, distance);
@@ -270,11 +270,11 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
 }
 
 void CreateCoverPooHole(void *mapObjectList) {
-    gCover = CreateMapObjectModelNsbmd(mapObjectList, "cover.nsbmd");
-    gPoo = CreateMapObjectModelNsbmdNsbtp(mapObjectList, "poo.nsbmd", "poo.nsbtp");
-    gHole = CreateMapObjectModelNsbmd(mapObjectList, "hole.nsbmd");
-    SetMapObjectModelPolygonId(gPoo, 0x3f);
-    SetMapObjectModelPolygonId(gHole, 0x3f);
+    gCover = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "cover.nsbmd");
+    gPoo = CreateMapObjectFromModelAndAnimation_from_thumb(mapObjectList, "poo.nsbmd", "poo.nsbtp");
+    gHole = CreateMapObjectFromModel_2_from_thumb(mapObjectList, "hole.nsbmd");
+    StructMapObject_MaybeSetPolygonId(gPoo, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gHole, 0x3f);
 }
 
 void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
@@ -299,8 +299,8 @@ void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
     holeTranslation[0] = 0;
     holeTranslation[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, holeTranslation, 3);
-    NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mMapObject.mPos), 12);
-    QueueMapObjectModelMaterial(mapObjectList, gHole);
+    NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&coverPooHole->mMapObject.mPos), 12);
+    StructMapObject_SomeFn_9(mapObjectList, gHole);
     DrawMapObjectModel(mapObjectList, gHole, coverPooHole);
     popCount = 1;
     NNS_G3dGeBufferOP_N(0x12, &popCount, 1);
@@ -308,12 +308,12 @@ void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
         case COVER_POO_HOLE_STATE_RAISE_SHORT:
         case COVER_POO_HOLE_STATE_LOWER_SHORT:
         case COVER_POO_HOLE_STATE_HIT_SHORT:
-            SetMapObjectModelNsbtpFrameIndex(gPoo, 0);
+            StructMapObject_SomeFn_0(gPoo, 0);
             break;
         case COVER_POO_HOLE_STATE_RAISE_TALL:
         case COVER_POO_HOLE_STATE_LOWER_TALL:
         case COVER_POO_HOLE_STATE_HIT_TALL:
-            SetMapObjectModelNsbtpFrameIndex(gPoo, 1);
+            StructMapObject_SomeFn_0(gPoo, 1);
             break;
     }
     if (coverPooHole->mState != COVER_POO_HOLE_STATE_WAIT_SHORT) {
@@ -331,8 +331,8 @@ void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
             pooTranslation[2] = 0;
             NNS_G3dGeBufferOP_N(0x1c, pooTranslation, 3);
         }
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mMapObject.mPos), 12);
-        QueueMapObjectModelMaterial(mapObjectList, gPoo);
+        NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&coverPooHole->mMapObject.mPos), 12);
+        StructMapObject_SomeFn_9(mapObjectList, gPoo);
         DrawMapObjectModel(mapObjectList, gPoo, coverPooHole);
         secondPopCount = 1;
         NNS_G3dGeBufferOP_N(0x12, &secondPopCount, 1);
@@ -344,20 +344,20 @@ void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
     L:
         yawAngle = coverPooHole->mYawWobbleOffset;
         tiltTableIndex = ((u16) coverPooHole->mTiltWobbleOffset >> 4) * 2;
-        tiltSin = FX_SinCosTable_[tiltTableIndex];
+        tiltSin = g_SinFx16Table_AndCos[tiltTableIndex];
         coverBounce = MUL_FIXED12_NO_ROUND(tiltSin, 0x7000);
         if (coverBounce <= 0) {
             coverBounce = -coverBounce;
         }
         translationY = coverPooHole->mHitCoverHeight + coverBounce;
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mMapObject.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&coverPooHole->mMapObject.mPos), 12);
         coverHitTranslation[1] = translationY >> 4;
         coverHitTranslation[0] = 0;
         coverHitTranslation[2] = 0;
         NNS_G3dGeBufferOP_N(0x1c, coverHitTranslation, 3);
-        MTX_RotY33_(&rotationMatrix, SIN_OF_ANGLE(yawAngle), COS_OF_ANGLE(yawAngle));
+        MTX_RotY33__from_thumb(&rotationMatrix, SIN_OF_ANGLE(yawAngle), COS_OF_ANGLE(yawAngle));
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
-        MTX_RotZ33_(&rotationMatrix, tiltSin, FX_SinCosTable_[tiltTableIndex + 1]);
+        MTX_RotZ33__from_thumb(&rotationMatrix, tiltSin, g_SinFx16Table_AndCos[tiltTableIndex + 1]);
         NNS_G3dGeBufferOP_N(0x1a, &rotationMatrix, 9);
     } else {
         translationY = coverPooHole->mCoverHeight >> 4;
@@ -365,9 +365,9 @@ void DrawCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
         coverTranslation[1] = translationY;
         coverTranslation[2] = 0;
         NNS_G3dGeBufferOP_N(0x1c, coverTranslation, 3);
-        NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&coverPooHole->mMapObject.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, MaybeGetBBMtxAtPosition(&coverPooHole->mMapObject.mPos), 12);
     }
-    QueueMapObjectModelMaterial(mapObjectList, gCover);
+    StructMapObject_SomeFn_9(mapObjectList, gCover);
     DrawMapObjectModel(mapObjectList, gCover, coverPooHole);
 }
 
@@ -387,7 +387,7 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSettings[0] +
                                       (u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) - 30);
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = COVER_POO_HOLE_STATE_WAIT_TALL;
             coverPooHole->mCoverHeight = COVER_POO_HOLE_REST_HEIGHT;
             coverPooHole->mPooHeight = COVER_POO_HOLE_REST_POO_HEIGHT;
@@ -535,7 +535,7 @@ void UpdateCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
     if ((coverPooHole->mState == COVER_POO_HOLE_STATE_HIT_SHORT ||
          coverPooHole->mState == COVER_POO_HOLE_STATE_HIT_TALL) &&
         coverPooHole->mHitState == COVER_POO_HOLE_HIT_NONE) {
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = COVER_POO_HOLE_STATE_WAIT_TALL;
             coverPooHole->mCoverHeight = COVER_POO_HOLE_REST_HEIGHT;
             coverPooHole->mPooHeight = COVER_POO_HOLE_REST_POO_HEIGHT;
@@ -619,7 +619,7 @@ void UpdateCoverPooHole(void *mapObjectList, CoverPooHole *coverPooHole) {
             }
             coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSettings[0] +
                                           CoverPooHoleMapObjectRandomBelowU16(60) - 30);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = COVER_POO_HOLE_STATE_WAIT_TALL;
                 coverPooHole->mCoverHeight = COVER_POO_HOLE_REST_HEIGHT;
                 coverPooHole->mPooHeight = COVER_POO_HOLE_REST_POO_HEIGHT;
@@ -643,7 +643,7 @@ MapObjectKindData *CreateCoverPooHoleKindData(void) {
 }
 
 MapObjectList *CreateCoverPooHoleDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCoverPooHole, DrawCoverPooHole, NULL);
+    return CreateAllocateMapObject_from_thumb(CreateCoverPooHole, DrawCoverPooHole, NULL);
 }
 
 MapObjectList *CreateCoverPooHoleUpdateList(void) {

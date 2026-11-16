@@ -28,7 +28,7 @@ void UpdateKartItems(KartItems *kartItems) {
     u32 keyWasDown;
     previousFlags = kartItems->mFlags;
     keyWasDown = previousFlags & KART_ITEMS_KEY_DOWN;
-    itemKeyBits = gInputSlots[kartItems->mEntryIndex].mBits & ITEM_BITS;
+    itemKeyBits = g_GlobalCYT[kartItems->mEntryIndex].mBits & ITEM_BITS;
     kart = kartItems->mKart;
     kartItems->mFlags &= ~0xf200;
     if (itemKeyBits) {
@@ -40,7 +40,7 @@ void UpdateKartItems(KartItems *kartItems) {
     } else if (keyWasDown) {
         kartItems->mFlags |= gKartItemsKeyReleasedBit;
     }
-    if (IsKartRemoved(kart) != FALSE) {
+    if (StructMQRacerEntry_HasFlags0x60(kart) != FALSE) {
         kartItems->mKinokoBoostStarted = FALSE;
         kartItems->mTargetedByKouraR = FALSE;
         return;
@@ -95,7 +95,7 @@ void AddKartItemUseFlags(KartItems *kartItems) {
     BOOL heldItemNotInUseKindOneOrTwo;
     s32 heldItemIndex;
     kartItems->mFlags &= ~0xff;
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
         if (heldItemIndex == ITEM_INFO_NONE || kartItems->mItemInUse.mObjectKind != ITEM_OBJECT_KIND_NONE) {
             heldItemNotInUseKindOneOrTwo = FALSE;
@@ -117,7 +117,7 @@ after:
         return;
     }
     kartItems->mFlags &= ~KART_ITEMS_IN_USE_ADVANCED;
-    if (gRaceSetup->mMode != MODE_WIFI && (kartItems->mFlags & KART_ITEMS_KEY_DOWN)) {
+    if (g_GlobalCO->mMode != MODE_WIFI && (kartItems->mFlags & KART_ITEMS_KEY_DOWN)) {
         return;
     }
     if (TryAddKartItemFlags(kartItems) == FALSE) {

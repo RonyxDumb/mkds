@@ -100,7 +100,7 @@ typedef struct LabelLayoutEntry {
 
 BOOL IsCellOamModeXlu(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
 void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale);
-void SetCellOamModeXlu(u32 index, s32 enableXlu, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
+void CellBank_ResetSomeMetatileObjectsMode_from_thumb(u32 index, s32 enableXlu, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
 u8 GetCellPaletteIndex(u32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
 void SetCellPaletteIndex(s32 index, s32 paletteIndex, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);
 u8 GetCellPriority(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cellLayout);

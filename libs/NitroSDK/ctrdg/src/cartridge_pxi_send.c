@@ -6,9 +6,9 @@
 
 // Sends data on FIFO tag 13, waiting and trying again until the send is accepted.
 void CTRDGi_SendtoPxi(u32 data) {
-    if (PXI_SendWordByFifo(13, data, 0) != 0) {
+    if (Fifo_SendWord(13, data, 0) != 0) {
         do {
-            WaitByLoop(1);
-        } while (PXI_SendWordByFifo(13, data, 0) != 0);
+            Svc_Delay_from_thumb(1);
+        } while (Fifo_SendWord(13, data, 0) != 0);
     }
 }

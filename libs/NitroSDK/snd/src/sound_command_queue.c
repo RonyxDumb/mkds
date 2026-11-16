@@ -10,21 +10,21 @@
 u32 sFinishedTag;
 u32 sCurrentTag;
 SNDCommand *sCommandFreeListEnd;
-SNDCommand *sReserveList;
-SNDCommand *sCommandFreeList;
+SNDCommand *g_WaitingCommandListCount;
+SNDCommand *g_Command;
 SNDCommand *sReserveListEnd;
 s32 sWaitingCommandListQueueRead;
 s32 sWaitingCommandListQueueWrite;
-s32 sWaitingCommandListCount;
+s32 g_Sound_WaitingCommandCount;
 SNDCommand *sWaitingCommandListQueue[13];
 SNDSharedWork sSharedWork;
-SNDCommand sCommandArray[256];
+SNDCommand g_SoundCommandArray[256];
 
 // Stores handler and arg in the alarm table entry for alarmNo and returns the id byte of that entry after raising it.
-u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
+u8 SetMDValue(int alarmNo, SNDAlarmHandler handler, void *arg) {
     AlarmCallbackInfo *info;
 
-    info = &gSndAlarmCallbackInfos[alarmNo];
+    info = &g_SoundAlarms[alarmNo];
     info->mFunc = handler;
     info->mArg = arg;
     info->mId++;
@@ -32,10 +32,10 @@ u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
 }
 
 // Calls the handler of the alarm in the low byte of alarmNo when the id byte in the next byte is still the entry's id.
-void SNDi_CallAlarmHandler(int alarmNo) {
+void Sound_CallAlarmHandler(int alarmNo) {
     AlarmCallbackInfo *info;
 
-    info = &gSndAlarmCallbackInfos[alarmNo & 0xff];
+    info = &g_SoundAlarms[alarmNo & 0xff];
     if (((alarmNo >> 8) & 0xff) != info->mId) {
         return;
     }
@@ -47,53 +47,53 @@ void SNDi_CallAlarmHandler(int alarmNo) {
 
 // Waits for the other processor's side of the command channel, links all records into the free list, clears the
 // counters and queues the command that hands over the shared work area.
-void SND_CommandInit(void) {
+void Sound_InitializeCommands(void) {
     s32 commandIndex;
     SNDCommand *sharedCommand;
 
-    InitPXI();
-    sCommandFreeList = sCommandArray;
+    Sound_RegisterFifoHandler();
+    g_Command = g_SoundCommandArray;
     for (commandIndex = 0; commandIndex < 255; commandIndex++) {
-        sCommandArray[commandIndex].mNext = &sCommandArray[commandIndex + 1];
+        g_SoundCommandArray[commandIndex].mNext = &g_SoundCommandArray[commandIndex + 1];
     }
-    sCommandArray[255].mNext = 0;
-    sCommandFreeListEnd = &sCommandArray[255];
-    sReserveList = 0;
+    g_SoundCommandArray[255].mNext = 0;
+    sCommandFreeListEnd = &g_SoundCommandArray[255];
+    g_WaitingCommandListCount = 0;
     sReserveListEnd = 0;
-    sWaitingCommandListCount = 0;
+    g_Sound_WaitingCommandCount = 0;
     sWaitingCommandListQueueRead = 0;
     sWaitingCommandListQueueWrite = 0;
     sCurrentTag = 1;
     sFinishedTag = 0;
     SNDi_SharedWork = &sSharedWork;
     SNDi_InitSharedWork(&sSharedWork);
-    sharedCommand = SND_AllocCommand(1);
+    sharedCommand = Sound_AllocateCommand(1);
     if (sharedCommand == 0) {
         return;
     }
     sharedCommand->mId = SOUND_COMMAND_SET_SHARED_WORK;
     sharedCommand->mArg[0] = (u32) SNDi_SharedWork;
     SND_PushCommand(sharedCommand);
-    SND_FlushCommand(1);
+    Sound_FlushCommand(1);
 }
 
 // Takes the oldest sent command list back into the free list and returns it. With flags bit 0 it waits for the reply,
 // otherwise it returns 0 when none has come.
-const SNDCommand *SND_RecvCommandReply(u32 flags) {
+const SNDCommand *Sound_CommandReceiveAndReply(u32 flags) {
     u32 enabled;
     SNDCommand *chain;
     SNDCommand *chainEnd;
     s32 listIndex;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     if ((flags & 1) != 0) {
         while (sFinishedTag == SNDi_GetFinishedCommandTag()) {
-            OS_RestoreInterrupts(enabled);
-            OS_SpinWait(0x64);
-            enabled = OS_DisableInterrupts();
+            Os_RestoreIrq(enabled);
+            Os_SpinWait(0x64);
+            enabled = Os_DisableIrq();
         }
     } else if (sFinishedTag == SNDi_GetFinishedCommandTag()) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 0;
     }
     listIndex = sWaitingCommandListQueueRead;
@@ -109,24 +109,24 @@ const SNDCommand *SND_RecvCommandReply(u32 flags) {
     if (sCommandFreeListEnd != 0) {
         sCommandFreeListEnd->mNext = chain;
     } else {
-        sCommandFreeList = chain;
+        g_Command = chain;
     }
     sCommandFreeListEnd = chainEnd;
-    sWaitingCommandListCount--;
+    g_Sound_WaitingCommandCount--;
     sFinishedTag++;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return chain;
 }
 
 // Returns a record from the free list. When there is none and flags bit 0 is set, it flushes or collects replies until
 // one is free; without the bit it returns 0.
-SNDCommand *SND_AllocCommand(u32 flags) {
+SNDCommand *Sound_AllocateCommand(u32 flags) {
     SNDCommand *allocated;
 
-    if (IsCommandAvailable() == 0) {
+    if (Sound_IsCommandAvailable() == 0) {
         return 0;
     }
-    allocated = AllocCommand();
+    allocated = Sound_AllocateCommandImpl();
     if (allocated != 0) {
         return allocated;
     }
@@ -134,19 +134,19 @@ SNDCommand *SND_AllocCommand(u32 flags) {
         return 0;
     }
     if (SND_CountWaitingCommand() > 0) {
-        while (SND_RecvCommandReply(0) != 0) {
+        while (Sound_CommandReceiveAndReply(0) != 0) {
         }
-        allocated = AllocCommand();
+        allocated = Sound_AllocateCommandImpl();
         if (allocated != 0) {
             return allocated;
         }
     } else {
-        SND_FlushCommand(1);
+        Sound_FlushCommand(1);
     }
-    RequestCommandProc();
+    SoundInternal_RequestCommandProc();
     do {
-        SND_RecvCommandReply(1);
-        allocated = AllocCommand();
+        Sound_CommandReceiveAndReply(1);
+        allocated = Sound_AllocateCommandImpl();
     } while (allocated == 0);
     return allocated;
 }
@@ -156,65 +156,65 @@ void SND_PushCommand(SNDCommand *command) {
     u32 enabled;
     SNDCommand *end;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     end = sReserveListEnd;
     if (end == 0) {
         sReserveListEnd = command;
-        sReserveList = command;
+        g_WaitingCommandListCount = command;
     } else {
         end->mNext = command;
         sReserveListEnd = command;
     }
     command->mNext = 0;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
 }
 
 // Sends the list of waiting commands to the other processor; returns 1 when sent or when none wait. With flags bit 0 it
 // waits until it can send, otherwise it returns 0. Flags bit 1 also requests command processing.
-u32 SND_FlushCommand(u32 flags) {
+u32 Sound_FlushCommand(u32 flags) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
-    if (sReserveList == 0) {
-        OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    if (g_WaitingCommandListCount == 0) {
+        Os_RestoreIrq(enabled);
         return 1;
     }
-    if (sWaitingCommandListCount >= 8) {
+    if (g_Sound_WaitingCommandCount >= 8) {
         if ((flags & 1) == 0) {
-            OS_RestoreInterrupts(enabled);
+            Os_RestoreIrq(enabled);
             return 0;
         }
         do {
-            SND_RecvCommandReply(1);
-        } while (sWaitingCommandListCount >= 8);
+            Sound_CommandReceiveAndReply(1);
+        } while (g_Sound_WaitingCommandCount >= 8);
     }
-    DC_FlushRange(sCommandArray, 0x1800);
-    if (PXI_SendWordByFifo(7, (u32) sReserveList, 0) < 0) {
+    Arm_FlushRange(g_SoundCommandArray, 0x1800);
+    if (Fifo_SendWord(7, (u32) g_WaitingCommandListCount, 0) < 0) {
         if ((flags & 1) == 0) {
-            OS_RestoreInterrupts(enabled);
+            Os_RestoreIrq(enabled);
             return 0;
         }
-        if (PXI_SendWordByFifo(7, (u32) sReserveList, 0) < 0) {
+        if (Fifo_SendWord(7, (u32) g_WaitingCommandListCount, 0) < 0) {
             do {
-                OS_RestoreInterrupts(enabled);
-                OS_SpinWait(0x64);
-                enabled = OS_DisableInterrupts();
-            } while (PXI_SendWordByFifo(7, (u32) sReserveList, 0) < 0);
+                Os_RestoreIrq(enabled);
+                Os_SpinWait(0x64);
+                enabled = Os_DisableIrq();
+            } while (Fifo_SendWord(7, (u32) g_WaitingCommandListCount, 0) < 0);
         }
     }
     if ((flags & 2) != 0) {
-        RequestCommandProc();
+        SoundInternal_RequestCommandProc();
     }
-    sWaitingCommandListQueue[sWaitingCommandListQueueWrite] = sReserveList;
+    sWaitingCommandListQueue[sWaitingCommandListQueueWrite] = g_WaitingCommandListCount;
     sWaitingCommandListQueueWrite++;
     if (sWaitingCommandListQueueWrite > 8) {
         sWaitingCommandListQueueWrite = 0;
     }
-    sReserveList = 0;
+    g_WaitingCommandListCount = 0;
     sReserveListEnd = 0;
-    sWaitingCommandListCount++;
+    g_Sound_WaitingCommandCount++;
     sCurrentTag++;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return 1;
 }
 
@@ -223,17 +223,17 @@ void SND_WaitForCommandProc(u32 tag) {
     if (SND_IsFinishedCommandTag(tag) != 0) {
         return;
     }
-    while (SND_RecvCommandReply(0) != 0) {
+    while (Sound_CommandReceiveAndReply(0) != 0) {
     }
     if (SND_IsFinishedCommandTag(tag) != 0) {
         return;
     }
-    RequestCommandProc();
+    SoundInternal_RequestCommandProc();
     if (SND_IsFinishedCommandTag(tag) != 0) {
         return;
     }
     do {
-        SND_RecvCommandReply(1);
+        Sound_CommandReceiveAndReply(1);
     } while (SND_IsFinishedCommandTag(tag) == 0);
 }
 
@@ -243,13 +243,13 @@ u32 SND_GetCurrentCommandTag(void) {
     u32 enabled;
     u32 tag;
 
-    enabled = OS_DisableInterrupts();
-    if (sReserveList == 0) {
+    enabled = Os_DisableIrq();
+    if (g_WaitingCommandListCount == 0) {
         tag = sFinishedTag;
     } else {
         tag = sCurrentTag;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return tag;
 }
 
@@ -259,7 +259,7 @@ u32 SND_IsFinishedCommandTag(u32 tag) {
     u32 finished;
     u32 result;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     finished = sFinishedTag;
     if (tag > finished) {
         if ((tag - finished) < 0x80000000u) {
@@ -274,7 +274,7 @@ u32 SND_IsFinishedCommandTag(u32 tag) {
             result = 0;
         }
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return result;
 }
 
@@ -284,12 +284,12 @@ s32 SND_CountFreeCommand(void) {
     SNDCommand *entry;
     s32 count;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     count = 0;
-    for (entry = sCommandFreeList; entry != 0; entry = entry->mNext) {
+    for (entry = g_Command; entry != 0; entry = entry->mNext) {
         count++;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return count;
 }
 
@@ -299,12 +299,12 @@ s32 SND_CountReservedCommand(void) {
     SNDCommand *entry;
     s32 count;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     count = 0;
-    for (entry = sReserveList; entry != 0; entry = entry->mNext) {
+    for (entry = g_WaitingCommandListCount; entry != 0; entry = entry->mNext) {
         count++;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return count;
 }
 
@@ -317,66 +317,66 @@ s32 SND_CountWaitingCommand(void) {
 }
 
 // Runs the alarm handler for data with interrupts off.
-void PxiFifoCallback(u32 tag, u32 data) {
+void Sound_FifoHandler(u32 tag, u32 data) {
     u32 enabled;
 
-    enabled = OS_DisableInterrupts();
-    SNDi_CallAlarmHandler(data);
-    OS_RestoreInterrupts(enabled);
+    enabled = Os_DisableIrq();
+    Sound_CallAlarmHandler(data);
+    Os_RestoreIrq(enabled);
 }
 
 // Sets the sound FIFO callback and, when the command channel is available, waits until the other side is ready.
-void InitPXI(void) {
-    PXI_SetFifoRecvCallback(7, PxiFifoCallback);
-    if (IsCommandAvailable() == 0) {
+void Sound_RegisterFifoHandler(void) {
+    Fifo_RegisterHandler(7, Sound_FifoHandler);
+    if (Sound_IsCommandAvailable() == 0) {
         return;
     }
-    if (PXI_IsCallbackReady(7, 1) != 0) {
+    if (Fifo_IsHandlerReady(7, 1) != 0) {
         return;
     }
     do {
-        OS_SpinWait(0x64);
-    } while (PXI_IsCallbackReady(7, 1) == 0);
+        Os_SpinWait(0x64);
+    } while (Fifo_IsHandlerReady(7, 1) == 0);
 }
 
 // Sends the request-command-processing message until the FIFO takes it.
-void RequestCommandProc(void) {
-    while (PXI_SendWordByFifo(7, 0, 0) < 0) {
+void SoundInternal_RequestCommandProc(void) {
+    while (Fifo_SendWord(7, 0, 0) < 0) {
     }
 }
 
 // Takes the first record off the free list, or returns 0 when it is empty.
-SNDCommand *AllocCommand(void) {
+SNDCommand *Sound_AllocateCommandImpl(void) {
     u32 enabled;
     SNDCommand *command;
     SNDCommand *next;
 
-    enabled = OS_DisableInterrupts();
-    command = sCommandFreeList;
+    enabled = Os_DisableIrq();
+    command = g_Command;
     if (command == 0) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 0;
     }
     next = command->mNext;
-    sCommandFreeList = next;
+    g_Command = next;
     if (next == 0) {
         sCommandFreeListEnd = 0;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return command;
 }
 
 // Returns 1 unless the port at 0x04fff200 does not answer.
-u32 IsCommandAvailable(void) {
+u32 Sound_IsCommandAvailable(void) {
     u32 enabled;
     u32 value;
 
-    if (OS_IsRunOnEmulator() == 0) {
+    if (Os_IsEmulator() == 0) {
         return 1;
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     reg_EMU_PORT = 0x10;
     value = reg_EMU_PORT;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     return value != 0;
 }

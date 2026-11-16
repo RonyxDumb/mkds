@@ -9,5 +9,5 @@
 #include "Main/Sound/sound_seq.h"
 
 u32 GetMultiSimple(void) {
-    return gStartupWork->mMultiSimple;
+    return g_GlobalP->mMultiSimple;
 }

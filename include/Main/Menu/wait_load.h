@@ -11,11 +11,11 @@ typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 
 void CreateWait(void *heap, NNSG2dCellDataBank *destinationNcer, LayoutEntryTable *destinationBncl,
                 u32 destinationBnclIndex, u16 paletteIndex, u32 queueSelector);
-void LoadWaitData(void);
+void VerifyCommonWaitFiles_from_thumb(void);
 
 extern struct Wait *gWait;
 
-extern char *gWaitNcgrName;
-extern char *gWaitNclrName;
-extern char *gWaitNcerName;
+extern char *g_str_common_wait_nce_ncgr;
+extern char *g_str_common_wait_nclr;
+extern char *g_str_common_wait_nce_ncer;
 extern char *gWaitBnclName;

@@ -11,4 +11,4 @@
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h" // CourseMap
 
-CourseMap *AllocCourseMap(void *heap);
+CourseMap *AllocateStructPE_from_thumb(void *heap);

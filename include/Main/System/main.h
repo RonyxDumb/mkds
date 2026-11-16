@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void main(void);
+void NtrMain(void);

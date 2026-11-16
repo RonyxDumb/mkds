@@ -87,7 +87,7 @@ typedef struct RaceHudSubScreenCell {
     // Non-zero draws the cell translucent; the flipper cells use it as the mirror flag.
     /* 0e */ u16 mXlu;
     /* 10 */ u16 mAngle;
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 mCurPolygonId[2];
 } RaceHudSubScreenCell;
 
 // Shared by the gRaceHudSubScreenItemBoxCells..gRaceHudSubScreenFireball2Cells lists and the ov001 pointers.
@@ -107,7 +107,7 @@ typedef struct RaceHudSubScreenKoopaBgColors {
     /* 18 */ u16 mKoopaBlockColors[2];
 } RaceHudSubScreenKoopaBgColors;
 
-// The sub screen background colors of every course, indexed for gRaceSetup.mCourseId.
+// The sub screen background colors of every course, indexed for g_GlobalCO.mCourseId.
 typedef union RaceHudSubScreenBgColorSets {
     u16 mColorList[0x15];
     u16 mFrameColors[9][3];
@@ -121,11 +121,11 @@ typedef struct RaceHudSubScreenBgColors {
     /* 02 */ RaceHudSubScreenBgColorSets mColors;
 } RaceHudSubScreenBgColors;
 
-// The course number and course count pair drawn on the main screen before the race start (gRaceMNumberPair).
+// The course number and course count pair drawn on the NtrMain screen before the race start (gRaceMNumberPair).
 typedef struct RaceMNumberPair {
-    // Copy of gRaceSetup.mCourseNumber taken in InitRaceMNumberPair.
+    // Copy of g_GlobalCO.mCourseNumber taken in InitRaceMNumberPair.
     /* 00 */ s32 mCourseNumber;
-    // Number of courses of the run: 4 in a Wi-Fi race, gRaceSetup.mCourseCount in a VS race with the race count
+    // Number of courses of the run: 4 in a Wi-Fi race, g_GlobalCO.mCourseCount in a VS race with the race count
     // rule, else 0 (not drawn).
     /* 04 */ s32 mCourseCount;
     /* 08 */ MtxFx22 mScaleMatrix;
@@ -133,7 +133,7 @@ typedef struct RaceMNumberPair {
     /* 1c */ s32 mScale;
     /* 20 */ u16 mMatrixIndex;
     /* 22 */ u8 mUnk_22[2];
-    // X added to every sprite of the pair: 0, or eased by InterpolateS16 (SetRaceMNumberPairAnimation) for the
+    // X added to every sprite of the pair: 0, or eased by ComputeValueInterpolation_from_thumb (SetRaceMNumberPairAnimation) for the
     // slide-in.
     /* 24 */ s32 mOffsetX;
 } RaceMNumberPair;
@@ -315,7 +315,7 @@ typedef struct Standings {
     /* 390 */ void (*mEndCallback)(void);
     /* 394 */ u8 mUnk_394[8];
     // Called in Battle with the kart index and the address of a Vec3 when a kart is placed or pushed: the position
-    // change of a kart set to a checkpoint position, the position change in ResetKartAtRaceEnd, and the push vector of
+    // change of a kart set to a checkpoint position, the position change in StructMQRacerEntry_SomeFn_14, and the push vector of
     // a map object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
     // balloons.
     /* 39c */ void (*mKartOffsetCallback)(u16, Vec3 *);
@@ -331,7 +331,7 @@ typedef struct Standings {
     // race-progress end step, which sets -1 and runs the callback.
     /* 3a8 */ s32 mEndTimer;
     // Highest KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort (the two functions that
-    // swap ranks recompute it; AddBalloonOrShineCountAndMoveRank, which adds to a count, does not).
+    // swap ranks recompute it; MaybeUpdateDriverBalloonShineCount, which adds to a count, does not).
     /* 3ac */ s32 mHighestBalloonOrShineCount;
     // Lowest non-negative KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort; 0xffff when no
     // kart has a non-negative count.
@@ -410,12 +410,12 @@ typedef struct KeyboardKeys {
     /* 40 */ u16 mChosenKeyId;
     /* 42 */ u16 mToggledKeyId;
     /* 44 */ KeyboardRect *mCursorRect;
-    /* 48 */ u8 mUnk_48[4];
+    /* 48 */ u8 mSquareDistance[4];
     /* 4c */ u16 (*mCursorCallback)(s32, u16);
     /* 50 */ s32 (*mKeyCallback)(u32, s32);
 } KeyboardKeys;
 
-extern KeyboardKeys gKeyboardKeys;
+extern KeyboardKeys g_Global78Sub_2;
 extern KeyboardKeyRepeat gKeyboardKeyRepeat;
 // The keyboard input state: the keys pressed, down and released and the touch position, hold frames and status.
 typedef struct KeyboardInput {
@@ -435,19 +435,19 @@ typedef struct KeyboardInput {
 } KeyboardInput;
 
 extern KeyboardInput gKeyboardInput;
-extern u16 *gKbdmapAscii;
-extern u16 *gKbdmapOther1;
-extern u16 *gKbdmapOther2;
-extern u16 *gKbdmapOther3;
-extern u16 *gKbdmapKatakana;
+extern u16 *g_AsciiKbdmap;
+extern u16 *g_Other1Map;
+extern u16 *g_Other2Map;
+extern u16 *g_Other3Map;
+extern u16 *g_KatakanaMap;
 extern u16 *gKbdmapAsciiShift;
-extern u16 *gKbdmapKatakanaDakuten;
-extern u16 *gKbdmapHiraganaDakuten;
-extern u16 *gKbdmapHiraganaHandaku;
-extern u16 *gKbdmapHiraganaSmall;
+extern u16 *g_KatakanaDakutenMap;
+extern u16 *g_HiraganaDakutenMap;
+extern u16 *g_HiraganaHandakuMap;
+extern u16 *g_HiraganaSmallMap;
 extern u16 *gKbdmapAsciiCaps;
-extern u16 *gKbdmapKatakanaHandaku;
-extern u16 *gKbdmapKatakanaSmall;
+extern u16 *g_KatakanaHandakuMap;
+extern u16 *g_KatakanaSmallMap;
 // The on-screen keyboard's text entry: BG2 data, key graphics, the text buffer (mText) and the two button rectangles.
 typedef struct KeyboardTextEntry {
     /* 00 */ void *mBg2Char;
@@ -474,8 +474,8 @@ typedef struct KeyboardTextEntry {
     /* 74 */ s32 mButton1Y1;
 } KeyboardTextEntry;
 
-extern KeyboardTextEntry *gKeyboardTextEntry;
-extern u16 *gKbdmapHiragana;
+extern KeyboardTextEntry *g_Global78;
+extern u16 *g_HiraganaMap;
 // The functions of a title scene state: one writes the registers and one updates each frame.
 typedef struct TitleStateHandlers {
     /* 00 */ void (*mWriteRegisters)(void);
@@ -498,7 +498,7 @@ enum {
 #define TITLE_OFFSCREEN_X 0xf8
 #define TITLE_NEXT_STATE_NONE 8
 
-// TitleScene.mState, in the order of gTitleStateHandlers.
+// TitleScene.mState, in the order of g_HUFunctionList.
 #define TITLE_STATE_BLEND_IN 0
 #define TITLE_STATE_SLIDE_IN 1
 #define TITLE_STATE_MENU_INPUT 2
@@ -508,7 +508,7 @@ enum {
 #define TITLE_STATE_LEAVE 5
 #define TITLE_STATE_REQUEST_NICKNAME_SCENE 6
 
-// The title scene: its state machine, the selected entry, the title files and the main and sub OAM lists.
+// The title scene: its state machine, the selected entry, the title files and the NtrMain and sub OAM lists.
 typedef struct TitleScene {
     /* 000 */ s32 mStateFrames;
     // TRUE from every change of state (and creation) until the current state's handler has run; nothing reads it.
@@ -547,7 +547,7 @@ typedef struct TitleScene {
     /* 8b8 */ struct CharacterKartPicks *mCharacterKartPicks;
 } TitleScene;
 
-extern TitleScene *gTitleScene;
+extern TitleScene *g_SceneTitleContext;
 extern u64 gLastTick;
 // The affine matrix, center and offset of the sub screen background.
 typedef struct RaceHudSubScreenBgAffine {
@@ -575,11 +575,11 @@ typedef enum {
     RACE_HUD_SUB_SCREEN_NEW_RECORD
 } RaceHudSubScreenState;
 
-// The race's on-screen display (gRaceHud): the sprite entry buffers, loaded graphics and the sub screen page state.
+// The race's on-screen display (g_GlobalB350): the sprite entry buffers, loaded graphics and the sub screen page state.
 typedef struct RaceHud {
-    // Calls of the step UpdateRaceHud that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
+    // Calls of the step SomeUpdateFn that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
     // 0xc00. An animation clock: read by the upload slot (value / 6 = scroll of the sub-screen page 0) and by
-    // GetRaceHudUpdateFrames (value / 32).
+    // GetB350_T5 (value / 32).
     /* 000 */ s32 mUpdateFrames;
     /* 004 */ RaceHudOamBuffer mMainOam;
     /* 408 */ RaceHudOamBuffer mSubOam;
@@ -616,8 +616,8 @@ typedef struct RaceHud {
     // Set once in InitRaceHud: 1 only in mode 1 with more than one kart; gates StartRaceHudLapTimeDisplay (the
     // computation) and the draw of the time difference.
     /* 8e4 */ s32 mUseTimeDifference;
-    // ComputeTimeDifference's return: non-zero when the entry's summed lap times (GetKartLapTime) are >= the summed
-    // reference times (gRaceSetup.mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
+    // ComputeTimeDifference's return: non-zero when the entry's summed lap times (MaybeGetPlayerLapTime) are >= the summed
+    // reference times (g_GlobalCO.mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
     // minus is not named.
     /* 8e8 */ s32 mTimeDifferenceSign;
     // The difference as seven digits (SplitTimeDigits), written by StartRaceHudLapTimeDisplay, read through
@@ -731,7 +731,7 @@ typedef struct RaceGoalS {
 } RaceGoalS;
 
 extern RaceGoalS *gRaceGoalS;
-extern struct MenuScene *gMenuScene;
+extern struct MenuScene *g_GlobalB43C;
 // The same pointer as gWaterEfct, stored by SetCourseWaterEfct (the last call of CreateWaterEfct) and set to NULL in
 // InitMapObjects; the water_efct getters and the level getter read this one.
 extern WaterEfct *gCourseWaterEfct;
@@ -763,7 +763,7 @@ typedef struct RaceModeCount {
         u16 mNumberHalves[2];
     };
     /* 04 */ s32 mMissionRunCountLimit;
-    // 1 from init; cleared by DrawRaceModeCount once the time attack key recording is full; IsRaceKeyRecordingNotFull
+    // 1 from StructDC_SomeFn_from_thumb; cleared by DrawRaceModeCount once the time attack key recording is full; IsRaceKeyRecordingNotFull
     // reads it.
     /* 08 */ BOOL mKeyRecordingNotFull;
 } RaceModeCount;
@@ -880,8 +880,8 @@ extern u16 gMapObjectLastPolygonId;
 extern u16 gWrappingPolygonId;
 extern u16 gWrappingPolygonIdBase;
 extern u16 gMapObjectFirstPolygonId;
-extern u16 gNextPolygonId;
-extern GrpconfTblRow *gGrpconfTbl;
+extern u16 g_SomeItemCounter;
+extern GrpconfTblRow *g_GrpconfTbl;
 extern MapObject **gFoundMapObjects;
 struct ItemObject;
 
@@ -902,15 +902,15 @@ struct BmgEntryOffsetSection;
 struct BmgBodySection;
 struct Nclr;
 struct NNSG2dCellDataBank;
-extern struct Nclr *gPlayerCharacterNclr[2];
-extern struct Ncgr *gPlayerCharacterNcgr[2];
-extern struct NNSG2dCellDataBank *gPlayerCharacterNcer[2];
-extern void *gPlayerCharacterBncl[2];
-extern struct Nclr *gPlayerCharacterShyguyNclr[2];
-extern struct NNSG2dFont *gFontTable[3];
-extern struct NNSG2dFont gLCFontS;
-extern struct NNSG2dFont gLCFontM;
-extern struct NNSG2dFont gMarioFont;
+extern struct Nclr *g_PlayerCharacterPlts[2];
+extern struct Ncgr *g_PlayerCharacterNceNcgrs[2];
+extern struct NNSG2dCellDataBank *g_PlayerCharacterNceNcers[2];
+extern void *g_PlayerCharacterBNCLs[2];
+extern struct Nclr *g_PlayerShyGuyPlts[2];
+extern struct NNSG2dFont *g_LoadedFonts[3];
+extern struct NNSG2dFont g_NftrLcFontS;
+extern struct NNSG2dFont g_NftrLcFontM;
+extern struct NNSG2dFont g_NftrMarioFont;
 extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
 extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
 
@@ -929,7 +929,7 @@ extern s32 gJgAgainstCheckpointFrames;
 extern s32 gJgVisible;
 extern s32 gJgSnapActive;
 
-// gJgStateMachine.mState values, in the order of gJgStateTable. OFF is the idle state; REVERSE, LAP and FLAG follow
+// g_SomeE7.mState values, in the order of g_E7FnList2. OFF is the idle state; REVERSE, LAP and FLAG follow
 // the kart with the model of that kind (the jg_reverse and jg_flag files, the lap model); FOLLOW_KART waits at the
 // kart; LEAVE rises out of view and ends in OFF; ARRIVE lowers in from above and picks LAP, FLAG or LEAVE by kind.
 enum {
@@ -942,21 +942,21 @@ enum {
     JG_STATE_ARRIVE,
 };
 
-extern StateMachine gJgStateMachine;
-extern void **gFoundCollisionSlotObjects;
+extern StateMachine g_SomeE7;
+extern void **g_SomePointer7Size200;
 extern s16 gFoundCollisionSlotCount;
-extern u16 *gFoundCollisionSlotFlags;
-extern s16 gFirstFreeCollisionSlot;
-extern s16 gCollisionSlotCount;
-extern struct CollisionSlotEnd *gCollisionSlotHighEnds;
-extern struct CollisionSlot *gCollisionSlots;
-extern struct CollisionSlotEnd *gCollisionSlotLowEnds;
-extern s16 *gCollisionSlotNextFree;
-extern s16 *gFoundCollisionSlotIndices;
+extern u16 *g_SomePointer6Size100;
+extern s16 g_Some16;
+extern s16 g_Another16;
+extern struct CollisionSlotEnd *g_SomePointer1Size400;
+extern struct CollisionSlot *g_SomePointer3Size1C00;
+extern struct CollisionSlotEnd *g_SomePointer2Size400;
+extern s16 *g_SomePointer4Size200;
+extern s16 *g_SomePointer5Size100;
 extern s32 gJgStateCounter;
-extern u16 gJgFinalLap;
+extern u16 g_SomeLapCount;
 extern u16 gJgLapFrameCount;
-extern u16 gJgKartIndex;
+extern u16 g_SomeRacerId;
 extern u16 gJgProbeStep;
 extern u16 gJgHighestLap;
 extern s32 gJgShiftSpeedX;
@@ -1018,4 +1018,4 @@ extern u8 gItemDataDelayedFreeHead[];
 extern u8 gItemDataQueueUsedHead[];
 extern u8 gItemDataQueueFreeHead[];
 extern u8 gItemDataDelayedUsedHead[];
-extern MapObjectModel *gIronBall;
+extern MapObjectModel *g_IronBallMapObject;

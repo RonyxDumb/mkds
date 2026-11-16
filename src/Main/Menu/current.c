@@ -3,66 +3,66 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 
-u32 GetCurrentCharacterIndex(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
+u32 GetRacerCharacterId(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mCharacterIndex;
 }
 
-u32 GetCurrentKartIndex(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mKartIndex;
+u32 GetRacerKartId(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mKartIndex;
 }
 
-u32 GetCurrentPlayerKind(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+u32 GetRacerType_0(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mKind;
 }
 
-u32 GetCurrentUseTeams(void) {
-    return (gRaceSetup->mUseTeams);
+u32 GetIsTeams(void) {
+    return (g_GlobalCO->mUseTeams);
 }
 
-u32 GetCurrentTeamIndex(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
+u32 GetRacerTeam(u32 entryIndex) {
+    return g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
 u32 GetCurrentListedCpuSlot(u32 entryIndex) {
-    return gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot;
+    return g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mListedCpuSlot;
 }
 
 u32 GetCurrentCupIndex(void) {
-    return (gRaceSetup->mCupIndex);
+    return (g_GlobalCO->mCupIndex);
 }
 
-u32 GetCurrentCpuDifficulty(void) {
-    return (gRaceSetup->mCpuDifficulty);
+u32 GetCurrentRaceCpuMode(void) {
+    return (g_GlobalCO->mCpuDifficulty);
 }
 
-u32 GetCurrentKartCount(void) {
-    return (gRaceSetup->mKartCount);
+u32 GetRacerCount(void) {
+    return (g_GlobalCO->mKartCount);
 }
 
-u32 GetCurrentMode(void) {
-    return (gRaceSetup->mMode);
+u32 GetCurrentRaceMode(void) {
+    return (g_GlobalCO->mMode);
 }
 
-u32 GetCurrentCourseId(void) {
-    return (gRaceSetup->mCourseId);
+u32 GetCurrentInternalCourseId_1(void) {
+    return (g_GlobalCO->mCourseId);
 }
 
-u32 GetCurrentEngineIndex(void) {
-    return (gRaceSetup->mEngineIndex);
+u32 GetCurrrentCcType(void) {
+    return (g_GlobalCO->mEngineIndex);
 }
 
-u32 GetCurrentMirrorMode(void) {
-    return (gRaceSetup->mMirrorMode);
+u32 GetIsMirror(void) {
+    return (g_GlobalCO->mMirrorMode);
 }
 
-u32 GetCurrentBattleKind(void) {
-    return (gRaceSetup->mBattleKind);
+u32 GetCurrentBattleType(void) {
+    return (g_GlobalCO->mBattleKind);
 }
 
-u32 GetCurrentCourseCount(void) {
-    return (gRaceSetup->mCourseCount);
+u32 GetMaybeNextRuleParam(void) {
+    return (g_GlobalCO->mCourseCount);
 }
 
-u32 GetCurrentRuleKind(void) {
-    return (gRaceSetup->mRuleKind);
+u32 GetCurrentRaceRules(void) {
+    return (g_GlobalCO->mRuleKind);
 }

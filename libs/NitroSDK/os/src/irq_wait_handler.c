@@ -11,23 +11,23 @@ typedef struct IrqCheckView {
 } IrqCheckView;
 
 // Optionally clears the bits irqFlags of the IRQ check flag, then sleeps the thread until one of them is set.
-void OS_WaitIrq(u32 clear, u32 irqFlags) {
+void WaitForIRQ(u32 clear, u32 irqFlags) {
     u32 enabled;
     IrqCheckView *dtcm;
     u32 *pendingFlags;
 
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     dtcm = (IrqCheckView *) HW_DTCM;
     if (clear != 0) {
         dtcm->mCheckFlags &= ~irqFlags;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     dtcm = (IrqCheckView *) HW_DTCM;
     if ((irqFlags & dtcm->mCheckFlags) != 0) {
         return;
     }
     pendingFlags = &dtcm->mCheckFlags;
     do {
-        OS_SleepThread(&OSi_IrqThreadQueue);
+        Os_Thread_Sleep(&g_DTCM);
     } while ((irqFlags & *pendingFlags) == 0);
 }

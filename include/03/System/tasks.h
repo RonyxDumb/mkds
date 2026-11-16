@@ -19,7 +19,7 @@ typedef struct TaskEntry {
     /* 0c */ void *mArg;
     /* 10 */ u8 mPriority;
     /* 11 */ u8 mFreesArg;
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 mUnk5[2];
 } TaskEntry;
 
 // A list of tasks: the free entry stack, the linked list ends, the capacity and the entry storage.

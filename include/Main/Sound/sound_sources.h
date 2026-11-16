@@ -17,9 +17,9 @@
 
 typedef struct SoundSource SoundSource;
 
-void InitAndRegisterSoundSource(SoundSource *source, Vec3 *positionSource);
+void StructMQRacerEntry_SomeFn_46(SoundSource *source, Vec3 *positionSource);
 
-void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value);
+void StructMQRacerEntry_SomeFn_47(SoundSource *source, s32 bit, s32 value);
 void SetSoundSourceEnabled(SoundSource *source, s32 enabled);
 
 typedef struct PlayingSound PlayingSound;
@@ -33,9 +33,9 @@ void SetSoundDistanceFunction(u32 (*distanceFunction)(SoundParams *));
 void SetSoundPanFunction(s32 (*panFunction)(SoundParams *));
 void StartSoundSeqArc(NNSSndSeqPlayer **handle, u32 seqArcNo, u32 soundId, u32 priority);
 
-void SetPlayingSoundTrackParams(u32 unused, PlayingSound *sound);
+void StructMQ_FnPtr2(u32 unused, PlayingSound *sound);
 
-void StartPlayingSoundSeqArc(u32 unused, PlayingSound *sound, u32 priority);
+void StructMQ_FnPtr1(u32 unused, PlayingSound *sound, u32 priority);
 void ReleaseAllSoundSources(void);
 
 void UpdateSoundSources(void);

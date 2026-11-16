@@ -5,7 +5,7 @@
 
 int GetWiFiCourseMessageIndex(int courseId);
 int GetGhostCourseMessageIndex(int courseId);
-u32 GetCourseMessageIndex(u32 courseId);
+u32 GetBmgIndexFromCircuitIndex_from_thumb(u32 courseId);
 u32 GetKartMessageIndex(u32 kartIndex);
 
 typedef struct KartAppear KartAppear;
@@ -26,4 +26,4 @@ extern const u32 gCharacterSeqPairNoTable[13];
 extern const u32 gKartMessageIndexTable[36];
 extern const u32 gKartIndexTable[36];
 
-extern const s32 gCourseMessageIndexTable[48];
+extern const s32 g_CommonBmg_CourseNameTable[48];

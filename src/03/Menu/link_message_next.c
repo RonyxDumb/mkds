@@ -54,7 +54,7 @@ void UpdateLinkMessageNextPowerOff(void) {
     int fadeSlotBusy;
     fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(1);
     if ((fadeSlotBusy == 0) && (fadeSlotBusy = IsBlendBrightnessFadeSlotBusy(0), fadeSlotBusy == 0)) {
-        OS_SpinWait((0x01000000u));
+        Os_SpinWait((0x01000000u));
         PM_ForceToPowerOff();
     }
 }
@@ -70,7 +70,7 @@ void SetupLinkMessage(void) {
 
 void LoadLinkMessageFileAndSetBgCnt(void) {
     void *nscName = &gYb5MultiNscName3;
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));

@@ -38,29 +38,29 @@ void MBi_MakeGameInfo(GameInfoEntry *entry, MBGameRegistry *params, const u8 *re
     u32 iconPaletteMissing;
     volatile u16 clearValue;
     clearValue = 0;
-    MIi_CpuClear16(clearValue, entry, 0x4c0);
+    Mem_CpuFill16(clearValue, entry, 0x4c0);
     entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_WITH_ICON;
-    value = MBi_ReadIconInfo(params->mIconCharPathp, entry->mIcon, 1) == 0;
-    iconPaletteMissing = MBi_ReadIconInfo(params->mIconPalettePathp, entry->mIcon, 0) == 0;
+    value = SomeFileRead_from_thumb(params->mIconCharPathp, entry->mIcon, 1) == 0;
+    iconPaletteMissing = SomeFileRead_from_thumb(params->mIconPalettePathp, entry->mIcon, 0) == 0;
     if ((value | iconPaletteMissing) != 0) {
         entry->mDataAttr = MULTIBOOT_DATA_ATTR_FIXED_NO_ICON;
         MemFillWordsByBlock_inline(entry, 0x220);
     }
     entry->mGgid = params->mGgid;
     if (record != NULL) {
-        MIi_CpuCopy16(record, entry->mParent, 0x16);
+        CopyMemory16(record, entry->mParent, 0x16);
     }
     entry->mMaxPlayerNum = params->mMaxPlayerNum;
     value = mystrlen(params->mGameNamep) * 2;
-    MIi_CpuCopy16(params->mGameNamep, entry->mGameName, (u16) value);
-    MIi_CpuCopy16(params->mGameIntroductionp, entry->mGameIntroduction, 0xc0);
+    CopyMemory16(params->mGameNamep, entry->mGameName, (u16) value);
+    CopyMemory16(params->mGameIntroductionp, entry->mGameIntroduction, 0xc0);
     entry->mNowPlayerNum = 1;
     entry->mNowPlayerFlag = 1;
     entry->mBroadcastedPlayerFlag = 1;
 }
 
 // Reads file a into b (b + 0x20 when c is non-zero) only when its size is 0x20 (c == 0) or 0x200 (c != 0).
-u32 MBi_ReadIconInfo(const u8 *path, u8 *buffer, u32 isLarge) {
+u32 SomeFileRead_from_thumb(const u8 *path, u8 *buffer, u32 isLarge) {
     FSFile file;
     u32 expectedSize;
     if (isLarge != 0) {
@@ -74,16 +74,16 @@ u32 MBi_ReadIconInfo(const u8 *path, u8 *buffer, u32 isLarge) {
     if (path == NULL) {
         return 0;
     }
-    FS_InitFile(&file);
-    if (FS_OpenFile(&file, path) == 0) {
+    Fs_File_Initialize(&file);
+    if (Fs_File_Open(&file, path) == 0) {
         return 0;
     }
     if (expectedSize != file.mProp.w.mUnk_08 - file.mProp.w.mUnk_04) {
-        FS_CloseFile(&file);
+        Fs_File_Close(&file);
         return 0;
     }
-    FS_ReadFile(&file, buffer, expectedSize);
-    FS_CloseFile(&file);
+    Fs_File_Read(&file, buffer, expectedSize);
+    Fs_File_Close(&file);
     return 1;
 }
 
@@ -91,7 +91,7 @@ void MB_UpdateGameInfoMember(GameInfoEntry *entry, const void *records, u32 reco
     u8 count;
     s32 recordIndex;
     count = 1;
-    MIi_CpuCopy16(records, entry->mMember, 0x14a);
+    CopyMemory16(records, entry->mMember, 0x14a);
     for (recordIndex = 0; recordIndex < 15; recordIndex++) {
         if ((recordMask & (2 << recordIndex)) != 0) {
             count++;
@@ -217,10 +217,10 @@ void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr) {
     } else {
         gGameInfoBlock.mSize = dataEnd - source;
         clearValue = 0;
-        MIi_CpuClear16(clearValue, (u8 *) &gGameInfoBlock.mHalf0e + gGameInfoBlock.mSize,
+        Mem_CpuFill16(clearValue, (u8 *) &gGameInfoBlock.mHalf0e + gGameInfoBlock.mSize,
                        MULTIBOOT_GAME_INFO_BLOCK_SIZE - gGameInfoBlock.mSize);
     }
-    MIi_CpuCopy16(mbss.mSrcp, &gGameInfoBlock.mHalf0e, gGameInfoBlock.mSize);
+    CopyMemory16(mbss.mSrcp, &gGameInfoBlock.mHalf0e, gGameInfoBlock.mSize);
     gGameInfoBlock.mByte0a = mbss.mFlagmentNo;
     gGameInfoBlock.mFlagmentMaxNum = mbss.mFlagmentMaxNum;
     entry = mbss.mCurrent;
@@ -277,7 +277,7 @@ void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
         gGameInfoBlock.mUserVolatData[index] = mbss.mCurrent->mUserVolatData[index];
     }
     clearValue = 0;
-    MIi_CpuClear16(clearValue, gGameInfoBlock.mMember, 0x58);
+    Mem_CpuFill16(clearValue, gGameInfoBlock.mMember, 0x58);
     recordCount = 0;
     pendingMask = (u16) (mbss.mCurrent->mBroadcastedPlayerFlag ^ mbss.mCurrent->mNowPlayerFlag);
     index = 0;
@@ -286,7 +286,7 @@ void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr) {
     for (; index < 15; index++) {
         recordBit = 2 << index;
         if ((pendingMask & recordBit) != 0) {
-            MIi_CpuCopy16(mbss.mCurrent->mMember + sourceOffset, destination, 0x16);
+            CopyMemory16(mbss.mCurrent->mMember + sourceOffset, destination, 0x16);
             mbss.mCurrent->mBroadcastedPlayerFlag |= recordBit;
             destination += 0x16;
             recordCount++;
@@ -321,7 +321,7 @@ u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scan
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
     }
-    MIi_CpuCopy16(scanBlock, &bssDescbuf, sizeof(WMBssDesc));
+    CopyMemory16(scanBlock, &bssDescbuf, sizeof(WMBssDesc));
     scanBlock = &bssDescbuf;
     gReceivedGameInfo = (MbBeacon *) &bssDescbuf.mGameInfo.mUserGameInfo;
     if (MBi_calc_cksum(&gReceivedGameInfo->mChecksum, 0x68) != 0) {
@@ -390,7 +390,7 @@ s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) 
     for (; entryIndex < 0x10; entryIndex++) {
         u32 entryBit = 1 << entryIndex;
         if ((usedMask & entryBit) == 0) {
-            MIi_CpuCopy16(scanBlock, &entryTable->mEntries[entryIndex].mScanBuffer, sizeof(WMBssDesc));
+            CopyMemory16(scanBlock, &entryTable->mEntries[entryIndex].mScanBuffer, sizeof(WMBssDesc));
             mbrsp->mEntries[entryIndex].mSeqNoFixed = gReceivedGameInfo->mSeqNoFixed;
             mbrsp->mUsedMask |= (u16) entryBit;
             MBi_LockScanTarget(entryIndex);
@@ -507,7 +507,7 @@ void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value) {
 void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex) {
     if (newBlock->mGameInfo.mTgid != mbrsp->mEntries[entryIndex].mScanBuffer.mGameInfo.mTgid) {
         MB_DeleteRecvGameInfoWithoutBssdesc(entryIndex);
-        MIi_CpuCopy16(newBlock, &mbrsp->mEntries[entryIndex].mScanBuffer, sizeof(WMBssDesc));
+        CopyMemory16(newBlock, &mbrsp->mEntries[entryIndex].mScanBuffer, sizeof(WMBssDesc));
         MBi_LockScanTarget(entryIndex);
     }
 }
@@ -573,7 +573,7 @@ void MBi_RecvFixedBeacon(u32 entryIndex) {
     if (destination + byteCount > dataEnd) {
         return;
     }
-    MIi_CpuCopy16(&gReceivedGameInfo->mHalf0e, destination, byteCount);
+    CopyMemory16(&gReceivedGameInfo->mHalf0e, destination, byteCount);
     entry->mDataAttr = gReceivedGameInfo->mDataAttr;
     entry->mGetFlagmentFlag |= 1 << gReceivedGameInfo->mByte0a;
     entry->mAllFlagmentFlag = (1 << gReceivedGameInfo->mFlagmentMaxNum) - 1;
@@ -595,7 +595,7 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
             for (; index < 0xf; index++) {
                 if (gReceivedGameInfo->mHalf0e & (2 << index)) {
                     clearValue = zero;
-                    MIi_CpuClear16(clearValue, record, 0x16);
+                    Mem_CpuFill16(clearValue, record, 0x16);
                 }
                 record += 0x16;
             }
@@ -603,7 +603,7 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
             BIT_CLEAR(mbrsp->mValidGameInfoFlag, entryIndex);
         } else {
             vu16 zeroValue = 0;
-            MIi_CpuClear16(zeroValue, entry->mMember, 0x14a);
+            Mem_CpuFill16(zeroValue, entry->mMember, 0x14a);
             entry->mGetPlayerFlag = 0;
             BIT_CLEAR(mbrsp->mValidGameInfoFlag, entryIndex);
         }
@@ -621,7 +621,7 @@ void MBi_RecvVolatBeacon(u32 entryIndex) {
     for (recordIndex = 0; recordIndex < 4; recordIndex++) {
         u32 recordNumber = gReceivedGameInfo->mMember[recordIndex].mPlayerNo;
         if (recordNumber != 0) {
-            MIi_CpuCopy16(&gReceivedGameInfo->mMember[recordIndex], &entry->mMember[(recordNumber - 1) * 0x16], 0x16);
+            CopyMemory16(&gReceivedGameInfo->mMember[recordIndex], &entry->mMember[(recordNumber - 1) * 0x16], 0x16);
             BIT_SET(entry->mGetPlayerFlag, recordNumber);
         }
     }
@@ -655,7 +655,7 @@ void MB_DeleteRecvGameInfo(u32 entryIndex) {
     mbrsp->mUsefulGameInfoFlag &= ~entryBit;
     mbrsp->mValidGameInfoFlag &= ~entryBit;
     clearValue = 0;
-    MIi_CpuClear16(clearValue, &mbrsp->mEntries[entryIndex], sizeof(MBGameInfoRecvList));
+    Mem_CpuFill16(clearValue, &mbrsp->mEntries[entryIndex], sizeof(MBGameInfoRecvList));
 }
 
 void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex) {
@@ -668,7 +668,7 @@ void MB_DeleteRecvGameInfoWithoutBssdesc(u32 entryIndex) {
     mbrsp->mEntries[entryIndex].mGetPlayerFlag = 0;
     mbrsp->mEntries[entryIndex].mLinkLevel = 0;
     clearValue = 0;
-    MIi_CpuClear16(clearValue, &mbrsp->mEntries[entryIndex], 0x4c0);
+    Mem_CpuFill16(clearValue, &mbrsp->mEntries[entryIndex], 0x4c0);
 }
 
 MBGameInfoRecvList *MB_GetGameInfoRecvList(u32 entryIndex) {

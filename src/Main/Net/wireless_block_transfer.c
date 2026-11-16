@@ -65,12 +65,12 @@ BOOL StoreReceivedChunk(WBTPacketBitmap *bitmap, s32 chunkIndex, const u8 *chunk
         if (chunkIndex == bitmap->mTotal - 1) {
             lastChunkSize = _s32_div_f(bitmap->mLength, chunkSize) >> 32;
             if (lastChunkSize != 0) {
-                MI_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, lastChunkSize);
+                Mem_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, lastChunkSize);
             } else {
-                MI_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, chunkSize);
+                Mem_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, chunkSize);
             }
         } else {
-            MI_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, chunkSize);
+            Mem_CpuCopy8(chunkData, buffer + chunkIndex * chunkSize, chunkSize);
         }
     } else {
         return FALSE;
@@ -104,7 +104,7 @@ void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryInde
                     callbackRecord->mData.mUserData.mSize = 0;
                 } else {
                     callbackRecord->mData.mUserData.mSize = entry->mByteCount;
-                    MI_CpuCopy8(entry->mPayload, callbackRecord->mData.mUserData.mData,
+                    Mem_CpuCopy8(entry->mPayload, callbackRecord->mData.mUserData.mData,
                                 callbackRecord->mData.mUserData.mSize);
                 }
                 break;
@@ -184,13 +184,13 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
         do {
             switch (parseState) {
                 case XFER_PARSE_KIND_FIELD:
-                    MI_CpuCopy8(cursor, &entry->mPacketKind, 1);
+                    Mem_CpuCopy8(cursor, &entry->mPacketKind, 1);
                     cursor = cursor + 1;
                     consumedBytes = consumedBytes + 1;
                     parseState = XFER_PARSE_MASK_FIELD;
                     continue;
                 case XFER_PARSE_MASK_FIELD:
-                    MI_CpuCopy8(cursor, &entry->mIndexMask, 2);
+                    Mem_CpuCopy8(cursor, &entry->mIndexMask, 2);
                     cursor = cursor + 2;
                     consumedBytes = consumedBytes + 2;
                     parseState = entry->mIndexMask;
@@ -210,7 +210,7 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                     parseState = XFER_PARSE_ASK_NUMBER;
                     continue;
                 case XFER_PARSE_ASK_NUMBER:
-                    MI_CpuCopy8(cursor, &entry->mRequestId, 1);
+                    Mem_CpuCopy8(cursor, &entry->mRequestId, 1);
                     cursor = cursor + 1;
                     consumedBytes = consumedBytes + 1;
                     switch (entry->mPacketKind) {
@@ -235,7 +235,7 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                             continue;
                     }
                 case XFER_PARSE_LENGTH_FIELD:
-                    MI_CpuCopy8(cursor, &entry->mByteCount, 1);
+                    Mem_CpuCopy8(cursor, &entry->mByteCount, 1);
                     cursor = cursor + 1;
                     consumedBytes = consumedBytes + 1;
                     parseState = XFER_PARSE_BODY;
@@ -247,7 +247,7 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                     consumedBytes = consumedBytes + 9;
                     return consumedBytes;
                 case XFER_PARSE_TOTAL_FIELD:
-                    MI_CpuCopy8(cursor, &entry->mBlockCount, 2);
+                    Mem_CpuCopy8(cursor, &entry->mBlockCount, 2);
                     cursor = cursor + 2;
                     consumedBytes = consumedBytes + 2;
                     if (entry->mPacketKind == XFER_PACKET_HANDSHAKE_ANSWER) {
@@ -255,8 +255,8 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                     }
                     continue;
                 case XFER_PARSE_SIZE_LIST:
-                    MI_CpuCopy8(cursor, &entry->mPacketSendChunkSize, 2);
-                    MI_CpuCopy8(cursor + 2, &entry->mPacketReceiveChunkSize, 2);
+                    Mem_CpuCopy8(cursor, &entry->mPacketSendChunkSize, 2);
+                    Mem_CpuCopy8(cursor + 2, &entry->mPacketReceiveChunkSize, 2);
                     if (WBT_GetOwnAid() != 0) {
                         SetSendChunkSize(entry->mPacketReceiveChunkSize);
                         SetReceiveChunkSize(entry->mPacketSendChunkSize);
@@ -278,7 +278,7 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                             return consumedBytes + 4;
                     }
                 case XFER_PARSE_TARGET_FIELD:
-                    MI_CpuCopy8(cursor, &entry->mBlockId, 4);
+                    Mem_CpuCopy8(cursor, &entry->mBlockId, 4);
                     cursor = cursor + 4;
                     consumedBytes = consumedBytes + 4;
                     packetKind = entry->mPacketKind;
@@ -310,7 +310,7 @@ u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cu
                             continue;
                     }
                 case XFER_PARSE_SLICE_NUMBER:
-                    MI_CpuCopy8(cursor, &entry->mChunkIndex, 4);
+                    Mem_CpuCopy8(cursor, &entry->mChunkIndex, 4);
                     cursor = cursor + 4;
                     consumedBytes = consumedBytes + 4;
                     packetKind = entry->mPacketKind;
@@ -425,7 +425,7 @@ s32 ReplyToBlockDataRequest(BlockTransfer *transfer, s32 entryIndex, u8 *buffer,
             indexMask = 1;
         }
         if (entry->mPacketKind == XFER_PACKET_DATA_ASK) {
-            block = FindBlockById(entry->mBlockId);
+            block = FindGlobalGOBy_from_thumb(entry->mBlockId);
             if (block != NULL) {
                 chunkIndex = PickSendChunkIndex(entry->mBlockId, entry->mChunkIndex);
                 if (chunkIndex != -1) {
@@ -578,7 +578,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
     value = GetRequestId();
     switch (nextRequest->mCommand) {
         case XFER_COMMAND_HANDSHAKE:
-            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            Mem_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             value = WBT_GetOwnPacketLength();
             packetSize =
@@ -586,7 +586,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
                                              transfer->mCurrentRequest.mMyCmdCounter, value, WBT_GetPeerPacketLength());
             break;
         case XFER_COMMAND_FETCH_DETAILS:
-            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            Mem_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             for (entryIndex = 0, nodeBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
                 if (((transfer->mCurrentRequest.mTargetBmp >> entryIndex) & 1) != 0) {
@@ -607,7 +607,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
             }
             break;
         case XFER_COMMAND_FETCH_DATA:
-            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            Mem_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             for (entryIndex = 0, dataBitmap = &transfer->mEntries[0].mReceive; entryIndex < 16; entryIndex++) {
                 if (((transfer->mCurrentRequest.mTargetBmp >> entryIndex) & 1) != 0) {
@@ -628,7 +628,7 @@ s32 WBTi_SwitchNextCommand(BlockTransfer *transfer, u8 *buffer, s32 bufferSize) 
             }
             break;
         case XFER_COMMAND_SEND_CUSTOM:
-            MIi_CpuCopy32(nextRequest, transfer, 0x9c);
+            Mem_CpuCopy32(nextRequest, transfer, 0x9c);
             transfer->mCurrentRequest.mMyCmdCounter = value;
             packetSize = WriteBytesPacket(
                 buffer, transfer->mCurrentRequest.mTargetBmp, transfer->mCurrentRequest.mMyCmdCounter,

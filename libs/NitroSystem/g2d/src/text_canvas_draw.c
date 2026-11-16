@@ -4,7 +4,7 @@
 #include "font_glyph_layout.h"
 #include "Main/Graphics/cell_file_set.h"
 
-void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos) {
+void G2d_Text_PutChars(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u16 *str, u16 **pPos) {
     s32 hSpace;
     NNSG2dFont *font;
     u16 *pos;
@@ -21,7 +21,7 @@ void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl
             if (code == 10) {
                 break;
             }
-            drawX += NNS_G2dCharCanvasDrawChar(pTxn->mCharCanvas, font, drawX, drawY, cl, code);
+            drawX += G2d_Sprite_MaybePutChar(pTxn->mCharCanvas, font, drawX, drawY, cl, code);
             drawX += hSpace;
             code = readChar(&pos);
         } while (code != 0);
@@ -31,7 +31,7 @@ void NNSi_G2dTextCanvasDrawString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl
     }
 }
 
-void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,
+void G2d_Text_SomeFn_0(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, u32 cl, u32 flags,
                                      u16 *txt) {
     s32 lineHeight;
     s32 lineWidth;
@@ -52,21 +52,21 @@ void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32
     do {
         lineX = drawX;
         if (alignRight != 0) {
-            lineWidth = NNSi_G2dFontGetStringWidth(pTxn->mFont, pTxn->mCharSpacing, (u8 *) pos, 0);
+            lineWidth = NFTR_GetStringWidth(pTxn->mFont, pTxn->mCharSpacing, (u8 *) pos, 0);
             lineX = drawX + (areaWidth - lineWidth);
         } else if (alignCenter != 0) {
-            lineWidth = NNSi_G2dFontGetStringWidth(pTxn->mFont, pTxn->mCharSpacing, (u8 *) pos, 0);
+            lineWidth = NFTR_GetStringWidth(pTxn->mFont, pTxn->mCharSpacing, (u8 *) pos, 0);
             lineX = drawX + (halfWidth - (lineWidth + 1) / 2);
         }
-        NNSi_G2dTextCanvasDrawString(pTxn, lineX, drawY, cl, pos, &pos);
+        G2d_Text_PutChars(pTxn, lineX, drawY, cl, pos, &pos);
         drawY += lineHeight;
     } while (pos != 0);
 }
 
-u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt) {
+u32 G2d_Text_PrintString(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt) {
     NNSG2dTextRect rect;
 
-    NNSi_G2dFontGetTextRect(&rect, pTxn->mFont, pTxn->mCharSpacing, pTxn->mLineSpacing, txt);
+    G2d_ComputeMaxWidthHeight(&rect, pTxn->mFont, pTxn->mCharSpacing, pTxn->mLineSpacing, txt);
     if (flags & 0x10) {
         drawX -= (rect.mWidth + 1) / 2;
     } else if (flags & 0x20) {
@@ -77,21 +77,21 @@ u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u
     } else if (flags & 4) {
         drawY -= rect.mHeight;
     }
-    NNSi_G2dTextCanvasDrawTextAlign(pTxn, drawX, drawY, rect.mWidth, cl, flags, txt);
+    G2d_Text_SomeFn_0(pTxn, drawX, drawY, rect.mWidth, cl, flags, txt);
 }
 
-void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, s32 areaHeight, s32 cl,
+void G2d_Text_PrintString4(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 areaWidth, s32 areaHeight, s32 cl,
                                     u32 flags, u16 *txt) {
     s32 textHeight;
 
     if (flags & 0x100) {
-        textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
+        textHeight = NFTR_SomeFn_0(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
         drawY += areaHeight - textHeight;
     } else if (flags & 0x80) {
-        textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
+        textHeight = NFTR_SomeFn_0(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
         drawY += (areaHeight + 1) / 2 - (textHeight + 1) / 2;
     }
-    NNSi_G2dTextCanvasDrawTextAlign(pTxn, drawX, drawY, areaWidth, cl, flags, txt);
+    G2d_Text_SomeFn_0(pTxn, drawX, drawY, areaWidth, cl, flags, txt);
 }
 
 // clang-format off

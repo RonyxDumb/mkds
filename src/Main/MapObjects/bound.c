@@ -104,15 +104,15 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
     responseValue = *response;
     if (firstResponseValue == 3 || firstResponseValue == 4) {
         if (bound->mKartTimers[kart->mIndex] == 0) {
-            VEC_Subtract(&kart->mPos, &bound->mMapObject.mPos, &offset);
-            dot = VEC_DotProduct(&kart->mVelocityDirection, &offset);
+            VecFx32_Subtract(&kart->mPos, &bound->mMapObject.mPos, &offset);
+            dot = Vector3_DotProduct(&kart->mVelocityDirection, &offset);
             component.x = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.x, dot);
             component.y = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.y, dot);
             component.z = MUL_FIXED12_NO_ROUND(kart->mVelocityDirection.z, dot);
             remainder.x = offset.x - component.x;
             remainder.y = offset.y - component.y;
             remainder.z = offset.z - component.z;
-            dot = VEC_DotProduct(&bound->mMapObject.mMatrix.mRows[1], &remainder);
+            dot = Vector3_DotProduct(&bound->mMapObject.mMatrix.mRows[1], &remainder);
             component.x = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mRows[1].x, dot);
             component.y = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mRows[1].y, dot);
             component.z = MUL_FIXED12_NO_ROUND(bound->mMapObject.mMatrix.mRows[1].z, dot);
@@ -125,15 +125,15 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
                 bound->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(kartVector->y, 0xc000);
                 bound->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(kartVector->z, 0xc000);
             } else {
-                Vec3NormalizeAndGetLengthUnchecked(&remainder, &remainder);
+                Vector3_MaybeNormalize(&remainder, &remainder);
                 bound->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(remainder.x, 0xc000);
                 bound->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(remainder.y, 0xc000);
                 bound->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(remainder.z, 0xc000);
             }
-            VEC_Subtract(&component, &bound->mMapObject.mMatrix.mRows[1], &component);
-            VEC_MultAdd(0x19a, &component, &bound->mMapObject.mPosStep, &bound->mMapObject.mPosStep);
+            VecFx32_Subtract(&component, &bound->mMapObject.mMatrix.mRows[1], &component);
+            VecFx32_AddScale1(0x19a, &component, &bound->mMapObject.mPosStep, &bound->mMapObject.mPosStep);
             bound->mKartTimers[kart->mIndex] = BOUND_KART_HIT_FRAMES;
-            if (gRaceSetup->mMode == MODE_BATTLE) {
+            if (g_GlobalCO->mMode == MODE_BATTLE) {
                 CallStandingsKartOffsetCallback(kart->mIndex, &bound->mMapObject.mPosStep);
             }
         } else {
@@ -141,7 +141,7 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             bound->mMapObject.mPosStep.y = 0;
             bound->mMapObject.mPosStep.z = 0;
         }
-        if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST && bound->mWobbling == FALSE) {
+        if (g_GlobalCO->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST && bound->mWobbling == FALSE) {
             bound->mWobbleXAngle = BOUND_WOBBLE_X_ANGLE_START;
             bound->mWobbleXMid = BOUND_WOBBLE_MID;
             bound->mWobbleXAmplitude = BOUND_WOBBLE_AMPLITUDE_LARGE;
@@ -169,13 +169,13 @@ s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *firstResponse, u8 *respon
             if ((u16) (bound->mMapObject.mKind + 0xfe4c) <= 1) {
                 StartOrthoQuadsCreamEffect(
                     kart->mIndex,
-                    (u16) (((u64) CollideKartWithBound_inline(&gRaceProgress->mLocalRandom) * 3) >> 32) + 1);
-                VEC_Subtract(&bound->mMapObject.mPos, &kart->mCollisionCenter, &contactPos);
+                    (u16) (((u64) CollideKartWithBound_inline(&g_GlobalMV->mLocalRandom) * 3) >> 32) + 1);
+                VecFx32_Subtract(&bound->mMapObject.mPos, &kart->mCollisionCenter, &contactPos);
                 if (!(LENGTH_SQUARED(contactPos) < 0x10)) {
-                    Vec3NormalizeAndGetLengthUnchecked(&contactPos, &contactPos);
+                    Vector3_MaybeNormalize(&contactPos, &contactPos);
                 }
-                VEC_MultAdd(kart->mRadius, &contactPos, &kart->mCollisionCenter, &contactPos);
-                if (kart->mIndex == gRaceSetup->mEntryIndex) {
+                VecFx32_AddScale1(kart->mRadius, &contactPos, &kart->mCollisionCenter, &contactPos);
+                if (kart->mIndex == g_GlobalCO->mEntryIndex) {
                     StartEffect(0x74, &contactPos);
                 } else {
                     StartEffect(0x75, &contactPos);
@@ -229,8 +229,8 @@ BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius,
 }
 
 void CreateBound(void *mapObjectList) {
-    gBound = CreateMapObjectModelAnimated(mapObjectList, "bound.nsbmd");
-    CreateMapObjectModelNsbtpAnimation(gBound, "bound.nsbtp");
+    gBound = CreateMapObjectFromModel_from_thumb(mapObjectList, "bound.nsbmd");
+    StructMapObject_AddAnimationNsbtp_from_thumb(gBound, "bound.nsbtp");
 }
 
 void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
@@ -253,17 +253,17 @@ void DrawBound(MapObjectList *mapObjectList, Bound *bound) {
         NNS_G3dGeBufferOP_N(0x1b, &gxParams[1], 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &bound->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gBound, bound->mNsbtpFrameIndex);
+    StructMapObject_SomeFn_0(gBound, bound->mNsbtpFrameIndex);
     DrawMapObjectModel(mapObjectList, gBound, bound);
 }
 
 void CreateCream(void *mapObjectList) {
-    gCream = CreateMapObjectModelAnimated(mapObjectList, "cream.nsbmd");
+    gCream = CreateMapObjectFromModel_from_thumb(mapObjectList, "cream.nsbmd");
     CreateOrthoQuadCreamEffect("cream_effect.nsbmd");
 }
 
 void CreateBerry(void *mapObjectList) {
-    gBerry = CreateMapObjectModelAnimated(mapObjectList, "berry.nsbmd");
+    gBerry = CreateMapObjectFromModel_from_thumb(mapObjectList, "berry.nsbmd");
     CreateOrthoQuadCreamEffect("cream_effect.nsbmd");
 }
 
@@ -351,7 +351,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     if (bound->mFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
         AdvanceGroupFollower(&bound->mFollower);
         GetGroupFollowerCurvePosStep(&bound->mFollower, &bound->mMapObject.mPos, &bound->mMapObject.mPosStep);
-        nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gBound);
+        nsbtpFrameCount = StructMapObject_SomeFn_1(gBound);
         bound->mNsbtpFrameIndex += 1;
         if (bound->mNsbtpFrameIndex >= nsbtpFrameCount) {
             bound->mNsbtpFrameIndex = 1;
@@ -432,7 +432,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
     } else {
         bound->mMapObject.mScale.x = bound->mInitialScaleX;
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = g_GlobalCO->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
         if (bound->mKartTimers[kartIndex] > 0) {
             bound->mKartTimers[kartIndex] -= 1;
@@ -443,7 +443,7 @@ void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound) {
 MapObjectKindData *CreateBoundKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
+    kindData = CreateAllocateSomeObject_from_thumb(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
     kindData->mCollideItemObjectSoundId = BOUND_ITEM_HIT_SOUND_ID;
     return kindData;
 }
@@ -451,7 +451,7 @@ MapObjectKindData *CreateBoundKindData(void) {
 MapObjectKindData *CreateCreamKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
+    kindData = CreateAllocateSomeObject_from_thumb(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
     kindData->mCollideItemObjectSoundId = CREAM_ITEM_HIT_SOUND_ID;
     return kindData;
 }
@@ -459,7 +459,7 @@ MapObjectKindData *CreateCreamKindData(void) {
 MapObjectKindData *CreateBerryKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = CreateMapObjectKindData(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
+    kindData = CreateAllocateSomeObject_from_thumb(CollideKartWithBound, CollideItemObjectWithBound, ComputeSphereHitOnBound, 1, 1);
     kindData->mCollideItemObjectSoundId = BERRY_ITEM_HIT_SOUND_ID;
     return kindData;
 }
@@ -522,12 +522,12 @@ BOOL StartBoundWobble(s32 mapObjectIndex) {
 
 #pragma thumb on
 
-void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
+void *CreateAllocateSomeObject_from_thumb(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                               u32 wordValue, u16 halfValue) {
     MapObjectKindData *kindData;
 
-    GetHeap(GetCurrentHeapCall());
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*kindData));
+    ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*kindData));
     kindData->mCollideKartCallback = collideKartCallback;
     kindData->mCollideItemObjectCallback = collideItemObjectCallback;
     kindData->mPosStepMode = wordValue;
@@ -537,7 +537,7 @@ void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObject
 }
 
 MapObjectKindData *CreateEmptyMapObjectKindData(void) {
-    return CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
+    return CreateAllocateSomeObject_from_thumb(NULL, NULL, NULL, 0, 1);
 }
 
 MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, void *collideItemObjectCallback,
@@ -545,7 +545,7 @@ MapObjectKindData *CreateMapObjectKindDataWithSound(void *collideKartCallback, v
                                                     u16 soundId) {
     MapObjectKindData *kindData;
 
-    kindData = CreateMapObjectKindData(collideKartCallback, collideItemObjectCallback, sphereHitCallback, wordValue,
+    kindData = CreateAllocateSomeObject_from_thumb(collideKartCallback, collideItemObjectCallback, sphereHitCallback, wordValue,
                                        halfValue);
     kindData->mSoundId = soundId;
     return kindData;

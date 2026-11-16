@@ -5,23 +5,23 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void AdvanceTitleBlend(void) {
+void Title_SomeBldalphaConfig_from_thumb(void) {
     s32 blendFrame;
     s32 fadeFrame;
 
-    blendFrame = gTitleScene->mBlendFrames++;
+    blendFrame = g_SceneTitleContext->mBlendFrames++;
     if (blendFrame < 30) {
-        TitleWriteMainBlendAlpha(4, 8, 0, 16);
+        EnableAlphaSetTopBldcntBldalpha(4, 8, 0, 16);
     } else if (blendFrame < 47) {
         fadeFrame = blendFrame - 30;
-        TitleWriteMainBlendAlpha(4, 8, fadeFrame, 16 - fadeFrame);
+        EnableAlphaSetTopBldcntBldalpha(4, 8, fadeFrame, 16 - fadeFrame);
     } else if (blendFrame < 107) {
-        TitleWriteMainBlendAlpha(0, 0, 0, 0);
+        EnableAlphaSetTopBldcntBldalpha(0, 0, 0, 0);
     } else {
-        TitleWriteMainBlendAlpha(0, 0, 0, 0);
-        SetTitleBlendDone(1);
-        gTitleScene->mBlendDone = TRUE;
-        gTitleScene->mBlendFrames--;
+        EnableAlphaSetTopBldcntBldalpha(0, 0, 0, 0);
+        SetB488TitleMenuSkipIntro(1);
+        g_SceneTitleContext->mBlendDone = TRUE;
+        g_SceneTitleContext->mBlendFrames--;
     }
 }
 

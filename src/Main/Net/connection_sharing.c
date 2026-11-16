@@ -27,18 +27,18 @@
 
 #pragma opt_rebuildconditionals off
 
-ConnectionWork *gConnectionWork;
+ConnectionWork *g_GlobalZE;
 
 static inline u32 ConnectionGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline s32 IsConnectionActive(void) {
     BOOL result = FALSE;
-    if (ConnectionGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if (ConnectionGetConnectionMode() != CONNECTION_MODE_NONE && g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -46,7 +46,7 @@ static inline s32 IsConnectionActive(void) {
 
 static inline s32 IsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (IsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (IsConnectionActive() && !(g_GlobalZE->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -54,7 +54,7 @@ static inline s32 IsConnectionActiveNotEnding(void) {
 
 static inline s32 IsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (IsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
+    if (IsConnectionActiveNotEnding() && g_GlobalZE->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -63,7 +63,7 @@ static inline s32 IsConnectionActiveNotEndingWithError(void) {
 static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRecord) {
     BOOL result = FALSE;
     u8 toggleBits = receiveRecord->mFlags;
-    if (gConnectionWork->mSyncToggle == 0) {
+    if (g_GlobalZE->mSyncToggle == 0) {
         if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_A) {
             result = TRUE;
         }
@@ -76,7 +76,7 @@ static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRec
 }
 
 static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, SharingReceiveRecord *receiveRecords) {
-    u8 mask = gConnectionWork->mChildren.mChildMask;
+    u8 mask = g_GlobalZE->mChildren.mChildMask;
     u8 childIndex;
     BOOL result = FALSE;
     u16 toggleBit;
@@ -87,7 +87,7 @@ static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, Sharing
                 result = FALSE;
                 childIndex = 8;
             } else {
-                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_PHASE_A
+                toggleBit = g_GlobalZE->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_PHASE_A
                                                               : SHARING_RECORD_FLAG_SYNC_PHASE_B;
                 if ((toggleBit & receiveRecords[childIndex].mFlags) == 0) {
                     result = FALSE;
@@ -113,10 +113,10 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
     BOOL finished;
 
     finished = FALSE;
-    if (gConnectionWork->mMPSetupActive != 0) {
+    if (g_GlobalZE->mMPSetupActive != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
@@ -124,18 +124,18 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
     if (IsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_NOTHING:
         case CONNECTION_STEP_SHUTTING_DOWN:
-            gConnectionWork->mFlags &= ~CONNECTION_FLAG_MULTIBOOT_SETUP;
-            gConnectionWork->mState = CONNECTION_STATE_STARTING;
+            g_GlobalZE->mFlags &= ~CONNECTION_FLAG_MULTIBOOT_SETUP;
+            g_GlobalZE->mState = CONNECTION_STATE_STARTING;
             Initialize();
             break;
         case CONNECTION_STEP_STARTING_UP:
-            gConnectionWork->mState = CONNECTION_STATE_GATHERING;
+            g_GlobalZE->mState = CONNECTION_STATE_GATHERING;
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
@@ -164,7 +164,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
             StartMPWithBuffers();
             break;
         case CONNECTION_STEP_SEARCHING:
-            if (gConnectionWork->mSelectedScanEntry == -1) {
+            if (g_GlobalZE->mSelectedScanEntry == -1) {
                 StartScan(0, NULL, NULL);
             } else {
                 EndScan();
@@ -174,7 +174,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostSource) {
             StartConnect(NULL, NULL, NULL, NULL, ResetOwnIndex);
             break;
         case CONNECTION_STEP_JOINING:
-            gConnectionWork->mMPSetupActive = 1;
+            g_GlobalZE->mMPSetupActive = 1;
             StartMPWithBuffers();
             break;
         case CONNECTION_STEP_STARTING_EXCHANGE:
@@ -202,21 +202,21 @@ s32 AdvanceBlockCountRequest(void) {
     if (IsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    if (gConnectionWork->mMPSetupActive != 0) {
+    if (g_GlobalZE->mMPSetupActive != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
     }
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
     if (ConnectionGetConnectionMode() == CONNECTION_MODE_PARENT) {
         return 1;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
         case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
             StartBlockCountRequest();
@@ -224,10 +224,10 @@ s32 AdvanceBlockCountRequest(void) {
         case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
             switch (ConnectionGetConnectionMode()) {
                 case CONNECTION_MODE_PARENT:
-                    gConnectionWork->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
+                    g_GlobalZE->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
                     break;
                 case CONNECTION_MODE_CHILD:
-                    gConnectionWork->mStep = CONNECTION_STEP_CHILD_BLOCK_TRANSFER;
+                    g_GlobalZE->mStep = CONNECTION_STEP_CHILD_BLOCK_TRANSFER;
                     break;
             }
             finished = TRUE;
@@ -240,14 +240,14 @@ void UpdateConnectionSendTimer(void) {
     s32 receivedChunkCount;
     s32 chunkCount;
 
-    if (gConnectionWork->mState != CONNECTION_STATE_GATHERING) {
+    if (g_GlobalZE->mState != CONNECTION_STATE_GATHERING) {
         return;
     }
-    if (gConnectionWork->mStep == CONNECTION_STEP_BLOCK_DATA_REQUEST) {
-        WBT_GetCurrentDownloadProgress(gConnectionWork->mBlockInfos[0]->mId, 0, &receivedChunkCount, &chunkCount);
+    if (g_GlobalZE->mStep == CONNECTION_STEP_BLOCK_DATA_REQUEST) {
+        WBT_GetCurrentDownloadProgress(g_GlobalZE->mBlockInfos[0]->mId, 0, &receivedChunkCount, &chunkCount);
     }
-    if (gConnectionWork->mSendTimer != 0) {
-        gConnectionWork->mSendTimer = gConnectionWork->mSendTimer - 1;
+    if (g_GlobalZE->mSendTimer != 0) {
+        g_GlobalZE->mSendTimer = g_GlobalZE->mSendTimer - 1;
         return;
     }
     if (ConnectionGetConnectionMode() == CONNECTION_MODE_NONE) {
@@ -265,25 +265,25 @@ s32 AdvanceBlockReceive(void) {
     if (IsConnectionActiveNotEndingWithError()) {
         return 3;
     }
-    if (gConnectionWork->mMPSetupActive != 0) {
+    if (g_GlobalZE->mMPSetupActive != 0) {
         u16 ownIndex;
 
-        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
+        ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
         if (ownIndex == 0xffff) {
             return 2;
         }
     }
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
     if (ConnectionGetConnectionMode() == CONNECTION_MODE_PARENT) {
         return 1;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_PARENT_BLOCK_TRANSFER:
         case CONNECTION_STEP_CHILD_BLOCK_TRANSFER:
         case CONNECTION_STEP_BLOCK_COUNT_REQUEST:
-            gConnectionWork->mBlockIndex = 0;
+            g_GlobalZE->mBlockIndex = 0;
             StartBlockNodeRequest();
             break;
         case CONNECTION_STEP_BLOCK_NODE_REQUEST:
@@ -293,7 +293,7 @@ s32 AdvanceBlockReceive(void) {
             StartSendWordRequest(1, 0);
             break;
         case CONNECTION_STEP_SEND_WORD_REQUEST:
-            gConnectionWork->mMPSetupActive = 0;
+            g_GlobalZE->mMPSetupActive = 0;
             finished = TRUE;
             break;
     }
@@ -306,11 +306,11 @@ BOOL FinishDataSharingSync(void) {
     DataSharing *dataSharing;
 
     finished = FALSE;
-    dataSharing = &gConnectionWork->mDataSharing;
+    dataSharing = &g_GlobalZE->mDataSharing;
     if (!IsConnectionActive()) {
         return TRUE;
     }
-    if (!(gConnectionWork->mFlags & CONNECTION_FLAG_SCENE_RUNNING)) {
+    if (!(g_GlobalZE->mFlags & CONNECTION_FLAG_SCENE_RUNNING)) {
         return TRUE;
     }
     if (IsDataSharingSyncDone() != 0) {
@@ -319,7 +319,7 @@ BOOL FinishDataSharingSync(void) {
     if (dataSharing->mSharedDataCopied[0] != 0) {
         ConnectionWork *connection;
 
-        connection = gConnectionWork;
+        connection = g_GlobalZE;
         if (HasSharingRecordSyncToggleBit(dataSharing->mReceivedRecords) != 0) {
             if ((connection->mFlags & CONNECTION_FLAG_RACE) != 0) {
                 connection->mState = CONNECTION_STATE_SYNCED_RACE;
@@ -327,7 +327,7 @@ BOOL FinishDataSharingSync(void) {
                 connection->mState = CONNECTION_STATE_SYNCED;
             }
             finished = TRUE;
-            gConnectionWork->mUnk_15f4 = 0;
+            g_GlobalZE->mUnk_15f4 = 0;
         } else if (ConnectionGetConnectionMode() == CONNECTION_MODE_PARENT) {
             if (AreChildSharingRecordsSynced(dataSharing, dataSharing->mReceivedRecords) != 0) {
                 connection->mStatusFlags |= CONNECTION_STATUS_SHARING_SYNCED;
@@ -340,12 +340,12 @@ BOOL FinishDataSharingSync(void) {
 // Starts the wait that FinishDataSharingSync completes; always returns 1.
 s32 StartDataSharingSync(void) {
     if (IsConnectionActive()) {
-        gConnectionWork->mState = CONNECTION_STATE_SYNC_WAIT;
-        gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
-        if (gConnectionWork->mSyncToggle == 0) {
-            gConnectionWork->mSyncToggle = 1;
+        g_GlobalZE->mState = CONNECTION_STATE_SYNC_WAIT;
+        g_GlobalZE->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
+        if (g_GlobalZE->mSyncToggle == 0) {
+            g_GlobalZE->mSyncToggle = 1;
         } else {
-            gConnectionWork->mSyncToggle = 0;
+            g_GlobalZE->mSyncToggle = 0;
         }
     }
     return 1;
@@ -357,7 +357,7 @@ s32 GetZeroWordResult(void) {
     s32 count;
 
     result = WORD_WAIT_RESULT_WAITING;
-    connection = gConnectionWork;
+    connection = g_GlobalZE;
     if (GetWorkConnectionMode(connection) != 1) {
         result = WORD_WAIT_RESULT_NOT_RECEIVED;
     } else {
@@ -381,56 +381,56 @@ s32 GetZeroWordResult(void) {
     return result;
 }
 
-void InitConnection(void *heap) {
-    gConnectionWork = HeapAllocAligned(heap, sizeof(ConnectionWork), HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mConnectionMode = CONNECTION_MODE_NONE;
-    gConnectionWork->mState = CONNECTION_STATE_IDLE;
-    gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
-    gConnectionWork->mStep = CONNECTION_STEP_NOTHING;
-    gConnectionWork->mRequestPending = 0;
-    gConnectionWork->mFlags = 0;
-    gConnectionWork->mUnk_0456_0 = 0;
+void InitializeGlobalZE(void *heap) {
+    g_GlobalZE = Mem_AllocateHeapAligned(heap, sizeof(ConnectionWork), HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mConnectionMode = CONNECTION_MODE_NONE;
+    g_GlobalZE->mState = CONNECTION_STATE_IDLE;
+    g_GlobalZE->mErrorCode = CONNECTION_ERROR_NONE;
+    g_GlobalZE->mStep = CONNECTION_STEP_NOTHING;
+    g_GlobalZE->mRequestPending = 0;
+    g_GlobalZE->mFlags = 0;
+    g_GlobalZE->mUnk_0456_0 = 0;
 }
 
 // Bytes of the exp heap that the connection code allocates its buffers from.
 #define CONNECTION_HEAP_BYTES 0x7800
 
-void InitConnectionBuffers(void *heap) {
-    gConnectionWork->mWmWorkBuffer = HeapAllocAligned(heap, 0xf00, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mParentParameter = HeapAllocAligned(heap, 0x40, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mScanParams = HeapAllocAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mParentBssDesc = HeapAllocAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mScanBssDescBuffer = HeapAllocAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mScanExParams = HeapAllocAligned(heap, 0x44, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mScanExBuffer = HeapAllocAligned(heap, CONNECTION_SCAN_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mStartMPSendBufferSize = CONNECTION_MP_SEND_BUFFER_SIZE;
-    gConnectionWork->mStartMPSendBuffer =
-        HeapAllocAligned(heap, gConnectionWork->mStartMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mStartMPReceiveBufferSize = CONNECTION_MP_RECEIVE_BUFFER_SIZE;
-    gConnectionWork->mStartMPReceiveBuffer =
-        HeapAllocAligned(heap, gConnectionWork->mStartMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mSharingInfo = HeapAllocAligned(heap, 0x820, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mSharingDataSet = HeapAllocAligned(heap, 0x200, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mSharingSendRecord = HeapAllocAligned(heap, 8, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mSharingReceiveRecords = HeapAllocAligned(heap, 0x40, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mMPDataBuffer = HeapAllocAligned(heap, 0x18, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mAllocHeap = 0;
-    gConnectionWork->mMultiBootWork = 0;
-    gConnectionWork->mMultiBootSegment = 0;
-    gConnectionWork->mChildren.mGameInfo = HeapAllocAligned(heap, 0x1c, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mHeap = NNS_FndCreateExpHeapEx(HeapAlloc(heap, CONNECTION_HEAP_BYTES), CONNECTION_HEAP_BYTES, 1);
-    gConnectionWork->mMPReceiveBuffer = 0;
-    gConnectionWork->mMPReceiveBufferSize = 0;
-    gConnectionWork->mMPSendBuffer = 0;
-    gConnectionWork->mMPSendBufferSize = 0;
-    gConnectionWork->mUnk_0456_0 = 1;
+void InitializeSomeZEPointers(void *heap) {
+    g_GlobalZE->mWmWorkBuffer = Mem_AllocateHeapAligned(heap, 0xf00, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mParentParameter = Mem_AllocateHeapAligned(heap, 0x40, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mScanParams = Mem_AllocateHeapAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mParentBssDesc = Mem_AllocateHeapAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mScanBssDescBuffer = Mem_AllocateHeapAligned(heap, 0xc0, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mScanExParams = Mem_AllocateHeapAligned(heap, 0x44, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mScanExBuffer = Mem_AllocateHeapAligned(heap, CONNECTION_SCAN_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mStartMPSendBufferSize = CONNECTION_MP_SEND_BUFFER_SIZE;
+    g_GlobalZE->mStartMPSendBuffer =
+        Mem_AllocateHeapAligned(heap, g_GlobalZE->mStartMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mStartMPReceiveBufferSize = CONNECTION_MP_RECEIVE_BUFFER_SIZE;
+    g_GlobalZE->mStartMPReceiveBuffer =
+        Mem_AllocateHeapAligned(heap, g_GlobalZE->mStartMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mSharingInfo = Mem_AllocateHeapAligned(heap, 0x820, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mSharingDataSet = Mem_AllocateHeapAligned(heap, 0x200, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mSharingSendRecord = Mem_AllocateHeapAligned(heap, 8, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mSharingReceiveRecords = Mem_AllocateHeapAligned(heap, 0x40, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mMPDataBuffer = Mem_AllocateHeapAligned(heap, 0x18, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mAllocHeap = 0;
+    g_GlobalZE->mMultiBootWork = 0;
+    g_GlobalZE->mMultiBootSegment = 0;
+    g_GlobalZE->mChildren.mGameInfo = Mem_AllocateHeapAligned(heap, 0x1c, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mHeap = Mem_Exp_Create(Mem_AllocateHeap(heap, CONNECTION_HEAP_BYTES), CONNECTION_HEAP_BYTES, 1);
+    g_GlobalZE->mMPReceiveBuffer = 0;
+    g_GlobalZE->mMPReceiveBufferSize = 0;
+    g_GlobalZE->mMPSendBuffer = 0;
+    g_GlobalZE->mMPSendBufferSize = 0;
+    g_GlobalZE->mUnk_0456_0 = 1;
     ResetConnection();
 }
 
 void FinishConnectionEnd(void) {
     while (AdvanceConnectionEndStopOnError() != 1) {
     }
-    gConnectionWork->mUnk_0456_0 = 0;
+    g_GlobalZE->mUnk_0456_0 = 0;
 }
 
 void ResetDataSharing(DataSharing *dataSharing) {
@@ -439,10 +439,10 @@ void ResetDataSharing(DataSharing *dataSharing) {
     s32 valueIndex;
 
     dataSharing->mParticipantMask = 0;
-    MI_CpuFill8(gConnectionWork->mSharingSendRecord, 0, 8);
+    Mem_CpuFill8(g_GlobalZE->mSharingSendRecord, 0, 8);
     for (index = 0; index < 8; index++) {
         dataSharing->mSharedDataCopied[index] = 0;
-        MI_CpuFill8(&dataSharing->mReceivedRecords[index], 0, 8);
+        Mem_CpuFill8(&dataSharing->mReceivedRecords[index], 0, 8);
     }
     dataSharing->mUnk_3c[0] = 0;
     for (index = 0; index < 7; index++) {
@@ -452,9 +452,9 @@ void ResetDataSharing(DataSharing *dataSharing) {
     dataSharing->mSharingPhase = DATA_SHARING_PHASE_AFTER_RESET;
     dataSharing->mUnk_38 = 0;
     dataSharing->mUnk_30 = 0;
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
-    gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
-    tables = &gConnectionWork->mParticipantTables;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
+    g_GlobalZE->mStatusFlags &= ~CONNECTION_STATUS_SHARING_SYNCED;
+    tables = &g_GlobalZE->mParticipantTables;
     tables->mLeftParticipantMask = 0;
     tables->mUnk_68 = 0;
     for (index = 0; index < 8; index++) {
@@ -462,7 +462,7 @@ void ResetDataSharing(DataSharing *dataSharing) {
             tables->mUnk_00[index].mUnk_00[valueIndex] = 0;
         }
     }
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
 }
 
 void ResetConnectionData(void) {
@@ -473,51 +473,51 @@ void ResetConnectionData(void) {
     s32 targetByteIndex;
 
     for (childIndex = 0; childIndex < 7; childIndex++) {
-        gConnectionWork->mChildren.mEntries[childIndex].mAid = CHILD_ENTRY_NO_AID;
-        bytes = gConnectionWork->mChildren.mEntries[childIndex].mBytes;
+        g_GlobalZE->mChildren.mEntries[childIndex].mAid = CHILD_ENTRY_NO_AID;
+        bytes = g_GlobalZE->mChildren.mEntries[childIndex].mBytes;
         for (innerIndex = 0; innerIndex < 6; innerIndex++) {
             bytes[innerIndex] = 0;
         }
     }
-    gConnectionWork->mChildren.mExpectedRecordMask = 0;
-    gConnectionWork->mChildren.mChildMask = 0;
-    gConnectionWork->mChildren.mChildCount = 0;
-    gConnectionWork->mChildren.mUnk_3c = 0;
-    gConnectionWork->mChildren.mDisconnectingIndex = -1;
-    gConnectionWork->mParentChannel = -1;
-    gConnectionWork->mRemovedChildMask = 0;
-    gConnectionWork->mStatusFlags = 0;
-    gConnectionWork->mChildren.mNameSendIndex = 0;
-    MI_CpuCopy8(gBackupBuffers->mFirstBlock->mPlayerName, gConnectionWork->mChildren.mGameInfo, PLAYER_NAME_BYTES);
-    gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mLanguageIndex = gStartupWork->mLanguageIndex;
-    gConnectionWork->mChildren.mGameInfo->mGameInfoPart.mChildCount = 0;
+    g_GlobalZE->mChildren.mExpectedRecordMask = 0;
+    g_GlobalZE->mChildren.mChildMask = 0;
+    g_GlobalZE->mChildren.mChildCount = 0;
+    g_GlobalZE->mChildren.mUnk_3c = 0;
+    g_GlobalZE->mChildren.mDisconnectingIndex = -1;
+    g_GlobalZE->mParentChannel = -1;
+    g_GlobalZE->mRemovedChildMask = 0;
+    g_GlobalZE->mStatusFlags = 0;
+    g_GlobalZE->mChildren.mNameSendIndex = 0;
+    Mem_CpuCopy8(g_SaveDataHolder->mFirstBlock->mPlayerName, g_GlobalZE->mChildren.mGameInfo, PLAYER_NAME_BYTES);
+    g_GlobalZE->mChildren.mGameInfo->mGameInfoPart.mLanguageIndex = g_GlobalP->mLanguageIndex;
+    g_GlobalZE->mChildren.mGameInfo->mGameInfoPart.mChildCount = 0;
     for (innerIndex = 0; innerIndex < 4; innerIndex++) {
-        gConnectionWork->mScanSlots[innerIndex].mInUse = 0;
-        gConnectionWork->mScanSlots[innerIndex].mAge = 0;
-        bytes = gConnectionWork->mScanSlots[innerIndex].mKey.mBytes;
+        g_GlobalZE->mScanSlots[innerIndex].mInUse = 0;
+        g_GlobalZE->mScanSlots[innerIndex].mAge = 0;
+        bytes = g_GlobalZE->mScanSlots[innerIndex].mKey.mBytes;
         for (byteIndex = 0; byteIndex < 6; byteIndex++) {
             bytes[byteIndex] = 0;
         }
     }
-    gConnectionWork->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
-    gConnectionWork->mRememberedScanKeyHeld = 0;
-    gConnectionWork->mUnk_0434 = 0;
-    gConnectionWork->mScanMissCount = 1;
-    gConnectionWork->mExpectedRecordMask = 0;
-    gConnectionWork->mOperationFlags = 0;
-    gConnectionWork->mLanguageIndex = LANGUAGE_UNSUFFIXED;
-    gConnectionWork->mReceivedNameMask = 0;
-    gConnectionWork->mKeepScanning = 0;
-    bytes = gConnectionWork->mScanState.mTargetAddress;
+    g_GlobalZE->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
+    g_GlobalZE->mRememberedScanKeyHeld = 0;
+    g_GlobalZE->mUnk_0434 = 0;
+    g_GlobalZE->mScanMissCount = 1;
+    g_GlobalZE->mExpectedRecordMask = 0;
+    g_GlobalZE->mOperationFlags = 0;
+    g_GlobalZE->mLanguageIndex = LANGUAGE_UNSUFFIXED;
+    g_GlobalZE->mReceivedNameMask = 0;
+    g_GlobalZE->mKeepScanning = 0;
+    bytes = g_GlobalZE->mScanState.mTargetAddress;
     for (targetByteIndex = 0; targetByteIndex < 6; targetByteIndex++) {
         bytes[targetByteIndex] = 0;
     }
-    gConnectionWork->mGroupSendMask = 0;
-    gConnectionWork->mUnk_0458 = 0;
-    gConnectionWork->mWaitToSendCount = 0;
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    ClearParticipantBits();
-    ResetDataSharing(&gConnectionWork->mDataSharing);
+    g_GlobalZE->mGroupSendMask = 0;
+    g_GlobalZE->mUnk_0458 = 0;
+    g_GlobalZE->mWaitToSendCount = 0;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_SEND_READY;
+    CleanSaveDataHolderFlagBytes_from_thumb();
+    ResetDataSharing(&g_GlobalZE->mDataSharing);
 }
 
 void InitRaceConnection(void) {
@@ -529,7 +529,7 @@ void InitRaceConnection(void) {
     s32 shiftedValue;
     s32 addedValue;
 
-    tables = &gConnectionWork->mParticipantTables;
+    tables = &g_GlobalZE->mParticipantTables;
     tables->mLeftParticipantMask = 0;
     tables->mUnk_68 = 0;
     for (index = 0; index < 8; index++) {
@@ -537,9 +537,9 @@ void InitRaceConnection(void) {
             tables->mUnk_00[index].mUnk_00[valueIndex] = 0;
         }
     }
-    gConnectionWork->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
-    gConnectionWork->mFlags |= CONNECTION_FLAG_RACE;
-    connection = gConnectionWork;
+    g_GlobalZE->mFlags &= ~CONNECTION_FLAG_SHARING_NOT_UPDATED;
+    g_GlobalZE->mFlags |= CONNECTION_FLAG_RACE;
+    connection = g_GlobalZE;
     shiftedValue = 0;
     switch (ConnectionGetConnectionMode()) {
         case CONNECTION_MODE_PARENT:

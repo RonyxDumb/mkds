@@ -33,7 +33,7 @@ void SetupJb4Error(void) {
 
 void LoadJb4ErrorFileAndSetBgCnt(void) {
     void *filePath = &"char/jb4Error.nsc.l";
-    void *loadFunction = &GX_LoadBG2Scr;
+    void *loadFunction = &TEQSub_Fn10Impl_Fn12Impl;
     u32 fileToVram = LoadFileToVram(filePath, loadFunction);
     u32 subBg0CntAddress = 0x4001008u;
     u32 subBg0Cnt = (*(u16 *) ((subBg0CntAddress) + (0)));
@@ -170,7 +170,7 @@ void PrintJb4Error(void) {
     }
     canvas = InitBgTextCanvas(0, gJb4ErrorFontIndices[GetLanguageIndex()]);
     messageEntry = GetMessageEntry(gMessages, messageIndex);
-    swprintf(codeText, 8, gDecimalFormat, -gJb4ErrorCode);
+    ParticularSnprintf16(codeText, 8, gDecimalFormat, -gJb4ErrorCode);
     codeY = (gJb4ErrorCodePositions + 1)[GetLanguageIndex() * 2];
     codeX = gJb4ErrorCodePositions[GetLanguageIndex() * 2];
     DrawCharsCentered(canvas, codeX, codeY, 2, 0xa, codeText, 0);

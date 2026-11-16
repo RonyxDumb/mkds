@@ -12,7 +12,7 @@ typedef struct StateCallbacks {
     /* 04 */ StateCallback mUpdate;
 } StateCallbacks;
 
-// Object AdvanceStateMachine and SetStateMachineState take.
+// Object StateDualHandler_Execute and StateDualHandler_SetState take.
 typedef struct StateMachine {
     /* 00 */ const StateCallbacks *mStateTable;
     /* 04 */ u32 mStateFrames;
@@ -23,20 +23,20 @@ typedef struct StateMachine {
     /* 12 */ u16 mNextStateRequested;
 } StateMachine;
 
-s32 FindCupIndexOfCourse(s32 courseId);
-u32 GetCupCourseIdAtIndex(u8 courseIndex);
-s32 FindCupCourseIndex();
-void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex,
+s32 GetCupForCourse(s32 courseId);
+u32 GetSomeInternalCourseId(u8 courseIndex);
+s32 GetCourseIdFromInternalId();
+void StructCO_ConfigureRacerDefault(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex,
                       int listedCpuSlot);
-void RefreshRaceSetupKartCounts(s32 entryCount);
-void CreateRaceSetupObjects(void *heap);
-s32 RunSecondMenuScene(void *sceneNumbers);
-void SecondMenuUpdateNop(void);
-void SecondMenuAfterUpdateNop(void);
-void SetNextRaceByModeWrapper(void);
-void InitSecondMenuScene(void);
-void AdvanceStateMachine(StateMachine *stateMachine);
-void SetStateMachineState(StateMachine *stateMachine, u16 state);
+void MaybeSetRacerCount(s32 entryCount);
+void InitializeGlobalCO(void *heap);
+s32 SceneFn_Menu2(void *sceneNumbers);
+void Scene_Menu2_Update(void);
+void Scene_Menu2_VBlank(void);
+void Scene_Menu2_Finalize(void);
+void Scene_Menu2_Initialize(void);
+void StateDualHandler_Execute(StateMachine *stateMachine);
+void StateDualHandler_SetState(StateMachine *stateMachine, u16 state);
 
-extern SceneCallbacks gSecondMenuSceneCallbacks;
+extern SceneCallbacks g_Scene_Menu2;
 

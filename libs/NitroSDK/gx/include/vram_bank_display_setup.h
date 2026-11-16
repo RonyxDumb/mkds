@@ -5,34 +5,34 @@
 #include "multiboot_piece_buffers.h"
 #include "fixed_point_graphics_setup.h"
 
-// Sets the display mode of the main screen (DISPCNT bits 16-17) and its background mode (bits 0-3), and saves the
+// Sets the display mode of the NtrMain screen (DISPCNT bits 16-17) and its background mode (bits 0-3), and saves the
 // display mode. While the display is off the mode written is 0.
-void GX_SetGraphicsMode(u16 dispMode, u32 bgMode, s32 bg0As);
-// Turns the main display on again with the saved display mode (graphics mode if none was saved).
+void ConfigureDispcntDisplay(u16 dispMode, u32 bgMode, s32 bg0As);
+// Turns the NtrMain display on again with the saved display mode (graphics mode if none was saved).
 void GX_DispOn(void);
-// Saves the display mode of the main screen and turns its display off.
-void GX_DispOff(void);
+// Saves the display mode of the NtrMain screen and turns its display off.
+void SomeDispcntInit(void);
 // Enables (enable != 0) or disables the V-blank interrupt flag in DISPSTAT; returns its previous value.
 u32 GX_VBlankIntr(s32 enable);
 // Powers the graphics hardware, clears the VRAM bank state, takes the VRAM lock id, clears both display register
 // blocks (by DMA fill when a DMA channel is set) and sets the background matrices to identity.
-void GX_Init(void);
+void Gfx_Initialize(void);
 // Clears the bank masks of every VRAM group and the bank control registers.
-void GX_InitGXState(void);
+void Gfx_InitializeState(void);
 // Returns the byte size of the banks given to the sub screen sprites.
 u32 GX_GetSizeOfSubOBJ(void);
-// Returns the byte size of the banks given to the main screen sprites.
+// Returns the byte size of the banks given to the NtrMain screen sprites.
 u32 GX_GetSizeOfOBJ(void);
 // Releases the banks listed in the mask at group: stores 0 there, turns the banks off and frees their locks.
 // Returns the
 // mask.
-u32 disableBankForX_(u16 *group);
+u32 GX_disableBankForX_(u16 *group);
 // Clears bit 31 of DISPCNT (0x4001000) first. Turns off and unlocks the banks of the sub screen sprite extended
 // palette group; returns the former bank mask.
-u32 GX_DisableBankForSubOBJExtPltt(void);
+u32 GX_DisableBankForOBJExtPltt(void);
 // Clears bit 30 of DISPCNT (0x4001000) first. Turns off and unlocks the banks of the sub screen background extended
 // palette group; returns the former bank mask.
-u32 GX_DisableBankForSubBGExtPltt(void);
+u32 GX_DisableBankForBGExtPltt(void);
 // Turns off and unlocks the banks of the sub screen sprite group; returns the former bank mask.
 u32 GX_DisableBankForSubOBJ(void);
 // Turns off and unlocks the banks of the sub screen background group; returns the former bank mask.
@@ -120,21 +120,21 @@ u32 GX_GetSizeOfX_(u32 bits);
 // Returns the texture group's bank mask.
 u32 GX_GetBankForTex(void);
 
-// 1 while the main display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
+// 1 while the NtrMain display is on; SomeDispcntInit clears it, GX_DispOn sets it, ConfigureDispcntDisplay writes mode 0 while it is
 // 0 and clears it when its first argument is 0. Initial value 1.
 extern u16 gDispOn[];
 
-// Id from OS_GetLockID, taken in GX_Init; disableBankForX_ hands it to the lock-table release.
-extern u16 gVramLockId;
+// Id from Os_AllocateLockId, taken in Gfx_Initialize; GX_disableBankForX_ hands it to the lock-table release.
+extern u16 g_Gfx_VramLockId;
 
-// Display mode value (the bits at 16 and up of the main display word) kept while the display is off and by
-// GX_SetGraphicsMode; GX_DispOn writes it back.
-extern u16 gSavedDispMode;
+// Display mode value (the bits at 16 and up of the NtrMain display word) kept while the display is off and by
+// ConfigureDispcntDisplay; GX_DispOn writes it back.
+extern u16 g_CurrentDisplayMode;
 
 // 13 bank-mask halfwords: [0] banks that are directly accessible, then the banks given to the background, sprites,
 // second processor, texture, texture palette, clear image, background and sprite extended palettes, sub background, sub
 // sprites, sub background and sub sprite extended palettes.
-extern u16 gVramBankGroups[];
+extern u16 g_Gfx_State[];
 
-extern u32 GXi_DmaId;
+extern u32 g_GfxDmaChannel;
 extern s32 sDayOfYear[12];

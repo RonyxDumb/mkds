@@ -14,55 +14,55 @@
 #pragma thumb on
 
 void UncompressPendingFile(void) {
-    s16 index = gConnectionWork->mNextLoadIndex - 1;
-    u32 uncompressedSize = *gConnectionWork->mBlockEntries[index].mBuffer >> 8;
-    void *destination = gConnectionWork->mBlockEntries[index].mUncompressedBuffer;
+    s16 index = g_GlobalZE->mNextLoadIndex - 1;
+    u32 uncompressedSize = *g_GlobalZE->mBlockEntries[index].mBuffer >> 8;
+    void *destination = g_GlobalZE->mBlockEntries[index].mUncompressedBuffer;
     if (destination == NULL) {
         destination =
-            HeapAllocAligned(gConnectionWork->mBlockEntries[index].mHeap, uncompressedSize, HEAP_ALIGN_CACHE_LINE);
-        *gConnectionWork->mBlockEntries[index].mDataOutput = destination;
+            Mem_AllocateHeapAligned(g_GlobalZE->mBlockEntries[index].mHeap, uncompressedSize, HEAP_ALIGN_CACHE_LINE);
+        *g_GlobalZE->mBlockEntries[index].mDataOutput = destination;
     }
-    MI_UncompressLZ8(gConnectionWork->mBlockEntries[index].mBuffer, destination);
-    gConnectionWork->mBlockEntries[index].mUncompressPending = 0;
+    DecompressLzss(g_GlobalZE->mBlockEntries[index].mBuffer, destination);
+    g_GlobalZE->mBlockEntries[index].mUncompressPending = 0;
 }
 
 // Staged: one step per call; returns TRUE when no queued file is left.
 BOOL LoadPendingFiles(void) {
-    u16 nextIndex = gConnectionWork->mNextLoadIndex;
+    u16 nextIndex = g_GlobalZE->mNextLoadIndex;
     s16 previousIndex = nextIndex - 1;
-    FSFile *file = &gConnectionWork->mFile;
+    FSFile *file = &g_GlobalZE->mFile;
     void *workOrPath;
     s32 size;
     u32 *buffer;
     if (((file->mStat & FILE_RECORD_BUSY) ? 1 : 0) != 0) {
         return FALSE;
     }
-    if (previousIndex >= 0 && gConnectionWork->mBlockEntries[previousIndex].mUncompressPending != 0) {
-        if (gThreadFunctionQueue->mRunRequested != 0) {
+    if (previousIndex >= 0 && g_GlobalZE->mBlockEntries[previousIndex].mUncompressPending != 0) {
+        if (g_WorkerContext->mRunRequested != 0) {
             return FALSE;
         }
-        QueueThreadFunction(UncompressPendingFile);
-        gThreadFunctionQueue->mRunRequested = 1;
+        WorkerInsertTask(UncompressPendingFile);
+        g_WorkerContext->mRunRequested = 1;
         return FALSE;
     }
-    if (nextIndex >= CONNECTION_BLOCK_ENTRY_COUNT || gConnectionWork->mBlockEntries[nextIndex].mPath[0] == 0) {
+    if (nextIndex >= CONNECTION_BLOCK_ENTRY_COUNT || g_GlobalZE->mBlockEntries[nextIndex].mPath[0] == 0) {
         return TRUE;
     }
-    workOrPath = gConnectionWork->mBlockEntries[nextIndex].mPath;
+    workOrPath = g_GlobalZE->mBlockEntries[nextIndex].mPath;
     if (((file->mStat & FILE_RECORD_OPEN) ? 1 : 0) != 0) {
-        FS_CloseFile(file);
+        Fs_File_Close(file);
     }
-    FS_InitFile(file);
-    if (FS_OpenFile(file, workOrPath) != 0) {
-        workOrPath = gConnectionWork;
+    Fs_File_Initialize(file);
+    if (Fs_File_Open(file, workOrPath) != 0) {
+        workOrPath = g_GlobalZE;
         size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
         buffer = ((ConnectionWork *) workOrPath)->mBlockEntries[nextIndex].mBuffer;
         if (buffer == NULL) {
-            buffer = HeapAllocAligned(gConnectionWork->mBlockEntries[nextIndex].mHeap, size, HEAP_ALIGN_CACHE_LINE);
-            *gConnectionWork->mBlockEntries[nextIndex].mDataOutput = buffer;
+            buffer = Mem_AllocateHeapAligned(g_GlobalZE->mBlockEntries[nextIndex].mHeap, size, HEAP_ALIGN_CACHE_LINE);
+            *g_GlobalZE->mBlockEntries[nextIndex].mDataOutput = buffer;
         }
-        FS_ReadFileAsync(file, buffer, size);
-        gConnectionWork->mNextLoadIndex++;
+        Fs_File_ReadAsync(file, buffer, size);
+        g_GlobalZE->mNextLoadIndex++;
     }
     return FALSE;
 }
@@ -79,7 +79,7 @@ void ResetPendingFiles(void) {
     u32 clearPendingMask;
     flagBitsMask = (0xe0000000u);
     clearPendingMask = (0xdfffffffu);
-    view = &gConnectionWork->mBlockTransfer;
+    view = &g_GlobalZE->mBlockTransfer;
     entryIndex = 0;
     entry = view->mBlockEntries;
     do {
@@ -101,65 +101,65 @@ void ResetPendingFiles(void) {
 void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, s32 uncompress) {
     u16 entryIndex;
     for (entryIndex = 0; entryIndex < CONNECTION_BLOCK_ENTRY_COUNT; entryIndex++) {
-        if (gConnectionWork->mBlockEntries[entryIndex].mPath[0] == 0) {
-            MI_CpuCopy8(path, gConnectionWork->mBlockEntries[entryIndex].mPath,
-                        sizeof(gConnectionWork->mBlockEntries[entryIndex].mPath));
+        if (g_GlobalZE->mBlockEntries[entryIndex].mPath[0] == 0) {
+            Mem_CpuCopy8(path, g_GlobalZE->mBlockEntries[entryIndex].mPath,
+                        sizeof(g_GlobalZE->mBlockEntries[entryIndex].mPath));
             if (uncompress != 0) {
-                gConnectionWork->mBlockEntries[entryIndex].mBuffer = gConnectionWork->mCompressedBuffer;
-                gConnectionWork->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
-                gConnectionWork->mBlockEntries[entryIndex].mUncompressPending = 1;
-                gConnectionWork->mBlockEntries[entryIndex].mByteSize = value;
+                g_GlobalZE->mBlockEntries[entryIndex].mBuffer = g_GlobalZE->mCompressedBuffer;
+                g_GlobalZE->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
+                g_GlobalZE->mBlockEntries[entryIndex].mUncompressPending = 1;
+                g_GlobalZE->mBlockEntries[entryIndex].mByteSize = value;
             } else {
-                gConnectionWork->mBlockEntries[entryIndex].mBuffer = 0;
-                gConnectionWork->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
-                gConnectionWork->mBlockEntries[entryIndex].mUncompressPending = 0;
-                gConnectionWork->mBlockEntries[entryIndex].mByteSize = value;
+                g_GlobalZE->mBlockEntries[entryIndex].mBuffer = 0;
+                g_GlobalZE->mBlockEntries[entryIndex].mUncompressedBuffer = 0;
+                g_GlobalZE->mBlockEntries[entryIndex].mUncompressPending = 0;
+                g_GlobalZE->mBlockEntries[entryIndex].mByteSize = value;
             }
-            gConnectionWork->mBlockEntries[entryIndex].mHeap = heap;
-            gConnectionWork->mBlockEntries[entryIndex].mUnk_84_30 = 1;
-            gConnectionWork->mBlockEntries[entryIndex].mDataOutput = dataOutput;
+            g_GlobalZE->mBlockEntries[entryIndex].mHeap = heap;
+            g_GlobalZE->mBlockEntries[entryIndex].mUnk_84_30 = 1;
+            g_GlobalZE->mBlockEntries[entryIndex].mDataOutput = dataOutput;
             return;
         }
     }
 }
 
 void StartParentSideBlockTransfer(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
+    g_GlobalZE->mRequestPending = 1;
     WBT_InitParent(0x192, 0xe, ParentBlockTransferCallback);
-    gConnectionWork->mSendTimer = 0;
-    gConnectionWork->mTransferFlags &= ~1;
-    gConnectionWork->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mSendTimer = 0;
+    g_GlobalZE->mTransferFlags &= ~1;
+    g_GlobalZE->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void StartChildSideBlockTransfer(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_CHILD_BLOCK_TRANSFER;
-    gConnectionWork->mRequestPending = 1;
+    g_GlobalZE->mStep = CONNECTION_STEP_CHILD_BLOCK_TRANSFER;
+    g_GlobalZE->mRequestPending = 1;
     WBT_InitChild(ChildBlockTransferCallback);
-    gConnectionWork->mSendTimer = 0;
-    gConnectionWork->mTransferFlags &= ~1;
-    gConnectionWork->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
-    gConnectionWork->mRequestPending = 0;
+    g_GlobalZE->mSendTimer = 0;
+    g_GlobalZE->mTransferFlags &= ~1;
+    g_GlobalZE->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
+    g_GlobalZE->mRequestPending = 0;
 }
 
 void AllocTransferBuffers(void *heap) {
     s32 blockInfoIndex;
-    gConnectionWork->mMPSendBufferSize = CONNECTION_MP_SEND_BUFFER_SIZE;
-    gConnectionWork->mMPSendBuffer = HeapAllocAligned(heap, gConnectionWork->mMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mMPReceiveBufferSize = CONNECTION_MP_RECEIVE_BUFFER_SIZE;
-    gConnectionWork->mMPReceiveBuffer =
-        HeapAllocAligned(heap, gConnectionWork->mMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mMPSendBufferSize = CONNECTION_MP_SEND_BUFFER_SIZE;
+    g_GlobalZE->mMPSendBuffer = Mem_AllocateHeapAligned(heap, g_GlobalZE->mMPSendBufferSize, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mMPReceiveBufferSize = CONNECTION_MP_RECEIVE_BUFFER_SIZE;
+    g_GlobalZE->mMPReceiveBuffer =
+        Mem_AllocateHeapAligned(heap, g_GlobalZE->mMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
     for (blockInfoIndex = 0; blockInfoIndex < 8; blockInfoIndex++) {
-        gConnectionWork->mBlockInfos[blockInfoIndex] = HeapAllocAligned(heap, 0x28, HEAP_ALIGN_CACHE_LINE);
-        gConnectionWork->mChunkBitmaps[blockInfoIndex] = HeapAllocAligned(heap, 4, HEAP_ALIGN_CACHE_LINE);
+        g_GlobalZE->mBlockInfos[blockInfoIndex] = Mem_AllocateHeapAligned(heap, 0x28, HEAP_ALIGN_CACHE_LINE);
+        g_GlobalZE->mChunkBitmaps[blockInfoIndex] = Mem_AllocateHeapAligned(heap, 4, HEAP_ALIGN_CACHE_LINE);
     }
-    gConnectionWork->mPacketBuffer = HeapAllocAligned(heap, 0x192, HEAP_ALIGN_CACHE_LINE);
-    gConnectionWork->mScanGhostInfos = HeapAllocAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mPacketBuffer = Mem_AllocateHeapAligned(heap, 0x192, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZE->mScanGhostInfos = Mem_AllocateHeapAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
 }
 
 void InitBlockEntries(void *heap, s32 mode) {
-    BlockTransferView *view = &gConnectionWork->mBlockTransfer;
+    BlockTransferView *view = &g_GlobalZE->mBlockTransfer;
     s32 entryIndex;
     for (entryIndex = 0; entryIndex < CONNECTION_BLOCK_ENTRY_COUNT; entryIndex++) {
         view->mBlockEntries[entryIndex].mPath[0] = 0;
@@ -184,7 +184,7 @@ void InitBlockEntries(void *heap, s32 mode) {
         AllocTransferBuffers(heap);
         RemoveGhostDataBlocks();
     } else if (mode == 1) {
-        gConnectionWork->mCompressedBuffer = HeapAllocAligned(heap, 0x4b000, HEAP_ALIGN_CACHE_LINE);
+        g_GlobalZE->mCompressedBuffer = Mem_AllocateHeapAligned(heap, 0x4b000, HEAP_ALIGN_CACHE_LINE);
     }
 }
 

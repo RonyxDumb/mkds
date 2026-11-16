@@ -27,9 +27,9 @@ u16 IsMissionGateFrameAdvanced(MissionGateObject *missionGateObject) {
 void WriteMissionRunLVselScreenRegisters(void) {
     if (GetMenuScreenSwitched()) {
         MissionRunGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         MissionRunGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteMissionRunLVselBg0Offset();
 }
@@ -60,9 +60,9 @@ void MissionRunGXS_SetVisiblePlane(u32 bits) {
 void WriteMissionRunMSselScreenRegisters(void) {
     if (GetMenuScreenSwitched()) {
         MissionRunGX_SetVisiblePlane(0x1b);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         MissionRunGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteMissionRunMSselBgOffsets();
 }
@@ -81,16 +81,16 @@ void UpdateMissionRunMSsel(void) {
 void WriteTimeAttackTopMenuRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         TimeAttackGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteTimeAttackTopMenuBg0Offset();
 }
 
 #pragma thumb off
 void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
-    gMenuShared->mGhostSceneInitialCallbacksIndex = callbacksIndex;
+    g_GlobalB488->mGhostSceneInitialCallbacksIndex = callbacksIndex;
 }
 #pragma thumb on
 
@@ -116,9 +116,9 @@ void UpdateTimeAttackTopMenu(void) {
 void WriteTimeAttackCharacterRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
         TimeAttackGXS_SetVisiblePlane(8);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     TimeAttackGXS_SetVisiblePlane(0x12);
     WriteSelectCharacterRegisters();
@@ -138,7 +138,7 @@ void UpdateTimeAttackSelectCharacter(void) {
 void WriteTimeAttackKartRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0xb);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
     }
     TimeAttackGXS_SetVisiblePlane(0x12);
     WriteSelectKartRegisters();
@@ -158,20 +158,20 @@ void UpdateTimeAttackSelectKart(void) {
 void WriteTimeAttackCupGridRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         TimeAttackGXS_SetVisiblePlane(0x16);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectCupGridRegisters();
 }
 
 #pragma thumb off
 void TimeAttackSetMenuEntryKind(s32 value) {
-    gMenuShared->mMenuEntryKind = value;
+    g_GlobalB488->mMenuEntryKind = value;
 }
 
 void TimeAttackSetRaceSetupRequested(s32 value) {
-    gMenuShared->mRaceSetupRequested = value;
+    g_GlobalB488->mRaceSetupRequested = value;
 }
 #pragma thumb on
 
@@ -194,9 +194,9 @@ void UpdateTimeAttackSelectCupGrid(void) {
 void WriteTimeAttackCupCourseRegisters(void) {
     if (GetMenuScreenSwitched()) {
         TimeAttackGX_SetVisiblePlane(0x19);
-        GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
+        ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
         TimeAttackGXS_SetVisiblePlane(0x1e);
-        GXS_SetGraphicsMode(GX_BGMODE_0);
+        SetDispcntSubBgMode(GX_BGMODE_0);
     }
     WriteSelectCupCourseBgOffsets();
 }

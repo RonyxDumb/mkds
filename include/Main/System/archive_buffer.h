@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void ResetArchiveBuffer(int bufferIndex);
-void UncompressLZ8AndStoreRange(const void *source, void *destination, u32 size);
+void InitializeMountDatas_from_thumb(int bufferIndex);
+void DecompressLzssAndDCClean_from_thumb(const void *source, void *destination, u32 size);

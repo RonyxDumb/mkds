@@ -92,7 +92,7 @@ void RefreshMultiSelectNS(s32 showSelected) {
 
 void MultiSelectNSMI_CpuFillFast(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
-    MIi_CpuClearFast(valueCopy, destination, size);
+    Mem_CpuFastMemorySet(valueCopy, destination, size);
 }
 
 void MultiSelectNSMI_CpuClearFast(void *destination, u32 size) {
@@ -109,22 +109,22 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     u32 subObjSizeLeft;
     s32 labelIndex;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectNS = HeapAlloc(heap, sizeof(*gMultiSelectNS));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gMultiSelectNS = Mem_AllocateHeap(heap, sizeof(*gMultiSelectNS));
     MultiSelectNSMI_CpuClearFast(gMultiSelectNS, 0x40);
     gMultiSelectNS->mHeap = heap;
     gMultiSelectNS->mScene = scene;
     gMultiSelectNS->mOamList = oamList;
-    gMultiSelectNS->mBannerMessages = FindSceneFile("banner.bmg");
+    gMultiSelectNS->mBannerMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("banner.bmg");
     gMultiSelectNS->mOffset = -0xc0;
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     multiSelectNS = gMultiSelectNS;
-    LocateNcgr2(&multiSelectNS->mNcgr, FindSceneFile("multi_select_NS_s.nce.ncgr"));
-    LocateNcer(&multiSelectNS->mNcer, FindSceneFile("multi_select_NS_s.nce.ncer"));
-    LocateNclr(&multiSelectNS->mNclr, FindSceneFile("multi_select_NS_s_o.NCLR"));
-    multiSelectNS->mBncl = FindSceneFile("multi_select_NS_s.bncl");
-    multiSelectNS->mBnbl = FindSceneFile("multi_select_NS_s.bnbl");
-    multiSelectNS->mBnll = FindSceneFile("multi_select_NS_s.bnll");
+    Gfx_ReadCharGraphicsRelative(&multiSelectNS->mNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.nce.ncgr"));
+    LocateNcer(&multiSelectNS->mNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.nce.ncer"));
+    Gfx_ReadPaletteRelative(&multiSelectNS->mNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s_o.NCLR"));
+    multiSelectNS->mBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.bncl");
+    multiSelectNS->mBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.bnbl");
+    multiSelectNS->mBnll = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("multi_select_NS_s.bnll");
     InitLayoutTable(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
     for (labelRowIndex = 0; labelRowIndex < 2; labelRowIndex++) {
         labelMessageRow = &gMultiSelectNSLabelMessageRows[labelRowIndex];
@@ -134,12 +134,12 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
                             labelMessageRow->mHeight, labelMessageRow->mEntryIndex, multiSelectNS->mNcer,
                             multiSelectNS->mBncl, multiSelectNS->mCellTable, subObjSizeLeft);
         PrintLabelLayoutTextNoFixedAdvance(1, labelIndex, multiSelectNS->mBnll,
-                                           GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mMessageIndex),
+                                           Bmg_GetRawStringPointer_from_thumb(gMultiSelectNS->mBannerMessages, labelMessageRow->mMessageIndex),
                                            multiSelectNS->mBncl, multiSelectNS->mCellTable);
     }
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, multiSelectNS->mNcgr->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_TILES, 0, multiSelectNS->mNcgr->mData,
                                        multiSelectNS->mNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, multiSelectNS->mNclr->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_SPRITE_PALETTE, 0, multiSelectNS->mNclr->mData,
                                        multiSelectNS->mNclr->mDataSize);
     RefreshMultiSelectNS(1);
     SetSelectReturnSoundId(0xe);

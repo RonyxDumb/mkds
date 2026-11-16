@@ -4,4 +4,4 @@
 #include "Main/Kart/kart_drift.h" // Kart
 
 
-void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord);
+void StructMQRacerEntry_MaybeInitializePosition(Kart *kart, s32 useCourseMapRecord);

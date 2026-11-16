@@ -14,43 +14,43 @@
 
 void (*gExitTailCallback)(void);
 int gExitFunctionCount;
-void (*gExitCallback)(void);
+void (*g_BetaFunc)(void);
 void (*gExitFunctions[64])(void);
-int gAborted;
+int g_ZetaValue;
 
-void abort(void) {
+void OnAssertionFailed(void) {
     raise(1);
-    gAborted = 1;
-    exit(1);
+    g_ZetaValue = 1;
+    CheckZetaInvokeBeta(1);
 }
 
-void exit(int status) {
-    if (gAborted == 0) {
+void CheckZetaInvokeBeta(int status) {
+    if (g_ZetaValue == 0) {
         RunListNodeCallbacks();
-        if (gExitCallback != 0) {
-            gExitCallback();
-            gExitCallback = 0;
+        if (g_BetaFunc != 0) {
+            g_BetaFunc();
+            g_BetaFunc = 0;
         }
     }
     ExitTail(status);
 }
 
 void ExitTail(int status) {
-    if (OS_TryLockMutex((OSMutex *) gLockMutexes[0]) == 0) {
-        gLockOwnerThreadIds[0] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[0] = 1;
-    } else if (gLockOwnerThreadIds[0] == OSi_ThreadInfo.mListHead->mId) {
-        gLockHoldCounts[0]++;
+    if (Os_Mutex_TryLock((OSMutex *) g_AnotherMutex[0]) == 0) {
+        g_SomeThreadId[0] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[0] = 1;
+    } else if (g_SomeThreadId[0] == g_Os_ThreadInfo.mListHead->mId) {
+        g_SomeCounter[0]++;
     } else {
-        OS_LockMutex((OSMutex *) gLockMutexes[0]);
-        gLockOwnerThreadIds[0] = OSi_ThreadInfo.mListHead->mId;
-        gLockHoldCounts[0] = 1;
+        Os_Mutex_Lock((OSMutex *) g_AnotherMutex[0]);
+        g_SomeThreadId[0] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[0] = 1;
     }
     while (gExitFunctionCount > 0) {
         gExitFunctions[--gExitFunctionCount]();
     }
-    if (--gLockHoldCounts[0] == 0) {
-        OS_UnlockMutex((OSMutex *) gLockMutexes[0]);
+    if (--g_SomeCounter[0] == 0) {
+        Os_Mutex_Unlock((OSMutex *) g_AnotherMutex[0]);
     }
     if (gExitTailCallback != 0) {
         gExitTailCallback();

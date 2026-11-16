@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void OSi_SetTimerReserved(u32 timerNum);
+void Os_ReserveTimer(u32 timerNum);

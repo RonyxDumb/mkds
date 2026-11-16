@@ -12,7 +12,7 @@ typedef struct NNMagic {
 
 // Sockets a negotiation sends from (NN_PT_*: the game port, then two others, each answered by its own acknowledgement),
 // how a negotiation ends (FINISHED_*, the mFinished byte of a connect message), the port of the matchup server, and
-// how often and how long (milliseconds) the init and ping messages are sent again.
+// how often and how long (milliseconds) the StructDC_SomeFn_from_thumb and ping messages are sent again.
 #define NN_PT_GP 0
 #define NN_PT_NN1 1
 #define NN_PT_NN2 2
@@ -53,7 +53,7 @@ typedef struct ConnectPacket {
     /* 13 */ u8 mFinished;
 } ConnectPacket;
 
-// The NAT negotiation init message: cookie, port type and client index.
+// The NAT negotiation StructDC_SomeFn_from_thumb message: cookie, port type and client index.
 typedef struct InitPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;
@@ -63,14 +63,14 @@ typedef struct InitPacket {
     /* 0d */ u8 mClientIndex;
     /* 0e */ u8 mUnk_0e;
     /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
-    /* 11 */ u8 mUnk_11;
-    /* 12 */ u8 mUnk_12;
-    /* 13 */ u8 mUnk_13;
-    /* 14 */ u8 mUnk_14;
+    /* 10 */ u8 mFieldC;
+    /* 11 */ u8 mEmitterBlockLength;
+    /* 12 */ u8 mTextureBlockLength;
+    /* 13 */ u8 mTextureBlockOffset;
+    /* 14 */ u8 mField1C;
 } InitPacket;
 
-// The NAT negotiation init message with the local address and the game name.
+// The NAT negotiation StructDC_SomeFn_from_thumb message with the local address and the game name.
 typedef struct InitPacketWithGamename {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;

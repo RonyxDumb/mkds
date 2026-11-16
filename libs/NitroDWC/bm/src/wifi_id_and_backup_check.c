@@ -16,16 +16,16 @@ const u8 DWCi_SETTING_NONE[4] = {0};
 
 BOOL DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *info, u8 *work) {
     DWCWiFiInfo stored;
-    DWCi_BM_GetWiFiInfo(&stored);
+    StructDW_MaybeCreate_from_thumb(&stored);
     info->mAttestedUserId = info->mNotAttestedId;
     info->mNotAttestedId = stored.mNotAttestedId;
-    if (DWCi_BM_SetWiFiInfo(info, work) != 0) {
+    if (StructDW_SomeFn_0_from_thumb(info, work) != 0) {
         return 1;
     }
     return 0;
 }
 
-// Like DWCi_AUTH_GetNewWiFiInfo, but always picks a new random history.
+// Like StructDW_SomeFn_from_thumb, but always picks a new random history.
 BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     u8 vendor;
     u32 macLow;
@@ -34,23 +34,23 @@ BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     RTCTime time;
     s64 seconds;
     u32 seed;
-    DWCi_BM_GetWiFiInfo(info);
-    RTC_Init();
-    if (RTC_GetDate(&date) != 0) {
+    StructDW_MaybeCreate_from_thumb(info);
+    Rtc_Initialize();
+    if (Rtc_GetDate(&date) != 0) {
         return 0;
     }
-    if (RTC_GetTime(&time) != 0) {
+    if (Rtc_GetTime(&time) != 0) {
         return 0;
     }
-    seconds = DateTimeToSeconds(&date, &time);
+    seconds = ComputeTotalSeconds_EpochMaybe_from_thumb(&date, &time);
     seed = seconds;
     if (seconds < 0) {
         return 0;
     }
-    if (OS_IsTickAvailable() != 0) {
-        seed += (u32) OS_GetTick;
+    if (Os_IsTickInitialized() != 0) {
+        seed += (u32) Os_GetTick;
     }
-    OS_GetMacAddress(mac);
+    Os_GetMacAddress(mac);
     vendor = (mac[0] << 16 | mac[1] << 8 | mac[2]) != 0x9bf;
     macLow = mac[5];
     macLow |= (mac[3] << 16 | mac[4] << 8);
@@ -68,9 +68,9 @@ BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     return 1;
 }
 
-void DWC_Auth_GetId(DWCAuthWiFiId *id) {
+void StructDW_SomeFn_GetSomething_from_thumb(DWCAuthWiFiId *id) {
     DWCWiFiInfo info;
-    DWCi_BM_GetWiFiInfo(&info);
+    StructDW_MaybeCreate_from_thumb(&info);
     id->mUId = info.mAttestedUserId;
     id->mNotAttestedId = info.mNotAttestedId;
     if (info.mAttestedUserId == 0) {
@@ -82,7 +82,7 @@ void DWC_Auth_GetId(DWCAuthWiFiId *id) {
 
 BOOL DWC_Auth_CheckWiFiIDNeedCreate(void) {
     DWCWiFiInfo info;
-    DWCi_BM_GetWiFiInfo(&info);
+    StructDW_MaybeCreate_from_thumb(&info);
     if (info.mNotAttestedId == 0 && info.mAttestedUserId == 0) {
         return 1;
     }
@@ -90,7 +90,7 @@ BOOL DWC_Auth_CheckWiFiIDNeedCreate(void) {
 }
 
 // Checks and repairs the NVRAM backup pages; returns 0 or a negative error code.
-s32 DWC_BM_Init(u8 *work) {
+s32 StructDC_SomeFn_2_from_thumb(u8 *work) {
     u32 valid[4];
     s32 pageIndex;
     u8 *page;
@@ -100,14 +100,14 @@ s32 DWC_BM_Init(u8 *work) {
     u32 *validCheck;
     s32 validIndex;
     u32 crc;
-    if (ReadNvramEntriesOffset((u16 *) work) == 0) {
+    if (StructDC_SomeFn_3_from_thumb((u16 *) work) == 0) {
         return -10001;
     }
-    Crc16InitTable(OFFSET_PTR(u16, work, 0x500), 0xa001);
-    if (ReadNvramEntries(work) == 0) {
+    SomeHashing(OFFSET_PTR(u16, work, 0x500), 0xa001);
+    if (StructDC_SomeFn_1_from_thumb(work) == 0) {
         return -10001;
     }
-    MI_CpuFill8(valid, 0, sizeof(valid));
+    Mem_CpuFill8(valid, 0, sizeof(valid));
     pageIndex = 0;
     page = work;
     apPage = work;
@@ -115,7 +115,7 @@ s32 DWC_BM_Init(u8 *work) {
     do {
         crc = Crc16(OFFSET_PTR(u16, work, 0x500), page, 0xfe);
         if (crc == *OFFSET_PTR(u16, page, 0xfe)) {
-            if (checkAp(apPage) != 0) {
+            if (StructDCSub_SomeFn_from_thumb(apPage) != 0) {
                 *validEntry = 1;
             }
         }
@@ -133,42 +133,42 @@ s32 DWC_BM_Init(u8 *work) {
         return 0;
     }
     if (valid[0] == 0 && valid[1] == 0 && valid[2] == 0 && valid[3] == 0) {
-        init(work);
-        if (WriteNvramEntriesWithCrc16(work) != 0) {
+        StructDC_SomeFn_from_thumb(work);
+        if (StructDC_SomeFn_0_from_thumb(work) != 0) {
             return 0;
         }
         return -10000;
     }
     if ((valid[0] == 0 || valid[1] == 0) && (valid[2] == 0 || valid[3] == 0)) {
-        init(work);
-        if (WriteNvramEntriesWithCrc16(work) != 0) {
+        StructDC_SomeFn_from_thumb(work);
+        if (StructDC_SomeFn_0_from_thumb(work) != 0) {
             return 0;
         }
         return -10000;
     }
     if (valid[0] == 0 && valid[1] == 0) {
-        init(work);
-        if (WriteNvramEntriesWithCrc16(work) != 0) {
+        StructDC_SomeFn_from_thumb(work);
+        if (StructDC_SomeFn_0_from_thumb(work) != 0) {
             return -10003;
         }
         return -10000;
     }
     if (valid[0] == 0) {
-        initPage(work, 0);
-        MI_CpuCopy8(work + 0x1f0, work + 0xf0, 0xd);
+        StructDC_CleanDCSub_from_thumb(work, 0);
+        Mem_CpuCopy8(work + 0x1f0, work + 0xf0, 0xd);
         work[0xef] = work[0x1ef];
     } else if (valid[1] == 0) {
-        initPage(work, 1);
-        MI_CpuCopy8(work + 0xf0, work + 0x1f0, 0xd);
+        StructDC_CleanDCSub_from_thumb(work, 1);
+        Mem_CpuCopy8(work + 0xf0, work + 0x1f0, 0xd);
         work[0x1ef] = work[0xef];
     }
     WritePackedWiFiInfo(work + 0xf0);
     if (valid[2] == 0) {
-        initPage(work, 2);
+        StructDC_CleanDCSub_from_thumb(work, 2);
     }
     if (valid[3] == 0) {
         vu16 zero = 0;
-        MIi_CpuClear16(zero, work + 0x300, 0x100);
+        Mem_CpuFill16(zero, work + 0x300, 0x100);
     }
     dropped = 0;
     validIndex = 0;
@@ -182,7 +182,7 @@ s32 DWC_BM_Init(u8 *work) {
             }
         }
     }
-    if (WriteNvramEntriesWithCrc16(work) == 0) {
+    if (StructDC_SomeFn_0_from_thumb(work) == 0) {
         return -10000;
     }
     if (dropped != 0) {
@@ -191,7 +191,7 @@ s32 DWC_BM_Init(u8 *work) {
     return 0;
 }
 
-BOOL checkAp(const u8 *ap) {
+BOOL StructDCSub_SomeFn_from_thumb(const u8 *ap) {
     u8 netmask[8];
     u8 setType;
     setType = ap[0xe7];
@@ -201,10 +201,10 @@ BOOL checkAp(const u8 *ap) {
     if (setType > 2) {
         return 0;
     }
-    if (DWC_BACKUPlCheckSsid(ap + 0x40) == 0) {
+    if (StructDCInner_HasAnyUnk_from_thumb(ap + 0x40) == 0) {
         return 0;
     }
-    if (memcmp(ap + 0xc0, DWCi_SETTING_NONE, 4) != 0) {
+    if (StructDC_SomeFn_6(ap + 0xc0, DWCi_SETTING_NONE, 4) != 0) {
         if (DWC_BACKUPlCheckAddress(ap + 0xc4) == 0) {
             return 0;
         }
@@ -216,7 +216,7 @@ BOOL checkAp(const u8 *ap) {
             return 0;
         }
     }
-    if (memcmp(ap + 0xc8, DWCi_SETTING_NONE, 4) != 0) {
+    if (StructDC_SomeFn_6(ap + 0xc8, DWCi_SETTING_NONE, 4) != 0) {
         if (DWC_BACKUPlCheckAddress(ap + 0xc8) == 0 && DWC_BACKUPlCheckAddress(ap + 0xcc) == 0) {
             return 0;
         }
@@ -224,7 +224,7 @@ BOOL checkAp(const u8 *ap) {
     return 1;
 }
 
-s32 init(u8 *work) {
+s32 StructDC_SomeFn_from_thumb(u8 *work) {
     vu16 zero;
     s32 pageIndex;
     u8 *page;
@@ -232,29 +232,29 @@ s32 init(u8 *work) {
     DWCWiFiInfo info;
     u8 *packed;
     zero = 0;
-    MIi_CpuClear16(zero, work, 0x400);
+    Mem_CpuFill16(zero, work, 0x400);
     pageIndex = 0;
     page = work;
     for (; pageIndex < 3; pageIndex++) {
         page[0xe7] = 0xff;
         page += 0x100;
     }
-    DWCi_AUTH_GetNewWiFiInfo(&info);
-    packed = DWCi_BACKUPlConvWifiInfo(&info);
+    StructDW_SomeFn_from_thumb(&info);
+    packed = StructDW_SomeFn_2_from_thumb(&info);
     wifiPage = work;
     for (pageIndex = 0; pageIndex < 2; pageIndex++) {
-        MI_CpuCopy8(packed, wifiPage + 0xf0, 0xe);
+        Mem_CpuCopy8(packed, wifiPage + 0xf0, 0xe);
         wifiPage += 0x100;
     }
     return 0;
 }
 
-void initPage(u8 *work, u32 page) {
+void StructDC_CleanDCSub_from_thumb(u8 *work, u32 page) {
     vu16 zero;
     u32 offset;
     zero = 0;
     offset = page << 8;
-    MIi_CpuClear16(zero, work + offset, 0x100);
+    Mem_CpuFill16(zero, work + offset, 0x100);
     (work + offset)[0xe7] = 0xff;
 }
 

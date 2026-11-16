@@ -10,5 +10,5 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
-void ResetKeyRecording(KeyRecording *record);
-void ClearKeyRecordingBufferPointer(KeyRecording *record);
+void StructCYB_SomeFn(KeyRecording *record);
+void StructCYB_ResetInputRecord(KeyRecording *record);

@@ -44,12 +44,12 @@ MapObjectKindDescriptor gPicture2KindDescriptor = {0,
                                              CreatePictureUpdateList};
 
 void CreatePicture1AndPicture2(void *mapObjectList) {
-    gPicture1 = CreateMapObjectModelAnimated(mapObjectList, "picture1.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gPicture1, "picture1.nsbca");
-    gPicture2 = CreateMapObjectModelAnimated(mapObjectList, "picture2.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gPicture2, "picture2.nsbca");
-    SetMapObjectModelPolygonId(gPicture1, 0x3f);
-    SetMapObjectModelPolygonId(gPicture2, 0x3f);
+    gPicture1 = CreateMapObjectFromModel_from_thumb(mapObjectList, "picture1.nsbmd");
+    StructMapObject_AddAnimationNsbca_from_thumb(gPicture1, "picture1.nsbca");
+    gPicture2 = CreateMapObjectFromModel_from_thumb(mapObjectList, "picture2.nsbmd");
+    StructMapObject_AddAnimationNsbca_from_thumb(gPicture2, "picture2.nsbca");
+    StructMapObject_MaybeSetPolygonId(gPicture1, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gPicture2, 0x3f);
 }
 
 void DrawPicture(void *mapObjectList, Picture *picture) {
@@ -64,11 +64,11 @@ void DrawPicture(void *mapObjectList, Picture *picture) {
     NNS_G3dGeBufferOP_N(0x1b, &picture->mMapObject.mScale, 3);
     switch (picture->mPictureIndex) {
         case 0:
-            SetMapObjectModelNsbcaFrameIndex(gPicture1, picture->mNsbcaFrameIndex);
+            StructMapObject_MaybeSetNsbcaFrame(gPicture1, picture->mNsbcaFrameIndex);
             DrawMapObjectModel(mapObjectList, gPicture1, picture);
             break;
         case 1:
-            SetMapObjectModelNsbcaFrameIndex(gPicture2, picture->mNsbcaFrameIndex);
+            StructMapObject_MaybeSetNsbcaFrame(gPicture2, picture->mNsbcaFrameIndex);
             DrawMapObjectModel(mapObjectList, gPicture2, picture);
             break;
     }
@@ -93,7 +93,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
         case PICTURE_STATE_PLAY:
             if (picture->mPictureIndex == 0) {
                 nextFrameIndex = picture->mNsbcaFrameIndex + 1;
-                if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gPicture1)) {
+                if (nextFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(gPicture1)) {
                     nextFrameIndex = 0;
                 }
                 picture->mNsbcaFrameIndex = nextFrameIndex;
@@ -151,7 +151,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                 }
             } else if (picture->mPictureIndex == 1) {
                 nextFrameIndex = picture->mNsbcaFrameIndex + 1;
-                if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gPicture2)) {
+                if (nextFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(gPicture2)) {
                     nextFrameIndex = 0;
                 }
                 picture->mNsbcaFrameIndex = nextFrameIndex;
@@ -176,7 +176,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
             if (picture->mNsbcaFrameIndex != 0) {
                 return;
             }
-            randomState64 = &gRaceProgress->mLocalRandom;
+            randomState64 = &g_GlobalMV->mLocalRandom;
             randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
             picture->mWaitFrames = (u16) (((randomState64->mValue >> 32) * 0x78) >> 32) + 0x3c;
             picture->mState = PICTURE_STATE_WAIT;

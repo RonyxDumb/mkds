@@ -11,7 +11,7 @@ s32 gPrevSentChunkIndex = -1;
 #pragma thumb on
 
 static inline u8 *AppendBytes(const void *source, u8 *cursor, u32 byteCount) {
-    MI_CpuCopy8(source, cursor, byteCount);
+    Mem_CpuCopy8(source, cursor, byteCount);
     return cursor + byteCount;
 }
 
@@ -39,7 +39,7 @@ s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     header.mKind = XFER_PACKET_FILLER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
-    MI_CpuCopy8(&requestId, cursor, 1);
+    Mem_CpuCopy8(&requestId, cursor, 1);
     return cursor + 1 - buffer;
 }
 
@@ -57,7 +57,7 @@ s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 se
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&sendChunkSize, cursor, 2);
-    MI_CpuCopy8(&receiveChunkSize, cursor, 2);
+    Mem_CpuCopy8(&receiveChunkSize, cursor, 2);
     return cursor + 2 - buffer;
 }
 
@@ -77,7 +77,7 @@ s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 bloc
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockCount, cursor, 2);
     cursor = AppendBytes(&sendChunkSize, cursor, 2);
-    MI_CpuCopy8(&receiveChunkSize, cursor, 2);
+    Mem_CpuCopy8(&receiveChunkSize, cursor, 2);
     return cursor + 2 - buffer;
 }
 
@@ -95,7 +95,7 @@ s32 WriteBlockDataRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockId, cursor, 4);
-    MI_CpuCopy8(&chunkIndex, cursor, 4);
+    Mem_CpuCopy8(&chunkIndex, cursor, 4);
     return cursor + 4 - buffer;
 }
 
@@ -115,9 +115,9 @@ s32 WriteBlockDataPacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     cursor = AppendBytes(&blockId, cursor, 4);
     cursor = AppendBytes(&chunkIndex, cursor, 4);
     if (data == 0) {
-        MI_CpuFill8(cursor, 0, dataSize);
+        Mem_CpuFill8(cursor, 0, dataSize);
     } else {
-        MI_CpuCopy8((void *) data, cursor, dataSize);
+        Mem_CpuCopy8((void *) data, cursor, dataSize);
     }
     return cursor + dataSize - buffer;
 }
@@ -136,7 +136,7 @@ s32 WriteBlockNodeRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 blo
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&blockId, cursor, 4);
-    MI_CpuCopy8(&chunkIndex, cursor, 4);
+    Mem_CpuCopy8(&chunkIndex, cursor, 4);
     return cursor + 4 - buffer;
 }
 
@@ -156,9 +156,9 @@ s32 WriteBlockNodePacket(u8 *buffer, u32 indexMask, u8 requestId, u32 blockId, u
     cursor = AppendBytes(&blockId, cursor, 4);
     cursor = AppendBytes(&chunkIndex, cursor, 4);
     if (data == 0) {
-        MI_CpuFill8(cursor, 0, dataSize);
+        Mem_CpuFill8(cursor, 0, dataSize);
     } else {
-        MI_CpuCopy8((void *) data, cursor, dataSize);
+        Mem_CpuCopy8((void *) data, cursor, dataSize);
     }
     return cursor + dataSize - buffer;
 }
@@ -176,7 +176,7 @@ s32 WriteNoMissingChunkPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 block
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
-    MI_CpuCopy8(&blockId, cursor, 4);
+    Mem_CpuCopy8(&blockId, cursor, 4);
     return cursor + 4 - buffer;
 }
 
@@ -193,7 +193,7 @@ s32 WriteNoMissingChunkReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
-    MI_CpuCopy8(&blockId, cursor, 4);
+    Mem_CpuCopy8(&blockId, cursor, 4);
     return cursor + 4 - buffer;
 }
 
@@ -211,7 +211,7 @@ s32 WriteBytesPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 *bytes, u32 by
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
     cursor = AppendBytes(&requestId, cursor, 1);
     cursor = AppendBytes(&byteCount, cursor, 1);
-    MI_CpuCopy8(bytes, cursor, 9);
+    Mem_CpuCopy8(bytes, cursor, 9);
     return cursor + 9 - buffer;
 }
 
@@ -227,7 +227,7 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
     header.mKind = XFER_PACKET_CUSTOM_ANSWER;
     cursor = AppendBytes(&header, cursor, 1);
     cursor = AppendBytes(&header.mIndexMask, cursor, 2);
-    MI_CpuCopy8(&requestId, cursor, 1);
+    Mem_CpuCopy8(&requestId, cursor, 1);
     return cursor + 1 - buffer;
 }
 
@@ -235,7 +235,7 @@ s32 WriteBytesReplyPacket(u8 *buffer, u16 indexMask, u8 requestId) {
 s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
     WBTBlockInfoList *node;
     s32 skipCount;
-    node = GetBlockListHead();
+    node = GetGlobalGO_from_thumb();
     if (blockId < 1000) {
         return chunkIndex;
     }
@@ -269,7 +269,7 @@ s32 PickSendChunkIndex(u32 blockId, s32 chunkIndex) {
 u32 WBTi_GetPacketBuffer(u32 blockIdOrPosition, u32 chunkIndex) {
     WBTBlockInfoList *blockPointer;
     u32 blockPosition;
-    blockPointer = GetBlockListHead();
+    blockPointer = GetGlobalGO_from_thumb();
     if (blockIdOrPosition < 1000) {
         for (blockPosition = 0;; blockPosition++, blockPointer = blockPointer->mNext) {
             if (blockPointer == NULL) {
@@ -300,7 +300,7 @@ void WBTi_InitBitmap(WBTPacketBitmap *state, s32 size, void *chunkBitmap, u32 bu
     state->mTotal = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
     state->mBitmap = chunkBitmap;
     state->mBuffer = (u8 *) buffer;
-    MI_CpuFill8(chunkBitmap, 0, WBT_CalcPacketbitmapSize(size));
+    Mem_CpuFill8(chunkBitmap, 0, WBT_CalcPacketbitmapSize(size));
 }
 
 BOOL IsChunkReceived(WBTPacketBitmap *state, s32 chunkIndex) {

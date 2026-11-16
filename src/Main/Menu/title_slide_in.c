@@ -17,14 +17,14 @@ void UpdateTitleSlideIn(void) {
     s32 entryIndex;
     LayoutTableEntry *titleTable;
 
-    titleTable = gTitleScene->mTitleTable;
-    subBase = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
+    titleTable = g_SceneTitleContext->mTitleTable;
+    subBase = TitleGetCellLayoutCount(g_SceneTitleContext->mTitleSBncl);
     if (GetTitleStateFrames() < 10) {
         for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
-            titleTable[entryIndex].mOffsetX = InterpolateS16(1, 0xf8, 0, GetTitleStateFrames(), 10);
+            titleTable[entryIndex].mOffsetX = ComputeValueInterpolation_from_thumb(1, 0xf8, 0, GetTitleStateFrames(), 10);
         }
         for (entryIndex = 0; entryIndex <= 1; entryIndex++) {
-            titleTable[entryIndex + subBase].mOffsetX = InterpolateS16(1, 0xe4, 0, GetTitleStateFrames(), 10);
+            titleTable[entryIndex + subBase].mOffsetX = ComputeValueInterpolation_from_thumb(1, 0xe4, 0, GetTitleStateFrames(), 10);
         }
     } else {
         for (entryIndex = 0; entryIndex <= 14; entryIndex++) {
@@ -34,21 +34,21 @@ void UpdateTitleSlideIn(void) {
             titleTable[entryIndex + subBase].mOffsetX = 0;
         }
         SetTitleState(TITLE_STATE_MENU_INPUT, 8);
-        gTitleScene->mStartedOnSelected = FALSE;
+        g_SceneTitleContext->mStartedOnSelected = FALSE;
     }
     SetupAndDrawTitleTable();
 }
 
 void StartTitleSelectedSound(void) {
-    switch (gTitleScene->mSelectedIndex) {
+    switch (g_SceneTitleContext->mSelectedIndex) {
         case TITLE_ENTRY_FIRST:
         case TITLE_ENTRY_WL_MENU:
         case TITLE_ENTRY_WIFI_MENU:
-            StartSoundOncePerFrame(9);
+            MaybePlaySomeSseqFromSarc0(9);
             break;
         case TITLE_ENTRY_OPTION:
         case TITLE_ENTRY_RECORD:
-            StartSoundOncePerFrame(8);
+            MaybePlaySomeSseqFromSarc0(8);
             break;
         default:
             break;

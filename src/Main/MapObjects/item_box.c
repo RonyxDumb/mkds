@@ -120,34 +120,34 @@ void InitGroupItemBoxObjects(void) {
 MapObjectKindData *CreateItemBoxKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gItemBoxKindData;
     return kindData;
 }
 
 MapObjectList *CreateBoxDrawList(void) {
-    gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    gBoxDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     *gBoxDrawList = gBoxDrawListData;
     SetDrawListSlot(&gBoxDrawList);
     return &gBoxDrawList->mList;
 }
 
 MapObjectList *CreateQuestionDrawList(void) {
-    gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    gQuestionDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     *gQuestionDrawList = gQuestionDrawListData;
     SetDrawListSlot(&gQuestionDrawList);
     return &gQuestionDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxShadowDrawList(void) {
-    gItemBoxShadowDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectDrawList));
+    gItemBoxShadowDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectDrawList));
     *gItemBoxShadowDrawList = gItemBoxShadowDrawListData;
     SetDrawListSlot(&gItemBoxShadowDrawList);
     return &gItemBoxShadowDrawList->mList;
 }
 
 MapObjectList *CreateItemBoxUpdateList(void) {
-    gItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    gItemBoxUpdateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     *gItemBoxUpdateList = gItemBoxUpdateListData;
     SetUpdateListSlot(&gItemBoxUpdateList);
     return gItemBoxUpdateList;
@@ -273,11 +273,11 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 maxAlpha) 
 void SetupDrawItemBoxShadow(void) {
 
     SendObjShadowMaterial();
-    if (GetChoisesSOpenDuringRace() != 0) {
+    if (IsRaceOptionMenuOn_from_thumb() != 0) {
         return;
     }
     gItemBoxShadowAngle += 0xca;
-    MTX_RotY43_(&gItemBoxShadowMatrix, SIN_OF_ANGLE(gItemBoxShadowAngle), COS_OF_ANGLE(gItemBoxShadowAngle));
+    MTX_RotY43__from_thumb(&gItemBoxShadowMatrix, SIN_OF_ANGLE(gItemBoxShadowAngle), COS_OF_ANGLE(gItemBoxShadowAngle));
 }
 
 // Also sets the box and question alpha from the frames since the hit; DrawBox and DrawQuestion read them.
@@ -376,7 +376,7 @@ void StartItemSlotAndEffects(Vec3 *position, Kart *kart, u32 forcedRowHandle, in
     u32 kartIndex;
     kartIndex = kart->mIndex;
     if (skipEffects == 0) {
-        if (kartIndex == gRaceSetup->mEntryIndex) {
+        if (kartIndex == g_GlobalCO->mEntryIndex) {
             effect = StartEffect(0x2d, position);
             if (effect != NULL) {
                 SetupKartFollowEffect(effect, kartIndex, 0x1e);
@@ -407,7 +407,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     itemBox->mFramesSinceHit = 0;
     itemBox->mMapObject.mFlags |= gItemBoxHitFlag;
     distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT;
-    playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
+    playerKind = g_GlobalCO->mCurrentEntries[kart->mIndex].mPlayer.mKind;
     if ((u32) playerKind <= 3) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
             kindInMask = TRUE;

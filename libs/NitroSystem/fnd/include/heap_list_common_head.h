@@ -25,11 +25,11 @@ typedef struct NNSiFndHeapHead {
 typedef NNSiFndHeapHead *NNSFndHeapHandle;
 
 
-NNSFndHeapHandle NNS_FndFindContainHeap(const void *memBlock);
-void NNSi_FndFinalizeHeap(NNSiFndHeapHead *heap);
-void NNSi_FndInitHeapHead(NNSiFndHeapHead *heap, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
-NNSFndList *FindListContainHeap(NNSiFndHeapHead *heap);
-NNSiFndHeapHead *FindContainHeap(NNSFndList *list, const void *memBlock);
+NNSFndHeapHandle Mem_FindGlobalTopParentHeapHead(const void *memBlock);
+void Mem_FinalizeHeapHead(NNSiFndHeapHead *heap);
+void Mem_InitializeHeapHead(NNSiFndHeapHead *heap, u32 signature, void *heapStart, void *heapEnd, u16 optFlag);
+NNSFndList *Mem_FindTopParentHeapHeadList(NNSiFndHeapHead *heap);
+NNSiFndHeapHead *Mem_FindTopParentHeapHead(NNSFndList *list, const void *memBlock);
 
-extern u32 gHeapListInitialized;
-extern NNSFndList gHeapList;
+extern u32 g_GlobalMemUnkInit;
+extern NNSFndList g_GlobalHeapHeadList;

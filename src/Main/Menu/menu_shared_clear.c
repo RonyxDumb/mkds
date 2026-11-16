@@ -4,20 +4,20 @@
 
 #pragma thumb on
 
-MenuShared *gMenuShared;
+MenuShared *g_GlobalB488;
 
-void ClearMenuShared(void) {
-    MenuMI_CpuClearFast(gMenuShared, 0x130);
-    gMenuShared->mTitleBlendDone = 0;
-    gMenuShared->mRaceSetupRequested = 0;
-    gMenuShared->mMenuEntryKind = 0;
-    gMenuShared->mGhostSceneInitialCallbacksIndex = 0;
-    gMenuShared->mUnfilledNotEliminated = 0;
-    gMenuShared->mLVselIndex6Requested = 0;
-    gMenuShared->mWiFiMenuStartKind = 0;
-    gMenuShared->mWiFiVSSettingKartType = 0;
-    gMenuShared->mWiFiTopMenuRequested = FALSE;
-    gMenuShared->mStaffRollEndedEarly = 0;
+void CreateGlobalB488_from_thumb(void) {
+    SpecialMemoryZero_0(g_GlobalB488, 0x130);
+    g_GlobalB488->mTitleBlendDone = 0;
+    g_GlobalB488->mRaceSetupRequested = 0;
+    g_GlobalB488->mMenuEntryKind = 0;
+    g_GlobalB488->mGhostSceneInitialCallbacksIndex = 0;
+    g_GlobalB488->mUnfilledNotEliminated = 0;
+    g_GlobalB488->mLVselIndex6Requested = 0;
+    g_GlobalB488->mWiFiMenuStartKind = 0;
+    g_GlobalB488->mWiFiVSSettingKartType = 0;
+    g_GlobalB488->mWiFiTopMenuRequested = FALSE;
+    g_GlobalB488->mStaffRollEndedEarly = 0;
 }
 
 #pragma thumb off

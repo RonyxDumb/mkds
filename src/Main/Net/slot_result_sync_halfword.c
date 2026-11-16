@@ -3,6 +3,6 @@
 #include "Main/Save/ghost_record_file.h"
 
 SlotResultSyncHalfword *GetEntrySlotResultSyncHalfword(u32 entryIndex, u32 halfwordIndex) {
-    WiFiRaceSyncEntry *entry = &gWiFiRaceSync->mEntries[entryIndex];
+    WiFiRaceSyncEntry *entry = &g_GlobalAA->mEntries[entryIndex];
     return &entry->mSlotResultSyncs[halfwordIndex];
 }

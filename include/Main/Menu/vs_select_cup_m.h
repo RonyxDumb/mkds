@@ -13,7 +13,7 @@ void VsSelectGX_SetVisiblePlane(int bits);
 
 BOOL VsSelectCupMB_IsMultiBootChildWrapper(void);
 BOOL VsSelectCupMB_IsMultiBootChild(void);
-BootInfo *VsSelectCupMB_GetMultiBootParam(void);
+BootInfo *GetBootIndicatorPointer_2(void);
 void UpdateVsSelectCupCourse(void);
 
 void WriteVsSelectCupCourseRegisters(void);

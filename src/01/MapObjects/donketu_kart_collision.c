@@ -14,7 +14,7 @@
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
 
-    if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
+    if ((GetRacerMQEntry(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
             if (donketu->mPrm->mDonketu.mHitBoostedVelocityY > 0 ||
                 donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale > 0) {
@@ -25,7 +25,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                         ((s64) velocityWhenBoosted.x * velocityWhenBoosted.x +
                          (s64) velocityWhenBoosted.y * velocityWhenBoosted.y) >=
                     0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
+                    Vector3_MaybeNormalize(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
                 velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.x, scale);
@@ -43,12 +43,12 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             {
                 Vec3 effectPosition;
 
-                VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
+                VecFx32_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
                 if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
                     0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
+                    Vector3_MaybeNormalize(&effectPosition, &effectPosition);
                 }
-                VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
+                VecFx32_AddScale1(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
                 if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
                     donketu->mMapObject.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
                     StopSound(&donketu->mMapObject.mSound->mSoundSource, 0x214);
@@ -80,7 +80,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                     ((s64) velocityWhenNotBoosted.x * velocityWhenNotBoosted.x +
                      (s64) velocityWhenNotBoosted.y * velocityWhenNotBoosted.y) >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
+                Vector3_MaybeNormalize(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
             velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.x, scale);

@@ -10,21 +10,21 @@ void ParentBlockTransferCallback(WBTCommand *record) {
         SetZeroWordReceived(&record->mData.mUserDataWord, record->mData.mUserData.mSize);
         return;
     }
-    switch (gConnectionWork->mParentTransferStep) {
+    switch (g_GlobalZE->mParentTransferStep) {
         case PARENT_TRANSFER_WAIT_HANDSHAKE:
             if (callbackCode == XFER_EVENT_HANDSHAKE_ASKED) {
-                gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_FIRST_CHUNKS;
+                g_GlobalZE->mParentTransferStep = PARENT_TRANSFER_WAIT_FIRST_CHUNKS;
             }
             break;
         case PARENT_TRANSFER_WAIT_FIRST_CHUNKS:
             if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
-                gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_SECOND_CHUNKS;
+                g_GlobalZE->mParentTransferStep = PARENT_TRANSFER_WAIT_SECOND_CHUNKS;
             }
             break;
         case PARENT_TRANSFER_WAIT_SECOND_CHUNKS:
             if (callbackCode == XFER_EVENT_ALL_CHUNKS_HELD) {
-                gConnectionWork->mTransferFlags |= CONNECTION_TRANSFER_SEQUENCE_DONE;
-                gConnectionWork->mParentTransferStep = PARENT_TRANSFER_WAIT_HANDSHAKE;
+                g_GlobalZE->mTransferFlags |= CONNECTION_TRANSFER_SEQUENCE_DONE;
+                g_GlobalZE->mParentTransferStep = PARENT_TRANSFER_WAIT_HANDSHAKE;
             }
             break;
     }

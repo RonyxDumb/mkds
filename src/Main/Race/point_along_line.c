@@ -19,18 +19,18 @@ void ComputePointAlongLine(Vec3 *result, const Vec3 *startPoint, const Vec3 *end
         *result = *startPoint;
         return;
     }
-    factor = MulFixed12NoRound(GetRaceHudSubScreenInverseScale(), 0x3000);
-    point.x = startPoint->x + MulFixed12NoRound(factor, endPoint->x - startPoint->x);
-    point.y = startPoint->y + MulFixed12NoRound(factor, endPoint->y - startPoint->y);
-    point.z = startPoint->z + MulFixed12NoRound(factor, endPoint->z - startPoint->z);
+    factor = SomeFxProduct(GetRaceHudSubScreenInverseScale(), 0x3000);
+    point.x = startPoint->x + SomeFxProduct(factor, endPoint->x - startPoint->x);
+    point.y = startPoint->y + SomeFxProduct(factor, endPoint->y - startPoint->y);
+    point.z = startPoint->z + SomeFxProduct(factor, endPoint->z - startPoint->z);
     *result = point;
 }
 
 // FALSE inside a fixed box on the clock and airship courses; TRUE outside it and on every other course.
-BOOL IsPositionOutsideBox(const Vec3 *position) {
+BOOL CheckVectorBounds_Clock_Airship(const Vec3 *position) {
     BOOL isOutside = TRUE;
 
-    switch (RaceHudSubScreenGetCurrentCourseId()) {
+    switch (GetCurrentInternalCourseId_0()) {
         case COURSE_ID_CLOCK:
             if (position->x >= -0x377000 && position->x <= 0x377000 && position->z >= -0x377000 &&
                 position->z <= 0x377000 && position->y < 0x2be800) {

@@ -4,7 +4,7 @@
 #include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
-void ClearBuddyRecordBlock(void) {
-    MI_CpuFill8(gBackupBuffers->mBuddyRecordBlock, 0u, sizeof(BuddyRecordBlock));
+void ClearSaveDataSection_FriendList_from_thumb(void) {
+    Mem_CpuFill8(g_SaveDataHolder->mBuddyRecordBlock, 0u, sizeof(BuddyRecordBlock));
 }
 #pragma thumb off

@@ -179,7 +179,7 @@ BOOL SetEmblemCursorCellValueFromGrid(void) {
 }
 
 void CreateEmblemCursorAndGrid(s32 originX, s32 originY, s32 side, s32 scrSide, s32 tableCount) {
-    gEmblemCursor = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(EmblemCursor));
+    gEmblemCursor = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(EmblemCursor));
     gEmblemCursor->mOriginX = originX;
     gEmblemCursor->mOriginY = originY;
     gEmblemCursor->mSide = side;
@@ -549,11 +549,11 @@ void StartEmblemButtonBounceAndToggle(void *lld, s32 index) {
     if (GetLldEntryFrameIndex(toggleEntry) >= 0) {
         SetLldEntryCallback(pressedEntry, (s32(*)(LldEntry *)) AdvanceEmblemButtonBounceThenWait);
         ApplyLldEntryFrameCommand(toggleEntry, -5);
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 505);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 505);
     } else {
         SetLldEntryCallback(pressedEntry, (s32(*)(LldEntry *)) AdvanceEmblemButtonBounceThenWait);
         ApplyLldEntryFrameCommand(toggleEntry, 0);
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 506);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 506);
     }
 }
 
@@ -561,7 +561,7 @@ void InitEmblem(void) {
     DisplaySettingsDesc displaySettingsDesc;
     EmblemRecord *emblemRecord;
 
-    gEmblem = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(Emblem));
+    gEmblem = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(Emblem));
     InitDisplaySettingsDesc(&displaySettingsDesc);
     displaySettingsDesc.mDispMode = 1;
     displaySettingsDesc.mMainBgMode = GX_BGMODE_0;
@@ -575,45 +575,45 @@ void InitEmblem(void) {
     displaySettingsDesc.mSubDisplayMask = GX_PLANEMASK_OBJ;
     displaySettingsDesc.mBankForSubBG = 4;
     displaySettingsDesc.mBankForSubOBJ = 8;
-    InitDisplayFromSettings(CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), &displaySettingsDesc));
-    LoadNclrData(&gEmblem->mEmblemMONclr, (FindSceneFile("emblem_m_o.NCLR")));
-    LoadNcgrData2(&gEmblem->mEmblemMONcgr, (FindSceneFile("emblem_m_o.NCGR")));
-    LoadNcerData(&gEmblem->mEmblemMNcer, FindSceneFile("emblem_m.NCER"));
-    LoadNanrData(&gEmblem->mEmblemMNanr, FindSceneFile("emblem_m.NANR"));
+    SetGlobalDisplayConfig(CreateDisplayConfig(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), &displaySettingsDesc));
+    Gfx_ReadPalette(&gEmblem->mEmblemMONclr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m_o.NCLR")));
+    Gfx_ReadCharGraphics(&gEmblem->mEmblemMONcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m_o.NCGR")));
+    LoadCellBankFrom(&gEmblem->mEmblemMNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m.NCER"));
+    LoadNanrData(&gEmblem->mEmblemMNanr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m.NANR"));
     gEmblem->mEmblemMLld = CreateLld("emblem_m.lld", gEmblem->mEmblemMNcer, gEmblem->mEmblemMNanr);
-    LoadNclrData(&gEmblem->mEmblemMBNclr, (FindSceneFile("emblem_m_b.NCLR")));
-    LoadNcgrData(&gEmblem->mEmblemMBNcgr, (FindSceneFile("emblem_m_b.NCGR")));
-    LoadNscrData(&gEmblem->mEmblemMNscr, (FindSceneFile("emblem_m.NSCR")));
-    LoadNscrData(&gEmblem->mEmblemMBgNscr, (FindSceneFile("emblem_m_bg.NSCR")));
-    LoadNclrData(&gEmblem->mEmblemSONclr, (FindSceneFile("emblem_s_o.NCLR")));
-    LoadNcgrData2(&gEmblem->mEmblemSONcgr, (FindSceneFile("emblem_s_o.NCGR")));
-    LoadNcerData(&gEmblem->mEmblemSNcer, FindSceneFile("emblem_s.NCER"));
-    LoadNanrData(&gEmblem->mEmblemSNanr, FindSceneFile("emblem_s.NANR"));
+    Gfx_ReadPalette(&gEmblem->mEmblemMBNclr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m_b.NCLR")));
+    Gfx_ReadCharGraphicsV2(&gEmblem->mEmblemMBNcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m_b.NCGR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemMNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m.NSCR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemMBgNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_m_bg.NSCR")));
+    Gfx_ReadPalette(&gEmblem->mEmblemSONclr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_o.NCLR")));
+    Gfx_ReadCharGraphics(&gEmblem->mEmblemSONcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_o.NCGR")));
+    LoadCellBankFrom(&gEmblem->mEmblemSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s.NCER"));
+    LoadNanrData(&gEmblem->mEmblemSNanr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s.NANR"));
     gEmblem->mEmblemSLld = CreateLld("emblem_s.lld", gEmblem->mEmblemSNcer, gEmblem->mEmblemSNanr);
     gEmblem->mEmblemTemplateSLld = CreateLld("emblem_template_s.lld", gEmblem->mEmblemSNcer, gEmblem->mEmblemSNanr);
-    LoadNclrData(&gEmblem->mEmblemSBNclr, (FindSceneFile("emblem_s_b.NCLR")));
-    LoadNcgrData(&gEmblem->mEmblemSBNcgr, (FindSceneFile("emblem_s_b.NCGR")));
-    LoadNcgrData(&gEmblem->mEmblemTemplateBNcgr, (FindSceneFile("emblem_template_b.NCGR")));
-    LoadNscrData(&gEmblem->mEmblemSTemplateFrameNscr, (FindSceneFile("emblem_s_template_frame.NSCR")));
-    LoadNscrData(&gEmblem->mEmblemSToolNscr, (FindSceneFile("emblem_s_tool.NSCR")));
-    LoadNscrData(&gEmblem->mEmblemSBgNscr, (FindSceneFile("emblem_s_bg.NSCR")));
-    LoadNscrData(&gEmblem->mEmblemSTemplateDarkNscr, (FindSceneFile("emblem_s_template_dark.NSCR")));
-    LoadNcgrData2(&gEmblem->mEmblemCameraSONcgr, (FindSceneFile("emblem_camera_s_o.NCGR")));
-    LoadNcerData(&gEmblem->mEmblemCameraSNcer, FindSceneFile("emblem_camera_s.NCER"));
-    LoadNanrData(&gEmblem->mEmblemCameraSNanr, FindSceneFile("emblem_camera_s.NANR"));
+    Gfx_ReadPalette(&gEmblem->mEmblemSBNclr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_b.NCLR")));
+    Gfx_ReadCharGraphicsV2(&gEmblem->mEmblemSBNcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_b.NCGR")));
+    Gfx_ReadCharGraphicsV2(&gEmblem->mEmblemTemplateBNcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_template_b.NCGR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemSTemplateFrameNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_template_frame.NSCR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemSToolNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_tool.NSCR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemSBgNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_bg.NSCR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemSTemplateDarkNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_s_template_dark.NSCR")));
+    Gfx_ReadCharGraphics(&gEmblem->mEmblemCameraSONcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_camera_s_o.NCGR")));
+    LoadCellBankFrom(&gEmblem->mEmblemCameraSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_camera_s.NCER"));
+    LoadNanrData(&gEmblem->mEmblemCameraSNanr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_camera_s.NANR"));
     gEmblem->mEmblemCameraSLld =
         CreateLld("emblem_camera_s.lld", gEmblem->mEmblemCameraSNcer, gEmblem->mEmblemCameraSNanr);
-    LoadNcgrData(&gEmblem->mEmblemCameraSBNcgr, (FindSceneFile("emblem_camera_s_b.NCGR")));
-    LoadNscrData(&gEmblem->mEmblemCameraSDSNscr, (FindSceneFile("emblem_camera_s_DS.NSCR")));
-    LoadNscrData(&gEmblem->mEmblemCameraSBgNscr, (FindSceneFile("emblem_camera_s_bg.NSCR")));
+    Gfx_ReadCharGraphicsV2(&gEmblem->mEmblemCameraSBNcgr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_camera_s_b.NCGR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemCameraSDSNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_camera_s_DS.NSCR")));
+    MaybeReadScreenBlock_0(&gEmblem->mEmblemCameraSBgNscr, (FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("emblem_camera_s_bg.NSCR")));
     CreateEmblemInput();
-    InitKartModelMenuWithKartList(GetHeap(GetCurrentHeapCall()));
+    InitKartModelMenuWithKartList(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()));
     InitEmblemChoises();
-    ResetOamLists(&gEmblem->mMainOam, &gEmblem->mSubOam);
+    OamBuffer_SomeFn_from_thumb(&gEmblem->mMainOam, &gEmblem->mSubOam);
     CreateEmblemCursorAndGrid(0x40, 0x10, 0x20, 0x80, 0x10);
-    emblemRecord = gBackupBuffers->mEmblemRecord;
+    emblemRecord = g_SaveDataHolder->mEmblemRecord;
     if (emblemRecord->mFilled) {
-        MI_CpuCopy8(emblemRecord->mEmblemData, gEmblem->mRecordBytes, sizeof(gEmblem->mRecordBytes));
+        Mem_CpuCopy8(emblemRecord->mEmblemData, gEmblem->mRecordBytes, sizeof(gEmblem->mRecordBytes));
         SplitBytesIntoNibbleTiles(gEmblem->mRecordBytes, gEmblem->mCellNibbles, GetEmblemGridSide());
         SetEmblemGridCells(gEmblem->mCellNibbles);
         SwapEmblemGridCells();
@@ -675,26 +675,26 @@ void UploadEmblemMainScreen(void) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & (REG_G2_BG1CNT_PRIORITY_MASK | REG_G2_BG1CNT_MOSAIC_MASK)) | 0x400;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & ~REG_G2_BG2CNT_PRIORITY_MASK) | 3;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & (REG_G2_BG2CNT_PRIORITY_MASK | REG_G2_BG2CNT_MOSAIC_MASK)) | 0x600;
-    DC_FlushRange(gEmblem->mEmblemMONclr->mData, gEmblem->mEmblemMONclr->mDataSize);
-    GX_LoadOBJPltt(gEmblem->mEmblemMONclr->mData, 0, gEmblem->mEmblemMONclr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemMONcgr->mData, gEmblem->mEmblemMONcgr->mDataSize);
-    GX_LoadOBJ(gEmblem->mEmblemMONcgr->mData, 0, gEmblem->mEmblemMONcgr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemMBNclr->mData, gEmblem->mEmblemMBNclr->mDataSize);
-    GX_LoadBGPltt(gEmblem->mEmblemMBNclr->mData, 0, gEmblem->mEmblemMBNclr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemMBNcgr->mData, gEmblem->mEmblemMBNcgr->mDataSize);
-    GX_LoadBG1Char((gEmblem->mEmblemMBNcgr->mData), 0, gEmblem->mEmblemMBNcgr->mDataSize);
-    DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
-    GX_LoadBG2Char(gEmblem->mGridCharBytes, 0, 0x200);
-    DC_FlushRange(gEmblem->mEmblemMNscr->mData, gEmblem->mEmblemMNscr->mDataSize);
-    GX_LoadBG1Scr(gEmblem->mEmblemMNscr->mData, 0, gEmblem->mEmblemMNscr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemMBgNscr->mData, gEmblem->mEmblemMBgNscr->mDataSize);
-    GX_LoadBG2Scr(gEmblem->mEmblemMBgNscr->mData, 0, gEmblem->mEmblemMBgNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemMONclr->mData, gEmblem->mEmblemMONclr->mDataSize);
+    CopySomePaletteData(gEmblem->mEmblemMONclr->mData, 0, gEmblem->mEmblemMONclr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemMONcgr->mData, gEmblem->mEmblemMONcgr->mDataSize);
+    CopyTileDataTop_0(gEmblem->mEmblemMONcgr->mData, 0, gEmblem->mEmblemMONcgr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemMBNclr->mData, gEmblem->mEmblemMBNclr->mDataSize);
+    CopyPaletteTop(gEmblem->mEmblemMBNclr->mData, 0, gEmblem->mEmblemMBNclr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemMBNcgr->mData, gEmblem->mEmblemMBNcgr->mDataSize);
+    CopyBgData_Bg1_Top((gEmblem->mEmblemMBNcgr->mData), 0, gEmblem->mEmblemMBNcgr->mDataSize);
+    Arm_FlushRange(gEmblem->mGridCharBytes, 0x200);
+    CopyBgData_Bg2_Top(gEmblem->mGridCharBytes, 0, 0x200);
+    Arm_FlushRange(gEmblem->mEmblemMNscr->mData, gEmblem->mEmblemMNscr->mDataSize);
+    TEQSub_Fn9Impl(gEmblem->mEmblemMNscr->mData, 0, gEmblem->mEmblemMNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemMBgNscr->mData, gEmblem->mEmblemMBgNscr->mDataSize);
+    TEQSub_Fn10Impl_Fn12Impl(gEmblem->mEmblemMBgNscr->mData, 0, gEmblem->mEmblemMBgNscr->mDataSize);
     reg_G2_BG1OFS = 0;
     reg_G2_BG2OFS = 0;
 }
 
 void UploadEmblemSubScreen(void) {
-    GXS_SetGraphicsMode(GX_BGMODE_1);
+    SetDispcntSubBgMode(GX_BGMODE_1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1e00;
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 1;
     reg_G2S_DB_BG0CNT =
@@ -708,34 +708,34 @@ void UploadEmblemSubScreen(void) {
     reg_G2S_DB_BG1OFS = 0;
     reg_G2S_DB_BG2OFS = 0;
     G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, gEmblemSubBg3AffineMatrix, 16, 16, -0x70, -0x40);
-    DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
-    GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemSONcgr->mData, gEmblem->mEmblemSONcgr->mDataSize);
-    GXS_LoadOBJ(gEmblem->mEmblemSONcgr->mData, 0, gEmblem->mEmblemSONcgr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemSBNclr->mData, gEmblem->mEmblemSBNclr->mDataSize);
-    GXS_LoadBGPltt(gEmblem->mEmblemSBNclr->mData, 0, gEmblem->mEmblemSBNclr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemSBNcgr->mData, gEmblem->mEmblemSBNcgr->mDataSize);
-    GXS_LoadBG1Char((gEmblem->mEmblemSBNcgr->mData), 0, gEmblem->mEmblemSBNcgr->mDataSize);
-    DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
-    GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
-    DC_FlushRange(gEmblem->mEmblemSTemplateFrameNscr->mData, gEmblem->mEmblemSTemplateFrameNscr->mDataSize);
-    GXS_LoadBG0Scr(gEmblem->mEmblemSTemplateFrameNscr->mData, 0, gEmblem->mEmblemSTemplateFrameNscr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemSToolNscr->mData, gEmblem->mEmblemSToolNscr->mDataSize);
-    GXS_LoadBG1Scr(gEmblem->mEmblemSToolNscr->mData, 0, gEmblem->mEmblemSToolNscr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemSBgNscr->mData, gEmblem->mEmblemSBgNscr->mDataSize);
-    GXS_LoadBG2Scr(gEmblem->mEmblemSBgNscr->mData, 0, gEmblem->mEmblemSBgNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
+    TEQSub_Fn30Impl(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSONcgr->mData, gEmblem->mEmblemSONcgr->mDataSize);
+    TEQSub_Fn35Impl(gEmblem->mEmblemSONcgr->mData, 0, gEmblem->mEmblemSONcgr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSBNclr->mData, gEmblem->mEmblemSBNclr->mDataSize);
+    CopyPaletteBottom(gEmblem->mEmblemSBNclr->mData, 0, gEmblem->mEmblemSBNclr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSBNcgr->mData, gEmblem->mEmblemSBNcgr->mDataSize);
+    CopyBgData_Bg1_Bottom((gEmblem->mEmblemSBNcgr->mData), 0, gEmblem->mEmblemSBNcgr->mDataSize);
+    Arm_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
+    CopyBgData_Bg3_Bottom(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
+    Arm_FlushRange(gEmblem->mEmblemSTemplateFrameNscr->mData, gEmblem->mEmblemSTemplateFrameNscr->mDataSize);
+    TEQSub_Fn24Impl(gEmblem->mEmblemSTemplateFrameNscr->mData, 0, gEmblem->mEmblemSTemplateFrameNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSToolNscr->mData, gEmblem->mEmblemSToolNscr->mDataSize);
+    TEQSub_Fn25Impl(gEmblem->mEmblemSToolNscr->mData, 0, gEmblem->mEmblemSToolNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSBgNscr->mData, gEmblem->mEmblemSBgNscr->mDataSize);
+    TEQSub_Fn26Impl_Fn28Impl(gEmblem->mEmblemSBgNscr->mData, 0, gEmblem->mEmblemSBgNscr->mDataSize);
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x1010;
-    DC_FlushRange(gEmblem->mEmblemSTemplateDarkNscr->mData, gEmblem->mEmblemSTemplateDarkNscr->mDataSize);
-    GXS_LoadBG3Scr(gEmblem->mEmblemSTemplateDarkNscr->mData, 0, gEmblem->mEmblemSTemplateDarkNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSTemplateDarkNscr->mData, gEmblem->mEmblemSTemplateDarkNscr->mDataSize);
+    TEQSub_Fn27Impl_Fn29Impl(gEmblem->mEmblemSTemplateDarkNscr->mData, 0, gEmblem->mEmblemSTemplateDarkNscr->mDataSize);
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x1218;
-    DC_FlushRange(GetEmblemGridScr(), GetEmblemGridScrSize());
-    GXS_LoadBG3Scr(GetEmblemGridScr(), GetEmblemGridScrOffset(), GetEmblemGridScrSize());
+    Arm_FlushRange(GetEmblemGridScr(), GetEmblemGridScrSize());
+    TEQSub_Fn27Impl_Fn29Impl(GetEmblemGridScr(), GetEmblemGridScrOffset(), GetEmblemGridScrSize());
 }
 
 void UploadEmblemCameraSubScreen(void) {
-    GXS_SetGraphicsMode(GX_BGMODE_1);
+    SetDispcntSubBgMode(GX_BGMODE_1);
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1600;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & (REG_G2S_DB_BG1CNT_PRIORITY_MASK | REG_G2S_DB_BG1CNT_MOSAIC_MASK)) | 0xe10;
@@ -745,18 +745,18 @@ void UploadEmblemCameraSubScreen(void) {
     reg_G2S_DB_BG1OFS = 0;
     reg_G2S_DB_BG2OFS = 0;
     reg_G2S_DB_BG3OFS = 0;
-    DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
-    GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemCameraSONcgr->mData, gEmblem->mEmblemCameraSONcgr->mDataSize);
-    GXS_LoadOBJ(gEmblem->mEmblemCameraSONcgr->mData, 0, gEmblem->mEmblemCameraSONcgr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemSBNclr->mData, gEmblem->mEmblemSBNclr->mDataSize);
-    GXS_LoadBGPltt(gEmblem->mEmblemSBNclr->mData, 0, gEmblem->mEmblemSBNclr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemCameraSBNcgr->mData, gEmblem->mEmblemCameraSBNcgr->mDataSize);
-    GXS_LoadBG1Char((gEmblem->mEmblemCameraSBNcgr->mData), 0, gEmblem->mEmblemCameraSBNcgr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemCameraSDSNscr->mData, gEmblem->mEmblemCameraSDSNscr->mDataSize);
-    GXS_LoadBG1Scr(gEmblem->mEmblemCameraSDSNscr->mData, 0, gEmblem->mEmblemCameraSDSNscr->mDataSize);
-    DC_FlushRange(gEmblem->mEmblemCameraSBgNscr->mData, gEmblem->mEmblemCameraSBgNscr->mDataSize);
-    GXS_LoadBG2Scr(gEmblem->mEmblemCameraSBgNscr->mData, 0, gEmblem->mEmblemCameraSBgNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
+    TEQSub_Fn30Impl(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemCameraSONcgr->mData, gEmblem->mEmblemCameraSONcgr->mDataSize);
+    TEQSub_Fn35Impl(gEmblem->mEmblemCameraSONcgr->mData, 0, gEmblem->mEmblemCameraSONcgr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemSBNclr->mData, gEmblem->mEmblemSBNclr->mDataSize);
+    CopyPaletteBottom(gEmblem->mEmblemSBNclr->mData, 0, gEmblem->mEmblemSBNclr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemCameraSBNcgr->mData, gEmblem->mEmblemCameraSBNcgr->mDataSize);
+    CopyBgData_Bg1_Bottom((gEmblem->mEmblemCameraSBNcgr->mData), 0, gEmblem->mEmblemCameraSBNcgr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemCameraSDSNscr->mData, gEmblem->mEmblemCameraSDSNscr->mDataSize);
+    TEQSub_Fn25Impl(gEmblem->mEmblemCameraSDSNscr->mData, 0, gEmblem->mEmblemCameraSDSNscr->mDataSize);
+    Arm_FlushRange(gEmblem->mEmblemCameraSBgNscr->mData, gEmblem->mEmblemCameraSBgNscr->mDataSize);
+    TEQSub_Fn26Impl_Fn28Impl(gEmblem->mEmblemCameraSBgNscr->mData, 0, gEmblem->mEmblemCameraSBgNscr->mDataSize);
 }
 
 void StartEmblemChoises(void) {
@@ -903,12 +903,12 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                         gEmblem->mColorCursorIndex = entryIndex - EMBLEM_ENTRY_COLOR_FIRST;
                         SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f1);
                     } else {
                         gEmblem->mColorCursorIndex = entryIndex - EMBLEM_ENTRY_COLOR_FIRST;
                         StartEmblemColorCursorShrinkAndGrow((gEmblem->mEmblemSLld), entryIndex);
                         SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f0);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f0);
                     }
                     if (GetEmblemCursorMode() == EMBLEM_CURSOR_MODE_ERASE) {
                         StartEmblemModeButtonPress(gEmblem->mEmblemSLld,
@@ -933,7 +933,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_DRAW);
                     SetEmblemCursorSizeIndex(entryIndex - EMBLEM_ENTRY_DRAW_BRUSH_FIRST);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_ERASE_BRUSH_FIRST:
@@ -942,28 +942,28 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_ERASE);
                     SetEmblemCursorSizeIndex(entryIndex - EMBLEM_ENTRY_ERASE_BRUSH_FIRST);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_FILL:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_FILL);
                     SetEmblemCursorSizeIndex(EMBLEM_BRUSH_1X1);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_PICK_VALUE:
                     StartEmblemModeButtonPress((gEmblem->mEmblemSLld), entryIndex);
                     SetEmblemCursorMode(EMBLEM_CURSOR_MODE_PICK_VALUE);
                     SetEmblemCursorSizeIndex(EMBLEM_BRUSH_1X1);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f2);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f2);
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
                 case EMBLEM_ENTRY_TEMPLATE_BUTTON:
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideIn;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f3);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f3);
                         gEmblem->mTransitionRunning = TRUE;
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -971,9 +971,9 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                 case EMBLEM_ENTRY_SWAP_CELLS:
                     if (IsEmblemGridChanged()) {
                         if (IsEmblemGridSwapped()) {
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fb);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1fb);
                         } else {
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1fc);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1fc);
                         }
                         SwapEmblemGridCells();
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
@@ -987,7 +987,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToCamera;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemSLld), entryIndex);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xc);
                         gEmblem->mTransitionRunning = TRUE;
                         gEmblem->mKartListSkipped = FALSE;
                     }
@@ -997,7 +997,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemChoises;
                         StartEmblemButtonBounce((gEmblem->mEmblemSLld), entryIndex);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 4);
                         gEmblem->mTransitionRunning = TRUE;
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -1010,7 +1010,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                     if (gEmblem->mPendingTransitionFunc == NULL) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonHold((gEmblem->mEmblemTemplateSLld), 1);
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xe);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xe);
                         gEmblem->mTransitionRunning = TRUE;
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -1057,7 +1057,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                         gEmblem->mPendingTransitionFunc = StartEmblemTemplateSlideOut;
                         StartEmblemButtonBounceThenWait((gEmblem->mEmblemTemplateSLld), entryIndex);
                         gEmblem->mTemplateCursorIndex = entryIndex - 3;
-                        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f6);
+                        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f6);
                     }
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     return;
@@ -1068,7 +1068,7 @@ void ActivateEmblemEntry(s32 entryIndex, s32 isTouch) {
                 if (gEmblem->mPendingTransitionFunc == NULL) {
                     gEmblem->mPendingTransitionFunc = StartEmblemFadeOutToGrid;
                     StartEmblemButtonBounceThenWait((gEmblem->mEmblemCameraSLld), entryIndex);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0xc);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0xc);
                     gEmblem->mKartListSkipped = TRUE;
                 }
                 gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
@@ -1169,7 +1169,7 @@ void AdvanceEmblemGridScreen(void) {
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_BUTTONS;
                     switch (GetEmblemCursorMode()) {
@@ -1190,7 +1190,7 @@ void AdvanceEmblemGridScreen(void) {
                     }
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 8), 0x1000);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 8), NULL);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1ee);
                 }
                 break;
             case EMBLEM_CURSOR_TARGET_BUTTONS:
@@ -1205,11 +1205,11 @@ void AdvanceEmblemGridScreen(void) {
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz > 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
                     if (gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex] != 0x17 || IsEmblemGridChanged()) {
                         ActivateEmblemEntry(gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex], 0);
@@ -1224,7 +1224,7 @@ void AdvanceEmblemGridScreen(void) {
                     ApplyLldEntryFrameCommand(buttonCursorEntry, 0);
                     SetLldEntryPos(buttonCursorEntry, GetLldEntryX(targetEntry), GetLldEntryY(targetEntry));
                     if (gEmblem->mButtonCursorIndex != previousCursor) {
-                        StartSoundOncePerFrame(0x1ef);
+                        MaybePlaySomeSseqFromSarc0(0x1ef);
                     }
                 }
                 AdvanceEmblemCursor(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
@@ -1257,14 +1257,14 @@ void AdvanceEmblemGridScreen(void) {
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     ApplyLldEntryFrameCommand(colorCursorEntry, -5);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (dz < 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
                     gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     ApplyLldEntryFrameCommand(colorCursorEntry, -5);
-                    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
+                    PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1ee);
                 } else if (GetEmblemInputNewBits(1)) {
                     ActivateEmblemEntry(gEmblemColorLldEntries[gEmblem->mColorCursorIndex], 0);
                 } else {
@@ -1278,7 +1278,7 @@ void AdvanceEmblemGridScreen(void) {
                         ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     }
                     if (gEmblem->mColorCursorIndex != previousCursor) {
-                        StartSoundOncePerFrame(0x1ef);
+                        MaybePlaySomeSseqFromSarc0(0x1ef);
                     }
                 }
                 AdvanceEmblemCursor(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
@@ -1327,15 +1327,15 @@ void AdvanceEmblemGridScreen(void) {
                                 dy)) {
             if (GetEmblemCursorMode() == EMBLEM_CURSOR_MODE_PICK_VALUE) {
                 gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f4);
             } else if (GetEmblemCursorMode() == EMBLEM_CURSOR_MODE_FILL) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f5);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f5);
             }
         } else if (GetEmblemInputBits(0x400)) {
             flag = TRUE;
             if (SetEmblemCursorCellValueFromGrid()) {
                 gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f4);
             }
         }
         if (GetEmblemInputDown() && !GetEmblemInputPrevDown() &&
@@ -1493,7 +1493,7 @@ void AdvanceEmblemTemplateScreen(void) {
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 10);
         SetLldEntryPos(colorCursorEntry, GetLldEntryX(colorEntry), GetLldEntryY(colorEntry));
         SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x1f1);
     }
     sel = gEmblem->mTemplateCursorIndex;
     gEmblem->mTemplateCursorIndex = gEmblemTemplateCursorVerticalMoves[verticalStep + 1][sel];
@@ -1504,7 +1504,7 @@ void AdvanceEmblemTemplateScreen(void) {
     ApplyLldEntryFrameCommand(templateCursorEntry, 0);
     SetLldEntryPos(templateCursorEntry, GetLldEntryX(templateEntry), GetLldEntryY(templateEntry));
     if (gEmblem->mTemplateCursorIndex != sel) {
-        StartSoundOncePerFrame(0x1ef);
+        MaybePlaySomeSseqFromSarc0(0x1ef);
     }
     {
         s32 templateIndex;
@@ -1574,7 +1574,7 @@ void AdvanceEmblem(void) {
         scrollPosition -= 0x100000;
     }
     gEmblem->mBgScrollPosition = scrollPosition;
-    ClearOamListCounts(gEmblem, &gEmblem->mSubOam);
+    OamBuffer_ResetValues16_from_thumb(gEmblem, &gEmblem->mSubOam);
     AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mMainOam);
     switch (gEmblem->mState) {
         case EMBLEM_STATE_GRID:
@@ -1643,9 +1643,9 @@ void AdvanceEmblem(void) {
             break;
         case EMBLEM_STATE_SAVING:
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
-            if (gBackupBuffers->mBusy == 0) {
-                if (gBackupAccess->mBackupEnabled != 0) {
-                    scrollPosition = gBackupAccess->mCommandRunning;
+            if (g_SaveDataHolder->mBusy == 0) {
+                if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                    scrollPosition = g_SaveDataIoManager->mCommandRunning;
                 } else {
                     scrollPosition = 0;
                 }
@@ -1660,7 +1660,7 @@ void AdvanceEmblem(void) {
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             break;
     }
-    HideUnusedOams(gEmblem, &gEmblem->mSubOam);
+    OamBuffer_SomeFn2_from_thumb(gEmblem, &gEmblem->mSubOam);
     AdvanceShownSlotAndQueueEmblem();
     DrawKartModelMenuUnmirrored();
     JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mRecordBytes, GetEmblemGridSide());
@@ -1672,7 +1672,7 @@ void AdvanceEmblemDisplay(void) {
     u16 *soColors;
     u32 dispcntBits;
 
-    if ((gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled ? gBackupAccess->mCommandRunning : 0) : 1) == 0) {
+    if ((g_SaveDataHolder->mBusy == 0 ? (g_SaveDataIoManager->mBackupEnabled ? g_SaveDataIoManager->mCommandRunning : 0) : 1) == 0) {
         AdvanceKartModelMenuLoad();
     }
 
@@ -1700,12 +1700,12 @@ void AdvanceEmblemDisplay(void) {
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
             reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
                                 ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
-            GXS_SetGraphicsMode(GX_BGMODE_1);
+            SetDispcntSubBgMode(GX_BGMODE_1);
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 2;
             reg_G2S_DB_BG3CNT =
                 (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x1218;
-            DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
-            GX_LoadBG2Char((gEmblem->mGridCharBytes), 0, 0x200);
+            Arm_FlushRange(gEmblem->mGridCharBytes, 0x200);
+            CopyBgData_Bg2_Top((gEmblem->mGridCharBytes), 0, 0x200);
             G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0, 0x10, 0x10);
             gEmblem->mDisplayState = EMBLEM_DISPLAY_TEMPLATE_SLIDING;
             break;
@@ -1713,22 +1713,22 @@ void AdvanceEmblemDisplay(void) {
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
             reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
                                 ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
-            DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
-            GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
-            DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
-            GX_LoadBG2Char((gEmblem->mGridCharBytes), 0, 0x200);
+            Arm_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
+            CopyBgData_Bg3_Bottom(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
+            Arm_FlushRange(gEmblem->mGridCharBytes, 0x200);
+            CopyBgData_Bg2_Top((gEmblem->mGridCharBytes), 0, 0x200);
             sbColors = gEmblem->mEmblemSBNclr->mData;
             soColors = gEmblem->mEmblemSONclr->mData;
             soColors[0x91] = sbColors[GetEmblemCursorCellValue() == 1 ? 2 : 1];
             soColors[0x92] = sbColors[GetEmblemCursorCellValue()];
-            DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
-            GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
+            Arm_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
+            TEQSub_Fn30Impl(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
         case EMBLEM_DISPLAY_TEMPLATE_SETUP:
             reg_G2S_DB_BG0OFS = (-(gEmblem->mTemplateSlideOffset - EMBLEM_TEMPLATE_SLIDE_DISTANCE) << 16) & 0x1ff0000;
             reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
                                 ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
-            GXS_SetGraphicsMode(GX_BGMODE_0);
+            SetDispcntSubBgMode(GX_BGMODE_0);
             reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~REG_G2S_DB_BG3CNT_PRIORITY_MASK) | 1;
             reg_G2S_DB_BG3CNT =
                 (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x1010;
@@ -1744,28 +1744,28 @@ void AdvanceEmblemDisplay(void) {
             gEmblem->mDisplayState = EMBLEM_DISPLAY_GRID;
             break;
         case EMBLEM_DISPLAY_TEMPLATE_SHOWN:
-            DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
-            GX_LoadBG2Char((gEmblem->mGridCharBytes), 0, 0x200);
+            Arm_FlushRange(gEmblem->mGridCharBytes, 0x200);
+            CopyBgData_Bg2_Top((gEmblem->mGridCharBytes), 0, 0x200);
             sbColors = gEmblem->mEmblemSBNclr->mData;
             soColors = gEmblem->mEmblemSONclr->mData;
             soColors[0x91] = sbColors[GetEmblemCursorCellValue() == 1 ? 2 : 1];
             soColors[0x92] = sbColors[GetEmblemCursorCellValue()];
-            DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
-            GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
+            Arm_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
+            TEQSub_Fn30Impl(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
         case EMBLEM_DISPLAY_GRID:
             reg_G2S_DB_BG2OFS = (FROM_FIXED12(gEmblem->mBgScrollPosition) & 0x1ff) |
                                 ((FROM_FIXED12(-gEmblem->mBgScrollPosition) << 16) & 0x1ff0000);
-            DC_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
-            GXS_LoadBG3Char(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
-            DC_FlushRange(gEmblem->mGridCharBytes, 0x200);
-            GX_LoadBG2Char((gEmblem->mGridCharBytes), 0, 0x200);
+            Arm_FlushRange(GetEmblemGridCells(), GetEmblemGridCharSize());
+            CopyBgData_Bg3_Bottom(GetEmblemGridCells(), GetEmblemGridCharOffset(), GetEmblemGridCharSize());
+            Arm_FlushRange(gEmblem->mGridCharBytes, 0x200);
+            CopyBgData_Bg2_Top((gEmblem->mGridCharBytes), 0, 0x200);
             sbColors = gEmblem->mEmblemSBNclr->mData;
             soColors = gEmblem->mEmblemSONclr->mData;
             soColors[0x91] = sbColors[GetEmblemCursorCellValue() == 1 ? 2 : 1];
             soColors[0x92] = sbColors[GetEmblemCursorCellValue()];
-            DC_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
-            GXS_LoadOBJPltt(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
+            Arm_FlushRange(gEmblem->mEmblemSONclr->mData, gEmblem->mEmblemSONclr->mDataSize);
+            TEQSub_Fn30Impl(gEmblem->mEmblemSONclr->mData, 0, gEmblem->mEmblemSONclr->mDataSize);
             break;
         case EMBLEM_DISPLAY_GRID_UPLOAD:
             G2x_SetBlendBrightness_(&reg_G2S_DB_BLDCNT, 0x3e, -16);
@@ -1823,7 +1823,7 @@ void AdvanceEmblemDisplay(void) {
         gEmblem->mSoundPending = FALSE;
     }
     DrawEmblemChoises();
-    UploadOamLists(&gEmblem->mMainOam, &gEmblem->mSubOam);
+    CopyOamBuffersToMemory_from_thumb(&gEmblem->mMainOam, &gEmblem->mSubOam);
 }
 
 void InitEmblemAndAdvanceKartList(void) {

@@ -61,9 +61,9 @@ void UpdateRaceHudSubScreenRainStarCells(void) {
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenRainStarCells->mCells[cellCount].mDrawPos,
                                             scale, 1, 1) != FALSE) {
-            gRaceHudSubScreenRainStarCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb3);
+            gRaceHudSubScreenRainStarCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xb3);
             gRaceHudSubScreenRainStarCells->mCells[cellCount].mPriority =
-                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
             gRaceHudSubScreenRainStarCells->mCells[cellCount].mXlu = 0;
             gRaceHudSubScreenRainStarCells->mCells[cellCount].mAngle = object->mAngle;
             cellCount++;
@@ -104,13 +104,13 @@ void UpdateRaceHudSubScreenBasabasaCells(void) {
                 if (ComputeRaceHudSubScreenPosition(
                         position, &gRaceHudSubScreenBasabasaCells->mCells[cellCount].mDrawPos, scale, 1, 1) != FALSE) {
                     if (cellKind == 2) {
-                        cell = GetRaceSNcerEntry(0xb5);
+                        cell = GetB3C4_Cell_RaceS(0xb5);
                     } else {
-                        cell = GetRaceSNcerEntry(0xb4);
+                        cell = GetB3C4_Cell_RaceS(0xb4);
                     }
                     gRaceHudSubScreenBasabasaCells->mCells[cellCount].mCell = cell;
                     gRaceHudSubScreenBasabasaCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
                 }
             }
@@ -151,9 +151,9 @@ void UpdateRaceHudSubScreenMkdEfBubbleCells(void) {
                                                     &gRaceHudSubScreenMkdEfBubbleCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 1) != FALSE) {
                     gRaceHudSubScreenMkdEfBubbleCells->mCells[cellCount].mDrawPos.mSecond -= riseHeight >> 14;
-                    gRaceHudSubScreenMkdEfBubbleCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb1);
+                    gRaceHudSubScreenMkdEfBubbleCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xb1);
                     gRaceHudSubScreenMkdEfBubbleCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
                 }
             }
@@ -188,9 +188,9 @@ void UpdateRaceHudSubScreenBoundCells(void) {
         position = &object->mPos;
         if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenBoundCells->mCells[cellCount].mDrawPos, scale,
                                             1, 1) != FALSE) {
-            gRaceHudSubScreenBoundCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x91);
+            gRaceHudSubScreenBoundCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x91);
             gRaceHudSubScreenBoundCells->mCells[cellCount].mPriority =
-                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
             gRaceHudSubScreenBoundCells->mCells[cellCount].mAngle = object->mAngle;
             gRaceHudSubScreenBoundCells->mObjectPairs[cellCount].mFirst = object->mScale.x / 6;
             cellCount++;
@@ -234,9 +234,9 @@ void UpdateRaceHudSubScreenMkdEfBurnerCells(void) {
             if (ComputeRaceHudSubScreenPosition(
                     position, &gRaceHudSubScreenMkdEfBurnerCells->mCells[cellCount].mDrawPos, scale, 0, 0) != FALSE) {
                 gRaceHudSubScreenMkdEfBurnerCells->mCells[cellCount].mCell =
-                    GetRaceSNcerEntry(gRaceSetup->mCourseId == COURSE_ID_AIRSHIP ? 0xae : 0xb2);
+                    GetB3C4_Cell_RaceS(g_GlobalCO->mCourseId == COURSE_ID_AIRSHIP ? 0xae : 0xb2);
                 gRaceHudSubScreenMkdEfBurnerCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenMkdEfBurnerCells->mObjectPairs[cellCount].mFirst = inFirstHalf != 0 ? 0x1000 : 0xccd;
                 cellCount++;
             }
@@ -272,9 +272,9 @@ void UpdateRaceHudSubScreenSunFireballCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(
                     position, &gRaceHudSubScreenSunFireballCells->mCells[cellCount].mDrawPos, scale, 1, 1) != FALSE) {
-                gRaceHudSubScreenSunFireballCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8d);
+                gRaceHudSubScreenSunFireballCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x8d);
                 gRaceHudSubScreenSunFireballCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 cellCount++;
             }
         }
@@ -309,9 +309,9 @@ void UpdateRaceHudSubScreenIronBallCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIronBallCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
-                gRaceHudSubScreenIronBallCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x92);
+                gRaceHudSubScreenIronBallCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x92);
                 gRaceHudSubScreenIronBallCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenIronBallCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 cellCount++;
             }
@@ -347,9 +347,9 @@ void UpdateRaceHudSubScreenKuriboCells(void) {
         if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKuriboCells->mCells[cellCount].mDrawPos,
                                                 scale, 0, 1) != FALSE) {
-                gRaceHudSubScreenKuriboCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa3);
+                gRaceHudSubScreenKuriboCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xa3);
                 gRaceHudSubScreenKuriboCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 cellCount++;
             }
         }
@@ -386,12 +386,12 @@ void UpdateRaceHudSubScreenObPakkunSfCells(void) {
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 0) != FALSE) {
-                    gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mCell = GetRaceSNcerEntry(
+                    gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(
                         ((((ObPakkunSf *) object)->mFramesSinceInit & RACE_HUD_PAKKUN_SF_SWAP_FRAME_BIT) >> 4) != 0
                             ? 0xa2
                             : 0xa1);
                     gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
                 }
             }
@@ -432,9 +432,9 @@ void UpdateRaceHudSubScreenCoverPooHoleCells(void) {
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos.mSecond -=
                         GetCoverPooHoleHitCoverHeight((CoverPooHole *) object) >> 14;
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mCell =
-                        GetRaceSNcerEntry(IsCoverPooHoleRaising((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
+                        GetB3C4_Cell_RaceS(IsCoverPooHoleRaising((CoverPooHole *) object) != FALSE ? 0xab : 0xaa);
                     gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
                 }
             }
@@ -470,9 +470,9 @@ void UpdateRaceHudSubScreenRock2Cells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenRock2Cells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
-                gRaceHudSubScreenRock2Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8f);
+                gRaceHudSubScreenRock2Cells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x8f);
                 gRaceHudSubScreenRock2Cells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenRock2Cells->mCells[cellCount].mAngle += 0x400;
                 cellCount++;
             }
@@ -509,9 +509,9 @@ void UpdateRaceHudSubScreenSanboCells(void) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenSanboCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 0) != FALSE) {
-                    gRaceHudSubScreenSanboCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8e);
+                    gRaceHudSubScreenSanboCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x8e);
                     gRaceHudSubScreenSanboCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
                 }
             }
@@ -547,9 +547,9 @@ void UpdateRaceHudSubScreenRockCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenRockCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
-                gRaceHudSubScreenRockCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x99);
+                gRaceHudSubScreenRockCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x99);
                 gRaceHudSubScreenRockCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenRockCells->mCells[cellCount].mAngle += 0x400;
                 cellCount++;
             }
@@ -586,9 +586,9 @@ void UpdateRaceHudSubScreenWoodbox1Cells(void) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(
                         position, &gRaceHudSubScreenWoodbox1Cells->mCells[cellCount].mDrawPos, scale, 0, 0) != FALSE) {
-                    gRaceHudSubScreenWoodbox1Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x5c);
+                    gRaceHudSubScreenWoodbox1Cells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x5c);
                     gRaceHudSubScreenWoodbox1Cells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                     cellCount++;
                 }
             }
@@ -624,9 +624,9 @@ void UpdateRaceHudSubScreenFlipperCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenFlipperCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
-                gRaceHudSubScreenFlipperCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x90);
+                gRaceHudSubScreenFlipperCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x90);
                 gRaceHudSubScreenFlipperCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenFlipperCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_FLIPPER_MIRROR;
                 gRaceHudSubScreenFlipperCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
@@ -656,7 +656,7 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
         priority = gRaceHudSubScreenFlipperCells->mCells[cellIndex].mPriority;
         if (minDrawValue <= priority) {
             if (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mXlu != 0) {
-                if (gRaceSetup->mMirrorMode != 0) {
+                if (g_GlobalCO->mMirrorMode != 0) {
                     Matrix2x2ReflectedRotation(
                         &matrix,
                         (u16) (screenAngle + (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle + 0x4000)));
@@ -666,11 +666,11 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
                         (u16) (0x4000 - gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle - screenAngle));
                 }
             } else {
-                if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2Rotation(&matrix, (u16) (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle + 0x4000 -
+                if (g_GlobalCO->mMirrorMode != 0) {
+                    MaybeCreateRotationMatrix(&matrix, (u16) (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle + 0x4000 -
                                                       screenAngle));
                 } else {
-                    Matrix2x2Rotation(
+                    MaybeCreateRotationMatrix(
                         &matrix,
                         (u16) (screenAngle + (0x4000 - gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle)));
                 }
@@ -687,7 +687,7 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
             drawY = cell->mDrawPos.mSecond;
             position[0] = TO_FIXED12(drawX);
             position[1] = TO_FIXED12(drawY);
-            oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, ncerEntry,
+            oamBuffer->mOamCount += MaybeMakeOamSlot(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, ncerEntry,
                                                           &matrix, position, matrixIndex, 1);
             for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
                 if (priority != -1) {
@@ -720,7 +720,7 @@ void UpdateRaceHudSubScreenNsKiller2Cells(void) {
             if (ComputeRaceHudSubScreenPosition(&object->mPos,
                                                 &gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {
-                gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xad);
+                gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xad);
                 gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mXlu = 0;
                 gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mAngle = object->mAngle;
@@ -758,9 +758,9 @@ void UpdateRaceHudSubScreenPendulumCells(void) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenPendulumCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
-                gRaceHudSubScreenPendulumCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa0);
+                gRaceHudSubScreenPendulumCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0xa0);
                 gRaceHudSubScreenPendulumCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
                 gRaceHudSubScreenPendulumCells->mCells[cellCount].mXlu = 0;
                 gRaceHudSubScreenPendulumCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;

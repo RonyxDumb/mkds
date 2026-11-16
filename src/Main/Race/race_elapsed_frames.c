@@ -3,5 +3,5 @@
 #include "Main/System/init_after_startup.h"
 
 s32 GetRaceElapsedFrames(void) {
-    return ((u32) gRaceProgress->mHeader.mElapsedFrames);
+    return ((u32) g_GlobalMV->mHeader.mElapsedFrames);
 }

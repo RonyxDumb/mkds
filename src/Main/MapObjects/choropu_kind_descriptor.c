@@ -79,7 +79,7 @@ const MapObjectKindDescriptor gChoropuKindDescriptor = {0,
 #pragma thumb on
 
 void InitChoropu(Choropu *choropu, struct CourseMapRow *courseRow) {
-    InitStateMachine(&choropu->mMapObject.mStateMachine, gChoropuStateTable, 8, choropu);
+    StateDualHandler_Create(&choropu->mMapObject.mStateMachine, gChoropuStateTable, 8, choropu);
     choropu->mInitialY = choropu->mMapObject.mPos.y;
     choropu->mBottomY = choropu->mMapObject.mPos.y - 0x12000;
     choropu->mLowestY = choropu->mMapObject.mPos.y - 0x18000;

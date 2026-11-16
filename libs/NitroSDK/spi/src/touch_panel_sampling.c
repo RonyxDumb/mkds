@@ -4,11 +4,11 @@
 #include "registers.h"
 #include "arm_fifo_messaging.h"
 
-u16 gTouchPanelInitialized;
-TouchPanelState gTouchPanelState;
+u16 g_TouchPanelFifoInit;
+TouchPanelState g_GlobalTP;
 
 // Handles a word from the other processor: stores automatic samples, finishes requests and reports errors.
-void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
+void TouchPanelFifoCallback(u32 tag, u32 data, BOOL err) {
     u16 result = data;
     u16 tpCommand = (result & 0x7f00) >> 8;
     TPRequestResult callbackResult;
@@ -17,26 +17,26 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
     TPData *sample;
 
     if (err != 0) {
-        BIT_SET(gTouchPanelState.mErrorFlags, tpCommand);
-        if (gTouchPanelState.mCallback != 0) {
-            gTouchPanelState.mCallback(tpCommand, TP_RESULT_PXI_BUSY, 0);
+        BIT_SET(g_GlobalTP.mErrorFlags, tpCommand);
+        if (g_GlobalTP.mCallback != 0) {
+            g_GlobalTP.mCallback(tpCommand, TP_RESULT_PXI_BUSY, 0);
         }
         return;
     }
     if (tpCommand == TP_REQUEST_COMMAND_AUTO_SAMPLING) {
-        gTouchPanelState.mAutoSampleIndex++;
-        if (gTouchPanelState.mAutoSampleIndex >= gTouchPanelState.mAutoSampleBufferCount) {
-            gTouchPanelState.mAutoSampleIndex = 0;
+        g_GlobalTP.mAutoSampleIndex++;
+        if (g_GlobalTP.mAutoSampleIndex >= g_GlobalTP.mAutoSampleBufferCount) {
+            g_GlobalTP.mAutoSampleIndex = 0;
         }
-        sample = gTouchPanelState.mAutoSampleBuffer + gTouchPanelState.mAutoSampleIndex;
+        sample = g_GlobalTP.mAutoSampleBuffer + g_GlobalTP.mAutoSampleIndex;
         spiTp.halfs[0] = SYSTEM_WORK->mTouchPanel[0];
         spiTp.halfs[1] = SYSTEM_WORK->mTouchPanel[1];
         sample->mX = spiTp.e.mX;
         sample->mY = spiTp.e.mY;
         sample->mTouch = (u8) spiTp.e.mTouch;
         sample->mValidity = (u8) spiTp.e.mValidity;
-        if (gTouchPanelState.mCallback != 0) {
-            gTouchPanelState.mCallback(tpCommand, TP_RESULT_SUCCESS, gTouchPanelState.mAutoSampleIndex);
+        if (g_GlobalTP.mCallback != 0) {
+            g_GlobalTP.mCallback(tpCommand, TP_RESULT_SUCCESS, g_GlobalTP.mAutoSampleIndex);
         }
         return;
     }
@@ -49,22 +49,22 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
                 case TP_REQUEST_COMMAND_SAMPLING:
                     spiTpRaw.halfs[0] = SYSTEM_WORK->mTouchPanel[0];
                     spiTpRaw.halfs[1] = SYSTEM_WORK->mTouchPanel[1];
-                    gTouchPanelState.mState = TP_STATE_READY;
-                    gTouchPanelState.mRawSample.mX = spiTpRaw.e.mX;
-                    gTouchPanelState.mRawSample.mY = spiTpRaw.e.mY;
-                    gTouchPanelState.mRawSample.mTouch = (u8) spiTpRaw.e.mTouch;
-                    gTouchPanelState.mRawSample.mValidity = (u8) spiTpRaw.e.mValidity;
+                    g_GlobalTP.mState = TP_STATE_READY;
+                    g_GlobalTP.mRawSample.mX = spiTpRaw.e.mX;
+                    g_GlobalTP.mRawSample.mY = spiTpRaw.e.mY;
+                    g_GlobalTP.mRawSample.mTouch = (u8) spiTpRaw.e.mTouch;
+                    g_GlobalTP.mRawSample.mValidity = (u8) spiTpRaw.e.mValidity;
                     break;
                 case TP_REQUEST_COMMAND_AUTO_ON:
-                    gTouchPanelState.mState = TP_STATE_AUTO_SAMPLING;
+                    g_GlobalTP.mState = TP_STATE_AUTO_SAMPLING;
                     break;
                 case TP_REQUEST_COMMAND_AUTO_OFF:
-                    gTouchPanelState.mState = TP_STATE_READY;
+                    g_GlobalTP.mState = TP_STATE_READY;
                     break;
             }
-            BIT_CLEAR(gTouchPanelState.mBusyFlags, tpCommand);
-            if (gTouchPanelState.mCallback != 0) {
-                gTouchPanelState.mCallback(tpCommand, TP_RESULT_SUCCESS, 0);
+            BIT_CLEAR(g_GlobalTP.mBusyFlags, tpCommand);
+            if (g_GlobalTP.mCallback != 0) {
+                g_GlobalTP.mCallback(tpCommand, TP_RESULT_SUCCESS, 0);
             }
             return;
         case TOUCH_REPLY_STATUS_EXCLUSIVE:
@@ -79,38 +79,38 @@ void TPi_TpCallback(u32 tag, u32 data, BOOL err) {
         default:
             goto fail;
     }
-    BIT_SET(gTouchPanelState.mErrorFlags, tpCommand);
-    BIT_CLEAR(gTouchPanelState.mBusyFlags, tpCommand);
-    if (gTouchPanelState.mCallback != 0) {
-        gTouchPanelState.mCallback(tpCommand, callbackResult, 0);
+    BIT_SET(g_GlobalTP.mErrorFlags, tpCommand);
+    BIT_CLEAR(g_GlobalTP.mBusyFlags, tpCommand);
+    if (g_GlobalTP.mCallback != 0) {
+        g_GlobalTP.mCallback(tpCommand, callbackResult, 0);
     }
     return;
 fail:
-    OS_Terminate();
+    Os_Terminate();
 }
 
 // Sets up the touch panel channel on the first call only.
-void TP_Init(void) {
-    if (gTouchPanelInitialized != 0) {
+void Os_InitializeTouchPanelFifo(void) {
+    if (g_TouchPanelFifoInit != 0) {
         return;
     }
-    gTouchPanelInitialized = 1;
-    PXI_Init();
-    gTouchPanelState.mState = TP_STATE_READY;
-    gTouchPanelState.mBusyFlags = 0;
-    gTouchPanelState.mAutoSampleIndex = 0;
-    gTouchPanelState.mCallback = 0;
-    gTouchPanelState.mAutoSampleBuffer = 0;
-    gTouchPanelState.mCalibrated = 0;
-    gTouchPanelState.mErrorFlags = 0;
-    while (!PXI_IsCallbackReady(6, 1)) {
+    g_TouchPanelFifoInit = 1;
+    j_Fifo_Initialize();
+    g_GlobalTP.mState = TP_STATE_READY;
+    g_GlobalTP.mBusyFlags = 0;
+    g_GlobalTP.mAutoSampleIndex = 0;
+    g_GlobalTP.mCallback = 0;
+    g_GlobalTP.mAutoSampleBuffer = 0;
+    g_GlobalTP.mCalibrated = 0;
+    g_GlobalTP.mErrorFlags = 0;
+    while (!Fifo_IsHandlerReady(6, 1)) {
     }
-    PXI_SetFifoRecvCallback(6, TPi_TpCallback);
+    Fifo_RegisterHandler(6, TouchPanelFifoCallback);
 }
 
 // Computes the calibration from the values stored in the shared block; zeroes it when there are none or they are
 // refused.
-BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
+BOOL ComputeSomeScreenCalibrationStuff(TPCalibrateParam *calibrate) {
     NvramUserInfo *info = &SYSTEM_WORK->mNvramUserInfo;
     u16 rawX1;
     u16 rawY1;
@@ -130,7 +130,7 @@ BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
     dx2 = info->mDx2;
     dy2 = info->mDy2;
     if ((rawX1 == 0 && rawX2 == 0 && rawY1 == 0 && rawY2 == 0) ||
-        TP_CalcCalibrateParam(calibrate, rawX1, rawY1, dx1, dy1, rawX2, rawY2, dx2, dy2) != 0) {
+        MaybeCheckScreenCalibration(calibrate, rawX1, rawY1, dx1, dy1, rawX2, rawY2, dx2, dy2) != 0) {
         calibrate->mX0 = 0;
         calibrate->mY0 = 0;
         calibrate->mXDotSize = 0;
@@ -141,17 +141,17 @@ BOOL TP_GetUserInfo(TPCalibrateParam *calibrate) {
 }
 
 // Stores the calibration, with 0x10000000 divided by each dot size.
-void TP_SetCalibrateParam(TPCalibrateParam *param) {
+void UseSomeCalibrationStuff(TPCalibrateParam *param) {
     OSIntrMode enabled;
     s16 xDotSize;
     s16 yDotSize;
     vu32 *den;
 
     if (param == 0) {
-        gTouchPanelState.mCalibrated = 0;
+        g_GlobalTP.mCalibrated = 0;
         return;
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     xDotSize = param->mXDotSize;
     if (xDotSize != 0) {
         reg_CP_DIVCNT = 0;
@@ -159,15 +159,15 @@ void TP_SetCalibrateParam(TPCalibrateParam *param) {
         den = (vu32 *) 0x4000298;
         den[0] = xDotSize;
         den[1] = 0;
-        gTouchPanelState.mCalibration.mX0 = param->mX0;
-        gTouchPanelState.mCalibration.mXDotSize = param->mXDotSize;
+        g_GlobalTP.mCalibration.mX0 = param->mX0;
+        g_GlobalTP.mCalibration.mXDotSize = param->mXDotSize;
         while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
         }
-        gTouchPanelState.mCalibration.mXDotSizeInv = *(vu32 *) 0x40002a0;
+        g_GlobalTP.mCalibration.mXDotSizeInv = *(vu32 *) 0x40002a0;
     } else {
-        gTouchPanelState.mCalibration.mX0 = 0;
-        gTouchPanelState.mCalibration.mXDotSize = 0;
-        gTouchPanelState.mCalibration.mXDotSizeInv = 0;
+        g_GlobalTP.mCalibration.mX0 = 0;
+        g_GlobalTP.mCalibration.mXDotSize = 0;
+        g_GlobalTP.mCalibration.mXDotSizeInv = 0;
     }
     yDotSize = param->mYDotSize;
     if (yDotSize != 0) {
@@ -176,46 +176,46 @@ void TP_SetCalibrateParam(TPCalibrateParam *param) {
         den = (vu32 *) 0x4000298;
         den[0] = yDotSize;
         den[1] = 0;
-        gTouchPanelState.mCalibration.mY0 = param->mY0;
-        gTouchPanelState.mCalibration.mYDotSize = param->mYDotSize;
+        g_GlobalTP.mCalibration.mY0 = param->mY0;
+        g_GlobalTP.mCalibration.mYDotSize = param->mYDotSize;
         while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
         }
-        gTouchPanelState.mCalibration.mYDotSizeInv = *(vu32 *) 0x40002a0;
+        g_GlobalTP.mCalibration.mYDotSizeInv = *(vu32 *) 0x40002a0;
     } else {
-        gTouchPanelState.mCalibration.mY0 = 0;
-        gTouchPanelState.mCalibration.mYDotSize = 0;
-        gTouchPanelState.mCalibration.mYDotSizeInv = 0;
+        g_GlobalTP.mCalibration.mY0 = 0;
+        g_GlobalTP.mCalibration.mYDotSize = 0;
+        g_GlobalTP.mCalibration.mYDotSizeInv = 0;
     }
-    OS_RestoreInterrupts(enabled);
-    gTouchPanelState.mCalibrated = 1;
+    Os_RestoreIrq(enabled);
+    g_GlobalTP.mCalibrated = 1;
 }
 
 // Sends the command word for one sample.
 void TP_RequestSamplingAsync(void) {
-    OSIntrMode enabled = OS_DisableInterrupts();
-    s32 sent = PXI_SendWordByFifo(6, 0x3000000, 0);
+    OSIntrMode enabled = Os_DisableIrq();
+    s32 sent = Fifo_SendWord(6, 0x3000000, 0);
     u32 ok = sent >= 0 ? 1 : 0;
 
     if (ok == 0) {
-        OS_RestoreInterrupts(enabled);
-        gTouchPanelState.mErrorFlags |= 1;
-        if (gTouchPanelState.mCallback != 0) {
-            gTouchPanelState.mCallback(TP_REQUEST_COMMAND_SAMPLING, TP_RESULT_PXI_BUSY, 0);
+        Os_RestoreIrq(enabled);
+        g_GlobalTP.mErrorFlags |= 1;
+        if (g_GlobalTP.mCallback != 0) {
+            g_GlobalTP.mCallback(TP_REQUEST_COMMAND_SAMPLING, TP_RESULT_PXI_BUSY, 0);
         }
     } else {
-        gTouchPanelState.mBusyFlags |= 1;
-        gTouchPanelState.mErrorFlags &= ~1;
-        OS_RestoreInterrupts(enabled);
+        g_GlobalTP.mBusyFlags |= 1;
+        g_GlobalTP.mErrorFlags &= ~1;
+        Os_RestoreIrq(enabled);
     }
 }
 
 // Waits for the single-sample request; copies the unconverted sample to result.
 u32 TP_WaitRawResult(TPData *result) {
-    TP_WaitBusy(1);
-    if (gTouchPanelState.mErrorFlags & 1) {
+    WaitForTPFlags(1);
+    if (g_GlobalTP.mErrorFlags & 1) {
         return 1;
     }
-    *result = gTouchPanelState.mRawSample;
+    *result = g_GlobalTP.mRawSample;
     return 0;
 }
 
@@ -226,34 +226,34 @@ void TP_RequestAutoSamplingStartAsync(u16 vcount, u16 frequence, TPData *samplin
     u8 ok;
     TPRecvCallback callback;
 
-    gTouchPanelState.mAutoSampleBuffer = samplingBufs;
-    gTouchPanelState.mAutoSampleIndex = 0;
-    gTouchPanelState.mFrequence = frequence;
-    gTouchPanelState.mAutoSampleBufferCount = bufSize;
+    g_GlobalTP.mAutoSampleBuffer = samplingBufs;
+    g_GlobalTP.mAutoSampleIndex = 0;
+    g_GlobalTP.mFrequence = frequence;
+    g_GlobalTP.mAutoSampleBufferCount = bufSize;
     for (sampleIndex = 0; sampleIndex < bufSize; sampleIndex++) {
-        gTouchPanelState.mAutoSampleBuffer[sampleIndex].mTouch = 0;
+        g_GlobalTP.mAutoSampleBuffer[sampleIndex].mTouch = 0;
     }
-    enabled = OS_DisableInterrupts();
-    if (PXI_SendWordByFifo(6, (frequence & 0xff) | 0x2000100, 0) < 0) {
+    enabled = Os_DisableIrq();
+    if (Fifo_SendWord(6, (frequence & 0xff) | 0x2000100, 0) < 0) {
         ok = 0;
     } else {
-        if (PXI_SendWordByFifo(6, vcount | 0x1010000, 0) < 0) {
+        if (Fifo_SendWord(6, vcount | 0x1010000, 0) < 0) {
             ok = 0;
         } else {
             ok = 1;
         }
     }
     if ((ok & 0xff) == 0) {
-        OS_RestoreInterrupts(enabled);
-        gTouchPanelState.mErrorFlags |= TOUCH_FLAG_AUTO_ON;
-        callback = gTouchPanelState.mCallback;
+        Os_RestoreIrq(enabled);
+        g_GlobalTP.mErrorFlags |= TOUCH_FLAG_AUTO_ON;
+        callback = g_GlobalTP.mCallback;
         if (callback != 0) {
             callback(TP_REQUEST_COMMAND_AUTO_ON, TP_RESULT_PXI_BUSY, 0);
         }
     } else {
-        gTouchPanelState.mBusyFlags |= TOUCH_FLAG_AUTO_ON;
-        gTouchPanelState.mErrorFlags &= ~TOUCH_FLAG_AUTO_ON;
-        OS_RestoreInterrupts(enabled);
+        g_GlobalTP.mBusyFlags |= TOUCH_FLAG_AUTO_ON;
+        g_GlobalTP.mErrorFlags &= ~TOUCH_FLAG_AUTO_ON;
+        Os_RestoreIrq(enabled);
     }
 }
 
@@ -263,29 +263,29 @@ void TP_RequestAutoSamplingStopAsync(void) {
     s32 ok;
     TPRecvCallback callback;
 
-    enabled = OS_DisableInterrupts();
-    ok = PXI_SendWordByFifo(6, 0x3000200, 0) >= 0;
+    enabled = Os_DisableIrq();
+    ok = Fifo_SendWord(6, 0x3000200, 0) >= 0;
     if ((ok & 0xff) == 0) {
-        OS_RestoreInterrupts(enabled);
-        gTouchPanelState.mErrorFlags |= TOUCH_FLAG_AUTO_OFF;
-        callback = gTouchPanelState.mCallback;
+        Os_RestoreIrq(enabled);
+        g_GlobalTP.mErrorFlags |= TOUCH_FLAG_AUTO_OFF;
+        callback = g_GlobalTP.mCallback;
         if (callback != 0) {
             callback(TP_REQUEST_COMMAND_AUTO_OFF, TP_RESULT_PXI_BUSY, 0);
         }
     } else {
-        gTouchPanelState.mBusyFlags |= TOUCH_FLAG_AUTO_OFF;
-        gTouchPanelState.mErrorFlags &= ~TOUCH_FLAG_AUTO_OFF;
-        OS_RestoreInterrupts(enabled);
+        g_GlobalTP.mBusyFlags |= TOUCH_FLAG_AUTO_OFF;
+        g_GlobalTP.mErrorFlags &= ~TOUCH_FLAG_AUTO_OFF;
+        Os_RestoreIrq(enabled);
     }
 }
 
 // Returns the ring position of the newest automatic sample.
 u16 TP_GetLatestIndexInAuto(void) {
-    return gTouchPanelState.mAutoSampleIndex;
+    return g_GlobalTP.mAutoSampleIndex;
 }
 
 // Computes the calibration from two raw points and their screen positions; 1 when a value is refused, otherwise 0.
-u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16 dx1, u16 dy1, u16 rawX2, u16 rawY2,
+u32 MaybeCheckScreenCalibration(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16 dx1, u16 dy1, u16 rawX2, u16 rawY2,
                           u16 dx2, u16 dy2) {
     s32 rxWidth;
     s32 dxWidth;
@@ -303,7 +303,7 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
     if (dx1 == dx2 || dy1 == dy2 || rawX1 == rawX2 || rawY1 == rawY2) {
         return 1;
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     reg_CP_DIVCNT = 0;
     reg_CP_DIV_NUMER_LO = (rawX1 - rawX2) << 8;
     reg_CP_DIV_DENOM = (u32) (dx1 - dx2);
@@ -316,20 +316,20 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
     reg_CP_DIV_NUMER_LO = ryWidth << 8;
     reg_CP_DIV_DENOM = dyWidth;
     if (value >= 0x8000 || value < -0x8000) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 1;
     }
     calibrate->mXDotSize = value;
     value = (s16) ((((rawX1 + rawX2) << 8) - calibrate->mXDotSize * (dx1 + dx2)) >> 7);
     if (value >= 0x8000 || value < -0x8000) {
-        OS_RestoreInterrupts(enabled);
+        Os_RestoreIrq(enabled);
         return 1;
     }
     calibrate->mX0 = value;
     while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
     value = reg_CP_DIV_RESULT_LO;
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     if (value >= 0x8000 || value < -0x8000) {
         return 1;
     }
@@ -346,11 +346,11 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
 void TP_GetCalibratedPoint(TPData *disp, const TPData *raw) {
     TPiCalibrateParam *calibration;
 
-    if (gTouchPanelState.mCalibrated == 0) {
+    if (g_GlobalTP.mCalibrated == 0) {
         *disp = *raw;
         return;
     }
-    calibration = &gTouchPanelState.mCalibration;
+    calibration = &g_GlobalTP.mCalibration;
     disp->mTouch = raw->mTouch;
     disp->mValidity = raw->mValidity;
     if (raw->mTouch == 0) {
@@ -375,12 +375,12 @@ void TP_GetCalibratedPoint(TPData *disp, const TPData *raw) {
 }
 
 // Spins until none of the busy bits in commandFlgs is set.
-void TP_WaitBusy(u32 commandFlgs) {
-    while (gTouchPanelState.mBusyFlags & commandFlgs) {
+void WaitForTPFlags(u32 commandFlgs) {
+    while (g_GlobalTP.mBusyFlags & commandFlgs) {
     }
 }
 
 // Returns the error bits selected by commandFlgs.
 u32 TP_CheckError(u32 commandFlgs) {
-    return gTouchPanelState.mErrorFlags & commandFlgs;
+    return g_GlobalTP.mErrorFlags & commandFlgs;
 }

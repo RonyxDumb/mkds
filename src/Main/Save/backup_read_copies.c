@@ -20,10 +20,10 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
 
-u8 gRomArchiveName[] = "rom";
+u8 g_str_rom_0[] = "rom";
 FileReadThread gFileReadThread;
 
-void RunFileReadThread(void *unused) {
+void SomeThreadEntry2(void *unused) {
     FSArchive *archive;
     RomArchiveTransfer *romArchiveTransfer;
     RomArchiveParentView *archiveState;
@@ -33,46 +33,46 @@ void RunFileReadThread(void *unused) {
     u32 updateIrqState;
     s32 offset;
     u8 *chunk;
-    archive = FS_FindArchive(gRomArchiveName, 3);
+    archive = Fs_FindArchiveByMountName(g_str_rom_0, 3);
     romArchiveTransfer = &gRomArchiveTransfer;
     while (1) {
-        waitIrqState = OS_DisableInterrupts();
+        waitIrqState = Os_DisableIrq();
         archiveState = &gRomArchiveTransfer.mParentView;
         node = archiveState->mPendingHead;
         if (node == NULL) {
             do {
                 if (romArchiveTransfer->mState == 0) {
-                    OS_RestoreInterrupts(waitIrqState);
+                    Os_RestoreIrq(waitIrqState);
                     return;
                 }
-                OS_SleepThread(NULL);
+                Os_Thread_Sleep(NULL);
                 node = archiveState->mPendingHead;
             } while (node == NULL);
         }
-        OS_RestoreInterrupts(waitIrqState);
+        Os_RestoreIrq(waitIrqState);
         if (node->mState == 1) {
-            FS_OpenFileDirect(&node->mFile, archive, node->mFileStart, node->mFileStart + node->mFileLength,
+            Fs_File_OpenRaw(&node->mFile, archive, node->mFileStart, node->mFileStart + node->mFileLength,
                               node->mBlockId);
             chunkIndex = 0;
             offset = 0;
             chunk = node->mBuffers[0];
             for (; chunkIndex < 2; chunkIndex++) {
                 node->mBufferOffsets[chunkIndex] = offset;
-                FS_ReadFile(&node->mFile, chunk, 0x400);
+                Fs_File_Read(&node->mFile, chunk, 0x400);
                 offset += 0x400;
                 chunk += 0x400;
             }
             node->mLastBlockId = 0;
             node->mLastLoadedBufferIndex = 1;
             node->mLoadingBufferIndex = ROM_ARCHIVE_NODE_NO_BUFFER;
-            updateIrqState = OS_DisableInterrupts();
+            updateIrqState = Os_DisableIrq();
             ActivateRomArchiveNode(&gRomArchiveTransfer.mParentView, node, 1);
-            OS_RestoreInterrupts(updateIrqState);
+            Os_RestoreIrq(updateIrqState);
         } else {
-            FS_CloseFile(&node->mFile);
-            updateIrqState = OS_DisableInterrupts();
+            Fs_File_Close(&node->mFile);
+            updateIrqState = Os_DisableIrq();
             FreeRomArchiveNode(&gRomArchiveTransfer.mParentView, node);
-            OS_RestoreInterrupts(updateIrqState);
+            Os_RestoreIrq(updateIrqState);
         }
     }
 }
@@ -82,58 +82,58 @@ void StartFileReadThread(void) {
     fileReadThread = (FileReadThread *) &gFileReadThread;
     fileReadThread->mUnk_4c4 = 0;
     fileReadThread->mUnk_4c0 = fileReadThread->mUnk_4c4;
-    OS_CreateThread(&fileReadThread->mThread, RunFileReadThread, fileReadThread, (u8 *) &fileReadThread->mThread, 0x400,
+    Os_Thread_Create(&fileReadThread->mThread, SomeThreadEntry2, fileReadThread, (u8 *) &fileReadThread->mThread, 0x400,
                     15);
-    OS_WakeupThreadDirect(&fileReadThread->mThread);
+    Os_Thread_WakeUpDirect(&fileReadThread->mThread);
 }
 
 void StopFileReadThread(void) {
     FileReadThread *fileReadThread;
     fileReadThread = (FileReadThread *) &gFileReadThread;
-    if (OS_IsThreadTerminated(&fileReadThread->mThread) != 0) {
+    if (Os_Thread_IsTerminated(&fileReadThread->mThread) != 0) {
         return;
     }
     do {
-        OS_WakeupThreadDirect(&fileReadThread->mThread);
-        OS_JoinThread(&fileReadThread->mThread);
-    } while (OS_IsThreadTerminated(&fileReadThread->mThread) == 0);
+        Os_Thread_WakeUpDirect(&fileReadThread->mThread);
+        Os_Thread_Join(&fileReadThread->mThread);
+    } while (Os_Thread_IsTerminated(&fileReadThread->mThread) == 0);
 }
 
 #pragma thumb on
 
-void ClearBackupAccessStatus(void) {
-    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
+void SX1Zero_from_thumb(void) {
+    g_SaveDataIoManager->mStatus = BACKUP_STATUS_IDLE;
 }
 
-void CreateBackupAccess(void *heap) {
-    gBackupAccess = HeapAlloc(heap, sizeof(*gBackupAccess));
+void InitializeSaveDataIoManager_from_thumb(void *heap) {
+    g_SaveDataIoManager = Mem_AllocateHeap(heap, sizeof(*g_SaveDataIoManager));
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        gBackupAccess->mBuffer = HeapAllocAligned(heap, 0x2c00, HEAP_ALIGN_CACHE_LINE);
-        gBackupAccess->mOneByteReadBuffer = HeapAllocAligned(heap, 1, HEAP_ALIGN_CACHE_LINE);
+        g_SaveDataIoManager->mBuffer = Mem_AllocateHeapAligned(heap, 0x2c00, HEAP_ALIGN_CACHE_LINE);
+        g_SaveDataIoManager->mOneByteReadBuffer = Mem_AllocateHeapAligned(heap, 1, HEAP_ALIGN_CACHE_LINE);
     }
-    gBackupAccess->mBackupEnabled = 0;
+    g_SaveDataIoManager->mBackupEnabled = 0;
 }
 
-void InitBackupAccess(void) {
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || OS_IsRunOnEmulator() != 0) {
-        gBackupAccess->mBackupEnabled = 0;
+void InitializePrepareBackup_from_thumb(void) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || Os_IsEmulator() != 0) {
+        g_SaveDataIoManager->mBackupEnabled = 0;
         return;
     }
-    gBackupAccess->mBackupEnabled = 1;
-    TryLockBackup();
-    CARD_IdentifyBackup(0x1202);
-    UnlockBackup();
-    gBackupAccess->mStatus = BACKUP_STATUS_IDLE;
-    gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
-    gBackupAccess->mLockId = -3;
-    gBackupAccess->mCommandRunning = 0;
-    gBackupAccess->mCopyPass = BACKUP_COPY_PASS_SINGLE;
-    gBackupAccess->mReadDestination = NULL;
-    gBackupAccess->mReadSize = 0;
-    gBackupAccess->mWriteSource = NULL;
-    gBackupAccess->mWriteSize = 0;
-    gBackupAccess->mUnk_58 = -1;
-    gBackupAccess->mUnk_5c = -1;
+    g_SaveDataIoManager->mBackupEnabled = 1;
+    AllocateLockCardBackupResource_from_thumb();
+    MaybeInitializeBackup(0x1202);
+    CleanupUnlockBackup_from_thumb();
+    g_SaveDataIoManager->mStatus = BACKUP_STATUS_IDLE;
+    g_SaveDataIoManager->mErrorCode = BACKUP_ERROR_NONE;
+    g_SaveDataIoManager->mLockId = -3;
+    g_SaveDataIoManager->mCommandRunning = 0;
+    g_SaveDataIoManager->mCopyPass = BACKUP_COPY_PASS_SINGLE;
+    g_SaveDataIoManager->mReadDestination = NULL;
+    g_SaveDataIoManager->mReadSize = 0;
+    g_SaveDataIoManager->mWriteSource = NULL;
+    g_SaveDataIoManager->mWriteSize = 0;
+    g_SaveDataIoManager->mUnk_58 = -1;
+    g_SaveDataIoManager->mUnk_5c = -1;
 }
 
 BOOL CheckBackupBlockPrefix(u8 *cursor) {
@@ -162,29 +162,29 @@ void FinishBackupRead(void *arg) {
     u16 firstPassTailHalfword;
     result = BACKUP_ERROR_NONE;
     finished = TRUE;
-    resultCode = CARD_GetResultCode();
-    UnlockBackup();
-    gBackupAccess->mCommandRunning = 0;
+    resultCode = Card_GetResult();
+    CleanupUnlockBackup_from_thumb();
+    g_SaveDataIoManager->mCommandRunning = 0;
     switch (resultCode) {
         case BACKUP_RESULT_OK:
-            DC_StoreRange(gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
-            if (gBackupAccess->mReadHasPrefix != 0) {
-                readWords = gBackupAccess->mReadDestination + 2;
-                xorByteCount = gBackupAccess->mReadSize - 8;
-                if (CheckBackupBlockPrefix((u8 *) gBackupAccess->mReadDestination) == 0) {
+            DC_SomeClean(g_SaveDataIoManager->mReadDestination, g_SaveDataIoManager->mReadSize);
+            if (g_SaveDataIoManager->mReadHasPrefix != 0) {
+                readWords = g_SaveDataIoManager->mReadDestination + 2;
+                xorByteCount = g_SaveDataIoManager->mReadSize - 8;
+                if (CheckBackupBlockPrefix((u8 *) g_SaveDataIoManager->mReadDestination) == 0) {
                     result = BACKUP_ERROR_BAD_PREFIX;
                 }
             } else {
-                readWords = gBackupAccess->mReadDestination;
-                xorByteCount = gBackupAccess->mReadSize;
+                readWords = g_SaveDataIoManager->mReadDestination;
+                xorByteCount = g_SaveDataIoManager->mReadSize;
             }
             if (result == BACKUP_ERROR_NONE) {
-                if (TryXorBackupWordsAtFoundIndex(readWords, xorByteCount, gBackupAccess->mExpectedFirstWord) == 0) {
+                if (TryXorBackupWordsAtFoundIndex(readWords, xorByteCount, g_SaveDataIoManager->mExpectedFirstWord) == 0) {
                     result = BACKUP_ERROR_BAD_DATA;
-                } else if (ClearTickBytesAndCheckBlockCrc((u8 *) gBackupAccess->mReadDestination,
-                                                          gBackupAccess->mReadSize, 0) == 0) {
+                } else if (ClearTickBytesAndCheckBlockCrc((u8 *) g_SaveDataIoManager->mReadDestination,
+                                                          g_SaveDataIoManager->mReadSize, 0) == 0) {
                     result = BACKUP_ERROR_BAD_DATA;
-                } else if (gBackupAccess->mExpectedFirstWord != 0 && *readWords != gBackupAccess->mExpectedFirstWord) {
+                } else if (g_SaveDataIoManager->mExpectedFirstWord != 0 && *readWords != g_SaveDataIoManager->mExpectedFirstWord) {
                     result = BACKUP_ERROR_BAD_DATA;
                 }
             }
@@ -202,20 +202,20 @@ void FinishBackupRead(void *arg) {
             result = BACKUP_ERROR_ACCESS_FAILED;
             break;
     }
-    readWords = gBackupAccess->mReadDestination;
-    tailHalfword = *(u16 *) ((u8 *) readWords + gBackupAccess->mReadSize - 4);
-    switch (gBackupAccess->mCopyPass) {
+    readWords = g_SaveDataIoManager->mReadDestination;
+    tailHalfword = *(u16 *) ((u8 *) readWords + g_SaveDataIoManager->mReadSize - 4);
+    switch (g_SaveDataIoManager->mCopyPass) {
         case BACKUP_COPY_PASS_SINGLE:
             break;
         case BACKUP_COPY_PASS_FIRST:
             if (result != BACKUP_ERROR_UNAVAILABLE) {
-                gBackupAccess->mFirstPassResult = result;
-                gBackupAccess->mFirstPassBuffer = gBackupAccess->mReadDestination;
-                gBackupAccess->mFirstPassTailHalfword = tailHalfword;
-                readWords = OFFSET_PTR(u32, gBackupAccess->mReadDestination, gBackupAccess->mReadSize);
-                StartBackupRead(gBackupAccess->mSecondPassAddress, readWords, gBackupAccess->mReadSize, callback,
-                                BACKUP_COPY_PASS_SECOND, gBackupAccess->mExpectedFirstWord,
-                                gBackupAccess->mReadHasPrefix);
+                g_SaveDataIoManager->mFirstPassResult = result;
+                g_SaveDataIoManager->mFirstPassBuffer = g_SaveDataIoManager->mReadDestination;
+                g_SaveDataIoManager->mFirstPassTailHalfword = tailHalfword;
+                readWords = OFFSET_PTR(u32, g_SaveDataIoManager->mReadDestination, g_SaveDataIoManager->mReadSize);
+                StartBackupRead(g_SaveDataIoManager->mSecondPassAddress, readWords, g_SaveDataIoManager->mReadSize, callback,
+                                BACKUP_COPY_PASS_SECOND, g_SaveDataIoManager->mExpectedFirstWord,
+                                g_SaveDataIoManager->mReadHasPrefix);
                 finished = FALSE;
             } else {
                 finished = TRUE;
@@ -223,24 +223,24 @@ void FinishBackupRead(void *arg) {
             break;
         case BACKUP_COPY_PASS_SECOND:
             if (result == BACKUP_ERROR_NONE) {
-                if (gBackupAccess->mFirstPassResult == BACKUP_ERROR_NONE) {
-                    firstPassTailHalfword = gBackupAccess->mFirstPassTailHalfword;
+                if (g_SaveDataIoManager->mFirstPassResult == BACKUP_ERROR_NONE) {
+                    firstPassTailHalfword = g_SaveDataIoManager->mFirstPassTailHalfword;
                     if ((firstPassTailHalfword == 0 && tailHalfword == 0xffff) ||
                         firstPassTailHalfword >= tailHalfword) {
-                        readWords = gBackupAccess->mFirstPassBuffer;
+                        readWords = g_SaveDataIoManager->mFirstPassBuffer;
                     }
                 }
             } else {
-                if (gBackupAccess->mFirstPassResult == BACKUP_ERROR_NONE) {
+                if (g_SaveDataIoManager->mFirstPassResult == BACKUP_ERROR_NONE) {
                     result = BACKUP_ERROR_NONE;
-                    readWords = gBackupAccess->mFirstPassBuffer;
+                    readWords = g_SaveDataIoManager->mFirstPassBuffer;
                 } else if (result == BACKUP_ERROR_UNAVAILABLE ||
-                           gBackupAccess->mFirstPassResult == BACKUP_ERROR_UNAVAILABLE) {
+                           g_SaveDataIoManager->mFirstPassResult == BACKUP_ERROR_UNAVAILABLE) {
                     result = BACKUP_ERROR_UNAVAILABLE;
                 } else if (result != BACKUP_ERROR_ACCESS_FAILED &&
-                           gBackupAccess->mFirstPassResult != BACKUP_ERROR_ACCESS_FAILED) {
+                           g_SaveDataIoManager->mFirstPassResult != BACKUP_ERROR_ACCESS_FAILED) {
                     if (result == BACKUP_ERROR_BAD_PREFIX &&
-                        gBackupAccess->mFirstPassResult == BACKUP_ERROR_BAD_PREFIX) {
+                        g_SaveDataIoManager->mFirstPassResult == BACKUP_ERROR_BAD_PREFIX) {
                         result = BACKUP_ERROR_BAD_PREFIX;
                     } else {
                         result = BACKUP_ERROR_BAD_DATA;
@@ -254,13 +254,13 @@ void FinishBackupRead(void *arg) {
     if (finished != FALSE) {
         if (result == BACKUP_ERROR_NONE) {
             if (callback != NULL) {
-                callback(readWords, gBackupAccess->mReadSize);
+                callback(readWords, g_SaveDataIoManager->mReadSize);
             }
-            ClearBackupAccessStatus();
+            SX1Zero_from_thumb();
             return;
         }
         if (result == BACKUP_ERROR_UNAVAILABLE) {
-            gBackupAccess->mBackupEnabled = 0;
+            g_SaveDataIoManager->mBackupEnabled = 0;
         }
         EndBackupAccessWithError(result);
     }
@@ -268,39 +268,39 @@ void FinishBackupRead(void *arg) {
 
 u32 StartBackupRead(u32 address, u32 *destination, u32 byteCount, void (*callback)(u32 *, u32), s32 copyPass,
                     u32 expectedFirstWord, s32 hasPrefix) {
-    if (gBackupAccess->mBackupEnabled == 0 || CARD_TryWaitBackupAsync() == 0) {
+    if (g_SaveDataIoManager->mBackupEnabled == 0 || CardIsNotBusy() == 0) {
         return 0;
     }
-    if (TryLockBackup() == 0) {
+    if (AllocateLockCardBackupResource_from_thumb() == 0) {
         return 0;
     }
-    gBackupAccess->mErrorCode = BACKUP_ERROR_NONE;
-    gBackupAccess->mCommandRunning = 1;
-    gBackupAccess->mStatus = BACKUP_STATUS_READING;
-    gBackupAccess->mReadAddress = address;
-    gBackupAccess->mReadDestination = destination;
-    gBackupAccess->mReadSize = byteCount;
-    gBackupAccess->mExpectedFirstWord = expectedFirstWord;
-    gBackupAccess->mReadHasPrefix = hasPrefix;
-    gBackupAccess->mCopyPass = copyPass;
-    DC_InvalidateRange(destination, byteCount);
-    CARDi_RequestStreamCommand(address, (u32) destination, byteCount, FinishBackupRead, callback, 1, 6, 1, 0);
+    g_SaveDataIoManager->mErrorCode = BACKUP_ERROR_NONE;
+    g_SaveDataIoManager->mCommandRunning = 1;
+    g_SaveDataIoManager->mStatus = BACKUP_STATUS_READING;
+    g_SaveDataIoManager->mReadAddress = address;
+    g_SaveDataIoManager->mReadDestination = destination;
+    g_SaveDataIoManager->mReadSize = byteCount;
+    g_SaveDataIoManager->mExpectedFirstWord = expectedFirstWord;
+    g_SaveDataIoManager->mReadHasPrefix = hasPrefix;
+    g_SaveDataIoManager->mCopyPass = copyPass;
+    DC_InvalidateRangeNoClean(destination, byteCount);
+    Card_RequestStreamCommand(address, (u32) destination, byteCount, FinishBackupRead, callback, 1, 6, 1, 0);
     return 1;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void StartBackupReadOneCopy(u32 address, void *destination, u32 byteCount, void (*callback)(u32 *, u32),
+void ReadSaveChunkImpl2_from_thumb(u32 address, void *destination, u32 byteCount, void (*callback)(u32 *, u32),
                             u32 expectedFirstWord) {
     u32 expectedWord = expectedFirstWord;
     u32 started =
         StartBackupRead(address, destination, byteCount, callback, BACKUP_COPY_PASS_SINGLE, expectedWord, 0x0u);
 }
 
-void StartBackupReadTwoCopies(u32 firstAddress, u32 secondAddress, u32 *destination, u32 byteCount,
+void ReadSaveChunkImpl_from_thumb(u32 firstAddress, u32 secondAddress, u32 *destination, u32 byteCount,
                               void (*callback)(u32 *, u32), u32 expectedFirstWord, s32 hasPrefix) {
-    gBackupAccess->mSecondPassAddress = secondAddress;
+    g_SaveDataIoManager->mSecondPassAddress = secondAddress;
     StartBackupRead(firstAddress, destination, byteCount, callback, BACKUP_COPY_PASS_FIRST, expectedFirstWord,
                     hasPrefix);
 }

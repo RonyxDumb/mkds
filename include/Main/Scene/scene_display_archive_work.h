@@ -70,15 +70,15 @@ typedef struct StartupWork {
 // Bit of StartupWork.mUnk_1c: set while the 3D engine uses fast DMA (NNS_G3dGeUseFastDma(1)), cleared with it.
 #define STARTUP_FLAG_FAST_DMA 8
 
-// The callbacks of one scene (an entry of gSceneFuncs): mInit once, mUpdate every frame, mRelease once.
+// The callbacks of one scene (an entry of g_SceneFnTable): mInit once, mUpdate every frame, mRelease once.
 typedef struct SceneCallbacks {
     // Called once before the scene's frames with the scene numbers. Allocates the scene's objects
-    // from the scene heap (the heap of RunScenes' frame, destroyed when the scene ends).
+    // from the scene heap (the heap of SceneLoopExecuteFunction' frame, destroyed when the scene ends).
     /* 00 */ void (*mInit)();
     // One per-frame step, called every pass of the update loops and of the fade-out loop (then with
     // a == NULL), with the scene numbers and mSceneFrames. A second per-frame slot (0x0c) runs
     // after it. Scenes write their next scene into a.mNextScene here; the Menu scene does not
-    // (RunScene ends it).
+    // (OnSceneLoop ends it).
     /* 04 */ void (*mUpdate)();
     // Called once after the loops. Calls the scene's undo functions and clears the scene's globals;
     // it frees nothing by itself except in the WiFi scene (the heap of ReleasePlayerEntryList): the scene
@@ -124,13 +124,13 @@ typedef struct SceneRunState {
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
-    // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at the start of each);
+    // Passes of OnSceneLoop's update loop and fade-out loop since they began (OnSceneLoop zeroes it at the start of each);
     // not counted while RunSceneIsDataSharingIncomplete is true (mode 5 with a flag, or the
-    // gConnectionWork flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
+    // g_GlobalZE flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
     // thresholds 0x5a ...).
     /* 0e4 */ s32 mSceneFrames;
     /* 0e8 */ s32 mPassCount;
-    // Copy of the running scene's SceneCallbacks, written once by RunScene; slots 0x10 / 0x14 and
+    // Copy of the running scene's SceneCallbacks, written once by OnSceneLoop; slots 0x10 / 0x14 and
     // the fade lengths are read from it.
     /* 0ec */ SceneCallbacks mSceneCallbacks;
     /* 10c */ s32 mRunStep;
@@ -154,7 +154,7 @@ typedef struct G3xParams {
     /* 03 */ u8 mBufferMode;
 } G3xParams;
 
-// The display settings: masks, modes and VRAM banks, and the background records of the main and sub screen.
+// The display settings: masks, modes and VRAM banks, and the background records of the NtrMain and sub screen.
 typedef struct DisplaySettings {
     /* 00 */ u16 mWaitIrqCount;
     /* 02 */ u16 mMainDisplayMask;
@@ -203,10 +203,10 @@ typedef struct DisplaySettings {
 
 // The current input: the pad keys, flags and the participant position.
 typedef struct InputState {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u8 mode[2];
     /* 02 */ u16 mPadKeys;
     /* 04 */ u16 mFlags;
-    /* 06 */ u8 mUnk_06[2];
+    /* 06 */ u8 mBlurAmount[2];
     /* 08 */ s32 mParticipantPosition;
     /* 0c */ BOOL mUnk_0c;
 } InputState;
@@ -261,11 +261,11 @@ typedef struct ArchiveSlots {
     /* a80 */ NNSiFndHeapHead *mLastHeap;
 } ArchiveSlots;
 
-extern ArchiveSlots *gArchiveSlots;
+extern ArchiveSlots *g_MountManager;
 
-extern SceneRunState *gSceneRunState;
+extern SceneRunState *g_GlobalZM;
 
-extern StartupWork *gStartupWork;
+extern StartupWork *g_GlobalP;
 
 // The file read thread: its stack and its OSThread.
 typedef struct FileReadThread {
@@ -277,11 +277,11 @@ typedef struct FileReadThread {
 
 extern FileReadThread gFileReadThread;
 
-// Object at gWvrState: a word and a function pointer.
+// Object at g_SomeVramConfigMode: a word and a function pointer.
 // Values of WvrState.mState.
 #define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
 
-#define BANK_SHARE_INACTIVE 1 // initial value; after WVR_TerminateAsync finished
+#define BANK_SHARE_INACTIVE 1 // initial value; after SetWvrFifoShit finished
 
 #define BANK_SHARE_CHANGING 2 // set while an async start or terminate is running
 
@@ -293,7 +293,7 @@ typedef struct WvrState {
     /* 04 */ s32 (*mCallback)();
 } WvrState;
 
-// Eight halfwords at gUnreadHalfwordGroups: two groups of four.
+// Eight halfwords at g_GlobalHN: two groups of four.
 typedef struct UnreadHalfwordGroups {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;

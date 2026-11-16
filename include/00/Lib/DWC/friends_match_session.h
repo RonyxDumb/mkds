@@ -129,7 +129,7 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
                             void (*statusCallback)(u32, u8), void *statusParam, void (*deleteCallback)(u32, u32),
                             void *deleteParam);
 
-// Pointer to the connection embedded in gWiFiSession: set by DWC_InitFriendsMatch at each login, NULL after
+// Pointer to the connection embedded in g_GlobalB: set by DWC_InitFriendsMatch at each login, NULL after
 // DWC_ShutdownFriendsMatch.
 extern WiFiConnection *gWiFiConnection;
 extern void *stGt2ConnectionList[32];

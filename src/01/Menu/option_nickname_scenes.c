@@ -20,15 +20,15 @@ static SceneCallbacks gEndingSceneCallbacks = {
 int RunEndingScene(void *sceneNumbers) {
     SceneCallbacks local = gEndingSceneCallbacks;
 
-    RunScene(sceneNumbers, &local);
+    OnSceneLoop(sceneNumbers, &local);
     return 0;
 }
 
 void InitOptionScene(s16 *sceneNumbers) {
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gOptionBuffers = HeapAlloc(heap, 2 * sizeof(OamEntryList));
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gOptionBuffers = Mem_AllocateHeap(heap, 2 * sizeof(OamEntryList));
     InitOptionStates((heap), *sceneNumbers);
 }
 
@@ -39,13 +39,13 @@ void ReleaseOptionScene(void) {
 
 void WriteOptionSceneRegisters(void) {
     WriteOptionStatesRegisters();
-    UploadOamLists(gOptionBuffers, gOptionBuffers + 1);
+    CopyOamBuffersToMemory_from_thumb(gOptionBuffers, gOptionBuffers + 1);
 }
 
 void UpdateOptionScene(s16 *sceneNumbers) {
-    ClearOamListCounts(gOptionBuffers, gOptionBuffers + 1);
+    OamBuffer_ResetValues16_from_thumb(gOptionBuffers, gOptionBuffers + 1);
     AdvanceOptionStates();
-    HideUnusedOams(gOptionBuffers, gOptionBuffers + 1);
+    OamBuffer_SomeFn2_from_thumb(gOptionBuffers, gOptionBuffers + 1);
     if (sceneNumbers != NULL && GetOptionNextScene() != -1) {
         sceneNumbers[2] = GetOptionNextScene();
     }
@@ -54,7 +54,7 @@ void UpdateOptionScene(s16 *sceneNumbers) {
 int RunOptionScene(void *sceneNumbers) {
     SceneCallbacks local = gOptionSceneCallbacks;
 
-    RunScene(sceneNumbers, &local);
+    OnSceneLoop(sceneNumbers, &local);
     return 0;
 }
 
@@ -69,8 +69,8 @@ OamEntryList *GetOptionSecondBuffer(void) {
 void InitNicknameScene(s16 *sceneNumbers) {
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gNicknameBuffers = HeapAlloc(heap, 2 * sizeof(OamEntryList));
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    gNicknameBuffers = Mem_AllocateHeap(heap, 2 * sizeof(OamEntryList));
     InitNicknameSceneObject(heap, *sceneNumbers);
 }
 
@@ -84,13 +84,13 @@ void WriteNicknameSceneRegisters(void) {
 
     NicknameWriteSceneTextRegistersWrapper();
     nicknameBuffers = gNicknameBuffers;
-    UploadOamLists(nicknameBuffers, nicknameBuffers + 1);
+    CopyOamBuffersToMemory_from_thumb(nicknameBuffers, nicknameBuffers + 1);
 }
 
 void UpdateNicknameScene(s16 *sceneNumbers) {
-    ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 1);
+    OamBuffer_ResetValues16_from_thumb(gNicknameBuffers, gNicknameBuffers + 1);
     AdvanceNicknameScene();
-    HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 1);
+    OamBuffer_SomeFn2_from_thumb(gNicknameBuffers, gNicknameBuffers + 1);
     if (sceneNumbers != NULL && GetNicknameSceneNextScene() != -1) {
         sceneNumbers[2] = GetNicknameSceneNextScene();
     }
@@ -101,6 +101,6 @@ int RunNicknameScene(void *sceneNumbers) {
         InitNicknameScene, UpdateNicknameScene, ReleaseNicknameScene, WriteNicknameSceneRegisters, 0, 0, 10, 10, 0,
     };
 
-    RunScene(sceneNumbers, &callbacks);
+    OnSceneLoop(sceneNumbers, &callbacks);
     return 0;
 }

@@ -14,8 +14,8 @@ void SetupTitleTable(void) {
     u32 layoutCount;
     s32 cellIndex;
 
-    titleTable = gTitleScene->mTitleTable;
-    layoutCount = TitleGetCellLayoutCount(gTitleScene->mTitleSBncl);
+    titleTable = g_SceneTitleContext->mTitleTable;
+    layoutCount = TitleGetCellLayoutCount(g_SceneTitleContext->mTitleSBncl);
     for (cellIndex = 0; cellIndex <= 9; cellIndex++) {
         titleTable[cellIndex].mVisible = 1;
     }
@@ -25,59 +25,59 @@ void SetupTitleTable(void) {
     for (cellIndex = 0; cellIndex <= 1; cellIndex++) {
         titleTable[layoutCount + cellIndex].mVisible = 1;
     }
-    SetLabelPaletteIndex(0, 15, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
-    SetLabelPaletteIndex(1, 15, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
-    switch (gTitleScene->mSelectedIndex) {
+    SetLabelPaletteIndex(0, 15, g_SceneTitleContext->mTitleSBnll, titleTable, g_SceneTitleContext->mTitleSBncl);
+    SetLabelPaletteIndex(1, 15, g_SceneTitleContext->mTitleSBnll, titleTable, g_SceneTitleContext->mTitleSBncl);
+    switch (g_SceneTitleContext->mSelectedIndex) {
         case TITLE_ENTRY_FIRST:
-            if (gTitleScene->mState == TITLE_STATE_SELECT_PRESS) {
-                titleTable[0].mOffsetX = gTitleScene->mSelectedOffset;
-                titleTable[5].mOffsetX = gTitleScene->mSelectedOffset;
-                titleTable[10].mOffsetX = gTitleScene->mSelectedOffset;
+            if (g_SceneTitleContext->mState == TITLE_STATE_SELECT_PRESS) {
+                titleTable[0].mOffsetX = g_SceneTitleContext->mSelectedOffset;
+                titleTable[5].mOffsetX = g_SceneTitleContext->mSelectedOffset;
+                titleTable[10].mOffsetX = g_SceneTitleContext->mSelectedOffset;
             }
-            if (gTitleScene->mState != TITLE_STATE_SELECT_PRESS || gTitleScene->mStartedOnSelected == FALSE ||
+            if (g_SceneTitleContext->mState != TITLE_STATE_SELECT_PRESS || g_SceneTitleContext->mStartedOnSelected == FALSE ||
                 GetTitleStateFrames() >= 5) {
                 titleTable[5].mVisible = 0;
                 titleTable[10].mVisible = 1;
             }
             break;
         case TITLE_ENTRY_WL_MENU:
-            if (gTitleScene->mState == TITLE_STATE_SELECT_PRESS) {
-                titleTable[1].mOffsetX = gTitleScene->mSelectedOffset;
-                titleTable[6].mOffsetX = gTitleScene->mSelectedOffset;
-                titleTable[11].mOffsetX = gTitleScene->mSelectedOffset;
+            if (g_SceneTitleContext->mState == TITLE_STATE_SELECT_PRESS) {
+                titleTable[1].mOffsetX = g_SceneTitleContext->mSelectedOffset;
+                titleTable[6].mOffsetX = g_SceneTitleContext->mSelectedOffset;
+                titleTable[11].mOffsetX = g_SceneTitleContext->mSelectedOffset;
             }
-            if (gTitleScene->mState != TITLE_STATE_SELECT_PRESS || gTitleScene->mStartedOnSelected == FALSE ||
+            if (g_SceneTitleContext->mState != TITLE_STATE_SELECT_PRESS || g_SceneTitleContext->mStartedOnSelected == FALSE ||
                 GetTitleStateFrames() >= 5) {
                 titleTable[6].mVisible = 0;
                 titleTable[11].mVisible = 1;
             }
             break;
         case TITLE_ENTRY_WIFI_MENU:
-            if (gTitleScene->mState == TITLE_STATE_SELECT_PRESS) {
-                titleTable[2].mOffsetX = gTitleScene->mSelectedOffset;
-                titleTable[7].mOffsetX = gTitleScene->mSelectedOffset;
-                titleTable[12].mOffsetX = gTitleScene->mSelectedOffset;
+            if (g_SceneTitleContext->mState == TITLE_STATE_SELECT_PRESS) {
+                titleTable[2].mOffsetX = g_SceneTitleContext->mSelectedOffset;
+                titleTable[7].mOffsetX = g_SceneTitleContext->mSelectedOffset;
+                titleTable[12].mOffsetX = g_SceneTitleContext->mSelectedOffset;
             }
-            if (gTitleScene->mState != TITLE_STATE_SELECT_PRESS || gTitleScene->mStartedOnSelected == FALSE ||
+            if (g_SceneTitleContext->mState != TITLE_STATE_SELECT_PRESS || g_SceneTitleContext->mStartedOnSelected == FALSE ||
                 GetTitleStateFrames() >= 5) {
                 titleTable[7].mVisible = 0;
                 titleTable[12].mVisible = 1;
             }
             break;
         case TITLE_ENTRY_OPTION:
-            if (gTitleScene->mState != TITLE_STATE_SELECT_PRESS || gTitleScene->mStartedOnSelected == FALSE ||
+            if (g_SceneTitleContext->mState != TITLE_STATE_SELECT_PRESS || g_SceneTitleContext->mStartedOnSelected == FALSE ||
                 GetTitleStateFrames() >= 5) {
                 titleTable[8].mVisible = 0;
                 titleTable[13].mVisible = 1;
-                SetLabelPaletteIndex(0, 14, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
+                SetLabelPaletteIndex(0, 14, g_SceneTitleContext->mTitleSBnll, titleTable, g_SceneTitleContext->mTitleSBncl);
             }
             break;
         case TITLE_ENTRY_RECORD:
-            if (gTitleScene->mState != TITLE_STATE_SELECT_PRESS || gTitleScene->mStartedOnSelected == FALSE ||
+            if (g_SceneTitleContext->mState != TITLE_STATE_SELECT_PRESS || g_SceneTitleContext->mStartedOnSelected == FALSE ||
                 GetTitleStateFrames() >= 5) {
                 titleTable[9].mVisible = 0;
                 titleTable[14].mVisible = 1;
-                SetLabelPaletteIndex(1, 14, gTitleScene->mTitleSBnll, titleTable, gTitleScene->mTitleSBncl);
+                SetLabelPaletteIndex(1, 14, g_SceneTitleContext->mTitleSBnll, titleTable, g_SceneTitleContext->mTitleSBncl);
             }
             break;
     }
@@ -90,7 +90,7 @@ void SetupTitleTable(void) {
 void SetupAndDrawTitleTable(void) {
     TitleScene *titleScene;
     SetupTitleTable();
-    titleScene = gTitleScene;
+    titleScene = g_SceneTitleContext;
     DrawLayoutTable(titleScene->mTitleSBncl, titleScene->mTitleSNceNcer, titleScene->mTitleSBnll, &titleScene->mSubOam,
                     titleScene->mTitleTable);
 }

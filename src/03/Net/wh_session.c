@@ -28,7 +28,7 @@ BOOL StartWhChannelSearch(void) {
     u32 result;
     u32 seed;
 
-    OS_GetMacAddress(macAddress);
+    Os_GetMacAddress(macAddress);
     seed = *(u32 *) 0x27ffc3c;
     seed = macAddress[0] + seed + macAddress[1] + macAddress[2];
     gWhWork->mRandomSeed = seed;
@@ -110,7 +110,7 @@ u16 DecideWhChannel(void) {
     WhWork **workAddress;
     u16 channel;
     if (gWhWork->mState != WH_STATE_MEASURE_CHANNEL) {
-        OS_Terminate();
+        Os_Terminate();
     }
     SetWhState(WH_STATE_IDLE);
     channel = PickWhChannel(gWhWork->mLowestBusyChannelMask);
@@ -173,14 +173,14 @@ BOOL ClearWhAndInitialize(void) {
 void WhIndicationCallback(WirelessMessage *event) {
     if (event->mResultCode == WIRELESS_RESULT_PIPE_ERROR) {
         SetWhState(WH_STATE_ERROR);
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
 BOOL StartWhInitialize(void) {
     s32 result;
     SetWhState(WH_STATE_BUSY);
-    result = WM_Initialize(gWhWork->mWmSystemBuffer, StartWhInitializeCallback, 2);
+    result = StructWM_SomeFn(gWhWork->mWmSystemBuffer, StartWhInitializeCallback, 2);
     if (result != 2) {
         SetWhErrorCode(result);
         SetWhState(WH_STATE_FAILED);
@@ -206,7 +206,7 @@ void StartWhInitializeCallback(WirelessMessage *event) {
 
 BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     if (gWhWork->mState != WH_STATE_IDLE) {
-        OS_Terminate();
+        Os_Terminate();
     }
     gWhWork->mReceiveBufferSize = WH_RECEIVE_BUFFER_SIZE;
     gWhWork->mSendBufferSize = WH_SEND_BUFFER_SIZE;
@@ -220,7 +220,7 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     SetWhState(WH_STATE_BUSY);
     gWhWork->mParentParameter.mTgid = tgid;
     gWhWork->mParentParameter.mChannel = channel;
-    gWhWork->mParentParameter.mBeaconPeriod = WM_GetDispersionBeaconPeriod();
+    gWhWork->mParentParameter.mBeaconPeriod = MaybeGeneratePseudoRandomValue();
     gWhWork->mParentParameter.mParentMaxSize = WH_PARENT_MAX_SIZE;
     gWhWork->mParentParameter.mChildMaxSize = WH_CHILD_MAX_SIZE;
     gWhWork->mParentParameter.mMaxEntry = 2;
@@ -322,7 +322,7 @@ void FinalizeWh(void) {
 BOOL EndWh(void) {
     int result;
     if (gWhWork->mState != WH_STATE_IDLE) {
-        OS_Terminate();
+        Os_Terminate();
     }
     SetWhState(WH_STATE_BUSY);
     result = WM_End(EndWhCallback);

@@ -75,7 +75,7 @@ char *strcpy(char *dst, const char *src) {
     return dst;
 }
 
-char *strncpy(char *dst, const char *src, u32 count) {
+char *SomeStrncpy_0(char *dst, const char *src, u32 count) {
     char *cursor;
 
     cursor = dst;

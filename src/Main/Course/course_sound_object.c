@@ -52,8 +52,8 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (courseSoundObject = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        if (GetRaceUseChainCameras() != 0) {
-            switch (gRaceSetup->mCourseId) {
+        if (IsNotStaffRoll() != 0) {
+            switch (g_GlobalCO->mCourseId) {
                 case COURSE_ID_CROSS:
                     courseSoundObject->mState = COURSE_SOUND_STATE_CHAIN_TWO_PARTS;
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
@@ -102,7 +102,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = bankChainX;
                     courseSoundObject->mFirstPart.mSourcePos.y = bankChainY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankChainZ;
-                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
+                    VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
                                 &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     break;
@@ -113,7 +113,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     break;
             }
         } else {
-            switch (gRaceSetup->mCourseId) {
+            switch (g_GlobalCO->mCourseId) {
                 case COURSE_ID_CROSS:
                     courseSoundObject->mState = COURSE_SOUND_STATE_WAIT_RACE_START;
                     courseSoundObject->mFirstPart.mStartParams.mSoundId = COURSE_SOUND_ID_CROSS_FIRST_PART;
@@ -170,7 +170,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mFirstPart.mSourcePos.x = bankFirstX;
                     courseSoundObject->mFirstPart.mSourcePos.y = bankFirstY;
                     courseSoundObject->mFirstPart.mSourcePos.z = bankFirstZ;
-                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
+                    VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, 0x5000),
                                 &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mFirstPart.mSourcePos, &courseSoundObject->mFirstPart.mSourcePos);
                     courseMapRow = courseSoundObject->mMapObject.mCourseMapRow;
@@ -185,7 +185,7 @@ void InitCourseSoundObjects(MapObjectList *mapObjectList) {
                     courseSoundObject->mSecondPart.mSourcePos.x = bankSecondX;
                     courseSoundObject->mSecondPart.mSourcePos.y = bankSecondY;
                     courseSoundObject->mSecondPart.mSourcePos.z = bankSecondZ;
-                    VEC_MultAdd(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, -0x5000),
+                    VecFx32_AddScale1(MUL_FIXED12_NO_ROUND(courseSoundObject->mMapObject.mScale.z, -0x5000),
                                 &courseSoundObject->mMapObject.mMatrix.mRows[2],
                                 &courseSoundObject->mSecondPart.mSourcePos, &courseSoundObject->mSecondPart.mSourcePos);
                     break;
@@ -220,7 +220,7 @@ static inline void StartCourseSoundPartIfInRange(CourseSoundObjectPart *soundPar
     soundPart->mStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&soundPart->mSourcePos);
     if (soundPart->mStartParams.mDistanceSquared < falloffDistanceSquared) {
         soundPart->mInRangeUpdateCount = soundPart->mInRangeUpdateCount == 0 ? 1 : 2;
-        if (GetRaceUseChainCameras() != 0) {
+        if (IsNotStaffRoll() != 0) {
             StartSndHandleSoundUnchecked(&soundPart->mStartParams, soundPart->mSndHandleSlot);
         } else {
             StartSndHandleSound(&soundPart->mStartParams, soundPart->mSndHandleSlot);
@@ -235,7 +235,7 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
 
     switch (courseSoundObject->mState) {
         case COURSE_SOUND_STATE_WAIT_RACE_START:
-            if (IsRaceStarted() == 1) {
+            if (IsAwardOrStaffRoll() == 1) {
                 soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;
                 NNS_SndPlayerStopSeq(courseSoundObject->mFirstPart.mSndHandleSlot, 0);
                 courseSoundObject->mFirstPart.mStartParams.mSoundId = soundId;
@@ -245,7 +245,7 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
             break;
         case COURSE_SOUND_STATE_RACE:
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
-            if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
+            if (g_GlobalCO->mRaceKind == RACE_KIND_NORMAL && UpdatePlayerLapCountIfNot123(g_GlobalCO->mEntryIndex) != FALSE &&
                 courseSoundObject->mFirstPart.mInRangeUpdateCount == 0 &&
                 courseSoundObject->mFirstPart.mCameraOnOtherSide != FALSE) {
                 soundId = GetLastLapCourseSoundId();
@@ -257,7 +257,7 @@ void UpdateCourseSoundObject(void *mapObjectList, CourseSoundObject *courseSound
             break;
         case COURSE_SOUND_STATE_LAST_LAP:
             PlaceCourseSoundObjectPartSource(&courseSoundObject->mFirstPart, &courseSoundObject->mMapObject.mPos);
-            if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
+            if (IsRacerFinishedRace((u16) g_GlobalCO->mEntryIndex) != 0) {
                 ParkMapObject(&courseSoundObject->mMapObject);
             } else if (courseSoundObject->mFirstPart.mCameraOnOtherSide == FALSE) {
                 soundId = courseSoundObject->mSecondPart.mStartParams.mSoundId;

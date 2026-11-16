@@ -64,7 +64,7 @@ void SetMapObjectExtentY(MapObject *mapObject, s32 baseSize) {
         case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
         case MAP_OBJECT_SHAPE_ROTATED_BOX:
         case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
-            radius = VEC_Mag(&mapObject->mExtent);
+            radius = VecFx32_Norm(&mapObject->mExtent);
             break;
         case MAP_OBJECT_SHAPE_NONE:
         case MAP_OBJECT_SHAPE_SPHERE:
@@ -81,7 +81,7 @@ s32 GetMapObjectCollisionRadius(MapObject *mapObject) {
         case MAP_OBJECT_SHAPE_ROTATED_CYLINDER:
         case MAP_OBJECT_SHAPE_ROTATED_BOX:
         case MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST:
-            return VEC_Mag(&mapObject->mExtent);
+            return VecFx32_Norm(&mapObject->mExtent);
         case MAP_OBJECT_SHAPE_NONE:
         case MAP_OBJECT_SHAPE_SPHERE:
         case MAP_OBJECT_SHAPE_CYLINDER:
@@ -93,11 +93,11 @@ s32 GetMapObjectCollisionRadius(MapObject *mapObject) {
 void SetMapObjectDrawDistance(MapObject *mapObject, s32 drawDistance) {
     s32 maxDistance;
     mapObject->mDrawDistance = drawDistance;
-    if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_START_GP) {
         mapObject->mDrawDistance = MAP_OBJECT_FAR_VALUE;
         return;
     }
-    maxDistance = gCourseMap->mSettings->mMapObjectDrawDistanceMax;
+    maxDistance = g_GlobalPE->mSettings->mMapObjectDrawDistanceMax;
     if (maxDistance == 0) {
         return;
     }

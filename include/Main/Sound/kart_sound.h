@@ -20,7 +20,7 @@ typedef struct KartSoundRow {
     /* 24 */ s32 mKeyALowRatioSoundId;
 } KartSoundRow;
 
-// KartSound.mSoundIndex values (also Kart.mSoundIndex): one voice set per character, set by InitKartSoundParams.
+// KartSound.mSoundIndex values (also Kart.mSoundIndex): one voice set per character, set by StructMQRacerEntry_SomeFn_24.
 enum {
     KART_SOUND_SET_DONKEY,
     KART_SOUND_SET_KINOPIO,
@@ -37,7 +37,7 @@ enum {
     KART_SOUND_SET_HEYHO,
 };
 
-// KartSound.mWhileRequestedSoundId that StopKartSoundWhileRequested compares with and stores once the sound is stopped.
+// KartSound.mWhileRequestedSoundId that StructMQRacerEntry_SomeFn_70 compares with and stores once the sound is stopped.
 #define KART_SOUND_NO_WHILE_REQUESTED_SOUND 0xffff
 
 // Values of KartSound.mVolume (volume scale 0 to 0x7f).

@@ -18,18 +18,18 @@
 #include "Main/Graphics/stem_names.h"
 #include "Main/System/init_after_startup.h"
 
-const StemSetParams gWinStems = {1, 1, 0, 0, {gStemNameWin, NULL}};
-const StemSetParams gFailedStems = {1, 1, 1, 0, {gStemNameFailed, NULL}};
-const StemSetParams gGoalStems = {1, 1, 1, 0, {gStemNameGoal, NULL}};
-const StemSetParams gLoseStems = {1, 1, 0, 0, {gStemNameLose, NULL}};
-const StemSetParams gCompleteStems = {1, 1, 1, 0, {gStemNameComplete, NULL}};
+const StemSetParams g_WinModelMD = {1, 1, 0, 0, {gStemNameWin, NULL}};
+const StemSetParams g_FailedModelMD = {1, 1, 1, 0, {gStemNameFailed, NULL}};
+const StemSetParams g_GoalModelMD = {1, 1, 1, 0, {gStemNameGoal, NULL}};
+const StemSetParams g_LoseModelMD = {1, 1, 0, 0, {gStemNameLose, NULL}};
+const StemSetParams g_CompleteModelMD = {1, 1, 1, 0, {gStemNameComplete, NULL}};
 
 const s32 gStadiumEmitterEffectIds[12] = {0x6f, 0x6e, 0x6d, 0x64, 0x6b, 0x6a, 0x69, 0x68, 0x67, 0x66, 0x65, 0x6c};
 const Vec3 gStadiumEmitterPositions[6] = {{0xba000, 0x67000, 0x2e000},  {0x34000, 0x67000, 0x119000},
                                           {-909312, 0x67000, 0x119000}, {-1466368, 0x67000, 0x2e000},
                                           {-909312, 0x67000, -774144},  {0x34000, 0x67000, -774144}};
 
-KartPhysicalParamTable *gKartPhysicalParamTable;
+KartPhysicalParamTable *g_GlobalFAT;
 
 static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
@@ -70,7 +70,7 @@ void AdvanceStadiumEmitters(void) {
     }
     bestDot = -0x1000;
     bestIndex = -1;
-    camera = GetCurrentCamera();
+    camera = GetGlobalHD4();
     cameraForward = camera->mForward;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         StadiumEmitters *stadiumEmitters = gStadiumEmitters;
@@ -82,7 +82,7 @@ void AdvanceStadiumEmitters(void) {
         }
     }
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
-        s32 dot = VEC_DotProduct(&cameraForward, &gStadiumEmitters->mDirections[slotIndex]);
+        s32 dot = Vector3_DotProduct(&cameraForward, &gStadiumEmitters->mDirections[slotIndex]);
         if (dot >= bestDot) {
             bestDot = dot;
             bestIndex = slotIndex;
@@ -126,7 +126,7 @@ void AdvanceStadiumEmitters(void) {
         }
         gStadiumEmitters->mEmitters[emitterIndex] = emitter;
     }
-    randomDraw = StadiumEmittersNextRandomBelow(&gRaceProgress->mLocalRandom, 0x19);
+    randomDraw = StadiumEmittersNextRandomBelow(&g_GlobalMV->mLocalRandom, 0x19);
     gStadiumEmitters->mEmitterTimer = (u16) randomDraw + 0x14;
 }
 
@@ -177,26 +177,26 @@ void CreateAwardEmitters(void) {
     }
 }
 
-void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
-    gKartPhysicalParamTable = HeapAlloc(heap, sizeof(*gKartPhysicalParamTable));
-    gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * sizeof(KartPhysicalParam));
-    gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
-    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile("kartphysicalparam.bin");
-    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile("charphysicalparam.bin");
-    gKartPhysicalParamTable->mFirstBaseSpeedLimit = gKartPhysicalParamTable->mKartParamFile->mBaseSpeedLimit;
+void AllocateGlobalFAT(void *heap, u32 entryCount) {
+    g_GlobalFAT = Mem_AllocateHeap(heap, sizeof(*g_GlobalFAT));
+    g_GlobalFAT->mKartParams = Mem_AllocateHeap(heap, entryCount * sizeof(KartPhysicalParam));
+    g_GlobalFAT->mCharParams = Mem_AllocateHeap(heap, entryCount * 8);
+    g_GlobalFAT->mKartParamFile = FindFileBuffer_KME_KM1_KM2_KSB_from_thumb("kartphysicalparam.bin");
+    g_GlobalFAT->mCharParamFile = FindFileBuffer_KME_KM1_KM2_KSB_from_thumb("charphysicalparam.bin");
+    g_GlobalFAT->mFirstBaseSpeedLimit = g_GlobalFAT->mKartParamFile->mBaseSpeedLimit;
 }
 
 // Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
-// IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
-void CopyKartPhysicalParams(u32 slot, u16 kartRow, u16 characterRow) {
-    KartPhysicalParam *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
-    s32 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;
-    if (IsRaceAwardOrStaffRoll() != 0) {
+// IsAwardOrStaffRoll_0() != 0; character + 0x25 in mode 2).
+void CopyKartCharPhysicalParam(u32 slot, u16 kartRow, u16 characterRow) {
+    KartPhysicalParam *kartParamFile = g_GlobalFAT->mKartParamFile;
+    s32 *characterParamFile = g_GlobalFAT->mCharParamFile;
+    if (IsAwardOrStaffRoll_0() != 0) {
         characterRow = 0;
         kartRow = characterRow;
-    } else if (gRaceSetup->mMode == MODE_BATTLE) {
+    } else if (g_GlobalCO->mMode == MODE_BATTLE) {
         kartRow = (u16) (characterRow + 0x25);
     }
-    MI_CpuCopy8(&kartParamFile[kartRow], &gKartPhysicalParamTable->mKartParams[slot], sizeof(KartPhysicalParam));
-    MI_CpuCopy8(&characterParamFile[characterRow * 2], &gKartPhysicalParamTable->mCharParams[slot * 2], 8);
+    Mem_CpuCopy8(&kartParamFile[kartRow], &g_GlobalFAT->mKartParams[slot], sizeof(KartPhysicalParam));
+    Mem_CpuCopy8(&characterParamFile[characterRow * 2], &g_GlobalFAT->mCharParams[slot * 2], 8);
 }

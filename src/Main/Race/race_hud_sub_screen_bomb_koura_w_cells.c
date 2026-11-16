@@ -35,8 +35,8 @@
 RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
 RaceHudSubScreenBgColors *gRaceHudSubScreenBgColors;
 
-void InitRaceHudSubScreenBgColors(void) {
-    gRaceHudSubScreenBgColors = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceHudSubScreenBgColors));
+void SomeAlloc(void) {
+    gRaceHudSubScreenBgColors = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gRaceHudSubScreenBgColors));
 }
 
 u8 gRaceHudSubScreenBgColorsOrderPad[24];
@@ -45,7 +45,7 @@ void CopyRaceHudSubScreenBgColors(void) {
     s32 rowIndex;
     s32 columnIndex;
 
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
             for (rowIndex = 0; rowIndex < 9; rowIndex++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
@@ -110,16 +110,16 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
     u32 waterAngle;
     float threshold;
 
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
-            value = GetCourseModelNsbtpFrame();
+            value = GetCourseAnimNsbtpSomeValue();
             for (rowIndex = 0; rowIndex < 3; rowIndex++) {
                 palette[rowIndex + 0x40] = gRaceHudSubScreenBgColors->mColors.mFrameColors[value / 10][rowIndex];
             }
-            DC_FlushRange(&palette[0x40], 6);
+            Arm_FlushRange(&palette[0x40], 6);
             GXS_BeginLoadBGExtPltt();
             GXS_LoadBGExtPltt(&palette[0x40], 0x4080, 6);
-            if (IsCourseWithMap2DLocal3() != 0) {
+            if (MaybeCircuitUsesLocal3() != 0) {
                 GXS_LoadBGExtPltt(&palette[0x40], 0x6080, 6);
             }
             GXS_EndLoadBGExtPltt();
@@ -146,10 +146,10 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     }
                 }
             }
-            DC_FlushRange(&palette[0x80], 0x34);
+            Arm_FlushRange(&palette[0x80], 0x34);
             GXS_BeginLoadBGExtPltt();
             GXS_LoadBGExtPltt(&palette[0x80], 0x4100, 0x34);
-            if (IsCourseWithMap2DLocal3() != 0) {
+            if (MaybeCircuitUsesLocal3() != 0) {
                 GXS_LoadBGExtPltt(&palette[0x80], 0x6100, 0x34);
             }
             GXS_EndLoadBGExtPltt();
@@ -183,10 +183,10 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                 palette[rowIndex + 0x78] = gRaceHudSubScreenBgColors->mColors.mColorList[*colorIndexCursor];
                 colorIndexCursor++;
             }
-            DC_FlushRange(&palette[0x78], 0x28);
+            Arm_FlushRange(&palette[0x78], 0x28);
             GXS_BeginLoadBGExtPltt();
             GXS_LoadBGExtPltt(&palette[0x78], 0x40f0, 0x28);
-            if (IsCourseWithMap2DLocal3() != 0) {
+            if (MaybeCircuitUsesLocal3() != 0) {
                 GXS_LoadBGExtPltt(&palette[0x78], 0x60f0, 0x28);
             }
             GXS_EndLoadBGExtPltt();
@@ -212,10 +212,10 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     palette[colorIndex + 0x50] = gRaceHudSubScreenBgColors->mColors.mColorList[2];
                 }
             }
-            DC_FlushRange(&palette[0x50], 0x10);
+            Arm_FlushRange(&palette[0x50], 0x10);
             GXS_BeginLoadBGExtPltt();
             GXS_LoadBGExtPltt(&palette[0x50], 0x40a0, 0x10);
-            if (IsCourseWithMap2DLocal3() != 0) {
+            if (MaybeCircuitUsesLocal3() != 0) {
                 GXS_LoadBGExtPltt(&palette[0x50], 0x60a0, 0x10);
             }
             GXS_EndLoadBGExtPltt();
@@ -266,10 +266,10 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     }
                 }
             }
-            DC_FlushRange(&palette[0x54], 0x98);
+            Arm_FlushRange(&palette[0x54], 0x98);
             GXS_BeginLoadBGExtPltt();
             GXS_LoadBGExtPltt(&palette[0x54], 0x40a8, 0x98);
-            if (IsCourseWithMap2DLocal3() != 0) {
+            if (MaybeCircuitUsesLocal3() != 0) {
                 GXS_LoadBGExtPltt(&palette[0x54], 0x60a8, 0x98);
             }
             GXS_EndLoadBGExtPltt();
@@ -308,10 +308,10 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                     palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[4];
                 }
             }
-            DC_FlushRange(&palette[0xe0], 0x2c);
+            Arm_FlushRange(&palette[0xe0], 0x2c);
             GXS_BeginLoadBGExtPltt();
             GXS_LoadBGExtPltt(&palette[0xe0], 0x41c0, 0x2c);
-            if (IsCourseWithMap2DLocal3() != 0) {
+            if (MaybeCircuitUsesLocal3() != 0) {
                 GXS_LoadBGExtPltt(&palette[0xe0], 0x61c0, 0x2c);
             }
             GXS_EndLoadBGExtPltt();
@@ -360,14 +360,14 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
             if (ComputeRaceHudSubScreenPosition(bombPosition,
                                                 &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x63);
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x63);
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(bombPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(bombPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
 // Frame count, not an angle: this list is drawn without rotation.
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = bombStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mXlu = bombStateFrames >= 0x16 ? 1 : 0;
                 if (bombStateFrames >= 0x16) {
-                    bombValue = InterpolateS16(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
+                    bombValue = ComputeValueInterpolation_from_thumb(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
                 }
                 gRaceHudSubScreenBombKouraWCells->mObjectPairs[cellCount].mFirst = bombValue;
                 cellCount++;
@@ -384,14 +384,14 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
             if (ComputeRaceHudSubScreenPosition(kouraPosition,
                                                 &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x64);
+                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetB3C4_Cell_RaceS(0x64);
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(kouraPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                    CheckVectorBounds_Clock_Airship(kouraPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
 // Frame count, not an angle: this list is drawn without rotation.
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = kouraStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mXlu = kouraStateFrames >= 0x16 ? 1 : 0;
                 if (kouraStateFrames >= 0x16) {
-                    kouraValue = InterpolateS16(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
+                    kouraValue = ComputeValueInterpolation_from_thumb(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
                 }
                 gRaceHudSubScreenBombKouraWCells->mObjectPairs[cellCount].mFirst = kouraValue;
                 cellCount++;

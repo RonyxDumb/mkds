@@ -42,12 +42,12 @@ void LoadTimeAttackTopMenuData(void) {
     Nclr *mbNclr = NULL;
     Nscr *mNscr = NULL;
 
-    LoadNcgrData(&mbNcgr, FindSceneFile(gTimeAttackTopMenuMBNcgrName));
-    LoadNclrData(&mbNclr, FindSceneFile(gTimeAttackTopMenuMBNclrName));
-    LoadNscrData(&mNscr, FindSceneFile(gTimeAttackTopMenuMNscrName));
-    LoadNcgrData2(&sNcgr, FindSceneFile(gTimeAttackTopMenuSNcgrName));
-    LoadNcerData(&sNcer, FindSceneFile(gTimeAttackTopMenuSNcerName));
-    LoadNclrData(&soNclr, FindSceneFile(gTimeAttackTopMenuSONclrName));
+    Gfx_ReadCharGraphicsV2(&mbNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuMBNcgrName));
+    Gfx_ReadPalette(&mbNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuMBNclrName));
+    MaybeReadScreenBlock_0(&mNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuMNscrName));
+    Gfx_ReadCharGraphics(&sNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSNcgrName));
+    LoadCellBankFrom(&sNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSNcerName));
+    Gfx_ReadPalette(&soNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSONclrName));
 }
 
 void LocateAndQueueTimeAttackTopMenu(void) {
@@ -57,21 +57,21 @@ void LocateAndQueueTimeAttackTopMenu(void) {
     Nclr *mbNclr = NULL;
     Nscr *mNscr = NULL;
 
-    LocateNcgr(&mbNcgr, FindSceneFile(gTimeAttackTopMenuMBNcgrName));
-    LocateNclr(&mbNclr, FindSceneFile(gTimeAttackTopMenuMBNclrName));
-    LocateNscr(&mNscr, FindSceneFile(gTimeAttackTopMenuMNscrName));
-    gTimeAttackTopMenu->mSecondScreenMapBuffer = HeapAlloc(gTimeAttackTopMenu->mHeap, SECOND_SCREEN_MAP_BYTES);
-    gTimeAttackTopMenu->mTimeAttackTopMenuSBncl = FindSceneFile(gTimeAttackTopMenuSBnclName);
-    gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl = FindSceneFile(gTimeAttackTopMenuSBnblName);
-    LocateNcgr2(&sNcgr, FindSceneFile(gTimeAttackTopMenuSNcgrName));
-    LocateNcer(&gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, FindSceneFile(gTimeAttackTopMenuSNcerName));
-    LocateNclr(&soNclr, FindSceneFile(gTimeAttackTopMenuSONclrName));
-    NNS_GfdRegisterNewVramTransferTask(4, 0, mbNcgr->mData, mbNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0xf, 0, mbNclr->mData, 0x20);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, &mNscr->mData, mNscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gTimeAttackTopMenu->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, sNcgr->mData, sNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, soNclr->mData, soNclr->mDataSize);
+    MaybeReadCharBlock_1(&mbNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuMBNcgrName));
+    Gfx_ReadPaletteRelative(&mbNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuMBNclrName));
+    MaybeReadScreenBlock(&mNscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuMNscrName));
+    gTimeAttackTopMenu->mSecondScreenMapBuffer = Mem_AllocateHeap(gTimeAttackTopMenu->mHeap, SECOND_SCREEN_MAP_BYTES);
+    gTimeAttackTopMenu->mTimeAttackTopMenuSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSBnclName);
+    gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSBnblName);
+    Gfx_ReadCharGraphicsRelative(&sNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSNcgrName));
+    LocateNcer(&gTimeAttackTopMenu->mTimeAttackTopMenuSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSNcerName));
+    Gfx_ReadPaletteRelative(&soNclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTimeAttackTopMenuSONclrName));
+    AllocateReserveTEQSub(4, 0, mbNcgr->mData, mbNcgr->mDataSize);
+    AllocateReserveTEQSub(0xf, 0, mbNclr->mData, 0x20);
+    AllocateReserveTEQSub(8, 0, &mNscr->mData, mNscr->mDataSize);
+    AllocateReserveTEQSub(8, 0x800, gTimeAttackTopMenu->mSecondScreenMapBuffer, SECOND_SCREEN_MAP_BYTES);
+    AllocateReserveTEQSub(0x23, 0, sNcgr->mData, sNcgr->mDataSize);
+    AllocateReserveTEQSub(0x1e, 0, soNclr->mData, soNclr->mDataSize);
 }
 
 void RequestTimeAttackTopMenuSlideIn(void) {
@@ -109,7 +109,7 @@ void RequestTimeAttackTopMenuPress(void) {
             RequestSelectReturnSlideOut();
             break;
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
 }
 
 // Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
@@ -136,8 +136,8 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     s32 index;
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gTimeAttackTopMenu = HeapAlloc(heap, sizeof(TimeAttackTopMenu));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gTimeAttackTopMenu = Mem_AllocateHeap(heap, sizeof(TimeAttackTopMenu));
     gTimeAttackTopMenu->mHeap = heap;
     gTimeAttackTopMenu->mState = TIME_ATTACK_TOP_STATE_SLIDE_IN;
     gTimeAttackTopMenu->mMainOamList = mainOam;
@@ -145,7 +145,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     gTimeAttackTopMenu->mResult = TIME_ATTACK_TOP_RESULT_NONE;
     RequestTimeAttackTopMenuSlideIn();
     if (GetPreviousMenuScreenNumber() == 0x1f) {
-        if (gMenuShared->mGhostSceneInitialCallbacksIndex == 0) {
+        if (g_GlobalB488->mGhostSceneInitialCallbacksIndex == 0) {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SEND_GHOST;
         } else {
             gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
@@ -155,10 +155,10 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
     }
     LocateAndQueueTimeAttackTopMenu();
     for (index = 0; index < 3; index++) {
-        SetCellOamModeXlu(gTimeAttackTopMenuXluCellIndices[index], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gTimeAttackTopMenuXluCellIndices[index], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
                           gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
     }
-    ResetOamLists(gTimeAttackTopMenu->mMainOamList, gTimeAttackTopMenu->mSubOamList);
+    OamBuffer_SomeFn_from_thumb(gTimeAttackTopMenu->mMainOamList, gTimeAttackTopMenu->mSubOamList);
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,
                     &gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
     for (index = 0; index < 3; index++) {
@@ -179,7 +179,7 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
 }
 
 void ReleaseTimeAttackTopMenu(void) {
-    HeapDestroy(gTimeAttackTopMenu->mHeap);
+    Mem_DestroyHeap(gTimeAttackTopMenu->mHeap);
     gTimeAttackTopMenu = NULL;
 }
 
@@ -188,9 +188,9 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
     s32 index;
 
     gTimeAttackTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, TIME_ATTACK_TOP_SLIDE_DISTANCE, 0, gTimeAttackTopMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, TIME_ATTACK_TOP_SLIDE_DISTANCE, 0, gTimeAttackTopMenu->mStateFrames,
                              TIME_ATTACK_TOP_SLIDE_FRAMES);
-    gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE, 0,
+    gTimeAttackTopMenu->mBg0Offset = ComputeValueInterpolation_from_thumb(1, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE, 0,
                                                     gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
     for (index = 0; index < 3; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
@@ -245,33 +245,33 @@ void AdvanceTimeAttackTopMenuInput(void) {
     BOOL flag4;
     s32 flag3;
 
-    if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         flag1 = TRUE;
     }
-    if (flag1 == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mHasPair != 0) {
+    if (flag1 == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+        g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
         touchStarted = TRUE;
     }
     if (touchStarted != FALSE) {
         tappedRectIndex =
-            RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
-                                    gInputSlots[slotIndex].mPair.mPairY);
+            RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, g_GlobalCYT[slotIndex].mPair.mPairX,
+                                    g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    inputSlot = &gInputSlots[slotIndex];
+    inputSlot = &g_GlobalCYT[slotIndex];
     pressedBits = inputSlot->mPressedBits & PAD_KEY_B;
     if ((u16) pressedBits == 0) {
         flag3 = flag4 = FALSE;
-        if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (g_GlobalCYT[slotIndex].mPair.mHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             flag3 = 1;
         }
-        if (flag3 == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mHasPair != 0) {
+        if (flag3 == 0 && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 &&
+            g_GlobalCYT[slotIndex].mPair.mHasPair != 0) {
             flag4 = TRUE;
         }
-        if (flag4 == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                                    gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
+        if (flag4 == FALSE || IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                                    g_GlobalCYT[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
     }
@@ -323,7 +323,7 @@ next:
                 gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_RECEIVE_GHOST;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex++;
@@ -331,7 +331,7 @@ next:
                 gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         }
     }
 }
@@ -370,9 +370,9 @@ void AdvanceTimeAttackTopMenuSlideOut(void) {
     s32 index;
 
     gTimeAttackTopMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, TIME_ATTACK_TOP_SLIDE_DISTANCE, gTimeAttackTopMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, 0, TIME_ATTACK_TOP_SLIDE_DISTANCE, gTimeAttackTopMenu->mStateFrames,
                              TIME_ATTACK_TOP_SLIDE_FRAMES);
-    gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, 0, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE,
+    gTimeAttackTopMenu->mBg0Offset = ComputeValueInterpolation_from_thumb(1, 0, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE,
                                                     gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
     for (index = 0; index < 3; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;

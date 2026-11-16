@@ -15,49 +15,49 @@
 #include "cell_animation.h"
 #include "Main/Graphics/font_and_player_character.h"
 
-struct DownloadScreenFiles *gDownloadScreenFiles;
+struct DownloadScreenFiles *g_Global2D;
 
-void CreateSearchIconMBChildAndMultiDownload(void *heap) {
-    gDownloadScreenFiles = HeapAlloc(heap, sizeof(*gDownloadScreenFiles));
-    gDownloadScreenFiles->mSearchIconCellLayout = FindFileInLoadedArchives("search_icon_00.bncl");
-    gDownloadScreenFiles->mSearchIconLayoutCellLayout = FindFileInLoadedArchives("search_icon_layout_00.bncl");
-    LoadNcgrData2(&gDownloadScreenFiles->mSearchIconChars, FindFileInLoadedArchives("search_icon_00.nce.ncgr"));
-    LoadNcerData(&gDownloadScreenFiles->mSearchIconCells, FindFileInLoadedArchives("search_icon_00.nce.ncer"));
-    LoadNclrData(&gDownloadScreenFiles->mSearchIconPalette, FindFileInLoadedArchives("search_icon_00_o.nclr"));
-    switch (gStartupWork->mLanguageIndex) {
+void LoadStatic2DContents(void *heap) {
+    g_Global2D = Mem_AllocateHeap(heap, sizeof(*g_Global2D));
+    g_Global2D->mSearchIconCellLayout = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("search_icon_00.bncl");
+    g_Global2D->mSearchIconLayoutCellLayout = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("search_icon_layout_00.bncl");
+    Gfx_ReadCharGraphics(&g_Global2D->mSearchIconChars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("search_icon_00.nce.ncgr"));
+    LoadCellBankFrom(&g_Global2D->mSearchIconCells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("search_icon_00.nce.ncer"));
+    Gfx_ReadPalette(&g_Global2D->mSearchIconPalette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("search_icon_00_o.nclr"));
+    switch (g_GlobalP->mLanguageIndex) {
         default:
-            InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_us.NFTR"));
+            NFTR_Load(&g_Global2D->mMBChildFont, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_us.NFTR"));
             break;
         case LANGUAGE_FRENCH:
-            InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_fr.NFTR"));
+            NFTR_Load(&g_Global2D->mMBChildFont, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_fr.NFTR"));
             break;
         case LANGUAGE_GERMAN:
-            InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_ge.NFTR"));
+            NFTR_Load(&g_Global2D->mMBChildFont, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_ge.NFTR"));
             break;
         case LANGUAGE_ITALIAN:
-            InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_it.NFTR"));
+            NFTR_Load(&g_Global2D->mMBChildFont, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_it.NFTR"));
             break;
         case LANGUAGE_SPANISH:
-            InitFontIfLoaded(&gDownloadScreenFiles->mMBChildFont, FindFileInLoadedArchives("MBChild_es.NFTR"));
+            NFTR_Load(&g_Global2D->mMBChildFont, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_es.NFTR"));
             break;
     }
-    switch (gStartupWork->mLanguageIndex) {
+    switch (g_GlobalP->mLanguageIndex) {
         default:
-            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_us.bmg");
+            g_Global2D->mMBChildMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_us.bmg");
             break;
         case LANGUAGE_FRENCH:
-            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_fr.bmg");
+            g_Global2D->mMBChildMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_fr.bmg");
             break;
         case LANGUAGE_GERMAN:
-            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_ge.bmg");
+            g_Global2D->mMBChildMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_ge.bmg");
             break;
         case LANGUAGE_ITALIAN:
-            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_it.bmg");
+            g_Global2D->mMBChildMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_it.bmg");
             break;
         case LANGUAGE_SPANISH:
-            gDownloadScreenFiles->mMBChildMessages = FindFileInLoadedArchives("MBChild_es.bmg");
+            g_Global2D->mMBChildMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("MBChild_es.bmg");
             break;
     }
-    LoadNcgrData(&gDownloadScreenFiles->mMultiDownloadChars, FindFileInLoadedArchives("multi_download_00_b.NCGR"));
-    LoadNclrData(&gDownloadScreenFiles->mMultiDownloadPalette, FindFileInLoadedArchives("multi_download_00_b.NCLR"));
+    Gfx_ReadCharGraphicsV2(&g_Global2D->mMultiDownloadChars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("multi_download_00_b.NCGR"));
+    Gfx_ReadPalette(&g_Global2D->mMultiDownloadPalette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("multi_download_00_b.NCLR"));
 }

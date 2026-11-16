@@ -57,13 +57,13 @@ typedef enum {
 } RaceSCell;
 
 s32 LookupRaceSNcerIndex(s32 kartIndex, s32 shownItem);
-void RenderKartEntryNames(void);
-void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);
+void DrawRacerNames(void);
+void GetRacerCharacterIdAndUnk(s32 entryIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);
 void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars);
 void CopyRaceTransferMapMrSO(u16 *palette, void *chars);
-void GetTimeRecordCharacterAndPalette(s32 recordIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);
+void GetTimeTrialRecordCharacterIdAndUnk(s32 recordIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);
 
-struct RaceNcerNclrNcgrTables **ClearRaceNcerNclrNcgrTablesPointer(void);
+struct RaceNcerNclrNcgrTables **ResetGlobalB3C4(void);
 
 // A palette and graphics pair of the race tables: mNclr and mNcgr.
 typedef struct RaceNclrNcgr {
@@ -87,7 +87,7 @@ typedef struct RaceNclrNcgr {
 #define RACE_START_BATTLE_M_NCER_COUNT 3
 
 // Slots of mNclrNcgrPairs: the palette and characters loaded from the file of that name (race_m_o, race_goal_m_o,
-// race_ta_m_o, ...). The _M files are for the main screen, the _S files for the sub screen.
+// race_ta_m_o, ...). The _M files are for the NtrMain screen, the _S files for the sub screen.
 typedef enum {
     RACE_NCER_PAIR_RACE_M,
     RACE_NCER_PAIR_GOAL_M,
@@ -119,8 +119,8 @@ typedef struct RaceNcerNclrNcgrTables {
     /* 7dc */ RaceNclrNcgr mNclrNcgrPairs[RACE_NCER_PAIR_COUNT];
 } RaceNcerNclrNcgrTables;
 
-void InitRaceNcerNclrNcgrTables(void);
+void CreateGlobalB3C4(void);
 
 #include "00/Menu/wi_fi_vs_matching.h"
 
-extern struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;
+extern struct RaceNcerNclrNcgrTables *g_GlobalB3C4;

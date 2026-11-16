@@ -19,6 +19,6 @@ typedef struct NNSG2dPaletteData {
     /* 0c */ void *mRawData;
 } NNSG2dPaletteData;
 
-void NNS_G2dUnpackNCG(NNSG2dCharacterData *pCharData);
-void NNS_G2dUnpackBGNCG(NNSG2dCharacterData *pCharData);
-void NNS_G2dUnpackNCL(NNSG2dPaletteData *pPlttData);
+void Gfx_MakeCharGraphicsOffsetsAbsoluteV2(NNSG2dCharacterData *pCharData);
+void Gfx_MakeCharGraphicsOffsetsAbsolute(NNSG2dCharacterData *pCharData);
+void Gfx_MakePaletteOffsetsAbsolute(NNSG2dPaletteData *pPlttData);

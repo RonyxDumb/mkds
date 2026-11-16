@@ -39,16 +39,16 @@ BOOL DoesMapObjectRespondToItemObject(MapObject *mapObject, ItemObject *itemObje
 
 #pragma thumb on
 
-void *FindMainRaceOrMainEffectMapObjFile(const char *name) {
+void *FormatFindMapObjFileBuffer_0_from_thumb(const char *name) {
     char buf[0x100];
-    snprintf(buf, 0x100, "MapObj/%s", name);
-    return FindMainRaceOrMainEffectFile(buf);
+    _snprintf(buf, 0x100, "MapObj/%s", name);
+    return FindFileBuffer_MAR_EFT_from_thumb(buf);
 }
 
-void *FindCourseMapObjFile(const char *name) {
+void *FormatFindMapObjFileBuffer_from_thumb(const char *name) {
     char buf[0x100];
-    snprintf(buf, 0x100, "MapObj/%s", name);
-    return FindCourseFile(buf);
+    _snprintf(buf, 0x100, "MapObj/%s", name);
+    return FindFileBuffer_CRS_CST_from_thumb(buf);
 }
 
 u32 DecimalNonZeroDigitsToBitMask(s32 number) {
@@ -80,13 +80,13 @@ u32 DecimalNonZeroDigitsToBitMask(s32 number) {
 
 void InitRaceMNumberPair(void) {
     RaceMNumberPair *pair;
-    pair = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RaceMNumberPair));
+    pair = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(RaceMNumberPair));
     gRaceMNumberPair = pair;
-    pair->mCourseNumber = gRaceSetup->mCourseNumber;
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    pair->mCourseNumber = g_GlobalCO->mCourseNumber;
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         gRaceMNumberPair->mCourseCount = 4;
-    } else if (gRaceSetup->mMode == MODE_VS && gRaceSetup->mRuleKind == RULE_KIND_RACE_COUNT) {
-        gRaceMNumberPair->mCourseCount = gRaceSetup->mCourseCount;
+    } else if (g_GlobalCO->mMode == MODE_VS && g_GlobalCO->mRuleKind == RULE_KIND_RACE_COUNT) {
+        gRaceMNumberPair->mCourseCount = g_GlobalCO->mCourseCount;
     } else {
         gRaceMNumberPair->mCourseCount = 0;
     }
@@ -101,4 +101,4 @@ void ClearRaceMNumberPairPointer(void) {
     gRaceMNumberPair = NULL;
 }
 
-void UpdateRaceMNumberPairNop(void) {}
+void nullsub_11(void) {}

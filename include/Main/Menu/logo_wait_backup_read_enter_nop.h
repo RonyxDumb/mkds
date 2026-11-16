@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void EnterLogoWaitBackupReadNop(void *stateObject);
+void Logo_StateHandler_WaitCheckSaveData_First(void *stateObject);

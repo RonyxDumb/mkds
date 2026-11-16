@@ -3,9 +3,9 @@
 #include "types.h"
 #include "Main/Save/course_time_record.h"
 
-void FinishRaceNewRecordTa(void);
+void StructE8_SomeFnHandle7(void);
 
-void HoldRaceNewRecordTa(void);
+void StructE8_SomeFnHandle6(void);
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
@@ -19,36 +19,36 @@ typedef struct RaceNewRecordTa {
     /* 14 */ u16 mBestLapNumber;
     /* 16 */ u8 mUnk_16[2];
     /* 18 */ s32 mSaving;
-    // The course's six time records, copied from the save by InitRaceNewRecordTa (GetCourseTimeRecord): slots 0..4 are
-    // the ranked list (an insert shifts them down and writes through SetCourseTimeRecord), slot 5 is a further record
+    // The course's six time records, copied from the save by CreateGlobalE8 (TimeTrialRecord_CopyFrom_from_thumb): slots 0..4 are
+    // the ranked list (an insert shifts them down and writes through TimeTrialCopyToSaveData_from_thumb), slot 5 is a further record
     // shown in a sixth row: the best lap time.
     /* 1c */ TimeRecord mRecords[6];
     /* dc */ s32 mRunning;
-    // X of the whole page: -0x100 at allocation, eased to 0 over 0x14 frames by SlideInRaceNewRecordTa, added to every
+    // X of the whole page: -0x100 at allocation, eased to 0 over 0x14 frames by StructE8_SomeFnHandle2, added to every
     // sprite and row x in the draw.
     /* e0 */ s32 mOffsetX;
     /* e4 */ s32 mCycleFrames;
 } RaceNewRecordTa;
 
-BOOL IsRaceNewRecordTaSaving(void);
+BOOL IsSavingTimeTrialRecord(void);
 BOOL IsRaceNewRecordTaRunning(void);
-void InitRaceNewRecordTa(void);
-void ClearRaceNewRecordTaPointer(void);
-void UpdateRaceNewRecordTa(void);
-void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, TimeRecord *record);
-void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s32 baseY);
-void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer);
-BOOL TryStoreRaceNewRecordTaFinishTime(s32 store);
-BOOL TryStoreRaceNewRecordTaBestLap(s32 store);
-void StartRaceNewRecordTa(void);
-void StoreRaceNewRecordTaGhost(void);
-void AdvanceRaceNewRecordTaAfterSave(void);
-void ShowRaceNewRecordTaSubScreen(void);
-void SlideInRaceNewRecordTa(void);
+void CreateGlobalE8(void);
+void ResetGlobalE8(void);
+void InvokeE8Handler(void);
+void StructRA_SomeFn_6(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, TimeRecord *record);
+void StructRA_SomeFn_5(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s32 baseY);
+void StructRA_SomeFn_4(RaceHudOamBuffer *oamBuffer);
+BOOL CheckHandleSaveTimeTrialRecord2(s32 store);
+BOOL CheckHandleSaveTimeTrialRecord_LeastLap(s32 store);
+void StructE8_SomeFnHandle(void);
+void StructE8_SomeFnHandle4(void);
+void StructE8_SomeFnHandle3(void);
+void StructE8_SomeFnHandle5(void);
+void StructE8_SomeFnHandle2(void);
 
-unsigned int GetRaceNewRecordTaBestLapNumber(void);
+unsigned int GetLeastTimeLapId(void);
 
-extern struct RaceNewRecordTa *gRaceNewRecordTa;
+extern struct RaceNewRecordTa *g_GlobalE8;
 
 // Frames of the new record cycle, and the digit value that shows no digit.
 #define RACE_NEW_RECORD_TA_CYCLE_FRAMES 0x18

@@ -62,7 +62,7 @@ void UpdateMoveTree(void *mapObjectList,
                     MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
 void InitMoveTreeObjects(MapObjectList *mapObjectList);
 void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha);
-void CreateMoveTree(void *mapObjectList);
+void LoadMoveTreeMapObject(void *mapObjectList);
 u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *firstResponse, u8 *response);
 
 extern struct MapObjectModel *gBakubaku;

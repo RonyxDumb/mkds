@@ -66,7 +66,7 @@ char *GenerateAuthA(const char *challenge, const char *password, char *response)
         *(CdKeyTooLongText *) response = *(const CdKeyTooLongText *) "CD Key or challenge too long";
         return response;
     }
-    sprintf(hashInput, "%s%s", password, challenge);
+    MaybeStrcpy(hashInput, "%s%s", password, challenge);
     MD5Digest(hashInput, strlen(hashInput), response);
     return response;
 }
@@ -151,7 +151,7 @@ s32 GstatsUpdateConnect(void) {
                 return 6;
             }
             if (aResult != 1 || socketFlags[0] != 1) {
-                AssertionFailed("aResult == 1 && aWriteFlag == 1", "gstats.c", NULL, 0x145);
+                LogThrowAssertion("aResult == 1 && aWriteFlag == 1", "gstats.c", NULL, 0x145);
             }
             gStatsInitState = GSTATS_INIT_AWAIT_CHALLENGE;
         case GSTATS_INIT_AWAIT_CHALLENGE:
@@ -265,7 +265,7 @@ void PreAuthenticatePlayerPartner(s32 ownId, const char *tokenText, const char *
     s32 len;
     gEnc = gEnc3;
     xcode_buf((s8 *) replyFormat, sizeof(replyFormat) - 1);
-    len = sprintf((char *) data, replyFormat, tokenText, responseText, ownId);
+    len = MaybeStrcpy((char *) data, replyFormat, tokenText, responseText, ownId);
     SendPlayerAuthRequest(data, len, ownId, callback, instance);
 }
 
@@ -344,11 +344,11 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
         return 5;
     }
     len = g_crc32((const s8 *) challengeText, strlen(challengeText));
-    len = sprintf((char *) replyBuf, "%d%s", len, gcd_secret_key);
+    len = MaybeStrcpy((char *) replyBuf, "%d%s", len, gcd_secret_key);
     MD5Digest((const char *) replyBuf, len, md5Text);
     gEnc = gEnc3;
     xcode_buf((s8 *) replyFormat, sizeof(replyFormat) - 1);
-    len = sprintf((char *) replyBuf, replyFormat, gcd_gamename, md5Text, gameport);
+    len = MaybeStrcpy((char *) replyBuf, replyFormat, gcd_gamename, md5Text, gameport);
     if (DoSend(replyBuf, len) <= 0) {
         closesocket(gSock);
         return 3;
@@ -436,7 +436,7 @@ int g_crc32(const s8 *text, int len) {
 
 void create_challenge(u32 challenge, s8 *chstr) {
     s8 *pos = chstr;
-    sprintf((char *) chstr, "%08x", challenge);
+    MaybeStrcpy((char *) chstr, "%08x", challenge);
     while (*pos != 0) {
         *pos = *pos + 0x11 + (pos - chstr);
         pos++;
@@ -556,7 +556,7 @@ void SetPersistDataHelper(s32 ownId, s32 profileId, s32 type, s32 index, const v
         }
         return;
     }
-    headLen = sprintf((char *) packetBuf, replyFormat, profileId, type, index, kvset, ownId, len);
+    headLen = MaybeStrcpy((char *) packetBuf, replyFormat, profileId, type, index, kvset, ownId, len);
     totalLength = headLen + len;
     if (totalLength < 0x1e0) {
         memcpy(packetBuf + headLen, data, len);

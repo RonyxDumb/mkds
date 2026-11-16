@@ -29,8 +29,8 @@ MapObjectModel *gChandelier;
 MapObjectKindDescriptor gChandelierKindDescriptor = {
     0, {0, 0}, 0xac, 0, CreateEmptyMapObjectKindData, CreateChandelierDrawList, 0, 0, CreateChandelierUpdateList};
 
-void CreateChandelier(void *mapObjectList) {
-    CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(mapObjectList, "chandelier.nsbmd"),
+void LoadChandelierMapObject(void *mapObjectList) {
+    StructMapObject_AddAnimationNsbca_from_thumb(gChandelier = CreateMapObjectFromModel_from_thumb(mapObjectList, "chandelier.nsbmd"),
                                        "chandelier.nsbca");
-    SetMapObjectModelPolygonId(gChandelier, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gChandelier, 0x3f);
 }

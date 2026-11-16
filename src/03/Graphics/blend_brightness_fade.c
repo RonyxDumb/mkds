@@ -67,7 +67,7 @@ void AdvanceBlendBrightnessFade(TaskEntry *task, void *arg) {
     u8 bits;
 
     slot->mFrames++;
-    level = FX_DivS32(slot->mFrames << 4, slot->mFrameCount);
+    level = Fx_DivS32(slot->mFrames << 4, slot->mFrameCount);
     bits = bitsByKind[slot->mKind];
     if (bits & 1) {
         level = 0x10 - level;

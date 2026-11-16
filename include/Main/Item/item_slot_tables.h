@@ -41,7 +41,7 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems);
 void StartItemSlotResultPending(KartItems *slot);
 // Returns without starting when the roulette runs or mActiveItem is set
 void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin);
-void InitItemSlot(KartItems *slot, KartItems *kartItems);
+void StructPRSub_Create(KartItems *slot, KartItems *kartItems);
 // Weighted roll of one item from a row (the kart's rank, or a forced row); sums the weights of the allowed items, draws
 // with the race random, then replaces an item whose pool is full by item 2 (4 in mode 5) and frees pool objects until
 // the item fits; writes the spin list when asked; also called by a course object

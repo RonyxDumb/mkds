@@ -52,12 +52,12 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void);
 Vec3 *GetKartStandingPos(int kartIndex);
 void CallKartHitCallbackForSelf(u16 kartIndex);
 void SetWinnerIfOneTeamLeft(void);
-void EliminateKart(u16 kartIndex);
+void MaybeKillDriverDirect(u16 kartIndex);
 void MoveKartTowardLastRank(u16 kartIndex);
 void MoveKartTowardFirstRank(u16 kartIndex);
 u16 GetBattleItemRank(s32 kartIndex);
 void ClearStandingsHitSeenFromKart(s32 kartIndex);
-void StandingsNop(s32 entryIndex);
+void nullsub_8(s32 entryIndex);
 
 BOOL IsKartLastByBalloonOrShineCount(u16 kartIndex);
 BOOL IsKartEliminated(int kartIndex);
@@ -67,7 +67,7 @@ BOOL IsKartOnWinningTeamAtEnd(s32 kartIndex);
 
 u16 GetBalloonsLeftToMake(u16 kartIndex);
 
-void AddBalloonOrShineCountAndMoveRank(u16 kartIndex, s32 amount);
+void MaybeUpdateDriverBalloonShineCount(u16 kartIndex, s32 amount);
 u16 GetBalloonOrShineCount(u16 kartIndex);
 u16 GetHighestBalloonOrShineCount(void);
 u16 GetTotalBalloonOrShineCount(void);
@@ -82,7 +82,7 @@ u32 IsWinnerDecidedAndEndReached(void);
 
 u16 AdvanceShineBattleTimeLimit(void);
 void EliminateKartAndCheckWinner(u16 kartIndex);
-void EliminateKartsUntilWinnerDecided(void);
+void RaceModeBattle_OrMissionRun_SomeFn(void);
 
 void ClearStandingEliminationStatus(int kartIndex);
 

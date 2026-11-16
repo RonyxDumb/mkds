@@ -34,15 +34,15 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 SceneGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline s32 SceneIsConnectionActive(void) {
     BOOL result = FALSE;
-    if (SceneGetConnectionMode() != CONNECTION_MODE_NONE && gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+    if (SceneGetConnectionMode() != CONNECTION_MODE_NONE && g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -50,7 +50,7 @@ static inline s32 SceneIsConnectionActive(void) {
 
 static inline s32 SceneIsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (SceneIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (SceneIsConnectionActive() && !(g_GlobalZE->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -58,7 +58,7 @@ static inline s32 SceneIsConnectionActiveNotEnding(void) {
 
 static inline s32 SceneIsSharingNotUpdatedWhileActive(void) {
     BOOL result = FALSE;
-    if (SceneIsConnectionActiveNotEnding() && (gConnectionWork->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
+    if (SceneIsConnectionActiveNotEnding() && (g_GlobalZE->mFlags & CONNECTION_FLAG_SHARING_NOT_UPDATED)) {
         result = TRUE;
     }
     return result;
@@ -66,7 +66,7 @@ static inline s32 SceneIsSharingNotUpdatedWhileActive(void) {
 
 static inline s32 SceneIsWiFiRaceSyncFlagSet(void) {
     BOOL result = FALSE;
-    if (gWiFiRaceSync != NULL && (gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE)) {
+    if (g_GlobalAA != NULL && (g_GlobalAA->mFlags & WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE)) {
         result = TRUE;
     }
     return result;
@@ -74,21 +74,21 @@ static inline s32 SceneIsWiFiRaceSyncFlagSet(void) {
 
 static inline s32 SceneIsWiFiSessionHeapCreated(void) {
     BOOL result = FALSE;
-    if (gWiFiSession != NULL && gWiFiSession->mHeapCreated != FALSE) {
+    if (g_GlobalB != NULL && g_GlobalB->mHeapCreated != FALSE) {
         result = TRUE;
     }
     return result;
 }
 
 static inline s32 SceneIsBackupCommandRunning(void) {
-    if (gBackupAccess->mBackupEnabled) {
-        return gBackupAccess->mCommandRunning;
+    if (g_SaveDataIoManager->mBackupEnabled) {
+        return g_SaveDataIoManager->mCommandRunning;
     }
     return 0;
 }
 
 static inline s32 SceneIsBackupBusy(void) {
-    if (!gBackupBuffers->mBusy) {
+    if (!g_SaveDataHolder->mBusy) {
         return SceneIsBackupCommandRunning();
     }
     return 1;
@@ -96,7 +96,7 @@ static inline s32 SceneIsBackupBusy(void) {
 
 static inline s32 SceneIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (SceneIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
+    if (SceneIsConnectionActiveNotEnding() && g_GlobalZE->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -112,30 +112,30 @@ static inline void SceneSetSleepCallbackInfoNullArg(PMSleepCallbackInfo *callbac
 }
 
 static inline void StopSceneSoundSetSeqIfShouldEnd(SceneNumbers *sceneNumbers) {
-    if (sceneNumbers == 0 || ShouldEndSceneSoundSet(sceneNumbers->mScene, sceneNumbers->mNextScene)) {
+    if (sceneNumbers == 0 || ShouldPauseBgmInSceneChange(sceneNumbers->mScene, sceneNumbers->mNextScene)) {
         StopSceneSoundSetSeq();
     }
 }
 
 s16 GetSceneFadeToClearFrameCount(void) {
-    if (gSceneRunState->mRunStep == SCENE_RUN_STEP_IDLE) {
+    if (g_GlobalZM->mRunStep == SCENE_RUN_STEP_IDLE) {
         return -1;
     }
-    return gSceneRunState->mSceneCallbacks.mFadeToClearFrameCount;
+    return g_GlobalZM->mSceneCallbacks.mFadeToClearFrameCount;
 }
 
 u32 GetSceneFadeToFadedFrameCount(void) {
-    if (gSceneRunState->mRunStep == SCENE_RUN_STEP_IDLE) {
+    if (g_GlobalZM->mRunStep == SCENE_RUN_STEP_IDLE) {
         return -1;
     }
-    return gSceneRunState->mSceneCallbacks.mFadeToFadedFrameCount;
+    return g_GlobalZM->mSceneCallbacks.mFadeToFadedFrameCount;
 }
 
-void AdvanceWiFiSessionOnIrqWrapper(void) {
-    AdvanceWiFiSessionOnIrq();
+void DisplayConfig_VblankFn(void) {
+    DisplayConfig_VblankFnImpl();
 }
 
-s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
+s32 TryGetSceneSpecialBgmSseqId(s32 sceneNumber, s32 *seqId) {
     BOOL result = FALSE;
 
     switch (sceneNumber) {
@@ -152,9 +152,9 @@ s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
             result = TRUE;
             break;
         case SCENE_RACE:
-            if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                if (gRaceSetup->mCourseId != COURSE_ID_STAFFROLL) {
-                    if (gRaceSetup->mCourseId == COURSE_ID_STAFFROLLTRUE) {
+            if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
+                if (g_GlobalCO->mCourseId != COURSE_ID_STAFFROLL) {
+                    if (g_GlobalCO->mCourseId == COURSE_ID_STAFFROLLTRUE) {
                         *seqId = 0x46;
                     }
                 } else {
@@ -168,7 +168,7 @@ s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
 }
 
 // On scenes 2 to 15 it also starts the stepped stop itself and returns FALSE when GetStaffRollEndedEarly is non-zero.
-s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
+s32 ShouldPauseBgmInSceneChange(s32 scene, s32 nextScene) {
     BOOL result = TRUE;
 
     switch (scene) {
@@ -213,7 +213,7 @@ s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
     return result;
 }
 
-void RunMessageScreenThread(void *unused) {
+void ZM_ThreadEntry(void *unused) {
     s32 status;
     BOOL sessionHeapCreated;
     BOOL hasDisplaySettings;
@@ -221,19 +221,19 @@ void RunMessageScreenThread(void *unused) {
     while (1) {
         sessionHeapCreated = FALSE;
         hasDisplaySettings = FALSE;
-        OS_SleepThread(&gSceneRunState->mThreadQueue);
-        gSceneRunState->mNextScene = 0;
-        ResetMessageScreen();
-        if (gDisplaySettings != NULL) {
+        Os_Thread_Sleep(&g_GlobalZM->mThreadQueue);
+        g_GlobalZM->mNextScene = 0;
+        ResetMultiplayErrors_from_thumb();
+        if (g_GlobalDisplayConfig != NULL) {
             hasDisplaySettings = TRUE;
         }
-        ResetKeysInputSlot();
-        ReadKeysIntoInputSlot();
-        VBlankIntrWait();
+        InitializeGlobalG_2();
+        UpdateInput();
+        Svc_VblankIntrWait_from_thumb();
         if (SceneIsWiFiSessionHeapCreated()) {
             sessionHeapCreated = TRUE;
         }
-        OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
+        DisplayMultiplayError_from_thumb(g_GlobalZM->mMessageKind, g_GlobalZM->mMessageInputEnabled);
         StopAllSeqPlayers();
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             BootInfoStartMessageScreenSeq();
@@ -241,45 +241,45 @@ void RunMessageScreenThread(void *unused) {
             StartMessageScreenSeq();
         }
         if (sessionHeapCreated != FALSE) {
-            switch (gSceneRunState->mMessageKind) {
+            switch (g_GlobalZM->mMessageKind) {
                 case MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS:
                 case MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING:
                 case MESSAGE_KIND_CARD_PULLED_OUT:
                 case MESSAGE_KIND_WIFI_ERROR:
                 case MESSAGE_KIND_WIFI_NO_INPUT:
-                    ReleaseWiFiSession();
+                    OnSomeMultiplayError();
                     break;
             }
         }
         do {
             if (hasDisplaySettings != FALSE) {
-                PrepareDisplayFrame();
+                LoopFn_Some3D();
             }
             status = sessionHeapCreated == FALSE ? AdvanceConnectionEndStopOnError() == 1 : 1;
-            UpdateSounds();
-            VBlankIntrWait();
+            LoopFn_Sound();
+            Svc_VblankIntrWait_from_thumb();
             if (hasDisplaySettings != FALSE) {
-                RecordFrameTimes();
+                LoopFn_DisplayConfig();
             }
         } while (status == 0);
         do {
             if (hasDisplaySettings != FALSE) {
-                PrepareDisplayFrame();
+                LoopFn_Some3D();
             }
-            ReadKeysIntoInputSlot();
+            UpdateInput();
             status = UpdateMessageScreen();
-            UpdateSounds();
-            VBlankIntrWait();
+            LoopFn_Sound();
+            Svc_VblankIntrWait_from_thumb();
             if (hasDisplaySettings != FALSE) {
-                RecordFrameTimes();
+                LoopFn_DisplayConfig();
             }
         } while (status == -1);
         switch (status) {
             case 1:
-                gSceneRunState->mNextScene = SCENE_WIFI_MENU;
+                g_GlobalZM->mNextScene = SCENE_WIFI_MENU;
                 break;
             default:
-                gSceneRunState->mNextScene = 0;
+                g_GlobalZM->mNextScene = 0;
                 break;
         }
     }
@@ -295,22 +295,22 @@ void RunMessageScreen(void) {
 
     sessionHeapCreated = FALSE;
     hasDisplaySettings = FALSE;
-    gSceneRunState->mNextScene = 0;
-    ResetMessageScreen();
-    if (gDisplaySettings != NULL) {
+    g_GlobalZM->mNextScene = 0;
+    ResetMultiplayErrors_from_thumb();
+    if (g_GlobalDisplayConfig != NULL) {
         hasDisplaySettings = TRUE;
     }
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
+        DisplayMultiplayError_from_thumb(g_GlobalZM->mMessageKind, g_GlobalZM->mMessageInputEnabled);
     }
-    ResetKeysInputSlot();
-    ReadKeysIntoInputSlot();
-    VBlankIntrWait();
+    InitializeGlobalG_2();
+    UpdateInput();
+    Svc_VblankIntrWait_from_thumb();
     if (SceneIsWiFiSessionHeapCreated()) {
         sessionHeapCreated = TRUE;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        OpenMessageScreen(gSceneRunState->mMessageKind, gSceneRunState->mMessageInputEnabled);
+        DisplayMultiplayError_from_thumb(g_GlobalZM->mMessageKind, g_GlobalZM->mMessageInputEnabled);
     }
     StopAllSeqPlayers();
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -318,59 +318,59 @@ void RunMessageScreen(void) {
     } else {
         StartMessageScreenSeq();
     }
-    PM_DeletePreSleepCallback(&gSceneRunState->mPreSleepCallback);
-    PM_DeletePostSleepCallback(&gSceneRunState->mPostSleepCallback);
-    PM_SetLCDPower(1);
+    PM_DeletePreSleepCallback(&g_GlobalZM->mPreSleepCallback);
+    PM_DeletePostSleepCallback(&g_GlobalZM->mPostSleepCallback);
+    PMi_SetLCDPower(1);
     if (sessionHeapCreated != FALSE) {
-        switch (gSceneRunState->mMessageKind) {
+        switch (g_GlobalZM->mMessageKind) {
             case MESSAGE_KIND_BACKUP_ERROR_OTHER_STATUS:
             case MESSAGE_KIND_BACKUP_ERROR_WHILE_WRITING:
             case MESSAGE_KIND_CARD_PULLED_OUT:
             case MESSAGE_KIND_WIFI_ERROR:
             case MESSAGE_KIND_WIFI_NO_INPUT:
-                ReleaseWiFiSession();
+                OnSomeMultiplayError();
                 break;
         }
     }
     noDisplaySettings = hasDisplaySettings == FALSE;
     do {
-        ReadKeysIntoInputSlot();
+        UpdateInput();
         if (noDisplaySettings == FALSE) {
-            PrepareDisplayFrame();
+            LoopFn_Some3D();
         }
         if (sessionHeapCreated == FALSE) {
             waitDone = AdvanceConnectionEndStopOnError() == 1;
             sleepAllowed = waitDone;
         } else {
             waitDone = TRUE;
-            sleepAllowed = gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF;
+            sleepAllowed = g_GlobalB->mStateMachine.mState == WIFI_SESSION_STATE_OFF;
         }
         if (sleepAllowed != 0 && ((SYSTEM_WORK->mButtonXY & SYSTEM_BUTTON_XY_CLOSED) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
         }
         screenResult = UpdateMessageScreen();
-        UpdateSounds();
-        VBlankIntrWait();
+        LoopFn_Sound();
+        Svc_VblankIntrWait_from_thumb();
         if (hasDisplaySettings != FALSE) {
-            RecordFrameTimes();
+            LoopFn_DisplayConfig();
         }
     } while (waitDone == FALSE || screenResult == -1);
     switch (screenResult) {
         case 1:
-            gSceneRunState->mNextScene = SCENE_WIFI_MENU;
+            g_GlobalZM->mNextScene = SCENE_WIFI_MENU;
             break;
         default:
-            gSceneRunState->mNextScene = 0;
+            g_GlobalZM->mNextScene = 0;
             break;
     }
 }
 
-void RunMessageScreenOfKind(s32 kind) {
+void NotifyError(s32 kind) {
     BOOL hasDisplaySettings;
     BOOL inputEnabled;
 
     inputEnabled = FALSE;
-    hasDisplaySettings = gDisplaySettings != NULL;
+    hasDisplaySettings = g_GlobalDisplayConfig != NULL;
     switch (kind) {
         case MESSAGE_KIND_CONNECTION_ERROR:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -390,34 +390,34 @@ void RunMessageScreenOfKind(s32 kind) {
             inputEnabled = FALSE;
             break;
     }
-    gSceneRunState->mMessageKind = kind;
-    gSceneRunState->mMessageInputEnabled = inputEnabled;
+    g_GlobalZM->mMessageKind = kind;
+    g_GlobalZM->mMessageInputEnabled = inputEnabled;
     RunMessageScreen();
     StopSceneSounds();
-    if (gStartupWork->mSoundSetSeqPlaying) {
+    if (g_GlobalP->mSoundSetSeqPlaying) {
         StopSceneSoundSetSeqIfShouldEnd(0);
     }
     if (hasDisplaySettings != FALSE) {
-        SetBrightnessFadesClear();
-        StartFadeToFadedNegative(10);
+        Bright_ResetBlackBothScreens();
+        Bright_FadeOutBlack(10);
         do {
-            PrepareDisplayFrame();
-            UpdateSounds();
-            FinishDisplayFrame();
-            RecordFrameTimes();
-        } while (AreBrightnessFadesFaded() == 0);
+            LoopFn_Some3D();
+            LoopFn_Sound();
+            LoopFn_Brightness();
+            LoopFn_DisplayConfig();
+        } while (Bright_IsBothScreensFadedOut() == 0);
     } else {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
+        SetBrightness(&reg_GX_MASTER_BRIGHT, 0x10);
     }
 }
 
-void ScenePreSleepCallback(void *arg) {
+void ZM_SomeFn(void *arg) {
     BOOL connectionNotDone;
     s32 backupBusy;
     BOOL done;
 
     do {
-        PrepareDisplayFrame();
+        LoopFn_Some3D();
         connectionNotDone = AdvanceConnectionEndStopOnError() != 1;
         backupBusy = SceneIsBackupBusy();
         if (connectionNotDone == FALSE && backupBusy == 0) {
@@ -425,41 +425,41 @@ void ScenePreSleepCallback(void *arg) {
         } else {
             done = FALSE;
         }
-        FinishDisplayFrame();
-        RecordFrameTimes();
+        LoopFn_Brightness();
+        LoopFn_DisplayConfig();
     } while (done == FALSE);
-    if (gSceneRunState->mSceneCallbacks.mPreSleep != NULL) {
-        gSceneRunState->mSceneCallbacks.mPreSleep();
+    if (g_GlobalZM->mSceneCallbacks.mPreSleep != NULL) {
+        g_GlobalZM->mSceneCallbacks.mPreSleep();
     }
 }
 
-void ScenePostSleepCallback(void) {
-    if (gSceneRunState->mSceneCallbacks.mPostSleep != NULL) {
-        gSceneRunState->mSceneCallbacks.mPostSleep();
+void ZM_SomeFn2(void) {
+    if (g_GlobalZM->mSceneCallbacks.mPostSleep != NULL) {
+        g_GlobalZM->mSceneCallbacks.mPostSleep();
     }
 }
 
-void InitSceneRunState(void *heap) {
-    gSceneRunState = HeapAlloc(heap, sizeof(SceneRunState));
-    gSceneRunState->mThreadStack = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
-    gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
-    gSceneRunState->mLcdOff = FALSE;
-    gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;
-    gSceneRunState->mMessageInputEnabled = 0;
-    SceneOS_InitThreadQueue(&gSceneRunState->mThreadQueue);
-    OS_CreateThread(&gSceneRunState->mThread, RunMessageScreenThread, NULL, gSceneRunState->mThreadStack + 0x400,
+void InitializeGlobalZM(void *heap) {
+    g_GlobalZM = Mem_AllocateHeap(heap, sizeof(SceneRunState));
+    g_GlobalZM->mThreadStack = Mem_AllocateHeapAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
+    g_GlobalZM->mRunStep = SCENE_RUN_STEP_IDLE;
+    g_GlobalZM->mLcdOff = FALSE;
+    g_GlobalZM->mMessageKind = MESSAGE_KIND_NONE;
+    g_GlobalZM->mMessageInputEnabled = 0;
+    SceneOS_InitThreadQueue(&g_GlobalZM->mThreadQueue);
+    Os_Thread_Create(&g_GlobalZM->mThread, ZM_ThreadEntry, NULL, g_GlobalZM->mThreadStack + 0x400,
                     0x400, 15);
-    OS_WakeupThreadDirect(&gSceneRunState->mThread);
-    SceneSetSleepCallbackInfoNullArg(&gSceneRunState->mPreSleepCallback, ScenePreSleepCallback);
-    SceneSetSleepCallbackInfoNullArg(&gSceneRunState->mPostSleepCallback, (void (*)(void *)) ScenePostSleepCallback);
-    PM_AppendPreSleepCallback(&gSceneRunState->mPreSleepCallback);
-    PM_AppendPostSleepCallback(&gSceneRunState->mPostSleepCallback);
+    Os_Thread_WakeUpDirect(&g_GlobalZM->mThread);
+    SceneSetSleepCallbackInfoNullArg(&g_GlobalZM->mPreSleepCallback, ZM_SomeFn);
+    SceneSetSleepCallbackInfoNullArg(&g_GlobalZM->mPostSleepCallback, (void (*)(void *)) ZM_SomeFn2);
+    PM_AppendPreSleepCallback(&g_GlobalZM->mPreSleepCallback);
+    PM_AppendPostSleepCallback(&g_GlobalZM->mPostSleepCallback);
 }
 
 u32 IsDataSharingIncomplete(void) {
     u32 result = 0;
 
-    if (gRaceSetup->mMode == MODE_WIFI && SceneIsWiFiRaceSyncFlagSet()) {
+    if (g_GlobalCO->mMode == MODE_WIFI && SceneIsWiFiRaceSyncFlagSet()) {
         result = 1;
     }
     if (SceneIsSharingNotUpdatedWhileActive()) {
@@ -470,29 +470,29 @@ u32 IsDataSharingIncomplete(void) {
 
 BOOL ShouldGoSleepMode(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() ||
-        (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
-        GetCurrentSceneNumber() == 13 || GetCurrentSceneNumber() == 6) {
+        (GetCurrentSceneId() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
+        (GetCurrentSceneId() != 12 && g_GlobalB->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
+        GetCurrentSceneId() == 13 || GetCurrentSceneId() == 6) {
         return FALSE;
     }
     return TRUE;
 }
 
-u32 IsVolatileHalfwordIndex39Ignored(void) {
+u32 MaybeIfExpectsReturnToTitleScene(void) {
     s32 unused;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() ||
-        GetCurrentSceneNumber() == SCENE_WL_MENU || GetCurrentSceneNumber() == SCENE_GHOST ||
-        (GetCurrentSceneNumber() == SCENE_WIFI_MENU && IsWiFiSessionOffOutsideLogin() == FALSE) ||
-        (GetCurrentSceneNumber() != SCENE_WIFI_MENU && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF)) {
+        GetCurrentSceneId() == SCENE_WL_MENU || GetCurrentSceneId() == SCENE_GHOST ||
+        (GetCurrentSceneId() == SCENE_WIFI_MENU && IsWiFiSessionOffOutsideLogin() == FALSE) ||
+        (GetCurrentSceneId() != SCENE_WIFI_MENU && g_GlobalB->mStateMachine.mState != WIFI_SESSION_STATE_OFF)) {
         return 1;
     }
-    switch (GetCurrentSceneNumber()) {
+    switch (GetCurrentSceneId()) {
         case SCENE_LOGO:
         case SCENE_ENDING:
             return 1;
         case SCENE_RACE:
-            if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+            if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
                 return 1;
             }
             break;
@@ -500,8 +500,8 @@ u32 IsVolatileHalfwordIndex39Ignored(void) {
     return 0;
 }
 
-void RunMessageScreenOfKindWrapper(s32 kind) {
-    RunMessageScreenOfKind(kind);
+void j_NotifyError(s32 kind) {
+    NotifyError(kind);
 }
 
 s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
@@ -524,13 +524,13 @@ s32 RunMessageScreenOnDisconnect(SceneNumbers *sceneNumbers, s32 flag) {
                     value = MESSAGE_KIND_WIFI_ERROR;
                     break;
             }
-            RunMessageScreenOfKind(value);
+            NotifyError(value);
             result = TRUE;
         }
     } else if (flag != 0 && SceneIsConnectionActiveNotEndingWithError()) {
-        RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
+        NotifyError(MESSAGE_KIND_CONNECTION_ERROR);
         result = TRUE;
-        gConnectionWork->mErrorCode = CONNECTION_ERROR_NONE;
+        g_GlobalZE->mErrorCode = CONNECTION_ERROR_NONE;
     } else {
         AdvanceConnection();
     }

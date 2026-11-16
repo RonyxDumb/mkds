@@ -55,24 +55,24 @@ void SetViewMatrices(MtxFx43 *viewMatrix) {
             (s64) gViewAxis2Matrix->mRows[0].y * gViewAxis2Matrix->mRows[0].y +
             (s64) gViewAxis2Matrix->mRows[0].z * gViewAxis2Matrix->mRows[0].z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewAxis2Matrix->mRows[0], &gViewAxis2Matrix->mRows[0]);
+        Vector3_MaybeNormalize(&gViewAxis2Matrix->mRows[0], &gViewAxis2Matrix->mRows[0]);
     }
-    Vec3CrossUnrounded(&gViewAxis2Matrix->mRows[2], &gViewAxis2Matrix->mRows[0], &gViewAxis2Matrix->mRows[1]);
+    Vector3_Cross(&gViewAxis2Matrix->mRows[2], &gViewAxis2Matrix->mRows[0], &gViewAxis2Matrix->mRows[1]);
     *gViewMatrix = *viewMatrix;
 }
 
 s32 BuildYAxisMatrix(Vec3 *yAxis) {
     gYAxisMatrix->mRows[1] = *yAxis;
     gYAxisMatrix->mRows[2] = gViewRotatedMatrix->mRows[2];
-    Vec3CrossUnrounded(&gYAxisMatrix->mRows[1], &gYAxisMatrix->mRows[2], &gYAxisMatrix->mRows[0]);
-    return Vec3NormalizeAndGetLengthUnchecked(&gYAxisMatrix->mRows[0], &gYAxisMatrix->mRows[0]);
+    Vector3_Cross(&gYAxisMatrix->mRows[1], &gYAxisMatrix->mRows[2], &gYAxisMatrix->mRows[0]);
+    return Vector3_MaybeNormalize(&gYAxisMatrix->mRows[0], &gYAxisMatrix->mRows[0]);
 }
 
 s32 BuildMatrixFromYAxis(Vec3 *yAxis, MtxFx43 *matrix) {
     matrix->mRows[1] = *yAxis;
     matrix->mRows[2] = gViewRotatedMatrix->mRows[2];
-    Vec3CrossUnrounded(&matrix->mRows[1], &matrix->mRows[2], &matrix->mRows[0]);
-    return Vec3NormalizeAndGetLengthUnchecked(&matrix->mRows[0], &matrix->mRows[0]);
+    Vector3_Cross(&matrix->mRows[1], &matrix->mRows[2], &matrix->mRows[0]);
+    return Vector3_MaybeNormalize(&matrix->mRows[0], &matrix->mRows[0]);
 }
 
 // Sets the position of gViewTransposeMatrix to each component of a >> 4 and returns the matrix.
@@ -88,7 +88,7 @@ MtxFx43 *SetViewTransposeMatrixPos(Vec3 *position) {
     return gViewTransposeMatrix;
 }
 
-MtxFx43 *SetViewRotatedMatrixPos(Vec3 *position) {
+MtxFx43 *MaybeGetBBMtxAtPosition(Vec3 *position) {
     MtxFx43 *matrix;
     Vec3 *translation;
 
@@ -172,7 +172,7 @@ Vec3 *GetViewTransposeMatrixAxis2(void) {
     return &gViewTransposeMatrix->mRows[2];
 }
 
-void SetNsbmdModelFixedAttributes(NsbmdModel *model) {
+void StructMapObjectSub_SomeFn_1(NsbmdModel *model) {
     model->mSpecEmi = (u32) ((((model->mSpecEmi)) & (0x8000ffffu)));
     model->mSpecEmi = (u32) ((((model->mSpecEmi)) | (0x294a0000u)));
     model->mPolygonAttributes = (model->mPolygonAttributes & ~(0x3f000000u));
@@ -290,7 +290,7 @@ void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 an
     NNS_G3dGeBufferOP_N(0x14, &commandArg, 1);
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
     if (angle != 0) {
-        MTX_RotZ33_(gRotationZMatrix, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
+        MTX_RotZ33__from_thumb(gRotationZMatrix, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
         NNS_G3dGeBufferOP_N(0x1a, gRotationZMatrix, 9);
     }
     if (scale != NULL) {
@@ -307,23 +307,23 @@ void DrawNsbmdModelWithMatrixAndAngle(NsbmdModel *model, MtxFx43 *matrix, s32 an
 
 #pragma thumb on
 
-void InitMatrices(void) {
+void AllocateSomeDtcmBuffers_from_thumb(void) {
     void *matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gViewTransposeMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gViewRotatedMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gViewRotationXMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gYAxisMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gViewAxis2Matrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gTranslationMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx43));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx43));
     gViewMatrix = matrix;
-    matrix = HeapAlloc(gStartupWork->mHeap, sizeof(MtxFx33));
+    matrix = Mem_AllocateHeap(g_GlobalP->mHeap, sizeof(MtxFx33));
     gRotationZMatrix = matrix;
     MTX_Identity43_(gTranslationMatrix);
 }

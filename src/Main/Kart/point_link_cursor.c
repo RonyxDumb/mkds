@@ -84,16 +84,16 @@ void (*gSetKartAiLinkPos)(struct KartAi *kartAi, struct PointLinkCursor *linkCur
 u32 AdvancePointLinkCursorToFirstNext(PointLinkCursor *cursor) {
     cursor->mPreviousLink = cursor->mLink;
     cursor->mLink = cursor->mLink->mNextLinks[0];
-    VEC_Subtract(cursor->mLink->mPoint, cursor->mPreviousLink->mPoint, &cursor->mDirection);
-    return Vec3NormalizeAndGetLengthUnchecked(&cursor->mDirection, &cursor->mDirection);
+    VecFx32_Subtract(cursor->mLink->mPoint, cursor->mPreviousLink->mPoint, &cursor->mDirection);
+    return Vector3_MaybeNormalize(&cursor->mDirection, &cursor->mDirection);
 }
 
 static inline BOOL IsKartFlagMaskClear(s32 kartIndex) {
-    return (GetKart(kartIndex)->mEntryFlags & (KART_ENTRY_REMOVED | KART_ENTRY_TERESA | KART_ENTRY_PARKED)) == 0;
+    return (GetRacerMQEntry(kartIndex)->mEntryFlags & (KART_ENTRY_REMOVED | KART_ENTRY_TERESA | KART_ENTRY_PARKED)) == 0;
 }
 
 static inline s32 KartAiGetCurrentTeamIndex(u32 entryIndex) {
-    return *(vs32 *) &gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
+    return *(vs32 *) &g_GlobalCO->mCurrentEntries[entryIndex].mPlayer.mTeamIndex;
 }
 
 static inline s32 IsKartAiTargetAllowed(u32 kartIndex, u32 targetIndex) {
@@ -101,10 +101,10 @@ static inline s32 IsKartAiTargetAllowed(u32 kartIndex, u32 targetIndex) {
     s32 playerKind;
     BOOL isHumanGhostOrPeer;
 
-    if (gRaceSetup->mUseTeams == 0 ||
-        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
+    if (g_GlobalCO->mUseTeams == 0 ||
+        g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
         isHumanGhostOrPeer = FALSE;
-        playerKind = gRaceSetup->mCurrentEntries[targetIndex].mPlayer.mKind;
+        playerKind = g_GlobalCO->mCurrentEntries[targetIndex].mPlayer.mKind;
         if ((u32) playerKind <= 3) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
@@ -121,7 +121,7 @@ static inline s32 IsKartAiTargetAllowed(u32 kartIndex, u32 targetIndex) {
 
 void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     u32 nextLinkIndex = 0;
-    Kart *kart = GetKart(pointLinkCursor->mKartIndex);
+    Kart *kart = GetRacerMQEntry(pointLinkCursor->mKartIndex);
     s32 animation;
 
     if (pointLinkCursor->mLink->mNextCount > 1) {
@@ -131,10 +131,10 @@ void AdvanceAwardPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextLinkIndex];
     animation = gPointLinkAnimationIndices[pointLinkCursor->mLink->mValues[2]];
     if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
-        SetKartCharacterAnimation(kart, animation, 1);
+        StructMQRacerEntry_SomeFn_32(kart, animation, 1);
     }
-    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
-    Vec3NormalizeAndGetLengthUnchecked(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
+    VecFx32_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
+    Vector3_MaybeNormalize(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
 s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor) {
@@ -144,7 +144,7 @@ s32 GetPointLinkSpeedRatio(PointLinkCursor *pointLinkCursor) {
 }
 
 void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
-    Kart *kart = GetKart(pointLinkCursor->mKartIndex);
+    Kart *kart = GetRacerMQEntry(pointLinkCursor->mKartIndex);
     u16 nextLinkIndex;
     s32 animation;
 
@@ -162,7 +162,7 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     pointLinkCursor->mLink = pointLinkCursor->mLink->mNextLinks[nextLinkIndex];
     animation = gPointLinkAnimationIndices[pointLinkCursor->mLink->mValues[2]];
     if (animation != kart->mKartModelsEntry->mCharacterAnimation->mCurrentIndex) {
-        SetKartCharacterAnimation(kart, animation, 1);
+        StructMQRacerEntry_SomeFn_32(kart, animation, 1);
     }
     if (pointLinkCursor->mKartIndex != 0) {
         if (pointLinkCursor->mLink->mValues[3] == 0) {
@@ -171,13 +171,13 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
             kart->mEntryFlags |= KART_ENTRY_HIDDEN;
         }
     }
-    VEC_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
-    Vec3NormalizeAndGetLengthUnchecked(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
+    VecFx32_Subtract(pointLinkCursor->mLink->mPoint, pointLinkCursor->mPreviousLink->mPoint, &pointLinkCursor->mDirection);
+    Vector3_MaybeNormalize(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
 void SetupKartAiGlobals(void) {
     gKartAiVelocityFactorScale =
-        gRaceSetup->mMode == MODE_BATTLE ? &gKartAiBattleVelocityFactorScale : &gKartAiRaceVelocityFactorScale;
+        g_GlobalCO->mMode == MODE_BATTLE ? &gKartAiBattleVelocityFactorScale : &gKartAiRaceVelocityFactorScale;
     switch (GetKartAiEngineOrDifficultyIndex()) {
         case KART_AI_LEVEL_LOW:
             gKartAiDriftStartRandomLimits = gKartAiDriftStartRandomLimitsIndex0;
@@ -196,10 +196,10 @@ void SetupKartAiGlobals(void) {
             gKartAiDriftChargeRandomLimits = gKartAiDriftChargeRandomLimitsIndex2;
             break;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD) {
         gAdvanceKartAiPointLinkCursor = AdvanceAwardPointLinkCursor;
         gSetKartAiLinkPos = SetKartAiLinkPosAndClearSideOffset;
-    } else if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    } else if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         gAdvanceKartAiPointLinkCursor = AdvanceStaffRollPointLinkCursor;
         gSetKartAiLinkPos = SetKartAiLinkPosAndClearSideOffset;
     } else {
@@ -283,11 +283,11 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
         kartForward = &kart->mRotationRow2;
     }
     requestedLink = linkCursor->mRequestedLink;
-    GetKartPos(&kartPos, kartAi->mIndex);
+    LoadRacerMQVectorB(&kartPos, kartAi->mIndex);
     AdvanceKartAiAlongLinks(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
-        VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
+        VecFx32_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
         AdvanceKartAiHeading(kartAi, &toLinkPos, kartForward);
     }
     AdvanceKartAiDrift(kartAi);
@@ -316,19 +316,19 @@ void AdvanceKartAiAlongLinks(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *
             SetKartAiSideOffsetFromKart(kartAi);
         }
         planeNormal = &kart->mRotationRow1;
-        VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &toLinkPos);
-        normalComponent = VEC_DotProduct(planeNormal, &toLinkPos);
+        VecFx32_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &toLinkPos);
+        normalComponent = Vector3_DotProduct(planeNormal, &toLinkPos);
         toLinkPos.x = toLinkPos.x - MUL_FIXED12_NO_ROUND(kart->mRotationRow1.x, normalComponent);
         toLinkPos.y = toLinkPos.y - MUL_FIXED12_NO_ROUND(planeNormal->y, normalComponent);
         toLinkPos.z = toLinkPos.z - MUL_FIXED12_NO_ROUND(planeNormal->z, normalComponent);
-        Vec3CrossUnrounded(kartForward, &toLinkPos, &crossProduct);
-        crossLength = VEC_Mag(&crossProduct);
-        angle = FX_Atan2(crossLength, Vec3DotUnrounded(kartForward, &toLinkPos));
+        Vector3_Cross(kartForward, &toLinkPos, &crossProduct);
+        crossLength = VecFx32_Norm(&crossProduct);
+        angle = FX_Atan2(crossLength, VecFx32_CrossProduct_0(kartForward, &toLinkPos));
         angleDegrees = ((s64) angle * 0x394bb834c8LL + 0x80000000LL) >> 32;
-        if (Vec3DotUnrounded(&crossProduct, planeNormal) < 0) {
+        if (VecFx32_CrossProduct_0(&crossProduct, planeNormal) < 0) {
             angleDegrees *= -1;
         }
-        kartAi->mTurnAngleDegrees = GetAbsoluteValue(angleDegrees);
+        kartAi->mTurnAngleDegrees = AbsValue(angleDegrees);
     }
     isLinkReached = IsPastPointLink(linkCursor, kartPos);
     if (isLinkReached == 0 && (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) == 0) {
@@ -349,7 +349,7 @@ void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, PointLinkCursor *linkCurso
     if (kart->mDriveFlags & KART_DRIVE_BOOST_SURFACE_HELD) {
         return;
     }
-    if (GetRaceUpdateFrames() > 0xb4) {
+    if (GetSomeTimeOrDuration() > 0xb4) {
         if (kartAi->mDriftState == KART_AI_DRIFT_HOLDING) {
             kartAi->mSideOffset = gKartAiZeroSideOffset;
             kartAi->mSideOffsetRatio = 0;
@@ -357,7 +357,7 @@ void SetKartAiLinkPosAndAddSideOffset(KartAi *kartAi, PointLinkCursor *linkCurso
             AdvanceKartAiSideOffset(kartAi);
         }
     }
-    VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
+    VecFx32_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
 }
 
 void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, PointLinkCursor *linkCursor, Kart *kart) {
@@ -366,7 +366,7 @@ void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, PointLinkCursor *linkCur
     kartAi->mSideOffsetRatio = 0;
 }
 
-BOOL IsKartTargetable(s32 kartIndex) {
+BOOL GetSomeMQRacerAnotherFlags(s32 kartIndex) {
     return IsKartFlagMaskClear(kartIndex);
 }
 
@@ -375,17 +375,17 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
     s32 playerKind;
     BOOL isHumanGhostOrPeer;
 
-    if (gRaceSetup->mUseTeams == 0 ||
-        gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
+    if (g_GlobalCO->mUseTeams == 0 ||
+        g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
         isHumanGhostOrPeer = FALSE;
-        playerKind = gRaceSetup->mCurrentEntries[targetIndex].mPlayer.mKind;
+        playerKind = g_GlobalCO->mCurrentEntries[targetIndex].mPlayer.mKind;
         if ((u32) playerKind <= 3) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
         if (isHumanGhostOrPeer != FALSE || GetNonCpuKartCountOutsideKartTeam(kartIndex) <= 0) {
-            if ((GetKart(targetIndex)->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0) {
+            if ((GetRacerMQEntry(targetIndex)->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) == 0) {
                 result = TRUE;
             }
         }
@@ -407,10 +407,10 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     if (value != GetRaceUpdateFramesMod8()) {
         return;
     }
-    if (gRaceSetup->mCpuDifficulty != CPU_DIFFICULTY_HARD) {
+    if (g_GlobalCO->mCpuDifficulty != CPU_DIFFICULTY_HARD) {
         return;
     }
-    value = GetKartRank(value);
+    value = GetSomeRacerFlags(value);
     if (value <= 1) {
         return;
     }
@@ -419,7 +419,7 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     if (aheadKartIndex >= 0) {
         aheadKartIndex = GetKartAtRank(value - 1);
         if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) aheadKartIndex) != 0) {
-            kartAi->mTargetKart = GetKart(aheadKartIndex);
+            kartAi->mTargetKart = GetRacerMQEntry(aheadKartIndex);
             foundAhead = TRUE;
             kartAi->mTargetAhead = 1;
         }
@@ -427,7 +427,7 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     if (foundAhead != FALSE) {
         return;
     }
-    if (value >= gRaceSetup->mKartCount) {
+    if (value >= g_GlobalCO->mKartCount) {
         return;
     }
     behindKartIndex = GetKartAtRank(value + 1);
@@ -436,7 +436,7 @@ void PickKartAiTargetKart(KartAi *kartAi) {
     }
     behindKartIndex = GetKartAtRank(value + 1);
     if (IsKartAiTargetAllowed(kartAi->mIndex, (u16) behindKartIndex) != 0) {
-        kartAi->mTargetKart = GetKart(behindKartIndex);
+        kartAi->mTargetKart = GetRacerMQEntry(behindKartIndex);
     }
 }
 
@@ -465,11 +465,11 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
             kartAi->mKart->mVelocityLength >= kartAi->mMinVelocityLength) {
             linkPos = *kartAi->mPointLinkCursor.mLink->mPoint;
             unitY = gPointLinkVec3UnitY;
-            Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &unitY, &sideAxis);
-            VEC_Subtract(&kartAi->mKart->mPos, &linkPos, &kartOffset);
-            sidewaysDistance = Vec3DotUnrounded(&kartOffset, &sideAxis);
+            Vector3_Cross(&kartAi->mPointLinkCursor.mDirection, &unitY, &sideAxis);
+            VecFx32_Subtract(&kartAi->mKart->mPos, &linkPos, &kartOffset);
+            sidewaysDistance = VecFx32_CrossProduct_0(&kartOffset, &sideAxis);
             sideRange = kartAi->mPointLinkCursor.mLink->mRadius;
-            if (GetAbsoluteValue(sidewaysDistance) < sideRange) {
+            if (AbsValue(sidewaysDistance) < sideRange) {
                 conditionsMet = TRUE;
             }
         }
@@ -511,11 +511,11 @@ void PickKartAiDriftAtLink(KartAi *kartAi) {
     kartAi->mDriftState = KART_AI_DRIFT_RELEASE_PENDING;
     linkPoint = *kartAi->mPointLinkCursor.mLink->mPoint;
     upVector = gPointLinkVec3UnitY;
-    Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &upVector, &sideDirection);
-    VEC_Subtract(&kartAi->mKart->mPos, &linkPoint, &kartOffsetFromLink);
-    kartAi->mSideOffsetRatio = FX_Div(Vec3DotUnrounded(&kartOffsetFromLink, &sideDirection),
+    Vector3_Cross(&kartAi->mPointLinkCursor.mDirection, &upVector, &sideDirection);
+    VecFx32_Subtract(&kartAi->mKart->mPos, &linkPoint, &kartOffsetFromLink);
+    kartAi->mSideOffsetRatio = FX_Div(VecFx32_CrossProduct_0(&kartOffsetFromLink, &sideDirection),
                                       kartAi->mPointLinkCursor.mLink->mRadius + TO_FIXED12(1));
-    if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
+    if (AbsValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = TO_FIXED12(1);
         }
@@ -562,39 +562,39 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
     if (kartAi->mDriftState == KART_AI_DRIFT_RELEASE_PENDING && (kart->mMotionFlags & KART_MOTION_ON_GROUND)) {
         planeNormal = &kart->mRotationRow1;
         kartForward = &kart->mRotationRow2;
-        VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
-        dotProduct = VEC_DotProduct(planeNormal, &flatOffsetToLink);
+        VecFx32_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &flatOffsetToLink);
+        dotProduct = Vector3_DotProduct(planeNormal, &flatOffsetToLink);
         flatOffsetToLink.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, dotProduct);
         flatOffsetToLink.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, dotProduct);
         flatOffsetToLink.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, dotProduct);
-        Vec3CrossUnrounded(kartForward, &flatOffsetToLink, &turnCross);
-        angle = VEC_Mag(&turnCross);
-        angle = FX_Atan2(angle, Vec3DotUnrounded(kartForward, &flatOffsetToLink));
+        Vector3_Cross(kartForward, &flatOffsetToLink, &turnCross);
+        angle = VecFx32_Norm(&turnCross);
+        angle = FX_Atan2(angle, VecFx32_CrossProduct_0(kartForward, &flatOffsetToLink));
         angle = ((s64) angle * 0x394bb834c8LL + 0x80000000LL) >> 32;
-        dotProduct = Vec3DotUnrounded(&turnCross, planeNormal);
+        dotProduct = VecFx32_CrossProduct_0(&turnCross, planeNormal);
         if (dotProduct < 0) {
             dotProduct = -1;
             angle = angle * dotProduct;
         }
-        kartAi->mTurnAngleDegrees = GetAbsoluteValue(angle);
+        kartAi->mTurnAngleDegrees = AbsValue(angle);
         kartAi->mDriftState = KART_AI_DRIFT_NONE;
         kartAi->mTurnSide = KART_AI_TURN_NONE;
         kartAi->mDriftFrames = 0;
         kartAi->mDriftChargeRollAllowed = FALSE;
         EndKartDrift(kart);
-        if (GetAbsoluteValue(kartAi->mTurnAngleDegrees) <= 0x32000) {
+        if (AbsValue(kartAi->mTurnAngleDegrees) <= 0x32000) {
             return;
         }
-        VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &offsetToLink);
+        VecFx32_Subtract(&kartAi->mLinkPosWithSideOffset, &kart->mPos, &offsetToLink);
         kartAi->mDriftState = KART_AI_DRIFT_COUNTER_STEER;
         aiKart = kartAi->mKart;
-        GetKartUp(aiKart, &kartUp);
-        dotProduct = VEC_DotProduct(&kartUp, &offsetToLink);
+        StructMQRacerEntry_GetVec555(aiKart, &kartUp);
+        dotProduct = Vector3_DotProduct(&kartUp, &offsetToLink);
         offsetOnUpPlane.x = offsetToLink.x - MUL_FIXED12_NO_ROUND(kartUp.x, dotProduct);
         offsetOnUpPlane.y = offsetToLink.y - MUL_FIXED12_NO_ROUND(kartUp.y, dotProduct);
         offsetOnUpPlane.z = offsetToLink.z - MUL_FIXED12_NO_ROUND(kartUp.z, dotProduct);
-        Vec3CrossUnrounded(&aiKart->mRotationRow2, &offsetOnUpPlane, &sideCross);
-        angle = Vec3DotUnrounded(&kartUp, &sideCross);
+        Vector3_Cross(&aiKart->mRotationRow2, &offsetOnUpPlane, &sideCross);
+        angle = VecFx32_CrossProduct_0(&kartUp, &sideCross);
         if (angle > 0) {
             angle = 1;
         } else {
@@ -631,7 +631,7 @@ void AdvanceKartAiDrift(KartAi *kartAi) {
         }
     }
     if (chargeRollPassed != FALSE) {
-        SetKartDriftCharge(kart, KART_DRIFT_CHARGE_LEVEL_3);
+        StructMQRacerEntry_SomeFn_73(kart, KART_DRIFT_CHARGE_LEVEL_3);
     }
     kartAi->mSideOffset = gKartAiZeroSideOffset;
     kartAi->mSideOffsetRatio = 0;
@@ -655,16 +655,16 @@ s32 ComputeAngleToPositionDegrees(Vec3 *targetPos, Vec3 *originPos, Vec3 *planeN
     s32 crossLength;
     s32 angleDegrees;
 
-    VEC_Subtract(targetPos, originPos, &flatOffset);
-    dotProduct = VEC_DotProduct(planeNormal, &flatOffset);
+    VecFx32_Subtract(targetPos, originPos, &flatOffset);
+    dotProduct = Vector3_DotProduct(planeNormal, &flatOffset);
     flatOffset.x -= MUL_FIXED12_NO_ROUND(planeNormal->x, dotProduct);
     flatOffset.y -= MUL_FIXED12_NO_ROUND(planeNormal->y, dotProduct);
     flatOffset.z -= MUL_FIXED12_NO_ROUND(planeNormal->z, dotProduct);
-    Vec3CrossUnrounded(forward, &flatOffset, &crossProduct);
-    crossLength = VEC_Mag(&crossProduct);
-    angleDegrees = FX_Atan2(crossLength, Vec3DotUnrounded(forward, &flatOffset));
+    Vector3_Cross(forward, &flatOffset, &crossProduct);
+    crossLength = VecFx32_Norm(&crossProduct);
+    angleDegrees = FX_Atan2(crossLength, VecFx32_CrossProduct_0(forward, &flatOffset));
     angleDegrees = ((s64) angleDegrees * 0x394bb834c8LL + 0x80000000LL) >> 32;
-    dotProduct = Vec3DotUnrounded(&crossProduct, planeNormal);
+    dotProduct = VecFx32_CrossProduct_0(&crossProduct, planeNormal);
     if (dotProduct < 0) {
         dotProduct = -1;
         angleDegrees = angleDegrees * dotProduct;
@@ -676,7 +676,7 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
     Vec3 unitY = gPointLinkVec3UnitY;
     s32 sideDistance;
 
-    Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &unitY, &kartAi->mSideOffset);
+    Vector3_Cross(&kartAi->mPointLinkCursor.mDirection, &unitY, &kartAi->mSideOffset);
     kartAi->mSideOffsetFrames++;
     if (kartAi->mSideOffsetFrames > kartAi->mSideOffsetFrameLimit) {
         RandomState64 *kartAiRandom;
@@ -692,7 +692,7 @@ void AdvanceKartAiSideOffset(KartAi *kartAi) {
         randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
         newSideOffsetRatio =
             kartAi->mSideOffsetRatio + MUL_FIXED12_NO_ROUND(MUL_FIXED12_NO_ROUND(randomValue, 0x2000) - 0x1000, 0x267);
-        if (GetAbsoluteValue(newSideOffsetRatio) > 0xb36) {
+        if (AbsValue(newSideOffsetRatio) > 0xb36) {
             if (newSideOffsetRatio > 0) {
                 newSideOffsetRatio = 0xb36;
             } else {
@@ -721,23 +721,23 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     linkPosCopy = *kartAi->mPointLinkCursor.mLink->mPoint;
     unitY = gPointLinkVec3UnitY;
     unitYCopy = *(Vec3 *) &gPointLinkVec3UnitY;
-    Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &unitYCopy, &sideAxis);
-    VEC_Subtract(&kartAi->mKart->mPos, &linkPosCopy, &kartOffset);
-    scale = Vec3DotUnrounded(&kartOffset, &sideAxis);
+    Vector3_Cross(&kartAi->mPointLinkCursor.mDirection, &unitYCopy, &sideAxis);
+    VecFx32_Subtract(&kartAi->mKart->mPos, &linkPosCopy, &kartOffset);
+    scale = VecFx32_CrossProduct_0(&kartOffset, &sideAxis);
     kartAi->mSideOffsetRatio = FX_Div(scale, kartAi->mPointLinkCursor.mLink->mRadius + TO_FIXED12(1));
-    if (GetAbsoluteValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
+    if (AbsValue(kartAi->mSideOffsetRatio) > TO_FIXED12(1)) {
         if (kartAi->mSideOffsetRatio > 0) {
             kartAi->mSideOffsetRatio = TO_FIXED12(1);
         }
         kartAi->mSideOffsetRatio = -TO_FIXED12(1);
     }
     upVector = unitY;
-    Vec3CrossUnrounded(&kartAi->mPointLinkCursor.mDirection, &upVector, &kartAi->mSideOffset);
+    Vector3_Cross(&kartAi->mPointLinkCursor.mDirection, &upVector, &kartAi->mSideOffset);
     scale = MUL_FIXED12_NO_ROUND(kartAi->mSideOffsetRatio, kartAi->mPointLinkCursor.mLink->mRadius);
     kartAi->mSideOffset.x = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.x, scale);
     kartAi->mSideOffset.y = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.y, scale);
     kartAi->mSideOffset.z = MUL_FIXED12_NO_ROUND(kartAi->mSideOffset.z, scale);
-    VEC_Add(&linkPos, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
+    VecFx32_Add(&linkPos, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
 }
 
 void AdvanceKartAiContactStages(KartAi *kartAi) {
@@ -785,7 +785,7 @@ void AdvanceKartAiContactStages(KartAi *kartAi) {
             kartAi->mContactStageFrameLimit = KART_AI_CONTACT_FRAMES_STEER_FLAT;
             break;
         case KART_AI_CONTACT_STEER_FLAT:
-            if (gRaceSetup->mMode == MODE_BATTLE) {
+            if (g_GlobalCO->mMode == MODE_BATTLE) {
                 kartAi->mContactStage = KART_AI_CONTACT_REQUEST_LINK;
                 CallKartAiRequestLink(kartAi->mKart->mAi);
                 kartAi->mContactStageFrameLimit = KART_AI_CONTACT_FRAMES_REQUEST_LINK;
@@ -820,7 +820,7 @@ void SetupAwardMissionRunKartAi(struct KartAi *kartAi, struct Kart *kart, s32 un
     kartAi->mIndex = kart->mIndex;
     kartAi->mIndexModFour = kartAi->mIndex % 4;
     kartAi->mDriftStartRandomLimit = TO_FIXED12(1);
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD) {
         kartAi->mDriftChargeRandomLimit = 0;
     } else {
         kartAi->mDriftChargeRandomLimit = TO_FIXED12(1);
@@ -845,7 +845,7 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     Vec3 *kartForward;
     RacePointLink *requestedLink;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
         AdvanceKartAiContactStages(kartAi);
     }
     linkCursor = &kartAi->mPointLinkCursor;
@@ -856,11 +856,11 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
         kartForward = &kart->mRotationRow2;
     }
     requestedLink = linkCursor->mRequestedLink;
-    GetKartPos(&kartPos, kartAi->mIndex);
+    LoadRacerMQVectorB(&kartPos, kartAi->mIndex);
     AdvanceKartAiAlongLinks(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
-        VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
+        VecFx32_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
         AdvanceKartAiHeading(kartAi, &toLinkPos, kartForward);
     }
     AdvanceKartAiDrift(kartAi);
@@ -892,11 +892,11 @@ void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
         kartForward = &kart->mRotationRow2;
     }
     requestedLink = linkCursor->mRequestedLink;
-    GetKartPos(&kartPos, kartAi->mIndex);
+    LoadRacerMQVectorB(&kartPos, kartAi->mIndex);
     AdvanceKartAiAlongLinks(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
-        VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
+        VecFx32_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
         AdvanceKartAiHeading(kartAi, &toLinkPos, kartForward);
     }
     AdvanceKartAiDrift(kartAi);
@@ -921,7 +921,7 @@ void InitKartAiTables(void) {
             break;
     }
     gKartAiRankOffset = 3;
-    cpuAndGhostKartCount = gRaceSetup->mKartCount - gRaceSetup->mHumanAndPeerKartCount;
+    cpuAndGhostKartCount = g_GlobalCO->mKartCount - g_GlobalCO->mHumanAndPeerKartCount;
     if (cpuAndGhostKartCount > 1) {
         if (cpuAndGhostKartCount <= 3) {
             gKartAiRankOffset = cpuAndGhostKartCount - 1;
@@ -965,7 +965,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     RandomState64 *kartAiRandom;
     KartAi *kartAiOfKart;
 
-    playerKind = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
+    playerKind = g_GlobalCO->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
     if (playerKind <= 3) {
         if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
@@ -979,14 +979,14 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
     randomValue = (s16) (u16) (kartAiRandom->mValue >> 52);
     tableIndex = GetKartAiTableIndex(kartAi->mIndex);
-    kartAiOfKart = GetKart(kartAi->mIndex)->mAi;
+    kartAiOfKart = GetRacerMQEntry(kartAi->mIndex)->mAi;
     if (kartAiOfKart->mListedCpu != 0) {
         tableIndex = boostChosen;
     }
     randomLimit = gKartAiRaceStartBoostRandomLimits[tableIndex];
     if (randomValue < randomLimit || randomLimit >= 0x1000) {
         raceSpeedLimit->mBoostsAtRaceStart = 1;
-        raceSpeedLimit->mRaceStartBoostChoice = PickKartAiRaceStartBoost(kartAiOfKart->mListedCpu);
+        raceSpeedLimit->mRaceStartBoostChoice = SomeCpuModeStuff(kartAiOfKart->mListedCpu);
         boostChosen = TRUE;
     }
     if (boostChosen != FALSE) {
@@ -1013,14 +1013,14 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         raceSpeedLimit->mSpeedLimitAddition = 0;
         raceSpeedLimit->mSpeedLimitReduced = 0;
         isHumanGhostOrPeer = FALSE;
-        playerKind = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
+        playerKind = g_GlobalCO->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
         if (playerKind <= 3) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
         if (isHumanGhostOrPeer != FALSE) {
-            raceSpeedLimit->mRank = GetKartRank(kartAi->mIndex);
+            raceSpeedLimit->mRank = GetSomeRacerFlags(kartAi->mIndex);
         } else {
             raceSpeedLimit->mRank = GetKartRankAmongCpuKarts(kartAi->mIndex);
         }
@@ -1089,7 +1089,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
 
     raceSpeedLimit->mSpeedLimitReduced = 0;
     isHumanGhostOrPeer = FALSE;
-    value = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
+    value = g_GlobalCO->mCurrentEntries[kartIndex].mPlayer.mKind;
     if ((u32) value <= 3) {
         if ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
@@ -1104,13 +1104,13 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         }
     }
     if (tableIndices[0] == 1) {
-        if (gRaceSetup->mMode == MODE_GRAND_PRIX) {
+        if (g_GlobalCO->mMode == MODE_GRAND_PRIX) {
             if (GetKartRaceProgressScaled(kartIndex) >= 0x28f) {
-                if (GetKartRank(kartIndex) >= 4) {
+                if (GetSomeRacerFlags(kartIndex) >= 4) {
                     for (rankIndex = 1; rankIndex < 4; rankIndex++) {
                         otherKartIndex = GetKartIndexAtRank(rankIndex);
                         if (otherKartIndex >= 0) {
-                            KartAi *otherKartAi = GetKart(otherKartIndex)->mAi;
+                            KartAi *otherKartAi = GetRacerMQEntry(otherKartIndex)->mAi;
                             KartAiRaceSpeedLimit *otherRaceSpeedLimit = &otherKartAi->mRaceSpeedLimit;
 
                             if (otherKartAi->mListedCpu != 0) {
@@ -1129,7 +1129,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         }
     }
     gap = tableIndices[1];
-    if (IsKartEnded(kartIndex) != 0) {
+    if (IsRacerFinishedRace(kartIndex) != 0) {
         limitTable = gKartAiEndedGapLimits;
     } else {
         limitTable = gKartAiGapLimitsByRank;
@@ -1142,12 +1142,12 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
         if (otherKartIndex >= 0) {
             gap = GetKartRaceProgressScaled(kartAi->mIndex);
             gap -= GetKartRaceProgressScaled(otherKartIndex);
-            if (IsKartEnded(kartAi->mIndex) != 0) {
+            if (IsRacerFinishedRace(kartAi->mIndex) != 0) {
                 limitTable = gKartAiEndedGapLimits;
             } else {
                 limitTable = gKartAiGapLimitsByRank;
             }
-            value = limitTable[GetKartRank((s32) (u16) otherKartIndex)];
+            value = limitTable[GetSomeRacerFlags((s32) (u16) otherKartIndex)];
             if (gap > MUL_FIXED12_NO_ROUND(value, rank)) {
                 raceSpeedLimit->mSpeedLimitBeforeTurn =
                     MUL_FIXED12_NO_ROUND(raceSpeedLimit->mSpeedLimitBeforeTurn, 0xf85);
@@ -1163,7 +1163,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
             if (otherKartIndex >= 0) {
                 progress = GetKartRaceProgressScaled(kartIndex);
                 progress -= GetKartRaceProgressScaled(otherKartIndex);
-                if (progress > GetKart(otherKartIndex)->mAi->mRaceSpeedLimit.mProgressGapLimit) {
+                if (progress > GetRacerMQEntry(otherKartIndex)->mAi->mRaceSpeedLimit.mProgressGapLimit) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         MUL_FIXED12_NO_ROUND(raceSpeedLimit->mSpeedLimitBeforeTurn, 0xf85);
                     raceSpeedLimit->mSpeedLimitReduced = 1;
@@ -1181,7 +1181,7 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
                 } else {
                     otherKartIndex = GetCpuKartAheadOfRank(rank);
                     if (otherKartIndex >= 0) {
-                        Kart *otherKart = GetKart(otherKartIndex);
+                        Kart *otherKart = GetRacerMQEntry(otherKartIndex);
                         s32 rowValue = kartAiParamRow->mSpeedLimitFloor;
 
                         if (otherKart->mAi->mRaceSpeedLimit.mSpeedLimit > MUL_FIXED12_NO_ROUND(rowValue, 0xcd0)) {
@@ -1211,18 +1211,18 @@ void AdvanceKartAiSpeedLimitByRank(struct KartAiRaceSpeedLimit *raceSpeedLimit, 
 
 // Returns the race start boost choice (1 to 5) of a CPU kart: three candidates by difficulty, picked at random, or the
 // last one when a is non-zero.
-u16 PickKartAiRaceStartBoost(s32 pickLast) {
+u16 SomeCpuModeStuff(s32 pickLast) {
     u16 choices[9];
     u16 *difficultyChoices;
     s32 choiceIndex;
     RandomState64 *kartAiRandom;
 
-    choices[0] = gKartAiRaceStartBoostEasyChoices[0];
-    choices[1] = gKartAiRaceStartBoostEasyChoices[1];
-    choices[2] = gKartAiRaceStartBoostEasyChoices[2];
-    choices[3] = gKartAiRaceStartBoostNormalChoices[0];
-    choices[4] = gKartAiRaceStartBoostNormalChoices[1];
-    choices[5] = gKartAiRaceStartBoostNormalChoices[2];
+    choices[0] = g_CpuMode1SomeArray[0];
+    choices[1] = g_CpuMode1SomeArray[1];
+    choices[2] = g_CpuMode1SomeArray[2];
+    choices[3] = g_CpuMode2SomeArray[0];
+    choices[4] = g_CpuMode2SomeArray[1];
+    choices[5] = g_CpuMode2SomeArray[2];
     choices[6] = gKartAiRaceStartBoostHardChoices[0];
     choices[7] = gKartAiRaceStartBoostHardChoices[1];
     choices[8] = gKartAiRaceStartBoostHardChoices[2];
@@ -1234,7 +1234,7 @@ u16 PickKartAiRaceStartBoost(s32 pickLast) {
         kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
         choiceIndex = (u16) (((kartAiRandom->mValue >> 32) * 3) >> 32);
     }
-    switch (gRaceSetup->mCpuDifficulty) {
+    switch (g_GlobalCO->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
             difficultyChoices = &choices[0];
             break;
@@ -1256,11 +1256,11 @@ void InitKartAiRaceSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
     raceSpeedLimit->mRank = -1;
     raceSpeedLimit->mSpeedLimitReduced = 0;
     raceSpeedLimit->mSpeedLimitBeforeTurn = 0;
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD) {
         kartAi->mKart->mForwardSpeed = raceSpeedLimit->mBaseSpeedLimit;
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         speedRatio = GetPointLinkSpeedRatio(&kartAi->mPointLinkCursor);
         kartAi->mKart->mForwardSpeed = MUL_FIXED12_ROUNDED(kartAi->mKart->mPhysicalParam->mBaseSpeedLimit, speedRatio);
         kartAi->mKart->mSpeedLimitGoal = kartAi->mKart->mForwardSpeed;
@@ -1388,7 +1388,7 @@ void UseItemByTargetOrRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kar
     RaceSetup *raceSetup;
     u16 kartIndex;
 
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     kartIndex = kartAi->mIndex;
     if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
         if (itemUse->mRandomValue <= FIXED12_RATIO(3, 4)) {
@@ -1402,7 +1402,7 @@ void UseItemByRankOrEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RaceSetup *raceSetup;
     u16 kartIndex;
 
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     kartIndex = kartAi->mIndex;
     if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mListedCpuFlags & KART_ENTRY_LISTED_CPU_FLAG) != 0) {
         if (itemUse->mRandomValue <= FIXED12_RATIO(1, 4)) {
@@ -1511,7 +1511,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     u16 randomLimit;
     u32 randomPart;
 
-    rank = GetKartRank(kartAi->mIndex);
+    rank = GetSomeRacerFlags(kartAi->mIndex);
     if (rank == 1) {
         RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
         itemUse->mThrowBehindPending = 1;
@@ -1531,7 +1531,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         }
         itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
         return;
-    } else if ((u32) rank >= 2 && rank <= gRaceSetup->mKartCount - 1) {
+    } else if ((u32) rank >= 2 && rank <= g_GlobalCO->mKartCount - 1) {
         switch (itemUse->mHeldItemEntry->mThenBitKind) {
             case KART_AI_THEN_BIT_NONE:
                 RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
@@ -1790,7 +1790,7 @@ void UseItemByRankAfterEveryCall(KartAiItemUse *itemUse, struct KartAi *kartAi) 
 }
 
 void SetupRaceItemEntries(void) {
-    switch (gRaceSetup->mCpuDifficulty) {
+    switch (g_GlobalCO->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
             gCurrentHeldItemEntries = gRaceEasyHeldItemEntries;
             gCurrentItemInUseEntries = gRaceItemInUseEntries;
@@ -1967,7 +1967,7 @@ void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi
 }
 
 void AdvanceRaceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
-    if (IsKartEnded(kartAi->mIndex) != 0) {
+    if (IsRacerFinishedRace(kartAi->mIndex) != 0) {
         return;
     }
     if (gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex == ITEM_INFO_KILLER) {
@@ -2092,8 +2092,8 @@ void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
 
-void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
-    CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
+void StructVC_SomeFnLinkedRouteRelated(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
+    CourseMapEntryGroup *entryGroup = &g_GlobalPE->mEntryGroups[mapCamera->mEntryGroupIndex];
     u16 pointIndex;
 
     posCurve->mParam = 0;
@@ -2103,7 +2103,7 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
         return;
     }
     for (pointIndex = 0; pointIndex < 4; pointIndex++) {
-        posCurve->mPoints[pointIndex] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, pointIndex)->mPos;
+        posCurve->mPoints[pointIndex] = GetLoadedNkmPathEntryPOIT(mapCamera->mEntryGroupIndex, pointIndex)->mPos;
         posCurve->mEntryIndex = pointIndex;
     }
 }
@@ -2111,7 +2111,7 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
 void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     s16 entryIndex;
     s16 pointIndex;
-    CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
+    CourseMapEntryGroup *entryGroup = &g_GlobalPE->mEntryGroups[mapCamera->mEntryGroupIndex];
 
     posCurve->mParam = 0;
     posCurve->mEntryIndex = 0;
@@ -2123,10 +2123,10 @@ void SetupReversePosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera)
     posCurve->mEntryIndex = 2;
     entryIndex = 2;
     for (pointIndex = 0; pointIndex < 3; pointIndex++) {
-        *GetPosCurvePoint(posCurve, pointIndex) = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
+        *GetPosCurvePoint(posCurve, pointIndex) = GetLoadedNkmPathEntryPOIT(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
         entryIndex--;
     }
-    posCurve->mPoints[3] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryGroup->mEntryCount - 1)->mPos;
+    posCurve->mPoints[3] = GetLoadedNkmPathEntryPOIT(mapCamera->mEntryGroupIndex, entryGroup->mEntryCount - 1)->mPos;
 }
 
 void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep) {
@@ -2134,7 +2134,7 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
     CourseMapGroupEntry *groupEntry;
     u16 pointIndex;
 
-    entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
+    entryGroup = &g_GlobalPE->mEntryGroups[mapCamera->mEntryGroupIndex];
     posCurve->mParam += paramStep;
     if (posCurve->mParam > TO_FIXED12(1)) {
         posCurve->mEntryIndex++;
@@ -2142,7 +2142,7 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
             posCurve->mEntryIndex = entryGroup->mEntryCount;
             posCurve->mParam = TO_FIXED12(1);
         } else {
-            groupEntry = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, posCurve->mEntryIndex);
+            groupEntry = GetLoadedNkmPathEntryPOIT(mapCamera->mEntryGroupIndex, posCurve->mEntryIndex);
             for (pointIndex = 0; pointIndex < 3; pointIndex++) {
                 posCurve->mPoints[pointIndex] = posCurve->mPoints[pointIndex + 1];
             }

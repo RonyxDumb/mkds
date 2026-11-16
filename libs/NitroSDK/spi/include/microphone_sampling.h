@@ -65,7 +65,7 @@ typedef struct MICWork {
     /* 18 */ u16 *mDstBuf;
 } MICWork;
 
-// Set once by MIC_Init.
+// Set once by RegisterFifoMicrophone.
 extern u16 gMicrophoneInitialized;
 // The microphone command in flight.
 extern MICWork gMicrophoneCommand;
@@ -84,7 +84,7 @@ BOOL MicStartAutoSampling(void *buf, u32 size, u32 span, u8 flags);
 // command 0x40 arrives and one is set, clears the lock and calls the stored callback once with the result. An error
 // word first clears the lock and calls the stored callback with 6.
 void MicCommonCallback(u32 tag, u32 data, BOOL err);
-// Returns the word at 0x027fff90, which MIC_Init clears: the address in the sampling buffer up to which samples have
+// Returns the word at 0x027fff90, which RegisterFifoMicrophone clears: the address in the sampling buffer up to which samples have
 // been written.
 void *MIC_GetLastSamplingAddress(void);
 // Sends the stop command and waits for the reply. Returns the result.
@@ -103,4 +103,4 @@ MICResult MIC_StartAutoSampling(const MICAutoParam *param);
 MICResult MIC_StartAutoSamplingAsync(const MICAutoParam *param, MICCallback callback, void *arg);
 // Starts the microphone channel once. Clears the lock and the callback, waits for the other processor on PXI tag 9,
 // clears the word at 0x027fff90 and installs the receive handler. Later calls return at once.
-void MIC_Init(void);
+void RegisterFifoMicrophone(void);

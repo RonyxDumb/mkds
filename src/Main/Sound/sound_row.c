@@ -12,7 +12,7 @@
 #include "touch_panel_sampling.h"
 #include "Main/Menu/select_race_rule_state.h"
 
-const SoundRow gSoundRowTable[53] = {{2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE},
+const SoundRow g_CourseBgmTable[53] = {{2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE},
                                      {2, 9, SOUND_ID_NONE, SOUND_ID_NONE},
                                      {2, 8, SOUND_ID_NONE, SOUND_ID_NONE},
                                      {2, 0xa, SOUND_ID_NONE, SOUND_ID_NONE},
@@ -66,11 +66,11 @@ const SoundRow gSoundRowTable[53] = {{2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_
                                      {2, SOUND_ID_NONE, SOUND_ID_NONE, SOUND_ID_NONE},
                                      {0xff, 0x4a, SOUND_ID_NONE, SOUND_ID_NONE}};
 
-SoundRow GetSoundRow(u32 rowIndex) {
-    return gSoundRowTable[rowIndex];
+SoundRow GetCourseBgmEntry(u32 rowIndex) {
+    return g_CourseBgmTable[rowIndex];
 }
 
-u32 GetCourseSoundRowIndex(u32 courseId, SoundRow *output) {
+u32 GetCourseBgmInfo(u32 courseId, SoundRow *output) {
     u32 rowIndex;
 
     rowIndex = 0x36;
@@ -194,12 +194,12 @@ u32 GetCourseSoundRowIndex(u32 courseId, SoundRow *output) {
             break;
     }
     if (output != NULL) {
-        *output = gSoundRowTable[rowIndex];
+        *output = g_CourseBgmTable[rowIndex];
     }
     return rowIndex;
 }
 
-u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
+u32 MaybeGetMusicForMenu(s32 sceneNumber, SoundRow *output) {
     enum { ROW_INDEX_FIRST } rowIndex;
     BOOL rowWritten;
     s32 raceMode;
@@ -212,14 +212,14 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
     rowWritten = FALSE;
     switch (sceneNumber) {
         case SCENE_RACE:
-            switch (gRaceSetup->mRaceKind) {
+            switch (g_GlobalCO->mRaceKind) {
                 case RACE_KIND_NORMAL:
                 case RACE_KIND_REPLAY:
-                    raceMode = gRaceSetup->mMode;
-                    rowIndex = GetCourseSoundRowIndex(gRaceSetup->mCourseId, output);
+                    raceMode = g_GlobalCO->mMode;
+                    rowIndex = GetCourseBgmInfo(g_GlobalCO->mCourseId, output);
                     rowWritten = TRUE;
                     if (raceMode == MODE_MISSION_RUN) {
-                        mission = &gRaceSetup->mMissionSettings;
+                        mission = &g_GlobalCO->mMissionSettings;
                         overridden = FALSE;
                         if (mission->mMissionTableValue == MISSION_NUMBER_GARDEN) {
                             output->mSeqId = SOUND_SEQ_ID_MISSION_GARDEN;
@@ -272,7 +272,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                     rowIndex = 0x33;
                     break;
                 case RACE_KIND_START_GP:
-                    switch (gRaceSetup->mCourseId) {
+                    switch (g_GlobalCO->mCourseId) {
                         case COURSE_ID_OLD_LUIGI_GC:
                         case COURSE_ID_CROSS:
                         case COURSE_ID_MARIO:
@@ -288,12 +288,12 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                             rowIndex = 1;
                             break;
                     }
-                    if (IsMissionRunBossColumn() != 0) {
+                    if (IsInBossMissionStage() != 0) {
                         rowIndex = 6;
                     } else {
-                        *output = gSoundRowTable[rowIndex];
+                        *output = g_CourseBgmTable[rowIndex];
                         rowWritten = TRUE;
-                        GetCourseSoundRowIndex(gRaceSetup->mCourseId, &courseRow);
+                        GetCourseBgmInfo(g_GlobalCO->mCourseId, &courseRow);
                         output->mFirstBankId = courseRow.mFirstBankId;
                     }
                     break;
@@ -326,7 +326,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             break;
         case SCENE_RESULT:
             rowIndex = 0x29;
-            *output = gSoundRowTable[rowIndex];
+            *output = g_CourseBgmTable[rowIndex];
             rowWritten = TRUE;
             output->mSeqId = GetResultSceneSeqId();
             break;
@@ -347,7 +347,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
         case SCENE_NICKNAME:
         case SCENE_KEYBOARD:
             rowIndex = 0x30;
-            *output = gSoundRowTable[rowIndex];
+            *output = g_CourseBgmTable[rowIndex];
             rowWritten = TRUE;
             if (gCurrentSoundSetPlayer != NULL) {
                 output->mSeqId = SOUND_ID_NONE;
@@ -360,7 +360,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
             break;
     }
     if (rowWritten == FALSE && output != NULL) {
-        *output = gSoundRowTable[rowIndex];
+        *output = g_CourseBgmTable[rowIndex];
     }
     return rowIndex;
 }

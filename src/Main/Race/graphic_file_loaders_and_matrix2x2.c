@@ -16,20 +16,20 @@
 #include "fixed_vector_math.h"
 #include "Main/Race/kart.h"
 
-u16 GetFollowedKartOrEntryIndex(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+u16 GetCurrentPlayerRacerId(void) {
+    RaceSetup *raceSetup = g_GlobalCO;
 
     return raceSetup->mRaceKind == RACE_KIND_DEMO ? raceSetup->mFollowedKartIndex : raceSetup->mEntryIndex;
 }
 
 // Highest lap of the followed kart, one less while its race has not ended: the last lap that is over (0 = none).
-u16 GetFollowedKartLastEndedLap(void) {
+u16 GetSomeLapCount(void) {
     u16 lap;
 
     lap = GetKartHighestLap(
-        (u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex : gRaceSetup->mEntryIndex));
-    if (IsKartEnded((u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex
-                                                                   : gRaceSetup->mEntryIndex)) == 0) {
+        (u16) (g_GlobalCO->mRaceKind == RACE_KIND_DEMO ? g_GlobalCO->mFollowedKartIndex : g_GlobalCO->mEntryIndex));
+    if (IsRacerFinishedRace((u16) (g_GlobalCO->mRaceKind == RACE_KIND_DEMO ? g_GlobalCO->mFollowedKartIndex
+                                                                   : g_GlobalCO->mEntryIndex)) == 0) {
         lap = lap - 1;
     }
     return lap;
@@ -49,7 +49,7 @@ void Matrix2x2ReciprocalScale(MtxFx22 *matrix, s32 scale) {
     matrix->mElements[1] = matrix->mElements[2];
 }
 
-void Matrix2x2Rotation(MtxFx22 *matrix, u16 angle) {
+void MaybeCreateRotationMatrix(MtxFx22 *matrix, u16 angle) {
     s32 anglePairFirst = FX_SinIdx(angle);
     s32 anglePairSecond = FX_CosIdx(angle);
 
@@ -87,8 +87,8 @@ void Matrix2x2RotationReciprocalScale(MtxFx22 *matrix, s32 scale, u16 angle) {
 }
 
 // TRUE when the points word is plural for this number; one language counts 0 as singular.
-BOOL IsPointsLabelPlural(s32 number) {
-    switch (gStartupWork->mLanguageIndex) {
+BOOL SomeCheckLangFrench(s32 number) {
+    switch (g_GlobalP->mLanguageIndex) {
         case LANGUAGE_UNSUFFIXED:
         case LANGUAGE_ENGLISH:
         case LANGUAGE_GERMAN:
@@ -107,8 +107,8 @@ BOOL IsPointsLabelPlural(s32 number) {
     }
 }
 
-BOOL RaceStartIsLanguageJa(void) {
-    switch (gStartupWork->mLanguageIndex) {
+BOOL GetSomeInterCharacterWidth(void) {
+    switch (g_GlobalP->mLanguageIndex) {
         case LANGUAGE_UNSUFFIXED:
             return TRUE;
         case LANGUAGE_ENGLISH:
@@ -120,8 +120,8 @@ BOOL RaceStartIsLanguageJa(void) {
     }
 }
 
-s32 GetLanguageCharSpacing(void) {
-    switch (gStartupWork->mLanguageIndex) {
+s32 GetSomeInterCharacterWidth2(void) {
+    switch (g_GlobalP->mLanguageIndex) {
         case LANGUAGE_UNSUFFIXED:
             return 1;
         case LANGUAGE_ENGLISH:
@@ -133,8 +133,8 @@ s32 GetLanguageCharSpacing(void) {
     }
 }
 
-BOOL IsLanguageJa(void) {
-    switch (gStartupWork->mLanguageIndex) {
+BOOL ComputeSomeInterCharacterWidth(void) {
+    switch (g_GlobalP->mLanguageIndex) {
         case LANGUAGE_UNSUFFIXED:
             return TRUE;
         case LANGUAGE_ENGLISH:
@@ -146,93 +146,93 @@ BOOL IsLanguageJa(void) {
     }
 }
 
-void LoadNclrData(Nclr **outNclr, void *file) {
+void Gfx_ReadPalette(Nclr **outNclr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x504c5454);
+        part = Common_FindBlockByMagic(file, 0x504c5454);
         if (part != NULL) {
             *outNclr = (Nclr *) (part + 1);
-            NNS_G2dUnpackNCL((NNSG2dPaletteData *) *outNclr);
+            Gfx_MakePaletteOffsetsAbsolute((NNSG2dPaletteData *) *outNclr);
         }
     }
-    DC_FlushRange((*outNclr)->mData, (*outNclr)->mDataSize);
+    Arm_FlushRange((*outNclr)->mData, (*outNclr)->mDataSize);
 }
 
-void LocateNclr(Nclr **outNclr, void *file) {
+void Gfx_ReadPaletteRelative(Nclr **outNclr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x504c5454);
+    part = Common_FindBlockByMagic(file, 0x504c5454);
     if (part != NULL) {
         *outNclr = (Nclr *) (part + 1);
     }
 }
 
-void LoadNcgrData2(Ncgr **outNcgr, void *file) {
+void Gfx_ReadCharGraphics(Ncgr **outNcgr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x43484152);
+        part = Common_FindBlockByMagic(file, 0x43484152);
         if (part != NULL) {
             *outNcgr = (Ncgr *) (part + 1);
-            NNS_G2dUnpackBGNCG((NNSG2dCharacterData *) *outNcgr);
+            Gfx_MakeCharGraphicsOffsetsAbsolute((NNSG2dCharacterData *) *outNcgr);
         }
     }
-    DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
+    Arm_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
 }
 
-void LocateNcgr2(Ncgr **outNcgr, void *file) {
+void Gfx_ReadCharGraphicsRelative(Ncgr **outNcgr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x43484152);
+    part = Common_FindBlockByMagic(file, 0x43484152);
     if (part != NULL) {
         *outNcgr = (Ncgr *) (part + 1);
     }
 }
 
-void LoadNcgrData(Ncgr **outNcgr, void *file) {
+void Gfx_ReadCharGraphicsV2(Ncgr **outNcgr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x43484152);
+        part = Common_FindBlockByMagic(file, 0x43484152);
         if (part != NULL) {
             *outNcgr = (Ncgr *) (part + 1);
-            NNS_G2dUnpackNCG((NNSG2dCharacterData *) *outNcgr);
+            Gfx_MakeCharGraphicsOffsetsAbsoluteV2((NNSG2dCharacterData *) *outNcgr);
         }
     }
-    DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
+    Arm_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
 }
 
-void LocateNcgr(Ncgr **outNcgr, void *file) {
+void MaybeReadCharBlock_1(Ncgr **outNcgr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x43484152);
+    part = Common_FindBlockByMagic(file, 0x43484152);
     if (part != NULL) {
         *outNcgr = (Ncgr *) (part + 1);
     }
 }
 
-void LoadNcerData(NNSG2dCellDataBank **outNcer, void *file) {
+void LoadCellBankFrom(NNSG2dCellDataBank **outNcer, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x4345424b);
+    part = Common_FindBlockByMagic(file, 0x4345424b);
     if (part == NULL) {
         return;
     }
     *outNcer = (NNSG2dCellDataBank *) (part + 1);
-    NNS_G2dUnpackNCE(*outNcer);
+    CellBank_InitializeLoad(*outNcer);
 }
 
 void LocateNcer(NNSG2dCellDataBank **outNcer, void *file) {
@@ -241,7 +241,7 @@ void LocateNcer(NNSG2dCellDataBank **outNcer, void *file) {
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x4345424b);
+    part = Common_FindBlockByMagic(file, 0x4345424b);
     if (part != NULL) {
         *outNcer = (NNSG2dCellDataBank *) (part + 1);
     }
@@ -253,7 +253,7 @@ void LoadNanrData(AnimBank **outNanr, void *file) {
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x41424e4b);
+    part = Common_FindBlockByMagic(file, 0x41424e4b);
     if (part == NULL) {
         return;
     }
@@ -261,26 +261,26 @@ void LoadNanrData(AnimBank **outNanr, void *file) {
     NNS_G2dUnpackNAN(*outNanr);
 }
 
-void LoadNscrData(Nscr **outNscr, void *file) {
+void MaybeReadScreenBlock_0(Nscr **outNscr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x5343524e);
+        part = Common_FindBlockByMagic(file, 0x5343524e);
         if (part != NULL) {
             *outNscr = (Nscr *) (part + 1);
-            NNS_G2dGetUnpackedScreenData(file, (NNSG2dBinaryBlockHeader **) outNscr);
+            Screen_ReadBlock(file, (NNSG2dBinaryBlockHeader **) outNscr);
         }
     }
-    DC_FlushRange((*outNscr)->mData, (*outNscr)->mDataSize);
+    Arm_FlushRange((*outNscr)->mData, (*outNscr)->mDataSize);
 }
 
-void LocateNscr(Nscr **outNscr, void *file) {
+void MaybeReadScreenBlock(Nscr **outNscr, void *file) {
     NNSG2dBinaryBlockHeader *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x5343524e);
+    part = Common_FindBlockByMagic(file, 0x5343524e);
     if (part != NULL) {
         *outNscr = (Nscr *) (part + 1);
     }

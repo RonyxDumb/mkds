@@ -35,7 +35,7 @@ void *DWC_ReallocEx(u32 name, void *ptr, u32 heldSize, u32 wantedSize, u32 align
         return NULL;
     }
     if (ptr != NULL) {
-        MI_CpuCopy8(ptr, moved, wantedSize);
+        Mem_CpuCopy8(ptr, moved, wantedSize);
         gFreeFunc(name, ptr, heldSize);
     }
     return moved;

@@ -1753,7 +1753,7 @@ gMissionRunBossIconSONclrName kind:data(byte[4]) addr:0x021a9944
 @6178 kind:data(byte[34]) addr:0x021a9968 local
 @6176 kind:data(byte[36]) addr:0x021a998c local
 @6177 kind:data(byte[36]) addr:0x021a99b0 local
-gLogoScene kind:bss(size=0x4) addr:0x021a99e0 ambiguous
+g_LogoContext kind:bss(size=0x4) addr:0x021a99e0 ambiguous
 gTestScene kind:bss(size=0x4) addr:0x021a99e4
 gTestSceneCharTableIndex kind:bss(size=0x4) addr:0x021a99e8
 gTestSceneCharText kind:bss(size=0x19c) addr:0x021a99ec
@@ -1787,7 +1787,7 @@ gRecordTopMenu kind:bss(size=0x4) addr:0x021a9bf0
 gSelectGhost kind:bss(size=0x4) addr:0x021a9bf4
 gSelectBattleStage kind:bss(size=0x4) addr:0x021a9bf8
 gOptionEmbremSelect kind:bss(size=0x4) addr:0x021a9bfc
-gOverlayExpHeapBuffer kind:bss(size=0x20800) addr:0x021a9c00 ambiguous
+g_Overlay3Region kind:bss(size=0x20800) addr:0x021a9c00 ambiguous
 gEndingScene kind:bss(size=0x4) addr:0x021ca400
 gNicknameBuffers kind:bss(size=0x4) addr:0x021ca404
 gOptionBuffers kind:bss(size=0x4) addr:0x021ca408

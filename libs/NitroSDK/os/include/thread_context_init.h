@@ -3,4 +3,4 @@
 #include "types.h"
 #include "thread_scheduler.h"
 
-void ThreadInitContext(OSThread *thread, void (*entry)(void *), u32 value);
+void Arm_Context_Create(OSThread *thread, void (*entry)(void *), u32 value);

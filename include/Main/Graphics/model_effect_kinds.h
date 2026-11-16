@@ -15,7 +15,7 @@
 
 struct ModelEffect;
 
-// Rows of gModelEffectKinds, the kind passed to StartModelEffect and SetupModelEffectKind.
+// Rows of g_ExplosionManagers, the kind passed to MaybeRecreateExplosionInstance and MaybeLoadSomeExplosion.
 enum {
     MODEL_EFFECT_BOMBCORE,
     MODEL_EFFECT_BOMBCORE2,
@@ -25,7 +25,7 @@ enum {
     MODEL_EFFECT_KIND_COUNT
 };
 
-// Object counts of the first two rows of gModelEffectKinds (Bombcore, Bombcore2) per race mode.
+// Object counts of the first two rows of g_ExplosionManagers (Bombcore, Bombcore2) per race mode.
 #define BOMBCORE_OBJECT_COUNT 3
 #define BOMBCORE2_OBJECT_COUNT 1
 #define BOMBCORE_OBJECT_COUNT_WIFI 6
@@ -36,7 +36,7 @@ enum {
 #define DONKETU_WATER_SPLASH_OBJECT_COUNT 2
 #define BK_WAVE_OBJECT_COUNT 1
 
-// One row of gModelEffectKinds: object count, which animation objects to make, start and update functions, size.
+// One row of g_ExplosionManagers: object count, which animation objects to make, start and update functions, size.
 typedef struct ModelEffectKind {
     /* 00 */ u16 mObjectCount;
     /* 04 */ BOOL mUseNsbca;
@@ -51,7 +51,7 @@ typedef struct ModelEffectKind {
 // Object at gPosStripTexture.
 typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;
-    /* 04 */ u8 mUnk_04[0x14];
+    /* 04 */ u8 mCullReversed[0x14];
     /* 18 */ u32 mPlttBase;
     /* 1c */ s32 mLowHalfTexCoord;
     /* 20 */ s32 mHighHalfTexCoord;

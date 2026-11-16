@@ -4,7 +4,7 @@
 #include "Main/Save/ghost_record_file.h"
 
 #pragma thumb on
-void WriteBackupFirstBlockWrapper(void) {
-    WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
+void WriteSaveDataSectionHeaderToSaveData_from_thumb(void) {
+    WriteSaveDataSection_Header_from_thumb(g_SaveDataHolder->mFirstBlock);
 }
 #pragma thumb off

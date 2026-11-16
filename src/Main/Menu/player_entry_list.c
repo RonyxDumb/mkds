@@ -157,7 +157,7 @@ void SetEntryTargetOuterSlot(s32 entryIndex) {
 #pragma thumb off
 
 static inline s32 GetMenuSharedShuffledIndex(s32 index) {
-    return gMenuShared->mShuffledIndices[index];
+    return g_GlobalB488->mShuffledIndices[index];
 }
 
 #pragma thumb on
@@ -189,7 +189,7 @@ void AdvancePlayerEntryListOffsets(void) {
     AdvanceInterpolation(&gPlayerEntryList->mInterpolations[2]);
     AdvanceEntrySlots();
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
+        offsetX = ComputeValueInterpolation_from_thumb(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mFromSlot],
                                  gEntrySlotOffsetsX[gPlayerEntryList->mEntries[entryIndex].mSlotMove.mToSlot],
                                  gPlayerEntryList->mEntries[entryIndex].mSlotMove.mMoveFrames, 10);
         fileSet->mCellTable[cellCount + gEntryLabelTextRows[entryIndex].mLabelIndex].mOffsetX = offsetX;
@@ -206,11 +206,11 @@ void AdvancePlayerEntryListOffsets(void) {
 }
 
 static inline void PlayerEntryListMI_CpuCopy16(const void *source, void *destination, s32 byteCount) {
-    MIi_CpuCopy16(source, destination, byteCount);
+    CopyMemory16(source, destination, byteCount);
 }
 
 void SetExtraEntryNames(void) {
-    void *text = GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x72);
+    void *text = Bmg_GetRawStringPointer_from_thumb(j_FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2("common.bmg"), 0x72);
     u16 digitBuffer[3];
     u16 *digitText = &digitBuffer[1];
     s32 entryIndex;
@@ -218,10 +218,10 @@ void SetExtraEntryNames(void) {
     digitText[1] = 0;
     for (entryIndex = gPlayerEntryList->mPlayerCount; entryIndex < 8; entryIndex++) {
         digitBuffer[0] = 0;
-        MIi_CpuClear16(digitBuffer[0], gPlayerEntryList->mEntries[entryIndex].mName, 0x16);
-        MIi_CpuCopy16(text, gPlayerEntryList->mEntries[entryIndex].mName, 0x14);
+        Mem_CpuFill16(digitBuffer[0], gPlayerEntryList->mEntries[entryIndex].mName, 0x16);
+        CopyMemory16(text, gPlayerEntryList->mEntries[entryIndex].mName, 0x14);
         digitBuffer[1] = entryIndex + 0x31 - gPlayerEntryList->mPlayerCount;
-        wcsncat(gPlayerEntryList->mEntries[entryIndex].mName, digitText, 1);
+        SomeStrcat16(gPlayerEntryList->mEntries[entryIndex].mName, digitText, 1);
     }
 }
 
@@ -229,19 +229,19 @@ void PrintEntryName(s32 entryIndex, u16 *name) {
     PlayerEntryList *entryList = gPlayerEntryList;
     u16 text[12];
     text[0] = 0;
-    MIi_CpuClear16(text[0], &text[1], 0x16);
+    Mem_CpuFill16(text[0], &text[1], 0x16);
     name[10] = 0;
-    CopyTextWithinWidth(name, &text[1]);
+    GetClampedString10LengthForFontIndex0_from_thumb(name, &text[1]);
     PrintLabelLayoutTextNoFixedAdvance(0, gEntryLabelTextRows[entryIndex].mLabelIndex, entryList->mParts.mLabelLayout,
                                        &text[1], entryList->mParts.mCellLayout, entryList->mParts.mCellTable);
 }
 
-void InitPlayerEntryList(void *parentHeap, void *mainOam) {
-    void *heap = CreateFrmHeapFromMaxFree(parentHeap);
+void AndAnotherAlloc_0_from_thumb(void *parentHeap, void *mainOam) {
+    void *heap = Mem_CreateOrphanChildHeap(parentHeap);
     s32 objSizeLeft;
     CellFileSet *fileSet;
     s32 entryIndex;
-    gPlayerEntryList = HeapAlloc(heap, sizeof(*gPlayerEntryList));
+    gPlayerEntryList = Mem_AllocateHeap(heap, sizeof(*gPlayerEntryList));
     MemFillWordsByBlock_inline(gPlayerEntryList, 0x258);
     gPlayerEntryList->mHeap = heap;
     gPlayerEntryList->mMainOam = mainOam;
@@ -261,11 +261,11 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         LocateCellFileSet(fileSet, "mb/select_menu_etc_download_m.nce.ncgr", "mb/select_menu_etc_download_m.nce.ncer",
                           "mb/select_menu_etc_download_m_o.NCLR", "mb/select_menu_etc_download_m.bncl",
-                          "mb/select_menu_etc_download_m.bnll", NULL, FindSceneFile);
+                          "mb/select_menu_etc_download_m.bnll", NULL, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
     } else {
         LocateCellFileSet(fileSet, "select_menu_etc_m.nce.ncgr", "select_menu_etc_m.nce.ncer",
                           "select_menu_etc_m_o.NCLR", "select_menu_etc_m.bncl", "select_menu_etc_m.bnll", NULL,
-                          FindFileInLoadedArchives);
+                          FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
     }
     InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
@@ -284,7 +284,7 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr",
                           "select_menu_etc_title_m.nce.ncer", NULL, "select_menu_etc_title_m.bncl", NULL, NULL,
-                          FindFileInLoadedArchives);
+                          FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
     }
     gPlayerEntryList->mSetupRequested = TRUE;
     FrmHeapShrinkInParent(gPlayerEntryList->mHeap);
@@ -312,36 +312,36 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 gPlayerEntryList->mPlayerCount = 1;
                 gPlayerEntryList->mEntryIndex = 0;
                 gPlayerEntryList->mShowAllEntries = 1;
-                MIi_CpuCopy16(gBackupBuffers->mFirstBlock->mPlayerName,
+                CopyMemory16(g_SaveDataHolder->mFirstBlock->mPlayerName,
                               gPlayerEntryList->mEntries[gPlayerEntryList->mEntryIndex].mName, 0x14);
                 SetExtraEntryNames();
                 break;
             case PLAYER_ENTRY_LIST_MODE_CONNECTION:
                 stateActive = TRUE;
-                if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-                    gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+                if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+                    g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
                     stateActive = FALSE;
                 }
                 if (stateActive != FALSE) {
-                    index = CountSetBits(gConnectionWork->mParticipantMask);
+                    index = Math_CountPopulation(g_GlobalZE->mParticipantMask);
                 } else {
                     index = 0;
                 }
                 gPlayerEntryList->mPlayerCount = (u8) index;
-                if (gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD) {
-                    index = gConnectionWork->mOwnIndex;
+                if (g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD) {
+                    index = g_GlobalZE->mOwnIndex;
                 } else {
                     index = 0;
                 }
                 gPlayerEntryList->mEntryIndex = GetParticipantPosByIndex(index)->mEntryIndex;
                 for (secondIndex = 0; secondIndex < (count = gPlayerEntryList->mPlayerCount); secondIndex++) {
-                    GetRaceSetupCopy()->mEntries[secondIndex].mPlayerKind = PLAYER_KIND_HUMAN;
+                    GetGlobalCA_from_thumb()->mEntries[secondIndex].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
-                    MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[secondIndex].mName, 0x16);
+                    Mem_CpuFill16(clearValue, gPlayerEntryList->mEntries[secondIndex].mName, 0x16);
                     PlayerEntryListMI_CpuCopy16(
                         GetParticipantIndexByPos(secondIndex) == 0xffff
                             ? (void *) 0
-                            : &gConnectionWork->mPlayerRecords[GetParticipantIndexByPos(secondIndex)],
+                            : &g_GlobalZE->mPlayerRecords[GetParticipantIndexByPos(secondIndex)],
                         gPlayerEntryList->mEntries[secondIndex].mName, 0x14);
                 }
                 for (; count < 8; count++) {
@@ -358,9 +358,9 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 gPlayerEntryList->mEntryIndex = GetRaceSetupCopyEntryIndex();
                 for (index = 0; index < (count = gPlayerEntryList->mPlayerCount); index++) {
                     secondClearValue = 0;
-                    MIi_CpuClear16(secondClearValue, gPlayerEntryList->mEntries[index].mName, 0x16);
+                    Mem_CpuFill16(secondClearValue, gPlayerEntryList->mEntries[index].mName, 0x16);
                     if (GetIndexOfPackedIndex(index) >= 0) {
-                        PlayerEntryListMI_CpuCopy16(GetPlayerRecordName((u8) GetIndexOfPackedIndex(index)),
+                        PlayerEntryListMI_CpuCopy16(GetSomeBTKNickname((u8) GetIndexOfPackedIndex(index)),
                                                     gPlayerEntryList->mEntries[index].mName, 0x14);
                     }
                 }
@@ -383,7 +383,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         if (gPlayerEntryList->mMode == PLAYER_ENTRY_LIST_MODE_CONNECTION) {
             for (index = gPlayerEntryList->mPlayerCount; index < 8; index++) {
-                secondIndex = GetRaceSetupCopy()->mEntries[index].mCharacterIndex;
+                secondIndex = GetGlobalCA_from_thumb()->mEntries[index].mCharacterIndex;
                 CopyCellLayoutEntryCellIndex(gEntryCellIndices[index].mCharacterCellIndex,
                                              gCharacterCellIndices[secondIndex], fileSet->mCellLayout);
                 fileSet->mCellTable[gEntryCellIndices[index].mCharacterCellIndex].mVisible = 1;
@@ -394,17 +394,17 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
                                            "mb/select_menu_etc_download_m_b.NCLR",
-                                           "mb/select_menu_etc_download_m_bg_00.NSCR", 0, FindSceneFile);
+                                           "mb/select_menu_etc_download_m_bg_00.NSCR", 0, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
             LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "mb/select_menu_etc_download_m_b.NCGR",
                                            "mb/select_menu_etc_download_m_b.NCLR",
-                                           "mb/select_menu_etc_download_m_bg_01.NSCR", 1, FindSceneFile);
+                                           "mb/select_menu_etc_download_m_bg_01.NSCR", 1, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb);
         } else {
             LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "select_menu_etc_m_b.NCGR",
                                            "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_00.NSCR", 0,
-                                           FindFileInLoadedArchives);
+                                           FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
             LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, screenMapFileSet, "select_menu_etc_m_b.NCGR",
                                            "select_menu_etc_m_b.NCLR", "select_menu_etc_m_bg_01.NSCR", 1,
-                                           FindFileInLoadedArchives);
+                                           FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
         SetInterpolationStateIfOpposite(&gPlayerEntryList->mInterpolations[3], INTERPOLATION_STATE_RISING);
@@ -417,10 +417,10 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         gPlayerEntryList->mMoveInnerPending = FALSE;
     }
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, gPlayerEntryList->mParts.mChars->mData,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_TILES, 0, gPlayerEntryList->mParts.mChars->mData,
                                        gPlayerEntryList->mParts.mChars->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0, fileSet->mPalette->mData, 0x1a0);
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_A_SPRITE_PALETTE, 0x1c0,
                                        fileSet->mPalette->mBytes + 0x1c0, 0x40);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
@@ -457,7 +457,7 @@ void AdvancePlayerEntryList(void) {
     s32 kartIndex;
     s32 wiFiSessionKartIndex;
     BOOL hasKart;
-    if (AreBrightnessFadesClear() == 0) {
+    if (Bright_IsBothScreensFadedIn() == 0) {
         return;
     }
     if (gPlayerEntryList->mTimerEnabled != 0) {
@@ -467,9 +467,9 @@ void AdvancePlayerEntryList(void) {
             framesAhead = frames + 0x3c;
             counter = framesAhead / 0x3c;
             if (frames == 0) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x51);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x51);
             } else if (framesAhead % 0x3c == 0 && counter <= 4) {
-                NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x50);
+                PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x50);
             }
         } else {
             counter = 0;
@@ -489,13 +489,13 @@ void AdvancePlayerEntryList(void) {
                 s32 kartStored;
 
                 for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-                    entryCharacter = GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex;
+                    entryCharacter = GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex;
                     if (entryCharacter == -1) {
                         value = 0;
                     } else {
                         value = 1;
                     }
-                    kartStored = GetRaceSetupCopy()->mEntries[entryIndex].mKartStored;
+                    kartStored = GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartStored;
                     if (value != 0) {
                         CopyCellLayoutEntryCellIndex(gEntryCellIndices[entryIndex].mCharacterCellIndex,
                                                      gCharacterCellIndices[entryCharacter], fileSet->mCellLayout);
@@ -508,10 +508,10 @@ void AdvancePlayerEntryList(void) {
                 s32 sharedCharacter;
 
                 for (entryIndex = 0; entryIndex < gPlayerEntryList->mPlayerCount; entryIndex++) {
-                    if (gConnectionWork->mState == CONNECTION_STATE_SYNCED &&
-                        (gConnectionWork->mParticipantMask & (1 << GetParticipantIndexByPos(entryIndex))) != 0) {
+                    if (g_GlobalZE->mState == CONNECTION_STATE_SYNCED &&
+                        (g_GlobalZE->mParticipantMask & (1 << GetParticipantIndexByPos(entryIndex))) != 0) {
                         counter =
-                            gConnectionWork->mSharingReceiveRecords[GetParticipantIndexByPos(entryIndex)].mSendByte;
+                            g_GlobalZE->mSharingReceiveRecords[GetParticipantIndexByPos(entryIndex)].mSendByte;
                     } else {
                         counter = 0;
                     }
@@ -519,9 +519,9 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible =
                             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;
-                        GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex = -1;
-                        GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = -1;
-                        GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 0;
+                        GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex = -1;
+                        GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartIndex = -1;
+                        GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartStored = 0;
                         gPlayerEntryList->mKartShown[entryIndex] = 0;
                         gPlayerEntryList->mCharacterShown[entryIndex] = gPlayerEntryList->mKartShown[entryIndex];
                     } else if ((counter & 0x40) != 0) {
@@ -536,7 +536,7 @@ void AdvancePlayerEntryList(void) {
                                                          gCharacterCellIndices[sharedCharacter], fileSet->mCellLayout);
                         }
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mCharacterCellIndex].mVisible = 1;
-                        GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex = sharedCharacter;
+                        GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex = sharedCharacter;
                         if (gPlayerEntryList->mEntryIndex != entryIndex &&
                             gPlayerEntryList->mCharacterShown[entryIndex] == 0) {
                             AddCharacterSeqQueueEntry(sharedCharacter, 0);
@@ -545,16 +545,16 @@ void AdvancePlayerEntryList(void) {
                         if ((counter & 0x80) != 0) {
                             kartIndex = GetCharacterKartIndexByMode(sharedCharacter);
                             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 1;
-                            GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = kartIndex;
-                            GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 1;
+                            GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartIndex = kartIndex;
+                            GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartStored = 1;
                         }
                     } else if ((counter & 0x80) != 0) {
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 1;
-                        GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = counter & 0x3f;
-                        GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 1;
+                        GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartIndex = counter & 0x3f;
+                        GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartStored = 1;
                         if (gPlayerEntryList->mEntryIndex != entryIndex &&
                             gPlayerEntryList->mKartShown[entryIndex] == 0) {
-                            AddCharacterSeqQueueEntry(GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex, 1);
+                            AddCharacterSeqQueueEntry(GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex, 1);
                             gPlayerEntryList->mKartShown[entryIndex] = 1;
                         }
                     }
@@ -571,7 +571,7 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible = 0;
                         if (gPlayerEntryList->mEmptySlotSoundPlayed[entryIndex] == 0) {
                             gPlayerEntryList->mEmptySlotSoundPlayed[entryIndex] = 1;
-                            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x52);
+                            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x52);
                         }
                     } else {
                         wifiCharacter = GetWiFiSessionCharacterIndex(GetIndexOfPackedIndex(entryIndex));
@@ -619,7 +619,7 @@ void AdvancePlayerEntryList(void) {
 #pragma thumb on
 
 void ReleasePlayerEntryList(void) {
-    HeapDestroy(gPlayerEntryList->mHeap);
+    Mem_DestroyHeap(gPlayerEntryList->mHeap);
     *&gPlayerEntryList = NULL;
 }
 
@@ -647,7 +647,7 @@ void WritePlayerEntryListRegisters(void) {
         displayBits |= 2;
     }
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
-    GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, bg0As);
+    ConfigureDispcntDisplay(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, bg0As);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
         reg_GX_DISPCNT =
             (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_OW_MASK | REG_GX_DISPCNT_W1_MASK | REG_GX_DISPCNT_W0_MASK)) |
@@ -664,30 +664,30 @@ void WritePlayerEntryListRegisters(void) {
     }
 }
 
-void LoadPlayerEntryListFiles(void) {
+void VerifySelectMenuFiles_from_thumb(void) {
     Ncgr *chars;
     Nclr *palette;
     NNSG2dCellDataBank *cells;
     Nscr *screenMap;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        LoadNcgrData(&chars, FindSceneFile("mb/select_menu_etc_download_m_b.NCGR"));
-        LoadNcgrData2(&chars, FindSceneFile("mb/select_menu_etc_download_m.nce.ncgr"));
-        LoadNcerData(&cells, FindSceneFile("mb/select_menu_etc_download_m.nce.ncer"));
-        LoadNclrData(&palette, FindSceneFile("mb/select_menu_etc_download_m_o.NCLR"));
-        LoadNclrData(&palette, FindSceneFile("mb/select_menu_etc_download_m_b.NCLR"));
-        LoadNscrData(&screenMap, FindSceneFile("mb/select_menu_etc_download_m_bg_00.NSCR"));
-        LoadNscrData(&screenMap, FindSceneFile("mb/select_menu_etc_download_m_bg_01.NSCR"));
+        Gfx_ReadCharGraphicsV2(&chars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m_b.NCGR"));
+        Gfx_ReadCharGraphics(&chars, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m.nce.ncgr"));
+        LoadCellBankFrom(&cells, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m.nce.ncer"));
+        Gfx_ReadPalette(&palette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m_o.NCLR"));
+        Gfx_ReadPalette(&palette, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m_b.NCLR"));
+        MaybeReadScreenBlock_0(&screenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m_bg_00.NSCR"));
+        MaybeReadScreenBlock_0(&screenMap, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("mb/select_menu_etc_download_m_bg_01.NSCR"));
     } else {
-        LoadNcgrData(&chars, FindFileInLoadedArchives("select_menu_etc_m_b.NCGR"));
-        LoadNcgrData2(&chars, FindFileInLoadedArchives("select_menu_etc_m.nce.ncgr"));
-        LoadNcgrData2(&chars, FindFileInLoadedArchives("select_menu_etc_title_m.nce.ncgr"));
-        LoadNcerData(&cells, FindFileInLoadedArchives("select_menu_etc_m.nce.ncer"));
-        LoadNcerData(&cells, FindFileInLoadedArchives("select_menu_etc_title_m.nce.ncer"));
-        LoadNclrData(&palette, FindFileInLoadedArchives("select_menu_etc_m_o.NCLR"));
-        LoadNclrData(&palette, FindFileInLoadedArchives("select_menu_etc_m_b.NCLR"));
-        LoadNscrData(&screenMap, FindFileInLoadedArchives("select_menu_etc_m_bg_00.NSCR"));
-        LoadNscrData(&screenMap, FindFileInLoadedArchives("select_menu_etc_m_bg_01.NSCR"));
+        Gfx_ReadCharGraphicsV2(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m_b.NCGR"));
+        Gfx_ReadCharGraphics(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m.nce.ncgr"));
+        Gfx_ReadCharGraphics(&chars, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_title_m.nce.ncgr"));
+        LoadCellBankFrom(&cells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m.nce.ncer"));
+        LoadCellBankFrom(&cells, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_title_m.nce.ncer"));
+        Gfx_ReadPalette(&palette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m_o.NCLR"));
+        Gfx_ReadPalette(&palette, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m_b.NCLR"));
+        MaybeReadScreenBlock_0(&screenMap, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m_bg_00.NSCR"));
+        MaybeReadScreenBlock_0(&screenMap, FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("select_menu_etc_m_bg_01.NSCR"));
     }
 }
 
@@ -712,7 +712,7 @@ u32 IsEveryPlayerKartStored(void) {
     if (0 < gPlayerEntryList->mPlayerCount) {
         offset = 0;
         do {
-            setupCopy = GetRaceSetupCopy();
+            setupCopy = GetGlobalCA_from_thumb();
             allKartsStored = allKartsStored & setupCopy->mEntries[index].mKartStored;
             offset = offset + 0x18;
             index = index + 1;

@@ -30,9 +30,9 @@ void NNS_SndCaptureChangeOutputEffect(s32 type) {
     if (sCallbackInfo.mType == SOUND_OUTPUT_EFFECT_SURROUND) {
         SNDi_SetSurroundDecay(0);
     }
-    enabled = OS_DisableInterrupts();
+    enabled = Os_DisableIrq();
     zero = 0;
-    MIi_CpuClear16(zero, &sCallbackInfo.mBuffer, 0xc0);
+    Mem_CpuFill16(zero, &sCallbackInfo.mBuffer, 0xc0);
     sCallbackInfo.mType = type;
     switch (type) {
         case SOUND_OUTPUT_EFFECT_SURROUND:
@@ -51,7 +51,7 @@ void NNS_SndCaptureChangeOutputEffect(s32 type) {
             sCallbackInfo.mEffectFunc = NothingProc;
             break;
     }
-    OS_RestoreInterrupts(enabled);
+    Os_RestoreIrq(enabled);
     if (type == SOUND_OUTPUT_EFFECT_SURROUND) {
         SNDi_SetSurroundDecay(0x3000);
     }
@@ -69,8 +69,8 @@ void EffectCallback(void *bufferL, void *bufferR, u32 len, u32 format, void *arg
     if (info->mCbPostFunc != 0) {
         info->mCbPostFunc(bufferL, bufferR, len, format, info->mCbPostArg);
     }
-    DC_FlushRange(bufferL, len);
-    DC_FlushRange(bufferR, len);
+    Arm_FlushRange(bufferL, len);
+    Arm_FlushRange(bufferR, len);
 }
 
 // Does nothing.

@@ -10,5 +10,5 @@ typedef struct FormatPutWideTarget {
 } FormatPutWideTarget;
 
 int vswprintf(u16 *buf, u32 maxCount, const u16 *fmt, char *va);
-int swprintf(u16 *buf, u32 maxCount, const u16 *fmt, ...);
+int ParticularSnprintf16(u16 *buf, u32 maxCount, const u16 *fmt, ...);
 void *FormatPutWideBuffer(void *context, const u16 *source, u32 count);

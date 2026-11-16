@@ -59,11 +59,11 @@
 
 u16 gMapObjectLastPolygonId;
 u16 gWrappingPolygonIdBase;
-u16 gNextPolygonId;
+u16 g_SomeItemCounter;
 u16 gWrappingPolygonId;
 u16 gMapObjectFirstPolygonId;
 s32 gMapObjectsTimeAttackOrWiFi;
-GrpconfTblRow *gGrpconfTbl;
+GrpconfTblRow *g_GrpconfTbl;
 struct MapObjects *gMapObjects;
 s32 gMapObjectKindCount;
 MapObject **gFoundMapObjects;
@@ -76,8 +76,8 @@ WaterEfct *gCourseWaterEfct;
 static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
     s32 rowIndex;
     for (rowIndex = 0; rowIndex < 1000; rowIndex++) {
-        if (kind == gGrpconfTbl[rowIndex].mKind) {
-            return &gGrpconfTbl[rowIndex];
+        if (kind == g_GrpconfTbl[rowIndex].mKind) {
+            return &g_GrpconfTbl[rowIndex];
         }
     }
     return NULL;
@@ -169,7 +169,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                     if (descriptor->mKindData->mHeightRangeMin == 0) {
                         descriptor->mKindData->mHeightRangeMin = -MAP_OBJECT_HEIGHT_RANGE_DEFAULT;
                     }
-                    if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
+                    if (g_GlobalCO->mRaceKind == RACE_KIND_REPLAY) {
                         if (descriptor->mKindData->mHeightRangeMax < MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX) {
                             descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX;
                         }
@@ -215,7 +215,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 continue;
             }
             kindData = descriptor->mKindData;
-            object = HeapAlloc(GetHeap(GetCurrentHeapCall()), descriptor->mObjectSize);
+            object = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), descriptor->mObjectSize);
             descriptor->mObjectCount++;
             if (courseRow != NULL) {
                 object->mCourseMapRow = courseRow;
@@ -358,21 +358,21 @@ void InitMapObjects(void) {
     MapObjectList *list;
     MapObjectList **listArray;
     MapObjects *mapObjects;
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     SetRaceRandomPointers();
     gMapObjectFirstPolygonId = GetMapObjectFirstPolygonId();
     gMapObjectLastPolygonId = gMapObjectFirstPolygonId + 9;
     gWrappingPolygonIdBase = gMapObjectLastPolygonId + 1;
-    count = gCourseMap->mRowCount;
-    gMapObjects = HeapAlloc(heap, sizeof(*gMapObjects));
-    gMapObjects->mMapObjects = HeapAlloc(heap, MAP_OBJECT_CAPACITY * sizeof(*gMapObjects->mMapObjects));
-    gFoundMapObjects = HeapAlloc(heap, FOUND_MAP_OBJECT_CAPACITY * sizeof(*gFoundMapObjects));
-    gFoundMapObjectVectors = HeapAlloc(heap, FOUND_MAP_OBJECT_CAPACITY * sizeof(*gFoundMapObjectVectors));
+    count = g_GlobalPE->mRowCount;
+    gMapObjects = Mem_AllocateHeap(heap, sizeof(*gMapObjects));
+    gMapObjects->mMapObjects = Mem_AllocateHeap(heap, MAP_OBJECT_CAPACITY * sizeof(*gMapObjects->mMapObjects));
+    gFoundMapObjects = Mem_AllocateHeap(heap, FOUND_MAP_OBJECT_CAPACITY * sizeof(*gFoundMapObjects));
+    gFoundMapObjectVectors = Mem_AllocateHeap(heap, FOUND_MAP_OBJECT_CAPACITY * sizeof(*gFoundMapObjectVectors));
     gMapObjects->mMapObjectCount = 0;
     gMapObjects->mDrawListsBuilt = FALSE;
     gMapObjects->mUpdateListsBuilt = FALSE;
     value = 0;
-    if (gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_WIFI) {
         value = 1;
     }
     gMapObjects->mRunUpdateLists = value;
@@ -383,7 +383,7 @@ void InitMapObjects(void) {
         if (row->mKind == 0) {
             break;
         }
-        if (gOverlayLoader->mCurrentOverlay != OVERLAY_SLOT_OV001 && IsInOverlayRange(descriptor) != 0) {
+        if (g_OverlayManager->mCurrentOverlay != OVERLAY_SLOT_OV001 && IsAddressInOverlayRegion(descriptor) != 0) {
             break;
         }
         if (descriptor != NULL) {
@@ -395,9 +395,9 @@ void InitMapObjects(void) {
         }
         gMapObjectKindCount++;
     } while (gMapObjectKindCount < 0x85);
-    gGrpconfTbl = FindMainRaceOrMainEffectFile("MapObj/grpconf.tbl");
+    g_GrpconfTbl = FindFileBuffer_MAR_EFT_from_thumb("MapObj/grpconf.tbl");
     value = 1;
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK && gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_TIME_ATTACK && g_GlobalCO->mMode != MODE_WIFI) {
         value = 0;
     }
     gMapObjectsTimeAttackOrWiFi = value;
@@ -409,18 +409,18 @@ void InitMapObjects(void) {
     gCourseWaterEfct = NULL;
     ClearOrthoQuadCreamEffectPointer();
     InitGroupPaths();
-    InitMatrices();
+    AllocateSomeDtcmBuffers_from_thumb();
     InitMapObjectViewState();
     gWrappingPolygonId = gWrappingPolygonIdBase;
-    gNextPolygonId = gMapObjectFirstPolygonId;
+    g_SomeItemCounter = gMapObjectFirstPolygonId;
     for (index = 0; index < gMapObjectKindCount; index++) {
         if (gMapObjectKindRows[index].mDescriptor != NULL) {
             gMapObjectKindRows[index].mDescriptor->mObjectCount = 0;
         }
     }
     for (index = 0; index < count; index++) {
-        courseRow = OFFSET_PTR(CourseMapRow, gCourseMap->mRows, index * sizeof(CourseMapRow));
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK && (courseRow->mTimeAttackFlags & 1) == 0) {
+        courseRow = OFFSET_PTR(CourseMapRow, g_GlobalPE->mRows, index * sizeof(CourseMapRow));
+        if (g_GlobalCO->mMode == MODE_TIME_ATTACK && (courseRow->mTimeAttackFlags & 1) == 0) {
             continue;
         }
         CreateMapObject(courseRow->mKind, courseRow, NULL);

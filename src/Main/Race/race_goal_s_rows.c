@@ -38,53 +38,53 @@ void RefreshRaceGoalSRows(void) {
     falseValueSecond = FALSE;
     zeroSecond = 0;
     {
-        for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
-            if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
+        for (index = 0; index < (u32) g_GlobalCO->mKartCount; index++) {
+            if (g_GlobalCO->mRuleKind == RULE_KIND_WIN_COUNT || g_GlobalCO->mMode == MODE_BATTLE) {
                 isHumanGhostOrPeer = falseValueFirst;
-                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
-                    ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                if (g_GlobalCO->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
+                    ((1 << g_GlobalCO->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     isHumanGhostOrPeer = 1;
                 }
                 humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zeroFirst;
-                lowByte = GetLowByte(index);
-                courseIndexInCup = GetCourseIndexInCup();
-                score = gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)].mWinCount;
-                sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(index);
+                lowByte = Int32ToInt8(index);
+                courseIndexInCup = GetSomeLUMaxIndex();
+                score = g_GlobalLU->mKartResults[courseIndexInCup][Int32ToInt8(lowByte)].mWinCount;
+                sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetSomeRacerFlags(index);
             } else {
                 isHumanGhostOrPeer = falseValueSecond;
-                if (gRaceSetup->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
-                    ((1 << gRaceSetup->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                if (g_GlobalCO->mCurrentEntries[index].mPlayer.mKind <= PLAYER_KIND_PEER &&
+                    ((1 << g_GlobalCO->mCurrentEntries[index].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     isHumanGhostOrPeer = 1;
                 }
                 humanGhostPeerFlag = isHumanGhostOrPeer != 0 ? 1 : zeroSecond;
-                lowByte = GetLowByte(index);
-                courseIndexInCup = GetCourseIndexInCup();
-                record = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
+                lowByte = Int32ToInt8(index);
+                courseIndexInCup = GetSomeLUMaxIndex();
+                record = &g_GlobalLU->mKartResults[courseIndexInCup][Int32ToInt8(lowByte)];
                 score = record->mTotalPoints;
-                sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetKartRank(index);
-                lowByte = GetLowByte(index);
-                courseIndexInCup = GetCourseIndexInCup();
-                record = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
+                sortKeys[index] = score * 16 + humanGhostPeerFlag * 8 + 8 - GetSomeRacerFlags(index);
+                lowByte = Int32ToInt8(index);
+                courseIndexInCup = GetSomeLUMaxIndex();
+                record = &g_GlobalLU->mKartResults[courseIndexInCup][Int32ToInt8(lowByte)];
                 gRaceGoalS->mShownNumbers[index] = record->mTotalPoints;
             }
         }
     }
-    for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
+    for (index = 0; index < (u32) g_GlobalCO->mKartCount; index++) {
         gRaceGoalS->mRowKartIndex[index] = index;
         sortKeys[index] = sortKeys[index] * minusOne;
     }
-    SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, gRaceSetup->mKartCount);
-    for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+    SortIndicesByKey(gRaceGoalS->mRowKartIndex, sortKeys, g_GlobalCO->mKartCount);
+    for (kartIndex = 0; kartIndex < (u32) g_GlobalCO->mKartCount; kartIndex++) {
         {
-            for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
+            for (rowIndex = 0; rowIndex < (u32) g_GlobalCO->mKartCount; rowIndex++) {
                 if (kartIndex == gRaceGoalS->mRowKartIndex[rowIndex]) {
                     newRowIndex = rowIndex;
                     SetKartCupRank(kartIndex, (rowIndex + 1) & 0xff);
-                    gMenuShared->mOrderIndices[kartIndex] = rowIndex;
+                    g_GlobalB488->mOrderIndices[kartIndex] = rowIndex;
                     break;
                 }
             }
-            for (index = 0; index < (u32) gRaceSetup->mKartCount; index++) {
+            for (index = 0; index < (u32) g_GlobalCO->mKartCount; index++) {
                 if (kartIndex == gRaceGoalS->mPreviousRowKartIndex[index]) {
                     previousRowIndex = index;
                     break;
@@ -106,7 +106,7 @@ void SlideOutRaceGoalS(void) {
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < RACE_GOAL_S_SLIDE_FRAMES) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0, RACE_GOAL_S_SLIDE_OFFSET, frame, RACE_GOAL_S_SLIDE_FRAMES);
+        gRaceGoalS->mOffsetX = ComputeValueInterpolation_from_thumb(1, 0, RACE_GOAL_S_SLIDE_OFFSET, frame, RACE_GOAL_S_SLIDE_FRAMES);
     } else {
         gRaceGoalS->mOffsetX = RACE_GOAL_S_SLIDE_OFFSET;
         gRaceGoalS->mUpdate = SlideInRaceGoalSTeams;
@@ -120,7 +120,7 @@ void SlideInRaceGoalSTeams(void) {
 
     frame = gRaceGoalS->mUpdateFrames++;
     if (frame < RACE_GOAL_S_SLIDE_FRAMES) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, frame, 0x14);
+        gRaceGoalS->mOffsetX = ComputeValueInterpolation_from_thumb(1, 0x80, 0, frame, 0x14);
     } else {
         gRaceGoalS->mOffsetX = 0;
         gRaceGoalS->mUpdate = AdvanceRaceGoalSRefreshRows;
@@ -140,15 +140,15 @@ void AdvanceRaceGoalSToRefreshCourseCountReached(void) {
 }
 
 static inline CourseTeamResult *RaceGoalSRowsGetCourseTeamResult(s32 teamIndex) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
+    return &g_GlobalLU->mTeamResults[GetSomeLUMaxIndex()].mTeams[teamIndex];
 }
 
 void RefreshRaceGoalSCourseCountReached(void) {
     s32 bestValue;
     s32 teamOneValue;
 
-    if (gRaceSetup->mRuleKind == RULE_KIND_WIN_COUNT || gRaceSetup->mMode == MODE_BATTLE) {
-        if (gRaceSetup->mUseTeams != 0) {
+    if (g_GlobalCO->mRuleKind == RULE_KIND_WIN_COUNT || g_GlobalCO->mMode == MODE_BATTLE) {
+        if (g_GlobalCO->mUseTeams != 0) {
             bestValue = RaceGoalSRowsGetCourseTeamResult(0)->mWinCount;
             teamOneValue = RaceGoalSRowsGetCourseTeamResult(1)->mWinCount;
             if (bestValue <= teamOneValue) {
@@ -157,9 +157,9 @@ void RefreshRaceGoalSCourseCountReached(void) {
         } else {
             bestValue = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
         }
-        gRaceGoalS->mCourseCountReached = bestValue >= gRaceSetup->mCourseCount;
+        gRaceGoalS->mCourseCountReached = bestValue >= g_GlobalCO->mCourseCount;
     } else {
-        gRaceGoalS->mCourseCountReached = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
+        gRaceGoalS->mCourseCountReached = g_GlobalCO->mCourseNumber >= g_GlobalCO->mCourseCount;
     }
     gRaceGoalS->mUpdate = FinishRaceGoalS;
     gRaceGoalS->mUpdateFrames = 0;

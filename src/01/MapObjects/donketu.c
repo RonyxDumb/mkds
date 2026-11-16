@@ -165,7 +165,7 @@ void StartDonketuRepeatJumps(MissionRunMapObject *mapObject) {
 void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
     s32 scale;
 
-    if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
+    if ((GetRacerMQEntry(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
             if (donketu->mPrm->mDonketu.mHitBoostedVelocityY > 0 ||
                 donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale > 0) {
@@ -176,7 +176,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                         ((s64) velocityWhenBoosted.x * velocityWhenBoosted.x +
                          (s64) velocityWhenBoosted.y * velocityWhenBoosted.y) >=
                     0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
+                    Vector3_MaybeNormalize(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
                 velocityWhenBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenBoosted.x, scale);
@@ -194,12 +194,12 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             {
                 Vec3 effectPosition;
 
-                VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
+                VecFx32_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
                 if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
                     0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
+                    Vector3_MaybeNormalize(&effectPosition, &effectPosition);
                 }
-                VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
+                VecFx32_AddScale1(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
                 if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
                     donketu->mMapObject.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
                     StopSound(&donketu->mMapObject.mSound->mSoundSource, 0x214);
@@ -231,7 +231,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                     ((s64) velocityWhenNotBoosted.x * velocityWhenNotBoosted.x +
                      (s64) velocityWhenNotBoosted.y * velocityWhenNotBoosted.y) >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
+                Vector3_MaybeNormalize(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
             velocityWhenNotBoosted.x = MUL_FIXED12_NO_ROUND(velocityWhenNotBoosted.x, scale);
@@ -256,7 +256,7 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
     Vec3 effectPosition;
     Vec3 velocityWhenNotBoosted;
 
-    if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
+    if ((GetRacerMQEntry(kart->mIndex)->mDriveFlags & KART_DRIVE_BOOST) && kart->mBoostTimer > 0) {
         if (IsStateNumberBelow(donketu, 8)) {
             if (donketu->mPrm->mDonketu.mChaseHitBoostedVelocityY > 0 ||
                 donketu->mPrm->mDonketu.mChaseHitBoostedHorizontalSpeed > 0) {
@@ -273,11 +273,11 @@ void DonketuChaseKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart)
                 SetStoppedCallback(donketu, StartDonketuRepeatJumpsAfterHit);
                 SetSpeedAndClearTarget(donketu, 0);
             }
-            VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
+            VecFx32_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
             if (SQUARE_SUM3(effectPosition.x, effectPosition.y, effectPosition.z) >= 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
+                Vector3_MaybeNormalize(&effectPosition, &effectPosition);
             }
-            VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
+            VecFx32_AddScale1(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
             if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
                 donketu->mMapObject.mDistanceSquaredAndFlags |= gDonketuSkipKindSoundFlag;
                 StopSound(&donketu->mMapObject.mSound->mSoundSource, 0x214);
@@ -411,7 +411,7 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     velocity.y = 0;
     velocity.z = donketu->mMapObject.mPos.z;
     if ((s64) velocity.z * velocity.z + SQUARE_SUM2(velocity.x, velocity.y) >= 16) {
-        Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
+        Vector3_MaybeNormalize(&velocity, &velocity);
     }
     scale = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;
     velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
@@ -494,7 +494,7 @@ void StartDonketuJumpWaitState(MissionRunMapObject *donketu) {
 }
 
 s32 UpdateDonketuChaseStop(MissionRunMapObject *donketu) {
-    SetAnglePointAndMoveAnglePoint(donketu, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetAnglePointAndMoveAnglePoint(donketu, &GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex)->mPos);
     if (donketu->mSpeed < donketu->mPrm->mDonketu.mChaseStopCollisionSpeed) {
         SetKartCollisionCallback(donketu, DonketuKartCollisionCallback);
         SetDonketuStepSoundCallbacks(donketu);
@@ -505,7 +505,7 @@ s32 UpdateDonketuChaseStop(MissionRunMapObject *donketu) {
 void StartDonketuChaseStopState(MissionRunMapObject *donketu) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(donketu, 2, UpdateDonketuChaseStop);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseStopAnimationEntry,
                                 donketu->mPrm->mDonketu.mChaseStopFrameStep);
@@ -559,7 +559,7 @@ void StartDonketuChaseRunAtStart(MissionRunMapObject *donketu) {
 void StartDonketuChaseKartState(MissionRunMapObject *donketu) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
     StartMapObjectState(donketu, 3, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mChaseKartAnimationEntry,
                                 donketu->mPrm->mDonketu.mChaseKartFrameStep);
@@ -663,7 +663,7 @@ int UpdateDonketuWaitForRaceStart(MissionRunMapObject *donketu) {
             StartMapObjectSound(&donketu->mMapObject, 0x240);
         }
     }
-    if (IsRaceStarted() == 1) {
+    if (IsAwardOrStaffRoll() == 1) {
         StartDonketuChaseRunAtStart(donketu);
     }
     return 0;
@@ -751,7 +751,7 @@ void InitDonketuObjects(MapObjectList *list) {
             DecrementEntryIndexSkipZero(donketu);
             donketu->mMapObject.mCourseMapRow->mPosition.x = 0;
             donketu->mMapObject.mCourseMapRow->mPosition.z = 0;
-            if (GetRaceUseChainCameras() != 0) {
+            if (IsNotStaffRoll() != 0) {
                 StartDonketuChainStartupFirst(donketu);
             } else {
                 StartDonketuStartupFirst(donketu);
@@ -766,9 +766,9 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
     DonketuPrm *prm;
     Kart *kart;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
         if (IsStateNumberBelow(donketu, 1) != 0) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) g_GlobalCO->mEntryIndex) : 0) {
                 StartDonketuKartEliminatedState(donketu);
             } else {
                 StartDonketuKartNotEliminatedState(donketu);
@@ -788,7 +788,7 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
                     prm = &donketu->mPrm->mDonketu;
                     kart = GetEntryKartFacingObject(donketu, prm->mJumpKartFacingRadius, prm->mJumpKartFacingHalfAngle);
                     if (kart != NULL) {
-                        if ((GetKart(kart->mIndex)->mDriveFlags & KART_DRIVE_KINOKO_BOOST) != 0 &&
+                        if ((GetRacerMQEntry(kart->mIndex)->mDriveFlags & KART_DRIVE_KINOKO_BOOST) != 0 &&
                             kart->mBoostTimer > 0) {
                             StartDonketuJumpWaitState(donketu);
                         }
@@ -816,8 +816,8 @@ void UpdateDonketu(u32 mapObjectList, MissionRunMapObject *donketu) {
 }
 
 void InitDonketuSoundSource(MissionRunMapObject *donketu) {
-    donketu->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
-    InitSoundSource(&donketu->mMapObject.mSound->mSoundSource, 0xc, &donketu->mMapObject.mPos);
+    donketu->mMapObject.mSound = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(SoundSource));
+    StructMQRacerEntry_SomeFn_45(&donketu->mMapObject.mSound->mSoundSource, 0xc, &donketu->mMapObject.mPos);
     donketu->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;
 }
 
@@ -828,7 +828,7 @@ void InitBossDonketu(MapObjectList *list) {
     if (list != NULL) {
         for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
             InitMissionRunMapObject(list, donketu, "boss_donketu.nsbmd", "boss_donketu.nsbca", "boss_donketu.prm");
@@ -849,7 +849,7 @@ void InitKingIceDonketu(MapObjectList *list) {
     if (list != NULL) {
         for (objectIndex = 0; objectIndex < list->mMapObjectCount && (donketu = list->mMapObjects[objectIndex]) != NULL;
              objectIndex++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
             InitMissionRunMapObject(list, donketu, "king_ice_donketu.nsbmd", "king_ice_donketu.nsbca",

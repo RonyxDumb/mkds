@@ -4,7 +4,7 @@
 
 // The header of a course map file: its format version, the base offset and the offsets of its sections.
 typedef struct CourseMapHeader {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 mLink[4];
     /* 04 */ u16 mVersion;
     /* 06 */ u16 mBaseOffset;
     /* 08 */ s32 mSectionOffsets[1];
@@ -12,7 +12,7 @@ typedef struct CourseMapHeader {
 
 typedef s32 (*CourseMapSectionLoader)(void *section, ...);
 
-extern const CourseMapSectionLoader gCourseMapSectionLoaders[17];
+extern const CourseMapSectionLoader g_NkmSectionFnTable[17];
 
 #include "Main/Race/race_hud_sub_screen_frames.h"
 #include "Main/Kart/point_link_cursor.h"
@@ -24,7 +24,7 @@ extern const CourseMapSectionLoader gCourseMapSectionLoaders[17];
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
 
-void CreateCourseMap(void *heap);
+void LoadCourseMapNkm_from_thumb(void *heap);
 
 typedef struct RandomState64 RandomState64;
 
@@ -34,43 +34,43 @@ typedef struct ItemPointLink ItemPointLink;
 
 // Takes the camera section: stores mCameraCount and mCameras (NULL when empty) and remembers the first entry of chain
 // 1, chain 2, kind 6, kind 7 (battle) and kind 8 (mission run) in the CourseMap members of those names. Returns 1.
-s32 LoadCourseMapCamerasData(void *section, ...);
+s32 NkmHandler_CAME_from_thumb(void *section, ...);
 // Takes the shape section: stores mShapeCount and mShapes (NULL when empty), then builds the kind 3 lists and counts
 // the kind 4 shapes and, in mission run, the kind 2 shapes. Returns 1.
-s32 LoadCourseMapShapesData(void *section, ...);
-void CountCourseMapMissionEndShapes(void);
-void CountCourseMapPointLinkShapes(void);
-void BuildCourseMapZoneShapeLists(void);
-CourseMapShape *GetCourseMapShape(u32 shapeIndex);
+s32 NkmHandler_AREA_from_thumb(void *section, ...);
+void CountAreaType2_from_thumb(void);
+void CountAreaType4_from_thumb(void);
+void InitializeAreaType3s_from_thumb(void);
+CourseMapShape *GetGlobalPENkmAREAByIndex_from_thumb(u32 shapeIndex);
 // Takes the route section of table entry 14: with several start placements it stores mBattleRouteCount and
 // mBattleRoutes, otherwise mRaceRouteCount and mRaceRoutes; when the section is not empty the other pair is cleared.
 // Returns 1.
-s32 LoadCourseMapBattleOrRaceRoutesData(void *section, ...);
+s32 NkmHandler_EPAT_from_thumb(void *section, ...);
 // Takes the point section of table entry 13: with several start placements it stores mBattlePointCount and
 // mBattlePoints, otherwise mRacePointCount and mRacePoints; when the section is not empty the other pair is cleared.
 // Returns 1.
-s32 LoadCourseMapBattleOrRacePointsData(void *section, ...);
+s32 NkmHandler_EPOI_from_thumb(void *section, ...);
 // Takes the item route section: stores mItemRouteCount and mItemRoutes (NULL when empty). Returns 1.
-s32 LoadCourseMapItemRoutesData(void *section, ...);
+s32 NkmHandler_IPAT_from_thumb(void *section, ...);
 // Takes the item point section: stores mItemPointCount and mItemPoints (NULL when empty). Returns 1.
-s32 LoadCourseMapItemPointsData(void *section, ...);
-s32 LoadCourseMapCheckpointRoutesData(void *section, ...);
-s32 LoadCourseMapCheckpointsData(void *section, ...);
-s32 LoadCourseMapRaceEndPlacementsData(void *section, ...);
+s32 NkmHandler_IPOI_from_thumb(void *section, ...);
+s32 NkmHandler_CPAT_from_thumb(void *section, ...);
+s32 NkmHandler_CPOI_from_thumb(void *section, ...);
+s32 NkmHandler_KTPM_from_thumb(void *section, ...);
 // Takes the keyed placement section when the format version is 0x1f or more (else clears mKeyedPlacementCount and
 // mKeyedPlacements), then builds the index by key. Returns 1 when the version has the section, else 0 and the same
 // section offset goes to the next loader.
-s32 LoadCourseMapKeyedPlacementsData(void *section, ...);
+s32 NkmHandler_KTPC_from_thumb(void *section, ...);
 // Allocates mKeyedPlacementIndexByKey (one halfword per record) and stores in it the index of each record at its key;
 // NULL when there are no records.
-void BuildCourseMapKeyedPlacementIndexByKey(void);
-s32 LoadCourseMapSubScreenViewData(void *section, ...);
+void InitializePECannonTable_from_thumb(void);
+s32 NkmHandler_KTP2_from_thumb(void *section, ...);
 void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64);
-s32 LoadCourseMapRespawnsData(void *section, ...);
-s32 LoadCourseMapStartPlacementsData(void *section, ...);
+s32 NkmHandler_KTPJ_from_thumb(void *section, ...);
+s32 NkmHandler_KTPS_from_thumb(void *section, ...);
 typedef struct CourseMapSettingsSection CourseMapSettingsSection;
-u32 LoadCourseMapSettingsData(CourseMapSettingsSection *section);
-// Called once by CreateCourseMap after the sections are loaded: builds mItemPointLinks when mItemRouteCount is not 0,
+u32 NkmHandler_STAG_from_thumb(CourseMapSettingsSection *section);
+// Called once by LoadCourseMapNkm_from_thumb after the sections are loaded: builds mItemPointLinks when mItemRouteCount is not 0,
 // and mRacePointLinks when mRaceRouteCount is not 0, else mBattlePointLinks when mBattleRouteCount is not 0.
 void BuildCourseMapPointLinks(void *heap);
 // Allocates mBattlePointLinks (one per battle point) and clears it, stores the first link and the end pointer in the
@@ -94,11 +94,11 @@ void BuildCourseMapItemPointLinks(void *heap);
 // (skipped when already joined), then goes on with the next point of the route and, at the route end, with the first
 // point of each following route other than route 0 and 255.
 void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *route, u16 pointIndex);
-CourseMapEntryGroupTableRow *GetCourseMapEntryGroupTableRow(unsigned int groupIndex);
-void BuildCourseMapEntryGroupTable(void *heap);
-void SetCourseMapCheckpointTotals(void);
-s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex);
-s32 LoadCourseMapGroupEntriesData(void *section, ...);
-s32 LoadCourseMapEntryGroupsData(void *section, ...);
-s32 LoadCourseMapRowsData(void *section, ...);
-u16 ReadCourseMapSectionCount(void **cursor);
+CourseMapEntryGroupTableRow *GetLoadedNkmPathEntry_from_thumb(unsigned int groupIndex);
+void PopulatePathEntries_from_thumb(void *heap);
+void ComputeTotalCpatDistance_from_thumb(void);
+s32 ComputeTotalDistanceRecursively_from_thumb(u16 routeIndex);
+s32 NkmHandler_POIT_from_thumb(void *section, ...);
+s32 NkmHandler_PATH_from_thumb(void *section, ...);
+s32 NkmHandler_OBJI_from_thumb(void *section, ...);
+u16 NkmSection_AdvanceHeaderGetEntryCount_from_thumb(void **cursor);

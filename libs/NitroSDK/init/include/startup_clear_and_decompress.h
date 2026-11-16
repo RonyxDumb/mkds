@@ -6,12 +6,12 @@
 #include "interrupt_control.h"
 #include "startup_entry.h"
 
-void _fp_init(void);
-void __call_static_initializers(void);
-void main(void);
+void Crt0_Reset32sAndAlphaFlags(void);
+void Crt0_RunInitArray(void);
+void NtrMain(void);
 
-void _start(void);
+void start(void);
 
-void INITi_CpuClear32(u32 value, u32 *dest, u32 byteCount);
-void MIi_UncompressBackward(void *compressedEnd);
-void do_autoload(void);
+void Crt0_MemorySet32(u32 value, u32 *dest, u32 byteCount);
+void Crt0_DecompressFlushCode(void *compressedEnd);
+void Crt0_RegionCopy(void);

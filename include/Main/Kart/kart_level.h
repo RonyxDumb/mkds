@@ -67,7 +67,7 @@ typedef struct KartTurnEffects {
     /* 58 */ s32 mLevel3FirstEffectId;
     // Effect id of mLevel3SecondEffects (0x17 for every Kart).
     /* 5c */ s32 mLevel3SecondEffectId;
-    // Index of the Kart this record belongs to (the record number); written at init, never read.
+    // Index of the Kart this record belongs to (the record number); written at StructDC_SomeFn_from_thumb, never read.
     /* 60 */ u16 mIndex;
     // Calls of AdvanceKartLevel4Effects with KART_MOTION_DRIFTING set in Kart.mMotionFlags since the restart was
     // requested; the group is restarted when it passes 10.
@@ -75,30 +75,30 @@ typedef struct KartTurnEffects {
     // 1 after RequestKartLevel4EffectsRestart (made when Kart.mDriftCharge is 3), 0 after every reset;
     // AdvanceKartLevel4Effects then restarts the group once mLevel4RestartFrames passes 10.
     /* 64 */ s32 mLevel4RestartRequested;
-    // The start function of the level 4 group; set per Kart by InitKartTurnEffects (the variant with the second object
+    // The start function of the level 4 group; set per Kart by AndAnotherAlloc (the variant with the second object
     // or the one with the first only).
     /* 68 */ void (*mStartLevel4Effects)(struct KartTurnEffects *);
     // Stops the level 4 objects emitting (sets the library's emit-stop bit of each); set per Kart by
-    // InitKartTurnEffects (the variant with the second object or the one with the first only).
+    // AndAnotherAlloc (the variant with the second object or the one with the first only).
     /* 6c */ void (*mStopLevel4Emission)(struct KartTurnEffects *);
     // Lets the level 4 objects emit again (clears the library's emit-stop bit of each); set per Kart by
-    // InitKartTurnEffects (the variant with the second object or the one with the first only).
+    // AndAnotherAlloc (the variant with the second object or the one with the first only).
     /* 70 */ void (*mStartLevel4Emission)(struct KartTurnEffects *);
-    // Releases the level 4 objects at once and clears the pointers; set per Kart by InitKartTurnEffects (the variant
+    // Releases the level 4 objects at once and clears the pointers; set per Kart by AndAnotherAlloc (the variant
     // with the second object or the one with the first only).
     /* 74 */ void (*mReleaseLevel4Effects)(struct KartTurnEffects *);
     // Begins ending the level 4 group when the turn ends: the variant with the second object only stops emission, the
-    // other releases the group at once; set per Kart by InitKartTurnEffects (the variant with the second object or the
+    // other releases the group at once; set per Kart by AndAnotherAlloc (the variant with the second object or the
     // one with the first only).
     /* 78 */ void (*mStopLevel4Effects)(struct KartTurnEffects *);
     // Hides every present effect object of the Kart set (sets the library's skip-drawing bit); set per Kart by
-    // InitKartTurnEffects (the variant with the second object or the one with the first only).
+    // AndAnotherAlloc (the variant with the second object or the one with the first only).
     /* 7c */ void (*mHideEffects)(struct KartTurnEffects *);
     // Shows every present effect object of the Kart set again (clears the library's skip-drawing bit); set per Kart by
-    // InitKartTurnEffects (the variant with the second object or the one with the first only).
+    // AndAnotherAlloc (the variant with the second object or the one with the first only).
     /* 80 */ void (*mShowEffects)(struct KartTurnEffects *);
     // Places the level 4 objects: sets their direction and position from the two side arrays of KartEffects; set per
-    // Kart by InitKartTurnEffects (the variant with the second object or the one with the first only).
+    // Kart by AndAnotherAlloc (the variant with the second object or the one with the first only).
     /* 84 */ void (*mPlaceLevel4Effects)(struct KartTurnEffects *, Vec3s16 *, Vec3 *);
 } KartTurnEffects;
 
@@ -166,10 +166,10 @@ void StartKartTurnStartEffects(KartTurnEffects *turnEffects);
 // Allocates one KartTurnEffects per counted Kart in the heap a, installs the function set with the second level 4
 // object for the selected entry, in time trial and when RaceSetup.mRaceKind is 5 and the set with the first object
 // only for the others, and clears every pointer and counter.
-void InitKartTurnEffects(void *heap);
+void AndAnotherAlloc(void *heap);
 
 extern const Vec3 gKartTurnEffectsStartPosition;
-// Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
+// Table of KartTurnEffects, one per Kart, allocated by AndAnotherAlloc and indexed by Kart.mIndex.
 extern struct KartTurnEffects *gKartTurnEffects;
 
 // Particle effect ids of the turn effects: the entry kart (and the award and time attack karts) get the variant with a

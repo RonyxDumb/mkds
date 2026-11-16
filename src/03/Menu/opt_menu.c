@@ -74,20 +74,20 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     s32 index;
     ybBgOptionNclName = gYbBgOptionNclName;
     ybBgOption1NclName = gYbBgOption1NclName;
-    LoadFileToVram("char/jbBgOption.ncg.l", GX_LoadBG2Char);
-    LoadFileToVram("char/jb5OptMenu.nsc.l", GX_LoadBG2Scr);
+    LoadFileToVram("char/jbBgOption.ncg.l", CopyBgData_Bg2_Top);
+    LoadFileToVram("char/jb5OptMenu.nsc.l", TEQSub_Fn10Impl_Fn12Impl);
     gYbBgOption1Ncl = LoadFile(BuildFilePathWithLanguage(ybBgOption1NclName.mText), NULL, 4);
     palette = LoadFile(BuildFilePathWithLanguage(ybBgOptionNclName.mText), NULL, 4);
-    DWCi_BM_GetWiFiInfo(&wifiInfo);
+    StructDW_MaybeCreate_from_thumb(&wifiInfo);
     if (wifiInfo.mAttestedUserId == 0) {
         copyFrom = palette + 0xc0;
         copyTo = palette + 0x40;
         for (index = 0; index < 2; index++, copyFrom += 0x20, copyTo += 0x20) {
-            MI_CpuCopy8(copyFrom, copyTo, 0x20);
+            Mem_CpuCopy8(copyFrom, copyTo, 0x20);
         }
     }
-    DC_FlushRange(palette, 0x200);
-    GX_LoadBGPltt(palette, 0, 0x200);
+    Arm_FlushRange(palette, 0x200);
+    CopyPaletteTop(palette, 0, 0x200);
     DeleteLoadedFile(palette);
     reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK) | 3;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & ~REG_G2S_DB_BG1CNT_PRIORITY_MASK) | 3;
@@ -158,7 +158,7 @@ void UpdateOptMenuResult(void) {
             StartSoundSeq(7);
             break;
         case 1:
-            DWCi_BM_GetWiFiInfo(&wifiInfo);
+            StructDW_MaybeCreate_from_thumb(&wifiInfo);
             if (gOptMenuSelectedIndex != 0 && wifiInfo.mAttestedUserId == 0) {
                 StartSoundSeq(9);
                 SetButtonResult(-1);

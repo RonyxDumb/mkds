@@ -50,10 +50,10 @@ MapObjectKindDescriptor gBakubakuKindDescriptor = {
     0, {0, 0}, 0xb8, 0, CreateEmptyMapObjectKindData, CreateBakubakuDrawList, 0, 0, CreateBakubakuUpdateList};
 
 void CreateBakubakuAndBakuShadow(void *mapObjectList) {
-    gBakubaku = CreateMapObjectModelAnimated(mapObjectList, "bakubaku.nsbmd");
+    gBakubaku = CreateMapObjectFromModel_from_thumb(mapObjectList, "bakubaku.nsbmd");
     gBakuShadow = CreateMapObjectModelShadow(mapObjectList, "baku_shadow.nsbmd");
-    SetMapObjectModelPolygonId(gBakubaku, 0x3f);
-    SetMapObjectModelPolygonId(gBakuShadow, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gBakubaku, 0x3f);
+    StructMapObject_MaybeSetPolygonId(gBakuShadow, 0x3f);
 }
 
 void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
@@ -72,8 +72,8 @@ void DrawBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
     NNS_G3dGeBufferOP_N(0x19, &bakubaku->mMapObject.mMatrix, 12);
     NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mMapObject.mScale, 3);
     DrawMapObjectModel(mapObjectList, gBakuShadow, bakubaku);
-    angle = (u16) (u32) FX_Atan2Idx(-bakubaku->mMapObject.mPosStep.y, 0xc000);
-    MTX_RotX33_(&rotation, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
+    angle = (u16) (u32) FX_Atan2(-bakubaku->mMapObject.mPosStep.y, 0xc000);
+    MTX_RotX33__from_thumb(&rotation, SIN_OF_ANGLE(angle), COS_OF_ANGLE(angle));
     NNS_G3dGeBufferOP_N(0x1a, &rotation, 9);
     DrawMapObjectModel(mapObjectList, gBakubaku, bakubaku);
 }
@@ -88,7 +88,7 @@ void InitBakubakuObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (bakubaku = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        VEC_MultAdd(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mPosition,
+        VecFx32_AddScale1(0x320000, &bakubaku->mMapObject.mMatrix.mRows[2], &bakubaku->mMapObject.mCourseMapRow->mPosition,
                     &bakubaku->mDistanceCheckPos);
     }
 }
@@ -105,7 +105,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
     switch (bakubaku->mState) {
         case BAKUBAKU_STATE_WAIT_FOR_KART:
             if (GetCurrentCameraKind() != 2) {
-                kart = GetKart((u16) gRaceSetup->mEntryIndex);
+                kart = GetRacerMQEntry((u16) g_GlobalCO->mEntryIndex);
                 kartPos = &kart->mPos;
                 deltaX = kartPos->x - bakubaku->mDistanceCheckPos.x;
                 deltaZ = kartPos->z - bakubaku->mDistanceCheckPos.z;
@@ -124,11 +124,11 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             break;
         case BAKUBAKU_STATE_RISE_TO_SURFACE:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
-            VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
+            VecFx32_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y < bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
-            StartModelEffect(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
+            MaybeRecreateExplosionInstance(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
             firstSoundParams.mSoundId = BAKUBAKU_RISE_TO_SURFACE_SOUND_ID;
             firstSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
             firstSoundParams.mFalloffIndex = SOUND_FALLOFF_LONG_RANGE;
@@ -138,11 +138,11 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             break;
         case BAKUBAKU_STATE_ARC_OVER_SURFACE:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
-            VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
+            VecFx32_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y > bakubaku->mMapObject.mCourseMapRow->mPosition.y) {
                 return;
             }
-            StartModelEffect(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
+            MaybeRecreateExplosionInstance(MODEL_EFFECT_BK_WAVE, &bakubaku->mMapObject.mPos, 1);
             secondSoundParams.mSoundId = BAKUBAKU_ARC_OVER_SURFACE_SOUND_ID;
             secondSoundParams.mPositionSource = &bakubaku->mMapObject.mPos;
             secondSoundParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
@@ -152,7 +152,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
             break;
         case BAKUBAKU_STATE_SINK_BELOW_SURFACE:
             bakubaku->mMapObject.mPosStep.y -= 0x400;
-            VEC_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
+            VecFx32_Add(&bakubaku->mMapObject.mPos, &bakubaku->mMapObject.mPosStep, &bakubaku->mMapObject.mPos);
             if (bakubaku->mMapObject.mPos.y <= bakubaku->mMapObject.mCourseMapRow->mPosition.y - 0x32000) {
                 bakubaku->mWaitToResetTimer = BAKUBAKU_WAIT_TO_RESET_FRAMES;
                 bakubaku->mState = BAKUBAKU_STATE_WAIT_TO_RESET;

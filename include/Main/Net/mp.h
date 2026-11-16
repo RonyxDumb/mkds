@@ -2,13 +2,13 @@
 
 #include "types.h"
 
-void UpdateMPWaitRequestDone(void *stateObject);
-void EnterMPWaitRequestDone(void *stateObject);
-void UpdateMPLoadCourseSound(void *stateObject);
-void EnterMPLoadCourseSound(void *stateObject);
+void StructZE_E7Fn_20_2_from_thumb(void *stateObject);
+void StructZE_E7Fn_20_1_from_thumb(void *stateObject);
+void StructZE_E7Fn_17_2_from_thumb(void *stateObject);
+void StructZE_E7Fn_17_1_from_thumb(void *stateObject);
 void LoadCourseSoundSetCallback(void);
-void UpdateMPWaitRaceArchives(void *stateObject);
-void EnterMPWaitRaceArchives(void *stateObject);
+void StructZE_E7Fn_16_2_from_thumb(void *stateObject);
+void StructZE_E7Fn_16_1_from_thumb(void *stateObject);
 u32 AdvanceRaceArchives(void);
 void RequestMPWaitMenuArchives(void);
 void RequestMPWaitResultArchives(void);
@@ -25,4 +25,4 @@ s32 AdvanceChildArchiveSync(s32 archiveKind, void *courseId, void *mode);
 s32 AdvanceParentSync(void);
 s32 IsAllMPChildSharedDataCopied(void);
 void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s32 keepMask);
-void InitMPChunkBuffers(void *heap);
+void AllocateSomeZEStuff_from_thumb(void *heap);

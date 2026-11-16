@@ -19,7 +19,7 @@
 #include "color_mask_tables.h"
 #include "sound_wave_channel_volume.h"
 
-void NNS_SndPlayerSetPlayerVolume(u32 index, u32 volume) {
+void MaybeSetPlayerVolume(u32 index, u32 volume) {
     sPlayer[index].mVolume = volume;
 }
 
@@ -37,19 +37,19 @@ BOOL NNS_SndPlayerCreateHeap(int index, NNSSndHeap *heap, u32 size) {
     NNSSndPlayerHeap *block;
     NNSSndHeap *inner;
 
-    block = NNS_SndHeapAlloc(heap, size + 0x14, PlayerHeapDisposeCallback, 0, 0);
+    block = Sound_Context_Allocate(heap, size + 0x14, SoundDtorFn, 0, 0);
     if (block == 0) {
         return 0;
     }
     block->mPlayer = 0;
     block->mPlayerNo = index;
     block->mHandle = 0;
-    inner = NNS_SndHeapCreate(block->mHeapStorage, size);
+    inner = Sound_InitializeContext(block->mHeapStorage, size);
     if (inner == 0) {
         return 0;
     }
     block->mHandle = inner;
-    NNS_FndAppendListObject(&sPlayer[index].mHeapList, block);
+    IntrusiveListWrapper_InsertLast(&sPlayer[index].mHeapList, block);
     return 1;
 }
 
@@ -135,7 +135,7 @@ void NNS_SndPlayerSetChannelPriority(NNSSndSeqPlayer **handle, int priority) {
 }
 
 // Mutes the tracks selected by tracks of handle.
-void NNS_SndPlayerSetTrackMuteEx(NNSSndSeqPlayer **handle, u32 tracks, int mute) {
+void NNS_SndPlayerSetTrackMute(NNSSndSeqPlayer **handle, u32 tracks, int mute) {
     NNSSndSeqPlayer *seq = *handle;
 
     if (seq == 0) {
@@ -251,16 +251,16 @@ void NNSi_SndPlayerInit(void) {
     NNSSndSeqPlayer *seq;
     NNSSndPlayer *playerSlot;
 
-    NNS_FndInitList(&sPrioList, 0x14);
-    NNS_FndInitList(&sFreeList, 0x14);
+    IntrusiveListWrapper_InitializeEmpty(&sPrioList, 0x14);
+    IntrusiveListWrapper_InitializeEmpty(&sFreeList, 0x14);
     for (index = 0, seq = sSeqPlayer; index < 16; index++, seq++) {
         seq->mStatus = SEQ_PLAYER_FREE;
         seq->mPlayerNo = index;
-        NNS_FndAppendListObject(&sFreeList, seq);
+        IntrusiveListWrapper_InsertLast(&sFreeList, seq);
     }
     for (index = 0, playerSlot = sPlayer; index < 32; index++, playerSlot++) {
-        NNS_FndInitList(&playerSlot->mPlayerList, 0xc);
-        NNS_FndInitList(&playerSlot->mHeapList, 0);
+        IntrusiveListWrapper_InitializeEmpty(&playerSlot->mPlayerList, 0xc);
+        IntrusiveListWrapper_InitializeEmpty(&playerSlot->mHeapList, 0);
         playerSlot->mVolume = SOUND_PLAYER_VOLUME_MAX;
         playerSlot->mPlayableSeqCount = 1;
         playerSlot->mAllocChBitFlag = 0;
@@ -279,8 +279,8 @@ void NNSi_SndPlayerMain(void) {
     s32 volume;
 
     status = SND_GetPlayerStatus();
-    for (seq = NNS_FndGetNextListObject(&sPrioList, 0); seq != 0; seq = next) {
-        next = NNS_FndGetNextListObject(&sPrioList, seq);
+    for (seq = IntrusiveListWrapper_NextItem(&sPrioList, 0); seq != 0; seq = next) {
+        next = IntrusiveListWrapper_NextItem(&sPrioList, seq);
         if (seq->mStartFlag == 0 && SND_IsFinishedCommandTag(seq->mCommandTag) != 0) {
             seq->mStartFlag = 1;
         }
@@ -324,7 +324,7 @@ NNSSndSeqPlayer *NNSi_SndPlayerAllocSeqPlayer(NNSSndSeqPlayer **handle, int inde
         NNS_SndHandleReleaseSeq(handle);
     }
     if (playerSlot->mPlayerList.mCount >= playerSlot->mPlayableSeqCount) {
-        seq = NNS_FndGetNextListObject(&playerSlot->mPlayerList, 0);
+        seq = IntrusiveListWrapper_NextItem(&playerSlot->mPlayerList, 0);
         if (seq == 0) {
             return 0;
         }
@@ -385,14 +385,14 @@ NNSSndHeap *NNSi_SndPlayerAllocHeap(int index, NNSSndSeqPlayer *seq) {
     NNSSndPlayer *playerSlot = &sPlayer[index];
     NNSSndPlayerHeap *heap;
 
-    heap = NNS_FndGetNextListObject(&playerSlot->mHeapList, 0);
+    heap = IntrusiveListWrapper_NextItem(&playerSlot->mHeapList, 0);
     if (heap == 0) {
         return 0;
     }
-    NNS_FndRemoveListObject(&playerSlot->mHeapList, heap);
+    IntrusiveListWrapper_RemoveItem(&playerSlot->mHeapList, heap);
     heap->mPlayer = seq;
     seq->mHeap = heap;
-    NNS_SndHeapClear(heap->mHandle);
+    Sound_Context_DisposeLoadedStuff(heap->mHandle);
     return heap->mHandle;
 }
 
@@ -413,13 +413,13 @@ void InitPlayer(NNSSndSeqPlayer *seq) {
 void InsertPlayerList(NNSSndPlayer *player, NNSSndSeqPlayer *seq) {
     NNSSndSeqPlayer *next;
 
-    for (next = NNS_FndGetNextListObject(&player->mPlayerList, 0); next != 0;
-         next = NNS_FndGetNextListObject(&player->mPlayerList, next)) {
+    for (next = IntrusiveListWrapper_NextItem(&player->mPlayerList, 0); next != 0;
+         next = IntrusiveListWrapper_NextItem(&player->mPlayerList, next)) {
         if (seq->mPrio < next->mPrio) {
             break;
         }
     }
-    NNS_FndInsertListObject(&player->mPlayerList, next, seq);
+    IntrusiveListWrapper_SomeFn_0(&player->mPlayerList, next, seq);
     seq->mPlayer = player;
 }
 
@@ -427,12 +427,12 @@ void InsertPlayerList(NNSSndPlayer *player, NNSSndSeqPlayer *seq) {
 void InsertPrioList(NNSSndSeqPlayer *seq) {
     NNSSndSeqPlayer *next;
 
-    for (next = NNS_FndGetNextListObject(&sPrioList, 0); next != 0; next = NNS_FndGetNextListObject(&sPrioList, next)) {
+    for (next = IntrusiveListWrapper_NextItem(&sPrioList, 0); next != 0; next = IntrusiveListWrapper_NextItem(&sPrioList, next)) {
         if (seq->mPrio < next->mPrio) {
             break;
         }
     }
-    NNS_FndInsertListObject(&sPrioList, next, seq);
+    IntrusiveListWrapper_SomeFn_0(&sPrioList, next, seq);
 }
 
 // Stops the sequence of seq at once and shuts the player down.
@@ -447,16 +447,16 @@ void ForceStopSeq(NNSSndSeqPlayer *seq) {
 // Takes the first free sequence player, or stops the lowest priority busy one when priority is not lower than its
 // priority, and puts it into the busy list with priority priority. Returns 0 when none could be taken.
 NNSSndSeqPlayer *AllocSeqPlayer(int priority) {
-    NNSSndSeqPlayer *seq = NNS_FndGetNextListObject(&sFreeList, 0);
+    NNSSndSeqPlayer *seq = IntrusiveListWrapper_NextItem(&sFreeList, 0);
 
     if (seq == 0) {
-        seq = NNS_FndGetNextListObject(&sPrioList, 0);
+        seq = IntrusiveListWrapper_NextItem(&sPrioList, 0);
         if (priority < seq->mPrio) {
             return 0;
         }
         ForceStopSeq(seq);
     }
-    NNS_FndRemoveListObject(&sFreeList, seq);
+    IntrusiveListWrapper_RemoveItem(&sFreeList, seq);
     seq->mPrio = priority;
     InsertPrioList(seq);
     return seq;
@@ -471,31 +471,31 @@ void ShutdownPlayer(NNSSndSeqPlayer *seq) {
         seq->mHandle = 0;
     }
     playerSlot = seq->mPlayer;
-    NNS_FndRemoveListObject(&playerSlot->mPlayerList, seq);
+    IntrusiveListWrapper_RemoveItem(&playerSlot->mPlayerList, seq);
     seq->mPlayer = 0;
     if (seq->mHeap != 0) {
-        NNS_FndAppendListObject(&playerSlot->mHeapList, seq->mHeap);
+        IntrusiveListWrapper_InsertLast(&playerSlot->mHeapList, seq->mHeap);
         seq->mHeap->mPlayer = 0;
         seq->mHeap = 0;
     }
-    NNS_FndRemoveListObject(&sPrioList, seq);
-    NNS_FndAppendListObject(&sFreeList, seq);
+    IntrusiveListWrapper_RemoveItem(&sPrioList, seq);
+    IntrusiveListWrapper_InsertLast(&sFreeList, seq);
     seq->mStatus = SEQ_PLAYER_FREE;
 }
 
 // Frees the heap of a player heap, and unlinks the player heap from the sequence player or from the heap list.
-void PlayerHeapDisposeCallback(void *mem, u32 size, void *data1, u32 data2) {
+void SoundDtorFn(void *mem, u32 size, void *data1, u32 data2) {
     NNSSndPlayerHeap *heap = mem;
 
     if (heap->mHandle == 0) {
         return;
     }
-    NNS_SndHeapDestroy(heap->mHandle);
+    Sound_Context_Dispose(heap->mHandle);
     if (heap->mPlayer != 0) {
         heap->mPlayer->mHeap = 0;
         return;
     }
-    NNS_FndRemoveListObject(&sPlayer[heap->mPlayerNo].mHeapList, heap);
+    IntrusiveListWrapper_RemoveItem(&sPlayer[heap->mPlayerNo].mHeapList, heap);
 }
 
 // Moves seq to the place of priority in its player list and in the busy list.
@@ -503,10 +503,10 @@ void SetPlayerPriority(NNSSndSeqPlayer *seq, int priority) {
     NNSSndPlayer *playerSlot = seq->mPlayer;
 
     if (playerSlot != 0) {
-        NNS_FndRemoveListObject(&playerSlot->mPlayerList, seq);
+        IntrusiveListWrapper_RemoveItem(&playerSlot->mPlayerList, seq);
         seq->mPlayer = 0;
     }
-    NNS_FndRemoveListObject(&sPrioList, seq);
+    IntrusiveListWrapper_RemoveItem(&sPrioList, seq);
     seq->mPrio = priority;
     if (playerSlot != 0) {
         InsertPlayerList(playerSlot, seq);

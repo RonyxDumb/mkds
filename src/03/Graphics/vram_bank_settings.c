@@ -17,8 +17,8 @@ void SaveBankSettingsAndClearVram(void) {
     gSavedBankSettings[6] = GX_DisableBankForClearImage();
     gSavedBankSettings[7] = GX_DisableBankForSubBG();
     gSavedBankSettings[8] = GX_DisableBankForSubOBJ();
-    gSavedBankSettings[9] = GX_DisableBankForSubBGExtPltt();
-    gSavedBankSettings[10] = GX_DisableBankForSubOBJExtPltt();
+    gSavedBankSettings[9] = GX_DisableBankForBGExtPltt();
+    gSavedBankSettings[10] = GX_DisableBankForOBJExtPltt();
     gSavedBankSettings[11] = GX_DisableBankForARM7();
     gSavedBankSettings[12] = GX_DisableBankForLCDC();
     GX_SetBankForARM7(gSavedBankSettings[11]);
@@ -53,7 +53,7 @@ void RestoreBankSettingsAndResetDisplay(void) {
     reg_G2S_DB_BG1OFS = 0;
     reg_G2S_DB_BG2OFS = 0;
     reg_G2S_DB_BG3OFS = 0;
-    PM_SetLCDPower(1);
+    PMi_SetLCDPower(1);
 }
 
 void ResetVramOamAndPalettes(void) {
@@ -66,16 +66,16 @@ void ResetVramOamAndPalettes(void) {
 
     GX_SetBankForLCDC(0x1f3);
     lcdcLowFill = 0;
-    MIi_CpuClearFast(lcdcLowFill, (void *) 0x6800000, 0x40000);
+    Mem_CpuFastMemorySet(lcdcLowFill, (void *) 0x6800000, 0x40000);
     lcdcHighFill = 0;
-    MIi_CpuClearFast(lcdcHighFill, (void *) 0x6880000, 0x24000);
+    Mem_CpuFastMemorySet(lcdcHighFill, (void *) 0x6880000, 0x24000);
     GX_DisableBankForLCDC();
     mainOamFill = 0x200;
-    MIi_CpuClearFast(mainOamFill, (void *) 0x7000000, 0x400);
+    Mem_CpuFastMemorySet(mainOamFill, (void *) 0x7000000, 0x400);
     mainPaletteFill = 0;
-    MIi_CpuClearFast(mainPaletteFill, (void *) 0x5000000, 0x400);
+    Mem_CpuFastMemorySet(mainPaletteFill, (void *) 0x5000000, 0x400);
     subOamFill = 0x200;
-    MIi_CpuClearFast(subOamFill, (void *) 0x7000400, 0x400);
+    Mem_CpuFastMemorySet(subOamFill, (void *) 0x7000400, 0x400);
     subPaletteFill = 0;
-    MIi_CpuClearFast(subPaletteFill, (void *) 0x5000400, 0x400);
+    Mem_CpuFastMemorySet(subPaletteFill, (void *) 0x5000400, 0x400);
 }

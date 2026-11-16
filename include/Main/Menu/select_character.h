@@ -11,7 +11,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
 
 
 void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimit, s16 startValue, s32 endValue);
-void LoadSelectCharacterData(void);
+void VerifySelectCharacterFiles_from_thumb(void);
 void WriteSelectCharacterRegisters(void);
 void ReleaseSelectCharacter(void);
 void SetSelectCharacterAngleAndScale(void);

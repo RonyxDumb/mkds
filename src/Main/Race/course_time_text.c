@@ -7,9 +7,9 @@
 
 void WriteCourseTimeText(s16 *text, int index) {
     MinuteSecondMillisecondTime *entry;
-    entry = &gMenuShared->mCourseTimes[index];
+    entry = &g_GlobalB488->mCourseTimes[index];
     WriteMinuteSecondMillisecondText((text), entry->mMinute, entry->mSecond,
-                                     gMenuShared->mCourseTimes[index].mMillisecond);
+                                     g_GlobalB488->mCourseTimes[index].mMillisecond);
 }
 
 #pragma thumb off

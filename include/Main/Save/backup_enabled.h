@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 IsBackupEnabled(void);
+u32 SaveDataIoManager_IsBusy(void);

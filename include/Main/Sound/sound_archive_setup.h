@@ -6,6 +6,6 @@
 
 typedef struct NNSSndHeap NNSSndHeap;
 
-u32 SetupSndArcFromFile(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, u32 symbolLoadFlag);
+u32 Sound_ReadSdatFromPathImplV2(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, u32 symbolLoadFlag);
 void ClearSndFileIdList(SndFileIdList *fileIdList);
 void ClearSndFileAddresses(SndFileIdList *fileIdList);

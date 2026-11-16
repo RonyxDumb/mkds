@@ -30,8 +30,8 @@ struct MtxFx43;
 typedef struct WaterEfct {
     // y of the flat water level (the map object's y); GetHeightAboveWaterOrEfct subtracts it from a y.
     /* 00 */ s32 mHeight;
-    // The file MapObj/water_efct.nsbmd as FindCourseFile returned it in CreateWaterEfct (a pointer to the whole file,
-    // not a built model object); returned by GetWaterEfctNsbmdFile.
+    // The file MapObj/water_efct.nsbmd as FindFileBuffer_CRS_CST_from_thumb returned it in CreateWaterEfct (a pointer to the whole file,
+    // not a built model object); returned by GetExplosionSplashWaveNsbmd_from_thumb.
     /* 04 */ void *mNsbmdFile;
     // The file MapObj/water_efct.nsbca (whole file), see mNsbmdFile.
     /* 08 */ void *mNsbcaFile;
@@ -49,7 +49,7 @@ typedef struct WaterEfct {
 // The course water: two models circling a map object's x/z while the surface height swings between two heights.
 typedef struct Water {
     // X of model A (the model of mModelAFile, letter A from the file name ..._waterA): mCenterX + mModelARadius * the
-    // first value of the FX_SinCosTable_ pair for mCircleAngle; UpdateWater writes it only while model A exists
+    // first value of the g_SinFx16Table_AndCos pair for mCircleAngle; UpdateWater writes it only while model A exists
     // (InitWaterFields first sets it to mCenterX).
     /* 00 */ s32 mModelAX;
     // y of the water surface: the models are drawn at it and the getters subtract it from a y; it stays 0 for the
@@ -76,13 +76,13 @@ typedef struct Water {
     // (a - b) / 2 of the two heights the creator gives; mHeight is mMidHeight plus this times mHeightFactor (both
     // creators with different heights pass the larger first).
     /* 28 */ s32 mHeightAmplitude;
-    // 0x10000 per turn, index (angle >> 4) * 2 into FX_SinCosTable_; advances only while rising or falling; 0x4000 is
+    // 0x10000 per turn, index (angle >> 4) * 2 into g_SinFx16Table_AndCos; advances only while rising or falling; 0x4000 is
     // the top (pair value +1.0), 0xc000 the bottom; GetWaterHeightAngle returns it.
     /* 2c */ u16 mHeightAngle;
     // 0x10000 / the cycle length (in UpdateWater calls) the creator gives; added to mHeightAngle per call while rising
     // or falling.
     /* 2e */ u16 mHeightAnglePerFrame;
-    // 1.12 fixed (0x1000 = 1.0), the first value of the FX_SinCosTable_ pair for mHeightAngle (-1.0 .. +1.0), refreshed
+    // 1.12 fixed (0x1000 = 1.0), the first value of the g_SinFx16Table_AndCos pair for mHeightAngle (-1.0 .. +1.0), refreshed
     // while rising or falling; mHeight = mMidHeight + mHeightAmplitude * this; the HUD gauge reads it.
     /* 30 */ s32 mHeightFactor;
     // How many UpdateWater calls the top hold lasts (mHoldFrames must exceed it; the height and angle stay, the models
@@ -118,15 +118,15 @@ typedef struct Water {
     /* 5a */ u16 mModelCMaterialAlpha;
     /* 5c */ u16 mUnk_5c;
     /* 5e */ u8 mUnk_5e[2];
-    // Pointer FindCourseMapObjFile returned for ..._waterA.nsbmd, NULL for Yoshi; every use of model A tests it.
+    // Pointer FormatFindMapObjFileBuffer_from_thumb returned for ..._waterA.nsbmd, NULL for Yoshi; every use of model A tests it.
     /* 60 */ void *mModelAFile;
-    // Pointer FindCourseMapObjFile returned for ..._waterC.nsbmd; never NULL in the five creators.
+    // Pointer FormatFindMapObjFileBuffer_from_thumb returned for ..._waterC.nsbmd; never NULL in the five creators.
     /* 64 */ void *mModelCFile;
     /* 68 */ Nsbmd mModelA;
     /* d4 */ Nsbmd mModelC;
     /* 140 */ MtxFx43 mDrawMatrix;
     /* 170 */ s32 mIsHeightUsed;
-    // The file MapObj/water_efct.nsbmd as FindCourseFile returned it (a pointer to the whole file, not a built model
+    // The file MapObj/water_efct.nsbmd as FindFileBuffer_CRS_CST_from_thumb returned it (a pointer to the whole file, not a built model
     // object), loaded by InitWater; the getter returns it when mIsHeightUsed is
     // non-zero and no WaterEfct exists.
     /* 174 */ void *mEfctNsbmdFile;
@@ -151,7 +151,7 @@ void CreateYoshiWater(void);
 void CreateHyudoroWater(void);
 void InitWaterModels(Water *water);
 void CreateWaterEfct(MapObject *mapObject);
-extern const u32 gWaterCMaterialName[4];
+extern const u32 g_str_waterC[4];
 void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3);
 void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3);

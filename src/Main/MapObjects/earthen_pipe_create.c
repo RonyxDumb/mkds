@@ -65,20 +65,20 @@ const MapObjectKindData gEarthenPipeKindData = {
 MapObjectKindData *CreateEarthenPipeKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gEarthenPipeKindData;
     return kindData;
 }
 
 MapObjectList *CreateEarthenPipeDrawList(void) {
-    gEarthenPipeDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEarthenPipeDrawList));
+    gEarthenPipeDrawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gEarthenPipeDrawList));
     *gEarthenPipeDrawList = gEarthenPipeDrawListData;
     SetDrawListSlot(&gEarthenPipeDrawList);
     return &gEarthenPipeDrawList->mList;
 }
 
 MapObjectList *CreateEarthenPipeUpdateList(void) {
-    gEarthenPipeUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEarthenPipeUpdateList));
+    gEarthenPipeUpdateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*gEarthenPipeUpdateList));
     *gEarthenPipeUpdateList = gEarthenPipeUpdateListData;
     SetUpdateListSlot(&gEarthenPipeUpdateList);
     return gEarthenPipeUpdateList;

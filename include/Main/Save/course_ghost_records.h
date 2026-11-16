@@ -2,9 +2,9 @@
 
 #include "types.h"
 
-void StartReadCourseGhostRecords(void *records);
-void ReadCourseGhostRecords(void);
+void SetStructYE_RunATFunction(void *records);
+void TaskFunction_StructYE(void);
 
 typedef struct GhostRecordHead GhostRecordHead;
 
-GhostRecordHead *CreateCourseGhostRecords(void *heap);
+GhostRecordHead *AllocateStructYE(void *heap);

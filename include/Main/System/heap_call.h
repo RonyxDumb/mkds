@@ -4,9 +4,9 @@
 
 typedef struct HeapCall HeapCall;
 
-void *GetHeap(HeapCall *call);
-void *GetCurrentHeapCall(void);
-u32 RunHeapCall(HeapCall *call, u32 argument);
+void *ExecutionContext_GetHeapHandle(HeapCall *call);
+void *GetActiveExecutionContext(void);
+u32 ExecutionContext_Execute(HeapCall *call, u32 argument);
 
 // A function run with a heap of its own; mParent is the call that was running before it.
 typedef struct HeapCall {
@@ -17,7 +17,7 @@ typedef struct HeapCall {
     /* 10 */ struct HeapCall *mParent;
 } HeapCall;
 
-void SetHeapCallFunc(HeapCall *call, u32 func);
-void InitHeapCall(HeapCall *call, u32 func);
+void ExecutionContext_SetFunction(HeapCall *call, u32 func);
+void ExecutionContext_Create(HeapCall *call, u32 func);
 
-extern HeapCall *gCurrentHeapCall;
+extern HeapCall *g_ActiveExecutionContext;

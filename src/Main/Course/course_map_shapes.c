@@ -33,34 +33,34 @@
 
 const u8 gKartStartGroupCounts[16] = {1, 0, 2, 0, 3, 0, 4, 0, 3, 2, 3, 3, 4, 3, 4, 4};
 
-const CourseMapSectionLoader gCourseMapSectionLoaders[17] = {
-    LoadCourseMapRowsData,
-    LoadCourseMapEntryGroupsData,
-    LoadCourseMapGroupEntriesData,
-    (CourseMapSectionLoader) LoadCourseMapSettingsData,
-    LoadCourseMapStartPlacementsData,
-    LoadCourseMapRespawnsData,
-    LoadCourseMapSubScreenViewData,
-    LoadCourseMapKeyedPlacementsData,
-    LoadCourseMapRaceEndPlacementsData,
-    LoadCourseMapCheckpointsData,
-    LoadCourseMapCheckpointRoutesData,
-    LoadCourseMapItemPointsData,
-    LoadCourseMapItemRoutesData,
-    LoadCourseMapBattleOrRacePointsData,
-    LoadCourseMapBattleOrRaceRoutesData,
-    LoadCourseMapShapesData,
-    LoadCourseMapCamerasData,
+const CourseMapSectionLoader g_NkmSectionFnTable[17] = {
+    NkmHandler_OBJI_from_thumb,
+    NkmHandler_PATH_from_thumb,
+    NkmHandler_POIT_from_thumb,
+    (CourseMapSectionLoader) NkmHandler_STAG_from_thumb,
+    NkmHandler_KTPS_from_thumb,
+    NkmHandler_KTPJ_from_thumb,
+    NkmHandler_KTP2_from_thumb,
+    NkmHandler_KTPC_from_thumb,
+    NkmHandler_KTPM_from_thumb,
+    NkmHandler_CPOI_from_thumb,
+    NkmHandler_CPAT_from_thumb,
+    NkmHandler_IPOI_from_thumb,
+    NkmHandler_IPAT_from_thumb,
+    NkmHandler_EPOI_from_thumb,
+    NkmHandler_EPAT_from_thumb,
+    NkmHandler_AREA_from_thumb,
+    NkmHandler_CAME_from_thumb,
 };
 
 #pragma thumb on
-CourseMap *AllocCourseMap(void *heap) {
-    return HeapAlloc(heap, sizeof(CourseMap));
+CourseMap *AllocateStructPE_from_thumb(void *heap) {
+    return Mem_AllocateHeap(heap, sizeof(CourseMap));
 }
 #pragma thumb off
 
 #pragma thumb on
-u16 ReadCourseMapSectionCount(void **cursor) {
+u16 NkmSection_AdvanceHeaderGetEntryCount_from_thumb(void **cursor) {
     u32 *countWord;
     u16 count;
 
@@ -71,42 +71,42 @@ u16 ReadCourseMapSectionCount(void **cursor) {
     return count;
 }
 
-s32 LoadCourseMapRowsData(void *section, ...) {
-    gCourseMap->mRowCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mRowCount == 0) {
-        gCourseMap->mRows = NULL;
+s32 NkmHandler_OBJI_from_thumb(void *section, ...) {
+    g_GlobalPE->mRowCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mRowCount == 0) {
+        g_GlobalPE->mRows = NULL;
     } else {
-        gCourseMap->mRows = section;
+        g_GlobalPE->mRows = section;
     }
     return 1;
 }
 
-s32 LoadCourseMapEntryGroupsData(void *section, ...) {
-    gCourseMap->mEntryGroupCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mEntryGroupCount == 0) {
-        gCourseMap->mEntryGroups = NULL;
+s32 NkmHandler_PATH_from_thumb(void *section, ...) {
+    g_GlobalPE->mEntryGroupCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mEntryGroupCount == 0) {
+        g_GlobalPE->mEntryGroups = NULL;
     } else {
-        gCourseMap->mEntryGroups = section;
+        g_GlobalPE->mEntryGroups = section;
     }
     return 1;
 }
 
-s32 LoadCourseMapGroupEntriesData(void *section, ...) {
-    gCourseMap->mGroupEntryCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mGroupEntryCount == 0) {
-        gCourseMap->mGroupEntries = NULL;
+s32 NkmHandler_POIT_from_thumb(void *section, ...) {
+    g_GlobalPE->mGroupEntryCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mGroupEntryCount == 0) {
+        g_GlobalPE->mGroupEntries = NULL;
     } else {
-        gCourseMap->mGroupEntries = section;
+        g_GlobalPE->mGroupEntries = section;
     }
     return 1;
 }
 
 static inline CourseMapCheckpoint *GetCourseMapCheckpoint(u16 checkpointIndex) {
-    return &gCourseMap->mCheckpoints[checkpointIndex];
+    return &g_GlobalPE->mCheckpoints[checkpointIndex];
 }
 
 // Sums mUnk_18 along the route, plus the average of the sums of the routes that follow it.
-s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex) {
+s32 ComputeTotalDistanceRecursively_from_thumb(u16 routeIndex) {
     u16 followingCount;
     s32 followingSum;
     CourseMapRoute *route;
@@ -115,7 +115,7 @@ s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex) {
     u16 nextSlot;
     s8 nextRoute;
 
-    route = gCourseMap->mCheckpointRoutes + routeIndex;
+    route = g_GlobalPE->mCheckpointRoutes + routeIndex;
     followingSum = 0;
     followingCount = 0;
     total = 0;
@@ -125,7 +125,7 @@ s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex) {
     for (nextSlot = 0; nextSlot < 3; nextSlot++) {
         nextRoute = (route->mNextRoutes)[nextSlot];
         if (nextRoute != COURSE_MAP_ROUTE_NONE_S8 && nextRoute != 0) {
-            followingSum += ComputeCourseMapRouteCheckpointSum(nextRoute);
+            followingSum += ComputeTotalDistanceRecursively_from_thumb(nextRoute);
             followingCount++;
         }
     }
@@ -136,21 +136,21 @@ s32 ComputeCourseMapRouteCheckpointSum(u16 routeIndex) {
 }
 
 // Both values are 0 on courses with more than one start placement.
-void SetCourseMapCheckpointTotals(void) {
+void ComputeTotalCpatDistance_from_thumb(void) {
     u32 checkpointSum;
     u32 checkpointSumQuotient;
 
     checkpointSum = 0;
     checkpointSumQuotient = 0;
-    if (gCourseMap->mStartPlacementCount <= 1) {
-        checkpointSum = ComputeCourseMapRouteCheckpointSum(0);
+    if (g_GlobalPE->mStartPlacementCount <= 1) {
+        checkpointSum = ComputeTotalDistanceRecursively_from_thumb(0);
         checkpointSumQuotient = checkpointSum / 15000;
     }
-    gCourseMap->mCheckpointSum = checkpointSum;
-    gCourseMap->mCheckpointSumQuotient = checkpointSumQuotient;
+    g_GlobalPE->mCheckpointSum = checkpointSum;
+    g_GlobalPE->mCheckpointSumQuotient = checkpointSumQuotient;
 }
 
-void BuildCourseMapEntryGroupTable(void *heap) {
+void PopulatePathEntries_from_thumb(void *heap) {
     CourseMap *courseMap;
     CourseMapEntryGroupTableRow *row;
     u16 groupCount;
@@ -159,15 +159,15 @@ void BuildCourseMapEntryGroupTable(void *heap) {
     u16 groupIndex;
     CourseMapEntryGroup *group;
 
-    courseMap = gCourseMap;
+    courseMap = g_GlobalPE;
     groupCount = courseMap->mEntryGroupCount;
     size = groupCount << 3;
     groupEntries = courseMap->mGroupEntries;
     if (size != 0) {
-        row = HeapAlloc(heap, size);
-        gCourseMap->mEntryGroupTable = row;
+        row = Mem_AllocateHeap(heap, size);
+        g_GlobalPE->mEntryGroupTable = row;
         for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-            group = gCourseMap->mEntryGroups + groupIndex;
+            group = g_GlobalPE->mEntryGroups + groupIndex;
             row->mGroup = group;
             row->mEntries = groupEntries;
             groupEntries += group->mEntryCount;
@@ -176,14 +176,14 @@ void BuildCourseMapEntryGroupTable(void *heap) {
     } else {
         courseMap->mEntryGroupTable = NULL;
     }
-    SetCourseMapCheckpointTotals();
+    ComputeTotalCpatDistance_from_thumb();
 }
 #pragma thumb off
 
 #pragma thumb on
 
-CourseMapEntryGroupTableRow *GetCourseMapEntryGroupTableRow(u32 groupIndex) {
-    return gCourseMap->mEntryGroupTable + groupIndex;
+CourseMapEntryGroupTableRow *GetLoadedNkmPathEntry_from_thumb(u32 groupIndex) {
+    return g_GlobalPE->mEntryGroupTable + groupIndex;
 }
 
 #pragma thumb off
@@ -195,12 +195,12 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
     s32 nextRoute;
     s32 slotIndex;
 
-    if (gCourseMap->mVersion < COURSE_MAP_VERSION_ITEM_POINT_SIZE) {
-        itemPoint = (CourseMapItemPoint *) ((CourseMapOldItemPoint *) gCourseMap->mItemPoints + pointIndex);
+    if (g_GlobalPE->mVersion < COURSE_MAP_VERSION_ITEM_POINT_SIZE) {
+        itemPoint = (CourseMapItemPoint *) ((CourseMapOldItemPoint *) g_GlobalPE->mItemPoints + pointIndex);
     } else {
-        itemPoint = gCourseMap->mItemPoints + pointIndex;
+        itemPoint = g_GlobalPE->mItemPoints + pointIndex;
     }
-    link = gCourseMap->mItemPointLinks + pointIndex;
+    link = g_GlobalPE->mItemPointLinks + pointIndex;
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
         if (previousLink != NULL && link->mPreviousLinks[slotIndex] == previousLink) {
             return;
@@ -208,7 +208,7 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
     }
     link->mPointPos = &itemPoint->mPos;
     link->mRadius = itemPoint->mRadius;
-    if (gCourseMap->mVersion < COURSE_MAP_VERSION_ITEM_POINT_SIZE) {
+    if (g_GlobalPE->mVersion < COURSE_MAP_VERSION_ITEM_POINT_SIZE) {
         link->mLinkIndex = 0;
     } else {
         link->mLinkIndex = itemPoint->mLinkIndex;
@@ -234,8 +234,8 @@ void BuildCourseMapItemRouteLinks(ItemPointLink *previousLink, CourseMapRoute *r
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
         nextRoute = route->mNextRoutes[slotIndex];
         if (nextRoute != COURSE_MAP_ROUTE_NONE && nextRoute != 0) {
-            BuildCourseMapItemRouteLinks(link, &gCourseMap->mItemRoutes[nextRoute],
-                                         gCourseMap->mItemRoutes[nextRoute].mFirstEntry);
+            BuildCourseMapItemRouteLinks(link, &g_GlobalPE->mItemRoutes[nextRoute],
+                                         g_GlobalPE->mItemRoutes[nextRoute].mFirstEntry);
         }
     }
 }
@@ -252,12 +252,12 @@ void BuildCourseMapItemPointLinks(void *heap) {
     CourseMapRoute *routes;
     CourseMapRoute *previousRoute;
 
-    courseMap = gCourseMap;
+    courseMap = g_GlobalPE;
     firstRoute = courseMap->mItemRoutes;
     linkPointers = &courseMap->mItemPointLinks;
-    courseMap->mItemPointLinks = HeapAlloc(heap, courseMap->mItemPointCount * 0x28);
+    courseMap->mItemPointLinks = Mem_AllocateHeap(heap, courseMap->mItemPointCount * 0x28);
     linkPointers[1] = courseMap->mItemPointLinks + firstRoute->mFirstEntry;
-    for (pointIndex = 0; pointIndex < gCourseMap->mItemPointCount; pointIndex++) {
+    for (pointIndex = 0; pointIndex < g_GlobalPE->mItemPointCount; pointIndex++) {
         link = linkPointers[0] + pointIndex;
         for (slotIndex = 0; slotIndex < 3; slotIndex++) {
             link->mPreviousLinks[slotIndex] = NULL;
@@ -269,7 +269,7 @@ void BuildCourseMapItemPointLinks(void *heap) {
         link->mLinkIndex = 0;
         link->mRadius = 0;
     }
-    routes = gCourseMap->mItemRoutes;
+    routes = g_GlobalPE->mItemRoutes;
     previousRoute = routes + firstRoute->mPreviousRoutes[0];
     previousFirstEntry = routes[firstRoute->mPreviousRoutes[0]].mFirstEntry;
     lastEntry = previousFirstEntry + previousRoute->mEntryCount - 1;
@@ -283,8 +283,8 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
     s32 slotIndex;
     CourseMapPoint *racePoint;
 
-    racePoint = gCourseMap->mRacePoints + pointIndex;
-    link = gCourseMap->mRacePointLinks + pointIndex;
+    racePoint = g_GlobalPE->mRacePoints + pointIndex;
+    link = g_GlobalPE->mRacePointLinks + pointIndex;
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
         if (previousLink != NULL && link->mPreviousLinks[slotIndex] == previousLink) {
             return;
@@ -316,8 +316,8 @@ void BuildCourseMapRaceRouteLinks(RacePointLink *previousLink, CourseMapRoute *r
     for (slotIndex = 0; slotIndex < 3; slotIndex++) {
         nextRoute = route->mNextRoutes[slotIndex];
         if (nextRoute != COURSE_MAP_ROUTE_NONE) {
-            BuildCourseMapRaceRouteLinks(link, &gCourseMap->mRaceRoutes[nextRoute],
-                                         gCourseMap->mRaceRoutes[nextRoute].mFirstEntry);
+            BuildCourseMapRaceRouteLinks(link, &g_GlobalPE->mRaceRoutes[nextRoute],
+                                         g_GlobalPE->mRaceRoutes[nextRoute].mFirstEntry);
         }
     }
 }
@@ -332,12 +332,12 @@ void BuildCourseMapRacePointLinks(void *heap) {
     s32 slotIndex;
     s32 lastEntry;
 
-    courseMap = gCourseMap;
+    courseMap = g_GlobalPE;
     firstRoute = courseMap->mRaceRoutes;
     linkPointers = &courseMap->mRacePointLinks;
-    courseMap->mRacePointLinks = HeapAlloc(heap, courseMap->mRacePointCount * 0x28);
+    courseMap->mRacePointLinks = Mem_AllocateHeap(heap, courseMap->mRacePointCount * 0x28);
     linkPointers[1] = courseMap->mRacePointLinks + firstRoute->mFirstEntry;
-    for (index = 0; index < gCourseMap->mRacePointCount; index++) {
+    for (index = 0; index < g_GlobalPE->mRacePointCount; index++) {
         link = linkPointers[0] + index;
         for (slotIndex = 0; slotIndex < 3; slotIndex++) {
             link->mPreviousLinks[slotIndex] = NULL;
@@ -349,12 +349,12 @@ void BuildCourseMapRacePointLinks(void *heap) {
         link->mValues = NULL;
         link->mRadius = 0;
     }
-    lastRoute = gCourseMap->mRaceRoutes + firstRoute->mPreviousRoutes[0];
+    lastRoute = g_GlobalPE->mRaceRoutes + firstRoute->mPreviousRoutes[0];
     lastEntry = lastRoute->mFirstEntry + lastRoute->mEntryCount - 1;
     linkPointers[2] = linkPointers[0] + lastEntry;
     BuildCourseMapRaceRouteLinks(linkPointers[0] + lastEntry, firstRoute, firstRoute->mFirstEntry);
-    for (index = 0; index < gCourseMap->mRaceRouteCount; index++) {
-        lastRoute = gCourseMap->mRaceRoutes + (u16) index;
+    for (index = 0; index < g_GlobalPE->mRaceRouteCount; index++) {
+        lastRoute = g_GlobalPE->mRaceRoutes + (u16) index;
         if (linkPointers[0][lastRoute->mFirstEntry].mNextCount == 0) {
             BuildCourseMapRaceRouteLinks(NULL, lastRoute, lastRoute->mFirstEntry);
         }
@@ -378,13 +378,13 @@ void BuildCourseMapBattlePointLinks(void *heap) {
     u16 previousIndex;
     u16 nextIndex;
 
-    courseMap = gCourseMap;
+    courseMap = g_GlobalPE;
     route = courseMap->mBattleRoutes;
     linkPointers = &courseMap->mBattlePointLinks;
-    courseMap->mBattlePointLinks = HeapAlloc(heap, courseMap->mBattlePointCount * 0x30);
+    courseMap->mBattlePointLinks = Mem_AllocateHeap(heap, courseMap->mBattlePointCount * 0x30);
     linkPointers[1] = courseMap->mBattlePointLinks;
-    linkPointers[2] = courseMap->mBattlePointLinks + gCourseMap->mBattlePointCount;
-    for (index = 0; index < gCourseMap->mBattlePointCount; index++) {
+    linkPointers[2] = courseMap->mBattlePointLinks + g_GlobalPE->mBattlePointCount;
+    for (index = 0; index < g_GlobalPE->mBattlePointCount; index++) {
         link = linkPointers[0] + index;
         for (slotIndex = 0; slotIndex < 8; slotIndex++) {
             link->mLinks[slotIndex] = NULL;
@@ -394,12 +394,12 @@ void BuildCourseMapBattlePointLinks(void *heap) {
         link->mValues = NULL;
         link->mRadius = 0;
     }
-    for (pointIndex = 0; pointIndex < gCourseMap->mBattlePointCount; pointIndex++) {
-        battlePoint = gCourseMap->mBattlePoints + (u16) pointIndex;
+    for (pointIndex = 0; pointIndex < g_GlobalPE->mBattlePointCount; pointIndex++) {
+        battlePoint = g_GlobalPE->mBattlePoints + (u16) pointIndex;
         pointLink = linkPointers[0] + pointIndex;
         linkCount = 0;
-        for (routeIndex = 0; routeIndex < gCourseMap->mBattleRouteCount; routeIndex++) {
-            routes = gCourseMap->mBattleRoutes;
+        for (routeIndex = 0; routeIndex < g_GlobalPE->mBattleRouteCount; routeIndex++) {
+            routes = g_GlobalPE->mBattleRoutes;
             route = routes + routeIndex;
             if (pointIndex >= routes[routeIndex].mFirstEntry && pointIndex < route->mFirstEntry + route->mEntryCount) {
                 break;
@@ -442,12 +442,12 @@ void BuildCourseMapBattlePointLinks(void *heap) {
 }
 
 void BuildCourseMapPointLinks(void *heap) {
-    if (gCourseMap->mItemRouteCount != 0) {
+    if (g_GlobalPE->mItemRouteCount != 0) {
         BuildCourseMapItemPointLinks(heap);
     }
-    if (gCourseMap->mRaceRouteCount != 0) {
+    if (g_GlobalPE->mRaceRouteCount != 0) {
         BuildCourseMapRacePointLinks(heap);
-    } else if (gCourseMap->mBattleRouteCount != 0) {
+    } else if (g_GlobalPE->mBattleRouteCount != 0) {
         BuildCourseMapBattlePointLinks(heap);
     }
 }
@@ -460,20 +460,20 @@ struct CourseMapSettingsSection {
 };
 
 #pragma thumb on
-u32 LoadCourseMapSettingsData(CourseMapSettingsSection *section) {
-    gCourseMap->mSettings = &section->mSettings;
+u32 NkmHandler_STAG_from_thumb(CourseMapSettingsSection *section) {
+    g_GlobalPE->mSettings = &section->mSettings;
     return 1;
 }
 #pragma thumb off
 
 #pragma thumb on
-s32 LoadCourseMapStartPlacementsData(void *section, ...) {
-    gCourseMap->mStartPlacementCount = ReadCourseMapSectionCount(&section);
-    gCourseMap->mStartPlacements = section;
+s32 NkmHandler_KTPS_from_thumb(void *section, ...) {
+    g_GlobalPE->mStartPlacementCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    g_GlobalPE->mStartPlacements = section;
     return 1;
 }
 
-s32 LoadCourseMapRespawnsData(void *section, ...) {
+s32 NkmHandler_KTPJ_from_thumb(void *section, ...) {
     s32 index;
     s32 maxSlot;
     void *heap;
@@ -482,30 +482,30 @@ s32 LoadCourseMapRespawnsData(void *section, ...) {
     u16 unused;
     CourseMapRespawn *respawn;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gCourseMap->mRespawnCount = ReadCourseMapSectionCount(&section);
-    gCourseMap->mRespawns = section;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        respawnCount = gCourseMap->mRespawnCount;
-        gCourseMap->mRespawnIndexBySlot = HeapAlloc(heap, respawnCount * 2);
-        gCourseMap->mNextRespawnSlot = 0;
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
+    g_GlobalPE->mRespawnCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    g_GlobalPE->mRespawns = section;
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        respawnCount = g_GlobalPE->mRespawnCount;
+        g_GlobalPE->mRespawnIndexBySlot = Mem_AllocateHeap(heap, respawnCount * 2);
+        g_GlobalPE->mNextRespawnSlot = 0;
         for (index = 0; index < respawnCount; index++) {
-            gCourseMap->mRespawnIndexBySlot[index] = index;
+            g_GlobalPE->mRespawnIndexBySlot[index] = index;
         }
-    } else if (gCourseMap->mRespawnCount != 0) {
+    } else if (g_GlobalPE->mRespawnCount != 0) {
         maxSlot = 0;
-        for (respawnIndex = 0; respawnIndex < gCourseMap->mRespawnCount; respawnIndex++) {
-            respawn = &gCourseMap->mRespawns[respawnIndex];
+        for (respawnIndex = 0; respawnIndex < g_GlobalPE->mRespawnCount; respawnIndex++) {
+            respawn = &g_GlobalPE->mRespawns[respawnIndex];
             if (respawn->mSlot > maxSlot) {
                 maxSlot = respawn->mSlot;
             }
         }
-        gCourseMap->mRespawnIndexBySlot = HeapAlloc(heap, (maxSlot + 1) * 2);
+        g_GlobalPE->mRespawnIndexBySlot = Mem_AllocateHeap(heap, (maxSlot + 1) * 2);
         for (index = 0; index < maxSlot + 1; index++) {
-            gCourseMap->mRespawnIndexBySlot[index] = COURSE_MAP_RESPAWN_SLOT_NONE;
+            g_GlobalPE->mRespawnIndexBySlot[index] = COURSE_MAP_RESPAWN_SLOT_NONE;
         }
-        for (index = 0; index < gCourseMap->mRespawnCount; index++) {
-            gCourseMap->mRespawnIndexBySlot[gCourseMap->mRespawns[index].mSlot] = index;
+        for (index = 0; index < g_GlobalPE->mRespawnCount; index++) {
+            g_GlobalPE->mRespawnIndexBySlot[g_GlobalPE->mRespawns[index].mSlot] = index;
         }
     }
     return 1;
@@ -534,173 +534,173 @@ void ShuffleCourseMapRespawnSlots(RandomState64 *randomState64) {
     u16 secondSlot;
     u16 respawnIndex;
 
-    respawnCount = gCourseMap->mRespawnCount;
+    respawnCount = g_GlobalPE->mRespawnCount;
     for (swapIndex = 0; swapIndex < 100; swapIndex++) {
         firstSlot = CourseMapNextRandomBelowU16(randomState64, respawnCount);
         secondSlot = CourseMapNextRandomBelowU16(randomState64, respawnCount);
-        respawnIndex = gCourseMap->mRespawnIndexBySlot[secondSlot];
-        gCourseMap->mRespawnIndexBySlot[secondSlot] = gCourseMap->mRespawnIndexBySlot[firstSlot];
-        gCourseMap->mRespawnIndexBySlot[firstSlot] = respawnIndex;
+        respawnIndex = g_GlobalPE->mRespawnIndexBySlot[secondSlot];
+        g_GlobalPE->mRespawnIndexBySlot[secondSlot] = g_GlobalPE->mRespawnIndexBySlot[firstSlot];
+        g_GlobalPE->mRespawnIndexBySlot[firstSlot] = respawnIndex;
     }
 }
 
-s32 LoadCourseMapSubScreenViewData(void *section, ...) {
-    gCourseMap->mSubScreenViewCount = ReadCourseMapSectionCount(&section);
-    gCourseMap->mSubScreenView = section;
+s32 NkmHandler_KTP2_from_thumb(void *section, ...) {
+    g_GlobalPE->mSubScreenViewCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    g_GlobalPE->mSubScreenView = section;
     return 1;
 }
 
-void BuildCourseMapKeyedPlacementIndexByKey(void) {
+void InitializePECannonTable_from_thumb(void) {
     u16 placementCount;
     u16 placementIndex;
 
-    placementCount = gCourseMap->mKeyedPlacementCount;
+    placementCount = g_GlobalPE->mKeyedPlacementCount;
     if (placementCount == 0) {
-        gCourseMap->mKeyedPlacementIndexByKey = NULL;
+        g_GlobalPE->mKeyedPlacementIndexByKey = NULL;
         return;
     }
-    gCourseMap->mKeyedPlacementIndexByKey = HeapAlloc(GetHeap(GetCurrentHeapCall()), placementCount * 2);
+    g_GlobalPE->mKeyedPlacementIndexByKey = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), placementCount * 2);
     for (placementIndex = 0; placementIndex < placementCount; placementIndex++) {
-        gCourseMap->mKeyedPlacementIndexByKey[gCourseMap->mKeyedPlacements[placementIndex].mKey] = placementIndex;
+        g_GlobalPE->mKeyedPlacementIndexByKey[g_GlobalPE->mKeyedPlacements[placementIndex].mKey] = placementIndex;
     }
 }
 
-s32 LoadCourseMapKeyedPlacementsData(void *section, ...) {
+s32 NkmHandler_KTPC_from_thumb(void *section, ...) {
     BOOL loaded = FALSE;
 
-    if (gCourseMap->mVersion < COURSE_MAP_VERSION_KEYED_PLACEMENTS) {
-        gCourseMap->mKeyedPlacementCount = 0;
-        gCourseMap->mKeyedPlacements = NULL;
+    if (g_GlobalPE->mVersion < COURSE_MAP_VERSION_KEYED_PLACEMENTS) {
+        g_GlobalPE->mKeyedPlacementCount = 0;
+        g_GlobalPE->mKeyedPlacements = NULL;
     } else {
-        gCourseMap->mKeyedPlacementCount = ReadCourseMapSectionCount(&section);
-        gCourseMap->mKeyedPlacements = section;
+        g_GlobalPE->mKeyedPlacementCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+        g_GlobalPE->mKeyedPlacements = section;
         loaded = TRUE;
     }
-    BuildCourseMapKeyedPlacementIndexByKey();
+    InitializePECannonTable_from_thumb();
     return loaded;
 }
 
-s32 LoadCourseMapRaceEndPlacementsData(void *section, ...) {
+s32 NkmHandler_KTPM_from_thumb(void *section, ...) {
     enum { RESULT_EMPTY } result = 0;
 
-    if (gCourseMap->mVersion < COURSE_MAP_VERSION_RACE_END_PLACEMENTS) {
-        gCourseMap->mRaceEndPlacementCount = result;
-        gCourseMap->mRaceEndPlacements = NULL;
+    if (g_GlobalPE->mVersion < COURSE_MAP_VERSION_RACE_END_PLACEMENTS) {
+        g_GlobalPE->mRaceEndPlacementCount = result;
+        g_GlobalPE->mRaceEndPlacements = NULL;
         return result;
     }
-    gCourseMap->mRaceEndPlacementCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mRaceEndPlacementCount != 0) {
-        gCourseMap->mRaceEndPlacements = section;
+    g_GlobalPE->mRaceEndPlacementCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mRaceEndPlacementCount != 0) {
+        g_GlobalPE->mRaceEndPlacements = section;
     } else {
-        gCourseMap->mRaceEndPlacements = NULL;
+        g_GlobalPE->mRaceEndPlacements = NULL;
     }
     return 1;
 }
 
-s32 LoadCourseMapCheckpointsData(void *section, ...) {
+s32 NkmHandler_CPOI_from_thumb(void *section, ...) {
     u16 checkpointIndex;
     u16 numberedCount;
 
-    gCourseMap->mCheckpointCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mCheckpointCount == 0) {
-        gCourseMap->mCheckpoints = NULL;
+    g_GlobalPE->mCheckpointCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mCheckpointCount == 0) {
+        g_GlobalPE->mCheckpoints = NULL;
         return 1;
     }
-    gCourseMap->mCheckpoints = section;
+    g_GlobalPE->mCheckpoints = section;
     numberedCount = 0;
-    for (checkpointIndex = 0; checkpointIndex < gCourseMap->mCheckpointCount; checkpointIndex++) {
-        if (gCourseMap->mCheckpoints[checkpointIndex].mNumber != COURSE_MAP_CHECKPOINT_NO_NUMBER) {
+    for (checkpointIndex = 0; checkpointIndex < g_GlobalPE->mCheckpointCount; checkpointIndex++) {
+        if (g_GlobalPE->mCheckpoints[checkpointIndex].mNumber != COURSE_MAP_CHECKPOINT_NO_NUMBER) {
             numberedCount++;
         }
     }
-    gCourseMap->mNumberedCheckpointCount = numberedCount;
+    g_GlobalPE->mNumberedCheckpointCount = numberedCount;
     return 1;
 }
 
-s32 LoadCourseMapCheckpointRoutesData(void *section, ...) {
+s32 NkmHandler_CPAT_from_thumb(void *section, ...) {
     s32 routeIndex;
     CourseMapRoute *lastRoute;
     s32 firstEntry;
 
-    gCourseMap->mCheckpointRouteCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mCheckpointRouteCount == 0) {
-        gCourseMap->mCheckpointRoutes = NULL;
-        gCourseMap->mLastCheckpoint = 0;
+    g_GlobalPE->mCheckpointRouteCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mCheckpointRouteCount == 0) {
+        g_GlobalPE->mCheckpointRoutes = NULL;
+        g_GlobalPE->mLastCheckpoint = 0;
         return 1;
     }
-    gCourseMap->mCheckpointRoutes = section;
-    for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
+    g_GlobalPE->mCheckpointRoutes = section;
+    for (routeIndex = 0; routeIndex < g_GlobalPE->mCheckpointRouteCount; routeIndex++) {
         if (GetCheckpointRoute(routeIndex)->mFirstEntry == 0) {
             lastRoute = GetCheckpointRoute((s8) GetCheckpointRoute(routeIndex)->mPreviousRoutes[0]);
             firstEntry = GetCheckpointRoute((s8) GetCheckpointRoute(routeIndex)->mPreviousRoutes[0])->mFirstEntry;
-            gCourseMap->mLastCheckpoint = firstEntry + lastRoute->mEntryCount - 1;
+            g_GlobalPE->mLastCheckpoint = firstEntry + lastRoute->mEntryCount - 1;
             break;
         }
     }
     return 1;
 }
 
-s32 LoadCourseMapItemPointsData(void *section, ...) {
-    gCourseMap->mItemPointCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mItemPointCount == 0) {
-        gCourseMap->mItemPoints = NULL;
+s32 NkmHandler_IPOI_from_thumb(void *section, ...) {
+    g_GlobalPE->mItemPointCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mItemPointCount == 0) {
+        g_GlobalPE->mItemPoints = NULL;
     } else {
-        gCourseMap->mItemPoints = section;
+        g_GlobalPE->mItemPoints = section;
     }
     return 1;
 }
 
-s32 LoadCourseMapItemRoutesData(void *section, ...) {
-    gCourseMap->mItemRouteCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mItemRouteCount == 0) {
-        gCourseMap->mItemRoutes = NULL;
+s32 NkmHandler_IPAT_from_thumb(void *section, ...) {
+    g_GlobalPE->mItemRouteCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mItemRouteCount == 0) {
+        g_GlobalPE->mItemRoutes = NULL;
     } else {
-        gCourseMap->mItemRoutes = section;
+        g_GlobalPE->mItemRoutes = section;
     }
     return 1;
 }
 
-s32 LoadCourseMapBattleOrRacePointsData(void *section, ...) {
-    if (gCourseMap->mStartPlacementCount > 1) {
-        gCourseMap->mBattlePointCount = ReadCourseMapSectionCount(&section);
-        if (gCourseMap->mBattlePointCount == 0) {
-            gCourseMap->mBattlePoints = NULL;
+s32 NkmHandler_EPOI_from_thumb(void *section, ...) {
+    if (g_GlobalPE->mStartPlacementCount > 1) {
+        g_GlobalPE->mBattlePointCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+        if (g_GlobalPE->mBattlePointCount == 0) {
+            g_GlobalPE->mBattlePoints = NULL;
         } else {
-            gCourseMap->mBattlePoints = section;
-            gCourseMap->mRacePoints = NULL;
-            gCourseMap->mRacePointCount = 0;
+            g_GlobalPE->mBattlePoints = section;
+            g_GlobalPE->mRacePoints = NULL;
+            g_GlobalPE->mRacePointCount = 0;
         }
     } else {
-        gCourseMap->mRacePointCount = ReadCourseMapSectionCount(&section);
-        if (gCourseMap->mRacePointCount == 0) {
-            gCourseMap->mRacePoints = NULL;
+        g_GlobalPE->mRacePointCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+        if (g_GlobalPE->mRacePointCount == 0) {
+            g_GlobalPE->mRacePoints = NULL;
         } else {
-            gCourseMap->mRacePoints = section;
-            gCourseMap->mBattlePoints = NULL;
-            gCourseMap->mBattlePointCount = 0;
+            g_GlobalPE->mRacePoints = section;
+            g_GlobalPE->mBattlePoints = NULL;
+            g_GlobalPE->mBattlePointCount = 0;
         }
     }
     return 1;
 }
 
-s32 LoadCourseMapBattleOrRaceRoutesData(void *section, ...) {
-    if (gCourseMap->mStartPlacementCount > 1) {
-        gCourseMap->mBattleRouteCount = ReadCourseMapSectionCount(&section);
-        if (gCourseMap->mBattleRouteCount == 0) {
-            gCourseMap->mBattleRoutes = NULL;
+s32 NkmHandler_EPAT_from_thumb(void *section, ...) {
+    if (g_GlobalPE->mStartPlacementCount > 1) {
+        g_GlobalPE->mBattleRouteCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+        if (g_GlobalPE->mBattleRouteCount == 0) {
+            g_GlobalPE->mBattleRoutes = NULL;
         } else {
-            gCourseMap->mBattleRoutes = section;
-            gCourseMap->mRaceRoutes = NULL;
-            gCourseMap->mRaceRouteCount = 0;
+            g_GlobalPE->mBattleRoutes = section;
+            g_GlobalPE->mRaceRoutes = NULL;
+            g_GlobalPE->mRaceRouteCount = 0;
         }
     } else {
-        gCourseMap->mRaceRouteCount = ReadCourseMapSectionCount(&section);
-        if (gCourseMap->mRaceRouteCount == 0) {
-            gCourseMap->mRaceRoutes = NULL;
+        g_GlobalPE->mRaceRouteCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+        if (g_GlobalPE->mRaceRouteCount == 0) {
+            g_GlobalPE->mRaceRoutes = NULL;
         } else {
-            gCourseMap->mRaceRoutes = section;
-            gCourseMap->mBattleRoutes = NULL;
-            gCourseMap->mBattleRouteCount = 0;
+            g_GlobalPE->mRaceRoutes = section;
+            g_GlobalPE->mBattleRoutes = NULL;
+            g_GlobalPE->mBattleRouteCount = 0;
         }
     }
     return 1;
@@ -709,33 +709,33 @@ s32 LoadCourseMapBattleOrRaceRoutesData(void *section, ...) {
 
 #pragma thumb on
 
-CourseMapShape *GetCourseMapShape(u32 shapeIndex) {
-    return &gCourseMap->mShapes[shapeIndex];
+CourseMapShape *GetGlobalPENkmAREAByIndex_from_thumb(u32 shapeIndex) {
+    return &g_GlobalPE->mShapes[shapeIndex];
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void BuildCourseMapZoneShapeLists(void) {
+void InitializeAreaType3s_from_thumb(void) {
     void *heap;
     CourseMapShape *shape;
     CourseMapZoneShapeNode **nodeSlot;
     u16 shapeIndex;
     u16 listIndex;
 
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = ExecutionContext_GetHeapHandle(GetActiveExecutionContext());
     shapeIndex = 0;
     for (listIndex = 0; listIndex < 8; listIndex++) {
-        gCourseMap->mZoneShapeLists[listIndex] = NULL;
+        g_GlobalPE->mZoneShapeLists[listIndex] = NULL;
     }
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+        shape = GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_ZONE) {
-            nodeSlot = &gCourseMap->mZoneShapeLists[(s16) shape->mKindValue];
+            nodeSlot = &g_GlobalPE->mZoneShapeLists[(s16) shape->mKindValue];
             while (*nodeSlot != NULL) {
                 nodeSlot = &(*nodeSlot)->mNext;
             }
-            *nodeSlot = HeapAlloc(heap, 8);
+            *nodeSlot = Mem_AllocateHeap(heap, 8);
             (*nodeSlot)->mShape = shape;
             (*nodeSlot)->mNext = NULL;
         }
@@ -745,86 +745,86 @@ void BuildCourseMapZoneShapeLists(void) {
 
 #pragma thumb on
 
-void CountCourseMapPointLinkShapes(void) {
+void CountAreaType4_from_thumb(void) {
     u16 count;
     u16 shapeIndex;
     count = 0;
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        if (GetCourseMapShape(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
+    for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+        if (GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             count++;
         }
     }
-    gCourseMap->mPointLinkShapeCount = count;
+    g_GlobalPE->mPointLinkShapeCount = count;
 }
 
-void CountCourseMapMissionEndShapes(void) {
+void CountAreaType2_from_thumb(void) {
     u8 count;
     u16 shapeIndex;
     count = 0;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-            if (GetCourseMapShape(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_MISSION_END) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+            if (GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex)->mKind == COURSE_MAP_SHAPE_KIND_MISSION_END) {
                 count++;
             }
         }
     }
-    gCourseMap->mMissionEndShapeCount = count;
+    g_GlobalPE->mMissionEndShapeCount = count;
 }
 
 #pragma thumb off
 
 #pragma thumb on
-s32 LoadCourseMapShapesData(void *section, ...) {
-    gCourseMap->mShapeCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mShapeCount == 0) {
-        gCourseMap->mShapes = NULL;
+s32 NkmHandler_AREA_from_thumb(void *section, ...) {
+    g_GlobalPE->mShapeCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mShapeCount == 0) {
+        g_GlobalPE->mShapes = NULL;
     } else {
-        gCourseMap->mShapes = section;
+        g_GlobalPE->mShapes = section;
     }
-    BuildCourseMapZoneShapeLists();
-    CountCourseMapPointLinkShapes();
-    CountCourseMapMissionEndShapes();
+    InitializeAreaType3s_from_thumb();
+    CountAreaType4_from_thumb();
+    CountAreaType2_from_thumb();
     return 1;
 }
 
-s32 LoadCourseMapCamerasData(void *section, ...) {
+s32 NkmHandler_CAME_from_thumb(void *section, ...) {
     u16 cameraIndex;
     CourseMapCamera *camera;
 
-    gCourseMap->mCameraCount = ReadCourseMapSectionCount(&section);
-    if (gCourseMap->mCameraCount == 0) {
-        gCourseMap->mCameras = NULL;
+    g_GlobalPE->mCameraCount = NkmSection_AdvanceHeaderGetEntryCount_from_thumb(&section);
+    if (g_GlobalPE->mCameraCount == 0) {
+        g_GlobalPE->mCameras = NULL;
         return 1;
     }
-    gCourseMap->mCameras = section;
-    gCourseMap->mFirstChainStartEntry = NULL;
-    gCourseMap->mSecondChainStartEntry = NULL;
-    gCourseMap->mFirstAngleStartCamera = NULL;
-    gCourseMap->mFirstBattleSequenceCamera = NULL;
-    for (cameraIndex = 0; cameraIndex < gCourseMap->mCameraCount; cameraIndex++) {
-        camera = gCourseMap->mCameras + cameraIndex;
-        if (gCourseMap->mFirstChainStartEntry == NULL && camera->mChainStart == CAMERA_CHAIN_START_FIRST) {
-            gCourseMap->mFirstChainStartEntry = camera;
+    g_GlobalPE->mCameras = section;
+    g_GlobalPE->mFirstChainStartEntry = NULL;
+    g_GlobalPE->mSecondChainStartEntry = NULL;
+    g_GlobalPE->mFirstAngleStartCamera = NULL;
+    g_GlobalPE->mFirstBattleSequenceCamera = NULL;
+    for (cameraIndex = 0; cameraIndex < g_GlobalPE->mCameraCount; cameraIndex++) {
+        camera = g_GlobalPE->mCameras + cameraIndex;
+        if (g_GlobalPE->mFirstChainStartEntry == NULL && camera->mChainStart == CAMERA_CHAIN_START_FIRST) {
+            g_GlobalPE->mFirstChainStartEntry = camera;
         }
-        if (gCourseMap->mSecondChainStartEntry == NULL && camera->mChainStart == CAMERA_CHAIN_START_SECOND) {
-            gCourseMap->mSecondChainStartEntry = camera;
+        if (g_GlobalPE->mSecondChainStartEntry == NULL && camera->mChainStart == CAMERA_CHAIN_START_SECOND) {
+            g_GlobalPE->mSecondChainStartEntry = camera;
         }
-        if (gCourseMap->mFirstAngleStartCamera == NULL && camera->mKind == COURSE_MAP_CAMERA_KIND_ANGLE_START) {
-            gCourseMap->mFirstAngleStartCamera = camera;
+        if (g_GlobalPE->mFirstAngleStartCamera == NULL && camera->mKind == COURSE_MAP_CAMERA_KIND_ANGLE_START) {
+            g_GlobalPE->mFirstAngleStartCamera = camera;
         }
-        if (gRaceSetup->mMode == MODE_BATTLE && gCourseMap->mFirstBattleSequenceCamera == NULL &&
+        if (g_GlobalCO->mMode == MODE_BATTLE && g_GlobalPE->mFirstBattleSequenceCamera == NULL &&
             camera->mKind == COURSE_MAP_CAMERA_KIND_SEQUENCE) {
-            gCourseMap->mFirstBattleSequenceCamera = camera;
+            g_GlobalPE->mFirstBattleSequenceCamera = camera;
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN && gCourseMap->mFirstMissionRunCamera == NULL &&
+        if (g_GlobalCO->mMode == MODE_MISSION_RUN && g_GlobalPE->mFirstMissionRunCamera == NULL &&
             camera->mKind == COURSE_MAP_CAMERA_KIND_MISSION_RUN) {
-            gCourseMap->mFirstMissionRunCamera = camera;
+            g_GlobalPE->mFirstMissionRunCamera = camera;
         }
     }
     return 1;
 }
 
-void CreateCourseMap(void *heap) {
+void LoadCourseMapNkm_from_thumb(void *heap) {
     char path[0x100];
     CourseMapHeader *header;
     CourseMap *courseMap;
@@ -833,48 +833,48 @@ void CreateCourseMap(void *heap) {
     s32 sectionIndex;
     u16 routeIndex;
 
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                header = FindCourseFile("/course_map.nkm");
+            if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
+                header = FindFileBuffer_CRS_CST_from_thumb("/course_map.nkm");
             } else {
-                snprintf(path, 0x100, "/MissionRun/%s_tool.nkm", gRaceSetup->mMissionRunStem);
-                header = FindCourseFile(path);
+                _snprintf(path, 0x100, "/MissionRun/%s_tool.nkm", g_GlobalCO->mMissionRunStem);
+                header = FindFileBuffer_CRS_CST_from_thumb(path);
             }
             break;
         case MODE_WIFI:
-            header = FindCourseFile("/Net/net_course_map.nkm");
+            header = FindFileBuffer_CRS_CST_from_thumb("/Net/net_course_map.nkm");
             if (header == NULL) {
-                header = FindCourseFile("/course_map.nkm");
+                header = FindFileBuffer_CRS_CST_from_thumb("/course_map.nkm");
             }
             break;
         default:
-            header = FindCourseFile("/course_map.nkm");
+            header = FindFileBuffer_CRS_CST_from_thumb("/course_map.nkm");
             break;
     }
-    courseMap = AllocCourseMap(heap);
-    gCourseMap = courseMap;
+    courseMap = AllocateStructPE_from_thumb(heap);
+    g_GlobalPE = courseMap;
     courseMap->mVersion = header->mVersion;
     offset = header->mSectionOffsets;
     base = (u8 *) header + header->mBaseOffset;
     for (sectionIndex = 0; sectionIndex < 17; sectionIndex++) {
-        if (gCourseMapSectionLoaders[sectionIndex](base + *offset) != 0) {
+        if (g_NkmSectionFnTable[sectionIndex](base + *offset) != 0) {
             offset++;
         }
     }
-    BuildCourseMapEntryGroupTable(heap);
+    PopulatePathEntries_from_thumb(heap);
     BuildCourseMapPointLinks(heap);
-    gCourseMap->mLapProgressBaseMax = 0;
-    for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
-        if (gCourseMap->mCheckpointRoutes[routeIndex].mLapProgressBase > gCourseMap->mLapProgressBaseMax) {
-            gCourseMap->mLapProgressBaseMax = gCourseMap->mCheckpointRoutes[routeIndex].mLapProgressBase;
+    g_GlobalPE->mLapProgressBaseMax = 0;
+    for (routeIndex = 0; routeIndex < g_GlobalPE->mCheckpointRouteCount; routeIndex++) {
+        if (g_GlobalPE->mCheckpointRoutes[routeIndex].mLapProgressBase > g_GlobalPE->mLapProgressBaseMax) {
+            g_GlobalPE->mLapProgressBaseMax = g_GlobalPE->mCheckpointRoutes[routeIndex].mLapProgressBase;
         }
     }
 }
 #pragma thumb off
 
-CourseMapGroupEntry *GetCourseMapGroupEntry(u16 groupIndex, u16 entryIndex) {
-    return GetCourseMapEntryGroupTableRow(groupIndex)->mEntries + entryIndex;
+CourseMapGroupEntry *GetLoadedNkmPathEntryPOIT(u16 groupIndex, u16 entryIndex) {
+    return GetLoadedNkmPathEntry_from_thumb(groupIndex)->mEntries + entryIndex;
 }
 
 void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 key, s32 firstAxisOffset,
@@ -896,26 +896,26 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     s32 negatedThirdAxisY;
     s32 negatedThirdAxisZ;
 
-    if (gCourseMap->mSettings->mStartSideFlipped != 0) {
+    if (g_GlobalPE->mSettings->mStartSideFlipped != 0) {
         firstAxisOffset = 0x1000 - firstAxisOffset;
     }
-    if (gCourseMap->mStartPlacementCount > 1) {
-        for (placementIndex = 0; placementIndex < gCourseMap->mStartPlacementCount; placementIndex++) {
-            candidate = &(gCourseMap->mStartPlacements)[placementIndex];
+    if (g_GlobalPE->mStartPlacementCount > 1) {
+        for (placementIndex = 0; placementIndex < g_GlobalPE->mStartPlacementCount; placementIndex++) {
+            candidate = &(g_GlobalPE->mStartPlacements)[placementIndex];
             if (key == (s16) candidate->mKey) {
                 placement = candidate;
                 break;
             }
         }
     } else {
-        placement = gCourseMap->mStartPlacements;
+        placement = g_GlobalPE->mStartPlacements;
     }
     angleX = FROM_FIXED12(placement->mRotation.x) * 0xb6;
     angleY = FROM_FIXED12(placement->mRotation.y) * 0xb6;
     angleZ = FROM_FIXED12(placement->mRotation.z) * 0xb6;
-    MTX_RotX43_(&rotationMatrixX, FX_SinIdx(angleX), FX_CosIdx(angleX));
-    MTX_RotY43_(&rotationMatrixY, FX_SinIdx(angleY), FX_CosIdx(angleY));
-    MTX_RotZ43_(&rotationMatrixZ, FX_SinIdx(angleZ), FX_CosIdx(angleZ));
+    MTX_RotX43__from_thumb(&rotationMatrixX, FX_SinIdx(angleX), FX_CosIdx(angleX));
+    MTX_RotY43__from_thumb(&rotationMatrixY, FX_SinIdx(angleY), FX_CosIdx(angleY));
+    MTX_RotZ43__from_thumb(&rotationMatrixZ, FX_SinIdx(angleZ), FX_CosIdx(angleZ));
     MTX_Concat43(&rotationMatrixX, &rotationMatrixZ, &rotationMatrix);
     MTX_Concat43(&rotationMatrixY, &rotationMatrix, &rotationMatrix);
     negatedFirstAxisX = -rotationMatrix.mRows[0].x;
@@ -938,7 +938,7 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
 // Position and rotation of the start spot of kart c by mode: a staggered grid by rank in a race, by key
 // (kart + mStartPlacementOffset) % 8 in battle.
 void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex) {
-    u16 lastKartIndex = gRaceSetup->mKartCount - 1;
+    u16 lastKartIndex = g_GlobalCO->mKartCount - 1;
     s32 rankIndex = (u16) (GetKartStartRank(kartIndex) - 1);
     s32 firstGroupCount;
     s32 groupCount;
@@ -946,20 +946,20 @@ void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartInd
     s32 groupIndex;
     s32 sideOffset;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (g_GlobalCO->mRaceKind == RACE_KIND_STAFF_ROLL) {
         GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, 0, 0);
         return;
     }
-    switch (gRaceSetup->mMode) {
+    switch (g_GlobalCO->mMode) {
         case MODE_BATTLE:
             GetCourseMapStartPlacementWithOffsets(outPos, outRotation,
-                                                  (u16) ((rankIndex + gRaceProgress->mStartPlacementOffset) % 8), 0, 0);
+                                                  (u16) ((rankIndex + g_GlobalMV->mStartPlacementOffset) % 8), 0, 0);
             break;
         case MODE_TIME_ATTACK:
             GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, 0x800, 0);
             break;
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mKartCount <= 1) {
+            if (g_GlobalCO->mKartCount <= 1) {
                 GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, 0x800, 0);
             } else {
                 GetCourseMapStartPlacementWithOffsets(outPos, outRotation, kartIndex,
@@ -1000,17 +1000,17 @@ BOOL IsPosInCourseMapShapeBox(Vec3 *pos, CourseMapShape *shape) {
     s32 distance;
     s32 extent;
 
-    VEC_Subtract(pos, &shape->mPos, &offset);
-    distance = VEC_DotProduct(&offset, &shape->mAxisY);
+    VecFx32_Subtract(pos, &shape->mPos, &offset);
+    distance = Vector3_DotProduct(&offset, &shape->mAxisY);
     if (distance > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x64000) || distance < 0) {
         return FALSE;
     }
-    distance = VEC_DotProduct(&offset, &shape->mAxisX);
+    distance = Vector3_DotProduct(&offset, &shape->mAxisX);
     extent = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000);
     if (distance < -extent || distance > extent) {
         return FALSE;
     }
-    distance = VEC_DotProduct(&offset, &shape->mAxisZ);
+    distance = Vector3_DotProduct(&offset, &shape->mAxisZ);
     extent = MUL_FIXED12_ROUNDED(shape->mScale.z, 0x32000);
     if (distance < -extent || distance > extent) {
         return FALSE;
@@ -1030,12 +1030,12 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
             inside = IsPosInCourseMapShapeBox(pos, shape);
             break;
         case COURSE_MAP_SHAPE_FORM_CYLINDER:
-            VEC_Subtract(pos, &shape->mPos, &offset);
-            if (VEC_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+            VecFx32_Subtract(pos, &shape->mPos, &offset);
+            if (Vector3_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                 inside = 0;
             } else {
-                distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
-                distanceZ = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
+                distanceX = Vector3_DotProduct(&offset, &shape->mAxisX) >> 4;
+                distanceZ = Vector3_DotProduct(&offset, &shape->mAxisZ) >> 4;
                 radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
                 inside = MUL_FIXED12_ROUNDED(radius, radius) >=
                          MUL_FIXED12_ROUNDED(distanceX, distanceX) + MUL_FIXED12_ROUNDED(distanceZ, distanceZ);
@@ -1055,8 +1055,8 @@ s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag) {
     s32 radius;
     s32 inside;
 
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+        shape = GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_MISSION_END) {
             inside = 0;
             switch (shape->mShapeKind) {
@@ -1064,10 +1064,10 @@ s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag) {
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
                 case COURSE_MAP_SHAPE_FORM_CYLINDER:
-                    VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
-                        distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
-                        distanceZ = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
+                    VecFx32_Subtract(pos, &shape->mPos, &offset);
+                    if (Vector3_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                        distanceX = Vector3_DotProduct(&offset, &shape->mAxisX) >> 4;
+                        distanceZ = Vector3_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
                         if (MUL_FIXED12_ROUNDED(radius, radius) >=
                             MUL_FIXED12_ROUNDED(distanceX, distanceX) + MUL_FIXED12_ROUNDED(distanceZ, distanceZ)) {
@@ -1100,11 +1100,11 @@ void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
     void *link = NULL;
     s32 inside;
 
-    if (gCourseMap->mPointLinkShapeCount == 0) {
+    if (g_GlobalPE->mPointLinkShapeCount == 0) {
         return link;
     }
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+        shape = GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             inside = 0;
             switch (shape->mShapeKind) {
@@ -1112,10 +1112,10 @@ void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
                 case COURSE_MAP_SHAPE_FORM_CYLINDER:
-                    VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
-                        distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
-                        distanceZ = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
+                    VecFx32_Subtract(pos, &shape->mPos, &offset);
+                    if (Vector3_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                        distanceX = Vector3_DotProduct(&offset, &shape->mAxisX) >> 4;
+                        distanceZ = Vector3_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
                         if (MUL_FIXED12_ROUNDED(radius, radius) >=
                             MUL_FIXED12_ROUNDED(distanceX, distanceX) + MUL_FIXED12_ROUNDED(distanceZ, distanceZ)) {
@@ -1125,7 +1125,7 @@ void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
                     break;
             }
             if (inside != 0) {
-                link = &gCourseMap->mRacePointLinks[shape->mPointIndex];
+                link = &g_GlobalPE->mRacePointLinks[shape->mPointIndex];
                 break;
             }
         }
@@ -1143,11 +1143,11 @@ PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
     PointLink *link = NULL;
     s32 inside;
 
-    if (gCourseMap->mPointLinkShapeCount == 0) {
+    if (g_GlobalPE->mPointLinkShapeCount == 0) {
         return link;
     }
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+        shape = GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_POINT_LINK) {
             inside = 0;
             switch (shape->mShapeKind) {
@@ -1155,10 +1155,10 @@ PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
                 case COURSE_MAP_SHAPE_FORM_CYLINDER:
-                    VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
-                        distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
-                        distanceZ = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
+                    VecFx32_Subtract(pos, &shape->mPos, &offset);
+                    if (Vector3_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                        distanceX = Vector3_DotProduct(&offset, &shape->mAxisX) >> 4;
+                        distanceZ = Vector3_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
                         if (MUL_FIXED12_ROUNDED(radius, radius) >=
                             MUL_FIXED12_ROUNDED(distanceX, distanceX) + MUL_FIXED12_ROUNDED(distanceZ, distanceZ)) {
@@ -1168,7 +1168,7 @@ PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
                     break;
             }
             if (inside != 0) {
-                link = &gCourseMap->mBattlePointLinks[shape->mPointIndex];
+                link = &g_GlobalPE->mBattlePointLinks[shape->mPointIndex];
                 break;
             }
         }
@@ -1186,8 +1186,8 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
     s32 cameraIndex = -1;
     s32 inside;
 
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < g_GlobalPE->mShapeCount; shapeIndex++) {
+        shape = GetGlobalPENkmAREAByIndex_from_thumb(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_CAMERA) {
             inside = 0;
             switch (shape->mShapeKind) {
@@ -1195,12 +1195,12 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
                     inside = IsPosInCourseMapShapeBox(pos, shape);
                     break;
                 case COURSE_MAP_SHAPE_FORM_CYLINDER:
-                    VEC_Subtract(pos, &shape->mPos, &offset);
-                    if (VEC_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                    VecFx32_Subtract(pos, &shape->mPos, &offset);
+                    if (Vector3_DotProduct(&offset, &shape->mAxisY) > MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
                         inside = 0;
                     } else {
-                        distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
-                        distanceZ = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
+                        distanceX = Vector3_DotProduct(&offset, &shape->mAxisX) >> 4;
+                        distanceZ = Vector3_DotProduct(&offset, &shape->mAxisZ) >> 4;
                         radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
                         if (MUL_FIXED12_ROUNDED(radius, radius) <
                             MUL_FIXED12_ROUNDED(distanceX, distanceX) + MUL_FIXED12_ROUNDED(distanceZ, distanceZ)) {
@@ -1222,16 +1222,16 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
 
 // Mode 2: returns mNextRespawnSlot and advances it modulo mRespawnCount (the argument is ignored); otherwise returns
 // mCheckpoints[a].mRespawnSlot, a = the kart's current entry.
-u16 GetCourseMapRespawnSlot(u32 checkpointIndex) {
+u16 GetCourseCpoiRespawnId(u32 checkpointIndex) {
     u16 respawnSlot;
     CourseMap *courseMap;
 
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        courseMap = gCourseMap;
+    if (g_GlobalCO->mMode == MODE_BATTLE) {
+        courseMap = g_GlobalPE;
         respawnSlot = courseMap->mNextRespawnSlot;
         courseMap->mNextRespawnSlot = (respawnSlot + 1) % courseMap->mRespawnCount;
     } else {
-        respawnSlot = gCourseMap->mCheckpoints[checkpointIndex].mRespawnSlot;
+        respawnSlot = g_GlobalPE->mCheckpoints[checkpointIndex].mRespawnSlot;
     }
     return respawnSlot;
 }
@@ -1240,10 +1240,10 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
     CourseMapRespawn *respawn;
     s32 pointIndex;
 
-    if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
+    if (g_GlobalPE->mCheckpoints == NULL && g_GlobalPE->mRespawns == NULL) {
         respawn = NULL;
     } else {
-        respawn = &gCourseMap->mRespawns[gCourseMap->mRespawnIndexBySlot[slot]];
+        respawn = &g_GlobalPE->mRespawns[g_GlobalPE->mRespawnIndexBySlot[slot]];
     }
     if (respawn == NULL) {
         outPos->x = 0;
@@ -1265,17 +1265,17 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
     if (pointIndex == -1) {
         return NULL;
     }
-    return &gCourseMap->mRacePointLinks[pointIndex];
+    return &g_GlobalPE->mRacePointLinks[pointIndex];
 }
 
 PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
     CourseMapRespawn *respawn;
     s32 pointIndex;
 
-    if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
+    if (g_GlobalPE->mCheckpoints == NULL && g_GlobalPE->mRespawns == NULL) {
         respawn = NULL;
     } else {
-        respawn = &gCourseMap->mRespawns[gCourseMap->mRespawnIndexBySlot[slot]];
+        respawn = &g_GlobalPE->mRespawns[g_GlobalPE->mRespawnIndexBySlot[slot]];
     }
     if (respawn == NULL) {
         outPos->x = 0;
@@ -1297,21 +1297,21 @@ PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outR
     if (pointIndex == -1) {
         return NULL;
     }
-    return &gCourseMap->mBattlePointLinks[pointIndex];
+    return &g_GlobalPE->mBattlePointLinks[pointIndex];
 }
 
 struct ItemPointLink *GetCourseMapRespawnItemPointLink(u16 slot) {
     CourseMapRespawn *respawn;
 
-    if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
+    if (g_GlobalPE->mCheckpoints == NULL && g_GlobalPE->mRespawns == NULL) {
         respawn = NULL;
     } else {
-        respawn = &gCourseMap->mRespawns[gCourseMap->mRespawnIndexBySlot[slot]];
+        respawn = &g_GlobalPE->mRespawns[g_GlobalPE->mRespawnIndexBySlot[slot]];
     }
     if (respawn == NULL) {
         return NULL;
     }
-    return &gCourseMap->mItemPointLinks[respawn->mItemPointIndex];
+    return &g_GlobalPE->mItemPointLinks[respawn->mItemPointIndex];
 }
 
 s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex) {
@@ -1325,8 +1325,8 @@ s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex) {
     s32 radius;
     BOOL found = FALSE;
 
-    node = gCourseMap->mZoneShapeLists[listIndex];
-    GetKartPos(&kartPos, kartIndex);
+    node = g_GlobalPE->mZoneShapeLists[listIndex];
+    LoadRacerMQVectorB(&kartPos, kartIndex);
     for (; found == FALSE && node != NULL; node = node->mNext) {
         shape = node->mShape;
         inside = 0;
@@ -1335,10 +1335,10 @@ s32 IsKartInCourseMapZoneShapeList(s32 kartIndex, u32 listIndex) {
                 inside = IsPosInCourseMapShapeBox(&kartPos, shape);
                 break;
             case COURSE_MAP_SHAPE_FORM_CYLINDER:
-                VEC_Subtract(&kartPos, &shape->mPos, &offset);
-                if (VEC_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
-                    distanceX = VEC_DotProduct(&offset, &shape->mAxisX) >> 4;
-                    distanceZ = VEC_DotProduct(&offset, &shape->mAxisZ) >> 4;
+                VecFx32_Subtract(&kartPos, &shape->mPos, &offset);
+                if (Vector3_DotProduct(&offset, &shape->mAxisY) <= MUL_FIXED12_ROUNDED(shape->mScale.y, 0x32000)) {
+                    distanceX = Vector3_DotProduct(&offset, &shape->mAxisX) >> 4;
+                    distanceZ = Vector3_DotProduct(&offset, &shape->mAxisZ) >> 4;
                     radius = MUL_FIXED12_ROUNDED(shape->mScale.x, 0x32000) >> 4;
                     if (MUL_FIXED12_ROUNDED(radius, radius) >=
                         MUL_FIXED12_ROUNDED(distanceX, distanceX) + MUL_FIXED12_ROUNDED(distanceZ, distanceZ)) {

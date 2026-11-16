@@ -13,12 +13,12 @@ extern const char gLogoSubBgCharsFileName[];
 extern const char gLogoSubBgScreenMapFileName[];
 extern const char gLogoSceneCommonBmgFileName[];
 
-void UpdateLogoReadBackup(void *stateObject);
-void EnterLogoReadBackup(void *stateObject);
-void UpdateLogoScene(SceneNumbers *sceneNumbers);
-void WriteLogoSceneRegisters(void);
-void ApplySavedSoundMode(void);
-void InitLogoScene(void *heap);
-void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
+void Logo_StateHandler_ReadSaveData_Second(void *stateObject);
+void Logo_StateHandler_ReadSaveData_First(void *stateObject);
+void Scene_Logo_UpdateImpl(SceneNumbers *sceneNumbers);
+void Scene_Logo_VBlankImpl(void);
+void Scene_Logo_FinalizeImpl(void);
+void InitializeLogoContext(void *heap);
+void LoadLogoScreenGraphics(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName);
 

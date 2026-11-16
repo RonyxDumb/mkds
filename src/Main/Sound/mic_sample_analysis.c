@@ -108,7 +108,7 @@ u8 UpdateMicSampleAnalysis(void) {
     pos = samplePtr - buf;
     if (pos >= len / 8) {
         sampleIndex = pos - len / 8;
-        DC_InvalidateRange(buf + sampleIndex, pos);
+        DC_InvalidateRangeNoClean(buf + sampleIndex, pos);
         for (; sampleIndex < pos; sampleIndex++) {
             if (gMicSampleAnalysisParam->mType == 0) {
                 sample = GetMicSampleAmplitude(ClampMicSample(buf[sampleIndex]));
@@ -127,7 +127,7 @@ u8 UpdateMicSampleAnalysis(void) {
         }
     } else {
         sampleIndex = len - (len / 8 - pos);
-        DC_InvalidateRange(buf + sampleIndex, (u16) len);
+        DC_InvalidateRangeNoClean(buf + sampleIndex, (u16) len);
         for (; sampleIndex < len; sampleIndex++) {
             if (gMicSampleAnalysisParam->mType == 0) {
                 sample = GetMicSampleAmplitude(ClampMicSample(buf[sampleIndex]));
@@ -144,7 +144,7 @@ u8 UpdateMicSampleAnalysis(void) {
                 maxv = sample;
             }
         }
-        DC_InvalidateRange(buf, pos);
+        DC_InvalidateRangeNoClean(buf, pos);
         for (sampleIndex = 0; sampleIndex < pos; sampleIndex++) {
             if (gMicSampleAnalysisParam->mType == 0) {
                 sample = GetMicSampleAmplitude(ClampMicSample(buf[sampleIndex]));

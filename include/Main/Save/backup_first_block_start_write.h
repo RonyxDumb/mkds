@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void StartWriteBackupFirstBlock(void);
+void WriteSaveDataHeader_from_thumb(void);

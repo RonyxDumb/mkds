@@ -3,15 +3,15 @@
 #include "Main/Graphics/scene_text_init.h"
 
 #pragma thumb on
-void ReleaseSceneTextWrapper(void) {
+void j_DisposeNavigationContext_from_thumb(void) {
     u32 unused;
-    ReleaseSceneText();
+    DisposeNavigationContext_from_thumb();
 }
 #pragma thumb off
 
 #pragma thumb on
-void WriteSceneTextRegistersWrapper(void) {
+void j_NavigationContext_OnSceneVblank_from_thumb(void) {
     u32 unused;
-    WriteSceneTextRegisters();
+    NavigationContext_OnSceneVblank_from_thumb();
 }
 #pragma thumb off

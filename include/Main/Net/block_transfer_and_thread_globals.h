@@ -15,7 +15,7 @@ extern s16 gSendChunkSize;
 
 struct WBTBlockInfoList;
 
-extern struct WBTBlockInfoList *gBlockListHead;
+extern struct WBTBlockInfoList *g_GlobalGO;
 
 struct BlockTransfer;
 
@@ -27,19 +27,19 @@ struct ScanConnectWork;
 
 struct MPLink;
 
-extern u32 OSi_StackForDestructor;
+extern u32 g_Os_ThreadDtorSp;
 
-extern u32 OSi_RescheduleCount;
+extern u32 g_Os_ThreadRescheduleCount;
 
-// The number OSi_GetUnusedThreadId last returned.
-extern u32 gThreadIdCount;
+// The number Os_AllocateThreadId last returned.
+extern u32 g_CurrentThreadId;
 
-extern void (*OSi_SystemCallbackInSwitchThread)(OSThread *, OSThread *);
+extern void (*Os_Thread_OnThreadSwitch)(OSThread *, OSThread *);
 
-extern OSThread **OSi_CurrentThreadPtr;
+extern OSThread **g_Os_CurrentThreadRef;
 
-extern u32 OSi_IsThreadInitialized;
+extern u32 g_Os_ThreadInit;
 
-extern ThreadSystem OSi_ThreadInfo;
+extern ThreadSystem g_Os_ThreadInfo;
 
-extern OSThread OSi_IdleThread;
+extern OSThread g_IdleThread;

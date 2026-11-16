@@ -65,10 +65,10 @@ void InitSun(Sun *sun) {
 }
 
 void CreateSunAndSunLOD(void *mapObjectList) {
-    gSun = CreateMapObjectModelAnimated(mapObjectList, "sun.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gSun, "sun.nsbca");
-    gSunLOD = CreateMapObjectModelAnimated(mapObjectList, "sun_LOD.nsbmd");
-    SetMapObjectModelPolygonId(gSun, AllocPolygonId());
+    gSun = CreateMapObjectFromModel_from_thumb(mapObjectList, "sun.nsbmd");
+    StructMapObject_AddAnimationNsbca_from_thumb(gSun, "sun.nsbca");
+    gSunLOD = CreateMapObjectFromModel_from_thumb(mapObjectList, "sun_LOD.nsbmd");
+    StructMapObject_MaybeSetPolygonId(gSun, GetIncrementSomeItemCounter());
 }
 
 void SunSetupDrawNop(void) {}
@@ -85,22 +85,22 @@ void DrawSun(void *mapObjectList, Sun *sun) {
     if (sun->mState == SUN_STATE_SHOOT_FIREBALLS || sun->mState == SUN_STATE_SPIN_DOWN) {
         radius = MUL_FIXED12_NO_ROUND(FX_CosIdx((u16) sun->mDrawOffsetRadiusAngle), -0x14000) + 0x14000;
         angleIndex = (sun->mDrawOffsetAngle >> 4) * 2;
-        translation.x = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex + 1]) >> 4;
-        translation.y = MUL_FIXED12_NO_ROUND(radius, FX_SinCosTable_[angleIndex]) >> 4;
+        translation.x = MUL_FIXED12_NO_ROUND(radius, g_SinFx16Table_AndCos[angleIndex + 1]) >> 4;
+        translation.y = MUL_FIXED12_NO_ROUND(radius, g_SinFx16Table_AndCos[angleIndex]) >> 4;
         translation.z = 0;
         NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &sun->mMapObject.mScale, 3);
     if (GetCurrentCameraKind() == 2) {
-        QueueMapObjectModelMaterial(mapObjectList, gSun);
-        SetMapObjectModelNsbcaFrameIndex(gSun, sun->mNsbcaFrameIndex);
+        StructMapObject_SomeFn_9(mapObjectList, gSun);
+        StructMapObject_MaybeSetNsbcaFrame(gSun, sun->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gSun, sun);
     } else if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 0x3d0900) {
-        QueueMapObjectModelMaterial(mapObjectList, gSun);
-        SetMapObjectModelNsbcaFrameIndex(gSun, sun->mNsbcaFrameIndex);
+        StructMapObject_SomeFn_9(mapObjectList, gSun);
+        StructMapObject_MaybeSetNsbcaFrame(gSun, sun->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gSun, sun);
     } else {
-        QueueMapObjectModelMaterial(mapObjectList, gSunLOD);
+        StructMapObject_SomeFn_9(mapObjectList, gSunLOD);
         DrawMapObjectModel1Mat1Shp(mapObjectList, gSunLOD, sun);
     }
 }
@@ -120,9 +120,9 @@ void InitSunObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0;
          mapObjectIndex < mapObjectList->mMapObjectCount && (sun = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+        if (g_GlobalCO->mMode == MODE_TIME_ATTACK) {
             sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mSettings[0];
-        } else if (gRaceSetup->mMode == MODE_WIFI) {
+        } else if (g_GlobalCO->mMode == MODE_WIFI) {
             sun->mTimer = (u16) sun->mMapObject.mCourseMapRow->mSettings[1];
         }
     }
@@ -131,7 +131,7 @@ void InitSunObjects(MapObjectList *mapObjectList) {
 static inline BOOL UpdateSun_inline(void) {
     s32 kartIndex;
 
-    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
+    for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
         if ((s32) GetKartHighestLap(kartIndex) >= 2) {
             return TRUE;
         }
@@ -146,8 +146,8 @@ static inline BOOL UpdateSun_inline_b(Sun *sun) {
     s32 deltaX;
     s32 deltaZ;
 
-    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
-        kart = GetKart((u16) kartIndex);
+    for (kartIndex = 0; kartIndex < g_GlobalCO->mKartCount; kartIndex++) {
+        kart = GetRacerMQEntry((u16) kartIndex);
         kartPos = &kart->mPos;
         deltaX = kartPos->x - sun->mMapObject.mPos.x;
         deltaZ = kartPos->z - sun->mMapObject.mPos.z;
@@ -180,7 +180,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                 sun->mFollower.mPath->mSegments[sun->mFollower.mSegmentIndex].mInverseProgressLength, SUN_PATH_SPEED);
             if (AdvanceGroupFollower(&sun->mFollower) != FALSE && (value = sun->mFollower.mFromEntry->mValue) != 0) {
                 if (sun->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
-                    mode = gRaceSetup->mMode;
+                    mode = g_GlobalCO->mMode;
                     if (mode == MODE_TIME_ATTACK) {
                         sun->mTimer = value;
                     } else if (mode == 5) {
@@ -260,7 +260,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
         sun->mNsbcaFrameIndexPerFrame = value;
     }
     sun->mNsbcaFrameIndex += FROM_FIXED12(sun->mNsbcaFrameIndexPerFrame);
-    if (sun->mNsbcaFrameIndex >= GetMapObjectModelNsbcaFrameCount(gSun)) {
+    if (sun->mNsbcaFrameIndex >= StructMapObject_GetAnimationBCAFrameCount(gSun)) {
         sun->mNsbcaFrameIndex = 0;
     }
 }

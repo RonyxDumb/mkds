@@ -461,8 +461,8 @@ void InitPosStrips(void *heap) {
     NNSG3dResTex *effectTexture;
     s32 textureVramOffset;
 
-    mainRaceOrMainEffectFile = FindMainRaceOrMainEffectFile(
-        gRaceSetup->mRaceKind == RACE_KIND_AWARD ? "/effect/award_track.nsbtx" : "/effect/hanegame.nsbtx");
+    mainRaceOrMainEffectFile = FindFileBuffer_MAR_EFT_from_thumb(
+        g_GlobalCO->mRaceKind == RACE_KIND_AWARD ? "/effect/award_track.nsbtx" : "/effect/hanegame.nsbtx");
     gPosStripHeightDecreasePerFrame = 0x4d;
     gPosStripMaxAgeFrames = 8;
     gPosStripAlphaDecreasePerFrame = 3;
@@ -471,9 +471,9 @@ void InitPosStrips(void *heap) {
     gPosStripFirstPolygonId = 0xe;
     gPosStripDrawEnabled = 1;
     stripCount = 1;
-    if (gRaceSetup->mMode == MODE_WIFI) {
+    if (g_GlobalCO->mMode == MODE_WIFI) {
         stripCount += 3;
-    } else if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
+    } else if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD) {
         gPosStripHeightDecreasePerFrame = 0;
         gPosStripMaxAgeFrames = 0xe;
         gPosStripAlphaDecreasePerFrame = 2;
@@ -484,23 +484,23 @@ void InitPosStrips(void *heap) {
         stripCount = 6;
     }
     pointCount = gPosStripPointsPerStrip * stripCount;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        heap = gOverlayLoader->mExpHeap;
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        heap = g_OverlayManager->mExpHeap;
     }
-    gPosStrips = HeapAlloc(heap, sizeof(*gPosStrips));
-    strips = HeapAlloc(heap, stripCount * 0x30);
-    points = HeapAlloc(heap, pointCount * 0x1c);
-    NNS_FndInitList(&gPosStrips->mLists[0], 0);
-    NNS_FndInitList(&gPosStrips->mLists[1], 0);
-    NNS_FndInitList(&gPosStrips->mLists[2], 0);
+    gPosStrips = Mem_AllocateHeap(heap, sizeof(*gPosStrips));
+    strips = Mem_AllocateHeap(heap, stripCount * 0x30);
+    points = Mem_AllocateHeap(heap, pointCount * 0x1c);
+    IntrusiveListWrapper_InitializeEmpty(&gPosStrips->mLists[0], 0);
+    IntrusiveListWrapper_InitializeEmpty(&gPosStrips->mLists[1], 0);
+    IntrusiveListWrapper_InitializeEmpty(&gPosStrips->mLists[2], 0);
     for (index = 0; index < stripCount; index++) {
-        NNS_FndInitList(&strips[index].mPoints, 0);
-        NNS_FndAppendListObject(&gPosStrips->mLists[1], &strips[index]);
+        IntrusiveListWrapper_InitializeEmpty(&strips[index].mPoints, 0);
+        IntrusiveListWrapper_InsertLast(&gPosStrips->mLists[1], &strips[index]);
     }
     for (index = 0; index < pointCount; index++) {
-        NNS_FndAppendListObject(&gPosStrips->mLists[2], &points[index]);
+        IntrusiveListWrapper_InsertLast(&gPosStrips->mLists[2], &points[index]);
     }
-    AddResFileEntry(&gPosStrips->mEffectFileEntry, mainRaceOrMainEffectFile, mainRaceOrMainEffectFile);
+    LoadedModelTexture_SomeFn(&gPosStrips->mEffectFileEntry, mainRaceOrMainEffectFile, mainRaceOrMainEffectFile);
     effectTexture = gPosStrips->mEffectFileEntry.mTexture;
     textureVramOffset = (effectTexture->mTexInfo.mVramKey & 0xffff) << 3;
     gPosStripTexture.mTexImageParam = gPosStripTexture.mTexImageParam & 0xffff0000;
@@ -508,15 +508,15 @@ void InitPosStrips(void *heap) {
     gPosStripTexture.mPlttBase = (effectTexture->mPlttInfo.mVramKey & 0xffff) << 3;
     gPosStripTexture.mLowHalfTexCoord = POS_STRIP_LOW_HALF_TEX_COORD;
     gPosStripTexture.mHighHalfTexCoord = POS_STRIP_HIGH_HALF_TEX_COORD;
-    gPosStrips->mPolygonAttrBits = gRaceSetup->mCourseId == COURSE_ID_RAINBOW ? 0 : 0x8000;
+    gPosStrips->mPolygonAttrBits = g_GlobalCO->mCourseId == COURSE_ID_RAINBOW ? 0 : 0x8000;
 }
 
 void UpdatePosStrips(void) {
     void *strip;
-    strip = NNS_FndGetNextListObject(&gPosStrips->mLists[0], NULL);
+    strip = IntrusiveListWrapper_NextItem(&gPosStrips->mLists[0], NULL);
     while (strip != NULL) {
         UpdatePosStrip(strip);
-        strip = NNS_FndGetNextListObject(&gPosStrips->mLists[0], strip);
+        strip = IntrusiveListWrapper_NextItem(&gPosStrips->mLists[0], strip);
     }
 }
 
@@ -530,7 +530,7 @@ void DrawPosStrips(const MtxFx43 *matrix) {
 
     polygonId = gPosStripFirstPolygonId;
     isDrawStateSet = FALSE;
-    strip = NNS_FndGetNextListObject(&gPosStrips->mLists[0], NULL);
+    strip = IntrusiveListWrapper_NextItem(&gPosStrips->mLists[0], NULL);
     if (strip == NULL) {
         return;
     }
@@ -547,21 +547,21 @@ void DrawPosStrips(const MtxFx43 *matrix) {
             isDrawStateSet = TRUE;
         }
         reg_G3_COLOR = 0x7fff;
-        point = NNS_FndGetNextListObject(&strip->mPoints, NULL);
+        point = IntrusiveListWrapper_NextItem(&strip->mPoints, NULL);
         if (point != NULL && gPosStripDrawEnabled != 0) {
-            nextPoint = NNS_FndGetNextListObject(&strip->mPoints, NULL);
+            nextPoint = IntrusiveListWrapper_NextItem(&strip->mPoints, NULL);
             if (nextPoint != NULL) {
                 do {
                     polygonAlpha = 0x1f - point->mSinceAddedFrames * gPosStripAlphaDecreasePerFrame;
                     reg_G3_POLYGON_ATTR = polygonId << 24 | (gPosStrips->mPolygonAttrBits | 0xc0) | polygonAlpha << 16;
                     DrawPosStripQuad(matrix, point, nextPoint, &gPosStripTexture);
                     point = nextPoint;
-                    nextPoint = NNS_FndGetNextListObject(&strip->mPoints, nextPoint);
+                    nextPoint = IntrusiveListWrapper_NextItem(&strip->mPoints, nextPoint);
                 } while (nextPoint != NULL);
             }
         }
         polygonId = polygonId + 1;
-        strip = NNS_FndGetNextListObject(&gPosStrips->mLists[0], strip);
+        strip = IntrusiveListWrapper_NextItem(&gPosStrips->mLists[0], strip);
     } while (strip != NULL);
 }
 
@@ -584,7 +584,7 @@ void SetPosStripPointFromKart(PosStripPoint *posStripPoint, PosStrip *posStrip) 
     Vec3 *kartVector;
     s32 stripOffset;
 
-    kart = GetKart(posStrip->mKartIndex);
+    kart = GetRacerMQEntry(posStrip->mKartIndex);
     position = kart->mPos;
     kartVector = &kart->mRotationRow0;
     stripOffset = posStrip->mOffsetX;
@@ -601,9 +601,9 @@ void SetPosStripPointFromKart(PosStripPoint *posStripPoint, PosStrip *posStrip) 
     offsetVectorZ.x = MUL_FIXED12_NO_ROUND(kartVector->x, stripOffset);
     offsetVectorZ.y = MUL_FIXED12_NO_ROUND(kartVector->y, stripOffset);
     offsetVectorZ.z = MUL_FIXED12_NO_ROUND(kartVector->z, stripOffset);
-    VEC_Add(&position, &offsetVectorX, &position);
-    VEC_Add(&position, &offsetVectorY, &position);
-    VEC_Add(&position, &offsetVectorZ, &position);
+    VecFx32_Add(&position, &offsetVectorX, &position);
+    VecFx32_Add(&position, &offsetVectorY, &position);
+    VecFx32_Add(&position, &offsetVectorZ, &position);
     posStripPoint->mHeight = posStrip->mHeight;
     posStripPoint->mSinceAddedFrames = 0;
     posStripPoint->mPos.x = position.x >> 4;
@@ -614,13 +614,13 @@ void SetPosStripPointFromKart(PosStripPoint *posStripPoint, PosStrip *posStrip) 
 // Starts a strip that follows the position a points to; returns the strip, or 0 when none is free.
 PosStrip *StartPosStrip(const Vec3 *followedPos) {
     PosStrip *strip;
-    strip = NNS_FndGetNthListObject(&gPosStrips->mLists[1], 0);
+    strip = IntrusiveListWrapper_GetAtIndex(&gPosStrips->mLists[1], 0);
     if (strip != NULL) {
         strip->mFollowedPos = followedPos;
         strip->mStopped = 0;
         strip->mHeight = POS_STRIP_START_HEIGHT;
-        NNS_FndRemoveListObject(&gPosStrips->mLists[1], strip);
-        NNS_FndAppendListObject(&gPosStrips->mLists[0], strip);
+        IntrusiveListWrapper_RemoveItem(&gPosStrips->mLists[1], strip);
+        IntrusiveListWrapper_InsertLast(&gPosStrips->mLists[0], strip);
     }
     return strip;
 }
@@ -633,10 +633,10 @@ PosStrip *StartAwardKartPosStrip(s32 kartIndex) {
     Vec3 kartOffset;
     s32 stripHeight;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        strip = NNS_FndGetNthListObject(&gPosStrips->mLists[1], 0);
+    if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD) {
+        strip = IntrusiveListWrapper_GetAtIndex(&gPosStrips->mLists[1], 0);
         if (strip != NULL) {
-            kart = GetKart(kartIndex);
+            kart = GetRacerMQEntry(kartIndex);
             kartModelsEntry = kart->mKartModelsEntry;
             kartOffset = kartModelsEntry->mKartOffsetData->mCharacterOffsets[kartModelsEntry->mCharacterIndex];
             strip->mFollowedPos = &kart->mPos;
@@ -650,8 +650,8 @@ PosStrip *StartAwardKartPosStrip(s32 kartIndex) {
             strip->mOffsetX = kartOffset.x << 4;
             strip->mOffsetY = (gAwardStripKartYOffsets[kartModelsEntry->mKartIndex] + stripHeight) << 4;
             strip->mOffsetZ = gAwardStripCharacterYOffsets[kartModelsEntry->mCharacterIndex][1] +(kartOffset.z << 4);
-            NNS_FndRemoveListObject(&gPosStrips->mLists[1], strip);
-            NNS_FndAppendListObject(&gPosStrips->mLists[0], strip);
+            IntrusiveListWrapper_RemoveItem(&gPosStrips->mLists[1], strip);
+            IntrusiveListWrapper_InsertLast(&gPosStrips->mLists[0], strip);
         }
         return strip;
     }

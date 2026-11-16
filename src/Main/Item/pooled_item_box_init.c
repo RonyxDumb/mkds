@@ -40,11 +40,11 @@ const MapObjectKindDescriptor gPooledItemBoxKindDescriptor = {0,
 
 const MapObjectKindData gPooledItemBoxKindData = {0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0};
 
-BOOL IsRaceSceneNormalOrReplay(void) {
+BOOL IsInRaceSceneNormalOrReplay(void) {
     u32 result = 0;
     u32 isNormalOrReplay;
-    if (GetCurrentSceneNumber() == 2) {
-        s32 raceKind = gRaceSetup->mRaceKind;
+    if (GetCurrentSceneId() == 2) {
+        s32 raceKind = g_GlobalCO->mRaceKind;
         isNormalOrReplay = 1;
         if (raceKind != RACE_KIND_NORMAL && raceKind != RACE_KIND_REPLAY) {
             isNormalOrReplay = 0;
@@ -56,13 +56,13 @@ BOOL IsRaceSceneNormalOrReplay(void) {
     return result;
 }
 
-BOOL IsMissionRunBossColumn(void) {
+BOOL IsInBossMissionStage(void) {
     u32 result = 0;
-    s32 value = gRaceSetup->mMode;
+    s32 value = g_GlobalCO->mMode;
     if (value != MODE_MISSION_RUN) {
         return result;
     }
-    value = value == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1;
+    value = value == MODE_MISSION_RUN ? g_GlobalCO->mMissionTableColumn : -1;
     if (value == 9) {
         result = 1;
     }
@@ -70,7 +70,7 @@ BOOL IsMissionRunBossColumn(void) {
 }
 
 MapObjectKindData *CreatePooledItemBoxKindData(void) {
-    MapObjectKindData *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    MapObjectKindData *kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gPooledItemBoxKindData;
     return kindData;
 }

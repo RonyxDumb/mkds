@@ -84,9 +84,9 @@ typedef struct RecordTAtt {
     /* 54 */ s32 mNextState;
     /* 58 */ s32 mStateFrames; /* counted only in states 0, 1, 3-8, 11, 12, 13, 17 */
     /* 5c */ s32 mBg0Offset;
-    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // X half of reg_G2_BG1OFS (0x04000014, NtrMain engine BG1), stored negated
     /* 60 */ s32 mBg1OffsetX;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // Y half of reg_G2_BG1OFS (0x04000014, NtrMain engine BG1), stored negated
     /* 64 */ s32 mBg1OffsetY;
     // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; Y is not written
     /* 68 */ s32 mBg3OffsetX;
@@ -164,7 +164,7 @@ extern const u16 gRecordTAttCharacterKartCellIndices[5][2];
 
 #include "card_rom_backup_access.h"
 
-extern BackupAccess *gBackupAccess;
+extern BackupAccess *g_SaveDataIoManager;
 extern const s32 gRecordTAttCourseIds[RECORD_TATT_COURSE_COUNT];
 extern RecordTAtt *gRecordTAtt;
 

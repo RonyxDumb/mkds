@@ -48,35 +48,35 @@ typedef struct ModelEffect {
 } ModelEffect;
 
 void StartKartWaterSplashEffects(const Vec3 *position, s32 startModel);
-void UpdateModelEffectBombcore2(ModelEffect *modelEffect);
-void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects);
-void UpdateModelEffectBkWave(ModelEffect *modelEffect);
-void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects);
-void UpdateWaterEfctKinds(ModelEffect *modelEffect);
-void StartDonketuWaterSplashModel(ModelEffect *modelEffect);
-void StartKartWaterSplashModel(ModelEffect *modelEffect);
-void UpdateModelEffectBombcore(ModelEffect *modelEffect);
-void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects);
-void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, void *nsbcaFile, void *nsbmaFile,
+void ExplosionKind_Bombcore2_UpdateFn(ModelEffect *modelEffect);
+void ExplosionKind_Bombcore2_CreateFn(ModelEffect *modelEffect, s32 startEffects);
+void ExplosionKind_BakubakuWave_UpdateFn(ModelEffect *modelEffect);
+void ExplosionKind_BakubakuWave_CreateFn(ModelEffect *modelEffect, s32 startEffects);
+void ExplosionKind_Splash_MissionSplash_UpdateFn(ModelEffect *modelEffect);
+void ExplosionKind_MissionSplash_CreateFn(ModelEffect *modelEffect);
+void ExplosionKind_Splash_CreateFn(ModelEffect *modelEffect);
+void ExplosionKind_Bombcore_UpdateFn(ModelEffect *modelEffect);
+void ExplosionKind_Bombcore_CreateFn(ModelEffect *modelEffect, s32 startEffects);
+void MaybeLoadSomeExplosion(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, void *nsbcaFile, void *nsbmaFile,
                           void *nsbtaFile);
-void InitModelEffectObjects(void *heap);
-void SetupBkWaveKind(void);
-void SetupWaterEfctKindRow(ModelEffectKind *kindRow, s32 objectCount);
+void CreateExplosionInstances(void *heap);
+void MaybeCheckMapObjBkWaveNsbcaNsbma(void);
+void MaybeLoadExplosionManager(ModelEffectKind *kindRow, s32 objectCount);
 void DrawModelEffects(void);
-void UpdateModelEffects(void);
-ModelEffect *StartModelEffect(u32 kind, const Vec3 *position, s32 startEffects);
-void InitModelEffects(void *heap);
-void SetAwardPosStripDrawEnabled(s32 drawEnabled);
+void UpdateExplosionInstances(void);
+ModelEffect *MaybeRecreateExplosionInstance(u32 kind, const Vec3 *position, s32 startEffects);
+void LoadEffectMapObjModels(void *heap);
+void SetSomeAwardModeProperty(s32 drawEnabled);
 void DrawPosStripQuad(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosStripPoint *secondPoint,
                       PosStripTexture *posStripTexture);
 void UpdatePosStrip(PosStrip *posStrip);
 
 extern s32 gKartWaterSplashCreated;
 extern s32 gKartWaterSplashEffectIds[2];
-extern struct ModelEffects *gModelEffects;
+extern struct ModelEffects *g_GlobalRT;
 
-extern ModelEffectKind gModelEffectKinds[MODEL_EFFECT_KIND_COUNT];
+extern ModelEffectKind g_ExplosionManagers[MODEL_EFFECT_KIND_COUNT];
 
-extern char gRaceEffectSpaName[15];
-extern char gRaceEffectFogOffSpaName[29];
-extern char gMissionEffectSpaName[35];
+extern char g_str_RaceEffect_spa[15];
+extern char g_path_effect_RaceEffectFogOff_spa[29];
+extern char g_path_data_MissionRun_MissionEffect_spa[35];

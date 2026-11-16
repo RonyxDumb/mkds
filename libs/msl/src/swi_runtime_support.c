@@ -6,23 +6,23 @@
 #include "sound_stream_control.h"
 #include "sound_archive_load.h"
 
-u32 gFloatStatus;
+u32 g_AlphaFlags;
 struct MWiDestructorChain *gGlobalDestructorChain;
-FloatTrapTable gFloatTrapTable;
+FloatTrapTable g_GammaFuncs;
 
 void ExitViaSwi(void) {
     SwiCall24();
 }
 
-FloatTrapTable *GetFloatTrapTable(void) {
-    return &gFloatTrapTable;
+FloatTrapTable *GetGammaFuncsRef(void) {
+    return &g_GammaFuncs;
 }
 
-u32 *GetFloatStatus(void) {
-    return &gFloatStatus;
+u32 *GetAlphaFlagsRef(void) {
+    return &g_AlphaFlags;
 }
 
-void __call_static_initializers(void) {
+void Crt0_RunInitArray(void) {
     void (**initializer)(void);
 
     for (initializer = gStaticInitializers; initializer != 0 && *initializer != 0; initializer++) {
@@ -50,7 +50,7 @@ s32 SwiReadBytes(s32 fileHandle, u8 *buffer, u32 *countPtr) {
 
     capacity = *countPtr;
     for (index = 0; index < capacity; index++) {
-        buffer[index] = SwiReadByte();
+        buffer[index] = Semihost_Op7();
         if (buffer[index] == 13 || buffer[index] == 10) {
             *countPtr = index + 1;
             break;
@@ -89,7 +89,7 @@ asm void SwiWriteByte(const void *bytePtr) {
 // Makes supervisor call 0x123456 with r0 = 7 and r1 = 0 and returns its r0; SwiReadBytes stores the low byte of each
 // result into a buffer.
 // Kept as asm: swi, and the same one-word frame and return as SwiWriteByte.
-asm u32 SwiReadByte(void) {
+asm u32 Semihost_Op7(void) {
     str lr, [sp, #-4]!
     mov r1, #0
     mov r0, #7

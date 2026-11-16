@@ -132,13 +132,13 @@ s32 SOCLi_BindCallBack(SOCLiCommandPacket *packet) {
     sockObj = packet->mSocket;
     connectResult = 0;
     inPipe = sockObj->mReceiveBlock;
-    OS_LockMutex(&inPipe->mCommandPipe.mInUse);
+    Os_Mutex_Lock(&inPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mLocalPort, packet->mRemotePort, packet->mRemoteIp);
     inPipe->mConsumed = 0;
     if (packet->mFlagMode == SOCKET_MODE_STREAM || packet->mFlagMode == SOCKET_MODE_STREAM_DIRECT_READ) {
         connectResult = CPS_TcpConnect();
     }
-    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
+    Os_Mutex_Unlock(&inPipe->mCommandPipe.mInUse);
     if (connectResult != 0) {
         sockObj->mStatusFlags |= SOCL_STATUS_ERROR;
         return -76;
@@ -268,7 +268,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
 
     sockObj = packet->mSocket;
     inPipe = sockObj->mReceiveBlock;
-    OS_LockMutex(&inPipe->mCommandPipe.mInUse);
+    Os_Mutex_Lock(&inPipe->mCommandPipe.mInUse);
     CPS_SocBind(packet->mLocalPort, 0, 0);
     CPS_TcpListen();
     inPipe->mConsumed = 0;
@@ -276,7 +276,7 @@ s32 SOCLi_ListenAcceptCallBack(SOCLiCommandPacket *packet) {
     *packet->mRemotePortOut = remotePort;
     *packet->mRemoteIpOut = peerAddr;
     sockObj->mStatusFlags |= SOCL_STATUS_CONNECTED;
-    OS_UnlockMutex(&inPipe->mCommandPipe.mInUse);
+    Os_Mutex_Unlock(&inPipe->mCommandPipe.mInUse);
     return 0;
 }
 
@@ -326,14 +326,14 @@ SOCLSocket *SOCLi_StartupSocket(SOCLSocketParam *param) {
     SOCLSocket *sockObj;
 
     size = SOCLi_GetSizeSocket(param);
-    interruptState = OS_DisableInterrupts();
+    interruptState = Os_DisableIrq();
     sockObj = SOCLiConfigPtr->mAlloc(size);
     if (sockObj != NULL) {
-        MI_CpuFill8(sockObj, 0, size);
+        Mem_CpuFill8(sockObj, 0, size);
         SOCLi_InitSocket(sockObj, param);
         SOCLi_SocketRegister(sockObj);
     }
-    OS_RestoreInterrupts(interruptState);
+    Os_RestoreIrq(interruptState);
     return sockObj;
 }
 
@@ -414,10 +414,10 @@ u8 *SOCLi_InitCommandPipe(u8 *messages, SOCLiSocketCommandPipe *pipe, SOCLSocket
     u8 *stackBottom;
 
     stackBottom = messages + SOCLi_GetSizeCommandPipe(param);
-    OS_InitMessageQueue(&pipe->mQueue, (void **) messages, param->mQueueMax);
-    OS_InitMutex(&pipe->mInUse);
-    OS_CreateThread(&pipe->mThread, SOCLi_CommandPacketHandler, pipe, stackBottom, param->mStackSize, param->mPriority);
-    OS_WakeupThreadDirect(&pipe->mThread);
+    Os_MessageQueue_Initialize(&pipe->mQueue, (void **) messages, param->mQueueMax);
+    Os_Mutex_Initialize(&pipe->mInUse);
+    Os_Thread_Create(&pipe->mThread, SOCLi_CommandPacketHandler, pipe, stackBottom, param->mStackSize, param->mPriority);
+    Os_Thread_WakeUpDirect(&pipe->mThread);
     return stackBottom;
 }
 
@@ -433,7 +433,7 @@ s32 SOCLi_StartupCommandPacketQueue(s32 count) {
     if (messages == NULL) {
         return -1;
     }
-    OS_InitMessageQueue(&SOCLiCommandPacketQueue, messages, count);
+    Os_MessageQueue_Initialize(&SOCLiCommandPacketQueue, messages, count);
     packet = OFFSET_PTR(SOCLiCommandPacket, messages, queueBytes);
     if (count > 0) {
         do {
@@ -458,7 +458,7 @@ s32 SOCLi_CleanupCommandPacketQueue(void) {
 SOCLiCommandPacket *SOCLi_AllocCommandPacket(s32 flag) {
     int received;
     SOCLiCommandPacket *packet[1];
-    received = OS_ReceiveMessage(&SOCLiCommandPacketQueue, (void **) packet, flag);
+    received = Os_ReceiveMessage(&SOCLiCommandPacketQueue, (void **) packet, flag);
     if (received != 0) {
         return packet[0];
     }
@@ -480,14 +480,14 @@ SOCLiCommandPacket *SOCLi_CreateCommandPacket(SOCLiCommandHandler handler, SOCLS
 
 void SOCLi_FreeCommandPacket(SOCLiCommandPacket *packet) {
     if (packet != NULL) {
-        OS_SendMessage(&SOCLiCommandPacketQueue, (packet), 0);
+        Os_MessageQueue_Send(&SOCLiCommandPacketQueue, (packet), 0);
     }
 }
 
 s32 SOCLi_SendCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *packet) {
     s32 result;
 
-    result = OS_SendMessage(&pipe->mQueue, packet, packet != NULL ? packet->mFlagBlock : 1);
+    result = Os_MessageQueue_Send(&pipe->mQueue, packet, packet != NULL ? packet->mFlagBlock : 1);
     if (result == 0) {
         SOCLi_FreeCommandPacket(packet);
     }
@@ -506,10 +506,10 @@ s32 SOCLi_ExecCommandPacket(SOCLiSocketCommandPipe *pipe, SOCLiCommandPacket *pa
         packet->mResponse = NULL;
         result = SOCLi_SendCommandPacket(pipe, packet);
     } else {
-        OS_InitMessageQueue(&replyQueue, &reply, 1);
+        Os_MessageQueue_Initialize(&replyQueue, &reply, 1);
         packet->mResponse = &replyQueue;
         SOCLi_SendCommandPacket(pipe, packet);
-        OS_ReceiveMessage(&replyQueue, (void **) &result, 1);
+        Os_ReceiveMessage(&replyQueue, (void **) &result, 1);
     }
     return result;
 }
@@ -541,18 +541,18 @@ void SOCLi_CommandPacketHandler(void *queueArgument) {
             return;
         }
         result = packet->mHandler(packet);
-        interruptState = OS_DisableInterrupts();
-        OS_DisableScheduler();
-        OS_ReceiveMessage(queue, NULL, 0);
+        interruptState = Os_DisableIrq();
+        Os_DisableScheduler();
+        Os_ReceiveMessage(queue, NULL, 0);
         if (packet->mSocket != NULL) {
             packet->mSocket->mEntryResult = result;
         }
         if (packet->mResponse != NULL) {
-            OS_SendMessage(packet->mResponse, (void *) result, 0);
+            Os_MessageQueue_Send(packet->mResponse, (void *) result, 0);
         }
         SOCLi_FreeCommandPacket(packet);
-        OS_EnableScheduler();
-        OS_RestoreInterrupts(interruptState);
-        OSi_RescheduleThread();
+        Os_EnableScheduler();
+        Os_RestoreIrq(interruptState);
+        Os_RescheduleThread();
     }
 }

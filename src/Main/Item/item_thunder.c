@@ -85,14 +85,14 @@ void StartItemThunder(ItemInUse *itemInUse, HeldItem *heldItem) {
             if (*seqPlayer != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayer, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(seqPlayer, 0, 0xde);
+            PlaySseqFromSarc(seqPlayer, 0, 0xde);
         }
     }
-    StartKartThunder(heldItem->mKartItems->mKart);
+    StructMQRacerEntry_SomeFn_58(heldItem->mKartItems->mKart);
     RunMapObjectListCallbacks();
     StartThunderBlockTimer(0);
     RemoveHeldItemObjects(heldItem, 1);
-    if (gRaceSetup->mMode != MODE_WIFI) {
+    if (g_GlobalCO->mMode != MODE_WIFI) {
         return;
     }
     AddItemDataFrameOnly(6);

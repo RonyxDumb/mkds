@@ -22,13 +22,13 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind);
 void GetGhostRecordSetName(u32 kind, void *name);
 void GetGhostRecordSetTime(u32 kind, void *time);
 void SetupGhostRecordSetForCourse(u32 courseId);
-void ClearGhostRecordSetPointer(void);
-void InitGhostRecordSet(void *heap);
+void ResetGlobalPK_from_thumb(void);
+void InitializeGlobalPK_from_thumb(void *heap);
 
-extern struct GhostRecordSet *gGhostRecordSet;
+extern struct GhostRecordSet *g_GlobalPK;
 
 static inline GhostRecordHead *GetGhostRecordSetSlotHead(u8 slotIndex) {
-    return &gGhostRecordSet->mSlotGhostRecords[slotIndex].mHead;
+    return &g_GlobalPK->mSlotGhostRecords[slotIndex].mHead;
 }
 
 // Kinds of ghost record the functions of this file take: the record of the course, the record of the selected slot, the

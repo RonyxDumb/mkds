@@ -41,19 +41,19 @@ NsbmdModel *gEarthenPipe2;
 void DrawEarthenPipe(u32 unused0, PushedObject *pipe, u32 unused1, u16 maxAlpha) {
     MtxFx43 *matrix;
     if (pipe->mMapObject.mStateMachine.mState == 0) {
-        matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
+        matrix = MaybeGetBBMtxAtPosition(&pipe->mMapObject.mPos);
         DrawNsbmdModelWithMatrixAndMaxAlpha(gEarthenPipe1, matrix, &pipe->mMapObject.mScale, 0, maxAlpha);
         return;
     }
     QueueNsbmdModelMaterial(gEarthenPipe2);
-    matrix = SetViewRotatedMatrixPos(&pipe->mMapObject.mPos);
+    matrix = MaybeGetBBMtxAtPosition(&pipe->mMapObject.mPos);
     DrawNsbmdModelWithMatrixAndAngle(gEarthenPipe2, matrix, pipe->mMotion.mAngle, &pipe->mMapObject.mScale, 0,
                                      maxAlpha);
     QueueNsbmdModelMaterial(gEarthenPipe1);
 }
 
 void UpdateEarthenPipe(u32 unused, PushedObject *pipe) {
-    AdvanceStateMachine(&pipe->mMapObject.mStateMachine);
+    StateDualHandler_Execute(&pipe->mMapObject.mStateMachine);
 }
 
 u8 CollideKartWithEarthenPipe(PushedObject *pipe, void *kart, u8 *firstResponsePtr, u8 *secondResponsePtr) {
@@ -72,12 +72,12 @@ u8 CollideItemObjectWithEarthenPipe(PushedObject *pipe, void *itemObject, u8 *fi
 
 void CreateEarthenPipe1AndEarthenPipe2(void) {
     void *nsbmdFile;
-    nsbmdFile = FindCourseMapObjFile("earthen_pipe1.nsbmd");
-    CreateNsbmdModel(&gEarthenPipe1, nsbmdFile, 0, 0);
-    nsbmdFile = FindCourseMapObjFile("earthen_pipe2.nsbmd");
-    CreateNsbmdModel(&gEarthenPipe2, nsbmdFile, 0, 0);
-    SetNsbmdModelFixedAttributes(gEarthenPipe1);
-    SetNsbmdModelFixedAttributes(gEarthenPipe2);
+    nsbmdFile = FormatFindMapObjFileBuffer_from_thumb("earthen_pipe1.nsbmd");
+    CreateMapObjectSubFrom_from_thumb(&gEarthenPipe1, nsbmdFile, 0, 0);
+    nsbmdFile = FormatFindMapObjFileBuffer_from_thumb("earthen_pipe2.nsbmd");
+    CreateMapObjectSubFrom_from_thumb(&gEarthenPipe2, nsbmdFile, 0, 0);
+    StructMapObjectSub_SomeFn_1(gEarthenPipe1);
+    StructMapObjectSub_SomeFn_1(gEarthenPipe2);
 }
 
 #pragma thumb off

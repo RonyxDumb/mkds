@@ -22,10 +22,10 @@
 #include "Main/Save/ghost_record_file.h"
 
 void WiFiRaceSyncReceiveCallback(u32 fromIndex, void *message, u32 size) {
-    if (gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_RACE) {
+    if (g_GlobalB->mStateMachine.mState != WIFI_SESSION_STATE_RACE) {
         return;
     }
-    if (gWiFiSession->mRaceSyncEnabled == FALSE) {
+    if (g_GlobalB->mRaceSyncEnabled == FALSE) {
         return;
     }
     if (DoesMessageHeaderMatch(message, size, fromIndex, DWC_GetMyAID()) != FALSE) {
@@ -34,22 +34,22 @@ void WiFiRaceSyncReceiveCallback(u32 fromIndex, void *message, u32 size) {
     ReceiveWiFiRaceSyncPacket(fromIndex, message, size, 0);
 }
 
-void WriteChangedWiFiBuddies(void) {
-    if (gWiFiSession->mBuddiesChanged == FALSE) {
+void WriteSaveFriendCodes(void) {
+    if (g_GlobalB->mBuddiesChanged == FALSE) {
         return;
     }
-    CopyWiFiBuddiesToRecordBlock(&gWiFiSession->mBuddies[0]);
+    CopyFriendCodesToSaveData(&g_GlobalB->mBuddies[0]);
     RefreshNotYetBuddyFlags();
-    WriteBackupBuddyRecords();
-    while (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1) {
+    WriteFriendListSaveDataSection();
+    while (g_SaveDataHolder->mBusy == 0 ? (g_SaveDataIoManager->mBackupEnabled != 0 ? g_SaveDataIoManager->mCommandRunning : 0) : 1) {
     }
-    gWiFiSession->mBuddiesChanged = FALSE;
+    g_GlobalB->mBuddiesChanged = FALSE;
 }
 
 void RequestWiFiSessionLogin(void) {
     StateMachine *stateMachine;
 
-    stateMachine = &gWiFiSession->mStateMachine;
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_LOGIN;
     stateMachine->mNextStateRequested = 1;
 }
@@ -61,21 +61,21 @@ void ReleaseWiFiConnectionWrapper(void) {
 BOOL UpdateWiFiSessionRelease(void) {
     StateMachine *stateMachine;
 
-    if (gWiFiSession->mStateMachine.mState == WIFI_SESSION_STATE_OFF) {
+    if (g_GlobalB->mStateMachine.mState == WIFI_SESSION_STATE_OFF) {
         return 1;
     }
     if (DWC_CleanupInetAsync() == FALSE) {
         return 0;
     }
     ResetWiFiSession();
-    stateMachine = &gWiFiSession->mStateMachine;
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
     return 1;
 }
 
 s32 GetWiFiSessionLoginResult(void) {
-    switch (gWiFiSession->mLogin.mStep) {
+    switch (g_GlobalB->mLogin.mStep) {
         case WIFI_LOGIN_STEP_DONE:
             return 1;
         case WIFI_LOGIN_STEP_FAILED:
@@ -85,45 +85,45 @@ s32 GetWiFiSessionLoginResult(void) {
     }
 }
 
-void ReleaseWiFiSession(void) {
+void OnSomeMultiplayError(void) {
     StateMachine *stateMachine;
 
     DWC_ShutdownFriendsMatch();
     DWC_CleanupInet();
     ResetWiFiSession();
-    stateMachine = &gWiFiSession->mStateMachine;
+    stateMachine = &g_GlobalB->mStateMachine;
     stateMachine->mNextState = WIFI_SESSION_STATE_OFF;
     stateMachine->mNextStateRequested = 1;
 }
 
-void SetupWiFiSessionLogin(void) {
+void GlobalB_E7Fn_1AImpl(void) {
     u8 buddyIndex;
     WiFiSession *session;
 
-    MI_CpuFill8(&gWiFiSession->mLogin, 0, sizeof(gWiFiSession->mLogin));
-    MI_CpuFill8(&gWiFiSession->mUserData, 0, 0x350);
-    MI_CpuFill8(&gWiFiSession->mConnection, 0, 0xe24);
+    Mem_CpuFill8(&g_GlobalB->mLogin, 0, sizeof(g_GlobalB->mLogin));
+    Mem_CpuFill8(&g_GlobalB->mUserData, 0, 0x350);
+    Mem_CpuFill8(&g_GlobalB->mConnection, 0, 0xe24);
     if (CheckUserDataValidConsole() != 0) {
-        MI_CpuCopy8(&gBackupBuffers->mFirstBlock->mUserData, &gWiFiSession->mUserData, sizeof(gWiFiSession->mUserData));
+        Mem_CpuCopy8(&g_SaveDataHolder->mFirstBlock->mUserData, &g_GlobalB->mUserData, sizeof(g_GlobalB->mUserData));
     } else {
-        DWC_CreateUserData(&gWiFiSession->mUserData, 0x414d434a);
+        j_PlayerProfileInfo_Create_from_thumb(&g_GlobalB->mUserData, 0x414d434a);
     }
-    CopyBuddyFriendDataList(&gWiFiSession->mBuddies[0]);
-    DWC_InitInet(&gWiFiSession->mLogin);
+    GlobalZ_CopyNKFLOther1(&g_GlobalB->mBuddies[0]);
+    DWC_InitInet(&g_GlobalB->mLogin);
     DWC_SetAuthServer(2);
     DWC_ConnectInetAsync();
     buddyIndex = 0;
-    if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
+    if (DWC_GetNumFriend(&g_GlobalB->mBuddies[0], 0x3c) > 0) {
         do {
             buddyIndex++;
-        } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c));
+        } while (buddyIndex < DWC_GetNumFriend(&g_GlobalB->mBuddies[0], 0x3c));
     }
-    session = gWiFiSession;
+    session = g_GlobalB;
     DWC_InitFriendsMatch(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
                          &session->mBuddies[0], 0x3c);
-    gWiFiSession->mErrorKind = 0;
-    gWiFiSession->mErrorCode = 0;
-    gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_INET;
+    g_GlobalB->mErrorKind = 0;
+    g_GlobalB->mErrorCode = 0;
+    g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_INET;
 }
 
 void AdvanceWiFiSessionLoginStep1(void) {
@@ -134,13 +134,13 @@ void AdvanceWiFiSessionLoginStep1(void) {
     switch (DWC_GetInetStatus()) {
         case INET_STATUS_ONLINE:
             DWC_LoginAsync(0, 0, WiFiSessionLoginCallback, 0);
-            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_LOGIN;
+            g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_LOGIN;
             break;
         case INET_STATUS_FAILED_LARGE_CODE:
-            gWiFiSession->mErrorKind = DWC_GetLastError(&gWiFiSession->mErrorCode);
+            g_GlobalB->mErrorKind = DWC_GetLastError(&g_GlobalB->mErrorCode);
             DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
-            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
+            g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             break;
         case INET_STATUS_FAILED_SMALL_CODE:
             break;
@@ -148,27 +148,27 @@ void AdvanceWiFiSessionLoginStep1(void) {
 }
 
 u32 UpdateWiFiSessionLogin(void) {
-    switch (gWiFiSession->mLogin.mStep) {
+    switch (g_GlobalB->mLogin.mStep) {
         case WIFI_LOGIN_STEP_WAIT_INET:
             AdvanceWiFiSessionLoginStep1();
             break;
         case WIFI_LOGIN_STEP_WAIT_BACKUP:
-            if (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0)
+            if (g_SaveDataHolder->mBusy == 0 ? (g_SaveDataIoManager->mBackupEnabled != 0 ? g_SaveDataIoManager->mCommandRunning : 0)
                                            : 1) {
                 break;
             }
-            DWC_ReportUserData(&gWiFiSession->mUserData);
+            PlayerProfileInfo_SomeFn_2_from_thumb(&g_GlobalB->mUserData);
             if (DWC_UpdateServersAsync(NULL, WiFiSessionBuddySyncCallback, NULL, SetBuddyStatus, NULL,
                                        WiFiSessionEntryMergedCallback, NULL) == 0) {
-                gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
+                g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             }
             DWC_SetBuddyFriendCallback(BuddyChangedCallback, NULL);
-            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_UPDATE_BUDDIES;
+            g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_UPDATE_BUDDIES;
             break;
         case WIFI_LOGIN_STEP_LOGIN_FAILED:
             DWC_ShutdownFriendsMatch();
             DWC_CleanupInet();
-            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
+            g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             break;
         case WIFI_LOGIN_STEP_DONE:
             return 1;
@@ -180,15 +180,15 @@ u32 UpdateWiFiSessionLogin(void) {
 
 void WiFiSessionLoginCallback(s32 result, u32 profileId, u32 arg) {
     if (result == 0) {
-        if (DWCi_Acc_IsDirty(&gWiFiSession->mUserData) != 0) {
-            DWCi_Acc_ClearDirty(&gWiFiSession->mUserData);
-            MI_CpuCopy8(&gWiFiSession->mUserData, &gBackupBuffers->mFirstBlock->mUserData,
-                        sizeof(gBackupBuffers->mFirstBlock->mUserData));
-            WriteBackupFirstBlockWrapper();
+        if (PlayerProfileInfo_NeedsSaving_from_thumb(&g_GlobalB->mUserData) != 0) {
+            PlayerProfileInfo_PrepareForSave_from_thumb(&g_GlobalB->mUserData);
+            Mem_CpuCopy8(&g_GlobalB->mUserData, &g_SaveDataHolder->mFirstBlock->mUserData,
+                        sizeof(g_SaveDataHolder->mFirstBlock->mUserData));
+            WriteSaveDataSectionHeaderToSaveData_from_thumb();
         }
-        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_BACKUP;
+        g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_BACKUP;
     } else {
-        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_LOGIN_FAILED;
+        g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_LOGIN_FAILED;
     }
 }
 
@@ -197,32 +197,32 @@ void WiFiSessionBuddySyncCallback(s32 result, s32 changed) {
 
     if (result == 0) {
         if (changed != 0) {
-            gWiFiSession->mBuddiesChanged = TRUE;
+            g_GlobalB->mBuddiesChanged = TRUE;
         }
         buddyIndex = 0;
-        if (DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c) > 0) {
+        if (DWC_GetNumFriend(&g_GlobalB->mBuddies[0], 0x3c) > 0) {
             do {
-                DWC_ReportFriendData(&gWiFiSession->mUserData, &gWiFiSession->mBuddies[buddyIndex]);
+                PlayerProfileInfo_SomeFn_3_from_thumb(&g_GlobalB->mUserData, &g_GlobalB->mBuddies[buddyIndex]);
                 buddyIndex++;
-            } while (buddyIndex < DWC_GetNumFriend(&gWiFiSession->mBuddies[0], 0x3c));
+            } while (buddyIndex < DWC_GetNumFriend(&g_GlobalB->mBuddies[0], 0x3c));
         }
-        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_DONE;
+        g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_DONE;
     } else {
         DWC_ShutdownFriendsMatch();
         DWC_CleanupInet();
-        gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
+        g_GlobalB->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
     }
 }
 
 void WiFiSessionEntryMergedCallback(u32 mergedIndex, u32 keptIndex) {
-    MergeBuddyRecords(keptIndex, mergedIndex);
-    CopyWiFiBuddiesToRecordBlock(&gWiFiSession->mBuddies[0]);
+    OI_JoinInSlot1FreeSlot2(keptIndex, mergedIndex);
+    CopyFriendCodesToSaveData(&g_GlobalB->mBuddies[0]);
     RefreshNotYetBuddyFlags();
-    WriteBackupBuddyRecords();
-    while (gBackupBuffers->mBusy == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1) {
+    WriteFriendListSaveDataSection();
+    while (g_SaveDataHolder->mBusy == 0 ? (g_SaveDataIoManager->mBackupEnabled != 0 ? g_SaveDataIoManager->mCommandRunning : 0) : 1) {
     }
 }
 
 void SetBuddyStatus(u32 index, u8 status) {
-    gWiFiSession->mBuddyStatuses[index] = status;
+    g_GlobalB->mBuddyStatuses[index] = status;
 }

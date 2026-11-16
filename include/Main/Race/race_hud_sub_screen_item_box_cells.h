@@ -9,7 +9,7 @@ void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *oamBuffer);
 void RefreshRaceNewRecordTaRecordFlags(void);
 s32 IsRaceNewRecordTaFinishRecord(void);
 BOOL IsRaceNewRecordTaFinishRecordFirst(void);
-s32 IsRaceNewRecordTaBestLapRecord(void);
+s32 GetLastTimeTrialWasRecord(void);
 
 extern struct RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
 extern s32 gRaceHudSubScreenItemBoxNearOnly;

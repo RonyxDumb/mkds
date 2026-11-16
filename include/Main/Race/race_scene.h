@@ -4,30 +4,30 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-unsigned int RaceSceneGetCurrentCourseId(void);
-void SetNextRaceKind(unsigned int raceKind);
-u32 RaceSceneIsSlotPairNew(u32 slotIndex);
-unsigned int IsCameraChainEnded(void);
-u32 RaceSceneSlotHasPairOrLost(u32 slotIndex);
-u32 StartRaceSceneSound(u32 index);
-u16 GetDownBits(u32 slotIndex, u32 mask);
-unsigned int GetRaceSceneInputSlot(void);
-void SetDemoEndedByInput(u32 endedByInput);
-unsigned int GetCurrentRaceKind(void);
+unsigned int GetCurrentInternalCourseId(void);
+void SetNextRaceDisplayMode(unsigned int raceKind);
+u32 AnotherHasTouchPressed(u32 slotIndex);
+unsigned int IsRaceIntroInFadeOut(void);
+u32 HasTouchPressed(u32 slotIndex);
+u32 MaybePlaySseqFromSarc0(u32 index);
+u16 TestInputKeys(u32 slotIndex, u32 mask);
+unsigned int GetSomeCYId_8(void);
+void SetGlobalP_BFlagBit1(u32 endedByInput);
+unsigned int GetDisplayMode(void);
 void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue);
 void SetPickedValue(unsigned int pickedValue);
-unsigned int RaceSceneGetCurrentMode(void);
-u32 ShouldEndStaffRoll(u32 sceneFrames);
+unsigned int GetCurrentRaceMode_1(void);
+u32 CheckIsEnding(u32 sceneFrames);
 u32 ShouldEndAwardRace(u32 sceneFrames);
-void AdvanceDispCapAndUploadRaceHud(void);
-void ReleaseRaceScene(void);
-// Slot mInit of the Race scene; not the whole preparation (RunRaceScene and RunScene's prologue run
-// before it). Calls in order: CreateOverlayExpHeap (creates the heap that FreeOverlayExpHeap destroys),
-// StopWvrAndWait (kinds 3 and 5) or ClearLcdcBankAndStartWvrAndWait + InitRaceConnection, Init3dEngine, InitDispCap,
-// SetupRaceDisplay (screen layout), ResetInputSlotsFromRaceSetup, InitRace, InitChoisesS, InitRaceHud,
-// SetupRaceHudScreens (not kind 3), SetLeftRightKeysSwapped, and the mode 5 net state / mode 2 StartMicInput
-// extras. Does not allocate gRace: InitRace does.
-void InitRaceScene(void);
-void SetupRaceDisplay(void *heap);
+void Scene_Race_VBlank(void);
+void Scene_Race_Finalize(void);
+// Slot mInit of the Race scene; not the whole preparation (SceneFn_Race and OnSceneLoop's prologue run
+// before it). Calls in order: CreateRegionHeapHandleForOverlay1 (creates the heap that DisposeOverlayManagerHeap destroys),
+// MaybeInitializeSomeWirelessShit (kinds 3 and 5) or SomeVramConfig + InitRaceConnection, Init3dEngine, InitializeGlobalAA04,
+// SetGlobalDisplayConfigForDisplayMode (screen layout), ResetInputSlotsFromRaceSetup, InitializeGlobalTD, LoadRaceOptionMenus_from_thumb, InitRaceHud,
+// SetupRaceHudScreens (not kind 3), SetLeftRightKeysSwapped, and the mode 5 net state / mode 2 CreateGlobal59C4Sub
+// extras. Does not allocate g_GlobalTD: InitializeGlobalTD does.
+void Scene_Race_Initialize(void);
+void SetGlobalDisplayConfigForDisplayMode(void *heap);
 u32 ShouldUpdateRace(u32 sceneFrames);
-BOOL TryFormatGhostPath(u32 courseId, void *buffer, u32 size);
+BOOL FindFormatGhostBinPath(u32 courseId, void *buffer, u32 size);

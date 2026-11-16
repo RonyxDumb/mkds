@@ -8,9 +8,9 @@ void DrawRaceHud(void);
 
 void UpdateRaceHudSubScreen(void);
 
-void InitMap2D(void);
+void LoadMap2DStuff(void);
 
-void UpdateRaceHud(void);
+void SomeUpdateFn(void);
 void ReleaseRaceHud(void);
 void SetupRaceHudScreens(void);
 
@@ -21,7 +21,7 @@ void InitRaceHud(void);
 
 unsigned int GetRaceHudStepHasRun(void);
 
-// Stores in *a the address of the mTimeDifferenceSign member of gRaceHud and in *b the address of its
+// Stores in *a the address of the mTimeDifferenceSign member of g_GlobalB350 and in *b the address of its
 // mTimeDifferenceDigits member.
 void GetRaceHudTimeDifference(s32 **outSign, TimeDigits **outDigits);
 
@@ -31,7 +31,7 @@ BOOL GetShowLapTime(void);
 
 extern u16 *gRaceHudSubScreenPalettes;
 
-extern struct RaceHud *gRaceHud;
+extern struct RaceHud *g_GlobalB350;
 
 // Frames RaceHud.mGoalMDelayFrameCount is set to when the goal screen starts: a race of one kart (Grand Prix, Time
 // Attack), a race with several karts, and the mission run goal.

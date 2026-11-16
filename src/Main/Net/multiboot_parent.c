@@ -18,7 +18,7 @@
 
 s32 AdvanceScanConnect(u16 entryIndex) {
     s32 result = 0;
-    ConnectionWork *connectionWork = gConnectionWork;
+    ConnectionWork *connectionWork = g_GlobalZE;
 
     switch (connectionWork->mStep) {
         case CONNECTION_STEP_SCAN_CONNECT_REPEATED_SCAN:
@@ -33,7 +33,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             break;
         case CONNECTION_STEP_JOINING:
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
-            if (gConnectionWork->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
+            if (g_GlobalZE->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                 return 3;
             }
@@ -44,19 +44,19 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY: {
             s32 scanEntryIndex;
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
-            if (gConnectionWork->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
+            if (g_GlobalZE->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             } else {
                 scanEntryIndex = FindScanEntryIndex(entryIndex);
                 if (scanEntryIndex != -1) {
-                    gConnectionWork->mScanEntryIndex = scanEntryIndex;
+                    g_GlobalZE->mScanEntryIndex = scanEntryIndex;
                     StartRequestEndScan();
                 }
             }
             break;
         }
     }
-    connectionWork = gConnectionWork;
+    connectionWork = g_GlobalZE;
     if (connectionWork->mRequestPending != 0) {
         return 0;
     }
@@ -94,7 +94,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             }
             break;
         case CONNECTION_STEP_SCAN_CONNECT_READ_PARENT_DESC:
-            StartCloseScanConnect();
+            StructZE_StateFn_28_29_30_33_34_35_from_thumb();
             break;
         case CONNECTION_STEP_STARTING_UP:
             connectionWork->mStepWaitFrames = 0;
@@ -147,7 +147,7 @@ u8 CompactMaskBits(u8 mask) {
 
 s32 AdvanceChildMaskCovered(void) {
     BOOL result = FALSE;
-    ConnectionWork *connectionWork = gConnectionWork;
+    ConnectionWork *connectionWork = g_GlobalZE;
     u32 maskCopy = connectionWork->mMultiBootChildMask;
     u8 childMask = connectionWork->mChildren.mChildMask;
 
@@ -157,7 +157,7 @@ s32 AdvanceChildMaskCovered(void) {
         if (childMask == 0) {
             SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
         } else {
-            gConnectionWork->mMultiBootChildMask = CompactMaskBits(childMask);
+            g_GlobalZE->mMultiBootChildMask = CompactMaskBits(childMask);
             result = TRUE;
         }
     } else {
@@ -168,9 +168,9 @@ s32 AdvanceChildMaskCovered(void) {
 
 s32 AdvanceMultiBootParent(void) {
     BOOL result = FALSE;
-    switch (gConnectionWork->mState) {
+    switch (g_GlobalZE->mState) {
         case CONNECTION_STATE_MULTIBOOT_PARENT_READY:
-            gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE;
+            g_GlobalZE->mState = CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE;
             break;
         case CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE:
             break;
@@ -179,10 +179,10 @@ s32 AdvanceMultiBootParent(void) {
         default:
             return 3;
     }
-    if (gConnectionWork->mRequestPending != 0) {
+    if (g_GlobalZE->mRequestPending != 0) {
         return 0;
     }
-    switch (gConnectionWork->mStep) {
+    switch (g_GlobalZE->mStep) {
         case CONNECTION_STEP_MULTIBOOT_START_PARENT:
             StartSendingToAllChildren();
             break;
@@ -190,7 +190,7 @@ s32 AdvanceMultiBootParent(void) {
             StartBootRequestToAllChildren();
             break;
         case CONNECTION_STEP_MULTIBOOT_BOOT_REQUEST:
-            StartEndToIdle();
+            StructZE_StateFn22_23_24_25_from_thumb();
             break;
         case CONNECTION_STEP_MULTIBOOT_END_TO_IDLE:
             StartRomArchiveTransfer();
@@ -211,8 +211,8 @@ s32 AdvanceMultiBootParent(void) {
             StartParent(NULL);
             break;
         case CONNECTION_STEP_OPENING_HOST:
-            gConnectionWork->mMultiBootChildMask = CompactMaskBits(gConnectionWork->mMultiBootChildMask);
-            gConnectionWork->mStepWaitFrames = 0;
+            g_GlobalZE->mMultiBootChildMask = CompactMaskBits(g_GlobalZE->mMultiBootChildMask);
+            g_GlobalZE->mStepWaitFrames = 0;
             StartMP();
             break;
         case CONNECTION_STEP_STARTING_EXCHANGE:
@@ -228,7 +228,7 @@ s32 AdvanceMultiBootParent(void) {
 
 #pragma thumb off
 
-s32 RomArchiveReadCallback(FSArchive *archive, void *dst, u32 src, u32 length) {
-    MI_CpuCopy8((const void *) src, dst, length);
+s32 UnkStruct_ReadFn_RomUnk_0(FSArchive *archive, void *dst, u32 src, u32 length) {
+    Mem_CpuCopy8((const void *) src, dst, length);
     return 0;
 }

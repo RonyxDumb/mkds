@@ -14,14 +14,14 @@ ExchangeStatus *gExchangeStatusRecord;
 void StartExchangeWithStatusRecord(void) {
     gExchangeStatusRecord = AllocZeroedExpHeapBlock(0xc, -4);
     if (StartExchange(0xf, 0x40, StoreExchangeStatus, AllocExpHeapBlockWrapper, FreeExpHeapBlockWrapper, 0x800) != 1) {
-        OS_Terminate();
+        Os_Terminate();
     }
-    OS_Sleep(0xa);
+    Os_Sleep(0xa);
 }
 
 void StopExchangeWithStatusRecord(void) {
     if (StopExchange() != 1) {
-        OS_Terminate();
+        Os_Terminate();
     }
     FreeExpHeapBlockAndClearPointer(&gExchangeStatusRecord);
 }
@@ -40,7 +40,7 @@ u32 GetExchangeOutcome(void) {
             return EXCHANGE_OUTCOME_FIRST_PACKET_ACCEPTED;
         case EXCHANGE_STATUS_SUCCEEDED:
             if (CopyExchangeResult(&exchangeResult) != 1) {
-                OS_Terminate();
+                Os_Terminate();
             }
             if (exchangeResult.mKind >= EXCHANGE_RESULT_KIND_NONE &&
                 exchangeResult.mKind <= EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES && exchangeResult.mItem205Value == 1) {
@@ -55,7 +55,7 @@ u32 GetExchangeOutcome(void) {
 void StoreExchangeResultForAp(void) {
     ExchangeResult exchangeResult;
     if (CopyExchangeResult(&exchangeResult) != 1) {
-        OS_Terminate();
+        Os_Terminate();
     }
     WriteApWorkFromExchangeResult(&exchangeResult);
 }

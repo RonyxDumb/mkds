@@ -118,9 +118,9 @@ void UpdateWanwanFollowPath(void *stateObject) {
 
 #pragma thumb on
 void CreateWanwanAndRockShadow(void) {
-    CreateNsbmd(&gWanwan, FindCourseMapObjFile("wanwan.nsbmd"), NULL);
-    CreateShadowModel(&gWanwanRockShadow, FindCourseMapObjFile("rock_shadow.nsbmd"), 0x3f);
-    SetNsbmdPolygonIdLightEmiAll(gWanwan, 0x3f, 2, 0x294a);
+    CreateNsbmd(&gWanwan, FormatFindMapObjFileBuffer_from_thumb("wanwan.nsbmd"), NULL);
+    CreateShadowModel(&gWanwanRockShadow, FormatFindMapObjFileBuffer_from_thumb("rock_shadow.nsbmd"), 0x3f);
+    StructML_SomeFn_1(gWanwan, 0x3f, 2, 0x294a);
 }
 #pragma thumb off
 
@@ -138,8 +138,8 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mChainObject = (WanwanChainObject *) CreateMapObjectFromObject(&wanwan->mMapObject, 0x197);
     wanwan->mBaseY = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mScaledLength;
-    InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
-    SetStateMachineState(&wanwan->mMapObject.mStateMachine, 0);
+    StateDualHandler_Create(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
+    StateDualHandler_SetState(&wanwan->mMapObject.mStateMachine, 0);
     wanwan->mForward = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
     wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
@@ -156,8 +156,8 @@ void InitWanwanOnPath(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUsesCourseCollision = row->mSettings[1];
     wanwan->mBaseY = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mScaledLength;
-    InitStateMachine(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
-    SetStateMachineState(&wanwan->mMapObject.mStateMachine, 5);
+    StateDualHandler_Create(&wanwan->mMapObject.mStateMachine, gWanwanStateTable, 6, wanwan);
+    StateDualHandler_SetState(&wanwan->mMapObject.mStateMachine, 5);
     InitGroupFollowerWithSpeeds(&wanwan->mFollower, row, gGroupFollowerSpeed, row->mSettings[0]);
     ResetWanwan(wanwan);
 }
@@ -186,8 +186,8 @@ void ResetWanwan(Wanwan *wanwan) {
         wanwan->mCurvePoints[1] = &wanwan->mCurvePointValues[1];
         wanwan->mCurvePoints[2] = &wanwan->mCurvePointValues[2];
         wanwan->mCurvePoints[3] = &wanwan->mCurvePointValues[3];
-        if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
-            VEC_MultAdd(0xf000, &wanwan->mForward, &wanwan->mMapObject.mPos, &wanwan->mMapObject.mPos);
+        if (g_GlobalCO->mRaceKind == RACE_KIND_START_GP) {
+            VecFx32_AddScale1(0xf000, &wanwan->mForward, &wanwan->mMapObject.mPos, &wanwan->mMapObject.mPos);
             wanwan->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(wanwan->mForward.x, 0x400);
             wanwan->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(wanwan->mForward.y, 0x400);
             wanwan->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(wanwan->mForward.z, 0x400);

@@ -14,7 +14,7 @@ void SetPlayerEntryListUseTeams(s32 useTeams);
 void StartPlayerEntryListKind(s32 kind);
 u32 IsEveryPlayerKartStored(void);
 u32 IsPlayerEntryListTimerZero(void);
-void LoadPlayerEntryListFiles(void);
+void VerifySelectMenuFiles_from_thumb(void);
 void WritePlayerEntryListRegisters(void);
 void ReleasePlayerEntryList(void);
 
@@ -22,7 +22,7 @@ void AdvancePlayerEntryList(void);
 
 void SetupPlayerEntryList(s32 mode, s32 screenKind);
 
-void InitPlayerEntryList(void *parentHeap, void *mainOam);
+void AndAnotherAlloc_0_from_thumb(void *parentHeap, void *mainOam);
 
 void PrintEntryName(s32 entryIndex, u16 *name);
 

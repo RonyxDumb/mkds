@@ -20,15 +20,15 @@
 #include "Main/Sound/race_end_seq.h"
 #include "Main/Sound/sound_set_load.h"
 
-u32 gMissionRunBossSeqRow[6] = {0x37, 0xff, 0x31, 0x3b, 0x3d, 0xc};
-u32 gSeqRowTable[6][6] = {{0x2e, 0x2f, 0x30, 0x38, 0x39, 7},   {0x36, 0x35, 0x31, 0x3c, 0x3d, 0xb},
+u32 g_MissionRunBossResultSseqIdTable[6] = {0x37, 0xff, 0x31, 0x3b, 0x3d, 0xc};
+u32 g_PerRaceModeResultSseqIdTable[6][6] = {{0x2e, 0x2f, 0x30, 0x38, 0x39, 7},   {0x36, 0x35, 0x31, 0x3c, 0x3d, 0xb},
                           {0x32, 0xff, 0x31, 0x3a, 0x3d, 0xc}, {0x32, 0x33, 0x31, 0x3a, 0x3d, 0xb},
                           {0x34, 0xff, 0x31, 0x3b, 0x3d, 0xc}, {0x32, 0x33, 0x31, 0x3a, 0x3d, 0xb}};
 
 void SetEntryKartFinishResult(u32 finishResult) {
     u32 copy = finishResult;
     u32 unused;
-    gSeqRowState.mFinishResult = copy;
+    g_GlobalCX.mFinishResult = copy;
 }
 
 u32 GetResultSceneSeqId(void) {
@@ -64,45 +64,45 @@ u32 GetResultSceneSeqId(void) {
     return result;
 }
 
-void CreateSeqRowHeap(void *heapMemory, u32 heapSize) {
-    gSeqRowState.mSeqHeap = NNS_SndHeapCreate(heapMemory, heapSize);
-    gSeqRowState.mSeqRow = NULL;
+void CreateSetGlobalCX(void *heapMemory, u32 heapSize) {
+    g_GlobalCX.mSeqHeap = Sound_InitializeContext(heapMemory, heapSize);
+    g_GlobalCX.mSeqRow = NULL;
 }
 
 // Loads the sequences of the row for index unless that row is already loaded; returns 0 if a load fails.
-u32 LoadSeqRowIfChanged(s32 index) {
+u32 LoadPerRaceModeResultSseqs(s32 index) {
     SeqRowState *state;
     u32 *row;
     NNSSndHeap *savedHeap;
     s32 seqIndex;
-    savedHeap = gCurrentSndHeap;
-    state = &gSeqRowState;
-    if (index == 4 && (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
-        row = gMissionRunBossSeqRow;
+    savedHeap = g_SoundContext;
+    state = &g_GlobalCX;
+    if (index == 4 && (g_GlobalCO->mMode == MODE_MISSION_RUN ? g_GlobalCO->mMissionTableColumn : -1) == 9) {
+        row = g_MissionRunBossResultSseqIdTable;
     } else {
-        row = gSeqRowTable[index];
+        row = g_PerRaceModeResultSseqIdTable[index];
     }
     if (state->mSeqRow == row) {
         return 1;
     }
-    gCurrentSndHeap = gSeqRowState.mSeqHeap;
-    NNS_SndHeapClear(state->mSeqHeap);
+    g_SoundContext = g_GlobalCX.mSeqHeap;
+    Sound_Context_DisposeLoadedStuff(state->mSeqHeap);
     for (seqIndex = 0; seqIndex < 6; seqIndex++) {
         if (row[seqIndex] != SOUND_ID_NONE) {
-            if (NNS_SndArcLoadSeq(row[seqIndex], gCurrentSndHeap) == 0) {
-                gCurrentSndHeap = savedHeap;
+            if (CheckMaybeLoadSseqOk(row[seqIndex], g_SoundContext) == 0) {
+                g_SoundContext = savedHeap;
                 return 0;
             }
         }
     }
     state->mLoadedIndex = index;
     state->mSeqRow = row;
-    gCurrentSndHeap = savedHeap;
+    g_SoundContext = savedHeap;
     return 1;
 }
 
-u32 GetSeqRowSceneSeq(void) {
-    return gSeqRowState.mSeqRow[5];
+u32 GetSomeCXSseqId(void) {
+    return g_GlobalCX.mSeqRow[5];
 }
 
 s32 *ResetRaceEndSeqState(void) {

@@ -71,7 +71,7 @@ void ForceStopStrm(NNSSndStrm *stream) {
         PM_DeletePostSleepCallback(&stream->mPostSleepInfo);
         stream->mStartFlag = 0;
         tag = SND_GetCurrentCommandTag();
-        SND_FlushCommand(1);
+        Sound_FlushCommand(1);
         SND_WaitForCommandProc(tag);
     }
     ShutdownStrm(stream);
@@ -80,6 +80,6 @@ void ForceStopStrm(NNSSndStrm *stream) {
 // Frees the alarm of the stream, removes it from the stream list and marks it not set up.
 void ShutdownStrm(NNSSndStrm *stream) {
     NNS_SndFreeAlarm(stream->mAlarmNo);
-    NNS_FndRemoveListObject(&sStrmList, stream);
+    IntrusiveListWrapper_RemoveItem(&sStrmList, stream);
     stream->mActiveFlag = 0;
 }

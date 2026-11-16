@@ -35,7 +35,7 @@ u32 GpiUnpackDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 
     date = date & (0x0000ffffu);
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
-        AssertionFailed("gpiIsValidDate(d, m, y)", "gpiInfo.c", NULL, 0xb7);
+        LogThrowAssertion("gpiIsValidDate(d, m, y)", "gpiInfo.c", NULL, 0xb7);
     }
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
@@ -151,7 +151,7 @@ s32 GpiProcessInfoOperation(GpConnection *connection, GpiOperation *operation, c
     }
     profileid = StrtolBase10(buffer);
     if (profileid <= 0) {
-        AssertionFailed("profileid > 0", "gpiInfo.c", NULL, 0x15a);
+        LogThrowAssertion("profileid > 0", "gpiInfo.c", NULL, 0x15a);
     }
     GpiFindProfile(connection, profileid, &profileRec);
     {
@@ -389,7 +389,7 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
                 GpiSetErrorMessage(connection, "Invalid zipcode.");
                 return 2;
             }
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\zipcode\\", intText);
             if (result != 0) {
                 return result;
@@ -421,56 +421,56 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
             }
             break;
         case GP_ICQUIN:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\icquin\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_CPUBRANDID:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\cpubrandid\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_CPUSPEED:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\cpuspeed\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_MEMORY:
-            sprintf(intText, "%d", value / 16);
+            MaybeStrcpy(intText, "%d", value / 16);
             result = gpiSendUserInfo(connection, "\\memory\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_VIDEOCARD1RAM:
-            sprintf(intText, "%d", value / 4);
+            MaybeStrcpy(intText, "%d", value / 4);
             result = gpiSendUserInfo(connection, "\\videocard1ram\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_VIDEOCARD2RAM:
-            sprintf(intText, "%d", value / 4);
+            MaybeStrcpy(intText, "%d", value / 4);
             result = gpiSendUserInfo(connection, "\\videocard2ram\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_CONNECTIONID:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\connectionid\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_CONNECTIONSPEED:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\connectionspeed\\", intText);
             if (result != 0) {
                 return result;
@@ -480,56 +480,56 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
             if (value != 0) {
                 value = 1;
             }
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\hasnetwork\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_PIC:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\pic\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_OCCUPATIONID:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\occ\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_INDUSTRYID:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\ind\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_INCOMEID:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\inc\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_MARRIEDID:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\mar\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_CHILDCOUNT:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\chc\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
         case GP_INTERESTS1:
-            sprintf(intText, "%d", value);
+            MaybeStrcpy(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\i1\\", intText);
             if (result != 0) {
                 return result;
@@ -791,7 +791,7 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
 static void UnusedLiteralsInfo(GpConnection *connection, s32 value) {
     char intValue[0x10];
 
-    sprintf(intValue, "%d", value);
+    MaybeStrcpy(intValue, "%d", value);
     GpiSetErrorMessage(connection, "Invalid info.");
     gpiSendLocalInfo(connection, "\\birthday\\", intValue);
 }

@@ -1,7 +1,7 @@
 #include "Main/Sound/mic_buffer_sleep.h"
 #include "Main/Sound/mic_sample_analysis.h"
 
-u32 UpdateMicBufferInput(MicBuffer *micBuffer) {
+u32 Struct59C4Sub_SomeFn_1(MicBuffer *micBuffer) {
     if (micBuffer->mSkipFrames == 0) {
         return UpdateMicSampleAnalysis();
     }
@@ -13,13 +13,13 @@ u32 UpdateMicBufferInput(MicBuffer *micBuffer) {
     return 0;
 }
 
-void PreSleepMicBuffer(MicBuffer *micBuffer) {
+void Struct59C4Sub_SomeFn_2(MicBuffer *micBuffer) {
     u32 unused;
     micBuffer->mSkipFrames = MICROPHONE_BUFFER_SKIP_FROM_PRE_SLEEP;
     StopMicSampleAnalysis();
 }
 
-void PostSleepMicBuffer(MicBuffer *micBuffer) {
+void Struct59C4Sub_SomeFn_3(MicBuffer *micBuffer) {
     u32 unused;
     micBuffer->mSkipFrames = MICROPHONE_BUFFER_SKIP_FROM_POST_SLEEP;
     StartMicSampleAnalysis();

@@ -27,49 +27,49 @@
 #include "Main/Scene/wl_menu_scene_callback.h"
 #include "Main/Save/backup_read_copies.h"
 
-RaceProgress *gRaceProgress;
-InputState *gInputState;
-CourseMap *gCourseMap;
-InputSlot gInputSlots[10];
+RaceProgress *g_GlobalMV;
+InputState *g_Global5624;
+CourseMap *g_GlobalPE;
+InputSlot g_GlobalCYT[10];
 
-void InitAfterStartup(void) {
+void InitializeGeneralObjects(void) {
     void *backHeap;
     void *firstFrontHeap;
     void *secondFrontHeap;
     void *thirdFrontHeap;
     void *soundBuffer;
     u32 soundBufferSize;
-    soundBufferSize = CreateFrmHeapsAndAllocSoundBuffer(GetHeap(GetCurrentHeapCall()), &backHeap, &soundBuffer,
+    soundBufferSize = AllocateHeapsAndBuffers(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), &backHeap, &soundBuffer,
                                                         &firstFrontHeap, &secondFrontHeap, &thirdFrontHeap);
-    CARD_SetPulledOutCallback(ReturnTerminateForPulledOut);
-    CreateRunScenesState(backHeap);
-    InitSceneRunState(backHeap);
-    InitArchiveSlots(backHeap);
-    InitStartupWork(backHeap);
-    InitConnection(backHeap);
+    Card_SetUserCardPulledOutCallback(InitGlobal_UserCardPulledOutCallback);
+    InitializeSceneOverlayConfig(backHeap);
+    InitializeGlobalZM(backHeap);
+    CreateMountManager_from_thumb(backHeap);
+    InitializeGlobalP(backHeap);
+    InitializeGlobalZE(backHeap);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        InitWiFiSession(backHeap);
+        InitializeGlobalB_from_thumb(backHeap);
     }
-    CreateRaceSetupObjects(backHeap);
-    InitBackupBuffers(backHeap);
-    InitSound(soundBuffer, soundBufferSize, gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT);
+    InitializeGlobalCO(backHeap);
+    InitializeSaveDataHolder_from_thumb(backHeap);
+    InitializeAudio(soundBuffer, soundBufferSize, gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT);
     SetSoundOutputEffect(1);
-    if (OS_IsRunOnEmulator() == 0) {
-        RTC_Init();
+    if (Os_IsEmulator() == 0) {
+        Rtc_Initialize();
     }
-    InitInputSlotsAndTouchMic(backHeap);
-    CreateBackupAccess(backHeap);
-    InitThreadFunctionQueue(backHeap);
-    InitOverlayTable(backHeap);
-    CreateMenuShared(backHeap);
-    InitCompressedArchiveAndMBChild(backHeap);
-    InitMessageScreen(backHeap);
-    InitAfterStartupNop();
+    Input_Initialize(backHeap);
+    InitializeSaveDataIoManager_from_thumb(backHeap);
+    InitializeWorker(backHeap);
+    InitializeOverlayManager(backHeap);
+    InitializeGlobalB488_from_thumb(backHeap);
+    LoadEmbeddedStatic2DArchive_from_thumb(backHeap);
+    InitializeGlobal1A44_from_thumb(backHeap);
+    nullsub_5();
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        InitArchiveBuffers(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
+        SpecialDwcSetMountDatas_from_thumb(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
     }
-    ResetRaceSetup();
-    InitBackupAccess();
-    ResetCurrentOverlay();
-    ClearMenuShared();
+    PopulateGlobalCO();
+    InitializePrepareBackup_from_thumb();
+    ResetOverlayManager();
+    CreateGlobalB488_from_thumb();
 }

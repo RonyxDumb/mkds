@@ -54,13 +54,13 @@ void SetupConnect(void) {
 
 void LoadConnectFilesAndSetBgCnt(void) {
     void *ncgName = &"char/jbBgStep3.ncg.l";
-    void *loadBg2CharFunc = &GX_LoadBG2Char;
+    void *loadBg2CharFunc = &CopyBgData_Bg2_Top;
     u32 bg2CharLoadResult = LoadFileToVram(ncgName, loadBg2CharFunc);
     void *nclName = &"char/ybBgStep3.ncl.l";
-    void *loadBgPlttFunc = &GX_LoadBGPltt;
+    void *loadBgPlttFunc = &CopyPaletteTop;
     u32 bgPlttLoadResult = LoadFileToVram(nclName, loadBgPlttFunc);
     void *nscName = &"char/xb4Multi.nsc.l";
-    void *loadBg2ScrFunc = &GX_LoadBG2Scr;
+    void *loadBg2ScrFunc = &TEQSub_Fn10Impl_Fn12Impl;
     u32 bg2ScrLoadResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
     u32 g2sDbBg0CntOld = (*(u16 *) ((g2sDbBg0CntAddr) + (0)));
@@ -109,7 +109,7 @@ void StartConnectRequest(void) {
     s32 secondaryPairSecond;
     DWCACConfig connectParams;
     ApWorkCopy *record = GetApWorkCopy();
-    MIi_CpuCopy32(&gConnectParamsTemplate, &connectParams, 0xc);
+    Mem_CpuCopy32(&gConnectParamsTemplate, &connectParams, 0xc);
     GetSecondaryMenuPair(NULL, &secondaryPairSecond);
     if (secondaryPairSecond == 2) {
         connectParams.mConnectType = AUTO_CONNECT_TYPE_NWCUSBAP_SSID;
@@ -117,7 +117,7 @@ void StartConnectRequest(void) {
         connectParams.mConnectType = record->mEntryIndex + 1;
     }
     if (DWC_AC_Create(&connectParams) == 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
     if (secondaryPairSecond == 0) {
         DWCi_AC_InsertApInfo(record->mEntryIndex, record);
@@ -171,8 +171,8 @@ void UpdateConnectFadeOut(void) {
 void UpdateConnectRelease(void) {
     ApStore *recordStore = GetApStore();
     if (DWC_AC_Destroy() != 0) {
-        MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mPages[0].mPackedWiFiInfo, 0xe);
-        MI_CpuCopy8(GetPackedWiFiInfo(), recordStore->mPages[1].mPackedWiFiInfo, 0xe);
+        Mem_CpuCopy8(GetPackedWiFiInfo(), recordStore->mPages[0].mPackedWiFiInfo, 0xe);
+        Mem_CpuCopy8(GetPackedWiFiInfo(), recordStore->mPages[1].mPackedWiFiInfo, 0xe);
         ReleaseAnimatedIcon();
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);

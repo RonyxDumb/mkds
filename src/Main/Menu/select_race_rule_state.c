@@ -89,17 +89,17 @@ const u32 gSelectRaceRuleNextRectRows[5] = {0, 1, 2, 3, 4};
 char gSelectRaceRuleSBnclPath[] = "common/select_race_rule_s.bncl";
 const char *gSelectRaceRuleSBnclName = gSelectRaceRuleSBnclPath;
 char gSelectRaceRuleSBNcgrPath[] = "common/select_race_rule_s_b.ncgr";
-const char *gSelectRaceRuleSBNcgrName = gSelectRaceRuleSBNcgrPath;
+const char *g_str_common_select_race_rule_s_b_ncgr = gSelectRaceRuleSBNcgrPath;
 char gSelectRaceRuleMultiSimpleSNscrPath[] = "common/select_race_rule_multi_simple_s.nscr";
-const char *gSelectRaceRuleSNcgrName = gSelectRaceRuleSNcgrPath;
+const char *g_str_common_select_race_rule_s_nce_ncgr = gSelectRaceRuleSNcgrPath;
 char gSelectRaceRuleMultiSimpleSBnclPath[] = "common/select_race_rule_multi_simple_s.bncl";
 const char *gSelectRaceRuleMultiSimpleSBnblName = gSelectRaceRuleMultiSimpleSBnblPath;
 char gSelectRaceRuleSBNclrPath[] = "common/select_race_rule_s_b.nclr";
-const char *gSelectRaceRuleSONclrName = gSelectRaceRuleSONclrPath;
+const char *g_str_common_select_race_rule_s_o_nclr = gSelectRaceRuleSONclrPath;
 char gSelectRaceRuleSBnllPath[] = "common/select_race_rule_s.bnll";
-const char *gSelectRaceRuleSBNclrName = gSelectRaceRuleSBNclrPath;
+const char *g_str_common_select_race_rule_s_b_nclr = gSelectRaceRuleSBNclrPath;
 char gSelectRaceRuleSONclrPath[] = "common/select_race_rule_s_o.nclr";
-const char *gSelectRaceRuleMultiSimpleSNscrName = gSelectRaceRuleMultiSimpleSNscrPath;
+const char *g_str_common_select_race_rule_multi_simple_s_nscr = gSelectRaceRuleMultiSimpleSNscrPath;
 char gSelectRaceRuleSMenuNscrPath[] = "common/select_race_rule_s_menu.nscr";
 const char *gSelectRaceRuleSBnllName = gSelectRaceRuleSBnllPath;
 char gSelectRaceRuleSBnblPath[] = "common/select_race_rule_s.bnbl";
@@ -107,13 +107,13 @@ const char *gSelectRaceRuleSBnblName = gSelectRaceRuleSBnblPath;
 char gSelectRaceRuleSNcgrPath[] = "common/select_race_rule_s.nce.ncgr";
 const char *gSelectRaceRuleMultiSimpleSBnllName = gSelectRaceRuleMultiSimpleSBnllPath;
 char gSelectRaceRuleMultiSimpleSBnblPath[] = "common/select_race_rule_multi_simple_s.bnbl";
-const char *gSelectRaceRuleSMenuNscrName = gSelectRaceRuleSMenuNscrPath;
+const char *g_str_common_select_race_rule_s_menu_nscr = gSelectRaceRuleSMenuNscrPath;
 char gSelectRaceRuleMultiSimpleSBnllPath[] = "common/select_race_rule_multi_simple_s.bnll";
 const char *gSelectRaceRuleMultiSimpleSBnclName = gSelectRaceRuleMultiSimpleSBnclPath;
 char gSelectRaceRuleSNcerPath[] = "common/select_race_rule_s.nce.ncer";
-const char *gSelectRaceRuleMultiSimpleSBNcgrName = gSelectRaceRuleMultiSimpleSBNcgrPath;
+const char *g_str_common_select_race_rule_multi_simple_s_b_ncgr = gSelectRaceRuleMultiSimpleSBNcgrPath;
 char gSelectRaceRuleMultiSimpleSBNcgrPath[] = "common/select_race_rule_multi_simple_s_b.ncgr";
-const char *gSelectRaceRuleSNcerName = gSelectRaceRuleSNcerPath;
+const char *g_str_common_select_race_rule_s_nce_ncer = gSelectRaceRuleSNcerPath;
 const u16 *gSelectRaceRuleValueMessageIndices[5] = {
     gSelectRaceRuleRow0ValueMessageIndices, gSelectRaceRuleRow1ValueMessageIndices,
     gSelectRaceRuleRow2ValueMessageIndices, gSelectRaceRuleRow3ValueMessageIndices,
@@ -145,7 +145,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
                                  gSelectRaceRule->mTable, gSelectRaceRule->mBncl);
         }
     }
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         if (gSelectRaceRule->mOnButton != 0 && gSelectRaceRule->mButtonHighlightShown != 0) {
             gSelectRaceRule->mTable[0x28].mVisible = 0;
             gSelectRaceRule->mTable[0x29].mVisible = 1;
@@ -170,7 +170,7 @@ void AdvanceSelectRaceRuleHighlight(void) {
         SetScreenMapBlockTopBits(gSelectRaceRule->mNscr->mData, nscrRect.mFirstColumn, nscrRect.mFirstRow,
                                  nscrRect.mColumnCount, nscrRect.mRowCount, nscrRect.mHighlightedTopBits);
     }
-    NNS_GfdRegisterNewVramTransferTask(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gSelectRaceRule->mNscr->mData, 0x600);
+    AllocateReserveTEQSub(VRAM_TARGET_ENGINE_B_BG3_MAP, 0, gSelectRaceRule->mNscr->mData, 0x600);
 }
 
 // Stores the count, kept from 1 to 10, and draws it.
@@ -186,16 +186,16 @@ void SetAndPrintSelectRaceRuleWinCount(s16 count) {
     }
     gSelectRaceRule->mWinCount = count;
     FormatFullWidthNumber(gSelectRaceRule->mWinCount, text);
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, 9, gSelectRaceRule->mBnll,
-            GetBmgEntry(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_WIN]),
+            Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_WIN]),
             gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
         PrintLabelLayoutTextFixedAdvance(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
                                          gSelectRaceRule->mTable, 0xb);
     } else {
         FormatFullWidthNumber(gSelectRaceRule->mWinCount, numberText);
-        FormatMessageWithText(numberText, GetBmgEntry(gSelectRaceRule->mRuleMessages, 0x16), text, 0x80);
+        MaybeHandleBmgFormatting_from_thumb(numberText, Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mRuleMessages, 0x16), text, 0x80);
         PrintLabelLayoutTextNoFixedAdvance(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
                                            gSelectRaceRule->mTable);
     }
@@ -214,16 +214,16 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
     }
     gSelectRaceRule->mRaceCount = count;
     FormatFullWidthNumber(gSelectRaceRule->mRaceCount, text);
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, 9, gSelectRaceRule->mBnll,
-            GetBmgEntry(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_RACE]),
+            Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_RACE]),
             gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
         PrintLabelLayoutTextFixedAdvance(1, 8, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
                                          gSelectRaceRule->mTable, 0xb);
     } else {
         FormatFullWidthNumber(gSelectRaceRule->mRaceCount, numberText);
-        FormatMessageWithText(numberText, GetBmgEntry(gSelectRaceRule->mRuleMessages, 0x17), text, 0x80);
+        MaybeHandleBmgFormatting_from_thumb(numberText, Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mRuleMessages, 0x17), text, 0x80);
         PrintLabelLayoutTextNoFixedAdvance(1, 0xa, gSelectRaceRule->mBnll, text, gSelectRaceRule->mBncl,
                                            gSelectRaceRule->mTable);
     }
@@ -232,7 +232,7 @@ void SetAndPrintSelectRaceRuleRaceCount(s16 count) {
 void AdvanceSelectRaceRuleValueObjects(void) {
     u16 cellEntryCount = gSelectRaceRule->mBncl->mCount;
 
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         switch (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_RULE_KIND]) {
             case SELECT_RACE_RULE_WIN:
             case SELECT_RACE_RULE_RACE:
@@ -273,7 +273,7 @@ void AdvanceSelectRaceRuleValueObjects(void) {
                 gSelectRaceRule->mTable[cellEntryCount + 10].mVisible = 1;
                 PrintLabelLayoutTextNoFixedAdvance(
                     1, 0xa, gSelectRaceRule->mBnll,
-                    GetBmgEntry(gSelectRaceRule->mRuleMessages,
+                    Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mRuleMessages,
                                 gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
                     gSelectRaceRule->mBncl, gSelectRaceRule->mTable);
                 break;
@@ -356,7 +356,7 @@ void MoveSelectRaceRuleRowNext(void) {
         }
     }
     if (value != 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -395,7 +395,7 @@ void MoveSelectRaceRuleRowPrevious(void) {
         }
     }
     if (value != 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
     }
 }
 
@@ -505,7 +505,7 @@ BOOL PickSelectRaceRuleCpuEntry(u16 *entryOut) {
         case SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE:
         case SELECT_RACE_RULE_MODE_VS_MULTI:
         case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
-            randomState = &gConnectionWork->mRandomState;
+            randomState = &g_GlobalZE->mRandomState;
             cpuCount = GetSelectRaceRuleCpuCount();
             randomState->mValue =
                 randomState->mIncrement + (u64) ((s64) randomState->mMultiplier * (s64) randomState->mValue);
@@ -526,9 +526,9 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
         return;
     }
     if (IsPlayerTeamPlayerCountNotOne(entryIndex) == 0) {
-        ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-        if (entryIndex == gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
+        ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+        if (entryIndex == g_GlobalZE->mParticipantPosByIndex[ownIndex].mEntryIndex) {
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x16);
         }
         return;
     }
@@ -548,8 +548,8 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
         }
         ChangeSelectRaceRulePlayerTeam(cpuEntry, GetOtherTeamIndex(teamIndex));
     }
-    ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-    if (entryIndex == gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) {
+    ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+    if (entryIndex == g_GlobalZE->mParticipantPosByIndex[ownIndex].mEntryIndex) {
         switch (gSelectRaceRule->mPlayerTeamIndices[entryIndex]) {
             case 0:
                 gSelectRaceRule->mCountTeamChangeTimers[1][0] = 6;
@@ -558,7 +558,7 @@ void ChangeSelectRaceRulePlayerTeam(u16 entryIndex, u32 teamIndex) {
                 gSelectRaceRule->mCountTeamChangeTimers[1][1] = 6;
                 break;
         }
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 4);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 4);
     }
 }
 
@@ -581,7 +581,7 @@ void AssignSelectRaceRuleHumanTeams(void) {
             case SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE:
             case SELECT_RACE_RULE_MODE_VS_MULTI:
             case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
-                randomState = &gConnectionWork->mRandomState;
+                randomState = &g_GlobalZE->mRandomState;
                 randomState->mValue =
                     randomState->mIncrement + (u64) ((s64) randomState->mMultiplier * (s64) randomState->mValue);
                 team = ((u64) (u32) (randomState->mValue >> 32) * 2) >> 32;
@@ -613,7 +613,7 @@ void AssignSelectRaceRuleNonHumanTeams(void) {
             case SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE:
             case SELECT_RACE_RULE_MODE_VS_MULTI:
             case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
-                randomState = &gConnectionWork->mRandomState;
+                randomState = &g_GlobalZE->mRandomState;
                 randomState->mValue =
                     randomState->mIncrement + (u64) ((s64) randomState->mMultiplier * (s64) randomState->mValue);
                 team = ((u64) (u32) (randomState->mValue >> 32) * 2) >> 32;
@@ -633,7 +633,7 @@ BOOL IsSelectRaceRuleValueAllowed(void) {
     selectRaceRule = gSelectRaceRule;
     if (selectRaceRule->mRow == SELECT_RACE_RULE_ROW_ENGINE &&
         selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_ENGINE] == SELECT_RACE_RULE_ENGINE_MIRROR &&
-        IsBitSetInAnyParticipant(0x10) == 0) {
+        CheckSecretFlag(0x10) == 0) {
         return FALSE;
     }
     selectRaceRule = gSelectRaceRule;
@@ -713,11 +713,11 @@ BOOL DoesSelectRaceRuleHumanCountMatch(void) {
         case SELECT_RACE_RULE_MODE_VS_MULTI:
         case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
             usesMask = TRUE;
-            if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-                gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+            if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+                g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
                 usesMask = FALSE;
             }
-            participantCount = usesMask != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0;
+            participantCount = usesMask != FALSE ? Math_CountPopulation(g_GlobalZE->mParticipantMask) : 0;
             if (participantCount == GetSelectRaceRuleHumanCount()) {
                 return TRUE;
             }
@@ -758,7 +758,7 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
     if (selectRaceRule->mRow != SELECT_RACE_RULE_ROW_RULE_KIND) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, gSelectRaceRuleRowEntries[selectRaceRule->mRow].mEntryIndices[1], selectRaceRule->mBnll,
-            GetBmgEntry(selectRaceRule->mRuleMessages,
+            Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages,
                         gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
                                                           [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
@@ -795,7 +795,7 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
     }
     gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][1] = 6;
     if (playSound != 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 1);
     }
 }
 
@@ -813,7 +813,7 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
     if (selectRaceRule->mRow != SELECT_RACE_RULE_ROW_RULE_KIND) {
         PrintLabelLayoutTextNoFixedAdvance(
             1, gSelectRaceRuleRowEntries[selectRaceRule->mRow].mEntryIndices[1], selectRaceRule->mBnll,
-            GetBmgEntry(selectRaceRule->mRuleMessages,
+            Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages,
                         gSelectRaceRuleValueMessageIndices[selectRaceRule->mRow]
                                                           [selectRaceRule->mRowValues[selectRaceRule->mRow]]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
@@ -850,7 +850,7 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
     }
     gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][0] = 6;
     if (playSound != 0) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 1);
     }
 }
 
@@ -873,7 +873,7 @@ void IncrementSelectRaceRuleCourseCount(void) {
                 break;
         }
         if (changed != FALSE) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x17);
         }
     }
 }
@@ -897,7 +897,7 @@ void DecrementSelectRaceRuleCourseCount(void) {
                 break;
         }
         if (changed != FALSE) {
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x17);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0x17);
         }
     }
 }
@@ -905,7 +905,7 @@ void DecrementSelectRaceRuleCourseCount(void) {
 void AdvanceSelectRaceRuleRowObjects(void) {
     s32 rowIndex;
     s32 columnIndex;
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_WL_MENU) {
         for (rowIndex = 0; rowIndex < 5; rowIndex++) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
                 gSelectRaceRule->mTable[gSelectRaceRuleStepCellsHighlighted[rowIndex][columnIndex]].mVisible = 0;
@@ -1070,7 +1070,7 @@ void WriteSelectRaceRuleToRaceSetupCopy(void) {
 void AdvanceSelectRaceRuleChangeObjects(void) {
     s32 columnIndex;
     u16 ownIndex;
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         if (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_RULE_KIND] != SELECT_RACE_RULE_FREE) {
             if (gSelectRaceRule->mRow == SELECT_RACE_RULE_ROW_RULE_KIND && gSelectRaceRule->mOnButton == 0) {
                 gSelectRaceRule->mTable[30].mVisible = 1;
@@ -1098,8 +1098,8 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
                 if (gSelectRaceRule->mRow == SELECT_RACE_RULE_ROW_TEAMS && gSelectRaceRule->mOnButton == 0) {
                     ownIndex =
-                        gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-                    if (IsPlayerTeamPlayerCountNotOne(gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) !=
+                        g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+                    if (IsPlayerTeamPlayerCountNotOne(g_GlobalZE->mParticipantPosByIndex[ownIndex].mEntryIndex) !=
                         0) {
                         gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsHighlighted[columnIndex]].mVisible = 1;
                         gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsPlain[columnIndex]].mVisible = 0;
@@ -1133,8 +1133,8 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
         }
         if (gSelectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_TEAMS] == SELECT_RACE_RULE_TEAMS_PLAYER_PICKS) {
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
-                ownIndex = gConnectionWork->mConnectionMode == CONNECTION_MODE_CHILD ? gConnectionWork->mOwnIndex : 0;
-                if (IsPlayerTeamPlayerCountNotOne(gConnectionWork->mParticipantPosByIndex[ownIndex].mEntryIndex) != 0) {
+                ownIndex = g_GlobalZE->mConnectionMode == CONNECTION_MODE_CHILD ? g_GlobalZE->mOwnIndex : 0;
+                if (IsPlayerTeamPlayerCountNotOne(g_GlobalZE->mParticipantPosByIndex[ownIndex].mEntryIndex) != 0) {
                     gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsHighlighted[columnIndex]].mVisible = 1;
                     gSelectRaceRule->mTable[gSelectRaceRuleTeamCellsPlain[columnIndex]].mVisible = 0;
                 } else {
@@ -1160,16 +1160,16 @@ void AdvanceSelectRaceRuleChangeObjects(void) {
 
 void PrintSelectRaceRuleRow4Message(void) {
     SelectRaceRule *selectRaceRule;
-    if (gStartupWork->mConnectionKind == CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind == CONNECTION_KIND_WL_MENU) {
         gSelectRaceRule->mTable[gSelectRaceRule->mBncl->mCount + 14].mVisible = 1;
         selectRaceRule = gSelectRaceRule;
         if (selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_TEAMS] == SELECT_RACE_RULE_TEAMS_PLAYER_PICKS) {
             PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRule->mBnll,
-                                               GetBmgEntry(selectRaceRule->mRuleMessages, 0x15), selectRaceRule->mBncl,
+                                               Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages, 0x15), selectRaceRule->mBncl,
                                                selectRaceRule->mTable);
         } else {
             PrintLabelLayoutTextNoFixedAdvance(1, 0xe, gSelectRaceRule->mBnll,
-                                               GetBmgEntry(selectRaceRule->mRuleMessages, 0x14), selectRaceRule->mBncl,
+                                               Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages, 0x14), selectRaceRule->mBncl,
                                                selectRaceRule->mTable);
         }
     }
@@ -1189,7 +1189,7 @@ void AdvanceSelectRaceRuleTeamInput(void) {
             hitRectIndex = -1;
             newPair = FALSE;
             noPairForFewCalls = FALSE;
-            inputSlot = &gInputSlots[slotIndex];
+            inputSlot = &g_GlobalCYT[slotIndex];
             hasPair = inputSlot->mPair.mHasPair;
             if (hasPair == 0 && inputSlot->mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
                 noPairForFewCalls = TRUE;
@@ -1335,11 +1335,11 @@ void SetSelectRaceRuleHumanCount(void) {
         case SELECT_RACE_RULE_MODE_VS_MULTI:
         case SELECT_RACE_RULE_MODE_BATTLE_MULTI:
             usesMask = TRUE;
-            if (gConnectionWork->mState != CONNECTION_STATE_SYNCED &&
-                gConnectionWork->mState != CONNECTION_STATE_SYNCED_RACE) {
+            if (g_GlobalZE->mState != CONNECTION_STATE_SYNCED &&
+                g_GlobalZE->mState != CONNECTION_STATE_SYNCED_RACE) {
                 usesMask = FALSE;
             }
-            participantCount = usesMask != FALSE ? CountSetBits(gConnectionWork->mParticipantMask) : 0;
+            participantCount = usesMask != FALSE ? Math_CountPopulation(g_GlobalZE->mParticipantMask) : 0;
             gSelectRaceRule->mTeamHumanCounts[0] = participantCount;
             break;
     }
@@ -1387,7 +1387,7 @@ void ResetSelectRaceRulePositions(void) {
                 gSelectRaceRule->mOffsetY - 0xc0;
         }
     }
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         gSelectRaceRule->mTable[value + 13].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
         value += 8;
         gSelectRaceRule->mTable[value].mOffsetY = gSelectRaceRule->mOffsetY + 0xc0;
@@ -1428,7 +1428,7 @@ void RequestSelectRaceRuleWaitPress(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         StopPaletteBlend();
     }
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
     WriteSelectRaceRuleToRaceSetupCopy();
 }
 
@@ -1436,8 +1436,8 @@ void RequestSelectRaceRuleWaitConfirmOpen(void) {
     void *message;
     gSelectRaceRule->mNextState = SELECT_RACE_RULE_STATE_WAIT_CONFIRM_OPEN;
     gSelectRaceRule->mStateFrames = 0;
-    message = GetBmgEntry(gSelectRaceRule->mCommonMessages, 4);
-    StartSelectChoises(message, GetBmgEntry(gSelectRaceRule->mCommonMessages, 2), 0);
+    message = Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mCommonMessages, 4);
+    StartSelectChoises(message, Bmg_GetRawStringPointer_from_thumb(gSelectRaceRule->mCommonMessages, 2), 0);
 }
 
 // Requests the confirm choices wait: stores mNextState and zeroes mStateFrames; the next AdvanceSelectRaceRule call
@@ -1469,8 +1469,8 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
     SelectRaceRule *selectRaceRule;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8200;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectRaceRule = HeapAlloc(heap, sizeof(*gSelectRaceRule));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectRaceRule = Mem_AllocateHeap(heap, sizeof(*gSelectRaceRule));
     gSelectRaceRule->mHeap = heap;
     gSelectRaceRule->mMode = mode;
     gSelectRaceRule->mState = SELECT_RACE_RULE_STATE_WAIT_FADE;
@@ -1500,8 +1500,8 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
     }
     LocateAndQueueSelectRaceRule();
     InitLayoutTable(gSelectRaceRule->mHeap, gSelectRaceRule->mBncl, gSelectRaceRule->mBnll, &gSelectRaceRule->mTable);
-    gSelectRaceRule->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gSelectRaceRule->mRuleMessages = FindSceneFile("rule.bmg");
+    gSelectRaceRule->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
+    gSelectRaceRule->mRuleMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("rule.bmg");
     cellEntryCount = gSelectRaceRule->mBncl->mCount;
     remainingSubObjSize = GX_GetSizeOfSubOBJ();
     for (rowIndex = 0; rowIndex < 5; rowIndex++) {
@@ -1517,18 +1517,18 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
         selectRaceRule = gSelectRaceRule;
         PrintLabelLayoutTextNoFixedAdvance(
             1, gSelectRaceRuleRowEntries[rowIndex].mEntryIndices[0], gSelectRaceRule->mBnll,
-            GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleRowMessageIndices[rowIndex]),
+            Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages, gSelectRaceRuleRowMessageIndices[rowIndex]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
         if (rowIndex != 3) {
             selectRaceRule = gSelectRaceRule;
             PrintLabelLayoutTextNoFixedAdvance(
                 1, gSelectRaceRuleRowEntries[rowIndex].mEntryIndices[1], gSelectRaceRule->mBnll,
-                GetBmgEntry(selectRaceRule->mRuleMessages,
+                Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages,
                             gSelectRaceRuleValueMessageIndices[rowIndex][selectRaceRule->mRowValues[rowIndex]]),
                 selectRaceRule->mBncl, selectRaceRule->mTable);
         }
     }
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         selectRaceRule = gSelectRaceRule;
         remainingSubObjSize -=
             InitLabelCanvas(selectRaceRule->mHeap, 9, selectRaceRule->mBnll, 0x96, 0xf, cellEntryCount + 3,
@@ -1540,7 +1540,7 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
         selectRaceRule = gSelectRaceRule;
         PrintLabelLayoutTextNoFixedAdvance(
             1, 0xa, gSelectRaceRule->mBnll,
-            GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
+            Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
     } else {
         selectRaceRule = gSelectRaceRule;
@@ -1550,7 +1550,7 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
         selectRaceRule = gSelectRaceRule;
         PrintLabelLayoutTextNoFixedAdvance(
             1, 0xa, gSelectRaceRule->mBnll,
-            GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
+            Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[3][SELECT_RACE_RULE_FREE]),
             selectRaceRule->mBncl, selectRaceRule->mTable);
     }
     selectRaceRule = gSelectRaceRule;
@@ -1560,16 +1560,16 @@ void InitSelectRaceRule(void *parentHeap, s32 mainOam, void *oamList, s32 mode) 
     selectRaceRule = gSelectRaceRule;
     PrintLabelLayoutTextNoFixedAdvance(
         1, 0xc, gSelectRaceRule->mBnll,
-        GetBmgEntry(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[4][2]), selectRaceRule->mBncl,
+        Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mRuleMessages, gSelectRaceRuleValueMessageIndices[4][2]), selectRaceRule->mBncl,
         selectRaceRule->mTable);
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         selectRaceRule = gSelectRaceRule;
         remainingSubObjSize -=
             InitLabelCanvas(selectRaceRule->mHeap, 0xd, selectRaceRule->mBnll, 0x32, 0xd, 0x29, selectRaceRule->mNcer,
                             selectRaceRule->mBncl, selectRaceRule->mTable, remainingSubObjSize);
         selectRaceRule = gSelectRaceRule;
         PrintLabelLayoutTextNoFixedAdvance(1, 0xd, gSelectRaceRule->mBnll,
-                                           GetBmgEntry(selectRaceRule->mCommonMessages, 4), selectRaceRule->mBncl,
+                                           Bmg_GetRawStringPointer_from_thumb(selectRaceRule->mCommonMessages, 4), selectRaceRule->mBncl,
                                            selectRaceRule->mTable);
         selectRaceRule = gSelectRaceRule;
         InitLabelCanvas(selectRaceRule->mHeap, 8, selectRaceRule->mBnll, 0x15, 0xf, 0x1f, selectRaceRule->mNcer,
@@ -1738,7 +1738,7 @@ void ReleaseSelectRaceRule(void) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         ClearPaletteBlendPointer();
     }
-    HeapDestroy(gSelectRaceRule->mHeap);
+    Mem_DestroyHeap(gSelectRaceRule->mHeap);
     gSelectRaceRule = NULL;
 }
 
@@ -1748,7 +1748,7 @@ void ReleaseSelectRaceRule(void) {
 
 void AdvanceSelectRaceRuleWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestSelectRaceRuleSlideIn();
     }
@@ -1768,7 +1768,7 @@ void AdvanceSelectRaceRuleSlideIn(void) {
     AdvanceSelectRaceRuleChangeObjects();
     gSelectRaceRule->mStateFrames++;
     selectRaceRule = gSelectRaceRule;
-    value = InterpolateS16(1, -192, 0, selectRaceRule->mStateFrames, SELECT_RACE_RULE_SLIDE_STEPS);
+    value = ComputeValueInterpolation_from_thumb(1, -192, 0, selectRaceRule->mStateFrames, SELECT_RACE_RULE_SLIDE_STEPS);
     rowsOffsetY = selectRaceRule->mOffsetY + value;
     selectRaceRule->mBg3Offset = rowsOffsetY;
     value = gSelectRaceRule->mBncl->mCount;
@@ -1794,7 +1794,7 @@ void AdvanceSelectRaceRuleSlideIn(void) {
             gSelectRaceRule->mTable[gSelectRaceRuleCountTeamChangeCells[rowIndex][columnIndex]].mOffsetY = rowsOffsetY;
         }
     }
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         value += 8;
         gSelectRaceRule->mTable[value].mOffsetY = rowsOffsetY;
         gSelectRaceRule->mTable[30].mOffsetY = rowsOffsetY;
@@ -1813,7 +1813,7 @@ void AdvanceSelectRaceRuleWaitReturn(void) {
     gSelectRaceRule->mStateFrames++;
     returnOffsetY = -LookupSelectReturnSlideInBg2Offset(gSelectRaceRule->mStateFrames);
     cellEntryCount = gSelectRaceRule->mBncl->mCount;
-    if (gStartupWork->mConnectionKind != CONNECTION_KIND_WL_MENU) {
+    if (g_GlobalP->mConnectionKind != CONNECTION_KIND_WL_MENU) {
         gSelectRaceRule->mTable[0x28].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[0x29].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[cellEntryCount + 13].mOffsetY = returnOffsetY;
@@ -1875,7 +1875,7 @@ void AdvanceSelectRaceRuleChoose(void) {
             }
         }
     }
-    slot = &gInputSlots[inputIndex];
+    slot = &g_GlobalCYT[inputIndex];
     if ((u16) (slot->mPressedBits & PAD_KEY_B) == 0) {
         newPair = FALSE;
         noPairForFewCalls = FALSE;
@@ -1928,7 +1928,7 @@ chain:
         if (GetSelectRaceRuleHumanCount() != 8 || row != 1) {
             gSelectRaceRule->mRow = row;
             gSelectRaceRule->mOnButton = 0;
-            NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
+            PlaySseqFromSarc(&gSharedSeqHandle, 0, 0);
         }
     } else if ((u16) (slot->mPressedBits & PAD_KEY_A) != 0) {
         if (gSelectRaceRule->mOnButton != 0) {

@@ -6,7 +6,7 @@
 // Sends the load 4x4 matrix command and the 16 words of mtx to the geometry FIFO.
 void G3_LoadMtx44(const void *mtx) {
     reg_G3X_GXFIFO = 0x16;
-    GX_SendFifo64B(mtx, (void *) &reg_G3X_GXFIFO);
+    LoadMatrix4x4(mtx, (void *) &reg_G3X_GXFIFO);
 }
 
 // Sends the load 4x3 matrix command and the 12 words of mtx to the geometry FIFO.
@@ -24,5 +24,5 @@ void G3_MultMtx43(const void *mtx) {
 // Sends the multiply by 3x3 matrix command and the 9 words of mtx to the geometry FIFO.
 void G3_MultMtx33(const void *mtx) {
     reg_G3X_GXFIFO = 0x1a;
-    MI_Copy36B(mtx, (void *) &reg_G3X_GXFIFO);
+    asm_MI_Copy36B(mtx, (void *) &reg_G3X_GXFIFO);
 }

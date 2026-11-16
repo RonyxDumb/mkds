@@ -1,6 +1,6 @@
 #include "screen_data_unpack.h"
 
-NNSG2dBinaryBlockHeader *FindPartByTag(NNSG2dBinaryFileHeader *file, u32 tag) {
+NNSG2dBinaryBlockHeader *Common_FindBlockByMagic(NNSG2dBinaryFileHeader *file, u32 tag) {
     u16 blockIndex;
     u16 count;
     NNSG2dBinaryBlockHeader *part;
@@ -16,10 +16,10 @@ NNSG2dBinaryBlockHeader *FindPartByTag(NNSG2dBinaryFileHeader *file, u32 tag) {
     return 0;
 }
 
-u32 NNS_G2dGetUnpackedScreenData(NNSG2dBinaryFileHeader *pNscrFile, NNSG2dBinaryBlockHeader **ppScrData) {
+u32 Screen_ReadBlock(NNSG2dBinaryFileHeader *pNscrFile, NNSG2dBinaryBlockHeader **ppScrData) {
     NNSG2dBinaryBlockHeader *part;
 
-    part = FindPartByTag(pNscrFile, 0x5343524e);
+    part = Common_FindBlockByMagic(pNscrFile, 0x5343524e);
     if (part != 0) {
         *ppScrData = part + 1;
         return 1;

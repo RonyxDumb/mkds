@@ -117,7 +117,7 @@ void SPLManager_DrawChildParticles(SPLManager *mgr);
 void SPLManager_DrawParticles(SPLManager *mgr);
 void SPLEmitter_Update(SPLManager *mgr, ParticleEmitter *emtr);
 void SPLEmitter_Init(ParticleEmitter *emtr, ParticleResource *res, Vec3 *pos);
-void SPLUtil_SetTexture_Stub(ParticleTexture *tex);
+void nullsub_3(ParticleTexture *tex);
 void SPLUtil_SetTexture(ParticleTexture *tex);
 void SPLDraw_Child_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl);
 void SPLDraw_DirectionalPolygon(SPLManager *mgr, ParticleInstance *ptcl);

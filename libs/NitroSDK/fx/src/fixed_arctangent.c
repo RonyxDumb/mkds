@@ -13,7 +13,7 @@ const s16 FX_AtanTable_[129] = {
     3068, 3085, 3102, 3119, 3135, 3152, 3168, 3185, 3201, 3217,
 };
 
-const s16 FX_AtanIdxTable_[129] = {
+const s16 g_Fx_AtanTable[129] = {
     0,    81,   163,  244,  326,  407,  489,  570,  651,  732,  813,  894,  975,  1056, 1136, 1217, 1297,
     1377, 1457, 1537, 1617, 1696, 1775, 1854, 1933, 2012, 2090, 2168, 2246, 2324, 2401, 2478, 2555, 2632,
     2708, 2784, 2860, 2935, 3010, 3085, 3159, 3233, 3307, 3380, 3453, 3526, 3599, 3670, 3742, 3813, 3884,
@@ -25,7 +25,7 @@ const s16 FX_AtanIdxTable_[129] = {
 };
 
 // Angle of the point (x, y) as a 16-bit angle index, using the arctangent table. Returns 0 when both are 0.
-u16 FX_Atan2Idx(s32 y, s32 x) {
+u16 FX_Atan2(s32 y, s32 x) {
     s32 small;
     s32 large;
     s32 base;
@@ -108,9 +108,9 @@ u16 FX_Atan2Idx(s32 y, s32 x) {
         return 0;
     }
     if (add != 0) {
-        return base + FX_AtanIdxTable_[FX_Div(small, large) >> 5];
+        return base + g_Fx_AtanTable[FX_Div(small, large) >> 5];
     }
-    return base - FX_AtanIdxTable_[FX_Div(small, large) >> 5];
+    return base - g_Fx_AtanTable[FX_Div(small, large) >> 5];
 }
 
 // Angle of the point (x, y) in radians with 12 fractional bits, using the arctangent table. Returns 0 when both are 0.

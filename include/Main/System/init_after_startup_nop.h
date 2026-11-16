@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitAfterStartupNop(void);
+void nullsub_5(void);

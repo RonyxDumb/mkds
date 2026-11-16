@@ -25,7 +25,7 @@ typedef struct CourseSoundObjectPart {
 } CourseSoundObjectPart;
 
 // CourseSoundObject.mState values (0 is not used). WAIT_RACE_START to LAST_LAP swap the first part's sound as the race
-// starts and on the last lap; the CHAIN states are set while GetRaceUseChainCameras is nonzero.
+// starts and on the last lap; the CHAIN states are set while IsNotStaffRoll is nonzero.
 enum {
     COURSE_SOUND_STATE_WAIT_RACE_START = 1,
     COURSE_SOUND_STATE_RACE,

@@ -7,30 +7,30 @@
 #pragma thumb on
 
 void DWC_LoginIdToUserName(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata, char *username) {
-    DWCi_Acc_LoginIdToUserName(frienddata, userdata->mGamecode, username);
+    FriendCode_SomeFn_7_from_thumb(frienddata, userdata->mGamecode, username);
 }
 
-BOOL DWC_IsEqualFriendData(const DWCAccFriendData *frienddata1, const DWCAccFriendData *frienddata2) {
+BOOL FriendCode_SameAs_from_thumb(const DWCAccFriendData *frienddata1, const DWCAccFriendData *frienddata2) {
     u32 type;
-    type = DWCi_Acc_GetFlag_DataType(frienddata1);
-    if (type != DWCi_Acc_GetFlag_DataType(frienddata2)) {
+    type = FriendCode_GetState_from_thumb(frienddata1);
+    if (type != FriendCode_GetState_from_thumb(frienddata2)) {
         return 0;
     }
     if (type == 3) {
-        if (GetFriendDataGsProfileId(frienddata1) == GetFriendDataGsProfileId(frienddata2)) {
+        if (FriendCode_GetProfileId_from_thumb(frienddata1) == FriendCode_GetProfileId_from_thumb(frienddata2)) {
             return 1;
         }
         return 0;
     }
     if (type == 1) {
-        if (DWCi_Acc_GetUserId(frienddata1) == DWCi_Acc_GetUserId(frienddata2) &&
-            GetFriendDataPlayerId(frienddata1) == GetFriendDataPlayerId(frienddata2)) {
+        if (FriendCode_GetSomePackedValue_from_thumb(frienddata1) == FriendCode_GetSomePackedValue_from_thumb(frienddata2) &&
+            FriendCode_GetCrcChecksum_from_thumb(frienddata1) == FriendCode_GetCrcChecksum_from_thumb(frienddata2)) {
             return 1;
         }
         return 0;
     }
     if (type == 2) {
-        if (DWCi_Acc_GetFriendKey(frienddata1) == DWCi_Acc_GetFriendKey(frienddata2)) {
+        if (FriendCode_GetFriendCodePacked_from_thumb(frienddata1) == FriendCode_GetFriendCodePacked_from_thumb(frienddata2)) {
             return 1;
         }
         return 0;
@@ -38,27 +38,27 @@ BOOL DWC_IsEqualFriendData(const DWCAccFriendData *frienddata1, const DWCAccFrie
     return 0;
 }
 
-void DWC_ReportFriendData(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata) {
+void PlayerProfileInfo_SomeFn_3_from_thumb(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata) {
     u8 name[0x24];
     u64 friendKey;
-    if (DWCi_Acc_GetFlag_DataType(frienddata) != 3) {
-        if (DWCi_Acc_GetFlag_DataType(frienddata) == 2) {
-            friendKey = DWCi_Acc_GetFriendKey(frienddata);
-            FormatFriendKey(friendKey, friendKey >> 32, (u32) name);
+    if (FriendCode_GetState_from_thumb(frienddata) != 3) {
+        if (FriendCode_GetState_from_thumb(frienddata) == 2) {
+            friendKey = FriendCode_GetFriendCodePacked_from_thumb(frienddata);
+            PrintfUll_from_thumb(friendKey, friendKey >> 32, (u32) name);
             return;
         }
-        if (DWCi_Acc_GetFlag_DataType(frienddata) == 1) {
-            DWCi_Acc_LoginIdToUserName(frienddata, userdata->mGamecode, (char *) &name[0xd]);
+        if (FriendCode_GetState_from_thumb(frienddata) == 1) {
+            FriendCode_SomeFn_7_from_thumb(frienddata, userdata->mGamecode, (char *) &name[0xd]);
         }
     }
 }
 
-void DWC_ReportUserData(const DWCAccUserData *userdata) {
-    DWC_ReportFriendData(userdata, &userdata->mPseudo);
-    DWC_ReportFriendData(userdata, &userdata->mAuthentic);
+void PlayerProfileInfo_SomeFn_2_from_thumb(const DWCAccUserData *userdata) {
+    PlayerProfileInfo_SomeFn_3_from_thumb(userdata, &userdata->mPseudo);
+    PlayerProfileInfo_SomeFn_3_from_thumb(userdata, &userdata->mAuthentic);
 }
 
-u32 IsLeapYearTwoDigit(u32 year) {
+u32 IsLeapYear_from_thumb(u32 year) {
     if ((year & 3) == 0) {
         return 1;
     }
@@ -72,7 +72,7 @@ s32 DateToDayCount(const RTCDate *date) {
         return -1;
     }
     dayNum = date->mDay - 1 + (sMonthStartDay - 1)[date->mMonth];
-    if (date->mMonth >= ACCOUNT_MARCH && IsLeapYearTwoDigit(date->mYear) != 0) {
+    if (date->mMonth >= ACCOUNT_MARCH && IsLeapYear_from_thumb(date->mYear) != 0) {
         dayNum++;
     }
     dayNum = dayNum + date->mYear * 365;

@@ -33,5 +33,5 @@ u32 TitleIsPairNewUnlessRecentlyLost(InputSlotPair *inputSlotPair) {
 }
 
 u32 TitleIsSlotPairNew(u32 slotIndex) {
-    return TitleIsPairNewUnlessRecentlyLost(&gInputSlots[slotIndex].mPair);
+    return TitleIsPairNewUnlessRecentlyLost(&g_GlobalCYT[slotIndex].mPair);
 }

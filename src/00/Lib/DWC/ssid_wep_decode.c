@@ -51,7 +51,7 @@ void MakeShopWepKey(const u8 *decoded, u8 *wepKey) {
     DGT_Hash1Reset(&context);
     DGT_Hash1SetSource(&context, decoded, 24);
     DGT_Hash1GetDigest_R(digest, &context);
-    MI_CpuCopy8(digest + 3, wepKey, 13);
+    Mem_CpuCopy8(digest + 3, wepKey, 13);
 }
 
 void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
@@ -74,7 +74,7 @@ void MakeUsbWepKey(const u8 *name, u8 *wepKey) {
     for (xorIndex = 0; xorIndex < 13; xorIndex++) {
         wepKey[xorIndex] ^= gUsbWepFirstXorKey[xorIndex];
     }
-    MI_CpuCopy8(wepKey, copy, 13);
+    Mem_CpuCopy8(wepKey, copy, 13);
     copyIndex = 0;
     source = copy;
     target = gConvByteTable;

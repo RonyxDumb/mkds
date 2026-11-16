@@ -37,7 +37,7 @@ u32 NNS_G2dTickAnimCtrl(NNSG2dCellAnimation *pAnimCtrl, s32 frames) {
     if (pAnimCtrl->mActive != 1) {
         return 0;
     }
-    pAnimCtrl->mCurrentTime += Abs(MUL_FIXED12_ROUNDED(pAnimCtrl->mSpeed, frames));
+    pAnimCtrl->mCurrentTime += abs(MUL_FIXED12_ROUNDED(pAnimCtrl->mSpeed, frames));
     currentTime = &pAnimCtrl->mCurrentTime;
     while (ShouldAnmCtrlMoveNext_(pAnimCtrl)) {
         changedFrame = 1;

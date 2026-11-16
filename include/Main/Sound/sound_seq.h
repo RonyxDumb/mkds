@@ -22,7 +22,7 @@ void StartChoisesSValueSeq(s32 valueIndex);
 void StopAllSeqPlayers(void);
 void SetSndHandleTrackVolume(NNSSndSeqPlayer **handle, u32 volume);
 void SetSndHandleTrackPitch(NNSSndSeqPlayer **handle, u32 pitch);
-void StartSoundOncePerFrame(s32 seqNo);
+void MaybePlaySomeSseqFromSarc0(s32 seqNo);
 void StartMissionRunLVselSeq(u32 mode);
 void StartSceneSeqIfIdle(void);
 
@@ -61,7 +61,7 @@ typedef struct LoadedSoundBanks {
 #define SCENE_PLAYERS_SEQ_START_NEVER 0xff
 
 // Values of LoadedSoundBanks.mLoadMarker: no banks loaded, and the banks of mBankMask loaded.
-// LOADED_SOUND_BANKS_MENU_SET is the mBankMask stored after InitSceneSounds loaded bank 0x2c and seq arc 3 for the menu
+// LOADED_SOUND_BANKS_MENU_SET is the mBankMask stored after MaybeChangeAudioForMenu loaded bank 0x2c and seq arc 3 for the menu
 // scenes.
 #define LOADED_SOUND_BANKS_NONE 0xff00
 #define LOADED_SOUND_BANKS_LOADED 0xfe00
@@ -112,7 +112,7 @@ typedef struct LoadedSoundBanks {
 
 // The sequence info of the scene players: how far the sequence has started and its id.
 typedef struct ScenePlayersSeqInfo {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 mField0;
     /* 01 */ u8 mSeqStartProgress;
     /* 02 */ u8 mSeqId;
 } ScenePlayersSeqInfo;
@@ -197,20 +197,20 @@ typedef struct VolumeFade {
     /* 04 */ s32 mVolume;
 } VolumeFade;
 
-// Values of the two switches in InitSound.
+// Values of the two switches in InitializeAudio.
 typedef enum { SND_HEAP_SIZE_LARGE = 0, SND_HEAP_SIZE_MEDIUM = 1, SND_HEAP_SIZE_SMALL = 2 } SndHeapSizeKind;
 
-BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
-BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);
-int GetSndHeapsBufferSize(int heapSizeKind);
-int GetSndInitBufferSize(int heapSizeKind);
-void ReleaseSndHeaps(void);
-void CreateSndHeaps(u32 heapSizeKind, u32 buffer);
-void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive);
-void UpdateSounds(void);
-void InitSceneSounds(s32 unused);
+BOOL MaybeLoadRacerSbnksSwars(s32 bankMask);
+BOOL MaybeReloadRacerSbnksSwars(s32 bankMask);
+int ComputeRAudioBufferAllocSize(int heapSizeKind);
+int GetSoundBufferAllocationSize(int heapSizeKind);
+void DisposeSomeSoundStuff(void);
+void SomeAudioInit(u32 heapSizeKind, u32 buffer);
+void InitializeAudio(void *buffer, u32 bufferSize, u32 useFileArchive);
+void LoopFn_Sound(void);
+void MaybeChangeAudioForMenu(s32 unused);
 void InitSceneSoundState(u32 sceneSoundRowIndex, ScenePlayersSeqInfo seqInfo, SceneSoundState *sceneSoundState);
-void StartSceneSounds(void);
+void PlayBgEffectsAndMore(void);
 void StartRaceSounds(void);
 void StartKartStarSeq(void);
 void StopKartStarSeq(void);
@@ -246,11 +246,11 @@ void BootInfoStartMessageScreenSeq(void);
 void StopSeqZeroLoop(void);
 void StartSeqZeroLoop(void);
 
-extern s32 gSndHeapSizeKind;
+extern s32 g_BootMode;
 extern LoadedSoundBanks gLoadedSoundBanks;
 extern SurfaceSoundSetup gOldLuigiAgbSurfaceSoundSetup;
-extern s32 gSndBankIdsByBit[13];
-extern s32 gSndWaveArcIdsByBit[13];
+extern s32 g_CharacterEffectSbnkIdTable[13];
+extern s32 g_CharacterEffectSwarIdTable[13];
 
 extern const u16 gChoisesSValueSeqNos[6];
 

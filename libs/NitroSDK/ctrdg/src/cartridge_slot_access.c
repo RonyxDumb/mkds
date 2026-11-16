@@ -22,17 +22,17 @@ s32 gCartridgeUnusedWord0;
 s32 gCartridgeUnusedWord1;
 s32 gCartridgeUnusedWord2;
 
-void CTRDG_Init(void) {
+void CTRDG_Initialize_from_thumb(void) {
     if (gCartridgeInitStarted == 0) {
         gCartridgeInitStarted = 1;
-        CTRDGi_InitCommon();
-        PXI_Init();
-        while (PXI_IsCallbackReady(13, 1) == 0) {
+        CTRDGi_InitCommon_from_thumb();
+        j_Fifo_Initialize();
+        while (Fifo_IsHandlerReady(13, 1) == 0) {
         }
-        PXI_SetFifoRecvCallback(13, CTRDGi_CallbackForInitModuleInfo);
+        Fifo_RegisterHandler(13, Fifo13Handler_0_from_thumb);
         CTRDGi_InitModuleInfo();
-        PXI_SetFifoRecvCallback(13, 0);
-        PXI_SetFifoRecvCallback(13, CTRDGi_PulledOutCallback);
+        Fifo_RegisterHandler(13, 0);
+        Fifo_RegisterHandler(13, Fifo13Handler_1_from_thumb);
         gCartridgeRemovalCallback = 0;
     }
 }
@@ -56,14 +56,14 @@ void CTRDGi_InitModuleInfo(void) {
     if ((reg_GX_POSTFLG & 1) == 0) {
         return;
     }
-    savedIrqMask = OS_SetIrqMask(0x40000);
+    savedIrqMask = SetIE(0x40000);
     savedMasterEnable = reg_OS_IME;
     reg_OS_IME = 1;
     CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
     priority = (reg_MI_EXMEMCNT & 0x8000) >> 15;
-    CTRDGi_ChangeLatestAccessCycle(&romCycle);
+    ReadSomeExmemcntData_from_thumb(&romCycle);
     reg_MI_EXMEMCNT = reg_MI_EXMEMCNT & ~0x8000;
-    DC_InvalidateRange(OFFSET_PTR(CartridgeHeaderTail, &gCartridgeHeaderCopy, 0x80), 0x40);
+    DC_InvalidateRangeNoClean(OFFSET_PTR(CartridgeHeaderTail, &gCartridgeHeaderCopy, 0x80), 0x40);
     MI_DmaCopy16(1, (const void *) 0x08000080, OFFSET_PTR(CartridgeHeaderTail, &gCartridgeHeaderCopy, 0x80), 0x40);
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x8000) | (priority << 15);
     CTRDGi_RestoreAccessCycle(&romCycle);
@@ -76,26 +76,26 @@ void CTRDGi_InitModuleInfo(void) {
     }
     idInfo->mMakerCode = chb->mHeaderTailCopy.mMakerCode;
     idInfo->mIdWord = chb->mHeaderTailCopy.mGameCode;
-    MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mBiosBytes, 0x9c);
+    Mem_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mBiosBytes, 0x9c);
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);
     while (gCartridgeState.mReplyReceived != 1) {
-        WaitByLoop(1);
+        Svc_Delay_from_thumb(1);
     }
     reg_OS_IME;
     reg_OS_IME = savedMasterEnable;
-    OS_SetIrqMask(savedIrqMask);
+    SetIE(savedIrqMask);
 }
 
-void CTRDGi_CallbackForInitModuleInfo(u32 tag, u32 data) {
+void Fifo13Handler_0_from_thumb(u32 tag, u32 data) {
     if ((data & 0x3f) == 1) {
         gCartridgeState.mReplyReceived = 1;
     } else {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
-void CTRDGi_PulledOutCallback(u32 tag, u32 data) {
+void Fifo13Handler_1_from_thumb(u32 tag, u32 data) {
     s32 terminateNow;
 
     if ((data & 0x3f) == 0x11) {
@@ -108,24 +108,24 @@ void CTRDGi_PulledOutCallback(u32 tag, u32 data) {
             return;
         }
     } else {
-        OS_Terminate();
+        Os_Terminate();
     }
 }
 
 void CTRDG_TerminateForPulledOut(void) {
     CTRDGi_SendtoPxi(2);
-    OS_Terminate();
+    Os_Terminate();
 }
 
-void CTRDGi_InitCommon(void) {
+void CTRDGi_InitCommon_from_thumb(void) {
     u32 zero;
 
     zero = 0;
-    CpuSet(&zero, &gCartridgeState, 0x05000001);
-    gCartridgeState.mLockId = OS_GetLockID();
+    Svc_Copy_from_thumb(&zero, &gCartridgeState, 0x05000001);
+    gCartridgeState.mLockId = Os_AllocateLockId();
 }
 
-s32 CTRDG_IsExisting(void) {
+s32 MaybeDebuggerOrAddonCode_from_thumb(void) {
     s32 exists;
     CartridgeAccessSave procLock;
     CartridgeAccessSave romCycle;
@@ -142,7 +142,7 @@ s32 CTRDG_IsExisting(void) {
         return 0;
     }
     CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
-    CTRDGi_ChangeLatestAccessCycle(&romCycle);
+    ReadSomeExmemcntData_from_thumb(&romCycle);
     if ((romHeader->mIdSelector == CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
          idInfo->mIdHalfword != romHeader->mIdHalfword) ||
         (romHeader->mIdSelector != CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
@@ -156,7 +156,7 @@ s32 CTRDG_IsExisting(void) {
     return exists;
 }
 
-void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo) {
+void ReadSomeExmemcntData_from_thumb(CartridgeAccessSave *cycleInfo) {
     cycleInfo->mCycle1 = (reg_MI_EXMEMCNT & 0xc) >> 2;
     cycleInfo->mCycle2 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
@@ -175,22 +175,22 @@ void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *cycleInfo) {
 
 void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
     for (;;) {
-        info->mSavedIrq = OS_DisableInterrupts();
-        info->mOwnerFlag = OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40;
+        info->mSavedIrq = Os_DisableIrq();
+        info->mOwnerFlag = Os_Lock_GetOwnerId(&SYSTEM_WORK->mLockCartridge) & 0x40;
         if (info->mOwnerFlag != 0) {
             break;
         }
-        if (OS_TryLockCartridge(lockID) == 0) {
+        if (Operation_CartArm9(lockID) == 0) {
             break;
         }
-        OS_RestoreInterrupts(info->mSavedIrq);
-        WaitByLoop(1);
+        Os_RestoreIrq(info->mSavedIrq);
+        Svc_Delay_from_thumb(1);
     }
 }
 
 void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info) {
     if (info->mOwnerFlag == 0) {
-        OS_UnLockCartridge(lockID);
+        j_Operation_CartArm7(lockID);
     }
-    OS_RestoreInterrupts(info->mSavedIrq);
+    Os_RestoreIrq(info->mSavedIrq);
 }

@@ -3,7 +3,7 @@
 #pragma thumb on
 
 // The byte of an array of bits that holds the given bit; only the low 11 bits of the number count.
-u8 *GetBitArrayByte(u32 bitIndex, u8 *bytes) {
+u8 *GetGhostDataByteByCourse_from_thumb(u32 bitIndex, u8 *bytes) {
     return bytes + ((bitIndex << 21) >> 24);
 }
 

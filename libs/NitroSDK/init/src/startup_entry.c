@@ -1,7 +1,7 @@
 #include "startup_entry.h"
 
-void NitroStartUp(void) {}
+void NtrStartup(void) {}
 
-const void *OSi_ReferSymbol(const void *symbol) {
+const void *Os_ReferSymbol(const void *symbol) {
     return symbol;
 }

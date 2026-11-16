@@ -5,9 +5,9 @@
 #pragma thumb on
 
 void InitFriendDataFromGsProfileId(DWCAccFriendData *friendData, u32 gsProfileId) {
-    MI_CpuFill8(friendData, 0, 0xc);
-    DWCi_Acc_SetGsProfileId(friendData, gsProfileId);
-    SetFriendDataType(friendData, 3);
+    Mem_CpuFill8(friendData, 0, 0xc);
+    FriendCode_SetProfileId_from_thumb(friendData, gsProfileId);
+    FriendCode_SetState_from_thumb(friendData, 3);
 }
 
 #pragma thumb off

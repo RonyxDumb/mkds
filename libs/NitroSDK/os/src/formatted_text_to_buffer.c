@@ -1,7 +1,7 @@
 #include "formatted_text_to_buffer.h"
 
 // Stores c at dst_string.mCur while dst_string.mLen is nonzero, and always advances dst_string.mCur.
-void string_put_char(dst_string *str, char character) {
+void Util_PrintContext_ApppendChar(dst_string *str, char character) {
     if (str->mLen != 0) {
         str->mCur[0] = character;
         str->mLen = str->mLen - 1;
@@ -10,7 +10,7 @@ void string_put_char(dst_string *str, char character) {
 }
 
 // Stores len copies of c at dst_string.mCur as far as dst_string.mLen allows, and advances dst_string.mCur by len.
-void string_fill_char(dst_string *str, char character, int len) {
+void Util_PrintContext_FillWith(dst_string *str, char character, int len) {
     size_t index;
     size_t count;
 
@@ -29,7 +29,7 @@ void string_fill_char(dst_string *str, char character, int len) {
 }
 
 // Copies len bytes of src to dst_string.mCur as far as dst_string.mLen allows, and advances dst_string.mCur by len.
-void string_put_string(dst_string *str, const char *src, int len) {
+void Util_PrintContext_AppendString(dst_string *str, const char *src, int len) {
     size_t index;
     size_t count;
 
@@ -48,29 +48,29 @@ void string_put_string(dst_string *str, const char *src, int len) {
 }
 
 // Formats into dst without a length limit and returns the length the text has.
-int OS_SPrintf(char *dst, const char *fmt, ...) {
+int MaybeUtil_SPrintF(char *dst, const char *fmt, ...) {
     char *args;
 
     args = (char *) (((u32) &fmt & ~3) + 4);
-    return OS_VSPrintf(dst, fmt, args);
+    return Util_VSPrintF(dst, fmt, args);
 }
 
-// OS_SPrintf with the arguments already collected.
-int OS_VSPrintf(char *dst, const char *fmt, char *args) {
-    return OS_VSNPrintf(dst, 0x7fffffff, fmt, args);
+// MaybeUtil_SPrintF with the arguments already collected.
+int Util_VSPrintF(char *dst, const char *fmt, char *args) {
+    return Util_VSNPrintF(dst, 0x7fffffff, fmt, args);
 }
 
 // Formats into dst with room for len bytes (including the terminator) and returns the length the full text has.
-int OS_SNPrintf(char *dst, size_t len, const char *fmt, ...) {
+int Util_SNPrintF(char *dst, size_t len, const char *fmt, ...) {
     char *args;
 
     args = (char *) (((u32) &fmt & ~3) + 4);
-    return OS_VSNPrintf(dst, len, fmt, args);
+    return Util_VSNPrintF(dst, len, fmt, args);
 }
 
-// OS_SNPrintf with the arguments already collected. Handles %d %i %u %o %x %X %p %c %s %n and %%, with the flags
+// Util_SNPrintF with the arguments already collected. Handles %d %i %u %o %x %X %p %c %s %n and %%, with the flags
 // space + - 0, a width and precision (also from the arguments), and the h, hh, l and ll sizes.
-int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
+int Util_VSNPrintF(char *dst, size_t len, const char *fmt, char *args) {
     int width;
     int nBuf;
     int nPrefix;
@@ -97,17 +97,17 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
     while (*fmt != 0) {
         ch = *(const s8 *) fmt;
         if ((u32) (((u8) ch ^ 0x20) - 0xa1) < 0x3c) {
-            string_put_char(&str, ch);
+            Util_PrintContext_ApppendChar(&str, ch);
             ch = *++fmt;
             if (ch != 0) {
                 fmt++;
-                string_put_char(&str, ch);
+                Util_PrintContext_ApppendChar(&str, ch);
             }
             continue;
         }
         if (ch != '%') {
             fmt++;
-            string_put_char(&str, ch);
+            Util_PrintContext_ApppendChar(&str, ch);
             continue;
         }
         flag = 0;
@@ -210,11 +210,11 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 args += 4;
                 charArg = *(int *) (args - 4);
                 if (flag & 8) {
-                    string_put_char(&str, charArg);
-                    string_fill_char(&str, ' ', width - 1);
+                    Util_PrintContext_ApppendChar(&str, charArg);
+                    Util_PrintContext_FillWith(&str, ' ', width - 1);
                 } else {
-                    string_fill_char(&str, (flag & 0x10) ? '0' : ' ', width - 1);
-                    string_put_char(&str, charArg);
+                    Util_PrintContext_FillWith(&str, (flag & 0x10) ? '0' : ' ', width - 1);
+                    Util_PrintContext_ApppendChar(&str, charArg);
                 }
                 fmt++;
                 continue;
@@ -233,11 +233,11 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 }
                 width -= strLen;
                 if (flag & 8) {
-                    string_put_string(&str, string, strLen);
-                    string_fill_char(&str, ' ', width);
+                    Util_PrintContext_AppendString(&str, string, strLen);
+                    Util_PrintContext_FillWith(&str, ' ', width);
                 } else {
-                    string_fill_char(&str, (flag & 0x10) ? '0' : ' ', width);
-                    string_put_string(&str, string, strLen);
+                    Util_PrintContext_FillWith(&str, (flag & 0x10) ? '0' : ' ', width);
+                    Util_PrintContext_AppendString(&str, string, strLen);
                 }
                 fmt++;
                 continue;
@@ -259,12 +259,12 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
                 continue;
             case '%':
                 if (specStart + 1 == fmt) {
-                    string_put_char(&str, *fmt++);
+                    Util_PrintContext_ApppendChar(&str, *fmt++);
                     continue;
                 }
             default:
             label_copy:
-                string_put_string(&str, specStart, fmt - specStart);
+                Util_PrintContext_AppendString(&str, specStart, fmt - specStart);
                 continue;
         }
     labelHex:
@@ -389,17 +389,17 @@ int OS_VSNPrintf(char *dst, size_t len, const char *fmt, char *args) {
         }
         width -= nPrefix + nBuf;
         if (!(flag & 8)) {
-            string_fill_char(&str, ' ', width);
+            Util_PrintContext_FillWith(&str, ' ', width);
         }
         while (nPrefix > 0) {
-            string_put_char(&str, prefix[--nPrefix]);
+            Util_PrintContext_ApppendChar(&str, prefix[--nPrefix]);
         }
-        string_fill_char(&str, '0', nZero);
+        Util_PrintContext_FillWith(&str, '0', nZero);
         while (nBuf > 0) {
-            string_put_char(&str, digits[--nBuf]);
+            Util_PrintContext_ApppendChar(&str, digits[--nBuf]);
         }
         if (flag & 8) {
-            string_fill_char(&str, ' ', width);
+            Util_PrintContext_FillWith(&str, ' ', width);
         }
         fmt++;
     }

@@ -5,10 +5,10 @@
 
 
 // The lap count it compares with is unnamed.
-BOOL IsKartOnLastLap(u16 kartIndex);
+BOOL UpdatePlayerLapCountIfNot123(u16 kartIndex);
 // Removes kart a from the race: if it had not ended, gives it the lowest rank still in the race, moves the karts ranked
 // below it up by one and counts it as removed (RaceProgress.mHeader.mRemovedCount); sets its status to 4; in Battle
-// also calls EliminateKartAndCheckWinner; calls StartKartRemovalFromProgress for the kart and SetRaceHudKartRemoved(a,
+// also calls EliminateKartAndCheckWinner; calls StructMQRacerEntry_SomeFn_34 for the kart and SetRaceHudKartRemoved(a,
 // 1); then runs the end handler of the mode when IsRaceEndConditionMet holds.
 void RemoveRaceProgressKart(u16 kartIndex);
 u16 LookupRankPoints(u8 rank);

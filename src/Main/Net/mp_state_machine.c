@@ -9,16 +9,16 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 MPStateMachineGetConnectionMode(void) {
-    if (gConnectionWork == NULL) {
+    if (g_GlobalZE == NULL) {
         return 0;
     }
-    return gConnectionWork->mConnectionMode;
+    return g_GlobalZE->mConnectionMode;
 }
 
 static inline s32 MPStateMachineIsConnectionActive(void) {
     BOOL result = FALSE;
     if (MPStateMachineGetConnectionMode() != CONNECTION_MODE_NONE &&
-        gConnectionWork->mState != CONNECTION_STATE_ENDED) {
+        g_GlobalZE->mState != CONNECTION_STATE_ENDED) {
         result = TRUE;
     }
     return result;
@@ -26,7 +26,7 @@ static inline s32 MPStateMachineIsConnectionActive(void) {
 
 static inline s32 MPStateMachineIsConnectionActiveNotEnding(void) {
     BOOL result = FALSE;
-    if (MPStateMachineIsConnectionActive() && !(gConnectionWork->mFlags & CONNECTION_FLAG_ENDING)) {
+    if (MPStateMachineIsConnectionActive() && !(g_GlobalZE->mFlags & CONNECTION_FLAG_ENDING)) {
         result = TRUE;
     }
     return result;
@@ -34,7 +34,7 @@ static inline s32 MPStateMachineIsConnectionActiveNotEnding(void) {
 
 static inline s32 MPStateMachineIsConnectionActiveNotEndingWithError(void) {
     BOOL result = FALSE;
-    if (MPStateMachineIsConnectionActiveNotEnding() && gConnectionWork->mErrorCode != CONNECTION_ERROR_NONE) {
+    if (MPStateMachineIsConnectionActiveNotEnding() && g_GlobalZE->mErrorCode != CONNECTION_ERROR_NONE) {
         result = TRUE;
     }
     return result;
@@ -49,14 +49,14 @@ BOOL AdvanceMPStateMachine(void) {
     if (!MPStateMachineIsConnectionActive()) {
         return TRUE;
     }
-    AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
+    StateDualHandler_Execute(&g_GlobalZE->mMPStateMachine.mStateMachine);
     if (!MPStateMachineIsConnectionActiveNotEndingWithError()) {
         if (MPStateMachineGetConnectionMode() == CONNECTION_MODE_PARENT &&
-            gConnectionWork->mChildren.mChildCount == 0) {
+            g_GlobalZE->mChildren.mChildCount == 0) {
             SetRequestErrorCode(CONNECTION_ERROR_COMMUNICATION_LOST);
         }
     }
-    if (gConnectionWork->mMPStateMachine.mStateMachine.mState == MP_STATE_READY) {
+    if (g_GlobalZE->mMPStateMachine.mStateMachine.mState == MP_STATE_READY) {
         finished = TRUE;
     }
     return finished;

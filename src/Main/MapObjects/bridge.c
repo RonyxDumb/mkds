@@ -53,7 +53,7 @@ struct Nsbmd *gTestCylinder;
 MapObjectKindData *CreateChoropuKindData(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gChoropuKindData;
     return kindData;
 }
@@ -61,7 +61,7 @@ MapObjectKindData *CreateChoropuKindData(void) {
 MapObjectList *CreateChoropuDrawList(void) {
     MapObjectDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*drawList));
     gChoropuDrawList = drawList;
     *drawList = gChoropuDrawListData;
     SetDrawListSlot(&gChoropuDrawList);
@@ -71,7 +71,7 @@ MapObjectList *CreateChoropuDrawList(void) {
 MapObjectList *CreateChoropuShadowDrawList(void) {
     MapObjectDrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*drawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(*drawList));
     gChoropuShadowDrawList = drawList;
     *drawList = gChoropuShadowDrawListData;
     SetDrawListSlot(&gChoropuShadowDrawList);
@@ -81,7 +81,7 @@ MapObjectList *CreateChoropuShadowDrawList(void) {
 MapObjectList *CreateChoropuUpdateList(void) {
     MapObjectList *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gChoropuUpdateList = updateList;
     *updateList = gChoropuUpdateListData;
     SetUpdateListSlot(&gChoropuUpdateList);

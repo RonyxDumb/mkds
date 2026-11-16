@@ -110,22 +110,22 @@ ScreenCallbacks gMenuScreenCallbacks[0x1e] = {
     {MenuScreen29Nop, (void (*)(u32)) RequestRaceOrWLMenuScene},
 };
 
-struct MenuScene *gMenuScene;
+struct MenuScene *g_GlobalB43C;
 const u8 gMenuDisplaySettingsDesc[40] = {1, 0, 0x1f, 0, 0x1f, 0, 1, 0, 0,    0, 1, 0, 0, 0, 4, 0, 0x60, 0, 0, 0,
                                          0, 0, 3,    0, 0x10, 0, 0, 0, 0x80, 0, 0, 1, 0, 0, 0, 0, 8,    0, 0, 0};
 
 // Returns the mission table row, or -1 outside Mission Run.
-s32 GetRaceSetupMissionTableRow(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        return gRaceSetup->mMissionTableRow;
+s32 GetCurrentMissionLevel_1(void) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        return g_GlobalCO->mMissionTableRow;
     }
     return -1;
 }
 
 // Returns the mission table column, or -1 outside Mission Run.
-s32 GetRaceSetupMissionTableColumn(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        return gRaceSetup->mMissionTableColumn;
+s32 GetCurrentMissionStage(void) {
+    if (g_GlobalCO->mMode == MODE_MISSION_RUN) {
+        return g_GlobalCO->mMissionTableColumn;
     }
     return -1;
 }
@@ -133,131 +133,131 @@ s32 GetRaceSetupMissionTableColumn(void) {
 #pragma thumb on
 #pragma optimize_for_size on
 // Fills the race setup copy from the current setup; some modes are remapped and the course can be forced.
-void CopyCurrentToRaceSetupCopy(void) {
+void CopyInfoFromCOtoCA_from_thumb(void) {
     u16 entryIndex;
 
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        GetRaceSetupCopy()->mEntries[entryIndex].mCharacterIndex = GetCurrentCharacterIndex(entryIndex);
-        GetRaceSetupCopy()->mEntries[entryIndex].mKartIndex = GetCurrentKartIndex(entryIndex);
-        GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind = GetCurrentPlayerKind(entryIndex);
-        if (GetCurrentUseTeams() != 0) {
-            GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex = GetCurrentTeamIndex(entryIndex);
+        GetGlobalCA_from_thumb()->mEntries[entryIndex].mCharacterIndex = GetRacerCharacterId(entryIndex);
+        GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartIndex = GetRacerKartId(entryIndex);
+        GetGlobalCA_from_thumb()->mEntries[entryIndex].mPlayerKind = GetRacerType_0(entryIndex);
+        if (GetIsTeams() != 0) {
+            GetGlobalCA_from_thumb()->mEntries[entryIndex].mTeamIndex = GetRacerTeam(entryIndex);
         } else {
-            GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex = -1;
+            GetGlobalCA_from_thumb()->mEntries[entryIndex].mTeamIndex = -1;
         }
-        GetRaceSetupCopy()->mEntries[entryIndex].mListedCpuSlot = GetCurrentListedCpuSlot(entryIndex);
-        GetRaceSetupCopy()->mEntries[entryIndex].mKartStored = 0;
+        GetGlobalCA_from_thumb()->mEntries[entryIndex].mListedCpuSlot = GetCurrentListedCpuSlot(entryIndex);
+        GetGlobalCA_from_thumb()->mEntries[entryIndex].mKartStored = 0;
     }
-    GetRaceSetupCopy()->mCupIndex = GetCurrentCupIndex();
-    GetRaceSetupCopy()->mCpuDifficulty = GetCurrentCpuDifficulty();
-    GetRaceSetupCopy()->mKartCount = GetCurrentKartCount();
-    if (MenuGetConnectionKind() != CONNECTION_KIND_NONE) {
+    GetGlobalCA_from_thumb()->mCupIndex = GetCurrentCupIndex();
+    GetGlobalCA_from_thumb()->mCpuDifficulty = GetCurrentRaceCpuMode();
+    GetGlobalCA_from_thumb()->mKartCount = GetRacerCount();
+    if (GetPMaybeState_1() != CONNECTION_KIND_NONE) {
         u32 currentMode;
 
-        currentMode = GetCurrentMode();
+        currentMode = GetCurrentRaceMode();
         switch (currentMode) {
             case MODE_GRAND_PRIX:
             case MODE_TIME_ATTACK:
             case MODE_MISSION_RUN:
-                GetRaceSetupCopy()->mMode = MODE_VS;
+                GetGlobalCA_from_thumb()->mMode = MODE_VS;
                 break;
             case MODE_BATTLE:
             case MODE_VS:
             case MODE_WIFI:
-                GetRaceSetupCopy()->mMode = currentMode;
+                GetGlobalCA_from_thumb()->mMode = currentMode;
                 break;
         }
     } else {
-        GetRaceSetupCopy()->mMode = GetCurrentMode();
+        GetGlobalCA_from_thumb()->mMode = GetCurrentRaceMode();
     }
     if (GetMultiSimple() != 0) {
-        GetRaceSetupCopy()->mCourseId = COURSE_ID_OLD_MARIO_SFC;
+        GetGlobalCA_from_thumb()->mCourseId = COURSE_ID_OLD_MARIO_SFC;
     } else {
-        GetRaceSetupCopy()->mCourseId = GetCurrentCourseId();
+        GetGlobalCA_from_thumb()->mCourseId = GetCurrentInternalCourseId_1();
     }
-    GetRaceSetupCopy()->mEngineIndex = GetCurrentEngineIndex();
-    GetRaceSetupCopy()->mMirrorMode = GetCurrentMirrorMode();
-    GetRaceSetupCopy()->mUseTeams = GetCurrentUseTeams();
-    GetRaceSetupCopy()->mBattleKind = GetCurrentBattleKind();
-    GetRaceSetupCopy()->mBattleKind = GetCurrentBattleKind();
-    GetRaceSetupCopy()->mCourseCount = GetCurrentCourseCount();
-    GetRaceSetupCopy()->mRuleKind = GetCurrentRuleKind();
-    if (GetCurrentMode() == MODE_MISSION_RUN) {
-        GetRaceSetupCopy()->mMissionTableRow = GetRaceSetupMissionTableRow();
-        GetRaceSetupCopy()->mMissionTableColumn = GetRaceSetupMissionTableColumn();
+    GetGlobalCA_from_thumb()->mEngineIndex = GetCurrrentCcType();
+    GetGlobalCA_from_thumb()->mMirrorMode = GetIsMirror();
+    GetGlobalCA_from_thumb()->mUseTeams = GetIsTeams();
+    GetGlobalCA_from_thumb()->mBattleKind = GetCurrentBattleType();
+    GetGlobalCA_from_thumb()->mBattleKind = GetCurrentBattleType();
+    GetGlobalCA_from_thumb()->mCourseCount = GetMaybeNextRuleParam();
+    GetGlobalCA_from_thumb()->mRuleKind = GetCurrentRaceRules();
+    if (GetCurrentRaceMode() == MODE_MISSION_RUN) {
+        GetGlobalCA_from_thumb()->mMissionTableRow = GetCurrentMissionLevel_1();
+        GetGlobalCA_from_thumb()->mMissionTableColumn = GetCurrentMissionStage();
     }
 }
 
-void CopyMenuScreenCallbacks(void) {
+void CopyB43CFunctionTable_from_thumb(void) {
     s32 screenIndex;
 
     for (screenIndex = 0; screenIndex < 0x1e; screenIndex++) {
-        gMenuScene->mScreenCallbacks[screenIndex].mWriteRegisters = gMenuScreenCallbacks[screenIndex].mWriteRegisters;
-        gMenuScene->mScreenCallbacks[screenIndex].mUpdate = gMenuScreenCallbacks[screenIndex].mUpdate;
+        g_GlobalB43C->mScreenCallbacks[screenIndex].mWriteRegisters = gMenuScreenCallbacks[screenIndex].mWriteRegisters;
+        g_GlobalB43C->mScreenCallbacks[screenIndex].mUpdate = gMenuScreenCallbacks[screenIndex].mUpdate;
     }
 }
 
-void WriteMenuSceneRegisters(void) {
-    if (MenuMB_IsMultiBootChildWrapper() == 0) {
+void Scene_Menu_VBlankImpl_from_thumb(void) {
+    if (j_IsDwc_0() == 0) {
         AdvanceKartModelMenuLoad();
     }
-    gMenuScene->mScreenCallbacks[gMenuScene->mScreenNumber].mWriteRegisters();
-    WriteSceneTextRegisters();
-    gMenuScene->mScreenSwitched = 0;
-    UploadOamLists(gMenuScene->mMainOam, gMenuScene->mSubOam);
+    g_GlobalB43C->mScreenCallbacks[g_GlobalB43C->mScreenNumber].mWriteRegisters();
+    NavigationContext_OnSceneVblank_from_thumb();
+    g_GlobalB43C->mScreenSwitched = 0;
+    CopyOamBuffersToMemory_from_thumb(g_GlobalB43C->mMainOam, g_GlobalB43C->mSubOam);
 }
 #pragma thumb off
 
-void SetMainBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetTopEngineBg0Config(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                       u32 cntVal8, u32 cntVal2, u32 cntVal13) {
-    SetBg0Record(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    DisplayEngineConfig_SetBg0Config(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetMainBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetTopEngineBg1Config_1(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                       u32 cntVal8, u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetMainBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetTopEngineBg2Config2(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                             u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    DisplayEngineConfig_SetBg2Config2(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void SetMainBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetTopEngineBg3Config_0(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                             u32 cntVal8, u32 cntVal2) {
-    SetBg3RecordParams(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mMainBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void SetSubBg0Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetBottomEngineBg0Config(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                      u32 cntVal8, u32 cntVal2, u32 cntVal13) {
-    SetBg0Record(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    DisplayEngineConfig_SetBg0Config(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetSubBg1Record(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
+void DisplayConfig_SetBottomEngineBg1Config(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7,
                      u32 cntVal8, u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    DisplayEngineConfig_SetBg1Config(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
-void SetSubBg2RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetBottomEngineBg2Config2(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                            u32 cntVal8, u32 cntVal2) {
-    SetBg2RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    DisplayEngineConfig_SetBg2Config2(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
+void DisplayConfig_SetBottomEngineBg3Config_1(DisplaySettings *displaySettings, u32 cntLow2, u32 cntMosaic, u32 cntVal14, u32 cntVal7Or13,
                            u32 cntVal8, u32 cntVal2) {
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
+    DisplayEngineConfig_SetBg3Config(&displaySettings->mSubBgRecords, cntLow2, cntMosaic, cntVal14, cntVal7Or13, cntVal8, cntVal2);
 }
 
-void MenuGX_SetOBJVRamModeChar(u32 bits) {
+void SetTopDispcntTileObjMappingRemoveBoundary(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
-void MenuGXS_SetOBJVRamModeChar(u32 bits) {
+void SetSubDispcntTileObjMappingRemoveBoundary(u32 bits) {
     reg_GXS_DB_DISPCNT =
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) | bits;
 }
 
-u32 MenuWriteMainWinEnableBits(u32 bits) {
+u32 SetDispcntWindows01ObjDisplayFlagsTop(u32 bits) {
     u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GX_DISPCNT;
@@ -267,7 +267,7 @@ u32 MenuWriteMainWinEnableBits(u32 bits) {
     return newDispcnt;
 }
 
-u32 MenuWriteSubWinEnableBits(u32 bits) {
+u32 SetDispcntWindows01ObjDisplayFlagsSub(u32 bits) {
     u32 newDispcnt = bits;
     u32 registerValue;
     registerValue = reg_GXS_DB_DISPCNT;
@@ -277,150 +277,150 @@ u32 MenuWriteSubWinEnableBits(u32 bits) {
     return newDispcnt;
 }
 
-u32 GetMenuEntryKind(void) {
-    return (gMenuShared->mMenuEntryKind);
+u32 GetB488_SinglePlayerMenuTarget(void) {
+    return (g_GlobalB488->mMenuEntryKind);
 }
 
-void SetRaceSetupRequested(u32 requested) {
-    gMenuShared->mRaceSetupRequested = requested;
+void SetB488_B2(u32 requested) {
+    g_GlobalB488->mRaceSetupRequested = requested;
 }
 
-u32 GetUnfilledNotEliminated(void) {
-    return (gMenuShared->mUnfilledNotEliminated);
+u32 GetB488_B5(void) {
+    return (g_GlobalB488->mUnfilledNotEliminated);
 }
 
-u32 GetLVselIndex6Requested(void) {
-    return (gMenuShared->mLVselIndex6Requested);
+u32 GetB488_B6(void) {
+    return (g_GlobalB488->mLVselIndex6Requested);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
-void InitMenu(void) {
+void Scene_Menu_InitializeImpl_from_thumb(void) {
     MenuScene *menu;
     SceneTextInitParams config;
     DisplaySettings *displaySettings;
 
-    gMenuScene = HeapAlloc(MenuGetCurrentHeap(), sizeof(*gMenuScene));
-    CreateRaceSetupCopy(MenuGetCurrentHeap());
-    displaySettings = CreateDisplaySettings(MenuGetCurrentHeap(), gMenuDisplaySettingsDesc);
-    SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
-    SetMainBg1Record(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
-    SetMainBg2RecordParams(displaySettings, 0, 0, 0, 0, 0x1e, 6);
-    SetMainBg3RecordParams(displaySettings, 3, 0, 0, 0, 0x1d, 4);
-    SetSubBg0Record(displaySettings, 0, 0, 0, 0, 0xb, 0, 0);
-    SetSubBg1Record(displaySettings, 3, 0, 0, 0, 0xd, 0, 0);
-    SetSubBg2RecordParams(displaySettings, 0, 0, 0, 0, 0xe, 0);
-    SetSubBg3RecordParams(displaySettings, 2, 0, 0, 0, 0xf, 0);
-    InitDisplayFromSettings(displaySettings);
-    gMenuScene->mFramesSinceScreenSwitch = 0;
-    gMenuScene->mScreenSwitched = 1;
-    gMenuScene->mPreviousScreenNumber = SCREEN_NONE;
-    gMenuScene->mScreenNumber = SCREEN_NONE;
-    gMenuScene->mNextScreenNumber = SCREEN_NONE;
-    gMenuScene->mScreenInitPending = TRUE;
-    gMenuScene->mDataSharingSyncStarted = TRUE;
-    gMenuScene->mDataSharingSyncFinished = TRUE;
-    CopyMenuScreenCallbacks();
-    ResetOamLists(gMenuScene->mMainOam, gMenuScene->mSubOam);
-    SetHeapGroupId(9);
+    g_GlobalB43C = Mem_AllocateHeap(GetActiveExecutionContextHeapHandle(), sizeof(*g_GlobalB43C));
+    InitializeGlobalCA_from_thumb(GetActiveExecutionContextHeapHandle());
+    displaySettings = CreateDisplayConfig(GetActiveExecutionContextHeapHandle(), gMenuDisplaySettingsDesc);
+    DisplayConfig_SetTopEngineBg0Config(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
+    DisplayConfig_SetTopEngineBg1Config_1(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
+    DisplayConfig_SetTopEngineBg2Config2(displaySettings, 0, 0, 0, 0, 0x1e, 6);
+    DisplayConfig_SetTopEngineBg3Config_0(displaySettings, 3, 0, 0, 0, 0x1d, 4);
+    DisplayConfig_SetBottomEngineBg0Config(displaySettings, 0, 0, 0, 0, 0xb, 0, 0);
+    DisplayConfig_SetBottomEngineBg1Config(displaySettings, 3, 0, 0, 0, 0xd, 0, 0);
+    DisplayConfig_SetBottomEngineBg2Config2(displaySettings, 0, 0, 0, 0, 0xe, 0);
+    DisplayConfig_SetBottomEngineBg3Config_1(displaySettings, 2, 0, 0, 0, 0xf, 0);
+    SetGlobalDisplayConfig(displaySettings);
+    g_GlobalB43C->mFramesSinceScreenSwitch = 0;
+    g_GlobalB43C->mScreenSwitched = 1;
+    g_GlobalB43C->mPreviousScreenNumber = SCREEN_NONE;
+    g_GlobalB43C->mScreenNumber = SCREEN_NONE;
+    g_GlobalB43C->mNextScreenNumber = SCREEN_NONE;
+    g_GlobalB43C->mScreenInitPending = TRUE;
+    g_GlobalB43C->mDataSharingSyncStarted = TRUE;
+    g_GlobalB43C->mDataSharingSyncFinished = TRUE;
+    CopyB43CFunctionTable_from_thumb();
+    OamBuffer_SomeFn_from_thumb(g_GlobalB43C->mMainOam, g_GlobalB43C->mSubOam);
+    SetActiveExecutionContextHeapGroupId_from_thumb(9);
     Init3dEngine();
-    SetHeapGroupId(5);
+    SetActiveExecutionContextHeapGroupId_from_thumb(5);
     InitFrmVramManagers();
-    SetHeapGroupId(9);
-    if (MenuMB_IsMultiBootChildWrapper() == 0) {
-        InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());
+    SetActiveExecutionContextHeapGroupId_from_thumb(9);
+    if (j_IsDwc_0() == 0) {
+        CreateGlobalCE_from_thumb(GetActiveExecutionContextHeapHandle());
         RequestKartModelMenuCharacter(-1);
         RequestKartModelMenuKart(-1);
     }
-    SetHeapGroupId(5);
-    if (MenuMB_IsMultiBootChildWrapper() == 0) {
-        InitGhostRecordSet(MenuGetCurrentHeap());
-        InitCupPicture();
-        LoadNclrData(&gMenuScene->mSinglePlaySelectModeMONclr,
-                     FindSceneFileWrapper("common/single_play_select_mode_m_o.NCLR"));
-        LoadNcgrData2(&gMenuScene->mSinglePlaySelectModeMNcgr,
-                      FindSceneFileWrapper("common/single_play_select_mode_m.nce.ncgr"));
-        LoadNcerData(&gMenuScene->mSinglePlaySelectModeMNcer,
-                     FindSceneFileWrapper("common/single_play_select_mode_m.nce.ncer"));
-        gMenuScene->mSinglePlaySelectModeMBncl = FindSceneFileWrapper("common/single_play_select_mode_m.bncl");
-        gMenuScene->mUnk_944 = 0;
-        LoadNclrData(&gMenuScene->mSinglePlaySelectModeSONclr,
-                     FindSceneFileWrapper("common/single_play_select_mode_s_o.NCLR"));
-        LoadNcgrData2(&gMenuScene->mSinglePlaySelectModeSNcgr,
-                      FindSceneFileWrapper("common/single_play_select_mode_s.nce.ncgr"));
-        LoadNcerData(&gMenuScene->mSinglePlaySelectModeSNcer,
-                     FindSceneFileWrapper("common/single_play_select_mode_s.nce.ncer"));
-        gMenuScene->mSinglePlaySelectModeSBncl = FindSceneFileWrapper("common/single_play_select_mode_s.bncl");
-        gMenuScene->mSinglePlaySelectModeSBnbl = FindSceneFileWrapper("common/single_play_select_mode_s.bnbl");
-        menu = gMenuScene;
-        InitLayoutTable(MenuGetCurrentHeap(), menu->mSinglePlaySelectModeMBncl, NULL,
+    SetActiveExecutionContextHeapGroupId_from_thumb(5);
+    if (j_IsDwc_0() == 0) {
+        InitializeGlobalPK_from_thumb(GetActiveExecutionContextHeapHandle());
+        InitializeGlobalB4A4_from_thumb();
+        Gfx_ReadPalette(&g_GlobalB43C->mSinglePlaySelectModeMONclr,
+                     j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_m_o.NCLR"));
+        Gfx_ReadCharGraphics(&g_GlobalB43C->mSinglePlaySelectModeMNcgr,
+                      j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_m.nce.ncgr"));
+        LoadCellBankFrom(&g_GlobalB43C->mSinglePlaySelectModeMNcer,
+                     j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_m.nce.ncer"));
+        g_GlobalB43C->mSinglePlaySelectModeMBncl = j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_m.bncl");
+        g_GlobalB43C->mUnk_944 = 0;
+        Gfx_ReadPalette(&g_GlobalB43C->mSinglePlaySelectModeSONclr,
+                     j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_s_o.NCLR"));
+        Gfx_ReadCharGraphics(&g_GlobalB43C->mSinglePlaySelectModeSNcgr,
+                      j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_s.nce.ncgr"));
+        LoadCellBankFrom(&g_GlobalB43C->mSinglePlaySelectModeSNcer,
+                     j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_s.nce.ncer"));
+        g_GlobalB43C->mSinglePlaySelectModeSBncl = j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_s.bncl");
+        g_GlobalB43C->mSinglePlaySelectModeSBnbl = j_FindFileBuffer_K2D_LOC_R2D_R2L("common/single_play_select_mode_s.bnbl");
+        menu = g_GlobalB43C;
+        InitLayoutTable(GetActiveExecutionContextHeapHandle(), menu->mSinglePlaySelectModeMBncl, NULL,
                         &menu->mSinglePlaySelectModeMLayoutTable);
-        menu = gMenuScene;
-        InitLayoutTable(MenuGetCurrentHeap(), menu->mSinglePlaySelectModeSBncl, NULL,
+        menu = g_GlobalB43C;
+        InitLayoutTable(GetActiveExecutionContextHeapHandle(), menu->mSinglePlaySelectModeSBncl, NULL,
                         &menu->mSinglePlaySelectModeSLayoutTable);
-        menu = gMenuScene;
-        SetCellOamModeXlu(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = gMenuScene;
-        SetCellOamModeXlu(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = gMenuScene;
-        SetCellOamModeXlu(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = gMenuScene;
-        SetCellOamModeXlu(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = gMenuScene;
-        SetCellOamModeXlu(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = g_GlobalB43C;
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = g_GlobalB43C;
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = g_GlobalB43C;
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = g_GlobalB43C;
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = g_GlobalB43C;
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
     }
-    LoadPlayerEntryListFiles();
-    InitPlayerEntryList(MenuGetCurrentHeap(), gMenuScene->mMainOam);
-    gMenuScene->mCharacterKartPicks = CreateCharacterKartPicks(MenuGetCurrentHeap());
-    MenuGX_SetOBJVRamModeChar(0x10);
-    MenuGXS_SetOBJVRamModeChar(0x10);
-    WriteMainBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
-    MenuWriteSubBlendAlpha(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
-    MenuWriteMainWinEnableBits(0);
-    MenuWriteSubWinEnableBits(0);
-    if (MenuMB_IsMultiBootChildWrapper() == 0) {
-        LoadSelectCharacterData();
-        LoadSelectKartData();
+    VerifySelectMenuFiles_from_thumb();
+    AndAnotherAlloc_0_from_thumb(GetActiveExecutionContextHeapHandle(), g_GlobalB43C->mMainOam);
+    g_GlobalB43C->mCharacterKartPicks = AllocateKartAppearTableData_from_thumb(GetActiveExecutionContextHeapHandle());
+    SetTopDispcntTileObjMappingRemoveBoundary(0x10);
+    SetSubDispcntTileObjMappingRemoveBoundary(0x10);
+    EnableAlphaSetBldcntBldalphaTop(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
+    EnableAlphaSetBldcntBldalphaSub(0, 0x3f, MENU_BLEND_FIRST_COEFFICIENT, MENU_BLEND_SECOND_COEFFICIENT);
+    SetDispcntWindows01ObjDisplayFlagsTop(0);
+    SetDispcntWindows01ObjDisplayFlagsSub(0);
+    if (j_IsDwc_0() == 0) {
+        VerifySelectCharacterFiles_from_thumb();
+        VerifySelectKartFiles_from_thumb();
         LoadTimeAttackTopMenuData();
         LoadSelectGhostAndKartIconData();
         LoadMissionRunLVselData();
         LoadMissionRunMSselAndBossIconData();
         LoadSelectBattleStageData();
         LoadSelectEngineData();
-        LoadSelectCupGridData();
-        InitMenuNop();
-        LoadSelectCupCourseData();
+        VerifySelectCupFiles_from_thumb();
+        nullsub_20_from_thumb();
+        VerifySelectCupCourseFiles_from_thumb();
     }
-    LoadSelectGameData();
-    LoadSelectRaceRuleAndWaitData();
-    config.mUseTxtSystem = MenuMB_IsMultiBootChildWrapper();
-    config.mTxtSystemFont = GetFontByIndex(1);
+    VerifyCommonSelectGameFiles_from_thumb();
+    VerifyCommonSelectRaceRuleFiles_from_thumb();
+    config.mUseTxtSystem = j_IsDwc_0();
+    config.mTxtSystemFont = GetLoadedFont_from_thumb(1);
     config.mUseCanvas1 = 0;
     config.mUseCanvas2 = 1;
     config.mUseCanvas3 = 0;
     config.mUseSelectChoises = 1;
-    config.mSelectChoisesFont = GetFontByIndex(2);
+    config.mSelectChoisesFont = GetLoadedFont_from_thumb(2);
     config.mUseSelectReturn = 1;
     config.mUseBackScreen = 1;
     config.mBackScreenKind = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    InitSceneText(MenuGetCurrentHeap(), &config);
-    if (MenuGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
+    PrepareNavigationContextFiles_from_thumb();
+    InitializeNavigationContext_from_thumb(GetActiveExecutionContextHeapHandle(), &config);
+    if (GetPMaybeState_1() == CONNECTION_KIND_WL_MENU) {
         ClearSelectReturnDisplayBitOn();
     }
-    InitLinkLevelIcons(MenuGetCurrentHeap(), gMenuScene->mMainOam);
-    switch (GetMenuEntryKind()) {
+    CreateGlobalNN_from_thumb(GetActiveExecutionContextHeapHandle(), g_GlobalB43C->mMainOam);
+    switch (GetB488_SinglePlayerMenuTarget()) {
         case MENU_ENTRY_FIRST_SCREEN:
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
-            SetRaceSetupRequested(1);
+            SetB488_B2(1);
             break;
         case MENU_ENTRY_CHARACTER_SELECT:
-            CopyCurrentToRaceSetupCopy();
-            switch (GetRaceSetupCopy()->mMode) {
+            CopyInfoFromCOtoCA_from_thumb();
+            switch (GetGlobalCA_from_thumb()->mMode) {
                 case MODE_GRAND_PRIX:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_GRAND_PRIX, SCREEN_NONE);
-                    SetMenuEntryKind(0);
-                    SetRaceSetupRequested(1);
+                    SetSinglePlayerMenuTarget(0);
+                    SetB488_B2(1);
                     break;
                 case MODE_VS:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_VS, SCREEN_NONE);
@@ -430,14 +430,14 @@ void InitMenu(void) {
                     break;
                 case MODE_TIME_ATTACK:
                     SwitchMenuScreen(SCREEN_SELECT_CHARACTER_TIME_ATTACK, SCREEN_NONE);
-                    SetMenuEntryKind(0);
-                    SetRaceSetupRequested(1);
+                    SetSinglePlayerMenuTarget(0);
+                    SetB488_B2(1);
                     break;
             }
             break;
         case MENU_ENTRY_COURSE_SELECT:
-            CopyCurrentToRaceSetupCopy();
-            switch (GetRaceSetupCopy()->mMode) {
+            CopyInfoFromCOtoCA_from_thumb();
+            switch (GetGlobalCA_from_thumb()->mMode) {
                 case MODE_VS:
                     SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_VS, SCREEN_NONE);
                     break;
@@ -446,64 +446,64 @@ void InitMenu(void) {
                     break;
                 case MODE_TIME_ATTACK:
                     SwitchMenuScreen(SCREEN_SELECT_CUP_GRID_TIME_ATTACK, SCREEN_NONE);
-                    SetMenuEntryKind(0);
-                    SetRaceSetupRequested(1);
+                    SetSinglePlayerMenuTarget(0);
+                    SetB488_B2(1);
                     break;
             }
             break;
         case MENU_ENTRY_MISSION_SELECT:
-            CopyCurrentToRaceSetupCopy();
-            if (GetUnfilledNotEliminated() != 0 || GetLVselIndex6Requested() != 0) {
+            CopyInfoFromCOtoCA_from_thumb();
+            if (GetB488_B5() != 0 || GetB488_B6() != 0) {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, SCREEN_NONE);
             } else {
                 SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, SCREEN_NONE);
             }
-            SetMenuEntryKind(0);
-            SetRaceSetupRequested(1);
+            SetSinglePlayerMenuTarget(0);
+            SetB488_B2(1);
             break;
         case MENU_ENTRY_SELECT_GAME:
             SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);
             break;
         case MENU_ENTRY_TIME_ATTACK_TOP_MENU:
-            CopyCurrentToRaceSetupCopy();
-            GetRaceSetupCopy()->mMode = 1;
+            CopyInfoFromCOtoCA_from_thumb();
+            GetGlobalCA_from_thumb()->mMode = 1;
             SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, SCREEN_NONE);
-            SetMenuEntryKind(0);
-            SetRaceSetupRequested(1);
+            SetSinglePlayerMenuTarget(0);
+            SetB488_B2(1);
             break;
     }
-    CreatePicksHolder(MenuGetCurrentHeap());
-    switch (GetRaceSetupCopy()->mMode) {
+    CreateSetGlobalKTB_from_thumb(GetActiveExecutionContextHeapHandle());
+    switch (GetGlobalCA_from_thumb()->mMode) {
         case MODE_GRAND_PRIX:
         default:
-            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_GRAND_PRIX;
+            g_GlobalB43C->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_GRAND_PRIX;
             break;
         case MODE_TIME_ATTACK:
-            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_TIME_ATTACK;
+            g_GlobalB43C->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_TIME_ATTACK;
             break;
         case MODE_BATTLE:
-            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_BATTLE;
+            g_GlobalB43C->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_BATTLE;
             break;
         case MODE_VS:
-            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_VS;
+            g_GlobalB43C->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_VS;
             break;
         case MODE_MISSION_RUN:
-            gMenuScene->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_MISSION_RUN;
+            g_GlobalB43C->mSinglePlaySelectModeIndex = SINGLE_PLAY_SELECT_MISSION_RUN;
             break;
     }
-    gMenuScene->mSinglePlaySelectStartedOnSelected = FALSE;
-    gMenuScene->mSinglePlaySelectModePressOffset = 0;
+    g_GlobalB43C->mSinglePlaySelectStartedOnSelected = FALSE;
+    g_GlobalB43C->mSinglePlaySelectModePressOffset = 0;
 }
 #pragma thumb off
 
-u16 *MenuMB_GetMultiBootParam(void) {
+u16 *GetBootIndicatorPointer_0(void) {
     return &gBootInfo->mBootType;
 }
 
-BOOL MenuMB_IsMultiBootChild(void) {
-    return *MenuMB_GetMultiBootParam() == 2;
+BOOL IsDwc_0(void) {
+    return *GetBootIndicatorPointer_0() == 2;
 }
 
-BOOL MenuMB_IsMultiBootChildWrapper(void) {
-    return MenuMB_IsMultiBootChild();
+BOOL j_IsDwc_0(void) {
+    return IsDwc_0();
 }

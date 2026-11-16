@@ -63,17 +63,17 @@ void simpleUnlock_(void *target) {
 }
 
 void NNS_G3dGeSendDL(const void *commands, u32 commandLength) {
-    if (commandLength < 0x100 || GXi_DmaId == 0xffffffff) {
+    if (commandLength < 0x100 || g_GfxDmaChannel == 0xffffffff) {
         NNS_G3dGeBufferOP_N(*(u32 *) commands, commands + 4, (commandLength >> 2) - 1);
         return;
     }
     NNS_G3dGeFlushBuffer();
     NNS_G3dFlagGXDmaAsync = 1;
     if (NNS_G3dFlagUseFastDma != 0) {
-        MI_SendGXCommandAsyncFast(GXi_DmaId, commands, commandLength, simpleUnlock_,
+        MI_SendGXCommandAsyncFast(g_GfxDmaChannel, commands, commandLength, simpleUnlock_,
                                   &NNS_G3dFlagGXDmaAsync);
     } else {
-        MI_SendGXCommandAsync(GXi_DmaId, commands, commandLength, simpleUnlock_,
+        MI_SendGXCommandAsync(g_GfxDmaChannel, commands, commandLength, simpleUnlock_,
                               &NNS_G3dFlagGXDmaAsync);
     }
 }
@@ -328,11 +328,11 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     }
     matFlags = matData->mFlag;
     mask = ((u32 *) matColorMask_)[(matFlags >> 6) & 7];
-    result->mPrmMatColor0 = (NNS_G3dGlb.mPrmMatColor0 & ~mask) | (matData->mDiffAmb & mask);
+    result->mPrmMatColor0 = (g_GlobalG3.mPrmMatColor0 & ~mask) | (matData->mDiffAmb & mask);
     secondMask = ((u32 *) matColorMask_)[(matData->mFlag >> 9) & 7];
-    result->mPrmMatColor1 = (NNS_G3dGlb.mPrmMatColor1 & ~secondMask) | (matData->mSpecEmi & secondMask);
+    result->mPrmMatColor1 = (g_GlobalG3.mPrmMatColor1 & ~secondMask) | (matData->mSpecEmi & secondMask);
     mask = matData->mPolyAttrMask;
-    result->mPrmPolygonAttr = (NNS_G3dGlb.mPrmPolygonAttr & ~mask) | (matData->mPolyAttr & mask);
+    result->mPrmPolygonAttr = (g_GlobalG3.mPrmPolygonAttr & ~mask) | (matData->mPolyAttr & mask);
     result->mPrmTexImage = matData->mTexImageParam;
     result->mPrmTexPltt = matData->mTexPlttBase;
     matFlags = matData->mFlag;
@@ -651,14 +651,14 @@ L_loop:
 // clang-format on
 
 // clang-format off
-// OSThread switch after an interrupt: clears the pending flags of the thread list at OSi_IrqThreadQueue, then saves the
+// OSThread switch after an interrupt: clears the pending flags of the thread list at g_DTCM, then saves the
 // registers of the running thread in its context and loads those of the first runnable thread.
 // Not compiled code: it switches processor modes and moves the whole register set with the user-bank forms of stm and
 // ldm (msr, mrs, ^).
 asm void OS_IrqHandler_ThreadSwitch(void) {
     mov r2, #0x1
     mov r3, #0x0
-    ldr ip, =OSi_IrqThreadQueue
+    ldr ip, =g_DTCM
     ldr ip, [ip, #0x0]
     cmp ip, #0x0
     beq L_CheckRescheduleFlag
@@ -671,14 +671,14 @@ L_WakeQueuedThreads:
     mov ip, r0
     cmp ip, #0x0
     bne L_WakeQueuedThreads
-    ldr ip, =OSi_IrqThreadQueue
+    ldr ip, =g_DTCM
     str r3, [ip, #0x0]
     str r3, [ip, #0x4]
-    ldr ip, =OSi_ThreadInfo
+    ldr ip, =g_Os_ThreadInfo
     mov r1, #0x1
     strh r1, [ip, #0x0]
 L_CheckRescheduleFlag:
-    ldr ip, =OSi_ThreadInfo
+    ldr ip, =g_Os_ThreadInfo
     ldrh r1, [ip, #0x0]
     cmp r1, #0x0
     ldreq pc, [sp], #0x4
@@ -718,7 +718,7 @@ L_SaveRunningContext:
     stmdb sp!, {r0, r1}
     add r0, r0, #0x0
     add r0, r0, #0x48
-    ldr r1, =CP_SaveContext
+    ldr r1, =Arm_MathContext_Save
     blx r1
     ldmia sp!, {r0, r1}
     ldmib sp!, {r2, r3}
@@ -732,7 +732,7 @@ L_SaveRunningContext:
     stmdb sp!, {r1}
     add r0, r1, #0x0
     add r0, r0, #0x48
-    ldr r1, =CPi_RestoreContext
+    ldr r1, =Arm_MathContext_Load
     blx r1
     ldmia sp!, {r1}
     ldr sp, [r1, #0x44]

@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-// Second parameter of ApplyParticipantKartRecord.
+// Second parameter of StructMQRacerEntry_SomeFn_19.
 typedef struct ParticipantKartRecord {
     /* 00 */ s16 mPosX;
     /* 02 */ s16 mPosY;
@@ -17,7 +17,7 @@ typedef struct ParticipantKartRecord {
     /* 14 */ u32 mDriveFlags;
 } ParticipantKartRecord;
 
-void ApplyParticipantKartRecord(Kart *kart, ParticipantKartRecord *record, s32 stepCount);
+void StructMQRacerEntry_SomeFn_19(Kart *kart, ParticipantKartRecord *record, s32 stepCount);
 
 // Collision response 12 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns
 // for the kart and the map object): stores 0xc through the second parameter and returns 5.
@@ -35,34 +35,34 @@ int CollideKartWithMapObjectResponse8(Kart *kart, s32 *output);
 typedef struct MapObject MapObject;
 
 // Collision response 7 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
-// the kart and the map object): runs TryStartKartFlip and, when it starts, for the selected kart increments the
-// counter of the record GetEntryKartCounters returns and sets KART_DRIVE_HIT_STATE in mDriveFlags. Stores 7 through the
+// the kart and the map object): runs StructMQRacerEntry_SomeFn_65 and, when it starts, for the selected kart increments the
+// counter of the record GetGlobalRK returns and sets KART_DRIVE_HIT_STATE in mDriveFlags. Stores 7 through the
 // second parameter and returns 2.
 int CollideKartWithMapObjectResponse7(Kart *kart, s32 *result);
 // Collision response 5 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
-// the kart and the map object): runs TrySpinKart with 2 and, when that succeeds, passes the result of StartEffect with
+// the kart and the map object): runs StructMQRacerEntry_SomeFn_27 with 2 and, when that succeeds, passes the result of StartEffect with
 // 0x4f at mPos to SetupKartFollowEffectWithVelocity with the kart index and 0x46 if KART_ENTRY_HAS_CHARACTER_ANIMATION
-// is set in mEntryFlags and, for the selected kart, increments the counter of the record GetEntryKartCounters returns.
+// is set in mEntryFlags and, for the selected kart, increments the counter of the record GetGlobalRK returns.
 // Stores 5 through the second parameter and returns 0.
 int CollideKartWithMapObjectResponse5(Kart *kart, s32 *result);
 // Collision response 6 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object
-// is set it runs TrySpinKart with 2 and, when that succeeds, for the selected kart increments the counter of the record
-// GetEntryKartCounters returns and runs StartKartSpinSideEffects with the kart index; it then stores 4 through the
+// is set it runs StructMQRacerEntry_SomeFn_27 with 2 and, when that succeeds, for the selected kart increments the counter of the record
+// GetGlobalRK returns and runs StartKartSpinSideEffects with the kart index; it then stores 4 through the
 // second parameter. Otherwise it stores 0. Returns 0.
 int CollideKartWithMapObjectResponse6(Kart *kart, s32 *result, MapObject *mapObject);
 // Collision response 4 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object
-// is set it runs TrySpinKart with 2 and, when that succeeds, calls StartEffect with 0xc, 0xd and 0xe at mPos unless the
+// is set it runs StructMQRacerEntry_SomeFn_27 with 2 and, when that succeeds, calls StartEffect with 0xc, 0xd and 0xe at mPos unless the
 // mKartModelHidden member of mKartModelsEntry is non-zero and, for the selected kart, increments the counter of the
-// record GetEntryKartCounters returns; it then stores 4 through the second parameter. Otherwise it stores 2. Returns
+// record GetGlobalRK returns; it then stores 4 through the second parameter. Otherwise it stores 2. Returns
 // 0xb.
 int CollideKartWithMapObjectResponse4(Kart *kart, s32 *result, MapObject *mapObject);
 // Collision response 3 of gCollideKartWithMapObjectResponses (indexed by the value CollideKartWithMapObject returns for
 // the kart and the map object): when mVelocityLength of the kart is above 0x3000 or flag 0x200 of mFlags of the object
-// is set it runs TrySpinKart with 1 and, when that succeeds, calls StartEffect with 0xc, 0xd and 0xe at mPos unless the
+// is set it runs StructMQRacerEntry_SomeFn_27 with 1 and, when that succeeds, calls StartEffect with 0xc, 0xd and 0xe at mPos unless the
 // mKartModelHidden member of mKartModelsEntry is non-zero and, for the selected kart, increments the counter of the
-// record GetEntryKartCounters returns; it then stores 3 through the second parameter. Otherwise it stores 2. Returns
+// record GetGlobalRK returns; it then stores 3 through the second parameter. Otherwise it stores 2. Returns
 // 0xb.
 int CollideKartWithMapObjectResponse3(Kart *kart, s32 *result, MapObject *mapObject);
 
@@ -76,70 +76,70 @@ s32 CollideKartWithMapObjectResponse0(Kart *kart, s32 *output);
 
 void StartKartPushDoubleFlipOnHit(Kart *kart, const Vec3 *direction);
 void StartKartPushFlipOnHitByMapObject(Kart *kart, s32 direction, MapObject *mapObject);
-void StartKartPushFlipOnHit(Kart *kart, const Vec3 *direction);
+void StructMQRacerEntry_SomeFn_72(Kart *kart, const Vec3 *direction);
 
 void MapObjectResponseNop(void);
 
 s32 CollideKartWithMapObjectNoResponse(Kart *kart, s32 *outValue);
 
-// What ResetKartAtRaceEnd uses to place a kart at the race end: old and record positions, rotation and change.
+// What StructMQRacerEntry_SomeFn_14 uses to place a kart at the race end: old and record positions, rotation and change.
 typedef struct KartRaceEndPlacement {
     /* 00 */ s16 mKeepSpeedFlag;
-    /* 02 */ u8 mUnk_02[2];
+    /* 02 */ u8 mPosition[2];
     /* 04 */ Vec3 mOldPos;
     /* 10 */ Vec3 mRecordPos;
     /* 1c */ Vec3 mRecordRotation;
     /* 28 */ Vec3 mPosChange;
 } KartRaceEndPlacement;
 
-void AdvanceKartDriftCharge(Kart *kart);
-void SetKartDriftCharge(Kart *kart, s32 charge);
-void ResetKartAtRaceEnd(Kart *kart, s32 useCourseMapRecord, s32 isWinner);
-void FinishKartAtBattleEnd(Kart *kart, s32 isWinner);
-void FinishKartAtMissionRunEnd(Kart *kart);
-void QueueKartOwnSoundIndex(Kart *kart);
-void StartKartHitReaction(Kart *kart);
+void StructMQRacerEntry_SomeFn_33(Kart *kart);
+void StructMQRacerEntry_SomeFn_73(Kart *kart, s32 charge);
+void StructMQRacerEntry_SomeFn_14(Kart *kart, s32 useCourseMapRecord, s32 isWinner);
+void StructMQRacerEntry_SomeFn_25(Kart *kart, s32 isWinner);
+void StructMQRacerEntry_SomeFn_15(Kart *kart);
+void StructMQRacerEntry_SomeFn_31(Kart *kart);
+void StructMQRacerEntry_SomeFn_10(Kart *kart);
 // Entries of the character animation of a kart that the code names: the one a winner and a kart with a star switch to
 // from the base loop (a winner swaps back and forth on a random timer), and the one a losing kart plays.
 #define KART_CHARACTER_ANIMATION_ALTERNATE 2
 #define KART_CHARACTER_ANIMATION_LOST 3
-void SetKartCharacterAnimation(Kart *kart, s32 animationIndex, s32 useBlend);
-void StartBattleKartRemoval(Kart *kart);
-void AdvanceKartRemovalShrink(Kart *kart);
+void StructMQRacerEntry_SomeFn_32(Kart *kart, s32 animationIndex, s32 useBlend);
+void StructMQRacerEntry_SomeFn_52(Kart *kart);
+void StructMQRacerEntry_SomeFn_53(Kart *kart);
 
-BOOL IsKartRemoved(Kart *kart);
-BOOL StartKartRemoval(Kart *kart, s32 fromRaceProgress);
-void StartKartRemovalFromProgress(Kart *kart);
-void StartKartAheadBoost(Kart *kart);
-void AdvanceKartGesso(Kart *kart);
-void StartKartGesso(Kart *kart, u32 orthoQuadCount);
-void AdvanceKartKiller(Kart *kart);
-void StartKartKiller(Kart *kart);
-void AdvanceKartTeresa(Kart *kart);
-void StartKartTeresa(Kart *kart);
-void StartKartStar(Kart *kart);
-void StartKartKinokoBoost(Kart *kart);
-void StartKartThunder(Kart *kart);
-void ResetKartScaleEffects(Kart *kart);
-void AdvanceKartScaleTableEffect(Kart *kart);
+BOOL StructMQRacerEntry_HasFlags0x60(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_35(Kart *kart, s32 fromRaceProgress);
+void StructMQRacerEntry_SomeFn_34(Kart *kart);
+void StructMQRacerEntry_SomeFn_39(Kart *kart);
+void StructMQRacerEntry_SomeFn_40(Kart *kart);
+void StructMQRacerEntry_SomeFn_38(Kart *kart, u32 orthoQuadCount);
+void StructMQRacerEntry_SomeFn_79(Kart *kart);
+void StructMQRacerEntry_SomeFn_42(Kart *kart);
+void StructMQRacerEntry_SomeFn_80(Kart *kart);
+void StructMQRacerEntry_SomeFn_54(Kart *kart);
+void StructMQRacerEntry_SomeFn_55(Kart *kart);
+void StructMQRacerEntry_SomeFn_57(Kart *kart);
+void StructMQRacerEntry_SomeFn_58(Kart *kart);
+void StructMQRacerEntry_SomeFn_60(Kart *kart);
+void StructMQRacerEntry_SomeFn_81(Kart *kart);
 BOOL TryStartKartScaleTableEffect(Kart *kart);
 
 
-void AdvanceKartThunderShrink(Kart *kart);
-void StartKartThunderShrink(Kart *kart);
+void StructMQRacerEntry_SomeFn_82(Kart *kart);
+void StructMQRacerEntry_SomeFn_26(Kart *kart);
 void AdvanceKartPushDoubleFlip(Kart *kart);
-s32 StartKartPushDoubleFlip(Kart *kart, const Vec3 *pushDirection, s32 record);
+s32 StructMQRacerEntry_SomeFn_4(Kart *kart, const Vec3 *pushDirection, s32 record);
 void AdvanceKartPushFlip(Kart *kart);
-void StartKartPushFlip(Kart *kart, const Vec3 *pushDirection, s32 record);
+void StructMQRacerEntry_SomeFn_59(Kart *kart, const Vec3 *pushDirection, s32 record);
 BOOL TryStartKartPushFlipFromMapObject(Kart *kart, MapObject *mapObject);
 void AdvanceKartFlip(Kart *kart);
-void StartKartFlip(Kart *kart);
-BOOL TryStartKartFlip(Kart *kart);
+void StructMQRacerEntry_SomeFn_56(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_65(Kart *kart);
 void AdvanceKartLaunchDoubleFlip(Kart *kart);
-void StartKartLaunchDoubleFlip(Kart *kart);
+void StructMQRacerEntry_SomeFn(Kart *kart);
 BOOL TryStartKartLaunchDoubleFlip(Kart *kart);
 void AdvanceKartSpin(Kart *kart);
-void StartKartSpin(Kart *kart, int spinCount, int skipSound);
+void StructMQRacerEntry_SomeFn_0(Kart *kart, int spinCount, int skipSound);
 
 extern const u32 gKartSurfaceKind1Effects[8];
 extern const s32 gKartOffsetCycleY[8];

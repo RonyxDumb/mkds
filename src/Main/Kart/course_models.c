@@ -28,70 +28,70 @@
 #include "Main/Kart/kart_call.h"
 #include "Main/Save/ghost_record_file.h"
 
-char gCourseModelNsbtpName[20] = "/course_model.nsbtp";
+char g_str_course_model_nsbtp[20] = "/course_model.nsbtp";
 Vec3s16 gKoopaCourseLight2Vector = {0, -4095, 0};
-const u32 gCourseModelShdwOff1MaterialName[4] = {0x77646853, 0x3166664f, 0, 0};
-const u32 gCourseModelShdwOff2MaterialName[4] = {0x77646853, 0x3266664f, 0, 0};
-char gCourseModelNsbmdName[20] = "/course_model.nsbmd";
-const u32 gCourseModelShdwOff4MaterialName[4] = {0x77646853, 0x3466664f, 0, 0};
-char gCourseModelVNsbmdName[22] = "/course_model_V.nsbmd";
-char gCourseModelVNsbtxName[22] = "/course_model_V.nsbtx";
-const u32 gCourseModelFalls02MaterialName[4] = {0x6c6c6166, 0x32305f73, 0, 0};
-const u32 gCourseModelYoganMaterialName[4] = {0x61676f79, 0x6e, 0, 0};
-const u32 gCourseModelShdwOffMaterialName[4] = {0x77646853, 0x66664f, 0, 0};
-char gCourseModelNsbtaName[20] = "/course_model.nsbta";
-Vec3 gKartAwardStartPositions[3] = {
+const u32 g_str_ShdwOff1[4] = {0x77646853, 0x3166664f, 0, 0};
+const u32 g_str_ShdwOff2[4] = {0x77646853, 0x3266664f, 0, 0};
+char g_str_course_model_nsbmd[20] = "/course_model.nsbmd";
+const u32 g_str_ShdwOff4[4] = {0x77646853, 0x3466664f, 0, 0};
+char g_str_course_model_V_nsbmd[22] = "/course_model_V.nsbmd";
+char g_str_course_model_V_nsbtx[22] = "/course_model_V.nsbtx";
+const u32 g_str_falls_02[4] = {0x6c6c6166, 0x32305f73, 0, 0};
+const u32 g_str_yogan[4] = {0x61676f79, 0x6e, 0, 0};
+const u32 g_str_ShdwOff[4] = {0x77646853, 0x66664f, 0, 0};
+char g_str_course_model_nsbta[20] = "/course_model.nsbta";
+Vec3 g_MaybeAwardPositionTable[3] = {
     {-5795840, 0x305000, 0}, {-6082560, 0x305000, -286720}, {-6082560, 0x305000, 0x46000}};
-const u32 gCourseModelFalls01MaterialName[4] = {0x6c6c6166, 0x31305f73, 0, 0};
-char gCourseModelVNsbtaName[22] = "/course_model_V.nsbta";
-const u32 gCourseModelShdwOff5MaterialName[4] = {0x77646853, 0x3566664f, 0, 0};
-const u32 gCourseModelShdwOff3MaterialName[4] = {0x77646853, 0x3366664f, 0, 0};
-char gCourseModelNsbtxName[20] = "/course_model.nsbtx";
-CourseModels gCourseModels;
+const u32 g_str_falls_01[4] = {0x6c6c6166, 0x31305f73, 0, 0};
+char g_str_course_model_V_nsbta[22] = "/course_model_V.nsbta";
+const u32 g_str_ShdwOff5[4] = {0x77646853, 0x3566664f, 0, 0};
+const u32 g_str_ShdwOff3[4] = {0x77646853, 0x3366664f, 0, 0};
+char g_str_course_model_nsbtx[20] = "/course_model.nsbtx";
+CourseModels g_CourseHolder;
 
 static inline void InitModelAnimationFromFile(u32 animationKind, ModelAnimation *animation, Nsbmd *nsbmd, void *heap,
                                               void *modelFile, const char *animationFile, u16 *animationCount) {
     if (animationFile == NULL) {
         *animationCount = 0;
     } else {
-        InitModelAnimation(animationKind, animation, nsbmd, 1, heap, modelFile);
-        InitModelAnimationEntries(animation, animationFile, heap);
-        SetModelAnimationEntryLoopMode(animation, 0, 1);
-        SetModelAnimation(animation, 0);
+        StructAM_CreateFrom(animationKind, animation, nsbmd, 1, heap, modelFile);
+        StructAM_MaybeLoadAnimation(animation, animationFile, heap);
+        StructAM_SetSomeValueAt(animation, 0, 1);
+        StructAM_SomeFn_MaybeLoadFrame(animation, 0);
     }
 }
 
-void AdvanceLocalKartCollisionSlot(Kart *kart) {
+void MQ_FnPtr4_Net_Not3(Kart *kart) {
     AdvanceKartCollision(kart);
-    if ((gWiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_IN_RACE) != 0) {
+    if ((g_GlobalAA->mFlags & WIFI_RACE_SYNC_FLAG_IN_RACE) != 0) {
         WriteKartToParticipantRecord(kart);
     }
     AdvanceKartDrawState(kart);
 }
 
-void AdvanceLocalKartMotionSlot(Kart *kart) {
+void MQ_FnPtr3_Net_Not3(Kart *kart) {
     if (IsMissionRunWithEndShapes() != 0) {
         FinishKartInCourseMapMissionEndShape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mEffectFlags & KART_EFFECT_START_SOUND_PENDING) != 0) {
-        StartKartSoundAndCharacterAnimation(kart);
+        StructMQRacerEntry_SomeFn_89(kart);
     }
     kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_START_SOUND_PENDING;
     AdvanceKartMotion(kart);
 }
 
-void AdvancePeerKartMotionSlot(Kart *kart) {
+void MQ_FnPtr3_Net_3(Kart *kart) {
     if (IsMissionRunWithEndShapes() != 0) {
         FinishKartInCourseMapMissionEndShape(&kart->mPos, kart->mIndex);
     }
     if ((kart->mEffectFlags & KART_EFFECT_START_SOUND_PENDING) != 0) {
-        StartKartSoundAndCharacterAnimation(kart);
+        StructMQRacerEntry_SomeFn_89(kart);
     }
     kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_START_SOUND_PENDING;
-    AdvancePeerKartMotion(kart);
+    StructMQRacerEntry_SomeFn_90(kart);
 }
 
-void AdvancePeerKartCollisionSlot(Kart *kart) {
+void MQ_FnPtr4_Net_3(Kart *kart) {
     AdvancePeerKartCollision(kart);
     AdvanceKartDrawState(kart);
 }
@@ -101,7 +101,7 @@ void WriteKartToParticipantRecord(Kart *kart) {
     WiFiRaceSyncRecord *recordBase;
     ParticipantKartRecord *record;
 
-    recordBase = &gWiFiRaceSync->mSendBuffer->mRecord;
+    recordBase = &g_GlobalAA->mSendBuffer->mRecord;
     record = OFFSET_PTR(ParticipantKartRecord, recordBase, 8);
     recordState = kart->mParticipantRecordData;
     record->mPosX = kart->mPos.x >> 10;
@@ -119,7 +119,7 @@ void WriteKartToParticipantRecord(Kart *kart) {
 }
 
 // Finds and builds the course models, and also sets the matrix and the per-course flags.
-void InitCourseModels(void *heap) {
+void LoadCourseModelsAnimations(void *heap) {
     NNSG3dResFileHeader *nsbmdFile;
     NNSG3dResFileHeader *nsbtxFile;
     const char *animationFile;
@@ -128,99 +128,99 @@ void InitCourseModels(void *heap) {
     s32 shdwOffMaterialIndices[6];
     s32 slotIndex;
 
-    nsbmdFile = FindCourseFile(gCourseModelNsbmdName);
-    nsbtxFile = FindCourseFile(gCourseModelNsbtxName);
-    gCourseModels.mNsbmd = HeapAlloc(heap, sizeof(*gCourseModels.mNsbmd));
-    resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, nsbmdFile, nsbtxFile);
-    animationFile = FindCourseFile(gCourseModelNsbtpName);
-    InitModelAnimationFromFile(2, &gCourseModels.mNsbtpAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                               &gCourseModels.mNsbtpAnimation.mAnmObjCount);
-    animationFile = FindCourseFile(gCourseModelNsbtaName);
-    InitModelAnimationFromFile(1, &gCourseModels.mNsbtaAnimation, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                               &gCourseModels.mNsbtaAnimation.mAnmObjCount);
-    SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
-    NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
-    switch (gRaceSetup->mCourseId) {
+    nsbmdFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_nsbmd);
+    nsbtxFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_nsbtx);
+    g_CourseHolder.mNsbmd = Mem_AllocateHeap(heap, sizeof(*g_CourseHolder.mNsbmd));
+    resMdl = StructML_LoadModelAndTextures(heap, g_CourseHolder.mNsbmd, nsbmdFile, nsbtxFile);
+    animationFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_nsbtp);
+    InitModelAnimationFromFile(2, &g_CourseHolder.mNsbtpAnimation, g_CourseHolder.mNsbmd, heap, nsbmdFile, animationFile,
+                               &g_CourseHolder.mNsbtpAnimation.mAnmObjCount);
+    animationFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_nsbta);
+    InitModelAnimationFromFile(1, &g_CourseHolder.mNsbtaAnimation, g_CourseHolder.mNsbmd, heap, nsbmdFile, animationFile,
+                               &g_CourseHolder.mNsbtaAnimation.mAnmObjCount);
+    StructML_MaybeProcessModelAnimations(g_CourseHolder.mNsbmd, 8);
+    ModelBlock_SetSomethingToAllMaterials(resMdl, 1);
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_OLD_KOOPA_AGB:
             materialIndex =
-                NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelYoganMaterialName);
+                Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_yogan);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlAlpha(resMdl, materialIndex, 0x1e);
-                NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
+                ModelBlock_SomeTexPltFn(resMdl, materialIndex, 0);
             }
             break;
         case COURSE_ID_BANK:
             materialIndex =
-                NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls01MaterialName);
+                Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_falls_01);
             if (materialIndex >= 0) {
-                NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
+                ModelBlock_SomeTexPltFn(resMdl, materialIndex, 0);
             }
             materialIndex =
-                NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelFalls02MaterialName);
+                Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_falls_02);
             if (materialIndex >= 0) {
-                NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
+                ModelBlock_SomeTexPltFn(resMdl, materialIndex, 0);
             }
             break;
     }
-    gCourseModels.mVNsbmd = NULL;
-    nsbmdFile = FindCourseFile(gCourseModelVNsbmdName);
-    nsbtxFile = FindCourseFile(gCourseModelVNsbtxName);
+    g_CourseHolder.mVNsbmd = NULL;
+    nsbmdFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_V_nsbmd);
+    nsbtxFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_V_nsbtx);
     if (nsbmdFile != NULL) {
-        gCourseModels.mVNsbmd = HeapAlloc(heap, sizeof(*gCourseModels.mVNsbmd));
-        InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, nsbmdFile, nsbtxFile);
-        SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
-        animationFile = FindCourseFile(gCourseModelVNsbtaName);
-        InitModelAnimationFromFile(1, &gCourseModels.mVNsbtaAnimation, gCourseModels.mVNsbmd, heap, nsbmdFile,
-                                   animationFile, &gCourseModels.mVNsbtaAnimation.mAnmObjCount);
+        g_CourseHolder.mVNsbmd = Mem_AllocateHeap(heap, sizeof(*g_CourseHolder.mVNsbmd));
+        StructML_LoadModelAndTextures(heap, g_CourseHolder.mVNsbmd, nsbmdFile, nsbtxFile);
+        StructML_MaybeProcessModelAnimations(g_CourseHolder.mVNsbmd, 8);
+        animationFile = FindFileBuffer_CRS_CST_from_thumb(g_str_course_model_V_nsbta);
+        InitModelAnimationFromFile(1, &g_CourseHolder.mVNsbtaAnimation, g_CourseHolder.mVNsbmd, heap, nsbmdFile,
+                                   animationFile, &g_CourseHolder.mVNsbtaAnimation.mAnmObjCount);
     }
     shdwOffMaterialIndices[0] =
-        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOffMaterialName);
+        Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_ShdwOff);
     shdwOffMaterialIndices[1] =
-        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff1MaterialName);
+        Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_ShdwOff1);
     shdwOffMaterialIndices[2] =
-        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff2MaterialName);
+        Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_ShdwOff2);
     shdwOffMaterialIndices[3] =
-        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff3MaterialName);
+        Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_ShdwOff3);
     shdwOffMaterialIndices[4] =
-        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff4MaterialName);
+        Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_ShdwOff4);
     shdwOffMaterialIndices[5] =
-        NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, gCourseModelShdwOff5MaterialName);
+        Dict_SomeFn_0((u8 *) resMdl + resMdl->mOfsMat + 4, g_str_ShdwOff5);
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         if (shdwOffMaterialIndices[slotIndex] >= 0) {
-            NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[slotIndex], 7);
+            ModelBlock_SomeTexPltFn_3(resMdl, shdwOffMaterialIndices[slotIndex], 7);
         }
     }
-    MTX_Identity43_(&gCourseModels.mMatrix);
+    MTX_Identity43_(&g_CourseHolder.mMatrix);
     InitCourseModelsFogEnableFlags();
 }
 
-void UpdateCourseModels(void) {
-    if (gCourseModels.mNsbtpAnimation.mAnmObjCount != 0) {
-        AdvanceModelAnimation(&gCourseModels.mNsbtpAnimation);
+void HandleCourseAnim(void) {
+    if (g_CourseHolder.mNsbtpAnimation.mAnmObjCount != 0) {
+        StructAM_SomeFn_MaybeMoveNextFrame(&g_CourseHolder.mNsbtpAnimation);
     }
-    if (gCourseModels.mNsbtaAnimation.mAnmObjCount != 0) {
-        AdvanceModelAnimation(&gCourseModels.mNsbtaAnimation);
+    if (g_CourseHolder.mNsbtaAnimation.mAnmObjCount != 0) {
+        StructAM_SomeFn_MaybeMoveNextFrame(&g_CourseHolder.mNsbtaAnimation);
     }
-    if (gCourseModels.mVNsbmd != NULL && gCourseModels.mVNsbtaAnimation.mAnmObjCount != 0) {
-        AdvanceModelAnimation(&gCourseModels.mVNsbtaAnimation);
+    if (g_CourseHolder.mVNsbmd != NULL && g_CourseHolder.mVNsbtaAnimation.mAnmObjCount != 0) {
+        StructAM_SomeFn_MaybeMoveNextFrame(&g_CourseHolder.mVNsbtaAnimation);
     }
 }
 
 void DrawCourseModel(void) {
-    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &gCourseModels.mMatrix, &gCourseModelDrawScale);
+    DrawNsbmdWithMatrix(g_CourseHolder.mNsbmd, &g_CourseHolder.mMatrix, &gCourseModelDrawScale);
 }
 
 void DrawCourseModelV(void) {
-    if (gCourseModels.mVNsbmd == NULL) {
+    if (g_CourseHolder.mVNsbmd == NULL) {
         return;
     }
-    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &gCourseModels.mMatrix, &gCourseModelDrawScale);
+    DrawNsbmdWithMatrix(g_CourseHolder.mVNsbmd, &g_CourseHolder.mMatrix, &gCourseModelDrawScale);
 }
 
 void SetKoopaCourseLight2(void) {
     Vec3s16 lightVector;
 
-    if (gRaceSetup->mCourseId != COURSE_ID_KOOPA) {
+    if (g_GlobalCO->mCourseId != COURSE_ID_KOOPA) {
         return;
     }
     lightVector = gKoopaCourseLight2Vector;
@@ -234,40 +234,40 @@ void InitCourseModelsFogEnableFlags(void) {
     u32 vMaterialIndex;
     NNSG3dResMdl *vResMdl;
 
-    gCourseModels.mRestoreFogEnableFlags = FALSE;
-    gCourseModels.mSavedFogEnableFlags = 0;
-    gCourseModels.mRestoreVFogEnableFlags = FALSE;
-    gCourseModels.mSavedVFogEnableFlags = 0;
-    switch (gRaceSetup->mCourseId) {
+    g_CourseHolder.mRestoreFogEnableFlags = FALSE;
+    g_CourseHolder.mSavedFogEnableFlags = 0;
+    g_CourseHolder.mRestoreVFogEnableFlags = FALSE;
+    g_CourseHolder.mSavedVFogEnableFlags = 0;
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_MANSION:
         case COURSE_ID_DESERT:
         case COURSE_ID_MINI_STAGE2:
-            gCourseModels.mRestoreFogEnableFlags = TRUE;
+            g_CourseHolder.mRestoreFogEnableFlags = TRUE;
             break;
         case COURSE_ID_RAINBOW:
-            gCourseModels.mRestoreVFogEnableFlags = TRUE;
+            g_CourseHolder.mRestoreVFogEnableFlags = TRUE;
             break;
     }
-    if (gCourseModels.mRestoreFogEnableFlags != FALSE) {
-        courseResMdl = gCourseModels.mNsbmd->mResMdl;
+    if (g_CourseHolder.mRestoreFogEnableFlags != FALSE) {
+        courseResMdl = g_CourseHolder.mNsbmd->mResMdl;
         for (materialIndex = 0; materialIndex < courseResMdl->mInfo.mNumMat; materialIndex++) {
             if (NNS_G3dMdlGetMdlFogEnableFlag(courseResMdl, materialIndex) != 0) {
-                gCourseModels.mSavedFogEnableFlags |= (s64) (1 << materialIndex);
+                g_CourseHolder.mSavedFogEnableFlags |= (s64) (1 << materialIndex);
             }
         }
     } else {
-        NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mNsbmd->mResMdl, 1);
+        NNS_G3dMdlSetMdlFogEnableFlagAll(g_CourseHolder.mNsbmd->mResMdl, 1);
     }
-    if (gCourseModels.mVNsbmd == NULL) {
+    if (g_CourseHolder.mVNsbmd == NULL) {
         return;
     }
-    if (gCourseModels.mRestoreVFogEnableFlags == FALSE) {
+    if (g_CourseHolder.mRestoreVFogEnableFlags == FALSE) {
         return;
     }
-    vResMdl = gCourseModels.mVNsbmd->mResMdl;
+    vResMdl = g_CourseHolder.mVNsbmd->mResMdl;
     for (vMaterialIndex = 0; vMaterialIndex < vResMdl->mInfo.mNumMat; vMaterialIndex++) {
         if (NNS_G3dMdlGetMdlFogEnableFlag(vResMdl, vMaterialIndex) != 0) {
-            BIT_SET(gCourseModels.mSavedVFogEnableFlags, vMaterialIndex);
+            BIT_SET(g_CourseHolder.mSavedVFogEnableFlags, vMaterialIndex);
         }
     }
 }
@@ -277,35 +277,35 @@ void SetCourseModelsFogEnableFlags(u32 flag) {
     NNSG3dResMdl *resMdl;
     u32 materialIndex;
 
-    if (gCourseModels.mVNsbmd != NULL) {
-        if (gCourseModels.mRestoreVFogEnableFlags != FALSE && flag == 0) {
-            resMdl = gCourseModels.mVNsbmd->mResMdl;
+    if (g_CourseHolder.mVNsbmd != NULL) {
+        if (g_CourseHolder.mRestoreVFogEnableFlags != FALSE && flag == 0) {
+            resMdl = g_CourseHolder.mVNsbmd->mResMdl;
             for (vMaterialIndex = 0; vMaterialIndex < resMdl->mInfo.mNumMat; vMaterialIndex++) {
                 NNS_G3dMdlSetMdlFogEnableFlag(
-                    resMdl, vMaterialIndex, BIT_IS_SET(gCourseModels.mSavedVFogEnableFlags, vMaterialIndex) ? 1 : 0);
+                    resMdl, vMaterialIndex, BIT_IS_SET(g_CourseHolder.mSavedVFogEnableFlags, vMaterialIndex) ? 1 : 0);
             }
         } else {
-            NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mVNsbmd->mResMdl, flag);
+            NNS_G3dMdlSetMdlFogEnableFlagAll(g_CourseHolder.mVNsbmd->mResMdl, flag);
         }
     }
-    if (gCourseModels.mRestoreFogEnableFlags == FALSE) {
+    if (g_CourseHolder.mRestoreFogEnableFlags == FALSE) {
         return;
     }
     if (flag != 0) {
-        NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mNsbmd->mResMdl, 1);
+        NNS_G3dMdlSetMdlFogEnableFlagAll(g_CourseHolder.mNsbmd->mResMdl, 1);
         return;
     }
-    resMdl = gCourseModels.mNsbmd->mResMdl;
+    resMdl = g_CourseHolder.mNsbmd->mResMdl;
     for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
-        if ((gCourseModels.mSavedFogEnableFlags & (s64) (1 << materialIndex)) == 0) {
+        if ((g_CourseHolder.mSavedFogEnableFlags & (s64) (1 << materialIndex)) == 0) {
             NNS_G3dMdlSetMdlFogEnableFlag(resMdl, materialIndex, 0);
         }
     }
 }
 
-s32 GetCourseModelNsbtpFrame(void) {
-    if (gCourseModels.mNsbtpAnimation.mAnmObjCount != 0) {
-        return FROM_FIXED12(gCourseModels.mNsbtpAnimation.mHead.mFrameIndex);
+s32 GetCourseAnimNsbtpSomeValue(void) {
+    if (g_CourseHolder.mNsbtpAnimation.mAnmObjCount != 0) {
+        return FROM_FIXED12(g_CourseHolder.mNsbtpAnimation.mHead.mFrameIndex);
     }
     return -1;
 }

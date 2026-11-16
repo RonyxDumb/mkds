@@ -26,7 +26,7 @@ void InitOptionHensyuMenu(void *heap) {
     s32 index;
     s32 cellIndex;
     void *optionFirstBuffer;
-    gOptionHensyuMenu = HeapAlloc(heap, sizeof(OptionHensyuMenu));
+    gOptionHensyuMenu = Mem_AllocateHeap(heap, sizeof(OptionHensyuMenu));
     gOptionHensyuMenu->mHeap = heap;
     gOptionHensyuMenu->mState = OPTION_HENSYU_MENU_STATE_WAIT_FADE;
     gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_WAIT_FADE;
@@ -44,11 +44,11 @@ void InitOptionHensyuMenu(void *heap) {
     gOptionHensyuMenu->mHighlightVisible = TRUE;
     LocateAndQueueOptionHensyuMenu();
     for (index = 0; index < 2; index++) {
-        SetCellOamModeXlu(gOptionHensyuMenuXluCellIndices[index], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
+        CellBank_ResetSomeMetatileObjectsMode_from_thumb(gOptionHensyuMenuXluCellIndices[index], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
                           gOptionHensyuMenu->mOptionHensyuMenuSBncl);
     }
     optionFirstBuffer = GetOptionFirstBuffer();
-    ResetOamLists(optionFirstBuffer, GetOptionSecondBuffer());
+    OamBuffer_SomeFn_from_thumb(optionFirstBuffer, GetOptionSecondBuffer());
     InitLayoutTable(heap, gOptionHensyuMenu->mOptionHensyuMenuSBncl, NULL, &gOptionHensyuMenu->mOptionHensyuMenuSTable);
     for (index = 0; index < 2; index++) {
         for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[index]; cellIndex++) {
@@ -73,26 +73,26 @@ void LocateAndQueueOptionHensyuMenu(void) {
     Nscr *nscr;
     Nclr *nclr;
 
-    LocateNcgr(&ncgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
-    LocateNscr(&nscr, FindSceneFile("Option_top_menu_m.nscr"));
-    LocateNclr(&nclr, FindSceneFile("Option_top_menu_m_b.nclr"));
-    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindSceneFile("option_hensyu_menu_s.bncl");
-    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindSceneFile("option_hensyu_menu_s.bnbl");
-    LocateNcgr2(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindSceneFile("Option_hensyu_menu_s.nce.ncgr"));
-    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindSceneFile("Option_hensyu_menu_s.nce.ncer"));
-    LocateNclr(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindSceneFile("Option_hensyu_menu_s_o.nclr"));
-    NNS_GfdRegisterNewVramTransferTask(4, 0, ncgr->mData, ncgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0, nscr->mData, nscr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(15, 0, nclr->mData, 0x100);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mData,
+    MaybeReadCharBlock_1(&ncgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_top_menu_m_b.ncgr"));
+    MaybeReadScreenBlock(&nscr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_top_menu_m.nscr"));
+    Gfx_ReadPaletteRelative(&nclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_top_menu_m_b.nclr"));
+    gOptionHensyuMenu->mOptionHensyuMenuSBncl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("option_hensyu_menu_s.bncl");
+    gOptionHensyuMenu->mOptionHensyuMenuSBnbl = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("option_hensyu_menu_s.bnbl");
+    Gfx_ReadCharGraphicsRelative(&gOptionHensyuMenu->mOptionHensyuMenuSNcgr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_hensyu_menu_s.nce.ncgr"));
+    LocateNcer(&gOptionHensyuMenu->mOptionHensyuMenuSNcer, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_hensyu_menu_s.nce.ncer"));
+    Gfx_ReadPaletteRelative(&gOptionHensyuMenu->mOptionHensyuMenuSONclr, FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("Option_hensyu_menu_s_o.nclr"));
+    AllocateReserveTEQSub(4, 0, ncgr->mData, ncgr->mDataSize);
+    AllocateReserveTEQSub(8, 0, nscr->mData, nscr->mDataSize);
+    AllocateReserveTEQSub(15, 0, nclr->mData, 0x100);
+    AllocateReserveTEQSub(0x23, 0, gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mData,
                                        gOptionHensyuMenu->mOptionHensyuMenuSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionHensyuMenu->mOptionHensyuMenuSONclr->mData,
+    AllocateReserveTEQSub(0x1e, 0, gOptionHensyuMenu->mOptionHensyuMenuSONclr->mData,
                                        gOptionHensyuMenu->mOptionHensyuMenuSONclr->mDataSize);
 }
 
 void AdvanceOptionHensyuMenuWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         gOptionHensyuMenu->mNextState = OPTION_HENSYU_MENU_STATE_SLIDE_IN;
     }
@@ -103,7 +103,7 @@ void AdvanceOptionHensyuMenuSlideIn(void) {
     s32 cellIndex;
     s32 offsetX;
     gOptionHensyuMenu->mStateFrames++;
-    offsetX = InterpolateS16(1, OPTION_HENSYU_MENU_SLIDE_DISTANCE, 0, gOptionHensyuMenu->mStateFrames,
+    offsetX = ComputeValueInterpolation_from_thumb(1, OPTION_HENSYU_MENU_SLIDE_DISTANCE, 0, gOptionHensyuMenu->mStateFrames,
                              OPTION_HENSYU_MENU_SLIDE_FRAMES);
     for (rowIndex = 0; rowIndex < 2; rowIndex++) {
         for (cellIndex = 0; cellIndex < gOptionHensyuMenuOffsetCellCounts[rowIndex]; cellIndex++) {
@@ -144,30 +144,30 @@ void AdvanceOptionHensyuMenuSelect(void) {
     touchedRect = -1;
     touchBegan = FALSE;
     recentlyLost = FALSE;
-    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
         recentlyLost = TRUE;
     }
-    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+    if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
         touchedRect = RectTableFindContaining(gOptionHensyuMenu->mOptionHensyuMenuSBnbl,
-                                              gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
+                                              g_GlobalCYT[slotIndex].mPair.mPairX, g_GlobalCYT[slotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
-        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = g_GlobalCYT[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && g_GlobalCYT[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (recentlyLost == FALSE && g_GlobalCYT[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchBegan = TRUE;
         }
         if (touchBegan != FALSE &&
-            IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
-                                                  gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
+            IsSelectReturnShownNoRequestAndInRect(g_GlobalCYT[slotIndex].mPair.mPairX,
+                                                  g_GlobalCYT[slotIndex].mPair.mPairY) != FALSE) {
             goto leave;
         }
     } else {
@@ -177,10 +177,10 @@ void AdvanceOptionHensyuMenuSelect(void) {
         RequestSelectReturnPressWithSound(0);
         return;
     }
-    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedRect <= 1) {
+    if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) != 0 || touchedRect <= 1) {
         optionHensyuMenu = gOptionHensyuMenu;
         previousIndex = optionHensyuMenu->mIndex;
-        if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) == 0) {
+        if ((u16) (g_GlobalCYT[slotIndex].mPressedBits & PAD_KEY_A) == 0) {
             switch (touchedRect) {
                 case 0:
                     optionHensyuMenu->mIndex = 0;
@@ -197,31 +197,31 @@ void AdvanceOptionHensyuMenuSelect(void) {
                 optionHensyuMenu->mNextOptionState = OPTION_STATE_SCENE_KEYBOARD;
                 break;
             case 1:
-                if (gBackupBuffers->mEmblemRecord->mFilled != 0) {
+                if (g_SaveDataHolder->mEmblemRecord->mFilled != 0) {
                     optionHensyuMenu->mNextOptionState = OPTION_STATE_EMBREM_SELECT;
                 } else {
                     optionHensyuMenu->mNextOptionState = OPTION_STATE_SCENE_EMBLEM;
-                    gMenuShared->mOptionReturnsToEmbremSelect = FALSE;
+                    g_GlobalB488->mOptionReturnsToEmbremSelect = FALSE;
                 }
                 break;
         }
         if (gOptionHensyuMenu->mIndex == previousIndex) {
             gOptionHensyuMenu->mHighlightVisible = FALSE;
         }
-        StartSoundOncePerFrame(5);
+        MaybePlaySomeSseqFromSarc0(5);
         return;
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
         if (gOptionHensyuMenu->mIndex > 0) {
             gOptionHensyuMenu->mIndex--;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
             return;
         }
     }
     if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
         if (gOptionHensyuMenu->mIndex < 1) {
             gOptionHensyuMenu->mIndex++;
-            StartSoundOncePerFrame(0);
+            MaybePlaySomeSseqFromSarc0(0);
         }
     }
 }
@@ -252,7 +252,7 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
     }
     gOptionHensyuMenu->mStateFrames++;
     if (gOptionHensyuMenu->mStateFrames <= OPTION_HENSYU_MENU_SLIDE_FRAMES) {
-        offsetX = InterpolateS16(1, 0, OPTION_HENSYU_MENU_SLIDE_DISTANCE, gOptionHensyuMenu->mStateFrames,
+        offsetX = ComputeValueInterpolation_from_thumb(1, 0, OPTION_HENSYU_MENU_SLIDE_DISTANCE, gOptionHensyuMenu->mStateFrames,
                                  OPTION_HENSYU_MENU_SLIDE_FRAMES);
     } else {
         offsetX = OPTION_HENSYU_MENU_SLIDE_DISTANCE;

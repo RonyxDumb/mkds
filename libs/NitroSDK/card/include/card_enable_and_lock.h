@@ -3,12 +3,12 @@
 #include "types.h"
 #include "card_rom_backup_access.h"
 
-void CARD_UnlockBackup(u16 lockId);
-void CARD_LockBackup(u16 lockId);
-void CARD_UnlockRom(u16 lockId);
-void CARD_LockRom(u16 lockId);
+void Card_UnlockBackupResource(u16 lockId);
+void Card_LockBackupResource(u16 lockId);
+void Card_UnlockRomResource(u16 lockId);
+void Card_LockRomResource(u16 lockId);
 
-// Values CARD_GetResultCode returns.
+// Values Card_GetResult returns.
 typedef enum CardStatus {
     BACKUP_RESULT_OK = 0,
     BACKUP_RESULT_FAILED,
@@ -20,23 +20,23 @@ typedef enum CardStatus {
     BACKUP_RESULT_CANCELED
 } CardStatus;
 
-u32 CARD_GetResultCode(void);
-int CARDi_TryWaitAsync(void);
-int CARDi_WaitAsync(void);
-void CARD_Enable(u32 enable);
+u32 Card_GetResult(void);
+int Card_IsNotBusy(void);
+int WaitForPendingCardOperation(void);
+void Card_SetEnabled(u32 enable);
 
-// Returns when the enable flag is not 0, otherwise calls OS_Terminate.
-void CARD_CheckEnabled(void);
+// Returns when the enable flag is not 0, otherwise calls Os_Terminate.
+void EnsureCardEnabled(void);
 
 // Returns the enable flag.
-u32 CARD_IsEnabled(void);
+u32 Card_IsEnabled(void);
 
 typedef struct CARDiCommon CARDiCommon;
 
-// The enable flag: CARD_Enable stores it, CARD_IsEnabled returns it.
-extern u32 gAccessEnabled[];
+// The enable flag: Card_SetEnabled stores it, Card_IsEnabled returns it.
+extern u32 g_Card_Enabled[];
 
 // The 0x620-byte card state.
-extern CARDiCommon gAccessState;
+extern CARDiCommon g_Card_Context;
 // The command block that CARDiCommon.mCmd points to.
-extern CARDiCommandArg gRequestBlock;
+extern CARDiCommandArg g_Card_Command;

@@ -16,27 +16,27 @@
 
 #pragma thumb on
 
-void AdvanceSceneText(void) {
-    if (gSceneText->mUseTxtSystem != FALSE) {
-        AdvanceTxtSystem();
+void NavigationContext_OnSceneUpdate_from_thumb(void) {
+    if (g_NavigationContext->mUseTxtSystem != FALSE) {
+        TextSystemContext_OnSceneUpdate_from_thumb();
     }
-    if (gSceneText->mUseSelectChoises != FALSE) {
-        AdvanceSelectChoises();
+    if (g_NavigationContext->mUseSelectChoises != FALSE) {
+        SelectChoisesContext_OnSceneUpdate_from_thumb();
     }
-    if (gSceneText->mUseSelectReturn != FALSE) {
-        AdvanceSelectReturn();
+    if (g_NavigationContext->mUseSelectReturn != FALSE) {
+        SelectReturnContext_OnSceneUpdate_from_thumb();
     }
 }
 
-void WriteSceneTextRegisters(void) {
-    if (gSceneText->mUseTxtSystem != FALSE) {
-        WriteTxtSystemRegisters();
+void NavigationContext_OnSceneVblank_from_thumb(void) {
+    if (g_NavigationContext->mUseTxtSystem != FALSE) {
+        TextSystemContext_OnSceneVblank_from_thumb();
     }
-    if (gSceneText->mUseSelectChoises != FALSE) {
-        WriteSelectChoisesRegisters();
+    if (g_NavigationContext->mUseSelectChoises != FALSE) {
+        SelectChoisesContext_OnSceneVblank_from_thumb();
     }
-    if (gSceneText->mUseSelectReturn != FALSE) {
-        WriteSelectReturnRegisters();
+    if (g_NavigationContext->mUseSelectReturn != FALSE) {
+        SelectReturnContext_OnSceneVblank_from_thumb();
     }
 }
 

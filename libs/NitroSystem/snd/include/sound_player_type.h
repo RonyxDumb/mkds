@@ -15,4 +15,4 @@ typedef struct NNSSndPlayer {
 
 void NNS_SndPlayerSetAllocatableChannel(u32 index, u32 channels);
 void NNS_SndPlayerSetPlayableSeqCount(u32 index, u32 seqCount);
-void NNS_SndPlayerSetPlayerVolume(u32 index, u32 volume);
+void MaybeSetPlayerVolume(u32 index, u32 volume);

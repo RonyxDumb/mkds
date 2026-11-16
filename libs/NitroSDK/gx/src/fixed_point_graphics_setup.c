@@ -2,13 +2,13 @@
 #include "registers.h"
 
 // Sets the background mode of the sub screen (DISPCNT bits 0-2).
-void GXS_SetGraphicsMode(u32 bgMode) {
+void SetDispcntSubBgMode(u32 bgMode) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x7) | bgMode;
 }
 
 // Writes the master brightness register: 0 for no change, 0x4000 | brightness to brighten, 0x8000 | -brightness to
 // darken.
-void GXx_SetMasterBrightness_(vu16 *reg, s32 brightness) {
+void SetBrightness(vu16 *reg, s32 brightness) {
     if (brightness == 0) {
         *reg = 0;
         return;
@@ -21,7 +21,7 @@ void GXx_SetMasterBrightness_(vu16 *reg, s32 brightness) {
 }
 
 // Does nothing.
-void FX_Init(void) {}
+void FX_Initialize(void) {}
 
 // Multiplies two 20.12 fixed-point values, rounding to nearest.
 s32 FX_MulFunc(s32 factorA, s32 factorB) {

@@ -20,7 +20,7 @@ void MBi_SetChildMPMaxSize(s32 packetSize) {
 #pragma thumb on
 void MBi_SetParentPieceBuffer(MbRequestPieceBuf *buffer) {
     gPieceBuffer = buffer;
-    MI_CpuFill8(buffer, 0, sizeof(MbRequestPieceBuf));
+    Mem_CpuFill8(buffer, 0, sizeof(MbRequestPieceBuf));
 }
 #pragma thumb off
 
@@ -31,7 +31,7 @@ void MBi_ClearParentPieceBuffer(s32 child) {
 
     if (gPieceBuffer != NULL) {
         childIndex = child - 1;
-        MI_CpuFill8(&gPieceBuffer->mDataBuf[childIndex * 0x20], 0, 0x1e);
+        Mem_CpuFill8(&gPieceBuffer->mDataBuf[childIndex * 0x20], 0, 0x1e);
         gPieceBuffer->mDataBmp[childIndex] = 0;
     }
 }
@@ -75,7 +75,7 @@ u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
             if (message->mPieceRequestByte > gPieceSizes.mPieceCount) {
                 return NULL;
             }
-            MI_CpuCopy8(bytes + 2, message->mPieceData, gPieceSizes.mPieceSize);
+            Mem_CpuCopy8(bytes + 2, message->mPieceData, gPieceSizes.mPieceSize);
             result = MBi_ReceiveRequestDataPiece(message, child);
             break;
         case CHILD_MESSAGE_ACCEPT_ACK:
@@ -87,7 +87,7 @@ u8 *MBi_SetRecvBufferFromChild(u8 *bytes, ChildMessage *message, u32 child) {
             message->mPieceRequest = bytes[1] & 0xff;
             result = bytes + 3;
             message->mPieceRequest |= (bytes[2] << 8) & 0xff00;
-            MI_CpuCopy8(result, message->mData, gPieceSizes.mPieceSize);
+            Mem_CpuCopy8(result, message->mData, gPieceSizes.mPieceSize);
             result += gPieceSizes.mPieceSize;
             break;
         default:
@@ -111,7 +111,7 @@ u8 *MBi_ReceiveRequestDataPiece(ChildMessage *message, u32 child) {
     }
     slotIndex = child - 1;
     slotOffset = slotIndex << 5;
-    MI_CpuCopy8(message->mPieceData, (u8 *) pieceBuffer + slotOffset + pieceIndex * gPieceSizes.mPieceSize,
+    Mem_CpuCopy8(message->mPieceData, (u8 *) pieceBuffer + slotOffset + pieceIndex * gPieceSizes.mPieceSize,
                 gPieceSizes.mPieceSize);
     BIT_SET(gPieceBuffer->mDataBmp[slotIndex], pieceIndex);
     if (IsGetAllRequestData(child) != 0) {
@@ -148,13 +148,13 @@ u8 *MBi_MakeChildSendBuffer(ChildMessage *message, u8 *buffer) {
             if (message->mPieceRequestByte > gPieceSizes.mPieceCount) {
                 return NULL;
             }
-            MI_CpuCopy8(message->mPieceData, cursor, gPieceSizes.mPieceSize);
+            Mem_CpuCopy8(message->mPieceData, cursor, gPieceSizes.mPieceSize);
             cursor += gPieceSizes.mPieceSize;
             break;
         case CHILD_MESSAGE_ACK_WITH_DATA:
             *cursor++ = message->mPieceRequest;
             *cursor++ = (message->mPieceRequest & 0xff00) >> 8;
-            MI_CpuCopy8(message->mData, cursor, gPieceSizes.mPieceSize);
+            Mem_CpuCopy8(message->mData, cursor, gPieceSizes.mPieceSize);
             cursor += gPieceSizes.mPieceSize;
             break;
         case CHILD_MESSAGE_ACCEPT_ACK:
@@ -169,7 +169,7 @@ u8 *MBi_MakeChildSendBuffer(ChildMessage *message, u8 *buffer) {
 
 u8 MBi_SendRequestDataPiece(void *output, void *pieces) {
     gLastPieceIndex = (gLastPieceIndex + 1) % gPieceSizes.mPieceCount;
-    MI_CpuCopy8((u8 *) pieces + gLastPieceIndex * gPieceSizes.mPieceSize, output, gPieceSizes.mPieceSize);
+    Mem_CpuCopy8((u8 *) pieces + gLastPieceIndex * gPieceSizes.mPieceSize, output, gPieceSizes.mPieceSize);
     return gLastPieceIndex;
 }
 

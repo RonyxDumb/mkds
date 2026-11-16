@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CopyBuddyFriendDataList(void *destination);
+void GlobalZ_CopyNKFLOther1(void *destination);

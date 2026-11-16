@@ -42,8 +42,8 @@ void CopyNceImageToOamEntries(u32 slot, u32 imageIndex, OamEntry *destination) {
 
     MIi_CpuClear32(clearValue, buffer, 8);
     for (entryIndex = 0; entryIndex < entryCount; entryIndex++, source += 6, destination++) {
-        MIi_CpuCopy16(source, buffer, 6);
-        MIi_CpuCopy32(buffer, destination, 8);
+        CopyMemory16(source, buffer, 6);
+        Mem_CpuCopy32(buffer, destination, 8);
     }
 }
 
@@ -94,7 +94,7 @@ OamRange *CreateOamRange(u32 screen, s32 entryCount, s32 fromFront) {
     OamEntry *start;
 
     range = PopPointerStack(gOamRanges[screen].mFreeRanges);
-    interrupts = OS_DisableIrqMask(1);
+    interrupts = Os_DisableIrqHandler(1);
     if (fromFront != 0) {
         node = &gOamRanges[screen].mListStart;
         if (node != &gOamRanges[screen].mListEnd) {
@@ -110,7 +110,7 @@ OamRange *CreateOamRange(u32 screen, s32 entryCount, s32 fromFront) {
             } while (node != &gOamRanges[screen].mListEnd);
         }
         if (node == &gOamRanges[screen].mListEnd) {
-            OS_Terminate();
+            Os_Terminate();
         }
     } else {
         node = &gOamRanges[screen].mListEnd;
@@ -127,10 +127,10 @@ OamRange *CreateOamRange(u32 screen, s32 entryCount, s32 fromFront) {
             } while (node != &gOamRanges[screen].mListStart);
         }
         if (node == &gOamRanges[screen].mListStart) {
-            OS_Terminate();
+            Os_Terminate();
         }
     }
-    OS_EnableIrqMask(interrupts);
+    Os_EnableIrqHandler(interrupts);
     range->mEntryCount = entryCount;
     return range;
 }

@@ -4,4 +4,4 @@
 
 typedef struct NNSG2dFont NNSG2dFont;
 
-unsigned int GetFontGlyphImageStride(NNSG2dFont *font);
+unsigned int NFTR_SomeFn_3(NNSG2dFont *font);

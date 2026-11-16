@@ -7,37 +7,37 @@
 #include "01/Menu/record_time_attack_requests.h"
 #include "Main/Save/ghost_record_file.h"
 
-GhostRecordHead *CreateCourseGhostRecords(void *heap) {
-    return HeapAlloc(heap, 0x600u);
+GhostRecordHead *AllocateStructYE(void *heap) {
+    return Mem_AllocateHeap(heap, 0x600u);
 }
 
-void ReadCourseGhostRecords(void) {
+void TaskFunction_StructYE(void) {
     u8 ghostIndex;
     GhostRecordHead *records;
     GhostRecordHead *record;
 
-    records = gBackupBuffers->mReadDestination;
+    records = g_SaveDataHolder->mReadDestination;
     for (ghostIndex = 0; ghostIndex < 0x20; ghostIndex++) {
         record = records + ghostIndex;
-        if (IsCourseGhostBitSet(ghostIndex) != 0) {
+        if (MaybeHasPersonalGhostForCourse_from_thumb(ghostIndex) != 0) {
             ReadBackupGhostRecordHead(1, ghostIndex, record);
-            if (gBackupAccess->mBackupEnabled != 0) {
-                CARD_WaitBackupAsync();
+            if (g_SaveDataIoManager->mBackupEnabled != 0) {
+                j_WaitForPendingCardOperation();
             }
-            if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
+            if (g_SaveDataIoManager->mErrorCode != BACKUP_ERROR_NONE) {
                 record->mFilled = 0;
             }
         } else {
             record->mFilled = 0;
         }
     }
-    gBackupBuffers->mReadDestination = NULL;
-    ClearBackupBusy();
+    g_SaveDataHolder->mReadDestination = NULL;
+    ResetSaveDataHolderTaskPendingFlag_from_thumb();
 }
 
-void StartReadCourseGhostRecords(void *records) {
-    gBackupBuffers->mReadDestination = records;
-    SetBackupBusy();
-    QueueThreadFunction(ReadCourseGhostRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void SetStructYE_RunATFunction(void *records) {
+    g_SaveDataHolder->mReadDestination = records;
+    EnableMKDSSVSomeFlag_from_thumb();
+    WorkerInsertTask(TaskFunction_StructYE);
+    g_WorkerContext->mRunRequested = 1;
 }

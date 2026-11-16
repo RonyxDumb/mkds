@@ -15,11 +15,11 @@ typedef struct NNSG2dBinaryFileHeader {
     /* 0e */ u16 mDataBlocks;
 } NNSG2dBinaryFileHeader;
 
-// The header of each part of a binary file: its kind, which FindPartByTag compares, and its size.
+// The header of each part of a binary file: its kind, which Common_FindBlockByMagic compares, and its size.
 typedef struct NNSG2dBinaryBlockHeader {
     /* 00 */ u32 mKind;
     /* 04 */ u32 mSize;
 } NNSG2dBinaryBlockHeader;
 
-u32 NNS_G2dGetUnpackedScreenData(NNSG2dBinaryFileHeader *pNscrFile, NNSG2dBinaryBlockHeader **ppScrData);
-NNSG2dBinaryBlockHeader *FindPartByTag(NNSG2dBinaryFileHeader *file, u32 tag);
+u32 Screen_ReadBlock(NNSG2dBinaryFileHeader *pNscrFile, NNSG2dBinaryBlockHeader **ppScrData);
+NNSG2dBinaryBlockHeader *Common_FindBlockByMagic(NNSG2dBinaryFileHeader *file, u32 tag);

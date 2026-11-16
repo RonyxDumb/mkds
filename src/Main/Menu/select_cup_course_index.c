@@ -35,9 +35,9 @@
 #include "Main/Menu/select_cup_course.h"
 
 char *gSelectCupMNcgrName = "common/select_cup_m.nce.ncgr";
-char *gSelectCupCourseMONclrName = "common/select_cup_course_m_o.nclr";
+char *g_str_common_select_cup_course_m_o_nclr = "common/select_cup_course_m_o.nclr";
 char *gSelectCupMBnllName = "common/select_cup_m.bnll";
-char *gSelectCupCourseTaMBNcgrName = "common/select_cup_course_ta_m_b.ncgr";
+char *g_str_common_select_cup_course_ta_m_b_ncgr = "common/select_cup_course_ta_m_b.ncgr";
 const u16 gSelectCupCourseLabelCells[4] = {0x12, 0x11, 0x10, 0xf};
 const s16 gCupCourseIndicesByCourse[56] = {-1, 3, -1, -1, -1, -1, -1, -1, -1, 3,  0,  1,  2,  2,  3,  0, 1, 1, 3,
                                            3,  0, -1, 1,  1,  0,  2,  1,  0,  1,  3,  0,  2,  2,  2,  0, 0, 1, 2,
@@ -45,20 +45,20 @@ const s16 gCupCourseIndicesByCourse[56] = {-1, 3, -1, -1, -1, -1, -1, -1, -1, 3,
 char *gSelectCupMNcerName = "common/select_cup_m.nce.ncer";
 const s16 gSelectCupCourseRectCourseIndices[4] = {3, 2, 1, 0};
 char *gSelectCupCourseTaMBnllName2 = "common/select_cup_course_ta_m.bnll";
-char *gSelectCupCourseVsMNscrName = "common/select_cup_course_vs_m.nscr";
+char *g_str_common_select_cup_course_vs_m_nscr = "common/select_cup_course_vs_m.nscr";
 char *gSelectCupCourseVsMBnclName = "common/select_cup_course_vs_m.bncl";
 char *gSelectCupMBnclName = "common/select_cup_m.bncl";
-char *gSelectCupCourseVsMBNclrName = "common/select_cup_course_vs_m_b.nclr";
+char *g_str_common_select_cup_course_vs_m_b_nclr = "common/select_cup_course_vs_m_b.nclr";
 char *gSelectCupCourseCupMBnblName = "common/select_cup_m.bnbl";
 const u16 gSelectCupCourseRecordCells[8] = {7, 8, 9, 0xa, 0xb, 0xc, 0xd, 0xe};
 char *gSelectCupMBNcgrName = "common/select_cup_m_b.ncgr";
 const u16 gCupCourseNameMessageIndices[8][4] = {
     {0x2d, 0x2e, 0x2f, 0x30}, {0x31, 0x32, 0x33, 0x34}, {0x35, 0x36, 0x37, 0x38}, {0x39, 0x3a, 0x3b, 0x3c},
     {0x3d, 0x3e, 0x3f, 0x40}, {0x41, 0x42, 0x43, 0x44}, {0x45, 0x46, 0x47, 0x48}, {0x49, 0x4a, 0x4b, 0x4c}};
-char *gSelectCupCourseMNcgrName = "common/select_cup_course_m.nce.ncgr";
+char *g_str_common_select_cup_course_m_nce_ncgr = "common/select_cup_course_m.nce.ncgr";
 const u16 gSelectCupCourseTrophyCells[4] = {3, 4, 5, 6};
-char *gSelectCupCourseTaMBNclrName = "common/select_cup_course_ta_m_b.nclr";
-char *gSelectCupCourseTaMNscrName = "common/select_cup_course_ta_m.nscr";
+char *g_str_common_select_cup_course_ta_m_b_nclr = "common/select_cup_course_ta_m_b.nclr";
+char *g_str_common_select_cup_course_ta_m_nscr = "common/select_cup_course_ta_m.nscr";
 const u16 gSelectCupCourseLabelIndices[4] = {3, 2, 1, 0};
 char *gSelectCupCourseVsMBnllName = "common/select_cup_course_vs_m.bnll";
 char *gSelectCupMONclrName = "common/select_cup_m_o.nclr";
@@ -66,7 +66,7 @@ const u32 gCupRowsByCupIndex[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const u16 gSelectCupCourseLabelHeights[4] = {0xd, 0xd, 0xd, 0xd};
 char *gSelectCupMNscrName = "common/select_cup_m.nscr";
 const u16 gSelectCupCourseLabelWidths[4] = {0xa3, 0xa3, 0xa3, 0xa3};
-char *gSelectCupCourseMNcerName2 = "common/select_cup_course_m.nce.ncer";
+char *g_str_common_select_cup_course_m_nce_ncer = "common/select_cup_course_m.nce.ncer";
 const u16 gCupCourseGhostMessageIndices[8][4] = {
     {0x33, 0x34, 0x35, 0x36}, {0x37, 0x38, 0x39, 0x3a}, {0x3b, 0x3c, 0x3d, 0x3e}, {0x3f, 0x40, 0x41, 0x42},
     {0x43, 0x44, 0x45, 0x46}, {0x47, 0x48, 0x49, 0x4a}, {0x4b, 0x4c, 0x4d, 0x4e}, {0x4f, 0x50, 0x51, 0x52}};
@@ -75,7 +75,7 @@ char *gSelectCupCourseTaMBnclName2 = "common/select_cup_course_ta_m.bncl";
 const u32 gCupRowCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13},
                                     {0x22, 0x1a, 0x20, 0x1d}, {0xa, 0xb, 0xd, 0xe},     {0x23, 0x10, 0xc, 9},
                                     {0xf, 0x24, 0x25, 0x26},  {0x27, 0x17, 0x28, 1}};
-char *gSelectCupCourseVsMBNcgrName = "common/select_cup_course_vs_m_b.ncgr";
+char *g_str_common_select_cup_course_vs_m_b_ncgr = "common/select_cup_course_vs_m_b.ncgr";
 
 #pragma thumb on
 
@@ -181,7 +181,7 @@ void RequestSelectCupCourseConfirmPick(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CONFIRM_PICK;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
+        PlaySseqFromSarc(&gSharedSeqHandle, 0, 5);
     }
 }
 
@@ -196,19 +196,19 @@ void RequestSelectCupCourseWaitChoices(void) {
         case SELECT_CUP_COURSE_MODE_WITH_GHOSTS:
         case SELECT_CUP_COURSE_MODE_NO_CONNECTION:
         case SELECT_CUP_COURSE_MODE_MULTI_OTHER:
-            StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
-                               GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
+            StartSelectChoises(Bmg_GetRawStringPointer_from_thumb(selectCupCourse->mCommonMessages, 4),
+                               Bmg_GetRawStringPointer_from_thumb(selectCupCourse->mCommonMessages, 2), 0);
             break;
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
-            StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
-                               GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
+            StartSelectChoises(Bmg_GetRawStringPointer_from_thumb(selectCupCourse->mCommonMessages, 4),
+                               Bmg_GetRawStringPointer_from_thumb(selectCupCourse->mCommonMessages, 2), 0);
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-                FormatMessageWithText(
-                    GetBmgEntry(
+                MaybeHandleBmgFormatting_from_thumb(
+                    Bmg_GetRawStringPointer_from_thumb(
                         gSelectCupCourse->mGhostMessages,
-                        gCupCourseGhostMessageIndices[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]),
-                    GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
-                SetTxtSystemOpenSoundId(0x23);
+                        gCupCourseGhostMessageIndices[gCupRowsByCupIndex[GetSelectedCup_from_thumb()]][gSelectCupCourse->mIndex]),
+                    Bmg_GetRawStringPointer_from_thumb(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
+                TextSystem_SetFadeInSseqId_from_thumb(0x23);
                 SetupTxtSystemMainText(messageText);
             }
             break;
@@ -241,7 +241,7 @@ void RequestSelectCupCourseCloseChoices(void) {
         case SELECT_CUP_COURSE_MODE_MULTI_SIMPLE:
             RequestSelectChoisesHidden();
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-                RequestTxtSystemClose();
+                TextSystem_CloseDialog_from_thumb();
             }
             break;
     }
@@ -272,8 +272,8 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0x9004;
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x8300;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCupCourse = HeapAlloc(heap, sizeof(*gSelectCupCourse));
+    heap = Mem_CreateOrphanChildHeap(parentHeap);
+    gSelectCupCourse = Mem_AllocateHeap(heap, sizeof(*gSelectCupCourse));
     gSelectCupCourse->mHeap = heap;
     gSelectCupCourse->mState = SELECT_CUP_COURSE_STATE_WAIT_FADE;
     gSelectCupCourse->mIndex = gCupCourseIndicesByCourse[GetCourseId()];
@@ -286,7 +286,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse->mSubOam = subOam;
     gSelectCupCourse->mResult = 0;
     LocateAndQueueSelectCupCourse();
-    gSelectCupCourse->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gSelectCupCourse->mCommonMessages = FindFileBuffer_G2L_GE2_CKL_CKS_S2D_M2L_MA2_from_thumb("common.bmg");
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, &gSelectCupCourse->mSelectCupCourseTaOrVsMTable);
@@ -327,7 +327,7 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
         CreateSelectCupNameM(gSelectCupCourse->mHeap);
         CreateCommonCupMark(gSelectCupCourse->mHeap);
     } else {
-        gSelectCupCourse->mGhostMessages = FindSceneFile("ghost.bmg");
+        gSelectCupCourse->mGhostMessages = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb("ghost.bmg");
         InitSelectRaceRuleWait(gSelectCupCourse->mHeap, gSelectCupCourse->mSubOam);
         PlaceSelectRaceRuleWait();
     }
@@ -353,7 +353,7 @@ void ReleaseSelectCupCourse(void) {
     } else {
         ClearSelectRaceRuleWaitPointer();
     }
-    HeapDestroy(gSelectCupCourse->mHeap);
+    Mem_DestroyHeap(gSelectCupCourse->mHeap);
     gSelectCupCourse = NULL;
 }
 #pragma thumb off
@@ -362,7 +362,7 @@ void ReleaseSelectCupCourse(void) {
 
 void AdvanceSelectCupCourseWaitFade(void) {
     int fadesClear;
-    fadesClear = AreBrightnessFadesClear();
+    fadesClear = Bright_IsBothScreensFadedIn();
     if (fadesClear != 0) {
         RequestSelectCupCourseSlideIn();
     }
@@ -378,8 +378,8 @@ void AdvanceSelectCupCourseSlideIn(void) {
 
     gSelectCupCourse->mStateFrames++;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
-        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
-        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
+        ComputeValueInterpolation_from_thumb(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
+        offsetY = ComputeValueInterpolation_from_thumb(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
         if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mCount;
             gSelectCupCourse->mBg0Offset = offsetY;

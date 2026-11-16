@@ -19,7 +19,7 @@
 #include "Main/Kart/kart_participant_record.h"
 #include "Main/System/init_after_startup.h"
 
-void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
+void StructMQRacerEntry_MaybeInitializePosition(Kart *kart, s32 useCourseMapRecord) {
     MtxFx43 *rotationMatrix;
     CourseMap *courseMap;
     Vec3 startRotation;
@@ -35,11 +35,11 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
 
     if (useCourseMapRecord == 0) {
         GetCourseMapKartStartPlacement(&kart->mPos, &startRotation, kart->mIndex);
-        if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-            kart->mPos = gKartAwardStartPositions[kart->mIndex];
+        if (g_GlobalCO->mRaceKind == RACE_KIND_AWARD) {
+            kart->mPos = g_MaybeAwardPositionTable[kart->mIndex];
         }
     } else {
-        courseMap = gCourseMap;
+        courseMap = g_GlobalPE;
         if (courseMap->mRaceEndPlacements != NULL) {
             kartPos = &kart->mPos;
             if (kartPos != NULL) {
@@ -64,8 +64,8 @@ void PlaceKartAtStartPlacement(Kart *kart, s32 useCourseMapRecord) {
         normalOffset.x = MUL_FIXED12_NO_ROUND(hitNormal.x, 0x5000);
         normalOffset.y = MUL_FIXED12_NO_ROUND(hitNormal.y, 0x5000);
         normalOffset.z = MUL_FIXED12_NO_ROUND(hitNormal.z, 0x5000);
-        VEC_Subtract(&pushOut, &normalOffset, &pushOut);
-        VEC_Add(&kart->mPos, &pushOut, &kart->mPos);
+        VecFx32_Subtract(&pushOut, &normalOffset, &pushOut);
+        VecFx32_Add(&kart->mPos, &pushOut, &kart->mPos);
     }
     kart->mPos.y = kart->mPos.y - 0x1000;
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;

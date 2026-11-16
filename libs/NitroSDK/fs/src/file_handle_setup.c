@@ -1,13 +1,13 @@
 #include "file_handle_setup.h"
 #include "overlay_rom_loader.h"
 
-// Returns whether FS_Init has run.
-u32 FS_IsAvailable(void) {
-    return is_init;
+// Returns whether Fs_Initialize has run.
+u32 Fs_IsInitialized(void) {
+    return g_Fs_Init;
 }
 
 // Clears a file record so it is idle and not linked to an archive.
-void FS_InitFile(FSFile *file) {
+void Fs_File_Initialize(FSFile *file) {
     file->mLink.mPrev = 0;
     file->mLink.mNext = file->mLink.mPrev;
     file->mQueue.mTail = 0;

@@ -4,7 +4,7 @@
 #include "multiboot_file_register.h"
 #include "multiboot_parent_desc.h"
 
-struct WorkerQueue *gWorkerQueue;
+struct WorkerQueue *g_GlobalAN;
 
 #pragma thumb on
 
@@ -44,21 +44,21 @@ void MBi_TaskThread(void *argument) {
     workerQueue = argument;
     priorityWhenEmpty = 0;
     for (;;) {
-        irqState = OS_DisableInterrupts();
+        irqState = Os_DisableIrq();
         while (workerQueue->mFirstTask == NULL) {
-            OS_SetThreadPriority(&workerQueue->mThread, priorityWhenEmpty);
-            OS_SleepThread(NULL);
+            Os_Thread_SetPriority(&workerQueue->mThread, priorityWhenEmpty);
+            Os_Thread_Sleep(NULL);
         }
         task = workerQueue->mFirstTask;
         workerQueue->mFirstTask = workerQueue->mFirstTask->mNext;
-        OS_SetThreadPriority(&workerQueue->mThread, task->mPriority);
-        OS_RestoreInterrupts(irqState);
+        Os_Thread_SetPriority(&workerQueue->mThread, task->mPriority);
+        Os_RestoreIrq(irqState);
         if (task->mRun != NULL) {
             ((void (*)(WorkerTask *)) task->mRun)(task);
         }
-        savedInterrupts = OS_DisableInterrupts();
+        savedInterrupts = Os_DisableIrq();
         doneFunction = (void (*)(WorkerTask *)) task->mDone;
-        currentPriority = OS_GetThreadPriority(&workerQueue->mThread);
+        currentPriority = Os_Thread_GetPriority(&workerQueue->mThread);
         if (workerQueue->mFirstTask == NULL) {
             nextPriority = priorityWhenEmpty;
         } else if (currentPriority < workerQueue->mFirstTask->mPriority) {
@@ -67,7 +67,7 @@ void MBi_TaskThread(void *argument) {
             nextPriority = currentPriority;
         }
         if (nextPriority != currentPriority) {
-            OS_SetThreadPriority(&workerQueue->mThread, nextPriority);
+            Os_Thread_SetPriority(&workerQueue->mThread, nextPriority);
         }
         task->mNext = NULL;
         task->mInUse = 0;
@@ -77,33 +77,33 @@ void MBi_TaskThread(void *argument) {
         if (task == &workerQueue->mStopTask) {
             break;
         }
-        OS_RestoreInterrupts(savedInterrupts);
+        Os_RestoreIrq(savedInterrupts);
     }
-    OS_ExitThread();
+    Os_Thread_Exit();
 }
 
-void MBi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize) {
+void InitializeSetGlobalAN_from_thumb(WorkerQueue *workerQueue, u32 totalSize) {
     u32 savedInterrupts;
     u32 stackSize;
-    savedInterrupts = OS_DisableInterrupts();
-    if (gWorkerQueue == NULL) {
-        gWorkerQueue = workerQueue;
-        MBi_InitTaskInfo(&workerQueue->mStopTask);
+    savedInterrupts = Os_DisableIrq();
+    if (g_GlobalAN == NULL) {
+        g_GlobalAN = workerQueue;
+        StructANN_Create_from_thumb(&workerQueue->mStopTask);
         workerQueue->mFirstTask = NULL;
         stackSize = (totalSize - sizeof(WorkerQueue)) & ~3;
-        OS_CreateThread(&workerQueue->mThread, MBi_TaskThread, workerQueue, (u8 *) (workerQueue + 1) + stackSize,
+        Os_Thread_Create(&workerQueue->mThread, MBi_TaskThread, workerQueue, (u8 *) (workerQueue + 1) + stackSize,
                         stackSize, 0);
-        OS_WakeupThreadDirect(&workerQueue->mThread);
+        Os_Thread_WakeUpDirect(&workerQueue->mThread);
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-u32 MBi_IsTaskAvailable(void) {
-    if (gWorkerQueue != NULL) {
+u32 IsGlobalANSet_from_thumb(void) {
+    if (g_GlobalAN != NULL) {
         return 1;
     }
     return 0;
@@ -112,14 +112,14 @@ u32 MBi_IsTaskAvailable(void) {
 #pragma thumb off
 
 #pragma thumb on
-void MBi_InitTaskInfo(void *taskInfo) {
+void StructANN_Create_from_thumb(void *taskInfo) {
     void *target = taskInfo;
     u32 fillValue;
     u32 byteCount;
     u32 unusedScratch;
     fillValue = 0u;
     byteCount = 32u;
-    MI_CpuFill8(target, fillValue, byteCount);
+    Mem_CpuFill8(target, fillValue, byteCount);
 }
 #pragma thumb off
 
@@ -132,21 +132,21 @@ u32 MBi_IsTaskBusy(WorkerTask *task) {
     return 0;
 }
 
-void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
+void StructANN_SomeFn_from_thumb(WorkerTask *task, void *run, void *done, u32 priority) {
     WorkerQueue *workerQueue;
     u32 threadPriority;
     u32 savedInterrupts;
     WorkerTask *previous;
     WorkerTask *next;
-    workerQueue = gWorkerQueue;
-    if (MBi_IsTaskAvailable() == 0) {
-        OS_Terminate();
+    workerQueue = g_GlobalAN;
+    if (IsGlobalANSet_from_thumb() == 0) {
+        Os_Terminate();
     }
     if (task->mInUse != 0) {
-        OS_Terminate();
+        Os_Terminate();
     }
     if (priority > 31) {
-        threadPriority = OS_GetThreadPriority(&workerQueue->mThread);
+        threadPriority = Os_Thread_GetPriority(&workerQueue->mThread);
         if (priority == 32) {
             if (threadPriority != 0) {
                 priority = threadPriority - 1;
@@ -165,17 +165,17 @@ void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
             priority = 31;
         }
     }
-    savedInterrupts = OS_DisableInterrupts();
+    savedInterrupts = Os_DisableIrq();
     task->mInUse = 1;
     task->mPriority = priority;
     task->mRun = run;
     task->mDone = done;
     if (workerQueue->mFirstTask == NULL) {
         if (task == &workerQueue->mStopTask) {
-            gWorkerQueue = NULL;
+            g_GlobalAN = NULL;
         }
         workerQueue->mFirstTask = task;
-        OS_WakeupThreadDirect(&workerQueue->mThread);
+        Os_Thread_WakeUpDirect(&workerQueue->mThread);
     } else {
         previous = workerQueue->mFirstTask;
         if (task == &workerQueue->mStopTask) {
@@ -185,7 +185,7 @@ void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
                 } while (previous->mNext != NULL);
             }
             previous->mNext = task;
-            gWorkerQueue = NULL;
+            g_GlobalAN = NULL;
         } else if (previous->mPriority > priority) {
             workerQueue->mFirstTask = task;
             task->mNext = previous;
@@ -197,7 +197,7 @@ void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
             previous->mNext = task;
         }
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 #pragma thumb off
@@ -207,12 +207,12 @@ void MBi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
 void MBi_EndTaskThread(void *done) {
     u32 savedInterrupts;
     int workerActive;
-    savedInterrupts = ((s64) OS_DisableInterrupts());
-    workerActive = MBi_IsTaskAvailable();
+    savedInterrupts = ((s64) Os_DisableIrq());
+    workerActive = IsGlobalANSet_from_thumb();
     if (workerActive != 0) {
-        MBi_SetTask(&gWorkerQueue->mStopTask, NULL, done, 0);
+        StructANN_SomeFn_from_thumb(&g_GlobalAN->mStopTask, NULL, done, 0);
     }
-    OS_RestoreInterrupts(savedInterrupts);
+    Os_RestoreIrq(savedInterrupts);
 }
 
 #pragma thumb off

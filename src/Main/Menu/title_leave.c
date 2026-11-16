@@ -11,22 +11,22 @@ void UpdateTitleLeave(SceneNumbers *sceneNumbers) {
     s16 nextScenes[5] = {SCENE_MENU_1, SCENE_WL_MENU, SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD};
 
     if (sceneNumbers != NULL) {
-        switch (gTitleScene->mSelectedIndex) {
+        switch (g_SceneTitleContext->mSelectedIndex) {
             case TITLE_ENTRY_FIRST:
             case TITLE_ENTRY_OPTION:
             case TITLE_ENTRY_RECORD:
             default:
-                SetConnectionKind(CONNECTION_KIND_NONE);
+                SetGlobalPMaybeState(CONNECTION_KIND_NONE);
                 break;
             case TITLE_ENTRY_WL_MENU:
-                SetConnectionKind(CONNECTION_KIND_WL_MENU);
+                SetGlobalPMaybeState(CONNECTION_KIND_WL_MENU);
                 TitleSetWLMenuKind(0);
                 break;
             case TITLE_ENTRY_WIFI_MENU:
-                SetConnectionKind(CONNECTION_KIND_WIFI_MENU);
+                SetGlobalPMaybeState(CONNECTION_KIND_WIFI_MENU);
                 break;
         }
-        sceneNumbers->mNextScene = nextScenes[gTitleScene->mSelectedIndex];
+        sceneNumbers->mNextScene = nextScenes[g_SceneTitleContext->mSelectedIndex];
         StopSceneSeqWithFadeSteps();
     }
 }

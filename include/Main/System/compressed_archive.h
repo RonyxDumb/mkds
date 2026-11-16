@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-u32 *GetCompressedArchive(void);
+u32 *GetEmbeddedStatic2DCarcArchiveData(void);
 
-extern u32 gCompressedArchive[1251];
+extern u32 g_Static2D_carc_bin[1251];

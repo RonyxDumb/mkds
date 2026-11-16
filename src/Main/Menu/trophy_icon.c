@@ -30,7 +30,7 @@ TrophyIcon *gTrophyIcon;
 
 #pragma thumb on
 
-void LoadTrophyIconData(void) {
+void VerifySelectTrophyIconFiles_from_thumb(void) {
     void *sceneFile;
     Ncgr *chars;
     NNSG2dCellDataBank *cells;
@@ -38,24 +38,24 @@ void LoadTrophyIconData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gTrophyIconNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconNcgrName);
+    Gfx_ReadCharGraphicsV2(&chars, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconNcerName);
+    LoadCellBankFrom(&cells, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconNclrName);
+    Gfx_ReadPalette(palette, sceneFile);
 }
 
 void CreateTrophyIcon(void *heap) {
     void *sceneFile;
-    gTrophyIcon = HeapAlloc(heap, sizeof(*gTrophyIcon));
-    sceneFile = FindSceneFile(gTrophyIconNcgrName);
-    LocateNcgr2(&gTrophyIcon->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNcerName);
+    gTrophyIcon = Mem_AllocateHeap(heap, sizeof(*gTrophyIcon));
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconNcgrName);
+    Gfx_ReadCharGraphicsRelative(&gTrophyIcon->mNcgr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconNcerName);
     LocateNcer(&gTrophyIcon->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNclrName);
-    LocateNclr(&gTrophyIcon->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconBnclName);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconNclrName);
+    Gfx_ReadPaletteRelative(&gTrophyIcon->mNclr, sceneFile);
+    sceneFile = FindFileBuffer_K2D_LOC_R2D_R2L_from_thumb(gTrophyIconBnclName);
     gTrophyIcon->mBncl = sceneFile;
 }
 
@@ -82,11 +82,11 @@ void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLay
     trophyIcon = gTrophyIcon;
     QueueCellChars(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl,
                    queueSelector, destIndex, cells, cellLayout);
-    NNS_GfdRegisterNewVramTransferTask(transferKind, paletteSlot << 5,
+    AllocateReserveTEQSub(transferKind, paletteSlot << 5,
                                        gTrophyIcon->mNclr->mBytes + gTrophyIconNclrStarts[paletteIndex] * 0x20,
                                        0x20);
 }
 
-void InitMenuNop(void) {}
+void nullsub_20_from_thumb(void) {}
 
 #pragma thumb off

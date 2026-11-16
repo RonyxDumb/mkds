@@ -90,14 +90,14 @@ const MapObjectKindData gDossunKindData = {(s32(*)(MapObject *, void *, s32 *, s
 
 MapObjectKindData *CreateDossunKindData(void) {
     MapObjectKindData *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectKindData));
+    kindData = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectKindData));
     *kindData = gDossunKindData;
     return kindData;
 }
 
 MapObjectList *CreateDossunDrawList(void) {
     DossunDrawList *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(DossunDrawList));
+    drawList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(DossunDrawList));
     gDossunDrawList = drawList;
     *drawList = gDossunDrawListData;
     SetDrawListSlot(&gDossunDrawList);
@@ -106,7 +106,7 @@ MapObjectList *CreateDossunDrawList(void) {
 
 MapObjectList *CreateDossunUpdateList(void) {
     MapObjectList *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(MapObjectList));
+    updateList = Mem_AllocateHeap(ExecutionContext_GetHeapHandle(GetActiveExecutionContext()), sizeof(MapObjectList));
     gDossunUpdateList = updateList;
     *updateList = gDossunUpdateListData;
     SetUpdateListSlot(&gDossunUpdateList);

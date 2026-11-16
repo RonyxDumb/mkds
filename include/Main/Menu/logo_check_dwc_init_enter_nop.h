@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void EnterLogoCheckDwcInitNop(void *stateObject);
+void Logo_StateHandler_CheckWiFiStatus_First(void *stateObject);

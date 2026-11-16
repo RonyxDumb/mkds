@@ -3,10 +3,10 @@
 #include "types.h"
 #include "Main/Menu/second_menu_scene.h" // StateCallbacks
 
-extern StateCallbacks gLogoStateTable[12];
+extern StateCallbacks g_E7FnList0[12];
 
-void UpdateLogoDwcNoticeSecond(void *stateObject);
-void EnterLogoDwcNoticeSecond(void *stateObject);
-void UpdateLogoDwcNoticeFirst(void *stateObject);
-void EnterLogoDwcNoticeFirst(void *stateObject);
-void UpdateLogoCheckDwcInit(void *stateObject);
+void Logo_StateHandler_NotifyWiFiHelp_Second(void *stateObject);
+void Logo_StateHandler_NotifyWiFiHelp_First(void *stateObject);
+void Logo_StateHandler_NotifyWiFiIdIssue_Second(void *stateObject);
+void Logo_StateHandler_NotifyWiFiIdIssue_First(void *stateObject);
+void Logo_StateHandler_CheckWiFiStatus_Second(void *stateObject);

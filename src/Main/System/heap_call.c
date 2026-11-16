@@ -13,12 +13,12 @@
 #include "Main/Save/buddy_record_time.h"
 #include "cell_transfer_state.h"
 
-HeapCall *gCurrentHeapCall;
-s32 gDwcInitResult;
-StartupMemory gStartupMemory;
+HeapCall *g_ActiveExecutionContext;
+s32 g_DwcStatus;
+StartupMemory g_GlobalGG;
 u8 gDwcInitWork[0x700];
 
-void InitHeapCall(HeapCall *call, u32 func) {
+void ExecutionContext_Create(HeapCall *call, u32 func) {
     call->mName = NULL;
     call->mFunc = func;
     call->mAfterFunc = 0;
@@ -26,35 +26,35 @@ void InitHeapCall(HeapCall *call, u32 func) {
     call->mHeap = NULL;
 }
 
-void SetHeapCallFunc(HeapCall *call, u32 func) {
+void ExecutionContext_SetFunction(HeapCall *call, u32 func) {
     call->mFunc = func;
 }
 
-u32 RunHeapCall(HeapCall *call, u32 argument) {
+u32 ExecutionContext_Execute(HeapCall *call, u32 argument) {
     u32 result;
     void *outerHeap;
-    call->mParent = gCurrentHeapCall;
+    call->mParent = g_ActiveExecutionContext;
     if (call->mParent != NULL) {
         outerHeap = call->mParent->mHeap;
     } else {
-        outerHeap = GetArenaHeap();
+        outerHeap = GetGlobalHeapHandle();
     }
-    call->mHeap = CreateExpHeapFromMaxFree(outerHeap);
-    gCurrentHeapCall = call;
+    call->mHeap = Mem_CreateChildExpHeap(outerHeap);
+    g_ActiveExecutionContext = call;
     result = ((u32(*)(u32)) call->mFunc)(argument);
     if (call->mAfterFunc != 0) {
         ((void (*)(void)) call->mAfterFunc)();
     }
-    gCurrentHeapCall = call->mParent;
-    HeapDestroy(call->mHeap);
+    g_ActiveExecutionContext = call->mParent;
+    Mem_DestroyHeap(call->mHeap);
     call->mHeap = NULL;
     return result;
 }
 
-void *GetCurrentHeapCall(void) {
-    return gCurrentHeapCall;
+void *GetActiveExecutionContext(void) {
+    return g_ActiveExecutionContext;
 }
 
-void *GetHeap(HeapCall *call) {
+void *ExecutionContext_GetHeapHandle(HeapCall *call) {
     return call->mHeap;
 }

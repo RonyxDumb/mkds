@@ -2,6 +2,6 @@
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-u32 GetWLMenuKind(void) {
-    return (gMenuShared->mWLMenuKind);
+u32 GetB488SomeMode(void) {
+    return (g_GlobalB488->mWLMenuKind);
 }

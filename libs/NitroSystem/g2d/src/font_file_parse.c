@@ -1,7 +1,7 @@
 #include "font_file_parse.h"
 #include "reset_interrupts_halt.h"
 
-u16 NNSi_G2dSplitCharUTF16(u16 **stringPtr) {
+u16 FontEncoding_Unicode_NextCharacter(u16 **stringPtr) {
     u16 *cursor;
     u16 character;
 
@@ -32,7 +32,7 @@ static inline s32 NNS_G2dIsBinFileValid(NNSG2dBinaryFileHeader *file, u16 versio
     return 0;
 }
 
-u16 NNSi_G2dSplitCharUTF8(u8 **stringPtr) {
+u16 FontEncoding_UTF8_NextCharacter(u8 **stringPtr) {
     u8 *cursor;
     u16 character;
 
@@ -50,7 +50,7 @@ u16 NNSi_G2dSplitCharUTF8(u8 **stringPtr) {
     return character;
 }
 
-u16 NNSi_G2dSplitCharShiftJIS(u8 **stringPtr) {
+u16 FontEncoding_SJIS_NextCharacter(u8 **stringPtr) {
     u16 character;
     u8 *cursor;
 
@@ -65,7 +65,7 @@ u16 NNSi_G2dSplitCharShiftJIS(u8 **stringPtr) {
     return character;
 }
 
-u16 NNSi_G2dSplitChar1Byte(u8 **stringPtr) {
+u16 FontEncoding_CP1252_NextCharacter(u8 **stringPtr) {
     u8 *cursor;
     u8 character;
 
@@ -97,7 +97,7 @@ u32 NNSi_G2dBitReaderRead(NNSiG2dBitReader *reader, s32 bitCount) {
     return result & (0xff >> (8 - bitCount));
 }
 
-u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation **fontOut) {
+u32 NFTR_Process(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation **fontOut) {
     u32 versionIndex;
     NNSG2dBinaryBlockHeader *part;
 
@@ -106,10 +106,10 @@ u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation 
     } else if (NNS_G2dIsBinFileValid(file, 1)) {
         versionIndex = 1;
     } else {
-        OS_Terminate();
+        Os_Terminate();
     }
-    NNSi_G2dUnpackNFT(file);
-    part = FindPartByTag(file, FONT_BLOCK_INFO);
+    NFTR_MakeAbsoluteOffsets(file);
+    part = Common_FindBlockByMagic(file, FONT_BLOCK_INFO);
     if (part == 0) {
         *fontOut = 0;
         return 0;
@@ -122,7 +122,7 @@ u32 NNSi_G2dGetUnpackedFont(NNSG2dBinaryFileHeader *file, NNSG2dFontInformation 
     return versionIndex + 1;
 }
 
-void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *file) {
+void NFTR_MakeAbsoluteOffsets(NNSG2dBinaryFileHeader *file) {
     NNSG2dBinaryBlockHeader *block;
     s32 blockIndex;
     FontBlockData *blockData;

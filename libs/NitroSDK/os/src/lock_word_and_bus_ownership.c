@@ -5,22 +5,22 @@
 #include "registers.h"
 #include "00/Lib/DWC/access_point_manager.h"
 
-s32 gLockInitialized;
+s32 g_Os_LockInitialized;
 
-void OS_InitLock(void) {
+void Os_InitializeLock(void) {
     OSLockWord *lockWord;
     volatile u32 zero;
 
-    if (gLockInitialized != 0) {
+    if (g_Os_LockInitialized != 0) {
         return;
     }
-    gLockInitialized = 1;
+    g_Os_LockInitialized = 1;
     SYSTEM_WORK->mLockInit.mLockFlag = 0;
-    OS_LockByWord(0x7e, &SYSTEM_WORK->mLockInit, 0);
+    Os_Lock_TryLock(0x7e, &SYSTEM_WORK->mLockInit, 0);
     lockWord = &SYSTEM_WORK->mLockInit;
     if (lockWord->mExtension != 0) {
         do {
-            OSi_WaitByLoop();
+            Os_Lock_Wait();
         } while (lockWord->mExtension != 0);
     }
     SYSTEM_WORK->mLockIdFlagMain[0] = 0xffffffff;
@@ -29,35 +29,35 @@ void OS_InitLock(void) {
     MIi_CpuClear32(zero, &SYSTEM_WORK->mLockVramC, 0x28);
     reg_MI_EXMEMCNT |= 0x800;
     reg_MI_EXMEMCNT |= 0x80;
-    OS_UnlockByWord(0x7e, &SYSTEM_WORK->mLockInit, 0);
-    OS_LockByWord(0x7f, &SYSTEM_WORK->mLockInit, 0);
+    Os_Lock_Unlock(0x7e, &SYSTEM_WORK->mLockInit, 0);
+    Os_Lock_TryLock(0x7f, &SYSTEM_WORK->mLockInit, 0);
 }
 
-s32 OSi_DoLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
+s32 Os_Lock_TryLockImpl(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
     s32 previousFlag;
 
-    previousFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFiq);
+    previousFlag = Os_Lock_HandleTryLock(lockID, lockp, ctrlFuncp, disableFiq);
     while (previousFlag > 0) {
-        OSi_WaitByLoop();
-        previousFlag = OSi_DoTryLockByWord(lockID, lockp, ctrlFuncp, disableFiq);
+        Os_Lock_Wait();
+        previousFlag = Os_Lock_HandleTryLock(lockID, lockp, ctrlFuncp, disableFiq);
     }
     return previousFlag;
 }
 
-s32 OS_LockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
-    return OSi_DoLockByWord(lockID, lockp, ctrlFuncp, 0);
+s32 Os_Lock_TryLock(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
+    return Os_Lock_TryLockImpl(lockID, lockp, ctrlFuncp, 0);
 }
 
-s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
+s32 Os_Lock_UnlockImpl(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
     u32 savedIrqState;
 
     if (lockID != lockp->mOwnerID) {
         return -2;
     }
     if (disableFiq != 0) {
-        savedIrqState = OS_DisableInterrupts_IrqAndFiq();
+        savedIrqState = Os_DisableIrqFiq();
     } else {
-        savedIrqState = OS_DisableInterrupts();
+        savedIrqState = Os_DisableIrq();
     }
     lockp->mOwnerID = 0;
     if (ctrlFuncp != 0) {
@@ -65,27 +65,27 @@ s32 OSi_DoUnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s
     }
     lockp->mLockFlag = 0;
     if (disableFiq != 0) {
-        OS_RestoreInterrupts_IrqAndFiq(savedIrqState);
+        Os_RestoreIrqFiq(savedIrqState);
     } else {
-        OS_RestoreInterrupts(savedIrqState);
+        Os_RestoreIrq(savedIrqState);
     }
     return 0;
 }
 
-s32 OS_UnlockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
-    return OSi_DoUnlockByWord(lockID, lockp, ctrlFuncp, 0);
+s32 Os_Lock_Unlock(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void)) {
+    return Os_Lock_UnlockImpl(lockID, lockp, ctrlFuncp, 0);
 }
 
-s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
+s32 Os_Lock_HandleTryLock(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), s32 disableFiq) {
     u32 savedIrqState;
     s32 previousFlag;
 
     if (disableFiq != 0) {
-        savedIrqState = OS_DisableInterrupts_IrqAndFiq();
+        savedIrqState = Os_DisableIrqFiq();
     } else {
-        savedIrqState = OS_DisableInterrupts();
+        savedIrqState = Os_DisableIrq();
     }
-    previousFlag = MI_SwapWord(lockID, &lockp->mLockFlag);
+    previousFlag = Mem_Swap16(lockID, &lockp->mLockFlag);
     if (previousFlag == 0) {
         if (ctrlFuncp != 0) {
             ctrlFuncp();
@@ -93,55 +93,55 @@ s32 OSi_DoTryLockByWord(u16 lockID, OSLockWord *lockp, void (*ctrlFuncp)(void), 
         lockp->mOwnerID = lockID;
     }
     if (disableFiq != 0) {
-        OS_RestoreInterrupts_IrqAndFiq(savedIrqState);
+        Os_RestoreIrqFiq(savedIrqState);
     } else {
-        OS_RestoreInterrupts(savedIrqState);
+        Os_RestoreIrq(savedIrqState);
     }
     return previousFlag;
 }
 
-s32 OS_UnlockCartridge(u16 lockID) {
-    return OSi_DoUnlockByWord(lockID, &SYSTEM_WORK->mLockCartridge, OSi_FreeCartridgeBus, 1);
+s32 Operation_CartArm7(u16 lockID) {
+    return Os_Lock_UnlockImpl(lockID, &SYSTEM_WORK->mLockCartridge, SetCartOwnerArm7, 1);
 }
 
-s32 OS_TryLockCartridge(u16 lockID) {
-    return OSi_DoTryLockByWord(lockID, &SYSTEM_WORK->mLockCartridge, OSi_AllocateCartridgeBus, 1);
+s32 Operation_CartArm9(u16 lockID) {
+    return Os_Lock_HandleTryLock(lockID, &SYSTEM_WORK->mLockCartridge, SetCartOwnerArm9, 1);
 }
 
-void OSi_AllocateCartridgeBus(void) {
+void SetCartOwnerArm9(void) {
     reg_MI_EXMEMCNT &= ~0x80;
 }
 
-void OSi_FreeCartridgeBus(void) {
+void SetCartOwnerArm7(void) {
     reg_MI_EXMEMCNT |= 0x80;
 }
 
-s32 OS_LockCard(u16 lockID) {
-    return OS_LockByWord(lockID, &SYSTEM_WORK->mLockCard, OSi_AllocateCardBus);
+s32 Os_TryLockCard(u16 lockID) {
+    return Os_Lock_TryLock(lockID, &SYSTEM_WORK->mLockCard, SetCardOwnerArm9);
 }
 
-s32 OS_UnlockCard(u16 lockID) {
-    return OS_UnlockByWord(lockID, &SYSTEM_WORK->mLockCard, OSi_FreeCardBus);
+s32 Os_UnlockCard(u16 lockID) {
+    return Os_Lock_Unlock(lockID, &SYSTEM_WORK->mLockCard, SetCardOwnerArm7);
 }
 
-void OSi_AllocateCardBus(void) {
+void SetCardOwnerArm9(void) {
     reg_MI_EXMEMCNT &= ~0x800;
 }
 
-void OSi_FreeCardBus(void) {
+void SetCardOwnerArm7(void) {
     reg_MI_EXMEMCNT |= 0x800;
 }
 
-u16 OS_ReadOwnerOfLockWord(OSLockWord *lockp) {
+u16 Os_Lock_GetOwnerId(OSLockWord *lockp) {
     return lockp->mOwnerID;
 }
 
-void OSi_WaitByLoop(void) {
-    OS_SpinWait(0x1000u);
+void Os_Lock_Wait(void) {
+    Os_SpinWait(0x1000u);
 }
 
-asm s32 OS_UnLockCartridge(u16 lockID) {
-    ldr r1, =OS_UnlockCartridge
+asm s32 j_Operation_CartArm7(u16 lockID) {
+    ldr r1, =Operation_CartArm7
     bx r1
 }
 // clang-format on
@@ -151,7 +151,7 @@ asm s32 OS_UnLockCartridge(u16 lockID) {
 // 0x40 plus the bit position counted from the top for the first word, 0x60 plus it for the second, or -3 when both
 // words are zero.
 // Kept as asm: counts leading zeros with clz.
-asm s32 OS_GetLockID(void) {
+asm s32 Os_AllocateLockId(void) {
     ldr r3, =0x27fffb0
     ldr r1, [r3, #0x0]
     clz r2, r1
@@ -179,7 +179,7 @@ cd28_clear:
 // clang-format off
 // Kept as asm: sets bit lockID of the two words at 0x027fffb0 (bits 0x40 to 0x5f in the first, 0x60 and up in the
 // second). It tests with pl/mi after a compare.
-asm void OS_ReleaseLockID(u16 lockID) {
+asm void Os_ReleaseLockId(u16 lockID) {
     ldr r3, =0x27fffb0
     cmp r0, #0x60
     addpl r3, r3, #0x4

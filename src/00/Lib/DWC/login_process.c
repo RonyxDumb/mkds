@@ -63,7 +63,7 @@ void DWCi_LoginProcess(void) {
                 GpUpdate(wiFiLogin->mGpConnection);
             }
             if (gWiFiLogin->mConnectPending != FALSE) {
-                if ((((u64) OS_GetTick() - gWiFiLogin->mConnectStartTime) << 6) / 0x82ea > 0xea60) {
+                if ((((u64) Os_GetTick() - gWiFiLogin->mConnectStartTime) << 6) / 0x82ea > 0xea60) {
                     DWCi_StopLogin(6, -61070);
                     gWiFiLogin->mConnectPending = FALSE;
                 }
@@ -193,7 +193,7 @@ void DWCi_GPConnect(char *authToken, char *partnerChallenge, void (*callback)(),
     strcpy(gWiFiLogin->mAuthToken, authToken);
     strcpy(gWiFiLogin->mPartnerChallenge, partnerChallenge);
     loginObject = gWiFiLogin;
-    connectTick = OS_GetTick();
+    connectTick = Os_GetTick();
     loginObject->mConnectStartTime = connectTick;
     loginObject->mConnectPending = TRUE;
     wiFiLogin = gWiFiLogin;
@@ -212,36 +212,36 @@ void DWCi_RemoteLogin(void (*callback)(), void *param) {
     AuthCreateParams authParams;
     void *httpBlock;
     u64 startTick;
-    MI_CpuFill8(&authParams, 0, sizeof(AuthCreateParams));
+    Mem_CpuFill8(&authParams, 0, sizeof(AuthCreateParams));
     stRemoteAuthCallback = callback;
     pStRemoteAuthParam = param;
-    if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUserData) != 0) {
-        DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mUserData->mAuthentic, gWiFiLogin->mUserData->mGamecode,
+    if (PlayerProfileInfo_FriendCode2_HasState1_from_thumb(gWiFiLogin->mUserData) != 0) {
+        FriendCode_SomeFn_7_from_thumb(&gWiFiLogin->mUserData->mAuthentic, gWiFiLogin->mUserData->mGamecode,
                                    gWiFiLogin->mUsername);
     } else {
-        if (IsFriendDataLoginId(&gWiFiLogin->mTempLoginId) == 0) {
+        if (FriendCode_IsState1_from_thumb(&gWiFiLogin->mTempLoginId) == 0) {
             if (DWCi_Acc_CheckConsoleUserId(&gWiFiLogin->mUserData->mPseudo) != 0) {
                 gWiFiLogin->mTempLoginId = gWiFiLogin->mUserData->mPseudo;
             } else {
-                DWCi_Acc_CreateTempLoginId(&gWiFiLogin->mTempLoginId);
+                FriendCode_CreateFrom_from_thumb(&gWiFiLogin->mTempLoginId);
             }
         } else {
-            DWCi_Acc_SetPlayerId(&gWiFiLogin->mTempLoginId, ((s64) OS_GetTick() * 0x5d588b656c078965 + 0x269ec3) >> 32);
+            FriendCode_SetCrcChecksum_from_thumb(&gWiFiLogin->mTempLoginId, ((s64) Os_GetTick() * 0x5d588b656c078965 + 0x269ec3) >> 32);
         }
-        DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mTempLoginId, gWiFiLogin->mGamecode, gWiFiLogin->mUsername);
+        FriendCode_SomeFn_7_from_thumb(&gWiFiLogin->mTempLoginId, gWiFiLogin->mGamecode, gWiFiLogin->mUsername);
     }
     strcpy(authParams.mGsbrcd, gWiFiLogin->mGsbrcd);
     authParams.mAlloc = (void *(*) (const void *, u32)) DWC_Alloc;
     authParams.mFree = (void (*)(const void *, void *, u32)) DWC_Free;
     httpBlock = DWC_AllocEx(0, 0x1a60, 4);
     gWiFiLogin->mHttp = httpBlock;
-    startTick = OS_GetTick();
+    startTick = Os_GetTick();
     gWiFiLogin->mRequestStartTime = startTick;
     DWC_Auth_Create(&authParams, httpBlock);
 }
 
 // State 1 step of DWCi_LoginProcess (every frame while mState is 1): when the reply is done (status 0x14) copies the
-// token and the second string, frees the Http and goes on through the stored callback (when DWCi_Acc_IsAuthentic
+// token and the second string, frees the Http and goes on through the stored callback (when PlayerProfileInfo_FriendCode2_HasState1_from_thumb
 // accepts the saved record) or DWCi_GPConnect with state 3; while the request runs, reports error 2 after 10
 // s, otherwise closes it and issues it again.
 void DWCi_RemoteLoginProcess(void) {
@@ -255,14 +255,14 @@ void DWCi_RemoteLoginProcess(void) {
         DWC_Auth_Destroy();
         DWC_Free(0, gWiFiLogin->mHttp, 0);
         gWiFiLogin->mHttp = NULL;
-        if (DWCi_Acc_IsAuthentic(gWiFiLogin->mUserData) != 0) {
+        if (PlayerProfileInfo_FriendCode2_HasState1_from_thumb(gWiFiLogin->mUserData) != 0) {
             stRemoteAuthCallback(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, pStRemoteAuthParam);
         } else {
             DWCi_GPConnect(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, DWCi_GPConnectCallback,
                            WIFI_LOGIN_CONNECT_NEW_ID);
         }
     } else if (DWC_Auth_GetError() != 0) {
-        if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
+        if ((((u64) Os_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
             DWC_Auth_GetResult(&failedAuthResult.mReturnCode);
             DWC_Auth_Destroy();
             DWC_Free(0, gWiFiLogin->mHttp, 0);
@@ -270,7 +270,7 @@ void DWCi_RemoteLoginProcess(void) {
             DWCi_StopLogin(2, failedAuthResult.mReturnCode);
         } else {
             DWC_Auth_Destroy();
-            MI_CpuFill8(&authParams, 0, sizeof(AuthCreateParams));
+            Mem_CpuFill8(&authParams, 0, sizeof(AuthCreateParams));
             strcpy(authParams.mGsbrcd, gWiFiLogin->mGsbrcd);
             authParams.mAlloc = (void *(*) (const void *, u32)) DWC_Alloc;
             authParams.mFree = (void (*)(const void *, void *, u32)) DWC_Free;
@@ -290,7 +290,7 @@ void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 par
     wiFiLogin = gWiFiLogin;
     if (wiFiLogin->mState == WIFI_LOGIN_CONNECT_NEW_ID) {
         if ((s8) arg->mLastname[0] == 0) {
-            DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, lastNameToSet);
+            FriendCode_SomeFn_7_from_thumb(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, lastNameToSet);
             if (ReportWiFiLoginGpResult(GpSetInfosA(connection, 0x705, (const s8 *) lastNameToSet)) == 0) {
                 gWiFiLogin->mState = WIFI_LOGIN_CHECK_NEW_ID_NAME;
                 if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) !=
@@ -304,9 +304,9 @@ void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 par
             gWiFiLogin->mState = WIFI_LOGIN_WAIT_AUTH_REPLY;
         }
     } else if (wiFiLogin->mState == WIFI_LOGIN_CHECK_NEW_ID_NAME) {
-        DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, accountName);
+        FriendCode_SomeFn_7_from_thumb(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, accountName);
         if (strcmp(arg->mLastname, accountName) == 0) {
-            DWCi_Acc_LoginIdToUserName(&gWiFiLogin->mTempLoginId, gWiFiLogin->mGamecode, tempUserName);
+            FriendCode_SomeFn_7_from_thumb(&gWiFiLogin->mTempLoginId, gWiFiLogin->mGamecode, tempUserName);
             DWCi_Acc_SetLoginIdToUserData(gWiFiLogin->mUserData, &gWiFiLogin->mTempLoginId, arg->mProfile);
             GpDisconnect(connection);
             stRemoteAuthCallback(gWiFiLogin->mAuthToken, gWiFiLogin->mPartnerChallenge, pStRemoteAuthParam);

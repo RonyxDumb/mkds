@@ -118,5 +118,5 @@ u32 SelectKartHasPairOrLost(InputSlotPair *pair) {
 }
 
 u32 SelectKartSlotHasPairOrLost(u32 slot) {
-    return SelectKartHasPairOrLost(&gInputSlots[slot].mPair);
+    return SelectKartHasPairOrLost(&g_GlobalCYT[slot].mPair);
 }

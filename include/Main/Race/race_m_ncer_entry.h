@@ -3,4 +3,4 @@
 
 typedef struct NNSG2dCellDataWithBR NNSG2dCellDataWithBR;
 
-NNSG2dCellDataWithBR *GetRaceMNcerEntry(u32 cellIndex);
+NNSG2dCellDataWithBR *GetB3C4_Cell_RaceM(u32 cellIndex);

@@ -11,9 +11,9 @@ WordPair FloatTrapDispatch(WordPair firstPair, WordPair secondPair, u32 statusFl
     FloatTrapTable *floatTrapTable;
     FloatTrapHandlerFunc fn;
 
-    floatTrapTable = GetFloatTrapTable();
+    floatTrapTable = GetGammaFuncsRef();
     if ((statusFlags & 0xc00000) == 0) {
-        statusFlags |= FloatStatusClearXor(0, 0) & 0xc00000;
+        statusFlags |= ChangeSomeAlphaFlags(0, 0) & 0xc00000;
     }
     switch (statusFlags & 0x7c000000) {
         case 0x40000000:

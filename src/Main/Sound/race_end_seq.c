@@ -27,7 +27,7 @@
 s32 gRaceEndSeqCallCount;
 s32 gRaceEndNextSeqPending;
 s32 gRaceEndSeqStarted;
-SeqRowState gSeqRowState;
+SeqRowState g_GlobalCX;
 
 void UpdateRaceEndSeq(void) {
     s32 resultKind;
@@ -51,7 +51,7 @@ void UpdateRaceEndSeq(void) {
     if (gRaceEndNextSeqPending == 0) {
         return;
     }
-    seqRow = gSeqRowState.mSeqRow;
+    seqRow = g_GlobalCX.mSeqRow;
     seqId = 0xff;
     switch (resultKind) {
         case RACE_END_RESULT_BEST:
@@ -74,7 +74,7 @@ s32 GetKartSeqArcSoundOffsetByRank(s32 kartRank) {
     if (kartRank == 1) {
         result = 9;
     } else {
-        switch (gRaceSetup->mKartCount) {
+        switch (g_GlobalCO->mKartCount) {
             case 4:
             case 5:
                 if (kartRank < 3) {
@@ -99,13 +99,13 @@ s32 GetRaceEndResultKind(void) {
     s32 candidateKind;
     RaceSetup *raceSetup;
     resultKind = -1;
-    raceSetup = gRaceSetup;
+    raceSetup = g_GlobalCO;
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_WIFI:
-            switch (gSeqRowState.mFinishResult) {
+            switch (g_GlobalCX.mFinishResult) {
                 case FINISH_RESULT_WON:
-                    if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
+                    if (GetSomeRacerFlags((u16) raceSetup->mEntryIndex) - 1 == 0) {
                         candidateKind = RACE_END_RESULT_BEST;
                     } else {
                         candidateKind = RACE_END_RESULT_WON;
@@ -121,11 +121,11 @@ s32 GetRaceEndResultKind(void) {
         case MODE_VS:
             if (raceSetup->mRuleKind == RULE_KIND_WIN_COUNT) {
                 resultKind =
-                    (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
+                    (g_GlobalCX.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
             } else {
-                switch (gSeqRowState.mFinishResult) {
+                switch (g_GlobalCX.mFinishResult) {
                     case FINISH_RESULT_WON:
-                        if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
+                        if (GetSomeRacerFlags((u16) raceSetup->mEntryIndex) - 1 == 0) {
                             candidateKind = RACE_END_RESULT_BEST;
                         } else {
                             candidateKind = RACE_END_RESULT_WON;
@@ -141,14 +141,14 @@ s32 GetRaceEndResultKind(void) {
             break;
         case MODE_MISSION_RUN:
             resultKind =
-                (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
+                (g_GlobalCX.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
             break;
         case MODE_BATTLE:
             resultKind =
-                (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
+                (g_GlobalCX.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_BEST : RACE_END_RESULT_LOST;
             break;
         case MODE_TIME_ATTACK:
-            resultKind = (gSeqRowState.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_WON : RACE_END_RESULT_LOST;
+            resultKind = (g_GlobalCX.mFinishResult == FINISH_RESULT_WON) ? RACE_END_RESULT_WON : RACE_END_RESULT_LOST;
             if (resultKind == IsRaceNewRecordTaFinishRecordFirst()) {
                 resultKind = RACE_END_RESULT_BEST;
             }
@@ -159,13 +159,13 @@ s32 GetRaceEndResultKind(void) {
 
 // When the race kind is 0 or 2 and the sound mode is 2, starts the race end seq for the result kind and arms
 // UpdateRaceEndSeq to start the follow-up seq.
-void StartRaceEndSeq(s32 unused) {
+void MaybePlayCrowdAmbientNoise(s32 unused) {
     s32 seqId;
     s32 resultKind;
     u32 value;
     u32 *seqRow;
     seqId = -1;
-    value = gRaceSetup->mRaceKind;
+    value = g_GlobalCO->mRaceKind;
     if (value != RACE_KIND_REPLAY && value != RACE_KIND_NORMAL) {
         return;
     }
@@ -174,7 +174,7 @@ void StartRaceEndSeq(s32 unused) {
     }
     EndRaceSounds();
     resultKind = GetRaceEndResultKind();
-    seqRow = gSeqRowState.mSeqRow;
+    seqRow = g_GlobalCX.mSeqRow;
     value = 0xff;
     switch (resultKind) {
         case RACE_END_RESULT_BEST:
@@ -190,7 +190,7 @@ void StartRaceEndSeq(s32 unused) {
     StartScenePlayersSeqNo(&gScenePlayers, value, NULL);
     gRaceEndSeqStarted = 1;
     gRaceEndNextSeqPending = 1;
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_STADIUM:
             switch (resultKind) {
                 case RACE_END_RESULT_BEST:
@@ -229,7 +229,7 @@ void StartRaceEndSeq(s32 unused) {
         return;
     }
     StopSndHandleSlots7To11();
-    NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (u16) seqId);
+    PlaySseqFromSarc(&gSharedSeqHandle, 0, (u16) seqId);
 }
 
 s32 GetLastLapCourseSoundId(void) {
@@ -237,7 +237,7 @@ s32 GetLastLapCourseSoundId(void) {
     s32 resultKind;
     resultKind = GetRaceEndResultKind();
     seqId = -1;
-    switch (gRaceSetup->mCourseId) {
+    switch (g_GlobalCO->mCourseId) {
         case COURSE_ID_CROSS:
             switch (resultKind) {
                 case RACE_END_RESULT_BEST:
@@ -280,7 +280,7 @@ static inline void SetHandleSlotSeq(NNSSndSeqPlayer **handleSlot, u32 seqId) {
             if (*handleSlot != NULL) {
                 NNS_SndPlayerStopSeq(handleSlot, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(handleSlot, 0, seqId);
+            PlaySseqFromSarc(handleSlot, 0, seqId);
         }
     } else if (*handleSlot != NULL) {
         NNS_SndPlayerStopSeq(handleSlot, 0);
@@ -345,7 +345,7 @@ void StartEmblemSound(s32 soundValue) {
     if (*handleSlot != NULL) {
         NNS_SndPlayerStopSeq(handleSlot, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(handleSlot, 0, (u16) seqId);
+    PlaySseqFromSarc(handleSlot, 0, (u16) seqId);
     gEmblemSoundPlayCount = gEmblemSoundPlayCount + 1;
     if (handleSlot != NULL) {
         switch (gEmblemSoundPitchCounter % 3) {

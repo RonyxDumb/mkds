@@ -26,7 +26,7 @@ void UpdatePushedObjectTumble(void *stateObject) {
         object->mMotion.mAngle = object->mMotion.mAngle - object->mMotion.mAngleStep;
     }
     object->mMapObject.mPosStep.y -= object->mMotion.mGravity;
-    VEC_Add(&object->mMapObject.mPos, &object->mMapObject.mPosStep, &object->mMapObject.mPos);
+    VecFx32_Add(&object->mMapObject.mPos, &object->mMapObject.mPosStep, &object->mMapObject.mPos);
     if (object->mMapObject.mPos.y < object->mMotion.mLowestY) {
         object->mMapObject.mStateMachine.mNextState = PUSHED_OBJECT_STATE_PARK;
         object->mMapObject.mStateMachine.mNextStateRequested = 1;

@@ -13,11 +13,11 @@ typedef struct DWCAuthWiFiId {
 
 extern const u8 DWCi_SETTING_NONE[];
 
-void initPage(u8 *work, u32 page);
-s32 init(u8 *work);
-BOOL checkAp(const u8 *ap);
-s32 DWC_BM_Init(u8 *work);
+void StructDC_CleanDCSub_from_thumb(u8 *work, u32 page);
+s32 StructDC_SomeFn_from_thumb(u8 *work);
+BOOL StructDCSub_SomeFn_from_thumb(const u8 *ap);
+s32 StructDC_SomeFn_2_from_thumb(u8 *work);
 BOOL DWC_Auth_CheckWiFiIDNeedCreate(void);
-void DWC_Auth_GetId(DWCAuthWiFiId *id);
+void StructDW_SomeFn_GetSomething_from_thumb(DWCAuthWiFiId *id);
 BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info);
 BOOL DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *info, u8 *work);

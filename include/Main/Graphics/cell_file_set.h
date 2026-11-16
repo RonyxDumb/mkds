@@ -39,7 +39,7 @@ void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const c
 void QueueScreenMapFileSet(u32 screen, void *fileSetPointer, u32 index);
 s32 SetupLabelCanvas(u32 screen, void *heap, CellFileSet *fileSet, const void *entryPointer, s32 objSizeLeft);
 void SetupCellFileSet(u32 screen, void *heap, CellFileSet *fileSet);
-void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
+void PlayerGfxData_Create_from_thumb(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                      const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                      void *(*findFile)(const char *) );
 void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,

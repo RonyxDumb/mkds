@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/System/input_slots.h"
 
-void LoadSelectKartData(void);
+void VerifySelectKartFiles_from_thumb(void);
 
 void WriteSelectKartRegisters(void);
 void SelectKartG2S_SetWnd0Position(u32 startX, u32 startY, u32 endX, u32 endY);

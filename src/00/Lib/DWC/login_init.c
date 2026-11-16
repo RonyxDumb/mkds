@@ -14,7 +14,7 @@ u32 DWCi_GetPersCallbackLevel(void) {
 void InitWiFiLogin(WiFiLogin *login, DWCAccUserData *userData, GpConnection *gpConnection, u32 productId, u32 gamecode,
                    void (*resultCallback)(), void *resultCallbackArg) {
     gWiFiLogin = login;
-    MI_CpuFill8(login, 0, sizeof(WiFiLogin));
+    Mem_CpuFill8(login, 0, sizeof(WiFiLogin));
     gWiFiLogin->mGpConnection = gpConnection;
     gWiFiLogin->mState = WIFI_LOGIN_IDLE;
     gWiFiLogin->mProductId = productId;

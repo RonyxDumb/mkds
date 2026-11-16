@@ -4,5 +4,5 @@
 
 typedef struct EmblemBlockData EmblemBlockData;
 
-void ReadBackupEmblemBlock(EmblemBlockData *blockData, s32 blockIndex);
-void WriteBackupEmblemBlock(EmblemBlockData *blockData, s32 blockIndex);
+void ReadSaveChunk_NKFE_from_thumb(EmblemBlockData *blockData, s32 blockIndex);
+void WriteSaveChunk_NKFE_from_thumb(EmblemBlockData *blockData, s32 blockIndex);

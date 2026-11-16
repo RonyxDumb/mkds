@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void init_cp15(void);
+void Crt0_InitializePU(void);

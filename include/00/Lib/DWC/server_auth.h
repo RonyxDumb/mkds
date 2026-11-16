@@ -40,7 +40,7 @@ typedef enum HttpResult {
     HTTP_RESULT_DONE
 } HttpResult;
 
-// An HTTP connection: parameters, URL, socket, https state, send and receive buffers, thread and abort flag.
+// An HTTP connection: parameters, URL, socket, https state, send and receive buffers, thread and OnAssertionFailed flag.
 typedef struct Http {
     /* 000 */ u8 mInitFlag;
     /* 004 */ DWCHttpParam mParam;
@@ -102,7 +102,7 @@ enum {
 // Size of the block DWCi_Auth allocates under the name "bmwork" for the update id and new id results.
 #define AUTH_BMWORK_BYTES 0x71f
 
-// The server login: reply strings (token, challenge, cookie), HTTP labels, its Http connection, thread and abort flag.
+// The server login: reply strings (token, challenge, cookie), HTTP labels, its Http connection, thread and OnAssertionFailed flag.
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
     /* 004 */ s32 mError;

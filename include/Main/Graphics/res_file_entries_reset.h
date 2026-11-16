@@ -3,6 +3,6 @@
 #include "types.h"
 #include "sound_archive_load.h"
 
-void ResetResFileEntries(void);
+void InitializeLoadedModelTextureList(void);
 
-extern NNSFndList gResFileEntries;
+extern NNSFndList g_LoadedModelTextureList;

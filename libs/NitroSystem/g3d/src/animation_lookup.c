@@ -6,7 +6,7 @@ Vec3 gSbcBillboardPosition = {0, 0, 0};
 Vec3 gSbcBillboardScale = {0, 0, 0};
 #pragma explicit_zero_data off
 
-NNSG3dResTexPatAnm *NNS_G3dGetTexPatAnmByIdx(NNSG3dResTexPatAnmSet *pAnmSet, u8 idx) {
+NNSG3dResTexPatAnm *BTP0_LoadRawData(NNSG3dResTexPatAnmSet *pAnmSet, u8 idx) {
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResDictAnmSetData *setEntry;
 
@@ -15,11 +15,11 @@ NNSG3dResTexPatAnm *NNS_G3dGetTexPatAnmByIdx(NNSG3dResTexPatAnmSet *pAnmSet, u8 
     return OFFSET_PTR(NNSG3dResTexPatAnm, pAnmSet, setEntry->mOffset);
 }
 
-NNSG3dResTexPatAnmSet *NNS_G3dGetTexPatAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_TEXTURE_PATTERN_ANIM, 0x30544150);
+NNSG3dResTexPatAnmSet *MaybeLoadBTP0Format(const u8 *pFileHead) {
+    return Anim_LoadFindAnimationBlock(pFileHead, FILE_SIGNATURE_TEXTURE_PATTERN_ANIM, 0x30544150);
 }
 
-NNSG3dResTexSRTAnm *NNS_G3dGetTexSRTAnmByIdx(NNSG3dResTexSRTAnmSet *pTexSRTSet, u8 idx) {
+NNSG3dResTexSRTAnm *BTA0_LoadRawData(NNSG3dResTexSRTAnmSet *pTexSRTSet, u8 idx) {
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResDictAnmSetData *setEntry;
 
@@ -28,11 +28,11 @@ NNSG3dResTexSRTAnm *NNS_G3dGetTexSRTAnmByIdx(NNSG3dResTexSRTAnmSet *pTexSRTSet, 
     return OFFSET_PTR(NNSG3dResTexSRTAnm, pTexSRTSet, setEntry->mOffset);
 }
 
-NNSG3dResTexSRTAnmSet *NNS_G3dGetTexSRTAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_TEXTURE_SRT_ANIM, 0x30545253);
+NNSG3dResTexSRTAnmSet *MaybeLoadBTA0Format(const u8 *pFileHead) {
+    return Anim_LoadFindAnimationBlock(pFileHead, FILE_SIGNATURE_TEXTURE_SRT_ANIM, 0x30545253);
 }
 
-NNSG3dResMatCAnm *NNS_G3dGetMatCAnmByIdx(NNSG3dResMatCAnmSet *pAnmSet, u8 idx) {
+NNSG3dResMatCAnm *BMA0_LoadRawData(NNSG3dResMatCAnmSet *pAnmSet, u8 idx) {
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResDictAnmSetData *setEntry;
 
@@ -41,11 +41,11 @@ NNSG3dResMatCAnm *NNS_G3dGetMatCAnmByIdx(NNSG3dResMatCAnmSet *pAnmSet, u8 idx) {
     return OFFSET_PTR(NNSG3dResMatCAnm, pAnmSet, setEntry->mOffset);
 }
 
-NNSG3dResMatCAnmSet *NNS_G3dGetMatCAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_MATERIAL_COLOR_ANIM, 0x3054414d);
+NNSG3dResMatCAnmSet *MaybeLoadBMA0Format(const u8 *pFileHead) {
+    return Anim_LoadFindAnimationBlock(pFileHead, FILE_SIGNATURE_MATERIAL_COLOR_ANIM, 0x3054414d);
 }
 
-NNSG3dResJntAnm *NNS_G3dGetJntAnmByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx) {
+NNSG3dResJntAnm *JNT0_LoadJointByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx) {
     NNSG3dResDictEntryHeader *dictEntries;
     NNSG3dResDictAnmSetData *setEntry;
 
@@ -54,8 +54,8 @@ NNSG3dResJntAnm *NNS_G3dGetJntAnmByIdx(NNSG3dResJntAnmSet *pJntAnmSet, int idx) 
     return OFFSET_PTR(NNSG3dResJntAnm, pJntAnmSet, setEntry->mOffset);
 }
 
-NNSG3dResJntAnmSet *NNS_G3dGetJntAnmSet(const u8 *pFileHead) {
-    return NNSi_G3dGetBinaryBlockFromFile(pFileHead, FILE_SIGNATURE_JOINT_ANIM, 0x30544e4a);
+NNSG3dResJntAnmSet *Anim_NSBCA_LoadGetJNT0Block(const u8 *pFileHead) {
+    return Anim_LoadFindAnimationBlock(pFileHead, FILE_SIGNATURE_JOINT_ANIM, 0x30544e4a);
 }
 
 // Dictionaries of 16 or more entries are searched through their tree.
@@ -109,7 +109,7 @@ void *NNS_G3dGetResDataByName(const void *dict, const u32 *name) {
 }
 
 // Dictionaries of 16 or more entries are searched through their tree.
-int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
+int Dict_SomeFn_0(const void *dict, const u32 *name) {
     const NNSG3dResDict *resDict;
     const NNSG3dResDictEntryHeader *dictEntries;
     const NNSG3dResDictTreeNode *base;
@@ -156,7 +156,7 @@ int NNS_G3dGetResDictIdxByName(const void *dict, const u32 *name) {
     return -1;
 }
 
-NNSG3dResDataBlockHeader *NNS_G3dGetDataBlockHeaderByIdx(const NNSG3dResFileHeader *header, u32 idx) {
+NNSG3dResDataBlockHeader *Anim_GetBlock(const NNSG3dResFileHeader *header, u32 idx) {
     u32 *blockOffsets;
 
     blockOffsets = OFFSET_PTR(u32, header, header->mHeaderSize);
