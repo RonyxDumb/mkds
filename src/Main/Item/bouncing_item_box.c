@@ -314,7 +314,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
     reg_G3_TEXIMAGE_PARAM = model->mTeximageParam;
-    reg_G3_PLTT_BASE = model->mPlttBase;
+    reg_G3_TEXPLTT_BASE = model->mPlttBase;
     reg_G3_DIF_AMB = model->mDifAmb;
     reg_G3_SPE_EMI = model->mSpeEmi;
     reg_G3_MTX_MODE = 0;
@@ -339,12 +339,12 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         reg_G3_VTX_16 = quad->mCorners[0].mWord;
         reg_G3_VTX_16 = 0;
         reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16;
-        reg_G3_VTX_DIFF = quad->mCorners[1].mWord;
+        reg_G3_VTX_XY = quad->mCorners[1].mWord;
         reg_G3_TEXCOORD =
             (u16) ((s32) (model->mTexSizeT << 8) >> 16) | ((u16) ((s32) (model->mTexSizeS << 8) >> 16) << 16);
-        reg_G3_VTX_DIFF = quad->mCorners[2].mWord;
+        reg_G3_VTX_XY = quad->mCorners[2].mWord;
         reg_G3_TEXCOORD = (u16) ((s32) (model->mTexSizeT << 8) >> 16);
-        reg_G3_VTX_DIFF = quad->mCorners[3].mWord;
+        reg_G3_VTX_XY = quad->mCorners[3].mWord;
         reg_G3_END_VTXS = 0;
         quadIndex++;
     } while (quadIndex < gOrthoQuadCount);

@@ -305,15 +305,15 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
     }
     enabled = OS_DisableInterrupts();
     reg_CP_DIVCNT = 0;
-    reg_CP_DIV_NUMER_LO = (rawX1 - rawX2) << 8;
+    reg_CP_DIV_NUMER_L = (rawX1 - rawX2) << 8;
     reg_CP_DIV_DENOM = (u32) (dx1 - dx2);
     ryWidth = rawY1 - rawY2;
     dyWidth = dy1 - dy2;
     while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
-    value = reg_CP_DIV_RESULT_LO;
+    value = reg_CP_DIV_RESULT_L;
     reg_CP_DIVCNT = 0;
-    reg_CP_DIV_NUMER_LO = ryWidth << 8;
+    reg_CP_DIV_NUMER_L = ryWidth << 8;
     reg_CP_DIV_DENOM = dyWidth;
     if (value >= 0x8000 || value < -0x8000) {
         OS_RestoreInterrupts(enabled);
@@ -328,7 +328,7 @@ u32 TP_CalcCalibrateParam(TPCalibrateParam *calibrate, u16 rawX1, u16 rawY1, u16
     calibrate->mX0 = value;
     while (reg_CP_DIVCNT & REG_CP_DIVCNT_BUSY_MASK) {
     }
-    value = reg_CP_DIV_RESULT_LO;
+    value = reg_CP_DIV_RESULT_L;
     OS_RestoreInterrupts(enabled);
     if (value >= 0x8000 || value < -0x8000) {
         return 1;

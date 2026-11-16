@@ -402,7 +402,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     s32 unusedValue;
     reg_G3_TEXIMAGE_PARAM = texPlttEntry->mTexImageParam;
     if (texPlttEntry->mPlttByteCount != 0) {
-        reg_G3_PLTT_BASE = texPlttEntry->mPlttOffset >> (4 - ((texPlttEntry->mTexImageParam >> 26 & 7) == 2));
+        reg_G3_TEXPLTT_BASE = texPlttEntry->mPlttOffset >> (4 - ((texPlttEntry->mTexImageParam >> 26 & 7) == 2));
     }
     MTX_Identity43_(&quadMatrix);
     quadMatrix.mRows[3] = kartObject->mPos;

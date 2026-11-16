@@ -543,7 +543,7 @@ void DrawPosStrips(const MtxFx43 *matrix) {
             reg_G3_MTX_IDENTITY = 0;
             reg_G3_MTX_MODE = 2;
             reg_G3_TEXIMAGE_PARAM = gPosStripTexture.mTexImageParam;
-            reg_G3_PLTT_BASE = gPosStripTexture.mPlttBase >> (4 - ((gPosStripTexture.mTexImageParam >> 26 & 7) == 2));
+            reg_G3_TEXPLTT_BASE = gPosStripTexture.mPlttBase >> (4 - ((gPosStripTexture.mTexImageParam >> 26 & 7) == 2));
             isDrawStateSet = TRUE;
         }
         reg_G3_COLOR = 0x7fff;

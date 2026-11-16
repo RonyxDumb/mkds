@@ -105,15 +105,15 @@ int CARDi_ReadFromCache(CARDRomStat *romStat) {
 void CARDi_SetRomOp(u32 cmd1, u32 cmd2) {
     while (reg_MI_MCCNT1 & 0x80000000) {
     }
-    reg_MI_MCCNT0_HI = 0xc0;
-    reg_MI_MCCMD0 = cmd1 >> 24;
-    reg_MI_MCCMD1 = cmd1 >> 16;
-    reg_MI_MCCMD2 = cmd1 >> 8;
-    reg_MI_MCCMD3 = cmd1;
-    reg_MI_MCCMD4 = cmd2 >> 24;
-    reg_MI_MCCMD5 = cmd2 >> 16;
-    reg_MI_MCCMD6 = cmd2 >> 8;
-    reg_MI_MCCMD7 = cmd2;
+    reg_MI_MCCNT0_B1 = 0xc0;
+    reg_MI_MCCMD0_B0 = cmd1 >> 24;
+    reg_MI_MCCMD0_B1 = cmd1 >> 16;
+    reg_MI_MCCMD0_B2 = cmd1 >> 8;
+    reg_MI_MCCMD0_B3 = cmd1;
+    reg_MI_MCCMD1_B0 = cmd2 >> 24;
+    reg_MI_MCCMD1_B1 = cmd2 >> 16;
+    reg_MI_MCCMD1_B2 = cmd2 >> 8;
+    reg_MI_MCCMD1_B3 = cmd2;
 }
 
 // Starts a DMA of one ROM page into CARDiCommon.mDst and the read command for CARDiCommon.mSrc.

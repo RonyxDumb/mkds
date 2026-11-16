@@ -1714,7 +1714,7 @@ void SPLUtil_SetTexture(ParticleTexture *tex) {
     texParam = tex->mParam;
     SetTexImageParam(tex->mTextureVramAddr, texParam.mFormat, texParam.mSizeS, texParam.mSizeT, texParam.mWrapS,
                      texParam.mWrapT, texParam.mColor0Transparent);
-    reg_G3_PLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0));
+    reg_G3_TEXPLTT_BASE = tex->mPaletteVramAddr >> (4 - (texParam.mFormat == PARTICLE_TEXTURE_FORMAT_FOUR_COLOR ? 1 : 0));
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     scaleX = TO_FIXED12(tex->mWidth);
