@@ -13,15 +13,18 @@
 #include "Main/Graphics/text_canvas.h" // TextCanvas
 #include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h" // SoundHandlePool
 
-// Bytes of the second screen map buffer: one 32 by 32 screen map of 16-bit cells.
+// Bytes of the second screen map buffer; the buffer is allocated with this size and transferred to a map by
+// NNS_GfdRegisterNewVramTransferTask.
 #define SECOND_SCREEN_MAP_BYTES 0x800
 
-// Frames of the cell slide that follows a change of the shown index; mIndexChangeTimer counts down from this.
+// Calls of the index change: the first rebuilds the page for the new mShownIndex, the other six move the cells by
+// LookupIndexChangeOffset; mIndexChangeTimer counts down from this.
 #define MENU_INDEX_CHANGE_FRAMES 7
 
-// Frames the page arrow of the record screens moves after it was pressed; mOffsetTimers counts down from this.
+// Frames the page button cells of the VS record screens shift after a page change was requested by the button or the
+// left or right key; mOffsetTimers counts down from this.
 #define RECORD_PAGE_ARROW_FRAMES 6
-// Steps of the slide in and out of the record screens; mStateFrames counts them.
+// Steps of the slide in and out of the VS record screens (RecordVS and RecordVSErase); mStateFrames counts them.
 #define RECORD_SLIDE_STEPS 10
 // mStateFrames at which the sub screen cells 24 and 25 of the versus record screen change: AdvanceRecordVSSlideInSub
 // shows 24 and hides 25, the two slide outs hide both, AdvanceRecordVSSubSlideIn shows 24 and hides 25 again.
@@ -206,7 +209,7 @@ typedef struct ScenePlayers {
     /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
 } ScenePlayers;
 
-// The sound mode of the menus: the scene players, the current and saved mode and the sound switches.
+// The scene sound mode: the scene players, the current and saved mode, the sequence start switch and the sound switch.
 typedef struct SoundModeHolder {
     /* 00 */ ScenePlayers *mScenePlayers;
     /* 04 */ u32 mMode;
@@ -336,14 +339,15 @@ typedef enum SelectCupGridMode {
 
 // Steps of the slide in and out; mStateFrames counts them.
 #define SELECT_CUP_GRID_SLIDE_STEPS 10
-// Offset in x of the cup cells and labels while they are off the right edge.
+// X offset of the cup cells while they are off screen: this value off the right edge, its negative off the left edge.
 #define SELECT_CUP_GRID_OFFSCREEN_X 0xe0
 // mShownCourseFrames at which the shown course of the cup changes to the next.
 #define SELECT_CUP_GRID_COURSE_SHOW_FRAMES 0x4b
 // mStateFrames at which state WAIT_CHOSEN shows the highlight.
 #define SELECT_CUP_GRID_HIGHLIGHT_STEP 5
 
-// The screen that picks one of eight cups; choosing stores the cup in gRaceSetupCopy.
+// The screen that picks one of eight cups; choosing stores the cup index and the cup's first course id in
+// gRaceSetupCopy.
 typedef struct SelectCupGrid {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupMBncl;
@@ -403,9 +407,9 @@ typedef enum SelectCupCourseMode {
 #define SELECT_CUP_COURSE_SLIDE_STEPS 10
 // mStateFrames at which state CONFIRM_PICK shows the highlight.
 #define SELECT_CUP_COURSE_HIGHLIGHT_STEP 5
-// Steps state CONFIRM_PICK runs before the choice is stored.
+// Steps state CONFIRM_PICK runs before it moves on, once the index change has finished.
 #define SELECT_CUP_COURSE_CONFIRM_STEPS 10
-// Frames the message of a connected mode stays before its choices are looked at.
+// Calls that states WAIT_CHOICES and CLOSE_CHOICES wait in mode MULTI_SIMPLE before its choices are looked at.
 #define SELECT_CUP_COURSE_MESSAGE_FRAMES 0xf
 
 // The cup course select screen: its state, mode, highlighted course, scroll offsets, layout tables, OAM lists, result.
@@ -491,12 +495,13 @@ typedef enum SelectRaceRuleRow {
     SELECT_RACE_RULE_ROW_TEAMS = 4,
 } SelectRaceRuleRow;
 
-// Number of rows.
+// Number of rows of the race rule screen: one entry each in mRowValues and mRowChangeTimers.
 #define SELECT_RACE_RULE_ROW_COUNT 5
 
-// Value of the engine row that races mirrored: SetMirrorMode is called instead of picking an engine class.
+// Value of the engine row that races mirrored: the engine index of value 2 is set and SetMirrorMode is called.
 #define SELECT_RACE_RULE_ENGINE_MIRROR 3
-// Value of the teams row where each player picks the team: the team change cells show and the entries' touch is read.
+// Value of the teams row where each player picks the team: the team change cells show and each entry's L, R or touch on
+// the change cells moves its team.
 #define SELECT_RACE_RULE_TEAMS_PLAYER_PICKS 2
 
 // Steps of the slide in and out; mStateFrames counts them.
@@ -586,7 +591,8 @@ typedef enum SelectRaceRuleWaitState {
 #define SELECT_RACE_RULE_WAIT_OFFSCREEN_Y 0xc0
 #define SELECT_RACE_RULE_WAIT_SLIDE_STEPS 10
 
-// The wait screen shown while the race rule is chosen: its layout files, messages, OAM list and state.
+// The wait cells that the cup, cup grid, character and kart screens show in connected modes, built from the race rule
+// screen files: its layout files, messages, OAM list and state.
 typedef struct SelectRaceRuleWait {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ LayoutEntryTable *mBncl;
@@ -606,7 +612,8 @@ typedef struct SelectRaceRuleWait {
 #define SEQ_VOLUME_OVERRIDE_FULL 2
 
 // Bits of SeqPlayerControl.mFlags (SEQ_PLAYER_BIT_ is the bit number): the selected Kart is small from the Thunder
-// item, a Teresa effect runs on it, and the scene seq restarted (pitch 0x40 and a lower volume target).
+// item, a Teresa effect runs on it, and the scene seq restarted (pitch 0x40 and a volume target 10 lower, only while
+// the race runs and the Thunder bit is clear).
 #define SEQ_PLAYER_BIT_THUNDER_SHRINK 1
 #define SEQ_PLAYER_BIT_TERESA 2
 #define SEQ_PLAYER_BIT_RESTARTED 3
@@ -624,7 +631,8 @@ typedef struct SeqPlayerControl {
     /* 0c */ u32 mKartNear;
 } SeqPlayerControl;
 
-// SeqQueue: the number of entries, the pair that marks an empty entry, and the frames to wait after a start.
+// SeqQueue: the number of entries, the pair stored to clear an entry (an entry is empty when its mPairNo is the first
+// of them), and the frames to wait after a start.
 #define SEQ_QUEUE_LENGTH 14
 #define SEQ_QUEUE_EMPTY_PAIR_NO 13
 #define SEQ_QUEUE_EMPTY_PAIR_SIDE 2
@@ -661,7 +669,7 @@ enum {
     SELECT_CUP_M_STATE_SCROLL_UP,
 };
 
-// Steps of the scroll of the cup list; mStateFrames counts them.
+// Steps of the scroll in either direction; mStateFrames counts them and the state ends once it is above this.
 #define SELECT_CUP_M_SCROLL_STEPS 10
 
 // The cup select screen: its main and sub layout files, state and scroll offsets.
@@ -703,7 +711,8 @@ typedef struct RecordList {
     /* 0c */ void *mEmblem2Bin;
 } RecordList;
 
-// The scene text settings: which text systems are used, the back screen kind and its screen map copy.
+// The scene text state: which of TxtSystem, SelectChoises and SelectReturn are used, the back screen kind, its screen
+// map copy and the sub char offset.
 typedef struct SceneText {
     /* 000 */ BOOL mUseTxtSystem;
     /* 004 */ BOOL mUseSelectChoises;
@@ -725,14 +734,15 @@ enum {
 
 // Steps of the opening and closing slide; mStateFrames counts them.
 #define TXT_SYSTEM_SLIDE_STEPS 15
-// Steps state BUTTON_PRESSED runs; the button colors are queued from TXT_SYSTEM_PRESS_COLOR_STEP on.
+// Steps state BUTTON_PRESSED runs; the button colors are queued on each step from TXT_SYSTEM_PRESS_COLOR_STEP up to the
+// one before the last.
 #define TXT_SYSTEM_PRESS_STEPS 10
 #define TXT_SYSTEM_PRESS_COLOR_STEP 5
 // Sound ids of the first button, of the second button and of the opening of a text box.
 #define TXT_SYSTEM_INPUT_SOUND_ID 5
 #define TXT_SYSTEM_SECOND_INPUT_SOUND_ID 0x10
 #define TXT_SYSTEM_OPEN_SOUND_ID 0x23
-// Calls each frame of the arrow animation stays, and the frames it cycles through.
+// Calls each frame of the text box animation stays, and the number of frames it cycles through.
 #define TXT_SYSTEM_ANIM_FRAME_TICKS 4
 #define TXT_SYSTEM_ANIM_FRAME_COUNT 3
 
@@ -795,13 +805,14 @@ enum {
     SELECT_CHOISES_STATE_CHOSEN,
 };
 
-// Frames the chosen choice is shown (mChosenFrames); choosing return starts it at RETURN_START_FRAME so it ends sooner.
+// Frames the chosen choice is shown (mChosenFrames); choosing none (the B key) starts it at NONE_START_FRAME so it ends
+// sooner.
 #define SELECT_CHOISES_CHOSEN_FRAMES 0xf
 #define SELECT_CHOISES_RETURN_START_FRAME 0xb
-// Frames the toggle mark stays on and off.
+// mToggleFrames above which the toggle mark flips: ON while it is shown, OFF while it is hidden.
 #define SELECT_CHOISES_TOGGLE_ON_FRAMES 0x1e
 #define SELECT_CHOISES_TOGGLE_OFF_FRAMES 0x14
-// Sound ids of the first choice, the second choice and the return choice.
+// Sound ids of the first choice, the second choice and none (the B key).
 #define SELECT_CHOISES_FIRST_SOUND_ID 7
 #define SELECT_CHOISES_SECOND_SOUND_ID 0x10
 #define SELECT_CHOISES_NONE_SOUND_ID 0x10
@@ -991,7 +1002,7 @@ typedef struct LinkLevelIconPos {
 #define LINK_LEVEL_ICON_WIRELESS 0
 #define LINK_LEVEL_ICON_WIFI 1
 #define LINK_LEVEL_ICON_WIFI_BUDDY 4
-// Frames of the blink cycle of the buddy mark, and the frame it is hidden from.
+// Last frame of the blink cycle of the buddy mark (it goes back to 0 after it), and the frame it is hidden from.
 #define LINK_LEVEL_ICON_CYCLE_FRAMES 0x78
 #define LINK_LEVEL_ICON_HIDDEN_FROM_FRAME 0x69
 
@@ -1009,7 +1020,8 @@ typedef struct LinkLevelIcons {
     /* 10c */ LinkLevelIconOam mOamRecords[2];
 } LinkLevelIcons;
 
-// The message screen: its kind, text, open flag and result, with the char canvas, buffers and screen map it draws to.
+// The message screen: its kind, whether input is enabled, text, open flag and result, with the char canvas, text
+// canvas, char buffer and screen map it draws to.
 typedef struct MessageScreen {
     /* 0000 */ s32 mKind;
     /* 0004 */ s32 mInputEnabled;
@@ -1032,8 +1044,8 @@ typedef struct StaffRollTag {
 } StaffRollTag;
 
 // StaffRollTag.mVariant values of a tag with mKind 1: set the line alignment (argument below), end the line and skip
-// argument lines, set the text color, set the character spacing, set the scroll speed (percent of a step), change
-// nothing, end of the text.
+// argument lines, set the text color, store the character spacing, set the scroll speed (percent of 1.0 per frame,
+// fixed point), change nothing, end of the text.
 typedef enum StaffRollTagVariant {
     STAFF_ROLL_TAG_ALIGN = 0,
     STAFF_ROLL_TAG_SKIP_LINES = 1,
@@ -1054,7 +1066,8 @@ typedef enum StaffRollAlign {
 // Scroll speed before the first speed tag (fixed point per frame); scroll distance left to run after the end tag.
 #define STAFF_ROLL_SCROLL_Y_PER_FRAME_DEFAULT 0x70a
 #define STAFF_ROLL_END_SCROLL_Y 0xd0000
-// Frames of one full palette blend cycle: blend to the target, hold, blend back (0x1e frames each).
+// Frames of one full palette blend cycle: 0x1e frames blending from mBlendTo to mBlendFrom, 0x1e holding mBlendFrom,
+// 0x1e blending back.
 #define PALETTE_BLEND_CYCLE_FRAMES 0x5a
 
 // mState and mNextState values: waiting for the start, scrolling the text, scrolled all of it.
@@ -1064,7 +1077,7 @@ typedef enum StaffRollTextState {
     STAFF_ROLL_TEXT_SCROLL_DONE = 2,
 } StaffRollTextState;
 
-// The staff roll text: its state, scroll position and speed, text position, char canvas and buffers.
+// The staff roll text: its state, scroll position and speed, text position, char canvas and char buffer.
 typedef struct StaffRollText {
     /* 000 */ s32 mState;
     /* 004 */ s32 mNextState;

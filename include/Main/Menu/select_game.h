@@ -48,7 +48,8 @@ typedef enum SelectGameState {
     SELECT_GAME_STATE_RESULT_RETURNED = 11,
 } SelectGameState;
 
-// The game select screen: its cell files, OAM lists, heap, selected index, the table of games, state and offsets.
+// The game select screen: its cell files, OAM lists, heap, messages, selected index, the table of games, state,
+// offsets, result and mode.
 typedef struct SelectGame {
     /* 00 */ CellFileSet mCellFileSets[2];
     /* 38 */ void *mMainOam;

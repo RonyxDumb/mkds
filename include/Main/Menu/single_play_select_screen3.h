@@ -14,8 +14,7 @@ typedef struct ScreenCallbacks {
     /* 4 */ void (*mUpdate)(u32 sceneArg);
 } ScreenCallbacks;
 
-// MenuScene.mSinglePlaySelectModeIndex: the entries of the single play menu, in the order they are listed.
-// x offset of the mode cells while they are off screen.
+// x offset of the sub screen mode cells while they are off screen.
 #define SINGLE_PLAY_SELECT_OFFSCREEN_X 0xf0
 
 // Values of MenuScene.mSinglePlaySelectModeIndex: the entries of the single play menu, in the order they are listed.

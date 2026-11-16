@@ -5,7 +5,8 @@
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 
-// The files of one cell set: chars, palette, cells, rects and the cell layouts and label layout built from them.
+// The files of one cell set: chars, palette, cells, cell layout, label layout and rects, and the cell table built from
+// the two layouts.
 typedef struct CellFileSet {
     /* 00 */ Ncgr *mChars;
     /* 04 */ Nclr *mPalette;
@@ -23,10 +24,12 @@ typedef struct ScanSlotMemberRow {
     /* 08 */ s32 mChildCount;
 } ScanSlotMemberRow;
 
-// Member rows of the group list; the row after them is the return row (MultiSelectMemberGroup.mSelectedIndex).
+// Member rows of the group list; the row after them leads to the multi select NS screen
+// (MultiSelectMemberGroup.mSelectedIndex).
 #define MULTI_SELECT_MEMBER_GROUP_ROW_COUNT 4
 #define MULTI_SELECT_MEMBER_GROUP_RETURN_ROW 4
-// Steps of the slide in and out, steps the pressed row is shown, frames after which the member entries are cleared.
+// Frames of the slide in and out, frames the press waits before the screen goes on, frames after which the member
+// entries are cleared.
 #define MULTI_SELECT_MEMBER_GROUP_SLIDE_STEPS 10
 #define MULTI_SELECT_MEMBER_GROUP_PRESS_STEPS 5
 #define MULTI_SELECT_MEMBER_GROUP_CLEAR_FRAMES 0x78

@@ -12,9 +12,10 @@
 #define SCREEN_SINGLE_PLAY_SELECT_CHOOSE 1
 #define SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT 2
 #define SCREEN_SINGLE_PLAY_SELECT_PRESS 3
-// InitSelectEngine / ReleaseSelectEngine.
-// No screen: the value of the previous, current and next screen number when no screen is open.
+// No screen: the previous, current or next screen number when there is none; SwitchMenuScreen is given it as the next
+// screen number when no screen follows.
 #define SCREEN_NONE 0x1f
+// InitSelectEngine / ReleaseSelectEngine.
 #define SCREEN_SELECT_ENGINE 4
 // InitSelectCharacter / ReleaseSelectCharacter, one number per race mode.
 #define SCREEN_SELECT_CHARACTER_GRAND_PRIX 5
@@ -54,7 +55,7 @@
 #define SCREEN_SELECT_GHOST 0x1a
 
 // Return values of the Advance function of a menu screen (0 while the screen runs): the choice was confirmed, the
-// return button was used, or the connection or group was left.
+// return button was used, or the leave question was answered yes.
 #define MENU_SCREEN_RESULT_NEXT 1
 #define MENU_SCREEN_RESULT_BACK 2
 #define MENU_SCREEN_RESULT_LEAVE 3

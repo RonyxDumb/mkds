@@ -23,7 +23,8 @@ typedef enum KeyboardMessage {
     KEYBOARD_MESSAGE_SAVING = 0x81,
 } KeyboardMessage;
 
-// Results of CheckFriendKeyString: the message of the friend code screen that goes with a rejected key.
+// Results of CheckFriendKeyString: 0 accepts the key, 1 a key that fails the key check or equals the key made from the
+// user data, 2 a key already in the friend list; the last two choose the rejection message.
 #define FRIEND_KEY_CHECK_INCORRECT 1
 #define FRIEND_KEY_CHECK_ALREADY_REGISTERED 2
 
@@ -43,8 +44,10 @@ typedef enum KeyboardMessage {
 // SceneNumbers.mNextScene when it is not -1.
 u32 GetKeyboardNextScene(void);
 void WriteKeyboardRegisters(void);
-// Advances the Keyboard screen by one step: takes mNextState as mState, runs the handler of that state
-// (one AdvanceKeyboard handler per KEYBOARD_STATE_* value) and then runs the cell and drawing helpers of the screen.
+// Advances the Keyboard screen by one step: advances the link level icons and the scene text, takes mNextState as
+// mState, advances the text entry while mTextEntryEnabled is set, runs the handler of that state (one AdvanceKeyboard
+// handler per KEYBOARD_STATE_* value) and then prints the text and shows and draws the screen's objects and layout
+// tables.
 void AdvanceKeyboard(void);
 void ShowKeyboardLayoutObject(void);
 void ShowKeyboardRemainingCharObjects(void);
