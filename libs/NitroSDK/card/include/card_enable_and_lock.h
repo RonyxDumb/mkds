@@ -33,7 +33,7 @@ u32 CARD_IsEnabled(void);
 
 typedef struct CARDiCommon CARDiCommon;
 
-// The enable flag: CARD_Enable stores it, CARD_IsEnabled returns it.
+// Word 0 is the enable flag: CARD_Enable stores it, CARD_IsEnabled returns it. The other seven words are not used.
 extern u32 gAccessEnabled[];
 
 // The 0x620-byte card state.

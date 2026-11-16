@@ -38,8 +38,9 @@ void CARDi_TaskThread(void *arg) {
     }
 }
 
-// Sends a request on tag 11 and waits for the reply, trying again while the result is 4. The first call sends the init
-// request with the address of CARDiCommon.mCmd. Returns 1 when CARDiCommandArg.mResult is 0.
+// Sends a request on tag 11 and waits for the reply, trying again while the result is 4 and retryCount allows (at most
+// retryCount sends in all). The first call sends the init request with the address of CARDiCommon.mCmd. Returns 1 when
+// CARDiCommandArg.mResult is 0.
 int CARDi_Request(CARDiCommon *common, int reqType, int retryCount) {
     u32 enabled;
     s32 result;
@@ -524,8 +525,8 @@ int CARD_TryWaitBackupAsync(void) {
     return CARDi_TryWaitAsync();
 }
 
-// Fills CARDiCommandArg.mType and the device description (size, page size, address width, timings) for a backup type.
-// An unsupported type clears them and stores ROM_ACCESS_UNSUPPORTED_TYPE in CARDiCommandArg.mResult.
+// An unsupported type clears mType and mTotalSize and stores BACKUP_RESULT_NOT_SUPPORTED (renamed per the duplicate
+// ruling) in CARDiCommandArg.mResult; type 0 only clears the description and stores nothing.
 void CARDi_IdentifyBackupCore(s32 type) {
     CARDiCommandArg *commandArg;
     u32 size;

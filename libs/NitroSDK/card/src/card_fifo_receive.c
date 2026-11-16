@@ -3,7 +3,8 @@
 #include "card_enable_and_lock.h"
 #include "card_rom_backup_access.h"
 
-// Tag 11 callback: when a reply arrives, clears the request bit of CARDiCommon.mFlag and wakes CARDiCommon.mCurTh.
+// Tag 11 callback: when a reply arrives with err not 0, clears the request bit of CARDiCommon.mFlag and wakes
+// CARDiCommon.mCurTh.
 void CARDi_OnFifoRecv(u32 tag, u32 data, u32 err) {
     CARDiCommon *common;
     u32 value;

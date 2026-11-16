@@ -8,13 +8,14 @@ typedef void (*CARDCallback)(void *arg);
 typedef struct CARDRomStat CARDRomStat;
 typedef void (*CARDRomReadFunc)(CARDRomStat *romStat);
 
-// Two words read as a pair: fsi_ovt9, fsi_ovt7 and the tables in the ROM header.
+// An offset and a length: the type of fsi_ovt9, fsi_ovt7 and the tables in the ROM header.
 typedef struct CARDRomRegion {
     /* 00 */ u8 *mOffset;
     /* 04 */ u32 mLength;
 } CARDRomRegion;
 
-// The start of the ROM header, the part FS_ReadFile reads to find the file tables.
+// The start of the ROM header: the main and sub program sizes and the file and overlay tables; FS_ReadFile reads this
+// part of a ROM file.
 typedef struct RomHeaderStart {
     /* 00 */ u8 mUnk_00[0x20];
     /* 20 */ u32 mMainRomOffset;
@@ -54,7 +55,8 @@ typedef struct RomHeaderStart {
     };
 } RomHeaderStart;
 
-// The ROM header the card leaves in OSSystemWork.mRomHeader, and the copy of it kept for the application.
+// The ROM header as held in OSSystemWork.mRomHeader; CARDi_InitCommon copies it to HW_CARD_ROM_HEADER unless the boot
+// type is multiboot.
 typedef struct CARDRomHeader {
     /* 00 */ RomHeaderStart mHead;
     /* 60 */ u32 mRomCtrl;
@@ -85,8 +87,8 @@ enum {
     BACKUP_DEVICE_SIZE_1MB = 0x100000,
 };
 
-// Values written to CARDiCommandArg.mPageSize: the page size of the backup devices of 512 bytes, 8 KB and 64 KB, and of
-// the large devices. Smaller devices use smaller pages.
+// Values written to CARDiCommandArg.mPageSize: type 1 devices of 512 bytes, 8 KB and 64 KB and all type 2 (large)
+// devices get one of these; type 3 devices store their whole size instead.
 enum {
     BACKUP_DEVICE_512B_PAGE_SIZE = 0x10,
     BACKUP_DEVICE_8KB_PAGE_SIZE = 0x20,
@@ -105,7 +107,8 @@ enum {
     BACKUP_DEVICE_64KB_PROGRAM_PAGE = 0x9e,
 };
 
-// The command block: mResult is the result of the last request.
+// The block whose address CARDi_Request sends on tag 11: mSrc, mDst and mLen describe the transfer, mType to
+// mWritePageTotal the backup device, mResult is the result of the last request.
 typedef struct CARDiCommandArg {
     /* 00 */ u32 mResult;
     /* 04 */ s32 mType;
@@ -116,7 +119,7 @@ typedef struct CARDiCommandArg {
     /* 18 */ u32 mTotalSize;
     /* 1c */ u32 mSectSize;
     /* 20 */ u32 mPageSize;
-    /* 24 */ u32 mAddrWidth; // address bytes of the device: 1, 2 or 3
+    /* 24 */ u32 mAddrWidth; // address bytes of the device: 1, 2 or 3; 0 when no type is set
     /* 28 */ u32 mProgramPage;
     /* 2c */ u32 mWritePage;
     /* 30 */ u32 mWritePageTotal;
@@ -125,7 +128,8 @@ typedef struct CARDiCommandArg {
     /* 3c */ u32 mUnk_3c;
 } CARDiCommandArg;
 
-// Bits of CARDiCommon.mFlag. Nothing in the tree sets WAKE_WORKER or STOP_REQUESTED; the transfer end tests them.
+// Bits of CARDiCommon.mFlag. Nothing in the tree sets WAKE_WORKER or STOP_REQUESTED; WAKE_WORKER is tested when a
+// transfer ends and STOP_REQUESTED before each piece of a backup transfer.
 enum {
     BACKUP_ACCESS_FLAG_INITIALIZED = 0x1,
     BACKUP_ACCESS_FLAG_REQUEST_CHANNEL_READY = 0x2,
@@ -138,11 +142,13 @@ enum {
         BACKUP_ACCESS_FLAG_BUSY | BACKUP_ACCESS_FLAG_TASK_PENDING | BACKUP_ACCESS_FLAG_STOP_REQUESTED,
 };
 
-// The ROM is read in pages of this many bytes; DMA channels count from 0 to this.
+// The ROM is read in pages of CARD_ROM_PAGE_SIZE bytes; a DMA channel is used only for numbers 0 to
+// ROM_CARD_LAST_DMA_CHANNEL.
 #define CARD_ROM_PAGE_SIZE 0x200
 #define ROM_CARD_LAST_DMA_CHANNEL 3
 
-// The common state of the card access: the command, lock, transfer arguments, callback, thread and its stack.
+// The common state of the card access: the command block, lock, transfer arguments, callback, worker thread, flags and
+// the backup page buffer.
 typedef struct CARDiCommon {
     /* 000 */ CARDiCommandArg *mCmd;
     /* 004 */ s32 mCommand;
