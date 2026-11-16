@@ -359,19 +359,19 @@ void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32
     s32 square = MUL_FIXED24_NO_ROUND(remaining, remaining);
     *weight0 = MUL_FIXED24_NO_ROUND(remaining, square);
     *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
-    *weight2 = ((s64) *weight1 * fraction) >> 24;
+    *weight2 = MUL_FIXED24_NO_ROUND(*weight1, fraction);
     square = MUL_FIXED24_NO_ROUND(fraction, fraction);
     *weight3 = MUL_FIXED24_NO_ROUND(fraction, square);
-    *weight1 = ((s64) *weight1 * remaining) >> 24;
+    *weight1 = MUL_FIXED24_NO_ROUND(*weight1, remaining);
 }
 
 void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3) {
     s32 remaining = 0x1000000 - fraction;
     *slopeWeight0 = MUL_FIXED24_NO_ROUND(remaining, remaining);
-    *weight0 = ((s64) *slopeWeight0 * remaining) >> 24;
+    *weight0 = MUL_FIXED24_NO_ROUND(*slopeWeight0, remaining);
     *slopeWeight3 = MUL_FIXED24_NO_ROUND(fraction, fraction);
-    *weight3 = ((s64) *slopeWeight3 * fraction) >> 24;
+    *weight3 = MUL_FIXED24_NO_ROUND(*slopeWeight3, fraction);
     *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
     *slopeWeight0 = *slopeWeight0 * 3;
     *slopeWeight3 = *slopeWeight3 * 3;
@@ -379,8 +379,8 @@ void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weig
     *slopeWeight1 = *slopeWeight0 - *slopeWeight2;
     *slopeWeight2 = *slopeWeight2 - *slopeWeight3;
     *slopeWeight0 = -*slopeWeight0;
-    *weight2 = ((s64) *weight1 * fraction) >> 24;
-    *weight1 = ((s64) *weight1 * remaining) >> 24;
+    *weight2 = MUL_FIXED24_NO_ROUND(*weight1, fraction);
+    *weight1 = MUL_FIXED24_NO_ROUND(*weight1, remaining);
 }
 
 void ComputeWeightedPoint(const Vec3 *points, Vec3 *result, s32 weight0, s32 weight1, s32 weight2, s32 weight3) {

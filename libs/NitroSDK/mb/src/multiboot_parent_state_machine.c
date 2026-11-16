@@ -135,7 +135,7 @@ void MBi_CommParentCallback(s32 eventCode, WirelessMessage *eventData) {
                 }
                 if ((mbc->mChildEntryBmp & (1 << eventData->mLength)) != 0) {
                     mbc->mChildNum--;
-                    mbc->mChildEntryBmp &= ~(1 << eventData->mLength);
+                    BIT_CLEAR(mbc->mChildEntryBmp, eventData->mLength);
                 }
                 aid = eventData->mLength;
                 if (mbc->mPCommState[aid - 1] == MULTIBOOT_PARENT_BOOT_ACKED) {
@@ -323,7 +323,7 @@ void MBi_CommParentRecvDataPerChild(WMMpRecvData *childData, u32 child) {
             if (childValue == MULTIBOOT_PARENT_DOWNLOAD_STARTED) {
                 entryIndex = mbc->mChildEntryIndex[arrayIndex];
                 if (entryIndex != 0xff) {
-                    (OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp &= ~(1 << child);
+                    BIT_CLEAR((OFFSET_PTR(MB_CommPWork, mbc, entryIndex * 0x5d4))->mPollbmp, child);
                     MBi_CommChangeParentState(child, MULTIBOOT_PARENT_DOWNLOAD_DONE, NULL);
                 }
             } else if (childValue == MULTIBOOT_PARENT_DOWNLOAD_DONE) {

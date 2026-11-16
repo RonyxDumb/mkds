@@ -46,8 +46,8 @@ s32 MTX_Inverse43(const MtxFx43 *src, MtxFx43 *dst) {
         result = dst;
     }
     src11 = src->mRows[1].y;
-    det10 = (s32) (((s64) src->mRows[1].x * src->mRows[2].z - (s64) src12 * src->mRows[2].x + 0x800) >> 12);
-    cofactor00 = (s32) (((s64) src11 * src->mRows[2].z - (s64) src12 * src21 + 0x800) >> 12);
+    det10 = (s32) CROSS2_FIXED12_ROUNDED(src->mRows[1].x, src->mRows[2].z, src12, src->mRows[2].x);
+    cofactor00 = (s32) CROSS2_FIXED12_ROUNDED(src11, src->mRows[2].z, src12, src21);
     det20 = (s32) (((s64) src->mRows[1].x * src->mRows[2].y - src11 * (s64) src->mRows[2].x + 0x800) >> 12);
     determinant =
         ((s64) src->mRows[0].x * cofactor00 - (s64) src->mRows[0].y * det10 + (s64) src->mRows[0].z * det20 + 0x800) >>

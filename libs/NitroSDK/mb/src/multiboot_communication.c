@@ -207,7 +207,7 @@ void MBi_ParentCallback(WirelessMessage *result) {
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
                 case WIRELESS_STATE_UNLINKED:
-                    gWirelessWork->mConnectedAids &= ~(1 << result->mLength);
+                    BIT_CLEAR(gWirelessWork->mConnectedAids, result->mLength);
                     gWirelessWork->mCallback(1, result);
                     return;
                 case WIRELESS_STATE_FORWARD_UNLESS_RESETTING:
