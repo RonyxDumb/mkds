@@ -3,8 +3,7 @@
 #include "types.h"
 #include "heap_list_common_head.h" // NNSiFndHeapHead, NNSFndHeapHandle
 
-// Entry of 16 bytes that NNS_FndRecordStateForFrmHeap takes from the front of the heap: the tag name and both
-// allocation positions of the moment, chained through mPrevState.
+// A state recorded in a frame heap: the tag name and both allocation positions, chained through mPrevState.
 typedef struct NNSiFndFrmHeapState {
     /* 00 */ u32 mTagName;
     /* 04 */ u8 *mHeadAllocator;

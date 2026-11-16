@@ -17,7 +17,7 @@ typedef enum NNSSndSeqPlayerStatus {
     SEQ_PLAYER_FADING_OUT = 2,
 } NNSSndSeqPlayerStatus;
 
-// 0x44 bytes; sixteen of them in sSeqPlayer. Most functions take a pointer to a pointer to one (the sound handle).
+// A sequence player: its handle, player, heap, links, fader and status; most functions take a pointer to its handle.
 typedef struct NNSSndSeqPlayer {
     /* 00 */ struct NNSSndSeqPlayer **mHandle;
     /* 04 */ struct NNSSndPlayer *mPlayer;

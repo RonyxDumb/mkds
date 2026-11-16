@@ -3,8 +3,7 @@
 #include "types.h"
 #include "sound_archive_load.h"
 
-// 0x24 bytes; sPlayer holds an array of them. NNSSndPlayer.mPlayerList holds the sequence players of the player,
-// NNSSndPlayer.mHeapList its free player heaps.
+// A sound player: mPlayerList holds its sequence players and mHeapList its free player heaps.
 typedef struct NNSSndPlayer {
     /* 00 */ NNSFndList mPlayerList;
     /* 0c */ NNSFndList mHeapList;

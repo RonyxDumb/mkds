@@ -11,8 +11,7 @@ typedef struct NNSG2dGlyph {
     /* 04 */ u8 *mImage;
 } NNSG2dGlyph;
 
-// 0x20-byte object set up by NNS_G2dCharCanvasInitForOBJ1D and NNS_G2dCharCanvasInitForBG: a buffer of 8 x 8 blocks of
-// mUnk_0c * 8 bytes and the functions that draw into it.
+// A canvas that characters are drawn onto: its character base, area size, bit depth and drawing functions.
 typedef struct NNSG2dCharCanvas {
     /* 00 */ u8 *mCharBase;
     /* 04 */ s32 mAreaWidth;

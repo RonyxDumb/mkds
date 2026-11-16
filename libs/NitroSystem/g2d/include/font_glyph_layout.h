@@ -3,7 +3,7 @@
 #include "types.h"
 #include "sound_bank_wave_archive.h"
 
-// 3 bytes: NNSi_G2dFontGetStringWidth adds the first two, or reads the third.
+// The widths of a character: its left offset, glyph width and character width.
 typedef struct NNSG2dCharWidths {
     /* 00 */ s8 mLeft;
     /* 01 */ u8 mGlyphWidth;

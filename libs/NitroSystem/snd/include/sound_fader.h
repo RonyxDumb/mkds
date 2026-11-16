@@ -3,7 +3,7 @@
 #include "types.h"
 #include "sound_archive_load.h"
 
-// 16 bytes. Fades a value from NNSSndFader.mOrigin to NNSSndFader.mTarget over NNSSndFader.mFrame steps.
+// A fader: it fades a value from mOrigin to mTarget over mFrame steps.
 typedef struct NNSSndFader {
     /* 00 */ s32 mOrigin;
     /* 04 */ s32 mTarget;

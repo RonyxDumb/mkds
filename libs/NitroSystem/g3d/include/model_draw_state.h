@@ -204,7 +204,7 @@ typedef struct NNSG3dRSOnGlb {
     } /* 1400 */ mEvpCache[64];
 } NNSG3dRSOnGlb;
 
-// Entry of the table of animation formats (8 bytes).
+// One animation format of the table of animation formats: its categories and its init function.
 typedef struct NNSG3dAnmObjInitFunc {
     /* 00 */ u8 mCategory0;
     /* 01 */ u8 mDummy_;

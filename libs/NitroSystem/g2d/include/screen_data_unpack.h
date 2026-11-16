@@ -15,7 +15,7 @@ typedef struct NNSG2dBinaryFileHeader {
     /* 0e */ u16 mDataBlocks;
 } NNSG2dBinaryFileHeader;
 
-// Start of each part: a word at 0 that FindPartByTag compares, and the size of the part at 4.
+// The header of each part of a binary file: its kind, which FindPartByTag compares, and its size.
 typedef struct NNSG2dBinaryBlockHeader {
     /* 00 */ u32 mKind;
     /* 04 */ u32 mSize;

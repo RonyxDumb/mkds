@@ -4,7 +4,7 @@
 #include "sound_archive_load.h"
 #include "thread_mutex_types.h"
 
-// Element of a command list (links at 0): the stream player the command belongs to.
+// A command of the stream load list: its link and the stream player the command belongs to.
 typedef struct LoadCommand {
     /* 00 */ u8 mLink[8];
     /* 08 */ void *mPlayer;

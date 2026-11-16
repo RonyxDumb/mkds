@@ -63,7 +63,7 @@ typedef struct NNSSndArcInfo {
 // Symbol block of a sound archive; only a pointer to it is kept.
 typedef struct NNSSndArcSymbol NNSSndArcSymbol;
 
-// First 0x30 bytes of a sound archive file: where the symbol, info, FAT and file image blocks are.
+// The header of a sound archive file: where the symbol, info, FAT and file image blocks are.
 typedef struct NNSSndArcHeader {
     /* 00 */ u8 mFileHeader[0x10];
     /* 10 */ u32 mSymbolDataOffset;
@@ -93,7 +93,7 @@ typedef struct NNSSndSeqArcSeqInfo {
     /* 04 */ NNSSndSeqParam mParam;
 } NNSSndSeqArcSeqInfo;
 
-// Bank entry of the info block: the file and the wave archives (0xffff for none) the bank uses.
+// A bank entry of the info block: the file and the wave archives the bank uses.
 typedef struct NNSSndArcBankInfo {
     /* 00 */ u32 mFileId;
     /* 04 */ u16 mWaveArcNo[4];
@@ -149,7 +149,7 @@ typedef struct NNSFndLink {
     /* 4 */ void *mNextObject;
 } NNSFndLink;
 
-// List header of 12 bytes: first and last element, number of elements, and the offset of the links in an element.
+// A list header: the first and last element, the number of elements and the offset of the links in an element.
 typedef struct NNSFndList {
     /* 00 */ void *mHead;
     /* 04 */ void *mTail;
@@ -172,7 +172,7 @@ typedef struct NNSSndHeap {
     /* 04 */ NNSFndList mSectionList;
 } NNSSndHeap;
 
-// Header of 0x20 bytes before each block NNS_SndHeapAlloc returns.
+// The header before each block NNS_SndHeapAlloc returns: its link, size, dispose callback and data.
 typedef struct NNSSndHeapBlock {
     /* 00 */ NNSFndLink mLink;
     /* 08 */ u32 mSize;

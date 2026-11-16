@@ -29,9 +29,7 @@ typedef struct NNSSndStrm {
     /* 4c */ u8 mChannelNo[0x10];
 } NNSSndStrm;
 
-// 0x160 bytes; sStrmPlayer holds four. mActiveFlag is tested by ShutdownPlayer_, ForceStopStrm_ and
-// NNSi_SndArcStrmMain, mPlayFlag by ForceStopStrm_ and NNSi_SndArcStrmMain, mStartFlag and mFadeOutFlag by
-// NNSi_SndArcStrmMain.
+// A stream player: its stream, file, fader and the active, play, start and fade out flags.
 typedef struct NNSSndStrmPlayer {
     /* 00 */ NNSSndStrm mStream;
     /* 5c */ FSFile mFile;
@@ -55,7 +53,7 @@ typedef struct NNSSndStrmPlayer {
     /* 15c */ u8 mUnk_15c[4];
 } NNSSndStrmPlayer;
 
-// 8 bytes; NNS_SndStrmSetVolume reads mVolume of the element a byte of NNSSndStrm.mChannelNo selects in sStrmChannel.
+// A stream channel: its buffer and its volume.
 typedef struct NNSSndStrmChannel {
     /* 00 */ void *mBuffer;
     /* 04 */ s32 mVolume;

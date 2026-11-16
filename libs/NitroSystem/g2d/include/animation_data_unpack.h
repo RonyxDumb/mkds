@@ -26,7 +26,7 @@ typedef struct NNSG2dAnimFrameData {
 // Low byte of NNSG2dAnimSequenceData.mAnimType.
 #define G2D_ANIM_TYPE_MASK 0xff
 
-// 16 bytes: mNumFrames elements of 8 bytes at mPAnmFrameArray.
+// An animation sequence: its frame count, loop start frame, animation type, play mode and array of frames.
 typedef struct NNSG2dAnimSequenceData {
     /* 00 */ u16 mNumFrames;
     /* 02 */ u16 mLoopStartFrameIdx;
@@ -54,9 +54,8 @@ typedef struct NNSG2dVramTransferData {
     /* 04 */ NNSG2dCellVramTransferData *mPCellTransferDataArray;
 } NNSG2dVramTransferData;
 
-// Header of a cell bank: mPCellDataArrayHead and mPVramTransferData are offsets from the start that NNS_G2dUnpackNCE
-// turns into addresses. mPCellDataArrayHead holds mNumCells entries (16 bytes, or 8 bytes without bit 0 of
-// mCellBankAttr, see NNS_G2dGetCellDataByIdx).
+// A cell bank: its cell count and attributes, the array of cells, the mapping mode and the VRAM transfer data.
+// mPCellDataArrayHead and mPVramTransferData are offsets until NNS_G2dUnpackNCE turns them into addresses.
 typedef struct NNSG2dCellDataBank {
     /* 00 */ u16 mNumCells;
     /* 02 */ u16 mCellBankAttr;

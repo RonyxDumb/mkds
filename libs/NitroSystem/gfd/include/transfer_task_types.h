@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// 16 bytes: an index into transFunc and three words passed to the function it selects.
+// A VRAM transfer task: the type that selects the transfer function, the source, the destination and the size.
 typedef struct NNSGfdVramTransferTask {
     /* 00 */ u32 mType;
     /* 04 */ const void *mPSrc;
