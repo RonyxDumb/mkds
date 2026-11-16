@@ -1486,10 +1486,12 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     probePosition.y = mapObject->mMapObject.mPos.y + 0x14000;
     probePosition.z = mapObject->mMapObject.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (CollideSphereWithCourse(
-            &probePosition, NULL, 0, 0x14000,
-            mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4 : (u16) 1, -2, &pushOut,
-            &groundNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
+    if (CollideSphereWithCourse(&probePosition, NULL, 0, 0x14000,
+                                mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER
+                                    ? (u16) COURSE_QUERY_SKIP_HIT_VALUE_2000
+                                    : (u16) 1,
+                                -2, &pushOut, &groundNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL,
+                                NULL)) {
         if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_WALL ||
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY) {
             mapObject->mMapObject.mPos.y += pushOut.y;
@@ -1841,4 +1843,4 @@ MapObjectList *CreateEmptyMapObjectUpdateList(void) {
     return CreateMapObjectUpdateList(NULL, NULL, NULL);
 }
 
-const u32 gMapObjectBelowZeroCollisionBit = 0x800;
+const u32 gMapObjectBelowZeroCollisionBit = COURSE_HIT_BELOW_ZERO_BIT;

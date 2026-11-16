@@ -273,11 +273,11 @@ void AdvanceLinkFollowingItemSegments(LinkFollowingItemObject *follower, s32 tar
         }
         pos->y = pos->y + velocity->y;
     }
-    if (CollideSphereWithCourse(pos, &follower->mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                follower->mDirectedItemObject.mItemObject.mCourseRadius, 4,
-                                follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &vector, &hitNormal,
-                                &wallNormal, &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL,
-                                NULL, NULL) != 0) {
+    if (CollideSphereWithCourse(
+            pos, &follower->mDirectedItemObject.mItemObject.mPrevPos, 0,
+            follower->mDirectedItemObject.mItemObject.mCourseRadius, COURSE_QUERY_SKIP_HIT_VALUE_2000,
+            follower->mDirectedItemObject.mItemObject.mCollisionSlotIndex, &vector, &hitNormal, &wallNormal,
+            &follower->mDirectedItemObject.mItemObject.mCollisionBits, NULL, NULL, NULL, NULL) != 0) {
         if (follower->mDirectedItemObject.mPushOutMode != 0) {
             if (vector.y > 0) {
                 pos->y = pos->y + vector.y;

@@ -98,7 +98,8 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
     VEC_Add(&item->mTowardKartVelocity, pos, pos);
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                 &offset, &firstNormal, &secondNormal,
                                 &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits, NULL,

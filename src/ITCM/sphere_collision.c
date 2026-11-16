@@ -145,7 +145,7 @@ BOOL CollideSphereWithCourse(Vec3 *position, Vec3 *prevPosition, Vec3 *forward, 
         if (penetration >= 0 && penetration <= 0x1e000) {
             triangleFlags = triangle.mHitValue;
             if (triangleFlags & 0x2010) {
-                if ((queryFlags & 4) && (triangleFlags & 0x2000)) {
+                if ((queryFlags & COURSE_QUERY_SKIP_HIT_VALUE_2000) && (triangleFlags & 0x2000)) {
                     continue;
                 }
                 if ((queryFlags & 1) && (triangleFlags & 0x10)) {

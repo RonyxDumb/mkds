@@ -742,7 +742,8 @@ void UpdateItemKouraWFall(void *stateObject) {
 
         position = &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
         if (CollideSphereWithCourse(position, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos,
-                                    0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                    0, item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                    COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                     &hitOffset, NULL, NULL,
                                     &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionBits,

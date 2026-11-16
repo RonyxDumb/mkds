@@ -107,7 +107,8 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     velocity->z = (velocity->z * oldWeight + vector.z) >> shift;
     VEC_Add(velocity, pos, pos);
     if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                 &vector, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
@@ -163,7 +164,8 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
         return;
     }
     if (CollideSphereWithCourse(pos, &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPrevPos, 0,
-                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius, 4,
+                                item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCourseRadius,
+                                COURSE_QUERY_SKIP_HIT_VALUE_2000,
                                 item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mCollisionSlotIndex,
                                 &vector, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
