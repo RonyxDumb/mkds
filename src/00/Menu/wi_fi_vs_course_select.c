@@ -67,7 +67,7 @@ void AdvanceWiFiVSCourseSelectState(void) {
             gMenuShared->mOtherKartCountAdded = TRUE;
         }
         CopyRaceSetupCopyToEntries();
-        SetWiFiNextScene(2);
+        SetWiFiNextScene(SCENE_RACE);
         PackWiFiSessionIndicesWrapper();
     }
 }

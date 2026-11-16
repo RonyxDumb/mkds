@@ -149,7 +149,7 @@ void UpdateEmblemScene(SceneNumbers *sceneNumbers) {
                 sceneNumbers->mNextScene = SCENE_OPTION;
                 break;
             default:
-                sceneNumbers->mNextScene = 0;
+                sceneNumbers->mNextScene = SCENE_TITLE;
                 break;
         }
     }

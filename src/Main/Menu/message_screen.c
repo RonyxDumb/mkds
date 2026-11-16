@@ -213,7 +213,7 @@ void OpenMessageScreen(s32 messageKind, s32 inputEnabled) {
             FormatMessageScreenErrorCode();
         }
         PrintMessageScreenText();
-        if (GetCurrentSceneNumber() == 2) {
+        if (GetCurrentSceneNumber() == SCENE_RACE) {
             if (GetRaceHudStepHasRun() == 0) {
                 reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x200;
                 reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK;

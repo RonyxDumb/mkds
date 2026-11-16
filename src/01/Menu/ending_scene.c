@@ -252,7 +252,7 @@ void AdvanceEndingSceneFadeOutToLeave(void) {
 void AdvanceEndingSceneHoldThenLeave(void) {
     gEndingScene->mStateFrames++;
     if (gEndingScene->mStateFrames > gEndingSceneStateTable[ENDING_SCENE_STATE_HOLD_THEN_LEAVE]) {
-        gEndingScene->mNextScene = 0;
+        gEndingScene->mNextScene = SCENE_TITLE;
     }
 }
 

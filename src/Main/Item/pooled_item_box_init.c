@@ -28,6 +28,7 @@
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Item/pooled_item_box.h"
+#include "Main/System/scene_numbers.h"
 
 const MapObjectKindDescriptor gPooledItemBoxKindDescriptor = {0,
                                                               {0, 0},
@@ -43,7 +44,7 @@ const MapObjectKindData gPooledItemBoxKindData = {0, 0, 0, 0xf000, 0, 0, 0, 0, 2
 BOOL IsRaceSceneNormalOrReplay(void) {
     u32 result = 0;
     u32 isNormalOrReplay;
-    if (GetCurrentSceneNumber() == 2) {
+    if (GetCurrentSceneNumber() == SCENE_RACE) {
         s32 raceKind = gRaceSetup->mRaceKind;
         isNormalOrReplay = 1;
         if (raceKind != RACE_KIND_NORMAL && raceKind != RACE_KIND_REPLAY) {

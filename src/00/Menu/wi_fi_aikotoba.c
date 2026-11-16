@@ -250,7 +250,7 @@ void AdvanceWiFiAikotobaSlideOut(void) {
 
     if (GetWiFiNextScene() == -1 && IsBuddyRecordBlockFull() == 0 &&
         gWiFiAikotoba->mPendingWiFiState == WIFI_STATE_SCENE_KEYBOARD) {
-        SetWiFiNextScene(0xe);
+        SetWiFiNextScene(SCENE_KEYBOARD);
     }
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     if (gWiFiAikotoba->mStateFrames <= WIFI_AIKOTOBA_SLIDE_FRAMES) {
@@ -306,7 +306,7 @@ void AdvanceWiFiAikotobaBuddyFullAsk(void) {
         if (GetTxtSystemSelectedIndex() == 0) {
             gWiFiAikotoba->mPendingWiFiState = WIFI_STATE_SCENE_RECORD;
             if (GetWiFiNextScene() == -1) {
-                SetWiFiNextScene(8);
+                SetWiFiNextScene(SCENE_RECORD);
             }
             gMenuShared->mWiFiScene8StartKind = 1;
             return;

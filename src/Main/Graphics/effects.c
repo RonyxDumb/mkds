@@ -59,7 +59,7 @@ void InitEffects(void *defaultHeap) {
     Vec3 *emitterDirection;
 
     gGetSPLManagerFunction = GetRaceEffectSPLManager;
-    if (GetCurrentSceneNumber() == 2) {
+    if (GetCurrentSceneNumber() == SCENE_RACE) {
         raceSetup = gRaceSetup;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
             gGetSPLManagerFunction = GetSPLManagerForEffectId;
@@ -87,7 +87,7 @@ void InitEffects(void *defaultHeap) {
     gMissionRunSPLManager = NULL;
     gAdvanceEmittersFunction = NULL;
     gStadiumEmitters = NULL;
-    if (GetCurrentSceneNumber() != 2) {
+    if (GetCurrentSceneNumber() != SCENE_RACE) {
         return;
     }
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {

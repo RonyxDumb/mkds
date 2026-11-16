@@ -1352,7 +1352,8 @@ void UpdateInputSlots(void) {
         micValue = slotKeys;
         isBlocked = (gInputState->mFlags & INPUT_STATE_OPEN_DURING_RACE) ? 1 : 0;
         skipUpdate = FALSE;
-        canReadKeys = (GetCurrentSceneNumber() != 2 || (gInputState->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
+        canReadKeys =
+            (GetCurrentSceneNumber() != SCENE_RACE || (gInputState->mFlags & INPUT_STATE_READ_RACE_KEYS)) ? 1 : 0;
         inputSlot = &gInputSlots[slotIndex];
         flags = gInputState->mFlags;
         if (!(flags & INPUT_STATE_NO_KEYS)) {

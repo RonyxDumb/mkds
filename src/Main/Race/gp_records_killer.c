@@ -199,7 +199,7 @@ static inline BOOL IsGrandPrixRecordFilledTopRank(s32 cup, s32 engineClass) {
 u32 SetAndWriteSecretMessageFlags(void) {
     u32 setFlagBits;
     setFlagBits = 0;
-    if (GetCurrentSceneNumber() == 10) {
+    if (GetCurrentSceneNumber() == SCENE_RESULT) {
         setFlagBits = SetSecretMessageFlags();
         WriteBackupFirstBlockWrapper();
         WaitThreadFunctionsDone();

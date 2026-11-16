@@ -233,7 +233,7 @@ s32 RunScenes(s16 *sceneNumber) {
         if (gSceneNumbers[2] != -1) {
             *sceneNumber = gSceneNumbers[2];
         } else {
-            *sceneNumber = 9;
+            *sceneNumber = SCENE_LOGO;
         }
         switch (gStartupWork->mConnectionKind) {
             case CONNECTION_KIND_NONE:

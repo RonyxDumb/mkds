@@ -281,10 +281,10 @@ void AdvanceWiFiTopMenuSlideOut(void) {
     s32 offsetX;
     if (GetWiFiNextScene() == -1) {
         if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE && GetWiFiSessionLoginResult() != 1) {
-            SetWiFiNextScene(0);
+            SetWiFiNextScene(SCENE_TITLE);
         } else if (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) {
             gStartupWork->mConnectionKind = CONNECTION_KIND_WIFI_TOP_MENU;
-            SetWiFiNextScene(12);
+            SetWiFiNextScene(SCENE_WIFI_MENU);
         }
     }
     gWiFiTopMenu->mStateFrames++;
@@ -343,7 +343,7 @@ void AdvanceWiFiTopMenuWaitNextScene(void) {
     int queryResult;
     queryResult = GetWiFiNextScene();
     if ((queryResult == -1) && (gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE)) {
-        SetWiFiNextScene(0);
+        SetWiFiNextScene(SCENE_TITLE);
     }
     queryResult = GetWiFiSessionLoginResult();
     if (queryResult != 1) {

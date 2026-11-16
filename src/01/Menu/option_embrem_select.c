@@ -265,7 +265,7 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
     s32 offsetX;
 
     if (GetOptionNextScene() == -1 && gOptionEmbremSelect->mNextOptionState == OPTION_STATE_SCENE_EMBLEM) {
-        RequestOptionNextScene(3);
+        RequestOptionNextScene(SCENE_EMBLEM);
     }
     gOptionEmbremSelect->mStateFrames++;
     offsetX = InterpolateS16(1, 0, OPTION_EMBREM_SELECT_SLIDE_DISTANCE, gOptionEmbremSelect->mStateFrames,

@@ -425,7 +425,7 @@ void AdvanceWiFiVSSettingSlideOut(void) {
 
     if (GetWiFiNextScene() == -1 && gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_SCENE_RECORD &&
         HasBuddyRecords() != FALSE) {
-        SetWiFiNextScene(8);
+        SetWiFiNextScene(SCENE_RECORD);
     }
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
     if (gWiFiVSSetting->mStateFrames <= WIFI_VS_SETTING_SLIDE_FRAMES) {

@@ -1114,7 +1114,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
         case RESULTS_BATTLE_STATE_END_CONNECTION:
             if (AdvanceConnectionEndStopOnError() == 1) {
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 0;
+                    sceneNumbers->mNextScene = SCENE_TITLE;
                 }
                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
             }

@@ -24,6 +24,7 @@
 #include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/System/scene_numbers.h"
 
 #pragma opt_rebuildconditionals off
 
@@ -45,7 +46,7 @@ BOOL IsInputOpenDuringRace(void) {
 }
 
 void SetReadRaceKeys(u32 enable) {
-    if (GetCurrentSceneNumber() == 2 && enable != 0) {
+    if (GetCurrentSceneNumber() == SCENE_RACE && enable != 0) {
         gInputState->mFlags |= INPUT_STATE_READ_RACE_KEYS;
     } else {
         gInputState->mFlags &= ~INPUT_STATE_READ_RACE_KEYS;

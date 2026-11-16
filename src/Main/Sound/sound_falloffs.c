@@ -18,6 +18,7 @@
 #include "fixed_arctangent.h"
 #include "registers.h"
 #include "Main/Sound/sound_handle_slots_and_other_kart_falloff.h"
+#include "Main/System/scene_numbers.h"
 
 void StopKartSoundWhileRequested(Kart *kart) {
     if (kart->mSound.mWhileRequestedSoundId == KART_SOUND_WHILE_REQUESTED_STOPPED) {
@@ -74,7 +75,7 @@ void InitSoundFalloffs(void) {
     static SoundFalloffSettings defaultSettings0 = {800, 500, 47, 150, 127};
     static SoundFalloffSettings defaultSettings1 = {800, 500, 47, 150, 95};
 
-    if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
+    if (GetCurrentSceneNumber() == SCENE_RACE && gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
         isReplayScene = TRUE;
     } else {
         isReplayScene = FALSE;

@@ -224,7 +224,7 @@ void RunMessageScreenThread(void *unused) {
         sessionHeapCreated = FALSE;
         hasDisplaySettings = FALSE;
         OS_SleepThread(&gSceneRunState->mThreadQueue);
-        gSceneRunState->mNextScene = 0;
+        gSceneRunState->mNextScene = SCENE_TITLE;
         ResetMessageScreen();
         if (gDisplaySettings != NULL) {
             hasDisplaySettings = TRUE;
@@ -281,7 +281,7 @@ void RunMessageScreenThread(void *unused) {
                 gSceneRunState->mNextScene = SCENE_WIFI_MENU;
                 break;
             default:
-                gSceneRunState->mNextScene = 0;
+                gSceneRunState->mNextScene = SCENE_TITLE;
                 break;
         }
     }
@@ -297,7 +297,7 @@ void RunMessageScreen(void) {
 
     sessionHeapCreated = FALSE;
     hasDisplaySettings = FALSE;
-    gSceneRunState->mNextScene = 0;
+    gSceneRunState->mNextScene = SCENE_TITLE;
     ResetMessageScreen();
     if (gDisplaySettings != NULL) {
         hasDisplaySettings = TRUE;
@@ -362,7 +362,7 @@ void RunMessageScreen(void) {
             gSceneRunState->mNextScene = SCENE_WIFI_MENU;
             break;
         default:
-            gSceneRunState->mNextScene = 0;
+            gSceneRunState->mNextScene = SCENE_TITLE;
             break;
     }
 }
@@ -472,9 +472,9 @@ u32 IsDataSharingIncomplete(void) {
 
 BOOL ShouldGoSleepMode(void) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT || SceneIsConnectionActive() ||
-        (GetCurrentSceneNumber() == 12 && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
-        (GetCurrentSceneNumber() != 12 && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
-        GetCurrentSceneNumber() == 13 || GetCurrentSceneNumber() == 6) {
+        (GetCurrentSceneNumber() == SCENE_WIFI_MENU && IsWiFiSessionOffOutsideLoginWrapper() == FALSE) ||
+        (GetCurrentSceneNumber() != SCENE_WIFI_MENU && gWiFiSession->mStateMachine.mState != WIFI_SESSION_STATE_OFF) ||
+        GetCurrentSceneNumber() == SCENE_GHOST || GetCurrentSceneNumber() == SCENE_WL_MENU) {
         return FALSE;
     }
     return TRUE;

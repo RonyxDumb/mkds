@@ -482,7 +482,7 @@ void InitSceneSounds(s32 unused) {
     SoundRow soundRow;
     ScenePlayersSeqInfo scenePlayersSeqInfo;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == SCENE_WL_MENU) {
         return;
     }
     ClearSurfaceSoundIds();
@@ -881,7 +881,7 @@ void StartSceneSounds(void) {
     s32 playerId2;
 
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        if (GetCurrentSceneNumber() == 6) {
+        if (GetCurrentSceneNumber() == SCENE_WL_MENU) {
             return;
         }
     }
@@ -1492,7 +1492,7 @@ void StopSceneSounds(void) {
     s32 poolIndex;
     u8 *playerCursor;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == SCENE_WL_MENU) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;
@@ -1519,7 +1519,7 @@ void StopSceneSoundsAtOnce(void) {
     u8 *playerCursor;
     SoundHandlePool *playerTable;
 
-    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == 6) {
+    if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT && GetCurrentSceneNumber() == SCENE_WL_MENU) {
         return;
     }
     gPlayerVolumeFade.mTargetVolumeBeforeRaceStart = 0;

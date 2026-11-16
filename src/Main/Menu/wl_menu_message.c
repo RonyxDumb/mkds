@@ -120,7 +120,7 @@ s32 AdvanceWLMenuMessageToRace(SceneNumbers *sceneNumbers) {
             break;
         case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
-                SetNextScene(sceneNumbers, 2);
+                SetNextScene(sceneNumbers, SCENE_RACE);
             }
             gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;
@@ -150,7 +150,7 @@ s32 AdvanceWLMenuMessageToResult(SceneNumbers *sceneNumbers) {
             break;
         case WL_MENU_MESSAGE_STATE_SET_NEXT_SCENE:
             if (sceneNumbers != 0) {
-                SetNextScene(sceneNumbers, 10);
+                SetNextScene(sceneNumbers, SCENE_RESULT);
             }
             gWLMenuMessage->mState = WL_MENU_MESSAGE_STATE_DONE;
             break;

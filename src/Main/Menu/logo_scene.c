@@ -122,7 +122,7 @@ void WriteLogoSceneRegisters(void) {
 void UpdateLogoScene(SceneNumbers *sceneNumbers) {
     AdvanceStateMachine(&gLogoScene->mStateMachine);
     if (sceneNumbers != NULL && gLogoScene->mStateMachine.mState == LOGO_STATE_END) {
-        sceneNumbers->mNextScene = 0;
+        sceneNumbers->mNextScene = SCENE_TITLE;
     }
     AdvanceSceneText();
 }

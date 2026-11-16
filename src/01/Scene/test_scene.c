@@ -305,7 +305,7 @@ void UpdateTestSceneObject(SceneNumbers *sceneNumbers) {
     if (sceneNumbers != NULL) {
         slotIndex = GetTestSceneInputSlot();
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_A) != 0) {
-            sceneNumbers->mNextScene = 0;
+            sceneNumbers->mNextScene = SCENE_TITLE;
         }
         if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_X) != 0) {
             testScene = gTestScene;

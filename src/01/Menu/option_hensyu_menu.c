@@ -246,9 +246,9 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
     s32 offsetX;
     if (GetOptionNextScene() == -1) {
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_KEYBOARD) {
-            RequestOptionNextScene(0xe);
+            RequestOptionNextScene(SCENE_KEYBOARD);
         } else if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_SCENE_EMBLEM) {
-            RequestOptionNextScene(3);
+            RequestOptionNextScene(SCENE_EMBLEM);
         }
     }
     gOptionHensyuMenu->mStateFrames++;

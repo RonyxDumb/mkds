@@ -467,7 +467,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 }
             } else if ((u16) (value & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = 0;
+                    sceneNumbers->mNextScene = SCENE_TITLE;
                 }
                 gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT;
                 RequestSelectReturnPressWithSound(1);

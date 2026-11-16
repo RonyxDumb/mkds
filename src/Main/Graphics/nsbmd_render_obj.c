@@ -30,6 +30,7 @@
 #include "Main/Graphics/nsbmd_draw.h"
 #include "Main/Graphics/res_file_entries_reset.h"
 #include "frame_texture_vram_alloc.h"
+#include "Main/System/scene_numbers.h"
 
 const Vec3 gKartEffectVec3UnitY = {0, 0x1000, 0};
 const Vec3 gKartEffectVec3Zero = {0, 0, 0};
@@ -122,7 +123,7 @@ void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap) {
     u32 materialIndex;
     NNSG3dResMdl *objResMdl;
 
-    if (allowCullSwap != 0 && GetCurrentSceneNumber() == 2) {
+    if (allowCullSwap != 0 && GetCurrentSceneNumber() == SCENE_RACE) {
         nsbmd->mCullModesSwapped = gRaceSetup->mMirrorMode;
     } else {
         nsbmd->mCullModesSwapped = 0;

@@ -134,7 +134,7 @@ static inline BOOL RunSceneHasActiveConnection(void) {
 
 static inline void RunSceneFinishDisplayFrame(const SceneCallbacks *sceneCallbacks) {
     int currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == 1 || currentSceneNumber == 10) {
+    if (currentSceneNumber == 1 || currentSceneNumber == SCENE_RESULT) {
         FinishDisplayFrameSwapIf(!RunSceneHasActiveConnection() || !RunSceneIsDataSharingIncomplete());
     } else {
         FinishDisplayFrameUnlessSpanned(sceneCallbacks->mSkipWhenSpanned);
@@ -189,7 +189,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     gSceneRunState->mPassCount = exitValue;
     gSceneRunState->mSceneCallbacks = *callbacks;
     gSceneRunState->mRunStep = SCENE_RUN_STEP_IDLE;
-    gSceneRunState->mNextScene = 0;
+    gSceneRunState->mNextScene = SCENE_TITLE;
     gSceneRunState->mMessageKind = MESSAGE_KIND_NONE;
     gSceneRunState->mMessageInputEnabled = 0;
     interruptState = OS_DisableInterrupts();
@@ -357,7 +357,7 @@ end:
     }
     ReleaseArchiveSlots();
     if (exitValue != 0) {
-        sceneNumbers->mNextScene = 0;
+        sceneNumbers->mNextScene = SCENE_TITLE;
     } else {
         messageKind = gSceneRunState->mMessageKind;
         if (messageKind != MESSAGE_KIND_NONE) {
@@ -368,7 +368,7 @@ end:
                     sceneNumbers->mNextScene = gSceneRunState->mNextScene;
                     break;
                 default:
-                    sceneNumbers->mNextScene = 0;
+                    sceneNumbers->mNextScene = SCENE_TITLE;
                     break;
             }
         }

@@ -254,7 +254,7 @@ void AdvanceOptionTopMenuSlideOut(void) {
     s32 cellIndex;
 
     if (GetOptionNextScene() == -1 && gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE) {
-        RequestOptionNextScene(0);
+        RequestOptionNextScene(SCENE_TITLE);
     }
     gOptionTopMenu->mStateFrames++;
     if (gOptionTopMenu->mStateFrames <= OPTION_TOP_SLIDE_FRAMES) {
@@ -352,7 +352,7 @@ void AdvanceOptionTopMenuResetDone(void) {
     int queryResult;
     queryResult = GetOptionNextScene();
     if ((queryResult == -1) && (gOptionTopMenu->mNextOptionState == OPTION_STATE_SCENE_TITLE)) {
-        RequestOptionNextScene(0);
+        RequestOptionNextScene(SCENE_TITLE);
     }
     queryResult = GetTxtSystemDone();
     if (queryResult != 0) {

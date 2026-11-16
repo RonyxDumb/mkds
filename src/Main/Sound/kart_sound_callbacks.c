@@ -5,6 +5,7 @@
 #include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
+#include "Main/System/scene_numbers.h"
 
 void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
     if (kart->mEntryFlags & KART_ENTRY_GHOST) {
@@ -13,7 +14,7 @@ void InitKartSoundCallbacks(Kart *kart, KartSound *kartSound) {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;
     }
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
-    if (GetCurrentSceneNumber() == 2 || kart->mIndex != gRaceSetup->mEntryIndex) {
+    if (GetCurrentSceneNumber() == SCENE_RACE || kart->mIndex != gRaceSetup->mEntryIndex) {
         kartSound->mDistanceChangeFunction = GetSoundDistanceChange;
     } else {
         kartSound->mDistanceChangeFunction = GetZeroSoundDistanceChange;
