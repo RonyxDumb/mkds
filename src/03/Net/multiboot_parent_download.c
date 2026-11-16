@@ -374,12 +374,12 @@ u16 GetMultiBootChildMask(u32 maskIndex) {
     MultiBootParent *parent;
 
     parent = gMultiBootParent;
-    gMultiBootMaskPointers[0] = &parent->mHeader.mMask;
-    gMultiBootMaskPointers[1] = &parent->mHeader.mRequestedMask;
-    gMultiBootMaskPointers[2] = &parent->mHeader.mDownloadPendingMask;
-    gMultiBootMaskPointers[3] = &parent->mHeader.mDownloadStartedMask;
-    gMultiBootMaskPointers[4] = &parent->mHeader.mSendCompleteMask;
-    gMultiBootMaskPointers[5] = &parent->mHeader.mBootedMask;
+    gMultiBootMaskPointers[MULTIBOOT_CHILD_MASK_CONNECTED] = &parent->mHeader.mMask;
+    gMultiBootMaskPointers[MULTIBOOT_CHILD_MASK_REQUESTED] = &parent->mHeader.mRequestedMask;
+    gMultiBootMaskPointers[MULTIBOOT_CHILD_MASK_DOWNLOAD_PENDING] = &parent->mHeader.mDownloadPendingMask;
+    gMultiBootMaskPointers[MULTIBOOT_CHILD_MASK_DOWNLOAD_STARTED] = &parent->mHeader.mDownloadStartedMask;
+    gMultiBootMaskPointers[MULTIBOOT_CHILD_MASK_SEND_COMPLETE] = &parent->mHeader.mSendCompleteMask;
+    gMultiBootMaskPointers[MULTIBOOT_CHILD_MASK_BOOT_STARTABLE] = &parent->mHeader.mBootedMask;
     return *gMultiBootMaskPointers[maskIndex];
 }
 
@@ -392,26 +392,26 @@ u32 GetMultiBootChildState(u32 aid) {
     aidBit = 1 << aid;
     if ((gMultiBootParent->mHeader.mMask & aidBit) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
-        return 0;
+        return MULTIBOOT_CHILD_STATE_NOT_CONNECTED;
     }
     MI_CpuCopy8(gMultiBootParent, headerCopy, 0xe);
     OS_RestoreInterrupts(savedInterrupts);
     if ((headerCopy[2] & aidBit) != 0) {
-        return 2;
+        return MULTIBOOT_CHILD_STATE_REQUESTED;
     }
     if ((headerCopy[3] & aidBit) != 0) {
-        return 3;
+        return MULTIBOOT_CHILD_STATE_DOWNLOAD_PENDING;
     }
     if ((headerCopy[4] & aidBit) != 0) {
-        return 4;
+        return MULTIBOOT_CHILD_STATE_DOWNLOAD_STARTED;
     }
     if ((headerCopy[5] & aidBit) != 0) {
-        return 5;
+        return MULTIBOOT_CHILD_STATE_SEND_COMPLETE;
     }
     if ((headerCopy[6] & aidBit) != 0) {
-        return 6;
+        return MULTIBOOT_CHILD_STATE_BOOT_STARTABLE;
     }
-    return 1;
+    return MULTIBOOT_CHILD_STATE_CONNECTED;
 }
 
 void *GetMultiBootChildRecord(u32 aid) {

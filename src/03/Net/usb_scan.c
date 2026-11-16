@@ -223,7 +223,7 @@ void CheckUsbScanEntries(WMStartScanExCallback *scanResult) {
                         usbScan->mResultCallback(USB_SCAN_RESULT_FLAGGED);
                         return;
                     }
-                    usbScan->mPendingResult = 1;
+                    usbScan->mPendingResult = USB_SCAN_RESULT_FLAGGED;
                     return;
                 }
                 slotBssid += 7;

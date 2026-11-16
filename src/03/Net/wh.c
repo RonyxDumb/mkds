@@ -196,7 +196,7 @@ void StartWhMPCallback(WirelessMessage *event) {
                     return;
                 }
             } else if (gWhWork->mConnectMode == WIRELESS_CONNECT_MODE_DATA_SHARING) {
-                result = WM_StartDataSharing(&gWhWork->mDataSharingInfo, 0xd, 7, 0x44, 1);
+                result = WM_StartDataSharing(&gWhWork->mDataSharingInfo, 0xd, 7, WH_CHILD_MAX_SIZE, 1);
                 if (result != 0) {
                     SetWhErrorCode(result);
                     SetWhState(WH_STATE_ERROR);
