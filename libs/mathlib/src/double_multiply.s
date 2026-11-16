@@ -1,13 +1,12 @@
 // Multiplies the doubles r1:r0 and r3:r2 and returns the product in r1:r0, rounded as the floating-point status word
-// says (GetFloatStatus; see double_add_and_to_float.s). Denormal operands are normalised first; underflow,
-// overflow, inexact and
-// invalid (zero times infinity, signalling NaNs) set their flags or call the trap handlers with event codes ending in
-// 0x93. The operands stay saved on the stack for the invalid-operation trap.
+// says (GetFloatStatus; see double_add_and_to_float.s). Denormal operands are normalised first; underflow, overflow,
+// inexact and invalid (zero times infinity, signalling NaNs) set their flags or call the trap handlers with event
+// codes ending in 0x93. The operands stay saved on the stack for the invalid-operation trap.
 // Kept as asm: it counts leading zeros with clz, tests bits with tst, and saves the argument registers and ip
 // around its calls in the middle of the body.
 //
-// The constants after the code are read only by the second half, which is its own function so that they are marked
-// as data (starts at the return-infinity block).
+// The constants after the code are read only by the second half, DoubleMulTail, which is its own function so that they
+// are marked as data (it starts at the return-infinity block).
 
     .text
     .extern GetFloatStatus
