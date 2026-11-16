@@ -525,7 +525,7 @@ void UpdateItemKouraWSteerToTarget(void *stateObject) {
         (kart->mEntryFlags & KART_ENTRY_SELECTED)) {
         gain += 0x19a;
     }
-    if (item->mSpeed > ITEM_KOURA_W_CRUISE_SPEED) {
+    if (item->mSpeed > ITEM_KOURA_W_TARGET_SPEED) {
         item->mSpeed -= ITEM_KOURA_W_SPEED_STEP;
     } else {
         item->mSpeed += ITEM_KOURA_W_SPEED_STEP;
@@ -556,7 +556,7 @@ void UpdateItemKouraWFollowLink(void *stateObject) {
     void *normal;
     ItemPointLink *link;
 
-    if (item->mSpeed > ITEM_KOURA_W_CRUISE_SPEED) {
+    if (item->mSpeed > ITEM_KOURA_W_TARGET_SPEED) {
         item->mSpeed -= ITEM_KOURA_W_SPEED_STEP;
     } else {
         item->mSpeed += ITEM_KOURA_W_SPEED_STEP;
@@ -608,7 +608,7 @@ void UpdateItemKouraWCircleTarget(void *stateObject) {
     Vec3 direction;
     void *normal;
 
-    if (item->mSpeed > ITEM_KOURA_W_CRUISE_SPEED) {
+    if (item->mSpeed > ITEM_KOURA_W_TARGET_SPEED) {
         item->mSpeed -= ITEM_KOURA_W_SPEED_STEP;
     } else {
         item->mSpeed += ITEM_KOURA_W_SPEED_STEP;
@@ -631,7 +631,7 @@ void UpdateItemKouraWCircleTarget(void *stateObject) {
         }
     }
     UpdateItemKouraWDrawPos(item);
-    if ((u32) item->mAngle < ITEM_KOURA_W_CIRCLE_NORMAL_END_ANGLE) {
+    if ((u32) item->mAngle < ITEM_KOURA_W_CIRCLE_END_ANGLE) {
         normal = GetItemKouraWNormalOrNull(item);
         if (normal != NULL) {
             direction.x = item->mAnglePointOffset.x * 2;
@@ -665,7 +665,7 @@ void EnterItemKouraWRise(void *stateObject) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPosPointer =
             &item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mPos;
     }
-    item->mLift = ITEM_KOURA_W_HOVER_LIFT;
+    item->mLift = ITEM_KOURA_W_RISE_FALL_START_LIFT;
     item->mBobAmplitudeOrGain = FIXED12_RATIO(1, 5);
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
@@ -717,7 +717,7 @@ void EnterItemKouraWFall(void *stateObject) {
     ItemKouraW *item = stateObject;
     enum { KIND_FIRST } kind;
 
-    item->mLift = ITEM_KOURA_W_HOVER_LIFT;
+    item->mLift = ITEM_KOURA_W_RISE_FALL_START_LIFT;
     kind = item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mKind;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed = gItemKinds[kind].mTargetScale;
     item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScaleTargetOrSpeed += 0x800;
@@ -1477,10 +1477,10 @@ BOOL SwingItemObjectScale(ItemObject *item) {
     enum { KIND_FIRST } kind;
     s32 radiusRatio;
 
-    if (item->mScaleTargetOrSpeed <= -ITEM_OBJECT_SCALE_SWING_REST ||
-        item->mScaleTargetOrSpeed >= ITEM_OBJECT_SCALE_SWING_REST ||
-        item->mScale.x - item->mScale.y <= -ITEM_OBJECT_SCALE_SWING_REST ||
-        item->mScale.x - item->mScale.y >= ITEM_OBJECT_SCALE_SWING_REST) {
+    if (item->mScaleTargetOrSpeed <= -ITEM_OBJECT_SCALE_SWING_STOP_LIMIT ||
+        item->mScaleTargetOrSpeed >= ITEM_OBJECT_SCALE_SWING_STOP_LIMIT ||
+        item->mScale.x - item->mScale.y <= -ITEM_OBJECT_SCALE_SWING_STOP_LIMIT ||
+        item->mScale.x - item->mScale.y >= ITEM_OBJECT_SCALE_SWING_STOP_LIMIT) {
         kind = item->mKind;
         item->mFlags |= ITEM_OBJECT_FLAG_SCALE_CHANGED;
         item->mScale.y += item->mScaleTargetOrSpeed;

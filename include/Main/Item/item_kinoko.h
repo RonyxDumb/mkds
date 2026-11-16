@@ -36,12 +36,12 @@ typedef enum ItemKouraRState {
 // Frames of the close-in state during which the shell hits the kart only once its horizontal distance is below the kart
 // radius plus one and a half shell radii; after them it hits at once.
 #define ITEM_KOURA_R_CLOSE_IN_HIT_FRAMES 0x14
-// An object without ITEM_OBJECT_FLAG_IN_USE that is active and has ITEM_OWNER_KOURA_R_TARGETED starts the sound only
-// while its age is below this (2 seconds).
+// An object without ITEM_OBJECT_FLAG_IN_USE that is active and has ITEM_OWNER_KART_TARGETED_BY_KOURA_R starts the sound
+// only while its age is below this (2 seconds).
 #define ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES 0x78
 // Checks, one per two frames, in a Wi-Fi race that find the shell within the kart's radius (mRadius times the kart
 // scale); above this count it fades out.
-#define ITEM_KOURA_R_NEAR_KART_LIMIT_FRAMES 0x5a
+#define ITEM_KOURA_R_NEAR_KART_LIMIT_CHECKS 0x5a
 // Age (10 seconds) above which a green shell has no hits left (mHitsRemaining is set to 0).
 #define ITEM_KOURA_G_LIFETIME_FRAMES 0x258
 

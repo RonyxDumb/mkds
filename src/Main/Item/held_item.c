@@ -714,7 +714,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
             value += MUL_FIXED12_NO_ROUND(itemInUse->mKartHopHeight, 0x14cd);
         }
     }
-    if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_SPREAD_KART_SPEED) {
+    if (itemInUse->mKartVelocityLength < ITEM_THROW_RANDOM_OFFSET_KART_SPEED) {
         direction.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
         direction.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
     }
@@ -812,7 +812,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             if (value <= 0) {
                 LandItemObjectIfOnGround(&item->mItemObject, pos, velocity, gravity, &hitNormal);
             } else {
-                item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_BOUNCED;
+                item->mItemObject.mFlags |= ITEM_OBJECT_FLAG_BOUNCED_OFF_GROUND;
                 value = VEC_DotProduct(&hitNormal, velocity);
                 offset.x = MUL_FIXED12_NO_ROUND(hitNormal.x, value);
                 offset.y = MUL_FIXED12_NO_ROUND(hitNormal.y, value);

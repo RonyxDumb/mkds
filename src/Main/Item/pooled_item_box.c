@@ -234,7 +234,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
         return box->mThrownForward;
     } else {
         ThrowBouncingItem(&box->mBouncingItemObject, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
-        if (itemInUse->mKartVelocityLength < ITEM_THROW_STILL_KART_SPEED) {
+        if (itemInUse->mKartVelocityLength < ITEM_THROW_ZERO_VELOCITY_KART_SPEED) {
             box->mBouncingItemObject.mItemObject.mVelocity.x = 0;
             box->mBouncingItemObject.mItemObject.mVelocity.y = 0;
             box->mBouncingItemObject.mItemObject.mVelocity.z = 0;

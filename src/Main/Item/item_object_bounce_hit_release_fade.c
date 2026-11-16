@@ -324,7 +324,7 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
     if (item->mAlpha <= 0) {
         ReleaseItemPoolObject(&gItemPools[item->mKind], item);
     } else {
-        if (item->mAlpha < ITEM_OBJECT_FADE_ALPHA_NO_COLLISION) {
+        if (item->mAlpha < ITEM_OBJECT_RELEASE_ALPHA_NO_COLLISION) {
             FreeItemObjectCollisionSlot(item);
         }
     }

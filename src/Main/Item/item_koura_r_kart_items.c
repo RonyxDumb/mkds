@@ -69,7 +69,7 @@ BOOL SteerItemKouraRToKart(ItemKouraR *item, s32 speed, s32 gain, s32 flag) {
             if (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_WIFI_RACE) {
                 if (value < MUL_FIXED12_ROUNDED(kart->mPhysicalParam->mRadius, kart->mScale.z)) {
                     item->mNearKartFrames = item->mNearKartFrames + 1;
-                    if (item->mNearKartFrames > ITEM_KOURA_R_NEAR_KART_LIMIT_FRAMES) {
+                    if (item->mNearKartFrames > ITEM_KOURA_R_NEAR_KART_LIMIT_CHECKS) {
                         FadeOutItemObjectNoCallback(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, 1);
                         return FALSE;
                     }

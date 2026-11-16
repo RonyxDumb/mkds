@@ -134,7 +134,7 @@ void UpdateItemBombBounce(void *stateObject) {
     } else {
         AdvanceBouncingItem(&bomb->mBouncingItemObject, 0x47b, 0xf91, bomb->mReflectFactor, &collisionHitLink);
     }
-    if (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_BOUNCED) {
+    if (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_BOUNCED_OFF_GROUND) {
         StartItemObjectSoundIfNear(&bomb->mBouncingItemObject.mItemObject, 0xe5);
     }
     if ((bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_LANDED) == 0) {

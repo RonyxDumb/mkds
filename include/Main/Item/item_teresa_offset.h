@@ -31,7 +31,7 @@ typedef struct ItemTeresa ItemTeresa;
 // Points of the path the Boo follows when it took nothing, and the index of the last of the four points loaded to start
 // it.
 #define ITEM_TERESA_PATH_POINT_COUNT 11
-#define ITEM_TERESA_PATH_START_INDEX 3
+#define ITEM_TERESA_PATH_LAST_LOADED_INDEX 3
 // State frames: the frame of the take-item state at which the dip (drop and rise of the offset) starts, the frames of
 // the fade-in at the picked kart after which a Boo without a picked kart gives up, and the frames the Boo may stall
 // waiting for the taken item.

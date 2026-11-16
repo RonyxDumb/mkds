@@ -47,19 +47,19 @@ typedef struct DirectionQuaternion {
 // ItemKouraW.mSpeed at the start (InitItemKouraWCommon), the speed the follow-link, steer-to-target and circle-target
 // states move it toward (by the step each call), and its value when the rise starts.
 #define ITEM_KOURA_W_START_SPEED 0x1a000
-#define ITEM_KOURA_W_CRUISE_SPEED 0xd000
+#define ITEM_KOURA_W_TARGET_SPEED 0xd000
 #define ITEM_KOURA_W_SPEED_STEP 0xccd
 #define ITEM_KOURA_W_RISE_START_SPEED 0x3000
 // ItemKouraW.mLift at the start (InitItemKouraWCommon), at the start of the rise and of the fall, and the value above
 // which the rise ends.
 #define ITEM_KOURA_W_START_LIFT 0x32000
-#define ITEM_KOURA_W_HOVER_LIFT 0x28000
+#define ITEM_KOURA_W_RISE_FALL_START_LIFT 0x28000
 #define ITEM_KOURA_W_RISE_LIFT_LIMIT 0x2d000
 // ItemKouraW.mAngleStep when the circling starts, the angle below which the radius shrinks by 2/5 per call (half a
 // turn; 65536 is a full turn), and the angle at which the circling ends and the rise starts.
 #define ITEM_KOURA_W_CIRCLE_START_ANGLE_STEP 0x3e8
 #define ITEM_KOURA_W_CIRCLE_HALF_ANGLE 0x8000
-#define ITEM_KOURA_W_CIRCLE_NORMAL_END_ANGLE 0x11f40
+#define ITEM_KOURA_W_CIRCLE_END_ANGLE 0x11f40
 // State frame of the pick-target state at which the shell starts its position strip, and the state frame after which it
 // takes the first-place kart as its target (when it has none yet) and steers to it.
 #define ITEM_KOURA_W_POS_STRIP_FRAME 8

@@ -83,7 +83,7 @@ extern SegmentProgress gJgSegmentProgress;
 #define ITEM_OBJECT_RECENT_HIT_FRAMES 5
 
 // ItemObject.mAlpha below which an object whose release timer runs gives up its collision slot.
-#define ITEM_OBJECT_FADE_ALPHA_NO_COLLISION 0xa
+#define ITEM_OBJECT_RELEASE_ALPHA_NO_COLLISION 0xa
 
 // A resting object whose mHitLinkTimer is above 0 re-tests its hit link on the frames whose number modulo 8 equals
 // ItemObject.mCreationNumber & this.
@@ -91,7 +91,7 @@ extern SegmentProgress gJgSegmentProgress;
 
 // The size of ItemObject.mScaleTargetOrSpeed and of mScale.x - mScale.y under which SwingItemObjectScale stops (it sets
 // mScaleTargetOrSpeed to 0).
-#define ITEM_OBJECT_SCALE_SWING_REST 0x29
+#define ITEM_OBJECT_SCALE_SWING_STOP_LIMIT 0x29
 
 // ItemObject.mPendingUpdateCount bit set when the object has frames to catch up.
 #define ITEM_OBJECT_PENDING_UPDATE_CATCH_UP 0x8000
@@ -107,9 +107,9 @@ extern SegmentProgress gJgSegmentProgress;
 // which an excluded owner is free again (once it has a course hit, and without waiting for one).
 #define ITEM_OBJECT_RECENT_HIT_FRAMES 5
 #define ITEM_OBJECT_RESTING_RELEASE_FRAMES 0xb4
-#define ITEM_OBJECT_COURSE_RELEASE_FRAMES 2
+#define ITEM_OBJECT_NOT_RESTING_RELEASE_FRAMES 2
 #define ITEM_OBJECT_VIEW_TEST_OUTSIDE_BITS 3
-#define ITEM_OBJECT_EXCLUDED_AFTER_HIT_AGE_FRAMES 4
+#define ITEM_OBJECT_EXCLUDED_UNTIL_COURSE_HIT_AGE_FRAMES 4
 #define ITEM_OBJECT_EXCLUDED_AGE_FRAMES 0x1e
 // Fade-out (ITEM_OBJECT_FLAG_FADING_OUT) began this frame.
 #define ITEM_OBJECT_FLAG_FADE_OUT_STARTED 0x1
@@ -120,7 +120,7 @@ extern SegmentProgress gJgSegmentProgress;
 // A falling or bouncing object settled on the ground this frame (not set when it was hit this step).
 #define ITEM_OBJECT_FLAG_LANDED 0x8
 // A bouncing object bounced off the ground this frame.
-#define ITEM_OBJECT_FLAG_BOUNCED 0x10
+#define ITEM_OBJECT_FLAG_BOUNCED_OFF_GROUND 0x10
 // A bouncing or falling object hit a wall this frame; a thrown object only if it has a hit limit.
 #define ITEM_OBJECT_FLAG_HIT_WALL 0x20
 // The scale (and with it the radii) was changed this frame.
@@ -182,7 +182,7 @@ extern SegmentProgress gJgSegmentProgress;
 // Any of the four pending bits.
 #define ITEM_OWNER_PENDING_MASK 0xf00
 // The object was started while a red shell was targeting its owner kart.
-#define ITEM_OWNER_KOURA_R_TARGETED 0x1000
+#define ITEM_OWNER_KART_TARGETED_BY_KOURA_R 0x1000
 // With ITEM_OWNER_EXCLUDED: instead of the age limit, the exclusion ends once the object is older than 4 frames and had
 // a ground hit in the last 5 frames.
 #define ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT 0x2000

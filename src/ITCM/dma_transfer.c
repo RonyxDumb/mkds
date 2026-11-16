@@ -156,7 +156,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
                     if (itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING) {
                         itemObject->mCourseReleaseTimer = ITEM_OBJECT_RESTING_RELEASE_FRAMES;
                     } else {
-                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_COURSE_RELEASE_FRAMES;
+                        itemObject->mCourseReleaseTimer = ITEM_OBJECT_NOT_RESTING_RELEASE_FRAMES;
                     }
                 }
             }
@@ -210,7 +210,7 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     itemObject->mAgeFrames += 1;
     if (itemObject->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED) {
         if (itemObject->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED_UNTIL_COURSE_HIT) {
-            if (itemObject->mAgeFrames > ITEM_OBJECT_EXCLUDED_AFTER_HIT_AGE_FRAMES &&
+            if (itemObject->mAgeFrames > ITEM_OBJECT_EXCLUDED_UNTIL_COURSE_HIT_AGE_FRAMES &&
                 !(itemObject->mFlags & ITEM_OBJECT_FLAG_NO_RECENT_COURSE_HIT)) {
                 itemObject->mOwnerKartIndexAndFlags &= ~ITEM_OWNER_EXCLUDED;
             }

@@ -54,7 +54,7 @@ const u16 gKartItemsStartUseBit = KART_ITEMS_START_USE;
 const u16 gKartItemsThrowForwardBit = 0x10;
 const u16 gItemInUseAdvancedBit = 0x100;
 const u16 gKartItemsEndUseBit = KART_ITEMS_END_USE;
-const u16 gItemObjectKouraRTargetedBit = ITEM_OWNER_KOURA_R_TARGETED;
+const u16 gItemObjectKouraRTargetedBit = ITEM_OWNER_KART_TARGETED_BY_KOURA_R;
 ItemKind *gItemKinds;
 
 // Hands out count objects from the pool, releasing the first active one while the pool is too full.
@@ -285,7 +285,7 @@ found:
         if (object->mOwnerKartIndexAndFlags & ITEM_OWNER_RELEASE_PENDING) {
             StartItemObjectRelease(object);
         }
-    } else if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
+    } else if ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_KART_TARGETED_BY_KOURA_R) == 0) {
         value = (u16) ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                            ? (u16) (object->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
                            : ITEM_NO_KART_INDEX);

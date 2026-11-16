@@ -919,7 +919,7 @@ void EnterItemTeresaFadeInAtOwner(void *stateObject) {
     }
     if (teresa->mItemObjectKind == ITEM_TERESA_KIND_TOOK_NOTHING) {
         InitSegmentPoints(&teresa->mPathSegmentPoints, gItemTeresaPathPoints, gItemTeresaPathPoints[0].y);
-        teresa->mPointIndex = ITEM_TERESA_PATH_START_INDEX;
+        teresa->mPointIndex = ITEM_TERESA_PATH_LAST_LOADED_INDEX;
         teresa->mFollowsPath = TRUE;
     } else {
         teresa->mOffsetVelocityY = -teresa->mSavedOffsetVelocityY;

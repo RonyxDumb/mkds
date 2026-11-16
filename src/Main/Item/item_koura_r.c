@@ -487,7 +487,7 @@ void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject 
         if ((otherFlags & ITEM_OBJECT_FLAG_ACTIVE) == 0) {
             return;
         }
-        if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_KOURA_R_TARGETED) == 0) {
+        if ((other->mOwnerKartIndexAndFlags & ITEM_OWNER_KART_TARGETED_BY_KOURA_R) == 0) {
             return;
         }
         if (other->mAgeFrames >= ITEM_KOURA_R_TARGET_SOUND_AGE_FRAMES) {

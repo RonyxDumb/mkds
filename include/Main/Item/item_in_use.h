@@ -116,11 +116,11 @@ typedef struct KartModelsEntry {
 #define ITEM_IN_USE_HOP_HISTORY_DELAY 6
 // Kart speed (ItemInUse.mKartVelocityLength) below which a bouncing item box that is not thrown forward is dropped with
 // no velocity.
-#define ITEM_THROW_STILL_KART_SPEED 0x1000
+#define ITEM_THROW_ZERO_VELOCITY_KART_SPEED 0x1000
 // Kart speeds (ItemInUse.mKartVelocityLength) below which a thrown item gets a random offset in x and z of its
 // direction, and below which an item thrown backwards from a hop, while its scale.z is below 0xccd, is moved up and
 // back from the kart.
-#define ITEM_THROW_RANDOM_SPREAD_KART_SPEED 0x3000
+#define ITEM_THROW_RANDOM_OFFSET_KART_SPEED 0x3000
 #define ITEM_THROW_HOP_OFFSET_KART_SPEED 0x2000
 // ItemInUse.mCircleAngleSpeed at the start of a circle item, the value below which the speed still grows, and its
 // increase per call.
