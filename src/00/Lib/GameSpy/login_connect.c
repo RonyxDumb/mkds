@@ -161,7 +161,7 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
         return 1;
     }
     memset(data, 0, sizeof(*data));
-    data->mNewUser = newuser;
+    data->mNewuser = newuser;
     if (*authtoken != 0 && *partnerchallenge != 0) {
         GpiCopyString((char *) data->mAuthtoken, (const char *) authtoken, 0x100);
         GpiCopyString((char *) data->mPartnerChallenge, (const char *) partnerchallenge, 0x100);
@@ -364,7 +364,7 @@ u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation
                 GpiQueueErrorCallback(connection, 3, 1);
                 return 3;
             }
-            if (data->mNewUser != 0) {
+            if (data->mNewuser != 0) {
                 result = GpiWriteNewuser(connection, data);
                 if (result != 0) {
                     return result;

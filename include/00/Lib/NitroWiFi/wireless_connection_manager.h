@@ -142,7 +142,7 @@ typedef struct WCMWork {
 typedef struct WMStartConnectCallback {
     /* 00 */ u16 mApiId;
     /* 02 */ u16 mErrCode;
-    /* 04 */ u16 mWlCmdId;
+    /* 04 */ u16 mWlCmdID;
     /* 06 */ u16 mWlResult;
     /* 08 */ u16 mState;
     /* 0a */ u16 mAid;

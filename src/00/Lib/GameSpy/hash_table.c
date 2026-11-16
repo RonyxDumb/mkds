@@ -36,7 +36,7 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*h
     }
     table->mBucketCount = nBuckets;
     table->mElemCallback = freeElement;
-    table->mCompFn = compFn;
+    table->mCompfn = compFn;
     table->mHashFn = hashFn;
     return table;
 }
@@ -79,7 +79,7 @@ void HashtableSet(Hashtable *table, void *elem) {
     }
     if (table != NULL) {
         bucketNo = table->mHashFn(elem, table->mBucketCount);
-        elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompFn, 0, 0);
+        elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
         if (elemIndex == -1) {
             DarrayAppend(table->mBuckets[bucketNo], elem);
             return;
@@ -98,7 +98,7 @@ BOOL HashtableRemove(Hashtable *table, void *elem) {
         return FALSE;
     }
     bucketNo = table->mHashFn(elem, table->mBucketCount);
-    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompFn, 0, 0);
+    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
     if (elemIndex != -1) {
         DarrayRemove(table->mBuckets[bucketNo], elemIndex);
         return TRUE;
@@ -116,7 +116,7 @@ void *HashtableFind(Hashtable *table, void *elem) {
         return NULL;
     }
     bucketNo = table->mHashFn(elem, table->mBucketCount);
-    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompFn, 0, 0);
+    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
     if (elemIndex != -1) {
         return DarrayGetElement(table->mBuckets[bucketNo], elemIndex);
     }

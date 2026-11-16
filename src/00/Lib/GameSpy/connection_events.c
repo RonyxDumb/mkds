@@ -265,7 +265,7 @@ u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, 
         return 1;
     }
     if (send != 0) {
-        callback = socket->mSentCallback;
+        callback = socket->mSendDumpCallback;
     } else {
         callback = socket->mReceiveDumpCallback;
     }

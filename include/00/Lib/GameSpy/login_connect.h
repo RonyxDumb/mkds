@@ -33,7 +33,7 @@ typedef struct GPIConnectData {
     /* 1c2 */ s8 mPartnerChallenge[0x100];
     /* 2c2 */ s8 mCdkey[0x41];
     /* 303 */ u8 mUnk_303;
-    /* 304 */ s32 mNewUser;
+    /* 304 */ s32 mNewuser;
 } GPIConnectData;
 
 void randomString(char *buffer, s32 numChars);

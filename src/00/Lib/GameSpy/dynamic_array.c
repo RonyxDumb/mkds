@@ -16,14 +16,14 @@ void DarrayCallElemCallback(void *arrayArg, s32 index) {
 
 void DarrayGrow(Darray *dynArray) {
     dynArray->mCapacity = dynArray->mCapacity + dynArray->mGrowCount;
-    dynArray->mList = DWCi_GsRealloc(dynArray->mList, dynArray->mCapacity * dynArray->mElemSize);
+    dynArray->mList = DWCi_GsRealloc(dynArray->mList, dynArray->mCapacity * dynArray->mElemsize);
     if (dynArray->mList == NULL) {
         AssertionFailed("array->list", "darray.c", NULL, 0x41);
     }
 }
 
 void DarraySetElement(Darray *darray, const void *elem, s32 index) {
-    memcpy(DarrayGetElement(darray, index), elem, darray->mElemSize);
+    memcpy(DarrayGetElement(darray, index), elem, darray->mElemsize);
 }
 
 void *DarrayCreate(s32 elemSize, s32 initialCapacity, void (*freeElement)(void *)) {
@@ -39,11 +39,11 @@ void *DarrayCreate(s32 elemSize, s32 initialCapacity, void (*freeElement)(void *
     }
     array->mCount = 0;
     array->mCapacity = initialCapacity;
-    array->mElemSize = elemSize;
+    array->mElemsize = elemSize;
     array->mGrowCount = initialCapacity;
     array->mElemCallback = freeElement;
     if (array->mCapacity != 0) {
-        array->mList = DWCi_GsMalloc(array->mCapacity * array->mElemSize);
+        array->mList = DWCi_GsMalloc(array->mCapacity * array->mElemsize);
         if (array->mList == NULL) {
             AssertionFailed("array->list", "darray.c", NULL, 0x5e);
         }
@@ -83,7 +83,7 @@ void *DarrayGetElement(void *darrayArg, s32 index) {
     if (index < 0 || index >= array->mCount) {
         return NULL;
     }
-    return array->mList + array->mElemSize * index;
+    return array->mList + array->mElemsize * index;
 }
 
 void DarrayAppend(void *darrayArg, void *element) {
@@ -109,7 +109,7 @@ void DarrayInsert(void *darrayArg, void *element, s32 index) {
     lastIndex = array->mCount - 1;
     if (index < lastIndex) {
         memmove(DarrayGetElement(array, index + 1), DarrayGetElement(array, index),
-                array->mElemSize * (lastIndex - index));
+                array->mElemsize * (lastIndex - index));
     }
     DarraySetElement(array, element, index);
 }
@@ -121,8 +121,8 @@ void DarrayInsertSorted(Darray *array, void *elem, ElementCompareFunc *comparato
     if (comparator == NULL) {
         AssertionFailed("comparator", "darray.c", NULL, 0xb7);
     }
-    insertPosition = DarraySearchSorted(elem, array->mList, array->mCount, array->mElemSize, comparator, searchFound);
-    insertIndex = _s32_div_f(insertPosition - array->mList, array->mElemSize);
+    insertPosition = DarraySearchSorted(elem, array->mList, array->mCount, array->mElemsize, comparator, searchFound);
+    insertIndex = _s32_div_f(insertPosition - array->mList, array->mElemsize);
     DarrayInsert(array, elem, insertIndex);
 }
 
@@ -134,7 +134,7 @@ void DarrayRemoveWithoutCallback(Darray *array, int index) {
     lastIndex = array->mCount - 1;
     if (index < lastIndex) {
         memmove(DarrayGetElement(array, index), DarrayGetElement(array, index + 1),
-                array->mElemSize * (lastIndex - index));
+                array->mElemsize * (lastIndex - index));
     }
     array->mCount = array->mCount - 1;
 }
@@ -156,7 +156,7 @@ void DarrayReplace(Darray *array, const void *elem, s32 index) {
 }
 
 void DarraySort(Darray *darray, u32 compareFunc) {
-    qsort(darray->mList, darray->mCount, darray->mElemSize, (int (*)(void *, void *)) compareFunc);
+    qsort(darray->mList, darray->mCount, darray->mElemsize, (int (*)(void *, void *)) compareFunc);
 }
 
 s32 DarrayFindIndex(Darray *darray, const void *key, ElementCompareFunc *comparator, s32 startIndex, s32 sortedFlag) {
@@ -167,14 +167,14 @@ s32 DarrayFindIndex(Darray *darray, const void *key, ElementCompareFunc *compara
         return -1;
     }
     if (sortedFlag != 0) {
-        position = DarraySearchSorted(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
+        position = DarraySearchSorted(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemsize,
                                    comparator, &matchFlag);
     } else {
-        position = DarraySearchLinear(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemSize,
+        position = DarraySearchLinear(key, DarrayGetElement(darray, startIndex), count - startIndex, darray->mElemsize,
                                    comparator);
     }
     if (position != NULL && matchFlag != 0) {
-        return (position - darray->mList) / darray->mElemSize;
+        return (position - darray->mList) / darray->mElemsize;
     }
     return -1;
 }

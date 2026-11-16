@@ -38,7 +38,7 @@ typedef struct WiFiLogin {
     /* 28 */ void *mHttp;
     // u64 tick reading (OS_GetTick) taken when the HTTP request started;
     // DWCi_RemoteLoginProcess reports error 2 when (ticks << 6) / 0x82ea, the milliseconds since then, exceeds 10000.
-    /* 2c */ u64 mRequestStartTime;
+    /* 2c */ u64 mRequestStartTick;
     // TRUE from DWCi_GPConnect until the GP connect callback or an error; DWCi_LoginProcess times the connect
     // out while it is TRUE.
     /* 34 */ BOOL mConnectPending;

@@ -74,7 +74,7 @@ typedef struct CPSSoc {
     /* 09 */ u8 mUseHttps;
     /* 0a */ u16 mLocalPort;
     /* 0c */ HttpsState *mHttpsState;
-    /* 10 */ u32 mStateStartTime;
+    /* 10 */ u32 mHandshakeStartTime;
     /* 14 */ u32 mLocalIpReal;
     /* 18 */ u16 mRemotePort;
     /* 1a */ u16 mRemotePortBound;
@@ -85,12 +85,12 @@ typedef struct CPSSoc {
     /* 2c */ u16 mRemoteWin;
     /* 2e */ u16 mRemoteMss;
     /* 30 */ u32 mRemoteAckNo;
-    /* 34 */ u32 mAckRcvd;
-    /* 38 */ ConnectionReceiveFn mReceiveCallback;
+    /* 34 */ u32 mAckrcvd;
+    /* 38 */ ConnectionReceiveFn mUdpreadCallback;
     /* 3c */ SizedBuffer mReceiveBuffer;
     /* 44 */ u32 mReceiveBufferLength;
     /* 48 */ SizedBuffer mSendBuffer;
-    /* 50 */ SizedBuffer mLineBuffer;
+    /* 50 */ SizedBuffer mLinbuf;
     /* 58 */ SizedBuffer mOutBuffer;
     /* 60 */ u32 mOutBufferLength;
 } CPSSoc;

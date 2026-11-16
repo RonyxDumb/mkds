@@ -34,7 +34,7 @@ typedef struct Gt2Socket {
     /* 20 */ void (*mIncomingConnectionCallback)(struct Gt2Socket *socket, struct Gt2Connection *connection,
                                                  int address, int port, int latency, const u8 *message, int len);
     /* 24 */ void (*mSocketErrorCallback)(struct Gt2Socket *socket);
-    /* 28 */ Gt2DumpCallback mSentCallback;
+    /* 28 */ Gt2DumpCallback mSendDumpCallback;
     /* 2c */ Gt2DumpCallback mReceiveDumpCallback;
     /* 30 */ Gt2UnmatchedDataCallback mUnmatchedDataCallback;
     /* 34 */ u32 mUnk_34;

@@ -10,7 +10,7 @@ typedef s32 ElementCompareFunc(const void *first, const void *second);
 typedef struct Darray {
     /* 00 */ s32 mCount;
     /* 04 */ s32 mCapacity;
-    /* 08 */ s32 mElemSize;
+    /* 08 */ s32 mElemsize;
     /* 0c */ s32 mGrowCount;
     /* 10 */ void (*mElemCallback)(void *);
     /* 14 */ u8 *mList;

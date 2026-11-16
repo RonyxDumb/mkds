@@ -15,7 +15,7 @@ s32 GetNotFoundInet(ACHOLD *hold) {
     } else if (hold->mEndSequence < 13) {
         result = -52000 - hold->mEndType;
     } else {
-        result = hold->mErrorTest;
+        result = hold->mNetcheckReturnCode;
         if (result == 0) {
             result = -50000 - hold->mEndType;
         } else if (result == -1) {

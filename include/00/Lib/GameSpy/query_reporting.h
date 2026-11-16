@@ -18,7 +18,7 @@ enum {
 };
 
 // Milliseconds: QR_FIRST_HEARTBEAT_MS is the wait before a heartbeat is sent again while no query has arrived yet
-// (mListedState counts the sends; at 4 the no challenge error is reported), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the
+// (mMasterState counts the sends; at 4 the no challenge error is reported), QR_MIN_STATE_CHANGE_HEARTBEAT_MS the
 // shortest gap since the last heartbeat before one that reports a state change, QR_HEARTBEAT_INTERVAL_MS the normal gap
 // between heartbeats and QR_KEEPALIVE_INTERVAL_MS the gap between keepalives.
 #define QR_FIRST_HEARTBEAT_MS 10000
@@ -84,15 +84,15 @@ typedef struct QueryRecord {
     /* 0ac */ u32 mLastHeartbeat;
     /* 0b0 */ u32 mLastKeepalive;
     /* 0b4 */ BOOL mUserStateChangeRequested;
-    /* 0b8 */ s32 mListedState;
+    /* 0b8 */ s32 mMasterState;
     /* 0bc */ s32 mIsPublic;
     /* 0c0 */ s32 mQport;
-    /* 0c4 */ BOOL mReadSocket;
+    /* 0c4 */ BOOL mOwnsSocket;
     /* 0c8 */ s32 mNatNegotiate;
-    /* 0cc */ SOCSockAddrIn mHbAddr;
-    /* 0d4 */ QueryCdkeyFunc mCdkeyProcess;
+    /* 0cc */ SOCSockAddrIn mMasterAddr;
+    /* 0d4 */ QueryCdkeyFunc mSemicolonFunc;
     /* 0d8 */ s32 mClientMessageKeys[10];
-    /* 100 */ s32 mCurMessageKey;
+    /* 100 */ s32 mClientMessageIndex;
     /* 104 */ u32 mPublicIp;
     /* 108 */ u16 mPublicPort;
     /* 10c */ void *mUserData;

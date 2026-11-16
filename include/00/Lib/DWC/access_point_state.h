@@ -54,7 +54,7 @@ typedef struct ACHOLD {
     /* 0a */ u8 mErrorPhase;
     /* 0b */ u8 mBeaconReceived;
     /* 0c */ u32 mError;
-    /* 10 */ s32 mErrorTest;
+    /* 10 */ s32 mNetcheckReturnCode;
     /* 14 */ u8 mEndState;
     /* 15 */ u8 mEndType;
     /* 16 */ u8 mEndSequence;

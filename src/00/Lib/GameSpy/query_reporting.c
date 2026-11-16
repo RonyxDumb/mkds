@@ -48,7 +48,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
     record->mLastHeartbeat = 0;
     record->mLastKeepalive = 0;
     record->mHbSock = socket;
-    record->mListedState = 1;
+    record->mMasterState = 1;
     record->mUserData = userData;
     record->mServerKeyCallback = serverKeyFn;
     record->mPlayerKeyCallback = playerKeyFn;
@@ -58,9 +58,9 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
     record->mAddErrorCallback = errorFn;
     record->mNatnegCallback = 0;
     record->mClientMessageCallback = 0;
-    record->mCdkeyProcess = 0;
+    record->mSemicolonFunc = 0;
     record->mIsPublic = isPublic;
-    record->mReadSocket = FALSE;
+    record->mOwnsSocket = FALSE;
     record->mNatNegotiate = natFlag;
     record->mPublicIp = 0;
     record->mPublicPort = 0;
@@ -75,7 +75,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
         record->mClientMessageKeys[index] = -1;
         index++;
     } while (index < 10);
-    record->mCurMessageKey = 0;
+    record->mClientMessageIndex = 0;
     if (gNumLocalIps == 0) {
         enum_local_ips();
     }
@@ -85,7 +85,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
             sprintf(hostText, "%s.master.gs.nintendowifi.net", gamename);
         }
         resolved =
-            ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, MASTER_PORT, &record->mHbAddr, NULL);
+            ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, MASTER_PORT, &record->mMasterAddr, NULL);
     } else {
         resolved = 1;
     }
@@ -133,7 +133,7 @@ void qr2_check_queries(QueryRecord *qrec) {
     s32 bytesReceived;
 
     senderAddressLength = 8;
-    if (qrec->mReadSocket != FALSE && CanReceiveOnSocket(qrec->mHbSock) != 0) {
+    if (qrec->mOwnsSocket != FALSE && CanReceiveOnSocket(qrec->mHbSock) != 0) {
         zero = 0;
         do {
             bytesReceived = recvfrom(qrec->mHbSock, gQr2Indata, 0xff, zero, senderAddress, &senderAddressLength);
@@ -151,16 +151,16 @@ void qr2_check_send_heartbeat(QueryRecord *qrec) {
 
     currentTime = GetElapsedMilliseconds();
     if (qrec->mHbSock != -1) {
-        listState = qrec->mListedState;
+        listState = qrec->mMasterState;
         if (listState > 0 && currentTime - qrec->mLastHeartbeat > QR_FIRST_HEARTBEAT_MS) {
             if (listState >= 4) {
-                qrec->mListedState = 0;
+                qrec->mMasterState = 0;
                 qrec->mAddErrorCallback(5, (const u8 *) "No challenge value was received from the master server.",
                                         qrec->mUserData);
                 return;
             }
             send_heartbeat(qrec, 3);
-            qrec->mListedState = qrec->mListedState + 1;
+            qrec->mMasterState = qrec->mMasterState + 1;
         } else if (qrec->mUserStateChangeRequested != FALSE &&
                    currentTime - qrec->mLastHeartbeat > QR_MIN_STATE_CHANGE_HEARTBEAT_MS) {
             send_heartbeat(qrec, 1);
@@ -197,12 +197,12 @@ void qr2_shutdown(QueryRecord *qrec) {
     if (qrec->mIsPublic != 0) {
         send_heartbeat(qrec, 2);
     }
-    if (qrec->mHbSock != -1 && qrec->mReadSocket != FALSE) {
+    if (qrec->mHbSock != -1 && qrec->mOwnsSocket != FALSE) {
         closesocket(qrec->mHbSock);
     }
     qrec->mHbSock = -1;
     qrec->mLastHeartbeat = 0;
-    if (qrec->mReadSocket != FALSE) {
+    if (qrec->mOwnsSocket != FALSE) {
         SocketShutDown();
     }
     if (qrec != &gStaticQr2Rec) {
@@ -708,8 +708,8 @@ BOOL qr_got_recent_message(QueryRecord *qrec, int msgkey) {
         }
         index = index + 1;
     } while (index < 10);
-    nextIndex = (qrec->mCurMessageKey + 1) % (10);
-    curMessageKeyPtr = &qrec->mCurMessageKey;
+    nextIndex = (qrec->mClientMessageIndex + 1) % (10);
+    curMessageKeyPtr = &qrec->mClientMessageIndex;
     *curMessageKeyPtr = nextIndex;
     qrec->mClientMessageKeys[*curMessageKeyPtr] = msgkey;
     return 0;
@@ -726,8 +726,8 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
         qrec = gCurrentQr2Rec;
     }
     if (query[0] == ';') {
-        if (qrec->mCdkeyProcess != NULL) {
-            qrec->mCdkeyProcess(query, len, sender);
+        if (qrec->mSemicolonFunc != NULL) {
+            qrec->mSemicolonFunc(query, len, sender);
             return;
         }
     } else if (query[0] == '\\') {
@@ -737,8 +737,8 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
     } else if (len >= 7) {
         if ((u8) query[0] == 0xfe) {
             if ((u8) query[1] == 0xfd) {
-                if (qrec->mListedState > 0) {
-                    qrec->mListedState = 0;
+                if (qrec->mMasterState > 0) {
+                    qrec->mMasterState = 0;
                 }
                 packetType = query[2];
                 requestKey = query + 3;
@@ -764,7 +764,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                         buf.mLen += len;
                         break;
                     case PACKET_ADDERROR:
-                        if (qrec->mListedState == -1) {
+                        if (qrec->mMasterState == -1) {
                             return;
                         }
                         for (index = 0; index < 4; index++) {
@@ -775,7 +775,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                         if (len < 2) {
                             return;
                         }
-                        qrec->mListedState = -1;
+                        qrec->mMasterState = -1;
                         qrec->mAddErrorCallback(pos[0], (u8 *) (pos + 1), qrec->mUserData);
                         return;
                     case PACKET_CLIENT_MESSAGE:
@@ -812,7 +812,7 @@ void send_keepalive(QueryRecord *qrec) {
     QueryBuffer buf;
     buf.mLen = 0;
     qr_add_packet_header((u32) &buf, PACKET_KEEPALIVE, (u32) qrec->mInstanceKey);
-    sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mHbAddr, 8);
+    sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mMasterAddr, 8);
     qrec->mLastKeepalive = GetElapsedMilliseconds();
 }
 
@@ -848,7 +848,7 @@ void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
     } else if (0x800 - buf.mLen >= 1) {
         buf.mBuffer[buf.mLen++] = 0;
     }
-    sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mHbAddr, 8);
+    sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mMasterAddr, 8);
     qrec->mLastHeartbeat = GetElapsedMilliseconds();
     qrec->mLastKeepalive = qrec->mLastHeartbeat;
     if (statechanged != 0) {

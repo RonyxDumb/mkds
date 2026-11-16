@@ -240,7 +240,7 @@ u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 le
                 gti2SocketError(socket);
                 return 0;
             }
-        } else if (socket->mSentCallback != NULL) {
+        } else if (socket->mSendDumpCallback != NULL) {
             if (gti2DumpCallback(socket, gti2SocketFindConnection(socket, address, port), address, port, 0, message,
                                  length, 1) == 0) {
                 return 0;

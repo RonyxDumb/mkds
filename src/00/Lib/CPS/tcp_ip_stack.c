@@ -1064,7 +1064,7 @@ void tcp_send_rst(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length, u16 urge
 
 void dt_syn_listen(IpHeader *ipHeader, TcpHeader *tcpHeader, CPSSoc *socket) {
     socket->mState = SOCKET_STATE_SYN_RECEIVED;
-    socket->mStateStartTime = OS_GetTick() >> 16;
+    socket->mHandshakeStartTime = OS_GetTick() >> 16;
     socket->mLocalIpReal = ((u16) ((ipHeader->mDestAddressHigh >> 8) | (ipHeader->mDestAddressHigh << 8)) << 16) |
                            (u16) ((ipHeader->mDestAddressLow >> 8) | (ipHeader->mDestAddressLow << 8));
     socket->mRemotePort = (tcpHeader->mSourcePort >> 8) | (tcpHeader->mSourcePort << 8);
@@ -1182,7 +1182,7 @@ void dt_ack(IpHeader *ipHeader, TcpHeader *tcpHeader, u32 length) {
                 break;
             }
         case SOCKET_STATE_ESTABLISHED:
-            socket->mAckRcvd++;
+            socket->mAckrcvd++;
             freeSpace = socket->mReceiveBuffer.mSize - socket->mReceiveBufferLength;
             if (length > freeSpace) {
                 length = freeSpace;
@@ -1381,8 +1381,8 @@ void dispatch_udp(IpHeader *ipHeader, UdpHeader *udpHeader, u32 length) {
             OS_WakeupThreadDirect(socket->mThread);
             return;
         }
-        if (socket->mReceiveCallback != NULL &&
-            socket->mReceiveCallback(socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength, socket) != 0) {
+        if (socket->mUdpreadCallback != NULL &&
+            socket->mUdpreadCallback(socket->mReceiveBuffer.mStart, socket->mReceiveBufferLength, socket) != 0) {
             socket->mReceiveBufferLength = 0;
         }
         return;
@@ -1635,7 +1635,7 @@ void CPS_SocUse(void) {
         socket->mState = SOCKET_STATE_CLOSED;
         socket->mReceiveBufferLength = 0;
         socket->mOutBufferLength = 0;
-        socket->mReceiveCallback = NULL;
+        socket->mUdpreadCallback = NULL;
     }
 }
 
@@ -1664,7 +1664,7 @@ void CPS_SetUdpCallback(CPSUDPReadCallback callback) {
     CPSSoc *socket;
     socket = OSi_ThreadInfo.mCurrentThread->mSpecific[0];
     if (socket != NULL) {
-        socket->mReceiveCallback = (ConnectionReceiveFn) callback;
+        socket->mUdpreadCallback = (ConnectionReceiveFn) callback;
     }
 }
 
@@ -1690,7 +1690,7 @@ u32 CPSi_TcpConnectRaw(CPSSoc *socket) {
     for (attempt = 0; attempt < 3; attempt++) {
         socket->mSeqNo = seqNo;
         socket->mState = SOCKET_STATE_SYN_SENT;
-        socket->mStateStartTime = OS_GetTick() >> 16;
+        socket->mHandshakeStartTime = OS_GetTick() >> 16;
         tcp_send_handshake(socket, TCP_FLAG_SYN, 24);
         interruptState = OS_DisableInterrupts();
         if (CPSMyIp != 0) {
@@ -1870,7 +1870,7 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
     } else {
         window = socket->mRemoteWin;
     }
-    ackCountSaved = socket->mAckRcvd;
+    ackCountSaved = socket->mAckrcvd;
     sendBudget = ackCountSaved * 2 + 4;
     while (length != 0 && socket->mState == SOCKET_STATE_ESTABLISHED) {
         segmentLength = socket->mRemoteMss;
@@ -1886,8 +1886,8 @@ s32 tcp_write_do(const u8 *buffer, s32 length, CPSSoc *socket, s32 probeFlag) {
         if (length < segmentLength) {
             segmentLength = length;
         }
-        sendBudgetNow = sendBudget + (socket->mAckRcvd - ackCountSaved);
-        ackCountSaved = socket->mAckRcvd;
+        sendBudgetNow = sendBudget + (socket->mAckrcvd - ackCountSaved);
+        ackCountSaved = socket->mAckrcvd;
         sendBudget = sendBudgetNow - 1;
         if (sendBudgetNow == 0) {
             segmentLength = 0;
@@ -1922,7 +1922,7 @@ s32 CPSi_TcpWrite2Raw(const u8 *buffer, u32 length, const u8 *secondBuffer, s32 
 
     socket = socketArgument;
     bytesWritten = 0;
-    socket->mAckRcvd = 0;
+    socket->mAckrcvd = 0;
     probeFlag = FALSE;
     startTime = OS_GetTick() >> 16;
     while (gLinkIsOn() != 0 && length != 0 && socket->mState == SOCKET_STATE_ESTABLISHED &&
@@ -2168,12 +2168,12 @@ void scavenger(void) {
                 socket = thread->mSpecific[0];
                 if (socket != NULL && socket->mThread != NULL) {
                     if (socket->mState == SOCKET_STATE_SYN_RECEIVED &&
-                        (s32) (now - socket->mStateStartTime) > 0x27) {
+                        (s32) (now - socket->mHandshakeStartTime) > 0x27) {
                         socket->mState = SOCKET_STATE_LISTENING;
                         socket->mRemotePort = socket->mRemotePortBound;
                         socket->mRemoteIp = socket->mRemoteIpBound;
                     } else if (socket->mState == SOCKET_STATE_SYN_SENT &&
-                               (s32) (now - socket->mStateStartTime) > 0x27 &&
+                               (s32) (now - socket->mHandshakeStartTime) > 0x27 &&
                                socket->mBlockType == SOCKET_BLOCK_CONNECT) {
                         socket->mState = SOCKET_STATE_CLOSED;
                         socket->mBlockType = SOCKET_BLOCK_NONE;
@@ -2217,8 +2217,8 @@ u8 *dhcp_setcommon(u8 *buffer, u8 type, u32 *transactionIdOut) {
     }
     message->mTransactionIdHigh = (u16) (transactionId >> 16) >> 8 | (u16) (transactionId >> 16) << 8;
     message->mTransactionIdLow = (u16) transactionId >> 8 | (u16) transactionId << 8;
-    message->mClientAddressHigh = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
-    message->mClientAddressLow = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
+    message->mMyAddressHigh = (u16) (CPSMyIp >> 16) >> 8 | (u16) (CPSMyIp >> 16) << 8;
+    message->mMyAddressLow = (u16) CPSMyIp >> 8 | (u16) CPSMyIp << 8;
     MI_CpuCopy8(CPSMyMac, buffer + 0x1c, 6);
     *(u16 *) (buffer + 0xec) = 0x8263;
     *(u16 *) (buffer + 0xee) = 0x6353;
@@ -2326,7 +2326,7 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
         if (replyLength > 0xf0 && reply[0] == 2 &&
             queryId == ((u16) (replyMessage->mTransactionIdHigh >> 8 | replyMessage->mTransactionIdHigh << 8) << 16 |
                         (u16) (replyMessage->mTransactionIdLow >> 8 | replyMessage->mTransactionIdLow << 8)) &&
-            maccmp(replyMessage->mClientHardwareAddress, CPSMyMac) == FALSE) {
+            maccmp(replyMessage->mMyMac, CPSMyMac) == FALSE) {
             result = 3;
             assignedIp = (u16) (reply[0x10] << 8 | reply[0x11]) << 16 | (u16) (reply[0x12] << 8 | reply[0x13]);
             replyEnd = reply + replyLength;

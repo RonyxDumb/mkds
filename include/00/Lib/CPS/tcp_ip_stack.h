@@ -86,7 +86,7 @@ typedef struct OSThread OSThread;
 
 typedef struct IpHeader {
     /* 00 */ u8 mVersionIhl;
-    /* 01 */ u8 mTypeOfService;
+    /* 01 */ u8 mTos;
     /* 02 */ u16 mTotalLength;
     union {
         /* 04 */ u16 mIdentifier;
@@ -96,7 +96,7 @@ typedef struct IpHeader {
         };
     };
     /* 06 */ u16 mFragOffset;
-    /* 08 */ u8 mTimeToLive;
+    /* 08 */ u8 mTtl;
     /* 09 */ u8 mProtocol;
     /* 0a */ u16 mChecksum;
     /* 0c */ u16 mSourceAddressHigh;
@@ -150,10 +150,10 @@ typedef struct DhcpMessage {
     /* 04 */ u16 mTransactionIdHigh;
     /* 06 */ u16 mTransactionIdLow;
     /* 08 */ u8 mUnk_08[4];
-    /* 0c */ u16 mClientAddressHigh;
-    /* 0e */ u16 mClientAddressLow;
+    /* 0c */ u16 mMyAddressHigh;
+    /* 0e */ u16 mMyAddressLow;
     /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ u16 mClientHardwareAddress[3];
+    /* 1c */ u16 mMyMac[3];
 } DhcpMessage;
 
 typedef struct ArpPacket {

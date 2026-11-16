@@ -236,7 +236,7 @@ void DWCi_RemoteLogin(void (*callback)(), void *param) {
     httpBlock = DWC_AllocEx(0, 0x1a60, 4);
     gWiFiLogin->mHttp = httpBlock;
     startTick = OS_GetTick();
-    gWiFiLogin->mRequestStartTime = startTick;
+    gWiFiLogin->mRequestStartTick = startTick;
     DWC_Auth_Create(&authParams, httpBlock);
 }
 
@@ -262,7 +262,7 @@ void DWCi_RemoteLoginProcess(void) {
                            WIFI_LOGIN_CONNECT_NEW_ID);
         }
     } else if (DWC_Auth_GetError() != 0) {
-        if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTime) << 6) / 0x82ea > 0x2710) {
+        if ((((u64) OS_GetTick() - gWiFiLogin->mRequestStartTick) << 6) / 0x82ea > 0x2710) {
             DWC_Auth_GetResult(&failedAuthResult.mReturnCode);
             DWC_Auth_Destroy();
             DWC_Free(0, gWiFiLogin->mHttp, 0);

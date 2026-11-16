@@ -213,8 +213,8 @@ void DWCs_HandleUnreliableMessage(Gt2Connection *connection, const void *message
     peer = &gWiFiMessageLayer->mPeers[aid];
     if ((peer->mReceiveBuffer != NULL) && (peer->mReceiveBufferSize >= size)) {
         MI_CpuCopy8(message, peer->mReceiveBuffer, size);
-        if (gWiFiMessageLayer->mReceiveCallback != NULL) {
-            gWiFiMessageLayer->mReceiveCallback(aid, peer->mReceiveBuffer, size);
+        if (gWiFiMessageLayer->mUdpreadCallback != NULL) {
+            gWiFiMessageLayer->mUdpreadCallback(aid, peer->mReceiveBuffer, size);
         }
         if ((gWiFiMessageLayer->mReceiveTimeoutCallback != NULL) && (peer->mReceiveTimeoutTime != 0)) {
             receiveTick = OS_GetTick();
@@ -267,8 +267,8 @@ void DWCs_RecvDataBody(int aid, void *message, s32 size) {
         connection->mReceiveState = WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER;
         connection->mReceivedSize = 0;
         connection->mReceiveSize = 0;
-        if (gWiFiMessageLayer->mReceiveCallback != NULL) {
-            gWiFiMessageLayer->mReceiveCallback(aid, connection->mReceiveBuffer, expected);
+        if (gWiFiMessageLayer->mUdpreadCallback != NULL) {
+            gWiFiMessageLayer->mUdpreadCallback(aid, connection->mReceiveBuffer, expected);
         }
     }
     if (gWiFiMessageLayer->mReceiveTimeoutCallback != NULL && connection->mReceiveTimeoutTime != 0) {
