@@ -91,7 +91,7 @@ s32 UpdateShapeMapObjectCounts(void) {
         entry = &gShapeMapObjectCountList->mEntries[entryIndex];
         courseMapShape = GetCourseMapShape(entry->mShapeIndex);
         mapObjectCount =
-            FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindValue);
+            FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mKindParam);
         insideCount = 0;
         for (mapObjectIndex = 0; mapObjectIndex < mapObjectCount; mapObjectIndex++) {
             if (IsPosInCourseMapShape(&GetFoundMapObject(mapObjectIndex)->mPos, courseMapShape) != 0) {

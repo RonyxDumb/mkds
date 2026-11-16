@@ -611,9 +611,9 @@ typedef struct RaceHud {
     // Gate of the sub screen's page update and page upload.
     /* 82c */ BOOL mSubScreenEnabled;
     // Set when the goal teams page is requested; the upload copies its graphics once and clears it.
-    /* 830 */ BOOL mSubScreenGoalTeamsLoadPending;
+    /* 830 */ BOOL mSubScreenGoalTeamsUploadRequested;
     // Set when the new record page is requested; the upload copies its graphics once and clears it.
-    /* 834 */ BOOL mSubScreenNewRecordLoadPending;
+    /* 834 */ BOOL mSubScreenNewRecordUploadRequested;
     /* 838 */ BOOL mRaceGoalSShown;
     /* 83c */ BOOL mGoalMStarted;
     /* 840 */ BOOL mGoalMUploadPending;

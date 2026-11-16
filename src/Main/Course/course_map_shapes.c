@@ -731,7 +731,7 @@ void BuildCourseMapZoneShapeLists(void) {
     for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
         shape = GetCourseMapShape(shapeIndex);
         if (shape->mKind == COURSE_MAP_SHAPE_KIND_ZONE) {
-            nodeSlot = &gCourseMap->mZoneShapeLists[(s16) shape->mKindValue];
+            nodeSlot = &gCourseMap->mZoneShapeLists[(s16) shape->mKindParam];
             while (*nodeSlot != NULL) {
                 nodeSlot = &(*nodeSlot)->mNext;
             }
@@ -1077,7 +1077,7 @@ s32 IsPosInCourseMapMissionEndShape(Vec3 *pos, s32 *outFlag) {
                     break;
             }
             if (inside != 0) {
-                if ((s16) shape->mKindValue == 0) {
+                if ((s16) shape->mKindParam == 0) {
                     *outFlag = 1;
                 } else {
                     *outFlag = 0;

@@ -7,7 +7,7 @@
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "sprite_animation_control.h"
 
-// RaceGoalTimes.mRecordCycleFrame counts this many frames; mCellIndexAdd steps through three cell sets, one per
+// RaceGoalTimes.mRecordCycleFrames counts this many frames; mCellIndexAdd steps through three cell sets, one per
 // quarter (the second set twice), while a new record is shown. The sets start at offsets 0, 0xd and 0x1a.
 #define RACE_GOAL_TIMES_CYCLE_FRAMES 16
 #define RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES 4
@@ -20,7 +20,7 @@ typedef struct RaceGoalTimes {
     /* 00 */ TimeDigits mFinishTime;
     /* 1c */ TimeDigits mLapTimes[5];
 // Counts 0 to 15; picks mCellIndexAdd by quarters.
-    /* a8 */ s32 mRecordCycleFrame;
+    /* a8 */ s32 mRecordCycleFrames;
 // Added to the cell number of a time row: 0, 0xd or 0x1a.
     /* ac */ s32 mCellIndexAdd;
 } RaceGoalTimes;

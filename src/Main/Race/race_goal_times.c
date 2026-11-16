@@ -92,7 +92,7 @@ void InitRaceGoalTimes(void) {
         gRaceGoalTimes->mLapTimes[lapIndex].mDigits[5] = 0;
         gRaceGoalTimes->mLapTimes[lapIndex].mDigits[6] = 0;
     }
-    gRaceGoalTimes->mRecordCycleFrame = 0;
+    gRaceGoalTimes->mRecordCycleFrames = 0;
     gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_FIRST;
 }
 
@@ -122,11 +122,11 @@ void UpdateRaceGoalTimes(void) {
     if (IsRaceNewRecordTaFinishRecord() == 0 && IsRaceNewRecordTaBestLapRecord() == 0) {
         return;
     }
-    gRaceGoalTimes->mRecordCycleFrame++;
-    if (gRaceGoalTimes->mRecordCycleFrame >= RACE_GOAL_TIMES_CYCLE_FRAMES) {
-        gRaceGoalTimes->mRecordCycleFrame = 0;
+    gRaceGoalTimes->mRecordCycleFrames++;
+    if (gRaceGoalTimes->mRecordCycleFrames >= RACE_GOAL_TIMES_CYCLE_FRAMES) {
+        gRaceGoalTimes->mRecordCycleFrames = 0;
     }
-    cycleStep = gRaceGoalTimes->mRecordCycleFrame % RACE_GOAL_TIMES_CYCLE_FRAMES;
+    cycleStep = gRaceGoalTimes->mRecordCycleFrames % RACE_GOAL_TIMES_CYCLE_FRAMES;
     if (cycleStep < RACE_GOAL_TIMES_CYCLE_QUARTER_FRAMES) {
         gRaceGoalTimes->mCellIndexAdd = RACE_GOAL_TIMES_CELL_SET_FIRST;
         return;

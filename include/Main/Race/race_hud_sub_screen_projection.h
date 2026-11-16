@@ -92,7 +92,7 @@ typedef struct CourseMapShape {
     /* 18 */ Vec3 mAxisX;
     /* 24 */ Vec3 mAxisY;
     /* 30 */ Vec3 mAxisZ;
-    /* 3c */ u16 mKindValue;
+    /* 3c */ u16 mKindParam;
     /* 3e */ s16 mIncreaseCountLimit;
     // For a shape of mKind 4: index of the point link that belongs to it, in CourseMap.mRacePointLinks (races) or
     // CourseMap.mBattlePointLinks (battles).
@@ -414,8 +414,8 @@ typedef struct RaceHudSubScreenProjection {
     /* 28 */ s32 mCourseWidthScaled;
     /* 2c */ IntPair mKartIconsMin;
     /* 34 */ IntPair mKartIconsMax;
-    /* 3c */ s64 mKartIconsInverseX;
-    /* 44 */ s64 mKartIconsInverseZ;
+    /* 3c */ s64 mKartIconsInverseFirst;
+    /* 44 */ s64 mKartIconsInverseSecond;
     /* 4c */ IntPair mCourseMin;
     /* 54 */ IntPair mCourseMax;
     /* 5c */ s64 mCourseInverseX;

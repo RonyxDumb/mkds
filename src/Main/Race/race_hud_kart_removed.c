@@ -20,13 +20,13 @@ s32 GetRaceHudSubScreenState(void) {
 void RequestRaceHudSubScreenGoalTeams(void) {
     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_TEAMS;
     gRaceHud->mSubScreenEnabled = TRUE;
-    gRaceHud->mSubScreenGoalTeamsLoadPending = TRUE;
+    gRaceHud->mSubScreenGoalTeamsUploadRequested = TRUE;
 }
 
 void RequestRaceHudSubScreenNewRecord(void) {
     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_NEW_RECORD;
     gRaceHud->mSubScreenEnabled = TRUE;
-    gRaceHud->mSubScreenNewRecordLoadPending = TRUE;
+    gRaceHud->mSubScreenNewRecordUploadRequested = TRUE;
 }
 
 s32 GetRaceHudSubScreenCourseScale(void) {
