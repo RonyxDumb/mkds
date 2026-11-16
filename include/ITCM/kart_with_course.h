@@ -5,6 +5,6 @@
 typedef struct Kart Kart;
 
 // Value Kart.mCourseHitTimer is set to on a course hit; it counts down by one on each step without course contact.
-#define KART_COURSE_HIT_TIMER_FRAMES 3
+#define KART_COURSE_HIT_TIMER_START 3
 
 void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal);

@@ -75,7 +75,7 @@ void CollideKartWithCourse(Kart *kart, Vec3 *groundNormal) {
                 kart->mPrevHitVelocity.y -= MUL_FIXED12_NO_ROUND(normal.y, dot);
                 kart->mPrevHitVelocity.z -= MUL_FIXED12_NO_ROUND(normal.z, dot);
             }
-            kart->mCourseHitTimer = KART_COURSE_HIT_TIMER_FRAMES;
+            kart->mCourseHitTimer = KART_COURSE_HIT_TIMER_START;
             if (((s32(*)(Kart *, u32, Vec3 *)) gLowestOffsetFarCheck)(kart, collisionFlags, &lowestOffset) != 0 ||
                 (kart->mMotionFlags & KART_MOTION_COURSE_PUSH_STRONG)) {
                 lowestOffsetLength = 0;
