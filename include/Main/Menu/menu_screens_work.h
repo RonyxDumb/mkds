@@ -747,6 +747,10 @@ enum {
 #define TXT_SYSTEM_ANIM_FRAME_TICKS 4
 #define TXT_SYSTEM_ANIM_FRAME_COUNT 3
 
+// Values of TxtSystem.mMode: which input slot the text box reads touches from.
+#define TXT_SYSTEM_MODE_PAD_OR_PARTICIPANT 0
+#define TXT_SYSTEM_MODE_PAD_AND_TOUCH 1
+
 // The text box system InitTxtSystem allocates: its state, requests, screen buffers, offsets, blend settings, canvases.
 typedef struct TxtSystem {
     /* 0000 */ u32 mState;

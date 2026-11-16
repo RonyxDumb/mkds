@@ -92,9 +92,9 @@ s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 duration
         return end;
     }
     switch (mode) {
-        case 0:
+        case INTERPOLATE_LINEAR:
             return start + elapsedFrames * (end - start) / durationFrames;
-        case 1:
+        case INTERPOLATE_COSINE:
             easeValue = InterpolateFX_CosIdx((elapsedFrames << 15) / durationFrames);
             difference = end - start;
             if (difference > 0) {

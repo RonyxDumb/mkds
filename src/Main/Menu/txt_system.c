@@ -146,7 +146,7 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
         gTxtSystem->mBlendEv1[index] = MENU_BLEND_FIRST_COEFFICIENT;
         gTxtSystem->mBlendEv2[index] = MENU_BLEND_SECOND_COEFFICIENT;
     }
-    gTxtSystem->mMode = 0;
+    gTxtSystem->mMode = TXT_SYSTEM_MODE_PAD_OR_PARTICIPANT;
     return subCharOffset;
 }
 
@@ -441,10 +441,10 @@ void AdvanceTxtSystemOpen(void) {
     u16 keys;
 
     switch (gTxtSystem->mMode) {
-        case 0:
-            inputSlotIndex = 8;
+        case TXT_SYSTEM_MODE_PAD_OR_PARTICIPANT:
+            inputSlotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
             break;
-        case 1:
+        case TXT_SYSTEM_MODE_PAD_AND_TOUCH:
             inputSlotIndex = GetPadInputSlot();
             break;
     }

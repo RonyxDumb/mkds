@@ -54,6 +54,9 @@ u16 GetInputSlotNewBits(InputSlot *inputSlot, u32 mask);
 // Frames of the press animation that GetSelectedPressOffset runs.
 #define SELECTED_PRESS_FRAMES 10
 s16 GetSelectedPressOffset(s32 frame);
+// Values of the mode argument of InterpolateS16: straight line or cosine ease.
+#define INTERPOLATE_LINEAR 0
+#define INTERPOLATE_COSINE 1
 s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
 s32 InterpolateGetFixed12Whole(s32 value);
 s32 InterpolateMulFixed12NoRound(s32 value, s32 factor);
