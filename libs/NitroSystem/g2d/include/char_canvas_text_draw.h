@@ -5,7 +5,7 @@
 #include "font_glyph_layout.h" // NNSG2dFont
 #include "font_file_parse.h" // NNSiG2dBitReader
 
-// Two pointers, passed by address to the function at 0x14 of NNSG2dCharCanvas.
+// A font glyph: its mPWidths and mImage.
 typedef struct NNSG2dGlyph {
     /* 00 */ NNSG2dCharWidths *mPWidths;
     /* 04 */ u8 *mImage;

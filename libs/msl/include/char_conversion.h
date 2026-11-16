@@ -8,7 +8,7 @@ typedef struct CharConversionFunctions {
     /* 04 */ int (*mWctomb)(char *dst, u16 wideChar);
 } CharConversionFunctions;
 
-// wctomb and mbtowc read the pointer at 0x08.
+// The character conversion tables: time strings, a second table and the conversion functions (mFunctions).
 typedef struct CharConversion {
     /* 00 */ const char **mTimeStrings;
     /* 04 */ void **mUnk_04;

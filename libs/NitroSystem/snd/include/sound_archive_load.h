@@ -20,7 +20,7 @@ typedef struct NNSSndSeqData {
     /* 1c */ u32 mData[1];
 } NNSSndSeqData;
 
-// 12-byte records at 0x20 of NNSSndSeqArc; NNSi_SndSeqArcGetSeqInfo returns one unless its first word is -1.
+// A sequence archive: mBaseOffset, mCount and the mInfo records.
 typedef struct NNSSndSeqArc {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ u32 mBaseOffset;
@@ -36,7 +36,7 @@ typedef struct NNSSndArcFileInfo {
     /* 0c */ u32 mReserved;
 } NNSSndArcFileInfo;
 
-// File table of a sound archive: mCount entries from 0x0c.
+// The file table of a sound archive: mCount entries of file info (mFiles).
 typedef struct NNSSndArcFat {
     /* 00 */ u8 mBlockHeader[8];
     /* 08 */ u32 mCount;
@@ -190,8 +190,7 @@ typedef struct SNDInstPos {
 
 typedef struct SNDWaveArc SNDWaveArc;
 
-// Entry of the table at 0x18 of an SNDBankData: the wave archive and the next entry of that archive's chain.
-// SND_DestroyWaveArc clears the entries of a chain, SND_DestroyBank and SND_AssignWaveArc move entries between chains.
+// A bank's link to a wave archive: mWaveArc and the next link in that archive's chain.
 typedef struct SNDWaveArcLink {
     /* 00 */ SNDWaveArc *mWaveArc;
     /* 04 */ struct SNDWaveArcLink *mNext;

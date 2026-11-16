@@ -39,8 +39,7 @@ typedef enum FileWideMode {
 #define FILE_STATE_READING 2
 #define FILE_STATE_READING_EXTRA_FIRST 3
 
-// 0x4c bytes. Bit fields of the words at 0x04 and 0x08 are read and written by fwide, FwriteBody and
-// fflush; FileFlushBuffer calls mWriteFunc with mWriteFuncFirstArg, mBuffer, &mBufferRemaining and mWriteFuncLastArg.
+// A C stdio stream: mode bits, the buffer and its position, and mWriteFunc which writes it out.
 typedef struct FILE {
     /* 00 */ u32 mWriteFuncFirstArg;
     /* 04 */ u32 mUnk_04_0 : 2;

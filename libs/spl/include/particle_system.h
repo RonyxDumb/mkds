@@ -52,7 +52,7 @@ typedef struct ParticleTextureHeader {
     /* 20 */ u8 mTextureData[1];
 } ParticleTextureHeader;
 
-// Entries of the table at SPLManager 0x2c (0x14 bytes each, count at 0x32).
+// A particle texture: mHeader, the VRAM addresses of texture and palette, mParam and the size.
 typedef struct ParticleTexture {
     /* 00 */ ParticleTextureHeader *mHeader;
     /* 04 */ u32 mTextureVramAddr;

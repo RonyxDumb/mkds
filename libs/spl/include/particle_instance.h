@@ -261,7 +261,7 @@ typedef struct ParticleEmitterFlags {
 typedef struct ParticleEmitter ParticleEmitter;
 typedef struct ParticleResource ParticleResource;
 
-// Entries of the table at ParticleResource 0x18 (count at 0x1c).
+// One behaviour of a particle: the mApply function and its mData.
 typedef struct ParticleBehaviorEntry {
     /* 00 */ void (*mApply)(); // called with four arguments; the type of the first differs per entry
     /* 04 */ void *mData;

@@ -13,7 +13,7 @@ typedef union WordPair {
 
 typedef WordPair (*FloatTrapHandlerFunc)(WordPair firstPair, WordPair secondPair, u32 statusFlags);
 
-// Returned by GetFloatTrapTable; FloatTrapDispatch calls one of the function pointers at 0x04-0x14.
+// The floating point trap handlers; FloatTrapDispatch calls one of the five mHandlers.
 typedef struct FloatTrapTable {
     /* 00 */ u32 mUnk_00;
     /* 04 */ FloatTrapHandlerFunc mHandlers[5];

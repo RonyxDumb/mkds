@@ -10,8 +10,7 @@ typedef struct NNSG2dCharWidths {
     /* 02 */ s8 mCharWidth;
 } NNSG2dCharWidths;
 
-// Entry of the chain at 0x0c of an NNSG2dFontInformation: the range mIndexBegin..mIndexEnd with 8 bytes of header, then
-// entries of NNSG2dFont.mWidthEntrySize bytes.
+// A range of character widths of a font (mIndexBegin to mIndexEnd), chained by mPNext.
 typedef struct NNSG2dFontWidth {
     /* 00 */ u16 mIndexBegin;
     /* 02 */ u16 mIndexEnd;
@@ -32,8 +31,7 @@ typedef enum FontCodeMapMethod {
     FONT_CODE_MAP_PAIRS = 2,
 } FontCodeMapMethod;
 
-// Entry of the chain at 0x10 of an NNSG2dFontInformation: the range mCcodeBegin..mCcodeEnd and a
-// FontCodeMapMethod kind: base number in mMapInfo[0], halfwords from mMapInfo, or mPairTable.mNum pairs.
+// A range of character codes (mCcodeBegin to mCcodeEnd) mapped to glyph indices by mMappingMethod, chained by mPNext.
 typedef struct FontCodeMap {
     /* 00 */ u16 mCcodeBegin;
     /* 02 */ u16 mCcodeEnd;
@@ -46,8 +44,7 @@ typedef struct FontCodeMap {
     };
 } FontCodeMap;
 
-// Object behind NNSG2dFontInformation.mPGlyph: a byte at 0x01, a halfword at 0x02 and bytes from 0x08
-// (DrawKeyboardGlyphs).
+// The glyph data of a font: cell size, baseline, mBpp, flags and mGlyphTable.
 typedef struct FontGlyph {
     /* 00 */ u8 mCellWidth;
     /* 01 */ u8 mCellHeight;
