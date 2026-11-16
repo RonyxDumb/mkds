@@ -117,7 +117,7 @@ typedef struct SceneCallbacks {
 #define MESSAGE_KIND_WIFI_NO_INPUT 5
 #define MESSAGE_KIND_WIFI_OPPONENT_LEFT 6
 
-// Object behind gSceneRunState.
+// The scene run state: its thread, sleep callbacks, frame and pass counters, the scene callbacks and the run step.
 typedef struct SceneRunState {
     /* 000 */ u8 *mThreadStack;
     /* 004 */ OSThread mThread;
@@ -147,14 +147,14 @@ typedef struct SceneRunState {
 // G3xParams.mClearColor of a 3D scene.
 #define DISPLAY_3D_CLEAR_COLOR 0x5000
 
-// Object behind member 0x6c of DisplaySettings.
+// The 3D settings of the display: the clear color, the sort mode and the buffer mode.
 typedef struct G3xParams {
     /* 00 */ u16 mClearColor;
     /* 02 */ u8 mSortMode;
     /* 03 */ u8 mBufferMode;
 } G3xParams;
 
-// Object behind gDisplaySettings.
+// The display settings: masks, modes and VRAM banks, and the background records of the main and sub screen.
 typedef struct DisplaySettings {
     /* 00 */ u16 mWaitIrqCount;
     /* 02 */ u16 mMainDisplayMask;
@@ -201,7 +201,7 @@ typedef struct DisplaySettings {
 // Bit of InputState.mFlags: the left and right keys are swapped (mirror mode).
 #define INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED 4
 
-// The pad keys, flags and participant position of the current input, behind gInputState.
+// The current input: the pad keys, flags and the participant position.
 typedef struct InputState {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mPadKeys;
@@ -226,7 +226,7 @@ typedef struct ArchiveBuffer {
     };
 } ArchiveBuffer;
 
-// 0x70-byte entries from the start of ArchiveSlots; mLoaded is nonzero while its archive is loaded.
+// A slot for one archive: the archive itself, whether it is loaded and its data.
 typedef struct ArchiveSlot {
     /* 00 */ NNSFndArchive mArchive;
     /* 68 */ s32 mLoaded;
@@ -267,7 +267,7 @@ extern SceneRunState *gSceneRunState;
 
 extern StartupWork *gStartupWork;
 
-// Object at gFileReadThread: 0x400 bytes (the end of them is the top of the stack of the OSThread) and two words.
+// The file read thread: its stack and its OSThread.
 typedef struct FileReadThread {
     /* 000 */ u8 mStack[0x400];
     /* 400 */ OSThread mThread;

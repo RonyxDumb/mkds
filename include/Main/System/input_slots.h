@@ -112,7 +112,7 @@ typedef struct InputSlotPair {
 // A touch pair lost for fewer samples than this still counts as recently lost.
 #define INPUT_PAIR_LOSS_SAMPLES 5
 
-// The first 0x28 bytes of an InputSlot; gKeysInputSlot is only this part.
+// The key state of an input slot: pressed, held and cleared bits and repeat state; gKeysInputSlot is only this part.
 typedef struct InputSlotHead {
     /* 00 */ u16 mPressedBits;
     /* 02 */ u16 mBits;
@@ -145,7 +145,7 @@ typedef struct InputSlotHead {
 #define INPUT_SOURCE_PAD_AND_TOUCH 6
 #define INPUT_SOURCE_WIFI_REQUESTED_BITS 7
 
-// One 0x5c-byte element of the array at gInputSlots.
+// One input slot: its key state, key recording, source kind, requested bits and touch pair.
 typedef struct InputSlot {
     // The members of InputSlotHead, spelled out.
     union {
@@ -179,7 +179,7 @@ typedef struct InputSlot {
 
 extern InputSlot gInputSlots[10];
 
-// Views of gInputSlots: arrays of slots (stride 0x5c) that start at one member of slot 0, or bytes of slots 7 and 8.
+// A view of an input slot that starts at its cleared bits.
 typedef struct InputSlotAtClearedBits {
     /* 00 */ u16 mClearedBits;
     /* 02 */ u8 mRest[0x5a];

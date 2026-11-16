@@ -6,7 +6,7 @@ typedef struct BuddyRecord BuddyRecord;
 
 typedef struct TimeRecord TimeRecord;
 
-// The word at 0 points to rows of 13 bytes from 6.
+// The kart appear file: a header and the rows of values that tell which karts a character may use.
 typedef struct KartAppearFile {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mValues[1][13];

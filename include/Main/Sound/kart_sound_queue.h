@@ -11,7 +11,7 @@
 #define KART_SOUND_QUEUE_GAP_FRAMES 0x14
 #define KART_SOUND_QUEUE_DELAY_FRAMES 0x19
 
-// Object behind gKartSoundQueue: eight objects, a value for each of them, eight words, then four words.
+// The queue of kart sounds: up to eight karts with their sound index and frames since start, the volume and delay.
 typedef struct KartSoundQueue {
     /* 00 */ Kart *mKarts[8];
     /* 20 */ s32 mSoundIndices[8];

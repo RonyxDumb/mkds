@@ -27,7 +27,7 @@
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
 
 // Objects whose layout isn't known yet.
-// The 0x100-byte block read and written at backup offset 0.
+// The first block of the backup: the player name, flags, Elo, sound mode, ghost and emblem bits, totals and user data.
 typedef struct BackupFirstBlock {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ u16 mPlayerName[10];
@@ -54,7 +54,7 @@ typedef struct BackupFirstBlock {
     /* 8c */ u8 mUnk_8c[0x74];
 } BackupFirstBlock;
 
-// The player's saved emblem: a filled flag and the 0x200 emblem bytes.
+// The player's saved emblem: a filled flag and the emblem data.
 typedef struct EmblemRecord {
     /* 000 */ u8 mUnk_000[0x4];
     /* 004 */ u8 mFilled : 1;
@@ -181,19 +181,19 @@ typedef struct GhostRecordHead {
     };
 } GhostRecordHead;
 
-// One entry of the slot ghost list and of the ghost file list: its head and the emblem; 0x230 bytes each.
+// One entry of the slot ghost list and of the ghost file list: a ghost record head and its emblem.
 typedef struct GhostListEntry {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mEmblem[0x200];
 } GhostListEntry;
 
-// The 0xe00 bytes behind member 0x14 of BackupBuffers.
+// A ghost record: its head and the key recording buffer.
 typedef struct GhostRecord {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mKeyRecordingBuffer[0xdd0];
 } GhostRecord;
 
-// The 0x1000 bytes behind members 0x18 and 0x1c of BackupBuffers.
+// A slot ghost record: its head, emblem and key recording buffer.
 typedef struct SlotGhostRecord {
     /* 000 */ GhostRecordHead mHead;
     /* 030 */ u8 mEmblem[0x200];
@@ -294,7 +294,7 @@ typedef struct BackupBuffers {
     };
 } BackupBuffers;
 
-// Object behind member 0x15c4 of ConnectionWork.
+// The sharing record a participant sends: the pad keys, touch point, left participant mask, send byte and flags.
 typedef struct SharingSendRecord {
     /* 00 */ u16 mPadKeys;
     /* 02 */ u16 mTouchPoint;
@@ -338,7 +338,7 @@ typedef struct ChildList {
     /* 43 */ u8 mChildMask;
 } ChildList;
 
-// 8-byte entries behind member 0x1e48 of gConnectionWork.
+// A ghost seen in a scan: its kart, character, course and finish time.
 typedef struct ScanGhostInfo {
     /* 00 */ u8 mKartIndex;
     /* 01 */ u8 mCharacterIndex;
@@ -349,7 +349,7 @@ typedef struct ScanGhostInfo {
     /* 06 */ u16 mMillisecond;
 } ScanGhostInfo;
 
-// Elements of the array at member 0x1e52 of gConnectionWork.
+// The position record of one participant: its entry index.
 typedef struct ParticipantPosition {
     /* 00 */ u16 mEntryIndex;
     /* 02 */ u8 mUnk_02[6];
@@ -479,7 +479,7 @@ typedef struct ScanStateView {
 #define SHARING_RECORD_FLAG_SYNC_PHASE_B 2
 #define SHARING_RECORD_FLAG_DISP_CAP_FADE 4
 
-// 8-byte entries behind member 0xc of DataSharing.
+// A received sharing record: the pad keys, touch point, left participant mask, send byte and flags.
 typedef struct SharingReceiveRecord {
     /* 00 */ u16 mPadKeys;
     /* 02 */ u16 mTouchPoint;
@@ -499,7 +499,7 @@ typedef struct SharingReceiveRecord {
 #define DATA_SHARING_PHASE_INITIAL 0
 #define DATA_SHARING_PHASE_AFTER_RESET 5
 
-// Members 0x15bc to 0x1607 of ConnectionWork as one object.
+// The data sharing state of a connection: the received records, the copied shared data, the phase and participant mask.
 typedef struct DataSharing {
     /* 00 */ WMDataSharingInfo *mUnk_00;
     /* 04 */ WMDataSet *mUnk_04;
@@ -523,7 +523,7 @@ typedef struct ParticipantPositionRow {
     /* 06 */ u16 mUnk_06;
 } ParticipantPositionRow;
 
-// Members 0x1e4c to 0x1ecf of ConnectionWork as one object.
+// The participant tables of the connection: the participant position rows and the left participant mask.
 typedef struct ParticipantTablesView {
     /* 00 */ ParticipantPositionRow mUnk_00[8];
     /* 40 */ u8 mUnk_40[0x20];
@@ -543,7 +543,7 @@ typedef struct RandomState {
     /* 14 */ s32 mIncrementHigh;
 } RandomState;
 
-// Members 0x1658 to 0x169f of ConnectionWork as one object.
+// The multiboot part of the connection work: the child state codes and the other multiboot state.
 typedef struct MultiBootStateView {
     /* 00 */ void *mUnk_00;
     /* 04 */ void *mUnk_04;
@@ -1197,7 +1197,7 @@ typedef struct WiFiRaceSyncRecord {
     /* 38 */ u8 mItemDataBytes[ITEM_DATA_BYTES];
 } WiFiRaceSyncRecord;
 
-// What member 0x754 of WiFiRaceSync points to.
+// The buffer a Wi-Fi race sync packet is sent from: the packet header and the record.
 typedef struct WiFiRaceSyncSendBuffer {
     union {
         // The first 0x28 bytes are the packet that goes out.
@@ -1221,7 +1221,7 @@ enum {
     WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED
 };
 
-// Object behind gWiFiRaceSync.
+// The Wi-Fi race sync state: its state machine, peers, countdown drift, ready and sampled masks and entries.
 typedef struct WiFiRaceSync {
     /* 000 */ StateMachine mStateMachine;
     /* 014 */ WiFiRaceSyncPeer mPeers[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
@@ -1529,7 +1529,7 @@ extern u32 gFadeFogTable[8];
 extern u32 gCourseFogTable[8];
 extern u16 gToonTable[32];
 extern MtxFx43 *gCurrentViewMatrix;
-// 0x20-byte entries behind member 0x014 of KartModels.
+// A palette entry of a Heyho kart model: its color.
 typedef struct HeyhoPalette {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mColor;
@@ -1598,7 +1598,7 @@ typedef struct KartModelMenuFiles {
     /* 32 */ u8 mUnk_32[2];
 } KartModelMenuFiles;
 
-// Six halfwords; the 0xc-byte entries behind member 0x1c of KartModelMenuData.
+// The six menu parameters of one kart.
 typedef struct KartMenuParams {
     /* 00 */ u16 mParams[6];
 } KartMenuParams;
@@ -1619,7 +1619,7 @@ typedef struct KartModelMenuView {
     /* 30 */ s32 mBg0Direction;
 } KartModelMenuView;
 
-// Object behind gKartModelMenu.
+// The kart model menu: the shown kart and list position, menu parameters, load slots, view, spin state and emblem.
 typedef struct KartModelMenuData {
     /* 000 */ s32 mKartIndex;
     /* 004 */ s32 mKartListPos;
@@ -1699,7 +1699,7 @@ struct PointLinkCursor;
 struct KartAi;
 struct LinkCursor;
 struct Kart;
-// Three objects per entry, 0xc bytes each.
+// The three particle emitters of the star effect of one kart.
 typedef struct KartStarEffects {
     /* 00 */ struct ParticleEmitter *mEffects[3];
 } KartStarEffects;
@@ -1754,7 +1754,7 @@ typedef struct KartAiShared {
 
 struct KartNameTag;
 
-// Object behind gKartNameTags, 0x194 bytes: tables of eight entries.
+// The kart name tags: the tag of each kart, their order by start, view distance and distance, and the emblem textures.
 typedef struct KartNameTags {
     /* 000 */ struct KartNameTag *mNameTagByKart[8];
     /* 020 */ s32 mNameTagCount;
@@ -1785,7 +1785,7 @@ static inline void SetKartNameTagSortedDistanceSquared(u16 sortedIndex, u32 dist
 extern const char *gKartModelPathPrefix;
 extern char gKartModelPathBuffer[];
 
-// Entries of the 0x400-byte buffer behind member 0x04 of DispCap.
+// One OAM entry of the display capture buffer: the attributes 0 and 1 and attribute 2.
 typedef struct DispCapOamEntry {
     /* 00 */ u32 mAttr0And1;
     /* 04 */ union {
@@ -1794,7 +1794,7 @@ typedef struct DispCapOamEntry {
     };
 } DispCapOamEntry;
 
-// Object behind gDispCap.
+// The display capture: its mode, OAM buffer, flags, blend minimum and blend factor.
 typedef struct DispCap {
     /* 00 */ s32 mMode;
     /* 04 */ DispCapOamEntry *mOamBuffer;
@@ -1810,7 +1810,7 @@ typedef struct DispCap {
 #define RUN_SCENES_KIND_WIFI_SESSION 1
 #define RUN_SCENES_KIND_NONE 3
 
-// Object behind gRunScenesState, 0x10 bytes.
+// The scene runner state: the current and next kind, the scene number and the sound heaps buffer.
 typedef struct RunScenesState {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mNextKind;
@@ -1819,7 +1819,7 @@ typedef struct RunScenesState {
     /* 0c */ void *mSndHeapsBuffer;
 } RunScenesState;
 
-// 0xc-byte entries of the array behind member 0x00 of ShapeMapObjectCountList.
+// The map object count of one shape: its shape index, radius, increase count and map object count.
 typedef struct ShapeMapObjectCount {
     /* 00 */ u16 mShapeIndex;
     /* 02 */ u8 mUnk_02[2];
@@ -1829,7 +1829,7 @@ typedef struct ShapeMapObjectCount {
     /* 0a */ u8 mUnk_0a[2];
 } ShapeMapObjectCount;
 
-// Object behind gShapeMapObjectCountList, 8 bytes.
+// The list of ShapeMapObjectCount entries and their count.
 typedef struct ShapeMapObjectCountList {
     /* 00 */ ShapeMapObjectCount *mEntries;
     /* 04 */ u16 mEntryCount;
@@ -1851,7 +1851,7 @@ extern struct ParticipantKartMap *gParticipantKartMap;
 static inline s8 GetParticipantOfKart(u8 kartIndex) {
     return gParticipantKartMap->mParticipantOfKart[kartIndex];
 }
-// 0xa-byte elements of the rows (eight each) of the table at member 0 of CupRecords.
+// One kart's result for a course: total points, cup rank, rank, points, win count and finish time.
 typedef struct KartCourseResult {
     /* 00 */ u16 mTotalPoints;
     /* 02 */ u8 mCupRank;
@@ -1861,8 +1861,7 @@ typedef struct KartCourseResult {
     /* 06 */ MinuteSecondMillisecondTime mFinishTime;
 } KartCourseResult;
 
-// One team's result for a course: points, win count and a flag. Two make an element of the table at member 0x144 of
-// CupRecords.
+// One team's result for a course: its points, its win count and whether it is winning.
 typedef struct CourseTeamResult {
     /* 00 */ u16 mTotalPoints;
     /* 02 */ u8 mWinCount;
@@ -1874,7 +1873,7 @@ typedef struct CourseTeamResult {
     };
 } CourseTeamResult;
 
-// 8-byte elements of the table at member 0x144 of CupRecords.
+// The results of the two teams of a course.
 typedef struct CourseTeamResults {
     /* 00 */ CourseTeamResult mTeams[2];
 } CourseTeamResults;

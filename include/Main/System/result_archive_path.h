@@ -9,7 +9,7 @@ void *FindSceneFile(const char *name);
 void *FindMainRaceOrMainEffectFile(const char *path);
 void *FindArchiveFile(const char *archiveName, const char *path);
 
-// 0x18-byte entries.
+// The load info of one archive slot: its path, next slot, buffer index and the uncompress and allocation settings.
 typedef struct ArchiveSlotInfo {
     /* 00 */ const char *mPath;
     /* 04 */ s32 mNextSlot;

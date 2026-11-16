@@ -30,8 +30,7 @@ void StopSceneSeqWithFadeSteps(void);
 
 typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
-// 0x08-byte entries behind gCourseSurfaceSoundEntries; GetSurfaceSoundId reads one as a sound id array, so the variant
-// is also the id for entry index 1.
+// A surface sound of a course: a sound id and a surface variant (GetSurfaceSoundId reads both as an id array).
 typedef struct CourseSurfaceSoundEntry {
     /* 00 */ u32 mSoundId;
     /* 04 */ u32 mSurfaceVariant;
@@ -39,14 +38,14 @@ typedef struct CourseSurfaceSoundEntry {
 
 extern CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[14];
 
-// Object behind gOldLuigiAgbSurfaceSoundSetup.
+// A surface sound setup: four sound ids and the row and column index they are set for.
 typedef struct SurfaceSoundSetup {
     /* 00 */ u32 mSoundIds[4];
     /* 10 */ u32 mRowIndex;
     /* 14 */ u32 mColumnIndex;
 } SurfaceSoundSetup;
 
-// Object behind gLoadedSoundBanks.
+// The loaded sound banks: a bank mask and a load marker.
 typedef struct LoadedSoundBanks {
     /* 00 */ u16 mBankMask;
     /* 02 */ u8 mUnk_02[2];
@@ -111,14 +110,14 @@ typedef struct LoadedSoundBanks {
 // The last of the seven rows of the mission select; its bank is 0x17.
 #define MISSION_TABLE_ROW_HANACHAN 7
 
-// 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
+// The sequence info of the scene players: how far the sequence has started and its id.
 typedef struct ScenePlayersSeqInfo {
     /* 00 */ u8 mUnk_00;
     /* 01 */ u8 mSeqStartProgress;
     /* 02 */ u8 mSeqId;
 } ScenePlayersSeqInfo;
 
-// Object behind gPlayerVolumeFade.
+// The player volume fade: the volume and its step per frame, with the target volumes and player masks per race phase.
 typedef struct PlayerVolumeFade {
     /* 00 */ u32 mVolumePerFrame;
     /* 04 */ s32 mVolume;
@@ -157,13 +156,13 @@ typedef struct SoundHandlePool {
     /* 10 */ s32 mEntrySize;
 } SoundHandlePool;
 
-// The first eight bytes of each element of the table a SoundHandlePool describes: a handle at 0 and a word at 4.
+// One sound handle of a pool: the sequence player and its age.
 typedef struct SoundHandleEntry {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
     /* 04 */ s32 mAge;
 } SoundHandleEntry;
 
-// Object behind gSceneSoundState.
+// The sound state of a scene: race and scene frames, the kart star sequence, lap and rank state and lowered volumes.
 typedef struct SceneSoundState {
     /* 00 */ u32 mRaceFrames;
     /* 04 */ u32 mSceneFrames;
@@ -192,7 +191,7 @@ typedef struct SoundSetPlayer {
 
 extern SoundSetPlayer *gCurrentSoundSetPlayer;
 
-// Object behind gVolumeFade.
+// A volume fade: the volume and its step per frame.
 typedef struct VolumeFade {
     /* 00 */ u32 mVolumePerFrame;
     /* 04 */ s32 mVolume;

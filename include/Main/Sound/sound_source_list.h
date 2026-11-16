@@ -42,8 +42,7 @@
 // Largest volume of a sound (PlayingSound.mVolume, SoundParams.mVolume).
 #define SOUND_VOLUME_MAX 0x7f
 
-// Sound source: the object a sound is started on. Kart, ItemObject and the object behind MapObject.mUnk_94 embed it as
-// their first member. A sound is started on it only while bit 0 of its mUnk_34 member is set.
+// A sound source: the object a sound is started on, with its playing sounds and owner position; karts embed it.
 typedef struct SoundSource {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;

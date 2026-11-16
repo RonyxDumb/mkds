@@ -49,7 +49,7 @@ typedef struct Bg01Cnt {
     /* 0e */ u8 mUnk_0e[0x2];
 } Bg01Cnt;
 
-// The 0x44 bytes at DisplaySettings.mMainBgRecords and mSubBgRecords.
+// The background control records of one screen: BG0 to BG3 and the object VRAM modes.
 typedef struct DisplayBgRecords {
     /* 00 */ Bg01Cnt mBg0;
     /* 10 */ Bg01Cnt mBg1;
@@ -59,7 +59,7 @@ typedef struct DisplayBgRecords {
     /* 42 */ u16 mObjVRamModeBmp;
 } DisplayBgRecords;
 
-// The 0x28 bytes InitDisplaySettings copies to the start of an DisplaySettings.
+// The description InitDisplaySettings copies into the display settings: masks, modes and VRAM banks.
 typedef struct DisplaySettingsDesc {
     /* 00 */ u16 mWaitIrqCount;
     /* 02 */ u16 mMainDisplayMask;
