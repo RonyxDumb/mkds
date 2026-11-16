@@ -76,7 +76,7 @@ u64_too_small:
     orr r3, r3, #0x10
     str r3, [r2]
     bx lr
-    // Negative: -0 and values above -1 give 0, the rest are invalid.
+    // Negative: every negative value gives 0 except a NaN, which is invalid.
 u64_negative:
     cmn r1, #0x100000
     cmpeq r0, #0
