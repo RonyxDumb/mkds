@@ -13,8 +13,8 @@
 #define ACCOUNT_FLAG_BUDDY 0x4
 
 // DWCAccFriendData.mIdData holds the flags in bits 11 and up, and the top bits of the user id below them.
-#define DWC_ACC_FLAGS_SHIFT 11
-#define DWC_ACC_FLAGS_MASK 0x1fffff
+#define ACCOUNT_FLAGS_SHIFT 11
+#define ACCOUNT_FLAGS_MASK 0x1fffff
 #define ACCOUNT_USER_ID_HIGH_MASK 0x7ff
 
 typedef struct DWCAccFriendData {

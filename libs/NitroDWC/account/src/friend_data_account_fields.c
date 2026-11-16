@@ -53,7 +53,7 @@ void DWCi_Acc_SetGsProfileId(DWCAccFriendData *data, u32 gsProfileId) {
 
 #pragma thumb on
 u32 GetFriendDataFlags(const DWCAccFriendData *friendData) {
-    return (friendData->mIdData >> DWC_ACC_FLAGS_SHIFT) & DWC_ACC_FLAGS_MASK;
+    return (friendData->mIdData >> ACCOUNT_FLAGS_SHIFT) & ACCOUNT_FLAGS_MASK;
 }
 #pragma thumb off
 
@@ -84,7 +84,7 @@ u32 GetFriendDataType(const DWCAccFriendData *friendData) {
 #pragma thumb on
 
 void SetFriendDataFlags(DWCAccFriendData *friendData, u32 flags) {
-    DWCi_Acc_SetMaskBits(&friendData->mIdData, flags, DWC_ACC_FLAGS_SHIFT, DWC_ACC_FLAGS_MASK);
+    DWCi_Acc_SetMaskBits(&friendData->mIdData, flags, ACCOUNT_FLAGS_SHIFT, ACCOUNT_FLAGS_MASK);
 }
 
 #pragma thumb off
