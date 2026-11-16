@@ -19,7 +19,8 @@
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 
-// Frames of the bombcore effect: the frame the particle effect starts on, and the frame the effect ends on.
+// UpdateModelEffectBombcore starts one more effect on the first frame and finishes on the second;
+// UpdateModelEffectBombcore2 finishes on the second too.
 #define MODEL_EFFECT_BOMBCORE_PARTICLE_FRAME 0x26
 #define MODEL_EFFECT_BOMBCORE_END_FRAME 0x37
 // ModelEffect.mFinishFrameCount of the Donketu water splash and the Bk wave.

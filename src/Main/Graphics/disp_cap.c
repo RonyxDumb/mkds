@@ -217,8 +217,8 @@ void ToggleDispCapBanks(void) {
     reg_GX_DISPCAPCNT = 0x80300010 | (captureBits << 16);
 }
 
-// Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (DISP_CAP_FLAG_BLEND_FALLING set)
-// or 0x1000.
+// Writes the capture blend weights; when prevMenuOpen is 0 it also moves mBlendFactor toward 0
+// (DISP_CAP_FLAG_BLEND_FALLING set) or toward DISP_CAP_BLEND_FACTOR_FULL.
 void AdvanceDispCapBlend(s32 prevMenuOpen) {
     u8 weight;
 
@@ -327,7 +327,8 @@ BOOL IsDispCapFadeFlagSet(void) {
     return (gDispCap->mFlags & DISP_CAP_FLAG_FADE_FLAG) != 0;
 }
 
-// Sets the fade flag; it stays set until the brightness fades are clear. A child console in a link leaves it alone.
+// Sets the fade flag, unless this is a child console in a link. AdvanceDispCap clears it only when a DispCap fade is
+// running and the brightness fades are clear.
 void SetDispCapFadeFlag(void) {
     if (DispCapIsConnectionActive() != 0 && DispCapGetConnectionMode() != CONNECTION_MODE_PARENT) {
         return;

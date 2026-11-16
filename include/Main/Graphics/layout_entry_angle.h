@@ -61,8 +61,8 @@ typedef struct LayoutTableEntry {
     /* 3c */ LabelCanvas *mLabelCanvas;
 } LayoutTableEntry;
 
-// Bit fields of the OAM words the label canvas code reads and rewrites: object mode and shape in the first halfword,
-// priority, palette and first char in the third; the mode bits of attr0 select translucent drawing.
+// Bit fields of the OAM words the layout cell and label code reads and rewrites: object mode and shape in the first
+// halfword, priority, palette and first char in the third; the mode bits of attr0 select translucent drawing.
 #define LAYOUT_OAM_MODE_MASK 0xc00
 #define LAYOUT_OAM_MODE_TRANSLUCENT 0x400
 #define LAYOUT_OAM_SHAPE_MASK 0xc000

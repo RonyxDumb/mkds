@@ -9,9 +9,9 @@ typedef struct TextCanvas TextCanvas;
 #define GLYPH_PIXEL_CLEAR 0
 #define GLYPH_PIXEL_TEXT 1
 #define GLYPH_PIXEL_OUTLINE 2
-// Highest value InputSlotPair.mNoPairCount counts to (touch and mic pairs stop counting once past it).
+// mNoPairCount counts up while it is at most this value (so it stops one higher); only touch sampling counts it.
 #define INPUT_PAIR_NO_PAIR_COUNT_LIMIT 5
-// Frames after a pair is lost during which IsPairRecentlyLost still answers yes.
+// IsPairRecentlyLost answers yes while there is no pair and mNoPairCount is below this.
 #define INPUT_PAIR_RECENTLY_LOST_FRAMES 5
 
 typedef void PixelSetFunc(u16 *pixels, s32 pixelX, s32 pixelY, s32 value);

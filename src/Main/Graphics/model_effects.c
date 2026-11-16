@@ -489,7 +489,8 @@ void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
     StartEffect(0x422, &modelEffect->mPos);
 }
 
-// Update of the kart and Donketu splash kinds: sets mFinished at mFinishFrameCount, else advances animations 0 and 1.
+// Update of the kart and Donketu splash kinds: sets mFinished once mSinceStartFrames reaches mFinishFrameCount, else
+// advances animation 0 and animation 1 when it exists.
 void UpdateWaterEfctKinds(ModelEffect *modelEffect) {
     if (modelEffect->mSinceStartFrames >= modelEffect->mFinishFrameCount) {
         modelEffect->mFinished = 1;
@@ -549,8 +550,8 @@ void UpdateModelEffectBombcore2(ModelEffect *modelEffect) {
     AdvanceModelAnimation(modelEffect->mAnimations[2]);
 }
 
-// Starts a kart splash object at position when startModel is set, then the particle effects of
-// gKartWaterSplashEffectIds.
+// Does nothing when the kart splash row has no objects; otherwise starts a kart splash object at position when
+// startModel is set, then the particle effects of gKartWaterSplashEffectIds that are not negative.
 void StartKartWaterSplashEffects(const Vec3 *position, s32 startModel) {
     ModelEffect *modelEffect;
     u16 effectIndex;

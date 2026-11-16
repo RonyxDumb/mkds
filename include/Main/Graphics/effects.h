@@ -5,7 +5,8 @@
 #include "particle_system.h"
 #include "Main/Graphics/emitters.h"
 
-// SPLManager.mMiscPolygonAttr of the race effects: polygon attribute bit 15, which turns fog on for the particles.
+// SPLManager.mMiscPolygonAttr of the race and mission run effects: polygon attribute bit 15, which turns fog on for the
+// particles (the race effects clear it on the rainbow course).
 #define EFFECT_POLYGON_ATTR_FOG 0x8000
 
 SPLManager *GetRaceEffectSPLManager(s32 *outIndex, s32 effectId);

@@ -31,7 +31,7 @@ enum {
 #define BOMBCORE_OBJECT_COUNT_WIFI 6
 #define BOMBCORE2_OBJECT_COUNT_WIFI 4
 #define BOMBCORE_OBJECT_COUNT_MISSION_RUN 0x14
-// Rows 2, 3 and 4 (kart splash, Donketu splash and bk_wave).
+// Rows 2, 3 and 4 (kart splash, bk_wave and Donketu splash).
 #define KART_WATER_SPLASH_OBJECT_COUNT 1
 #define DONKETU_WATER_SPLASH_OBJECT_COUNT 2
 #define BK_WAVE_OBJECT_COUNT 1
