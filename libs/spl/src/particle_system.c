@@ -253,12 +253,12 @@ void SPLAnim_Color(ParticleInstance *ptcl, ParticleResource *res, s32 lifeRate) 
         return;
     }
     if (lifeRate < hi) {
-        s32 cb; // PERM
-        s32 er; // PERM
-        s32 cr; // PERM
-        s32 eg; // PERM
-        s32 cg; // PERM
-        s32 eb; // PERM
+        s32 cb;
+        s32 er;
+        s32 cr;
+        s32 eg;
+        s32 cg;
+        s32 eb;
         er = header->mColor & SPL_COLOR_CHANNEL_MASK;
         eg = (header->mColor >> 5) & SPL_COLOR_CHANNEL_MASK;
         eb = (header->mColor >> 10) & SPL_COLOR_CHANNEL_MASK;

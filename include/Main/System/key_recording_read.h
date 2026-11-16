@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Scene/display_settings.h" // KeyRecording
+#include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h"
 #include "Main/System/input_slots.h"
 #include "heap_frame_allocator.h"

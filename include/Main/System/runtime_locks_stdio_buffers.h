@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "sound_stream_control.h" // NNSSndStrmPlayer
+#include "sound_stream_control.h"
 #include "sound_archive_load.h"
 
 typedef struct OSMutex OSMutex;

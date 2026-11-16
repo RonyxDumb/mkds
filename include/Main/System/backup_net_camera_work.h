@@ -1571,7 +1571,6 @@ typedef struct HeyhoPalette {
     /* 06 */ u8 mUnk_06[0x1a];
 } HeyhoPalette;
 
-// Object behind gKartModels (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.
 struct KartModelsEntry;
 
 // The kart models (gKartModels): the per-kart entries, course colors, palettes and the killer item model.

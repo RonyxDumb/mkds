@@ -82,7 +82,6 @@ struct NNSG3dAnmObj {
 // Bit of NNSG3dRenderObj.mFlag: an animation object was removed, so NNS_G3dDraw rebuilds the hint bit sets.
 #define G3D_RENDER_OBJ_FLAG_ANM_CHANGED 0x10
 
-// Default priority of an animation object.
 #define G3D_ANM_PRIORITY_DEFAULT 0x7f
 
 // Render object: the model and the animation objects drawn with it.
@@ -109,7 +108,6 @@ typedef struct NNSG3dRenderObj {
     /* 4c */ u32 mHintVisAnmExist[2];
 } NNSG3dRenderObj;
 
-// NNSG3dRS.mFlag bit: mCurrentNodeDesc is valid.
 #define NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID 0x10
 
 // More NNSG3dRS.mFlag bits: bit 0 is set while the current node is visible; a callback sets bit 6 to say it did the

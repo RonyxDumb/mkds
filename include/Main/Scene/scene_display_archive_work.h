@@ -3,7 +3,7 @@
 #include "Main/System/archive_slots.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h" // NNSFndArchive
-#include "Main/System/input_slots.h" // InputSlot
+#include "Main/System/input_slots.h"
 #include "heap_frame_allocator.h" // NNSiFndHeapHead
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
