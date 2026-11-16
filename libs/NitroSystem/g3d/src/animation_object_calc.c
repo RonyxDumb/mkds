@@ -502,7 +502,7 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mEmission, frame);
     pResult->mPrmMatColor1 = (pResult->mPrmMatColor1 & 0x8000) |
                              GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
-    pResult->mPrmPolygonAttr = (pResult->mPrmPolygonAttr & ~0x1f0000) |
+    pResult->mPrmPolygonAttr = (pResult->mPrmPolygonAttr & ~G3D_POLY_ATTR_ALPHA_MASK) |
                                (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
 }
 

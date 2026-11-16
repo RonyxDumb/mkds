@@ -118,7 +118,7 @@ void NNS_G3dMdlSetMdlCullMode(NNSG3dResMdl *mdl, u32 matId, u32 cullMode) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    data->mPolyAttr = (data->mPolyAttr & ~0xc0) | (cullMode << 6);
+    data->mPolyAttr = (data->mPolyAttr & ~G3D_POLY_ATTR_CULL_MODE_MASK) | (cullMode << 6);
 }
 
 // Sets the polygon ID of one material.
@@ -130,7 +130,7 @@ void NNS_G3dMdlSetMdlPolygonID(NNSG3dResMdl *mdl, u32 matId, u32 polygonId) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    data->mPolyAttr = (data->mPolyAttr & ~0x3f000000) | (polygonId << 24);
+    data->mPolyAttr = (data->mPolyAttr & ~G3D_POLY_ATTR_POLYGON_ID_MASK) | (polygonId << 24);
 }
 
 // Sets the alpha of one material.
@@ -142,7 +142,7 @@ void NNS_G3dMdlSetMdlAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    data->mPolyAttr = (data->mPolyAttr & ~0x1f0000) | (alpha << 16);
+    data->mPolyAttr = (data->mPolyAttr & ~G3D_POLY_ATTR_ALPHA_MASK) | (alpha << 16);
 }
 
 // Turns fog on or off for one material.
