@@ -26,7 +26,7 @@
 u32 gSoundSourceUpdatePass[1];
 s32 (*gSoundVolumeFunction)(SoundParams *);
 u32 gExpireWhileRequestedSounds;
-u32 gSoundSourceCountThisPass[1];
+u32 gSoundUpdateCountThisPass[1];
 u32 (*gSoundDistanceFunction)(SoundParams *);
 s32 (*gSoundPanFunction)(SoundParams *);
 NNSFndList gSoundSources;
@@ -148,8 +148,8 @@ u32 StartOrUpdateSndHandleSound(u32 seqArcNo, u32 soundId, Vec3 *positionSource,
         startsNewSound = 1;
         runThisCall = startsNewSound;
     } else {
-        countThisPass = gSoundSourceCountThisPass[0];
-        gSoundSourceCountThisPass[0] = countThisPass + 1;
+        countThisPass = gSoundUpdateCountThisPass[0];
+        gSoundUpdateCountThisPass[0] = countThisPass + 1;
         if ((countThisPass & 3) == gSoundSourceUpdatePass[0]) {
             runThisCall = 1;
         }

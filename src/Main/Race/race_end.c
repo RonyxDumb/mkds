@@ -19,6 +19,7 @@
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Race/race_end_work.h"
 #include "Main/Menu/menu_screens_work.h"
+#include "Main/Sound/sound_mode.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
 #include "sound_stream_control.h"
@@ -214,7 +215,7 @@ void UpdateRaceEnd(void) {
                     }
                     break;
             }
-            if ((gSoundModeHolder.mMode - 2) <= 1 && gRaceSetup->mMode != MODE_BATTLE) {
+            if ((gSoundModeHolder.mMode - SCENE_SOUND_MODE_PLAYING) <= SCENE_SOUND_MODE_MAIN_SEQUENCE_ONLY - SCENE_SOUND_MODE_PLAYING && gRaceSetup->mMode != MODE_BATTLE) {
                 raceSetup = gRaceSetup;
                 playsRaceEndSound = TRUE;
                 if (raceSetup->mRaceKind == RACE_KIND_DEMO) {

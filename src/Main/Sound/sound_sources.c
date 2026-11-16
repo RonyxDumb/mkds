@@ -46,7 +46,7 @@ void InitPlayingSoundPool(PlayingSound *sounds, s32 count) {
         NNS_FndInitList(&gSoundSourceUpdateLists[index], 0x1c);
     }
     gSoundSourceUpdatePass[0] = 0;
-    gSoundSourceCountThisPass[0] = 0;
+    gSoundUpdateCountThisPass[0] = 0;
 }
 
 void SoundNop(void *address) {}
@@ -79,7 +79,7 @@ void UpdateSoundSources(void) {
     }
     secondUpdateList = &gSoundSourceSecondUpdateList;
     source = secondUpdateList->mHead;
-    countThisPass = gSoundSourceCountThisPass[0];
+    countThisPass = gSoundUpdateCountThisPass[0];
     if (source != NULL) {
         updateLists = gSoundSourceUpdateLists;
         do {
@@ -104,7 +104,7 @@ void UpdateSoundSources(void) {
     if (gSoundSourceUpdatePass[0] == 4) {
         gSoundSourceUpdatePass[0] = 0;
     }
-    gSoundSourceCountThisPass[0] = 0;
+    gSoundUpdateCountThisPass[0] = 0;
 }
 
 // Stops every sound of every source, removes the entries from the source and the source from its update list.

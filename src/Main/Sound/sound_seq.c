@@ -92,7 +92,7 @@ s32 gMissionRunMSselStep32Count;
 u32 gSndHeapSavedState[1];
 NNSSndSeqPlayer *gChoisesSSeqHandle;
 NNSSndSeqPlayer *gMatchingEntrySeqHandle;
-u32 gRaceSeqStarted;
+u32 gBeforeStartSeqStarted;
 s32 gSeqZeroLoopOn;
 u32 gSoundStartedThisFrame;
 u32 gRaceSoundKind;
@@ -903,7 +903,7 @@ void StartSceneSounds(void) {
         SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
         gRaceSoundKind = 1;
         StartScenePlayersSeqNo(&gScenePlayers, GetSeqRowSceneSeq(), NULL);
-        gRaceSeqStarted = 0;
+        gBeforeStartSeqStarted = 0;
         value = 0xffff;
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             switch (gRaceSetup->mMissionTableValue) {
@@ -948,7 +948,7 @@ void StartSceneSounds(void) {
                     NNS_SndArcPlayerStartSeqArc(seqHandle, 0, value);
                 }
             }
-            gRaceSeqStarted = 1;
+            gBeforeStartSeqStarted = 1;
         }
         if (gRaceSetup->mMode != MODE_BATTLE) {
             SetLapProgressSoundGaps(gCourseMap->mCheckpointSum);
@@ -1008,7 +1008,7 @@ void StartRaceSounds(void) {
     gSceneSoundState.mRaceState = SCENE_RACE_STATE_RUNNING;
     StartScenePlayersForRace(&gScenePlayers);
     gPlayerVolumeFade.mRaceStarted = 1;
-    if (gRaceSeqStarted != 0) {
+    if (gBeforeStartSeqStarted != 0) {
         NNS_SndPlayerStopSeq(&gSndHandleSlots[7], 0x14);
     }
     if (gRaceSetup->mCourseId != COURSE_ID_STADIUM) {

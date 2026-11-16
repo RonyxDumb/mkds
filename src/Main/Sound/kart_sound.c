@@ -169,7 +169,7 @@ void UpdateKartSound(Kart *kart) {
             soundRecord->mSoundId = soundRecord->mSoundRow.mHighRatioSoundId;
         }
         soundRecord->mPrevKeyADown = accelHeld;
-        soundRecord->mVolume = KART_SOUND_VOLUME_PITCHED_NO_ACCEL;
+        soundRecord->mVolume = KART_SOUND_VOLUME_KILLER;
         StartSoundWhileRequested(&kart->mSoundSource, 0xfc, SOUND_VOLUME_MAX, 0);
         return;
     }
@@ -187,21 +187,21 @@ void UpdateKartSound(Kart *kart) {
                 }
                 pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
                 soundRecord->mVolume = SOUND_VOLUME_MAX;
-                soundRecord->mSoundId = soundRecord->mSoundRow.mPitchedSoundId;
+                soundRecord->mSoundId = soundRecord->mSoundRow.mRevSoundId;
                 AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             } else {
                 targetPitch = MUL_FIXED12_ROUNDED(value, 0x480000);
                 pitch = AdvanceKartSoundPitch(&kart->mSound, targetPitch, 0);
-                soundRecord->mVolume = KART_SOUND_VOLUME_PITCHED_NO_ACCEL;
-                soundRecord->mSoundId = soundRecord->mSoundRow.mPitchedSoundId;
+                soundRecord->mVolume = KART_SOUND_VOLUME_REV_NO_ACCEL;
+                soundRecord->mSoundId = soundRecord->mSoundRow.mRevSoundId;
                 AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) StartKartClampedPitchSound, kart, (s32) soundRecord);
             }
         } else {
             soundRecord->mTargetPitch = 0;
             soundRecord->mPitchPerCall = 0;
-            soundRecord->mVolume = KART_SOUND_VOLUME_LOW_REV;
+            soundRecord->mVolume = KART_SOUND_VOLUME_LOW_RATIO_BEFORE_START;
             AddSoundRequest(&gSoundRequestQueues[1], GetKartCameraDistanceSquared(kart->mIndex),
                             (void (*)(void *, int)) StartKartLowRatioSound, kart, (s32) soundRecord);
             pitch = -1;

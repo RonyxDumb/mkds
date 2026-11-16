@@ -28,7 +28,7 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
     PlayingSound *playingSound;
 
     if (count == countLimit) {
-        if (gMissionRunLimitSeqNo[0] != 0xff) {
+        if (gMissionRunLimitSeqNo[0] != SOUND_ID_NONE) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, gMissionRunLimitSeqNo[0]);
         }
         if (gMissionRunLimitSeqNo[0] == 0x1d7) {
@@ -41,7 +41,7 @@ void StartMissionRunCountSeq(s32 count, s32 countLimit) {
         }
     } else {
         value = gMissionRunCountSeqNo[0];
-        if (value == 0xff) {
+        if (value == SOUND_ID_NONE) {
             return;
         }
         if (!(gRaceSoundKind & 1)) {

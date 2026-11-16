@@ -13,7 +13,7 @@ void InitSceneSoundSetPlayer(s32 seqId) {
         return;
     }
     gStartupWork->mSoundSetPlayerInitialized = 1;
-    InitSoundSetPlayerWithVariables(&gStartupWork->mSoundSetPlayer, seqId, 0xff);
+    InitSoundSetPlayerWithVariables(&gStartupWork->mSoundSetPlayer, seqId, SOUND_ID_NONE);
 }
 
 void StartSceneSoundSetSeq(void) {

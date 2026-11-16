@@ -10439,7 +10439,7 @@ gSeqTrackMask kind:data(byte[2]) addr:0x0216cb00
 gSoundOutputEffectType kind:data(byte[4]) addr:0x0216cb04
 gSceneSeqVolume kind:data(byte[4]) addr:0x0216cb08
 gSoundFadeSteps kind:data(byte[4]) addr:0x0216cb0c
-gSoundSetSdatPath kind:data(byte[28]) addr:0x0216cb10
+gLoadSoundDataSdatPath kind:data(byte[28]) addr:0x0216cb10
 gCourseSoundTableIndex kind:data(byte[4]) addr:0x0216cb2c
 gCourseSoundTable kind:data(byte[80]) addr:0x0216cb30
 gLapProgressSoundIds kind:data(byte[4]) addr:0x0216cb80
@@ -11756,7 +11756,7 @@ gMissionRunMSselStep0Count kind:bss(size=0x4) addr:0x0217c780
 gSeqZeroLoopOn kind:bss(size=0x4) addr:0x0217c784
 gKartStarSeqStartPending kind:bss(size=0x4) addr:0x0217c788
 gChoisesSSeqHandle kind:bss(size=0x4) addr:0x0217c78c
-gRaceSeqStarted kind:bss(size=0x4) addr:0x0217c790
+gBeforeStartSeqStarted kind:bss(size=0x4) addr:0x0217c790
 gLoadedSoundSet kind:bss(size=0x10) addr:0x0217c794
 gSoundHandlePool kind:bss(size=0x14) addr:0x0217c7a4
 gSoundHandlePoolEntries kind:bss(size=0x15) addr:0x0217c7b8
@@ -11779,7 +11779,7 @@ gSoundVolumeFunction kind:bss(size=0x4) addr:0x0217cff4
 gSoundDistanceFunction kind:bss(size=0x4) addr:0x0217cff8
 gSoundPanFunction kind:bss(size=0x4) addr:0x0217cffc
 gExpireWhileRequestedSounds kind:bss(size=0x4) addr:0x0217d000
-gSoundSourceCountThisPass kind:bss(size=0x4) addr:0x0217d004
+gSoundUpdateCountThisPass kind:bss(size=0x4) addr:0x0217d004
 gSoundSources kind:bss(size=0xc) addr:0x0217d008
 gPlayingSoundPool kind:bss(size=0x14) addr:0x0217d014
 gSoundSourceUpdateLists kind:bss(size=0xc) addr:0x0217d028

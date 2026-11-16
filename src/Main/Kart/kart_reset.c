@@ -811,7 +811,7 @@ void InitKartSoundParams(Kart *kart) {
     kartSound->mWhileRequestedSoundId = -1;
     switch (kart->mKartModelsEntry->mKartIndex / 3) {
         case 0:
-            soundIndex = 4;
+            soundIndex = KART_SOUND_SET_MARIO;
             break;
         case CHARACTER_DONKEY:
             soundIndex = KART_SOUND_SET_DONKEY;
@@ -861,7 +861,7 @@ void InitKartSoundParams(Kart *kart) {
     lowRatioSoundId = *OFFSET_PTR(s32, &gKartSoundRowSoundIds[0][5], rowOffset);
     lastSoundColumn = *OFFSET_PTR(s32, &gKartSoundRowSoundIds[0][6], rowOffset);
     soundRow.mSoundRowIndex = soundRowIndex;
-    soundRow.mPitchedSoundId = firstSoundColumn;
+    soundRow.mRevSoundId = firstSoundColumn;
     soundRow.mSecondSoundColumn = secondSoundColumn;
     soundRow.mThirdSoundColumn = thirdSoundColumn;
     soundRow.mHighRatioSoundId = highRatioSoundId;

@@ -10,7 +10,7 @@ typedef struct SoundSource SoundSource;
 // speed ratio and accelerator.
 typedef struct KartSoundRow {
     /* 00 */ s32 mSoundRowIndex;
-    /* 04 */ s32 mPitchedSoundId;
+    /* 04 */ s32 mRevSoundId;
     /* 08 */ s32 mSecondSoundColumn;
     /* 0c */ s32 mThirdSoundColumn;
     /* 10 */ s32 mHighRatioSoundId;
@@ -43,8 +43,9 @@ enum {
 
 // Values of KartSound.mVolume below SOUND_VOLUME_MAX; KART_SOUND_VOLUME_COAST is also the lowest volume
 // StartSoundVolumeFromFractionIfTwo allows.
-#define KART_SOUND_VOLUME_PITCHED_NO_ACCEL 0x46
-#define KART_SOUND_VOLUME_LOW_REV 0x3c
+#define KART_SOUND_VOLUME_KILLER 0x46
+#define KART_SOUND_VOLUME_REV_NO_ACCEL 0x46
+#define KART_SOUND_VOLUME_LOW_RATIO_BEFORE_START 0x3c
 #define KART_SOUND_VOLUME_COAST 0x32
 //  Limits of Kart.mVelocityLengthRatio (1.0 is 0x1000) that UpdateKartSound picks the sound by after the race start,
 // except with KART_EFFECT_KILLER and while braking forward on the ground. Without the accelerator: below

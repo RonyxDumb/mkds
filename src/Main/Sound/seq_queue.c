@@ -648,7 +648,7 @@ void InitSoundSetPlayerWithVariables(SoundSetPlayer *player, s32 seqId, s32 firs
     if (seqId == 4) {
         firstBankId = 0x23;
     }
-    InitSoundSetPlayer(player, seqId, firstBankId, 0xff, GetLoadedSoundSet());
+    InitSoundSetPlayer(player, seqId, firstBankId, SOUND_ID_NONE, GetLoadedSoundSet());
     for (variableIndex = 0; variableIndex < 2; variableIndex++) {
         gSeqVariableReadings[variableIndex].mValue = -1;
         gSeqVariableReadings[variableIndex].mPrevValue = -1;

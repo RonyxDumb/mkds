@@ -99,7 +99,7 @@ struct NNSSndSeqPlayer;
 
 extern struct NNSSndSeqPlayer *gChoisesSSeqHandle;
 
-extern u32 gRaceSeqStarted;
+extern u32 gBeforeStartSeqStarted;
 
 extern u16 gMissionRunMSselSeqIndex;
 

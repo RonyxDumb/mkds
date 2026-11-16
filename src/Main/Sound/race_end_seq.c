@@ -52,7 +52,7 @@ void UpdateRaceEndSeq(void) {
         return;
     }
     seqRow = gSeqRowState.mSeqRow;
-    seqId = 0xff;
+    seqId = SOUND_ID_NONE;
     switch (resultKind) {
         case RACE_END_RESULT_BEST:
         case RACE_END_RESULT_WON:
@@ -175,7 +175,7 @@ void StartRaceEndSeq(s32 unused) {
     EndRaceSounds();
     resultKind = GetRaceEndResultKind();
     seqRow = gSeqRowState.mSeqRow;
-    value = 0xff;
+    value = SOUND_ID_NONE;
     switch (resultKind) {
         case RACE_END_RESULT_BEST:
             value = seqRow[0];
