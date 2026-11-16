@@ -12,7 +12,7 @@
 
 #pragma opt_propagation off
 
-u8 gAvailablePacketHeader[4] = {0xfe, 0xfd, 9, 0};
+u8 gAvailablePacketHeader[4] = {0xfe, 0xfd, AVAILABILITY_PACKET_TYPE, 0};
 SBServerList *gSortServerList;
 s32 gGsiAcResult;
 char gGsiAcHostname[0x40];

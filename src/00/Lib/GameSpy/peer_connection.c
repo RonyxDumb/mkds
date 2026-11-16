@@ -272,7 +272,7 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
                         arg = DWCi_GsMalloc(0xc);
                         if (arg == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return GP_MEMORY_ERROR;
+                            return PROFILE_RESULT_OUT_OF_MEMORY;
                         }
                         arg->mProfile = peerConn->mProfileId;
                         arg->mUnk_08 = goastrdup((const char *) message);
@@ -284,18 +284,19 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
                         }
                     }
                     break;
-                case GPI_BM_PING:
+                case BUDDY_MESSAGE_TYPE_PING:
                     gpiSendBuddyMessage(connection, peerConn->mProfileId, BUDDY_MESSAGE_TYPE_PONG, "1");
                     break;
-                case GPI_BM_FILE_SEND_REQUEST:
-                case GPI_BM_FILE_SEND_REPLY:
-                case GPI_BM_FILE_BEGIN:
-                case GPI_BM_FILE_END:
-                case GPI_BM_FILE_DATA:
-                case GPI_BM_FILE_SKIP:
-                case GPI_BM_FILE_TRANSFER_THROTTLE:
-                case GPI_BM_FILE_TRANSFER_CANCEL:
-                case GPI_BM_FILE_TRANSFER_KEEPALIVE:
+                // file transfer messages
+                case 200:
+                case BUDDY_MESSAGE_TYPE_TRANSFER_REPLY:
+                case 202:
+                case 203:
+                case 204:
+                case 205:
+                case 206:
+                case 207:
+                case 208:
                     gpiHandleTransferMessage(connection, peerConn, type, peerConn->mInputBuffer, message, msgBytes);
                     break;
             }
@@ -486,13 +487,13 @@ s32 gpiPeerStartConnect(GPConnection *connection, GPIPeer *peer) {
     peer->mSocket = OpenNetSocket(2, 1, 0);
     if (peer->mSocket == -1) {
         gpiSetError(connection, 5, "There was an error creating a socket.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 0);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     if (SetSockBlocking(peer->mSocket, 0) == FALSE) {
         gpiSetError(connection, 5, "There was an error making a socket non-blocking.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 0);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     gpiSetPeerSocketSizes(peer->mSocket);
     addressWords = (u32 *) &address;
@@ -506,8 +507,8 @@ s32 gpiPeerStartConnect(GPConnection *connection, GPIPeer *peer) {
         connectResult = GOAGetLastError(peer->mSocket);
         if (connectResult != -6 && connectResult != -0x1a && connectResult != -0x4c) {
             gpiSetError(connection, 5, "There was an error connecting a socket.");
-            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-            return GP_NETWORK_ERROR;
+            gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+            return PROFILE_RESULT_NETWORK_ERROR;
         }
     }
     peer->mState = PROFILE_PEER_STATE_WAIT_CONNECT;

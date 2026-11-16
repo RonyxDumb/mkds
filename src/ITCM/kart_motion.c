@@ -450,8 +450,8 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
             }
         } else if ((u16) (keyBits & PAD_KEY_DIRECTION_DOWN)) {
             kart->mAirTiltAngle -= 0x12c;
-            if (kart->mAirTiltAngle < -0x157c) {
-                kart->mAirTiltAngle = -0x157c;
+            if (kart->mAirTiltAngle < -KART_AIR_TILT_LIMIT) {
+                kart->mAirTiltAngle = -KART_AIR_TILT_LIMIT;
             }
         }
         airborne = TRUE;

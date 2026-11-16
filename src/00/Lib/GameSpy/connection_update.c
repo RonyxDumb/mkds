@@ -117,8 +117,8 @@ u32 gpiProcessConnectionManager(GPConnection *connection) {
         if (result != 0) {
             if (result == 3) {
                 gpiSetError(connection, 5, "There was an error reading from the server.");
-                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-                return GP_NETWORK_ERROR;
+                gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+                return PROFILE_RESULT_NETWORK_ERROR;
             }
             return result;
         }
@@ -136,7 +136,7 @@ u32 gpiProcessConnectionManager(GPConnection *connection) {
                 buffer = DWCi_GsRealloc(gpState->mCommandBuffer, gpState->mCommandBufferCapacity + 1);
                 if (buffer == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return GP_MEMORY_ERROR;
+                    return PROFILE_RESULT_OUT_OF_MEMORY;
                 }
                 gpState->mCommandBuffer = buffer;
             }
@@ -174,7 +174,7 @@ u32 gpiProcessConnectionManager(GPConnection *connection) {
         if (socketGone != 0) {
             gpState->mConnectState = PROFILE_CONNECTION_CLOSED;
             gpiSetError(connection, 7, "The server has closed the connection.");
-            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
             return 0;
         }
         result = gpiOperationsAreBlocking(connection);

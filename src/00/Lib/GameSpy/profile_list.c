@@ -56,13 +56,13 @@ s32 gpiProcessNewProfile(GPConnection *connection, GPIOperation *operation, cons
     }
     if (strncmp(input, "\\npr\\", 5) != 0) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     if (gpiValueForKey(input, "\\profileid\\", profileIdText, 0x10) == FALSE) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     profileNumber = StrtolBase10(profileIdText);
     callback = operation->mCallback;
@@ -70,7 +70,7 @@ s32 gpiProcessNewProfile(GPConnection *connection, GPIOperation *operation, cons
         arg = DWCi_GsMalloc(8);
         if (arg == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return GP_MEMORY_ERROR;
+            return PROFILE_RESULT_OUT_OF_MEMORY;
         }
         arg[1] = profileNumber;
         arg[0] = 0;

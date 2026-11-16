@@ -3,6 +3,9 @@
 #include "types.h"
 #include "00/Lib/DWC/match_send.h"
 
+// Number of participants a match holds (the size of the per-participant tables).
+#define WIFI_MATCH_MAX_PARTICIPANTS 32
+
 // Values of WiFiMatching.mState: IDLE means no search; the search states look through the server list (LIST_SEARCH) or
 // send a reservation and wait for the reply (RESERVING); the negotiate and connect states take a reserved peer through
 // address negotiation and the connection (the client is the side that searched); the sync states line the
@@ -63,14 +66,14 @@ typedef struct WiFiMatching {
     /* 01c */ u32 mOwnAddress;
     /* 020 */ u32 mMresvProfileId;
     // Address each participant's commands are sent to; mParticipantCommandPorts holds the matching ports.
-    /* 024 */ u32 mParticipantCommandAddresses[32];
-    /* 0a4 */ u16 mParticipantCommandPorts[32];
+    /* 024 */ u32 mParticipantCommandAddresses[WIFI_MATCH_MAX_PARTICIPANTS];
+    /* 0a4 */ u16 mParticipantCommandPorts[WIFI_MATCH_MAX_PARTICIPANTS];
     /* 0e4 */ struct MatchingServerList *mServerList;
     /* 0e8 */ u32 mServerUpdateWaitKind;
     /* 0ec */ u64 mServerUpdateWaitStartTick;
     // GP profile id of each participant by position; the connection finds its own position by comparing
     // WiFiConnection.mProfileId.
-    /* 0f4 */ u32 mParticipantProfileIds[32];
+    /* 0f4 */ u32 mParticipantProfileIds[WIFI_MATCH_MAX_PARTICIPANTS];
     /* 174 */ u8 mNatnegCounts[2];
     /* 176 */ u16 mCookieRandom;
     /* 178 */ u32 mLastNatnegCookie;
@@ -106,11 +109,11 @@ typedef struct WiFiMatching {
     /* 1f0 */ u32 mPriorProfileId;
     /* 1f4 */ u32 mEventProfileId;
     // Address each participant is connected to; mParticipantConnectPorts holds the matching ports.
-    /* 1f8 */ u32 mParticipantConnectAddresses[32];
-    /* 278 */ u16 mParticipantConnectPorts[32];
+    /* 1f8 */ u32 mParticipantConnectAddresses[WIFI_MATCH_MAX_PARTICIPANTS];
+    /* 278 */ u16 mParticipantConnectPorts[WIFI_MATCH_MAX_PARTICIPANTS];
     // u8[32] parallel to mParticipantProfileIds: the session index of each participant; the connection takes mOwnIndex
     // from it at its own position.
-    /* 2b8 */ u8 mParticipantIndices[32];
+    /* 2b8 */ u8 mParticipantIndices[WIFI_MATCH_MAX_PARTICIPANTS];
     // One bit per participant index, rebuilt from mParticipantIndices; a bit is cleared when its participant leaves.
     /* 2d8 */ u32 mParticipantMask;
     // The game name buffer WiFiConnection.mGameName points to, given to the server list.
@@ -153,12 +156,10 @@ enum {
 // no answer is sent again after WIFI_MATCH_COMMAND_WAIT_MSEC; the resend, reserve retry and connect retry counters
 // give up once they pass WIFI_MATCH_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
 // WIFI_MATCH_COMMAND_WAIT_MSEC in a filter search and after WIFI_MATCH_RESERVE_OK_KEEP_MSEC in every mode.
-#define DWC_MAX_CONNECTIONS 32
 #define WIFI_MATCH_RETRY_MAX 5
 #define WIFI_MATCH_COMMAND_WAIT_MSEC 6000
 #define WIFI_MATCH_RESV_TIMEOUT_MSEC 6000
-#define DWC_MATCH_SB_UPDATE_TIMEOUT 13000
-#define WIFI_MATCH_RESERVE_OK_KEEP_MSEC (WIFI_MATCH_COMMAND_WAIT_MSEC + DWC_MATCH_SB_UPDATE_TIMEOUT)
+#define WIFI_MATCH_RESERVE_OK_KEEP_MSEC 19000
 #define WIFI_MATCH_INCOMING_WAIT_MSEC 25000
 #define WIFI_MATCH_PARTICIPANT_INFO_WAIT_MSEC 30000
 #define WIFI_MATCH_NN_FAILED_WAIT_MSEC 10000

@@ -7,10 +7,10 @@
 // Results of the profile calls.
 enum {
     GP_NO_ERROR,
-    GP_MEMORY_ERROR,
-    GP_PARAMETER_ERROR,
-    GP_NETWORK_ERROR,
-    GP_SERVER_ERROR,
+    PROFILE_RESULT_OUT_OF_MEMORY,
+    PROFILE_RESULT_BAD_PARAMETER,
+    PROFILE_RESULT_NETWORK_ERROR,
+    PROFILE_RESULT_SERVER_ERROR,
 };
 
 // Errors of the server browser calls.
@@ -64,14 +64,13 @@ enum {
 
 // Results of the stats connect calls.
 enum {
-    GE_NOERROR,
-    GE_NOSOCKET,
-    GE_NODNS,
-    GE_NOCONNECT,
-    GE_BUSY,
-    STATS_CONNECT_DATA_ERROR,
-    GE_CONNECTING,
-    GE_TIMEDOUT,
+    STATS_CONNECT_OK,
+    STATS_CONNECT_NO_SOCKET,
+    STATS_CONNECT_NO_DNS,
+    STATS_CONNECT_CONNECT_FAILED,
+    STATS_CONNECT_DATA_ERROR = 5,
+    STATS_CONNECT_PENDING,
+    STATS_CONNECT_TIMED_OUT,
 };
 
 // Results of the service availability check.

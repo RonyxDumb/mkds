@@ -41,7 +41,7 @@ u32 gpiIntToDate(GPConnection *connection, s32 date, u32 *day, u32 *month, u32 *
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
         gpiSetErrorString(connection, "Invalid date.");
-        return GP_PARAMETER_ERROR;
+        return PROFILE_RESULT_BAD_PARAMETER;
     }
     *day = unpackedDay;
     *month = unpackedMonth;
@@ -142,13 +142,13 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
     }
     if (strncmp(input, "\\pi\\", 4) != 0) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     if (gpiValueForKey(input, "\\profileid\\", buffer, 0x40) == FALSE) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     profileid = StrtolBase10(buffer);
     if (profileid <= 0) {
@@ -282,8 +282,8 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
         }
         if (gpiValueForKey(input, "\\sig\\", buffer, 0x40) == FALSE) {
             gpiSetError(connection, 1, "Unexpected data was received from the server.");
-            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-            return GP_NETWORK_ERROR;
+            gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+            return PROFILE_RESULT_NETWORK_ERROR;
         }
         savePeerSig = gpState->mInfoCaching;
         peerConn = gpState->mPeerList;
@@ -313,7 +313,7 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
             arg = DWCi_GsMalloc(0x204);
             if (arg == NULL) {
                 gpiSetErrorString(connection, "Out of memory.");
-                return GP_MEMORY_ERROR;
+                return PROFILE_RESULT_OUT_OF_MEMORY;
             }
             gpiInfoCacheToArg(&infoRecord, arg);
             arg->mResult = PROFILE_REQUEST_OK;
@@ -610,7 +610,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_LASTNAME:
+        case PROFILE_INFO_LASTNAME:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x1f);
             result = gpiSendLocalInfo(connection, "\\lastname\\", valueCopy);
             if (result != 0) {
@@ -835,7 +835,7 @@ u32 gpiGetInfo(GPConnection *connection, u32 profile, s32 checkCache, u32 blocki
         arg = DWCi_GsMalloc(0x204);
         if (arg == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return GP_MEMORY_ERROR;
+            return PROFILE_RESULT_OUT_OF_MEMORY;
         }
         gpiInfoCacheToArg(profileEntry->mCache, arg);
         arg->mResult = PROFILE_REQUEST_OK;

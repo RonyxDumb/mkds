@@ -124,10 +124,10 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
         statsAttempt = attemptIndex;
         for (; attemptIndex < 5; attemptIndex++) {
             statsResult = InitStatsConnection(statsAttempt);
-            if (statsResult == GE_NOERROR) {
+            if (statsResult == STATS_CONNECT_OK) {
                 break;
             }
-            if (statsResult != GE_NODNS || attemptIndex == 4) {
+            if (statsResult != STATS_CONNECT_NO_DNS || attemptIndex == 4) {
                 DWCi_HandlePersError(statsResult);
                 return;
             }

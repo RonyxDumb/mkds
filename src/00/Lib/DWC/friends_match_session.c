@@ -577,19 +577,19 @@ int ReportWiFiGpResult(int result) {
         return 0;
     }
     switch (result) {
-        case GP_MEMORY_ERROR:
+        case PROFILE_RESULT_OUT_OF_MEMORY:
             errorKind = 0xb;
             errorCode = -1;
             break;
-        case GP_PARAMETER_ERROR:
+        case PROFILE_RESULT_BAD_PARAMETER:
             errorKind = 0xb;
             errorCode = -2;
             break;
-        case GP_NETWORK_ERROR:
+        case PROFILE_RESULT_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case GP_SERVER_ERROR:
+        case PROFILE_RESULT_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;

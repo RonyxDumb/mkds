@@ -37,7 +37,7 @@ BOOL gpiCheckForError(GPConnection *connection, const char *input, s32 callError
         }
         if (callErrorCallback != 0) {
             isFatalErr = (strstr(input, "\\fatal\\") != NULL);
-            gpiCallErrorCallback(connection, GP_SERVER_ERROR, (isFatalErr != FALSE) ? 1 : 0);
+            gpiCallErrorCallback(connection, PROFILE_RESULT_SERVER_ERROR, (isFatalErr != FALSE) ? 1 : 0);
         }
         return TRUE;
     }
@@ -86,8 +86,8 @@ u32 gpiCheckSocketConnect(GPConnection *connection, u32 sock, u32 *state) {
     if (readyNum == -1) {
         gpiDebug(connection, "Error connecting\n");
         gpiSetError(connection, 5, "There was an error checking for a completed connection.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     if (0 < readyNum) {
         if (errFlags[0] != 0) {
@@ -122,8 +122,8 @@ s32 gpiReadKeyAndValue(GPConnection *connection, s8 *buffer, s32 *index, char *k
     start = buffer + *index;
     if (*start != 0x5c) {
         gpiSetError(connection, 1, "Parse Error.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     length = 0;
     buffer = start + 2;
@@ -132,13 +132,13 @@ s32 gpiReadKeyAndValue(GPConnection *connection, s8 *buffer, s32 *index, char *k
         do {
             if (character == 0) {
                 gpiSetError(connection, 1, "Parse Error.");
-                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-                return GP_NETWORK_ERROR;
+                gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+                return PROFILE_RESULT_NETWORK_ERROR;
             }
             if (length == 0x1ff) {
                 gpiSetError(connection, 1, "Parse Error.");
-                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-                return GP_NETWORK_ERROR;
+                gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+                return PROFILE_RESULT_NETWORK_ERROR;
             }
             *key = character;
             key++;
@@ -152,8 +152,8 @@ s32 gpiReadKeyAndValue(GPConnection *connection, s8 *buffer, s32 *index, char *k
     while ((character = *buffer++) != 0x5c && character != 0) {
         if (length == 0x1ff) {
             gpiSetError(connection, 1, "Parse Error.");
-            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-            return GP_NETWORK_ERROR;
+            gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+            return PROFILE_RESULT_NETWORK_ERROR;
         }
         *value = character;
         value++;

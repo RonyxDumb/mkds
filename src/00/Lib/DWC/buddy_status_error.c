@@ -39,19 +39,19 @@ int ReportBuddySyncGpResult(int result) {
         return 0;
     }
     switch (result) {
-        case GP_MEMORY_ERROR:
+        case PROFILE_RESULT_OUT_OF_MEMORY:
             errorKind = 11;
             errorCode = -1;
             break;
-        case GP_PARAMETER_ERROR:
+        case PROFILE_RESULT_BAD_PARAMETER:
             errorKind = 11;
             errorCode = -2;
             break;
-        case GP_NETWORK_ERROR:
+        case PROFILE_RESULT_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case GP_SERVER_ERROR:
+        case PROFILE_RESULT_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -65,19 +65,19 @@ int ReportBuddySyncGpResult(int result) {
 int DWCi_HandlePersError(int error) {
     s32 errorKind;
     s32 errorCode;
-    if (error == GE_NOERROR) {
+    if (error == STATS_CONNECT_OK) {
         return 0;
     }
     switch (error) {
-        case GE_NOSOCKET:
+        case STATS_CONNECT_NO_SOCKET:
             errorKind = 6;
             errorCode = -50;
             break;
-        case GE_NODNS:
+        case STATS_CONNECT_NO_DNS:
             errorKind = 6;
             errorCode = -30;
             break;
-        case GE_NOCONNECT:
+        case STATS_CONNECT_CONNECT_FAILED:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -85,7 +85,7 @@ int DWCi_HandlePersError(int error) {
             errorKind = 6;
             errorCode = -40;
             break;
-        case GE_TIMEDOUT:
+        case STATS_CONNECT_TIMED_OUT:
             errorKind = 6;
             errorCode = -70;
             break;

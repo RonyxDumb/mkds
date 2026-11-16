@@ -56,8 +56,8 @@ MatchingSignatureText gMatchingSignature = {"SBCM"};
 char gUnsignedFormat[3] = "%u";
 char gDwcPidKey[8] = "dwc_pid";
 char gDwcEvalKey[9] = "dwc_eval";
-MatchingKey gMatchingKeys[DWC_QR2_GAME_RESERVED_KEYS];
-u8 gMatchingMaskedParticipantIndices[DWC_MAX_CONNECTIONS];
+MatchingKey gMatchingKeys[MATCHING_GAME_KEY_COUNT];
+u8 gMatchingMaskedParticipantIndices[WIFI_MATCH_MAX_PARTICIPANTS];
 void *gMatchingFilterText;
 DWCMatchOptMinCompleteIn *gOptMinComp;
 WiFiMatching *gWiFiMatching;
@@ -300,7 +300,7 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedS
         gMatchingFilterText = NULL;
     }
     if (addFilter != NULL) {
-        filterRoom = DWCi_GetDefaultMatchFilter(filterText, -1, DWC_MAX_CONNECTIONS, 3);
+        filterRoom = DWCi_GetDefaultMatchFilter(filterText, -1, WIFI_MATCH_MAX_PARTICIPANTS, 3);
         filterRoom = 0x100 - filterRoom - strlen(" and ()");
         gMatchingFilterText = DWC_Alloc(4, filterRoom);
         if (gMatchingFilterText == NULL) {
@@ -976,7 +976,7 @@ void DWCi_SetNumValidConnection(void) {
     lastPos = -1;
     wiFiMatching = gWiFiMatching;
     bitmap = wiFiMatching->mParticipantMask;
-    for (; bitIndex < DWC_MAX_CONNECTIONS; bitIndex++) {
+    for (; bitIndex < WIFI_MATCH_MAX_PARTICIPANTS; bitIndex++) {
         if (BIT_IS_SET(bitmap, bitIndex)) {
             lastPos++;
         }
@@ -1203,7 +1203,7 @@ u32 DWCi_SBUpdateAsync(u32 profileId) {
         loopIndex = 0;
         matchingKey = gMatchingKeys;
         fieldIdOut = fieldIds + 7;
-        for (; loopIndex < DWC_QR2_GAME_RESERVED_KEYS; loopIndex++) {
+        for (; loopIndex < MATCHING_GAME_KEY_COUNT; loopIndex++) {
             if (matchingKey->mKeyId != 0) {
                 *fieldIdOut = matchingKey->mKeyId;
                 fieldIdOut++;
@@ -2074,7 +2074,7 @@ u32 DWCi_CancelPreConnectedServerProcess(u32 clientPid) {
         gWiFiMatching->mMresvProfileId = 0;
         qr2_send_statechanged(gWiFiMatching->mQr2);
     }
-    if (gWiFiMatching->mLastParticipantPos < DWC_MAX_CONNECTIONS - 1) {
+    if (gWiFiMatching->mLastParticipantPos < WIFI_MATCH_MAX_PARTICIPANTS - 1) {
         gWiFiMatching->mParticipantProfileIds[gWiFiMatching->mLastParticipantPos + 1] = 0;
     }
     gWiFiMatching->mLastCommand = WIFI_MATCH_COMMAND_NONE;
@@ -2528,8 +2528,8 @@ void DWCi_CloseAllConnectionsByTimeout(void) {
 
 // Tells the participants in the mask to drop the others, then closes the connections to those not in the mask.
 u32 DWCi_CloseShutdownClientSC(u32 mask) {
-    u32 otherIds[DWC_MAX_CONNECTIONS];
-    u32 inMaskIds[DWC_MAX_CONNECTIONS];
+    u32 otherIds[WIFI_MATCH_MAX_PARTICIPANTS];
+    u32 inMaskIds[WIFI_MATCH_MAX_PARTICIPANTS];
     s32 inMaskCount;
     s32 otherCount;
     s32 participantPos;
@@ -2805,7 +2805,7 @@ u8 DWCi_GetNewMatchKey(void) {
             return keyIndex + SERVER_KEY_GAME_FIRST;
         }
         keyIndex++;
-    } while (keyIndex < DWC_QR2_GAME_RESERVED_KEYS);
+    } while (keyIndex < MATCHING_GAME_KEY_COUNT);
     return 0;
 }
 
@@ -2815,14 +2815,14 @@ void DWCi_ClearGameMatchKeys(void) {
     MatchingKey *matchingKey;
     keyIndex = 0;
     matchingKey = gMatchingKeys;
-    for (; keyIndex < DWC_QR2_GAME_RESERVED_KEYS; keyIndex++) {
+    for (; keyIndex < MATCHING_GAME_KEY_COUNT; keyIndex++) {
         if (matchingKey->mString != NULL) {
             DWC_Free(4, matchingKey->mString, 0);
         }
         matchingKey++;
     }
     fillValue = 0;
-    MIi_CpuClear32(fillValue, gMatchingKeys, sizeof(MatchingKey) * DWC_QR2_GAME_RESERVED_KEYS);
+    MIi_CpuClear32(fillValue, gMatchingKeys, sizeof(MatchingKey) * MATCHING_GAME_KEY_COUNT);
 }
 
 u8 DWCi_GetAIDFromList(void) {
@@ -2831,7 +2831,7 @@ u8 DWCi_GetAIDFromList(void) {
     volatile WiFiMatching *wiFiMatching; // fields are read again on each use
     aid = 0;
     wiFiMatching = gWiFiMatching;
-    for (; aid < DWC_MAX_CONNECTIONS; aid++) {
+    for (; aid < WIFI_MATCH_MAX_PARTICIPANTS; aid++) {
         for (participantPos = 0; participantPos <= wiFiMatching->mNNCompletedCount; participantPos++) {
             if (aid == wiFiMatching->mParticipantIndices[participantPos]) {
                 break;
@@ -3014,19 +3014,19 @@ u32 ReportMatchingGpResult(u32 result) {
         return 0;
     }
     switch (result) {
-        case GP_MEMORY_ERROR:
+        case PROFILE_RESULT_OUT_OF_MEMORY:
             errorKind = 11;
             errorCode = -1;
             break;
-        case GP_PARAMETER_ERROR:
+        case PROFILE_RESULT_BAD_PARAMETER:
             errorKind = 11;
             errorCode = -2;
             break;
-        case GP_NETWORK_ERROR:
+        case PROFILE_RESULT_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case GP_SERVER_ERROR:
+        case PROFILE_RESULT_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -3421,7 +3421,7 @@ void DWCi_QR2KeyListCallback(s32 keytype, MatchingKeyIds *keyIds, void *userdata
             qr2_keybuffer_add(keyIds, SERVER_KEY_EVAL);
             keyIndex = 0;
             matchingKey = gMatchingKeys;
-            for (; keyIndex < DWC_QR2_GAME_RESERVED_KEYS; keyIndex++) {
+            for (; keyIndex < MATCHING_GAME_KEY_COUNT; keyIndex++) {
                 if (matchingKey->mKeyId != 0) {
                     qr2_keybuffer_add(keyIds, matchingKey->mKeyId);
                 }
@@ -3469,7 +3469,7 @@ void DWCi_QR2NatnegCallback(u32 cookie, void *userData) {
 
 void DWCi_QR2ClientMsgCallback(const void *data, u32 len, void *userData) {
     MatchingReceiveHeader header;
-    u32 body[DWC_MAX_CONNECTIONS];
+    u32 body[WIFI_MATCH_MAX_PARTICIPANTS];
     u32 offset;
     offset = 0;
     if (len >= 0x14) {

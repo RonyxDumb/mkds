@@ -41,7 +41,7 @@ u32 gpiAppendCharToBuffer(void *connection, GPIBuffer *outputBuffer, s32 byte) {
         buffer = DWCi_GsRealloc(buffer, capacity + 1);
         if (buffer == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return GP_MEMORY_ERROR;
+            return PROFILE_RESULT_OUT_OF_MEMORY;
         }
     }
     buffer[length] = byte;
@@ -77,7 +77,7 @@ u32 gpiAppendStringToBufferLen(void *connection, GPIBuffer *outputBuffer, const 
         buffer = DWCi_GsRealloc(buffer, capacity + 1);
         if (buffer == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return GP_MEMORY_ERROR;
+            return PROFILE_RESULT_OUT_OF_MEMORY;
         }
     }
     memcpy(buffer + length, string, stringLen);
@@ -112,8 +112,8 @@ u32 gpiSendData(GPConnection *connection, s32 sock, const void *data, s32 dataLe
                 return 3;
             }
             gpiSetError(connection, 5, "There was an error sending on a socket.");
-            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
-            return GP_NETWORK_ERROR;
+            gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 0);
+            return PROFILE_RESULT_NETWORK_ERROR;
         }
         *bytesSent = 0;
         *wasClosed = 0;
@@ -231,7 +231,7 @@ u32 gpiRecvToBuffer(GPConnection *connection, s32 sock, GPIBuffer *inputBuffer, 
             buffer = DWCi_GsRealloc(buffer, value + 1);
             if (buffer == NULL) {
                 gpiSetErrorString(connection, "Out of memory.");
-                return GP_MEMORY_ERROR;
+                return PROFILE_RESULT_OUT_OF_MEMORY;
             }
         }
         recvResult = recv(sock, buffer + length, capacity - length, 0);

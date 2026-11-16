@@ -82,7 +82,7 @@ s32 InitStatsAsync(s32 theGamePort, s32 theInitTimeout) {
         gInitTimeout = theInitTimeout;
     }
     if (gGsiAcResult != 1) {
-        return GE_NOSOCKET;
+        return STATS_CONNECT_NO_SOCKET;
     }
     if (gInternalInit == 0) {
         InternalInit();
@@ -101,11 +101,11 @@ s32 InitStatsAsync(s32 theGamePort, s32 theInitTimeout) {
         strcpy(statsHost, gStatsServerHostname);
     }
     if (ResolveStatsHostAddress(statsHost, 0x74e0, statsSockAddr, NULL) == FALSE) {
-        return GE_NODNS;
+        return STATS_CONNECT_NO_DNS;
     }
     gSock = OpenNetSocket(2, 1, 0);
     if (gSock == -1) {
-        return GE_NOSOCKET;
+        return STATS_CONNECT_NO_SOCKET;
     }
     SetSockBlocking(gSock, 0);
     ret = connect(gSock, statsSockAddr, 8);
@@ -114,18 +114,18 @@ s32 InitStatsAsync(s32 theGamePort, s32 theInitTimeout) {
         if (ret != -6 && ret != -0x4c && ret != -0x1a) {
             gStatsInitState = STATS_CONNECT_STATE_FAILED;
             closesocket(gSock);
-            return GE_NOCONNECT;
+            return STATS_CONNECT_CONNECT_FAILED;
         }
     }
     gRcvBuffer = DWCi_GsMalloc(0x40);
     if (gRcvBuffer == NULL) {
-        return GE_NOCONNECT;
+        return STATS_CONNECT_CONNECT_FAILED;
     }
     gRcvMax = 0x40;
     gRcvLen = 0;
     gInitStart = current_time();
     gStatsInitState = STATS_CONNECT_STATE_CONNECTING;
-    return GE_CONNECTING;
+    return STATS_CONNECT_PENDING;
 }
 
 s32 InitStatsThink(void) {
@@ -134,7 +134,7 @@ s32 InitStatsThink(void) {
     s32 ret;
     switch (gStatsInitState) {
         case STATS_CONNECT_STATE_FAILED:
-            return GE_NOCONNECT;
+            return STATS_CONNECT_CONNECT_FAILED;
         case STATS_CONNECT_STATE_CONNECTING:
             socketFlags[0] = 0;
             socketFlags[1] = 0;
@@ -142,15 +142,15 @@ s32 InitStatsThink(void) {
             if (aResult == -1 || (aResult == 1 && socketFlags[1] == 1)) {
                 gStatsInitState = STATS_CONNECT_STATE_FAILED;
                 CloseStatsConnection();
-                return GE_NOCONNECT;
+                return STATS_CONNECT_CONNECT_FAILED;
             }
             if (aResult == 0) {
                 if (current_time() - gInitStart > gInitTimeout) {
                     gStatsInitState = STATS_CONNECT_STATE_FAILED;
                     CloseStatsConnection();
-                    return GE_TIMEDOUT;
+                    return STATS_CONNECT_TIMED_OUT;
                 }
-                return GE_CONNECTING;
+                return STATS_CONNECT_PENDING;
             }
             if (aResult != 1 || socketFlags[0] != 1) {
                 AssertionFailed("aResult == 1 && aWriteFlag == 1", "gstats.c", NULL, 0x145);
@@ -161,20 +161,20 @@ s32 InitStatsThink(void) {
                 if (current_time() - gInitStart > gInitTimeout) {
                     gStatsInitState = STATS_CONNECT_STATE_FAILED;
                     CloseStatsConnection();
-                    return GE_TIMEDOUT;
+                    return STATS_CONNECT_TIMED_OUT;
                 }
-                return GE_CONNECTING;
+                return STATS_CONNECT_PENDING;
             }
             aResult = recv(gSock, gRcvBuffer + gRcvLen, gRcvMax - gRcvLen, 0);
             if (aResult == -1) {
                 gStatsInitState = STATS_CONNECT_STATE_FAILED;
                 CloseStatsConnection();
-                return GE_NOCONNECT;
+                return STATS_CONNECT_CONNECT_FAILED;
             }
             gRcvLen += aResult;
             gRcvMax -= aResult;
             if (gRcvLen < 0x26) {
-                return GE_CONNECTING;
+                return STATS_CONNECT_PENDING;
             }
             gRcvBuffer[gRcvLen] = 0;
             gStatsInitState = STATS_CONNECT_STATE_WAIT_SESSION_KEY;
@@ -195,9 +195,9 @@ s32 InitStatsThink(void) {
                 if (current_time() - gInitStart > gInitTimeout) {
                     gStatsInitState = STATS_CONNECT_STATE_FAILED;
                     CloseStatsConnection();
-                    return GE_TIMEDOUT;
+                    return STATS_CONNECT_TIMED_OUT;
                 }
-                return GE_CONNECTING;
+                return STATS_CONNECT_PENDING;
             }
             ret = RecvSessionKey();
             if (ret != 0) {
@@ -210,19 +210,19 @@ s32 InitStatsThink(void) {
             memset(gRcvBuffer, 0, gRcvMax);
             gStatsInitState = STATS_CONNECT_STATE_COMPLETE;
         case STATS_CONNECT_STATE_COMPLETE:
-            return GE_NOERROR;
+            return STATS_CONNECT_OK;
         default:
-            return GE_NOCONNECT;
+            return STATS_CONNECT_CONNECT_FAILED;
     }
 }
 
 s32 InitStatsConnection(s32 gameport) {
     s32 aResult = InitStatsAsync(gameport, 0);
-    if (aResult == GE_CONNECTING) {
+    if (aResult == STATS_CONNECT_PENDING) {
         do {
             aResult = InitStatsThink();
             msleep(5);
-        } while (aResult == GE_CONNECTING);
+        } while (aResult == STATS_CONNECT_PENDING);
     }
     return aResult;
 }
@@ -353,9 +353,9 @@ s32 SendChallengeResponse(const s8 *indata, u32 gameport) {
     len = sprintf((char *) textBuf, replyFormat, gcd_gamename, md5Text, gameport);
     if (DoSend(textBuf, len) <= 0) {
         closesocket(gSock);
-        return GE_NOCONNECT;
+        return STATS_CONNECT_CONNECT_FAILED;
     }
-    return GE_NOERROR;
+    return STATS_CONNECT_OK;
 }
 
 s32 RecvSessionKey(void) {
@@ -367,7 +367,7 @@ s32 RecvSessionKey(void) {
         sockErrCode = GOAGetLastError(gSock);
         if (sockErrCode != -6 && sockErrCode != -0x4c && sockErrCode != -0x1a) {
             closesocket(gSock);
-            return GE_NOCONNECT;
+            return STATS_CONNECT_CONNECT_FAILED;
         }
     }
     replyBuf[len] = 0;
@@ -380,7 +380,7 @@ s32 RecvSessionKey(void) {
         return STATS_CONNECT_DATA_ERROR;
     }
     gConnId = StrtolBase10(sessionText);
-    return GE_NOERROR;
+    return STATS_CONNECT_OK;
 }
 
 s32 DoSend(s8 *data, s32 len) {

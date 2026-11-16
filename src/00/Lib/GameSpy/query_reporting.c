@@ -181,7 +181,7 @@ void qr2_send_statechanged(QueryRecord *qrec) {
     }
     if (qrec->mIsPublic != 0) {
         currentTime = current_time();
-        if ((currentTime - qrec->mLastHeartbeat) < (0x00002710u)) {
+        if ((currentTime - qrec->mLastHeartbeat) < QR_MIN_STATE_CHANGE_HEARTBEAT_MS) {
             qrec->mUserStateChangeRequested = TRUE;
             return;
         }

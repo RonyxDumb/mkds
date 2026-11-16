@@ -126,19 +126,19 @@ s32 ReportWiFiLoginGpResult(s32 result) {
         return 0;
     }
     switch (result) {
-        case GP_MEMORY_ERROR:
+        case PROFILE_RESULT_OUT_OF_MEMORY:
             errorKind = 0xb;
             errorCode = -1;
             break;
-        case GP_PARAMETER_ERROR:
+        case PROFILE_RESULT_BAD_PARAMETER:
             errorKind = 0xb;
             errorCode = -2;
             break;
-        case GP_NETWORK_ERROR:
+        case PROFILE_RESULT_NETWORK_ERROR:
             errorKind = 6;
             errorCode = -10;
             break;
-        case GP_SERVER_ERROR:
+        case PROFILE_RESULT_SERVER_ERROR:
             errorKind = 6;
             errorCode = -20;
             break;
@@ -292,7 +292,8 @@ void DWCi_GPGetInfoCallback(GPConnection *connection, GetInfoReply *arg, u32 par
     if (wiFiLogin->mState == WIFI_LOGIN_CONNECT_NEW_ID) {
         if ((s8) arg->mLastname[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, lastNameToSet);
-            if (ReportWiFiLoginGpResult(GpSetInfosA(connection, GP_LASTNAME, (const s8 *) lastNameToSet)) == 0) {
+            if (ReportWiFiLoginGpResult(GpSetInfosA(connection, PROFILE_INFO_LASTNAME, (const s8 *) lastNameToSet)) ==
+                0) {
                 gWiFiLogin->mState = WIFI_LOGIN_CHECK_NEW_ID_NAME;
                 if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) !=
                     0) {

@@ -63,7 +63,7 @@ u32 gpiAddCallback(GPConnection *connection, GPICallback callback, void *arg, GP
     queued = DWCi_GsMalloc(0x18);
     if (queued == NULL) {
         gpiSetErrorString(connection, "Out of memory.");
-        return GP_MEMORY_ERROR;
+        return PROFILE_RESULT_OUT_OF_MEMORY;
     }
     queued->mCallback = callback;
     queued->mArg = arg;

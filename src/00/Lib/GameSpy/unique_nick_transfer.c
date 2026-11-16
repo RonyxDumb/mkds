@@ -37,15 +37,15 @@ s32 gpiProcessRegisterUniqueNick(GPConnection *connection, GPIOperation *operati
     }
     if (strncmp(input, "\\rn\\", 4) != 0) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
-        return GP_NETWORK_ERROR;
+        gpiCallErrorCallback(connection, PROFILE_RESULT_NETWORK_ERROR, 1);
+        return PROFILE_RESULT_NETWORK_ERROR;
     }
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(4);
         if (arg == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return GP_MEMORY_ERROR;
+            return PROFILE_RESULT_OUT_OF_MEMORY;
         }
         arg[0] = 0;
         result = gpiAddCallback(connection, callback, arg, operation, 0);
@@ -65,7 +65,7 @@ s32 gpiSendTransferReply(GPConnection *connection, GPITransferID *transferID, GP
     if (msg == NULL) {
         msg = "";
     }
-    stepResult = gpiPeerStartTransferMessage(connection, peer, 0xc9, transferID);
+    stepResult = gpiPeerStartTransferMessage(connection, peer, BUDDY_MESSAGE_TYPE_TRANSFER_REPLY, transferID);
     if (stepResult != 0) {
         return stepResult;
     }
