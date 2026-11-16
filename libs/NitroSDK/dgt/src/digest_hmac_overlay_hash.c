@@ -41,7 +41,7 @@ void DGT_Hash2SetSource(DGTHash2Context *ctx, const u8 *input, u32 length) {
     u32 buffered;
     u32 chunk;
 
-    buffer = ctx->mBlock;
+    buffer = ctx->mMessageBlock;
     if (length == 0) {
         return;
     }
@@ -99,12 +99,12 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
     u32 value;
 
     len = ctx->mBufferLen;
-    blockWords = (u32 *) ctx->mBlock;
+    blockWords = (u32 *) ctx->mMessageBlock;
     wordIndex = len >> 2;
     if ((len & 3) == 0) {
         blockWords[wordIndex] = 0;
     }
-    blockBytes = ctx->mBlock;
+    blockBytes = ctx->mMessageBlock;
     blockBytes[len] = 0x80;
     len++;
     while ((len & 3) != 0) {
