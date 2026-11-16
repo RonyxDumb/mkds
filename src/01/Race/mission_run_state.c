@@ -141,7 +141,7 @@ void UpdateMissionRunData(void) {
         if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
             if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex)) {
                 gMissionRunData->mSinceHitCallbackFrames += 1;
-                if (gMissionRunData->mSinceHitCallbackFrames > MISSION_RUN_SELF_HIT_CALLBACK_FRAMES) {
+                if (gMissionRunData->mSinceHitCallbackFrames > MISSION_RUN_SELF_HIT_CALLBACK_FRAME_LIMIT) {
                     gMissionRunData->mSinceHitCallbackFrames = 0;
                     CallKartHitCallbackForSelf(gRaceSetup->mEntryIndex);
                     return;

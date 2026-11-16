@@ -2,7 +2,7 @@
 
 // The count MissionRunData.mSinceHitCallbackFrames must exceed before the hit callback of the entry's own eliminated
 // kart runs again (every 16th frame), once the winner is decided and while that kart still has balloons or shines.
-#define MISSION_RUN_SELF_HIT_CALLBACK_FRAMES 0xf
+#define MISSION_RUN_SELF_HIT_CALLBACK_FRAME_LIMIT 0xf
 
 #include "types.h"
 #include "Main/MapObjects/balloon.h" // Balloon
