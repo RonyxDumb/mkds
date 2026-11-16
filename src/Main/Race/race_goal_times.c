@@ -60,7 +60,7 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
         }
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mCell =
             GetRaceSNcerEntry(inFirstHalf != FALSE ? 0xa5 : 0xa6);
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mPriority = 1;
+        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mPriority = RACE_HUD_PRIORITY_1;
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mXlu = 0;
         gRaceHudSubScreenFireball2Cells->mCells[cellCount].mAngle = object->mAngle;
         cellCount++;
@@ -289,7 +289,7 @@ void UpdateRaceHudSubScreenBerryCells(void) {
         }
         gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);
         gRaceHudSubScreenBerryCells->mCells[cellCount].mPriority =
-            IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
+            IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
         gRaceHudSubScreenBerryCells->mCells[cellCount].mAngle = object->mAngle;
         gRaceHudSubScreenBerryCells->mObjectPairs[cellCount].mFirst = object->mScale.x / 6;
         cellCount++;
@@ -325,7 +325,7 @@ void UpdateRaceHudSubScreenCreamCells(void) {
                                             raceHudSubScreenScale, 1, 1) != FALSE) {
             gRaceHudSubScreenCreamCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb7);
             gRaceHudSubScreenCreamCells->mCells[cellCount].mPriority =
-                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
+                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
             gRaceHudSubScreenCreamCells->mCells[cellCount].mAngle = object->mAngle;
             gRaceHudSubScreenCreamCells->mObjectPairs[cellCount].mFirst = object->mScale.x / 6;
             cellCount++;

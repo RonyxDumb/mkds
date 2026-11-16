@@ -350,7 +350,6 @@ void InitRaceHud(void) {
     s32 index;
     u32 raceKind;
     u16 *choisesSBPalette;
-    u32 colorIndex;
     u16 paletteColor;
 
     raceKind = gRaceSetup->mRaceKind;

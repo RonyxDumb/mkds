@@ -61,7 +61,7 @@ void UpdateRaceHudSubScreenCoinCells(void) {
                                                 raceHudSubScreenScale, 1, 1)) {
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x58);
                 gRaceHudSubScreenCoinCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
+                    IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                 cellCount++;
             }
         }

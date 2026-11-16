@@ -362,7 +362,7 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
                                                 1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x63);
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(bombPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
+                    IsPositionOutsideBox(bombPosition) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
 // Frame count, not an angle: this list is drawn without rotation.
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = bombStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mXlu = bombStateFrames >= 0x16 ? 1 : 0;
@@ -386,7 +386,7 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
                                                 1) != FALSE) {
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x64);
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mPriority =
-                    IsPositionOutsideBox(kouraPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
+                    IsPositionOutsideBox(kouraPosition) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
 // Frame count, not an angle: this list is drawn without rotation.
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mAngle = kouraStateFrames;
                 gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mXlu = kouraStateFrames >= 0x16 ? 1 : 0;

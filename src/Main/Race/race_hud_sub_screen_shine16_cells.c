@@ -32,7 +32,7 @@ void UpdateRaceHudSubScreenShine16Cells(void) {
                     &mapObject->mPos, &gRaceHudSubScreenShine16Cells->mCells[cellCount].mDrawPos, scale, 1, 1)) {
                 gRaceHudSubScreenShine16Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb6);
                 gRaceHudSubScreenShine16Cells->mCells[cellCount].mPriority =
-                    (mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU) ? 2 : 1;
+                    (mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU) ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_1;
                 gRaceHudSubScreenShine16Cells->mCells[cellCount].mXlu = mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                 cellCount++;
             }

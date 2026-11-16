@@ -79,8 +79,8 @@ typedef struct IntPair {
 // Values of RaceHudSubScreenCell.mPriority, stored as the OAM priority of the cell. Cells placed by their position take
 // 2 when IsPositionOutsideBox holds and 3 when it does not; while the followed kart is inside the box only cells of
 // priority 3 are drawn (mMinDrawValue).
-#define RACE_HUD_PRIORITY_FRONT 1
-#define RACE_HUD_PRIORITY_MIDDLE 2
+#define RACE_HUD_PRIORITY_1 1
+#define RACE_HUD_PRIORITY_2 2
 #define RACE_HUD_PRIORITY_3 3
 // One cell of the race sub screen: its draw position, cell, priority, translucency and angle.
 typedef struct RaceHudSubScreenCell {
@@ -600,10 +600,10 @@ typedef struct RaceHud {
     /* 80c */ struct Nclr *mNclrs[2];
     /* 814 */ struct Ncgr *mNcgrs[2];
     /* 81c */ struct Nscr *mNscrs[3];
-    // RaceHudSubScreenState page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), switched on by the step,
-    // the draw and the upload slot; assigned by UpdateRaceHudSubScreen (per mode and race state),
-    // RequestRaceHudSubScreenGoalTeams (RaceGoalS teams) and RequestRaceHudSubScreenNewRecord (RaceNewRecordTa). The
-    // player switches the icons page and the first map page with sounds 0x18 / 0x17.
+    // RaceHudSubScreenState page of the sub screen; set to MAP_TURNING in InitRaceHud, by UpdateRaceHudSubScreen (per
+    // mode and race state; the player switches KART_ICONS and a map page, in replays also FIXED_SCROLL, with sounds
+    // 0x18 / 0x17), by RequestRaceHudSubScreenGoalTeams (RaceGoalS teams) and by RequestRaceHudSubScreenNewRecord
+    // (RaceNewRecordTa).
     /* 828 */ s32 mSubScreenState;
     // Gate of the sub screen's page update and page upload.
     /* 82c */ BOOL mSubScreenEnabled;
@@ -711,12 +711,12 @@ enum {
 #define RACE_GOAL_S_SHOW_ROW_SEQ_FIRST 0x2a
 #define RACE_GOAL_S_ROW_STEP_FRAMES 5
 #define RACE_GOAL_S_PHASE_FRAMES 0x2d
-// Values of RaceGoalS.mRankComparison (a row moved down, moved up, or stayed), the largest points number counted up on
-// a row, and the frames and distance of the slide in.
-// Styles of a RaceGoalS row (WriteRaceGoalSRowTiles): the followed kart, another kart, a row not shown yet.
+// Styles of a RaceGoalS row (WriteRaceGoalSRowTiles): the followed kart, another kart, a hidden row.
 #define RACE_GOAL_S_ROW_STYLE_FOLLOWED 0
 #define RACE_GOAL_S_ROW_STYLE_OTHER 1
 #define RACE_GOAL_S_ROW_STYLE_HIDDEN 2
+// Values of RaceGoalS.mRankComparison (a row moved down, moved up, or stayed), the largest number counted up on a row,
+// and the frames and distance of the mOffsetX slide.
 #define RACE_GOAL_S_RANK_DOWN 0
 #define RACE_GOAL_S_RANK_UP 1
 #define RACE_GOAL_S_RANK_SAME 2
@@ -811,11 +811,11 @@ typedef struct RaceTimeDigits {
     /* 20 */ s32 mLastSecondsReached[6];
 } RaceTimeDigits;
 
-// Values of RaceTaPositionSample.mKind: which cell the trail sample draws.
-// Position samples kept per kart for the time attack trail, and the frames between two ageing steps of the boost point
-// samples (an age of the sample count means the point is gone).
+// Position samples kept per kart for the time attack trail, and the number mSampleFrames must exceed before the next
+// sample step, which also ages the boost points (an age of the sample count means the point is gone).
 #define RACE_TA_SAMPLE_COUNT 0x28
 #define RACE_TA_SAMPLE_FRAME_COUNT 0xf
+// Values of RaceTaPositionSample.mKind: which cell the trail sample draws.
 #define RACE_TA_SAMPLE_KIND_NONE 0
 #define RACE_TA_SAMPLE_KIND_PLAIN 1
 #define RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING 2

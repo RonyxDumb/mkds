@@ -229,7 +229,7 @@ void EnterRaceProgressKartCheckpoint(RaceProgressKart *kart, s32 checkpoint) {
     s16 checkpointNumber;
 
     checkpointNumber = gCourseMap->mCheckpoints[kart->mCheckpoint].mNumber;
-    if (checkpointNumber != -1) {
+    if (checkpointNumber != COURSE_MAP_CHECKPOINT_NO_NUMBER) {
         kart->mCheckpointNumber = checkpointNumber;
         if (kart->mInOrderCheckpointNumber + 1 >= checkpointNumber) {
             kart->mInOrderCheckpointNumber = checkpointNumber;

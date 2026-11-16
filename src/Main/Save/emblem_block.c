@@ -361,7 +361,7 @@ void CreateShapeMapObjectCountList(void *heap) {
             entry->mShapeIndex = shapeIndex;
             radius = 0;
             switch (courseMapShape->mShapeKind) {
-                case 0:
+                case COURSE_MAP_SHAPE_FORM_BOX:
                     radius = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.x);
                     extentY = EmblemFX_MulInline(GetFixed12Of100(), courseMapShape->mScale.y) >> 1;
                     extentZ = EmblemFX_MulInline(GetFixed12Of50(), courseMapShape->mScale.z);
@@ -369,7 +369,7 @@ void CreateShapeMapObjectCountList(void *heap) {
                     extentZ = EmblemFX_MulInline(extentZ, extentZ);
                     radius = FX_Sqrt(extentZ + squaredSum);
                     break;
-                case 1:
+                case COURSE_MAP_SHAPE_FORM_CYLINDER:
                     radius = EmblemFX_MulInline(ShapeMapObjectCountGetFixed12Of50(), courseMapShape->mScale.x);
                     break;
             }

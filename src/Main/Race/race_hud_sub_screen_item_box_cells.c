@@ -41,7 +41,7 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
                                                     subScreenScale, 0, 0) != FALSE) {
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mCell = GetRaceSNcerEntry(0x4e);
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
+                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
                     gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mXlu = mapObject->mFlags & MAP_OBJECT_FLAG_HUD_XLU;
                     cellCount++;
                     cellIndex++;

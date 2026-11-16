@@ -1158,8 +1158,8 @@ void ReadCourseAndSlotGhostRecords(u32 courseId, u8 slotIndex) {
     }
 }
 
-// Reads the course ghost record, then loads its ghost file; a failed load leaves a NULL record that is then
-// zero-filled.
+// Reads the course ghost record, then loads its ghost file when the course has a ghost path; with no path or a failed
+// load the record stays NULL and is then zero-filled.
 void ReadCourseGhostRecordAndLoadFile(u32 courseId) {
     SlotGhostRecord *ghostRecord;
     char path[0x80];
