@@ -1367,7 +1367,7 @@ void InitKartModelMenuWithKartList(void *heap) {
     gKartModelMenu->mKartIndex = kartIndex;
     gKartModelMenu->mKartListCount = kartIndex;
     gKartModelMenu->mKartListPos = kartIndex;
-    while (kartIndex < 0x24) {
+    while (kartIndex < KART_MODEL_MENU_LAST_KART_INDEX + 1) {
         if (FindKartModelMenuCharacter(&characterIndex, kartIndex) != 0) {
             gKartModelMenu->mKartListCount++;
         }

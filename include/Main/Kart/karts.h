@@ -26,8 +26,8 @@ typedef struct KartModelMenuView KartModelMenuView;
 #define KART_MODEL_MENU_TILT_UP_MAX 0x1388
 #define KART_MODEL_MENU_SCALE_MIN 0x800
 
-// Sets of material colours of SetKartModelMaterialColors: the course colours, the bright set of the menu models, the
-// dark grey set, and the dark set with an emissive colour (no caller).
+// Sets of material colours of SetKartModelMaterialColors: the course colours, the white diffuse set of the menu models,
+// the dark grey set, and the dark set with an emissive colour (used by SetKartModelsGrayColors).
 #define KART_MODEL_COLORS_COURSE 0
 #define KART_MODEL_COLORS_MENU 1
 #define KART_MODEL_COLORS_DARK 2

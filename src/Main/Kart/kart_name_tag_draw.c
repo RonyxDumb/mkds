@@ -265,7 +265,7 @@ void UploadKartNameTagTextures(void) {
     heap = GetHeap(GetCurrentHeapCall());
     UploadKartEmblems();
     gKartNameTagsUnusedWord = 0;
-    gKartEmblemPlltBuffer = HeapAllocAligned(heap, 0x20, -4);
+    gKartEmblemPlltBuffer = HeapAllocAligned(heap, KART_EMBLEM_PLTT_BYTES, -4);
     gKartEntryNameTexBuffer = HeapAllocAligned(heap, 0x100, -4);
     gKartEntryNamePlltBuffer = HeapAllocAligned(heap, 8, -4);
     gKartNameTagMaskedTexBuffer = HeapAllocAligned(heap, 0x200, -4);
@@ -455,7 +455,7 @@ void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData) {
     GX_LoadTex(texData, texOffset, KART_EMBLEM_TEX_BYTES);
     GX_EndLoadTex();
     GX_BeginLoadTexPltt();
-    GX_LoadTexPltt(plttData, plttOffset, 0x20);
+    GX_LoadTexPltt(plttData, plttOffset, KART_EMBLEM_PLTT_BYTES);
     GX_EndLoadTexPltt();
 }
 

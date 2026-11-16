@@ -119,7 +119,7 @@ void AdvanceKartScaleFactor(Kart *kart) {
     }
     kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
     frameIndex = kart->mFramesSinceRemovalOrReset;
-    if (frameIndex >= 0x19) {
+    if (frameIndex >= KART_SCALE_TABLE_STEPS) {
         kart->mEntryFlags &= ~KART_ENTRY_SCALING_IN;
         return;
     }

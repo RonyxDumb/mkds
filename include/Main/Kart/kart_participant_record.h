@@ -184,7 +184,7 @@ extern const s32 gKartModelScaleZBumpTable[15];
 #define KART_PUSH_DOUBLE_FLIP_ROTATION_END_FRAMES 10
 // Entries of the gKartScaleFactor tables: the steps the thunder shrink and the scale table effect play to get back to
 // full size, and the steps of the kart scale-in and removal shrink.
-#define KART_SCALE_RESTORE_STEPS 0x19
+#define KART_SCALE_TABLE_STEPS 0x19
 // Frames Kart.mItemEffectData.mScaleEffectTimer counts down before the restore steps run, and the timer value at which
 // its drive flag clears.
 #define KART_SCALE_EFFECT_FRAMES 0x258

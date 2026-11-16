@@ -370,18 +370,18 @@ void StopKartStarModels(Kart *kart) {
         NNS_G3dRenderObjAddAnmObj(&firstModel->mRenderObj, faceAnimation->mAnmObjs[0]);
         modelsEntry->mFaceAnimationRemoved = FALSE;
     }
-    SetKartModelMaterialColors(resMdl, 0);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_COURSE);
     secondModel = modelsEntry->mModels[1];
     resMdl = secondModel->mResMdl;
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
     NNS_G3dBindMdlTex(resMdl, secondModel->mResFileEntry.mTexture);
-    SetKartModelMaterialColors(resMdl, 0);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_COURSE);
     thirdModel = modelsEntry->mModels[2];
     if (thirdModel != NULL) {
         thirdResMdl = thirdModel->mResMdl;
         NNS_G3dMdlSetMdlPolygonModeAll(thirdResMdl, 0);
         NNS_G3dBindMdlTex(thirdResMdl, thirdModel->mResFileEntry.mTexture);
-        SetKartModelMaterialColors(thirdResMdl, 0);
+        SetKartModelMaterialColors(thirdResMdl, KART_MODEL_COLORS_COURSE);
     }
     modelsEntry->mStarModelsSet = FALSE;
 }
@@ -395,10 +395,10 @@ void SetKartModelsGrayColors(Kart *kart) {
     }
     resMdl = modelsEntry->mModels[0]->mResMdl;
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
-    SetKartModelMaterialColors(resMdl, 3);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_DARK_EMISSIVE);
     resMdl = modelsEntry->mModels[1]->mResMdl;
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 2);
-    SetKartModelMaterialColors(resMdl, 3);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_DARK_EMISSIVE);
 }
 
 void ResetKartModelsCourseColors(Kart *kart) {
@@ -410,10 +410,10 @@ void ResetKartModelsCourseColors(Kart *kart) {
     }
     resMdl = modelsEntry->mModels[0]->mResMdl;
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
-    SetKartModelMaterialColors(resMdl, 0);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_COURSE);
     resMdl = modelsEntry->mModels[1]->mResMdl;
     NNS_G3dMdlSetMdlPolygonModeAll(resMdl, 0);
-    SetKartModelMaterialColors(resMdl, 0);
+    SetKartModelMaterialColors(resMdl, KART_MODEL_COLORS_COURSE);
 }
 
 // Plays animation a once, then goes on to animation b.

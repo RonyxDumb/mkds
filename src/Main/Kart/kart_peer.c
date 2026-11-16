@@ -52,7 +52,7 @@ void AdvancePeerKartMotion(Kart *kart) {
         }
         kart->mFramesSinceRemovalOrReset = kart->mFramesSinceRemovalOrReset + 1;
         tableIndex = kart->mFramesSinceRemovalOrReset;
-        if (tableIndex >= 0x19) {
+        if (tableIndex >= KART_SCALE_TABLE_STEPS) {
             kart->mEntryFlags = kart->mEntryFlags & ~KART_ENTRY_SCALING_IN;
             return;
         }
@@ -164,7 +164,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
 
     recordState = kart->mParticipantRecordData;
     kart->mVelocityScaleFactor = TO_FIXED12(1);
-    if (kart->mAirborneFrames > KART_PEER_AIR_TILT_AIRBORNE_FRAMES &&
+    if (kart->mAirborneFrames > KART_AIRBORNE_LONG_FRAMES &&
         (kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         kart->mQuaternionBlendFactor = FIXED12_RATIO(6, 100);
         ComputeKartAirTiltQuaternion(kart, &kart->mAirTiltQuaternion);

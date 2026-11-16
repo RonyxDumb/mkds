@@ -787,7 +787,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             StartSound(&kart->mSoundSource, 0xed, SOUND_VOLUME_MAX, 0);
         }
         itemEffect->mThunderShrinkFrameIndex = itemEffect->mThunderShrinkFrameIndex + 1;
-        if (itemEffect->mThunderShrinkFrameIndex >= KART_SCALE_RESTORE_STEPS) {
+        if (itemEffect->mThunderShrinkFrameIndex >= KART_SCALE_TABLE_STEPS) {
             kart->mScaleBase.x = TO_FIXED12(1);
             kart->mScaleBase.y = TO_FIXED12(1);
             kart->mScaleBase.z = TO_FIXED12(1);
@@ -798,7 +798,7 @@ void AdvanceKartThunderShrink(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (itemEffect->mThunderShrinkFrameIndex > KART_SCALE_RESTORE_STEPS) {
+            if (itemEffect->mThunderShrinkFrameIndex > KART_SCALE_TABLE_STEPS) {
                 kart->mEffectFlags &= ~KART_EFFECT_THUNDER_SHRINK;
                 if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
                     kart->mShrinkFactor = TO_FIXED12(1);
@@ -893,7 +893,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             StartSound(&kart->mSoundSource, 0xed, SOUND_VOLUME_MAX, 0);
         }
         effectState->mScaleTableIndex++;
-        if (effectState->mScaleTableIndex >= KART_SCALE_RESTORE_STEPS) {
+        if (effectState->mScaleTableIndex >= KART_SCALE_TABLE_STEPS) {
             kart->mUnk_398 = TO_FIXED12(1);
             kart->mScaleYFactor = TO_FIXED12(1);
             kart->mScaleFactor.x = TO_FIXED12(1);
@@ -903,7 +903,7 @@ void AdvanceKartScaleTableEffect(Kart *kart) {
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleBase.y, kart->mScaleFactor.y);
             kart->mScale.z = MUL_FIXED12_NO_ROUND(kart->mScaleBase.z, kart->mScaleFactor.z);
             kart->mScale.y = MUL_FIXED12_NO_ROUND(kart->mScaleYFactor, kart->mScale.y);
-            if (effectState->mScaleTableIndex > KART_SCALE_RESTORE_STEPS) {
+            if (effectState->mScaleTableIndex > KART_SCALE_TABLE_STEPS) {
                 kart->mEffectFlags &= ~KART_EFFECT_SCALE_TABLE;
                 if (!(kart->mEffectFlags & (KART_EFFECT_THUNDER_SHRINK | KART_EFFECT_SCALE_TABLE))) {
                     kart->mShrinkFactor = TO_FIXED12(1);
@@ -1047,7 +1047,7 @@ void StartKartStar(Kart *kart) {
     if (kart->mEntryFlags & KART_ENTRY_WIFI_LOCAL) {
         kart->mParticipantRecordData->mEventToggleFlags ^= KART_EVENT_STAR;
     }
-    SetKartCharacterAnimation(kart, 2, 1);
+    SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
 }
 
 // Teresa: the Boo item (KART_ITEM_EFFECT_TERESA).
@@ -1489,7 +1489,7 @@ void AdvanceKartRemovalShrink(Kart *kart) {
         }
     }
     value = kart->mFramesSinceRemovalOrReset;
-    if (value >= 0x19 || (kartBits & KART_ENTRY_GHOST) != 0) {
+    if (value >= KART_SCALE_TABLE_STEPS || (kartBits & KART_ENTRY_GHOST) != 0) {
         winnerDecidedAndEndReached = FALSE;
         if (gRaceSetup->mMode == MODE_BATTLE) {
             if (IsWinnerDecidedAndEndReached() != 0) {
@@ -1671,7 +1671,7 @@ void FinishKartAtMissionRunEnd(Kart *kart) {
                         EliminateKartAndCheckWinner(kart->mIndex);
                     }
                     kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_RESULT_LOST;
-                    SetKartCharacterAnimation(kart, 3, 1);
+                    SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_LOST, 1);
                 }
                 break;
         }
@@ -1802,10 +1802,10 @@ void ResetKartAtRaceEnd(Kart *kart, s32 useCourseMapRecord, s32 isWinner) {
     if ((kart->mEntryFlags & KART_ENTRY_HAS_CHARACTER_ANIMATION) != 0) {
         if (isWinner != 0) {
             kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_RESULT_WON;
-            SetKartCharacterAnimation(kart, 2, 1);
+            SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         } else {
             kart->mEntryFlags = kart->mEntryFlags | KART_ENTRY_RESULT_LOST;
-            SetKartCharacterAnimation(kart, 3, 1);
+            SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_LOST, 1);
         }
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
