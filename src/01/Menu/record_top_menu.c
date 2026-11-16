@@ -112,14 +112,14 @@ void ResetRecordTopMenu(void) {
         gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mOffsetY =
             -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
     }
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < RECORD_TOP_ROW_COUNT; i++) {
         for (j = 0, labelRow = gRecordTopMenuLabelIndices[i]; j < 3; j++) {
             gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount + *labelRow].mOffsetY =
                 -RECORD_TOP_MENU_BG0_SLIDE_DISTANCE;
             labelRow++;
         }
     }
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < RECORD_TOP_ROW_COUNT; i++) {
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuOffsetSTableIndices[i]].mOffsetX =
             RECORD_TOP_MENU_SLIDE_DISTANCE;
         gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuXluCellIndices[i]].mOffsetX =
@@ -370,7 +370,7 @@ void AdvanceRecordTopMenuSlideIn(void) {
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = offsetY;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = offsetY;
     gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = offsetY;
-    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[rowIndex]].mOffsetY = offsetY;
     }
     for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
@@ -465,7 +465,7 @@ void AdvanceRecordTopMenuInput(void) {
     RequestSelectReturnPressWithSound(1);
     return;
 skip:
-    if ((u32) touchedRectIndex <= 2) {
+    if ((u32) touchedRectIndex <= RECORD_TOP_ROW_COUNT - 1) {
         rowIndex = gRecordTopMenuTouchRowIndices[touchedRectIndex];
         if (gRecordTopMenu->mRecordTopMenuSTable[gRecordTopMenuRowCellIndices[rowIndex]].mVisible != 0) {
             if (gRecordTopMenu->mIndex == rowIndex) {
@@ -538,7 +538,7 @@ void AdvanceRecordTopMenuSlideOut(void) {
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = offsetY;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = offsetY;
     gRecordTopMenu->mRecordTopMenuMTable[mainLayoutCount].mOffsetY = offsetY;
-    for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {
+    for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[rowIndex]].mOffsetY = offsetY;
     }
     for (rowIndex = 0; rowIndex < RECORD_TOP_ROW_COUNT; rowIndex++) {

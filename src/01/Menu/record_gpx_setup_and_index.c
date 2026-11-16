@@ -334,7 +334,7 @@ void ResetRecordGpx(void) {
     gRecordGpx->mNextState = 0;
     gRecordGpx->mStateFrames = 0;
     gRecordGpx->mBg0Offset = -RECORD_GPX_BG0_SLIDE_DISTANCE;
-    gRecordGpx->mBg3OffsetX = ~0xff;
+    gRecordGpx->mBg3OffsetX = -RECORD_GPX_SLIDE_DISTANCE;
     mainLayoutCount = gRecordGpx->mRecordGpxMCellLayout->mCount;
     subLayoutCount = gRecordGpx->mRecordGpxSCellLayout->mCount;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
